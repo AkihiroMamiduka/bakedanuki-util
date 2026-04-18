@@ -293,6 +293,13 @@ class Attr(ImmutableDescriptor, Generic[P]):
     _attr_path: str = ""
     mutli: bool = False
 
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if cls.PLUG_CLS is None:
+            raise NotImplementedError(
+                f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
+            )
+
     def __init__(self, multi=False):
         self.mutli = multi
         self._node: Node = None
