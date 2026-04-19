@@ -237,6 +237,41 @@ class Plug(Generic[A]):
 
         cmds.connectAttr(src, dst, force=True)
 
+    def connect_next_index(self, other: Plug | str | list[str]):
+        """
+        マルチアトリビュートの最終インデックスの次へ接続する。
+
+        self の attr_path に含まれるマルチアトリビュートに対して、
+        現在の最大インデックスの次のインデックスへ other を接続する。
+
+        Args:
+            other (Plug | str | list[str]): 接続元のオブジェクト
+        """
+        node_name = self._node.name
+        segments = self._attr_path.split(".")
+        new_segments = []
+
+        for segment in segments:
+            if "[" not in segment:
+                is_multi = cmds.attributeQuery(
+                    segment,
+                    node=node_name,
+                    multi=True,
+                )
+                if is_multi:
+                    current_attr = ".".join(new_segments + [segment])
+                    current_plug = f"{node_name}.{current_attr}"
+                    indices = cmds.getAttr(current_plug, multiIndices=True)
+                    next_index = (max(indices) + 1) if indices else 0
+                    segment = f"{segment}[{next_index}]"
+            new_segments.append(segment)
+
+        new_attr_path = ".".join(new_segments)
+        dst = f"{node_name}.{new_attr_path}"
+        src = self._normalize_to_plug(other)
+
+        cmds.connectAttr(src, dst, force=True)
+
     def disconnect(self, other: Plug | str | list[str]):
         """
         self から other へ cmds.disconnectAttr()

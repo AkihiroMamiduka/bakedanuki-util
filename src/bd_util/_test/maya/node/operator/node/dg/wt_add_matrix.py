@@ -16,6 +16,7 @@ def main():
     plug_cache()
     short_name_class_access()
     short_name_instance_access()
+    connect_next_index()
 
 
 def class_instance_access():
@@ -716,3 +717,14 @@ def short_name_instance_access():
             node.i[0].w.get(),
         )
     )
+
+
+def connect_next_index():
+    logger.debug("================================")
+    dst_node = WtAddMatrix.create("dst")
+    for i in range(5):
+        src_node = WtAddMatrix.create(f"src_{i}")
+        dst_node.wtMatrix.matrixIn.connect_next_index(src_node.matrixSum)
+        logger.debug(
+            "src_{}.matrixSum > dst_node.wtMatrix[{}].matrixIn".format(i, i)
+        )
