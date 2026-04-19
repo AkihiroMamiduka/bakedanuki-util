@@ -33,6 +33,7 @@ class Plug(Generic[A]):
         self._attr_path: str = self._create_attr_path(
             parent_attr_path=attr_path
         )
+        self._next_index_cache: dict[str, int] | None = None
 
     # name
     @property
@@ -244,26 +245,45 @@ class Plug(Generic[A]):
         self の attr_path に含まれるマルチアトリビュートに対して、
         現在の最大インデックスの次のインデックスへ other を接続する。
 
+        初回呼び出し時に cmds.attributeQuery / cmds.getAttr でインデックスを
+        スキャンしてキャッシュし、2回目以降はキャッシュをインクリメントするだけ
+        なので高速に動作する。
+
+        このメソッド以外の方法でコネクションが追加された場合は、
+        :meth:`refresh_next_index` を呼び出してキャッシュを更新すること。
+
         Args:
             other (Plug | str | list[str]): 接続元のオブジェクト
         """
         node_name = self._node.name
         segments = self._attr_path.split(".")
-        new_segments = []
 
+        # --- 初回: キャッシュをスキャンして構築 ---
+        if self._next_index_cache is None:
+            self._next_index_cache = {}
+            scanned_segments = []
+            for segment in segments:
+                if "[" not in segment:
+                    is_multi = cmds.attributeQuery(
+                        segment,
+                        node=node_name,
+                        multi=True,
+                    )
+                    if is_multi:
+                        current_attr = ".".join(scanned_segments + [segment])
+                        current_plug = f"{node_name}.{current_attr}"
+                        indices = cmds.getAttr(current_plug, multiIndices=True)
+                        self._next_index_cache[segment] = (
+                            (max(indices) + 1) if indices else 0
+                        )
+                scanned_segments.append(segment)
+
+        # --- キャッシュを使ってアトリビュートパスを構築 ---
+        new_segments = []
         for segment in segments:
-            if "[" not in segment:
-                is_multi = cmds.attributeQuery(
-                    segment,
-                    node=node_name,
-                    multi=True,
-                )
-                if is_multi:
-                    current_attr = ".".join(new_segments + [segment])
-                    current_plug = f"{node_name}.{current_attr}"
-                    indices = cmds.getAttr(current_plug, multiIndices=True)
-                    next_index = (max(indices) + 1) if indices else 0
-                    segment = f"{segment}[{next_index}]"
+            if "[" not in segment and segment in self._next_index_cache:
+                next_index = self._next_index_cache[segment]
+                segment = f"{segment}[{next_index}]"
             new_segments.append(segment)
 
         new_attr_path = ".".join(new_segments)
@@ -271,6 +291,20 @@ class Plug(Generic[A]):
         src = self._normalize_to_plug(other)
 
         cmds.connectAttr(src, dst, force=True)
+
+        # --- 接続後にキャッシュをインクリメント ---
+        for key in self._next_index_cache:
+            self._next_index_cache[key] += 1
+
+    def refresh_next_index(self):
+        """
+        connect_next_index() が保持しているインデックスキャッシュを破棄する。
+
+        このメソッド以外の方法（cmds.connectAttr 等）でマルチアトリビュートへの
+        コネクションが追加・削除された場合に呼び出すことで、
+        次回の connect_next_index() 実行時に正しい最終インデックスを再スキャンする。
+        """
+        self._next_index_cache = None
 
     def disconnect(self, other: Plug | str | list[str]):
         """
