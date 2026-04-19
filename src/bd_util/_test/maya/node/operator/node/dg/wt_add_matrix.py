@@ -14,6 +14,8 @@ def main():
     get_set()
     connect_disconnect()
     plug_cache()
+    short_name_class_access()
+    short_name_instance_access()
 
 
 def class_instance_access():
@@ -463,3 +465,254 @@ def plug_cache():
     logger.debug(f"id(plug_1): {id(plug_1)}")
 
     logger.debug(f"plug_0 is plug_1: {plug_0 is plug_1}")
+
+
+def short_name_class_access():
+    logger.debug("================================")
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "WtAddMatrix.matrixSum.long_name : {}".format(
+            WtAddMatrix.matrixSum.long_name
+        )
+    )
+    logger.debug(
+        "WtAddMatrix.matrixSum.short_name: {}".format(
+            WtAddMatrix.matrixSum.short_name
+        )
+    )
+    logger.debug(f"id(WtAddMatrix.matrixSum): {id(WtAddMatrix.matrixSum)}")
+    logger.debug(f"id(WtAddMatrix.o)        : {id(WtAddMatrix.o)}")
+
+    logger.debug(
+        "{}: {}".format(
+            "WtAddMatrix.matrixSum is WtAddMatrix.o",
+            WtAddMatrix.matrixSum is WtAddMatrix.o,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "WtAddMatrix.matrixSum.long_name : {}".format(
+            WtAddMatrix.wtMatrix.long_name
+        )
+    )
+    logger.debug(
+        "WtAddMatrix.matrixSum.short_name: {}".format(
+            WtAddMatrix.wtMatrix.short_name
+        )
+    )
+    logger.debug(f"id(WtAddMatrix.wtMatrix): {id(WtAddMatrix.wtMatrix)}")
+    logger.debug(f"id(WtAddMatrix.i)       : {id(WtAddMatrix.i)}")
+
+    logger.debug(
+        "{}: {}".format(
+            "WtAddMatrix.wtMatrix is WtAddMatrix.i",
+            WtAddMatrix.wtMatrix is WtAddMatrix.i,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "WtAddMatrix.wtMatrix.matrixIn.long_name : {}".format(
+            WtAddMatrix.wtMatrix.matrixIn.long_name
+        )
+    )
+    logger.debug(
+        "WtAddMatrix.wtMatrix.matrixIn.short_name: {}".format(
+            WtAddMatrix.wtMatrix.matrixIn.short_name
+        )
+    )
+    logger.debug(
+        "id(WtAddMatrix.wtMatrix.matrixIn): {}".format(
+            id(WtAddMatrix.wtMatrix.matrixIn)
+        )
+    )
+    logger.debug("id(WtAddMatrix.i.m)     : {}".format(id(WtAddMatrix.i.m)))
+
+    logger.debug(
+        "{}: {}".format(
+            "WtAddMatrix.wtMatrix.matrixIn is WtAddMatrix.i.m",
+            WtAddMatrix.wtMatrix.matrixIn is WtAddMatrix.i.m,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "WtAddMatrix.wtMatrix.weightIn.long_name : {}".format(
+            WtAddMatrix.wtMatrix.weightIn.long_name
+        )
+    )
+    logger.debug(
+        "WtAddMatrix.wtMatrix.weightIn.short_name: {}".format(
+            WtAddMatrix.wtMatrix.weightIn.short_name
+        )
+    )
+    logger.debug(
+        "id(WtAddMatrix.wtMatrix.weightIn): {}".format(
+            id(WtAddMatrix.wtMatrix.weightIn)
+        )
+    )
+    logger.debug("id(WtAddMatrix.i.w)     : {}".format(id(WtAddMatrix.i.w)))
+
+    logger.debug(
+        "{}: {}".format(
+            "WtAddMatrix.wtMatrix.weightIn is WtAddMatrix.i.w",
+            WtAddMatrix.wtMatrix.weightIn is WtAddMatrix.i.w,
+        )
+    )
+
+
+def short_name_instance_access():
+    logger.debug("================================")
+    node = WtAddMatrix.create("test")
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "node.matrixSum.long_name : {}".format(node.matrixSum.long_name)
+    )
+    logger.debug(
+        "node.matrixSum.short_name: {}".format(node.matrixSum.short_name)
+    )
+    logger.debug(f"id(node.matrixSum): {id(node.matrixSum)}")
+    logger.debug(f"id(node.o)        : {id(node.o)}")
+
+    logger.debug(
+        "{}: {}".format(
+            "node.matrixSum is node.o",
+            node.matrixSum is node.o,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "node.matrixSum.long_name : {}".format(node.wtMatrix.long_name)
+    )
+    logger.debug(
+        "node.matrixSum.short_name: {}".format(node.wtMatrix.short_name)
+    )
+    logger.debug(f"id(node.wtMatrix): {id(node.wtMatrix)}")
+    logger.debug(f"id(node.i)       : {id(node.i)}")
+
+    logger.debug(
+        "{}: {}".format(
+            "node.wtMatrix is node.i",
+            node.wtMatrix is node.i,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "node.wtMatrix.matrixIn.long_name : {}".format(
+            node.wtMatrix.matrixIn.long_name
+        )
+    )
+    logger.debug(
+        "node.wtMatrix.matrixIn.short_name: {}".format(
+            node.wtMatrix.matrixIn.short_name
+        )
+    )
+    logger.debug(
+        "id(node.wtMatrix.matrixIn): {}".format(id(node.wtMatrix.matrixIn))
+    )
+    logger.debug("id(node.i.m)     : {}".format(id(node.i.m)))
+
+    logger.debug(
+        "{}: {}".format(
+            "node.wtMatrix.matrixIn is node.i.m",
+            node.wtMatrix.matrixIn is node.i.m,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "node.wtMatrix.weightIn.long_name : {}".format(
+            node.wtMatrix.weightIn.long_name
+        )
+    )
+    logger.debug(
+        "node.wtMatrix.weightIn.short_name: {}".format(
+            node.wtMatrix.weightIn.short_name
+        )
+    )
+    logger.debug(
+        "id(node.wtMatrix.weightIn): {}".format(id(node.wtMatrix.weightIn))
+    )
+    logger.debug("id(node.i.w)     : {}".format(id(node.i.w)))
+
+    logger.debug(
+        "{}: {}".format(
+            "node.wtMatrix.weightIn is node.i.w",
+            node.wtMatrix.weightIn is node.i.w,
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "{}: {}".format(
+            "node.o.get()",
+            node.o.get(),
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].m.get()",
+            node.i[0].m.get(),
+        )
+    )
+    node.i[0].m.set(node.o.value)
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].m.get()",
+            node.i[0].m.get(),
+        )
+    )
+    node.i[0].m.value = [
+        10,
+        0,
+        0,
+        0,
+        0,
+        20,
+        0,
+        0,
+        0,
+        0,
+        30,
+        0,
+        0,
+        0,
+        0,
+        1,
+    ]
+    node.i[0].m.set(node.o.value)
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].m.get()",
+            node.i[0].m.get(),
+        )
+    )
+
+    logger.debug("-----------------------------------------------------------")
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].w.get()",
+            node.i[0].w.get(),
+        )
+    )
+    node.i[0].w.set(100)
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].w.get()",
+            node.i[0].w.get(),
+        )
+    )
+    node.i[0].w.value = 200
+    logger.debug(
+        "{}: {}".format(
+            "node.i[0].w.get()",
+            node.i[0].w.get(),
+        )
+    )

@@ -49,6 +49,29 @@ class Plug(Generic[A]):
         return name
 
     @property
+    def long_name(self) -> str:
+        """
+        自身のロングアトリビュート名
+
+        Returns:
+            str: 自身のロングアトリビュート名
+        """
+        return self.name
+
+    @property
+    def short_name(self) -> str:
+        """
+        自身のショートアトリビュート名
+
+        Returns:
+            str: 自身のショートアトリビュート名
+        """
+        name = self._attr.short_name
+        if self.index is not None:
+            name = f"{name}[{self.index}]"
+        return name
+
+    @property
     def plug(self) -> str:
         """
         "node.attr"形式の plug 文字列
@@ -287,11 +310,25 @@ class Plug(Generic[A]):
 
 class Attr(ImmutableDescriptor, Generic[P]):
     __slots__ = ("_node",)
+    # type
     ATTR_TYPE: str = None
+    # plug
     PLUG_CLS: Type[P] = None
+    # name
     name: str = ""
+    long_name: str | None = None
+    short_name: str | None = None
+    # attr
     _attr_path: str = ""
-    mutli: bool = False
+
+    def __init__(self, multi: bool = False):
+        # node
+        self._node: Node = None
+        # attr
+        #   attr_path
+        self._parent_attr_path: str = ""
+        #   multi
+        self.mutli: bool = multi
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -299,11 +336,6 @@ class Attr(ImmutableDescriptor, Generic[P]):
             raise NotImplementedError(
                 f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
             )
-
-    def __init__(self, multi=False):
-        self.mutli = multi
-        self._node: Node = None
-        self._parent_attr_path: str = ""
 
     # __set_name__
     def _on_set_name(self, owner: Any, name: str):
@@ -314,8 +346,16 @@ class Attr(ImmutableDescriptor, Generic[P]):
             owner (Any): 親のクラス
             name (str): セットされている変数名
         """
-        self.name = name
-        self._attr_path = name
+        # name をセット
+        if self.long_name is None:
+            #  name, _attr_path, long_name にセット
+            self.name = name
+            self._attr_path = name
+            self.long_name = name
+        else:
+            # short name をセット
+            # self.short_name = name
+            object.__setattr__(self, "short_name", name)
 
     # __get__
     def __get__(self, instance: object | None, owner: type) -> Self | P:
@@ -340,7 +380,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         #   instance アクセス
         else:
             # 親が Node
-            if isinstance(instance, Node):
+            if hasattr(instance, "NODE_TYPE"):
                 object.__setattr__(self, "_node", instance)
             # 親が Attr or Plug
             else:

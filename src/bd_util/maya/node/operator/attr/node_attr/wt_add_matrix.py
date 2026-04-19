@@ -8,7 +8,10 @@ from ..simple.matrix import MatrixAttr
 
 class WtMatrixPlug(Plug["WtMatrixAttr"]):
     matrixIn = MatrixAttr()
+    m = matrixIn
+
     weightIn = DoubleAttr()
+    w = weightIn
 
 
 class WtMatrixAttr(Attr[WtMatrixPlug]):
@@ -16,4 +19,7 @@ class WtMatrixAttr(Attr[WtMatrixPlug]):
     PLUG_CLS = WtMatrixPlug
 
     matrixIn = MatrixAttr()
+    m = matrixIn
+
     weightIn = DoubleAttr()
+    w = weightIn
