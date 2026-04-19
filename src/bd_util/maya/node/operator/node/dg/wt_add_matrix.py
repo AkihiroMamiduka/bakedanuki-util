@@ -8,4 +8,6 @@ class WtAddMatrix(Node):
     NODE_TYPE = "wtAddMatrix"
 
     wtMatrix = WtMatrixAttr(multi=True)
+    i = wtMatrix
     matrixSum = MatrixAttr()
+    o = matrixSum
