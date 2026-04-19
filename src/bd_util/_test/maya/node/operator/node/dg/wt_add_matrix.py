@@ -5,6 +5,17 @@ from .......maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
+def main():
+    class_instance_access()
+    class_access()
+    create()
+    instance_access()
+    to_string()
+    get_set()
+    connect_disconnect()
+    plug_cache()
+
+
 def class_instance_access():
     logger.debug("===========================================================")
     node = WtAddMatrix("test")
@@ -176,6 +187,7 @@ def class_access():
 
 def create():
     node = WtAddMatrix.create()
+    logger.debug("================================")
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
     logger.debug(f"node.name: {node.name}")
@@ -338,6 +350,7 @@ def instance_access():
 
 
 def to_string():
+    logger.debug("================================")
     node = WtAddMatrix.create()
     logger.debug(f"str(node): {str(node)}")
 
@@ -418,9 +431,11 @@ def get_set():
 
 
 def connect_disconnect():
+    logger.debug("================================")
     node_0 = WtAddMatrix.create("test_0")
     node_1 = WtAddMatrix.create("test_1")
 
+    logger.debug("-----------------------------------------------------------")
     node_0.matrixSum > node_1.wtMatrix[0].matrixIn
     node_0.matrixSum | node_1.wtMatrix[0].matrixIn
 
@@ -435,3 +450,16 @@ def connect_disconnect():
 
     node_0.matrixSum > [node_1, "wtMatrix[0]", "matrixIn"]
     node_0.matrixSum | [node_1, "wtMatrix[0]", "matrixIn"]
+
+
+def plug_cache():
+    logger.debug("================================")
+    node = WtAddMatrix("test")
+
+    logger.debug("-----------------------------------------------------------")
+    plug_0 = node.matrixSum
+    logger.debug(f"id(plug_0): {id(plug_0)}")
+    plug_1 = node.matrixSum
+    logger.debug(f"id(plug_1): {id(plug_1)}")
+
+    logger.debug(f"plug_0 is plug_1: {plug_0 is plug_1}")

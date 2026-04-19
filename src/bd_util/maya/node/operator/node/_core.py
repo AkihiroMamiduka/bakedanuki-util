@@ -47,6 +47,7 @@ class Node(metaclass=ImmutableDescriptorMeta):
 
     def __init__(self, name: str):
         self.name = name
+        self._plug_cache = {}
 
     def __str__(self):
         return self.name

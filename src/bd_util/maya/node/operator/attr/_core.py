@@ -354,12 +354,15 @@ class Attr(ImmutableDescriptor, Generic[P]):
         # 戻り値
         #   Node が instance へのアクセス(Plug)
         if self._node.is_instance:
-            return self.PLUG_CLS(
-                node=self._node,
-                attr=self,
-                attr_path=self._parent_attr_path,
-                multi=self.mutli,
-            )
+            key = (self.name, self._attr_path)
+            if key not in self._node._plug_cache:
+                self._node._plug_cache[key] = self.PLUG_CLS(
+                    node=self._node,
+                    attr=self,
+                    attr_path=self._parent_attr_path,
+                    multi=self.mutli,
+                )
+            return self._node._plug_cache[key]
         #   Node が class へのアクセス(Attr)
         else:
             return self
