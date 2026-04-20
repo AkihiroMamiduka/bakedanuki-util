@@ -733,15 +733,15 @@ def connect_next_index():
 
 def refresh_next_index():
     logger.debug("================================")
-    dst_node = WtAddMatrix.create("dst2")
+    dst_node = WtAddMatrix.create("dst")
     plug = dst_node.wtMatrix.matrixIn
 
     # connect_next_index でキャッシュを使いながら 3 件接続
     for i in range(3):
-        src_node = WtAddMatrix.create(f"src2_{i}")
+        src_node = WtAddMatrix.create(f"src_{i}")
         plug.connect_next_index(src_node.matrixSum)
         logger.debug(
-            "src2_{}.matrixSum > dst2.wtMatrix[{}].matrixIn".format(i, i)
+            "src_{}.matrixSum > dst.wtMatrix[{}].matrixIn".format(i, i)
         )
 
     # このメソッド以外 (cmds.connectAttr 相当) でコネクションが追加された場合を想定し
@@ -750,8 +750,8 @@ def refresh_next_index():
     logger.debug("refresh_next_index() called")
 
     # リセット後は再スキャンして正しいインデックスから接続される
-    extra_src = WtAddMatrix.create("src2_extra")
+    extra_src = WtAddMatrix.create("src_extra")
     plug.connect_next_index(extra_src.matrixSum)
     logger.debug(
-        "src2_extra.matrixSum > dst2.wtMatrix[3].matrixIn (after refresh)"
+        "src_extra.matrixSum > dst.wtMatrix[3].matrixIn (after refresh)"
     )

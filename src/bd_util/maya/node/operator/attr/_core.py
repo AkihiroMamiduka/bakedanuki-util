@@ -263,19 +263,25 @@ class Plug(Generic[A]):
             self._next_index_cache = {}
             scanned_segments = []
             for segment in segments:
-                if "[" not in segment:
-                    is_multi = cmds.attributeQuery(
-                        segment,
-                        node=node_name,
-                        multi=True,
-                    )
-                    if is_multi:
-                        current_attr = ".".join(scanned_segments + [segment])
-                        current_plug = f"{node_name}.{current_attr}"
-                        indices = cmds.getAttr(current_plug, multiIndices=True)
-                        self._next_index_cache[segment] = (
-                            (max(indices) + 1) if indices else 0
-                        )
+                # マルチアトリビュートのインデックスが指定されている場合は、探査する必要がないのでスキップ
+                if "[" in segment:
+                    scanned_segments.append(segment)
+                    continue
+                is_multi = cmds.attributeQuery(
+                    segment,
+                    node=node_name,
+                    multi=True,
+                )
+                # マルチアトリビュートでない場合は、探査する必要がないのでスキップ
+                if not is_multi:
+                    scanned_segments.append(segment)
+                    continue
+                current_attr = ".".join(scanned_segments + [segment])
+                current_plug = f"{node_name}.{current_attr}"
+                indices = cmds.getAttr(current_plug, multiIndices=True)
+                self._next_index_cache[segment] = (
+                    (max(indices) + 1) if indices else 0
+                )
                 scanned_segments.append(segment)
 
         # --- キャッシュを使ってアトリビュートパスを構築 ---
