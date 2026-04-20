@@ -49,3 +49,4 @@ class MatrixPlug(Plug["MatrixAttr"]):
 class MatrixAttr(Attr[MatrixPlug]):
     ATTR_TYPE = "matrix"
     PLUG_CLS = MatrixPlug
+    ADD_ATTR_KWARGS = {"dataType": "matrix"}

@@ -44,10 +44,32 @@ class IsInstance(ImmutableDescriptor):
 class Node(metaclass=ImmutableDescriptorMeta):
     NODE_TYPE = None
     is_instance = IsInstance()
+    _extra_attrs: tuple = ()
 
-    def __init__(self, name: str):
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        # Collect all extra=True Attr descriptors from the class hierarchy
+        extra_attrs = []
+        seen = set()
+        for klass in cls.__mro__:
+            for attr_name, v in vars(klass).items():
+                if attr_name not in seen and getattr(v, "extra", False):
+                    seen.add(attr_name)
+                    extra_attrs.append(v)
+        cls._extra_attrs = tuple(extra_attrs)
+
+    def __init__(self, name: str, auto_add_attr: bool = True):
         self.name = name
         self._plug_cache = {}
+        if auto_add_attr:
+            self._auto_add_extra_attrs()
+
+    def _auto_add_extra_attrs(self):
+        """
+        extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
+        """
+        for attr in self._extra_attrs:
+            attr.add_attr(self.name)
 
     def __str__(self):
         return self.name
