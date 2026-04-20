@@ -48,13 +48,16 @@ class Node(metaclass=ImmutableDescriptorMeta):
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
-        # Collect all extra=True Attr descriptors from the class hierarchy
+        # Collect all extra=True Attr descriptors from the class hierarchy.
+        # Deduplicate by object identity so that short_name aliases (e.g.
+        # ``mw = myWeight``) do not register the same Attr twice.
         extra_attrs = []
-        seen = set()
+        seen_ids = set()
         for klass in cls.__mro__:
-            for attr_name, v in vars(klass).items():
-                if attr_name not in seen and getattr(v, "extra", False):
-                    seen.add(attr_name)
+            for v in vars(klass).values():
+                obj_id = id(v)
+                if obj_id not in seen_ids and getattr(v, "extra", False):
+                    seen_ids.add(obj_id)
                     extra_attrs.append(v)
         cls._extra_attrs = tuple(extra_attrs)
 

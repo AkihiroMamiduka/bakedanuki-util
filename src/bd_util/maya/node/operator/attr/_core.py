@@ -328,8 +328,6 @@ class Attr(ImmutableDescriptor, Generic[P]):
     short_name: str | None = None
     # attr
     _attr_path: str = ""
-    # addAttr kwargs (override in subclasses)
-    ADD_ATTR_KWARGS: dict = {}
 
     def __init__(self, multi: bool = False, extra: bool = False):
         # node
@@ -464,7 +462,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         if cmds.objExists(f"{node_name}.{self.long_name}"):
             return
 
-        kwargs = dict(self.ADD_ATTR_KWARGS)
+        kwargs = {"attributeType": self.ATTR_TYPE}
         kwargs["longName"] = self.long_name
         if self.short_name is not None:
             kwargs["shortName"] = self.short_name

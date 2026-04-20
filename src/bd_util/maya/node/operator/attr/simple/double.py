@@ -9,4 +9,3 @@ class DoublePlug(Plug["DoubleAttr"]):
 class DoubleAttr(Attr[DoublePlug]):
     ATTR_TYPE = "double"
     PLUG_CLS = DoublePlug
-    ADD_ATTR_KWARGS = {"attributeType": "double"}

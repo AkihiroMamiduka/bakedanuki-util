@@ -67,11 +67,6 @@ def auto_add_attr_on_init():
             cmds.objExists(f"{node_name}.myWeight")
         )
     )
-    logger.debug(
-        "node.myMatrix plug exists: {}".format(
-            cmds.objExists(f"{node_name}.myMatrix")
-        )
-    )
 
     # Plug 経由でアクセス
     logger.debug(
@@ -86,8 +81,6 @@ def auto_add_attr_on_init():
             node.myMatrix.plug,
         )
     )
-
-    cmds.delete(node_name)
 
 
 def no_auto_add_attr():
@@ -111,8 +104,6 @@ def no_auto_add_attr():
         )
     )
 
-    cmds.delete(node_name)
-
 
 def manual_add_attr_via_plug():
     logger.debug("===========================================================")
@@ -130,6 +121,11 @@ def manual_add_attr_via_plug():
     node = MyTransform(node_name, auto_add_attr=False)
 
     # Plug 経由で任意タイミングに addAttr()
+    logger.debug(
+        "node.myWeight plug exists before add_attr(): {}".format(
+            cmds.objExists(f"{node_name}.myWeight")
+        )
+    )
     node.myWeight.add_attr()
     logger.debug(
         "node.myWeight plug exists after manual add_attr(): {}".format(
@@ -137,11 +133,14 @@ def manual_add_attr_via_plug():
         )
     )
 
+    logger.debug(
+        "node.myMatrix plug exists before add_attr(): {}".format(
+            cmds.objExists(f"{node_name}.myMatrix")
+        )
+    )
     node.myMatrix.add_attr()
     logger.debug(
         "node.myMatrix plug exists after manual add_attr(): {}".format(
             cmds.objExists(f"{node_name}.myMatrix")
         )
     )
-
-    cmds.delete(node_name)
