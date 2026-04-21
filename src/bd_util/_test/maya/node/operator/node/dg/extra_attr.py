@@ -96,7 +96,7 @@ def no_auto_add_attr():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # auto_add_attr=False → addAttr() されない
-    node = MyTransform(node_name, auto_add_attr=False)
+    MyTransform(node_name, auto_add_attr=False)
 
     logger.debug(
         "node.myWeight plug exists (should be False): {}".format(
