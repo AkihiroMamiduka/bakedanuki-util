@@ -382,6 +382,14 @@ class Plug(Generic[A]):
         cmds.disconnectAttr(src, dst)
         return self
 
+    # addAttr
+    def add_attr(self):
+        """
+        このプラグが参照するアトリビュートを、対象ノードに addAttr() する。
+        既に存在する場合はスキップする。
+        """
+        self._attr.add_attr(self._node.name)
+
 
 class Attr(ImmutableDescriptor, Generic[P]):
     __slots__ = ("_node",)
@@ -396,14 +404,16 @@ class Attr(ImmutableDescriptor, Generic[P]):
     # attr
     _attr_path: str = ""
 
-    def __init__(self, multi: bool = False):
+    def __init__(self, multi: bool = False, extra: bool = False):
         # node
         self._node: Node = None
         # attr
         #   attr_path
         self._parent_attr_path: str = ""
         #   multi
-        self.mutli: bool = multi
+        self.multi: bool = multi
+        #   extra attr flag
+        self.extra: bool = extra
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -475,7 +485,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
                     node=self._node,
                     attr=self,
                     attr_path=self._parent_attr_path,
-                    multi=self.mutli,
+                    multi=self.multi,
                 )
             return self._node._plug_cache[key]
         #   Node が class へのアクセス(Attr)
@@ -514,3 +524,22 @@ class Attr(ImmutableDescriptor, Generic[P]):
             str: アトリビュートの型
         """
         return self.ATTR_TYPE
+
+    # addAttr
+    def add_attr(self, node_name: str):
+        """
+        対象ノードに、このアトリビュートを addAttr() する。
+        既に存在する場合はスキップする。
+
+        Args:
+            node_name (str): 対象ノード名
+        """
+        if cmds.objExists(f"{node_name}.{self.long_name}"):
+            return
+
+        kwargs = {"attributeType": self.ATTR_TYPE}
+        kwargs["longName"] = self.long_name
+        if self.short_name is not None:
+            kwargs["shortName"] = self.short_name
+
+        cmds.addAttr(node_name, **kwargs)
