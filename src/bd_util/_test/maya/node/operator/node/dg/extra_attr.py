@@ -41,14 +41,14 @@ def extra_attrs_class_access():
         )
     )
     for attr in MyTransform._extra_attrs:
-        logger.debug(
-            "  attr: {}, extra: {}".format(attr, attr.extra)
-        )
+        logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 
 def auto_add_attr_on_init():
     logger.debug("===========================================================")
-    logger.debug("--- auto_add_attr=True (default): auto addAttr() on init ---")
+    logger.debug(
+        "--- auto_add_attr=True (default): auto addAttr() on init ---"
+    )
 
     import maya.cmds as cmds
 
