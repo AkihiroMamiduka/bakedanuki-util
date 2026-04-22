@@ -1,4 +1,40 @@
+# coding: utf-8
+
+from enum import Enum
+
+# maya
 import maya.cmds as cmds
+import maya.api.OpenMaya as om
+
+
+class AttrKind(Enum):
+    ATTRIBUTE_TYPE = 0
+    DATA_TYPE = 1
+
+
+def get_attr_kind(node, attr):
+
+    sel = om.MSelectionList()
+    sel.add(node)
+
+    obj = sel.getDependNode(0)
+    fn = om.MFnDependencyNode(obj)
+
+    plug = fn.findPlug(attr, False)
+    attr_obj = plug.attribute()
+
+    if attr_obj.hasFn(om.MFn.kTypedAttribute):
+        return AttrKind.DATA_TYPE
+
+    return AttrKind.ATTRIBUTE_TYPE
+
+
+def is_attribute_type(node, attr):
+    return get_attr_kind(node, attr) == AttrKind.ATTRIBUTE_TYPE
+
+
+def is_data_type(node, attr):
+    return get_attr_kind(node, attr) == AttrKind.DATA_TYPE
 
 
 def safe_query(func, *args, **kwargs):
@@ -27,9 +63,7 @@ def print_attribute_info(node_type):
             cmds.attributeQuery, attr, node=node, attributeType=True
         )
 
-        data_type = safe_query(
-            cmds.attributeQuery, attr, node=node, dataType=True
-        )
+        is_dataType = is_data_type(node, attr)
 
         # default value
         default_value = safe_query(
@@ -94,7 +128,7 @@ def print_attribute_info(node_type):
         print("           longName:", long_name)
         print("          shortName:", short_name)
         print("      attributeType:", attribute_type)
-        print("           dataType:", data_type)
+        print("        is_dataType:", is_dataType)
         print("       defaultValue:", default_value)
         print("           minValue:", min_value)
         print("           maxValue:", max_value)
