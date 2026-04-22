@@ -395,6 +395,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
     __slots__ = ("_node",)
     # type
     ATTR_TYPE: str = None
+    DATA_TYPE: str = None
     # plug
     PLUG_CLS: Type[P] = None
     # name
@@ -417,6 +418,10 @@ class Attr(ImmutableDescriptor, Generic[P]):
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
+        if cls.ATTR_TYPE is None:
+            raise NotImplementedError(
+                f"{cls.__name__} は、 ATTR_TYPE が定義されていません。定義してください。"
+            )
         if cls.PLUG_CLS is None:
             raise NotImplementedError(
                 f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
@@ -524,6 +529,16 @@ class Attr(ImmutableDescriptor, Generic[P]):
             str: アトリビュートの型
         """
         return self.ATTR_TYPE
+
+    @property
+    def is_data_type(self) -> bool:
+        """
+        データタイプのアトリビュートかどうか
+
+        Returns:
+            bool: データタイプのアトリビュートかどうか
+        """
+        return self.DATA_TYPE is not None
 
     # addAttr
     def add_attr(self, node_name: str):
