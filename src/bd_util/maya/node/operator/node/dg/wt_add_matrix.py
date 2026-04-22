@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import Node
-from ...attr.simple.matrix import MatrixAttr
+from ...attr.at.matrix import MatrixAttr
 from ...attr.node_attr.wt_add_matrix import WtMatrixAttr
 
 

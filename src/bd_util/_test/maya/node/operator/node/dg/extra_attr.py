@@ -4,8 +4,8 @@ extra=True の Attr を使った自動 addAttr() 機能のテスト・デモ
 """
 from ....... import logger as u_logger
 from .......maya.node.operator.node._core import Node
-from .......maya.node.operator.attr.simple.double import DoubleAttr
-from .......maya.node.operator.attr.simple.matrix import MatrixAttr
+from .......maya.node.operator.attr.at.double import DoubleAttr
+from .......maya.node.operator.attr.at.matrix import MatrixAttr
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 

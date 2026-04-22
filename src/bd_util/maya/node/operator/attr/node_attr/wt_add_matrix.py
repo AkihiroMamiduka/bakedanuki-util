@@ -2,8 +2,8 @@
 
 # self
 from .._core import Attr, Plug
-from ..simple.double import DoubleAttr
-from ..simple.matrix import MatrixAttr
+from ..at.double import DoubleAttr
+from ..at.matrix import MatrixAttr
 
 
 class WtMatrixPlug(Plug["WtMatrixAttr"]):
