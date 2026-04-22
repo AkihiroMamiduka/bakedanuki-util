@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import Node
-from ...attr.at.matrix import MatrixAttr
+from ...attr.dt.matrix import DataMatrixAttr
 from ...attr.node_attr.wt_add_matrix import WtMatrixAttr
 
 
@@ -9,5 +9,5 @@ class WtAddMatrix(Node):
 
     wtMatrix = WtMatrixAttr(multi=True)
     i = wtMatrix
-    matrixSum = MatrixAttr()
+    matrixSum = DataMatrixAttr()
     o = matrixSum
