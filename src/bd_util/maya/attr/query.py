@@ -108,6 +108,59 @@ def safe_query(func, *args, **kwargs):
         return None
 
 
+def get_attr_info(node: str, attr: str) -> AttrInfo:
+    """指定したノードの特定アトリビュートの AttrInfo を返す"""
+    long_name = attr
+    short_name = safe_query(cmds.attributeQuery, attr, node=node, shortName=True)
+    attribute_type = safe_query(
+        cmds.attributeQuery, attr, node=node, attributeType=True
+    )
+    data_type = get_data_type_name(node, attr)
+    default_value = safe_query(
+        cmds.attributeQuery, attr, node=node, listDefault=True
+    )
+    min_value = safe_query(
+        cmds.attributeQuery, attr, node=node, minimum=True
+    )
+    max_value = safe_query(
+        cmds.attributeQuery, attr, node=node, maximum=True
+    )
+    soft_min_value = safe_query(
+        cmds.attributeQuery, attr, node=node, softMin=True
+    )
+    soft_max_value = safe_query(
+        cmds.attributeQuery, attr, node=node, softMax=True
+    )
+    enum_name = safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
+    multi = safe_query(cmds.attributeQuery, attr, node=node, multi=True)
+    number_of_children = safe_query(
+        cmds.attributeQuery, attr, node=node, numberOfChildren=True
+    )
+    parent = safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
+    readable = safe_query(cmds.attributeQuery, attr, node=node, readable=True)
+    writable = safe_query(cmds.attributeQuery, attr, node=node, writable=True)
+    category = safe_query(cmds.attributeQuery, attr, node=node, categories=True)
+
+    return AttrInfo(
+        long_name=long_name,
+        short_name=short_name,
+        attribute_type=attribute_type,
+        data_type=data_type,
+        default_value=default_value,
+        min_value=min_value,
+        max_value=max_value,
+        soft_min_value=soft_min_value,
+        soft_max_value=soft_max_value,
+        enum_name=enum_name,
+        multi=multi,
+        number_of_children=number_of_children,
+        parent=parent,
+        readable=readable,
+        writable=writable,
+        category=category,
+    )
+
+
 def get_attribute_infos(node_type) -> list[AttrInfo]:
     # アトリビュート情報確認用に代理のノードを作成
     node = cmds.createNode(node_type)
