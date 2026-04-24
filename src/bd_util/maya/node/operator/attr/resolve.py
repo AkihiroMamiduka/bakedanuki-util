@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Type
 
-from .....maya.attr.query import get_attr_info
+from .....maya.attr.query import get_attribute_info
 from ._core import Attr
 from .at.bool import BoolAttr
 from .at.byte import ByteAttr
@@ -130,7 +130,7 @@ def get_attr_cls(node: str, attr: str) -> Type[Attr] | None:
     Returns:
         Type[Attr] | None: 対応する Attr クラス。見つからない場合は None。
     """
-    attr_info = get_attr_info(node, attr)
+    attr_info = get_attribute_info(node, attr)
 
     if attr_info.data_type is not None:
         return _DT_CLASS_MAP.get(attr_info.data_type)

@@ -101,46 +101,61 @@ class AttrInfo:
 
 
 def safe_query(func, *args, **kwargs):
-    """例外が出ても None を返す安全ラッパー"""
+    """
+    例外が出ても None を返す安全ラッパー
+    """
     try:
         return func(*args, **kwargs)
     except Exception:
         return None
 
 
-def get_attr_info(node: str, attr: str) -> AttrInfo:
-    """指定したノードの特定アトリビュートの AttrInfo を返す"""
+def get_attribute_info(node: str, attr: str) -> AttrInfo:
+    # long / short name
     long_name = attr
-    short_name = safe_query(cmds.attributeQuery, attr, node=node, shortName=True)
-    attribute_type = safe_query(
-        cmds.attributeQuery, attr, node=node, attributeType=True
-    )
+    short_name = cmds.attributeQuery(attr, node=node, shortName=True)
+
+    # attributeType / dataType
+    attribute_type = cmds.attributeQuery(attr, node=node, attributeType=True)
     data_type = get_data_type_name(node, attr)
+
+    # default value
     default_value = safe_query(
         cmds.attributeQuery, attr, node=node, listDefault=True
     )
-    min_value = safe_query(
-        cmds.attributeQuery, attr, node=node, minimum=True
-    )
-    max_value = safe_query(
-        cmds.attributeQuery, attr, node=node, maximum=True
-    )
+
+    # min / max
+    min_value = safe_query(cmds.attributeQuery, attr, node=node, minimum=True)
+    max_value = safe_query(cmds.attributeQuery, attr, node=node, maximum=True)
     soft_min_value = safe_query(
         cmds.attributeQuery, attr, node=node, softMin=True
     )
     soft_max_value = safe_query(
         cmds.attributeQuery, attr, node=node, softMax=True
     )
-    enum_name = safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
-    multi = safe_query(cmds.attributeQuery, attr, node=node, multi=True)
-    number_of_children = safe_query(
-        cmds.attributeQuery, attr, node=node, numberOfChildren=True
-    )
-    parent = safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
-    readable = safe_query(cmds.attributeQuery, attr, node=node, readable=True)
-    writable = safe_query(cmds.attributeQuery, attr, node=node, writable=True)
-    category = safe_query(cmds.attributeQuery, attr, node=node, categories=True)
 
+    # enum
+    enum_name = cmds.attributeQuery(attr, node=node, listEnum=True)
+
+    # multi
+    multi = cmds.attributeQuery(attr, node=node, multi=True)
+
+    # number of children
+    number_of_children = cmds.attributeQuery(
+        attr, node=node, numberOfChildren=True
+    )
+
+    # parent
+    parent = cmds.attributeQuery(attr, node=node, listParent=True)
+
+    # readable / writable
+    readable = cmds.attributeQuery(attr, node=node, readable=True)
+    writable = cmds.attributeQuery(attr, node=node, writable=True)
+
+    # category
+    category = cmds.attributeQuery(attr, node=node, categories=True)
+
+    # 情報をまとめる
     return AttrInfo(
         long_name=long_name,
         short_name=short_name,
@@ -161,85 +176,14 @@ def get_attr_info(node: str, attr: str) -> AttrInfo:
     )
 
 
-def get_attribute_infos(node_type) -> list[AttrInfo]:
+def get_attribute_infos(node_type: str) -> list[AttrInfo]:
     # アトリビュート情報確認用に代理のノードを作成
     node = cmds.createNode(node_type)
 
-    # 全てのアトリビュートを取得
-    attrs = cmds.listAttr(node) or []
-
+    # アトリビュートの情報を取得
     attr_infos: list[AttrInfo] = []
-    for attr in attrs:
-        # long / short name
-        long_name = attr
-        short_name = cmds.attributeQuery(attr, node=node, shortName=True)
-
-        # attributeType / dataType
-        attribute_type = cmds.attributeQuery(
-            attr, node=node, attributeType=True
-        )
-        data_type = get_data_type_name(node, attr)
-
-        # default value
-        default_value = safe_query(
-            cmds.attributeQuery, attr, node=node, listDefault=True
-        )
-
-        # min / max
-        min_value = safe_query(
-            cmds.attributeQuery, attr, node=node, minimum=True
-        )
-        max_value = safe_query(
-            cmds.attributeQuery, attr, node=node, maximum=True
-        )
-        soft_min_value = safe_query(
-            cmds.attributeQuery, attr, node=node, softMin=True
-        )
-        soft_max_value = safe_query(
-            cmds.attributeQuery, attr, node=node, softMax=True
-        )
-
-        # enum
-        enum_name = cmds.attributeQuery(attr, node=node, listEnum=True)
-
-        # multi
-        multi = cmds.attributeQuery(attr, node=node, multi=True)
-
-        # number of children
-        number_of_children = cmds.attributeQuery(
-            attr, node=node, numberOfChildren=True
-        )
-
-        # parent
-        parent = cmds.attributeQuery(attr, node=node, listParent=True)
-
-        # readable / writable
-        readable = cmds.attributeQuery(attr, node=node, readable=True)
-        writable = cmds.attributeQuery(attr, node=node, writable=True)
-
-        # category
-        category = cmds.attributeQuery(attr, node=node, categories=True)
-
-        # 情報をまとめる
-        attr_info = AttrInfo(
-            long_name=long_name,
-            short_name=short_name,
-            attribute_type=attribute_type,
-            data_type=data_type,
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            enum_name=enum_name,
-            multi=multi,
-            number_of_children=number_of_children,
-            parent=parent,
-            readable=readable,
-            writable=writable,
-            category=category,
-        )
-        attr_infos.append(attr_info)
+    for attr in cmds.listAttr(node) or []:
+        attr_infos.append(get_attribute_info(node, attr))
 
     # ノードを削除
     cmds.delete(node)
