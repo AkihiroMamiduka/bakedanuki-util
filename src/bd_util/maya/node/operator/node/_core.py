@@ -108,3 +108,63 @@ class Node(metaclass=ImmutableDescriptorMeta):
     def delete(self):
         if self.exists():
             cmds.delete(self.name)
+
+    def rename(
+        self,
+        new_name: str | None = None,
+        search: str | None = None,
+        replace: str | None = None,
+        prefix: str = "",
+        suffix: str = "",
+    ) -> str:
+        """
+        ノードをリネームする。
+
+        Maya ノード名はネームスペースを含む場合がある（例: ``ns:nodeName``）。
+        ネームスペース部分はリネームの対象外とし、コロン以降のピュアな名前部分
+        のみを変更する。
+
+        Args:
+            new_name (str | None): 新しいノード名（ピュアな名前）。
+                指定した場合、現在のピュアな名前を置き換える。
+                ``search`` / ``replace`` と同時には使用できない。
+            search (str | None): 検索文字列。``replace`` と組み合わせて使用する。
+                ``new_name`` と同時には使用できない。
+            replace (str | None): 置換文字列。``search`` と組み合わせて使用する。
+            prefix (str): ピュアな名前の先頭に付加する文字列。
+            suffix (str): ピュアな名前の末尾に付加する文字列。
+
+        Returns:
+            str: リネーム後のノード名（Maya が確定した名前）。
+
+        Raises:
+            ValueError: ``new_name`` と ``search`` / ``replace`` が同時に
+                指定された場合。
+        """
+        if new_name is not None and (search is not None or replace is not None):
+            raise ValueError(
+                "new_name と search/replace を同時に指定することはできません。"
+            )
+
+        # ネームスペースとピュアな名前を分離する
+        # Maya のノード名は "ns1:ns2:pureName" のような形式になる
+        if ":" in self.name:
+            namespace, pure_name = self.name.rsplit(":", 1)
+            namespace_prefix = namespace + ":"
+        else:
+            namespace_prefix = ""
+            pure_name = self.name
+
+        # ピュアな名前を変換する
+        if new_name is not None:
+            pure_name = new_name
+        elif search is not None:
+            replace_str = replace if replace is not None else ""
+            pure_name = pure_name.replace(search, replace_str)
+
+        pure_name = prefix + pure_name + suffix
+
+        # Maya でリネームし、確定した名前を self.name に反映する
+        result = cmds.rename(self.name, namespace_prefix + pure_name)
+        self.name = result
+        return self.name
