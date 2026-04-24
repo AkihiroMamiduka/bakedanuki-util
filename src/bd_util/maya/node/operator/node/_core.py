@@ -164,7 +164,12 @@ class Node(metaclass=ImmutableDescriptorMeta):
 
         pure_name = prefix + pure_name + suffix
 
+        # 名前に変化がない場合はリネーム操作をスキップする
+        candidate = namespace_prefix + pure_name
+        if candidate == self.name:
+            return self.name
+
         # Maya でリネームし、確定した名前を self.name に反映する
-        result = cmds.rename(self.name, namespace_prefix + pure_name)
+        result = cmds.rename(self.name, candidate)
         self.name = result
         return self.name
