@@ -115,7 +115,7 @@ _DT_CLASS_MAP: dict[str, Type[Attr]] = {
 }
 
 
-def get_attr_cls(node: str, attr: str) -> Type[Attr] | None:
+def lookup_attr_cls(node: str, attr: str) -> Type[Attr] | None:
     """
     ノード名とアトリビュート名から、対応する Attr クラスを返す。
 
