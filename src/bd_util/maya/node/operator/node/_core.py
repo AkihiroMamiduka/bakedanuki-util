@@ -119,9 +119,9 @@ class Node(metaclass=ImmutableDescriptorMeta):
         return ""
 
     @property
-    def pure_name(self) -> str:
+    def local_name(self) -> str:
         """
-        ネームスペースを除いたノード名（ピュアネーム）を返す。
+        ネームスペースを除いたノード名（ローカルネーム）を返す。
 
         例: ``ns1:ns2:nodeName`` → ``"nodeName"``
             ``nodeName`` → ``"nodeName"``

@@ -6,6 +6,7 @@ import maya.cmds as cmds
 
 from ....... import logger as u_logger
 from .......maya.node.operator.node.dag._core import DAG
+from .......maya.node.operator.node.dag.transform._core import Transform
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -23,8 +24,7 @@ def long_name_root():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
 
-    cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = DAG(node_name)
+    node = Transform.create(node_name)
 
     logger.debug(
         "{}: {}".format(
@@ -52,11 +52,10 @@ def long_name_under_group():
         if cmds.objExists(n):
             cmds.delete(n)
 
-    grp = cmds.createNode("transform", name=group_name, skipSelect=True)
-    child = cmds.createNode(
-        "transform", name=child_name, parent=grp, skipSelect=True
-    )
-    node = DAG(child)
+    grp = Transform.create(group_name)
+    child = Transform.create(child_name)
+    cmds.parent(child.name, grp.name)
+    node = DAG(child.name)
 
     logger.debug(
         "{}: {}".format(

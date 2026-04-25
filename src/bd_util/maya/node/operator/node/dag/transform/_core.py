@@ -3,4 +3,4 @@ from .._core import DAG
 
 
 class Transform(DAG):
-    pass
+    NODE_TYPE = "transform"

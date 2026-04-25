@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Node クラスの名前系プロパティ（namespace / pure_name）のテスト・デモ
+Node クラスの名前系プロパティ（namespace / local_name）のテスト・デモ
 """
 from ...... import logger as u_logger
 from ......maya.node.operator.node._core import Node
@@ -12,9 +12,9 @@ def main():
     namespace_with_namespace()
     namespace_without_namespace()
     namespace_multi_level()
-    pure_name_with_namespace()
-    pure_name_without_namespace()
-    pure_name_multi_level()
+    local_name_with_namespace()
+    local_name_without_namespace()
+    local_name_multi_level()
 
 
 def namespace_with_namespace():
@@ -74,9 +74,9 @@ def namespace_multi_level():
     # 期待値: "ns1:ns2"
 
 
-def pure_name_with_namespace():
+def local_name_with_namespace():
     logger.debug("===========================================================")
-    logger.debug("--- pure_name: ネームスペースあり ---")
+    logger.debug("--- local_name: ネームスペースあり ---")
     node = Node("ns1:myNode")
     logger.debug(
         "{}: {}".format(
@@ -86,16 +86,16 @@ def pure_name_with_namespace():
     )
     logger.debug(
         "{}: {}".format(
-            "node.pure_name",
-            node.pure_name,
+            "node.local_name",
+            node.local_name,
         )
     )
     # 期待値: "myNode"
 
 
-def pure_name_without_namespace():
+def local_name_without_namespace():
     logger.debug("===========================================================")
-    logger.debug("--- pure_name: ネームスペースなし ---")
+    logger.debug("--- local_name: ネームスペースなし ---")
     node = Node("myNode")
     logger.debug(
         "{}: {}".format(
@@ -105,16 +105,16 @@ def pure_name_without_namespace():
     )
     logger.debug(
         "{}: {}".format(
-            "node.pure_name",
-            node.pure_name,
+            "node.local_name",
+            node.local_name,
         )
     )
     # 期待値: "myNode"
 
 
-def pure_name_multi_level():
+def local_name_multi_level():
     logger.debug("===========================================================")
-    logger.debug("--- pure_name: 多段ネームスペース ---")
+    logger.debug("--- local_name: 多段ネームスペース ---")
     node = Node("ns1:ns2:myNode")
     logger.debug(
         "{}: {}".format(
@@ -124,8 +124,8 @@ def pure_name_multi_level():
     )
     logger.debug(
         "{}: {}".format(
-            "node.pure_name",
-            node.pure_name,
+            "node.local_name",
+            node.local_name,
         )
     )
     # 期待値: "myNode"
