@@ -405,7 +405,22 @@ class Attr(ImmutableDescriptor, Generic[P]):
     # attr
     _attr_path: str = ""
 
-    def __init__(self, multi: bool = False, extra: bool = False):
+    def __init__(
+        self,
+        multi: bool = False,
+        extra: bool = False,
+        default_value: Any = None,
+        min_value: Any = None,
+        max_value: Any = None,
+        soft_min_value: Any = None,
+        soft_max_value: Any = None,
+        enum_name: str | None = None,
+        number_of_children: int | None = None,
+        parent: str | None = None,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ):
         # node
         self._node: Node = None
         # attr
@@ -415,6 +430,18 @@ class Attr(ImmutableDescriptor, Generic[P]):
         self.multi: bool = multi
         #   extra attr flag
         self.extra: bool = extra
+        # extra attr info
+        self._default_value: Any = default_value
+        self._min_value: Any = min_value
+        self._max_value: Any = max_value
+        self._soft_min_value: Any = soft_min_value
+        self._soft_max_value: Any = soft_max_value
+        self._enum_name: str | None = enum_name
+        self._number_of_children: int | None = number_of_children
+        self._parent: str | None = parent
+        self._readable: bool | None = readable
+        self._writable: bool | None = writable
+        self._category: str | None = category
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -540,6 +567,101 @@ class Attr(ImmutableDescriptor, Generic[P]):
         """
         return self.DATA_TYPE is not None
 
+    # attr info
+    def _query_attr_info(self, **kwargs) -> Any:
+        """
+        cmds.attributeQuery を安全に実行し、結果を返す。
+        ノードのインスタンスが設定されていない場合は None を返す。
+
+        Returns:
+            Any: cmds.attributeQuery の結果。取得できない場合は None。
+        """
+        if self._node is None or not self._node.is_instance:
+            return None
+        try:
+            return cmds.attributeQuery(
+                self.long_name, node=self._node.name, **kwargs
+            )
+        except Exception:
+            return None
+
+    @property
+    def default_value(self) -> Any:
+        """アトリビュートのデフォルト値"""
+        if self.extra:
+            return self._default_value
+        return self._query_attr_info(listDefault=True)
+
+    @property
+    def min_value(self) -> Any:
+        """アトリビュートの最小値"""
+        if self.extra:
+            return self._min_value
+        return self._query_attr_info(minimum=True)
+
+    @property
+    def max_value(self) -> Any:
+        """アトリビュートの最大値"""
+        if self.extra:
+            return self._max_value
+        return self._query_attr_info(maximum=True)
+
+    @property
+    def soft_min_value(self) -> Any:
+        """アトリビュートのソフト最小値"""
+        if self.extra:
+            return self._soft_min_value
+        return self._query_attr_info(softMin=True)
+
+    @property
+    def soft_max_value(self) -> Any:
+        """アトリビュートのソフト最大値"""
+        if self.extra:
+            return self._soft_max_value
+        return self._query_attr_info(softMax=True)
+
+    @property
+    def enum_name(self) -> str | None:
+        """列挙型アトリビュートの列挙名"""
+        if self.extra:
+            return self._enum_name
+        return self._query_attr_info(listEnum=True)
+
+    @property
+    def number_of_children(self) -> int | None:
+        """コンパウンドアトリビュートの子アトリビュート数"""
+        if self.extra:
+            return self._number_of_children
+        return self._query_attr_info(numberOfChildren=True)
+
+    @property
+    def parent(self) -> str | None:
+        """親アトリビュート名"""
+        if self.extra:
+            return self._parent
+        return self._query_attr_info(listParent=True)
+
+    @property
+    def readable(self) -> bool | None:
+        """アトリビュートが読み取り可能かどうか"""
+        if self.extra:
+            return self._readable
+        return self._query_attr_info(readable=True)
+
+    @property
+    def writable(self) -> bool | None:
+        """アトリビュートが書き込み可能かどうか"""
+        if self.extra:
+            return self._writable
+        return self._query_attr_info(writable=True)
+
+    @property
+    def category(self) -> str | None:
+        """アトリビュートのカテゴリ"""
+        if self.extra:
+            return self._category
+        return self._query_attr_info(categories=True)
+
     # addAttr
     def add_attr(self, node_name: str):
         """
@@ -552,9 +674,34 @@ class Attr(ImmutableDescriptor, Generic[P]):
         if cmds.objExists(f"{node_name}.{self.long_name}"):
             return
 
-        kwargs = {"attributeType": self.ATTR_TYPE}
+        if self.is_data_type:
+            kwargs = {"dataType": self.DATA_TYPE}
+        else:
+            kwargs = {"attributeType": self.ATTR_TYPE}
         kwargs["longName"] = self.long_name
         if self.short_name is not None:
             kwargs["shortName"] = self.short_name
+        if self._default_value is not None:
+            kwargs["defaultValue"] = self._default_value
+        if self._min_value is not None:
+            kwargs["minValue"] = self._min_value
+        if self._max_value is not None:
+            kwargs["maxValue"] = self._max_value
+        if self._soft_min_value is not None:
+            kwargs["softMinValue"] = self._soft_min_value
+        if self._soft_max_value is not None:
+            kwargs["softMaxValue"] = self._soft_max_value
+        if self._enum_name is not None:
+            kwargs["enumName"] = self._enum_name
+        if self._number_of_children is not None:
+            kwargs["numberOfChildren"] = self._number_of_children
+        if self._parent is not None:
+            kwargs["parent"] = self._parent
+        if self._readable is not None:
+            kwargs["readable"] = self._readable
+        if self._writable is not None:
+            kwargs["writable"] = self._writable
+        if self._category is not None:
+            kwargs["category"] = self._category
 
         cmds.addAttr(node_name, **kwargs)
