@@ -114,6 +114,17 @@ class Plug(Generic[A]):
         """
         self.set(value)
 
+    # enum
+    @property
+    def enum_name(self) -> str | None:
+        """
+        列挙型アトリビュートの列挙名をゲットする
+
+        Returns:
+            str | None: 列挙型アトリビュートの列挙名。列挙型でない場合は None。
+        """
+        return self._attr.enum_name
+
     # [] アクセス
     def __getitem__(
         self,
@@ -623,7 +634,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
     @property
     def enum_name(self) -> str | None:
         """列挙型アトリビュートの列挙名"""
-        if self.extra:
+        if self._enum_name is not None:
             return self._enum_name
         return self._query_attr_info(listEnum=True)
 

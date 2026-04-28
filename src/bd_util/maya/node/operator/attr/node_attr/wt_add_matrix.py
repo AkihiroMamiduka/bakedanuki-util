@@ -15,7 +15,6 @@ class WtMatrixPlug(CompoundPlug["WtMatrixAttr"]):
 
 
 class WtMatrixAttr(CompoundAttr[WtMatrixPlug]):
-    ATTR_TYPE: str = "TdataCompound"
     PLUG_CLS = WtMatrixPlug
 
     matrixIn = DataMatrixAttr()
