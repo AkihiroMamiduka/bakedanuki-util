@@ -1,11 +1,19 @@
 # coding: utf-8
+from typing import TypeVar, Type, cast
+
+# self
 from .._core import Attr, Plug
 
 
-class Short2Plug(Plug["Short2Attr"]):
+A = TypeVar("A", bound="Attr")
+
+P = TypeVar("P", bound="Plug")
+
+
+class Short2Plug(Plug[A]):
     pass
 
 
-class Short2Attr(Attr[Short2Plug]):
+class Short2Attr(Attr[P]):
     ATTR_TYPE = "short2"
-    PLUG_CLS = Short2Plug
+    PLUG_CLS = cast(Type[P], Short2Plug)

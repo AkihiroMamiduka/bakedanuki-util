@@ -1,13 +1,21 @@
 # coding: utf-8
 from __future__ import annotations
+from typing import TypeVar, Type, cast
 
+# self
+from .._core import Attr, Plug
 from ._core import DataTypeAttr, DataTypePlug
 
 
-class DataLong3Plug(DataTypePlug["DataLong3Attr"]):
+A = TypeVar("A", bound="Attr")
+
+P = TypeVar("P", bound="Plug")
+
+
+class DataLong3Plug(DataTypePlug[A]):
     pass
 
 
-class DataLong3Attr(DataTypeAttr[DataLong3Plug]):
+class DataLong3Attr(DataTypeAttr[P]):
     DATA_TYPE = "long3"
-    PLUG_CLS = DataLong3Plug
+    PLUG_CLS = cast(Type[P], DataLong3Plug)

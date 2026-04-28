@@ -1,11 +1,19 @@
 # coding: utf-8
+from typing import TypeVar, Type, cast
+
+# self
 from .._core import Attr, Plug
 
 
-class Double3Plug(Plug["Double3Attr"]):
+A = TypeVar("A", bound="Attr")
+
+P = TypeVar("P", bound="Plug")
+
+
+class Double3Plug(Plug[A]):
     pass
 
 
-class Double3Attr(Attr[Double3Plug]):
+class Double3Attr(Attr[P]):
     ATTR_TYPE = "double3"
-    PLUG_CLS = Double3Plug
+    PLUG_CLS = cast(Type[P], Double3Plug)
