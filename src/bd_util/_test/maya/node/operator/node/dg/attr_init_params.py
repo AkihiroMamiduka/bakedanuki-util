@@ -87,18 +87,12 @@ def extra_true_class_access_properties():
     logger.debug("--- 1. extra=True: class access properties ---")
 
     attr = MyNode.myDouble
-    logger.debug(
-        "{}: {}".format("MyNode.myDouble.extra", attr.extra)
-    )
+    logger.debug("{}: {}".format("MyNode.myDouble.extra", attr.extra))
     logger.debug(
         "{}: {}".format("MyNode.myDouble.default_value", attr.default_value)
     )
-    logger.debug(
-        "{}: {}".format("MyNode.myDouble.min_value", attr.min_value)
-    )
-    logger.debug(
-        "{}: {}".format("MyNode.myDouble.max_value", attr.max_value)
-    )
+    logger.debug("{}: {}".format("MyNode.myDouble.min_value", attr.min_value))
+    logger.debug("{}: {}".format("MyNode.myDouble.max_value", attr.max_value))
     logger.debug(
         "{}: {}".format("MyNode.myDouble.soft_min_value", attr.soft_min_value)
     )
@@ -121,7 +115,9 @@ def extra_true_class_access_properties():
 
     string_attr = MyNode.myString
     logger.debug(
-        "{}: {}".format("MyNode.myString.is_data_type", string_attr.is_data_type)
+        "{}: {}".format(
+            "MyNode.myString.is_data_type", string_attr.is_data_type
+        )
     )
 
 
@@ -138,7 +134,7 @@ def extra_true_instance_access_properties():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     # myDouble
     # extra=True の Attr はノードインスタンス生成後もクラス経由でアクセスし、
@@ -213,7 +209,7 @@ def add_attr_default_min_max():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     exists = cmds.objExists(f"{node_name}.myDouble")
     logger.debug(
@@ -225,19 +221,13 @@ def add_attr_default_min_max():
     default_val = cmds.attributeQuery(
         "myDouble", node=node_name, listDefault=True
     )
-    logger.debug(
-        "{}: {} (should be [1.0])".format("listDefault", default_val)
-    )
+    logger.debug("{}: {} (should be [1.0])".format("listDefault", default_val))
 
     min_val = cmds.attributeQuery("myDouble", node=node_name, minimum=True)
-    logger.debug(
-        "{}: {} (should be [0.0])".format("minimum", min_val)
-    )
+    logger.debug("{}: {} (should be [0.0])".format("minimum", min_val))
 
     max_val = cmds.attributeQuery("myDouble", node=node_name, maximum=True)
-    logger.debug(
-        "{}: {} (should be [10.0])".format("maximum", max_val)
-    )
+    logger.debug("{}: {} (should be [10.0])".format("maximum", max_val))
 
 
 # ---------------------------------------------------------------------------
@@ -253,17 +243,13 @@ def add_attr_soft_min_max():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     soft_min = cmds.attributeQuery("myDouble", node=node_name, softMin=True)
-    logger.debug(
-        "{}: {} (should be [0.5])".format("softMin", soft_min)
-    )
+    logger.debug("{}: {} (should be [0.5])".format("softMin", soft_min))
 
     soft_max = cmds.attributeQuery("myDouble", node=node_name, softMax=True)
-    logger.debug(
-        "{}: {} (should be [9.5])".format("softMax", soft_max)
-    )
+    logger.debug("{}: {} (should be [9.5])".format("softMax", soft_max))
 
 
 # ---------------------------------------------------------------------------
@@ -279,13 +265,11 @@ def add_attr_enum_name():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     exists = cmds.objExists(f"{node_name}.myEnum")
     logger.debug(
-        "{}: {} (should be True)".format(
-            f"{node_name}.myEnum exists", exists
-        )
+        "{}: {} (should be True)".format(f"{node_name}.myEnum exists", exists)
     )
 
     enum_val = cmds.attributeQuery("myEnum", node=node_name, listEnum=True)
@@ -307,7 +291,7 @@ def add_attr_readable_writable():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     exists = cmds.objExists(f"{node_name}.myReadOnly")
     logger.debug(
@@ -317,14 +301,10 @@ def add_attr_readable_writable():
     )
 
     readable = cmds.attributeQuery("myReadOnly", node=node_name, readable=True)
-    logger.debug(
-        "{}: {} (should be True)".format("readable", readable)
-    )
+    logger.debug("{}: {} (should be True)".format("readable", readable))
 
     writable = cmds.attributeQuery("myReadOnly", node=node_name, writable=True)
-    logger.debug(
-        "{}: {} (should be False)".format("writable", writable)
-    )
+    logger.debug("{}: {} (should be False)".format("writable", writable))
 
 
 # ---------------------------------------------------------------------------
@@ -340,7 +320,7 @@ def add_attr_data_type_string():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     exists = cmds.objExists(f"{node_name}.myString")
     logger.debug(
@@ -362,9 +342,7 @@ def add_attr_data_type_string():
         )
     )
     logger.debug(
-        "{}: {}".format(
-            "MyNode.myString.DATA_TYPE", MyNode.myString.DATA_TYPE
-        )
+        "{}: {}".format("MyNode.myString.DATA_TYPE", MyNode.myString.DATA_TYPE)
     )
 
 
@@ -383,14 +361,12 @@ def extra_false_query_properties():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    node = MyNode(node_name)
+    MyNode(node_name)
 
     # translateX は transform に標準で存在する extra=False アトリビュート
     attr = MyNode.translateX
 
-    logger.debug(
-        "{}: {}".format("MyNode.translateX.extra", attr.extra)
-    )
+    logger.debug("{}: {}".format("MyNode.translateX.extra", attr.extra))
 
     default_val = attr.default_value
     logger.debug(
