@@ -1,5 +1,8 @@
 # coding: utf-8
+
+# self
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node.dg.add_double_linear import AddDoubleLinear
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -11,11 +14,11 @@ def main():
 
 
 def get_set():
-    logger.debug("================================")
+    test_str.title("get_set")
     node = AddDoubleLinear.create("test")
     logger.debug(f"node: {node}")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.input1.get()",
@@ -31,7 +34,7 @@ def get_set():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.input2.get()",
@@ -47,7 +50,7 @@ def get_set():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.output.get()",
@@ -57,11 +60,11 @@ def get_set():
 
 
 def get_set_short_name():
-    logger.debug("================================")
+    test_str.title("get_set_short_name")
     node = AddDoubleLinear.create("test")
     logger.debug(f"node: {node}")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.i1.get()",
@@ -77,7 +80,7 @@ def get_set_short_name():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.i2.get()",
@@ -93,7 +96,7 @@ def get_set_short_name():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.o.get()",

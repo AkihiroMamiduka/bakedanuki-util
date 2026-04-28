@@ -2,21 +2,11 @@
 
 # self
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
-
-
-def title(title: str):
-    text = "-" * 8
-    text += f" {title} "
-    text = text.ljust(50, "-")
-    logger.debug(text)
-
-
-def sub_separator():
-    logger.debug("-" * 2)
 
 
 def main():
@@ -24,10 +14,10 @@ def main():
 
 
 def attribute_access_get():
-    title("Testing attribute access")
+    test_str.title("Testing attribute access")
     dg = WtAddMatrix.create("test")
 
-    sub_separator()
+    test_str.separator()
     logger.debug("caching: {}".format(dg.caching.get()))
     logger.debug("cch    : {}".format(dg.cch.get()))
     logger.debug("--set")
@@ -35,7 +25,7 @@ def attribute_access_get():
     logger.debug("caching: {}".format(dg.caching.get()))
     logger.debug("cch    : {}".format(dg.cch.get()))
 
-    sub_separator()
+    test_str.separator()
     logger.debug("frozen: {}".format(dg.frozen.get()))
     logger.debug("fzn   : {}".format(dg.fzn.get()))
     logger.debug("--set")
@@ -43,7 +33,7 @@ def attribute_access_get():
     logger.debug("frozen: {}".format(dg.frozen.get()))
     logger.debug("fzn   : {}".format(dg.fzn.get()))
 
-    sub_separator()
+    test_str.separator()
     logger.debug(
         "isHistoricallyInteresting: {}".format(
             dg.isHistoricallyInteresting.get()
@@ -58,7 +48,7 @@ def attribute_access_get():
     )
     logger.debug("ihi                      : {}".format(dg.ihi.get()))
 
-    sub_separator()
+    test_str.separator()
     logger.debug("enum_name: {}".format(dg.nodeState.enum_name))
     logger.debug("nodeState: {}".format(dg.nodeState.get()))
     logger.debug("nds      : {}".format(dg.nds.get()))
@@ -69,7 +59,7 @@ def attribute_access_get():
     logger.debug("nds      : {}".format(dg.nds.get()))
     logger.debug("enum_name: {}".format(dg.nodeState.enum_name[dg.nds.get()]))
 
-    sub_separator()
+    test_str.separator()
     logger.debug("binMembership: {}".format(dg.binMembership.get()))
     logger.debug("bnm          : {}".format(dg.bnm.get()))
     logger.debug("--set")

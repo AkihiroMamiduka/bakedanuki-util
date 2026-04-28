@@ -2,7 +2,10 @@
 """
 Node クラスの名前系プロパティ（namespace / local_name）のテスト・デモ
 """
+
+# self
 from ...... import logger as u_logger
+from ..... import str as test_str
 from ......maya.node.operator.node._core import Node
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -18,8 +21,7 @@ def main():
 
 
 def namespace_with_namespace():
-    logger.debug("===========================================================")
-    logger.debug("--- namespace: ネームスペースあり ---")
+    test_str.title("namespace_with_namespace")
     node = Node("ns1:myNode")
     logger.debug(
         "{}: {}".format(
@@ -37,8 +39,7 @@ def namespace_with_namespace():
 
 
 def namespace_without_namespace():
-    logger.debug("===========================================================")
-    logger.debug("--- namespace: ネームスペースなし ---")
+    test_str.title("namespace_without_namespace")
     node = Node("myNode")
     logger.debug(
         "{}: {}".format(
@@ -56,8 +57,7 @@ def namespace_without_namespace():
 
 
 def namespace_multi_level():
-    logger.debug("===========================================================")
-    logger.debug("--- namespace: 多段ネームスペース ---")
+    test_str.title("namespace_multi_level")
     node = Node("ns1:ns2:myNode")
     logger.debug(
         "{}: {}".format(
@@ -75,8 +75,7 @@ def namespace_multi_level():
 
 
 def local_name_with_namespace():
-    logger.debug("===========================================================")
-    logger.debug("--- local_name: ネームスペースあり ---")
+    test_str.title("local_name_with_namespace")
     node = Node("ns1:myNode")
     logger.debug(
         "{}: {}".format(
@@ -94,8 +93,7 @@ def local_name_with_namespace():
 
 
 def local_name_without_namespace():
-    logger.debug("===========================================================")
-    logger.debug("--- local_name: ネームスペースなし ---")
+    test_str.title("local_name_without_namespace")
     node = Node("myNode")
     logger.debug(
         "{}: {}".format(
@@ -113,8 +111,7 @@ def local_name_without_namespace():
 
 
 def local_name_multi_level():
-    logger.debug("===========================================================")
-    logger.debug("--- local_name: 多段ネームスペース ---")
+    test_str.title("local_name_multi_level")
     node = Node("ns1:ns2:myNode")
     logger.debug(
         "{}: {}".format(

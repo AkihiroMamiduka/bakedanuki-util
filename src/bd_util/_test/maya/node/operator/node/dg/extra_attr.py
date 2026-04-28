@@ -3,6 +3,7 @@
 extra=True の Attr を使った自動 addAttr() 機能のテスト・デモ
 """
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node._core import Node
 from .......maya.node.operator.attr.at.double import DoubleAttr
 from .......maya.node.operator.attr.at.matrix import MatrixAttr
@@ -32,8 +33,7 @@ def main():
 
 
 def extra_attrs_class_access():
-    logger.debug("===========================================================")
-    logger.debug("--- extra_attrs class access ---")
+    test_str.title("1. extra=True: class access properties")
     logger.debug(
         "{}: {}".format(
             "MyTransform._extra_attrs",
@@ -45,10 +45,7 @@ def extra_attrs_class_access():
 
 
 def auto_add_attr_on_init():
-    logger.debug("===========================================================")
-    logger.debug(
-        "--- auto_add_attr=True (default): auto addAttr() on init ---"
-    )
+    test_str.title("2. extra=True: instance access properties")
 
     import maya.cmds as cmds
 
@@ -84,8 +81,9 @@ def auto_add_attr_on_init():
 
 
 def no_auto_add_attr():
-    logger.debug("===========================================================")
-    logger.debug("--- auto_add_attr=False: addAttr() は自動実行されない ---")
+    test_str.title(
+        "3. extra=True: auto_add_attr=False prevents auto addAttr()"
+    )
 
     import maya.cmds as cmds
 
@@ -106,8 +104,7 @@ def no_auto_add_attr():
 
 
 def manual_add_attr_via_plug():
-    logger.debug("===========================================================")
-    logger.debug("--- manual add_attr() via Plug ---")
+    test_str.title("4. extra=True: manual addAttr() via Plug")
 
     import maya.cmds as cmds
 

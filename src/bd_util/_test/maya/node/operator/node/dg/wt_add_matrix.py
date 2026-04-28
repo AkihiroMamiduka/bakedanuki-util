@@ -1,5 +1,8 @@
 # coding: utf-8
+
+# self
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -21,10 +24,10 @@ def main():
 
 
 def class_instance_access():
-    logger.debug("===========================================================")
+    test_str.title("class_instance_access")
     node = WtAddMatrix("test")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # node.is_instance = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -33,7 +36,7 @@ def class_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # node.wtMatrix = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -54,7 +57,7 @@ def class_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # node.wtMatrix.matrixIn = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -77,10 +80,10 @@ def class_instance_access():
 
 
 def class_access():
-    logger.debug("===========================================================")
+    test_str.title("class_access")
     logger.debug(f"WtAddMatrix: {WtAddMatrix}")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # WtAddMatrix.matrixSum = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -107,7 +110,7 @@ def class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # WtAddMatrix.wtMatrix = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -134,7 +137,7 @@ def class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # WtAddMatrix.wtMatrix.matrixIn = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -161,7 +164,7 @@ def class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     # WtAddMatrix.wtMatrix.weightIn = "test"  # error
     logger.debug(
         "{}: {}".format(
@@ -190,8 +193,8 @@ def class_access():
 
 
 def create():
+    test_str.title("create")
     node = WtAddMatrix.create()
-    logger.debug("================================")
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
     logger.debug(f"node.name: {node.name}")
@@ -201,12 +204,12 @@ def create():
 
 
 def instance_access():
-    logger.debug("================================")
+    test_str.title("instance_access")
     node = WtAddMatrix.create("test")
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.matrixSum",
@@ -244,7 +247,7 @@ def instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix",
@@ -282,7 +285,7 @@ def instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0]",
@@ -320,7 +323,7 @@ def instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0].matrixIn",
@@ -354,17 +357,17 @@ def instance_access():
 
 
 def to_string():
-    logger.debug("================================")
+    test_str.title("to_string")
     node = WtAddMatrix.create()
     logger.debug(f"str(node): {str(node)}")
 
 
 def get_set():
-    logger.debug("================================")
+    test_str.title("get_set")
     node = WtAddMatrix.create("test")
     logger.debug(f"node: {node}")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.matrixSum.get()",
@@ -372,7 +375,7 @@ def get_set():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0].matrixIn.get()",
@@ -411,7 +414,7 @@ def get_set():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0].weightIn.get()",
@@ -435,11 +438,11 @@ def get_set():
 
 
 def connect_disconnect():
-    logger.debug("================================")
+    test_str.title("connect_disconnect")
     node_0 = WtAddMatrix.create("test_0")
     node_1 = WtAddMatrix.create("test_1")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     node_0.matrixSum > node_1.wtMatrix[0].matrixIn
     node_0.matrixSum | node_1.wtMatrix[0].matrixIn
 
@@ -457,10 +460,10 @@ def connect_disconnect():
 
 
 def plug_cache():
-    logger.debug("================================")
+    test_str.title("plug_cache")
     node = WtAddMatrix("test")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     plug_0 = node.matrixSum
     logger.debug(f"id(plug_0): {id(plug_0)}")
     plug_1 = node.matrixSum
@@ -470,9 +473,9 @@ def plug_cache():
 
 
 def short_name_class_access():
-    logger.debug("================================")
+    test_str.title("short_name_class_access")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "WtAddMatrix.matrixSum.long_name : {}".format(
             WtAddMatrix.matrixSum.long_name
@@ -493,7 +496,7 @@ def short_name_class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "WtAddMatrix.matrixSum.long_name : {}".format(
             WtAddMatrix.wtMatrix.long_name
@@ -514,7 +517,7 @@ def short_name_class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "WtAddMatrix.wtMatrix.matrixIn.long_name : {}".format(
             WtAddMatrix.wtMatrix.matrixIn.long_name
@@ -539,7 +542,7 @@ def short_name_class_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "WtAddMatrix.wtMatrix.weightIn.long_name : {}".format(
             WtAddMatrix.wtMatrix.weightIn.long_name
@@ -566,10 +569,10 @@ def short_name_class_access():
 
 
 def short_name_instance_access():
-    logger.debug("================================")
+    test_str.title("short_name_instance_access")
     node = WtAddMatrix.create("test")
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "node.matrixSum.long_name : {}".format(node.matrixSum.long_name)
     )
@@ -586,7 +589,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "node.matrixSum.long_name : {}".format(node.wtMatrix.long_name)
     )
@@ -603,7 +606,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "node.wtMatrix.matrixIn.long_name : {}".format(
             node.wtMatrix.matrixIn.long_name
@@ -626,7 +629,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "node.wtMatrix.weightIn.long_name : {}".format(
             node.wtMatrix.weightIn.long_name
@@ -649,7 +652,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.o.get()",
@@ -657,7 +660,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.i[0].m.get()",
@@ -697,7 +700,7 @@ def short_name_instance_access():
         )
     )
 
-    logger.debug("-----------------------------------------------------------")
+    test_str.separator()
     logger.debug(
         "{}: {}".format(
             "node.i[0].w.get()",
@@ -721,7 +724,7 @@ def short_name_instance_access():
 
 
 def connect_next_index():
-    logger.debug("================================")
+    test_str.title("connect_next_index")
     dst_node = WtAddMatrix.create("dst")
     for i in range(5):
         src_node = WtAddMatrix.create(f"src_{i}")
@@ -732,7 +735,7 @@ def connect_next_index():
 
 
 def refresh_next_index():
-    logger.debug("================================")
+    test_str.title("refresh_next_index")
     dst_node = WtAddMatrix.create("dst")
     plug = dst_node.wtMatrix.matrixIn
 

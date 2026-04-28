@@ -15,6 +15,7 @@ Attr クラスの __init__ 引数拡張と各プロパティのテスト・デ�
 import maya.cmds as cmds
 
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node._core import Node
 from .......maya.node.operator.attr.at.double import DoubleAttr
 from .......maya.node.operator.attr.at.enum import EnumAttr
@@ -83,8 +84,7 @@ def main():
 
 
 def extra_true_class_access_properties():
-    logger.debug("===========================================================")
-    logger.debug("--- 1. extra=True: class access properties ---")
+    test_str.title("1. extra=True: class access properties")
 
     attr = MyNode.myDouble
     logger.debug("{}: {}".format("MyNode.myDouble.extra", attr.extra))
@@ -127,8 +127,7 @@ def extra_true_class_access_properties():
 
 
 def extra_true_instance_access_properties():
-    logger.debug("===========================================================")
-    logger.debug("--- 2. extra=True: instance access properties ---")
+    test_str.title("2. extra=True: instance access properties")
 
     node_name = "test_extra_true_props"
     if cmds.objExists(node_name):
@@ -202,8 +201,7 @@ def extra_true_instance_access_properties():
 
 
 def add_attr_default_min_max():
-    logger.debug("===========================================================")
-    logger.debug("--- 3. add_attr(): defaultValue / minValue / maxValue ---")
+    test_str.title("3. add_attr(): defaultValue / minValue / maxValue")
 
     node_name = "test_add_attr_range"
     if cmds.objExists(node_name):
@@ -236,8 +234,7 @@ def add_attr_default_min_max():
 
 
 def add_attr_soft_min_max():
-    logger.debug("===========================================================")
-    logger.debug("--- 4. add_attr(): softMinValue / softMaxValue ---")
+    test_str.title("4. add_attr(): softMinValue / softMaxValue")
 
     node_name = "test_add_attr_soft"
     if cmds.objExists(node_name):
@@ -258,8 +255,7 @@ def add_attr_soft_min_max():
 
 
 def add_attr_enum_name():
-    logger.debug("===========================================================")
-    logger.debug("--- 5. add_attr(): EnumAttr with enum_name ---")
+    test_str.title("5. add_attr(): EnumAttr with enum_name")
 
     node_name = "test_add_attr_enum"
     if cmds.objExists(node_name):
@@ -284,8 +280,7 @@ def add_attr_enum_name():
 
 
 def add_attr_readable_writable():
-    logger.debug("===========================================================")
-    logger.debug("--- 6. add_attr(): readable / writable ---")
+    test_str.title("6. add_attr(): readable / writable")
 
     node_name = "test_add_attr_rw"
     if cmds.objExists(node_name):
@@ -313,8 +308,7 @@ def add_attr_readable_writable():
 
 
 def add_attr_data_type_string():
-    logger.debug("===========================================================")
-    logger.debug("--- 7. add_attr(): DataStringAttr uses dataType ---")
+    test_str.title("7. add_attr(): DataStringAttr uses dataType")
 
     node_name = "test_add_attr_string"
     if cmds.objExists(node_name):
@@ -352,10 +346,7 @@ def add_attr_data_type_string():
 
 
 def extra_false_query_properties():
-    logger.debug("===========================================================")
-    logger.debug(
-        "--- 8. extra=False: properties query from cmds.attributeQuery ---"
-    )
+    test_str.title("8. extra=False: properties query from cmds.attributeQuery")
 
     node_name = "test_extra_false_query"
     if cmds.objExists(node_name):

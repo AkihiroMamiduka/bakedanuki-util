@@ -4,7 +4,9 @@ DAG クラスの long_name プロパティのテスト・デモ
 """
 import maya.cmds as cmds
 
+# self
 from ....... import logger as u_logger
+from ...... import str as test_str
 from .......maya.node.operator.node.dag._core import DAG
 from .......maya.node.operator.node.dag.transform._core import Transform
 
@@ -17,8 +19,7 @@ def main():
 
 
 def long_name_root():
-    logger.debug("===========================================================")
-    logger.debug("--- long_name: ルート直下のノード ---")
+    test_str.title("long_name_root")
 
     node_name = "test_dag_root"
     if cmds.objExists(node_name):
@@ -42,8 +43,7 @@ def long_name_root():
 
 
 def long_name_under_group():
-    logger.debug("===========================================================")
-    logger.debug("--- long_name: グループ配下のノード ---")
+    test_str.title("long_name_under_group")
 
     group_name = "test_dag_group"
     child_name = "test_dag_child"
