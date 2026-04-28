@@ -102,6 +102,37 @@ class Node(metaclass=ImmutableDescriptorMeta):
         # インスタンス生成
         return cls(node)
 
+    @property
+    def namespace(self) -> str:
+        """
+        ノード名のネームスペース部分を返す。
+
+        ネームスペースが存在しない場合は空文字列を返す。
+        例: ``ns1:ns2:nodeName`` → ``"ns1:ns2"``
+            ``nodeName`` → ``""``
+
+        Returns:
+            str: ネームスペース文字列
+        """
+        if ":" in self.name:
+            return self.name.rsplit(":", 1)[0]
+        return ""
+
+    @property
+    def local_name(self) -> str:
+        """
+        ネームスペースを除いたノード名（ローカルネーム）を返す。
+
+        例: ``ns1:ns2:nodeName`` → ``"nodeName"``
+            ``nodeName`` → ``"nodeName"``
+
+        Returns:
+            str: ネームスペースなしのノード名
+        """
+        if ":" in self.name:
+            return self.name.rsplit(":", 1)[1]
+        return self.name
+
     def exists(self) -> bool:
         return cmds.objExists(self.name)
 
