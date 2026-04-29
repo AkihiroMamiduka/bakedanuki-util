@@ -10,7 +10,7 @@ Python ファイルを生成するモジュール。
 使用例::
 
     # Maya Python Script Editor で実行
-    from bd_util.maya.node.operator.attr.generate import generate_node_class_file
+    from bd_util.maya.node.operator.node.generate import generate_node_class_file
 
     generate_node_class_file(
         node_type="multiplyDivide",
@@ -136,7 +136,7 @@ def _node_type_to_file_name(node_type: str) -> str:
 
     例: ``multiplyDivide`` → ``multiply_divide.py``
     """
-    return "{}.py".format(_camel_to_snake(node_type))
+    return f"{_camel_to_snake(node_type)}.py"
 
 
 def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
@@ -166,8 +166,8 @@ def _format_str_list(items: list[str]) -> str:
     Returns:
         str: ``["a", "b"]`` 形式の文字列
     """
-    inner = ", ".join('"{}"'.format(item) for item in items)
-    return "[{}]".format(inner)
+    inner = ", ".join(f'"{item}"' for item in items)
+    return f"[{inner}]"
 
 
 def _parse_enum_names(enum_name_raw: object) -> list[str] | None:
@@ -202,7 +202,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> str:
     if attr_info.attribute_type == "enum":
         enum_names = _parse_enum_names(attr_info.enum_name)
         if enum_names:
-            args.append("enum_name={}".format(_format_str_list(enum_names)))
+            args.append(f"enum_name={_format_str_list(enum_names)}")
 
     return ", ".join(args)
 
@@ -269,11 +269,7 @@ def generate_node_class_code(
         resolved = _resolve_attr_class(attr_info)
         if resolved is None:
             attr_lines.append(
-                "    # TODO: {} (attributeType={}, dataType={}) は未対応のため手動で追加してください".format(
-                    long_name,
-                    attr_info.attribute_type,
-                    attr_info.data_type,
-                )
+                f"    # TODO: {long_name} (attributeType={attr_info.attribute_type}, dataType={attr_info.data_type}) は未対応のため手動で追加してください"
             )
             continue
 
@@ -282,19 +278,17 @@ def generate_node_class_code(
 
         # long_name の行
         init_args = _build_attr_init_args(attr_info)
-        attr_lines.append("    {} = {}({})".format(long_name, attr_cls_name, init_args))
+        attr_lines.append(f"    {long_name} = {attr_cls_name}({init_args})")
 
         # short_name のエイリアス行
         short_name = attr_info.short_name
         if short_name and short_name != long_name:
-            attr_lines.append("    {} = {}".format(short_name, long_name))
+            attr_lines.append(f"    {short_name} = {long_name}")
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
-        import_lines.append(
-            "from ...attr.{} import {}".format(mod_path, cls_name)
-        )
+        import_lines.append(f"from ...attr.{mod_path} import {cls_name}")
 
     # コード全体を組み立てる
     lines: list[str] = []
@@ -302,8 +296,8 @@ def generate_node_class_code(
     lines.extend(import_lines)
     lines.append("")
     lines.append("")
-    lines.append("class {}(DG):".format(class_name))
-    lines.append('    NODE_TYPE = "{}"'.format(node_type))
+    lines.append(f"class {class_name}(DG):")
+    lines.append(f'    NODE_TYPE = "{node_type}"')
     if attr_lines:
         lines.append("")
         lines.extend(attr_lines)
