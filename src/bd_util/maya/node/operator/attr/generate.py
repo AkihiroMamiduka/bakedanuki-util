@@ -10,18 +10,20 @@ Python ファイルを生成するモジュール。
 使用例::
 
     # Maya Python Script Editor で実行
-    from bd_util.maya.attr.generate import generate_node_class_file
+    from bd_util.maya.node.operator.attr.generate import generate_node_class_file
 
     generate_node_class_file(
         node_type="multiplyDivide",
-        output_path=r"C:/path/to/multiply_divide.py",
+        src_dir=r"C:/path/bakedanuki-util/src",
     )
+    # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dg/multiply_divide.py
 """
 from __future__ import annotations
 
 import pathlib
+import re
 
-from .query import AttrInfo, get_attribute_infos
+from ....attr.query import AttrInfo, get_attribute_infos
 
 
 # ---------------------------------------------------------------------------
@@ -97,6 +99,16 @@ _DG_BASE_LONG_NAMES: frozenset[str] = frozenset(
     }
 )
 
+# generate_node_class_file が src_dir から補完するパス部品
+_OUTPUT_REL_PARTS: tuple[str, ...] = (
+    "bd_util",
+    "maya",
+    "node",
+    "operator",
+    "node",
+    "dg",
+)
+
 
 # ---------------------------------------------------------------------------
 # 内部ユーティリティ
@@ -109,6 +121,22 @@ def _node_type_to_class_name(node_type: str) -> str:
     例: ``addDoubleLinear`` → ``AddDoubleLinear``
     """
     return node_type[0].upper() + node_type[1:]
+
+
+def _camel_to_snake(name: str) -> str:
+    """camelCase 文字列を snake_case へ変換する。
+
+    例: ``multiplyDivide`` → ``multiply_divide``
+    """
+    return re.sub(r"([A-Z])", r"_\1", name).lower().lstrip("_")
+
+
+def _node_type_to_file_name(node_type: str) -> str:
+    """ノードタイプ名をファイル名 (snake_case.py) へ変換する。
+
+    例: ``multiplyDivide`` → ``multiply_divide.py``
+    """
+    return "{}.py".format(_camel_to_snake(node_type))
 
 
 def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
@@ -127,6 +155,19 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
             return result
 
     return _AT_TYPE_MAP.get(attr_info.attribute_type)
+
+
+def _format_str_list(items: list[str]) -> str:
+    """文字列リストを ``["a", "b"]`` 形式 (ダブルクォート) で返す。
+
+    Args:
+        items (list[str]): 文字列リスト
+
+    Returns:
+        str: ``["a", "b"]`` 形式の文字列
+    """
+    inner = ", ".join('"{}"'.format(item) for item in items)
+    return "[{}]".format(inner)
 
 
 def _parse_enum_names(enum_name_raw: object) -> list[str] | None:
@@ -161,7 +202,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> str:
     if attr_info.attribute_type == "enum":
         enum_names = _parse_enum_names(attr_info.enum_name)
         if enum_names:
-            args.append(f"enum_name={enum_names!r}")
+            args.append("enum_name={}".format(_format_str_list(enum_names)))
 
     return ", ".join(args)
 
@@ -193,11 +234,6 @@ def generate_node_class_code(
         attr_infos = get_attribute_infos(node_type)
 
     class_name = _node_type_to_class_name(node_type)
-
-    # long_name → AttrInfo
-    long_name_map: dict[str, AttrInfo] = {
-        info.long_name: info for info in attr_infos
-    }
 
     # short_name → long_name  (short_name が long_name と異なる場合のみ)
     short_to_long: dict[str, str] = {}
@@ -233,9 +269,11 @@ def generate_node_class_code(
         resolved = _resolve_attr_class(attr_info)
         if resolved is None:
             attr_lines.append(
-                f"    # TODO: {long_name}"
-                f" (attributeType={attr_info.attribute_type!r},"
-                f" dataType={attr_info.data_type!r}) は未対応のため手動で追加してください"
+                "    # TODO: {} (attributeType={}, dataType={}) は未対応のため手動で追加してください".format(
+                    long_name,
+                    attr_info.attribute_type,
+                    attr_info.data_type,
+                )
             )
             continue
 
@@ -244,18 +282,18 @@ def generate_node_class_code(
 
         # long_name の行
         init_args = _build_attr_init_args(attr_info)
-        attr_lines.append(f"    {long_name} = {attr_cls_name}({init_args})")
+        attr_lines.append("    {} = {}({})".format(long_name, attr_cls_name, init_args))
 
         # short_name のエイリアス行
         short_name = attr_info.short_name
         if short_name and short_name != long_name:
-            attr_lines.append(f"    {short_name} = {long_name}")
+            attr_lines.append("    {} = {}".format(short_name, long_name))
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
         import_lines.append(
-            f"from ...attr.{mod_path} import {cls_name}"
+            "from ...attr.{} import {}".format(mod_path, cls_name)
         )
 
     # コード全体を組み立てる
@@ -264,8 +302,8 @@ def generate_node_class_code(
     lines.extend(import_lines)
     lines.append("")
     lines.append("")
-    lines.append(f"class {class_name}(DG):")
-    lines.append(f'    NODE_TYPE = "{node_type}"')
+    lines.append("class {}(DG):".format(class_name))
+    lines.append('    NODE_TYPE = "{}"'.format(node_type))
     if attr_lines:
         lines.append("")
         lines.extend(attr_lines)
@@ -276,18 +314,26 @@ def generate_node_class_code(
 
 def generate_node_class_file(
     node_type: str,
-    output_path: str | pathlib.Path,
+    src_dir: str | pathlib.Path,
     attr_infos: list[AttrInfo] | None = None,
 ) -> None:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
 
+    ``src_dir`` に src ディレクトリを指定するだけで、出力先パスを自動で構築する。
+
+    出力先::
+
+        {src_dir}/bd_util/maya/node/operator/node/dg/{snake_case_node_type}.py
+
     Args:
-        node_type (str): Maya ノードタイプ名 (例: ``"addDoubleLinear"``)
-        output_path (str | pathlib.Path): 出力先ファイルパス
+        node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
+        src_dir (str | pathlib.Path): リポジトリの src ディレクトリへのパス
+            (例: ``r"C:/path/bakedanuki-util/src"``)
         attr_infos (list[AttrInfo] | None): 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
     """
     code = generate_node_class_code(node_type, attr_infos=attr_infos)
-    output_path = pathlib.Path(output_path)
+    output_path = pathlib.Path(src_dir).joinpath(*_OUTPUT_REL_PARTS).joinpath(_node_type_to_file_name(node_type))
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(code, encoding="utf-8")
