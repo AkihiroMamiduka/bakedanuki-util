@@ -180,6 +180,12 @@ def get_attribute_infos(node_type: str) -> list[AttrInfo]:
     # アトリビュート情報確認用に代理のノードを作成
     node = cmds.createNode(node_type)
 
+    # 不明なノードタイプが渡された場合、Maya は "unknown1" のような名前でノードを作成し
+    # ノードタイプが "unknown" になる
+    if cmds.nodeType(node) == "unknown":
+        cmds.delete(node)
+        raise ValueError(f"Invalid node type: '{node_type}'")
+
     # アトリビュートの情報を取得
     attr_infos: list[AttrInfo] = []
     for attr in cmds.listAttr(node) or []:
