@@ -18,13 +18,17 @@ Python ファイルを生成するモジュール。
     )
     # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dg/multiply_divide.py
 """
+
 from __future__ import annotations
 
 import pathlib
 import re
 
+# self
 from ....attr.query import AttrInfo, get_attribute_infos
-
+from ...all_types import (
+    get_dg_node_types,
+)
 
 # ---------------------------------------------------------------------------
 # attribute_type → (クラス名, "at.モジュール名" or "dt.モジュール名")
@@ -212,6 +216,7 @@ def _build_attr_init_args(attr_info: AttrInfo) -> str:
 # ---------------------------------------------------------------------------
 
 
+# generate
 def generate_node_class_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
@@ -328,6 +333,27 @@ def generate_node_class_file(
             で自動取得する。
     """
     code = generate_node_class_code(node_type, attr_infos=attr_infos)
-    output_path = pathlib.Path(src_dir).joinpath(*_OUTPUT_REL_PARTS).joinpath(_node_type_to_file_name(node_type))
+    output_path = (
+        pathlib.Path(src_dir)
+        .joinpath(*_OUTPUT_REL_PARTS)
+        .joinpath(_node_type_to_file_name(node_type))
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(code, encoding="utf-8")
+
+
+#   node_type ごとのファイル生成
+def generate_specific_node_class_file_core(
+    src_dir: str | pathlib.Path,
+    func_get_node_types: callable,
+) -> None:
+    for node_type in func_get_node_types():
+        generate_node_class_file(node_type, src_dir)
+
+
+#       dg_node
+def generate_dg_node_class_files(src_dir: str | pathlib.Path) -> None:
+    generate_specific_node_class_file_core(
+        src_dir=src_dir,
+        func_get_node_types=get_dg_node_types,
+    )
