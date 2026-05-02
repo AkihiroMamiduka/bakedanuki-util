@@ -298,12 +298,33 @@ def _label_to_enum_member_name(label: str) -> str:
     return name.upper()
 
 
-def _safe_attr_name(name: str) -> str:
-    """Python の予約語と衝突するアトリビュート名に末尾 ``_`` を付与する。
+_DIGIT_WORD: dict[str, str] = {
+    "0": "zero",
+    "1": "one",
+    "2": "two",
+    "3": "three",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine",
+}
 
-    例: ``from`` → ``from_``、``is`` → ``is_``
+
+def _safe_attr_name(name: str) -> str:
+    """Python の予約語・数字始まりと衝突するアトリビュート名を安全な識別子へ変換する。
+
+    * Python の予約語の場合は末尾に ``_`` を付与する。
+      例: ``from`` → ``from_``、``is`` → ``is_``
+    * 先頭が数字の場合は、その数字を英単語に置き換える。
+      例: ``11w`` → ``one1w``、``3d`` → ``threed``
     """
-    return name + "_" if keyword.iskeyword(name) else name
+    if name and name[0].isdigit():
+        name = _DIGIT_WORD.get(name[0], f"digit{name[0]}") + name[1:]
+    if keyword.iskeyword(name):
+        name = name + "_"
+    return name
 
 
 def _long_name_to_enum_class_name(long_name: str) -> str:
