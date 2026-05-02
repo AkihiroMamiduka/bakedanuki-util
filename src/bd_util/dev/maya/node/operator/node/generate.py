@@ -368,7 +368,7 @@ def _long_name_to_compound_class_names(long_name: str) -> tuple[str, str]:
 
     例: ``"input2D"`` → ``("Input2DPlug", "Input2DAttr")``
     """
-    pascal = long_name[0].upper() + long_name[1:]
+    pascal = long_name[:1].upper() + long_name[1:]
     return f"{pascal}Plug", f"{pascal}Attr"
 
 
@@ -511,7 +511,7 @@ def generate_node_attr_code(
 
         # Plug クラスブロック
         plug_block: list[str] = [
-            f'class {plug_cls_name}({base_plug_cls}["{attr_cls_name}"]):',
+            f"class {plug_cls_name}({base_plug_cls}[\"{attr_cls_name}\"]):",
         ]
         if child_body_lines:
             plug_block.extend(child_body_lines)
