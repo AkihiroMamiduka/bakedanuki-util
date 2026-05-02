@@ -181,7 +181,7 @@ def to_enum_name_output():
     test_str.title("5. to_enum_name(): OperationEnum.to_enum_name() output")
 
     result = OperationEnum.to_enum_name()
-    expected = "no_operation=0:sum=1:subtract=2:average=3"
+    expected = "No operation=0:Sum=1:Subtract=2:Average=3"
     logger.debug(
         "{}: {}".format(
             "OperationEnum.to_enum_name()",
