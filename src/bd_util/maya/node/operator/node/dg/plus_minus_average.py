@@ -14,10 +14,10 @@ from ...attr.node_attr.plus_minus_average import (
 
 
 class OperationEnum(AttributeEnum):
-    no_operation = 0
-    sum = 1
-    subtract = 2
-    average = 3
+    NO_OPERATION = "No operation"
+    SUM = "Sum"
+    SUBTRACT = "Subtract"
+    AVERAGE = "Average"
 
 
 class PlusMinusAverage(DG):

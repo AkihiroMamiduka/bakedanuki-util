@@ -5,10 +5,10 @@ EnumAttr.enum / EnumPlug.enum アクセスのテスト
 テスト項目:
   1. クラスアクセス: PlusMinusAverage.operation.enum が OperationEnum クラスを返す
   2. インスタンスアクセス: node.operation.enum が OperationEnum クラスを返す
-  3. クラスアクセスでメンバー参照: PlusMinusAverage.operation.enum.sum が正しい値を返す
-  4. インスタンスアクセスでメンバー参照: node.operation.enum.sum が正しい値を返す
+  3. クラスアクセスでメンバー参照: PlusMinusAverage.operation.enum.SUM が正しい値を返す
+  4. インスタンスアクセスでメンバー参照: node.operation.enum.SUM が正しい値を返す
   5. to_enum_name(): OperationEnum.to_enum_name() の出力値を確認する
-  6. 等値比較: PlusMinusAverage.operation.enum.no_operation == 0 が True であることを確認する
+  6. 等値比較: PlusMinusAverage.operation.enum.NO_OPERATION == 0 が True であることを確認する
 """
 
 # self
@@ -91,36 +91,36 @@ def class_access_enum_member():
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "PlusMinusAverage.operation.enum.no_operation",
-            PlusMinusAverage.operation.enum.no_operation,
-            OperationEnum.no_operation,
+            "PlusMinusAverage.operation.enum.NO_OPERATION",
+            PlusMinusAverage.operation.enum.NO_OPERATION,
+            OperationEnum.NO_OPERATION,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "PlusMinusAverage.operation.enum.sum",
-            PlusMinusAverage.operation.enum.sum,
-            OperationEnum.sum,
+            "PlusMinusAverage.operation.enum.SUM",
+            PlusMinusAverage.operation.enum.SUM,
+            OperationEnum.SUM,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "PlusMinusAverage.operation.enum.subtract",
-            PlusMinusAverage.operation.enum.subtract,
-            OperationEnum.subtract,
+            "PlusMinusAverage.operation.enum.SUBTRACT",
+            PlusMinusAverage.operation.enum.SUBTRACT,
+            OperationEnum.SUBTRACT,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "PlusMinusAverage.operation.enum.average",
-            PlusMinusAverage.operation.enum.average,
-            OperationEnum.average,
+            "PlusMinusAverage.operation.enum.AVERAGE",
+            PlusMinusAverage.operation.enum.AVERAGE,
+            OperationEnum.AVERAGE,
         )
     )
 
@@ -138,36 +138,36 @@ def instance_access_enum_member():
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "node.operation.enum.no_operation",
-            node.operation.enum.no_operation,
-            OperationEnum.no_operation,
+            "node.operation.enum.NO_OPERATION",
+            node.operation.enum.NO_OPERATION,
+            OperationEnum.NO_OPERATION,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "node.operation.enum.sum",
-            node.operation.enum.sum,
-            OperationEnum.sum,
+            "node.operation.enum.SUM",
+            node.operation.enum.SUM,
+            OperationEnum.SUM,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "node.operation.enum.subtract",
-            node.operation.enum.subtract,
-            OperationEnum.subtract,
+            "node.operation.enum.SUBTRACT",
+            node.operation.enum.SUBTRACT,
+            OperationEnum.SUBTRACT,
         )
     )
 
     test_str.separator()
     logger.debug(
         "{}: {} (should be {})".format(
-            "node.operation.enum.average",
-            node.operation.enum.average,
-            OperationEnum.average,
+            "node.operation.enum.AVERAGE",
+            node.operation.enum.AVERAGE,
+            OperationEnum.AVERAGE,
         )
     )
 
@@ -203,13 +203,13 @@ def to_enum_name_output():
 
 def no_operation_equals_zero():
     test_str.title(
-        "6. equality: PlusMinusAverage.operation.enum.no_operation == 0"
+        "6. equality: PlusMinusAverage.operation.enum.NO_OPERATION == 0"
     )
 
-    result = PlusMinusAverage.operation.enum.no_operation == 0
+    result = PlusMinusAverage.operation.enum.NO_OPERATION == 0
     logger.debug(
         "{}: {} (should be True)".format(
-            "PlusMinusAverage.operation.enum.no_operation == 0",
+            "PlusMinusAverage.operation.enum.NO_OPERATION == 0",
             result,
         )
     )
