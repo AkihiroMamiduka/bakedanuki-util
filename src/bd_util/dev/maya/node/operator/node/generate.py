@@ -117,6 +117,28 @@ _OUTPUT_REL_PARTS: tuple[str, ...] = (
     "dg",
 )
 
+# generate_node_class_file が src_dir から補完する node_attr パス部品
+_NODE_ATTR_OUTPUT_REL_PARTS: tuple[str, ...] = (
+    "bd_util",
+    "maya",
+    "node",
+    "operator",
+    "attr",
+    "node_attr",
+)
+
+# 複数の数値をまとめる compound 型 → (基底 Plug クラス名, 基底 Attr クラス名, モジュールパス)
+_COMPOUND_AT_BASE: dict[str, tuple[str, str, str]] = {
+    "double2": ("Double2Plug", "Double2Attr", "at.double2"),
+    "double3": ("Double3Plug", "Double3Attr", "at.double3"),
+    "float2":  ("Float2Plug",  "Float2Attr",  "at.float2"),
+    "float3":  ("Float3Plug",  "Float3Attr",  "at.float3"),
+    "long2":   ("Long2Plug",   "Long2Attr",   "at.long2"),
+    "long3":   ("Long3Plug",   "Long3Attr",   "at.long3"),
+    "short2":  ("Short2Plug",  "Short2Attr",  "at.short2"),
+    "short3":  ("Short3Plug",  "Short3Attr",  "at.short3"),
+}
+
 
 # ---------------------------------------------------------------------------
 # 内部ユーティリティ
@@ -327,6 +349,29 @@ def _safe_attr_name(name: str) -> str:
     return name
 
 
+def _get_child_attr_name(child_long_name: str, parent_long_name: str) -> str:
+    """子アトリビュートの実際の名前を返す。マルチアトリビュートの場合は親プレフィックスを除去する。
+
+    例::
+
+        _get_child_attr_name("input2D.input2Dx", "input2D")  → "input2Dx"
+        _get_child_attr_name("output2Dx",        "output2D") → "output2Dx"
+    """
+    prefix = parent_long_name + "."
+    if child_long_name.startswith(prefix):
+        return child_long_name[len(prefix):]
+    return child_long_name
+
+
+def _long_name_to_compound_class_names(long_name: str) -> tuple[str, str]:
+    """アトリビュートの long_name を PascalCase のカスタム compound クラス名へ変換する。
+
+    例: ``"input2D"`` → ``("Input2DPlug", "Input2DAttr")``
+    """
+    pascal = long_name[0].upper() + long_name[1:]
+    return f"{pascal}Plug", f"{pascal}Attr"
+
+
 def _long_name_to_enum_class_name(long_name: str) -> str:
     """アトリビュートの long_name を PascalCase の Enum クラス名へ変換する。
 
@@ -362,6 +407,153 @@ def _build_enum_class_lines(
 # ---------------------------------------------------------------------------
 # 公開 API
 # ---------------------------------------------------------------------------
+
+
+# generate
+def generate_node_attr_code(
+    node_type: str,
+    attr_infos: list[AttrInfo] | None = None,
+) -> str | None:
+    """compound 型アトリビュート (double2/3, float2/3, long2/3, short2/3) を持つノードの
+    node_attr ファイルコードを生成する。
+
+    生成されるコードは ``bd_util.maya.node.operator.attr.node_attr`` 以下に配置する
+    ことを想定した相対インポートを使用する。
+
+    Args:
+        node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
+        attr_infos (list[AttrInfo] | None): 属性情報のリスト。
+            ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
+            で自動取得する。
+
+    Returns:
+        str | None: 生成された Python コード文字列。
+            対象の compound アトリビュートが存在しない場合は ``None``。
+    """
+    if attr_infos is None:
+        attr_infos = get_attribute_infos(
+            node_type,
+            mode_new_scene=True,
+            mode_error_skip=True,
+        )
+
+    # 子アトリビュートを親ごとにグループ化
+    compound_children_map: dict[str, list[AttrInfo]] = {}
+    for info in attr_infos:
+        if info.parent is not None:
+            parent_name = info.parent[0]
+            compound_children_map.setdefault(parent_name, []).append(info)
+
+    # compound タイプの親アトリビュートのみ対象（子が存在するものに限る）
+    compound_parents: list[AttrInfo] = [
+        info
+        for info in attr_infos
+        if (
+            info.attribute_type in _COMPOUND_AT_BASE
+            and info.parent is None
+            and compound_children_map.get(info.long_name)
+        )
+    ]
+
+    if not compound_parents:
+        return None
+
+    # インポート収集: module_path → set[class_name]
+    module_imports: dict[str, set[str]] = {}
+
+    def _add_import(cls_name: str, mod_path: str) -> None:
+        module_imports.setdefault(mod_path, set()).add(cls_name)
+
+    # 各 compound アトリビュートのクラスブロックを生成
+    class_blocks: list[list[str]] = []
+
+    for parent_info in compound_parents:
+        parent_long = parent_info.long_name
+        children = compound_children_map.get(parent_long, [])
+        if not children:
+            continue
+
+        base_plug_cls, base_attr_cls, base_module = _COMPOUND_AT_BASE[
+            parent_info.attribute_type
+        ]
+        _add_import(base_plug_cls, base_module)
+        _add_import(base_attr_cls, base_module)
+
+        plug_cls_name, attr_cls_name = _long_name_to_compound_class_names(parent_long)
+
+        # 子アトリビュート行の生成
+        child_body_lines: list[str] = []
+        for child_info in children:
+            child_name = _get_child_attr_name(child_info.long_name, parent_long)
+            child_short = child_info.short_name
+
+            child_resolved = _resolve_attr_class(child_info)
+            if child_resolved is None:
+                child_body_lines.append(
+                    f"    # TODO: {child_name}"
+                    f" (attributeType={child_info.attribute_type}) は未対応"
+                )
+                continue
+
+            child_cls_name, child_module = child_resolved
+            _add_import(child_cls_name, child_module)
+
+            safe_child_name = _safe_attr_name(child_name)
+            child_body_lines.append(f"    {safe_child_name} = {child_cls_name}()")
+            if child_short and child_short != child_name:
+                safe_child_short = _safe_attr_name(child_short)
+                child_body_lines.append(f"    {safe_child_short} = {safe_child_name}")
+            child_body_lines.append("")
+
+        # 末尾の空行を除去
+        while child_body_lines and child_body_lines[-1] == "":
+            child_body_lines.pop()
+
+        # Plug クラスブロック
+        plug_block: list[str] = [
+            f'class {plug_cls_name}({base_plug_cls}["{attr_cls_name}"]):',
+        ]
+        if child_body_lines:
+            plug_block.extend(child_body_lines)
+        else:
+            plug_block.append("    pass")
+
+        # Attr クラスブロック
+        attr_block: list[str] = [
+            f"class {attr_cls_name}({base_attr_cls}[{plug_cls_name}]):",
+            f"    PLUG_CLS = {plug_cls_name}",
+        ]
+        if child_body_lines:
+            attr_block.append("")
+            attr_block.extend(child_body_lines)
+
+        class_blocks.append(plug_block)
+        class_blocks.append(attr_block)
+
+    if not class_blocks:
+        return None
+
+    # インポート行の生成 (モジュールパスでソート、同一モジュール内はクラス名でソート)
+    import_lines: list[str] = []
+    for mod_path in sorted(module_imports.keys()):
+        cls_names = sorted(module_imports[mod_path])
+        import_lines.append(f"from ..{mod_path} import {', '.join(cls_names)}")
+
+    # コード全体を組み立てる
+    lines: list[str] = ["# coding: utf-8"]
+    lines.append("")
+    lines.extend(import_lines)
+    lines.append("")
+    lines.append("")
+
+    for i, block in enumerate(class_blocks):
+        lines.extend(block)
+        if i < len(class_blocks) - 1:
+            lines.append("")
+            lines.append("")
+    lines.append("")
+
+    return "\n".join(lines)
 
 
 # generate
@@ -415,6 +607,28 @@ def generate_node_class_code(
     # 生成するアトリビュート行
     attr_lines: list[str] = []
 
+    # compound 型の子アトリビュートを親ごとにグループ化
+    compound_children_map: dict[str, list[AttrInfo]] = {}
+    for info in attr_infos:
+        if info.parent is not None:
+            parent_name = info.parent[0]
+            compound_children_map.setdefault(parent_name, []).append(info)
+
+    # compound 型で子が存在する親アトリビュート → カスタム Attr クラス名
+    # (node_attr/{snake_case}.py で定義されるクラスを参照する)
+    custom_compound_cls: dict[str, str] = {}
+    for info in attr_infos:
+        if (
+            info.attribute_type in _COMPOUND_AT_BASE
+            and info.parent is None
+            and compound_children_map.get(info.long_name)
+        ):
+            _, attr_cls_name = _long_name_to_compound_class_names(info.long_name)
+            custom_compound_cls[info.long_name] = attr_cls_name
+
+    # node_attr モジュールからインポートするクラス名のセット
+    node_attr_imports: set[str] = set()
+
     for attr_info in attr_infos:
         long_name = attr_info.long_name
 
@@ -432,6 +646,24 @@ def generate_node_class_code(
         if long_name in short_to_long:
             continue
 
+        # コンストラクタ引数を組み立てる
+        args: list[str] = []
+        if attr_info.multi:
+            args.append("multi=True")
+
+        # compound 型で子が存在する場合はカスタムクラスを使用する
+        if long_name in custom_compound_cls:
+            attr_cls_name = custom_compound_cls[long_name]
+            node_attr_imports.add(attr_cls_name)
+            init_args = ", ".join(args)
+            safe_long_name = _safe_attr_name(long_name)
+            attr_lines.append(f"    {safe_long_name} = {attr_cls_name}({init_args})")
+            short_name = attr_info.short_name
+            if short_name and short_name != long_name:
+                safe_short_name = _safe_attr_name(short_name)
+                attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+            continue
+
         # Attr クラスを解決する
         resolved = _resolve_attr_class(attr_info)
         if resolved is None:
@@ -442,11 +674,6 @@ def generate_node_class_code(
 
         attr_cls_name, module_path = resolved
         imports[attr_cls_name] = module_path
-
-        # コンストラクタ引数を組み立てる
-        args: list[str] = []
-        if attr_info.multi:
-            args.append("multi=True")
 
         if attr_info.attribute_type == "enum":
             entries = _parse_enum_entries(attr_info.enum_name)
@@ -469,6 +696,12 @@ def generate_node_class_code(
     import_lines: list[str] = ["from ._core import DG"]
     if enum_classes:
         import_lines.append("from .....attr.enum import AttributeEnum")
+    if node_attr_imports:
+        snake_type = _camel_to_snake(node_type)
+        sorted_node_attr = ", ".join(sorted(node_attr_imports))
+        import_lines.append(
+            f"from ...attr.node_attr.{snake_type} import {sorted_node_attr}"
+        )
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
         import_lines.append(f"from ...attr.{mod_path} import {cls_name}")
 
@@ -501,9 +734,13 @@ def generate_node_class_file(
 
     ``src_dir`` に src ディレクトリを指定するだけで、出力先パスを自動で構築する。
 
+    compound 型アトリビュート (double2/3, float2/3, long2/3, short2/3) が存在する場合は、
+    node_attr ファイルも同時に生成する。
+
     出力先::
 
         {src_dir}/bd_util/maya/node/operator/node/dg/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/attr/node_attr/{snake_case_node_type}.py  (compound アトリビュートがある場合のみ)
 
     Args:
         node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
@@ -513,6 +750,25 @@ def generate_node_class_file(
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
     """
+    if attr_infos is None:
+        attr_infos = get_attribute_infos(
+            node_type,
+            mode_new_scene=True,
+            mode_error_skip=True,
+        )
+
+    # node_attr ファイルを生成 (compound アトリビュートがある場合のみ)
+    node_attr_code = generate_node_attr_code(node_type, attr_infos=attr_infos)
+    if node_attr_code:
+        node_attr_path = (
+            pathlib.Path(src_dir)
+            .joinpath(*_NODE_ATTR_OUTPUT_REL_PARTS)
+            .joinpath(_node_type_to_file_name(node_type))
+        )
+        node_attr_path.parent.mkdir(parents=True, exist_ok=True)
+        node_attr_path.write_text(node_attr_code, encoding="utf-8")
+
+    # メインのノードクラスファイルを生成
     code = generate_node_class_code(node_type, attr_infos=attr_infos)
     if not code:
         logger.warning(
