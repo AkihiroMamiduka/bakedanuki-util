@@ -229,16 +229,59 @@ def _build_attr_init_args(attr_info: AttrInfo) -> str:
     return ", ".join(args)
 
 
+# 記号をその英単語名に変換するマッピング。長い記号を先に処理する。
+_SYMBOL_WORD_MAP: list[tuple[str, str]] = [
+    ("==", "EQUAL_EQUAL"),
+    ("!=", "NOT_EQUAL"),
+    ("<=", "LESS_EQUAL"),
+    (">=", "GREATER_EQUAL"),
+    ("<", "LESS"),
+    (">", "GREATER"),
+    ("=", "EQUAL"),
+    ("!", "NOT"),
+    ("+", "PLUS"),
+    ("-", "MINUS"),
+    ("*", "STAR"),
+    ("/", "SLASH"),
+    ("&", "AMP"),
+    ("|", "PIPE"),
+    ("^", "CARET"),
+    ("~", "TILDE"),
+    ("%", "PERCENT"),
+    ("@", "AT"),
+    ("#", "HASH"),
+    ("$", "DOLLAR"),
+    ("?", "QUESTION"),
+]
+
+
 def _label_to_enum_member_name(label: str) -> str:
     """ラベル文字列を SCREAMING_SNAKE_CASE の Enum メンバー名へ変換する。
 
-    例: ``"No operation"`` → ``"NO_OPERATION"``、
-        ``"Waiting-Normal"`` → ``"WAITING_NORMAL"``、
-        ``"3D"`` → ``"_3D"`` (先頭が数字の場合はアンダースコアを付与)
+    記号ラベル (``"=="``, ``"!="`` 等) は :data:`_SYMBOL_WORD_MAP` で英単語に
+    置き換えてから変換する。
+
+    例:
+
+    * ``"No operation"`` → ``"NO_OPERATION"``
+    * ``"Waiting-Normal"`` → ``"WAITING_NORMAL"``
+    * ``"=="`` → ``"EQUAL_EQUAL"``
+    * ``"!="`` → ``"NOT_EQUAL"``
+    * ``"<="`` → ``"LESS_EQUAL"``
+    * ``"3D"`` → ``"_3D"`` (先頭が数字の場合はアンダースコアを付与)
     """
-    name = re.sub(r"[^a-zA-Z0-9]+", "_", label)
+    # 記号を英単語に置き換える
+    name = label
+    for symbol, word in _SYMBOL_WORD_MAP:
+        name = name.replace(symbol, f"_{word}_")
+
+    # 英数字以外をアンダースコアに統一し、前後の余分なアンダースコアを除去
+    name = re.sub(r"[^a-zA-Z0-9]+", "_", name)
     name = name.strip("_")
-    if name and name[0].isdigit():
+    if not name:
+        # マッピングにない記号のみからなるラベルの場合、16進エンコードで代替
+        name = "LABEL_" + label.encode().hex().upper()
+    elif name[0].isdigit():
         name = "_" + name
     return name.upper()
 
