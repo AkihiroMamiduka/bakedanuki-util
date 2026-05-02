@@ -164,25 +164,18 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
     return _AT_TYPE_MAP.get(attr_info.attribute_type)
 
 
-def _format_str_list(items: list[str]) -> str:
-    """文字列リストを ``["a", "b"]`` 形式 (ダブルクォート) で返す。
-
-    Args:
-        items (list[str]): 文字列リスト
-
-    Returns:
-        str: ``["a", "b"]`` 形式の文字列
-    """
-    inner = ", ".join(f'"{item}"' for item in items)
-    return f"[{inner}]"
-
-
-def _parse_enum_names(enum_name_raw: object) -> list[str] | None:
+def _parse_enum_entries(
+    enum_name_raw: object,
+) -> list[tuple[str, int | None]] | None:
     """``cmds.attributeQuery(..., listEnum=True)`` の戻り値をパースする。
 
-    Maya は ``["No operation:Sum:Subtract:Average"]`` のようなリストを返す。
-    コロンで分割し、``"=数値"`` サフィックス (オフセット指定) を除去した
-    文字列リストを返す。取得できない場合は ``None`` を返す。
+    Maya は ``["No operation:Sum:Subtract:Average"]`` や
+    ``["Normal:HasNoEffect:Blocking:Waiting-Normal=8:Waiting-HasNoEffect:Waiting-Blocking"]``
+    のようなリストを返す。コロンで分割し、各エントリを ``(ラベル, 明示的整数値 or None)``
+    のタプルとして返す。
+
+    明示的整数値は、前の値から連続していない場合にのみ設定される。
+    取得できない場合は ``None`` を返す。
     """
     if not enum_name_raw:
         return None
@@ -192,26 +185,86 @@ def _parse_enum_names(enum_name_raw: object) -> list[str] | None:
     else:
         raw = str(enum_name_raw)
 
-    parts = [p.split("=")[0].strip() for p in raw.split(":") if p.strip()]
-    return parts if parts else None
+    raw_parts = [p.strip() for p in raw.split(":") if p.strip()]
+    if not raw_parts:
+        return None
+
+    entries: list[tuple[str, int | None]] = []
+    next_value = 0
+    for part in raw_parts:
+        if "=" in part:
+            label, val_str = part.split("=", 1)
+            label = label.strip()
+            val = int(val_str.strip())
+        else:
+            label = part
+            val = next_value
+
+        explicit = val if val != next_value else None
+        entries.append((label, explicit))
+        next_value = val + 1
+
+    return entries if entries else None
 
 
 def _build_attr_init_args(attr_info: AttrInfo) -> str:
     """Attr コンストラクタ引数文字列を生成する。
 
-    例: ``multi=True``, ``enum_name=["Sum", "Average"]``
+    例: ``multi=True``
+
+    .. note::
+        ``enum`` 型の ``enum_name`` 引数は :func:`generate_node_class_code` 内で
+        生成された ``AttributeEnum`` サブクラス名を用いて別途設定される。
     """
     args: list[str] = []
 
     if attr_info.multi:
         args.append("multi=True")
 
-    if attr_info.attribute_type == "enum":
-        enum_names = _parse_enum_names(attr_info.enum_name)
-        if enum_names:
-            args.append(f"enum_name={_format_str_list(enum_names)}")
-
     return ", ".join(args)
+
+
+def _label_to_enum_member_name(label: str) -> str:
+    """ラベル文字列を SCREAMING_SNAKE_CASE の Enum メンバー名へ変換する。
+
+    例: ``"No operation"`` → ``"NO_OPERATION"``、
+        ``"Waiting-Normal"`` → ``"WAITING_NORMAL"``
+    """
+    name = re.sub(r"[^a-zA-Z0-9]+", "_", label)
+    name = name.strip("_")
+    return name.upper()
+
+
+def _long_name_to_enum_class_name(long_name: str) -> str:
+    """アトリビュートの long_name を PascalCase の Enum クラス名へ変換する。
+
+    例: ``"operation"`` → ``"OperationEnum"``、
+        ``"nodeState"`` → ``"NodeStateEnum"``
+    """
+    return long_name[0].upper() + long_name[1:] + "Enum"
+
+
+def _build_enum_class_lines(
+    class_name: str,
+    entries: list[tuple[str, int | None]],
+) -> list[str]:
+    """``AttributeEnum`` サブクラスのコード行リストを生成する。
+
+    Args:
+        class_name (str): 生成するクラス名 (例: ``"OperationEnum"``)
+        entries (list[tuple[str, int | None]]): ``(ラベル, 明示的整数値 or None)`` のリスト
+
+    Returns:
+        list[str]: クラス定義のコード行リスト
+    """
+    lines: list[str] = [f"class {class_name}(AttributeEnum):"]
+    for label, explicit_val in entries:
+        member_name = _label_to_enum_member_name(label)
+        if explicit_val is not None:
+            lines.append(f'    {member_name} = ("{label}", {explicit_val})')
+        else:
+            lines.append(f'    {member_name} = "{label}"')
+    return lines
 
 
 # ---------------------------------------------------------------------------
@@ -264,6 +317,9 @@ def generate_node_class_code(
     # クラス名 → "at.xxx" or "dt.xxx"
     imports: dict[str, str] = {}
 
+    # 生成する AttributeEnum サブクラス: (クラス名, エントリリスト)
+    enum_classes: list[tuple[str, list[tuple[str, int | None]]]] = []
+
     # 生成するアトリビュート行
     attr_lines: list[str] = []
 
@@ -295,8 +351,19 @@ def generate_node_class_code(
         attr_cls_name, module_path = resolved
         imports[attr_cls_name] = module_path
 
-        # long_name の行
-        init_args = _build_attr_init_args(attr_info)
+        # コンストラクタ引数を組み立てる
+        args: list[str] = []
+        if attr_info.multi:
+            args.append("multi=True")
+
+        if attr_info.attribute_type == "enum":
+            entries = _parse_enum_entries(attr_info.enum_name)
+            if entries:
+                enum_cls_name = _long_name_to_enum_class_name(long_name)
+                enum_classes.append((enum_cls_name, entries))
+                args.append(f"enum_name={enum_cls_name}")
+
+        init_args = ", ".join(args)
         attr_lines.append(f"    {long_name} = {attr_cls_name}({init_args})")
 
         # short_name のエイリアス行
@@ -306,6 +373,8 @@ def generate_node_class_code(
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
+    if enum_classes:
+        import_lines.append("from .....attr.enum import AttributeEnum")
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
         import_lines.append(f"from ...attr.{mod_path} import {cls_name}")
 
@@ -315,6 +384,10 @@ def generate_node_class_code(
     lines.extend(import_lines)
     lines.append("")
     lines.append("")
+    for enum_cls_name, entries in enum_classes:
+        lines.extend(_build_enum_class_lines(enum_cls_name, entries))
+        lines.append("")
+        lines.append("")
     lines.append(f"class {class_name}(DG):")
     lines.append(f'    NODE_TYPE = "{node_type}"')
     if attr_lines:
