@@ -192,13 +192,18 @@ def _parse_enum_entries(
     entries: list[tuple[str, int | None]] = []
     next_value = 0
     for part in raw_parts:
+        # Maya の explicit value は "ラベル=整数値" の形式。
+        # ラベル自体に "=" が含まれる場合 ("==", "!=" 等) は、
+        # 末尾の "=" から分割した右辺が純粋な非負整数の場合のみ
+        # explicit value として認識する。
+        val = next_value
+        label = part
         if "=" in part:
-            label, val_str = part.split("=", 1)
-            label = label.strip()
-            val = int(val_str.strip())
-        else:
-            label = part
-            val = next_value
+            possible_label, possible_val = part.rsplit("=", 1)
+            possible_val = possible_val.strip()
+            if possible_val.isdigit():
+                label = possible_label.strip()
+                val = int(possible_val)
 
         explicit = val if val != next_value else None
         entries.append((label, explicit))
@@ -228,10 +233,13 @@ def _label_to_enum_member_name(label: str) -> str:
     """ラベル文字列を SCREAMING_SNAKE_CASE の Enum メンバー名へ変換する。
 
     例: ``"No operation"`` → ``"NO_OPERATION"``、
-        ``"Waiting-Normal"`` → ``"WAITING_NORMAL"``
+        ``"Waiting-Normal"`` → ``"WAITING_NORMAL"``、
+        ``"3D"`` → ``"_3D"`` (先頭が数字の場合はアンダースコアを付与)
     """
     name = re.sub(r"[^a-zA-Z0-9]+", "_", label)
     name = name.strip("_")
+    if name and name[0].isdigit():
+        name = "_" + name
     return name.upper()
 
 
