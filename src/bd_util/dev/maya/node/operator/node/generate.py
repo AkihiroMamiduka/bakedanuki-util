@@ -21,6 +21,7 @@ Python ファイルを生成するモジュール。
 
 from __future__ import annotations
 
+import keyword
 import pathlib
 import re
 
@@ -133,9 +134,20 @@ def _node_type_to_class_name(node_type: str) -> str:
 def _camel_to_snake(name: str) -> str:
     """camelCase 文字列を snake_case へ変換する。
 
-    例: ``multiplyDivide`` → ``multiply_divide``
+    連続する大文字 (頭字語) はひとまとまりとして扱う。
+
+    例::
+
+        multiplyDivide      → multiply_divide
+        HIK                 → hik
+        MASH                → mash
+        HIKCharacterNode    → hik_character_node
     """
-    return re.sub(r"([A-Z])", r"_\1", name).lower().lstrip("_")
+    # 頭字語と次の単語の境界に _ を挿入 (例: HIKCharacter → HIK_Character)
+    name = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", name)
+    # 小文字/数字と大文字の境界に _ を挿入 (例: multiply_Divide → multiply_divide)
+    name = re.sub(r"([a-z\d])([A-Z])", r"\1_\2", name)
+    return name.lower().lstrip("_")
 
 
 def _node_type_to_file_name(node_type: str) -> str:
@@ -286,6 +298,14 @@ def _label_to_enum_member_name(label: str) -> str:
     return name.upper()
 
 
+def _safe_attr_name(name: str) -> str:
+    """Python の予約語と衝突するアトリビュート名に末尾 ``_`` を付与する。
+
+    例: ``from`` → ``from_``、``is`` → ``is_``
+    """
+    return name + "_" if keyword.iskeyword(name) else name
+
+
 def _long_name_to_enum_class_name(long_name: str) -> str:
     """アトリビュートの long_name を PascalCase の Enum クラス名へ変換する。
 
@@ -415,12 +435,14 @@ def generate_node_class_code(
                 args.append(f"enum_name={enum_cls_name}")
 
         init_args = ", ".join(args)
-        attr_lines.append(f"    {long_name} = {attr_cls_name}({init_args})")
+        safe_long_name = _safe_attr_name(long_name)
+        attr_lines.append(f"    {safe_long_name} = {attr_cls_name}({init_args})")
 
         # short_name のエイリアス行
         short_name = attr_info.short_name
         if short_name and short_name != long_name:
-            attr_lines.append(f"    {short_name} = {long_name}")
+            safe_short_name = _safe_attr_name(short_name)
+            attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
