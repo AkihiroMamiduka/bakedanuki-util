@@ -25,9 +25,9 @@ import pathlib
 import re
 
 # self
-from ..... import logger as u_logger
-from ....attr.query import AttrInfo, get_attribute_infos
-from ...all_types import (
+from ...... import logger as u_logger
+from ......maya.attr.query import AttrInfo, get_attribute_infos
+from ......maya.node.all_types import (
     get_dg_node_types,
 )
 
