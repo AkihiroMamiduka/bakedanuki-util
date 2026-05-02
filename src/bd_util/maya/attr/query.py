@@ -5,8 +5,14 @@ import dataclasses
 import typing
 
 # maya
+from .. import scene as u_scene
 import maya.cmds as cmds
 import maya.api.OpenMaya as om
+
+# self
+from ... import logger as u_logger
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 # get
@@ -111,12 +117,17 @@ def safe_query(func, *args, **kwargs):
 
 
 def get_attribute_info(node: str, attr: str) -> AttrInfo:
+    logger.debug(f"{node}: {attr}")
     # long / short name
     long_name = attr
-    short_name = cmds.attributeQuery(attr, node=node, shortName=True)
+    short_name = safe_query(
+        cmds.attributeQuery, attr, node=node, shortName=True
+    )
 
     # attributeType / dataType
-    attribute_type = cmds.attributeQuery(attr, node=node, attributeType=True)
+    attribute_type = safe_query(
+        cmds.attributeQuery, attr, node=node, attributeType=True
+    )
     data_type = get_data_type_name(node, attr)
 
     # default value
@@ -135,25 +146,27 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
     )
 
     # enum
-    enum_name = cmds.attributeQuery(attr, node=node, listEnum=True)
+    enum_name = safe_query(cmds.attributeQuery, attr, node=node, listEnum=True)
 
     # multi
-    multi = cmds.attributeQuery(attr, node=node, multi=True)
+    multi = safe_query(cmds.attributeQuery, attr, node=node, multi=True)
 
     # number of children
-    number_of_children = cmds.attributeQuery(
-        attr, node=node, numberOfChildren=True
+    number_of_children = safe_query(
+        cmds.attributeQuery, attr, node=node, numberOfChildren=True
     )
 
     # parent
-    parent = cmds.attributeQuery(attr, node=node, listParent=True)
+    parent = safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
 
     # readable / writable
-    readable = cmds.attributeQuery(attr, node=node, readable=True)
-    writable = cmds.attributeQuery(attr, node=node, writable=True)
+    readable = safe_query(cmds.attributeQuery, attr, node=node, readable=True)
+    writable = safe_query(cmds.attributeQuery, attr, node=node, writable=True)
 
     # category
-    category = cmds.attributeQuery(attr, node=node, categories=True)
+    category = safe_query(
+        cmds.attributeQuery, attr, node=node, categories=True
+    )
 
     # 情報をまとめる
     return AttrInfo(
@@ -176,15 +189,40 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
     )
 
 
-def get_attribute_infos(node_type: str) -> list[AttrInfo]:
-    # アトリビュート情報確認用に代理のノードを作成
-    node = cmds.createNode(node_type)
+def get_attribute_infos(
+    node_type: str,
+    mode_new_scene: bool = False,
+    mode_error_skip: bool = False,
+) -> list[AttrInfo]:
+    def _post_process(node: str):
+        # ノードを削除するか新規シーンにするか
+        if mode_new_scene:
+            u_scene.new_scene()
+        else:
+            cmds.delete(node)
 
-    # 不明なノードタイプが渡された場合、Maya は "unknown1" のような名前でノードを作成し
-    # ノードタイプが "unknown" になる
+    logger.debug(f"node_type: {node_type}")
+
+    # アトリビュート情報確認用に代理のノードを作成
+    try:
+        node = cmds.createNode(node_type)
+    except Exception:
+        if mode_error_skip:
+            logger.warning(
+                f"Failed to create node of type '{node_type}'. Skipping."
+            )
+            return []
+        else:
+            raise ValueError(f"Invalid node type: '{node_type}'")
+
+    # 不明なノードタイプの場合は例外を出す
     if cmds.nodeType(node) == "unknown":
-        cmds.delete(node)
-        raise ValueError(f"Invalid node type: '{node_type}'")
+        _post_process(node)
+        if mode_error_skip:
+            logger.warning(f"Node type '{node_type}' is unknown. Skipping.")
+            return []
+        else:
+            raise ValueError(f"Invalid node type: '{node_type}'")
 
     # アトリビュートの情報を取得
     attr_infos: list[AttrInfo] = []
@@ -192,7 +230,7 @@ def get_attribute_infos(node_type: str) -> list[AttrInfo]:
         attr_infos.append(get_attribute_info(node, attr))
 
     # ノードを削除
-    cmds.delete(node)
+    _post_process(node)
 
     # 戻り値
     return attr_infos

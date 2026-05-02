@@ -25,10 +25,13 @@ import pathlib
 import re
 
 # self
+from ..... import logger as u_logger
 from ....attr.query import AttrInfo, get_attribute_infos
 from ...all_types import (
     get_dg_node_types,
 )
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 # ---------------------------------------------------------------------------
 # attribute_type → (クラス名, "at.モジュール名" or "dt.モジュール名")
@@ -236,7 +239,18 @@ def generate_node_class_code(
         str: 生成された Python コード文字列
     """
     if attr_infos is None:
-        attr_infos = get_attribute_infos(node_type)
+        attr_infos = get_attribute_infos(
+            node_type,
+            mode_new_scene=True,
+            mode_error_skip=True,
+        )
+
+    # attr_infos が空の場合は警告を出して空のクラスコードを返す
+    if not attr_infos:
+        logger.warning(
+            f"No attribute infos found for node type '{node_type}'. Generating empty class."
+        )
+        attr_infos = []
 
     class_name = _node_type_to_class_name(node_type)
 
@@ -333,6 +347,11 @@ def generate_node_class_file(
             で自動取得する。
     """
     code = generate_node_class_code(node_type, attr_infos=attr_infos)
+    if not code:
+        logger.warning(
+            f"Generated code for node type '{node_type}' is empty. Skipping file generation."
+        )
+        return
     output_path = (
         pathlib.Path(src_dir)
         .joinpath(*_OUTPUT_REL_PARTS)
