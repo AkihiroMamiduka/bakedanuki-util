@@ -7,6 +7,8 @@ EnumAttr.enum / EnumPlug.enum アクセスのテスト
   2. インスタンスアクセス: node.operation.enum が OperationEnum クラスを返す
   3. クラスアクセスでメンバー参照: PlusMinusAverage.operation.enum.sum が正しい値を返す
   4. インスタンスアクセスでメンバー参照: node.operation.enum.sum が正しい値を返す
+  5. to_enum_name(): OperationEnum.to_enum_name() の出力値を確認する
+  6. 等値比較: PlusMinusAverage.operation.enum.no_operation == 0 が True であることを確認する
 """
 
 # self
@@ -25,6 +27,8 @@ def main():
     instance_access_returns_enum_class()
     class_access_enum_member()
     instance_access_enum_member()
+    to_enum_name_output()
+    no_operation_equals_zero()
 
 
 # ---------------------------------------------------------------------------
@@ -164,5 +168,48 @@ def instance_access_enum_member():
             "node.operation.enum.average",
             node.operation.enum.average,
             OperationEnum.average,
+        )
+    )
+
+
+# ---------------------------------------------------------------------------
+# 5. to_enum_name(): OperationEnum.to_enum_name() の出力値を確認する
+# ---------------------------------------------------------------------------
+
+
+def to_enum_name_output():
+    test_str.title("5. to_enum_name(): OperationEnum.to_enum_name() output")
+
+    result = OperationEnum.to_enum_name()
+    expected = "no_operation=0:sum=1:subtract=2:average=3"
+    logger.debug(
+        "{}: {}".format(
+            "OperationEnum.to_enum_name()",
+            result,
+        )
+    )
+    logger.debug(
+        "{}: {} (should be True)".format(
+            f"== '{expected}'",
+            result == expected,
+        )
+    )
+
+
+# ---------------------------------------------------------------------------
+# 6. 等値比較: no_operation == 0 が True であることを確認する
+# ---------------------------------------------------------------------------
+
+
+def no_operation_equals_zero():
+    test_str.title(
+        "6. equality: PlusMinusAverage.operation.enum.no_operation == 0"
+    )
+
+    result = PlusMinusAverage.operation.enum.no_operation == 0
+    logger.debug(
+        "{}: {} (should be True)".format(
+            "PlusMinusAverage.operation.enum.no_operation == 0",
+            result,
         )
     )
