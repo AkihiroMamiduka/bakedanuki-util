@@ -36,6 +36,42 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
         """
         return self._enum_cls
 
+    @overload
+    def __init__(
+        self,
+        enum_name: Type[E],
+        multi: bool = ...,
+        extra: bool = ...,
+        default_value: Any = ...,
+        min_value: Any = ...,
+        max_value: Any = ...,
+        soft_min_value: Any = ...,
+        soft_max_value: Any = ...,
+        number_of_children: int | None = ...,
+        parent: str | None = ...,
+        readable: bool | None = ...,
+        writable: bool | None = ...,
+        category: str | None = ...,
+    ) -> None: ...
+
+    @overload
+    def __init__(
+        self,
+        enum_name: list[str] | str | None = ...,
+        multi: bool = ...,
+        extra: bool = ...,
+        default_value: Any = ...,
+        min_value: Any = ...,
+        max_value: Any = ...,
+        soft_min_value: Any = ...,
+        soft_max_value: Any = ...,
+        number_of_children: int | None = ...,
+        parent: str | None = ...,
+        readable: bool | None = ...,
+        writable: bool | None = ...,
+        category: str | None = ...,
+    ) -> None: ...
+
     def __init__(
         self,
         enum_name: Type[E] | list[str] | str | None = None,
