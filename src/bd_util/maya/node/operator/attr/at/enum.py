@@ -26,6 +26,16 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
     ATTR_TYPE = "enum"
     PLUG_CLS = EnumPlug
 
+    @property
+    def enum(self) -> type[E]:
+        """
+        EnumAttr に紐付いた AttributeEnum サブクラスを返す。
+
+        Returns:
+            type[E]: AttributeEnum サブクラス。
+        """
+        return self._enum_cls
+
     def __init__(
         self,
         enum_name: Type[E] | list[str] | str | None = None,
