@@ -2,11 +2,21 @@
 
 # self
 from .._core import Node
+from .....attr.enum import AttributeEnum
 from ...attr.at.bool import BoolAttr
 from ...attr.at.byte import ByteAttr
 from ...attr.at.enum import EnumAttr
 from ...attr.at.message import MessageAttr
 from ...attr.dt.string import DataStringAttr
+
+
+class NodeStateEnum(AttributeEnum):
+    NORMAL = "Normal"
+    HAS_NO_EFFECT = "Has no effect"
+    BLOCKING = "Blocking"
+    WAITING_NORMAL = ("Waiting normal", 8)
+    WAITING_HAS_NO_EFFECT = "Waiting has no effect"
+    WAITING_BLOCKING = "Waiting blocking"
 
 
 class DG(Node):
@@ -18,16 +28,7 @@ class DG(Node):
     fzn = frozen
     isHistoricallyInteresting = ByteAttr()
     ihi = isHistoricallyInteresting
-    nodeState = EnumAttr(
-        enum_name=[
-            "Normal",
-            "HasNoEffect",
-            "Blocking",
-            "Waiting-Normal=8",
-            "Waiting-HasNoEffect",
-            "Waiting-Blocking",
-        ]
-    )
+    nodeState = EnumAttr(enum_name=NodeStateEnum)
     nds = nodeState
     binMembership = DataStringAttr()
     bnm = binMembership

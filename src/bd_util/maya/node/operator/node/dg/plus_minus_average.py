@@ -2,6 +2,7 @@
 
 # self
 from ._core import DG
+from .....attr.enum import AttributeEnum
 from ...attr.at.float import FloatAttr
 from ...attr.at.enum import EnumAttr
 from ...attr.node_attr.plus_minus_average import (
@@ -12,12 +13,17 @@ from ...attr.node_attr.plus_minus_average import (
 )
 
 
+class OperationEnum(AttributeEnum):
+    NO_OPERATION = "No operation"
+    SUM = "Sum"
+    SUBTRACT = "Subtract"
+    AVERAGE = "Average"
+
+
 class PlusMinusAverage(DG):
     NODE_TYPE = "plusMinusAverage"
 
-    operation = EnumAttr(
-        enum_name=["No operation", "Sum", "Subtract", "Average"]
-    )
+    operation = EnumAttr(enum_name=OperationEnum)
     op = operation
     input1D = FloatAttr(multi=True)
     i1 = input1D

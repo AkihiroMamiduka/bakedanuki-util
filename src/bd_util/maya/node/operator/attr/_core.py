@@ -21,13 +21,13 @@ class Plug(Generic[A]):
     def __init__(
         self,
         node: Node,
-        attr: Type[A],
+        attr: A,
         attr_path: str,
         multi: bool = False,
         index: int = None,
     ):
         self._node: Node = node
-        self._attr: Type[A] = attr
+        self._attr: A = attr
         self.multi: bool = multi
         self.index: int = index
         self._attr_path: str = self._create_attr_path(
