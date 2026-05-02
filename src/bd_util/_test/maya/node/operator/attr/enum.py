@@ -14,6 +14,7 @@ EnumAttr.enum / EnumPlug.enum アクセスのテスト
 # self
 from ...... import logger as u_logger
 from ..... import str as test_str
+from ......maya.node.operator.node.dg._core import DG
 from ......maya.node.operator.node.dg.plus_minus_average import (
     OperationEnum,
     PlusMinusAverage,
@@ -37,7 +38,9 @@ def main():
 
 
 def class_access_returns_enum_class():
-    test_str.title("1. class access: EnumAttr.enum returns OperationEnum class")
+    test_str.title(
+        "1. class access: EnumAttr.enum returns OperationEnum class"
+    )
 
     enum_cls = PlusMinusAverage.operation.enum
     logger.debug(
@@ -140,7 +143,7 @@ def instance_access_enum_member():
         "{}: {} (should be {})".format(
             "node.operation.enum.NO_OPERATION",
             node.operation.enum.NO_OPERATION,
-            OperationEnum.NO_OPERATION,
+            PlusMinusAverage.operation.enum.NO_OPERATION,
         )
     )
 
@@ -149,7 +152,7 @@ def instance_access_enum_member():
         "{}: {} (should be {})".format(
             "node.operation.enum.SUM",
             node.operation.enum.SUM,
-            OperationEnum.SUM,
+            PlusMinusAverage.operation.enum.SUM,
         )
     )
 
@@ -158,7 +161,7 @@ def instance_access_enum_member():
         "{}: {} (should be {})".format(
             "node.operation.enum.SUBTRACT",
             node.operation.enum.SUBTRACT,
-            OperationEnum.SUBTRACT,
+            PlusMinusAverage.operation.enum.SUBTRACT,
         )
     )
 
@@ -167,24 +170,34 @@ def instance_access_enum_member():
         "{}: {} (should be {})".format(
             "node.operation.enum.AVERAGE",
             node.operation.enum.AVERAGE,
-            OperationEnum.AVERAGE,
+            PlusMinusAverage.operation.enum.AVERAGE,
         )
     )
 
 
 # ---------------------------------------------------------------------------
-# 5. to_enum_name(): OperationEnum.to_enum_name() の出力値を確認する
+# 5. to_enum_name(): AttributeEnum.to_enum_name() の出力値を確認する
 # ---------------------------------------------------------------------------
 
 
 def to_enum_name_output():
-    test_str.title("5. to_enum_name(): OperationEnum.to_enum_name() output")
+    test_str.title("5. to_enum_name(): AttributeEnum.to_enum_name() output")
 
-    result = OperationEnum.to_enum_name()
+    result = DG.nodeState.enum.to_enum_name()
+    expected = "Normal:HasNoEffect:Blocking:Waiting-Normal=8:Waiting-HasNoEffect:Waiting-Blocking"
+    logger.debug(
+        "{}: {}".format(
+            "DG.nodeState.enum.to_enum_name()",
+            result,
+        )
+    )
+
+    test_str.separator()
+    result = PlusMinusAverage.operation.enum.to_enum_name()
     expected = "No operation=0:Sum=1:Subtract=2:Average=3"
     logger.debug(
         "{}: {}".format(
-            "OperationEnum.to_enum_name()",
+            "PlusMinusAverage.operation.enum.to_enum_name()",
             result,
         )
     )

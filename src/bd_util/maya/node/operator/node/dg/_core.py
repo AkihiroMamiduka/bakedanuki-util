@@ -12,11 +12,11 @@ from ...attr.dt.string import DataStringAttr
 
 class NodeStateEnum(AttributeEnum):
     NORMAL = "Normal"
-    HAS_NO_EFFECT = "Has no effect"
+    HAS_NO_EFFECT = "HasNoEffect"
     BLOCKING = "Blocking"
-    WAITING_NORMAL = ("Waiting normal", 8)
-    WAITING_HAS_NO_EFFECT = "Waiting has no effect"
-    WAITING_BLOCKING = "Waiting blocking"
+    WAITING_NORMAL = ("Waiting-Normal", 8)
+    WAITING_HAS_NO_EFFECT = "Waiting-HasNoEffect"
+    WAITING_BLOCKING = "WWaiting-Blocking"
 
 
 class DG(Node):
