@@ -10,7 +10,7 @@ from .._core import Attr, Plug
 E = TypeVar("E", bound=AttributeEnum)
 
 
-class EnumPlug(Plug["EnumAttr"], Generic[E]):
+class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
     @property
     def enum(self) -> type[E]:
         """
@@ -19,7 +19,7 @@ class EnumPlug(Plug["EnumAttr"], Generic[E]):
         Returns:
             type[E]: AttributeEnum サブクラス。
         """
-        return self._attr._enum_cls
+        return self._attr._enum_cls  # type: ignore[return-value]
 
 
 class EnumAttr(Attr[EnumPlug], Generic[E]):
@@ -34,7 +34,7 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
         Returns:
             type[E]: AttributeEnum サブクラス。
         """
-        return self._enum_cls
+        return self._enum_cls  # type: ignore[return-value]
 
     @overload
     def __init__(
