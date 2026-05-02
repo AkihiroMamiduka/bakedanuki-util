@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Any, Generic, Type, TypeVar
+from typing import Any, Generic, Self, Type, TypeVar, overload
 
 # self
 from .....attr.enum import AttributeEnum
@@ -68,3 +68,12 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
             writable=writable,
             category=category,
         )
+
+    @overload
+    def __get__(self, instance: None, owner: type) -> Self: ...
+
+    @overload
+    def __get__(self, instance: object, owner: type) -> EnumPlug[E]: ...
+
+    def __get__(self, instance: object | None, owner: type) -> Self | EnumPlug[E]:
+        return super().__get__(instance, owner)  # type: ignore[return-value]

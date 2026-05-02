@@ -23,7 +23,6 @@ class OperationEnum(AttributeEnum):
 class PlusMinusAverage(DG):
     NODE_TYPE = "plusMinusAverage"
 
-    operation: EnumAttr[OperationEnum]
     operation = EnumAttr(enum_name=OperationEnum)
     op = operation
     input1D = FloatAttr(multi=True)

@@ -28,7 +28,6 @@ class DG(Node):
     fzn = frozen
     isHistoricallyInteresting = ByteAttr()
     ihi = isHistoricallyInteresting
-    nodeState: EnumAttr[NodeStateEnum]
     nodeState = EnumAttr(enum_name=NodeStateEnum)
     nds = nodeState
     binMembership = DataStringAttr()
