@@ -8,8 +8,7 @@ Node / Plug の文字列アクセス（__getitem__）のテスト
   3. node["attrName.subAttr"]   : ドット区切りによるサブアトリビュートへの文字列アクセス
   4. node["attrName[0].subAttr"]: インデックス + ドット区切りの複合文字列アクセス
   5. plug["subAttr"]            : Plug からのサブアトリビュートへの文字列アクセス
-  6. plug["subAttr[0]"]         : Plug からのインデックス付き文字列アクセス
-  7. plug 文字列の一致確認       : 取得した Plug の plug 文字列が期待値と一致するか
+  6. plug 文字列の一致確認       : 取得した Plug の plug 文字列が期待値と一致するか
 """
 
 # self

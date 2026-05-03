@@ -155,18 +155,12 @@ class Node(metaclass=ImmutableDescriptorMeta):
             AttributeError: アトリビュートが見つからない場合
             ValueError: キーの書式が不正な場合
         """
-        from ..attr._core import _make_dynamic_plug  # 循環インポート回避のため遅延インポート
+        from ..attr._core import _make_dynamic_plug, _parse_attr_segment  # 循環インポート回避のため遅延インポート
 
         segments = key.split(".")
 
         # 最初のセグメントを処理する（名前 + オプションのインデックス）
-        first_segment = segments[0]
-        if "[" in first_segment:
-            attr_name, rest = first_segment.split("[", 1)
-            index = int(rest.rstrip("]"))
-        else:
-            attr_name = first_segment
-            index = None
+        attr_name, index = _parse_attr_segment(segments[0])
 
         plug = _make_dynamic_plug(self, attr_name, "")
         if index is not None:

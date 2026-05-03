@@ -163,12 +163,7 @@ class Plug(Generic[A]):
             )
             return plug
         elif isinstance(key, str):
-            if "[" in key:
-                attr_name, rest = key.split("[", 1)
-                index = int(rest.rstrip("]"))
-            else:
-                attr_name = key
-                index = None
+            attr_name, index = _parse_attr_segment(key)
             plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
             if index is not None:
                 plug = plug[index]
@@ -421,6 +416,38 @@ class Plug(Generic[A]):
         self._attr.add_attr(self._node.name)
 
 
+def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
+    """
+    "attrName[0]" や "attrName" 形式の文字列を、アトリビュート名とインデックスに分解する。
+
+    Args:
+        segment (str): "attrName" または "attrName[index]" 形式の文字列
+
+    Returns:
+        tuple[str, int | None]: (アトリビュート名, インデックス or None)
+
+    Raises:
+        ValueError: "[" と "]" の対応が取れていないまたは index が整数でない場合
+    """
+    if "[" not in segment:
+        return segment, None
+
+    if not segment.endswith("]"):
+        raise ValueError(
+            f"アトリビュートキーの書式が不正です: '{segment}'"
+            " (例: 'attrName[0]')"
+        )
+    attr_name, bracket = segment.split("[", 1)
+    index_str = bracket[:-1]  # "]" を除去
+    try:
+        index = int(index_str)
+    except ValueError:
+        raise ValueError(
+            f"アトリビュートキーのインデックスが整数ではありません: '{segment}'"
+        )
+    return attr_name, index
+
+
 def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -> Plug:
     """
     ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
@@ -453,11 +480,17 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
     try:
         multi = bool(cmds.attributeQuery(attr_name, node=node.name, multi=True))
     except Exception:
+        logger.debug(
+            f"attributeQuery multi failed for '{node.name}.{attr_name}': defaulting to False"
+        )
         multi = False
 
     try:
         short_name = cmds.attributeQuery(attr_name, node=node.name, shortName=True)
     except Exception:
+        logger.debug(
+            f"attributeQuery shortName failed for '{node.name}.{attr_name}': using long name"
+        )
         short_name = attr_name
 
     attr_path = f"{parent_attr_path}.{attr_name}" if parent_attr_path else attr_name
