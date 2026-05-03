@@ -128,33 +128,52 @@ class Plug(Generic[A]):
     # [] アクセス
     def __getitem__(
         self,
-        index: int,
-    ) -> Self:
+        key: int | str,
+    ) -> Plug:
         """
-        [index]指定された、自身の Plug を返す
+        [index] 指定（int）または文字列によるサブアトリビュートアクセス（str）を行い、
+        対応する Plug を返す。
+
+        int を渡すと既存の multi アトリビュート用インデックスアクセスとして動作する。
+        str を渡すと、サブアトリビュート名から動的に Plug を生成して返す。
+        str には "subAttr" または "subAttr[0]" 形式を使用できる。
 
         Args:
-            index (int): インデックス
+            key (int | str): インデックス（int）またはサブアトリビュート名（str）
 
         Raises:
-            AttributeError: 親アトリビュートが[index]アクセスされている場合、
-                            さらに[index]アクセスするアトリビュートは無い為、エラー
+            AttributeError: 親アトリビュートが [index] アクセスされている場合に
+                            さらに int インデックスアクセスしようとした場合
+            AttributeError: 指定した文字列アトリビュートがノードに存在しない場合
+            TypeError: int / str 以外の型が渡された場合
 
         Returns:
-            Self: [index]指定された自身の plug
+            Plug: 対応する Plug インスタンス
         """
-        if self.name.endswith("]"):
-            raise AttributeError(
-                f"{self.plug} は [{index}] アクセスができません"
+        if isinstance(key, int):
+            if self.name.endswith("]"):
+                raise AttributeError(
+                    f"{self.plug} は [{key}] アクセスができません"
+                )
+            plug: Self = type(self)(
+                node=self._node,
+                attr=self._attr,
+                attr_path=self._attr._attr_path,
+                index=key,
             )
-
-        plug: Self = type(self)(
-            node=self._node,
-            attr=self._attr,
-            attr_path=self._attr._attr_path,
-            index=index,
-        )
-        return plug
+            return plug
+        elif isinstance(key, str):
+            if "[" in key:
+                attr_name, rest = key.split("[", 1)
+                index = int(rest.rstrip("]"))
+            else:
+                attr_name = key
+                index = None
+            plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
+            if index is not None:
+                plug = plug[index]
+            return plug
+        raise TypeError(f"キーの型が不正です: {type(key)}")
 
     def _create_attr_path(self, parent_attr_path: str) -> str:
         """
@@ -400,6 +419,62 @@ class Plug(Generic[A]):
         既に存在する場合はスキップする。
         """
         self._attr.add_attr(self._node.name)
+
+
+def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -> Plug:
+    """
+    ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
+
+    lookup_attr_cls でアトリビュート型を特定し、対応する Attr インスタンスを
+    動的に生成する。デスクリプタ経由のキャッシュと干渉しないよう、
+    生成した Plug はノードのキャッシュには格納しない。
+
+    Args:
+        node (Node): 対象ノードのインスタンス
+        attr_name (str): アトリビュート名（短縮名または長名）
+        parent_attr_path (str): 親アトリビュートの attr_path。
+            最上位アトリビュートの場合は空文字列を渡す。
+
+    Returns:
+        Plug: 対応する Plug インスタンス
+
+    Raises:
+        AttributeError: ノードにアトリビュートが存在しない、または
+            対応する Attr クラスが見つからない場合
+    """
+    from .lookup import lookup_attr_cls  # 循環インポート回避のため遅延インポート
+
+    attr_cls = lookup_attr_cls(node.name, attr_name)
+    if attr_cls is None:
+        raise AttributeError(
+            f"'{node.name}' にアトリビュート '{attr_name}' の対応クラスが見つかりません"
+        )
+
+    try:
+        multi = bool(cmds.attributeQuery(attr_name, node=node.name, multi=True))
+    except Exception:
+        multi = False
+
+    try:
+        short_name = cmds.attributeQuery(attr_name, node=node.name, shortName=True)
+    except Exception:
+        short_name = attr_name
+
+    attr_path = f"{parent_attr_path}.{attr_name}" if parent_attr_path else attr_name
+
+    attr = attr_cls(multi=multi)
+    object.__setattr__(attr, "name", attr_name)
+    object.__setattr__(attr, "long_name", attr_name)
+    object.__setattr__(attr, "short_name", short_name)
+    object.__setattr__(attr, "_attr_path", attr_path)
+    object.__setattr__(attr, "_node", node)
+
+    return attr.PLUG_CLS(
+        node=node,
+        attr=attr,
+        attr_path=parent_attr_path,
+        multi=multi,
+    )
 
 
 class Attr(ImmutableDescriptor, Generic[P]):
