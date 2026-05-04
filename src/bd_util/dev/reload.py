@@ -24,7 +24,7 @@ def _remove_pycache():
         shutil.rmtree(path, ignore_errors=True)
 
 
-def reload_package(clear_pycache=False):
+def reload_package(clear_pycache: bool = False):
     """
     パッケージをリロードする
 
@@ -39,4 +39,5 @@ def reload_package(clear_pycache=False):
     # パッケージ内のすべてのモジュールをリロードする
     modules = [name for name in sys.modules if name.startswith(PACKAGE_NAME)]
     for name in reversed(modules):
-        importlib.reload(sys.modules[name])
+        if name in sys.modules:
+            importlib.reload(sys.modules[name])
