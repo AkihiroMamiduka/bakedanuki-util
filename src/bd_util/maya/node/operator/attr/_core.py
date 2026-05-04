@@ -393,6 +393,75 @@ class Plug(Generic[A]):
         cmds.disconnectAttr(src, dst)
         return self
 
+    # connection
+    @property
+    def src_name(self) -> str | None:
+        """
+        接続元のノード名を返す
+
+        Returns:
+            str | None: 接続元ノード名。接続がなければ None。
+        """
+        result = cmds.listConnections(
+            self.plug,
+            source=True,
+            destination=False,
+            plugs=False,
+        )
+        if result:
+            return result[0]
+        return None
+
+    @property
+    def src_plug(self) -> str | None:
+        """
+        接続元の "node.attr" 形式の plug 文字列を返す
+
+        Returns:
+            str | None: 接続元の plug 文字列。接続がなければ None。
+        """
+        result = cmds.listConnections(
+            self.plug,
+            source=True,
+            destination=False,
+            plugs=True,
+        )
+        if result:
+            return result[0]
+        return None
+
+    @property
+    def dst_names(self) -> list[str]:
+        """
+        接続先のノード名一覧を返す
+
+        Returns:
+            list[str]: 接続先ノード名のリスト。接続がなければ空リスト。
+        """
+        result = cmds.listConnections(
+            self.plug,
+            source=False,
+            destination=True,
+            plugs=False,
+        )
+        return result if result else []
+
+    @property
+    def dst_plugs(self) -> list[str]:
+        """
+        接続先の "node.attr" 形式の plug 文字列一覧を返す
+
+        Returns:
+            list[str]: 接続先の plug 文字列のリスト。接続がなければ空リスト。
+        """
+        result = cmds.listConnections(
+            self.plug,
+            source=False,
+            destination=True,
+            plugs=True,
+        )
+        return result if result else []
+
     # addAttr
     def add_attr(self):
         """
