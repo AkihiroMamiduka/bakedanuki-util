@@ -185,8 +185,8 @@ class Plug(Generic[A]):
             return self.name
 
         # mulit_attr の index アクセスの場合
-        if self.name.endswith("]"):
-            return self.name
+        if self.index is not None:
+            return f"{parent_attr_path}[{self.index}]"
 
         # attr_path を生成する
         return f"{parent_attr_path}.{self.name}"
@@ -430,6 +430,13 @@ def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
         ValueError: "[" と "]" の対応が取れていないまたは index が整数でない場合
     """
     if "[" not in segment:
+        if "]" in segment:
+            raise ValueError(
+                f"アトリビュートキーの書式が不正です: '{segment}'"
+                " (例: 'attrName[0]')"
+            )
+        if not segment:
+            raise ValueError("アトリビュートキーのセグメントが空文字列です")
         return segment, None
 
     if not segment.endswith("]"):
@@ -478,26 +485,34 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
         )
 
     try:
-        multi = bool(cmds.attributeQuery(attr_name, node=node.name, multi=True))
-    except Exception:
+        long_name = cmds.attributeQuery(attr_name, node=node.name, longName=True)
+    except RuntimeError:
         logger.debug(
-            f"attributeQuery multi failed for '{node.name}.{attr_name}': defaulting to False"
+            f"attributeQuery longName failed for '{node.name}.{attr_name}': using input name"
+        )
+        long_name = attr_name
+
+    try:
+        multi = bool(cmds.attributeQuery(long_name, node=node.name, multi=True))
+    except RuntimeError:
+        logger.debug(
+            f"attributeQuery multi failed for '{node.name}.{long_name}': defaulting to False"
         )
         multi = False
 
     try:
-        short_name = cmds.attributeQuery(attr_name, node=node.name, shortName=True)
-    except Exception:
+        short_name = cmds.attributeQuery(long_name, node=node.name, shortName=True)
+    except RuntimeError:
         logger.debug(
-            f"attributeQuery shortName failed for '{node.name}.{attr_name}': using long name"
+            f"attributeQuery shortName failed for '{node.name}.{long_name}': using long name"
         )
-        short_name = attr_name
+        short_name = long_name
 
-    attr_path = f"{parent_attr_path}.{attr_name}" if parent_attr_path else attr_name
+    attr_path = f"{parent_attr_path}.{long_name}" if parent_attr_path else long_name
 
     attr = attr_cls(multi=multi)
-    object.__setattr__(attr, "name", attr_name)
-    object.__setattr__(attr, "long_name", attr_name)
+    object.__setattr__(attr, "name", long_name)
+    object.__setattr__(attr, "long_name", long_name)
     object.__setattr__(attr, "short_name", short_name)
     object.__setattr__(attr, "_attr_path", attr_path)
     object.__setattr__(attr, "_node", node)

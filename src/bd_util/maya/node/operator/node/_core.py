@@ -153,11 +153,17 @@ class Node(metaclass=ImmutableDescriptorMeta):
 
         Raises:
             AttributeError: アトリビュートが見つからない場合
+            TypeError: key が str 以外の型の場合
             ValueError: キーの書式が不正な場合
         """
         from ..attr._core import _make_dynamic_plug, _parse_attr_segment  # 循環インポート回避のため遅延インポート
 
+        if not isinstance(key, str):
+            raise TypeError(f"キーの型は str でなければなりません: {type(key)}")
+
         segments = key.split(".")
+        if any(s == "" for s in segments):
+            raise ValueError(f"アトリビュートキーに空セグメントが含まれています: '{key}'")
 
         # 最初のセグメントを処理する（名前 + オプションのインデックス）
         attr_name, index = _parse_attr_segment(segments[0])
