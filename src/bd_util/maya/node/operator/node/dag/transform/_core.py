@@ -12,14 +12,14 @@ class Transform(DAG):
     @property
     def parent(self) -> str | None:
         """
-        直接の親 transform ノード名を返す。
+        直接の親 transform ノードのロングネームを返す。
 
         親が存在しない（ワールド直下）場合は ``None`` を返す。
 
         Returns:
-            str | None: 親ノード名、または ``None``
+            str | None: 親ノードのロングネーム（例: ``|root|parent``）、または ``None``
         """
-        result = cmds.listRelatives(self.name, parent=True)
+        result = cmds.listRelatives(self.name, parent=True, fullPath=True)
         if result:
             return result[0]
         return None
@@ -42,33 +42,33 @@ class Transform(DAG):
     @property
     def children(self) -> list[str]:
         """
-        直接の子階層の transform ノード名リストを返す。
+        直接の子階層の transform ノードのロングネームリストを返す。
         シェイプノードは含まない。
 
         Returns:
-            list[str]: 直接の子 transform ノード名リスト
+            list[str]: 直接の子 transform ノードのロングネームリスト
         """
-        result = cmds.listRelatives(self.name, children=True) or []
+        result = cmds.listRelatives(self.name, children=True, fullPath=True) or []
         return [c for c in result if not cmds.objectType(c, isAType="shape")]
 
     @property
     def descendants(self) -> list[str]:
         """
-        子孫階層の全ての transform ノード名のフラットなリストを返す。
+        子孫階層の全ての transform ノードのロングネームのフラットなリストを返す。
         シェイプノードは含まない。
 
         Returns:
-            list[str]: 子孫の transform ノード名リスト（1次元）
+            list[str]: 子孫の transform ノードのロングネームリスト（1次元）
         """
-        result = cmds.listRelatives(self.name, allDescendents=True) or []
+        result = cmds.listRelatives(self.name, allDescendents=True, fullPath=True) or []
         return [c for c in result if not cmds.objectType(c, isAType="shape")]
 
     @property
     def shapes(self) -> list[str]:
         """
-        直接の子階層のシェイプノード名リストを返す。
+        直接の子階層のシェイプノードのロングネームリストを返す。
 
         Returns:
-            list[str]: 直接の子シェイプノード名リスト
+            list[str]: 直接の子シェイプノードのロングネームリスト
         """
-        return cmds.listRelatives(self.name, shapes=True) or []
+        return cmds.listRelatives(self.name, shapes=True, fullPath=True) or []
