@@ -27,17 +27,17 @@ class Transform(DAG):
     @property
     def parents_from_root(self) -> list[str]:
         """
-        ルート親から直接の親までの親ノード名リストを返す。
+        ルートから自身までの各階層のロングネームリストを返す。
 
         例: 階層が ``|root|parent1|parent2|myNode`` の場合、
-        ``["root", "parent1", "parent2"]`` を返す。
+        ``["|root", "|root|parent1", "|root|parent1|parent2", "|root|parent1|parent2|myNode"]`` を返す。
 
         Returns:
-            list[str]: ルートから直親までの親ノード名リスト
+            list[str]: ルートから自身までの各階層のロングネームリスト
         """
         long = self.long_name  # e.g. "|root|parent1|parent2|myNode"
         parts = [p for p in long.split("|") if p]
-        return parts[:-1]
+        return ["|" + "|".join(parts[: i + 1]) for i in range(len(parts))]
 
     @property
     def children(self) -> list[str]:
