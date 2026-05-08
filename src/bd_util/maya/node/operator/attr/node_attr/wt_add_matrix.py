@@ -1,24 +1,23 @@
 # coding: utf-8
 
 # self
-from .._core import Attr, Plug
-from ..simple.double import DoubleAttr
-from ..simple.matrix import MatrixAttr
+from ..at.compound import CompoundAttr, CompoundPlug
+from ..at.double import DoubleAttr
+from ..dt.matrix import DataMatrixAttr
 
 
-class WtMatrixPlug(Plug["WtMatrixAttr"]):
-    matrixIn = MatrixAttr()
+class WtMatrixPlug(CompoundPlug["WtMatrixAttr"]):
+    matrixIn = DataMatrixAttr()
     m = matrixIn
 
     weightIn = DoubleAttr()
     w = weightIn
 
 
-class WtMatrixAttr(Attr[WtMatrixPlug]):
-    ATTR_TYPE: str = "TdataCompound"
+class WtMatrixAttr(CompoundAttr[WtMatrixPlug]):
     PLUG_CLS = WtMatrixPlug
 
-    matrixIn = MatrixAttr()
+    matrixIn = DataMatrixAttr()
     m = matrixIn
 
     weightIn = DoubleAttr()
