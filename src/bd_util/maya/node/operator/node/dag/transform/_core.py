@@ -35,8 +35,7 @@ class Transform(DAG):
         Returns:
             list[str]: ルートから親までの各階層のロングネームリスト
         """
-        long = self.long_name  # e.g. "|root|parent1|parent2|myNode"
-        parts = [p for p in long.split("|") if p]
+        parts = [p for p in self.long_name.split("|") if p]
         return ["|" + "|".join(parts[: i + 1]) for i in range(len(parts) - 1)]
 
     @property
@@ -48,7 +47,9 @@ class Transform(DAG):
         Returns:
             list[str]: 直接の子 transform ノードのロングネームリスト
         """
-        result = cmds.listRelatives(self.name, children=True, fullPath=True) or []
+        result = (
+            cmds.listRelatives(self.name, children=True, fullPath=True) or []
+        )
         return [c for c in result if not cmds.objectType(c, isAType="shape")]
 
     @property
@@ -60,7 +61,10 @@ class Transform(DAG):
         Returns:
             list[str]: 子孫の transform ノードのロングネームリスト（1次元）
         """
-        result = cmds.listRelatives(self.name, allDescendents=True, fullPath=True) or []
+        result = (
+            cmds.listRelatives(self.name, allDescendents=True, fullPath=True)
+            or []
+        )
         return [c for c in result if not cmds.objectType(c, isAType="shape")]
 
     @property

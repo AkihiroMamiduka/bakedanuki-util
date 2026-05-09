@@ -133,6 +133,18 @@ class Node(metaclass=ImmutableDescriptorMeta):
             return self.name.rsplit(":", 1)[1]
         return self.name
 
+    @property
+    def _cmd_access_name(self) -> str:
+        """
+        maya コマンドへアクセスする用のノード名を返す。
+        dg ノード : name をそのまま返す
+        dag ノード: ロングネームを返す（階層パスを含む）
+
+        Returns:
+            str: ノード名の文字列
+        """
+        return self.name
+
     def exists(self) -> bool:
         return cmds.objExists(self.name)
 
@@ -156,14 +168,21 @@ class Node(metaclass=ImmutableDescriptorMeta):
             TypeError: key が str 以外の型の場合
             ValueError: キーの書式が不正な場合
         """
-        from ..attr._core import _make_dynamic_plug, _parse_attr_segment  # 循環インポート回避のため遅延インポート
+        from ..attr._core import (
+            _make_dynamic_plug,
+            _parse_attr_segment,
+        )  # 循環インポート回避のため遅延インポート
 
         if not isinstance(key, str):
-            raise TypeError(f"キーの型は str でなければなりません: {type(key)}")
+            raise TypeError(
+                f"キーの型は str でなければなりません: {type(key)}"
+            )
 
         segments = key.split(".")
         if any(s == "" for s in segments):
-            raise ValueError(f"アトリビュートキーに空セグメントが含まれています: '{key}'")
+            raise ValueError(
+                f"アトリビュートキーに空セグメントが含まれています: '{key}'"
+            )
 
         # 最初のセグメントを処理する（名前 + オプションのインデックス）
         attr_name, index = _parse_attr_segment(segments[0])
@@ -214,7 +233,9 @@ class Node(metaclass=ImmutableDescriptorMeta):
             ValueError: ``new_name`` と ``search`` / ``replace`` が同時に
                 指定された場合。
         """
-        if new_name is not None and (search is not None or replace is not None):
+        if new_name is not None and (
+            search is not None or replace is not None
+        ):
             raise ValueError(
                 "new_name と search/replace を同時に指定することはできません。"
             )

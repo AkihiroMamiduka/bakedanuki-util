@@ -80,7 +80,7 @@ class Plug(Generic[A]):
         Returns:
             str: "node.attr"形式の plug 文字列
         """
-        return f"{self._node.name}.{self._attr_path}"
+        return f"{self._node._cmd_access_name}.{self._attr_path}"
 
     # type
     @property
@@ -280,7 +280,7 @@ class Plug(Generic[A]):
         Args:
             other (Plug | str | list[str]): 接続元のオブジェクト
         """
-        node_name = self._node.name
+        node_name = self._node._cmd_access_name
         segments = self._attr_path.split(".")
 
         # --- 初回: キャッシュをスキャンして構築 ---
@@ -482,7 +482,7 @@ class Plug(Generic[A]):
         このプラグが参照するアトリビュートを、対象ノードに addAttr() する。
         既に存在する場合はスキップする。
         """
-        self._attr.add_attr(self._node.name)
+        self._attr.add_attr(self._node._cmd_access_name)
 
 
 def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
@@ -798,7 +798,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
             return None
         try:
             return cmds.attributeQuery(
-                self.long_name, node=self._node.name, **kwargs
+                self.long_name, node=self._node._cmd_access_name, **kwargs
             )
         except Exception:
             return None

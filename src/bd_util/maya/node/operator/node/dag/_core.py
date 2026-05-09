@@ -5,18 +5,17 @@ from .._core import Node
 
 
 class DAG(Node):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.long_name = cmds.ls(self.name, long=True)[0]
 
     @property
-    def long_name(self) -> str:
-        """
-        DAG ノードのロングネーム（フルパス）を返す。
+    def _cmd_access_name(self):
+        return self.long_name
 
-        DAG ノードは同一シーン内に同名のノードが複数存在できるため、
-        階層パスを含むロングネームで一意に識別する。
-
-        例: ``|group1|nodeName``
-
-        Returns:
-            str: ロングネーム文字列
-        """
-        return cmds.ls(self.name, long=True)[0]
+    def rename(self, **kwargs) -> str:
+        new_name = super().rename(**kwargs)
+        # rename 後のロングネームを更新
+        self.long_name = cmds.ls(self.name, long=True)[0]
+        return new_name
