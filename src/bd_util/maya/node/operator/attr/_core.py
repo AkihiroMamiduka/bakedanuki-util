@@ -643,11 +643,11 @@ class Attr(ImmutableDescriptor, Generic[P]):
     # plug
     PLUG_CLS: Type[P] = None
     # name
-    name: str = ""
-    long_name: str | None = None
-    short_name: str | None = None
+    name: str
+    long_name: str | None
+    short_name: str | None
     # attr
-    _attr_path: str = ""
+    _attr_path: str
 
     def __init__(
         self,
@@ -667,8 +667,13 @@ class Attr(ImmutableDescriptor, Generic[P]):
     ):
         # node
         self._node: Node = None
+        # name
+        self.name = ""
+        self.long_name = None
+        self.short_name = None
         # attr
         #   attr_path
+        self._attr_path: str = ""
         self._parent_attr_path: str = ""
         #   multi
         self.multi: bool = multi
