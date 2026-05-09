@@ -717,7 +717,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
             # 親が Attr or Plug
             else:
                 instance: Attr = instance
-                # compound の子アトリビュートを node クラス直下に再定義する際に、自身を返す
+                # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
                 if instance._node is None:
                     return self
                 object.__setattr__(self, "_node", instance._node)
