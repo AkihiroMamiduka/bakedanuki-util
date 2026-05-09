@@ -662,6 +662,22 @@ def generate_node_class_code(
             if short_name and short_name != long_name:
                 safe_short_name = _safe_attr_name(short_name)
                 attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+
+            # non-multi の compound 親属性は node.<child> の直アクセスを追加する
+            if not attr_info.multi:
+                for child_info in compound_children_map.get(long_name, []):
+                    if _resolve_attr_class(child_info) is None:
+                        continue
+                    child_name = _get_child_attr_name(child_info.long_name, long_name)
+                    safe_child_name = _safe_attr_name(child_name)
+                    attr_lines.append(
+                        f"    {safe_child_name} = {safe_long_name}.{safe_child_name}"
+                    )
+                    child_short = child_info.short_name
+                    if child_short and child_short != child_name:
+                        safe_child_short = _safe_attr_name(child_short)
+                        attr_lines.append(f"    {safe_child_short} = {safe_child_name}")
+            attr_lines.append("")
             continue
 
         # Attr クラスを解決する
@@ -670,6 +686,7 @@ def generate_node_class_code(
             attr_lines.append(
                 f"    # TODO: {long_name} (attributeType={attr_info.attribute_type}, dataType={attr_info.data_type}) は未対応のため手動で追加してください"
             )
+            attr_lines.append("")
             continue
 
         attr_cls_name, module_path = resolved
@@ -691,6 +708,7 @@ def generate_node_class_code(
         if short_name and short_name != long_name:
             safe_short_name = _safe_attr_name(short_name)
             attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+        attr_lines.append("")
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
@@ -718,6 +736,9 @@ def generate_node_class_code(
     lines.append(f"class {class_name}(DG):")
     lines.append(f'    NODE_TYPE = "{node_type}"')
     if attr_lines:
+        # 末尾の空行を除去してからクラス本体に追加する
+        while attr_lines and attr_lines[-1] == "":
+            attr_lines.pop()
         lines.append("")
         lines.extend(attr_lines)
     lines.append("")
