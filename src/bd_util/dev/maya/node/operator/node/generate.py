@@ -209,7 +209,7 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
     return _AT_TYPE_MAP.get(attr_info.attribute_type)
 
 
-def _has_invalid_angle_bracket_attribute_type(attr_info: AttrInfo) -> bool:
+def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     """attributeType に ``<`` または ``>`` を含む場合に True を返す。"""
     return "<" in attr_info.attribute_type or ">" in attr_info.attribute_type
 
@@ -456,7 +456,7 @@ def generate_node_attr_code(
     attr_infos = [
         info
         for info in attr_infos
-        if not _has_invalid_angle_bracket_attribute_type(info)
+        if not _contains_angle_brackets_in_attribute_type(info)
     ]
 
     # 子アトリビュートを親ごとにグループ化
@@ -607,7 +607,7 @@ def generate_node_class_code(
     attr_infos = [
         info
         for info in attr_infos
-        if not _has_invalid_angle_bracket_attribute_type(info)
+        if not _contains_angle_brackets_in_attribute_type(info)
     ]
 
     # attr_infos が空の場合は警告を出して空のクラスコードを返す
