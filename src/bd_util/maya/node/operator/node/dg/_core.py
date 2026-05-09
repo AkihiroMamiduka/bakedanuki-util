@@ -20,6 +20,8 @@ class NodeStateEnum(AttributeEnum):
 
 
 class DG(Node):
+    __slots__ = ()
+
     message = MessageAttr()
     msg = message
     caching = BoolAttr()

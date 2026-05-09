@@ -3,4 +3,4 @@ from ._core import Transform
 
 
 class Joint(Transform):
-    pass
+    __slots__ = ()

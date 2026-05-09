@@ -8,6 +8,7 @@ from .._core import DAG
 
 class Transform(DAG):
     NODE_TYPE = "transform"
+    __slots__ = ()
 
     @property
     def parent(self) -> str | None:

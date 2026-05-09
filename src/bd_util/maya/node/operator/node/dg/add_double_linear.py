@@ -4,6 +4,8 @@ from ...attr.at.double_linear import DoubleLinearAttr
 
 
 class AddDoubleLinear(DG):
+    __slots__ = ()
+
     NODE_TYPE = "addDoubleLinear"
 
     input1 = DoubleLinearAttr()

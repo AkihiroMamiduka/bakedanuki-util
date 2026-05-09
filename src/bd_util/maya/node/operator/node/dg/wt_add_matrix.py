@@ -5,6 +5,8 @@ from ...attr.node_attr.wt_add_matrix import WtMatrixAttr
 
 
 class WtAddMatrix(DG):
+    __slots__ = ()
+
     NODE_TYPE = "wtAddMatrix"
 
     wtMatrix = WtMatrixAttr(multi=True)

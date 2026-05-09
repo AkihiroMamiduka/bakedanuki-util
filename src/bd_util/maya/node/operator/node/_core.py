@@ -46,6 +46,8 @@ class Node(metaclass=ImmutableDescriptorMeta):
     is_instance = IsInstance()
     _extra_attrs: tuple = ()
 
+    __slots__ = ("__weakref__", "name", "_plug_cache")
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         # Collect all extra=True Attr descriptors from the class hierarchy.

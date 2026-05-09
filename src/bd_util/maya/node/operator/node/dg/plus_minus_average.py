@@ -1,7 +1,12 @@
 # coding: utf-8
 from ._core import DG
 from .....attr.enum import AttributeEnum
-from ...attr.node_attr.plus_minus_average import Input2DAttr, Input3DAttr, Output2DAttr, Output3DAttr
+from ...attr.node_attr.plus_minus_average import (
+    Input2DAttr,
+    Input3DAttr,
+    Output2DAttr,
+    Output3DAttr,
+)
 from ...attr.at.enum import EnumAttr
 from ...attr.at.float import FloatAttr
 
@@ -14,6 +19,8 @@ class OperationEnum(AttributeEnum):
 
 
 class PlusMinusAverage(DG):
+    __slots__ = ()
+
     NODE_TYPE = "plusMinusAverage"
 
     operation = EnumAttr(enum_name=OperationEnum)

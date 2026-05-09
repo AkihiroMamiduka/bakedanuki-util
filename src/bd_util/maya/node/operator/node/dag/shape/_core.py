@@ -3,4 +3,4 @@ from .._core import DAG
 
 
 class Shape(DAG):
-    pass
+    __slots__ = ()
