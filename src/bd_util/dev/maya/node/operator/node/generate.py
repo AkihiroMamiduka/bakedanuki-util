@@ -40,6 +40,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 # attributeType ベースのマッピング (at/ ディレクトリ)
 _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
+    "addr": ("AddrAttr", "at.addr"),
     "bool": ("BoolAttr", "at.bool"),
     "byte": ("ByteAttr", "at.byte"),
     "char": ("CharAttr", "at.char"),
@@ -53,9 +54,11 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "float": ("FloatAttr", "at.float"),
     "float2": ("Float2Attr", "at.float2"),
     "float3": ("Float3Attr", "at.float3"),
+    "floatAngle": ("FloatAngleAttr", "at.float_angle"),
     "floatLinear": ("FloatLinearAttr", "at.float_linear"),
     "fltMatrix": ("FltMatrixAttr", "at.flt_matrix"),
     "generic": ("GenericAttr", "at.generic"),
+    "lightData": ("LightDataAttr", "at.light_data"),
     "long": ("LongAttr", "at.long"),
     "long2": ("Long2Attr", "at.long2"),
     "long3": ("Long3Attr", "at.long3"),
@@ -131,15 +134,16 @@ _NODE_ATTR_OUTPUT_REL_PARTS: tuple[str, ...] = (
 
 # 複数の数値をまとめる compound 型 → (基底 Plug クラス名, 基底 Attr クラス名, モジュールパス)
 _COMPOUND_AT_BASE: dict[str, tuple[str, str, str]] = {
-    "compound": ("CompoundPlug", "CompoundAttr", "at.compound"),
-    "double2": ("Double2Plug", "Double2Attr", "at.double2"),
-    "double3": ("Double3Plug", "Double3Attr", "at.double3"),
-    "float2":  ("Float2Plug",  "Float2Attr",  "at.float2"),
-    "float3":  ("Float3Plug",  "Float3Attr",  "at.float3"),
-    "long2":   ("Long2Plug",   "Long2Attr",   "at.long2"),
-    "long3":   ("Long3Plug",   "Long3Attr",   "at.long3"),
-    "short2":  ("Short2Plug",  "Short2Attr",  "at.short2"),
-    "short3":  ("Short3Plug",  "Short3Attr",  "at.short3"),
+    "compound":  ("CompoundPlug",  "CompoundAttr",  "at.compound"),
+    "double2":   ("Double2Plug",   "Double2Attr",   "at.double2"),
+    "double3":   ("Double3Plug",   "Double3Attr",   "at.double3"),
+    "float2":    ("Float2Plug",    "Float2Attr",    "at.float2"),
+    "float3":    ("Float3Plug",    "Float3Attr",    "at.float3"),
+    "lightData": ("LightDataPlug", "LightDataAttr", "at.light_data"),
+    "long2":     ("Long2Plug",     "Long2Attr",     "at.long2"),
+    "long3":     ("Long3Plug",     "Long3Attr",     "at.long3"),
+    "short2":    ("Short2Plug",    "Short2Attr",    "at.short2"),
+    "short3":    ("Short3Plug",    "Short3Attr",    "at.short3"),
 }
 
 
@@ -417,7 +421,7 @@ def generate_node_attr_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
 ) -> str | None:
-    """compound 型アトリビュート (compound, double2/3, float2/3, long2/3, short2/3) を持つノードの
+    """compound 型アトリビュート (compound, double2/3, float2/3, lightData, long2/3, short2/3) を持つノードの
     node_attr ファイルコードを生成する。
 
     生成されるコードは ``bd_util.maya.node.operator.attr.node_attr`` 以下に配置する
@@ -758,7 +762,7 @@ def generate_node_class_file(
 
     ``src_dir`` に src ディレクトリを指定するだけで、出力先パスを自動で構築する。
 
-    compound 型アトリビュート (compound, double2/3, float2/3, long2/3, short2/3) が存在する場合は、
+    compound 型アトリビュート (compound, double2/3, float2/3, lightData, long2/3, short2/3) が存在する場合は、
     node_attr ファイルも同時に生成する。
 
     出力先::
