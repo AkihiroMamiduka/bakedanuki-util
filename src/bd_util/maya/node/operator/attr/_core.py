@@ -673,7 +673,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         self.short_name = None
         # attr
         #   attr_path
-        self._attr_path: str = ""
+        self._attr_path = ""
         self._parent_attr_path: str = ""
         #   multi
         self.multi: bool = multi
