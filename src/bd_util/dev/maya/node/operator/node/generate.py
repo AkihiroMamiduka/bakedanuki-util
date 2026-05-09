@@ -212,11 +212,14 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
 def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     """attributeType に ``<`` または ``>`` を含む場合に True を返す。
 
-    ``attributeType`` が ``None`` の場合もサポート対象外として True を返す。
+    ``attributeType`` が ``None`` の場合は False を返す（スキップしない）。
+    None のまま下流の :func:`_resolve_attr_class` に渡すと ``None`` が返り、
+    呼び出し元で TODO コメントが出力される。
+    手動での追記が必要であることを示すために意図的に通過させる。
     """
     attr_type = attr_info.attribute_type
     if attr_type is None:
-        return True
+        return False
     return "<" in attr_type or ">" in attr_type
 
 
