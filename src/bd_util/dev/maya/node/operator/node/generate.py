@@ -215,7 +215,7 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     ``attributeType`` が ``None`` の場合もサポート対象外として True を返す。
     """
     attr_type = attr_info.attribute_type
-    if not attr_type:
+    if attr_type is None:
         return True
     return "<" in attr_type or ">" in attr_type
 
