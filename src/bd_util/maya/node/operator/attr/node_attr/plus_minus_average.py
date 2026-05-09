@@ -1,12 +1,11 @@
 # coding: utf-8
 
-# self
 from ..at.float import FloatAttr
 from ..at.float2 import Float2Attr, Float2Plug
 from ..at.float3 import Float3Attr, Float3Plug
 
 
-class Input2DPlug(Float2Plug["Input2Attr"]):
+class Input2DPlug(Float2Plug["Input2DAttr"]):
     input2Dx = FloatAttr()
     i2x = input2Dx
 
@@ -14,7 +13,7 @@ class Input2DPlug(Float2Plug["Input2Attr"]):
     i2y = input2Dy
 
 
-class Input2Attr(Float2Attr[Input2DPlug]):
+class Input2DAttr(Float2Attr[Input2DPlug]):
     PLUG_CLS = Input2DPlug
 
     input2Dx = FloatAttr()

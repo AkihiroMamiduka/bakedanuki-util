@@ -1,16 +1,9 @@
 # coding: utf-8
-
-# self
 from ._core import DG
 from .....attr.enum import AttributeEnum
-from ...attr.at.float import FloatAttr
+from ...attr.node_attr.plus_minus_average import Input2DAttr, Input3DAttr, Output2DAttr, Output3DAttr
 from ...attr.at.enum import EnumAttr
-from ...attr.node_attr.plus_minus_average import (
-    Input2Attr,
-    Input3DAttr,
-    Output2DAttr,
-    Output3DAttr,
-)
+from ...attr.at.float import FloatAttr
 
 
 class OperationEnum(AttributeEnum):
@@ -29,7 +22,7 @@ class PlusMinusAverage(DG):
     input1D = FloatAttr(multi=True)
     i1 = input1D
 
-    input2D = Input2Attr(multi=True)
+    input2D = Input2DAttr(multi=True)
     i2 = input2D
 
     input3D = Input3DAttr(multi=True)
@@ -40,21 +33,16 @@ class PlusMinusAverage(DG):
 
     output2D = Output2DAttr()
     o2 = output2D
-
     output2Dx = output2D.output2Dx
     o2x = output2Dx
-
     output2Dy = output2D.output2Dy
     o2y = output2Dy
 
     output3D = Output3DAttr()
     o3 = output3D
-
     output3Dx = output3D.output3Dx
     o3x = output3Dx
-
     output3Dy = output3D.output3Dy
     o3y = output3Dy
-
     output3Dz = output3D.output3Dz
     o3z = output3Dz
