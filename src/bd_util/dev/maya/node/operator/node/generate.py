@@ -210,8 +210,14 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
 
 
 def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
-    """attributeType に ``<`` または ``>`` を含む場合に True を返す。"""
-    return "<" in attr_info.attribute_type or ">" in attr_info.attribute_type
+    """attributeType に ``<`` または ``>`` を含む場合に True を返す。
+
+    ``attributeType`` が ``None`` の場合もサポート対象外として True を返す。
+    """
+    attr_type = attr_info.attribute_type
+    if not attr_type:
+        return True
+    return "<" in attr_type or ">" in attr_type
 
 
 def _filter_supported_attr_infos(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
