@@ -214,6 +214,13 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
     return "<" in attr_info.attribute_type or ">" in attr_info.attribute_type
 
 
+def _filter_supported_attr_infos(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
+    """``attributeType`` に ``<`` / ``>`` を含まない属性情報のみを返す。"""
+    return [
+        info for info in attr_infos if not _contains_angle_brackets_in_attribute_type(info)
+    ]
+
+
 def _parse_enum_entries(
     enum_name_raw: object,
 ) -> list[tuple[str, int | None]] | None:
@@ -453,11 +460,7 @@ def generate_node_attr_code(
             mode_error_skip=True,
         )
 
-    attr_infos = [
-        info
-        for info in attr_infos
-        if not _contains_angle_brackets_in_attribute_type(info)
-    ]
+    attr_infos = _filter_supported_attr_infos(attr_infos)
 
     # 子アトリビュートを親ごとにグループ化
     compound_children_map: dict[str, list[AttrInfo]] = {}
@@ -604,11 +607,7 @@ def generate_node_class_code(
             mode_error_skip=True,
         )
 
-    attr_infos = [
-        info
-        for info in attr_infos
-        if not _contains_angle_brackets_in_attribute_type(info)
-    ]
+    attr_infos = _filter_supported_attr_infos(attr_infos)
 
     # attr_infos が空の場合は警告を出して空のクラスコードを返す
     if not attr_infos:
