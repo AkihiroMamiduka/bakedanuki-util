@@ -176,12 +176,24 @@ def get_set():
             node.output2D.output2Dx.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dx.get()",
+            node.output2Dx.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
         "{}: {}".format(
             "node.output2D.output2Dy.get()",
             node.output2D.output2Dy.get(),
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dy.get()",
+            node.output2Dy.get(),
         )
     )
 
@@ -201,6 +213,12 @@ def get_set():
             node.output3D.output3Dx.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dx.get()",
+            node.output3Dx.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
@@ -209,12 +227,24 @@ def get_set():
             node.output3D.output3Dy.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dy.get()",
+            node.output3Dy.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
         "{}: {}".format(
             "node.output3D.output3Dz.get()",
             node.output3D.output3Dz.get(),
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dz.get()",
+            node.output3Dz.get(),
         )
     )
 
@@ -380,12 +410,24 @@ def get_set_short_name():
             node.o2.o2x.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.o2x.get()",
+            node.o2x.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
         "{}: {}".format(
             "node.o2.o2y.get()",
             node.o2.o2y.get(),
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.o2y.get()",
+            node.o2y.get(),
         )
     )
 
@@ -405,6 +447,12 @@ def get_set_short_name():
             node.o3.o3x.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.o3x.get()",
+            node.o3x.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
@@ -413,11 +461,23 @@ def get_set_short_name():
             node.o3.o3y.get(),
         )
     )
+    logger.debug(
+        "{}: {}".format(
+            "node.o3y.get()",
+            node.o3y.get(),
+        )
+    )
 
     test_str.separator_sub()
     logger.debug(
         "{}: {}".format(
             "node.o3.o3z.get()",
             node.o3.o3z.get(),
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.o3z.get()",
+            node.o3z.get(),
         )
     )
