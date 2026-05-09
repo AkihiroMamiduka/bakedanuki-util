@@ -704,25 +704,18 @@ class Attr(ImmutableDescriptor, Generic[P]):
         Returns:
             Self | P: Attr or Plug
         """
-        logger.debug(
-            f"instance: {instance}, owner: {owner}, name: {self.name}"
-        )
         # node, attr_path をセットする
         #   class アクセス
         if instance is None:
-            logger.debug("instance is None")
             # Node
             object.__setattr__(self, "_node", owner)
         #   instance アクセス
         else:
-            logger.debug("else")
             # 親が Node
             if hasattr(instance, "NODE_TYPE"):
-                logger.debug('hasattr(instance, "NODE_TYPE")')
                 object.__setattr__(self, "_node", instance)
             # 親が Attr or Plug
             else:
-                logger.debug("else: parent is Attr or Plug")
                 instance: Attr = instance
                 object.__setattr__(self, "_node", instance._node)
                 object.__setattr__(
