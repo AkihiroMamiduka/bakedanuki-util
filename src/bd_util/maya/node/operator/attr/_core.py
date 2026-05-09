@@ -129,7 +129,7 @@ class Plug(Generic[A]):
     def __getitem__(
         self,
         key: int | str,
-    ) -> Plug:
+    ) -> Self:
         """
         [index] 指定（int）または文字列によるサブアトリビュートアクセス（str）を行い、
         対応する Plug を返す。
