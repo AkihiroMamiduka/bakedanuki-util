@@ -657,6 +657,8 @@ class Attr(ImmutableDescriptor, Generic[P]):
         self._readable: bool | None = readable
         self._writable: bool | None = writable
         self._category: str | None = category
+        self._owner_parent_attr_paths: dict[type, str] = {}
+        self._owner_attr_paths: dict[type, str] = {}
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -685,9 +687,59 @@ class Attr(ImmutableDescriptor, Generic[P]):
             self._attr_path = name
             self.long_name = name
         else:
-            # short name をセット
-            # self.short_name = name
-            object.__setattr__(self, "short_name", name)
+            if name != self.long_name and self.short_name is None:
+                object.__setattr__(self, "short_name", name)
+
+        self._register_owner_attr_path(owner)
+
+    def _register_owner_attr_path(self, owner: type) -> None:
+        """
+        同一 Attr が Node クラス上に子アトリビュートのエイリアスとして再公開された場合、
+        その owner ごとの親 attr_path を記録する。
+        """
+        parent_attr = self._find_owner_parent_attr(owner)
+        if parent_attr is None:
+            return
+
+        parent_name = parent_attr.long_name or parent_attr.name
+        attr_name = self.long_name or self.name
+        if not parent_name or not attr_name:
+            return
+
+        self._owner_parent_attr_paths[owner] = parent_name
+        self._owner_attr_paths[owner] = f"{parent_name}.{attr_name}"
+
+    def _find_owner_parent_attr(self, owner: type) -> Attr | None:
+        """
+        owner クラス上で、この Attr を子として保持している親 Attr を探す。
+        """
+        seen_ids: set[int] = set()
+        for value in vars(owner).values():
+            obj_id = id(value)
+            if obj_id in seen_ids:
+                continue
+            seen_ids.add(obj_id)
+
+            if value is self or not isinstance(value, Attr):
+                continue
+
+            for klass in value.__class__.__mro__:
+                if any(child is self for child in vars(klass).values()):
+                    return value
+
+        return None
+
+    def _apply_owner_attr_path(self, owner: type) -> None:
+        """
+        owner ごとに登録された attr_path を現在のアクセスコンテキストへ反映する。
+        """
+        parent_attr_path = self._owner_parent_attr_paths.get(owner, "")
+        object.__setattr__(self, "_parent_attr_path", parent_attr_path)
+
+        attr_path = self._owner_attr_paths.get(owner)
+        if attr_path is None:
+            attr_path = self.long_name or self.name
+        object.__setattr__(self, "_attr_path", attr_path)
 
     # __get__
     def __get__(self, instance: object | None, owner: type) -> Self | P:
@@ -709,14 +761,18 @@ class Attr(ImmutableDescriptor, Generic[P]):
         if instance is None:
             # Node
             object.__setattr__(self, "_node", owner)
+            self._apply_owner_attr_path(owner)
         #   instance アクセス
         else:
             # 親が Node
             if hasattr(instance, "NODE_TYPE"):
                 object.__setattr__(self, "_node", instance)
+                self._apply_owner_attr_path(type(instance))
             # 親が Attr or Plug
             else:
                 instance: Attr = instance
+                if instance._node is None:
+                    return self
                 object.__setattr__(self, "_node", instance._node)
                 object.__setattr__(
                     self, "_parent_attr_path", instance._attr_path

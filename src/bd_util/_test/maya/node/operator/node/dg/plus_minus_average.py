@@ -13,6 +13,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 def main():
     get_set()
     get_set_short_name()
+    direct_child_alias_class_access()
+    direct_child_alias_instance_access()
 
 
 def get_set():
@@ -421,3 +423,58 @@ def get_set_short_name():
             node.o3.o3z.get(),
         )
     )
+
+
+def direct_child_alias_class_access():
+    test_str.title("direct_child_alias_class_access")
+
+    cases = [
+        (
+            "PlusMinusAverage.output2D.output2Dx is PlusMinusAverage.output2Dx",
+            PlusMinusAverage.output2D.output2Dx is PlusMinusAverage.output2Dx,
+        ),
+        (
+            "PlusMinusAverage.output2D.o2x is PlusMinusAverage.o2x",
+            PlusMinusAverage.output2D.o2x is PlusMinusAverage.o2x,
+        ),
+        (
+            "PlusMinusAverage.output3D.output3Dz is PlusMinusAverage.output3Dz",
+            PlusMinusAverage.output3D.output3Dz is PlusMinusAverage.output3Dz,
+        ),
+        (
+            "PlusMinusAverage.output3D.o3z is PlusMinusAverage.o3z",
+            PlusMinusAverage.output3D.o3z is PlusMinusAverage.o3z,
+        ),
+    ]
+
+    for label, result in cases:
+        logger.debug(f"{label}: {result}")
+
+
+def direct_child_alias_instance_access():
+    test_str.title("direct_child_alias_instance_access")
+    node = PlusMinusAverage.create("test_direct_child_alias")
+
+    cases = [
+        (
+            "node.output2D.output2Dx is node.output2Dx",
+            node.output2D.output2Dx is node.output2Dx,
+        ),
+        ("node.output2D.o2x is node.o2x", node.output2D.o2x is node.o2x),
+        (
+            "node.output3D.output3Dz is node.output3Dz",
+            node.output3D.output3Dz is node.output3Dz,
+        ),
+        ("node.output3D.o3z is node.o3z", node.output3D.o3z is node.o3z),
+        (
+            "node.output2Dx.plug",
+            node.output2Dx.plug,
+        ),
+        (
+            "node.output3Dz.plug",
+            node.output3Dz.plug,
+        ),
+    ]
+
+    for label, result in cases:
+        logger.debug(f"{label}: {result}")

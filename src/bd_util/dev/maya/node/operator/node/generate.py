@@ -662,6 +662,20 @@ def generate_node_class_code(
             if short_name and short_name != long_name:
                 safe_short_name = _safe_attr_name(short_name)
                 attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+
+            for child_info in compound_children_map.get(long_name, []):
+                child_name = _get_child_attr_name(child_info.long_name, long_name)
+                safe_child_name = _safe_attr_name(child_name)
+                attr_lines.append(
+                    f"    {safe_child_name} = {safe_long_name}.{safe_child_name}"
+                )
+
+                child_short = child_info.short_name
+                if child_short and child_short != child_name:
+                    safe_child_short = _safe_attr_name(child_short)
+                    attr_lines.append(
+                        f"    {safe_child_short} = {safe_child_name}"
+                    )
             continue
 
         # Attr クラスを解決する
