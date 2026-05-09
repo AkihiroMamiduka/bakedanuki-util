@@ -9,5 +9,6 @@ class WtAddMatrix(DG):
 
     wtMatrix = WtMatrixAttr(multi=True)
     i = wtMatrix
+
     matrixSum = DataMatrixAttr()
     o = matrixSum

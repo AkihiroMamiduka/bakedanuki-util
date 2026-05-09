@@ -8,7 +8,9 @@ class AddDoubleLinear(DG):
 
     input1 = DoubleLinearAttr()
     i1 = input1
+
     input2 = DoubleLinearAttr()
     i2 = input2
+
     output = DoubleLinearAttr()
     o = output
