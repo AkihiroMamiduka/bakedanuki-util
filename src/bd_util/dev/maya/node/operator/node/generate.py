@@ -48,6 +48,7 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "double": ("DoubleAttr", "at.double"),
     "double2": ("Double2Attr", "at.double2"),
     "double3": ("Double3Attr", "at.double3"),
+    "double4": ("Double4Attr", "at.double4"),
     "doubleAngle": ("DoubleAngleAttr", "at.double_angle"),
     "doubleLinear": ("DoubleLinearAttr", "at.double_linear"),
     "enum": ("EnumAttr", "at.enum"),
@@ -62,6 +63,8 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "long": ("LongAttr", "at.long"),
     "long2": ("Long2Attr", "at.long2"),
     "long3": ("Long3Attr", "at.long3"),
+    "long long int": ("LongLongIntAttr", "at.long_long_int"),
+    "long_long_int": ("LongLongIntAttr", "at.long_long_int"),
     "matrix": ("MatrixAttr", "at.matrix"),
     "message": ("MessageAttr", "at.message"),
     "reflectance": ("ReflectanceAttr", "at.reflectance"),
@@ -137,6 +140,7 @@ _COMPOUND_AT_BASE: dict[str, tuple[str, str, str]] = {
     "compound":  ("CompoundPlug",  "CompoundAttr",  "at.compound"),
     "double2":   ("Double2Plug",   "Double2Attr",   "at.double2"),
     "double3":   ("Double3Plug",   "Double3Attr",   "at.double3"),
+    "double4":   ("Double4Plug",   "Double4Attr",   "at.double4"),
     "float2":    ("Float2Plug",    "Float2Attr",    "at.float2"),
     "float3":    ("Float3Plug",    "Float3Attr",    "at.float3"),
     "lightData": ("LightDataPlug", "LightDataAttr", "at.light_data"),
@@ -421,7 +425,7 @@ def generate_node_attr_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
 ) -> str | None:
-    """compound 型アトリビュート (compound, double2/3, float2/3, lightData, long2/3, short2/3) を持つノードの
+    """compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) を持つノードの
     node_attr ファイルコードを生成する。
 
     生成されるコードは ``bd_util.maya.node.operator.attr.node_attr`` 以下に配置する
@@ -762,7 +766,7 @@ def generate_node_class_file(
 
     ``src_dir`` に src ディレクトリを指定するだけで、出力先パスを自動で構築する。
 
-    compound 型アトリビュート (compound, double2/3, float2/3, lightData, long2/3, short2/3) が存在する場合は、
+    compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) が存在する場合は、
     node_attr ファイルも同時に生成する。
 
     出力先::
