@@ -35,5 +35,15 @@ class PlusMinusAverage(DG):
     o1 = output1D
     output2D = Output2DAttr()
     o2 = output2D
+    output2Dx = output2D.output2Dx
+    o2x = output2Dx
+    output2Dy = output2D.output2Dy
+    o2y = output2Dy
     output3D = Output3DAttr()
     o3 = output3D
+    output3Dx = output3D.output3Dx
+    o3x = output3Dx
+    output3Dy = output3D.output3Dy
+    o3y = output3Dy
+    output3Dz = output3D.output3Dz
+    o3z = output3Dz

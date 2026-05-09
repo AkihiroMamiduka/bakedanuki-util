@@ -1,5 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
+import copy
 from typing import TypeVar, Type, Generic, Self, Any
 
 # maya
@@ -677,6 +678,24 @@ class Attr(ImmutableDescriptor, Generic[P]):
             # self.short_name = name
             object.__setattr__(self, "short_name", name)
 
+    def _clone(self) -> Self:
+        """
+        現在の Attr を複製した未ロックの Attr を返す。
+
+        Returns:
+            Self: 複製された Attr
+        """
+        cloned = type(self).__new__(type(self))
+        if hasattr(self, "__dict__"):
+            object.__getattribute__(cloned, "__dict__").update(
+                copy.deepcopy(object.__getattribute__(self, "__dict__"))
+            )
+        object.__setattr__(cloned, "_locked", False)
+        object.__setattr__(cloned, "_node", None)
+        object.__setattr__(cloned, "_parent_attr_path", "")
+        object.__setattr__(cloned, "_attr_path", self.long_name)
+        return cloned
+
     # __get__
     def __get__(self, instance: object | None, owner: type) -> Self | P:
         """
@@ -705,6 +724,8 @@ class Attr(ImmutableDescriptor, Generic[P]):
             # 親が Attr or Plug
             else:
                 instance: Attr = instance
+                if instance._node is None:
+                    return self._clone()
                 object.__setattr__(self, "_node", instance._node)
                 object.__setattr__(
                     self, "_parent_attr_path", instance._attr_path

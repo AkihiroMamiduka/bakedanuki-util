@@ -184,6 +184,20 @@ def get_set():
             node.output2D.output2Dy.get(),
         )
     )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dx.get()",
+            node.output2Dx.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dy.get()",
+            node.output2Dy.get(),
+        )
+    )
 
     # output3D
     test_str.separator()
@@ -215,6 +229,27 @@ def get_set():
         "{}: {}".format(
             "node.output3D.output3Dz.get()",
             node.output3D.output3Dz.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dx.get()",
+            node.output3Dx.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dy.get()",
+            node.output3Dy.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dz.get()",
+            node.output3Dz.get(),
         )
     )
 
@@ -388,6 +423,20 @@ def get_set_short_name():
             node.o2.o2y.get(),
         )
     )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.o2x.get()",
+            node.o2x.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.o2y.get()",
+            node.o2y.get(),
+        )
+    )
 
     # output3D
     test_str.separator()
@@ -419,5 +468,26 @@ def get_set_short_name():
         "{}: {}".format(
             "node.o3.o3z.get()",
             node.o3.o3z.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.o3x.get()",
+            node.o3x.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.o3y.get()",
+            node.o3y.get(),
+        )
+    )
+    test_str.separator_sub()
+    logger.debug(
+        "{}: {}".format(
+            "node.o3z.get()",
+            node.o3z.get(),
         )
     )
