@@ -524,7 +524,9 @@ def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
     return attr_name, index
 
 
-def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -> Plug:
+def _make_dynamic_plug(
+    node: Node, attr_name: str, parent_attr_path: str = ""
+) -> Plug:
     """
     ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
 
@@ -545,7 +547,9 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
         AttributeError: ノードにアトリビュートが存在しない、または
             対応する Attr クラスが見つからない場合
     """
-    from .lookup import lookup_attr_cls  # 循環インポート回避のため遅延インポート
+    from .lookup import (
+        lookup_attr_cls,
+    )  # 循環インポート回避のため遅延インポート
 
     attr_cls = lookup_attr_cls(node.name, attr_name)
     if attr_cls is None:
@@ -554,7 +558,9 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
         )
 
     try:
-        long_name = cmds.attributeQuery(attr_name, node=node.name, longName=True)
+        long_name = cmds.attributeQuery(
+            attr_name, node=node.name, longName=True
+        )
     except RuntimeError:
         logger.debug(
             f"attributeQuery longName failed for '{node.name}.{attr_name}': using input name"
@@ -562,7 +568,9 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
         long_name = attr_name
 
     try:
-        multi = bool(cmds.attributeQuery(long_name, node=node.name, multi=True))
+        multi = bool(
+            cmds.attributeQuery(long_name, node=node.name, multi=True)
+        )
     except RuntimeError:
         logger.debug(
             f"attributeQuery multi failed for '{node.name}.{long_name}': defaulting to False"
@@ -570,14 +578,18 @@ def _make_dynamic_plug(node: Node, attr_name: str, parent_attr_path: str = "") -
         multi = False
 
     try:
-        short_name = cmds.attributeQuery(long_name, node=node.name, shortName=True)
+        short_name = cmds.attributeQuery(
+            long_name, node=node.name, shortName=True
+        )
     except RuntimeError:
         logger.debug(
             f"attributeQuery shortName failed for '{node.name}.{long_name}': using long name"
         )
         short_name = long_name
 
-    attr_path = f"{parent_attr_path}.{long_name}" if parent_attr_path else long_name
+    attr_path = (
+        f"{parent_attr_path}.{long_name}" if parent_attr_path else long_name
+    )
 
     attr = attr_cls(multi=multi)
     object.__setattr__(attr, "name", long_name)
@@ -692,18 +704,25 @@ class Attr(ImmutableDescriptor, Generic[P]):
         Returns:
             Self | P: Attr or Plug
         """
+        logger.debug(
+            f"instance: {instance}, owner: {owner}, name: {self.name}"
+        )
         # node, attr_path をセットする
         #   class アクセス
         if instance is None:
+            logger.debug("instance is None")
             # Node
             object.__setattr__(self, "_node", owner)
         #   instance アクセス
         else:
+            logger.debug("else")
             # 親が Node
             if hasattr(instance, "NODE_TYPE"):
+                logger.debug('hasattr(instance, "NODE_TYPE")')
                 object.__setattr__(self, "_node", instance)
             # 親が Attr or Plug
             else:
+                logger.debug("else: parent is Attr or Plug")
                 instance: Attr = instance
                 object.__setattr__(self, "_node", instance._node)
                 object.__setattr__(
