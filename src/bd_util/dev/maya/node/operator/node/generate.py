@@ -209,6 +209,11 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
     return _AT_TYPE_MAP.get(attr_info.attribute_type)
 
 
+def _has_invalid_angle_bracket_attribute_type(attr_info: AttrInfo) -> bool:
+    """attributeType に ``<`` または ``>`` を含む場合に True を返す。"""
+    return "<" in attr_info.attribute_type or ">" in attr_info.attribute_type
+
+
 def _parse_enum_entries(
     enum_name_raw: object,
 ) -> list[tuple[str, int | None]] | None:
@@ -448,6 +453,12 @@ def generate_node_attr_code(
             mode_error_skip=True,
         )
 
+    attr_infos = [
+        info
+        for info in attr_infos
+        if not _has_invalid_angle_bracket_attribute_type(info)
+    ]
+
     # 子アトリビュートを親ごとにグループ化
     compound_children_map: dict[str, list[AttrInfo]] = {}
     for info in attr_infos:
@@ -592,6 +603,12 @@ def generate_node_class_code(
             mode_new_scene=True,
             mode_error_skip=True,
         )
+
+    attr_infos = [
+        info
+        for info in attr_infos
+        if not _has_invalid_angle_bracket_attribute_type(info)
+    ]
 
     # attr_infos が空の場合は警告を出して空のクラスコードを返す
     if not attr_infos:
