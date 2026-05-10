@@ -18,6 +18,15 @@ P = TypeVar("P", bound="Plug")
 
 
 class Plug(Generic[A]):
+    __slots__ = (
+        "_node",
+        "_attr",
+        "multi",
+        "index",
+        "_attr_path",
+        "_next_index_cache",
+    )
+
     def __init__(
         self,
         node: Node,
@@ -607,18 +616,38 @@ def _make_dynamic_plug(
 
 
 class Attr(ImmutableDescriptor, Generic[P]):
-    __slots__ = ("_node",)
+    __slots__ = (
+        "_node",
+        "_parent_attr_path",
+        "multi",
+        "extra",
+        "_default_value",
+        "_min_value",
+        "_max_value",
+        "_soft_min_value",
+        "_soft_max_value",
+        "_enum_name",
+        "_number_of_children",
+        "_parent",
+        "_readable",
+        "_writable",
+        "_category",
+        "name",
+        "long_name",
+        "short_name",
+        "_attr_path",
+    )
     # type
     ATTR_TYPE: str = None
     DATA_TYPE: str = None
     # plug
     PLUG_CLS: Type[P] = None
     # name
-    name: str = ""
-    long_name: str | None = None
-    short_name: str | None = None
+    name: str
+    long_name: str | None
+    short_name: str | None
     # attr
-    _attr_path: str = ""
+    _attr_path: str
 
     def __init__(
         self,
@@ -638,8 +667,13 @@ class Attr(ImmutableDescriptor, Generic[P]):
     ):
         # node
         self._node: Node = None
+        # name
+        self.name = ""
+        self.long_name = None
+        self.short_name = None
         # attr
         #   attr_path
+        self._attr_path = ""
         self._parent_attr_path: str = ""
         #   multi
         self.multi: bool = multi

@@ -546,15 +546,20 @@ def generate_node_attr_code(
         # Plug クラスブロック
         plug_block: list[str] = [
             f"class {plug_cls_name}({base_plug_cls}[\"{attr_cls_name}\"]):",
+            "    __slots__ = ()",
         ]
         if child_body_lines:
+            plug_block.append("")
             plug_block.extend(child_body_lines)
         else:
+            plug_block.append("")
             plug_block.append("    pass")
 
         # Attr クラスブロック
         attr_block: list[str] = [
             f"class {attr_cls_name}({base_attr_cls}[{plug_cls_name}]):",
+            "    __slots__ = ()",
+            "",
             f"    PLUG_CLS = {plug_cls_name}",
         ]
         if child_body_lines:
@@ -770,6 +775,8 @@ def generate_node_class_code(
         lines.append("")
         lines.append("")
     lines.append(f"class {class_name}(DG):")
+    lines.append("    __slots__ = ()")
+    lines.append("")
     lines.append(f'    NODE_TYPE = "{node_type}"')
     if attr_lines:
         # 末尾の空行を除去してからクラス本体に追加する
