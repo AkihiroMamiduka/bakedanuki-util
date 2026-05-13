@@ -11,17 +11,27 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class LoaderBase:
-    def __init__(self, plugin: MPxCommandBase):
-        self.plugin: MPxCommandBase = plugin
-        self.path = self.plugin.__file__
+    plugin: MPxCommandBase
 
-    def load(self):
-        if not self.is_loaded():
-            cmds.loadPlugin(self.path)
+    @classmethod
+    def path(cls) -> str:
+        return cls.plugin.__file__
 
-    def unload(self):
-        if self.is_loaded():
-            cmds.unloadPlugin(self.path)
+    @classmethod
+    def name(cls) -> str:
+        name: str = cls.plugin.__name__
+        return name.split(".")[-1]
 
-    def is_loaded(self):
-        return cmds.pluginInfo(self.plugin.__name__, q=True, loaded=True)
+    @classmethod
+    def load(cls):
+        if not cls.is_loaded():
+            cmds.loadPlugin(cls.path())
+
+    @classmethod
+    def unload(cls):
+        if cls.is_loaded():
+            cmds.unloadPlugin(cls.name())
+
+    @classmethod
+    def is_loaded(cls) -> bool:
+        return cmds.pluginInfo(cls.name(), q=True, loaded=True)
