@@ -7,7 +7,7 @@ from pymel import core as pm
 # self
 from ...... import logger as u_logger
 from ..... import str as test_str
-from ......_dev import timer
+from ......_dev.timer import timer
 from ......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
