@@ -1,7 +1,7 @@
 # coding: utf-8
 from . import _version
-from .dev.reload import reload_package
-from .dev.timer import timer
+from ._dev.reload import reload_package
+from ._dev.timer import timer
 from .maya.mpx_cmd.base.cmd import MPxCommandBase
 from .maya.mpx_cmd.base.loader import LoaderBase
 
