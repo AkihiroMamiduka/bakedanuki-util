@@ -10,9 +10,11 @@ P = TypeVar("P", bound="Plug")
 
 
 class CompoundPlug(Plug[A]):
-    pass
+    __slots__ = ()
 
 
 class CompoundAttr(Attr[P]):
+    __slots__ = ()
+
     ATTR_TYPE = "compound"
     PLUG_CLS = cast(Type[P], CompoundPlug)

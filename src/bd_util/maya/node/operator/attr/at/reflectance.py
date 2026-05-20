@@ -1,11 +1,20 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from typing import TypeVar, Type, cast
+
+# self
+from .float3 import Float3Attr, Float3Plug
+
+A = TypeVar("A", bound="Float3Attr")
+
+P = TypeVar("P", bound="Float3Plug")
 
 
-class ReflectancePlug(Plug["ReflectanceAttr"]):
-    pass
+class ReflectancePlug(Float3Plug["ReflectanceAttr"]):
+    __slots__ = ()
 
 
-class ReflectanceAttr(Attr[ReflectancePlug]):
+class ReflectanceAttr(Float3Attr[ReflectancePlug]):
+    __slots__ = ()
+
     ATTR_TYPE = "reflectance"
-    PLUG_CLS = ReflectancePlug
+    PLUG_CLS = cast(Type[P], ReflectancePlug)

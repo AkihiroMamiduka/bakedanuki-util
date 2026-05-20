@@ -5,9 +5,11 @@ from ._core import DataTypeAttr, DataTypePlug
 
 
 class DataSpectrumRGBPlug(DataTypePlug["DataSpectrumRGBAttr"]):
-    pass
+    __slots__ = ()
 
 
 class DataSpectrumRGBAttr(DataTypeAttr[DataSpectrumRGBPlug]):
+    __slots__ = ()
+
     DATA_TYPE = "spectrumRGB"
     PLUG_CLS = DataSpectrumRGBPlug

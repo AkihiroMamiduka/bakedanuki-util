@@ -2,20 +2,40 @@
 from __future__ import annotations
 from typing import TypeVar, Type, cast
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
-from .._core import Attr, Plug
-from ._core import DataTypeAttr, DataTypePlug
+from .base.numeric_base import DataNumericBaseAttr, DataNumericBasePlug
+
+A = TypeVar("A", bound="DataNumericBaseAttr")
+
+P = TypeVar("P", bound="DataNumericBasePlug")
 
 
-A = TypeVar("A", bound="Attr")
+class DataDouble2Plug(DataNumericBasePlug[A]):
+    __slots__ = ()
 
-P = TypeVar("P", bound="Plug")
+    # get
+    def get(self) -> list[float]:
+        x, y = self._get_data()
+        return [x, y]
+
+    # set
+    def set(self, values: list[float]):
+        """
+        値をセットする
+
+        modifier.undoIt() 非対応
+
+        Args:
+            values (list[float]): x, y の値のリスト
+        """
+        self._set_data(om.MFnNumericData.k2Double, values)
 
 
-class DataDouble2Plug(DataTypePlug[A]):
-    pass
+class DataDouble2Attr(DataNumericBaseAttr[P]):
+    __slots__ = ()
 
-
-class DataDouble2Attr(DataTypeAttr[P]):
     DATA_TYPE = "double2"
     PLUG_CLS = cast(Type[P], DataDouble2Plug)

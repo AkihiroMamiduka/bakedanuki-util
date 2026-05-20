@@ -2,20 +2,40 @@
 from __future__ import annotations
 from typing import TypeVar, Type, cast
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
-from .._core import Attr, Plug
-from ._core import DataTypeAttr, DataTypePlug
+from .base.numeric_base import DataNumericBaseAttr, DataNumericBasePlug
+
+A = TypeVar("A", bound="DataNumericBaseAttr")
+
+P = TypeVar("P", bound="DataNumericBasePlug")
 
 
-A = TypeVar("A", bound="Attr")
+class DataLong3Plug(DataNumericBasePlug[A]):
+    __slots__ = ()
 
-P = TypeVar("P", bound="Plug")
+    # get
+    def get(self) -> list[int]:
+        x, y, z = self._get_data()
+        return [x, y, z]
+
+    # set
+    def set(self, values: list[int]):
+        """
+        値をセットする
+
+        modifier.undoIt() 非対応
+
+        Args:
+            values (list[int]): x, y, z の値のリスト
+        """
+        self._set_data(om.MFnNumericData.k3Long, values)
 
 
-class DataLong3Plug(DataTypePlug[A]):
-    pass
+class DataLong3Attr(DataNumericBaseAttr[P]):
+    __slots__ = ()
 
-
-class DataLong3Attr(DataTypeAttr[P]):
     DATA_TYPE = "long3"
     PLUG_CLS = cast(Type[P], DataLong3Plug)

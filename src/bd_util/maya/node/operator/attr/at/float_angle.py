@@ -3,9 +3,19 @@ from .._core import Attr, Plug
 
 
 class FloatAnglePlug(Plug["FloatAngleAttr"]):
-    pass
+    __slots__ = ()
+
+    # get
+    def get(self) -> float:
+        return self.plug.asMAngle().asDegrees()
+
+    # set
+    def set(self, value: float):
+        self._node._dg_mod.newPlugValueMAngle(self.plug, value)
 
 
 class FloatAngleAttr(Attr[FloatAnglePlug]):
+    __slots__ = ()
+
     ATTR_TYPE = "floatAngle"
     PLUG_CLS = FloatAnglePlug

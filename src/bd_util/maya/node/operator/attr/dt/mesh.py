@@ -5,9 +5,11 @@ from ._core import DataTypeAttr, DataTypePlug
 
 
 class DataMeshPlug(DataTypePlug["DataMeshAttr"]):
-    pass
+    __slots__ = ()
 
 
 class DataMeshAttr(DataTypeAttr[DataMeshPlug]):
+    __slots__ = ()
+
     DATA_TYPE = "mesh"
     PLUG_CLS = DataMeshPlug

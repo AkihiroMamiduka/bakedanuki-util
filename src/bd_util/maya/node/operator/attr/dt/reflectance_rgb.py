@@ -5,9 +5,11 @@ from ._core import DataTypeAttr, DataTypePlug
 
 
 class DataReflectanceRGBPlug(DataTypePlug["DataReflectanceRGBAttr"]):
-    pass
+    __slots__ = ()
 
 
 class DataReflectanceRGBAttr(DataTypeAttr[DataReflectanceRGBPlug]):
+    __slots__ = ()
+
     DATA_TYPE = "reflectanceRGB"
     PLUG_CLS = DataReflectanceRGBPlug

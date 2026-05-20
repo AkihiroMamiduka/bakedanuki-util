@@ -2,7 +2,9 @@
 """
 DAG クラスの long_name プロパティのテスト・デモ
 """
+
 import maya.cmds as cmds
+from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
@@ -14,8 +16,9 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
-    long_name_root()
-    long_name_under_group()
+    # long_name_root()
+    # long_name_under_group()
+    operate_transform()
 
 
 def long_name_root():
@@ -70,3 +73,29 @@ def long_name_under_group():
         )
     )
     # 期待値: "|test_dag_group|test_dag_child"
+
+
+def operate_transform():
+    test_str.title("operate_transform")
+
+    dag_mod = om.MDagModifier()
+    dg_mod = om.MDGModifier()
+
+    name = "test_transform"
+    node = Transform.create(dg_mod, dag_mod=dag_mod, name=name)
+
+    node.translate.set(10.0, 20.0, 30.0)
+    node.rotate.set(10.0, 20.0, 30.0)
+    node.scale.set(10.0, 20.0, 30.0)
+
+    logger.debug(f"translate: {node.translate.get()}")
+    logger.debug(f"rotate: {node.rotate.get()}")
+    logger.debug(f"scale: {node.scale.get()}")
+
+    dag_mod.doIt()
+    dg_mod.doIt()
+
+    logger.debug("---- after mod.doIt()")
+    logger.debug(f"translate: {node.translate.get()}")
+    logger.debug(f"rotate: {node.rotate.get()}")
+    logger.debug(f"scale: {node.scale.get()}")

@@ -4,16 +4,48 @@ from typing import TypeVar, Type, cast
 # self
 from .._core import Attr, Plug
 
-
 A = TypeVar("A", bound="Attr")
 
 P = TypeVar("P", bound="Plug")
 
 
 class Long2Plug(Plug[A]):
-    pass
+    __slots__ = ()
+
+    # get
+    def get(self) -> list[int]:
+        return [
+            self.plug.child(0).asInt(),
+            self.plug.child(1).asInt(),
+        ]
+
+    # set
+    def set(self, *value: int | list[int]):
+        try:
+            # set(x, y)
+            try:
+                self._node._dg_mod.newPlugValueInt(
+                    self.plug.child(0), value[0]
+                )
+                self._node._dg_mod.newPlugValueInt(
+                    self.plug.child(1), value[1]
+                )
+            # set([x, y])
+            except Exception:
+                self._node._dg_mod.newPlugValueInt(
+                    self.plug.child(0), value[0][0]
+                )
+                self._node._dg_mod.newPlugValueInt(
+                    self.plug.child(1), value[0][1]
+                )
+        except Exception as e:
+            raise TypeError(
+                f"Expected either set(x, y) or set([x, y]): {value}"
+            ) from e
 
 
 class Long2Attr(Attr[P]):
+    __slots__ = ()
+
     ATTR_TYPE = "long2"
     PLUG_CLS = cast(Type[P], Long2Plug)

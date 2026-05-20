@@ -3,6 +3,9 @@ from __future__ import annotations
 
 from typing import Any, Generic, Self, Type, TypeVar, overload
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from .....attr.enum import AttributeEnum
 from .._core import Attr, Plug
@@ -11,6 +14,40 @@ E = TypeVar("E", bound=AttributeEnum)
 
 
 class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
+    __slots__ = ("_fn_enum",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._fn_enum: om.MFnEnumAttribute | None = None
+
+    # get
+    def get(self) -> int:
+        return self.plug.asShort()
+
+    def _get_fn_enum(self) -> om.MFnEnumAttribute:
+        # MFnEnumAttribute をキャッシュする
+        if self._fn_enum is None:
+            self._fn_enum = om.MFnEnumAttribute(self._attr._m_obj)
+        return self._fn_enum
+
+    def get_enum_name(self, index: int = None) -> str:
+        # index が指定されていない場合は、現在の値を使用する
+        if index is None:
+            index = self.get()
+        # MFnEnumAttribute を取得し、index に対応する名前を返す
+        fn_enum = self._get_fn_enum()
+        return fn_enum.findName(index)
+
+    def get_enum_index(self, name: str) -> int:
+        # MFnEnumAttribute から name に対応する index を返す
+        return self._get_fn_enum().fieldValue(name)
+
+    # set
+    def set(self, value: int):
+        self._node._dg_mod.newPlugValueShort(self.plug, value)
+
+    # property
     @property
     def enum(self) -> type[E]:
         """
@@ -23,6 +60,8 @@ class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
 
 
 class EnumAttr(Attr[EnumPlug], Generic[E]):
+    __slots__ = ("_enum_cls",)
+
     ATTR_TYPE = "enum"
     PLUG_CLS = EnumPlug
 
@@ -91,7 +130,9 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
         # AttributeEnum サブクラスが渡された場合は Maya enumName 文字列に変換し、
         # クラスを _enum_cls に保存する
         self._enum_cls: Type[E] | None = None
-        if isinstance(enum_name, type) and issubclass(enum_name, AttributeEnum):
+        if isinstance(enum_name, type) and issubclass(
+            enum_name, AttributeEnum
+        ):
             self._enum_cls = enum_name
             enum_name_str: str | None = enum_name.to_enum_name()
         elif isinstance(enum_name, list):
@@ -121,5 +162,7 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
     @overload
     def __get__(self, instance: object, owner: type) -> EnumPlug[E]: ...
 
-    def __get__(self, instance: object | None, owner: type) -> Self | EnumPlug[E]:
+    def __get__(
+        self, instance: object | None, owner: type
+    ) -> Self | EnumPlug[E]:
         return super().__get__(instance, owner)  # type: ignore[return-value]

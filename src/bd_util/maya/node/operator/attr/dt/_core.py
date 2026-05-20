@@ -11,9 +11,11 @@ P = TypeVar("P", bound="Plug")
 
 
 class DataTypePlug(Plug[A]):
-    pass
+    __slots__ = ()
 
 
 class DataTypeAttr(Attr[P]):
+    __slots__ = ()
+
     ATTR_TYPE = "typed"
     PLUG_CLS = cast(Type[P], DataTypePlug)

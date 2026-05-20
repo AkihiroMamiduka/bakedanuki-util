@@ -1,9 +1,11 @@
 # coding: utf-8
 from __future__ import annotations
+from abc import ABC, abstractmethod
 from typing import TypeVar, Type, Generic, Self, Any
 
 # maya
 from maya import cmds
+from maya.api import OpenMaya as om
 
 # self
 from ..... import logger as u_logger
@@ -17,14 +19,18 @@ A = TypeVar("A", bound="Attr")
 P = TypeVar("P", bound="Plug")
 
 
-class Plug(Generic[A]):
+class Plug(Generic[A], ABC):
     __slots__ = (
         "_node",
         "_attr",
+        "_attr_path",
         "multi",
         "index",
-        "_attr_path",
+        "_plug",
+        "_array_plug",
         "_next_index_cache",
+        "_next_index",
+        "parent_plug",
     )
 
     def __init__(
@@ -34,15 +40,27 @@ class Plug(Generic[A]):
         attr_path: str,
         multi: bool = False,
         index: int = None,
+        parent_plug: Plug | None = None,
     ):
-        self._node: Node = node
-        self._attr: A = attr
+        # args ----------------------------------------------------------------
+        self.parent_plug: Plug | None = parent_plug
+
         self.multi: bool = multi
         self.index: int = index
+
+        self._node: Node = node
+        self._attr: A = attr
         self._attr_path: str = self._create_attr_path(
             parent_attr_path=attr_path
         )
+        # args ----------------------------------------------------------------
+
+        # plug
+        self._plug: om.MPlug | None = None
+        # array plug
+        self._array_plug: om.MPlug | None = None
         self._next_index_cache: dict[str, int] | None = None
+        self._next_index: int | None = None
 
     # name
     @property
@@ -89,7 +107,68 @@ class Plug(Generic[A]):
         Returns:
             str: "node.attr"形式の plug 文字列
         """
-        return f"{self._node._cmd_access_name}.{self._attr_path}"
+        # キャッシュがあればそれを返す
+        if self._plug is not None:
+            return self._plug
+
+        # plug を取得する
+        #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
+        if self.parent_plug is not None and self.index is None:
+            parent_plug = self.parent_plug.plug
+            plug = self._find_child_plug(parent_plug, self._attr.name)
+            if plug is None:
+                raise AttributeError(
+                    f"'{self._attr.name}' というアトリビュートは '{parent_plug}' に存在しません"
+                )
+        #   それ以外は、ノードから直接 plug を探す
+        else:
+            plug = self._node._fn_node.findPlug(self._attr._m_obj, False)
+
+        # index があれば、elementByLogicalIndex で plug を置き換える
+        if self.index is not None:
+            plug = plug.elementByLogicalIndex(self.index)
+
+        # plug をキャッシュする
+        self._plug = plug
+
+        return plug
+
+    def _find_child_plug(
+        self,
+        plug: om.MPlug,
+        child_name: str,
+    ) -> om.MPlug | None:
+        # 子を探査して、名前が一致する plug を返す
+        for i in range(plug.numChildren()):
+            # 子の plug を取得
+            child_plug = plug.child(i)
+            # 子の純粋なロングネームを取得
+            p_name = child_plug.partialName(
+                useLongNames=True,
+                useFullAttributePath=False,
+            ).split(".")[-1]
+            # 名前を比較して、一致すればその plug を返す
+            if p_name == child_name:
+                return child_plug
+        return None
+
+    # array
+    @property
+    def array_plug(self) -> Self:
+        # multi アトリビュートでなければ array_plug はない
+        if not self.multi:
+            raise AttributeError(f"{self.plug} は array_plug を持ちません")
+
+        # index が None ならば、自身が array_plug
+        if self.index is None:
+            return self.plug
+
+        # index がある場合は、array_plug を返す
+        #   キャッシュがなければ、Maya に問い合わせる
+        if self._array_plug is None:
+            self._array_plug = self.plug.array()
+        #   キャッシュを返す
+        return self._array_plug
 
     # type
     @property
@@ -168,7 +247,9 @@ class Plug(Generic[A]):
                 node=self._node,
                 attr=self._attr,
                 attr_path=self._attr._attr_path,
+                multi=self._attr.multi,
                 index=key,
+                parent_plug=self,
             )
             return plug
         elif isinstance(key, str):
@@ -202,36 +283,59 @@ class Plug(Generic[A]):
 
     # str
     def __str__(self) -> str:
-        return self.plug
+        return str(self.plug)
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.plug}>"
 
-    # get
-    def get(self) -> Any:
+    def _get_plug_from_str(self, plug_str: str) -> om.MPlug:
         """
-        アトリビュートの値を取得する
-
-        Returns:
-            Any: アトリビュートの値
-        """
-        return cmds.getAttr(self.plug)
-
-    # set
-    def set(self, value: Any):
-        """
-        アトリビュートに値をセットする
+        "node.attr" 形式の文字列を MPlug に変換する
 
         Args:
-            value (Any): アトリビュートの値
+            plug_str (str): "node.attr" 形式の文字列
+
+        Returns:
+            om.MPlug: 変換された MPlug インスタンス
         """
-        cmds.setAttr(self.plug, value)
+        sel = om.MSelectionList()
+        sel.add(plug_str)
+        plug = sel.getPlug(0)
+        return plug
+
+    def _get_plug_from_strs(self, plug_str_list: list[str]) -> om.MPlug:
+        """
+        ["node", "attr"] 形式の文字列リストを MPlug に変換する
+
+        Args:
+            plug_str_list (list[str]): ["node", "attr"] 形式の文字列リスト
+
+        Returns:
+            om.MPlug: 変換された MPlug インスタンス
+        """
+        plug_str = ".".join(plug_str_list)
+        return self._get_plug_from_str(plug_str)
+
+    # get
+    @abstractmethod
+    def get(self) -> Any:
+        """
+        プラグの値を取得する: サブクラスでオーバーライドして、適切な型で値を返すようにする
+        """
+        pass
+
+    # set
+    @abstractmethod
+    def set(self, value: Any):
+        """
+        プラグに値をセットする: サブクラスでオーバーライドして、適切な型の値をセットするようにする
+        """
+        pass
 
     # connect
-    @staticmethod
-    def _normalize_to_plug(obj: Plug | str | list[str]) -> str:
+    def _normalize_to_plug(self, obj: Plug | str | list[str]) -> om.MPlug:
         """
-        渡されたオブジェクトから、 "node.attr" 形式の plug 文字列に変換し返す
+        渡されたオブジェクトから、 MPlug に変換し返す
 
         Args:
             obj (Plug | str | list[str]): 対象のオブジェクト
@@ -243,45 +347,60 @@ class Plug(Generic[A]):
             TypeError: Plug | str | list[str] 以外が渡されればエラー
 
         Returns:
-            str: "node.attr"形式の plug 文字列
+            om.MPlug: MPlug インスタンス
         """
         # Plug
-        if hasattr(obj, "plug"):
+        if any(c.__name__ == "Plug" for c in type(obj).__mro__):
             obj: Plug = obj
             return obj.plug
         # str("node.attr")
         elif isinstance(obj, str):
-            return obj
+            return self._get_plug_from_str(obj)
         # list or tuple(["node", "attr"...])
         elif isinstance(obj, (list, tuple)):
             if len(obj) < 2:
                 raise ValueError("List/Tuple must be ['node', 'attr'...]")
-            return ".".join([str(o) for o in obj])
+            return self._get_plug_from_strs(obj)
 
         raise TypeError(f"Unsupported connection type: {type(obj)}")
 
     def connect(self, other: Plug | str | list[str]):
         """
-        self から other へ cmds.connectAttr()
+        self から other へ connect()
 
         Args:
-            obj (Plug | str | list[str]): 対象のオブジェクト
+            other (Plug | str | list[str]): 対象のオブジェクト
         """
         src = self._normalize_to_plug(self)
         dst = self._normalize_to_plug(other)
 
-        cmds.connectAttr(src, dst, force=True)
+        self._node._dg_mod.connect(src, dst)
+
+    def _get_next_index(self) -> int:
+        result = 0
+        # キャッシュがあればそれを返す
+        if self._next_index is not None:
+            result = self._next_index
+            # インクリメントする
+            self._next_index += 1
+        # キャッシュがなければ Maya に問い合わせる
+        else:
+            indices = self.plug.getExistingArrayAttributeIndices()
+            if indices:
+                result = max(indices) + 1
+
+        # 戻り値
+        return result
+
+    def _get_next_plug(self) -> om.MPlug:
+        return self.plug.elementByLogicalIndex(self._get_next_index())
 
     def connect_next_index(self, other: Plug | str | list[str]):
         """
         マルチアトリビュートの最終インデックスの次へ接続する。
 
-        self の attr_path に含まれるマルチアトリビュートに対して、
-        現在の最大インデックスの次のインデックスへ other を接続する。
-
-        初回呼び出し時に cmds.attributeQuery / cmds.getAttr でインデックスを
-        スキャンしてキャッシュし、2回目以降はキャッシュをインクリメントするだけ
-        なので高速に動作する。
+        初回呼び出し時に インデックスを取得。
+        2回目以降はキャッシュをインクリメントする。
 
         このメソッド以外の方法でコネクションが追加された場合は、
         :meth:`refresh_next_index` を呼び出してキャッシュを更新すること。
@@ -289,74 +408,32 @@ class Plug(Generic[A]):
         Args:
             other (Plug | str | list[str]): 接続元のオブジェクト
         """
-        node_name = self._node._cmd_access_name
-        segments = self._attr_path.split(".")
-
-        # --- 初回: キャッシュをスキャンして構築 ---
-        if self._next_index_cache is None:
-            self._next_index_cache = {}
-            scanned_segments = []
-            for segment in segments:
-                # マルチアトリビュートのインデックスが指定されている場合は、探査する必要がないのでスキップ
-                if "[" in segment:
-                    scanned_segments.append(segment)
-                    continue
-                is_multi = cmds.attributeQuery(
-                    segment,
-                    node=node_name,
-                    multi=True,
-                )
-                # マルチアトリビュートでない場合は、探査する必要がないのでスキップ
-                if not is_multi:
-                    scanned_segments.append(segment)
-                    continue
-                current_attr = ".".join(scanned_segments + [segment])
-                current_plug = f"{node_name}.{current_attr}"
-                indices = cmds.getAttr(current_plug, multiIndices=True)
-                self._next_index_cache[segment] = (
-                    (max(indices) + 1) if indices else 0
-                )
-                scanned_segments.append(segment)
-
-        # --- キャッシュを使ってアトリビュートパスを構築 ---
-        new_segments = []
-        for segment in segments:
-            if "[" not in segment and segment in self._next_index_cache:
-                next_index = self._next_index_cache[segment]
-                segment = f"{segment}[{next_index}]"
-            new_segments.append(segment)
-
-        new_attr_path = ".".join(new_segments)
-        dst = f"{node_name}.{new_attr_path}"
         src = self._normalize_to_plug(other)
+        dst = self._get_next_plug()
 
-        cmds.connectAttr(src, dst, force=True)
-
-        # --- 接続後にキャッシュをインクリメント ---
-        for key in self._next_index_cache:
-            self._next_index_cache[key] += 1
+        self._node._dg_mod.connect(src, dst)
 
     def refresh_next_index(self):
         """
-        connect_next_index() が保持しているインデックスキャッシュを破棄する。
+        保持しているインデックスキャッシュを破棄する。
 
-        このメソッド以外の方法（cmds.connectAttr 等）でマルチアトリビュートへの
+        connect_next_index 以外の方法でマルチアトリビュートへの
         コネクションが追加・削除された場合に呼び出すことで、
         次回の connect_next_index() 実行時に正しい最終インデックスを再スキャンする。
         """
-        self._next_index_cache = None
+        self._next_index = None
 
     def disconnect(self, other: Plug | str | list[str]):
         """
-        self から other へ cmds.disconnectAttr()
+        self から other へ disconnect()
 
         Args:
-            obj (Plug | str | list[str]): 対象のオブジェクト
+            other (Plug | str | list[str]): 対象のオブジェクト
         """
         src = self._normalize_to_plug(self)
         dst = self._normalize_to_plug(other)
 
-        cmds.disconnectAttr(src, dst)
+        self._node._dg_mod.disconnect(src, dst)
 
     def __gt__(self, other: Plug | str | list[str]) -> Plug | str | list[str]:
         """
@@ -384,7 +461,7 @@ class Plug(Generic[A]):
         dst = self.plug
         src = self._normalize_to_plug(other)
 
-        cmds.connectAttr(src, dst)
+        self._node._dg_mod.connect(src, dst)
         return self
 
     def __or__(self, other: Plug | str | list[str]):
@@ -413,7 +490,12 @@ class Plug(Generic[A]):
         src = self._normalize_to_plug(other)
         dst = self.plug
 
-        cmds.disconnectAttr(src, dst)
+        self._node._dg_mod.disconnect(src, dst)
+
+        # 切断後、キャッシュをリセットする
+        if self._attr.multi:
+            self.refresh_next_index()
+
         return self
 
     # connection
@@ -484,6 +566,10 @@ class Plug(Generic[A]):
             plugs=True,
         )
         return result if result else []
+
+    # exists
+    def exists(self) -> bool:
+        return self._node._fn_node.hasAttribute(self.long_name)
 
     # addAttr
     def add_attr(self):
@@ -572,7 +658,12 @@ def _make_dynamic_plug(
         )
     except RuntimeError:
         logger.debug(
-            f"attributeQuery longName failed for '{node.name}.{attr_name}': using input name"
+            "{} '{}.{}': {}".format(
+                "attributeQuery longName failed for",
+                node.name,
+                attr_name,
+                "using input name",
+            )
         )
         long_name = attr_name
 
@@ -582,7 +673,12 @@ def _make_dynamic_plug(
         )
     except RuntimeError:
         logger.debug(
-            f"attributeQuery multi failed for '{node.name}.{long_name}': defaulting to False"
+            "{} '{}.{}': {}".format(
+                "attributeQuery multi failed for",
+                node.name,
+                long_name,
+                "defaulting to False",
+            )
         )
         multi = False
 
@@ -592,7 +688,12 @@ def _make_dynamic_plug(
         )
     except RuntimeError:
         logger.debug(
-            f"attributeQuery shortName failed for '{node.name}.{long_name}': using long name"
+            "{} '{}.{}': {}".format(
+                "attributeQuery shortName failed for",
+                node.name,
+                long_name,
+                "using long name",
+            )
         )
         short_name = long_name
 
@@ -618,6 +719,7 @@ def _make_dynamic_plug(
 class Attr(ImmutableDescriptor, Generic[P]):
     __slots__ = (
         "_node",
+        "_m_obj",
         "_parent_attr_path",
         "multi",
         "extra",
@@ -667,6 +769,8 @@ class Attr(ImmutableDescriptor, Generic[P]):
     ):
         # node
         self._node: Node = None
+        # m_obj
+        self._m_obj: om.MObject = None
         # name
         self.name = ""
         self.long_name = None
@@ -720,7 +824,6 @@ class Attr(ImmutableDescriptor, Generic[P]):
             self.long_name = name
         else:
             # short name をセット
-            # self.short_name = name
             object.__setattr__(self, "short_name", name)
 
     # __get__
@@ -743,14 +846,16 @@ class Attr(ImmutableDescriptor, Generic[P]):
         if instance is None:
             # Node
             object.__setattr__(self, "_node", owner)
+            self._set_m_obj__top_level_attr()
         #   instance アクセス
         else:
             # 親が Node
             if hasattr(instance, "NODE_TYPE"):
                 object.__setattr__(self, "_node", instance)
+                self._set_m_obj__top_level_attr()
             # 親が Attr or Plug
             else:
-                instance: Attr = instance
+                instance: Plug[A] = instance
                 # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
                 if instance._node is None:
                     return self
@@ -760,21 +865,58 @@ class Attr(ImmutableDescriptor, Generic[P]):
                 )
                 self._set_attr_path(self._parent_attr_path)
 
+                # _m_obj
+                self._set_m_obj__child_level_attr(instance._attr._m_obj)
+
         # 戻り値
         #   Node が instance へのアクセス(Plug)
         if self._node.is_instance:
             key = (self.name, self._attr_path)
+            parent_plug = None
+            if self._parent_attr_path:
+                parent_plug = instance
             if key not in self._node._plug_cache:
                 self._node._plug_cache[key] = self.PLUG_CLS(
                     node=self._node,
                     attr=self,
                     attr_path=self._parent_attr_path,
                     multi=self.multi,
+                    parent_plug=parent_plug,
                 )
             return self._node._plug_cache[key]
         #   Node が class へのアクセス(Attr)
         else:
             return self
+
+    # m_obj
+    def _set_m_obj__top_level_attr(self):
+        object.__setattr__(
+            self,
+            "_m_obj",
+            self._node.node_class.attribute(self.long_name),
+        )
+
+    def _set_m_obj__child_level_attr(self, parent_m_obj: om.MObject):
+        object.__setattr__(
+            self,
+            "_m_obj",
+            self.find_child_attribute(parent_m_obj, self.long_name),
+        )
+
+    def find_child_attribute(
+        self,
+        compound_attr_obj: om.MObject,
+        name: str,
+    ) -> om.MObject | None:
+        compound_fn = om.MFnCompoundAttribute(compound_attr_obj)
+
+        for i in range(compound_fn.numChildren()):
+            child_attr_obj = compound_fn.child(i)
+            fn_attr = om.MFnAttribute(child_attr_obj)
+            if fn_attr.name == name:
+                return child_attr_obj
+
+        return None
 
     # attr_path
     def _set_attr_path(self, parent_attr_path: str):

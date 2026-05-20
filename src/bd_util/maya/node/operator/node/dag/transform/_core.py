@@ -1,14 +1,95 @@
 # coding: utf-8
 from __future__ import annotations
 
+# maya
 import maya.cmds as cmds
 
+# self
 from .._core import DAG
+from ....attr.at.double3 import Double3Attr, Double3Plug
+from ....attr.at.double import DoubleAttr
+from ....attr.at.double_linear import DoubleLinearAttr
+from ....attr.at.double_angle import DoubleAngleAttr
+
+
+class TranslatePlug(Double3Plug["TranslateAttr"]):
+    __slots__ = ()
+
+    translateX = DoubleLinearAttr()
+    tx = translateX
+
+    translateY = DoubleLinearAttr()
+    ty = translateY
+
+    translateZ = DoubleLinearAttr()
+    tz = translateZ
+
+
+class TranslateAttr(Double3Attr[TranslatePlug]):
+    __slots__ = ()
+
+    PLUG_CLS = TranslatePlug
+
+    translateX = DoubleLinearAttr()
+    tx = translateX
+
+    translateY = DoubleLinearAttr()
+    ty = translateY
+
+    translateZ = DoubleLinearAttr()
+    tz = translateZ
+
+
+class RotatePlug(Double3Plug["RotateAttr"]):
+    __slots__ = ()
+
+
+class RotateAttr(Double3Attr[RotatePlug]):
+    __slots__ = ()
+
+    PLUG_CLS = RotatePlug
+
+    rotateX = DoubleAngleAttr()
+    rx = rotateX
+
+    rotateY = DoubleAngleAttr()
+    ry = rotateY
+
+    rotateZ = DoubleAngleAttr()
+    rz = rotateZ
+
+
+class ScalePlug(Double3Plug["ScaleAttr"]):
+    __slots__ = ()
+
+
+class ScaleAttr(Double3Attr[ScalePlug]):
+    __slots__ = ()
+
+    PLUG_CLS = ScalePlug
+
+    scaleX = DoubleAttr()
+    sx = scaleX
+
+    scaleY = DoubleAttr()
+    sy = scaleY
+
+    scaleZ = DoubleAttr()
+    sz = scaleZ
 
 
 class Transform(DAG):
     NODE_TYPE = "transform"
     __slots__ = ()
+
+    translate = TranslateAttr()
+    t = translate
+
+    rotate = RotateAttr()
+    r = rotate
+
+    scale = ScaleAttr()
+    s = scale
 
     @property
     def parent(self) -> str | None:

@@ -3,9 +3,11 @@ from .._core import Attr, Plug
 
 
 class TypedPlug(Plug["TypedAttr"]):
-    pass
+    __slots__ = ()
 
 
 class TypedAttr(Attr[TypedPlug]):
+    __slots__ = ()
+
     ATTR_TYPE = "typed"
     PLUG_CLS = TypedPlug

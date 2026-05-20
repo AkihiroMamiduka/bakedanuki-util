@@ -4,6 +4,7 @@ from typing import Self
 
 # maya
 import maya.cmds as cmds
+from maya.api import OpenMaya as om
 
 # self
 from ..... import logger as u_logger
@@ -11,6 +12,8 @@ from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+DEFAULT_VALUE_AUTO_ADD_ATTR = True
 
 
 class IsInstance(ImmutableDescriptor):
@@ -41,15 +44,61 @@ class IsInstance(ImmutableDescriptor):
         return True
 
 
+class NodeClass(ImmutableDescriptor):
+    """
+    ノードクラスを返す属性記述子
+    """
+
+    __slots__ = ("_node_class",)
+
+    def __init__(self):
+        super().__init__()
+        self._node_class = None
+
+    def __get__(
+        self,
+        instance: object | None,
+        owner: type,
+    ) -> om.MNodeClass:
+        """
+        属性アクセスメソッド
+        ノードクラスを返す
+
+        Args:
+            instance (object | None): インスタンス
+            owner (type): 親クラス
+
+        Returns:
+            om.MNodeClass: ノードクラス
+        """
+        if self._node_class is None and owner.NODE_TYPE is not None:
+            object.__setattr__(
+                self, "_node_class", om.MNodeClass(owner.NODE_TYPE)
+            )
+        return self._node_class
+
+
 class Node(metaclass=ImmutableDescriptorMeta):
     NODE_TYPE = None
+    node_class = NodeClass()
     is_instance = IsInstance()
     _extra_attrs: tuple = ()
 
-    __slots__ = ("__weakref__", "name", "_plug_cache")
+    __slots__ = (
+        "__weakref__",
+        "_dg_mod",
+        "_m_obj",
+        "_fn_node",
+        "_plug_cache",
+    )
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
+
+        cls._init_get_extra_attrs()
+
+    @classmethod
+    def _init_get_extra_attrs(cls) -> tuple:
         """
         クラス階層からすべての extra=True 属性記述子を収集する。
         オブジェクトの同一性に基づいて重複を排除し、
@@ -65,9 +114,37 @@ class Node(metaclass=ImmutableDescriptorMeta):
                     extra_attrs.append(v)
         cls._extra_attrs = tuple(extra_attrs)
 
-    def __init__(self, name: str, auto_add_attr: bool = True):
-        self.name = name
+    def __init__(
+        self,
+        dg_mod: om.MDGModifier,
+        name: str = None,
+        m_obj: om.MObject = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ):
+        if m_obj is None and name is None:
+            raise ValueError("Either m_obj or name must be provided.")
+        # dg_mod
+        self._dg_mod = dg_mod
+
+        # m_obj
+        if m_obj is not None:
+            self._m_obj = m_obj
+        else:
+            sel = om.MSelectionList()
+            sel.add(name)
+            self._m_obj = sel.getDependNode(0)
+
+        # fn_node
+        self._fn_node = om.MFnDependencyNode(self._m_obj)
+
+        # name
+        if name:
+            self._dg_mod.renameNode(self._m_obj, name)
+
+        # plug_cache
         self._plug_cache = {}
+
+        # auto_add_attr
         if auto_add_attr:
             self._auto_add_extra_attrs()
 
@@ -134,26 +211,44 @@ class Node(metaclass=ImmutableDescriptorMeta):
         return f"<{self.__class__.__name__} {self.name}>"
 
     @classmethod
-    def create(cls, name=None) -> Self:
+    def create(
+        cls,
+        dg_mod: om.MDGModifier,
+        name=None,
+        auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> Self:
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
 
-        # name が指定されていなければ、NODE_TYPE を名前にする
-        if name is None:
-            name = cls.NODE_TYPE
-
         # ノード作成
-        node = cmds.createNode(
-            cls.NODE_TYPE,
-            name=name,
-            skipSelect=True,
-        )
+        m_obj = dg_mod.createNode(cls.NODE_TYPE)
+        # ノード名を変更
+        if name:
+            dg_mod.renameNode(m_obj, name)
 
-        # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
-        cmds.setAttr(f"{node}.isHistoricallyInteresting", False)
+        # # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
+        # fn_node = om.MFnDependencyNode(m_obj)
+        # attr_obj = fn_node.attribute("isHistoricallyInteresting")
+        # plug = om.MPlug(m_obj, attr_obj)
+        # dg_mod.newPlugValueBool(plug, False)
 
         # インスタンス生成
-        return cls(node)
+        return cls(
+            dg_mod,
+            m_obj=m_obj,
+            name=name,
+            auto_add_attr=auto_add_attr,
+        )
+
+    @property
+    def name(self) -> str:
+        """
+        ノード名を返す。
+
+        Returns:
+            str: ノード名
+        """
+        return self._fn_node.name()
 
     @property
     def namespace(self) -> str:
@@ -169,6 +264,22 @@ class Node(metaclass=ImmutableDescriptorMeta):
         """
         if ":" in self.name:
             return self.name.rsplit(":", 1)[0]
+        return ""
+
+    @property
+    def namespace_colon(self) -> str:
+        """
+        ネームスペース部分をコロン付きで返す。
+
+        ネームスペースが存在しない場合は空文字列を返す。
+        例: ``ns1:ns2:nodeName`` → ``"ns1:ns2:"``
+            ``nodeName`` → ``""``
+
+        Returns:
+            str: ネームスペース文字列（コロン付き）
+        """
+        if self.namespace:
+            return f"{self.namespace}:"
         return ""
 
     @property
@@ -203,16 +314,19 @@ class Node(metaclass=ImmutableDescriptorMeta):
 
     def delete(self):
         if self.exists():
-            cmds.delete(self.name)
+            self.delete_non_check()
+
+    def delete_non_check(self):
+        self._dg_mod.deleteNode(self._m_obj)
 
     def rename(
         self,
         new_name: str | None = None,
         search: str | None = None,
-        replace: str | None = None,
+        replace: str = "",
         prefix: str = "",
         suffix: str = "",
-    ) -> str:
+    ):
         """
         ノードをリネームする。
 
@@ -226,22 +340,21 @@ class Node(metaclass=ImmutableDescriptorMeta):
                 ``search`` / ``replace`` と同時には使用できない。
             search (str | None): 検索文字列。``replace`` と組み合わせて使用する。
                 ``new_name`` と同時には使用できない。
-            replace (str | None): 置換文字列。``search`` と組み合わせて使用する。
+            replace (str): 置換文字列。``search`` と組み合わせて使用する。
             prefix (str): ピュアな名前の先頭に付加する文字列。
             suffix (str): ピュアな名前の末尾に付加する文字列。
-
-        Returns:
-            str: リネーム後のノード名（Maya が確定した名前）。
 
         Raises:
             ValueError: ``new_name`` と ``search`` / ``replace`` が同時に
                 指定された場合。
         """
-        if new_name is not None and (
-            search is not None or replace is not None
-        ):
+        if new_name is not None and search is not None:
             raise ValueError(
                 "new_name と search/replace を同時に指定することはできません。"
+            )
+        elif new_name is None and search is None and not prefix and not suffix:
+            raise ValueError(
+                "new_name または search、もしくは prefix/suffix のいずれかを指定してください。"
             )
 
         # ネームスペースとピュアな名前を分離する
@@ -253,21 +366,18 @@ class Node(metaclass=ImmutableDescriptorMeta):
             namespace_prefix = ""
             pure_name = self.name
 
+        namespace_prefix = self.namespace_colon
+        pure_name = self.local_name
+
         # ピュアな名前を変換する
+        #   名前自体の変換
         if new_name is not None:
             pure_name = new_name
         elif search is not None:
             replace_str = replace if replace is not None else ""
             pure_name = pure_name.replace(search, replace_str)
-
+        #   prefix, suffix を付加する
         pure_name = prefix + pure_name + suffix
 
-        # 名前に変化がない場合はリネーム操作をスキップする
-        candidate = namespace_prefix + pure_name
-        if candidate == self.name:
-            return self.name
-
-        # Maya でリネームし、確定した名前を self.name に反映する
-        result = cmds.rename(self.name, candidate)
-        self.name = result
-        return self.name
+        # リネームする
+        self._dg_mod.renameNode(self._m_obj, namespace_prefix + pure_name)

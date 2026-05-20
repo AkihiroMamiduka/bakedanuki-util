@@ -1,18 +1,193 @@
 # coding: utf-8
 from typing import TypeVar, Type, cast
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
-from .._core import Attr, Plug
+from ..compound_base._floating_point_compound import (
+    FloatingPointBaseAttr,
+    FloatingPointBasePlug,
+    FloatingPointScalarType,
+)
 
-A = TypeVar("A", bound="Attr")
+A = TypeVar("A", bound="FloatingPointBaseAttr")
 
-P = TypeVar("P", bound="Plug")
-
-
-class Double4Plug(Plug[A]):
-    pass
+P = TypeVar("P", bound="FloatingPointBasePlug")
 
 
-class Double4Attr(Attr[P]):
+class Double4Plug(FloatingPointBasePlug[A]):
+    __slots__ = ()
+
+    # get
+    def get(self) -> list[float]:
+        # 型を推測
+        self._analyze_child_type()
+
+        # 型に合わせて、値を取得
+        if self._child_type == FloatingPointScalarType.NORMAL:
+            value = [
+                self.plug.child(0).asDouble(),
+                self.plug.child(1).asDouble(),
+                self.plug.child(2).asDouble(),
+                self.plug.child(3).asDouble(),
+            ]
+        elif self._child_type == FloatingPointScalarType.DISTANCE:
+            value = [
+                self.plug.child(0).asMDistance().asCentimeters(),
+                self.plug.child(1).asMDistance().asCentimeters(),
+                self.plug.child(2).asMDistance().asCentimeters(),
+                self.plug.child(3).asMDistance().asCentimeters(),
+            ]
+        elif self._child_type == FloatingPointScalarType.ANGLE:
+            value = [
+                self.plug.child(0).asMAngle().asDegrees(),
+                self.plug.child(1).asMAngle().asDegrees(),
+                self.plug.child(2).asMAngle().asDegrees(),
+                self.plug.child(3).asMAngle().asDegrees(),
+            ]
+
+        # 戻り値
+        return value
+
+    # set
+    def set(self, *value: float | list[float]):
+        # 型を推測
+        self._analyze_child_type()
+
+        try:
+            # set(x, y, z, w)
+            try:
+                # 型に合わせて、値をセット
+                if self._child_type == FloatingPointScalarType.NORMAL:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0), value[0]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1), value[1]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2), value[2]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3), value[3]
+                    )
+                elif self._child_type == FloatingPointScalarType.DISTANCE:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0),
+                        om.MDistance(
+                            value[0],
+                            om.MDistance.uiUnit(),
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1),
+                        om.MDistance(
+                            value[1],
+                            om.MDistance.uiUnit(),
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2),
+                        om.MDistance(
+                            value[2],
+                            om.MDistance.uiUnit(),
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3),
+                        om.MDistance(
+                            value[3],
+                            om.MDistance.uiUnit(),
+                        ).asCentimeters(),
+                    )
+                elif self._child_type == FloatingPointScalarType.ANGLE:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0),
+                        om.MAngle(value[0], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1),
+                        om.MAngle(value[1], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2),
+                        om.MAngle(value[2], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3),
+                        om.MAngle(value[3], om.MAngle.uiUnit()).asRadians(),
+                    )
+            # set([x, y, z, w])
+            except Exception:
+                # 型に合わせて、値をセット
+                if self._child_type == FloatingPointScalarType.NORMAL:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0), value[0][0]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1), value[0][1]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2), value[0][2]
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3), value[0][3]
+                    )
+                elif self._child_type == FloatingPointScalarType.DISTANCE:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0),
+                        om.MDistance(
+                            value[0][0], om.MDistance.uiUnit()
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1),
+                        om.MDistance(
+                            value[0][1], om.MDistance.uiUnit()
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2),
+                        om.MDistance(
+                            value[0][2], om.MDistance.uiUnit()
+                        ).asCentimeters(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3),
+                        om.MDistance(
+                            value[0][3], om.MDistance.uiUnit()
+                        ).asCentimeters(),
+                    )
+                elif self._child_type == FloatingPointScalarType.ANGLE:
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(0),
+                        om.MAngle(value[0][0], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(1),
+                        om.MAngle(value[0][1], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(2),
+                        om.MAngle(value[0][2], om.MAngle.uiUnit()).asRadians(),
+                    )
+                    self._node._dg_mod.newPlugValueDouble(
+                        self.plug.child(3),
+                        om.MAngle(value[0][3], om.MAngle.uiUnit()).asRadians(),
+                    )
+        except Exception as e:
+            raise TypeError(
+                "Expected either {} or {}: {}".format(
+                    "set(x, y, z, w)",
+                    "set([x, y, z, w])",
+                    value,
+                )
+            ) from e
+
+
+class Double4Attr(FloatingPointBaseAttr[P]):
+    __slots__ = ()
+
     ATTR_TYPE = "double4"
     PLUG_CLS = cast(Type[P], Double4Plug)
