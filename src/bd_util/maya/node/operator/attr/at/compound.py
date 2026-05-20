@@ -12,6 +12,18 @@ P = TypeVar("P", bound="Plug")
 class CompoundPlug(Plug[A]):
     __slots__ = ()
 
+    # get
+    def get(self):
+        raise NotImplementedError(
+            "CompoundPlug does not support get operation"
+        )
+
+    # set
+    def set(self, value):
+        raise NotImplementedError(
+            "CompoundPlug does not support set operation"
+        )
+
 
 class CompoundAttr(Attr[P]):
     __slots__ = ()
