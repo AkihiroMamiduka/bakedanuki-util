@@ -100,12 +100,12 @@ class Plug(Generic[A], ABC):
         return name
 
     @property
-    def plug(self) -> str:
+    def plug(self) -> om.MPlug:
         """
-        "node.attr"形式の plug 文字列
+        MPlug インスタンスを取得する
 
         Returns:
-            str: "node.attr"形式の plug 文字列
+            om.MPlug: MPlug インスタンス
         """
         # キャッシュがあればそれを返す
         if self._plug is not None:
@@ -122,7 +122,7 @@ class Plug(Generic[A], ABC):
                 )
         #   それ以外は、ノードから直接 plug を探す
         else:
-            plug = self._node._fn_node.findPlug(self._attr._m_obj, False)
+            plug = self._node._fn_node.findPlug(self._attr.long_name, False)
 
         # index があれば、elementByLogicalIndex で plug を置き換える
         if self.index is not None:
@@ -154,7 +154,7 @@ class Plug(Generic[A], ABC):
 
     # array
     @property
-    def array_plug(self) -> Self:
+    def array_plug(self) -> om.MPlug:
         # multi アトリビュートでなければ array_plug はない
         if not self.multi:
             raise AttributeError(f"{self.plug} は array_plug を持ちません")

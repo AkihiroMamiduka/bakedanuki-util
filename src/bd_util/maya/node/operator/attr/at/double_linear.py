@@ -1,4 +1,9 @@
 # coding: utf-8
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
 from .._core import Attr, Plug
 
 
@@ -7,10 +12,11 @@ class DoubleLinearPlug(Plug["DoubleLinearAttr"]):
 
     # get
     def get(self) -> float:
-        return self.plug.asMDistance()
+        return self.plug.asMDistance().asCentimeters()
 
     # set
     def set(self, value: float):
+        value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
 
