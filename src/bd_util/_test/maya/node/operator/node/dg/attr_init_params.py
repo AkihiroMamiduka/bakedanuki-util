@@ -3,20 +3,24 @@
 Attr クラスの __init__ 引数拡張と各プロパティのテスト・デモ
 
 テスト項目:
-  1. extra=True のプロパティがクラスアクセスで格納値を返す
-  2. extra=True のプロパティがインスタンスアクセスで格納値を返す
-  3. add_attr() が defaultValue / minValue / maxValue を正しく addAttr() へ渡す
-  4. add_attr() が softMinValue / softMaxValue を正しく addAttr() へ渡す
-  5. EnumAttr で enum_name を指定して addAttr() される
-  6. readable=False / writable=False が addAttr() へ渡される
-  7. DataStringAttr が dataType を使って addAttr() される
-  8. extra=False のプロパティが cmds.attributeQuery から値を取得する
+    1. extra=True のプロパティがクラスアクセスで格納値を返す
+    2. extra=True のプロパティがインスタンスアクセスで格納値を返す
+    3. add_attr() が defaultValue / minValue / maxValue を正しく addAttr() へ渡す
+    4. add_attr() が softMinValue / softMaxValue を正しく addAttr() へ渡す
+    5. EnumAttr で enum_name を指定して addAttr() される
+    6. readable=False / writable=False が addAttr() へ渡される
+    7. DataStringAttr が dataType を使って addAttr() される
+    8. extra=False のプロパティが cmds.attributeQuery から値を取得する
 """
-import maya.cmds as cmds
 
+# maya
+from maya import cmds
+from maya.api import OpenMaya as om
+
+# self
 from ....... import logger as u_logger
 from ...... import str as test_str
-from .......maya.node.operator.node._core import Node
+from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.at.double import DoubleAttr
 from .......maya.node.operator.attr.at.enum import EnumAttr
 from .......maya.node.operator.attr.dt.string import DataStringAttr
@@ -28,9 +32,7 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 # ---------------------------------------------------------------------------
 
 
-class MyNode(Node):
-    NODE_TYPE = "transform"
-
+class MyNode(Transform):
     # extra=True: init 引数で各種情報を保持する
     myDouble = DoubleAttr(
         extra=True,
@@ -129,12 +131,6 @@ def extra_true_class_access_properties():
 def extra_true_instance_access_properties():
     test_str.title("2. extra=True: instance access properties")
 
-    node_name = "test_extra_true_props"
-    if cmds.objExists(node_name):
-        cmds.delete(node_name)
-    cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
-
     # myDouble
     # extra=True の Attr はノードインスタンス生成後もクラス経由でアクセスし、
     # 格納値をそのまま返すことを確認する
@@ -203,11 +199,16 @@ def extra_true_instance_access_properties():
 def add_attr_default_min_max():
     test_str.title("3. add_attr(): defaultValue / minValue / maxValue")
 
-    node_name = "test_add_attr_range"
+    # ノードを作成
+    node_name = "test_extra_true_props"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     exists = cmds.objExists(f"{node_name}.myDouble")
     logger.debug(
@@ -240,7 +241,11 @@ def add_attr_soft_min_max():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     soft_min = cmds.attributeQuery("myDouble", node=node_name, softMin=True)
     logger.debug("{}: {} (should be [0.5])".format("softMin", soft_min))
@@ -261,7 +266,11 @@ def add_attr_enum_name():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     exists = cmds.objExists(f"{node_name}.myEnum")
     logger.debug(
@@ -286,7 +295,11 @@ def add_attr_readable_writable():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     exists = cmds.objExists(f"{node_name}.myReadOnly")
     logger.debug(
@@ -314,7 +327,11 @@ def add_attr_data_type_string():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     exists = cmds.objExists(f"{node_name}.myString")
     logger.debug(
@@ -352,37 +369,38 @@ def extra_false_query_properties():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    MyNode(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     # translateX は transform に標準で存在する extra=False アトリビュート
     attr = MyNode.translateX
 
     logger.debug("{}: {}".format("MyNode.translateX.extra", attr.extra))
 
-    default_val = attr.default_value
     logger.debug(
         "{}: {}".format(
-            "translateX.default_value (via cmds.attributeQuery)", default_val
+            "translateX.default_value (via cmds.attributeQuery)",
+            attr.default_value,
         )
     )
 
-    readable_val = attr.readable
     logger.debug(
         "{}: {}".format(
-            "translateX.readable (via cmds.attributeQuery)", readable_val
+            "translateX.readable (via cmds.attributeQuery)", attr.readable
         )
     )
 
-    writable_val = attr.writable
     logger.debug(
         "{}: {}".format(
-            "translateX.writable (via cmds.attributeQuery)", writable_val
+            "translateX.writable (via cmds.attributeQuery)", attr.writable
         )
     )
 
-    min_val = attr.min_value
     logger.debug(
         "{}: {}".format(
-            "translateX.min_value (via cmds.attributeQuery)", min_val
+            "translateX.min_value (via cmds.attributeQuery)", attr.min_value
         )
     )

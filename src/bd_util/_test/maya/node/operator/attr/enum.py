@@ -11,6 +11,9 @@ EnumAttr.enum / EnumPlug.enum アクセスのテスト
   6. 等値比較: PlusMinusAverage.operation.enum.NO_OPERATION == 0 が True であることを確認する
 """
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ...... import logger as u_logger
 from ..... import str as test_str
@@ -67,7 +70,8 @@ def instance_access_returns_enum_class():
         "2. instance access: EnumPlug.enum returns OperationEnum class"
     )
 
-    node = PlusMinusAverage.create("test_enum_instance")
+    mod = om.MDGModifier()
+    node = PlusMinusAverage.create(mod, name="test_enum_instance")
     enum_cls = node.operation.enum
     logger.debug(
         "{}: {}".format(
@@ -136,7 +140,8 @@ def class_access_enum_member():
 def instance_access_enum_member():
     test_str.title("4. instance access: EnumPlug.enum member reference")
 
-    node = PlusMinusAverage.create("test_enum_member")
+    mod = om.MDGModifier()
+    node = PlusMinusAverage.create(mod, name="test_enum_member")
 
     test_str.separator()
     logger.debug(

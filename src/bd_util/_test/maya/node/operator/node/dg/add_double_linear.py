@@ -1,5 +1,8 @@
 # coding: utf-8
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
@@ -15,7 +18,8 @@ def main():
 
 def get_set():
     test_str.title("get_set")
-    node = AddDoubleLinear.create("test")
+    mod = om.MDGModifier()
+    node = AddDoubleLinear.create(mod, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -61,7 +65,8 @@ def get_set():
 
 def get_set_short_name():
     test_str.title("get_set_short_name")
-    node = AddDoubleLinear.create("test")
+    mod = om.MDGModifier()
+    node = AddDoubleLinear.create(mod, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()

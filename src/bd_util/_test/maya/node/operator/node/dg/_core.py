@@ -1,10 +1,12 @@
 # coding: utf-8
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
-
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -15,7 +17,8 @@ def main():
 
 def attribute_access_get():
     test_str.title("Testing attribute access")
-    dg = WtAddMatrix.create("test")
+    mod = om.MDGModifier()
+    dg = WtAddMatrix.create(mod, name="test")
 
     test_str.separator()
     logger.debug("caching: {}".format(dg.caching.get()))

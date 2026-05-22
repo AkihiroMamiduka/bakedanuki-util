@@ -2,17 +2,22 @@
 """
 extra=True の Attr を使った自動 addAttr() 機能のテスト・デモ
 """
+
+# maya
+from maya import cmds
+from maya.api import OpenMaya as om
+
+# self
 from ....... import logger as u_logger
 from ...... import str as test_str
-from .......maya.node.operator.node._core import Node
+from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.at.double import DoubleAttr
 from .......maya.node.operator.attr.at.matrix import MatrixAttr
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class MyTransform(Node):
-    NODE_TYPE = "transform"
+class MyTransform(Transform):
 
     # extra=True: インスタンス生成時に自動 addAttr() される
     myWeight = DoubleAttr(extra=True)
@@ -47,21 +52,34 @@ def extra_attrs_class_access():
 def auto_add_attr_on_init():
     test_str.title("2. extra=True: instance access properties")
 
-    import maya.cmds as cmds
+    # node_name = "test_auto_add"
+    # if cmds.objExists(node_name):
+    #     cmds.delete(node_name)
 
+    # # ノードを作成
+    # cmds.createNode("transform", name=node_name, skipSelect=True)
+
+    # # Node インスタンス生成 → extra=True の Attr が自動 addAttr() される
+    # node = MyTransform(node_name)
+
+    # ノードを作成
     node_name = "test_auto_add"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
-
-    # ノードを作成
-    cmds.createNode("transform", name=node_name, skipSelect=True)
-
-    # Node インスタンス生成 → extra=True の Attr が自動 addAttr() される
-    node = MyTransform(node_name)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    node = MyTransform.create(dg_mod, dag_mod=dag_mod, name=node_name)
+    dag_mod.doIt()
+    dg_mod.doIt()
 
     logger.debug(
         "node.myWeight plug exists: {}".format(
             cmds.objExists(f"{node_name}.myWeight")
+        )
+    )
+    logger.debug(
+        "node.myMatrix plug exists: {}".format(
+            cmds.objExists(f"{node_name}.myMatrix")
         )
     )
 
@@ -85,8 +103,6 @@ def no_auto_add_attr():
         "3. extra=True: auto_add_attr=False prevents auto addAttr()"
     )
 
-    import maya.cmds as cmds
-
     node_name = "test_no_auto_add"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
@@ -105,8 +121,6 @@ def no_auto_add_attr():
 
 def manual_add_attr_via_plug():
     test_str.title("4. extra=True: manual addAttr() via Plug")
-
-    import maya.cmds as cmds
 
     node_name = "test_manual_add"
     if cmds.objExists(node_name):
