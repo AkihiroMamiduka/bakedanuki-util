@@ -117,7 +117,6 @@ def safe_query(func, *args, **kwargs):
 
 
 def get_attribute_info(node: str, attr: str) -> AttrInfo:
-    logger.debug(f"{node}: {attr}")
     # long / short name
     long_name = attr
     short_name = safe_query(

@@ -25,7 +25,7 @@ class Float2Plug(FloatingPointBasePlug[A]):
         self._analyze_child_type()
 
         # 型に合わせて、値を取得
-        if self._child_type == FloatingPointScalarType.NORMAL:
+        if self._child_type == FloatingPointScalarType.Numeric:
             value = [
                 self.plug.child(0).asFloat(),
                 self.plug.child(1).asFloat(),
@@ -53,7 +53,7 @@ class Float2Plug(FloatingPointBasePlug[A]):
             # set(x, y)
             try:
                 # 型に合わせて、値をセット
-                if self._child_type == FloatingPointScalarType.NORMAL:
+                if self._child_type == FloatingPointScalarType.Numeric:
                     self._node._dg_mod.newPlugValueFloat(
                         self.plug.child(0), value[0]
                     )
@@ -87,7 +87,7 @@ class Float2Plug(FloatingPointBasePlug[A]):
             # set([x, y])
             except Exception:
                 # 型に合わせて、値をセット
-                if self._child_type == FloatingPointScalarType.NORMAL:
+                if self._child_type == FloatingPointScalarType.Numeric:
                     self._node._dg_mod.newPlugValueFloat(
                         self.plug.child(0), value[0][0]
                     )

@@ -1,5 +1,9 @@
 # coding: utf-8
 
+# maya
+from maya import cmds
+from maya.api import OpenMaya as om
+
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
@@ -25,7 +29,14 @@ def main():
 
 def class_instance_access():
     test_str.title("class_instance_access")
-    node = WtAddMatrix("test")
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
 
     test_str.separator()
     # node.is_instance = "test"  # error
@@ -46,14 +57,28 @@ def class_instance_access():
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix.matrixIn.name",
-            node.wtMatrix,
+            "node.wtMatrix[0]",
+            node.wtMatrix[0],
+        )
+    )
+
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.wtMatrix[0].matrixIn",
+            node.wtMatrix[0].matrixIn,
         )
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix.matrixIn.plug",
-            node.wtMatrix,
+            "node.wtMatrix[0].matrixIn.name",
+            node.wtMatrix[0].matrixIn.name,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.wtMatrix[0].matrixIn.plug",
+            node.wtMatrix[0].matrixIn.plug,
         )
     )
 
@@ -61,20 +86,20 @@ def class_instance_access():
     # node.wtMatrix.matrixIn = "test"  # error
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix.matrixIn",
-            node.wtMatrix.matrixIn,
+            "node.wtMatrix[0].weightIn",
+            node.wtMatrix[0].weightIn,
         )
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix.matrixIn.name",
-            node.wtMatrix.matrixIn.name,
+            "node.wtMatrix[0].weightIn.name",
+            node.wtMatrix[0].weightIn.name,
         )
     )
     logger.debug(
         "{}: {}".format(
-            "node.wtMatrix.matrixIn.plug",
-            node.wtMatrix.matrixIn.plug,
+            "node.wtMatrix[0].weightIn.plug",
+            node.wtMatrix[0].weightIn.plug,
         )
     )
 
@@ -194,7 +219,15 @@ def class_access():
 
 def create():
     test_str.title("create")
-    node = WtAddMatrix.create()
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
+
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
     logger.debug(f"node.name: {node.name}")
@@ -205,7 +238,15 @@ def create():
 
 def instance_access():
     test_str.title("instance_access")
-    node = WtAddMatrix.create("test")
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
+
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
 
@@ -358,13 +399,29 @@ def instance_access():
 
 def to_string():
     test_str.title("to_string")
-    node = WtAddMatrix.create()
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
+
     logger.debug(f"str(node): {str(node)}")
 
 
 def get_set():
     test_str.title("get_set")
-    node = WtAddMatrix.create("test")
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
+
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -439,8 +496,20 @@ def get_set():
 
 def connect_disconnect():
     test_str.title("connect_disconnect")
-    node_0 = WtAddMatrix.create("test_0")
-    node_1 = WtAddMatrix.create("test_1")
+    dg_mod = om.MDGModifier()
+
+    node_name_0 = "test_0"
+    if cmds.objExists(node_name_0):
+        cmds.delete(node_name_0)
+    cmds.createNode("wtAddMatrix", name=node_name_0, skipSelect=True)
+    node_0 = WtAddMatrix(dg_mod, name=node_name_0)
+
+    node_name_1 = "test_1"
+    if cmds.objExists(node_name_1):
+        cmds.delete(node_name_1)
+    cmds.createNode("wtAddMatrix", name=node_name_1, skipSelect=True)
+    node_1 = WtAddMatrix(dg_mod, name=node_name_1)
+    dg_mod.doIt()
 
     test_str.separator()
     node_0.matrixSum > node_1.wtMatrix[0].matrixIn
@@ -449,19 +518,26 @@ def connect_disconnect():
     f"{node_0}.matrixSum" > node_1.wtMatrix[0].matrixIn
     f"{node_0}.matrixSum" | node_1.wtMatrix[0].matrixIn
 
-    [node_0, "matrixSum"] > node_1.wtMatrix[0].matrixIn
-    [node_0, "matrixSum"] | node_1.wtMatrix[0].matrixIn
+    [str(node_0), "matrixSum"] > node_1.wtMatrix[0].matrixIn
+    [str(node_0), "matrixSum"] | node_1.wtMatrix[0].matrixIn
 
     node_0.matrixSum > f"{node_1}.wtMatrix[0].matrixIn"
     node_0.matrixSum | f"{node_1}.wtMatrix[0].matrixIn"
 
-    node_0.matrixSum > [node_1, "wtMatrix[0]", "matrixIn"]
-    node_0.matrixSum | [node_1, "wtMatrix[0]", "matrixIn"]
+    node_0.matrixSum > [str(node_1), "wtMatrix[0]", "matrixIn"]
+    node_0.matrixSum | [str(node_1), "wtMatrix[0]", "matrixIn"]
 
 
 def plug_cache():
     test_str.title("plug_cache")
-    node = WtAddMatrix("test")
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
 
     test_str.separator()
     plug_0 = node.matrixSum
@@ -570,7 +646,14 @@ def short_name_class_access():
 
 def short_name_instance_access():
     test_str.title("short_name_instance_access")
-    node = WtAddMatrix.create("test")
+
+    node_name = "test"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    node = WtAddMatrix(dg_mod, name=node_name)
+    dg_mod.doIt()
 
     test_str.separator()
     logger.debug(
@@ -725,36 +808,63 @@ def short_name_instance_access():
 
 def connect_next_index():
     test_str.title("connect_next_index")
-    dst_node = WtAddMatrix.create("dst")
+
+    dg_mod = om.MDGModifier()
+
+    node_name = "dst"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dst_node = WtAddMatrix(dg_mod, name=node_name)
     for i in range(5):
-        src_node = WtAddMatrix.create(f"src_{i}")
-        dst_node.wtMatrix.matrixIn.connect_next_index(src_node.matrixSum)
+        node_name = f"src_{i}"
+        if cmds.objExists(node_name):
+            cmds.delete(node_name)
+        cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+        src_node = WtAddMatrix(dg_mod, name=node_name)
+        src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst_node.wtMatrix[{}].matrixIn".format(i, i)
         )
+    dg_mod.doIt()
 
 
 def refresh_next_index():
     test_str.title("refresh_next_index")
-    dst_node = WtAddMatrix.create("dst")
-    plug = dst_node.wtMatrix.matrixIn
 
-    # connect_next_index でキャッシュを使いながら 3 件接続
+    node_name = "dst"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    dg_mod = om.MDGModifier()
+    dst_node = WtAddMatrix(dg_mod, name=node_name)
+
+    # next 指定でキャッシュを使いながら 3 件接続
     for i in range(3):
-        src_node = WtAddMatrix.create(f"src_{i}")
-        plug.connect_next_index(src_node.matrixSum)
+        node_name = f"src_{i}"
+        if cmds.objExists(node_name):
+            cmds.delete(node_name)
+        cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+        src_node = WtAddMatrix(dg_mod, name=node_name)
+        src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst.wtMatrix[{}].matrixIn".format(i, i)
         )
+    dg_mod.doIt()
 
     # このメソッド以外 (cmds.connectAttr 相当) でコネクションが追加された場合を想定し
     # refresh_next_index() でキャッシュをリセットする
-    plug.refresh_next_index()
+    dst_node.wtMatrix.refresh_next_index()
     logger.debug("refresh_next_index() called")
 
     # リセット後は再スキャンして正しいインデックスから接続される
-    extra_src = WtAddMatrix.create("src_extra")
-    plug.connect_next_index(extra_src.matrixSum)
+    node_name = "src_extra"
+    if cmds.objExists(node_name):
+        cmds.delete(node_name)
+    cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
+    extra_src = WtAddMatrix(dg_mod, name=node_name)
+    extra_src.matrixSum > dst_node.wtMatrix[next].matrixIn
     logger.debug(
         "src_extra.matrixSum > dst.wtMatrix[3].matrixIn (after refresh)"
     )
+    dg_mod.doIt()

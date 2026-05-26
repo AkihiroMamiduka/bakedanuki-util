@@ -1,4 +1,9 @@
 # coding: utf-8
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
 from .._core import Attr, Plug
 
 
@@ -19,3 +24,34 @@ class DoubleAttr(Attr[DoublePlug]):
 
     ATTR_TYPE = "double"
     PLUG_CLS = DoublePlug
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # デフォルト値
+        self._default_value = kwargs.get("default_value", 0.0)
+
+    # add
+    def add_attr(self, node_name: str):
+        fn_node = super().add_attr(node_name)
+        if fn_node is None:
+            return
+
+        fn_attr = om.MFnNumericAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+            om.MFnNumericData.kDouble,
+            self._default_value,
+        )
+        fn_node.addAttribute(attr_obj)
+
+        if self._min_value is not None:
+            fn_attr.setMin(self._min_value)
+        if self._max_value is not None:
+            fn_attr.setMax(self._max_value)
+
+        if self._min_value is not None:
+            fn_attr.setSoftMin(self._min_value)
+        if self._max_value is not None:
+            fn_attr.setSoftMax(self._max_value)

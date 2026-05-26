@@ -188,11 +188,11 @@ def instance_access_enum_member():
 def to_enum_name_output():
     test_str.title("5. to_enum_name(): AttributeEnum.to_enum_name() output")
 
-    result = DG.nodeState.enum.to_enum_name()
+    result = PlusMinusAverage.nodeState.enum.to_enum_name()
     expected = "Normal:HasNoEffect:Blocking:Waiting-Normal=8:Waiting-HasNoEffect:Waiting-Blocking"
     logger.debug(
         "{}: {}".format(
-            "DG.nodeState.enum.to_enum_name()",
+            "PlusMinusAverage.nodeState.enum.to_enum_name()",
             result,
         )
     )

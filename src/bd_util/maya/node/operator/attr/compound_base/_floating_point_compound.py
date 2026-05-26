@@ -5,6 +5,7 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
+from ...... import logger as u_logger
 from .._core import Attr, Plug
 
 A = TypeVar("A", bound="Attr")
@@ -12,12 +13,15 @@ A = TypeVar("A", bound="Attr")
 P = TypeVar("P", bound="Plug")
 
 
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+
 class FloatingPointScalarType:
     """
     float, double の、 通常の値/距離/角度、どの型なのかを表す列挙型
     """
 
-    NORMAL = 0
+    Numeric = 0
     DISTANCE = 1
     ANGLE = 2
 
@@ -61,8 +65,11 @@ class FloatingPointBasePlug(Plug[A]):
         elif attr.hasFn(om.MFn.kNumericAttribute):
             fn = om.MFnNumericAttribute(attr)
             numeric_type = fn.numericType()
-            if numeric_type == om.MFnNumericData.kDouble:
-                plug_type = FloatingPointScalarType.NORMAL
+            if (
+                numeric_type == om.MFnNumericData.kDouble
+                or numeric_type == om.MFnNumericData.kFloat
+            ):
+                plug_type = FloatingPointScalarType.Numeric
 
         # 型がわからない場合はエラー
         if plug_type is None:

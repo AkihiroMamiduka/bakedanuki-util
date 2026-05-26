@@ -6,9 +6,9 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .._core import DataArrayBaseAttr, DataTypePlug
+from .._core import DataTypeAttr, DataTypePlug
 
-A = TypeVar("A", bound="DataArrayBaseAttr")
+A = TypeVar("A", bound="DataTypeAttr")
 
 P = TypeVar("P", bound="DataTypePlug")
 
@@ -38,7 +38,7 @@ class DataNumericBasePlug(DataTypePlug[A]):
         self.plug.setMObject(obj)
 
 
-class DataNumericBaseAttr(DataArrayBaseAttr[P]):
+class DataNumericBaseAttr(DataTypeAttr[P]):
     __slots__ = ()
 
     DATA_TYPE = "abc"

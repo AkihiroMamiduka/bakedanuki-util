@@ -1,4 +1,9 @@
 # coding: utf-8
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
 from ._core import DataTypeAttr, DataTypePlug
 
 
@@ -19,3 +24,17 @@ class DataStringAttr(DataTypeAttr[DataStringPlug]):
 
     DATA_TYPE = "string"
     PLUG_CLS = DataStringPlug
+
+    # add
+    def add_attr(self, node_name: str):
+        fn_node = super().add_attr(node_name)
+        if fn_node is None:
+            return
+
+        fn_attr = om.MFnTypedAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+            om.MFnData.kString,
+        )
+        fn_node.addAttribute(attr_obj)

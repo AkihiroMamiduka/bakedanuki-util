@@ -12,7 +12,7 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.at.double import DoubleAttr
-from .......maya.node.operator.attr.at.matrix import MatrixAttr
+from .......maya.node.operator.attr.dt.matrix import DataMatrixAttr
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -23,7 +23,7 @@ class MyTransform(Transform):
     myWeight = DoubleAttr(extra=True)
     mw = myWeight
 
-    myMatrix = MatrixAttr(extra=True)
+    myMatrix = DataMatrixAttr(extra=True)
     mm = myMatrix
 
     # extra=False (デフォルト): 通常のアトリビュート定義 (addAttr() されない)
@@ -52,25 +52,17 @@ def extra_attrs_class_access():
 def auto_add_attr_on_init():
     test_str.title("2. extra=True: instance access properties")
 
-    # node_name = "test_auto_add"
-    # if cmds.objExists(node_name):
-    #     cmds.delete(node_name)
-
-    # # ノードを作成
-    # cmds.createNode("transform", name=node_name, skipSelect=True)
-
-    # # Node インスタンス生成 → extra=True の Attr が自動 addAttr() される
-    # node = MyTransform(node_name)
-
-    # ノードを作成
     node_name = "test_auto_add"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
+
+    # ノードを作成
+    cmds.createNode("transform", name=node_name, skipSelect=True)
+
+    # Node インスタンス生成 → extra=True の Attr が自動 addAttr() される
     dg_mod = om.MDGModifier()
     dag_mod = om.MDagModifier()
-    node = MyTransform.create(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    node = MyTransform(dg_mod, dag_mod=dag_mod, name=node_name)
 
     logger.debug(
         "node.myWeight plug exists: {}".format(
@@ -110,7 +102,9 @@ def no_auto_add_attr():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # auto_add_attr=False → addAttr() されない
-    MyTransform(node_name, auto_add_attr=False)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    MyTransform(dg_mod, dag_mod=dag_mod, name=node_name, auto_add_attr=False)
 
     logger.debug(
         "node.myWeight plug exists (should be False): {}".format(
@@ -129,7 +123,11 @@ def manual_add_attr_via_plug():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # auto_add_attr=False でインスタンス化
-    node = MyTransform(node_name, auto_add_attr=False)
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    node = MyTransform(
+        dg_mod, dag_mod=dag_mod, name=node_name, auto_add_attr=False
+    )
 
     # Plug 経由で任意タイミングに addAttr()
     logger.debug(

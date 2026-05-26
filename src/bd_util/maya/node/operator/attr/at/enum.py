@@ -28,7 +28,7 @@ class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
     def _get_fn_enum(self) -> om.MFnEnumAttribute:
         # MFnEnumAttribute をキャッシュする
         if self._fn_enum is None:
-            self._fn_enum = om.MFnEnumAttribute(self._attr._m_obj)
+            self._fn_enum = om.MFnEnumAttribute(self.plug.attribute())
         return self._fn_enum
 
     def get_enum_name(self, index: int = None) -> str:
@@ -166,3 +166,21 @@ class EnumAttr(Attr[EnumPlug], Generic[E]):
         self, instance: object | None, owner: type
     ) -> Self | EnumPlug[E]:
         return super().__get__(instance, owner)  # type: ignore[return-value]
+
+    # add
+    def add_attr(self, node_name: str):
+        fn_node = super().add_attr(node_name)
+        if fn_node is None:
+            return
+
+        fn_attr = om.MFnEnumAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+        )
+        fn_node.addAttribute(attr_obj)
+
+        # enum_name からフィールドを追加
+        if self.enum is not None:
+            for member in self.enum:
+                fn_attr.addField(member.label, int(member))

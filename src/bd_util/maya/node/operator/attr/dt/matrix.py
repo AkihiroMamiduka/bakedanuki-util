@@ -4,7 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
+from ...... import logger as u_logger
 from ._core import DataTypeAttr, DataTypePlug
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class DataMatrixPlug(DataTypePlug["DataMatrixAttr"]):
@@ -12,12 +15,13 @@ class DataMatrixPlug(DataTypePlug["DataMatrixAttr"]):
 
     # get
     def get(self) -> om.MMatrix:
-        return om.MFnMatrixData(self.plug.asMObject()).matrix()
+        return self.plug.asMDataHandle().asMatrix()
 
     # set
     def set(self, value: om.MMatrix):
-        mat_obj = om.MFnMatrixData().create(value)
-        self._node._dg_mod.newPlugValue(self.plug, mat_obj)
+        matrix = om.MMatrix(value)
+        matrix_obj = om.MFnMatrixData().create(matrix)
+        self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
 
 
 class DataMatrixAttr(DataTypeAttr[DataMatrixPlug]):
@@ -25,3 +29,17 @@ class DataMatrixAttr(DataTypeAttr[DataMatrixPlug]):
 
     DATA_TYPE = "matrix"
     PLUG_CLS = DataMatrixPlug
+
+    # add
+    def add_attr(self, node_name: str):
+        fn_node = super().add_attr(node_name)
+        if fn_node is None:
+            return
+
+        fn_attr = om.MFnTypedAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+            om.MFnMatrixData.kMatrix,
+        )
+        fn_node.addAttribute(attr_obj)

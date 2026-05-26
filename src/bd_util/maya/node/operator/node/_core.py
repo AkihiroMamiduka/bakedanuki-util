@@ -49,11 +49,7 @@ class NodeClass(ImmutableDescriptor):
     ノードクラスを返す属性記述子
     """
 
-    __slots__ = ("_node_class",)
-
-    def __init__(self):
-        super().__init__()
-        self._node_class = None
+    __slots__ = ()
 
     def __get__(
         self,
@@ -71,11 +67,10 @@ class NodeClass(ImmutableDescriptor):
         Returns:
             om.MNodeClass: ノードクラス
         """
-        if self._node_class is None and owner.NODE_TYPE is not None:
-            object.__setattr__(
-                self, "_node_class", om.MNodeClass(owner.NODE_TYPE)
-            )
-        return self._node_class
+        node_class = None
+        if owner.NODE_TYPE is not None:
+            node_class = om.MNodeClass(owner.NODE_TYPE)
+        return node_class
 
 
 class Node(metaclass=ImmutableDescriptorMeta):

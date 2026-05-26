@@ -252,6 +252,20 @@ class Plug(Generic[A], ABC):
                 parent_plug=self,
             )
             return plug
+        elif key == next:
+            if self.name.endswith("]"):
+                raise AttributeError(
+                    f"{self.plug} は [{key}] アクセスができません"
+                )
+            plug: Self = type(self)(
+                node=self._node,
+                attr=self._attr,
+                attr_path=self._attr._attr_path,
+                multi=self._attr.multi,
+                index=self._get_next_index(),
+                parent_plug=self,
+            )
+            return plug
         elif isinstance(key, str):
             attr_name, index = _parse_attr_segment(key)
             plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
@@ -381,13 +395,16 @@ class Plug(Generic[A], ABC):
         # キャッシュがあればそれを返す
         if self._next_index is not None:
             result = self._next_index
-            # インクリメントする
-            self._next_index += 1
         # キャッシュがなければ Maya に問い合わせる
         else:
             indices = self.plug.getExistingArrayAttributeIndices()
             if indices:
                 result = max(indices) + 1
+            # キャッシュする
+            self._next_index = result
+
+        # インクリメントする
+        self._next_index += 1
 
         # 戻り値
         return result
@@ -571,13 +588,16 @@ class Plug(Generic[A], ABC):
     def exists(self) -> bool:
         return self._node._fn_node.hasAttribute(self.long_name)
 
-    # addAttr
+    # add
     def add_attr(self):
         """
-        このプラグが参照するアトリビュートを、対象ノードに addAttr() する。
+        対象ノードに、このアトリビュートを addAttr() する。
         既に存在する場合はスキップする。
+
+        Args:
+            node_name (str): 対象ノード名
         """
-        self._attr.add_attr(self._node._cmd_access_name)
+        self._attr.add_attr(self._node.name)
 
 
 def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
@@ -657,7 +677,7 @@ def _make_dynamic_plug(
             attr_name, node=node.name, longName=True
         )
     except RuntimeError:
-        logger.debug(
+        raise RuntimeError(
             "{} '{}.{}': {}".format(
                 "attributeQuery longName failed for",
                 node.name,
@@ -672,7 +692,7 @@ def _make_dynamic_plug(
             cmds.attributeQuery(long_name, node=node.name, multi=True)
         )
     except RuntimeError:
-        logger.debug(
+        raise RuntimeError(
             "{} '{}.{}': {}".format(
                 "attributeQuery multi failed for",
                 node.name,
@@ -687,7 +707,7 @@ def _make_dynamic_plug(
             long_name, node=node.name, shortName=True
         )
     except RuntimeError:
-        logger.debug(
+        raise RuntimeError(
             "{} '{}.{}': {}".format(
                 "attributeQuery shortName failed for",
                 node.name,
@@ -704,7 +724,7 @@ def _make_dynamic_plug(
     attr = attr_cls(multi=multi)
     object.__setattr__(attr, "name", long_name)
     object.__setattr__(attr, "long_name", long_name)
-    object.__setattr__(attr, "short_name", short_name)
+    object.__setattr__(attr, "_short_name", short_name)
     object.__setattr__(attr, "_attr_path", attr_path)
     object.__setattr__(attr, "_node", node)
 
@@ -719,7 +739,6 @@ def _make_dynamic_plug(
 class Attr(ImmutableDescriptor, Generic[P]):
     __slots__ = (
         "_node",
-        "_m_obj",
         "_parent_attr_path",
         "multi",
         "extra",
@@ -736,7 +755,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         "_category",
         "name",
         "long_name",
-        "short_name",
+        "_short_name",
         "_attr_path",
     )
     # type
@@ -747,7 +766,6 @@ class Attr(ImmutableDescriptor, Generic[P]):
     # name
     name: str
     long_name: str | None
-    short_name: str | None
     # attr
     _attr_path: str
 
@@ -769,12 +787,10 @@ class Attr(ImmutableDescriptor, Generic[P]):
     ):
         # node
         self._node: Node = None
-        # m_obj
-        self._m_obj: om.MObject = None
         # name
         self.name = ""
         self.long_name = None
-        self.short_name = None
+        self._short_name = None
         # attr
         #   attr_path
         self._attr_path = ""
@@ -824,7 +840,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
             self.long_name = name
         else:
             # short name をセット
-            object.__setattr__(self, "short_name", name)
+            object.__setattr__(self, "_short_name", name)
 
     # __get__
     def __get__(self, instance: object | None, owner: type) -> Self | P:
@@ -846,16 +862,14 @@ class Attr(ImmutableDescriptor, Generic[P]):
         if instance is None:
             # Node
             object.__setattr__(self, "_node", owner)
-            self._set_m_obj__top_level_attr()
         #   instance アクセス
         else:
             # 親が Node
             if hasattr(instance, "NODE_TYPE"):
                 object.__setattr__(self, "_node", instance)
-                self._set_m_obj__top_level_attr()
             # 親が Attr or Plug
             else:
-                instance: Plug[A] = instance
+                instance: Attr[P] | Plug[A] = instance
                 # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
                 if instance._node is None:
                     return self
@@ -864,9 +878,6 @@ class Attr(ImmutableDescriptor, Generic[P]):
                     self, "_parent_attr_path", instance._attr_path
                 )
                 self._set_attr_path(self._parent_attr_path)
-
-                # _m_obj
-                self._set_m_obj__child_level_attr(instance._attr._m_obj)
 
         # 戻り値
         #   Node が instance へのアクセス(Plug)
@@ -888,26 +899,23 @@ class Attr(ImmutableDescriptor, Generic[P]):
         else:
             return self
 
-    # m_obj
-    def _set_m_obj__top_level_attr(self):
-        object.__setattr__(
-            self,
-            "_m_obj",
-            self._node.node_class.attribute(self.long_name),
-        )
-
-    def _set_m_obj__child_level_attr(self, parent_m_obj: om.MObject):
-        object.__setattr__(
-            self,
-            "_m_obj",
-            self.find_child_attribute(parent_m_obj, self.long_name),
-        )
-
     def find_child_attribute(
         self,
         compound_attr_obj: om.MObject,
         name: str,
     ) -> om.MObject | None:
+        if compound_attr_obj.isNull():
+            raise RuntimeError(
+                "{} {}: {}, {}: {}, {}: {}".format(
+                    "compound_attr_obj が無効です。",
+                    "self._node.node_class",
+                    self._node.node_class,
+                    "self.long_name",
+                    self.long_name,
+                    "compound_attr_obj.apiType()",
+                    compound_attr_obj.apiType(),
+                )
+            )
         compound_fn = om.MFnCompoundAttribute(compound_attr_obj)
 
         for i in range(compound_fn.numChildren()):
@@ -978,6 +986,13 @@ class Attr(ImmutableDescriptor, Generic[P]):
             )
         except Exception:
             return None
+
+    @property
+    def short_name(self) -> str | None:
+        """アトリビュートのショート名"""
+        if self._short_name is None:
+            object.__setattr__(self, "_short_name", self.long_name)
+        return self._short_name
 
     @property
     def default_value(self) -> Any:
@@ -1057,7 +1072,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         return self._query_attr_info(categories=True)
 
     # addAttr
-    def add_attr(self, node_name: str):
+    def add_attr(self, node_name: str) -> om.MFnDependencyNode | None:
         """
         対象ノードに、このアトリビュートを addAttr() する。
         既に存在する場合はスキップする。
@@ -1065,37 +1080,50 @@ class Attr(ImmutableDescriptor, Generic[P]):
         Args:
             node_name (str): 対象ノード名
         """
-        if cmds.objExists(f"{node_name}.{self.long_name}"):
-            return
+        # アトリビュートが既に存在する場合はスキップ
+        sel = om.MSelectionList()
+        sel.add(node_name)
+        node = sel.getDependNode(0)
+        fn_node = om.MFnDependencyNode(node)
+        if fn_node.hasAttribute(self.long_name):
+            return None
 
-        if self.is_data_type:
-            kwargs = {"dataType": self.DATA_TYPE}
-        else:
-            kwargs = {"attributeType": self.ATTR_TYPE}
-        kwargs["longName"] = self.long_name
-        if self.short_name is not None:
-            kwargs["shortName"] = self.short_name
-        if self._default_value is not None:
-            kwargs["defaultValue"] = self._default_value
-        if self._min_value is not None:
-            kwargs["minValue"] = self._min_value
-        if self._max_value is not None:
-            kwargs["maxValue"] = self._max_value
-        if self._soft_min_value is not None:
-            kwargs["softMinValue"] = self._soft_min_value
-        if self._soft_max_value is not None:
-            kwargs["softMaxValue"] = self._soft_max_value
-        if self._enum_name is not None:
-            kwargs["enumName"] = self._enum_name
-        if self._number_of_children is not None:
-            kwargs["numberOfChildren"] = self._number_of_children
-        if self._parent is not None:
-            kwargs["parent"] = self._parent
-        if self._readable is not None:
-            kwargs["readable"] = self._readable
-        if self._writable is not None:
-            kwargs["writable"] = self._writable
-        if self._category is not None:
-            kwargs["category"] = self._category
+        return fn_node
 
-        cmds.addAttr(node_name, **kwargs)
+        # if self._node._fn_node.hasAttribute(self.long_name):
+        #     return
+
+        # if cmds.objExists(f"{node_name}.{self.long_name}"):
+        #     return
+
+        # if self.is_data_type:
+        #     kwargs = {"dataType": self.DATA_TYPE}
+        # else:
+        #     kwargs = {"attributeType": self.ATTR_TYPE}
+        # kwargs["longName"] = self.long_name
+        # if self.short_name is not None:
+        #     kwargs["shortName"] = self.short_name
+        # if self._default_value is not None:
+        #     kwargs["defaultValue"] = self._default_value
+        # if self._min_value is not None:
+        #     kwargs["minValue"] = self._min_value
+        # if self._max_value is not None:
+        #     kwargs["maxValue"] = self._max_value
+        # if self._soft_min_value is not None:
+        #     kwargs["softMinValue"] = self._soft_min_value
+        # if self._soft_max_value is not None:
+        #     kwargs["softMaxValue"] = self._soft_max_value
+        # if self._enum_name is not None:
+        #     kwargs["enumName"] = self._enum_name
+        # if self._number_of_children is not None:
+        #     kwargs["numberOfChildren"] = self._number_of_children
+        # if self._parent is not None:
+        #     kwargs["parent"] = self._parent
+        # if self._readable is not None:
+        #     kwargs["readable"] = self._readable
+        # if self._writable is not None:
+        #     kwargs["writable"] = self._writable
+        # if self._category is not None:
+        #     kwargs["category"] = self._category
+
+        # cmds.addAttr(node_name, **kwargs)

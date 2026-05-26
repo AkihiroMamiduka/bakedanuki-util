@@ -25,7 +25,7 @@ class Double3Plug(FloatingPointBasePlug[A]):
         self._analyze_child_type()
 
         # 型に合わせて、値を取得
-        if self._child_type == FloatingPointScalarType.NORMAL:
+        if self._child_type == FloatingPointScalarType.Numeric:
             value = [
                 self.plug.child(0).asDouble(),
                 self.plug.child(1).asDouble(),
@@ -56,7 +56,7 @@ class Double3Plug(FloatingPointBasePlug[A]):
             # set(x, y, z)
             try:
                 # 型に合わせて、値をセット
-                if self._child_type == FloatingPointScalarType.NORMAL:
+                if self._child_type == FloatingPointScalarType.Numeric:
                     self._node._dg_mod.newPlugValueDouble(
                         self.plug.child(0), value[0]
                     )
@@ -104,7 +104,7 @@ class Double3Plug(FloatingPointBasePlug[A]):
             # set([x, y, z])
             except Exception:
                 # 型に合わせて、値をセット
-                if self._child_type == FloatingPointScalarType.NORMAL:
+                if self._child_type == FloatingPointScalarType.Numeric:
                     self._node._dg_mod.newPlugValueDouble(
                         self.plug.child(0), value[0][0]
                     )
