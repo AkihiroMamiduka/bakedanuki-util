@@ -1,19 +1,20 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Any, Generic, Self, Type, TypeVar, overload
+from typing import Any, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
-from .....attr.enum import AttributeEnum
 from .._core import Attr, Plug
 
-E = TypeVar("E", bound=AttributeEnum)
+A = TypeVar("A", bound="Attr")
+
+P = TypeVar("P", bound="Plug")
 
 
-class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
+class EnumPlug(Plug["EnumAttr"]):
     __slots__ = ("_fn_enum",)
 
     def __init__(self, *args, **kwargs):
@@ -31,141 +32,57 @@ class EnumPlug(Plug["EnumAttr[E]"], Generic[E]):
             self._fn_enum = om.MFnEnumAttribute(self.plug.attribute())
         return self._fn_enum
 
-    def get_enum_name(self, index: int = None) -> str:
-        # index が指定されていない場合は、現在の値を使用する
-        if index is None:
-            index = self.get()
-        # MFnEnumAttribute を取得し、index に対応する名前を返す
-        fn_enum = self._get_fn_enum()
-        return fn_enum.findName(index)
+    # name
+    def name_by_index(self, index: int) -> str:
+        return self._attr.NAME_MAP[index]
 
-    def get_enum_index(self, name: str) -> int:
-        # MFnEnumAttribute から name に対応する index を返す
-        return self._get_fn_enum().fieldValue(name)
+    def enum_full_name(self) -> str:
+        return self._attr.enum_full_name()
+
+    # index
+    def index_by_name(self, name: str) -> int:
+        return self._attr.index_by_name(name)
 
     # set
     def set(self, value: int):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
-    # property
-    @property
-    def enum(self) -> type[E]:
-        """
-        EnumAttr に紐付いた AttributeEnum サブクラスを返す。
 
-        Returns:
-            type[E]: AttributeEnum サブクラス。
-        """
-        return self._attr._enum_cls  # type: ignore[return-value]
-
-
-class EnumAttr(Attr[EnumPlug], Generic[E]):
-    __slots__ = ("_enum_cls",)
+class EnumAttr(Attr[EnumPlug]):
+    __slots__ = ("_index_by_name_dict",)
 
     ATTR_TYPE = "enum"
-    PLUG_CLS = EnumPlug
+    PLUG_CLS = cast(Type[P], EnumPlug)
 
-    @property
-    def enum(self) -> type[E]:
-        """
-        EnumAttr に紐付いた AttributeEnum サブクラスを返す。
-
-        Returns:
-            type[E]: AttributeEnum サブクラス。
-        """
-        return self._enum_cls  # type: ignore[return-value]
-
-    @overload
-    def __init__(
-        self,
-        enum_name: Type[E],
-        multi: bool = ...,
-        extra: bool = ...,
-        default_value: Any = ...,
-        min_value: Any = ...,
-        max_value: Any = ...,
-        soft_min_value: Any = ...,
-        soft_max_value: Any = ...,
-        number_of_children: int | None = ...,
-        parent: str | None = ...,
-        readable: bool | None = ...,
-        writable: bool | None = ...,
-        category: str | None = ...,
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self,
-        enum_name: list[str] | str | None = ...,
-        multi: bool = ...,
-        extra: bool = ...,
-        default_value: Any = ...,
-        min_value: Any = ...,
-        max_value: Any = ...,
-        soft_min_value: Any = ...,
-        soft_max_value: Any = ...,
-        number_of_children: int | None = ...,
-        parent: str | None = ...,
-        readable: bool | None = ...,
-        writable: bool | None = ...,
-        category: str | None = ...,
-    ) -> None: ...
+    NAME_MAP: dict[int, str] | None = None
 
     def __init__(
         self,
-        enum_name: Type[E] | list[str] | str | None = None,
-        multi: bool = False,
-        extra: bool = False,
-        default_value: Any = None,
-        min_value: Any = None,
-        max_value: Any = None,
-        soft_min_value: Any = None,
-        soft_max_value: Any = None,
-        number_of_children: int | None = None,
-        parent: str | None = None,
-        readable: bool | None = None,
-        writable: bool | None = None,
-        category: str | None = None,
+        **kwargs: Any,
     ):
-        # AttributeEnum サブクラスが渡された場合は Maya enumName 文字列に変換し、
-        # クラスを _enum_cls に保存する
-        self._enum_cls: Type[E] | None = None
-        if isinstance(enum_name, type) and issubclass(
-            enum_name, AttributeEnum
-        ):
-            self._enum_cls = enum_name
-            enum_name_str: str | None = enum_name.to_enum_name()
-        elif isinstance(enum_name, list):
-            enum_name_str = ":".join(enum_name)
-        else:
-            enum_name_str = enum_name
+        kwargs["enum_name"] = self.enum_full_name()
+        super().__init__(**kwargs)
 
-        super().__init__(
-            multi=multi,
-            extra=extra,
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            enum_name=enum_name_str,
-            number_of_children=number_of_children,
-            parent=parent,
-            readable=readable,
-            writable=writable,
-            category=category,
+        self._index_by_name_dict: dict[str, int] = {}
+
+    # name
+    # def _name_dict(self) -> dict[int, str]:
+    #     return {}
+
+    def name_by_index(self, index: int) -> str:
+        return self.NAME_MAP[index]
+
+    def enum_full_name(self) -> str:
+        return ":".join(
+            [f"{name}={index}" for index, name in self.NAME_MAP.items()]
         )
 
-    @overload
-    def __get__(self, instance: None, owner: type) -> Self: ...
-
-    @overload
-    def __get__(self, instance: object, owner: type) -> EnumPlug[E]: ...
-
-    def __get__(
-        self, instance: object | None, owner: type
-    ) -> Self | EnumPlug[E]:
-        return super().__get__(instance, owner)  # type: ignore[return-value]
+    # index
+    def index_by_name(self, name: str) -> int:
+        # name_dict を反転させた dict をキャッシュして使用する
+        if not self._index_by_name_dict:
+            self._index_by_name_dict = {v: k for k, v in self.NAME_MAP.items()}
+        return self._index_by_name_dict[name]
 
     # add
     def add_attr(self, node_name: str):

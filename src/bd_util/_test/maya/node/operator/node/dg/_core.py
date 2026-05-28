@@ -25,6 +25,7 @@ def attribute_access_get():
     logger.debug("cch    : {}".format(dg.cch.get()))
     logger.debug("--set")
     dg.caching.set(True)
+    mod.doIt()
     logger.debug("caching: {}".format(dg.caching.get()))
     logger.debug("cch    : {}".format(dg.cch.get()))
 
@@ -33,6 +34,7 @@ def attribute_access_get():
     logger.debug("fzn   : {}".format(dg.fzn.get()))
     logger.debug("--set")
     dg.frozen.set(True)
+    mod.doIt()
     logger.debug("frozen: {}".format(dg.frozen.get()))
     logger.debug("fzn   : {}".format(dg.fzn.get()))
 
@@ -44,6 +46,7 @@ def attribute_access_get():
     )
     logger.debug("ihi                      : {}".format(dg.ihi.get()))
     dg.isHistoricallyInteresting.set(1)
+    mod.doIt()
     logger.debug(
         "isHistoricallyInteresting: {}".format(
             dg.isHistoricallyInteresting.get()
@@ -52,20 +55,22 @@ def attribute_access_get():
     logger.debug("ihi                      : {}".format(dg.ihi.get()))
 
     test_str.separator()
-    logger.debug("enum_name: {}".format(dg.nodeState.enum_name))
+    logger.debug("enum_name: {}".format(dg.nodeState.enum_full_name()))
     logger.debug("nodeState: {}".format(dg.nodeState.get()))
     logger.debug("nds      : {}".format(dg.nds.get()))
-    logger.debug("enum_name: {}".format(dg.nodeState.enum_name[dg.nds.get()]))
+    logger.debug("name: {}".format(dg.nodeState.name_by_index(dg.nds.get())))
     logger.debug("--set")
     dg.nodeState.set(1)
+    mod.doIt()
     logger.debug("nodeState: {}".format(dg.nodeState.get()))
     logger.debug("nds      : {}".format(dg.nds.get()))
-    logger.debug("enum_name: {}".format(dg.nodeState.enum_name[dg.nds.get()]))
+    logger.debug("name: {}".format(dg.nodeState.name_by_index(dg.nds.get())))
 
     test_str.separator()
     logger.debug("binMembership: {}".format(dg.binMembership.get()))
     logger.debug("bnm          : {}".format(dg.bnm.get()))
     logger.debug("--set")
     dg.binMembership.set("test")
+    mod.doIt()
     logger.debug("binMembership: {}".format(dg.binMembership.get()))
     logger.debug("bnm          : {}".format(dg.bnm.get()))

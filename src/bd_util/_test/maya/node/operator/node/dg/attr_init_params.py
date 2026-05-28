@@ -22,7 +22,7 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.at.double import DoubleAttr
-from .......maya.node.operator.attr.at.enum import EnumAttr
+from .......maya.node.operator.attr.at.enum import EnumAttr, EnumPlug
 from .......maya.node.operator.attr.dt.string import DataStringAttr
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -30,6 +30,26 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 # ---------------------------------------------------------------------------
 # テスト用 Node クラス定義
 # ---------------------------------------------------------------------------
+
+
+class MyEnumPlug(EnumPlug):
+    Alpha = 0
+    Beta = 1
+    Gamma = 2
+
+
+class MyEnumAttr(EnumAttr):
+    PLUG_CLS = MyEnumPlug
+
+    Alpha = 0
+    Beta = 1
+    Gamma = 2
+
+    NAME_MAP = {
+        Alpha: "Alpha",
+        Beta: "Beta",
+        Gamma: "Gamma",
+    }
 
 
 class MyNode(Transform):
@@ -44,9 +64,8 @@ class MyNode(Transform):
     )
     md = myDouble
 
-    myEnum = EnumAttr(
+    myEnum = MyEnumAttr(
         extra=True,
-        enum_name="Alpha:Beta:Gamma",
     )
     me = myEnum
 
@@ -104,7 +123,7 @@ def extra_true_class_access_properties():
 
     enum_attr = MyNode.myEnum
     logger.debug(
-        "{}: {}".format("MyNode.myEnum.enum_name", enum_attr.enum_name)
+        "{}: {}".format("MyNode.myEnum.enum_name", enum_attr.enum_full_name)
     )
 
     readonly_attr = MyNode.myReadOnly
@@ -171,7 +190,7 @@ def extra_true_instance_access_properties():
     logger.debug(
         "{}: {}".format(
             "MyNode.myEnum.enum_name (should be 'Alpha:Beta:Gamma')",
-            enum_attr.enum_name,
+            enum_attr.enum_full_name,
         )
     )
 

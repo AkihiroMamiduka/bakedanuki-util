@@ -1,21 +1,36 @@
 # coding: utf-8
 from ._core import DG
-from .....attr.enum import AttributeEnum
 from ...attr.node_attr.plus_minus_average import (
     Input2DAttr,
     Input3DAttr,
     Output2DAttr,
     Output3DAttr,
 )
-from ...attr.at.enum import EnumAttr
+from ...attr.at.enum import EnumAttr, EnumPlug
 from ...attr.at.float import FloatAttr
 
 
-class OperationEnum(AttributeEnum):
-    NO_OPERATION = "No operation"
-    SUM = "Sum"
-    SUBTRACT = "Subtract"
-    AVERAGE = "Average"
+class OperationEnumPlug(EnumPlug):
+    NO_OPERATION = 0
+    SUM = 1
+    SUBTRACT = 2
+    AVERAGE = 3
+
+
+class OperationEnumAttr(EnumAttr):
+    PLUG_CLS = OperationEnumPlug
+
+    NO_OPERATION = 0
+    SUM = 1
+    SUBTRACT = 2
+    AVERAGE = 3
+
+    NAME_MAP = {
+        NO_OPERATION: "No operation",
+        SUM: "Sum",
+        SUBTRACT: "Subtract",
+        AVERAGE: "Average",
+    }
 
 
 class PlusMinusAverage(DG):
@@ -23,7 +38,7 @@ class PlusMinusAverage(DG):
 
     NODE_TYPE = "plusMinusAverage"
 
-    operation = EnumAttr(enum_name=OperationEnum)
+    operation = OperationEnumAttr()
     op = operation
 
     input1D = FloatAttr(multi=True)
