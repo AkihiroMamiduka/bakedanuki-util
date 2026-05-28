@@ -33,22 +33,22 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class MyEnumPlug(EnumPlug):
-    Alpha = 0
-    Beta = 1
-    Gamma = 2
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
 
 
 class MyEnumAttr(EnumAttr):
     PLUG_CLS = MyEnumPlug
 
-    Alpha = 0
-    Beta = 1
-    Gamma = 2
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
 
     NAME_MAP = {
-        Alpha: "Alpha",
-        Beta: "Beta",
-        Gamma: "Gamma",
+        ALPHA: "Alpha",
+        BETA: "Beta",
+        GAMMA: "Gamma",
     }
 
 
