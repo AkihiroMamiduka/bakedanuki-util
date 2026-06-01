@@ -10,16 +10,16 @@ from maya.api import OpenMaya as om
 # self
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
-from ..node._core import Node
+from ..node._core import NodeOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
-A = TypeVar("A", bound="Attr")
+A = TypeVar("A", bound="AttrOperator")
 
-P = TypeVar("P", bound="Plug")
+P = TypeVar("P", bound="PlugOperator")
 
 
-class Plug(Generic[A], ABC):
+class PlugOperator(Generic[A], ABC):
     __slots__ = (
         "_node",
         "_attr",
@@ -35,20 +35,20 @@ class Plug(Generic[A], ABC):
 
     def __init__(
         self,
-        node: Node,
+        node: NodeOperator,
         attr: A,
         attr_path: str,
         multi: bool = False,
         index: int = None,
-        parent_plug: Plug | None = None,
+        parent_plug: PlugOperator | None = None,
     ):
         # args ----------------------------------------------------------------
-        self.parent_plug: Plug | None = parent_plug
+        self.parent_plug: PlugOperator | None = parent_plug
 
         self.multi: bool = multi
         self.index: int = index
 
-        self._node: Node = node
+        self._node: NodeOperator = node
         self._attr: A = attr
         self._attr_path: str = self._create_attr_path(
             parent_attr_path=attr_path
@@ -347,7 +347,9 @@ class Plug(Generic[A], ABC):
         pass
 
     # connect
-    def _normalize_to_plug(self, obj: Plug | str | list[str]) -> om.MPlug:
+    def _normalize_to_plug(
+        self, obj: PlugOperator | str | list[str]
+    ) -> om.MPlug:
         """
         渡されたオブジェクトから、 MPlug に変換し返す
 
@@ -364,8 +366,8 @@ class Plug(Generic[A], ABC):
             om.MPlug: MPlug インスタンス
         """
         # Plug
-        if any(c.__name__ == "Plug" for c in type(obj).__mro__):
-            obj: Plug = obj
+        if any(c.__name__ == "PlugOperator" for c in type(obj).__mro__):
+            obj: PlugOperator = obj
             return obj.plug
         # str("node.attr")
         elif isinstance(obj, str):
@@ -378,7 +380,7 @@ class Plug(Generic[A], ABC):
 
         raise TypeError(f"Unsupported connection type: {type(obj)}")
 
-    def connect(self, other: Plug | str | list[str]):
+    def connect(self, other: PlugOperator | str | list[str]):
         """
         self から other へ connect()
 
@@ -412,7 +414,7 @@ class Plug(Generic[A], ABC):
     def _get_next_plug(self) -> om.MPlug:
         return self.plug.elementByLogicalIndex(self._get_next_index())
 
-    def connect_next_index(self, other: Plug | str | list[str]):
+    def connect_next_index(self, other: PlugOperator | str | list[str]):
         """
         マルチアトリビュートの最終インデックスの次へ接続する。
 
@@ -440,7 +442,7 @@ class Plug(Generic[A], ABC):
         """
         self._next_index = None
 
-    def disconnect(self, other: Plug | str | list[str]):
+    def disconnect(self, other: PlugOperator | str | list[str]):
         """
         self から other へ disconnect()
 
@@ -452,7 +454,9 @@ class Plug(Generic[A], ABC):
 
         self._node._dg_mod.disconnect(src, dst)
 
-    def __gt__(self, other: Plug | str | list[str]) -> Plug | str | list[str]:
+    def __gt__(
+        self, other: PlugOperator | str | list[str]
+    ) -> PlugOperator | str | list[str]:
         """
         self > other 演算子オーバーライド：接続
 
@@ -465,7 +469,7 @@ class Plug(Generic[A], ABC):
         self.connect(other)
         return other
 
-    def __lt__(self, other: Plug | str | list[str]) -> Self:
+    def __lt__(self, other: PlugOperator | str | list[str]) -> Self:
         """
         other > self 演算子のオーバーライド：接続
 
@@ -481,7 +485,7 @@ class Plug(Generic[A], ABC):
         self._node._dg_mod.connect(src, dst)
         return self
 
-    def __or__(self, other: Plug | str | list[str]):
+    def __or__(self, other: PlugOperator | str | list[str]):
         """
         self | other 演算子オーバーライド：切断
 
@@ -494,7 +498,7 @@ class Plug(Generic[A], ABC):
         self.disconnect(other)
         return other
 
-    def __ror__(self, other: Plug | str | list[str]):
+    def __ror__(self, other: PlugOperator | str | list[str]):
         """
         other | self 演算子のオーバーライド：切断
 
@@ -640,8 +644,8 @@ def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
 
 
 def _make_dynamic_plug(
-    node: Node, attr_name: str, parent_attr_path: str = ""
-) -> Plug:
+    node: NodeOperator, attr_name: str, parent_attr_path: str = ""
+) -> PlugOperator:
     """
     ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
 
@@ -736,7 +740,7 @@ def _make_dynamic_plug(
     )
 
 
-class Attr(ImmutableDescriptor, Generic[P]):
+class AttrOperator(ImmutableDescriptor, Generic[P]):
     __slots__ = (
         "_node",
         "_parent_attr_path",
@@ -786,7 +790,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
         category: str | None = None,
     ):
         # node
-        self._node: Node = None
+        self._node: NodeOperator = None
         # name
         self.name = ""
         self.long_name = None
@@ -869,7 +873,7 @@ class Attr(ImmutableDescriptor, Generic[P]):
                 object.__setattr__(self, "_node", instance)
             # 親が Attr or Plug
             else:
-                instance: Attr[P] | Plug[A] = instance
+                instance: AttrOperator[P] | PlugOperator[A] = instance
                 # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
                 if instance._node is None:
                     return self

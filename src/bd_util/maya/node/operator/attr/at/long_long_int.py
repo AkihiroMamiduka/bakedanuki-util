@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class LongLongIntPlug(Plug["LongLongIntAttr"]):
+class LongLongIntPlug(PlugOperator["LongLongIntAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class LongLongIntPlug(Plug["LongLongIntAttr"]):
         self._node._dg_mod.newPlugValueInt64(self.plug, value)
 
 
-class LongLongIntAttr(Attr[LongLongIntPlug]):
+class LongLongIntAttr(AttrOperator[LongLongIntPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "long long int"

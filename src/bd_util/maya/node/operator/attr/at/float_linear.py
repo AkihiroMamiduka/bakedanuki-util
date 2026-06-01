@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class FloatLinearPlug(Plug["FloatLinearAttr"]):
+class FloatLinearPlug(PlugOperator["FloatLinearAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class FloatLinearPlug(Plug["FloatLinearAttr"]):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
 
-class FloatLinearAttr(Attr[FloatLinearPlug]):
+class FloatLinearAttr(AttrOperator[FloatLinearPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "floatLinear"

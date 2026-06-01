@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class ShortPlug(Plug["ShortAttr"]):
+class ShortPlug(PlugOperator["ShortAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class ShortPlug(Plug["ShortAttr"]):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
 
-class ShortAttr(Attr[ShortPlug]):
+class ShortAttr(AttrOperator[ShortPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "short"

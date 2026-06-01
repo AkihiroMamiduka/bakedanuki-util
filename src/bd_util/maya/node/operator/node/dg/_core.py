@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from .._core import Node
+from .._core import NodeOperator
 from ...attr.at.bool import BoolAttr
 from ...attr.at.byte import ByteAttr
 from ...attr.at.enum import EnumAttr, EnumPlug
@@ -38,7 +38,7 @@ class NodeStateEnumAttr(EnumAttr):
     }
 
 
-class DG(Node):
+class DG(NodeOperator):
     __slots__ = ()
 
     message = MessageAttr()

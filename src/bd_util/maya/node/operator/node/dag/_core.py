@@ -5,10 +5,10 @@ from typing import Self
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Node, DEFAULT_VALUE_AUTO_ADD_ATTR
+from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
 
-class DAG(Node):
+class DAG(NodeOperator):
     __slots__ = (
         "_dag_mod",
         "_dag_path",

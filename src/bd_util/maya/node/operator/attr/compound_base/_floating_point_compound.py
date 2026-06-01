@@ -6,11 +6,11 @@ from maya.api import OpenMaya as om
 
 # self
 from ...... import logger as u_logger
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
-A = TypeVar("A", bound="Attr")
+A = TypeVar("A", bound="AttrOperator")
 
-P = TypeVar("P", bound="Plug")
+P = TypeVar("P", bound="PlugOperator")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -26,7 +26,7 @@ class FloatingPointScalarType:
     ANGLE = 2
 
 
-class FloatingPointBasePlug(Plug[A]):
+class FloatingPointBasePlug(PlugOperator[A]):
     __slots__ = ("_child_type",)
 
     def __init__(self, *args, **kwargs):
@@ -89,7 +89,7 @@ class FloatingPointBasePlug(Plug[A]):
         return plug_type
 
 
-class FloatingPointBaseAttr(Attr[P]):
+class FloatingPointBaseAttr(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "abc"

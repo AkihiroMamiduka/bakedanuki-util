@@ -4,10 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class DoublePlug(Plug["DoubleAttr"]):
+class DoublePlug(PlugOperator["DoubleAttr"]):
     __slots__ = ()
 
     # get
@@ -19,7 +19,7 @@ class DoublePlug(Plug["DoubleAttr"]):
         self._node._dg_mod.newPlugValueDouble(self.plug, value)
 
 
-class DoubleAttr(Attr[DoublePlug]):
+class DoubleAttr(AttrOperator[DoublePlug]):
     __slots__ = ()
 
     ATTR_TYPE = "double"

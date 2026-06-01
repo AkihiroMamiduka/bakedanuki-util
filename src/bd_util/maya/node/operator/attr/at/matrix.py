@@ -4,10 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class MatrixPlug(Plug["MatrixAttr"]):
+class MatrixPlug(PlugOperator["MatrixAttr"]):
     __slots__ = ()
 
     # get
@@ -20,7 +20,7 @@ class MatrixPlug(Plug["MatrixAttr"]):
         self._node._dg_mod.newPlugValue(self.plug, mat_obj)
 
 
-class MatrixAttr(Attr[MatrixPlug]):
+class MatrixAttr(AttrOperator[MatrixPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "matrix"

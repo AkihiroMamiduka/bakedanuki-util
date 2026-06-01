@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class AddrPlug(Plug["AddrAttr"]):
+class AddrPlug(PlugOperator["AddrAttr"]):
     __slots__ = ("_data_handle",)
 
     def __init__(self, *args, **kwargs):
@@ -36,7 +36,7 @@ class AddrPlug(Plug["AddrAttr"]):
         self.plug.setMDataHandle(data_handle)
 
 
-class AddrAttr(Attr[AddrPlug]):
+class AddrAttr(AttrOperator[AddrPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "addr"

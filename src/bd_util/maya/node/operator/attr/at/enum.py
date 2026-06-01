@@ -7,14 +7,14 @@ from typing import Any, TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
-A = TypeVar("A", bound="Attr")
+A = TypeVar("A", bound="AttrOperator")
 
-P = TypeVar("P", bound="Plug")
+P = TypeVar("P", bound="PlugOperator")
 
 
-class EnumPlug(Plug["EnumAttr"]):
+class EnumPlug(PlugOperator["EnumAttr"]):
     __slots__ = ("_fn_enum",)
 
     def __init__(self, *args, **kwargs):
@@ -48,7 +48,7 @@ class EnumPlug(Plug["EnumAttr"]):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
 
-class EnumAttr(Attr[EnumPlug]):
+class EnumAttr(AttrOperator[EnumPlug]):
     __slots__ = ("_index_by_name_dict",)
 
     ATTR_TYPE = "enum"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class TimePlug(Plug["TimeAttr"]):
+class TimePlug(PlugOperator["TimeAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class TimePlug(Plug["TimeAttr"]):
         self._node._dg_mod.newPlugValueMTime(self.plug, value)
 
 
-class TimeAttr(Attr[TimePlug]):
+class TimeAttr(AttrOperator[TimePlug]):
     __slots__ = ()
 
     ATTR_TYPE = "time"

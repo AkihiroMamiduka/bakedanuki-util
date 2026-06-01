@@ -3,10 +3,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class FltMatrixPlug(Plug["FltMatrixAttr"]):
+class FltMatrixPlug(PlugOperator["FltMatrixAttr"]):
     __slots__ = ()
 
     # get
@@ -19,7 +19,7 @@ class FltMatrixPlug(Plug["FltMatrixAttr"]):
         self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
 
 
-class FltMatrixAttr(Attr[FltMatrixPlug]):
+class FltMatrixAttr(AttrOperator[FltMatrixPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "fltMatrix"

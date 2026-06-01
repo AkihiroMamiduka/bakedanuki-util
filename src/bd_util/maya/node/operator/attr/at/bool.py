@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class BoolPlug(Plug["BoolAttr"]):
+class BoolPlug(PlugOperator["BoolAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class BoolPlug(Plug["BoolAttr"]):
         self._node._dg_mod.newPlugValueBool(self.plug, value)
 
 
-class BoolAttr(Attr[BoolPlug]):
+class BoolAttr(AttrOperator[BoolPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "bool"

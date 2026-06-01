@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class TypedPlug(Plug["TypedAttr"]):
+class TypedPlug(PlugOperator["TypedAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class TypedPlug(Plug["TypedAttr"]):
         raise NotImplementedError("TypedPlug does not support set operation")
 
 
-class TypedAttr(Attr[TypedPlug]):
+class TypedAttr(AttrOperator[TypedPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "typed"

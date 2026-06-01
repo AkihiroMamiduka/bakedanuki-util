@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class BytePlug(Plug["ByteAttr"]):
+class BytePlug(PlugOperator["ByteAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class BytePlug(Plug["ByteAttr"]):
         self._node._dg_mod.newPlugValueChar(self.plug, value)
 
 
-class ByteAttr(Attr[BytePlug]):
+class ByteAttr(AttrOperator[BytePlug]):
     __slots__ = ()
 
     ATTR_TYPE = "byte"

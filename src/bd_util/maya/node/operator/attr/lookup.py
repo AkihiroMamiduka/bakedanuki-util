@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Type
 
 from .....maya.attr.query import get_attribute_info
-from ._core import Attr
+from ._core import AttrOperator
 from .at.bool import BoolAttr
 from .at.byte import ByteAttr
 from .at.char import CharAttr
@@ -54,7 +54,7 @@ from .dt.string import DataStringAttr
 from .dt.string_array import DataStringArrayAttr
 from .dt.vector_array import DataVectorArrayAttr
 
-_AT_CLASS_MAP: dict[str, Type[Attr]] = {
+_AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
     cls.ATTR_TYPE: cls
     for cls in [
         BoolAttr,
@@ -86,7 +86,7 @@ _AT_CLASS_MAP: dict[str, Type[Attr]] = {
     ]
 }
 
-_DT_CLASS_MAP: dict[str, Type[Attr]] = {
+_DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
     cls.DATA_TYPE: cls
     for cls in [
         DataDouble2Attr,
@@ -115,7 +115,7 @@ _DT_CLASS_MAP: dict[str, Type[Attr]] = {
 }
 
 
-def lookup_attr_cls(node: str, attr: str) -> Type[Attr] | None:
+def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator] | None:
     """
     ノード名とアトリビュート名から、対応する Attr クラスを返す。
 

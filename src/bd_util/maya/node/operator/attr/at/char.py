@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class CharPlug(Plug["CharAttr"]):
+class CharPlug(PlugOperator["CharAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class CharPlug(Plug["CharAttr"]):
         self._node._dg_mod.newPlugValueChar(self.plug, value)
 
 
-class CharAttr(Attr[CharPlug]):
+class CharAttr(AttrOperator[CharPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "char"

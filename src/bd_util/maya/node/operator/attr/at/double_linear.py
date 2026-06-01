@@ -4,10 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class DoubleLinearPlug(Plug["DoubleLinearAttr"]):
+class DoubleLinearPlug(PlugOperator["DoubleLinearAttr"]):
     __slots__ = ()
 
     # get
@@ -20,7 +20,7 @@ class DoubleLinearPlug(Plug["DoubleLinearAttr"]):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
 
-class DoubleLinearAttr(Attr[DoubleLinearPlug]):
+class DoubleLinearAttr(AttrOperator[DoubleLinearPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "doubleLinear"

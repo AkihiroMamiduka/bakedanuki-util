@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class MessagePlug(Plug["MessageAttr"]):
+class MessagePlug(PlugOperator["MessageAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class MessagePlug(Plug["MessageAttr"]):
         raise NotImplementedError("MessagePlug does not support set operation")
 
 
-class MessageAttr(Attr[MessagePlug]):
+class MessageAttr(AttrOperator[MessagePlug]):
     __slots__ = ()
 
     ATTR_TYPE = "message"

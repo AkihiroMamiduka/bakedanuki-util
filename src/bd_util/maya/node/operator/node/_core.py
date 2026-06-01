@@ -73,7 +73,7 @@ class NodeClass(ImmutableDescriptor):
         return node_class
 
 
-class Node(metaclass=ImmutableDescriptorMeta):
+class NodeOperator(metaclass=ImmutableDescriptorMeta):
     NODE_TYPE = None
     node_class = NodeClass()
     is_instance = IsInstance()
@@ -101,7 +101,9 @@ class Node(metaclass=ImmutableDescriptorMeta):
         オブジェクトの同一性に基づいて重複を排除し、
         short_name エイリアス (例: mw = myWeight) が同じ属性を二度登録しないようにする。
         """
-        from ..attr._core import Attr  # 循環インポート回避のため遅延インポート
+        from ..attr._core import (
+            AttrOperator,
+        )  # 循環インポート回避のため遅延インポート
 
         attributes_by_long_name = {}
         attributes_by_short_name = {}
@@ -109,10 +111,10 @@ class Node(metaclass=ImmutableDescriptorMeta):
         seen_ids = set()
         for klass in cls.__mro__:
             for v in vars(klass).values():
-                v: Attr
+                v: AttrOperator
                 obj_id = id(v)
                 if obj_id not in seen_ids and any(
-                    c.__name__ == "Attr" for c in type(v).__mro__
+                    c.__name__ == "AttrOperator" for c in type(v).__mro__
                 ):
                     seen_ids.add(obj_id)
                     attributes_by_long_name[v.long_name] = v

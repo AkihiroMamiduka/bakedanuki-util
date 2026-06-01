@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class GenericPlug(Plug["GenericAttr"]):
+class GenericPlug(PlugOperator["GenericAttr"]):
     __slots__ = ("_data_handle",)
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class GenericPlug(Plug["GenericAttr"]):
         raise NotImplementedError("GenericPlug does not support set operation")
 
 
-class GenericAttr(Attr[GenericPlug]):
+class GenericAttr(AttrOperator[GenericPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "generic"

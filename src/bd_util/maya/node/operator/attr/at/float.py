@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class FloatPlug(Plug["FloatAttr"]):
+class FloatPlug(PlugOperator["FloatAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class FloatPlug(Plug["FloatAttr"]):
         self._node._dg_mod.newPlugValueFloat(self.plug, value)
 
 
-class FloatAttr(Attr[FloatPlug]):
+class FloatAttr(AttrOperator[FloatPlug]):
     __slots__ = ()
 
     ATTR_TYPE = "float"

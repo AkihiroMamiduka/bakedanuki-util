@@ -1,8 +1,8 @@
 # coding: utf-8
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
 
-class FloatAnglePlug(Plug["FloatAngleAttr"]):
+class FloatAnglePlug(PlugOperator["FloatAngleAttr"]):
     __slots__ = ()
 
     # get
@@ -14,7 +14,7 @@ class FloatAnglePlug(Plug["FloatAngleAttr"]):
         self._node._dg_mod.newPlugValueMAngle(self.plug, value)
 
 
-class FloatAngleAttr(Attr[FloatAnglePlug]):
+class FloatAngleAttr(AttrOperator[FloatAnglePlug]):
     __slots__ = ()
 
     ATTR_TYPE = "floatAngle"

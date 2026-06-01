@@ -2,14 +2,14 @@
 from typing import TypeVar, Type, cast
 
 # self
-from .._core import Attr, Plug
+from .._core import AttrOperator, PlugOperator
 
-A = TypeVar("A", bound="Attr")
+A = TypeVar("A", bound="AttrOperator")
 
-P = TypeVar("P", bound="Plug")
+P = TypeVar("P", bound="PlugOperator")
 
 
-class Short2Plug(Plug[A]):
+class Short2Plug(PlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -44,7 +44,7 @@ class Short2Plug(Plug[A]):
             ) from e
 
 
-class Short2Attr(Attr[P]):
+class Short2Attr(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "short2"
