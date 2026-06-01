@@ -5,12 +5,12 @@ from maya.api import OpenMaya as om
 
 # self
 from ...... import logger as u_logger
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class DataMatrixPlug(DataTypePlug["DataMatrixAttr"]):
+class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -24,11 +24,11 @@ class DataMatrixPlug(DataTypePlug["DataMatrixAttr"]):
         self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
 
 
-class DataMatrixAttr(DataTypeAttr[DataMatrixPlug]):
+class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "matrix"
-    PLUG_CLS = DataMatrixPlug
+    PLUG_CLS = DataMatrixPlugOperator
 
     # add
     def add_attr(self, node_name: str):

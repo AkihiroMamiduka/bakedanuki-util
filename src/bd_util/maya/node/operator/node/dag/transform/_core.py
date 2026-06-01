@@ -6,75 +6,75 @@ import maya.cmds as cmds
 
 # self
 from .._core import DAG
-from ....attr.at.double3 import Double3Attr, Double3Plug
-from ....attr.at.double import DoubleAttr
-from ....attr.at.double_linear import DoubleLinearAttr
-from ....attr.at.double_angle import DoubleAngleAttr
+from ....attr.at.double3 import Double3AttrOperator, Double3PlugOperator
+from ....attr.at.double import DoubleAttrOperator
+from ....attr.at.double_linear import DoubleLinearAttrOperator
+from ....attr.at.double_angle import DoubleAngleAttrOperator
 
 
-class TranslatePlug(Double3Plug["TranslateAttr"]):
+class TranslatePlug(Double3PlugOperator["TranslateAttr"]):
     __slots__ = ()
 
-    translateX = DoubleLinearAttr()
+    translateX = DoubleLinearAttrOperator()
     tx = translateX
 
-    translateY = DoubleLinearAttr()
+    translateY = DoubleLinearAttrOperator()
     ty = translateY
 
-    translateZ = DoubleLinearAttr()
+    translateZ = DoubleLinearAttrOperator()
     tz = translateZ
 
 
-class TranslateAttr(Double3Attr[TranslatePlug]):
+class TranslateAttr(Double3AttrOperator[TranslatePlug]):
     __slots__ = ()
 
     PLUG_CLS = TranslatePlug
 
-    translateX = DoubleLinearAttr()
+    translateX = DoubleLinearAttrOperator()
     tx = translateX
 
-    translateY = DoubleLinearAttr()
+    translateY = DoubleLinearAttrOperator()
     ty = translateY
 
-    translateZ = DoubleLinearAttr()
+    translateZ = DoubleLinearAttrOperator()
     tz = translateZ
 
 
-class RotatePlug(Double3Plug["RotateAttr"]):
+class RotatePlug(Double3PlugOperator["RotateAttr"]):
     __slots__ = ()
 
 
-class RotateAttr(Double3Attr[RotatePlug]):
+class RotateAttr(Double3AttrOperator[RotatePlug]):
     __slots__ = ()
 
     PLUG_CLS = RotatePlug
 
-    rotateX = DoubleAngleAttr()
+    rotateX = DoubleAngleAttrOperator()
     rx = rotateX
 
-    rotateY = DoubleAngleAttr()
+    rotateY = DoubleAngleAttrOperator()
     ry = rotateY
 
-    rotateZ = DoubleAngleAttr()
+    rotateZ = DoubleAngleAttrOperator()
     rz = rotateZ
 
 
-class ScalePlug(Double3Plug["ScaleAttr"]):
+class ScalePlug(Double3PlugOperator["ScaleAttr"]):
     __slots__ = ()
 
 
-class ScaleAttr(Double3Attr[ScalePlug]):
+class ScaleAttr(Double3AttrOperator[ScalePlug]):
     __slots__ = ()
 
     PLUG_CLS = ScalePlug
 
-    scaleX = DoubleAttr()
+    scaleX = DoubleAttrOperator()
     sx = scaleX
 
-    scaleY = DoubleAttr()
+    scaleY = DoubleAttrOperator()
     sy = scaleY
 
-    scaleZ = DoubleAttr()
+    scaleZ = DoubleAttrOperator()
     sz = scaleZ
 
 

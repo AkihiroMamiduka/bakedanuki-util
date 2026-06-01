@@ -2,20 +2,24 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class TypedPlug(PlugOperator["TypedAttr"]):
+class TypedPlugOperator(PlugOperator["TypedAttrOperator"]):
     __slots__ = ()
 
     # get
     def get(self):
-        raise NotImplementedError("TypedPlug does not support get operation")
+        raise NotImplementedError(
+            "TypedPlugOperator does not support get operation"
+        )
 
     # set
     def set(self, value):
-        raise NotImplementedError("TypedPlug does not support set operation")
+        raise NotImplementedError(
+            "TypedPlugOperator does not support set operation"
+        )
 
 
-class TypedAttr(AttrOperator[TypedPlug]):
+class TypedAttrOperator(AttrOperator[TypedPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "typed"
-    PLUG_CLS = TypedPlug
+    PLUG_CLS = TypedPlugOperator

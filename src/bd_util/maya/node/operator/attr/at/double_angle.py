@@ -7,7 +7,7 @@ from maya.api import OpenMaya as om
 from .._core import AttrOperator, PlugOperator
 
 
-class DoubleAnglePlug(PlugOperator["DoubleAngleAttr"]):
+class DoubleAnglePlugOperator(PlugOperator["DoubleAngleAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -21,8 +21,8 @@ class DoubleAnglePlug(PlugOperator["DoubleAngleAttr"]):
         )
 
 
-class DoubleAngleAttr(AttrOperator[DoubleAnglePlug]):
+class DoubleAngleAttrOperator(AttrOperator[DoubleAnglePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "doubleAngle"
-    PLUG_CLS = DoubleAnglePlug
+    PLUG_CLS = DoubleAnglePlugOperator

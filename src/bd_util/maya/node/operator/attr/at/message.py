@@ -2,20 +2,24 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class MessagePlug(PlugOperator["MessageAttr"]):
+class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
     __slots__ = ()
 
     # get
     def get(self):
-        raise NotImplementedError("MessagePlug does not support get operation")
+        raise NotImplementedError(
+            "MessagePlugOperator does not support get operation"
+        )
 
     # set
     def set(self, value):
-        raise NotImplementedError("MessagePlug does not support set operation")
+        raise NotImplementedError(
+            "MessagePlugOperator does not support set operation"
+        )
 
 
-class MessageAttr(AttrOperator[MessagePlug]):
+class MessageAttrOperator(AttrOperator[MessagePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "message"
-    PLUG_CLS = MessagePlug
+    PLUG_CLS = MessagePlugOperator

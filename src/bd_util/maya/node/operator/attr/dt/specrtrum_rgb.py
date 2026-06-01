@@ -5,10 +5,12 @@ from __future__ import annotations
 from maya.api import OpenMaya as om
 
 # self
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 
-class DataSpectrumRGBPlug(DataTypePlug["DataSpectrumRGBAttr"]):
+class DataSpectrumRGBPlugOperator(
+    DataTypePlugOperator["DataSpectrumRGBAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -29,8 +31,10 @@ class DataSpectrumRGBPlug(DataTypePlug["DataSpectrumRGBAttr"]):
         self._set_data(om.MFnNumericData.k3Float, values)
 
 
-class DataSpectrumRGBAttr(DataTypeAttr[DataSpectrumRGBPlug]):
+class DataSpectrumRGBAttrOperator(
+    DataTypeAttrOperator[DataSpectrumRGBPlugOperator]
+):
     __slots__ = ()
 
     DATA_TYPE = "spectrumRGB"
-    PLUG_CLS = DataSpectrumRGBPlug
+    PLUG_CLS = DataSpectrumRGBPlugOperator

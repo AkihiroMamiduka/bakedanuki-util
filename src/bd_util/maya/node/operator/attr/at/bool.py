@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class BoolPlug(PlugOperator["BoolAttr"]):
+class BoolPlugOperator(PlugOperator["BoolAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class BoolPlug(PlugOperator["BoolAttr"]):
         self._node._dg_mod.newPlugValueBool(self.plug, value)
 
 
-class BoolAttr(AttrOperator[BoolPlug]):
+class BoolAttrOperator(AttrOperator[BoolPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "bool"
-    PLUG_CLS = BoolPlug
+    PLUG_CLS = BoolPlugOperator

@@ -21,9 +21,12 @@ from maya.api import OpenMaya as om
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.at.double import DoubleAttr
-from .......maya.node.operator.attr.at.enum import EnumAttr, EnumPlug
-from .......maya.node.operator.attr.dt.string import DataStringAttr
+from .......maya.node.operator.attr.at.double import DoubleAttrOperator
+from .......maya.node.operator.attr.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+)
+from .......maya.node.operator.attr.dt.string import DataStringAttrOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -32,13 +35,13 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 # ---------------------------------------------------------------------------
 
 
-class MyEnumPlug(EnumPlug):
+class MyEnumPlug(EnumPlugOperator):
     ALPHA = 0
     BETA = 1
     GAMMA = 2
 
 
-class MyEnumAttr(EnumAttr):
+class MyEnumAttr(EnumAttrOperator):
     PLUG_CLS = MyEnumPlug
 
     ALPHA = 0
@@ -54,7 +57,7 @@ class MyEnumAttr(EnumAttr):
 
 class MyNode(Transform):
     # extra=True: init 引数で各種情報を保持する
-    myDouble = DoubleAttr(
+    myDouble = DoubleAttrOperator(
         extra=True,
         default_value=1.0,
         min_value=0.0,
@@ -69,17 +72,17 @@ class MyNode(Transform):
     )
     me = myEnum
 
-    myReadOnly = DoubleAttr(
+    myReadOnly = DoubleAttrOperator(
         extra=True,
         readable=True,
         writable=False,
     )
 
-    myString = DataStringAttr(extra=True)
+    myString = DataStringAttrOperator(extra=True)
     ms = myString
 
     # extra=False: Maya ノード既存アトリビュート (translateX) へのアクセス用
-    translateX = DoubleAttr()
+    translateX = DoubleAttrOperator()
     tx = translateX
 
 

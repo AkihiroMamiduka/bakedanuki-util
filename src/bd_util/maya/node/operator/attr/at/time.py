@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class TimePlug(PlugOperator["TimeAttr"]):
+class TimePlugOperator(PlugOperator["TimeAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class TimePlug(PlugOperator["TimeAttr"]):
         self._node._dg_mod.newPlugValueMTime(self.plug, value)
 
 
-class TimeAttr(AttrOperator[TimePlug]):
+class TimeAttrOperator(AttrOperator[TimePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "time"
-    PLUG_CLS = TimePlug
+    PLUG_CLS = TimePlugOperator

@@ -5,112 +5,112 @@ from typing import Type
 
 from .....maya.attr.query import get_attribute_info
 from ._core import AttrOperator
-from .at.bool import BoolAttr
-from .at.byte import ByteAttr
-from .at.char import CharAttr
-from .at.compound import CompoundAttr
-from .at.double import DoubleAttr
-from .at.double2 import Double2Attr
-from .at.double3 import Double3Attr
-from .at.double_angle import DoubleAngleAttr
-from .at.double_linear import DoubleLinearAttr
-from .at.enum import EnumAttr
-from .at.float import FloatAttr
-from .at.float2 import Float2Attr
-from .at.float3 import Float3Attr
-from .at.flt_matrix import FltMatrixAttr
-from .at.long import LongAttr
-from .at.long2 import Long2Attr
-from .at.long3 import Long3Attr
-from .at.matrix import MatrixAttr
-from .at.message import MessageAttr
+from .at.bool import BoolAttrOperator
+from .at.byte import ByteAttrOperator
+from .at.char import CharAttrOperator
+from .at.compound import CompoundAttrOperator
+from .at.double import DoubleAttrOperator
+from .at.double2 import Double2AttrOperator
+from .at.double3 import Double3AttrOperator
+from .at.double_angle import DoubleAngleAttrOperator
+from .at.double_linear import DoubleLinearAttrOperator
+from .at.enum import EnumAttrOperator
+from .at.float import FloatAttrOperator
+from .at.float2 import Float2AttrOperator
+from .at.float3 import Float3AttrOperator
+from .at.flt_matrix import FltMatrixAttrOperator
+from .at.long import LongAttrOperator
+from .at.long2 import Long2AttrOperator
+from .at.long3 import Long3AttrOperator
+from .at.matrix import MatrixAttrOperator
+from .at.message import MessageAttrOperator
 from .at.reflectance import ReflectanceAttr
-from .at.short import ShortAttr
-from .at.short2 import Short2Attr
-from .at.short3 import Short3Attr
-from .at.spectrum import SpectrumAttr
-from .at.time import TimeAttr
-from .at.typed import TypedAttr
-from .dt.double2 import DataDouble2Attr
-from .dt.double3 import DataDouble3Attr
-from .dt.double_array import DataDoubleArrayAttr
-from .dt.float2 import DataFloat2Attr
-from .dt.float3 import DataFloat3Attr
-from .dt.float_array import DataFloatArrayAttr
-from .dt.int32_array import DataInt32ArrayAttr
-from .dt.lattice import DataLatticeAttr
-from .dt.long2 import DataLong2Attr
-from .dt.long3 import DataLong3Attr
-from .dt.matrix import DataMatrixAttr
-from .dt.mesh import DataMeshAttr
-from .dt.nurbs_curve import DataNurbsCurveAttr
-from .dt.nurbs_surface import DataNurbsSurfaceAttr
-from .dt.point_array import DataPointArrayAttr
-from .dt.reflectance_rgb import DataReflectanceRGBAttr
-from .dt.short2 import DataShort2Attr
-from .dt.short3 import DataShort3Attr
-from .dt.specrtrum_rgb import DataSpectrumRGBAttr
-from .dt.string import DataStringAttr
-from .dt.string_array import DataStringArrayAttr
-from .dt.vector_array import DataVectorArrayAttr
+from .at.short import ShortAttrOperator
+from .at.short2 import Short2AttrOperator
+from .at.short3 import Short3AttrOperator
+from .at.spectrum import SpectrumAttrOperator
+from .at.time import TimeAttrOperator
+from .at.typed import TypedAttrOperator
+from .dt.double2 import DataDouble2AttrOperator
+from .dt.double3 import DataDouble3AttrOperator
+from .dt.double_array import DataDoubleArrayAttrOperator
+from .dt.float2 import DataFloat2AttrOperator
+from .dt.float3 import DataFloat3AttrOperator
+from .dt.float_array import DataFloatArrayAttrOperator
+from .dt.int32_array import DataInt32ArrayAttrOperator
+from .dt.lattice import DataLatticeAttrOperator
+from .dt.long2 import DataLong2AttrOperator
+from .dt.long3 import DataLong3AttrOperator
+from .dt.matrix import DataMatrixAttrOperator
+from .dt.mesh import DataMeshAttrOperator
+from .dt.nurbs_curve import DataNurbsCurveAttrOperator
+from .dt.nurbs_surface import DataNurbsSurfaceAttrOperator
+from .dt.point_array import DataPointArrayAttrOperator
+from .dt.reflectance_rgb import DataReflectanceRGBAttrOperator
+from .dt.short2 import DataShort2AttrOperator
+from .dt.short3 import DataShort3AttrOperator
+from .dt.specrtrum_rgb import DataSpectrumRGBAttrOperator
+from .dt.string import DataStringAttrOperator
+from .dt.string_array import DataStringArrayAttrOperator
+from .dt.vector_array import DataVectorArrayAttrOperator
 
 _AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
     cls.ATTR_TYPE: cls
     for cls in [
-        BoolAttr,
-        ByteAttr,
-        CharAttr,
-        CompoundAttr,
-        DoubleAttr,
-        Double2Attr,
-        Double3Attr,
-        DoubleAngleAttr,
-        DoubleLinearAttr,
-        EnumAttr,
-        FloatAttr,
-        Float2Attr,
-        Float3Attr,
-        FltMatrixAttr,
-        LongAttr,
-        Long2Attr,
-        Long3Attr,
-        MatrixAttr,
-        MessageAttr,
+        BoolAttrOperator,
+        ByteAttrOperator,
+        CharAttrOperator,
+        CompoundAttrOperator,
+        DoubleAttrOperator,
+        Double2AttrOperator,
+        Double3AttrOperator,
+        DoubleAngleAttrOperator,
+        DoubleLinearAttrOperator,
+        EnumAttrOperator,
+        FloatAttrOperator,
+        Float2AttrOperator,
+        Float3AttrOperator,
+        FltMatrixAttrOperator,
+        LongAttrOperator,
+        Long2AttrOperator,
+        Long3AttrOperator,
+        MatrixAttrOperator,
+        MessageAttrOperator,
         ReflectanceAttr,
-        ShortAttr,
-        Short2Attr,
-        Short3Attr,
-        SpectrumAttr,
-        TimeAttr,
-        TypedAttr,
+        ShortAttrOperator,
+        Short2AttrOperator,
+        Short3AttrOperator,
+        SpectrumAttrOperator,
+        TimeAttrOperator,
+        TypedAttrOperator,
     ]
 }
 
 _DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
     cls.DATA_TYPE: cls
     for cls in [
-        DataDouble2Attr,
-        DataDouble3Attr,
-        DataDoubleArrayAttr,
-        DataFloat2Attr,
-        DataFloat3Attr,
-        DataFloatArrayAttr,
-        DataInt32ArrayAttr,
-        DataLatticeAttr,
-        DataLong2Attr,
-        DataLong3Attr,
-        DataMatrixAttr,
-        DataMeshAttr,
-        DataNurbsCurveAttr,
-        DataNurbsSurfaceAttr,
-        DataPointArrayAttr,
-        DataReflectanceRGBAttr,
-        DataShort2Attr,
-        DataShort3Attr,
-        DataSpectrumRGBAttr,
-        DataStringAttr,
-        DataStringArrayAttr,
-        DataVectorArrayAttr,
+        DataDouble2AttrOperator,
+        DataDouble3AttrOperator,
+        DataDoubleArrayAttrOperator,
+        DataFloat2AttrOperator,
+        DataFloat3AttrOperator,
+        DataFloatArrayAttrOperator,
+        DataInt32ArrayAttrOperator,
+        DataLatticeAttrOperator,
+        DataLong2AttrOperator,
+        DataLong3AttrOperator,
+        DataMatrixAttrOperator,
+        DataMeshAttrOperator,
+        DataNurbsCurveAttrOperator,
+        DataNurbsSurfaceAttrOperator,
+        DataPointArrayAttrOperator,
+        DataReflectanceRGBAttrOperator,
+        DataShort2AttrOperator,
+        DataShort3AttrOperator,
+        DataSpectrumRGBAttrOperator,
+        DataStringAttrOperator,
+        DataStringArrayAttrOperator,
+        DataVectorArrayAttrOperator,
     ]
 }
 

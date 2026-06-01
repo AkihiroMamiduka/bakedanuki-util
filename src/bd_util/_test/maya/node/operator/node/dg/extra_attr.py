@@ -11,8 +11,8 @@ from maya.api import OpenMaya as om
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.at.double import DoubleAttr
-from .......maya.node.operator.attr.dt.matrix import DataMatrixAttr
+from .......maya.node.operator.attr.at.double import DoubleAttrOperator
+from .......maya.node.operator.attr.dt.matrix import DataMatrixAttrOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -20,10 +20,10 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class MyTransform(Transform):
 
     # extra=True: インスタンス生成時に自動 addAttr() される
-    myWeight = DoubleAttr(extra=True)
+    myWeight = DoubleAttrOperator(extra=True)
     mw = myWeight
 
-    myMatrix = DataMatrixAttr(extra=True)
+    myMatrix = DataMatrixAttrOperator(extra=True)
     mm = myMatrix
 
     # extra=False (デフォルト): 通常のアトリビュート定義 (addAttr() されない)

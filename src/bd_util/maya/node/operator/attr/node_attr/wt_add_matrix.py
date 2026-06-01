@@ -1,24 +1,24 @@
 # coding: utf-8
 
 # self
-from ..at.compound import CompoundAttr, CompoundPlug
-from ..at.double import DoubleAttr
-from ..dt.matrix import DataMatrixAttr
+from ..at.compound import CompoundAttrOperator, CompoundPlugOperator
+from ..at.double import DoubleAttrOperator
+from ..dt.matrix import DataMatrixAttrOperator
 
 
-class WtMatrixPlug(CompoundPlug["WtMatrixAttr"]):
-    matrixIn = DataMatrixAttr()
+class WtMatrixPlugOperator(CompoundPlugOperator["WtMatrixAttrOperator"]):
+    matrixIn = DataMatrixAttrOperator()
     m = matrixIn
 
-    weightIn = DoubleAttr()
+    weightIn = DoubleAttrOperator()
     w = weightIn
 
 
-class WtMatrixAttr(CompoundAttr[WtMatrixPlug]):
-    PLUG_CLS = WtMatrixPlug
+class WtMatrixAttrOperator(CompoundAttrOperator[WtMatrixPlugOperator]):
+    PLUG_CLS = WtMatrixPlugOperator
 
-    matrixIn = DataMatrixAttr()
+    matrixIn = DataMatrixAttrOperator()
     m = matrixIn
 
-    weightIn = DoubleAttr()
+    weightIn = DoubleAttrOperator()
     w = weightIn

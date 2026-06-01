@@ -6,14 +6,19 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .base.array_base import DataArrayBaseAttr, DataArrayBasePlug
+from .base.array_base import (
+    DataArrayBaseAttrOperator,
+    DataArrayBasePlugOperator,
+)
 
-A = TypeVar("A", bound="DataArrayBaseAttr")
+A = TypeVar("A", bound="DataArrayBaseAttrOperator")
 
-P = TypeVar("P", bound="DataArrayBasePlug")
+P = TypeVar("P", bound="DataArrayBasePlugOperator")
 
 
-class DataFloatArrayPlug(DataArrayBasePlug["DataFloatArrayAttr"]):
+class DataFloatArrayPlugOperator(
+    DataArrayBasePlugOperator["DataFloatArrayAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -33,8 +38,10 @@ class DataFloatArrayPlug(DataArrayBasePlug["DataFloatArrayAttr"]):
         self._set_values(om.MFnFloatArrayData, om.MFloatArray, values)
 
 
-class DataFloatArrayAttr(DataArrayBaseAttr[DataFloatArrayPlug]):
+class DataFloatArrayAttrOperator(
+    DataArrayBaseAttrOperator[DataFloatArrayPlugOperator]
+):
     __slots__ = ()
 
     DATA_TYPE = "floatArray"
-    PLUG_CLS = cast(Type[P], DataFloatArrayPlug)
+    PLUG_CLS = cast(Type[P], DataFloatArrayPlugOperator)

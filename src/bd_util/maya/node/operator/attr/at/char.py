@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class CharPlug(PlugOperator["CharAttr"]):
+class CharPlugOperator(PlugOperator["CharAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class CharPlug(PlugOperator["CharAttr"]):
         self._node._dg_mod.newPlugValueChar(self.plug, value)
 
 
-class CharAttr(AttrOperator[CharPlug]):
+class CharAttrOperator(AttrOperator[CharPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "char"
-    PLUG_CLS = CharPlug
+    PLUG_CLS = CharPlugOperator

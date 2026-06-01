@@ -10,12 +10,12 @@ A = TypeVar("A", bound="AttrOperator")
 P = TypeVar("P", bound="PlugOperator")
 
 
-class DataTypePlug(PlugOperator[A]):
+class DataTypePlugOperator(PlugOperator[A]):
     __slots__ = ()
 
 
-class DataTypeAttr(AttrOperator[P]):
+class DataTypeAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "typed"
-    PLUG_CLS = cast(Type[P], DataTypePlug)
+    PLUG_CLS = cast(Type[P], DataTypePlugOperator)

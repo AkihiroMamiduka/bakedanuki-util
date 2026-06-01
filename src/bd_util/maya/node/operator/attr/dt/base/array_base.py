@@ -3,14 +3,14 @@ from __future__ import annotations
 from typing import TypeVar, Type, cast
 
 # self
-from .._core import DataTypeAttr, DataTypePlug
+from .._core import DataTypeAttrOperator, DataTypePlugOperator
 
-A = TypeVar("A", bound="DataTypeAttr")
+A = TypeVar("A", bound="DataTypeAttrOperator")
 
-P = TypeVar("P", bound="DataTypePlug")
+P = TypeVar("P", bound="DataTypePlugOperator")
 
 
-class DataArrayBasePlug(DataTypePlug[A]):
+class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -33,8 +33,8 @@ class DataArrayBasePlug(DataTypePlug[A]):
         self.plug.setMObject(fn_data_cls().create(array_cls(values)))
 
 
-class DataArrayBaseAttr(DataTypeAttr[P]):
+class DataArrayBaseAttrOperator(DataTypeAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "abc"
-    PLUG_CLS = cast(Type[P], DataArrayBasePlug)
+    PLUG_CLS = cast(Type[P], DataArrayBasePlugOperator)

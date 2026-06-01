@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class ShortPlug(PlugOperator["ShortAttr"]):
+class ShortPlugOperator(PlugOperator["ShortAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class ShortPlug(PlugOperator["ShortAttr"]):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
 
-class ShortAttr(AttrOperator[ShortPlug]):
+class ShortAttrOperator(AttrOperator[ShortPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "short"
-    PLUG_CLS = ShortPlug
+    PLUG_CLS = ShortPlugOperator

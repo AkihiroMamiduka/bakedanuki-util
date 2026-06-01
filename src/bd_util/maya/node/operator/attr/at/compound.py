@@ -9,7 +9,7 @@ A = TypeVar("A", bound="AttrOperator")
 P = TypeVar("P", bound="PlugOperator")
 
 
-class CompoundPlug(PlugOperator[A]):
+class CompoundPlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -25,8 +25,8 @@ class CompoundPlug(PlugOperator[A]):
         )
 
 
-class CompoundAttr(AttrOperator[P]):
+class CompoundAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "compound"
-    PLUG_CLS = cast(Type[P], CompoundPlug)
+    PLUG_CLS = cast(Type[P], CompoundPlugOperator)

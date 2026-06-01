@@ -6,14 +6,14 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .._core import DataTypeAttr, DataTypePlug
+from .._core import DataTypeAttrOperator, DataTypePlugOperator
 
-A = TypeVar("A", bound="DataTypeAttr")
+A = TypeVar("A", bound="DataTypeAttrOperator")
 
-P = TypeVar("P", bound="DataTypePlug")
+P = TypeVar("P", bound="DataTypePlugOperator")
 
 
-class DataNumericBasePlug(DataTypePlug[A]):
+class DataNumericBasePlugOperator(DataTypePlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -38,8 +38,8 @@ class DataNumericBasePlug(DataTypePlug[A]):
         self.plug.setMObject(obj)
 
 
-class DataNumericBaseAttr(DataTypeAttr[P]):
+class DataNumericBaseAttrOperator(DataTypeAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "abc"
-    PLUG_CLS = cast(Type[P], DataNumericBasePlug)
+    PLUG_CLS = cast(Type[P], DataNumericBasePlugOperator)

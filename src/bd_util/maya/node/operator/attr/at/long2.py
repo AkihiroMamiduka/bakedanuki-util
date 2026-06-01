@@ -9,7 +9,7 @@ A = TypeVar("A", bound="AttrOperator")
 P = TypeVar("P", bound="PlugOperator")
 
 
-class Long2Plug(PlugOperator[A]):
+class Long2PlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -44,8 +44,8 @@ class Long2Plug(PlugOperator[A]):
             ) from e
 
 
-class Long2Attr(AttrOperator[P]):
+class Long2AttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "long2"
-    PLUG_CLS = cast(Type[P], Long2Plug)
+    PLUG_CLS = cast(Type[P], Long2PlugOperator)

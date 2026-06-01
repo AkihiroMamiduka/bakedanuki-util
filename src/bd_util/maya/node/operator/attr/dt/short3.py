@@ -6,14 +6,17 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_base import DataNumericBaseAttr, DataNumericBasePlug
+from .base.numeric_base import (
+    DataNumericBaseAttrOperator,
+    DataNumericBasePlugOperator,
+)
 
-A = TypeVar("A", bound="DataNumericBaseAttr")
+A = TypeVar("A", bound="DataNumericBaseAttrOperator")
 
-P = TypeVar("P", bound="DataNumericBasePlug")
+P = TypeVar("P", bound="DataNumericBasePlugOperator")
 
 
-class DataShort3Plug(DataNumericBasePlug[A]):
+class DataShort3PlugOperator(DataNumericBasePlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -34,8 +37,8 @@ class DataShort3Plug(DataNumericBasePlug[A]):
         self._set_data(om.MFnNumericData.k3Short, values)
 
 
-class DataShort3Attr(DataNumericBaseAttr[P]):
+class DataShort3AttrOperator(DataNumericBaseAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "short3"
-    PLUG_CLS = cast(Type[P], DataShort3Plug)
+    PLUG_CLS = cast(Type[P], DataShort3PlugOperator)

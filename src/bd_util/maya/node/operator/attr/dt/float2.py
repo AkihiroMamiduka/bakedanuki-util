@@ -6,14 +6,17 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_base import DataNumericBaseAttr, DataNumericBasePlug
+from .base.numeric_base import (
+    DataNumericBaseAttrOperator,
+    DataNumericBasePlugOperator,
+)
 
-A = TypeVar("A", bound="DataNumericBaseAttr")
+A = TypeVar("A", bound="DataNumericBaseAttrOperator")
 
-P = TypeVar("P", bound="DataNumericBasePlug")
+P = TypeVar("P", bound="DataNumericBasePlugOperator")
 
 
-class DataFloat2Plug(DataNumericBasePlug[A]):
+class DataFloat2PlugOperator(DataNumericBasePlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -34,8 +37,8 @@ class DataFloat2Plug(DataNumericBasePlug[A]):
         self._set_data(om.MFnNumericData.k2Float, values)
 
 
-class DataFloat2Attr(DataNumericBaseAttr[P]):
+class DataFloat2AttrOperator(DataNumericBaseAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "float2"
-    PLUG_CLS = cast(Type[P], DataFloat2Plug)
+    PLUG_CLS = cast(Type[P], DataFloat2PlugOperator)

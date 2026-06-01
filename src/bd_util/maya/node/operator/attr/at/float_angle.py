@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class FloatAnglePlug(PlugOperator["FloatAngleAttr"]):
+class FloatAnglePlugOperator(PlugOperator["FloatAngleAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class FloatAnglePlug(PlugOperator["FloatAngleAttr"]):
         self._node._dg_mod.newPlugValueMAngle(self.plug, value)
 
 
-class FloatAngleAttr(AttrOperator[FloatAnglePlug]):
+class FloatAngleAttrOperator(AttrOperator[FloatAnglePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "floatAngle"
-    PLUG_CLS = FloatAnglePlug
+    PLUG_CLS = FloatAnglePlugOperator

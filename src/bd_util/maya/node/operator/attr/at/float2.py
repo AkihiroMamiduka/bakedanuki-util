@@ -6,17 +6,17 @@ from maya.api import OpenMaya as om
 
 # self
 from ..compound_base._floating_point_compound import (
-    FloatingPointBaseAttr,
-    FloatingPointBasePlug,
+    FloatingPointBaseAttrOperator,
+    FloatingPointBasePlugOperator,
     FloatingPointScalarType,
 )
 
-A = TypeVar("A", bound="FloatingPointBaseAttr")
+A = TypeVar("A", bound="FloatingPointBaseAttrOperator")
 
-P = TypeVar("P", bound="FloatingPointBasePlug")
+P = TypeVar("P", bound="FloatingPointBasePlugOperator")
 
 
-class Float2Plug(FloatingPointBasePlug[A]):
+class Float2PlugOperator(FloatingPointBasePlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -123,8 +123,8 @@ class Float2Plug(FloatingPointBasePlug[A]):
             ) from e
 
 
-class Float2Attr(FloatingPointBaseAttr[P]):
+class Float2AttrOperator(FloatingPointBaseAttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "float2"
-    PLUG_CLS = cast(Type[P], Float2Plug)
+    PLUG_CLS = cast(Type[P], Float2PlugOperator)

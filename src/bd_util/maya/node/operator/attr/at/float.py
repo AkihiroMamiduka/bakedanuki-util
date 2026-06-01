@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class FloatPlug(PlugOperator["FloatAttr"]):
+class FloatPlugOperator(PlugOperator["FloatAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class FloatPlug(PlugOperator["FloatAttr"]):
         self._node._dg_mod.newPlugValueFloat(self.plug, value)
 
 
-class FloatAttr(AttrOperator[FloatPlug]):
+class FloatAttrOperator(AttrOperator[FloatPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "float"
-    PLUG_CLS = FloatPlug
+    PLUG_CLS = FloatPlugOperator

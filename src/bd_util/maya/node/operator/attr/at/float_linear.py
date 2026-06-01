@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class FloatLinearPlug(PlugOperator["FloatLinearAttr"]):
+class FloatLinearPlugOperator(PlugOperator["FloatLinearAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class FloatLinearPlug(PlugOperator["FloatLinearAttr"]):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
 
-class FloatLinearAttr(AttrOperator[FloatLinearPlug]):
+class FloatLinearAttrOperator(AttrOperator[FloatLinearPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "floatLinear"
-    PLUG_CLS = FloatLinearPlug
+    PLUG_CLS = FloatLinearPlugOperator

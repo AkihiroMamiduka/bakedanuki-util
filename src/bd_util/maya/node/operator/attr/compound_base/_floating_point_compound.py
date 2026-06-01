@@ -26,7 +26,7 @@ class FloatingPointScalarType:
     ANGLE = 2
 
 
-class FloatingPointBasePlug(PlugOperator[A]):
+class FloatingPointBasePlugOperator(PlugOperator[A]):
     __slots__ = ("_child_type",)
 
     def __init__(self, *args, **kwargs):
@@ -89,8 +89,8 @@ class FloatingPointBasePlug(PlugOperator[A]):
         return plug_type
 
 
-class FloatingPointBaseAttr(AttrOperator[P]):
+class FloatingPointBaseAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "abc"
-    PLUG_CLS = cast(Type[P], FloatingPointBasePlug)
+    PLUG_CLS = cast(Type[P], FloatingPointBasePlugOperator)

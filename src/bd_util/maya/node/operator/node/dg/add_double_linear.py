@@ -1,6 +1,6 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.at.double_linear import DoubleLinearAttr
+from ...attr.at.double_linear import DoubleLinearAttrOperator
 
 
 class AddDoubleLinear(DG):
@@ -8,11 +8,11 @@ class AddDoubleLinear(DG):
 
     NODE_TYPE = "addDoubleLinear"
 
-    input1 = DoubleLinearAttr()
+    input1 = DoubleLinearAttrOperator()
     i1 = input1
 
-    input2 = DoubleLinearAttr()
+    input2 = DoubleLinearAttrOperator()
     i2 = input2
 
-    output = DoubleLinearAttr()
+    output = DoubleLinearAttrOperator()
     o = output

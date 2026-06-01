@@ -4,10 +4,10 @@
 from maya.api import OpenMaya as om
 
 # self
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 
-class DataStringPlug(DataTypePlug["DataStringAttr"]):
+class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -19,11 +19,11 @@ class DataStringPlug(DataTypePlug["DataStringAttr"]):
         self._node._dg_mod.newPlugValueString(self.plug, value)
 
 
-class DataStringAttr(DataTypeAttr[DataStringPlug]):
+class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "string"
-    PLUG_CLS = DataStringPlug
+    PLUG_CLS = DataStringPlugOperator
 
     # add
     def add_attr(self, node_name: str):

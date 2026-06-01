@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class BytePlug(PlugOperator["ByteAttr"]):
+class BytePlugOperator(PlugOperator["ByteAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class BytePlug(PlugOperator["ByteAttr"]):
         self._node._dg_mod.newPlugValueChar(self.plug, value)
 
 
-class ByteAttr(AttrOperator[BytePlug]):
+class ByteAttrOperator(AttrOperator[BytePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "byte"
-    PLUG_CLS = BytePlug
+    PLUG_CLS = BytePlugOperator

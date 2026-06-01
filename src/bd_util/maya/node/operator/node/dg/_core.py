@@ -2,14 +2,14 @@
 
 # self
 from .._core import NodeOperator
-from ...attr.at.bool import BoolAttr
-from ...attr.at.byte import ByteAttr
-from ...attr.at.enum import EnumAttr, EnumPlug
-from ...attr.at.message import MessageAttr
-from ...attr.dt.string import DataStringAttr
+from ...attr.at.bool import BoolAttrOperator
+from ...attr.at.byte import ByteAttrOperator
+from ...attr.at.enum import EnumAttrOperator, EnumPlugOperator
+from ...attr.at.message import MessageAttrOperator
+from ...attr.dt.string import DataStringAttrOperator
 
 
-class NodeStateEnumPlug(EnumPlug):
+class NodeStateEnumPlug(EnumPlugOperator):
     NORMAL = 0
     HAS_NO_EFFECT = 1
     BLOCKING = 2
@@ -18,7 +18,7 @@ class NodeStateEnumPlug(EnumPlug):
     WAITING_BLOCKING = 10
 
 
-class NodeStateEnumAttr(EnumAttr):
+class NodeStateEnumAttr(EnumAttrOperator):
     PLUG_CLS = NodeStateEnumPlug
 
     NORMAL = 0
@@ -41,15 +41,15 @@ class NodeStateEnumAttr(EnumAttr):
 class DG(NodeOperator):
     __slots__ = ()
 
-    message = MessageAttr()
+    message = MessageAttrOperator()
     msg = message
-    caching = BoolAttr()
+    caching = BoolAttrOperator()
     cch = caching
-    frozen = BoolAttr()
+    frozen = BoolAttrOperator()
     fzn = frozen
-    isHistoricallyInteresting = ByteAttr()
+    isHistoricallyInteresting = ByteAttrOperator()
     ihi = isHistoricallyInteresting
     nodeState = NodeStateEnumAttr()
     nds = nodeState
-    binMembership = DataStringAttr()
+    binMembership = DataStringAttrOperator()
     bnm = binMembership

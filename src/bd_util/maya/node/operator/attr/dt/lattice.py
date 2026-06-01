@@ -1,10 +1,10 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 
-class DataLatticePlug(DataTypePlug["DataLatticeAttr"]):
+class DataLatticePlugOperator(DataTypePlugOperator["DataLatticeAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -20,8 +20,8 @@ class DataLatticePlug(DataTypePlug["DataLatticeAttr"]):
         )
 
 
-class DataLatticeAttr(DataTypeAttr[DataLatticePlug]):
+class DataLatticeAttrOperator(DataTypeAttrOperator[DataLatticePlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "lattice"
-    PLUG_CLS = DataLatticePlug
+    PLUG_CLS = DataLatticePlugOperator

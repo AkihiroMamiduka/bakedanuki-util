@@ -6,7 +6,7 @@ from maya.api import OpenMaya as om
 from .._core import AttrOperator, PlugOperator
 
 
-class FltMatrixPlug(PlugOperator["FltMatrixAttr"]):
+class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -19,8 +19,8 @@ class FltMatrixPlug(PlugOperator["FltMatrixAttr"]):
         self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
 
 
-class FltMatrixAttr(AttrOperator[FltMatrixPlug]):
+class FltMatrixAttrOperator(AttrOperator[FltMatrixPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "fltMatrix"
-    PLUG_CLS = FltMatrixPlug
+    PLUG_CLS = FltMatrixPlugOperator

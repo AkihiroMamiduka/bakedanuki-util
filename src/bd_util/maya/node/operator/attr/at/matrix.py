@@ -7,7 +7,7 @@ from maya.api import OpenMaya as om
 from .._core import AttrOperator, PlugOperator
 
 
-class MatrixPlug(PlugOperator["MatrixAttr"]):
+class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -20,8 +20,8 @@ class MatrixPlug(PlugOperator["MatrixAttr"]):
         self._node._dg_mod.newPlugValue(self.plug, mat_obj)
 
 
-class MatrixAttr(AttrOperator[MatrixPlug]):
+class MatrixAttrOperator(AttrOperator[MatrixPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "matrix"
-    PLUG_CLS = MatrixPlug
+    PLUG_CLS = MatrixPlugOperator

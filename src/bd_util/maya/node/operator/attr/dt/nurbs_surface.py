@@ -1,10 +1,12 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 
-class DataNurbsSurfacePlug(DataTypePlug["DataNurbsSurfaceAttr"]):
+class DataNurbsSurfacePlugOperator(
+    DataTypePlugOperator["DataNurbsSurfaceAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -20,8 +22,10 @@ class DataNurbsSurfacePlug(DataTypePlug["DataNurbsSurfaceAttr"]):
         )
 
 
-class DataNurbsSurfaceAttr(DataTypeAttr[DataNurbsSurfacePlug]):
+class DataNurbsSurfaceAttrOperator(
+    DataTypeAttrOperator[DataNurbsSurfacePlugOperator]
+):
     __slots__ = ()
 
     DATA_TYPE = "nurbsSurface"
-    PLUG_CLS = DataNurbsSurfacePlug
+    PLUG_CLS = DataNurbsSurfacePlugOperator

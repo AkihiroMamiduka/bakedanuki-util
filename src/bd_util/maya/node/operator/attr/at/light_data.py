@@ -9,7 +9,7 @@ A = TypeVar("A", bound="AttrOperator")
 P = TypeVar("P", bound="PlugOperator")
 
 
-class LightDataPlug(PlugOperator[A]):
+class LightDataPlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     # get
@@ -25,8 +25,8 @@ class LightDataPlug(PlugOperator[A]):
         )
 
 
-class LightDataAttr(AttrOperator[P]):
+class LightDataAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "lightData"
-    PLUG_CLS = cast(Type[P], LightDataPlug)
+    PLUG_CLS = cast(Type[P], LightDataPlugOperator)

@@ -14,7 +14,7 @@ A = TypeVar("A", bound="AttrOperator")
 P = TypeVar("P", bound="PlugOperator")
 
 
-class EnumPlug(PlugOperator["EnumAttr"]):
+class EnumPlugOperator(PlugOperator["EnumAttrOperator"]):
     __slots__ = ("_fn_enum",)
 
     def __init__(self, *args, **kwargs):
@@ -48,11 +48,11 @@ class EnumPlug(PlugOperator["EnumAttr"]):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
 
-class EnumAttr(AttrOperator[EnumPlug]):
+class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
     __slots__ = ("_index_by_name_dict",)
 
     ATTR_TYPE = "enum"
-    PLUG_CLS = cast(Type[P], EnumPlug)
+    PLUG_CLS = cast(Type[P], EnumPlugOperator)
 
     NAME_MAP: dict[int, str] | None = None
 

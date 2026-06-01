@@ -7,7 +7,7 @@ from maya.api import OpenMaya as om
 from .._core import AttrOperator, PlugOperator
 
 
-class DoublePlug(PlugOperator["DoubleAttr"]):
+class DoublePlugOperator(PlugOperator["DoubleAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -19,11 +19,11 @@ class DoublePlug(PlugOperator["DoubleAttr"]):
         self._node._dg_mod.newPlugValueDouble(self.plug, value)
 
 
-class DoubleAttr(AttrOperator[DoublePlug]):
+class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "double"
-    PLUG_CLS = DoublePlug
+    PLUG_CLS = DoublePlugOperator
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

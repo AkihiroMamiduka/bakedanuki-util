@@ -2,7 +2,7 @@
 from .._core import AttrOperator, PlugOperator
 
 
-class LongLongIntPlug(PlugOperator["LongLongIntAttr"]):
+class LongLongIntPlugOperator(PlugOperator["LongLongIntAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -14,8 +14,8 @@ class LongLongIntPlug(PlugOperator["LongLongIntAttr"]):
         self._node._dg_mod.newPlugValueInt64(self.plug, value)
 
 
-class LongLongIntAttr(AttrOperator[LongLongIntPlug]):
+class LongLongIntAttrOperator(AttrOperator[LongLongIntPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "long long int"
-    PLUG_CLS = LongLongIntPlug
+    PLUG_CLS = LongLongIntPlugOperator

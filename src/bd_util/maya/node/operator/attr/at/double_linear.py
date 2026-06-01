@@ -7,7 +7,7 @@ from maya.api import OpenMaya as om
 from .._core import AttrOperator, PlugOperator
 
 
-class DoubleLinearPlug(PlugOperator["DoubleLinearAttr"]):
+class DoubleLinearPlugOperator(PlugOperator["DoubleLinearAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -20,8 +20,8 @@ class DoubleLinearPlug(PlugOperator["DoubleLinearAttr"]):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
 
-class DoubleLinearAttr(AttrOperator[DoubleLinearPlug]):
+class DoubleLinearAttrOperator(AttrOperator[DoubleLinearPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "doubleLinear"
-    PLUG_CLS = DoubleLinearPlug
+    PLUG_CLS = DoubleLinearPlugOperator

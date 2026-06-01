@@ -1,10 +1,10 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ._core import DataTypeAttr, DataTypePlug
+from ._core import DataTypeAttrOperator, DataTypePlugOperator
 
 
-class DataMeshPlug(DataTypePlug["DataMeshAttr"]):
+class DataMeshPlugOperator(DataTypePlugOperator["DataMeshAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -20,8 +20,8 @@ class DataMeshPlug(DataTypePlug["DataMeshAttr"]):
         )
 
 
-class DataMeshAttr(DataTypeAttr[DataMeshPlug]):
+class DataMeshAttrOperator(DataTypeAttrOperator[DataMeshPlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "mesh"
-    PLUG_CLS = DataMeshPlug
+    PLUG_CLS = DataMeshPlugOperator
