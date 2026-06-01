@@ -41,11 +41,11 @@ def extra_attrs_class_access():
     test_str.title("1. extra=True: class access properties")
     logger.debug(
         "{}: {}".format(
-            "MyTransform._extra_attrs",
-            MyTransform._extra_attrs,
+            "MyTransform._extra_attributes",
+            MyTransform._extra_attributes,
         )
     )
-    for attr in MyTransform._extra_attrs:
+    for attr in MyTransform._extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 

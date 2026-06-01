@@ -77,7 +77,9 @@ class Node(metaclass=ImmutableDescriptorMeta):
     NODE_TYPE = None
     node_class = NodeClass()
     is_instance = IsInstance()
-    _extra_attrs: tuple = ()
+    _attributes_map_by_long_name: dict = {}
+    _attributes_map_by_short_name: dict = {}
+    _extra_attributes: tuple = ()
 
     __slots__ = (
         "__weakref__",
@@ -99,15 +101,27 @@ class Node(metaclass=ImmutableDescriptorMeta):
         オブジェクトの同一性に基づいて重複を排除し、
         short_name エイリアス (例: mw = myWeight) が同じ属性を二度登録しないようにする。
         """
+        from ..attr._core import Attr  # 循環インポート回避のため遅延インポート
+
+        attributes_by_long_name = {}
+        attributes_by_short_name = {}
         extra_attrs = []
         seen_ids = set()
         for klass in cls.__mro__:
             for v in vars(klass).values():
+                v: Attr
                 obj_id = id(v)
-                if obj_id not in seen_ids and getattr(v, "extra", False):
+                if obj_id not in seen_ids and any(
+                    c.__name__ == "Attr" for c in type(v).__mro__
+                ):
                     seen_ids.add(obj_id)
-                    extra_attrs.append(v)
-        cls._extra_attrs = tuple(extra_attrs)
+                    attributes_by_long_name[v.long_name] = v
+                    attributes_by_short_name[v.short_name] = v
+                    if getattr(v, "extra", False):
+                        extra_attrs.append(v)
+        cls._attributes_map_by_long_name = attributes_by_long_name
+        cls._attributes_map_by_short_name = attributes_by_short_name
+        cls._extra_attributes = tuple(extra_attrs)
 
     def __init__(
         self,
@@ -196,7 +210,7 @@ class Node(metaclass=ImmutableDescriptorMeta):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
         """
-        for attr in self._extra_attrs:
+        for attr in self._extra_attributes:
             attr.add_attr(self.name)
 
     def __str__(self):
