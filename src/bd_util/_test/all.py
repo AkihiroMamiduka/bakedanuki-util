@@ -19,7 +19,7 @@ def main():
     bd_util._test.maya.node.operator.node.dag._core.main()
     bd_util._test.maya.node.operator.node.dg._core.main()
     bd_util._test.maya.node.operator.node.dg.add_double_linear.main()
-    bd_util._test.maya.node.operator.node.dg.attr_init_params.main()
+    bd_util._test.maya.node.operator.node.dg.attr_init_params.main()  # NG
     bd_util._test.maya.node.operator.node.dg.extra_attr.main()
     bd_util._test.maya.node.operator.node.dg.plus_minus_average.main()
     bd_util._test.maya.node.operator.node.dg.str_access.main()
