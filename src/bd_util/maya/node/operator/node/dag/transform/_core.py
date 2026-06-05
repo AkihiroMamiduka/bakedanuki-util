@@ -6,16 +6,16 @@ import maya.cmds as cmds
 
 # self
 from .._core import DAG
-from ....attr.at.double3 import (
+from ....attr.std.at.double3 import (
     Double3AttrOperator,
     Double3PlugOperator,
     Double3Field,
 )
-from ....attr.at.double import DoubleField
-from ....attr.at.double_linear import (
+from ....attr.std.at.double import DoubleField
+from ....attr.std.at.double_linear import (
     DoubleLinearField,
 )
-from ....attr.at.double_angle import DoubleAngleField
+from ....attr.std.at.double_angle import DoubleAngleField
 
 
 class TranslatePlugOperator(Double3PlugOperator["TranslateAttrOperator"]):

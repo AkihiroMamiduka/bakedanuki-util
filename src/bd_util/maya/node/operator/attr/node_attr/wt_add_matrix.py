@@ -1,13 +1,13 @@
 # coding: utf-8
 
 # self
-from ..at.compound import (
+from ..std.at.compound import (
     CompoundAttrOperator,
     CompoundPlugOperator,
     CompoundField,
 )
-from ..at.double import DoubleField
-from ..dt.matrix import DataMatrixField
+from ..std.at.double import DoubleField
+from ..std.dt.matrix import DataMatrixField
 
 
 class WtMatrixPlugOperator(CompoundPlugOperator["WtMatrixAttrOperator"]):

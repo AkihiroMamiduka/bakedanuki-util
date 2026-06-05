@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from ..at.float import FloatField
-from ..at.float2 import Float2AttrOperator, Float2PlugOperator, Float2Field
-from ..at.float3 import Float3AttrOperator, Float3PlugOperator, Float3Field
+from ..std.at.float import FloatField
+from ..std.at.float2 import Float2AttrOperator, Float2PlugOperator, Float2Field
+from ..std.at.float3 import Float3AttrOperator, Float3PlugOperator, Float3Field
 
 
 class Input2DPlugOperator(Float2PlugOperator["Input2DAttrOperator"]):

@@ -1,6 +1,6 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.at.double_linear import DoubleLinearField
+from ...attr.std.at.double_linear import DoubleLinearField
 
 
 class AddDoubleLinear(DG):

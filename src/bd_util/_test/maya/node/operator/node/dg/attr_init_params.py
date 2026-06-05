@@ -21,12 +21,12 @@ from maya.api import OpenMaya as om
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.at.double import DoubleAttrOperator
-from .......maya.node.operator.attr.at.enum import (
+from .......maya.node.operator.attr.std.at.double import DoubleAttrOperator
+from .......maya.node.operator.attr.std.at.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
 )
-from .......maya.node.operator.attr.dt.string import DataStringAttrOperator
+from .......maya.node.operator.attr.std.dt.string import DataStringAttrOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 

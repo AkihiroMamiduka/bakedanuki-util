@@ -6,8 +6,8 @@ from ...attr.node_attr.plus_minus_average import (
     Output2DField,
     Output3DField,
 )
-from ...attr.at.enum import EnumAttrOperator, EnumPlugOperator, EnumField
-from ...attr.at.float import FloatField
+from ...attr.std.at.enum import EnumAttrOperator, EnumPlugOperator, EnumField
+from ...attr.std.at.float import FloatField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator):
