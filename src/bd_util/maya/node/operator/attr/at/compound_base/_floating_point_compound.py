@@ -5,8 +5,8 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from ...... import logger as u_logger
-from .._core import AttrOperator, PlugOperator, AttributeField
+from ....... import logger as u_logger
+from ..._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator")
 
