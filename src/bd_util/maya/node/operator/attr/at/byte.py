@@ -1,5 +1,7 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+
+# self
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class BytePlugOperator(PlugOperator["ByteAttrOperator"]):
@@ -18,4 +20,10 @@ class ByteAttrOperator(AttrOperator[BytePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "byte"
+
+
+class ByteField(AttributeField[ByteAttrOperator, BytePlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = ByteAttrOperator
     PLUG_CLS = BytePlugOperator

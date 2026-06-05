@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator")
 
@@ -29,4 +29,12 @@ class LightDataAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "lightData"
+
+
+class LightDataField(
+    AttributeField[LightDataAttrOperator, LightDataPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], LightDataAttrOperator)
     PLUG_CLS = cast(Type[P], LightDataPlugOperator)

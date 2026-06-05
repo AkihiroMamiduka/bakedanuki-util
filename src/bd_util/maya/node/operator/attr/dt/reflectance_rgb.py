@@ -1,15 +1,18 @@
 # coding: utf-8
-from __future__ import annotations
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from .base.numeric_base import (
+    DataNumericBaseAttrOperator,
+    DataNumericBasePlugOperator,
+    DataNumericBaseField,
+)
 
 
 class DataReflectanceRGBPlugOperator(
-    DataTypePlugOperator["DataReflectanceRGBAttrOperator"]
+    DataNumericBasePlugOperator["DataReflectanceRGBAttrOperator"]
 ):
     __slots__ = ()
 
@@ -32,9 +35,19 @@ class DataReflectanceRGBPlugOperator(
 
 
 class DataReflectanceRGBAttrOperator(
-    DataTypeAttrOperator[DataReflectanceRGBPlugOperator]
+    DataNumericBaseAttrOperator[DataReflectanceRGBPlugOperator]
 ):
     __slots__ = ()
 
     DATA_TYPE = "reflectanceRGB"
+
+
+class ReflectanceRGBField(
+    DataNumericBaseField[
+        DataReflectanceRGBAttrOperator, DataReflectanceRGBPlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataReflectanceRGBAttrOperator
     PLUG_CLS = DataReflectanceRGBPlugOperator

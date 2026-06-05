@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class DoubleLinearPlugOperator(PlugOperator["DoubleLinearAttrOperator"]):
@@ -24,4 +24,12 @@ class DoubleLinearAttrOperator(AttrOperator[DoubleLinearPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "doubleLinear"
+
+
+class DoubleLinearField(
+    AttributeField[DoubleLinearAttrOperator, DoubleLinearPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DoubleLinearAttrOperator
     PLUG_CLS = DoubleLinearPlugOperator

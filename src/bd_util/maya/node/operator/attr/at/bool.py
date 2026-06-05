@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class BoolPlugOperator(PlugOperator["BoolAttrOperator"]):
@@ -18,4 +18,10 @@ class BoolAttrOperator(AttrOperator[BoolPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "bool"
+
+
+class BoolField(AttributeField[BoolAttrOperator, BoolPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = BoolAttrOperator
     PLUG_CLS = BoolPlugOperator

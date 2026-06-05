@@ -1,6 +1,4 @@
 # coding: utf-8
-from __future__ import annotations
-from typing import TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,14 +7,13 @@ from maya.api import OpenMaya as om
 from .base.numeric_base import (
     DataNumericBaseAttrOperator,
     DataNumericBasePlugOperator,
+    DataNumericBaseField,
 )
 
-A = TypeVar("A", bound="DataNumericBaseAttrOperator")
 
-P = TypeVar("P", bound="DataNumericBasePlugOperator")
-
-
-class DataDouble2PlugOperator(DataNumericBasePlugOperator[A]):
+class DataDouble2PlugOperator(
+    DataNumericBasePlugOperator["DataDouble2AttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -37,8 +34,18 @@ class DataDouble2PlugOperator(DataNumericBasePlugOperator[A]):
         self._set_data(om.MFnNumericData.k2Double, values)
 
 
-class DataDouble2AttrOperator(DataNumericBaseAttrOperator[P]):
+class DataDouble2AttrOperator(
+    DataNumericBaseAttrOperator[DataDouble2PlugOperator]
+):
     __slots__ = ()
 
     DATA_TYPE = "double2"
-    PLUG_CLS = cast(Type[P], DataDouble2PlugOperator)
+
+
+class DataDouble2Field(
+    DataNumericBaseField[DataDouble2AttrOperator, DataDouble2PlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataDouble2AttrOperator
+    PLUG_CLS = DataDouble2PlugOperator

@@ -2,14 +2,16 @@
 
 # self
 from .._core import NodeOperator
-from ...attr.at.bool import BoolAttrOperator
-from ...attr.at.byte import ByteAttrOperator
-from ...attr.at.enum import EnumAttrOperator, EnumPlugOperator
-from ...attr.at.message import MessageAttrOperator
-from ...attr.dt.string import DataStringAttrOperator
+from ...attr.at.bool import BoolField
+from ...attr.at.byte import ByteField
+from ...attr.at.enum import EnumAttrOperator, EnumPlugOperator, EnumField
+from ...attr.at.message import MessageField
+from ...attr.dt.string import DataStringField
 
 
 class NodeStateEnumPlug(EnumPlugOperator):
+    __slots__ = ()
+
     NORMAL = 0
     HAS_NO_EFFECT = 1
     BLOCKING = 2
@@ -19,7 +21,7 @@ class NodeStateEnumPlug(EnumPlugOperator):
 
 
 class NodeStateEnumAttr(EnumAttrOperator):
-    PLUG_CLS = NodeStateEnumPlug
+    __slots__ = ()
 
     NORMAL = 0
     HAS_NO_EFFECT = 1
@@ -38,18 +40,25 @@ class NodeStateEnumAttr(EnumAttrOperator):
     }
 
 
+class NodeStateEnumField(EnumField[NodeStateEnumAttr, NodeStateEnumPlug]):
+    __slots__ = ()
+
+    ATTR_CLS = NodeStateEnumAttr
+    PLUG_CLS = NodeStateEnumPlug
+
+
 class DG(NodeOperator):
     __slots__ = ()
 
-    message = MessageAttrOperator()
+    message = MessageField()
     msg = message
-    caching = BoolAttrOperator()
+    caching = BoolField()
     cch = caching
-    frozen = BoolAttrOperator()
+    frozen = BoolField()
     fzn = frozen
-    isHistoricallyInteresting = ByteAttrOperator()
+    isHistoricallyInteresting = ByteField()
     ihi = isHistoricallyInteresting
-    nodeState = NodeStateEnumAttr()
+    nodeState = NodeStateEnumField()
     nds = nodeState
-    binMembership = DataStringAttrOperator()
+    binMembership = DataStringField()
     bnm = binMembership

@@ -8,6 +8,7 @@ from maya.api import OpenMaya as om
 from ..compound_base._floating_point_compound import (
     FloatingPointBaseAttrOperator,
     FloatingPointBasePlugOperator,
+    FloatingPointBaseField,
     FloatingPointScalarType,
 )
 
@@ -156,4 +157,10 @@ class Float3AttrOperator(FloatingPointBaseAttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "float3"
+
+
+class Float3Field(FloatingPointBaseField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], Float3AttrOperator)
     PLUG_CLS = cast(Type[P], Float3PlugOperator)

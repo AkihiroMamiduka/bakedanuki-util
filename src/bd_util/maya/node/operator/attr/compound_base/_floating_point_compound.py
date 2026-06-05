@@ -6,7 +6,7 @@ from maya.api import OpenMaya as om
 
 # self
 from ...... import logger as u_logger
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator")
 
@@ -93,4 +93,10 @@ class FloatingPointBaseAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "abc"
+
+
+class FloatingPointBaseField(AttributeField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], FloatingPointBaseAttrOperator)
     PLUG_CLS = cast(Type[P], FloatingPointBasePlugOperator)

@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class LongPlugOperator(PlugOperator["LongAttrOperator"]):
@@ -18,4 +18,10 @@ class LongAttrOperator(AttrOperator[LongPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "long"
+
+
+class LongField(AttributeField[LongAttrOperator, LongPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = LongAttrOperator
     PLUG_CLS = LongPlugOperator

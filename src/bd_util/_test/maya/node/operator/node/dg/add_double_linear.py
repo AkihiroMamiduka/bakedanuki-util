@@ -12,14 +12,66 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
+    attribute_access()
+    plug_access()
     get_set()
     get_set_short_name()
 
 
+# class_access
+def attribute_access():
+    test_str.title("attribute_access")
+    logger.debug(
+        "{}: {}".format(
+            "AddDoubleLinear",
+            AddDoubleLinear,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "AddDoubleLinear.input1",
+            AddDoubleLinear.input1,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "AddDoubleLinear.input1.default_value",
+            AddDoubleLinear.input1.default_value,
+        )
+    )
+
+
+# instance_access
+def plug_access():
+    test_str.title("plug_access")
+    dg_mod = om.MDGModifier()
+
+    node = AddDoubleLinear.create(dg_mod, name="test")
+    dg_mod.doIt()
+    logger.debug(
+        "{}: {}".format(
+            "node",
+            node,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input1",
+            node.input1,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input1.plug",
+            node.input1.plug,
+        )
+    )
+
+
 def get_set():
     test_str.title("get_set")
-    mod = om.MDGModifier()
-    node = AddDoubleLinear.create(mod, name="test")
+    dg_mod = om.MDGModifier()
+    node = AddDoubleLinear.create(dg_mod, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -30,7 +82,8 @@ def get_set():
         )
     )
     logger.debug("--set")
-    node.input1.set(100.0)
+    node.input1.set(10.0)
+    dg_mod.doIt()
     logger.debug(
         "{}: {}".format(
             "node.input1.get()",
@@ -46,7 +99,8 @@ def get_set():
         )
     )
     logger.debug("--set")
-    node.input2.set(200.0)
+    node.input2.set(20.0)
+    dg_mod.doIt()
     logger.debug(
         "{}: {}".format(
             "node.input2.get()",
@@ -65,8 +119,8 @@ def get_set():
 
 def get_set_short_name():
     test_str.title("get_set_short_name")
-    mod = om.MDGModifier()
-    node = AddDoubleLinear.create(mod, name="test")
+    dg_mod = om.MDGModifier()
+    node = AddDoubleLinear.create(dg_mod, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -78,6 +132,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i1.set(100.0)
+    dg_mod.doIt()
     logger.debug(
         "{}: {}".format(
             "node.i1.get()",
@@ -94,6 +149,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i2.set(200.0)
+    dg_mod.doIt()
     logger.debug(
         "{}: {}".format(
             "node.i2.get()",

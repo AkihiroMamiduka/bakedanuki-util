@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 
 class DataLatticePlugOperator(DataTypePlugOperator["DataLatticeAttrOperator"]):
@@ -24,4 +24,12 @@ class DataLatticeAttrOperator(DataTypeAttrOperator[DataLatticePlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "lattice"
+
+
+class LatticeField(
+    DataTypeField[DataLatticeAttrOperator, DataLatticePlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataLatticeAttrOperator
     PLUG_CLS = DataLatticePlugOperator

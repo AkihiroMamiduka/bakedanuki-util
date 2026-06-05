@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class FloatPlugOperator(PlugOperator["FloatAttrOperator"]):
@@ -18,4 +18,10 @@ class FloatAttrOperator(AttrOperator[FloatPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "float"
+
+
+class FloatField(AttributeField[FloatAttrOperator, FloatPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = FloatAttrOperator
     PLUG_CLS = FloatPlugOperator

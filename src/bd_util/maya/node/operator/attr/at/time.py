@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class TimePlugOperator(PlugOperator["TimeAttrOperator"]):
@@ -18,4 +18,10 @@ class TimeAttrOperator(AttrOperator[TimePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "time"
+
+
+class TimeField(AttributeField[TimeAttrOperator, TimePlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = TimeAttrOperator
     PLUG_CLS = TimePlugOperator

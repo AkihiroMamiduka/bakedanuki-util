@@ -6,7 +6,7 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .._core import DataTypeAttrOperator, DataTypePlugOperator
+from .._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 A = TypeVar("A", bound="DataTypeAttrOperator")
 
@@ -42,4 +42,10 @@ class DataNumericBaseAttrOperator(DataTypeAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "abc"
+
+
+class DataNumericBaseField(DataTypeField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], DataNumericBaseAttrOperator)
     PLUG_CLS = cast(Type[P], DataNumericBasePlugOperator)

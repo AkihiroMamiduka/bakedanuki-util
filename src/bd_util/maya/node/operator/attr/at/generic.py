@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
@@ -30,4 +30,10 @@ class GenericAttrOperator(AttrOperator[GenericPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "generic"
+
+
+class GenericField(AttributeField[GenericAttrOperator, GenericPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = GenericAttrOperator
     PLUG_CLS = GenericPlugOperator

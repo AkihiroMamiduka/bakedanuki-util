@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 
 class DataNurbsCurvePlugOperator(
@@ -12,13 +12,13 @@ class DataNurbsCurvePlugOperator(
     # get
     def get(self):
         raise NotImplementedError(
-            "DataMeshPlug does not support get operation"
+            "DataNurbsCurvePlugOperator does not support get operation"
         )
 
     # set
     def set(self, value):
         raise NotImplementedError(
-            "DataMeshPlug does not support set operation"
+            "DataNurbsCurvePlugOperator does not support set operation"
         )
 
 
@@ -28,4 +28,12 @@ class DataNurbsCurveAttrOperator(
     __slots__ = ()
 
     DATA_TYPE = "nurbsCurve"
+
+
+class DataNurbsCurveField(
+    DataTypeField[DataNurbsCurveAttrOperator, DataNurbsCurvePlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataNurbsCurveAttrOperator
     PLUG_CLS = DataNurbsCurvePlugOperator

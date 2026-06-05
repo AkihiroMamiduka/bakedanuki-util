@@ -5,7 +5,7 @@ from maya.api import OpenMaya as om
 
 # self
 from ...... import logger as u_logger
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -28,7 +28,6 @@ class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "matrix"
-    PLUG_CLS = DataMatrixPlugOperator
 
     # add
     def add_attr(self, node_name: str):
@@ -43,3 +42,12 @@ class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):
             om.MFnMatrixData.kMatrix,
         )
         fn_node.addAttribute(attr_obj)
+
+
+class DataMatrixField(
+    DataTypeField[DataMatrixAttrOperator, DataMatrixPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataMatrixAttrOperator
+    PLUG_CLS = DataMatrixPlugOperator

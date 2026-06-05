@@ -3,7 +3,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
@@ -23,4 +23,12 @@ class FltMatrixAttrOperator(AttrOperator[FltMatrixPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "fltMatrix"
+
+
+class FltMatrixField(
+    AttributeField[FltMatrixAttrOperator, FltMatrixPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = FltMatrixAttrOperator
     PLUG_CLS = FltMatrixPlugOperator

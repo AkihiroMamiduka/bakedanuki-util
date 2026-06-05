@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class ShortPlugOperator(PlugOperator["ShortAttrOperator"]):
@@ -18,4 +18,10 @@ class ShortAttrOperator(AttrOperator[ShortPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "short"
+
+
+class ShortField(AttributeField[ShortAttrOperator, ShortPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = ShortAttrOperator
     PLUG_CLS = ShortPlugOperator

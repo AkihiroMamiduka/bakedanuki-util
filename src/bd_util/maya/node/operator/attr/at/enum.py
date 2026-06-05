@@ -7,7 +7,7 @@ from typing import Any, TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator")
 
@@ -34,14 +34,14 @@ class EnumPlugOperator(PlugOperator["EnumAttrOperator"]):
 
     # name
     def name_by_index(self, index: int) -> str:
-        return self._attr.NAME_MAP[index]
+        return self._oprt_attr.NAME_MAP[index]
 
     def enum_full_name(self) -> str:
-        return self._attr.enum_full_name()
+        return self._oprt_attr.enum_full_name()
 
     # index
     def index_by_name(self, name: str) -> int:
-        return self._attr.index_by_name(name)
+        return self._oprt_attr.index_by_name(name)
 
     # set
     def set(self, value: int):
@@ -52,7 +52,6 @@ class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
     __slots__ = ("_index_by_name_dict",)
 
     ATTR_TYPE = "enum"
-    PLUG_CLS = cast(Type[P], EnumPlugOperator)
 
     NAME_MAP: dict[int, str] | None = None
 
@@ -101,3 +100,10 @@ class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
         if self.enum is not None:
             for member in self.enum:
                 fn_attr.addField(member.label, int(member))
+
+
+class EnumField(AttributeField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], EnumAttrOperator)
+    PLUG_CLS = cast(Type[P], EnumPlugOperator)

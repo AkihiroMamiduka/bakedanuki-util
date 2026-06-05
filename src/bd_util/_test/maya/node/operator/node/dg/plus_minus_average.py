@@ -14,8 +14,299 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 def main():
+    attribute_access()
+    plug_access()
     get_set()
     get_set_short_name()
+
+
+# class_access
+def attribute_access():
+    test_str.title("attribute_access")
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage",
+            PlusMinusAverage,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input1D",
+            PlusMinusAverage.input1D,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input2D",
+            PlusMinusAverage.input2D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input2D.input2Dx",
+            PlusMinusAverage.input2D.input2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input2D.input2Dy",
+            PlusMinusAverage.input2D.input2Dy,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input3D",
+            PlusMinusAverage.input3D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input3D.input3Dx",
+            PlusMinusAverage.input3D.input3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input3D.input3Dy",
+            PlusMinusAverage.input3D.input3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.input3D.input3Dz",
+            PlusMinusAverage.input3D.input3Dz,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output1D",
+            PlusMinusAverage.output1D,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output2D",
+            PlusMinusAverage.output2D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output2D.output2Dx",
+            PlusMinusAverage.output2D.output2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output2D.output2Dy",
+            PlusMinusAverage.output2D.output2Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output2Dx",
+            PlusMinusAverage.output2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output2Dy",
+            PlusMinusAverage.output2Dy,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3D",
+            PlusMinusAverage.output3D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3D.output3Dx",
+            PlusMinusAverage.output3D.output3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3D.output3Dy",
+            PlusMinusAverage.output3D.output3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3D.output3Dz",
+            PlusMinusAverage.output3D.output3Dz,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3Dx",
+            PlusMinusAverage.output3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3Dy",
+            PlusMinusAverage.output3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "PlusMinusAverage.output3Dz",
+            PlusMinusAverage.output3Dz,
+        )
+    )
+
+
+# instance_access
+def plug_access():
+    test_str.title("plug_access")
+
+    dg_mod = om.MDGModifier()
+    node = PlusMinusAverage.create(dg_mod, name="test")
+    dg_mod.doIt()
+
+    logger.debug(
+        "{}: {}".format(
+            "node",
+            node,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input1D",
+            node.input1D,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.input2D",
+            node.input2D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input2D[0].input2Dx",
+            node.input2D[0].input2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input2D[0].input2Dy",
+            node.input2D[0].input2Dy,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.input3D",
+            node.input3D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input3D[0].input3Dx",
+            node.input3D[0].input3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input3D[0].input3Dy",
+            node.input3D[0].input3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.input3D[0].input3Dz",
+            node.input3D[0].input3Dz,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.output1D",
+            node.output1D,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.output2D",
+            node.output2D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2D.output2Dx",
+            node.output2D.output2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2D.output2Dy",
+            node.output2D.output2Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dx",
+            node.output2Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output2Dy",
+            node.output2Dy,
+        )
+    )
+    test_str.separator()
+    logger.debug(
+        "{}: {}".format(
+            "node.output3D",
+            node.output3D,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3D.output3Dx",
+            node.output3D.output3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3D.output3Dy",
+            node.output3D.output3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3D.output3Dz",
+            node.output3D.output3Dz,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dx",
+            node.output3Dx,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dy",
+            node.output3Dy,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.output3Dz",
+            node.output3Dz,
+        )
+    )
 
 
 def get_set():

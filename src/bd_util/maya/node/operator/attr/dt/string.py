@@ -4,7 +4,11 @@
 from maya.api import OpenMaya as om
 
 # self
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from ._core import (
+    DataTypeAttrOperator,
+    DataTypePlugOperator,
+    DataTypeField,
+)
 
 
 class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
@@ -23,7 +27,6 @@ class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
     __slots__ = ()
 
     DATA_TYPE = "string"
-    PLUG_CLS = DataStringPlugOperator
 
     # add
     def add_attr(self, node_name: str):
@@ -38,3 +41,12 @@ class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
             om.MFnData.kString,
         )
         fn_node.addAttribute(attr_obj)
+
+
+class DataStringField(
+    DataTypeField[DataStringAttrOperator, DataStringPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataStringAttrOperator
+    PLUG_CLS = DataStringPlugOperator

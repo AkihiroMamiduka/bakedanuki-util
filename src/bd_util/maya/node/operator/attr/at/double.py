@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class DoublePlugOperator(PlugOperator["DoubleAttrOperator"]):
@@ -23,13 +23,13 @@ class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "double"
-    PLUG_CLS = DoublePlugOperator
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # デフォルト値
-        self._default_value = kwargs.get("default_value", 0.0)
+        if self.default_value is None:
+            self.default_value = 0.0
 
     # add
     def add_attr(self, node_name: str):
@@ -42,7 +42,7 @@ class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
             self.long_name,
             self.short_name,
             om.MFnNumericData.kDouble,
-            self._default_value,
+            self.default_value,
         )
         fn_node.addAttribute(attr_obj)
 
@@ -55,3 +55,10 @@ class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
             fn_attr.setSoftMin(self._min_value)
         if self._max_value is not None:
             fn_attr.setSoftMax(self._max_value)
+
+
+class DoubleField(AttributeField[DoubleAttrOperator, DoublePlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = DoubleAttrOperator
+    PLUG_CLS = DoublePlugOperator

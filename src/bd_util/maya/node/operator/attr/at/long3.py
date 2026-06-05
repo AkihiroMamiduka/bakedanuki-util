@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 A = TypeVar("A", bound="AttrOperator")
 
@@ -55,4 +55,10 @@ class Long3AttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "long3"
+
+
+class Long3Field(AttributeField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], Long3AttrOperator)
     PLUG_CLS = cast(Type[P], Long3PlugOperator)

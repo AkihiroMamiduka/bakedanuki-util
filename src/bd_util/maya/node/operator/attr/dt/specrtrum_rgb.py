@@ -1,15 +1,18 @@
 # coding: utf-8
-from __future__ import annotations
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
-from ._core import DataTypeAttrOperator, DataTypePlugOperator
+from .base.numeric_base import (
+    DataNumericBaseAttrOperator,
+    DataNumericBasePlugOperator,
+    DataNumericBaseField,
+)
 
 
 class DataSpectrumRGBPlugOperator(
-    DataTypePlugOperator["DataSpectrumRGBAttrOperator"]
+    DataNumericBasePlugOperator["DataSpectrumRGBAttrOperator"]
 ):
     __slots__ = ()
 
@@ -32,9 +35,19 @@ class DataSpectrumRGBPlugOperator(
 
 
 class DataSpectrumRGBAttrOperator(
-    DataTypeAttrOperator[DataSpectrumRGBPlugOperator]
+    DataNumericBaseAttrOperator[DataSpectrumRGBPlugOperator]
 ):
     __slots__ = ()
 
     DATA_TYPE = "spectrumRGB"
+
+
+class DataSpectrumRGBField(
+    DataNumericBaseField[
+        DataSpectrumRGBAttrOperator, DataSpectrumRGBPlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataSpectrumRGBAttrOperator
     PLUG_CLS = DataSpectrumRGBPlugOperator

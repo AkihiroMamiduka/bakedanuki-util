@@ -1,6 +1,4 @@
 # coding: utf-8
-from __future__ import annotations
-from typing import TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,11 +7,8 @@ from maya.api import OpenMaya as om
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
+    DataArrayBaseField,
 )
-
-A = TypeVar("A", bound="DataArrayBaseAttrOperator")
-
-P = TypeVar("P", bound="DataArrayBasePlugOperator")
 
 
 class DataInt32ArrayPlugOperator(
@@ -44,4 +39,12 @@ class DataInt32ArrayAttrOperator(
     __slots__ = ()
 
     DATA_TYPE = "int32Array"
-    PLUG_CLS = cast(Type[P], DataInt32ArrayPlugOperator)
+
+
+class DataInt32ArrayField(
+    DataArrayBaseField[DataInt32ArrayAttrOperator, DataInt32ArrayPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataInt32ArrayAttrOperator
+    PLUG_CLS = DataInt32ArrayPlugOperator

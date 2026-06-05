@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
@@ -24,4 +24,10 @@ class MatrixAttrOperator(AttrOperator[MatrixPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "matrix"
+
+
+class MatrixField(AttributeField[MatrixAttrOperator, MatrixPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = MatrixAttrOperator
     PLUG_CLS = MatrixPlugOperator

@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class CharPlugOperator(PlugOperator["CharAttrOperator"]):
@@ -18,4 +18,10 @@ class CharAttrOperator(AttrOperator[CharPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "char"
+
+
+class CharField(AttributeField[CharAttrOperator, CharPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = CharAttrOperator
     PLUG_CLS = CharPlugOperator

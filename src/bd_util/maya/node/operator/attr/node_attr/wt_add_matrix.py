@@ -1,24 +1,37 @@
 # coding: utf-8
 
 # self
-from ..at.compound import CompoundAttrOperator, CompoundPlugOperator
-from ..at.double import DoubleAttrOperator
-from ..dt.matrix import DataMatrixAttrOperator
+from ..at.compound import (
+    CompoundAttrOperator,
+    CompoundPlugOperator,
+    CompoundField,
+)
+from ..at.double import DoubleField
+from ..dt.matrix import DataMatrixField
 
 
 class WtMatrixPlugOperator(CompoundPlugOperator["WtMatrixAttrOperator"]):
-    matrixIn = DataMatrixAttrOperator()
+    __slots__ = ()
+
+    matrixIn = DataMatrixField()
     m = matrixIn
 
-    weightIn = DoubleAttrOperator()
+    weightIn = DoubleField()
     w = weightIn
 
 
 class WtMatrixAttrOperator(CompoundAttrOperator[WtMatrixPlugOperator]):
-    PLUG_CLS = WtMatrixPlugOperator
+    __slots__ = ()
 
-    matrixIn = DataMatrixAttrOperator()
+    matrixIn = DataMatrixField()
     m = matrixIn
 
-    weightIn = DoubleAttrOperator()
+    weightIn = DoubleField()
     w = weightIn
+
+
+class WtMatrixField(CompoundField[WtMatrixAttrOperator, WtMatrixPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = WtMatrixAttrOperator
+    PLUG_CLS = WtMatrixPlugOperator

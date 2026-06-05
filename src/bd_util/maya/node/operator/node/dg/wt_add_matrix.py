@@ -1,7 +1,7 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.dt.matrix import DataMatrixAttrOperator
-from ...attr.node_attr.wt_add_matrix import WtMatrixAttrOperator
+from ...attr.dt.matrix import DataMatrixField
+from ...attr.node_attr.wt_add_matrix import WtMatrixField
 
 
 class WtAddMatrix(DG):
@@ -9,8 +9,8 @@ class WtAddMatrix(DG):
 
     NODE_TYPE = "wtAddMatrix"
 
-    wtMatrix = WtMatrixAttrOperator(multi=True)
+    wtMatrix = WtMatrixField(multi=True)
     i = wtMatrix
 
-    matrixSum = DataMatrixAttrOperator()
+    matrixSum = DataMatrixField()
     o = matrixSum

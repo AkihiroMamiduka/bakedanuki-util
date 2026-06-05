@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TypeVar, Type, cast
 
 # self
-from .._core import DataTypeAttrOperator, DataTypePlugOperator
+from .._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
 A = TypeVar("A", bound="DataTypeAttrOperator")
 
@@ -37,4 +37,10 @@ class DataArrayBaseAttrOperator(DataTypeAttrOperator[P]):
     __slots__ = ()
 
     DATA_TYPE = "abc"
+
+
+class DataArrayBaseField(DataTypeField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], DataArrayBaseAttrOperator)
     PLUG_CLS = cast(Type[P], DataArrayBasePlugOperator)

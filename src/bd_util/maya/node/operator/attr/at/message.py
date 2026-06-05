@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class MessagePlugOperator(PlugOperator["MessageAttrOperator"]):
@@ -22,4 +22,10 @@ class MessageAttrOperator(AttrOperator[MessagePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "message"
+
+
+class MessageField(AttributeField[MessageAttrOperator, MessagePlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = MessageAttrOperator
     PLUG_CLS = MessagePlugOperator

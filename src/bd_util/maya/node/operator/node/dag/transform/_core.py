@@ -6,89 +6,130 @@ import maya.cmds as cmds
 
 # self
 from .._core import DAG
-from ....attr.at.double3 import Double3AttrOperator, Double3PlugOperator
-from ....attr.at.double import DoubleAttrOperator
-from ....attr.at.double_linear import DoubleLinearAttrOperator
-from ....attr.at.double_angle import DoubleAngleAttrOperator
+from ....attr.at.double3 import (
+    Double3AttrOperator,
+    Double3PlugOperator,
+    Double3Field,
+)
+from ....attr.at.double import DoubleField
+from ....attr.at.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.at.double_angle import DoubleAngleField
 
 
-class TranslatePlug(Double3PlugOperator["TranslateAttr"]):
+class TranslatePlugOperator(Double3PlugOperator["TranslateAttrOperator"]):
     __slots__ = ()
 
-    translateX = DoubleLinearAttrOperator()
+    translateX = DoubleLinearField()
     tx = translateX
 
-    translateY = DoubleLinearAttrOperator()
+    translateY = DoubleLinearField()
     ty = translateY
 
-    translateZ = DoubleLinearAttrOperator()
+    translateZ = DoubleLinearField()
     tz = translateZ
 
 
-class TranslateAttr(Double3AttrOperator[TranslatePlug]):
+class TranslateAttrOperator(Double3AttrOperator[TranslatePlugOperator]):
     __slots__ = ()
 
-    PLUG_CLS = TranslatePlug
-
-    translateX = DoubleLinearAttrOperator()
+    translateX = DoubleLinearField()
     tx = translateX
 
-    translateY = DoubleLinearAttrOperator()
+    translateY = DoubleLinearField()
     ty = translateY
 
-    translateZ = DoubleLinearAttrOperator()
+    translateZ = DoubleLinearField()
     tz = translateZ
 
 
-class RotatePlug(Double3PlugOperator["RotateAttr"]):
+class TranslateField(
+    Double3Field[TranslateAttrOperator, TranslatePlugOperator]
+):
     __slots__ = ()
 
+    ATTR_CLS = TranslateAttrOperator
+    PLUG_CLS = TranslatePlugOperator
 
-class RotateAttr(Double3AttrOperator[RotatePlug]):
+
+class RotatePlugOperator(Double3PlugOperator["RotateAttrOperaotr"]):
     __slots__ = ()
 
-    PLUG_CLS = RotatePlug
-
-    rotateX = DoubleAngleAttrOperator()
+    rotateX = DoubleAngleField()
     rx = rotateX
 
-    rotateY = DoubleAngleAttrOperator()
+    rotateY = DoubleAngleField()
     ry = rotateY
 
-    rotateZ = DoubleAngleAttrOperator()
+    rotateZ = DoubleAngleField()
     rz = rotateZ
 
 
-class ScalePlug(Double3PlugOperator["ScaleAttr"]):
+class RotateAttrOperaotr(Double3AttrOperator[RotatePlugOperator]):
     __slots__ = ()
 
+    rotateX = DoubleAngleField()
+    rx = rotateX
 
-class ScaleAttr(Double3AttrOperator[ScalePlug]):
+    rotateY = DoubleAngleField()
+    ry = rotateY
+
+    rotateZ = DoubleAngleField()
+    rz = rotateZ
+
+
+class RotateField(Double3Field[RotateAttrOperaotr, RotatePlugOperator]):
     __slots__ = ()
 
-    PLUG_CLS = ScalePlug
+    ATTR_CLS = RotateAttrOperaotr
+    PLUG_CLS = RotatePlugOperator
 
-    scaleX = DoubleAttrOperator()
+
+class ScalePlugOperator(Double3PlugOperator["ScaleAttrOperator"]):
+    __slots__ = ()
+
+    scaleX = DoubleField()
     sx = scaleX
 
-    scaleY = DoubleAttrOperator()
+    scaleY = DoubleField()
     sy = scaleY
 
-    scaleZ = DoubleAttrOperator()
+    scaleZ = DoubleField()
     sz = scaleZ
+
+
+class ScaleAttrOperator(Double3AttrOperator[ScalePlugOperator]):
+    __slots__ = ()
+
+    scaleX = DoubleField()
+    sx = scaleX
+
+    scaleY = DoubleField()
+    sy = scaleY
+
+    scaleZ = DoubleField()
+    sz = scaleZ
+
+
+class ScaleField(Double3Field[ScaleAttrOperator, ScalePlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = ScaleAttrOperator
+    PLUG_CLS = ScalePlugOperator
 
 
 class Transform(DAG):
     NODE_TYPE = "transform"
     __slots__ = ()
 
-    translate = TranslateAttr()
+    translate = TranslateField()
     t = translate
 
-    rotate = RotateAttr()
+    rotate = RotateField()
     r = rotate
 
-    scale = ScaleAttr()
+    scale = ScaleField()
     s = scale
 
     @property

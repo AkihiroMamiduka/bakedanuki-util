@@ -1,6 +1,4 @@
 # coding: utf-8
-from __future__ import annotations
-from typing import TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,14 +7,13 @@ from maya.api import OpenMaya as om
 from .base.numeric_base import (
     DataNumericBaseAttrOperator,
     DataNumericBasePlugOperator,
+    DataNumericBaseField,
 )
 
-A = TypeVar("A", bound="DataNumericBaseAttrOperator")
 
-P = TypeVar("P", bound="DataNumericBasePlugOperator")
-
-
-class DataLong3PlugOperator(DataNumericBasePlugOperator[A]):
+class DataLong3PlugOperator(
+    DataNumericBasePlugOperator["DataLong3AttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -37,8 +34,18 @@ class DataLong3PlugOperator(DataNumericBasePlugOperator[A]):
         self._set_data(om.MFnNumericData.k3Long, values)
 
 
-class DataLong3AttrOperator(DataNumericBaseAttrOperator[P]):
+class DataLong3AttrOperator(
+    DataNumericBaseAttrOperator[DataLong3PlugOperator]
+):
     __slots__ = ()
 
     DATA_TYPE = "long3"
-    PLUG_CLS = cast(Type[P], DataLong3PlugOperator)
+
+
+class DataLong3Field(
+    DataNumericBaseField[DataLong3AttrOperator, DataLong3PlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataLong3AttrOperator
+    PLUG_CLS = DataLong3PlugOperator

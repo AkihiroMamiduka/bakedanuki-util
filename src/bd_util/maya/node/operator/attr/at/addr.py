@@ -1,5 +1,5 @@
 # coding: utf-8
-from .._core import AttrOperator, PlugOperator
+from .._core import AttrOperator, PlugOperator, AttributeField
 
 
 class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
@@ -40,4 +40,10 @@ class AddrAttrOperator(AttrOperator[AddrPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "addr"
+
+
+class AddrField(AttributeField[AddrAttrOperator, AddrPlugOperator]):
+    __slots__ = ()
+
+    ATTR_CLS = AddrAttrOperator
     PLUG_CLS = AddrPlugOperator

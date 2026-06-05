@@ -1,6 +1,4 @@
 # coding: utf-8
-from __future__ import annotations
-from typing import TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,14 +7,11 @@ from maya.api import OpenMaya as om
 from .base.array_base import (
     DataArrayBaseAttrOperator,
     DataArrayBasePlugOperator,
+    DataArrayBaseField,
 )
 
-A = TypeVar("A", bound="DataArrayBaseAttrOperator")
 
-P = TypeVar("P", bound="DataArrayBasePlugOperator")
-
-
-class VectorArrayPlugOperator(
+class DataVectorArrayPlugOperator(
     DataArrayBasePlugOperator["DataVectorArrayAttrOperator"]
 ):
     __slots__ = ()
@@ -42,9 +37,19 @@ class VectorArrayPlugOperator(
 
 
 class DataVectorArrayAttrOperator(
-    DataArrayBaseAttrOperator[VectorArrayPlugOperator]
+    DataArrayBaseAttrOperator[DataVectorArrayPlugOperator]
 ):
     __slots__ = ()
 
     DATA_TYPE = "vectorArray"
-    PLUG_CLS = cast(Type[P], VectorArrayPlugOperator)
+
+
+class DataVectorArrayField(
+    DataArrayBaseField[
+        DataVectorArrayAttrOperator, DataVectorArrayPlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DataVectorArrayAttrOperator
+    PLUG_CLS = DataVectorArrayPlugOperator

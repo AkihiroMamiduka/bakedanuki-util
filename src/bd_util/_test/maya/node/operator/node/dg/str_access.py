@@ -12,6 +12,7 @@ Node / Plug の文字列アクセス（__getitem__）のテスト
 """
 
 # maya
+from maya import cmds
 from maya.api import OpenMaya as om
 
 # self
@@ -42,23 +43,28 @@ def node_simple_attr():
     test_str.title('1. node["attrName"]')
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_1")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
-    plug_str = node["output1D"]
-    plug_attr = node.output1D
-
     logger.debug(
-        "{}: {} (should be {})".format(
-            'node["output1D"].plug',
-            plug_str.plug,
-            plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'PlusMinusAverage["output1D"]._attr_path',
+            PlusMinusAverage["output1D"]._attr_path,
+            PlusMinusAverage.output1D._attr_path,
+            PlusMinusAverage["output1D"]._attr_path
+            == PlusMinusAverage.output1D._attr_path,
         )
     )
+
     logger.debug(
-        "{}: {} (should be True)".format(
-            "plug equal",
-            plug_str.plug == plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'node["output1D"].plug',
+            node["output1D"].plug,
+            node.output1D.plug,
+            node["output1D"].plug == node.output1D.plug,
         )
     )
 
@@ -69,26 +75,31 @@ def node_simple_attr():
 
 
 def node_multi_attr_with_index():
-    test_str.title('2. node["attrName[0]"]')
+    test_str.title('2. node["attrName"][0]')
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_2")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
-    plug_str = node["input1D[0]"]
-    plug_attr = node.input1D[0]
-
     logger.debug(
-        "{}: {} (should be {})".format(
-            'node["input1D[0]"].plug',
-            plug_str.plug,
-            plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'PlusMinusAverage["input1D"][0]._attr_path',
+            PlusMinusAverage["input1D"]._attr_path,
+            PlusMinusAverage.input1D._attr_path,
+            PlusMinusAverage["input1D"]._attr_path
+            == PlusMinusAverage.input1D._attr_path,
         )
     )
+
     logger.debug(
-        "{}: {} (should be True)".format(
-            "plug equal",
-            plug_str.plug == plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'node["input1D"][0].plug',
+            node["input1D"][0].plug,
+            node.input1D[0].plug,
+            node["input1D"][0].plug == node.input1D[0].plug,
         )
     )
 
@@ -102,23 +113,28 @@ def node_dotted_subattr():
     test_str.title('3. node["attrName.subAttr"]')
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_3")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
-    plug_str = node["output3D.output3Dx"]
-    plug_attr = node.output3D.output3Dx
-
     logger.debug(
-        "{}: {} (should be {})".format(
-            'node["output3D.output3Dx"].plug',
-            plug_str.plug,
-            plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'PlusMinusAverage["output3D"]["output3Dx"]._attr_path',
+            PlusMinusAverage["output3D"]["output3Dx"]._attr_path,
+            PlusMinusAverage.output3D.output3Dx._attr_path,
+            PlusMinusAverage["output3D"]["output3Dx"]._attr_path
+            == PlusMinusAverage.output3D.output3Dx._attr_path,
         )
     )
+
     logger.debug(
-        "{}: {} (should be True)".format(
-            "plug equal",
-            plug_str.plug == plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'node["output3D"]["output3Dx"].plug',
+            node["output3D"]["output3Dx"].plug,
+            node.output3D.output3Dx.plug,
+            node["output3D"]["output3Dx"].plug == node.output3D.output3Dx.plug,
         )
     )
 
@@ -132,23 +148,29 @@ def node_index_and_subattr():
     test_str.title('4. node["attrName[0].subAttr"]')
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_4")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
-    plug_str = node["input3D[0].input3Dx"]
-    plug_attr = node.input3D[0].input3Dx
-
     logger.debug(
-        "{}: {} (should be {})".format(
-            'node["input3D[0].input3Dx"].plug',
-            plug_str.plug,
-            plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'PlusMinusAverage["input3D"]["input3Dx"]._attr_path',
+            PlusMinusAverage["input3D"]["input3Dx"]._attr_path,
+            PlusMinusAverage.input3D.input3Dx._attr_path,
+            PlusMinusAverage["input3D"]["input3Dx"]._attr_path
+            == PlusMinusAverage.input3D.input3Dx._attr_path,
         )
     )
+
     logger.debug(
-        "{}: {} (should be True)".format(
-            "plug equal",
-            plug_str.plug == plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'node["input3D"][0]["input3Dx"].plug',
+            node["input3D"][0]["input3Dx"].plug,
+            node.input3D[0].input3Dx.plug,
+            node["input3D"][0]["input3Dx"].plug
+            == node.input3D[0].input3Dx.plug,
         )
     )
 
@@ -162,23 +184,28 @@ def plug_string_subattr():
     test_str.title('5. plug["subAttr"]')
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_5")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
-    plug_str = node.output3D["output3Dy"]
-    plug_attr = node.output3D.output3Dy
-
     logger.debug(
-        "{}: {} (should be {})".format(
-            'node.output3D["output3Dy"].plug',
-            plug_str.plug,
-            plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'PlusMinusAverage.output3D["output3Dy"]._attr_path',
+            PlusMinusAverage.output3D["output3Dy"]._attr_path,
+            PlusMinusAverage.output3D.output3Dy._attr_path,
+            PlusMinusAverage.output3D["output3Dy"]._attr_path
+            == PlusMinusAverage.output3D.output3Dy._attr_path,
         )
     )
+
     logger.debug(
-        "{}: {} (should be True)".format(
-            "plug equal",
-            plug_str.plug == plug_attr.plug,
+        "{}: {} (should be {}) -> {}".format(
+            'node.output3D["output3Dy"].plug',
+            node.output3D["output3Dy"].plug,
+            node.output3D.output3Dy.plug,
+            node.output3D["output3Dy"].plug == node.output3D.output3Dy.plug,
         )
     )
 
@@ -192,19 +219,58 @@ def plug_string_check():
     test_str.title("6. plug string check")
 
     dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test_str_access_6")
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = PlusMinusAverage.create(dg_mod, name=name)
     dg_mod.doIt()
 
     cases = [
-        ('node["output1D"]', node["output1D"].plug, f"{node.name}.output1D"),
         (
-            'node["input1D[0]"]',
-            node["input1D[0]"].plug,
+            'PlusMinusAverage["output1D"]',
+            PlusMinusAverage["output1D"]._attr_path,
+            f"{PlusMinusAverage.output1D._attr_path}",
+        ),
+        (
+            'PlusMinusAverage["input1D"]',
+            PlusMinusAverage["input1D"]._attr_path,
+            f"{PlusMinusAverage.input1D._attr_path}",
+        ),
+        (
+            'PlusMinusAverage["input3D"]["input3Dx"]',
+            PlusMinusAverage["input3D"]["input3Dx"]._attr_path,
+            f"{PlusMinusAverage.input3D.input3Dx._attr_path}",
+        ),
+        (
+            'PlusMinusAverage.input3D["input3Dy"]',
+            PlusMinusAverage.input3D["input3Dy"]._attr_path,
+            f"{PlusMinusAverage.input3D.input3Dy._attr_path}",
+        ),
+    ]
+    for label, result, expected in cases:
+        logger.debug(
+            "{}: {} (should be {}) -> {}".format(
+                label,
+                result,
+                expected,
+                str(result) == expected,
+            )
+        )
+
+    cases = [
+        (
+            'node["output1D"]',
+            node["output1D"].plug,
+            f"{node.name}.output1D",
+        ),
+        (
+            'node["input1D"][0]',
+            node["input1D"][0].plug,
             f"{node.name}.input1D[0]",
         ),
         (
-            'node["input3D[0].input3Dx"]',
-            node["input3D[0].input3Dx"].plug,
+            'node["input3D"][0]["input3Dx"]',
+            node["input3D"][0]["input3Dx"].plug,
             f"{node.name}.input3D[0].input3Dx",
         ),
         (
@@ -213,10 +279,9 @@ def plug_string_check():
             f"{node.name}.input3D[0].input3Dy",
         ),
     ]
-
     for label, result, expected in cases:
         logger.debug(
-            "{}: {} (should be {}) match={}".format(
+            "{}: {} (should be {}) -> {}".format(
                 label,
                 result,
                 expected,

@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import TypeVar, Type, Generic, Self, Any
+from typing import TypeVar, Type, Generic, Self, Any, overload
 
 # maya
 from maya import cmds
@@ -14,51 +14,83 @@ from ..node._core import NodeOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
+
+class AccessMeta(type):
+
+    def __getitem__(cls, key: str):
+        return getattr(cls, key)
+
+
 A = TypeVar("A", bound="AttrOperator")
 
 P = TypeVar("P", bound="PlugOperator")
 
 
+class BaseAccess:
+
+    def __init__(
+        self,
+        name: str,
+        owner=None,
+        instance=None,
+        parent=None,
+    ):
+        self.name = name
+        self.owner = owner
+        self.instance = instance
+        self.parent = parent
+
+    def __getitem__(self, key: str):
+        return getattr(self, key)
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: {self.name}>"
+
+
 class PlugOperator(Generic[A], ABC):
     __slots__ = (
         "_node",
-        "_attr",
+        "_oprt_attr",
         "_attr_path",
+        "parent_oprt_plug",
         "multi",
         "index",
-        "_plug",
-        "_array_plug",
+        "_m_plug",
+        "_array_m_plug",
         "_next_index_cache",
         "_next_index",
-        "parent_plug",
     )
 
     def __init__(
         self,
         node: NodeOperator,
-        attr: A,
-        attr_path: str,
+        oprt_attr: A,
+        parent_attr_path: str,
         multi: bool = False,
         index: int = None,
-        parent_plug: PlugOperator | None = None,
+        parent_oprt_plug: PlugOperator | None = None,
     ):
         # args ----------------------------------------------------------------
-        self.parent_plug: PlugOperator | None = parent_plug
-
+        # multi
         self.multi: bool = multi
+        # index
         self.index: int = index
-
+        # node
         self._node: NodeOperator = node
-        self._attr: A = attr
+        # attr
+        self._oprt_attr: A = oprt_attr
         self._attr_path: str = self._create_attr_path(
-            parent_attr_path=attr_path
+            parent_attr_path=parent_attr_path
         )
+        # plug
+        self.parent_oprt_plug: PlugOperator | None = parent_oprt_plug
+
         # args ----------------------------------------------------------------
 
         # plug
-        self._plug: om.MPlug | None = None
+        self._m_plug: om.MPlug | None = None
         # array plug
-        self._array_plug: om.MPlug | None = None
+        self._array_m_plug: om.MPlug | None = None
         self._next_index_cache: dict[str, int] | None = None
         self._next_index: int | None = None
 
@@ -71,7 +103,7 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: 自身のアトリビュート名
         """
-        name = self._attr.name
+        name = self._oprt_attr.name
         if self.index is not None:
             name = f"{name}[{self.index}]"
         return name
@@ -94,10 +126,20 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: 自身のショートアトリビュート名
         """
-        name = self._attr.short_name
+        name = self._oprt_attr.short_name
         if self.index is not None:
             name = f"{name}[{self.index}]"
         return name
+
+    @property
+    def plug_name(self) -> str:
+        """
+        プラグ名
+
+        Returns:
+            str: 自身のプラグ名
+        """
+        return f"{self._node.name}.{self._attr_path}"
 
     @property
     def plug(self) -> om.MPlug:
@@ -108,28 +150,33 @@ class PlugOperator(Generic[A], ABC):
             om.MPlug: MPlug インスタンス
         """
         # キャッシュがあればそれを返す
-        if self._plug is not None:
-            return self._plug
+        if self._m_plug is not None:
+            return self._m_plug
 
         # plug を取得する
         #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
-        if self.parent_plug is not None and self.index is None:
-            parent_plug = self.parent_plug.plug
-            plug = self._find_child_plug(parent_plug, self._attr.name)
+        if self.parent_oprt_plug is not None and self.index is None:
+            parent_plug = self.parent_oprt_plug.plug
+            plug = self._find_child_plug(parent_plug, self._oprt_attr.name)
             if plug is None:
                 raise AttributeError(
-                    f"'{self._attr.name}' というアトリビュートは '{parent_plug}' に存在しません"
+                    "'{}' というアトリビュートは '{}' に存在しません".format(
+                        self._oprt_attr.name,
+                        parent_plug,
+                    )
                 )
         #   それ以外は、ノードから直接 plug を探す
         else:
-            plug = self._node._fn_node.findPlug(self._attr.long_name, False)
+            plug = self._node._fn_node.findPlug(
+                self._oprt_attr.long_name, False
+            )
 
         # index があれば、elementByLogicalIndex で plug を置き換える
         if self.index is not None:
             plug = plug.elementByLogicalIndex(self.index)
 
         # plug をキャッシュする
-        self._plug = plug
+        self._m_plug = plug
 
         return plug
 
@@ -165,10 +212,10 @@ class PlugOperator(Generic[A], ABC):
 
         # index がある場合は、array_plug を返す
         #   キャッシュがなければ、Maya に問い合わせる
-        if self._array_plug is None:
-            self._array_plug = self.plug.array()
+        if self._array_m_plug is None:
+            self._array_m_plug = self.plug.array()
         #   キャッシュを返す
-        return self._array_plug
+        return self._array_m_plug
 
     # type
     @property
@@ -179,7 +226,7 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: アトリビュートの型
         """
-        return self._attr.ATTR_TYPE
+        return self._oprt_attr.ATTR_TYPE
 
     # value
     @property
@@ -211,7 +258,7 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str | None: 列挙型アトリビュートの列挙名。列挙型でない場合は None。
         """
-        return self._attr.enum_full_name
+        return self._oprt_attr.enum_full_name
 
     # [] アクセス
     def __getitem__(
@@ -245,11 +292,11 @@ class PlugOperator(Generic[A], ABC):
                 )
             plug: Self = type(self)(
                 node=self._node,
-                attr=self._attr,
-                attr_path=self._attr._attr_path,
-                multi=self._attr.multi,
+                oprt_attr=self._oprt_attr,
+                parent_attr_path=self._oprt_attr._attr_path,
+                multi=self._oprt_attr.multi,
                 index=key,
-                parent_plug=self,
+                parent_oprt_plug=self,
             )
             return plug
         elif key == next:
@@ -259,19 +306,20 @@ class PlugOperator(Generic[A], ABC):
                 )
             plug: Self = type(self)(
                 node=self._node,
-                attr=self._attr,
-                attr_path=self._attr._attr_path,
-                multi=self._attr.multi,
+                oprt_attr=self._oprt_attr,
+                parent_attr_path=self._oprt_attr._attr_path,
+                multi=self._oprt_attr.multi,
                 index=self._get_next_index(),
-                parent_plug=self,
+                parent_oprt_plug=self,
             )
             return plug
         elif isinstance(key, str):
-            attr_name, index = _parse_attr_segment(key)
-            plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
-            if index is not None:
-                plug = plug[index]
-            return plug
+            # attr_name, index = _parse_attr_segment(key)
+            # plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
+            # if index is not None:
+            #     plug = plug[index]
+            # return plug
+            return getattr(self, key)
         raise TypeError(f"キーの型が不正です: {type(key)}")
 
     def _create_attr_path(self, parent_attr_path: str) -> str:
@@ -297,10 +345,10 @@ class PlugOperator(Generic[A], ABC):
 
     # str
     def __str__(self) -> str:
-        return str(self.plug)
+        return str(self.plug_name)
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} {self.plug}>"
+        return f"<{self.__class__.__name__} {self.plug_name}>"
 
     def _get_plug_from_str(self, plug_str: str) -> om.MPlug:
         """
@@ -514,7 +562,7 @@ class PlugOperator(Generic[A], ABC):
         self._node._dg_mod.disconnect(src, dst)
 
         # 切断後、キャッシュをリセットする
-        if self._attr.multi:
+        if self._oprt_attr.multi:
             self.refresh_next_index()
 
         return self
@@ -601,172 +649,172 @@ class PlugOperator(Generic[A], ABC):
         Args:
             node_name (str): 対象ノード名
         """
-        self._attr.add_attr(self._node.name)
+        self._oprt_attr.add_attr(self._node.name)
 
 
-def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
-    """
-    "attrName[0]" や "attrName" 形式の文字列を、アトリビュート名とインデックスに分解する。
+# def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
+#     """
+#     "attrName[0]" や "attrName" 形式の文字列を、アトリビュート名とインデックスに分解する。
 
-    Args:
-        segment (str): "attrName" または "attrName[index]" 形式の文字列
+#     Args:
+#         segment (str): "attrName" または "attrName[index]" 形式の文字列
 
-    Returns:
-        tuple[str, int | None]: (アトリビュート名, インデックス or None)
+#     Returns:
+#         tuple[str, int | None]: (アトリビュート名, インデックス or None)
 
-    Raises:
-        ValueError: "[" と "]" の対応が取れていないまたは index が整数でない場合
-    """
-    if "[" not in segment:
-        if "]" in segment:
-            raise ValueError(
-                f"アトリビュートキーの書式が不正です: '{segment}'"
-                " (例: 'attrName[0]')"
-            )
-        if not segment:
-            raise ValueError("アトリビュートキーのセグメントが空文字列です")
-        return segment, None
+#     Raises:
+#         ValueError: "[" と "]" の対応が取れていないまたは index が整数でない場合
+#     """
+#     if "[" not in segment:
+#         if "]" in segment:
+#             raise ValueError(
+#                 f"アトリビュートキーの書式が不正です: '{segment}'"
+#                 " (例: 'attrName[0]')"
+#             )
+#         if not segment:
+#             raise ValueError("アトリビュートキーのセグメントが空文字列です")
+#         return segment, None
 
-    if not segment.endswith("]"):
-        raise ValueError(
-            f"アトリビュートキーの書式が不正です: '{segment}'"
-            " (例: 'attrName[0]')"
-        )
-    attr_name, bracket = segment.split("[", 1)
-    index_str = bracket[:-1]  # "]" を除去
-    try:
-        index = int(index_str)
-    except ValueError:
-        raise ValueError(
-            f"アトリビュートキーのインデックスが整数ではありません: '{segment}'"
-        )
-    return attr_name, index
-
-
-def _make_dynamic_plug(
-    node: NodeOperator, attr_name: str, parent_attr_path: str = ""
-) -> PlugOperator:
-    """
-    ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
-
-    lookup_attr_cls でアトリビュート型を特定し、対応する Attr インスタンスを
-    動的に生成する。デスクリプタ経由のキャッシュと干渉しないよう、
-    生成した Plug はノードのキャッシュには格納しない。
-
-    Args:
-        node (Node): 対象ノードのインスタンス
-        attr_name (str): アトリビュート名（短縮名または長名）
-        parent_attr_path (str): 親アトリビュートの attr_path。
-            最上位アトリビュートの場合は空文字列を渡す。
-
-    Returns:
-        Plug: 対応する Plug インスタンス
-
-    Raises:
-        AttributeError: ノードにアトリビュートが存在しない、または
-            対応する Attr クラスが見つからない場合
-    """
-    from .lookup import (
-        lookup_attr_cls,
-    )  # 循環インポート回避のため遅延インポート
-
-    attr_cls = lookup_attr_cls(node.name, attr_name)
-    if attr_cls is None:
-        raise AttributeError(
-            f"'{node.name}' にアトリビュート '{attr_name}' の対応クラスが見つかりません"
-        )
-
-    try:
-        long_name = cmds.attributeQuery(
-            attr_name, node=node.name, longName=True
-        )
-    except RuntimeError:
-        raise RuntimeError(
-            "{} '{}.{}': {}".format(
-                "attributeQuery longName failed for",
-                node.name,
-                attr_name,
-                "using input name",
-            )
-        )
-        long_name = attr_name
-
-    try:
-        multi = bool(
-            cmds.attributeQuery(long_name, node=node.name, multi=True)
-        )
-    except RuntimeError:
-        raise RuntimeError(
-            "{} '{}.{}': {}".format(
-                "attributeQuery multi failed for",
-                node.name,
-                long_name,
-                "defaulting to False",
-            )
-        )
-        multi = False
-
-    try:
-        short_name = cmds.attributeQuery(
-            long_name, node=node.name, shortName=True
-        )
-    except RuntimeError:
-        raise RuntimeError(
-            "{} '{}.{}': {}".format(
-                "attributeQuery shortName failed for",
-                node.name,
-                long_name,
-                "using long name",
-            )
-        )
-        short_name = long_name
-
-    attr_path = (
-        f"{parent_attr_path}.{long_name}" if parent_attr_path else long_name
-    )
-
-    attr = attr_cls(multi=multi)
-    object.__setattr__(attr, "name", long_name)
-    object.__setattr__(attr, "long_name", long_name)
-    object.__setattr__(attr, "_short_name", short_name)
-    object.__setattr__(attr, "_attr_path", attr_path)
-    object.__setattr__(attr, "_node", node)
-
-    return attr.PLUG_CLS(
-        node=node,
-        attr=attr,
-        attr_path=parent_attr_path,
-        multi=multi,
-    )
+#     if not segment.endswith("]"):
+#         raise ValueError(
+#             f"アトリビュートキーの書式が不正です: '{segment}'"
+#             " (例: 'attrName[0]')"
+#         )
+#     attr_name, bracket = segment.split("[", 1)
+#     index_str = bracket[:-1]  # "]" を除去
+#     try:
+#         index = int(index_str)
+#     except ValueError:
+#         raise ValueError(
+#             f"アトリビュートキーのインデックスが整数ではありません: '{segment}'"
+#         )
+#     return attr_name, index
 
 
-class AttrOperator(ImmutableDescriptor, Generic[P]):
+# def _make_dynamic_plug(
+#     node: NodeOperator, attr_name: str, parent_attr_path: str = ""
+# ) -> PlugOperator:
+#     """
+#     ノードとアトリビュート名から、動的に Plug インスタンスを生成して返す。
+
+#     lookup_attr_cls でアトリビュート型を特定し、対応する Attr インスタンスを
+#     動的に生成する。デスクリプタ経由のキャッシュと干渉しないよう、
+#     生成した Plug はノードのキャッシュには格納しない。
+
+#     Args:
+#         node (Node): 対象ノードのインスタンス
+#         attr_name (str): アトリビュート名（短縮名または長名）
+#         parent_attr_path (str): 親アトリビュートの attr_path。
+#             最上位アトリビュートの場合は空文字列を渡す。
+
+#     Returns:
+#         Plug: 対応する Plug インスタンス
+
+#     Raises:
+#         AttributeError: ノードにアトリビュートが存在しない、または
+#             対応する Attr クラスが見つからない場合
+#     """
+#     from .lookup import (
+#         lookup_attr_cls,
+#     )  # 循環インポート回避のため遅延インポート
+
+#     attr_cls = lookup_attr_cls(node.name, attr_name)
+#     if attr_cls is None:
+#         raise AttributeError(
+#             f"'{node.name}' にアトリビュート '{attr_name}' の対応クラスが見つかりません"
+#         )
+
+#     try:
+#         long_name = cmds.attributeQuery(
+#             attr_name, node=node.name, longName=True
+#         )
+#     except RuntimeError:
+#         raise RuntimeError(
+#             "{} '{}.{}': {}".format(
+#                 "attributeQuery longName failed for",
+#                 node.name,
+#                 attr_name,
+#                 "using input name",
+#             )
+#         )
+#         long_name = attr_name
+
+#     try:
+#         multi = bool(
+#             cmds.attributeQuery(long_name, node=node.name, multi=True)
+#         )
+#     except RuntimeError:
+#         raise RuntimeError(
+#             "{} '{}.{}': {}".format(
+#                 "attributeQuery multi failed for",
+#                 node.name,
+#                 long_name,
+#                 "defaulting to False",
+#             )
+#         )
+#         multi = False
+
+#     try:
+#         short_name = cmds.attributeQuery(
+#             long_name, node=node.name, shortName=True
+#         )
+#     except RuntimeError:
+#         raise RuntimeError(
+#             "{} '{}.{}': {}".format(
+#                 "attributeQuery shortName failed for",
+#                 node.name,
+#                 long_name,
+#                 "using long name",
+#             )
+#         )
+#         short_name = long_name
+
+#     attr_path = (
+#         f"{parent_attr_path}.{long_name}" if parent_attr_path else long_name
+#     )
+
+#     attr = attr_cls(multi=multi)
+#     object.__setattr__(attr, "name", long_name)
+#     object.__setattr__(attr, "long_name", long_name)
+#     object.__setattr__(attr, "_short_name", short_name)
+#     object.__setattr__(attr, "_attr_path", attr_path)
+#     object.__setattr__(attr, "_node", node)
+
+#     return attr.PLUG_CLS(
+#         node=node,
+#         attr=attr,
+#         attr_path=parent_attr_path,
+#         multi=multi,
+#     )
+
+
+class AttrOperator(Generic[P]):
     __slots__ = (
-        "_node",
-        "_parent_attr_path",
-        "multi",
-        "extra",
-        "_default_value",
-        "_min_value",
-        "_max_value",
-        "_soft_min_value",
-        "_soft_max_value",
-        "_enum_name",
-        "_number_of_children",
-        "_parent",
-        "_readable",
-        "_writable",
-        "_category",
+        "node_cls",
         "name",
         "long_name",
-        "_short_name",
+        "short_name",
         "_attr_path",
+        "_parent_attr_path",
+        "oprt_parent",
+        "multi",
+        "extra",
+        "default_value",
+        "min_value",
+        "max_value",
+        "soft_min_value",
+        "soft_max_value",
+        "enum_name",
+        "number_of_children",
+        "readable",
+        "writable",
+        "category",
     )
     # type
     ATTR_TYPE: str = None
     DATA_TYPE: str = None
-    # plug
-    PLUG_CLS: Type[P] = None
+    # # plug
+    # PLUG_CLS: Type[P] = None
     # name
     name: str
     long_name: str | None
@@ -775,6 +823,13 @@ class AttrOperator(ImmutableDescriptor, Generic[P]):
 
     def __init__(
         self,
+        node_cls: Type[NodeOperator] | None = None,
+        oprt_parent: str | None = None,
+        name: str = "",
+        long_name: str = "",
+        short_name: str = "",
+        attr_path: str = "",
+        parent_attr_path: str = "",
         multi: bool = False,
         extra: bool = False,
         default_value: Any = None,
@@ -784,37 +839,37 @@ class AttrOperator(ImmutableDescriptor, Generic[P]):
         soft_max_value: Any = None,
         enum_name: str | None = None,
         number_of_children: int | None = None,
-        parent: str | None = None,
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
     ):
         # node
-        self._node: NodeOperator = None
+        self.node_cls: Type[NodeOperator] | None = node_cls
         # name
-        self.name = ""
-        self.long_name = None
-        self._short_name = None
+        self.name: str = name
+        self.long_name: str = long_name
+        self.short_name: str = short_name
         # attr
         #   attr_path
-        self._attr_path = ""
-        self._parent_attr_path: str = ""
+        self._attr_path: str = attr_path
+        self._parent_attr_path: str = parent_attr_path
+        #   parent
+        self.oprt_parent: str | None = oprt_parent
         #   multi
         self.multi: bool = multi
         #   extra attr flag
         self.extra: bool = extra
         # extra attr info
-        self._default_value: Any = default_value
-        self._min_value: Any = min_value
-        self._max_value: Any = max_value
-        self._soft_min_value: Any = soft_min_value
-        self._soft_max_value: Any = soft_max_value
-        self._enum_name: str | None = enum_name
-        self._number_of_children: int | None = number_of_children
-        self._parent: str | None = parent
-        self._readable: bool | None = readable
-        self._writable: bool | None = writable
-        self._category: str | None = category
+        self.default_value: Any = default_value
+        self.min_value: Any = min_value
+        self.max_value: Any = max_value
+        self.soft_min_value: Any = soft_min_value
+        self.soft_max_value: Any = soft_max_value
+        self.enum_name: str | None = enum_name
+        self.number_of_children: int | None = number_of_children
+        self.readable: bool | None = readable
+        self.writable: bool | None = writable
+        self.category: str | None = category
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -822,131 +877,138 @@ class AttrOperator(ImmutableDescriptor, Generic[P]):
             raise NotImplementedError(
                 f"{cls.__name__} は、 ATTR_TYPE が定義されていません。定義してください。"
             )
-        if cls.PLUG_CLS is None:
-            raise NotImplementedError(
-                f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
-            )
+        # if cls.PLUG_CLS is None:
+        #     raise NotImplementedError(
+        #         f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
+        #     )
 
-    # __set_name__
-    def _on_set_name(self, owner: Any, name: str):
-        """
-        __set_name__ 内で、実行されるメソッド
-
-        Args:
-            owner (Any): 親のクラス
-            name (str): セットされている変数名
-        """
-        # name をセット
-        if self.long_name is None:
-            #  name, _attr_path, long_name にセット
-            self.name = name
-            self._attr_path = name
-            self.long_name = name
-        else:
-            # short name をセット
-            object.__setattr__(self, "_short_name", name)
-
-    # __get__
-    def __get__(self, instance: object | None, owner: type) -> Self | P:
-        """
-        属性アクセスされた際に実行されるメソッド
-        Node へのアクセスが、
-        クラスアクセスの場合、 Attr を返し、
-        インスタンスアクセスの場合、 Plug を返す
-
-        Args:
-            instance (object | None): インスタンスオブジェクト
-            owner (type): 親クラス
-
-        Returns:
-            Self | P: Attr or Plug
-        """
-        # node, attr_path をセットする
-        #   class アクセス
-        if instance is None:
-            # Node
-            object.__setattr__(self, "_node", owner)
-        #   instance アクセス
-        else:
-            # 親が Node
-            if hasattr(instance, "NODE_TYPE"):
-                object.__setattr__(self, "_node", instance)
-            # 親が Attr or Plug
-            else:
-                instance: AttrOperator[P] | PlugOperator[A] = instance
-                # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
-                if instance._node is None:
-                    return self
-                object.__setattr__(self, "_node", instance._node)
-                object.__setattr__(
-                    self, "_parent_attr_path", instance._attr_path
-                )
-                self._set_attr_path(self._parent_attr_path)
-
-        # 戻り値
-        #   Node が instance へのアクセス(Plug)
-        if self._node.is_instance:
-            key = (self.name, self._attr_path)
-            parent_plug = None
-            if self._parent_attr_path:
-                parent_plug = instance
-            if key not in self._node._plug_cache:
-                self._node._plug_cache[key] = self.PLUG_CLS(
-                    node=self._node,
-                    attr=self,
-                    attr_path=self._parent_attr_path,
-                    multi=self.multi,
-                    parent_plug=parent_plug,
-                )
-            return self._node._plug_cache[key]
-        #   Node が class へのアクセス(Attr)
-        else:
-            return self
-
-    def find_child_attribute(
+    # [] アクセス
+    def __getitem__(
         self,
-        compound_attr_obj: om.MObject,
-        name: str,
-    ) -> om.MObject | None:
-        if compound_attr_obj.isNull():
-            raise RuntimeError(
-                "{} {}: {}, {}: {}, {}: {}".format(
-                    "compound_attr_obj が無効です。",
-                    "self._node.node_class",
-                    self._node.node_class,
-                    "self.long_name",
-                    self.long_name,
-                    "compound_attr_obj.apiType()",
-                    compound_attr_obj.apiType(),
-                )
-            )
-        compound_fn = om.MFnCompoundAttribute(compound_attr_obj)
+        key: str,
+    ) -> Self:
+        return getattr(self, key)
 
-        for i in range(compound_fn.numChildren()):
-            child_attr_obj = compound_fn.child(i)
-            fn_attr = om.MFnAttribute(child_attr_obj)
-            if fn_attr.name == name:
-                return child_attr_obj
+    # # __set_name__
+    # def _on_set_name(self, owner: Any, name: str):
+    #     """
+    #     __set_name__ 内で、実行されるメソッド
 
-        return None
+    #     Args:
+    #         owner (Any): 親のクラス
+    #         name (str): セットされている変数名
+    #     """
+    #     # name をセット
+    #     if self.long_name is None:
+    #         #  name, _attr_path, long_name にセット
+    #         self.name = name
+    #         self._attr_path = name
+    #         self.long_name = name
+    #     else:
+    #         # short name をセット
+    #         object.__setattr__(self, "_short_name", name)
 
-    # attr_path
-    def _set_attr_path(self, parent_attr_path: str):
-        """
-        attr_path をセットする
+    # # __get__
+    # def __get__(self, instance: object | None, owner: type) -> Self | P:
+    #     """
+    #     属性アクセスされた際に実行されるメソッド
+    #     Node へのアクセスが、
+    #     クラスアクセスの場合、 Attr を返し、
+    #     インスタンスアクセスの場合、 Plug を返す
 
-        Args:
-            parent_attr_path (str): 親の attr_path
-        """
-        # 親の attr_path がなければ終了する
-        if not parent_attr_path:
-            return
+    #     Args:
+    #         instance (object | None): インスタンスオブジェクト
+    #         owner (type): 親クラス
 
-        # attr_path を生成する
-        attr_path = f"{parent_attr_path}.{self.name}"
+    #     Returns:
+    #         Self | P: Attr or Plug
+    #     """
+    #     # node, attr_path をセットする
+    #     #   class アクセス
+    #     if instance is None:
+    #         # Node
+    #         object.__setattr__(self, "_node", owner)
+    #     #   instance アクセス
+    #     else:
+    #         # 親が Node
+    #         if hasattr(instance, "NODE_TYPE"):
+    #             object.__setattr__(self, "_node", instance)
+    #         # 親が Attr or Plug
+    #         else:
+    #             instance: AttrOperator[P] | PlugOperator[A] = instance
+    #             # compound の子アトリビュートを node クラスに再定義する際に、自身を返す
+    #             if instance._node is None:
+    #                 return self
+    #             object.__setattr__(self, "_node", instance._node)
+    #             object.__setattr__(
+    #                 self, "_parent_attr_path", instance._attr_path
+    #             )
+    #             self._set_attr_path(self._parent_attr_path)
 
-        # attr_path をセットする
-        object.__setattr__(self, "_attr_path", attr_path)
+    #     # 戻り値
+    #     #   Node が instance へのアクセス(Plug)
+    #     if self._node.is_instance:
+    #         key = (self.name, self._attr_path)
+    #         parent_plug = None
+    #         if self._parent_attr_path:
+    #             parent_plug = instance
+    #         if key not in self._node._plug_cache:
+    #             self._node._plug_cache[key] = self.PLUG_CLS(
+    #                 node=self._node,
+    #                 attr=self,
+    #                 attr_path=self._parent_attr_path,
+    #                 multi=self.multi,
+    #                 parent_plug=parent_plug,
+    #             )
+    #         return self._node._plug_cache[key]
+    #     #   Node が class へのアクセス(Attr)
+    #     else:
+    #         return self
+
+    # def find_child_attribute(
+    #     self,
+    #     compound_attr_obj: om.MObject,
+    #     name: str,
+    # ) -> om.MObject | None:
+    #     if compound_attr_obj.isNull():
+    #         raise RuntimeError(
+    #             "{} {}: {}, {}: {}, {}: {}".format(
+    #                 "compound_attr_obj が無効です。",
+    #                 "self._node.node_class",
+    #                 self._node.node_class,
+    #                 "self.long_name",
+    #                 self.long_name,
+    #                 "compound_attr_obj.apiType()",
+    #                 compound_attr_obj.apiType(),
+    #             )
+    #         )
+    #     compound_fn = om.MFnCompoundAttribute(compound_attr_obj)
+
+    #     for i in range(compound_fn.numChildren()):
+    #         child_attr_obj = compound_fn.child(i)
+    #         fn_attr = om.MFnAttribute(child_attr_obj)
+    #         if fn_attr.name == name:
+    #             return child_attr_obj
+
+    #     return None
+
+    # # attr_path
+    # def _set_attr_path(self, parent_attr_path: str):
+    #     """
+    #     attr_path をセットする
+
+    #     Args:
+    #         parent_attr_path (str): 親の attr_path
+    #     """
+    #     # 親の attr_path がなければ終了する
+    #     if not parent_attr_path:
+    #         return
+
+    #     # attr_path を生成する
+    #     attr_path = f"{parent_attr_path}.{self.name}"
+
+    #     # attr_path をセットする
+    #     object.__setattr__(self, "_attr_path", attr_path)
 
     # str
     def __repr__(self) -> str:
@@ -973,107 +1035,107 @@ class AttrOperator(ImmutableDescriptor, Generic[P]):
         """
         return self.DATA_TYPE is not None
 
-    # attr info
-    def _query_attr_info(self, **kwargs) -> Any:
-        """
-        cmds.attributeQuery を安全に実行し、結果を返す。
-        ノードのインスタンスが設定されていない場合は None を返す。
+    # # attr info
+    # def _query_attr_info(self, **kwargs) -> Any:
+    #     """
+    #     cmds.attributeQuery を安全に実行し、結果を返す。
+    #     ノードのインスタンスが設定されていない場合は None を返す。
 
-        Returns:
-            Any: cmds.attributeQuery の結果。取得できない場合は None。
-        """
-        if self._node is None or not self._node.is_instance:
-            return None
-        try:
-            return cmds.attributeQuery(
-                self.long_name, node=self._node._cmd_access_name, **kwargs
-            )
-        except Exception:
-            return None
+    #     Returns:
+    #         Any: cmds.attributeQuery の結果。取得できない場合は None。
+    #     """
+    #     if self._node is None or not self._node.is_instance:
+    #         return None
+    #     try:
+    #         return cmds.attributeQuery(
+    #             self.long_name, node=self._node._cmd_access_name, **kwargs
+    #         )
+    #     except Exception:
+    #         return None
 
-    @property
-    def short_name(self) -> str | None:
-        """アトリビュートのショート名"""
-        if self._short_name is None:
-            object.__setattr__(self, "_short_name", self.long_name)
-        return self._short_name
+    # @property
+    # def short_name(self) -> str | None:
+    #     """アトリビュートのショート名"""
+    #     if self._short_name is None:
+    #         object.__setattr__(self, "_short_name", self.long_name)
+    #     return self._short_name
 
-    @property
-    def default_value(self) -> Any:
-        """アトリビュートのデフォルト値"""
-        if self.extra:
-            return self._default_value
-        return self._query_attr_info(listDefault=True)
+    # @property
+    # def default_value(self) -> Any:
+    #     """アトリビュートのデフォルト値"""
+    #     if self.extra:
+    #         return self._default_value
+    #     return self._query_attr_info(listDefault=True)
 
-    @property
-    def min_value(self) -> Any:
-        """アトリビュートの最小値"""
-        if self.extra:
-            return self._min_value
-        return self._query_attr_info(minimum=True)
+    # @property
+    # def min_value(self) -> Any:
+    #     """アトリビュートの最小値"""
+    #     if self.extra:
+    #         return self._min_value
+    #     return self._query_attr_info(minimum=True)
 
-    @property
-    def max_value(self) -> Any:
-        """アトリビュートの最大値"""
-        if self.extra:
-            return self._max_value
-        return self._query_attr_info(maximum=True)
+    # @property
+    # def max_value(self) -> Any:
+    #     """アトリビュートの最大値"""
+    #     if self.extra:
+    #         return self._max_value
+    #     return self._query_attr_info(maximum=True)
 
-    @property
-    def soft_min_value(self) -> Any:
-        """アトリビュートのソフト最小値"""
-        if self.extra:
-            return self._soft_min_value
-        return self._query_attr_info(softMin=True)
+    # @property
+    # def soft_min_value(self) -> Any:
+    #     """アトリビュートのソフト最小値"""
+    #     if self.extra:
+    #         return self._soft_min_value
+    #     return self._query_attr_info(softMin=True)
 
-    @property
-    def soft_max_value(self) -> Any:
-        """アトリビュートのソフト最大値"""
-        if self.extra:
-            return self._soft_max_value
-        return self._query_attr_info(softMax=True)
+    # @property
+    # def soft_max_value(self) -> Any:
+    #     """アトリビュートのソフト最大値"""
+    #     if self.extra:
+    #         return self._soft_max_value
+    #     return self._query_attr_info(softMax=True)
 
-    @property
-    def enum_full_name(self) -> str | None:
-        """列挙型アトリビュートの列挙名"""
-        if self._enum_name is not None:
-            return self._enum_name
-        return self._query_attr_info(listEnum=True)
+    # @property
+    # def enum_full_name(self) -> str | None:
+    #     """列挙型アトリビュートの列挙名"""
+    #     if self._enum_name is not None:
+    #         return self._enum_name
+    #     return self._query_attr_info(listEnum=True)
 
-    @property
-    def number_of_children(self) -> int | None:
-        """コンパウンドアトリビュートの子アトリビュート数"""
-        if self.extra:
-            return self._number_of_children
-        return self._query_attr_info(numberOfChildren=True)
+    # @property
+    # def number_of_children(self) -> int | None:
+    #     """コンパウンドアトリビュートの子アトリビュート数"""
+    #     if self.extra:
+    #         return self._number_of_children
+    #     return self._query_attr_info(numberOfChildren=True)
 
-    @property
-    def parent(self) -> str | None:
-        """親アトリビュート名"""
-        if self.extra:
-            return self._parent
-        return self._query_attr_info(listParent=True)
+    # @property
+    # def parent(self) -> str | None:
+    #     """親アトリビュート名"""
+    #     if self.extra:
+    #         return self._parent
+    #     return self._query_attr_info(listParent=True)
 
-    @property
-    def readable(self) -> bool | None:
-        """アトリビュートが読み取り可能かどうか"""
-        if self.extra:
-            return self._readable
-        return self._query_attr_info(readable=True)
+    # @property
+    # def readable(self) -> bool | None:
+    #     """アトリビュートが読み取り可能かどうか"""
+    #     if self.extra:
+    #         return self._readable
+    #     return self._query_attr_info(readable=True)
 
-    @property
-    def writable(self) -> bool | None:
-        """アトリビュートが書き込み可能かどうか"""
-        if self.extra:
-            return self._writable
-        return self._query_attr_info(writable=True)
+    # @property
+    # def writable(self) -> bool | None:
+    #     """アトリビュートが書き込み可能かどうか"""
+    #     if self.extra:
+    #         return self._writable
+    #     return self._query_attr_info(writable=True)
 
-    @property
-    def category(self) -> str | None:
-        """アトリビュートのカテゴリ"""
-        if self.extra:
-            return self._category
-        return self._query_attr_info(categories=True)
+    # @property
+    # def category(self) -> str | None:
+    #     """アトリビュートのカテゴリ"""
+    #     if self.extra:
+    #         return self._category
+    #     return self._query_attr_info(categories=True)
 
     # addAttr
     def add_attr(self, node_name: str) -> om.MFnDependencyNode | None:
@@ -1131,3 +1193,276 @@ class AttrOperator(ImmutableDescriptor, Generic[P]):
         #     kwargs["category"] = self._category
 
         # cmds.addAttr(node_name, **kwargs)
+
+
+class AccessType:
+    field = 0
+    attr = 1
+    plug = 2
+
+
+class AttributeField(ImmutableDescriptor, Generic[A, P]):
+    __slots__ = (
+        "_node_cls",
+        "_node",
+        "oprt_parent",
+        "name",
+        "long_name",
+        "_short_name",
+        "_attr_path",
+        "_parent_attr_path",
+        "multi",
+        "extra",
+        "_default_value",
+        "_min_value",
+        "_max_value",
+        "_soft_min_value",
+        "_soft_max_value",
+        "_enum_name",
+        "_number_of_children",
+        "_readable",
+        "_writable",
+        "_category",
+    )
+
+    ATTR_CLS: type[A]
+    PLUG_CLS: type[P]
+
+    def __init__(
+        self,
+        multi: bool = False,
+        extra: bool = False,
+        default_value: Any = None,
+        min_value: Any = None,
+        max_value: Any = None,
+        soft_min_value: Any = None,
+        soft_max_value: Any = None,
+        enum_name: str | None = None,
+        number_of_children: int | None = None,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ):
+        # node
+        self._node_cls: type[NodeOperator] | None = None
+        self._node: NodeOperator | None = None
+
+        # parent
+        self.oprt_parent: A | P | None = None
+
+        # name
+        self.long_name = None
+        self._short_name = None
+
+        # attr
+        #   attr_path
+        self._attr_path = ""
+        self._parent_attr_path: str = ""
+        #   multi
+        self.multi: bool = multi
+        #   extra attr flag
+        self.extra: bool = extra
+
+        # extra attr info
+        self._default_value: Any = default_value
+        self._min_value: Any = min_value
+        self._max_value: Any = max_value
+        self._soft_min_value: Any = soft_min_value
+        self._soft_max_value: Any = soft_max_value
+        self._enum_name: str | None = enum_name
+        self._number_of_children: int | None = number_of_children
+        self._readable: bool | None = readable
+        self._writable: bool | None = writable
+        self._category: str | None = category
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if cls.ATTR_CLS is None:
+            raise NotImplementedError(
+                f"{cls.__name__} は、 ATTR_CLS が定義されていません。定義してください。"
+            )
+        if cls.PLUG_CLS is None:
+            raise NotImplementedError(
+                f"{cls.__name__} は、 PLUG_CLS が定義されていません。定義してください。"
+            )
+
+    # __set_name__
+    def _on_set_name(self, owner: Any, name: str):
+        """
+        __set_name__ 内で、実行されるメソッド
+
+        Args:
+            owner (Any): 親のクラス
+            name (str): セットされている変数名
+        """
+        # name をセット
+        if self.long_name is None:
+            #  name, _attr_path, long_name にセット
+            self.name = name
+            self.long_name = name
+            self._attr_path = name
+        else:
+            # short name をセット
+            object.__setattr__(self, "_short_name", name)
+
+    # __get__
+    @overload
+    def __get__(self, instance: None, owner: type) -> A: ...
+
+    @overload
+    def __get__(
+        self,
+        instance: AttrOperator[Any],
+        owner: type,
+    ) -> A: ...
+
+    @overload
+    def __get__(
+        self,
+        instance: PlugOperator[Any],
+        owner: type,
+    ) -> P: ...
+
+    @overload
+    def __get__(
+        self,
+        instance: AttributeField[Any],
+        owner: type,
+    ) -> Self: ...
+
+    @overload
+    def __get__(self, instance: NodeOperator, owner: type) -> P: ...
+
+    def __get__(
+        self,
+        instance: (
+            object
+            | NodeOperator
+            | AttrOperator[Any]
+            | PlugOperator[Any]
+            | AttributeField[Any]
+            | None
+        ),
+        owner: type,
+    ) -> A | P | Self:
+        """
+        属性アクセスされた際に実行されるメソッド
+        Node へのアクセスが、
+        クラスアクセスの場合、 Attr を返し、
+        インスタンスアクセスの場合、 Plug を返す
+
+        Args:
+            instance (object | None): インスタンスオブジェクト
+            owner (type): 親クラス
+
+        Returns:
+            A | P: AttrOperator or PlugOperator
+        """
+        access_type: int | None = None
+        # node, attr_path をセットする
+        #   class アクセス(Attr)
+        if instance is None:
+            # 親が Node(Attr)
+            access_type = AccessType.attr
+            object.__setattr__(self, "_node_cls", owner)
+        #   instance アクセス(Attr or Plug)
+        else:
+            # 親が Node(Plug)
+            if hasattr(instance, "NODE_TYPE"):
+                access_type = AccessType.plug
+                object.__setattr__(self, "_node_cls", owner)
+                object.__setattr__(self, "_node", instance)
+            # 親が Attr or Plug or Field
+            else:
+                instance: A | P = instance
+                # 各種セットする
+                object.__setattr__(self, "oprt_parent", instance)
+                object.__setattr__(
+                    self, "_parent_attr_path", instance._attr_path
+                )
+                self._set_attr_path(self._parent_attr_path)
+                #   親が Attr
+                mro = owner.__mro__
+                #   親が Plug
+                if any(c.__name__ == "PlugOperator" for c in mro):
+                    access_type = AccessType.plug
+                    instance: P = instance
+                    object.__setattr__(self, "_node", instance._node)
+                elif any(c.__name__ == "AttrOperator" for c in mro):
+                    instance: A = instance
+                    access_type = AccessType.attr
+                #   親が Field
+                else:
+                    access_type = AccessType.field
+
+        # 戻り値
+        oprt_attr = self.ATTR_CLS(
+            node_cls=self._node_cls,
+            oprt_parent=self.oprt_parent,
+            name=self.name,
+            long_name=self.long_name,
+            short_name=self.short_name,
+            attr_path=self._attr_path,
+            parent_attr_path=self._parent_attr_path,
+            multi=self.multi,
+            extra=self.extra,
+            default_value=self._default_value,
+            min_value=self._min_value,
+            max_value=self._max_value,
+            soft_min_value=self._soft_min_value,
+            soft_max_value=self._soft_max_value,
+            enum_name=self._enum_name,
+            number_of_children=self._number_of_children,
+            readable=self._readable,
+            writable=self._writable,
+            category=self._category,
+        )
+        #   Node が instance へのアクセス(Plug)
+        if access_type == AccessType.plug:
+            # キャッシュキーを作成する
+            key = (self.name, self._attr_path)
+            # 親 Plug があればセットする
+            parent_oprt_plug = None
+            if self._parent_attr_path:
+                parent_oprt_plug = instance
+            # キャッシュになければ Plug を生成してキャッシュする
+            if key not in self._node._plug_cache:
+                self._node._plug_cache[key] = self.PLUG_CLS(
+                    node=self._node,
+                    oprt_attr=oprt_attr,
+                    parent_attr_path=self._parent_attr_path,
+                    multi=self.multi,
+                    parent_oprt_plug=parent_oprt_plug,
+                )
+            return self._node._plug_cache[key]
+        #   Node が class へのアクセス(Attr)
+        elif access_type == AccessType.attr:
+            return oprt_attr
+        #   class 定義時ののアクセス(Field)
+        else:
+            return self
+
+    # attr_path
+    def _set_attr_path(self, parent_attr_path: str):
+        """
+        attr_path をセットする
+
+        Args:
+            parent_attr_path (str): 親の attr_path
+        """
+        # 親の attr_path がなければ終了する
+        if not parent_attr_path:
+            return
+
+        # attr_path を生成する
+        attr_path = f"{parent_attr_path}.{self.name}"
+
+        # attr_path をセットする
+        object.__setattr__(self, "_attr_path", attr_path)
+
+    @property
+    def short_name(self) -> str | None:
+        """アトリビュートのショート名"""
+        if self._short_name is None:
+            object.__setattr__(self, "_short_name", self.long_name)
+        return self._short_name
