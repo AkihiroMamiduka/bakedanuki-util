@@ -5,7 +5,7 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .compound_base._floating_point_compound import (
+from .base._floating_point_compound import (
     FloatingPointBaseAttrOperator,
     FloatingPointBasePlugOperator,
     FloatingPointBaseField,
