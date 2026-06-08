@@ -11,8 +11,12 @@ from maya.api import OpenMaya as om
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.std.at.double import DoubleAttrOperator
-from .......maya.node.operator.attr.std.dt.matrix import DataMatrixAttrOperator
+from .......maya.node.operator.attr.define.std.at.double import (
+    DoubleAttrOperator,
+)
+from .......maya.node.operator.attr.define.std.dt.matrix import (
+    DataMatrixAttrOperator,
+)
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 

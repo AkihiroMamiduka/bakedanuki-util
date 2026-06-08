@@ -1,7 +1,7 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.std.dt.matrix import DataMatrixField
-from ...attr.node_attr.wt_add_matrix import WtMatrixField
+from ...attr.define.std.dt.matrix import DataMatrixField
+from ...attr.define.node_attr.wt_add_matrix import WtMatrixField
 
 
 class WtAddMatrix(DG):

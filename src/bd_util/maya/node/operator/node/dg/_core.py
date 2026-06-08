@@ -2,11 +2,15 @@
 
 # self
 from .._core import NodeOperator
-from ...attr.std.at.bool import BoolField
-from ...attr.std.at.byte import ByteField
-from ...attr.std.at.enum import EnumAttrOperator, EnumPlugOperator, EnumField
-from ...attr.std.at.message import MessageField
-from ...attr.std.dt.string import DataStringField
+from ...attr.define.std.at.bool import BoolField
+from ...attr.define.std.at.byte import ByteField
+from ...attr.define.std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ...attr.define.std.at.message import MessageField
+from ...attr.define.std.dt.string import DataStringField
 
 
 class NodeStateEnumPlug(EnumPlugOperator):

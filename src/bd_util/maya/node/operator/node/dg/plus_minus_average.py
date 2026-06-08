@@ -1,13 +1,17 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.node_attr.plus_minus_average import (
+from ...attr.define.node_attr.plus_minus_average import (
     Input2DField,
     Input3DField,
     Output2DField,
     Output3DField,
 )
-from ...attr.std.at.enum import EnumAttrOperator, EnumPlugOperator, EnumField
-from ...attr.std.at.float import FloatField
+from ...attr.define.std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ...attr.define.std.at.float import FloatField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator):
