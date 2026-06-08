@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ...define.std.at.compound import (
+from ....define.std.at.compound import (
     CompoundAttrOperator,
     CompoundPlugOperator,
     CompoundField,

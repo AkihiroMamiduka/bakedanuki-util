@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.message import MessageField
+from ....define.std.at.message import MessageField
 
 
 class ExtraMessageField(MessageField):

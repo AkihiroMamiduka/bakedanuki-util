@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.lattice import DataLatticeField
+from ....define.std.dt.lattice import DataLatticeField
 
 
 class ExtraDataLatticeField(DataLatticeField):

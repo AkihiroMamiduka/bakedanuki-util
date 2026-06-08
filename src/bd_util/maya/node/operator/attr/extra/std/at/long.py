@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.long import LongField
+from ....define.std.at.long import LongField
 
 
 class ExtraLongField(LongField):

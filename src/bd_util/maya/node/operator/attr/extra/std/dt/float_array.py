@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.float_array import DataFloatArrayField
+from ....define.std.dt.float_array import DataFloatArrayField
 
 
 class ExtraDataFloatArrayField(DataFloatArrayField):

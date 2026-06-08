@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.byte import ByteField
+from ....define.std.at.byte import ByteField
 
 
 class ExtraByteField(ByteField):

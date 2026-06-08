@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.generic import GenericField
+from ....define.std.at.generic import GenericField
 
 
 class ExtraGenericField(GenericField):

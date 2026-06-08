@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.vector_array import DataVectorArrayField
+from ....define.std.dt.vector_array import DataVectorArrayField
 
 
 class ExtraDataVectorArrayField(DataVectorArrayField):

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.point_array import DataPointArrayField
+from ....define.std.dt.point_array import DataPointArrayField
 
 
 class ExtraDataPointArrayField(DataPointArrayField):

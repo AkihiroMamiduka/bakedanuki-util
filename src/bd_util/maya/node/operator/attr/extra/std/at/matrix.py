@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.matrix import MatrixField
+from ....define.std.at.matrix import MatrixField
 
 
 class ExtraMatrixField(MatrixField):

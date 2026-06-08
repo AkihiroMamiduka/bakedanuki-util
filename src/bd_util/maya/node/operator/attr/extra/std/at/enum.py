@@ -1,6 +1,6 @@
 # coding: utf-8
 # self
-from ...define.std.at.enum import EnumField
+from ....define.std.at.enum import EnumField
 
 
 class ExtraEnumField(EnumField):

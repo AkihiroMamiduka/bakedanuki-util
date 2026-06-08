@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.reflectance_rgb import DataReflectanceRGBField
+from ....define.std.dt.reflectance_rgb import DataReflectanceRGBField
 
 
 class ExtraDataReflectanceRGBField(DataReflectanceRGBField):

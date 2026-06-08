@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.float import FloatField
+from ....define.std.at.float import FloatField
 
 
 class ExtraFloatField(FloatField):

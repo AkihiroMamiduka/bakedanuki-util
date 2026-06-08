@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.typed import TypedField
+from ....define.std.at.typed import TypedField
 
 
 class ExtraTypedField(TypedField):

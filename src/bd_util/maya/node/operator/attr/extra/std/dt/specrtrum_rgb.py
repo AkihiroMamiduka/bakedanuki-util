@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.specrtrum_rgb import DataSpectrumRGBField
+from ....define.std.dt.specrtrum_rgb import DataSpectrumRGBField
 
 
 class ExtraDataSpectrumRGBField(DataSpectrumRGBField):

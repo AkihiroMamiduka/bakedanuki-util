@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.matrix import DataMatrixField
+from ....define.std.dt.matrix import DataMatrixField
 
 
 class ExtraDataMatrixField(DataMatrixField):

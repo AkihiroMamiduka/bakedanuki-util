@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.addr import AddrField
+from ....define.std.at.addr import AddrField
 
 
 class ExtraAddrField(AddrField):

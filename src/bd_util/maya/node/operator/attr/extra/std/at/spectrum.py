@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ...define.std.at.spectrum import (
+from ....define.std.at.spectrum import (
     SpectrumAttrOperator,
     SpectrumPlugOperator,
     SpectrumField,

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.string import DataStringField
+from ....define.std.dt.string import DataStringField
 
 
 class ExtraDataStringField(DataStringField):

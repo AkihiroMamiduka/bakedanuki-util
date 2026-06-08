@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.at.float_angle import FloatAngleField
+from ....define.std.at.float_angle import FloatAngleField
 
 
 class ExtraFloatAngleField(FloatAngleField):

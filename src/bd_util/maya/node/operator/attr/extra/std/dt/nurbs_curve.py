@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.nurbs_curve import DataNurbsCurveField
+from ....define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
 class ExtraDataNurbsCurveField(DataNurbsCurveField):

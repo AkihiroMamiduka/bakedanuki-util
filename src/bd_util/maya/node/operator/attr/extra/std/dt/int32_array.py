@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.int32_array import DataInt32ArrayField
+from ....define.std.dt.int32_array import DataInt32ArrayField
 
 
 class ExtraDataInt32ArrayField(DataInt32ArrayField):

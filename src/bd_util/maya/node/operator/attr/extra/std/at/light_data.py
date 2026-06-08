@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ...define.std.at.light_data import (
+from ....define.std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
     LightDataField,

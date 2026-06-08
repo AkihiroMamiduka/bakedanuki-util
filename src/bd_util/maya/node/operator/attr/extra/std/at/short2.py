@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ...define.std.at.short2 import (
+from ....define.std.at.short2 import (
     Short2AttrOperator,
     Short2PlugOperator,
     Short2Field,

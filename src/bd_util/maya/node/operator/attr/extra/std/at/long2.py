@@ -2,7 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ...define.std.at.long2 import (
+from ....define.std.at.long2 import (
     Long2AttrOperator,
     Long2PlugOperator,
     Long2Field,

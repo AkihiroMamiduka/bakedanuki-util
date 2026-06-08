@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.std.dt.double_array import DataDoubleArrayField
+from ....define.std.dt.double_array import DataDoubleArrayField
 
 
 class ExtraDataDoubleArrayField(DataDoubleArrayField):
