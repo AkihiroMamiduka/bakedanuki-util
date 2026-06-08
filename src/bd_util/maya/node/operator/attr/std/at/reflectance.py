@@ -9,11 +9,11 @@ A = TypeVar("A", bound="Float3AttrOperator")
 P = TypeVar("P", bound="Float3PlugOperator")
 
 
-class ReflectancePlug(Float3PlugOperator["ReflectanceAttr"]):
+class ReflectancePlugOperator(Float3PlugOperator["ReflectanceAttrOperator"]):
     __slots__ = ()
 
 
-class ReflectanceAttr(Float3AttrOperator[ReflectancePlug]):
+class ReflectanceAttrOperator(Float3AttrOperator[ReflectancePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "reflectance"
@@ -22,5 +22,5 @@ class ReflectanceAttr(Float3AttrOperator[ReflectancePlug]):
 class ReflectanceField(Float3Field[A, P]):
     __slots__ = ()
 
-    ATTR_CLS = cast(Type[A], ReflectanceAttr)
-    PLUG_CLS = cast(Type[P], ReflectancePlug)
+    ATTR_CLS = cast(Type[A], ReflectanceAttrOperator)
+    PLUG_CLS = cast(Type[P], ReflectancePlugOperator)

@@ -42,7 +42,7 @@ class DataReflectanceRGBAttrOperator(
     DATA_TYPE = "reflectanceRGB"
 
 
-class ReflectanceRGBField(
+class DataReflectanceRGBField(
     DataNumericBaseField[
         DataReflectanceRGBAttrOperator, DataReflectanceRGBPlugOperator
     ]

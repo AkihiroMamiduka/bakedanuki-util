@@ -26,7 +26,7 @@ class DataLatticeAttrOperator(DataTypeAttrOperator[DataLatticePlugOperator]):
     DATA_TYPE = "lattice"
 
 
-class LatticeField(
+class DataLatticeField(
     DataTypeField[DataLatticeAttrOperator, DataLatticePlugOperator]
 ):
     __slots__ = ()

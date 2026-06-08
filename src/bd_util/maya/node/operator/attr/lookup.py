@@ -24,7 +24,7 @@ from .std.at.long2 import Long2AttrOperator
 from .std.at.long3 import Long3AttrOperator
 from .std.at.matrix import MatrixAttrOperator
 from .std.at.message import MessageAttrOperator
-from .std.at.reflectance import ReflectanceAttr
+from .std.at.reflectance import ReflectanceAttrOperator
 from .std.at.short import ShortAttrOperator
 from .std.at.short2 import Short2AttrOperator
 from .std.at.short3 import Short3AttrOperator
@@ -76,7 +76,7 @@ _AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
         Long3AttrOperator,
         MatrixAttrOperator,
         MessageAttrOperator,
-        ReflectanceAttr,
+        ReflectanceAttrOperator,
         ShortAttrOperator,
         Short2AttrOperator,
         Short3AttrOperator,
