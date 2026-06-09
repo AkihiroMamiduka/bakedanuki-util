@@ -12,10 +12,10 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.define.std.at.double import (
-    DoubleAttrOperator,
+    DoubleField,
 )
 from .......maya.node.operator.attr.define.std.dt.matrix import (
-    DataMatrixAttrOperator,
+    DataMatrixField,
 )
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -24,10 +24,10 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class MyTransform(Transform):
 
     # extra=True: インスタンス生成時に自動 addAttr() される
-    myWeight = DoubleAttrOperator(extra=True)
+    myWeight = DoubleField(extra=True)
     mw = myWeight
 
-    myMatrix = DataMatrixAttrOperator(extra=True)
+    myMatrix = DataMatrixField(extra=True)
     mm = myMatrix
 
     # extra=False (デフォルト): 通常のアトリビュート定義 (addAttr() されない)
@@ -36,13 +36,14 @@ class MyTransform(Transform):
 
 def main():
     extra_attrs_class_access()
+    extra_attrs_instance_access()
     auto_add_attr_on_init()
     no_auto_add_attr()
     manual_add_attr_via_plug()
 
 
 def extra_attrs_class_access():
-    test_str.title("1. extra=True: class access properties")
+    test_str.title("extra=True: class access properties")
     logger.debug(
         "{}: {}".format(
             "MyTransform._extra_attributes",
@@ -50,6 +51,27 @@ def extra_attrs_class_access():
         )
     )
     for attr in MyTransform._extra_attributes:
+        logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
+
+
+def extra_attrs_instance_access():
+    test_str.title("extra=True: instance access properties")
+
+    dg_mod = om.MDGModifier()
+    dag_mod = om.MDagModifier()
+    name = "test"
+    if cmds.objExists(name):
+        cmds.delete(name)
+    node = MyTransform.create(dg_mod, dag_mod=dag_mod, name="test")
+    dag_mod.doIt()
+    dg_mod.doIt()
+    logger.debug(
+        "{}: {}".format(
+            "node._extra_attributes",
+            node._extra_attributes,
+        )
+    )
+    for attr in node._extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
 

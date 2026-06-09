@@ -18,6 +18,40 @@ class DoublePlugOperator(PlugOperator["DoubleAttrOperator"]):
     def set(self, value: float):
         self._node._dg_mod.newPlugValueDouble(self.plug, value)
 
+    # add
+    def add_attr(self):
+        # アトリビュートが既に存在する場合はスキップ
+        if self.exists():
+            return
+
+        # アトリビュートを作成
+        fn_attr = om.MFnNumericAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+            om.MFnNumericData.kDouble,
+            self._oprt_attr.default_value,
+        )
+
+        # ノードにアトリビュートを追加
+        self._node.fn_node.addAttribute(attr_obj)
+
+        # アトリビュート設定
+        #   min/max
+        val = self._oprt_attr.min_value
+        if val is not None:
+            fn_attr.setMin(val)
+        val = self._oprt_attr.max_value
+        if val is not None:
+            fn_attr.setMax(val)
+        #   soft min/max
+        val = self._oprt_attr.soft_min_value
+        if val is not None:
+            fn_attr.setSoftMin(val)
+        val = self._oprt_attr.soft_max_value
+        if val is not None:
+            fn_attr.setSoftMax(val)
+
 
 class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
     __slots__ = ()
@@ -30,31 +64,6 @@ class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
         # デフォルト値
         if self.default_value is None:
             self.default_value = 0.0
-
-    # add
-    def add_attr(self, node_name: str):
-        fn_node = super().add_attr(node_name)
-        if fn_node is None:
-            return
-
-        fn_attr = om.MFnNumericAttribute()
-        attr_obj = fn_attr.create(
-            self.long_name,
-            self.short_name,
-            om.MFnNumericData.kDouble,
-            self.default_value,
-        )
-        fn_node.addAttribute(attr_obj)
-
-        if self._min_value is not None:
-            fn_attr.setMin(self._min_value)
-        if self._max_value is not None:
-            fn_attr.setMax(self._max_value)
-
-        if self._min_value is not None:
-            fn_attr.setSoftMin(self._min_value)
-        if self._max_value is not None:
-            fn_attr.setSoftMax(self._max_value)
 
 
 class DoubleField(AttributeField[DoubleAttrOperator, DoublePlugOperator]):

@@ -23,25 +23,28 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
         matrix_obj = om.MFnMatrixData().create(matrix)
         self._node._dg_mod.newPlugValue(self.plug, matrix_obj)
 
-
-class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):
-    __slots__ = ()
-
-    DATA_TYPE = "matrix"
-
     # add
-    def add_attr(self, node_name: str):
-        fn_node = super().add_attr(node_name)
-        if fn_node is None:
+    def add_attr(self):
+        # アトリビュートが既に存在する場合はスキップ
+        if self.exists():
             return
 
+        # アトリビュートを作成
         fn_attr = om.MFnTypedAttribute()
         attr_obj = fn_attr.create(
             self.long_name,
             self.short_name,
             om.MFnMatrixData.kMatrix,
         )
-        fn_node.addAttribute(attr_obj)
+
+        # ノードにアトリビュートを追加
+        self._node.fn_node.addAttribute(attr_obj)
+
+
+class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):
+    __slots__ = ()
+
+    DATA_TYPE = "matrix"
 
 
 class DataMatrixField(

@@ -26,7 +26,7 @@ class DAG(NodeOperator):
         # dag_mod
         self._dag_mod = dag_mod
         # dag_path
-        self._dag_path = om.MDagPath.getAPathTo(self._m_obj)
+        self._dag_path = om.MDagPath.getAPathTo(self.m_obj)
         # full_path
         self._full_path = None
 

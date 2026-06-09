@@ -22,25 +22,28 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
     def set(self, value: str):
         self._node._dg_mod.newPlugValueString(self.plug, value)
 
-
-class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
-    __slots__ = ()
-
-    DATA_TYPE = "string"
-
     # add
-    def add_attr(self, node_name: str):
-        fn_node = super().add_attr(node_name)
-        if fn_node is None:
+    def add_attr(self):
+        # アトリビュートが既に存在する場合はスキップ
+        if self.exists():
             return
 
+        # アトリビュートを作成
         fn_attr = om.MFnTypedAttribute()
         attr_obj = fn_attr.create(
             self.long_name,
             self.short_name,
             om.MFnData.kString,
         )
-        fn_node.addAttribute(attr_obj)
+
+        # ノードにアトリビュートを追加
+        self._node.fn_node.addAttribute(attr_obj)
+
+
+class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
+    __slots__ = ()
+
+    DATA_TYPE = "string"
 
 
 class DataStringField(

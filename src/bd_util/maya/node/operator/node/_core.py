@@ -84,25 +84,25 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     __slots__ = (
         "__weakref__",
         "_dg_mod",
-        "_m_obj",
-        "_fn_node",
+        "m_obj",
+        "fn_node",
         "_plug_cache",
     )
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
 
-        cls._init_get_extra_attrs()
+        cls._init_set_extra_attrs()
 
     @classmethod
-    def _init_get_extra_attrs(cls) -> tuple:
+    def _init_set_extra_attrs(cls):
         """
         クラス階層からすべての extra=True 属性記述子を収集する。
         オブジェクトの同一性に基づいて重複を排除し、
         short_name エイリアス (例: mw = myWeight) が同じ属性を二度登録しないようにする。
         """
         from ..attr._core import (
-            AttrOperator,
+            AttributeField,
         )  # 循環インポート回避のため遅延インポート
 
         attributes_by_long_name = {}
@@ -111,16 +111,22 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         seen_ids = set()
         for klass in cls.__mro__:
             for v in vars(klass).values():
-                v: AttrOperator
+                v: AttributeField
                 obj_id = id(v)
                 if obj_id not in seen_ids and any(
-                    c.__name__ == "AttrOperator" for c in type(v).__mro__
+                    c.__name__ == "AttributeField" for c in type(v).__mro__
                 ):
                     seen_ids.add(obj_id)
-                    attributes_by_long_name[v.long_name] = v
-                    attributes_by_short_name[v.short_name] = v
+                    # class access で AttrOperator を取得してマップを構築する
+                    oprt_attr = v.__get__(None, cls)
+                    attributes_by_long_name[oprt_attr.long_name] = oprt_attr
+                    attributes_by_short_name[oprt_attr.short_name] = oprt_attr
+
+                    # extra=True のものは field を保持して、
+                    # instance access 時に PlugOperator へ解決する
                     if getattr(v, "extra", False):
                         extra_attrs.append(v)
+
         cls._attributes_map_by_long_name = attributes_by_long_name
         cls._attributes_map_by_short_name = attributes_by_short_name
         cls._extra_attributes = tuple(extra_attrs)
@@ -139,18 +145,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         # m_obj
         if m_obj is not None:
-            self._m_obj = m_obj
+            self.m_obj = m_obj
         else:
             sel = om.MSelectionList()
             sel.add(name)
-            self._m_obj = sel.getDependNode(0)
+            self.m_obj = sel.getDependNode(0)
 
         # fn_node
-        self._fn_node = om.MFnDependencyNode(self._m_obj)
+        self.fn_node = om.MFnDependencyNode(self.m_obj)
 
         # name
         if name:
-            self._dg_mod.renameNode(self._m_obj, name)
+            self._dg_mod.renameNode(self.m_obj, name)
 
         # plug_cache
         self._plug_cache = {}
@@ -216,8 +222,11 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
         """
-        for attr in self._extra_attributes:
-            attr.add_attr(self.name)
+        logger.debug(f"self._extra_attributes: {self._extra_attributes}")
+        for field in self._extra_attributes:
+            plug = getattr(self, field.name)
+            logger.debug(f"    plug: {plug}")
+            plug.add_attr()
 
     def __str__(self):
         return self.name
@@ -263,7 +272,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         Returns:
             str: ノード名
         """
-        return self._fn_node.name()
+        return self.fn_node.name()
 
     @property
     def namespace(self) -> str:
@@ -332,7 +341,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self.delete_non_check()
 
     def delete_non_check(self):
-        self._dg_mod.deleteNode(self._m_obj)
+        self._dg_mod.deleteNode(self.m_obj)
 
     def rename(
         self,
@@ -395,4 +404,4 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         pure_name = prefix + pure_name + suffix
 
         # リネームする
-        self._dg_mod.renameNode(self._m_obj, namespace_prefix + pure_name)
+        self._dg_mod.renameNode(self.m_obj, namespace_prefix + pure_name)

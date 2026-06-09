@@ -167,7 +167,7 @@ class PlugOperator(Generic[A], ABC):
                 )
         #   それ以外は、ノードから直接 plug を探す
         else:
-            plug = self._node._fn_node.findPlug(
+            plug = self._node.fn_node.findPlug(
                 self._oprt_attr.long_name, False
             )
 
@@ -638,18 +638,15 @@ class PlugOperator(Generic[A], ABC):
 
     # exists
     def exists(self) -> bool:
-        return self._node._fn_node.hasAttribute(self.long_name)
+        return self._node.fn_node.hasAttribute(self.long_name)
 
     # add
     def add_attr(self):
         """
-        対象ノードに、このアトリビュートを addAttr() する。
-        既に存在する場合はスキップする。
-
-        Args:
-            node_name (str): 対象ノード名
+        対象ノードに、このアトリビュートを追加する
+        既に存在する場合はスキップする
         """
-        self._oprt_attr.add_attr(self._node.name)
+        pass
 
 
 # def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
@@ -1136,63 +1133,6 @@ class AttrOperator(Generic[P]):
     #     if self.extra:
     #         return self._category
     #     return self._query_attr_info(categories=True)
-
-    # addAttr
-    def add_attr(self, node_name: str) -> om.MFnDependencyNode | None:
-        """
-        対象ノードに、このアトリビュートを addAttr() する。
-        既に存在する場合はスキップする。
-
-        Args:
-            node_name (str): 対象ノード名
-        """
-        # アトリビュートが既に存在する場合はスキップ
-        sel = om.MSelectionList()
-        sel.add(node_name)
-        node = sel.getDependNode(0)
-        fn_node = om.MFnDependencyNode(node)
-        if fn_node.hasAttribute(self.long_name):
-            return None
-
-        return fn_node
-
-        # if self._node._fn_node.hasAttribute(self.long_name):
-        #     return
-
-        # if cmds.objExists(f"{node_name}.{self.long_name}"):
-        #     return
-
-        # if self.is_data_type:
-        #     kwargs = {"dataType": self.DATA_TYPE}
-        # else:
-        #     kwargs = {"attributeType": self.ATTR_TYPE}
-        # kwargs["longName"] = self.long_name
-        # if self.short_name is not None:
-        #     kwargs["shortName"] = self.short_name
-        # if self._default_value is not None:
-        #     kwargs["defaultValue"] = self._default_value
-        # if self._min_value is not None:
-        #     kwargs["minValue"] = self._min_value
-        # if self._max_value is not None:
-        #     kwargs["maxValue"] = self._max_value
-        # if self._soft_min_value is not None:
-        #     kwargs["softMinValue"] = self._soft_min_value
-        # if self._soft_max_value is not None:
-        #     kwargs["softMaxValue"] = self._soft_max_value
-        # if self._enum_name is not None:
-        #     kwargs["enumName"] = self._enum_name
-        # if self._number_of_children is not None:
-        #     kwargs["numberOfChildren"] = self._number_of_children
-        # if self._parent is not None:
-        #     kwargs["parent"] = self._parent
-        # if self._readable is not None:
-        #     kwargs["readable"] = self._readable
-        # if self._writable is not None:
-        #     kwargs["writable"] = self._writable
-        # if self._category is not None:
-        #     kwargs["category"] = self._category
-
-        # cmds.addAttr(node_name, **kwargs)
 
 
 class AccessType:

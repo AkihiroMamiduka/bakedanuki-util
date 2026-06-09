@@ -47,6 +47,26 @@ class EnumPlugOperator(PlugOperator["EnumAttrOperator"]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
+    # add
+    def add_attr(self):
+        # アトリビュートが既に存在する場合はスキップ
+        if self.exists():
+            return
+
+        # アトリビュートを作成
+        fn_attr = om.MFnEnumAttribute()
+        attr_obj = fn_attr.create(
+            self.long_name,
+            self.short_name,
+        )
+
+        # ノードにアトリビュートを追加
+        self._node.fn_node.addAttribute(attr_obj)
+
+        # NAME_MAP からフィールドを追加
+        for index, name in self._oprt_attr.NAME_MAP.items():
+            fn_attr.addField(name, index)
+
 
 class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
     __slots__ = ("_index_by_name_dict",)
@@ -65,9 +85,6 @@ class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
         self._index_by_name_dict: dict[str, int] = {}
 
     # name
-    # def _name_dict(self) -> dict[int, str]:
-    #     return {}
-
     def name_by_index(self, index: int) -> str:
         return self.NAME_MAP[index]
 
@@ -82,24 +99,6 @@ class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
         if not self._index_by_name_dict:
             self._index_by_name_dict = {v: k for k, v in self.NAME_MAP.items()}
         return self._index_by_name_dict[name]
-
-    # add
-    def add_attr(self, node_name: str):
-        fn_node = super().add_attr(node_name)
-        if fn_node is None:
-            return
-
-        fn_attr = om.MFnEnumAttribute()
-        attr_obj = fn_attr.create(
-            self.long_name,
-            self.short_name,
-        )
-        fn_node.addAttribute(attr_obj)
-
-        # enum_name からフィールドを追加
-        if self.enum is not None:
-            for member in self.enum:
-                fn_attr.addField(member.label, int(member))
 
 
 class EnumField(AttributeField[A, P]):
