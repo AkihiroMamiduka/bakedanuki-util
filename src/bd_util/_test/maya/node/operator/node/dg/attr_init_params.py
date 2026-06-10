@@ -22,14 +22,15 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.define.std.at.double import (
-    DoubleAttrOperator,
+    DoubleField,
 )
 from .......maya.node.operator.attr.define.std.at.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
+    EnumField,
 )
 from .......maya.node.operator.attr.define.std.dt.string import (
-    DataStringAttrOperator,
+    DataStringField,
 )
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -59,9 +60,14 @@ class MyEnumAttr(EnumAttrOperator):
     }
 
 
+class MyEnumField(EnumField[MyEnumAttr, MyEnumPlug]):
+    ATTR_CLS = MyEnumAttr
+    PLUG_CLS = MyEnumPlug
+
+
 class MyNode(Transform):
     # extra=True: init 引数で各種情報を保持する
-    myDouble = DoubleAttrOperator(
+    myDouble = DoubleField(
         extra=True,
         default_value=1.0,
         min_value=0.0,
@@ -71,22 +77,22 @@ class MyNode(Transform):
     )
     md = myDouble
 
-    myEnum = MyEnumAttr(
+    myEnum = MyEnumField(
         extra=True,
     )
     me = myEnum
 
-    myReadOnly = DoubleAttrOperator(
+    myReadOnly = DoubleField(
         extra=True,
         readable=True,
         writable=False,
     )
 
-    myString = DataStringAttrOperator(extra=True)
+    myString = DataStringField(extra=True)
     ms = myString
 
     # extra=False: Maya ノード既存アトリビュート (translateX) へのアクセス用
-    translateX = DoubleAttrOperator()
+    translateX = DoubleField()
     tx = translateX
 
 
@@ -291,10 +297,9 @@ def add_attr_enum_name():
     node_name = "test_add_attr_enum"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
-    cmds.createNode("transform", name=node_name, skipSelect=True)
     dg_mod = om.MDGModifier()
     dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
+    MyNode.create(dg_mod, dag_mod=dag_mod, name=node_name)
     dag_mod.doIt()
     dg_mod.doIt()
 
