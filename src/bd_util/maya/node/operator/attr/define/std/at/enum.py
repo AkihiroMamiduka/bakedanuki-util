@@ -1,7 +1,5 @@
 # coding: utf-8
-from __future__ import annotations
-
-from typing import Any, TypeVar, Type, cast
+from typing import TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,12 +7,12 @@ from maya.api import OpenMaya as om
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="EnumAttrOperator")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="EnumPlugOperator")
 
 
-class EnumPlugOperator(PlugOperator["EnumAttrOperator"]):
+class EnumPlugOperator(PlugOperator[A]):
     __slots__ = ("_fn_enum",)
 
     def __init__(self, *args, **kwargs):
@@ -68,7 +66,7 @@ class EnumPlugOperator(PlugOperator["EnumAttrOperator"]):
             fn_attr.addField(name, index)
 
 
-class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
+class EnumAttrOperator(AttrOperator[P]):
     __slots__ = ("_index_by_name_dict",)
 
     ATTR_TYPE = "enum"
@@ -77,7 +75,7 @@ class EnumAttrOperator(AttrOperator[EnumPlugOperator]):
 
     def __init__(
         self,
-        **kwargs: Any,
+        **kwargs,
     ):
         kwargs["enum_name"] = self.enum_full_name()
         super().__init__(**kwargs)

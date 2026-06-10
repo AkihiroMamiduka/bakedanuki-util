@@ -13,7 +13,7 @@ A = TypeVar("A", bound="ReflectanceAttrOperator")
 P = TypeVar("P", bound="ReflectancePlugOperator")
 
 
-class ExtraCompoundField(ReflectanceField[A, P]):
+class ExtraReflectanceField(ReflectanceField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], ReflectanceAttrOperator)

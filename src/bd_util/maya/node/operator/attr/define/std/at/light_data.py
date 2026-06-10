@@ -31,9 +31,7 @@ class LightDataAttrOperator(AttrOperator[P]):
     ATTR_TYPE = "lightData"
 
 
-class LightDataField(
-    AttributeField[LightDataAttrOperator, LightDataPlugOperator]
-):
+class LightDataField(AttributeField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], LightDataAttrOperator)

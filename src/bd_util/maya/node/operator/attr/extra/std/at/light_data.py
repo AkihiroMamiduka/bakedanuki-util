@@ -13,7 +13,7 @@ A = TypeVar("A", bound="LightDataAttrOperator")
 P = TypeVar("P", bound="LightDataPlugOperator")
 
 
-class ExtraCompoundField(LightDataField[A, P]):
+class ExtraLightDataField(LightDataField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], LightDataAttrOperator)

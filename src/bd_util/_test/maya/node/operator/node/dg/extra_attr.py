@@ -11,24 +11,54 @@ from maya.api import OpenMaya as om
 from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.define.std.at.double import (
-    DoubleField,
-)
-from .......maya.node.operator.attr.define.std.dt.matrix import (
-    DataMatrixField,
-)
+from .......maya.node.operator.attr.extra.add_attr import AddAttr
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+
+
+class TestEnumAttrOperator(AddAttr.at.enum_attr_operator):
+    __slots__ = ()
+
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
+
+    NAME_MAP = {
+        ALPHA: "Alpha",
+        BETA: "Beta",
+        GAMMA: "Gamma",
+    }
+
+
+class TestEnumPlugOperator(AddAttr.at.enum_plug_operator):
+    __slots__ = ()
+
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
+
+
+class TestEnumField(
+    AddAttr.at.enum[TestEnumAttrOperator, TestEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TestEnumAttrOperator
+    PLUG_CLS = TestEnumPlugOperator
 
 
 class MyTransform(Transform):
 
     # extra=True: インスタンス生成時に自動 addAttr() される
-    myWeight = DoubleField(extra=True)
-    mw = myWeight
+    # testDouble = ExtraDoubleField()
+    testDouble = AddAttr.at.double()
+    td = testDouble
 
-    myMatrix = DataMatrixField(extra=True)
-    mm = myMatrix
+    testDataMatrix = AddAttr.dt.matrix()
+    tdm = testDataMatrix
+
+    testEnum = TestEnumField()
+    tenm = testEnum
 
     # extra=False (デフォルト): 通常のアトリビュート定義 (addAttr() されない)
     # ※ この例では transform の既存アトリビュートにアクセスする用途
@@ -91,27 +121,27 @@ def auto_add_attr_on_init():
     node = MyTransform(dg_mod, dag_mod=dag_mod, name=node_name)
 
     logger.debug(
-        "node.myWeight plug exists: {}".format(
-            cmds.objExists(f"{node_name}.myWeight")
+        "node.testDouble plug exists: {}".format(
+            cmds.objExists(f"{node_name}.testDouble")
         )
     )
     logger.debug(
-        "node.myMatrix plug exists: {}".format(
-            cmds.objExists(f"{node_name}.myMatrix")
+        "node.testDataMatrix plug exists: {}".format(
+            cmds.objExists(f"{node_name}.testDataMatrix")
         )
     )
 
     # Plug 経由でアクセス
     logger.debug(
         "{}: {}".format(
-            "node.myWeight.plug",
-            node.myWeight.plug,
+            "node.testDouble.plug",
+            node.testDouble.plug,
         )
     )
     logger.debug(
         "{}: {}".format(
-            "node.myMatrix.plug",
-            node.myMatrix.plug,
+            "node.testDataMatrix.plug",
+            node.testDataMatrix.plug,
         )
     )
 
@@ -133,8 +163,8 @@ def no_auto_add_attr():
     MyTransform(dg_mod, dag_mod=dag_mod, name=node_name, auto_add_attr=False)
 
     logger.debug(
-        "node.myWeight plug exists (should be False): {}".format(
-            cmds.objExists(f"{node_name}.myWeight")
+        "node.testDouble plug exists (should be False): {}".format(
+            cmds.objExists(f"{node_name}.testDouble")
         )
     )
 
@@ -156,26 +186,42 @@ def manual_add_attr_via_plug():
     )
 
     # Plug 経由で任意タイミングに addAttr()
+    #   double
+    attr = "testDouble"
     logger.debug(
-        "node.myWeight plug exists before add_attr(): {}".format(
-            cmds.objExists(f"{node_name}.myWeight")
+        "node.{} plug exists before add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
         )
     )
-    node.myWeight.add_attr()
+    node.testDouble.add_attr()
     logger.debug(
-        "node.myWeight plug exists after manual add_attr(): {}".format(
-            cmds.objExists(f"{node_name}.myWeight")
+        "node.{} plug exists after manual add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
         )
     )
-
+    # matrix
+    attr = "testDataMatrix"
     logger.debug(
-        "node.myMatrix plug exists before add_attr(): {}".format(
-            cmds.objExists(f"{node_name}.myMatrix")
+        "node.{} plug exists before add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
         )
     )
-    node.myMatrix.add_attr()
+    node.testDataMatrix.add_attr()
     logger.debug(
-        "node.myMatrix plug exists after manual add_attr(): {}".format(
-            cmds.objExists(f"{node_name}.myMatrix")
+        "node.{} plug exists after manual add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
+        )
+    )
+    # enum
+    attr = "testEnum"
+    logger.debug(
+        "node.{} plug exists before add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
+        )
+    )
+    node.testEnum.add_attr()
+    logger.debug(
+        "node.{} plug exists after manual add_attr(): {}".format(
+            attr, cmds.objExists(f"{node_name}.{attr}")
         )
     )
