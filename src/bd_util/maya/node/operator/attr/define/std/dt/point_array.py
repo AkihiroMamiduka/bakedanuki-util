@@ -34,6 +34,10 @@ class PointArrayPlugOperator(
         """
         self._set_values(om.MFnPointArrayData, om.MPointArray, values)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kPointArray)
+
 
 class DataPointArrayAttrOperator(
     DataArrayBaseAttrOperator[PointArrayPlugOperator]

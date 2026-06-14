@@ -432,9 +432,9 @@ class AddAttrDt:
     nurbs_surface: ClassVar[type[ExtraDataNurbsSurfaceField]] = (
         ExtraDataNurbsSurfaceField
     )
-    point_array: ClassVar[type[ExtraDataPointArrayField]] = (
-        ExtraDataPointArrayField
-    )
+    # point_array: ClassVar[type[ExtraDataPointArrayField]] = (
+    #     ExtraDataPointArrayField
+    # )
     reflectance_rgb: ClassVar[type[ExtraDataReflectanceRGBField]] = (
         ExtraDataReflectanceRGBField
     )
@@ -501,6 +501,21 @@ class AddAttrDt:
         category: str | None = None,
     ) -> ExtraDataMatrixField:
         return ExtraDataMatrixField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def point_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataPointArrayField:
+        return ExtraDataPointArrayField(
             multi=multi,
             readable=readable,
             writable=writable,

@@ -190,6 +190,10 @@ class MyTransform(Transform):
     testDataVectorArray = AddAttr.dt.vector_array()
     tdVectorArray = testDataVectorArray
 
+    #   point_array
+    testDataPointArray = AddAttr.dt.point_array()
+    tdPointArray = testDataPointArray
+
     #   string_array
     testDataStringArray = AddAttr.dt.string_array()
     tdStringArray = testDataStringArray
