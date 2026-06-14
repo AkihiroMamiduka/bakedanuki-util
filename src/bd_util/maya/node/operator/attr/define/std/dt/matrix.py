@@ -18,7 +18,14 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
         return self.plug.asMDataHandle().asMatrix()
 
     # set
-    def set(self, value: om.MMatrix):
+    def set_direct(self, value: om.MMatrix):
+        """
+        MPlug に値を直接セットする
+            その為、modifier.undoIt() 非対応です
+
+        Args:
+            values (om.MMatrix): om.MMatrix 形式の値
+        """
         matrix = om.MMatrix(value)
         matrix_obj = om.MFnMatrixData().create(matrix)
         self._node._dg_mod.newPlugValue(self.plug, matrix_obj)

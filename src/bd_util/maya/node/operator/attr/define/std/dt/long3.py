@@ -22,11 +22,10 @@ class DataLong3PlugOperator(
         return [x, y, z]
 
     # set
-    def set(self, values: list[int]):
+    def set_direct(self, values: list[int]):
         """
-        値をセットする
-
-        modifier.undoIt() 非対応
+        MPlug に値を直接セットする
+            その為、modifier.undoIt() 非対応です
 
         Args:
             values (list[int]): x, y, z の値のリスト

@@ -26,6 +26,13 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
         self._node._dg_mod.newPlugValueString(self.plug, value)
 
     def set_direct(self, value: str):
+        """
+        MPlug に値を直接セットする
+            その為、modifier.undoIt() 非対応です
+
+        Args:
+            value (str): セットする文字列
+        """
         self.plug.setString(value)
 
     # add

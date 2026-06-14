@@ -1,7 +1,9 @@
 # coding: utf-8
 from __future__ import annotations
 
+# self
 from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
+from ........py.error import UnsupportedOperationError
 
 
 class DataNurbsSurfacePlugOperator(
@@ -11,14 +13,14 @@ class DataNurbsSurfacePlugOperator(
 
     # get
     def get(self):
-        raise NotImplementedError(
-            "DataNurbsSurfacePlugOperator does not support get operation"
+        raise UnsupportedOperationError(
+            f"{self.__class__.__name__} does not support get operation"
         )
 
     # set
-    def set(self, value):
-        raise NotImplementedError(
-            "DataNurbsSurfacePlugOperator does not support set operation"
+    def set_direct(self, _):
+        raise UnsupportedOperationError(
+            f"{self.__class__.__name__} does not support set_direct operation"
         )
 
 

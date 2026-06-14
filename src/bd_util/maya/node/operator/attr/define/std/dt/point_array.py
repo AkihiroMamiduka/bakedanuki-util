@@ -24,11 +24,10 @@ class PointArrayPlugOperator(
         ]
 
     # set
-    def set(self, values: list[float]):
+    def set_direct(self, values: list[float]):
         """
-        値をセットする
-
-        modifier.undoIt() 非対応
+        MPlug に値を直接セットする
+            その為、modifier.undoIt() 非対応です
 
         Args:
             values (list[float]): セットする値のリスト
