@@ -437,7 +437,7 @@ class AddAttrDt:
     spectrum_rgb: ClassVar[type[ExtraDataSpectrumRGBField]] = (
         ExtraDataSpectrumRGBField
     )
-    string: ClassVar[type[ExtraDataStringField]] = ExtraDataStringField
+    # string: ClassVar[type[ExtraDataStringField]] = ExtraDataStringField
     vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
         ExtraDataVectorArrayField
     )
@@ -451,6 +451,23 @@ class AddAttrDt:
         category: str | None = None,
     ) -> ExtraDataMatrixField:
         return ExtraDataMatrixField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def string(
+        cls,
+        default_value: str = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataStringField:
+        return ExtraDataStringField(
+            default_value=default_value,
             multi=multi,
             readable=readable,
             writable=writable,

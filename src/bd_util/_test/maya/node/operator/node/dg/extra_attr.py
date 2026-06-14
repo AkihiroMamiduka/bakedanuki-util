@@ -168,6 +168,12 @@ class MyTransform(Transform):
     testDataMatrix = AddAttr.dt.matrix()
     tdmatrix = testDataMatrix
 
+    #   string
+    testDataString = AddAttr.dt.string(
+        default_value="Hello World!",
+    )
+    tdstring = testDataString
+
     # api.OpenMaya でアトリビュートを作成できないタイプ
 
 

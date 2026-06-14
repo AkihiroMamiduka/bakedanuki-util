@@ -398,6 +398,14 @@ class PlugOperator(Generic[A], ABC):
         """
         pass
 
+    def set_direct(self, value: Any):
+        """
+        プラグに値を直接セットする: サブクラスでオーバーライドして、適切な型の値をセットするようにする
+        set() メソッドは、DGModifier を使用して値をセットするのに対し、
+        こちらは直接値をセットする為、即時反映され Undo が効かないことに注意が必要。
+        """
+        pass
+
     # connect
     def _normalize_to_plug(
         self, obj: PlugOperator | str | list[str]

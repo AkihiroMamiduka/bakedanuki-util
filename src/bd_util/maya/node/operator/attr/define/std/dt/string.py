@@ -4,11 +4,14 @@
 from maya.api import OpenMaya as om
 
 # self
+from ........ import logger as u_logger
 from ._core import (
     DataTypeAttrOperator,
     DataTypePlugOperator,
     DataTypeField,
 )
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
 class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
@@ -21,6 +24,9 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
     # set
     def set(self, value: str):
         self._node._dg_mod.newPlugValueString(self.plug, value)
+
+    def set_direct(self, value: str):
+        self.plug.setString(value)
 
     # add
     def add_attr(self):
@@ -40,6 +46,10 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
+
+        # デフォルト値
+        if self._oprt_attr.default_value:
+            self.set_direct(self._oprt_attr.default_value)
 
 
 class DataStringAttrOperator(DataTypeAttrOperator[DataStringPlugOperator]):
