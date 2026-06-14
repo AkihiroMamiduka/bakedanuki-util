@@ -1,4 +1,4 @@
-# codinf: utf-8
+# coding: utf-8
 
 # self
 from .....maya.mpx_cmd.base.loader import LoaderBase
