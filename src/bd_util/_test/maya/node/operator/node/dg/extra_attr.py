@@ -153,11 +153,6 @@ class MyTransform(Transform):
     testMessage = AddAttr.at.message()
     tmessage = testMessage
 
-    # dt
-    #   matrix
-    testDataMatrix = AddAttr.dt.matrix()
-    tdmatrix = testDataMatrix
-
     # time
     testTime = AddAttr.at.time(
         default_value=12.345,
@@ -167,6 +162,11 @@ class MyTransform(Transform):
     #   generic
     testGeneric = AddAttr.at.generic()
     tgeneric = testGeneric
+
+    # dt
+    #   matrix
+    testDataMatrix = AddAttr.dt.matrix()
+    tdmatrix = testDataMatrix
 
     # api.OpenMaya でアトリビュートを作成できないタイプ
 

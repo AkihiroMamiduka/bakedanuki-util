@@ -422,7 +422,7 @@ class AddAttrDt:
         ExtraDataInt32ArrayField
     )
     lattice: ClassVar[type[ExtraDataLatticeField]] = ExtraDataLatticeField
-    matrix: ClassVar[type[ExtraDataMatrixField]] = ExtraDataMatrixField
+    # matrix: ClassVar[type[ExtraDataMatrixField]] = ExtraDataMatrixField
     mesh: ClassVar[type[ExtraDataMeshField]] = ExtraDataMeshField
     nurbs_curve: ClassVar[type[ExtraDataNurbsCurveField]] = (
         ExtraDataNurbsCurveField
@@ -443,6 +443,21 @@ class AddAttrDt:
     vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
         ExtraDataVectorArrayField
     )
+
+    @classmethod
+    def matrix(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraMatrixField:
+        return ExtraMatrixField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
 
 
 # define
