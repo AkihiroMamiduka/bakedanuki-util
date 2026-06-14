@@ -156,6 +156,10 @@ class MyTransform(Transform):
     )
     ttime = testTime
 
+    #   generic
+    testGeneric = AddAttr.at.generic()
+    tgeneric = testGeneric
+
     # api.OpenMaya でアトリビュートを作成できないタイプ
 
 

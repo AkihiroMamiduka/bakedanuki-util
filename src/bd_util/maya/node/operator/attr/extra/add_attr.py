@@ -75,7 +75,7 @@ class AddAttrAt:
     float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
     float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
     flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
-    generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
+    # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
     light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
     # long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
     #     ExtraLongLongIntField
@@ -254,6 +254,21 @@ class AddAttrAt:
             max_value=max_value,
             soft_min_value=soft_min_value,
             soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def generic(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraGenericField:
+        return ExtraGenericField(
             multi=multi,
             readable=readable,
             writable=writable,
