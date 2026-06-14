@@ -25,19 +25,7 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
 
     # add
     def add_attr(self):
-        # アトリビュートが既に存在する場合はスキップ
-        if self.exists():
-            return
-
-        # アトリビュートを作成
-        attr_obj = self._fn_attr.create(
-            self.long_name,
-            self.short_name,
-            om.MFnMatrixData.kMatrix,
-        )
-
-        # ノードにアトリビュートを追加
-        self._node.fn_node.addAttribute(attr_obj)
+        self._add_attr_base(om.MFnData.kMatrix)
 
 
 class DataMatrixAttrOperator(DataTypeAttrOperator[DataMatrixPlugOperator]):

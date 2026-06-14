@@ -32,6 +32,10 @@ class DataFloatArrayPlugOperator(
         """
         self._set_values(om.MFnFloatArrayData, om.MFloatArray, values)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kFloatArray)
+
 
 class DataFloatArrayAttrOperator(
     DataArrayBaseAttrOperator[DataFloatArrayPlugOperator]

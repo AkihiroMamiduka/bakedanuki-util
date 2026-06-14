@@ -174,6 +174,26 @@ class MyTransform(Transform):
     )
     tdstring = testDataString
 
+    #   double_array
+    testDataDoubleArray = AddAttr.dt.double_array()
+    tdDoubleArray = testDataDoubleArray
+
+    #   float_array
+    testDataFloatArray = AddAttr.dt.float_array()
+    tdFloatArray = testDataFloatArray
+
+    #   int32_array
+    testDataInt32Array = AddAttr.dt.int32_array()
+    tdInt32Array = testDataInt32Array
+
+    #   vector_array
+    testDataVectorArray = AddAttr.dt.vector_array()
+    tdVectorArray = testDataVectorArray
+
+    #   string_array
+    testDataStringArray = AddAttr.dt.string_array()
+    tdStringArray = testDataStringArray
+
     # api.OpenMaya でアトリビュートを作成できないタイプ
 
 

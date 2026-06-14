@@ -3,6 +3,10 @@ from __future__ import annotations
 
 from typing import ClassVar
 
+from bd_util.maya.node.operator.attr.extra.std.dt.string_array import (
+    ExtraDataStringArrayField,
+)
+
 # self
 #   at
 from .std.at.bool import ExtraBoolField
@@ -410,15 +414,15 @@ class AddAttrAt:
 class AddAttrDt:
     """addAttr(dataType=...) 用フィールド群。"""
 
-    double_array: ClassVar[type[ExtraDataDoubleArrayField]] = (
-        ExtraDataDoubleArrayField
-    )
-    float_array: ClassVar[type[ExtraDataFloatArrayField]] = (
-        ExtraDataFloatArrayField
-    )
-    int32_array: ClassVar[type[ExtraDataInt32ArrayField]] = (
-        ExtraDataInt32ArrayField
-    )
+    # double_array: ClassVar[type[ExtraDataDoubleArrayField]] = (
+    #     ExtraDataDoubleArrayField
+    # )
+    # float_array: ClassVar[type[ExtraDataFloatArrayField]] = (
+    #     ExtraDataFloatArrayField
+    # )
+    # int32_array: ClassVar[type[ExtraDataInt32ArrayField]] = (
+    #     ExtraDataInt32ArrayField
+    # )
     lattice: ClassVar[type[ExtraDataLatticeField]] = ExtraDataLatticeField
     # matrix: ClassVar[type[ExtraDataMatrixField]] = ExtraDataMatrixField
     mesh: ClassVar[type[ExtraDataMeshField]] = ExtraDataMeshField
@@ -437,10 +441,56 @@ class AddAttrDt:
     spectrum_rgb: ClassVar[type[ExtraDataSpectrumRGBField]] = (
         ExtraDataSpectrumRGBField
     )
+    # string_array: ClassVar[type[ExtraDataStringArrayField]] = ExtraDataStringArrayField
     # string: ClassVar[type[ExtraDataStringField]] = ExtraDataStringField
-    vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
-        ExtraDataVectorArrayField
-    )
+    # vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
+    #     ExtraDataVectorArrayField
+    # )
+
+    @classmethod
+    def double_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataDoubleArrayField:
+        return ExtraDataDoubleArrayField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataFloatArrayField:
+        return ExtraDataFloatArrayField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def int32_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataInt32ArrayField:
+        return ExtraDataInt32ArrayField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
 
     @classmethod
     def matrix(
@@ -458,6 +508,21 @@ class AddAttrDt:
         )
 
     @classmethod
+    def string_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataStringArrayField:
+        return ExtraDataStringArrayField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def string(
         cls,
         default_value: str = None,
@@ -468,6 +533,21 @@ class AddAttrDt:
     ) -> ExtraDataStringField:
         return ExtraDataStringField(
             default_value=default_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def vector_array(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataVectorArrayField:
+        return ExtraDataVectorArrayField(
             multi=multi,
             readable=readable,
             writable=writable,

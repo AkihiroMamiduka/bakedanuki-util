@@ -32,6 +32,10 @@ class DataDoubleArrayPlugOperator(
         """
         self._set_values(om.MFnDoubleArrayData, om.MDoubleArray, values)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kDoubleArray)
+
 
 class DataDoubleArrayAttrOperator(
     DataArrayBaseAttrOperator[DataDoubleArrayPlugOperator]

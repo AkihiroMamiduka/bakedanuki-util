@@ -32,6 +32,10 @@ class DataStringArrayPlugOperator(
         """
         self._set_values(om.MFnStringArrayData, om.MStringArray, values)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kStringArray)
+
 
 class DataStringArrayAttrOperator(
     DataArrayBaseAttrOperator[DataStringArrayPlugOperator]

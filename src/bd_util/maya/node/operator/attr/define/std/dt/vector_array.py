@@ -35,6 +35,10 @@ class DataVectorArrayPlugOperator(
         """
         self._set_values(om.MFnVectorArrayData, om.MVectorArray, values)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kVectorArray)
+
 
 class DataVectorArrayAttrOperator(
     DataArrayBaseAttrOperator[DataVectorArrayPlugOperator]
