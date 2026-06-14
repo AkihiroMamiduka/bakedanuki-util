@@ -16,7 +16,8 @@ from .......maya.node.operator.attr.extra.add_attr import AddAttr
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class TestEnumAttrOperator(AddAttr.at.enum_attr_operator):
+# class TestEnumAttrOperator(AddAttr.at.enum_attr_operator):
+class TestEnumAttrOperator(AddAttr.define.at.enum.attr_operator):
     __slots__ = ()
 
     ALPHA = 0
@@ -30,7 +31,7 @@ class TestEnumAttrOperator(AddAttr.at.enum_attr_operator):
     }
 
 
-class TestEnumPlugOperator(AddAttr.at.enum_plug_operator):
+class TestEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
     __slots__ = ()
 
     ALPHA = 0
@@ -39,7 +40,7 @@ class TestEnumPlugOperator(AddAttr.at.enum_plug_operator):
 
 
 class TestEnumField(
-    AddAttr.at.enum[TestEnumAttrOperator, TestEnumPlugOperator]
+    AddAttr.define.at.enum.field[TestEnumAttrOperator, TestEnumPlugOperator]
 ):
     __slots__ = ()
 
@@ -90,15 +91,12 @@ class MyTransform(Transform):
     # float
     testFloat = AddAttr.at.float(
         default_value=10000000000000000000,
-        min_value=-100000000000000000000,
-        min_value=-99999999999999999999,
         min_value=-99999999999999999999,
         max_value=99999999999999999999,
         soft_min_value=-99999999999999999999,
         soft_max_value=99999999999999999999,
     )
     tfloat = testFloat
-
     # double
     testDouble = AddAttr.at.double(
         default_value=10000000000000000000,
@@ -108,12 +106,36 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble = testDouble
+    # double_linear
+    testDoubleLinear = AddAttr.at.double_linear(
+        default_value=10000000000000000000,
+        min_value=-99999999999999999999,
+        max_value=99999999999999999999,
+        soft_min_value=-99999999999999999999,
+        soft_max_value=99999999999999999999,
+    )
+    tdouble_linear = testDoubleLinear
+    # double_angle
+    testDoubleAngle = AddAttr.at.double_angle(
+        default_value=45,
+        min_value=-720,
+        max_value=720,
+        soft_min_value=-360,
+        soft_max_value=360,
+    )
+    tdouble_angle = testDoubleAngle
 
     testDataMatrix = AddAttr.dt.matrix()
     tdmatrix = testDataMatrix
 
     testEnum = TestEnumField()
     tenm = testEnum
+
+    # time
+    testTime = AddAttr.at.time(
+        default_value=12.345,
+    )
+    ttime = testTime
 
     # api.OpenMaya でアトリビュートを作成できないタイプ
 

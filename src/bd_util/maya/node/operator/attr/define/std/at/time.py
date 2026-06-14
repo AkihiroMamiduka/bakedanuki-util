@@ -1,8 +1,17 @@
 # coding: utf-8
-from ...._core import AttrOperator, PlugOperator, AttributeField
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
+from .base.unit_base import (
+    UnitBaseAttrOperator,
+    UnitBasePlugOperator,
+    UnitBaseField,
+)
 
 
-class TimePlugOperator(PlugOperator["TimeAttrOperator"]):
+class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -13,14 +22,18 @@ class TimePlugOperator(PlugOperator["TimeAttrOperator"]):
     def set(self, value: float):
         self._node._dg_mod.newPlugValueMTime(self.plug, value)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnUnitAttribute.kTime)
 
-class TimeAttrOperator(AttrOperator[TimePlugOperator]):
+
+class TimeAttrOperator(UnitBaseAttrOperator[TimePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "time"
 
 
-class TimeField(AttributeField[TimeAttrOperator, TimePlugOperator]):
+class TimeField(UnitBaseField[TimeAttrOperator, TimePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TimeAttrOperator

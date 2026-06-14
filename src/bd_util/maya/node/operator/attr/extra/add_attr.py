@@ -17,8 +17,6 @@ from .std.at.double3 import ExtraDouble3Field
 from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
-from .std.at.float_angle import ExtraFloatAngleField
-from .std.at.float_linear import ExtraFloatLinearField
 from .std.at.float import ExtraFloatField
 from .std.at.float2 import ExtraFloat2Field
 from .std.at.float3 import ExtraFloat3Field
@@ -55,27 +53,24 @@ from .std.dt.string import ExtraDataStringField
 from .std.dt.vector_array import ExtraDataVectorArrayField
 
 
+# simple
 class AddAttrAt:
     """addAttr(attributeType=...) 用フィールド群。"""
 
     # byte: ClassVar[type[ExtraByteField]] = ExtraByteField
     char: ClassVar[type[ExtraCharField]] = ExtraCharField
     compound: ClassVar[type[ExtraCompoundField]] = ExtraCompoundField
-    double_angle: ClassVar[type[ExtraDoubleAngleField]] = ExtraDoubleAngleField
-    double_linear: ClassVar[type[ExtraDoubleLinearField]] = (
-        ExtraDoubleLinearField
-    )
+    # double_angle: ClassVar[type[ExtraDoubleAngleField]] = ExtraDoubleAngleField
+    # double_linear: ClassVar[type[ExtraDoubleLinearField]] = (
+    #     ExtraDoubleLinearField
+    # )
     # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
     double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
     double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
     double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
 
     enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
-    enum_attr_operator: ClassVar[type[EnumAttrOperator]] = EnumAttrOperator
-    enum_plug_operator: ClassVar[type[EnumPlugOperator]] = EnumPlugOperator
 
-    float_angle: ClassVar[type[ExtraFloatAngleField]] = ExtraFloatAngleField
-    float_linear: ClassVar[type[ExtraFloatLinearField]] = ExtraFloatLinearField
     # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
     float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
     float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
@@ -95,7 +90,7 @@ class AddAttrAt:
     short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
     short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
     spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
-    time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
+    # time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
     typed: ClassVar[type[ExtraTypedField]] = ExtraTypedField
 
     @classmethod
@@ -129,6 +124,56 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraByteField:
         return ExtraByteField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double_angle(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleAngleField:
+        return ExtraDoubleAngleField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double_linear(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleLinearField:
+        return ExtraDoubleLinearField(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
@@ -261,6 +306,23 @@ class AddAttrAt:
             category=category,
         )
 
+    @classmethod
+    def time(
+        cls,
+        default_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraTimeField:
+        return ExtraTimeField(
+            default_value=default_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
 
 class AddAttrDt:
     """addAttr(dataType=...) 用フィールド群。"""
@@ -298,6 +360,22 @@ class AddAttrDt:
     )
 
 
+# define
+class DefineEnum:
+    field: ClassVar[type[ExtraEnumField]] = ExtraEnumField
+    attr_operator: ClassVar[type[EnumAttrOperator]] = EnumAttrOperator
+    plug_operator: ClassVar[type[EnumPlugOperator]] = EnumPlugOperator
+
+
+class DefineAddAttrAt:
+    enum: ClassVar[type[DefineEnum]] = DefineEnum
+
+
+class DefineAddAttr:
+    at: ClassVar[DefineAddAttrAt] = DefineAddAttrAt()
+
+
+# add_attr
 class AddAttr:
     """
     Extra Attribute Field の呼び出しハブ。
@@ -311,3 +389,5 @@ class AddAttr:
 
     at: ClassVar[AddAttrAt] = AddAttrAt()
     dt: ClassVar[AddAttrDt] = AddAttrDt()
+
+    define: ClassVar[DefineAddAttr] = DefineAddAttr()

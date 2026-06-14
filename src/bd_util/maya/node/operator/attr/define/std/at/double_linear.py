@@ -4,10 +4,16 @@
 from maya.api import OpenMaya as om
 
 # self
-from ...._core import AttrOperator, PlugOperator, AttributeField
+from .base.unit_range_base import (
+    UnitRangeBaseAttrOperator,
+    UnitRangeBasePlugOperator,
+    UnitRangeBaseField,
+)
 
 
-class DoubleLinearPlugOperator(PlugOperator["DoubleLinearAttrOperator"]):
+class DoubleLinearPlugOperator(
+    UnitRangeBasePlugOperator["DoubleLinearAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -19,15 +25,31 @@ class DoubleLinearPlugOperator(PlugOperator["DoubleLinearAttrOperator"]):
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnUnitAttribute.kDistance)
 
-class DoubleLinearAttrOperator(AttrOperator[DoubleLinearPlugOperator]):
+
+class DoubleLinearAttrOperator(
+    UnitRangeBaseAttrOperator[DoubleLinearPlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "doubleLinear"
 
+    def __init__(self, *args, default_value=None, **kwargs):
+        # デフォルト値
+        if default_value is None:
+            default_value = 0.0
+        super().__init__(
+            *args,
+            default_value=default_value,
+            **kwargs,
+        )
+
 
 class DoubleLinearField(
-    AttributeField[DoubleLinearAttrOperator, DoubleLinearPlugOperator]
+    UnitRangeBaseField[DoubleLinearAttrOperator, DoubleLinearPlugOperator]
 ):
     __slots__ = ()
 
