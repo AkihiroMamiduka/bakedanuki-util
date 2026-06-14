@@ -49,19 +49,73 @@ class TestEnumField(
 
 class MyTransform(Transform):
 
-    # extra=True: インスタンス生成時に自動 addAttr() される
-    # testDouble = ExtraDoubleField()
-    testDouble = AddAttr.at.double()
-    td = testDouble
+    # インスタンス生成時に自動 addAttr() される
+    # bool
+    testBool = AddAttr.at.bool(default_value=False)
+    tbool = testBool
+    # byte
+    testByte = AddAttr.at.byte(
+        default_value=50,
+        min_value=0,
+        max_value=256,
+        soft_min_value=10,
+        soft_max_value=200,
+    )
+    tbyte = testByte
+    # short
+    testShort = AddAttr.at.short(
+        default_value=10000,
+        min_value=-32768,
+        max_value=32767,
+        soft_min_value=-30000,
+        soft_max_value=30000,
+    )
+    tshort = testShort
+    # long
+    testLong = AddAttr.at.long(
+        default_value=1000000000,
+        min_value=-2147483648,
+        max_value=2147483647,
+        soft_min_value=-2000000000,
+        soft_max_value=2000000000,
+    )
+    tlong = testLong
+    # long_long_int
+    testLongLongInt = AddAttr.at.long_long_int(
+        default_value=1000000000000000000,
+        soft_min_value=-9223372036854775808,
+        soft_max_value=9223372036854773760,
+    )
+    tlongLongInt = testLongLongInt
+    # float
+    testFloat = AddAttr.at.float(
+        default_value=10000000000000000000,
+        min_value=-100000000000000000000,
+        min_value=-99999999999999999999,
+        min_value=-99999999999999999999,
+        max_value=99999999999999999999,
+        soft_min_value=-99999999999999999999,
+        soft_max_value=99999999999999999999,
+    )
+    tfloat = testFloat
+
+    # double
+    testDouble = AddAttr.at.double(
+        default_value=10000000000000000000,
+        min_value=-99999999999999999999,
+        max_value=99999999999999999999,
+        soft_min_value=-99999999999999999999,
+        soft_max_value=99999999999999999999,
+    )
+    tdouble = testDouble
 
     testDataMatrix = AddAttr.dt.matrix()
-    tdm = testDataMatrix
+    tdmatrix = testDataMatrix
 
     testEnum = TestEnumField()
     tenm = testEnum
 
-    # extra=False (デフォルト): 通常のアトリビュート定義 (addAttr() されない)
-    # ※ この例では transform の既存アトリビュートにアクセスする用途
+    # api.OpenMaya でアトリビュートを作成できないタイプ
 
 
 def main():
@@ -106,7 +160,7 @@ def extra_attrs_instance_access():
 
 
 def auto_add_attr_on_init():
-    test_str.title("2. extra=True: instance access properties")
+    test_str.title("extra=True: instance access properties")
 
     node_name = "test_auto_add"
     if cmds.objExists(node_name):

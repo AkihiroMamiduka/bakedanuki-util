@@ -1,8 +1,17 @@
 # coding: utf-8
-from ...._core import AttrOperator, PlugOperator, AttributeField
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
+from .base.numeric_range_base import (
+    NumericRangeBaseAttrOperator,
+    NumericRangeBasePlugOperator,
+    NumericRangeBaseField,
+)
 
 
-class ShortPlugOperator(PlugOperator["ShortAttrOperator"]):
+class ShortPlugOperator(NumericRangeBasePlugOperator["ShortAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -13,14 +22,28 @@ class ShortPlugOperator(PlugOperator["ShortAttrOperator"]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnNumericData.kShort)
 
-class ShortAttrOperator(AttrOperator[ShortPlugOperator]):
+
+class ShortAttrOperator(NumericRangeBaseAttrOperator[ShortPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "short"
 
+    def __init__(self, *args, default_value=None, **kwargs):
+        # デフォルト値
+        if default_value is None:
+            default_value = 0
+        super().__init__(
+            *args,
+            default_value=default_value,
+            **kwargs,
+        )
 
-class ShortField(AttributeField[ShortAttrOperator, ShortPlugOperator]):
+
+class ShortField(NumericRangeBaseField[ShortAttrOperator, ShortPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ShortAttrOperator

@@ -4,10 +4,14 @@
 from maya.api import OpenMaya as om
 
 # self
-from ...._core import AttrOperator, PlugOperator, AttributeField
+from .base.numeric_range_base import (
+    NumericRangeBaseAttrOperator,
+    NumericRangeBasePlugOperator,
+    NumericRangeBaseField,
+)
 
 
-class DoublePlugOperator(PlugOperator["DoubleAttrOperator"]):
+class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -20,53 +24,28 @@ class DoublePlugOperator(PlugOperator["DoubleAttrOperator"]):
 
     # add
     def add_attr(self):
-        # アトリビュートが既に存在する場合はスキップ
-        if self.exists():
-            return
-
-        # アトリビュートを作成
-        fn_attr = om.MFnNumericAttribute()
-        attr_obj = fn_attr.create(
-            self.long_name,
-            self.short_name,
-            om.MFnNumericData.kDouble,
-            self._oprt_attr.default_value,
-        )
-
-        # ノードにアトリビュートを追加
-        self._node.fn_node.addAttribute(attr_obj)
-
-        # アトリビュート設定
-        #   min/max
-        val = self._oprt_attr.min_value
-        if val is not None:
-            fn_attr.setMin(val)
-        val = self._oprt_attr.max_value
-        if val is not None:
-            fn_attr.setMax(val)
-        #   soft min/max
-        val = self._oprt_attr.soft_min_value
-        if val is not None:
-            fn_attr.setSoftMin(val)
-        val = self._oprt_attr.soft_max_value
-        if val is not None:
-            fn_attr.setSoftMax(val)
+        self._add_attr_base(om.MFnNumericData.kDouble)
 
 
-class DoubleAttrOperator(AttrOperator[DoublePlugOperator]):
+class DoubleAttrOperator(NumericRangeBaseAttrOperator[DoublePlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "double"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
+    def __init__(self, *args, default_value=None, **kwargs):
         # デフォルト値
-        if self.default_value is None:
-            self.default_value = 0.0
+        if default_value is None:
+            default_value = 0.0
+        super().__init__(
+            *args,
+            default_value=default_value,
+            **kwargs,
+        )
 
 
-class DoubleField(AttributeField[DoubleAttrOperator, DoublePlugOperator]):
+class DoubleField(
+    NumericRangeBaseField[DoubleAttrOperator, DoublePlugOperator]
+):
     __slots__ = ()
 
     ATTR_CLS = DoubleAttrOperator

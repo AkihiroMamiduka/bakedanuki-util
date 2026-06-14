@@ -1,8 +1,17 @@
 # coding: utf-8
-from ...._core import AttrOperator, PlugOperator, AttributeField
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
+from .base.numeric_range_base import (
+    NumericRangeBaseAttrOperator,
+    NumericRangeBasePlugOperator,
+    NumericRangeBaseField,
+)
 
 
-class LongPlugOperator(PlugOperator["LongAttrOperator"]):
+class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
     __slots__ = ()
 
     # get
@@ -13,14 +22,28 @@ class LongPlugOperator(PlugOperator["LongAttrOperator"]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueInt(self.plug, value)
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnNumericData.kLong)
 
-class LongAttrOperator(AttrOperator[LongPlugOperator]):
+
+class LongAttrOperator(NumericRangeBaseAttrOperator[LongPlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "long"
 
+    def __init__(self, *args, default_value=None, **kwargs):
+        # デフォルト値
+        if default_value is None:
+            default_value = 0
+        super().__init__(
+            *args,
+            default_value=default_value,
+            **kwargs,
+        )
 
-class LongField(AttributeField[LongAttrOperator, LongPlugOperator]):
+
+class LongField(NumericRangeBaseField[LongAttrOperator, LongPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LongAttrOperator

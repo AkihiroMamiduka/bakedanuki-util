@@ -1,9 +1,13 @@
 # coding: utf-8
+
+# self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
 class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
     __slots__ = ("_data_handle",)
+
+    _REQUIRED_CMDS_ADD_ATTR: bool = True
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,6 +38,14 @@ class AddrPlugOperator(PlugOperator["AddrAttrOperator"]):
         # MDataHandle に値をセットし、plug に反映させる
         data_handle.setAddr(value)
         self.plug.setMDataHandle(data_handle)
+
+    def add_attr(self, **kwargs):
+        raise TypeError(
+            "{}{}".format(
+                "addr 属性は api.OpenMaya ではアトリビュートを作成できない為、 addAttr() できません。",
+                "その為、 cmds_add_attr() を使用してください。",
+            )
+        )
 
 
 class AddrAttrOperator(AttrOperator[AddrPlugOperator]):

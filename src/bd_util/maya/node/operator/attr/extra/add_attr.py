@@ -5,7 +5,6 @@ from typing import ClassVar
 
 # self
 #   at
-from .std.at.addr import ExtraAddrField
 from .std.at.bool import ExtraBoolField
 from .std.at.byte import ExtraByteField
 from .std.at.char import ExtraCharField
@@ -59,16 +58,14 @@ from .std.dt.vector_array import ExtraDataVectorArrayField
 class AddAttrAt:
     """addAttr(attributeType=...) 用フィールド群。"""
 
-    addr: ClassVar[type[ExtraAddrField]] = ExtraAddrField
-    bool: ClassVar[type[ExtraBoolField]] = ExtraBoolField
-    byte: ClassVar[type[ExtraByteField]] = ExtraByteField
+    # byte: ClassVar[type[ExtraByteField]] = ExtraByteField
     char: ClassVar[type[ExtraCharField]] = ExtraCharField
     compound: ClassVar[type[ExtraCompoundField]] = ExtraCompoundField
     double_angle: ClassVar[type[ExtraDoubleAngleField]] = ExtraDoubleAngleField
     double_linear: ClassVar[type[ExtraDoubleLinearField]] = (
         ExtraDoubleLinearField
     )
-    double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
+    # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
     double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
     double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
     double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
@@ -79,27 +76,190 @@ class AddAttrAt:
 
     float_angle: ClassVar[type[ExtraFloatAngleField]] = ExtraFloatAngleField
     float_linear: ClassVar[type[ExtraFloatLinearField]] = ExtraFloatLinearField
-    float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
+    # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
     float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
     float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
     flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
     generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
     light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
-    long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
-        ExtraLongLongIntField
-    )
-    long: ClassVar[type[ExtraLongField]] = ExtraLongField
+    # long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
+    #     ExtraLongLongIntField
+    # )
+    # long: ClassVar[type[ExtraLongField]] = ExtraLongField
     long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
     long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
     matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
     message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
     reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
-    short: ClassVar[type[ExtraShortField]] = ExtraShortField
+    # short: ClassVar[type[ExtraShortField]] = ExtraShortField
     short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
     short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
     spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
     time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
     typed: ClassVar[type[ExtraTypedField]] = ExtraTypedField
+
+    @classmethod
+    def bool(
+        cls,
+        default_value: bool = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraBoolField:
+        return ExtraBoolField(
+            default_value=default_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def byte(
+        cls,
+        default_value: int = None,
+        min_value: int = None,
+        max_value: int = None,
+        soft_min_value: int = None,
+        soft_max_value: int = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraByteField:
+        return ExtraByteField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleField:
+        return ExtraDoubleField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatField:
+        return ExtraFloatField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def long_long_int(
+        cls,
+        default_value: int = None,
+        soft_min_value: int = None,
+        soft_max_value: int = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraLongLongIntField:
+        return ExtraLongLongIntField(
+            default_value=default_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def long(
+        cls,
+        default_value: int = None,
+        min_value: int = None,
+        max_value: int = None,
+        soft_min_value: int = None,
+        soft_max_value: int = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraLongField:
+        return ExtraLongField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def short(
+        cls,
+        default_value: int = None,
+        min_value: int = None,
+        max_value: int = None,
+        soft_min_value: int = None,
+        soft_max_value: int = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraShortField:
+        return ExtraShortField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
 
 
 class AddAttrDt:

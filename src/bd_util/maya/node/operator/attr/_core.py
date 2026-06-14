@@ -55,11 +55,14 @@ class PlugOperator(Generic[A], ABC):
         "parent_oprt_plug",
         "multi",
         "index",
+        "_fn_attr",
         "_m_plug",
         "_array_m_plug",
         "_next_index_cache",
         "_next_index",
     )
+
+    _REQUIRED_CMDS_ADD_ATTR: bool = False
 
     def __init__(
         self,
@@ -84,9 +87,10 @@ class PlugOperator(Generic[A], ABC):
         )
         # plug
         self.parent_oprt_plug: PlugOperator | None = parent_oprt_plug
-
         # args ----------------------------------------------------------------
 
+        # attr
+        self._fn_attr: om.MFnAttribute | None = None
         # plug
         self._m_plug: om.MPlug | None = None
         # array plug
@@ -648,6 +652,34 @@ class PlugOperator(Generic[A], ABC):
         """
         pass
 
+    def cmds_add_attr(self, **kwargs):
+        """
+        cmds.addAttr() によるアトリビュートの追加
+
+        api.OpenMaya では、 addAttribute() ができないものは、こちらで追加します。
+        渡された引数はそのまま cmds.addAttr() に引き渡します。
+        attributeType と dataType は、自動追加されますので、
+        それ以外の引数を渡してください。
+        """
+        # ノードが存在しない場合はスキップ
+        if not self._node.exists():
+            return
+
+        # アトリビュートが既に存在する場合はスキップ
+        if self.exists():
+            return
+
+        # attributeType と dataType を kwargs に追加
+        kwargs["attributeType"] = self._oprt_attr.ATTR_TYPE
+        if self._oprt_attr.DATA_TYPE is not None:
+            kwargs["dataType"] = self._oprt_attr.DATA_TYPE
+
+        # add
+        cmds.addAttr(
+            self._node._cmd_access_name,
+            **kwargs,
+        )
+
 
 # def _parse_attr_segment(segment: str) -> tuple[str, int | None]:
 #     """
@@ -810,8 +842,6 @@ class AttrOperator(Generic[P]):
     # type
     ATTR_TYPE: str = None
     DATA_TYPE: str = None
-    # # plug
-    # PLUG_CLS: Type[P] = None
     # name
     name: str
     long_name: str | None

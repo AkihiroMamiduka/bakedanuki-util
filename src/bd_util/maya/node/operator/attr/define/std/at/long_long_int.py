@@ -1,8 +1,20 @@
 # coding: utf-8
-from ...._core import AttrOperator, PlugOperator, AttributeField
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
+from ........py.error import UnsupportedOperationError
+from .base.numeric_range_base import (
+    NumericRangeBaseAttrOperator,
+    NumericRangeBasePlugOperator,
+    NumericRangeBaseField,
+)
 
 
-class LongLongIntPlugOperator(PlugOperator["LongLongIntAttrOperator"]):
+class LongLongIntPlugOperator(
+    NumericRangeBasePlugOperator["LongLongIntAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -13,15 +25,41 @@ class LongLongIntPlugOperator(PlugOperator["LongLongIntAttrOperator"]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueInt64(self.plug, value)
 
+    def set_min(self, value: int):
+        raise UnsupportedOperationError(
+            "Setting min value is not supported for LongLongInt attributes."
+        )
 
-class LongLongIntAttrOperator(AttrOperator[LongLongIntPlugOperator]):
+    def set_max(self, value: int):
+        raise UnsupportedOperationError(
+            "Setting max value is not supported for LongLongInt attributes."
+        )
+
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnNumericData.kInt64)
+
+
+class LongLongIntAttrOperator(
+    NumericRangeBaseAttrOperator[LongLongIntPlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "long long int"
 
+    def __init__(self, *args, default_value=None, **kwargs):
+        # デフォルト値
+        if default_value is None:
+            default_value = 0
+        super().__init__(
+            *args,
+            default_value=default_value,
+            **kwargs,
+        )
+
 
 class LongLongIntField(
-    AttributeField[LongLongIntAttrOperator, LongLongIntPlugOperator]
+    NumericRangeBaseField[LongLongIntAttrOperator, LongLongIntPlugOperator]
 ):
     __slots__ = ()
 

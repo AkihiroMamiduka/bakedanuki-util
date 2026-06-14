@@ -222,9 +222,18 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
         """
+        from ..attr._core import (
+            PlugOperator,
+        )  # 循環インポート回避のため遅延インポート
+
         for field in self._extra_attributes:
             plug = getattr(self, field.name)
-            plug.add_attr()
+            plug: PlugOperator
+            if not plug.exists():
+                if plug._REQUIRED_CMDS_ADD_ATTR:
+                    plug.cmds_add_attr()
+                else:
+                    plug.add_attr()
 
     def __str__(self):
         return self.name
