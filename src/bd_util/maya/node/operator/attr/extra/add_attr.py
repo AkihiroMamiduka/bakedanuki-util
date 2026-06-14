@@ -84,7 +84,7 @@ class AddAttrAt:
     long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
     long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
     matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
-    message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
+    # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
     reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
     # short: ClassVar[type[ExtraShortField]] = ExtraShortField
     short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
@@ -300,6 +300,21 @@ class AddAttrAt:
             max_value=max_value,
             soft_min_value=soft_min_value,
             soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def message(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraMessageField:
+        return ExtraMessageField(
             multi=multi,
             readable=readable,
             writable=writable,

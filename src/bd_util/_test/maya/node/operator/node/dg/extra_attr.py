@@ -141,6 +141,10 @@ class MyTransform(Transform):
     testEnum = TestEnumField()
     tenm = testEnum
 
+    #   message
+    testMessage = AddAttr.at.message()
+    tmessage = testMessage
+
     # dt
     #   matrix
     testDataMatrix = AddAttr.dt.matrix()
