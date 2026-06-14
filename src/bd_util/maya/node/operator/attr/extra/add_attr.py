@@ -58,7 +58,7 @@ class AddAttrAt:
     """addAttr(attributeType=...) 用フィールド群。"""
 
     # byte: ClassVar[type[ExtraByteField]] = ExtraByteField
-    char: ClassVar[type[ExtraCharField]] = ExtraCharField
+    # char: ClassVar[type[ExtraCharField]] = ExtraCharField
     compound: ClassVar[type[ExtraCompoundField]] = ExtraCompoundField
     # double_angle: ClassVar[type[ExtraDoubleAngleField]] = ExtraDoubleAngleField
     # double_linear: ClassVar[type[ExtraDoubleLinearField]] = (
@@ -124,6 +124,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraByteField:
         return ExtraByteField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def char(
+        cls,
+        default_value: int = None,
+        min_value: int = None,
+        max_value: int = None,
+        soft_min_value: int = None,
+        soft_max_value: int = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraCharField:
+        return ExtraCharField(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

@@ -52,15 +52,26 @@ class MyTransform(Transform):
 
     # インスタンス生成時に自動 addAttr() される
     # bool
-    testBool = AddAttr.at.bool(default_value=False)
+    testBool = AddAttr.at.bool(
+        default_value=False,
+    )
     tbool = testBool
+    # char
+    testChar = AddAttr.at.char(
+        default_value=50,
+        min_value=-128,
+        max_value=127,
+        soft_min_value=-128,
+        soft_max_value=127,
+    )
+    tchar = testChar
     # byte
     testByte = AddAttr.at.byte(
         default_value=50,
         min_value=0,
-        max_value=256,
-        soft_min_value=10,
-        soft_max_value=200,
+        max_value=255,
+        soft_min_value=0,
+        soft_max_value=255,
     )
     tbyte = testByte
     # short
