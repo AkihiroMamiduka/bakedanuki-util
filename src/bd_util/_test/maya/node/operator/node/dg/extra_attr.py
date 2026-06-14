@@ -51,12 +51,13 @@ class TestEnumField(
 class MyTransform(Transform):
 
     # インスタンス生成時に自動 addAttr() される
-    # bool
+    # at
+    #   bool
     testBool = AddAttr.at.bool(
         default_value=False,
     )
     tbool = testBool
-    # char
+    #   char
     testChar = AddAttr.at.char(
         default_value=50,
         min_value=-128,
@@ -65,7 +66,7 @@ class MyTransform(Transform):
         soft_max_value=127,
     )
     tchar = testChar
-    # byte
+    #   byte
     testByte = AddAttr.at.byte(
         default_value=50,
         min_value=0,
@@ -74,7 +75,7 @@ class MyTransform(Transform):
         soft_max_value=255,
     )
     tbyte = testByte
-    # short
+    #   short
     testShort = AddAttr.at.short(
         default_value=10000,
         min_value=-32768,
@@ -83,7 +84,7 @@ class MyTransform(Transform):
         soft_max_value=30000,
     )
     tshort = testShort
-    # long
+    #   long
     testLong = AddAttr.at.long(
         default_value=1000000000,
         min_value=-2147483648,
@@ -92,14 +93,14 @@ class MyTransform(Transform):
         soft_max_value=2000000000,
     )
     tlong = testLong
-    # long_long_int
+    #   long_long_int
     testLongLongInt = AddAttr.at.long_long_int(
         default_value=1000000000000000000,
         soft_min_value=-9223372036854775808,
         soft_max_value=9223372036854773760,
     )
     tlongLongInt = testLongLongInt
-    # float
+    #   float
     testFloat = AddAttr.at.float(
         default_value=10000000000000000000,
         min_value=-99999999999999999999,
@@ -108,7 +109,7 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tfloat = testFloat
-    # double
+    #   double
     testDouble = AddAttr.at.double(
         default_value=10000000000000000000,
         min_value=-99999999999999999999,
@@ -117,7 +118,7 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble = testDouble
-    # double_linear
+    #   double_linear
     testDoubleLinear = AddAttr.at.double_linear(
         default_value=10000000000000000000,
         min_value=-99999999999999999999,
@@ -126,7 +127,7 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble_linear = testDoubleLinear
-    # double_angle
+    #   double_angle
     testDoubleAngle = AddAttr.at.double_angle(
         default_value=45,
         min_value=-720,
@@ -136,11 +137,14 @@ class MyTransform(Transform):
     )
     tdouble_angle = testDoubleAngle
 
-    testDataMatrix = AddAttr.dt.matrix()
-    tdmatrix = testDataMatrix
-
+    #   enum
     testEnum = TestEnumField()
     tenm = testEnum
+
+    # dt
+    #   matrix
+    testDataMatrix = AddAttr.dt.matrix()
+    tdmatrix = testDataMatrix
 
     # time
     testTime = AddAttr.at.time(
