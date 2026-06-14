@@ -669,10 +669,15 @@ class PlugOperator(Generic[A], ABC):
         if self.exists():
             return
 
-        # attributeType と dataType を kwargs に追加
+        # kwargs に追加
+        #   attributeType/dataType
         kwargs["attributeType"] = self._oprt_attr.ATTR_TYPE
         if self._oprt_attr.DATA_TYPE is not None:
             kwargs["dataType"] = self._oprt_attr.DATA_TYPE
+        #   longName/shortName
+        kwargs["longName"] = self._oprt_attr.long_name
+        if self._oprt_attr.short_name is not None:
+            kwargs["shortName"] = self._oprt_attr.short_name
 
         # add
         cmds.addAttr(
