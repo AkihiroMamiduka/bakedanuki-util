@@ -74,7 +74,7 @@ class AddAttrAt:
     # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
     float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
     float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
-    flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
+    # flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
     # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
     light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
     # long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
@@ -83,7 +83,7 @@ class AddAttrAt:
     # long: ClassVar[type[ExtraLongField]] = ExtraLongField
     long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
     long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
-    matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
+    # matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
     # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
     reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
     # short: ClassVar[type[ExtraShortField]] = ExtraShortField
@@ -261,6 +261,21 @@ class AddAttrAt:
         )
 
     @classmethod
+    def flt_matrix(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFltMatrixField:
+        return ExtraFltMatrixField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def generic(
         cls,
         multi: bool = False,
@@ -315,6 +330,21 @@ class AddAttrAt:
             max_value=max_value,
             soft_min_value=soft_min_value,
             soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def matrix(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraMatrixField:
+        return ExtraMatrixField(
             multi=multi,
             readable=readable,
             writable=writable,

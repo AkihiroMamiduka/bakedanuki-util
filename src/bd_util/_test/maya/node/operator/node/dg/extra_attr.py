@@ -137,6 +137,14 @@ class MyTransform(Transform):
     )
     tdouble_angle = testDoubleAngle
 
+    #   matrix
+    testMatrix = AddAttr.at.matrix()
+    tmatrix = testMatrix
+
+    #   flt_matrix
+    testFltMatrix = AddAttr.at.flt_matrix()
+    tfltMatrix = testFltMatrix
+
     #   enum
     testEnum = TestEnumField()
     tenm = testEnum
