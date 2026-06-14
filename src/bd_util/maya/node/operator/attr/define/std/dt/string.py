@@ -34,11 +34,8 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
         if self.exists():
             return
 
-        # ファンクションを作成
-        fn_attr = om.MFnTypedAttribute()
-
         # アトリビュートを作成
-        attr_obj = fn_attr.create(
+        attr_obj = self._fn_attr.create(
             self.long_name,
             self.short_name,
             om.MFnData.kString,

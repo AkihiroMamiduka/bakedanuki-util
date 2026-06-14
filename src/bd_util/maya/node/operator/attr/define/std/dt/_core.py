@@ -2,6 +2,9 @@
 from __future__ import annotations
 from typing import TypeVar, Type, cast
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
@@ -12,6 +15,12 @@ P = TypeVar("P", bound="PlugOperator")
 
 class DataTypePlugOperator(PlugOperator[A]):
     __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # ファンクションを作成
+        self._fn_attr = om.MFnTypedAttribute()
 
 
 class DataTypeAttrOperator(AttrOperator[P]):
