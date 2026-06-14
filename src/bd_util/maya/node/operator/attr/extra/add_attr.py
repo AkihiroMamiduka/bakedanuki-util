@@ -35,7 +35,6 @@ from .std.at.short2 import ExtraShort2Field
 from .std.at.short3 import ExtraShort3Field
 from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
-from .std.at.typed import ExtraTypedField
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -91,7 +90,6 @@ class AddAttrAt:
     short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
     spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
     # time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
-    typed: ClassVar[type[ExtraTypedField]] = ExtraTypedField
 
     @classmethod
     def bool(
@@ -451,8 +449,8 @@ class AddAttrDt:
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
-    ) -> ExtraMatrixField:
-        return ExtraMatrixField(
+    ) -> ExtraDataMatrixField:
+        return ExtraDataMatrixField(
             multi=multi,
             readable=readable,
             writable=writable,
