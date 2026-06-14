@@ -29,8 +29,10 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
         if self.exists():
             return
 
-        # アトリビュートを作成
+        # ファンクションを作成
         fn_attr = om.MFnTypedAttribute()
+
+        # アトリビュートを作成
         attr_obj = fn_attr.create(
             self.long_name,
             self.short_name,
