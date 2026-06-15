@@ -50,8 +50,6 @@ from .std.dt.mesh import ExtraDataMeshField
 from .std.dt.nurbs_curve import ExtraDataNurbsCurveField
 from .std.dt.nurbs_surface import ExtraDataNurbsSurfaceField
 from .std.dt.point_array import ExtraDataPointArrayField
-from .std.dt.reflectance_rgb import ExtraDataReflectanceRGBField
-from .std.dt.specrtrum_rgb import ExtraDataSpectrumRGBField
 from .std.dt.string import ExtraDataStringField
 from .std.dt.vector_array import ExtraDataVectorArrayField
 
@@ -435,12 +433,12 @@ class AddAttrDt:
     # point_array: ClassVar[type[ExtraDataPointArrayField]] = (
     #     ExtraDataPointArrayField
     # )
-    reflectance_rgb: ClassVar[type[ExtraDataReflectanceRGBField]] = (
-        ExtraDataReflectanceRGBField
-    )
-    spectrum_rgb: ClassVar[type[ExtraDataSpectrumRGBField]] = (
-        ExtraDataSpectrumRGBField
-    )
+    # reflectance_rgb: ClassVar[type[ExtraDataReflectanceRGBField]] = (
+    #     ExtraDataReflectanceRGBField
+    # )
+    # spectrum_rgb: ClassVar[type[ExtraDataSpectrumRGBField]] = (
+    #     ExtraDataSpectrumRGBField
+    # )
     # string_array: ClassVar[type[ExtraDataStringArrayField]] = ExtraDataStringArrayField
     # string: ClassVar[type[ExtraDataStringField]] = ExtraDataStringField
     # vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
