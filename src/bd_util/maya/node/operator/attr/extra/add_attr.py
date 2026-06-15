@@ -423,15 +423,15 @@ class AddAttrDt:
     # int32_array: ClassVar[type[ExtraDataInt32ArrayField]] = (
     #     ExtraDataInt32ArrayField
     # )
-    lattice: ClassVar[type[ExtraDataLatticeField]] = ExtraDataLatticeField
+    # lattice: ClassVar[type[ExtraDataLatticeField]] = ExtraDataLatticeField
     # matrix: ClassVar[type[ExtraDataMatrixField]] = ExtraDataMatrixField
-    mesh: ClassVar[type[ExtraDataMeshField]] = ExtraDataMeshField
-    nurbs_curve: ClassVar[type[ExtraDataNurbsCurveField]] = (
-        ExtraDataNurbsCurveField
-    )
-    nurbs_surface: ClassVar[type[ExtraDataNurbsSurfaceField]] = (
-        ExtraDataNurbsSurfaceField
-    )
+    # mesh: ClassVar[type[ExtraDataMeshField]] = ExtraDataMeshField
+    # nurbs_curve: ClassVar[type[ExtraDataNurbsCurveField]] = (
+    #     ExtraDataNurbsCurveField
+    # )
+    # nurbs_surface: ClassVar[type[ExtraDataNurbsSurfaceField]] = (
+    #     ExtraDataNurbsSurfaceField
+    # )
     # point_array: ClassVar[type[ExtraDataPointArrayField]] = (
     #     ExtraDataPointArrayField
     # )
@@ -493,6 +493,21 @@ class AddAttrDt:
         )
 
     @classmethod
+    def lattice(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataLatticeField:
+        return ExtraDataLatticeField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def matrix(
         cls,
         multi: bool = False,
@@ -501,6 +516,51 @@ class AddAttrDt:
         category: str | None = None,
     ) -> ExtraDataMatrixField:
         return ExtraDataMatrixField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def mesh(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataMeshField:
+        return ExtraDataMeshField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def nurbs_curve(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataNurbsCurveField:
+        return ExtraDataNurbsCurveField(
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def nurbs_surface(
+        cls,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDataNurbsSurfaceField:
+        return ExtraDataNurbsSurfaceField(
             multi=multi,
             readable=readable,
             writable=writable,

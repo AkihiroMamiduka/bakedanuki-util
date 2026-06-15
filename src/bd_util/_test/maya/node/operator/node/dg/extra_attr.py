@@ -198,6 +198,22 @@ class MyTransform(Transform):
     testDataStringArray = AddAttr.dt.string_array()
     tdStringArray = testDataStringArray
 
+    #   mesh
+    testDataMesh = AddAttr.dt.mesh()
+    tdMesh = testDataMesh
+
+    #   nurbs_curve
+    testDataNurbsCurve = AddAttr.dt.nurbs_curve()
+    tdNurbsCurve = testDataNurbsCurve
+
+    #   nurbs_surface
+    testDataNurbsSurface = AddAttr.dt.nurbs_surface()
+    tdNurbsSurface = testDataNurbsSurface
+
+    #   lattice
+    testDataLattice = AddAttr.dt.lattice()
+    tdLattice = testDataLattice
+
     # api.OpenMaya でアトリビュートを作成できないタイプ
 
 

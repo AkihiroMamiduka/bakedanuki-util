@@ -1,6 +1,9 @@
 # coding: utf-8
 from __future__ import annotations
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 from ........py.error import UnsupportedOperationError
@@ -22,6 +25,10 @@ class DataNurbsSurfacePlugOperator(
         raise UnsupportedOperationError(
             f"{self.__class__.__name__} does not support set_direct operation"
         )
+
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnData.kNurbsSurface)
 
 
 class DataNurbsSurfaceAttrOperator(
