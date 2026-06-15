@@ -412,39 +412,6 @@ class AddAttrAt:
 class AddAttrDt:
     """addAttr(dataType=...) 用フィールド群。"""
 
-    # double_array: ClassVar[type[ExtraDataDoubleArrayField]] = (
-    #     ExtraDataDoubleArrayField
-    # )
-    # float_array: ClassVar[type[ExtraDataFloatArrayField]] = (
-    #     ExtraDataFloatArrayField
-    # )
-    # int32_array: ClassVar[type[ExtraDataInt32ArrayField]] = (
-    #     ExtraDataInt32ArrayField
-    # )
-    # lattice: ClassVar[type[ExtraDataLatticeField]] = ExtraDataLatticeField
-    # matrix: ClassVar[type[ExtraDataMatrixField]] = ExtraDataMatrixField
-    # mesh: ClassVar[type[ExtraDataMeshField]] = ExtraDataMeshField
-    # nurbs_curve: ClassVar[type[ExtraDataNurbsCurveField]] = (
-    #     ExtraDataNurbsCurveField
-    # )
-    # nurbs_surface: ClassVar[type[ExtraDataNurbsSurfaceField]] = (
-    #     ExtraDataNurbsSurfaceField
-    # )
-    # point_array: ClassVar[type[ExtraDataPointArrayField]] = (
-    #     ExtraDataPointArrayField
-    # )
-    # reflectance_rgb: ClassVar[type[ExtraDataReflectanceRGBField]] = (
-    #     ExtraDataReflectanceRGBField
-    # )
-    # spectrum_rgb: ClassVar[type[ExtraDataSpectrumRGBField]] = (
-    #     ExtraDataSpectrumRGBField
-    # )
-    # string_array: ClassVar[type[ExtraDataStringArrayField]] = ExtraDataStringArrayField
-    # string: ClassVar[type[ExtraDataStringField]] = ExtraDataStringField
-    # vector_array: ClassVar[type[ExtraDataVectorArrayField]] = (
-    #     ExtraDataVectorArrayField
-    # )
-
     @classmethod
     def double_array(
         cls,
