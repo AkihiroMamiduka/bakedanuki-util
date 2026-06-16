@@ -5,7 +5,7 @@ from maya.api import OpenMaya as om
 
 # self
 from ........ import logger as u_logger
-from .base.numeric_base import (
+from .base.numeric_single_base import (
     NumericBaseAttrOperator,
     NumericBasePlugOperator,
     NumericBaseField,

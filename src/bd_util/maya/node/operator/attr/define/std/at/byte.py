@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_range_base import (
+from .base.numeric_single_range_base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
