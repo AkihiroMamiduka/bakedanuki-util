@@ -118,6 +118,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble = testDouble
+    #   double3
+    testDouble3 = AddAttr.at.double3()
+    tdouble3 = testDouble3
     #   double_linear
     testDoubleLinear = AddAttr.at.double_linear(
         default_value=10000000000000000000,

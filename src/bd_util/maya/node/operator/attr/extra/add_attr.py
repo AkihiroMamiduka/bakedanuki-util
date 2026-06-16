@@ -9,6 +9,7 @@ from bd_util.maya.node.operator.attr.extra.std.dt.string_array import (
 
 # self
 #   at
+#       std
 from .std.at.bool import ExtraBoolField
 from .std.at.byte import ExtraByteField
 from .std.at.char import ExtraCharField
@@ -17,7 +18,8 @@ from .std.at.double_angle import ExtraDoubleAngleField
 from .std.at.double_linear import ExtraDoubleLinearField
 from .std.at.double import ExtraDoubleField
 from .std.at.double2 import ExtraDouble2Field
-from .std.at.double3 import ExtraDouble3Field
+
+# from .std.at.double3 import ExtraDouble3Field
 from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
@@ -39,6 +41,9 @@ from .std.at.short2 import ExtraShort2Field
 from .std.at.short3 import ExtraShort3Field
 from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
+
+#       custom
+from .custom.double3 import ExtraDouble3Field
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -67,7 +72,7 @@ class AddAttrAt:
     # )
     # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
     double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
-    double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
+    # double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
     double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
 
     enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
@@ -224,6 +229,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraDoubleField:
         return ExtraDoubleField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDouble3Field:
+        return ExtraDouble3Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
