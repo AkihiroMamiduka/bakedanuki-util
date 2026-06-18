@@ -3,7 +3,6 @@
 # maya
 from maya import cmds
 from maya.api import OpenMaya as om
-from pymel import core as pm
 
 # self
 from ...... import logger as u_logger
@@ -59,6 +58,8 @@ def create_one_cmds():
 
 @timer
 def create_one_pm():
+    from pymel import core as pm
+
     # 新規シーンを開く
     cmds.file(new=True, force=True)
 
@@ -116,6 +117,8 @@ def create_many_cmds():
 
 @timer
 def create_many_pm():
+    from pymel import core as pm
+
     # 新規シーンを開く
     cmds.file(new=True, force=True)
 
@@ -203,6 +206,8 @@ def create_connect_cmds():
 
 @timer
 def create_connect_pm():
+    from pymel import core as pm
+
     # 新規シーンを開く
     cmds.file(new=True, force=True)
 
