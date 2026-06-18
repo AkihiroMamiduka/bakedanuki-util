@@ -251,6 +251,27 @@ class PlugOperator(Generic[A], ABC):
         """
         self.set(value)
 
+    # value
+    @property
+    def value_direct(self) -> Any:
+        """
+        アトリビュートの値をゲットする
+
+        Returns:
+            Any: アトリビュートの値
+        """
+        return self.get()
+
+    @value_direct.setter
+    def value_direct(self, value: Any):
+        """
+        アトリビュートに値をセットする
+
+        Args:
+            value (Any): セットする値
+        """
+        self.set_direct(value)
+
     # enum
     @property
     def enum_name(self) -> str | None:

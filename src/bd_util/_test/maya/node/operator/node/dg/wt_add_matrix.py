@@ -439,14 +439,14 @@ def get_set():
             node.wtMatrix[0].matrixIn.get(),
         )
     )
-    node.wtMatrix[0].matrixIn.set(node.matrixSum.value)
+    node.wtMatrix[0].matrixIn.set_direct(node.matrixSum.value)
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0].matrixIn.get()",
             node.wtMatrix[0].matrixIn.get(),
         )
     )
-    node.wtMatrix[0].matrixIn.value = [
+    node.wtMatrix[0].matrixIn.value_direct = [
         10,
         0,
         0,
@@ -478,7 +478,7 @@ def get_set():
             node.wtMatrix[0].weightIn.get(),
         )
     )
-    node.wtMatrix[0].weightIn.set(100)
+    node.wtMatrix[0].weightIn.set_direct(100)
     logger.debug(
         "{}: {}".format(
             "node.wtMatrix[0].weightIn.get()",
@@ -750,14 +750,14 @@ def short_name_instance_access():
             node.i[0].m.get(),
         )
     )
-    node.i[0].m.set(node.o.value)
+    node.i[0].m.set_direct(node.o.value)
     logger.debug(
         "{}: {}".format(
             "node.i[0].m.get()",
             node.i[0].m.get(),
         )
     )
-    node.i[0].m.value = [
+    node.i[0].m.value_direct = [
         10,
         0,
         0,
@@ -775,7 +775,7 @@ def short_name_instance_access():
         0,
         1,
     ]
-    node.i[0].m.set(node.o.value)
+    node.i[0].m.set_direct(node.o.value)
     logger.debug(
         "{}: {}".format(
             "node.i[0].m.get()",
@@ -790,7 +790,7 @@ def short_name_instance_access():
             node.i[0].w.get(),
         )
     )
-    node.i[0].w.set(100)
+    node.i[0].w.set_direct(100)
     logger.debug(
         "{}: {}".format(
             "node.i[0].w.get()",
