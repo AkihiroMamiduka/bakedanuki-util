@@ -460,9 +460,7 @@ class PlugOperator(Generic[A], ABC):
             om.MPlug: MPlug インスタンス
         """
         # Plug
-        if isinstance(obj, PlugOperator) or any(
-            c.__name__ == "PlugOperator" for c in type(obj).__mro__
-        ):
+        if isinstance(obj, PlugOperator):
             obj: PlugOperator = obj
             return obj.plug
         # str("node.attr")
