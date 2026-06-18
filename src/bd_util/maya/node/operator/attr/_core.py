@@ -56,6 +56,7 @@ class PlugOperator(Generic[A], ABC):
         "parent_oprt_plug",
         "multi",
         "index",
+        "_child_index",
         "_fn_attr",
         "_m_plug",
         "_array_m_plug",
@@ -85,6 +86,7 @@ class PlugOperator(Generic[A], ABC):
         self._oprt_attr: A = oprt_attr
         self.__attr_path: str = ""
         self._parent_attr_path: str = parent_attr_path
+        self._child_index: int | None = oprt_attr.child_index
         # plug
         self.parent_oprt_plug: PlugOperator | None = parent_oprt_plug
         # args ----------------------------------------------------------------
@@ -161,7 +163,14 @@ class PlugOperator(Generic[A], ABC):
         #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
         if self.parent_oprt_plug is not None and self.index is None:
             parent_plug = self.parent_oprt_plug.plug
-            plug = self._find_child_plug(parent_plug, self.long_name)
+            plug = None
+            if self._child_index is not None:
+                try:
+                    plug = parent_plug.child(self._child_index)
+                except (IndexError, RuntimeError):
+                    plug = None
+            if plug is None:
+                plug = self._find_child_plug(parent_plug, self.long_name)
             if plug is None:
                 raise AttributeError(
                     "'{}' というアトリビュートは '{}' に存在しません".format(
@@ -876,6 +885,7 @@ class AttrOperator(Generic[P]):
         "readable",
         "writable",
         "category",
+        "child_index",
     )
     # type
     ATTR_TYPE: str = None
@@ -907,6 +917,7 @@ class AttrOperator(Generic[P]):
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
+        child_index: int | None = None,
     ):
         # node
         self.node_cls: Type[NodeOperator] | None = node_cls
@@ -935,6 +946,7 @@ class AttrOperator(Generic[P]):
         self.readable: bool | None = readable
         self.writable: bool | None = writable
         self.category: str | None = category
+        self.child_index: int | None = child_index
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -1231,6 +1243,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         "_readable",
         "_writable",
         "_category",
+        "_child_index",
     )
 
     ATTR_CLS: type[A]
@@ -1282,6 +1295,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         self._readable: bool | None = readable
         self._writable: bool | None = writable
         self._category: str | None = category
+        self._child_index: int | None = None
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -1303,6 +1317,10 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             owner (Any): 親のクラス
             name (str): セットされている変数名
         """
+        if self._child_index is None:
+            object.__setattr__(
+                self, "_child_index", self._find_child_index(owner)
+            )
         # name をセット
         if self.long_name is None:
             #  name, _attr_path, long_name にセット
@@ -1312,6 +1330,32 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         else:
             # short name をセット
             object.__setattr__(self, "_short_name", name)
+
+    def _find_child_index(self, owner: Any) -> int | None:
+        """
+        owner 内での AttributeField の定義順を返す。
+
+        同じ Field を short name として別名定義している場合は、
+        最初に現れた名前だけを数える。
+        """
+        seen_ids = set()
+        index = 0
+        for value in vars(owner).values():
+            if all(
+                c.__name__ != "AttributeField" for c in type(value).__mro__
+            ):
+                continue
+
+            obj_id = id(value)
+            if obj_id in seen_ids:
+                continue
+            if value is self:
+                return index
+
+            seen_ids.add(obj_id)
+            index += 1
+
+        return None
 
     # __get__
     @overload
@@ -1424,6 +1468,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             readable=self._readable,
             writable=self._writable,
             category=self._category,
+            child_index=self._child_index,
         )
         #   Node が instance へのアクセス(Plug)
         if access_type == AccessType.plug:
