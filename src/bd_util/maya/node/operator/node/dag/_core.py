@@ -43,9 +43,6 @@ class DAG(NodeOperator):
 
         # ノード作成
         m_obj = dag_mod.createNode(cls.NODE_TYPE)
-        # ノード名を変更
-        if name:
-            dg_mod.renameNode(m_obj, name)
 
         # インスタンス生成
         return cls(

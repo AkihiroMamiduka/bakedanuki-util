@@ -253,9 +253,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         # ノード作成
         m_obj = dg_mod.createNode(cls.NODE_TYPE)
-        # ノード名を変更
-        if name:
-            dg_mod.renameNode(m_obj, name)
 
         # # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
         # fn_node = om.MFnDependencyNode(m_obj)

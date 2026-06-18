@@ -543,7 +543,7 @@ class PlugOperator(Generic[A], ABC):
         Args:
             other (Plug | str | list[str]): 対象のオブジェクト
         """
-        src = self._normalize_to_plug(self)
+        src = self.plug
         dst = self._normalize_to_plug(other)
 
         self._node._dg_mod.disconnect(src, dst)
