@@ -318,7 +318,7 @@ class PlugOperator(Generic[A], ABC):
             Plug: 対応する Plug インスタンス
         """
         if isinstance(key, int):
-            if self.name.endswith("]"):
+            if self.index is not None:
                 raise AttributeError(
                     f"{self.plug} は [{key}] アクセスができません"
                 )
@@ -332,7 +332,7 @@ class PlugOperator(Generic[A], ABC):
             )
             return plug
         elif key == next:
-            if self.name.endswith("]"):
+            if self.index is not None:
                 raise AttributeError(
                     f"{self.plug} は [{key}] アクセスができません"
                 )
