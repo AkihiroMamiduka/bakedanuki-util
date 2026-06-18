@@ -162,7 +162,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         self._plug_cache = {}
 
         # auto_add_attr
-        if auto_add_attr:
+        if auto_add_attr and self._extra_attributes:
             self._auto_add_extra_attrs()
 
     def __getitem__(self, key: str):
