@@ -288,12 +288,81 @@ def auto_add_attr_on_init():
     )
 
     # Plug 経由でアクセス
+    #   at
+    #       double
     logger.debug(
         "{}: {}".format(
             "node.testDouble.plug",
             node.testDouble.plug,
         )
     )
+    #       double3
+    val = node.testDouble3.get()
+    logger.debug(
+        "{}: before: {}".format(
+            "node.testDouble3.get()",
+            val,
+        )
+    )
+    node.testDouble3.set(1.0, 2.0, 3.0)
+    dg_mod.doIt()
+    dag_mod.doIt()
+    val = node.testDouble3.get()
+    logger.debug(
+        "{}: after : {}".format(
+            "node.testDouble3.get()",
+            val,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.testDouble3.x",
+            node.testDouble3.x,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.testDouble3.y",
+            node.testDouble3.y,
+        )
+    )
+    logger.debug(
+        "{}: {}".format(
+            "node.testDouble3.z",
+            node.testDouble3.z,
+        )
+    )
+    logger.debug("node.testDouble3.x.set(11.0)")
+    node.testDouble3.x.set(11.0)
+    logger.debug("node.testDouble3.y.set(22.0)")
+    node.testDouble3.y.set(22.0)
+    logger.debug("node.testDouble3.z.set(33.0)")
+    node.testDouble3.z.set(33.0)
+    dg_mod.doIt()
+    dag_mod.doIt()
+    val_x = node.testDouble3.x.get()
+    val_y = node.testDouble3.y.get()
+    val_z = node.testDouble3.z.get()
+    logger.debug(
+        "{}: after : {}".format(
+            "node.testDouble3.x.get()",
+            val_x,
+        )
+    )
+    logger.debug(
+        "{}: after : {}".format(
+            "node.testDouble3.y.get()",
+            val_y,
+        )
+    )
+    logger.debug(
+        "{}: after : {}".format(
+            "node.testDouble3.z.get()",
+            val_z,
+        )
+    )
+    #   dt
+    #       matrix
     logger.debug(
         "{}: {}".format(
             "node.testDataMatrix.plug",

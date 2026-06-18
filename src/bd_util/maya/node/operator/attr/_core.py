@@ -51,7 +51,8 @@ class PlugOperator(Generic[A], ABC):
     __slots__ = (
         "_node",
         "_oprt_attr",
-        "_attr_path",
+        "__attr_path",
+        "_parent_attr_path",
         "parent_oprt_plug",
         "multi",
         "index",
@@ -82,9 +83,8 @@ class PlugOperator(Generic[A], ABC):
         self._node: NodeOperator = node
         # attr
         self._oprt_attr: A = oprt_attr
-        self._attr_path: str = self._create_attr_path(
-            parent_attr_path=parent_attr_path
-        )
+        self.__attr_path: str = ""
+        self._parent_attr_path: str = parent_attr_path
         # plug
         self.parent_oprt_plug: PlugOperator | None = parent_oprt_plug
         # args ----------------------------------------------------------------
@@ -107,10 +107,7 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: 自身のアトリビュート名
         """
-        name = self._oprt_attr.name
-        if self.index is not None:
-            name = f"{name}[{self.index}]"
-        return name
+        return self.long_name
 
     @property
     def long_name(self) -> str:
@@ -120,7 +117,10 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: 自身のロングアトリビュート名
         """
-        return self.name
+        name = self._oprt_attr.long_name
+        # if self.index is not None:
+        #     name = f"{name}[{self.index}]"
+        return name
 
     @property
     def short_name(self) -> str:
@@ -131,8 +131,8 @@ class PlugOperator(Generic[A], ABC):
             str: 自身のショートアトリビュート名
         """
         name = self._oprt_attr.short_name
-        if self.index is not None:
-            name = f"{name}[{self.index}]"
+        # if self.index is not None:
+        #     name = f"{name}[{self.index}]"
         return name
 
     @property
@@ -161,19 +161,17 @@ class PlugOperator(Generic[A], ABC):
         #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
         if self.parent_oprt_plug is not None and self.index is None:
             parent_plug = self.parent_oprt_plug.plug
-            plug = self._find_child_plug(parent_plug, self._oprt_attr.name)
+            plug = self._find_child_plug(parent_plug, self.long_name)
             if plug is None:
                 raise AttributeError(
                     "'{}' というアトリビュートは '{}' に存在しません".format(
-                        self._oprt_attr.name,
+                        self.long_name,
                         parent_plug,
                     )
                 )
         #   それ以外は、ノードから直接 plug を探す
         else:
-            plug = self._node.fn_node.findPlug(
-                self._oprt_attr.long_name, False
-            )
+            plug = self._node.fn_node.findPlug(self.long_name, False)
 
         # index があれば、elementByLogicalIndex で plug を置き換える
         if self.index is not None:
@@ -326,7 +324,8 @@ class PlugOperator(Generic[A], ABC):
             return getattr(self, key)
         raise TypeError(f"キーの型が不正です: {type(key)}")
 
-    def _create_attr_path(self, parent_attr_path: str) -> str:
+    @property
+    def _attr_path(self) -> str:
         """
         attr_path を作成する
 
@@ -336,16 +335,21 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: 自身の attr_path
         """
+        # キャッシュがあればそれを返す
+        if self.__attr_path:
+            return self.__attr_path
+
         # 親の attr_path がなければ、自身の名前を返す
-        if not parent_attr_path:
+        if not self._parent_attr_path:
             return self.name
 
         # mulit_attr の index アクセスの場合
         if self.index is not None:
-            return f"{parent_attr_path}[{self.index}]"
+            self.__attr_path = f"{self._parent_attr_path}[{self.index}]"
+            return self.__attr_path
 
         # attr_path を生成する
-        return f"{parent_attr_path}.{self.name}"
+        return f"{self._parent_attr_path}.{self.name}"
 
     # str
     def __str__(self) -> str:
