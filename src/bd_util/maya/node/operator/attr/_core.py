@@ -1448,6 +1448,17 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                     access_type = AccessType.field
 
         # 戻り値
+        #   class 定義時ののアクセス(Field)
+        if access_type == AccessType.field:
+            return self
+        #   Node が instance へのアクセス(Plug)（キャッシュ済）
+        plug_cache_key = None
+        if access_type == AccessType.plug:
+            plug_cache_key = (self.name, self._attr_path)
+            cached_plug = self._node._plug_cache.get(plug_cache_key)
+            if cached_plug is not None:
+                return cached_plug
+        #   AttrOperator を生成
         oprt_attr = self.ATTR_CLS(
             node_cls=self._node_cls,
             oprt_parent=self.oprt_parent,
@@ -1470,30 +1481,25 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             category=self._category,
             child_index=self._child_index,
         )
-        #   Node が instance へのアクセス(Plug)
+        #   Node が instance へのアクセス(Plug)（キャッシュ無：新規）
         if access_type == AccessType.plug:
-            # キャッシュキーを作成する
-            key = (self.name, self._attr_path)
             # 親 Plug があればセットする
             parent_oprt_plug = None
             if self._parent_attr_path:
                 parent_oprt_plug = instance
-            # キャッシュになければ Plug を生成してキャッシュする
-            if key not in self._node._plug_cache:
-                self._node._plug_cache[key] = self.PLUG_CLS(
-                    node=self._node,
-                    oprt_attr=oprt_attr,
-                    parent_attr_path=self._parent_attr_path,
-                    multi=self.multi,
-                    parent_oprt_plug=parent_oprt_plug,
-                )
-            return self._node._plug_cache[key]
+            # Plug を生成してキャッシュする
+            plug = self.PLUG_CLS(
+                node=self._node,
+                oprt_attr=oprt_attr,
+                parent_attr_path=self._parent_attr_path,
+                multi=self.multi,
+                parent_oprt_plug=parent_oprt_plug,
+            )
+            self._node._plug_cache[plug_cache_key] = plug
+            return plug
         #   Node が class へのアクセス(Attr)
         elif access_type == AccessType.attr:
             return oprt_attr
-        #   class 定義時ののアクセス(Field)
-        else:
-            return self
 
     # attr_path
     def _set_attr_path(self, parent_attr_path: str):
