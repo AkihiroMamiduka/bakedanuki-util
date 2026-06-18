@@ -1455,9 +1455,11 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         plug_cache_key = None
         if access_type == AccessType.plug:
             plug_cache_key = (self.name, self._attr_path)
-            cached_plug = self._node._plug_cache.get(plug_cache_key)
-            if cached_plug is not None:
-                return cached_plug
+            plug_cache = self._node._plug_cache
+            if plug_cache is not None:
+                cached_plug = plug_cache.get(plug_cache_key)
+                if cached_plug is not None:
+                    return cached_plug
         #   AttrOperator を生成
         oprt_attr = self.ATTR_CLS(
             node_cls=self._node_cls,
@@ -1495,7 +1497,11 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 multi=self.multi,
                 parent_oprt_plug=parent_oprt_plug,
             )
-            self._node._plug_cache[plug_cache_key] = plug
+            plug_cache = self._node._plug_cache
+            if plug_cache is None:
+                plug_cache = {}
+                self._node._plug_cache = plug_cache
+            plug_cache[plug_cache_key] = plug
             return plug
         #   Node が class へのアクセス(Attr)
         elif access_type == AccessType.attr:

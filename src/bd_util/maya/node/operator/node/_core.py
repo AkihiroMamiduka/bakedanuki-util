@@ -159,7 +159,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self._dg_mod.renameNode(self.m_obj, name)
 
         # plug_cache
-        self._plug_cache = {}
+        self._plug_cache = None
 
         # auto_add_attr
         if auto_add_attr and self._extra_attributes:
