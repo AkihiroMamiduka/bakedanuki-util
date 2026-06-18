@@ -460,7 +460,9 @@ class PlugOperator(Generic[A], ABC):
             om.MPlug: MPlug インスタンス
         """
         # Plug
-        if any(c.__name__ == "PlugOperator" for c in type(obj).__mro__):
+        if isinstance(obj, PlugOperator) or any(
+            c.__name__ == "PlugOperator" for c in type(obj).__mro__
+        ):
             obj: PlugOperator = obj
             return obj.plug
         # str("node.attr")
@@ -481,7 +483,7 @@ class PlugOperator(Generic[A], ABC):
         Args:
             other (Plug | str | list[str]): 対象のオブジェクト
         """
-        src = self._normalize_to_plug(self)
+        src = self.plug
         dst = self._normalize_to_plug(other)
 
         self._node._dg_mod.connect(src, dst)
