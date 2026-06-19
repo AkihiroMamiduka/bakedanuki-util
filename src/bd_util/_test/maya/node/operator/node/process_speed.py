@@ -39,6 +39,13 @@ def main():
     create_connect_om_individual()
     create_connect_om_all_together()
     create_connect_node_operator()
+    # create_connect_multi
+    test_str.title("処理速度計測(create_connect_multi)")
+    create_connect_multi_cmds()
+    create_connect_multi_pm()
+    create_connect_multi_om_individual()
+    create_connect_multi_om_all_together()
+    create_connect_multi_node_operator()
 
 
 # create
@@ -305,6 +312,131 @@ def create_connect_node_operator():
             parent_node.output3Dx > node.input3D[0].input3Dx
         # parent を置き換え
         parent_node = node
+    mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+# create_connect_multi
+@timer
+def create_connect_multi_cmds():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    src = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    for _ in range(100000):
+        # ノードを作成
+        dst = cmds.createNode(
+            "plusMinusAverage",
+            skipSelect=True,
+        )
+        # ノードを接続
+        cmds.connectAttr(
+            f"{src}.output3Dx",
+            f"{dst}.input3D[0].input3Dx",
+        )
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_pm():
+    from pymel import core as pm
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    src = pm.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    for _ in range(100000):
+        # ノードを作成
+        dst = pm.createNode(
+            "plusMinusAverage",
+            skipSelect=True,
+        )
+        # ノードを接続
+        src.output3Dx >> dst.input3D[0].input3Dx
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_om_individual():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_m_obj = mod.createNode("plusMinusAverage")
+    for _ in range(100000):
+        # ノードを作成
+        dst_m_obj = mod.createNode("plusMinusAverage")
+        # ノードを接続
+        src = om.MPlug(
+            om.MObject(src_m_obj),
+            om.MFnDependencyNode(src_m_obj).attribute("output3Dx"),
+        )
+        array_plug = om.MPlug(
+            dst_m_obj, om.MFnDependencyNode(dst_m_obj).attribute("input3D")
+        )
+        dst = array_plug.elementByLogicalIndex(0).child(0)
+        mod.connect(src, dst)
+        mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_om_all_together():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_m_obj = mod.createNode("plusMinusAverage")
+    for _ in range(100000):
+        # ノードを作成
+        dst_m_obj = mod.createNode("plusMinusAverage")
+        # ノードを接続
+        src = om.MPlug(
+            om.MObject(src_m_obj),
+            om.MFnDependencyNode(src_m_obj).attribute("output3Dx"),
+        )
+        array_plug = om.MPlug(
+            dst_m_obj, om.MFnDependencyNode(dst_m_obj).attribute("input3D")
+        )
+        dst = array_plug.elementByLogicalIndex(0).child(0)
+        mod.connect(src, dst)
+    mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_node = PlusMinusAverage.create(mod)
+    for _ in range(100000):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(mod)
+        # ノードを接続
+        src_node.output3Dx > dst_node.input3D[0].input3Dx
     mod.doIt()
 
     # 新規シーンを開く
