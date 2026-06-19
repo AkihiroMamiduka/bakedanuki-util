@@ -1420,7 +1420,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         #   instance アクセス(Attr or Plug)
         else:
             # 親が Node(Plug)
-            if hasattr(instance, "NODE_TYPE"):
+            if isinstance(instance, NodeOperator):
                 access_type = AccessType.plug
                 object.__setattr__(self, "_node_cls", owner)
                 object.__setattr__(self, "_node", instance)
@@ -1433,18 +1433,17 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                     self, "_parent_attr_path", instance._attr_path
                 )
                 self._set_attr_path(self._parent_attr_path)
-                #   親が Attr
-                mro = owner.__mro__
                 #   親が Plug
-                if any(c.__name__ == "PlugOperator" for c in mro):
+                if isinstance(instance, PlugOperator):
                     access_type = AccessType.plug
                     instance: P = instance
                     object.__setattr__(self, "_node", instance._node)
-                elif any(c.__name__ == "AttrOperator" for c in mro):
+                #   親が Attr
+                elif isinstance(instance, AttrOperator):
                     instance: A = instance
                     access_type = AccessType.attr
                 #   親が Field
-                else:
+                elif isinstance(instance, AttributeField):
                     access_type = AccessType.field
 
         # 戻り値
