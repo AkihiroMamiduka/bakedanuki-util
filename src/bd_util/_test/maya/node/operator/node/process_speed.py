@@ -177,7 +177,7 @@ def _run_benchmark(func, accurate: bool, repeat_count: int):
         func()
         return
 
-    run_timed_repeat(func, repeat_count=repeat_count)
+    run_timed_repeat(func, repeat_count=repeat_count, log_each=False)
 
 
 def _create_om_value_plugs():
@@ -493,11 +493,7 @@ def get_compound_om():
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
-        total += (
-            child_0.asFloat()
-            + child_1.asFloat()
-            + child_2.asFloat()
-        )
+        total += child_0.asFloat() + child_1.asFloat() + child_2.asFloat()
     _assert_benchmark_total(total)
 
     cmds.file(new=True, force=True)
