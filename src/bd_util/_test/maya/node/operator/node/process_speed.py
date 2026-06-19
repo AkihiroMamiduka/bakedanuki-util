@@ -15,13 +15,18 @@ from ......maya import scene as u_scene
 ACCURATE = True
 REPEAT_COUNT = 3
 INCLUDE_CACHE_CHECK = False
+INCLUDE_GET_SET = False
 COUNT = 100000
+GET_SET_COUNT = COUNT
+SCALAR_VALUE = 1.25
+COMPOUND_VALUE = (1.25, 2.5, 3.75)
 
 
 def main(
     accurate: bool = ACCURATE,
     repeat_count: int = REPEAT_COUNT,
     include_cache_check: bool = INCLUDE_CACHE_CHECK,
+    include_get_set: bool = INCLUDE_GET_SET,
 ):
     u_scene.new_scene()
     # create
@@ -90,6 +95,77 @@ def main(
             repeat_count=repeat_count,
         )
 
+    if include_get_set:
+        _run_get_set_benchmarks(
+            accurate=accurate,
+            repeat_count=repeat_count,
+        )
+
+
+def main_get_set(
+    accurate: bool = ACCURATE,
+    repeat_count: int = REPEAT_COUNT,
+):
+    u_scene.new_scene()
+    _run_get_set_benchmarks(
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
+
+def _run_get_set_benchmarks(accurate: bool, repeat_count: int):
+    test_str.title("処理速度計測(set-scalar)")
+    _run_benchmarks(
+        (
+            set_scalar_cmds,
+            set_scalar_pm,
+            set_scalar_om,
+            set_scalar_node_operator_reuse_plug,
+            set_scalar_node_operator_natural_access,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
+    test_str.title("処理速度計測(get-scalar)")
+    _run_benchmarks(
+        (
+            get_scalar_cmds,
+            get_scalar_pm,
+            get_scalar_om,
+            get_scalar_node_operator_reuse_plug,
+            get_scalar_node_operator_natural_access,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
+    test_str.title("処理速度計測(set-compound)")
+    _run_benchmarks(
+        (
+            set_compound_cmds,
+            set_compound_pm,
+            set_compound_om,
+            set_compound_node_operator_reuse_plug,
+            set_compound_node_operator_natural_access,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
+    test_str.title("処理速度計測(get-compound)")
+    _run_benchmarks(
+        (
+            get_compound_cmds,
+            get_compound_pm,
+            get_compound_om,
+            get_compound_node_operator_reuse_plug,
+            get_compound_node_operator_natural_access,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
 
 def _run_benchmarks(funcs, accurate: bool, repeat_count: int):
     for func in funcs:
@@ -102,6 +178,360 @@ def _run_benchmark(func, accurate: bool, repeat_count: int):
         return
 
     run_timed_repeat(func, repeat_count=repeat_count)
+
+
+def _create_om_value_plugs():
+    cmds.file(new=True, force=True)
+
+    mod = om.MDGModifier()
+    m_obj = mod.createNode("plusMinusAverage")
+    mod.doIt()
+
+    fn_node = om.MFnDependencyNode(m_obj)
+    input1d = om.MPlug(
+        m_obj,
+        fn_node.attribute("input1D"),
+    ).elementByLogicalIndex(0)
+    input3d = om.MPlug(
+        m_obj,
+        fn_node.attribute("input3D"),
+    ).elementByLogicalIndex(0)
+    return mod, input1d, input3d
+
+
+def _create_node_operator_value_node():
+    cmds.file(new=True, force=True)
+
+    mod = om.MDGModifier()
+    node = PlusMinusAverage.create(mod)
+    mod.doIt()
+    return mod, node
+
+
+def _assert_benchmark_total(total: float):
+    if total < 0:
+        raise RuntimeError(total)
+
+
+# set/get
+@timer
+def set_scalar_cmds():
+    cmds.file(new=True, force=True)
+
+    node = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = f"{node}.input1D[0]"
+    for _ in range(GET_SET_COUNT):
+        cmds.setAttr(plug, SCALAR_VALUE)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_scalar_pm():
+    from pymel import core as pm
+
+    cmds.file(new=True, force=True)
+
+    node = pm.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = node.input1D[0]
+    for _ in range(GET_SET_COUNT):
+        plug.set(SCALAR_VALUE)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_scalar_om():
+    mod, plug, _ = _create_om_value_plugs()
+
+    for _ in range(GET_SET_COUNT):
+        mod.newPlugValueFloat(plug, SCALAR_VALUE)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_scalar_node_operator_reuse_plug():
+    mod, node = _create_node_operator_value_node()
+    plug = node.input1D[0]
+
+    for _ in range(GET_SET_COUNT):
+        plug.set(SCALAR_VALUE)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_scalar_node_operator_natural_access():
+    mod, node = _create_node_operator_value_node()
+
+    for _ in range(GET_SET_COUNT):
+        node.input1D[0].set(SCALAR_VALUE)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_scalar_cmds():
+    cmds.file(new=True, force=True)
+
+    node = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = f"{node}.input1D[0]"
+    cmds.setAttr(plug, SCALAR_VALUE)
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += cmds.getAttr(plug)
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_scalar_pm():
+    from pymel import core as pm
+
+    cmds.file(new=True, force=True)
+
+    node = pm.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = node.input1D[0]
+    plug.set(SCALAR_VALUE)
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += plug.get()
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_scalar_om():
+    mod, plug, _ = _create_om_value_plugs()
+    mod.newPlugValueFloat(plug, SCALAR_VALUE)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += plug.asFloat()
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_scalar_node_operator_reuse_plug():
+    mod, node = _create_node_operator_value_node()
+    plug = node.input1D[0]
+    plug.set(SCALAR_VALUE)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += plug.get()
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_scalar_node_operator_natural_access():
+    mod, node = _create_node_operator_value_node()
+    node.input1D[0].set(SCALAR_VALUE)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += node.input1D[0].get()
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_compound_cmds():
+    cmds.file(new=True, force=True)
+
+    node = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = f"{node}.input3D[0]"
+    for _ in range(GET_SET_COUNT):
+        cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_compound_pm():
+    from pymel import core as pm
+
+    cmds.file(new=True, force=True)
+
+    node = pm.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = node.input3D[0]
+    for _ in range(GET_SET_COUNT):
+        plug.set(COMPOUND_VALUE)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_compound_om():
+    mod, _, plug = _create_om_value_plugs()
+    child_0 = plug.child(0)
+    child_1 = plug.child(1)
+    child_2 = plug.child(2)
+    x, y, z = COMPOUND_VALUE
+
+    for _ in range(GET_SET_COUNT):
+        mod.newPlugValueFloat(child_0, x)
+        mod.newPlugValueFloat(child_1, y)
+        mod.newPlugValueFloat(child_2, z)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_compound_node_operator_reuse_plug():
+    mod, node = _create_node_operator_value_node()
+    plug = node.input3D[0]
+    x, y, z = COMPOUND_VALUE
+
+    for _ in range(GET_SET_COUNT):
+        plug.set(x, y, z)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def set_compound_node_operator_natural_access():
+    mod, node = _create_node_operator_value_node()
+    x, y, z = COMPOUND_VALUE
+
+    for _ in range(GET_SET_COUNT):
+        node.input3D[0].set(x, y, z)
+    mod.doIt()
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_compound_cmds():
+    cmds.file(new=True, force=True)
+
+    node = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = f"{node}.input3D[0]"
+    cmds.setAttr(plug, *COMPOUND_VALUE, type="float3")
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        x, y, z = cmds.getAttr(plug)[0]
+        total += x + y + z
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_compound_pm():
+    from pymel import core as pm
+
+    cmds.file(new=True, force=True)
+
+    node = pm.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    plug = node.input3D[0]
+    plug.set(COMPOUND_VALUE)
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        value = plug.get()
+        total += value[0] + value[1] + value[2]
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_compound_om():
+    mod, _, plug = _create_om_value_plugs()
+    child_0 = plug.child(0)
+    child_1 = plug.child(1)
+    child_2 = plug.child(2)
+    x, y, z = COMPOUND_VALUE
+    mod.newPlugValueFloat(child_0, x)
+    mod.newPlugValueFloat(child_1, y)
+    mod.newPlugValueFloat(child_2, z)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        total += (
+            child_0.asFloat()
+            + child_1.asFloat()
+            + child_2.asFloat()
+        )
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_compound_node_operator_reuse_plug():
+    mod, node = _create_node_operator_value_node()
+    plug = node.input3D[0]
+    plug.set(*COMPOUND_VALUE)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        value = plug.get()
+        total += value[0] + value[1] + value[2]
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
+
+
+@timer
+def get_compound_node_operator_natural_access():
+    mod, node = _create_node_operator_value_node()
+    node.input3D[0].set(*COMPOUND_VALUE)
+    mod.doIt()
+
+    total = 0.0
+    for _ in range(GET_SET_COUNT):
+        value = node.input3D[0].get()
+        total += value[0] + value[1] + value[2]
+    _assert_benchmark_total(total)
+
+    cmds.file(new=True, force=True)
 
 
 # create
