@@ -60,7 +60,7 @@ class PlugOperator(Generic[A], ABC):
         "_fn_attr",
         "_m_plug",
         "_array_m_plug",
-        "_next_index_cache",
+        "_indexed_plug_cache",
         "_next_index",
     )
 
@@ -97,7 +97,7 @@ class PlugOperator(Generic[A], ABC):
         self._m_plug: om.MPlug | None = None
         # array plug
         self._array_m_plug: om.MPlug | None = None
-        self._next_index_cache: dict[str, int] | None = None
+        self._indexed_plug_cache: dict[int, PlugOperator] | None = None
         self._next_index: int | None = None
 
     # name
@@ -322,6 +322,11 @@ class PlugOperator(Generic[A], ABC):
                 raise AttributeError(
                     f"{self.plug} は [{key}] アクセスができません"
                 )
+            indexed_plug_cache = self._indexed_plug_cache
+            if indexed_plug_cache is not None:
+                cached_plug = indexed_plug_cache.get(key)
+                if cached_plug is not None:
+                    return cached_plug
             plug: Self = type(self)(
                 node=self._node,
                 oprt_attr=self._oprt_attr,
@@ -330,21 +335,17 @@ class PlugOperator(Generic[A], ABC):
                 index=key,
                 parent_oprt_plug=self,
             )
+            if indexed_plug_cache is None:
+                indexed_plug_cache = {}
+                self._indexed_plug_cache = indexed_plug_cache
+            indexed_plug_cache[key] = plug
             return plug
         elif key == next:
             if self.index is not None:
                 raise AttributeError(
                     f"{self.plug} は [{key}] アクセスができません"
                 )
-            plug: Self = type(self)(
-                node=self._node,
-                oprt_attr=self._oprt_attr,
-                parent_attr_path=self._oprt_attr._attr_path,
-                multi=self._oprt_attr.multi,
-                index=self._get_next_index(),
-                parent_oprt_plug=self,
-            )
-            return plug
+            return self[self._get_next_index()]
         elif isinstance(key, str):
             # attr_name, index = _parse_attr_segment(key)
             # plug = _make_dynamic_plug(self._node, attr_name, self._attr_path)
