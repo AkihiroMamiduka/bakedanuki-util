@@ -5,47 +5,103 @@ from maya import cmds
 from maya.api import OpenMaya as om
 
 # self
-from ...... import logger as u_logger
 from ..... import str as test_str
-from ......_dev.timer import timer
+from ......_dev.timer import run_timed_repeat, timer
 from ......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
 from ......maya import scene as u_scene
 
-logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
+ACCURATE = True
+REPEAT_COUNT = 3
+INCLUDE_CACHE_CHECK = False
+COUNT = 100000
 
 
-def main():
+def main(
+    accurate: bool = ACCURATE,
+    repeat_count: int = REPEAT_COUNT,
+    include_cache_check: bool = INCLUDE_CACHE_CHECK,
+):
     u_scene.new_scene()
     # create
     #   one
     test_str.title("処理速度計測(create-one)")
-    create_one_cmds()
-    create_one_pm()
-    create_one_om()
-    create_one_node_operator()
+    _run_benchmarks(
+        (
+            create_one_cmds,
+            create_one_pm,
+            create_one_om,
+            create_one_node_operator,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
     #   many
     test_str.title("処理速度計測(create-many)")
-    create_many_cmds()
-    create_many_pm()
-    create_many_om_individual()
-    create_many_om_all_together()
-    create_many_node_operator()
+    _run_benchmarks(
+        (
+            create_many_cmds,
+            create_many_pm,
+            create_many_om_individual,
+            create_many_om_all_together,
+            create_many_node_operator,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
     # create_connect
     test_str.title("処理速度計測(create_connect)")
-    create_connect_cmds()
-    create_connect_pm()
-    create_connect_om_individual()
-    create_connect_om_all_together()
-    create_connect_node_operator()
+    _run_benchmarks(
+        (
+            create_connect_cmds,
+            create_connect_pm,
+            create_connect_om_individual,
+            create_connect_om_all_together,
+            create_connect_node_operator,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
     # create_connect_multi
     test_str.title("処理速度計測(create_connect_multi)")
-    create_connect_multi_cmds()
-    create_connect_multi_pm()
-    create_connect_multi_om_individual()
-    create_connect_multi_om_all_together()
-    create_connect_multi_node_operator()
+    _run_benchmarks(
+        (
+            create_connect_multi_cmds,
+            create_connect_multi_pm,
+            create_connect_multi_om_individual,
+            create_connect_multi_om_all_together,
+            create_connect_multi_node_operator,
+        ),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
+    if include_cache_check:
+        test_str.title("処理速度計測(create_connect_multi_cache)")
+        _run_benchmarks(
+            (
+                create_connect_multi_cmds_xyz,
+                create_connect_multi_om_all_together_xyz,
+                create_connect_multi_node_operator_reuse_index,
+                create_connect_multi_node_operator_natural_index,
+            ),
+            accurate=accurate,
+            repeat_count=repeat_count,
+        )
+
+
+def _run_benchmarks(funcs, accurate: bool, repeat_count: int):
+    for func in funcs:
+        _run_benchmark(func, accurate=accurate, repeat_count=repeat_count)
+
+
+def _run_benchmark(func, accurate: bool, repeat_count: int):
+    if not accurate:
+        func()
+        return
+
+    run_timed_repeat(func, repeat_count=repeat_count)
 
 
 # create
@@ -113,7 +169,7 @@ def create_many_cmds():
     cmds.file(new=True, force=True)
 
     # ノードを作成
-    for _ in range(100000):
+    for _ in range(COUNT):
         cmds.createNode(
             "plusMinusAverage",
             skipSelect=True,
@@ -130,7 +186,7 @@ def create_many_pm():
     cmds.file(new=True, force=True)
 
     # ノードを作成
-    for _ in range(100000):
+    for _ in range(COUNT):
         pm.createNode(
             "plusMinusAverage",
             skipSelect=True,
@@ -146,7 +202,7 @@ def create_many_om_individual():
 
     # ノードを作成
     mod = om.MDGModifier()
-    for _ in range(100000):
+    for _ in range(COUNT):
         mod.createNode("plusMinusAverage")
         mod.doIt()
 
@@ -161,7 +217,7 @@ def create_many_om_all_together():
 
     # ノードを作成
     mod = om.MDGModifier()
-    for _ in range(100000):
+    for _ in range(COUNT):
         mod.createNode("plusMinusAverage")
     mod.doIt()
 
@@ -176,7 +232,7 @@ def create_many_node_operator():
 
     # ノードを作成
     mod = om.MDGModifier()
-    for _ in range(100000):
+    for _ in range(COUNT):
         PlusMinusAverage.create(mod)
     mod.doIt()
 
@@ -192,7 +248,7 @@ def create_connect_cmds():
 
     # ノードを作成し接続
     parent_node = None
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         node = cmds.createNode(
             "plusMinusAverage",
@@ -220,7 +276,7 @@ def create_connect_pm():
 
     # ノードを作成し接続
     parent_node = None
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         node = pm.createNode(
             "plusMinusAverage",
@@ -244,7 +300,7 @@ def create_connect_om_individual():
     # ノードを作成し接続
     mod = om.MDGModifier()
     parent_m_obj = None
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         m_obj = mod.createNode("plusMinusAverage")
         # ノードを接続
@@ -274,7 +330,7 @@ def create_connect_om_all_together():
     # ノードを作成し接続
     mod = om.MDGModifier()
     parent_m_obj = None
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         m_obj = mod.createNode("plusMinusAverage")
         # ノードを接続
@@ -304,7 +360,7 @@ def create_connect_node_operator():
     # ノードを作成し接続
     mod = om.MDGModifier()
     parent_node = None
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         node = PlusMinusAverage.create(mod)
         # ノードを接続
@@ -329,7 +385,7 @@ def create_connect_multi_cmds():
         "plusMinusAverage",
         skipSelect=True,
     )
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         dst = cmds.createNode(
             "plusMinusAverage",
@@ -357,7 +413,7 @@ def create_connect_multi_pm():
         "plusMinusAverage",
         skipSelect=True,
     )
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         dst = pm.createNode(
             "plusMinusAverage",
@@ -378,7 +434,7 @@ def create_connect_multi_om_individual():
     # ノードを作成し接続
     mod = om.MDGModifier()
     src_m_obj = mod.createNode("plusMinusAverage")
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         dst_m_obj = mod.createNode("plusMinusAverage")
         # ノードを接続
@@ -405,7 +461,7 @@ def create_connect_multi_om_all_together():
     # ノードを作成し接続
     mod = om.MDGModifier()
     src_m_obj = mod.createNode("plusMinusAverage")
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         dst_m_obj = mod.createNode("plusMinusAverage")
         # ノードを接続
@@ -425,6 +481,69 @@ def create_connect_multi_om_all_together():
 
 
 @timer
+def create_connect_multi_cmds_xyz():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    src = cmds.createNode(
+        "plusMinusAverage",
+        skipSelect=True,
+    )
+    for _ in range(COUNT):
+        # ノードを作成
+        dst = cmds.createNode(
+            "plusMinusAverage",
+            skipSelect=True,
+        )
+        # ノードを接続
+        cmds.connectAttr(
+            f"{src}.output3Dx",
+            f"{dst}.input3D[0].input3Dx",
+        )
+        cmds.connectAttr(
+            f"{src}.output3Dx",
+            f"{dst}.input3D[0].input3Dy",
+        )
+        cmds.connectAttr(
+            f"{src}.output3Dx",
+            f"{dst}.input3D[0].input3Dz",
+        )
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_om_all_together_xyz():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_m_obj = mod.createNode("plusMinusAverage")
+    src = om.MPlug(
+        om.MObject(src_m_obj),
+        om.MFnDependencyNode(src_m_obj).attribute("output3Dx"),
+    )
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_m_obj = mod.createNode("plusMinusAverage")
+        # ノードを接続
+        dst_array_plug = om.MPlug(
+            dst_m_obj, om.MFnDependencyNode(dst_m_obj).attribute("input3D")
+        )
+        dst_input_plug = dst_array_plug.elementByLogicalIndex(0)
+        mod.connect(src, dst_input_plug.child(0))
+        mod.connect(src, dst_input_plug.child(1))
+        mod.connect(src, dst_input_plug.child(2))
+    mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
 def create_connect_multi_node_operator():
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -432,11 +551,56 @@ def create_connect_multi_node_operator():
     # ノードを作成し接続
     mod = om.MDGModifier()
     src_node = PlusMinusAverage.create(mod)
-    for _ in range(100000):
+    for _ in range(COUNT):
         # ノードを作成
         dst_node = PlusMinusAverage.create(mod)
         # ノードを接続
         src_node.output3Dx > dst_node.input3D[0].input3Dx
+    mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator_reuse_index():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_node = PlusMinusAverage.create(mod)
+    src_plug = src_node.output3Dx
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(mod)
+        dst_input = dst_node.input3D[0]
+        # ノードを接続
+        src_plug > dst_input.input3Dx
+        src_plug > dst_input.input3Dy
+        src_plug > dst_input.input3Dz
+    mod.doIt()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator_natural_index():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    mod = om.MDGModifier()
+    src_node = PlusMinusAverage.create(mod)
+    src_plug = src_node.output3Dx
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(mod)
+        # ノードを接続
+        src_plug > dst_node.input3D[0].input3Dx
+        src_plug > dst_node.input3D[0].input3Dy
+        src_plug > dst_node.input3D[0].input3Dz
     mod.doIt()
 
     # 新規シーンを開く
