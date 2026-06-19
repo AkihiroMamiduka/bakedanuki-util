@@ -85,7 +85,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         "__weakref__",
         "_dg_mod",
         "m_obj",
-        "fn_node",
+        "_fn_node",
         "_plug_cache",
     )
 
@@ -152,7 +152,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self.m_obj = sel.getDependNode(0)
 
         # fn_node
-        self.fn_node = om.MFnDependencyNode(self.m_obj)
+        self._fn_node = None
 
         # name
         if name:
@@ -267,6 +267,17 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             name=name,
             auto_add_attr=auto_add_attr,
         )
+
+    @property
+    def fn_node(self) -> om.MFnDependencyNode:
+        """
+        MFnDependencyNode を返す。
+
+        初回アクセス時に作成し、以降はキャッシュを返す。
+        """
+        if self._fn_node is None:
+            self._fn_node = om.MFnDependencyNode(self.m_obj)
+        return self._fn_node
 
     @property
     def name(self) -> str:
