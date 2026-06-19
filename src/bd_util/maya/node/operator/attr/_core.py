@@ -553,6 +553,9 @@ class PlugOperator(Generic[A], ABC):
     ) -> PlugOperator | str | list[str]:
         """
         self > other 演算子オーバーライド：接続
+            .connect() の糖衣構文
+            大量処理で少しでも(メソッド1個分の)速度を詰めるなら src.connect(dst)
+            さらに詰めるなら Plug をローカル変数に保持して再利用するのが良いと思います。
 
         Args:
             other (Plug | str | list[str]): 接続先の対象
