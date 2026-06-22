@@ -1329,6 +1329,14 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             # short name をセット
             object.__setattr__(self, "_short_name", name)
 
+        if isinstance(self.oprt_parent, AttributeField):
+            parent_attr_path = self.oprt_parent._attr_path
+            if parent_attr_path:
+                object.__setattr__(
+                    self, "_parent_attr_path", parent_attr_path
+                )
+                self._set_attr_path(parent_attr_path)
+
     def _find_child_index(self, owner: Any) -> int | None:
         """
         owner 内での AttributeField の定義順を返す。
