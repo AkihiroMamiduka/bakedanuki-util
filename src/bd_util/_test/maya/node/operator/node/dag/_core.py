@@ -4,11 +4,11 @@ DAG クラスの long_name プロパティのテスト・デモ
 """
 
 import maya.cmds as cmds
-from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag._core import DAG
 from .......maya.node.operator.node.dag.transform._core import Transform
 
@@ -78,11 +78,10 @@ def long_name_under_group():
 def operate_transform():
     test_str.title("operate_transform")
 
-    dag_mod = om.MDagModifier()
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
 
     name = "test_transform"
-    node = Transform.create(dg_mod, dag_mod=dag_mod, name=name)
+    node = Transform.create(modifier_manager, name=name)
 
     node.translate.set(10.0, 20.0, 30.0)
     node.rotate.set(10.0, 20.0, 30.0)
@@ -92,10 +91,10 @@ def operate_transform():
     logger.debug(f"rotate: {node.rotate.get()}")
     logger.debug(f"scale: {node.scale.get()}")
 
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager.do_it_dag()
+    modifier_manager.do_it_dg()
 
-    logger.debug("---- after mod.doIt()")
+    logger.debug("---- after modifier_manager.do_it_dag()/do_it_dg()")
     logger.debug(f"translate: {node.translate.get()}")
     logger.debug(f"rotate: {node.rotate.get()}")
     logger.debug(f"scale: {node.scale.get()}")

@@ -34,8 +34,10 @@ def new_scene(maya_cmds):
 
 
 @pytest.fixture
-def dg_mod(new_scene, maya_om):
-    return maya_om.MDGModifier()
+def modifier_manager(new_scene, maya_cmds, maya_om):
+    from bd_util.maya.node.modifier import ModifierManager
+
+    return ModifierManager()
 
 
 @pytest.fixture
@@ -48,9 +50,9 @@ def plus_minus_average_cls(maya_cmds, maya_om):
 
 
 @pytest.fixture
-def plus_minus_average_node(dg_mod, plus_minus_average_cls):
-    node = plus_minus_average_cls.create(dg_mod, name="test")
-    dg_mod.doIt()
+def plus_minus_average_node(modifier_manager, plus_minus_average_cls):
+    node = plus_minus_average_cls.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
     return node
 
 
@@ -62,7 +64,7 @@ def wt_add_matrix_cls(maya_cmds, maya_om):
 
 
 @pytest.fixture
-def wt_add_matrix_node(dg_mod, wt_add_matrix_cls):
-    node = wt_add_matrix_cls.create(dg_mod, name="test")
-    dg_mod.doIt()
+def wt_add_matrix_node(modifier_manager, wt_add_matrix_cls):
+    node = wt_add_matrix_cls.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
     return node

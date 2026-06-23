@@ -5,11 +5,11 @@ Node クラスの名前系プロパティ（namespace / local_name）のテス�
 
 # maya
 from maya import cmds
-from maya.api import OpenMaya as om
 
 # self
 from ...... import logger as u_logger
 from ..... import str as test_str
+from ......maya.node.modifier import ModifierManager
 from ......maya.node.operator.node.dag.transform._core import Transform
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -34,9 +34,8 @@ def namespace_with_namespace():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",
@@ -62,9 +61,8 @@ def namespace_without_namespace():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",
@@ -90,9 +88,8 @@ def namespace_multi_level():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",
@@ -118,9 +115,8 @@ def local_name_with_namespace():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",
@@ -146,9 +142,8 @@ def local_name_without_namespace():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",
@@ -174,9 +169,8 @@ def local_name_multi_level():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # オペレーターを作成
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = Transform(dg_mod, name=node_name, dag_mod=dag_mod)
+    modifier_manager = ModifierManager()
+    node = Transform(modifier_manager, name=node_name)
     logger.debug(
         "{}: {}".format(
             "node.name",

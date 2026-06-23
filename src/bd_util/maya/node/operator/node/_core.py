@@ -10,6 +10,7 @@ from maya.api import OpenMaya as om
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
+from ...modifier import ModifierManager
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -83,7 +84,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     __slots__ = (
         "__weakref__",
-        "_dg_mod",
+        "_modifier_manager",
         "m_obj",
         "_fn_node",
         "_plug_cache",
@@ -133,15 +134,15 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
     def __init__(
         self,
-        dg_mod: om.MDGModifier,
+        modifier_manager: ModifierManager,
         name: str = None,
         m_obj: om.MObject = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ):
         if m_obj is None and name is None:
             raise ValueError("Either m_obj or name must be provided.")
-        # dg_mod
-        self._dg_mod = dg_mod
+        # modifier_manager
+        self._modifier_manager = modifier_manager
 
         # m_obj
         if m_obj is not None:
@@ -218,6 +219,14 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def __class_getitem__(cls, key: str):
         return getattr(cls, key)
 
+    @property
+    def modifier_manager(self) -> ModifierManager:
+        return self._modifier_manager
+
+    @property
+    def _dg_mod(self) -> om.MDGModifier:
+        return self._modifier_manager.dg_mod
+
     def _auto_add_extra_attrs(self):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
@@ -244,7 +253,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     @classmethod
     def create(
         cls,
-        dg_mod: om.MDGModifier,
+        modifier_manager: ModifierManager,
         name=None,
         auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Self:
@@ -252,7 +261,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
 
         # ノード作成
-        m_obj = dg_mod.createNode(cls.NODE_TYPE)
+        m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
 
         # # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
         # fn_node = om.MFnDependencyNode(m_obj)
@@ -262,7 +271,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         # インスタンス生成
         return cls(
-            dg_mod,
+            modifier_manager,
             m_obj=m_obj,
             name=name,
             auto_add_attr=auto_add_attr,

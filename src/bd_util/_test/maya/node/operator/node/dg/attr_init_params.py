@@ -15,11 +15,11 @@ Attr クラスの __init__ 引数拡張と各プロパティのテスト・デ�
 
 # maya
 from maya import cmds
-from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.define.std.at.double import (
     DoubleField,
@@ -236,11 +236,9 @@ def add_attr_default_min_max():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     exists = cmds.objExists(f"{node_name}.myDouble")
     logger.debug(
@@ -273,11 +271,9 @@ def add_attr_soft_min_max():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     soft_min = cmds.attributeQuery("myDouble", node=node_name, softMin=True)
     logger.debug("{}: {} (should be [0.5])".format("softMin", soft_min))
@@ -297,11 +293,10 @@ def add_attr_enum_name():
     node_name = "test_add_attr_enum"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode.create(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode.create(modifier_manager, name=node_name)
+    modifier_manager.do_it_dag()
+    modifier_manager.do_it_dg()
 
     exists = cmds.objExists(f"{node_name}.myEnum")
     logger.debug(
@@ -326,11 +321,9 @@ def add_attr_readable_writable():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     exists = cmds.objExists(f"{node_name}.myReadOnly")
     logger.debug(
@@ -358,11 +351,9 @@ def add_attr_data_type_string():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     exists = cmds.objExists(f"{node_name}.myString")
     logger.debug(
@@ -400,11 +391,9 @@ def extra_false_query_properties():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("transform", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyNode(dg_mod, dag_mod=dag_mod, name=node_name)
-    dag_mod.doIt()
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    MyNode(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     # translateX は transform に標準で存在する extra=False アトリビュート
     attr = MyNode.translateX

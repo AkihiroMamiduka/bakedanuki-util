@@ -5,11 +5,11 @@ extra=True の Attr を使った自動 addAttr() 機能のテスト・デモ
 
 # maya
 from maya import cmds
-from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag.transform._core import Transform
 from .......maya.node.operator.attr.extra.add_attr import AddAttr
 
@@ -243,14 +243,13 @@ def extra_attrs_class_access():
 def extra_attrs_instance_access():
     test_str.title("extra=True: instance access properties")
 
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = MyTransform.create(dg_mod, dag_mod=dag_mod, name="test")
-    dag_mod.doIt()
-    dg_mod.doIt()
+    node = MyTransform.create(modifier_manager, name="test")
+    modifier_manager.do_it_dag()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node._extra_attributes",
@@ -272,9 +271,8 @@ def auto_add_attr_on_init():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # Node インスタンス生成 → extra=True の Attr が自動 addAttr() される
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    node = MyTransform(dg_mod, dag_mod=dag_mod, name=node_name)
+    modifier_manager = ModifierManager()
+    node = MyTransform(modifier_manager, name=node_name)
 
     logger.debug(
         "node.testDouble plug exists: {}".format(
@@ -305,8 +303,7 @@ def auto_add_attr_on_init():
         )
     )
     node.testDouble3.set(1.0, 2.0, 3.0)
-    dg_mod.doIt()
-    dag_mod.doIt()
+    modifier_manager.do_it_dg()
     val = node.testDouble3.get()
     logger.debug(
         "{}: after : {}".format(
@@ -338,8 +335,7 @@ def auto_add_attr_on_init():
     node.testDouble3.y.set(22.0)
     logger.debug("node.testDouble3.z.set(33.0)")
     node.testDouble3.z.set(33.0)
-    dg_mod.doIt()
-    dag_mod.doIt()
+    modifier_manager.do_it_dg()
     val_x = node.testDouble3.x.get()
     val_y = node.testDouble3.y.get()
     val_z = node.testDouble3.z.get()
@@ -383,9 +379,8 @@ def no_auto_add_attr():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # auto_add_attr=False → addAttr() されない
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
-    MyTransform(dg_mod, dag_mod=dag_mod, name=node_name, auto_add_attr=False)
+    modifier_manager = ModifierManager()
+    MyTransform(modifier_manager, name=node_name, auto_add_attr=False)
 
     logger.debug(
         "node.testDouble plug exists (should be False): {}".format(
@@ -404,10 +399,11 @@ def manual_add_attr_via_plug():
     cmds.createNode("transform", name=node_name, skipSelect=True)
 
     # auto_add_attr=False でインスタンス化
-    dg_mod = om.MDGModifier()
-    dag_mod = om.MDagModifier()
+    modifier_manager = ModifierManager()
     node = MyTransform(
-        dg_mod, dag_mod=dag_mod, name=node_name, auto_add_attr=False
+        modifier_manager,
+        name=node_name,
+        auto_add_attr=False,
     )
 
     # Plug 経由で任意タイミングに addAttr()

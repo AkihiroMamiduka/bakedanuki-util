@@ -1,11 +1,9 @@
 # coding: utf-8
 
-# maya
-from maya.api import OpenMaya as om
-
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dg.add_double_linear import AddDoubleLinear
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -44,10 +42,10 @@ def attribute_access():
 # instance_access
 def plug_access():
     test_str.title("plug_access")
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
 
-    node = AddDoubleLinear.create(dg_mod, name="test")
-    dg_mod.doIt()
+    node = AddDoubleLinear.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node",
@@ -70,8 +68,8 @@ def plug_access():
 
 def get_set():
     test_str.title("get_set")
-    dg_mod = om.MDGModifier()
-    node = AddDoubleLinear.create(dg_mod, name="test")
+    modifier_manager = ModifierManager()
+    node = AddDoubleLinear.create(modifier_manager, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -83,7 +81,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input1.set(10.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input1.get()",
@@ -100,7 +98,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input2.set(20.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input2.get()",
@@ -119,8 +117,8 @@ def get_set():
 
 def get_set_short_name():
     test_str.title("get_set_short_name")
-    dg_mod = om.MDGModifier()
-    node = AddDoubleLinear.create(dg_mod, name="test")
+    modifier_manager = ModifierManager()
+    node = AddDoubleLinear.create(modifier_manager, name="test")
     logger.debug(f"node: {node}")
 
     test_str.separator()
@@ -132,7 +130,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i1.set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i1.get()",
@@ -149,7 +147,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i2.set(200.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i2.get()",

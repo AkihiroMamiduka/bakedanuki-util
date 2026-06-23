@@ -7,6 +7,7 @@ from maya.api import OpenMaya as om
 # self
 from ..... import str as test_str
 from ......_dev.timer import run_timed_repeat, timer
+from ......maya.node.modifier import ModifierManager
 from ......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
@@ -202,10 +203,10 @@ def _create_om_value_plugs():
 def _create_node_operator_value_node():
     cmds.file(new=True, force=True)
 
-    mod = om.MDGModifier()
-    node = PlusMinusAverage.create(mod)
-    mod.doIt()
-    return mod, node
+    modifier_manager = ModifierManager()
+    node = PlusMinusAverage.create(modifier_manager)
+    modifier_manager.do_it_dg()
+    return modifier_manager, node
 
 
 def _assert_benchmark_total(total: float):
@@ -259,23 +260,23 @@ def set_scalar_om():
 
 @timer
 def set_scalar_node_operator_reuse_plug():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     plug = node.input1D[0]
 
     for _ in range(GET_SET_COUNT):
         plug.set(SCALAR_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     cmds.file(new=True, force=True)
 
 
 @timer
 def set_scalar_node_operator_natural_access():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
 
     for _ in range(GET_SET_COUNT):
         node.input1D[0].set(SCALAR_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     cmds.file(new=True, force=True)
 
@@ -336,10 +337,10 @@ def get_scalar_om():
 
 @timer
 def get_scalar_node_operator_reuse_plug():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     plug = node.input1D[0]
     plug.set(SCALAR_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -351,9 +352,9 @@ def get_scalar_node_operator_reuse_plug():
 
 @timer
 def get_scalar_node_operator_natural_access():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     node.input1D[0].set(SCALAR_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -414,25 +415,25 @@ def set_compound_om():
 
 @timer
 def set_compound_node_operator_reuse_plug():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     plug = node.input3D[0]
     x, y, z = COMPOUND_VALUE
 
     for _ in range(GET_SET_COUNT):
         plug.set(x, y, z)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     cmds.file(new=True, force=True)
 
 
 @timer
 def set_compound_node_operator_natural_access():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     x, y, z = COMPOUND_VALUE
 
     for _ in range(GET_SET_COUNT):
         node.input3D[0].set(x, y, z)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     cmds.file(new=True, force=True)
 
@@ -501,10 +502,10 @@ def get_compound_om():
 
 @timer
 def get_compound_node_operator_reuse_plug():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     plug = node.input3D[0]
     plug.set(*COMPOUND_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -517,9 +518,9 @@ def get_compound_node_operator_reuse_plug():
 
 @timer
 def get_compound_node_operator_natural_access():
-    mod, node = _create_node_operator_value_node()
+    modifier_manager, node = _create_node_operator_value_node()
     node.input3D[0].set(*COMPOUND_VALUE)
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     total = 0.0
     for _ in range(GET_SET_COUNT):
@@ -581,9 +582,9 @@ def create_one_node_operator():
     cmds.file(new=True, force=True)
 
     # ノードを作成
-    mod = om.MDGModifier()
-    PlusMinusAverage.create(mod)
-    mod.doIt()
+    modifier_manager = ModifierManager()
+    PlusMinusAverage.create(modifier_manager)
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -657,10 +658,10 @@ def create_many_node_operator():
     cmds.file(new=True, force=True)
 
     # ノードを作成
-    mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     for _ in range(COUNT):
-        PlusMinusAverage.create(mod)
-    mod.doIt()
+        PlusMinusAverage.create(modifier_manager)
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -784,17 +785,17 @@ def create_connect_node_operator():
     cmds.file(new=True, force=True)
 
     # ノードを作成し接続
-    mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     parent_node = None
     for _ in range(COUNT):
         # ノードを作成
-        node = PlusMinusAverage.create(mod)
+        node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
         if parent_node is not None:
             parent_node.output3Dx > node.input3D[0].input3Dx
         # parent を置き換え
         parent_node = node
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -975,14 +976,14 @@ def create_connect_multi_node_operator():
     cmds.file(new=True, force=True)
 
     # ノードを作成し接続
-    mod = om.MDGModifier()
-    src_node = PlusMinusAverage.create(mod)
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
     for _ in range(COUNT):
         # ノードを作成
-        dst_node = PlusMinusAverage.create(mod)
+        dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
         src_node.output3Dx > dst_node.input3D[0].input3Dx
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -994,18 +995,18 @@ def create_connect_multi_node_operator_reuse_index():
     cmds.file(new=True, force=True)
 
     # ノードを作成し接続
-    mod = om.MDGModifier()
-    src_node = PlusMinusAverage.create(mod)
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
     src_plug = src_node.output3Dx
     for _ in range(COUNT):
         # ノードを作成
-        dst_node = PlusMinusAverage.create(mod)
+        dst_node = PlusMinusAverage.create(modifier_manager)
         dst_input = dst_node.input3D[0]
         # ノードを接続
         src_plug > dst_input.input3Dx
         src_plug > dst_input.input3Dy
         src_plug > dst_input.input3Dz
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)
@@ -1017,17 +1018,17 @@ def create_connect_multi_node_operator_natural_index():
     cmds.file(new=True, force=True)
 
     # ノードを作成し接続
-    mod = om.MDGModifier()
-    src_node = PlusMinusAverage.create(mod)
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
     src_plug = src_node.output3Dx
     for _ in range(COUNT):
         # ノードを作成
-        dst_node = PlusMinusAverage.create(mod)
+        dst_node = PlusMinusAverage.create(modifier_manager)
         # ノードを接続
         src_plug > dst_node.input3D[0].input3Dx
         src_plug > dst_node.input3D[0].input3Dy
         src_plug > dst_node.input3D[0].input3Dz
-    mod.doIt()
+    modifier_manager.do_it_dg()
 
     # 新規シーンを開く
     cmds.file(new=True, force=True)

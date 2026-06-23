@@ -13,11 +13,11 @@ Node / Plug の文字列アクセス（__getitem__）のテスト
 
 # maya
 from maya import cmds
-from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
@@ -42,12 +42,12 @@ def main():
 def node_simple_attr():
     test_str.title('1. node["attrName"]')
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
@@ -77,12 +77,12 @@ def node_simple_attr():
 def node_multi_attr_with_index():
     test_str.title('2. node["attrName"][0]')
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
@@ -112,12 +112,12 @@ def node_multi_attr_with_index():
 def node_dotted_subattr():
     test_str.title('3. node["attrName.subAttr"]')
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
@@ -147,12 +147,12 @@ def node_dotted_subattr():
 def node_index_and_subattr():
     test_str.title('4. node["attrName[0].subAttr"]')
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
@@ -183,12 +183,12 @@ def node_index_and_subattr():
 def plug_string_subattr():
     test_str.title('5. plug["subAttr"]')
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {} (should be {}) -> {}".format(
@@ -218,12 +218,12 @@ def plug_string_subattr():
 def plug_string_check():
     test_str.title("6. plug string check")
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
     name = "test"
     if cmds.objExists(name):
         cmds.delete(name)
-    node = PlusMinusAverage.create(dg_mod, name=name)
-    dg_mod.doIt()
+    node = PlusMinusAverage.create(modifier_manager, name=name)
+    modifier_manager.do_it_dg()
 
     cases = [
         (

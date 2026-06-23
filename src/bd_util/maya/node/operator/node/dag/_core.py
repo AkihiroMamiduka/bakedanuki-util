@@ -5,12 +5,12 @@ from typing import Self
 from maya.api import OpenMaya as om
 
 # self
+from ....modifier import ModifierManager
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
 
 class DAG(NodeOperator):
     __slots__ = (
-        "_dag_mod",
         "_dag_path",
         "_full_path",
     )
@@ -18,13 +18,10 @@ class DAG(NodeOperator):
     def __init__(
         self,
         *args,
-        dag_mod: om.MDagModifier = om.MDagModifier(),
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
 
-        # dag_mod
-        self._dag_mod = dag_mod
         # dag_path
         self._dag_path = om.MDagPath.getAPathTo(self.m_obj)
         # full_path
@@ -33,8 +30,7 @@ class DAG(NodeOperator):
     @classmethod
     def create(
         cls,
-        dg_mod: om.MDGModifier,
-        dag_mod: om.MDagModifier,
+        modifier_manager: ModifierManager,
         name=None,
         auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Self:
@@ -42,16 +38,19 @@ class DAG(NodeOperator):
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")
 
         # ノード作成
-        m_obj = dag_mod.createNode(cls.NODE_TYPE)
+        m_obj = modifier_manager.dag_mod.createNode(cls.NODE_TYPE)
 
         # インスタンス生成
         return cls(
-            dg_mod,
-            dag_mod=dag_mod,
+            modifier_manager,
             m_obj=m_obj,
             name=name,
             auto_add_attr=auto_add_attr,
         )
+
+    @property
+    def _dag_mod(self) -> om.MDagModifier:
+        return self.modifier_manager.dag_mod
 
     @property
     def full_path(self) -> str:

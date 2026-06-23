@@ -7,13 +7,6 @@ import pytest
 pytestmark = pytest.mark.maya
 
 
-@pytest.fixture
-def modifier_manager(maya_cmds, maya_om, new_scene):
-    from bd_util.maya.node.modifier import ModifierManager
-
-    return ModifierManager()
-
-
 def test_do_it_dg_undo_redo(modifier_manager, maya_cmds):
     manager = modifier_manager
     first_dg_mod = manager.dg_mod

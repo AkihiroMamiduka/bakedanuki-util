@@ -2,11 +2,11 @@
 
 # maya
 from maya import cmds
-from maya.api import OpenMaya as om
 
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -34,9 +34,9 @@ def class_instance_access():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     test_str.separator()
     # node.is_instance = "test"  # error
@@ -224,9 +224,9 @@ def create():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
@@ -243,9 +243,9 @@ def instance_access():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     logger.debug(f"node: {node}")
     logger.debug(f"type(node): {type(node)}")
@@ -404,9 +404,9 @@ def to_string():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     logger.debug(f"str(node): {str(node)}")
 
@@ -418,9 +418,9 @@ def get_set():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     logger.debug(f"node: {node}")
 
@@ -496,20 +496,20 @@ def get_set():
 
 def connect_disconnect():
     test_str.title("connect_disconnect")
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
 
     node_name_0 = "test_0"
     if cmds.objExists(node_name_0):
         cmds.delete(node_name_0)
     cmds.createNode("wtAddMatrix", name=node_name_0, skipSelect=True)
-    node_0 = WtAddMatrix(dg_mod, name=node_name_0)
+    node_0 = WtAddMatrix(modifier_manager, name=node_name_0)
 
     node_name_1 = "test_1"
     if cmds.objExists(node_name_1):
         cmds.delete(node_name_1)
     cmds.createNode("wtAddMatrix", name=node_name_1, skipSelect=True)
-    node_1 = WtAddMatrix(dg_mod, name=node_name_1)
-    dg_mod.doIt()
+    node_1 = WtAddMatrix(modifier_manager, name=node_name_1)
+    modifier_manager.do_it_dg()
 
     test_str.separator()
     node_0.matrixSum > node_1.wtMatrix[0].matrixIn
@@ -535,9 +535,9 @@ def plug_cache():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     test_str.separator()
     plug_0 = node.matrixSum
@@ -651,9 +651,9 @@ def short_name_instance_access():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    node = WtAddMatrix(dg_mod, name=node_name)
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = WtAddMatrix(modifier_manager, name=node_name)
+    modifier_manager.do_it_dg()
 
     test_str.separator()
     logger.debug(
@@ -809,24 +809,24 @@ def short_name_instance_access():
 def connect_next_index():
     test_str.title("connect_next_index")
 
-    dg_mod = om.MDGModifier()
+    modifier_manager = ModifierManager()
 
     node_name = "dst"
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dst_node = WtAddMatrix(dg_mod, name=node_name)
+    dst_node = WtAddMatrix(modifier_manager, name=node_name)
     for i in range(5):
         node_name = f"src_{i}"
         if cmds.objExists(node_name):
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-        src_node = WtAddMatrix(dg_mod, name=node_name)
+        src_node = WtAddMatrix(modifier_manager, name=node_name)
         src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst_node.wtMatrix[{}].matrixIn".format(i, i)
         )
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
 
 def refresh_next_index():
@@ -836,8 +836,8 @@ def refresh_next_index():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    dg_mod = om.MDGModifier()
-    dst_node = WtAddMatrix(dg_mod, name=node_name)
+    modifier_manager = ModifierManager()
+    dst_node = WtAddMatrix(modifier_manager, name=node_name)
 
     # next 指定でキャッシュを使いながら 3 件接続
     for i in range(3):
@@ -845,12 +845,12 @@ def refresh_next_index():
         if cmds.objExists(node_name):
             cmds.delete(node_name)
         cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-        src_node = WtAddMatrix(dg_mod, name=node_name)
+        src_node = WtAddMatrix(modifier_manager, name=node_name)
         src_node.matrixSum > dst_node.wtMatrix[next].matrixIn
         logger.debug(
             "src_{}.matrixSum > dst.wtMatrix[{}].matrixIn".format(i, i)
         )
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
     # このメソッド以外 (cmds.connectAttr 相当) でコネクションが追加された場合を想定し
     # refresh_next_index() でキャッシュをリセットする
@@ -862,9 +862,9 @@ def refresh_next_index():
     if cmds.objExists(node_name):
         cmds.delete(node_name)
     cmds.createNode("wtAddMatrix", name=node_name, skipSelect=True)
-    extra_src = WtAddMatrix(dg_mod, name=node_name)
+    extra_src = WtAddMatrix(modifier_manager, name=node_name)
     extra_src.matrixSum > dst_node.wtMatrix[next].matrixIn
     logger.debug(
         "src_extra.matrixSum > dst.wtMatrix[3].matrixIn (after refresh)"
     )
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()

@@ -61,30 +61,33 @@ def test_plug_cache_and_short_name_aliases(wt_add_matrix_node):
     assert node.wtMatrix[0].weightIn is node.i[0].w
 
 
-def test_get_set_short_name_aliases(dg_mod, wt_add_matrix_node):
+def test_get_set_short_name_aliases(modifier_manager, wt_add_matrix_node):
     node = wt_add_matrix_node
 
     node.wtMatrix[0].weightIn.set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.wtMatrix[0].weightIn.get() == pytest.approx(100.0)
     assert node.i[0].w.get() == pytest.approx(100.0)
 
     node.i[0].w.set(200.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.wtMatrix[0].weightIn.get() == pytest.approx(200.0)
     assert node.i[0].w.get() == pytest.approx(200.0)
 
 
-def test_next_index_connects_to_sequential_elements(dg_mod, wt_add_matrix_cls):
-    dst = wt_add_matrix_cls.create(dg_mod, name="dst")
+def test_next_index_connects_to_sequential_elements(
+    modifier_manager,
+    wt_add_matrix_cls,
+):
+    dst = wt_add_matrix_cls.create(modifier_manager, name="dst")
     sources = []
 
     for i in range(5):
-        src = wt_add_matrix_cls.create(dg_mod, name=f"src_{i}")
+        src = wt_add_matrix_cls.create(modifier_manager, name=f"src_{i}")
         sources.append(src)
         src.matrixSum > dst.wtMatrix[next].matrixIn
 
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
     for i, src in enumerate(sources):
         assert dst.wtMatrix[i].matrixIn.src_plug == f"{src.name}.matrixSum"
@@ -93,17 +96,17 @@ def test_next_index_connects_to_sequential_elements(dg_mod, wt_add_matrix_cls):
 
 
 def test_refresh_next_index_rescans_existing_elements(
-    dg_mod,
+    modifier_manager,
     wt_add_matrix_cls,
     maya_cmds,
 ):
-    dst = wt_add_matrix_cls.create(dg_mod, name="dst")
+    dst = wt_add_matrix_cls.create(modifier_manager, name="dst")
 
     for i in range(3):
-        src = wt_add_matrix_cls.create(dg_mod, name=f"src_{i}")
+        src = wt_add_matrix_cls.create(modifier_manager, name=f"src_{i}")
         src.matrixSum > dst.wtMatrix[next].matrixIn
 
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
     maya_cmds.createNode("wtAddMatrix", name="src_external", skipSelect=True)
     maya_cmds.connectAttr(
@@ -112,9 +115,9 @@ def test_refresh_next_index_rescans_existing_elements(
     )
 
     dst.wtMatrix.refresh_next_index()
-    extra_src = wt_add_matrix_cls.create(dg_mod, name="src_extra")
+    extra_src = wt_add_matrix_cls.create(modifier_manager, name="src_extra")
     extra_src.matrixSum > dst.wtMatrix[next].matrixIn
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
     assert dst.wtMatrix[0].matrixIn.src_plug == "src_0.matrixSum"
     assert dst.wtMatrix[1].matrixIn.src_plug == "src_1.matrixSum"

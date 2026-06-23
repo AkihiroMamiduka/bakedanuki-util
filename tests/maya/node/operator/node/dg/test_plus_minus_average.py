@@ -60,16 +60,16 @@ def test_plug_cache_and_aliases(plus_minus_average_node):
     assert node.output3D.output3Dx is node.output3Dx
 
 
-def test_get_set_long_names(dg_mod, plus_minus_average_node):
+def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     node = plus_minus_average_node
 
     node.input1D[0].set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.input1D[0].get() == pytest.approx(100.0)
 
     node.input2D[0].input2Dx.set(201.0)
     node.input2D[0].input2Dy.set(202.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.input2D[0].input2Dx.get() == pytest.approx(201.0)
     assert node.input2D[0].input2Dy.get() == pytest.approx(202.0)
     assert node.input2D[0].get() == pytest.approx([201.0, 202.0])
@@ -77,7 +77,7 @@ def test_get_set_long_names(dg_mod, plus_minus_average_node):
     node.input3D[0].input3Dx.set(301.0)
     node.input3D[0].input3Dy.set(302.0)
     node.input3D[0].input3Dz.set(303.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.input3D[0].input3Dx.get() == pytest.approx(301.0)
     assert node.input3D[0].input3Dy.get() == pytest.approx(302.0)
     assert node.input3D[0].input3Dz.get() == pytest.approx(303.0)
@@ -86,33 +86,33 @@ def test_get_set_long_names(dg_mod, plus_minus_average_node):
     )
 
 
-def test_get_set_short_names(dg_mod, plus_minus_average_node):
+def test_get_set_short_names(modifier_manager, plus_minus_average_node):
     node = plus_minus_average_node
 
     node.i1[0].set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.i1[0].get() == pytest.approx(100.0)
     assert node.input1D[0].get() == pytest.approx(100.0)
 
     node.i2[0].i2x.set(201.0)
     node.i2[0].i2y.set(202.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.i2[0].get() == pytest.approx([201.0, 202.0])
     assert node.input2D[0].get() == pytest.approx([201.0, 202.0])
 
     node.i3[0].i3x.set(301.0)
     node.i3[0].i3y.set(302.0)
     node.i3[0].i3z.set(303.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     assert node.i3[0].get() == pytest.approx([301.0, 302.0, 303.0])
     assert node.input3D[0].get() == pytest.approx([301.0, 302.0, 303.0])
 
 
-def test_operation_enum(dg_mod, plus_minus_average_node):
+def test_operation_enum(modifier_manager, plus_minus_average_node):
     node = plus_minus_average_node
 
     node.operation.set(node.operation.SUM)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
 
     assert node.operation.get() == node.operation.SUM
     assert node.op.get() == node.operation.SUM

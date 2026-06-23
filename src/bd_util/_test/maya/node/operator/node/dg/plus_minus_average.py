@@ -1,11 +1,9 @@
 # coding: utf-8
 
-# maya
-from maya.api import OpenMaya as om
-
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
@@ -166,9 +164,9 @@ def attribute_access():
 def plug_access():
     test_str.title("plug_access")
 
-    dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test")
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = PlusMinusAverage.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
 
     logger.debug(
         "{}: {}".format(
@@ -312,9 +310,9 @@ def plug_access():
 def get_set():
     test_str.title("get_set")
 
-    dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test")
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = PlusMinusAverage.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
 
     logger.debug(f"node: {node}")
 
@@ -328,7 +326,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input1D[0].set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input1D[0].get()",
@@ -354,7 +352,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input2D[0].input2Dx.set(201.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input2D[0].input2Dx.get()",
@@ -371,7 +369,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input2D[0].input2Dy.set(202.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input2D[0].input2Dy.get()",
@@ -405,7 +403,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input3D[0].input3Dx.set(301.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input3D[0].input3Dx.get()",
@@ -422,7 +420,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input3D[0].input3Dy.set(302.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input3D[0].input3Dy.get()",
@@ -439,7 +437,7 @@ def get_set():
     )
     logger.debug("--set")
     node.input3D[0].input3Dz.set(303.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.input3D[0].input3Dz.get()",
@@ -556,9 +554,9 @@ def get_set():
 def get_set_short_name():
     test_str.title("get_set_short_name")
 
-    dg_mod = om.MDGModifier()
-    node = PlusMinusAverage.create(dg_mod, name="test")
-    dg_mod.doIt()
+    modifier_manager = ModifierManager()
+    node = PlusMinusAverage.create(modifier_manager, name="test")
+    modifier_manager.do_it_dg()
 
     logger.debug(f"node: {node}")
 
@@ -572,7 +570,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i1[0].set(100.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i1[0].get()",
@@ -598,7 +596,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i2[0].i2x.set(201.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i2[0].i2x.get()",
@@ -615,7 +613,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i2[0].i2y.set(202.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i2[0].i2y.get()",
@@ -649,7 +647,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i3[0].i3x.set(301.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i3[0].i3x.get()",
@@ -666,7 +664,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i3[0].i3y.set(302.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i3[0].i3y.get()",
@@ -683,7 +681,7 @@ def get_set_short_name():
     )
     logger.debug("--set")
     node.i3[0].i3z.set(303.0)
-    dg_mod.doIt()
+    modifier_manager.do_it_dg()
     logger.debug(
         "{}: {}".format(
             "node.i3[0].i3z.get()",
