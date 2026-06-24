@@ -45,6 +45,9 @@ class EnumPlugOperator(PlugOperator[A]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
+    def set_key_direct(self, value: int, frame: float):
+        self._set_key_direct(value, frame)
+
     # add
     def add_attr(self):
         # アトリビュートが既に存在する場合はスキップ

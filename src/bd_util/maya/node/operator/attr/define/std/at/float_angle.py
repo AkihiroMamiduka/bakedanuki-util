@@ -1,4 +1,6 @@
 # coding: utf-8
+from maya.api import OpenMaya as om
+
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
 
@@ -12,6 +14,12 @@ class FloatAnglePlugOperator(PlugOperator["FloatAngleAttrOperator"]):
     # set
     def set(self, value: float):
         self._node._dg_mod.newPlugValueMAngle(self.plug, value)
+
+    def set_key_direct(self, value: float, frame: float):
+        self._set_key_direct(value, frame)
+
+    def _to_anim_curve_value(self, value: float) -> float:
+        return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 
 
 class FloatAngleAttrOperator(AttrOperator[FloatAnglePlugOperator]):

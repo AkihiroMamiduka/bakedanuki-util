@@ -13,6 +13,9 @@ class FloatLinearPlugOperator(PlugOperator["FloatLinearAttrOperator"]):
     def set(self, value: float):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
+    def set_key_direct(self, value: float, frame: float):
+        self._set_key_direct(value, frame)
+
 
 class FloatLinearAttrOperator(AttrOperator[FloatLinearPlugOperator]):
     __slots__ = ()

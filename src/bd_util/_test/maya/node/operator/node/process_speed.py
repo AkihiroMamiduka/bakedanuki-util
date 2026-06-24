@@ -102,6 +102,14 @@ def main(
             repeat_count=repeat_count,
         )
 
+    # set_key
+    test_str.title("処理速度計測(set_key)")
+    _run_benchmarks(
+        (set_key_node_operator,),
+        accurate=accurate,
+        repeat_count=repeat_count,
+    )
+
 
 def main_get_set(
     accurate: bool = ACCURATE,
@@ -1028,6 +1036,25 @@ def create_connect_multi_node_operator_natural_index():
         src_plug > dst_node.input3D[0].input3Dx
         src_plug > dst_node.input3D[0].input3Dy
         src_plug > dst_node.input3D[0].input3Dz
+    modifier_manager.do_it_dg()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+# set_key
+@timer
+def set_key_node_operator():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    modifier_manager = ModifierManager()
+    node = PlusMinusAverage.create(modifier_manager)
+    modifier_manager.do_it_dg()
+    plug = node.input3D[0].input3Dx
+    for i in range(COUNT):
+        plug.set_key_direct(i, i)
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
