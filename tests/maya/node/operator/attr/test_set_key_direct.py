@@ -28,6 +28,27 @@ def test_set_key_direct_creates_anim_curve_for_float_plug(
     assert source_plugs == ["test_input1D_0_.output"]
 
 
+def test_keyframe_manager_can_be_used_with_mplug_directly(
+    plus_minus_average_node,
+    maya_cmds,
+    maya_om,
+):
+    from bd_util.maya.node.operator.attr import KeyframeManager
+
+    selection = maya_om.MSelectionList()
+    selection.add("test.input1D[0]")
+    plug = selection.getPlug(0)
+
+    KeyframeManager(plug, plug_name="test.input1D[0]").set_direct(
+        3.5,
+        frame=3.0,
+    )
+
+    assert maya_cmds.getAttr("test.input1D[0]", time=3.0) == pytest.approx(
+        3.5
+    )
+
+
 def test_set_key_direct_reuses_upstream_anim_curve_from_new_operator(
     modifier_manager,
     plus_minus_average_cls,

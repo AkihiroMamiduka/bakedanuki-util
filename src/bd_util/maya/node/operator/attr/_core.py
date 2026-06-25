@@ -6,11 +6,11 @@ from typing import TypeVar, Type, Generic, Self, Any, overload
 # maya
 from maya import cmds
 from maya.api import OpenMaya as om
-from maya.api import OpenMayaAnim as oma
 
 # self
 from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
+from .keyframe import KeyframeManager
 from ..node._core import NodeOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -63,7 +63,7 @@ class PlugOperator(Generic[A], ABC):
         "_array_m_plug",
         "_indexed_plug_cache",
         "_next_index",
-        "_anim_curve_obj",
+        "_keyframe_manager",
     )
 
     _REQUIRED_CMDS_ADD_ATTR: bool = False
@@ -101,7 +101,7 @@ class PlugOperator(Generic[A], ABC):
         self._array_m_plug: om.MPlug | None = None
         self._indexed_plug_cache: dict[int, PlugOperator] | None = None
         self._next_index: int | None = None
-        self._anim_curve_obj: om.MObject | None = None
+        self._keyframe_manager: KeyframeManager | None = None
 
     # name
     @property
@@ -443,98 +443,19 @@ class PlugOperator(Generic[A], ABC):
         )
 
     def _set_key_direct(self, value: Any, frame: float):
-        anim_curve_obj = self._get_or_create_anim_curve_obj()
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
-            )
-
-        fn_anim_curve.addKey(
-            om.MTime(frame, om.MTime.uiUnit()),
-            self._to_anim_curve_value(value),
-        )
+        self._get_keyframe_manager().set_direct(value, frame)
 
     def _to_anim_curve_value(self, value: Any) -> Any:
         return value
 
-    def _get_or_create_anim_curve_obj(self) -> om.MObject:
-        anim_curve_obj = self._cached_anim_curve_obj()
-        if anim_curve_obj is not None:
-            return anim_curve_obj
-
-        anim_curve_obj = self._find_upstream_anim_curve_obj()
-        if anim_curve_obj is not None:
-            self._anim_curve_obj = anim_curve_obj
-            return anim_curve_obj
-
-        if self.plug.isDestination:
-            raise RuntimeError(
-                f"{self.plug_name} is already connected, "
-                "but no upstream time-input animCurve was found."
+    def _get_keyframe_manager(self) -> KeyframeManager:
+        if self._keyframe_manager is None:
+            self._keyframe_manager = KeyframeManager(
+                plug=self.plug,
+                plug_name=self.plug_name,
+                value_converter=self._to_anim_curve_value,
             )
-
-        anim_curve_obj = self._create_anim_curve_obj()
-        self._anim_curve_obj = anim_curve_obj
-        return anim_curve_obj
-
-    def _cached_anim_curve_obj(self) -> om.MObject | None:
-        anim_curve_obj = self._anim_curve_obj
-        if anim_curve_obj is None or anim_curve_obj.isNull():
-            return None
-        try:
-            fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        except RuntimeError:
-            self._anim_curve_obj = None
-            return None
-        if not fn_anim_curve.isTimeInput:
-            return None
-        return anim_curve_obj
-
-    def _find_upstream_anim_curve_obj(self) -> om.MObject | None:
-        try:
-            iter_graph = om.MItDependencyGraph(
-                self.plug,
-                om.MFn.kAnimCurve,
-                om.MItDependencyGraph.kUpstream,
-                om.MItDependencyGraph.kDepthFirst,
-                om.MItDependencyGraph.kNodeLevel,
-                om.MItDependencyGraph.kDependsOn,
-            )
-        except RuntimeError:
-            return None
-
-        while not iter_graph.isDone():
-            anim_curve_obj = iter_graph.currentNode()
-            try:
-                fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-            except RuntimeError:
-                iter_graph.next()
-                continue
-            if fn_anim_curve.isTimeInput:
-                return anim_curve_obj
-            iter_graph.next()
-        return None
-
-    def _create_anim_curve_obj(self) -> om.MObject:
-        if not om.MFnAttribute(self.plug.attribute()).writable:
-            raise RuntimeError(f"{self.plug_name} is not writable.")
-
-        fn_anim_curve = oma.MFnAnimCurve()
-        anim_curve_type = fn_anim_curve.timedAnimCurveTypeForPlug(self.plug)
-        if anim_curve_type == oma.MFnAnimCurve.kAnimCurveUnknown:
-            raise RuntimeError(
-                f"Cannot determine timed animCurve type for {self.plug_name}."
-            )
-
-        modifier = om.MDGModifier()
-        anim_curve_obj = fn_anim_curve.create(
-            self.plug,
-            anim_curve_type,
-            modifier,
-        )
-        modifier.doIt()
-        return anim_curve_obj
+        return self._keyframe_manager
 
     # connect
     def _normalize_to_plug(
