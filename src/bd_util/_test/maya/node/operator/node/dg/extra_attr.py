@@ -130,6 +130,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble_linear = testDoubleLinear
+    #   double_linear3
+    testDoubleLinear3 = AddAttr.at.double_linear3()
+    tdouble_linear3 = testDoubleLinear3
     #   double_angle
     testDoubleAngle = AddAttr.at.double_angle(
         default_value=45,
@@ -139,6 +142,9 @@ class MyTransform(Transform):
         soft_max_value=360,
     )
     tdouble_angle = testDoubleAngle
+    #   double_angle3
+    testDoubleAngle3 = AddAttr.at.double_angle3()
+    tdouble_angle3 = testDoubleAngle3
 
     #   matrix
     testMatrix = AddAttr.at.matrix()

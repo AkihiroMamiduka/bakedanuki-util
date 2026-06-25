@@ -3,10 +3,6 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from bd_util.maya.node.operator.attr.extra.std.dt.string_array import (
-    ExtraDataStringArrayField,
-)
-
 # self
 #   at
 #       std
@@ -44,6 +40,8 @@ from .std.at.time import ExtraTimeField
 
 #       custom
 from .custom.double3 import ExtraDouble3Field
+from .custom.double_linear3 import ExtraDoubleLinear3Field
+from .custom.double_angle3 import ExtraDoubleAngle3Field
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -55,6 +53,7 @@ from .std.dt.mesh import ExtraDataMeshField
 from .std.dt.nurbs_curve import ExtraDataNurbsCurveField
 from .std.dt.nurbs_surface import ExtraDataNurbsSurfaceField
 from .std.dt.point_array import ExtraDataPointArrayField
+from .std.dt.string_array import ExtraDataStringArrayField
 from .std.dt.string import ExtraDataStringField
 from .std.dt.vector_array import ExtraDataVectorArrayField
 
@@ -254,6 +253,56 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraDouble3Field:
         return ExtraDouble3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double_linear3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleLinear3Field:
+        return ExtraDoubleLinear3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double_angle3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleAngle3Field:
+        return ExtraDoubleAngle3Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
