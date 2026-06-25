@@ -19,6 +19,9 @@ def _float_to_radians(value: float) -> float:
     return _float_to_angle(value).asRadians()
 
 
+M_ATTR_KIND = om.MFnUnitAttribute.kAngle
+
+
 class DoubleAnglePlugOperator(
     UnitRangeBasePlugOperator["DoubleAngleAttrOperator"]
 ):
@@ -48,7 +51,7 @@ class DoubleAnglePlugOperator(
 
     # add
     def add_attr(self):
-        self._add_attr_base(om.MFnUnitAttribute.kAngle)
+        self._add_attr_base(M_ATTR_KIND)
 
 
 class DoubleAngleAttrOperator(
@@ -78,3 +81,6 @@ class DoubleAngleField(
 
     ATTR_CLS = DoubleAngleAttrOperator
     PLUG_CLS = DoubleAnglePlugOperator
+
+    M_ATTR_TYPE = M_ATTR_KIND
+    M_FN = om.MFnUnitAttribute()

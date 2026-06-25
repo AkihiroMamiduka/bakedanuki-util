@@ -16,10 +16,11 @@ P = TypeVar("P", bound="PlugOperator")
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class NumericBasePlugOperator(PlugOperator[A]):
+class NumericCompoundBasePlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     CHILD_ATTR_TYPE: int = None
+    CHILD_FN = None
     _SUFFIXES: list[str] = []
     CHILD_FIELDS: list[AttributeField] = []
 
@@ -41,6 +42,7 @@ class NumericBasePlugOperator(PlugOperator[A]):
         state_suffix = bool(cls._SUFFIXES)
         child_state = cls.CHILD_ATTR_TYPE is None
         child_type = None
+        child_fn = None
 
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
@@ -58,8 +60,10 @@ class NumericBasePlugOperator(PlugOperator[A]):
             #   子の型
             if child_state:
                 child_type = child_field.M_ATTR_TYPE
+                child_fn = child_field.M_FN
         # 子属性の型を登録
         cls.CHILD_ATTR_TYPE = child_type
+        cls.CHILD_FN = child_fn
 
     # get
     def _get_child_value(self, child_plug) -> float:
@@ -104,7 +108,7 @@ class NumericBasePlugOperator(PlugOperator[A]):
             suffix: str,
         ) -> om.MObject:
             # 子属性を作成
-            child_attr = self._fn_attr.create(
+            child_attr = self.CHILD_FN.create(
                 self.child_long_name(suffix),
                 self.child_short_name(suffix),
                 self.CHILD_ATTR_TYPE,
@@ -133,14 +137,14 @@ class NumericBasePlugOperator(PlugOperator[A]):
         self._node.fn_node.addAttribute(attr_obj)
 
 
-class NumericBaseAttrOperator(AttrOperator[P]):
+class NumericCompoundBaseAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "abc"
 
 
-class NumericBaseField(AttributeField[A, P]):
+class NumericCompoundBaseField(AttributeField[A, P]):
     __slots__ = ()
 
-    ATTR_CLS = cast(Type[A], NumericBaseAttrOperator)
-    PLUG_CLS = cast(Type[P], NumericBasePlugOperator)
+    ATTR_CLS = cast(Type[A], NumericCompoundBaseAttrOperator)
+    PLUG_CLS = cast(Type[P], NumericCompoundBasePlugOperator)

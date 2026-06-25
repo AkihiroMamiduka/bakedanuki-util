@@ -54,3 +54,4 @@ class DoubleField(
     PLUG_CLS = DoublePlugOperator
 
     M_ATTR_TYPE = M_NUMERIC_TYPE
+    M_FN = om.MFnNumericAttribute()

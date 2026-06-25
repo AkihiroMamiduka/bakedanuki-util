@@ -2,14 +2,16 @@
 
 # self
 from ...std.at.base.numeric_compound_base import (
-    NumericBasePlugOperator,
-    NumericBaseAttrOperator,
-    NumericBaseField,
+    NumericCompoundBasePlugOperator,
+    NumericCompoundBaseAttrOperator,
+    NumericCompoundBaseField,
 )
 from ...std.at.double import DoubleField
 
 
-class Double3PlugOperator(NumericBasePlugOperator["Double3AttrOperator"]):
+class Double3PlugOperator(
+    NumericCompoundBasePlugOperator["Double3AttrOperator"]
+):
     __slots__ = ()
 
     x = DoubleField()
@@ -25,13 +27,17 @@ class Double3PlugOperator(NumericBasePlugOperator["Double3AttrOperator"]):
         self._node._dg_mod.newPlugValueDouble(child_plug, value)
 
 
-class Double3AttrOperator(NumericBaseAttrOperator[Double3PlugOperator]):
+class Double3AttrOperator(
+    NumericCompoundBaseAttrOperator[Double3PlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "double3"
 
 
-class Double3Field(NumericBaseField[Double3AttrOperator, Double3PlugOperator]):
+class Double3Field(
+    NumericCompoundBaseField[Double3AttrOperator, Double3PlugOperator]
+):
     __slots__ = ()
 
     ATTR_CLS = Double3AttrOperator
