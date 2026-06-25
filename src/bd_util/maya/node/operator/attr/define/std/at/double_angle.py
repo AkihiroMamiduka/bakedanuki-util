@@ -37,6 +37,9 @@ class DoubleAnglePlugOperator(
             self.plug, _float_to_angle(value)
         )
 
+    def _to_anim_curve_value(self, value: float) -> float:
+        return _float_to_radians(value)
+
     def set_min(self, value):
         super().set_min(_float_to_angle(value))
 

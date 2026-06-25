@@ -19,6 +19,9 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class NumericBasePlugOperator(PlugOperator[A]):
     __slots__ = ()
 
+    def set_key_direct(self, value, frame: float):
+        self._set_key_direct(value, frame)
+
     # add
     def _add_attr_base(self, mfn_numeric_data_type: int):
         # アトリビュートが既に存在する場合はスキップ
