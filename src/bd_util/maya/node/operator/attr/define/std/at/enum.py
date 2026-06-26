@@ -48,6 +48,12 @@ class EnumPlugOperator(PlugOperator[A]):
     def set_key_direct(self, value: int, frame: float):
         self._set_key_direct(value, frame)
 
+    def insert_key_direct(self, frame: float, breakdown: bool = False) -> int:
+        return self._insert_key_direct(frame, breakdown=breakdown)
+
+    def delete_anim_curve(self) -> bool:
+        return self._delete_anim_curve()
+
     # add
     def add_attr(self):
         # アトリビュートが既に存在する場合はスキップ

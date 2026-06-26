@@ -18,6 +18,12 @@ class FloatAnglePlugOperator(PlugOperator["FloatAngleAttrOperator"]):
     def set_key_direct(self, value: float, frame: float):
         self._set_key_direct(value, frame)
 
+    def insert_key_direct(self, frame: float, breakdown: bool = False) -> int:
+        return self._insert_key_direct(frame, breakdown=breakdown)
+
+    def delete_anim_curve(self) -> bool:
+        return self._delete_anim_curve()
+
     def _to_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 

@@ -55,7 +55,39 @@ class KeyframeManager:
             self._value_converter(value),
         )
 
-    def _get_or_create_anim_curve_obj(self) -> om.MObject:
+    def insert_direct(self, frame: float, breakdown: bool = False) -> int:
+        anim_curve_obj = self._get_anim_curve_obj()
+        if anim_curve_obj is None:
+            raise RuntimeError(
+                f"{self.plug_name} has no upstream time-input animCurve "
+                "to insert a key."
+            )
+
+        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
+        if not fn_anim_curve.isTimeInput:
+            raise RuntimeError(
+                f"{fn_anim_curve.name()} is not a time-input animCurve."
+            )
+
+        return fn_anim_curve.insertKey(
+            om.MTime(frame, om.MTime.uiUnit()),
+            breakdown,
+        )
+
+    def delete_anim_curve(self) -> bool:
+        anim_curve_obj = self._get_anim_curve_obj()
+        if anim_curve_obj is None:
+            return False
+
+        self._disconnect_anim_curve_outputs(anim_curve_obj)
+
+        modifier = om.MDGModifier()
+        modifier.deleteNode(anim_curve_obj)
+        modifier.doIt()
+        self._anim_curve_obj = None
+        return True
+
+    def _get_anim_curve_obj(self) -> om.MObject | None:
         anim_curve_obj = self._cached_anim_curve_obj()
         if anim_curve_obj is not None:
             return anim_curve_obj
@@ -63,6 +95,12 @@ class KeyframeManager:
         anim_curve_obj = self._find_upstream_anim_curve_obj()
         if anim_curve_obj is not None:
             self._anim_curve_obj = anim_curve_obj
+            return anim_curve_obj
+        return None
+
+    def _get_or_create_anim_curve_obj(self) -> om.MObject:
+        anim_curve_obj = self._get_anim_curve_obj()
+        if anim_curve_obj is not None:
             return anim_curve_obj
 
         if self.plug.isDestination:
@@ -132,3 +170,21 @@ class KeyframeManager:
         )
         modifier.doIt()
         return anim_curve_obj
+
+    def _disconnect_anim_curve_outputs(self, anim_curve_obj: om.MObject):
+        try:
+            output_plug = om.MFnDependencyNode(anim_curve_obj).findPlug(
+                "output",
+                False,
+            )
+        except RuntimeError:
+            return
+
+        destination_plugs = output_plug.connectedTo(False, True)
+        if not destination_plugs:
+            return
+
+        modifier = om.MDGModifier()
+        for destination_plug in destination_plugs:
+            modifier.disconnect(output_plug, destination_plug)
+        modifier.doIt()
