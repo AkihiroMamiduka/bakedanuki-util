@@ -1,4 +1,4 @@
 # coding: utf-8
-from .keyframe import KeyframeManager
+from .keyframe import KeyframeManager, TangentType
 
-__all__ = ("KeyframeManager",)
+__all__ = ("KeyframeManager", "TangentType")
