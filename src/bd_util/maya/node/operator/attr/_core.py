@@ -990,9 +990,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         seen_ids = set()
         index = 0
         for value in vars(owner).values():
-            if all(
-                c.__name__ != "AttributeField" for c in type(value).__mro__
-            ):
+            if not isinstance(value, AttributeField):
                 continue
 
             obj_id = id(value)

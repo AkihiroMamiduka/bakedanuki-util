@@ -114,19 +114,23 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             for v in vars(klass).values():
                 v: AttributeField
                 obj_id = id(v)
-                if obj_id not in seen_ids and any(
-                    c.__name__ == "AttributeField" for c in type(v).__mro__
-                ):
-                    seen_ids.add(obj_id)
-                    # class access で AttrOperator を取得してマップを構築する
-                    oprt_attr = v.__get__(None, cls)
-                    attributes_by_long_name[oprt_attr.long_name] = oprt_attr
-                    attributes_by_short_name[oprt_attr.short_name] = oprt_attr
 
-                    # extra=True のものは field を保持して、
-                    # instance access 時に PlugOperator へ解決する
-                    if getattr(v, "extra", False):
-                        extra_attrs.append(v)
+                # 既に登録されているか、AttributeField でない場合はスキップ
+                if obj_id in seen_ids or not isinstance(v, AttributeField):
+                    continue
+
+                # 初回なので登録
+                seen_ids.add(obj_id)
+
+                # class access で AttrOperator を取得してマップを構築する
+                oprt_attr = v.__get__(None, cls)
+                attributes_by_long_name[oprt_attr.long_name] = oprt_attr
+                attributes_by_short_name[oprt_attr.short_name] = oprt_attr
+
+                # extra=True のものは field を保持して、
+                # instance access 時に PlugOperator へ解決する
+                if getattr(v, "extra", False):
+                    extra_attrs.append(v)
 
         cls._attributes_map_by_long_name = attributes_by_long_name
         cls._attributes_map_by_short_name = attributes_by_short_name

@@ -44,10 +44,7 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
             # AttributeField の派生以外はスキップ
-            if all(
-                c.__name__ != "AttributeField"
-                for c in type(child_field).__mro__
-            ):
+            if not isinstance(child_field, AttributeField):
                 continue
             # 子に関する情報を登録
             #   suffix
