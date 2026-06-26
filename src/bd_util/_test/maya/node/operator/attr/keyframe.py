@@ -27,7 +27,7 @@ def set_key():
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
     for i in range(COUNT):
-        plug.set_key_direct(i, i)
+        plug.keyframe.set_direct(i, i)
     modifier_manager.do_it_dg()
 
 
@@ -38,9 +38,9 @@ def insert_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_insert_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.set_key_direct(100, 100)
-    plug.set_key_direct(200, 200)
-    plug.insert_key_direct(150, breakdown=False)
+    plug.keyframe.set_direct(100, 100)
+    plug.keyframe.set_direct(200, 200)
+    plug.keyframe.insert_direct(150, breakdown=False)
     modifier_manager.do_it_dg()
 
 
@@ -51,6 +51,6 @@ def delete_key():
     node = PlusMinusAverage.create(modifier_manager, name="test_delete_key")
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
-    plug.set_key_direct(100, 100)
-    plug.delete_anim_curve()
+    plug.keyframe.set_direct(100, 100)
+    plug.keyframe.delete_anim_curve()
     modifier_manager.do_it_dg()

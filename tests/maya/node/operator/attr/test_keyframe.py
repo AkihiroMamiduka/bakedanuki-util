@@ -7,13 +7,13 @@ import pytest
 pytestmark = pytest.mark.maya
 
 
-def test_set_key_direct_creates_anim_curve_for_float_plug(
+def test_keyframe_property_creates_anim_curve_for_float_plug(
     plus_minus_average_node,
     maya_cmds,
 ):
     node = plus_minus_average_node
 
-    node.input1D[0].set_key_direct(12.5, frame=10.0)
+    node.input1D[0].keyframe.set_direct(12.5, frame=10.0)
 
     assert maya_cmds.getAttr("test.input1D[0]", time=10.0) == pytest.approx(
         12.5
@@ -57,8 +57,8 @@ def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
     from bd_util.maya.node.operator.attr import KeyframeManager
 
     node = plus_minus_average_node
-    node.input1D[0].set_key_direct(1.0, frame=1.0)
-    node.input1D[0].set_key_direct(10.0, frame=10.0)
+    node.input1D[0].keyframe.set_direct(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_direct(10.0, frame=10.0)
     expected_value = maya_cmds.getAttr("test.input1D[0]", time=5.0)
 
     selection = maya_om.MSelectionList()
@@ -84,15 +84,15 @@ def test_keyframe_manager_insert_direct_inserts_key_on_existing_anim_curve(
     ) == pytest.approx([expected_value])
 
 
-def test_insert_key_direct_is_available_from_scalar_plug(
+def test_keyframe_property_insert_direct_is_available_from_scalar_plug(
     plus_minus_average_node,
     maya_cmds,
 ):
     node = plus_minus_average_node
-    node.input1D[0].set_key_direct(1.0, frame=1.0)
-    node.input1D[0].set_key_direct(10.0, frame=10.0)
+    node.input1D[0].keyframe.set_direct(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_direct(10.0, frame=10.0)
 
-    index = node.input1D[0].insert_key_direct(frame=5.0)
+    index = node.input1D[0].keyframe.insert_direct(frame=5.0)
 
     assert index == 1
     assert maya_cmds.keyframe(
@@ -102,26 +102,26 @@ def test_insert_key_direct_is_available_from_scalar_plug(
     ) == [1.0, 5.0, 10.0]
 
 
-def test_insert_key_direct_requires_existing_anim_curve(
+def test_keyframe_property_insert_direct_requires_existing_anim_curve(
     plus_minus_average_node,
 ):
     node = plus_minus_average_node
 
     with pytest.raises(RuntimeError, match="no upstream time-input animCurve"):
-        node.input1D[0].insert_key_direct(frame=5.0)
+        node.input1D[0].keyframe.insert_direct(frame=5.0)
 
 
-def test_set_key_direct_reuses_upstream_anim_curve_from_new_operator(
+def test_keyframe_property_reuses_upstream_anim_curve_from_new_operator(
     modifier_manager,
     plus_minus_average_cls,
     plus_minus_average_node,
     maya_cmds,
 ):
     node = plus_minus_average_node
-    node.input1D[0].set_key_direct(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_direct(1.0, frame=1.0)
 
     same_node = plus_minus_average_cls(modifier_manager, name="test")
-    same_node.input1D[0].set_key_direct(2.0, frame=2.0)
+    same_node.input1D[0].keyframe.set_direct(2.0, frame=2.0)
 
     source_plugs = maya_cmds.listConnections(
         "test.input1D[0]",
@@ -151,7 +151,7 @@ def test_delete_anim_curve_removes_managed_anim_curve(
     from bd_util.maya.node.operator.attr import KeyframeManager
 
     node = plus_minus_average_node
-    node.input1D[0].set_key_direct(1.0, frame=1.0)
+    node.input1D[0].keyframe.set_direct(1.0, frame=1.0)
 
     selection = maya_om.MSelectionList()
     selection.add("test.input1D[0]")
@@ -173,10 +173,10 @@ def test_delete_anim_curve_returns_false_without_anim_curve(
 ):
     node = plus_minus_average_node
 
-    assert node.input1D[0].delete_anim_curve() is False
+    assert node.input1D[0].keyframe.delete_anim_curve() is False
 
 
-def test_set_key_direct_converts_angle_value_to_anim_curve_radians(
+def test_keyframe_property_converts_angle_value_to_anim_curve_radians(
     modifier_manager,
     maya_cmds,
 ):
@@ -186,7 +186,7 @@ def test_set_key_direct_converts_angle_value_to_anim_curve_radians(
     modifier_manager.do_it_dag()
     modifier_manager.do_it_dg()
 
-    node.rotate.rotateX.set_key_direct(90.0, frame=10.0)
+    node.rotate.rotateX.keyframe.set_direct(90.0, frame=10.0)
 
     assert maya_cmds.getAttr(
         "test_transform.rotateX",
@@ -194,17 +194,17 @@ def test_set_key_direct_converts_angle_value_to_anim_curve_radians(
     ) == pytest.approx(90.0)
 
 
-def test_set_key_direct_is_not_available_on_compound_plug(
+def test_keyframe_property_is_not_available_on_compound_plug(
     plus_minus_average_node,
 ):
     node = plus_minus_average_node
 
-    with pytest.raises(NotImplementedError):
-        node.input3D[0].set_key_direct([1.0, 2.0, 3.0], frame=1.0)
+    with pytest.raises(AttributeError):
+        node.input3D[0].keyframe
 
 
-def test_set_key_direct_rejects_output_plug(plus_minus_average_node):
+def test_keyframe_property_rejects_output_plug(plus_minus_average_node):
     node = plus_minus_average_node
 
     with pytest.raises(RuntimeError, match="not writable"):
-        node.output3Dx.set_key_direct(1.0, frame=1.0)
+        node.output3Dx.keyframe.set_direct(1.0, frame=1.0)

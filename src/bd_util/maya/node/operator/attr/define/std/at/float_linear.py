@@ -13,14 +13,9 @@ class FloatLinearPlugOperator(PlugOperator["FloatLinearAttrOperator"]):
     def set(self, value: float):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
-    def set_key_direct(self, value: float, frame: float):
-        self._set_key_direct(value, frame)
-
-    def insert_key_direct(self, frame: float, breakdown: bool = False) -> int:
-        return self._insert_key_direct(frame, breakdown=breakdown)
-
-    def delete_anim_curve(self) -> bool:
-        return self._delete_anim_curve()
+    @property
+    def keyframe(self):
+        return self._get_keyframe_manager()
 
 
 class FloatLinearAttrOperator(AttrOperator[FloatLinearPlugOperator]):

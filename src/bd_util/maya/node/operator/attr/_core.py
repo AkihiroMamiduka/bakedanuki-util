@@ -437,37 +437,6 @@ class PlugOperator(Generic[A], ABC):
         """
         pass
 
-    def set_key_direct(self, value: Any, frame: float):
-        raise NotImplementedError(
-            f"{type(self).__name__} does not support set_key_direct()."
-        )
-
-    def insert_key_direct(self, frame: float, breakdown: bool = False):
-        raise NotImplementedError(
-            f"{type(self).__name__} does not support insert_key_direct()."
-        )
-
-    def delete_anim_curve(self) -> bool:
-        raise NotImplementedError(
-            f"{type(self).__name__} does not support delete_anim_curve()."
-        )
-
-    def _set_key_direct(self, value: Any, frame: float):
-        self._get_keyframe_manager().set_direct(value, frame)
-
-    def _insert_key_direct(
-        self,
-        frame: float,
-        breakdown: bool = False,
-    ) -> int:
-        return self._get_keyframe_manager().insert_direct(
-            frame,
-            breakdown=breakdown,
-        )
-
-    def _delete_anim_curve(self) -> bool:
-        return self._get_keyframe_manager().delete_anim_curve()
-
     def _to_anim_curve_value(self, value: Any) -> Any:
         return value
 
