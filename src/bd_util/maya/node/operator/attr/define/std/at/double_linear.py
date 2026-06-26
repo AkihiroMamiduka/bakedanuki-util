@@ -59,4 +59,4 @@ class DoubleLinearField(
     PLUG_CLS = DoubleLinearPlugOperator
 
     M_ATTR_TYPE = M_ATTR_KIND
-    M_FN = om.MFnUnitAttribute()
+    M_FN = om.MFnUnitAttribute
