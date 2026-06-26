@@ -8,13 +8,67 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 ValueConverter = Callable[[Any], Any]
+TangentTypeValue = int | str | None
+
+
+class TangentType:
+    auto = oma.MFnAnimCurve.kTangentAuto
+    clamped = oma.MFnAnimCurve.kTangentClamped
+    fast = oma.MFnAnimCurve.kTangentFast
+    flat = oma.MFnAnimCurve.kTangentFlat
+    linear = oma.MFnAnimCurve.kTangentLinear
+    plateau = oma.MFnAnimCurve.kTangentPlateau
+    slow = oma.MFnAnimCurve.kTangentSlow
+    spline = oma.MFnAnimCurve.kTangentSmooth
+    step = oma.MFnAnimCurve.kTangentStep
+    stepnext = oma.MFnAnimCurve.kTangentStepNext
+
+
+_TANGENT_TYPE_MAP = {
+    "auto": TangentType.auto,
+    "clamped": TangentType.clamped,
+    "fast": TangentType.fast,
+    "flat": TangentType.flat,
+    "linear": TangentType.linear,
+    "plateau": TangentType.plateau,
+    "slow": TangentType.slow,
+    "spline": TangentType.spline,
+    "step": TangentType.step,
+    "stepnext": TangentType.stepnext,
+}
+_VALID_TANGENT_TYPES = set(_TANGENT_TYPE_MAP.values()) | {
+    oma.MFnAnimCurve.kTangentGlobal,
+}
 
 
 def _identity(value: Any) -> Any:
     return value
 
 
+def _to_tangent_type(tangent_type: TangentTypeValue) -> int:
+    if tangent_type is None:
+        return oma.MFnAnimCurve.kTangentGlobal
+
+    if isinstance(tangent_type, str):
+        tangent_type = tangent_type.lower()
+        result = _TANGENT_TYPE_MAP.get(tangent_type)
+        if result is not None:
+            return result
+
+    elif isinstance(tangent_type, int):
+        if tangent_type in _VALID_TANGENT_TYPES:
+            return tangent_type
+
+    valid_types = ", ".join(sorted(_TANGENT_TYPE_MAP))
+    raise ValueError(
+        f"Unsupported tangent type: {tangent_type!r}. "
+        f"Expected one of: {valid_types}."
+    )
+
+
 class KeyframeManager:
+    tangent = TangentType
+
     __slots__ = (
         "_plug",
         "_plug_name",
@@ -164,7 +218,13 @@ class KeyframeManager:
 
     # keyframe
     #   set
-    def set_direct(self, value: Any, frame: float):
+    def set_direct(
+        self,
+        value: Any,
+        frame: float,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+    ):
         anim_curve_obj = self._get_or_create_anim_curve_obj()
         fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
         if not fn_anim_curve.isTimeInput:
@@ -175,6 +235,8 @@ class KeyframeManager:
         fn_anim_curve.addKey(
             om.MTime(frame, om.MTime.uiUnit()),
             self._value_converter(value),
+            _to_tangent_type(in_tangent_type),
+            _to_tangent_type(out_tangent_type),
         )
 
     #   insert

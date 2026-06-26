@@ -6,6 +6,19 @@ import pytest
 
 pytestmark = pytest.mark.maya
 
+TANGENT_TYPES = (
+    "auto",
+    "clamped",
+    "fast",
+    "flat",
+    "linear",
+    "plateau",
+    "slow",
+    "spline",
+    "step",
+    "stepnext",
+)
+
 
 def test_keyframe_property_creates_anim_curve_for_float_plug(
     plus_minus_average_node,
@@ -26,6 +39,124 @@ def test_keyframe_property_creates_anim_curve_for_float_plug(
         plugs=True,
     )
     assert source_plugs == ["test_input1D_0_.output"]
+
+
+def test_keyframe_property_exposes_tangent_type_constants(
+    plus_minus_average_node,
+):
+    from bd_util.maya.node.operator.attr import TangentType
+
+    node = plus_minus_average_node
+
+    assert node.input1D[0].keyframe.tangent is TangentType
+    assert isinstance(node.input1D[0].keyframe.tangent.linear, int)
+
+
+@pytest.mark.parametrize("tangent_type", TANGENT_TYPES)
+def test_keyframe_property_sets_in_and_out_tangent_type(
+    plus_minus_average_node,
+    maya_cmds,
+    tangent_type,
+):
+    node = plus_minus_average_node
+
+    node.input1D[0].keyframe.set_direct(
+        12.5,
+        frame=10.0,
+        in_tangent_type=tangent_type,
+        out_tangent_type=tangent_type,
+    )
+
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        inTangentType=True,
+    ) == [tangent_type]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        outTangentType=True,
+    ) == [tangent_type]
+
+
+@pytest.mark.parametrize("tangent_type", TANGENT_TYPES)
+def test_keyframe_property_sets_tangent_type_from_constant(
+    plus_minus_average_node,
+    maya_cmds,
+    tangent_type,
+):
+    node = plus_minus_average_node
+    tangent = node.input1D[0].keyframe.tangent
+
+    node.input1D[0].keyframe.set_direct(
+        12.5,
+        frame=10.0,
+        in_tangent_type=getattr(tangent, tangent_type),
+        out_tangent_type=getattr(tangent, tangent_type),
+    )
+
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        inTangentType=True,
+    ) == [tangent_type]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        outTangentType=True,
+    ) == [tangent_type]
+
+
+def test_keyframe_property_sets_different_in_and_out_tangent_types(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    node = plus_minus_average_node
+    tangent = node.input1D[0].keyframe.tangent
+
+    node.input1D[0].keyframe.set_direct(
+        12.5,
+        frame=10.0,
+        in_tangent_type=tangent.linear,
+        out_tangent_type=tangent.flat,
+    )
+
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        inTangentType=True,
+    ) == ["linear"]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        outTangentType=True,
+    ) == ["flat"]
+
+
+def test_keyframe_property_rejects_unknown_tangent_type_name(
+    plus_minus_average_node,
+):
+    node = plus_minus_average_node
+
+    with pytest.raises(ValueError, match="Unsupported tangent type"):
+        node.input1D[0].keyframe.set_direct(
+            12.5,
+            frame=10.0,
+            in_tangent_type="unknown",
+        )
+
+
+def test_keyframe_property_rejects_unknown_tangent_type_value(
+    plus_minus_average_node,
+):
+    node = plus_minus_average_node
+
+    with pytest.raises(ValueError, match="Unsupported tangent type"):
+        node.input1D[0].keyframe.set_direct(
+            12.5,
+            frame=10.0,
+            in_tangent_type=999999,
+        )
 
 
 def test_keyframe_manager_can_be_used_with_mplug_directly(
