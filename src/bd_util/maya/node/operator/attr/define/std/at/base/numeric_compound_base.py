@@ -19,8 +19,8 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class NumericCompoundBasePlugOperator(PlugOperator[A]):
     __slots__ = ()
 
-    CHILD_ATTR_TYPE: int = None
-    CHILD_FN = None
+    CHILD_M_FN = None
+    CHILD_M_ATTR_TYPE: int = None
     _SUFFIXES: list[str] = []
     CHILD_FIELDS: list[AttributeField] = []
 
@@ -40,9 +40,6 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         state_suffix = bool(cls._SUFFIXES)
-        child_state = cls.CHILD_ATTR_TYPE is None
-        child_type = None
-        child_fn = None
 
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
@@ -57,13 +54,6 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
             if not state_suffix:
                 cls._SUFFIXES.append(key)
                 cls.CHILD_FIELDS.append(child_field)
-            #   子の型
-            if child_state:
-                child_type = child_field.M_ATTR_TYPE
-                child_fn = child_field.M_FN
-        # 子属性の型を登録
-        cls.CHILD_ATTR_TYPE = child_type
-        cls.CHILD_FN = child_fn
 
     # get
     def _get_child_value(self, child_plug) -> float:
@@ -108,13 +98,14 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
             suffix: str,
         ) -> om.MObject:
             # 子属性を作成
-            child_fn = self.CHILD_FN()
+            child_fn = self.CHILD_M_FN()
             child_attr = child_fn.create(
                 self.child_long_name(suffix),
                 self.child_short_name(suffix),
-                self.CHILD_ATTR_TYPE,
+                self.CHILD_M_ATTR_TYPE,
                 0.0,
             )
+            logger.debug(f"child_attr: {child_attr}")
 
             return child_attr
 
@@ -128,6 +119,7 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
         for suffix in self._SUFFIXES:
             children_attrs.append(_create_child_attr(suffix))
         #   親属性(double3)
+        logger.debug(f"children_attrs: {children_attrs}")
         attr_obj = self._fn_attr.create(
             self.long_name,
             self.short_name,

@@ -10,8 +10,6 @@ from .base.numeric_single_range_base import (
     NumericRangeBaseField,
 )
 
-M_NUMERIC_TYPE = om.MFnNumericData.kDouble
-
 
 class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
     __slots__ = ()
@@ -26,7 +24,7 @@ class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
 
     # add
     def add_attr(self):
-        self._add_attr_base(M_NUMERIC_TYPE)
+        self._add_attr_base(om.MFnNumericData.kDouble)
 
 
 class DoubleAttrOperator(NumericRangeBaseAttrOperator[DoublePlugOperator]):
@@ -52,6 +50,3 @@ class DoubleField(
 
     ATTR_CLS = DoubleAttrOperator
     PLUG_CLS = DoublePlugOperator
-
-    M_ATTR_TYPE = M_NUMERIC_TYPE
-    M_FN = om.MFnNumericAttribute

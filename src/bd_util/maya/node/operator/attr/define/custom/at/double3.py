@@ -1,5 +1,8 @@
 # coding: utf-8
 
+# maya
+from maya.api import OpenMaya as om
+
 # self
 from ...std.at.base.numeric_compound_base import (
     NumericCompoundBasePlugOperator,
@@ -13,6 +16,9 @@ class Double3PlugOperator(
     NumericCompoundBasePlugOperator["Double3AttrOperator"]
 ):
     __slots__ = ()
+
+    CHILD_M_FN = om.MFnNumericAttribute
+    CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kDouble
 
     x = DoubleField()
     y = DoubleField()

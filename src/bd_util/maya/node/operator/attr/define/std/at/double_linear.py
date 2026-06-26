@@ -10,8 +10,6 @@ from .base.unit_range_base import (
     UnitRangeBaseField,
 )
 
-M_ATTR_KIND = om.MFnUnitAttribute.kDistance
-
 
 class DoubleLinearPlugOperator(
     UnitRangeBasePlugOperator["DoubleLinearAttrOperator"]
@@ -29,7 +27,7 @@ class DoubleLinearPlugOperator(
 
     # add
     def add_attr(self):
-        self._add_attr_base(M_ATTR_KIND)
+        self._add_attr_base(om.MFnUnitAttribute.kDistance)
 
 
 class DoubleLinearAttrOperator(
@@ -57,6 +55,3 @@ class DoubleLinearField(
 
     ATTR_CLS = DoubleLinearAttrOperator
     PLUG_CLS = DoubleLinearPlugOperator
-
-    M_ATTR_TYPE = M_ATTR_KIND
-    M_FN = om.MFnUnitAttribute

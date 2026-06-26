@@ -17,6 +17,9 @@ class DoubleLinear3PlugOperator(
 ):
     __slots__ = ()
 
+    CHILD_M_FN = om.MFnUnitAttribute
+    CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kDistance
+
     x = DoubleLinearField()
     y = DoubleLinearField()
     z = DoubleLinearField()
