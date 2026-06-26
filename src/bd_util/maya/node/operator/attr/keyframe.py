@@ -7,7 +7,6 @@ from typing import Any, Callable
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
-
 ValueConverter = Callable[[Any], Any]
 
 
@@ -42,38 +41,8 @@ class KeyframeManager:
     def plug_name(self) -> str:
         return self._plug_name
 
-    def set_direct(self, value: Any, frame: float):
-        anim_curve_obj = self._get_or_create_anim_curve_obj()
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
-            )
-
-        fn_anim_curve.addKey(
-            om.MTime(frame, om.MTime.uiUnit()),
-            self._value_converter(value),
-        )
-
-    def insert_direct(self, frame: float, breakdown: bool = False) -> int:
-        anim_curve_obj = self._get_anim_curve_obj()
-        if anim_curve_obj is None:
-            raise RuntimeError(
-                f"{self.plug_name} has no upstream time-input animCurve "
-                "to insert a key."
-            )
-
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
-            )
-
-        return fn_anim_curve.insertKey(
-            om.MTime(frame, om.MTime.uiUnit()),
-            breakdown,
-        )
-
+    # anim_curve
+    #   delete
     def delete_anim_curve(self) -> bool:
         anim_curve_obj = self._get_anim_curve_obj()
         if anim_curve_obj is None:
@@ -87,6 +56,7 @@ class KeyframeManager:
         self._anim_curve_obj = None
         return True
 
+    #   get
     def _get_anim_curve_obj(self) -> om.MObject | None:
         anim_curve_obj = self._cached_anim_curve_obj()
         if anim_curve_obj is not None:
@@ -126,6 +96,7 @@ class KeyframeManager:
             return None
         return anim_curve_obj
 
+    #   find
     def _find_upstream_anim_curve_obj(self) -> om.MObject | None:
         try:
             iter_graph = om.MItDependencyGraph(
@@ -151,6 +122,7 @@ class KeyframeManager:
             iter_graph.next()
         return None
 
+    #   create
     def _create_anim_curve_obj(self) -> om.MObject:
         if not om.MFnAttribute(self.plug.attribute()).writable:
             raise RuntimeError(f"{self.plug_name} is not writable.")
@@ -171,6 +143,7 @@ class KeyframeManager:
         modifier.doIt()
         return anim_curve_obj
 
+    #   disconnect
     def _disconnect_anim_curve_outputs(self, anim_curve_obj: om.MObject):
         try:
             output_plug = om.MFnDependencyNode(anim_curve_obj).findPlug(
@@ -188,3 +161,38 @@ class KeyframeManager:
         for destination_plug in destination_plugs:
             modifier.disconnect(output_plug, destination_plug)
         modifier.doIt()
+
+    # keyframe
+    #   set
+    def set_direct(self, value: Any, frame: float):
+        anim_curve_obj = self._get_or_create_anim_curve_obj()
+        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
+        if not fn_anim_curve.isTimeInput:
+            raise RuntimeError(
+                f"{fn_anim_curve.name()} is not a time-input animCurve."
+            )
+
+        fn_anim_curve.addKey(
+            om.MTime(frame, om.MTime.uiUnit()),
+            self._value_converter(value),
+        )
+
+    #   insert
+    def insert_direct(self, frame: float, breakdown: bool = False) -> int:
+        anim_curve_obj = self._get_anim_curve_obj()
+        if anim_curve_obj is None:
+            raise RuntimeError(
+                f"{self.plug_name} has no upstream time-input animCurve "
+                "to insert a key."
+            )
+
+        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
+        if not fn_anim_curve.isTimeInput:
+            raise RuntimeError(
+                f"{fn_anim_curve.name()} is not a time-input animCurve."
+            )
+
+        return fn_anim_curve.insertKey(
+            om.MTime(frame, om.MTime.uiUnit()),
+            breakdown,
+        )
