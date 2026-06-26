@@ -86,4 +86,4 @@ class DoubleAngleField(
     PLUG_CLS = DoubleAnglePlugOperator
 
     M_ATTR_TYPE = M_ATTR_KIND
-    M_FN = om.MFnUnitAttribute()
+    M_FN = om.MFnUnitAttribute

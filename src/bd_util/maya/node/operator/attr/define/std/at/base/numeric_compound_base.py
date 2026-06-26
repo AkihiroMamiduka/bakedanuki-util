@@ -108,7 +108,8 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
             suffix: str,
         ) -> om.MObject:
             # 子属性を作成
-            child_attr = self.CHILD_FN.create(
+            child_fn = self.CHILD_FN()
+            child_attr = child_fn.create(
                 self.child_long_name(suffix),
                 self.child_short_name(suffix),
                 self.CHILD_ATTR_TYPE,
