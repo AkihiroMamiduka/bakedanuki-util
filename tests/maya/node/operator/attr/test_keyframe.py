@@ -41,6 +41,33 @@ def test_keyframe_property_creates_anim_curve_for_float_plug(
     assert source_plugs == ["test_input1D_0_.output"]
 
 
+def test_keyframe_property_returns_empty_query_values_without_anim_curve(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+
+    assert keyframe.has_anim_curve() is False
+    assert keyframe.key_count() == 0
+    assert keyframe.frames() == []
+    assert keyframe.values() == []
+    assert keyframe.has_key(1.0) is False
+
+
+def test_keyframe_property_reads_key_frames_and_values(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_direct(1.5, frame=1.0)
+    keyframe.set_direct(2.5, frame=2.0)
+
+    assert keyframe.has_anim_curve() is True
+    assert keyframe.key_count() == 2
+    assert keyframe.frames() == [1.0, 2.0]
+    assert keyframe.values() == pytest.approx([1.5, 2.5])
+    assert keyframe.has_key(1.0) is True
+    assert keyframe.has_key(3.0) is False
+
+
 def test_keyframe_property_exposes_tangent_type_constants(
     plus_minus_average_node,
 ):
@@ -131,6 +158,48 @@ def test_keyframe_property_sets_different_in_and_out_tangent_types(
         query=True,
         outTangentType=True,
     ) == ["flat"]
+
+
+def test_keyframe_property_sets_tangent_type_on_existing_key(
+    plus_minus_average_node,
+    maya_cmds,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    tangent = keyframe.tangent
+    keyframe.set_direct(
+        12.5,
+        frame=10.0,
+        in_tangent_type=tangent.linear,
+        out_tangent_type=tangent.flat,
+    )
+
+    assert keyframe.set_tangent(
+        10.0,
+        in_tangent_type=tangent.flat,
+        out_tangent_type=tangent.linear,
+    ) is True
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        inTangentType=True,
+    ) == ["flat"]
+    assert maya_cmds.keyTangent(
+        "test_input1D_0_",
+        query=True,
+        outTangentType=True,
+    ) == ["linear"]
+
+
+def test_keyframe_property_set_tangent_returns_false_for_missing_key(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+
+    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is False
+
+    keyframe.set_direct(12.5, frame=1.0)
+
+    assert keyframe.set_tangent(10.0, in_tangent_type="linear") is False
 
 
 def test_keyframe_property_rejects_unknown_tangent_type_name(
@@ -233,6 +302,70 @@ def test_keyframe_property_insert_direct_is_available_from_scalar_plug(
     ) == [1.0, 5.0, 10.0]
 
 
+def test_keyframe_property_delete_key_removes_key_at_frame(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_direct(1.0, frame=1.0)
+    keyframe.set_direct(2.0, frame=2.0)
+    keyframe.set_direct(3.0, frame=3.0)
+
+    assert keyframe.delete_key(2.0) is True
+    assert keyframe.frames() == [1.0, 3.0]
+    assert keyframe.values() == pytest.approx([1.0, 3.0])
+    assert keyframe.delete_key(2.0) is False
+
+
+def test_keyframe_property_delete_key_returns_false_without_anim_curve(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+
+    assert keyframe.delete_key(1.0) is False
+
+
+def test_keyframe_property_delete_keys_removes_keys_in_range(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    for frame in (1.0, 2.0, 3.0, 4.0):
+        keyframe.set_direct(frame, frame=frame)
+
+    assert keyframe.delete_keys(start_frame=2.0, end_frame=3.0) == 2
+    assert keyframe.frames() == [1.0, 4.0]
+    assert keyframe.values() == pytest.approx([1.0, 4.0])
+
+
+def test_keyframe_property_delete_keys_without_range_removes_all_keys(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_direct(1.0, frame=1.0)
+    keyframe.set_direct(2.0, frame=2.0)
+
+    assert keyframe.delete_keys() == 2
+    assert keyframe.key_count() == 0
+    assert keyframe.frames() == []
+
+
+def test_keyframe_property_delete_keys_returns_zero_without_anim_curve(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+
+    assert keyframe.delete_keys() == 0
+
+
+def test_keyframe_property_delete_keys_rejects_reversed_range(
+    plus_minus_average_node,
+):
+    keyframe = plus_minus_average_node.input1D[0].keyframe
+    keyframe.set_direct(1.0, frame=1.0)
+
+    with pytest.raises(ValueError, match="start_frame"):
+        keyframe.delete_keys(start_frame=2.0, end_frame=1.0)
+
+
 def test_keyframe_property_insert_direct_requires_existing_anim_curve(
     plus_minus_average_node,
 ):
@@ -323,6 +456,7 @@ def test_keyframe_property_converts_angle_value_to_anim_curve_radians(
         "test_transform.rotateX",
         time=10.0,
     ) == pytest.approx(90.0)
+    assert node.rotate.rotateX.keyframe.values() == pytest.approx([90.0])
 
 
 def test_keyframe_property_is_not_available_on_compound_plug(

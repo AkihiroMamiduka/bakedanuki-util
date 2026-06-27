@@ -25,6 +25,11 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
     def _to_anim_curve_value(self, value: float) -> om.MTime:
         return om.MTime(value, om.MTime.uiUnit())
 
+    def _from_anim_curve_value(self, value: om.MTime | float) -> float:
+        if isinstance(value, om.MTime):
+            return value.asUnits(om.MTime.uiUnit())
+        return value
+
     # add
     def add_attr(self):
         self._add_attr_base(om.MFnUnitAttribute.kTime)

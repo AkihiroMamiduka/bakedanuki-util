@@ -73,6 +73,7 @@ class KeyframeManager:
         "_plug",
         "_plug_name",
         "_value_converter",
+        "_value_reader",
         "_anim_curve_obj",
     )
 
@@ -81,10 +82,12 @@ class KeyframeManager:
         plug: om.MPlug,
         plug_name: str | None = None,
         value_converter: ValueConverter | None = None,
+        value_reader: ValueConverter | None = None,
     ):
         self._plug = plug
         self._plug_name = plug_name or str(plug)
         self._value_converter = value_converter or _identity
+        self._value_reader = value_reader or _identity
         self._anim_curve_obj: om.MObject | None = None
 
     @property
@@ -122,6 +125,21 @@ class KeyframeManager:
             return anim_curve_obj
         return None
 
+    def _get_anim_curve_fn(self) -> oma.MFnAnimCurve | None:
+        anim_curve_obj = self._get_anim_curve_obj()
+        if anim_curve_obj is None:
+            return None
+
+        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
+        self._validate_time_input_anim_curve(fn_anim_curve)
+        return fn_anim_curve
+
+    def _get_or_create_anim_curve_fn(self) -> oma.MFnAnimCurve:
+        anim_curve_obj = self._get_or_create_anim_curve_obj()
+        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
+        self._validate_time_input_anim_curve(fn_anim_curve)
+        return fn_anim_curve
+
     def _get_or_create_anim_curve_obj(self) -> om.MObject:
         anim_curve_obj = self._get_anim_curve_obj()
         if anim_curve_obj is not None:
@@ -149,6 +167,15 @@ class KeyframeManager:
         if not fn_anim_curve.isTimeInput:
             return None
         return anim_curve_obj
+
+    def _validate_time_input_anim_curve(
+        self,
+        fn_anim_curve: oma.MFnAnimCurve,
+    ):
+        if not fn_anim_curve.isTimeInput:
+            raise RuntimeError(
+                f"{fn_anim_curve.name()} is not a time-input animCurve."
+            )
 
     #   find
     def _find_upstream_anim_curve_obj(self) -> om.MObject | None:
@@ -217,6 +244,39 @@ class KeyframeManager:
         modifier.doIt()
 
     # keyframe
+    #   query
+    def has_anim_curve(self) -> bool:
+        return self._get_anim_curve_obj() is not None
+
+    def key_count(self) -> int:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return 0
+        return fn_anim_curve.numKeys
+
+    def frames(self) -> list[float]:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return []
+
+        return [
+            self._key_frame(fn_anim_curve, i)
+            for i in range(fn_anim_curve.numKeys)
+        ]
+
+    def values(self) -> list[Any]:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return []
+
+        return [
+            self._value_reader(fn_anim_curve.evaluate(fn_anim_curve.input(i)))
+            for i in range(fn_anim_curve.numKeys)
+        ]
+
+    def has_key(self, frame: float) -> bool:
+        return self._find_key_index(frame) is not None
+
     #   set
     def set_direct(
         self,
@@ -225,12 +285,7 @@ class KeyframeManager:
         in_tangent_type: TangentTypeValue = None,
         out_tangent_type: TangentTypeValue = None,
     ):
-        anim_curve_obj = self._get_or_create_anim_curve_obj()
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
-            )
+        fn_anim_curve = self._get_or_create_anim_curve_fn()
 
         fn_anim_curve.addKey(
             om.MTime(frame, om.MTime.uiUnit()),
@@ -239,22 +294,115 @@ class KeyframeManager:
             _to_tangent_type(out_tangent_type),
         )
 
+    def set_tangent(
+        self,
+        frame: float,
+        in_tangent_type: TangentTypeValue = None,
+        out_tangent_type: TangentTypeValue = None,
+    ) -> bool:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return False
+
+        index = self._find_key_index(frame, fn_anim_curve)
+        if index is None:
+            return False
+
+        if in_tangent_type is not None:
+            fn_anim_curve.setInTangentType(
+                index,
+                _to_tangent_type(in_tangent_type),
+            )
+        if out_tangent_type is not None:
+            fn_anim_curve.setOutTangentType(
+                index,
+                _to_tangent_type(out_tangent_type),
+            )
+        return True
+
     #   insert
     def insert_direct(self, frame: float, breakdown: bool = False) -> int:
-        anim_curve_obj = self._get_anim_curve_obj()
-        if anim_curve_obj is None:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
             raise RuntimeError(
                 f"{self.plug_name} has no upstream time-input animCurve "
                 "to insert a key."
-            )
-
-        fn_anim_curve = oma.MFnAnimCurve(anim_curve_obj)
-        if not fn_anim_curve.isTimeInput:
-            raise RuntimeError(
-                f"{fn_anim_curve.name()} is not a time-input animCurve."
             )
 
         return fn_anim_curve.insertKey(
             om.MTime(frame, om.MTime.uiUnit()),
             breakdown,
         )
+
+    #   delete
+    def delete_key(self, frame: float) -> bool:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return False
+
+        index = self._find_key_index(frame, fn_anim_curve)
+        if index is None:
+            return False
+
+        fn_anim_curve.remove(index)
+        return True
+
+    def delete_keys(
+        self,
+        start_frame: float | None = None,
+        end_frame: float | None = None,
+    ) -> int:
+        fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return 0
+
+        if (
+            start_frame is not None
+            and end_frame is not None
+            and start_frame > end_frame
+        ):
+            raise ValueError("start_frame must be less than or equal to end_frame.")
+
+        indices = [
+            i
+            for i in range(fn_anim_curve.numKeys)
+            if self._is_frame_in_range(
+                self._key_frame(fn_anim_curve, i),
+                start_frame,
+                end_frame,
+            )
+        ]
+        for index in reversed(indices):
+            fn_anim_curve.remove(index)
+        return len(indices)
+
+    def _find_key_index(
+        self,
+        frame: float,
+        fn_anim_curve: oma.MFnAnimCurve | None = None,
+    ) -> int | None:
+        if fn_anim_curve is None:
+            fn_anim_curve = self._get_anim_curve_fn()
+        if fn_anim_curve is None:
+            return None
+
+        return fn_anim_curve.find(om.MTime(frame, om.MTime.uiUnit()))
+
+    def _key_frame(
+        self,
+        fn_anim_curve: oma.MFnAnimCurve,
+        index: int,
+    ) -> float:
+        return fn_anim_curve.input(index).asUnits(om.MTime.uiUnit())
+
+    def _is_frame_in_range(
+        self,
+        frame: float,
+        start_frame: float | None,
+        end_frame: float | None,
+    ) -> bool:
+        if start_frame is not None and frame < start_frame:
+            return False
+        if end_frame is not None and frame > end_frame:
+            return False
+        return True

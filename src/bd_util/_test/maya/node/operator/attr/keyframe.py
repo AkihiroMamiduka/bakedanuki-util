@@ -53,7 +53,9 @@ def delete_key():
     modifier_manager.do_it_dg()
     plug = node.input3D[0].input3Dx
     plug.keyframe.set_direct(100, 100)
-    plug.keyframe.delete_anim_curve()
+    plug.keyframe.set_direct(200, 200)
+    plug.keyframe.delete_key(100)
+    plug.keyframe.delete_keys(start_frame=200, end_frame=200)
     modifier_manager.do_it_dg()
 
 

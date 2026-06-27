@@ -31,6 +31,9 @@ class FloatAnglePlugOperator(
     def _to_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 
+    def _from_anim_curve_value(self, value: float) -> float:
+        return om.MAngle(value, om.MAngle.kRadians).asDegrees()
+
     # add
     def add_attr(self):
         self._add_attr_base(om.MFnUnitAttribute.kAngle)
