@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.numeric_compound.float3 import Float3Field
+from ...define.custom.at.scalar_compound.float3 import Float3Field
 
 
 class ExtraFloat3Field(Float3Field):
