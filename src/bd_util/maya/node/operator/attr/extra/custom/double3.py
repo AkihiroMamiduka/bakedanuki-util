@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.numeric_compound_base.double3 import Double3Field
+from ...define.custom.at.numeric_compound.double3 import Double3Field
 
 
 class ExtraDouble3Field(Double3Field):
