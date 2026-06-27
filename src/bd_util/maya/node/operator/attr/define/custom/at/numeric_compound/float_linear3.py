@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from ._core import (
+from ._base import (
     NumericCompoundBasePlugOperator,
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
