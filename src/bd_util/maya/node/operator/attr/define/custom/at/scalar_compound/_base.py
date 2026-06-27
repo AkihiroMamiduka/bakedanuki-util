@@ -16,7 +16,7 @@ P = TypeVar("P", bound="PlugOperator")
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class NumericCompoundBasePlugOperator(PlugOperator[A]):
+class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     __slots__ = ()
 
     CHILD_M_FN = None
@@ -127,14 +127,14 @@ class NumericCompoundBasePlugOperator(PlugOperator[A]):
         self._node.fn_node.addAttribute(attr_obj)
 
 
-class NumericCompoundBaseAttrOperator(AttrOperator[P]):
+class ScalarCompoundBaseAttrOperator(AttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "abc"
 
 
-class NumericCompoundBaseField(AttributeField[A, P]):
+class ScalarCompoundBaseField(AttributeField[A, P]):
     __slots__ = ()
 
-    ATTR_CLS = cast(Type[A], NumericCompoundBaseAttrOperator)
-    PLUG_CLS = cast(Type[P], NumericCompoundBasePlugOperator)
+    ATTR_CLS = cast(Type[A], ScalarCompoundBaseAttrOperator)
+    PLUG_CLS = cast(Type[P], ScalarCompoundBasePlugOperator)

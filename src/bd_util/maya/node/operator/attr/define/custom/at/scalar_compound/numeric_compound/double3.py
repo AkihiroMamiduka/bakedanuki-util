@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .._base import (
+from ._base import (
     NumericCompoundBasePlugOperator,
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
@@ -17,7 +17,6 @@ class Double3PlugOperator(
 ):
     __slots__ = ()
 
-    CHILD_M_FN = om.MFnNumericAttribute
     CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kDouble
 
     x = DoubleField()
