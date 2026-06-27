@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.double_angle3 import (
+from ...define.custom.at.scalar_compound.unit_compound.angle_compound.double_angle3 import (
     DoubleAngle3Field,
 )
 

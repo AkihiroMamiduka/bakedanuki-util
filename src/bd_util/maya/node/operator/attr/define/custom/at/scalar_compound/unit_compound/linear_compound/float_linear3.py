@@ -4,25 +4,25 @@
 from maya.api import OpenMaya as om
 
 # self
-from ._base import (
+from ..._base import (
     NumericCompoundBasePlugOperator,
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ....std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ......std.at.unit_scalar_range.float_linear import FloatLinearField
 
 
-class DoubleLinear3PlugOperator(
-    NumericCompoundBasePlugOperator["DoubleLinear3AttrOperator"]
+class FloatLinear3PlugOperator(
+    NumericCompoundBasePlugOperator["FloatLinear3AttrOperator"]
 ):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnUnitAttribute
     CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kDistance
 
-    x = DoubleLinearField()
-    y = DoubleLinearField()
-    z = DoubleLinearField()
+    x = FloatLinearField()
+    y = FloatLinearField()
+    z = FloatLinearField()
 
     # get
     def _get_child_value(self, child_plug) -> float:
@@ -34,20 +34,20 @@ class DoubleLinear3PlugOperator(
         self._node._dg_mod.newPlugValueMDistance(child_plug, value)
 
 
-class DoubleLinear3AttrOperator(
-    NumericCompoundBaseAttrOperator[DoubleLinear3PlugOperator]
+class FloatLinear3AttrOperator(
+    NumericCompoundBaseAttrOperator[FloatLinear3PlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_TYPE = "double3"
+    ATTR_TYPE = "float3"
 
 
-class DoubleLinear3Field(
+class FloatLinear3Field(
     NumericCompoundBaseField[
-        DoubleLinear3AttrOperator, DoubleLinear3PlugOperator
+        FloatLinear3AttrOperator, FloatLinear3PlugOperator
     ]
 ):
     __slots__ = ()
 
-    ATTR_CLS = DoubleLinear3AttrOperator
-    PLUG_CLS = DoubleLinear3PlugOperator
+    ATTR_CLS = FloatLinear3AttrOperator
+    PLUG_CLS = FloatLinear3PlugOperator

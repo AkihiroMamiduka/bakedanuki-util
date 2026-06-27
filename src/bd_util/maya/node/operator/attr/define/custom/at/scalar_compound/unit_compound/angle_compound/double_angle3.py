@@ -4,25 +4,25 @@
 from maya.api import OpenMaya as om
 
 # self
-from ._base import (
+from ..._base import (
     NumericCompoundBasePlugOperator,
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ....std.at.unit_scalar_range.float_angle import FloatAngleField
+from ......std.at.unit_scalar_range.double_angle import DoubleAngleField
 
 
-class FloatAngle3PlugOperator(
-    NumericCompoundBasePlugOperator["FloatAngle3AttrOperator"]
+class DoubleAngle3PlugOperator(
+    NumericCompoundBasePlugOperator["DoubleAngle3AttrOperator"]
 ):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnUnitAttribute
     CHILD_M_ATTR_TYPE: int = om.MFnUnitAttribute.kAngle
 
-    x = FloatAngleField()
-    y = FloatAngleField()
-    z = FloatAngleField()
+    x = DoubleAngleField()
+    y = DoubleAngleField()
+    z = DoubleAngleField()
 
     # get
     def _get_child_value(self, child_plug) -> float:
@@ -35,18 +35,20 @@ class FloatAngle3PlugOperator(
         )
 
 
-class FloatAngle3AttrOperator(
-    NumericCompoundBaseAttrOperator[FloatAngle3PlugOperator]
+class DoubleAngle3AttrOperator(
+    NumericCompoundBaseAttrOperator[DoubleAngle3PlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_TYPE = "float3"
+    ATTR_TYPE = "double3"
 
 
-class FloatAngle3Field(
-    NumericCompoundBaseField[FloatAngle3AttrOperator, FloatAngle3PlugOperator]
+class DoubleAngle3Field(
+    NumericCompoundBaseField[
+        DoubleAngle3AttrOperator, DoubleAngle3PlugOperator
+    ]
 ):
     __slots__ = ()
 
-    ATTR_CLS = FloatAngle3AttrOperator
-    PLUG_CLS = FloatAngle3PlugOperator
+    ATTR_CLS = DoubleAngle3AttrOperator
+    PLUG_CLS = DoubleAngle3PlugOperator
