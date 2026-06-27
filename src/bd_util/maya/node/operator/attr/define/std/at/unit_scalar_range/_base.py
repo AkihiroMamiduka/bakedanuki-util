@@ -3,7 +3,7 @@ from typing import TypeVar, Type, cast
 
 # self
 from ......... import logger as u_logger
-from ..unit_scalar.unit_base import (
+from ..unit_scalar._base import (
     UnitBaseAttrOperator,
     UnitBasePlugOperator,
     UnitBaseField,
