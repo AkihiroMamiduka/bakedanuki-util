@@ -21,8 +21,8 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
 
     CHILD_M_FN = None
     CHILD_M_ATTR_TYPE: int = None
-    _SUFFIXES: list[str] = []
-    CHILD_FIELDS: list[AttributeField] = []
+    _SUFFIXES: tuple[str, ...] = ()
+    CHILD_FIELDS: tuple[AttributeField, ...] = ()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,7 +39,8 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
-        state_suffix = bool(cls._SUFFIXES)
+        suffixes = []
+        child_fields = []
 
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
@@ -48,9 +49,15 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
                 continue
             # 子に関する情報を登録
             #   suffix
-            if not state_suffix:
-                cls._SUFFIXES.append(key)
-                cls.CHILD_FIELDS.append(child_field)
+            suffixes.append(key)
+            child_fields.append(child_field)
+
+        if suffixes:
+            cls._SUFFIXES = tuple(suffixes)
+            cls.CHILD_FIELDS = tuple(child_fields)
+        else:
+            cls._SUFFIXES = tuple(getattr(cls, "_SUFFIXES", ()))
+            cls.CHILD_FIELDS = tuple(getattr(cls, "CHILD_FIELDS", ()))
 
     # get
     def _get_child_value(self, child_plug) -> float:

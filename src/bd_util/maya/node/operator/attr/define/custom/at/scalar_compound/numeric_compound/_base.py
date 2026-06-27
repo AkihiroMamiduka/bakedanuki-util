@@ -12,9 +12,9 @@ from .._base import (
     ScalarCompoundBaseField,
 )
 
-A = TypeVar("A", bound="ScalarCompoundBaseAttrOperator")
+A = TypeVar("A", bound="NumericCompoundBaseAttrOperator")
 
-P = TypeVar("P", bound="ScalarCompoundBasePlugOperator")
+P = TypeVar("P", bound="NumericCompoundBasePlugOperator")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)

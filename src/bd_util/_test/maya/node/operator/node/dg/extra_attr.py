@@ -145,6 +145,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble = testDouble
+    #   double2
+    testDouble2 = AddAttr.at.double2()
+    tdouble2 = testDouble2
     #   double3
     testDouble3 = AddAttr.at.double3()
     tdouble3 = testDouble3

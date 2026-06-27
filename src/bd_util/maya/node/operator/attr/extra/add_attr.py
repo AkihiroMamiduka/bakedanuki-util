@@ -13,8 +13,8 @@ from .std.at.compound import ExtraCompoundField
 from .std.at.double_angle import ExtraDoubleAngleField
 from .std.at.double_linear import ExtraDoubleLinearField
 from .std.at.double import ExtraDoubleField
-from .std.at.double2 import ExtraDouble2Field
 
+# from .std.at.double2 import ExtraDouble2Field
 # from .std.at.double3 import ExtraDouble3Field
 from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
@@ -42,6 +42,7 @@ from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
 
 #       custom
+from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
 from .custom.double_linear3 import ExtraDoubleLinear3Field
 from .custom.double_angle3 import ExtraDoubleAngle3Field
@@ -76,7 +77,7 @@ class AddAttrAt:
     #     ExtraDoubleLinearField
     # )
     # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
-    double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
+    # double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
     # double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
     double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
 
@@ -234,6 +235,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraDoubleField:
         return ExtraDoubleField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDouble2Field:
+        return ExtraDouble2Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
