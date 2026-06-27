@@ -4,33 +4,33 @@
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_single_range_base import (
+from .numeric_single_range_base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
 )
 
 
-class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
+class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self) -> int:
-        return self.plug.asInt()
+    def get(self) -> str:
+        return self.plug.asChar()
 
     # set
-    def set(self, value: int):
-        self._node._dg_mod.newPlugValueInt(self.plug, value)
+    def set(self, value: str):
+        self._node._dg_mod.newPlugValueChar(self.plug, value)
 
     # add
     def add_attr(self):
-        self._add_attr_base(om.MFnNumericData.kLong)
+        self._add_attr_base(om.MFnNumericData.kChar)
 
 
-class LongAttrOperator(NumericRangeBaseAttrOperator[LongPlugOperator]):
+class CharAttrOperator(NumericRangeBaseAttrOperator[CharPlugOperator]):
     __slots__ = ()
 
-    ATTR_TYPE = "long"
+    ATTR_TYPE = "char"
 
     def __init__(self, *args, default_value=None, **kwargs):
         # デフォルト値
@@ -43,8 +43,8 @@ class LongAttrOperator(NumericRangeBaseAttrOperator[LongPlugOperator]):
         )
 
 
-class LongField(NumericRangeBaseField[LongAttrOperator, LongPlugOperator]):
+class CharField(NumericRangeBaseField[CharAttrOperator, CharPlugOperator]):
     __slots__ = ()
 
-    ATTR_CLS = LongAttrOperator
-    PLUG_CLS = LongPlugOperator
+    ATTR_CLS = CharAttrOperator
+    PLUG_CLS = CharPlugOperator

@@ -9,7 +9,7 @@ from ._core import (
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ....std.at.double_angle import DoubleAngleField
+from ....std.at.unit_scalar_range.double_angle import DoubleAngleField
 
 
 class DoubleAngle3PlugOperator(

@@ -4,33 +4,33 @@
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_single_range_base import (
+from .numeric_single_range_base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
 )
 
 
-class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
+class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
     __slots__ = ()
 
     # get
-    def get(self) -> str:
+    def get(self) -> int:
         return self.plug.asChar()
 
     # set
-    def set(self, value: str):
+    def set(self, value: int):
         self._node._dg_mod.newPlugValueChar(self.plug, value)
 
     # add
     def add_attr(self):
-        self._add_attr_base(om.MFnNumericData.kChar)
+        self._add_attr_base(om.MFnNumericData.kByte)
 
 
-class CharAttrOperator(NumericRangeBaseAttrOperator[CharPlugOperator]):
+class ByteAttrOperator(NumericRangeBaseAttrOperator[BytePlugOperator]):
     __slots__ = ()
 
-    ATTR_TYPE = "char"
+    ATTR_TYPE = "byte"
 
     def __init__(self, *args, default_value=None, **kwargs):
         # デフォルト値
@@ -43,8 +43,8 @@ class CharAttrOperator(NumericRangeBaseAttrOperator[CharPlugOperator]):
         )
 
 
-class CharField(NumericRangeBaseField[CharAttrOperator, CharPlugOperator]):
+class ByteField(NumericRangeBaseField[ByteAttrOperator, BytePlugOperator]):
     __slots__ = ()
 
-    ATTR_CLS = CharAttrOperator
-    PLUG_CLS = CharPlugOperator
+    ATTR_CLS = ByteAttrOperator
+    PLUG_CLS = BytePlugOperator

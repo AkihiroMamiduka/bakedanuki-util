@@ -11,7 +11,7 @@ from ...attr.define.std.at.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ...attr.define.std.at.float import FloatField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator):

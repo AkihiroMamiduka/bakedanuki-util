@@ -5,31 +5,35 @@ from typing import Type
 
 from .....maya.attr.query import get_attribute_info
 from ._core import AttrOperator
-from .define.std.at.bool import BoolAttrOperator
-from .define.std.at.byte import ByteAttrOperator
-from .define.std.at.char import CharAttrOperator
+from .define.std.at.numeric_scalar.bool import BoolAttrOperator
+from .define.std.at.numeric_scalar_range.byte import ByteAttrOperator
+from .define.std.at.numeric_scalar_range.char import CharAttrOperator
 from .define.std.at.compound import CompoundAttrOperator
-from .define.std.at.double import DoubleAttrOperator
+from .define.std.at.numeric_scalar_range.double import DoubleAttrOperator
 from .define.std.at.double2 import Double2AttrOperator
 from .define.std.at.double3 import Double3AttrOperator
-from .define.std.at.double_angle import DoubleAngleAttrOperator
-from .define.std.at.double_linear import DoubleLinearAttrOperator
+from .define.std.at.unit_scalar_range.double_angle import (
+    DoubleAngleAttrOperator,
+)
+from .define.std.at.unit_scalar_range.double_linear import (
+    DoubleLinearAttrOperator,
+)
 from .define.std.at.enum import EnumAttrOperator
-from .define.std.at.float import FloatAttrOperator
+from .define.std.at.numeric_scalar_range.float import FloatAttrOperator
 from .define.std.at.float2 import Float2AttrOperator
 from .define.std.at.float3 import Float3AttrOperator
 from .define.std.at.flt_matrix import FltMatrixAttrOperator
-from .define.std.at.long import LongAttrOperator
+from .define.std.at.numeric_scalar_range.long import LongAttrOperator
 from .define.std.at.long2 import Long2AttrOperator
 from .define.std.at.long3 import Long3AttrOperator
 from .define.std.at.matrix import MatrixAttrOperator
 from .define.std.at.message import MessageAttrOperator
 from .define.std.at.reflectance import ReflectanceAttrOperator
-from .define.std.at.short import ShortAttrOperator
+from .define.std.at.numeric_scalar_range.short import ShortAttrOperator
 from .define.std.at.short2 import Short2AttrOperator
 from .define.std.at.short3 import Short3AttrOperator
 from .define.std.at.spectrum import SpectrumAttrOperator
-from .define.std.at.time import TimeAttrOperator
+from .define.std.at.unit_scalar.time import TimeAttrOperator
 from .define.std.at.typed import TypedAttrOperator
 from .define.std.dt.double2 import DataDouble2AttrOperator
 from .define.std.dt.double3 import DataDouble3AttrOperator

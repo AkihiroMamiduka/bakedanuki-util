@@ -3,7 +3,7 @@ from typing import TypeVar, Type, cast
 
 # self
 from ......... import logger as u_logger
-from .numeric_single_base import (
+from ..numeric_scalar.numeric_single_base import (
     NumericBaseAttrOperator,
     NumericBasePlugOperator,
     NumericBaseField,

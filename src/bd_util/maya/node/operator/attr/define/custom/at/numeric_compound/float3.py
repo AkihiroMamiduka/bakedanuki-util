@@ -9,7 +9,7 @@ from ._core import (
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ....std.at.float import FloatField
+from ....std.at.numeric_scalar_range.float import FloatField
 
 
 class Float3PlugOperator(

@@ -2,8 +2,8 @@
 
 # self
 from .._core import NodeOperator
-from ...attr.define.std.at.bool import BoolField
-from ...attr.define.std.at.byte import ByteField
+from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.byte import ByteField
 from ...attr.define.std.at.enum import (
     EnumAttrOperator,
     EnumPlugOperator,

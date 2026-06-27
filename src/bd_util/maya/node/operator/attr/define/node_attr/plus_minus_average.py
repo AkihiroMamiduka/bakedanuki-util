@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from ..std.at.float import FloatField
+from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.at.float2 import Float2AttrOperator, Float2PlugOperator, Float2Field
 from ..std.at.float3 import Float3AttrOperator, Float3PlugOperator, Float3Field
 

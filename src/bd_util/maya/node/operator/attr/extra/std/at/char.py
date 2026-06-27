@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.char import CharField
+from ....define.std.at.numeric_scalar_range.char import CharField
 
 
 class ExtraCharField(CharField):

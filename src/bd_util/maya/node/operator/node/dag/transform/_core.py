@@ -11,11 +11,13 @@ from ....attr.define.std.at.double3 import (
     Double3PlugOperator,
     Double3Field,
 )
-from ....attr.define.std.at.double import DoubleField
-from ....attr.define.std.at.double_linear import (
+from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.unit_scalar_range.double_linear import (
     DoubleLinearField,
 )
-from ....attr.define.std.at.double_angle import DoubleAngleField
+from ....attr.define.std.at.unit_scalar_range.double_angle import (
+    DoubleAngleField,
+)
 
 
 class TranslatePlugOperator(Double3PlugOperator["TranslateAttrOperator"]):

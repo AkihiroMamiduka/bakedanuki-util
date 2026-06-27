@@ -9,7 +9,7 @@ from ._core import (
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ....std.at.double_linear import DoubleLinearField
+from ....std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
 class DoubleLinear3PlugOperator(

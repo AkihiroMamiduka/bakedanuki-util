@@ -4,33 +4,33 @@
 from maya.api import OpenMaya as om
 
 # self
-from .base.numeric_single_range_base import (
+from .numeric_single_range_base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,
     NumericRangeBaseField,
 )
 
 
-class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
+class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
     __slots__ = ()
 
     # get
     def get(self) -> int:
-        return self.plug.asChar()
+        return self.plug.asInt()
 
     # set
     def set(self, value: int):
-        self._node._dg_mod.newPlugValueChar(self.plug, value)
+        self._node._dg_mod.newPlugValueInt(self.plug, value)
 
     # add
     def add_attr(self):
-        self._add_attr_base(om.MFnNumericData.kByte)
+        self._add_attr_base(om.MFnNumericData.kLong)
 
 
-class ByteAttrOperator(NumericRangeBaseAttrOperator[BytePlugOperator]):
+class LongAttrOperator(NumericRangeBaseAttrOperator[LongPlugOperator]):
     __slots__ = ()
 
-    ATTR_TYPE = "byte"
+    ATTR_TYPE = "long"
 
     def __init__(self, *args, default_value=None, **kwargs):
         # デフォルト値
@@ -43,8 +43,8 @@ class ByteAttrOperator(NumericRangeBaseAttrOperator[BytePlugOperator]):
         )
 
 
-class ByteField(NumericRangeBaseField[ByteAttrOperator, BytePlugOperator]):
+class LongField(NumericRangeBaseField[LongAttrOperator, LongPlugOperator]):
     __slots__ = ()
 
-    ATTR_CLS = ByteAttrOperator
-    PLUG_CLS = BytePlugOperator
+    ATTR_CLS = LongAttrOperator
+    PLUG_CLS = LongPlugOperator

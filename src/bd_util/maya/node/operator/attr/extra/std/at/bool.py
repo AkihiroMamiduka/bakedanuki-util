@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.bool import BoolField
+from ....define.std.at.numeric_scalar.bool import BoolField
 
 
 class ExtraBoolField(BoolField):
