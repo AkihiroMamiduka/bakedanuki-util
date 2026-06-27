@@ -1,8 +1,19 @@
 # coding: utf-8
-from ...._core import AttrOperator, PlugOperator, AttributeField
+
+# maya
+from maya.api import OpenMaya as om
+
+# self
+from .base.unit_range_base import (
+    UnitRangeBaseAttrOperator,
+    UnitRangeBasePlugOperator,
+    UnitRangeBaseField,
+)
 
 
-class FloatLinearPlugOperator(PlugOperator["FloatLinearAttrOperator"]):
+class FloatLinearPlugOperator(
+    UnitRangeBasePlugOperator["FloatLinearAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -17,15 +28,21 @@ class FloatLinearPlugOperator(PlugOperator["FloatLinearAttrOperator"]):
     def keyframe(self):
         return self._get_keyframe_manager()
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnUnitAttribute.kDistance)
 
-class FloatLinearAttrOperator(AttrOperator[FloatLinearPlugOperator]):
+
+class FloatLinearAttrOperator(
+    UnitRangeBaseAttrOperator[FloatLinearPlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "floatLinear"
 
 
 class FloatLinearField(
-    AttributeField[FloatLinearAttrOperator, FloatLinearPlugOperator]
+    UnitRangeBaseField[FloatLinearAttrOperator, FloatLinearPlugOperator]
 ):
     __slots__ = ()
 

@@ -19,9 +19,12 @@ from .std.at.double2 import ExtraDouble2Field
 from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
+from .std.at.float_angle import ExtraFloatAngleField
+from .std.at.float_linear import ExtraFloatLinearField
 from .std.at.float import ExtraFloatField
 from .std.at.float2 import ExtraFloat2Field
-from .std.at.float3 import ExtraFloat3Field
+
+# from .std.at.float3 import ExtraFloat3Field
 from .std.at.flt_matrix import ExtraFltMatrixField
 from .std.at.generic import ExtraGenericField
 from .std.at.light_data import ExtraLightDataField
@@ -42,6 +45,9 @@ from .std.at.time import ExtraTimeField
 from .custom.double3 import ExtraDouble3Field
 from .custom.double_linear3 import ExtraDoubleLinear3Field
 from .custom.double_angle3 import ExtraDoubleAngle3Field
+from .custom.float3 import ExtraFloat3Field
+from .custom.float_linear3 import ExtraFloatLinear3Field
+from .custom.float_angle3 import ExtraFloatAngle3Field
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -78,7 +84,7 @@ class AddAttrAt:
 
     # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
     float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
-    float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
+    # float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
     # flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
     # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
     light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
@@ -315,6 +321,56 @@ class AddAttrAt:
         )
 
     @classmethod
+    def float_angle(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatAngleField:
+        return ExtraFloatAngleField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float_linear(
+        cls,
+        default_value: float = None,
+        min_value: float = None,
+        max_value: float = None,
+        soft_min_value: float = None,
+        soft_max_value: float = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatLinearField:
+        return ExtraFloatLinearField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def float(
         cls,
         default_value: float = None,
@@ -328,6 +384,81 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraFloatField:
         return ExtraFloatField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloat3Field:
+        return ExtraFloat3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float_linear3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatLinear3Field:
+        return ExtraFloatLinear3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float_angle3(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatAngle3Field:
+        return ExtraFloatAngle3Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

@@ -109,6 +109,33 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tfloat = testFloat
+    #   float3
+    testFloat3 = AddAttr.at.float3()
+    tfloat3 = testFloat3
+    #   float_linear
+    testFloatLinear = AddAttr.at.float_linear(
+        default_value=10000000000000000000,
+        min_value=-99999999999999999999,
+        max_value=99999999999999999999,
+        soft_min_value=-99999999999999999999,
+        soft_max_value=99999999999999999999,
+    )
+    tfloat_linear = testFloatLinear
+    #   float_linear3
+    testFloatLinear3 = AddAttr.at.float_linear3()
+    tfloatLinear3 = testFloatLinear3
+    #   float_angle
+    testFloatAngle = AddAttr.at.float_angle(
+        default_value=45,
+        min_value=-720,
+        max_value=720,
+        soft_min_value=-360,
+        soft_max_value=360,
+    )
+    tfloatAngle = testFloatAngle
+    #   float_angle3
+    testFloatAngle3 = AddAttr.at.float_angle3()
+    tfloatAngle3 = testFloatAngle3
     #   double
     testDouble = AddAttr.at.double(
         default_value=10000000000000000000,

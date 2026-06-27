@@ -1,10 +1,19 @@
 # coding: utf-8
+
+# maya
 from maya.api import OpenMaya as om
 
-from ...._core import AttrOperator, PlugOperator, AttributeField
+# self
+from .base.unit_range_base import (
+    UnitRangeBaseAttrOperator,
+    UnitRangeBasePlugOperator,
+    UnitRangeBaseField,
+)
 
 
-class FloatAnglePlugOperator(PlugOperator["FloatAngleAttrOperator"]):
+class FloatAnglePlugOperator(
+    UnitRangeBasePlugOperator["FloatAngleAttrOperator"]
+):
     __slots__ = ()
 
     # get
@@ -22,15 +31,21 @@ class FloatAnglePlugOperator(PlugOperator["FloatAngleAttrOperator"]):
     def _to_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()
 
+    # add
+    def add_attr(self):
+        self._add_attr_base(om.MFnUnitAttribute.kAngle)
 
-class FloatAngleAttrOperator(AttrOperator[FloatAnglePlugOperator]):
+
+class FloatAngleAttrOperator(
+    UnitRangeBaseAttrOperator[FloatAnglePlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "floatAngle"
 
 
 class FloatAngleField(
-    AttributeField[FloatAngleAttrOperator, FloatAnglePlugOperator]
+    UnitRangeBaseField[FloatAngleAttrOperator, FloatAnglePlugOperator]
 ):
     __slots__ = ()
 

@@ -37,18 +37,6 @@ class DoubleAnglePlugOperator(
     def _to_anim_curve_value(self, value: float) -> float:
         return _float_to_radians(value)
 
-    def set_min(self, value):
-        super().set_min(_float_to_angle(value))
-
-    def set_max(self, value):
-        super().set_max(_float_to_angle(value))
-
-    def set_soft_min(self, value):
-        super().set_soft_min(_float_to_angle(value))
-
-    def set_soft_max(self, value):
-        super().set_soft_max(_float_to_angle(value))
-
     # add
     def add_attr(self):
         self._add_attr_base(om.MFnUnitAttribute.kAngle)
