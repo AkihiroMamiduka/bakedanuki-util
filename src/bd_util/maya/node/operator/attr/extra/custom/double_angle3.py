@@ -1,7 +1,9 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.double_angle3 import DoubleAngle3Field
+from ...define.custom.at.numeric_compound_base.double_angle3 import (
+    DoubleAngle3Field,
+)
 
 
 class ExtraDoubleAngle3Field(DoubleAngle3Field):

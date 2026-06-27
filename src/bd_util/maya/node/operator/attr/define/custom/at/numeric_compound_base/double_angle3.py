@@ -4,12 +4,12 @@
 from maya.api import OpenMaya as om
 
 # self
-from ...std.at.base.numeric_compound_base import (
+from ._core import (
     NumericCompoundBasePlugOperator,
     NumericCompoundBaseAttrOperator,
     NumericCompoundBaseField,
 )
-from ...std.at.double_angle import DoubleAngleField
+from ....std.at.double_angle import DoubleAngleField
 
 
 class DoubleAngle3PlugOperator(
