@@ -6,7 +6,7 @@ import maya.cmds as cmds
 
 # self
 from .._core import DAG
-from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3 import (
+from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,

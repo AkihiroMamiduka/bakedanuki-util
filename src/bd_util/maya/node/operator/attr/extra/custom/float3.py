@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.float_compound.float3 import (
+from ...define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
     Float3Field,
 )
 

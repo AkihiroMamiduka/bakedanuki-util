@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.double_compound.double2 import (
+from ...define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2 import (
     Double2Field,
 )
 

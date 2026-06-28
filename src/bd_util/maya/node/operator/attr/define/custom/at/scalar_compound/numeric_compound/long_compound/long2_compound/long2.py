@@ -1,12 +1,12 @@
 # coding: utf-8
 
 # self
-from ._base import (
+from .._base import (
     LongCompoundBasePlugOperator,
     LongCompoundBaseAttrOperator,
     LongCompoundBaseField,
 )
-from ......std.at.numeric_scalar_range.long import LongField
+from .......std.at.numeric_scalar_range.long import LongField
 
 
 class Long2PlugOperator(LongCompoundBasePlugOperator["Long2AttrOperator"]):

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.short_compound.short3 import (
+from ...define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3 import (
     Short3Field,
 )
 
