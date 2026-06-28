@@ -38,8 +38,9 @@ from .std.at.matrix import ExtraMatrixField
 from .std.at.message import ExtraMessageField
 from .std.at.reflectance import ExtraReflectanceField
 from .std.at.short import ExtraShortField
-from .std.at.short2 import ExtraShort2Field
-from .std.at.short3 import ExtraShort3Field
+
+# from .std.at.short2 import ExtraShort2Field
+# from .std.at.short3 import ExtraShort3Field
 from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
 
@@ -54,6 +55,8 @@ from .custom.float_linear3 import ExtraFloatLinear3Field
 from .custom.float_angle3 import ExtraFloatAngle3Field
 from .custom.long2 import ExtraLong2Field
 from .custom.long3 import ExtraLong3Field
+from .custom.short2 import ExtraShort2Field
+from .custom.short3 import ExtraShort3Field
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -104,8 +107,8 @@ class AddAttrAt:
     # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
     reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
     # short: ClassVar[type[ExtraShortField]] = ExtraShortField
-    short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
-    short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
+    # short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
+    # short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
     spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
     # time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
 
@@ -696,6 +699,56 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraShortField:
         return ExtraShortField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def short2(
+        cls,
+        default_value: list[int] = None,
+        min_value: int | list[int] = None,
+        max_value: int | list[int] = None,
+        soft_min_value: int | list[int] = None,
+        soft_max_value: int | list[int] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraShort2Field:
+        return ExtraShort2Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def short3(
+        cls,
+        default_value: list[int] = None,
+        min_value: int | list[int] = None,
+        max_value: int | list[int] = None,
+        soft_min_value: int | list[int] = None,
+        soft_max_value: int | list[int] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraShort3Field:
+        return ExtraShort3Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

@@ -84,6 +84,12 @@ class MyTransform(Transform):
         soft_max_value=30000,
     )
     tshort = testShort
+    #   short2
+    testShort2 = AddAttr.at.short2()
+    tshort2 = testShort2
+    #   short3
+    testShort3 = AddAttr.at.short3()
+    tshort3 = testShort3
     #   long
     testLong = AddAttr.at.long(
         default_value=1000000000,
