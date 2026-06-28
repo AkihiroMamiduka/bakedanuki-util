@@ -28,7 +28,8 @@ from .std.at.float import ExtraFloatField
 # from .std.at.float3 import ExtraFloat3Field
 from .std.at.flt_matrix import ExtraFltMatrixField
 from .std.at.generic import ExtraGenericField
-from .std.at.light_data import ExtraLightDataField
+
+# from .std.at.light_data import ExtraLightDataField
 from .std.at.long_long_int import ExtraLongLongIntField
 from .std.at.long import ExtraLongField
 
@@ -36,12 +37,13 @@ from .std.at.long import ExtraLongField
 # from .std.at.long3 import ExtraLong3Field
 from .std.at.matrix import ExtraMatrixField
 from .std.at.message import ExtraMessageField
-from .std.at.reflectance import ExtraReflectanceField
+
+# from .std.at.reflectance import ExtraReflectanceField
 from .std.at.short import ExtraShortField
 
 # from .std.at.short2 import ExtraShort2Field
 # from .std.at.short3 import ExtraShort3Field
-from .std.at.spectrum import ExtraSpectrumField
+# from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
 
 #       custom
@@ -96,7 +98,7 @@ class AddAttrAt:
     # float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
     # flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
     # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
-    light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
+    # light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
     # long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
     #     ExtraLongLongIntField
     # )
@@ -105,11 +107,11 @@ class AddAttrAt:
     # long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
     # matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
     # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
-    reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
+    # reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
     # short: ClassVar[type[ExtraShortField]] = ExtraShortField
     # short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
     # short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
-    spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
+    # spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
     # time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
 
     @classmethod
