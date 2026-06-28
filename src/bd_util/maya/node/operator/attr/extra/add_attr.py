@@ -16,7 +16,7 @@ from .std.at.double import ExtraDoubleField
 
 # from .std.at.double2 import ExtraDouble2Field
 # from .std.at.double3 import ExtraDouble3Field
-from .std.at.double4 import ExtraDouble4Field
+# from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
@@ -49,6 +49,8 @@ from .std.at.time import ExtraTimeField
 #       custom
 from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
+from .custom.double4 import ExtraDouble4Field
+from .custom.quat import ExtraQuat4Field
 from .custom.double_linear3 import ExtraDoubleLinear3Field
 from .custom.double_angle3 import ExtraDoubleAngle3Field
 from .custom.float2 import ExtraFloat2Field
@@ -89,7 +91,7 @@ class AddAttrAt:
     # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
     # double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
     # double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
-    double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
+    # double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
 
     enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
 
@@ -295,6 +297,56 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraDouble3Field:
         return ExtraDouble3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double4(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDouble4Field:
+        return ExtraDouble4Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def quat(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraQuat4Field:
+        return ExtraQuat4Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

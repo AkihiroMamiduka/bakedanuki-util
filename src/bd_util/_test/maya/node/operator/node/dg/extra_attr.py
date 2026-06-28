@@ -166,6 +166,12 @@ class MyTransform(Transform):
     #   double3
     testDouble3 = AddAttr.at.double3()
     tdouble3 = testDouble3
+    #   double4
+    testDouble4 = AddAttr.at.double4()
+    tdouble4 = testDouble4
+    #   quat
+    testQuat = AddAttr.at.quat()
+    tquat = testQuat
     #   double_linear
     testDoubleLinear = AddAttr.at.double_linear(
         default_value=10000000000000000000,
