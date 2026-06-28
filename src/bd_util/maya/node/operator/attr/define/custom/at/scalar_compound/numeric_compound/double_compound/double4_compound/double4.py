@@ -6,12 +6,18 @@ from ._base import (
     Double4CompoundBasePlugOperator,
     Double4CompoundBaseField,
 )
+from .......std.at.numeric_scalar_range.double import DoubleField
 
 
 class Double4PlugOperator(
     Double4CompoundBasePlugOperator["Double4AttrOperator"]
 ):
     __slots__ = ()
+
+    x = DoubleField()
+    y = DoubleField()
+    z = DoubleField()
+    w = DoubleField()
 
 
 class Double4AttrOperator(

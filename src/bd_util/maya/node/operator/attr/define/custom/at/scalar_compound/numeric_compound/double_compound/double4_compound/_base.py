@@ -8,7 +8,6 @@ from .._base import (
     DoubleCompoundBaseAttrOperator,
     DoubleCompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.double import DoubleField
 
 A = TypeVar("A", bound="Double4CompoundBaseAttrOperator")
 
@@ -20,11 +19,6 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 class Double4CompoundBasePlugOperator(DoubleCompoundBasePlugOperator[A]):
     __slots__ = ()
-
-    x = DoubleField()
-    y = DoubleField()
-    z = DoubleField()
-    w = DoubleField()
 
 
 class Double4CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):
