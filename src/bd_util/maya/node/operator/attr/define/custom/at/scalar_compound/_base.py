@@ -23,6 +23,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     CHILD_M_ATTR_TYPE: int = None
     _SUFFIXES: tuple[str, ...] = ()
     CHILD_FIELDS: tuple[AttributeField, ...] = ()
+    CHILD_ATTR_NAMES: tuple[tuple[str, str], ...] = ()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,23 +31,30 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         # ファンクションを作成
         self._fn_attr: om.MFnNumericAttribute = om.MFnNumericAttribute()
 
-        for suffix, child_field in zip(self._SUFFIXES, self.CHILD_FIELDS):
-            child_long_name = self.child_long_name(suffix)
+        for i, (suffix, child_field) in enumerate(
+            zip(self._SUFFIXES, self.CHILD_FIELDS)
+        ):
+            child_long_name = self.child_long_name(suffix, i)
             object.__setattr__(child_field, "long_name", child_long_name)
             object.__setattr__(
-                child_field, "_short_name", self.child_short_name(suffix)
+                child_field, "_short_name", self.child_short_name(suffix, i)
             )
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         suffixes = []
         child_fields = []
+        seen_ids = set()
 
         # 子属性の情報を取得
         for key, child_field in vars(cls).items():
             # AttributeField の派生以外はスキップ
             if not isinstance(child_field, AttributeField):
                 continue
+            child_id = id(child_field)
+            if child_id in seen_ids:
+                continue
+            seen_ids.add(child_id)
             # 子に関する情報を登録
             #   suffix
             suffixes.append(key)
@@ -58,6 +66,17 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         else:
             cls._SUFFIXES = tuple(getattr(cls, "_SUFFIXES", ()))
             cls.CHILD_FIELDS = tuple(getattr(cls, "CHILD_FIELDS", ()))
+
+        child_attr_names = tuple(getattr(cls, "CHILD_ATTR_NAMES", ()))
+        if child_attr_names and len(child_attr_names) != len(cls._SUFFIXES):
+            raise ValueError(
+                "{}.CHILD_ATTR_NAMES must match child field count: {} != {}".format(
+                    cls.__name__,
+                    len(child_attr_names),
+                    len(cls._SUFFIXES),
+                )
+            )
+        cls.CHILD_ATTR_NAMES = child_attr_names
 
     # get
     def _get_child_value(self, child_plug) -> float:
@@ -91,10 +110,26 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
             ) from e
 
     # add
-    def child_long_name(self, suffix: str) -> str:
+    def _resolve_child_name_index(
+        self, suffix: str, index: int | None
+    ) -> int | None:
+        if index is not None:
+            return index
+        try:
+            return self._SUFFIXES.index(suffix)
+        except ValueError:
+            return None
+
+    def child_long_name(self, suffix: str, index: int | None = None) -> str:
+        index = self._resolve_child_name_index(suffix, index)
+        if self.CHILD_ATTR_NAMES and index is not None:
+            return self.CHILD_ATTR_NAMES[index][0]
         return f"{self.long_name}{suffix.upper()}"
 
-    def child_short_name(self, suffix: str) -> str:
+    def child_short_name(self, suffix: str, index: int | None = None) -> str:
+        index = self._resolve_child_name_index(suffix, index)
+        if self.CHILD_ATTR_NAMES and index is not None:
+            return self.CHILD_ATTR_NAMES[index][1]
         return f"{self.short_name}{suffix.lower()}"
 
     def add_attr(self):

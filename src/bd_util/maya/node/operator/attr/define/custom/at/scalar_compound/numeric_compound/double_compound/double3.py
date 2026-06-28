@@ -1,4 +1,5 @@
 # coding: utf-8
+from typing import TypeVar, Type, cast
 
 # self
 from ._base import (
@@ -8,10 +9,12 @@ from ._base import (
 )
 from ......std.at.numeric_scalar_range.double import DoubleField
 
+A = TypeVar("A", bound="Double3CompoundBaseAttrOperator")
 
-class Double3PlugOperator(
-    DoubleCompoundBasePlugOperator["Double3AttrOperator"]
-):
+P = TypeVar("P", bound="Double3CompoundBasePlugOperator")
+
+
+class Double3CompoundBasePlugOperator(DoubleCompoundBasePlugOperator[A]):
     __slots__ = ()
 
     x = DoubleField()
@@ -19,14 +22,33 @@ class Double3PlugOperator(
     z = DoubleField()
 
 
-class Double3AttrOperator(DoubleCompoundBaseAttrOperator[Double3PlugOperator]):
+class Double3CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "double3"
 
 
+class Double3CompoundBaseField(DoubleCompoundBaseField[A, P]):
+    __slots__ = ()
+
+    ATTR_CLS = cast(Type[A], Double3CompoundBaseAttrOperator)
+    PLUG_CLS = cast(Type[P], Double3CompoundBasePlugOperator)
+
+
+class Double3PlugOperator(
+    Double3CompoundBasePlugOperator["Double3AttrOperator"]
+):
+    __slots__ = ()
+
+
+class Double3AttrOperator(
+    Double3CompoundBaseAttrOperator[Double3PlugOperator]
+):
+    __slots__ = ()
+
+
 class Double3Field(
-    DoubleCompoundBaseField[Double3AttrOperator, Double3PlugOperator]
+    Double3CompoundBaseField[Double3AttrOperator, Double3PlugOperator]
 ):
     __slots__ = ()
 
