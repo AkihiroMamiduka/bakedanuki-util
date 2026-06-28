@@ -109,7 +109,6 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
                 self.CHILD_M_ATTR_TYPE,
                 0,
             )
-            logger.debug(f"child_attr: {child_attr}")
 
             return child_attr
 
@@ -123,7 +122,6 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         for suffix in self._SUFFIXES:
             children_attrs.append(_create_child_attr(suffix))
         #   親属性(double3)
-        logger.debug(f"children_attrs: {children_attrs}")
         attr_obj = self._fn_attr.create(
             self.long_name,
             self.short_name,
