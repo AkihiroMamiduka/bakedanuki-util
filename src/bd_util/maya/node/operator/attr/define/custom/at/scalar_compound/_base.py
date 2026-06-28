@@ -107,7 +107,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
                 self.child_long_name(suffix),
                 self.child_short_name(suffix),
                 self.CHILD_M_ATTR_TYPE,
-                0.0,
+                0,
             )
             logger.debug(f"child_attr: {child_attr}")
 

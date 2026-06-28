@@ -93,6 +93,12 @@ class MyTransform(Transform):
         soft_max_value=2000000000,
     )
     tlong = testLong
+    #   long2
+    testLong2 = AddAttr.at.long2()
+    tlong2 = testLong2
+    #   long3
+    testLong3 = AddAttr.at.long3()
+    tlong3 = testLong3
     #   long_long_int
     testLongLongInt = AddAttr.at.long_long_int(
         default_value=1000000000000000000,

@@ -31,8 +31,9 @@ from .std.at.generic import ExtraGenericField
 from .std.at.light_data import ExtraLightDataField
 from .std.at.long_long_int import ExtraLongLongIntField
 from .std.at.long import ExtraLongField
-from .std.at.long2 import ExtraLong2Field
-from .std.at.long3 import ExtraLong3Field
+
+# from .std.at.long2 import ExtraLong2Field
+# from .std.at.long3 import ExtraLong3Field
 from .std.at.matrix import ExtraMatrixField
 from .std.at.message import ExtraMessageField
 from .std.at.reflectance import ExtraReflectanceField
@@ -51,6 +52,8 @@ from .custom.float2 import ExtraFloat2Field
 from .custom.float3 import ExtraFloat3Field
 from .custom.float_linear3 import ExtraFloatLinear3Field
 from .custom.float_angle3 import ExtraFloatAngle3Field
+from .custom.long2 import ExtraLong2Field
+from .custom.long3 import ExtraLong3Field
 
 #   dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
@@ -95,8 +98,8 @@ class AddAttrAt:
     #     ExtraLongLongIntField
     # )
     # long: ClassVar[type[ExtraLongField]] = ExtraLongField
-    long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
-    long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
+    # long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
+    # long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
     # matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
     # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
     reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
@@ -588,6 +591,56 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraLongField:
         return ExtraLongField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def long2(
+        cls,
+        default_value: list[int] = None,
+        min_value: int | list[int] = None,
+        max_value: int | list[int] = None,
+        soft_min_value: int | list[int] = None,
+        soft_max_value: int | list[int] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraLong2Field:
+        return ExtraLong2Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def long3(
+        cls,
+        default_value: list[int] = None,
+        min_value: int | list[int] = None,
+        max_value: int | list[int] = None,
+        soft_min_value: int | list[int] = None,
+        soft_max_value: int | list[int] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraLong3Field:
+        return ExtraLong3Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
