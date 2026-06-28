@@ -1,17 +1,15 @@
 # coding: utf-8
 
 # self
-from .._base import (
-    NumericCompoundBasePlugOperator,
-    NumericCompoundBaseAttrOperator,
-    NumericCompoundBaseField,
+from ._base import (
+    FloatCompoundBasePlugOperator,
+    FloatCompoundBaseAttrOperator,
+    FloatCompoundBaseField,
 )
 from ......std.at.numeric_scalar_range.float import FloatField
 
 
-class Float3PlugOperator(
-    NumericCompoundBasePlugOperator["Float3AttrOperator"]
-):
+class Float3PlugOperator(FloatCompoundBasePlugOperator["Float3AttrOperator"]):
     __slots__ = ()
 
     x = FloatField()
@@ -19,14 +17,14 @@ class Float3PlugOperator(
     z = FloatField()
 
 
-class Float3AttrOperator(NumericCompoundBaseAttrOperator[Float3PlugOperator]):
+class Float3AttrOperator(FloatCompoundBaseAttrOperator[Float3PlugOperator]):
     __slots__ = ()
 
     ATTR_TYPE = "float3"
 
 
 class Float3Field(
-    NumericCompoundBaseField[Float3AttrOperator, Float3PlugOperator]
+    FloatCompoundBaseField[Float3AttrOperator, Float3PlugOperator]
 ):
     __slots__ = ()
 
