@@ -22,7 +22,8 @@ from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
 from .std.at.float_linear import ExtraFloatLinearField
 from .std.at.float import ExtraFloatField
-from .std.at.float2 import ExtraFloat2Field
+
+# from .std.at.float2 import ExtraFloat2Field
 
 # from .std.at.float3 import ExtraFloat3Field
 from .std.at.flt_matrix import ExtraFltMatrixField
@@ -46,6 +47,7 @@ from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
 from .custom.double_linear3 import ExtraDoubleLinear3Field
 from .custom.double_angle3 import ExtraDoubleAngle3Field
+from .custom.float2 import ExtraFloat2Field
 from .custom.float3 import ExtraFloat3Field
 from .custom.float_linear3 import ExtraFloatLinear3Field
 from .custom.float_angle3 import ExtraFloatAngle3Field
@@ -84,7 +86,7 @@ class AddAttrAt:
     enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
 
     # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
-    float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
+    # float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
     # float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
     # flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
     # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
@@ -410,6 +412,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraFloatField:
         return ExtraFloatField(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloat2Field:
+        return ExtraFloat2Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

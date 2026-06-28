@@ -109,6 +109,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tfloat = testFloat
+    #   float2
+    testFloat2 = AddAttr.at.float2()
+    tfloat2 = testFloat2
     #   float3
     testFloat3 = AddAttr.at.float3()
     tfloat3 = testFloat3

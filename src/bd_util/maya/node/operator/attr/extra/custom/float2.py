@@ -1,12 +1,12 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.float_compound.float3 import (
-    Float3Field,
+from ...define.custom.at.scalar_compound.numeric_compound.float_compound.float2 import (
+    Float2Field,
 )
 
 
-class ExtraFloat3Field(Float3Field):
+class ExtraFloat2Field(Float2Field):
     __slots__ = ()
 
     def __init__(self, *args, **kwargs):
