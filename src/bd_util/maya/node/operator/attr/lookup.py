@@ -24,14 +24,22 @@ from .define.std.at.float2 import Float2AttrOperator
 from .define.std.at.float3 import Float3AttrOperator
 from .define.std.at.flt_matrix import FltMatrixAttrOperator
 from .define.std.at.numeric_scalar_range.long import LongAttrOperator
-from .define.std.at.long2 import Long2AttrOperator
-from .define.std.at.long3 import Long3AttrOperator
+from .define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2 import (
+    Long2AttrOperator,
+)
+from .define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3 import (
+    Long3AttrOperator,
+)
 from .define.std.at.matrix import MatrixAttrOperator
 from .define.std.at.message import MessageAttrOperator
 from .define.std.at.reflectance import ReflectanceAttrOperator
 from .define.std.at.numeric_scalar_range.short import ShortAttrOperator
-from .define.std.at.short2 import Short2AttrOperator
-from .define.std.at.short3 import Short3AttrOperator
+from .define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2 import (
+    Short2AttrOperator,
+)
+from .define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3 import (
+    Short3AttrOperator,
+)
 from .define.std.at.spectrum import SpectrumAttrOperator
 from .define.std.at.unit_scalar.time import TimeAttrOperator
 from .define.std.at.typed import TypedAttrOperator
