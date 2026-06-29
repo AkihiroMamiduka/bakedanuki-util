@@ -2,24 +2,33 @@
 from typing import TypeVar, Type, cast
 
 # self
-from .float3 import Float3AttrOperator, Float3PlugOperator, Float3Field
+from ...custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+)
 
-A = TypeVar("A", bound="Float3AttrOperator")
+A = TypeVar("A", bound="Float3CompoundBaseAttrOperator")
 
-P = TypeVar("P", bound="Float3PlugOperator")
+P = TypeVar("P", bound="Float3CompoundBasePlugOperator")
 
 
-class ReflectancePlugOperator(Float3PlugOperator["ReflectanceAttrOperator"]):
+class ReflectancePlugOperator(
+    Float3CompoundBasePlugOperator["ReflectanceAttrOperator"]
+):
     __slots__ = ()
+    _SUFFIXES = ("r", "g", "b")
 
 
-class ReflectanceAttrOperator(Float3AttrOperator[ReflectancePlugOperator]):
+class ReflectanceAttrOperator(
+    Float3CompoundBaseAttrOperator[ReflectancePlugOperator]
+):
     __slots__ = ()
 
     ATTR_TYPE = "reflectance"
 
 
-class ReflectanceField(Float3Field[A, P]):
+class ReflectanceField(Float3CompoundBaseField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], ReflectanceAttrOperator)
