@@ -6,17 +6,17 @@ import maya.cmds as cmds
 
 # self
 from .._core import DAG
-from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
 )
-from ....attr.define.custom.at.scalar_compound.unit_compound.angle_compound.double3.double_angle3 import (
+from ....attr.define.custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
 )
-from ....attr.define.custom.at.scalar_compound.unit_compound.linear_compound.double3.double_linear3 import (
+from ....attr.define.custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
