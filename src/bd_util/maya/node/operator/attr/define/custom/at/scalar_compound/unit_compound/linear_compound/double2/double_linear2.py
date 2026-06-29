@@ -16,7 +16,6 @@ class DoubleLinear2PlugOperator(
 
     x = DoubleLinearField()
     y = DoubleLinearField()
-    z = DoubleLinearField()
 
 
 class DoubleLinear2AttrOperator(

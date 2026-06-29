@@ -18,7 +18,6 @@ class FloatLinear2PlugOperator(
 
     x = FloatLinearField()
     y = FloatLinearField()
-    z = FloatLinearField()
 
 
 class FloatLinear2AttrOperator(
