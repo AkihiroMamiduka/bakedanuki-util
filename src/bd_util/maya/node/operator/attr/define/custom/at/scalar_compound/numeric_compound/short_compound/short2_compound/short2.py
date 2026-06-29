@@ -1,29 +1,31 @@
 # coding: utf-8
 
 # self
-from .._base import (
-    ShortCompoundBasePlugOperator,
-    ShortCompoundBaseAttrOperator,
-    ShortCompoundBaseField,
+from ._base import (
+    Short2CompoundBasePlugOperator,
+    Short2CompoundBaseAttrOperator,
+    Short2CompoundBaseField,
 )
 from .......std.at.numeric_scalar_range.short import ShortField
 
 
-class Short2PlugOperator(ShortCompoundBasePlugOperator["Short2AttrOperator"]):
+class Short2PlugOperator(
+    Short2CompoundBasePlugOperator["Short2AttrOperator"]
+):
     __slots__ = ()
 
     x = ShortField()
     y = ShortField()
 
 
-class Short2AttrOperator(ShortCompoundBaseAttrOperator[Short2PlugOperator]):
+class Short2AttrOperator(
+    Short2CompoundBaseAttrOperator[Short2PlugOperator]
+):
     __slots__ = ()
-
-    ATTR_TYPE = "short2"
 
 
 class Short2Field(
-    ShortCompoundBaseField[Short2AttrOperator, Short2PlugOperator]
+    Short2CompoundBaseField[Short2AttrOperator, Short2PlugOperator]
 ):
     __slots__ = ()
 

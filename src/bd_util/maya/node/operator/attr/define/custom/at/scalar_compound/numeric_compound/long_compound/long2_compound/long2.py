@@ -1,28 +1,28 @@
 # coding: utf-8
 
 # self
-from .._base import (
-    LongCompoundBasePlugOperator,
-    LongCompoundBaseAttrOperator,
-    LongCompoundBaseField,
+from ._base import (
+    Long2CompoundBasePlugOperator,
+    Long2CompoundBaseAttrOperator,
+    Long2CompoundBaseField,
 )
 from .......std.at.numeric_scalar_range.long import LongField
 
 
-class Long2PlugOperator(LongCompoundBasePlugOperator["Long2AttrOperator"]):
+class Long2PlugOperator(Long2CompoundBasePlugOperator["Long2AttrOperator"]):
     __slots__ = ()
 
     x = LongField()
     y = LongField()
 
 
-class Long2AttrOperator(LongCompoundBaseAttrOperator[Long2PlugOperator]):
+class Long2AttrOperator(Long2CompoundBaseAttrOperator[Long2PlugOperator]):
     __slots__ = ()
 
-    ATTR_TYPE = "long2"
 
-
-class Long2Field(LongCompoundBaseField[Long2AttrOperator, Long2PlugOperator]):
+class Long2Field(
+    Long2CompoundBaseField[Long2AttrOperator, Long2PlugOperator]
+):
     __slots__ = ()
 
     ATTR_CLS = Long2AttrOperator

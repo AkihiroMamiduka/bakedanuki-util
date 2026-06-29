@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # self
-from .._base import (
-    DoubleCompoundBasePlugOperator,
-    DoubleCompoundBaseAttrOperator,
-    DoubleCompoundBaseField,
+from ._base import (
+    Double2CompoundBasePlugOperator,
+    Double2CompoundBaseAttrOperator,
+    Double2CompoundBaseField,
 )
 from .......std.at.numeric_scalar_range.double import DoubleField
 
 
 class Double2PlugOperator(
-    DoubleCompoundBasePlugOperator["Double2AttrOperator"]
+    Double2CompoundBasePlugOperator["Double2AttrOperator"]
 ):
     __slots__ = ()
 
@@ -18,14 +18,14 @@ class Double2PlugOperator(
     y = DoubleField()
 
 
-class Double2AttrOperator(DoubleCompoundBaseAttrOperator[Double2PlugOperator]):
+class Double2AttrOperator(
+    Double2CompoundBaseAttrOperator[Double2PlugOperator]
+):
     __slots__ = ()
-
-    ATTR_TYPE = "double2"
 
 
 class Double2Field(
-    DoubleCompoundBaseField[Double2AttrOperator, Double2PlugOperator]
+    Double2CompoundBaseField[Double2AttrOperator, Double2PlugOperator]
 ):
     __slots__ = ()
 

@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # self
-from .._base import (
-    AngleCompoundBasePlugOperator,
-    AngleCompoundBaseAttrOperator,
-    AngleCompoundBaseField,
+from ._base import (
+    FloatAngle3CompoundBasePlugOperator,
+    FloatAngle3CompoundBaseAttrOperator,
+    FloatAngle3CompoundBaseField,
 )
 from .......std.at.unit_scalar_range.float_angle import FloatAngleField
 
 
 class FloatAngle3PlugOperator(
-    AngleCompoundBasePlugOperator["FloatAngle3AttrOperator"]
+    FloatAngle3CompoundBasePlugOperator["FloatAngle3AttrOperator"]
 ):
     __slots__ = ()
 
@@ -20,15 +20,15 @@ class FloatAngle3PlugOperator(
 
 
 class FloatAngle3AttrOperator(
-    AngleCompoundBaseAttrOperator[FloatAngle3PlugOperator]
+    FloatAngle3CompoundBaseAttrOperator[FloatAngle3PlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_TYPE = "float3"
-
 
 class FloatAngle3Field(
-    AngleCompoundBaseField[FloatAngle3AttrOperator, FloatAngle3PlugOperator]
+    FloatAngle3CompoundBaseField[
+        FloatAngle3AttrOperator, FloatAngle3PlugOperator
+    ]
 ):
     __slots__ = ()
 
