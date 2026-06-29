@@ -21,6 +21,11 @@ class QuatPlugOperator(Double4CompoundBasePlugOperator["Quat4AttrOperator"]):
 class Quat4AttrOperator(Double4CompoundBaseAttrOperator[QuatPlugOperator]):
     __slots__ = ()
 
+    def __init__(self, *args, default_value=None, **kwargs):
+        if default_value is None:
+            default_value = (0.0, 0.0, 0.0, 1.0)
+        super().__init__(*args, default_value=default_value, **kwargs)
+
 
 class Quat4Field(
     Double4CompoundBaseField[Quat4AttrOperator, QuatPlugOperator]

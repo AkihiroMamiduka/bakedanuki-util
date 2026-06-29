@@ -1,4 +1,5 @@
 # coding: utf-8
+from collections.abc import Sequence
 from typing import TypeVar, Type, cast
 
 # maya
@@ -110,6 +111,78 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
             ) from e
 
     # add
+    def _child_value(self, value, index: int, default=None):
+        if value is None:
+            return default
+        if isinstance(value, Sequence) and not isinstance(value, str):
+            if len(value) != len(self._SUFFIXES):
+                raise ValueError(
+                    "{} must match child field count: {} != {}".format(
+                        value,
+                        len(value),
+                        len(self._SUFFIXES),
+                    )
+                )
+            return value[index]
+        return value
+
+    def _prepare_child_default_value(self, value):
+        return value
+
+    def _prepare_child_limit_value(self, value):
+        return value
+
+    def _set_child_attr_min(self, child_fn, value):
+        if value is None:
+            return
+        child_fn.setMin(self._prepare_child_limit_value(value))
+
+    def _set_child_attr_max(self, child_fn, value):
+        if value is None:
+            return
+        child_fn.setMax(self._prepare_child_limit_value(value))
+
+    def _set_child_attr_soft_min(self, child_fn, value):
+        if value is None:
+            return
+        child_fn.setSoftMin(self._prepare_child_limit_value(value))
+
+    def _set_child_attr_soft_max(self, child_fn, value):
+        if value is None:
+            return
+        child_fn.setSoftMax(self._prepare_child_limit_value(value))
+
+    def _child_fn(self, index: int):
+        return self.CHILD_M_FN(self.plug.child(index).attribute())
+
+    def set_min(self, value):
+        for i in range(len(self._SUFFIXES)):
+            self._set_child_attr_min(
+                self._child_fn(i),
+                self._child_value(value, i),
+            )
+
+    def set_max(self, value):
+        for i in range(len(self._SUFFIXES)):
+            self._set_child_attr_max(
+                self._child_fn(i),
+                self._child_value(value, i),
+            )
+
+    def set_soft_min(self, value):
+        for i in range(len(self._SUFFIXES)):
+            self._set_child_attr_soft_min(
+                self._child_fn(i),
+                self._child_value(value, i),
+            )
+
+    def set_soft_max(self, value):
+        for i in range(len(self._SUFFIXES)):
+            self._set_child_attr_soft_max(
+                self._child_fn(i),
+                self._child_value(value, i),
+            )
+
     def _resolve_child_name_index(
         self, suffix: str, index: int | None
     ) -> int | None:
@@ -135,14 +208,20 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     def add_attr(self):
         def _create_child_attr(
             suffix: str,
+            index: int,
         ) -> om.MObject:
             # 子属性を作成
             child_fn = self.CHILD_M_FN()
+            default_value = self._child_value(
+                self._oprt_attr.default_value,
+                index,
+                default=0,
+            )
             child_attr = child_fn.create(
                 self.child_long_name(suffix),
                 self.child_short_name(suffix),
                 self.CHILD_M_ATTR_TYPE,
-                0,
+                self._prepare_child_default_value(default_value),
             )
 
             return child_attr
@@ -154,8 +233,8 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         # アトリビュートを作成
         #   子属性
         children_attrs = []
-        for suffix in self._SUFFIXES:
-            children_attrs.append(_create_child_attr(suffix))
+        for i, suffix in enumerate(self._SUFFIXES):
+            children_attrs.append(_create_child_attr(suffix, i))
         #   親属性(double3)
         attr_obj = self._fn_attr.create(
             self.long_name,
@@ -165,6 +244,22 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
+
+        v = self._oprt_attr.min_value
+        if v is not None:
+            self.set_min(v)
+
+        v = self._oprt_attr.max_value
+        if v is not None:
+            self.set_max(v)
+
+        v = self._oprt_attr.soft_min_value
+        if v is not None:
+            self.set_soft_min(v)
+
+        v = self._oprt_attr.soft_max_value
+        if v is not None:
+            self.set_soft_max(v)
 
 
 class ScalarCompoundBaseAttrOperator(AttrOperator[P]):
