@@ -1074,6 +1074,110 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         Returns:
             A | P: AttrOperator or PlugOperator
         """
+        if isinstance(instance, NodeOperator):
+            attr_path = self._attr_path
+            plug_cache = instance._plug_cache
+            if plug_cache is None:
+                plug_cache = {}
+                instance._plug_cache = plug_cache
+            else:
+                cached_plug = plug_cache.get(attr_path)
+                if cached_plug is not None:
+                    return cached_plug
+
+            oprt_attr = owner._attributes_map_by_long_name.get(
+                self.long_name
+            )
+            if oprt_attr is None:
+                oprt_attr = self.ATTR_CLS(
+                    node_cls=owner,
+                    oprt_parent=self.oprt_parent,
+                    name=self.name,
+                    long_name=self.long_name,
+                    short_name=self.short_name,
+                    attr_path=attr_path,
+                    parent_attr_path=self._parent_attr_path,
+                    multi=self.multi,
+                    extra=self.extra,
+                    default_value=self._default_value,
+                    min_value=self._min_value,
+                    max_value=self._max_value,
+                    soft_min_value=self._soft_min_value,
+                    soft_max_value=self._soft_max_value,
+                    enum_name=self._enum_name,
+                    number_of_children=self._number_of_children,
+                    readable=self._readable,
+                    writable=self._writable,
+                    category=self._category,
+                    child_index=self._child_index,
+                )
+
+            plug = self.PLUG_CLS(
+                node=instance,
+                oprt_attr=oprt_attr,
+                parent_attr_path=self._parent_attr_path,
+                multi=self.multi,
+            )
+            plug_cache[attr_path] = plug
+            return plug
+
+        if isinstance(instance, PlugOperator):
+            name = self.name
+            long_name = self.long_name
+            short_name = self.short_name
+            parent_attr_path = instance._attr_path
+            child_long_name = getattr(instance, "child_long_name", None)
+            if child_long_name is not None:
+                long_name = child_long_name(name, self._child_index)
+                short_name = instance.child_short_name(
+                    name, self._child_index
+                )
+            attr_path = self._attr_path
+            if parent_attr_path:
+                attr_path = f"{parent_attr_path}.{long_name}"
+
+            node = instance._node
+            plug_cache = node._plug_cache
+            if plug_cache is None:
+                plug_cache = {}
+                node._plug_cache = plug_cache
+            else:
+                cached_plug = plug_cache.get(attr_path)
+                if cached_plug is not None:
+                    return cached_plug
+
+            oprt_attr = self.ATTR_CLS(
+                node_cls=instance._oprt_attr.node_cls,
+                oprt_parent=instance,
+                name=name,
+                long_name=long_name,
+                short_name=short_name,
+                attr_path=attr_path,
+                parent_attr_path=parent_attr_path,
+                multi=self.multi,
+                extra=self.extra,
+                default_value=self._default_value,
+                min_value=self._min_value,
+                max_value=self._max_value,
+                soft_min_value=self._soft_min_value,
+                soft_max_value=self._soft_max_value,
+                enum_name=self._enum_name,
+                number_of_children=self._number_of_children,
+                readable=self._readable,
+                writable=self._writable,
+                category=self._category,
+                child_index=self._child_index,
+            )
+            plug = self.PLUG_CLS(
+                node=node,
+                oprt_attr=oprt_attr,
+                parent_attr_path=parent_attr_path,
+                multi=self.multi,
+                parent_oprt_plug=instance,
+            )
+            plug_cache[attr_path] = plug
+            return plug
+
         access_type: int | None = None
         node_cls: type[NodeOperator] | None = None
         node: NodeOperator | None = None

@@ -26,12 +26,6 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     CHILD_FIELDS: tuple[AttributeField, ...] = ()
     CHILD_ATTR_NAMES: tuple[tuple[str, str], ...] = ()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # ファンクションを作成
-        self._fn_attr: om.MFnNumericAttribute = om.MFnNumericAttribute()
-
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         suffixes = []
@@ -227,7 +221,9 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         for i, suffix in enumerate(self._SUFFIXES):
             children_attrs.append(_create_child_attr(suffix, i))
         #   親属性(double3)
-        attr_obj = self._fn_attr.create(
+        fn_attr = om.MFnNumericAttribute()
+        self._fn_attr = fn_attr
+        attr_obj = fn_attr.create(
             self.long_name,
             self.short_name,
             *children_attrs,
