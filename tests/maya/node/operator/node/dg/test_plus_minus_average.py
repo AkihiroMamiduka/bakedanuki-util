@@ -118,3 +118,21 @@ def test_operation_enum(modifier_manager, plus_minus_average_node):
     assert node.op.get() == node.operation.SUM
     assert node.operation.name_by_index(node.operation.SUM) == "Sum"
     assert node.operation.index_by_name("Average") == node.operation.AVERAGE
+
+
+def test_connect_disconnect_methods(
+    modifier_manager,
+    plus_minus_average_cls,
+):
+    src = plus_minus_average_cls.create(modifier_manager, name="src")
+    dst = plus_minus_average_cls.create(modifier_manager, name="dst")
+
+    src.output3Dx.connect(dst.input3D[0].input3Dx)
+    modifier_manager.do_it_dg()
+
+    assert dst.input3D[0].input3Dx.src_plug == "src.output3Dx"
+
+    src.output3Dx.disconnect(dst.input3D[0].input3Dx)
+    modifier_manager.do_it_dg()
+
+    assert dst.input3D[0].input3Dx.src_plug is None

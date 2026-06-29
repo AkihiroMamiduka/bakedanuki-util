@@ -32,15 +32,6 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
         # ファンクションを作成
         self._fn_attr: om.MFnNumericAttribute = om.MFnNumericAttribute()
 
-        for i, (suffix, child_field) in enumerate(
-            zip(self._SUFFIXES, self.CHILD_FIELDS)
-        ):
-            child_long_name = self.child_long_name(suffix, i)
-            object.__setattr__(child_field, "long_name", child_long_name)
-            object.__setattr__(
-                child_field, "_short_name", self.child_short_name(suffix, i)
-            )
-
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         suffixes = []

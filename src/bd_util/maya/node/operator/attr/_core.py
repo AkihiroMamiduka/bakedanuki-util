@@ -474,7 +474,9 @@ class PlugOperator(Generic[A], ABC):
         """
         # Plug
         if isinstance(obj, PlugOperator):
-            obj: PlugOperator = obj
+            plug = obj._m_plug
+            if plug is not None:
+                return plug
             return obj.plug
         # str("node.attr")
         elif isinstance(obj, str):
@@ -494,7 +496,9 @@ class PlugOperator(Generic[A], ABC):
         Args:
             other (Plug | str | list[str]): 対象のオブジェクト
         """
-        src = self.plug
+        src = self._m_plug
+        if src is None:
+            src = self.plug
         dst = self._normalize_to_plug(other)
 
         self._node._dg_mod.connect(src, dst)
@@ -519,7 +523,10 @@ class PlugOperator(Generic[A], ABC):
         return result
 
     def _get_next_plug(self) -> om.MPlug:
-        return self.plug.elementByLogicalIndex(self._get_next_index())
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.elementByLogicalIndex(self._get_next_index())
 
     def connect_next_index(self, other: PlugOperator | str | list[str]):
         """
@@ -556,7 +563,9 @@ class PlugOperator(Generic[A], ABC):
         Args:
             other (Plug | str | list[str]): 対象のオブジェクト
         """
-        src = self.plug
+        src = self._m_plug
+        if src is None:
+            src = self.plug
         dst = self._normalize_to_plug(other)
 
         self._node._dg_mod.disconnect(src, dst)
@@ -589,7 +598,9 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             Self: self をそのまま返す
         """
-        dst = self.plug
+        dst = self._m_plug
+        if dst is None:
+            dst = self.plug
         src = self._normalize_to_plug(other)
 
         self._node._dg_mod.connect(src, dst)
@@ -619,7 +630,9 @@ class PlugOperator(Generic[A], ABC):
             Self: self をそのまま返す
         """
         src = self._normalize_to_plug(other)
-        dst = self.plug
+        dst = self._m_plug
+        if dst is None:
+            dst = self.plug
 
         self._node._dg_mod.disconnect(src, dst)
 
@@ -1068,6 +1081,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         parent_attr_path = self._parent_attr_path
         attr_path = self._attr_path
         parent_oprt_plug = None
+        name = self.name
+        long_name = self.long_name
+        short_name = self.short_name
 
         # node, attr_path を解決する
         #   class アクセス(Attr)
@@ -1085,8 +1101,14 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             access_type = AccessType.plug
             oprt_parent = instance
             parent_attr_path = instance._attr_path
+            child_long_name = getattr(instance, "child_long_name", None)
+            if child_long_name is not None:
+                long_name = child_long_name(name, self._child_index)
+                short_name = instance.child_short_name(
+                    name, self._child_index
+                )
             if parent_attr_path:
-                attr_path = f"{parent_attr_path}.{self.name}"
+                attr_path = f"{parent_attr_path}.{long_name}"
                 parent_oprt_plug = instance
             node_cls = instance._oprt_attr.node_cls
             node = instance._node
@@ -1127,9 +1149,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         oprt_attr = self.ATTR_CLS(
             node_cls=node_cls,
             oprt_parent=oprt_parent,
-            name=self.name,
-            long_name=self.long_name,
-            short_name=self.short_name,
+            name=name,
+            long_name=long_name,
+            short_name=short_name,
             attr_path=attr_path,
             parent_attr_path=parent_attr_path,
             multi=self.multi,

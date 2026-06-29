@@ -86,6 +86,23 @@ def test_double4_and_quat_lookup(extra_compound_node):
     )
 
 
+def test_same_compound_type_child_names_do_not_bleed(extra_compound_node):
+    node = extra_compound_node
+
+    assert (
+        node.extraDouble4.x.plug_name
+        == "extra_compound.extraDouble4.extraDouble4X"
+    )
+    assert (
+        node.extraLimitedDouble4.x.plug_name
+        == "extra_compound.extraLimitedDouble4.extraLimitedDouble4X"
+    )
+    assert (
+        node.extraDouble4.x.plug_name
+        == "extra_compound.extraDouble4.extraDouble4X"
+    )
+
+
 def _query_limit(maya_cmds, node, attr_name, flag):
     return maya_cmds.attributeQuery(
         attr_name,
