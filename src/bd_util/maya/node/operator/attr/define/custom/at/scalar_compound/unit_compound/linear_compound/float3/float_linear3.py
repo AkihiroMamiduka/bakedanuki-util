@@ -2,13 +2,13 @@
 
 
 # self
-from ._base import (
+from .._base import (
     LinearCompoundBasePlugOperator,
     LinearCompoundBaseAttrOperator,
     LinearCompoundBaseField,
 )
 
-from ......std.at.unit_scalar_range.float_linear import FloatLinearField
+from .......std.at.unit_scalar_range.float_linear import FloatLinearField
 
 
 class FloatLinear3PlugOperator(

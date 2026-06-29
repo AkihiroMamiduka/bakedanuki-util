@@ -2,12 +2,12 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ._base import (
+from .._base import (
     AngleCompoundBasePlugOperator,
     AngleCompoundBaseAttrOperator,
     AngleCompoundBaseField,
 )
-from ......std.at.unit_scalar_range.double_angle import DoubleAngleField
+from .......std.at.unit_scalar_range.double_angle import DoubleAngleField
 
 A = TypeVar("A", bound="DoubleAngle3CompoundBaseAttrOperator")
 

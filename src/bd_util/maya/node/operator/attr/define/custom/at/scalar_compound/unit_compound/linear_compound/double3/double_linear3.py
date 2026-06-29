@@ -1,14 +1,13 @@
 # coding: utf-8
 from typing import TypeVar, Type, cast
 
-
 # self
-from ._base import (
+from .._base import (
     LinearCompoundBasePlugOperator,
     LinearCompoundBaseAttrOperator,
     LinearCompoundBaseField,
 )
-from ......std.at.unit_scalar_range.double_linear import DoubleLinearField
+from .......std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 A = TypeVar("A", bound="DoubleLinear3CompoundBaseAttrOperator")
 
@@ -23,9 +22,7 @@ class DoubleLinear3CompoundBasePlugOperator(LinearCompoundBasePlugOperator[A]):
     z = DoubleLinearField()
 
 
-class DoubleLinear3CompoundBaseAttrOperator(
-    LinearCompoundBaseAttrOperator[P]
-):
+class DoubleLinear3CompoundBaseAttrOperator(LinearCompoundBaseAttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "double3"
