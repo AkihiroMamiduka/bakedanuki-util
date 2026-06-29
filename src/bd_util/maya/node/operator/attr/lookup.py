@@ -28,6 +28,12 @@ from .define.custom.at.scalar_compound.numeric_compound.double_compound.double2_
 from .define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
     Double3AttrOperator as NumericDouble3AttrOperator,
 )
+from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import (
+    Double4AttrOperator as NumericDouble4AttrOperator,
+)
+from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat import (
+    Quat4AttrOperator,
+)
 from .define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
     Float2AttrOperator as NumericFloat2AttrOperator,
 )
@@ -129,7 +135,7 @@ _AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
 }
 
 _FLOATING_POINT_COMPOUND_ATTR_TYPES = frozenset(
-    ["double2", "double3", "float2", "float3"]
+    ["double2", "double3", "double4", "float2", "float3"]
 )
 
 _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
@@ -141,6 +147,7 @@ _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
     ("double3", "double", 3): NumericDouble3AttrOperator,
     ("double3", "doubleLinear", 3): DoubleLinear3AttrOperator,
     ("double3", "doubleAngle", 3): DoubleAngle3AttrOperator,
+    ("double4", "double", 4): NumericDouble4AttrOperator,
     ("float2", "float", 2): NumericFloat2AttrOperator,
     ("float2", "doubleLinear", 2): FloatLinear2AttrOperator,
     ("float2", "floatLinear", 2): FloatLinear2AttrOperator,
@@ -152,6 +159,13 @@ _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
     ("float3", "doubleAngle", 3): FloatAngle3AttrOperator,
     ("float3", "floatAngle", 3): FloatAngle3AttrOperator,
 }
+
+
+def _get_attr_long_name(node: str, attr: str) -> str:
+    try:
+        return cmds.attributeQuery(attr, node=node, longName=True)
+    except Exception:
+        return attr
 
 
 def _lookup_floating_point_compound_attr_cls(
@@ -190,6 +204,10 @@ def _lookup_floating_point_compound_attr_cls(
             "Unsupported floating point compound attribute: "
             f"{node}.{attr} -> {key}"
         )
+
+    attr_long_name = _get_attr_long_name(node, attr)
+    if key == ("double4", "double", 4) and "quat" in attr_long_name.lower():
+        return Quat4AttrOperator
 
     return attr_cls
 
