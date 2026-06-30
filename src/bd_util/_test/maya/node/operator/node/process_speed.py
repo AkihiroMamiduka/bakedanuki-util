@@ -90,8 +90,10 @@ def main(
             (
                 create_connect_multi_cmds_xyz,
                 create_connect_multi_om_all_together_xyz,
-                create_connect_multi_node_operator_reuse_index,
-                create_connect_multi_node_operator_natural_index,
+                create_connect_multi_node_operator_natural_src_natural_dst,
+                create_connect_multi_node_operator_reuse_src_natural_dst,
+                create_connect_multi_node_operator_natural_src_reuse_dst,
+                create_connect_multi_node_operator_reuse_src_reuse_dst,
             ),
             accurate=accurate,
             repeat_count=repeat_count,
@@ -1021,7 +1023,72 @@ def create_connect_multi_node_operator():
 
 
 @timer
-def create_connect_multi_node_operator_reuse_index():
+def create_connect_multi_node_operator_natural_src_natural_dst():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(modifier_manager)
+        # ノードを接続
+        src_node.output3Dx > dst_node.input3D[0].input3Dx
+        src_node.output3Dx > dst_node.input3D[0].input3Dy
+        src_node.output3Dx > dst_node.input3D[0].input3Dz
+    modifier_manager.do_it_dg()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator_reuse_src_natural_dst():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
+    src_plug = src_node.output3Dx
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(modifier_manager)
+        # ノードを接続
+        src_plug > dst_node.input3D[0].input3Dx
+        src_plug > dst_node.input3D[0].input3Dy
+        src_plug > dst_node.input3D[0].input3Dz
+    modifier_manager.do_it_dg()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator_natural_src_reuse_dst():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    modifier_manager = ModifierManager()
+    src_node = PlusMinusAverage.create(modifier_manager)
+    for _ in range(COUNT):
+        # ノードを作成
+        dst_node = PlusMinusAverage.create(modifier_manager)
+        dst_input = dst_node.input3D[0]
+        # ノードを接続
+        src_node.output3Dx > dst_input.input3Dx
+        src_node.output3Dx > dst_input.input3Dy
+        src_node.output3Dx > dst_input.input3Dz
+    modifier_manager.do_it_dg()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_multi_node_operator_reuse_src_reuse_dst():
     # 新規シーンを開く
     cmds.file(new=True, force=True)
 
@@ -1037,28 +1104,6 @@ def create_connect_multi_node_operator_reuse_index():
         src_plug > dst_input.input3Dx
         src_plug > dst_input.input3Dy
         src_plug > dst_input.input3Dz
-    modifier_manager.do_it_dg()
-
-    # 新規シーンを開く
-    cmds.file(new=True, force=True)
-
-
-@timer
-def create_connect_multi_node_operator_natural_index():
-    # 新規シーンを開く
-    cmds.file(new=True, force=True)
-
-    # ノードを作成し接続
-    modifier_manager = ModifierManager()
-    src_node = PlusMinusAverage.create(modifier_manager)
-    src_plug = src_node.output3Dx
-    for _ in range(COUNT):
-        # ノードを作成
-        dst_node = PlusMinusAverage.create(modifier_manager)
-        # ノードを接続
-        src_plug > dst_node.input3D[0].input3Dx
-        src_plug > dst_node.input3D[0].input3Dy
-        src_plug > dst_node.input3D[0].input3Dz
     modifier_manager.do_it_dg()
 
     # 新規シーンを開く
