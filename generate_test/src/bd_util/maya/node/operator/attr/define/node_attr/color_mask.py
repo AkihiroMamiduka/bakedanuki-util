@@ -1,0 +1,167 @@
+# coding: utf-8
+
+from ..std.at.numeric_scalar_range.float import FloatField
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+)
+
+
+class InColorPlugOperator(
+    Float3CompoundBasePlugOperator["InColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("inColorR", "_icr"),
+        ("inColorG", "_icg"),
+        ("inColorB", "_icb"),
+    )
+
+    inColorR = FloatField()
+    _icr = inColorR
+
+    inColorG = FloatField()
+    _icg = inColorG
+
+    inColorB = FloatField()
+    _icb = inColorB
+
+
+class InColorAttrOperator(
+    Float3CompoundBaseAttrOperator[InColorPlugOperator]
+):
+    __slots__ = ()
+
+    inColorR = FloatField()
+    _icr = inColorR
+
+    inColorG = FloatField()
+    _icg = inColorG
+
+    inColorB = FloatField()
+    _icb = inColorB
+
+
+class InColorField(
+    Float3CompoundBaseField[InColorAttrOperator, InColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = InColorAttrOperator
+    PLUG_CLS = InColorPlugOperator
+
+    inColorR = FloatField()
+    _icr = inColorR
+
+    inColorG = FloatField()
+    _icg = inColorG
+
+    inColorB = FloatField()
+    _icb = inColorB
+
+
+class MaskPlugOperator(
+    Float3CompoundBasePlugOperator["MaskAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("maskR", "_mr"),
+        ("maskG", "_mg"),
+        ("maskB", "_mb"),
+    )
+
+    maskR = FloatField()
+    _mr = maskR
+
+    maskG = FloatField()
+    _mg = maskG
+
+    maskB = FloatField()
+    _mb = maskB
+
+
+class MaskAttrOperator(
+    Float3CompoundBaseAttrOperator[MaskPlugOperator]
+):
+    __slots__ = ()
+
+    maskR = FloatField()
+    _mr = maskR
+
+    maskG = FloatField()
+    _mg = maskG
+
+    maskB = FloatField()
+    _mb = maskB
+
+
+class MaskField(
+    Float3CompoundBaseField[MaskAttrOperator, MaskPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = MaskAttrOperator
+    PLUG_CLS = MaskPlugOperator
+
+    maskR = FloatField()
+    _mr = maskR
+
+    maskG = FloatField()
+    _mg = maskG
+
+    maskB = FloatField()
+    _mb = maskB
+
+
+class OutColorPlugOperator(
+    Float3CompoundBasePlugOperator["OutColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("outColorR", "ocr"),
+        ("outColorG", "ocg"),
+        ("outColorB", "ocb"),
+    )
+
+    outColorR = FloatField()
+    ocr = outColorR
+
+    outColorG = FloatField()
+    ocg = outColorG
+
+    outColorB = FloatField()
+    ocb = outColorB
+
+
+class OutColorAttrOperator(
+    Float3CompoundBaseAttrOperator[OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    outColorR = FloatField()
+    ocr = outColorR
+
+    outColorG = FloatField()
+    ocg = outColorG
+
+    outColorB = FloatField()
+    ocb = outColorB
+
+
+class OutColorField(
+    Float3CompoundBaseField[OutColorAttrOperator, OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OutColorAttrOperator
+    PLUG_CLS = OutColorPlugOperator
+
+    outColorR = FloatField()
+    ocr = outColorR
+
+    outColorG = FloatField()
+    ocg = outColorG
+
+    outColorB = FloatField()
+    ocb = outColorB

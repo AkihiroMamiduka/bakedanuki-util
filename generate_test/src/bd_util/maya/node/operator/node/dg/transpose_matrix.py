@@ -1,0 +1,15 @@
+# coding: utf-8
+from ._core import DG
+from ...attr.define.std.at.matrix import MatrixField
+
+
+class TransposeMatrix(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "transposeMatrix"
+
+    inputMatrix = MatrixField()
+    imat = inputMatrix
+
+    outputMatrix = MatrixField()
+    omat = outputMatrix
