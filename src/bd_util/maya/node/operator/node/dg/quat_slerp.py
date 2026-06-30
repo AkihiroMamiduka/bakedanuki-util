@@ -89,4 +89,3 @@ class QuatSlerp(DG):
     oqw = outputQuatW
 
     input1QuatWDEPRECATED = DoubleField()
-    one1w = input1QuatWDEPRECATED

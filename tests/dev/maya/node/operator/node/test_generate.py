@@ -64,6 +64,18 @@ def _plus_minus_average_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _quat_like_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("input1Quat", "iq1", "compound", number_of_children=4),
+        _attr("input1Quat.input1QuatX", "i1x", "double", parent="input1Quat"),
+        _attr("input1Quat.input1QuatY", "i1y", "double", parent="input1Quat"),
+        _attr("input1Quat.input1QuatZ", "i1z", "double", parent="input1Quat"),
+        _attr("input1Quat.input1QuatW", "i1w", "double", parent="input1Quat"),
+        _attr("input1QuatWDEPRECATED", "1w", "double"),
+        _attr("numericShortAttr", "1n", "double"),
+    ]
+
+
 def test_generate_plus_minus_average_node_attr_code():
     code = generate_node_attr_code(
         "plusMinusAverage",
@@ -84,6 +96,24 @@ def test_generate_plus_minus_average_node_attr_code():
     assert "class Output3DField(" in code
     assert "output3Dz = FloatField()" in code
     assert "o3z = output3Dz" in code
+
+
+def test_generate_quat_like_compound_node_attr_code():
+    code = generate_node_attr_code(
+        "quatSlerp",
+        attr_infos=_quat_like_attr_infos(),
+    )
+
+    assert code is not None
+    compile(code, "quat_slerp_node_attr.py", "exec")
+
+    assert "Double4CompoundBasePlugOperator" in code
+    assert "Double4CompoundBaseAttrOperator" in code
+    assert "Double4CompoundBaseField" in code
+    assert "CompoundPlugOperator" not in code
+    assert "class Input1QuatField(" in code
+    assert '("input1QuatW", "i1w")' in code
+    assert "i1w = input1QuatW" in code
 
 
 def test_generate_plus_minus_average_node_class_code():
@@ -111,3 +141,19 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
+
+
+def test_generate_skips_deprecated_and_numeric_short_aliases():
+    code = generate_node_class_code(
+        "quatSlerp",
+        attr_infos=_quat_like_attr_infos(),
+    )
+
+    compile(code, "quat_slerp.py", "exec")
+
+    assert "input1Quat = Input1QuatField()" in code
+    assert "iq1 = input1Quat" in code
+    assert "input1QuatWDEPRECATED = DoubleField()" in code
+    assert "one1w = input1QuatWDEPRECATED" not in code
+    assert "numericShortAttr = DoubleField()" in code
+    assert "onen = numericShortAttr" not in code

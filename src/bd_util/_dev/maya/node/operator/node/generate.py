@@ -481,19 +481,12 @@ def _node_attr_module_path(module_path: str) -> str:
     """node_attr 生成ファイルから import できるモジュールパスへ変換する。"""
     prefix = "define."
     if module_path.startswith(prefix):
-        return module_path[len(prefix):]
+        return module_path[len(prefix) :]
     return module_path
 
 
-def _resolve_compound_base(
-    parent_info: AttrInfo,
-    children: list[AttrInfo],
-) -> tuple[str, str, str, str] | None:
-    """compound 親と子情報から現行の基底クラス群を返す。"""
-    result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
-    if result is not None:
-        return result
-
+def _uniform_child_attr_type(children: list[AttrInfo]) -> str | None:
+    """Return child attributeType when all children share the same type."""
     if not children:
         return None
 
@@ -502,6 +495,37 @@ def _resolve_compound_base(
     if first_child_type is None:
         return None
     if any(child_type != first_child_type for child_type in child_types):
+        return None
+    return first_child_type
+
+
+def _is_quat_like_compound(
+    parent_info: AttrInfo,
+    children: list[AttrInfo],
+) -> bool:
+    """Return True for Maya quat attrs reported as compound + four double children."""
+    return (
+        parent_info.attribute_type == "compound"
+        and "quat" in parent_info.long_name.lower()
+        and len(children) == 4
+        and _uniform_child_attr_type(children) == "double"
+    )
+
+
+def _resolve_compound_base(
+    parent_info: AttrInfo,
+    children: list[AttrInfo],
+) -> tuple[str, str, str, str] | None:
+    """compound 親と子情報から現行の基底クラス群を返す。"""
+    if _is_quat_like_compound(parent_info, children):
+        return _SCALAR_COMPOUND_AT_BASE.get(("double4", "double", 4))
+
+    result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
+    if result is not None:
+        return result
+
+    first_child_type = _uniform_child_attr_type(children)
+    if first_child_type is None:
         return None
 
     key = (parent_info.attribute_type, first_child_type, len(children))
@@ -525,7 +549,9 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
 def _filter_supported_attr_infos(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
     """``attributeType`` に ``<`` / ``>`` を含まない属性情報のみを返す。"""
     return [
-        info for info in attr_infos if not _contains_angle_brackets_in_attribute_type(info)
+        info
+        for info in attr_infos
+        if not _contains_angle_brackets_in_attribute_type(info)
     ]
 
 
@@ -679,6 +705,27 @@ def _safe_attr_name(name: str) -> str:
     return name
 
 
+def _is_deprecated_attr_name(name: str | None) -> bool:
+    """Return True when Maya marks an attribute name as deprecated."""
+    return bool(name and "deprecated" in name.lower())
+
+
+def _should_emit_short_alias(
+    short_name: str | None,
+    long_name: str,
+) -> bool:
+    """Return True when a short name should be emitted as a Python alias."""
+    if not short_name or short_name == long_name:
+        return False
+    if short_name[0].isdigit():
+        return False
+    if _is_deprecated_attr_name(short_name) or _is_deprecated_attr_name(
+        long_name
+    ):
+        return False
+    return True
+
+
 def _build_import_lines(module_path: str, cls_names: list[str]) -> list[str]:
     """import 行を手書きコードに近い形で生成する。"""
     if len(cls_names) == 1:
@@ -713,7 +760,7 @@ def _get_child_attr_name(child_long_name: str, parent_long_name: str) -> str:
     """
     prefix = parent_long_name + "."
     if child_long_name.startswith(prefix):
-        return child_long_name[len(prefix):]
+        return child_long_name[len(prefix) :]
     return child_long_name
 
 
@@ -895,7 +942,9 @@ def generate_node_attr_code(
         # 子アトリビュート行の生成
         child_body_lines: list[str] = []
         for child_info in children:
-            child_name = _get_child_attr_name(child_info.long_name, parent_long)
+            child_name = _get_child_attr_name(
+                child_info.long_name, parent_long
+            )
             child_short = child_info.short_name
 
             child_resolved = _resolve_attr_class(child_info)
@@ -910,10 +959,14 @@ def generate_node_attr_code(
             _add_import(child_cls_name, _node_attr_module_path(child_module))
 
             safe_child_name = _safe_attr_name(child_name)
-            child_body_lines.append(f"    {safe_child_name} = {child_cls_name}()")
-            if child_short and child_short != child_name:
+            child_body_lines.append(
+                f"    {safe_child_name} = {child_cls_name}()"
+            )
+            if _should_emit_short_alias(child_short, child_name):
                 safe_child_short = _safe_attr_name(child_short)
-                child_body_lines.append(f"    {safe_child_short} = {safe_child_name}")
+                child_body_lines.append(
+                    f"    {safe_child_short} = {safe_child_name}"
+                )
             child_body_lines.append("")
 
         # 末尾の空行を除去
@@ -1117,7 +1170,7 @@ def generate_node_class_code(
                 f"    {safe_long_name} = {field_cls_name}({init_args})"
             )
             short_name = attr_info.short_name
-            if short_name and short_name != long_name:
+            if _should_emit_short_alias(short_name, long_name):
                 safe_short_name = _safe_attr_name(short_name)
                 attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
 
@@ -1126,15 +1179,19 @@ def generate_node_class_code(
                 for child_info in compound_children_map.get(long_name, []):
                     if _resolve_attr_class(child_info) is None:
                         continue
-                    child_name = _get_child_attr_name(child_info.long_name, long_name)
+                    child_name = _get_child_attr_name(
+                        child_info.long_name, long_name
+                    )
                     safe_child_name = _safe_attr_name(child_name)
                     attr_lines.append(
                         f"    {safe_child_name} = {safe_long_name}.{safe_child_name}"
                     )
                     child_short = child_info.short_name
-                    if child_short and child_short != child_name:
+                    if _should_emit_short_alias(child_short, child_name):
                         safe_child_short = _safe_attr_name(child_short)
-                        attr_lines.append(f"    {safe_child_short} = {safe_child_name}")
+                        attr_lines.append(
+                            f"    {safe_child_short} = {safe_child_name}"
+                        )
             attr_lines.append("")
             continue
 
@@ -1166,7 +1223,7 @@ def generate_node_class_code(
 
         # short_name のエイリアス行
         short_name = attr_info.short_name
-        if short_name and short_name != long_name:
+        if _should_emit_short_alias(short_name, long_name):
             safe_short_name = _safe_attr_name(short_name)
             attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
         attr_lines.append("")

@@ -1,12 +1,12 @@
 # coding: utf-8
 
-from ..std.at.compound import (
-    CompoundAttrOperator,
-    CompoundPlugOperator,
-    CompoundField,
-)
 from ..std.at.numeric_scalar_range.double import DoubleField
 from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound._base import (
+    Double4CompoundBaseAttrOperator,
+    Double4CompoundBasePlugOperator,
+    Double4CompoundBaseField,
+)
 from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
@@ -68,7 +68,7 @@ class InputRotateField(
 
 
 class OutputQuatPlugOperator(
-    CompoundPlugOperator["OutputQuatAttrOperator"]
+    Double4CompoundBasePlugOperator["OutputQuatAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -92,7 +92,7 @@ class OutputQuatPlugOperator(
 
 
 class OutputQuatAttrOperator(
-    CompoundAttrOperator[OutputQuatPlugOperator]
+    Double4CompoundBaseAttrOperator[OutputQuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -110,7 +110,7 @@ class OutputQuatAttrOperator(
 
 
 class OutputQuatField(
-    CompoundField[OutputQuatAttrOperator, OutputQuatPlugOperator]
+    Double4CompoundBaseField[OutputQuatAttrOperator, OutputQuatPlugOperator]
 ):
     __slots__ = ()
 

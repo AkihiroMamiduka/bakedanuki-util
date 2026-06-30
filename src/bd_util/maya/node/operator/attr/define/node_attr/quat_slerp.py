@@ -1,15 +1,15 @@
 # coding: utf-8
 
-from ..std.at.compound import (
-    CompoundAttrOperator,
-    CompoundPlugOperator,
-    CompoundField,
-)
 from ..std.at.numeric_scalar_range.double import DoubleField
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound._base import (
+    Double4CompoundBaseAttrOperator,
+    Double4CompoundBasePlugOperator,
+    Double4CompoundBaseField,
+)
 
 
 class Input1QuatPlugOperator(
-    CompoundPlugOperator["Input1QuatAttrOperator"]
+    Double4CompoundBasePlugOperator["Input1QuatAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -33,7 +33,7 @@ class Input1QuatPlugOperator(
 
 
 class Input1QuatAttrOperator(
-    CompoundAttrOperator[Input1QuatPlugOperator]
+    Double4CompoundBaseAttrOperator[Input1QuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -51,7 +51,7 @@ class Input1QuatAttrOperator(
 
 
 class Input1QuatField(
-    CompoundField[Input1QuatAttrOperator, Input1QuatPlugOperator]
+    Double4CompoundBaseField[Input1QuatAttrOperator, Input1QuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -72,7 +72,7 @@ class Input1QuatField(
 
 
 class Input2QuatPlugOperator(
-    CompoundPlugOperator["Input2QuatAttrOperator"]
+    Double4CompoundBasePlugOperator["Input2QuatAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -96,7 +96,7 @@ class Input2QuatPlugOperator(
 
 
 class Input2QuatAttrOperator(
-    CompoundAttrOperator[Input2QuatPlugOperator]
+    Double4CompoundBaseAttrOperator[Input2QuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -114,7 +114,7 @@ class Input2QuatAttrOperator(
 
 
 class Input2QuatField(
-    CompoundField[Input2QuatAttrOperator, Input2QuatPlugOperator]
+    Double4CompoundBaseField[Input2QuatAttrOperator, Input2QuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -135,7 +135,7 @@ class Input2QuatField(
 
 
 class OutputQuatPlugOperator(
-    CompoundPlugOperator["OutputQuatAttrOperator"]
+    Double4CompoundBasePlugOperator["OutputQuatAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -159,7 +159,7 @@ class OutputQuatPlugOperator(
 
 
 class OutputQuatAttrOperator(
-    CompoundAttrOperator[OutputQuatPlugOperator]
+    Double4CompoundBaseAttrOperator[OutputQuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -177,7 +177,7 @@ class OutputQuatAttrOperator(
 
 
 class OutputQuatField(
-    CompoundField[OutputQuatAttrOperator, OutputQuatPlugOperator]
+    Double4CompoundBaseField[OutputQuatAttrOperator, OutputQuatPlugOperator]
 ):
     __slots__ = ()
 
