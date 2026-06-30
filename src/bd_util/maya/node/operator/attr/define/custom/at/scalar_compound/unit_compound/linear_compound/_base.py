@@ -37,6 +37,10 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node._dg_mod.newPlugValueMDistance(child_plug, value)
 
+    def _set_child_value_direct(self, child_plug, value: float):
+        value = om.MDistance(value, om.MDistance.kCentimeters)
+        child_plug.setMDistance(value)
+
 
 class LinearCompoundBaseAttrOperator(UnitCompoundBaseAttrOperator[P]):
     __slots__ = ()

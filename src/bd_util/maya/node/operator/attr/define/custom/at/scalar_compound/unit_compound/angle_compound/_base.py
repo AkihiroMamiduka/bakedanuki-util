@@ -41,6 +41,9 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
             child_plug, om.MAngle(value, om.MAngle.kDegrees)
         )
 
+    def _set_child_value_direct(self, child_plug, value: float):
+        child_plug.setMAngle(om.MAngle(value, om.MAngle.kDegrees))
+
 
 class AngleCompoundBaseAttrOperator(UnitCompoundBaseAttrOperator[P]):
     __slots__ = ()

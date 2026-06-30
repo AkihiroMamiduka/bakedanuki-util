@@ -33,6 +33,9 @@ class ShortCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
     def _set_child_value(self, child_plug, value: int):
         self._node._dg_mod.newPlugValueShort(child_plug, value)
 
+    def _set_child_value_direct(self, child_plug, value: int):
+        child_plug.setShort(value)
+
 
 class ShortCompoundBaseAttrOperator(NumericCompoundBaseAttrOperator[P]):
     __slots__ = ()

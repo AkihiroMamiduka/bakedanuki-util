@@ -27,6 +27,11 @@ class ExtraCompoundTransform(Transform):
     extraQuatCustom = AddAttr.at.quat(
         default_value=[0.1, 0.2, 0.3, 0.4]
     )
+    extraFloat3 = AddAttr.at.float3()
+    extraLong3 = AddAttr.at.long3()
+    extraShort2 = AddAttr.at.short2()
+    extraDoubleLinear3 = AddAttr.at.double_linear3()
+    extraDoubleAngle3 = AddAttr.at.double_angle3()
 
 
 @pytest.fixture
@@ -63,6 +68,45 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
 
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
+
+
+def test_compound_set_direct_updates_immediately(extra_compound_node):
+    node = extra_compound_node
+
+    node.extraDouble4.set_direct(10.0, 20.0, 30.0, 40.0)
+    assert node.extraDouble4.get() == pytest.approx(
+        [10.0, 20.0, 30.0, 40.0]
+    )
+
+    node.extraFloat3.set_direct((1.25, 2.5, 3.75))
+    assert node.extraFloat3.get() == pytest.approx([1.25, 2.5, 3.75])
+
+    node.extraLong3.set_direct([1, 2, 3])
+    assert node.extraLong3.get() == [1, 2, 3]
+
+    node.extraShort2.set_direct(4, 5)
+    assert node.extraShort2.get() == [4, 5]
+
+    node.extraDoubleLinear3.set_direct(11.0, 12.0, 13.0)
+    assert node.extraDoubleLinear3.get() == pytest.approx(
+        [11.0, 12.0, 13.0]
+    )
+
+    node.extraDoubleAngle3.set_direct(45.0, 90.0, 135.0)
+    assert node.extraDoubleAngle3.get() == pytest.approx(
+        [45.0, 90.0, 135.0]
+    )
+
+
+def test_compound_set_direct_rejects_wrong_count(extra_compound_node):
+    node = extra_compound_node
+
+    node.extraDouble4.set_direct(1.0, 2.0, 3.0, 4.0)
+
+    with pytest.raises(TypeError, match="Expected either set_direct"):
+        node.extraDouble4.set_direct(9.0, 8.0)
+
+    assert node.extraDouble4.get() == pytest.approx([1.0, 2.0, 3.0, 4.0])
 
 
 def test_double4_and_quat_child_names(extra_compound_node, maya_cmds):

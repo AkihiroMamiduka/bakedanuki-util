@@ -33,6 +33,9 @@ class FloatCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
     def _set_child_value(self, child_plug, value: float):
         self._node._dg_mod.newPlugValueFloat(child_plug, value)
 
+    def _set_child_value_direct(self, child_plug, value: float):
+        child_plug.setFloat(value)
+
 
 class FloatCompoundBaseAttrOperator(NumericCompoundBaseAttrOperator[P]):
     __slots__ = ()
