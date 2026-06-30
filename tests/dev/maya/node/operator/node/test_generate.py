@@ -76,6 +76,16 @@ def _quat_like_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _double4_quat_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("inputQuat", "iq", "double4", number_of_children=4),
+        _attr("inputQuat.inputQuatX", "iqx", "double", parent="inputQuat"),
+        _attr("inputQuat.inputQuatY", "iqy", "double", parent="inputQuat"),
+        _attr("inputQuat.inputQuatZ", "iqz", "double", parent="inputQuat"),
+        _attr("inputQuat.inputQuatW", "iqw", "double", parent="inputQuat"),
+    ]
+
+
 def test_generate_plus_minus_average_node_attr_code():
     code = generate_node_attr_code(
         "plusMinusAverage",
@@ -107,13 +117,29 @@ def test_generate_quat_like_compound_node_attr_code():
     assert code is not None
     compile(code, "quat_slerp_node_attr.py", "exec")
 
-    assert "Double4CompoundBasePlugOperator" in code
-    assert "Double4CompoundBaseAttrOperator" in code
-    assert "Double4CompoundBaseField" in code
+    assert "QuatCompoundBasePlugOperator" in code
+    assert "QuatCompoundBaseAttrOperator" in code
+    assert "QuatCompoundBaseField" in code
+    assert "Double4CompoundBasePlugOperator" not in code
     assert "CompoundPlugOperator" not in code
     assert "class Input1QuatField(" in code
     assert '("input1QuatW", "i1w")' in code
     assert "i1w = input1QuatW" in code
+
+
+def test_generate_double4_quat_compound_node_attr_code():
+    code = generate_node_attr_code(
+        "composeMatrix",
+        attr_infos=_double4_quat_attr_infos(),
+    )
+
+    assert code is not None
+    compile(code, "compose_matrix_node_attr.py", "exec")
+
+    assert "QuatCompoundBasePlugOperator" in code
+    assert "QuatCompoundBaseAttrOperator" in code
+    assert "QuatCompoundBaseField" in code
+    assert "class InputQuatField(" in code
 
 
 def test_generate_plus_minus_average_node_class_code():

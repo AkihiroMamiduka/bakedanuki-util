@@ -418,6 +418,13 @@ _SCALAR_COMPOUND_AT_BASE: dict[
     ),
 }
 
+_QUAT_COMPOUND_AT_BASE: tuple[str, str, str, str] = (
+    "QuatCompoundBasePlugOperator",
+    "QuatCompoundBaseAttrOperator",
+    "QuatCompoundBaseField",
+    "custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base",
+)
+
 
 # ---------------------------------------------------------------------------
 # 内部ユーティリティ
@@ -505,7 +512,7 @@ def _is_quat_like_compound(
 ) -> bool:
     """Return True for Maya quat attrs reported as compound + four double children."""
     return (
-        parent_info.attribute_type == "compound"
+        parent_info.attribute_type in {"compound", "double4"}
         and "quat" in parent_info.long_name.lower()
         and len(children) == 4
         and _uniform_child_attr_type(children) == "double"
@@ -518,7 +525,7 @@ def _resolve_compound_base(
 ) -> tuple[str, str, str, str] | None:
     """compound 親と子情報から現行の基底クラス群を返す。"""
     if _is_quat_like_compound(parent_info, children):
-        return _SCALAR_COMPOUND_AT_BASE.get(("double4", "double", 4))
+        return _QUAT_COMPOUND_AT_BASE
 
     result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
     if result is not None:

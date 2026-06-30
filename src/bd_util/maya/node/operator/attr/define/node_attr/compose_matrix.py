@@ -8,10 +8,10 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compou
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound._base import (
-    Double4CompoundBaseAttrOperator,
-    Double4CompoundBasePlugOperator,
-    Double4CompoundBaseField,
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base import (
+    QuatCompoundBaseAttrOperator,
+    QuatCompoundBasePlugOperator,
+    QuatCompoundBaseField,
 )
 from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
@@ -238,7 +238,7 @@ class InputShearField(
 
 
 class InputQuatPlugOperator(
-    Double4CompoundBasePlugOperator["InputQuatAttrOperator"]
+    QuatCompoundBasePlugOperator["InputQuatAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -262,7 +262,7 @@ class InputQuatPlugOperator(
 
 
 class InputQuatAttrOperator(
-    Double4CompoundBaseAttrOperator[InputQuatPlugOperator]
+    QuatCompoundBaseAttrOperator[InputQuatPlugOperator]
 ):
     __slots__ = ()
 
@@ -280,7 +280,7 @@ class InputQuatAttrOperator(
 
 
 class InputQuatField(
-    Double4CompoundBaseField[InputQuatAttrOperator, InputQuatPlugOperator]
+    QuatCompoundBaseField[InputQuatAttrOperator, InputQuatPlugOperator]
 ):
     __slots__ = ()
 
