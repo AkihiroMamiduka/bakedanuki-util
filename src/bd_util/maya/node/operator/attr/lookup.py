@@ -31,7 +31,7 @@ from .define.custom.at.scalar_compound.numeric_compound.double_compound.double3_
 from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import (
     Double4AttrOperator as NumericDouble4AttrOperator,
 )
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat import (
+from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound.quat import (
     Quat4AttrOperator,
 )
 from .define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
@@ -171,9 +171,7 @@ def _get_attr_long_name(node: str, attr: str) -> str:
 def _lookup_floating_point_compound_attr_cls(
     node: str, attr: str, attribute_type: str
 ) -> Type[AttrOperator]:
-    child_attrs = (
-        cmds.attributeQuery(attr, node=node, listChildren=True) or []
-    )
+    child_attrs = cmds.attributeQuery(attr, node=node, listChildren=True) or []
     if not child_attrs:
         raise TypeError(
             "Unsupported floating point compound attribute: "

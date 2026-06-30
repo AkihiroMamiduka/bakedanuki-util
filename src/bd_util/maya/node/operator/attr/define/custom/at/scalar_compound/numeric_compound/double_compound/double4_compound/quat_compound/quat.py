@@ -2,14 +2,14 @@
 
 # self
 from ._base import (
-    Double4CompoundBaseAttrOperator,
-    Double4CompoundBasePlugOperator,
-    Double4CompoundBaseField,
+    QuatCompoundBaseAttrOperator,
+    QuatCompoundBasePlugOperator,
+    QuatCompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.double import DoubleField
+from ........std.at.numeric_scalar_range.double import DoubleField
 
 
-class QuatPlugOperator(Double4CompoundBasePlugOperator["Quat4AttrOperator"]):
+class QuatPlugOperator(QuatCompoundBasePlugOperator["Quat4AttrOperator"]):
     __slots__ = ()
 
     x = DoubleField()
@@ -18,7 +18,7 @@ class QuatPlugOperator(Double4CompoundBasePlugOperator["Quat4AttrOperator"]):
     w = DoubleField()
 
 
-class Quat4AttrOperator(Double4CompoundBaseAttrOperator[QuatPlugOperator]):
+class Quat4AttrOperator(QuatCompoundBaseAttrOperator[QuatPlugOperator]):
     __slots__ = ()
 
     def __init__(self, *args, default_value=None, **kwargs):
@@ -27,9 +27,7 @@ class Quat4AttrOperator(Double4CompoundBaseAttrOperator[QuatPlugOperator]):
         super().__init__(*args, default_value=default_value, **kwargs)
 
 
-class Quat4Field(
-    Double4CompoundBaseField[Quat4AttrOperator, QuatPlugOperator]
-):
+class Quat4Field(QuatCompoundBaseField[Quat4AttrOperator, QuatPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Quat4AttrOperator
