@@ -161,8 +161,18 @@ class PlugOperator(Generic[A], ABC):
             return self._m_plug
 
         # plug を取得する
+        #   __getitem__() が作成した index plug は、親 multi plug から直接取得する
+        indexed_from_parent = (
+            self.parent_oprt_plug is not None
+            and self.index is not None
+            and self._oprt_attr is self.parent_oprt_plug._oprt_attr
+        )
+        if indexed_from_parent:
+            plug = self.parent_oprt_plug.plug.elementByLogicalIndex(
+                self.index
+            )
         #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
-        if self.parent_oprt_plug is not None and self.index is None:
+        elif self.parent_oprt_plug is not None:
             parent_plug = self.parent_oprt_plug.plug
             plug = None
             if self._child_index is not None:
@@ -184,7 +194,7 @@ class PlugOperator(Generic[A], ABC):
             plug = self._node.fn_node.findPlug(self.long_name, False)
 
         # index があれば、elementByLogicalIndex で plug を置き換える
-        if self.index is not None:
+        if self.index is not None and not indexed_from_parent:
             plug = plug.elementByLogicalIndex(self.index)
 
         # plug をキャッシュする
