@@ -35,72 +35,123 @@ from ......maya.node.all_types import (
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 # ---------------------------------------------------------------------------
-# attribute_type → (クラス名, "at.モジュール名" or "dt.モジュール名")
+# attribute_type → (Field クラス名, "define.at/dt モジュール名")
 # ---------------------------------------------------------------------------
 
-# attributeType ベースのマッピング (at/ ディレクトリ)
+# attributeType ベースのマッピング (attr/define/std/at or attr/define/custom/at)
 _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "addr": ("AddrAttr", "at.addr"),
-    "bool": ("BoolAttr", "at.bool"),
-    "byte": ("ByteAttr", "at.byte"),
-    "char": ("CharAttr", "at.char"),
-    "compound": ("CompoundAttr", "at.compound"),
-    "double": ("DoubleAttr", "at.double"),
-    "double2": ("Double2Attr", "at.double2"),
-    "double3": ("Double3Attr", "at.double3"),
-    "double4": ("Double4Attr", "at.double4"),
-    "doubleAngle": ("DoubleAngleAttr", "at.double_angle"),
-    "doubleLinear": ("DoubleLinearAttr", "at.double_linear"),
-    "enum": ("EnumAttr", "at.enum"),
-    "float": ("FloatAttr", "at.float"),
-    "float2": ("Float2Attr", "at.float2"),
-    "float3": ("Float3Attr", "at.float3"),
-    "floatAngle": ("FloatAngleAttr", "at.float_angle"),
-    "floatLinear": ("FloatLinearAttr", "at.float_linear"),
-    "fltMatrix": ("FltMatrixAttr", "at.flt_matrix"),
-    "generic": ("GenericAttr", "at.generic"),
-    "lightData": ("LightDataAttr", "at.light_data"),
-    "long": ("LongAttr", "at.long"),
-    "long2": ("Long2Attr", "at.long2"),
-    "long3": ("Long3Attr", "at.long3"),
-    "long long int": ("LongLongIntAttr", "at.long_long_int"),
-    "long_long_int": ("LongLongIntAttr", "at.long_long_int"),
-    "matrix": ("MatrixAttr", "at.matrix"),
-    "message": ("MessageAttr", "at.message"),
-    "reflectance": ("ReflectanceAttr", "at.reflectance"),
-    "short": ("ShortAttr", "at.short"),
-    "short2": ("Short2Attr", "at.short2"),
-    "short3": ("Short3Attr", "at.short3"),
-    "spectrum": ("SpectrumAttr", "at.spectrum"),
-    "time": ("TimeAttr", "at.time"),
-    "typed": ("TypedAttr", "at.typed"),
+    "addr": ("AddrField", "define.std.at.addr"),
+    "bool": ("BoolField", "define.std.at.numeric_scalar.bool"),
+    "byte": ("ByteField", "define.std.at.numeric_scalar_range.byte"),
+    "char": ("CharField", "define.std.at.numeric_scalar_range.char"),
+    "compound": ("CompoundField", "define.std.at.compound"),
+    "double": ("DoubleField", "define.std.at.numeric_scalar_range.double"),
+    "double2": (
+        "Double2Field",
+        "define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2",
+    ),
+    "double3": (
+        "Double3Field",
+        "define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3",
+    ),
+    "double4": (
+        "Double4Field",
+        "define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4",
+    ),
+    "doubleAngle": (
+        "DoubleAngleField",
+        "define.std.at.unit_scalar_range.double_angle",
+    ),
+    "doubleLinear": (
+        "DoubleLinearField",
+        "define.std.at.unit_scalar_range.double_linear",
+    ),
+    "enum": ("EnumField", "define.std.at.enum"),
+    "float": ("FloatField", "define.std.at.numeric_scalar_range.float"),
+    "float2": (
+        "Float2Field",
+        "define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2",
+    ),
+    "float3": (
+        "Float3Field",
+        "define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3",
+    ),
+    "floatAngle": (
+        "FloatAngleField",
+        "define.std.at.unit_scalar_range.float_angle",
+    ),
+    "floatLinear": (
+        "FloatLinearField",
+        "define.std.at.unit_scalar_range.float_linear",
+    ),
+    "fltMatrix": ("FltMatrixField", "define.std.at.flt_matrix"),
+    "generic": ("GenericField", "define.std.at.generic"),
+    "lightData": ("LightDataField", "define.std.at.light_data"),
+    "long": ("LongField", "define.std.at.numeric_scalar_range.long"),
+    "long2": (
+        "Long2Field",
+        "define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2",
+    ),
+    "long3": (
+        "Long3Field",
+        "define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3",
+    ),
+    "long long int": (
+        "LongLongIntField",
+        "define.std.at.numeric_scalar_range.long_long_int",
+    ),
+    "long_long_int": (
+        "LongLongIntField",
+        "define.std.at.numeric_scalar_range.long_long_int",
+    ),
+    "matrix": ("MatrixField", "define.std.at.matrix"),
+    "message": ("MessageField", "define.std.at.message"),
+    "reflectance": ("ReflectanceField", "define.std.at.reflectance"),
+    "short": ("ShortField", "define.std.at.numeric_scalar_range.short"),
+    "short2": (
+        "Short2Field",
+        "define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2",
+    ),
+    "short3": (
+        "Short3Field",
+        "define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3",
+    ),
+    "spectrum": ("SpectrumField", "define.std.at.spectrum"),
+    "time": ("TimeField", "define.std.at.unit_scalar.time"),
+    "typed": ("TypedField", "define.std.at.typed"),
 }
 
 # dataType ベースのマッピング (dt/ ディレクトリ)
 # attribute_type == "typed" のときに data_type で参照する
 _DT_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "double2": ("DataDouble2Attr", "dt.double2"),
-    "double3": ("DataDouble3Attr", "dt.double3"),
-    "doubleArray": ("DataDoubleArrayAttr", "dt.double_array"),
-    "float2": ("DataFloat2Attr", "dt.float2"),
-    "float3": ("DataFloat3Attr", "dt.float3"),
-    "floatArray": ("DataFloatArrayAttr", "dt.float_array"),
-    "int32Array": ("DataInt32ArrayAttr", "dt.int32_array"),
-    "lattice": ("DataLatticeAttr", "dt.lattice"),
-    "long2": ("DataLong2Attr", "dt.long2"),
-    "long3": ("DataLong3Attr", "dt.long3"),
-    "matrix": ("DataMatrixAttr", "dt.matrix"),
-    "mesh": ("DataMeshAttr", "dt.mesh"),
-    "nurbsCurve": ("DataNurbsCurveAttr", "dt.nurbs_curve"),
-    "nurbsSurface": ("DataNurbsSurfaceAttr", "dt.nurbs_surface"),
-    "pointArray": ("DataPointArrayAttr", "dt.point_array"),
-    "reflectanceRGB": ("DataReflectanceRGBAttr", "dt.reflectance_rgb"),
-    "short2": ("DataShort2Attr", "dt.short2"),
-    "short3": ("DataShort3Attr", "dt.short3"),
-    "spectrumRGB": ("DataSpectrumRGBAttr", "dt.specrtrum_rgb"),
-    "string": ("DataStringAttr", "dt.string"),
-    "stringArray": ("DataStringArrayAttr", "dt.string_array"),
-    "vectorArray": ("DataVectorArrayAttr", "dt.vector_array"),
+    "double2": ("DataDouble2Field", "define.std.dt.double2"),
+    "double3": ("DataDouble3Field", "define.std.dt.double3"),
+    "doubleArray": ("DataDoubleArrayField", "define.std.dt.double_array"),
+    "float2": ("DataFloat2Field", "define.std.dt.float2"),
+    "float3": ("DataFloat3Field", "define.std.dt.float3"),
+    "floatArray": ("DataFloatArrayField", "define.std.dt.float_array"),
+    "int32Array": ("DataInt32ArrayField", "define.std.dt.int32_array"),
+    "lattice": ("DataLatticeField", "define.std.dt.lattice"),
+    "long2": ("DataLong2Field", "define.std.dt.long2"),
+    "long3": ("DataLong3Field", "define.std.dt.long3"),
+    "matrix": ("DataMatrixField", "define.std.dt.matrix"),
+    "mesh": ("DataMeshField", "define.std.dt.mesh"),
+    "nurbsCurve": ("DataNurbsCurveField", "define.std.dt.nurbs_curve"),
+    "nurbsSurface": (
+        "DataNurbsSurfaceField",
+        "define.std.dt.nurbs_surface",
+    ),
+    "pointArray": ("DataPointArrayField", "define.std.dt.point_array"),
+    "reflectanceRGB": (
+        "DataReflectanceRGBField",
+        "define.std.dt.reflectance_rgb",
+    ),
+    "short2": ("DataShort2Field", "define.std.dt.short2"),
+    "short3": ("DataShort3Field", "define.std.dt.short3"),
+    "spectrumRGB": ("DataSpectrumRGBField", "define.std.dt.specrtrum_rgb"),
+    "string": ("DataStringField", "define.std.dt.string"),
+    "stringArray": ("DataStringArrayField", "define.std.dt.string_array"),
+    "vectorArray": ("DataVectorArrayField", "define.std.dt.vector_array"),
 }
 
 # DG 基底クラス (_core.py の DG) で既に定義されているロング名 → スキップ対象
@@ -132,22 +183,239 @@ _NODE_ATTR_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "node",
     "operator",
     "attr",
+    "define",
     "node_attr",
 )
 
-# 複数の数値をまとめる compound 型 → (基底 Plug クラス名, 基底 Attr クラス名, モジュールパス)
-_COMPOUND_AT_BASE: dict[str, tuple[str, str, str]] = {
-    "compound":  ("CompoundPlug",  "CompoundAttr",  "at.compound"),
-    "double2":   ("Double2Plug",   "Double2Attr",   "at.double2"),
-    "double3":   ("Double3Plug",   "Double3Attr",   "at.double3"),
-    "double4":   ("Double4Plug",   "Double4Attr",   "at.double4"),
-    "float2":    ("Float2Plug",    "Float2Attr",    "at.float2"),
-    "float3":    ("Float3Plug",    "Float3Attr",    "at.float3"),
-    "lightData": ("LightDataPlug", "LightDataAttr", "at.light_data"),
-    "long2":     ("Long2Plug",     "Long2Attr",     "at.long2"),
-    "long3":     ("Long3Plug",     "Long3Attr",     "at.long3"),
-    "short2":    ("Short2Plug",    "Short2Attr",    "at.short2"),
-    "short3":    ("Short3Plug",    "Short3Attr",    "at.short3"),
+# compound 型 → (基底 Plug, 基底 Attr, 基底 Field, node_attr からのモジュールパス)
+_GENERIC_COMPOUND_AT_BASE: dict[str, tuple[str, str, str, str]] = {
+    "compound": (
+        "CompoundPlugOperator",
+        "CompoundAttrOperator",
+        "CompoundField",
+        "std.at.compound",
+    ),
+    "lightData": (
+        "LightDataPlugOperator",
+        "LightDataAttrOperator",
+        "LightDataField",
+        "std.at.light_data",
+    ),
+}
+
+_SCALAR_COMPOUND_AT_BASE: dict[
+    tuple[str, str, int], tuple[str, str, str, str]
+] = {
+    (
+        "double2",
+        "double",
+        2,
+    ): (
+        "Double2CompoundBasePlugOperator",
+        "Double2CompoundBaseAttrOperator",
+        "Double2CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base",
+    ),
+    (
+        "double3",
+        "double",
+        3,
+    ): (
+        "Double3CompoundBasePlugOperator",
+        "Double3CompoundBaseAttrOperator",
+        "Double3CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base",
+    ),
+    (
+        "double4",
+        "double",
+        4,
+    ): (
+        "Double4CompoundBasePlugOperator",
+        "Double4CompoundBaseAttrOperator",
+        "Double4CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.double_compound.double4_compound._base",
+    ),
+    (
+        "float2",
+        "float",
+        2,
+    ): (
+        "Float2CompoundBasePlugOperator",
+        "Float2CompoundBaseAttrOperator",
+        "Float2CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base",
+    ),
+    (
+        "float3",
+        "float",
+        3,
+    ): (
+        "Float3CompoundBasePlugOperator",
+        "Float3CompoundBaseAttrOperator",
+        "Float3CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base",
+    ),
+    (
+        "long2",
+        "long",
+        2,
+    ): (
+        "Long2CompoundBasePlugOperator",
+        "Long2CompoundBaseAttrOperator",
+        "Long2CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base",
+    ),
+    (
+        "long3",
+        "long",
+        3,
+    ): (
+        "Long3CompoundBasePlugOperator",
+        "Long3CompoundBaseAttrOperator",
+        "Long3CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base",
+    ),
+    (
+        "short2",
+        "short",
+        2,
+    ): (
+        "Short2CompoundBasePlugOperator",
+        "Short2CompoundBaseAttrOperator",
+        "Short2CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.short_compound.short2_compound._base",
+    ),
+    (
+        "short3",
+        "short",
+        3,
+    ): (
+        "Short3CompoundBasePlugOperator",
+        "Short3CompoundBaseAttrOperator",
+        "Short3CompoundBaseField",
+        "custom.at.scalar_compound.numeric_compound.short_compound.short3_compound._base",
+    ),
+    (
+        "double2",
+        "doubleAngle",
+        2,
+    ): (
+        "DoubleAngle2CompoundBasePlugOperator",
+        "DoubleAngle2CompoundBaseAttrOperator",
+        "DoubleAngle2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.double2._base",
+    ),
+    (
+        "double3",
+        "doubleAngle",
+        3,
+    ): (
+        "DoubleAngle3CompoundBasePlugOperator",
+        "DoubleAngle3CompoundBaseAttrOperator",
+        "DoubleAngle3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.double3._base",
+    ),
+    (
+        "double2",
+        "doubleLinear",
+        2,
+    ): (
+        "DoubleLinear2CompoundBasePlugOperator",
+        "DoubleLinear2CompoundBaseAttrOperator",
+        "DoubleLinear2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.double2._base",
+    ),
+    (
+        "double3",
+        "doubleLinear",
+        3,
+    ): (
+        "DoubleLinear3CompoundBasePlugOperator",
+        "DoubleLinear3CompoundBaseAttrOperator",
+        "DoubleLinear3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.double3._base",
+    ),
+    (
+        "float2",
+        "floatAngle",
+        2,
+    ): (
+        "FloatAngle2CompoundBasePlugOperator",
+        "FloatAngle2CompoundBaseAttrOperator",
+        "FloatAngle2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.float2._base",
+    ),
+    (
+        "float3",
+        "floatAngle",
+        3,
+    ): (
+        "FloatAngle3CompoundBasePlugOperator",
+        "FloatAngle3CompoundBaseAttrOperator",
+        "FloatAngle3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.float3._base",
+    ),
+    (
+        "float2",
+        "doubleAngle",
+        2,
+    ): (
+        "FloatAngle2CompoundBasePlugOperator",
+        "FloatAngle2CompoundBaseAttrOperator",
+        "FloatAngle2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.float2._base",
+    ),
+    (
+        "float3",
+        "doubleAngle",
+        3,
+    ): (
+        "FloatAngle3CompoundBasePlugOperator",
+        "FloatAngle3CompoundBaseAttrOperator",
+        "FloatAngle3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.angle_compound.float3._base",
+    ),
+    (
+        "float2",
+        "floatLinear",
+        2,
+    ): (
+        "FloatLinear2CompoundBasePlugOperator",
+        "FloatLinear2CompoundBaseAttrOperator",
+        "FloatLinear2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.float2._base",
+    ),
+    (
+        "float3",
+        "floatLinear",
+        3,
+    ): (
+        "FloatLinear3CompoundBasePlugOperator",
+        "FloatLinear3CompoundBaseAttrOperator",
+        "FloatLinear3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.float3._base",
+    ),
+    (
+        "float2",
+        "doubleLinear",
+        2,
+    ): (
+        "FloatLinear2CompoundBasePlugOperator",
+        "FloatLinear2CompoundBaseAttrOperator",
+        "FloatLinear2CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.float2._base",
+    ),
+    (
+        "float3",
+        "doubleLinear",
+        3,
+    ): (
+        "FloatLinear3CompoundBasePlugOperator",
+        "FloatLinear3CompoundBaseAttrOperator",
+        "FloatLinear3CompoundBaseField",
+        "custom.at.scalar_compound.unit_compound.linear_compound.float3._base",
+    ),
 }
 
 
@@ -192,7 +460,7 @@ def _node_type_to_file_name(node_type: str) -> str:
 
 
 def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
-    """AttrInfo から ``(クラス名, モジュールパス)`` を返す。
+    """AttrInfo から ``(Field クラス名, モジュールパス)`` を返す。
 
     ``attribute_type == "typed"`` かつ ``data_type`` が設定されている場合は
     ``_DT_TYPE_MAP`` で解決し、それ以外は ``_AT_TYPE_MAP`` で解決する。
@@ -207,6 +475,37 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
             return result
 
     return _AT_TYPE_MAP.get(attr_info.attribute_type)
+
+
+def _node_attr_module_path(module_path: str) -> str:
+    """node_attr 生成ファイルから import できるモジュールパスへ変換する。"""
+    prefix = "define."
+    if module_path.startswith(prefix):
+        return module_path[len(prefix):]
+    return module_path
+
+
+def _resolve_compound_base(
+    parent_info: AttrInfo,
+    children: list[AttrInfo],
+) -> tuple[str, str, str, str] | None:
+    """compound 親と子情報から現行の基底クラス群を返す。"""
+    result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
+    if result is not None:
+        return result
+
+    if not children:
+        return None
+
+    child_types = [child.attribute_type for child in children]
+    first_child_type = child_types[0]
+    if first_child_type is None:
+        return None
+    if any(child_type != first_child_type for child_type in child_types):
+        return None
+
+    key = (parent_info.attribute_type, first_child_type, len(children))
+    return _SCALAR_COMPOUND_AT_BASE.get(key)
 
 
 def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
@@ -279,13 +578,12 @@ def _parse_enum_entries(
 
 
 def _build_attr_init_args(attr_info: AttrInfo) -> str:
-    """Attr コンストラクタ引数文字列を生成する。
+    """Field コンストラクタ引数文字列を生成する。
 
     例: ``multi=True``
 
     .. note::
-        ``enum`` 型の ``enum_name`` 引数は :func:`generate_node_class_code` 内で
-        生成された ``AttributeEnum`` サブクラス名を用いて別途設定される。
+        現状は ``multi=True`` のみを生成する。
     """
     args: list[str] = []
 
@@ -381,6 +679,30 @@ def _safe_attr_name(name: str) -> str:
     return name
 
 
+def _build_import_lines(module_path: str, cls_names: list[str]) -> list[str]:
+    """import 行を手書きコードに近い形で生成する。"""
+    if len(cls_names) == 1:
+        return [f"from {module_path} import {cls_names[0]}"]
+
+    lines = [f"from {module_path} import ("]
+    for cls_name in cls_names:
+        lines.append(f"    {cls_name},")
+    lines.append(")")
+    return lines
+
+
+def _build_class_header_lines(
+    class_name: str,
+    base_expr: str,
+) -> list[str]:
+    """generic base を持つ class 宣言を読みやすい複数行で生成する。"""
+    return [
+        f"class {class_name}(",
+        f"    {base_expr}",
+        "):",
+    ]
+
+
 def _get_child_attr_name(child_long_name: str, parent_long_name: str) -> str:
     """子アトリビュートの実際の名前を返す。マルチアトリビュートの場合は親プレフィックスを除去する。
 
@@ -395,13 +717,16 @@ def _get_child_attr_name(child_long_name: str, parent_long_name: str) -> str:
     return child_long_name
 
 
-def _long_name_to_compound_class_names(long_name: str) -> tuple[str, str]:
-    """アトリビュートの long_name を PascalCase のカスタム compound クラス名へ変換する。
+def _long_name_to_compound_class_names(
+    long_name: str,
+) -> tuple[str, str, str]:
+    """long_name を PascalCase の custom compound クラス名へ変換する。
 
-    例: ``"input2D"`` → ``("Input2DPlug", "Input2DAttr")``
+    例: ``"input2D"`` →
+    ``("Input2DPlugOperator", "Input2DAttrOperator", "Input2DField")``
     """
     pascal = long_name[:1].upper() + long_name[1:]
-    return f"{pascal}Plug", f"{pascal}Attr"
+    return f"{pascal}PlugOperator", f"{pascal}AttrOperator", f"{pascal}Field"
 
 
 def _long_name_to_enum_class_name(long_name: str) -> str:
@@ -413,26 +738,65 @@ def _long_name_to_enum_class_name(long_name: str) -> str:
     return long_name[0].upper() + long_name[1:] + "Enum"
 
 
+def _enum_entries_to_name_values(
+    entries: list[tuple[str, int | None]],
+) -> list[tuple[str, str, int]]:
+    """パース済み enum entry を ``(member, label, value)`` へ変換する。"""
+    result: list[tuple[str, str, int]] = []
+    next_value = 0
+    for label, explicit_value in entries:
+        value = next_value if explicit_value is None else explicit_value
+        result.append((_label_to_enum_member_name(label), label, value))
+        next_value = value + 1
+    return result
+
+
 def _build_enum_class_lines(
-    class_name: str,
+    base_name: str,
     entries: list[tuple[str, int | None]],
 ) -> list[str]:
-    """``AttributeEnum`` サブクラスのコード行リストを生成する。
+    """現行 EnumOperator / EnumField 形式のコード行リストを生成する。
 
     Args:
-        class_name (str): 生成するクラス名 (例: ``"OperationEnum"``)
+        base_name (str): 生成するベース名 (例: ``"OperationEnum"``)
         entries (list[tuple[str, int | None]]): ``(ラベル, 明示的整数値 or None)`` のリスト
 
     Returns:
         list[str]: クラス定義のコード行リスト
     """
-    lines: list[str] = [f"class {class_name}(AttributeEnum):"]
-    for label, explicit_val in entries:
-        member_name = _label_to_enum_member_name(label)
-        if explicit_val is not None:
-            lines.append(f'    {member_name} = ("{label}", {explicit_val})')
-        else:
-            lines.append(f'    {member_name} = "{label}"')
+    name_values = _enum_entries_to_name_values(entries)
+    plug_cls_name = f"{base_name}PlugOperator"
+    attr_cls_name = f"{base_name}AttrOperator"
+    field_cls_name = f"{base_name}Field"
+
+    lines: list[str] = [f"class {plug_cls_name}(EnumPlugOperator):"]
+    lines.append("    __slots__ = ()")
+    lines.append("")
+    for member_name, _label, value in name_values:
+        lines.append(f"    {member_name} = {value}")
+    lines.append("")
+    lines.append("")
+
+    lines.append(f"class {attr_cls_name}(EnumAttrOperator):")
+    lines.append("    __slots__ = ()")
+    lines.append("")
+    for member_name, _label, value in name_values:
+        lines.append(f"    {member_name} = {value}")
+    lines.append("")
+    lines.append("    NAME_MAP = {")
+    for member_name, label, _value in name_values:
+        lines.append(f'        {member_name}: "{label}",')
+    lines.append("    }")
+    lines.append("")
+    lines.append("")
+
+    lines.append(f"class {field_cls_name}(")
+    lines.append(f"    EnumField[{attr_cls_name}, {plug_cls_name}]")
+    lines.append("):")
+    lines.append("    __slots__ = ()")
+    lines.append("")
+    lines.append(f"    ATTR_CLS = {attr_cls_name}")
+    lines.append(f"    PLUG_CLS = {plug_cls_name}")
     return lines
 
 
@@ -446,10 +810,10 @@ def generate_node_attr_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
 ) -> str | None:
-    """compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) を持つノードの
+    """compound 型アトリビュートを持つノードの
     node_attr ファイルコードを生成する。
 
-    生成されるコードは ``bd_util.maya.node.operator.attr.node_attr`` 以下に配置する
+    生成されるコードは ``bd_util.maya.node.operator.attr.define.node_attr`` 以下に配置する
     ことを想定した相対インポートを使用する。
 
     Args:
@@ -478,25 +842,31 @@ def generate_node_attr_code(
             parent_name = info.parent[0]
             compound_children_map.setdefault(parent_name, []).append(info)
 
-    # compound タイプの親アトリビュートのみ対象（子が存在するものに限る）
+    # compound タイプの親アトリビュートのみ対象（子が存在し、基底解決できるものに限る）
     compound_parents: list[AttrInfo] = [
         info
         for info in attr_infos
         if (
-            info.attribute_type in _COMPOUND_AT_BASE
-            and info.parent is None
+            info.parent is None
             and compound_children_map.get(info.long_name)
+            and _resolve_compound_base(
+                info,
+                compound_children_map.get(info.long_name, []),
+            )
         )
     ]
 
     if not compound_parents:
         return None
 
-    # インポート収集: module_path → set[class_name]
-    module_imports: dict[str, set[str]] = {}
+    # インポート収集: module_path → list[class_name]
+    # 同一モジュール内は手書きコードに寄せるため、追加順を保持する。
+    module_imports: dict[str, list[str]] = {}
 
     def _add_import(cls_name: str, mod_path: str) -> None:
-        module_imports.setdefault(mod_path, set()).add(cls_name)
+        cls_names = module_imports.setdefault(mod_path, [])
+        if cls_name not in cls_names:
+            cls_names.append(cls_name)
 
     # 各 compound アトリビュートのクラスブロックを生成
     class_blocks: list[list[str]] = []
@@ -507,13 +877,20 @@ def generate_node_attr_code(
         if not children:
             continue
 
-        base_plug_cls, base_attr_cls, base_module = _COMPOUND_AT_BASE[
-            parent_info.attribute_type
-        ]
-        _add_import(base_plug_cls, base_module)
-        _add_import(base_attr_cls, base_module)
+        compound_base = _resolve_compound_base(parent_info, children)
+        if compound_base is None:
+            continue
 
-        plug_cls_name, attr_cls_name = _long_name_to_compound_class_names(parent_long)
+        base_plug_cls, base_attr_cls, base_field_cls, base_module = (
+            compound_base
+        )
+        _add_import(base_attr_cls, base_module)
+        _add_import(base_plug_cls, base_module)
+        _add_import(base_field_cls, base_module)
+
+        plug_cls_name, attr_cls_name, field_cls_name = (
+            _long_name_to_compound_class_names(parent_long)
+        )
 
         # 子アトリビュート行の生成
         child_body_lines: list[str] = []
@@ -530,7 +907,7 @@ def generate_node_attr_code(
                 continue
 
             child_cls_name, child_module = child_resolved
-            _add_import(child_cls_name, child_module)
+            _add_import(child_cls_name, _node_attr_module_path(child_module))
 
             safe_child_name = _safe_attr_name(child_name)
             child_body_lines.append(f"    {safe_child_name} = {child_cls_name}()")
@@ -544,10 +921,23 @@ def generate_node_attr_code(
             child_body_lines.pop()
 
         # Plug クラスブロック
-        plug_block: list[str] = [
-            f"class {plug_cls_name}({base_plug_cls}[\"{attr_cls_name}\"]):",
-            "    __slots__ = ()",
-        ]
+        plug_block: list[str] = _build_class_header_lines(
+            plug_cls_name,
+            f'{base_plug_cls}["{attr_cls_name}"]',
+        )
+        plug_block.append("    __slots__ = ()")
+        if children:
+            plug_block.append("    CHILD_ATTR_NAMES = (")
+            for child_info in children:
+                child_name = _get_child_attr_name(
+                    child_info.long_name,
+                    parent_long,
+                )
+                child_short = child_info.short_name or child_name
+                plug_block.append(
+                    f'        ("{child_name}", "{child_short}"),'
+                )
+            plug_block.append("    )")
         if child_body_lines:
             plug_block.append("")
             plug_block.extend(child_body_lines)
@@ -555,28 +945,48 @@ def generate_node_attr_code(
             plug_block.append("")
             plug_block.append("    pass")
 
-        # Attr クラスブロック
-        attr_block: list[str] = [
-            f"class {attr_cls_name}({base_attr_cls}[{plug_cls_name}]):",
-            "    __slots__ = ()",
-            "",
-            f"    PLUG_CLS = {plug_cls_name}",
-        ]
+        # AttrOperator クラスブロック
+        attr_block: list[str] = _build_class_header_lines(
+            attr_cls_name,
+            f"{base_attr_cls}[{plug_cls_name}]",
+        )
+        attr_block.append("    __slots__ = ()")
         if child_body_lines:
             attr_block.append("")
             attr_block.extend(child_body_lines)
 
+        # Field クラスブロック
+        field_block: list[str] = _build_class_header_lines(
+            field_cls_name,
+            f"{base_field_cls}[{attr_cls_name}, {plug_cls_name}]",
+        )
+        field_block.extend(
+            [
+                "    __slots__ = ()",
+                "",
+                f"    ATTR_CLS = {attr_cls_name}",
+                f"    PLUG_CLS = {plug_cls_name}",
+            ]
+        )
+        if child_body_lines and not parent_info.multi:
+            field_block.append("")
+            field_block.extend(child_body_lines)
+
         class_blocks.append(plug_block)
         class_blocks.append(attr_block)
+        class_blocks.append(field_block)
 
     if not class_blocks:
         return None
 
     # インポート行の生成 (モジュールパスでソート、同一モジュール内はクラス名でソート)
     import_lines: list[str] = []
-    for mod_path in sorted(module_imports.keys()):
-        cls_names = sorted(module_imports[mod_path])
-        import_lines.append(f"from ..{mod_path} import {', '.join(cls_names)}")
+    for mod_path in sorted(
+        module_imports.keys(),
+        key=lambda path: (0 if path.startswith("std.") else 1, path),
+    ):
+        cls_names = module_imports[mod_path]
+        import_lines.extend(_build_import_lines(f"..{mod_path}", cls_names))
 
     # コード全体を組み立てる
     lines: list[str] = ["# coding: utf-8"]
@@ -638,11 +1048,11 @@ def generate_node_class_code(
         if info.short_name and info.short_name != info.long_name:
             short_to_long[info.short_name] = info.long_name
 
-    # 使用する Attr クラスとそのインポートパスを収集する
-    # クラス名 → "at.xxx" or "dt.xxx"
+    # 使用する Field クラスとそのインポートパスを収集する
+    # クラス名 → "define.std..." or "define.custom..."
     imports: dict[str, str] = {}
 
-    # 生成する AttributeEnum サブクラス: (クラス名, エントリリスト)
+    # 生成する EnumOperator / EnumField クラス: (ベース名, エントリリスト)
     enum_classes: list[tuple[str, list[tuple[str, int | None]]]] = []
 
     # 生成するアトリビュート行
@@ -655,17 +1065,22 @@ def generate_node_class_code(
             parent_name = info.parent[0]
             compound_children_map.setdefault(parent_name, []).append(info)
 
-    # compound 型で子が存在する親アトリビュート → カスタム Attr クラス名
+    # compound 型で子が存在する親アトリビュート → カスタム Field クラス名
     # (node_attr/{snake_case}.py で定義されるクラスを参照する)
     custom_compound_cls: dict[str, str] = {}
     for info in attr_infos:
         if (
-            info.attribute_type in _COMPOUND_AT_BASE
-            and info.parent is None
+            info.parent is None
             and compound_children_map.get(info.long_name)
+            and _resolve_compound_base(
+                info,
+                compound_children_map.get(info.long_name, []),
+            )
         ):
-            _, attr_cls_name = _long_name_to_compound_class_names(info.long_name)
-            custom_compound_cls[info.long_name] = attr_cls_name
+            _, _, field_cls_name = _long_name_to_compound_class_names(
+                info.long_name
+            )
+            custom_compound_cls[info.long_name] = field_cls_name
 
     # node_attr モジュールからインポートするクラス名のセット
     node_attr_imports: set[str] = set()
@@ -694,11 +1109,13 @@ def generate_node_class_code(
 
         # compound 型で子が存在する場合はカスタムクラスを使用する
         if long_name in custom_compound_cls:
-            attr_cls_name = custom_compound_cls[long_name]
-            node_attr_imports.add(attr_cls_name)
+            field_cls_name = custom_compound_cls[long_name]
+            node_attr_imports.add(field_cls_name)
             init_args = ", ".join(args)
             safe_long_name = _safe_attr_name(long_name)
-            attr_lines.append(f"    {safe_long_name} = {attr_cls_name}({init_args})")
+            attr_lines.append(
+                f"    {safe_long_name} = {field_cls_name}({init_args})"
+            )
             short_name = attr_info.short_name
             if short_name and short_name != long_name:
                 safe_short_name = _safe_attr_name(short_name)
@@ -721,7 +1138,7 @@ def generate_node_class_code(
             attr_lines.append("")
             continue
 
-        # Attr クラスを解決する
+        # Field クラスを解決する
         resolved = _resolve_attr_class(attr_info)
         if resolved is None:
             attr_lines.append(
@@ -730,19 +1147,22 @@ def generate_node_class_code(
             attr_lines.append("")
             continue
 
-        attr_cls_name, module_path = resolved
-        imports[attr_cls_name] = module_path
+        field_cls_name, module_path = resolved
+        imports[field_cls_name] = module_path
 
         if attr_info.attribute_type == "enum":
             entries = _parse_enum_entries(attr_info.enum_name)
             if entries:
                 enum_cls_name = _long_name_to_enum_class_name(long_name)
                 enum_classes.append((enum_cls_name, entries))
-                args.append(f"enum_name={enum_cls_name}")
+                field_cls_name = f"{enum_cls_name}Field"
+                imports.pop("EnumField", None)
 
         init_args = ", ".join(args)
         safe_long_name = _safe_attr_name(long_name)
-        attr_lines.append(f"    {safe_long_name} = {attr_cls_name}({init_args})")
+        attr_lines.append(
+            f"    {safe_long_name} = {field_cls_name}({init_args})"
+        )
 
         # short_name のエイリアス行
         short_name = attr_info.short_name
@@ -753,16 +1173,25 @@ def generate_node_class_code(
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
     import_lines: list[str] = ["from ._core import DG"]
-    if enum_classes:
-        import_lines.append("from .....attr.enum import AttributeEnum")
     if node_attr_imports:
         snake_type = _camel_to_snake(node_type)
-        sorted_node_attr = ", ".join(sorted(node_attr_imports))
-        import_lines.append(
-            f"from ...attr.node_attr.{snake_type} import {sorted_node_attr}"
+        import_lines.extend(
+            _build_import_lines(
+                f"...attr.define.node_attr.{snake_type}",
+                sorted(node_attr_imports),
+            )
+        )
+    if enum_classes:
+        import_lines.extend(
+            _build_import_lines(
+                "...attr.define.std.at.enum",
+                ["EnumAttrOperator", "EnumPlugOperator", "EnumField"],
+            )
         )
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
-        import_lines.append(f"from ...attr.{mod_path} import {cls_name}")
+        import_lines.extend(
+            _build_import_lines(f"...attr.{mod_path}", [cls_name])
+        )
 
     # コード全体を組み立てる
     lines: list[str] = []
