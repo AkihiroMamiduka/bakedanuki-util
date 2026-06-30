@@ -48,6 +48,23 @@ def test_double4_and_quat_defaults(extra_compound_node):
     assert node.extraQuatCustom.get() == pytest.approx([0.1, 0.2, 0.3, 0.4])
 
 
+def test_compound_set_accepts_tuple_and_rejects_wrong_count(
+    modifier_manager,
+    extra_compound_node,
+):
+    node = extra_compound_node
+
+    node.extraDouble4.set((4.0, 3.0, 2.0, 1.0))
+    modifier_manager.do_it_dg()
+    assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
+
+    with pytest.raises(TypeError, match="Expected either set"):
+        node.extraDouble4.set(9.0, 8.0)
+
+    modifier_manager.do_it_dg()
+    assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
+
+
 def test_double4_and_quat_child_names(extra_compound_node, maya_cmds):
     node = extra_compound_node
 

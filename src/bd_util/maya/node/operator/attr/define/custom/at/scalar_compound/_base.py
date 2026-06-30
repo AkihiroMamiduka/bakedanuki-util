@@ -78,22 +78,37 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     def _set_child_value(self, child_plug, value: float):
         pass
 
-    def set(self, *values: float | list[float]):
+    def _set_values_error(self, values) -> TypeError:
+        suffix_str = ", ".join(self._SUFFIXES)
+        return TypeError(
+            "Expected either set({}) or set([{}]): {}".format(
+                suffix_str,
+                suffix_str,
+                values,
+            )
+        )
+
+    def _normalize_set_values(self, values) -> tuple:
+        if len(values) == 1:
+            value = values[0]
+            if isinstance(value, Sequence) and not isinstance(
+                value, (str, bytes)
+            ):
+                values = tuple(value)
+        if len(values) != len(self._SUFFIXES):
+            raise self._set_values_error(values)
+        return tuple(values)
+
+    def set(self, *values: float | Sequence[float]):
+        values = self._normalize_set_values(values)
+        plug = self.plug
         try:
-            # list で渡された場合は、展開する
-            if isinstance(values[0], list):
-                values = values[0]
             # 値をセットする
             for i, val in enumerate(values):
-                self._set_child_value(self.plug.child(i), val)
+                self._set_child_value(plug.child(i), val)
 
         except Exception as e:
-            suffix_str = ", ".join(self._SUFFIXES)
-            raise TypeError(
-                "Expected either set({}) or set([{}]): {}".format(
-                    suffix_str, suffix_str, values
-                )
-            ) from e
+            raise self._set_values_error(values) from e
 
     # add
     def _child_value(self, value, index: int, default=None):
