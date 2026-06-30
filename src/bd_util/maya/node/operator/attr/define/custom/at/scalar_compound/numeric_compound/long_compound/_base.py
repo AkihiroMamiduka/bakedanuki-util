@@ -26,14 +26,18 @@ class LongCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
     CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kLong
 
     # get
-    def _get_child_value(self, child_plug) -> int:
+    def _get_child_value(self, child_plug: om.MPlug) -> int:
         return child_plug.asInt()
 
     # set
-    def _set_child_value(self, child_plug, value: int):
+    def _set_child_value(self, child_plug: om.MPlug, value: int) -> None:
         self._node._dg_mod.newPlugValueInt(child_plug, value)
 
-    def _set_child_value_direct(self, child_plug, value: int):
+    def _set_child_value_direct(
+        self,
+        child_plug: om.MPlug,
+        value: int,
+    ) -> None:
         child_plug.setInt(value)
 
 

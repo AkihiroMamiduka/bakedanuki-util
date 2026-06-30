@@ -29,15 +29,19 @@ class LinearCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A]):
         return om.MDistance(value, om.MDistance.kCentimeters)
 
     # get
-    def _get_child_value(self, child_plug) -> float:
+    def _get_child_value(self, child_plug: om.MPlug) -> float:
         return child_plug.asMDistance().asCentimeters()
 
     # set
-    def _set_child_value(self, child_plug, value: float):
+    def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         value = om.MDistance(value, om.MDistance.kCentimeters)
         self._node._dg_mod.newPlugValueMDistance(child_plug, value)
 
-    def _set_child_value_direct(self, child_plug, value: float):
+    def _set_child_value_direct(
+        self,
+        child_plug: om.MPlug,
+        value: float,
+    ) -> None:
         value = om.MDistance(value, om.MDistance.kCentimeters)
         child_plug.setMDistance(value)
 

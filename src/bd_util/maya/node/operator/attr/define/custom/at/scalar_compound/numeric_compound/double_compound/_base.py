@@ -26,14 +26,18 @@ class DoubleCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A]):
     CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kDouble
 
     # get
-    def _get_child_value(self, child_plug) -> float:
+    def _get_child_value(self, child_plug: om.MPlug) -> float:
         return child_plug.asDouble()
 
     # set
-    def _set_child_value(self, child_plug, value: float):
+    def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
         self._node._dg_mod.newPlugValueDouble(child_plug, value)
 
-    def _set_child_value_direct(self, child_plug, value: float):
+    def _set_child_value_direct(
+        self,
+        child_plug: om.MPlug,
+        value: float,
+    ) -> None:
         child_plug.setDouble(value)
 
 
