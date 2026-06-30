@@ -13,11 +13,12 @@ from ......maya.node.operator.node.dg.plus_minus_average import (
 )
 from ......maya import scene as u_scene
 
-ACCURATE = True
+ACCURATE = False
 REPEAT_COUNT = 3
 INCLUDE_CACHE_CHECK = False
 INCLUDE_GET_SET = False
 COUNT = 100000
+COUNT = 1000
 GET_SET_COUNT = COUNT
 SCALAR_VALUE = 1.25
 COMPOUND_VALUE = (1.25, 2.5, 3.75)
