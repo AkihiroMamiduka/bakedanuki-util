@@ -64,7 +64,8 @@ def main(
             create_connect_pm,
             create_connect_om_individual,
             create_connect_om_all_together,
-            create_connect_node_operator,
+            create_connect_node_operator_connect,
+            create_connect_node_operator__gt__,
         ),
         accurate=accurate,
         repeat_count=repeat_count,
@@ -788,7 +789,29 @@ def create_connect_om_all_together():
 
 
 @timer
-def create_connect_node_operator():
+def create_connect_node_operator_connect():
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+    # ノードを作成し接続
+    modifier_manager = ModifierManager()
+    parent_node = None
+    for _ in range(COUNT):
+        # ノードを作成
+        node = PlusMinusAverage.create(modifier_manager)
+        # ノードを接続
+        if parent_node is not None:
+            parent_node.output3Dx.connect(node.input3D[0].input3Dx)
+        # parent を置き換え
+        parent_node = node
+    modifier_manager.do_it_dg()
+
+    # 新規シーンを開く
+    cmds.file(new=True, force=True)
+
+
+@timer
+def create_connect_node_operator__gt__():
     # 新規シーンを開く
     cmds.file(new=True, force=True)
 
