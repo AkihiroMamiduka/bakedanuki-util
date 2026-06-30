@@ -1,0 +1,206 @@
+# Attributes
+
+このページは `NodeOperator` の attribute / plug 周辺仕様をまとめます。
+
+## 3 つの役割
+
+### AttributeField
+
+`AttributeField` は descriptor です。
+
+ノードクラス定義に置かれ、アクセス元に応じて `AttrOperator` または `PlugOperator` を生成します。
+
+```python
+class MyNode(NodeOperator):
+    myValue = AddAttr.at.double(default_value=1.0)
+```
+
+### AttrOperator
+
+`AttrOperator` はアトリビュート定義側の情報を持ちます。
+
+主な情報は次の通りです。
+
+- `node_cls`
+- `long_name`
+- `short_name`
+- `attr_path`
+- `parent_attr_path`
+- `multi`
+- `extra`
+- `default_value`
+- `min_value` / `max_value`
+- `soft_min_value` / `soft_max_value`
+- `child_index`
+
+### PlugOperator
+
+`PlugOperator` は Maya scene 上の plug 操作を担当します。
+
+主な操作は次の通りです。
+
+- `get()`
+- `set()`
+- `set_direct()`
+- `connect()`
+- `connect_next_index()`
+- `disconnect()`
+- `keyframe`
+- `add_attr()`
+- `cmds_add_attr()`
+
+`set()` は基本的に `ModifierManager.dg_mod` 経由で編集します。
+
+`set_direct()` は `MPlug` へ即時反映します。undo には参加しません。
+
+## plug access
+
+```python
+node.attr
+node.attr.child
+node.multiAttr[0]
+node.multiAttr[next]
+node.multiAttr[0].child
+```
+
+`next` は Python builtin の `next` sentinel を利用します。
+
+```python
+src.output.connect_next_index(dst.multiInput)
+src.output > dst.input
+src.output >> dst.multiInput
+```
+
+`connect()` を明示的に呼ぶ方が、演算子経由より意図と速度の両面で分かりやすい場面があります。
+
+## extra attribute
+
+extra attribute は `AddAttr` から定義します。
+
+```python
+from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
+
+class MyNode(NodeOperator):
+    weight = AddAttr.at.double(default_value=1.0)
+    offset = AddAttr.at.double3(default_value=[0.0, 0.0, 0.0])
+    rotation = AddAttr.at.double_angle3(default_value=[0.0, 0.0, 0.0])
+    orient = AddAttr.at.quat()
+```
+
+`NodeOperator` 初期化時、`extra=True` の field は対象ノードに存在しなければ自動で追加されます。
+
+`cmds_add_attr()` が必要な型は `cmds` 経由、それ以外は OpenMaya 経由の `add_attr()` を使います。
+
+## custom scalar compound
+
+compound 系の custom 実装は `define/custom/at/scalar_compound` 配下にあります。
+
+現行で主に扱う型は次の通りです。
+
+- numeric compound
+  - `double2`
+  - `double3`
+  - `double4`
+  - `float2`
+  - `float3`
+  - `long2`
+  - `long3`
+  - `short2`
+  - `short3`
+- unit compound
+  - `double_linear2`
+  - `double_linear3`
+  - `double_angle2`
+  - `double_angle3`
+  - `float_linear2`
+  - `float_linear3`
+  - `float_angle2`
+  - `float_angle3`
+- semantic alias
+  - `quat`
+
+`quat` は低レベル型としては `double4` 相当で、意味付き alias として扱います。
+
+default は未指定時に `[0.0, 0.0, 0.0, 1.0]` です。
+
+## compound get / set
+
+compound の `get()` は child 値の list を返します。
+
+```python
+node.offset.get()
+# [1.0, 2.0, 3.0]
+```
+
+`set()` と `set_direct()` は、展開引数と sequence の両方を受け取ります。
+
+```python
+node.offset.set(1.0, 2.0, 3.0)
+node.offset.set([1.0, 2.0, 3.0])
+node.offset.set((1.0, 2.0, 3.0))
+
+node.offset.set_direct(1.0, 2.0, 3.0)
+```
+
+要素数が child 数と一致しない場合は `TypeError` です。
+
+この validation は child を一部だけ変更してしまう事故を避けるため、実際の set 前に行います。
+
+## limit 設定
+
+custom scalar compound は child attribute に対して次の public method を持ちます。
+
+```python
+node.offset.set_min([-1.0, -2.0, -3.0])
+node.offset.set_max(10.0)
+node.offset.set_soft_min(0.0)
+node.offset.set_soft_max([1.0, 2.0, 3.0])
+```
+
+値は scalar または child 数と同じ長さの sequence を受け取ります。
+
+- scalar
+  - 全 child に同じ値を設定します。
+- sequence
+  - child ごとに個別値を設定します。
+
+unit 系では、内部で Maya API に渡す形式へ変換してから設定します。
+
+## child names
+
+通常の child 名は suffix から生成されます。
+
+```text
+longNameX / shortNamex
+longNameY / shortNamey
+longNameZ / shortNamez
+longNameW / shortNamew
+```
+
+既存 Maya attribute に合わせたい場合は `CHILD_ATTR_NAMES` で明示します。
+
+`Transform.translate` / `Transform.rotate` / `Transform.scale` はこの方式で Maya 標準名に合わせます。
+
+```text
+translate / t
+translateX / tx
+translateY / ty
+translateZ / tz
+```
+
+## lookup
+
+`lookup_attr_cls(node, attr)` は Maya 上の既存 attribute から対応する `AttrOperator` class を返します。
+
+floating point compound は parent の `attributeType` と child の `attributeType` を見て解決します。
+
+child 型が混在している場合、現状は unsupported として `TypeError` を出します。
+
+`double4` かつ long name に `quat` が含まれる場合は `Quat4AttrOperator` に解決します。
+
+## 注意点
+
+- `addr` は Maya 側に存在しますが、基本的に使用しない attribute のため `AddAttr` 公開や自動 add_attr 対応の対象外です。
+- `set_direct()` は undo 対応外です。
+- `NodeOperator.__getitem__()` の文字列パス解析は現状 active ではありません。
+- `lookup.py` は新しい型を追加したら追従が必要です。

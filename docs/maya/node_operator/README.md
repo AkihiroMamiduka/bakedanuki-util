@@ -1,0 +1,128 @@
+# NodeOperator
+
+このドキュメントは、`bd_util.maya.node.operator` 周辺の現行仕様を共有するためのメモです。
+
+対象は Maya 2025 / Python 3.11.4 以降です。まだ 1.0.0 前の開発中 API として扱い、利便性と OpenMaya に近い速度の両立を優先します。
+
+## 目的
+
+`NodeOperator` は Maya ノード操作を Python から扱いやすくするためのラッパーです。
+
+主な狙いは次の通りです。
+
+- `maya.api.OpenMaya` を直接使うより記述量を減らす。
+- `maya.cmds` / PyMEL より型とアクセス経路を明確にする。
+- ノード、アトリビュート、プラグ、modifier の責務を分ける。
+- 速度面では生の OpenMaya にできるだけ近づける。
+- 将来 MPxCommand で undo / redo を組み込めるようにする。
+
+## 主要ファイル
+
+- `src/bd_util/maya/node/operator/node/_core.py`
+  - `NodeOperator` の基底クラスです。
+- `src/bd_util/maya/node/operator/node/dg/_core.py`
+  - DG ノード共通の基底クラスです。
+- `src/bd_util/maya/node/operator/node/dag/_core.py`
+  - DAG ノード共通の基底クラスです。
+- `src/bd_util/maya/node/operator/node/dag/transform/_core.py`
+  - `Transform` ノード定義です。
+- `src/bd_util/maya/node/operator/attr/_core.py`
+  - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
+- `src/bd_util/maya/node/operator/attr/extra/add_attr.py`
+  - extra attribute 作成用の `AddAttr` API です。
+- `src/bd_util/maya/node/operator/attr/lookup.py`
+  - Maya 上の既存アトリビュートから対応する `AttrOperator` を推定します。
+- `src/bd_util/maya/node/modifier/_core.py`
+  - `ModifierManager` です。
+
+## 基本構成
+
+```mermaid
+flowchart TD
+    NodeOperator["NodeOperator"]
+    DG["DG"]
+    DAG["DAG"]
+    Transform["Transform"]
+    AttributeField["AttributeField"]
+    AttrOperator["AttrOperator"]
+    PlugOperator["PlugOperator"]
+    ModifierManager["ModifierManager"]
+    OpenMaya["maya.api.OpenMaya"]
+
+    NodeOperator --> DG
+    NodeOperator --> DAG
+    DAG --> Transform
+    NodeOperator --> AttributeField
+    AttributeField --> AttrOperator
+    AttributeField --> PlugOperator
+    PlugOperator --> ModifierManager
+    NodeOperator --> ModifierManager
+    ModifierManager --> OpenMaya
+```
+
+## アクセスモデル
+
+`AttributeField` は descriptor として動作します。
+
+同じフィールドでも、アクセス元によって返すものが変わります。
+
+- `SomeNode.someAttr`
+  - クラスアクセスです。
+  - `AttrOperator` を返します。
+- `node.someAttr`
+  - ノードインスタンスからのアクセスです。
+  - `PlugOperator` を返します。
+- `node.compound.child`
+  - compound plug から子 plug へのアクセスです。
+  - 子の `PlugOperator` を返します。
+
+`short_name` alias は同じ plug instance を返す方針です。
+
+```python
+node.output3D is node.o3
+node.output3D.output3Dx is node.output3Dx
+node.input3D[0] is node.input3D[0]
+```
+
+## NodeOperator の生成
+
+ノード作成は `ModifierManager` を受け取ります。
+
+```python
+from bd_util.maya.node.modifier import ModifierManager
+from bd_util.maya.node.operator.node.dg.plus_minus_average import PlusMinusAverage
+
+modifier_manager = ModifierManager()
+
+node = PlusMinusAverage.create(modifier_manager, name="test_pma")
+modifier_manager.do_it_dg()
+```
+
+`NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
+
+`fn_node` は初回アクセス時に作られ、以降はキャッシュされます。
+
+## キャッシュ方針
+
+速度改善のため、次のものをキャッシュしています。
+
+- `NodeOperator.fn_node`
+- `NodeOperator._plug_cache`
+- `PlugOperator.plug`
+- indexed plug access の `plug[index]`
+- `connect_next_index()` 用の next index
+
+alias や child plug は同じ logical plug を指す場合、同じ `PlugOperator` instance を返すことを重視します。
+
+## 文字列アクセス
+
+現状の `NodeOperator.__getitem__()` は `getattr(self, key)` 相当です。
+
+過去には `"attrName[0].subAttr"` のような文字列パス解析を想定していた形跡がありますが、現時点では active な仕様ではありません。
+
+## 関連ドキュメント
+
+- [attributes.md](attributes.md)
+- [modifier_manager.md](modifier_manager.md)
+- [testing.md](testing.md)
+- [roadmap.md](roadmap.md)
