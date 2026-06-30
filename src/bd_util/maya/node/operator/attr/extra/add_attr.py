@@ -51,11 +51,15 @@ from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
 from .custom.double4 import ExtraDouble4Field
 from .custom.quat import ExtraQuat4Field
+from .custom.double_linear2 import ExtraDoubleLinear2Field
 from .custom.double_linear3 import ExtraDoubleLinear3Field
+from .custom.double_angle2 import ExtraDoubleAngle2Field
 from .custom.double_angle3 import ExtraDoubleAngle3Field
 from .custom.float2 import ExtraFloat2Field
 from .custom.float3 import ExtraFloat3Field
+from .custom.float_linear2 import ExtraFloatLinear2Field
 from .custom.float_linear3 import ExtraFloatLinear3Field
+from .custom.float_angle2 import ExtraFloatAngle2Field
 from .custom.float_angle3 import ExtraFloatAngle3Field
 from .custom.long2 import ExtraLong2Field
 from .custom.long3 import ExtraLong3Field
@@ -359,6 +363,31 @@ class AddAttrAt:
         )
 
     @classmethod
+    def double_linear2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleLinear2Field:
+        return ExtraDoubleLinear2Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def double_linear3(
         cls,
         default_value: list[float] = None,
@@ -372,6 +401,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraDoubleLinear3Field:
         return ExtraDoubleLinear3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def double_angle2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraDoubleAngle2Field:
+        return ExtraDoubleAngle2Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,
@@ -534,6 +588,31 @@ class AddAttrAt:
         )
 
     @classmethod
+    def float_linear2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatLinear2Field:
+        return ExtraFloatLinear2Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
     def float_linear3(
         cls,
         default_value: list[float] = None,
@@ -547,6 +626,31 @@ class AddAttrAt:
         category: str | None = None,
     ) -> ExtraFloatLinear3Field:
         return ExtraFloatLinear3Field(
+            default_value=default_value,
+            min_value=min_value,
+            max_value=max_value,
+            soft_min_value=soft_min_value,
+            soft_max_value=soft_max_value,
+            multi=multi,
+            readable=readable,
+            writable=writable,
+            category=category,
+        )
+
+    @classmethod
+    def float_angle2(
+        cls,
+        default_value: list[float] = None,
+        min_value: float | list[float] = None,
+        max_value: float | list[float] = None,
+        soft_min_value: float | list[float] = None,
+        soft_max_value: float | list[float] = None,
+        multi: bool = False,
+        readable: bool | None = None,
+        writable: bool | None = None,
+        category: str | None = None,
+    ) -> ExtraFloatAngle2Field:
+        return ExtraFloatAngle2Field(
             default_value=default_value,
             min_value=min_value,
             max_value=max_value,

@@ -136,6 +136,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tfloat_linear = testFloatLinear
+    #   float_linear2
+    testFloatLinear2 = AddAttr.at.float_linear2()
+    tfloatLinear2 = testFloatLinear2
     #   float_linear3
     testFloatLinear3 = AddAttr.at.float_linear3()
     tfloatLinear3 = testFloatLinear3
@@ -148,6 +151,9 @@ class MyTransform(Transform):
         soft_max_value=360,
     )
     tfloatAngle = testFloatAngle
+    #   float_angle2
+    testFloatAngle2 = AddAttr.at.float_angle2()
+    tfloatAngle2 = testFloatAngle2
     #   float_angle3
     testFloatAngle3 = AddAttr.at.float_angle3()
     tfloatAngle3 = testFloatAngle3
@@ -181,6 +187,9 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble_linear = testDoubleLinear
+    #   double_linear2
+    testDoubleLinear2 = AddAttr.at.double_linear2()
+    tdouble_linear2 = testDoubleLinear2
     #   double_linear3
     testDoubleLinear3 = AddAttr.at.double_linear3()
     tdouble_linear3 = testDoubleLinear3
@@ -193,6 +202,9 @@ class MyTransform(Transform):
         soft_max_value=360,
     )
     tdouble_angle = testDoubleAngle
+    #   double_angle2
+    testDoubleAngle2 = AddAttr.at.double_angle2()
+    tdouble_angle2 = testDoubleAngle2
     #   double_angle3
     testDoubleAngle3 = AddAttr.at.double_angle3()
     tdouble_angle3 = testDoubleAngle3

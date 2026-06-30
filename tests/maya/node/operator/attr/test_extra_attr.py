@@ -30,8 +30,20 @@ class ExtraCompoundTransform(Transform):
     extraFloat3 = AddAttr.at.float3()
     extraLong3 = AddAttr.at.long3()
     extraShort2 = AddAttr.at.short2()
+    extraDoubleLinear2 = AddAttr.at.double_linear2(
+        default_value=[1.0, 2.0]
+    )
     extraDoubleLinear3 = AddAttr.at.double_linear3()
+    extraDoubleAngle2 = AddAttr.at.double_angle2(
+        default_value=[10.0, 20.0]
+    )
     extraDoubleAngle3 = AddAttr.at.double_angle3()
+    extraFloatLinear2 = AddAttr.at.float_linear2(
+        default_value=[3.0, 4.0]
+    )
+    extraFloatAngle2 = AddAttr.at.float_angle2(
+        default_value=[30.0, 40.0]
+    )
 
 
 @pytest.fixture
@@ -51,6 +63,10 @@ def test_double4_and_quat_defaults(extra_compound_node):
     assert node.extraDouble4.get() == pytest.approx([1.0, 2.0, 3.0, 4.0])
     assert node.extraQuat.get() == pytest.approx([0.0, 0.0, 0.0, 1.0])
     assert node.extraQuatCustom.get() == pytest.approx([0.1, 0.2, 0.3, 0.4])
+    assert node.extraDoubleLinear2.get() == pytest.approx([1.0, 2.0])
+    assert node.extraDoubleAngle2.get() == pytest.approx([10.0, 20.0])
+    assert node.extraFloatLinear2.get() == pytest.approx([3.0, 4.0])
+    assert node.extraFloatAngle2.get() == pytest.approx([30.0, 40.0])
 
 
 def test_compound_set_accepts_tuple_and_rejects_wrong_count(
@@ -91,11 +107,21 @@ def test_compound_set_direct_updates_immediately(extra_compound_node):
     assert node.extraDoubleLinear3.get() == pytest.approx(
         [11.0, 12.0, 13.0]
     )
+    node.extraDoubleLinear2.set_direct(21.0, 22.0)
+    assert node.extraDoubleLinear2.get() == pytest.approx([21.0, 22.0])
 
     node.extraDoubleAngle3.set_direct(45.0, 90.0, 135.0)
     assert node.extraDoubleAngle3.get() == pytest.approx(
         [45.0, 90.0, 135.0]
     )
+    node.extraDoubleAngle2.set_direct(15.0, 30.0)
+    assert node.extraDoubleAngle2.get() == pytest.approx([15.0, 30.0])
+
+    node.extraFloatLinear2.set_direct(31.0, 32.0)
+    assert node.extraFloatLinear2.get() == pytest.approx([31.0, 32.0])
+
+    node.extraFloatAngle2.set_direct(60.0, 120.0)
+    assert node.extraFloatAngle2.get() == pytest.approx([60.0, 120.0])
 
 
 def test_compound_set_direct_rejects_wrong_count(extra_compound_node):
