@@ -13,6 +13,12 @@ pytestmark = pytest.mark.maya
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
+    extraDouble2 = AddAttr.at.double2(
+        default_value=[1.0, 2.0]
+    )
+    extraDouble3 = AddAttr.at.double3(
+        default_value=[1.0, 2.0, 3.0]
+    )
     extraDouble4 = AddAttr.at.double4(
         default_value=[1.0, 2.0, 3.0, 4.0]
     )
@@ -27,22 +33,47 @@ class ExtraCompoundTransform(Transform):
     extraQuatCustom = AddAttr.at.quat(
         default_value=[0.1, 0.2, 0.3, 0.4]
     )
-    extraFloat3 = AddAttr.at.float3()
-    extraLong3 = AddAttr.at.long3()
-    extraShort2 = AddAttr.at.short2()
+    extraFloat2 = AddAttr.at.float2(
+        default_value=[1.0, 2.0]
+    )
+    extraFloat3 = AddAttr.at.float3(
+        default_value=[1.0, 2.0, 3.0]
+    )
+    extraLong2 = AddAttr.at.long2(
+        default_value=[1, 2]
+    )
+    extraLong3 = AddAttr.at.long3(
+        default_value=[1, 2, 3]
+    )
+    extraShort2 = AddAttr.at.short2(
+        default_value=[1, 2]
+    )
+    extraShort3 = AddAttr.at.short3(
+        default_value=[1, 2, 3]
+    )
     extraDoubleLinear2 = AddAttr.at.double_linear2(
         default_value=[1.0, 2.0]
     )
-    extraDoubleLinear3 = AddAttr.at.double_linear3()
+    extraDoubleLinear3 = AddAttr.at.double_linear3(
+        default_value=[1.0, 2.0, 3.0]
+    )
     extraDoubleAngle2 = AddAttr.at.double_angle2(
         default_value=[10.0, 20.0]
     )
-    extraDoubleAngle3 = AddAttr.at.double_angle3()
+    extraDoubleAngle3 = AddAttr.at.double_angle3(
+        default_value=[10.0, 20.0, 30.0]
+    )
     extraFloatLinear2 = AddAttr.at.float_linear2(
         default_value=[3.0, 4.0]
     )
+    extraFloatLinear3 = AddAttr.at.float_linear3(
+        default_value=[3.0, 4.0, 5.0]
+    )
     extraFloatAngle2 = AddAttr.at.float_angle2(
         default_value=[30.0, 40.0]
+    )
+    extraFloatAngle3 = AddAttr.at.float_angle3(
+        default_value=[30.0, 40.0, 50.0]
     )
 
 
@@ -57,16 +88,72 @@ def extra_compound_node(modifier_manager):
     return node
 
 
-def test_double4_and_quat_defaults(extra_compound_node):
+COMPOUND_DEFAULT_CASES = (
+    ("extraDouble2", [1.0, 2.0]),
+    ("extraDouble3", [1.0, 2.0, 3.0]),
+    ("extraDouble4", [1.0, 2.0, 3.0, 4.0]),
+    ("extraQuat", [0.0, 0.0, 0.0, 1.0]),
+    ("extraQuatCustom", [0.1, 0.2, 0.3, 0.4]),
+    ("extraFloat2", [1.0, 2.0]),
+    ("extraFloat3", [1.0, 2.0, 3.0]),
+    ("extraLong2", [1, 2]),
+    ("extraLong3", [1, 2, 3]),
+    ("extraShort2", [1, 2]),
+    ("extraShort3", [1, 2, 3]),
+    ("extraDoubleLinear2", [1.0, 2.0]),
+    ("extraDoubleLinear3", [1.0, 2.0, 3.0]),
+    ("extraDoubleAngle2", [10.0, 20.0]),
+    ("extraDoubleAngle3", [10.0, 20.0, 30.0]),
+    ("extraFloatLinear2", [3.0, 4.0]),
+    ("extraFloatLinear3", [3.0, 4.0, 5.0]),
+    ("extraFloatAngle2", [30.0, 40.0]),
+    ("extraFloatAngle3", [30.0, 40.0, 50.0]),
+)
+
+
+COMPOUND_SET_CASES = (
+    ("extraDouble2", [11.0, 12.0]),
+    ("extraDouble3", [11.0, 12.0, 13.0]),
+    ("extraDouble4", [11.0, 12.0, 13.0, 14.0]),
+    ("extraQuat", [0.1, 0.2, 0.3, 0.4]),
+    ("extraFloat2", [21.0, 22.0]),
+    ("extraFloat3", [21.0, 22.0, 23.0]),
+    ("extraLong2", [31, 32]),
+    ("extraLong3", [31, 32, 33]),
+    ("extraShort2", [41, 42]),
+    ("extraShort3", [41, 42, 43]),
+    ("extraDoubleLinear2", [51.0, 52.0]),
+    ("extraDoubleLinear3", [51.0, 52.0, 53.0]),
+    ("extraDoubleAngle2", [61.0, 62.0]),
+    ("extraDoubleAngle3", [61.0, 62.0, 63.0]),
+    ("extraFloatLinear2", [71.0, 72.0]),
+    ("extraFloatLinear3", [71.0, 72.0, 73.0]),
+    ("extraFloatAngle2", [81.0, 82.0]),
+    ("extraFloatAngle3", [81.0, 82.0, 83.0]),
+)
+
+
+@pytest.mark.parametrize(("attr_name", "expected"), COMPOUND_DEFAULT_CASES)
+def test_compound_defaults(extra_compound_node, attr_name, expected):
     node = extra_compound_node
 
-    assert node.extraDouble4.get() == pytest.approx([1.0, 2.0, 3.0, 4.0])
-    assert node.extraQuat.get() == pytest.approx([0.0, 0.0, 0.0, 1.0])
-    assert node.extraQuatCustom.get() == pytest.approx([0.1, 0.2, 0.3, 0.4])
-    assert node.extraDoubleLinear2.get() == pytest.approx([1.0, 2.0])
-    assert node.extraDoubleAngle2.get() == pytest.approx([10.0, 20.0])
-    assert node.extraFloatLinear2.get() == pytest.approx([3.0, 4.0])
-    assert node.extraFloatAngle2.get() == pytest.approx([30.0, 40.0])
+    assert getattr(node, attr_name).get() == pytest.approx(expected)
+
+
+@pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
+def test_compound_set_updates_with_modifier(
+    modifier_manager,
+    extra_compound_node,
+    attr_name,
+    values,
+):
+    node = extra_compound_node
+    plug = getattr(node, attr_name)
+
+    plug.set(*values)
+    modifier_manager.do_it_dg()
+
+    assert plug.get() == pytest.approx(values)
 
 
 def test_compound_set_accepts_tuple_and_rejects_wrong_count(
@@ -86,42 +173,18 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
 
 
-def test_compound_set_direct_updates_immediately(extra_compound_node):
+@pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
+def test_compound_set_direct_updates_immediately(
+    extra_compound_node,
+    attr_name,
+    values,
+):
     node = extra_compound_node
+    plug = getattr(node, attr_name)
 
-    node.extraDouble4.set_direct(10.0, 20.0, 30.0, 40.0)
-    assert node.extraDouble4.get() == pytest.approx(
-        [10.0, 20.0, 30.0, 40.0]
-    )
+    plug.set_direct(*values)
 
-    node.extraFloat3.set_direct((1.25, 2.5, 3.75))
-    assert node.extraFloat3.get() == pytest.approx([1.25, 2.5, 3.75])
-
-    node.extraLong3.set_direct([1, 2, 3])
-    assert node.extraLong3.get() == [1, 2, 3]
-
-    node.extraShort2.set_direct(4, 5)
-    assert node.extraShort2.get() == [4, 5]
-
-    node.extraDoubleLinear3.set_direct(11.0, 12.0, 13.0)
-    assert node.extraDoubleLinear3.get() == pytest.approx(
-        [11.0, 12.0, 13.0]
-    )
-    node.extraDoubleLinear2.set_direct(21.0, 22.0)
-    assert node.extraDoubleLinear2.get() == pytest.approx([21.0, 22.0])
-
-    node.extraDoubleAngle3.set_direct(45.0, 90.0, 135.0)
-    assert node.extraDoubleAngle3.get() == pytest.approx(
-        [45.0, 90.0, 135.0]
-    )
-    node.extraDoubleAngle2.set_direct(15.0, 30.0)
-    assert node.extraDoubleAngle2.get() == pytest.approx([15.0, 30.0])
-
-    node.extraFloatLinear2.set_direct(31.0, 32.0)
-    assert node.extraFloatLinear2.get() == pytest.approx([31.0, 32.0])
-
-    node.extraFloatAngle2.set_direct(60.0, 120.0)
-    assert node.extraFloatAngle2.get() == pytest.approx([60.0, 120.0])
+    assert plug.get() == pytest.approx(values)
 
 
 def test_compound_set_direct_rejects_wrong_count(extra_compound_node):
