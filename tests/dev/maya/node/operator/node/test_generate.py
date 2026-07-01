@@ -2,6 +2,7 @@
 from bd_util._dev.maya.node.operator.node.generate import (
     generate_node_attr_code,
     generate_node_class_code,
+    generate_node_class_file,
 )
 from bd_util.maya.attr.query import AttrInfo
 from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
@@ -399,3 +400,48 @@ def test_generate_skips_deprecated_and_numeric_short_aliases():
     assert "one1w = input1QuatWDEPRECATED" not in code
     assert "numericShortAttr = DoubleField()" in code
     assert "onen = numericShortAttr" not in code
+
+
+def test_generate_node_class_file_skips_internal_node_type(tmp_path):
+    generate_node_class_file(
+        "nodeGraphEditorInfo",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+        "node_graph_editor_info.py",
+    )
+
+    assert not output_path.exists()
+
+
+def test_generate_node_class_file_can_include_skipped_node_type(tmp_path):
+    generate_node_class_file(
+        "nodeGraphEditorInfo",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        include_skipped=True,
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+        "node_graph_editor_info.py",
+    )
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "node_graph_editor_info.py", "exec")
+    assert 'NODE_TYPE = "nodeGraphEditorInfo"' in code
+    assert "default = BoolField()" in code
+    assert "def_ = default" in code

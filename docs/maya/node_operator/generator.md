@@ -111,7 +111,28 @@ nm = name_
 `bd_util.maya.attr.query` はこの OpenMaya fallback を使い、multi compound の内部 leaf のような attribute も `FloatField` / `DoubleField` / `DoubleLinearField` などとして解決します。
 
 解決できない attribute は TODO コメントとして残します。
-現状、全 DG 生成で残っている TODO は `nodeGraphEditorInfo` のように standalone mayapy では十分な型情報を取得しづらいものです。
+全 DG 生成では、NodeOperator の通常利用対象から外れる特殊ノードを skip するため、生成 snapshot 側に TODO が残らない状態を目指します。
+
+## skipped node type
+
+一部の DG node type は、生成対象から意図的に除外します。
+
+現状の skip 対象は次の通りです。
+
+- `nodeGraphEditorInfo`
+  - Node Editor の UI 状態保存寄りの内部ノードです。
+  - standalone mayapy では一部 attribute の型情報を十分に取得できません。
+  - 通常の NodeOperator 操作対象としての実用性が低いため、全量生成から除外します。
+
+調査目的で明示的に生成したい場合は `include_skipped=True` を指定します。
+
+```python
+generate_node_class_file(
+    node_type="nodeGraphEditorInfo",
+    src_dir=path,
+    include_skipped=True,
+)
+```
 
 ## enum 生成
 
@@ -205,6 +226,8 @@ Generator は未対応 attribute を削除しません。
 
 ただし `attributeType` に `<` / `>` を含む query 結果は、生成対象から除外します。
 これは Maya 側の特殊な表示や未整理の型情報が混ざり、Python class として安全に生成しづらいためです。
+
+また、`nodeGraphEditorInfo` のように node type 自体が NodeOperator の通常対象外と判断できる場合は、attribute TODO を残すのではなく全量生成から node type ごと skip します。
 
 ## 実行例
 

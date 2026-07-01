@@ -166,6 +166,17 @@ _DG_BASE_LONG_NAMES: frozenset[str] = frozenset(
     }
 )
 
+# DG node types that are intentionally outside the generated NodeOperator
+# coverage. These are mostly editor/internal state nodes whose attributes are
+# not useful as ordinary node-operation wrappers.
+_SKIPPED_DG_NODE_TYPES: dict[str, str] = {
+    "nodeGraphEditorInfo": (
+        "Node Editor UI state node. Standalone mayapy cannot resolve all "
+        "attribute types reliably, and the node is outside the practical "
+        "NodeOperator target surface."
+    ),
+}
+
 # generate_node_class_file が src_dir から補完するパス部品
 _OUTPUT_REL_PARTS: tuple[str, ...] = (
     "bd_util",
@@ -1406,6 +1417,8 @@ def generate_node_class_file(
     node_type: str,
     src_dir: str | pathlib.Path,
     attr_infos: list[AttrInfo] | None = None,
+    *,
+    include_skipped: bool = False,
 ) -> None:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
 
@@ -1426,7 +1439,16 @@ def generate_node_class_file(
         attr_infos (list[AttrInfo] | None): 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
+        include_skipped (bool): ``True`` の場合、通常は除外される特殊ノードも
+            調査用に生成する。
     """
+    skip_reason = _SKIPPED_DG_NODE_TYPES.get(node_type)
+    if skip_reason and not include_skipped:
+        logger.warning(
+            f"Skipping node type '{node_type}': {skip_reason}"
+        )
+        return
+
     if attr_infos is None:
         attr_infos = get_attribute_infos(
             node_type,
@@ -1465,14 +1487,25 @@ def generate_node_class_file(
 def generate_specific_node_class_file_core(
     src_dir: str | pathlib.Path,
     func_get_node_types: callable,
+    *,
+    include_skipped: bool = False,
 ) -> None:
     for node_type in func_get_node_types():
-        generate_node_class_file(node_type, src_dir)
+        generate_node_class_file(
+            node_type,
+            src_dir,
+            include_skipped=include_skipped,
+        )
 
 
 #       dg_node
-def generate_dg_node_class_files(src_dir: str | pathlib.Path) -> None:
+def generate_dg_node_class_files(
+    src_dir: str | pathlib.Path,
+    *,
+    include_skipped: bool = False,
+) -> None:
     generate_specific_node_class_file_core(
         src_dir=src_dir,
         func_get_node_types=get_dg_node_types,
+        include_skipped=include_skipped,
     )
