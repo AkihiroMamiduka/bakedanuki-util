@@ -18,6 +18,7 @@ from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.at.unit_scalar.time import TimeField
+from ...attr.define.std.dt.vector_array import DataVectorArrayField
 
 
 class EnableEnumPlugOperator(EnumPlugOperator):
@@ -125,15 +126,15 @@ class Jiggle(DG):
     cachedDataList = CachedDataListField(multi=True)
     cdl = cachedDataList
 
-    # TODO: cachedDataList.cachedTime (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: cachedTime (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
-    # TODO: cachedDataList.isResting (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: isResting (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
-    # TODO: cachedDataList.cachedInputPositionList (attributeType=None, dataType=vectorArray) は未対応のため手動で追加してください
+    cachedInputPositionList = DataVectorArrayField()
 
-    # TODO: cachedDataList.cachedPositionList (attributeType=None, dataType=vectorArray) は未対応のため手動で追加してください
+    cachedPositionList = DataVectorArrayField()
 
-    # TODO: cachedDataList.cachedVelocityList (attributeType=None, dataType=vectorArray) は未対応のため手動で追加してください
+    cachedVelocityList = DataVectorArrayField()
 
     directionBias = DoubleField()
     bias = directionBias

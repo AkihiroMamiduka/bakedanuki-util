@@ -5,6 +5,7 @@ from ...attr.define.node_attr.time_editor_clip_base import (
     OffsetField,
 )
 from ...attr.define.std.at.unit_scalar.time import TimeField
+from ...attr.define.std.dt.matrix import DataMatrixField
 
 
 class TimeEditorClipBase(DG):
@@ -15,11 +16,11 @@ class TimeEditorClipBase(DG):
     clip = ClipField(multi=True)
     clp = clip
 
-    # TODO: clip.clipColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: clipColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
-    # TODO: clip.clipColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: clipColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
-    # TODO: clip.clipColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: clipColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
     offset = OffsetField()
     ofs = offset
@@ -38,11 +39,11 @@ class TimeEditorClipBase(DG):
     matchObj = offset.matchObj
     mob = matchObj
 
-    # TODO: roots.rootObjLocalXform (attributeType=None, dataType=matrix) は未対応のため手動で追加してください
+    rootObjLocalXform = DataMatrixField()
 
-    # TODO: roots.rootObjParentXform (attributeType=None, dataType=matrix) は未対応のため手動で追加してください
+    rootObjParentXform = DataMatrixField()
 
-    # TODO: roots.rootObj (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    # TODO: rootObj (attributeType=None, dataType=None) は未対応のため手動で追加してください
 
     lastEvaluationTime = TimeField()
     let = lastEvaluationTime

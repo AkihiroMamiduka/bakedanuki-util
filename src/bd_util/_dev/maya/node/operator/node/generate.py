@@ -476,7 +476,8 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
     Returns:
         tuple[str, str] | None: (クラス名, モジュール相対パス) または None
     """
-    if attr_info.attribute_type == "typed" and attr_info.data_type:
+    # Some built-in attrs report dataType but no attributeType in MFn query.
+    if attr_info.attribute_type in {None, "typed"} and attr_info.data_type:
         result = _DT_TYPE_MAP.get(attr_info.data_type)
         if result:
             return result

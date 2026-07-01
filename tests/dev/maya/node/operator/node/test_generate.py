@@ -10,7 +10,7 @@ from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
 def _attr(
     long_name: str,
     short_name: str,
-    attribute_type: str,
+    attribute_type: str | None,
     *,
     data_type: str | None = None,
     enum_name=None,
@@ -160,6 +160,13 @@ def _duplicate_enum_attr_infos() -> list[AttrInfo]:
                 "RGBA=2:16-bit float per channel=3"
             ],
         ),
+    ]
+
+
+def _datatype_only_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("localXform", "lx", None, data_type="matrix"),
+        _attr("positionList", "pl", None, data_type="vectorArray"),
     ]
 
 
@@ -360,6 +367,22 @@ def test_generate_suffixes_duplicate_enum_member_names():
     assert "    RGBA_2 = 2" in code
     assert '        RGBA: "RGBA",' in code
     assert '        RGBA_2: "RGBA",' in code
+
+
+def test_generate_resolves_data_type_when_attribute_type_is_missing():
+    code = generate_node_class_code(
+        "dataTypeOnlyNode",
+        attr_infos=_datatype_only_attr_infos(),
+    )
+
+    compile(code, "data_type_only_node.py", "exec")
+
+    assert "DataMatrixField" in code
+    assert "DataVectorArrayField" in code
+    assert "localXform = DataMatrixField()" in code
+    assert "positionList = DataVectorArrayField()" in code
+    assert "TODO: localXform" not in code
+    assert "TODO: positionList" not in code
 
 
 def test_generate_skips_deprecated_and_numeric_short_aliases():
