@@ -31,6 +31,23 @@ def get_attr(node, attr) -> om.MObject:
     return attr_obj
 
 
+def get_mfn_attribute(node, attr) -> om.MFnAttribute:
+    return om.MFnAttribute(get_attr(node, attr))
+
+
+def get_attr_path_name(node, attr) -> str | None:
+    path_name = getattr(get_mfn_attribute(node, attr), "pathName", None)
+    if path_name is None:
+        return None
+    if not callable(path_name):
+        return path_name
+    return path_name()
+
+
+def get_attr_enforcing_unique_name(node, attr) -> bool | None:
+    return getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
+
+
 def is_typed_attr(node, attr):
     state = False
     if get_attr(node, attr).hasFn(om.MFn.kTypedAttribute):
@@ -104,6 +121,8 @@ class AttrInfo:
     readable: bool
     writable: bool
     category: str
+    path_name: str | None = None
+    enforcing_unique_name: bool | None = None
 
 
 def safe_query(func, *args, **kwargs):
@@ -121,6 +140,10 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
     long_name = attr
     short_name = safe_query(
         cmds.attributeQuery, attr, node=node, shortName=True
+    )
+    path_name = safe_query(get_attr_path_name, node, attr)
+    enforcing_unique_name = safe_query(
+        get_attr_enforcing_unique_name, node, attr
     )
 
     # attributeType / dataType
@@ -185,6 +208,8 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
         readable=readable,
         writable=writable,
         category=category,
+        path_name=path_name,
+        enforcing_unique_name=enforcing_unique_name,
     )
 
 
@@ -255,6 +280,16 @@ def print_attribute_infos(node_type, valid_value=True):
             print("           longName:", attr_info.long_name)
         if valid_value and attr_info.short_name:
             print("          shortName:", attr_info.short_name)
+        if valid_value and attr_info.path_name:
+            print("           pathName:", attr_info.path_name)
+        if (
+            valid_value
+            and attr_info.enforcing_unique_name is not None
+        ):
+            print(
+                "enforcingUniqueName:",
+                attr_info.enforcing_unique_name,
+            )
         if valid_value and attr_info.attribute_type:
             print("      attributeType:", attr_info.attribute_type)
         if valid_value and attr_info.data_type:
