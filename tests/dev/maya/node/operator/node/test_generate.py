@@ -149,6 +149,20 @@ def _reserved_name_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _duplicate_enum_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "frameBufferFormat",
+            "fbf",
+            "enum",
+            enum_name=[
+                "RGBA:8-bits fixed per channel=1:"
+                "RGBA=2:16-bit float per channel=3"
+            ],
+        ),
+    ]
+
+
 def test_attribute_field_accepts_explicit_maya_names():
     class Dummy:
         name_ = DataStringField(long_name="name", short_name="nm")
@@ -332,6 +346,20 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
+
+
+def test_generate_suffixes_duplicate_enum_member_names():
+    code = generate_node_class_code(
+        "hardwareRenderGlobals",
+        attr_infos=_duplicate_enum_attr_infos(),
+    )
+
+    compile(code, "hardware_render_globals.py", "exec")
+
+    assert "    RGBA = 0" in code
+    assert "    RGBA_2 = 2" in code
+    assert '        RGBA: "RGBA",' in code
+    assert '        RGBA_2: "RGBA",' in code
 
 
 def test_generate_skips_deprecated_and_numeric_short_aliases():

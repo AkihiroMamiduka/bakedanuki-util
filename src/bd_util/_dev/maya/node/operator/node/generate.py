@@ -880,10 +880,21 @@ def _enum_entries_to_name_values(
 ) -> list[tuple[str, str, int]]:
     """パース済み enum entry を ``(member, label, value)`` へ変換する。"""
     result: list[tuple[str, str, int]] = []
+    used_member_names: set[str] = set()
     next_value = 0
     for label, explicit_value in entries:
         value = next_value if explicit_value is None else explicit_value
-        result.append((_label_to_enum_member_name(label), label, value))
+        member_name = _label_to_enum_member_name(label)
+        if member_name in used_member_names:
+            value_suffix = str(value).replace("-", "MINUS_")
+            base_name = f"{member_name}_{value_suffix}"
+            suffix = 2
+            while base_name in used_member_names:
+                base_name = f"{member_name}_{value_suffix}_{suffix}"
+                suffix += 1
+            member_name = base_name
+        used_member_names.add(member_name)
+        result.append((member_name, label, value))
         next_value = value + 1
     return result
 

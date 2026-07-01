@@ -15,7 +15,7 @@ class FrameBufferFormatEnumPlugOperator(EnumPlugOperator):
 
     RGBA = 0
     _8_MINUS_BITS_FIXED_PER_CHANNEL = 1
-    RGBA = 2
+    RGBA_2 = 2
     _16_MINUS_BIT_FLOAT_PER_CHANNEL = 3
 
 
@@ -24,13 +24,13 @@ class FrameBufferFormatEnumAttrOperator(EnumAttrOperator):
 
     RGBA = 0
     _8_MINUS_BITS_FIXED_PER_CHANNEL = 1
-    RGBA = 2
+    RGBA_2 = 2
     _16_MINUS_BIT_FLOAT_PER_CHANNEL = 3
 
     NAME_MAP = {
         RGBA: "RGBA",
         _8_MINUS_BITS_FIXED_PER_CHANNEL: "8-bits fixed per channel",
-        RGBA: "RGBA",
+        RGBA_2: "RGBA",
         _16_MINUS_BIT_FLOAT_PER_CHANNEL: "16-bit float per channel",
     }
 
