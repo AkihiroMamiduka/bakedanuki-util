@@ -4,6 +4,7 @@ from bd_util._dev.maya.node.operator.node.generate import (
     generate_node_class_code,
 )
 from bd_util.maya.attr.query import AttrInfo
+from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
 
 
 def _attr(
@@ -98,6 +99,28 @@ def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _reserved_name_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("name", "nm", "typed", data_type="string"),
+        _attr("compound", "cmp", "compound", number_of_children=1),
+        _attr("compound.value", "cv", "float", parent="compound"),
+    ]
+
+
+def test_attribute_field_accepts_explicit_maya_names():
+    class Dummy:
+        name_ = DataStringField(long_name="name", short_name="nm")
+        nm = name_
+
+    field = Dummy.__dict__["name_"]
+
+    assert field.name == "name_"
+    assert field.long_name == "name"
+    assert field.short_name == "nm"
+    assert field._attr_path == "name"
+    assert Dummy.__dict__["nm"] is field
+
+
 def test_generate_plus_minus_average_node_attr_code():
     code = generate_node_attr_code(
         "plusMinusAverage",
@@ -175,12 +198,46 @@ def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():
     )
     compile(node_code, "blend_shape.py", "exec")
 
-    assert "weight = FloatField(multi=True)" in node_code
+    assert (
+        'weight = FloatField(multi=True, long_name=".weight", short_name=".w")'
+        in node_code
+    )
     assert ".weight = FloatField" not in node_code
     assert ".w = " not in node_code
-    assert "pnts = PntsField(multi=True)" in node_code
+    assert (
+        'pnts = PntsField(multi=True, long_name=".pnts", short_name=".pt")'
+        in node_code
+    )
     assert ".pnts = " not in node_code
     assert ".pt = " not in node_code
+
+
+def test_generate_escapes_reserved_field_and_class_names():
+    node_attr_code = generate_node_attr_code(
+        "reservedNode",
+        attr_infos=_reserved_name_attr_infos(),
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "reserved_node_attr.py", "exec")
+
+    assert "class CompoundValuePlugOperator(" in node_attr_code
+    assert "class CompoundAttrOperator(" not in node_attr_code
+    assert "class CompoundValueField(" in node_attr_code
+
+    node_code = generate_node_class_code(
+        "reservedNode",
+        attr_infos=_reserved_name_attr_infos(),
+    )
+    compile(node_code, "reserved_node.py", "exec")
+
+    assert (
+        'name_ = DataStringField(long_name="name", short_name="nm")'
+        in node_code
+    )
+    assert "nm = name_" in node_code
+    assert "name = DataStringField" not in node_code
+    assert "compound = CompoundValueField()" in node_code
+    assert "cmp = compound" in node_code
 
 
 def test_generate_plus_minus_average_node_class_code():

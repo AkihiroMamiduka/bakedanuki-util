@@ -697,6 +697,31 @@ _DIGIT_WORD: dict[str, str] = {
 }
 
 
+_GENERATED_COMPOUND_CLASS_NAME_COLLISIONS = {
+    "CompoundPlugOperator",
+    "CompoundAttrOperator",
+    "CompoundField",
+}
+
+_FIELD_NAME_COLLISIONS = {
+    "create",
+    "delete",
+    "delete_non_check",
+    "exists",
+    "fn_node",
+    "is_instance",
+    "local_name",
+    "long_name",
+    "m_obj",
+    "modifier_manager",
+    "name",
+    "namespace",
+    "namespace_colon",
+    "node_class",
+    "rename",
+}
+
+
 def _safe_attr_name(name: str) -> str:
     """Python の予約語・数字始まりと衝突するアトリビュート名を安全な識別子へ変換する。
 
@@ -714,6 +739,29 @@ def _safe_attr_name(name: str) -> str:
     if keyword.iskeyword(name):
         name = name + "_"
     return name
+
+
+def _safe_field_name(name: str) -> str:
+    """Return a safe Python descriptor name for generated fields."""
+    safe_name = _safe_attr_name(name)
+    while safe_name in _FIELD_NAME_COLLISIONS:
+        safe_name += "_"
+    return safe_name
+
+
+def _field_init_args(
+    base_args: list[str],
+    python_name: str,
+    long_name: str,
+    short_name: str | None,
+) -> str:
+    """Build Field constructor args, preserving Maya names when escaped."""
+    args = list(base_args)
+    if python_name != long_name:
+        args.append(f'long_name="{long_name}"')
+        if short_name:
+            args.append(f'short_name="{short_name}"')
+    return ", ".join(args)
 
 
 def _is_deprecated_attr_name(name: str | None) -> bool:
@@ -787,6 +835,14 @@ def _long_name_to_compound_class_names(
     """
     safe_name = _safe_attr_name(long_name)
     pascal = safe_name[:1].upper() + safe_name[1:]
+    if (
+        f"{pascal}PlugOperator"
+        in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
+        or f"{pascal}AttrOperator"
+        in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
+        or f"{pascal}Field" in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
+    ):
+        pascal = f"{pascal}Value"
     return f"{pascal}PlugOperator", f"{pascal}AttrOperator", f"{pascal}Field"
 
 
@@ -972,15 +1028,22 @@ def generate_node_attr_code(
             child_cls_name, child_module = child_resolved
             _add_import(child_cls_name, _node_attr_module_path(child_module))
 
-            safe_child_name = _safe_attr_name(child_name)
+            safe_child_name = _safe_field_name(child_name)
+            init_args = _field_init_args(
+                [],
+                safe_child_name,
+                child_name,
+                child_short,
+            )
             child_body_lines.append(
-                f"    {safe_child_name} = {child_cls_name}()"
+                f"    {safe_child_name} = {child_cls_name}({init_args})"
             )
             if _should_emit_short_alias(child_short, child_name):
-                safe_child_short = _safe_attr_name(child_short)
-                child_body_lines.append(
-                    f"    {safe_child_short} = {safe_child_name}"
-                )
+                safe_child_short = _safe_field_name(child_short)
+                if safe_child_short != safe_child_name:
+                    child_body_lines.append(
+                        f"    {safe_child_short} = {safe_child_name}"
+                    )
             child_body_lines.append("")
 
         # 末尾の空行を除去
@@ -1178,15 +1241,23 @@ def generate_node_class_code(
         if long_name in custom_compound_cls:
             field_cls_name = custom_compound_cls[long_name]
             node_attr_imports.add(field_cls_name)
-            init_args = ", ".join(args)
-            safe_long_name = _safe_attr_name(long_name)
+            safe_long_name = _safe_field_name(long_name)
+            short_name = attr_info.short_name
+            init_args = _field_init_args(
+                args,
+                safe_long_name,
+                long_name,
+                short_name,
+            )
             attr_lines.append(
                 f"    {safe_long_name} = {field_cls_name}({init_args})"
             )
-            short_name = attr_info.short_name
             if _should_emit_short_alias(short_name, long_name):
-                safe_short_name = _safe_attr_name(short_name)
-                attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+                safe_short_name = _safe_field_name(short_name)
+                if safe_short_name != safe_long_name:
+                    attr_lines.append(
+                        f"    {safe_short_name} = {safe_long_name}"
+                    )
 
             # non-multi の compound 親属性は node.<child> の直アクセスを追加する
             if not attr_info.multi:
@@ -1196,16 +1267,17 @@ def generate_node_class_code(
                     child_name = _get_child_attr_name(
                         child_info.long_name, long_name
                     )
-                    safe_child_name = _safe_attr_name(child_name)
+                    safe_child_name = _safe_field_name(child_name)
                     attr_lines.append(
                         f"    {safe_child_name} = {safe_long_name}.{safe_child_name}"
                     )
                     child_short = child_info.short_name
                     if _should_emit_short_alias(child_short, child_name):
-                        safe_child_short = _safe_attr_name(child_short)
-                        attr_lines.append(
-                            f"    {safe_child_short} = {safe_child_name}"
-                        )
+                        safe_child_short = _safe_field_name(child_short)
+                        if safe_child_short != safe_child_name:
+                            attr_lines.append(
+                                f"    {safe_child_short} = {safe_child_name}"
+                            )
             attr_lines.append("")
             continue
 
@@ -1229,17 +1301,23 @@ def generate_node_class_code(
                 field_cls_name = f"{enum_cls_name}Field"
                 imports.pop("EnumField", None)
 
-        init_args = ", ".join(args)
-        safe_long_name = _safe_attr_name(long_name)
+        safe_long_name = _safe_field_name(long_name)
+        short_name = attr_info.short_name
+        init_args = _field_init_args(
+            args,
+            safe_long_name,
+            long_name,
+            short_name,
+        )
         attr_lines.append(
             f"    {safe_long_name} = {field_cls_name}({init_args})"
         )
 
         # short_name のエイリアス行
-        short_name = attr_info.short_name
         if _should_emit_short_alias(short_name, long_name):
-            safe_short_name = _safe_attr_name(short_name)
-            attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
+            safe_short_name = _safe_field_name(short_name)
+            if safe_short_name != safe_long_name:
+                attr_lines.append(f"    {safe_short_name} = {safe_long_name}")
         attr_lines.append("")
 
     # インポート行 (モジュールパスでソートして並びを安定させる)

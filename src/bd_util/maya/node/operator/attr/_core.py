@@ -927,6 +927,8 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         self,
         multi: bool = False,
         extra: bool = False,
+        long_name: str | None = None,
+        short_name: str | None = None,
         default_value: Any = None,
         min_value: Any = None,
         max_value: Any = None,
@@ -944,6 +946,10 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         # name
         self.long_name = None
         self._short_name = None
+        if long_name is not None:
+            self.long_name = long_name
+        if short_name is not None:
+            self._short_name = short_name
 
         # attr
         #   attr_path
@@ -992,14 +998,16 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 self, "_child_index", self._find_child_index(owner)
             )
         # name をセット
-        if self.long_name is None:
+        if not self._attr_path:
             #  name, _attr_path, long_name にセット
             self.name = name
-            self.long_name = name
-            self._attr_path = name
+            if self.long_name is None:
+                self.long_name = name
+            self._attr_path = self.long_name
         else:
             # short name をセット
-            object.__setattr__(self, "_short_name", name)
+            if self._short_name is None:
+                object.__setattr__(self, "_short_name", name)
 
         if isinstance(self.oprt_parent, AttributeField):
             parent_attr_path = self.oprt_parent._attr_path

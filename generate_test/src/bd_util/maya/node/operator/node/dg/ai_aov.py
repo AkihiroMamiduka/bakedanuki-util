@@ -68,8 +68,8 @@ class AiAOV(DG):
     enabled = BoolField()
     aoven = enabled
 
-    name = DataStringField()
-    aovn = name
+    name_ = DataStringField(long_name="name", short_name="aovn")
+    aovn = name_
 
     type = TypeEnumField()
     aovt = type

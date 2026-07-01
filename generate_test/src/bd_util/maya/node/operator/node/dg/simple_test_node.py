@@ -1,6 +1,6 @@
 # coding: utf-8
 from ._core import DG
-from ...attr.define.node_attr.simple_test_node import CompoundField
+from ...attr.define.node_attr.simple_test_node import CompoundValueField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
@@ -13,7 +13,7 @@ class SimpleTestNode(DG):
     single = FloatField()
     s = single
 
-    compound = CompoundField()
+    compound = CompoundValueField()
     c = compound
     level1S1 = compound.level1S1
     l1s1 = level1S1

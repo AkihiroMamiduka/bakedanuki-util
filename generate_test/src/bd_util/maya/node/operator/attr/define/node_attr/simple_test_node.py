@@ -8,8 +8,8 @@ from ..std.at.compound import (
 from ..std.at.numeric_scalar_range.float import FloatField
 
 
-class CompoundPlugOperator(
-    CompoundPlugOperator["CompoundAttrOperator"]
+class CompoundValuePlugOperator(
+    CompoundPlugOperator["CompoundValueAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -28,8 +28,8 @@ class CompoundPlugOperator(
     l1s3 = level1S3
 
 
-class CompoundAttrOperator(
-    CompoundAttrOperator[CompoundPlugOperator]
+class CompoundValueAttrOperator(
+    CompoundAttrOperator[CompoundValuePlugOperator]
 ):
     __slots__ = ()
 
@@ -43,13 +43,13 @@ class CompoundAttrOperator(
     l1s3 = level1S3
 
 
-class CompoundField(
-    CompoundField[CompoundAttrOperator, CompoundPlugOperator]
+class CompoundValueField(
+    CompoundField[CompoundValueAttrOperator, CompoundValuePlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_CLS = CompoundAttrOperator
-    PLUG_CLS = CompoundPlugOperator
+    ATTR_CLS = CompoundValueAttrOperator
+    PLUG_CLS = CompoundValuePlugOperator
 
     level1S1 = FloatField()
     l1s1 = level1S1

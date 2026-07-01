@@ -13,8 +13,8 @@ class NodeGraphEditorBookmarkInfo(DG):
 
     NODE_TYPE = "nodeGraphEditorBookmarkInfo"
 
-    name = DataStringField()
-    nm = name
+    name_ = DataStringField(long_name="name", short_name="nm")
+    nm = name_
 
     viewRectLow = ViewRectLowField()
     vl = viewRectLow

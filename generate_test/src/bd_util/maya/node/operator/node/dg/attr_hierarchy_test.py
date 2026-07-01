@@ -1,7 +1,7 @@
 # coding: utf-8
 from ._core import DG
 from ...attr.define.node_attr.attr_hierarchy_test import (
-    CompoundField,
+    CompoundValueField,
     MultiCompoundField,
 )
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
@@ -18,7 +18,7 @@ class AttrHierarchyTest(DG):
     multi = FloatField(multi=True)
     m = multi
 
-    compound = CompoundField()
+    compound = CompoundValueField()
     c = compound
     level1CC = compound.level1CC
     l1cc = level1CC
