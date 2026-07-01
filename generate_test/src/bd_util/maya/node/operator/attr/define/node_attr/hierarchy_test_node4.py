@@ -15,8 +15,8 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compou
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
 
 
-class .pntsPlugOperator(
-    Double3CompoundBasePlugOperator[".pntsAttrOperator"]
+class PntsPlugOperator(
+    Double3CompoundBasePlugOperator["PntsAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -26,37 +26,31 @@ class .pntsPlugOperator(
     )
 
     px = DoubleField()
-    .pt.x = px
 
     py = DoubleField()
-    .pt.y = py
 
     pz = DoubleField()
-    .pt.z = pz
 
 
-class .pntsAttrOperator(
-    Double3CompoundBaseAttrOperator[.pntsPlugOperator]
+class PntsAttrOperator(
+    Double3CompoundBaseAttrOperator[PntsPlugOperator]
 ):
     __slots__ = ()
 
     px = DoubleField()
-    .pt.x = px
 
     py = DoubleField()
-    .pt.y = py
 
     pz = DoubleField()
-    .pt.z = pz
 
 
-class .pntsField(
-    Double3CompoundBaseField[.pntsAttrOperator, .pntsPlugOperator]
+class PntsField(
+    Double3CompoundBaseField[PntsAttrOperator, PntsPlugOperator]
 ):
     __slots__ = ()
 
-    ATTR_CLS = .pntsAttrOperator
-    PLUG_CLS = .pntsPlugOperator
+    ATTR_CLS = PntsAttrOperator
+    PLUG_CLS = PntsPlugOperator
 
 
 class KitAPlugOperator(
@@ -69,10 +63,8 @@ class KitAPlugOperator(
     )
 
     envelope = FloatField()
-    ka.env = envelope
 
     pnts = Double3Field()
-    ka.pt = pnts
 
 
 class KitAAttrOperator(
@@ -81,10 +73,8 @@ class KitAAttrOperator(
     __slots__ = ()
 
     envelope = FloatField()
-    ka.env = envelope
 
     pnts = Double3Field()
-    ka.pt = pnts
 
 
 class KitAField(
@@ -96,10 +86,8 @@ class KitAField(
     PLUG_CLS = KitAPlugOperator
 
     envelope = FloatField()
-    ka.env = envelope
 
     pnts = Double3Field()
-    ka.pt = pnts
 
 
 class KitBPlugOperator(
@@ -112,10 +100,8 @@ class KitBPlugOperator(
     )
 
     envelope = FloatField()
-    kb.env = envelope
 
     pnts = Double3Field()
-    kb.pt = pnts
 
 
 class KitBAttrOperator(
@@ -124,10 +110,8 @@ class KitBAttrOperator(
     __slots__ = ()
 
     envelope = FloatField()
-    kb.env = envelope
 
     pnts = Double3Field()
-    kb.pt = pnts
 
 
 class KitBField(
@@ -139,7 +123,5 @@ class KitBField(
     PLUG_CLS = KitBPlugOperator
 
     envelope = FloatField()
-    kb.env = envelope
 
     pnts = Double3Field()
-    kb.pt = pnts

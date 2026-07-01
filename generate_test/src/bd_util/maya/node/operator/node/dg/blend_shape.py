@@ -131,8 +131,7 @@ class BlendShape(DG):
     topologyCheck = BoolField()
     tc = topologyCheck
 
-    .weight = FloatField(multi=True)
-    .w = .weight
+    weight = FloatField(multi=True)
 
     icon = DataStringField(multi=True)
     icn = icon

@@ -705,7 +705,11 @@ def _safe_attr_name(name: str) -> str:
     * 先頭が数字の場合は、その数字を英単語に置き換える。
       例: ``11w`` → ``one1w``、``3d`` → ``threed``
     """
-    if name and name[0].isdigit():
+    name = re.sub(r"[^0-9a-zA-Z_]+", "_", name).strip("_")
+    if not name:
+        name = "attr"
+
+    if name[0].isdigit():
         name = _DIGIT_WORD.get(name[0], f"digit{name[0]}") + name[1:]
     if keyword.iskeyword(name):
         name = name + "_"
@@ -723,6 +727,8 @@ def _should_emit_short_alias(
 ) -> bool:
     """Return True when a short name should be emitted as a Python alias."""
     if not short_name or short_name == long_name:
+        return False
+    if "." in short_name:
         return False
     if short_name[0].isdigit():
         return False
@@ -779,7 +785,8 @@ def _long_name_to_compound_class_names(
     例: ``"input2D"`` →
     ``("Input2DPlugOperator", "Input2DAttrOperator", "Input2DField")``
     """
-    pascal = long_name[:1].upper() + long_name[1:]
+    safe_name = _safe_attr_name(long_name)
+    pascal = safe_name[:1].upper() + safe_name[1:]
     return f"{pascal}PlugOperator", f"{pascal}AttrOperator", f"{pascal}Field"
 
 

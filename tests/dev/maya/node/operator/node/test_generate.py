@@ -86,6 +86,18 @@ def _double4_quat_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(".weight", ".w", "float", multi=True),
+        _attr(".pnts", ".pt", "double3", multi=True, number_of_children=3),
+        _attr(".pnts.px", ".pt.x", "double", parent=".pnts"),
+        _attr(".pnts.py", ".pt.y", "double", parent=".pnts"),
+        _attr(".pnts.pz", ".pt.z", "double", parent=".pnts"),
+        _attr("weightList", "wl", "compound", multi=True, number_of_children=1),
+        _attr("weightList.weights", "wl.w", "float", parent="weightList"),
+    ]
+
+
 def test_generate_plus_minus_average_node_attr_code():
     code = generate_node_attr_code(
         "plusMinusAverage",
@@ -140,6 +152,35 @@ def test_generate_double4_quat_compound_node_attr_code():
     assert "QuatCompoundBaseAttrOperator" in code
     assert "QuatCompoundBaseField" in code
     assert "class InputQuatField(" in code
+
+
+def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():
+    node_attr_code = generate_node_attr_code(
+        "blendShape",
+        attr_infos=_unsafe_identifier_attr_infos(),
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "blend_shape_node_attr.py", "exec")
+
+    assert "class PntsPlugOperator(" in node_attr_code
+    assert "class .pntsPlugOperator(" not in node_attr_code
+    assert ".pt.x = px" not in node_attr_code
+    assert '("px", ".pt.x")' in node_attr_code
+    assert '("weights", "wl.w")' in node_attr_code
+    assert "wl.w = weights" not in node_attr_code
+
+    node_code = generate_node_class_code(
+        "blendShape",
+        attr_infos=_unsafe_identifier_attr_infos(),
+    )
+    compile(node_code, "blend_shape.py", "exec")
+
+    assert "weight = FloatField(multi=True)" in node_code
+    assert ".weight = FloatField" not in node_code
+    assert ".w = " not in node_code
+    assert "pnts = PntsField(multi=True)" in node_code
+    assert ".pnts = " not in node_code
+    assert ".pt = " not in node_code
 
 
 def test_generate_plus_minus_average_node_class_code():

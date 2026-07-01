@@ -1,9 +1,9 @@
 # coding: utf-8
 from ._core import DG
 from ...attr.define.node_attr.hierarchy_test_node4 import (
-    .pntsField,
     KitAField,
     KitBField,
+    PntsField,
 )
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
@@ -13,22 +13,16 @@ class HierarchyTestNode4(DG):
 
     NODE_TYPE = "hierarchyTestNode4"
 
-    .envelope = FloatField()
-    .en = .envelope
+    envelope = FloatField()
 
-    .pnts = .pntsField(multi=True)
-    .pt = .pnts
+    pnts = PntsField(multi=True)
 
     kitA = KitAField()
     ka = kitA
     envelope = kitA.envelope
-    ka.env = envelope
     pnts = kitA.pnts
-    ka.pt = pnts
 
     kitB = KitBField()
     kb = kitB
     envelope = kitB.envelope
-    kb.env = envelope
     pnts = kitB.pnts
-    kb.pt = pnts

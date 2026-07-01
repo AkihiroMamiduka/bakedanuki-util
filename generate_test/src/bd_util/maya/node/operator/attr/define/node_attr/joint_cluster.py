@@ -159,7 +159,6 @@ class WeightListPlugOperator(
     )
 
     weights = FloatField()
-    wl.w = weights
 
 
 class WeightListAttrOperator(
@@ -168,7 +167,6 @@ class WeightListAttrOperator(
     __slots__ = ()
 
     weights = FloatField()
-    wl.w = weights
 
 
 class WeightListField(
