@@ -17,6 +17,8 @@ def _attr(
     multi: bool = False,
     number_of_children: int | None = None,
     parent: str | None = None,
+    path_name: str | None = None,
+    enforcing_unique_name: bool | None = None,
 ) -> AttrInfo:
     return AttrInfo(
         long_name=long_name,
@@ -35,6 +37,8 @@ def _attr(
         readable=True,
         writable=True,
         category=None,
+        path_name=path_name,
+        enforcing_unique_name=enforcing_unique_name,
     )
 
 
@@ -96,6 +100,44 @@ def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
         _attr(".pnts.pz", ".pt.z", "double", parent=".pnts"),
         _attr("weightList", "wl", "compound", multi=True, number_of_children=1),
         _attr("weightList.weights", "wl.w", "float", parent="weightList"),
+    ]
+
+
+def _path_name_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "pnts",
+            ".pt",
+            "double3",
+            multi=True,
+            number_of_children=3,
+            path_name=".pnts",
+            enforcing_unique_name=False,
+        ),
+        _attr(
+            "px",
+            ".pt.x",
+            "double",
+            parent=".pnts",
+            path_name=".pnts.px",
+            enforcing_unique_name=False,
+        ),
+        _attr(
+            "py",
+            ".pt.y",
+            "double",
+            parent=".pnts",
+            path_name=".pnts.py",
+            enforcing_unique_name=False,
+        ),
+        _attr(
+            "pz",
+            ".pt.z",
+            "double",
+            parent=".pnts",
+            path_name=".pnts.pz",
+            enforcing_unique_name=False,
+        ),
     ]
 
 
@@ -210,6 +252,31 @@ def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():
     )
     assert ".pnts = " not in node_code
     assert ".pt = " not in node_code
+
+
+def test_generate_prefers_attr_path_name_when_available():
+    node_attr_code = generate_node_attr_code(
+        "hierarchyTestNode4",
+        attr_infos=_path_name_attr_infos(),
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "hierarchy_test_node4_node_attr.py", "exec")
+
+    assert "class PntsPlugOperator(" in node_attr_code
+    assert '("px", ".pt.x")' in node_attr_code
+    assert "px = DoubleField()" in node_attr_code
+
+    node_code = generate_node_class_code(
+        "hierarchyTestNode4",
+        attr_infos=_path_name_attr_infos(),
+    )
+    compile(node_code, "hierarchy_test_node4.py", "exec")
+
+    assert (
+        'pnts = PntsField(multi=True, long_name=".pnts", short_name=".pt")'
+        in node_code
+    )
+    assert "pt = pnts" not in node_code
 
 
 def test_generate_escapes_reserved_field_and_class_names():

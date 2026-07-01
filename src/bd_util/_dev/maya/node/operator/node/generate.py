@@ -492,6 +492,25 @@ def _node_attr_module_path(module_path: str) -> str:
     return module_path
 
 
+def _attr_long_name(attr_info: AttrInfo) -> str:
+    """Return the canonical Maya attr path used for generated code."""
+    return getattr(attr_info, "path_name", None) or attr_info.long_name
+
+
+def _attr_parent_name(attr_info: AttrInfo) -> str | None:
+    """Return the canonical parent attr path for generated code."""
+    if attr_info.parent is None:
+        return None
+
+    long_name = _attr_long_name(attr_info)
+    if "." in long_name:
+        parent_path = long_name.rsplit(".", 1)[0]
+        if parent_path:
+            return parent_path
+
+    return attr_info.parent[0]
+
+
 def _uniform_child_attr_type(children: list[AttrInfo]) -> str | None:
     """Return child attributeType when all children share the same type."""
     if not children:
@@ -513,7 +532,7 @@ def _is_quat_like_compound(
     """Return True for Maya quat attrs reported as compound + four double children."""
     return (
         parent_info.attribute_type in {"compound", "double4"}
-        and "quat" in parent_info.long_name.lower()
+        and "quat" in _attr_long_name(parent_info).lower()
         and len(children) == 4
         and _uniform_child_attr_type(children) == "double"
     )
@@ -852,7 +871,8 @@ def _long_name_to_enum_class_name(long_name: str) -> str:
     例: ``"operation"`` → ``"OperationEnum"``、
         ``"nodeState"`` → ``"NodeStateEnum"``
     """
-    return long_name[0].upper() + long_name[1:] + "Enum"
+    safe_name = _safe_attr_name(long_name)
+    return safe_name[0].upper() + safe_name[1:] + "Enum"
 
 
 def _enum_entries_to_name_values(
@@ -956,8 +976,9 @@ def generate_node_attr_code(
     compound_children_map: dict[str, list[AttrInfo]] = {}
     for info in attr_infos:
         if info.parent is not None:
-            parent_name = info.parent[0]
-            compound_children_map.setdefault(parent_name, []).append(info)
+            parent_name = _attr_parent_name(info)
+            if parent_name is not None:
+                compound_children_map.setdefault(parent_name, []).append(info)
 
     # compound タイプの親アトリビュートのみ対象（子が存在し、基底解決できるものに限る）
     compound_parents: list[AttrInfo] = [
@@ -965,10 +986,10 @@ def generate_node_attr_code(
         for info in attr_infos
         if (
             info.parent is None
-            and compound_children_map.get(info.long_name)
+            and compound_children_map.get(_attr_long_name(info))
             and _resolve_compound_base(
                 info,
-                compound_children_map.get(info.long_name, []),
+                compound_children_map.get(_attr_long_name(info), []),
             )
         )
     ]
@@ -989,7 +1010,7 @@ def generate_node_attr_code(
     class_blocks: list[list[str]] = []
 
     for parent_info in compound_parents:
-        parent_long = parent_info.long_name
+        parent_long = _attr_long_name(parent_info)
         children = compound_children_map.get(parent_long, [])
         if not children:
             continue
@@ -1013,7 +1034,7 @@ def generate_node_attr_code(
         child_body_lines: list[str] = []
         for child_info in children:
             child_name = _get_child_attr_name(
-                child_info.long_name, parent_long
+                _attr_long_name(child_info), parent_long
             )
             child_short = child_info.short_name
 
@@ -1060,7 +1081,7 @@ def generate_node_attr_code(
             plug_block.append("    CHILD_ATTR_NAMES = (")
             for child_info in children:
                 child_name = _get_child_attr_name(
-                    child_info.long_name,
+                    _attr_long_name(child_info),
                     parent_long,
                 )
                 child_short = child_info.short_name or child_name
@@ -1175,8 +1196,9 @@ def generate_node_class_code(
     # short_name → long_name  (short_name が long_name と異なる場合のみ)
     short_to_long: dict[str, str] = {}
     for info in attr_infos:
-        if info.short_name and info.short_name != info.long_name:
-            short_to_long[info.short_name] = info.long_name
+        long_name = _attr_long_name(info)
+        if info.short_name and info.short_name != long_name:
+            short_to_long[info.short_name] = long_name
 
     # 使用する Field クラスとそのインポートパスを収集する
     # クラス名 → "define.std..." or "define.custom..."
@@ -1192,8 +1214,9 @@ def generate_node_class_code(
     compound_children_map: dict[str, list[AttrInfo]] = {}
     for info in attr_infos:
         if info.parent is not None:
-            parent_name = info.parent[0]
-            compound_children_map.setdefault(parent_name, []).append(info)
+            parent_name = _attr_parent_name(info)
+            if parent_name is not None:
+                compound_children_map.setdefault(parent_name, []).append(info)
 
     # compound 型で子が存在する親アトリビュート → カスタム Field クラス名
     # (node_attr/{snake_case}.py で定義されるクラスを参照する)
@@ -1201,22 +1224,22 @@ def generate_node_class_code(
     for info in attr_infos:
         if (
             info.parent is None
-            and compound_children_map.get(info.long_name)
+            and compound_children_map.get(_attr_long_name(info))
             and _resolve_compound_base(
                 info,
-                compound_children_map.get(info.long_name, []),
+                compound_children_map.get(_attr_long_name(info), []),
             )
         ):
             _, _, field_cls_name = _long_name_to_compound_class_names(
-                info.long_name
+                _attr_long_name(info)
             )
-            custom_compound_cls[info.long_name] = field_cls_name
+            custom_compound_cls[_attr_long_name(info)] = field_cls_name
 
     # node_attr モジュールからインポートするクラス名のセット
     node_attr_imports: set[str] = set()
 
     for attr_info in attr_infos:
-        long_name = attr_info.long_name
+        long_name = _attr_long_name(attr_info)
 
         # DG 基底クラスで定義済みのアトリビュートはスキップ
         if long_name in _DG_BASE_LONG_NAMES:
@@ -1265,7 +1288,7 @@ def generate_node_class_code(
                     if _resolve_attr_class(child_info) is None:
                         continue
                     child_name = _get_child_attr_name(
-                        child_info.long_name, long_name
+                        _attr_long_name(child_info), long_name
                     )
                     safe_child_name = _safe_field_name(child_name)
                     attr_lines.append(
