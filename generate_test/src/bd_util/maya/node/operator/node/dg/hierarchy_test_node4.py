@@ -13,9 +13,9 @@ class HierarchyTestNode4(DG):
 
     NODE_TYPE = "hierarchyTestNode4"
 
-    envelope = FloatField()
+    envelope = FloatField(long_name=".envelope", short_name=".en")
 
-    pnts = PntsField(multi=True)
+    pnts = PntsField(multi=True, long_name=".pnts", short_name=".pt")
 
     kitA = KitAField()
     ka = kitA
