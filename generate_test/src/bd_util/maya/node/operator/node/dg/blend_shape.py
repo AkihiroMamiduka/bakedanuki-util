@@ -17,10 +17,13 @@ from ...attr.define.std.at.enum import (
     EnumPlugOperator,
     EnumField,
 )
+from ...attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ...attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
+from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ...attr.define.std.dt.double_array import DataDoubleArrayField
 from ...attr.define.std.dt.string import DataStringField
 
@@ -139,21 +142,29 @@ class BlendShape(DG):
     inputTarget = InputTargetField(multi=True)
     it = inputTarget
 
-    # TODO: inputTarget.vertex (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertex = Float3Field()
+    vt = vertex
 
-    # TODO: inputTarget.vertex.xVertex (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xVertex = DoubleLinearField()
+    vx = xVertex
 
-    # TODO: inputTarget.vertex.yVertex (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    yVertex = DoubleLinearField()
+    vy = yVertex
 
-    # TODO: inputTarget.vertex.zVertex (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    zVertex = DoubleLinearField()
+    vz = zVertex
 
-    # TODO: inputTarget.controlPoints (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    controlPoints = Double3Field()
+    cp = controlPoints
 
-    # TODO: inputTarget.controlPoints.xValue (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xValue = DoubleLinearField()
+    xv = xValue
 
-    # TODO: inputTarget.controlPoints.yValue (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    yValue = DoubleLinearField()
+    yv = yValue
 
-    # TODO: inputTarget.controlPoints.zValue (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    zValue = DoubleLinearField()
+    zv = zValue
 
     origin = OriginEnumField()
     or_ = origin

@@ -401,9 +401,11 @@ class Movie(DG):
     explicitUvTiles = ExplicitUvTilesField(multi=True)
     euvt = explicitUvTiles
 
-    # TODO: explicitUvTiles.explicitUvTilePositionU (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    explicitUvTilePositionU = FloatField()
+    eupu = explicitUvTilePositionU
 
-    # TODO: explicitUvTiles.explicitUvTilePositionV (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    explicitUvTilePositionV = FloatField()
+    eupv = explicitUvTilePositionV
 
     baseExplicitUvTilePosition = BaseExplicitUvTilePositionField()
     butp = baseExplicitUvTilePosition

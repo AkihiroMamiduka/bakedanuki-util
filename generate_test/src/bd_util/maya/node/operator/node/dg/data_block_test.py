@@ -4,6 +4,7 @@ from ...attr.define.node_attr.data_block_test import (
     CompoundValueField,
     MultiCompoundField,
 )
+from ...attr.define.std.at.compound import CompoundField
 from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
 
@@ -29,45 +30,65 @@ class DataBlockTest(DG):
     level1CS = compound.level1CS
     cs = level1CS
 
-    # TODO: level2CCMC.level3CCMCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CCMCS1 = FloatField()
+    ccm1 = level3CCMCS1
 
-    # TODO: level2CCMC.level3CCMCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CCMCS2 = FloatField()
+    ccm2 = level3CCMCS2
 
-    # TODO: level1CMC.level2CMCC (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2CMCC = CompoundField()
+    cmcc = level2CMCC
 
-    # TODO: level1CMC.level3CMCCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CMCCS1 = FloatField()
+    cmc1 = level3CMCCS1
 
-    # TODO: level1CMC.level3CMCCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CMCCS2 = FloatField()
+    cmc2 = level3CMCCS2
 
-    # TODO: level1CMC.level2CMCMC (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2CMCMC = CompoundField()
+    cmmc = level2CMCMC
 
-    # TODO: level1CMC.level2CMCMC.level3CMCMCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CMCMCS1 = FloatField()
+    cmm1 = level3CMCMCS1
 
-    # TODO: level1CMC.level2CMCMC.level3CMCMCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3CMCMCS2 = FloatField()
+    cmm2 = level3CMCMCS2
 
-    # TODO: level1CMC.level2CMCM (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2CMCM = FloatField()
+    cmcm = level2CMCM
 
-    # TODO: level1CMC.level2CMCS (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2CMCS = FloatField()
+    cmcs = level2CMCS
 
     multiCompound = MultiCompoundField(multi=True)
     mc = multiCompound
 
-    # TODO: multiCompound.level2MCCC (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2MCCC = CompoundField()
+    mccc = level2MCCC
 
-    # TODO: multiCompound.level3MCCCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCCCS1 = FloatField()
+    mcc1 = level3MCCCS1
 
-    # TODO: multiCompound.level3MCCCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCCCS2 = FloatField()
+    mcc2 = level3MCCCS2
 
-    # TODO: multiCompound.level2MCCMC (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2MCCMC = CompoundField()
+    mccm = level2MCCMC
 
-    # TODO: multiCompound.level2MCCMC.level3MCCMCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCCMCS1 = FloatField()
+    mcm1 = level3MCCMCS1
 
-    # TODO: multiCompound.level2MCCMC.level3MCCMCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCCMCS2 = FloatField()
+    mcm2 = level3MCCMCS2
 
-    # TODO: multiCompound.level2MCCM (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2MCCM = FloatField()
+    mcm = level2MCCM
 
-    # TODO: multiCompound.level2MCCS (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level2MCCS = FloatField()
+    mccs = level2MCCS
 
-    # TODO: multiCompound.level1MCMC.level3MCMCCS1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCMCCS1 = FloatField()
+    mmc1 = level3MCMCCS1
 
-    # TODO: multiCompound.level1MCMC.level3MCMCCS2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    level3MCMCCS2 = FloatField()
+    mmc2 = level3MCMCCS2

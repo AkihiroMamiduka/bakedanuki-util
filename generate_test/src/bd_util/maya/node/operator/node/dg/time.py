@@ -2,6 +2,7 @@
 from ._core import DG
 from ...attr.define.node_attr.time import TimewarpInField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.short import ShortField
 from ...attr.define.std.at.unit_scalar.time import TimeField
 
 
@@ -27,13 +28,17 @@ class Time(DG):
     timewarpIn_Outmap = timewarpIn.timewarpIn_Outmap
     twio = timewarpIn_Outmap
 
-    # TODO: timewarpIn_Inmap.timewarpIn_InmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    timewarpIn_InmapTo = ShortField()
+    twiit = timewarpIn_InmapTo
 
-    # TODO: timewarpIn_Inmap.timewarpIn_InmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    timewarpIn_InmapFrom = ShortField()
+    twiif = timewarpIn_InmapFrom
 
-    # TODO: timewarpIn_Outmap.timewarpIn_OutmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    timewarpIn_OutmapTo = ShortField()
+    twiot = timewarpIn_OutmapTo
 
-    # TODO: timewarpIn_Outmap.timewarpIn_OutmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    timewarpIn_OutmapFrom = ShortField()
+    twiof = timewarpIn_OutmapFrom
 
     enableTimewarp = BoolField()
     etw = enableTimewarp

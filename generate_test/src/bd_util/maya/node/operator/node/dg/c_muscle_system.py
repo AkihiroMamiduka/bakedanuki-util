@@ -239,11 +239,14 @@ class CMuscleSystem(DG):
     muscleData = MuscleDataField(multi=True)
     data = muscleData
 
-    # TODO: muscleData.userScaleMusX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    userScaleMusX = DoubleField()
+    usxmus = userScaleMusX
 
-    # TODO: muscleData.userScaleMusY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    userScaleMusY = DoubleField()
+    usymus = userScaleMusY
 
-    # TODO: muscleData.userScaleMusZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    userScaleMusZ = DoubleField()
+    uszmus = userScaleMusZ
 
     dirData = DirDataField(multi=True)
     ddata = dirData
@@ -278,31 +281,44 @@ class CMuscleSystem(DG):
     relaxTri = relaxData.relaxTri
     reltri = relaxTri
 
-    # TODO: relaxSt.ptIdxASt (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptIdxASt = LongField()
+    ptast = ptIdxASt
 
-    # TODO: relaxSt.ptIdxBSt (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptIdxBSt = LongField()
+    ptbst = ptIdxBSt
 
-    # TODO: relaxSt.restLenSt (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    restLenSt = DoubleField()
+    rlenst = restLenSt
 
-    # TODO: relaxBd.ptIdxABd (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptIdxABd = LongField()
+    ptabd = ptIdxABd
 
-    # TODO: relaxBd.ptIdxBBd (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptIdxBBd = LongField()
+    ptbbd = ptIdxBBd
 
-    # TODO: relaxBd.restLenBd (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    restLenBd = DoubleField()
+    rlenbd = restLenBd
 
-    # TODO: ptsBase.ptsBaseX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptsBaseX = DoubleField()
+    ptsBSX = ptsBaseX
 
-    # TODO: ptsBase.ptsBaseY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptsBaseY = DoubleField()
+    ptsBSY = ptsBaseY
 
-    # TODO: ptsBase.ptsBaseZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptsBaseZ = DoubleField()
+    ptsBSZ = ptsBaseZ
 
-    # TODO: relaxTri.relaxTriIdxA (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    relaxTriIdxA = LongField()
+    rtidxa = relaxTriIdxA
 
-    # TODO: relaxTri.relaxTriIdxB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    relaxTriIdxB = LongField()
+    rtidxb = relaxTriIdxB
 
-    # TODO: relaxTri.relaxTriIdxC (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    relaxTriIdxC = LongField()
+    rtidxc = relaxTriIdxC
 
-    # TODO: relaxTri.relaxTriAdj (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    relaxTriAdj = LongField()
+    rtadj = relaxTriAdj
 
     relativePoint = RelativePointField(multi=True)
     relpt = relativePoint
@@ -314,9 +330,11 @@ class CMuscleSystem(DG):
     ptToPtEntry = smoothData.ptToPtEntry
     ptpe = ptToPtEntry
 
-    # TODO: smoothEntry.smoothCon (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    smoothCon = LongField()
+    smtc = smoothCon
 
-    # TODO: ptToPtEntry.ptToPtCon (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ptToPtCon = LongField()
+    ptpc = ptToPtCon
 
     jiggle = DoubleField(multi=True)
     jig = jiggle

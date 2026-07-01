@@ -77,13 +77,17 @@ class ClipScheduler(DG):
     clipFunction_Outmap = clipFunction.clipFunction_Outmap
     cfo = clipFunction_Outmap
 
-    # TODO: clipFunction_Inmap.clipFunction_InmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipFunction_InmapTo = ShortField()
+    cfit = clipFunction_InmapTo
 
-    # TODO: clipFunction_Inmap.clipFunction_InmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipFunction_InmapFrom = ShortField()
+    cfif = clipFunction_InmapFrom
 
-    # TODO: clipFunction_Outmap.clipFunction_OutmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipFunction_OutmapTo = ShortField()
+    cfot = clipFunction_OutmapTo
 
-    # TODO: clipFunction_Outmap.clipFunction_OutmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipFunction_OutmapFrom = ShortField()
+    cfof = clipFunction_OutmapFrom
 
     clip = MessageField(multi=True)
     cl = clip

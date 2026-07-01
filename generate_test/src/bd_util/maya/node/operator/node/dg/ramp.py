@@ -196,11 +196,14 @@ class Ramp(DG):
     colorEntryList = ColorEntryListField(multi=True)
     cel = colorEntryList
 
-    # TODO: colorEntryList.colorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorR = FloatField()
+    ecr = colorR
 
-    # TODO: colorEntryList.colorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorG = FloatField()
+    ecg = colorG
 
-    # TODO: colorEntryList.colorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorB = FloatField()
+    ecb = colorB
 
     uWave = FloatField()
     uw = uWave

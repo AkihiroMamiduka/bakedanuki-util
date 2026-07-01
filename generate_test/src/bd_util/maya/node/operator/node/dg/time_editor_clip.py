@@ -11,6 +11,7 @@ from ...attr.define.node_attr.time_editor_clip import (
 from ...attr.define.std.at.message import MessageField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
 from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.at.unit_scalar.time import TimeField
@@ -26,11 +27,14 @@ class TimeEditorClip(DG):
     clip = ClipField(multi=True)
     clp = clip
 
-    # TODO: clipColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipColorR = FloatField()
+    ccr = clipColorR
 
-    # TODO: clipColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipColorG = FloatField()
+    ccg = clipColorG
 
-    # TODO: clipColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipColorB = FloatField()
+    ccb = clipColorB
 
     offset = OffsetField()
     ofs = offset
@@ -50,10 +54,13 @@ class TimeEditorClip(DG):
     mob = matchObj
 
     rootObjLocalXform = DataMatrixField()
+    rolx = rootObjLocalXform
 
     rootObjParentXform = DataMatrixField()
+    ropx = rootObjParentXform
 
-    # TODO: rootObj (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    rootObj = MessageField()
+    rob = rootObj
 
     lastEvaluationTime = TimeField()
     let = lastEvaluationTime

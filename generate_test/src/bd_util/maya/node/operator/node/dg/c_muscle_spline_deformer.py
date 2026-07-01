@@ -60,56 +60,80 @@ class CMuscleSplineDeformer(DG):
     controlData = ControlDataField(multi=True)
     cdata = controlData
 
-    # TODO: controlData.pointX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointX = DoubleField()
+    px = pointX
 
-    # TODO: controlData.pointY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointY = DoubleField()
+    py = pointY
 
-    # TODO: controlData.pointZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointZ = DoubleField()
+    pz = pointZ
 
-    # TODO: controlData.pointJiggleX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleX = DoubleField()
+    pjx = pointJiggleX
 
-    # TODO: controlData.pointJiggleY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleY = DoubleField()
+    pjy = pointJiggleY
 
-    # TODO: controlData.pointJiggleZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleZ = DoubleField()
+    pjz = pointJiggleZ
 
-    # TODO: controlData.tangentX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentX = DoubleField()
+    tgx = tangentX
 
-    # TODO: controlData.tangentY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentY = DoubleField()
+    tgy = tangentY
 
-    # TODO: controlData.tangentZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentZ = DoubleField()
+    tgz = tangentZ
 
-    # TODO: controlData.upX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upX = DoubleField()
+    ux = upX
 
-    # TODO: controlData.upY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upY = DoubleField()
+    uy = upY
 
-    # TODO: controlData.upZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upZ = DoubleField()
+    uz = upZ
 
     controlDataBase = ControlDataBaseField(multi=True)
     cdatab = controlDataBase
 
-    # TODO: controlDataBase.pointXBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointXBase = DoubleField()
+    pxb = pointXBase
 
-    # TODO: controlDataBase.pointYBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointYBase = DoubleField()
+    pyb = pointYBase
 
-    # TODO: controlDataBase.pointZBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointZBase = DoubleField()
+    pzb = pointZBase
 
-    # TODO: controlDataBase.pointJiggleXBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleXBase = DoubleField()
+    pjxb = pointJiggleXBase
 
-    # TODO: controlDataBase.pointJiggleYBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleYBase = DoubleField()
+    pjyb = pointJiggleYBase
 
-    # TODO: controlDataBase.pointJiggleZBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointJiggleZBase = DoubleField()
+    pjzb = pointJiggleZBase
 
-    # TODO: controlDataBase.tangentXBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentXBase = DoubleField()
+    tgxb = tangentXBase
 
-    # TODO: controlDataBase.tangentYBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentYBase = DoubleField()
+    tgyb = tangentYBase
 
-    # TODO: controlDataBase.tangentZBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    tangentZBase = DoubleField()
+    tgzb = tangentZBase
 
-    # TODO: controlDataBase.upXBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upXBase = DoubleField()
+    uxb = upXBase
 
-    # TODO: controlDataBase.upYBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upYBase = DoubleField()
+    uyb = upYBase
 
-    # TODO: controlDataBase.upZBase (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    upZBase = DoubleField()
+    uzb = upZBase
 
     uWts = DoubleField(multi=True)
     uwt = uWts

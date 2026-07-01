@@ -133,8 +133,11 @@ class AiRampRgb(DG):
     ramp = RampField(multi=True)
     aiRamp = ramp
 
-    # TODO: ramp.ramp_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ramp_ColorR = FloatField()
+    aiRampcvr = ramp_ColorR
 
-    # TODO: ramp.ramp_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ramp_ColorG = FloatField()
+    aiRampcvg = ramp_ColorG
 
-    # TODO: ramp.ramp_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    ramp_ColorB = FloatField()
+    aiRampcvb = ramp_ColorB

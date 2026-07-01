@@ -18,6 +18,7 @@ from ...attr.define.std.at.enum import (
 )
 from ...attr.define.std.at.message import MessageField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.numeric_scalar_range.short import ShortField
 from ...attr.define.std.at.typed import TypedField
@@ -248,47 +249,65 @@ class ShadingEngine(DG):
     linkedShadows = LinkedShadowsField(multi=True)
     ls = linkedShadows
 
-    # TODO: linkedShadows.lShadowDirectionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowDirectionX = FloatField()
+    lsx = lShadowDirectionX
 
-    # TODO: linkedShadows.lShadowDirectionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowDirectionY = FloatField()
+    lsy = lShadowDirectionY
 
-    # TODO: linkedShadows.lShadowDirectionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowDirectionZ = FloatField()
+    lsz = lShadowDirectionZ
 
-    # TODO: linkedShadows.lShadowIntensityR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowIntensityR = FloatField()
+    lsr = lShadowIntensityR
 
-    # TODO: linkedShadows.lShadowIntensityG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowIntensityG = FloatField()
+    lsg = lShadowIntensityG
 
-    # TODO: linkedShadows.lShadowIntensityB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lShadowIntensityB = FloatField()
+    lsb = lShadowIntensityB
 
     ignoredShadows = IgnoredShadowsField(multi=True)
     xs = ignoredShadows
 
-    # TODO: ignoredShadows.xShadowDirectionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowDirectionX = FloatField()
+    xsx = xShadowDirectionX
 
-    # TODO: ignoredShadows.xShadowDirectionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowDirectionY = FloatField()
+    xsy = xShadowDirectionY
 
-    # TODO: ignoredShadows.xShadowDirectionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowDirectionZ = FloatField()
+    xsz = xShadowDirectionZ
 
-    # TODO: ignoredShadows.xShadowIntensityR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowIntensityR = FloatField()
+    xsr = xShadowIntensityR
 
-    # TODO: ignoredShadows.xShadowIntensityG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowIntensityG = FloatField()
+    xsg = xShadowIntensityG
 
-    # TODO: ignoredShadows.xShadowIntensityB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    xShadowIntensityB = FloatField()
+    xsb = xShadowIntensityB
 
     bogusAttribute = BogusAttributeField(multi=True)
     blt = bogusAttribute
 
-    # TODO: bogusAttribute.bogusDirectionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusDirectionX = FloatField()
+    blx = bogusDirectionX
 
-    # TODO: bogusAttribute.bogusDirectionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusDirectionY = FloatField()
+    bly = bogusDirectionY
 
-    # TODO: bogusAttribute.bogusDirectionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusDirectionZ = FloatField()
+    blz = bogusDirectionZ
 
-    # TODO: bogusAttribute.bogusIntensityR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusIntensityR = FloatField()
+    blr = bogusIntensityR
 
-    # TODO: bogusAttribute.bogusIntensityG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusIntensityG = FloatField()
+    blg = bogusIntensityG
 
-    # TODO: bogusAttribute.bogusIntensityB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    bogusIntensityB = FloatField()
+    blb = bogusIntensityB
 
     aiCustomAOVs = AiCustomAOVsField(multi=True)
     aovs = aiCustomAOVs

@@ -6,6 +6,7 @@ from ...attr.define.node_attr.time_editor_tracks import (
 )
 from ...attr.define.std.at.message import MessageField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.at.unit_scalar.time import TimeField
 
@@ -18,11 +19,14 @@ class TimeEditorTracks(DG):
     track = TrackField(multi=True)
     t = track
 
-    # TODO: track.trackColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    trackColorR = FloatField()
+    tcr = trackColorR
 
-    # TODO: track.trackColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    trackColorG = FloatField()
+    tcg = trackColorG
 
-    # TODO: track.trackColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    trackColorB = FloatField()
+    tcb = trackColorB
 
     clip = MessageField()
     c = clip

@@ -156,32 +156,44 @@ class CMuscleCreator(DG):
     outLinearData = OutLinearDataField(multi=True)
     oldat = outLinearData
 
-    # TODO: outLinearData.outLinearTranslateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearTranslateX = DoubleField()
+    oltx = outLinearTranslateX
 
-    # TODO: outLinearData.outLinearTranslateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearTranslateY = DoubleField()
+    olty = outLinearTranslateY
 
-    # TODO: outLinearData.outLinearTranslateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearTranslateZ = DoubleField()
+    oltz = outLinearTranslateZ
 
-    # TODO: outLinearData.outLinearRotateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearRotateX = DoubleField()
+    olrx = outLinearRotateX
 
-    # TODO: outLinearData.outLinearRotateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearRotateY = DoubleField()
+    olry = outLinearRotateY
 
-    # TODO: outLinearData.outLinearRotateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outLinearRotateZ = DoubleField()
+    olrz = outLinearRotateZ
 
     outAttachData = OutAttachDataField(multi=True)
     oadat = outAttachData
 
-    # TODO: outAttachData.outAttachTranslateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachTranslateX = DoubleField()
+    oatx = outAttachTranslateX
 
-    # TODO: outAttachData.outAttachTranslateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachTranslateY = DoubleField()
+    oaty = outAttachTranslateY
 
-    # TODO: outAttachData.outAttachTranslateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachTranslateZ = DoubleField()
+    oatz = outAttachTranslateZ
 
-    # TODO: outAttachData.outAttachRotateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachRotateX = DoubleField()
+    oarx = outAttachRotateX
 
-    # TODO: outAttachData.outAttachRotateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachRotateY = DoubleField()
+    oary = outAttachRotateY
 
-    # TODO: outAttachData.outAttachRotateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outAttachRotateZ = DoubleField()
+    oarz = outAttachRotateZ
 
     outDriven = OutDrivenField()
     odrvn = outDriven

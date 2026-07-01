@@ -25,11 +25,14 @@ class TextureToGeom(DG):
     outColorData = OutColorDataField(multi=True)
     ocd = outColorData
 
-    # TODO: outColorData.outColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outColorR = FloatField()
+    ocr = outColorR
 
-    # TODO: outColorData.outColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outColorG = FloatField()
+    ocg = outColorG
 
-    # TODO: outColorData.outColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    outColorB = FloatField()
+    ocb = outColorB
 
     outSegFace = TypedField(multi=True)
     ofm = outSegFace

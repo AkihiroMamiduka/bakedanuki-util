@@ -3,6 +3,7 @@ from ._core import DG
 from ...attr.define.node_attr.sampler import FunctionField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
 from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ...attr.define.std.at.numeric_scalar_range.short import ShortField
 
 
 class Sampler(DG):
@@ -38,10 +39,14 @@ class Sampler(DG):
     function_Default = function.function_Default
     fd = function_Default
 
-    # TODO: function_Inmap.function_InmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    function_InmapTo = ShortField()
+    fit = function_InmapTo
 
-    # TODO: function_Inmap.function_InmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    function_InmapFrom = ShortField()
+    fif = function_InmapFrom
 
-    # TODO: function_Outmap.function_OutmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    function_OutmapTo = ShortField()
+    fot = function_OutmapTo
 
-    # TODO: function_Outmap.function_OutmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    function_OutmapFrom = ShortField()
+    fof = function_OutmapFrom

@@ -9,6 +9,7 @@ from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
+from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ...attr.define.std.dt.mesh import DataMeshField
 
 
@@ -71,11 +72,14 @@ class PolySplit(DG):
     splitPoints = SplitPointsField(multi=True)
     sps = splitPoints
 
-    # TODO: splitPoints.splitPoint.baryCoord1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord1 = DoubleLinearField()
+    bc1 = baryCoord1
 
-    # TODO: splitPoints.splitPoint.baryCoord2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord2 = DoubleLinearField()
+    bc2 = baryCoord2
 
-    # TODO: splitPoints.splitPoint.baryCoord3 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord3 = DoubleLinearField()
+    bc3 = baryCoord3
 
     detachEdges = BoolField()
     de = detachEdges

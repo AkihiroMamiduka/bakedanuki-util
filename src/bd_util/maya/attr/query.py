@@ -48,6 +48,15 @@ def get_attr_enforcing_unique_name(node, attr) -> bool | None:
     return getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
 
 
+def get_attr_short_name(node, attr) -> str | None:
+    short_name = safe_query(
+        cmds.attributeQuery, attr, node=node, shortName=True
+    )
+    if short_name is not None:
+        return short_name
+    return getattr(get_mfn_attribute(node, attr), "shortName", None)
+
+
 def is_typed_attr(node, attr):
     state = False
     if get_attr(node, attr).hasFn(om.MFn.kTypedAttribute):
@@ -102,13 +111,100 @@ def get_data_type_name(node, attr) -> str | None:
     return mapping.get(data_enum, str(data_enum))
 
 
+def get_numeric_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    if not attr_obj.hasFn(om.MFn.kNumericAttribute):
+        return None
+
+    numeric_type = om.MFnNumericAttribute(attr_obj).numericType()
+    mapping = {
+        om.MFnNumericData.kBoolean: "bool",
+        om.MFnNumericData.kByte: "byte",
+        om.MFnNumericData.kChar: "char",
+        om.MFnNumericData.kShort: "short",
+        om.MFnNumericData.kLong: "long",
+        om.MFnNumericData.kInt64: "long long int",
+        om.MFnNumericData.kFloat: "float",
+        om.MFnNumericData.kDouble: "double",
+        om.MFnNumericData.kAddr: "addr",
+        om.MFnNumericData.k2Short: "short2",
+        om.MFnNumericData.k3Short: "short3",
+        om.MFnNumericData.k2Long: "long2",
+        om.MFnNumericData.k3Long: "long3",
+        om.MFnNumericData.k2Float: "float2",
+        om.MFnNumericData.k3Float: "float3",
+        om.MFnNumericData.k2Double: "double2",
+        om.MFnNumericData.k3Double: "double3",
+        om.MFnNumericData.k4Double: "double4",
+    }
+    return mapping.get(numeric_type)
+
+
+def get_unit_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    if not attr_obj.hasFn(om.MFn.kUnitAttribute):
+        return None
+
+    unit_type = om.MFnUnitAttribute(attr_obj).unitType()
+    mapping = {
+        om.MFnUnitAttribute.kAngle: "doubleAngle",
+        om.MFnUnitAttribute.kDistance: "doubleLinear",
+        om.MFnUnitAttribute.kTime: "time",
+    }
+    return mapping.get(unit_type)
+
+
+def get_matrix_attribute_type_name(attr_obj: om.MObject) -> str | None:
+    if not attr_obj.hasFn(om.MFn.kMatrixAttribute):
+        return None
+
+    matrix_type = om.MFnMatrixAttribute(attr_obj).attrType()
+    if matrix_type == om.MFnMatrixAttribute.kFloat:
+        return "fltMatrix"
+    return "matrix"
+
+
+def get_attribute_type_name(node, attr) -> str | None:
+    attribute_type = safe_query(
+        cmds.attributeQuery, attr, node=node, attributeType=True
+    )
+    if attribute_type is not None:
+        return attribute_type
+
+    attr_obj = get_attr(node, attr)
+
+    for resolver in (
+        get_numeric_attribute_type_name,
+        get_unit_attribute_type_name,
+        get_matrix_attribute_type_name,
+    ):
+        resolved = resolver(attr_obj)
+        if resolved is not None:
+            return resolved
+
+    if attr_obj.hasFn(om.MFn.kEnumAttribute):
+        return "enum"
+    if attr_obj.hasFn(om.MFn.kMessageAttribute):
+        return "message"
+    if attr_obj.hasFn(om.MFn.kLightDataAttribute):
+        return "lightData"
+    if attr_obj.hasFn(om.MFn.kTypedAttribute):
+        return "typed"
+    if attr_obj.hasFn(om.MFn.kCompoundAttribute):
+        return "compound"
+    if hasattr(om.MFn, "kGenericAttribute") and attr_obj.hasFn(
+        om.MFn.kGenericAttribute
+    ):
+        return "generic"
+
+    return None
+
+
 # info
 @dataclasses.dataclass
 class AttrInfo:
     long_name: str
     short_name: str
-    attribute_type: str
-    data_type: str
+    attribute_type: str | None
+    data_type: str | None
     default_value: typing.Any
     min_value: typing.Any
     max_value: typing.Any
@@ -138,18 +234,14 @@ def safe_query(func, *args, **kwargs):
 def get_attribute_info(node: str, attr: str) -> AttrInfo:
     # long / short name
     long_name = attr
-    short_name = safe_query(
-        cmds.attributeQuery, attr, node=node, shortName=True
-    )
+    short_name = safe_query(get_attr_short_name, node, attr)
     path_name = safe_query(get_attr_path_name, node, attr)
     enforcing_unique_name = safe_query(
         get_attr_enforcing_unique_name, node, attr
     )
 
     # attributeType / dataType
-    attribute_type = safe_query(
-        cmds.attributeQuery, attr, node=node, attributeType=True
-    )
+    attribute_type = get_attribute_type_name(node, attr)
     data_type = get_data_type_name(node, attr)
 
     # default value

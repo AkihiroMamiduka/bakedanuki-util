@@ -180,11 +180,14 @@ class RampShader(DG):
     color = ColorField(multi=True)
     clr = color
 
-    # TODO: color.color_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorR = FloatField()
+    clrcr = color_ColorR
 
-    # TODO: color.color_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorG = FloatField()
+    clrcg = color_ColorG
 
-    # TODO: color.color_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorB = FloatField()
+    clrcb = color_ColorB
 
     colorInput = ColorInputEnumField()
     cin = colorInput
@@ -207,11 +210,14 @@ class RampShader(DG):
     transparency = TransparencyField(multi=True)
     it = transparency
 
-    # TODO: transparency.transparency_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparency_ColorR = FloatField()
+    itcr = transparency_ColorR
 
-    # TODO: transparency.transparency_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparency_ColorG = FloatField()
+    itcg = transparency_ColorG
 
-    # TODO: transparency.transparency_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparency_ColorB = FloatField()
+    itcb = transparency_ColorB
 
     ambientColor = AmbientColorField()
     ambc = ambientColor
@@ -225,11 +231,14 @@ class RampShader(DG):
     incandescence = IncandescenceField(multi=True)
     ic = incandescence
 
-    # TODO: incandescence.incandescence_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    incandescence_ColorR = FloatField()
+    iccr = incandescence_ColorR
 
-    # TODO: incandescence.incandescence_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    incandescence_ColorG = FloatField()
+    iccg = incandescence_ColorG
 
-    # TODO: incandescence.incandescence_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    incandescence_ColorB = FloatField()
+    iccb = incandescence_ColorB
 
     translucence = FloatField()
     tc = translucence
@@ -282,11 +291,14 @@ class RampShader(DG):
     specularColor = SpecularColorField(multi=True)
     sc = specularColor
 
-    # TODO: specularColor.specularColor_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    specularColor_ColorR = FloatField()
+    sccr = specularColor_ColorR
 
-    # TODO: specularColor.specularColor_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    specularColor_ColorG = FloatField()
+    sccg = specularColor_ColorG
 
-    # TODO: specularColor.specularColor_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    specularColor_ColorB = FloatField()
+    sccb = specularColor_ColorB
 
     reflectivity = ReflectivityField(multi=True)
     rfl = reflectivity
@@ -294,11 +306,14 @@ class RampShader(DG):
     environment = EnvironmentField(multi=True)
     env = environment
 
-    # TODO: environment.environment_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorR = FloatField()
+    envcr = environment_ColorR
 
-    # TODO: environment.environment_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorG = FloatField()
+    envcg = environment_ColorG
 
-    # TODO: environment.environment_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorB = FloatField()
+    envcb = environment_ColorB
 
     reflectedColor = ReflectedColorField()
     rc = reflectedColor
@@ -372,17 +387,23 @@ class RampShader(DG):
     lightDataArray = LightDataArrayField(multi=True)
     ltd = lightDataArray
 
-    # TODO: lightDataArray.lightDirectionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionX = FloatField()
+    ldx = lightDirectionX
 
-    # TODO: lightDataArray.lightDirectionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionY = FloatField()
+    ldy = lightDirectionY
 
-    # TODO: lightDataArray.lightDirectionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionZ = FloatField()
+    ldz = lightDirectionZ
 
-    # TODO: lightDataArray.lightIntensityR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityR = FloatField()
+    lir = lightIntensityR
 
-    # TODO: lightDataArray.lightIntensityG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityG = FloatField()
+    lig = lightIntensityG
 
-    # TODO: lightDataArray.lightIntensityB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityB = FloatField()
+    lib = lightIntensityB
 
     matteOpacityMode = MatteOpacityModeEnumField()
     mom = matteOpacityMode

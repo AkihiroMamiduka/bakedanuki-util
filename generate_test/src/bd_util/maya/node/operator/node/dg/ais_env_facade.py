@@ -115,14 +115,20 @@ class AISEnvFacade(DG):
     extraLightInfo = ExtraLightInfoField(multi=True)
     eli = extraLightInfo
 
-    # TODO: extraLightInfo.extraLightColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightColorR = FloatField()
+    elcr = extraLightColorR
 
-    # TODO: extraLightInfo.extraLightColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightColorG = FloatField()
+    elcg = extraLightColorG
 
-    # TODO: extraLightInfo.extraLightColorb (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightColorb = FloatField()
+    elcb = extraLightColorb
 
-    # TODO: extraLightInfo.extraLightShadowColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightShadowColorR = FloatField()
+    elscr = extraLightShadowColorR
 
-    # TODO: extraLightInfo.extraLightShadowColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightShadowColorG = FloatField()
+    elscg = extraLightShadowColorG
 
-    # TODO: extraLightInfo.extraLightShadowColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    extraLightShadowColorB = FloatField()
+    elscb = extraLightShadowColorB

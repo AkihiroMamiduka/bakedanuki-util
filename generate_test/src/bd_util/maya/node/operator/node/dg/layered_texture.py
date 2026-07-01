@@ -18,11 +18,14 @@ class LayeredTexture(DG):
     inputs = InputsField(multi=True)
     cs = inputs
 
-    # TODO: inputs.colorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorR = FloatField()
+    cr = colorR
 
-    # TODO: inputs.colorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorG = FloatField()
+    cg = colorG
 
-    # TODO: inputs.colorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorB = FloatField()
+    cb = colorB
 
     outColor = OutColorField()
     oc = outColor

@@ -41,11 +41,14 @@ class PolyProjectCurve(DG):
     curvePoints = CurvePointsField(multi=True)
     cps = curvePoints
 
-    # TODO: curvePoints.projectedPoint.baryCoord1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord1 = DoubleLinearField()
+    bc1 = baryCoord1
 
-    # TODO: curvePoints.projectedPoint.baryCoord2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord2 = DoubleLinearField()
+    bc2 = baryCoord2
 
-    # TODO: curvePoints.projectedPoint.baryCoord3 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    baryCoord3 = DoubleLinearField()
+    bc3 = baryCoord3
 
     direction = DirectionField()
     d = direction

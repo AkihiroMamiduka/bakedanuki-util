@@ -3,7 +3,9 @@ from ._core import DG
 from ...attr.define.node_attr.least_squares_modifier import PointConstraintField
 from ...attr.define.std.at.generic import GenericField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
 from ...attr.define.std.at.typed import TypedField
+from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 from ...attr.define.std.dt.matrix import DataMatrixField
 
 
@@ -21,17 +23,23 @@ class LeastSquaresModifier(DG):
     pointConstraint = PointConstraintField(multi=True)
     pc = pointConstraint
 
-    # TODO: pointConstraint.pointPositionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointPositionX = DoubleLinearField()
+    ppx = pointPositionX
 
-    # TODO: pointConstraint.pointPositionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointPositionY = DoubleLinearField()
+    ppy = pointPositionY
 
-    # TODO: pointConstraint.pointPositionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointPositionZ = DoubleLinearField()
+    ppz = pointPositionZ
 
-    # TODO: pointConstraint.pointConstraintU (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointConstraintU = DoubleField()
+    pcu = pointConstraintU
 
-    # TODO: pointConstraint.pointConstraintV (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointConstraintV = DoubleField()
+    pcv = pointConstraintV
 
-    # TODO: pointConstraint.pointConstraintW (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    pointConstraintW = DoubleField()
+    pcw = pointConstraintW
 
     outputNurbsObject = GenericField()
     ono = outputNurbsObject

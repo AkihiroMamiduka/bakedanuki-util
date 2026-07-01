@@ -126,15 +126,20 @@ class Jiggle(DG):
     cachedDataList = CachedDataListField(multi=True)
     cdl = cachedDataList
 
-    # TODO: cachedTime (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    cachedTime = TimeField()
+    chti = cachedTime
 
-    # TODO: isResting (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    isResting = BoolField()
+    ir = isResting
 
     cachedInputPositionList = DataVectorArrayField()
+    cipl = cachedInputPositionList
 
     cachedPositionList = DataVectorArrayField()
+    cpl = cachedPositionList
 
     cachedVelocityList = DataVectorArrayField()
+    cvl = cachedVelocityList
 
     directionBias = DoubleField()
     bias = directionBias

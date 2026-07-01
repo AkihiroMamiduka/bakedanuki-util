@@ -214,13 +214,17 @@ class Character(DG):
     clipEvaluate_Outmap = clipEvaluate.clipEvaluate_Outmap
     ceo = clipEvaluate_Outmap
 
-    # TODO: clipEvaluate_Inmap.clipEvaluate_InmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipEvaluate_InmapTo = ShortField()
+    ceit = clipEvaluate_InmapTo
 
-    # TODO: clipEvaluate_Inmap.clipEvaluate_InmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipEvaluate_InmapFrom = ShortField()
+    ceif = clipEvaluate_InmapFrom
 
-    # TODO: clipEvaluate_Outmap.clipEvaluate_OutmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipEvaluate_OutmapTo = ShortField()
+    ceot = clipEvaluate_OutmapTo
 
-    # TODO: clipEvaluate_Outmap.clipEvaluate_OutmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipEvaluate_OutmapFrom = ShortField()
+    ceof = clipEvaluate_OutmapFrom
 
     clipStatePercentEval = ClipStatePercentEvalField()
     cspe = clipStatePercentEval
@@ -233,13 +237,17 @@ class Character(DG):
     clipStatePercentEval_Outmap = clipStatePercentEval.clipStatePercentEval_Outmap
     cspeo = clipStatePercentEval_Outmap
 
-    # TODO: clipStatePercentEval_Inmap.clipStatePercentEval_InmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipStatePercentEval_InmapTo = ShortField()
+    cspeit = clipStatePercentEval_InmapTo
 
-    # TODO: clipStatePercentEval_Inmap.clipStatePercentEval_InmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipStatePercentEval_InmapFrom = ShortField()
+    cspeif = clipStatePercentEval_InmapFrom
 
-    # TODO: clipStatePercentEval_Outmap.clipStatePercentEval_OutmapTo (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipStatePercentEval_OutmapTo = ShortField()
+    cspeot = clipStatePercentEval_OutmapTo
 
-    # TODO: clipStatePercentEval_Outmap.clipStatePercentEval_OutmapFrom (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    clipStatePercentEval_OutmapFrom = ShortField()
+    cspeof = clipStatePercentEval_OutmapFrom
 
     unitlessValues = DoubleField(multi=True)
     uv = unitlessValues

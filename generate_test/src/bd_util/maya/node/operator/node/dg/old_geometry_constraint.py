@@ -7,6 +7,7 @@ from ...attr.define.node_attr.old_geometry_constraint import (
     OutputField,
 )
 from ...attr.define.std.at.generic import GenericField
+from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
 
 
 class OldGeometryConstraint(DG):
@@ -17,23 +18,32 @@ class OldGeometryConstraint(DG):
     input = InputField(multi=True)
     i = input
 
-    # TODO: input.inputTransX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputTransX = DoubleLinearField()
+    itx = inputTransX
 
-    # TODO: input.inputTransY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputTransY = DoubleLinearField()
+    ity = inputTransY
 
-    # TODO: input.inputTransZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputTransZ = DoubleLinearField()
+    itz = inputTransZ
 
-    # TODO: input.inputRotPivotX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotPivotX = DoubleLinearField()
+    irpx = inputRotPivotX
 
-    # TODO: input.inputRotPivotY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotPivotY = DoubleLinearField()
+    irpy = inputRotPivotY
 
-    # TODO: input.inputRotPivotZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotPivotZ = DoubleLinearField()
+    irpz = inputRotPivotZ
 
-    # TODO: input.inputRotTransX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotTransX = DoubleLinearField()
+    irtx = inputRotTransX
 
-    # TODO: input.inputRotTransY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotTransY = DoubleLinearField()
+    irty = inputRotTransY
 
-    # TODO: input.inputRotTransZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inputRotTransZ = DoubleLinearField()
+    irtz = inputRotTransZ
 
     geometry = GenericField()
     g = geometry

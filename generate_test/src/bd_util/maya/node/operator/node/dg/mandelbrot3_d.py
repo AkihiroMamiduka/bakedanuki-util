@@ -282,11 +282,14 @@ class Mandelbrot3D(DG):
     color = ColorField(multi=True)
     cl = color
 
-    # TODO: color.color_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorR = FloatField()
+    clcr = color_ColorR
 
-    # TODO: color.color_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorG = FloatField()
+    clcg = color_ColorG
 
-    # TODO: color.color_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    color_ColorB = FloatField()
+    clcb = color_ColorB
 
     depth = LongField()
     dm = depth

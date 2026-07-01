@@ -121,23 +121,32 @@ class LayeredShader(DG):
     inputs = InputsField(multi=True)
     cs = inputs
 
-    # TODO: inputs.colorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorR = FloatField()
+    cr = colorR
 
-    # TODO: inputs.colorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorG = FloatField()
+    cg = colorG
 
-    # TODO: inputs.colorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorB = FloatField()
+    cb = colorB
 
-    # TODO: inputs.transparencyR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparencyR = FloatField()
+    tr = transparencyR
 
-    # TODO: inputs.transparencyG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparencyG = FloatField()
+    tg = transparencyG
 
-    # TODO: inputs.transparencyB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    transparencyB = FloatField()
+    tb = transparencyB
 
-    # TODO: inputs.glowColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    glowColorR = FloatField()
+    gr = glowColorR
 
-    # TODO: inputs.glowColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    glowColorG = FloatField()
+    gg = glowColorG
 
-    # TODO: inputs.glowColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    glowColorB = FloatField()
+    gb = glowColorB
 
     renderPassMode = RenderPassModeEnumField()
     rpm = renderPassMode

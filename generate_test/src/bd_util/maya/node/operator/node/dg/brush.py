@@ -38,6 +38,7 @@ from ...attr.define.std.at.enum import (
 )
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
 from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.at.unit_scalar.time import TimeField
@@ -1566,11 +1567,14 @@ class Brush(DG):
     environment = EnvironmentField(multi=True)
     env = environment
 
-    # TODO: environment.environment_ColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorR = FloatField()
+    envcr = environment_ColorR
 
-    # TODO: environment.environment_ColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorG = FloatField()
+    envcg = environment_ColorG
 
-    # TODO: environment.environment_ColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    environment_ColorB = FloatField()
+    envcb = environment_ColorB
 
     reflectionRolloff = ReflectionRolloffField(multi=True)
     rro = reflectionRolloff

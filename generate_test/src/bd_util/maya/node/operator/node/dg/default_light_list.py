@@ -4,6 +4,7 @@ from ...attr.define.node_attr.default_light_list import (
     LightDataArrayField,
     LightDataField,
 )
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
 
 class DefaultLightList(DG):
@@ -14,17 +15,23 @@ class DefaultLightList(DG):
     lightDataArray = LightDataArrayField(multi=True)
     lda = lightDataArray
 
-    # TODO: lightDataArray.lightDirectionX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionX = FloatField()
+    ldx = lightDirectionX
 
-    # TODO: lightDataArray.lightDirectionY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionY = FloatField()
+    ldy = lightDirectionY
 
-    # TODO: lightDataArray.lightDirectionZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightDirectionZ = FloatField()
+    ldz = lightDirectionZ
 
-    # TODO: lightDataArray.lightIntensityR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityR = FloatField()
+    lir = lightIntensityR
 
-    # TODO: lightDataArray.lightIntensityG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityG = FloatField()
+    lig = lightIntensityG
 
-    # TODO: lightDataArray.lightIntensityB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    lightIntensityB = FloatField()
+    lib = lightIntensityB
 
     lightData = LightDataField()
     ltd = lightData

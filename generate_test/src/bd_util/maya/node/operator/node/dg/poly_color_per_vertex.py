@@ -6,7 +6,10 @@ from ...attr.define.std.at.enum import (
     EnumPlugOperator,
     EnumField,
 )
+from ...attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ...attr.define.std.at.compound import CompoundField
 from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
 from ...attr.define.std.dt.mesh import DataMeshField
@@ -87,27 +90,38 @@ class PolyColorPerVertex(DG):
     vertexColor = colorPerVertex.vertexColor
     vclr = vertexColor
 
-    # TODO: vertexColor.vertexColorRGB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexColorRGB = Float3Field()
+    vrgb = vertexColorRGB
 
-    # TODO: vertexColor.vertexColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexColorR = FloatField()
+    vxcr = vertexColorR
 
-    # TODO: vertexColor.vertexColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexColorG = FloatField()
+    vxcg = vertexColorG
 
-    # TODO: vertexColor.vertexColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexColorB = FloatField()
+    vxcb = vertexColorB
 
-    # TODO: vertexColor.vertexAlpha (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexAlpha = FloatField()
+    vxal = vertexAlpha
 
-    # TODO: vertexColor.vertexFaceColor (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceColor = CompoundField()
+    vfcl = vertexFaceColor
 
-    # TODO: vertexColor.vertexFaceColor.vertexFaceColorRGB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceColorRGB = Float3Field()
+    frgb = vertexFaceColorRGB
 
-    # TODO: vertexColor.vertexFaceColor.vertexFaceColorR (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceColorR = FloatField()
+    vfcr = vertexFaceColorR
 
-    # TODO: vertexColor.vertexFaceColor.vertexFaceColorG (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceColorG = FloatField()
+    vfcg = vertexFaceColorG
 
-    # TODO: vertexColor.vertexFaceColor.vertexFaceColorB (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceColorB = FloatField()
+    vfcb = vertexFaceColorB
 
-    # TODO: vertexColor.vertexFaceColor.vertexFaceAlpha (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    vertexFaceAlpha = FloatField()
+    vfal = vertexFaceAlpha
 
     colorSetName = DataStringField()
     cn = colorSetName

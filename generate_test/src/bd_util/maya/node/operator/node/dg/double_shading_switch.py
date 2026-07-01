@@ -6,6 +6,7 @@ from ...attr.define.node_attr.double_shading_switch import (
     OutputField,
 )
 from ...attr.define.std.at.addr import AddrField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 
 
 class DoubleShadingSwitch(DG):
@@ -19,9 +20,11 @@ class DoubleShadingSwitch(DG):
     input = InputField(multi=True)
     i = input
 
-    # TODO: input.inComp1 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inComp1 = FloatField()
+    ic1 = inComp1
 
-    # TODO: input.inComp2 (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    inComp2 = FloatField()
+    ic2 = inComp2
 
     default = DefaultField()
     def_ = default

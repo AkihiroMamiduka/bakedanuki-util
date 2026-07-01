@@ -1,8 +1,10 @@
 # coding: utf-8
 from ._core import DG
 from ...attr.define.node_attr.mash_breakout import OutputsField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
 from ...attr.define.std.at.numeric_scalar_range.long import LongField
 from ...attr.define.std.at.typed import TypedField
+from ...attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
 
 
 class MASH_Breakout(DG):
@@ -12,41 +14,50 @@ class MASH_Breakout(DG):
 
     outputs = OutputsField(multi=True)
 
-    # TODO: outputs.translateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    translateX = FloatField()
 
-    # TODO: outputs.translateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    translateY = FloatField()
 
-    # TODO: outputs.translateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    translateZ = FloatField()
 
-    # TODO: outputs.rotateX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    rotateX = DoubleAngleField()
 
-    # TODO: outputs.rotateY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    rotateY = DoubleAngleField()
 
-    # TODO: outputs.rotateZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    rotateZ = DoubleAngleField()
 
-    # TODO: outputs.scaleX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    scaleX = FloatField()
 
-    # TODO: outputs.scaleY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    scaleY = FloatField()
 
-    # TODO: outputs.scaleZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    scaleZ = FloatField()
 
-    # TODO: outputs.colorX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorX = FloatField()
+    colorx = colorX
 
-    # TODO: outputs.colorY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorY = FloatField()
+    colory = colorY
 
-    # TODO: outputs.colorZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    colorZ = FloatField()
+    colorz = colorZ
 
-    # TODO: outputs.velocityVectorX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    velocityVectorX = FloatField()
+    velocityVectorx = velocityVectorX
 
-    # TODO: outputs.velocityVectorY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    velocityVectorY = FloatField()
+    velocityVectory = velocityVectorY
 
-    # TODO: outputs.velocityVectorZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    velocityVectorZ = FloatField()
+    velocityVectorz = velocityVectorZ
 
-    # TODO: outputs.angularVelocityVectorX (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    angularVelocityVectorX = FloatField()
+    angularVelocityVectorx = angularVelocityVectorX
 
-    # TODO: outputs.angularVelocityVectorY (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    angularVelocityVectorY = FloatField()
+    angularVelocityVectory = angularVelocityVectorY
 
-    # TODO: outputs.angularVelocityVectorZ (attributeType=None, dataType=None) は未対応のため手動で追加してください
+    angularVelocityVectorZ = FloatField()
+    angularVelocityVectorz = angularVelocityVectorZ
 
     inputPoints = TypedField()
 

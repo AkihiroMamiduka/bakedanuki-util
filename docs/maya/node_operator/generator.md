@@ -107,8 +107,11 @@ nm = name_
 `attribute_type == "typed"` の場合に加えて、Maya の query 結果で `attribute_type is None` だが `data_type` が取得できる場合も `_DT_TYPE_MAP` を使います。
 これにより、`timeEditorClip` の `rootObjLocalXform` や `jiggle` の `cachedInputPositionList` のような attribute を TODO ではなく typed data field として生成できます。
 
+`cmds.attributeQuery(..., attributeType=True)` が `None` を返す場合でも、`MFnNumericAttribute` / `MFnUnitAttribute` / `MFnMatrixAttribute` などから型を復元できる場合があります。
+`bd_util.maya.attr.query` はこの OpenMaya fallback を使い、multi compound の内部 leaf のような attribute も `FloatField` / `DoubleField` / `DoubleLinearField` などとして解決します。
+
 解決できない attribute は TODO コメントとして残します。
-現状、全 DG 生成で残っている TODO は `attributeType=None, dataType=None` のものです。
+現状、全 DG 生成で残っている TODO は `nodeGraphEditorInfo` のように standalone mayapy では十分な型情報を取得しづらいものです。
 
 ## enum 生成
 
