@@ -1,0 +1,61 @@
+# coding: utf-8
+
+from ..std.at.compound import (
+    CompoundAttrOperator,
+    CompoundPlugOperator,
+    CompoundField,
+)
+from ..std.at.matrix import MatrixField
+from ..std.at.numeric_scalar.bool import BoolField
+from ..std.at.numeric_scalar_range.double import DoubleField
+
+
+class TargetPlugOperator(
+    CompoundPlugOperator["TargetAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("enableTarget", "umt"),
+        ("weight", "wgt"),
+        ("targetMatrix", "tmat"),
+        ("offsetMatrix", "ofm"),
+    )
+
+    enableTarget = BoolField()
+    umt = enableTarget
+
+    weight = DoubleField()
+    wgt = weight
+
+    targetMatrix = MatrixField()
+    tmat = targetMatrix
+
+    offsetMatrix = MatrixField()
+    ofm = offsetMatrix
+
+
+class TargetAttrOperator(
+    CompoundAttrOperator[TargetPlugOperator]
+):
+    __slots__ = ()
+
+    enableTarget = BoolField()
+    umt = enableTarget
+
+    weight = DoubleField()
+    wgt = weight
+
+    targetMatrix = MatrixField()
+    tmat = targetMatrix
+
+    offsetMatrix = MatrixField()
+    ofm = offsetMatrix
+
+
+class TargetField(
+    CompoundField[TargetAttrOperator, TargetPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TargetAttrOperator
+    PLUG_CLS = TargetPlugOperator

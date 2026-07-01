@@ -166,6 +166,9 @@ NAME_MAP = {
 }
 ```
 
+compound child が enum の場合も、素の `EnumField()` ではなく専用の enum class を `node_attr` ファイル内に生成します。
+これにより、親 compound 経由や node 直下 alias 経由で child enum にアクセスした場合も `NAME_MAP` を保持できます。
+
 ## compound 生成
 
 compound parent と child の情報から、専用の compound class を生成します。

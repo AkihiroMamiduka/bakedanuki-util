@@ -19,13 +19,13 @@ class ColorAPlugOperator(
     )
 
     colorAR = FloatField()
-    _car = colorAR
+    car = colorAR
 
     colorAG = FloatField()
-    _cag = colorAG
+    cag = colorAG
 
     colorAB = FloatField()
-    _cab = colorAB
+    cab = colorAB
 
 
 class ColorAAttrOperator(
@@ -34,13 +34,13 @@ class ColorAAttrOperator(
     __slots__ = ()
 
     colorAR = FloatField()
-    _car = colorAR
+    car = colorAR
 
     colorAG = FloatField()
-    _cag = colorAG
+    cag = colorAG
 
     colorAB = FloatField()
-    _cab = colorAB
+    cab = colorAB
 
 
 class ColorAField(
@@ -52,13 +52,13 @@ class ColorAField(
     PLUG_CLS = ColorAPlugOperator
 
     colorAR = FloatField()
-    _car = colorAR
+    car = colorAR
 
     colorAG = FloatField()
-    _cag = colorAG
+    cag = colorAG
 
     colorAB = FloatField()
-    _cab = colorAB
+    cab = colorAB
 
 
 class ColorBPlugOperator(
@@ -72,13 +72,13 @@ class ColorBPlugOperator(
     )
 
     colorBR = FloatField()
-    _cbr = colorBR
+    cbr = colorBR
 
     colorBG = FloatField()
-    _cbg = colorBG
+    cbg = colorBG
 
     colorBB = FloatField()
-    _cbb = colorBB
+    cbb = colorBB
 
 
 class ColorBAttrOperator(
@@ -87,13 +87,13 @@ class ColorBAttrOperator(
     __slots__ = ()
 
     colorBR = FloatField()
-    _cbr = colorBR
+    cbr = colorBR
 
     colorBG = FloatField()
-    _cbg = colorBG
+    cbg = colorBG
 
     colorBB = FloatField()
-    _cbb = colorBB
+    cbb = colorBB
 
 
 class ColorBField(
@@ -105,13 +105,13 @@ class ColorBField(
     PLUG_CLS = ColorBPlugOperator
 
     colorBR = FloatField()
-    _cbr = colorBR
+    cbr = colorBR
 
     colorBG = FloatField()
-    _cbg = colorBG
+    cbg = colorBG
 
     colorBB = FloatField()
-    _cbb = colorBB
+    cbb = colorBB
 
 
 class OutColorPlugOperator(

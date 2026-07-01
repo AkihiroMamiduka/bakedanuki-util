@@ -1,0 +1,40 @@
+# coding: utf-8
+from ._core import DG
+from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.dt.string import DataStringField
+
+
+class HwReflectionMap(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "hwReflectionMap"
+
+    decalMode = BoolField()
+    dm = decalMode
+
+    cubeMap = BoolField()
+    cm = cubeMap
+
+    textureHasChanged = BoolField()
+    thc = textureHasChanged
+
+    sphereMapTextureName = DataStringField()
+    smtn = sphereMapTextureName
+
+    cubeFrontTextureName = DataStringField()
+    cftn = cubeFrontTextureName
+
+    cubeBackTextureName = DataStringField()
+    cbkn = cubeBackTextureName
+
+    cubeTopTextureName = DataStringField()
+    ctpn = cubeTopTextureName
+
+    cubeBottomTextureName = DataStringField()
+    cbmn = cubeBottomTextureName
+
+    cubeLeftTextureName = DataStringField()
+    cltn = cubeLeftTextureName
+
+    cubeRightTextureName = DataStringField()
+    crtn = cubeRightTextureName

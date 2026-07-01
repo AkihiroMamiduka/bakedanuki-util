@@ -19,13 +19,13 @@ class InColorPlugOperator(
     )
 
     inColorR = FloatField()
-    _cr = inColorR
+    cr = inColorR
 
     inColorG = FloatField()
-    _cg = inColorG
+    cg = inColorG
 
     inColorB = FloatField()
-    _cb = inColorB
+    cb = inColorB
 
 
 class InColorAttrOperator(
@@ -34,13 +34,13 @@ class InColorAttrOperator(
     __slots__ = ()
 
     inColorR = FloatField()
-    _cr = inColorR
+    cr = inColorR
 
     inColorG = FloatField()
-    _cg = inColorG
+    cg = inColorG
 
     inColorB = FloatField()
-    _cb = inColorB
+    cb = inColorB
 
 
 class InColorField(
@@ -52,13 +52,13 @@ class InColorField(
     PLUG_CLS = InColorPlugOperator
 
     inColorR = FloatField()
-    _cr = inColorR
+    cr = inColorR
 
     inColorG = FloatField()
-    _cg = inColorG
+    cg = inColorG
 
     inColorB = FloatField()
-    _cb = inColorB
+    cb = inColorB
 
 
 class OutColorPlugOperator(

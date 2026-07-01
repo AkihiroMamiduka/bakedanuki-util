@@ -171,6 +171,20 @@ def _datatype_only_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _compound_enum_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("primary", "pm", "compound", number_of_children=2),
+        _attr(
+            "primary.primaryMode",
+            "prmd",
+            "enum",
+            parent="primary",
+            enum_name=["None:Vector:Matrix"],
+        ),
+        _attr("primary.primaryWeight", "prw", "double", parent="primary"),
+    ]
+
+
 def test_attribute_field_accepts_explicit_maya_names():
     class Dummy:
         name_ = DataStringField(long_name="name", short_name="nm")
@@ -384,6 +398,23 @@ def test_generate_resolves_data_type_when_attribute_type_is_missing():
     assert "positionList = DataVectorArrayField()" in code
     assert "TODO: localXform" not in code
     assert "TODO: positionList" not in code
+
+
+def test_generate_compound_child_enum_uses_generated_enum_field():
+    code = generate_node_attr_code(
+        "compoundEnumNode",
+        attr_infos=_compound_enum_attr_infos(),
+    )
+
+    assert code is not None
+    compile(code, "compound_enum_node_attr.py", "exec")
+
+    assert "class Primary_primaryModeEnumPlugOperator(" in code
+    assert "class Primary_primaryModeEnumAttrOperator(" in code
+    assert "class Primary_primaryModeEnumField(" in code
+    assert "NAME_MAP = {" in code
+    assert "primaryMode = Primary_primaryModeEnumField()" in code
+    assert "primaryMode = EnumField()" not in code
 
 
 def test_generate_skips_deprecated_and_numeric_short_aliases():

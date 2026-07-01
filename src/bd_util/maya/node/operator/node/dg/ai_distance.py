@@ -1,0 +1,64 @@
+# coding: utf-8
+from ._core import DG
+from ...attr.define.node_attr.ai_distance import (
+    FarColorField,
+    NearColorField,
+    OutColorField,
+    Out_directionField,
+)
+from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
+from ...attr.define.std.at.numeric_scalar_range.long import LongField
+from ...attr.define.std.dt.string import DataStringField
+
+
+class AiDistance(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "aiDistance"
+
+    outColor = OutColorField()
+    out = outColor
+    outColorR = outColor.outColorR
+    outr = outColorR
+    outColorG = outColor.outColorG
+    outg = outColorG
+    outColorB = outColor.outColorB
+    outb = outColorB
+
+    out_distance = FloatField()
+
+    out_direction = Out_directionField()
+    out_directionX = out_direction.out_directionX
+    out_directionx = out_directionX
+    out_directionY = out_direction.out_directionY
+    out_directiony = out_directionY
+    out_directionZ = out_direction.out_directionZ
+    out_directionz = out_directionZ
+
+    samples = LongField()
+
+    distance = FloatField()
+
+    nearColor = NearColorField()
+    near_color = nearColor
+    nearColorR = nearColor.nearColorR
+    near_colorr = nearColorR
+    nearColorG = nearColor.nearColorG
+    near_colorg = nearColorG
+    nearColorB = nearColor.nearColorB
+    near_colorb = nearColorB
+
+    farColor = FarColorField()
+    far_color = farColor
+    farColorR = farColor.farColorR
+    far_colorr = farColorR
+    farColorG = farColor.farColorG
+    far_colorg = farColorG
+    farColorB = farColor.farColorB
+    far_colorb = farColorB
+
+    traceSet = DataStringField()
+    trace_set = traceSet
+
+    inclusive = BoolField()

@@ -1,0 +1,16 @@
+# coding: utf-8
+from ._core import DG
+from ...attr.define.std.at.matrix import MatrixField
+from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+
+
+class Determinant(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "determinant"
+
+    input = MatrixField()
+    i = input
+
+    output = DoubleLinearField()
+    o = output

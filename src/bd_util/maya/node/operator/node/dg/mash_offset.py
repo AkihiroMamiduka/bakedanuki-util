@@ -1,0 +1,378 @@
+# coding: utf-8
+from ._core import DG
+from ...attr.define.node_attr.mash_offset import (
+    CentreOfRotationField,
+    FalloffObjectField,
+    HighClampField,
+    LowClampField,
+    MColourField,
+    OffsetInputsField,
+    OffsetsField,
+    RayDirectionField,
+    ReorderDistancePointField,
+)
+from ...attr.define.std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ...attr.define.std.at.matrix import MatrixField
+from ...attr.define.std.at.message import MessageField
+from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ...attr.define.std.at.numeric_scalar_range.float import FloatField
+from ...attr.define.std.at.numeric_scalar_range.long import LongField
+from ...attr.define.std.at.typed import TypedField
+from ...attr.define.std.at.unit_scalar.time import TimeField
+from ...attr.define.std.dt.mesh import DataMeshField
+from ...attr.define.std.dt.string import DataStringField
+from ...attr.define.std.dt.vector_array import DataVectorArrayField
+
+
+class MapDirectionEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    UV = 1
+    Y = 2
+    X = 3
+    Z = 4
+
+
+class MapDirectionEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    UV = 1
+    Y = 2
+    X = 3
+    Z = 4
+
+    NAME_MAP = {
+        UV: "UV",
+        Y: "Y",
+        X: "X",
+        Z: "Z",
+    }
+
+
+class MapDirectionEnumField(
+    EnumField[MapDirectionEnumAttrOperator, MapDirectionEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = MapDirectionEnumAttrOperator
+    PLUG_CLS = MapDirectionEnumPlugOperator
+
+
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    WORLD = 1
+    LOCAL = 2
+
+
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    WORLD = 1
+    LOCAL = 2
+
+    NAME_MAP = {
+        WORLD: "World",
+        LOCAL: "Local",
+    }
+
+
+class TransformationSpaceEnumField(
+    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TransformationSpaceEnumAttrOperator
+    PLUG_CLS = TransformationSpaceEnumPlugOperator
+
+
+class OffsetTypeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    OFFSET = 1
+    MULTIPLY = 2
+    OVERWRITE = 4
+    CLOSEST_POINT_ON_MESH = 5
+    MULTIPLY_BY_TIME = 6
+
+
+class OffsetTypeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    OFFSET = 1
+    MULTIPLY = 2
+    OVERWRITE = 4
+    CLOSEST_POINT_ON_MESH = 5
+    MULTIPLY_BY_TIME = 6
+
+    NAME_MAP = {
+        OFFSET: "Offset",
+        MULTIPLY: "Multiply",
+        OVERWRITE: "Overwrite",
+        CLOSEST_POINT_ON_MESH: "Closest Point on Mesh",
+        MULTIPLY_BY_TIME: "Multiply by Time",
+    }
+
+
+class OffsetTypeEnumField(
+    EnumField[OffsetTypeEnumAttrOperator, OffsetTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OffsetTypeEnumAttrOperator
+    PLUG_CLS = OffsetTypeEnumPlugOperator
+
+
+class ReorderPointsEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    OFF = 1
+    X = 2
+    Y = 3
+    Z = 4
+    DISTANCE_TO_POINT = 5
+    DISTANCE_TO_MESH = 6
+    RANDOM = 7
+
+
+class ReorderPointsEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    OFF = 1
+    X = 2
+    Y = 3
+    Z = 4
+    DISTANCE_TO_POINT = 5
+    DISTANCE_TO_MESH = 6
+    RANDOM = 7
+
+    NAME_MAP = {
+        OFF: "Off",
+        X: "X",
+        Y: "Y",
+        Z: "Z",
+        DISTANCE_TO_POINT: "Distance to Point",
+        DISTANCE_TO_MESH: "Distance to Mesh",
+        RANDOM: "Random",
+    }
+
+
+class ReorderPointsEnumField(
+    EnumField[ReorderPointsEnumAttrOperator, ReorderPointsEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ReorderPointsEnumAttrOperator
+    PLUG_CLS = ReorderPointsEnumPlugOperator
+
+
+class ClosestPointModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    CLOSEST_POINT_ON_MESH = 1
+    RAY_CAST = 2
+
+
+class ClosestPointModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    CLOSEST_POINT_ON_MESH = 1
+    RAY_CAST = 2
+
+    NAME_MAP = {
+        CLOSEST_POINT_ON_MESH: "Closest Point on Mesh",
+        RAY_CAST: "Ray Cast",
+    }
+
+
+class ClosestPointModeEnumField(
+    EnumField[ClosestPointModeEnumAttrOperator, ClosestPointModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClosestPointModeEnumAttrOperator
+    PLUG_CLS = ClosestPointModeEnumPlugOperator
+
+
+class MASH_Offset(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "MASH_Offset"
+
+    savedData = TypedField()
+
+    mColour = MColourField()
+    mc = mColour
+    mColourR = mColour.mColourR
+    mcr = mColourR
+    mColourG = mColour.mColourG
+    mcg = mColourG
+    mColourB = mColour.mColourB
+    mcb = mColourB
+
+    inMapMatrix = MatrixField()
+
+    mapDirection = MapDirectionEnumField()
+
+    Envelope = FloatField()
+
+    randEnvelope = FloatField()
+
+    StepEnvelope = FloatField()
+
+    mFalloffInfo = TypedField(multi=True)
+
+    enableStrengthX = BoolField()
+
+    enableStrengthY = BoolField()
+
+    enableStrengthZ = BoolField()
+
+    stringOn = DataStringField()
+
+    stringOff = DataStringField()
+
+    strengthPP = TypedField(multi=True)
+
+    transformationSpace = TransformationSpaceEnumField()
+
+    outputPoints = TypedField()
+
+    inputPoints = TypedField()
+
+    inputArray = DataVectorArrayField()
+    inArray = inputArray
+
+    outputArray = DataVectorArrayField()
+    outArray = outputArray
+
+    fallPosArray = DataVectorArrayField()
+    fArray = fallPosArray
+
+    time = TimeField()
+    ti = time
+
+    inIterations = LongField()
+    inIter = inIterations
+
+    enable = BoolField()
+    en = enable
+
+    enablePosition = BoolField()
+
+    enableRotation = BoolField()
+
+    enableScale = BoolField()
+
+    holdValue = FloatField()
+
+    startFrame = LongField()
+
+    useTime = BoolField()
+
+    falloffObject = FalloffObjectField()
+    fallObj = falloffObject
+    falloffObjectX = falloffObject.falloffObjectX
+    fallObjx = falloffObjectX
+    falloffObjectY = falloffObject.falloffObjectY
+    fallObjy = falloffObjectY
+    falloffObjectZ = falloffObject.falloffObjectZ
+    fallObjz = falloffObjectZ
+
+    falloffX = BoolField()
+    fax = falloffX
+
+    falloffY = BoolField()
+    fay = falloffY
+
+    falloffZ = BoolField()
+    faz = falloffZ
+
+    falloffMessage = MessageField()
+    fmsg = falloffMessage
+
+    enableId = BoolField()
+
+    idOffset = LongField()
+
+    enableLC = BoolField()
+    enLC = enableLC
+
+    enableHC = BoolField()
+    enHC = enableHC
+
+    lowClamp = LowClampField()
+    lcl = lowClamp
+    lowClamp0 = lowClamp.lowClamp0
+    lcl0 = lowClamp0
+    lowClamp1 = lowClamp.lowClamp1
+    lcl1 = lowClamp1
+    lowClamp2 = lowClamp.lowClamp2
+    lcl2 = lowClamp2
+
+    strengthAffectsOffsets = BoolField()
+
+    highClamp = HighClampField()
+    hcl = highClamp
+    highClamp0 = highClamp.highClamp0
+    hcl0 = highClamp0
+    highClamp1 = highClamp.highClamp1
+    hcl1 = highClamp1
+    highClamp2 = highClamp.highClamp2
+    hcl2 = highClamp2
+
+    offsetType = OffsetTypeEnumField()
+    oft = offsetType
+
+    reorderPoints = ReorderPointsEnumField()
+
+    reversePointOrder = BoolField()
+
+    reorderDistancePoint = ReorderDistancePointField()
+    reorderDistancePointX = reorderDistancePoint.reorderDistancePointX
+    reorderDistancePointx = reorderDistancePointX
+    reorderDistancePointY = reorderDistancePoint.reorderDistancePointY
+    reorderDistancePointy = reorderDistancePointY
+    reorderDistancePointZ = reorderDistancePoint.reorderDistancePointZ
+    reorderDistancePointz = reorderDistancePointZ
+
+    reorderInputMesh = DataMeshField()
+
+    randomSeed = LongField()
+
+    offsets = OffsetsField()
+    off = offsets
+    offsets0 = offsets.offsets0
+    off0 = offsets0
+    offsets1 = offsets.offsets1
+    off1 = offsets1
+    offsets2 = offsets.offsets2
+    off2 = offsets2
+
+    closestPointMode = ClosestPointModeEnumField()
+
+    rayDirection = RayDirectionField()
+    rayDirection0 = rayDirection.rayDirection0
+    rayDirection1 = rayDirection.rayDirection1
+    rayDirection2 = rayDirection.rayDirection2
+
+    hideOnRayMiss = BoolField()
+
+    offsetInputs = OffsetInputsField()
+    positionOffset = offsetInputs.positionOffset
+    rotationOffset = offsetInputs.rotationOffset
+    scaleOffset = offsetInputs.scaleOffset
+
+    inputMesh = DataMeshField()
+    inM = inputMesh
+
+    centreOfRotation = CentreOfRotationField()
+    centreOfRotation0 = centreOfRotation.centreOfRotation0
+    centreOfRotation1 = centreOfRotation.centreOfRotation1
+    centreOfRotation2 = centreOfRotation.centreOfRotation2
+
+    falloffInfo = TypedField()

@@ -1029,6 +1029,9 @@ def generate_node_attr_code(
         if cls_name not in cls_names:
             cls_names.append(cls_name)
 
+    # 生成する EnumOperator / EnumField クラス: base_name -> entries
+    enum_classes: dict[str, list[tuple[str, int | None]]] = {}
+
     # 各 compound アトリビュートのクラスブロックを生成
     class_blocks: list[list[str]] = []
 
@@ -1070,7 +1073,23 @@ def generate_node_attr_code(
                 continue
 
             child_cls_name, child_module = child_resolved
-            _add_import(child_cls_name, _node_attr_module_path(child_module))
+            if child_info.attribute_type == "enum":
+                entries = _parse_enum_entries(child_info.enum_name)
+                if entries:
+                    enum_cls_name = _long_name_to_enum_class_name(
+                        _attr_long_name(child_info)
+                    )
+                    enum_classes.setdefault(enum_cls_name, entries)
+                    child_cls_name = f"{enum_cls_name}Field"
+                    _add_import("EnumAttrOperator", "std.at.enum")
+                    _add_import("EnumPlugOperator", "std.at.enum")
+                    _add_import("EnumField", "std.at.enum")
+                else:
+                    _add_import(
+                        child_cls_name, _node_attr_module_path(child_module)
+                    )
+            else:
+                _add_import(child_cls_name, _node_attr_module_path(child_module))
 
             safe_child_name = _safe_field_name(child_name)
             init_args = _field_init_args(
@@ -1168,6 +1187,11 @@ def generate_node_attr_code(
     lines.extend(import_lines)
     lines.append("")
     lines.append("")
+
+    for enum_cls_name, entries in enum_classes.items():
+        lines.extend(_build_enum_class_lines(enum_cls_name, entries))
+        lines.append("")
+        lines.append("")
 
     for i, block in enumerate(class_blocks):
         lines.extend(block)
