@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.matrix import MatrixField
 from ..std.at.numeric_scalar.bool import BoolField
 from ..std.at.numeric_scalar_range.double import DoubleField
@@ -18,6 +22,80 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,
 )
+
+
+class DriverWrapModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    OFFSET = 0
+    SURFACE = 1
+    SNAP = 2
+    RIGID = 3
+    CLUSTER = 4
+    GLOBAL = 100
+
+
+class DriverWrapModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    OFFSET = 0
+    SURFACE = 1
+    SNAP = 2
+    RIGID = 3
+    CLUSTER = 4
+    GLOBAL = 100
+
+    NAME_MAP = {
+        OFFSET: "Offset",
+        SURFACE: "Surface",
+        SNAP: "Snap",
+        RIGID: "Rigid",
+        CLUSTER: "Cluster",
+        GLOBAL: "Global",
+    }
+
+
+class DriverWrapModeEnumField(
+    EnumField[DriverWrapModeEnumAttrOperator, DriverWrapModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DriverWrapModeEnumAttrOperator
+    PLUG_CLS = DriverWrapModeEnumPlugOperator
+
+
+class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class FalloffRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class FalloffRamp_InterpEnumField(
+    EnumField[FalloffRamp_InterpEnumAttrOperator, FalloffRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = FalloffRamp_InterpEnumAttrOperator
+    PLUG_CLS = FalloffRamp_InterpEnumPlugOperator
 
 
 class InputPlugOperator(
@@ -259,7 +337,7 @@ class DriversPlugOperator(
     driverOverrideSpanSamples = BoolField()
     dospns = driverOverrideSpanSamples
 
-    driverWrapMode = EnumField()
+    driverWrapMode = DriverWrapModeEnumField()
     dwmd = driverWrapMode
 
 
@@ -325,7 +403,7 @@ class DriversAttrOperator(
     driverOverrideSpanSamples = BoolField()
     dospns = driverOverrideSpanSamples
 
-    driverWrapMode = EnumField()
+    driverWrapMode = DriverWrapModeEnumField()
     dwmd = driverWrapMode
 
 
@@ -354,7 +432,7 @@ class FalloffRampPlugOperator(
     falloffRamp_FloatValue = FloatField()
     frmpfv = falloffRamp_FloatValue
 
-    falloffRamp_Interp = EnumField()
+    falloffRamp_Interp = FalloffRamp_InterpEnumField()
     frmpi = falloffRamp_Interp
 
 
@@ -369,7 +447,7 @@ class FalloffRampAttrOperator(
     falloffRamp_FloatValue = FloatField()
     frmpfv = falloffRamp_FloatValue
 
-    falloffRamp_Interp = EnumField()
+    falloffRamp_Interp = FalloffRamp_InterpEnumField()
     frmpi = falloffRamp_Interp
 
 

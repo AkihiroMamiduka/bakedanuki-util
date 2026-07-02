@@ -5,8 +5,148 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
+
+
+class RampRGB_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RampRGB_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RampRGB_InterpEnumField(
+    EnumField[RampRGB_InterpEnumAttrOperator, RampRGB_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RampRGB_InterpEnumAttrOperator
+    PLUG_CLS = RampRGB_InterpEnumPlugOperator
+
+
+class RampR_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RampR_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RampR_InterpEnumField(
+    EnumField[RampR_InterpEnumAttrOperator, RampR_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RampR_InterpEnumAttrOperator
+    PLUG_CLS = RampR_InterpEnumPlugOperator
+
+
+class RampG_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RampG_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RampG_InterpEnumField(
+    EnumField[RampG_InterpEnumAttrOperator, RampG_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RampG_InterpEnumAttrOperator
+    PLUG_CLS = RampG_InterpEnumPlugOperator
+
+
+class RampB_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RampB_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RampB_InterpEnumField(
+    EnumField[RampB_InterpEnumAttrOperator, RampB_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RampB_InterpEnumAttrOperator
+    PLUG_CLS = RampB_InterpEnumPlugOperator
 
 
 class RampRGBPlugOperator(
@@ -25,7 +165,7 @@ class RampRGBPlugOperator(
     rampRGB_FloatValue = FloatField()
     aiRampRGBfv = rampRGB_FloatValue
 
-    rampRGB_Interp = EnumField()
+    rampRGB_Interp = RampRGB_InterpEnumField()
     aiRampRGBi = rampRGB_Interp
 
 
@@ -40,7 +180,7 @@ class RampRGBAttrOperator(
     rampRGB_FloatValue = FloatField()
     aiRampRGBfv = rampRGB_FloatValue
 
-    rampRGB_Interp = EnumField()
+    rampRGB_Interp = RampRGB_InterpEnumField()
     aiRampRGBi = rampRGB_Interp
 
 
@@ -69,7 +209,7 @@ class RampRPlugOperator(
     rampR_FloatValue = FloatField()
     aiRampRfv = rampR_FloatValue
 
-    rampR_Interp = EnumField()
+    rampR_Interp = RampR_InterpEnumField()
     aiRampRi = rampR_Interp
 
 
@@ -84,7 +224,7 @@ class RampRAttrOperator(
     rampR_FloatValue = FloatField()
     aiRampRfv = rampR_FloatValue
 
-    rampR_Interp = EnumField()
+    rampR_Interp = RampR_InterpEnumField()
     aiRampRi = rampR_Interp
 
 
@@ -113,7 +253,7 @@ class RampGPlugOperator(
     rampG_FloatValue = FloatField()
     aiRampGfv = rampG_FloatValue
 
-    rampG_Interp = EnumField()
+    rampG_Interp = RampG_InterpEnumField()
     aiRampGi = rampG_Interp
 
 
@@ -128,7 +268,7 @@ class RampGAttrOperator(
     rampG_FloatValue = FloatField()
     aiRampGfv = rampG_FloatValue
 
-    rampG_Interp = EnumField()
+    rampG_Interp = RampG_InterpEnumField()
     aiRampGi = rampG_Interp
 
 
@@ -157,7 +297,7 @@ class RampBPlugOperator(
     rampB_FloatValue = FloatField()
     aiRampBfv = rampB_FloatValue
 
-    rampB_Interp = EnumField()
+    rampB_Interp = RampB_InterpEnumField()
     aiRampBi = rampB_Interp
 
 
@@ -172,7 +312,7 @@ class RampBAttrOperator(
     rampB_FloatValue = FloatField()
     aiRampBfv = rampB_FloatValue
 
-    rampB_Interp = EnumField()
+    rampB_Interp = RampB_InterpEnumField()
     aiRampBi = rampB_Interp
 
 

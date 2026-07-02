@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
@@ -23,6 +27,40 @@ from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base impo
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
 )
+
+
+class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class AvoidanceRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class AvoidanceRamp_InterpEnumField(
+    EnumField[AvoidanceRamp_InterpEnumAttrOperator, AvoidanceRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = AvoidanceRamp_InterpEnumAttrOperator
+    PLUG_CLS = AvoidanceRamp_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -94,7 +132,7 @@ class AvoidanceRampPlugOperator(
     avoidanceRamp_FloatValue = FloatField()
     avoidanceRampfv = avoidanceRamp_FloatValue
 
-    avoidanceRamp_Interp = EnumField()
+    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField()
     avoidanceRampi = avoidanceRamp_Interp
 
 
@@ -109,7 +147,7 @@ class AvoidanceRampAttrOperator(
     avoidanceRamp_FloatValue = FloatField()
     avoidanceRampfv = avoidanceRamp_FloatValue
 
-    avoidanceRamp_Interp = EnumField()
+    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField()
     avoidanceRampi = avoidanceRamp_Interp
 
 

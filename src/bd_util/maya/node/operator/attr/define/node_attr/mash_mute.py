@@ -5,13 +5,153 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class EnvelopeRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class EnvelopeRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class EnvelopeRamp_InterpEnumField(
+    EnumField[EnvelopeRamp_InterpEnumAttrOperator, EnvelopeRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = EnvelopeRamp_InterpEnumAttrOperator
+    PLUG_CLS = EnvelopeRamp_InterpEnumPlugOperator
+
+
+class BeatRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BeatRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BeatRamp_InterpEnumField(
+    EnumField[BeatRamp_InterpEnumAttrOperator, BeatRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BeatRamp_InterpEnumAttrOperator
+    PLUG_CLS = BeatRamp_InterpEnumPlugOperator
+
+
+class MuteRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class MuteRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class MuteRamp_InterpEnumField(
+    EnumField[MuteRamp_InterpEnumAttrOperator, MuteRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = MuteRamp_InterpEnumAttrOperator
+    PLUG_CLS = MuteRamp_InterpEnumPlugOperator
+
+
+class VelocityRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class VelocityRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class VelocityRamp_InterpEnumField(
+    EnumField[VelocityRamp_InterpEnumAttrOperator, VelocityRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = VelocityRamp_InterpEnumAttrOperator
+    PLUG_CLS = VelocityRamp_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -83,7 +223,7 @@ class EnvelopeRampPlugOperator(
     envelopeRamp_FloatValue = FloatField()
     envelopeRampfv = envelopeRamp_FloatValue
 
-    envelopeRamp_Interp = EnumField()
+    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField()
     envelopeRampi = envelopeRamp_Interp
 
 
@@ -98,7 +238,7 @@ class EnvelopeRampAttrOperator(
     envelopeRamp_FloatValue = FloatField()
     envelopeRampfv = envelopeRamp_FloatValue
 
-    envelopeRamp_Interp = EnumField()
+    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField()
     envelopeRampi = envelopeRamp_Interp
 
 
@@ -180,7 +320,7 @@ class BeatRampPlugOperator(
     beatRamp_FloatValue = FloatField()
     beatRampfv = beatRamp_FloatValue
 
-    beatRamp_Interp = EnumField()
+    beatRamp_Interp = BeatRamp_InterpEnumField()
     beatRampi = beatRamp_Interp
 
 
@@ -195,7 +335,7 @@ class BeatRampAttrOperator(
     beatRamp_FloatValue = FloatField()
     beatRampfv = beatRamp_FloatValue
 
-    beatRamp_Interp = EnumField()
+    beatRamp_Interp = BeatRamp_InterpEnumField()
     beatRampi = beatRamp_Interp
 
 
@@ -224,7 +364,7 @@ class MuteRampPlugOperator(
     muteRamp_FloatValue = FloatField()
     muteRampfv = muteRamp_FloatValue
 
-    muteRamp_Interp = EnumField()
+    muteRamp_Interp = MuteRamp_InterpEnumField()
     muteRampi = muteRamp_Interp
 
 
@@ -239,7 +379,7 @@ class MuteRampAttrOperator(
     muteRamp_FloatValue = FloatField()
     muteRampfv = muteRamp_FloatValue
 
-    muteRamp_Interp = EnumField()
+    muteRamp_Interp = MuteRamp_InterpEnumField()
     muteRampi = muteRamp_Interp
 
 
@@ -268,7 +408,7 @@ class VelocityRampPlugOperator(
     velocityRamp_FloatValue = FloatField()
     velocityRampfv = velocityRamp_FloatValue
 
-    velocityRamp_Interp = EnumField()
+    velocityRamp_Interp = VelocityRamp_InterpEnumField()
     velocityRampi = velocityRamp_Interp
 
 
@@ -283,7 +423,7 @@ class VelocityRampAttrOperator(
     velocityRamp_FloatValue = FloatField()
     velocityRampfv = velocityRamp_FloatValue
 
-    velocityRamp_Interp = EnumField()
+    velocityRamp_Interp = VelocityRamp_InterpEnumField()
     velocityRampi = velocityRamp_Interp
 
 

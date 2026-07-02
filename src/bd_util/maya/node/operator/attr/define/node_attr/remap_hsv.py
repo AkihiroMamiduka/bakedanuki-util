@@ -5,13 +5,119 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class Hue_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Hue_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Hue_InterpEnumField(
+    EnumField[Hue_InterpEnumAttrOperator, Hue_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Hue_InterpEnumAttrOperator
+    PLUG_CLS = Hue_InterpEnumPlugOperator
+
+
+class Saturation_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Saturation_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Saturation_InterpEnumField(
+    EnumField[Saturation_InterpEnumAttrOperator, Saturation_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Saturation_InterpEnumAttrOperator
+    PLUG_CLS = Saturation_InterpEnumPlugOperator
+
+
+class Value_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Value_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Value_InterpEnumField(
+    EnumField[Value_InterpEnumAttrOperator, Value_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Value_InterpEnumAttrOperator
+    PLUG_CLS = Value_InterpEnumPlugOperator
 
 
 class ColorPlugOperator(
@@ -83,7 +189,7 @@ class HuePlugOperator(
     hue_FloatValue = FloatField()
     hfv = hue_FloatValue
 
-    hue_Interp = EnumField()
+    hue_Interp = Hue_InterpEnumField()
     hi = hue_Interp
 
 
@@ -98,7 +204,7 @@ class HueAttrOperator(
     hue_FloatValue = FloatField()
     hfv = hue_FloatValue
 
-    hue_Interp = EnumField()
+    hue_Interp = Hue_InterpEnumField()
     hi = hue_Interp
 
 
@@ -127,7 +233,7 @@ class SaturationPlugOperator(
     saturation_FloatValue = FloatField()
     sfv = saturation_FloatValue
 
-    saturation_Interp = EnumField()
+    saturation_Interp = Saturation_InterpEnumField()
     si = saturation_Interp
 
 
@@ -142,7 +248,7 @@ class SaturationAttrOperator(
     saturation_FloatValue = FloatField()
     sfv = saturation_FloatValue
 
-    saturation_Interp = EnumField()
+    saturation_Interp = Saturation_InterpEnumField()
     si = saturation_Interp
 
 
@@ -171,7 +277,7 @@ class ValuePlugOperator(
     value_FloatValue = FloatField()
     vfv = value_FloatValue
 
-    value_Interp = EnumField()
+    value_Interp = Value_InterpEnumField()
     vi = value_Interp
 
 
@@ -186,7 +292,7 @@ class ValueAttrOperator(
     value_FloatValue = FloatField()
     vfv = value_FloatValue
 
-    value_Interp = EnumField()
+    value_Interp = Value_InterpEnumField()
     vi = value_Interp
 
 

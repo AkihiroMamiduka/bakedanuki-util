@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar.bool import BoolField
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
@@ -14,6 +18,70 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class BlendModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    OVER = 1
+    IN = 2
+    OUT = 3
+    ADD = 4
+    SUBTRACT = 5
+    MULTIPLY = 6
+    DIFFERENCE = 7
+    LIGHTEN = 8
+    DARKEN = 9
+    SATURATE = 10
+    DESATURATE = 11
+    ILLUMINATE = 12
+    CPV_MODULATE = 13
+
+
+class BlendModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    OVER = 1
+    IN = 2
+    OUT = 3
+    ADD = 4
+    SUBTRACT = 5
+    MULTIPLY = 6
+    DIFFERENCE = 7
+    LIGHTEN = 8
+    DARKEN = 9
+    SATURATE = 10
+    DESATURATE = 11
+    ILLUMINATE = 12
+    CPV_MODULATE = 13
+
+    NAME_MAP = {
+        NONE: "None",
+        OVER: "Over",
+        IN: "In",
+        OUT: "Out",
+        ADD: "Add",
+        SUBTRACT: "Subtract",
+        MULTIPLY: "Multiply",
+        DIFFERENCE: "Difference",
+        LIGHTEN: "Lighten",
+        DARKEN: "Darken",
+        SATURATE: "Saturate",
+        DESATURATE: "Desaturate",
+        ILLUMINATE: "Illuminate",
+        CPV_MODULATE: "CPV Modulate",
+    }
+
+
+class BlendModeEnumField(
+    EnumField[BlendModeEnumAttrOperator, BlendModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BlendModeEnumAttrOperator
+    PLUG_CLS = BlendModeEnumPlugOperator
 
 
 class InputsPlugOperator(
@@ -33,7 +101,7 @@ class InputsPlugOperator(
     alpha = FloatField()
     a = alpha
 
-    blendMode = EnumField()
+    blendMode = BlendModeEnumField()
     bm = blendMode
 
     isVisible = BoolField()
@@ -51,7 +119,7 @@ class InputsAttrOperator(
     alpha = FloatField()
     a = alpha
 
-    blendMode = EnumField()
+    blendMode = BlendModeEnumField()
     bm = blendMode
 
     isVisible = BoolField()

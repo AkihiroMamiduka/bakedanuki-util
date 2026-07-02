@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.double import DoubleField
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
@@ -19,6 +23,278 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class LeafCurl_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class LeafCurl_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class LeafCurl_InterpEnumField(
+    EnumField[LeafCurl_InterpEnumAttrOperator, LeafCurl_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = LeafCurl_InterpEnumAttrOperator
+    PLUG_CLS = LeafCurl_InterpEnumPlugOperator
+
+
+class PetalCurl_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class PetalCurl_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class PetalCurl_InterpEnumField(
+    EnumField[PetalCurl_InterpEnumAttrOperator, PetalCurl_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = PetalCurl_InterpEnumAttrOperator
+    PLUG_CLS = PetalCurl_InterpEnumPlugOperator
+
+
+class WidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class WidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class WidthScale_InterpEnumField(
+    EnumField[WidthScale_InterpEnumAttrOperator, WidthScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = WidthScale_InterpEnumAttrOperator
+    PLUG_CLS = WidthScale_InterpEnumPlugOperator
+
+
+class LeafWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class LeafWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class LeafWidthScale_InterpEnumField(
+    EnumField[LeafWidthScale_InterpEnumAttrOperator, LeafWidthScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = LeafWidthScale_InterpEnumAttrOperator
+    PLUG_CLS = LeafWidthScale_InterpEnumPlugOperator
+
+
+class PetalWidthScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class PetalWidthScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class PetalWidthScale_InterpEnumField(
+    EnumField[PetalWidthScale_InterpEnumAttrOperator, PetalWidthScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = PetalWidthScale_InterpEnumAttrOperator
+    PLUG_CLS = PetalWidthScale_InterpEnumPlugOperator
+
+
+class TwigLengthScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class TwigLengthScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class TwigLengthScale_InterpEnumField(
+    EnumField[TwigLengthScale_InterpEnumAttrOperator, TwigLengthScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TwigLengthScale_InterpEnumAttrOperator
+    PLUG_CLS = TwigLengthScale_InterpEnumPlugOperator
+
+
+class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Environment_InterpEnumField(
+    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Environment_InterpEnumAttrOperator
+    PLUG_CLS = Environment_InterpEnumPlugOperator
+
+
+class ReflectionRolloff_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ReflectionRolloff_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ReflectionRolloff_InterpEnumField(
+    EnumField[ReflectionRolloff_InterpEnumAttrOperator, ReflectionRolloff_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ReflectionRolloff_InterpEnumAttrOperator
+    PLUG_CLS = ReflectionRolloff_InterpEnumPlugOperator
 
 
 class Color1PlugOperator(
@@ -673,7 +949,7 @@ class LeafCurlPlugOperator(
     leafCurl_FloatValue = FloatField()
     lclfv = leafCurl_FloatValue
 
-    leafCurl_Interp = EnumField()
+    leafCurl_Interp = LeafCurl_InterpEnumField()
     lcli = leafCurl_Interp
 
 
@@ -688,7 +964,7 @@ class LeafCurlAttrOperator(
     leafCurl_FloatValue = FloatField()
     lclfv = leafCurl_FloatValue
 
-    leafCurl_Interp = EnumField()
+    leafCurl_Interp = LeafCurl_InterpEnumField()
     lcli = leafCurl_Interp
 
 
@@ -876,7 +1152,7 @@ class PetalCurlPlugOperator(
     petalCurl_FloatValue = FloatField()
     pclfv = petalCurl_FloatValue
 
-    petalCurl_Interp = EnumField()
+    petalCurl_Interp = PetalCurl_InterpEnumField()
     pcli = petalCurl_Interp
 
 
@@ -891,7 +1167,7 @@ class PetalCurlAttrOperator(
     petalCurl_FloatValue = FloatField()
     pclfv = petalCurl_FloatValue
 
-    petalCurl_Interp = EnumField()
+    petalCurl_Interp = PetalCurl_InterpEnumField()
     pcli = petalCurl_Interp
 
 
@@ -1132,7 +1408,7 @@ class WidthScalePlugOperator(
     widthScale_FloatValue = FloatField()
     wscfv = widthScale_FloatValue
 
-    widthScale_Interp = EnumField()
+    widthScale_Interp = WidthScale_InterpEnumField()
     wsci = widthScale_Interp
 
 
@@ -1147,7 +1423,7 @@ class WidthScaleAttrOperator(
     widthScale_FloatValue = FloatField()
     wscfv = widthScale_FloatValue
 
-    widthScale_Interp = EnumField()
+    widthScale_Interp = WidthScale_InterpEnumField()
     wsci = widthScale_Interp
 
 
@@ -1176,7 +1452,7 @@ class LeafWidthScalePlugOperator(
     leafWidthScale_FloatValue = FloatField()
     lwsfv = leafWidthScale_FloatValue
 
-    leafWidthScale_Interp = EnumField()
+    leafWidthScale_Interp = LeafWidthScale_InterpEnumField()
     lwsi = leafWidthScale_Interp
 
 
@@ -1191,7 +1467,7 @@ class LeafWidthScaleAttrOperator(
     leafWidthScale_FloatValue = FloatField()
     lwsfv = leafWidthScale_FloatValue
 
-    leafWidthScale_Interp = EnumField()
+    leafWidthScale_Interp = LeafWidthScale_InterpEnumField()
     lwsi = leafWidthScale_Interp
 
 
@@ -1220,7 +1496,7 @@ class PetalWidthScalePlugOperator(
     petalWidthScale_FloatValue = FloatField()
     pwsfv = petalWidthScale_FloatValue
 
-    petalWidthScale_Interp = EnumField()
+    petalWidthScale_Interp = PetalWidthScale_InterpEnumField()
     pwsi = petalWidthScale_Interp
 
 
@@ -1235,7 +1511,7 @@ class PetalWidthScaleAttrOperator(
     petalWidthScale_FloatValue = FloatField()
     pwsfv = petalWidthScale_FloatValue
 
-    petalWidthScale_Interp = EnumField()
+    petalWidthScale_Interp = PetalWidthScale_InterpEnumField()
     pwsi = petalWidthScale_Interp
 
 
@@ -1264,7 +1540,7 @@ class TwigLengthScalePlugOperator(
     twigLengthScale_FloatValue = FloatField()
     tlsfv = twigLengthScale_FloatValue
 
-    twigLengthScale_Interp = EnumField()
+    twigLengthScale_Interp = TwigLengthScale_InterpEnumField()
     tlsi = twigLengthScale_Interp
 
 
@@ -1279,7 +1555,7 @@ class TwigLengthScaleAttrOperator(
     twigLengthScale_FloatValue = FloatField()
     tlsfv = twigLengthScale_FloatValue
 
-    twigLengthScale_Interp = EnumField()
+    twigLengthScale_Interp = TwigLengthScale_InterpEnumField()
     tlsi = twigLengthScale_Interp
 
 
@@ -1414,7 +1690,7 @@ class EnvironmentPlugOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 
@@ -1429,7 +1705,7 @@ class EnvironmentAttrOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 
@@ -1458,7 +1734,7 @@ class ReflectionRolloffPlugOperator(
     reflectionRolloff_FloatValue = FloatField()
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = EnumField()
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField()
     rroi = reflectionRolloff_Interp
 
 
@@ -1473,7 +1749,7 @@ class ReflectionRolloffAttrOperator(
     reflectionRolloff_FloatValue = FloatField()
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = EnumField()
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField()
     rroi = reflectionRolloff_Interp
 
 

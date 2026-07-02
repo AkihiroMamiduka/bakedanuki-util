@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
@@ -13,6 +17,210 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ScaleRamp_InterpEnumField(
+    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ScaleRamp_InterpEnumAttrOperator
+    PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
+
+
+class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RotationRamp_InterpEnumField(
+    EnumField[RotationRamp_InterpEnumAttrOperator, RotationRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RotationRamp_InterpEnumAttrOperator
+    PLUG_CLS = RotationRamp_InterpEnumPlugOperator
+
+
+class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BiasRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BiasRamp_InterpEnumField(
+    EnumField[BiasRamp_InterpEnumAttrOperator, BiasRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BiasRamp_InterpEnumAttrOperator
+    PLUG_CLS = BiasRamp_InterpEnumPlugOperator
+
+
+class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BiasRampX_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BiasRampX_InterpEnumField(
+    EnumField[BiasRampX_InterpEnumAttrOperator, BiasRampX_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BiasRampX_InterpEnumAttrOperator
+    PLUG_CLS = BiasRampX_InterpEnumPlugOperator
+
+
+class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BiasRampY_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BiasRampY_InterpEnumField(
+    EnumField[BiasRampY_InterpEnumAttrOperator, BiasRampY_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BiasRampY_InterpEnumAttrOperator
+    PLUG_CLS = BiasRampY_InterpEnumPlugOperator
+
+
+class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BiasRampZ_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BiasRampZ_InterpEnumField(
+    EnumField[BiasRampZ_InterpEnumAttrOperator, BiasRampZ_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BiasRampZ_InterpEnumAttrOperator
+    PLUG_CLS = BiasRampZ_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -438,7 +646,7 @@ class ScaleRampPlugOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 
@@ -453,7 +661,7 @@ class ScaleRampAttrOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 
@@ -482,7 +690,7 @@ class RotationRampPlugOperator(
     rotationRamp_FloatValue = FloatField()
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = EnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField()
     rotationRampi = rotationRamp_Interp
 
 
@@ -497,7 +705,7 @@ class RotationRampAttrOperator(
     rotationRamp_FloatValue = FloatField()
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = EnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField()
     rotationRampi = rotationRamp_Interp
 
 
@@ -526,7 +734,7 @@ class BiasRampPlugOperator(
     biasRamp_FloatValue = FloatField()
     bRmpfv = biasRamp_FloatValue
 
-    biasRamp_Interp = EnumField()
+    biasRamp_Interp = BiasRamp_InterpEnumField()
     bRmpi = biasRamp_Interp
 
 
@@ -541,7 +749,7 @@ class BiasRampAttrOperator(
     biasRamp_FloatValue = FloatField()
     bRmpfv = biasRamp_FloatValue
 
-    biasRamp_Interp = EnumField()
+    biasRamp_Interp = BiasRamp_InterpEnumField()
     bRmpi = biasRamp_Interp
 
 
@@ -570,7 +778,7 @@ class BiasRampXPlugOperator(
     biasRampX_FloatValue = FloatField()
     bRmpXfv = biasRampX_FloatValue
 
-    biasRampX_Interp = EnumField()
+    biasRampX_Interp = BiasRampX_InterpEnumField()
     bRmpXi = biasRampX_Interp
 
 
@@ -585,7 +793,7 @@ class BiasRampXAttrOperator(
     biasRampX_FloatValue = FloatField()
     bRmpXfv = biasRampX_FloatValue
 
-    biasRampX_Interp = EnumField()
+    biasRampX_Interp = BiasRampX_InterpEnumField()
     bRmpXi = biasRampX_Interp
 
 
@@ -614,7 +822,7 @@ class BiasRampYPlugOperator(
     biasRampY_FloatValue = FloatField()
     bRmpYfv = biasRampY_FloatValue
 
-    biasRampY_Interp = EnumField()
+    biasRampY_Interp = BiasRampY_InterpEnumField()
     bRmpYi = biasRampY_Interp
 
 
@@ -629,7 +837,7 @@ class BiasRampYAttrOperator(
     biasRampY_FloatValue = FloatField()
     bRmpYfv = biasRampY_FloatValue
 
-    biasRampY_Interp = EnumField()
+    biasRampY_Interp = BiasRampY_InterpEnumField()
     bRmpYi = biasRampY_Interp
 
 
@@ -658,7 +866,7 @@ class BiasRampZPlugOperator(
     biasRampZ_FloatValue = FloatField()
     bRmpZfv = biasRampZ_FloatValue
 
-    biasRampZ_Interp = EnumField()
+    biasRampZ_Interp = BiasRampZ_InterpEnumField()
     bRmpZi = biasRampZ_Interp
 
 
@@ -673,7 +881,7 @@ class BiasRampZAttrOperator(
     biasRampZ_FloatValue = FloatField()
     bRmpZfv = biasRampZ_FloatValue
 
-    biasRampZ_Interp = EnumField()
+    biasRampZ_Interp = BiasRampZ_InterpEnumField()
     bRmpZi = biasRampZ_Interp
 
 

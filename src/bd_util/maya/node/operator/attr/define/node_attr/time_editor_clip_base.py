@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.message import MessageField
 from ..std.at.numeric_scalar.bool import BoolField
 from ..std.at.numeric_scalar_range.double import DoubleField
@@ -15,6 +19,152 @@ from ..std.at.unit_scalar.time import TimeField
 from ..std.dt.matrix import DataMatrixField
 from ..std.dt.string import DataStringField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class ClipTypeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    ANIMATION = 0
+    AUDIO = 1
+
+
+class ClipTypeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    ANIMATION = 0
+    AUDIO = 1
+
+    NAME_MAP = {
+        ANIMATION: "Animation",
+        AUDIO: "Audio",
+    }
+
+
+class ClipTypeEnumField(
+    EnumField[ClipTypeEnumAttrOperator, ClipTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClipTypeEnumAttrOperator
+    PLUG_CLS = ClipTypeEnumPlugOperator
+
+
+class TimeWarpTypeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    TIME_WARP = 0
+    SPEED_CURVE = 1
+
+
+class TimeWarpTypeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    TIME_WARP = 0
+    SPEED_CURVE = 1
+
+    NAME_MAP = {
+        TIME_WARP: "Time Warp",
+        SPEED_CURVE: "Speed Curve",
+    }
+
+
+class TimeWarpTypeEnumField(
+    EnumField[TimeWarpTypeEnumAttrOperator, TimeWarpTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TimeWarpTypeEnumAttrOperator
+    PLUG_CLS = TimeWarpTypeEnumPlugOperator
+
+
+class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    LOOP = 0
+    LOOP_PROGRESSIVE = 1
+    HOLD = 2
+
+
+class ClipLoopBeforeModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    LOOP = 0
+    LOOP_PROGRESSIVE = 1
+    HOLD = 2
+
+    NAME_MAP = {
+        LOOP: "Loop",
+        LOOP_PROGRESSIVE: "Loop Progressive",
+        HOLD: "Hold",
+    }
+
+
+class ClipLoopBeforeModeEnumField(
+    EnumField[ClipLoopBeforeModeEnumAttrOperator, ClipLoopBeforeModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClipLoopBeforeModeEnumAttrOperator
+    PLUG_CLS = ClipLoopBeforeModeEnumPlugOperator
+
+
+class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    LOOP = 0
+    LOOP_PROGRESSIVE = 1
+    HOLD = 2
+
+
+class ClipLoopAfterModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    LOOP = 0
+    LOOP_PROGRESSIVE = 1
+    HOLD = 2
+
+    NAME_MAP = {
+        LOOP: "Loop",
+        LOOP_PROGRESSIVE: "Loop Progressive",
+        HOLD: "Hold",
+    }
+
+
+class ClipLoopAfterModeEnumField(
+    EnumField[ClipLoopAfterModeEnumAttrOperator, ClipLoopAfterModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClipLoopAfterModeEnumAttrOperator
+    PLUG_CLS = ClipLoopAfterModeEnumPlugOperator
+
+
+class ClipBlendModeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NORMAL = 0
+    ADDITIVE = 1
+
+
+class ClipBlendModeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NORMAL = 0
+    ADDITIVE = 1
+
+    NAME_MAP = {
+        NORMAL: "Normal",
+        ADDITIVE: "Additive",
+    }
+
+
+class ClipBlendModeEnumField(
+    EnumField[ClipBlendModeEnumAttrOperator, ClipBlendModeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClipBlendModeEnumAttrOperator
+    PLUG_CLS = ClipBlendModeEnumPlugOperator
 
 
 class ClipPlugOperator(
@@ -54,7 +204,7 @@ class ClipPlugOperator(
     clipName = DataStringField()
     cn = clipName
 
-    clipType = EnumField()
+    clipType = ClipTypeEnumField()
     ct = clipType
 
     clipStart = TimeField()
@@ -72,7 +222,7 @@ class ClipPlugOperator(
     timeWarped = BoolField()
     tw = timeWarped
 
-    timeWarpType = EnumField()
+    timeWarpType = TimeWarpTypeEnumField()
     twt = timeWarpType
 
     clipLoopAfter = DoubleField()
@@ -81,10 +231,10 @@ class ClipPlugOperator(
     clipLoopBefore = DoubleField()
     clb = clipLoopBefore
 
-    clipLoopBeforeMode = EnumField()
+    clipLoopBeforeMode = ClipLoopBeforeModeEnumField()
     clbm = clipLoopBeforeMode
 
-    clipLoopAfterMode = EnumField()
+    clipLoopAfterMode = ClipLoopAfterModeEnumField()
     clam = clipLoopAfterMode
 
     clipHoldBefore = TimeField()
@@ -93,7 +243,7 @@ class ClipPlugOperator(
     clipHoldAfter = TimeField()
     cha = clipHoldAfter
 
-    clipBlendMode = EnumField()
+    clipBlendMode = ClipBlendModeEnumField()
     cbm = clipBlendMode
 
     clipMuted = BoolField()
@@ -132,7 +282,7 @@ class ClipAttrOperator(
     clipName = DataStringField()
     cn = clipName
 
-    clipType = EnumField()
+    clipType = ClipTypeEnumField()
     ct = clipType
 
     clipStart = TimeField()
@@ -150,7 +300,7 @@ class ClipAttrOperator(
     timeWarped = BoolField()
     tw = timeWarped
 
-    timeWarpType = EnumField()
+    timeWarpType = TimeWarpTypeEnumField()
     twt = timeWarpType
 
     clipLoopAfter = DoubleField()
@@ -159,10 +309,10 @@ class ClipAttrOperator(
     clipLoopBefore = DoubleField()
     clb = clipLoopBefore
 
-    clipLoopBeforeMode = EnumField()
+    clipLoopBeforeMode = ClipLoopBeforeModeEnumField()
     clbm = clipLoopBeforeMode
 
-    clipLoopAfterMode = EnumField()
+    clipLoopAfterMode = ClipLoopAfterModeEnumField()
     clam = clipLoopAfterMode
 
     clipHoldBefore = TimeField()
@@ -171,7 +321,7 @@ class ClipAttrOperator(
     clipHoldAfter = TimeField()
     cha = clipHoldAfter
 
-    clipBlendMode = EnumField()
+    clipBlendMode = ClipBlendModeEnumField()
     cbm = clipBlendMode
 
     clipMuted = BoolField()

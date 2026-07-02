@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.matrix import MatrixField
 from ..std.at.numeric_scalar.bool import BoolField
 from ..std.at.numeric_scalar_range.float import FloatField
@@ -14,6 +18,40 @@ from ..std.dt.mesh import DataMeshField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 from ..std.dt.string import DataStringField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+
+
+class InputTypeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    POLY_OBJECT = 0
+    POLY_FACE = 1
+    POLY_EDGE = 2
+    CURVE_OBJECT = 3
+
+
+class InputTypeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    POLY_OBJECT = 0
+    POLY_FACE = 1
+    POLY_EDGE = 2
+    CURVE_OBJECT = 3
+
+    NAME_MAP = {
+        POLY_OBJECT: "Poly Object",
+        POLY_FACE: "Poly Face",
+        POLY_EDGE: "Poly Edge",
+        CURVE_OBJECT: "Curve Object",
+    }
+
+
+class InputTypeEnumField(
+    EnumField[InputTypeEnumAttrOperator, InputTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = InputTypeEnumAttrOperator
+    PLUG_CLS = InputTypeEnumPlugOperator
 
 
 class InObjectArrayPlugOperator(
@@ -30,7 +68,7 @@ class InObjectArrayPlugOperator(
         ("curveOptimize", "curveOptimize"),
     )
 
-    inputType = EnumField()
+    inputType = InputTypeEnumField()
 
     mesh = DataMeshField()
 
@@ -50,7 +88,7 @@ class InObjectArrayAttrOperator(
 ):
     __slots__ = ()
 
-    inputType = EnumField()
+    inputType = InputTypeEnumField()
 
     mesh = DataMeshField()
 

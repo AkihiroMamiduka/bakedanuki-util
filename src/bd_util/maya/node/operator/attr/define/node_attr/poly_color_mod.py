@@ -5,8 +5,182 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
+
+
+class RedScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RedScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RedScale_InterpEnumField(
+    EnumField[RedScale_InterpEnumAttrOperator, RedScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RedScale_InterpEnumAttrOperator
+    PLUG_CLS = RedScale_InterpEnumPlugOperator
+
+
+class GreenScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class GreenScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class GreenScale_InterpEnumField(
+    EnumField[GreenScale_InterpEnumAttrOperator, GreenScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = GreenScale_InterpEnumAttrOperator
+    PLUG_CLS = GreenScale_InterpEnumPlugOperator
+
+
+class BlueScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BlueScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BlueScale_InterpEnumField(
+    EnumField[BlueScale_InterpEnumAttrOperator, BlueScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BlueScale_InterpEnumAttrOperator
+    PLUG_CLS = BlueScale_InterpEnumPlugOperator
+
+
+class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class AlphaScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class AlphaScale_InterpEnumField(
+    EnumField[AlphaScale_InterpEnumAttrOperator, AlphaScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = AlphaScale_InterpEnumAttrOperator
+    PLUG_CLS = AlphaScale_InterpEnumPlugOperator
+
+
+class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class IntensityScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class IntensityScale_InterpEnumField(
+    EnumField[IntensityScale_InterpEnumAttrOperator, IntensityScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = IntensityScale_InterpEnumAttrOperator
+    PLUG_CLS = IntensityScale_InterpEnumPlugOperator
 
 
 class RedScalePlugOperator(
@@ -25,7 +199,7 @@ class RedScalePlugOperator(
     redScale_FloatValue = FloatField()
     rfv = redScale_FloatValue
 
-    redScale_Interp = EnumField()
+    redScale_Interp = RedScale_InterpEnumField()
     ri = redScale_Interp
 
 
@@ -40,7 +214,7 @@ class RedScaleAttrOperator(
     redScale_FloatValue = FloatField()
     rfv = redScale_FloatValue
 
-    redScale_Interp = EnumField()
+    redScale_Interp = RedScale_InterpEnumField()
     ri = redScale_Interp
 
 
@@ -69,7 +243,7 @@ class GreenScalePlugOperator(
     greenScale_FloatValue = FloatField()
     gfv = greenScale_FloatValue
 
-    greenScale_Interp = EnumField()
+    greenScale_Interp = GreenScale_InterpEnumField()
     gi = greenScale_Interp
 
 
@@ -84,7 +258,7 @@ class GreenScaleAttrOperator(
     greenScale_FloatValue = FloatField()
     gfv = greenScale_FloatValue
 
-    greenScale_Interp = EnumField()
+    greenScale_Interp = GreenScale_InterpEnumField()
     gi = greenScale_Interp
 
 
@@ -113,7 +287,7 @@ class BlueScalePlugOperator(
     blueScale_FloatValue = FloatField()
     bfv = blueScale_FloatValue
 
-    blueScale_Interp = EnumField()
+    blueScale_Interp = BlueScale_InterpEnumField()
     bi = blueScale_Interp
 
 
@@ -128,7 +302,7 @@ class BlueScaleAttrOperator(
     blueScale_FloatValue = FloatField()
     bfv = blueScale_FloatValue
 
-    blueScale_Interp = EnumField()
+    blueScale_Interp = BlueScale_InterpEnumField()
     bi = blueScale_Interp
 
 
@@ -157,7 +331,7 @@ class AlphaScalePlugOperator(
     alphaScale_FloatValue = FloatField()
     afv = alphaScale_FloatValue
 
-    alphaScale_Interp = EnumField()
+    alphaScale_Interp = AlphaScale_InterpEnumField()
     ai = alphaScale_Interp
 
 
@@ -172,7 +346,7 @@ class AlphaScaleAttrOperator(
     alphaScale_FloatValue = FloatField()
     afv = alphaScale_FloatValue
 
-    alphaScale_Interp = EnumField()
+    alphaScale_Interp = AlphaScale_InterpEnumField()
     ai = alphaScale_Interp
 
 
@@ -201,7 +375,7 @@ class IntensityScalePlugOperator(
     intensityScale_FloatValue = FloatField()
     nfv = intensityScale_FloatValue
 
-    intensityScale_Interp = EnumField()
+    intensityScale_Interp = IntensityScale_InterpEnumField()
     ni = intensityScale_Interp
 
 
@@ -216,7 +390,7 @@ class IntensityScaleAttrOperator(
     intensityScale_FloatValue = FloatField()
     nfv = intensityScale_FloatValue
 
-    intensityScale_Interp = EnumField()
+    intensityScale_Interp = IntensityScale_InterpEnumField()
     ni = intensityScale_Interp
 
 

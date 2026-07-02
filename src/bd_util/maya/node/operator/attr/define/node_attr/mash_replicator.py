@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
@@ -13,6 +17,108 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class PositionRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class PositionRamp_InterpEnumField(
+    EnumField[PositionRamp_InterpEnumAttrOperator, PositionRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = PositionRamp_InterpEnumAttrOperator
+    PLUG_CLS = PositionRamp_InterpEnumPlugOperator
+
+
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ScaleRamp_InterpEnumField(
+    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ScaleRamp_InterpEnumAttrOperator
+    PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
+
+
+class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class RotationRamp_InterpEnumField(
+    EnumField[RotationRamp_InterpEnumAttrOperator, RotationRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = RotationRamp_InterpEnumAttrOperator
+    PLUG_CLS = RotationRamp_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -341,7 +447,7 @@ class PositionRampPlugOperator(
     positionRamp_FloatValue = FloatField()
     positionRampfv = positionRamp_FloatValue
 
-    positionRamp_Interp = EnumField()
+    positionRamp_Interp = PositionRamp_InterpEnumField()
     positionRampi = positionRamp_Interp
 
 
@@ -356,7 +462,7 @@ class PositionRampAttrOperator(
     positionRamp_FloatValue = FloatField()
     positionRampfv = positionRamp_FloatValue
 
-    positionRamp_Interp = EnumField()
+    positionRamp_Interp = PositionRamp_InterpEnumField()
     positionRampi = positionRamp_Interp
 
 
@@ -385,7 +491,7 @@ class ScaleRampPlugOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 
@@ -400,7 +506,7 @@ class ScaleRampAttrOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 
@@ -429,7 +535,7 @@ class RotationRampPlugOperator(
     rotationRamp_FloatValue = FloatField()
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = EnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField()
     rotationRampi = rotationRamp_Interp
 
 
@@ -444,7 +550,7 @@ class RotationRampAttrOperator(
     rotationRamp_FloatValue = FloatField()
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = EnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField()
     rotationRampi = rotationRamp_Interp
 
 

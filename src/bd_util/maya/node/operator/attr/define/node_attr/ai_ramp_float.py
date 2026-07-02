@@ -5,13 +5,51 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class Ramp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Ramp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Ramp_InterpEnumField(
+    EnumField[Ramp_InterpEnumAttrOperator, Ramp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Ramp_InterpEnumAttrOperator
+    PLUG_CLS = Ramp_InterpEnumPlugOperator
 
 
 class OutTransparencyPlugOperator(
@@ -83,7 +121,7 @@ class RampPlugOperator(
     ramp_FloatValue = FloatField()
     aiRampfv = ramp_FloatValue
 
-    ramp_Interp = EnumField()
+    ramp_Interp = Ramp_InterpEnumField()
     aiRampi = ramp_Interp
 
 
@@ -98,7 +136,7 @@ class RampAttrOperator(
     ramp_FloatValue = FloatField()
     aiRampfv = ramp_FloatValue
 
-    ramp_Interp = EnumField()
+    ramp_Interp = Ramp_InterpEnumField()
     aiRampi = ramp_Interp
 
 

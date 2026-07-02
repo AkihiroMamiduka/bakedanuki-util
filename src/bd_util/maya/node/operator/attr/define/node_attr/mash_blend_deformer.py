@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.at.numeric_scalar_range.long import LongField
 from ..std.at.typed import TypedField
@@ -20,6 +24,142 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,
 )
+
+
+class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class CurveRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class CurveRamp_InterpEnumField(
+    EnumField[CurveRamp_InterpEnumAttrOperator, CurveRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = CurveRamp_InterpEnumAttrOperator
+    PLUG_CLS = CurveRamp_InterpEnumPlugOperator
+
+
+class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class InflationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class InflationRamp_InterpEnumField(
+    EnumField[InflationRamp_InterpEnumAttrOperator, InflationRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = InflationRamp_InterpEnumAttrOperator
+    PLUG_CLS = InflationRamp_InterpEnumPlugOperator
+
+
+class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class BlendRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class BlendRamp_InterpEnumField(
+    EnumField[BlendRamp_InterpEnumAttrOperator, BlendRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = BlendRamp_InterpEnumAttrOperator
+    PLUG_CLS = BlendRamp_InterpEnumPlugOperator
+
+
+class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class SmoothingRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class SmoothingRamp_InterpEnumField(
+    EnumField[SmoothingRamp_InterpEnumAttrOperator, SmoothingRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = SmoothingRamp_InterpEnumAttrOperator
+    PLUG_CLS = SmoothingRamp_InterpEnumPlugOperator
 
 
 class InputPlugOperator(
@@ -193,7 +333,7 @@ class CurveRampPlugOperator(
     curveRamp_FloatValue = FloatField()
     curveRampfv = curveRamp_FloatValue
 
-    curveRamp_Interp = EnumField()
+    curveRamp_Interp = CurveRamp_InterpEnumField()
     curveRampi = curveRamp_Interp
 
 
@@ -208,7 +348,7 @@ class CurveRampAttrOperator(
     curveRamp_FloatValue = FloatField()
     curveRampfv = curveRamp_FloatValue
 
-    curveRamp_Interp = EnumField()
+    curveRamp_Interp = CurveRamp_InterpEnumField()
     curveRampi = curveRamp_Interp
 
 
@@ -237,7 +377,7 @@ class InflationRampPlugOperator(
     inflationRamp_FloatValue = FloatField()
     inflationRampfv = inflationRamp_FloatValue
 
-    inflationRamp_Interp = EnumField()
+    inflationRamp_Interp = InflationRamp_InterpEnumField()
     inflationRampi = inflationRamp_Interp
 
 
@@ -252,7 +392,7 @@ class InflationRampAttrOperator(
     inflationRamp_FloatValue = FloatField()
     inflationRampfv = inflationRamp_FloatValue
 
-    inflationRamp_Interp = EnumField()
+    inflationRamp_Interp = InflationRamp_InterpEnumField()
     inflationRampi = inflationRamp_Interp
 
 
@@ -281,7 +421,7 @@ class BlendRampPlugOperator(
     blendRamp_FloatValue = FloatField()
     blendRampfv = blendRamp_FloatValue
 
-    blendRamp_Interp = EnumField()
+    blendRamp_Interp = BlendRamp_InterpEnumField()
     blendRampi = blendRamp_Interp
 
 
@@ -296,7 +436,7 @@ class BlendRampAttrOperator(
     blendRamp_FloatValue = FloatField()
     blendRampfv = blendRamp_FloatValue
 
-    blendRamp_Interp = EnumField()
+    blendRamp_Interp = BlendRamp_InterpEnumField()
     blendRampi = blendRamp_Interp
 
 
@@ -325,7 +465,7 @@ class SmoothingRampPlugOperator(
     smoothingRamp_FloatValue = FloatField()
     smoothingRampfv = smoothingRamp_FloatValue
 
-    smoothingRamp_Interp = EnumField()
+    smoothingRamp_Interp = SmoothingRamp_InterpEnumField()
     smoothingRampi = smoothingRamp_Interp
 
 
@@ -340,7 +480,7 @@ class SmoothingRampAttrOperator(
     smoothingRamp_FloatValue = FloatField()
     smoothingRampfv = smoothingRamp_FloatValue
 
-    smoothingRamp_Interp = EnumField()
+    smoothingRamp_Interp = SmoothingRamp_InterpEnumField()
     smoothingRampi = smoothingRamp_Interp
 
 

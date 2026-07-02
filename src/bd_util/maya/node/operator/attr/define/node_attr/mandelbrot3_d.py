@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
@@ -13,6 +17,74 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class Value_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Value_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Value_InterpEnumField(
+    EnumField[Value_InterpEnumAttrOperator, Value_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Value_InterpEnumAttrOperator
+    PLUG_CLS = Value_InterpEnumPlugOperator
+
+
+class Color_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Color_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Color_InterpEnumField(
+    EnumField[Color_InterpEnumAttrOperator, Color_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Color_InterpEnumAttrOperator
+    PLUG_CLS = Color_InterpEnumPlugOperator
 
 
 class PointObjPlugOperator(
@@ -508,7 +580,7 @@ class ValuePlugOperator(
     value_FloatValue = FloatField()
     vlfv = value_FloatValue
 
-    value_Interp = EnumField()
+    value_Interp = Value_InterpEnumField()
     vli = value_Interp
 
 
@@ -523,7 +595,7 @@ class ValueAttrOperator(
     value_FloatValue = FloatField()
     vlfv = value_FloatValue
 
-    value_Interp = EnumField()
+    value_Interp = Value_InterpEnumField()
     vli = value_Interp
 
 
@@ -552,7 +624,7 @@ class ColorPlugOperator(
     color_Color = Float3Field()
     clc = color_Color
 
-    color_Interp = EnumField()
+    color_Interp = Color_InterpEnumField()
     cli = color_Interp
 
 
@@ -567,7 +639,7 @@ class ColorAttrOperator(
     color_Color = Float3Field()
     clc = color_Color
 
-    color_Interp = EnumField()
+    color_Interp = Color_InterpEnumField()
     cli = color_Interp
 
 

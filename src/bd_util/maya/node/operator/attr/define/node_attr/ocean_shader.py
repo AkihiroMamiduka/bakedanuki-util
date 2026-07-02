@@ -6,7 +6,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
@@ -25,6 +29,142 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Environment_InterpEnumField(
+    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Environment_InterpEnumAttrOperator
+    PLUG_CLS = Environment_InterpEnumPlugOperator
+
+
+class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class WaveHeight_InterpEnumField(
+    EnumField[WaveHeight_InterpEnumAttrOperator, WaveHeight_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = WaveHeight_InterpEnumAttrOperator
+    PLUG_CLS = WaveHeight_InterpEnumPlugOperator
+
+
+class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class WaveTurbulence_InterpEnumField(
+    EnumField[WaveTurbulence_InterpEnumAttrOperator, WaveTurbulence_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = WaveTurbulence_InterpEnumAttrOperator
+    PLUG_CLS = WaveTurbulence_InterpEnumPlugOperator
+
+
+class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class WavePeaking_InterpEnumField(
+    EnumField[WavePeaking_InterpEnumAttrOperator, WavePeaking_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = WavePeaking_InterpEnumAttrOperator
+    PLUG_CLS = WavePeaking_InterpEnumPlugOperator
 
 
 class RayDirectionPlugOperator(
@@ -361,7 +501,7 @@ class EnvironmentPlugOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 
@@ -376,7 +516,7 @@ class EnvironmentAttrOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 
@@ -1004,7 +1144,7 @@ class WaveHeightPlugOperator(
     waveHeight_FloatValue = FloatField()
     whfv = waveHeight_FloatValue
 
-    waveHeight_Interp = EnumField()
+    waveHeight_Interp = WaveHeight_InterpEnumField()
     whi = waveHeight_Interp
 
 
@@ -1019,7 +1159,7 @@ class WaveHeightAttrOperator(
     waveHeight_FloatValue = FloatField()
     whfv = waveHeight_FloatValue
 
-    waveHeight_Interp = EnumField()
+    waveHeight_Interp = WaveHeight_InterpEnumField()
     whi = waveHeight_Interp
 
 
@@ -1048,7 +1188,7 @@ class WaveTurbulencePlugOperator(
     waveTurbulence_FloatValue = FloatField()
     wtbfv = waveTurbulence_FloatValue
 
-    waveTurbulence_Interp = EnumField()
+    waveTurbulence_Interp = WaveTurbulence_InterpEnumField()
     wtbi = waveTurbulence_Interp
 
 
@@ -1063,7 +1203,7 @@ class WaveTurbulenceAttrOperator(
     waveTurbulence_FloatValue = FloatField()
     wtbfv = waveTurbulence_FloatValue
 
-    waveTurbulence_Interp = EnumField()
+    waveTurbulence_Interp = WaveTurbulence_InterpEnumField()
     wtbi = waveTurbulence_Interp
 
 
@@ -1092,7 +1232,7 @@ class WavePeakingPlugOperator(
     wavePeaking_FloatValue = FloatField()
     wpfv = wavePeaking_FloatValue
 
-    wavePeaking_Interp = EnumField()
+    wavePeaking_Interp = WavePeaking_InterpEnumField()
     wpi = wavePeaking_Interp
 
 
@@ -1107,7 +1247,7 @@ class WavePeakingAttrOperator(
     wavePeaking_FloatValue = FloatField()
     wpfv = wavePeaking_FloatValue
 
-    wavePeaking_Interp = EnumField()
+    wavePeaking_Interp = WavePeaking_InterpEnumField()
     wpi = wavePeaking_Interp
 
 

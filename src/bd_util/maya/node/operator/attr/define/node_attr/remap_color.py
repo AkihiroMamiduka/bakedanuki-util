@@ -5,13 +5,119 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class Red_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Red_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Red_InterpEnumField(
+    EnumField[Red_InterpEnumAttrOperator, Red_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Red_InterpEnumAttrOperator
+    PLUG_CLS = Red_InterpEnumPlugOperator
+
+
+class Green_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Green_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Green_InterpEnumField(
+    EnumField[Green_InterpEnumAttrOperator, Green_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Green_InterpEnumAttrOperator
+    PLUG_CLS = Green_InterpEnumPlugOperator
+
+
+class Blue_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Blue_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Blue_InterpEnumField(
+    EnumField[Blue_InterpEnumAttrOperator, Blue_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Blue_InterpEnumAttrOperator
+    PLUG_CLS = Blue_InterpEnumPlugOperator
 
 
 class ColorPlugOperator(
@@ -83,7 +189,7 @@ class RedPlugOperator(
     red_FloatValue = FloatField()
     rfv = red_FloatValue
 
-    red_Interp = EnumField()
+    red_Interp = Red_InterpEnumField()
     ri = red_Interp
 
 
@@ -98,7 +204,7 @@ class RedAttrOperator(
     red_FloatValue = FloatField()
     rfv = red_FloatValue
 
-    red_Interp = EnumField()
+    red_Interp = Red_InterpEnumField()
     ri = red_Interp
 
 
@@ -127,7 +233,7 @@ class GreenPlugOperator(
     green_FloatValue = FloatField()
     gfv = green_FloatValue
 
-    green_Interp = EnumField()
+    green_Interp = Green_InterpEnumField()
     gi = green_Interp
 
 
@@ -142,7 +248,7 @@ class GreenAttrOperator(
     green_FloatValue = FloatField()
     gfv = green_FloatValue
 
-    green_Interp = EnumField()
+    green_Interp = Green_InterpEnumField()
     gi = green_Interp
 
 
@@ -171,7 +277,7 @@ class BluePlugOperator(
     blue_FloatValue = FloatField()
     bfv = blue_FloatValue
 
-    blue_Interp = EnumField()
+    blue_Interp = Blue_InterpEnumField()
     bi = blue_Interp
 
 
@@ -186,7 +292,7 @@ class BlueAttrOperator(
     blue_FloatValue = FloatField()
     bfv = blue_FloatValue
 
-    blue_Interp = EnumField()
+    blue_Interp = Blue_InterpEnumField()
     bi = blue_Interp
 
 

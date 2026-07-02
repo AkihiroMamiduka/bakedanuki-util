@@ -5,13 +5,221 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class ClumpScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ClumpScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ClumpScale_InterpEnumField(
+    EnumField[ClumpScale_InterpEnumAttrOperator, ClumpScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ClumpScale_InterpEnumAttrOperator
+    PLUG_CLS = ClumpScale_InterpEnumPlugOperator
+
+
+class FlatnessScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class FlatnessScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class FlatnessScale_InterpEnumField(
+    EnumField[FlatnessScale_InterpEnumAttrOperator, FlatnessScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = FlatnessScale_InterpEnumAttrOperator
+    PLUG_CLS = FlatnessScale_InterpEnumPlugOperator
+
+
+class OffsetScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class OffsetScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class OffsetScale_InterpEnumField(
+    EnumField[OffsetScale_InterpEnumAttrOperator, OffsetScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OffsetScale_InterpEnumAttrOperator
+    PLUG_CLS = OffsetScale_InterpEnumPlugOperator
+
+
+class CurlScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class CurlScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class CurlScale_InterpEnumField(
+    EnumField[CurlScale_InterpEnumAttrOperator, CurlScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = CurlScale_InterpEnumAttrOperator
+    PLUG_CLS = CurlScale_InterpEnumPlugOperator
+
+
+class CopyScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class CopyScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class CopyScale_InterpEnumField(
+    EnumField[CopyScale_InterpEnumAttrOperator, CopyScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = CopyScale_InterpEnumAttrOperator
+    PLUG_CLS = CopyScale_InterpEnumPlugOperator
+
+
+class NoiseScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class NoiseScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class NoiseScale_InterpEnumField(
+    EnumField[NoiseScale_InterpEnumAttrOperator, NoiseScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = NoiseScale_InterpEnumAttrOperator
+    PLUG_CLS = NoiseScale_InterpEnumPlugOperator
 
 
 class ClumpScalePlugOperator(
@@ -30,7 +238,7 @@ class ClumpScalePlugOperator(
     clumpScale_FloatValue = FloatField()
     csfv = clumpScale_FloatValue
 
-    clumpScale_Interp = EnumField()
+    clumpScale_Interp = ClumpScale_InterpEnumField()
     csi = clumpScale_Interp
 
 
@@ -45,7 +253,7 @@ class ClumpScaleAttrOperator(
     clumpScale_FloatValue = FloatField()
     csfv = clumpScale_FloatValue
 
-    clumpScale_Interp = EnumField()
+    clumpScale_Interp = ClumpScale_InterpEnumField()
     csi = clumpScale_Interp
 
 
@@ -180,7 +388,7 @@ class FlatnessScalePlugOperator(
     flatnessScale_FloatValue = FloatField()
     flsfv = flatnessScale_FloatValue
 
-    flatnessScale_Interp = EnumField()
+    flatnessScale_Interp = FlatnessScale_InterpEnumField()
     flsi = flatnessScale_Interp
 
 
@@ -195,7 +403,7 @@ class FlatnessScaleAttrOperator(
     flatnessScale_FloatValue = FloatField()
     flsfv = flatnessScale_FloatValue
 
-    flatnessScale_Interp = EnumField()
+    flatnessScale_Interp = FlatnessScale_InterpEnumField()
     flsi = flatnessScale_Interp
 
 
@@ -224,7 +432,7 @@ class OffsetScalePlugOperator(
     offsetScale_FloatValue = FloatField()
     ofsfv = offsetScale_FloatValue
 
-    offsetScale_Interp = EnumField()
+    offsetScale_Interp = OffsetScale_InterpEnumField()
     ofsi = offsetScale_Interp
 
 
@@ -239,7 +447,7 @@ class OffsetScaleAttrOperator(
     offsetScale_FloatValue = FloatField()
     ofsfv = offsetScale_FloatValue
 
-    offsetScale_Interp = EnumField()
+    offsetScale_Interp = OffsetScale_InterpEnumField()
     ofsi = offsetScale_Interp
 
 
@@ -268,7 +476,7 @@ class CurlScalePlugOperator(
     curlScale_FloatValue = FloatField()
     cusfv = curlScale_FloatValue
 
-    curlScale_Interp = EnumField()
+    curlScale_Interp = CurlScale_InterpEnumField()
     cusi = curlScale_Interp
 
 
@@ -283,7 +491,7 @@ class CurlScaleAttrOperator(
     curlScale_FloatValue = FloatField()
     cusfv = curlScale_FloatValue
 
-    curlScale_Interp = EnumField()
+    curlScale_Interp = CurlScale_InterpEnumField()
     cusi = curlScale_Interp
 
 
@@ -312,7 +520,7 @@ class CopyScalePlugOperator(
     copyScale_FloatValue = FloatField()
     cosfv = copyScale_FloatValue
 
-    copyScale_Interp = EnumField()
+    copyScale_Interp = CopyScale_InterpEnumField()
     cosi = copyScale_Interp
 
 
@@ -327,7 +535,7 @@ class CopyScaleAttrOperator(
     copyScale_FloatValue = FloatField()
     cosfv = copyScale_FloatValue
 
-    copyScale_Interp = EnumField()
+    copyScale_Interp = CopyScale_InterpEnumField()
     cosi = copyScale_Interp
 
 
@@ -356,7 +564,7 @@ class NoiseScalePlugOperator(
     noiseScale_FloatValue = FloatField()
     nosfv = noiseScale_FloatValue
 
-    noiseScale_Interp = EnumField()
+    noiseScale_Interp = NoiseScale_InterpEnumField()
     nosi = noiseScale_Interp
 
 
@@ -371,7 +579,7 @@ class NoiseScaleAttrOperator(
     noiseScale_FloatValue = FloatField()
     nosfv = noiseScale_FloatValue
 
-    noiseScale_Interp = EnumField()
+    noiseScale_Interp = NoiseScale_InterpEnumField()
     nosi = noiseScale_Interp
 
 

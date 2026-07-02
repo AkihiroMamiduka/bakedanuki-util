@@ -5,9 +5,44 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.matrix import MatrixField
 from ..std.at.message import MessageField
+
+
+class DisplayTypeEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    MESH = 0
+    PROXY = 1
+    LOD = 2
+
+
+class DisplayTypeEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    MESH = 0
+    PROXY = 1
+    LOD = 2
+
+    NAME_MAP = {
+        MESH: "Mesh",
+        PROXY: "Proxy",
+        LOD: "Lod",
+    }
+
+
+class DisplayTypeEnumField(
+    EnumField[DisplayTypeEnumAttrOperator, DisplayTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = DisplayTypeEnumAttrOperator
+    PLUG_CLS = DisplayTypeEnumPlugOperator
 
 
 class InstancedGroupPlugOperator(
@@ -27,7 +62,7 @@ class InstancedGroupPlugOperator(
 
     proxyGroup = CompoundField()
 
-    displayType = EnumField()
+    displayType = DisplayTypeEnumField()
 
     groupMessage = MessageField()
     gmsg = groupMessage
@@ -46,7 +81,7 @@ class InstancedGroupAttrOperator(
 
     proxyGroup = CompoundField()
 
-    displayType = EnumField()
+    displayType = DisplayTypeEnumField()
 
     groupMessage = MessageField()
     gmsg = groupMessage

@@ -6,7 +6,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
@@ -20,6 +24,244 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class Color_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Color_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Color_InterpEnumField(
+    EnumField[Color_InterpEnumAttrOperator, Color_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Color_InterpEnumAttrOperator
+    PLUG_CLS = Color_InterpEnumPlugOperator
+
+
+class Transparency_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Transparency_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Transparency_InterpEnumField(
+    EnumField[Transparency_InterpEnumAttrOperator, Transparency_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Transparency_InterpEnumAttrOperator
+    PLUG_CLS = Transparency_InterpEnumPlugOperator
+
+
+class Incandescence_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Incandescence_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Incandescence_InterpEnumField(
+    EnumField[Incandescence_InterpEnumAttrOperator, Incandescence_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Incandescence_InterpEnumAttrOperator
+    PLUG_CLS = Incandescence_InterpEnumPlugOperator
+
+
+class SpecularRollOff_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class SpecularRollOff_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class SpecularRollOff_InterpEnumField(
+    EnumField[SpecularRollOff_InterpEnumAttrOperator, SpecularRollOff_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = SpecularRollOff_InterpEnumAttrOperator
+    PLUG_CLS = SpecularRollOff_InterpEnumPlugOperator
+
+
+class SpecularColor_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class SpecularColor_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class SpecularColor_InterpEnumField(
+    EnumField[SpecularColor_InterpEnumAttrOperator, SpecularColor_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = SpecularColor_InterpEnumAttrOperator
+    PLUG_CLS = SpecularColor_InterpEnumPlugOperator
+
+
+class Reflectivity_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Reflectivity_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Reflectivity_InterpEnumField(
+    EnumField[Reflectivity_InterpEnumAttrOperator, Reflectivity_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Reflectivity_InterpEnumAttrOperator
+    PLUG_CLS = Reflectivity_InterpEnumPlugOperator
+
+
+class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Environment_InterpEnumField(
+    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Environment_InterpEnumAttrOperator
+    PLUG_CLS = Environment_InterpEnumPlugOperator
 
 
 class RayDirectionPlugOperator(
@@ -91,7 +333,7 @@ class ColorPlugOperator(
     color_Color = Float3Field()
     clrc = color_Color
 
-    color_Interp = EnumField()
+    color_Interp = Color_InterpEnumField()
     clri = color_Interp
 
 
@@ -106,7 +348,7 @@ class ColorAttrOperator(
     color_Color = Float3Field()
     clrc = color_Color
 
-    color_Interp = EnumField()
+    color_Interp = Color_InterpEnumField()
     clri = color_Interp
 
 
@@ -188,7 +430,7 @@ class TransparencyPlugOperator(
     transparency_Color = Float3Field()
     itc = transparency_Color
 
-    transparency_Interp = EnumField()
+    transparency_Interp = Transparency_InterpEnumField()
     iti = transparency_Interp
 
 
@@ -203,7 +445,7 @@ class TransparencyAttrOperator(
     transparency_Color = Float3Field()
     itc = transparency_Color
 
-    transparency_Interp = EnumField()
+    transparency_Interp = Transparency_InterpEnumField()
     iti = transparency_Interp
 
 
@@ -285,7 +527,7 @@ class IncandescencePlugOperator(
     incandescence_Color = Float3Field()
     icc = incandescence_Color
 
-    incandescence_Interp = EnumField()
+    incandescence_Interp = Incandescence_InterpEnumField()
     ici = incandescence_Interp
 
 
@@ -300,7 +542,7 @@ class IncandescenceAttrOperator(
     incandescence_Color = Float3Field()
     icc = incandescence_Color
 
-    incandescence_Interp = EnumField()
+    incandescence_Interp = Incandescence_InterpEnumField()
     ici = incandescence_Interp
 
 
@@ -329,7 +571,7 @@ class SpecularRollOffPlugOperator(
     specularRollOff_FloatValue = FloatField()
     srofv = specularRollOff_FloatValue
 
-    specularRollOff_Interp = EnumField()
+    specularRollOff_Interp = SpecularRollOff_InterpEnumField()
     sroi = specularRollOff_Interp
 
 
@@ -344,7 +586,7 @@ class SpecularRollOffAttrOperator(
     specularRollOff_FloatValue = FloatField()
     srofv = specularRollOff_FloatValue
 
-    specularRollOff_Interp = EnumField()
+    specularRollOff_Interp = SpecularRollOff_InterpEnumField()
     sroi = specularRollOff_Interp
 
 
@@ -373,7 +615,7 @@ class SpecularColorPlugOperator(
     specularColor_Color = Float3Field()
     scc = specularColor_Color
 
-    specularColor_Interp = EnumField()
+    specularColor_Interp = SpecularColor_InterpEnumField()
     sci = specularColor_Interp
 
 
@@ -388,7 +630,7 @@ class SpecularColorAttrOperator(
     specularColor_Color = Float3Field()
     scc = specularColor_Color
 
-    specularColor_Interp = EnumField()
+    specularColor_Interp = SpecularColor_InterpEnumField()
     sci = specularColor_Interp
 
 
@@ -417,7 +659,7 @@ class ReflectivityPlugOperator(
     reflectivity_FloatValue = FloatField()
     rflfv = reflectivity_FloatValue
 
-    reflectivity_Interp = EnumField()
+    reflectivity_Interp = Reflectivity_InterpEnumField()
     rfli = reflectivity_Interp
 
 
@@ -432,7 +674,7 @@ class ReflectivityAttrOperator(
     reflectivity_FloatValue = FloatField()
     rflfv = reflectivity_FloatValue
 
-    reflectivity_Interp = EnumField()
+    reflectivity_Interp = Reflectivity_InterpEnumField()
     rfli = reflectivity_Interp
 
 
@@ -461,7 +703,7 @@ class EnvironmentPlugOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 
@@ -476,7 +718,7 @@ class EnvironmentAttrOperator(
     environment_Color = Float3Field()
     envc = environment_Color
 
-    environment_Interp = EnumField()
+    environment_Interp = Environment_InterpEnumField()
     envi = environment_Interp
 
 

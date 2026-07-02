@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.dt.vector_array import DataVectorArrayField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
@@ -13,6 +17,40 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ScaleRamp_InterpEnumField(
+    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ScaleRamp_InterpEnumAttrOperator
+    PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -273,7 +311,7 @@ class ScaleRampPlugOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 
@@ -288,7 +326,7 @@ class ScaleRampAttrOperator(
     scaleRamp_FloatValue = FloatField()
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = EnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField()
     scaleRampi = scaleRamp_Interp
 
 

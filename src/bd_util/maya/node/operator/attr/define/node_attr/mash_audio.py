@@ -5,13 +5,51 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
+
+
+class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class FrequencyGraph_InterpEnumField(
+    EnumField[FrequencyGraph_InterpEnumAttrOperator, FrequencyGraph_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = FrequencyGraph_InterpEnumAttrOperator
+    PLUG_CLS = FrequencyGraph_InterpEnumPlugOperator
 
 
 class MColourPlugOperator(
@@ -136,7 +174,7 @@ class FrequencyGraphPlugOperator(
     frequencyGraph_FloatValue = FloatField()
     frequencyGraphfv = frequencyGraph_FloatValue
 
-    frequencyGraph_Interp = EnumField()
+    frequencyGraph_Interp = FrequencyGraph_InterpEnumField()
     frequencyGraphi = frequencyGraph_Interp
 
 
@@ -151,7 +189,7 @@ class FrequencyGraphAttrOperator(
     frequencyGraph_FloatValue = FloatField()
     frequencyGraphfv = frequencyGraph_FloatValue
 
-    frequencyGraph_Interp = EnumField()
+    frequencyGraph_Interp = FrequencyGraph_InterpEnumField()
     frequencyGraphi = frequencyGraph_Interp
 
 

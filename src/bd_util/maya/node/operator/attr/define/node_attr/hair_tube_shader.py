@@ -6,7 +6,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
@@ -25,6 +29,40 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class ColorScale_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ColorScale_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ColorScale_InterpEnumField(
+    EnumField[ColorScale_InterpEnumAttrOperator, ColorScale_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ColorScale_InterpEnumAttrOperator
+    PLUG_CLS = ColorScale_InterpEnumPlugOperator
 
 
 class RayDirectionPlugOperator(
@@ -1119,7 +1157,7 @@ class ColorScalePlugOperator(
     colorScale_Color = Float3Field()
     clsc = colorScale_Color
 
-    colorScale_Interp = EnumField()
+    colorScale_Interp = ColorScale_InterpEnumField()
     clsi = colorScale_Interp
 
 
@@ -1134,7 +1172,7 @@ class ColorScaleAttrOperator(
     colorScale_Color = Float3Field()
     clsc = colorScale_Color
 
-    colorScale_Interp = EnumField()
+    colorScale_Interp = ColorScale_InterpEnumField()
     clsi = colorScale_Interp
 
 

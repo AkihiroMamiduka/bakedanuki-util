@@ -6,7 +6,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
@@ -20,6 +24,40 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBaseField,
 )
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+
+
+class ColorRamp_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class ColorRamp_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class ColorRamp_InterpEnumField(
+    EnumField[ColorRamp_InterpEnumAttrOperator, ColorRamp_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ColorRamp_InterpEnumAttrOperator
+    PLUG_CLS = ColorRamp_InterpEnumPlugOperator
 
 
 class RayDirectionPlugOperator(
@@ -435,7 +473,7 @@ class ColorRampPlugOperator(
     colorRamp_Color = Float3Field()
     crmc = colorRamp_Color
 
-    colorRamp_Interp = EnumField()
+    colorRamp_Interp = ColorRamp_InterpEnumField()
     crmi = colorRamp_Interp
 
 
@@ -450,7 +488,7 @@ class ColorRampAttrOperator(
     colorRamp_Color = Float3Field()
     crmc = colorRamp_Color
 
-    colorRamp_Interp = EnumField()
+    colorRamp_Interp = ColorRamp_InterpEnumField()
     crmi = colorRamp_Interp
 
 

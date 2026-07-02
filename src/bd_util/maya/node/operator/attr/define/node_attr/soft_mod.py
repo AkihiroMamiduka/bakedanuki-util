@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.at.numeric_scalar_range.long import LongField
 from ..std.at.typed import TypedField
@@ -22,6 +26,40 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
 )
+
+
+class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class FalloffCurve_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class FalloffCurve_InterpEnumField(
+    EnumField[FalloffCurve_InterpEnumAttrOperator, FalloffCurve_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = FalloffCurve_InterpEnumAttrOperator
+    PLUG_CLS = FalloffCurve_InterpEnumPlugOperator
 
 
 class InputPlugOperator(
@@ -248,7 +286,7 @@ class FalloffCurvePlugOperator(
     falloffCurve_FloatValue = FloatField()
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = EnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField()
     fci = falloffCurve_Interp
 
 
@@ -263,7 +301,7 @@ class FalloffCurveAttrOperator(
     falloffCurve_FloatValue = FloatField()
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = EnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField()
     fci = falloffCurve_Interp
 
 

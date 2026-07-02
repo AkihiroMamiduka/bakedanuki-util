@@ -5,7 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import EnumField
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from ..std.at.numeric_scalar_range.double import DoubleField
 from ..std.at.numeric_scalar_range.float import FloatField
 from ..std.at.unit_scalar_range.double_angle import DoubleAngleField
@@ -31,6 +35,40 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
     FloatLinear3CompoundBasePlugOperator,
     FloatLinear3CompoundBaseField,
 )
+
+
+class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class TaperCurve_InterpEnumField(
+    EnumField[TaperCurve_InterpEnumAttrOperator, TaperCurve_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = TaperCurve_InterpEnumAttrOperator
+    PLUG_CLS = TaperCurve_InterpEnumPlugOperator
 
 
 class TranslatePlugOperator(
@@ -473,7 +511,7 @@ class TaperCurvePlugOperator(
     taperCurve_FloatValue = FloatField()
     cfv = taperCurve_FloatValue
 
-    taperCurve_Interp = EnumField()
+    taperCurve_Interp = TaperCurve_InterpEnumField()
     ci = taperCurve_Interp
 
 
@@ -488,7 +526,7 @@ class TaperCurveAttrOperator(
     taperCurve_FloatValue = FloatField()
     cfv = taperCurve_FloatValue
 
-    taperCurve_Interp = EnumField()
+    taperCurve_Interp = TaperCurve_InterpEnumField()
     ci = taperCurve_Interp
 
 
