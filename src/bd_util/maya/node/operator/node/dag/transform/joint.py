@@ -4,3 +4,5 @@ from ._core import Transform
 
 class Joint(Transform):
     __slots__ = ()
+
+    NODE_TYPE = "joint"

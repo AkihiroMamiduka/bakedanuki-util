@@ -36,6 +36,8 @@
   - `ModifierManager` です。
 - `src/bd_util/maya/node/creater/_core.py`
   - `NodeCreater` です。ノードクラスの個別 import を減らすための生成入口です。
+- `src/bd_util/maya/node/bd_node.py`
+  - `BDNode` です。シーン上に既に存在するノードを対応する `NodeOperator` として包む入口です。
 
 ## 基本構成
 
@@ -50,10 +52,13 @@ flowchart TD
     PlugOperator["PlugOperator"]
     ModifierManager["ModifierManager"]
     NodeCreater["NodeCreater"]
+    BDNode["BDNode"]
     OpenMaya["maya.api.OpenMaya"]
 
     NodeCreater --> NodeOperator
     NodeCreater --> ModifierManager
+    BDNode --> NodeOperator
+    BDNode --> ModifierManager
     NodeOperator --> DG
     NodeOperator --> DAG
     DAG --> Transform
@@ -121,6 +126,23 @@ modifier_manager.do_it_dg()
 生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
+
+シーン上に既に存在するノードは `BDNode` で対応する `NodeOperator` に変換できます。
+
+```python
+from maya import cmds
+
+from bd_util import BDNode
+
+cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
+
+node = BDNode("test_plus_minus_ave")
+node.input1D[0].set(10.0)
+node.modifier_manager.do_it_dg()
+```
+
+`BDNode` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
+必要な場合は `BDNode("nodeName", auto_add_attr=True)` のように指定します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
