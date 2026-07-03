@@ -166,15 +166,36 @@ class MyTransform(Transform):
         soft_max_value=99999999999999999999,
     )
     tdouble = testDouble
+    testDoubleMulti = AddAttr.at.double(
+        default_value=10000000000000000000,
+        min_value=-99999999999999999999,
+        max_value=99999999999999999999,
+        soft_min_value=-99999999999999999999,
+        soft_max_value=99999999999999999999,
+        multi=True,
+    )
+    tdoubleMulti = testDoubleMulti
     #   double2
     testDouble2 = AddAttr.at.double2()
     tdouble2 = testDouble2
+    testDouble2Multi = AddAttr.at.double2(
+        multi=True,
+    )
+    tdouble2Multi = testDouble2Multi
     #   double3
     testDouble3 = AddAttr.at.double3()
     tdouble3 = testDouble3
+    testDouble3Multi = AddAttr.at.double3(
+        multi=True,
+    )
+    tdouble3Multi = testDouble3Multi
     #   double4
     testDouble4 = AddAttr.at.double4()
     tdouble4 = testDouble4
+    testDouble4Multi = AddAttr.at.double4(
+        multi=True,
+    )
+    tdouble4Multi = testDouble4Multi
     #   quat
     testQuat = AddAttr.at.quat()
     tquat = testQuat

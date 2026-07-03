@@ -725,6 +725,42 @@ class PlugOperator(Generic[A], ABC):
     def exists(self) -> bool:
         return self._node.fn_node.hasAttribute(self.long_name)
 
+    # add attr options
+    def _apply_mfn_attr_options(self, fn_attr: om.MFnAttribute):
+        if self.multi:
+            fn_attr.array = True
+
+        readable = self._oprt_attr.readable
+        if readable is not None:
+            fn_attr.readable = readable
+
+        writable = self._oprt_attr.writable
+        if writable is not None:
+            fn_attr.writable = writable
+
+        category = self._oprt_attr.category
+        if category is not None:
+            fn_attr.addToCategory(category)
+
+    def _cmds_add_attr_option_kwargs(self) -> dict[str, Any]:
+        kwargs = {}
+        if self.multi:
+            kwargs["multi"] = True
+
+        readable = self._oprt_attr.readable
+        if readable is not None:
+            kwargs["readable"] = readable
+
+        writable = self._oprt_attr.writable
+        if writable is not None:
+            kwargs["writable"] = writable
+
+        category = self._oprt_attr.category
+        if category is not None:
+            kwargs["category"] = category
+
+        return kwargs
+
     # add
     def add_attr(self):
         """
@@ -759,6 +795,8 @@ class PlugOperator(Generic[A], ABC):
         kwargs["longName"] = self._oprt_attr.long_name
         if self._oprt_attr.short_name is not None:
             kwargs["shortName"] = self._oprt_attr.short_name
+        for key, value in self._cmds_add_attr_option_kwargs().items():
+            kwargs.setdefault(key, value)
 
         # add
         cmds.addAttr(

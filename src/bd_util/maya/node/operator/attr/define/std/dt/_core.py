@@ -51,6 +51,7 @@ class DataTypePlugOperator(PlugOperator[A]):
             self.short_name,
             mfn_data_type,
         )
+        self._apply_mfn_attr_options(self._fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)

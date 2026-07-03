@@ -34,6 +34,7 @@ class FltMatrixPlugOperator(PlugOperator["FltMatrixAttrOperator"]):
             self.short_name,
             om.MFnMatrixAttribute.kFloat,
         )
+        self._apply_mfn_attr_options(fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)

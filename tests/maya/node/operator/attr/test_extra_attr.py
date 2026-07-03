@@ -4,6 +4,7 @@ from __future__ import annotations
 import pytest
 
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
+from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
 
@@ -74,6 +75,33 @@ class ExtraCompoundTransform(Transform):
     )
     extraFloatAngle3 = AddAttr.at.float_angle3(
         default_value=[30.0, 40.0, 50.0]
+    )
+    extraNamedDouble = AddAttr.at.double(
+        default_value=2.5,
+        long_name="extraNamedDoubleLong",
+        short_name="end",
+    )
+    extraOptionedDouble = AddAttr.at.double(
+        default_value=3.5,
+        writable=False,
+        category="bdAddAttrTest",
+    )
+    extraMultiDouble = AddAttr.at.double(multi=True)
+    extraNamedString = AddAttr.dt.string(
+        default_value="hello",
+        long_name="extraNamedStringLong",
+        short_name="ens",
+    )
+
+
+class ExtraCmdsAddAttrTransform(Transform):
+    __slots__ = ()
+
+    extraAddr = AddrField(
+        extra=True,
+        readable=False,
+        writable=False,
+        category="bdCmdsAddAttrTest",
     )
 
 
@@ -234,6 +262,123 @@ def test_double4_and_quat_lookup(extra_compound_node):
     assert lookup_attr_cls(node.name, "extraQuat").__name__ == (
         "Quat4AttrOperator"
     )
+
+
+def test_add_attr_factory_names_and_options(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert node.extraNamedDouble.plug_name == (
+        "extra_compound.extraNamedDoubleLong"
+    )
+    assert node.extraNamedDouble.short_name == "end"
+    assert node.extraNamedDouble.get() == pytest.approx(2.5)
+    assert maya_cmds.attributeQuery(
+        "extraNamedDoubleLong",
+        node=node.name,
+        shortName=True,
+    ) == "end"
+
+    assert node.extraNamedString.plug_name == (
+        "extra_compound.extraNamedStringLong"
+    )
+    assert node.extraNamedString.short_name == "ens"
+    assert node.extraNamedString.get() == "hello"
+    assert maya_cmds.attributeQuery(
+        "extraNamedStringLong",
+        node=node.name,
+        shortName=True,
+    ) == "ens"
+
+    assert maya_cmds.attributeQuery(
+        "extraOptionedDouble",
+        node=node.name,
+        readable=True,
+    )
+    assert not maya_cmds.attributeQuery(
+        "extraOptionedDouble",
+        node=node.name,
+        writable=True,
+    )
+    assert maya_cmds.attributeQuery(
+        "extraOptionedDouble",
+        node=node.name,
+        categories=True,
+    ) == ["bdAddAttrTest"]
+
+    assert maya_cmds.attributeQuery(
+        "extraMultiDouble",
+        node=node.name,
+        multi=True,
+    )
+
+
+def test_double_angle3_preserves_maya_shape(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+    child_names = maya_cmds.attributeQuery(
+        "extraDoubleAngle3",
+        node=node.name,
+        listChildren=True,
+    )
+
+    assert maya_cmds.attributeQuery(
+        "extraDoubleAngle3",
+        node=node.name,
+        attributeType=True,
+    ) == "double3"
+    assert child_names == [
+        "extraDoubleAngle3X",
+        "extraDoubleAngle3Y",
+        "extraDoubleAngle3Z",
+    ]
+    assert [
+        maya_cmds.attributeQuery(
+            child_name,
+            node=node.name,
+            attributeType=True,
+        )
+        for child_name in child_names
+    ] == ["doubleAngle", "doubleAngle", "doubleAngle"]
+    assert maya_cmds.getAttr(f"{node.name}.extraDoubleAngle3")[0] == (
+        pytest.approx((10.0, 20.0, 30.0))
+    )
+
+
+def test_cmds_add_attr_options(modifier_manager, maya_cmds):
+    created_node = ExtraCmdsAddAttrTransform.create(
+        modifier_manager,
+        name="extra_cmds_add_attr",
+        auto_add_attr=False,
+    )
+    modifier_manager.do_it_dag()
+    modifier_manager.do_it_dg()
+    node = ExtraCmdsAddAttrTransform(
+        modifier_manager,
+        m_obj=created_node.m_obj,
+        auto_add_attr=True,
+    )
+
+    assert maya_cmds.objExists(f"{node.name}.extraAddr")
+    assert not maya_cmds.attributeQuery(
+        "extraAddr",
+        node=node.name,
+        readable=True,
+    )
+    assert not maya_cmds.attributeQuery(
+        "extraAddr",
+        node=node.name,
+        writable=True,
+    )
+    assert maya_cmds.attributeQuery(
+        "extraAddr",
+        node=node.name,
+        categories=True,
+    ) == ["bdCmdsAddAttrTest"]
 
 
 def test_same_compound_type_child_names_do_not_bleed(extra_compound_node):

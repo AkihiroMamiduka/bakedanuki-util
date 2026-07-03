@@ -40,6 +40,7 @@ class NumericBasePlugOperator(PlugOperator[A]):
             mfn_numeric_data_type,
             self._oprt_attr.default_value,
         )
+        self._apply_mfn_attr_options(fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)

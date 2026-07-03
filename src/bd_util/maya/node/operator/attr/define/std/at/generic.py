@@ -45,6 +45,7 @@ class GenericPlugOperator(PlugOperator["GenericAttrOperator"]):
             self.long_name,
             self.short_name,
         )
+        self._apply_mfn_attr_options(fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)

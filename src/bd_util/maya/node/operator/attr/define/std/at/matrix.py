@@ -35,6 +35,7 @@ class MatrixPlugOperator(PlugOperator["MatrixAttrOperator"]):
             self.short_name,
             om.MFnMatrixAttribute.kDouble,
         )
+        self._apply_mfn_attr_options(fn_attr)
 
         # ノードにアトリビュートを追加
         self._node.fn_node.addAttribute(attr_obj)
