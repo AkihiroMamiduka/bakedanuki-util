@@ -4,6 +4,15 @@ from __future__ import annotations
 import pytest
 
 
+def test_node_creater_can_import_from_bd_util(new_scene):
+    from bd_util import ModifierManager, NodeCreater
+
+    modifier_manager = ModifierManager()
+    node_creater = NodeCreater(modifier_manager=modifier_manager)
+
+    assert node_creater.modifier_manager is modifier_manager
+
+
 def test_node_creater_uses_passed_modifier_manager(new_scene, maya_cmds):
     from bd_util.maya.node.creater import NodeCreater
     from bd_util.maya.node.modifier import ModifierManager

@@ -106,8 +106,7 @@ modifier_manager.do_it_dg()
 複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`NodeCreater` から作成できます。
 
 ```python
-from bd_util.maya.node.creater import NodeCreater
-from bd_util.maya.node.modifier import ModifierManager
+from bd_util import ModifierManager, NodeCreater
 
 modifier_manager = ModifierManager()
 node_creater = NodeCreater(modifier_manager=modifier_manager)
