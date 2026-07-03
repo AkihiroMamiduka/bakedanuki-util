@@ -22,8 +22,8 @@ def test_node_creater_uses_passed_modifier_manager(new_scene, maya_cmds):
     modifier_manager = ModifierManager()
     node_creater = NodeCreater(modifier_manager=modifier_manager)
 
-    pma = node_creater.plus_minus_average(name="plus_minus_ave")
-    mult_div = node_creater.multiply_divide(name="mult_div")
+    pma = node_creater.plusMinusAverage(name="plus_minus_ave")
+    mult_div = node_creater.multiplyDivide(name="mult_div")
     modifier_manager.do_it_dg()
 
     assert isinstance(pma, PlusMinusAverage)
@@ -38,7 +38,7 @@ def test_node_creater_creates_modifier_manager(new_scene, maya_cmds):
     from bd_util.maya.node.creater import NodeCreater
 
     node_creater = NodeCreater()
-    node = node_creater.plus_minus_average(name="auto_manager_pma")
+    node = node_creater.plusMinusAverage(name="auto_manager_pma")
     node_creater.modifier_manager.do_it_dg()
 
     assert node.modifier_manager is node_creater.modifier_manager
@@ -65,7 +65,7 @@ def test_node_creater_caches_creator_and_node_class(new_scene):
 
     node_creater = NodeCreater()
 
-    assert node_creater.plus_minus_average is node_creater.plus_minus_average
+    assert node_creater.plusMinusAverage is node_creater.plusMinusAverage
     assert node_creater.node_class("plus_minus_average") is node_creater.node_class(
         "plusMinusAverage"
     )
@@ -76,8 +76,8 @@ def test_node_creater_available_node_names_for_completion(new_scene):
 
     node_creater = NodeCreater()
 
-    assert "plus_minus_average" in node_creater.available_node_names()
-    assert "multiply_divide" in dir(node_creater)
+    assert "plusMinusAverage" in node_creater.available_node_names()
+    assert "multiplyDivide" in dir(node_creater)
     assert "and_" in dir(node_creater)
 
 

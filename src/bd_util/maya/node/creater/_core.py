@@ -11,6 +11,10 @@ from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
 
 _VALID_MODULE_NAME_PATTERN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_NODE_TYPE_PATTERN = re.compile(
+    r"^\s*NODE_TYPE\s*=\s*[\"']([^\"']+)[\"']",
+    re.MULTILINE,
+)
 
 
 def _camel_to_snake(name: str) -> str:
@@ -19,10 +23,10 @@ def _camel_to_snake(name: str) -> str:
     return name.lower().lstrip("_")
 
 
-def _module_name_to_creator_name(module_name: str) -> str:
-    if keyword.iskeyword(module_name):
-        return f"{module_name}_"
-    return module_name
+def _node_type_to_creator_name(node_type: str) -> str:
+    if keyword.iskeyword(node_type):
+        return f"{node_type}_"
+    return node_type
 
 
 class NodeCreater:
@@ -104,7 +108,9 @@ class NodeCreater:
 
         package_files = resources.files(self._DG_PACKAGE)
         names = sorted(
-            _module_name_to_creator_name(path.name[:-3])
+            _node_type_to_creator_name(
+                _read_node_type(path.read_text(encoding="utf-8"))
+            )
             for path in package_files.iterdir()
             if path.is_file()
             and path.name.endswith(".py")
@@ -156,3 +162,10 @@ class NodeCreater:
         if not _VALID_MODULE_NAME_PATTERN.fullmatch(module_name):
             raise AttributeError(f"Unsupported node type: {node_name}")
         return module_name
+
+
+def _read_node_type(code: str) -> str:
+    match = _NODE_TYPE_PATTERN.search(code)
+    if match is None:
+        raise ValueError("NODE_TYPE definition not found.")
+    return match.group(1)
