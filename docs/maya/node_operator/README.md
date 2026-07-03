@@ -34,6 +34,8 @@
   - Maya 上の既存アトリビュートから対応する `AttrOperator` を推定します。
 - `src/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
+- `src/bd_util/maya/node/creater/_core.py`
+  - `NodeCreater` です。ノードクラスの個別 import を減らすための生成入口です。
 
 ## 基本構成
 
@@ -47,8 +49,11 @@ flowchart TD
     AttrOperator["AttrOperator"]
     PlugOperator["PlugOperator"]
     ModifierManager["ModifierManager"]
+    NodeCreater["NodeCreater"]
     OpenMaya["maya.api.OpenMaya"]
 
+    NodeCreater --> NodeOperator
+    NodeCreater --> ModifierManager
     NodeOperator --> DG
     NodeOperator --> DAG
     DAG --> Transform
@@ -97,6 +102,25 @@ modifier_manager = ModifierManager()
 node = PlusMinusAverage.create(modifier_manager, name="test_pma")
 modifier_manager.do_it_dg()
 ```
+
+複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`NodeCreater` から作成できます。
+
+```python
+from bd_util.maya.node.creater import NodeCreater
+from bd_util.maya.node.modifier import ModifierManager
+
+modifier_manager = ModifierManager()
+node_creater = NodeCreater(modifier_manager=modifier_manager)
+
+pma = node_creater.plus_minus_average(name="plus_minus_ave")
+mult_div = node_creater.multiply_divide(name="mult_div")
+
+modifier_manager.do_it_dg()
+```
+
+`NodeCreater` は DG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
+`plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも `create()` できます。
+IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
