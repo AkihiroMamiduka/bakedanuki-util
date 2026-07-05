@@ -17,7 +17,7 @@ from .std.at.double import ExtraDoubleField
 # from .std.at.double2 import ExtraDouble2Field
 # from .std.at.double3 import ExtraDouble3Field
 # from .std.at.double4 import ExtraDouble4Field
-from .std.at.enum import ExtraEnumField
+from .std.at.enum import ExtraEnumField, ExtraEnumPlugField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
 from .std.at.float_linear import ExtraFloatLinearField
@@ -1350,17 +1350,18 @@ class AddAttrDt:
 
 # define
 class DefineEnum:
-    field: ClassVar[type[ExtraEnumField]] = ExtraEnumField
-    attr_operator: ClassVar[type[EnumAttrOperator]] = EnumAttrOperator
-    plug_operator: ClassVar[type[EnumPlugOperator]] = EnumPlugOperator
+    field = ExtraEnumField
+    extra_field = ExtraEnumPlugField
+    attr_operator = EnumAttrOperator
+    plug_operator = EnumPlugOperator
 
 
 class DefineAddAttrAt:
-    enum: ClassVar[type[DefineEnum]] = DefineEnum
+    enum = DefineEnum
 
 
 class DefineAddAttr:
-    at: ClassVar[DefineAddAttrAt] = DefineAddAttrAt()
+    at = DefineAddAttrAt
 
 
 # add_attr
@@ -1378,4 +1379,4 @@ class AddAttr:
     at: ClassVar[AddAttrAt] = AddAttrAt()
     dt: ClassVar[AddAttrDt] = AddAttrDt()
 
-    define: ClassVar[DefineAddAttr] = DefineAddAttr()
+    define = DefineAddAttr

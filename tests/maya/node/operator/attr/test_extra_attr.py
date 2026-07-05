@@ -11,6 +11,62 @@ from bd_util.maya.node.operator.node.dag.transform._core import Transform
 pytestmark = pytest.mark.maya
 
 
+class PlugOnlyEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
+    __slots__ = ()
+
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
+
+    NAME_MAP = {
+        ALPHA: "Alpha",
+        BETA: "Beta",
+        GAMMA: "Gamma",
+    }
+
+
+class PlugOnlyEnumField(
+    AddAttr.define.at.enum.extra_field[PlugOnlyEnumPlugOperator]
+):
+    __slots__ = ()
+
+
+class PriorityEnumAttrOperator(AddAttr.define.at.enum.attr_operator):
+    __slots__ = ()
+
+    LOW = 0
+    HIGH = 1
+
+    NAME_MAP = {
+        LOW: "Attr Low",
+        HIGH: "Attr High",
+    }
+
+
+class PriorityEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
+    __slots__ = ()
+
+    LOW = 0
+    HIGH = 1
+
+    NAME_MAP = {
+        LOW: "Plug Low",
+        HIGH: "Plug High",
+    }
+
+
+class PriorityEnumField(
+    AddAttr.define.at.enum.field[
+        PriorityEnumAttrOperator,
+        PriorityEnumPlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = PriorityEnumAttrOperator
+    PLUG_CLS = PriorityEnumPlugOperator
+
+
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
@@ -87,6 +143,8 @@ class ExtraCompoundTransform(Transform):
         category="bdAddAttrTest",
     )
     extraMultiDouble = AddAttr.at.double(multi=True)
+    extraPlugOnlyEnum = PlugOnlyEnumField()
+    extraPriorityEnum = PriorityEnumField()
     extraNamedString = AddAttr.dt.string(
         default_value="hello",
         long_name="extraNamedStringLong",
@@ -313,6 +371,49 @@ def test_add_attr_factory_names_and_options(
         node=node.name,
         multi=True,
     )
+
+
+def test_extra_enum_field_can_be_defined_with_plug_only(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert isinstance(node.extraPlugOnlyEnum, PlugOnlyEnumPlugOperator)
+    assert node.extraPlugOnlyEnum.ALPHA == 0
+    assert node.extraPlugOnlyEnum.name_by_index(
+        node.extraPlugOnlyEnum.BETA
+    ) == "Beta"
+    assert node.extraPlugOnlyEnum.index_by_name("Gamma") == (
+        node.extraPlugOnlyEnum.GAMMA
+    )
+    assert maya_cmds.attributeQuery(
+        "extraPlugOnlyEnum",
+        node=node.name,
+        listEnum=True,
+    ) == ["Alpha:Beta:Gamma"]
+
+
+def test_enum_plug_name_map_has_priority(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert ExtraCompoundTransform.extraPriorityEnum.name_by_index(
+        PriorityEnumAttrOperator.LOW
+    ) == "Attr Low"
+    assert node.extraPriorityEnum.name_by_index(
+        node.extraPriorityEnum.LOW
+    ) == "Plug Low"
+    assert node.extraPriorityEnum.index_by_name("Plug High") == (
+        node.extraPriorityEnum.HIGH
+    )
+    assert maya_cmds.attributeQuery(
+        "extraPriorityEnum",
+        node=node.name,
+        listEnum=True,
+    ) == ["Plug Low:Plug High"]
 
 
 def test_double_angle3_preserves_maya_shape(

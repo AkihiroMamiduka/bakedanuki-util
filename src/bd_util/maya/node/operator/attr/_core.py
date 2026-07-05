@@ -1098,7 +1098,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
     @overload
     def __get__(
         self,
-        instance: AttributeField[Any],
+        instance: AttributeField[Any, Any],
         owner: type,
     ) -> Self: ...
 
@@ -1112,7 +1112,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             | NodeOperator
             | AttrOperator[Any]
             | PlugOperator[Any]
-            | AttributeField[Any]
+            | AttributeField[Any, Any]
             | None
         ),
         owner: type,

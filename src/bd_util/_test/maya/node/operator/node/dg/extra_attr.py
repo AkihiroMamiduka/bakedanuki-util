@@ -48,6 +48,26 @@ class TestEnumField(
     PLUG_CLS = TestEnumPlugOperator
 
 
+class TestExtraEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
+    __slots__ = ()
+
+    ALPHA = 0
+    BETA = 1
+    GAMMA = 2
+
+    NAME_MAP = {
+        ALPHA: "Alpha",
+        BETA: "Beta",
+        GAMMA: "Gamma",
+    }
+
+
+class TestExtraEnumField(
+    AddAttr.define.at.enum.extra_field[TestExtraEnumPlugOperator]
+):
+    __slots__ = ()
+
+
 class MyTransform(Transform):
 
     # インスタンス生成時に自動 addAttr() される
@@ -241,6 +261,8 @@ class MyTransform(Transform):
     #   enum
     testEnum = TestEnumField()
     tenm = testEnum
+    testExtraEnum = TestExtraEnumField()
+    texenm = testExtraEnum
 
     #   message
     testMessage = AddAttr.at.message()
