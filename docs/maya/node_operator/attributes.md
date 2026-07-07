@@ -205,7 +205,9 @@ compound child の中にさらに compound child を定義できます。
 
 その場合も、各階層の field は `AddAttr.define.at.compound.field[...]` で定義し、型引数にはその階層の `PlugOperator` を渡します。
 
-`double3` / `float3` / `double_angle3` などの custom scalar compound も child として定義できます。
+custom scalar compound も child として定義できます。
+
+現行で対象になる主な型は `double2` / `double3` / `double4` / `quat` / `float2` / `float3` / `long2` / `long3` / `short2` / `short3` / `double_linear2` / `double_linear3` / `double_angle2` / `double_angle3` / `float_linear2` / `float_linear3` / `float_angle2` / `float_angle3` です。
 
 `double_angle3` は Maya 上では親 `double3`、子 `doubleAngle` として作成されます。
 

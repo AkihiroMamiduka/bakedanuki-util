@@ -92,13 +92,32 @@ class SimpleCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     )
     mode = SimpleCompoundModeField()
     nested = SimpleNestedCompoundField()
+    uv = AddAttr.at.double2(default_value=[4.0, 5.0])
     offset = AddAttr.at.double3(
         default_value=[1.0, 2.0, 3.0],
         min_value=[-1.0, -2.0, -3.0],
         max_value=10.0,
     )
+    tangent = AddAttr.at.double4(default_value=[4.0, 5.0, 6.0, 7.0])
+    orient = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
+    floatUv = AddAttr.at.float2(default_value=[0.25, 0.75])
     color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
+    indexPair = AddAttr.at.long2(default_value=[1, 2])
+    indexTriplet = AddAttr.at.long3(default_value=[3, 4, 5])
+    shortPair = AddAttr.at.short2(default_value=[6, 7])
+    shortTriplet = AddAttr.at.short3(default_value=[8, 9, 10])
+    linear2 = AddAttr.at.double_linear2(default_value=[11.0, 12.0])
+    linear3 = AddAttr.at.double_linear3(default_value=[13.0, 14.0, 15.0])
+    angle2 = AddAttr.at.double_angle2(default_value=[16.0, 17.0])
     aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
+    floatLinear2 = AddAttr.at.float_linear2(default_value=[18.0, 19.0])
+    floatLinear3 = AddAttr.at.float_linear3(
+        default_value=[20.0, 21.0, 22.0]
+    )
+    floatAngle2 = AddAttr.at.float_angle2(default_value=[23.0, 24.0])
+    floatAngle3 = AddAttr.at.float_angle3(
+        default_value=[25.0, 26.0, 27.0]
+    )
 
 
 class SimpleCompoundField(
@@ -468,9 +487,24 @@ def test_extra_compound_field_can_be_defined_with_plug_only(
         "weight",
         "mode",
         "nested",
+        "uv",
         "offset",
+        "tangent",
+        "orient",
+        "floatUv",
         "color",
+        "indexPair",
+        "indexTriplet",
+        "shortPair",
+        "shortTriplet",
+        "linear2",
+        "linear3",
+        "angle2",
         "aim",
+        "floatLinear2",
+        "floatLinear3",
+        "floatAngle2",
+        "floatAngle3",
     ]
     assert maya_cmds.attributeQuery(
         "extraSimpleCompound",
@@ -563,16 +597,60 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
 ):
     node = extra_compound_node
 
+    assert node.extraSimpleCompound.uv.get() == pytest.approx([4.0, 5.0])
     assert node.extraSimpleCompound.offset.get() == pytest.approx(
         [1.0, 2.0, 3.0]
+    )
+    assert node.extraSimpleCompound.tangent.get() == pytest.approx(
+        [4.0, 5.0, 6.0, 7.0]
+    )
+    assert node.extraSimpleCompound.orient.get() == pytest.approx(
+        [0.1, 0.2, 0.3, 0.4]
+    )
+    assert node.extraSimpleCompound.floatUv.get() == pytest.approx(
+        [0.25, 0.75]
     )
     assert node.extraSimpleCompound.color.get() == pytest.approx(
         [0.1, 0.2, 0.3]
     )
+    assert node.extraSimpleCompound.indexPair.get() == pytest.approx([1, 2])
+    assert node.extraSimpleCompound.indexTriplet.get() == pytest.approx(
+        [3, 4, 5]
+    )
+    assert node.extraSimpleCompound.shortPair.get() == pytest.approx([6, 7])
+    assert node.extraSimpleCompound.shortTriplet.get() == pytest.approx(
+        [8, 9, 10]
+    )
+    assert node.extraSimpleCompound.linear2.get() == pytest.approx(
+        [11.0, 12.0]
+    )
+    assert node.extraSimpleCompound.linear3.get() == pytest.approx(
+        [13.0, 14.0, 15.0]
+    )
+    assert node.extraSimpleCompound.angle2.get() == pytest.approx(
+        [16.0, 17.0]
+    )
     assert node.extraSimpleCompound.aim.get() == pytest.approx(
         [10.0, 20.0, 30.0]
     )
+    assert node.extraSimpleCompound.floatLinear2.get() == pytest.approx(
+        [18.0, 19.0]
+    )
+    assert node.extraSimpleCompound.floatLinear3.get() == pytest.approx(
+        [20.0, 21.0, 22.0]
+    )
+    assert node.extraSimpleCompound.floatAngle2.get() == pytest.approx(
+        [23.0, 24.0]
+    )
+    assert node.extraSimpleCompound.floatAngle3.get() == pytest.approx(
+        [25.0, 26.0, 27.0]
+    )
 
+    assert maya_cmds.attributeQuery(
+        "uv",
+        node=node.name,
+        attributeType=True,
+    ) == "double2"
     assert maya_cmds.attributeQuery(
         "offset",
         node=node.name,
@@ -584,6 +662,21 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
         listChildren=True,
     ) == ["offsetX", "offsetY", "offsetZ"]
     assert maya_cmds.attributeQuery(
+        "tangent",
+        node=node.name,
+        attributeType=True,
+    ) == "double4"
+    assert maya_cmds.attributeQuery(
+        "orient",
+        node=node.name,
+        attributeType=True,
+    ) == "double4"
+    assert maya_cmds.attributeQuery(
+        "floatUv",
+        node=node.name,
+        attributeType=True,
+    ) == "float2"
+    assert maya_cmds.attributeQuery(
         "color",
         node=node.name,
         attributeType=True,
@@ -593,6 +686,41 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
         node=node.name,
         listChildren=True,
     ) == ["colorX", "colorY", "colorZ"]
+    assert maya_cmds.attributeQuery(
+        "indexPair",
+        node=node.name,
+        attributeType=True,
+    ) == "long2"
+    assert maya_cmds.attributeQuery(
+        "indexTriplet",
+        node=node.name,
+        attributeType=True,
+    ) == "long3"
+    assert maya_cmds.attributeQuery(
+        "shortPair",
+        node=node.name,
+        attributeType=True,
+    ) == "short2"
+    assert maya_cmds.attributeQuery(
+        "shortTriplet",
+        node=node.name,
+        attributeType=True,
+    ) == "short3"
+    assert maya_cmds.attributeQuery(
+        "linear2",
+        node=node.name,
+        attributeType=True,
+    ) == "double2"
+    assert maya_cmds.attributeQuery(
+        "linear3",
+        node=node.name,
+        attributeType=True,
+    ) == "double3"
+    assert maya_cmds.attributeQuery(
+        "angle2",
+        node=node.name,
+        attributeType=True,
+    ) == "double2"
     assert maya_cmds.attributeQuery(
         "aim",
         node=node.name,
@@ -610,6 +738,14 @@ def test_extra_compound_can_have_custom_scalar_compound_child(
             attributeType=True,
         )
         for child_name in ("aimX", "aimY", "aimZ")
+    ] == ["doubleAngle", "doubleAngle", "doubleAngle"]
+    assert [
+        maya_cmds.attributeQuery(
+            child_name,
+            node=node.name,
+            attributeType=True,
+        )
+        for child_name in ("floatAngle3X", "floatAngle3Y", "floatAngle3Z")
     ] == ["doubleAngle", "doubleAngle", "doubleAngle"]
     assert [
         maya_cmds.attributeQuery(
