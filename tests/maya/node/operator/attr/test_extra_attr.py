@@ -7,7 +7,6 @@ from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
-
 pytestmark = pytest.mark.maya
 
 
@@ -26,21 +25,9 @@ class PlugOnlyEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
 
 
 class PlugOnlyEnumField(
-    AddAttr.define.at.enum.extra_field[PlugOnlyEnumPlugOperator]
+    AddAttr.define.at.enum.field[PlugOnlyEnumPlugOperator]
 ):
     __slots__ = ()
-
-
-class PriorityEnumAttrOperator(AddAttr.define.at.enum.attr_operator):
-    __slots__ = ()
-
-    LOW = 0
-    HIGH = 1
-
-    NAME_MAP = {
-        LOW: "Attr Low",
-        HIGH: "Attr High",
-    }
 
 
 class PriorityEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
@@ -55,30 +42,12 @@ class PriorityEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
     }
 
 
-class PriorityEnumField(
-    AddAttr.define.at.enum.field[
-        PriorityEnumAttrOperator,
-        PriorityEnumPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = PriorityEnumAttrOperator
-    PLUG_CLS = PriorityEnumPlugOperator
-
-
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
-    extraDouble2 = AddAttr.at.double2(
-        default_value=[1.0, 2.0]
-    )
-    extraDouble3 = AddAttr.at.double3(
-        default_value=[1.0, 2.0, 3.0]
-    )
-    extraDouble4 = AddAttr.at.double4(
-        default_value=[1.0, 2.0, 3.0, 4.0]
-    )
+    extraDouble2 = AddAttr.at.double2(default_value=[1.0, 2.0])
+    extraDouble3 = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
+    extraDouble4 = AddAttr.at.double4(default_value=[1.0, 2.0, 3.0, 4.0])
     extraLimitedDouble4 = AddAttr.at.double4(
         default_value=[1.0, 2.0, 3.0, 4.0],
         min_value=[-1.0, -2.0, -3.0, -4.0],
@@ -87,48 +56,24 @@ class ExtraCompoundTransform(Transform):
         soft_max_value=[1.0, 2.0, 3.0, 4.0],
     )
     extraQuat = AddAttr.at.quat()
-    extraQuatCustom = AddAttr.at.quat(
-        default_value=[0.1, 0.2, 0.3, 0.4]
-    )
-    extraFloat2 = AddAttr.at.float2(
-        default_value=[1.0, 2.0]
-    )
-    extraFloat3 = AddAttr.at.float3(
-        default_value=[1.0, 2.0, 3.0]
-    )
-    extraLong2 = AddAttr.at.long2(
-        default_value=[1, 2]
-    )
-    extraLong3 = AddAttr.at.long3(
-        default_value=[1, 2, 3]
-    )
-    extraShort2 = AddAttr.at.short2(
-        default_value=[1, 2]
-    )
-    extraShort3 = AddAttr.at.short3(
-        default_value=[1, 2, 3]
-    )
-    extraDoubleLinear2 = AddAttr.at.double_linear2(
-        default_value=[1.0, 2.0]
-    )
+    extraQuatCustom = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
+    extraFloat2 = AddAttr.at.float2(default_value=[1.0, 2.0])
+    extraFloat3 = AddAttr.at.float3(default_value=[1.0, 2.0, 3.0])
+    extraLong2 = AddAttr.at.long2(default_value=[1, 2])
+    extraLong3 = AddAttr.at.long3(default_value=[1, 2, 3])
+    extraShort2 = AddAttr.at.short2(default_value=[1, 2])
+    extraShort3 = AddAttr.at.short3(default_value=[1, 2, 3])
+    extraDoubleLinear2 = AddAttr.at.double_linear2(default_value=[1.0, 2.0])
     extraDoubleLinear3 = AddAttr.at.double_linear3(
         default_value=[1.0, 2.0, 3.0]
     )
-    extraDoubleAngle2 = AddAttr.at.double_angle2(
-        default_value=[10.0, 20.0]
-    )
+    extraDoubleAngle2 = AddAttr.at.double_angle2(default_value=[10.0, 20.0])
     extraDoubleAngle3 = AddAttr.at.double_angle3(
         default_value=[10.0, 20.0, 30.0]
     )
-    extraFloatLinear2 = AddAttr.at.float_linear2(
-        default_value=[3.0, 4.0]
-    )
-    extraFloatLinear3 = AddAttr.at.float_linear3(
-        default_value=[3.0, 4.0, 5.0]
-    )
-    extraFloatAngle2 = AddAttr.at.float_angle2(
-        default_value=[30.0, 40.0]
-    )
+    extraFloatLinear2 = AddAttr.at.float_linear2(default_value=[3.0, 4.0])
+    extraFloatLinear3 = AddAttr.at.float_linear3(default_value=[3.0, 4.0, 5.0])
+    extraFloatAngle2 = AddAttr.at.float_angle2(default_value=[30.0, 40.0])
     extraFloatAngle3 = AddAttr.at.float_angle3(
         default_value=[30.0, 40.0, 50.0]
     )
@@ -144,7 +89,6 @@ class ExtraCompoundTransform(Transform):
     )
     extraMultiDouble = AddAttr.at.double(multi=True)
     extraPlugOnlyEnum = PlugOnlyEnumField()
-    extraPriorityEnum = PriorityEnumField()
     extraNamedString = AddAttr.dt.string(
         default_value="hello",
         long_name="extraNamedStringLong",
@@ -333,22 +277,28 @@ def test_add_attr_factory_names_and_options(
     )
     assert node.extraNamedDouble.short_name == "end"
     assert node.extraNamedDouble.get() == pytest.approx(2.5)
-    assert maya_cmds.attributeQuery(
-        "extraNamedDoubleLong",
-        node=node.name,
-        shortName=True,
-    ) == "end"
+    assert (
+        maya_cmds.attributeQuery(
+            "extraNamedDoubleLong",
+            node=node.name,
+            shortName=True,
+        )
+        == "end"
+    )
 
     assert node.extraNamedString.plug_name == (
         "extra_compound.extraNamedStringLong"
     )
     assert node.extraNamedString.short_name == "ens"
     assert node.extraNamedString.get() == "hello"
-    assert maya_cmds.attributeQuery(
-        "extraNamedStringLong",
-        node=node.name,
-        shortName=True,
-    ) == "ens"
+    assert (
+        maya_cmds.attributeQuery(
+            "extraNamedStringLong",
+            node=node.name,
+            shortName=True,
+        )
+        == "ens"
+    )
 
     assert maya_cmds.attributeQuery(
         "extraOptionedDouble",
@@ -381,9 +331,10 @@ def test_extra_enum_field_can_be_defined_with_plug_only(
 
     assert isinstance(node.extraPlugOnlyEnum, PlugOnlyEnumPlugOperator)
     assert node.extraPlugOnlyEnum.ALPHA == 0
-    assert node.extraPlugOnlyEnum.name_by_index(
-        node.extraPlugOnlyEnum.BETA
-    ) == "Beta"
+    assert (
+        node.extraPlugOnlyEnum.name_by_index(node.extraPlugOnlyEnum.BETA)
+        == "Beta"
+    )
     assert node.extraPlugOnlyEnum.index_by_name("Gamma") == (
         node.extraPlugOnlyEnum.GAMMA
     )
@@ -400,12 +351,10 @@ def test_enum_plug_name_map_has_priority(
 ):
     node = extra_compound_node
 
-    assert ExtraCompoundTransform.extraPriorityEnum.name_by_index(
-        PriorityEnumAttrOperator.LOW
-    ) == "Attr Low"
-    assert node.extraPriorityEnum.name_by_index(
-        node.extraPriorityEnum.LOW
-    ) == "Plug Low"
+    assert (
+        node.extraPriorityEnum.name_by_index(node.extraPriorityEnum.LOW)
+        == "Plug Low"
+    )
     assert node.extraPriorityEnum.index_by_name("Plug High") == (
         node.extraPriorityEnum.HIGH
     )
@@ -427,11 +376,14 @@ def test_double_angle3_preserves_maya_shape(
         listChildren=True,
     )
 
-    assert maya_cmds.attributeQuery(
-        "extraDoubleAngle3",
-        node=node.name,
-        attributeType=True,
-    ) == "double3"
+    assert (
+        maya_cmds.attributeQuery(
+            "extraDoubleAngle3",
+            node=node.name,
+            attributeType=True,
+        )
+        == "double3"
+    )
     assert child_names == [
         "extraDoubleAngle3X",
         "extraDoubleAngle3Y",

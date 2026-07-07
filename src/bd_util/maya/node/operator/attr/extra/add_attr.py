@@ -17,7 +17,7 @@ from .std.at.double import ExtraDoubleField
 # from .std.at.double2 import ExtraDouble2Field
 # from .std.at.double3 import ExtraDouble3Field
 # from .std.at.double4 import ExtraDouble4Field
-from .std.at.enum import ExtraEnumField, ExtraEnumPlugField
+from .std.at.enum import ExtraEnumField
 from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
 from .std.at.float_linear import ExtraFloatLinearField
@@ -80,7 +80,6 @@ from .std.dt.string_array import ExtraDataStringArrayField
 from .std.dt.string import ExtraDataStringField
 from .std.dt.vector_array import ExtraDataVectorArrayField
 
-
 _UNSET = object()
 
 
@@ -135,7 +134,7 @@ class AddAttrAt:
     # double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
     # double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
 
-    enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
+    # enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
 
     # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
     # float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
@@ -169,15 +168,17 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraBoolField:
-        return ExtraBoolField(**_field_kwargs(
-            default_value=default_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraBoolField(
+            **_field_kwargs(
+                default_value=default_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def byte(
@@ -194,19 +195,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraByteField:
-        return ExtraByteField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraByteField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def char(
@@ -223,19 +226,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraCharField:
-        return ExtraCharField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraCharField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_angle(
@@ -252,19 +257,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngleField:
-        return ExtraDoubleAngleField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleAngleField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_linear(
@@ -281,19 +288,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinearField:
-        return ExtraDoubleLinearField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleLinearField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double(
@@ -310,19 +319,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleField:
-        return ExtraDoubleField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double2(
@@ -339,19 +350,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble2Field:
-        return ExtraDouble2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDouble2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double3(
@@ -368,19 +381,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble3Field:
-        return ExtraDouble3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDouble3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double4(
@@ -397,19 +412,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDouble4Field:
-        return ExtraDouble4Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDouble4Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def quat(
@@ -426,19 +443,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraQuat4Field:
-        return ExtraQuat4Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraQuat4Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_linear2(
@@ -455,19 +474,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinear2Field:
-        return ExtraDoubleLinear2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleLinear2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_linear3(
@@ -484,19 +505,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleLinear3Field:
-        return ExtraDoubleLinear3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleLinear3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_angle2(
@@ -513,19 +536,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngle2Field:
-        return ExtraDoubleAngle2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleAngle2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def double_angle3(
@@ -542,19 +567,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDoubleAngle3Field:
-        return ExtraDoubleAngle3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDoubleAngle3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_angle(
@@ -571,19 +598,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngleField:
-        return ExtraFloatAngleField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatAngleField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_linear(
@@ -600,19 +629,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinearField:
-        return ExtraFloatLinearField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatLinearField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float(
@@ -629,19 +660,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatField:
-        return ExtraFloatField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float2(
@@ -658,19 +691,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloat2Field:
-        return ExtraFloat2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloat2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float3(
@@ -687,19 +722,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloat3Field:
-        return ExtraFloat3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloat3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_linear2(
@@ -716,19 +753,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinear2Field:
-        return ExtraFloatLinear2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatLinear2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_linear3(
@@ -745,19 +784,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatLinear3Field:
-        return ExtraFloatLinear3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatLinear3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_angle2(
@@ -774,19 +815,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngle2Field:
-        return ExtraFloatAngle2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatAngle2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_angle3(
@@ -803,19 +846,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFloatAngle3Field:
-        return ExtraFloatAngle3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFloatAngle3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def flt_matrix(
@@ -827,14 +872,16 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraFltMatrixField:
-        return ExtraFltMatrixField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraFltMatrixField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def generic(
@@ -846,14 +893,16 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraGenericField:
-        return ExtraGenericField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraGenericField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def long_long_int(
@@ -868,17 +917,19 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLongLongIntField:
-        return ExtraLongLongIntField(**_field_kwargs(
-            default_value=default_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraLongLongIntField(
+            **_field_kwargs(
+                default_value=default_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def long(
@@ -895,19 +946,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLongField:
-        return ExtraLongField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraLongField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def long2(
@@ -924,19 +977,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLong2Field:
-        return ExtraLong2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraLong2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def long3(
@@ -953,19 +1008,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraLong3Field:
-        return ExtraLong3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraLong3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def matrix(
@@ -977,14 +1034,16 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraMatrixField:
-        return ExtraMatrixField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraMatrixField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def message(
@@ -996,14 +1055,16 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraMessageField:
-        return ExtraMessageField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraMessageField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def short(
@@ -1020,19 +1081,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShortField:
-        return ExtraShortField(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraShortField(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def short2(
@@ -1049,19 +1112,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShort2Field:
-        return ExtraShort2Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraShort2Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def short3(
@@ -1078,19 +1143,21 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraShort3Field:
-        return ExtraShort3Field(**_field_kwargs(
-            default_value=default_value,
-            min_value=min_value,
-            max_value=max_value,
-            soft_min_value=soft_min_value,
-            soft_max_value=soft_max_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraShort3Field(
+            **_field_kwargs(
+                default_value=default_value,
+                min_value=min_value,
+                max_value=max_value,
+                soft_min_value=soft_min_value,
+                soft_max_value=soft_max_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def time(
@@ -1103,15 +1170,17 @@ class AddAttrAt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraTimeField:
-        return ExtraTimeField(**_field_kwargs(
-            default_value=default_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraTimeField(
+            **_field_kwargs(
+                default_value=default_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
 
 class AddAttrDt:
@@ -1127,14 +1196,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataDoubleArrayField:
-        return ExtraDataDoubleArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataDoubleArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def float_array(
@@ -1146,14 +1217,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataFloatArrayField:
-        return ExtraDataFloatArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataFloatArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def int32_array(
@@ -1165,14 +1238,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataInt32ArrayField:
-        return ExtraDataInt32ArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataInt32ArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def lattice(
@@ -1184,14 +1259,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataLatticeField:
-        return ExtraDataLatticeField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataLatticeField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def matrix(
@@ -1203,14 +1280,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataMatrixField:
-        return ExtraDataMatrixField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataMatrixField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def mesh(
@@ -1222,14 +1301,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataMeshField:
-        return ExtraDataMeshField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataMeshField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def nurbs_curve(
@@ -1241,14 +1322,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataNurbsCurveField:
-        return ExtraDataNurbsCurveField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataNurbsCurveField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def nurbs_surface(
@@ -1260,14 +1343,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataNurbsSurfaceField:
-        return ExtraDataNurbsSurfaceField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataNurbsSurfaceField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def point_array(
@@ -1279,14 +1364,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataPointArrayField:
-        return ExtraDataPointArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataPointArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def string_array(
@@ -1298,14 +1385,16 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataStringArrayField:
-        return ExtraDataStringArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataStringArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def string(
@@ -1318,15 +1407,17 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataStringField:
-        return ExtraDataStringField(**_field_kwargs(
-            default_value=default_value,
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataStringField(
+            **_field_kwargs(
+                default_value=default_value,
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
     @classmethod
     def vector_array(
@@ -1338,21 +1429,21 @@ class AddAttrDt:
         writable: bool | None = None,
         category: str | None = None,
     ) -> ExtraDataVectorArrayField:
-        return ExtraDataVectorArrayField(**_field_kwargs(
-            multi=multi,
-            long_name=long_name,
-            short_name=short_name,
-            readable=readable,
-            writable=writable,
-            category=category,
-        ))
+        return ExtraDataVectorArrayField(
+            **_field_kwargs(
+                multi=multi,
+                long_name=long_name,
+                short_name=short_name,
+                readable=readable,
+                writable=writable,
+                category=category,
+            )
+        )
 
 
 # define
 class DefineEnum:
     field = ExtraEnumField
-    extra_field = ExtraEnumPlugField
-    attr_operator = EnumAttrOperator
     plug_operator = EnumPlugOperator
 
 

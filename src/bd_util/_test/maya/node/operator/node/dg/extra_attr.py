@@ -16,38 +16,6 @@ from .......maya.node.operator.attr.extra.add_attr import AddAttr
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-# class TestEnumAttrOperator(AddAttr.at.enum_attr_operator):
-class TestEnumAttrOperator(AddAttr.define.at.enum.attr_operator):
-    __slots__ = ()
-
-    ALPHA = 0
-    BETA = 1
-    GAMMA = 2
-
-    NAME_MAP = {
-        ALPHA: "Alpha",
-        BETA: "Beta",
-        GAMMA: "Gamma",
-    }
-
-
-class TestEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
-    __slots__ = ()
-
-    ALPHA = 0
-    BETA = 1
-    GAMMA = 2
-
-
-class TestEnumField(
-    AddAttr.define.at.enum.field[TestEnumAttrOperator, TestEnumPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = TestEnumAttrOperator
-    PLUG_CLS = TestEnumPlugOperator
-
-
 class TestExtraEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
     __slots__ = ()
 
@@ -63,7 +31,7 @@ class TestExtraEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
 
 
 class TestExtraEnumField(
-    AddAttr.define.at.enum.extra_field[TestExtraEnumPlugOperator]
+    AddAttr.define.at.enum.field[TestExtraEnumPlugOperator]
 ):
     __slots__ = ()
 
@@ -259,10 +227,8 @@ class MyTransform(Transform):
     tfltMatrix = testFltMatrix
 
     #   enum
-    testEnum = TestEnumField()
+    testEnum = TestExtraEnumField()
     tenm = testEnum
-    testExtraEnum = TestExtraEnumField()
-    texenm = testExtraEnum
 
     #   message
     testMessage = AddAttr.at.message()
