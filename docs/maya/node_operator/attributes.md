@@ -93,7 +93,7 @@ class MyNode(NodeOperator):
 
 ### extra enum attribute
 
-追加アトリビュートの enum は、`PlugOperator` と `extra_field` だけで定義できます。
+追加アトリビュートの enum は、`PlugOperator` と `field` だけで定義します。
 
 ```python
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
@@ -112,7 +112,7 @@ class SpaceModePlugOperator(AddAttr.define.at.enum.plug_operator):
 
 
 class SpaceModeField(
-    AddAttr.define.at.enum.extra_field[SpaceModePlugOperator]
+    AddAttr.define.at.enum.field[SpaceModePlugOperator]
 ):
     __slots__ = ()
 
@@ -133,45 +133,13 @@ node.spaceMode.index_by_name("Local")
 
 Maya に作成される enum label は `SpaceModePlugOperator.NAME_MAP` から作られます。
 
-`EnumPlugOperator.NAME_MAP` が定義されている場合はそれを優先し、未定義の場合は `EnumAttrOperator.NAME_MAP` を参照します。
+`NAME_MAP` は Maya 上の表示名と enum index の対応です。
 
-これは、将来的に plug 側で enum member を runtime 変更できるようにするため、scene 上の plug 操作に近い `PlugOperator` 側の定義を優先する設計です。
+追加 enum では `PlugOperator` 側に定義します。
 
-既存ノード定義や生成コードなど、設計図としての `AttrOperator` も必要な enum は従来通り 3 class で定義します。
+`AddAttr.define.at.enum` は追加アトリビュート用の enum 定義として、`field` と `plug_operator` のみを公開します。
 
-```python
-class SpaceModeAttrOperator(AddAttr.define.at.enum.attr_operator):
-    __slots__ = ()
-
-    LOCAL = 0
-    WORLD = 1
-
-    NAME_MAP = {
-        LOCAL: "Local",
-        WORLD: "World",
-    }
-
-
-class SpaceModePlugOperator(AddAttr.define.at.enum.plug_operator):
-    __slots__ = ()
-
-    LOCAL = 0
-    WORLD = 1
-
-
-class SpaceModeField(
-    AddAttr.define.at.enum.field[
-        SpaceModeAttrOperator,
-        SpaceModePlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = SpaceModeAttrOperator
-    PLUG_CLS = SpaceModePlugOperator
-```
-
-`AddAttr.define.at.enum.field[...]` / `extra_field[...]` の型引数は IDE 補完に使われるため、省略せずに記述します。
+`AddAttr.define.at.enum.field[...]` の型引数は IDE 補完に使われるため、省略せずに記述します。
 
 ## custom scalar compound
 
