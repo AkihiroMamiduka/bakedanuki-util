@@ -371,8 +371,6 @@ def extra_attrs_instance_access():
     for attr in node._extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
 
-    node.testCompound.nested.visible.set(True)
-
 
 def auto_add_attr_on_init():
     test_str.title("extra=True: instance access properties")
