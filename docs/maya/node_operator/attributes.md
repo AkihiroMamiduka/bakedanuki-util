@@ -151,11 +151,27 @@ Maya に作成される enum label は `SpaceModePlugOperator.NAME_MAP` から�
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 
 
+class SpaceOptionDetailPlugOperator(
+    AddAttr.define.at.compound.plug_operator
+):
+    __slots__ = ()
+
+    visible = AddAttr.at.bool(default_value=True)
+    blend = AddAttr.at.float(default_value=0.5, min_value=0.0, max_value=1.0)
+
+
+class SpaceOptionDetailField(
+    AddAttr.define.at.compound.field[SpaceOptionDetailPlugOperator]
+):
+    __slots__ = ()
+
+
 class SpaceOptionPlugOperator(AddAttr.define.at.compound.plug_operator):
     __slots__ = ()
 
     enabled = AddAttr.at.bool(default_value=False)
     weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
+    detail = SpaceOptionDetailField()
 
 
 class SpaceOptionField(
@@ -175,9 +191,15 @@ class MyNode(NodeOperator):
 ```python
 node.spaceOption.enabled
 node.spaceOption.weight
+node.spaceOption.detail.visible
+node.spaceOption.detail.blend
 ```
 
 Maya attribute の作成は `CompoundPlugOperator.add_attr()` が OpenMaya 経由で行います。
+
+compound child の中にさらに compound child を定義できます。
+
+その場合も、各階層の field は `AddAttr.define.at.compound.field[...]` で定義し、型引数にはその階層の `PlugOperator` を渡します。
 
 現時点では OpenMaya で compound child として作成できる型を対象とし、未対応の child 型は `UnsupportedOperationError` にします。
 
