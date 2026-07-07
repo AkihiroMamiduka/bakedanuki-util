@@ -141,6 +141,50 @@ Maya に作成される enum label は `SpaceModePlugOperator.NAME_MAP` から�
 
 `AddAttr.define.at.enum.field[...]` の型引数は IDE 補完に使われるため、省略せずに記述します。
 
+### extra compound attribute
+
+追加アトリビュートの compound も、基本方針は enum と同じです。
+
+`PlugOperator` と `field` だけを定義し、追加アトリビュート用の `AttrOperator` は明示的に定義しません。
+
+```python
+from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
+
+
+class SpaceOptionPlugOperator(AddAttr.define.at.compound.plug_operator):
+    __slots__ = ()
+
+    enabled = AddAttr.at.bool(default_value=False)
+    weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
+
+
+class SpaceOptionField(
+    AddAttr.define.at.compound.field[SpaceOptionPlugOperator]
+):
+    __slots__ = ()
+
+
+class MyNode(NodeOperator):
+    spaceOption = SpaceOptionField()
+```
+
+`node.spaceOption` は `SpaceOptionPlugOperator` として補完されます。
+
+そのため、子アトリビュートも plug から直接辿れます。
+
+```python
+node.spaceOption.enabled
+node.spaceOption.weight
+```
+
+Maya attribute の作成は `CompoundPlugOperator.add_attr()` が OpenMaya 経由で行います。
+
+現時点では OpenMaya で compound child として作成できる型を対象とし、未対応の child 型は `UnsupportedOperationError` にします。
+
+`AddAttr.define.at.compound` は追加アトリビュート用の compound 定義として、`field` と `plug_operator` のみを公開します。
+
+`AddAttr.define.at.compound.field[...]` の型引数は IDE 補完に使われるため、省略せずに記述します。
+
 ## custom scalar compound
 
 compound 系の custom 実装は `define/custom/at/scalar_compound` 配下にあります。

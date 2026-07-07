@@ -36,6 +36,36 @@ class TestExtraEnumField(
     __slots__ = ()
 
 
+class TestExtraNestedCompoundPlugOperator(
+    AddAttr.define.at.compound.plug_operator
+):
+    __slots__ = ()
+
+    visible = AddAttr.at.bool(default_value=True)
+    blend = AddAttr.at.float(default_value=0.5, min_value=0.0, max_value=1.0)
+
+
+class TestExtraNestedCompoundField(
+    AddAttr.define.at.compound.field[TestExtraNestedCompoundPlugOperator]
+):
+    __slots__ = ()
+
+
+class TestExtraCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
+    __slots__ = ()
+
+    enabled = AddAttr.at.bool(default_value=False)
+    weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
+    mode = TestExtraEnumField()
+    nested = TestExtraNestedCompoundField()
+
+
+class TestExtraCompoundField(
+    AddAttr.define.at.compound.field[TestExtraCompoundPlugOperator]
+):
+    __slots__ = ()
+
+
 class MyTransform(Transform):
 
     # インスタンス生成時に自動 addAttr() される
@@ -230,6 +260,10 @@ class MyTransform(Transform):
     testEnum = TestExtraEnumField()
     tenm = testEnum
 
+    #   compound
+    testCompound = TestExtraCompoundField()
+    tcompound = testCompound
+
     #   message
     testMessage = AddAttr.at.message()
     tmessage = testMessage
@@ -336,6 +370,8 @@ def extra_attrs_instance_access():
     )
     for attr in node._extra_attributes:
         logger.debug("  attr: {}, extra: {}".format(attr, attr.extra))
+
+    node.testCompound.nested.visible.set(True)
 
 
 def auto_add_attr_on_init():

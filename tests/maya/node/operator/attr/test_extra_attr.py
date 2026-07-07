@@ -42,6 +42,64 @@ class PriorityEnumPlugOperator(AddAttr.define.at.enum.plug_operator):
     }
 
 
+class PriorityEnumField(AddAttr.define.at.enum.field[PriorityEnumPlugOperator]):
+    __slots__ = ()
+
+
+class SimpleCompoundModePlugOperator(AddAttr.define.at.enum.plug_operator):
+    __slots__ = ()
+
+    OFF = 0
+    ON = 1
+
+    NAME_MAP = {
+        OFF: "Off",
+        ON: "On",
+    }
+
+
+class SimpleCompoundModeField(
+    AddAttr.define.at.enum.field[SimpleCompoundModePlugOperator]
+):
+    __slots__ = ()
+
+
+class SimpleNestedCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
+    __slots__ = ()
+
+    visible = AddAttr.at.bool(default_value=True)
+    blend = AddAttr.at.float(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+    )
+
+
+class SimpleNestedCompoundField(
+    AddAttr.define.at.compound.field[SimpleNestedCompoundPlugOperator]
+):
+    __slots__ = ()
+
+
+class SimpleCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
+    __slots__ = ()
+
+    enabled = AddAttr.at.bool(default_value=False)
+    weight = AddAttr.at.float(
+        default_value=1.25,
+        min_value=0.0,
+        max_value=10.0,
+    )
+    mode = SimpleCompoundModeField()
+    nested = SimpleNestedCompoundField()
+
+
+class SimpleCompoundField(
+    AddAttr.define.at.compound.field[SimpleCompoundPlugOperator]
+):
+    __slots__ = ()
+
+
 class ExtraCompoundTransform(Transform):
     __slots__ = ()
 
@@ -89,6 +147,8 @@ class ExtraCompoundTransform(Transform):
     )
     extraMultiDouble = AddAttr.at.double(multi=True)
     extraPlugOnlyEnum = PlugOnlyEnumField()
+    extraPriorityEnum = PriorityEnumField()
+    extraSimpleCompound = SimpleCompoundField(category="bdSimpleCompoundTest")
     extraNamedString = AddAttr.dt.string(
         default_value="hello",
         long_name="extraNamedStringLong",
@@ -363,6 +423,123 @@ def test_enum_plug_name_map_has_priority(
         node=node.name,
         listEnum=True,
     ) == ["Plug Low:Plug High"]
+
+
+def test_extra_compound_field_can_be_defined_with_plug_only(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert isinstance(node.extraSimpleCompound, SimpleCompoundPlugOperator)
+    assert node.extraSimpleCompound.enabled.get() is False
+    assert node.extraSimpleCompound.weight.get() == pytest.approx(1.25)
+    assert (
+        node.extraSimpleCompound.mode.name_by_index(
+            node.extraSimpleCompound.mode.ON
+        )
+        == "On"
+    )
+    assert node.extraSimpleCompound.mode.get() == (
+        node.extraSimpleCompound.mode.OFF
+    )
+
+    assert (
+        maya_cmds.attributeQuery(
+            "extraSimpleCompound",
+            node=node.name,
+            attributeType=True,
+        )
+        == "compound"
+    )
+    assert maya_cmds.attributeQuery(
+        "extraSimpleCompound",
+        node=node.name,
+        listChildren=True,
+    ) == ["enabled", "weight", "mode", "nested"]
+    assert maya_cmds.attributeQuery(
+        "extraSimpleCompound",
+        node=node.name,
+        categories=True,
+    ) == ["bdSimpleCompoundTest"]
+    assert maya_cmds.attributeQuery(
+        "enabled",
+        node=node.name,
+        attributeType=True,
+    ) == "bool"
+    assert maya_cmds.attributeQuery(
+        "weight",
+        node=node.name,
+        attributeType=True,
+    ) == "float"
+    assert maya_cmds.attributeQuery(
+        "weight",
+        node=node.name,
+        minimum=True,
+    ) == pytest.approx([0.0])
+    assert maya_cmds.attributeQuery(
+        "weight",
+        node=node.name,
+        maximum=True,
+    ) == pytest.approx([10.0])
+    assert maya_cmds.attributeQuery(
+        "mode",
+        node=node.name,
+        attributeType=True,
+    ) == "enum"
+    assert maya_cmds.attributeQuery(
+        "mode",
+        node=node.name,
+        listEnum=True,
+    ) == ["Off:On"]
+
+
+def test_extra_compound_can_have_nested_compound_child(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert isinstance(
+        node.extraSimpleCompound.nested,
+        SimpleNestedCompoundPlugOperator,
+    )
+    assert node.extraSimpleCompound.nested.visible.get() is True
+    assert node.extraSimpleCompound.nested.blend.get() == pytest.approx(0.5)
+
+    assert (
+        maya_cmds.attributeQuery(
+            "nested",
+            node=node.name,
+            attributeType=True,
+        )
+        == "compound"
+    )
+    assert maya_cmds.attributeQuery(
+        "nested",
+        node=node.name,
+        listChildren=True,
+    ) == ["visible", "blend"]
+    assert maya_cmds.attributeQuery(
+        "visible",
+        node=node.name,
+        attributeType=True,
+    ) == "bool"
+    assert maya_cmds.attributeQuery(
+        "blend",
+        node=node.name,
+        attributeType=True,
+    ) == "float"
+    assert maya_cmds.attributeQuery(
+        "blend",
+        node=node.name,
+        minimum=True,
+    ) == pytest.approx([0.0])
+    assert maya_cmds.attributeQuery(
+        "blend",
+        node=node.name,
+        maximum=True,
+    ) == pytest.approx([1.0])
 
 
 def test_double_angle3_preserves_maya_shape(

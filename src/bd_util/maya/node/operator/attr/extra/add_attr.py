@@ -18,7 +18,8 @@ from .std.at.double import ExtraDoubleField
 # from .std.at.double3 import ExtraDouble3Field
 # from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
-from ..define.std.at.enum import EnumAttrOperator, EnumPlugOperator
+from ..define.std.at.enum import EnumPlugOperator
+from ..define.std.at.compound import CompoundPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
 from .std.at.float_linear import ExtraFloatLinearField
 from .std.at.float import ExtraFloatField
@@ -1447,8 +1448,14 @@ class DefineEnum:
     plug_operator = EnumPlugOperator
 
 
+class DefineCompound:
+    field = ExtraCompoundField
+    plug_operator = CompoundPlugOperator
+
+
 class DefineAddAttrAt:
     enum = DefineEnum
+    compound = DefineCompound
 
 
 class DefineAddAttr:
