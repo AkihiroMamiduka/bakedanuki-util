@@ -89,6 +89,9 @@ class CompoundPlugOperator(PlugOperator[A]):
         if attr_type in _MATRIX_ATTR_TYPES:
             return _create_matrix_attr(child_attr)
 
+        if _is_scalar_compound_field(child_field):
+            return _create_scalar_compound_attr(child_field, child_attr, self)
+
         if attr_type == "enum":
             return _create_enum_attr(child_field, child_attr)
 
@@ -239,6 +242,74 @@ def _create_matrix_attr(attr: AttrOperator) -> om.MObject:
     )
     _apply_mfn_attr_options(fn_attr, attr)
     return attr_obj
+
+
+def _is_scalar_compound_field(child_field: AttributeField) -> bool:
+    plug_cls = child_field.PLUG_CLS
+    return (
+        getattr(plug_cls, "CHILD_M_FN", None) is not None
+        and getattr(plug_cls, "CHILD_M_ATTR_TYPE", None) is not None
+        and bool(getattr(plug_cls, "_SUFFIXES", ()))
+        and bool(getattr(plug_cls, "CHILD_FIELDS", ()))
+    )
+
+
+def _create_scalar_compound_attr(
+    child_field: AttributeField,
+    attr: AttrOperator,
+    parent_plug: CompoundPlugOperator,
+) -> om.MObject:
+    scalar_plug = child_field.PLUG_CLS(
+        node=parent_plug._node,
+        oprt_attr=attr,
+        parent_attr_path=parent_plug._attr_path,
+        multi=attr.multi,
+        parent_oprt_plug=parent_plug,
+    )
+
+    children_attrs = []
+    for i, suffix in enumerate(scalar_plug._SUFFIXES):
+        child_fn = scalar_plug.CHILD_M_FN()
+        default_value = scalar_plug._child_value(
+            attr.default_value,
+            i,
+            default=0,
+        )
+        child_attr = child_fn.create(
+            scalar_plug.child_long_name(suffix, i),
+            scalar_plug.child_short_name(suffix, i),
+            scalar_plug.CHILD_M_ATTR_TYPE,
+            scalar_plug._prepare_child_default_value(default_value),
+        )
+        _apply_scalar_compound_child_limits(child_fn, scalar_plug, attr, i)
+        children_attrs.append(child_attr)
+
+    fn_attr = om.MFnNumericAttribute()
+    attr_obj = fn_attr.create(
+        attr.long_name,
+        attr.short_name,
+        *children_attrs,
+    )
+    _apply_mfn_attr_options(fn_attr, attr)
+    return attr_obj
+
+
+def _apply_scalar_compound_child_limits(
+    child_fn: Any,
+    scalar_plug: PlugOperator,
+    attr: AttrOperator,
+    index: int,
+) -> None:
+    limit_items = (
+        (attr.min_value, scalar_plug._set_child_attr_min),
+        (attr.max_value, scalar_plug._set_child_attr_max),
+        (attr.soft_min_value, scalar_plug._set_child_attr_soft_min),
+        (attr.soft_max_value, scalar_plug._set_child_attr_soft_max),
+    )
+    for value, setter in limit_items:
+        if value is None:
+            continue
+        setter(child_fn, scalar_plug._child_value(value, index))
 
 
 def _create_enum_attr(

@@ -92,6 +92,13 @@ class SimpleCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     )
     mode = SimpleCompoundModeField()
     nested = SimpleNestedCompoundField()
+    offset = AddAttr.at.double3(
+        default_value=[1.0, 2.0, 3.0],
+        min_value=[-1.0, -2.0, -3.0],
+        max_value=10.0,
+    )
+    color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
+    aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
 
 
 class SimpleCompoundField(
@@ -456,7 +463,15 @@ def test_extra_compound_field_can_be_defined_with_plug_only(
         "extraSimpleCompound",
         node=node.name,
         listChildren=True,
-    ) == ["enabled", "weight", "mode", "nested"]
+    ) == [
+        "enabled",
+        "weight",
+        "mode",
+        "nested",
+        "offset",
+        "color",
+        "aim",
+    ]
     assert maya_cmds.attributeQuery(
         "extraSimpleCompound",
         node=node.name,
@@ -540,6 +555,78 @@ def test_extra_compound_can_have_nested_compound_child(
         node=node.name,
         maximum=True,
     ) == pytest.approx([1.0])
+
+
+def test_extra_compound_can_have_custom_scalar_compound_child(
+    extra_compound_node,
+    maya_cmds,
+):
+    node = extra_compound_node
+
+    assert node.extraSimpleCompound.offset.get() == pytest.approx(
+        [1.0, 2.0, 3.0]
+    )
+    assert node.extraSimpleCompound.color.get() == pytest.approx(
+        [0.1, 0.2, 0.3]
+    )
+    assert node.extraSimpleCompound.aim.get() == pytest.approx(
+        [10.0, 20.0, 30.0]
+    )
+
+    assert maya_cmds.attributeQuery(
+        "offset",
+        node=node.name,
+        attributeType=True,
+    ) == "double3"
+    assert maya_cmds.attributeQuery(
+        "offset",
+        node=node.name,
+        listChildren=True,
+    ) == ["offsetX", "offsetY", "offsetZ"]
+    assert maya_cmds.attributeQuery(
+        "color",
+        node=node.name,
+        attributeType=True,
+    ) == "float3"
+    assert maya_cmds.attributeQuery(
+        "color",
+        node=node.name,
+        listChildren=True,
+    ) == ["colorX", "colorY", "colorZ"]
+    assert maya_cmds.attributeQuery(
+        "aim",
+        node=node.name,
+        attributeType=True,
+    ) == "double3"
+    assert maya_cmds.attributeQuery(
+        "aim",
+        node=node.name,
+        listChildren=True,
+    ) == ["aimX", "aimY", "aimZ"]
+    assert [
+        maya_cmds.attributeQuery(
+            child_name,
+            node=node.name,
+            attributeType=True,
+        )
+        for child_name in ("aimX", "aimY", "aimZ")
+    ] == ["doubleAngle", "doubleAngle", "doubleAngle"]
+    assert [
+        maya_cmds.attributeQuery(
+            child_name,
+            node=node.name,
+            minimum=True,
+        )[0]
+        for child_name in ("offsetX", "offsetY", "offsetZ")
+    ] == pytest.approx([-1.0, -2.0, -3.0])
+    assert [
+        maya_cmds.attributeQuery(
+            child_name,
+            node=node.name,
+            maximum=True,
+        )[0]
+        for child_name in ("offsetX", "offsetY", "offsetZ")
+    ] == pytest.approx([10.0, 10.0, 10.0])
 
 
 def test_double_angle3_preserves_maya_shape(

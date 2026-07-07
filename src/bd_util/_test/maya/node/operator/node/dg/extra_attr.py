@@ -58,6 +58,9 @@ class TestExtraCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
     mode = TestExtraEnumField()
     nested = TestExtraNestedCompoundField()
+    offset = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
+    color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
+    aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
 
 
 class TestExtraCompoundField(

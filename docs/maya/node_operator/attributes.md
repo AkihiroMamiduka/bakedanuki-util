@@ -172,6 +172,8 @@ class SpaceOptionPlugOperator(AddAttr.define.at.compound.plug_operator):
     enabled = AddAttr.at.bool(default_value=False)
     weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
     detail = SpaceOptionDetailField()
+    offset = AddAttr.at.double3(default_value=[0.0, 0.0, 0.0])
+    aim = AddAttr.at.double_angle3(default_value=[0.0, 0.0, 0.0])
 
 
 class SpaceOptionField(
@@ -193,6 +195,8 @@ node.spaceOption.enabled
 node.spaceOption.weight
 node.spaceOption.detail.visible
 node.spaceOption.detail.blend
+node.spaceOption.offset.x
+node.spaceOption.aim.z
 ```
 
 Maya attribute の作成は `CompoundPlugOperator.add_attr()` が OpenMaya 経由で行います。
@@ -200,6 +204,10 @@ Maya attribute の作成は `CompoundPlugOperator.add_attr()` が OpenMaya 経�
 compound child の中にさらに compound child を定義できます。
 
 その場合も、各階層の field は `AddAttr.define.at.compound.field[...]` で定義し、型引数にはその階層の `PlugOperator` を渡します。
+
+`double3` / `float3` / `double_angle3` などの custom scalar compound も child として定義できます。
+
+`double_angle3` は Maya 上では親 `double3`、子 `doubleAngle` として作成されます。
 
 現時点では OpenMaya で compound child として作成できる型を対象とし、未対応の child 型は `UnsupportedOperationError` にします。
 
