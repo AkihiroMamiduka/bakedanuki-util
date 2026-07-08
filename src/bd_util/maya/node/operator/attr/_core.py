@@ -168,9 +168,7 @@ class PlugOperator(Generic[A], ABC):
             and self._oprt_attr is self.parent_oprt_plug._oprt_attr
         )
         if indexed_from_parent:
-            plug = self.parent_oprt_plug.plug.elementByLogicalIndex(
-                self.index
-            )
+            plug = self.parent_oprt_plug.plug.elementByLogicalIndex(self.index)
         #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
         elif self.parent_oprt_plug is not None:
             parent_plug = self.parent_oprt_plug.plug
@@ -853,8 +851,6 @@ class AttrOperator(Generic[P]):
         max_value: Any = None,
         soft_min_value: Any = None,
         soft_max_value: Any = None,
-        enum_name: str | None = None,
-        number_of_children: int | None = None,
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
@@ -882,8 +878,6 @@ class AttrOperator(Generic[P]):
         self.max_value: Any = max_value
         self.soft_min_value: Any = soft_min_value
         self.soft_max_value: Any = soft_max_value
-        self.enum_name: str | None = enum_name
-        self.number_of_children: int | None = number_of_children
         self.readable: bool | None = readable
         self.writable: bool | None = writable
         self.category: str | None = category
@@ -1141,9 +1135,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 if cached_plug is not None:
                     return cached_plug
 
-            oprt_attr = owner._attributes_map_by_long_name.get(
-                self.long_name
-            )
+            oprt_attr = owner._attributes_map_by_long_name.get(self.long_name)
             if oprt_attr is None:
                 oprt_attr = self.ATTR_CLS(
                     node_cls=owner,
@@ -1185,9 +1177,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             child_long_name = getattr(instance, "child_long_name", None)
             if child_long_name is not None:
                 long_name = child_long_name(name, self._child_index)
-                short_name = instance.child_short_name(
-                    name, self._child_index
-                )
+                short_name = instance.child_short_name(name, self._child_index)
             attr_path = self._attr_path
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{long_name}"
@@ -1264,9 +1254,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             child_long_name = getattr(instance, "child_long_name", None)
             if child_long_name is not None:
                 long_name = child_long_name(name, self._child_index)
-                short_name = instance.child_short_name(
-                    name, self._child_index
-                )
+                short_name = instance.child_short_name(name, self._child_index)
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{long_name}"
                 parent_oprt_plug = instance
