@@ -4,8 +4,15 @@ from __future__ import annotations
 from typing import ClassVar
 
 # self
-#   at
-#       std
+#   difine
+#       at
+#           std
+from ..define.std.at.enum import EnumPlugOperator
+from ..define.std.at.compound import CompoundPlugOperator
+
+#   extra
+#      at
+#           std
 from .std.at.bool import ExtraBoolField
 from .std.at.byte import ExtraByteField
 from .std.at.char import ExtraCharField
@@ -13,41 +20,20 @@ from .std.at.compound import ExtraCompoundField
 from .std.at.double_angle import ExtraDoubleAngleField
 from .std.at.double_linear import ExtraDoubleLinearField
 from .std.at.double import ExtraDoubleField
-
-# from .std.at.double2 import ExtraDouble2Field
-# from .std.at.double3 import ExtraDouble3Field
-# from .std.at.double4 import ExtraDouble4Field
 from .std.at.enum import ExtraEnumField
-from ..define.std.at.enum import EnumPlugOperator
-from ..define.std.at.compound import CompoundPlugOperator
 from .std.at.float_angle import ExtraFloatAngleField
 from .std.at.float_linear import ExtraFloatLinearField
 from .std.at.float import ExtraFloatField
-
-# from .std.at.float2 import ExtraFloat2Field
-
-# from .std.at.float3 import ExtraFloat3Field
 from .std.at.flt_matrix import ExtraFltMatrixField
 from .std.at.generic import ExtraGenericField
-
-# from .std.at.light_data import ExtraLightDataField
 from .std.at.long_long_int import ExtraLongLongIntField
 from .std.at.long import ExtraLongField
-
-# from .std.at.long2 import ExtraLong2Field
-# from .std.at.long3 import ExtraLong3Field
 from .std.at.matrix import ExtraMatrixField
 from .std.at.message import ExtraMessageField
-
-# from .std.at.reflectance import ExtraReflectanceField
 from .std.at.short import ExtraShortField
-
-# from .std.at.short2 import ExtraShort2Field
-# from .std.at.short3 import ExtraShort3Field
-# from .std.at.spectrum import ExtraSpectrumField
 from .std.at.time import ExtraTimeField
 
-#       custom
+#          custom
 from .custom.double2 import ExtraDouble2Field
 from .custom.double3 import ExtraDouble3Field
 from .custom.double4 import ExtraDouble4Field
@@ -67,7 +53,7 @@ from .custom.long3 import ExtraLong3Field
 from .custom.short2 import ExtraShort2Field
 from .custom.short3 import ExtraShort3Field
 
-#   dt
+#       dt
 from .std.dt.double_array import ExtraDataDoubleArrayField
 from .std.dt.float_array import ExtraDataFloatArrayField
 from .std.dt.int32_array import ExtraDataInt32ArrayField
@@ -122,41 +108,6 @@ def _field_kwargs(
 # simple
 class AddAttrAt:
     """addAttr(attributeType=...) 用フィールド群。"""
-
-    # byte: ClassVar[type[ExtraByteField]] = ExtraByteField
-    # char: ClassVar[type[ExtraCharField]] = ExtraCharField
-    compound: ClassVar[type[ExtraCompoundField]] = ExtraCompoundField
-    # double_angle: ClassVar[type[ExtraDoubleAngleField]] = ExtraDoubleAngleField
-    # double_linear: ClassVar[type[ExtraDoubleLinearField]] = (
-    #     ExtraDoubleLinearField
-    # )
-    # double: ClassVar[type[ExtraDoubleField]] = ExtraDoubleField
-    # double2: ClassVar[type[ExtraDouble2Field]] = ExtraDouble2Field
-    # double3: ClassVar[type[ExtraDouble3Field]] = ExtraDouble3Field
-    # double4: ClassVar[type[ExtraDouble4Field]] = ExtraDouble4Field
-
-    # enum: ClassVar[type[ExtraEnumField]] = ExtraEnumField
-
-    # float: ClassVar[type[ExtraFloatField]] = ExtraFloatField
-    # float2: ClassVar[type[ExtraFloat2Field]] = ExtraFloat2Field
-    # float3: ClassVar[type[ExtraFloat3Field]] = ExtraFloat3Field
-    # flt_matrix: ClassVar[type[ExtraFltMatrixField]] = ExtraFltMatrixField
-    # generic: ClassVar[type[ExtraGenericField]] = ExtraGenericField
-    # light_data: ClassVar[type[ExtraLightDataField]] = ExtraLightDataField
-    # long_long_int: ClassVar[type[ExtraLongLongIntField]] = (
-    #     ExtraLongLongIntField
-    # )
-    # long: ClassVar[type[ExtraLongField]] = ExtraLongField
-    # long2: ClassVar[type[ExtraLong2Field]] = ExtraLong2Field
-    # long3: ClassVar[type[ExtraLong3Field]] = ExtraLong3Field
-    # matrix: ClassVar[type[ExtraMatrixField]] = ExtraMatrixField
-    # message: ClassVar[type[ExtraMessageField]] = ExtraMessageField
-    # reflectance: ClassVar[type[ExtraReflectanceField]] = ExtraReflectanceField
-    # short: ClassVar[type[ExtraShortField]] = ExtraShortField
-    # short2: ClassVar[type[ExtraShort2Field]] = ExtraShort2Field
-    # short3: ClassVar[type[ExtraShort3Field]] = ExtraShort3Field
-    # spectrum: ClassVar[type[ExtraSpectrumField]] = ExtraSpectrumField
-    # time: ClassVar[type[ExtraTimeField]] = ExtraTimeField
 
     @classmethod
     def bool(
