@@ -87,6 +87,45 @@ class MyNode(NodeOperator):
     orient = AddAttr.at.quat()
 ```
 
+Python class 上の field 名は、通常そのまま Python 側の access 名と Maya attribute の `longName` になります。
+
+```python
+class MyNode(NodeOperator):
+    weight = AddAttr.at.float(default_value=1.0)
+
+node.weight
+# Maya attribute: weight
+```
+
+Maya 側の名前だけを Python 側の access 名と変えたい場合は、`long_name` / `short_name` を指定します。
+
+```python
+class MyNode(NodeOperator):
+    weight = AddAttr.at.float(
+        default_value=1.0,
+        long_name="blendWeight",
+        short_name="bw",
+    )
+
+node.weight
+# Maya attribute: blendWeight / bw
+```
+
+`AddAttr.at.*(...)` の factory は、主に次の共通 option を受け取ります。
+
+- `long_name`
+- `short_name`
+- `multi`
+- `readable`
+- `writable`
+- `category`
+
+numeric / unit 系では `default_value`、`min_value` / `max_value`、`soft_min_value` / `soft_max_value` も指定できます。
+
+これらの option は OpenMaya 経由の `add_attr()` と `cmds.addAttr()` 経由の `cmds_add_attr()` の両方で、実際の Maya attribute へ反映されます。
+
+`multi=True` の場合は array attribute として作成され、通常の multi plug と同じように `node.attr[index]` / `node.attr[next]` でアクセスします。
+
 `NodeOperator` 初期化時、`extra=True` の field は対象ノードに存在しなければ自動で追加されます。
 
 `cmds_add_attr()` が必要な型は `cmds` 経由、それ以外は OpenMaya 経由の `add_attr()` を使います。
@@ -198,6 +237,22 @@ node.spaceOption.detail.blend
 node.spaceOption.offset.x
 node.spaceOption.aim.z
 ```
+
+compound child でも、通常は Python class 上の field 名が Python 側の access 名と Maya child attribute の `longName` になります。
+
+```python
+class SpaceOptionPlugOperator(AddAttr.define.at.compound.plug_operator):
+    __slots__ = ()
+
+    cmp1Float = AddAttr.at.float(default_value=1.0)
+    cmp1Double3 = AddAttr.at.double3(default_value=[0.0, 0.0, 0.0])
+
+
+node.spaceOption.cmp1Float
+node.spaceOption.cmp1Double3.x
+```
+
+child の Maya 名だけを変えたい場合も `long_name` / `short_name` を使えますが、その場合も Python 側の access 名は field 名のままです。
 
 Maya attribute の作成は `CompoundPlugOperator.add_attr()` が OpenMaya 経由で行います。
 
