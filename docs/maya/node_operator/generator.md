@@ -5,9 +5,9 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 
 ## 目的
 
-主な目的は、Maya 標準 DG ノードを `NodeOperator` として扱える形へ機械的に変換することです。
+主な目的は、Maya 標準 DG / DAG ノードを `NodeOperator` として扱える形へ機械的に変換することです。
 
-- Maya の node type から `DG` 継承 class を生成する。
+- Maya の node type から `DG` / `DAG` / `Transform` / `Shape` 継承 class を生成する。
 - compound attribute が必要な場合は `attr.define.node_attr` 側に専用 Field / AttrOperator / PlugOperator を生成する。
 - 生成後の差分を git で確認し、手書き実装との差分や未対応型を炙り出す。
 - 生成できない attribute は TODO コメントとして残し、後続対応しやすくする。
@@ -47,11 +47,55 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 
 ```text
 bd_util/maya/node/operator/node/dg/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/transform/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/shape/<node_type_snake>.py
 bd_util/maya/node/operator/attr/define/node_attr/<node_type_snake>.py
 ```
 
+`transform` 本体は transform 派生 node の基底でもあるため、`node_kind="transform"` で生成する場合だけ次の特殊な出力先になります。
+
+```text
+bd_util/maya/node/operator/node/dag/transform/_core.py
+```
+
+将来的に `shape` 本体を生成対象にする場合も、同じ理由で `dag/shape/_core.py` へ出力します。
+
 `node_attr` 側のファイルは、compound attribute 用の専用 class が必要な場合に出力されます。
 単純な scalar / typed / enum attribute だけで構成できる場合は、node class 側だけで完結します。
+
+## node kind
+
+`generate_node_class_code()` / `generate_node_class_file()` は `node_kind` を受け取ります。
+
+```python
+generate_node_class_file("plusMinusAverage", path, node_kind="dg")
+generate_node_class_file("joint", path, node_kind="transform")
+generate_node_class_file("mesh", path, node_kind="shape")
+generate_node_class_file("transform", path, node_kind="transform")
+```
+
+指定できる値は次の通りです。
+
+- `dg`
+  - `node/dg` に出力し、`DG` を継承します。
+- `dag`
+  - `node/dag` に出力し、`DAG` を継承します。
+- `transform`
+  - `node/dag/transform` に出力し、`Transform` を継承します。
+  - `node_type == "transform"` の場合は `_core.py` に出力し、`DAG` を継承します。
+  - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
+    これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
+- `shape`
+  - `node/dag/shape` に出力し、`Shape` を継承します。
+  - `node_type == "shape"` の場合は `_core.py` に出力し、`DAG` を継承します。
+- `auto`
+  - Maya の `cmds.nodeType(..., inherited=True, isTypeName=True)` を使い、transform / shape / DAG / DG を自動判定します。
+
+DG の既存呼び出しとの互換のため、デフォルトは `node_kind="dg"` です。
+
+現段階では、DAG node の生成は主に `BDNode` で既存 node を包む準備段階です。
+特に shape node の作成 API は transform 親の扱いが絡むため、`NodeCreater` への接続や shape 作成メソッドは後段で設計します。
 
 ## 命名規則
 
@@ -305,6 +349,40 @@ for node_type in node_types:
     )
 ```
 
+DG / DAG を混ぜて調査用に出力する場合は、`node_kind="auto"` を指定します。
+
+```python
+from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
+
+path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
+
+node_types = [
+    "transform",
+    "joint",
+    "mesh",
+    "camera",
+]
+
+for node_type in node_types:
+    generate_node_class_file(
+        node_type=node_type,
+        src_dir=path,
+        node_kind="auto",
+    )
+```
+
+DAG 全体を一括生成したい場合は、次の helper を使います。
+出力対象が多いため、まずは `generate_test/src` へ出力し、TODO や import error を確認してから正式な `src` 側へ反映します。
+
+```python
+from bd_util._dev.maya.node.operator.node.generate import (
+    generate_dag_node_class_files,
+)
+
+path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
+generate_dag_node_class_files(path)
+```
+
 `mayapy` で単体実行する場合は、必要に応じて `maya.standalone.initialize(name="python")` を先に呼びます。
 
 ```python
@@ -349,5 +427,6 @@ print(errors)
 
 - `generate_test/src` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
+- DAG / shape 系では `polyFaces` のような DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
 - 生成後は必ず git diff を確認します。
 - 既存手書き class を上書きする場合は、生成差分が意味的に一致しているか確認します。

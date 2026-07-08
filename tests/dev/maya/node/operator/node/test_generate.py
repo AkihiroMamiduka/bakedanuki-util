@@ -193,6 +193,60 @@ def _compound_enum_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _transform_like_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("message", "msg", "message"),
+        _attr("translate", "t", "double3", number_of_children=3),
+        _attr("translate.translateX", "tx", "doubleLinear", parent="translate"),
+        _attr("translate.translateY", "ty", "doubleLinear", parent="translate"),
+        _attr("translate.translateZ", "tz", "doubleLinear", parent="translate"),
+    ]
+
+
+def _shape_like_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("message", "msg", "message"),
+        _attr(
+            "outMesh",
+            "out",
+            "typed",
+            data_type="mesh",
+            writable=False,
+        ),
+    ]
+
+
+def _joint_like_attr_infos() -> list[AttrInfo]:
+    return [
+        *_transform_like_attr_infos(),
+        _attr("jointOrient", "jo", "double3", number_of_children=3),
+        _attr(
+            "jointOrient.jointOrientX",
+            "jox",
+            "doubleAngle",
+            parent="jointOrient",
+        ),
+        _attr(
+            "jointOrient.jointOrientY",
+            "joy",
+            "doubleAngle",
+            parent="jointOrient",
+        ),
+        _attr(
+            "jointOrient.jointOrientZ",
+            "joz",
+            "doubleAngle",
+            parent="jointOrient",
+        ),
+        _attr(
+            "segmentScaleCompensate",
+            "ssc",
+            "bool",
+            default_value=[1.0],
+        ),
+    ]
+
+
 def test_attribute_field_accepts_explicit_maya_names():
     class Dummy:
         name_ = DataStringField(long_name="name", short_name="nm")
@@ -376,6 +430,65 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
+
+
+def test_generate_transform_node_class_code():
+    code = generate_node_class_code(
+        "joint",
+        attr_infos=_joint_like_attr_infos(),
+        node_kind="transform",
+        inherited_attr_infos=_transform_like_attr_infos(),
+    )
+
+    compile(code, "joint.py", "exec")
+
+    assert "from ._core import Transform" in code
+    assert "from ....attr.define.node_attr.joint import JointOrientField" in code
+    assert "class Joint(Transform):" in code
+    assert 'NODE_TYPE = "joint"' in code
+    assert "message = MessageField()" not in code
+    assert "translate = TranslateField()" not in code
+    assert "translateX = translate.translateX" not in code
+    assert "jointOrient = JointOrientField()" in code
+    assert "jo = jointOrient" in code
+    assert "jointOrientX = jointOrient.jointOrientX" in code
+    assert "jox = jointOrientX" in code
+    assert "segmentScaleCompensate = BoolField(default_value=True)" in code
+    assert "ssc = segmentScaleCompensate" in code
+
+
+def test_generate_transform_base_node_class_code():
+    code = generate_node_class_code(
+        "transform",
+        attr_infos=_transform_like_attr_infos(),
+        node_kind="transform",
+    )
+
+    compile(code, "_core.py", "exec")
+
+    assert "from .._core import DAG" in code
+    assert "from ....attr.define.node_attr.transform import TranslateField" in code
+    assert "class Transform(DAG):" in code
+    assert 'NODE_TYPE = "transform"' in code
+    assert "translate = TranslateField()" in code
+
+
+def test_generate_shape_node_class_code():
+    code = generate_node_class_code(
+        "mesh",
+        attr_infos=_shape_like_attr_infos(),
+        node_kind="shape",
+    )
+
+    compile(code, "mesh.py", "exec")
+
+    assert "from ._core import Shape" in code
+    assert "from ....attr.define.std.dt.mesh import DataMeshField" in code
+    assert "class Mesh(Shape):" in code
+    assert 'NODE_TYPE = "mesh"' in code
+    assert "message = MessageField()" not in code
+    assert "outMesh = DataMeshField(writable=False)" in code
+    assert "out = outMesh" in code
 
 
 def test_generate_field_init_args_include_attribute_metadata():
@@ -577,3 +690,76 @@ def test_generate_node_class_file_can_include_skipped_node_type(tmp_path):
     assert 'NODE_TYPE = "nodeGraphEditorInfo"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+
+
+def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
+    generate_node_class_file(
+        "joint",
+        tmp_path,
+        attr_infos=_joint_like_attr_infos(),
+        node_kind="transform",
+        inherited_attr_infos=_transform_like_attr_infos(),
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "transform",
+        "joint.py",
+    )
+    node_attr_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "attr",
+        "define",
+        "node_attr",
+        "joint.py",
+    )
+
+    assert output_path.exists()
+    assert node_attr_path.exists()
+
+    code = output_path.read_text(encoding="utf-8")
+    node_attr_code = node_attr_path.read_text(encoding="utf-8")
+
+    compile(code, "joint.py", "exec")
+    compile(node_attr_code, "joint_node_attr.py", "exec")
+    assert "from ._core import Transform" in code
+    assert "from ....attr.define.node_attr.joint import JointOrientField" in code
+    assert "translate = TranslateField()" not in code
+    assert "class TranslateField(" not in node_attr_code
+    assert "class JointOrientField(" in node_attr_code
+
+
+def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
+    generate_node_class_file(
+        "transform",
+        tmp_path,
+        attr_infos=_transform_like_attr_infos(),
+        node_kind="transform",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "transform",
+        "_core.py",
+    )
+
+    assert output_path.exists()
+
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "_core.py", "exec")
+    assert "from .._core import DAG" in code
+    assert "class Transform(DAG):" in code

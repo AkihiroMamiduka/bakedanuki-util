@@ -3,8 +3,9 @@
 Maya ノードの attributeQuery 情報をもとに、Node Operator クラスの
 Python ファイルを生成するモジュール。
 
-生成されるファイルは ``bd_util.maya.node.operator.node.dg`` 以下に配置し、
-既存の ``AddDoubleLinear`` / ``PlusMinusAverage`` / ``WtAddMatrix`` と同じ
+生成されるファイルは ``bd_util.maya.node.operator.node.dg`` または
+``bd_util.maya.node.operator.node.dag`` 以下に配置し、既存の
+``AddDoubleLinear`` / ``PlusMinusAverage`` / ``WtAddMatrix`` と同じ
 スタイルで利用できることを想定している。
 
 使用例::
@@ -17,6 +18,13 @@ Python ファイルを生成するモジュール。
         src_dir=r"C:/path/bakedanuki-util/src",
     )
     # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dg/multiply_divide.py
+
+    generate_node_class_file(
+        node_type="joint",
+        src_dir=r"C:/path/bakedanuki-util/src",
+        node_kind="transform",
+    )
+    # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dag/transform/joint.py
 """
 
 from __future__ import annotations
@@ -29,7 +37,15 @@ import re
 from ...... import logger as u_logger
 from ......maya.attr.query import AttrInfo, get_attribute_infos
 from ......maya.node.all_types import (
+    get_dag_node_types,
     get_dg_node_types,
+    get_shape_types,
+    get_transform_types,
+)
+from ......maya.node.type import (
+    is_dag_node_type,
+    is_shape_type,
+    is_transform_type,
 )
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
@@ -177,14 +193,56 @@ _SKIPPED_DG_NODE_TYPES: dict[str, str] = {
     ),
 }
 
-# generate_node_class_file が src_dir から補完するパス部品
-_OUTPUT_REL_PARTS: tuple[str, ...] = (
+# node class 生成時の対象種別。
+_NODE_KIND_DG = "dg"
+_NODE_KIND_DAG = "dag"
+_NODE_KIND_TRANSFORM = "transform"
+_NODE_KIND_SHAPE = "shape"
+_NODE_KIND_AUTO = "auto"
+
+_VALID_NODE_KINDS: frozenset[str] = frozenset(
+    {
+        _NODE_KIND_DG,
+        _NODE_KIND_DAG,
+        _NODE_KIND_TRANSFORM,
+        _NODE_KIND_SHAPE,
+        _NODE_KIND_AUTO,
+    }
+)
+
+_INHERITED_ATTR_INFOS_CACHE: dict[str, list[AttrInfo]] = {}
+
+# generate_node_class_file が src_dir から補完する DG node class パス部品
+_DG_OUTPUT_REL_PARTS: tuple[str, ...] = (
     "bd_util",
     "maya",
     "node",
     "operator",
     "node",
     "dg",
+)
+
+# 互換用: 既存コードから参照されても DG 出力先を返す。
+_OUTPUT_REL_PARTS = _DG_OUTPUT_REL_PARTS
+
+# generate_node_class_file が src_dir から補完する DAG node class パス部品
+_DAG_OUTPUT_REL_PARTS: tuple[str, ...] = (
+    "bd_util",
+    "maya",
+    "node",
+    "operator",
+    "node",
+    "dag",
+)
+
+_DAG_TRANSFORM_OUTPUT_REL_PARTS: tuple[str, ...] = (
+    *_DAG_OUTPUT_REL_PARTS,
+    "transform",
+)
+
+_DAG_SHAPE_OUTPUT_REL_PARTS: tuple[str, ...] = (
+    *_DAG_OUTPUT_REL_PARTS,
+    "shape",
 )
 
 # generate_node_class_file が src_dir から補完する node_attr パス部品
@@ -475,6 +533,150 @@ def _node_type_to_file_name(node_type: str) -> str:
     例: ``multiplyDivide`` → ``multiply_divide.py``
     """
     return f"{_camel_to_snake(node_type)}.py"
+
+
+def _resolve_node_kind(node_type: str, node_kind: str) -> str:
+    """Return concrete generation kind for a node type."""
+    if node_kind not in _VALID_NODE_KINDS:
+        raise ValueError(
+            "node_kind must be one of {}: {}".format(
+                sorted(_VALID_NODE_KINDS),
+                node_kind,
+            )
+        )
+
+    if node_kind != _NODE_KIND_AUTO:
+        return node_kind
+
+    if is_transform_type(node_type):
+        return _NODE_KIND_TRANSFORM
+    if is_shape_type(node_type):
+        return _NODE_KIND_SHAPE
+    if is_dag_node_type(node_type):
+        return _NODE_KIND_DAG
+    return _NODE_KIND_DG
+
+
+def _node_kind_base_class_name(node_type: str, node_kind: str) -> str:
+    if node_kind == _NODE_KIND_DG:
+        return "DG"
+    if node_kind == _NODE_KIND_DAG:
+        return "DAG"
+    if node_kind == _NODE_KIND_TRANSFORM:
+        if node_type == "transform":
+            return "DAG"
+        return "Transform"
+    if node_kind == _NODE_KIND_SHAPE:
+        if node_type == "shape":
+            return "DAG"
+        return "Shape"
+    raise ValueError(f"Unsupported node kind: {node_kind}")
+
+
+def _node_kind_base_import_line(node_type: str, node_kind: str) -> str:
+    if node_kind == _NODE_KIND_DG:
+        return "from ._core import DG"
+    if node_kind == _NODE_KIND_DAG:
+        return "from ._core import DAG"
+    if node_kind == _NODE_KIND_TRANSFORM:
+        if node_type == "transform":
+            return "from .._core import DAG"
+        return "from ._core import Transform"
+    if node_kind == _NODE_KIND_SHAPE:
+        if node_type == "shape":
+            return "from .._core import DAG"
+        return "from ._core import Shape"
+    raise ValueError(f"Unsupported node kind: {node_kind}")
+
+
+def _node_kind_attr_import_prefix(node_kind: str) -> str:
+    if node_kind in {_NODE_KIND_TRANSFORM, _NODE_KIND_SHAPE}:
+        return "....attr"
+    if node_kind in {_NODE_KIND_DG, _NODE_KIND_DAG}:
+        return "...attr"
+    raise ValueError(f"Unsupported node kind: {node_kind}")
+
+
+def _node_kind_output_rel_parts(node_kind: str) -> tuple[str, ...]:
+    if node_kind == _NODE_KIND_DG:
+        return _DG_OUTPUT_REL_PARTS
+    if node_kind == _NODE_KIND_DAG:
+        return _DAG_OUTPUT_REL_PARTS
+    if node_kind == _NODE_KIND_TRANSFORM:
+        return _DAG_TRANSFORM_OUTPUT_REL_PARTS
+    if node_kind == _NODE_KIND_SHAPE:
+        return _DAG_SHAPE_OUTPUT_REL_PARTS
+    raise ValueError(f"Unsupported node kind: {node_kind}")
+
+
+def _node_kind_output_file_name(node_type: str, node_kind: str) -> str:
+    if node_kind == _NODE_KIND_TRANSFORM and node_type == "transform":
+        return "_core.py"
+    if node_kind == _NODE_KIND_SHAPE and node_type == "shape":
+        return "_core.py"
+    return _node_type_to_file_name(node_type)
+
+
+def _node_kind_inherited_node_type(
+    node_type: str,
+    node_kind: str,
+) -> str | None:
+    if node_kind == _NODE_KIND_TRANSFORM and node_type != "transform":
+        return "transform"
+    return None
+
+
+def _get_inherited_attr_infos(
+    node_type: str,
+    node_kind: str,
+) -> list[AttrInfo]:
+    inherited_node_type = _node_kind_inherited_node_type(
+        node_type,
+        node_kind,
+    )
+    if inherited_node_type is None:
+        return []
+
+    cached = _INHERITED_ATTR_INFOS_CACHE.get(inherited_node_type)
+    if cached is not None:
+        return cached
+
+    attr_infos = get_attribute_infos(
+        inherited_node_type,
+        mode_new_scene=True,
+        mode_error_skip=True,
+    )
+    _INHERITED_ATTR_INFOS_CACHE[inherited_node_type] = attr_infos
+    return attr_infos
+
+
+def _attr_long_names(attr_infos: list[AttrInfo]) -> frozenset[str]:
+    return frozenset(_attr_long_name(info) for info in attr_infos)
+
+
+def _filter_inherited_attr_infos(
+    attr_infos: list[AttrInfo],
+    inherited_long_names: frozenset[str],
+) -> list[AttrInfo]:
+    if not inherited_long_names:
+        return attr_infos
+
+    filtered_attr_infos: list[AttrInfo] = []
+    for info in attr_infos:
+        long_name = _attr_long_name(info)
+        parent_name = _attr_parent_name(info)
+        if (
+            long_name in inherited_long_names
+            or parent_name in inherited_long_names
+        ):
+            continue
+        filtered_attr_infos.append(info)
+    return filtered_attr_infos
+
+
+def _node_kind_base_long_names(node_kind: str) -> frozenset[str]:
+    # DG base attrs are inherited by both DG and DAG dependency nodes.
+    return _DG_BASE_LONG_NAMES
 
 
 def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
@@ -1340,10 +1542,13 @@ def generate_node_attr_code(
 def generate_node_class_code(
     node_type: str,
     attr_infos: list[AttrInfo] | None = None,
+    *,
+    node_kind: str = _NODE_KIND_DG,
+    inherited_attr_infos: list[AttrInfo] | None = None,
 ) -> str:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python コードを生成する。
 
-    生成されるコードは ``bd_util.maya.node.operator.node.dg`` 以下に配置する
+    生成されるコードは ``node_kind`` に応じた node package 以下に配置する
     ことを想定した相対インポートを使用する。
 
     Args:
@@ -1351,10 +1556,17 @@ def generate_node_class_code(
         attr_infos (list[AttrInfo] | None): 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。
+        node_kind (str): ``"dg"`` / ``"dag"`` / ``"transform"`` /
+            ``"shape"`` / ``"auto"`` のいずれか。
+        inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
+            属性情報。指定された属性は生成対象から除外する。
 
     Returns:
         str: 生成された Python コード文字列
     """
+    resolved_node_kind = _resolve_node_kind(node_type, node_kind)
+    should_query_inherited_attrs = attr_infos is None
+
     if attr_infos is None:
         attr_infos = get_attribute_infos(
             node_type,
@@ -1362,7 +1574,22 @@ def generate_node_class_code(
             mode_error_skip=True,
         )
 
+    if inherited_attr_infos is None:
+        if should_query_inherited_attrs:
+            inherited_attr_infos = _get_inherited_attr_infos(
+                node_type,
+                resolved_node_kind,
+            )
+        else:
+            inherited_attr_infos = []
+
+    inherited_long_names = _attr_long_names(inherited_attr_infos)
+
     attr_infos = _filter_supported_attr_infos(attr_infos)
+    attr_infos = _filter_inherited_attr_infos(
+        attr_infos,
+        inherited_long_names,
+    )
 
     # attr_infos が空の場合は警告を出して空のクラスコードを返す
     if not attr_infos:
@@ -1372,6 +1599,14 @@ def generate_node_class_code(
         attr_infos = []
 
     class_name = _node_type_to_class_name(node_type)
+    base_class_name = _node_kind_base_class_name(
+        node_type,
+        resolved_node_kind,
+    )
+    attr_import_prefix = _node_kind_attr_import_prefix(resolved_node_kind)
+    base_long_names = _node_kind_base_long_names(
+        resolved_node_kind
+    ) | inherited_long_names
 
     # short_name → long_name  (short_name が long_name と異なる場合のみ)
     short_to_long: dict[str, str] = {}
@@ -1421,8 +1656,8 @@ def generate_node_class_code(
     for attr_info in attr_infos:
         long_name = _attr_long_name(attr_info)
 
-        # DG 基底クラスで定義済みのアトリビュートはスキップ
-        if long_name in _DG_BASE_LONG_NAMES:
+        # 基底クラスで定義済みのアトリビュートはスキップ
+        if long_name in base_long_names:
             continue
 
         # 子アトリビュート (compound の子) はスキップ
@@ -1522,25 +1757,27 @@ def generate_node_class_code(
         attr_lines.append("")
 
     # インポート行 (モジュールパスでソートして並びを安定させる)
-    import_lines: list[str] = ["from ._core import DG"]
+    import_lines: list[str] = [
+        _node_kind_base_import_line(node_type, resolved_node_kind)
+    ]
     if node_attr_imports:
         snake_type = _camel_to_snake(node_type)
         import_lines.extend(
             _build_import_lines(
-                f"...attr.define.node_attr.{snake_type}",
+                f"{attr_import_prefix}.define.node_attr.{snake_type}",
                 sorted(node_attr_imports),
             )
         )
     if enum_classes:
         import_lines.extend(
             _build_import_lines(
-                "...attr.define.std.at.enum",
+                f"{attr_import_prefix}.define.std.at.enum",
                 ["EnumAttrOperator", "EnumPlugOperator", "EnumField"],
             )
         )
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
         import_lines.extend(
-            _build_import_lines(f"...attr.{mod_path}", [cls_name])
+            _build_import_lines(f"{attr_import_prefix}.{mod_path}", [cls_name])
         )
 
     # コード全体を組み立てる
@@ -1553,7 +1790,7 @@ def generate_node_class_code(
         lines.extend(_build_enum_class_lines(enum_cls_name, entries))
         lines.append("")
         lines.append("")
-    lines.append(f"class {class_name}(DG):")
+    lines.append(f"class {class_name}({base_class_name}):")
     lines.append("    __slots__ = ()")
     lines.append("")
     lines.append(f'    NODE_TYPE = "{node_type}"')
@@ -1574,6 +1811,8 @@ def generate_node_class_file(
     attr_infos: list[AttrInfo] | None = None,
     *,
     include_skipped: bool = False,
+    node_kind: str = _NODE_KIND_DG,
+    inherited_attr_infos: list[AttrInfo] | None = None,
 ) -> None:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
 
@@ -1585,6 +1824,9 @@ def generate_node_class_file(
     出力先::
 
         {src_dir}/bd_util/maya/node/operator/node/dg/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/transform/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/shape/{snake_case_node_type}.py
         {src_dir}/bd_util/maya/node/operator/attr/node_attr/{snake_case_node_type}.py  (compound アトリビュートがある場合のみ)
 
     Args:
@@ -1596,8 +1838,16 @@ def generate_node_class_file(
             で自動取得する。
         include_skipped (bool): ``True`` の場合、通常は除外される特殊ノードも
             調査用に生成する。
+        node_kind (str): ``"dg"`` / ``"dag"`` / ``"transform"`` /
+            ``"shape"`` / ``"auto"`` のいずれか。
+        inherited_attr_infos (list[AttrInfo] | None): 継承元ノードで定義済みの
+            属性情報。指定された属性は生成対象から除外する。
     """
-    skip_reason = _SKIPPED_DG_NODE_TYPES.get(node_type)
+    resolved_node_kind = _resolve_node_kind(node_type, node_kind)
+
+    skip_reason = None
+    if resolved_node_kind == _NODE_KIND_DG:
+        skip_reason = _SKIPPED_DG_NODE_TYPES.get(node_type)
     if skip_reason and not include_skipped:
         logger.warning(
             f"Skipping node type '{node_type}': {skip_reason}"
@@ -1611,6 +1861,17 @@ def generate_node_class_file(
             mode_error_skip=True,
         )
 
+    if inherited_attr_infos is None:
+        inherited_attr_infos = _get_inherited_attr_infos(
+            node_type,
+            resolved_node_kind,
+        )
+
+    attr_infos = _filter_inherited_attr_infos(
+        attr_infos,
+        _attr_long_names(inherited_attr_infos),
+    )
+
     # node_attr ファイルを生成 (compound アトリビュートがある場合のみ)
     node_attr_code = generate_node_attr_code(node_type, attr_infos=attr_infos)
     if node_attr_code:
@@ -1623,7 +1884,12 @@ def generate_node_class_file(
         node_attr_path.write_text(node_attr_code, encoding="utf-8")
 
     # メインのノードクラスファイルを生成
-    code = generate_node_class_code(node_type, attr_infos=attr_infos)
+    code = generate_node_class_code(
+        node_type,
+        attr_infos=attr_infos,
+        node_kind=resolved_node_kind,
+        inherited_attr_infos=[],
+    )
     if not code:
         logger.warning(
             f"Generated code for node type '{node_type}' is empty. Skipping file generation."
@@ -1631,8 +1897,8 @@ def generate_node_class_file(
         return
     output_path = (
         pathlib.Path(src_dir)
-        .joinpath(*_OUTPUT_REL_PARTS)
-        .joinpath(_node_type_to_file_name(node_type))
+        .joinpath(*_node_kind_output_rel_parts(resolved_node_kind))
+        .joinpath(_node_kind_output_file_name(node_type, resolved_node_kind))
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(code, encoding="utf-8")
@@ -1644,12 +1910,14 @@ def generate_specific_node_class_file_core(
     func_get_node_types: callable,
     *,
     include_skipped: bool = False,
+    node_kind: str = _NODE_KIND_DG,
 ) -> None:
     for node_type in func_get_node_types():
         generate_node_class_file(
             node_type,
             src_dir,
             include_skipped=include_skipped,
+            node_kind=node_kind,
         )
 
 
@@ -1663,4 +1931,47 @@ def generate_dg_node_class_files(
         src_dir=src_dir,
         func_get_node_types=get_dg_node_types,
         include_skipped=include_skipped,
+        node_kind=_NODE_KIND_DG,
+    )
+
+
+#       dag_node
+def generate_dag_node_class_files(
+    src_dir: str | pathlib.Path,
+    *,
+    include_skipped: bool = False,
+) -> None:
+    generate_specific_node_class_file_core(
+        src_dir=src_dir,
+        func_get_node_types=get_dag_node_types,
+        include_skipped=include_skipped,
+        node_kind=_NODE_KIND_AUTO,
+    )
+
+
+#           transform
+def generate_transform_node_class_files(
+    src_dir: str | pathlib.Path,
+    *,
+    include_skipped: bool = False,
+) -> None:
+    generate_specific_node_class_file_core(
+        src_dir=src_dir,
+        func_get_node_types=get_transform_types,
+        include_skipped=include_skipped,
+        node_kind=_NODE_KIND_TRANSFORM,
+    )
+
+
+#           shape
+def generate_shape_node_class_files(
+    src_dir: str | pathlib.Path,
+    *,
+    include_skipped: bool = False,
+) -> None:
+    generate_specific_node_class_file_core(
+        src_dir=src_dir,
+        func_get_node_types=get_shape_types,
+        include_skipped=include_skipped,
+        node_kind=_NODE_KIND_SHAPE,
     )
