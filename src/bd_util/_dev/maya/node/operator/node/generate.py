@@ -122,6 +122,7 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     ),
     "matrix": ("MatrixField", "define.std.at.matrix"),
     "message": ("MessageField", "define.std.at.message"),
+    "polyFaces": ("TypedField", "define.std.at.typed"),
     "reflectance": ("ReflectanceField", "define.std.at.reflectance"),
     "short": ("ShortField", "define.std.at.numeric_scalar_range.short"),
     "short2": (

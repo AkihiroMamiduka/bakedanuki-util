@@ -213,6 +213,7 @@ def _shape_like_attr_infos() -> list[AttrInfo]:
             data_type="mesh",
             writable=False,
         ),
+        _attr("face", "fc", "polyFaces", data_type="0", multi=True),
     ]
 
 
@@ -489,6 +490,9 @@ def test_generate_shape_node_class_code():
     assert "message = MessageField()" not in code
     assert "outMesh = DataMeshField(writable=False)" in code
     assert "out = outMesh" in code
+    assert "face = TypedField(multi=True)" in code
+    assert "fc = face" in code
+    assert "TODO: face" not in code
 
 
 def test_generate_field_init_args_include_attribute_metadata():

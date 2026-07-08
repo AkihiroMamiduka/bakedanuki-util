@@ -208,6 +208,10 @@ output = DoubleField(default_value=0.0, writable=False)
 解決できない attribute は TODO コメントとして残します。
 全 DG 生成では、NodeOperator の通常利用対象から外れる特殊ノードを skip するため、生成 snapshot 側に TODO が残らない状態を目指します。
 
+`polyFaces` は Maya の `mesh.face` などで使われる特殊な typed attribute です。
+OpenMaya 上では `MFnTypedAttribute` として見えますが、標準的な `MFnData` 名へは解決できないため、Generator では `TypedField` として扱います。
+現時点では get/set 対象ではなく、既存 plug の参照・接続用の Field として生成します。
+
 ## skipped node type
 
 一部の DG node type は、生成対象から意図的に除外します。
@@ -390,6 +394,14 @@ import maya.standalone
 maya.standalone.initialize(name="python")
 ```
 
+生成される attribute は、実行時に Maya へロードされている plugin に依存します。
+例えば `mesh` の Arnold attribute を含めたい場合、mayapy では生成前に `mtoa` をロードします。
+
+```python
+import maya.cmds as cmds
+cmds.loadPlugin("mtoa", quiet=True)
+```
+
 ## 検証
 
 Generator まわりの pytest は次にあります。
@@ -427,6 +439,6 @@ print(errors)
 
 - `generate_test/src` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
-- DAG / shape 系では `polyFaces` のような DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
+- DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
 - 生成後は必ず git diff を確認します。
 - 既存手書き class を上書きする場合は、生成差分が意味的に一致しているか確認します。

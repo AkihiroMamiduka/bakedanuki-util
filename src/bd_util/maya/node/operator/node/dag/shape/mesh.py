@@ -1524,7 +1524,8 @@ class Mesh(Shape):
     normals = NormalsField(multi=True, default_value=(1.0000000200408773e+20, 1.0000000200408773e+20, 1.0000000200408773e+20))
     n = normals
 
-    # TODO: face (attributeType=polyFaces, dataType=0) は未対応のため手動で追加してください
+    face = TypedField(multi=True)
+    fc = face
 
     faceColorIndices = TypedField(multi=True)
     fcid = faceColorIndices
