@@ -317,127 +317,127 @@ class NurbsDataPlugOperator(
     endParent = MatrixField()
     epm = endParent
 
-    MODEL = MODELEnumField()
+    MODEL = MODELEnumField(default_value=0)
     lblmdl = MODEL
 
-    crossSections = LongField()
+    crossSections = LongField(default_value=7, min_value=1)
     csec = crossSections
 
-    sides = LongField()
+    sides = LongField(default_value=8, min_value=3)
     sid = sides
 
-    tolerance = LongField()
+    tolerance = LongField(default_value=24, min_value=2)
     tol = tolerance
 
-    upAxis = UpAxisEnumField()
+    upAxis = UpAxisEnumField(default_value=0)
     uax = upAxis
 
-    flatCrossSections = BoolField()
+    flatCrossSections = BoolField(default_value=False)
     fltcrs = flatCrossSections
 
-    showControls = BoolField()
+    showControls = BoolField(default_value=True)
     shcont = showControls
 
-    showRestMovers = BoolField()
+    showRestMovers = BoolField(default_value=True)
     shrsm = showRestMovers
 
-    showSquashMovers = BoolField()
+    showSquashMovers = BoolField(default_value=True)
     shsqm = showSquashMovers
 
-    showStretchMovers = BoolField()
+    showStretchMovers = BoolField(default_value=True)
     shstm = showStretchMovers
 
-    SQUASH_STRETCH = SQUASH_STRETCHEnumField()
+    SQUASH_STRETCH = SQUASH_STRETCHEnumField(default_value=0)
     lblsqst = SQUASH_STRETCH
 
-    basedOn = BasedOnEnumField()
+    basedOn = BasedOnEnumField(default_value=2)
     sqstbo = basedOn
 
-    interpMode = InterpModeEnumField()
+    interpMode = InterpModeEnumField(default_value=0)
     intmod = interpMode
 
-    poseUses = PoseUsesEnumField()
+    poseUses = PoseUsesEnumField(default_value=2)
     pous = poseUses
 
-    poseReadAxis = PoseReadAxisEnumField()
+    poseReadAxis = PoseReadAxisEnumField(default_value=1)
     psredax = poseReadAxis
 
-    poseUseTwist = BoolField()
+    poseUseTwist = BoolField(default_value=False)
     psustw = poseUseTwist
 
     msgAnimCurveSq = MessageField()
     msgacsq = msgAnimCurveSq
 
-    animCurveOutputSq = DoubleField()
+    animCurveOutputSq = DoubleField(default_value=1.0)
     acoutsq = animCurveOutputSq
 
     msgAnimCurveSt = MessageField()
     msgacst = msgAnimCurveSt
 
-    animCurveOutputSt = DoubleField()
+    animCurveOutputSt = DoubleField(default_value=1.0)
     acoutst = animCurveOutputSt
 
-    defWidthStart = DoubleField()
+    defWidthStart = DoubleField(default_value=1.0, min_value=0.0)
     defwidst = defWidthStart
 
-    defWidthEnd = DoubleField()
+    defWidthEnd = DoubleField(default_value=1.0, min_value=0.0)
     defwided = defWidthEnd
 
-    lenDefault = DoubleField()
+    lenDefault = DoubleField(default_value=1.0, min_value=0.0)
     lendef = lenDefault
 
-    lenSquash = DoubleField()
+    lenSquash = DoubleField(default_value=0.5, min_value=0.0)
     lensq = lenSquash
 
-    lenStretch = DoubleField()
+    lenStretch = DoubleField(default_value=2.0, min_value=0.0)
     lenst = lenStretch
 
-    autoRotate = DoubleField()
+    autoRotate = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     arot = autoRotate
 
-    autoWiden = DoubleField()
+    autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField()
+    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField()
+    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpst = dampenOnStretch
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField()
+    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField()
+    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatst = linearAutoStretch
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=0.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityJiggle = DoubleField()
+    gravityJiggle = DoubleField(default_value=0.0, min_value=0.0)
     gravjig = gravityJiggle
 
-    gravityCycle = DoubleField()
+    gravityCycle = DoubleField(default_value=0.0, min_value=0.0)
     gravcyc = gravityCycle
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     lbljig = JIGGLE
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
 
@@ -464,127 +464,127 @@ class NurbsDataAttrOperator(
     endParent = MatrixField()
     epm = endParent
 
-    MODEL = MODELEnumField()
+    MODEL = MODELEnumField(default_value=0)
     lblmdl = MODEL
 
-    crossSections = LongField()
+    crossSections = LongField(default_value=7, min_value=1)
     csec = crossSections
 
-    sides = LongField()
+    sides = LongField(default_value=8, min_value=3)
     sid = sides
 
-    tolerance = LongField()
+    tolerance = LongField(default_value=24, min_value=2)
     tol = tolerance
 
-    upAxis = UpAxisEnumField()
+    upAxis = UpAxisEnumField(default_value=0)
     uax = upAxis
 
-    flatCrossSections = BoolField()
+    flatCrossSections = BoolField(default_value=False)
     fltcrs = flatCrossSections
 
-    showControls = BoolField()
+    showControls = BoolField(default_value=True)
     shcont = showControls
 
-    showRestMovers = BoolField()
+    showRestMovers = BoolField(default_value=True)
     shrsm = showRestMovers
 
-    showSquashMovers = BoolField()
+    showSquashMovers = BoolField(default_value=True)
     shsqm = showSquashMovers
 
-    showStretchMovers = BoolField()
+    showStretchMovers = BoolField(default_value=True)
     shstm = showStretchMovers
 
-    SQUASH_STRETCH = SQUASH_STRETCHEnumField()
+    SQUASH_STRETCH = SQUASH_STRETCHEnumField(default_value=0)
     lblsqst = SQUASH_STRETCH
 
-    basedOn = BasedOnEnumField()
+    basedOn = BasedOnEnumField(default_value=2)
     sqstbo = basedOn
 
-    interpMode = InterpModeEnumField()
+    interpMode = InterpModeEnumField(default_value=0)
     intmod = interpMode
 
-    poseUses = PoseUsesEnumField()
+    poseUses = PoseUsesEnumField(default_value=2)
     pous = poseUses
 
-    poseReadAxis = PoseReadAxisEnumField()
+    poseReadAxis = PoseReadAxisEnumField(default_value=1)
     psredax = poseReadAxis
 
-    poseUseTwist = BoolField()
+    poseUseTwist = BoolField(default_value=False)
     psustw = poseUseTwist
 
     msgAnimCurveSq = MessageField()
     msgacsq = msgAnimCurveSq
 
-    animCurveOutputSq = DoubleField()
+    animCurveOutputSq = DoubleField(default_value=1.0)
     acoutsq = animCurveOutputSq
 
     msgAnimCurveSt = MessageField()
     msgacst = msgAnimCurveSt
 
-    animCurveOutputSt = DoubleField()
+    animCurveOutputSt = DoubleField(default_value=1.0)
     acoutst = animCurveOutputSt
 
-    defWidthStart = DoubleField()
+    defWidthStart = DoubleField(default_value=1.0, min_value=0.0)
     defwidst = defWidthStart
 
-    defWidthEnd = DoubleField()
+    defWidthEnd = DoubleField(default_value=1.0, min_value=0.0)
     defwided = defWidthEnd
 
-    lenDefault = DoubleField()
+    lenDefault = DoubleField(default_value=1.0, min_value=0.0)
     lendef = lenDefault
 
-    lenSquash = DoubleField()
+    lenSquash = DoubleField(default_value=0.5, min_value=0.0)
     lensq = lenSquash
 
-    lenStretch = DoubleField()
+    lenStretch = DoubleField(default_value=2.0, min_value=0.0)
     lenst = lenStretch
 
-    autoRotate = DoubleField()
+    autoRotate = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     arot = autoRotate
 
-    autoWiden = DoubleField()
+    autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField()
+    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField()
+    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpst = dampenOnStretch
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField()
+    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField()
+    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatst = linearAutoStretch
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=0.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityJiggle = DoubleField()
+    gravityJiggle = DoubleField(default_value=0.0, min_value=0.0)
     gravjig = gravityJiggle
 
-    gravityCycle = DoubleField()
+    gravityCycle = DoubleField(default_value=0.0, min_value=0.0)
     gravcyc = gravityCycle
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     lbljig = JIGGLE
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
 
@@ -614,127 +614,127 @@ class NurbsDataField(
     endParent = MatrixField()
     epm = endParent
 
-    MODEL = MODELEnumField()
+    MODEL = MODELEnumField(default_value=0)
     lblmdl = MODEL
 
-    crossSections = LongField()
+    crossSections = LongField(default_value=7, min_value=1)
     csec = crossSections
 
-    sides = LongField()
+    sides = LongField(default_value=8, min_value=3)
     sid = sides
 
-    tolerance = LongField()
+    tolerance = LongField(default_value=24, min_value=2)
     tol = tolerance
 
-    upAxis = UpAxisEnumField()
+    upAxis = UpAxisEnumField(default_value=0)
     uax = upAxis
 
-    flatCrossSections = BoolField()
+    flatCrossSections = BoolField(default_value=False)
     fltcrs = flatCrossSections
 
-    showControls = BoolField()
+    showControls = BoolField(default_value=True)
     shcont = showControls
 
-    showRestMovers = BoolField()
+    showRestMovers = BoolField(default_value=True)
     shrsm = showRestMovers
 
-    showSquashMovers = BoolField()
+    showSquashMovers = BoolField(default_value=True)
     shsqm = showSquashMovers
 
-    showStretchMovers = BoolField()
+    showStretchMovers = BoolField(default_value=True)
     shstm = showStretchMovers
 
-    SQUASH_STRETCH = SQUASH_STRETCHEnumField()
+    SQUASH_STRETCH = SQUASH_STRETCHEnumField(default_value=0)
     lblsqst = SQUASH_STRETCH
 
-    basedOn = BasedOnEnumField()
+    basedOn = BasedOnEnumField(default_value=2)
     sqstbo = basedOn
 
-    interpMode = InterpModeEnumField()
+    interpMode = InterpModeEnumField(default_value=0)
     intmod = interpMode
 
-    poseUses = PoseUsesEnumField()
+    poseUses = PoseUsesEnumField(default_value=2)
     pous = poseUses
 
-    poseReadAxis = PoseReadAxisEnumField()
+    poseReadAxis = PoseReadAxisEnumField(default_value=1)
     psredax = poseReadAxis
 
-    poseUseTwist = BoolField()
+    poseUseTwist = BoolField(default_value=False)
     psustw = poseUseTwist
 
     msgAnimCurveSq = MessageField()
     msgacsq = msgAnimCurveSq
 
-    animCurveOutputSq = DoubleField()
+    animCurveOutputSq = DoubleField(default_value=1.0)
     acoutsq = animCurveOutputSq
 
     msgAnimCurveSt = MessageField()
     msgacst = msgAnimCurveSt
 
-    animCurveOutputSt = DoubleField()
+    animCurveOutputSt = DoubleField(default_value=1.0)
     acoutst = animCurveOutputSt
 
-    defWidthStart = DoubleField()
+    defWidthStart = DoubleField(default_value=1.0, min_value=0.0)
     defwidst = defWidthStart
 
-    defWidthEnd = DoubleField()
+    defWidthEnd = DoubleField(default_value=1.0, min_value=0.0)
     defwided = defWidthEnd
 
-    lenDefault = DoubleField()
+    lenDefault = DoubleField(default_value=1.0, min_value=0.0)
     lendef = lenDefault
 
-    lenSquash = DoubleField()
+    lenSquash = DoubleField(default_value=0.5, min_value=0.0)
     lensq = lenSquash
 
-    lenStretch = DoubleField()
+    lenStretch = DoubleField(default_value=2.0, min_value=0.0)
     lenst = lenStretch
 
-    autoRotate = DoubleField()
+    autoRotate = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     arot = autoRotate
 
-    autoWiden = DoubleField()
+    autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField()
+    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField()
+    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpst = dampenOnStretch
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField()
+    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField()
+    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lnatst = linearAutoStretch
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=0.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityJiggle = DoubleField()
+    gravityJiggle = DoubleField(default_value=0.0, min_value=0.0)
     gravjig = gravityJiggle
 
-    gravityCycle = DoubleField()
+    gravityCycle = DoubleField(default_value=0.0, min_value=0.0)
     gravcyc = gravityCycle
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     lbljig = JIGGLE
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
 
@@ -746,7 +746,7 @@ class JiggleFramePlugOperator(
         ("force", "frc"),
     )
 
-    force = CompoundField()
+    force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
@@ -755,7 +755,7 @@ class JiggleFrameAttrOperator(
 ):
     __slots__ = ()
 
-    force = CompoundField()
+    force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
@@ -784,19 +784,19 @@ class PoseStatePlugOperator(
     poseDefault = MatrixField()
     pd = poseDefault
 
-    poseDefaultStored = BoolField()
+    poseDefaultStored = BoolField(default_value=False)
     pds = poseDefaultStored
 
     poseSquash = MatrixField()
     psq = poseSquash
 
-    poseSquashStored = BoolField()
+    poseSquashStored = BoolField(default_value=False)
     psqs = poseSquashStored
 
     poseStretch = MatrixField()
     pst = poseStretch
 
-    poseStretchStored = BoolField()
+    poseStretchStored = BoolField(default_value=False)
     psts = poseStretchStored
 
 
@@ -808,19 +808,19 @@ class PoseStateAttrOperator(
     poseDefault = MatrixField()
     pd = poseDefault
 
-    poseDefaultStored = BoolField()
+    poseDefaultStored = BoolField(default_value=False)
     pds = poseDefaultStored
 
     poseSquash = MatrixField()
     psq = poseSquash
 
-    poseSquashStored = BoolField()
+    poseSquashStored = BoolField(default_value=False)
     psqs = poseSquashStored
 
     poseStretch = MatrixField()
     pst = poseStretch
 
-    poseStretchStored = BoolField()
+    poseStretchStored = BoolField(default_value=False)
     psts = poseStretchStored
 
 
@@ -835,19 +835,19 @@ class PoseStateField(
     poseDefault = MatrixField()
     pd = poseDefault
 
-    poseDefaultStored = BoolField()
+    poseDefaultStored = BoolField(default_value=False)
     pds = poseDefaultStored
 
     poseSquash = MatrixField()
     psq = poseSquash
 
-    poseSquashStored = BoolField()
+    poseSquashStored = BoolField(default_value=False)
     psqs = poseSquashStored
 
     poseStretch = MatrixField()
     pst = poseStretch
 
-    poseStretchStored = BoolField()
+    poseStretchStored = BoolField(default_value=False)
     psts = poseStretchStored
 
 
@@ -874,31 +874,31 @@ class ControlDataPlugOperator(
     insertMatrix = MatrixField()
     imat = insertMatrix
 
-    jiggle = DoubleField()
+    jiggle = DoubleField(default_value=0.0)
     jig = jiggle
 
-    cycle = DoubleField()
+    cycle = DoubleField(default_value=10.0, min_value=1.0)
     cyc = cycle
 
-    rest = DoubleField()
+    rest = DoubleField(default_value=24.0, min_value=1.0)
     rst = rest
 
-    jiggleX = DoubleField()
+    jiggleX = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigx = jiggleX
 
-    jiggleY = DoubleField()
+    jiggleY = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigy = jiggleY
 
-    jiggleZ = DoubleField()
+    jiggleZ = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigz = jiggleZ
 
-    jiggleImpact = DoubleField()
+    jiggleImpact = DoubleField(default_value=0.0)
     jigimp = jiggleImpact
 
-    jiggleImpactStart = DoubleField()
+    jiggleImpactStart = DoubleField(default_value=0.1, min_value=0.0)
     jigimps = jiggleImpactStart
 
-    jiggleImpactStop = DoubleField()
+    jiggleImpactStop = DoubleField(default_value=0.1, min_value=0.0)
     jigimpp = jiggleImpactStop
 
     curveRest = DataNurbsCurveField()
@@ -919,31 +919,31 @@ class ControlDataAttrOperator(
     insertMatrix = MatrixField()
     imat = insertMatrix
 
-    jiggle = DoubleField()
+    jiggle = DoubleField(default_value=0.0)
     jig = jiggle
 
-    cycle = DoubleField()
+    cycle = DoubleField(default_value=10.0, min_value=1.0)
     cyc = cycle
 
-    rest = DoubleField()
+    rest = DoubleField(default_value=24.0, min_value=1.0)
     rst = rest
 
-    jiggleX = DoubleField()
+    jiggleX = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigx = jiggleX
 
-    jiggleY = DoubleField()
+    jiggleY = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigy = jiggleY
 
-    jiggleZ = DoubleField()
+    jiggleZ = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     jigz = jiggleZ
 
-    jiggleImpact = DoubleField()
+    jiggleImpact = DoubleField(default_value=0.0)
     jigimp = jiggleImpact
 
-    jiggleImpactStart = DoubleField()
+    jiggleImpactStart = DoubleField(default_value=0.1, min_value=0.0)
     jigimps = jiggleImpactStart
 
-    jiggleImpactStop = DoubleField()
+    jiggleImpactStop = DoubleField(default_value=0.1, min_value=0.0)
     jigimpp = jiggleImpactStop
 
     curveRest = DataNurbsCurveField()
@@ -977,7 +977,7 @@ class LinearDataPlugOperator(
     linearMatrix = MatrixField()
     lmat = linearMatrix
 
-    uValue = DoubleField()
+    uValue = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     uval = uValue
 
 
@@ -989,7 +989,7 @@ class LinearDataAttrOperator(
     linearMatrix = MatrixField()
     lmat = linearMatrix
 
-    uValue = DoubleField()
+    uValue = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     uval = uValue
 
 
@@ -1022,7 +1022,7 @@ class AttachDataPlugOperator(
     attachMatrixSt = MatrixField()
     amatst = attachMatrixSt
 
-    gravityMult = DoubleField()
+    gravityMult = DoubleField(default_value=1.0, min_value=0.0)
     grvmul = gravityMult
 
 
@@ -1040,7 +1040,7 @@ class AttachDataAttrOperator(
     attachMatrixSt = MatrixField()
     amatst = attachMatrixSt
 
-    gravityMult = DoubleField()
+    gravityMult = DoubleField(default_value=1.0, min_value=0.0)
     grvmul = gravityMult
 
 
@@ -1062,10 +1062,10 @@ class OutLinearDataPlugOperator(
         ("outLinearRotate", "olr"),
     )
 
-    outLinearTranslate = CompoundField()
+    outLinearTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     olt = outLinearTranslate
 
-    outLinearRotate = CompoundField()
+    outLinearRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     olr = outLinearRotate
 
 
@@ -1074,10 +1074,10 @@ class OutLinearDataAttrOperator(
 ):
     __slots__ = ()
 
-    outLinearTranslate = CompoundField()
+    outLinearTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     olt = outLinearTranslate
 
-    outLinearRotate = CompoundField()
+    outLinearRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     olr = outLinearRotate
 
 
@@ -1099,10 +1099,10 @@ class OutAttachDataPlugOperator(
         ("outAttachRotate", "oar"),
     )
 
-    outAttachTranslate = CompoundField()
+    outAttachTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     oat = outAttachTranslate
 
-    outAttachRotate = CompoundField()
+    outAttachRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     oar = outAttachRotate
 
 
@@ -1111,10 +1111,10 @@ class OutAttachDataAttrOperator(
 ):
     __slots__ = ()
 
-    outAttachTranslate = CompoundField()
+    outAttachTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     oat = outAttachTranslate
 
-    outAttachRotate = CompoundField()
+    outAttachRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     oar = outAttachRotate
 
 
@@ -1136,10 +1136,10 @@ class OutDrivenPlugOperator(
         ("outDrivenStretch", "odst"),
     )
 
-    outDrivenSquash = DoubleField()
+    outDrivenSquash = DoubleField(default_value=0.0)
     odsq = outDrivenSquash
 
-    outDrivenStretch = DoubleField()
+    outDrivenStretch = DoubleField(default_value=0.0)
     odst = outDrivenStretch
 
 
@@ -1148,10 +1148,10 @@ class OutDrivenAttrOperator(
 ):
     __slots__ = ()
 
-    outDrivenSquash = DoubleField()
+    outDrivenSquash = DoubleField(default_value=0.0)
     odsq = outDrivenSquash
 
-    outDrivenStretch = DoubleField()
+    outDrivenStretch = DoubleField(default_value=0.0)
     odst = outDrivenStretch
 
 
@@ -1163,8 +1163,8 @@ class OutDrivenField(
     ATTR_CLS = OutDrivenAttrOperator
     PLUG_CLS = OutDrivenPlugOperator
 
-    outDrivenSquash = DoubleField()
+    outDrivenSquash = DoubleField(default_value=0.0)
     odsq = outDrivenSquash
 
-    outDrivenStretch = DoubleField()
+    outDrivenStretch = DoubleField(default_value=0.0)
     odst = outDrivenStretch

@@ -91,11 +91,11 @@ class UpVectorPlugOperator(
         ("upVector2", "upVector2"),
     )
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=1.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class UpVectorAttrOperator(
@@ -103,11 +103,11 @@ class UpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=1.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class UpVectorField(
@@ -118,11 +118,11 @@ class UpVectorField(
     ATTR_CLS = UpVectorAttrOperator
     PLUG_CLS = UpVectorPlugOperator
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=1.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class TrailTaperCurvePlugOperator(
@@ -134,10 +134,10 @@ class TrailTaperCurvePlugOperator(
         ("trailTaperCurve_Value", "trailTaperCurvev"),
     )
 
-    trailTaperCurve_Position = FloatField()
+    trailTaperCurve_Position = FloatField(default_value=0.0)
     trailTaperCurvep = trailTaperCurve_Position
 
-    trailTaperCurve_Value = FloatField()
+    trailTaperCurve_Value = FloatField(default_value=0.0)
     trailTaperCurvev = trailTaperCurve_Value
 
 
@@ -146,10 +146,10 @@ class TrailTaperCurveAttrOperator(
 ):
     __slots__ = ()
 
-    trailTaperCurve_Position = FloatField()
+    trailTaperCurve_Position = FloatField(default_value=0.0)
     trailTaperCurvep = trailTaperCurve_Position
 
-    trailTaperCurve_Value = FloatField()
+    trailTaperCurve_Value = FloatField(default_value=0.0)
     trailTaperCurvev = trailTaperCurve_Value
 
 
@@ -171,10 +171,10 @@ class BevelCapCurvePlugOperator(
         ("bevelCapCurve_Value", "bevelCapCurvev"),
     )
 
-    bevelCapCurve_Position = FloatField()
+    bevelCapCurve_Position = FloatField(default_value=0.0)
     bevelCapCurvep = bevelCapCurve_Position
 
-    bevelCapCurve_Value = FloatField()
+    bevelCapCurve_Value = FloatField(default_value=0.0)
     bevelCapCurvev = bevelCapCurve_Value
 
 
@@ -183,10 +183,10 @@ class BevelCapCurveAttrOperator(
 ):
     __slots__ = ()
 
-    bevelCapCurve_Position = FloatField()
+    bevelCapCurve_Position = FloatField(default_value=0.0)
     bevelCapCurvep = bevelCapCurve_Position
 
-    bevelCapCurve_Value = FloatField()
+    bevelCapCurve_Value = FloatField(default_value=0.0)
     bevelCapCurvev = bevelCapCurve_Value
 
 
@@ -209,13 +209,13 @@ class ConnectionPointPlugOperator(
         ("connectionPointZ", "conLocz"),
     )
 
-    connectionPointX = FloatField()
+    connectionPointX = FloatField(default_value=0.0)
     conLocx = connectionPointX
 
-    connectionPointY = FloatField()
+    connectionPointY = FloatField(default_value=0.0)
     conLocy = connectionPointY
 
-    connectionPointZ = FloatField()
+    connectionPointZ = FloatField(default_value=0.0)
     conLocz = connectionPointZ
 
 
@@ -224,13 +224,13 @@ class ConnectionPointAttrOperator(
 ):
     __slots__ = ()
 
-    connectionPointX = FloatField()
+    connectionPointX = FloatField(default_value=0.0)
     conLocx = connectionPointX
 
-    connectionPointY = FloatField()
+    connectionPointY = FloatField(default_value=0.0)
     conLocy = connectionPointY
 
-    connectionPointZ = FloatField()
+    connectionPointZ = FloatField(default_value=0.0)
     conLocz = connectionPointZ
 
 
@@ -242,11 +242,11 @@ class ConnectionPointField(
     ATTR_CLS = ConnectionPointAttrOperator
     PLUG_CLS = ConnectionPointPlugOperator
 
-    connectionPointX = FloatField()
+    connectionPointX = FloatField(default_value=0.0)
     conLocx = connectionPointX
 
-    connectionPointY = FloatField()
+    connectionPointY = FloatField(default_value=0.0)
     conLocy = connectionPointY
 
-    connectionPointZ = FloatField()
+    connectionPointZ = FloatField(default_value=0.0)
     conLocz = connectionPointZ

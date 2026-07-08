@@ -12,5 +12,5 @@ class ExplodeNurbsShell(DG):
     inputShell = TypedField()
     ish = inputShell
 
-    outputSurface = DataNurbsSurfaceField(multi=True)
+    outputSurface = DataNurbsSurfaceField(multi=True, writable=False)
     os = outputSurface

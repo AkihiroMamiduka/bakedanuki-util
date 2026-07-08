@@ -9,11 +9,11 @@ class Choice(DG):
 
     NODE_TYPE = "choice"
 
-    selector = LongField()
+    selector = LongField(default_value=0, min_value=0)
     s = selector
 
     input = TypedField(multi=True)
     i = input
 
-    output = TypedField()
+    output = TypedField(writable=False)
     o = output

@@ -91,19 +91,19 @@ class Extrude(DG):
     path = DataNurbsCurveField()
     pt = path
 
-    extrudeType = ExtrudeTypeEnumField()
+    extrudeType = ExtrudeTypeEnumField(default_value=2)
     et = extrudeType
 
-    fixedPath = BoolField()
+    fixedPath = BoolField(default_value=False)
     fpt = fixedPath
 
-    useComponentPivot = UseComponentPivotEnumField()
+    useComponentPivot = UseComponentPivotEnumField(default_value=0)
     ucp = useComponentPivot
 
-    useProfileNormal = BoolField()
+    useProfileNormal = BoolField(default_value=False)
     upn = useProfileNormal
 
-    direction = DirectionField()
+    direction = DirectionField(default_value=(0.0, 1.0, 0.0))
     d = direction
     directionX = direction.directionX
     dx = directionX
@@ -112,10 +112,10 @@ class Extrude(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    length = DoubleLinearField()
+    length = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     l = length
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -124,20 +124,20 @@ class Extrude(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    rotation = DoubleAngleField()
+    rotation = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ro = rotation
 
-    scale = DoubleField()
+    scale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     sc = scale
 
-    reverseSurfaceIfPathReversed = BoolField()
+    reverseSurfaceIfPathReversed = BoolField(default_value=False)
     rsp = reverseSurfaceIfPathReversed
 
-    degreeAlongLength = ShortField()
+    degreeAlongLength = ShortField(default_value=1)
     dl = degreeAlongLength
 
-    subCurveSubSurface = BoolField()
+    subCurveSubSurface = BoolField(default_value=False)
     scs = subCurveSubSurface
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

@@ -18,13 +18,13 @@ class ParticleIncandescencePlugOperator(
         ("particleIncandescenceB", "pib"),
     )
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0)
     pib = particleIncandescenceB
 
 
@@ -33,13 +33,13 @@ class ParticleIncandescenceAttrOperator(
 ):
     __slots__ = ()
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0)
     pib = particleIncandescenceB
 
 
@@ -51,11 +51,11 @@ class ParticleIncandescenceField(
     ATTR_CLS = ParticleIncandescenceAttrOperator
     PLUG_CLS = ParticleIncandescencePlugOperator
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0)
     pib = particleIncandescenceB

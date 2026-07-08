@@ -50,7 +50,7 @@ class AiMixShader(DG):
 
     NODE_TYPE = "aiMixShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -59,10 +59,10 @@ class AiMixShader(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -71,7 +71,7 @@ class AiMixShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -80,7 +80,7 @@ class AiMixShader(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -89,17 +89,17 @@ class AiMixShader(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    mix = FloatField()
+    mix = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    addTransparency = BoolField()
+    addTransparency = BoolField(default_value=False)
     add_transparency = addTransparency
 
-    shader1A = FloatField()
+    shader1A = FloatField(default_value=5.885453550164232e-43, min_value=0.0, max_value=1.0)
     shader1a = shader1A
 
-    shader1 = Shader1Field()
+    shader1 = Shader1Field(default_value=(0.0, 0.0, 0.0))
     shader1R = shader1.shader1R
     shader1r = shader1R
     shader1G = shader1.shader1G
@@ -107,10 +107,10 @@ class AiMixShader(DG):
     shader1B = shader1.shader1B
     shader1b = shader1B
 
-    shader2A = FloatField()
+    shader2A = FloatField(default_value=5.885453550164232e-43, min_value=0.0, max_value=1.0)
     shader2a = shader2A
 
-    shader2 = Shader2Field()
+    shader2 = Shader2Field(default_value=(0.0, 0.0, 0.0))
     shader2R = shader2.shader2R
     shader2r = shader2R
     shader2G = shader2.shader2G

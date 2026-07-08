@@ -25,16 +25,16 @@ class AttributePlugOperator(
         ("source", "src"),
     )
 
-    input = GenericField()
+    input = GenericField(readable=False)
     ai = input
 
-    value = DoubleField()
+    value = DoubleField(default_value=0.0)
     av = value
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     as_ = start
 
-    switcher = BoolField()
+    switcher = BoolField(default_value=False)
     sw = switcher
 
     source = DataStringField()
@@ -46,16 +46,16 @@ class AttributeAttrOperator(
 ):
     __slots__ = ()
 
-    input = GenericField()
+    input = GenericField(readable=False)
     ai = input
 
-    value = DoubleField()
+    value = DoubleField(default_value=0.0)
     av = value
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     as_ = start
 
-    switcher = BoolField()
+    switcher = BoolField(default_value=False)
     sw = switcher
 
     source = DataStringField()
@@ -82,16 +82,16 @@ class LayerAttributePlugOperator(
         ("layerAttributeValue", "lv"),
     )
 
-    layerAttributeIndex = LongField()
+    layerAttributeIndex = LongField(default_value=-1, min_value=0)
     lai = layerAttributeIndex
 
-    layerAttributeLayerId = LongField()
+    layerAttributeLayerId = LongField(default_value=-1)
     lid = layerAttributeLayerId
 
     layerAttributeInput = GenericField()
     lin = layerAttributeInput
 
-    layerAttributeValue = DoubleField()
+    layerAttributeValue = DoubleField(default_value=0.0)
     lv = layerAttributeValue
 
 
@@ -100,16 +100,16 @@ class LayerAttributeAttrOperator(
 ):
     __slots__ = ()
 
-    layerAttributeIndex = LongField()
+    layerAttributeIndex = LongField(default_value=-1, min_value=0)
     lai = layerAttributeIndex
 
-    layerAttributeLayerId = LongField()
+    layerAttributeLayerId = LongField(default_value=-1)
     lid = layerAttributeLayerId
 
     layerAttributeInput = GenericField()
     lin = layerAttributeInput
 
-    layerAttributeValue = DoubleField()
+    layerAttributeValue = DoubleField(default_value=0.0)
     lv = layerAttributeValue
 
 

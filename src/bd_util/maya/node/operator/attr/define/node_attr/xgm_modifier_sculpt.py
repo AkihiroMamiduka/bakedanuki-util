@@ -30,16 +30,16 @@ class TweaksPlugOperator(
     tweak = TypedField()
     t = tweak
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     e = enable
 
-    lock = BoolField()
+    lock = BoolField(default_value=False)
     l = lock
 
-    strength = FloatField()
+    strength = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     s = strength
 
-    ownerId = LongField()
+    ownerId = LongField(default_value=-1)
     oi = ownerId
 
     uiName = DataStringField()
@@ -48,7 +48,7 @@ class TweaksPlugOperator(
     uiGroup = DataStringField()
     uig = uiGroup
 
-    uiOrder = LongField()
+    uiOrder = LongField(default_value=0)
     uio = uiOrder
 
 
@@ -60,16 +60,16 @@ class TweaksAttrOperator(
     tweak = TypedField()
     t = tweak
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     e = enable
 
-    lock = BoolField()
+    lock = BoolField(default_value=False)
     l = lock
 
-    strength = FloatField()
+    strength = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     s = strength
 
-    ownerId = LongField()
+    ownerId = LongField(default_value=-1)
     oi = ownerId
 
     uiName = DataStringField()
@@ -78,7 +78,7 @@ class TweaksAttrOperator(
     uiGroup = DataStringField()
     uig = uiGroup
 
-    uiOrder = LongField()
+    uiOrder = LongField(default_value=0)
     uio = uiOrder
 
 
@@ -102,16 +102,16 @@ class TweakGroupsPlugOperator(
         ("tweakGroupUIOrder", "tgo"),
     )
 
-    tweakGroupEnable = BoolField()
+    tweakGroupEnable = BoolField(default_value=True)
     tge = tweakGroupEnable
 
-    tweakGroupOwnerId = LongField()
+    tweakGroupOwnerId = LongField(default_value=-1)
     tgi = tweakGroupOwnerId
 
     tweakGroupUIName = DataStringField()
     tgn = tweakGroupUIName
 
-    tweakGroupUIOrder = LongField()
+    tweakGroupUIOrder = LongField(default_value=0)
     tgo = tweakGroupUIOrder
 
 
@@ -120,16 +120,16 @@ class TweakGroupsAttrOperator(
 ):
     __slots__ = ()
 
-    tweakGroupEnable = BoolField()
+    tweakGroupEnable = BoolField(default_value=True)
     tge = tweakGroupEnable
 
-    tweakGroupOwnerId = LongField()
+    tweakGroupOwnerId = LongField(default_value=-1)
     tgi = tweakGroupOwnerId
 
     tweakGroupUIName = DataStringField()
     tgn = tweakGroupUIName
 
-    tweakGroupUIOrder = LongField()
+    tweakGroupUIOrder = LongField(default_value=0)
     tgo = tweakGroupUIOrder
 
 

@@ -148,38 +148,38 @@ class Resolution(DG):
 
     NODE_TYPE = "resolution"
 
-    width = LongField()
+    width = LongField(default_value=960, min_value=2, soft_min_value=128, soft_max_value=8192)
     w = width
 
-    height = LongField()
+    height = LongField(default_value=540, min_value=2, soft_min_value=128, soft_max_value=8192)
     h = height
 
-    pixelAspect = FloatField()
+    pixelAspect = FloatField(default_value=0.0)
     pa = pixelAspect
 
-    aspectLock = BoolField()
+    aspectLock = BoolField(default_value=False)
     al = aspectLock
 
-    deviceAspectRatio = FloatField()
+    deviceAspectRatio = FloatField(default_value=1.7777776718139648, min_value=0.0, soft_max_value=10.0)
     dar = deviceAspectRatio
 
-    lockDeviceAspectRatio = BoolField()
+    lockDeviceAspectRatio = BoolField(default_value=False)
     ldar = lockDeviceAspectRatio
 
-    dotsPerInch = FloatField()
+    dotsPerInch = FloatField(default_value=72.0, min_value=1.0)
     dpi = dotsPerInch
 
-    oddFieldFirst = BoolField()
+    oddFieldFirst = BoolField(default_value=True)
     off = oddFieldFirst
 
-    fields = FieldsEnumField()
+    fields = FieldsEnumField(default_value=0)
     fld = fields
 
-    zerothScanline = ZerothScanlineEnumField()
+    zerothScanline = ZerothScanlineEnumField(default_value=0)
     zsl = zerothScanline
 
-    imageSizeUnits = ImageSizeUnitsEnumField()
+    imageSizeUnits = ImageSizeUnitsEnumField(default_value=0)
     isu = imageSizeUnits
 
-    pixelDensityUnits = PixelDensityUnitsEnumField()
+    pixelDensityUnits = PixelDensityUnitsEnumField(default_value=0)
     pdu = pixelDensityUnits

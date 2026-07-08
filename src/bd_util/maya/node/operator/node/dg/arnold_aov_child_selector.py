@@ -10,13 +10,13 @@ class ArnoldAOVChildSelector(DG):
 
     NODE_TYPE = "arnoldAOVChildSelector"
 
-    input = LongField()
+    input = LongField(default_value=0)
     in_ = input
 
-    output = LongField()
+    output = LongField(default_value=0)
     out = output
 
-    collection = MessageField()
+    collection = MessageField(writable=False)
     c = collection
 
     arnoldAOVNodeName = DataStringField()

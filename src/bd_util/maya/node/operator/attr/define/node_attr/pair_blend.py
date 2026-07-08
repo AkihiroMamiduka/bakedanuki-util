@@ -24,13 +24,13 @@ class InTranslate1PlugOperator(
         ("inTranslateZ1", "itz1"),
     )
 
-    inTranslateX1 = DoubleLinearField()
+    inTranslateX1 = DoubleLinearField(default_value=0.0)
     itx1 = inTranslateX1
 
-    inTranslateY1 = DoubleLinearField()
+    inTranslateY1 = DoubleLinearField(default_value=0.0)
     ity1 = inTranslateY1
 
-    inTranslateZ1 = DoubleLinearField()
+    inTranslateZ1 = DoubleLinearField(default_value=0.0)
     itz1 = inTranslateZ1
 
 
@@ -39,13 +39,13 @@ class InTranslate1AttrOperator(
 ):
     __slots__ = ()
 
-    inTranslateX1 = DoubleLinearField()
+    inTranslateX1 = DoubleLinearField(default_value=0.0)
     itx1 = inTranslateX1
 
-    inTranslateY1 = DoubleLinearField()
+    inTranslateY1 = DoubleLinearField(default_value=0.0)
     ity1 = inTranslateY1
 
-    inTranslateZ1 = DoubleLinearField()
+    inTranslateZ1 = DoubleLinearField(default_value=0.0)
     itz1 = inTranslateZ1
 
 
@@ -57,13 +57,13 @@ class InTranslate1Field(
     ATTR_CLS = InTranslate1AttrOperator
     PLUG_CLS = InTranslate1PlugOperator
 
-    inTranslateX1 = DoubleLinearField()
+    inTranslateX1 = DoubleLinearField(default_value=0.0)
     itx1 = inTranslateX1
 
-    inTranslateY1 = DoubleLinearField()
+    inTranslateY1 = DoubleLinearField(default_value=0.0)
     ity1 = inTranslateY1
 
-    inTranslateZ1 = DoubleLinearField()
+    inTranslateZ1 = DoubleLinearField(default_value=0.0)
     itz1 = inTranslateZ1
 
 
@@ -77,13 +77,13 @@ class InRotate1PlugOperator(
         ("inRotateZ1", "irz1"),
     )
 
-    inRotateX1 = DoubleAngleField()
+    inRotateX1 = DoubleAngleField(default_value=0.0)
     irx1 = inRotateX1
 
-    inRotateY1 = DoubleAngleField()
+    inRotateY1 = DoubleAngleField(default_value=0.0)
     iry1 = inRotateY1
 
-    inRotateZ1 = DoubleAngleField()
+    inRotateZ1 = DoubleAngleField(default_value=0.0)
     irz1 = inRotateZ1
 
 
@@ -92,13 +92,13 @@ class InRotate1AttrOperator(
 ):
     __slots__ = ()
 
-    inRotateX1 = DoubleAngleField()
+    inRotateX1 = DoubleAngleField(default_value=0.0)
     irx1 = inRotateX1
 
-    inRotateY1 = DoubleAngleField()
+    inRotateY1 = DoubleAngleField(default_value=0.0)
     iry1 = inRotateY1
 
-    inRotateZ1 = DoubleAngleField()
+    inRotateZ1 = DoubleAngleField(default_value=0.0)
     irz1 = inRotateZ1
 
 
@@ -110,13 +110,13 @@ class InRotate1Field(
     ATTR_CLS = InRotate1AttrOperator
     PLUG_CLS = InRotate1PlugOperator
 
-    inRotateX1 = DoubleAngleField()
+    inRotateX1 = DoubleAngleField(default_value=0.0)
     irx1 = inRotateX1
 
-    inRotateY1 = DoubleAngleField()
+    inRotateY1 = DoubleAngleField(default_value=0.0)
     iry1 = inRotateY1
 
-    inRotateZ1 = DoubleAngleField()
+    inRotateZ1 = DoubleAngleField(default_value=0.0)
     irz1 = inRotateZ1
 
 
@@ -130,13 +130,13 @@ class InTranslate2PlugOperator(
         ("inTranslateZ2", "itz2"),
     )
 
-    inTranslateX2 = DoubleLinearField()
+    inTranslateX2 = DoubleLinearField(default_value=0.0)
     itx2 = inTranslateX2
 
-    inTranslateY2 = DoubleLinearField()
+    inTranslateY2 = DoubleLinearField(default_value=0.0)
     ity2 = inTranslateY2
 
-    inTranslateZ2 = DoubleLinearField()
+    inTranslateZ2 = DoubleLinearField(default_value=0.0)
     itz2 = inTranslateZ2
 
 
@@ -145,13 +145,13 @@ class InTranslate2AttrOperator(
 ):
     __slots__ = ()
 
-    inTranslateX2 = DoubleLinearField()
+    inTranslateX2 = DoubleLinearField(default_value=0.0)
     itx2 = inTranslateX2
 
-    inTranslateY2 = DoubleLinearField()
+    inTranslateY2 = DoubleLinearField(default_value=0.0)
     ity2 = inTranslateY2
 
-    inTranslateZ2 = DoubleLinearField()
+    inTranslateZ2 = DoubleLinearField(default_value=0.0)
     itz2 = inTranslateZ2
 
 
@@ -163,13 +163,13 @@ class InTranslate2Field(
     ATTR_CLS = InTranslate2AttrOperator
     PLUG_CLS = InTranslate2PlugOperator
 
-    inTranslateX2 = DoubleLinearField()
+    inTranslateX2 = DoubleLinearField(default_value=0.0)
     itx2 = inTranslateX2
 
-    inTranslateY2 = DoubleLinearField()
+    inTranslateY2 = DoubleLinearField(default_value=0.0)
     ity2 = inTranslateY2
 
-    inTranslateZ2 = DoubleLinearField()
+    inTranslateZ2 = DoubleLinearField(default_value=0.0)
     itz2 = inTranslateZ2
 
 
@@ -183,13 +183,13 @@ class InRotate2PlugOperator(
         ("inRotateZ2", "irz2"),
     )
 
-    inRotateX2 = DoubleAngleField()
+    inRotateX2 = DoubleAngleField(default_value=0.0)
     irx2 = inRotateX2
 
-    inRotateY2 = DoubleAngleField()
+    inRotateY2 = DoubleAngleField(default_value=0.0)
     iry2 = inRotateY2
 
-    inRotateZ2 = DoubleAngleField()
+    inRotateZ2 = DoubleAngleField(default_value=0.0)
     irz2 = inRotateZ2
 
 
@@ -198,13 +198,13 @@ class InRotate2AttrOperator(
 ):
     __slots__ = ()
 
-    inRotateX2 = DoubleAngleField()
+    inRotateX2 = DoubleAngleField(default_value=0.0)
     irx2 = inRotateX2
 
-    inRotateY2 = DoubleAngleField()
+    inRotateY2 = DoubleAngleField(default_value=0.0)
     iry2 = inRotateY2
 
-    inRotateZ2 = DoubleAngleField()
+    inRotateZ2 = DoubleAngleField(default_value=0.0)
     irz2 = inRotateZ2
 
 
@@ -216,13 +216,13 @@ class InRotate2Field(
     ATTR_CLS = InRotate2AttrOperator
     PLUG_CLS = InRotate2PlugOperator
 
-    inRotateX2 = DoubleAngleField()
+    inRotateX2 = DoubleAngleField(default_value=0.0)
     irx2 = inRotateX2
 
-    inRotateY2 = DoubleAngleField()
+    inRotateY2 = DoubleAngleField(default_value=0.0)
     iry2 = inRotateY2
 
-    inRotateZ2 = DoubleAngleField()
+    inRotateZ2 = DoubleAngleField(default_value=0.0)
     irz2 = inRotateZ2
 
 
@@ -236,13 +236,13 @@ class OutTranslatePlugOperator(
         ("outTranslateZ", "otz"),
     )
 
-    outTranslateX = DoubleLinearField()
+    outTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outTranslateX
 
-    outTranslateY = DoubleLinearField()
+    outTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outTranslateY
 
-    outTranslateZ = DoubleLinearField()
+    outTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outTranslateZ
 
 
@@ -251,13 +251,13 @@ class OutTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    outTranslateX = DoubleLinearField()
+    outTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outTranslateX
 
-    outTranslateY = DoubleLinearField()
+    outTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outTranslateY
 
-    outTranslateZ = DoubleLinearField()
+    outTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outTranslateZ
 
 
@@ -269,13 +269,13 @@ class OutTranslateField(
     ATTR_CLS = OutTranslateAttrOperator
     PLUG_CLS = OutTranslatePlugOperator
 
-    outTranslateX = DoubleLinearField()
+    outTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outTranslateX
 
-    outTranslateY = DoubleLinearField()
+    outTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outTranslateY
 
-    outTranslateZ = DoubleLinearField()
+    outTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outTranslateZ
 
 
@@ -289,13 +289,13 @@ class OutRotatePlugOperator(
         ("outRotateZ", "orz"),
     )
 
-    outRotateX = DoubleAngleField()
+    outRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outRotateX
 
-    outRotateY = DoubleAngleField()
+    outRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outRotateY
 
-    outRotateZ = DoubleAngleField()
+    outRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outRotateZ
 
 
@@ -304,13 +304,13 @@ class OutRotateAttrOperator(
 ):
     __slots__ = ()
 
-    outRotateX = DoubleAngleField()
+    outRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outRotateX
 
-    outRotateY = DoubleAngleField()
+    outRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outRotateY
 
-    outRotateZ = DoubleAngleField()
+    outRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outRotateZ
 
 
@@ -322,11 +322,11 @@ class OutRotateField(
     ATTR_CLS = OutRotateAttrOperator
     PLUG_CLS = OutRotatePlugOperator
 
-    outRotateX = DoubleAngleField()
+    outRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outRotateX
 
-    outRotateY = DoubleAngleField()
+    outRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outRotateY
 
-    outRotateZ = DoubleAngleField()
+    outRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outRotateZ

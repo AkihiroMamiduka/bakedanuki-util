@@ -20,7 +20,7 @@ class BlindDataPresetsPlugOperator(
     bdPresetName = DataStringField()
     bdpn = bdPresetName
 
-    bdPresetElements = CompoundField()
+    bdPresetElements = CompoundField(multi=True)
     bdpe = bdPresetElements
 
 
@@ -32,7 +32,7 @@ class BlindDataPresetsAttrOperator(
     bdPresetName = DataStringField()
     bdpn = bdPresetName
 
-    bdPresetElements = CompoundField()
+    bdPresetElements = CompoundField(multi=True)
     bdpe = bdPresetElements
 
 

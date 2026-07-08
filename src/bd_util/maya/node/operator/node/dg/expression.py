@@ -80,13 +80,13 @@ class Expression(DG):
 
     NODE_TYPE = "expression"
 
-    input = DoubleField(multi=True)
+    input = DoubleField(multi=True, default_value=0.0)
     in_ = input
 
-    output = DoubleField(multi=True)
+    output = DoubleField(multi=True, default_value=0.0)
     out = output
 
-    object = DataStringField()
+    object = DataStringField(writable=False)
     ob = object
 
     attribute = DataStringField()
@@ -95,32 +95,32 @@ class Expression(DG):
     expression = DataStringField()
     e = expression
 
-    exprConnCount = LongField()
+    exprConnCount = LongField(default_value=0, writable=False)
     xcc = exprConnCount
 
     internalExpression = DataStringField()
     ixp = internalExpression
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tim = time
 
-    frame = TimeField()
+    frame = TimeField(default_value=0.0)
     frm = frame
 
-    lastTimeEvaluated = TimeField()
+    lastTimeEvaluated = TimeField(default_value=0.0)
     lte = lastTimeEvaluated
 
-    evaluateNow = ShortField()
+    evaluateNow = ShortField(default_value=0, writable=False)
     xen = evaluateNow
 
-    animated = AnimatedEnumField()
+    animated = AnimatedEnumField(default_value=1)
     ani = animated
 
-    newFileFormat = ShortField()
+    newFileFormat = ShortField(default_value=0, writable=False)
     nff = newFileFormat
 
     objectMsg = MessageField()
     obm = objectMsg
 
-    unitOption = UnitOptionEnumField()
+    unitOption = UnitOptionEnumField(default_value=0)
     uno = unitOption

@@ -24,7 +24,7 @@ class Snow(DG):
 
     NODE_TYPE = "snow"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -33,7 +33,7 @@ class Snow(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -42,7 +42,7 @@ class Snow(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -57,28 +57,28 @@ class Snow(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -87,7 +87,7 @@ class Snow(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -96,13 +96,13 @@ class Snow(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -111,7 +111,7 @@ class Snow(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -120,10 +120,10 @@ class Snow(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -132,7 +132,7 @@ class Snow(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -141,7 +141,7 @@ class Snow(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -153,7 +153,7 @@ class Snow(DG):
     eyeToTextureMatrix = FltMatrixField()
     e2t = eyeToTextureMatrix
 
-    snowColor = SnowColorField()
+    snowColor = SnowColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     sn = snowColor
     snowColorR = snowColor.snowColorR
     snr = snowColorR
@@ -162,7 +162,7 @@ class Snow(DG):
     snowColorB = snowColor.snowColorB
     snb = snowColorB
 
-    surfaceColor = SurfaceColorField()
+    surfaceColor = SurfaceColorField(default_value=(0.5, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     su = surfaceColor
     surfaceColorR = surfaceColor.surfaceColorR
     sur = surfaceColorR
@@ -171,11 +171,11 @@ class Snow(DG):
     surfaceColorB = surfaceColor.surfaceColorB
     sub = surfaceColorB
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     th = threshold
 
-    depthDecay = FloatField()
+    depthDecay = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
     dd = depthDecay
 
-    thickness = FloatField()
+    thickness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     tn = thickness

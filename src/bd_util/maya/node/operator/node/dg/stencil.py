@@ -19,33 +19,33 @@ class Stencil(DG):
 
     NODE_TYPE = "stencil"
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -54,7 +54,7 @@ class Stencil(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -63,13 +63,13 @@ class Stencil(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -78,7 +78,7 @@ class Stencil(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -87,10 +87,10 @@ class Stencil(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    image = ImageField()
+    image = ImageField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     im = image
     imageR = image.imageR
     imr = imageR
@@ -99,19 +99,19 @@ class Stencil(DG):
     imageB = image.imageB
     imb = imageB
 
-    mask = FloatField()
+    mask = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     m = mask
 
-    edgeBlend = FloatField()
+    edgeBlend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     eb = edgeBlend
 
-    keyMasking = BoolField()
+    keyMasking = BoolField(default_value=False)
     km = keyMasking
 
-    positiveKey = BoolField()
+    positiveKey = BoolField(default_value=False)
     pk = positiveKey
 
-    colorKey = ColorKeyField()
+    colorKey = ColorKeyField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     ck = colorKey
     colorKeyR = colorKey.colorKeyR
     ckr = colorKeyR
@@ -120,14 +120,14 @@ class Stencil(DG):
     colorKeyB = colorKey.colorKeyB
     ckb = colorKeyB
 
-    hueRange = FloatField()
+    hueRange = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hr = hueRange
 
-    saturationRange = FloatField()
+    saturationRange = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sr = saturationRange
 
-    valueRange = FloatField()
+    valueRange = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     vr = valueRange
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     th = threshold

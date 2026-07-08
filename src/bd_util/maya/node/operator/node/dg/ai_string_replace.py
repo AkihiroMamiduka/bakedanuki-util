@@ -49,9 +49,9 @@ class AiStringReplace(DG):
 
     NODE_TYPE = "aiStringReplace"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
@@ -61,4 +61,4 @@ class AiStringReplace(DG):
 
     replace = DataStringField()
 
-    os = OsEnumField()
+    os = OsEnumField(default_value=0)

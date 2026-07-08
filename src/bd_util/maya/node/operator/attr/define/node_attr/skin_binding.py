@@ -57,13 +57,13 @@ class FalloffCurvePlugOperator(
         ("falloffCurve_Interp", "fci"),
     )
 
-    falloffCurve_Position = FloatField()
+    falloffCurve_Position = FloatField(default_value=0.0)
     fcp = falloffCurve_Position
 
-    falloffCurve_FloatValue = FloatField()
+    falloffCurve_FloatValue = FloatField(default_value=0.0)
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = FalloffCurve_InterpEnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField(default_value=0)
     fci = falloffCurve_Interp
 
 
@@ -72,13 +72,13 @@ class FalloffCurveAttrOperator(
 ):
     __slots__ = ()
 
-    falloffCurve_Position = FloatField()
+    falloffCurve_Position = FloatField(default_value=0.0)
     fcp = falloffCurve_Position
 
-    falloffCurve_FloatValue = FloatField()
+    falloffCurve_FloatValue = FloatField(default_value=0.0)
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = FalloffCurve_InterpEnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField(default_value=0)
     fci = falloffCurve_Interp
 
 

@@ -65,13 +65,13 @@ class AiAOV(DG):
 
     NODE_TYPE = "aiAOV"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True)
     aoven = enabled
 
     name_ = DataStringField(long_name="name", short_name="aovn")
     aovn = name_
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=6)
     aovt = type
 
     defaultValue = MessageField()
@@ -92,10 +92,10 @@ class AiAOV(DG):
     lightPathExpression = DataStringField()
     lpe = lightPathExpression
 
-    lightGroups = BoolField()
+    lightGroups = BoolField(default_value=False)
     lg = lightGroups
 
-    globalAov = BoolField()
+    globalAov = BoolField(default_value=True)
     ga = globalAov
 
     lightGroupsList = DataStringField()
@@ -104,5 +104,5 @@ class AiAOV(DG):
     camera = DataStringField()
     cam = camera
 
-    denoise = BoolField()
+    denoise = BoolField(default_value=False)
     den = denoise

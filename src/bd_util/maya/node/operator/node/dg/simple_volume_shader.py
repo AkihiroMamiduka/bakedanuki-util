@@ -15,10 +15,10 @@ class SimpleVolumeShader(DG):
 
     NODE_TYPE = "simpleVolumeShader"
 
-    parameter1 = FloatField()
+    parameter1 = FloatField(default_value=0.44999998807907104)
     p1 = parameter1
 
-    color = ColorField()
+    color = ColorField(default_value=(0.0, 0.5882400274276733, 0.6439999938011169))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -27,7 +27,7 @@ class SimpleVolumeShader(DG):
     colorB = color.colorB
     cb = colorB
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(1.0, 1.0, 1.0), readable=False)
     p = pointWorld
     pointWorldX = pointWorld.pointWorldX
     px = pointWorldX
@@ -36,7 +36,7 @@ class SimpleVolumeShader(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pz = pointWorldZ
 
-    farPointWorld = FarPointWorldField()
+    farPointWorld = FarPointWorldField(default_value=(1.0, 1.0, 1.0), readable=False)
     fp = farPointWorld
     farPointWorldX = farPointWorld.farPointWorldX
     fpx = farPointWorldX
@@ -45,7 +45,7 @@ class SimpleVolumeShader(DG):
     farPointWorldZ = farPointWorld.farPointWorldZ
     fpz = farPointWorldZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -54,7 +54,7 @@ class SimpleVolumeShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

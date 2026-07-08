@@ -112,10 +112,10 @@ class PolyHelix(DG):
 
     NODE_TYPE = "polyHelix"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 1.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -124,16 +124,16 @@ class PolyHelix(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField()
+    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     hbl = heightBaseline
 
-    paramWarn = BoolField()
+    paramWarn = BoolField(default_value=True)
     pw = paramWarn
 
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    componentTagCreate = BoolField()
+    componentTagCreate = BoolField(default_value=True)
     ctc = componentTagCreate
 
     componentTagPrefix = DataStringField()
@@ -142,41 +142,41 @@ class PolyHelix(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    coils = DoubleField()
+    coils = DoubleField(default_value=3.0, min_value=0.5, soft_max_value=20.0)
     c = coils
 
-    height = DoubleLinearField()
+    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
     h = height
 
-    width = DoubleLinearField()
+    width = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
     w = width
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=0.4, min_value=0.01, soft_max_value=20.0)
     r = radius
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=1)
     d = direction
 
-    subdivisionsAxis = LongField()
+    subdivisionsAxis = LongField(default_value=8, min_value=3, max_value=1001, soft_max_value=100)
     sa = subdivisionsAxis
 
-    subdivisionsCoil = LongField()
+    subdivisionsCoil = LongField(default_value=50, min_value=2, max_value=10001, soft_max_value=1000)
     sco = subdivisionsCoil
 
-    subdivisionsCaps = LongField()
+    subdivisionsCaps = LongField(default_value=0, min_value=0, max_value=1001, soft_max_value=50)
     sc = subdivisionsCaps
 
-    texture = TextureEnumField()
+    texture = TextureEnumField(default_value=2)
     tx = texture
 
-    createUVs = CreateUVsEnumField()
+    createUVs = CreateUVsEnumField(default_value=2)
     cuv = createUVs
 
-    roundCap = BoolField()
+    roundCap = BoolField(default_value=False)
     rcp = roundCap
 
-    useOldInitBehaviour = BoolField()
+    useOldInitBehaviour = BoolField(default_value=False)
     oib = useOldInitBehaviour
 
-    maya2022UVs = BoolField()
+    maya2022UVs = BoolField(default_value=False)
     ouv = maya2022UVs

@@ -12,7 +12,7 @@ class QuatToAxisAngle(DG):
 
     NODE_TYPE = "quatToAxisAngle"
 
-    inputQuat = InputQuatField()
+    inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat
     inputQuatX = inputQuat.inputQuatX
     iqx = inputQuatX
@@ -23,7 +23,7 @@ class QuatToAxisAngle(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    outputAxis = OutputAxisField()
+    outputAxis = OutputAxisField(default_value=(0.0, 0.0, 0.0), writable=False)
     oa = outputAxis
     outputAxisX = outputAxis.outputAxisX
     oax = outputAxisX
@@ -32,5 +32,5 @@ class QuatToAxisAngle(DG):
     outputAxisZ = outputAxis.outputAxisZ
     oaz = outputAxisZ
 
-    outputAngle = DoubleAngleField()
+    outputAngle = DoubleAngleField(default_value=0.0, writable=False)
     oang = outputAngle

@@ -48,10 +48,10 @@ class Controller(DG):
     controllerObject = MessageField()
     act = controllerObject
 
-    visibilityMode = VisibilityModeEnumField()
+    visibilityMode = VisibilityModeEnumField(default_value=0)
     vism = visibilityMode
 
-    cycleWalkSibling = BoolField()
+    cycleWalkSibling = BoolField(default_value=False)
     cwsb = cycleWalkSibling
 
     parent = MessageField()
@@ -60,8 +60,8 @@ class Controller(DG):
     children = MessageField(multi=True)
     child = children
 
-    parentprepopulate = BoolField()
+    parentprepopulate = BoolField(default_value=True)
     ppp = parentprepopulate
 
-    prepopulate = BoolField()
+    prepopulate = BoolField(default_value=True)
     prep = prepopulate

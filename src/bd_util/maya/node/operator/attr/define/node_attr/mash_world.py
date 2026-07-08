@@ -73,13 +73,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -88,13 +88,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -106,13 +106,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -126,13 +126,13 @@ class AvoidanceRampPlugOperator(
         ("avoidanceRamp_Interp", "avoidanceRampi"),
     )
 
-    avoidanceRamp_Position = FloatField()
+    avoidanceRamp_Position = FloatField(default_value=0.0)
     avoidanceRampp = avoidanceRamp_Position
 
-    avoidanceRamp_FloatValue = FloatField()
+    avoidanceRamp_FloatValue = FloatField(default_value=0.0)
     avoidanceRampfv = avoidanceRamp_FloatValue
 
-    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField()
+    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField(default_value=1)
     avoidanceRampi = avoidanceRamp_Interp
 
 
@@ -141,13 +141,13 @@ class AvoidanceRampAttrOperator(
 ):
     __slots__ = ()
 
-    avoidanceRamp_Position = FloatField()
+    avoidanceRamp_Position = FloatField(default_value=0.0)
     avoidanceRampp = avoidanceRamp_Position
 
-    avoidanceRamp_FloatValue = FloatField()
+    avoidanceRamp_FloatValue = FloatField(default_value=0.0)
     avoidanceRampfv = avoidanceRamp_FloatValue
 
-    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField()
+    avoidanceRamp_Interp = AvoidanceRamp_InterpEnumField(default_value=1)
     avoidanceRampi = avoidanceRamp_Interp
 
 
@@ -170,11 +170,11 @@ class RandomRotatePlugOperator(
         ("randomRotateZ", "randomRotateZ"),
     )
 
-    randomRotateX = DoubleAngleField()
+    randomRotateX = DoubleAngleField(default_value=0.0)
 
-    randomRotateY = DoubleAngleField()
+    randomRotateY = DoubleAngleField(default_value=360.00026887880375)
 
-    randomRotateZ = DoubleAngleField()
+    randomRotateZ = DoubleAngleField(default_value=0.0)
 
 
 class RandomRotateAttrOperator(
@@ -182,11 +182,11 @@ class RandomRotateAttrOperator(
 ):
     __slots__ = ()
 
-    randomRotateX = DoubleAngleField()
+    randomRotateX = DoubleAngleField(default_value=0.0)
 
-    randomRotateY = DoubleAngleField()
+    randomRotateY = DoubleAngleField(default_value=360.00026887880375)
 
-    randomRotateZ = DoubleAngleField()
+    randomRotateZ = DoubleAngleField(default_value=0.0)
 
 
 class RandomRotateField(
@@ -197,11 +197,11 @@ class RandomRotateField(
     ATTR_CLS = RandomRotateAttrOperator
     PLUG_CLS = RandomRotatePlugOperator
 
-    randomRotateX = DoubleAngleField()
+    randomRotateX = DoubleAngleField(default_value=0.0)
 
-    randomRotateY = DoubleAngleField()
+    randomRotateY = DoubleAngleField(default_value=360.00026887880375)
 
-    randomRotateZ = DoubleAngleField()
+    randomRotateZ = DoubleAngleField(default_value=0.0)
 
 
 class ScaleMapPlugOperator(
@@ -214,13 +214,13 @@ class ScaleMapPlugOperator(
         ("scaleMapB", "scaleMapb"),
     )
 
-    scaleMapR = FloatField()
+    scaleMapR = FloatField(default_value=1.0)
     scaleMapr = scaleMapR
 
-    scaleMapG = FloatField()
+    scaleMapG = FloatField(default_value=1.0)
     scaleMapg = scaleMapG
 
-    scaleMapB = FloatField()
+    scaleMapB = FloatField(default_value=1.0)
     scaleMapb = scaleMapB
 
 
@@ -229,13 +229,13 @@ class ScaleMapAttrOperator(
 ):
     __slots__ = ()
 
-    scaleMapR = FloatField()
+    scaleMapR = FloatField(default_value=1.0)
     scaleMapr = scaleMapR
 
-    scaleMapG = FloatField()
+    scaleMapG = FloatField(default_value=1.0)
     scaleMapg = scaleMapG
 
-    scaleMapB = FloatField()
+    scaleMapB = FloatField(default_value=1.0)
     scaleMapb = scaleMapB
 
 
@@ -247,13 +247,13 @@ class ScaleMapField(
     ATTR_CLS = ScaleMapAttrOperator
     PLUG_CLS = ScaleMapPlugOperator
 
-    scaleMapR = FloatField()
+    scaleMapR = FloatField(default_value=1.0)
     scaleMapr = scaleMapR
 
-    scaleMapG = FloatField()
+    scaleMapG = FloatField(default_value=1.0)
     scaleMapg = scaleMapG
 
-    scaleMapB = FloatField()
+    scaleMapB = FloatField(default_value=1.0)
     scaleMapb = scaleMapB
 
 
@@ -267,11 +267,11 @@ class UpVectorPlugOperator(
         ("upVector2", "upVector2"),
     )
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class UpVectorAttrOperator(
@@ -279,11 +279,11 @@ class UpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class UpVectorField(
@@ -294,11 +294,11 @@ class UpVectorField(
     ATTR_CLS = UpVectorAttrOperator
     PLUG_CLS = UpVectorPlugOperator
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
 
 
 class PruningStrengthMapPlugOperator(
@@ -311,13 +311,13 @@ class PruningStrengthMapPlugOperator(
         ("pruningStrengthMapB", "pruningStrengthMapb"),
     )
 
-    pruningStrengthMapR = FloatField()
+    pruningStrengthMapR = FloatField(default_value=1.0)
     pruningStrengthMapr = pruningStrengthMapR
 
-    pruningStrengthMapG = FloatField()
+    pruningStrengthMapG = FloatField(default_value=1.0)
     pruningStrengthMapg = pruningStrengthMapG
 
-    pruningStrengthMapB = FloatField()
+    pruningStrengthMapB = FloatField(default_value=1.0)
     pruningStrengthMapb = pruningStrengthMapB
 
 
@@ -326,13 +326,13 @@ class PruningStrengthMapAttrOperator(
 ):
     __slots__ = ()
 
-    pruningStrengthMapR = FloatField()
+    pruningStrengthMapR = FloatField(default_value=1.0)
     pruningStrengthMapr = pruningStrengthMapR
 
-    pruningStrengthMapG = FloatField()
+    pruningStrengthMapG = FloatField(default_value=1.0)
     pruningStrengthMapg = pruningStrengthMapG
 
-    pruningStrengthMapB = FloatField()
+    pruningStrengthMapB = FloatField(default_value=1.0)
     pruningStrengthMapb = pruningStrengthMapB
 
 
@@ -344,13 +344,13 @@ class PruningStrengthMapField(
     ATTR_CLS = PruningStrengthMapAttrOperator
     PLUG_CLS = PruningStrengthMapPlugOperator
 
-    pruningStrengthMapR = FloatField()
+    pruningStrengthMapR = FloatField(default_value=1.0)
     pruningStrengthMapr = pruningStrengthMapR
 
-    pruningStrengthMapG = FloatField()
+    pruningStrengthMapG = FloatField(default_value=1.0)
     pruningStrengthMapg = pruningStrengthMapG
 
-    pruningStrengthMapB = FloatField()
+    pruningStrengthMapB = FloatField(default_value=1.0)
     pruningStrengthMapb = pruningStrengthMapB
 
 
@@ -364,13 +364,13 @@ class TerrainConditionsMapPlugOperator(
         ("terrainConditionsMapB", "terrainConditionsMapb"),
     )
 
-    terrainConditionsMapR = FloatField()
+    terrainConditionsMapR = FloatField(default_value=0.5)
     terrainConditionsMapr = terrainConditionsMapR
 
-    terrainConditionsMapG = FloatField()
+    terrainConditionsMapG = FloatField(default_value=0.5)
     terrainConditionsMapg = terrainConditionsMapG
 
-    terrainConditionsMapB = FloatField()
+    terrainConditionsMapB = FloatField(default_value=0.5)
     terrainConditionsMapb = terrainConditionsMapB
 
 
@@ -379,13 +379,13 @@ class TerrainConditionsMapAttrOperator(
 ):
     __slots__ = ()
 
-    terrainConditionsMapR = FloatField()
+    terrainConditionsMapR = FloatField(default_value=0.5)
     terrainConditionsMapr = terrainConditionsMapR
 
-    terrainConditionsMapG = FloatField()
+    terrainConditionsMapG = FloatField(default_value=0.5)
     terrainConditionsMapg = terrainConditionsMapG
 
-    terrainConditionsMapB = FloatField()
+    terrainConditionsMapB = FloatField(default_value=0.5)
     terrainConditionsMapb = terrainConditionsMapB
 
 
@@ -397,13 +397,13 @@ class TerrainConditionsMapField(
     ATTR_CLS = TerrainConditionsMapAttrOperator
     PLUG_CLS = TerrainConditionsMapPlugOperator
 
-    terrainConditionsMapR = FloatField()
+    terrainConditionsMapR = FloatField(default_value=0.5)
     terrainConditionsMapr = terrainConditionsMapR
 
-    terrainConditionsMapG = FloatField()
+    terrainConditionsMapG = FloatField(default_value=0.5)
     terrainConditionsMapg = terrainConditionsMapG
 
-    terrainConditionsMapB = FloatField()
+    terrainConditionsMapB = FloatField(default_value=0.5)
     terrainConditionsMapb = terrainConditionsMapB
 
 
@@ -417,13 +417,13 @@ class IdMapPlugOperator(
         ("idMapB", "idMapb"),
     )
 
-    idMapR = FloatField()
+    idMapR = FloatField(default_value=0.5)
     idMapr = idMapR
 
-    idMapG = FloatField()
+    idMapG = FloatField(default_value=0.5)
     idMapg = idMapG
 
-    idMapB = FloatField()
+    idMapB = FloatField(default_value=0.5)
     idMapb = idMapB
 
 
@@ -432,13 +432,13 @@ class IdMapAttrOperator(
 ):
     __slots__ = ()
 
-    idMapR = FloatField()
+    idMapR = FloatField(default_value=0.5)
     idMapr = idMapR
 
-    idMapG = FloatField()
+    idMapG = FloatField(default_value=0.5)
     idMapg = idMapG
 
-    idMapB = FloatField()
+    idMapB = FloatField(default_value=0.5)
     idMapb = idMapB
 
 
@@ -450,13 +450,13 @@ class IdMapField(
     ATTR_CLS = IdMapAttrOperator
     PLUG_CLS = IdMapPlugOperator
 
-    idMapR = FloatField()
+    idMapR = FloatField(default_value=0.5)
     idMapr = idMapR
 
-    idMapG = FloatField()
+    idMapG = FloatField(default_value=0.5)
     idMapg = idMapG
 
-    idMapB = FloatField()
+    idMapB = FloatField(default_value=0.5)
     idMapb = idMapB
 
 
@@ -470,13 +470,13 @@ class PoleDirectionPlugOperator(
         ("poleDirectionZ", "poleDirectionz"),
     )
 
-    poleDirectionX = FloatField()
+    poleDirectionX = FloatField(default_value=0.0)
     poleDirectionx = poleDirectionX
 
-    poleDirectionY = FloatField()
+    poleDirectionY = FloatField(default_value=0.0)
     poleDirectiony = poleDirectionY
 
-    poleDirectionZ = FloatField()
+    poleDirectionZ = FloatField(default_value=0.0)
     poleDirectionz = poleDirectionZ
 
 
@@ -485,13 +485,13 @@ class PoleDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    poleDirectionX = FloatField()
+    poleDirectionX = FloatField(default_value=0.0)
     poleDirectionx = poleDirectionX
 
-    poleDirectionY = FloatField()
+    poleDirectionY = FloatField(default_value=0.0)
     poleDirectiony = poleDirectionY
 
-    poleDirectionZ = FloatField()
+    poleDirectionZ = FloatField(default_value=0.0)
     poleDirectionz = poleDirectionZ
 
 
@@ -503,13 +503,13 @@ class PoleDirectionField(
     ATTR_CLS = PoleDirectionAttrOperator
     PLUG_CLS = PoleDirectionPlugOperator
 
-    poleDirectionX = FloatField()
+    poleDirectionX = FloatField(default_value=0.0)
     poleDirectionx = poleDirectionX
 
-    poleDirectionY = FloatField()
+    poleDirectionY = FloatField(default_value=0.0)
     poleDirectiony = poleDirectionY
 
-    poleDirectionZ = FloatField()
+    poleDirectionZ = FloatField(default_value=0.0)
     poleDirectionz = poleDirectionZ
 
 
@@ -522,9 +522,9 @@ class TimeRangePlugOperator(
         ("timeRange1", "timeRange1"),
     )
 
-    timeRange0 = FloatField()
+    timeRange0 = FloatField(default_value=0.0, min_value=0.0)
 
-    timeRange1 = FloatField()
+    timeRange1 = FloatField(default_value=120.0, min_value=0.0)
 
 
 class TimeRangeAttrOperator(
@@ -532,9 +532,9 @@ class TimeRangeAttrOperator(
 ):
     __slots__ = ()
 
-    timeRange0 = FloatField()
+    timeRange0 = FloatField(default_value=0.0, min_value=0.0)
 
-    timeRange1 = FloatField()
+    timeRange1 = FloatField(default_value=120.0, min_value=0.0)
 
 
 class TimeRangeField(
@@ -545,6 +545,6 @@ class TimeRangeField(
     ATTR_CLS = TimeRangeAttrOperator
     PLUG_CLS = TimeRangePlugOperator
 
-    timeRange0 = FloatField()
+    timeRange0 = FloatField(default_value=0.0, min_value=0.0)
 
-    timeRange1 = FloatField()
+    timeRange1 = FloatField(default_value=120.0, min_value=0.0)

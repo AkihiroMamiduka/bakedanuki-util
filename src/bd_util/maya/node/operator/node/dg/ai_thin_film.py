@@ -12,7 +12,7 @@ class AiThinFilm(DG):
 
     NODE_TYPE = "aiThinFilm"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -21,7 +21,7 @@ class AiThinFilm(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -30,19 +30,19 @@ class AiThinFilm(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    thicknessMin = FloatField()
+    thicknessMin = FloatField(default_value=250.0, min_value=0.0, soft_max_value=1000.0)
     thickness_min = thicknessMin
 
-    thicknessMax = FloatField()
+    thicknessMax = FloatField(default_value=400.0, min_value=0.0, soft_max_value=1000.0)
     thickness_max = thicknessMax
 
-    thickness = FloatField()
+    thickness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    iorMedium = FloatField()
+    iorMedium = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
     ior_medium = iorMedium
 
-    iorFilm = FloatField()
+    iorFilm = FloatField(default_value=1.5, min_value=0.0, soft_max_value=3.0)
     ior_film = iorFilm
 
-    iorInternal = FloatField()
+    iorInternal = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
     ior_internal = iorInternal

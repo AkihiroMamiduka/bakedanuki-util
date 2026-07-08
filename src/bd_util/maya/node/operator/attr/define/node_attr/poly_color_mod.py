@@ -193,13 +193,13 @@ class RedScalePlugOperator(
         ("redScale_Interp", "ri"),
     )
 
-    redScale_Position = FloatField()
+    redScale_Position = FloatField(default_value=0.0)
     rp = redScale_Position
 
-    redScale_FloatValue = FloatField()
+    redScale_FloatValue = FloatField(default_value=0.0)
     rfv = redScale_FloatValue
 
-    redScale_Interp = RedScale_InterpEnumField()
+    redScale_Interp = RedScale_InterpEnumField(default_value=0)
     ri = redScale_Interp
 
 
@@ -208,13 +208,13 @@ class RedScaleAttrOperator(
 ):
     __slots__ = ()
 
-    redScale_Position = FloatField()
+    redScale_Position = FloatField(default_value=0.0)
     rp = redScale_Position
 
-    redScale_FloatValue = FloatField()
+    redScale_FloatValue = FloatField(default_value=0.0)
     rfv = redScale_FloatValue
 
-    redScale_Interp = RedScale_InterpEnumField()
+    redScale_Interp = RedScale_InterpEnumField(default_value=0)
     ri = redScale_Interp
 
 
@@ -237,13 +237,13 @@ class GreenScalePlugOperator(
         ("greenScale_Interp", "gi"),
     )
 
-    greenScale_Position = FloatField()
+    greenScale_Position = FloatField(default_value=0.0)
     gp = greenScale_Position
 
-    greenScale_FloatValue = FloatField()
+    greenScale_FloatValue = FloatField(default_value=0.0)
     gfv = greenScale_FloatValue
 
-    greenScale_Interp = GreenScale_InterpEnumField()
+    greenScale_Interp = GreenScale_InterpEnumField(default_value=0)
     gi = greenScale_Interp
 
 
@@ -252,13 +252,13 @@ class GreenScaleAttrOperator(
 ):
     __slots__ = ()
 
-    greenScale_Position = FloatField()
+    greenScale_Position = FloatField(default_value=0.0)
     gp = greenScale_Position
 
-    greenScale_FloatValue = FloatField()
+    greenScale_FloatValue = FloatField(default_value=0.0)
     gfv = greenScale_FloatValue
 
-    greenScale_Interp = GreenScale_InterpEnumField()
+    greenScale_Interp = GreenScale_InterpEnumField(default_value=0)
     gi = greenScale_Interp
 
 
@@ -281,13 +281,13 @@ class BlueScalePlugOperator(
         ("blueScale_Interp", "bi"),
     )
 
-    blueScale_Position = FloatField()
+    blueScale_Position = FloatField(default_value=0.0)
     bp = blueScale_Position
 
-    blueScale_FloatValue = FloatField()
+    blueScale_FloatValue = FloatField(default_value=0.0)
     bfv = blueScale_FloatValue
 
-    blueScale_Interp = BlueScale_InterpEnumField()
+    blueScale_Interp = BlueScale_InterpEnumField(default_value=0)
     bi = blueScale_Interp
 
 
@@ -296,13 +296,13 @@ class BlueScaleAttrOperator(
 ):
     __slots__ = ()
 
-    blueScale_Position = FloatField()
+    blueScale_Position = FloatField(default_value=0.0)
     bp = blueScale_Position
 
-    blueScale_FloatValue = FloatField()
+    blueScale_FloatValue = FloatField(default_value=0.0)
     bfv = blueScale_FloatValue
 
-    blueScale_Interp = BlueScale_InterpEnumField()
+    blueScale_Interp = BlueScale_InterpEnumField(default_value=0)
     bi = blueScale_Interp
 
 
@@ -325,13 +325,13 @@ class AlphaScalePlugOperator(
         ("alphaScale_Interp", "ai"),
     )
 
-    alphaScale_Position = FloatField()
+    alphaScale_Position = FloatField(default_value=0.0)
     ap = alphaScale_Position
 
-    alphaScale_FloatValue = FloatField()
+    alphaScale_FloatValue = FloatField(default_value=0.0)
     afv = alphaScale_FloatValue
 
-    alphaScale_Interp = AlphaScale_InterpEnumField()
+    alphaScale_Interp = AlphaScale_InterpEnumField(default_value=0)
     ai = alphaScale_Interp
 
 
@@ -340,13 +340,13 @@ class AlphaScaleAttrOperator(
 ):
     __slots__ = ()
 
-    alphaScale_Position = FloatField()
+    alphaScale_Position = FloatField(default_value=0.0)
     ap = alphaScale_Position
 
-    alphaScale_FloatValue = FloatField()
+    alphaScale_FloatValue = FloatField(default_value=0.0)
     afv = alphaScale_FloatValue
 
-    alphaScale_Interp = AlphaScale_InterpEnumField()
+    alphaScale_Interp = AlphaScale_InterpEnumField(default_value=0)
     ai = alphaScale_Interp
 
 
@@ -369,13 +369,13 @@ class IntensityScalePlugOperator(
         ("intensityScale_Interp", "ni"),
     )
 
-    intensityScale_Position = FloatField()
+    intensityScale_Position = FloatField(default_value=0.0)
     np = intensityScale_Position
 
-    intensityScale_FloatValue = FloatField()
+    intensityScale_FloatValue = FloatField(default_value=0.0)
     nfv = intensityScale_FloatValue
 
-    intensityScale_Interp = IntensityScale_InterpEnumField()
+    intensityScale_Interp = IntensityScale_InterpEnumField(default_value=0)
     ni = intensityScale_Interp
 
 
@@ -384,13 +384,13 @@ class IntensityScaleAttrOperator(
 ):
     __slots__ = ()
 
-    intensityScale_Position = FloatField()
+    intensityScale_Position = FloatField(default_value=0.0)
     np = intensityScale_Position
 
-    intensityScale_FloatValue = FloatField()
+    intensityScale_FloatValue = FloatField(default_value=0.0)
     nfv = intensityScale_FloatValue
 
-    intensityScale_Interp = IntensityScale_InterpEnumField()
+    intensityScale_Interp = IntensityScale_InterpEnumField(default_value=0)
     ni = intensityScale_Interp
 
 

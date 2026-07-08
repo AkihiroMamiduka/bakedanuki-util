@@ -24,13 +24,13 @@ class InputRotatePlugOperator(
         ("inputRotateZ", "irz"),
     )
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -39,13 +39,13 @@ class InputRotateAttrOperator(
 ):
     __slots__ = ()
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -57,13 +57,13 @@ class InputRotateField(
     ATTR_CLS = InputRotateAttrOperator
     PLUG_CLS = InputRotatePlugOperator
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -78,16 +78,16 @@ class OutputQuatPlugOperator(
         ("outputQuatW", "oqw"),
     )
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -96,16 +96,16 @@ class OutputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -117,14 +117,14 @@ class OutputQuatField(
     ATTR_CLS = OutputQuatAttrOperator
     PLUG_CLS = OutputQuatPlugOperator
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW

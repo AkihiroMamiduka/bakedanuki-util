@@ -52,7 +52,7 @@ class Clamp(DG):
 
     NODE_TYPE = "clamp"
 
-    min = MinField()
+    min = MinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     mn = min
     minR = min.minR
     mnr = minR
@@ -61,7 +61,7 @@ class Clamp(DG):
     minB = min.minB
     mnb = minB
 
-    max = MaxField()
+    max = MaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     mx = max
     maxR = max.maxR
     mxr = maxR
@@ -70,7 +70,7 @@ class Clamp(DG):
     maxB = max.maxB
     mxb = maxB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
     ip = input
     inputR = input.inputR
     ipr = inputR
@@ -79,10 +79,10 @@ class Clamp(DG):
     inputB = input.inputB
     ipb = inputB
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     op = output
     outputR = output.outputR
     opr = outputR

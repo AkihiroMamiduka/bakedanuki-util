@@ -19,7 +19,7 @@ class ClosestPointOnMesh(DG):
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    inPosition = InPositionField()
+    inPosition = InPositionField(default_value=(0.0, 0.0, 0.0))
     ip = inPosition
     inPositionX = inPosition.inPositionX
     ipx = inPositionX
@@ -28,7 +28,7 @@ class ClosestPointOnMesh(DG):
     inPositionZ = inPosition.inPositionZ
     ipz = inPositionZ
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

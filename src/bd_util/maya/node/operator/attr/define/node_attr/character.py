@@ -31,7 +31,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -46,7 +46,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -72,13 +72,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -87,13 +87,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -105,13 +105,13 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -132,10 +132,10 @@ class ClipEvaluatePlugOperator(
     clipEvaluate_Raw = TypedField()
     cer = clipEvaluate_Raw
 
-    clipEvaluate_Inmap = CompoundField()
+    clipEvaluate_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cei = clipEvaluate_Inmap
 
-    clipEvaluate_Outmap = CompoundField()
+    clipEvaluate_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     ceo = clipEvaluate_Outmap
 
 
@@ -150,10 +150,10 @@ class ClipEvaluateAttrOperator(
     clipEvaluate_Raw = TypedField()
     cer = clipEvaluate_Raw
 
-    clipEvaluate_Inmap = CompoundField()
+    clipEvaluate_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cei = clipEvaluate_Inmap
 
-    clipEvaluate_Outmap = CompoundField()
+    clipEvaluate_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     ceo = clipEvaluate_Outmap
 
 
@@ -171,10 +171,10 @@ class ClipEvaluateField(
     clipEvaluate_Raw = TypedField()
     cer = clipEvaluate_Raw
 
-    clipEvaluate_Inmap = CompoundField()
+    clipEvaluate_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cei = clipEvaluate_Inmap
 
-    clipEvaluate_Outmap = CompoundField()
+    clipEvaluate_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     ceo = clipEvaluate_Outmap
 
 
@@ -195,10 +195,10 @@ class ClipStatePercentEvalPlugOperator(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField()
+    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField()
+    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspeo = clipStatePercentEval_Outmap
 
 
@@ -213,10 +213,10 @@ class ClipStatePercentEvalAttrOperator(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField()
+    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField()
+    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspeo = clipStatePercentEval_Outmap
 
 
@@ -234,10 +234,10 @@ class ClipStatePercentEvalField(
     clipStatePercentEval_Raw = TypedField()
     csper = clipStatePercentEval_Raw
 
-    clipStatePercentEval_Inmap = CompoundField()
+    clipStatePercentEval_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspei = clipStatePercentEval_Inmap
 
-    clipStatePercentEval_Outmap = CompoundField()
+    clipStatePercentEval_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cspeo = clipStatePercentEval_Outmap
 
 
@@ -251,13 +251,13 @@ class TranslationOffsetIndicesPlugOperator(
         ("translationOffsetZ", "toz"),
     )
 
-    translationOffsetIndexX = LongField()
+    translationOffsetIndexX = LongField(default_value=-1)
     tox = translationOffsetIndexX
 
-    translationOffsetY = LongField()
+    translationOffsetY = LongField(default_value=-1)
     toy = translationOffsetY
 
-    translationOffsetZ = LongField()
+    translationOffsetZ = LongField(default_value=-1)
     toz = translationOffsetZ
 
 
@@ -266,13 +266,13 @@ class TranslationOffsetIndicesAttrOperator(
 ):
     __slots__ = ()
 
-    translationOffsetIndexX = LongField()
+    translationOffsetIndexX = LongField(default_value=-1)
     tox = translationOffsetIndexX
 
-    translationOffsetY = LongField()
+    translationOffsetY = LongField(default_value=-1)
     toy = translationOffsetY
 
-    translationOffsetZ = LongField()
+    translationOffsetZ = LongField(default_value=-1)
     toz = translationOffsetZ
 
 
@@ -284,11 +284,11 @@ class TranslationOffsetIndicesField(
     ATTR_CLS = TranslationOffsetIndicesAttrOperator
     PLUG_CLS = TranslationOffsetIndicesPlugOperator
 
-    translationOffsetIndexX = LongField()
+    translationOffsetIndexX = LongField(default_value=-1)
     tox = translationOffsetIndexX
 
-    translationOffsetY = LongField()
+    translationOffsetY = LongField(default_value=-1)
     toy = translationOffsetY
 
-    translationOffsetZ = LongField()
+    translationOffsetZ = LongField(default_value=-1)
     toz = translationOffsetZ

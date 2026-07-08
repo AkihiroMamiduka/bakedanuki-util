@@ -19,13 +19,13 @@ class PointConstraintPlugOperator(
         ("pointWeight", "pw"),
     )
 
-    pointPositionXYZ = Double3Field()
+    pointPositionXYZ = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
     xyz = pointPositionXYZ
 
-    pointConstraintUVW = Double3Field()
+    pointConstraintUVW = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
     puv = pointConstraintUVW
 
-    pointWeight = DoubleField()
+    pointWeight = DoubleField(default_value=1.0)
     pw = pointWeight
 
 
@@ -34,13 +34,13 @@ class PointConstraintAttrOperator(
 ):
     __slots__ = ()
 
-    pointPositionXYZ = Double3Field()
+    pointPositionXYZ = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
     xyz = pointPositionXYZ
 
-    pointConstraintUVW = Double3Field()
+    pointConstraintUVW = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
     puv = pointConstraintUVW
 
-    pointWeight = DoubleField()
+    pointWeight = DoubleField(default_value=1.0)
     pw = pointWeight
 
 

@@ -9,8 +9,8 @@ class Ik2Bsolver(DG):
 
     NODE_TYPE = "ik2Bsolver"
 
-    maxIterations = LongField()
+    maxIterations = LongField(default_value=2147483647)
     mxi = maxIterations
 
-    tolerance = DoubleField()
+    tolerance = DoubleField(default_value=1e-05)
     tol = tolerance

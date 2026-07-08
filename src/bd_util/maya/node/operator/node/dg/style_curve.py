@@ -80,8 +80,8 @@ class StyleCurve(DG):
 
     NODE_TYPE = "styleCurve"
 
-    style = StyleEnumField()
+    style = StyleEnumField(default_value=0)
     s = style
 
-    outCurve = DataNurbsCurveField()
+    outCurve = DataNurbsCurveField(writable=False)
     oc = outCurve

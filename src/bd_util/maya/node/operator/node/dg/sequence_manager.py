@@ -10,25 +10,25 @@ class SequenceManager(DG):
 
     NODE_TYPE = "sequenceManager"
 
-    outTime = TimeField()
+    outTime = TimeField(default_value=2.5)
     o = outTime
 
-    rangeMin = TimeField()
+    rangeMin = TimeField(default_value=0.0)
     rmin = rangeMin
 
-    rangeMax = TimeField()
+    rangeMax = TimeField(default_value=0.0)
     rmax = rangeMax
 
-    rangeEnabled = BoolField()
+    rangeEnabled = BoolField(default_value=False)
     ren = rangeEnabled
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=False)
     en = enabled
 
-    skipGaps = BoolField()
+    skipGaps = BoolField(default_value=False)
     sg = skipGaps
 
-    sequences = MessageField(multi=True)
+    sequences = MessageField(multi=True, readable=False)
     seqts = sequences
 
     trackInfoManager = MessageField()

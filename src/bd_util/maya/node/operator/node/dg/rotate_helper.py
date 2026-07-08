@@ -58,7 +58,7 @@ class RotateHelper(DG):
 
     NODE_TYPE = "rotateHelper"
 
-    up = UpField()
+    up = UpField(default_value=(0.0, 1.0, 0.0))
     u = up
     upX = up.upX
     ux = upX
@@ -67,7 +67,7 @@ class RotateHelper(DG):
     upZ = up.upZ
     uz = upZ
 
-    forward = ForwardField()
+    forward = ForwardField(default_value=(0.0, 0.0, 1.0))
     f = forward
     forwardX = forward.forwardX
     fx = forwardX
@@ -76,7 +76,7 @@ class RotateHelper(DG):
     forwardZ = forward.forwardZ
     fz = forwardZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     r = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -85,7 +85,7 @@ class RotateHelper(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder
 
     rotateMatrix = MatrixField()

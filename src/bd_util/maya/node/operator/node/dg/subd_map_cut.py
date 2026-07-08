@@ -8,7 +8,7 @@ class SubdMapCut(DG):
 
     NODE_TYPE = "subdMapCut"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()

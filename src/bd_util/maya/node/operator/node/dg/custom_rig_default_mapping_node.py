@@ -45,10 +45,10 @@ class CustomRigDefaultMappingNode(DG):
 
     NODE_TYPE = "CustomRigDefaultMappingNode"
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
     t = type
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0))
     o = offset
     offsetX = offset.offsetX
     ox = offsetX
@@ -66,7 +66,7 @@ class CustomRigDefaultMappingNode(DG):
     destinationSkeleton = MessageField()
     ds = destinationSkeleton
 
-    identifier = LongField()
+    identifier = LongField(default_value=-1)
     id = identifier
 
     bodyPart = DataStringField()

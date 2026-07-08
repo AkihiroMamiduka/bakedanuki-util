@@ -27,7 +27,7 @@ class LayeredTexture(DG):
     colorB = FloatField()
     cb = colorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -36,10 +36,10 @@ class LayeredTexture(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hcr = hardwareColorR
@@ -48,10 +48,10 @@ class LayeredTexture(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hcb = hardwareColorB
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

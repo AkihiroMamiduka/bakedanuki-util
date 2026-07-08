@@ -26,28 +26,28 @@ class LightDataArrayPlugOperator(
         ("lightBlindData", "lbd"),
     )
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=False, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=False, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 
@@ -56,28 +56,28 @@ class LightDataArrayAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=False, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=False, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 
@@ -105,28 +105,28 @@ class LightDataPlugOperator(
         ("lightBlindDataOut", "lbdo"),
     )
 
-    lightDirectionOut = Float3Field()
+    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field()
+    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     lw = lightIntensityOut
 
-    lightAmbientOut = BoolField()
+    lightAmbientOut = BoolField(default_value=False, writable=False)
     lya = lightAmbientOut
 
-    lightDiffuseOut = BoolField()
+    lightDiffuseOut = BoolField(default_value=False, writable=False)
     lyf = lightDiffuseOut
 
-    lightSpecularOut = BoolField()
+    lightSpecularOut = BoolField(default_value=False, writable=False)
     lys = lightSpecularOut
 
-    lightShadowFractionOut = FloatField()
+    lightShadowFractionOut = FloatField(default_value=0.0, writable=False)
     sfo = lightShadowFractionOut
 
-    preShadowIntensityOut = FloatField()
+    preShadowIntensityOut = FloatField(default_value=0.0, writable=False)
     psio = preShadowIntensityOut
 
-    lightBlindDataOut = AddrField()
+    lightBlindDataOut = AddrField(default_value=0.0, writable=False)
     lbdo = lightBlindDataOut
 
 
@@ -135,28 +135,28 @@ class LightDataAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirectionOut = Float3Field()
+    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field()
+    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     lw = lightIntensityOut
 
-    lightAmbientOut = BoolField()
+    lightAmbientOut = BoolField(default_value=False, writable=False)
     lya = lightAmbientOut
 
-    lightDiffuseOut = BoolField()
+    lightDiffuseOut = BoolField(default_value=False, writable=False)
     lyf = lightDiffuseOut
 
-    lightSpecularOut = BoolField()
+    lightSpecularOut = BoolField(default_value=False, writable=False)
     lys = lightSpecularOut
 
-    lightShadowFractionOut = FloatField()
+    lightShadowFractionOut = FloatField(default_value=0.0, writable=False)
     sfo = lightShadowFractionOut
 
-    preShadowIntensityOut = FloatField()
+    preShadowIntensityOut = FloatField(default_value=0.0, writable=False)
     psio = preShadowIntensityOut
 
-    lightBlindDataOut = AddrField()
+    lightBlindDataOut = AddrField(default_value=0.0, writable=False)
     lbdo = lightBlindDataOut
 
 
@@ -168,26 +168,26 @@ class LightDataField(
     ATTR_CLS = LightDataAttrOperator
     PLUG_CLS = LightDataPlugOperator
 
-    lightDirectionOut = Float3Field()
+    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field()
+    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     lw = lightIntensityOut
 
-    lightAmbientOut = BoolField()
+    lightAmbientOut = BoolField(default_value=False, writable=False)
     lya = lightAmbientOut
 
-    lightDiffuseOut = BoolField()
+    lightDiffuseOut = BoolField(default_value=False, writable=False)
     lyf = lightDiffuseOut
 
-    lightSpecularOut = BoolField()
+    lightSpecularOut = BoolField(default_value=False, writable=False)
     lys = lightSpecularOut
 
-    lightShadowFractionOut = FloatField()
+    lightShadowFractionOut = FloatField(default_value=0.0, writable=False)
     sfo = lightShadowFractionOut
 
-    preShadowIntensityOut = FloatField()
+    preShadowIntensityOut = FloatField(default_value=0.0, writable=False)
     psio = preShadowIntensityOut
 
-    lightBlindDataOut = AddrField()
+    lightBlindDataOut = AddrField(default_value=0.0, writable=False)
     lbdo = lightBlindDataOut

@@ -14,7 +14,7 @@ class DoubleShadingSwitch(DG):
 
     NODE_TYPE = "doubleShadingSwitch"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0)
     id = objectId
 
     input = InputField(multi=True)
@@ -26,14 +26,14 @@ class DoubleShadingSwitch(DG):
     inComp2 = FloatField()
     ic2 = inComp2
 
-    default = DefaultField()
+    default = DefaultField(default_value=(0.0, 0.0))
     def_ = default
     defComp1 = default.defComp1
     dc1 = defComp1
     defComp2 = default.defComp2
     dc2 = defComp2
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0), writable=False)
     out = output
     outComp1 = output.outComp1
     oc1 = outComp1

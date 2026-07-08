@@ -53,7 +53,7 @@ class AiShadowMatte(DG):
 
     NODE_TYPE = "aiShadowMatte"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -62,10 +62,10 @@ class AiShadowMatte(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -74,7 +74,7 @@ class AiShadowMatte(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -83,7 +83,7 @@ class AiShadowMatte(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -92,9 +92,9 @@ class AiShadowMatte(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    background = BackgroundEnumField()
+    background = BackgroundEnumField(default_value=0)
 
-    shadowColor = ShadowColorField()
+    shadowColor = ShadowColorField(default_value=(0.0, 0.0, 0.0))
     shadow_color = shadowColor
     shadowColorR = shadowColor.shadowColorR
     shadow_colorr = shadowColorR
@@ -103,10 +103,10 @@ class AiShadowMatte(DG):
     shadowColorB = shadowColor.shadowColorB
     shadow_colorb = shadowColorB
 
-    shadowOpacity = FloatField()
+    shadowOpacity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     shadow_opacity = shadowOpacity
 
-    backgroundColor = BackgroundColorField()
+    backgroundColor = BackgroundColorField(default_value=(1.0, 1.0, 1.0))
     background_color = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     background_colorr = backgroundColorR
@@ -115,7 +115,7 @@ class AiShadowMatte(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     background_colorb = backgroundColorB
 
-    diffuseColor = DiffuseColorField()
+    diffuseColor = DiffuseColorField(default_value=(1.0, 1.0, 1.0))
     diffuse_color = diffuseColor
     diffuseColorR = diffuseColor.diffuseColorR
     diffuse_colorr = diffuseColorR
@@ -124,21 +124,21 @@ class AiShadowMatte(DG):
     diffuseColorB = diffuseColor.diffuseColorB
     diffuse_colorb = diffuseColorB
 
-    diffuseUseBackground = BoolField()
+    diffuseUseBackground = BoolField(default_value=True)
     diffuse_use_background = diffuseUseBackground
 
-    diffuseIntensity = FloatField()
+    diffuseIntensity = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
     diffuse_intensity = diffuseIntensity
 
-    backlighting = FloatField()
+    backlighting = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
 
-    indirectDiffuseEnable = BoolField()
+    indirectDiffuseEnable = BoolField(default_value=False)
     indirect_diffuse_enable = indirectDiffuseEnable
 
-    indirectSpecularEnable = BoolField()
+    indirectSpecularEnable = BoolField(default_value=False)
     indirect_specular_enable = indirectSpecularEnable
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
     specular_color = specularColor
     specularColorR = specularColor.specularColorR
     specular_colorr = specularColorR
@@ -147,16 +147,16 @@ class AiShadowMatte(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularIntensity = FloatField()
+    specularIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     specular_intensity = specularIntensity
 
-    specularRoughness = FloatField()
+    specularRoughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
     specular_roughness = specularRoughness
 
-    specularIOR = FloatField()
+    specularIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=10.0)
     specular_IOR = specularIOR
 
-    alphaMask = BoolField()
+    alphaMask = BoolField(default_value=True)
     alpha_mask = alphaMask
 
     aovGroup = DataStringField()

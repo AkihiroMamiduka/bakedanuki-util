@@ -16,11 +16,11 @@ class Mute(DG):
     hold = GenericField()
     h = hold
 
-    holdTime = TimeField()
+    holdTime = TimeField(default_value=0.0)
     ht = holdTime
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    output = GenericField()
+    output = GenericField(writable=False)
     o = output

@@ -14,7 +14,7 @@ class TripleShadingSwitch(DG):
 
     NODE_TYPE = "tripleShadingSwitch"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0)
     id = objectId
 
     input = InputField(multi=True)
@@ -29,7 +29,7 @@ class TripleShadingSwitch(DG):
     inComp3 = FloatField()
     ic3 = inComp3
 
-    default = DefaultField()
+    default = DefaultField(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
     def_ = default
     defComp1 = default.defComp1
     dc1 = defComp1
@@ -38,7 +38,7 @@ class TripleShadingSwitch(DG):
     defComp3 = default.defComp3
     dc3 = defComp3
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = output
     outComp1 = output.outComp1
     oc1 = outComp1

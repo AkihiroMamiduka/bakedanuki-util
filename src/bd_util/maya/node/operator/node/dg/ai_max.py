@@ -13,7 +13,7 @@ class AiMax(DG):
 
     NODE_TYPE = "aiMax"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,7 +22,7 @@ class AiMax(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +31,7 @@ class AiMax(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
     input1R = input1.input1R
     input1r = input1R
     input1G = input1.input1G
@@ -39,7 +39,7 @@ class AiMax(DG):
     input1B = input1.input1B
     input1b = input1B
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
     input2R = input2.input2R
     input2r = input2R
     input2G = input2.input2G

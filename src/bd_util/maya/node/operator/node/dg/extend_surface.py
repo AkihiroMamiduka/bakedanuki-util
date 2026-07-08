@@ -136,23 +136,23 @@ class ExtendSurface(DG):
     targetObject = DataNurbsSurfaceField()
     to = targetObject
 
-    extensionType = ExtensionTypeEnumField()
+    extensionType = ExtensionTypeEnumField(default_value=0)
     et = extensionType
 
-    extendMethod = ExtendMethodEnumField()
+    extendMethod = ExtendMethodEnumField(default_value=0)
     em = extendMethod
 
-    extendSide = ExtendSideEnumField()
+    extendSide = ExtendSideEnumField(default_value=1)
     es = extendSide
 
-    extendDirection = ExtendDirectionEnumField()
+    extendDirection = ExtendDirectionEnumField(default_value=0)
     ed = extendDirection
 
-    join = BoolField()
+    join = BoolField(default_value=True)
     jn = join
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     d = distance
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     oc = outputSurface

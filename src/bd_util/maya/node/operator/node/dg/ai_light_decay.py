@@ -11,10 +11,10 @@ class AiLightDecay(DG):
 
     NODE_TYPE = "aiLightDecay"
 
-    outValue = MessageField()
+    outValue = MessageField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -23,20 +23,20 @@ class AiLightDecay(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    useNearAtten = BoolField()
+    useNearAtten = BoolField(default_value=False)
     use_near_atten = useNearAtten
 
-    useFarAtten = BoolField()
+    useFarAtten = BoolField(default_value=False)
     use_far_atten = useFarAtten
 
-    nearStart = FloatField()
+    nearStart = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
     near_start = nearStart
 
-    nearEnd = FloatField()
+    nearEnd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
     near_end = nearEnd
 
-    farStart = FloatField()
+    farStart = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
     far_start = farStart
 
-    farEnd = FloatField()
+    farEnd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
     far_end = farEnd

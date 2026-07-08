@@ -53,7 +53,7 @@ class AiWireframe(DG):
 
     NODE_TYPE = "aiWireframe"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -62,7 +62,7 @@ class AiWireframe(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -71,7 +71,7 @@ class AiWireframe(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -80,7 +80,7 @@ class AiWireframe(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -89,10 +89,10 @@ class AiWireframe(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    lineWidth = FloatField()
+    lineWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     line_width = lineWidth
 
-    fillColor = FillColorField()
+    fillColor = FillColorField(default_value=(1.0, 1.0, 1.0))
     fill_color = fillColor
     fillColorR = fillColor.fillColorR
     fill_colorr = fillColorR
@@ -101,7 +101,7 @@ class AiWireframe(DG):
     fillColorB = fillColor.fillColorB
     fill_colorb = fillColorB
 
-    lineColor = LineColorField()
+    lineColor = LineColorField(default_value=(0.0, 0.0, 0.0))
     line_color = lineColor
     lineColorR = lineColor.lineColorR
     line_colorr = lineColorR
@@ -110,8 +110,8 @@ class AiWireframe(DG):
     lineColorB = lineColor.lineColorB
     line_colorb = lineColorB
 
-    rasterSpace = BoolField()
+    rasterSpace = BoolField(default_value=True)
     raster_space = rasterSpace
 
-    edgeType = EdgeTypeEnumField()
+    edgeType = EdgeTypeEnumField(default_value=0)
     edge_type = edgeType

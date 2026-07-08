@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class ScalePlugOperator(
         ("scaleZ", "scalez"),
     )
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ
 
 
@@ -139,13 +139,13 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ
 
 
@@ -157,13 +157,13 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ
 
 
@@ -177,13 +177,13 @@ class OffsetPlugOperator(
         ("offsetZ", "offsetz"),
     )
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     offsetz = offsetZ
 
 
@@ -192,13 +192,13 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     offsetz = offsetZ
 
 
@@ -210,13 +210,13 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     offsetz = offsetZ
 
 
@@ -230,13 +230,13 @@ class PPlugOperator(
         ("PZ", "Pz"),
     )
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0)
     Pz = PZ
 
 
@@ -245,13 +245,13 @@ class PAttrOperator(
 ):
     __slots__ = ()
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0)
     Pz = PZ
 
 
@@ -263,13 +263,13 @@ class PField(
     ATTR_CLS = PAttrOperator
     PLUG_CLS = PPlugOperator
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0)
     Pz = PZ
 
 
@@ -283,13 +283,13 @@ class ColorPlugOperator(
         ("colorB", "colorb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -298,13 +298,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -316,13 +316,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -336,13 +336,13 @@ class PalettePlugOperator(
         ("paletteB", "paletteb"),
     )
 
-    paletteR = FloatField()
+    paletteR = FloatField(default_value=1.0)
     paletter = paletteR
 
-    paletteG = FloatField()
+    paletteG = FloatField(default_value=1.0)
     paletteg = paletteG
 
-    paletteB = FloatField()
+    paletteB = FloatField(default_value=1.0)
     paletteb = paletteB
 
 
@@ -351,13 +351,13 @@ class PaletteAttrOperator(
 ):
     __slots__ = ()
 
-    paletteR = FloatField()
+    paletteR = FloatField(default_value=1.0)
     paletter = paletteR
 
-    paletteG = FloatField()
+    paletteG = FloatField(default_value=1.0)
     paletteg = paletteG
 
-    paletteB = FloatField()
+    paletteB = FloatField(default_value=1.0)
     paletteb = paletteB
 
 
@@ -369,11 +369,11 @@ class PaletteField(
     ATTR_CLS = PaletteAttrOperator
     PLUG_CLS = PalettePlugOperator
 
-    paletteR = FloatField()
+    paletteR = FloatField(default_value=1.0)
     paletter = paletteR
 
-    paletteG = FloatField()
+    paletteG = FloatField(default_value=1.0)
     paletteg = paletteG
 
-    paletteB = FloatField()
+    paletteB = FloatField(default_value=1.0)
     paletteb = paletteB

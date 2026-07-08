@@ -15,16 +15,16 @@ class LightInfo(DG):
 
     NODE_TYPE = "lightInfo"
 
-    matrixEyeToWorld = FltMatrixField()
+    matrixEyeToWorld = FltMatrixField(readable=False)
     e2w = matrixEyeToWorld
 
-    lightDirectionOnly = BoolField()
+    lightDirectionOnly = BoolField(default_value=False, readable=False)
     ldo = lightDirectionOnly
 
-    worldMatrix = FltMatrixField()
+    worldMatrix = FltMatrixField(readable=False)
     wm = worldMatrix
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -33,7 +33,7 @@ class LightInfo(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    lightPosition = LightPositionField()
+    lightPosition = LightPositionField(default_value=(0.0, 0.0, 0.0), writable=False)
     lp = lightPosition
     lightPositionX = lightPosition.lightPositionX
     lpx = lightPositionX
@@ -42,7 +42,7 @@ class LightInfo(DG):
     lightPositionZ = lightPosition.lightPositionZ
     lpz = lightPositionZ
 
-    lightDirection = LightDirectionField()
+    lightDirection = LightDirectionField(default_value=(0.0, 0.0, 1.0), writable=False)
     ld = lightDirection
     lightDirectionX = lightDirection.lightDirectionX
     ldx = lightDirectionX
@@ -51,5 +51,5 @@ class LightInfo(DG):
     lightDirectionZ = lightDirection.lightDirectionZ
     ldz = lightDirectionZ
 
-    sampleDistance = FloatField()
+    sampleDistance = FloatField(default_value=0.0010000000474974513, writable=False)
     sd = sampleDistance

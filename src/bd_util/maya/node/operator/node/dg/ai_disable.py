@@ -43,20 +43,20 @@ class AiDisable(DG):
 
     NODE_TYPE = "aiDisable"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
     selection = DataStringField()
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    shapes = BoolField()
+    shapes = BoolField(default_value=True)
 
-    lights = BoolField()
+    lights = BoolField(default_value=True)
 
-    shaders = BoolField()
+    shaders = BoolField(default_value=True)
 
-    operators = BoolField()
+    operators = BoolField(default_value=True)

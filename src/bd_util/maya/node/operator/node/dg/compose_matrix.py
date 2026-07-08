@@ -61,16 +61,16 @@ class ComposeMatrix(DG):
 
     NODE_TYPE = "composeMatrix"
 
-    outputMatrix = MatrixField()
+    outputMatrix = MatrixField(writable=False)
     omat = outputMatrix
 
-    inputRotateOrder = InputRotateOrderEnumField()
+    inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     ro = inputRotateOrder
 
-    useEulerRotation = BoolField()
+    useEulerRotation = BoolField(default_value=True)
     uer = useEulerRotation
 
-    inputTranslate = InputTranslateField()
+    inputTranslate = InputTranslateField(default_value=(0.0, 0.0, 0.0))
     it = inputTranslate
     inputTranslateX = inputTranslate.inputTranslateX
     itx = inputTranslateX
@@ -79,7 +79,7 @@ class ComposeMatrix(DG):
     inputTranslateZ = inputTranslate.inputTranslateZ
     itz = inputTranslateZ
 
-    inputRotate = InputRotateField()
+    inputRotate = InputRotateField(default_value=(0.0, 0.0, 0.0))
     ir = inputRotate
     inputRotateX = inputRotate.inputRotateX
     irx = inputRotateX
@@ -88,7 +88,7 @@ class ComposeMatrix(DG):
     inputRotateZ = inputRotate.inputRotateZ
     irz = inputRotateZ
 
-    inputScale = InputScaleField()
+    inputScale = InputScaleField(default_value=(1.0, 1.0, 1.0))
     is_ = inputScale
     inputScaleX = inputScale.inputScaleX
     isx = inputScaleX
@@ -97,7 +97,7 @@ class ComposeMatrix(DG):
     inputScaleZ = inputScale.inputScaleZ
     isz = inputScaleZ
 
-    inputShear = InputShearField()
+    inputShear = InputShearField(default_value=(0.0, 0.0, 0.0))
     ish = inputShear
     inputShearX = inputShear.inputShearX
     ishx = inputShearX
@@ -106,7 +106,7 @@ class ComposeMatrix(DG):
     inputShearZ = inputShear.inputShearZ
     ishz = inputShearZ
 
-    inputQuat = InputQuatField()
+    inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat
     inputQuatX = inputQuat.inputQuatX
     iqwx = inputQuatX

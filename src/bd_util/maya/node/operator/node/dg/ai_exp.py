@@ -12,7 +12,7 @@ class AiExp(DG):
 
     NODE_TYPE = "aiExp"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -21,7 +21,7 @@ class AiExp(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -30,7 +30,7 @@ class AiExp(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG

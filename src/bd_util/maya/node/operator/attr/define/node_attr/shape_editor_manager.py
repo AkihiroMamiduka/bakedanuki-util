@@ -26,16 +26,16 @@ class BlendShapeDirectoryPlugOperator(
     childIndices = TypedField()
     bscd = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     bspi = parentIndex
 
     directoryName = DataStringField()
     bsdn = directoryName
 
-    directoryVisibility = BoolField()
+    directoryVisibility = BoolField(default_value=True)
     bsdv = directoryVisibility
 
-    directoryParentVisibility = BoolField()
+    directoryParentVisibility = BoolField(default_value=True)
     bdpv = directoryParentVisibility
 
 
@@ -47,16 +47,16 @@ class BlendShapeDirectoryAttrOperator(
     childIndices = TypedField()
     bscd = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     bspi = parentIndex
 
     directoryName = DataStringField()
     bsdn = directoryName
 
-    directoryVisibility = BoolField()
+    directoryVisibility = BoolField(default_value=True)
     bsdv = directoryVisibility
 
-    directoryParentVisibility = BoolField()
+    directoryParentVisibility = BoolField(default_value=True)
     bdpv = directoryParentVisibility
 
 

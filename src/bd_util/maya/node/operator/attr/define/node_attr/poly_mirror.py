@@ -24,13 +24,13 @@ class PivotPlugOperator(
         ("pivotZ", "pz"),
     )
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -39,13 +39,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -57,13 +57,13 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -77,13 +77,13 @@ class ScalePivotPlugOperator(
         ("scalePivotZ", "spz"),
     )
 
-    scalePivotX = DoubleLinearField()
+    scalePivotX = DoubleLinearField(default_value=0.0)
     spx = scalePivotX
 
-    scalePivotY = DoubleLinearField()
+    scalePivotY = DoubleLinearField(default_value=0.0)
     spy = scalePivotY
 
-    scalePivotZ = DoubleLinearField()
+    scalePivotZ = DoubleLinearField(default_value=0.0)
     spz = scalePivotZ
 
 
@@ -92,13 +92,13 @@ class ScalePivotAttrOperator(
 ):
     __slots__ = ()
 
-    scalePivotX = DoubleLinearField()
+    scalePivotX = DoubleLinearField(default_value=0.0)
     spx = scalePivotX
 
-    scalePivotY = DoubleLinearField()
+    scalePivotY = DoubleLinearField(default_value=0.0)
     spy = scalePivotY
 
-    scalePivotZ = DoubleLinearField()
+    scalePivotZ = DoubleLinearField(default_value=0.0)
     spz = scalePivotZ
 
 
@@ -110,13 +110,13 @@ class ScalePivotField(
     ATTR_CLS = ScalePivotAttrOperator
     PLUG_CLS = ScalePivotPlugOperator
 
-    scalePivotX = DoubleLinearField()
+    scalePivotX = DoubleLinearField(default_value=0.0)
     spx = scalePivotX
 
-    scalePivotY = DoubleLinearField()
+    scalePivotY = DoubleLinearField(default_value=0.0)
     spy = scalePivotY
 
-    scalePivotZ = DoubleLinearField()
+    scalePivotZ = DoubleLinearField(default_value=0.0)
     spz = scalePivotZ
 
 
@@ -130,13 +130,13 @@ class MirrorPlaneCenterPlugOperator(
         ("mirrorPlaneCenterZ", "pcz"),
     )
 
-    mirrorPlaneCenterX = DoubleLinearField()
+    mirrorPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = mirrorPlaneCenterX
 
-    mirrorPlaneCenterY = DoubleLinearField()
+    mirrorPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = mirrorPlaneCenterY
 
-    mirrorPlaneCenterZ = DoubleLinearField()
+    mirrorPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = mirrorPlaneCenterZ
 
 
@@ -145,13 +145,13 @@ class MirrorPlaneCenterAttrOperator(
 ):
     __slots__ = ()
 
-    mirrorPlaneCenterX = DoubleLinearField()
+    mirrorPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = mirrorPlaneCenterX
 
-    mirrorPlaneCenterY = DoubleLinearField()
+    mirrorPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = mirrorPlaneCenterY
 
-    mirrorPlaneCenterZ = DoubleLinearField()
+    mirrorPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = mirrorPlaneCenterZ
 
 
@@ -163,13 +163,13 @@ class MirrorPlaneCenterField(
     ATTR_CLS = MirrorPlaneCenterAttrOperator
     PLUG_CLS = MirrorPlaneCenterPlugOperator
 
-    mirrorPlaneCenterX = DoubleLinearField()
+    mirrorPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = mirrorPlaneCenterX
 
-    mirrorPlaneCenterY = DoubleLinearField()
+    mirrorPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = mirrorPlaneCenterY
 
-    mirrorPlaneCenterZ = DoubleLinearField()
+    mirrorPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = mirrorPlaneCenterZ
 
 
@@ -183,13 +183,13 @@ class MirrorPlaneRotatePlugOperator(
         ("mirrorPlaneRotateZ", "rz"),
     )
 
-    mirrorPlaneRotateX = DoubleAngleField()
+    mirrorPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = mirrorPlaneRotateX
 
-    mirrorPlaneRotateY = DoubleAngleField()
+    mirrorPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = mirrorPlaneRotateY
 
-    mirrorPlaneRotateZ = DoubleAngleField()
+    mirrorPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = mirrorPlaneRotateZ
 
 
@@ -198,13 +198,13 @@ class MirrorPlaneRotateAttrOperator(
 ):
     __slots__ = ()
 
-    mirrorPlaneRotateX = DoubleAngleField()
+    mirrorPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = mirrorPlaneRotateX
 
-    mirrorPlaneRotateY = DoubleAngleField()
+    mirrorPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = mirrorPlaneRotateY
 
-    mirrorPlaneRotateZ = DoubleAngleField()
+    mirrorPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = mirrorPlaneRotateZ
 
 
@@ -216,11 +216,11 @@ class MirrorPlaneRotateField(
     ATTR_CLS = MirrorPlaneRotateAttrOperator
     PLUG_CLS = MirrorPlaneRotatePlugOperator
 
-    mirrorPlaneRotateX = DoubleAngleField()
+    mirrorPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = mirrorPlaneRotateX
 
-    mirrorPlaneRotateY = DoubleAngleField()
+    mirrorPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = mirrorPlaneRotateY
 
-    mirrorPlaneRotateZ = DoubleAngleField()
+    mirrorPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = mirrorPlaneRotateZ

@@ -15,73 +15,73 @@ class GameFbxExporter(DG):
     presetName = DataStringField()
     pn = presetName
 
-    overridePresetValue = LongField()
+    overridePresetValue = LongField(default_value=0)
     opv = overridePresetValue
 
-    isTheLastOneSelected = BoolField()
+    isTheLastOneSelected = BoolField(default_value=False)
     ils = isTheLastOneSelected
 
-    isTheLastOneUsed = BoolField()
+    isTheLastOneUsed = BoolField(default_value=False)
     ilu = isTheLastOneUsed
 
-    useFilenameAsPrefix = BoolField()
+    useFilenameAsPrefix = BoolField(default_value=True)
     ufp = useFilenameAsPrefix
 
-    viewInFBXReview = BoolField()
+    viewInFBXReview = BoolField(default_value=False)
     vfr = viewInFBXReview
 
-    exportTypeIndex = LongField()
+    exportTypeIndex = LongField(default_value=1)
     eti = exportTypeIndex
 
-    exportSetIndex = LongField()
+    exportSetIndex = LongField(default_value=1)
     esi = exportSetIndex
 
     selectionSetName = DataStringField()
     ssn = selectionSetName
 
-    modelFileMode = LongField()
+    modelFileMode = LongField(default_value=1)
     mfm = modelFileMode
 
-    moveToOrigin = BoolField()
+    moveToOrigin = BoolField(default_value=False)
     mto = moveToOrigin
 
-    smoothingGroups = BoolField()
+    smoothingGroups = BoolField(default_value=True)
     smg = smoothingGroups
 
-    splitVertexNormals = BoolField()
+    splitVertexNormals = BoolField(default_value=False)
     svn = splitVertexNormals
 
-    tangentsBinormals = BoolField()
+    tangentsBinormals = BoolField(default_value=True)
     tbi = tangentsBinormals
 
-    smoothMesh = BoolField()
+    smoothMesh = BoolField(default_value=False)
     smm = smoothMesh
 
-    selectionSets = BoolField()
+    selectionSets = BoolField(default_value=False)
     sst = selectionSets
 
-    convertToNullObj = BoolField()
+    convertToNullObj = BoolField(default_value=False)
     ctn = convertToNullObj
 
-    preserveInstances = BoolField()
+    preserveInstances = BoolField(default_value=False)
     pri = preserveInstances
 
-    referencedAssetsContent = BoolField()
+    referencedAssetsContent = BoolField(default_value=False)
     rac = referencedAssetsContent
 
-    triangulate = BoolField()
+    triangulate = BoolField(default_value=False)
     tri = triangulate
 
     convertNurbsSurfaceTo = DataStringField()
     cns = convertNurbsSurfaceTo
 
-    exportAnimation = BoolField()
+    exportAnimation = BoolField(default_value=False)
     ean = exportAnimation
 
-    useSceneName = BoolField()
+    useSceneName = BoolField(default_value=False)
     usn = useSceneName
 
-    removeSingleKey = BoolField()
+    removeSingleKey = BoolField(default_value=False)
     rsk = removeSingleKey
 
     quarternionInterpMode = DataStringField()
@@ -90,94 +90,94 @@ class GameFbxExporter(DG):
     animClips = AnimClipsField(multi=True)
     ac = animClips
 
-    fileSplitType = LongField()
+    fileSplitType = LongField(default_value=1)
     spt = fileSplitType
 
-    includeCombinedClips = BoolField()
+    includeCombinedClips = BoolField(default_value=False)
     icc = includeCombinedClips
 
-    bakeAnimation = BoolField()
+    bakeAnimation = BoolField(default_value=True)
     ba = bakeAnimation
 
-    bakeAnimStart = LongField()
+    bakeAnimStart = LongField(default_value=0)
     bas = bakeAnimStart
 
-    bakeAnimEnd = LongField()
+    bakeAnimEnd = LongField(default_value=0)
     bae = bakeAnimEnd
 
-    bakeAnimStep = LongField()
+    bakeAnimStep = LongField(default_value=0)
     bst = bakeAnimStep
 
-    resampleAll = BoolField()
+    resampleAll = BoolField(default_value=False)
     ral = resampleAll
 
-    deformedModels = BoolField()
+    deformedModels = BoolField(default_value=False)
     dm = deformedModels
 
-    skinning = BoolField()
+    skinning = BoolField(default_value=True)
     ski = skinning
 
-    blendshapes = BoolField()
+    blendshapes = BoolField(default_value=True)
     bsh = blendshapes
 
-    curveFilters = BoolField()
+    curveFilters = BoolField(default_value=False)
     cf = curveFilters
 
-    constantKeyReducer = BoolField()
+    constantKeyReducer = BoolField(default_value=False)
     ckr = constantKeyReducer
 
-    ckrTranslationPrecision = FloatField()
+    ckrTranslationPrecision = FloatField(default_value=0.0)
     rtp = ckrTranslationPrecision
 
-    ckrRotationPrecision = FloatField()
+    ckrRotationPrecision = FloatField(default_value=0.0)
     rrp = ckrRotationPrecision
 
-    ckrScalingPrecision = FloatField()
+    ckrScalingPrecision = FloatField(default_value=0.0)
     rsp = ckrScalingPrecision
 
-    ckrOtherPrecision = FloatField()
+    ckrOtherPrecision = FloatField(default_value=0.0)
     rop = ckrOtherPrecision
 
-    ckrAutoTangentOnly = BoolField()
+    ckrAutoTangentOnly = BoolField(default_value=False)
     ato = ckrAutoTangentOnly
 
-    constraints = BoolField()
+    constraints = BoolField(default_value=False)
     co = constraints
 
-    skeletonDefinitions = BoolField()
+    skeletonDefinitions = BoolField(default_value=False)
     sd = skeletonDefinitions
 
-    includeCameras = BoolField()
+    includeCameras = BoolField(default_value=True)
     ic = includeCameras
 
-    includeLights = BoolField()
+    includeLights = BoolField(default_value=True)
     li = includeLights
 
-    upAxis = LongField()
+    upAxis = LongField(default_value=1)
     uax = upAxis
 
-    embedMedia = BoolField()
+    embedMedia = BoolField(default_value=False)
     ebm = embedMedia
 
-    includeChildren = BoolField()
+    includeChildren = BoolField(default_value=False)
     ich = includeChildren
 
-    inputConnections = BoolField()
+    inputConnections = BoolField(default_value=False)
     inc = inputConnections
 
-    autoScaleFactor = BoolField()
+    autoScaleFactor = BoolField(default_value=False)
     asf = autoScaleFactor
 
     unitConversion = DataStringField()
     uc = unitConversion
 
-    showWarningManager = BoolField()
+    showWarningManager = BoolField(default_value=False)
     swm = showWarningManager
 
-    generateLogData = BoolField()
+    generateLogData = BoolField(default_value=False)
     gld = generateLogData
 
-    fileType = LongField()
+    fileType = LongField(default_value=0)
     ft = fileType
 
     fileVersion = DataStringField()

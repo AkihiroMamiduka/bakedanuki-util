@@ -9,7 +9,7 @@ class HierarchyTestNode1(DG):
 
     NODE_TYPE = "hierarchyTestNode1"
 
-    n1single = FloatField()
+    n1single = FloatField(default_value=0.0)
     n1s = n1single
 
     n1compound = N1compoundField()

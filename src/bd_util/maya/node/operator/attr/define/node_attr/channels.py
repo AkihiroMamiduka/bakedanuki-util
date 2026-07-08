@@ -18,13 +18,13 @@ class InColorPlugOperator(
         ("inColorB", "_icb"),
     )
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     icr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     icg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     icb = inColorB
 
 
@@ -33,13 +33,13 @@ class InColorAttrOperator(
 ):
     __slots__ = ()
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     icr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     icg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     icb = inColorB
 
 
@@ -51,13 +51,13 @@ class InColorField(
     ATTR_CLS = InColorAttrOperator
     PLUG_CLS = InColorPlugOperator
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     icr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     icg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     icb = inColorB
 
 
@@ -71,13 +71,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -86,13 +86,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -104,11 +104,11 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB

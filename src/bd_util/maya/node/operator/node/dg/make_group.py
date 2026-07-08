@@ -55,13 +55,13 @@ class MakeGroup(DG):
     inputGeometry = DataMeshField()
     ig = inputGeometry
 
-    outputGeometry = DataMeshField()
+    outputGeometry = DataMeshField(writable=False)
     og = outputGeometry
 
-    groupType = GroupTypeEnumField()
+    groupType = GroupTypeEnumField(default_value=0)
     gt = groupType
 
-    groupName = LongField()
+    groupName = LongField(default_value=-1)
     gn = groupName
 
     elemList = TypedField()

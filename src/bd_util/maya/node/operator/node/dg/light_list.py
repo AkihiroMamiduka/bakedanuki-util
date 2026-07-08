@@ -8,5 +8,5 @@ class LightList(DG):
 
     NODE_TYPE = "lightList"
 
-    lights = MessageField(multi=True)
+    lights = MessageField(multi=True, readable=False)
     l = lights

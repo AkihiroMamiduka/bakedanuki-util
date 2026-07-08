@@ -8,5 +8,5 @@ class DefaultTextureList(DG):
 
     NODE_TYPE = "defaultTextureList"
 
-    textures = MessageField(multi=True)
+    textures = MessageField(multi=True, readable=False)
     tx = textures

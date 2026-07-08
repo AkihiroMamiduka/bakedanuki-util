@@ -12,7 +12,7 @@ class MASH_Breakout(DG):
 
     NODE_TYPE = "MASH_Breakout"
 
-    outputs = OutputsField(multi=True)
+    outputs = OutputsField(multi=True, writable=False)
 
     translateX = FloatField()
 
@@ -61,4 +61,4 @@ class MASH_Breakout(DG):
 
     inputPoints = TypedField()
 
-    idStart = LongField()
+    idStart = LongField(default_value=0, min_value=0, soft_max_value=100)

@@ -29,7 +29,7 @@ class LayersPlugOperator(
     serialized = DataStringField()
     szd = serialized
 
-    anonymous = BoolField()
+    anonymous = BoolField(default_value=False)
     ann = anonymous
 
 
@@ -47,7 +47,7 @@ class LayersAttrOperator(
     serialized = DataStringField()
     szd = serialized
 
-    anonymous = BoolField()
+    anonymous = BoolField(default_value=False)
     ann = anonymous
 
 

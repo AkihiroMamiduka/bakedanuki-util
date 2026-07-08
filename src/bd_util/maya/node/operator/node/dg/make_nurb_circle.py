@@ -50,7 +50,7 @@ class MakeNurbCircle(DG):
 
     NODE_TYPE = "makeNurbCircle"
 
-    first = FirstField()
+    first = FirstField(default_value=(1.0, 0.0, 0.0))
     fp = first
     firstPointX = first.firstPointX
     fpx = firstPointX
@@ -59,7 +59,7 @@ class MakeNurbCircle(DG):
     firstPointZ = first.firstPointZ
     fpz = firstPointZ
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 1.0))
     nr = normal
     normalX = normal.normalX
     nrx = normalX
@@ -68,7 +68,7 @@ class MakeNurbCircle(DG):
     normalZ = normal.normalZ
     nrz = normalZ
 
-    center = CenterField()
+    center = CenterField(default_value=(0.0, 0.0, 0.0))
     c = center
     centerX = center.centerX
     cx = centerX
@@ -77,26 +77,26 @@ class MakeNurbCircle(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     r = radius
 
-    sweep = DoubleAngleField()
+    sweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
     sw = sweep
 
-    useTolerance = BoolField()
+    useTolerance = BoolField(default_value=False)
     ut = useTolerance
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField()
+    sections = LongField(default_value=8, min_value=1, soft_max_value=100)
     s = sections
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    fixCenter = BoolField()
+    fixCenter = BoolField(default_value=True)
     fc = fixCenter
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

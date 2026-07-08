@@ -10,10 +10,10 @@ class AiFacingRatio(DG):
 
     NODE_TYPE = "aiFacingRatio"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -22,10 +22,10 @@ class AiFacingRatio(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    bias = FloatField()
+    bias = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    gain = FloatField()
+    gain = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    linear = BoolField()
+    linear = BoolField(default_value=False)
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)

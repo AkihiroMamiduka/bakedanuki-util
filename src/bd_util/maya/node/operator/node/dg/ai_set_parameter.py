@@ -10,9 +10,9 @@ class AiSetParameter(DG):
 
     NODE_TYPE = "aiSetParameter"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
@@ -20,5 +20,5 @@ class AiSetParameter(DG):
 
     assignment = DataStringField(multi=True)
 
-    enableAssignment = BoolField(multi=True)
+    enableAssignment = BoolField(multi=True, default_value=True)
     enable_assignment = enableAssignment

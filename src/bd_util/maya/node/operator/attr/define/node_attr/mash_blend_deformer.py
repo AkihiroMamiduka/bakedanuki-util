@@ -175,7 +175,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -190,7 +190,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -214,7 +214,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -223,7 +223,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -246,13 +246,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -261,13 +261,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -279,13 +279,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -297,7 +297,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -305,7 +305,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -327,13 +327,13 @@ class CurveRampPlugOperator(
         ("curveRamp_Interp", "curveRampi"),
     )
 
-    curveRamp_Position = FloatField()
+    curveRamp_Position = FloatField(default_value=0.0)
     curveRampp = curveRamp_Position
 
-    curveRamp_FloatValue = FloatField()
+    curveRamp_FloatValue = FloatField(default_value=0.0)
     curveRampfv = curveRamp_FloatValue
 
-    curveRamp_Interp = CurveRamp_InterpEnumField()
+    curveRamp_Interp = CurveRamp_InterpEnumField(default_value=1)
     curveRampi = curveRamp_Interp
 
 
@@ -342,13 +342,13 @@ class CurveRampAttrOperator(
 ):
     __slots__ = ()
 
-    curveRamp_Position = FloatField()
+    curveRamp_Position = FloatField(default_value=0.0)
     curveRampp = curveRamp_Position
 
-    curveRamp_FloatValue = FloatField()
+    curveRamp_FloatValue = FloatField(default_value=0.0)
     curveRampfv = curveRamp_FloatValue
 
-    curveRamp_Interp = CurveRamp_InterpEnumField()
+    curveRamp_Interp = CurveRamp_InterpEnumField(default_value=1)
     curveRampi = curveRamp_Interp
 
 
@@ -371,13 +371,13 @@ class InflationRampPlugOperator(
         ("inflationRamp_Interp", "inflationRampi"),
     )
 
-    inflationRamp_Position = FloatField()
+    inflationRamp_Position = FloatField(default_value=0.0)
     inflationRampp = inflationRamp_Position
 
-    inflationRamp_FloatValue = FloatField()
+    inflationRamp_FloatValue = FloatField(default_value=0.0)
     inflationRampfv = inflationRamp_FloatValue
 
-    inflationRamp_Interp = InflationRamp_InterpEnumField()
+    inflationRamp_Interp = InflationRamp_InterpEnumField(default_value=1)
     inflationRampi = inflationRamp_Interp
 
 
@@ -386,13 +386,13 @@ class InflationRampAttrOperator(
 ):
     __slots__ = ()
 
-    inflationRamp_Position = FloatField()
+    inflationRamp_Position = FloatField(default_value=0.0)
     inflationRampp = inflationRamp_Position
 
-    inflationRamp_FloatValue = FloatField()
+    inflationRamp_FloatValue = FloatField(default_value=0.0)
     inflationRampfv = inflationRamp_FloatValue
 
-    inflationRamp_Interp = InflationRamp_InterpEnumField()
+    inflationRamp_Interp = InflationRamp_InterpEnumField(default_value=1)
     inflationRampi = inflationRamp_Interp
 
 
@@ -415,13 +415,13 @@ class BlendRampPlugOperator(
         ("blendRamp_Interp", "blendRampi"),
     )
 
-    blendRamp_Position = FloatField()
+    blendRamp_Position = FloatField(default_value=0.0)
     blendRampp = blendRamp_Position
 
-    blendRamp_FloatValue = FloatField()
+    blendRamp_FloatValue = FloatField(default_value=0.0)
     blendRampfv = blendRamp_FloatValue
 
-    blendRamp_Interp = BlendRamp_InterpEnumField()
+    blendRamp_Interp = BlendRamp_InterpEnumField(default_value=1)
     blendRampi = blendRamp_Interp
 
 
@@ -430,13 +430,13 @@ class BlendRampAttrOperator(
 ):
     __slots__ = ()
 
-    blendRamp_Position = FloatField()
+    blendRamp_Position = FloatField(default_value=0.0)
     blendRampp = blendRamp_Position
 
-    blendRamp_FloatValue = FloatField()
+    blendRamp_FloatValue = FloatField(default_value=0.0)
     blendRampfv = blendRamp_FloatValue
 
-    blendRamp_Interp = BlendRamp_InterpEnumField()
+    blendRamp_Interp = BlendRamp_InterpEnumField(default_value=1)
     blendRampi = blendRamp_Interp
 
 
@@ -459,13 +459,13 @@ class SmoothingRampPlugOperator(
         ("smoothingRamp_Interp", "smoothingRampi"),
     )
 
-    smoothingRamp_Position = FloatField()
+    smoothingRamp_Position = FloatField(default_value=0.0)
     smoothingRampp = smoothingRamp_Position
 
-    smoothingRamp_FloatValue = FloatField()
+    smoothingRamp_FloatValue = FloatField(default_value=0.0)
     smoothingRampfv = smoothingRamp_FloatValue
 
-    smoothingRamp_Interp = SmoothingRamp_InterpEnumField()
+    smoothingRamp_Interp = SmoothingRamp_InterpEnumField(default_value=1)
     smoothingRampi = smoothingRamp_Interp
 
 
@@ -474,13 +474,13 @@ class SmoothingRampAttrOperator(
 ):
     __slots__ = ()
 
-    smoothingRamp_Position = FloatField()
+    smoothingRamp_Position = FloatField(default_value=0.0)
     smoothingRampp = smoothingRamp_Position
 
-    smoothingRamp_FloatValue = FloatField()
+    smoothingRamp_FloatValue = FloatField(default_value=0.0)
     smoothingRampfv = smoothingRamp_FloatValue
 
-    smoothingRamp_Interp = SmoothingRamp_InterpEnumField()
+    smoothingRamp_Interp = SmoothingRamp_InterpEnumField(default_value=1)
     smoothingRampi = smoothingRamp_Interp
 
 
@@ -503,13 +503,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -518,13 +518,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -536,11 +536,11 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB

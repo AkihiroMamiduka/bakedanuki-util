@@ -14,7 +14,7 @@ class ColorMask(DG):
 
     NODE_TYPE = "colorMask"
 
-    inColor = InColorField()
+    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
     ic = inColor
     inColorR = inColor.inColorR
     icr = inColorR
@@ -23,13 +23,13 @@ class ColorMask(DG):
     inColorB = inColor.inColorB
     icb = inColorB
 
-    inAlpha = FloatField()
+    inAlpha = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     ia = inAlpha
 
-    preserveColor = BoolField()
+    preserveColor = BoolField(default_value=False)
     pvc = preserveColor
 
-    mask = MaskField()
+    mask = MaskField(default_value=(0.0, 0.0, 0.0))
     m = mask
     maskR = mask.maskR
     mr = maskR
@@ -38,13 +38,13 @@ class ColorMask(DG):
     maskB = mask.maskB
     mb = maskB
 
-    maskAlpha = FloatField()
+    maskAlpha = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     ma = maskAlpha
 
-    maskAlphaIsLuminance = BoolField()
+    maskAlphaIsLuminance = BoolField(default_value=True)
     mal = maskAlphaIsLuminance
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -53,5 +53,5 @@ class ColorMask(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

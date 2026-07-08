@@ -18,13 +18,13 @@ class MainGainPlugOperator(
         ("mainGainB", "main_gainb"),
     )
 
-    mainGainR = FloatField()
+    mainGainR = FloatField(default_value=1.0)
     main_gainr = mainGainR
 
-    mainGainG = FloatField()
+    mainGainG = FloatField(default_value=1.0)
     main_gaing = mainGainG
 
-    mainGainB = FloatField()
+    mainGainB = FloatField(default_value=1.0)
     main_gainb = mainGainB
 
 
@@ -33,13 +33,13 @@ class MainGainAttrOperator(
 ):
     __slots__ = ()
 
-    mainGainR = FloatField()
+    mainGainR = FloatField(default_value=1.0)
     main_gainr = mainGainR
 
-    mainGainG = FloatField()
+    mainGainG = FloatField(default_value=1.0)
     main_gaing = mainGainG
 
-    mainGainB = FloatField()
+    mainGainB = FloatField(default_value=1.0)
     main_gainb = mainGainB
 
 
@@ -51,13 +51,13 @@ class MainGainField(
     ATTR_CLS = MainGainAttrOperator
     PLUG_CLS = MainGainPlugOperator
 
-    mainGainR = FloatField()
+    mainGainR = FloatField(default_value=1.0)
     main_gainr = mainGainR
 
-    mainGainG = FloatField()
+    mainGainG = FloatField(default_value=1.0)
     main_gaing = mainGainG
 
-    mainGainB = FloatField()
+    mainGainB = FloatField(default_value=1.0)
     main_gainb = mainGainB
 
 
@@ -71,13 +71,13 @@ class MainOffsetPlugOperator(
         ("mainOffsetB", "main_offsetb"),
     )
 
-    mainOffsetR = FloatField()
+    mainOffsetR = FloatField(default_value=0.0)
     main_offsetr = mainOffsetR
 
-    mainOffsetG = FloatField()
+    mainOffsetG = FloatField(default_value=0.0)
     main_offsetg = mainOffsetG
 
-    mainOffsetB = FloatField()
+    mainOffsetB = FloatField(default_value=0.0)
     main_offsetb = mainOffsetB
 
 
@@ -86,13 +86,13 @@ class MainOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    mainOffsetR = FloatField()
+    mainOffsetR = FloatField(default_value=0.0)
     main_offsetr = mainOffsetR
 
-    mainOffsetG = FloatField()
+    mainOffsetG = FloatField(default_value=0.0)
     main_offsetg = mainOffsetG
 
-    mainOffsetB = FloatField()
+    mainOffsetB = FloatField(default_value=0.0)
     main_offsetb = mainOffsetB
 
 
@@ -104,13 +104,13 @@ class MainOffsetField(
     ATTR_CLS = MainOffsetAttrOperator
     PLUG_CLS = MainOffsetPlugOperator
 
-    mainOffsetR = FloatField()
+    mainOffsetR = FloatField(default_value=0.0)
     main_offsetr = mainOffsetR
 
-    mainOffsetG = FloatField()
+    mainOffsetG = FloatField(default_value=0.0)
     main_offsetg = mainOffsetG
 
-    mainOffsetB = FloatField()
+    mainOffsetB = FloatField(default_value=0.0)
     main_offsetb = mainOffsetB
 
 
@@ -124,13 +124,13 @@ class ShadowsGainPlugOperator(
         ("shadowsGainB", "shadows_gainb"),
     )
 
-    shadowsGainR = FloatField()
+    shadowsGainR = FloatField(default_value=1.0)
     shadows_gainr = shadowsGainR
 
-    shadowsGainG = FloatField()
+    shadowsGainG = FloatField(default_value=1.0)
     shadows_gaing = shadowsGainG
 
-    shadowsGainB = FloatField()
+    shadowsGainB = FloatField(default_value=1.0)
     shadows_gainb = shadowsGainB
 
 
@@ -139,13 +139,13 @@ class ShadowsGainAttrOperator(
 ):
     __slots__ = ()
 
-    shadowsGainR = FloatField()
+    shadowsGainR = FloatField(default_value=1.0)
     shadows_gainr = shadowsGainR
 
-    shadowsGainG = FloatField()
+    shadowsGainG = FloatField(default_value=1.0)
     shadows_gaing = shadowsGainG
 
-    shadowsGainB = FloatField()
+    shadowsGainB = FloatField(default_value=1.0)
     shadows_gainb = shadowsGainB
 
 
@@ -157,13 +157,13 @@ class ShadowsGainField(
     ATTR_CLS = ShadowsGainAttrOperator
     PLUG_CLS = ShadowsGainPlugOperator
 
-    shadowsGainR = FloatField()
+    shadowsGainR = FloatField(default_value=1.0)
     shadows_gainr = shadowsGainR
 
-    shadowsGainG = FloatField()
+    shadowsGainG = FloatField(default_value=1.0)
     shadows_gaing = shadowsGainG
 
-    shadowsGainB = FloatField()
+    shadowsGainB = FloatField(default_value=1.0)
     shadows_gainb = shadowsGainB
 
 
@@ -177,13 +177,13 @@ class ShadowsOffsetPlugOperator(
         ("shadowsOffsetB", "shadows_offsetb"),
     )
 
-    shadowsOffsetR = FloatField()
+    shadowsOffsetR = FloatField(default_value=0.0)
     shadows_offsetr = shadowsOffsetR
 
-    shadowsOffsetG = FloatField()
+    shadowsOffsetG = FloatField(default_value=0.0)
     shadows_offsetg = shadowsOffsetG
 
-    shadowsOffsetB = FloatField()
+    shadowsOffsetB = FloatField(default_value=0.0)
     shadows_offsetb = shadowsOffsetB
 
 
@@ -192,13 +192,13 @@ class ShadowsOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    shadowsOffsetR = FloatField()
+    shadowsOffsetR = FloatField(default_value=0.0)
     shadows_offsetr = shadowsOffsetR
 
-    shadowsOffsetG = FloatField()
+    shadowsOffsetG = FloatField(default_value=0.0)
     shadows_offsetg = shadowsOffsetG
 
-    shadowsOffsetB = FloatField()
+    shadowsOffsetB = FloatField(default_value=0.0)
     shadows_offsetb = shadowsOffsetB
 
 
@@ -210,13 +210,13 @@ class ShadowsOffsetField(
     ATTR_CLS = ShadowsOffsetAttrOperator
     PLUG_CLS = ShadowsOffsetPlugOperator
 
-    shadowsOffsetR = FloatField()
+    shadowsOffsetR = FloatField(default_value=0.0)
     shadows_offsetr = shadowsOffsetR
 
-    shadowsOffsetG = FloatField()
+    shadowsOffsetG = FloatField(default_value=0.0)
     shadows_offsetg = shadowsOffsetG
 
-    shadowsOffsetB = FloatField()
+    shadowsOffsetB = FloatField(default_value=0.0)
     shadows_offsetb = shadowsOffsetB
 
 
@@ -230,13 +230,13 @@ class MidtonesGainPlugOperator(
         ("midtonesGainB", "midtones_gainb"),
     )
 
-    midtonesGainR = FloatField()
+    midtonesGainR = FloatField(default_value=1.0)
     midtones_gainr = midtonesGainR
 
-    midtonesGainG = FloatField()
+    midtonesGainG = FloatField(default_value=1.0)
     midtones_gaing = midtonesGainG
 
-    midtonesGainB = FloatField()
+    midtonesGainB = FloatField(default_value=1.0)
     midtones_gainb = midtonesGainB
 
 
@@ -245,13 +245,13 @@ class MidtonesGainAttrOperator(
 ):
     __slots__ = ()
 
-    midtonesGainR = FloatField()
+    midtonesGainR = FloatField(default_value=1.0)
     midtones_gainr = midtonesGainR
 
-    midtonesGainG = FloatField()
+    midtonesGainG = FloatField(default_value=1.0)
     midtones_gaing = midtonesGainG
 
-    midtonesGainB = FloatField()
+    midtonesGainB = FloatField(default_value=1.0)
     midtones_gainb = midtonesGainB
 
 
@@ -263,13 +263,13 @@ class MidtonesGainField(
     ATTR_CLS = MidtonesGainAttrOperator
     PLUG_CLS = MidtonesGainPlugOperator
 
-    midtonesGainR = FloatField()
+    midtonesGainR = FloatField(default_value=1.0)
     midtones_gainr = midtonesGainR
 
-    midtonesGainG = FloatField()
+    midtonesGainG = FloatField(default_value=1.0)
     midtones_gaing = midtonesGainG
 
-    midtonesGainB = FloatField()
+    midtonesGainB = FloatField(default_value=1.0)
     midtones_gainb = midtonesGainB
 
 
@@ -283,13 +283,13 @@ class MidtonesOffsetPlugOperator(
         ("midtonesOffsetB", "midtones_offsetb"),
     )
 
-    midtonesOffsetR = FloatField()
+    midtonesOffsetR = FloatField(default_value=0.0)
     midtones_offsetr = midtonesOffsetR
 
-    midtonesOffsetG = FloatField()
+    midtonesOffsetG = FloatField(default_value=0.0)
     midtones_offsetg = midtonesOffsetG
 
-    midtonesOffsetB = FloatField()
+    midtonesOffsetB = FloatField(default_value=0.0)
     midtones_offsetb = midtonesOffsetB
 
 
@@ -298,13 +298,13 @@ class MidtonesOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    midtonesOffsetR = FloatField()
+    midtonesOffsetR = FloatField(default_value=0.0)
     midtones_offsetr = midtonesOffsetR
 
-    midtonesOffsetG = FloatField()
+    midtonesOffsetG = FloatField(default_value=0.0)
     midtones_offsetg = midtonesOffsetG
 
-    midtonesOffsetB = FloatField()
+    midtonesOffsetB = FloatField(default_value=0.0)
     midtones_offsetb = midtonesOffsetB
 
 
@@ -316,13 +316,13 @@ class MidtonesOffsetField(
     ATTR_CLS = MidtonesOffsetAttrOperator
     PLUG_CLS = MidtonesOffsetPlugOperator
 
-    midtonesOffsetR = FloatField()
+    midtonesOffsetR = FloatField(default_value=0.0)
     midtones_offsetr = midtonesOffsetR
 
-    midtonesOffsetG = FloatField()
+    midtonesOffsetG = FloatField(default_value=0.0)
     midtones_offsetg = midtonesOffsetG
 
-    midtonesOffsetB = FloatField()
+    midtonesOffsetB = FloatField(default_value=0.0)
     midtones_offsetb = midtonesOffsetB
 
 
@@ -336,13 +336,13 @@ class HighlightsGainPlugOperator(
         ("highlightsGainB", "highlights_gainb"),
     )
 
-    highlightsGainR = FloatField()
+    highlightsGainR = FloatField(default_value=1.0)
     highlights_gainr = highlightsGainR
 
-    highlightsGainG = FloatField()
+    highlightsGainG = FloatField(default_value=1.0)
     highlights_gaing = highlightsGainG
 
-    highlightsGainB = FloatField()
+    highlightsGainB = FloatField(default_value=1.0)
     highlights_gainb = highlightsGainB
 
 
@@ -351,13 +351,13 @@ class HighlightsGainAttrOperator(
 ):
     __slots__ = ()
 
-    highlightsGainR = FloatField()
+    highlightsGainR = FloatField(default_value=1.0)
     highlights_gainr = highlightsGainR
 
-    highlightsGainG = FloatField()
+    highlightsGainG = FloatField(default_value=1.0)
     highlights_gaing = highlightsGainG
 
-    highlightsGainB = FloatField()
+    highlightsGainB = FloatField(default_value=1.0)
     highlights_gainb = highlightsGainB
 
 
@@ -369,13 +369,13 @@ class HighlightsGainField(
     ATTR_CLS = HighlightsGainAttrOperator
     PLUG_CLS = HighlightsGainPlugOperator
 
-    highlightsGainR = FloatField()
+    highlightsGainR = FloatField(default_value=1.0)
     highlights_gainr = highlightsGainR
 
-    highlightsGainG = FloatField()
+    highlightsGainG = FloatField(default_value=1.0)
     highlights_gaing = highlightsGainG
 
-    highlightsGainB = FloatField()
+    highlightsGainB = FloatField(default_value=1.0)
     highlights_gainb = highlightsGainB
 
 
@@ -389,13 +389,13 @@ class HighlightsOffsetPlugOperator(
         ("highlightsOffsetB", "highlights_offsetb"),
     )
 
-    highlightsOffsetR = FloatField()
+    highlightsOffsetR = FloatField(default_value=0.0)
     highlights_offsetr = highlightsOffsetR
 
-    highlightsOffsetG = FloatField()
+    highlightsOffsetG = FloatField(default_value=0.0)
     highlights_offsetg = highlightsOffsetG
 
-    highlightsOffsetB = FloatField()
+    highlightsOffsetB = FloatField(default_value=0.0)
     highlights_offsetb = highlightsOffsetB
 
 
@@ -404,13 +404,13 @@ class HighlightsOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    highlightsOffsetR = FloatField()
+    highlightsOffsetR = FloatField(default_value=0.0)
     highlights_offsetr = highlightsOffsetR
 
-    highlightsOffsetG = FloatField()
+    highlightsOffsetG = FloatField(default_value=0.0)
     highlights_offsetg = highlightsOffsetG
 
-    highlightsOffsetB = FloatField()
+    highlightsOffsetB = FloatField(default_value=0.0)
     highlights_offsetb = highlightsOffsetB
 
 
@@ -422,11 +422,11 @@ class HighlightsOffsetField(
     ATTR_CLS = HighlightsOffsetAttrOperator
     PLUG_CLS = HighlightsOffsetPlugOperator
 
-    highlightsOffsetR = FloatField()
+    highlightsOffsetR = FloatField(default_value=0.0)
     highlights_offsetr = highlightsOffsetR
 
-    highlightsOffsetG = FloatField()
+    highlightsOffsetG = FloatField(default_value=0.0)
     highlights_offsetg = highlightsOffsetG
 
-    highlightsOffsetB = FloatField()
+    highlightsOffsetB = FloatField(default_value=0.0)
     highlights_offsetb = highlightsOffsetB

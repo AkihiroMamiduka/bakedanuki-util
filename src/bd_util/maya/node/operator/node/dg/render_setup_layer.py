@@ -12,13 +12,13 @@ class RenderSetupLayer(DG):
     parentList = MessageField()
     pls = parentList
 
-    next = MessageField()
+    next = MessageField(writable=False)
     nxt = next
 
     previous = MessageField()
     prv = previous
 
-    listItems = MessageField()
+    listItems = MessageField(writable=False)
     lit = listItems
 
     containerLowest = MessageField()
@@ -30,5 +30,5 @@ class RenderSetupLayer(DG):
     legacyRenderLayer = MessageField()
     lrl = legacyRenderLayer
 
-    numIsolatedChildren = LongField()
+    numIsolatedChildren = LongField(default_value=0)
     nic = numIsolatedChildren

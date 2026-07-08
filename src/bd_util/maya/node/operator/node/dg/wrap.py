@@ -59,22 +59,22 @@ class Wrap(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -95,31 +95,31 @@ class Wrap(DG):
     basePoints = TypedField(multi=True)
     bp = basePoints
 
-    dropoff = DoubleField(multi=True)
+    dropoff = DoubleField(multi=True, default_value=4.0)
     dr = dropoff
 
-    smoothness = DoubleField(multi=True)
+    smoothness = DoubleField(multi=True, default_value=0.0)
     smt = smoothness
 
-    inflType = ShortField(multi=True)
+    inflType = ShortField(multi=True, default_value=2)
     it = inflType
 
-    nurbsSamples = ShortField(multi=True)
+    nurbsSamples = ShortField(multi=True, default_value=10)
     ns = nurbsSamples
 
-    weightThreshold = DoubleField()
+    weightThreshold = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     wt = weightThreshold
 
-    maxDistance = DoubleLinearField()
+    maxDistance = DoubleLinearField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
     md = maxDistance
 
-    autoWeightThreshold = BoolField()
+    autoWeightThreshold = BoolField(default_value=False)
     awt = autoWeightThreshold
 
-    autoWeightThresholdValue = DoubleField()
+    autoWeightThresholdValue = DoubleField(default_value=0.0, writable=False)
     wtv = autoWeightThresholdValue
 
-    exclusiveBind = BoolField()
+    exclusiveBind = BoolField(default_value=False)
     rb = exclusiveBind
 
     wtDrty = MessageField()
@@ -128,5 +128,5 @@ class Wrap(DG):
     baseDrt = MessageField()
     bsd = baseDrt
 
-    falloffMode = FalloffModeEnumField()
+    falloffMode = FalloffModeEnumField(default_value=0)
     fom = falloffMode

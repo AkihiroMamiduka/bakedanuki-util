@@ -15,23 +15,23 @@ class CurveFromSurfaceBnd(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    minValue = DoubleField()
+    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     min = minValue
 
-    maxValue = DoubleField()
+    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
     max = maxValue
 
-    relative = BoolField()
+    relative = BoolField(default_value=False)
     r = relative
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    face = LongField()
+    face = LongField(default_value=0, min_value=1, soft_max_value=4)
     f = face
 
-    boundary = LongField()
+    boundary = LongField(default_value=0, min_value=1, soft_max_value=4)
     b = boundary
 
-    edge = LongField()
+    edge = LongField(default_value=-1, min_value=-1, soft_max_value=10)
     e = edge

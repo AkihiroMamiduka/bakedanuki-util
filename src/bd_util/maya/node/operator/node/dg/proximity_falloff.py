@@ -79,7 +79,7 @@ class ProximityFalloff(DG):
     proximityGeometry = TypedField()
     pgm = proximityGeometry
 
-    useBindTags = BoolField()
+    useBindTags = BoolField(default_value=False)
     ubt = useBindTags
 
     bindTagsFilter = DataStringField()
@@ -88,23 +88,23 @@ class ProximityFalloff(DG):
     proximitySubset = DataStringField()
     pss = proximitySubset
 
-    start = DoubleField()
+    start = DoubleField(default_value=0.0)
     st = start
 
-    end = DoubleField()
+    end = DoubleField(default_value=1.0)
     ed = end
 
-    ramp = RampField(multi=True)
+    ramp = RampField(multi=True, default_value=(0.0, 0.0, 0.0))
     rmp = ramp
 
-    useOriginalGeometry = BoolField()
+    useOriginalGeometry = BoolField(default_value=True)
     uo = useOriginalGeometry
 
-    vertexSpace = VertexSpaceEnumField()
+    vertexSpace = VertexSpaceEnumField(default_value=0)
     vspc = vertexSpace
 
-    volume = VolumeEnumField()
+    volume = VolumeEnumField(default_value=1)
     vol = volume
 
-    outputWeightFunction = TypedField()
+    outputWeightFunction = TypedField(writable=False)
     wft = outputWeightFunction

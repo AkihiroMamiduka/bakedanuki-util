@@ -57,13 +57,13 @@ class MagnitudeScalePlugOperator(
         ("magnitudeScale_Interp", "msi"),
     )
 
-    magnitudeScale_Position = FloatField()
+    magnitudeScale_Position = FloatField(default_value=0.0)
     msp = magnitudeScale_Position
 
-    magnitudeScale_FloatValue = FloatField()
+    magnitudeScale_FloatValue = FloatField(default_value=0.0)
     msfv = magnitudeScale_FloatValue
 
-    magnitudeScale_Interp = MagnitudeScale_InterpEnumField()
+    magnitudeScale_Interp = MagnitudeScale_InterpEnumField(default_value=1)
     msi = magnitudeScale_Interp
 
 
@@ -72,13 +72,13 @@ class MagnitudeScaleAttrOperator(
 ):
     __slots__ = ()
 
-    magnitudeScale_Position = FloatField()
+    magnitudeScale_Position = FloatField(default_value=0.0)
     msp = magnitudeScale_Position
 
-    magnitudeScale_FloatValue = FloatField()
+    magnitudeScale_FloatValue = FloatField(default_value=0.0)
     msfv = magnitudeScale_FloatValue
 
-    magnitudeScale_Interp = MagnitudeScale_InterpEnumField()
+    magnitudeScale_Interp = MagnitudeScale_InterpEnumField(default_value=1)
     msi = magnitudeScale_Interp
 
 

@@ -15,7 +15,7 @@ class AiFog(DG):
 
     NODE_TYPE = "aiFog"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -24,10 +24,10 @@ class AiFog(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,11 +36,11 @@ class AiFog(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    distance = FloatField()
+    distance = FloatField(default_value=0.019999999552965164, min_value=0.0, soft_max_value=1000.0)
 
-    height = FloatField()
+    height = FloatField(default_value=5.0, min_value=0.0, soft_max_value=1000.0)
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -48,7 +48,7 @@ class AiFog(DG):
     colorB = color.colorB
     colorb = colorB
 
-    groundPoint = GroundPointField()
+    groundPoint = GroundPointField(default_value=(0.0, 0.0, 0.0))
     ground_point = groundPoint
     groundPointX = groundPoint.groundPointX
     ground_pointx = groundPointX
@@ -57,7 +57,7 @@ class AiFog(DG):
     groundPointZ = groundPoint.groundPointZ
     ground_pointz = groundPointZ
 
-    groundNormal = GroundNormalField()
+    groundNormal = GroundNormalField(default_value=(0.0, 0.0, 1.0))
     ground_normal = groundNormal
     groundNormalX = groundNormal.groundNormalX
     ground_normalx = groundNormalX

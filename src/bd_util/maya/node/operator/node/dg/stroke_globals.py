@@ -10,37 +10,37 @@ class StrokeGlobals(DG):
 
     NODE_TYPE = "strokeGlobals"
 
-    sceneScale = DoubleField()
+    sceneScale = DoubleField(default_value=5.0, soft_min_value=0.0, soft_max_value=100.0)
     pss = sceneScale
 
-    canvasScale = DoubleField()
+    canvasScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     pcs = canvasScale
 
-    wrapH = BoolField()
+    wrapH = BoolField(default_value=False)
     wrh = wrapH
 
-    wrapV = BoolField()
+    wrapV = BoolField(default_value=False)
     wrv = wrapV
 
-    sceneWrapH = BoolField()
+    sceneWrapH = BoolField(default_value=False)
     swh = sceneWrapH
 
-    sceneWrapV = BoolField()
+    sceneWrapV = BoolField(default_value=False)
     swv = sceneWrapV
 
-    forceRealLights = BoolField()
+    forceRealLights = BoolField(default_value=True)
     frl = forceRealLights
 
-    forceDepth = BoolField()
+    forceDepth = BoolField(default_value=True)
     fdp = forceDepth
 
-    useCanvasLight = BoolField()
+    useCanvasLight = BoolField(default_value=True)
     ucl = useCanvasLight
 
-    forceTubeDirAlongPath = BoolField()
+    forceTubeDirAlongPath = BoolField(default_value=True)
     ftd = forceTubeDirAlongPath
 
-    lightDirection = LightDirectionField()
+    lightDirection = LightDirectionField(default_value=(0.2, -0.9, -0.5))
     ldr = lightDirection
     lightDirectionX = lightDirection.lightDirectionX
     ldx = lightDirectionX

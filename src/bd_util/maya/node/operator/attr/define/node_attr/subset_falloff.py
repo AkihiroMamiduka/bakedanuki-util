@@ -57,13 +57,13 @@ class RampPlugOperator(
         ("ramp_Interp", "rmpi"),
     )
 
-    ramp_Position = FloatField()
+    ramp_Position = FloatField(default_value=0.0)
     rmpp = ramp_Position
 
-    ramp_FloatValue = FloatField()
+    ramp_FloatValue = FloatField(default_value=0.0)
     rmpfv = ramp_FloatValue
 
-    ramp_Interp = Ramp_InterpEnumField()
+    ramp_Interp = Ramp_InterpEnumField(default_value=0)
     rmpi = ramp_Interp
 
 
@@ -72,13 +72,13 @@ class RampAttrOperator(
 ):
     __slots__ = ()
 
-    ramp_Position = FloatField()
+    ramp_Position = FloatField(default_value=0.0)
     rmpp = ramp_Position
 
-    ramp_FloatValue = FloatField()
+    ramp_FloatValue = FloatField(default_value=0.0)
     rmpfv = ramp_FloatValue
 
-    ramp_Interp = Ramp_InterpEnumField()
+    ramp_Interp = Ramp_InterpEnumField(default_value=0)
     rmpi = ramp_Interp
 
 

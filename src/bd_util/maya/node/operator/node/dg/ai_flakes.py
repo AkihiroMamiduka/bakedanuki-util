@@ -80,7 +80,7 @@ class AiFlakes(DG):
 
     NODE_TYPE = "aiFlakes"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -89,10 +89,10 @@ class AiFlakes(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -101,24 +101,24 @@ class AiFlakes(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    scale = FloatField()
+    scale = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=100.0)
 
-    density = FloatField()
+    density = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    step = FloatField()
+    step = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    depth = FloatField()
+    depth = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    IOR = FloatField()
+    IOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=10.0)
 
-    normalRandomize = FloatField()
+    normalRandomize = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     normal_randomize = normalRandomize
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=2)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    outputSpace = OutputSpaceEnumField()
+    outputSpace = OutputSpaceEnumField(default_value=0)
     output_space = outputSpace

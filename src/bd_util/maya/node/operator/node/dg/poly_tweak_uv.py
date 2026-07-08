@@ -16,7 +16,7 @@ class PolyTweakUV(DG):
 
     NODE_TYPE = "polyTweakUV"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -25,31 +25,31 @@ class PolyTweakUV(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    uvTweak = UvTweakField(multi=True)
+    uvTweak = UvTweakField(multi=True, default_value=(0.0, 0.0))
     uvtk = uvTweak
 
-    newUV = NewUVField(multi=True)
+    newUV = NewUVField(multi=True, default_value=(-1.0, 0.0, 0.0, 0.0))
     nuv = newUV
 
     uvSetName = DataStringField()

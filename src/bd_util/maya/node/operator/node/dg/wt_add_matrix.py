@@ -12,5 +12,5 @@ class WtAddMatrix(DG):
     wtMatrix = WtMatrixField(multi=True)
     i = wtMatrix
 
-    matrixSum = DataMatrixField()
+    matrixSum = DataMatrixField(writable=False)
     o = matrixSum

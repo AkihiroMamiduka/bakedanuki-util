@@ -63,7 +63,7 @@ class MaterialInfo(DG):
     material = MessageField()
     m = material
 
-    texture = MessageField(multi=True)
+    texture = MessageField(multi=True, readable=False)
     t = texture
 
     textureName = DataStringField()
@@ -72,8 +72,8 @@ class MaterialInfo(DG):
     textureChannel = MessageField()
     tc = textureChannel
 
-    texturePlug = DataStringField()
+    texturePlug = DataStringField(writable=False)
     tp = texturePlug
 
-    textureFilter = TextureFilterEnumField()
+    textureFilter = TextureFilterEnumField(default_value=1)
     tmip = textureFilter

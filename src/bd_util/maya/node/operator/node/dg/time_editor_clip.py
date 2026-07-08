@@ -62,28 +62,28 @@ class TimeEditorClip(DG):
     rootObj = MessageField()
     rob = rootObj
 
-    lastEvaluationTime = TimeField()
+    lastEvaluationTime = TimeField(default_value=-3921501716349.82)
     let = lastEvaluationTime
 
     content = MessageField()
     cnt = content
 
-    track = LongField()
+    track = LongField(default_value=0)
     tr = track
 
-    clipWeight = DoubleField()
+    clipWeight = DoubleField(default_value=1.0)
     cwt = clipWeight
 
     state = TypedField()
     s = state
 
-    clipTrackMuted = BoolField()
+    clipTrackMuted = BoolField(default_value=False)
     tm = clipTrackMuted
 
-    clipSoloMuted = BoolField()
+    clipSoloMuted = BoolField(default_value=False)
     clsm = clipSoloMuted
 
-    transitionTo = LongField()
+    transitionTo = LongField(default_value=-1)
     trci = transitionTo
 
     animSource = MessageField()
@@ -98,19 +98,19 @@ class TimeEditorClip(DG):
     blendShapeTarget = MessageField(multi=True)
     bs = blendShapeTarget
 
-    ghost = BoolField()
+    ghost = BoolField(default_value=False)
     gh = ghost
 
-    ghostRootDefault = BoolField()
+    ghostRootDefault = BoolField(default_value=True)
     grd = ghostRootDefault
 
-    ghostRootCustom = BoolField()
+    ghostRootCustom = BoolField(default_value=False)
     grc = ghostRootCustom
 
-    ghostColorCustom = BoolField()
+    ghostColorCustom = BoolField(default_value=False)
     gcc = ghostColorCustom
 
-    ghostColor = GhostColorField()
+    ghostColor = GhostColorField(default_value=(0.0, 0.0, 0.0))
     gc = ghostColor
     ghostColorR = ghostColor.ghostColorR
     gcr = ghostColorR
@@ -119,16 +119,16 @@ class TimeEditorClip(DG):
     ghostColorB = ghostColor.ghostColorB
     gcb = ghostColorB
 
-    ghostStepSize = LongField()
+    ghostStepSize = LongField(default_value=0, min_value=1, max_value=10)
     gss = ghostStepSize
 
-    ghostCountPost = LongField()
+    ghostCountPost = LongField(default_value=0, min_value=0, max_value=10)
     gct = ghostCountPost
 
-    ghostCountPre = LongField()
+    ghostCountPre = LongField(default_value=0, min_value=0, max_value=10)
     gce = ghostCountPre
 
-    ghostPostColor = GhostPostColorField()
+    ghostPostColor = GhostPostColorField(default_value=(0.0, 0.0, 0.0))
     gtc = ghostPostColor
     ghostPostColorR = ghostPostColor.ghostPostColorR
     gtr = ghostPostColorR
@@ -137,7 +137,7 @@ class TimeEditorClip(DG):
     ghostPostColorB = ghostPostColor.ghostPostColorB
     gtb = ghostPostColorB
 
-    ghostPreColor = GhostPreColorField()
+    ghostPreColor = GhostPreColorField(default_value=(0.0, 0.0, 0.0))
     gec = ghostPreColor
     ghostPreColorR = ghostPreColor.ghostPreColorR
     ger = ghostPreColorR

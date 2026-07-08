@@ -18,13 +18,13 @@ class N1compoundPlugOperator(
         ("n1level1C", "n1c1"),
     )
 
-    n1level1M = FloatField()
+    n1level1M = FloatField(multi=True, default_value=0.0)
     n1m1 = n1level1M
 
-    n1level1S = FloatField()
+    n1level1S = FloatField(default_value=0.0)
     n1s1 = n1level1S
 
-    n1level1C = CompoundField()
+    n1level1C = CompoundField(default_value=(0.0, 0.0))
     n1c1 = n1level1C
 
 
@@ -33,13 +33,13 @@ class N1compoundAttrOperator(
 ):
     __slots__ = ()
 
-    n1level1M = FloatField()
+    n1level1M = FloatField(multi=True, default_value=0.0)
     n1m1 = n1level1M
 
-    n1level1S = FloatField()
+    n1level1S = FloatField(default_value=0.0)
     n1s1 = n1level1S
 
-    n1level1C = CompoundField()
+    n1level1C = CompoundField(default_value=(0.0, 0.0))
     n1c1 = n1level1C
 
 
@@ -51,13 +51,13 @@ class N1compoundField(
     ATTR_CLS = N1compoundAttrOperator
     PLUG_CLS = N1compoundPlugOperator
 
-    n1level1M = FloatField()
+    n1level1M = FloatField(multi=True, default_value=0.0)
     n1m1 = n1level1M
 
-    n1level1S = FloatField()
+    n1level1S = FloatField(default_value=0.0)
     n1s1 = n1level1S
 
-    n1level1C = CompoundField()
+    n1level1C = CompoundField(default_value=(0.0, 0.0))
     n1c1 = n1level1C
 
 
@@ -71,13 +71,13 @@ class N2compoundPlugOperator(
         ("n2level1C", "n2c1"),
     )
 
-    n2level1M = FloatField()
+    n2level1M = FloatField(multi=True, default_value=0.0)
     n2m1 = n2level1M
 
-    n2level1S = FloatField()
+    n2level1S = FloatField(default_value=0.0)
     n2s1 = n2level1S
 
-    n2level1C = CompoundField()
+    n2level1C = CompoundField(default_value=(0.0, 0.0))
     n2c1 = n2level1C
 
 
@@ -86,13 +86,13 @@ class N2compoundAttrOperator(
 ):
     __slots__ = ()
 
-    n2level1M = FloatField()
+    n2level1M = FloatField(multi=True, default_value=0.0)
     n2m1 = n2level1M
 
-    n2level1S = FloatField()
+    n2level1S = FloatField(default_value=0.0)
     n2s1 = n2level1S
 
-    n2level1C = CompoundField()
+    n2level1C = CompoundField(default_value=(0.0, 0.0))
     n2c1 = n2level1C
 
 
@@ -104,13 +104,13 @@ class N2compoundField(
     ATTR_CLS = N2compoundAttrOperator
     PLUG_CLS = N2compoundPlugOperator
 
-    n2level1M = FloatField()
+    n2level1M = FloatField(multi=True, default_value=0.0)
     n2m1 = n2level1M
 
-    n2level1S = FloatField()
+    n2level1S = FloatField(default_value=0.0)
     n2s1 = n2level1S
 
-    n2level1C = CompoundField()
+    n2level1C = CompoundField(default_value=(0.0, 0.0))
     n2c1 = n2level1C
 
 
@@ -124,13 +124,13 @@ class N3compoundPlugOperator(
         ("n3level1C", "n3c1"),
     )
 
-    n3level1M = FloatField()
+    n3level1M = FloatField(multi=True, default_value=0.0)
     n3m1 = n3level1M
 
-    n3level1S = FloatField()
+    n3level1S = FloatField(default_value=0.0)
     n3s1 = n3level1S
 
-    n3level1C = CompoundField()
+    n3level1C = CompoundField(default_value=(0.0, 0.0))
     n3c1 = n3level1C
 
 
@@ -139,13 +139,13 @@ class N3compoundAttrOperator(
 ):
     __slots__ = ()
 
-    n3level1M = FloatField()
+    n3level1M = FloatField(multi=True, default_value=0.0)
     n3m1 = n3level1M
 
-    n3level1S = FloatField()
+    n3level1S = FloatField(default_value=0.0)
     n3s1 = n3level1S
 
-    n3level1C = CompoundField()
+    n3level1C = CompoundField(default_value=(0.0, 0.0))
     n3c1 = n3level1C
 
 
@@ -157,11 +157,11 @@ class N3compoundField(
     ATTR_CLS = N3compoundAttrOperator
     PLUG_CLS = N3compoundPlugOperator
 
-    n3level1M = FloatField()
+    n3level1M = FloatField(multi=True, default_value=0.0)
     n3m1 = n3level1M
 
-    n3level1S = FloatField()
+    n3level1S = FloatField(default_value=0.0)
     n3s1 = n3level1S
 
-    n3level1C = CompoundField()
+    n3level1C = CompoundField(default_value=(0.0, 0.0))
     n3c1 = n3level1C

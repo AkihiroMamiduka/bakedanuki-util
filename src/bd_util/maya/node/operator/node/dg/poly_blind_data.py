@@ -10,7 +10,7 @@ class PolyBlindData(DG):
 
     NODE_TYPE = "polyBlindData"
 
-    typeId = LongField()
+    typeId = LongField(default_value=0)
     tid = typeId
 
     inMesh = TypedField()
@@ -19,5 +19,5 @@ class PolyBlindData(DG):
     outMesh = TypedField()
     o = outMesh
 
-    blindDataEntriesAreNew = BoolField()
+    blindDataEntriesAreNew = BoolField(default_value=False)
     bdn = blindDataEntriesAreNew

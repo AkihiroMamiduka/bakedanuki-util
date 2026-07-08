@@ -11,11 +11,11 @@ class AiImagerExposure(DG):
 
     NODE_TYPE = "aiImagerExposure"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    exposure = FloatField()
+    exposure = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)

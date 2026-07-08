@@ -59,7 +59,7 @@ class PolyMoveEdge(DG):
 
     NODE_TYPE = "polyMoveEdge"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -68,37 +68,37 @@ class PolyMoveEdge(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -107,7 +107,7 @@ class PolyMoveEdge(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -116,7 +116,7 @@ class PolyMoveEdge(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     s = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -125,7 +125,7 @@ class PolyMoveEdge(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -134,13 +134,13 @@ class PolyMoveEdge(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField()
+    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ran = random
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0)
     rs = randomSeed
 
-    localTranslate = LocalTranslateField()
+    localTranslate = LocalTranslateField(default_value=(0.0, 0.0, 0.0))
     lt = localTranslate
     localTranslateX = localTranslate.localTranslateX
     ltx = localTranslateX
@@ -149,7 +149,7 @@ class PolyMoveEdge(DG):
     localTranslateZ = localTranslate.localTranslateZ
     ltz = localTranslateZ
 
-    localDirection = LocalDirectionField()
+    localDirection = LocalDirectionField(default_value=(1.0, 0.0, 0.0))
     ld = localDirection
     localDirectionX = localDirection.localDirectionX
     ldx = localDirectionX
@@ -158,16 +158,16 @@ class PolyMoveEdge(DG):
     localDirectionZ = localDirection.localDirectionZ
     ldz = localDirectionZ
 
-    matrix = DataMatrixField()
+    matrix = DataMatrixField(writable=False)
     cma = matrix
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    gain = FloatField(multi=True)
+    gain = FloatField(multi=True, default_value=1.0)
     ga = gain
 
-    localRotate = LocalRotateField()
+    localRotate = LocalRotateField(default_value=(0.0, 0.0, 0.0))
     lr = localRotate
     localRotateX = localRotate.localRotateX
     lrx = localRotateX
@@ -176,7 +176,7 @@ class PolyMoveEdge(DG):
     localRotateZ = localRotate.localRotateZ
     lrz = localRotateZ
 
-    localScale = LocalScaleField()
+    localScale = LocalScaleField(default_value=(1.0, 1.0, 1.0))
     ls = localScale
     localScaleX = localScale.localScaleX
     lsx = localScaleX
@@ -185,5 +185,5 @@ class PolyMoveEdge(DG):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    localCenter = LocalCenterEnumField()
+    localCenter = LocalCenterEnumField(default_value=0)
     lc = localCenter

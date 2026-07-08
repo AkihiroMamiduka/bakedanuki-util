@@ -12,7 +12,7 @@ class ComponentTagBase(DG):
     inputGeometry = GenericField()
     ig = inputGeometry
 
-    outputGeometry = GenericField()
+    outputGeometry = GenericField(writable=False)
     og = outputGeometry
 
     componentTags = ComponentTagsField(multi=True)

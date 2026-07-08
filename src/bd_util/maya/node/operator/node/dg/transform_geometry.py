@@ -52,14 +52,14 @@ class TransformGeometry(DG):
     transform = DataMatrixField()
     txf = transform
 
-    invertTransform = BoolField()
+    invertTransform = BoolField(default_value=False)
     itf = invertTransform
 
-    freezeNormals = FreezeNormalsEnumField()
+    freezeNormals = FreezeNormalsEnumField(default_value=0)
     fn = freezeNormals
 
-    outputGeometry = GenericField()
+    outputGeometry = GenericField(writable=False)
     og = outputGeometry
 
-    reverseNormals = BoolField()
+    reverseNormals = BoolField(default_value=False)
     rn = reverseNormals

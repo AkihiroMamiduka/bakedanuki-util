@@ -32,7 +32,7 @@ class AiStandardHair(DG):
 
     NODE_TYPE = "aiStandardHair"
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -41,7 +41,7 @@ class AiStandardHair(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    aiTransparency = AiTransparencyField()
+    aiTransparency = AiTransparencyField(default_value=(0.0, 0.0, 0.0))
     ai_transparency = aiTransparency
     aiTransparencyR = aiTransparency.aiTransparencyR
     ai_transparencyr = aiTransparencyR
@@ -50,7 +50,7 @@ class AiStandardHair(DG):
     aiTransparencyB = aiTransparency.aiTransparencyB
     ai_transparencyb = aiTransparencyB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -59,12 +59,12 @@ class AiStandardHair(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    base = FloatField()
+    base = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    baseColor = BaseColorField()
+    baseColor = BaseColorField(default_value=(1.0, 1.0, 1.0))
     base_color = baseColor
     baseColorR = baseColor.baseColorR
     base_colorr = baseColorR
@@ -73,27 +73,27 @@ class AiStandardHair(DG):
     baseColorB = baseColor.baseColorB
     base_colorb = baseColorB
 
-    melanin = FloatField()
+    melanin = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    melaninRedness = FloatField()
+    melaninRedness = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     melanin_redness = melaninRedness
 
-    melaninRandomize = FloatField()
+    melaninRandomize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     melanin_randomize = melaninRandomize
 
-    roughness = FloatField()
+    roughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
 
-    roughnessAzimuthal = FloatField()
+    roughnessAzimuthal = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
     roughness_azimuthal = roughnessAzimuthal
 
-    roughnessAnisotropic = BoolField()
+    roughnessAnisotropic = BoolField(default_value=False)
     roughness_anisotropic = roughnessAnisotropic
 
-    ior = FloatField()
+    ior = FloatField(default_value=1.5499999523162842, min_value=0.0, soft_max_value=5.0)
 
-    shift = FloatField()
+    shift = FloatField(default_value=3.0, min_value=-90.0, max_value=90.0, soft_min_value=0.0, soft_max_value=20.0)
 
-    specularTint = SpecularTintField()
+    specularTint = SpecularTintField(default_value=(1.0, 1.0, 1.0))
     specular_tint = specularTint
     specularTintR = specularTint.specularTintR
     specular_tintr = specularTintR
@@ -102,7 +102,7 @@ class AiStandardHair(DG):
     specularTintB = specularTint.specularTintB
     specular_tintb = specularTintB
 
-    specular2Tint = Specular2TintField()
+    specular2Tint = Specular2TintField(default_value=(1.0, 1.0, 1.0))
     specular2_tint = specular2Tint
     specular2TintR = specular2Tint.specular2TintR
     specular2_tintr = specular2TintR
@@ -111,7 +111,7 @@ class AiStandardHair(DG):
     specular2TintB = specular2Tint.specular2TintB
     specular2_tintb = specular2TintB
 
-    transmissionTint = TransmissionTintField()
+    transmissionTint = TransmissionTintField(default_value=(1.0, 1.0, 1.0))
     transmission_tint = transmissionTint
     transmissionTintR = transmissionTint.transmissionTintR
     transmission_tintr = transmissionTintR
@@ -120,9 +120,9 @@ class AiStandardHair(DG):
     transmissionTintB = transmissionTint.transmissionTintB
     transmission_tintb = transmissionTintB
 
-    diffuse = FloatField()
+    diffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    diffuseColor = DiffuseColorField()
+    diffuseColor = DiffuseColorField(default_value=(1.0, 1.0, 1.0))
     diffuse_color = diffuseColor
     diffuseColorR = diffuseColor.diffuseColorR
     diffuse_colorr = diffuseColorR
@@ -131,9 +131,9 @@ class AiStandardHair(DG):
     diffuseColorB = diffuseColor.diffuseColorB
     diffuse_colorb = diffuseColorB
 
-    emission = FloatField()
+    emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -142,7 +142,7 @@ class AiStandardHair(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    opacity = OpacityField()
+    opacity = OpacityField(default_value=(1.0, 1.0, 1.0))
     opacityR = opacity.opacityR
     opacityr = opacityR
     opacityG = opacity.opacityG
@@ -150,22 +150,22 @@ class AiStandardHair(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    indirectDiffuse = FloatField()
+    indirectDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_diffuse = indirectDiffuse
 
-    indirectSpecular = FloatField()
+    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_specular = indirectSpecular
 
-    extraDepth = LongField()
+    extraDepth = LongField(default_value=16, min_value=0, max_value=64)
     extra_depth = extraDepth
 
-    extraSamples = LongField()
+    extraSamples = LongField(default_value=0)
     extra_samples = extraSamples
 
     aovId1 = DataStringField()
     aov_id1 = aovId1
 
-    id1 = Id1Field()
+    id1 = Id1Field(default_value=(0.0, 0.0, 0.0))
     id1R = id1.id1R
     id1r = id1R
     id1G = id1.id1G
@@ -176,7 +176,7 @@ class AiStandardHair(DG):
     aovId2 = DataStringField()
     aov_id2 = aovId2
 
-    id2 = Id2Field()
+    id2 = Id2Field(default_value=(0.0, 0.0, 0.0))
     id2R = id2.id2R
     id2r = id2R
     id2G = id2.id2G
@@ -187,7 +187,7 @@ class AiStandardHair(DG):
     aovId3 = DataStringField()
     aov_id3 = aovId3
 
-    id3 = Id3Field()
+    id3 = Id3Field(default_value=(0.0, 0.0, 0.0))
     id3R = id3.id3R
     id3r = id3R
     id3G = id3.id3G
@@ -198,7 +198,7 @@ class AiStandardHair(DG):
     aovId4 = DataStringField()
     aov_id4 = aovId4
 
-    id4 = Id4Field()
+    id4 = Id4Field(default_value=(0.0, 0.0, 0.0))
     id4R = id4.id4R
     id4r = id4R
     id4G = id4.id4G
@@ -209,7 +209,7 @@ class AiStandardHair(DG):
     aovId5 = DataStringField()
     aov_id5 = aovId5
 
-    id5 = Id5Field()
+    id5 = Id5Field(default_value=(0.0, 0.0, 0.0))
     id5R = id5.id5R
     id5r = id5R
     id5G = id5.id5G
@@ -220,7 +220,7 @@ class AiStandardHair(DG):
     aovId6 = DataStringField()
     aov_id6 = aovId6
 
-    id6 = Id6Field()
+    id6 = Id6Field(default_value=(0.0, 0.0, 0.0))
     id6R = id6.id6R
     id6r = id6R
     id6G = id6.id6G
@@ -231,7 +231,7 @@ class AiStandardHair(DG):
     aovId7 = DataStringField()
     aov_id7 = aovId7
 
-    id7 = Id7Field()
+    id7 = Id7Field(default_value=(0.0, 0.0, 0.0))
     id7R = id7.id7R
     id7r = id7R
     id7G = id7.id7G
@@ -242,7 +242,7 @@ class AiStandardHair(DG):
     aovId8 = DataStringField()
     aov_id8 = aovId8
 
-    id8 = Id8Field()
+    id8 = Id8Field(default_value=(0.0, 0.0, 0.0))
     id8R = id8.id8R
     id8r = id8R
     id8G = id8.id8G
@@ -250,13 +250,13 @@ class AiStandardHair(DG):
     id8B = id8.id8B
     id8b = id8B
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiEnableMatte = BoolField()
+    aiEnableMatte = BoolField(default_value=False, category="arnold")
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField()
+    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0), category="arnold")
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -265,5 +265,5 @@ class AiStandardHair(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField()
+    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, category="arnold")
     ai_matte_color_a = aiMatteColorA

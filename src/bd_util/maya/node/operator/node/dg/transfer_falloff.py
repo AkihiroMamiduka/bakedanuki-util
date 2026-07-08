@@ -16,11 +16,11 @@ class TransferFalloff(DG):
     weightFunction = TypedField(multi=True)
     iwf = weightFunction
 
-    useBindTags = BoolField()
+    useBindTags = BoolField(default_value=False)
     ubt = useBindTags
 
     bindTagsFilter = DataStringField()
     btf = bindTagsFilter
 
-    outputWeightFunction = TypedField(multi=True)
+    outputWeightFunction = TypedField(multi=True, writable=False)
     wft = outputWeightFunction

@@ -144,17 +144,17 @@ class ManipulatorTransformsPlugOperator(
 
     manipulatorLineScalesPP = DataVectorArrayField()
 
-    manipulateId = LongField()
+    manipulateId = LongField(default_value=0)
 
-    manipulatePolygon = LongField()
+    manipulatePolygon = LongField(default_value=0)
 
-    manipulateWord = LongField()
+    manipulateWord = LongField(default_value=0)
 
-    manipulateLine = LongField()
+    manipulateLine = LongField(default_value=0)
 
     alignmentAdjustments = DataDoubleArrayField()
 
-    manipulatorMode = ManipulatorModeEnumField()
+    manipulatorMode = ManipulatorModeEnumField(default_value=1)
 
 
 class ManipulatorTransformsAttrOperator(
@@ -180,17 +180,17 @@ class ManipulatorTransformsAttrOperator(
 
     manipulatorLineScalesPP = DataVectorArrayField()
 
-    manipulateId = LongField()
+    manipulateId = LongField(default_value=0)
 
-    manipulatePolygon = LongField()
+    manipulatePolygon = LongField(default_value=0)
 
-    manipulateWord = LongField()
+    manipulateWord = LongField(default_value=0)
 
-    manipulateLine = LongField()
+    manipulateLine = LongField(default_value=0)
 
     alignmentAdjustments = DataDoubleArrayField()
 
-    manipulatorMode = ManipulatorModeEnumField()
+    manipulatorMode = ManipulatorModeEnumField(default_value=1)
 
 
 class ManipulatorTransformsField(
@@ -219,17 +219,17 @@ class ManipulatorTransformsField(
 
     manipulatorLineScalesPP = DataVectorArrayField()
 
-    manipulateId = LongField()
+    manipulateId = LongField(default_value=0)
 
-    manipulatePolygon = LongField()
+    manipulatePolygon = LongField(default_value=0)
 
-    manipulateWord = LongField()
+    manipulateWord = LongField(default_value=0)
 
-    manipulateLine = LongField()
+    manipulateLine = LongField(default_value=0)
 
     alignmentAdjustments = DataDoubleArrayField()
 
-    manipulatorMode = ManipulatorModeEnumField()
+    manipulatorMode = ManipulatorModeEnumField(default_value=1)
 
 
 class PositionAdjustPlugOperator(
@@ -242,11 +242,11 @@ class PositionAdjustPlugOperator(
         ("positionAdjust2", "positionAdjust2"),
     )
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class PositionAdjustAttrOperator(
@@ -254,11 +254,11 @@ class PositionAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class PositionAdjustField(
@@ -269,11 +269,11 @@ class PositionAdjustField(
     ATTR_CLS = PositionAdjustAttrOperator
     PLUG_CLS = PositionAdjustPlugOperator
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustPlugOperator(
@@ -286,11 +286,11 @@ class RotationAdjustPlugOperator(
         ("rotationAdjust2", "rotationAdjust2"),
     )
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustAttrOperator(
@@ -298,11 +298,11 @@ class RotationAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustField(
@@ -313,11 +313,11 @@ class RotationAdjustField(
     ATTR_CLS = RotationAdjustAttrOperator
     PLUG_CLS = RotationAdjustPlugOperator
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustPlugOperator(
@@ -330,11 +330,11 @@ class ScaleAdjustPlugOperator(
         ("scaleAdjust2", "scaleAdjust2"),
     )
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustAttrOperator(
@@ -342,11 +342,11 @@ class ScaleAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustField(
@@ -357,11 +357,11 @@ class ScaleAdjustField(
     ATTR_CLS = ScaleAdjustAttrOperator
     PLUG_CLS = ScaleAdjustPlugOperator
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)
 
 
 class AnimationPositionPlugOperator(
@@ -374,11 +374,11 @@ class AnimationPositionPlugOperator(
         ("animationPositionZ", "animationPositionZ"),
     )
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationPositionAttrOperator(
@@ -386,11 +386,11 @@ class AnimationPositionAttrOperator(
 ):
     __slots__ = ()
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationPositionField(
@@ -401,11 +401,11 @@ class AnimationPositionField(
     ATTR_CLS = AnimationPositionAttrOperator
     PLUG_CLS = AnimationPositionPlugOperator
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationRotationPlugOperator(
@@ -418,11 +418,11 @@ class AnimationRotationPlugOperator(
         ("animationRotationZ", "animationRotationZ"),
     )
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationRotationAttrOperator(
@@ -430,11 +430,11 @@ class AnimationRotationAttrOperator(
 ):
     __slots__ = ()
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationRotationField(
@@ -445,11 +445,11 @@ class AnimationRotationField(
     ATTR_CLS = AnimationRotationAttrOperator
     PLUG_CLS = AnimationRotationPlugOperator
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationScalePlugOperator(
@@ -462,11 +462,11 @@ class AnimationScalePlugOperator(
         ("animationScaleZ", "animationScaleZ"),
     )
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)
 
 
 class AnimationScaleAttrOperator(
@@ -474,11 +474,11 @@ class AnimationScaleAttrOperator(
 ):
     __slots__ = ()
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)
 
 
 class AnimationScaleField(
@@ -489,11 +489,11 @@ class AnimationScaleField(
     ATTR_CLS = AnimationScaleAttrOperator
     PLUG_CLS = AnimationScalePlugOperator
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)
 
 
 class VectorMessagesPlugOperator(
@@ -556,9 +556,9 @@ class RandomRangePlugOperator(
         ("randomRange1", "randomRange1"),
     )
 
-    randomRange0 = LongField()
+    randomRange0 = LongField(default_value=0)
 
-    randomRange1 = LongField()
+    randomRange1 = LongField(default_value=10)
 
 
 class RandomRangeAttrOperator(
@@ -566,9 +566,9 @@ class RandomRangeAttrOperator(
 ):
     __slots__ = ()
 
-    randomRange0 = LongField()
+    randomRange0 = LongField(default_value=0)
 
-    randomRange1 = LongField()
+    randomRange1 = LongField(default_value=10)
 
 
 class RandomRangeField(
@@ -579,6 +579,6 @@ class RandomRangeField(
     ATTR_CLS = RandomRangeAttrOperator
     PLUG_CLS = RandomRangePlugOperator
 
-    randomRange0 = LongField()
+    randomRange0 = LongField(default_value=0)
 
-    randomRange1 = LongField()
+    randomRange1 = LongField(default_value=10)

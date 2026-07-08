@@ -94,7 +94,7 @@ class MASH_Curve(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -105,21 +105,21 @@ class MASH_Curve(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -127,9 +127,9 @@ class MASH_Curve(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -149,32 +149,32 @@ class MASH_Curve(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    SimpleUEnvelope = FloatField()
+    SimpleUEnvelope = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     SimUEnv = SimpleUEnvelope
 
-    SimpleValue = FloatField()
+    SimpleValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     SimpleVal = SimpleValue
 
-    offsetAlongCurve = FloatField()
+    offsetAlongCurve = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    clipStart = FloatField()
+    clipStart = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     falloffInfo = TypedField()
 
-    clipEnd = FloatField()
+    clipEnd = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    curveLengthAffectsSpeed = BoolField()
+    curveLengthAffectsSpeed = BoolField(default_value=False)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -183,42 +183,42 @@ class MASH_Curve(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
-    proportionalMulti = BoolField()
+    proportionalMulti = BoolField(default_value=True)
 
-    equalSpacing = BoolField()
+    equalSpacing = BoolField(default_value=False)
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    timeStepVar = FloatField()
+    timeStepVar = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     tstev = timeStepVar
 
-    velocityVariation = FloatField()
+    velocityVariation = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    velocityNoise = FloatField()
+    velocityNoise = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    velocityNoiseScale = FloatField()
+    velocityNoiseScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    curveScale = FloatField()
+    curveScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    curveRoll = FloatField()
+    curveRoll = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    calculateRotation = BoolField()
+    calculateRotation = BoolField(default_value=True)
     calRot = calculateRotation
 
-    upVector = UpVectorField()
+    upVector = UpVectorField(default_value=(0.0, 1.0, 0.0))
     uVec = upVector
     upVector0 = upVector.upVector0
     uVec0 = upVector0
@@ -227,23 +227,23 @@ class MASH_Curve(DG):
     upVector2 = upVector.upVector2
     uVec2 = upVector2
 
-    stopAtEnd = BoolField()
+    stopAtEnd = BoolField(default_value=False)
     sae = stopAtEnd
 
-    localMode = BoolField()
+    localMode = BoolField(default_value=False)
 
-    parametricLength = BoolField()
+    parametricLength = BoolField(default_value=False)
 
-    timeStep = FloatField()
+    timeStep = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
     ts = timeStep
 
     inCurves = DataNurbsCurveField(multi=True)
 
     aimCurve = DataNurbsCurveField()
 
-    timeSlide = FloatField()
+    timeSlide = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     tsli = timeSlide
 
-    legacy2016 = BoolField()
+    legacy2016 = BoolField(default_value=False)
 
-    scaleRamp = ScaleRampField(multi=True)
+    scaleRamp = ScaleRampField(multi=True, default_value=(0.0, 0.0, 1.0))

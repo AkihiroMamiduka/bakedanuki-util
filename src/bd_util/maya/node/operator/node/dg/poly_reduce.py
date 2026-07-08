@@ -110,7 +110,7 @@ class PolyReduce(DG):
 
     NODE_TYPE = "polyReduce"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -119,155 +119,155 @@ class PolyReduce(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    percentageAchieved = DoubleField()
+    percentageAchieved = DoubleField(default_value=0.0, min_value=0.0, max_value=100.0, writable=False)
     pa = percentageAchieved
 
-    vertexCountAchieved = LongField()
+    vertexCountAchieved = LongField(default_value=0, min_value=0, writable=False)
     va = vertexCountAchieved
 
-    triangleCountAchieved = LongField()
+    triangleCountAchieved = LongField(default_value=0, min_value=0, writable=False)
     ta = triangleCountAchieved
 
-    vertexCountIn = LongField()
+    vertexCountIn = LongField(default_value=0, min_value=0, writable=False)
     ivc = vertexCountIn
 
-    triangleCountIn = LongField()
+    triangleCountIn = LongField(default_value=0, min_value=0, writable=False)
     itc = triangleCountIn
 
-    version = VersionEnumField()
+    version = VersionEnumField(default_value=0)
     ver = version
 
-    termination = TerminationEnumField()
+    termination = TerminationEnumField(default_value=0)
     trm = termination
 
-    percentage = DoubleField()
+    percentage = DoubleField(default_value=0.0, min_value=0.0, max_value=100.0)
     p = percentage
 
-    vertexCount = LongField()
+    vertexCount = LongField(default_value=0, min_value=0)
     vct = vertexCount
 
-    triangleCount = LongField()
+    triangleCount = LongField(default_value=0, min_value=0)
     tct = triangleCount
 
-    preserveTopology = BoolField()
+    preserveTopology = BoolField(default_value=True)
     top = preserveTopology
 
     vertexMapName = DataStringField()
     vmp = vertexMapName
 
-    sharpness = DoubleField()
+    sharpness = DoubleField(default_value=0.0)
     shp = sharpness
 
-    invertVertexWeights = BoolField()
+    invertVertexWeights = BoolField(default_value=True)
     iwt = invertVertexWeights
 
-    vertexWeightCoefficient = DoubleField()
+    vertexWeightCoefficient = DoubleField(default_value=1.0, min_value=0.0)
     vwc = vertexWeightCoefficient
 
-    useVirtualSymmetry = UseVirtualSymmetryEnumField()
+    useVirtualSymmetry = UseVirtualSymmetryEnumField(default_value=0)
     uvs = useVirtualSymmetry
 
-    symmetryPlane = Double4Field()
+    symmetryPlane = Double4Field(default_value=(0.0, 0.0, 0.0, 0.0))
     sym = symmetryPlane
 
-    symmetryTolerance = DoubleField()
+    symmetryTolerance = DoubleField(default_value=0.0, min_value=0.0)
     stl = symmetryTolerance
 
-    keepBorder = BoolField()
+    keepBorder = BoolField(default_value=True)
     kb = keepBorder
 
-    keepBorderWeight = DoubleField()
+    keepBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     kbw = keepBorderWeight
 
-    keepMapBorder = BoolField()
+    keepMapBorder = BoolField(default_value=True)
     kmb = keepMapBorder
 
-    keepMapBorderWeight = DoubleField()
+    keepMapBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     kmw = keepMapBorderWeight
 
-    keepColorBorder = BoolField()
+    keepColorBorder = BoolField(default_value=True)
     kcb = keepColorBorder
 
-    keepColorBorderWeight = DoubleField()
+    keepColorBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     kcw = keepColorBorderWeight
 
-    keepFaceGroupBorder = BoolField()
+    keepFaceGroupBorder = BoolField(default_value=True)
     kfb = keepFaceGroupBorder
 
-    keepFaceGroupBorderWeight = DoubleField()
+    keepFaceGroupBorderWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     kfw = keepFaceGroupBorderWeight
 
-    keepHardEdge = BoolField()
+    keepHardEdge = BoolField(default_value=True)
     khe = keepHardEdge
 
-    keepHardEdgeWeight = DoubleField()
+    keepHardEdgeWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     khw = keepHardEdgeWeight
 
-    keepCreaseEdge = BoolField()
+    keepCreaseEdge = BoolField(default_value=True)
     kce = keepCreaseEdge
 
-    keepCreaseEdgeWeight = DoubleField()
+    keepCreaseEdgeWeight = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     cew = keepCreaseEdgeWeight
 
-    keepQuadsWeight = DoubleField()
+    keepQuadsWeight = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0, soft_max_value=1.0)
     kqw = keepQuadsWeight
 
     vertexWeights = DataDoubleArrayField()
     vwt = vertexWeights
 
-    cachingReduce = BoolField()
+    cachingReduce = BoolField(default_value=False)
     cr = cachingReduce
 
-    compactness = DoubleField()
+    compactness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     com = compactness
 
-    geomWeights = DoubleField()
+    geomWeights = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     gwt = geomWeights
 
-    uvWeights = DoubleField()
+    uvWeights = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     uwt = uvWeights
 
-    colorWeights = DoubleField()
+    colorWeights = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     cwt = colorWeights
 
-    weightCoefficient = DoubleField()
+    weightCoefficient = DoubleField(default_value=10000.0, min_value=1.0)
     wc = weightCoefficient
 
-    keepOriginalVertices = BoolField()
+    keepOriginalVertices = BoolField(default_value=False)
     kev = keepOriginalVertices
 
-    triangulate = BoolField()
+    triangulate = BoolField(default_value=True)
     t = triangulate
 
-    border = DoubleField()
+    border = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     b = border
 
-    line = DoubleField()
+    line = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     l = line
 
-    detail = DoubleField()
+    detail = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     d = detail
 
-    weights = DoubleField(multi=True)
+    weights = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
     wts = weights

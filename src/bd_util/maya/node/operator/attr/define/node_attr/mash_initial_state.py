@@ -18,13 +18,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -33,13 +33,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -51,11 +51,11 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ

@@ -25,11 +25,11 @@ class PntsPlugOperator(
         ("pz", ".pt.z"),
     )
 
-    px = DoubleField()
+    px = DoubleField(default_value=1.0)
 
-    py = DoubleField()
+    py = DoubleField(default_value=1.0)
 
-    pz = DoubleField()
+    pz = DoubleField(default_value=1.0)
 
 
 class PntsAttrOperator(
@@ -37,11 +37,11 @@ class PntsAttrOperator(
 ):
     __slots__ = ()
 
-    px = DoubleField()
+    px = DoubleField(default_value=1.0)
 
-    py = DoubleField()
+    py = DoubleField(default_value=1.0)
 
-    pz = DoubleField()
+    pz = DoubleField(default_value=1.0)
 
 
 class PntsField(
@@ -62,9 +62,9 @@ class KitAPlugOperator(
         ("pnts", "ka.pt"),
     )
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
 class KitAAttrOperator(
@@ -72,9 +72,9 @@ class KitAAttrOperator(
 ):
     __slots__ = ()
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
 class KitAField(
@@ -85,9 +85,9 @@ class KitAField(
     ATTR_CLS = KitAAttrOperator
     PLUG_CLS = KitAPlugOperator
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
 class KitBPlugOperator(
@@ -99,9 +99,9 @@ class KitBPlugOperator(
         ("pnts", "kb.pt"),
     )
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
 class KitBAttrOperator(
@@ -109,9 +109,9 @@ class KitBAttrOperator(
 ):
     __slots__ = ()
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
 class KitBField(
@@ -122,6 +122,6 @@ class KitBField(
     ATTR_CLS = KitBAttrOperator
     PLUG_CLS = KitBPlugOperator
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=0.0)
 
-    pnts = Double3Field()
+    pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))

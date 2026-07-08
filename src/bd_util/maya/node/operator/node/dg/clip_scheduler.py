@@ -57,13 +57,13 @@ class ClipScheduler(DG):
     blendList = BlendListField(multi=True)
     bl = blendList
 
-    blendClips = BlendClipsField(multi=True)
+    blendClips = BlendClipsField(multi=True, default_value=(0.0, 0.0))
     bc = blendClips
 
-    clipEvaluate = TypedField()
+    clipEvaluate = TypedField(writable=False)
     ce = clipEvaluate
 
-    clipStatePercentEval = TypedField()
+    clipStatePercentEval = TypedField(writable=False)
     cspe = clipStatePercentEval
 
     clipFunction = ClipFunctionField()
@@ -92,53 +92,53 @@ class ClipScheduler(DG):
     clip = MessageField(multi=True)
     cl = clip
 
-    start = TimeField(multi=True)
+    start = TimeField(multi=True, default_value=0.0)
     st = start
 
-    sourceStart = TimeField(multi=True)
+    sourceStart = TimeField(multi=True, default_value=0.0)
     ss = sourceStart
 
-    sourceEnd = TimeField(multi=True)
+    sourceEnd = TimeField(multi=True, default_value=0.0)
     se = sourceEnd
 
-    scale = DoubleField(multi=True)
+    scale = DoubleField(multi=True, default_value=1.0, min_value=0.0)
     sc = scale
 
-    hold = TimeField(multi=True)
+    hold = TimeField(multi=True, default_value=0.0)
     h = hold
 
-    weight = DoubleField(multi=True)
+    weight = DoubleField(multi=True, default_value=1.0)
     w = weight
 
-    weightStyle = WeightStyleEnumField(multi=True)
+    weightStyle = WeightStyleEnumField(multi=True, default_value=0)
     ws = weightStyle
 
-    preCycle = DoubleField(multi=True)
+    preCycle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     cb = preCycle
 
-    postCycle = DoubleField(multi=True)
+    postCycle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     ca = postCycle
 
-    enable = BoolField(multi=True)
+    enable = BoolField(multi=True, default_value=True)
     ea = enable
 
-    track = ShortField(multi=True)
+    track = ShortField(multi=True, default_value=0, min_value=0)
     tr = track
 
-    trackState = ShortField(multi=True)
+    trackState = ShortField(multi=True, default_value=0, min_value=0)
     ts = trackState
 
-    numTracks = ShortField()
+    numTracks = ShortField(default_value=0)
     nt = numTracks
 
-    cycle = DoubleField(multi=True)
+    cycle = DoubleField(multi=True, default_value=1.0)
     cy = cycle
 
-    startPercent = DoubleField(multi=True)
+    startPercent = DoubleField(multi=True, default_value=0.0)
     sp = startPercent
 
-    absolute = BoolField(multi=True)
+    absolute = BoolField(multi=True, default_value=False)
     a = absolute
 
-    absoluteRotations = BoolField(multi=True)
+    absoluteRotations = BoolField(multi=True, default_value=False)
     ar = absoluteRotations

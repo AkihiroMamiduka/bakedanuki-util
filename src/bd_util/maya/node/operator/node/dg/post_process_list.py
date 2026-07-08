@@ -8,5 +8,5 @@ class PostProcessList(DG):
 
     NODE_TYPE = "postProcessList"
 
-    postProcesses = MessageField(multi=True)
+    postProcesses = MessageField(multi=True, readable=False)
     p = postProcesses

@@ -17,13 +17,13 @@ class AttrAAPlugOperator(
         ("attrAJ", "aj"),
     )
 
-    attrAD = CompoundField()
+    attrAD = CompoundField(default_value=(0.0, 0.0, 0.0))
     ad = attrAD
 
-    attrAG = CompoundField()
+    attrAG = CompoundField(default_value=(0.0, 0.0, 0.0))
     ag = attrAG
 
-    attrAJ = CompoundField()
+    attrAJ = CompoundField(default_value=(0.0, 0.0, 0.0))
     aj = attrAJ
 
 
@@ -32,13 +32,13 @@ class AttrAAAttrOperator(
 ):
     __slots__ = ()
 
-    attrAD = CompoundField()
+    attrAD = CompoundField(default_value=(0.0, 0.0, 0.0))
     ad = attrAD
 
-    attrAG = CompoundField()
+    attrAG = CompoundField(default_value=(0.0, 0.0, 0.0))
     ag = attrAG
 
-    attrAJ = CompoundField()
+    attrAJ = CompoundField(default_value=(0.0, 0.0, 0.0))
     aj = attrAJ
 
 
@@ -50,13 +50,13 @@ class AttrAAField(
     ATTR_CLS = AttrAAAttrOperator
     PLUG_CLS = AttrAAPlugOperator
 
-    attrAD = CompoundField()
+    attrAD = CompoundField(default_value=(0.0, 0.0, 0.0))
     ad = attrAD
 
-    attrAG = CompoundField()
+    attrAG = CompoundField(default_value=(0.0, 0.0, 0.0))
     ag = attrAG
 
-    attrAJ = CompoundField()
+    attrAJ = CompoundField(default_value=(0.0, 0.0, 0.0))
     aj = attrAJ
 
 
@@ -70,13 +70,13 @@ class AttrABPlugOperator(
         ("attrAK", "ak"),
     )
 
-    attrAE = CompoundField()
+    attrAE = CompoundField(default_value=(0.0, 0.0, 0.0))
     ae = attrAE
 
-    attrAH = CompoundField()
+    attrAH = CompoundField(default_value=(0.0, 0.0, 0.0))
     ah = attrAH
 
-    attrAK = CompoundField()
+    attrAK = CompoundField(default_value=(0.0, 0.0, 0.0))
     ak = attrAK
 
 
@@ -85,13 +85,13 @@ class AttrABAttrOperator(
 ):
     __slots__ = ()
 
-    attrAE = CompoundField()
+    attrAE = CompoundField(default_value=(0.0, 0.0, 0.0))
     ae = attrAE
 
-    attrAH = CompoundField()
+    attrAH = CompoundField(default_value=(0.0, 0.0, 0.0))
     ah = attrAH
 
-    attrAK = CompoundField()
+    attrAK = CompoundField(default_value=(0.0, 0.0, 0.0))
     ak = attrAK
 
 
@@ -103,13 +103,13 @@ class AttrABField(
     ATTR_CLS = AttrABAttrOperator
     PLUG_CLS = AttrABPlugOperator
 
-    attrAE = CompoundField()
+    attrAE = CompoundField(default_value=(0.0, 0.0, 0.0))
     ae = attrAE
 
-    attrAH = CompoundField()
+    attrAH = CompoundField(default_value=(0.0, 0.0, 0.0))
     ah = attrAH
 
-    attrAK = CompoundField()
+    attrAK = CompoundField(default_value=(0.0, 0.0, 0.0))
     ak = attrAK
 
 
@@ -123,13 +123,13 @@ class AttrACPlugOperator(
         ("attrAL", "al"),
     )
 
-    attrAF = CompoundField()
+    attrAF = CompoundField(default_value=(0.0, 0.0, 0.0))
     af = attrAF
 
-    attrAI = CompoundField()
+    attrAI = CompoundField(default_value=(0.0, 0.0, 0.0))
     ai = attrAI
 
-    attrAL = CompoundField()
+    attrAL = CompoundField(default_value=(0.0, 0.0, 0.0))
     al = attrAL
 
 
@@ -138,13 +138,13 @@ class AttrACAttrOperator(
 ):
     __slots__ = ()
 
-    attrAF = CompoundField()
+    attrAF = CompoundField(default_value=(0.0, 0.0, 0.0))
     af = attrAF
 
-    attrAI = CompoundField()
+    attrAI = CompoundField(default_value=(0.0, 0.0, 0.0))
     ai = attrAI
 
-    attrAL = CompoundField()
+    attrAL = CompoundField(default_value=(0.0, 0.0, 0.0))
     al = attrAL
 
 
@@ -156,11 +156,11 @@ class AttrACField(
     ATTR_CLS = AttrACAttrOperator
     PLUG_CLS = AttrACPlugOperator
 
-    attrAF = CompoundField()
+    attrAF = CompoundField(default_value=(0.0, 0.0, 0.0))
     af = attrAF
 
-    attrAI = CompoundField()
+    attrAI = CompoundField(default_value=(0.0, 0.0, 0.0))
     ai = attrAI
 
-    attrAL = CompoundField()
+    attrAL = CompoundField(default_value=(0.0, 0.0, 0.0))
     al = attrAL

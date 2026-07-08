@@ -12,7 +12,7 @@ class PolyCollapseF(DG):
 
     NODE_TYPE = "polyCollapseF"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -21,29 +21,29 @@ class PolyCollapseF(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    useAreaThreshold = BoolField()
+    useAreaThreshold = BoolField(default_value=False)
     uat = useAreaThreshold
 
-    areaThreshold = DoubleField()
+    areaThreshold = DoubleField(default_value=0.1, min_value=0.0, soft_max_value=1.0)
     at = areaThreshold

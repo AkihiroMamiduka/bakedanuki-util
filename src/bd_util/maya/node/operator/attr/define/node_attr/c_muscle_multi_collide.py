@@ -31,7 +31,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -46,7 +46,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -70,7 +70,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -79,7 +79,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -102,13 +102,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -117,13 +117,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -135,13 +135,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -153,7 +153,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -161,7 +161,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -219,31 +219,31 @@ class CollisionDataPlugOperator(
         ("smoothHold", "hld"),
     )
 
-    tolerance = DoubleField()
+    tolerance = DoubleField(default_value=0.001, min_value=0.0)
     tol = tolerance
 
-    falloff = DoubleField()
+    falloff = DoubleField(default_value=1.0, min_value=0.0)
     fal = falloff
 
-    volumize = DoubleField()
+    volumize = DoubleField(default_value=0.0, min_value=0.0)
     vol = volumize
 
-    blurIterations = LongField()
+    blurIterations = LongField(default_value=5, min_value=0)
     blrit = blurIterations
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rxstr = relaxStrength
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smstr = smoothStrength
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     hld = smoothHold
 
 
@@ -252,31 +252,31 @@ class CollisionDataAttrOperator(
 ):
     __slots__ = ()
 
-    tolerance = DoubleField()
+    tolerance = DoubleField(default_value=0.001, min_value=0.0)
     tol = tolerance
 
-    falloff = DoubleField()
+    falloff = DoubleField(default_value=1.0, min_value=0.0)
     fal = falloff
 
-    volumize = DoubleField()
+    volumize = DoubleField(default_value=0.0, min_value=0.0)
     vol = volumize
 
-    blurIterations = LongField()
+    blurIterations = LongField(default_value=5, min_value=0)
     blrit = blurIterations
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rxstr = relaxStrength
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smstr = smoothStrength
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     hld = smoothHold
 
 
@@ -288,29 +288,29 @@ class CollisionDataField(
     ATTR_CLS = CollisionDataAttrOperator
     PLUG_CLS = CollisionDataPlugOperator
 
-    tolerance = DoubleField()
+    tolerance = DoubleField(default_value=0.001, min_value=0.0)
     tol = tolerance
 
-    falloff = DoubleField()
+    falloff = DoubleField(default_value=1.0, min_value=0.0)
     fal = falloff
 
-    volumize = DoubleField()
+    volumize = DoubleField(default_value=0.0, min_value=0.0)
     vol = volumize
 
-    blurIterations = LongField()
+    blurIterations = LongField(default_value=5, min_value=0)
     blrit = blurIterations
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rxstr = relaxStrength
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smstr = smoothStrength
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     hld = smoothHold

@@ -13,7 +13,7 @@ class AiUserDataVector(DG):
 
     NODE_TYPE = "aiUserDataVector"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -22,7 +22,7 @@ class AiUserDataVector(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +31,7 @@ class AiUserDataVector(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    defaultValue = DefaultValueField()
+    defaultValue = DefaultValueField(default_value=(0.0, 0.0, 0.0))
     defaultValueX = defaultValue.defaultValueX
     defaultValuex = defaultValueX
     defaultValueY = defaultValue.defaultValueY

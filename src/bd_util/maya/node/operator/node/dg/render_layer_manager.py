@@ -8,8 +8,8 @@ class RenderLayerManager(DG):
 
     NODE_TYPE = "renderLayerManager"
 
-    currentRenderLayer = ShortField()
+    currentRenderLayer = ShortField(default_value=0)
     crl = currentRenderLayer
 
-    renderLayerId = ShortField(multi=True)
+    renderLayerId = ShortField(multi=True, default_value=0)
     rlmi = renderLayerId

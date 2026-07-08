@@ -60,7 +60,7 @@ class AiStandard(DG):
 
     NODE_TYPE = "aiStandard"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -69,10 +69,10 @@ class AiStandard(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -81,7 +81,7 @@ class AiStandard(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -90,10 +90,10 @@ class AiStandard(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    aiEnableMatte = BoolField()
+    aiEnableMatte = BoolField(default_value=False)
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField()
+    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0))
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -102,12 +102,12 @@ class AiStandard(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField()
+    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ai_matte_color_a = aiMatteColorA
 
-    Kd = FloatField()
+    Kd = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
 
-    KdColor = KdColorField()
+    KdColor = KdColorField(default_value=(1.0, 1.0, 1.0))
     Kd_color = KdColor
     KdColorR = KdColor.KdColorR
     Kd_colorr = KdColorR
@@ -116,12 +116,12 @@ class AiStandard(DG):
     KdColorB = KdColor.KdColorB
     Kd_colorb = KdColorB
 
-    diffuseRoughness = FloatField()
+    diffuseRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     diffuse_roughness = diffuseRoughness
 
-    Ks = FloatField()
+    Ks = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    KsColor = KsColorField()
+    KsColor = KsColorField(default_value=(1.0, 1.0, 1.0))
     Ks_color = KsColor
     KsColorR = KsColor.KsColorR
     Ks_colorr = KsColorR
@@ -130,21 +130,21 @@ class AiStandard(DG):
     KsColorB = KsColor.KsColorB
     Ks_colorb = KsColorB
 
-    specularRoughness = FloatField()
+    specularRoughness = FloatField(default_value=0.4669046998023987, min_value=0.0, max_value=1.0)
     specular_roughness = specularRoughness
 
-    specularAnisotropy = FloatField()
+    specularAnisotropy = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     specular_anisotropy = specularAnisotropy
 
-    specularRotation = FloatField()
+    specularRotation = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     specular_rotation = specularRotation
 
-    specularDistribution = SpecularDistributionEnumField()
+    specularDistribution = SpecularDistributionEnumField(default_value=1)
     specular_distribution = specularDistribution
 
-    Kr = FloatField()
+    Kr = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    KrColor = KrColorField()
+    KrColor = KrColorField(default_value=(1.0, 1.0, 1.0))
     Kr_color = KrColor
     KrColorR = KrColor.KrColorR
     Kr_colorr = KrColorR
@@ -153,7 +153,7 @@ class AiStandard(DG):
     KrColorB = KrColor.KrColorB
     Kr_colorb = KrColorB
 
-    reflectionExitColor = ReflectionExitColorField()
+    reflectionExitColor = ReflectionExitColorField(default_value=(0.0, 0.0, 0.0))
     reflection_exit_color = reflectionExitColor
     reflectionExitColorR = reflectionExitColor.reflectionExitColorR
     reflection_exit_colorr = reflectionExitColorR
@@ -162,12 +162,12 @@ class AiStandard(DG):
     reflectionExitColorB = reflectionExitColor.reflectionExitColorB
     reflection_exit_colorb = reflectionExitColorB
 
-    reflectionExitUseEnvironment = BoolField()
+    reflectionExitUseEnvironment = BoolField(default_value=False)
     reflection_exit_use_environment = reflectionExitUseEnvironment
 
-    Kt = FloatField()
+    Kt = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    KtColor = KtColorField()
+    KtColor = KtColorField(default_value=(1.0, 1.0, 1.0))
     Kt_color = KtColor
     KtColorR = KtColor.KtColorR
     Kt_colorr = KtColorR
@@ -176,7 +176,7 @@ class AiStandard(DG):
     KtColorB = KtColor.KtColorB
     Kt_colorb = KtColorB
 
-    transmittance = TransmittanceField()
+    transmittance = TransmittanceField(default_value=(1.0, 1.0, 1.0))
     transmittanceR = transmittance.transmittanceR
     transmittancer = transmittanceR
     transmittanceG = transmittance.transmittanceG
@@ -184,10 +184,10 @@ class AiStandard(DG):
     transmittanceB = transmittance.transmittanceB
     transmittanceb = transmittanceB
 
-    refractionRoughness = FloatField()
+    refractionRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     refraction_roughness = refractionRoughness
 
-    refractionExitColor = RefractionExitColorField()
+    refractionExitColor = RefractionExitColorField(default_value=(0.0, 0.0, 0.0))
     refraction_exit_color = refractionExitColor
     refractionExitColorR = refractionExitColor.refractionExitColorR
     refraction_exit_colorr = refractionExitColorR
@@ -196,34 +196,34 @@ class AiStandard(DG):
     refractionExitColorB = refractionExitColor.refractionExitColorB
     refraction_exit_colorb = refractionExitColorB
 
-    refractionExitUseEnvironment = BoolField()
+    refractionExitUseEnvironment = BoolField(default_value=False)
     refraction_exit_use_environment = refractionExitUseEnvironment
 
-    IOR = FloatField()
+    IOR = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
 
-    dispersionAbbe = FloatField()
+    dispersionAbbe = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
     dispersion_abbe = dispersionAbbe
 
-    Kb = FloatField()
+    Kb = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    Fresnel = BoolField()
+    Fresnel = BoolField(default_value=False)
 
-    Krn = FloatField()
+    Krn = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    specularFresnel = BoolField()
+    specularFresnel = BoolField(default_value=False)
     specular_Fresnel = specularFresnel
 
-    Ksn = FloatField()
+    Ksn = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    FresnelUseIOR = BoolField()
+    FresnelUseIOR = BoolField(default_value=False)
     Fresnel_use_IOR = FresnelUseIOR
 
-    FresnelAffectDiff = BoolField()
+    FresnelAffectDiff = BoolField(default_value=True)
     Fresnel_affect_diff = FresnelAffectDiff
 
-    emission = FloatField()
+    emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -232,33 +232,33 @@ class AiStandard(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    directSpecular = FloatField()
+    directSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     direct_specular = directSpecular
 
-    indirectSpecular = FloatField()
+    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_specular = indirectSpecular
 
-    directDiffuse = FloatField()
+    directDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     direct_diffuse = directDiffuse
 
-    indirectDiffuse = FloatField()
+    indirectDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_diffuse = indirectDiffuse
 
-    enableGlossyCaustics = BoolField()
+    enableGlossyCaustics = BoolField(default_value=False)
     enable_glossy_caustics = enableGlossyCaustics
 
-    enableReflectiveCaustics = BoolField()
+    enableReflectiveCaustics = BoolField(default_value=False)
     enable_reflective_caustics = enableReflectiveCaustics
 
-    enableRefractiveCaustics = BoolField()
+    enableRefractiveCaustics = BoolField(default_value=False)
     enable_refractive_caustics = enableRefractiveCaustics
 
-    enableInternalReflections = BoolField()
+    enableInternalReflections = BoolField(default_value=True)
     enable_internal_reflections = enableInternalReflections
 
-    Ksss = FloatField()
+    Ksss = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    KsssColor = KsssColorField()
+    KsssColor = KsssColorField(default_value=(1.0, 1.0, 1.0))
     Ksss_color = KsssColor
     KsssColorR = KsssColor.KsssColorR
     Ksss_colorr = KsssColorR
@@ -267,7 +267,7 @@ class AiStandard(DG):
     KsssColorB = KsssColor.KsssColorB
     Ksss_colorb = KsssColorB
 
-    sssRadius = SssRadiusField()
+    sssRadius = SssRadiusField(default_value=(0.10000000149011612, 0.10000000149011612, 0.10000000149011612))
     sss_radius = sssRadius
     sssRadiusR = sssRadius.sssRadiusR
     sss_radiusr = sssRadiusR
@@ -276,10 +276,10 @@ class AiStandard(DG):
     sssRadiusB = sssRadius.sssRadiusB
     sss_radiusb = sssRadiusB
 
-    bounceFactor = FloatField()
+    bounceFactor = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
     bounce_factor = bounceFactor
 
-    opacity = OpacityField()
+    opacity = OpacityField(default_value=(1.0, 1.0, 1.0))
     opacityR = opacity.opacityR
     opacityr = opacityR
     opacityG = opacity.opacityG
@@ -287,7 +287,7 @@ class AiStandard(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY

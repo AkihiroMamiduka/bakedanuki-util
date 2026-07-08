@@ -18,13 +18,13 @@ class ValuePlugOperator(
         ("valueB", "vb"),
     )
 
-    valueR = FloatField()
+    valueR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vr = valueR
 
-    valueG = FloatField()
+    valueG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vg = valueG
 
-    valueB = FloatField()
+    valueB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vb = valueB
 
 
@@ -33,13 +33,13 @@ class ValueAttrOperator(
 ):
     __slots__ = ()
 
-    valueR = FloatField()
+    valueR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vr = valueR
 
-    valueG = FloatField()
+    valueG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vg = valueG
 
-    valueB = FloatField()
+    valueB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vb = valueB
 
 
@@ -51,11 +51,11 @@ class ValueField(
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
-    valueR = FloatField()
+    valueR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vr = valueR
 
-    valueG = FloatField()
+    valueG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vg = valueG
 
-    valueB = FloatField()
+    valueB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     vb = valueB

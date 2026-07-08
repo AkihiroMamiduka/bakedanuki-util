@@ -270,33 +270,33 @@ class File(DG):
 
     NODE_TYPE = "file"
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -305,7 +305,7 @@ class File(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -314,13 +314,13 @@ class File(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -329,7 +329,7 @@ class File(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -338,7 +338,7 @@ class File(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
     fileTextureName = DataStringField()
@@ -350,52 +350,52 @@ class File(DG):
     computedFileTextureNamePattern = DataStringField()
     cfnp = computedFileTextureNamePattern
 
-    disableFileLoad = BoolField()
+    disableFileLoad = BoolField(default_value=False)
     dfl = disableFileLoad
 
-    useFrameExtension = BoolField()
+    useFrameExtension = BoolField(default_value=False)
     ufe = useFrameExtension
 
-    frameExtension = LongField()
+    frameExtension = LongField(default_value=1)
     fe = frameExtension
 
-    frameOffset = LongField()
+    frameOffset = LongField(default_value=0)
     io = frameOffset
 
-    useHardwareTextureCycling = BoolField()
+    useHardwareTextureCycling = BoolField(default_value=False)
     uhc = useHardwareTextureCycling
 
-    startCycleExtension = LongField()
+    startCycleExtension = LongField(default_value=1)
     sce = startCycleExtension
 
-    endCycleExtension = LongField()
+    endCycleExtension = LongField(default_value=1)
     ece = endCycleExtension
 
-    byCycleIncrement = LongField()
+    byCycleIncrement = LongField(default_value=1, min_value=1)
     bci = byCycleIncrement
 
-    forceSwatchGen = BoolField()
+    forceSwatchGen = BoolField(default_value=False)
     fsg = forceSwatchGen
 
-    filterType = FilterTypeEnumField()
+    filterType = FilterTypeEnumField(default_value=3)
     ft = filterType
 
-    filterWidth = FloatField()
+    filterWidth = FloatField(default_value=0.7070000171661377, min_value=0.35, max_value=1.05)
     fw = filterWidth
 
-    preFilter = BoolField()
+    preFilter = BoolField(default_value=False)
     pf = preFilter
 
-    preFilterRadius = FloatField()
+    preFilterRadius = FloatField(default_value=2.0, min_value=1.0, max_value=10.0)
     pfr = preFilterRadius
 
-    useCache = BoolField()
+    useCache = BoolField(default_value=False)
     uca = useCache
 
-    useMaximumRes = BoolField()
+    useMaximumRes = BoolField(default_value=False)
     umr = useMaximumRes
 
-    uvTilingMode = UvTilingModeEnumField()
+    uvTilingMode = UvTilingModeEnumField(default_value=0)
     uvt = uvTilingMode
 
     explicitUvTiles = ExplicitUvTilesField(multi=True)
@@ -407,85 +407,85 @@ class File(DG):
     explicitUvTilePositionV = FloatField()
     eupv = explicitUvTilePositionV
 
-    baseExplicitUvTilePosition = BaseExplicitUvTilePositionField()
+    baseExplicitUvTilePosition = BaseExplicitUvTilePositionField(default_value=(0.0, 0.0))
     butp = baseExplicitUvTilePosition
     baseExplicitUvTilePositionU = baseExplicitUvTilePosition.baseExplicitUvTilePositionU
     bupu = baseExplicitUvTilePositionU
     baseExplicitUvTilePositionV = baseExplicitUvTilePosition.baseExplicitUvTilePositionV
     bupv = baseExplicitUvTilePositionV
 
-    uvTileProxyDirty = BoolField()
+    uvTileProxyDirty = BoolField(default_value=True)
     utpd = uvTileProxyDirty
 
-    uvTileProxyGenerate = BoolField()
+    uvTileProxyGenerate = BoolField(default_value=False)
     utpg = uvTileProxyGenerate
 
-    uvTileProxyQuality = UvTileProxyQualityEnumField()
+    uvTileProxyQuality = UvTileProxyQualityEnumField(default_value=3)
     utpq = uvTileProxyQuality
 
-    coverage = CoverageField()
+    coverage = CoverageField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
     c = coverage
     coverageU = coverage.coverageU
     cu = coverageU
     coverageV = coverage.coverageV
     cv = coverageV
 
-    translateFrame = TranslateFrameField()
+    translateFrame = TranslateFrameField(default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
     tf = translateFrame
     translateFrameU = translateFrame.translateFrameU
     tfu = translateFrameU
     translateFrameV = translateFrame.translateFrameV
     tfv = translateFrameV
 
-    rotateFrame = DoubleAngleField()
+    rotateFrame = DoubleAngleField(default_value=0.0)
     rf = rotateFrame
 
-    doTransform = BoolField()
+    doTransform = BoolField(default_value=True)
     dtf = doTransform
 
-    mirrorU = BoolField()
+    mirrorU = BoolField(default_value=False)
     mu = mirrorU
 
-    mirrorV = BoolField()
+    mirrorV = BoolField(default_value=False)
     mv = mirrorV
 
-    stagger = BoolField()
+    stagger = BoolField(default_value=False)
     s = stagger
 
-    wrapU = BoolField()
+    wrapU = BoolField(default_value=True)
     wu = wrapU
 
-    wrapV = BoolField()
+    wrapV = BoolField(default_value=True)
     wv = wrapV
 
-    repeatUV = RepeatUVField()
+    repeatUV = RepeatUVField(default_value=(1.0, 1.0), min_value=(0.0, 0.0))
     re = repeatUV
     repeatU = repeatUV.repeatU
     reu = repeatU
     repeatV = repeatUV.repeatV
     rev = repeatV
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
     of = offset
     offsetU = offset.offsetU
     ofu = offsetU
     offsetV = offset.offsetV
     ofv = offsetV
 
-    rotateUV = DoubleAngleField()
+    rotateUV = DoubleAngleField(default_value=0.0)
     ro = rotateUV
 
-    noiseUV = NoiseUVField()
+    noiseUV = NoiseUVField(default_value=(0.0, 0.0), min_value=(0.0, 0.0))
     n = noiseUV
     noiseU = noiseUV.noiseU
     nu = noiseU
     noiseV = noiseUV.noiseV
     nv = noiseV
 
-    blurPixelation = BoolField()
+    blurPixelation = BoolField(default_value=True)
     blp = blurPixelation
 
-    vertexCameraOne = VertexCameraOneField()
+    vertexCameraOne = VertexCameraOneField(default_value=(0.0, 0.0, 0.0))
     vc1 = vertexCameraOne
     vertexCameraOneX = vertexCameraOne.vertexCameraOneX
     c1x = vertexCameraOneX
@@ -494,7 +494,7 @@ class File(DG):
     vertexCameraOneZ = vertexCameraOne.vertexCameraOneZ
     c1z = vertexCameraOneZ
 
-    vertexCameraTwo = VertexCameraTwoField()
+    vertexCameraTwo = VertexCameraTwoField(default_value=(0.0, 0.0, 0.0))
     vc2 = vertexCameraTwo
     vertexCameraTwoX = vertexCameraTwo.vertexCameraTwoX
     c2x = vertexCameraTwoX
@@ -503,7 +503,7 @@ class File(DG):
     vertexCameraTwoZ = vertexCameraTwo.vertexCameraTwoZ
     c2z = vertexCameraTwoZ
 
-    vertexCameraThree = VertexCameraThreeField()
+    vertexCameraThree = VertexCameraThreeField(default_value=(0.0, 0.0, 0.0))
     vc3 = vertexCameraThree
     vertexCameraThreeX = vertexCameraThree.vertexCameraThreeX
     c3x = vertexCameraThreeX
@@ -512,80 +512,80 @@ class File(DG):
     vertexCameraThreeZ = vertexCameraThree.vertexCameraThreeZ
     c3z = vertexCameraThreeZ
 
-    vertexUvOne = VertexUvOneField()
+    vertexUvOne = VertexUvOneField(default_value=(0.0, 0.0))
     vt1 = vertexUvOne
     vertexUvOneU = vertexUvOne.vertexUvOneU
     t1u = vertexUvOneU
     vertexUvOneV = vertexUvOne.vertexUvOneV
     t1v = vertexUvOneV
 
-    vertexUvTwo = VertexUvTwoField()
+    vertexUvTwo = VertexUvTwoField(default_value=(0.0, 0.0))
     vt2 = vertexUvTwo
     vertexUvTwoU = vertexUvTwo.vertexUvTwoU
     t2u = vertexUvTwoU
     vertexUvTwoV = vertexUvTwo.vertexUvTwoV
     t2v = vertexUvTwoV
 
-    vertexUvThree = VertexUvThreeField()
+    vertexUvThree = VertexUvThreeField(default_value=(0.0, 0.0))
     vt3 = vertexUvThree
     vertexUvThreeU = vertexUvThree.vertexUvThreeU
     t3u = vertexUvThreeU
     vertexUvThreeV = vertexUvThree.vertexUvThreeV
     t3v = vertexUvThreeV
 
-    objectType = CharField()
+    objectType = CharField(default_value=0, min_value=0, max_value=255)
     otp = objectType
 
-    rayDepth = LongField()
+    rayDepth = LongField(default_value=0)
     rdp = rayDepth
 
-    primitiveId = LongField()
+    primitiveId = LongField(default_value=0, readable=False)
     pi = primitiveId
 
-    pixelCenter = PixelCenterField()
+    pixelCenter = PixelCenterField(default_value=(0.0, 0.0))
     pct = pixelCenter
     pixelCenterX = pixelCenter.pixelCenterX
     pcx = pixelCenterX
     pixelCenterY = pixelCenter.pixelCenterY
     pcy = pixelCenterY
 
-    exposure = FloatField()
+    exposure = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
     exp = exposure
 
-    hdrMapping = HdrMappingEnumField()
+    hdrMapping = HdrMappingEnumField(default_value=0)
     hm = hdrMapping
 
-    hdrExposure = FloatField()
+    hdrExposure = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0)
     he = hdrExposure
 
-    dirtyPixelRegion = BoolField()
+    dirtyPixelRegion = BoolField(default_value=False)
     dp = dirtyPixelRegion
 
-    ptexFilterType = PtexFilterTypeEnumField()
+    ptexFilterType = PtexFilterTypeEnumField(default_value=3)
     pft = ptexFilterType
 
-    ptexFilterWidth = FloatField()
+    ptexFilterWidth = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     pfw = ptexFilterWidth
 
-    ptexFilterBlur = FloatField()
+    ptexFilterBlur = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     pfb = ptexFilterBlur
 
-    ptexFilterSharpness = FloatField()
+    ptexFilterSharpness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     pfs = ptexFilterSharpness
 
-    ptexFilterInterpolateLevels = BoolField()
+    ptexFilterInterpolateLevels = BoolField(default_value=False)
     pfil = ptexFilterInterpolateLevels
 
-    colorProfile = LongField()
+    colorProfile = LongField(default_value=0)
     cp = colorProfile
 
     colorSpace = DataStringField()
     cs = colorSpace
 
-    ignoreColorSpaceFileRules = BoolField()
+    ignoreColorSpaceFileRules = BoolField(default_value=False)
     ifr = ignoreColorSpaceFileRules
 
-    viewNameUsed = BoolField()
+    viewNameUsed = BoolField(default_value=False)
     vinu = viewNameUsed
 
     viewNameStr = DataStringField()
@@ -594,26 +594,26 @@ class File(DG):
     workingSpace = DataStringField()
     ws = workingSpace
 
-    colorManagementEnabled = BoolField()
+    colorManagementEnabled = BoolField(default_value=False)
     cme = colorManagementEnabled
 
-    colorManagementConfigFileEnabled = BoolField()
+    colorManagementConfigFileEnabled = BoolField(default_value=False)
     cmcf = colorManagementConfigFileEnabled
 
     colorManagementConfigFilePath = DataStringField()
     cmcp = colorManagementConfigFilePath
 
-    outSize = OutSizeField()
+    outSize = OutSizeField(default_value=(0.0, 0.0), writable=False)
     os = outSize
     outSizeX = outSize.outSizeX
     osx = outSizeX
     outSizeY = outSize.outSizeY
     osy = outSizeY
 
-    fileHasAlpha = BoolField()
+    fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -622,20 +622,20 @@ class File(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiFilter = AiFilterEnumField()
+    aiFilter = AiFilterEnumField(default_value=3, category="arnold")
     ai_filter = aiFilter
 
-    aiAutoTx = BoolField()
+    aiAutoTx = BoolField(default_value=True, category="arnold")
     autotx = aiAutoTx
 
-    aiMipBias = LongField()
+    aiMipBias = LongField(default_value=0, category="arnold")
     ai_mipmap_bias = aiMipBias
 
-    aiUseDefaultColor = BoolField()
+    aiUseDefaultColor = BoolField(default_value=True, category="arnold")
     ai_ignore_missing_textures = aiUseDefaultColor

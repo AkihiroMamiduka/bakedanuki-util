@@ -65,7 +65,7 @@ class PolyExtrudeEdge(DG):
 
     NODE_TYPE = "polyExtrudeEdge"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -74,37 +74,37 @@ class PolyExtrudeEdge(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -113,7 +113,7 @@ class PolyExtrudeEdge(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -122,7 +122,7 @@ class PolyExtrudeEdge(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     s = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -131,7 +131,7 @@ class PolyExtrudeEdge(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -140,13 +140,13 @@ class PolyExtrudeEdge(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField()
+    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ran = random
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0)
     rs = randomSeed
 
-    localTranslate = LocalTranslateField()
+    localTranslate = LocalTranslateField(default_value=(0.0, 0.0, 0.0))
     lt = localTranslate
     localTranslateX = localTranslate.localTranslateX
     ltx = localTranslateX
@@ -155,7 +155,7 @@ class PolyExtrudeEdge(DG):
     localTranslateZ = localTranslate.localTranslateZ
     ltz = localTranslateZ
 
-    localDirection = LocalDirectionField()
+    localDirection = LocalDirectionField(default_value=(1.0, 0.0, 0.0))
     ld = localDirection
     localDirectionX = localDirection.localDirectionX
     ldx = localDirectionX
@@ -164,16 +164,16 @@ class PolyExtrudeEdge(DG):
     localDirectionZ = localDirection.localDirectionZ
     ldz = localDirectionZ
 
-    matrix = DataMatrixField()
+    matrix = DataMatrixField(writable=False)
     cma = matrix
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    gain = FloatField(multi=True)
+    gain = FloatField(multi=True, default_value=1.0)
     ga = gain
 
-    localRotate = LocalRotateField()
+    localRotate = LocalRotateField(default_value=(0.0, 0.0, 0.0))
     lr = localRotate
     localRotateX = localRotate.localRotateX
     lrx = localRotateX
@@ -182,7 +182,7 @@ class PolyExtrudeEdge(DG):
     localRotateZ = localRotate.localRotateZ
     lrz = localRotateZ
 
-    localScale = LocalScaleField()
+    localScale = LocalScaleField(default_value=(1.0, 1.0, 1.0))
     ls = localScale
     localScaleX = localScale.localScaleX
     lsx = localScaleX
@@ -191,37 +191,37 @@ class PolyExtrudeEdge(DG):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    localCenter = LocalCenterEnumField()
+    localCenter = LocalCenterEnumField(default_value=0)
     lc = localCenter
 
-    keepFacesTogether = BoolField()
+    keepFacesTogether = BoolField(default_value=True)
     kft = keepFacesTogether
 
-    divisions = LongField()
+    divisions = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=25)
     d = divisions
 
     inputProfile = DataNurbsCurveField()
     ipc = inputProfile
 
-    twist = DoubleAngleField()
+    twist = DoubleAngleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
     twt = twist
 
-    taper = DoubleField()
+    taper = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=15.0)
     tp = taper
 
-    taperCurve = TaperCurveField(multi=True)
+    taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     c = taperCurve
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0)
     off = offset
 
-    thickness = FloatField()
+    thickness = FloatField(default_value=0.0)
     tk = thickness
 
-    smoothingAngle = DoubleAngleField()
+    smoothingAngle = DoubleAngleField(default_value=29.999999999999996, soft_min_value=0.0, soft_max_value=180.0)
     sma = smoothingAngle
 
-    compBoundingBoxMin = CompBoundingBoxMinField()
+    compBoundingBoxMin = CompBoundingBoxMinField(default_value=(0.0, 0.0, 0.0))
     cbn = compBoundingBoxMin
     compBoundingBoxMinX = compBoundingBoxMin.compBoundingBoxMinX
     cnx = compBoundingBoxMinX
@@ -230,7 +230,7 @@ class PolyExtrudeEdge(DG):
     compBoundingBoxMinZ = compBoundingBoxMin.compBoundingBoxMinZ
     cnz = compBoundingBoxMinZ
 
-    compBoundingBoxMax = CompBoundingBoxMaxField()
+    compBoundingBoxMax = CompBoundingBoxMaxField(default_value=(1.0, 1.0, 1.0))
     cbx = compBoundingBoxMax
     compBoundingBoxMaxX = compBoundingBoxMax.compBoundingBoxMaxX
     cxx = compBoundingBoxMaxX

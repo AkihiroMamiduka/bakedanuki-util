@@ -35,7 +35,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -50,7 +50,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -74,7 +74,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -83,7 +83,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -106,13 +106,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -121,13 +121,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -139,13 +139,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -157,7 +157,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -165,7 +165,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -187,13 +187,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -202,13 +202,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -220,13 +220,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -243,11 +243,11 @@ class PerGeometryPlugOperator(
 
     worldMatrix = MatrixField()
 
-    jiggleMap = FloatField()
+    jiggleMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
-    dampingMap = FloatField()
+    dampingMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
-    stiffnessMap = FloatField()
+    stiffnessMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
 
 class PerGeometryAttrOperator(
@@ -257,11 +257,11 @@ class PerGeometryAttrOperator(
 
     worldMatrix = MatrixField()
 
-    jiggleMap = FloatField()
+    jiggleMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
-    dampingMap = FloatField()
+    dampingMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
-    stiffnessMap = FloatField()
+    stiffnessMap = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0)
 
 
 class PerGeometryField(

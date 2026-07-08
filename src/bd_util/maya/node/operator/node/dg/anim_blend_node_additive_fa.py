@@ -43,23 +43,23 @@ class AnimBlendNodeAdditiveFA(DG):
 
     NODE_TYPE = "animBlendNodeAdditiveFA"
 
-    weightA = DoubleField()
+    weightA = DoubleField(default_value=1.0)
     wa = weightA
 
-    weightB = DoubleField()
+    weightB = DoubleField(default_value=1.0)
     wb = weightB
 
     destinationPlug = DataStringField(multi=True)
     dp = destinationPlug
 
-    inputA = FloatAngleField()
+    inputA = FloatAngleField(default_value=0.0)
     ia = inputA
 
-    inputB = FloatAngleField()
+    inputB = FloatAngleField(default_value=0.0)
     ib = inputB
 
-    output = FloatAngleField()
+    output = FloatAngleField(default_value=0.0)
     o = output
 
-    interpolateMode = InterpolateModeEnumField()
+    interpolateMode = InterpolateModeEnumField(default_value=0)
     im = interpolateMode

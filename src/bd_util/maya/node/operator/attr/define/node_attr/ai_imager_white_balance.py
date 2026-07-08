@@ -18,13 +18,13 @@ class CustomPlugOperator(
         ("customB", "customb"),
     )
 
-    customR = FloatField()
+    customR = FloatField(default_value=1.0)
     customr = customR
 
-    customG = FloatField()
+    customG = FloatField(default_value=1.0)
     customg = customG
 
-    customB = FloatField()
+    customB = FloatField(default_value=1.0)
     customb = customB
 
 
@@ -33,13 +33,13 @@ class CustomAttrOperator(
 ):
     __slots__ = ()
 
-    customR = FloatField()
+    customR = FloatField(default_value=1.0)
     customr = customR
 
-    customG = FloatField()
+    customG = FloatField(default_value=1.0)
     customg = customG
 
-    customB = FloatField()
+    customB = FloatField(default_value=1.0)
     customb = customB
 
 
@@ -51,11 +51,11 @@ class CustomField(
     ATTR_CLS = CustomAttrOperator
     PLUG_CLS = CustomPlugOperator
 
-    customR = FloatField()
+    customR = FloatField(default_value=1.0)
     customr = customR
 
-    customG = FloatField()
+    customG = FloatField(default_value=1.0)
     customg = customG
 
-    customB = FloatField()
+    customB = FloatField(default_value=1.0)
     customb = customB

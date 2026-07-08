@@ -119,10 +119,10 @@ class BatchRenderControlsPlugOperator(
         ("pluginObjectTypeFilterValueArray", "potfva"),
     )
 
-    renderMode = RenderModeEnumField()
+    renderMode = RenderModeEnumField(default_value=4)
     rm = renderMode
 
-    lightingMode = LightingModeEnumField()
+    lightingMode = LightingModeEnumField(default_value=1)
     lm = lightingMode
 
     objectTypeFilterNameArray = DataStringArrayField()
@@ -143,10 +143,10 @@ class BatchRenderControlsAttrOperator(
 ):
     __slots__ = ()
 
-    renderMode = RenderModeEnumField()
+    renderMode = RenderModeEnumField(default_value=4)
     rm = renderMode
 
-    lightingMode = LightingModeEnumField()
+    lightingMode = LightingModeEnumField(default_value=1)
     lm = lightingMode
 
     objectTypeFilterNameArray = DataStringArrayField()
@@ -170,10 +170,10 @@ class BatchRenderControlsField(
     ATTR_CLS = BatchRenderControlsAttrOperator
     PLUG_CLS = BatchRenderControlsPlugOperator
 
-    renderMode = RenderModeEnumField()
+    renderMode = RenderModeEnumField(default_value=4)
     rm = renderMode
 
-    lightingMode = LightingModeEnumField()
+    lightingMode = LightingModeEnumField(default_value=1)
     lm = lightingMode
 
     objectTypeFilterNameArray = DataStringArrayField()
@@ -199,13 +199,13 @@ class HwFogColorPlugOperator(
         ("hwFogColorB", "hfcb"),
     )
 
-    hwFogColorR = FloatField()
+    hwFogColorR = FloatField(default_value=0.5)
     hfcr = hwFogColorR
 
-    hwFogColorG = FloatField()
+    hwFogColorG = FloatField(default_value=0.5)
     hfcg = hwFogColorG
 
-    hwFogColorB = FloatField()
+    hwFogColorB = FloatField(default_value=0.5)
     hfcb = hwFogColorB
 
 
@@ -214,13 +214,13 @@ class HwFogColorAttrOperator(
 ):
     __slots__ = ()
 
-    hwFogColorR = FloatField()
+    hwFogColorR = FloatField(default_value=0.5)
     hfcr = hwFogColorR
 
-    hwFogColorG = FloatField()
+    hwFogColorG = FloatField(default_value=0.5)
     hfcg = hwFogColorG
 
-    hwFogColorB = FloatField()
+    hwFogColorB = FloatField(default_value=0.5)
     hfcb = hwFogColorB
 
 
@@ -232,13 +232,13 @@ class HwFogColorField(
     ATTR_CLS = HwFogColorAttrOperator
     PLUG_CLS = HwFogColorPlugOperator
 
-    hwFogColorR = FloatField()
+    hwFogColorR = FloatField(default_value=0.5)
     hfcr = hwFogColorR
 
-    hwFogColorG = FloatField()
+    hwFogColorG = FloatField(default_value=0.5)
     hfcg = hwFogColorG
 
-    hwFogColorB = FloatField()
+    hwFogColorB = FloatField(default_value=0.5)
     hfcb = hwFogColorB
 
 
@@ -252,13 +252,13 @@ class MotionBlurFadeTintPlugOperator(
         ("motionBlurFadeTintB", "mbftb"),
     )
 
-    motionBlurFadeTintR = FloatField()
+    motionBlurFadeTintR = FloatField(default_value=0.0)
     mbftr = motionBlurFadeTintR
 
-    motionBlurFadeTintG = FloatField()
+    motionBlurFadeTintG = FloatField(default_value=0.0)
     mbftg = motionBlurFadeTintG
 
-    motionBlurFadeTintB = FloatField()
+    motionBlurFadeTintB = FloatField(default_value=0.0)
     mbftb = motionBlurFadeTintB
 
 
@@ -267,13 +267,13 @@ class MotionBlurFadeTintAttrOperator(
 ):
     __slots__ = ()
 
-    motionBlurFadeTintR = FloatField()
+    motionBlurFadeTintR = FloatField(default_value=0.0)
     mbftr = motionBlurFadeTintR
 
-    motionBlurFadeTintG = FloatField()
+    motionBlurFadeTintG = FloatField(default_value=0.0)
     mbftg = motionBlurFadeTintG
 
-    motionBlurFadeTintB = FloatField()
+    motionBlurFadeTintB = FloatField(default_value=0.0)
     mbftb = motionBlurFadeTintB
 
 
@@ -285,13 +285,13 @@ class MotionBlurFadeTintField(
     ATTR_CLS = MotionBlurFadeTintAttrOperator
     PLUG_CLS = MotionBlurFadeTintPlugOperator
 
-    motionBlurFadeTintR = FloatField()
+    motionBlurFadeTintR = FloatField(default_value=0.0)
     mbftr = motionBlurFadeTintR
 
-    motionBlurFadeTintG = FloatField()
+    motionBlurFadeTintG = FloatField(default_value=0.0)
     mbftg = motionBlurFadeTintG
 
-    motionBlurFadeTintB = FloatField()
+    motionBlurFadeTintB = FloatField(default_value=0.0)
     mbftb = motionBlurFadeTintB
 
 
@@ -304,10 +304,10 @@ class MotionBlurMultiframeChartSizePlugOperator(
         ("motionBlurMultiframeChartSizeY", "mbcsy"),
     )
 
-    motionBlurMultiframeChartSizeX = LongField()
+    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField()
+    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsy = motionBlurMultiframeChartSizeY
 
 
@@ -316,10 +316,10 @@ class MotionBlurMultiframeChartSizeAttrOperator(
 ):
     __slots__ = ()
 
-    motionBlurMultiframeChartSizeX = LongField()
+    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField()
+    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsy = motionBlurMultiframeChartSizeY
 
 
@@ -331,10 +331,10 @@ class MotionBlurMultiframeChartSizeField(
     ATTR_CLS = MotionBlurMultiframeChartSizeAttrOperator
     PLUG_CLS = MotionBlurMultiframeChartSizePlugOperator
 
-    motionBlurMultiframeChartSizeX = LongField()
+    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField()
+    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
     mbcsy = motionBlurMultiframeChartSizeY
 
 
@@ -347,10 +347,10 @@ class MotionBlurAtlasSizePlugOperator(
         ("motionBlurAtlasSizeY", "mbasy"),
     )
 
-    motionBlurAtlasSizeX = LongField()
+    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField()
+    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
     mbasy = motionBlurAtlasSizeY
 
 
@@ -359,10 +359,10 @@ class MotionBlurAtlasSizeAttrOperator(
 ):
     __slots__ = ()
 
-    motionBlurAtlasSizeX = LongField()
+    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField()
+    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
     mbasy = motionBlurAtlasSizeY
 
 
@@ -374,10 +374,10 @@ class MotionBlurAtlasSizeField(
     ATTR_CLS = MotionBlurAtlasSizeAttrOperator
     PLUG_CLS = MotionBlurAtlasSizePlugOperator
 
-    motionBlurAtlasSizeX = LongField()
+    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField()
+    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
     mbasy = motionBlurAtlasSizeY
 
 
@@ -391,13 +391,13 @@ class QuadDrawOverrideColorPlugOperator(
         ("quadDrawOverrideColorB", "qdocb"),
     )
 
-    quadDrawOverrideColorR = FloatField()
+    quadDrawOverrideColorR = FloatField(default_value=-1.0)
     qdocr = quadDrawOverrideColorR
 
-    quadDrawOverrideColorG = FloatField()
+    quadDrawOverrideColorG = FloatField(default_value=-1.0)
     qdocg = quadDrawOverrideColorG
 
-    quadDrawOverrideColorB = FloatField()
+    quadDrawOverrideColorB = FloatField(default_value=-1.0)
     qdocb = quadDrawOverrideColorB
 
 
@@ -406,13 +406,13 @@ class QuadDrawOverrideColorAttrOperator(
 ):
     __slots__ = ()
 
-    quadDrawOverrideColorR = FloatField()
+    quadDrawOverrideColorR = FloatField(default_value=-1.0)
     qdocr = quadDrawOverrideColorR
 
-    quadDrawOverrideColorG = FloatField()
+    quadDrawOverrideColorG = FloatField(default_value=-1.0)
     qdocg = quadDrawOverrideColorG
 
-    quadDrawOverrideColorB = FloatField()
+    quadDrawOverrideColorB = FloatField(default_value=-1.0)
     qdocb = quadDrawOverrideColorB
 
 
@@ -424,13 +424,13 @@ class QuadDrawOverrideColorField(
     ATTR_CLS = QuadDrawOverrideColorAttrOperator
     PLUG_CLS = QuadDrawOverrideColorPlugOperator
 
-    quadDrawOverrideColorR = FloatField()
+    quadDrawOverrideColorR = FloatField(default_value=-1.0)
     qdocr = quadDrawOverrideColorR
 
-    quadDrawOverrideColorG = FloatField()
+    quadDrawOverrideColorG = FloatField(default_value=-1.0)
     qdocg = quadDrawOverrideColorG
 
-    quadDrawOverrideColorB = FloatField()
+    quadDrawOverrideColorB = FloatField(default_value=-1.0)
     qdocb = quadDrawOverrideColorB
 
 
@@ -444,13 +444,13 @@ class CustomUVBorderColorPlugOperator(
         ("customUVBorderColorB", "uvbcb"),
     )
 
-    customUVBorderColorR = FloatField()
+    customUVBorderColorR = FloatField(default_value=-1.0)
     uvbcr = customUVBorderColorR
 
-    customUVBorderColorG = FloatField()
+    customUVBorderColorG = FloatField(default_value=-1.0)
     uvbcg = customUVBorderColorG
 
-    customUVBorderColorB = FloatField()
+    customUVBorderColorB = FloatField(default_value=-1.0)
     uvbcb = customUVBorderColorB
 
 
@@ -459,13 +459,13 @@ class CustomUVBorderColorAttrOperator(
 ):
     __slots__ = ()
 
-    customUVBorderColorR = FloatField()
+    customUVBorderColorR = FloatField(default_value=-1.0)
     uvbcr = customUVBorderColorR
 
-    customUVBorderColorG = FloatField()
+    customUVBorderColorG = FloatField(default_value=-1.0)
     uvbcg = customUVBorderColorG
 
-    customUVBorderColorB = FloatField()
+    customUVBorderColorB = FloatField(default_value=-1.0)
     uvbcb = customUVBorderColorB
 
 
@@ -477,11 +477,11 @@ class CustomUVBorderColorField(
     ATTR_CLS = CustomUVBorderColorAttrOperator
     PLUG_CLS = CustomUVBorderColorPlugOperator
 
-    customUVBorderColorR = FloatField()
+    customUVBorderColorR = FloatField(default_value=-1.0)
     uvbcr = customUVBorderColorR
 
-    customUVBorderColorG = FloatField()
+    customUVBorderColorG = FloatField(default_value=-1.0)
     uvbcg = customUVBorderColorG
 
-    customUVBorderColorB = FloatField()
+    customUVBorderColorB = FloatField(default_value=-1.0)
     uvbcb = customUVBorderColorB

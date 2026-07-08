@@ -18,13 +18,13 @@ class BendVectorPlugOperator(
         ("bendVectorZ", "bz"),
     )
 
-    bendVectorX = FloatField()
+    bendVectorX = FloatField(default_value=0.0, writable=False)
     bx = bendVectorX
 
-    bendVectorY = FloatField()
+    bendVectorY = FloatField(default_value=0.0, writable=False)
     by = bendVectorY
 
-    bendVectorZ = FloatField()
+    bendVectorZ = FloatField(default_value=0.0, writable=False)
     bz = bendVectorZ
 
 
@@ -33,13 +33,13 @@ class BendVectorAttrOperator(
 ):
     __slots__ = ()
 
-    bendVectorX = FloatField()
+    bendVectorX = FloatField(default_value=0.0, writable=False)
     bx = bendVectorX
 
-    bendVectorY = FloatField()
+    bendVectorY = FloatField(default_value=0.0, writable=False)
     by = bendVectorY
 
-    bendVectorZ = FloatField()
+    bendVectorZ = FloatField(default_value=0.0, writable=False)
     bz = bendVectorZ
 
 
@@ -51,11 +51,11 @@ class BendVectorField(
     ATTR_CLS = BendVectorAttrOperator
     PLUG_CLS = BendVectorPlugOperator
 
-    bendVectorX = FloatField()
+    bendVectorX = FloatField(default_value=0.0, writable=False)
     bx = bendVectorX
 
-    bendVectorY = FloatField()
+    bendVectorY = FloatField(default_value=0.0, writable=False)
     by = bendVectorY
 
-    bendVectorZ = FloatField()
+    bendVectorZ = FloatField(default_value=0.0, writable=False)
     bz = bendVectorZ

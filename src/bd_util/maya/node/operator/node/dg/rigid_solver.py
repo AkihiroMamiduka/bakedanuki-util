@@ -54,92 +54,92 @@ class RigidSolver(DG):
 
     NODE_TYPE = "rigidSolver"
 
-    currentTime = TimeField()
+    currentTime = TimeField(default_value=0.0)
     ct = currentTime
 
-    startTime = TimeField()
+    startTime = TimeField(default_value=0.0)
     stm = startTime
 
-    deltaTime = TimeField()
+    deltaTime = TimeField(default_value=0.0)
     dtm = deltaTime
 
-    lastSceneTime = TimeField()
+    lastSceneTime = TimeField(default_value=0.0)
     lst = lastSceneTime
 
     generalForce = GeneralForceField(multi=True)
     gfr = generalForce
 
-    translate = TranslateField(multi=True)
+    translate = TranslateField(multi=True, default_value=(0.0, 0.0, 0.0))
     t = translate
 
-    rotate = RotateField(multi=True)
+    rotate = RotateField(multi=True, default_value=(0.0, 0.0, 0.0))
     r = rotate
 
-    constraintTranslate = ConstraintTranslateField(multi=True)
+    constraintTranslate = ConstraintTranslateField(multi=True, default_value=(0.0, 0.0, 0.0))
     ctr = constraintTranslate
 
-    constraintRotate = ConstraintRotateField(multi=True)
+    constraintRotate = ConstraintRotateField(multi=True, default_value=(0.0, 0.0, 0.0))
     cr = constraintRotate
 
-    collisionTolerance = DoubleField()
+    collisionTolerance = DoubleField(default_value=0.02)
     ctl = collisionTolerance
 
-    stepSize = DoubleField()
+    stepSize = DoubleField(default_value=0.03)
     ss = stepSize
 
-    scaleVelocity = DoubleField()
+    scaleVelocity = DoubleField(default_value=1.0)
     svv = scaleVelocity
 
-    rigidBodyCount = LongField()
+    rigidBodyCount = LongField(default_value=0, writable=False)
     rbc = rigidBodyCount
 
-    solverMethod = SolverMethodEnumField()
+    solverMethod = SolverMethodEnumField(default_value=2)
     slm = solverMethod
 
-    friction = BoolField()
+    friction = BoolField(default_value=True)
     f = friction
 
-    bounciness = BoolField()
+    bounciness = BoolField(default_value=True)
     b = bounciness
 
-    dynamics = BoolField()
+    dynamics = BoolField(default_value=True)
     dyn = dynamics
 
-    autoSolverTolerances = BoolField()
+    autoSolverTolerances = BoolField(default_value=False)
     ast = autoSolverTolerances
 
-    displayVelocity = BoolField()
+    displayVelocity = BoolField(default_value=False)
     dv = displayVelocity
 
-    displayCenterOfMass = BoolField()
+    displayCenterOfMass = BoolField(default_value=True)
     dcom = displayCenterOfMass
 
-    displayConstraint = BoolField()
+    displayConstraint = BoolField(default_value=True)
     dc = displayConstraint
 
-    displayLabel = BoolField()
+    displayLabel = BoolField(default_value=False)
     dl = displayLabel
 
-    cacheData = BoolField()
+    cacheData = BoolField(default_value=False)
     cd = cacheData
 
-    contactData = BoolField()
+    contactData = BoolField(default_value=False)
     ctd = contactData
 
-    state = BoolField()
+    state = BoolField(default_value=True)
     stt = state
 
-    current = BoolField()
+    current = BoolField(default_value=False)
     cur = current
 
-    forceDynamics = BoolField()
+    forceDynamics = BoolField(default_value=False)
     fdn = forceDynamics
 
-    allowDisconnection = BoolField()
+    allowDisconnection = BoolField(default_value=False)
     ad = allowDisconnection
 
-    solving = BoolField()
+    solving = BoolField(default_value=False)
     sol = solving
 
-    statistics = BoolField()
+    statistics = BoolField(default_value=False)
     st = statistics

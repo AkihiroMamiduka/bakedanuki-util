@@ -21,7 +21,7 @@ class WtMatrixPlugOperator(
     matrixIn = DataMatrixField()
     m = matrixIn
 
-    weightIn = DoubleField()
+    weightIn = DoubleField(default_value=0.0)
     w = weightIn
 
 
@@ -33,7 +33,7 @@ class WtMatrixAttrOperator(
     matrixIn = DataMatrixField()
     m = matrixIn
 
-    weightIn = DoubleField()
+    weightIn = DoubleField(default_value=0.0)
     w = weightIn
 
 

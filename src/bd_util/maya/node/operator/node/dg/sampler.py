@@ -11,19 +11,19 @@ class Sampler(DG):
 
     NODE_TYPE = "sampler"
 
-    minimum = DoubleField()
+    minimum = DoubleField(default_value=0.0)
     min = minimum
 
-    maximum = DoubleField()
+    maximum = DoubleField(default_value=0.0)
     max = maximum
 
-    step = DoubleField()
+    step = DoubleField(default_value=0.0)
     s = step
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    value = DoubleField(multi=True)
+    value = DoubleField(multi=True, default_value=0.0, writable=False)
     v = value
 
     function = FunctionField()

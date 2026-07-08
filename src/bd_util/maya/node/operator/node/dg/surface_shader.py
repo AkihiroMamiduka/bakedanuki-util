@@ -14,7 +14,7 @@ class SurfaceShader(DG):
 
     NODE_TYPE = "surfaceShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0))
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -23,7 +23,7 @@ class SurfaceShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0))
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -32,7 +32,7 @@ class SurfaceShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(1.0, 1.0, 1.0))
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -41,7 +41,7 @@ class SurfaceShader(DG):
     outMatteOpacityB = outMatteOpacity.outMatteOpacityB
     omob = outMatteOpacityB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0))
     og = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -50,5 +50,5 @@ class SurfaceShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    materialAlphaGain = FloatField()
+    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     maga = materialAlphaGain

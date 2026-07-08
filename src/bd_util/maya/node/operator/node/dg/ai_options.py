@@ -513,58 +513,58 @@ class AiOptions(DG):
     imageFormat = DataStringField()
     img = imageFormat
 
-    aovList = MessageField(multi=True)
+    aovList = MessageField(multi=True, readable=False)
     aovs = aovList
 
-    aovMode = AovModeEnumField()
+    aovMode = AovModeEnumField(default_value=1)
     aovm = aovMode
 
-    denoiseBeauty = BoolField()
+    denoiseBeauty = BoolField(default_value=False)
     opdenb = denoiseBeauty
 
-    outputVarianceAOVs = BoolField()
+    outputVarianceAOVs = BoolField(default_value=False)
     varaovs = outputVarianceAOVs
 
-    renderType = RenderTypeEnumField()
+    renderType = RenderTypeEnumField(default_value=0)
     arnrt = renderType
 
-    outputAssBoundingBox = BoolField()
+    outputAssBoundingBox = BoolField(default_value=False)
     assbb = outputAssBoundingBox
 
-    preserve_scene_data = BoolField()
+    preserve_scene_data = BoolField(default_value=True)
     preserveSceneData = preserve_scene_data
 
-    progressive_rendering = BoolField()
+    progressive_rendering = BoolField(default_value=True)
     prog = progressive_rendering
 
-    progressive_initial_level = LongField()
+    progressive_initial_level = LongField(default_value=-3, min_value=-10, max_value=100, soft_min_value=-3, soft_max_value=10)
     progil = progressive_initial_level
 
-    threads_autodetect = BoolField()
+    threads_autodetect = BoolField(default_value=True)
     thr_auto = threads_autodetect
 
-    threads = LongField()
+    threads = LongField(default_value=1, min_value=-1024, max_value=1024, soft_min_value=1)
     thrds = threads
 
-    bucketScanning = BucketScanningEnumField()
+    bucketScanning = BucketScanningEnumField(default_value=3)
     bktsc = bucketScanning
 
-    bucketSize = LongField()
+    bucketSize = LongField(default_value=64, min_value=16, soft_min_value=16, soft_max_value=256)
     bucket_size = bucketSize
 
-    clear_before_render = BoolField()
+    clear_before_render = BoolField(default_value=True)
     clear = clear_before_render
 
-    force_scene_update_before_IPR_refresh = BoolField()
+    force_scene_update_before_IPR_refresh = BoolField(default_value=False)
     rec_before_IPR = force_scene_update_before_IPR_refresh
 
-    force_texture_cache_flush_after_render = BoolField()
+    force_texture_cache_flush_after_render = BoolField(default_value=False)
     force_texture_flush = force_texture_cache_flush_after_render
 
-    abortOnError = BoolField()
+    abortOnError = BoolField(default_value=True)
     abort_on_error = abortOnError
 
-    errorColorBadTexture = ErrorColorBadTextureField()
+    errorColorBadTexture = ErrorColorBadTextureField(default_value=(1.0, 0.0, 0.0))
     error_color_bad_texture = errorColorBadTexture
     errorColorBadTextureR = errorColorBadTexture.errorColorBadTextureR
     error_color_bad_texturer = errorColorBadTextureR
@@ -573,7 +573,7 @@ class AiOptions(DG):
     errorColorBadTextureB = errorColorBadTexture.errorColorBadTextureB
     error_color_bad_textureb = errorColorBadTextureB
 
-    errorColorBadPixel = ErrorColorBadPixelField()
+    errorColorBadPixel = ErrorColorBadPixelField(default_value=(0.0, 0.0, 1.0))
     error_color_bad_pixel = errorColorBadPixel
     errorColorBadPixelR = errorColorBadPixel.errorColorBadPixelR
     error_color_bad_pixelr = errorColorBadPixelR
@@ -582,257 +582,257 @@ class AiOptions(DG):
     errorColorBadPixelB = errorColorBadPixel.errorColorBadPixelB
     error_color_bad_pixelb = errorColorBadPixelB
 
-    abortOnLicenseFail = BoolField()
+    abortOnLicenseFail = BoolField(default_value=True)
     abort_on_license_fail = abortOnLicenseFail
 
-    skipLicenseCheck = BoolField()
+    skipLicenseCheck = BoolField(default_value=False)
     skip_license_check = skipLicenseCheck
 
     plugins_path = DataStringField()
     ppath = plugins_path
 
-    AASamples = LongField()
+    AASamples = LongField(default_value=3, min_value=-10, max_value=1020, soft_min_value=1, soft_max_value=50)
     AA_samples = AASamples
 
-    GIDiffuseSamples = LongField()
+    GIDiffuseSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
     GI_diffuse_samples = GIDiffuseSamples
 
-    GISpecularSamples = LongField()
+    GISpecularSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
     GI_specular_samples = GISpecularSamples
 
-    GITransmissionSamples = LongField()
+    GITransmissionSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
     GI_transmission_samples = GITransmissionSamples
 
-    GISssSamples = LongField()
+    GISssSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
     GI_sss_samples = GISssSamples
 
-    GIVolumeSamples = LongField()
+    GIVolumeSamples = LongField(default_value=2, min_value=0, soft_max_value=10)
     GI_volume_samples = GIVolumeSamples
 
-    enableAdaptiveSampling = BoolField()
+    enableAdaptiveSampling = BoolField(default_value=False)
     enable_adaptive_sampling = enableAdaptiveSampling
 
-    AASamplesMax = LongField()
+    AASamplesMax = LongField(default_value=20, min_value=0, max_value=1020, soft_min_value=1, soft_max_value=100)
     AA_samples_max = AASamplesMax
 
-    AAAdaptiveThreshold = FloatField()
+    AAAdaptiveThreshold = FloatField(default_value=0.014999999664723873, min_value=0.0, soft_max_value=1.0)
     AA_adaptive_threshold = AAAdaptiveThreshold
 
-    enableProgressiveRender = BoolField()
+    enableProgressiveRender = BoolField(default_value=False)
     enable_progressive_render = enableProgressiveRender
 
-    regionMinX = LongField()
+    regionMinX = LongField(default_value=-2147483648)
     region_min_x = regionMinX
 
-    regionMaxX = LongField()
+    regionMaxX = LongField(default_value=-2147483648)
     region_max_x = regionMaxX
 
-    regionMinY = LongField()
+    regionMinY = LongField(default_value=-2147483648)
     region_min_y = regionMinY
 
-    regionMaxY = LongField()
+    regionMaxY = LongField(default_value=-2147483648)
     region_max_y = regionMaxY
 
-    use_sample_clamp = BoolField()
+    use_sample_clamp = BoolField(default_value=False)
     usesmpclamp = use_sample_clamp
 
-    use_sample_clamp_AOVs = BoolField()
+    use_sample_clamp_AOVs = BoolField(default_value=False)
     usesmpclampaovs = use_sample_clamp_AOVs
 
-    AASampleClamp = FloatField()
+    AASampleClamp = FloatField(default_value=10.0, soft_min_value=0.0010000000474974513, soft_max_value=100.0)
     AA_sample_clamp = AASampleClamp
 
-    indirectSampleClamp = FloatField()
+    indirectSampleClamp = FloatField(default_value=10.0, min_value=0.0, soft_min_value=0.0010000000474974513, soft_max_value=100.0)
     indirect_sample_clamp = indirectSampleClamp
 
-    lock_sampling_noise = BoolField()
+    lock_sampling_noise = BoolField(default_value=False)
     locksn = lock_sampling_noise
 
-    sssUseAutobump = BoolField()
+    sssUseAutobump = BoolField(default_value=False)
     sss_use_autobump = sssUseAutobump
 
-    indirectSpecularBlur = FloatField()
+    indirectSpecularBlur = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     indirect_specular_blur = indirectSpecularBlur
 
-    dielectricPriorities = BoolField()
+    dielectricPriorities = BoolField(default_value=True)
     dielectric_priorities = dielectricPriorities
 
-    AA_seed = TimeField()
+    AA_seed = TimeField(default_value=0.0)
     aaseed = AA_seed
 
     filterType = DataStringField()
     fltr = filterType
 
-    GIDiffuseDepth = LongField()
+    GIDiffuseDepth = LongField(default_value=1, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
     GI_diffuse_depth = GIDiffuseDepth
 
-    GISpecularDepth = LongField()
+    GISpecularDepth = LongField(default_value=1, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
     GI_specular_depth = GISpecularDepth
 
-    GITransmissionDepth = LongField()
+    GITransmissionDepth = LongField(default_value=8, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
     GI_transmission_depth = GITransmissionDepth
 
-    GIVolumeDepth = LongField()
+    GIVolumeDepth = LongField(default_value=0, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
     GI_volume_depth = GIVolumeDepth
 
-    GITotalDepth = LongField()
+    GITotalDepth = LongField(default_value=10, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
     GI_total_depth = GITotalDepth
 
-    autoTransparencyDepth = LongField()
+    autoTransparencyDepth = LongField(default_value=10, min_value=0, soft_min_value=0, soft_max_value=16)
     auto_transparency_depth = autoTransparencyDepth
 
-    lightLinking = LightLinkingEnumField()
+    lightLinking = LightLinkingEnumField(default_value=1)
     llnk = lightLinking
 
-    shadowLinking = ShadowLinkingEnumField()
+    shadowLinking = ShadowLinkingEnumField(default_value=1)
     slnk = shadowLinking
 
-    globalLightSamplesEnabled = BoolField()
+    globalLightSamplesEnabled = BoolField(default_value=False)
     lsen = globalLightSamplesEnabled
 
-    lightSamples = LongField()
+    lightSamples = LongField(default_value=4, min_value=0, max_value=16, soft_max_value=10)
     light_samples = lightSamples
 
-    lowLightThreshold = FloatField()
+    lowLightThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_max_value=0.10000000149011612)
     low_light_threshold = lowLightThreshold
 
-    motion_blur_enable = BoolField()
+    motion_blur_enable = BoolField(default_value=False)
     mb_en = motion_blur_enable
 
-    mb_lights_enable = BoolField()
+    mb_lights_enable = BoolField(default_value=True)
     mb_len = mb_lights_enable
 
-    mb_camera_enable = BoolField()
+    mb_camera_enable = BoolField(default_value=True)
     mb_cen = mb_camera_enable
 
-    mb_objects_enable = BoolField()
+    mb_objects_enable = BoolField(default_value=True)
     mb_oen = mb_objects_enable
 
-    mb_object_deform_enable = BoolField()
+    mb_object_deform_enable = BoolField(default_value=True)
     mb_den = mb_object_deform_enable
 
-    mb_shader_enable = BoolField()
+    mb_shader_enable = BoolField(default_value=False)
     mb_sen = mb_shader_enable
 
-    motion_steps = LongField()
+    motion_steps = LongField(default_value=2, min_value=2, soft_max_value=30)
     mots = motion_steps
 
-    range_type = Range_typeEnumField()
+    range_type = Range_typeEnumField(default_value=1)
     rgtp = range_type
 
-    motion_frames = FloatField()
+    motion_frames = FloatField(default_value=0.5, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     motf = motion_frames
 
-    motion_start = FloatField()
+    motion_start = FloatField(default_value=-0.25, soft_min_value=-1.0, soft_max_value=0.0)
     motstart = motion_start
 
-    motion_end = FloatField()
+    motion_end = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
     motend = motion_end
 
-    maxSubdivisions = ByteField()
+    maxSubdivisions = ByteField(default_value=255, min_value=0, max_value=255, soft_max_value=10)
     max_subdivisions = maxSubdivisions
 
-    subdivFrustumCulling = BoolField()
+    subdivFrustumCulling = BoolField(default_value=False)
     subdiv_frustum_culling = subdivFrustumCulling
 
-    subdivFrustumPadding = FloatField()
+    subdivFrustumPadding = FloatField(default_value=0.0)
     subdiv_frustum_padding = subdivFrustumPadding
 
     subdivDicingCamera = MessageField()
     subdiv_dicing_camera = subdivDicingCamera
 
-    textureAutotile = LongField()
+    textureAutotile = LongField(default_value=0, min_value=0, soft_min_value=16, soft_max_value=64)
     texture_autotile = textureAutotile
 
-    textureMaxMemoryMB = FloatField()
+    textureMaxMemoryMB = FloatField(default_value=4096.0, min_value=1024.0)
     texture_max_memory_MB = textureMaxMemoryMB
 
-    textureMaxOpenFiles = LongField()
+    textureMaxOpenFiles = LongField(default_value=0)
     texture_max_open_files = textureMaxOpenFiles
 
-    textureAcceptUntiled = BoolField()
+    textureAcceptUntiled = BoolField(default_value=True)
     texture_accept_untiled = textureAcceptUntiled
 
-    textureAcceptUnmipped = BoolField()
+    textureAcceptUnmipped = BoolField(default_value=True)
     texture_accept_unmipped = textureAcceptUnmipped
 
-    textureConservativeLookups = BoolField()
+    textureConservativeLookups = BoolField(default_value=True)
     texture_conservative_lookups = textureConservativeLookups
 
     textureAutoTxPath = DataStringField()
     texture_auto_tx_path = textureAutoTxPath
 
-    autotile = BoolField()
+    autotile = BoolField(default_value=True)
 
-    use_existing_tiled_textures = BoolField()
+    use_existing_tiled_textures = BoolField(default_value=True)
     usetx = use_existing_tiled_textures
 
-    autotx = BoolField()
+    autotx = BoolField(default_value=True)
 
-    renderDevice = RenderDeviceEnumField()
+    renderDevice = RenderDeviceEnumField(default_value=0)
     rndrdvc = renderDevice
 
-    render_device_fallback = Render_device_fallbackEnumField()
+    render_device_fallback = Render_device_fallbackEnumField(default_value=0)
     rndfb = render_device_fallback
 
-    manual_gpu_devices = BoolField()
+    manual_gpu_devices = BoolField(default_value=False)
     manualdevs = manual_gpu_devices
 
-    render_devices = LongField(multi=True)
+    render_devices = LongField(multi=True, default_value=0)
     rndev = render_devices
 
-    gpu_max_texture_resolution = LongField()
+    gpu_max_texture_resolution = LongField(default_value=0)
     gpumtr = gpu_max_texture_resolution
 
     gpuDefaultNames = DataStringField()
     gpu_default_names = gpuDefaultNames
 
-    gpuDefaultMinMemoryMB = LongField()
+    gpuDefaultMinMemoryMB = LongField(default_value=512)
     gpu_default_min_memory_MB = gpuDefaultMinMemoryMB
 
-    ignoreTextures = BoolField()
+    ignoreTextures = BoolField(default_value=False)
     ignore_textures = ignoreTextures
 
-    ignoreShaders = BoolField()
+    ignoreShaders = BoolField(default_value=False)
     ignore_shaders = ignoreShaders
 
-    ignoreAtmosphere = BoolField()
+    ignoreAtmosphere = BoolField(default_value=False)
     ignore_atmosphere = ignoreAtmosphere
 
-    ignoreLights = BoolField()
+    ignoreLights = BoolField(default_value=False)
     ignore_lights = ignoreLights
 
-    ignoreShadows = BoolField()
+    ignoreShadows = BoolField(default_value=False)
     ignore_shadows = ignoreShadows
 
-    ignoreSubdivision = BoolField()
+    ignoreSubdivision = BoolField(default_value=False)
     ignore_subdivision = ignoreSubdivision
 
-    ignoreDisplacement = BoolField()
+    ignoreDisplacement = BoolField(default_value=False)
     ignore_displacement = ignoreDisplacement
 
-    ignoreBump = BoolField()
+    ignoreBump = BoolField(default_value=False)
     ignore_bump = ignoreBump
 
-    ignoreSmoothing = BoolField()
+    ignoreSmoothing = BoolField(default_value=False)
     ignore_smoothing = ignoreSmoothing
 
-    ignoreMotionBlur = BoolField()
+    ignoreMotionBlur = BoolField(default_value=False)
     ignore_motion_blur = ignoreMotionBlur
 
-    ignoreMotion = BoolField()
+    ignoreMotion = BoolField(default_value=False)
     ignore_motion = ignoreMotion
 
-    ignoreSss = BoolField()
+    ignoreSss = BoolField(default_value=False)
     ignore_sss = ignoreSss
 
-    ignoreDof = BoolField()
+    ignoreDof = BoolField(default_value=False)
     ignore_dof = ignoreDof
 
-    ignoreOperators = BoolField()
+    ignoreOperators = BoolField(default_value=False)
     ignore_operators = ignoreOperators
 
-    ignoreImagers = BoolField()
+    ignoreImagers = BoolField(default_value=False)
     ignore_imagers = ignoreImagers
 
     ignore_list = DataStringField()
@@ -841,43 +841,43 @@ class AiOptions(DG):
     output_ass_filename = DataStringField()
     file = output_ass_filename
 
-    output_ass_compressed = BoolField()
+    output_ass_compressed = BoolField(default_value=False)
     oasc = output_ass_compressed
 
-    output_ass_mask = LongField()
+    output_ass_mask = LongField(default_value=65535, min_value=0, max_value=65535)
     oamask = output_ass_mask
 
-    log_to_file = BoolField()
+    log_to_file = BoolField(default_value=False)
     ltofi = log_to_file
 
-    log_to_console = BoolField()
+    log_to_console = BoolField(default_value=True)
     ltocon = log_to_console
 
     log_filename = DataStringField()
     logf = log_filename
 
-    log_max_warnings = LongField()
+    log_max_warnings = LongField(default_value=5, min_value=0, soft_max_value=100)
     logw = log_max_warnings
 
-    log_verbosity = Log_verbosityEnumField()
+    log_verbosity = Log_verbosityEnumField(default_value=1)
     logv = log_verbosity
 
-    stats_enable = BoolField()
+    stats_enable = BoolField(default_value=False)
     statse = stats_enable
 
     stats_file = DataStringField()
     statsf = stats_file
 
-    stats_mode = Stats_modeEnumField()
+    stats_mode = Stats_modeEnumField(default_value=1)
     statsm = stats_mode
 
-    profile_enable = BoolField()
+    profile_enable = BoolField(default_value=False)
     profe = profile_enable
 
     profile_file = DataStringField()
     proff = profile_file
 
-    mtoa_translation_info = BoolField()
+    mtoa_translation_info = BoolField(default_value=False)
     mtrinf = mtoa_translation_info
 
     background = MessageField()
@@ -888,18 +888,18 @@ class AiOptions(DG):
 
     operator = MessageField()
 
-    imagers = MessageField(multi=True)
+    imagers = MessageField(multi=True, readable=False)
 
     displayAOV = DataStringField()
     daov = displayAOV
 
-    binaryAss = BoolField()
+    binaryAss = BoolField(default_value=True)
     binary_ass = binaryAss
 
-    referenceTime = FloatField()
+    referenceTime = FloatField(default_value=0.0)
     reference_time = referenceTime
 
-    enable_swatch_render = BoolField()
+    enable_swatch_render = BoolField(default_value=True)
     ensr = enable_swatch_render
 
     procedural_searchpath = DataStringField()
@@ -911,56 +911,56 @@ class AiOptions(DG):
     texture_searchpath = DataStringField()
     tspath = texture_searchpath
 
-    driver = MessageField()
+    driver = MessageField(readable=False)
     drvr = driver
 
-    filter = MessageField()
+    filter = MessageField(readable=False)
     filt = filter
 
     aiUserOptions = DataStringField()
     ai_user_options = aiUserOptions
 
-    drivers = MessageField(multi=True)
+    drivers = MessageField(multi=True, readable=False)
 
-    expandProcedurals = BoolField()
+    expandProcedurals = BoolField(default_value=False)
     expand_procedurals = expandProcedurals
 
     kickRenderFlags = DataStringField()
     kick_render_flags = kickRenderFlags
 
-    absoluteTexturePaths = BoolField()
+    absoluteTexturePaths = BoolField(default_value=True)
     absolute_texture_paths = absoluteTexturePaths
 
-    absoluteProceduralPaths = BoolField()
+    absoluteProceduralPaths = BoolField(default_value=True)
     absolute_procedural_paths = absoluteProceduralPaths
 
-    forceTranslateShadingEngines = BoolField()
+    forceTranslateShadingEngines = BoolField(default_value=False)
     force_translate_shading_engines = forceTranslateShadingEngines
 
-    exportAllShadingGroups = BoolField()
+    exportAllShadingGroups = BoolField(default_value=False)
     export_all_shading_groups = exportAllShadingGroups
 
-    exportFullPaths = BoolField()
+    exportFullPaths = BoolField(default_value=True)
     export_full_paths = exportFullPaths
 
-    exportSeparator = ExportSeparatorEnumField()
+    exportSeparator = ExportSeparatorEnumField(default_value=1)
     export_separator = exportSeparator
 
-    exportNamespace = ExportNamespaceEnumField()
+    exportNamespace = ExportNamespaceEnumField(default_value=1)
     export_namespace = exportNamespace
 
-    exportDagName = ExportDagNameEnumField()
+    exportDagName = ExportDagNameEnumField(default_value=0)
     export_dag_name = exportDagName
 
     exportPrefix = DataStringField()
     export_prefix = exportPrefix
 
-    exportShadingEngine = BoolField()
+    exportShadingEngine = BoolField(default_value=False)
     export_shading_engine = exportShadingEngine
 
     version = DataStringField()
 
-    standinDrawOverride = StandinDrawOverrideEnumField()
+    standinDrawOverride = StandinDrawOverrideEnumField(default_value=0)
     standin_draw_override = standinDrawOverride
 
     PostTranslation = DataStringField()
@@ -981,13 +981,13 @@ class AiOptions(DG):
     outputOverscan = DataStringField()
     output_overscan = outputOverscan
 
-    renderUnit = RenderUnitEnumField()
+    renderUnit = RenderUnitEnumField(default_value=0)
     render_unit = renderUnit
 
-    sceneScale = DoubleField()
+    sceneScale = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.01, soft_max_value=5.0)
     scene_scale = sceneScale
 
-    offsetOrigin = BoolField()
+    offsetOrigin = BoolField(default_value=False)
     offset_origin = offsetOrigin
 
     origin = MessageField()
@@ -996,27 +996,27 @@ class AiOptions(DG):
     aovShaders = MessageField(multi=True)
     aov_shaders = aovShaders
 
-    GI_glossy_samples = LongField()
+    GI_glossy_samples = LongField(default_value=1, writable=False)
 
-    GI_refraction_samples = LongField()
+    GI_refraction_samples = LongField(default_value=1, writable=False)
 
-    textureDiffuseBlur = FloatField()
+    textureDiffuseBlur = FloatField(default_value=0.0, writable=False)
     texture_diffuse_blur = textureDiffuseBlur
 
-    textureSpecularBlur = FloatField()
+    textureSpecularBlur = FloatField(default_value=0.0, writable=False)
     texture_specular_blur = textureSpecularBlur
 
-    exportMayaUsd = BoolField()
+    exportMayaUsd = BoolField(default_value=False)
     export_maya_usd = exportMayaUsd
 
-    avpRegionLeft = LongField()
+    avpRegionLeft = LongField(default_value=0, min_value=0)
     avp_region_left = avpRegionLeft
 
-    avpRegionRight = LongField()
+    avpRegionRight = LongField(default_value=0, min_value=0)
     avp_region_right = avpRegionRight
 
-    avpRegionBottom = LongField()
+    avpRegionBottom = LongField(default_value=0, min_value=0)
     avp_region_bottom = avpRegionBottom
 
-    avpRegionTop = LongField()
+    avpRegionTop = LongField(default_value=0, min_value=0)
     avp_region_top = avpRegionTop

@@ -10,10 +10,10 @@ class AiOslShader(DG):
 
     NODE_TYPE = "aiOslShader"
 
-    outValue = MessageField()
+    outValue = MessageField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -26,8 +26,8 @@ class AiOslShader(DG):
 
     code = DataStringField()
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    codeCache = DataStringField()
+    codeCache = DataStringField(category="arnold")
     code_cache = codeCache

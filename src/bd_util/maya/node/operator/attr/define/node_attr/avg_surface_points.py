@@ -17,10 +17,10 @@ class ResultPlugOperator(
         ("normal", "n"),
     )
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
 
@@ -29,10 +29,10 @@ class ResultAttrOperator(
 ):
     __slots__ = ()
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
 
@@ -44,8 +44,8 @@ class ResultField(
     ATTR_CLS = ResultAttrOperator
     PLUG_CLS = ResultPlugOperator
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal

@@ -49,10 +49,10 @@ class AiFloatToInt(DG):
 
     NODE_TYPE = "aiFloatToInt"
 
-    outValue = LongField()
+    outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -61,6 +61,6 @@ class AiFloatToInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = FloatField()
+    input = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)

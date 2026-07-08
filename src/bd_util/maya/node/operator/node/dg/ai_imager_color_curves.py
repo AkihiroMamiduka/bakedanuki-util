@@ -16,9 +16,9 @@ class AiImagerColorCurves(DG):
 
     NODE_TYPE = "aiImagerColorCurves"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
@@ -26,17 +26,17 @@ class AiImagerColorCurves(DG):
     workingColorSpace = DataStringField()
     working_color_space = workingColorSpace
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    rampRGB = RampRGBField(multi=True)
+    rampRGB = RampRGBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
     aiRampRGB = rampRGB
 
-    rampR = RampRField(multi=True)
+    rampR = RampRField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
     aiRampR = rampR
 
-    rampG = RampGField(multi=True)
+    rampG = RampGField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
     aiRampG = rampG
 
-    rampB = RampBField(multi=True)
+    rampB = RampBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
     aiRampB = rampB

@@ -12,7 +12,7 @@ class BlindDataTemplate(DG):
 
     NODE_TYPE = "blindDataTemplate"
 
-    typeId = LongField()
+    typeId = LongField(default_value=0)
     tid = typeId
 
     blindDataPresets = BlindDataPresetsField(multi=True)

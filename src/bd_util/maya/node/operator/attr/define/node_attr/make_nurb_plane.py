@@ -18,13 +18,13 @@ class PivotPlugOperator(
         ("pivotZ", "pz"),
     )
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -33,13 +33,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -51,13 +51,13 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -71,13 +71,13 @@ class AxisPlugOperator(
         ("axisZ", "axz"),
     )
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -86,13 +86,13 @@ class AxisAttrOperator(
 ):
     __slots__ = ()
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -104,11 +104,11 @@ class AxisField(
     ATTR_CLS = AxisAttrOperator
     PLUG_CLS = AxisPlugOperator
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ

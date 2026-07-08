@@ -12,7 +12,7 @@ class VolumeShader(DG):
 
     NODE_TYPE = "volumeShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0))
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -21,7 +21,7 @@ class VolumeShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0))
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -30,7 +30,7 @@ class VolumeShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(1.0, 1.0, 1.0))
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

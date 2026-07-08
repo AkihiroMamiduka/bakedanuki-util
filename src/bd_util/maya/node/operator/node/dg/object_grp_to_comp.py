@@ -16,4 +16,4 @@ class ObjectGrpToComp(DG):
 
     inputMesh = DataMeshField()
 
-    generatePlanarUVs = BoolField()
+    generatePlanarUVs = BoolField(default_value=True)

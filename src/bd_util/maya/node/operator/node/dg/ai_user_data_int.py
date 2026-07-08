@@ -10,10 +10,10 @@ class AiUserDataInt(DG):
 
     NODE_TYPE = "aiUserDataInt"
 
-    outValue = LongField()
+    outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -25,5 +25,5 @@ class AiUserDataInt(DG):
     attribute = DataStringField()
     intAttrName = attribute
 
-    default = LongField()
+    default = LongField(default_value=0)
     defaultValue = default

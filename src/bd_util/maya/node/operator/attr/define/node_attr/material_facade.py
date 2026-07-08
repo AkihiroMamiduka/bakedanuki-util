@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=1.0)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.6000000238418579)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.4000000059604645)
     ocb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=1.0)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.6000000238418579)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.4000000059604645)
     ocb = outColorB
 
 
@@ -51,11 +51,11 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=1.0)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.6000000238418579)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.4000000059604645)
     ocb = outColorB

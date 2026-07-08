@@ -8,8 +8,8 @@ class Ceil(DG):
 
     NODE_TYPE = "ceil"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

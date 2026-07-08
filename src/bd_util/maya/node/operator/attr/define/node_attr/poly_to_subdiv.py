@@ -16,7 +16,7 @@ class CachedUVsPlugOperator(
         ("uvPoints", "uvp"),
     )
 
-    uvPoints = Float2Field()
+    uvPoints = Float2Field(multi=True, default_value=(0.0, 0.0))
     uvp = uvPoints
 
 
@@ -25,7 +25,7 @@ class CachedUVsAttrOperator(
 ):
     __slots__ = ()
 
-    uvPoints = Float2Field()
+    uvPoints = Float2Field(multi=True, default_value=(0.0, 0.0))
     uvp = uvPoints
 
 

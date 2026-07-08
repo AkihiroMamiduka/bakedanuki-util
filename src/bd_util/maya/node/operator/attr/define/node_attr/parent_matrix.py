@@ -21,10 +21,10 @@ class TargetPlugOperator(
         ("offsetMatrix", "ofm"),
     )
 
-    enableTarget = BoolField()
+    enableTarget = BoolField(default_value=True)
     umt = enableTarget
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     wgt = weight
 
     targetMatrix = MatrixField()
@@ -39,10 +39,10 @@ class TargetAttrOperator(
 ):
     __slots__ = ()
 
-    enableTarget = BoolField()
+    enableTarget = BoolField(default_value=True)
     umt = enableTarget
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     wgt = weight
 
     targetMatrix = MatrixField()

@@ -12,7 +12,7 @@ class DefaultLightList(DG):
 
     NODE_TYPE = "defaultLightList"
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     lda = lightDataArray
 
     lightDirectionX = FloatField()
@@ -33,7 +33,7 @@ class DefaultLightList(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    lightData = LightDataField()
+    lightData = LightDataField(writable=False)
     ltd = lightData
     lightDirectionOut = lightData.lightDirectionOut
     ldo = lightDirectionOut

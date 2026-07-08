@@ -12,7 +12,7 @@ class CurveFromMeshCoM(DG):
     inputMesh = DataMeshField()
     im = inputMesh
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
     curveOnMesh = DataNurbsCurveField()

@@ -123,13 +123,13 @@ class PointWorldPlugOperator(
         ("pointWorldZ", "pwz"),
     )
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -138,13 +138,13 @@ class PointWorldAttrOperator(
 ):
     __slots__ = ()
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -156,13 +156,13 @@ class PointWorldField(
     ATTR_CLS = PointWorldAttrOperator
     PLUG_CLS = PointWorldPlugOperator
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -175,10 +175,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -187,10 +187,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -202,10 +202,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -218,10 +218,10 @@ class VertexUvOnePlugOperator(
         ("vertexUvOneV", "t1v"),
     )
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -230,10 +230,10 @@ class VertexUvOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -245,10 +245,10 @@ class VertexUvOneField(
     ATTR_CLS = VertexUvOneAttrOperator
     PLUG_CLS = VertexUvOnePlugOperator
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -261,10 +261,10 @@ class VertexUvTwoPlugOperator(
         ("vertexUvTwoV", "t2v"),
     )
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -273,10 +273,10 @@ class VertexUvTwoAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -288,10 +288,10 @@ class VertexUvTwoField(
     ATTR_CLS = VertexUvTwoAttrOperator
     PLUG_CLS = VertexUvTwoPlugOperator
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -304,10 +304,10 @@ class VertexUvThreePlugOperator(
         ("vertexUvThreeV", "t3v"),
     )
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -316,10 +316,10 @@ class VertexUvThreeAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -331,10 +331,10 @@ class VertexUvThreeField(
     ATTR_CLS = VertexUvThreeAttrOperator
     PLUG_CLS = VertexUvThreePlugOperator
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -348,13 +348,13 @@ class ImagePlugOperator(
         ("imageB", "ib"),
     )
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0)
     ir = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0)
     ig = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0)
     ib = imageB
 
 
@@ -363,13 +363,13 @@ class ImageAttrOperator(
 ):
     __slots__ = ()
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0)
     ir = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0)
     ig = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0)
     ib = imageB
 
 
@@ -381,13 +381,13 @@ class ImageField(
     ATTR_CLS = ImageAttrOperator
     PLUG_CLS = ImagePlugOperator
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0)
     ir = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0)
     ig = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0)
     ib = imageB
 
 
@@ -411,28 +411,28 @@ class DispDataPlugOperator(
     muscleMatrix = MatrixField()
     mm = muscleMatrix
 
-    curves = GenericField()
+    curves = GenericField(multi=True)
     crv = curves
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
     md = mode
 
-    length = FloatField()
+    length = FloatField(default_value=1.0)
     len = length
 
-    sizeRadius = FloatField()
+    sizeRadius = FloatField(default_value=0.5)
     siz = sizeRadius
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=0.10000000149011612)
     amp = amplitude
 
-    falloff = FloatField()
+    falloff = FloatField(default_value=0.5)
     fal = falloff
 
-    pushMode = PushModeEnumField()
+    pushMode = PushModeEnumField(default_value=0)
     pmd = pushMode
 
-    combineMode = CombineModeEnumField()
+    combineMode = CombineModeEnumField(default_value=0)
     cmd = combineMode
 
     shader = MessageField()
@@ -447,28 +447,28 @@ class DispDataAttrOperator(
     muscleMatrix = MatrixField()
     mm = muscleMatrix
 
-    curves = GenericField()
+    curves = GenericField(multi=True)
     crv = curves
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
     md = mode
 
-    length = FloatField()
+    length = FloatField(default_value=1.0)
     len = length
 
-    sizeRadius = FloatField()
+    sizeRadius = FloatField(default_value=0.5)
     siz = sizeRadius
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=0.10000000149011612)
     amp = amplitude
 
-    falloff = FloatField()
+    falloff = FloatField(default_value=0.5)
     fal = falloff
 
-    pushMode = PushModeEnumField()
+    pushMode = PushModeEnumField(default_value=0)
     pmd = pushMode
 
-    combineMode = CombineModeEnumField()
+    combineMode = CombineModeEnumField(default_value=0)
     cmd = combineMode
 
     shader = MessageField()
@@ -486,28 +486,28 @@ class DispDataField(
     muscleMatrix = MatrixField()
     mm = muscleMatrix
 
-    curves = GenericField()
+    curves = GenericField(multi=True)
     crv = curves
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
     md = mode
 
-    length = FloatField()
+    length = FloatField(default_value=1.0)
     len = length
 
-    sizeRadius = FloatField()
+    sizeRadius = FloatField(default_value=0.5)
     siz = sizeRadius
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=0.10000000149011612)
     amp = amplitude
 
-    falloff = FloatField()
+    falloff = FloatField(default_value=0.5)
     fal = falloff
 
-    pushMode = PushModeEnumField()
+    pushMode = PushModeEnumField(default_value=0)
     pmd = pushMode
 
-    combineMode = CombineModeEnumField()
+    combineMode = CombineModeEnumField(default_value=0)
     cmd = combineMode
 
     shader = MessageField()

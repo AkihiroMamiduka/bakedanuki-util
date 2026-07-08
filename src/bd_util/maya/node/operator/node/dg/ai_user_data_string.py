@@ -9,10 +9,10 @@ class AiUserDataString(DG):
 
     NODE_TYPE = "aiUserDataString"
 
-    outValue = DataStringField()
+    outValue = DataStringField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -9,7 +9,7 @@ class CpvColor(DG):
 
     NODE_TYPE = "cpvColor"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -18,8 +18,8 @@ class CpvColor(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    outOpacity = FloatField()
+    outOpacity = FloatField(default_value=0.0, writable=False)
     oo = outOpacity

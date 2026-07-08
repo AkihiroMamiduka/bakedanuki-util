@@ -10,14 +10,14 @@ class MayaUsdGeomNode(DG):
 
     NODE_TYPE = "mayaUsdGeomNode"
 
-    filePath = DataStringField()
+    filePath = DataStringField(readable=False)
     fp = filePath
 
-    rootPrim = DataStringField()
+    rootPrim = DataStringField(readable=False)
     rp = rootPrim
 
-    geometry = DataMeshField(multi=True)
+    geometry = DataMeshField(multi=True, writable=False)
     geo = geometry
 
-    matrix = DataMatrixField(multi=True)
+    matrix = DataMatrixField(multi=True, writable=False)
     tra = matrix

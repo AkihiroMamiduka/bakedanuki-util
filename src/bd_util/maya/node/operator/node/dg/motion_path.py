@@ -165,19 +165,19 @@ class MotionPath(DG):
 
     NODE_TYPE = "motionPath"
 
-    uValue = DoubleLinearField()
+    uValue = DoubleLinearField(default_value=0.0)
     u = uValue
 
-    frontTwist = DoubleAngleField()
+    frontTwist = DoubleAngleField(default_value=0.0)
     ft = frontTwist
 
-    upTwist = DoubleAngleField()
+    upTwist = DoubleAngleField(default_value=0.0)
     ut = upTwist
 
-    sideTwist = DoubleAngleField()
+    sideTwist = DoubleAngleField(default_value=0.0)
     st = sideTwist
 
-    allCoordinates = AllCoordinatesField()
+    allCoordinates = AllCoordinatesField(default_value=(0.0, 0.0, 0.0), writable=False)
     ac = allCoordinates
     xCoordinate = allCoordinates.xCoordinate
     xc = xCoordinate
@@ -186,10 +186,10 @@ class MotionPath(DG):
     zCoordinate = allCoordinates.zCoordinate
     zc = zCoordinate
 
-    orientMatrix = DataMatrixField()
+    orientMatrix = DataMatrixField(writable=False)
     om = orientMatrix
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0), writable=False)
     r = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -198,7 +198,7 @@ class MotionPath(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder
 
     flowNode = MessageField()
@@ -207,34 +207,34 @@ class MotionPath(DG):
     geometryPath = GenericField()
     gp = geometryPath
 
-    positionMarkerTime = TimeField(multi=True)
+    positionMarkerTime = TimeField(multi=True, default_value=0.0)
     pmt = positionMarkerTime
 
-    orientationMarkerTime = TimeField(multi=True)
+    orientationMarkerTime = TimeField(multi=True, default_value=0.0)
     omt = orientationMarkerTime
 
-    follow = BoolField()
+    follow = BoolField(default_value=False)
     f = follow
 
-    normal = BoolField()
+    normal = BoolField(default_value=False)
     nr = normal
 
-    inverseUp = BoolField()
+    inverseUp = BoolField(default_value=False)
     iu = inverseUp
 
-    inverseFront = BoolField()
+    inverseFront = BoolField(default_value=False)
     if_ = inverseFront
 
-    frontAxis = FrontAxisEnumField()
+    frontAxis = FrontAxisEnumField(default_value=1)
     fa = frontAxis
 
-    upAxis = UpAxisEnumField()
+    upAxis = UpAxisEnumField(default_value=2)
     ua = upAxis
 
-    worldUpType = WorldUpTypeEnumField()
+    worldUpType = WorldUpTypeEnumField(default_value=3)
     wut = worldUpType
 
-    worldUpVector = WorldUpVectorField()
+    worldUpVector = WorldUpVectorField(default_value=(0.0, 1.0, 0.0))
     wu = worldUpVector
     worldUpVectorX = worldUpVector.worldUpVectorX
     wux = worldUpVectorX
@@ -246,17 +246,17 @@ class MotionPath(DG):
     worldUpMatrix = MatrixField()
     wum = worldUpMatrix
 
-    bank = BoolField()
+    bank = BoolField(default_value=False)
     b = bank
 
-    bankScale = DoubleField()
+    bankScale = DoubleField(default_value=1.0)
     bs = bankScale
 
-    bankLimit = DoubleAngleField()
+    bankLimit = DoubleAngleField(default_value=90.0)
     bl = bankLimit
 
-    fractionMode = BoolField()
+    fractionMode = BoolField(default_value=False)
     fm = fractionMode
 
-    updateOM = BoolField()
+    updateOM = BoolField(default_value=False)
     uom = updateOM

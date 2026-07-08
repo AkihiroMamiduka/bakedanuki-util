@@ -44,29 +44,29 @@ class XgmModifierCut(DG):
 
     NODE_TYPE = "xgmModifierCut"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    cutMode = CutModeEnumField()
+    cutMode = CutModeEnumField(default_value=0)
     ctm = cutMode
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    amount = DoubleLinearField()
+    amount = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
     a = amount
 
-    percentage = FloatField()
+    percentage = FloatField(default_value=10.0, min_value=0.0, max_value=100.0)
     pt = percentage
 
-    minRemainLength = FloatField()
+    minRemainLength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
     mrl = minRemainLength
 
-    redistributingCV = BoolField()
+    redistributingCV = BoolField(default_value=True)
     rd = redistributingCV

@@ -19,7 +19,7 @@ class RenderPass(DG):
 
     NODE_TYPE = "renderPass"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -28,20 +28,20 @@ class RenderPass(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    outSize = OutSizeField()
+    outSize = OutSizeField(default_value=(0.0, 0.0), writable=False)
     os = outSize
     outSizeX = outSize.outSizeX
     osx = outSizeX
     outSizeY = outSize.outSizeY
     osy = outSizeY
 
-    fileHasAlpha = BoolField()
+    fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -50,29 +50,29 @@ class RenderPass(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    owner = MessageField(multi=True)
+    owner = MessageField(multi=True, readable=False)
     ow = owner
 
     passID = DataStringField()
     pid = passID
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     r = renderable
 
-    frameBufferType = LongField()
+    frameBufferType = LongField(default_value=2)
     fbt = frameBufferType
 
-    numChannels = ShortField()
+    numChannels = ShortField(default_value=3)
     nc = numChannels
 
-    filtering = BoolField()
+    filtering = BoolField(default_value=True)
     flt = filtering
 
     passGroupName = DataStringField()
     pgn = passGroupName
 
-    backup = BackupField(multi=True)
+    backup = BackupField(multi=True, readable=False, writable=False)
     bak = backup
 
-    colorProfile = LongField()
+    colorProfile = LongField(default_value=0)
     cp = colorProfile

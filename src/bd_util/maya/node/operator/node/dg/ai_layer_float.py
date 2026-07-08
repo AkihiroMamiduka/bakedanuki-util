@@ -11,10 +11,10 @@ class AiLayerFloat(DG):
 
     NODE_TYPE = "aiLayerFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -23,66 +23,66 @@ class AiLayerFloat(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    enable1 = BoolField()
+    enable1 = BoolField(default_value=True)
 
     name1 = DataStringField()
 
-    input1 = FloatField()
+    input1 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix1 = FloatField()
+    mix1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable2 = BoolField()
+    enable2 = BoolField(default_value=False)
 
     name2 = DataStringField()
 
-    input2 = FloatField()
+    input2 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix2 = FloatField()
+    mix2 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable3 = BoolField()
+    enable3 = BoolField(default_value=False)
 
     name3 = DataStringField()
 
-    input3 = FloatField()
+    input3 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix3 = FloatField()
+    mix3 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable4 = BoolField()
+    enable4 = BoolField(default_value=False)
 
     name4 = DataStringField()
 
-    input4 = FloatField()
+    input4 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix4 = FloatField()
+    mix4 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable5 = BoolField()
+    enable5 = BoolField(default_value=False)
 
     name5 = DataStringField()
 
-    input5 = FloatField()
+    input5 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix5 = FloatField()
+    mix5 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable6 = BoolField()
+    enable6 = BoolField(default_value=False)
 
     name6 = DataStringField()
 
-    input6 = FloatField()
+    input6 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix6 = FloatField()
+    mix6 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable7 = BoolField()
+    enable7 = BoolField(default_value=False)
 
     name7 = DataStringField()
 
-    input7 = FloatField()
+    input7 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix7 = FloatField()
+    mix7 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    enable8 = BoolField()
+    enable8 = BoolField(default_value=False)
 
     name8 = DataStringField()
 
-    input8 = FloatField()
+    input8 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    mix8 = FloatField()
+    mix8 = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)

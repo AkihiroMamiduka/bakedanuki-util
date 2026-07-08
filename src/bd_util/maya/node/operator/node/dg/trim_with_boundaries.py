@@ -17,17 +17,17 @@ class TrimWithBoundaries(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    flipNormal = BoolField()
+    flipNormal = BoolField(default_value=False)
     fn = flipNormal
 
-    tolerancePE = DoubleLinearField()
+    tolerancePE = DoubleLinearField(default_value=1e-05, soft_min_value=5e-06, soft_max_value=0.001)
     tpe = tolerancePE
 
-    toleranceE = DoubleLinearField()
+    toleranceE = DoubleLinearField(default_value=0.001, soft_min_value=0.0001, soft_max_value=0.1)
     te = toleranceE
 
-    createNewFace = BoolField()
+    createNewFace = BoolField(default_value=False)
     cnf = createNewFace
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

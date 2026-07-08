@@ -9,8 +9,8 @@ class TimeFunction(DG):
 
     NODE_TYPE = "timeFunction"
 
-    input = DoubleField()
+    input = DoubleField(default_value=0.0)
     i = input
 
-    output = TypedField()
+    output = TypedField(writable=False)
     o = output

@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class InputPlugOperator(
         ("inputB", "inputb"),
     )
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=1.0)
     inputr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=1.0)
     inputg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=1.0)
     inputb = inputB
 
 
@@ -139,13 +139,13 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=1.0)
     inputr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=1.0)
     inputg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=1.0)
     inputb = inputB
 
 
@@ -157,13 +157,13 @@ class InputField(
     ATTR_CLS = InputAttrOperator
     PLUG_CLS = InputPlugOperator
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=1.0)
     inputr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=1.0)
     inputg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=1.0)
     inputb = inputB
 
 
@@ -177,13 +177,13 @@ class DivisorPlugOperator(
         ("divisorB", "divisorb"),
     )
 
-    divisorR = FloatField()
+    divisorR = FloatField(default_value=1.0)
     divisorr = divisorR
 
-    divisorG = FloatField()
+    divisorG = FloatField(default_value=1.0)
     divisorg = divisorG
 
-    divisorB = FloatField()
+    divisorB = FloatField(default_value=1.0)
     divisorb = divisorB
 
 
@@ -192,13 +192,13 @@ class DivisorAttrOperator(
 ):
     __slots__ = ()
 
-    divisorR = FloatField()
+    divisorR = FloatField(default_value=1.0)
     divisorr = divisorR
 
-    divisorG = FloatField()
+    divisorG = FloatField(default_value=1.0)
     divisorg = divisorG
 
-    divisorB = FloatField()
+    divisorB = FloatField(default_value=1.0)
     divisorb = divisorB
 
 
@@ -210,11 +210,11 @@ class DivisorField(
     ATTR_CLS = DivisorAttrOperator
     PLUG_CLS = DivisorPlugOperator
 
-    divisorR = FloatField()
+    divisorR = FloatField(default_value=1.0)
     divisorr = divisorR
 
-    divisorG = FloatField()
+    divisorG = FloatField(default_value=1.0)
     divisorg = divisorG
 
-    divisorB = FloatField()
+    divisorB = FloatField(default_value=1.0)
     divisorb = divisorB

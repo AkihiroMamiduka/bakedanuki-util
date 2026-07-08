@@ -94,40 +94,40 @@ class DrawInfoPlugOperator(
         ("overrideColorA", "ovca"),
     )
 
-    displayType = DisplayTypeEnumField()
+    displayType = DisplayTypeEnumField(default_value=0)
     dt = displayType
 
-    levelOfDetail = LevelOfDetailEnumField()
+    levelOfDetail = LevelOfDetailEnumField(default_value=0)
     lod = levelOfDetail
 
-    shading = BoolField()
+    shading = BoolField(default_value=True)
     s = shading
 
-    texturing = BoolField()
+    texturing = BoolField(default_value=True)
     t = texturing
 
-    playback = BoolField()
+    playback = BoolField(default_value=True)
     p = playback
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True)
     e = enabled
 
-    visibility = BoolField()
+    visibility = BoolField(default_value=True)
     v = visibility
 
-    hideOnPlayback = BoolField()
+    hideOnPlayback = BoolField(default_value=False)
     hpb = hideOnPlayback
 
-    overrideRGBColors = BoolField()
+    overrideRGBColors = BoolField(default_value=False)
     ovrgbf = overrideRGBColors
 
-    color = ByteField()
+    color = ByteField(default_value=0, min_value=0, max_value=255)
     c = color
 
-    overrideColorRGB = Float3Field()
+    overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField()
+    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ovca = overrideColorA
 
 
@@ -136,40 +136,40 @@ class DrawInfoAttrOperator(
 ):
     __slots__ = ()
 
-    displayType = DisplayTypeEnumField()
+    displayType = DisplayTypeEnumField(default_value=0)
     dt = displayType
 
-    levelOfDetail = LevelOfDetailEnumField()
+    levelOfDetail = LevelOfDetailEnumField(default_value=0)
     lod = levelOfDetail
 
-    shading = BoolField()
+    shading = BoolField(default_value=True)
     s = shading
 
-    texturing = BoolField()
+    texturing = BoolField(default_value=True)
     t = texturing
 
-    playback = BoolField()
+    playback = BoolField(default_value=True)
     p = playback
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True)
     e = enabled
 
-    visibility = BoolField()
+    visibility = BoolField(default_value=True)
     v = visibility
 
-    hideOnPlayback = BoolField()
+    hideOnPlayback = BoolField(default_value=False)
     hpb = hideOnPlayback
 
-    overrideRGBColors = BoolField()
+    overrideRGBColors = BoolField(default_value=False)
     ovrgbf = overrideRGBColors
 
-    color = ByteField()
+    color = ByteField(default_value=0, min_value=0, max_value=255)
     c = color
 
-    overrideColorRGB = Float3Field()
+    overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField()
+    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ovca = overrideColorA
 
 
@@ -181,38 +181,38 @@ class DrawInfoField(
     ATTR_CLS = DrawInfoAttrOperator
     PLUG_CLS = DrawInfoPlugOperator
 
-    displayType = DisplayTypeEnumField()
+    displayType = DisplayTypeEnumField(default_value=0)
     dt = displayType
 
-    levelOfDetail = LevelOfDetailEnumField()
+    levelOfDetail = LevelOfDetailEnumField(default_value=0)
     lod = levelOfDetail
 
-    shading = BoolField()
+    shading = BoolField(default_value=True)
     s = shading
 
-    texturing = BoolField()
+    texturing = BoolField(default_value=True)
     t = texturing
 
-    playback = BoolField()
+    playback = BoolField(default_value=True)
     p = playback
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True)
     e = enabled
 
-    visibility = BoolField()
+    visibility = BoolField(default_value=True)
     v = visibility
 
-    hideOnPlayback = BoolField()
+    hideOnPlayback = BoolField(default_value=False)
     hpb = hideOnPlayback
 
-    overrideRGBColors = BoolField()
+    overrideRGBColors = BoolField(default_value=False)
     ovrgbf = overrideRGBColors
 
-    color = ByteField()
+    color = ByteField(default_value=0, min_value=0, max_value=255)
     c = color
 
-    overrideColorRGB = Float3Field()
+    overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField()
+    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ovca = overrideColorA

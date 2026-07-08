@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,13 +71,13 @@ class OffsetValuesPlugOperator(
         ("offsetValues2", "ofVal2"),
     )
 
-    offsetValues0 = FloatField()
+    offsetValues0 = FloatField(default_value=0.0)
     ofVal0 = offsetValues0
 
-    offsetValues1 = FloatField()
+    offsetValues1 = FloatField(default_value=0.0)
     ofVal1 = offsetValues1
 
-    offsetValues2 = FloatField()
+    offsetValues2 = FloatField(default_value=0.0)
     ofVal2 = offsetValues2
 
 
@@ -86,13 +86,13 @@ class OffsetValuesAttrOperator(
 ):
     __slots__ = ()
 
-    offsetValues0 = FloatField()
+    offsetValues0 = FloatField(default_value=0.0)
     ofVal0 = offsetValues0
 
-    offsetValues1 = FloatField()
+    offsetValues1 = FloatField(default_value=0.0)
     ofVal1 = offsetValues1
 
-    offsetValues2 = FloatField()
+    offsetValues2 = FloatField(default_value=0.0)
     ofVal2 = offsetValues2
 
 
@@ -104,11 +104,11 @@ class OffsetValuesField(
     ATTR_CLS = OffsetValuesAttrOperator
     PLUG_CLS = OffsetValuesPlugOperator
 
-    offsetValues0 = FloatField()
+    offsetValues0 = FloatField(default_value=0.0)
     ofVal0 = offsetValues0
 
-    offsetValues1 = FloatField()
+    offsetValues1 = FloatField(default_value=0.0)
     ofVal1 = offsetValues1
 
-    offsetValues2 = FloatField()
+    offsetValues2 = FloatField(default_value=0.0)
     ofVal2 = offsetValues2

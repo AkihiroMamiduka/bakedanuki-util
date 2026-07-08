@@ -47,10 +47,10 @@ class ObjectScriptFilter(DG):
 
     NODE_TYPE = "objectScriptFilter"
 
-    child = BoolField()
+    child = BoolField(default_value=False)
     ch = child
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     inv = invert
 
     inputList = TypedField()
@@ -65,22 +65,22 @@ class ObjectScriptFilter(DG):
     category = DataStringArrayField()
     cat = category
 
-    disable = BoolField()
+    disable = BoolField(default_value=False)
     dis = disable
 
-    filterClass = FilterClassEnumField()
+    filterClass = FilterClassEnumField(default_value=2)
     fcls = filterClass
 
-    arrayArg = BoolField()
+    arrayArg = BoolField(default_value=True)
     aarg = arrayArg
 
     procName = DataStringField()
     pnam = procName
 
-    attrName = BoolField()
+    attrName = BoolField(default_value=False)
     attr = attrName
 
-    uniqueNodeNames = BoolField()
+    uniqueNodeNames = BoolField(default_value=False)
     unn = uniqueNodeNames
 
     pythonModule = DataStringField()

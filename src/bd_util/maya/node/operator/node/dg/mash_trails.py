@@ -139,61 +139,61 @@ class MASH_Trails(DG):
     translateInPP = TranslateInPPField()
     positionInPP = translateInPP.positionInPP
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
     connectionNetwork = TypedField()
 
-    trailLength = LongField()
+    trailLength = LongField(default_value=25, min_value=0, soft_max_value=100)
 
-    maxTrails = LongField()
+    maxTrails = LongField(default_value=100, min_value=0, soft_max_value=300)
 
-    trailCount = LongField()
+    trailCount = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    searchRadius = FloatField()
+    searchRadius = FloatField(default_value=150.0, min_value=0.0, soft_max_value=50.0)
 
-    bevelCapDistance = FloatField()
+    bevelCapDistance = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
 
-    bevelCapDivisions = LongField()
+    bevelCapDivisions = LongField(default_value=6, min_value=3, soft_max_value=10)
 
-    randomLength = LongField()
+    randomLength = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    curveSamples = LongField()
+    curveSamples = LongField(default_value=6, min_value=2, soft_max_value=12)
 
-    trailWidth = FloatField()
+    trailWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    autoUpVector = BoolField()
+    autoUpVector = BoolField(default_value=False)
 
-    inheritScale = BoolField()
+    inheritScale = BoolField(default_value=False)
 
-    quadraticSpacing = BoolField()
+    quadraticSpacing = BoolField(default_value=True)
 
-    outputTrailPoints = BoolField()
+    outputTrailPoints = BoolField(default_value=False)
 
-    decay = BoolField()
+    decay = BoolField(default_value=False)
 
-    upVector = UpVectorField()
+    upVector = UpVectorField(default_value=(1.0, 0.0, 0.0))
     upVector0 = upVector.upVector0
     upVector1 = upVector.upVector1
     upVector2 = upVector.upVector2
 
     inputCurve = DataNurbsCurveField()
 
-    frontCapMode = FrontCapModeEnumField()
+    frontCapMode = FrontCapModeEnumField(default_value=1)
 
-    rearCapMode = RearCapModeEnumField()
+    rearCapMode = RearCapModeEnumField(default_value=1)
 
-    trailsMode = TrailsModeEnumField()
+    trailsMode = TrailsModeEnumField(default_value=1)
 
-    trailTaperCurve = TrailTaperCurveField(multi=True)
+    trailTaperCurve = TrailTaperCurveField(multi=True, default_value=(0.0, 0.0))
 
-    bevelCapCurve = BevelCapCurveField(multi=True)
+    bevelCapCurve = BevelCapCurveField(multi=True, default_value=(0.0, 0.0))
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tm = time
 
-    connectionPoint = ConnectionPointField()
+    connectionPoint = ConnectionPointField(default_value=(0.0, 0.0, 0.0))
     conLoc = connectionPoint
     connectionPointX = connectionPoint.connectionPointX
     conLocx = connectionPointX

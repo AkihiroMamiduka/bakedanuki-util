@@ -760,7 +760,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -775,7 +775,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -799,7 +799,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -808,7 +808,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -831,13 +831,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -846,13 +846,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -864,13 +864,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -882,7 +882,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -890,7 +890,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -984,229 +984,229 @@ class UserDataPlugOperator(
         ("selfSmoothHold", "slfhld"),
     )
 
-    inTime = DoubleField()
+    inTime = DoubleField(default_value=0.0)
     it = inTime
 
-    cache = CacheEnumField()
+    cache = CacheEnumField(default_value=0)
     cac = cache
 
     cachePath = DataStringField()
     cpath = cachePath
 
-    showWarnings = BoolField()
+    showWarnings = BoolField(default_value=False)
     swrn = showWarnings
 
-    userScale = CompoundField()
+    userScale = CompoundField(default_value=(1.0, 1.0, 1.0))
     usc = userScale
 
-    STICKY = STICKYEnumField()
+    STICKY = STICKYEnumField(default_value=0)
     LSTK = STICKY
 
-    enableSticky = BoolField()
+    enableSticky = BoolField(default_value=True)
     estk = enableSticky
 
-    relativeSticky = RelativeStickyEnumField()
+    relativeSticky = RelativeStickyEnumField(default_value=0)
     relstk = relativeSticky
 
-    forceNormalize = BoolField()
+    forceNormalize = BoolField(default_value=False)
     frcnrm = forceNormalize
 
-    stickyA = DoubleField()
+    stickyA = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     stka = stickyA
 
-    stickyB = DoubleField()
+    stickyB = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkb = stickyB
 
-    stickyC = DoubleField()
+    stickyC = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkc = stickyC
 
-    SLIDING = SLIDINGEnumField()
+    SLIDING = SLIDINGEnumField(default_value=0)
     LSLD = SLIDING
 
-    enableSliding = BoolField()
+    enableSliding = BoolField(default_value=False)
     esld = enableSliding
 
-    quality = QualityEnumField()
+    quality = QualityEnumField(default_value=0)
     qlty = quality
 
-    shrinkWrap = BoolField()
+    shrinkWrap = BoolField(default_value=False)
     shr = shrinkWrap
 
-    useBind = BoolField()
+    useBind = BoolField(default_value=False)
     ub = useBind
 
-    allowNegFat = BoolField()
+    allowNegFat = BoolField(default_value=True)
     anft = allowNegFat
 
-    DISPLACE = DISPLACEEnumField()
+    DISPLACE = DISPLACEEnumField(default_value=0)
     LDSP = DISPLACE
 
-    enableDisplace = BoolField()
+    enableDisplace = BoolField(default_value=False)
     edsp = enableDisplace
 
-    collisionDisplace = BoolField()
+    collisionDisplace = BoolField(default_value=True)
     clldsp = collisionDisplace
 
-    FORCE = FORCEEnumField()
+    FORCE = FORCEEnumField(default_value=0)
     LFRC = FORCE
 
-    enableForce = BoolField()
+    enableForce = BoolField(default_value=False)
     efrc = enableForce
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=1.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    windStrength = DoubleField()
+    windStrength = DoubleField(default_value=0.0, min_value=0.0)
     windstr = windStrength
 
-    windDirX = DoubleField()
+    windDirX = DoubleField(default_value=1.0)
     windx = windDirX
 
-    windDirY = DoubleField()
+    windDirY = DoubleField(default_value=0.0)
     windy = windDirY
 
-    windDirZ = DoubleField()
+    windDirZ = DoubleField(default_value=0.0)
     windz = windDirZ
 
-    windSpeed = DoubleField()
+    windSpeed = DoubleField(default_value=1.0)
     windspd = windSpeed
 
-    windNoise = DoubleField()
+    windNoise = DoubleField(default_value=1.0, min_value=0.0)
     windnos = windNoise
 
-    windNoiseScale = DoubleField()
+    windNoiseScale = DoubleField(default_value=1.0, min_value=0.0)
     windnscl = windNoiseScale
 
-    windNoiseDirty = LongField()
+    windNoiseDirty = LongField(default_value=1, min_value=1, max_value=16)
     winddrt = windNoiseDirty
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     LJIG = JIGGLE
 
-    enableJiggle = BoolField()
+    enableJiggle = BoolField(default_value=False)
     ejig = enableJiggle
 
-    jiggleCollisions = BoolField()
+    jiggleCollisions = BoolField(default_value=True)
     jigcol = jiggleCollisions
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
-    jiggleMin = DoubleField()
+    jiggleMin = DoubleField(default_value=0.0)
     jmin = jiggleMin
 
-    jiggleMax = DoubleField()
+    jiggleMax = DoubleField(default_value=0.5)
     jmax = jiggleMax
 
-    cycleMin = DoubleField()
+    cycleMin = DoubleField(default_value=8.0, min_value=1.0)
     cmin = cycleMin
 
-    cycleMax = DoubleField()
+    cycleMax = DoubleField(default_value=10.0, min_value=1.0)
     cmax = cycleMax
 
-    restMin = DoubleField()
+    restMin = DoubleField(default_value=12.0, min_value=1.0)
     rmin = restMin
 
-    restMax = DoubleField()
+    restMax = DoubleField(default_value=36.0, min_value=1.0)
     rmax = restMax
 
-    RELAX = RELAXEnumField()
+    RELAX = RELAXEnumField(default_value=0)
     LRLX = RELAX
 
-    enableRelax = BoolField()
+    enableRelax = BoolField(default_value=False)
     erlx = enableRelax
 
-    relaxMode = RelaxModeEnumField()
+    relaxMode = RelaxModeEnumField(default_value=2)
     rmod = relaxMode
 
-    relaxCollisions = BoolField()
+    relaxCollisions = BoolField(default_value=True)
     rcll = relaxCollisions
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     rstr = relaxStrength
 
-    wrinkleStrength = DoubleField()
+    wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
     wrstr = wrinkleStrength
 
-    relaxCompress = DoubleField()
+    relaxCompress = DoubleField(default_value=0.0, min_value=0.0)
     rcmp = relaxCompress
 
-    relaxExpand = DoubleField()
+    relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField()
+    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rfrc = relaxFriction
 
-    SMOOTH = SMOOTHEnumField()
+    SMOOTH = SMOOTHEnumField(default_value=0)
     SMTH = SMOOTH
 
-    enableSmooth = BoolField()
+    enableSmooth = BoolField(default_value=False)
     esmth = enableSmooth
 
-    smoothCollisions = BoolField()
+    smoothCollisions = BoolField(default_value=True)
     scll = smoothCollisions
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     sstr = smoothStrength
 
-    smoothCompress = DoubleField()
+    smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
     scmp = smoothCompress
 
-    smoothExpand = DoubleField()
+    smoothExpand = DoubleField(default_value=0.0, min_value=0.0)
     sexp = smoothExpand
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     shld = smoothHold
 
-    COLLISION = COLLISIONEnumField()
+    COLLISION = COLLISIONEnumField(default_value=0)
     COLL = COLLISION
 
-    smartCollision = BoolField()
+    smartCollision = BoolField(default_value=False)
     smrtcll = smartCollision
 
-    selfCollision = BoolField()
+    selfCollision = BoolField(default_value=False)
     slfcll = selfCollision
 
-    selfTolerance = DoubleField()
+    selfTolerance = DoubleField(default_value=0.001, min_value=0.0)
     slftol = selfTolerance
 
-    selfFalloff = DoubleField()
+    selfFalloff = DoubleField(default_value=1.0, min_value=0.0)
     slffal = selfFalloff
 
-    selfVolumize = DoubleField()
+    selfVolumize = DoubleField(default_value=0.3, min_value=0.0)
     slfvol = selfVolumize
 
-    selfBlurIterations = LongField()
+    selfBlurIterations = LongField(default_value=5, min_value=0)
     slfblrit = selfBlurIterations
 
-    selfRelaxIterations = LongField()
+    selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField()
+    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     slfrxstr = selfRelaxStrength
 
-    selfSmoothIterations = LongField()
+    selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField()
+    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField()
+    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     slfhld = selfSmoothHold
 
 
@@ -1215,229 +1215,229 @@ class UserDataAttrOperator(
 ):
     __slots__ = ()
 
-    inTime = DoubleField()
+    inTime = DoubleField(default_value=0.0)
     it = inTime
 
-    cache = CacheEnumField()
+    cache = CacheEnumField(default_value=0)
     cac = cache
 
     cachePath = DataStringField()
     cpath = cachePath
 
-    showWarnings = BoolField()
+    showWarnings = BoolField(default_value=False)
     swrn = showWarnings
 
-    userScale = CompoundField()
+    userScale = CompoundField(default_value=(1.0, 1.0, 1.0))
     usc = userScale
 
-    STICKY = STICKYEnumField()
+    STICKY = STICKYEnumField(default_value=0)
     LSTK = STICKY
 
-    enableSticky = BoolField()
+    enableSticky = BoolField(default_value=True)
     estk = enableSticky
 
-    relativeSticky = RelativeStickyEnumField()
+    relativeSticky = RelativeStickyEnumField(default_value=0)
     relstk = relativeSticky
 
-    forceNormalize = BoolField()
+    forceNormalize = BoolField(default_value=False)
     frcnrm = forceNormalize
 
-    stickyA = DoubleField()
+    stickyA = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     stka = stickyA
 
-    stickyB = DoubleField()
+    stickyB = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkb = stickyB
 
-    stickyC = DoubleField()
+    stickyC = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkc = stickyC
 
-    SLIDING = SLIDINGEnumField()
+    SLIDING = SLIDINGEnumField(default_value=0)
     LSLD = SLIDING
 
-    enableSliding = BoolField()
+    enableSliding = BoolField(default_value=False)
     esld = enableSliding
 
-    quality = QualityEnumField()
+    quality = QualityEnumField(default_value=0)
     qlty = quality
 
-    shrinkWrap = BoolField()
+    shrinkWrap = BoolField(default_value=False)
     shr = shrinkWrap
 
-    useBind = BoolField()
+    useBind = BoolField(default_value=False)
     ub = useBind
 
-    allowNegFat = BoolField()
+    allowNegFat = BoolField(default_value=True)
     anft = allowNegFat
 
-    DISPLACE = DISPLACEEnumField()
+    DISPLACE = DISPLACEEnumField(default_value=0)
     LDSP = DISPLACE
 
-    enableDisplace = BoolField()
+    enableDisplace = BoolField(default_value=False)
     edsp = enableDisplace
 
-    collisionDisplace = BoolField()
+    collisionDisplace = BoolField(default_value=True)
     clldsp = collisionDisplace
 
-    FORCE = FORCEEnumField()
+    FORCE = FORCEEnumField(default_value=0)
     LFRC = FORCE
 
-    enableForce = BoolField()
+    enableForce = BoolField(default_value=False)
     efrc = enableForce
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=1.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    windStrength = DoubleField()
+    windStrength = DoubleField(default_value=0.0, min_value=0.0)
     windstr = windStrength
 
-    windDirX = DoubleField()
+    windDirX = DoubleField(default_value=1.0)
     windx = windDirX
 
-    windDirY = DoubleField()
+    windDirY = DoubleField(default_value=0.0)
     windy = windDirY
 
-    windDirZ = DoubleField()
+    windDirZ = DoubleField(default_value=0.0)
     windz = windDirZ
 
-    windSpeed = DoubleField()
+    windSpeed = DoubleField(default_value=1.0)
     windspd = windSpeed
 
-    windNoise = DoubleField()
+    windNoise = DoubleField(default_value=1.0, min_value=0.0)
     windnos = windNoise
 
-    windNoiseScale = DoubleField()
+    windNoiseScale = DoubleField(default_value=1.0, min_value=0.0)
     windnscl = windNoiseScale
 
-    windNoiseDirty = LongField()
+    windNoiseDirty = LongField(default_value=1, min_value=1, max_value=16)
     winddrt = windNoiseDirty
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     LJIG = JIGGLE
 
-    enableJiggle = BoolField()
+    enableJiggle = BoolField(default_value=False)
     ejig = enableJiggle
 
-    jiggleCollisions = BoolField()
+    jiggleCollisions = BoolField(default_value=True)
     jigcol = jiggleCollisions
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
-    jiggleMin = DoubleField()
+    jiggleMin = DoubleField(default_value=0.0)
     jmin = jiggleMin
 
-    jiggleMax = DoubleField()
+    jiggleMax = DoubleField(default_value=0.5)
     jmax = jiggleMax
 
-    cycleMin = DoubleField()
+    cycleMin = DoubleField(default_value=8.0, min_value=1.0)
     cmin = cycleMin
 
-    cycleMax = DoubleField()
+    cycleMax = DoubleField(default_value=10.0, min_value=1.0)
     cmax = cycleMax
 
-    restMin = DoubleField()
+    restMin = DoubleField(default_value=12.0, min_value=1.0)
     rmin = restMin
 
-    restMax = DoubleField()
+    restMax = DoubleField(default_value=36.0, min_value=1.0)
     rmax = restMax
 
-    RELAX = RELAXEnumField()
+    RELAX = RELAXEnumField(default_value=0)
     LRLX = RELAX
 
-    enableRelax = BoolField()
+    enableRelax = BoolField(default_value=False)
     erlx = enableRelax
 
-    relaxMode = RelaxModeEnumField()
+    relaxMode = RelaxModeEnumField(default_value=2)
     rmod = relaxMode
 
-    relaxCollisions = BoolField()
+    relaxCollisions = BoolField(default_value=True)
     rcll = relaxCollisions
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     rstr = relaxStrength
 
-    wrinkleStrength = DoubleField()
+    wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
     wrstr = wrinkleStrength
 
-    relaxCompress = DoubleField()
+    relaxCompress = DoubleField(default_value=0.0, min_value=0.0)
     rcmp = relaxCompress
 
-    relaxExpand = DoubleField()
+    relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField()
+    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rfrc = relaxFriction
 
-    SMOOTH = SMOOTHEnumField()
+    SMOOTH = SMOOTHEnumField(default_value=0)
     SMTH = SMOOTH
 
-    enableSmooth = BoolField()
+    enableSmooth = BoolField(default_value=False)
     esmth = enableSmooth
 
-    smoothCollisions = BoolField()
+    smoothCollisions = BoolField(default_value=True)
     scll = smoothCollisions
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     sstr = smoothStrength
 
-    smoothCompress = DoubleField()
+    smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
     scmp = smoothCompress
 
-    smoothExpand = DoubleField()
+    smoothExpand = DoubleField(default_value=0.0, min_value=0.0)
     sexp = smoothExpand
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     shld = smoothHold
 
-    COLLISION = COLLISIONEnumField()
+    COLLISION = COLLISIONEnumField(default_value=0)
     COLL = COLLISION
 
-    smartCollision = BoolField()
+    smartCollision = BoolField(default_value=False)
     smrtcll = smartCollision
 
-    selfCollision = BoolField()
+    selfCollision = BoolField(default_value=False)
     slfcll = selfCollision
 
-    selfTolerance = DoubleField()
+    selfTolerance = DoubleField(default_value=0.001, min_value=0.0)
     slftol = selfTolerance
 
-    selfFalloff = DoubleField()
+    selfFalloff = DoubleField(default_value=1.0, min_value=0.0)
     slffal = selfFalloff
 
-    selfVolumize = DoubleField()
+    selfVolumize = DoubleField(default_value=0.3, min_value=0.0)
     slfvol = selfVolumize
 
-    selfBlurIterations = LongField()
+    selfBlurIterations = LongField(default_value=5, min_value=0)
     slfblrit = selfBlurIterations
 
-    selfRelaxIterations = LongField()
+    selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField()
+    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     slfrxstr = selfRelaxStrength
 
-    selfSmoothIterations = LongField()
+    selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField()
+    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField()
+    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     slfhld = selfSmoothHold
 
 
@@ -1449,229 +1449,229 @@ class UserDataField(
     ATTR_CLS = UserDataAttrOperator
     PLUG_CLS = UserDataPlugOperator
 
-    inTime = DoubleField()
+    inTime = DoubleField(default_value=0.0)
     it = inTime
 
-    cache = CacheEnumField()
+    cache = CacheEnumField(default_value=0)
     cac = cache
 
     cachePath = DataStringField()
     cpath = cachePath
 
-    showWarnings = BoolField()
+    showWarnings = BoolField(default_value=False)
     swrn = showWarnings
 
-    userScale = CompoundField()
+    userScale = CompoundField(default_value=(1.0, 1.0, 1.0))
     usc = userScale
 
-    STICKY = STICKYEnumField()
+    STICKY = STICKYEnumField(default_value=0)
     LSTK = STICKY
 
-    enableSticky = BoolField()
+    enableSticky = BoolField(default_value=True)
     estk = enableSticky
 
-    relativeSticky = RelativeStickyEnumField()
+    relativeSticky = RelativeStickyEnumField(default_value=0)
     relstk = relativeSticky
 
-    forceNormalize = BoolField()
+    forceNormalize = BoolField(default_value=False)
     frcnrm = forceNormalize
 
-    stickyA = DoubleField()
+    stickyA = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     stka = stickyA
 
-    stickyB = DoubleField()
+    stickyB = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkb = stickyB
 
-    stickyC = DoubleField()
+    stickyC = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     stkc = stickyC
 
-    SLIDING = SLIDINGEnumField()
+    SLIDING = SLIDINGEnumField(default_value=0)
     LSLD = SLIDING
 
-    enableSliding = BoolField()
+    enableSliding = BoolField(default_value=False)
     esld = enableSliding
 
-    quality = QualityEnumField()
+    quality = QualityEnumField(default_value=0)
     qlty = quality
 
-    shrinkWrap = BoolField()
+    shrinkWrap = BoolField(default_value=False)
     shr = shrinkWrap
 
-    useBind = BoolField()
+    useBind = BoolField(default_value=False)
     ub = useBind
 
-    allowNegFat = BoolField()
+    allowNegFat = BoolField(default_value=True)
     anft = allowNegFat
 
-    DISPLACE = DISPLACEEnumField()
+    DISPLACE = DISPLACEEnumField(default_value=0)
     LDSP = DISPLACE
 
-    enableDisplace = BoolField()
+    enableDisplace = BoolField(default_value=False)
     edsp = enableDisplace
 
-    collisionDisplace = BoolField()
+    collisionDisplace = BoolField(default_value=True)
     clldsp = collisionDisplace
 
-    FORCE = FORCEEnumField()
+    FORCE = FORCEEnumField(default_value=0)
     LFRC = FORCE
 
-    enableForce = BoolField()
+    enableForce = BoolField(default_value=False)
     efrc = enableForce
 
-    gravityStrength = DoubleField()
+    gravityStrength = DoubleField(default_value=1.0, min_value=0.0)
     gravstr = gravityStrength
 
-    gravityX = DoubleField()
+    gravityX = DoubleField(default_value=0.0)
     gravx = gravityX
 
-    gravityY = DoubleField()
+    gravityY = DoubleField(default_value=-1.0)
     gravy = gravityY
 
-    gravityZ = DoubleField()
+    gravityZ = DoubleField(default_value=0.0)
     gravz = gravityZ
 
-    windStrength = DoubleField()
+    windStrength = DoubleField(default_value=0.0, min_value=0.0)
     windstr = windStrength
 
-    windDirX = DoubleField()
+    windDirX = DoubleField(default_value=1.0)
     windx = windDirX
 
-    windDirY = DoubleField()
+    windDirY = DoubleField(default_value=0.0)
     windy = windDirY
 
-    windDirZ = DoubleField()
+    windDirZ = DoubleField(default_value=0.0)
     windz = windDirZ
 
-    windSpeed = DoubleField()
+    windSpeed = DoubleField(default_value=1.0)
     windspd = windSpeed
 
-    windNoise = DoubleField()
+    windNoise = DoubleField(default_value=1.0, min_value=0.0)
     windnos = windNoise
 
-    windNoiseScale = DoubleField()
+    windNoiseScale = DoubleField(default_value=1.0, min_value=0.0)
     windnscl = windNoiseScale
 
-    windNoiseDirty = LongField()
+    windNoiseDirty = LongField(default_value=1, min_value=1, max_value=16)
     winddrt = windNoiseDirty
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     LJIG = JIGGLE
 
-    enableJiggle = BoolField()
+    enableJiggle = BoolField(default_value=False)
     ejig = enableJiggle
 
-    jiggleCollisions = BoolField()
+    jiggleCollisions = BoolField(default_value=True)
     jigcol = jiggleCollisions
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
-    jiggleMin = DoubleField()
+    jiggleMin = DoubleField(default_value=0.0)
     jmin = jiggleMin
 
-    jiggleMax = DoubleField()
+    jiggleMax = DoubleField(default_value=0.5)
     jmax = jiggleMax
 
-    cycleMin = DoubleField()
+    cycleMin = DoubleField(default_value=8.0, min_value=1.0)
     cmin = cycleMin
 
-    cycleMax = DoubleField()
+    cycleMax = DoubleField(default_value=10.0, min_value=1.0)
     cmax = cycleMax
 
-    restMin = DoubleField()
+    restMin = DoubleField(default_value=12.0, min_value=1.0)
     rmin = restMin
 
-    restMax = DoubleField()
+    restMax = DoubleField(default_value=36.0, min_value=1.0)
     rmax = restMax
 
-    RELAX = RELAXEnumField()
+    RELAX = RELAXEnumField(default_value=0)
     LRLX = RELAX
 
-    enableRelax = BoolField()
+    enableRelax = BoolField(default_value=False)
     erlx = enableRelax
 
-    relaxMode = RelaxModeEnumField()
+    relaxMode = RelaxModeEnumField(default_value=2)
     rmod = relaxMode
 
-    relaxCollisions = BoolField()
+    relaxCollisions = BoolField(default_value=True)
     rcll = relaxCollisions
 
-    relaxIterations = LongField()
+    relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField()
+    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     rstr = relaxStrength
 
-    wrinkleStrength = DoubleField()
+    wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
     wrstr = wrinkleStrength
 
-    relaxCompress = DoubleField()
+    relaxCompress = DoubleField(default_value=0.0, min_value=0.0)
     rcmp = relaxCompress
 
-    relaxExpand = DoubleField()
+    relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField()
+    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rfrc = relaxFriction
 
-    SMOOTH = SMOOTHEnumField()
+    SMOOTH = SMOOTHEnumField(default_value=0)
     SMTH = SMOOTH
 
-    enableSmooth = BoolField()
+    enableSmooth = BoolField(default_value=False)
     esmth = enableSmooth
 
-    smoothCollisions = BoolField()
+    smoothCollisions = BoolField(default_value=True)
     scll = smoothCollisions
 
-    smoothIterations = LongField()
+    smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField()
+    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     sstr = smoothStrength
 
-    smoothCompress = DoubleField()
+    smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
     scmp = smoothCompress
 
-    smoothExpand = DoubleField()
+    smoothExpand = DoubleField(default_value=0.0, min_value=0.0)
     sexp = smoothExpand
 
-    smoothHold = DoubleField()
+    smoothHold = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     shld = smoothHold
 
-    COLLISION = COLLISIONEnumField()
+    COLLISION = COLLISIONEnumField(default_value=0)
     COLL = COLLISION
 
-    smartCollision = BoolField()
+    smartCollision = BoolField(default_value=False)
     smrtcll = smartCollision
 
-    selfCollision = BoolField()
+    selfCollision = BoolField(default_value=False)
     slfcll = selfCollision
 
-    selfTolerance = DoubleField()
+    selfTolerance = DoubleField(default_value=0.001, min_value=0.0)
     slftol = selfTolerance
 
-    selfFalloff = DoubleField()
+    selfFalloff = DoubleField(default_value=1.0, min_value=0.0)
     slffal = selfFalloff
 
-    selfVolumize = DoubleField()
+    selfVolumize = DoubleField(default_value=0.3, min_value=0.0)
     slfvol = selfVolumize
 
-    selfBlurIterations = LongField()
+    selfBlurIterations = LongField(default_value=5, min_value=0)
     slfblrit = selfBlurIterations
 
-    selfRelaxIterations = LongField()
+    selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField()
+    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     slfrxstr = selfRelaxStrength
 
-    selfSmoothIterations = LongField()
+    selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField()
+    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField()
+    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     slfhld = selfSmoothHold
 
 
@@ -1720,46 +1720,46 @@ class MuscleDataPlugOperator(
     meshInBase = GenericField()
     meshb = meshInBase
 
-    stickyStrength = DoubleField()
+    stickyStrength = DoubleField(default_value=1.0)
     stkstr = stickyStrength
 
-    slidingStrength = DoubleField()
+    slidingStrength = DoubleField(default_value=1.0)
     sldstr = slidingStrength
 
-    fat = DoubleField()
+    fat = DoubleField(default_value=0.1, min_value=0.0)
     ft = fat
 
-    reverseNormals = BoolField()
+    reverseNormals = BoolField(default_value=False)
     rn = reverseNormals
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
     typ = type
 
-    radius = DoubleField()
+    radius = DoubleField(default_value=1.0, min_value=1e-10)
     rad = radius
 
-    length = DoubleField()
+    length = DoubleField(default_value=1.0)
     len = length
 
-    capsuleAxis = CapsuleAxisEnumField()
+    capsuleAxis = CapsuleAxisEnumField(default_value=1)
     cax = capsuleAxis
 
-    relative = BoolField()
+    relative = BoolField(default_value=True)
     rel = relative
 
-    lockStickyWt = BoolField()
+    lockStickyWt = BoolField(default_value=False)
     lkst = lockStickyWt
 
-    lockSlidingWt = BoolField()
+    lockSlidingWt = BoolField(default_value=False)
     lksl = lockSlidingWt
 
-    affectSticky = BoolField()
+    affectSticky = BoolField(default_value=True)
     afstk = affectSticky
 
-    affectSliding = BoolField()
+    affectSliding = BoolField(default_value=True)
     afsld = affectSliding
 
-    userScaleMus = CompoundField()
+    userScaleMus = CompoundField(default_value=(1.0, 1.0, 1.0))
     uscmus = userScaleMus
 
 
@@ -1786,46 +1786,46 @@ class MuscleDataAttrOperator(
     meshInBase = GenericField()
     meshb = meshInBase
 
-    stickyStrength = DoubleField()
+    stickyStrength = DoubleField(default_value=1.0)
     stkstr = stickyStrength
 
-    slidingStrength = DoubleField()
+    slidingStrength = DoubleField(default_value=1.0)
     sldstr = slidingStrength
 
-    fat = DoubleField()
+    fat = DoubleField(default_value=0.1, min_value=0.0)
     ft = fat
 
-    reverseNormals = BoolField()
+    reverseNormals = BoolField(default_value=False)
     rn = reverseNormals
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
     typ = type
 
-    radius = DoubleField()
+    radius = DoubleField(default_value=1.0, min_value=1e-10)
     rad = radius
 
-    length = DoubleField()
+    length = DoubleField(default_value=1.0)
     len = length
 
-    capsuleAxis = CapsuleAxisEnumField()
+    capsuleAxis = CapsuleAxisEnumField(default_value=1)
     cax = capsuleAxis
 
-    relative = BoolField()
+    relative = BoolField(default_value=True)
     rel = relative
 
-    lockStickyWt = BoolField()
+    lockStickyWt = BoolField(default_value=False)
     lkst = lockStickyWt
 
-    lockSlidingWt = BoolField()
+    lockSlidingWt = BoolField(default_value=False)
     lksl = lockSlidingWt
 
-    affectSticky = BoolField()
+    affectSticky = BoolField(default_value=True)
     afstk = affectSticky
 
-    affectSliding = BoolField()
+    affectSliding = BoolField(default_value=True)
     afsld = affectSliding
 
-    userScaleMus = CompoundField()
+    userScaleMus = CompoundField(default_value=(1.0, 1.0, 1.0))
     uscmus = userScaleMus
 
 
@@ -1856,25 +1856,25 @@ class DirDataPlugOperator(
     worldMatrixDir = MatrixField()
     wmd = worldMatrixDir
 
-    strengthDir = DoubleField()
+    strengthDir = DoubleField(default_value=1.0)
     strd = strengthDir
 
-    falloffInnerDir = DoubleField()
+    falloffInnerDir = DoubleField(default_value=0.25, min_value=0.0)
     fid = falloffInnerDir
 
-    falloffOuterDir = DoubleField()
+    falloffOuterDir = DoubleField(default_value=1.0, min_value=0.0)
     fod = falloffOuterDir
 
-    dirType = DirTypeEnumField()
+    dirType = DirTypeEnumField(default_value=0)
     dirtyp = dirType
 
-    dirLength = DoubleField()
+    dirLength = DoubleField(default_value=1.0, min_value=0.0)
     dirlen = dirLength
 
-    dirAxis = DirAxisEnumField()
+    dirAxis = DirAxisEnumField(default_value=1)
     dax = dirAxis
 
-    lockDirWt = BoolField()
+    lockDirWt = BoolField(default_value=False)
     lkdi = lockDirWt
 
 
@@ -1886,25 +1886,25 @@ class DirDataAttrOperator(
     worldMatrixDir = MatrixField()
     wmd = worldMatrixDir
 
-    strengthDir = DoubleField()
+    strengthDir = DoubleField(default_value=1.0)
     strd = strengthDir
 
-    falloffInnerDir = DoubleField()
+    falloffInnerDir = DoubleField(default_value=0.25, min_value=0.0)
     fid = falloffInnerDir
 
-    falloffOuterDir = DoubleField()
+    falloffOuterDir = DoubleField(default_value=1.0, min_value=0.0)
     fod = falloffOuterDir
 
-    dirType = DirTypeEnumField()
+    dirType = DirTypeEnumField(default_value=0)
     dirtyp = dirType
 
-    dirLength = DoubleField()
+    dirLength = DoubleField(default_value=1.0, min_value=0.0)
     dirlen = dirLength
 
-    dirAxis = DirAxisEnumField()
+    dirAxis = DirAxisEnumField(default_value=1)
     dax = dirAxis
 
-    lockDirWt = BoolField()
+    lockDirWt = BoolField(default_value=False)
     lkdi = lockDirWt
 
 
@@ -1937,28 +1937,28 @@ class DispDataPlugOperator(
     worldMatrixDisp = MatrixField()
     wmdsp = worldMatrixDisp
 
-    curves = GenericField()
+    curves = GenericField(multi=True)
     crv = curves
 
-    modeDisp = ModeDispEnumField()
+    modeDisp = ModeDispEnumField(default_value=0)
     mdd = modeDisp
 
-    lengthDisp = FloatField()
+    lengthDisp = FloatField(default_value=1.0, min_value=0.0)
     lend = lengthDisp
 
-    sizeRadiusDisp = FloatField()
+    sizeRadiusDisp = FloatField(default_value=0.5, min_value=0.0)
     sizd = sizeRadiusDisp
 
-    amplitudeDisp = FloatField()
+    amplitudeDisp = FloatField(default_value=0.10000000149011612)
     ampd = amplitudeDisp
 
-    falloffDisp = FloatField()
+    falloffDisp = FloatField(default_value=0.5, min_value=0.0)
     fald = falloffDisp
 
-    pushMode = PushModeEnumField()
+    pushMode = PushModeEnumField(default_value=0)
     pmd = pushMode
 
-    combineMode = CombineModeEnumField()
+    combineMode = CombineModeEnumField(default_value=0)
     cmd = combineMode
 
     shader = MessageField()
@@ -1973,28 +1973,28 @@ class DispDataAttrOperator(
     worldMatrixDisp = MatrixField()
     wmdsp = worldMatrixDisp
 
-    curves = GenericField()
+    curves = GenericField(multi=True)
     crv = curves
 
-    modeDisp = ModeDispEnumField()
+    modeDisp = ModeDispEnumField(default_value=0)
     mdd = modeDisp
 
-    lengthDisp = FloatField()
+    lengthDisp = FloatField(default_value=1.0, min_value=0.0)
     lend = lengthDisp
 
-    sizeRadiusDisp = FloatField()
+    sizeRadiusDisp = FloatField(default_value=0.5, min_value=0.0)
     sizd = sizeRadiusDisp
 
-    amplitudeDisp = FloatField()
+    amplitudeDisp = FloatField(default_value=0.10000000149011612)
     ampd = amplitudeDisp
 
-    falloffDisp = FloatField()
+    falloffDisp = FloatField(default_value=0.5, min_value=0.0)
     fald = falloffDisp
 
-    pushMode = PushModeEnumField()
+    pushMode = PushModeEnumField(default_value=0)
     pmd = pushMode
 
-    combineMode = CombineModeEnumField()
+    combineMode = CombineModeEnumField(default_value=0)
     cmd = combineMode
 
     shader = MessageField()
@@ -2090,151 +2090,151 @@ class SmartCollideDataPlugOperator(
     worldMatrixPlaneSmartBase = MatrixField()
     wmbplnbasesmrt = worldMatrixPlaneSmartBase
 
-    enableSmart = BoolField()
+    enableSmart = BoolField(default_value=True)
     enasmrt = enableSmart
 
-    collideModeSmart = CollideModeSmartEnumField()
+    collideModeSmart = CollideModeSmartEnumField(default_value=0)
     colmodsmrt = collideModeSmart
 
-    axisSmart = AxisSmartEnumField()
+    axisSmart = AxisSmartEnumField(default_value=1)
     axsmrt = axisSmart
 
-    triggerMin = DoubleField()
+    triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    angleMinSmart = DoubleField()
+    angleMinSmart = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     angminsmrt = angleMinSmart
 
-    angleMaxSmart = DoubleField()
+    angleMaxSmart = DoubleField(default_value=90.0, min_value=0.0, max_value=180.0)
     angmaxsmrt = angleMaxSmart
 
-    biasSmart = DoubleField()
+    biasSmart = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bissmrt = biasSmart
 
-    biasAdjustSmart = DoubleField()
+    biasAdjustSmart = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
     bisadjsmrt = biasAdjustSmart
 
-    userScaleSmarr = DoubleField()
+    userScaleSmarr = DoubleField(default_value=1.0)
     usrsclsmrt = userScaleSmarr
 
-    manualScaleSmarr = DoubleField()
+    manualScaleSmarr = DoubleField(default_value=1.0)
     mansclsmrt = manualScaleSmarr
 
-    SMOOTH_PRE = SMOOTH_PREEnumField()
+    SMOOTH_PRE = SMOOTH_PREEnumField(default_value=0)
     SMTHPRE = SMOOTH_PRE
 
-    smrtSmoothIterationsPre = LongField()
+    smrtSmoothIterationsPre = LongField(default_value=5, min_value=0)
     smrtsmipre = smrtSmoothIterationsPre
 
-    smrtSmoothStrengthPre = DoubleField()
+    smrtSmoothStrengthPre = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smrtsmstrpre = smrtSmoothStrengthPre
 
-    smrtSmoothHoldPre = DoubleField()
+    smrtSmoothHoldPre = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     smrthldpre = smrtSmoothHoldPre
 
-    MOVEMENT = MOVEMENTEnumField()
+    MOVEMENT = MOVEMENTEnumField(default_value=0)
     MOVE = MOVEMENT
 
-    bulkASmart = DoubleField()
+    bulkASmart = DoubleField(default_value=1.0)
     blkasmrt = bulkASmart
 
-    bulkBSmart = DoubleField()
+    bulkBSmart = DoubleField(default_value=1.0)
     blkbsmrt = bulkBSmart
 
-    bulkAngularASmart = DoubleField()
+    bulkAngularASmart = DoubleField(default_value=1.0)
     blkaangsmrt = bulkAngularASmart
 
-    bulkAngularBSmart = DoubleField()
+    bulkAngularBSmart = DoubleField(default_value=1.0)
     blkangbsmrt = bulkAngularBSmart
 
-    bulkWidenASmart = DoubleField()
+    bulkWidenASmart = DoubleField(default_value=1.0)
     blkwidasmrt = bulkWidenASmart
 
-    bulkWidenBSmart = DoubleField()
+    bulkWidenBSmart = DoubleField(default_value=1.0)
     blkwidbsmrt = bulkWidenBSmart
 
-    slideSmartA = DoubleField()
+    slideSmartA = DoubleField(default_value=1.0)
     sldasmrt = slideSmartA
 
-    slideSmartB = DoubleField()
+    slideSmartB = DoubleField(default_value=1.0)
     sldbsmrt = slideSmartB
 
-    slideRearSmartA = DoubleField()
+    slideRearSmartA = DoubleField(default_value=1.0)
     sldrerasmrt = slideRearSmartA
 
-    slideRearSmartB = DoubleField()
+    slideRearSmartB = DoubleField(default_value=1.0)
     sldrerbsmrt = slideRearSmartB
 
-    slideAngularSmartA = DoubleField()
+    slideAngularSmartA = DoubleField(default_value=1.0)
     sldangasmrt = slideAngularSmartA
 
-    slideAngularSmartB = DoubleField()
+    slideAngularSmartB = DoubleField(default_value=1.0)
     sldangbsmrt = slideAngularSmartB
 
-    slideAngularRearSmartA = DoubleField()
+    slideAngularRearSmartA = DoubleField(default_value=1.0)
     sldangrerasmrt = slideAngularRearSmartA
 
-    slideAngularRearSmartB = DoubleField()
+    slideAngularRearSmartB = DoubleField(default_value=1.0)
     sldangrerbsmrt = slideAngularRearSmartB
 
-    wrinkleSmartA = DoubleField()
+    wrinkleSmartA = DoubleField(default_value=1.0)
     wrkasmrt = wrinkleSmartA
 
-    wrinkleSmartB = DoubleField()
+    wrinkleSmartB = DoubleField(default_value=1.0)
     wrkbsmrt = wrinkleSmartB
 
-    wrinkleSpreadSmart = DoubleField()
+    wrinkleSpreadSmart = DoubleField(default_value=0.5)
     wrksprsmrt = wrinkleSpreadSmart
 
-    COLLISIONSMART = COLLISIONSMARTEnumField()
+    COLLISIONSMART = COLLISIONSMARTEnumField(default_value=0)
     COLLSMRT = COLLISIONSMART
 
-    flattenSmartA = DoubleField()
+    flattenSmartA = DoubleField(default_value=1.0)
     fltasmrt = flattenSmartA
 
-    flattenSmartB = DoubleField()
+    flattenSmartB = DoubleField(default_value=1.0)
     fltbsmrt = flattenSmartB
 
-    rigidSmartA = DoubleField()
+    rigidSmartA = DoubleField(default_value=0.0)
     rigsmrta = rigidSmartA
 
-    rigidSmartB = DoubleField()
+    rigidSmartB = DoubleField(default_value=0.0)
     rigsmrtb = rigidSmartB
 
-    collisionBlurIterationsSmart = LongField()
+    collisionBlurIterationsSmart = LongField(default_value=0)
     colblritsmrt = collisionBlurIterationsSmart
 
-    volumizeSmartA = DoubleField()
+    volumizeSmartA = DoubleField(default_value=1.0)
     vlmasmrt = volumizeSmartA
 
-    volumizeSmartB = DoubleField()
+    volumizeSmartB = DoubleField(default_value=1.0)
     vlmbsmrt = volumizeSmartB
 
-    volumizeOffsetSmartA = DoubleField()
+    volumizeOffsetSmartA = DoubleField(default_value=0.0)
     vlmoffsmrt = volumizeOffsetSmartA
 
-    volumizePuffSmart = DoubleField()
+    volumizePuffSmart = DoubleField(default_value=1.0)
     vlmpufsmrt = volumizePuffSmart
 
-    volumizeDistSmart = DoubleField()
+    volumizeDistSmart = DoubleField(default_value=1.0)
     vlmdsmrt = volumizeDistSmart
 
-    volumizeFalloffSmart = DoubleField()
+    volumizeFalloffSmart = DoubleField(default_value=1.0)
     vlmfallsmrt = volumizeFalloffSmart
 
-    SMOOTH_POST = SMOOTH_POSTEnumField()
+    SMOOTH_POST = SMOOTH_POSTEnumField(default_value=0)
     SMTHPST = SMOOTH_POST
 
-    smrtSmoothIterationsPost = LongField()
+    smrtSmoothIterationsPost = LongField(default_value=5, min_value=0)
     smrtsmipst = smrtSmoothIterationsPost
 
-    smrtSmoothStrengthPost = DoubleField()
+    smrtSmoothStrengthPost = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smrtsmstrpst = smrtSmoothStrengthPost
 
-    smrtSmoothHoldPost = DoubleField()
+    smrtSmoothHoldPost = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     smrthldpst = smrtSmoothHoldPost
 
-    lockSmartWt = BoolField()
+    lockSmartWt = BoolField(default_value=False)
     lksmrt = lockSmartWt
 
 
@@ -2261,151 +2261,151 @@ class SmartCollideDataAttrOperator(
     worldMatrixPlaneSmartBase = MatrixField()
     wmbplnbasesmrt = worldMatrixPlaneSmartBase
 
-    enableSmart = BoolField()
+    enableSmart = BoolField(default_value=True)
     enasmrt = enableSmart
 
-    collideModeSmart = CollideModeSmartEnumField()
+    collideModeSmart = CollideModeSmartEnumField(default_value=0)
     colmodsmrt = collideModeSmart
 
-    axisSmart = AxisSmartEnumField()
+    axisSmart = AxisSmartEnumField(default_value=1)
     axsmrt = axisSmart
 
-    triggerMin = DoubleField()
+    triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    angleMinSmart = DoubleField()
+    angleMinSmart = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     angminsmrt = angleMinSmart
 
-    angleMaxSmart = DoubleField()
+    angleMaxSmart = DoubleField(default_value=90.0, min_value=0.0, max_value=180.0)
     angmaxsmrt = angleMaxSmart
 
-    biasSmart = DoubleField()
+    biasSmart = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bissmrt = biasSmart
 
-    biasAdjustSmart = DoubleField()
+    biasAdjustSmart = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
     bisadjsmrt = biasAdjustSmart
 
-    userScaleSmarr = DoubleField()
+    userScaleSmarr = DoubleField(default_value=1.0)
     usrsclsmrt = userScaleSmarr
 
-    manualScaleSmarr = DoubleField()
+    manualScaleSmarr = DoubleField(default_value=1.0)
     mansclsmrt = manualScaleSmarr
 
-    SMOOTH_PRE = SMOOTH_PREEnumField()
+    SMOOTH_PRE = SMOOTH_PREEnumField(default_value=0)
     SMTHPRE = SMOOTH_PRE
 
-    smrtSmoothIterationsPre = LongField()
+    smrtSmoothIterationsPre = LongField(default_value=5, min_value=0)
     smrtsmipre = smrtSmoothIterationsPre
 
-    smrtSmoothStrengthPre = DoubleField()
+    smrtSmoothStrengthPre = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smrtsmstrpre = smrtSmoothStrengthPre
 
-    smrtSmoothHoldPre = DoubleField()
+    smrtSmoothHoldPre = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     smrthldpre = smrtSmoothHoldPre
 
-    MOVEMENT = MOVEMENTEnumField()
+    MOVEMENT = MOVEMENTEnumField(default_value=0)
     MOVE = MOVEMENT
 
-    bulkASmart = DoubleField()
+    bulkASmart = DoubleField(default_value=1.0)
     blkasmrt = bulkASmart
 
-    bulkBSmart = DoubleField()
+    bulkBSmart = DoubleField(default_value=1.0)
     blkbsmrt = bulkBSmart
 
-    bulkAngularASmart = DoubleField()
+    bulkAngularASmart = DoubleField(default_value=1.0)
     blkaangsmrt = bulkAngularASmart
 
-    bulkAngularBSmart = DoubleField()
+    bulkAngularBSmart = DoubleField(default_value=1.0)
     blkangbsmrt = bulkAngularBSmart
 
-    bulkWidenASmart = DoubleField()
+    bulkWidenASmart = DoubleField(default_value=1.0)
     blkwidasmrt = bulkWidenASmart
 
-    bulkWidenBSmart = DoubleField()
+    bulkWidenBSmart = DoubleField(default_value=1.0)
     blkwidbsmrt = bulkWidenBSmart
 
-    slideSmartA = DoubleField()
+    slideSmartA = DoubleField(default_value=1.0)
     sldasmrt = slideSmartA
 
-    slideSmartB = DoubleField()
+    slideSmartB = DoubleField(default_value=1.0)
     sldbsmrt = slideSmartB
 
-    slideRearSmartA = DoubleField()
+    slideRearSmartA = DoubleField(default_value=1.0)
     sldrerasmrt = slideRearSmartA
 
-    slideRearSmartB = DoubleField()
+    slideRearSmartB = DoubleField(default_value=1.0)
     sldrerbsmrt = slideRearSmartB
 
-    slideAngularSmartA = DoubleField()
+    slideAngularSmartA = DoubleField(default_value=1.0)
     sldangasmrt = slideAngularSmartA
 
-    slideAngularSmartB = DoubleField()
+    slideAngularSmartB = DoubleField(default_value=1.0)
     sldangbsmrt = slideAngularSmartB
 
-    slideAngularRearSmartA = DoubleField()
+    slideAngularRearSmartA = DoubleField(default_value=1.0)
     sldangrerasmrt = slideAngularRearSmartA
 
-    slideAngularRearSmartB = DoubleField()
+    slideAngularRearSmartB = DoubleField(default_value=1.0)
     sldangrerbsmrt = slideAngularRearSmartB
 
-    wrinkleSmartA = DoubleField()
+    wrinkleSmartA = DoubleField(default_value=1.0)
     wrkasmrt = wrinkleSmartA
 
-    wrinkleSmartB = DoubleField()
+    wrinkleSmartB = DoubleField(default_value=1.0)
     wrkbsmrt = wrinkleSmartB
 
-    wrinkleSpreadSmart = DoubleField()
+    wrinkleSpreadSmart = DoubleField(default_value=0.5)
     wrksprsmrt = wrinkleSpreadSmart
 
-    COLLISIONSMART = COLLISIONSMARTEnumField()
+    COLLISIONSMART = COLLISIONSMARTEnumField(default_value=0)
     COLLSMRT = COLLISIONSMART
 
-    flattenSmartA = DoubleField()
+    flattenSmartA = DoubleField(default_value=1.0)
     fltasmrt = flattenSmartA
 
-    flattenSmartB = DoubleField()
+    flattenSmartB = DoubleField(default_value=1.0)
     fltbsmrt = flattenSmartB
 
-    rigidSmartA = DoubleField()
+    rigidSmartA = DoubleField(default_value=0.0)
     rigsmrta = rigidSmartA
 
-    rigidSmartB = DoubleField()
+    rigidSmartB = DoubleField(default_value=0.0)
     rigsmrtb = rigidSmartB
 
-    collisionBlurIterationsSmart = LongField()
+    collisionBlurIterationsSmart = LongField(default_value=0)
     colblritsmrt = collisionBlurIterationsSmart
 
-    volumizeSmartA = DoubleField()
+    volumizeSmartA = DoubleField(default_value=1.0)
     vlmasmrt = volumizeSmartA
 
-    volumizeSmartB = DoubleField()
+    volumizeSmartB = DoubleField(default_value=1.0)
     vlmbsmrt = volumizeSmartB
 
-    volumizeOffsetSmartA = DoubleField()
+    volumizeOffsetSmartA = DoubleField(default_value=0.0)
     vlmoffsmrt = volumizeOffsetSmartA
 
-    volumizePuffSmart = DoubleField()
+    volumizePuffSmart = DoubleField(default_value=1.0)
     vlmpufsmrt = volumizePuffSmart
 
-    volumizeDistSmart = DoubleField()
+    volumizeDistSmart = DoubleField(default_value=1.0)
     vlmdsmrt = volumizeDistSmart
 
-    volumizeFalloffSmart = DoubleField()
+    volumizeFalloffSmart = DoubleField(default_value=1.0)
     vlmfallsmrt = volumizeFalloffSmart
 
-    SMOOTH_POST = SMOOTH_POSTEnumField()
+    SMOOTH_POST = SMOOTH_POSTEnumField(default_value=0)
     SMTHPST = SMOOTH_POST
 
-    smrtSmoothIterationsPost = LongField()
+    smrtSmoothIterationsPost = LongField(default_value=5, min_value=0)
     smrtsmipst = smrtSmoothIterationsPost
 
-    smrtSmoothStrengthPost = DoubleField()
+    smrtSmoothStrengthPost = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
     smrtsmstrpst = smrtSmoothStrengthPost
 
-    smrtSmoothHoldPost = DoubleField()
+    smrtSmoothHoldPost = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     smrthldpst = smrtSmoothHoldPost
 
-    lockSmartWt = BoolField()
+    lockSmartWt = BoolField(default_value=False)
     lksmrt = lockSmartWt
 
 
@@ -2431,10 +2431,10 @@ class SelfCollideDataPlugOperator(
     selfName = DataStringField()
     slfnam = selfName
 
-    selfPtsA = LongField()
+    selfPtsA = LongField(multi=True, default_value=0)
     slfpta = selfPtsA
 
-    selfPtsB = LongField()
+    selfPtsB = LongField(multi=True, default_value=0)
     slfptb = selfPtsB
 
 
@@ -2446,10 +2446,10 @@ class SelfCollideDataAttrOperator(
     selfName = DataStringField()
     slfnam = selfName
 
-    selfPtsA = LongField()
+    selfPtsA = LongField(multi=True, default_value=0)
     slfpta = selfPtsA
 
-    selfPtsB = LongField()
+    selfPtsB = LongField(multi=True, default_value=0)
     slfptb = selfPtsB
 
 
@@ -2478,31 +2478,31 @@ class RelaxDataPlugOperator(
         ("relaxTri", "reltri"),
     )
 
-    numStretch = LongField()
+    numStretch = LongField(default_value=0, min_value=0)
     nstr = numStretch
 
-    numBend = LongField()
+    numBend = LongField(default_value=0, min_value=0)
     nbnd = numBend
 
-    relaxSt = CompoundField()
+    relaxSt = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relst = relaxSt
 
-    relaxBd = CompoundField()
+    relaxBd = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relbd = relaxBd
 
-    numCons = DoubleField()
+    numCons = DoubleField(multi=True, default_value=0.0)
     ncns = numCons
 
-    numPts = LongField()
+    numPts = LongField(default_value=0, min_value=0)
     npts = numPts
 
-    ptsBase = CompoundField()
+    ptsBase = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     ptsBS = ptsBase
 
-    numTri = LongField()
+    numTri = LongField(default_value=0, min_value=0)
     ntri = numTri
 
-    relaxTri = CompoundField()
+    relaxTri = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     reltri = relaxTri
 
 
@@ -2511,31 +2511,31 @@ class RelaxDataAttrOperator(
 ):
     __slots__ = ()
 
-    numStretch = LongField()
+    numStretch = LongField(default_value=0, min_value=0)
     nstr = numStretch
 
-    numBend = LongField()
+    numBend = LongField(default_value=0, min_value=0)
     nbnd = numBend
 
-    relaxSt = CompoundField()
+    relaxSt = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relst = relaxSt
 
-    relaxBd = CompoundField()
+    relaxBd = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relbd = relaxBd
 
-    numCons = DoubleField()
+    numCons = DoubleField(multi=True, default_value=0.0)
     ncns = numCons
 
-    numPts = LongField()
+    numPts = LongField(default_value=0, min_value=0)
     npts = numPts
 
-    ptsBase = CompoundField()
+    ptsBase = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     ptsBS = ptsBase
 
-    numTri = LongField()
+    numTri = LongField(default_value=0, min_value=0)
     ntri = numTri
 
-    relaxTri = CompoundField()
+    relaxTri = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     reltri = relaxTri
 
 
@@ -2547,31 +2547,31 @@ class RelaxDataField(
     ATTR_CLS = RelaxDataAttrOperator
     PLUG_CLS = RelaxDataPlugOperator
 
-    numStretch = LongField()
+    numStretch = LongField(default_value=0, min_value=0)
     nstr = numStretch
 
-    numBend = LongField()
+    numBend = LongField(default_value=0, min_value=0)
     nbnd = numBend
 
-    relaxSt = CompoundField()
+    relaxSt = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relst = relaxSt
 
-    relaxBd = CompoundField()
+    relaxBd = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     relbd = relaxBd
 
-    numCons = DoubleField()
+    numCons = DoubleField(multi=True, default_value=0.0)
     ncns = numCons
 
-    numPts = LongField()
+    numPts = LongField(default_value=0, min_value=0)
     npts = numPts
 
-    ptsBase = CompoundField()
+    ptsBase = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     ptsBS = ptsBase
 
-    numTri = LongField()
+    numTri = LongField(default_value=0, min_value=0)
     ntri = numTri
 
-    relaxTri = CompoundField()
+    relaxTri = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     reltri = relaxTri
 
 
@@ -2585,13 +2585,13 @@ class RelativePointPlugOperator(
         ("relativePointZ", "relpz"),
     )
 
-    relativePointX = DoubleField()
+    relativePointX = DoubleField(default_value=0.0)
     relpx = relativePointX
 
-    relativePointY = DoubleField()
+    relativePointY = DoubleField(default_value=0.0)
     relpy = relativePointY
 
-    relativePointZ = DoubleField()
+    relativePointZ = DoubleField(default_value=0.0)
     relpz = relativePointZ
 
 
@@ -2600,13 +2600,13 @@ class RelativePointAttrOperator(
 ):
     __slots__ = ()
 
-    relativePointX = DoubleField()
+    relativePointX = DoubleField(default_value=0.0)
     relpx = relativePointX
 
-    relativePointY = DoubleField()
+    relativePointY = DoubleField(default_value=0.0)
     relpy = relativePointY
 
-    relativePointZ = DoubleField()
+    relativePointZ = DoubleField(default_value=0.0)
     relpz = relativePointZ
 
 
@@ -2628,10 +2628,10 @@ class SmoothDataPlugOperator(
         ("ptToPtEntry", "ptpe"),
     )
 
-    smoothEntry = CompoundField()
+    smoothEntry = CompoundField(multi=True, default_value=-1.0)
     smte = smoothEntry
 
-    ptToPtEntry = CompoundField()
+    ptToPtEntry = CompoundField(multi=True, default_value=-1.0)
     ptpe = ptToPtEntry
 
 
@@ -2640,10 +2640,10 @@ class SmoothDataAttrOperator(
 ):
     __slots__ = ()
 
-    smoothEntry = CompoundField()
+    smoothEntry = CompoundField(multi=True, default_value=-1.0)
     smte = smoothEntry
 
-    ptToPtEntry = CompoundField()
+    ptToPtEntry = CompoundField(multi=True, default_value=-1.0)
     ptpe = ptToPtEntry
 
 
@@ -2655,10 +2655,10 @@ class SmoothDataField(
     ATTR_CLS = SmoothDataAttrOperator
     PLUG_CLS = SmoothDataPlugOperator
 
-    smoothEntry = CompoundField()
+    smoothEntry = CompoundField(multi=True, default_value=-1.0)
     smte = smoothEntry
 
-    ptToPtEntry = CompoundField()
+    ptToPtEntry = CompoundField(multi=True, default_value=-1.0)
     ptpe = ptToPtEntry
 
 
@@ -2670,7 +2670,7 @@ class JiggleFramePlugOperator(
         ("force", "frc"),
     )
 
-    force = CompoundField()
+    force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
@@ -2679,7 +2679,7 @@ class JiggleFrameAttrOperator(
 ):
     __slots__ = ()
 
-    force = CompoundField()
+    force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
@@ -2700,7 +2700,7 @@ class CacheFramePlugOperator(
         ("cachePos", "cpos"),
     )
 
-    cachePos = CompoundField()
+    cachePos = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     cpos = cachePos
 
 
@@ -2709,7 +2709,7 @@ class CacheFrameAttrOperator(
 ):
     __slots__ = ()
 
-    cachePos = CompoundField()
+    cachePos = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     cpos = cachePos
 
 
@@ -2730,7 +2730,7 @@ class WeightListMusPlugOperator(
         ("weightsMus", "wtm"),
     )
 
-    weightsMus = DoubleField()
+    weightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtm = weightsMus
 
 
@@ -2739,7 +2739,7 @@ class WeightListMusAttrOperator(
 ):
     __slots__ = ()
 
-    weightsMus = DoubleField()
+    weightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtm = weightsMus
 
 
@@ -2760,7 +2760,7 @@ class StickyWeightListMusPlugOperator(
         ("stickyWeightsMus", "stkwtm"),
     )
 
-    stickyWeightsMus = DoubleField()
+    stickyWeightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtm = stickyWeightsMus
 
 
@@ -2769,7 +2769,7 @@ class StickyWeightListMusAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMus = DoubleField()
+    stickyWeightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtm = stickyWeightsMus
 
 
@@ -2790,7 +2790,7 @@ class StickyWeightListMusBPlugOperator(
         ("stickyWeightsMusB", "stkwtmb"),
     )
 
-    stickyWeightsMusB = DoubleField()
+    stickyWeightsMusB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtmb = stickyWeightsMusB
 
 
@@ -2799,7 +2799,7 @@ class StickyWeightListMusBAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMusB = DoubleField()
+    stickyWeightsMusB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtmb = stickyWeightsMusB
 
 
@@ -2820,7 +2820,7 @@ class StickyWeightListMusCPlugOperator(
         ("stickyWeightsMusC", "stkwtmc"),
     )
 
-    stickyWeightsMusC = DoubleField()
+    stickyWeightsMusC = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtmc = stickyWeightsMusC
 
 
@@ -2829,7 +2829,7 @@ class StickyWeightListMusCAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMusC = DoubleField()
+    stickyWeightsMusC = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     stkwtmc = stickyWeightsMusC
 
 
@@ -2850,7 +2850,7 @@ class StickyListPlugOperator(
         ("stickyData", "stkData"),
     )
 
-    stickyData = CompoundField()
+    stickyData = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     stkData = stickyData
 
 
@@ -2859,7 +2859,7 @@ class StickyListAttrOperator(
 ):
     __slots__ = ()
 
-    stickyData = CompoundField()
+    stickyData = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     stkData = stickyData
 
 
@@ -2880,7 +2880,7 @@ class WeightListDirPlugOperator(
         ("weightsDir", "wtd"),
     )
 
-    weightsDir = DoubleField()
+    weightsDir = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtd = weightsDir
 
 
@@ -2889,7 +2889,7 @@ class WeightListDirAttrOperator(
 ):
     __slots__ = ()
 
-    weightsDir = DoubleField()
+    weightsDir = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtd = weightsDir
 
 
@@ -2910,7 +2910,7 @@ class WeightListSmartRegionAPlugOperator(
         ("weightsSmartRegionA", "wtsmrtrega"),
     )
 
-    weightsSmartRegionA = DoubleField()
+    weightsSmartRegionA = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtrega = weightsSmartRegionA
 
 
@@ -2919,7 +2919,7 @@ class WeightListSmartRegionAAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartRegionA = DoubleField()
+    weightsSmartRegionA = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtrega = weightsSmartRegionA
 
 
@@ -2940,7 +2940,7 @@ class WeightListSmartRegionBPlugOperator(
         ("weightsSmartRegionB", "wtsmrtregb"),
     )
 
-    weightsSmartRegionB = DoubleField()
+    weightsSmartRegionB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtregb = weightsSmartRegionB
 
 
@@ -2949,7 +2949,7 @@ class WeightListSmartRegionBAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartRegionB = DoubleField()
+    weightsSmartRegionB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtregb = weightsSmartRegionB
 
 
@@ -2970,7 +2970,7 @@ class WeightListSmartBulkPlugOperator(
         ("weightsSmartBulk", "wtsmrtblk"),
     )
 
-    weightsSmartBulk = DoubleField()
+    weightsSmartBulk = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblk = weightsSmartBulk
 
 
@@ -2979,7 +2979,7 @@ class WeightListSmartBulkAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulk = DoubleField()
+    weightsSmartBulk = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblk = weightsSmartBulk
 
 
@@ -3000,7 +3000,7 @@ class WeightListSmartBulkAngularPlugOperator(
         ("weightsSmartBulkAngular", "wtsmrtblkang"),
     )
 
-    weightsSmartBulkAngular = DoubleField()
+    weightsSmartBulkAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblkang = weightsSmartBulkAngular
 
 
@@ -3009,7 +3009,7 @@ class WeightListSmartBulkAngularAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulkAngular = DoubleField()
+    weightsSmartBulkAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblkang = weightsSmartBulkAngular
 
 
@@ -3030,7 +3030,7 @@ class WeightListSmartBulkWidenPlugOperator(
         ("weightsSmartBulkWiden", "wtsmrtblkwid"),
     )
 
-    weightsSmartBulkWiden = DoubleField()
+    weightsSmartBulkWiden = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblkwid = weightsSmartBulkWiden
 
 
@@ -3039,7 +3039,7 @@ class WeightListSmartBulkWidenAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulkWiden = DoubleField()
+    weightsSmartBulkWiden = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtblkwid = weightsSmartBulkWiden
 
 
@@ -3060,7 +3060,7 @@ class WeightListSmartSlidePlugOperator(
         ("weightsSmartSlide", "wtsmrtsld"),
     )
 
-    weightsSmartSlide = DoubleField()
+    weightsSmartSlide = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsld = weightsSmartSlide
 
 
@@ -3069,7 +3069,7 @@ class WeightListSmartSlideAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSlide = DoubleField()
+    weightsSmartSlide = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsld = weightsSmartSlide
 
 
@@ -3090,7 +3090,7 @@ class WeightListSmartSlideAngularPlugOperator(
         ("weightsSmartSlideAngular", "wtsmrtsldang"),
     )
 
-    weightsSmartSlideAngular = DoubleField()
+    weightsSmartSlideAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsldang = weightsSmartSlideAngular
 
 
@@ -3099,7 +3099,7 @@ class WeightListSmartSlideAngularAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSlideAngular = DoubleField()
+    weightsSmartSlideAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsldang = weightsSmartSlideAngular
 
 
@@ -3120,7 +3120,7 @@ class WeightListSmartSmoothPlugOperator(
         ("weightsSmartSmooth", "wtsmrtsmth"),
     )
 
-    weightsSmartSmooth = DoubleField()
+    weightsSmartSmooth = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsmth = weightsSmartSmooth
 
 
@@ -3129,7 +3129,7 @@ class WeightListSmartSmoothAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSmooth = DoubleField()
+    weightsSmartSmooth = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtsmth = weightsSmartSmooth
 
 
@@ -3150,7 +3150,7 @@ class WeightListSmartWrinklePlugOperator(
         ("weightsSmartWrinkle", "wtsmrtwrk"),
     )
 
-    weightsSmartWrinkle = DoubleField()
+    weightsSmartWrinkle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtwrk = weightsSmartWrinkle
 
 
@@ -3159,7 +3159,7 @@ class WeightListSmartWrinkleAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartWrinkle = DoubleField()
+    weightsSmartWrinkle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtwrk = weightsSmartWrinkle
 
 
@@ -3180,7 +3180,7 @@ class WeightListSmartFlattenPlugOperator(
         ("weightsSmartFlatten", "wtsmrtflt"),
     )
 
-    weightsSmartFlatten = DoubleField()
+    weightsSmartFlatten = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtflt = weightsSmartFlatten
 
 
@@ -3189,7 +3189,7 @@ class WeightListSmartFlattenAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartFlatten = DoubleField()
+    weightsSmartFlatten = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtflt = weightsSmartFlatten
 
 
@@ -3210,7 +3210,7 @@ class WeightListSmartVolumizePlugOperator(
         ("weightsSmartVolumize", "wtsmrtvol"),
     )
 
-    weightsSmartVolumize = DoubleField()
+    weightsSmartVolumize = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtvol = weightsSmartVolumize
 
 
@@ -3219,7 +3219,7 @@ class WeightListSmartVolumizeAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartVolumize = DoubleField()
+    weightsSmartVolumize = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtsmrtvol = weightsSmartVolumize
 
 

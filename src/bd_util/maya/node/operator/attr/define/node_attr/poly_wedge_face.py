@@ -18,13 +18,13 @@ class CenterPlugOperator(
         ("centerZ", "ctz"),
     )
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     ctx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cty = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     ctz = centerZ
 
 
@@ -33,13 +33,13 @@ class CenterAttrOperator(
 ):
     __slots__ = ()
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     ctx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cty = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     ctz = centerZ
 
 
@@ -51,13 +51,13 @@ class CenterField(
     ATTR_CLS = CenterAttrOperator
     PLUG_CLS = CenterPlugOperator
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     ctx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cty = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     ctz = centerZ
 
 
@@ -71,13 +71,13 @@ class AxisPlugOperator(
         ("axisZ", "asz"),
     )
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     asx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     asy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     asz = axisZ
 
 
@@ -86,13 +86,13 @@ class AxisAttrOperator(
 ):
     __slots__ = ()
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     asx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     asy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     asz = axisZ
 
 
@@ -104,11 +104,11 @@ class AxisField(
     ATTR_CLS = AxisAttrOperator
     PLUG_CLS = AxisPlugOperator
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     asx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     asy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     asz = axisZ

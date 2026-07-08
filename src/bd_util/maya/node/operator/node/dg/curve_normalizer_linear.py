@@ -9,11 +9,11 @@ class CurveNormalizerLinear(DG):
 
     NODE_TYPE = "curveNormalizerLinear"
 
-    scalar = DoubleField()
+    scalar = DoubleField(default_value=1.0)
     sc = scalar
 
-    animInput = DoubleLinearField()
+    animInput = DoubleLinearField(default_value=0.0)
     ai = animInput
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

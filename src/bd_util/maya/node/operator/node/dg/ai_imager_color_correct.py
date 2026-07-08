@@ -21,23 +21,23 @@ class AiImagerColorCorrect(DG):
 
     NODE_TYPE = "aiImagerColorCorrect"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    mainSaturation = FloatField()
+    mainSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     main_saturation = mainSaturation
 
-    mainContrast = FloatField()
+    mainContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     main_contrast = mainContrast
 
-    mainGamma = FloatField()
+    mainGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     main_gamma = mainGamma
 
-    mainGain = MainGainField()
+    mainGain = MainGainField(default_value=(1.0, 1.0, 1.0))
     main_gain = mainGain
     mainGainR = mainGain.mainGainR
     main_gainr = mainGainR
@@ -46,7 +46,7 @@ class AiImagerColorCorrect(DG):
     mainGainB = mainGain.mainGainB
     main_gainb = mainGainB
 
-    mainOffset = MainOffsetField()
+    mainOffset = MainOffsetField(default_value=(0.0, 0.0, 0.0))
     main_offset = mainOffset
     mainOffsetR = mainOffset.mainOffsetR
     main_offsetr = mainOffsetR
@@ -55,16 +55,16 @@ class AiImagerColorCorrect(DG):
     mainOffsetB = mainOffset.mainOffsetB
     main_offsetb = mainOffsetB
 
-    shadowsSaturation = FloatField()
+    shadowsSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     shadows_saturation = shadowsSaturation
 
-    shadowsContrast = FloatField()
+    shadowsContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     shadows_contrast = shadowsContrast
 
-    shadowsGamma = FloatField()
+    shadowsGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     shadows_gamma = shadowsGamma
 
-    shadowsGain = ShadowsGainField()
+    shadowsGain = ShadowsGainField(default_value=(1.0, 1.0, 1.0))
     shadows_gain = shadowsGain
     shadowsGainR = shadowsGain.shadowsGainR
     shadows_gainr = shadowsGainR
@@ -73,7 +73,7 @@ class AiImagerColorCorrect(DG):
     shadowsGainB = shadowsGain.shadowsGainB
     shadows_gainb = shadowsGainB
 
-    shadowsOffset = ShadowsOffsetField()
+    shadowsOffset = ShadowsOffsetField(default_value=(0.0, 0.0, 0.0))
     shadows_offset = shadowsOffset
     shadowsOffsetR = shadowsOffset.shadowsOffsetR
     shadows_offsetr = shadowsOffsetR
@@ -82,16 +82,16 @@ class AiImagerColorCorrect(DG):
     shadowsOffsetB = shadowsOffset.shadowsOffsetB
     shadows_offsetb = shadowsOffsetB
 
-    midtonesSaturation = FloatField()
+    midtonesSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     midtones_saturation = midtonesSaturation
 
-    midtonesContrast = FloatField()
+    midtonesContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     midtones_contrast = midtonesContrast
 
-    midtonesGamma = FloatField()
+    midtonesGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     midtones_gamma = midtonesGamma
 
-    midtonesGain = MidtonesGainField()
+    midtonesGain = MidtonesGainField(default_value=(1.0, 1.0, 1.0))
     midtones_gain = midtonesGain
     midtonesGainR = midtonesGain.midtonesGainR
     midtones_gainr = midtonesGainR
@@ -100,7 +100,7 @@ class AiImagerColorCorrect(DG):
     midtonesGainB = midtonesGain.midtonesGainB
     midtones_gainb = midtonesGainB
 
-    midtonesOffset = MidtonesOffsetField()
+    midtonesOffset = MidtonesOffsetField(default_value=(0.0, 0.0, 0.0))
     midtones_offset = midtonesOffset
     midtonesOffsetR = midtonesOffset.midtonesOffsetR
     midtones_offsetr = midtonesOffsetR
@@ -109,16 +109,16 @@ class AiImagerColorCorrect(DG):
     midtonesOffsetB = midtonesOffset.midtonesOffsetB
     midtones_offsetb = midtonesOffsetB
 
-    highlightsSaturation = FloatField()
+    highlightsSaturation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     highlights_saturation = highlightsSaturation
 
-    highlightsContrast = FloatField()
+    highlightsContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     highlights_contrast = highlightsContrast
 
-    highlightsGamma = FloatField()
+    highlightsGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     highlights_gamma = highlightsGamma
 
-    highlightsGain = HighlightsGainField()
+    highlightsGain = HighlightsGainField(default_value=(1.0, 1.0, 1.0))
     highlights_gain = highlightsGain
     highlightsGainR = highlightsGain.highlightsGainR
     highlights_gainr = highlightsGainR
@@ -127,7 +127,7 @@ class AiImagerColorCorrect(DG):
     highlightsGainB = highlightsGain.highlightsGainB
     highlights_gainb = highlightsGainB
 
-    highlightsOffset = HighlightsOffsetField()
+    highlightsOffset = HighlightsOffsetField(default_value=(0.0, 0.0, 0.0))
     highlights_offset = highlightsOffset
     highlightsOffsetR = highlightsOffset.highlightsOffsetR
     highlights_offsetr = highlightsOffsetR

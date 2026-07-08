@@ -50,7 +50,7 @@ class RgbToHsv(DG):
 
     NODE_TYPE = "rgbToHsv"
 
-    inRgb = InRgbField()
+    inRgb = InRgbField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     i = inRgb
     inRgbR = inRgb.inRgbR
     ir = inRgbR
@@ -59,10 +59,10 @@ class RgbToHsv(DG):
     inRgbB = inRgb.inRgbB
     ib = inRgbB
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outHsv = OutHsvField()
+    outHsv = OutHsvField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = outHsv
     outHsvH = outHsv.outHsvH
     oh = outHsvH

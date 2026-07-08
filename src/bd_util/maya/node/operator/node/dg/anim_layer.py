@@ -175,16 +175,16 @@ class AnimLayer(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -205,13 +205,13 @@ class AnimLayer(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -226,16 +226,16 @@ class AnimLayer(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -244,43 +244,43 @@ class AnimLayer(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
     blendNodes = MessageField(multi=True)
@@ -292,80 +292,80 @@ class AnimLayer(DG):
     parentLayer = MessageField()
     play = parentLayer
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     mt = mute
 
-    parentMute = BoolField()
+    parentMute = BoolField(default_value=False)
     pmte = parentMute
 
-    solo = BoolField()
+    solo = BoolField(default_value=False)
     sl = solo
 
-    childsoloed = BoolField()
+    childsoloed = BoolField(default_value=False)
     csol = childsoloed
 
-    childrenSolo = BoolField(multi=True)
+    childrenSolo = BoolField(multi=True, default_value=False)
     chsl = childrenSolo
 
-    siblingSolo = BoolField()
+    siblingSolo = BoolField(default_value=False)
     sslo = siblingSolo
 
-    outMute = BoolField()
+    outMute = BoolField(default_value=False)
     omte = outMute
 
-    lock = BoolField()
+    lock = BoolField(default_value=False)
     lo = lock
 
-    ghost = BoolField()
+    ghost = BoolField(default_value=False)
     gh = ghost
 
-    ghostColor = ShortField()
+    ghostColor = ShortField(default_value=5, min_value=2, max_value=24)
     ghc = ghostColor
 
-    preferred = BoolField()
+    preferred = BoolField(default_value=False)
     pref = preferred
 
-    selected = BoolField()
+    selected = BoolField(default_value=False)
     slct = selected
 
-    override = BoolField()
+    override = BoolField(default_value=False)
     ovrd = override
 
-    passthrough = BoolField()
+    passthrough = BoolField(default_value=True)
     pthg = passthrough
 
-    collapse = BoolField()
+    collapse = BoolField(default_value=False)
     coll = collapse
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     wgth = weight
 
-    parentWeight = DoubleField()
+    parentWeight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     pwth = parentWeight
 
-    foregroundWeight = DoubleField()
+    foregroundWeight = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     fgwt = foregroundWeight
 
-    backgroundWeight = DoubleField()
+    backgroundWeight = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     bgwt = backgroundWeight
 
     cteRoot = MessageField()
     cter = cteRoot
 
-    rotationAccumulationMode = RotationAccumulationModeEnumField()
+    rotationAccumulationMode = RotationAccumulationModeEnumField(default_value=0)
     ram = rotationAccumulationMode
 
-    outRotationAccumulationMode = OutRotationAccumulationModeEnumField()
+    outRotationAccumulationMode = OutRotationAccumulationModeEnumField(default_value=0)
     oram = outRotationAccumulationMode
 
-    scaleAccumulationMode = ScaleAccumulationModeEnumField()
+    scaleAccumulationMode = ScaleAccumulationModeEnumField(default_value=1)
     sam = scaleAccumulationMode
 
-    exclusive = BoolField()
+    exclusive = BoolField(default_value=False)
     exc = exclusive
 
-    clips = MessageField()
+    clips = MessageField(writable=False)
     cl = clips
 
-    ghostedClips = MessageField(multi=True)
+    ghostedClips = MessageField(multi=True, readable=False)
     gc = ghostedClips

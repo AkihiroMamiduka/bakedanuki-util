@@ -41,16 +41,16 @@ class LeastSquaresModifier(DG):
     pointConstraintW = DoubleField()
     pcw = pointConstraintW
 
-    outputNurbsObject = GenericField()
+    outputNurbsObject = GenericField(writable=False)
     ono = outputNurbsObject
 
     objectModifier = TypedField()
     om = objectModifier
 
-    resetModifier = BoolField()
+    resetModifier = BoolField(default_value=True)
     rm = resetModifier
 
-    updatePointModifier = BoolField()
+    updatePointModifier = BoolField(default_value=True)
     upm = updatePointModifier
 
     inputCache = GenericField()

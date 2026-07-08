@@ -28,7 +28,7 @@ class Wood(DG):
 
     NODE_TYPE = "wood"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -37,7 +37,7 @@ class Wood(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -46,7 +46,7 @@ class Wood(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -61,28 +61,28 @@ class Wood(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -91,7 +91,7 @@ class Wood(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -100,13 +100,13 @@ class Wood(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -115,7 +115,7 @@ class Wood(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -124,13 +124,13 @@ class Wood(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -139,7 +139,7 @@ class Wood(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -148,7 +148,7 @@ class Wood(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -157,7 +157,7 @@ class Wood(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    fillerColor = FillerColorField()
+    fillerColor = FillerColorField(default_value=(0.8240000009536743, 0.6269999742507935, 0.47099998593330383), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -166,7 +166,7 @@ class Wood(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    veinColor = VeinColorField()
+    veinColor = VeinColorField(default_value=(0.15700000524520874, 0.07800000160932541, 0.039000000804662704), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     vc = veinColor
     veinColorR = veinColor.veinColorR
     vcr = veinColorR
@@ -175,19 +175,19 @@ class Wood(DG):
     veinColorB = veinColor.veinColorB
     vcb = veinColorB
 
-    veinSpread = FloatField()
+    veinSpread = FloatField(default_value=0.25, min_value=0.0, soft_max_value=3.0)
     v = veinSpread
 
-    layerSize = FloatField()
+    layerSize = FloatField(default_value=0.05000000074505806, min_value=0.005, soft_max_value=0.5)
     ls = layerSize
 
-    randomness = FloatField()
+    randomness = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     rd = randomness
 
-    age = FloatField()
+    age = FloatField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
     a = age
 
-    grainColor = GrainColorField()
+    grainColor = GrainColorField(default_value=(0.11800000071525574, 0.039000000804662704, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     gc = grainColor
     grainColorR = grainColor.grainColorR
     gcr = grainColorR
@@ -196,29 +196,29 @@ class Wood(DG):
     grainColorB = grainColor.grainColorB
     gcb = grainColorB
 
-    grainContrast = FloatField()
+    grainContrast = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     gx = grainContrast
 
-    grainSpacing = FloatField()
+    grainSpacing = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=0.1)
     gs = grainSpacing
 
-    center = CenterField()
+    center = CenterField(default_value=(0.5, -0.5), min_value=(-1.0, -1.0), max_value=(2.0, 2.0))
     c = center
     centerU = center.centerU
     cu = centerU
     centerV = center.centerV
     cv = centerV
 
-    amplitudeX = FloatField()
+    amplitudeX = FloatField(default_value=0.0)
     ax = amplitudeX
 
-    amplitudeY = FloatField()
+    amplitudeY = FloatField(default_value=0.0)
     ay = amplitudeY
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.3499999940395355, min_value=0.0, max_value=1.0)
     ra = ratio
 
-    ripples = RipplesField()
+    ripples = RipplesField(default_value=(1.0, 1.0, 1.0))
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -227,7 +227,7 @@ class Wood(DG):
     ripplesZ = ripples.ripplesZ
     rz = ripplesZ
 
-    depth = DepthField()
+    depth = DepthField(default_value=(0.0, 8.0))
     d = depth
     depthMin = depth.depthMin
     dmn = depthMin

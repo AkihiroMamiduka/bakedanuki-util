@@ -53,22 +53,22 @@ class CMuscleSystem(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -80,7 +80,7 @@ class CMuscleSystem(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     userData = UserDataField()
@@ -320,7 +320,7 @@ class CMuscleSystem(DG):
     relaxTriAdj = LongField()
     rtadj = relaxTriAdj
 
-    relativePoint = RelativePointField(multi=True)
+    relativePoint = RelativePointField(multi=True, default_value=(0.0, 0.0, 0.0))
     relpt = relativePoint
 
     smoothData = SmoothDataField()
@@ -336,13 +336,13 @@ class CMuscleSystem(DG):
     ptToPtCon = LongField()
     ptpc = ptToPtCon
 
-    jiggle = DoubleField(multi=True)
+    jiggle = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
     jig = jiggle
 
-    cycle = DoubleField(multi=True)
+    cycle = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
     cyc = cycle
 
-    rest = DoubleField(multi=True)
+    rest = DoubleField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
     rst = rest
 
     jiggleFrame = JiggleFrameField(multi=True)
@@ -351,104 +351,104 @@ class CMuscleSystem(DG):
     cacheFrame = CacheFrameField(multi=True)
     cfrm = cacheFrame
 
-    wtChange = BoolField()
+    wtChange = BoolField(default_value=False)
     wchg = wtChange
 
-    wtChangeInternal = ShortField()
+    wtChangeInternal = ShortField(default_value=0)
     wchgi = wtChangeInternal
 
-    wtPointCount = LongField()
+    wtPointCount = LongField(default_value=0)
     wtptcnt = wtPointCount
 
-    wtPointIndex = LongField(multi=True)
+    wtPointIndex = LongField(multi=True, default_value=0)
     wtptidx = wtPointIndex
 
-    wtColChange = BoolField()
+    wtColChange = BoolField(default_value=False)
     wtcolchg = wtColChange
 
-    wtForceUpdate = LongField()
+    wtForceUpdate = LongField(default_value=0)
     wtfrcupd = wtForceUpdate
 
-    relaxChange = BoolField()
+    relaxChange = BoolField(default_value=False)
     rlxchg = relaxChange
 
-    weightListMus = WeightListMusField(multi=True)
+    weightListMus = WeightListMusField(multi=True, default_value=0.0, min_value=0.0)
     wlm = weightListMus
 
-    fatList = DoubleField(multi=True)
+    fatList = DoubleField(multi=True, default_value=0.0)
     fl = fatList
 
-    stickyWeightListMus = StickyWeightListMusField(multi=True)
+    stickyWeightListMus = StickyWeightListMusField(multi=True, default_value=0.0, min_value=0.0)
     stkwlm = stickyWeightListMus
 
-    stickyWeightListMusB = StickyWeightListMusBField(multi=True)
+    stickyWeightListMusB = StickyWeightListMusBField(multi=True, default_value=0.0, min_value=0.0)
     stkwlmb = stickyWeightListMusB
 
-    stickyWeightListMusC = StickyWeightListMusCField(multi=True)
+    stickyWeightListMusC = StickyWeightListMusCField(multi=True, default_value=0.0, min_value=0.0)
     stkwlmc = stickyWeightListMusC
 
     stickyList = StickyListField(multi=True)
     stklist = stickyList
 
-    weightListDir = WeightListDirField(multi=True)
+    weightListDir = WeightListDirField(multi=True, default_value=0.0, min_value=0.0)
     wld = weightListDir
 
-    weightListSmartRegionA = WeightListSmartRegionAField(multi=True)
+    weightListSmartRegionA = WeightListSmartRegionAField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtrega = weightListSmartRegionA
 
-    weightListSmartRegionB = WeightListSmartRegionBField(multi=True)
+    weightListSmartRegionB = WeightListSmartRegionBField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtregb = weightListSmartRegionB
 
-    weightListSmartBulk = WeightListSmartBulkField(multi=True)
+    weightListSmartBulk = WeightListSmartBulkField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtblk = weightListSmartBulk
 
-    weightListSmartBulkAngular = WeightListSmartBulkAngularField(multi=True)
+    weightListSmartBulkAngular = WeightListSmartBulkAngularField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtblkang = weightListSmartBulkAngular
 
-    weightListSmartBulkWiden = WeightListSmartBulkWidenField(multi=True)
+    weightListSmartBulkWiden = WeightListSmartBulkWidenField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtblkwid = weightListSmartBulkWiden
 
-    weightListSmartSlide = WeightListSmartSlideField(multi=True)
+    weightListSmartSlide = WeightListSmartSlideField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtsld = weightListSmartSlide
 
-    weightListSmartSlideAngular = WeightListSmartSlideAngularField(multi=True)
+    weightListSmartSlideAngular = WeightListSmartSlideAngularField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtsldang = weightListSmartSlideAngular
 
-    weightListSmartSmooth = WeightListSmartSmoothField(multi=True)
+    weightListSmartSmooth = WeightListSmartSmoothField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtsmth = weightListSmartSmooth
 
-    weightListSmartWrinkle = WeightListSmartWrinkleField(multi=True)
+    weightListSmartWrinkle = WeightListSmartWrinkleField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtwrk = weightListSmartWrinkle
 
-    weightListSmartFlatten = WeightListSmartFlattenField(multi=True)
+    weightListSmartFlatten = WeightListSmartFlattenField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtflt = weightListSmartFlatten
 
-    weightListSmartVolumize = WeightListSmartVolumizeField(multi=True)
+    weightListSmartVolumize = WeightListSmartVolumizeField(multi=True, default_value=0.0, min_value=0.0)
     wlsmrtvol = weightListSmartVolumize
 
-    weightsForce = DoubleField(multi=True)
+    weightsForce = DoubleField(multi=True, default_value=1.0)
     wtfrc = weightsForce
 
-    weightsRelax = DoubleField(multi=True)
+    weightsRelax = DoubleField(multi=True, default_value=1.0)
     wtrlx = weightsRelax
 
-    weightsWrinkle = DoubleField(multi=True)
+    weightsWrinkle = DoubleField(multi=True, default_value=0.0)
     wtwrk = weightsWrinkle
 
-    weightsSmooth = DoubleField(multi=True)
+    weightsSmooth = DoubleField(multi=True, default_value=1.0)
     wtsmt = weightsSmooth
 
-    weightsSmoothCompress = DoubleField(multi=True)
+    weightsSmoothCompress = DoubleField(multi=True, default_value=1.0)
     wtsmtcmp = weightsSmoothCompress
 
-    weightsSmoothExpand = DoubleField(multi=True)
+    weightsSmoothExpand = DoubleField(multi=True, default_value=1.0)
     wtsmtexp = weightsSmoothExpand
 
-    weightsSelfCollision = DoubleField(multi=True)
+    weightsSelfCollision = DoubleField(multi=True, default_value=1.0)
     wtsslfcol = weightsSelfCollision
 
-    weightsSelfRigidity = DoubleField(multi=True)
+    weightsSelfRigidity = DoubleField(multi=True, default_value=0.0)
     wtsslfrig = weightsSelfRigidity
 
-    weightsSelfVolumize = DoubleField(multi=True)
+    weightsSelfVolumize = DoubleField(multi=True, default_value=1.0)
     wtsslfvol = weightsSelfVolumize

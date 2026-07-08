@@ -343,7 +343,7 @@ class MASH_World(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -354,21 +354,21 @@ class MASH_World(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -376,56 +376,56 @@ class MASH_World(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    prevousPointsMode = PrevousPointsModeEnumField()
+    prevousPointsMode = PrevousPointsModeEnumField(default_value=1)
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    collisionIterations = LongField()
+    collisionIterations = LongField(default_value=6, min_value=0, soft_max_value=50)
 
-    minimumSeparation = FloatField()
+    minimumSeparation = FloatField(default_value=0.10000000149011612, min_value=0.001, soft_max_value=10.0)
 
-    avoidanceRadius = FloatField()
+    avoidanceRadius = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    avoidanceRamp = AvoidanceRampField(multi=True)
+    avoidanceRamp = AvoidanceRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    killSize = FloatField()
+    killSize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    radiusVariance = FloatField()
+    radiusVariance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randomRotate = RandomRotateField()
+    randomRotate = RandomRotateField(default_value=(0.0, 6.28319, 0.0))
     randomRotateX = randomRotate.randomRotateX
     randomRotateY = randomRotate.randomRotateY
     randomRotateZ = randomRotate.randomRotateZ
 
-    idValue = LongField()
+    idValue = LongField(default_value=0, min_value=0, soft_max_value=20)
 
-    maxId = LongField()
+    maxId = LongField(default_value=0, min_value=1, soft_max_value=20)
 
-    minId = LongField()
+    minId = LongField(default_value=0, min_value=1, soft_max_value=20)
 
-    clusterRadius = FloatField()
+    clusterRadius = FloatField(default_value=3.0, min_value=0.0, soft_max_value=50.0)
 
-    radius = FloatField()
+    radius = FloatField(default_value=2.0, min_value=0.01, soft_max_value=10.0)
 
-    pointsPerCluster = LongField()
+    pointsPerCluster = LongField(default_value=10, min_value=0, soft_max_value=50)
 
-    randomPointsPerCluster = LongField()
+    randomPointsPerCluster = LongField(default_value=0, min_value=0, soft_max_value=50)
 
-    clusterMode = ClusterModeEnumField()
+    clusterMode = ClusterModeEnumField(default_value=1)
 
-    idMode = IdModeEnumField()
+    idMode = IdModeEnumField(default_value=1)
 
-    scaleMode = ScaleModeEnumField()
+    scaleMode = ScaleModeEnumField(default_value=1)
 
-    scaleMap = ScaleMapField()
+    scaleMap = ScaleMapField(default_value=(1.0, 1.0, 1.0))
     scaleMapR = scaleMap.scaleMapR
     scaleMapr = scaleMapR
     scaleMapG = scaleMap.scaleMapG
@@ -433,14 +433,14 @@ class MASH_World(DG):
     scaleMapB = scaleMap.scaleMapB
     scaleMapb = scaleMapB
 
-    ignoreSlope = BoolField()
+    ignoreSlope = BoolField(default_value=False)
 
-    upVector = UpVectorField()
+    upVector = UpVectorField(default_value=(0.0, 1.0, 0.0))
     upVector0 = upVector.upVector0
     upVector1 = upVector.upVector1
     upVector2 = upVector.upVector2
 
-    useUpVector = BoolField()
+    useUpVector = BoolField(default_value=False)
 
     avoidanceObjects = GenericField(multi=True)
 
@@ -450,9 +450,9 @@ class MASH_World(DG):
 
     pruningMapMatrix = MatrixField()
 
-    pruningMapDirection = PruningMapDirectionEnumField()
+    pruningMapDirection = PruningMapDirectionEnumField(default_value=2)
 
-    pruningStrengthMap = PruningStrengthMapField()
+    pruningStrengthMap = PruningStrengthMapField(default_value=(1.0, 1.0, 1.0))
     pruningStrengthMapR = pruningStrengthMap.pruningStrengthMapR
     pruningStrengthMapr = pruningStrengthMapR
     pruningStrengthMapG = pruningStrengthMap.pruningStrengthMapG
@@ -460,19 +460,19 @@ class MASH_World(DG):
     pruningStrengthMapB = pruningStrengthMap.pruningStrengthMapB
     pruningStrengthMapb = pruningStrengthMapB
 
-    ecosystemAge = LongField()
+    ecosystemAge = LongField(default_value=40, min_value=0, soft_max_value=120)
 
-    scaleMultiplier = FloatField()
+    scaleMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    conditionMapDirection = ConditionMapDirectionEnumField()
+    conditionMapDirection = ConditionMapDirectionEnumField(default_value=2)
 
-    useRChannel = BoolField()
+    useRChannel = BoolField(default_value=False)
 
-    useGChannel = BoolField()
+    useGChannel = BoolField(default_value=False)
 
-    useBChannel = BoolField()
+    useBChannel = BoolField(default_value=False)
 
-    terrainConditionsMap = TerrainConditionsMapField()
+    terrainConditionsMap = TerrainConditionsMapField(default_value=(0.5, 0.5, 0.5))
     terrainConditionsMapR = terrainConditionsMap.terrainConditionsMapR
     terrainConditionsMapr = terrainConditionsMapR
     terrainConditionsMapG = terrainConditionsMap.terrainConditionsMapG
@@ -480,13 +480,13 @@ class MASH_World(DG):
     terrainConditionsMapB = terrainConditionsMap.terrainConditionsMapB
     terrainConditionsMapb = terrainConditionsMapB
 
-    idMapDirection = IdMapDirectionEnumField()
+    idMapDirection = IdMapDirectionEnumField(default_value=2)
 
     groundMatrix = MatrixField()
 
-    useIdMap = BoolField()
+    useIdMap = BoolField(default_value=False)
 
-    idMap = IdMapField()
+    idMap = IdMapField(default_value=(0.5, 0.5, 0.5))
     idMapR = idMap.idMapR
     idMapr = idMapR
     idMapG = idMap.idMapG
@@ -494,13 +494,13 @@ class MASH_World(DG):
     idMapB = idMap.idMapB
     idMapb = idMapB
 
-    calculateShade = BoolField()
+    calculateShade = BoolField(default_value=False)
 
-    shadeVariance = FloatField()
+    shadeVariance = FloatField(default_value=30.0, min_value=0.0, max_value=90.0)
 
-    poleBias = FloatField()
+    poleBias = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    poleDirection = PoleDirectionField()
+    poleDirection = PoleDirectionField(default_value=(0.0, 0.0, 0.0))
     poleDirectionX = poleDirection.poleDirectionX
     poleDirectionx = poleDirectionX
     poleDirectionY = poleDirection.poleDirectionY
@@ -508,20 +508,20 @@ class MASH_World(DG):
     poleDirectionZ = poleDirection.poleDirectionZ
     poleDirectionz = poleDirectionZ
 
-    highQualitySim = BoolField()
+    highQualitySim = BoolField(default_value=False)
 
-    sparsity = FloatField()
+    sparsity = FloatField(default_value=1.0, min_value=0.001, soft_max_value=5.0)
 
-    seedMultiplier = FloatField()
+    seedMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    maxPlants = LongField()
+    maxPlants = LongField(default_value=15000, min_value=0, soft_max_value=2000)
 
-    ageToTime = BoolField()
+    ageToTime = BoolField(default_value=False)
 
-    timeRange = TimeRangeField()
+    timeRange = TimeRangeField(default_value=(0.0, 120.0), min_value=(0.0, 0.0))
     timeRange0 = timeRange.timeRange0
     timeRange1 = timeRange.timeRange1
 
-    roundTime = BoolField()
+    roundTime = BoolField(default_value=False)
 
     genotypeJSON = DataStringField()

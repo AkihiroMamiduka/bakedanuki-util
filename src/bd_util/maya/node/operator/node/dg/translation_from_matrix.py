@@ -9,10 +9,10 @@ class TranslationFromMatrix(DG):
 
     NODE_TYPE = "translationFromMatrix"
 
-    input = MatrixField()
+    input = MatrixField(readable=False)
     i = input
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

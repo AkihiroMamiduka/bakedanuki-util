@@ -281,16 +281,16 @@ class HwRenderGlobals(DG):
 
     NODE_TYPE = "hwRenderGlobals"
 
-    renderPasses = RenderPassesEnumField()
+    renderPasses = RenderPassesEnumField(default_value=3)
     rp = renderPasses
 
-    cameraIcons = BoolField()
+    cameraIcons = BoolField(default_value=False)
     cai = cameraIcons
 
-    collisionIcons = BoolField()
+    collisionIcons = BoolField(default_value=False)
     coi = collisionIcons
 
-    backgroundColor = BackgroundColorField()
+    backgroundColor = BackgroundColorField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     bc = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     bcr = backgroundColorR
@@ -299,55 +299,55 @@ class HwRenderGlobals(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     bcb = backgroundColorB
 
-    emitterIcons = BoolField()
+    emitterIcons = BoolField(default_value=False)
     ei = emitterIcons
 
-    extension = ExtensionEnumField()
+    extension = ExtensionEnumField(default_value=3)
     ex = extension
 
-    edgeSmoothing = FloatField()
+    edgeSmoothing = FloatField(default_value=1.0)
     es = edgeSmoothing
 
-    endFrame = LongField()
+    endFrame = LongField(default_value=10)
     ef = endFrame
 
-    byFrame = LongField()
+    byFrame = LongField(default_value=1)
     bf = byFrame
 
-    fieldIcons = BoolField()
+    fieldIcons = BoolField(default_value=False)
     fii = fieldIcons
 
-    startFrame = LongField()
+    startFrame = LongField(default_value=1)
     sf = startFrame
 
-    grid = BoolField()
+    grid = BoolField(default_value=False)
     gr = grid
 
-    lightIcons = BoolField()
+    lightIcons = BoolField(default_value=False)
     li = lightIcons
 
-    lineSmoothing = BoolField()
+    lineSmoothing = BoolField(default_value=False)
     ls = lineSmoothing
 
-    motionBlur = FloatField()
+    motionBlur = FloatField(default_value=0.0)
     mb = motionBlur
 
-    transformIcons = BoolField()
+    transformIcons = BoolField(default_value=False)
     ti = transformIcons
 
-    texturing = BoolField()
+    texturing = BoolField(default_value=True)
     txt = texturing
 
-    multiPassRendering = BoolField()
+    multiPassRendering = BoolField(default_value=False)
     mpr = multiPassRendering
 
-    writeZDepth = BoolField()
+    writeZDepth = BoolField(default_value=False)
     wzd = writeZDepth
 
     filename = DataStringField()
     fn = filename
 
-    imageFormat = ImageFormatEnumField()
+    imageFormat = ImageFormatEnumField(default_value=7)
     if_ = imageFormat
 
     imfPluginKey = DataStringField()
@@ -359,23 +359,23 @@ class HwRenderGlobals(DG):
     resolution = DataStringField()
     res = resolution
 
-    alphaSource = AlphaSourceEnumField()
+    alphaSource = AlphaSourceEnumField(default_value=0)
     as_ = alphaSource
 
-    drawStyle = DrawStyleEnumField()
+    drawStyle = DrawStyleEnumField(default_value=3)
     ds = drawStyle
 
-    lightingMode = LightingModeEnumField()
+    lightingMode = LightingModeEnumField(default_value=0)
     lm = lightingMode
 
-    fullImageResolution = BoolField()
+    fullImageResolution = BoolField(default_value=False)
     fir = fullImageResolution
 
-    antiAliasPolygons = BoolField()
+    antiAliasPolygons = BoolField(default_value=False)
     aap = antiAliasPolygons
 
-    geometryMask = BoolField()
+    geometryMask = BoolField(default_value=False)
     gh = geometryMask
 
-    displayShadows = BoolField()
+    displayShadows = BoolField(default_value=False)
     sd = displayShadows

@@ -58,8 +58,8 @@ class CreateColorSet(DG):
     colorSetName = DataStringField()
     colos = colorSetName
 
-    clamped = BoolField()
+    clamped = BoolField(default_value=True)
     clam = clamped
 
-    representation = RepresentationEnumField()
+    representation = RepresentationEnumField(default_value=4)
     rprt = representation

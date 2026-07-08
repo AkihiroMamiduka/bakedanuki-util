@@ -53,28 +53,28 @@ class XgmCurveToSpline(DG):
 
     NODE_TYPE = "xgmCurveToSpline"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    useMayaCurve = BoolField()
+    useMayaCurve = BoolField(default_value=True)
     umc = useMayaCurve
 
-    inputCurves = DataNurbsCurveField(multi=True)
+    inputCurves = DataNurbsCurveField(multi=True, readable=False)
     ics = inputCurves
 
-    inMeshData = TypedField()
+    inMeshData = TypedField(readable=False)
     imd = inMeshData
 
     cachedInSplineData = TypedField()
     csd = cachedInSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    useAlembicCurve = BoolField()
+    useAlembicCurve = BoolField(default_value=False)
     uac = useAlembicCurve
 
     fileName = DataStringField()
@@ -86,23 +86,23 @@ class XgmCurveToSpline(DG):
     activeData = DataStringField()
     ad = activeData
 
-    startFrame = DoubleField()
+    startFrame = DoubleField(default_value=0.0, writable=False)
     sf = startFrame
 
-    endFrame = DoubleField()
+    endFrame = DoubleField(default_value=0.0, writable=False)
     ef = endFrame
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tm = time
 
-    speed = DoubleField()
+    speed = DoubleField(default_value=1.0)
     sp = speed
 
-    offset = DoubleField()
+    offset = DoubleField(default_value=0.0)
     of = offset
 
-    cycleType = CycleTypeEnumField()
+    cycleType = CycleTypeEnumField(default_value=0)
     ct = cycleType
 
-    alignToNormal = BoolField()
+    alignToNormal = BoolField(default_value=True)
     atn = alignToNormal

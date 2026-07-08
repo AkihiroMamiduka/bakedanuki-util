@@ -18,8 +18,8 @@ class ComponentFalloff(DG):
     weightInfoLayers = WeightInfoLayersField(multi=True)
     wil = weightInfoLayers
 
-    weightLayers = WeightLayersField(multi=True)
+    weightLayers = WeightLayersField(multi=True, default_value=1.0)
     whl = weightLayers
 
-    outputWeightFunction = TypedField(multi=True)
+    outputWeightFunction = TypedField(multi=True, writable=False)
     wft = outputWeightFunction

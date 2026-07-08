@@ -60,7 +60,7 @@ class ComputeGlobal(DG):
 
     NODE_TYPE = "ComputeGlobal"
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     T = translate
     translateX = translate.translateX
     tx = translateX
@@ -69,7 +69,7 @@ class ComputeGlobal(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     R = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -78,7 +78,7 @@ class ComputeGlobal(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(0.0, 0.0, 0.0))
     S = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -87,12 +87,12 @@ class ComputeGlobal(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    PreR = PreRField()
+    PreR = PreRField(default_value=(0.0, 0.0, 0.0))
     PreRx = PreR.PreRx
     PreRy = PreR.PreRy
     PreRz = PreR.PreRz
 
-    PostR = PostRField()
+    PostR = PostRField(default_value=(0.0, 0.0, 0.0))
     PostRx = PostR.PostRx
     PostRy = PostR.PostRy
     PostRz = PostR.PostRz
@@ -101,5 +101,5 @@ class ComputeGlobal(DG):
 
     GX = MatrixField()
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder

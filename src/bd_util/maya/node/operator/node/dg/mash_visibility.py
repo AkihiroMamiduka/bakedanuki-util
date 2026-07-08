@@ -88,7 +88,7 @@ class MASH_Visibility(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -99,21 +99,21 @@ class MASH_Visibility(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -121,9 +121,9 @@ class MASH_Visibility(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -136,15 +136,15 @@ class MASH_Visibility(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
     falloffInfo = TypedField()
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -153,19 +153,19 @@ class MASH_Visibility(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    reverse = BoolField()
+    reverse = BoolField(default_value=False)
     rev = reverse
 
     stringVis = DataStringField()
@@ -174,15 +174,15 @@ class MASH_Visibility(DG):
     stringInvis = DataStringField()
     siv = stringInvis
 
-    seed = LongField()
+    seed = LongField(default_value=1, min_value=1, soft_max_value=100)
     see = seed
 
-    randomise = BoolField()
+    randomise = BoolField(default_value=False)
 
     camera = MatrixField()
 
-    useFilmGate = BoolField()
+    useFilmGate = BoolField(default_value=False)
 
-    frustumBorder = FloatField()
+    frustumBorder = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    enableFrustum = BoolField()
+    enableFrustum = BoolField(default_value=False)

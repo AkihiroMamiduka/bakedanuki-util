@@ -11,29 +11,29 @@ class PolySeparate(DG):
 
     NODE_TYPE = "polySeparate"
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
     inputPoly = DataMeshField()
     ip = inputPoly
 
-    icount = LongField()
+    icount = LongField(default_value=-1)
     ic = icount
 
     remShells = TypedField()
     rs = remShells
 
-    output = DataMeshField(multi=True)
+    output = DataMeshField(multi=True, writable=False)
     out = output
 
-    userSpecifiedShells = BoolField()
+    userSpecifiedShells = BoolField(default_value=False)
     uss = userSpecifiedShells
 
-    startFace = LongField()
+    startFace = LongField(default_value=0)
     sf = startFace
 
-    endFace = LongField()
+    endFace = LongField(default_value=0)
     ef = endFace
 
-    inPlace = BoolField()
+    inPlace = BoolField(default_value=False)
     inp = inPlace

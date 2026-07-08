@@ -78,86 +78,86 @@ class PolySuperShape(DG):
 
     NODE_TYPE = "polySuperShape"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
 
-    radius = FloatField()
+    radius = FloatField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
 
-    heightBaseline = FloatField()
+    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    shape = ShapeEnumField()
+    shape = ShapeEnumField(default_value=0)
 
-    uvMode = UvModeEnumField()
+    uvMode = UvModeEnumField(default_value=2)
 
-    ellipse0 = FloatField()
+    ellipse0 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
 
-    ellipse1 = FloatField()
+    ellipse1 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
 
-    harmonics0 = FloatField()
+    harmonics0 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
 
-    harmonics1 = FloatField()
+    harmonics1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    harmonics2 = FloatField()
+    harmonics2 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
 
-    harmonics3 = FloatField()
+    harmonics3 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    harmonics4 = FloatField()
+    harmonics4 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
 
-    harmonics5 = FloatField()
+    harmonics5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    harmonics6 = FloatField()
+    harmonics6 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
 
-    harmonics7 = FloatField()
+    harmonics7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    ultra0 = FloatField()
+    ultra0 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
 
-    ultra1 = FloatField()
+    ultra1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra2 = FloatField()
+    ultra2 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra3 = FloatField()
+    ultra3 = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ultra4 = FloatField()
+    ultra4 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
 
-    ultra5 = FloatField()
+    ultra5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra6 = FloatField()
+    ultra6 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra7 = FloatField()
+    ultra7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra8 = FloatField()
+    ultra8 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
 
-    ultra9 = FloatField()
+    ultra9 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra10 = FloatField()
+    ultra10 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra11 = FloatField()
+    ultra11 = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ultra12 = FloatField()
+    ultra12 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
 
-    ultra13 = FloatField()
+    ultra13 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra14 = FloatField()
+    ultra14 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra15 = FloatField()
+    ultra15 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ellipseMirror = BoolField()
+    ellipseMirror = BoolField(default_value=True)
 
-    ultraMirror = BoolField()
+    ultraMirror = BoolField(default_value=False)
 
-    horizontalDivisions = LongField()
+    horizontalDivisions = LongField(default_value=16, min_value=1, soft_max_value=40)
 
-    verticalDivisions = LongField()
+    verticalDivisions = LongField(default_value=16, min_value=1, soft_max_value=40)
 
-    mergeVertices = BoolField()
+    mergeVertices = BoolField(default_value=True)
 
-    horizontalRevolutions = FloatField()
+    horizontalRevolutions = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
 
-    verticalRevolutions = FloatField()
+    verticalRevolutions = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
 
-    verticalOffset = FloatField()
+    verticalOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    internalRadius = FloatField()
+    internalRadius = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    xOffset = FloatField()
+    xOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    zOffset = FloatField()
+    zOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)

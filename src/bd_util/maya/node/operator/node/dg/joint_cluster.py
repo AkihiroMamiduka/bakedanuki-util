@@ -138,22 +138,22 @@ class JointCluster(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -165,10 +165,10 @@ class JointCluster(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    relative = BoolField()
+    relative = BoolField(default_value=False)
     rel = relative
 
     clusterXforms = ClusterXformsField()
@@ -192,13 +192,13 @@ class JointCluster(DG):
     bindPreMatrix = DataMatrixField()
     pm = bindPreMatrix
 
-    angleInterpolation = AngleInterpolationEnumField()
+    angleInterpolation = AngleInterpolationEnumField(default_value=3)
     ait = angleInterpolation
 
-    redoLowerWeights = MessageField()
+    redoLowerWeights = MessageField(writable=False)
     rlw = redoLowerWeights
 
-    redoUpperWeights = MessageField()
+    redoUpperWeights = MessageField(writable=False)
     ruw = redoUpperWeights
 
     childJointClusterXforms = ChildJointClusterXformsField(multi=True)
@@ -222,10 +222,10 @@ class JointCluster(DG):
     childJointBindPose = DataMatrixField(multi=True)
     cjb = childJointBindPose
 
-    childEnabled = BoolField(multi=True)
+    childEnabled = BoolField(multi=True, default_value=False)
     che = childEnabled
 
-    jointMidplaneAxis = JointMidplaneAxisField()
+    jointMidplaneAxis = JointMidplaneAxisField(default_value=(0.0, 0.0, 0.0))
     jma = jointMidplaneAxis
     jointMidplaneAxisX = jointMidplaneAxis.jointMidplaneAxisX
     jmx = jointMidplaneAxisX
@@ -252,7 +252,7 @@ class JointCluster(DG):
     nextJointPostCompensationMatrix = DataMatrixField()
     njps = nextJointPostCompensationMatrix
 
-    nextJointMidplaneAxis = NextJointMidplaneAxisField()
+    nextJointMidplaneAxis = NextJointMidplaneAxisField(default_value=(0.0, 0.0, 0.0))
     njm = nextJointMidplaneAxis
     nextjointMidplaneAxisX = nextJointMidplaneAxis.nextjointMidplaneAxisX
     nmx = nextjointMidplaneAxisX
@@ -261,50 +261,50 @@ class JointCluster(DG):
     nextjointMidplaneAxisZ = nextJointMidplaneAxis.nextjointMidplaneAxisZ
     nmz = nextjointMidplaneAxisZ
 
-    childJointMidplaneAxis = ChildJointMidplaneAxisField(multi=True)
+    childJointMidplaneAxis = ChildJointMidplaneAxisField(multi=True, default_value=(0.0, 0.0, 0.0))
     cjm = childJointMidplaneAxis
 
-    distanceList = DistanceListField(multi=True)
+    distanceList = DistanceListField(multi=True, default_value=0.0)
     dl = distanceList
 
-    boneLength = FloatField()
+    boneLength = FloatField(default_value=0.0)
     bl = boneLength
 
-    upperBound = FloatField()
+    upperBound = FloatField(default_value=10.0, min_value=0.0, max_value=100.0)
     ub = upperBound
 
-    lastUpperBound = FloatField()
+    lastUpperBound = FloatField(default_value=0.0)
     lub = lastUpperBound
 
-    upperValue = FloatField()
+    upperValue = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     uv = upperValue
 
-    lowerBound = FloatField()
+    lowerBound = FloatField(default_value=10.0, min_value=0.0, max_value=100.0)
     lb = lowerBound
 
-    lastLowerBound = FloatField()
+    lastLowerBound = FloatField(default_value=0.0)
     llb = lastLowerBound
 
-    lowerValue = FloatField()
+    lowerValue = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     lv = lowerValue
 
-    upperDropoffType = UpperDropoffTypeEnumField()
+    upperDropoffType = UpperDropoffTypeEnumField(default_value=0)
     udt = upperDropoffType
 
-    lowerDropoffType = LowerDropoffTypeEnumField()
+    lowerDropoffType = LowerDropoffTypeEnumField(default_value=0)
     ldt = lowerDropoffType
 
-    upperEnabled = BoolField()
+    upperEnabled = BoolField(default_value=False)
     upe = upperEnabled
 
-    lowerEnabled = BoolField()
+    lowerEnabled = BoolField(default_value=False)
     lwe = lowerEnabled
 
     clusterFlexorSet = MessageField()
     cfs = clusterFlexorSet
 
-    enableAutoPercentUpdate = BoolField()
+    enableAutoPercentUpdate = BoolField(default_value=False, writable=False)
     epu = enableAutoPercentUpdate
 
-    convertedTo2 = BoolField()
+    convertedTo2 = BoolField(default_value=False)
     ct2 = convertedTo2

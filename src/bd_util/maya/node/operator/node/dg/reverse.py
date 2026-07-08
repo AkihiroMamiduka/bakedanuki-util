@@ -11,7 +11,7 @@ class Reverse(DG):
 
     NODE_TYPE = "reverse"
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     i = input
     inputX = input.inputX
     ix = inputX
@@ -20,7 +20,7 @@ class Reverse(DG):
     inputZ = input.inputZ
     iz = inputZ
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

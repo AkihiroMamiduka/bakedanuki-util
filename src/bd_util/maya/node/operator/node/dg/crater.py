@@ -26,7 +26,7 @@ class Crater(DG):
 
     NODE_TYPE = "crater"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -35,7 +35,7 @@ class Crater(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -44,7 +44,7 @@ class Crater(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -59,28 +59,28 @@ class Crater(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +89,7 @@ class Crater(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +98,13 @@ class Crater(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -113,7 +113,7 @@ class Crater(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -122,10 +122,10 @@ class Crater(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -134,7 +134,7 @@ class Crater(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -143,7 +143,7 @@ class Crater(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -152,10 +152,10 @@ class Crater(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    shaker = FloatField()
+    shaker = FloatField(default_value=1.5, min_value=0.0, soft_max_value=20.0)
     sh = shaker
 
-    channel1 = Channel1Field()
+    channel1 = Channel1Field(default_value=(1.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c1 = channel1
     channel1R = channel1.channel1R
     c1r = channel1R
@@ -164,7 +164,7 @@ class Crater(DG):
     channel1B = channel1.channel1B
     c1b = channel1B
 
-    channel2 = Channel2Field()
+    channel2 = Channel2Field(default_value=(0.0, 1.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c2 = channel2
     channel2R = channel2.channel2R
     c2r = channel2R
@@ -173,7 +173,7 @@ class Crater(DG):
     channel2B = channel2.channel2B
     c2b = channel2B
 
-    channel3 = Channel3Field()
+    channel3 = Channel3Field(default_value=(0.0, 0.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c3 = channel3
     channel3R = channel3.channel3R
     c3r = channel3R
@@ -182,28 +182,28 @@ class Crater(DG):
     channel3B = channel3.channel3B
     c3b = channel3B
 
-    melt = FloatField()
+    melt = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     m = melt
 
-    balance = FloatField()
+    balance = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     ba = balance
 
-    frequency = FloatField()
+    frequency = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
     fr = frequency
 
-    normDepth = FloatField()
+    normDepth = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=10.0)
     nd = normDepth
 
-    normMelt = FloatField()
+    normMelt = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     nm = normMelt
 
-    normBalance = FloatField()
+    normBalance = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     nb = normBalance
 
-    normFrequency = FloatField()
+    normFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     nf = normFrequency
 
-    outNormal = OutNormalField()
+    outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)
     o = outNormal
     outNormalX = outNormal.outNormalX
     ox = outNormalX

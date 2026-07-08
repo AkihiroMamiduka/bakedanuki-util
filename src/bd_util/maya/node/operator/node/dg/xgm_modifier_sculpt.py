@@ -49,13 +49,13 @@ class XgmModifierSculpt(DG):
 
     NODE_TYPE = "xgmModifierSculpt"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
     tweaks = TweaksField(multi=True)
@@ -67,17 +67,17 @@ class XgmModifierSculpt(DG):
     tweakGroups = TweakGroupsField(multi=True)
     tg = tweakGroups
 
-    activeTweak = LongField()
+    activeTweak = LongField(default_value=1, min_value=1)
     a = activeTweak
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    transferMode = BoolField()
+    transferMode = BoolField(default_value=False)
     tmo = transferMode
 
-    transferModeAlignToNormal = BoolField()
+    transferModeAlignToNormal = BoolField(default_value=False)
     tan = transferModeAlignToNormal
 
-    transferModeMappingType = TransferModeMappingTypeEnumField()
+    transferModeMappingType = TransferModeMappingTypeEnumField(default_value=0)
     tmt = transferModeMappingType

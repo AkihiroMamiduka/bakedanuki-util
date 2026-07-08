@@ -140,7 +140,7 @@ class MASH_Replicator(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -151,21 +151,21 @@ class MASH_Replicator(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -173,9 +173,9 @@ class MASH_Replicator(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -203,62 +203,62 @@ class MASH_Replicator(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    timeMachineValue = FloatField()
+    timeMachineValue = FloatField(default_value=0.0, min_value=0.0, soft_max_value=30.0)
 
-    rotateAround = RotateAroundField()
+    rotateAround = RotateAroundField(default_value=(0.0, 0.0, 0.0))
     rotateAround0 = rotateAround.rotateAround0
     rotateAround1 = rotateAround.rotateAround1
     rotateAround2 = rotateAround.rotateAround2
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    offset = LongField()
+    offset = LongField(default_value=0, min_value=0, soft_max_value=30)
 
-    patternModulus = LongField()
+    patternModulus = LongField(default_value=2, min_value=2, soft_max_value=10)
 
-    patternOffsetX = FloatField()
+    patternOffsetX = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternOffsetY = FloatField()
+    patternOffsetY = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternOffsetZ = FloatField()
+    patternOffsetZ = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternScaleX = FloatField()
+    patternScaleX = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternScaleY = FloatField()
+    patternScaleY = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternScaleZ = FloatField()
+    patternScaleZ = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    patternRotationX = FloatField()
+    patternRotationX = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    patternRotationY = FloatField()
+    patternRotationY = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    patternRotationZ = FloatField()
+    patternRotationZ = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    patternAffectsPosition = BoolField()
+    patternAffectsPosition = BoolField(default_value=True)
 
-    patternAffectsRotation = BoolField()
+    patternAffectsRotation = BoolField(default_value=True)
 
-    patternAffectsScale = BoolField()
+    patternAffectsScale = BoolField(default_value=True)
 
-    patternAffectsID = BoolField()
+    patternAffectsID = BoolField(default_value=False)
 
-    patternRotateTogether = BoolField()
+    patternRotateTogether = BoolField(default_value=False)
 
-    scaleTogether = BoolField()
+    scaleTogether = BoolField(default_value=False)
 
-    curveScale = FloatField()
+    curveScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    timeSlide = FloatField()
+    timeSlide = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     tsli = timeSlide
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -267,13 +267,13 @@ class MASH_Replicator(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
@@ -281,33 +281,33 @@ class MASH_Replicator(DG):
 
     falloffInfo = TypedField()
 
-    offsetPositionX = FloatField()
+    offsetPositionX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
 
-    offsetPositionY = FloatField()
+    offsetPositionY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
 
-    offsetPositionZ = FloatField()
+    offsetPositionZ = FloatField(default_value=-2.0, soft_min_value=-10.0, soft_max_value=10.0)
 
-    scalePointsX = FloatField()
+    scalePointsX = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    scalePointsY = FloatField()
+    scalePointsY = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    scalePointsZ = FloatField()
+    scalePointsZ = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    rotatePointsX = FloatField()
+    rotatePointsX = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    rotatePointsY = FloatField()
+    rotatePointsY = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    rotatePointsZ = FloatField()
+    rotatePointsZ = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    replicants = LongField()
+    replicants = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    positionRamp = PositionRampField(multi=True)
+    positionRamp = PositionRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    scaleRamp = ScaleRampField(multi=True)
+    scaleRamp = ScaleRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    rotationRamp = RotationRampField(multi=True)
+    rotationRamp = RotationRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    upVector = UpVectorField()
+    upVector = UpVectorField(default_value=(0.0, 0.0, 1.0))
     uVec = upVector
     upVector0 = upVector.upVector0
     uVec0 = upVector0
@@ -316,12 +316,12 @@ class MASH_Replicator(DG):
     upVector2 = upVector.upVector2
     uVec2 = upVector2
 
-    rotationOffset = RotationOffsetField()
+    rotationOffset = RotationOffsetField(default_value=(0.0, 0.0, 90.0))
     rotationOffset0 = rotationOffset.rotationOffset0
     rotationOffset1 = rotationOffset.rotationOffset1
     rotationOffset2 = rotationOffset.rotationOffset2
 
-    forwardVector = ForwardVectorField()
+    forwardVector = ForwardVectorField(default_value=(0.0, 0.0, 0.0))
     forwardVector0 = forwardVector.forwardVector0
     forwardVector1 = forwardVector.forwardVector1
     forwardVector2 = forwardVector.forwardVector2
@@ -329,10 +329,10 @@ class MASH_Replicator(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    useCurve = BoolField()
+    useCurve = BoolField(default_value=False)
     useC = useCurve
 
-    idIsReplicant = BoolField()
+    idIsReplicant = BoolField(default_value=False)
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder

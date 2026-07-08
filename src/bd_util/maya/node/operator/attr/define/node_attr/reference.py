@@ -54,7 +54,7 @@ class MultiParentListPlugOperator(
         ("multiParent", "mp"),
     )
 
-    multiParent = GenericField()
+    multiParent = GenericField(multi=True)
     mp = multiParent
 
 
@@ -63,7 +63,7 @@ class MultiParentListAttrOperator(
 ):
     __slots__ = ()
 
-    multiParent = GenericField()
+    multiParent = GenericField(multi=True)
     mp = multiParent
 
 

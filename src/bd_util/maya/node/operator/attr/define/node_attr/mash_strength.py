@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,11 +71,11 @@ class PositionStrengthPlugOperator(
         ("positionStrength2", "positionStrength2"),
     )
 
-    positionStrength0 = FloatField()
+    positionStrength0 = FloatField(default_value=1.0)
 
-    positionStrength1 = FloatField()
+    positionStrength1 = FloatField(default_value=1.0)
 
-    positionStrength2 = FloatField()
+    positionStrength2 = FloatField(default_value=1.0)
 
 
 class PositionStrengthAttrOperator(
@@ -83,11 +83,11 @@ class PositionStrengthAttrOperator(
 ):
     __slots__ = ()
 
-    positionStrength0 = FloatField()
+    positionStrength0 = FloatField(default_value=1.0)
 
-    positionStrength1 = FloatField()
+    positionStrength1 = FloatField(default_value=1.0)
 
-    positionStrength2 = FloatField()
+    positionStrength2 = FloatField(default_value=1.0)
 
 
 class PositionStrengthField(
@@ -98,11 +98,11 @@ class PositionStrengthField(
     ATTR_CLS = PositionStrengthAttrOperator
     PLUG_CLS = PositionStrengthPlugOperator
 
-    positionStrength0 = FloatField()
+    positionStrength0 = FloatField(default_value=1.0)
 
-    positionStrength1 = FloatField()
+    positionStrength1 = FloatField(default_value=1.0)
 
-    positionStrength2 = FloatField()
+    positionStrength2 = FloatField(default_value=1.0)
 
 
 class RotationStrengthPlugOperator(
@@ -115,11 +115,11 @@ class RotationStrengthPlugOperator(
         ("rotationStrength2", "rotationStrength2"),
     )
 
-    rotationStrength0 = FloatField()
+    rotationStrength0 = FloatField(default_value=1.0)
 
-    rotationStrength1 = FloatField()
+    rotationStrength1 = FloatField(default_value=1.0)
 
-    rotationStrength2 = FloatField()
+    rotationStrength2 = FloatField(default_value=1.0)
 
 
 class RotationStrengthAttrOperator(
@@ -127,11 +127,11 @@ class RotationStrengthAttrOperator(
 ):
     __slots__ = ()
 
-    rotationStrength0 = FloatField()
+    rotationStrength0 = FloatField(default_value=1.0)
 
-    rotationStrength1 = FloatField()
+    rotationStrength1 = FloatField(default_value=1.0)
 
-    rotationStrength2 = FloatField()
+    rotationStrength2 = FloatField(default_value=1.0)
 
 
 class RotationStrengthField(
@@ -142,11 +142,11 @@ class RotationStrengthField(
     ATTR_CLS = RotationStrengthAttrOperator
     PLUG_CLS = RotationStrengthPlugOperator
 
-    rotationStrength0 = FloatField()
+    rotationStrength0 = FloatField(default_value=1.0)
 
-    rotationStrength1 = FloatField()
+    rotationStrength1 = FloatField(default_value=1.0)
 
-    rotationStrength2 = FloatField()
+    rotationStrength2 = FloatField(default_value=1.0)
 
 
 class ScaleStrengthPlugOperator(
@@ -159,11 +159,11 @@ class ScaleStrengthPlugOperator(
         ("scaleStrength2", "scaleStrength2"),
     )
 
-    scaleStrength0 = FloatField()
+    scaleStrength0 = FloatField(default_value=1.0)
 
-    scaleStrength1 = FloatField()
+    scaleStrength1 = FloatField(default_value=1.0)
 
-    scaleStrength2 = FloatField()
+    scaleStrength2 = FloatField(default_value=1.0)
 
 
 class ScaleStrengthAttrOperator(
@@ -171,11 +171,11 @@ class ScaleStrengthAttrOperator(
 ):
     __slots__ = ()
 
-    scaleStrength0 = FloatField()
+    scaleStrength0 = FloatField(default_value=1.0)
 
-    scaleStrength1 = FloatField()
+    scaleStrength1 = FloatField(default_value=1.0)
 
-    scaleStrength2 = FloatField()
+    scaleStrength2 = FloatField(default_value=1.0)
 
 
 class ScaleStrengthField(
@@ -186,11 +186,11 @@ class ScaleStrengthField(
     ATTR_CLS = ScaleStrengthAttrOperator
     PLUG_CLS = ScaleStrengthPlugOperator
 
-    scaleStrength0 = FloatField()
+    scaleStrength0 = FloatField(default_value=1.0)
 
-    scaleStrength1 = FloatField()
+    scaleStrength1 = FloatField(default_value=1.0)
 
-    scaleStrength2 = FloatField()
+    scaleStrength2 = FloatField(default_value=1.0)
 
 
 class PositionStrengthMapPlugOperator(
@@ -203,13 +203,13 @@ class PositionStrengthMapPlugOperator(
         ("positionStrengthMapB", "positionStrengthMapb"),
     )
 
-    positionStrengthMapR = FloatField()
+    positionStrengthMapR = FloatField(default_value=1.0)
     positionStrengthMapr = positionStrengthMapR
 
-    positionStrengthMapG = FloatField()
+    positionStrengthMapG = FloatField(default_value=1.0)
     positionStrengthMapg = positionStrengthMapG
 
-    positionStrengthMapB = FloatField()
+    positionStrengthMapB = FloatField(default_value=1.0)
     positionStrengthMapb = positionStrengthMapB
 
 
@@ -218,13 +218,13 @@ class PositionStrengthMapAttrOperator(
 ):
     __slots__ = ()
 
-    positionStrengthMapR = FloatField()
+    positionStrengthMapR = FloatField(default_value=1.0)
     positionStrengthMapr = positionStrengthMapR
 
-    positionStrengthMapG = FloatField()
+    positionStrengthMapG = FloatField(default_value=1.0)
     positionStrengthMapg = positionStrengthMapG
 
-    positionStrengthMapB = FloatField()
+    positionStrengthMapB = FloatField(default_value=1.0)
     positionStrengthMapb = positionStrengthMapB
 
 
@@ -236,13 +236,13 @@ class PositionStrengthMapField(
     ATTR_CLS = PositionStrengthMapAttrOperator
     PLUG_CLS = PositionStrengthMapPlugOperator
 
-    positionStrengthMapR = FloatField()
+    positionStrengthMapR = FloatField(default_value=1.0)
     positionStrengthMapr = positionStrengthMapR
 
-    positionStrengthMapG = FloatField()
+    positionStrengthMapG = FloatField(default_value=1.0)
     positionStrengthMapg = positionStrengthMapG
 
-    positionStrengthMapB = FloatField()
+    positionStrengthMapB = FloatField(default_value=1.0)
     positionStrengthMapb = positionStrengthMapB
 
 
@@ -256,13 +256,13 @@ class RotationStrengthMapPlugOperator(
         ("rotationStrengthMapB", "rotationStrengthMapb"),
     )
 
-    rotationStrengthMapR = FloatField()
+    rotationStrengthMapR = FloatField(default_value=1.0)
     rotationStrengthMapr = rotationStrengthMapR
 
-    rotationStrengthMapG = FloatField()
+    rotationStrengthMapG = FloatField(default_value=1.0)
     rotationStrengthMapg = rotationStrengthMapG
 
-    rotationStrengthMapB = FloatField()
+    rotationStrengthMapB = FloatField(default_value=1.0)
     rotationStrengthMapb = rotationStrengthMapB
 
 
@@ -271,13 +271,13 @@ class RotationStrengthMapAttrOperator(
 ):
     __slots__ = ()
 
-    rotationStrengthMapR = FloatField()
+    rotationStrengthMapR = FloatField(default_value=1.0)
     rotationStrengthMapr = rotationStrengthMapR
 
-    rotationStrengthMapG = FloatField()
+    rotationStrengthMapG = FloatField(default_value=1.0)
     rotationStrengthMapg = rotationStrengthMapG
 
-    rotationStrengthMapB = FloatField()
+    rotationStrengthMapB = FloatField(default_value=1.0)
     rotationStrengthMapb = rotationStrengthMapB
 
 
@@ -289,13 +289,13 @@ class RotationStrengthMapField(
     ATTR_CLS = RotationStrengthMapAttrOperator
     PLUG_CLS = RotationStrengthMapPlugOperator
 
-    rotationStrengthMapR = FloatField()
+    rotationStrengthMapR = FloatField(default_value=1.0)
     rotationStrengthMapr = rotationStrengthMapR
 
-    rotationStrengthMapG = FloatField()
+    rotationStrengthMapG = FloatField(default_value=1.0)
     rotationStrengthMapg = rotationStrengthMapG
 
-    rotationStrengthMapB = FloatField()
+    rotationStrengthMapB = FloatField(default_value=1.0)
     rotationStrengthMapb = rotationStrengthMapB
 
 
@@ -309,13 +309,13 @@ class ScaleStrengthMapPlugOperator(
         ("scaleStrengthMapB", "scaleStrengthMapb"),
     )
 
-    scaleStrengthMapR = FloatField()
+    scaleStrengthMapR = FloatField(default_value=1.0)
     scaleStrengthMapr = scaleStrengthMapR
 
-    scaleStrengthMapG = FloatField()
+    scaleStrengthMapG = FloatField(default_value=1.0)
     scaleStrengthMapg = scaleStrengthMapG
 
-    scaleStrengthMapB = FloatField()
+    scaleStrengthMapB = FloatField(default_value=1.0)
     scaleStrengthMapb = scaleStrengthMapB
 
 
@@ -324,13 +324,13 @@ class ScaleStrengthMapAttrOperator(
 ):
     __slots__ = ()
 
-    scaleStrengthMapR = FloatField()
+    scaleStrengthMapR = FloatField(default_value=1.0)
     scaleStrengthMapr = scaleStrengthMapR
 
-    scaleStrengthMapG = FloatField()
+    scaleStrengthMapG = FloatField(default_value=1.0)
     scaleStrengthMapg = scaleStrengthMapG
 
-    scaleStrengthMapB = FloatField()
+    scaleStrengthMapB = FloatField(default_value=1.0)
     scaleStrengthMapb = scaleStrengthMapB
 
 
@@ -342,11 +342,11 @@ class ScaleStrengthMapField(
     ATTR_CLS = ScaleStrengthMapAttrOperator
     PLUG_CLS = ScaleStrengthMapPlugOperator
 
-    scaleStrengthMapR = FloatField()
+    scaleStrengthMapR = FloatField(default_value=1.0)
     scaleStrengthMapr = scaleStrengthMapR
 
-    scaleStrengthMapG = FloatField()
+    scaleStrengthMapG = FloatField(default_value=1.0)
     scaleStrengthMapg = scaleStrengthMapG
 
-    scaleStrengthMapB = FloatField()
+    scaleStrengthMapB = FloatField(default_value=1.0)
     scaleStrengthMapb = scaleStrengthMapB

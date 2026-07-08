@@ -87,16 +87,16 @@ class PolyPlatonic(DG):
 
     NODE_TYPE = "polyPlatonic"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
 
-    primitive = PrimitiveEnumField()
+    primitive = PrimitiveEnumField(default_value=4)
 
-    subdivisionMode = SubdivisionModeEnumField()
+    subdivisionMode = SubdivisionModeEnumField(default_value=0)
 
-    subdivisions = LongField()
+    subdivisions = LongField(default_value=0, min_value=0, soft_max_value=6)
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
 
-    heightBaseline = FloatField()
+    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    sphericalInflation = FloatField()
+    sphericalInflation = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)

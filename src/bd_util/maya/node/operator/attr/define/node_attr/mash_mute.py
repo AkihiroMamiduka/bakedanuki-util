@@ -164,13 +164,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -179,13 +179,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -197,13 +197,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -217,13 +217,13 @@ class EnvelopeRampPlugOperator(
         ("envelopeRamp_Interp", "envelopeRampi"),
     )
 
-    envelopeRamp_Position = FloatField()
+    envelopeRamp_Position = FloatField(default_value=0.0)
     envelopeRampp = envelopeRamp_Position
 
-    envelopeRamp_FloatValue = FloatField()
+    envelopeRamp_FloatValue = FloatField(default_value=0.0)
     envelopeRampfv = envelopeRamp_FloatValue
 
-    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField()
+    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField(default_value=1)
     envelopeRampi = envelopeRamp_Interp
 
 
@@ -232,13 +232,13 @@ class EnvelopeRampAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeRamp_Position = FloatField()
+    envelopeRamp_Position = FloatField(default_value=0.0)
     envelopeRampp = envelopeRamp_Position
 
-    envelopeRamp_FloatValue = FloatField()
+    envelopeRamp_FloatValue = FloatField(default_value=0.0)
     envelopeRampfv = envelopeRamp_FloatValue
 
-    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField()
+    envelopeRamp_Interp = EnvelopeRamp_InterpEnumField(default_value=1)
     envelopeRampi = envelopeRamp_Interp
 
 
@@ -261,13 +261,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -276,13 +276,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -294,13 +294,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -314,13 +314,13 @@ class BeatRampPlugOperator(
         ("beatRamp_Interp", "beatRampi"),
     )
 
-    beatRamp_Position = FloatField()
+    beatRamp_Position = FloatField(default_value=0.0)
     beatRampp = beatRamp_Position
 
-    beatRamp_FloatValue = FloatField()
+    beatRamp_FloatValue = FloatField(default_value=0.0)
     beatRampfv = beatRamp_FloatValue
 
-    beatRamp_Interp = BeatRamp_InterpEnumField()
+    beatRamp_Interp = BeatRamp_InterpEnumField(default_value=1)
     beatRampi = beatRamp_Interp
 
 
@@ -329,13 +329,13 @@ class BeatRampAttrOperator(
 ):
     __slots__ = ()
 
-    beatRamp_Position = FloatField()
+    beatRamp_Position = FloatField(default_value=0.0)
     beatRampp = beatRamp_Position
 
-    beatRamp_FloatValue = FloatField()
+    beatRamp_FloatValue = FloatField(default_value=0.0)
     beatRampfv = beatRamp_FloatValue
 
-    beatRamp_Interp = BeatRamp_InterpEnumField()
+    beatRamp_Interp = BeatRamp_InterpEnumField(default_value=1)
     beatRampi = beatRamp_Interp
 
 
@@ -358,13 +358,13 @@ class MuteRampPlugOperator(
         ("muteRamp_Interp", "muteRampi"),
     )
 
-    muteRamp_Position = FloatField()
+    muteRamp_Position = FloatField(default_value=0.0)
     muteRampp = muteRamp_Position
 
-    muteRamp_FloatValue = FloatField()
+    muteRamp_FloatValue = FloatField(default_value=0.0)
     muteRampfv = muteRamp_FloatValue
 
-    muteRamp_Interp = MuteRamp_InterpEnumField()
+    muteRamp_Interp = MuteRamp_InterpEnumField(default_value=1)
     muteRampi = muteRamp_Interp
 
 
@@ -373,13 +373,13 @@ class MuteRampAttrOperator(
 ):
     __slots__ = ()
 
-    muteRamp_Position = FloatField()
+    muteRamp_Position = FloatField(default_value=0.0)
     muteRampp = muteRamp_Position
 
-    muteRamp_FloatValue = FloatField()
+    muteRamp_FloatValue = FloatField(default_value=0.0)
     muteRampfv = muteRamp_FloatValue
 
-    muteRamp_Interp = MuteRamp_InterpEnumField()
+    muteRamp_Interp = MuteRamp_InterpEnumField(default_value=1)
     muteRampi = muteRamp_Interp
 
 
@@ -402,13 +402,13 @@ class VelocityRampPlugOperator(
         ("velocityRamp_Interp", "velocityRampi"),
     )
 
-    velocityRamp_Position = FloatField()
+    velocityRamp_Position = FloatField(default_value=0.0)
     velocityRampp = velocityRamp_Position
 
-    velocityRamp_FloatValue = FloatField()
+    velocityRamp_FloatValue = FloatField(default_value=0.0)
     velocityRampfv = velocityRamp_FloatValue
 
-    velocityRamp_Interp = VelocityRamp_InterpEnumField()
+    velocityRamp_Interp = VelocityRamp_InterpEnumField(default_value=1)
     velocityRampi = velocityRamp_Interp
 
 
@@ -417,13 +417,13 @@ class VelocityRampAttrOperator(
 ):
     __slots__ = ()
 
-    velocityRamp_Position = FloatField()
+    velocityRamp_Position = FloatField(default_value=0.0)
     velocityRampp = velocityRamp_Position
 
-    velocityRamp_FloatValue = FloatField()
+    velocityRamp_FloatValue = FloatField(default_value=0.0)
     velocityRampfv = velocityRamp_FloatValue
 
-    velocityRamp_Interp = VelocityRamp_InterpEnumField()
+    velocityRamp_Interp = VelocityRamp_InterpEnumField(default_value=1)
     velocityRampi = velocityRamp_Interp
 
 

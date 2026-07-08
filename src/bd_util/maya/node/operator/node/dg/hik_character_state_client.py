@@ -14,10 +14,10 @@ class HIKCharacterStateClient(DG):
 
     NODE_TYPE = "HIKCharacterStateClient"
 
-    live = BoolField()
+    live = BoolField(default_value=False)
     lv = live
 
-    frameRate = DoubleField()
+    frameRate = DoubleField(default_value=15.0, min_value=1.0)
     fr = frameRate
 
     output = GenericField()
@@ -31,11 +31,11 @@ class HIKCharacterStateClient(DG):
 
     InputCharacterDefinition = TypedField()
 
-    hipsScale = HipsScaleField()
+    hipsScale = HipsScaleField(default_value=(1.0, 1.0, 1.0))
     hipsScaleX = hipsScale.hipsScaleX
     hipsScaleY = hipsScale.hipsScaleY
     hipsScaleZ = hipsScale.hipsScaleZ
 
     referenceGX = MatrixField()
 
-    OutputCharacterState = TypedField()
+    OutputCharacterState = TypedField(writable=False)

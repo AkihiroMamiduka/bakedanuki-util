@@ -24,7 +24,7 @@ class AiLayerShader(DG):
 
     NODE_TYPE = "aiLayerShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -33,10 +33,10 @@ class AiLayerShader(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -45,7 +45,7 @@ class AiLayerShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -54,7 +54,7 @@ class AiLayerShader(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -63,14 +63,14 @@ class AiLayerShader(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    enable1 = BoolField()
+    enable1 = BoolField(default_value=True)
 
     name1 = DataStringField()
 
-    input1A = FloatField()
+    input1A = FloatField(default_value=9.162109749294951e-41, min_value=0.0, max_value=1.0)
     input1a = input1A
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
     input1R = input1.input1R
     input1r = input1R
     input1G = input1.input1G
@@ -78,16 +78,16 @@ class AiLayerShader(DG):
     input1B = input1.input1B
     input1b = input1B
 
-    mix1 = FloatField()
+    mix1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable2 = BoolField()
+    enable2 = BoolField(default_value=False)
 
     name2 = DataStringField()
 
-    input2A = FloatField()
+    input2A = FloatField(default_value=9.162109749294951e-41, min_value=0.0, max_value=1.0)
     input2a = input2A
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
     input2R = input2.input2R
     input2r = input2R
     input2G = input2.input2G
@@ -95,16 +95,16 @@ class AiLayerShader(DG):
     input2B = input2.input2B
     input2b = input2B
 
-    mix2 = FloatField()
+    mix2 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable3 = BoolField()
+    enable3 = BoolField(default_value=False)
 
     name3 = DataStringField()
 
-    input3A = FloatField()
+    input3A = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     input3a = input3A
 
-    input3 = Input3Field()
+    input3 = Input3Field(default_value=(0.0, 0.0, 0.0))
     input3R = input3.input3R
     input3r = input3R
     input3G = input3.input3G
@@ -112,16 +112,16 @@ class AiLayerShader(DG):
     input3B = input3.input3B
     input3b = input3B
 
-    mix3 = FloatField()
+    mix3 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable4 = BoolField()
+    enable4 = BoolField(default_value=False)
 
     name4 = DataStringField()
 
-    input4A = FloatField()
+    input4A = FloatField(default_value=9.162109749294951e-41, min_value=0.0, max_value=1.0)
     input4a = input4A
 
-    input4 = Input4Field()
+    input4 = Input4Field(default_value=(0.0, 0.0, 0.0))
     input4R = input4.input4R
     input4r = input4R
     input4G = input4.input4G
@@ -129,16 +129,16 @@ class AiLayerShader(DG):
     input4B = input4.input4B
     input4b = input4B
 
-    mix4 = FloatField()
+    mix4 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable5 = BoolField()
+    enable5 = BoolField(default_value=False)
 
     name5 = DataStringField()
 
-    input5A = FloatField()
+    input5A = FloatField(default_value=1.6675451725465323e-43, min_value=0.0, max_value=1.0)
     input5a = input5A
 
-    input5 = Input5Field()
+    input5 = Input5Field(default_value=(0.0, 0.0, 0.0))
     input5R = input5.input5R
     input5r = input5R
     input5G = input5.input5G
@@ -146,16 +146,16 @@ class AiLayerShader(DG):
     input5B = input5.input5B
     input5b = input5B
 
-    mix5 = FloatField()
+    mix5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable6 = BoolField()
+    enable6 = BoolField(default_value=False)
 
     name6 = DataStringField()
 
-    input6A = FloatField()
+    input6A = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     input6a = input6A
 
-    input6 = Input6Field()
+    input6 = Input6Field(default_value=(0.0, 0.0, 0.0))
     input6R = input6.input6R
     input6r = input6R
     input6G = input6.input6G
@@ -163,16 +163,16 @@ class AiLayerShader(DG):
     input6B = input6.input6B
     input6b = input6B
 
-    mix6 = FloatField()
+    mix6 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable7 = BoolField()
+    enable7 = BoolField(default_value=False)
 
     name7 = DataStringField()
 
-    input7A = FloatField()
+    input7A = FloatField(default_value=9.162109749294951e-41, min_value=0.0, max_value=1.0)
     input7a = input7A
 
-    input7 = Input7Field()
+    input7 = Input7Field(default_value=(0.0, 0.0, 0.0))
     input7R = input7.input7R
     input7r = input7R
     input7G = input7.input7G
@@ -180,16 +180,16 @@ class AiLayerShader(DG):
     input7B = input7.input7B
     input7b = input7B
 
-    mix7 = FloatField()
+    mix7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    enable8 = BoolField()
+    enable8 = BoolField(default_value=False)
 
     name8 = DataStringField()
 
-    input8A = FloatField()
+    input8A = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     input8a = input8A
 
-    input8 = Input8Field()
+    input8 = Input8Field(default_value=(0.0, 0.0, 0.0))
     input8R = input8.input8R
     input8r = input8R
     input8G = input8.input8G
@@ -197,4 +197,4 @@ class AiLayerShader(DG):
     input8B = input8.input8B
     input8b = input8B
 
-    mix8 = FloatField()
+    mix8 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)

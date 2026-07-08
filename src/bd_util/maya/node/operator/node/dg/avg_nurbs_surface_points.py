@@ -14,7 +14,7 @@ class AvgNurbsSurfacePoints(DG):
     surfacePoint = SurfacePointField(multi=True)
     sp = surfacePoint
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

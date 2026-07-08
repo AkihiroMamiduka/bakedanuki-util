@@ -12,8 +12,8 @@ class PassMatrix(DG):
     inMatrix = MatrixField()
     i = inMatrix
 
-    inScale = DoubleField()
+    inScale = DoubleField(default_value=2.0)
     s = inScale
 
-    outMatrix = MatrixField()
+    outMatrix = MatrixField(writable=False)
     o = outMatrix

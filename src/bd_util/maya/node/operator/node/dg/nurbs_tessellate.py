@@ -179,80 +179,80 @@ class NurbsTessellate(DG):
 
     NODE_TYPE = "nurbsTessellate"
 
-    format = FormatEnumField()
+    format = FormatEnumField(default_value=1)
     f = format
 
-    polygonType = PolygonTypeEnumField()
+    polygonType = PolygonTypeEnumField(default_value=0)
     pt = polygonType
 
-    polygonCount = LongField()
+    polygonCount = LongField(default_value=200, min_value=1, soft_max_value=1000)
     pc = polygonCount
 
-    chordHeightRatio = DoubleField()
+    chordHeightRatio = DoubleField(default_value=0.983, min_value=0.01, max_value=0.999, soft_min_value=0.9)
     chr = chordHeightRatio
 
-    pre70ChordHeightRatio = BoolField()
+    pre70ChordHeightRatio = BoolField(default_value=False)
     pchr = pre70ChordHeightRatio
 
-    fractionalTolerance = DoubleField()
+    fractionalTolerance = DoubleField(default_value=0.01, min_value=1e-06, soft_min_value=0.001, soft_max_value=1.0)
     ft = fractionalTolerance
 
-    minEdgeLength = DoubleLinearField()
+    minEdgeLength = DoubleLinearField(default_value=0.001, min_value=0.0001, soft_min_value=0.0001, soft_max_value=1.0)
     mel = minEdgeLength
 
-    delta = DoubleLinearField()
+    delta = DoubleLinearField(default_value=0.1, min_value=0.0001, soft_min_value=0.01, soft_max_value=1.0)
     d = delta
 
-    uType = UTypeEnumField()
+    uType = UTypeEnumField(default_value=3)
     ut = uType
 
-    uNumber = LongField()
+    uNumber = LongField(default_value=3, min_value=1, soft_max_value=32)
     un = uNumber
 
-    vType = VTypeEnumField()
+    vType = VTypeEnumField(default_value=3)
     vt = vType
 
-    vNumber = LongField()
+    vNumber = LongField(default_value=3, min_value=1, soft_max_value=32)
     vn = vNumber
 
-    useChordHeight = BoolField()
+    useChordHeight = BoolField(default_value=False)
     uch = useChordHeight
 
-    useChordHeightRatio = BoolField()
+    useChordHeightRatio = BoolField(default_value=True)
     ucr = useChordHeightRatio
 
-    chordHeight = DoubleLinearField()
+    chordHeight = DoubleLinearField(default_value=0.1, min_value=0.01, soft_min_value=0.05, soft_max_value=0.2)
     cht = chordHeight
 
-    edgeSwap = BoolField()
+    edgeSwap = BoolField(default_value=False)
     es = edgeSwap
 
-    matchNormalDir = BoolField()
+    matchNormalDir = BoolField(default_value=False)
     mnd = matchNormalDir
 
-    normalizeTrimmedUVRange = BoolField()
+    normalizeTrimmedUVRange = BoolField(default_value=True)
     ntr = normalizeTrimmedUVRange
 
-    outputPolygon = DataMeshField()
+    outputPolygon = DataMeshField(writable=False)
     op = outputPolygon
 
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    smoothEdge = BoolField()
+    smoothEdge = BoolField(default_value=False)
     ues = smoothEdge
 
-    smoothEdgeRatio = DoubleField()
+    smoothEdgeRatio = DoubleField(default_value=0.99, min_value=0.1, max_value=0.999, soft_min_value=0.95)
     esr = smoothEdgeRatio
 
-    explicitTessellationAttributes = BoolField()
+    explicitTessellationAttributes = BoolField(default_value=True)
     eta = explicitTessellationAttributes
 
-    uDivisionsFactor = DoubleField()
+    uDivisionsFactor = DoubleField(default_value=1.5, min_value=0.1, soft_max_value=5.0)
     nuf = uDivisionsFactor
 
-    vDivisionsFactor = DoubleField()
+    vDivisionsFactor = DoubleField(default_value=1.5, min_value=0.1, soft_max_value=5.0)
     nvf = vDivisionsFactor
 
-    curvatureTolerance = CurvatureToleranceEnumField()
+    curvatureTolerance = CurvatureToleranceEnumField(default_value=2)
     cvt = curvatureTolerance

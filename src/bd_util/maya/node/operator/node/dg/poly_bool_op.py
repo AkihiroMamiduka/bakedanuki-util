@@ -107,10 +107,10 @@ class PolyBoolOp(DG):
 
     NODE_TYPE = "polyBoolOp"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
     inputPoly = DataMeshField(multi=True)
@@ -122,26 +122,26 @@ class PolyBoolOp(DG):
     componentTagName = DataStringField(multi=True)
     ctg = componentTagName
 
-    mergeUVSets = MergeUVSetsEnumField()
+    mergeUVSets = MergeUVSetsEnumField(default_value=1)
     muv = mergeUVSets
 
-    outputUVSetName = DataStringField(multi=True)
+    outputUVSetName = DataStringField(multi=True, writable=False)
     ouv = outputUVSetName
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=1)
     op = operation
 
-    classification = ClassificationEnumField()
+    classification = ClassificationEnumField(default_value=2)
     cls = classification
 
-    useThresholds = BoolField()
+    useThresholds = BoolField(default_value=False)
     uth = useThresholds
 
-    vertexDistanceThreshold = DoubleLinearField()
+    vertexDistanceThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
     vdt = vertexDistanceThreshold
 
-    faceAreaThreshold = DoubleLinearField()
+    faceAreaThreshold = DoubleLinearField(default_value=0.0001, min_value=0.0, soft_max_value=1.0)
     fat = faceAreaThreshold
 
-    preserveColor = BoolField()
+    preserveColor = BoolField(default_value=False)
     pcr = preserveColor

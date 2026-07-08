@@ -279,22 +279,22 @@ class TransferAttributes(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -306,19 +306,19 @@ class TransferAttributes(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     source = TypedField(multi=True)
     src = source
 
-    transferPositions = TransferPositionsEnumField()
+    transferPositions = TransferPositionsEnumField(default_value=0)
     pos = transferPositions
 
-    transferNormals = TransferNormalsEnumField()
+    transferNormals = TransferNormalsEnumField(default_value=0)
     nml = transferNormals
 
-    transferUVs = TransferUVsEnumField()
+    transferUVs = TransferUVsEnumField(default_value=0)
     uvs = transferUVs
 
     sourceUVSet = DataStringField()
@@ -327,7 +327,7 @@ class TransferAttributes(DG):
     targetUVSet = DataStringField()
     tuv = targetUVSet
 
-    transferColors = TransferColorsEnumField()
+    transferColors = TransferColorsEnumField(default_value=0)
     col = transferColors
 
     sourceColorSet = DataStringField()
@@ -336,7 +336,7 @@ class TransferAttributes(DG):
     targetColorSet = DataStringField()
     tcs = targetColorSet
 
-    sampleSpace = SampleSpaceEnumField()
+    sampleSpace = SampleSpaceEnumField(default_value=0)
     spa = sampleSpace
 
     sourceUVSpace = DataStringField()
@@ -345,16 +345,16 @@ class TransferAttributes(DG):
     targetUVSpace = DataStringField()
     tus = targetUVSpace
 
-    searchMethod = SearchMethodEnumField()
+    searchMethod = SearchMethodEnumField(default_value=3)
     mtd = searchMethod
 
-    searchDistance = DoubleField()
+    searchDistance = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     dis = searchDistance
 
-    searchTolerance = DoubleField()
+    searchTolerance = DoubleField(default_value=1.3, soft_min_value=1.0, soft_max_value=2.0)
     tol = searchTolerance
 
-    searchScale = SearchScaleField()
+    searchScale = SearchScaleField(default_value=(1.0, 1.0, 1.0))
     ss = searchScale
     searchScaleX = searchScale.searchScaleX
     ssx = searchScaleX
@@ -363,14 +363,14 @@ class TransferAttributes(DG):
     searchScaleZ = searchScale.searchScaleZ
     ssz = searchScaleZ
 
-    flipUVs = FlipUVsEnumField()
+    flipUVs = FlipUVsEnumField(default_value=0)
     fuv = flipUVs
 
-    colorBorders = ColorBordersEnumField()
+    colorBorders = ColorBordersEnumField(default_value=1)
     clb = colorBorders
 
-    matchCount = LongField(multi=True)
+    matchCount = LongField(multi=True, default_value=0, writable=False)
     mcn = matchCount
 
-    matchChoice = LongField()
+    matchChoice = LongField(default_value=0)
     mch = matchChoice

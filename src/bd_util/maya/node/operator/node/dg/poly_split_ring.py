@@ -51,7 +51,7 @@ class PolySplitRing(DG):
 
     NODE_TYPE = "polySplitRing"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -60,80 +60,80 @@ class PolySplitRing(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    weight = FloatField()
+    weight = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     wt = weight
 
-    absoluteWeight = BoolField()
+    absoluteWeight = BoolField(default_value=False)
     ab = absoluteWeight
 
-    direction = BoolField()
+    direction = BoolField(default_value=True)
     dr = direction
 
-    rootEdge = LongField()
+    rootEdge = LongField(default_value=-1)
     re = rootEdge
 
-    smoothingAngle = DoubleAngleField()
+    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
     sma = smoothingAngle
 
-    splitType = SplitTypeEnumField()
+    splitType = SplitTypeEnumField(default_value=1)
     stp = splitType
 
-    divisions = LongField()
+    divisions = LongField(default_value=2, min_value=1, soft_max_value=25)
     div = divisions
 
-    enableProfileCurve = BoolField()
+    enableProfileCurve = BoolField(default_value=True)
     epc = enableProfileCurve
 
-    profileCurve = ProfileCurveField(multi=True)
+    profileCurve = ProfileCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     p = profileCurve
 
-    profileCurveInputOffset = FloatField()
+    profileCurveInputOffset = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
     pio = profileCurveInputOffset
 
-    profileCurveInputScale = FloatField()
+    profileCurveInputScale = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     pis = profileCurveInputScale
 
-    useFaceNormalsAtEnds = BoolField()
+    useFaceNormalsAtEnds = BoolField(default_value=True)
     fne = useFaceNormalsAtEnds
 
-    useEqualMultiplier = BoolField()
+    useEqualMultiplier = BoolField(default_value=True)
     uem = useEqualMultiplier
 
-    fixQuads = BoolField()
+    fixQuads = BoolField(default_value=False)
     fq = fixQuads
 
-    insertWithEdgeFlow = BoolField()
+    insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField()
+    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     aef = adjustEdgeFlow

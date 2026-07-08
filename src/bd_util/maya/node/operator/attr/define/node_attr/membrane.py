@@ -18,13 +18,13 @@ class GravityDirectionPlugOperator(
         ("gravityDirectionZ", "grdz"),
     )
 
-    gravityDirectionX = FloatField()
+    gravityDirectionX = FloatField(default_value=0.0)
     grdx = gravityDirectionX
 
-    gravityDirectionY = FloatField()
+    gravityDirectionY = FloatField(default_value=-1.0)
     grdy = gravityDirectionY
 
-    gravityDirectionZ = FloatField()
+    gravityDirectionZ = FloatField(default_value=0.0)
     grdz = gravityDirectionZ
 
 
@@ -33,13 +33,13 @@ class GravityDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    gravityDirectionX = FloatField()
+    gravityDirectionX = FloatField(default_value=0.0)
     grdx = gravityDirectionX
 
-    gravityDirectionY = FloatField()
+    gravityDirectionY = FloatField(default_value=-1.0)
     grdy = gravityDirectionY
 
-    gravityDirectionZ = FloatField()
+    gravityDirectionZ = FloatField(default_value=0.0)
     grdz = gravityDirectionZ
 
 
@@ -51,13 +51,13 @@ class GravityDirectionField(
     ATTR_CLS = GravityDirectionAttrOperator
     PLUG_CLS = GravityDirectionPlugOperator
 
-    gravityDirectionX = FloatField()
+    gravityDirectionX = FloatField(default_value=0.0)
     grdx = gravityDirectionX
 
-    gravityDirectionY = FloatField()
+    gravityDirectionY = FloatField(default_value=-1.0)
     grdy = gravityDirectionY
 
-    gravityDirectionZ = FloatField()
+    gravityDirectionZ = FloatField(default_value=0.0)
     grdz = gravityDirectionZ
 
 
@@ -71,13 +71,13 @@ class WindDirectionPlugOperator(
         ("windDirectionZ", "widz"),
     )
 
-    windDirectionX = FloatField()
+    windDirectionX = FloatField(default_value=1.0)
     widx = windDirectionX
 
-    windDirectionY = FloatField()
+    windDirectionY = FloatField(default_value=0.0)
     widy = windDirectionY
 
-    windDirectionZ = FloatField()
+    windDirectionZ = FloatField(default_value=0.0)
     widz = windDirectionZ
 
 
@@ -86,13 +86,13 @@ class WindDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    windDirectionX = FloatField()
+    windDirectionX = FloatField(default_value=1.0)
     widx = windDirectionX
 
-    windDirectionY = FloatField()
+    windDirectionY = FloatField(default_value=0.0)
     widy = windDirectionY
 
-    windDirectionZ = FloatField()
+    windDirectionZ = FloatField(default_value=0.0)
     widz = windDirectionZ
 
 
@@ -104,13 +104,13 @@ class WindDirectionField(
     ATTR_CLS = WindDirectionAttrOperator
     PLUG_CLS = WindDirectionPlugOperator
 
-    windDirectionX = FloatField()
+    windDirectionX = FloatField(default_value=1.0)
     widx = windDirectionX
 
-    windDirectionY = FloatField()
+    windDirectionY = FloatField(default_value=0.0)
     widy = windDirectionY
 
-    windDirectionZ = FloatField()
+    windDirectionZ = FloatField(default_value=0.0)
     widz = windDirectionZ
 
 
@@ -124,13 +124,13 @@ class TurbulenceOffsetPlugOperator(
         ("turbulenceOffsetZ", "toz"),
     )
 
-    turbulenceOffsetX = FloatField()
+    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField()
+    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField()
+    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toz = turbulenceOffsetZ
 
 
@@ -139,13 +139,13 @@ class TurbulenceOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    turbulenceOffsetX = FloatField()
+    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField()
+    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField()
+    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toz = turbulenceOffsetZ
 
 
@@ -157,11 +157,11 @@ class TurbulenceOffsetField(
     ATTR_CLS = TurbulenceOffsetAttrOperator
     PLUG_CLS = TurbulenceOffsetPlugOperator
 
-    turbulenceOffsetX = FloatField()
+    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField()
+    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField()
+    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     toz = turbulenceOffsetZ

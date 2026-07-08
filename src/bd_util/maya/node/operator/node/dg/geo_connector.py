@@ -25,13 +25,13 @@ class GeoConnector(DG):
 
     NODE_TYPE = "geoConnector"
 
-    currentTime = TimeField()
+    currentTime = TimeField(default_value=0.0)
     ct = currentTime
 
-    prevTime = TimeField()
+    prevTime = TimeField(default_value=0.0, writable=False)
     pt = prevTime
 
-    deltaTime = TimeField()
+    deltaTime = TimeField(default_value=0.0, writable=False)
     dlt = deltaTime
 
     owner = MessageField()
@@ -46,19 +46,19 @@ class GeoConnector(DG):
     worldMatrix = DataMatrixField()
     wm = worldMatrix
 
-    ownerPositions = DataVectorArrayField()
+    ownerPositions = DataVectorArrayField(writable=False)
     pos = ownerPositions
 
-    preOwnerPositions = DataVectorArrayField()
+    preOwnerPositions = DataVectorArrayField(writable=False)
     pop = preOwnerPositions
 
-    ownerVelocities = DataVectorArrayField()
+    ownerVelocities = DataVectorArrayField(writable=False)
     vel = ownerVelocities
 
-    ownerMasses = DataDoubleArrayField()
+    ownerMasses = DataDoubleArrayField(writable=False)
     mas = ownerMasses
 
-    idMapping = IdMappingField()
+    idMapping = IdMappingField(writable=False)
     idm = idMapping
     sortedId = idMapping.sortedId
     sid = sortedId
@@ -68,7 +68,7 @@ class GeoConnector(DG):
     inputForce = DataVectorArrayField(multi=True)
     ifc = inputForce
 
-    ownerCentroid = OwnerCentroidField()
+    ownerCentroid = OwnerCentroidField(default_value=(0.0, 0.0, 0.0), writable=False)
     ocd = ownerCentroid
     ownerCentroidX = ownerCentroid.ownerCentroidX
     ocx = ownerCentroidX
@@ -77,7 +77,7 @@ class GeoConnector(DG):
     ownerCentroidZ = ownerCentroid.ownerCentroidZ
     ocz = ownerCentroidZ
 
-    ownerCentroidLocal = OwnerCentroidLocalField()
+    ownerCentroidLocal = OwnerCentroidLocalField(default_value=(0.0, 0.0, 0.0), writable=False)
     ocl = ownerCentroidLocal
     ownerCentroidLocalX = ownerCentroidLocal.ownerCentroidLocalX
     olcx = ownerCentroidLocalX
@@ -86,53 +86,53 @@ class GeoConnector(DG):
     ownerCentroidLocalZ = ownerCentroidLocal.ownerCentroidLocalZ
     oclz = ownerCentroidLocalZ
 
-    groupId = LongField(multi=True)
+    groupId = LongField(multi=True, default_value=-1)
     gri = groupId
 
-    componentPositions = DataVectorArrayField(multi=True)
+    componentPositions = DataVectorArrayField(multi=True, writable=False)
     cpp = componentPositions
 
-    preComponentPositions = DataVectorArrayField(multi=True)
+    preComponentPositions = DataVectorArrayField(multi=True, writable=False)
     pcp = preComponentPositions
 
-    componentVelocities = DataVectorArrayField(multi=True)
+    componentVelocities = DataVectorArrayField(multi=True, writable=False)
     cpv = componentVelocities
 
-    componentCentroid = ComponentCentroidField(multi=True)
+    componentCentroid = ComponentCentroidField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     cpc = componentCentroid
 
-    componentCentroidLocal = ComponentCentroidLocalField(multi=True)
+    componentCentroidLocal = ComponentCentroidLocalField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     ccl = componentCentroidLocal
 
-    sweptGeometry = TypedField()
+    sweptGeometry = TypedField(writable=False)
     swg = sweptGeometry
 
-    localSweptGeometry = TypedField()
+    localSweptGeometry = TypedField(writable=False)
     lsg = localSweptGeometry
 
-    ratePPIn = DoubleField(multi=True)
+    ratePPIn = DoubleField(multi=True, default_value=0.0)
     rpi = ratePPIn
 
-    ratePPOut = DataDoubleArrayField()
+    ratePPOut = DataDoubleArrayField(writable=False)
     rpo = ratePPOut
 
-    matrixModified = BoolField()
+    matrixModified = BoolField(default_value=False, writable=False)
     mtm = matrixModified
 
-    geometryModified = LongField()
+    geometryModified = LongField(default_value=0, writable=False)
     gmd = geometryModified
 
-    tessellationFactor = LongField()
+    tessellationFactor = LongField(default_value=200, min_value=1, soft_min_value=1, soft_max_value=1000)
     tf = tessellationFactor
 
     uvSetName = DataStringField()
     guv = uvSetName
 
-    resilience = DoubleField()
+    resilience = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     res = resilience
 
-    friction = DoubleField()
+    friction = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fri = friction
 
-    offset = DoubleField()
+    offset = DoubleField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
     off = offset

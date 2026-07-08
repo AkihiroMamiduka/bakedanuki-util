@@ -18,13 +18,13 @@ class OutSurfacePlugOperator(
         ("outSurfaceB", "osb"),
     )
 
-    outSurfaceR = FloatField()
+    outSurfaceR = FloatField(default_value=0.0, writable=False)
     osr = outSurfaceR
 
-    outSurfaceG = FloatField()
+    outSurfaceG = FloatField(default_value=0.0, writable=False)
     osg = outSurfaceG
 
-    outSurfaceB = FloatField()
+    outSurfaceB = FloatField(default_value=0.0, writable=False)
     osb = outSurfaceB
 
 
@@ -33,13 +33,13 @@ class OutSurfaceAttrOperator(
 ):
     __slots__ = ()
 
-    outSurfaceR = FloatField()
+    outSurfaceR = FloatField(default_value=0.0, writable=False)
     osr = outSurfaceR
 
-    outSurfaceG = FloatField()
+    outSurfaceG = FloatField(default_value=0.0, writable=False)
     osg = outSurfaceG
 
-    outSurfaceB = FloatField()
+    outSurfaceB = FloatField(default_value=0.0, writable=False)
     osb = outSurfaceB
 
 
@@ -51,13 +51,13 @@ class OutSurfaceField(
     ATTR_CLS = OutSurfaceAttrOperator
     PLUG_CLS = OutSurfacePlugOperator
 
-    outSurfaceR = FloatField()
+    outSurfaceR = FloatField(default_value=0.0, writable=False)
     osr = outSurfaceR
 
-    outSurfaceG = FloatField()
+    outSurfaceG = FloatField(default_value=0.0, writable=False)
     osg = outSurfaceG
 
-    outSurfaceB = FloatField()
+    outSurfaceB = FloatField(default_value=0.0, writable=False)
     osb = outSurfaceB
 
 
@@ -71,13 +71,13 @@ class OutVolumePlugOperator(
         ("outVolumeB", "ovb"),
     )
 
-    outVolumeR = FloatField()
+    outVolumeR = FloatField(default_value=0.0, writable=False)
     ovr = outVolumeR
 
-    outVolumeG = FloatField()
+    outVolumeG = FloatField(default_value=0.0, writable=False)
     ovg = outVolumeG
 
-    outVolumeB = FloatField()
+    outVolumeB = FloatField(default_value=0.0, writable=False)
     ovb = outVolumeB
 
 
@@ -86,13 +86,13 @@ class OutVolumeAttrOperator(
 ):
     __slots__ = ()
 
-    outVolumeR = FloatField()
+    outVolumeR = FloatField(default_value=0.0, writable=False)
     ovr = outVolumeR
 
-    outVolumeG = FloatField()
+    outVolumeG = FloatField(default_value=0.0, writable=False)
     ovg = outVolumeG
 
-    outVolumeB = FloatField()
+    outVolumeB = FloatField(default_value=0.0, writable=False)
     ovb = outVolumeB
 
 
@@ -104,11 +104,11 @@ class OutVolumeField(
     ATTR_CLS = OutVolumeAttrOperator
     PLUG_CLS = OutVolumePlugOperator
 
-    outVolumeR = FloatField()
+    outVolumeR = FloatField(default_value=0.0, writable=False)
     ovr = outVolumeR
 
-    outVolumeG = FloatField()
+    outVolumeG = FloatField(default_value=0.0, writable=False)
     ovg = outVolumeG
 
-    outVolumeB = FloatField()
+    outVolumeB = FloatField(default_value=0.0, writable=False)
     ovb = outVolumeB

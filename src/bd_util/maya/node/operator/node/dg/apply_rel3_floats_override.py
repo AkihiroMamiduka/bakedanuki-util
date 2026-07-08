@@ -14,10 +14,10 @@ class ApplyRel3FloatsOverride(DG):
 
     NODE_TYPE = "applyRel3FloatsOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = OutField()
+    out = OutField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = out
     out0 = out.out0
     o0 = out0
@@ -26,7 +26,7 @@ class ApplyRel3FloatsOverride(DG):
     out2 = out.out2
     o2 = out2
 
-    original = OriginalField()
+    original = OriginalField(default_value=(0.0, 0.0, 0.0), readable=False)
     ori = original
     original0 = original.original0
     ori0 = original0
@@ -35,7 +35,7 @@ class ApplyRel3FloatsOverride(DG):
     original2 = original.original2
     ori2 = original2
 
-    multiply = MultiplyField()
+    multiply = MultiplyField(default_value=(1.0, 1.0, 1.0), readable=False)
     mul = multiply
     multiply0 = multiply.multiply0
     mul0 = multiply0
@@ -44,7 +44,7 @@ class ApplyRel3FloatsOverride(DG):
     multiply2 = multiply.multiply2
     mul2 = multiply2
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0), readable=False)
     ofs = offset
     offset0 = offset.offset0
     ofs0 = offset0

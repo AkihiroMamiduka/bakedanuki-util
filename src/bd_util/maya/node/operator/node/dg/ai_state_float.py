@@ -86,41 +86,41 @@ class AiStateFloat(DG):
 
     NODE_TYPE = "aiStateFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    sx = FloatField()
+    sx = FloatField(default_value=0.0, writable=False)
 
-    sy = FloatField()
+    sy = FloatField(default_value=0.0, writable=False)
 
-    px = FloatField()
+    px = FloatField(default_value=0.0, writable=False)
 
-    py = FloatField()
+    py = FloatField(default_value=0.0, writable=False)
 
-    time = FloatField()
+    time = FloatField(default_value=0.0, writable=False)
 
-    Rl = FloatField()
+    Rl = FloatField(default_value=0.0, writable=False)
 
-    bu = FloatField()
+    bu = FloatField(default_value=0.0, writable=False)
 
-    bv = FloatField()
+    bv = FloatField(default_value=0.0, writable=False)
 
-    u = FloatField()
+    u = FloatField(default_value=0.0, writable=False)
 
-    v = FloatField()
+    v = FloatField(default_value=0.0, writable=False)
 
-    area = FloatField()
+    area = FloatField(default_value=0.0, writable=False)
 
-    dudx = FloatField()
+    dudx = FloatField(default_value=0.0, writable=False)
 
-    dudy = FloatField()
+    dudy = FloatField(default_value=0.0, writable=False)
 
-    dvdx = FloatField()
+    dvdx = FloatField(default_value=0.0, writable=False)
 
-    dvdy = FloatField()
+    dvdy = FloatField(default_value=0.0, writable=False)
 
-    shutter_start = FloatField()
+    shutter_start = FloatField(default_value=0.0, writable=False)
 
-    shutter_end = FloatField()
+    shutter_end = FloatField(default_value=0.0, writable=False)
 
-    variable = VariableEnumField()
+    variable = VariableEnumField(default_value=0)

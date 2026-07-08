@@ -18,13 +18,13 @@ class AttrValuePlugOperator(
         ("attrValueB", "atvb"),
     )
 
-    attrValueR = FloatField()
+    attrValueR = FloatField(default_value=0.0)
     atvr = attrValueR
 
-    attrValueG = FloatField()
+    attrValueG = FloatField(default_value=0.0)
     atvg = attrValueG
 
-    attrValueB = FloatField()
+    attrValueB = FloatField(default_value=0.0)
     atvb = attrValueB
 
 
@@ -33,13 +33,13 @@ class AttrValueAttrOperator(
 ):
     __slots__ = ()
 
-    attrValueR = FloatField()
+    attrValueR = FloatField(default_value=0.0)
     atvr = attrValueR
 
-    attrValueG = FloatField()
+    attrValueG = FloatField(default_value=0.0)
     atvg = attrValueG
 
-    attrValueB = FloatField()
+    attrValueB = FloatField(default_value=0.0)
     atvb = attrValueB
 
 
@@ -51,11 +51,11 @@ class AttrValueField(
     ATTR_CLS = AttrValueAttrOperator
     PLUG_CLS = AttrValuePlugOperator
 
-    attrValueR = FloatField()
+    attrValueR = FloatField(default_value=0.0)
     atvr = attrValueR
 
-    attrValueG = FloatField()
+    attrValueG = FloatField(default_value=0.0)
     atvg = attrValueG
 
-    attrValueB = FloatField()
+    attrValueB = FloatField(default_value=0.0)
     atvb = attrValueB

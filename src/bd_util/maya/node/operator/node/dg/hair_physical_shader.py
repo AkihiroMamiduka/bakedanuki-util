@@ -22,7 +22,7 @@ class HairPhysicalShader(DG):
 
     NODE_TYPE = "hairPhysicalShader"
 
-    rootColorD = RootColorDField()
+    rootColorD = RootColorDField(default_value=(0.2070000022649765, 0.1379999965429306, 0.0689999982714653))
     rcD = rootColorD
     rootColorDR = rootColorD.rootColorDR
     rcDr = rootColorDR
@@ -31,7 +31,7 @@ class HairPhysicalShader(DG):
     rootColorDB = rootColorD.rootColorDB
     rcDb = rootColorDB
 
-    tipColorD = TipColorDField()
+    tipColorD = TipColorDField(default_value=(0.2070000022649765, 0.1379999965429306, 0.0689999982714653))
     tcD = tipColorD
     tipColorDR = tipColorD.tipColorDR
     tcDr = tipColorDR
@@ -40,10 +40,10 @@ class HairPhysicalShader(DG):
     tipColorDB = tipColorD.tipColorDB
     tcDb = tipColorDB
 
-    intensityD = FloatField()
+    intensityD = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     iD = intensityD
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.0, 0.0, 0.0))
     trans = transparency
     transparencyR = transparency.transparencyR
     transr = transparencyR
@@ -52,7 +52,7 @@ class HairPhysicalShader(DG):
     transparencyB = transparency.transparencyB
     transb = transparencyB
 
-    ambientColor = AmbientColorField()
+    ambientColor = AmbientColorField(default_value=(0.0, 0.0, 0.0))
     ac = ambientColor
     ambientColorR = ambientColor.ambientColorR
     acr = ambientColorR
@@ -61,7 +61,7 @@ class HairPhysicalShader(DG):
     ambientColorB = ambientColor.ambientColorB
     acb = ambientColorB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.0, 0.0, 0.0))
     incand = incandescence
     incandescenceR = incandescence.incandescenceR
     incandr = incandescenceR
@@ -70,7 +70,7 @@ class HairPhysicalShader(DG):
     incandescenceB = incandescence.incandescenceB
     incandb = incandescenceB
 
-    colorR = ColorRField()
+    colorR = ColorRField(default_value=(1.0, 1.0, 1.0))
     cR = colorR
     colorRR = colorR.colorRR
     cRr = colorRR
@@ -79,16 +79,16 @@ class HairPhysicalShader(DG):
     colorRB = colorR.colorRB
     cRb = colorRB
 
-    intensityR = FloatField()
+    intensityR = FloatField(default_value=0.550000011920929, soft_min_value=0.0, soft_max_value=1.0)
     iR = intensityR
 
-    longitudinalShiftR = FloatField()
+    longitudinalShiftR = FloatField(default_value=3.0, soft_min_value=-10.0, soft_max_value=10.0)
     lsR = longitudinalShiftR
 
-    longitudinalWidthR = FloatField()
+    longitudinalWidthR = FloatField(default_value=3.5, soft_min_value=0.0, soft_max_value=10.0)
     lwR = longitudinalWidthR
 
-    colorTT = ColorTTField()
+    colorTT = ColorTTField(default_value=(1.0, 1.0, 1.0))
     cTT = colorTT
     colorTTR = colorTT.colorTTR
     cTTr = colorTTR
@@ -97,19 +97,19 @@ class HairPhysicalShader(DG):
     colorTTB = colorTT.colorTTB
     cTTb = colorTTB
 
-    intensityTT = FloatField()
+    intensityTT = FloatField(default_value=0.15000000596046448, soft_min_value=0.0, soft_max_value=1.0)
     iTT = intensityTT
 
-    longitudinalShiftTT = FloatField()
+    longitudinalShiftTT = FloatField(default_value=3.0, soft_min_value=-10.0, soft_max_value=10.0)
     lsTT = longitudinalShiftTT
 
-    longitudinalWidthTT = FloatField()
+    longitudinalWidthTT = FloatField(default_value=10.0, soft_min_value=5.0, soft_max_value=10.0)
     lwTT = longitudinalWidthTT
 
-    azimuthalWidthTT = FloatField()
+    azimuthalWidthTT = FloatField(default_value=10.0, soft_min_value=5.0, soft_max_value=15.0)
     awTT = azimuthalWidthTT
 
-    colorTRT = ColorTRTField()
+    colorTRT = ColorTRTField(default_value=(0.7250000238418579, 0.3179999887943268, 0.11400000005960464))
     cTRT = colorTRT
     colorTRTR = colorTRT.colorTRTR
     cTRTr = colorTRTR
@@ -118,16 +118,16 @@ class HairPhysicalShader(DG):
     colorTRTB = colorTRT.colorTRTB
     cTRTb = colorTRTB
 
-    intensityTRT = FloatField()
+    intensityTRT = FloatField(default_value=0.15000000596046448, soft_min_value=0.0, soft_max_value=1.0)
     iTRT = intensityTRT
 
-    longitudinalShiftTRT = FloatField()
+    longitudinalShiftTRT = FloatField(default_value=3.0, soft_min_value=-10.0, soft_max_value=10.0)
     lsTRT = longitudinalShiftTRT
 
-    longitudinalWidthTRT = FloatField()
+    longitudinalWidthTRT = FloatField(default_value=15.0, soft_min_value=0.0, soft_max_value=20.0)
     lwTRT = longitudinalWidthTRT
 
-    colorG = ColorGField()
+    colorG = ColorGField(default_value=(0.7250000238418579, 0.3179999887943268, 0.11400000005960464))
     cG = colorG
     colorGR = colorG.colorGR
     cGr = colorGR
@@ -136,16 +136,16 @@ class HairPhysicalShader(DG):
     colorGB = colorG.colorGB
     cGb = colorGB
 
-    intensityG = FloatField()
+    intensityG = FloatField(default_value=0.15000000596046448, soft_min_value=0.0, soft_max_value=1.0)
     iG = intensityG
 
-    azimuthalShiftG = FloatField()
+    azimuthalShiftG = FloatField(default_value=30.0, soft_min_value=25.0, soft_max_value=45.0)
     asG = azimuthalShiftG
 
-    azimuthalWidthG = FloatField()
+    azimuthalWidthG = FloatField(default_value=15.0, soft_min_value=0.0, soft_max_value=25.0)
     awG = azimuthalWidthG
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -154,7 +154,7 @@ class HairPhysicalShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    colorD = ColorDField()
+    colorD = ColorDField(default_value=(0.2070000022649765, 0.1379999965429306, 0.0689999982714653))
     cD = colorD
     colorDR = colorD.colorDR
     cDr = colorDR
@@ -163,8 +163,8 @@ class HairPhysicalShader(DG):
     colorDB = colorD.colorDB
     cDb = colorDB
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiKdInd = FloatField()
+    aiKdInd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0, category="arnold")
     ai_kd_ind = aiKdInd

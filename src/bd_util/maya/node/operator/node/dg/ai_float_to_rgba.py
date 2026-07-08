@@ -12,7 +12,7 @@ class AiFloatToRgba(DG):
 
     NODE_TYPE = "aiFloatToRgba"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -21,10 +21,10 @@ class AiFloatToRgba(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -33,10 +33,10 @@ class AiFloatToRgba(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    r = FloatField()
+    r = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    g = FloatField()
+    g = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    b = FloatField()
+    b = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    a = FloatField()
+    a = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)

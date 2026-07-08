@@ -16,17 +16,17 @@ class FfFilletSrf(DG):
     rightCurve = DataNurbsCurveField()
     rc = rightCurve
 
-    positionTolerance = DoubleField()
+    positionTolerance = DoubleField(default_value=0.1, soft_min_value=0.0001, soft_max_value=0.1)
     pt = positionTolerance
 
-    tangentTolerance = DoubleField()
+    tangentTolerance = DoubleField(default_value=0.1, soft_min_value=0.0001, soft_max_value=0.1)
     tt = tangentTolerance
 
-    depth = DoubleField()
+    depth = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     d = depth
 
-    bias = DoubleField()
+    bias = DoubleField(default_value=0.5, min_value=-1.0, max_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     b = bias
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

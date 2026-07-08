@@ -57,7 +57,7 @@ class RotateVector(DG):
 
     NODE_TYPE = "rotateVector"
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0), readable=False)
     i = input
     inputX = input.inputX
     ix = inputX
@@ -66,7 +66,7 @@ class RotateVector(DG):
     inputZ = input.inputZ
     iz = inputZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0), readable=False)
     r = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -75,10 +75,10 @@ class RotateVector(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

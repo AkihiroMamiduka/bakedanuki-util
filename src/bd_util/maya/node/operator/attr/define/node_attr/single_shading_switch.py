@@ -18,7 +18,7 @@ class InputPlugOperator(
         ("inShape", "is"),
     )
 
-    inSingle = FloatField()
+    inSingle = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     it = inSingle
 
     inShape = MessageField()
@@ -30,7 +30,7 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inSingle = FloatField()
+    inSingle = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     it = inSingle
 
     inShape = MessageField()

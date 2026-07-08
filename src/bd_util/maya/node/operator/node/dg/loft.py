@@ -47,29 +47,29 @@ class Loft(DG):
     inputCurve = DataNurbsCurveField(multi=True)
     ic = inputCurve
 
-    uniform = BoolField()
+    uniform = BoolField(default_value=False)
     u = uniform
 
-    close = BoolField()
+    close = BoolField(default_value=False)
     c = close
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    autoReverse = BoolField()
+    autoReverse = BoolField(default_value=True)
     ar = autoReverse
 
-    reverse = BoolField(multi=True)
+    reverse = BoolField(multi=True, default_value=False)
     r = reverse
 
-    reverseSurfaceNormals = BoolField()
+    reverseSurfaceNormals = BoolField(default_value=False)
     rsn = reverseSurfaceNormals
 
-    sectionSpans = LongField()
+    sectionSpans = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
     ss = sectionSpans
 
-    createCusp = BoolField(multi=True)
+    createCusp = BoolField(multi=True, default_value=False)
     cc = createCusp

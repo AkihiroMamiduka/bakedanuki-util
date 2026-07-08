@@ -18,11 +18,11 @@ class HipsScalePlugOperator(
         ("hipsScaleZ", "hipsScaleZ"),
     )
 
-    hipsScaleX = DoubleField()
+    hipsScaleX = DoubleField(default_value=1.0)
 
-    hipsScaleY = DoubleField()
+    hipsScaleY = DoubleField(default_value=1.0)
 
-    hipsScaleZ = DoubleField()
+    hipsScaleZ = DoubleField(default_value=1.0)
 
 
 class HipsScaleAttrOperator(
@@ -30,11 +30,11 @@ class HipsScaleAttrOperator(
 ):
     __slots__ = ()
 
-    hipsScaleX = DoubleField()
+    hipsScaleX = DoubleField(default_value=1.0)
 
-    hipsScaleY = DoubleField()
+    hipsScaleY = DoubleField(default_value=1.0)
 
-    hipsScaleZ = DoubleField()
+    hipsScaleZ = DoubleField(default_value=1.0)
 
 
 class HipsScaleField(
@@ -45,8 +45,8 @@ class HipsScaleField(
     ATTR_CLS = HipsScaleAttrOperator
     PLUG_CLS = HipsScalePlugOperator
 
-    hipsScaleX = DoubleField()
+    hipsScaleX = DoubleField(default_value=1.0)
 
-    hipsScaleY = DoubleField()
+    hipsScaleY = DoubleField(default_value=1.0)
 
-    hipsScaleZ = DoubleField()
+    hipsScaleZ = DoubleField(default_value=1.0)

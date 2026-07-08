@@ -13,7 +13,7 @@ class AiPow(DG):
 
     NODE_TYPE = "aiPow"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,7 +22,7 @@ class AiPow(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +31,7 @@ class AiPow(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    base = BaseField()
+    base = BaseField(default_value=(2.7182817459106445, 2.7182817459106445, 2.7182817459106445))
     baseR = base.baseR
     baser = baseR
     baseG = base.baseG
@@ -39,7 +39,7 @@ class AiPow(DG):
     baseB = base.baseB
     baseb = baseB
 
-    exponent = ExponentField()
+    exponent = ExponentField(default_value=(0.0, 0.0, 0.0))
     exponentR = exponent.exponentR
     exponentr = exponentR
     exponentG = exponent.exponentG

@@ -8,14 +8,14 @@ class ClampRange(DG):
 
     NODE_TYPE = "clampRange"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    minimum = DoubleLinearField()
+    minimum = DoubleLinearField(default_value=0.0)
     min = minimum
 
-    maximum = DoubleLinearField()
+    maximum = DoubleLinearField(default_value=1.0)
     max = maximum
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

@@ -58,29 +58,29 @@ class ArubaTessellate(DG):
     inputSurface = DataNurbsSurfaceField(multi=True)
     is_ = inputSurface
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     om = outMesh
 
-    chordalDeviation = DoubleField()
+    chordalDeviation = DoubleField(default_value=0.0015, min_value=0.001, max_value=5.0, soft_min_value=0.001)
     cd = chordalDeviation
 
-    minChordLength = DoubleField()
+    minChordLength = DoubleField(default_value=0.01, min_value=0.01, max_value=10.0, soft_min_value=0.01)
     icl = minChordLength
 
-    maxChordLength = DoubleField()
+    maxChordLength = DoubleField(default_value=100.0, min_value=1.0, max_value=100.0, soft_min_value=0.01)
     mcl = maxChordLength
 
-    sampleType = SampleTypeEnumField()
+    sampleType = SampleTypeEnumField(default_value=3)
     st = sampleType
 
-    adaptive = BoolField()
+    adaptive = BoolField(default_value=True)
     adp = adaptive
 
-    samples = LongField()
+    samples = LongField(default_value=8, min_value=1, max_value=64)
     smp = samples
 
-    normalTolerance = DoubleField()
+    normalTolerance = DoubleField(default_value=0.0, min_value=0.0, max_value=90.0)
     ntl = normalTolerance
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.1, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance

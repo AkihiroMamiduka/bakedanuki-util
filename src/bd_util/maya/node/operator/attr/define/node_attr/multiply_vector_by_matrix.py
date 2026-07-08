@@ -18,13 +18,13 @@ class InputPlugOperator(
         ("inputZ", "z"),
     )
 
-    inputX = DoubleLinearField()
+    inputX = DoubleLinearField(default_value=0.0, readable=False)
     x = inputX
 
-    inputY = DoubleLinearField()
+    inputY = DoubleLinearField(default_value=0.0, readable=False)
     y = inputY
 
-    inputZ = DoubleLinearField()
+    inputZ = DoubleLinearField(default_value=0.0, readable=False)
     z = inputZ
 
 
@@ -33,13 +33,13 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inputX = DoubleLinearField()
+    inputX = DoubleLinearField(default_value=0.0, readable=False)
     x = inputX
 
-    inputY = DoubleLinearField()
+    inputY = DoubleLinearField(default_value=0.0, readable=False)
     y = inputY
 
-    inputZ = DoubleLinearField()
+    inputZ = DoubleLinearField(default_value=0.0, readable=False)
     z = inputZ
 
 
@@ -51,13 +51,13 @@ class InputField(
     ATTR_CLS = InputAttrOperator
     PLUG_CLS = InputPlugOperator
 
-    inputX = DoubleLinearField()
+    inputX = DoubleLinearField(default_value=0.0, readable=False)
     x = inputX
 
-    inputY = DoubleLinearField()
+    inputY = DoubleLinearField(default_value=0.0, readable=False)
     y = inputY
 
-    inputZ = DoubleLinearField()
+    inputZ = DoubleLinearField(default_value=0.0, readable=False)
     z = inputZ
 
 
@@ -71,13 +71,13 @@ class OutputPlugOperator(
         ("outputZ", "oz"),
     )
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -86,13 +86,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -104,11 +104,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ

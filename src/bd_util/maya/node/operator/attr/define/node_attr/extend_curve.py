@@ -18,13 +18,13 @@ class InputPointPlugOperator(
         ("pointZ", "pz"),
     )
 
-    pointX = DoubleLinearField()
+    pointX = DoubleLinearField(default_value=0.0)
     px = pointX
 
-    pointY = DoubleLinearField()
+    pointY = DoubleLinearField(default_value=0.0)
     py = pointY
 
-    pointZ = DoubleLinearField()
+    pointZ = DoubleLinearField(default_value=0.0)
     pz = pointZ
 
 
@@ -33,13 +33,13 @@ class InputPointAttrOperator(
 ):
     __slots__ = ()
 
-    pointX = DoubleLinearField()
+    pointX = DoubleLinearField(default_value=0.0)
     px = pointX
 
-    pointY = DoubleLinearField()
+    pointY = DoubleLinearField(default_value=0.0)
     py = pointY
 
-    pointZ = DoubleLinearField()
+    pointZ = DoubleLinearField(default_value=0.0)
     pz = pointZ
 
 
@@ -51,11 +51,11 @@ class InputPointField(
     ATTR_CLS = InputPointAttrOperator
     PLUG_CLS = InputPointPlugOperator
 
-    pointX = DoubleLinearField()
+    pointX = DoubleLinearField(default_value=0.0)
     px = pointX
 
-    pointY = DoubleLinearField()
+    pointY = DoubleLinearField(default_value=0.0)
     py = pointY
 
-    pointZ = DoubleLinearField()
+    pointZ = DoubleLinearField(default_value=0.0)
     pz = pointZ

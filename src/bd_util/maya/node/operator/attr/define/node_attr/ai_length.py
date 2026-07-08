@@ -18,13 +18,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -33,13 +33,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -51,13 +51,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -71,13 +71,13 @@ class InputPlugOperator(
         ("inputZ", "inputz"),
     )
 
-    inputX = FloatField()
+    inputX = FloatField(default_value=0.0)
     inputx = inputX
 
-    inputY = FloatField()
+    inputY = FloatField(default_value=0.0)
     inputy = inputY
 
-    inputZ = FloatField()
+    inputZ = FloatField(default_value=0.0)
     inputz = inputZ
 
 
@@ -86,13 +86,13 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inputX = FloatField()
+    inputX = FloatField(default_value=0.0)
     inputx = inputX
 
-    inputY = FloatField()
+    inputY = FloatField(default_value=0.0)
     inputy = inputY
 
-    inputZ = FloatField()
+    inputZ = FloatField(default_value=0.0)
     inputz = inputZ
 
 
@@ -104,11 +104,11 @@ class InputField(
     ATTR_CLS = InputAttrOperator
     PLUG_CLS = InputPlugOperator
 
-    inputX = FloatField()
+    inputX = FloatField(default_value=0.0)
     inputx = inputX
 
-    inputY = FloatField()
+    inputY = FloatField(default_value=0.0)
     inputy = inputY
 
-    inputZ = FloatField()
+    inputZ = FloatField(default_value=0.0)
     inputz = inputZ

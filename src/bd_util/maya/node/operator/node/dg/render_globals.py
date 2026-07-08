@@ -481,22 +481,22 @@ class RenderGlobals(DG):
 
     NODE_TYPE = "renderGlobals"
 
-    macCodec = LongField()
+    macCodec = LongField(default_value=1919706400)
     macc = macCodec
 
-    macDepth = LongField()
+    macDepth = LongField(default_value=32)
     macd = macDepth
 
-    macQual = LongField()
+    macQual = LongField(default_value=1024)
     macq = macQual
 
-    comFrrt = LongField()
+    comFrrt = LongField(default_value=24)
     mcfr = comFrrt
 
-    renderAll = BoolField()
+    renderAll = BoolField(default_value=True)
     ra = renderAll
 
-    ignoreFilmGate = BoolField()
+    ignoreFilmGate = BoolField(default_value=True)
     ifg = ignoreFilmGate
 
     quality = MessageField()
@@ -505,100 +505,100 @@ class RenderGlobals(DG):
     resolution = MessageField()
     res = resolution
 
-    clipFinalShadedColor = BoolField()
+    clipFinalShadedColor = BoolField(default_value=True)
     clip = clipFinalShadedColor
 
-    enableDepthMaps = BoolField()
+    enableDepthMaps = BoolField(default_value=True)
     edm = enableDepthMaps
 
-    enableDefaultLight = BoolField()
+    enableDefaultLight = BoolField(default_value=True)
     edl = enableDefaultLight
 
     currentRenderer = DataStringField()
     ren = currentRenderer
 
-    enableStrokeRender = BoolField()
+    enableStrokeRender = BoolField(default_value=True)
     esr = enableStrokeRender
 
-    onlyRenderStrokes = BoolField()
+    onlyRenderStrokes = BoolField(default_value=False)
     ors = onlyRenderStrokes
 
     strokesDepthFile = DataStringField()
     sdf = strokesDepthFile
 
-    imageFormat = ImageFormatEnumField()
+    imageFormat = ImageFormatEnumField(default_value=32)
     outf = imageFormat
 
     imfPluginKey = DataStringField()
     imfkey = imfPluginKey
 
-    gammaCorrection = FloatField()
+    gammaCorrection = FloatField(default_value=1.0)
     gama = gammaCorrection
 
-    bitDepth = BitDepthEnumField()
+    bitDepth = BitDepthEnumField(default_value=0)
     bitd = bitDepth
 
-    tiffCompression = TiffCompressionEnumField()
+    tiffCompression = TiffCompressionEnumField(default_value=0)
     tiffc = tiffCompression
 
-    exrCompression = ExrCompressionEnumField()
+    exrCompression = ExrCompressionEnumField(default_value=0)
     exrc = exrCompression
 
-    exrPixelType = ExrPixelTypeEnumField()
+    exrPixelType = ExrPixelTypeEnumField(default_value=0)
     expt = exrPixelType
 
-    topRegion = LongField()
+    topRegion = LongField(default_value=256)
     top = topRegion
 
-    leftRegion = LongField()
+    leftRegion = LongField(default_value=0)
     left = leftRegion
 
-    bottomRegion = LongField()
+    bottomRegion = LongField(default_value=0)
     bot = bottomRegion
 
-    rightRegion = LongField()
+    rightRegion = LongField(default_value=256)
     rght = rightRegion
 
-    useRenderRegion = BoolField()
+    useRenderRegion = BoolField(default_value=False)
     urr = useRenderRegion
 
-    animation = BoolField()
+    animation = BoolField(default_value=False)
     an = animation
 
-    animationRange = AnimationRangeEnumField()
+    animationRange = AnimationRangeEnumField(default_value=1)
     ar = animationRange
 
-    startFrame = TimeField()
+    startFrame = TimeField(default_value=2.5)
     fs = startFrame
 
-    endFrame = TimeField()
+    endFrame = TimeField(default_value=25.0)
     ef = endFrame
 
-    byFrame = TimeField()
+    byFrame = TimeField(default_value=2.5)
     bf = byFrame
 
-    byFrameStep = FloatField()
+    byFrameStep = FloatField(default_value=1.0)
     bfs = byFrameStep
 
-    skipExistingFrames = BoolField()
+    skipExistingFrames = BoolField(default_value=False)
     sef = skipExistingFrames
 
-    modifyExtension = BoolField()
+    modifyExtension = BoolField(default_value=False)
     me = modifyExtension
 
-    startExtension = FloatField()
+    startExtension = FloatField(default_value=1.0)
     se = startExtension
 
-    byExtension = FloatField()
+    byExtension = FloatField(default_value=1.0)
     be = byExtension
 
-    extensionPadding = LongField()
+    extensionPadding = LongField(default_value=4, min_value=0, max_value=10)
     ep = extensionPadding
 
-    fieldExtControl = FieldExtControlEnumField()
+    fieldExtControl = FieldExtControlEnumField(default_value=0)
     fec = fieldExtControl
 
-    outFormatControl = OutFormatControlEnumField()
+    outFormatControl = OutFormatControlEnumField(default_value=0)
     ofc = outFormatControl
 
     oddFieldExt = DataStringField()
@@ -610,16 +610,16 @@ class RenderGlobals(DG):
     outFormatExt = DataStringField()
     oft = outFormatExt
 
-    useMayaFileName = BoolField()
+    useMayaFileName = BoolField(default_value=True)
     umfn = useMayaFileName
 
-    useFrameExt = BoolField()
+    useFrameExt = BoolField(default_value=False)
     ufe = useFrameExt
 
-    putFrameBeforeExt = BoolField()
+    putFrameBeforeExt = BoolField(default_value=False)
     pff = putFrameBeforeExt
 
-    periodInExt = PeriodInExtEnumField()
+    periodInExt = PeriodInExtEnumField(default_value=1)
     peie = periodInExt
 
     imageFilePrefix = DataStringField()
@@ -631,91 +631,91 @@ class RenderGlobals(DG):
     bufferName = DataStringField()
     bn = bufferName
 
-    multiCamNamingMode = MultiCamNamingModeEnumField()
+    multiCamNamingMode = MultiCamNamingModeEnumField(default_value=0)
     mcnm = multiCamNamingMode
 
-    composite = BoolField()
+    composite = BoolField(default_value=False)
     comp = composite
 
-    compositeThreshold = FloatField()
+    compositeThreshold = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     cth = compositeThreshold
 
-    shadowsObeyLightLinking = BoolField()
+    shadowsObeyLightLinking = BoolField(default_value=True)
     soll = shadowsObeyLightLinking
 
-    shadowsObeyShadowLinking = BoolField()
+    shadowsObeyShadowLinking = BoolField(default_value=False)
     sosl = shadowsObeyShadowLinking
 
-    recursionDepth = LongField()
+    recursionDepth = LongField(default_value=2, min_value=0, max_value=10, soft_min_value=1, soft_max_value=3)
     rd = recursionDepth
 
-    leafPrimitives = LongField()
+    leafPrimitives = LongField(default_value=200, min_value=50, max_value=5000)
     lp = leafPrimitives
 
-    subdivisionPower = FloatField()
+    subdivisionPower = FloatField(default_value=0.25, min_value=0.01, max_value=1.0)
     sp = subdivisionPower
 
-    subdivisionHashSize = LongField()
+    subdivisionHashSize = LongField(default_value=5, min_value=1, max_value=100)
     shs = subdivisionHashSize
 
-    logRenderPerformance = BoolField()
+    logRenderPerformance = BoolField(default_value=False)
     lpr = logRenderPerformance
 
-    geometryVector = LongField()
+    geometryVector = LongField(default_value=20, min_value=1, max_value=500, soft_min_value=10, soft_max_value=100)
     gv = geometryVector
 
-    shadingVector = LongField()
+    shadingVector = LongField(default_value=60, min_value=1, max_value=500, soft_min_value=10, soft_max_value=100)
     sv = shadingVector
 
-    maximumMemory = LongField()
+    maximumMemory = LongField(default_value=48, min_value=1, max_value=2048)
     mm = maximumMemory
 
-    numCpusToUse = LongField()
+    numCpusToUse = LongField(default_value=0, min_value=0, soft_min_value=1, soft_max_value=8)
     npu = numCpusToUse
 
-    interruptFrequency = LongField()
+    interruptFrequency = LongField(default_value=1, min_value=-1)
     itf = interruptFrequency
 
-    shadowPass = BoolField()
+    shadowPass = BoolField(default_value=False)
     shp = shadowPass
 
-    iprShadowPass = BoolField()
+    iprShadowPass = BoolField(default_value=False)
     isp = iprShadowPass
 
-    useFileCache = BoolField()
+    useFileCache = BoolField(default_value=True)
     uf = useFileCache
 
-    optimizeInstances = BoolField()
+    optimizeInstances = BoolField(default_value=True)
     oi = optimizeInstances
 
-    reuseTessellations = BoolField()
+    reuseTessellations = BoolField(default_value=True)
     rut = reuseTessellations
 
-    matteOpacityUsesTransparency = BoolField()
+    matteOpacityUsesTransparency = BoolField(default_value=True)
     mot = matteOpacityUsesTransparency
 
-    motionBlur = BoolField()
+    motionBlur = BoolField(default_value=False)
     mb = motionBlur
 
-    motionBlurByFrame = FloatField()
+    motionBlurByFrame = FloatField(default_value=1.0)
     mbf = motionBlurByFrame
 
-    motionBlurUseShutter = BoolField()
+    motionBlurUseShutter = BoolField(default_value=False)
     mbus = motionBlurUseShutter
 
-    motionBlurShutterOpen = FloatField()
+    motionBlurShutterOpen = FloatField(default_value=-0.5)
     mbso = motionBlurShutterOpen
 
-    motionBlurShutterClose = FloatField()
+    motionBlurShutterClose = FloatField(default_value=0.5)
     mbsc = motionBlurShutterClose
 
     fogGeometry = MessageField()
     fg = fogGeometry
 
-    applyFogInPost = BoolField()
+    applyFogInPost = BoolField(default_value=False)
     afp = applyFogInPost
 
-    postFogBlur = LongField()
+    postFogBlur = LongField(default_value=1, min_value=0, max_value=1000, soft_min_value=0, soft_max_value=10)
     pfb = postFogBlur
 
     preMel = DataStringField()
@@ -742,82 +742,82 @@ class RenderGlobals(DG):
     postFurRenderMel = DataStringField()
     pfom = postFurRenderMel
 
-    createIprFile = BoolField()
+    createIprFile = BoolField(default_value=False)
     cif = createIprFile
 
-    blurLength = FloatField()
+    blurLength = FloatField(default_value=1.0, min_value=0.0, max_value=100.0, soft_min_value=0.0, soft_max_value=30.0)
     bll = blurLength
 
-    blurSharpness = FloatField()
+    blurSharpness = FloatField(default_value=1.0, min_value=0.0, max_value=100.0, soft_min_value=0.0, soft_max_value=15.0)
     bls = blurSharpness
 
-    smoothValue = LongField()
+    smoothValue = LongField(default_value=2, min_value=0)
     smv = smoothValue
 
-    useBlur2DMemoryCap = BoolField()
+    useBlur2DMemoryCap = BoolField(default_value=True)
     ubc = useBlur2DMemoryCap
 
-    blur2DMemoryCap = FloatField()
+    blur2DMemoryCap = FloatField(default_value=200.0, min_value=1.0)
     mbc = blur2DMemoryCap
 
-    motionBlurType = MotionBlurTypeEnumField()
+    motionBlurType = MotionBlurTypeEnumField(default_value=1)
     mbt = motionBlurType
 
-    useDisplacementBoundingBox = BoolField()
+    useDisplacementBoundingBox = BoolField(default_value=True)
     udbx = useDisplacementBoundingBox
 
-    smoothColor = BoolField()
+    smoothColor = BoolField(default_value=False)
     smc = smoothColor
 
-    keepMotionVector = BoolField()
+    keepMotionVector = BoolField(default_value=False)
     kmv = keepMotionVector
 
-    iprRenderShading = BoolField()
+    iprRenderShading = BoolField(default_value=True)
     isl = iprRenderShading
 
-    iprRenderShadowMaps = BoolField()
+    iprRenderShadowMaps = BoolField(default_value=True)
     ism = iprRenderShadowMaps
 
-    iprRenderMotionBlur = BoolField()
+    iprRenderMotionBlur = BoolField(default_value=True)
     imb = iprRenderMotionBlur
 
     rendercallback = MessageField()
     rcb = rendercallback
 
-    renderLayerEnable = BoolField()
+    renderLayerEnable = BoolField(default_value=False)
     rlen = renderLayerEnable
 
-    forceTileSize = BoolField()
+    forceTileSize = BoolField(default_value=False)
     frts = forceTileSize
 
-    tileWidth = ShortField()
+    tileWidth = ShortField(default_value=64)
     tlwd = tileWidth
 
-    tileHeight = ShortField()
+    tileHeight = ShortField(default_value=64)
     tlht = tileHeight
 
-    jitterFinalColor = BoolField()
+    jitterFinalColor = BoolField(default_value=True)
     jfc = jitterFinalColor
 
-    raysSeeBackground = BoolField()
+    raysSeeBackground = BoolField(default_value=True)
     rsb = raysSeeBackground
 
-    oversamplePaintEffects = BoolField()
+    oversamplePaintEffects = BoolField(default_value=False)
     ope = oversamplePaintEffects
 
-    oversamplePfxPostFilter = BoolField()
+    oversamplePfxPostFilter = BoolField(default_value=False)
     oppf = oversamplePfxPostFilter
 
-    colorProfileEnabled = BoolField()
+    colorProfileEnabled = BoolField(default_value=False)
     cpe = colorProfileEnabled
 
-    renderingColorProfile = LongField()
+    renderingColorProfile = LongField(default_value=2)
     rcp = renderingColorProfile
 
-    inputColorProfile = LongField()
+    inputColorProfile = LongField(default_value=3)
     icp = inputColorProfile
 
-    outputColorProfile = LongField()
+    outputColorProfile = LongField(default_value=2)
     ocp = outputColorProfile
 
     hyperShadeBinList = DataStringField()
@@ -826,7 +826,7 @@ class RenderGlobals(DG):
     swatchCamera = MessageField()
     sc = swatchCamera
 
-    renderedOutput = RenderedOutputEnumField()
+    renderedOutput = RenderedOutputEnumField(default_value=0)
     ro = renderedOutput
 
     defaultTraversalSet = DataStringField()

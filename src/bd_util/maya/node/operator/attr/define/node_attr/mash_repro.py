@@ -57,12 +57,12 @@ class InstancedGroupPlugOperator(
         ("groupMatrix", "gmtx"),
     )
 
-    instancedMesh = CompoundField()
+    instancedMesh = CompoundField(multi=True)
     inMesh = instancedMesh
 
-    proxyGroup = CompoundField()
+    proxyGroup = CompoundField(multi=True)
 
-    displayType = DisplayTypeEnumField()
+    displayType = DisplayTypeEnumField(default_value=0)
 
     groupMessage = MessageField()
     gmsg = groupMessage
@@ -76,12 +76,12 @@ class InstancedGroupAttrOperator(
 ):
     __slots__ = ()
 
-    instancedMesh = CompoundField()
+    instancedMesh = CompoundField(multi=True)
     inMesh = instancedMesh
 
-    proxyGroup = CompoundField()
+    proxyGroup = CompoundField(multi=True)
 
-    displayType = DisplayTypeEnumField()
+    displayType = DisplayTypeEnumField(default_value=0)
 
     groupMessage = MessageField()
     gmsg = groupMessage

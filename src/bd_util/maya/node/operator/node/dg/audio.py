@@ -12,44 +12,44 @@ class Audio(DG):
 
     NODE_TYPE = "audio"
 
-    offset = TimeField()
+    offset = TimeField(default_value=0.0)
     o = offset
 
-    endFrame = TimeField()
+    endFrame = TimeField(default_value=0.0)
     ef = endFrame
 
-    silence = TimeField()
+    silence = TimeField(default_value=0.0, min_value=0.0)
     si = silence
 
-    sourceStart = TimeField()
+    sourceStart = TimeField(default_value=0.0, min_value=0.0)
     ss = sourceStart
 
-    sourceEnd = TimeField()
+    sourceEnd = TimeField(default_value=0.0)
     se = sourceEnd
 
     filename = DataStringField()
     f = filename
 
-    order = LongField()
+    order = LongField(default_value=1, min_value=1)
     r = order
 
-    track = LongField()
+    track = LongField(default_value=1, min_value=1)
     tk = track
 
-    trackState = ShortField()
+    trackState = ShortField(default_value=0, min_value=0)
     ts = trackState
 
-    frameCount = LongField()
+    frameCount = LongField(default_value=0, writable=False)
     fc = frameCount
 
-    channels = LongField()
+    channels = LongField(default_value=0, writable=False)
     c = channels
 
-    sampleRate = LongField()
+    sampleRate = LongField(default_value=0, writable=False)
     sr = sampleRate
 
-    duration = TimeField()
+    duration = TimeField(default_value=0.0, writable=False)
     du = duration
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     mu = mute

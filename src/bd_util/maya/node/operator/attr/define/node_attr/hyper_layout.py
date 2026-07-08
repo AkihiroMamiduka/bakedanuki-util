@@ -30,19 +30,19 @@ class HyperPositionPlugOperator(
         ("dependNode", "dn"),
     )
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.0)
     x = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.0)
     y = positionY
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    isFreeform = BoolField()
+    isFreeform = BoolField(default_value=False)
     isf = isFreeform
 
-    nodeVisualState = LongField()
+    nodeVisualState = LongField(default_value=0)
     nvs = nodeVisualState
 
     dependNode = MessageField()
@@ -54,19 +54,19 @@ class HyperPositionAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.0)
     x = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.0)
     y = positionY
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    isFreeform = BoolField()
+    isFreeform = BoolField(default_value=False)
     isf = isFreeform
 
-    nodeVisualState = LongField()
+    nodeVisualState = LongField(default_value=0)
     nvs = nodeVisualState
 
     dependNode = MessageField()
@@ -91,10 +91,10 @@ class ImagePositionPlugOperator(
         ("imagePositionY", "ipy"),
     )
 
-    imagePositionX = DoubleField()
+    imagePositionX = DoubleField(default_value=0.0)
     ipx = imagePositionX
 
-    imagePositionY = DoubleField()
+    imagePositionY = DoubleField(default_value=0.0)
     ipy = imagePositionY
 
 
@@ -103,10 +103,10 @@ class ImagePositionAttrOperator(
 ):
     __slots__ = ()
 
-    imagePositionX = DoubleField()
+    imagePositionX = DoubleField(default_value=0.0)
     ipx = imagePositionX
 
-    imagePositionY = DoubleField()
+    imagePositionY = DoubleField(default_value=0.0)
     ipy = imagePositionY
 
 
@@ -118,8 +118,8 @@ class ImagePositionField(
     ATTR_CLS = ImagePositionAttrOperator
     PLUG_CLS = ImagePositionPlugOperator
 
-    imagePositionX = DoubleField()
+    imagePositionX = DoubleField(default_value=0.0)
     ipx = imagePositionX
 
-    imagePositionY = DoubleField()
+    imagePositionY = DoubleField(default_value=0.0)
     ipy = imagePositionY

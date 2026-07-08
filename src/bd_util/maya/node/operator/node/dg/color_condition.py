@@ -14,7 +14,7 @@ class ColorCondition(DG):
 
     NODE_TYPE = "colorCondition"
 
-    colorA = ColorAField()
+    colorA = ColorAField(default_value=(1.0, 0.0, 0.0))
     ca = colorA
     colorAR = colorA.colorAR
     car = colorAR
@@ -23,10 +23,10 @@ class ColorCondition(DG):
     colorAB = colorA.colorAB
     cab = colorAB
 
-    alphaA = FloatField()
+    alphaA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     aa = alphaA
 
-    colorB = ColorBField()
+    colorB = ColorBField(default_value=(0.0, 1.0, 0.0))
     cb = colorB
     colorBR = colorB.colorBR
     cbr = colorBR
@@ -35,13 +35,13 @@ class ColorCondition(DG):
     colorBB = colorB.colorBB
     cbb = colorBB
 
-    alphaB = FloatField()
+    alphaB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ab = alphaB
 
-    condition = BoolField()
+    condition = BoolField(default_value=False)
     cnd = condition
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -50,5 +50,5 @@ class ColorCondition(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

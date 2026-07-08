@@ -16,17 +16,17 @@ class DeleteComponent(DG):
     deleteComponents = TypedField()
     dc = deleteComponents
 
-    outputGeometry = GenericField()
+    outputGeometry = GenericField(writable=False)
     og = outputGeometry
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap

@@ -11,35 +11,35 @@ class XgmModifierNoise(DG):
 
     NODE_TYPE = "xgmModifierNoise"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    frequency = FloatField()
+    frequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     fy = frequency
 
-    magnitude = FloatField()
+    magnitude = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True)
+    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     ms = magnitudeScale
 
-    correlation = FloatField()
+    correlation = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     cl = correlation
 
-    preserveLength = FloatField()
+    preserveLength = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     pl = preserveLength
 
     tweak = TypedField()
     t = tweak
 
-    live = BoolField()
+    live = BoolField(default_value=True)
     lv = live

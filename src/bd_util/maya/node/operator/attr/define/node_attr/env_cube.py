@@ -23,13 +23,13 @@ class NormalCameraPlugOperator(
         ("normalCameraZ", "nz"),
     )
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -38,13 +38,13 @@ class NormalCameraAttrOperator(
 ):
     __slots__ = ()
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -56,13 +56,13 @@ class NormalCameraField(
     ATTR_CLS = NormalCameraAttrOperator
     PLUG_CLS = NormalCameraPlugOperator
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -76,13 +76,13 @@ class RayDirectionPlugOperator(
         ("rayDirectionZ", "rz"),
     )
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -91,13 +91,13 @@ class RayDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -109,13 +109,13 @@ class RayDirectionField(
     ATTR_CLS = RayDirectionAttrOperator
     PLUG_CLS = RayDirectionPlugOperator
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -128,10 +128,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -140,10 +140,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -155,10 +155,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -171,10 +171,10 @@ class UvFilterSizePlugOperator(
         ("uvFilterSizeY", "ufy"),
     )
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -183,10 +183,10 @@ class UvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -198,10 +198,10 @@ class UvFilterSizeField(
     ATTR_CLS = UvFilterSizeAttrOperator
     PLUG_CLS = UvFilterSizePlugOperator
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -215,13 +215,13 @@ class FilterSizePlugOperator(
         ("filterSizeZ", "fsz"),
     )
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -230,13 +230,13 @@ class FilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -248,13 +248,13 @@ class FilterSizeField(
     ATTR_CLS = FilterSizeAttrOperator
     PLUG_CLS = FilterSizePlugOperator
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -268,13 +268,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -283,13 +283,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -301,13 +301,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -321,13 +321,13 @@ class PointWorldPlugOperator(
         ("pointWorldZ", "pwz"),
     )
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -336,13 +336,13 @@ class PointWorldAttrOperator(
 ):
     __slots__ = ()
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -354,13 +354,13 @@ class PointWorldField(
     ATTR_CLS = PointWorldAttrOperator
     PLUG_CLS = PointWorldPlugOperator
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -374,13 +374,13 @@ class LeftPlugOperator(
         ("leftB", "leb"),
     )
 
-    leftR = FloatField()
+    leftR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ler = leftR
 
-    leftG = FloatField()
+    leftG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leg = leftG
 
-    leftB = FloatField()
+    leftB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leb = leftB
 
 
@@ -389,13 +389,13 @@ class LeftAttrOperator(
 ):
     __slots__ = ()
 
-    leftR = FloatField()
+    leftR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ler = leftR
 
-    leftG = FloatField()
+    leftG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leg = leftG
 
-    leftB = FloatField()
+    leftB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leb = leftB
 
 
@@ -407,13 +407,13 @@ class LeftField(
     ATTR_CLS = LeftAttrOperator
     PLUG_CLS = LeftPlugOperator
 
-    leftR = FloatField()
+    leftR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ler = leftR
 
-    leftG = FloatField()
+    leftG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leg = leftG
 
-    leftB = FloatField()
+    leftB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     leb = leftB
 
 
@@ -427,13 +427,13 @@ class RightPlugOperator(
         ("rightB", "rib"),
     )
 
-    rightR = FloatField()
+    rightR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rir = rightR
 
-    rightG = FloatField()
+    rightG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rig = rightG
 
-    rightB = FloatField()
+    rightB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rib = rightB
 
 
@@ -442,13 +442,13 @@ class RightAttrOperator(
 ):
     __slots__ = ()
 
-    rightR = FloatField()
+    rightR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rir = rightR
 
-    rightG = FloatField()
+    rightG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rig = rightG
 
-    rightB = FloatField()
+    rightB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rib = rightB
 
 
@@ -460,13 +460,13 @@ class RightField(
     ATTR_CLS = RightAttrOperator
     PLUG_CLS = RightPlugOperator
 
-    rightR = FloatField()
+    rightR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rir = rightR
 
-    rightG = FloatField()
+    rightG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rig = rightG
 
-    rightB = FloatField()
+    rightB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rib = rightB
 
 
@@ -480,13 +480,13 @@ class TopPlugOperator(
         ("topB", "tob"),
     )
 
-    topR = FloatField()
+    topR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tor = topR
 
-    topG = FloatField()
+    topG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tog = topG
 
-    topB = FloatField()
+    topB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tob = topB
 
 
@@ -495,13 +495,13 @@ class TopAttrOperator(
 ):
     __slots__ = ()
 
-    topR = FloatField()
+    topR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tor = topR
 
-    topG = FloatField()
+    topG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tog = topG
 
-    topB = FloatField()
+    topB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tob = topB
 
 
@@ -513,13 +513,13 @@ class TopField(
     ATTR_CLS = TopAttrOperator
     PLUG_CLS = TopPlugOperator
 
-    topR = FloatField()
+    topR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tor = topR
 
-    topG = FloatField()
+    topG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tog = topG
 
-    topB = FloatField()
+    topB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tob = topB
 
 
@@ -533,13 +533,13 @@ class BottomPlugOperator(
         ("bottomB", "bob"),
     )
 
-    bottomR = FloatField()
+    bottomR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bor = bottomR
 
-    bottomG = FloatField()
+    bottomG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bog = bottomG
 
-    bottomB = FloatField()
+    bottomB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bob = bottomB
 
 
@@ -548,13 +548,13 @@ class BottomAttrOperator(
 ):
     __slots__ = ()
 
-    bottomR = FloatField()
+    bottomR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bor = bottomR
 
-    bottomG = FloatField()
+    bottomG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bog = bottomG
 
-    bottomB = FloatField()
+    bottomB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bob = bottomB
 
 
@@ -566,13 +566,13 @@ class BottomField(
     ATTR_CLS = BottomAttrOperator
     PLUG_CLS = BottomPlugOperator
 
-    bottomR = FloatField()
+    bottomR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bor = bottomR
 
-    bottomG = FloatField()
+    bottomG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bog = bottomG
 
-    bottomB = FloatField()
+    bottomB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bob = bottomB
 
 
@@ -586,13 +586,13 @@ class FrontPlugOperator(
         ("frontB", "frb"),
     )
 
-    frontR = FloatField()
+    frontR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frr = frontR
 
-    frontG = FloatField()
+    frontG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frg = frontG
 
-    frontB = FloatField()
+    frontB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frb = frontB
 
 
@@ -601,13 +601,13 @@ class FrontAttrOperator(
 ):
     __slots__ = ()
 
-    frontR = FloatField()
+    frontR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frr = frontR
 
-    frontG = FloatField()
+    frontG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frg = frontG
 
-    frontB = FloatField()
+    frontB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frb = frontB
 
 
@@ -619,13 +619,13 @@ class FrontField(
     ATTR_CLS = FrontAttrOperator
     PLUG_CLS = FrontPlugOperator
 
-    frontR = FloatField()
+    frontR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frr = frontR
 
-    frontG = FloatField()
+    frontG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frg = frontG
 
-    frontB = FloatField()
+    frontB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     frb = frontB
 
 
@@ -639,13 +639,13 @@ class BackPlugOperator(
         ("backB", "bab"),
     )
 
-    backR = FloatField()
+    backR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bar = backR
 
-    backG = FloatField()
+    backG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bag = backG
 
-    backB = FloatField()
+    backB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bab = backB
 
 
@@ -654,13 +654,13 @@ class BackAttrOperator(
 ):
     __slots__ = ()
 
-    backR = FloatField()
+    backR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bar = backR
 
-    backG = FloatField()
+    backG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bag = backG
 
-    backB = FloatField()
+    backB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bab = backB
 
 
@@ -672,11 +672,11 @@ class BackField(
     ATTR_CLS = BackAttrOperator
     PLUG_CLS = BackPlugOperator
 
-    backR = FloatField()
+    backR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bar = backR
 
-    backG = FloatField()
+    backG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bag = backG
 
-    backB = FloatField()
+    backB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bab = backB

@@ -106,7 +106,7 @@ class CharacterOffset(DG):
 
     NODE_TYPE = "characterOffset"
 
-    inRootTranslate = InRootTranslateField()
+    inRootTranslate = InRootTranslateField(default_value=(0.0, 0.0, 0.0))
     rti = inRootTranslate
     inRootTranslateX = inRootTranslate.inRootTranslateX
     rtix = inRootTranslateX
@@ -115,7 +115,7 @@ class CharacterOffset(DG):
     inRootTranslateZ = inRootTranslate.inRootTranslateZ
     rtiz = inRootTranslateZ
 
-    inRootRotate = InRootRotateField()
+    inRootRotate = InRootRotateField(default_value=(0.0, 0.0, 0.0))
     rri = inRootRotate
     inRootRotateX = inRootRotate.inRootRotateX
     rrix = inRootRotateX
@@ -124,10 +124,10 @@ class CharacterOffset(DG):
     inRootRotateZ = inRootRotate.inRootRotateZ
     rriz = inRootRotateZ
 
-    rootRotateOrder = RootRotateOrderEnumField()
+    rootRotateOrder = RootRotateOrderEnumField(default_value=0)
     rror = rootRotateOrder
 
-    rootJointOrient = RootJointOrientField()
+    rootJointOrient = RootJointOrientField(default_value=(0.0, 0.0, 0.0))
     rjo = rootJointOrient
     rootJointOrientX = rootJointOrient.rootJointOrientX
     rjox = rootJointOrientX
@@ -142,13 +142,13 @@ class CharacterOffset(DG):
     rootParentInverseMatrix = DataMatrixField()
     rpim = rootParentInverseMatrix
 
-    applyControlParentTransform = BoolField()
+    applyControlParentTransform = BoolField(default_value=False)
     acpx = applyControlParentTransform
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     nabl = enable
 
-    offsetRootTranslate = OffsetRootTranslateField()
+    offsetRootTranslate = OffsetRootTranslateField(default_value=(0.0, 0.0, 0.0))
     rtf = offsetRootTranslate
     offsetRootTranslateX = offsetRootTranslate.offsetRootTranslateX
     rtfx = offsetRootTranslateX
@@ -157,7 +157,7 @@ class CharacterOffset(DG):
     offsetRootTranslateZ = offsetRootTranslate.offsetRootTranslateZ
     rtfz = offsetRootTranslateZ
 
-    initialOffsetRootTranslate = InitialOffsetRootTranslateField()
+    initialOffsetRootTranslate = InitialOffsetRootTranslateField(default_value=(0.0, 0.0, 0.0))
     itf = initialOffsetRootTranslate
     initialOffsetRootTranslateX = initialOffsetRootTranslate.initialOffsetRootTranslateX
     itfx = initialOffsetRootTranslateX
@@ -166,7 +166,7 @@ class CharacterOffset(DG):
     initialOffsetRootTranslateZ = initialOffsetRootTranslate.initialOffsetRootTranslateZ
     itfz = initialOffsetRootTranslateZ
 
-    rotateControlScale = RotateControlScaleField()
+    rotateControlScale = RotateControlScaleField(default_value=(1.0, 1.0, 1.0))
     rcs = rotateControlScale
     rotateControlScaleX = rotateControlScale.rotateControlScaleX
     rcsx = rotateControlScaleX
@@ -178,7 +178,7 @@ class CharacterOffset(DG):
     rotateControlParentMatrix = DataMatrixField()
     rcpm = rotateControlParentMatrix
 
-    offsetRootRotate = OffsetRootRotateField()
+    offsetRootRotate = OffsetRootRotateField(default_value=(0.0, 0.0, 0.0))
     rrf = offsetRootRotate
     offsetRootRotateX = offsetRootRotate.offsetRootRotateX
     rrfx = offsetRootRotateX
@@ -187,10 +187,10 @@ class CharacterOffset(DG):
     offsetRootRotateZ = offsetRootRotate.offsetRootRotateZ
     rrfz = offsetRootRotateZ
 
-    offsetRootRotateOrder = OffsetRootRotateOrderEnumField()
+    offsetRootRotateOrder = OffsetRootRotateOrderEnumField(default_value=0)
     rfor = offsetRootRotateOrder
 
-    offsetRootRotatePivot = OffsetRootRotatePivotField()
+    offsetRootRotatePivot = OffsetRootRotatePivotField(default_value=(0.0, 0.0, 0.0))
     rpf = offsetRootRotatePivot
     offsetRootRotatePivotX = offsetRootRotatePivot.offsetRootRotatePivotX
     rppfx = offsetRootRotatePivotX
@@ -199,7 +199,7 @@ class CharacterOffset(DG):
     offsetRootRotatePivotZ = offsetRootRotatePivot.offsetRootRotatePivotZ
     rppfz = offsetRootRotatePivotZ
 
-    outRootTranslate = OutRootTranslateField()
+    outRootTranslate = OutRootTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
     rto = outRootTranslate
     outRootTranslateX = outRootTranslate.outRootTranslateX
     rtox = outRootTranslateX
@@ -208,7 +208,7 @@ class CharacterOffset(DG):
     outRootTranslateZ = outRootTranslate.outRootTranslateZ
     rtoz = outRootTranslateZ
 
-    outRootRotate = OutRootRotateField()
+    outRootRotate = OutRootRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
     rro = outRootRotate
     outRootRotateX = outRootRotate.outRootRotateX
     rrox = outRootRotateX

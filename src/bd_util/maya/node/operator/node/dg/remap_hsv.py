@@ -54,7 +54,7 @@ class RemapHsv(DG):
 
     NODE_TYPE = "remapHsv"
 
-    color = ColorField()
+    color = ColorField(default_value=(0.5, 0.5, 0.5))
     cl = color
     colorR = color.colorR
     cr = colorR
@@ -63,31 +63,31 @@ class RemapHsv(DG):
     colorB = color.colorB
     cb = colorB
 
-    inputMin = FloatField()
+    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     imn = inputMin
 
-    inputMax = FloatField()
+    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     imx = inputMax
 
-    outputMin = FloatField()
+    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     omn = outputMin
 
-    outputMax = FloatField()
+    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     omx = outputMax
 
-    hue = HueField(multi=True)
+    hue = HueField(multi=True, default_value=(0.0, 0.0, 0.0))
     h = hue
 
-    saturation = SaturationField(multi=True)
+    saturation = SaturationField(multi=True, default_value=(0.0, 0.0, 0.0))
     s = saturation
 
-    value = ValueField(multi=True)
+    value = ValueField(multi=True, default_value=(0.0, 0.0, 0.0))
     v = value
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

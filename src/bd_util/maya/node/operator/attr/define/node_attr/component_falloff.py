@@ -22,7 +22,7 @@ class WeightInfoLayersPlugOperator(
     layerName = DataStringField()
     lnm = layerName
 
-    defaultWeight = FloatField()
+    defaultWeight = FloatField(default_value=1.0)
     dwt = defaultWeight
 
 
@@ -34,7 +34,7 @@ class WeightInfoLayersAttrOperator(
     layerName = DataStringField()
     lnm = layerName
 
-    defaultWeight = FloatField()
+    defaultWeight = FloatField(default_value=1.0)
     dwt = defaultWeight
 
 
@@ -55,7 +55,7 @@ class WeightLayersPlugOperator(
         ("weights", "wht"),
     )
 
-    weights = DoubleField()
+    weights = DoubleField(multi=True, default_value=1.0)
     wht = weights
 
 
@@ -64,7 +64,7 @@ class WeightLayersAttrOperator(
 ):
     __slots__ = ()
 
-    weights = DoubleField()
+    weights = DoubleField(multi=True, default_value=1.0)
     wht = weights
 
 

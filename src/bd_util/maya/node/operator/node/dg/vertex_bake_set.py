@@ -272,16 +272,16 @@ class VertexBakeSet(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -302,13 +302,13 @@ class VertexBakeSet(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -323,16 +323,16 @@ class VertexBakeSet(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -341,88 +341,88 @@ class VertexBakeSet(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
-    bakeAlpha = BoolField()
+    bakeAlpha = BoolField(default_value=False)
     alpha = bakeAlpha
 
-    alphaMode = AlphaModeEnumField()
+    alphaMode = AlphaModeEnumField(default_value=1)
     mode = alphaMode
 
-    occlusionRays = LongField()
+    occlusionRays = LongField(default_value=64, min_value=0, soft_max_value=256)
     mor = occlusionRays
 
-    occlusionFalloff = FloatField()
+    occlusionFalloff = FloatField(default_value=0.0, min_value=0.0)
     mof = occlusionFalloff
 
-    colorMode = ColorModeEnumField()
+    colorMode = ColorModeEnumField(default_value=0)
     clm = colorMode
 
-    orthogonalReflection = BoolField()
+    orthogonalReflection = BoolField(default_value=False)
     orf = orthogonalReflection
 
-    normalDirection = NormalDirectionEnumField()
+    normalDirection = NormalDirectionEnumField(default_value=1)
     ndr = normalDirection
 
     customShader = MessageField()
     csh = customShader
 
-    sharedVertices = BoolField()
+    sharedVertices = BoolField(default_value=False)
     shared = sharedVertices
 
-    bakeColor = BoolField()
+    bakeColor = BoolField(default_value=True)
     color = bakeColor
 
-    colorBlending = ColorBlendingEnumField()
+    colorBlending = ColorBlendingEnumField(default_value=0)
     cblend = colorBlending
 
-    alphaBlending = AlphaBlendingEnumField()
+    alphaBlending = AlphaBlendingEnumField(default_value=0)
     ablend = alphaBlending
 
-    scaleRgba = FloatField()
+    scaleRgba = FloatField(default_value=1.0, min_value=0.0, max_value=10000.0, soft_min_value=0.1, soft_max_value=2.1)
     scale = scaleRgba
 
-    clampMin = BoolField()
+    clampMin = BoolField(default_value=False)
     min = clampMin
 
-    minColor = MinColorField()
+    minColor = MinColorField(default_value=(0.0, 0.0, 0.0))
     lc = minColor
     minColorR = minColor.minColorR
     lr = minColorR
@@ -431,13 +431,13 @@ class VertexBakeSet(DG):
     minColorB = minColor.minColorB
     lb = minColorB
 
-    minAlpha = FloatField()
+    minAlpha = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mina = minAlpha
 
-    clampMax = BoolField()
+    clampMax = BoolField(default_value=False)
     max = clampMax
 
-    maxColor = MaxColorField()
+    maxColor = MaxColorField(default_value=(0.0, 0.0, 0.0))
     hc = maxColor
     maxColorR = maxColor.maxColorR
     hr = maxColorR
@@ -446,10 +446,10 @@ class VertexBakeSet(DG):
     maxColorB = maxColor.maxColorB
     hb = maxColorB
 
-    maxAlpha = FloatField()
+    maxAlpha = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     maxa = maxAlpha
 
-    useFaceNormals = BoolField()
+    useFaceNormals = BoolField(default_value=False)
     ufn = useFaceNormals
 
     colorSetName = DataStringField()

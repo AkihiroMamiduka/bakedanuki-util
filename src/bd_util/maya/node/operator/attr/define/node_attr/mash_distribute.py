@@ -233,13 +233,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -248,13 +248,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -266,13 +266,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -402,11 +402,11 @@ class RadialOffsetPlugOperator(
         ("radialOffset2", "radialOffset2"),
     )
 
-    radialOffset0 = FloatField()
+    radialOffset0 = FloatField(default_value=0.0)
 
-    radialOffset1 = FloatField()
+    radialOffset1 = FloatField(default_value=0.0)
 
-    radialOffset2 = FloatField()
+    radialOffset2 = FloatField(default_value=0.0)
 
 
 class RadialOffsetAttrOperator(
@@ -414,11 +414,11 @@ class RadialOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    radialOffset0 = FloatField()
+    radialOffset0 = FloatField(default_value=0.0)
 
-    radialOffset1 = FloatField()
+    radialOffset1 = FloatField(default_value=0.0)
 
-    radialOffset2 = FloatField()
+    radialOffset2 = FloatField(default_value=0.0)
 
 
 class RadialOffsetField(
@@ -429,11 +429,11 @@ class RadialOffsetField(
     ATTR_CLS = RadialOffsetAttrOperator
     PLUG_CLS = RadialOffsetPlugOperator
 
-    radialOffset0 = FloatField()
+    radialOffset0 = FloatField(default_value=0.0)
 
-    radialOffset1 = FloatField()
+    radialOffset1 = FloatField(default_value=0.0)
 
-    radialOffset2 = FloatField()
+    radialOffset2 = FloatField(default_value=0.0)
 
 
 class UpVectorPlugOperator(
@@ -446,13 +446,13 @@ class UpVectorPlugOperator(
         ("upVector2", "uVec2"),
     )
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -461,13 +461,13 @@ class UpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -479,13 +479,13 @@ class UpVectorField(
     ATTR_CLS = UpVectorAttrOperator
     PLUG_CLS = UpVectorPlugOperator
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -499,11 +499,11 @@ class PfxUpVectorPlugOperator(
         ("pfxUpVector2", "pfxUpVector2"),
     )
 
-    pfxUpVector0 = FloatField()
+    pfxUpVector0 = FloatField(default_value=0.0)
 
-    pfxUpVector1 = FloatField()
+    pfxUpVector1 = FloatField(default_value=1.0)
 
-    pfxUpVector2 = FloatField()
+    pfxUpVector2 = FloatField(default_value=0.0)
 
 
 class PfxUpVectorAttrOperator(
@@ -511,11 +511,11 @@ class PfxUpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    pfxUpVector0 = FloatField()
+    pfxUpVector0 = FloatField(default_value=0.0)
 
-    pfxUpVector1 = FloatField()
+    pfxUpVector1 = FloatField(default_value=1.0)
 
-    pfxUpVector2 = FloatField()
+    pfxUpVector2 = FloatField(default_value=0.0)
 
 
 class PfxUpVectorField(
@@ -526,11 +526,11 @@ class PfxUpVectorField(
     ATTR_CLS = PfxUpVectorAttrOperator
     PLUG_CLS = PfxUpVectorPlugOperator
 
-    pfxUpVector0 = FloatField()
+    pfxUpVector0 = FloatField(default_value=0.0)
 
-    pfxUpVector1 = FloatField()
+    pfxUpVector1 = FloatField(default_value=1.0)
 
-    pfxUpVector2 = FloatField()
+    pfxUpVector2 = FloatField(default_value=0.0)
 
 
 class ForwardVectorPlugOperator(
@@ -543,11 +543,11 @@ class ForwardVectorPlugOperator(
         ("forwardVector2", "forwardVector2"),
     )
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)
 
 
 class ForwardVectorAttrOperator(
@@ -555,11 +555,11 @@ class ForwardVectorAttrOperator(
 ):
     __slots__ = ()
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)
 
 
 class ForwardVectorField(
@@ -570,11 +570,11 @@ class ForwardVectorField(
     ATTR_CLS = ForwardVectorAttrOperator
     PLUG_CLS = ForwardVectorPlugOperator
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)
 
 
 class FalloffObjectPlugOperator(
@@ -587,13 +587,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -602,13 +602,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -620,13 +620,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -640,13 +640,13 @@ class ScaleRampPlugOperator(
         ("scaleRamp_Interp", "scaleRampi"),
     )
 
-    scaleRamp_Position = FloatField()
+    scaleRamp_Position = FloatField(default_value=0.0)
     scaleRampp = scaleRamp_Position
 
-    scaleRamp_FloatValue = FloatField()
+    scaleRamp_FloatValue = FloatField(default_value=0.0)
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = ScaleRamp_InterpEnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField(default_value=1)
     scaleRampi = scaleRamp_Interp
 
 
@@ -655,13 +655,13 @@ class ScaleRampAttrOperator(
 ):
     __slots__ = ()
 
-    scaleRamp_Position = FloatField()
+    scaleRamp_Position = FloatField(default_value=0.0)
     scaleRampp = scaleRamp_Position
 
-    scaleRamp_FloatValue = FloatField()
+    scaleRamp_FloatValue = FloatField(default_value=0.0)
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = ScaleRamp_InterpEnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField(default_value=1)
     scaleRampi = scaleRamp_Interp
 
 
@@ -684,13 +684,13 @@ class RotationRampPlugOperator(
         ("rotationRamp_Interp", "rotationRampi"),
     )
 
-    rotationRamp_Position = FloatField()
+    rotationRamp_Position = FloatField(default_value=0.0)
     rotationRampp = rotationRamp_Position
 
-    rotationRamp_FloatValue = FloatField()
+    rotationRamp_FloatValue = FloatField(default_value=0.0)
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = RotationRamp_InterpEnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField(default_value=1)
     rotationRampi = rotationRamp_Interp
 
 
@@ -699,13 +699,13 @@ class RotationRampAttrOperator(
 ):
     __slots__ = ()
 
-    rotationRamp_Position = FloatField()
+    rotationRamp_Position = FloatField(default_value=0.0)
     rotationRampp = rotationRamp_Position
 
-    rotationRamp_FloatValue = FloatField()
+    rotationRamp_FloatValue = FloatField(default_value=0.0)
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = RotationRamp_InterpEnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField(default_value=1)
     rotationRampi = rotationRamp_Interp
 
 
@@ -728,13 +728,13 @@ class BiasRampPlugOperator(
         ("biasRamp_Interp", "bRmpi"),
     )
 
-    biasRamp_Position = FloatField()
+    biasRamp_Position = FloatField(default_value=0.0)
     bRmpp = biasRamp_Position
 
-    biasRamp_FloatValue = FloatField()
+    biasRamp_FloatValue = FloatField(default_value=0.0)
     bRmpfv = biasRamp_FloatValue
 
-    biasRamp_Interp = BiasRamp_InterpEnumField()
+    biasRamp_Interp = BiasRamp_InterpEnumField(default_value=1)
     bRmpi = biasRamp_Interp
 
 
@@ -743,13 +743,13 @@ class BiasRampAttrOperator(
 ):
     __slots__ = ()
 
-    biasRamp_Position = FloatField()
+    biasRamp_Position = FloatField(default_value=0.0)
     bRmpp = biasRamp_Position
 
-    biasRamp_FloatValue = FloatField()
+    biasRamp_FloatValue = FloatField(default_value=0.0)
     bRmpfv = biasRamp_FloatValue
 
-    biasRamp_Interp = BiasRamp_InterpEnumField()
+    biasRamp_Interp = BiasRamp_InterpEnumField(default_value=1)
     bRmpi = biasRamp_Interp
 
 
@@ -772,13 +772,13 @@ class BiasRampXPlugOperator(
         ("biasRampX_Interp", "bRmpXi"),
     )
 
-    biasRampX_Position = FloatField()
+    biasRampX_Position = FloatField(default_value=0.0)
     bRmpXp = biasRampX_Position
 
-    biasRampX_FloatValue = FloatField()
+    biasRampX_FloatValue = FloatField(default_value=0.0)
     bRmpXfv = biasRampX_FloatValue
 
-    biasRampX_Interp = BiasRampX_InterpEnumField()
+    biasRampX_Interp = BiasRampX_InterpEnumField(default_value=1)
     bRmpXi = biasRampX_Interp
 
 
@@ -787,13 +787,13 @@ class BiasRampXAttrOperator(
 ):
     __slots__ = ()
 
-    biasRampX_Position = FloatField()
+    biasRampX_Position = FloatField(default_value=0.0)
     bRmpXp = biasRampX_Position
 
-    biasRampX_FloatValue = FloatField()
+    biasRampX_FloatValue = FloatField(default_value=0.0)
     bRmpXfv = biasRampX_FloatValue
 
-    biasRampX_Interp = BiasRampX_InterpEnumField()
+    biasRampX_Interp = BiasRampX_InterpEnumField(default_value=1)
     bRmpXi = biasRampX_Interp
 
 
@@ -816,13 +816,13 @@ class BiasRampYPlugOperator(
         ("biasRampY_Interp", "bRmpYi"),
     )
 
-    biasRampY_Position = FloatField()
+    biasRampY_Position = FloatField(default_value=0.0)
     bRmpYp = biasRampY_Position
 
-    biasRampY_FloatValue = FloatField()
+    biasRampY_FloatValue = FloatField(default_value=0.0)
     bRmpYfv = biasRampY_FloatValue
 
-    biasRampY_Interp = BiasRampY_InterpEnumField()
+    biasRampY_Interp = BiasRampY_InterpEnumField(default_value=1)
     bRmpYi = biasRampY_Interp
 
 
@@ -831,13 +831,13 @@ class BiasRampYAttrOperator(
 ):
     __slots__ = ()
 
-    biasRampY_Position = FloatField()
+    biasRampY_Position = FloatField(default_value=0.0)
     bRmpYp = biasRampY_Position
 
-    biasRampY_FloatValue = FloatField()
+    biasRampY_FloatValue = FloatField(default_value=0.0)
     bRmpYfv = biasRampY_FloatValue
 
-    biasRampY_Interp = BiasRampY_InterpEnumField()
+    biasRampY_Interp = BiasRampY_InterpEnumField(default_value=1)
     bRmpYi = biasRampY_Interp
 
 
@@ -860,13 +860,13 @@ class BiasRampZPlugOperator(
         ("biasRampZ_Interp", "bRmpZi"),
     )
 
-    biasRampZ_Position = FloatField()
+    biasRampZ_Position = FloatField(default_value=0.0)
     bRmpZp = biasRampZ_Position
 
-    biasRampZ_FloatValue = FloatField()
+    biasRampZ_FloatValue = FloatField(default_value=0.0)
     bRmpZfv = biasRampZ_FloatValue
 
-    biasRampZ_Interp = BiasRampZ_InterpEnumField()
+    biasRampZ_Interp = BiasRampZ_InterpEnumField(default_value=1)
     bRmpZi = biasRampZ_Interp
 
 
@@ -875,13 +875,13 @@ class BiasRampZAttrOperator(
 ):
     __slots__ = ()
 
-    biasRampZ_Position = FloatField()
+    biasRampZ_Position = FloatField(default_value=0.0)
     bRmpZp = biasRampZ_Position
 
-    biasRampZ_FloatValue = FloatField()
+    biasRampZ_FloatValue = FloatField(default_value=0.0)
     bRmpZfv = biasRampZ_FloatValue
 
-    biasRampZ_Interp = BiasRampZ_InterpEnumField()
+    biasRampZ_Interp = BiasRampZ_InterpEnumField(default_value=1)
     bRmpZi = biasRampZ_Interp
 
 

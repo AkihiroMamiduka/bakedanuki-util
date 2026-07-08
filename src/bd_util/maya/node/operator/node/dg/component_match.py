@@ -53,11 +53,11 @@ class ComponentMatch(DG):
     componentTagExpression = DataStringField()
     gtg = componentTagExpression
 
-    matchMode = MatchModeEnumField()
+    matchMode = MatchModeEnumField(default_value=0)
     mmde = matchMode
 
-    uniqueMatch = BoolField()
+    uniqueMatch = BoolField(default_value=True)
     unq = uniqueMatch
 
-    componentLookup = LongField(multi=True)
+    componentLookup = LongField(multi=True, default_value=0, writable=False)
     clkp = componentLookup

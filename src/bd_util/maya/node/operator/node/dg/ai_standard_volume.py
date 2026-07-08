@@ -118,7 +118,7 @@ class AiStandardVolume(DG):
 
     NODE_TYPE = "aiStandardVolume"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -127,10 +127,10 @@ class AiStandardVolume(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -139,14 +139,14 @@ class AiStandardVolume(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
     densityChannel = DataStringField()
     density_channel = densityChannel
 
-    scatter = FloatField()
+    scatter = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    scatterColor = ScatterColorField()
+    scatterColor = ScatterColorField(default_value=(0.5, 0.5, 0.5))
     scatter_color = scatterColor
     scatterColorR = scatterColor.scatterColorR
     scatter_colorr = scatterColorR
@@ -158,16 +158,16 @@ class AiStandardVolume(DG):
     scatterColorChannel = DataStringField()
     scatter_color_channel = scatterColorChannel
 
-    scatterAnisotropy = FloatField()
+    scatterAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     scatter_anisotropy = scatterAnisotropy
 
-    scatterSecondaryAnisotropy = FloatField()
+    scatterSecondaryAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     scatter_secondary_anisotropy = scatterSecondaryAnisotropy
 
-    scatterSecondaryAnisotropyMix = FloatField()
+    scatterSecondaryAnisotropyMix = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     scatter_secondary_anisotropy_mix = scatterSecondaryAnisotropyMix
 
-    transparent = TransparentField()
+    transparent = TransparentField(default_value=(0.3678794503211975, 0.3678794503211975, 0.3678794503211975))
     transparentR = transparent.transparentR
     transparentr = transparentR
     transparentG = transparent.transparentG
@@ -175,21 +175,21 @@ class AiStandardVolume(DG):
     transparentB = transparent.transparentB
     transparentb = transparentB
 
-    transparentDepth = FloatField()
+    transparentDepth = FloatField(default_value=1.0)
     transparent_depth = transparentDepth
 
     transparentChannel = DataStringField()
     transparent_channel = transparentChannel
 
-    emissionMode = EmissionModeEnumField()
+    emissionMode = EmissionModeEnumField(default_value=3)
     emission_mode = emissionMode
 
-    emissionScaling = EmissionScalingEnumField()
+    emissionScaling = EmissionScalingEnumField(default_value=0)
     emission_scaling = emissionScaling
 
-    emission = FloatField()
+    emission = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -201,21 +201,21 @@ class AiStandardVolume(DG):
     emissionChannel = DataStringField()
     emission_channel = emissionChannel
 
-    temperature = FloatField()
+    temperature = FloatField(default_value=1.0)
 
     temperatureChannel = DataStringField()
     temperature_channel = temperatureChannel
 
-    blackbodyKelvin = FloatField()
+    blackbodyKelvin = FloatField(default_value=5000.0, min_value=0.0, soft_max_value=20000.0)
     blackbody_kelvin = blackbodyKelvin
 
-    blackbodyIntensity = FloatField()
+    blackbodyIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=100.0)
     blackbody_intensity = blackbodyIntensity
 
-    blackbodyContrast = FloatField()
+    blackbodyContrast = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     blackbody_contrast = blackbodyContrast
 
-    displacement = DisplacementField()
+    displacement = DisplacementField(default_value=(0.0, 0.0, 0.0))
     displacementX = displacement.displacementX
     displacementx = displacementX
     displacementY = displacement.displacementY
@@ -223,4 +223,4 @@ class AiStandardVolume(DG):
     displacementZ = displacement.displacementZ
     displacementz = displacementZ
 
-    interpolation = InterpolationEnumField()
+    interpolation = InterpolationEnumField(default_value=1)

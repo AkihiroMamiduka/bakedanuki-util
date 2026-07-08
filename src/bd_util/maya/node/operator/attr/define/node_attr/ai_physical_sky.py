@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class GroundAlbedoPlugOperator(
         ("groundAlbedoB", "ground_albedob"),
     )
 
-    groundAlbedoR = FloatField()
+    groundAlbedoR = FloatField(default_value=0.10000000149011612)
     ground_albedor = groundAlbedoR
 
-    groundAlbedoG = FloatField()
+    groundAlbedoG = FloatField(default_value=0.10000000149011612)
     ground_albedog = groundAlbedoG
 
-    groundAlbedoB = FloatField()
+    groundAlbedoB = FloatField(default_value=0.10000000149011612)
     ground_albedob = groundAlbedoB
 
 
@@ -139,13 +139,13 @@ class GroundAlbedoAttrOperator(
 ):
     __slots__ = ()
 
-    groundAlbedoR = FloatField()
+    groundAlbedoR = FloatField(default_value=0.10000000149011612)
     ground_albedor = groundAlbedoR
 
-    groundAlbedoG = FloatField()
+    groundAlbedoG = FloatField(default_value=0.10000000149011612)
     ground_albedog = groundAlbedoG
 
-    groundAlbedoB = FloatField()
+    groundAlbedoB = FloatField(default_value=0.10000000149011612)
     ground_albedob = groundAlbedoB
 
 
@@ -157,13 +157,13 @@ class GroundAlbedoField(
     ATTR_CLS = GroundAlbedoAttrOperator
     PLUG_CLS = GroundAlbedoPlugOperator
 
-    groundAlbedoR = FloatField()
+    groundAlbedoR = FloatField(default_value=0.10000000149011612)
     ground_albedor = groundAlbedoR
 
-    groundAlbedoG = FloatField()
+    groundAlbedoG = FloatField(default_value=0.10000000149011612)
     ground_albedog = groundAlbedoG
 
-    groundAlbedoB = FloatField()
+    groundAlbedoB = FloatField(default_value=0.10000000149011612)
     ground_albedob = groundAlbedoB
 
 
@@ -177,13 +177,13 @@ class SunDirectionPlugOperator(
         ("sunDirectionZ", "sun_directionz"),
     )
 
-    sunDirectionX = FloatField()
+    sunDirectionX = FloatField(default_value=0.0)
     sun_directionx = sunDirectionX
 
-    sunDirectionY = FloatField()
+    sunDirectionY = FloatField(default_value=1.0)
     sun_directiony = sunDirectionY
 
-    sunDirectionZ = FloatField()
+    sunDirectionZ = FloatField(default_value=0.0)
     sun_directionz = sunDirectionZ
 
 
@@ -192,13 +192,13 @@ class SunDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    sunDirectionX = FloatField()
+    sunDirectionX = FloatField(default_value=0.0)
     sun_directionx = sunDirectionX
 
-    sunDirectionY = FloatField()
+    sunDirectionY = FloatField(default_value=1.0)
     sun_directiony = sunDirectionY
 
-    sunDirectionZ = FloatField()
+    sunDirectionZ = FloatField(default_value=0.0)
     sun_directionz = sunDirectionZ
 
 
@@ -210,13 +210,13 @@ class SunDirectionField(
     ATTR_CLS = SunDirectionAttrOperator
     PLUG_CLS = SunDirectionPlugOperator
 
-    sunDirectionX = FloatField()
+    sunDirectionX = FloatField(default_value=0.0)
     sun_directionx = sunDirectionX
 
-    sunDirectionY = FloatField()
+    sunDirectionY = FloatField(default_value=1.0)
     sun_directiony = sunDirectionY
 
-    sunDirectionZ = FloatField()
+    sunDirectionZ = FloatField(default_value=0.0)
     sun_directionz = sunDirectionZ
 
 
@@ -230,13 +230,13 @@ class SunTintPlugOperator(
         ("sunTintB", "sun_tintb"),
     )
 
-    sunTintR = FloatField()
+    sunTintR = FloatField(default_value=1.0)
     sun_tintr = sunTintR
 
-    sunTintG = FloatField()
+    sunTintG = FloatField(default_value=1.0)
     sun_tintg = sunTintG
 
-    sunTintB = FloatField()
+    sunTintB = FloatField(default_value=1.0)
     sun_tintb = sunTintB
 
 
@@ -245,13 +245,13 @@ class SunTintAttrOperator(
 ):
     __slots__ = ()
 
-    sunTintR = FloatField()
+    sunTintR = FloatField(default_value=1.0)
     sun_tintr = sunTintR
 
-    sunTintG = FloatField()
+    sunTintG = FloatField(default_value=1.0)
     sun_tintg = sunTintG
 
-    sunTintB = FloatField()
+    sunTintB = FloatField(default_value=1.0)
     sun_tintb = sunTintB
 
 
@@ -263,13 +263,13 @@ class SunTintField(
     ATTR_CLS = SunTintAttrOperator
     PLUG_CLS = SunTintPlugOperator
 
-    sunTintR = FloatField()
+    sunTintR = FloatField(default_value=1.0)
     sun_tintr = sunTintR
 
-    sunTintG = FloatField()
+    sunTintG = FloatField(default_value=1.0)
     sun_tintg = sunTintG
 
-    sunTintB = FloatField()
+    sunTintB = FloatField(default_value=1.0)
     sun_tintb = sunTintB
 
 
@@ -283,13 +283,13 @@ class SkyTintPlugOperator(
         ("skyTintB", "sky_tintb"),
     )
 
-    skyTintR = FloatField()
+    skyTintR = FloatField(default_value=1.0)
     sky_tintr = skyTintR
 
-    skyTintG = FloatField()
+    skyTintG = FloatField(default_value=1.0)
     sky_tintg = skyTintG
 
-    skyTintB = FloatField()
+    skyTintB = FloatField(default_value=1.0)
     sky_tintb = skyTintB
 
 
@@ -298,13 +298,13 @@ class SkyTintAttrOperator(
 ):
     __slots__ = ()
 
-    skyTintR = FloatField()
+    skyTintR = FloatField(default_value=1.0)
     sky_tintr = skyTintR
 
-    skyTintG = FloatField()
+    skyTintG = FloatField(default_value=1.0)
     sky_tintg = skyTintG
 
-    skyTintB = FloatField()
+    skyTintB = FloatField(default_value=1.0)
     sky_tintb = skyTintB
 
 
@@ -316,13 +316,13 @@ class SkyTintField(
     ATTR_CLS = SkyTintAttrOperator
     PLUG_CLS = SkyTintPlugOperator
 
-    skyTintR = FloatField()
+    skyTintR = FloatField(default_value=1.0)
     sky_tintr = skyTintR
 
-    skyTintG = FloatField()
+    skyTintG = FloatField(default_value=1.0)
     sky_tintg = skyTintG
 
-    skyTintB = FloatField()
+    skyTintB = FloatField(default_value=1.0)
     sky_tintb = skyTintB
 
 
@@ -336,13 +336,13 @@ class XPlugOperator(
         ("XZ", "Xz"),
     )
 
-    XX = FloatField()
+    XX = FloatField(default_value=1.0)
     Xx = XX
 
-    XY = FloatField()
+    XY = FloatField(default_value=0.0)
     Xy = XY
 
-    XZ = FloatField()
+    XZ = FloatField(default_value=0.0)
     Xz = XZ
 
 
@@ -351,13 +351,13 @@ class XAttrOperator(
 ):
     __slots__ = ()
 
-    XX = FloatField()
+    XX = FloatField(default_value=1.0)
     Xx = XX
 
-    XY = FloatField()
+    XY = FloatField(default_value=0.0)
     Xy = XY
 
-    XZ = FloatField()
+    XZ = FloatField(default_value=0.0)
     Xz = XZ
 
 
@@ -369,13 +369,13 @@ class XField(
     ATTR_CLS = XAttrOperator
     PLUG_CLS = XPlugOperator
 
-    XX = FloatField()
+    XX = FloatField(default_value=1.0)
     Xx = XX
 
-    XY = FloatField()
+    XY = FloatField(default_value=0.0)
     Xy = XY
 
-    XZ = FloatField()
+    XZ = FloatField(default_value=0.0)
     Xz = XZ
 
 
@@ -389,13 +389,13 @@ class YPlugOperator(
         ("YZ", "Yz"),
     )
 
-    YX = FloatField()
+    YX = FloatField(default_value=0.0)
     Yx = YX
 
-    YY = FloatField()
+    YY = FloatField(default_value=1.0)
     Yy = YY
 
-    YZ = FloatField()
+    YZ = FloatField(default_value=0.0)
     Yz = YZ
 
 
@@ -404,13 +404,13 @@ class YAttrOperator(
 ):
     __slots__ = ()
 
-    YX = FloatField()
+    YX = FloatField(default_value=0.0)
     Yx = YX
 
-    YY = FloatField()
+    YY = FloatField(default_value=1.0)
     Yy = YY
 
-    YZ = FloatField()
+    YZ = FloatField(default_value=0.0)
     Yz = YZ
 
 
@@ -422,13 +422,13 @@ class YField(
     ATTR_CLS = YAttrOperator
     PLUG_CLS = YPlugOperator
 
-    YX = FloatField()
+    YX = FloatField(default_value=0.0)
     Yx = YX
 
-    YY = FloatField()
+    YY = FloatField(default_value=1.0)
     Yy = YY
 
-    YZ = FloatField()
+    YZ = FloatField(default_value=0.0)
     Yz = YZ
 
 
@@ -442,13 +442,13 @@ class ZPlugOperator(
         ("ZZ", "Zz"),
     )
 
-    ZX = FloatField()
+    ZX = FloatField(default_value=0.0)
     Zx = ZX
 
-    ZY = FloatField()
+    ZY = FloatField(default_value=0.0)
     Zy = ZY
 
-    ZZ = FloatField()
+    ZZ = FloatField(default_value=1.0)
     Zz = ZZ
 
 
@@ -457,13 +457,13 @@ class ZAttrOperator(
 ):
     __slots__ = ()
 
-    ZX = FloatField()
+    ZX = FloatField(default_value=0.0)
     Zx = ZX
 
-    ZY = FloatField()
+    ZY = FloatField(default_value=0.0)
     Zy = ZY
 
-    ZZ = FloatField()
+    ZZ = FloatField(default_value=1.0)
     Zz = ZZ
 
 
@@ -475,11 +475,11 @@ class ZField(
     ATTR_CLS = ZAttrOperator
     PLUG_CLS = ZPlugOperator
 
-    ZX = FloatField()
+    ZX = FloatField(default_value=0.0)
     Zx = ZX
 
-    ZY = FloatField()
+    ZY = FloatField(default_value=0.0)
     Zy = ZY
 
-    ZZ = FloatField()
+    ZZ = FloatField(default_value=1.0)
     Zz = ZZ

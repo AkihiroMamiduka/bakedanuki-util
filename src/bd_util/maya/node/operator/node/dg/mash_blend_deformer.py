@@ -126,22 +126,22 @@ class MASH_BlendDeformer(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -153,28 +153,28 @@ class MASH_BlendDeformer(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     blendMesh = DataMeshField()
 
-    smoothingIterations = LongField()
+    smoothingIterations = LongField(default_value=0, min_value=0, max_value=100, soft_max_value=50)
 
     guideCurve = DataNurbsCurveField()
 
-    inflate = FloatField()
+    inflate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    blendValue = FloatField()
+    blendValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    curveRamp = CurveRampField(multi=True)
+    curveRamp = CurveRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    inflationRamp = InflationRampField(multi=True)
+    inflationRamp = InflationRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    blendRamp = BlendRampField(multi=True)
+    blendRamp = BlendRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    smoothingRamp = SmoothingRampField(multi=True)
+    smoothingRamp = SmoothingRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -185,33 +185,33 @@ class MASH_BlendDeformer(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    bilateralOne = FloatField()
+    bilateralOne = FloatField(default_value=0.75, min_value=0.01, soft_max_value=1.0)
 
-    bilateralTwo = FloatField()
+    bilateralTwo = FloatField(default_value=0.10000000149011612, min_value=0.01, soft_max_value=1.0)
 
-    falloffAffects = FalloffAffectsEnumField()
+    falloffAffects = FalloffAffectsEnumField(default_value=1)
 
-    mapAffects = MapAffectsEnumField()
+    mapAffects = MapAffectsEnumField(default_value=1)
 
-    radialBlend = BoolField()
+    radialBlend = BoolField(default_value=False)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     strengthPP = TypedField(multi=True)

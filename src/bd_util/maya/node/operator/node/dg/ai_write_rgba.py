@@ -16,7 +16,7 @@ class AiWriteRgba(DG):
 
     NODE_TYPE = "aiWriteRgba"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -25,10 +25,10 @@ class AiWriteRgba(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -37,10 +37,10 @@ class AiWriteRgba(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    beautyA = FloatField()
+    beautyA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     passthrougha = beautyA
 
-    beauty = BeautyField()
+    beauty = BeautyField(default_value=(0.0, 0.0, 0.0))
     passthrough = beauty
     beautyR = beauty.beautyR
     passthroughr = beautyR
@@ -49,10 +49,10 @@ class AiWriteRgba(DG):
     beautyB = beauty.beautyB
     passthroughb = beautyB
 
-    inputA = FloatField()
+    inputA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     aov_inputa = inputA
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     aov_input = input
     inputR = input.inputR
     aov_inputr = inputR
@@ -64,5 +64,5 @@ class AiWriteRgba(DG):
     aovName = DataStringField()
     aov_name = aovName
 
-    blend = BoolField()
+    blend = BoolField(default_value=True)
     blend_opacity = blend

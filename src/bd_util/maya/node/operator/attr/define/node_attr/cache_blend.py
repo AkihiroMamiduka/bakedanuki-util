@@ -21,10 +21,10 @@ class InCachePlugOperator(
         ("perPtWeights", "ppw"),
     )
 
-    vectorArray = GenericField()
+    vectorArray = GenericField(multi=True)
     va = vectorArray
 
-    perPtWeights = DataDoubleArrayField()
+    perPtWeights = DataDoubleArrayField(multi=True)
     ppw = perPtWeights
 
 
@@ -33,10 +33,10 @@ class InCacheAttrOperator(
 ):
     __slots__ = ()
 
-    vectorArray = GenericField()
+    vectorArray = GenericField(multi=True)
     va = vectorArray
 
-    perPtWeights = DataDoubleArrayField()
+    perPtWeights = DataDoubleArrayField(multi=True)
     ppw = perPtWeights
 
 
@@ -60,16 +60,16 @@ class CacheDataPlugOperator(
         ("weight", "w"),
     )
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     st = start
 
-    end = TimeField()
+    end = TimeField(default_value=0.0)
     e = end
 
-    range = BoolField()
+    range = BoolField(default_value=False)
     ra = range
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     w = weight
 
 
@@ -78,16 +78,16 @@ class CacheDataAttrOperator(
 ):
     __slots__ = ()
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     st = start
 
-    end = TimeField()
+    end = TimeField(default_value=0.0)
     e = end
 
-    range = BoolField()
+    range = BoolField(default_value=False)
     ra = range
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     w = weight
 
 

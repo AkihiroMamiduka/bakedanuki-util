@@ -155,7 +155,7 @@ class AiShuffle(DG):
 
     NODE_TYPE = "aiShuffle"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -164,10 +164,10 @@ class AiShuffle(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -176,7 +176,7 @@ class AiShuffle(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    color = ColorField()
+    color = ColorField(default_value=(0.0, 0.0, 0.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -184,28 +184,28 @@ class AiShuffle(DG):
     colorB = color.colorB
     colorb = colorB
 
-    alpha = FloatField()
+    alpha = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    channelR = ChannelREnumField()
+    channelR = ChannelREnumField(default_value=0)
     channel_r = channelR
 
-    channelG = ChannelGEnumField()
+    channelG = ChannelGEnumField(default_value=1)
     channel_g = channelG
 
-    channelB = ChannelBEnumField()
+    channelB = ChannelBEnumField(default_value=2)
     channel_b = channelB
 
-    channelA = ChannelAEnumField()
+    channelA = ChannelAEnumField(default_value=3)
     channel_a = channelA
 
-    negateR = BoolField()
+    negateR = BoolField(default_value=False)
     negate_r = negateR
 
-    negateG = BoolField()
+    negateG = BoolField(default_value=False)
     negate_g = negateG
 
-    negateB = BoolField()
+    negateB = BoolField(default_value=False)
     negate_b = negateB
 
-    negateA = BoolField()
+    negateA = BoolField(default_value=False)
     negate_a = negateA

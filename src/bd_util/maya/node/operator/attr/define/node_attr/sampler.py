@@ -27,13 +27,13 @@ class FunctionPlugOperator(
     function_Raw = TypedField()
     fr = function_Raw
 
-    function_Inmap = CompoundField()
+    function_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fi = function_Inmap
 
-    function_Outmap = CompoundField()
+    function_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fo = function_Outmap
 
-    function_Default = DoubleField()
+    function_Default = DoubleField(default_value=0.0)
     fd = function_Default
 
 
@@ -48,13 +48,13 @@ class FunctionAttrOperator(
     function_Raw = TypedField()
     fr = function_Raw
 
-    function_Inmap = CompoundField()
+    function_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fi = function_Inmap
 
-    function_Outmap = CompoundField()
+    function_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fo = function_Outmap
 
-    function_Default = DoubleField()
+    function_Default = DoubleField(default_value=0.0)
     fd = function_Default
 
 
@@ -72,11 +72,11 @@ class FunctionField(
     function_Raw = TypedField()
     fr = function_Raw
 
-    function_Inmap = CompoundField()
+    function_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fi = function_Inmap
 
-    function_Outmap = CompoundField()
+    function_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     fo = function_Outmap
 
-    function_Default = DoubleField()
+    function_Default = DoubleField(default_value=0.0)
     fd = function_Default

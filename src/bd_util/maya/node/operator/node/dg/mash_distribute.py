@@ -361,7 +361,7 @@ class MASH_Distribute(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -372,21 +372,21 @@ class MASH_Distribute(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -394,9 +394,9 @@ class MASH_Distribute(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -420,7 +420,7 @@ class MASH_Distribute(DG):
     idOutPP = translateOutPP.idOutPP
     visibilityOutPP = translateOutPP.visibilityOutPP
 
-    pointCount = LongField()
+    pointCount = LongField(default_value=10, min_value=0, soft_max_value=100)
 
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
@@ -432,33 +432,33 @@ class MASH_Distribute(DG):
     inPositionPP = DataVectorArrayField()
     inPPP = inPositionPP
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    batchRenderMultiplier = LongField()
+    batchRenderMultiplier = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    centerLinearDistribution = BoolField()
+    centerLinearDistribution = BoolField(default_value=False)
 
-    strengthPosition = BoolField()
+    strengthPosition = BoolField(default_value=True)
 
-    strengthRotation = BoolField()
+    strengthRotation = BoolField(default_value=True)
 
-    strengthScale = BoolField()
+    strengthScale = BoolField(default_value=True)
 
-    ignoreRamps = BoolField()
+    ignoreRamps = BoolField(default_value=True)
 
-    radialOffset = RadialOffsetField()
+    radialOffset = RadialOffsetField(default_value=(0.0, 0.0, 0.0))
     radialOffset0 = radialOffset.radialOffset0
     radialOffset1 = radialOffset.radialOffset1
     radialOffset2 = radialOffset.radialOffset2
 
-    upVector = UpVectorField()
+    upVector = UpVectorField(default_value=(0.0, 1.0, 0.0))
     uVec = upVector
     upVector0 = upVector.upVector0
     uVec0 = upVector0
@@ -467,19 +467,19 @@ class MASH_Distribute(DG):
     upVector2 = upVector.upVector2
     uVec2 = upVector2
 
-    pfxUpVector = PfxUpVectorField()
+    pfxUpVector = PfxUpVectorField(default_value=(0.0, 1.0, 0.0))
     pfxUpVector0 = pfxUpVector.pfxUpVector0
     pfxUpVector1 = pfxUpVector.pfxUpVector1
     pfxUpVector2 = pfxUpVector.pfxUpVector2
 
-    forwardVector = ForwardVectorField()
+    forwardVector = ForwardVectorField(default_value=(0.0, 0.0, 0.0))
     forwardVector0 = forwardVector.forwardVector0
     forwardVector1 = forwardVector.forwardVector1
     forwardVector2 = forwardVector.forwardVector2
 
     falloffInfo = TypedField()
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -488,13 +488,13 @@ class MASH_Distribute(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
@@ -504,140 +504,140 @@ class MASH_Distribute(DG):
 
     waiterMessage = MessageField()
 
-    scaleRamp = ScaleRampField(multi=True)
+    scaleRamp = ScaleRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    rotationRamp = RotationRampField(multi=True)
+    rotationRamp = RotationRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    biasRamp = BiasRampField(multi=True)
+    biasRamp = BiasRampField(multi=True, default_value=(0.0, 0.0, 1.0))
     bRmp = biasRamp
 
-    biasRampX = BiasRampXField(multi=True)
+    biasRampX = BiasRampXField(multi=True, default_value=(0.0, 0.0, 1.0))
     bRmpX = biasRampX
 
-    biasRampY = BiasRampYField(multi=True)
+    biasRampY = BiasRampYField(multi=True, default_value=(0.0, 0.0, 1.0))
     bRmpY = biasRampY
 
-    biasRampZ = BiasRampZField(multi=True)
+    biasRampZ = BiasRampZField(multi=True, default_value=(0.0, 0.0, 1.0))
     bRmpZ = biasRampZ
 
-    animationTime = FloatField()
+    animationTime = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
 
-    seed = LongField()
+    seed = LongField(default_value=1, min_value=1, soft_max_value=100)
     see = seed
 
-    amplitudeX = FloatField()
+    amplitudeX = FloatField(default_value=20.0, soft_min_value=0.0, soft_max_value=60.0)
     ampX = amplitudeX
 
-    amplitudeY = FloatField()
+    amplitudeY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=60.0)
     ampY = amplitudeY
 
-    amplitudeZ = FloatField()
+    amplitudeZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=60.0)
     ampZ = amplitudeZ
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    rotateX = FloatField()
+    rotateX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    rotateY = FloatField()
+    rotateY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    rotateZ = FloatField()
+    rotateZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    voxPatternOffsetX = FloatField()
+    voxPatternOffsetX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    voxPatternOffsetY = FloatField()
+    voxPatternOffsetY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    voxPatternOffsetZ = FloatField()
+    voxPatternOffsetZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    areaBasedScatter = BoolField()
+    areaBasedScatter = BoolField(default_value=False)
 
-    scatterEvenly = BoolField()
+    scatterEvenly = BoolField(default_value=False)
 
-    useFaceScale = BoolField()
+    useFaceScale = BoolField(default_value=False)
 
-    floodMesh = BoolField()
+    floodMesh = BoolField(default_value=False)
 
-    faceScaleMultiplier = FloatField()
+    faceScaleMultiplier = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    offset = LongField()
+    offset = LongField(default_value=0, min_value=0, soft_max_value=30)
 
-    gridAmplitudeX = FloatField()
+    gridAmplitudeX = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
 
-    gridAmplitudeY = FloatField()
+    gridAmplitudeY = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
 
-    gridAmplitudeZ = FloatField()
+    gridAmplitudeZ = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
 
-    sphericalAngleX = FloatField()
+    sphericalAngleX = FloatField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    sphericalAngleY = FloatField()
+    sphericalAngleY = FloatField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    radialRadius = FloatField()
+    radialRadius = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=20.0)
 
-    radialAngle = FloatField()
+    radialAngle = FloatField(default_value=360.0, soft_min_value=-360.0, soft_max_value=360.0)
 
-    distanceAlongNormal = FloatField()
+    distanceAlongNormal = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
 
     inputMesh = DataMeshField()
     inM = inputMesh
 
     voxelBoundingBox = DataMeshField()
 
-    gridx = LongField()
+    gridx = LongField(default_value=3, min_value=1, soft_max_value=25)
     grx = gridx
 
-    gridy = LongField()
+    gridy = LongField(default_value=1, min_value=1, soft_max_value=25)
     gry = gridy
 
-    gridz = LongField()
+    gridz = LongField(default_value=3, min_value=1, soft_max_value=25)
     grz = gridz
 
-    noiseFrequency = FloatField()
+    noiseFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
     noFre = noiseFrequency
 
-    modelAxis = ModelAxisEnumField()
+    modelAxis = ModelAxisEnumField(default_value=1)
 
-    meshType = MeshTypeEnumField()
+    meshType = MeshTypeEnumField(default_value=1)
 
-    edgeAlignment = EdgeAlignmentEnumField()
+    edgeAlignment = EdgeAlignmentEnumField(default_value=1)
 
-    voxelMode = VoxelModeEnumField()
+    voxelMode = VoxelModeEnumField(default_value=1)
 
-    legacy2017 = BoolField()
+    legacy2017 = BoolField(default_value=False)
 
-    legacy2018 = BoolField()
+    legacy2018 = BoolField(default_value=False)
 
-    calcRotation = BoolField()
+    calcRotation = BoolField(default_value=True)
 
-    zeroScale = BoolField()
+    zeroScale = BoolField(default_value=False)
 
-    voxelDensity = FloatField()
+    voxelDensity = FloatField(default_value=1.5, min_value=0.1, soft_min_value=0.2, soft_max_value=3.0)
 
-    maxVoxels = LongField()
+    maxVoxels = LongField(default_value=100000)
 
-    voxelBorder = FloatField()
+    voxelBorder = FloatField(default_value=0.0010000000474974513, min_value=0.001, soft_max_value=1.0)
 
     inPaintEffects = DataMeshField(multi=True)
 
-    pfxMode = PfxModeEnumField()
+    pfxMode = PfxModeEnumField(default_value=1)
 
-    enableMain = BoolField()
+    enableMain = BoolField(default_value=True)
 
-    enableLeaf = BoolField()
+    enableLeaf = BoolField(default_value=False)
 
-    enableFlowers = BoolField()
+    enableFlowers = BoolField(default_value=False)
 
-    enablePfxRotation = BoolField()
+    enablePfxRotation = BoolField(default_value=False)
 
-    useUpVector = BoolField()
+    useUpVector = BoolField(default_value=False)
 
-    volumeSize = FloatField()
+    volumeSize = FloatField(default_value=5.0, min_value=0.0, soft_max_value=20.0)
 
-    sphericalBias = FloatField()
+    sphericalBias = FloatField(default_value=0.5, min_value=0.0, soft_max_value=2.0)
 
-    volumeShape = VolumeShapeEnumField()
+    volumeShape = VolumeShapeEnumField(default_value=2)
 
-    arrangement = ArrangementEnumField()
+    arrangement = ArrangementEnumField(default_value=1)
     rt = arrangement

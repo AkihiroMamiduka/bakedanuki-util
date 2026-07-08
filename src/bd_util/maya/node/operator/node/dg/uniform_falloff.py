@@ -9,8 +9,8 @@ class UniformFalloff(DG):
 
     NODE_TYPE = "uniformFalloff"
 
-    uniformWeight = DoubleLinearField()
+    uniformWeight = DoubleLinearField(default_value=0.0)
     unw = uniformWeight
 
-    outputWeightFunction = TypedField()
+    outputWeightFunction = TypedField(writable=False)
     wft = outputWeightFunction

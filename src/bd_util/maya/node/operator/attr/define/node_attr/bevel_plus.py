@@ -18,13 +18,13 @@ class PositionPlugOperator(
         ("positionZ", "pz"),
     )
 
-    positionX = DoubleLinearField()
+    positionX = DoubleLinearField(default_value=0.0)
     px = positionX
 
-    positionY = DoubleLinearField()
+    positionY = DoubleLinearField(default_value=0.0)
     py = positionY
 
-    positionZ = DoubleLinearField()
+    positionZ = DoubleLinearField(default_value=0.0)
     pz = positionZ
 
 
@@ -33,13 +33,13 @@ class PositionAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = DoubleLinearField()
+    positionX = DoubleLinearField(default_value=0.0)
     px = positionX
 
-    positionY = DoubleLinearField()
+    positionY = DoubleLinearField(default_value=0.0)
     py = positionY
 
-    positionZ = DoubleLinearField()
+    positionZ = DoubleLinearField(default_value=0.0)
     pz = positionZ
 
 

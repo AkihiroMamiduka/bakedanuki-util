@@ -9,8 +9,8 @@ class AiMerge(DG):
 
     NODE_TYPE = "aiMerge"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)

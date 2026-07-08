@@ -11,5 +11,5 @@ class InverseMatrix(DG):
     inputMatrix = MatrixField()
     imat = inputMatrix
 
-    outputMatrix = MatrixField()
+    outputMatrix = MatrixField(writable=False)
     omat = outputMatrix

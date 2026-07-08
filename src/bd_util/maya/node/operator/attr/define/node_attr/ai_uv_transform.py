@@ -23,13 +23,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -38,13 +38,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -56,13 +56,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -76,13 +76,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -91,13 +91,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -109,13 +109,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -129,13 +129,13 @@ class PassthroughPlugOperator(
         ("passthroughB", "passthroughb"),
     )
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB
 
 
@@ -144,13 +144,13 @@ class PassthroughAttrOperator(
 ):
     __slots__ = ()
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB
 
 
@@ -162,13 +162,13 @@ class PassthroughField(
     ATTR_CLS = PassthroughAttrOperator
     PLUG_CLS = PassthroughPlugOperator
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB
 
 
@@ -182,13 +182,13 @@ class UvcoordsPlugOperator(
         ("uvcoordsZ", "uvcoordsz"),
     )
 
-    uvcoordsX = FloatField()
+    uvcoordsX = FloatField(default_value=0.0)
     uvcoordsx = uvcoordsX
 
-    uvcoordsY = FloatField()
+    uvcoordsY = FloatField(default_value=0.0)
     uvcoordsy = uvcoordsY
 
-    uvcoordsZ = FloatField()
+    uvcoordsZ = FloatField(default_value=0.0)
     uvcoordsz = uvcoordsZ
 
 
@@ -197,13 +197,13 @@ class UvcoordsAttrOperator(
 ):
     __slots__ = ()
 
-    uvcoordsX = FloatField()
+    uvcoordsX = FloatField(default_value=0.0)
     uvcoordsx = uvcoordsX
 
-    uvcoordsY = FloatField()
+    uvcoordsY = FloatField(default_value=0.0)
     uvcoordsy = uvcoordsY
 
-    uvcoordsZ = FloatField()
+    uvcoordsZ = FloatField(default_value=0.0)
     uvcoordsz = uvcoordsZ
 
 
@@ -215,13 +215,13 @@ class UvcoordsField(
     ATTR_CLS = UvcoordsAttrOperator
     PLUG_CLS = UvcoordsPlugOperator
 
-    uvcoordsX = FloatField()
+    uvcoordsX = FloatField(default_value=0.0)
     uvcoordsx = uvcoordsX
 
-    uvcoordsY = FloatField()
+    uvcoordsY = FloatField(default_value=0.0)
     uvcoordsy = uvcoordsY
 
-    uvcoordsZ = FloatField()
+    uvcoordsZ = FloatField(default_value=0.0)
     uvcoordsz = uvcoordsZ
 
 
@@ -234,10 +234,10 @@ class CoveragePlugOperator(
         ("coverageY", "coveragey"),
     )
 
-    coverageX = FloatField()
+    coverageX = FloatField(default_value=1.0)
     coveragex = coverageX
 
-    coverageY = FloatField()
+    coverageY = FloatField(default_value=1.0)
     coveragey = coverageY
 
 
@@ -246,10 +246,10 @@ class CoverageAttrOperator(
 ):
     __slots__ = ()
 
-    coverageX = FloatField()
+    coverageX = FloatField(default_value=1.0)
     coveragex = coverageX
 
-    coverageY = FloatField()
+    coverageY = FloatField(default_value=1.0)
     coveragey = coverageY
 
 
@@ -261,10 +261,10 @@ class CoverageField(
     ATTR_CLS = CoverageAttrOperator
     PLUG_CLS = CoveragePlugOperator
 
-    coverageX = FloatField()
+    coverageX = FloatField(default_value=1.0)
     coveragex = coverageX
 
-    coverageY = FloatField()
+    coverageY = FloatField(default_value=1.0)
     coveragey = coverageY
 
 
@@ -277,10 +277,10 @@ class ScaleFramePlugOperator(
         ("scaleFrameY", "scale_framey"),
     )
 
-    scaleFrameX = FloatField()
+    scaleFrameX = FloatField(default_value=1.0)
     scale_framex = scaleFrameX
 
-    scaleFrameY = FloatField()
+    scaleFrameY = FloatField(default_value=1.0)
     scale_framey = scaleFrameY
 
 
@@ -289,10 +289,10 @@ class ScaleFrameAttrOperator(
 ):
     __slots__ = ()
 
-    scaleFrameX = FloatField()
+    scaleFrameX = FloatField(default_value=1.0)
     scale_framex = scaleFrameX
 
-    scaleFrameY = FloatField()
+    scaleFrameY = FloatField(default_value=1.0)
     scale_framey = scaleFrameY
 
 
@@ -304,10 +304,10 @@ class ScaleFrameField(
     ATTR_CLS = ScaleFrameAttrOperator
     PLUG_CLS = ScaleFramePlugOperator
 
-    scaleFrameX = FloatField()
+    scaleFrameX = FloatField(default_value=1.0)
     scale_framex = scaleFrameX
 
-    scaleFrameY = FloatField()
+    scaleFrameY = FloatField(default_value=1.0)
     scale_framey = scaleFrameY
 
 
@@ -320,10 +320,10 @@ class TranslateFramePlugOperator(
         ("translateFrameY", "translate_framey"),
     )
 
-    translateFrameX = FloatField()
+    translateFrameX = FloatField(default_value=0.0)
     translate_framex = translateFrameX
 
-    translateFrameY = FloatField()
+    translateFrameY = FloatField(default_value=0.0)
     translate_framey = translateFrameY
 
 
@@ -332,10 +332,10 @@ class TranslateFrameAttrOperator(
 ):
     __slots__ = ()
 
-    translateFrameX = FloatField()
+    translateFrameX = FloatField(default_value=0.0)
     translate_framex = translateFrameX
 
-    translateFrameY = FloatField()
+    translateFrameY = FloatField(default_value=0.0)
     translate_framey = translateFrameY
 
 
@@ -347,10 +347,10 @@ class TranslateFrameField(
     ATTR_CLS = TranslateFrameAttrOperator
     PLUG_CLS = TranslateFramePlugOperator
 
-    translateFrameX = FloatField()
+    translateFrameX = FloatField(default_value=0.0)
     translate_framex = translateFrameX
 
-    translateFrameY = FloatField()
+    translateFrameY = FloatField(default_value=0.0)
     translate_framey = translateFrameY
 
 
@@ -363,10 +363,10 @@ class PivotFramePlugOperator(
         ("pivotFrameY", "pivot_framey"),
     )
 
-    pivotFrameX = FloatField()
+    pivotFrameX = FloatField(default_value=0.5)
     pivot_framex = pivotFrameX
 
-    pivotFrameY = FloatField()
+    pivotFrameY = FloatField(default_value=0.5)
     pivot_framey = pivotFrameY
 
 
@@ -375,10 +375,10 @@ class PivotFrameAttrOperator(
 ):
     __slots__ = ()
 
-    pivotFrameX = FloatField()
+    pivotFrameX = FloatField(default_value=0.5)
     pivot_framex = pivotFrameX
 
-    pivotFrameY = FloatField()
+    pivotFrameY = FloatField(default_value=0.5)
     pivot_framey = pivotFrameY
 
 
@@ -390,10 +390,10 @@ class PivotFrameField(
     ATTR_CLS = PivotFrameAttrOperator
     PLUG_CLS = PivotFramePlugOperator
 
-    pivotFrameX = FloatField()
+    pivotFrameX = FloatField(default_value=0.5)
     pivot_framex = pivotFrameX
 
-    pivotFrameY = FloatField()
+    pivotFrameY = FloatField(default_value=0.5)
     pivot_framey = pivotFrameY
 
 
@@ -407,13 +407,13 @@ class WrapFrameColorPlugOperator(
         ("wrapFrameColorB", "wrap_frame_colorb"),
     )
 
-    wrapFrameColorR = FloatField()
+    wrapFrameColorR = FloatField(default_value=0.0)
     wrap_frame_colorr = wrapFrameColorR
 
-    wrapFrameColorG = FloatField()
+    wrapFrameColorG = FloatField(default_value=0.0)
     wrap_frame_colorg = wrapFrameColorG
 
-    wrapFrameColorB = FloatField()
+    wrapFrameColorB = FloatField(default_value=0.0)
     wrap_frame_colorb = wrapFrameColorB
 
 
@@ -422,13 +422,13 @@ class WrapFrameColorAttrOperator(
 ):
     __slots__ = ()
 
-    wrapFrameColorR = FloatField()
+    wrapFrameColorR = FloatField(default_value=0.0)
     wrap_frame_colorr = wrapFrameColorR
 
-    wrapFrameColorG = FloatField()
+    wrapFrameColorG = FloatField(default_value=0.0)
     wrap_frame_colorg = wrapFrameColorG
 
-    wrapFrameColorB = FloatField()
+    wrapFrameColorB = FloatField(default_value=0.0)
     wrap_frame_colorb = wrapFrameColorB
 
 
@@ -440,13 +440,13 @@ class WrapFrameColorField(
     ATTR_CLS = WrapFrameColorAttrOperator
     PLUG_CLS = WrapFrameColorPlugOperator
 
-    wrapFrameColorR = FloatField()
+    wrapFrameColorR = FloatField(default_value=0.0)
     wrap_frame_colorr = wrapFrameColorR
 
-    wrapFrameColorG = FloatField()
+    wrapFrameColorG = FloatField(default_value=0.0)
     wrap_frame_colorg = wrapFrameColorG
 
-    wrapFrameColorB = FloatField()
+    wrapFrameColorB = FloatField(default_value=0.0)
     wrap_frame_colorb = wrapFrameColorB
 
 
@@ -459,10 +459,10 @@ class RepeatPlugOperator(
         ("repeatY", "repeaty"),
     )
 
-    repeatX = FloatField()
+    repeatX = FloatField(default_value=1.0)
     repeatx = repeatX
 
-    repeatY = FloatField()
+    repeatY = FloatField(default_value=1.0)
     repeaty = repeatY
 
 
@@ -471,10 +471,10 @@ class RepeatAttrOperator(
 ):
     __slots__ = ()
 
-    repeatX = FloatField()
+    repeatX = FloatField(default_value=1.0)
     repeatx = repeatX
 
-    repeatY = FloatField()
+    repeatY = FloatField(default_value=1.0)
     repeaty = repeatY
 
 
@@ -486,10 +486,10 @@ class RepeatField(
     ATTR_CLS = RepeatAttrOperator
     PLUG_CLS = RepeatPlugOperator
 
-    repeatX = FloatField()
+    repeatX = FloatField(default_value=1.0)
     repeatx = repeatX
 
-    repeatY = FloatField()
+    repeatY = FloatField(default_value=1.0)
     repeaty = repeatY
 
 
@@ -502,10 +502,10 @@ class OffsetPlugOperator(
         ("offsetY", "offsety"),
     )
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
 
@@ -514,10 +514,10 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
 
@@ -529,10 +529,10 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
 
@@ -545,10 +545,10 @@ class PivotPlugOperator(
         ("pivotY", "pivoty"),
     )
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5)
     pivotx = pivotX
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5)
     pivoty = pivotY
 
 
@@ -557,10 +557,10 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5)
     pivotx = pivotX
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5)
     pivoty = pivotY
 
 
@@ -572,10 +572,10 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5)
     pivotx = pivotX
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5)
     pivoty = pivotY
 
 
@@ -588,10 +588,10 @@ class NoisePlugOperator(
         ("noiseY", "noisey"),
     )
 
-    noiseX = FloatField()
+    noiseX = FloatField(default_value=0.0)
     noisex = noiseX
 
-    noiseY = FloatField()
+    noiseY = FloatField(default_value=0.0)
     noisey = noiseY
 
 
@@ -600,10 +600,10 @@ class NoiseAttrOperator(
 ):
     __slots__ = ()
 
-    noiseX = FloatField()
+    noiseX = FloatField(default_value=0.0)
     noisex = noiseX
 
-    noiseY = FloatField()
+    noiseY = FloatField(default_value=0.0)
     noisey = noiseY
 
 
@@ -615,8 +615,8 @@ class NoiseField(
     ATTR_CLS = NoiseAttrOperator
     PLUG_CLS = NoisePlugOperator
 
-    noiseX = FloatField()
+    noiseX = FloatField(default_value=0.0)
     noisex = noiseX
 
-    noiseY = FloatField()
+    noiseY = FloatField(default_value=0.0)
     noisey = noiseY

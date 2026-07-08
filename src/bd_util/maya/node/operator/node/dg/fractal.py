@@ -17,33 +17,33 @@ class Fractal(DG):
 
     NODE_TYPE = "fractal"
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -52,7 +52,7 @@ class Fractal(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -61,13 +61,13 @@ class Fractal(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -76,7 +76,7 @@ class Fractal(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -85,38 +85,38 @@ class Fractal(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     a = amplitude
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, max_value=1.0)
     ra = ratio
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     th = threshold
 
-    levelMin = FloatField()
+    levelMin = FloatField(default_value=0.0, min_value=0.0, max_value=25.0)
     lmn = levelMin
 
-    levelMax = FloatField()
+    levelMax = FloatField(default_value=9.0, min_value=0.0, max_value=25.0)
     lmx = levelMax
 
-    frequencyRatio = FloatField()
+    frequencyRatio = FloatField(default_value=2.0, soft_min_value=1.0, soft_max_value=10.0)
     fr = frequencyRatio
 
-    bias = FloatField()
+    bias = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     bs = bias
 
-    inflection = BoolField()
+    inflection = BoolField(default_value=False)
     in_ = inflection
 
-    animated = BoolField()
+    animated = BoolField(default_value=False)
     an = animated
 
-    timeRatio = FloatField()
+    timeRatio = FloatField(default_value=2.0, soft_min_value=1.0, soft_max_value=10.0)
     tr = timeRatio
 
-    time = FloatField()
+    time = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     ti = time

@@ -586,91 +586,91 @@ class Brush(DG):
 
     NODE_TYPE = "brush"
 
-    outBrush = TypedField()
+    outBrush = TypedField(writable=False)
     obr = outBrush
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tim = time
 
-    globalScale = DoubleField()
+    globalScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     gsc = globalScale
 
-    depth = BoolField()
+    depth = BoolField(default_value=False)
     dep = depth
 
-    modifyDepth = BoolField()
+    modifyDepth = BoolField(default_value=True)
     mdp = modifyDepth
 
-    modifyColor = BoolField()
+    modifyColor = BoolField(default_value=True)
     mdc = modifyColor
 
-    modifyAlpha = BoolField()
+    modifyAlpha = BoolField(default_value=True)
     mda = modifyAlpha
 
-    illuminated = BoolField()
+    illuminated = BoolField(default_value=False)
     ill = illuminated
 
-    castShadows = BoolField()
+    castShadows = BoolField(default_value=False)
     csd = castShadows
 
-    lightingBasedWidth = DoubleField()
+    lightingBasedWidth = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lbw = lightingBasedWidth
 
-    branches = BoolField()
+    branches = BoolField(default_value=False)
     brc = branches
 
-    twigs = BoolField()
+    twigs = BoolField(default_value=False)
     twg = twigs
 
-    buds = BoolField()
+    buds = BoolField(default_value=False)
     bud = buds
 
-    leaves = BoolField()
+    leaves = BoolField(default_value=False)
     lvs = leaves
 
-    flowers = BoolField()
+    flowers = BoolField(default_value=False)
     flw = flowers
 
-    brushType = BrushTypeEnumField()
+    brushType = BrushTypeEnumField(default_value=0)
     brt = brushType
 
-    brushWidth = DoubleField()
+    brushWidth = DoubleField(default_value=0.05, soft_min_value=0.0, soft_max_value=0.5)
     bwd = brushWidth
 
-    screenspaceWidth = BoolField()
+    screenspaceWidth = BoolField(default_value=False)
     spw = screenspaceWidth
 
-    distanceScaling = DoubleField()
+    distanceScaling = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     dsl = distanceScaling
 
-    minPixelWidth = DoubleField()
+    minPixelWidth = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     mpw = minPixelWidth
 
-    maxPixelWidth = DoubleField()
+    maxPixelWidth = DoubleField(default_value=1000.0, soft_min_value=0.0, soft_max_value=1000.0)
     mxp = maxPixelWidth
 
-    stampDensity = DoubleField()
+    stampDensity = DoubleField(default_value=8.0, soft_min_value=0.0, soft_max_value=50.0)
     sdn = stampDensity
 
-    softness = DoubleField()
+    softness = DoubleField(default_value=0.2, soft_min_value=-1.0, soft_max_value=1.0)
     sft = softness
 
-    edgeAntialias = BoolField()
+    edgeAntialias = BoolField(default_value=True)
     eaa = edgeAntialias
 
-    edgeClip = BoolField()
+    edgeClip = BoolField(default_value=False)
     ecl = edgeClip
 
-    edgeClipDepth = DoubleField()
+    edgeClipDepth = DoubleField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     ecd = edgeClipDepth
 
-    occlusionWidthScale = BoolField()
+    occlusionWidthScale = BoolField(default_value=False)
     ows = occlusionWidthScale
 
-    blurIntensity = LongField()
+    blurIntensity = LongField(default_value=4, soft_min_value=1, soft_max_value=20)
     bin = blurIntensity
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(0.0, 0.0, 0.0))
     cl1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -679,7 +679,7 @@ class Brush(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(1.0, 1.0, 1.0))
     cl2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -688,7 +688,7 @@ class Brush(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    transparency1 = Transparency1Field()
+    transparency1 = Transparency1Field(default_value=(0.0, 0.0, 0.0))
     tn1 = transparency1
     transparency1R = transparency1.transparency1R
     t1r = transparency1R
@@ -697,7 +697,7 @@ class Brush(DG):
     transparency1B = transparency1.transparency1B
     t1b = transparency1B
 
-    transparency2 = Transparency2Field()
+    transparency2 = Transparency2Field(default_value=(0.0, 0.0, 0.0))
     tn2 = transparency2
     transparency2R = transparency2.transparency2R
     t2r = transparency2R
@@ -706,7 +706,7 @@ class Brush(DG):
     transparency2B = transparency2.transparency2B
     t2b = transparency2B
 
-    incandescence1 = Incandescence1Field()
+    incandescence1 = Incandescence1Field(default_value=(0.0, 0.0, 0.0))
     in1 = incandescence1
     incandescence1R = incandescence1.incandescence1R
     i1r = incandescence1R
@@ -715,7 +715,7 @@ class Brush(DG):
     incandescence1B = incandescence1.incandescence1B
     i1b = incandescence1B
 
-    incandescence2 = Incandescence2Field()
+    incandescence2 = Incandescence2Field(default_value=(0.0, 0.0, 0.0))
     in2 = incandescence2
     incandescence2R = incandescence2.incandescence2R
     i2r = incandescence2R
@@ -724,7 +724,7 @@ class Brush(DG):
     incandescence2B = incandescence2.incandescence2B
     i2b = incandescence2B
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
     spc = specularColor
     specularColorR = specularColor.specularColorR
     spr = specularColorR
@@ -733,19 +733,19 @@ class Brush(DG):
     specularColorB = specularColor.specularColorB
     spb = specularColorB
 
-    specular = DoubleField()
+    specular = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     spe = specular
 
-    specularPower = DoubleField()
+    specularPower = DoubleField(default_value=10.0, soft_min_value=0.0, soft_max_value=20.0)
     spp = specularPower
 
-    translucence = DoubleField()
+    translucence = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     trn = translucence
 
-    glow = DoubleField()
+    glow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     glw = glow
 
-    glowColor = GlowColorField()
+    glowColor = GlowColorField(default_value=(0.5, 0.5, 0.5))
     glc = glowColor
     glowColorR = glowColor.glowColorR
     glr = glowColorR
@@ -754,61 +754,61 @@ class Brush(DG):
     glowColorB = glowColor.glowColorB
     glb = glowColorB
 
-    glowSpread = DoubleField()
+    glowSpread = DoubleField(default_value=3.0, soft_min_value=1.0, soft_max_value=10.0)
     gls = glowSpread
 
-    shaderGlow = DoubleField()
+    shaderGlow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     sgl = shaderGlow
 
-    hueRand = DoubleField()
+    hueRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     chr = hueRand
 
-    satRand = DoubleField()
+    satRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     csr = satRand
 
-    valRand = DoubleField()
+    valRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     cvr = valRand
 
-    rootFade = DoubleField()
+    rootFade = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     rfd = rootFade
 
-    tipFade = DoubleField()
+    tipFade = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tfd = tipFade
 
-    fakeShadow = FakeShadowEnumField()
+    fakeShadow = FakeShadowEnumField(default_value=0)
     fks = fakeShadow
 
-    shadowOffset = DoubleField()
+    shadowOffset = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     sof = shadowOffset
 
-    shadowDiffusion = DoubleField()
+    shadowDiffusion = DoubleField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     sdf = shadowDiffusion
 
-    shadowTransparency = DoubleField()
+    shadowTransparency = DoubleField(default_value=0.8, soft_min_value=0.0, soft_max_value=1.0)
     stn = shadowTransparency
 
-    backShadow = DoubleField()
+    backShadow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bks = backShadow
 
-    brightnessRand = DoubleField()
+    brightnessRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     brn = brightnessRand
 
-    centerShadow = DoubleField()
+    centerShadow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     cns = centerShadow
 
-    depthShadowType = DepthShadowTypeEnumField()
+    depthShadowType = DepthShadowTypeEnumField(default_value=0)
     dpt = depthShadowType
 
-    depthShadow = DoubleField()
+    depthShadow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     dpl = depthShadow
 
-    depthShadowDepth = DoubleField()
+    depthShadowDepth = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     dps = depthShadowDepth
 
-    realLights = BoolField()
+    realLights = BoolField(default_value=False)
     rll = realLights
 
-    lightDirection = LightDirectionField()
+    lightDirection = LightDirectionField(default_value=(0.5, 0.5, -0.5))
     ldr = lightDirection
     lightDirectionX = lightDirection.lightDirectionX
     ldx = lightDirectionX
@@ -817,34 +817,34 @@ class Brush(DG):
     lightDirectionZ = lightDirection.lightDirectionZ
     ldz = lightDirectionZ
 
-    gapSize = DoubleField()
+    gapSize = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gsz = gapSize
 
-    gapSpacing = DoubleField()
+    gapSpacing = DoubleField(default_value=1.0, soft_min_value=0.02, soft_max_value=1.0)
     gsp = gapSpacing
 
-    gapRand = DoubleField()
+    gapRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     grn = gapRand
 
-    flowSpeed = DoubleField()
+    flowSpeed = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     fws = flowSpeed
 
-    textureFlow = BoolField()
+    textureFlow = BoolField(default_value=True)
     tfl = textureFlow
 
-    timeClip = BoolField()
+    timeClip = BoolField(default_value=False)
     tcl = timeClip
 
-    strokeTime = BoolField()
+    strokeTime = BoolField(default_value=False)
     srm = strokeTime
 
-    startTime = DoubleField()
+    startTime = DoubleField(default_value=0.0, soft_min_value=-1000.0, soft_max_value=1000.0)
     sti = startTime
 
-    endTime = DoubleField()
+    endTime = DoubleField(default_value=1000.0, soft_min_value=0.0, soft_max_value=1000.0)
     eti = endTime
 
-    tubes = BoolField()
+    tubes = BoolField(default_value=False)
     tub = tubes
 
     creationScript = DataStringField()
@@ -853,178 +853,178 @@ class Brush(DG):
     runtimeScript = DataStringField()
     rsc = runtimeScript
 
-    tubeCompletion = BoolField()
+    tubeCompletion = BoolField(default_value=True)
     tcm = tubeCompletion
 
-    tubesPerStep = DoubleField()
+    tubesPerStep = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=10.0)
     tps = tubesPerStep
 
-    tubeRand = DoubleField()
+    tubeRand = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     trd = tubeRand
 
-    startTubes = LongField()
+    startTubes = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
     stb = startTubes
 
-    lengthMax = DoubleField()
+    lengthMax = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     lnx = lengthMax
 
-    lengthMin = DoubleField()
+    lengthMin = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     lnn = lengthMin
 
-    segments = LongField()
+    segments = LongField(default_value=10, soft_min_value=1, soft_max_value=100)
     sgm = segments
 
-    tubeWidth1 = DoubleField()
+    tubeWidth1 = DoubleField(default_value=0.01, soft_min_value=0.0, soft_max_value=0.1)
     tw1 = tubeWidth1
 
-    tubeWidth2 = DoubleField()
+    tubeWidth2 = DoubleField(default_value=0.01, soft_min_value=0.0, soft_max_value=0.1)
     tw2 = tubeWidth2
 
-    widthRand = DoubleField()
+    widthRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     wdr = widthRand
 
-    widthBias = DoubleField()
+    widthBias = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     wdb = widthBias
 
-    lengthFlex = DoubleField()
+    lengthFlex = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lfx = lengthFlex
 
-    segmentLengthBias = DoubleField()
+    segmentLengthBias = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sgb = segmentLengthBias
 
-    segmentWidthBias = DoubleField()
+    segmentWidthBias = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     swb = segmentWidthBias
 
-    tubeDirection = TubeDirectionEnumField()
+    tubeDirection = TubeDirectionEnumField(default_value=0)
     tdr = tubeDirection
 
-    elevationMin = DoubleField()
+    elevationMin = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     elm = elevationMin
 
-    elevationMax = DoubleField()
+    elevationMax = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     elx = elevationMax
 
-    azimuthMin = DoubleField()
+    azimuthMin = DoubleField(default_value=-0.1, soft_min_value=-1.0, soft_max_value=1.0)
     azn = azimuthMin
 
-    azimuthMax = DoubleField()
+    azimuthMax = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     azx = azimuthMax
 
-    flatness1 = DoubleField()
+    flatness1 = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fl1 = flatness1
 
-    flatness2 = DoubleField()
+    flatness2 = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fl2 = flatness2
 
-    twist = DoubleField()
+    twist = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     twi = twist
 
-    twistRate = DoubleField()
+    twistRate = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     twr = twistRate
 
-    twistRand = DoubleField()
+    twistRand = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     twd = twistRand
 
-    spiralMin = DoubleField()
+    spiralMin = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     spm = spiralMin
 
-    spiralMax = DoubleField()
+    spiralMax = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     spx = spiralMax
 
-    spiralDecay = DoubleField()
+    spiralDecay = DoubleField(default_value=0.0, soft_min_value=-0.01, soft_max_value=0.01)
     spd = spiralDecay
 
-    bend = DoubleField()
+    bend = DoubleField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     ben = bend
 
-    bendBias = DoubleField()
+    bendBias = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     bnb = bendBias
 
-    displacementDelay = DoubleField()
+    displacementDelay = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     ddl = displacementDelay
 
-    wiggle = DoubleField()
+    wiggle = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.5)
     wgl = wiggle
 
-    wiggleFrequency = DoubleField()
+    wiggleFrequency = DoubleField(default_value=3.0, soft_min_value=0.0001, soft_max_value=100.0)
     wgf = wiggleFrequency
 
-    wiggleOffset = DoubleField()
+    wiggleOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     wgo = wiggleOffset
 
-    curl = DoubleField()
+    curl = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.5)
     crl = curl
 
-    curlFrequency = DoubleField()
+    curlFrequency = DoubleField(default_value=1.0, soft_min_value=0.0001, soft_max_value=100.0)
     crf = curlFrequency
 
-    curlOffset = DoubleField()
+    curlOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     cro = curlOffset
 
-    noise = DoubleField()
+    noise = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.5)
     noi = noise
 
-    noiseFrequency = DoubleField()
+    noiseFrequency = DoubleField(default_value=0.2, soft_min_value=0.0001, soft_max_value=1.0)
     nof = noiseFrequency
 
-    noiseOffset = DoubleField()
+    noiseOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.1)
     noo = noiseOffset
 
-    splitMaxDepth = DoubleField()
+    splitMaxDepth = DoubleField(default_value=2.0, soft_min_value=0.0, soft_max_value=8.0)
     smd = splitMaxDepth
 
-    splitRand = DoubleField()
+    splitRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     srd = splitRand
 
-    splitAngle = DoubleField()
+    splitAngle = DoubleField(default_value=30.0, soft_min_value=0.0, soft_max_value=180.0)
     spa = splitAngle
 
-    splitSizeDecay = DoubleField()
+    splitSizeDecay = DoubleField(default_value=0.7, soft_min_value=0.5, soft_max_value=2.0)
     ssd = splitSizeDecay
 
-    splitBias = DoubleField()
+    splitBias = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     slb = splitBias
 
-    splitTwist = DoubleField()
+    splitTwist = DoubleField(default_value=0.5, soft_min_value=-1.0, soft_max_value=1.0)
     slt = splitTwist
 
-    startBranches = DoubleField()
+    startBranches = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     sbr = startBranches
 
-    numBranches = LongField()
+    numBranches = LongField(default_value=2, soft_min_value=1, soft_max_value=10)
     nbr = numBranches
 
-    branchDropout = DoubleField()
+    branchDropout = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bdr = branchDropout
 
-    middleBranch = BoolField()
+    middleBranch = BoolField(default_value=False)
     mbr = middleBranch
 
-    minSize = DoubleField()
+    minSize = DoubleField(default_value=0.0001, soft_min_value=0.0, soft_max_value=0.1)
     mms = minSize
 
-    pathFollow = DoubleField()
+    pathFollow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     pfl = pathFollow
 
-    pathAttract = DoubleField()
+    pathAttract = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     pat = pathAttract
 
-    curveFollow = DoubleField()
+    curveFollow = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     cfw = curveFollow
 
-    curveAttract = DoubleField()
+    curveAttract = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     cva = curveAttract
 
-    curveMaxDist = DoubleField()
+    curveMaxDist = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     cmd = curveMaxDist
 
-    surfaceAttract = DoubleField()
+    surfaceAttract = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     sfa = surfaceAttract
 
-    maxAttractDistance = DoubleField()
+    maxAttractDistance = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     mad = maxAttractDistance
 
-    uniformForce = UniformForceField()
+    uniformForce = UniformForceField(default_value=(0.0, 0.0, 0.0), soft_min_value=(-1.0, -1.0, -1.0), soft_max_value=(1.0, 1.0, 1.0))
     ufr = uniformForce
     uniformForceX = uniformForce.uniformForceX
     ufx = uniformForceX
@@ -1033,22 +1033,22 @@ class Brush(DG):
     uniformForceZ = uniformForce.uniformForceZ
     ufz = uniformForceZ
 
-    turbulenceType = TurbulenceTypeEnumField()
+    turbulenceType = TurbulenceTypeEnumField(default_value=0)
     trt = turbulenceType
 
-    turbulenceInterpolation = TurbulenceInterpolationEnumField()
+    turbulenceInterpolation = TurbulenceInterpolationEnumField(default_value=0)
     tin = turbulenceInterpolation
 
-    turbulence = DoubleField()
+    turbulence = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     tur = turbulence
 
-    turbulenceFrequency = DoubleField()
+    turbulenceFrequency = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     trf = turbulenceFrequency
 
-    turbulenceSpeed = DoubleField()
+    turbulenceSpeed = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     trs = turbulenceSpeed
 
-    turbulenceOffset = TurbulenceOffsetField()
+    turbulenceOffset = TurbulenceOffsetField(default_value=(0.0, 0.0, 0.0), soft_min_value=(-1.0, -1.0, -1.0), soft_max_value=(1.0, 1.0, 1.0))
     tro = turbulenceOffset
     turbulenceOffsetX = turbulenceOffset.turbulenceOffsetX
     trx = turbulenceOffsetX
@@ -1057,34 +1057,34 @@ class Brush(DG):
     turbulenceOffsetZ = turbulenceOffset.turbulenceOffsetZ
     trz = turbulenceOffsetZ
 
-    random = DoubleField()
+    random = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ran = random
 
-    gravity = DoubleField()
+    gravity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     grv = gravity
 
-    momentum = DoubleField()
+    momentum = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mmt = momentum
 
-    surfaceCollide = BoolField()
+    surfaceCollide = BoolField(default_value=False)
     scl = surfaceCollide
 
-    collideMethod = CollideMethodEnumField()
+    collideMethod = CollideMethodEnumField(default_value=0)
     clmp = collideMethod
 
-    surfaceSnap = BoolField()
+    surfaceSnap = BoolField(default_value=False)
     ssn = surfaceSnap
 
-    deflection = BoolField()
+    deflection = BoolField(default_value=False)
     def_ = deflection
 
-    deflectionMin = DoubleField()
+    deflectionMin = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     dfm = deflectionMin
 
-    deflectionMax = DoubleField()
+    deflectionMax = DoubleField(default_value=0.3, soft_min_value=0.0, soft_max_value=1.0)
     dfx = deflectionMax
 
-    sunDirection = SunDirectionField()
+    sunDirection = SunDirectionField(default_value=(0.0, 1.0, 0.0), soft_min_value=(-1.0, -1.0, -1.0), soft_max_value=(1.0, 1.0, 1.0))
     snd = sunDirection
     sunDirectionX = sunDirection.sunDirectionX
     sndx = sunDirectionX
@@ -1093,109 +1093,109 @@ class Brush(DG):
     sunDirectionZ = sunDirection.sunDirectionZ
     sndz = sunDirectionZ
 
-    twigsInCluster = LongField()
+    twigsInCluster = LongField(default_value=1, soft_min_value=1, soft_max_value=8)
     tic = twigsInCluster
 
-    twigDropout = DoubleField()
+    twigDropout = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tdp = twigDropout
 
-    twigAngle1 = DoubleField()
+    twigAngle1 = DoubleField(default_value=90.0, soft_min_value=0.0, soft_max_value=180.0)
     ta1 = twigAngle1
 
-    twigAngle2 = DoubleField()
+    twigAngle2 = DoubleField(default_value=80.0, soft_min_value=0.0, soft_max_value=180.0)
     ta2 = twigAngle2
 
-    twigTwist = DoubleField()
+    twigTwist = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ttw = twigTwist
 
-    twigLength = DoubleField()
+    twigLength = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=10.0)
     twl = twigLength
 
-    twigStart = DoubleField()
+    twigStart = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     tst = twigStart
 
-    numTwigClusters = DoubleField()
+    numTwigClusters = DoubleField(default_value=4.0, soft_min_value=1.0, soft_max_value=100.0)
     ntc = numTwigClusters
 
-    twigBaseWidth = DoubleField()
+    twigBaseWidth = DoubleField(default_value=0.4, soft_min_value=0.0, soft_max_value=1.0)
     twb = twigBaseWidth
 
-    twigTipWidth = DoubleField()
+    twigTipWidth = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     twt = twigTipWidth
 
-    twigStiffness = DoubleField()
+    twigStiffness = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     tgs = twigStiffness
 
-    branchAfterTwigs = BoolField()
+    branchAfterTwigs = BoolField(default_value=False)
     bat = branchAfterTwigs
 
-    leavesInCluster = LongField()
+    leavesInCluster = LongField(default_value=1, soft_min_value=1, soft_max_value=8)
     lic = leavesInCluster
 
-    leafLocation = LeafLocationEnumField()
+    leafLocation = LeafLocationEnumField(default_value=0)
     llo = leafLocation
 
-    leafDropout = DoubleField()
+    leafDropout = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ldp = leafDropout
 
-    leafAngle1 = DoubleField()
+    leafAngle1 = DoubleField(default_value=75.0, soft_min_value=0.0, soft_max_value=180.0)
     ll1 = leafAngle1
 
-    leafAngle2 = DoubleField()
+    leafAngle2 = DoubleField(default_value=25.0, soft_min_value=0.0, soft_max_value=180.0)
     ll2 = leafAngle2
 
-    leafTwist = DoubleField()
+    leafTwist = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ltw = leafTwist
 
-    leafBend = DoubleField()
+    leafBend = DoubleField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     lbn = leafBend
 
-    leafCurl = LeafCurlField(multi=True)
+    leafCurl = LeafCurlField(multi=True, default_value=(0.0, 0.0, 0.0))
     lcl = leafCurl
 
-    leafTwirl = DoubleField()
+    leafTwirl = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ltwl = leafTwirl
 
-    leafFaceSun = DoubleField()
+    leafFaceSun = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     lfcs = leafFaceSun
 
-    leafSegments = LongField()
+    leafSegments = LongField(default_value=5, soft_min_value=1, soft_max_value=100)
     lsg = leafSegments
 
-    leafStart = DoubleField()
+    leafStart = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     lst = leafStart
 
-    numLeafClusters = DoubleField()
+    numLeafClusters = DoubleField(default_value=3.0, soft_min_value=1.0, soft_max_value=100.0)
     nlc = numLeafClusters
 
-    leafFlatness = DoubleField()
+    leafFlatness = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     lft = leafFlatness
 
-    leafLength = DoubleField()
+    leafLength = DoubleField(default_value=0.3, soft_min_value=0.0, soft_max_value=0.0)
     lln = leafLength
 
-    leafBaseWidth = DoubleField()
+    leafBaseWidth = DoubleField(default_value=0.15, soft_min_value=0.0, soft_max_value=1.0)
     leb = leafBaseWidth
 
-    leafTipWidth = DoubleField()
+    leafTipWidth = DoubleField(default_value=0.05, soft_min_value=0.0, soft_max_value=1.0)
     let = leafTipWidth
 
-    leafSizeDecay = DoubleField()
+    leafSizeDecay = DoubleField(default_value=0.7, soft_min_value=0.0, soft_max_value=2.0)
     lsd = leafSizeDecay
 
-    leafSizeRand = DoubleField()
+    leafSizeRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lzr = leafSizeRand
 
-    leafTranslucence = DoubleField()
+    leafTranslucence = DoubleField(default_value=0.7, soft_min_value=0.0, soft_max_value=1.0)
     ltr = leafTranslucence
 
-    leafSpecular = DoubleField()
+    leafSpecular = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lsp = leafSpecular
 
-    terminalLeaf = BoolField()
+    terminalLeaf = BoolField(default_value=False)
     tml = terminalLeaf
 
-    leafColor1 = LeafColor1Field()
+    leafColor1 = LeafColor1Field(default_value=(0.20000000298023224, 0.6000000238418579, 0.30000001192092896))
     lc1 = leafColor1
     leafColor1R = leafColor1.leafColor1R
     lr1 = leafColor1R
@@ -1204,7 +1204,7 @@ class Brush(DG):
     leafColor1B = leafColor1.leafColor1B
     lb1 = leafColor1B
 
-    leafColor2 = LeafColor2Field()
+    leafColor2 = LeafColor2Field(default_value=(0.4000000059604645, 0.6000000238418579, 0.30000001192092896))
     lc2 = leafColor2
     leafColor2R = leafColor2.leafColor2R
     lr2 = leafColor2R
@@ -1213,28 +1213,28 @@ class Brush(DG):
     leafColor2B = leafColor2.leafColor2B
     lb2 = leafColor2B
 
-    leafHueRand = DoubleField()
+    leafHueRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lhr = leafHueRand
 
-    leafSatRand = DoubleField()
+    leafSatRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lsr = leafSatRand
 
-    leafValRand = DoubleField()
+    leafValRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lvr = leafValRand
 
-    leafUseBranchTex = BoolField()
+    leafUseBranchTex = BoolField(default_value=True)
     lub = leafUseBranchTex
 
     leafImage = DataStringField()
     lim = leafImage
 
-    leafStiffness = DoubleField()
+    leafStiffness = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     lfs = leafStiffness
 
-    budSize = DoubleField()
+    budSize = DoubleField(default_value=0.03, soft_min_value=0.0, soft_max_value=1.0)
     bds = budSize
 
-    budColor = BudColorField()
+    budColor = BudColorField(default_value=(0.4000000059604645, 0.800000011920929, 0.20000000298023224))
     bcr = budColor
     budColorR = budColor.budColorR
     bur = budColorR
@@ -1243,70 +1243,70 @@ class Brush(DG):
     budColorB = budColor.budColorB
     bub = budColorB
 
-    petalsInFlower = LongField()
+    petalsInFlower = LongField(default_value=1, soft_min_value=0, soft_max_value=8)
     pif = petalsInFlower
 
-    flowerLocation = FlowerLocationEnumField()
+    flowerLocation = FlowerLocationEnumField(default_value=0)
     flc = flowerLocation
 
-    petalDropout = DoubleField()
+    petalDropout = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     pdp = petalDropout
 
-    flowerAngle1 = DoubleField()
+    flowerAngle1 = DoubleField(default_value=75.0, soft_min_value=0.0, soft_max_value=180.0)
     fw1 = flowerAngle1
 
-    flowerAngle2 = DoubleField()
+    flowerAngle2 = DoubleField(default_value=25.0, soft_min_value=0.0, soft_max_value=180.0)
     fw2 = flowerAngle2
 
-    flowerTwist = DoubleField()
+    flowerTwist = DoubleField(default_value=0.23, soft_min_value=-1.0, soft_max_value=1.0)
     ftw = flowerTwist
 
-    petalBend = DoubleField()
+    petalBend = DoubleField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
     pbn = petalBend
 
-    petalCurl = PetalCurlField(multi=True)
+    petalCurl = PetalCurlField(multi=True, default_value=(0.0, 0.0, 0.0))
     pcl = petalCurl
 
-    petalTwirl = DoubleField()
+    petalTwirl = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     lpwl = petalTwirl
 
-    flowerFaceSun = DoubleField()
+    flowerFaceSun = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     ffcs = flowerFaceSun
 
-    petalSegments = LongField()
+    petalSegments = LongField(default_value=5, soft_min_value=1, soft_max_value=100)
     psg = petalSegments
 
-    flowerStart = DoubleField()
+    flowerStart = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     fst = flowerStart
 
-    numFlowers = DoubleField()
+    numFlowers = DoubleField(default_value=10.0, soft_min_value=1.0, soft_max_value=100.0)
     nfl = numFlowers
 
-    petalFlatness = DoubleField()
+    petalFlatness = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     pft = petalFlatness
 
-    petalLength = DoubleField()
+    petalLength = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     pln = petalLength
 
-    petalBaseWidth = DoubleField()
+    petalBaseWidth = DoubleField(default_value=0.05, soft_min_value=0.0, soft_max_value=1.0)
     ptb = petalBaseWidth
 
-    petalTipWidth = DoubleField()
+    petalTipWidth = DoubleField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     ptt = petalTipWidth
 
-    flowerSizeDecay = DoubleField()
+    flowerSizeDecay = DoubleField(default_value=0.7, soft_min_value=0.0, soft_max_value=2.0)
     fsd = flowerSizeDecay
 
-    flowerSizeRand = DoubleField()
+    flowerSizeRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fzr = flowerSizeRand
 
-    flowerTranslucence = DoubleField()
+    flowerTranslucence = DoubleField(default_value=0.7, soft_min_value=0.0, soft_max_value=1.0)
     ftr = flowerTranslucence
 
-    flowerSpecular = DoubleField()
+    flowerSpecular = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fsp = flowerSpecular
 
-    petalColor1 = PetalColor1Field()
+    petalColor1 = PetalColor1Field(default_value=(0.800000011920929, 0.20000000298023224, 0.10000000149011612))
     pc1 = petalColor1
     petalColor1R = petalColor1.petalColor1R
     pr1 = petalColor1R
@@ -1315,7 +1315,7 @@ class Brush(DG):
     petalColor1B = petalColor1.petalColor1B
     pb1 = petalColor1B
 
-    petalColor2 = PetalColor2Field()
+    petalColor2 = PetalColor2Field(default_value=(1.0, 1.0, 1.0))
     pc2 = petalColor2
     petalColor2R = petalColor2.petalColor2R
     pr2 = petalColor2R
@@ -1324,85 +1324,85 @@ class Brush(DG):
     petalColor2B = petalColor2.petalColor2B
     pb2 = petalColor2B
 
-    flowerHueRand = DoubleField()
+    flowerHueRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fhr = flowerHueRand
 
-    flowerSatRand = DoubleField()
+    flowerSatRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fsr = flowerSatRand
 
-    flowerValRand = DoubleField()
+    flowerValRand = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fvr = flowerValRand
 
-    flowerUseBranchTex = BoolField()
+    flowerUseBranchTex = BoolField(default_value=True)
     fub = flowerUseBranchTex
 
     flowerImage = DataStringField()
     fim = flowerImage
 
-    flowerStiffness = DoubleField()
+    flowerStiffness = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     fls = flowerStiffness
 
-    simplifyMethod = SimplifyMethodEnumField()
+    simplifyMethod = SimplifyMethodEnumField(default_value=2)
     smp = simplifyMethod
 
-    colorLengthMap = ColorLengthMapEnumField()
+    colorLengthMap = ColorLengthMapEnumField(default_value=0)
     clm = colorLengthMap
 
-    transpLengthMap = TranspLengthMapEnumField()
+    transpLengthMap = TranspLengthMapEnumField(default_value=0)
     tlm = transpLengthMap
 
-    incandLengthMap = IncandLengthMapEnumField()
+    incandLengthMap = IncandLengthMapEnumField(default_value=0)
     ilm = incandLengthMap
 
-    widthLengthMap = WidthLengthMapEnumField()
+    widthLengthMap = WidthLengthMapEnumField(default_value=0)
     wlm = widthLengthMap
 
-    splitLengthMap = SplitLengthMapEnumField()
+    splitLengthMap = SplitLengthMapEnumField(default_value=0)
     spl = splitLengthMap
 
-    mapColor = BoolField()
+    mapColor = BoolField(default_value=False)
     mcl = mapColor
 
-    mapOpacity = BoolField()
+    mapOpacity = BoolField(default_value=False)
     mop = mapOpacity
 
-    mapDisplacement = BoolField()
+    mapDisplacement = BoolField(default_value=False)
     mds = mapDisplacement
 
-    textureType = TextureTypeEnumField()
+    textureType = TextureTypeEnumField(default_value=0)
     txt = textureType
 
-    mapMethod = MapMethodEnumField()
+    mapMethod = MapMethodEnumField(default_value=2)
     mmd = mapMethod
 
-    texColorScale = DoubleField()
+    texColorScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     tcs = texColorScale
 
-    texColorOffset = DoubleField()
+    texColorOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tco = texColorOffset
 
-    texOpacityScale = DoubleField()
+    texOpacityScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     tos = texOpacityScale
 
-    texOpacityOffset = DoubleField()
+    texOpacityOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     too = texOpacityOffset
 
-    displacementScale = DoubleField()
+    displacementScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     dsc = displacementScale
 
-    displacementOffset = DoubleField()
+    displacementOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     dof = displacementOffset
 
-    bumpIntensity = DoubleField()
+    bumpIntensity = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     bmi = bumpIntensity
 
-    bumpBlur = DoubleField()
+    bumpBlur = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=2.0)
     bbl = bumpBlur
 
-    luminanceIsDisplacement = BoolField()
+    luminanceIsDisplacement = BoolField(default_value=True)
     lid = luminanceIsDisplacement
 
-    texColor1 = TexColor1Field()
+    texColor1 = TexColor1Field(default_value=(1.0, 1.0, 1.0))
     tc1 = texColor1
     texColor1R = texColor1.texColor1R
     x1r = texColor1R
@@ -1411,7 +1411,7 @@ class Brush(DG):
     texColor1B = texColor1.texColor1B
     x1b = texColor1B
 
-    texColor2 = TexColor2Field()
+    texColor2 = TexColor2Field(default_value=(0.0, 0.0, 0.0))
     tc2 = texColor2
     texColor2R = texColor2.texColor2R
     x2r = texColor2R
@@ -1420,133 +1420,133 @@ class Brush(DG):
     texColor2B = texColor2.texColor2B
     x2b = texColor2B
 
-    texAlpha1 = DoubleField()
+    texAlpha1 = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     al1 = texAlpha1
 
-    texAlpha2 = DoubleField()
+    texAlpha2 = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     al2 = texAlpha2
 
-    texUniformity = DoubleField()
+    texUniformity = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     txu = texUniformity
 
-    fringeRemoval = BoolField()
+    fringeRemoval = BoolField(default_value=True)
     frm = fringeRemoval
 
-    repeatU = DoubleField()
+    repeatU = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     rpu = repeatU
 
-    repeatV = DoubleField()
+    repeatV = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     rpv = repeatV
 
-    offsetU = DoubleField()
+    offsetU = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ofu = offsetU
 
-    offsetV = DoubleField()
+    offsetV = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ofv = offsetV
 
-    blurMult = DoubleField()
+    blurMult = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     bmt = blurMult
 
-    smear = DoubleField()
+    smear = DoubleField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     smr = smear
 
-    smearU = DoubleField()
+    smearU = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     sru = smearU
 
-    smearV = DoubleField()
+    smearV = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     srv = smearV
 
     imageName = DataStringField()
     imn = imageName
 
-    useFrameExtension = BoolField()
+    useFrameExtension = BoolField(default_value=False)
     ufe = useFrameExtension
 
-    frameExtension = LongField()
+    frameExtension = LongField(default_value=1)
     fe = frameExtension
 
-    fractalRatio = DoubleField()
+    fractalRatio = DoubleField(default_value=0.7, soft_min_value=0.0, soft_max_value=1.0)
     fra = fractalRatio
 
-    fractalAmplitude = DoubleField()
+    fractalAmplitude = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     fam = fractalAmplitude
 
-    fractalThreshold = DoubleField()
+    fractalThreshold = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fth = fractalThreshold
 
-    multiStreaks = LongField()
+    multiStreaks = LongField(default_value=0, min_value=0, max_value=100, soft_max_value=20)
     mst = multiStreaks
 
-    multiStreakSpread1 = DoubleField()
+    multiStreakSpread1 = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     ms1 = multiStreakSpread1
 
-    multiStreakSpread2 = DoubleField()
+    multiStreakSpread2 = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     ms2 = multiStreakSpread2
 
-    multiStreakDiffuseRand = DoubleField()
+    multiStreakDiffuseRand = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     msdr = multiStreakDiffuseRand
 
-    multiStreakSpecularRand = DoubleField()
+    multiStreakSpecularRand = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     mssr = multiStreakSpecularRand
 
-    multiStreakLightAll = BoolField()
+    multiStreakLightAll = BoolField(default_value=False)
     msla = multiStreakLightAll
 
-    singleSided = BoolField()
+    singleSided = BoolField(default_value=False)
     snsd = singleSided
 
-    tubeSections = LongField()
+    tubeSections = LongField(default_value=6, min_value=3, max_value=100, soft_max_value=30)
     tbs = tubeSections
 
-    subSegments = LongField()
+    subSegments = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=20)
     ssg = subSegments
 
-    perPixelLighting = BoolField()
+    perPixelLighting = BoolField(default_value=False)
     ppl = perPixelLighting
 
-    widthScale = WidthScaleField(multi=True)
+    widthScale = WidthScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     wsc = widthScale
 
-    leafWidthScale = LeafWidthScaleField(multi=True)
+    leafWidthScale = LeafWidthScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     lws = leafWidthScale
 
-    petalWidthScale = PetalWidthScaleField(multi=True)
+    petalWidthScale = PetalWidthScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     pws = petalWidthScale
 
-    twigLengthScale = TwigLengthScaleField(multi=True)
+    twigLengthScale = TwigLengthScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     tls = twigLengthScale
 
-    branchThorns = BoolField()
+    branchThorns = BoolField(default_value=False)
     bth = branchThorns
 
-    twigThorns = BoolField()
+    twigThorns = BoolField(default_value=False)
     tth = twigThorns
 
-    leafThorns = BoolField()
+    leafThorns = BoolField(default_value=False)
     lth = leafThorns
 
-    flowerThorns = BoolField()
+    flowerThorns = BoolField(default_value=False)
     flt = flowerThorns
 
-    thornDensity = DoubleField()
+    thornDensity = DoubleField(default_value=10.0, min_value=0.0, soft_max_value=100.0)
     nth = thornDensity
 
-    thornLength = DoubleField()
+    thornLength = DoubleField(default_value=0.5, min_value=0.0, soft_max_value=2.0)
     tln = thornLength
 
-    thornBaseWidth = DoubleField()
+    thornBaseWidth = DoubleField(default_value=0.05, min_value=0.0, soft_max_value=0.5)
     tbwd = thornBaseWidth
 
-    thornTipWidth = DoubleField()
+    thornTipWidth = DoubleField(default_value=0.01, min_value=0.0, soft_max_value=0.5)
     ttwd = thornTipWidth
 
-    thornElevation = DoubleField()
+    thornElevation = DoubleField(default_value=0.6, soft_min_value=0.0, soft_max_value=2.0)
     tel = thornElevation
 
-    thornSpecular = DoubleField()
+    thornSpecular = DoubleField(default_value=0.4, soft_min_value=0.0, soft_max_value=1.0)
     tsp = thornSpecular
 
-    thornBaseColor = ThornBaseColorField()
+    thornBaseColor = ThornBaseColorField(default_value=(0.5, 0.5, 0.5))
     tbc = thornBaseColor
     thornBaseColorR = thornBaseColor.thornBaseColorR
     tbcr = thornBaseColorR
@@ -1555,7 +1555,7 @@ class Brush(DG):
     thornBaseColorB = thornBaseColor.thornBaseColorB
     tbcb = thornBaseColorB
 
-    thornTipColor = ThornTipColorField()
+    thornTipColor = ThornTipColorField(default_value=(0.5, 0.5, 0.5))
     ttc = thornTipColor
     thornTipColorR = thornTipColor.thornTipColorR
     ttcr = thornTipColorR
@@ -1576,50 +1576,50 @@ class Brush(DG):
     environment_ColorB = FloatField()
     envcb = environment_ColorB
 
-    reflectionRolloff = ReflectionRolloffField(multi=True)
+    reflectionRolloff = ReflectionRolloffField(multi=True, default_value=(0.0, 0.0, 0.0))
     rro = reflectionRolloff
 
-    branchReflectivity = DoubleField()
+    branchReflectivity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     brf = branchReflectivity
 
-    leafReflectivity = DoubleField()
+    leafReflectivity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lrf = leafReflectivity
 
-    flowerReflectivity = DoubleField()
+    flowerReflectivity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     frf = flowerReflectivity
 
-    forwardTwist = BoolField()
+    forwardTwist = BoolField(default_value=False)
     fwt = forwardTwist
 
-    leafForwardTwist = BoolField()
+    leafForwardTwist = BoolField(default_value=False)
     lfwt = leafForwardTwist
 
-    petalForwardTwist = BoolField()
+    petalForwardTwist = BoolField(default_value=False)
     lpwt = petalForwardTwist
 
-    endCaps = BoolField()
+    endCaps = BoolField(default_value=False)
     edc = endCaps
 
-    hardEdges = BoolField()
+    hardEdges = BoolField(default_value=False)
     hde = hardEdges
 
-    surfaceSampleDensity = LongField()
+    surfaceSampleDensity = LongField(default_value=50, min_value=1, soft_max_value=200)
     susd = surfaceSampleDensity
 
-    occupyAttraction = DoubleField()
+    occupyAttraction = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     ocat = occupyAttraction
 
-    attractRadiusScale = DoubleField()
+    attractRadiusScale = DoubleField(default_value=4.0, soft_min_value=0.0, soft_max_value=10.0)
     ocar = attractRadiusScale
 
-    attractRadiusOffset = DoubleField()
+    attractRadiusOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ocao = attractRadiusOffset
 
-    occupyRadiusScale = DoubleField()
+    occupyRadiusScale = DoubleField(default_value=1.5, soft_min_value=0.0, soft_max_value=10.0)
     ocrs = occupyRadiusScale
 
-    occupyRadiusOffset = DoubleField()
+    occupyRadiusOffset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ocro = occupyRadiusOffset
 
-    occupyBranchTermination = BoolField()
+    occupyBranchTermination = BoolField(default_value=False)
     ocbt = occupyBranchTermination

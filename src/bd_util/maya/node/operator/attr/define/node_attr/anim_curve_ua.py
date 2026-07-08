@@ -25,13 +25,13 @@ class CurveColorPlugOperator(
         ("curveColorB", "ccb"),
     )
 
-    curveColorR = FloatField()
+    curveColorR = FloatField(default_value=0.0)
     ccr = curveColorR
 
-    curveColorG = FloatField()
+    curveColorG = FloatField(default_value=0.0)
     ccg = curveColorG
 
-    curveColorB = FloatField()
+    curveColorB = FloatField(default_value=0.0)
     ccb = curveColorB
 
 
@@ -40,13 +40,13 @@ class CurveColorAttrOperator(
 ):
     __slots__ = ()
 
-    curveColorR = FloatField()
+    curveColorR = FloatField(default_value=0.0)
     ccr = curveColorR
 
-    curveColorG = FloatField()
+    curveColorG = FloatField(default_value=0.0)
     ccg = curveColorG
 
-    curveColorB = FloatField()
+    curveColorB = FloatField(default_value=0.0)
     ccb = curveColorB
 
 
@@ -58,13 +58,13 @@ class CurveColorField(
     ATTR_CLS = CurveColorAttrOperator
     PLUG_CLS = CurveColorPlugOperator
 
-    curveColorR = FloatField()
+    curveColorR = FloatField(default_value=0.0)
     ccr = curveColorR
 
-    curveColorG = FloatField()
+    curveColorG = FloatField(default_value=0.0)
     ccg = curveColorG
 
-    curveColorB = FloatField()
+    curveColorB = FloatField(default_value=0.0)
     ccb = curveColorB
 
 
@@ -77,10 +77,10 @@ class KeyTimeValuePlugOperator(
         ("keyValue", "kv"),
     )
 
-    keyTime = DoubleField()
+    keyTime = DoubleField(default_value=0.0)
     kt = keyTime
 
-    keyValue = DoubleAngleField()
+    keyValue = DoubleAngleField(default_value=0.0)
     kv = keyValue
 
 
@@ -89,10 +89,10 @@ class KeyTimeValueAttrOperator(
 ):
     __slots__ = ()
 
-    keyTime = DoubleField()
+    keyTime = DoubleField(default_value=0.0)
     kt = keyTime
 
-    keyValue = DoubleAngleField()
+    keyValue = DoubleAngleField(default_value=0.0)
     kv = keyValue
 
 

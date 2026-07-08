@@ -13,7 +13,7 @@ class ColorLogic(DG):
 
     NODE_TYPE = "colorLogic"
 
-    colorA = ColorAField()
+    colorA = ColorAField(default_value=(1.0, 0.0, 0.5))
     ca = colorA
     colorAR = colorA.colorAR
     car = colorAR
@@ -22,7 +22,7 @@ class ColorLogic(DG):
     colorAB = colorA.colorAB
     cab = colorAB
 
-    colorB = ColorBField()
+    colorB = ColorBField(default_value=(1.0, 0.0, 0.5))
     cb = colorB
     colorBR = colorB.colorBR
     cbr = colorBR
@@ -31,8 +31,8 @@ class ColorLogic(DG):
     colorBB = colorB.colorBB
     cbb = colorBB
 
-    operation = LongField()
+    operation = LongField(default_value=0)
     op = operation
 
-    outBool = BoolField()
+    outBool = BoolField(default_value=False, writable=False)
     ob = outBool

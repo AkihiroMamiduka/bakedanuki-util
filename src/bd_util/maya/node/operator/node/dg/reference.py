@@ -37,10 +37,10 @@ class Reference(DG):
     parentList = DataStringField(multi=True)
     pl = parentList
 
-    fosterParent = MessageField()
+    fosterParent = MessageField(readable=False)
     fp = fosterParent
 
-    fosterSiblings = MessageField(multi=True)
+    fosterSiblings = MessageField(multi=True, readable=False)
     fs = fosterSiblings
 
     placeHolderList = GenericField(multi=True)
@@ -64,11 +64,11 @@ class Reference(DG):
     sharedReference = MessageField()
     sr = sharedReference
 
-    locked = BoolField()
+    locked = BoolField(default_value=False)
     lk = locked
 
     placeHolderNamespace = DataStringField()
     phns = placeHolderNamespace
 
-    associatedNode = MessageField(multi=True)
+    associatedNode = MessageField(multi=True, readable=False)
     asn = associatedNode

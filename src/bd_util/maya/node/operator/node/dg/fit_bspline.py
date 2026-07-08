@@ -48,11 +48,11 @@ class FitBspline(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    keepRange = KeepRangeEnumField()
+    keepRange = KeepRangeEnumField(default_value=1)
     kr = keepRange

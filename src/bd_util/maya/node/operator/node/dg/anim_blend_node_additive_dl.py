@@ -43,23 +43,23 @@ class AnimBlendNodeAdditiveDL(DG):
 
     NODE_TYPE = "animBlendNodeAdditiveDL"
 
-    weightA = DoubleField()
+    weightA = DoubleField(default_value=1.0)
     wa = weightA
 
-    weightB = DoubleField()
+    weightB = DoubleField(default_value=1.0)
     wb = weightB
 
     destinationPlug = DataStringField(multi=True)
     dp = destinationPlug
 
-    inputA = DoubleLinearField()
+    inputA = DoubleLinearField(default_value=0.0)
     ia = inputA
 
-    inputB = DoubleLinearField()
+    inputB = DoubleLinearField(default_value=0.0)
     ib = inputB
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0)
     o = output
 
-    interpolateMode = InterpolateModeEnumField()
+    interpolateMode = InterpolateModeEnumField(default_value=0)
     im = interpolateMode

@@ -23,13 +23,13 @@ class ParticleColorPlugOperator(
         ("particleColorB", "pcb"),
     )
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0, readable=False)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0, readable=False)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0, readable=False)
     pcb = particleColorB
 
 
@@ -38,13 +38,13 @@ class ParticleColorAttrOperator(
 ):
     __slots__ = ()
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0, readable=False)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0, readable=False)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0, readable=False)
     pcb = particleColorB
 
 
@@ -56,13 +56,13 @@ class ParticleColorField(
     ATTR_CLS = ParticleColorAttrOperator
     PLUG_CLS = ParticleColorPlugOperator
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0, readable=False)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0, readable=False)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0, readable=False)
     pcb = particleColorB
 
 
@@ -76,13 +76,13 @@ class ParticleTransparencyPlugOperator(
         ("particleTransparencyB", "ptb"),
     )
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0, readable=False)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0, readable=False)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0, readable=False)
     ptb = particleTransparencyB
 
 
@@ -91,13 +91,13 @@ class ParticleTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0, readable=False)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0, readable=False)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0, readable=False)
     ptb = particleTransparencyB
 
 
@@ -109,13 +109,13 @@ class ParticleTransparencyField(
     ATTR_CLS = ParticleTransparencyAttrOperator
     PLUG_CLS = ParticleTransparencyPlugOperator
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0, readable=False)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0, readable=False)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0, readable=False)
     ptb = particleTransparencyB
 
 
@@ -129,13 +129,13 @@ class ParticleIncandescencePlugOperator(
         ("particleIncandescenceB", "pib"),
     )
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0, readable=False)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0, readable=False)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0, readable=False)
     pib = particleIncandescenceB
 
 
@@ -144,13 +144,13 @@ class ParticleIncandescenceAttrOperator(
 ):
     __slots__ = ()
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0, readable=False)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0, readable=False)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0, readable=False)
     pib = particleIncandescenceB
 
 
@@ -162,13 +162,13 @@ class ParticleIncandescenceField(
     ATTR_CLS = ParticleIncandescenceAttrOperator
     PLUG_CLS = ParticleIncandescencePlugOperator
 
-    particleIncandescenceR = FloatField()
+    particleIncandescenceR = FloatField(default_value=0.0, readable=False)
     pir = particleIncandescenceR
 
-    particleIncandescenceG = FloatField()
+    particleIncandescenceG = FloatField(default_value=0.0, readable=False)
     pig = particleIncandescenceG
 
-    particleIncandescenceB = FloatField()
+    particleIncandescenceB = FloatField(default_value=0.0, readable=False)
     pib = particleIncandescenceB
 
 
@@ -181,10 +181,10 @@ class OutUvCoordPlugOperator(
         ("outVCoord", "ovc"),
     )
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.5, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.5, writable=False)
     ovc = outVCoord
 
 
@@ -193,10 +193,10 @@ class OutUvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.5, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.5, writable=False)
     ovc = outVCoord
 
 
@@ -208,10 +208,10 @@ class OutUvCoordField(
     ATTR_CLS = OutUvCoordAttrOperator
     PLUG_CLS = OutUvCoordPlugOperator
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.5, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.5, writable=False)
     ovc = outVCoord
 
 
@@ -225,13 +225,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -240,13 +240,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -258,13 +258,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -278,13 +278,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -293,13 +293,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -311,13 +311,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -331,13 +331,13 @@ class OutIncandescencePlugOperator(
         ("outIncandescenceB", "oicb"),
     )
 
-    outIncandescenceR = FloatField()
+    outIncandescenceR = FloatField(default_value=0.0, writable=False)
     oicr = outIncandescenceR
 
-    outIncandescenceG = FloatField()
+    outIncandescenceG = FloatField(default_value=0.0, writable=False)
     oicg = outIncandescenceG
 
-    outIncandescenceB = FloatField()
+    outIncandescenceB = FloatField(default_value=0.0, writable=False)
     oicb = outIncandescenceB
 
 
@@ -346,13 +346,13 @@ class OutIncandescenceAttrOperator(
 ):
     __slots__ = ()
 
-    outIncandescenceR = FloatField()
+    outIncandescenceR = FloatField(default_value=0.0, writable=False)
     oicr = outIncandescenceR
 
-    outIncandescenceG = FloatField()
+    outIncandescenceG = FloatField(default_value=0.0, writable=False)
     oicg = outIncandescenceG
 
-    outIncandescenceB = FloatField()
+    outIncandescenceB = FloatField(default_value=0.0, writable=False)
     oicb = outIncandescenceB
 
 
@@ -364,13 +364,13 @@ class OutIncandescenceField(
     ATTR_CLS = OutIncandescenceAttrOperator
     PLUG_CLS = OutIncandescencePlugOperator
 
-    outIncandescenceR = FloatField()
+    outIncandescenceR = FloatField(default_value=0.0, writable=False)
     oicr = outIncandescenceR
 
-    outIncandescenceG = FloatField()
+    outIncandescenceG = FloatField(default_value=0.0, writable=False)
     oicg = outIncandescenceG
 
-    outIncandescenceB = FloatField()
+    outIncandescenceB = FloatField(default_value=0.0, writable=False)
     oicb = outIncandescenceB
 
 
@@ -384,13 +384,13 @@ class AccelerationPlugOperator(
         ("accelerationZ", "accz"),
     )
 
-    accelerationX = FloatField()
+    accelerationX = FloatField(default_value=0.5, writable=False)
     accx = accelerationX
 
-    accelerationY = FloatField()
+    accelerationY = FloatField(default_value=0.5, writable=False)
     accy = accelerationY
 
-    accelerationZ = FloatField()
+    accelerationZ = FloatField(default_value=0.5, writable=False)
     accz = accelerationZ
 
 
@@ -399,13 +399,13 @@ class AccelerationAttrOperator(
 ):
     __slots__ = ()
 
-    accelerationX = FloatField()
+    accelerationX = FloatField(default_value=0.5, writable=False)
     accx = accelerationX
 
-    accelerationY = FloatField()
+    accelerationY = FloatField(default_value=0.5, writable=False)
     accy = accelerationY
 
-    accelerationZ = FloatField()
+    accelerationZ = FloatField(default_value=0.5, writable=False)
     accz = accelerationZ
 
 
@@ -417,13 +417,13 @@ class AccelerationField(
     ATTR_CLS = AccelerationAttrOperator
     PLUG_CLS = AccelerationPlugOperator
 
-    accelerationX = FloatField()
+    accelerationX = FloatField(default_value=0.5, writable=False)
     accx = accelerationX
 
-    accelerationY = FloatField()
+    accelerationY = FloatField(default_value=0.5, writable=False)
     accy = accelerationY
 
-    accelerationZ = FloatField()
+    accelerationZ = FloatField(default_value=0.5, writable=False)
     accz = accelerationZ
 
 
@@ -437,13 +437,13 @@ class ForcePlugOperator(
         ("forceZ", "frz"),
     )
 
-    forceX = FloatField()
+    forceX = FloatField(default_value=0.5, writable=False)
     frx = forceX
 
-    forceY = FloatField()
+    forceY = FloatField(default_value=0.5, writable=False)
     fry = forceY
 
-    forceZ = FloatField()
+    forceZ = FloatField(default_value=0.5, writable=False)
     frz = forceZ
 
 
@@ -452,13 +452,13 @@ class ForceAttrOperator(
 ):
     __slots__ = ()
 
-    forceX = FloatField()
+    forceX = FloatField(default_value=0.5, writable=False)
     frx = forceX
 
-    forceY = FloatField()
+    forceY = FloatField(default_value=0.5, writable=False)
     fry = forceY
 
-    forceZ = FloatField()
+    forceZ = FloatField(default_value=0.5, writable=False)
     frz = forceZ
 
 
@@ -470,13 +470,13 @@ class ForceField(
     ATTR_CLS = ForceAttrOperator
     PLUG_CLS = ForcePlugOperator
 
-    forceX = FloatField()
+    forceX = FloatField(default_value=0.5, writable=False)
     frx = forceX
 
-    forceY = FloatField()
+    forceY = FloatField(default_value=0.5, writable=False)
     fry = forceY
 
-    forceZ = FloatField()
+    forceZ = FloatField(default_value=0.5, writable=False)
     frz = forceZ
 
 
@@ -490,13 +490,13 @@ class PositionPlugOperator(
         ("positionZ", "posz"),
     )
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.5, writable=False)
     posx = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.5, writable=False)
     posy = positionY
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=0.5, writable=False)
     posz = positionZ
 
 
@@ -505,13 +505,13 @@ class PositionAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.5, writable=False)
     posx = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.5, writable=False)
     posy = positionY
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=0.5, writable=False)
     posz = positionZ
 
 
@@ -523,13 +523,13 @@ class PositionField(
     ATTR_CLS = PositionAttrOperator
     PLUG_CLS = PositionPlugOperator
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.5, writable=False)
     posx = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.5, writable=False)
     posy = positionY
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=0.5, writable=False)
     posz = positionZ
 
 
@@ -543,13 +543,13 @@ class BirthPositionPlugOperator(
         ("birthPositionZ", "bpoz"),
     )
 
-    birthPositionX = FloatField()
+    birthPositionX = FloatField(default_value=0.5, writable=False)
     bpox = birthPositionX
 
-    birthPositionY = FloatField()
+    birthPositionY = FloatField(default_value=0.5, writable=False)
     bpoy = birthPositionY
 
-    birthPositionZ = FloatField()
+    birthPositionZ = FloatField(default_value=0.5, writable=False)
     bpoz = birthPositionZ
 
 
@@ -558,13 +558,13 @@ class BirthPositionAttrOperator(
 ):
     __slots__ = ()
 
-    birthPositionX = FloatField()
+    birthPositionX = FloatField(default_value=0.5, writable=False)
     bpox = birthPositionX
 
-    birthPositionY = FloatField()
+    birthPositionY = FloatField(default_value=0.5, writable=False)
     bpoy = birthPositionY
 
-    birthPositionZ = FloatField()
+    birthPositionZ = FloatField(default_value=0.5, writable=False)
     bpoz = birthPositionZ
 
 
@@ -576,13 +576,13 @@ class BirthPositionField(
     ATTR_CLS = BirthPositionAttrOperator
     PLUG_CLS = BirthPositionPlugOperator
 
-    birthPositionX = FloatField()
+    birthPositionX = FloatField(default_value=0.5, writable=False)
     bpox = birthPositionX
 
-    birthPositionY = FloatField()
+    birthPositionY = FloatField(default_value=0.5, writable=False)
     bpoy = birthPositionY
 
-    birthPositionZ = FloatField()
+    birthPositionZ = FloatField(default_value=0.5, writable=False)
     bpoz = birthPositionZ
 
 
@@ -596,13 +596,13 @@ class BirthWorldPositionPlugOperator(
         ("birthWorldPositionZ", "bwpz"),
     )
 
-    birthWorldPositionX = FloatField()
+    birthWorldPositionX = FloatField(default_value=0.5, writable=False)
     bwpx = birthWorldPositionX
 
-    birthWorldPositionY = FloatField()
+    birthWorldPositionY = FloatField(default_value=0.5, writable=False)
     bwpy = birthWorldPositionY
 
-    birthWorldPositionZ = FloatField()
+    birthWorldPositionZ = FloatField(default_value=0.5, writable=False)
     bwpz = birthWorldPositionZ
 
 
@@ -611,13 +611,13 @@ class BirthWorldPositionAttrOperator(
 ):
     __slots__ = ()
 
-    birthWorldPositionX = FloatField()
+    birthWorldPositionX = FloatField(default_value=0.5, writable=False)
     bwpx = birthWorldPositionX
 
-    birthWorldPositionY = FloatField()
+    birthWorldPositionY = FloatField(default_value=0.5, writable=False)
     bwpy = birthWorldPositionY
 
-    birthWorldPositionZ = FloatField()
+    birthWorldPositionZ = FloatField(default_value=0.5, writable=False)
     bwpz = birthWorldPositionZ
 
 
@@ -629,13 +629,13 @@ class BirthWorldPositionField(
     ATTR_CLS = BirthWorldPositionAttrOperator
     PLUG_CLS = BirthWorldPositionPlugOperator
 
-    birthWorldPositionX = FloatField()
+    birthWorldPositionX = FloatField(default_value=0.5, writable=False)
     bwpx = birthWorldPositionX
 
-    birthWorldPositionY = FloatField()
+    birthWorldPositionY = FloatField(default_value=0.5, writable=False)
     bwpy = birthWorldPositionY
 
-    birthWorldPositionZ = FloatField()
+    birthWorldPositionZ = FloatField(default_value=0.5, writable=False)
     bwpz = birthWorldPositionZ
 
 
@@ -649,13 +649,13 @@ class VelocityPlugOperator(
         ("velocityZ", "velz"),
     )
 
-    velocityX = FloatField()
+    velocityX = FloatField(default_value=0.5, writable=False)
     velx = velocityX
 
-    velocityY = FloatField()
+    velocityY = FloatField(default_value=0.5, writable=False)
     vely = velocityY
 
-    velocityZ = FloatField()
+    velocityZ = FloatField(default_value=0.5, writable=False)
     velz = velocityZ
 
 
@@ -664,13 +664,13 @@ class VelocityAttrOperator(
 ):
     __slots__ = ()
 
-    velocityX = FloatField()
+    velocityX = FloatField(default_value=0.5, writable=False)
     velx = velocityX
 
-    velocityY = FloatField()
+    velocityY = FloatField(default_value=0.5, writable=False)
     vely = velocityY
 
-    velocityZ = FloatField()
+    velocityZ = FloatField(default_value=0.5, writable=False)
     velz = velocityZ
 
 
@@ -682,13 +682,13 @@ class VelocityField(
     ATTR_CLS = VelocityAttrOperator
     PLUG_CLS = VelocityPlugOperator
 
-    velocityX = FloatField()
+    velocityX = FloatField(default_value=0.5, writable=False)
     velx = velocityX
 
-    velocityY = FloatField()
+    velocityY = FloatField(default_value=0.5, writable=False)
     vely = velocityY
 
-    velocityZ = FloatField()
+    velocityZ = FloatField(default_value=0.5, writable=False)
     velz = velocityZ
 
 
@@ -702,13 +702,13 @@ class WorldPositionPlugOperator(
         ("worldPositionZ", "wpsz"),
     )
 
-    worldPositionX = FloatField()
+    worldPositionX = FloatField(default_value=0.5, writable=False)
     wpsx = worldPositionX
 
-    worldPositionY = FloatField()
+    worldPositionY = FloatField(default_value=0.5, writable=False)
     wpsy = worldPositionY
 
-    worldPositionZ = FloatField()
+    worldPositionZ = FloatField(default_value=0.5, writable=False)
     wpsz = worldPositionZ
 
 
@@ -717,13 +717,13 @@ class WorldPositionAttrOperator(
 ):
     __slots__ = ()
 
-    worldPositionX = FloatField()
+    worldPositionX = FloatField(default_value=0.5, writable=False)
     wpsx = worldPositionX
 
-    worldPositionY = FloatField()
+    worldPositionY = FloatField(default_value=0.5, writable=False)
     wpsy = worldPositionY
 
-    worldPositionZ = FloatField()
+    worldPositionZ = FloatField(default_value=0.5, writable=False)
     wpsz = worldPositionZ
 
 
@@ -735,13 +735,13 @@ class WorldPositionField(
     ATTR_CLS = WorldPositionAttrOperator
     PLUG_CLS = WorldPositionPlugOperator
 
-    worldPositionX = FloatField()
+    worldPositionX = FloatField(default_value=0.5, writable=False)
     wpsx = worldPositionX
 
-    worldPositionY = FloatField()
+    worldPositionY = FloatField(default_value=0.5, writable=False)
     wpsy = worldPositionY
 
-    worldPositionZ = FloatField()
+    worldPositionZ = FloatField(default_value=0.5, writable=False)
     wpsz = worldPositionZ
 
 
@@ -755,13 +755,13 @@ class WorldVelocityPlugOperator(
         ("worldVelocityZ", "wvlz"),
     )
 
-    worldVelocityX = FloatField()
+    worldVelocityX = FloatField(default_value=0.5, writable=False)
     wvlx = worldVelocityX
 
-    worldVelocityY = FloatField()
+    worldVelocityY = FloatField(default_value=0.5, writable=False)
     wvly = worldVelocityY
 
-    worldVelocityZ = FloatField()
+    worldVelocityZ = FloatField(default_value=0.5, writable=False)
     wvlz = worldVelocityZ
 
 
@@ -770,13 +770,13 @@ class WorldVelocityAttrOperator(
 ):
     __slots__ = ()
 
-    worldVelocityX = FloatField()
+    worldVelocityX = FloatField(default_value=0.5, writable=False)
     wvlx = worldVelocityX
 
-    worldVelocityY = FloatField()
+    worldVelocityY = FloatField(default_value=0.5, writable=False)
     wvly = worldVelocityY
 
-    worldVelocityZ = FloatField()
+    worldVelocityZ = FloatField(default_value=0.5, writable=False)
     wvlz = worldVelocityZ
 
 
@@ -788,13 +788,13 @@ class WorldVelocityField(
     ATTR_CLS = WorldVelocityAttrOperator
     PLUG_CLS = WorldVelocityPlugOperator
 
-    worldVelocityX = FloatField()
+    worldVelocityX = FloatField(default_value=0.5, writable=False)
     wvlx = worldVelocityX
 
-    worldVelocityY = FloatField()
+    worldVelocityY = FloatField(default_value=0.5, writable=False)
     wvly = worldVelocityY
 
-    worldVelocityZ = FloatField()
+    worldVelocityZ = FloatField(default_value=0.5, writable=False)
     wvlz = worldVelocityZ
 
 
@@ -808,13 +808,13 @@ class RgbPPPlugOperator(
         ("bPP", "bpp"),
     )
 
-    rPP = FloatField()
+    rPP = FloatField(default_value=0.5, writable=False)
     rpp = rPP
 
-    gPP = FloatField()
+    gPP = FloatField(default_value=0.5, writable=False)
     gpp = gPP
 
-    bPP = FloatField()
+    bPP = FloatField(default_value=0.5, writable=False)
     bpp = bPP
 
 
@@ -823,13 +823,13 @@ class RgbPPAttrOperator(
 ):
     __slots__ = ()
 
-    rPP = FloatField()
+    rPP = FloatField(default_value=0.5, writable=False)
     rpp = rPP
 
-    gPP = FloatField()
+    gPP = FloatField(default_value=0.5, writable=False)
     gpp = gPP
 
-    bPP = FloatField()
+    bPP = FloatField(default_value=0.5, writable=False)
     bpp = bPP
 
 
@@ -841,13 +841,13 @@ class RgbPPField(
     ATTR_CLS = RgbPPAttrOperator
     PLUG_CLS = RgbPPPlugOperator
 
-    rPP = FloatField()
+    rPP = FloatField(default_value=0.5, writable=False)
     rpp = rPP
 
-    gPP = FloatField()
+    gPP = FloatField(default_value=0.5, writable=False)
     gpp = gPP
 
-    bPP = FloatField()
+    bPP = FloatField(default_value=0.5, writable=False)
     bpp = bPP
 
 
@@ -861,13 +861,13 @@ class IncandescencePPPlugOperator(
         ("incandescencePPB", "ippb"),
     )
 
-    incandescencePPR = FloatField()
+    incandescencePPR = FloatField(default_value=0.5, writable=False)
     ippr = incandescencePPR
 
-    incandescencePPG = FloatField()
+    incandescencePPG = FloatField(default_value=0.5, writable=False)
     ippg = incandescencePPG
 
-    incandescencePPB = FloatField()
+    incandescencePPB = FloatField(default_value=0.5, writable=False)
     ippb = incandescencePPB
 
 
@@ -876,13 +876,13 @@ class IncandescencePPAttrOperator(
 ):
     __slots__ = ()
 
-    incandescencePPR = FloatField()
+    incandescencePPR = FloatField(default_value=0.5, writable=False)
     ippr = incandescencePPR
 
-    incandescencePPG = FloatField()
+    incandescencePPG = FloatField(default_value=0.5, writable=False)
     ippg = incandescencePPG
 
-    incandescencePPB = FloatField()
+    incandescencePPB = FloatField(default_value=0.5, writable=False)
     ippb = incandescencePPB
 
 
@@ -894,13 +894,13 @@ class IncandescencePPField(
     ATTR_CLS = IncandescencePPAttrOperator
     PLUG_CLS = IncandescencePPPlugOperator
 
-    incandescencePPR = FloatField()
+    incandescencePPR = FloatField(default_value=0.5, writable=False)
     ippr = incandescencePPR
 
-    incandescencePPG = FloatField()
+    incandescencePPG = FloatField(default_value=0.5, writable=False)
     ippg = incandescencePPG
 
-    incandescencePPB = FloatField()
+    incandescencePPB = FloatField(default_value=0.5, writable=False)
     ippb = incandescencePPB
 
 
@@ -914,13 +914,13 @@ class IncandescencePlugOperator(
         ("incandescenceB", "inb"),
     )
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.5, writable=False)
     inr = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.5, writable=False)
     ing = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.5, writable=False)
     inb = incandescenceB
 
 
@@ -929,13 +929,13 @@ class IncandescenceAttrOperator(
 ):
     __slots__ = ()
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.5, writable=False)
     inr = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.5, writable=False)
     ing = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.5, writable=False)
     inb = incandescenceB
 
 
@@ -947,13 +947,13 @@ class IncandescenceField(
     ATTR_CLS = IncandescenceAttrOperator
     PLUG_CLS = IncandescencePlugOperator
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.5, writable=False)
     inr = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.5, writable=False)
     ing = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.5, writable=False)
     inb = incandescenceB
 
 
@@ -967,13 +967,13 @@ class UserVector1PPPlugOperator(
         ("userVector1PPZ", "uv1z"),
     )
 
-    userVector1PPX = FloatField()
+    userVector1PPX = FloatField(default_value=0.0, writable=False)
     uv1x = userVector1PPX
 
-    userVector1PPY = FloatField()
+    userVector1PPY = FloatField(default_value=0.0, writable=False)
     uv1y = userVector1PPY
 
-    userVector1PPZ = FloatField()
+    userVector1PPZ = FloatField(default_value=0.0, writable=False)
     uv1z = userVector1PPZ
 
 
@@ -982,13 +982,13 @@ class UserVector1PPAttrOperator(
 ):
     __slots__ = ()
 
-    userVector1PPX = FloatField()
+    userVector1PPX = FloatField(default_value=0.0, writable=False)
     uv1x = userVector1PPX
 
-    userVector1PPY = FloatField()
+    userVector1PPY = FloatField(default_value=0.0, writable=False)
     uv1y = userVector1PPY
 
-    userVector1PPZ = FloatField()
+    userVector1PPZ = FloatField(default_value=0.0, writable=False)
     uv1z = userVector1PPZ
 
 
@@ -1000,13 +1000,13 @@ class UserVector1PPField(
     ATTR_CLS = UserVector1PPAttrOperator
     PLUG_CLS = UserVector1PPPlugOperator
 
-    userVector1PPX = FloatField()
+    userVector1PPX = FloatField(default_value=0.0, writable=False)
     uv1x = userVector1PPX
 
-    userVector1PPY = FloatField()
+    userVector1PPY = FloatField(default_value=0.0, writable=False)
     uv1y = userVector1PPY
 
-    userVector1PPZ = FloatField()
+    userVector1PPZ = FloatField(default_value=0.0, writable=False)
     uv1z = userVector1PPZ
 
 
@@ -1020,13 +1020,13 @@ class UserVector2PPPlugOperator(
         ("userVector2PPZ", "uv2z"),
     )
 
-    userVector2PPX = FloatField()
+    userVector2PPX = FloatField(default_value=0.0, writable=False)
     uv2x = userVector2PPX
 
-    userVector2PPY = FloatField()
+    userVector2PPY = FloatField(default_value=0.0, writable=False)
     uv2y = userVector2PPY
 
-    userVector2PPZ = FloatField()
+    userVector2PPZ = FloatField(default_value=0.0, writable=False)
     uv2z = userVector2PPZ
 
 
@@ -1035,13 +1035,13 @@ class UserVector2PPAttrOperator(
 ):
     __slots__ = ()
 
-    userVector2PPX = FloatField()
+    userVector2PPX = FloatField(default_value=0.0, writable=False)
     uv2x = userVector2PPX
 
-    userVector2PPY = FloatField()
+    userVector2PPY = FloatField(default_value=0.0, writable=False)
     uv2y = userVector2PPY
 
-    userVector2PPZ = FloatField()
+    userVector2PPZ = FloatField(default_value=0.0, writable=False)
     uv2z = userVector2PPZ
 
 
@@ -1053,13 +1053,13 @@ class UserVector2PPField(
     ATTR_CLS = UserVector2PPAttrOperator
     PLUG_CLS = UserVector2PPPlugOperator
 
-    userVector2PPX = FloatField()
+    userVector2PPX = FloatField(default_value=0.0, writable=False)
     uv2x = userVector2PPX
 
-    userVector2PPY = FloatField()
+    userVector2PPY = FloatField(default_value=0.0, writable=False)
     uv2y = userVector2PPY
 
-    userVector2PPZ = FloatField()
+    userVector2PPZ = FloatField(default_value=0.0, writable=False)
     uv2z = userVector2PPZ
 
 
@@ -1073,13 +1073,13 @@ class UserVector3PPPlugOperator(
         ("userVector3PPZ", "uv3z"),
     )
 
-    userVector3PPX = FloatField()
+    userVector3PPX = FloatField(default_value=0.0, writable=False)
     uv3x = userVector3PPX
 
-    userVector3PPY = FloatField()
+    userVector3PPY = FloatField(default_value=0.0, writable=False)
     uv3y = userVector3PPY
 
-    userVector3PPZ = FloatField()
+    userVector3PPZ = FloatField(default_value=0.0, writable=False)
     uv3z = userVector3PPZ
 
 
@@ -1088,13 +1088,13 @@ class UserVector3PPAttrOperator(
 ):
     __slots__ = ()
 
-    userVector3PPX = FloatField()
+    userVector3PPX = FloatField(default_value=0.0, writable=False)
     uv3x = userVector3PPX
 
-    userVector3PPY = FloatField()
+    userVector3PPY = FloatField(default_value=0.0, writable=False)
     uv3y = userVector3PPY
 
-    userVector3PPZ = FloatField()
+    userVector3PPZ = FloatField(default_value=0.0, writable=False)
     uv3z = userVector3PPZ
 
 
@@ -1106,13 +1106,13 @@ class UserVector3PPField(
     ATTR_CLS = UserVector3PPAttrOperator
     PLUG_CLS = UserVector3PPPlugOperator
 
-    userVector3PPX = FloatField()
+    userVector3PPX = FloatField(default_value=0.0, writable=False)
     uv3x = userVector3PPX
 
-    userVector3PPY = FloatField()
+    userVector3PPY = FloatField(default_value=0.0, writable=False)
     uv3y = userVector3PPY
 
-    userVector3PPZ = FloatField()
+    userVector3PPZ = FloatField(default_value=0.0, writable=False)
     uv3z = userVector3PPZ
 
 
@@ -1126,13 +1126,13 @@ class UserVector4PPPlugOperator(
         ("userVector4PPZ", "uv4z"),
     )
 
-    userVector4PPX = FloatField()
+    userVector4PPX = FloatField(default_value=0.0, writable=False)
     uv4x = userVector4PPX
 
-    userVector4PPY = FloatField()
+    userVector4PPY = FloatField(default_value=0.0, writable=False)
     uv4y = userVector4PPY
 
-    userVector4PPZ = FloatField()
+    userVector4PPZ = FloatField(default_value=0.0, writable=False)
     uv4z = userVector4PPZ
 
 
@@ -1141,13 +1141,13 @@ class UserVector4PPAttrOperator(
 ):
     __slots__ = ()
 
-    userVector4PPX = FloatField()
+    userVector4PPX = FloatField(default_value=0.0, writable=False)
     uv4x = userVector4PPX
 
-    userVector4PPY = FloatField()
+    userVector4PPY = FloatField(default_value=0.0, writable=False)
     uv4y = userVector4PPY
 
-    userVector4PPZ = FloatField()
+    userVector4PPZ = FloatField(default_value=0.0, writable=False)
     uv4z = userVector4PPZ
 
 
@@ -1159,13 +1159,13 @@ class UserVector4PPField(
     ATTR_CLS = UserVector4PPAttrOperator
     PLUG_CLS = UserVector4PPPlugOperator
 
-    userVector4PPX = FloatField()
+    userVector4PPX = FloatField(default_value=0.0, writable=False)
     uv4x = userVector4PPX
 
-    userVector4PPY = FloatField()
+    userVector4PPY = FloatField(default_value=0.0, writable=False)
     uv4y = userVector4PPY
 
-    userVector4PPZ = FloatField()
+    userVector4PPZ = FloatField(default_value=0.0, writable=False)
     uv4z = userVector4PPZ
 
 
@@ -1179,13 +1179,13 @@ class UserVector5PPPlugOperator(
         ("userVector5PPZ", "uv5z"),
     )
 
-    userVector5PPX = FloatField()
+    userVector5PPX = FloatField(default_value=0.0, writable=False)
     uv5x = userVector5PPX
 
-    userVector5PPY = FloatField()
+    userVector5PPY = FloatField(default_value=0.0, writable=False)
     uv5y = userVector5PPY
 
-    userVector5PPZ = FloatField()
+    userVector5PPZ = FloatField(default_value=0.0, writable=False)
     uv5z = userVector5PPZ
 
 
@@ -1194,13 +1194,13 @@ class UserVector5PPAttrOperator(
 ):
     __slots__ = ()
 
-    userVector5PPX = FloatField()
+    userVector5PPX = FloatField(default_value=0.0, writable=False)
     uv5x = userVector5PPX
 
-    userVector5PPY = FloatField()
+    userVector5PPY = FloatField(default_value=0.0, writable=False)
     uv5y = userVector5PPY
 
-    userVector5PPZ = FloatField()
+    userVector5PPZ = FloatField(default_value=0.0, writable=False)
     uv5z = userVector5PPZ
 
 
@@ -1212,11 +1212,11 @@ class UserVector5PPField(
     ATTR_CLS = UserVector5PPAttrOperator
     PLUG_CLS = UserVector5PPPlugOperator
 
-    userVector5PPX = FloatField()
+    userVector5PPX = FloatField(default_value=0.0, writable=False)
     uv5x = userVector5PPX
 
-    userVector5PPY = FloatField()
+    userVector5PPY = FloatField(default_value=0.0, writable=False)
     uv5y = userVector5PPY
 
-    userVector5PPZ = FloatField()
+    userVector5PPZ = FloatField(default_value=0.0, writable=False)
     uv5z = userVector5PPZ

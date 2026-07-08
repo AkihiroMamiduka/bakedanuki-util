@@ -1435,7 +1435,7 @@ class AiLayerRgba(DG):
 
     NODE_TYPE = "aiLayerRgba"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -1444,10 +1444,10 @@ class AiLayerRgba(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -1456,14 +1456,14 @@ class AiLayerRgba(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    enable1 = BoolField()
+    enable1 = BoolField(default_value=False)
 
     name1 = DataStringField()
 
-    input1A = FloatField()
+    input1A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input1a = input1A
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
     input1R = input1.input1R
     input1r = input1R
     input1G = input1.input1G
@@ -1471,21 +1471,21 @@ class AiLayerRgba(DG):
     input1B = input1.input1B
     input1b = input1B
 
-    mix1 = FloatField()
+    mix1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation1 = Operation1EnumField()
+    operation1 = Operation1EnumField(default_value=26)
 
-    alphaOperation1 = AlphaOperation1EnumField()
+    alphaOperation1 = AlphaOperation1EnumField(default_value=0)
     alpha_operation1 = alphaOperation1
 
-    enable2 = BoolField()
+    enable2 = BoolField(default_value=False)
 
     name2 = DataStringField()
 
-    input2A = FloatField()
+    input2A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input2a = input2A
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
     input2R = input2.input2R
     input2r = input2R
     input2G = input2.input2G
@@ -1493,21 +1493,21 @@ class AiLayerRgba(DG):
     input2B = input2.input2B
     input2b = input2B
 
-    mix2 = FloatField()
+    mix2 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation2 = Operation2EnumField()
+    operation2 = Operation2EnumField(default_value=26)
 
-    alphaOperation2 = AlphaOperation2EnumField()
+    alphaOperation2 = AlphaOperation2EnumField(default_value=0)
     alpha_operation2 = alphaOperation2
 
-    enable3 = BoolField()
+    enable3 = BoolField(default_value=False)
 
     name3 = DataStringField()
 
-    input3A = FloatField()
+    input3A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input3a = input3A
 
-    input3 = Input3Field()
+    input3 = Input3Field(default_value=(0.0, 0.0, 0.0))
     input3R = input3.input3R
     input3r = input3R
     input3G = input3.input3G
@@ -1515,21 +1515,21 @@ class AiLayerRgba(DG):
     input3B = input3.input3B
     input3b = input3B
 
-    mix3 = FloatField()
+    mix3 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation3 = Operation3EnumField()
+    operation3 = Operation3EnumField(default_value=26)
 
-    alphaOperation3 = AlphaOperation3EnumField()
+    alphaOperation3 = AlphaOperation3EnumField(default_value=0)
     alpha_operation3 = alphaOperation3
 
-    enable4 = BoolField()
+    enable4 = BoolField(default_value=False)
 
     name4 = DataStringField()
 
-    input4A = FloatField()
+    input4A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input4a = input4A
 
-    input4 = Input4Field()
+    input4 = Input4Field(default_value=(0.0, 0.0, 0.0))
     input4R = input4.input4R
     input4r = input4R
     input4G = input4.input4G
@@ -1537,21 +1537,21 @@ class AiLayerRgba(DG):
     input4B = input4.input4B
     input4b = input4B
 
-    mix4 = FloatField()
+    mix4 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation4 = Operation4EnumField()
+    operation4 = Operation4EnumField(default_value=26)
 
-    alphaOperation4 = AlphaOperation4EnumField()
+    alphaOperation4 = AlphaOperation4EnumField(default_value=0)
     alpha_operation4 = alphaOperation4
 
-    enable5 = BoolField()
+    enable5 = BoolField(default_value=False)
 
     name5 = DataStringField()
 
-    input5A = FloatField()
+    input5A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input5a = input5A
 
-    input5 = Input5Field()
+    input5 = Input5Field(default_value=(0.0, 0.0, 0.0))
     input5R = input5.input5R
     input5r = input5R
     input5G = input5.input5G
@@ -1559,21 +1559,21 @@ class AiLayerRgba(DG):
     input5B = input5.input5B
     input5b = input5B
 
-    mix5 = FloatField()
+    mix5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation5 = Operation5EnumField()
+    operation5 = Operation5EnumField(default_value=26)
 
-    alphaOperation5 = AlphaOperation5EnumField()
+    alphaOperation5 = AlphaOperation5EnumField(default_value=0)
     alpha_operation5 = alphaOperation5
 
-    enable6 = BoolField()
+    enable6 = BoolField(default_value=False)
 
     name6 = DataStringField()
 
-    input6A = FloatField()
+    input6A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input6a = input6A
 
-    input6 = Input6Field()
+    input6 = Input6Field(default_value=(0.0, 0.0, 0.0))
     input6R = input6.input6R
     input6r = input6R
     input6G = input6.input6G
@@ -1581,21 +1581,21 @@ class AiLayerRgba(DG):
     input6B = input6.input6B
     input6b = input6B
 
-    mix6 = FloatField()
+    mix6 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation6 = Operation6EnumField()
+    operation6 = Operation6EnumField(default_value=26)
 
-    alphaOperation6 = AlphaOperation6EnumField()
+    alphaOperation6 = AlphaOperation6EnumField(default_value=0)
     alpha_operation6 = alphaOperation6
 
-    enable7 = BoolField()
+    enable7 = BoolField(default_value=False)
 
     name7 = DataStringField()
 
-    input7A = FloatField()
+    input7A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input7a = input7A
 
-    input7 = Input7Field()
+    input7 = Input7Field(default_value=(0.0, 0.0, 0.0))
     input7R = input7.input7R
     input7r = input7R
     input7G = input7.input7G
@@ -1603,21 +1603,21 @@ class AiLayerRgba(DG):
     input7B = input7.input7B
     input7b = input7B
 
-    mix7 = FloatField()
+    mix7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation7 = Operation7EnumField()
+    operation7 = Operation7EnumField(default_value=26)
 
-    alphaOperation7 = AlphaOperation7EnumField()
+    alphaOperation7 = AlphaOperation7EnumField(default_value=0)
     alpha_operation7 = alphaOperation7
 
-    enable8 = BoolField()
+    enable8 = BoolField(default_value=False)
 
     name8 = DataStringField()
 
-    input8A = FloatField()
+    input8A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input8a = input8A
 
-    input8 = Input8Field()
+    input8 = Input8Field(default_value=(0.0, 0.0, 0.0))
     input8R = input8.input8R
     input8r = input8R
     input8G = input8.input8G
@@ -1625,11 +1625,11 @@ class AiLayerRgba(DG):
     input8B = input8.input8B
     input8b = input8B
 
-    mix8 = FloatField()
+    mix8 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    operation8 = Operation8EnumField()
+    operation8 = Operation8EnumField(default_value=26)
 
-    alphaOperation8 = AlphaOperation8EnumField()
+    alphaOperation8 = AlphaOperation8EnumField(default_value=0)
     alpha_operation8 = alphaOperation8
 
-    clamp = BoolField()
+    clamp = BoolField(default_value=False)

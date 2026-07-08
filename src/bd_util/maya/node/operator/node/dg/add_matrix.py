@@ -11,5 +11,5 @@ class AddMatrix(DG):
     matrixIn = MatrixField(multi=True)
     i = matrixIn
 
-    matrixSum = MatrixField()
+    matrixSum = MatrixField(writable=False)
     o = matrixSum

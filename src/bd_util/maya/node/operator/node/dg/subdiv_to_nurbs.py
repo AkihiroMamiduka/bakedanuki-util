@@ -43,14 +43,14 @@ class SubdivToNurbs(DG):
 
     NODE_TYPE = "subdivToNurbs"
 
-    inSubdiv = TypedField()
+    inSubdiv = TypedField(readable=False)
     i = inSubdiv
 
-    outputSurfaces = DataNurbsSurfaceField(multi=True)
+    outputSurfaces = DataNurbsSurfaceField(multi=True, writable=False)
     os = outputSurfaces
 
-    outputType = OutputTypeEnumField()
+    outputType = OutputTypeEnumField(default_value=0)
     ot = outputType
 
-    applyMatrixToResult = BoolField()
+    applyMatrixToResult = BoolField(default_value=True)
     amr = applyMatrixToResult

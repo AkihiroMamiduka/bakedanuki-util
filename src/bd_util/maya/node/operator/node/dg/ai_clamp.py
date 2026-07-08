@@ -48,7 +48,7 @@ class AiClamp(DG):
 
     NODE_TYPE = "aiClamp"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -57,7 +57,7 @@ class AiClamp(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -66,7 +66,7 @@ class AiClamp(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -74,13 +74,13 @@ class AiClamp(DG):
     inputB = input.inputB
     inputb = inputB
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    min = FloatField()
+    min = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    max = FloatField()
+    max = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    minColor = MinColorField()
+    minColor = MinColorField(default_value=(0.0, 0.0, 0.0))
     min_color = minColor
     minColorR = minColor.minColorR
     min_colorr = minColorR
@@ -89,7 +89,7 @@ class AiClamp(DG):
     minColorB = minColor.minColorB
     min_colorb = minColorB
 
-    maxColor = MaxColorField()
+    maxColor = MaxColorField(default_value=(1.0, 1.0, 1.0))
     max_color = maxColor
     maxColorR = maxColor.maxColorR
     max_colorr = maxColorR

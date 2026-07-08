@@ -90,50 +90,50 @@ class AlignCurve(DG):
     inputCurve2 = DataNurbsCurveField()
     ic2 = inputCurve2
 
-    outputCurve1 = DataNurbsCurveField()
+    outputCurve1 = DataNurbsCurveField(writable=False)
     oc1 = outputCurve1
 
-    outputCurve2 = DataNurbsCurveField()
+    outputCurve2 = DataNurbsCurveField(writable=False)
     oc2 = outputCurve2
 
-    tangentScale1 = DoubleField()
+    tangentScale1 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
     ts1 = tangentScale1
 
-    tangentScale2 = DoubleField()
+    tangentScale2 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
     ts2 = tangentScale2
 
-    curvatureScale1 = DoubleField()
+    curvatureScale1 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
     cs1 = curvatureScale1
 
-    curvatureScale2 = DoubleField()
+    curvatureScale2 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
     cs2 = curvatureScale2
 
-    positionalContinuityType = PositionalContinuityTypeEnumField()
+    positionalContinuityType = PositionalContinuityTypeEnumField(default_value=1)
     pct = positionalContinuityType
 
-    tangentContinuityType = TangentContinuityTypeEnumField()
+    tangentContinuityType = TangentContinuityTypeEnumField(default_value=1)
     tct = tangentContinuityType
 
-    joinParameter = FloatField()
+    joinParameter = FloatField(default_value=123456.0, min_value=-123456.0, max_value=123456.0)
     jnp = joinParameter
 
-    reverse1 = BoolField()
+    reverse1 = BoolField(default_value=False)
     rv1 = reverse1
 
-    reverse2 = BoolField()
+    reverse2 = BoolField(default_value=False)
     rv2 = reverse2
 
-    attach = BoolField()
+    attach = BoolField(default_value=False)
     at = attach
 
-    keepMultipleKnots = BoolField()
+    keepMultipleKnots = BoolField(default_value=True)
     kmk = keepMultipleKnots
 
-    positionalContinuity = BoolField()
+    positionalContinuity = BoolField(default_value=True)
     pc = positionalContinuity
 
-    tangentContinuity = BoolField()
+    tangentContinuity = BoolField(default_value=True)
     tc = tangentContinuity
 
-    curvatureContinuity = BoolField()
+    curvatureContinuity = BoolField(default_value=False)
     cc = curvatureContinuity

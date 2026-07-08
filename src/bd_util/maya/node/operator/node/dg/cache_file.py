@@ -19,10 +19,10 @@ class CacheFile(DG):
     outCacheData = GenericField(multi=True)
     ocd = outCacheData
 
-    outCacheArrayData = TypedField()
+    outCacheArrayData = TypedField(writable=False)
     ocad = outCacheArrayData
 
-    inRange = BoolField()
+    inRange = BoolField(default_value=True, writable=False)
     ir = inRange
 
     cacheName = DataStringField()
@@ -43,62 +43,62 @@ class CacheFile(DG):
     perPtWeights = DataDoubleArrayField(multi=True)
     ppw = perPtWeights
 
-    originalStart = TimeField()
+    originalStart = TimeField(default_value=0.0)
     os = originalStart
 
-    originalEnd = TimeField()
+    originalEnd = TimeField(default_value=0.0)
     oe = originalEnd
 
-    sourceStart = TimeField()
+    sourceStart = TimeField(default_value=0.0)
     ss = sourceStart
 
-    sourceEnd = TimeField()
+    sourceEnd = TimeField(default_value=0.0)
     se = sourceEnd
 
-    startFrame = TimeField()
+    startFrame = TimeField(default_value=0.0)
     sf = startFrame
 
-    scale = DoubleField()
+    scale = DoubleField(default_value=1.0, min_value=0.0)
     sc = scale
 
-    hold = TimeField()
+    hold = TimeField(default_value=0.0, min_value=0.0)
     h = hold
 
-    preCycle = DoubleField()
+    preCycle = DoubleField(default_value=0.0, min_value=0.0)
     cb = preCycle
 
-    postCycle = DoubleField()
+    postCycle = DoubleField(default_value=0.0, min_value=0.0)
     ca = postCycle
 
-    start = TimeField()
+    start = TimeField(default_value=0.0, writable=False)
     st = start
 
-    end = TimeField()
+    end = TimeField(default_value=0.0, writable=False)
     e = end
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tim = time
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    reverse = BoolField()
+    reverse = BoolField(default_value=False)
     rev = reverse
 
-    oscillate = BoolField()
+    oscillate = BoolField(default_value=False)
     osc = oscillate
 
-    track = ShortField()
+    track = ShortField(default_value=0, min_value=0)
     tr = track
 
-    trackState = ShortField()
+    trackState = ShortField(default_value=0, min_value=0)
     ts = trackState
 
-    multiThread = BoolField()
+    multiThread = BoolField(default_value=False)
     mt = multiThread
 
-    memQueueSize = LongField()
+    memQueueSize = LongField(default_value=20)
     qs = memQueueSize
 
-    displayLoadProgress = BoolField()
+    displayLoadProgress = BoolField(default_value=True)
     dp = displayLoadProgress

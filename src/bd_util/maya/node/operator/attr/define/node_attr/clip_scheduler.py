@@ -26,10 +26,10 @@ class BlendListPlugOperator(
     blendList_Raw = TypedField()
     blr = blendList_Raw
 
-    blendList_Inmap = CompoundField()
+    blendList_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     bli = blendList_Inmap
 
-    blendList_Outmap = CompoundField()
+    blendList_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     blo = blendList_Outmap
 
 
@@ -44,10 +44,10 @@ class BlendListAttrOperator(
     blendList_Raw = TypedField()
     blr = blendList_Raw
 
-    blendList_Inmap = CompoundField()
+    blendList_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     bli = blendList_Inmap
 
-    blendList_Outmap = CompoundField()
+    blendList_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     blo = blendList_Outmap
 
 
@@ -69,10 +69,10 @@ class BlendClipsPlugOperator(
         ("secondClip", "scl"),
     )
 
-    firstClip = LongField()
+    firstClip = LongField(default_value=0)
     fcl = firstClip
 
-    secondClip = LongField()
+    secondClip = LongField(default_value=0)
     scl = secondClip
 
 
@@ -81,10 +81,10 @@ class BlendClipsAttrOperator(
 ):
     __slots__ = ()
 
-    firstClip = LongField()
+    firstClip = LongField(default_value=0)
     fcl = firstClip
 
-    secondClip = LongField()
+    secondClip = LongField(default_value=0)
     scl = secondClip
 
 
@@ -114,10 +114,10 @@ class ClipFunctionPlugOperator(
     clipFunction_Raw = TypedField()
     cfr = clipFunction_Raw
 
-    clipFunction_Inmap = CompoundField()
+    clipFunction_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfi = clipFunction_Inmap
 
-    clipFunction_Outmap = CompoundField()
+    clipFunction_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfo = clipFunction_Outmap
 
 
@@ -132,10 +132,10 @@ class ClipFunctionAttrOperator(
     clipFunction_Raw = TypedField()
     cfr = clipFunction_Raw
 
-    clipFunction_Inmap = CompoundField()
+    clipFunction_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfi = clipFunction_Inmap
 
-    clipFunction_Outmap = CompoundField()
+    clipFunction_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfo = clipFunction_Outmap
 
 
@@ -153,8 +153,8 @@ class ClipFunctionField(
     clipFunction_Raw = TypedField()
     cfr = clipFunction_Raw
 
-    clipFunction_Inmap = CompoundField()
+    clipFunction_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfi = clipFunction_Inmap
 
-    clipFunction_Outmap = CompoundField()
+    clipFunction_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     cfo = clipFunction_Outmap

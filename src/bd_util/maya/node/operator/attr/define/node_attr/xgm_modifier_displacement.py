@@ -18,13 +18,13 @@ class VectorDisplacementPlugOperator(
         ("vectorDisplacement2", "vdis2"),
     )
 
-    vectorDisplacement0 = FloatField()
+    vectorDisplacement0 = FloatField(default_value=0.0)
     vdis0 = vectorDisplacement0
 
-    vectorDisplacement1 = FloatField()
+    vectorDisplacement1 = FloatField(default_value=0.0)
     vdis1 = vectorDisplacement1
 
-    vectorDisplacement2 = FloatField()
+    vectorDisplacement2 = FloatField(default_value=0.0)
     vdis2 = vectorDisplacement2
 
 
@@ -33,13 +33,13 @@ class VectorDisplacementAttrOperator(
 ):
     __slots__ = ()
 
-    vectorDisplacement0 = FloatField()
+    vectorDisplacement0 = FloatField(default_value=0.0)
     vdis0 = vectorDisplacement0
 
-    vectorDisplacement1 = FloatField()
+    vectorDisplacement1 = FloatField(default_value=0.0)
     vdis1 = vectorDisplacement1
 
-    vectorDisplacement2 = FloatField()
+    vectorDisplacement2 = FloatField(default_value=0.0)
     vdis2 = vectorDisplacement2
 
 
@@ -51,11 +51,11 @@ class VectorDisplacementField(
     ATTR_CLS = VectorDisplacementAttrOperator
     PLUG_CLS = VectorDisplacementPlugOperator
 
-    vectorDisplacement0 = FloatField()
+    vectorDisplacement0 = FloatField(default_value=0.0)
     vdis0 = vectorDisplacement0
 
-    vectorDisplacement1 = FloatField()
+    vectorDisplacement1 = FloatField(default_value=0.0)
     vdis1 = vectorDisplacement1
 
-    vectorDisplacement2 = FloatField()
+    vectorDisplacement2 = FloatField(default_value=0.0)
     vdis2 = vectorDisplacement2

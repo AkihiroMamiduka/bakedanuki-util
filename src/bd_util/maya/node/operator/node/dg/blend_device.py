@@ -14,43 +14,43 @@ class BlendDevice(DG):
 
     NODE_TYPE = "blendDevice"
 
-    input = DoubleField(multi=True)
+    input = DoubleField(multi=True, default_value=0.0)
     i = input
 
-    output = DoubleField()
+    output = DoubleField(default_value=0.0, writable=False)
     o = output
 
-    current = LongField()
+    current = LongField(default_value=0)
     c = current
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     t = time
 
-    deviceValue = DoubleField()
+    deviceValue = DoubleField(default_value=0.0)
     dv = deviceValue
 
-    deviceBlender = FloatField()
+    deviceBlender = FloatField(default_value=0.0)
     db = deviceBlender
 
-    inputAngle = DoubleAngleField(multi=True)
+    inputAngle = DoubleAngleField(multi=True, default_value=0.0)
     ia = inputAngle
 
-    outputAngle = DoubleAngleField()
+    outputAngle = DoubleAngleField(default_value=0.0, writable=False)
     oa = outputAngle
 
-    inputLinear = DoubleLinearField(multi=True)
+    inputLinear = DoubleLinearField(multi=True, default_value=0.0)
     il = inputLinear
 
-    outputLinear = DoubleLinearField()
+    outputLinear = DoubleLinearField(default_value=0.0, writable=False)
     ol = outputLinear
 
-    blender = FloatField()
+    blender = FloatField(default_value=1.0)
     b = blender
 
-    minTime = DoubleField()
+    minTime = DoubleField(default_value=0.0)
     mnt = minTime
 
-    period = DoubleField()
+    period = DoubleField(default_value=0.0)
     p = period
 
     timeStamp = DataDoubleArrayField()
@@ -59,8 +59,8 @@ class BlendDevice(DG):
     data = DataDoubleArrayField()
     d = data
 
-    stride = LongField()
+    stride = LongField(default_value=1)
     st = stride
 
-    offset = LongField()
+    offset = LongField(default_value=0, min_value=0)
     off = offset

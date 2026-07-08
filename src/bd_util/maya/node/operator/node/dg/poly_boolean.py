@@ -193,10 +193,10 @@ class PolyBoolean(DG):
 
     NODE_TYPE = "polyBoolean"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
     inputPoly = DataMeshField(multi=True)
@@ -208,65 +208,65 @@ class PolyBoolean(DG):
     componentTagName = DataStringField(multi=True)
     ctg = componentTagName
 
-    mergeUVSets = MergeUVSetsEnumField()
+    mergeUVSets = MergeUVSetsEnumField(default_value=1)
     muv = mergeUVSets
 
-    outputUVSetName = DataStringField(multi=True)
+    outputUVSetName = DataStringField(multi=True, writable=False)
     ouv = outputUVSetName
 
-    intersectionEdges = TypedField()
+    intersectionEdges = TypedField(writable=False)
     ied = intersectionEdges
 
-    interactiveUpdate = BoolField()
+    interactiveUpdate = BoolField(default_value=True)
     iu = interactiveUpdate
 
     operation = TypedField()
     op = operation
 
-    newInputOperation = NewInputOperationEnumField()
+    newInputOperation = NewInputOperationEnumField(default_value=1)
     nio = newInputOperation
 
-    newInputDisplay = NewInputDisplayEnumField()
+    newInputDisplay = NewInputDisplayEnumField(default_value=0)
     nid = newInputDisplay
 
     elementEnabled = TypedField()
     ee = elementEnabled
 
-    classification = ClassificationEnumField()
+    classification = ClassificationEnumField(default_value=3)
     cls = classification
 
-    geometryMode = GeometryModeEnumField()
+    geometryMode = GeometryModeEnumField(default_value=0)
     gm = geometryMode
 
-    voxelSize = FloatField()
+    voxelSize = FloatField(default_value=1.0)
     vs = voxelSize
 
-    booleanMode = BoolField()
+    booleanMode = BoolField(default_value=True)
     bm = booleanMode
 
-    preserveColor = BoolField()
+    preserveColor = BoolField(default_value=False)
     pcr = preserveColor
 
     mergeGroups = TypedField()
     mg = mergeGroups
 
-    tagIntersection = BoolField()
+    tagIntersection = BoolField(default_value=True)
     ti = tagIntersection
 
-    planarTolerance = DoubleField()
+    planarTolerance = DoubleField(default_value=1e-06)
     ptl = planarTolerance
 
-    sortOutput = BoolField()
+    sortOutput = BoolField(default_value=True)
     sop = sortOutput
 
-    edgeInterpolation = BoolField()
+    edgeInterpolation = BoolField(default_value=True)
     eit = edgeInterpolation
 
-    useThresholds = BoolField()
+    useThresholds = BoolField(default_value=False)
     uth = useThresholds
 
-    vertexDistanceThreshold = DoubleLinearField()
+    vertexDistanceThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
     vdt = vertexDistanceThreshold
 
-    maya2025 = BoolField()
+    maya2025 = BoolField(default_value=True)
     m25 = maya2025

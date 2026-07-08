@@ -13,13 +13,13 @@ class AovCollection(DG):
     parentList = MessageField()
     pls = parentList
 
-    next = MessageField()
+    next = MessageField(writable=False)
     nxt = next
 
     previous = MessageField()
     prv = previous
 
-    listItems = MessageField()
+    listItems = MessageField(writable=False)
     lit = listItems
 
     childLowest = MessageField()
@@ -28,25 +28,25 @@ class AovCollection(DG):
     childHighest = MessageField()
     ch = childHighest
 
-    selfEnabled = BoolField()
+    selfEnabled = BoolField(default_value=True)
     sen = selfEnabled
 
-    parentEnabled = BoolField()
+    parentEnabled = BoolField(default_value=True)
     pen = parentEnabled
 
-    parentNumIsolatedChildren = LongField()
+    parentNumIsolatedChildren = LongField(default_value=0)
     pic = parentNumIsolatedChildren
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, writable=False)
     en = enabled
 
-    numIsolatedChildren = LongField()
+    numIsolatedChildren = LongField(default_value=0)
     nic = numIsolatedChildren
 
-    numIsolatedAncestors = LongField()
+    numIsolatedAncestors = LongField(default_value=0)
     nia = numIsolatedAncestors
 
-    isolateSelected = BoolField()
+    isolateSelected = BoolField(default_value=False)
     is_ = isolateSelected
 
     selector = MessageField()

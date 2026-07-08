@@ -9,7 +9,7 @@ class SubdTweak(DG):
 
     NODE_TYPE = "subdTweak"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()
@@ -21,7 +21,7 @@ class SubdTweak(DG):
     inputComponents = TypedField()
     ics = inputComponents
 
-    tweak = TweakField(multi=True)
+    tweak = TweakField(multi=True, default_value=(0.0, 0.0, 0.0))
     tk = tweak
 
     map64BitIndices = TypedField()

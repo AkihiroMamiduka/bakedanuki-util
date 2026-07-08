@@ -186,7 +186,7 @@ class AiUtility(DG):
 
     NODE_TYPE = "aiUtility"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -195,7 +195,7 @@ class AiUtility(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -204,7 +204,7 @@ class AiUtility(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -213,7 +213,7 @@ class AiUtility(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -222,16 +222,16 @@ class AiUtility(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    colorMode = ColorModeEnumField()
+    colorMode = ColorModeEnumField(default_value=0)
     color_mode = colorMode
 
-    shadeMode = ShadeModeEnumField()
+    shadeMode = ShadeModeEnumField(default_value=0)
     shade_mode = shadeMode
 
-    overlayMode = OverlayModeEnumField()
+    overlayMode = OverlayModeEnumField(default_value=0)
     overlay_mode = overlayMode
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -239,12 +239,12 @@ class AiUtility(DG):
     colorB = color.colorB
     colorb = colorB
 
-    aoDistance = FloatField()
+    aoDistance = FloatField(default_value=100.0, min_value=0.0, soft_max_value=200.0)
     ao_distance = aoDistance
 
-    roughness = FloatField()
+    roughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY

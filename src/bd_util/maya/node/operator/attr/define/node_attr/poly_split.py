@@ -23,13 +23,13 @@ class VerticesPlugOperator(
         ("vtxz", "vz"),
     )
 
-    vtxx = FloatLinearField()
+    vtxx = FloatLinearField(default_value=0.0)
     vx = vtxx
 
-    vtxy = FloatLinearField()
+    vtxy = FloatLinearField(default_value=0.0)
     vy = vtxy
 
-    vtxz = FloatLinearField()
+    vtxz = FloatLinearField(default_value=0.0)
     vz = vtxz
 
 
@@ -38,13 +38,13 @@ class VerticesAttrOperator(
 ):
     __slots__ = ()
 
-    vtxx = FloatLinearField()
+    vtxx = FloatLinearField(default_value=0.0)
     vx = vtxx
 
-    vtxy = FloatLinearField()
+    vtxy = FloatLinearField(default_value=0.0)
     vy = vtxy
 
-    vtxz = FloatLinearField()
+    vtxz = FloatLinearField(default_value=0.0)
     vz = vtxz
 
 
@@ -65,7 +65,7 @@ class SplitPointsPlugOperator(
         ("splitPoint", "sp"),
     )
 
-    splitPoint = CompoundField()
+    splitPoint = CompoundField(multi=True)
     sp = splitPoint
 
 
@@ -74,7 +74,7 @@ class SplitPointsAttrOperator(
 ):
     __slots__ = ()
 
-    splitPoint = CompoundField()
+    splitPoint = CompoundField(multi=True)
     sp = splitPoint
 
 

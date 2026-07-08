@@ -64,531 +64,531 @@ class HIKEffector2State(DG):
 
     HipsEffectorGX = MatrixField(multi=True)
 
-    HipsEffectorPivot = HipsEffectorPivotField(multi=True)
+    HipsEffectorPivot = HipsEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    HipsEffectorReachT = DoubleField(multi=True)
+    HipsEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    HipsEffectorReachR = DoubleField(multi=True)
+    HipsEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    HipsEffectorPull = DoubleField()
+    HipsEffectorPull = DoubleField(default_value=0.0)
 
-    HipsEffectorStiffness = DoubleField()
+    HipsEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftAnkleEffectorGX = MatrixField(multi=True)
 
-    LeftAnkleEffectorPivot = LeftAnkleEffectorPivotField(multi=True)
+    LeftAnkleEffectorPivot = LeftAnkleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftAnkleEffectorReachT = DoubleField(multi=True)
+    LeftAnkleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftAnkleEffectorReachR = DoubleField(multi=True)
+    LeftAnkleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftAnkleEffectorPull = DoubleField()
+    LeftAnkleEffectorPull = DoubleField(default_value=0.0)
 
-    LeftAnkleEffectorStiffness = DoubleField()
+    LeftAnkleEffectorStiffness = DoubleField(default_value=0.0)
 
     RightAnkleEffectorGX = MatrixField(multi=True)
 
-    RightAnkleEffectorPivot = RightAnkleEffectorPivotField(multi=True)
+    RightAnkleEffectorPivot = RightAnkleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightAnkleEffectorReachT = DoubleField(multi=True)
+    RightAnkleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightAnkleEffectorReachR = DoubleField(multi=True)
+    RightAnkleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightAnkleEffectorPull = DoubleField()
+    RightAnkleEffectorPull = DoubleField(default_value=0.0)
 
-    RightAnkleEffectorStiffness = DoubleField()
+    RightAnkleEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftWristEffectorGX = MatrixField(multi=True)
 
-    LeftWristEffectorPivot = LeftWristEffectorPivotField(multi=True)
+    LeftWristEffectorPivot = LeftWristEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftWristEffectorReachT = DoubleField(multi=True)
+    LeftWristEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftWristEffectorReachR = DoubleField(multi=True)
+    LeftWristEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftWristEffectorPull = DoubleField()
+    LeftWristEffectorPull = DoubleField(default_value=0.0)
 
-    LeftWristEffectorStiffness = DoubleField()
+    LeftWristEffectorStiffness = DoubleField(default_value=0.0)
 
     RightWristEffectorGX = MatrixField(multi=True)
 
-    RightWristEffectorPivot = RightWristEffectorPivotField(multi=True)
+    RightWristEffectorPivot = RightWristEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightWristEffectorReachT = DoubleField(multi=True)
+    RightWristEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightWristEffectorReachR = DoubleField(multi=True)
+    RightWristEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightWristEffectorPull = DoubleField()
+    RightWristEffectorPull = DoubleField(default_value=0.0)
 
-    RightWristEffectorStiffness = DoubleField()
+    RightWristEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftKneeEffectorGX = MatrixField(multi=True)
 
-    LeftKneeEffectorPivot = LeftKneeEffectorPivotField(multi=True)
+    LeftKneeEffectorPivot = LeftKneeEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftKneeEffectorReachT = DoubleField(multi=True)
+    LeftKneeEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftKneeEffectorReachR = DoubleField(multi=True)
+    LeftKneeEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftKneeEffectorPull = DoubleField()
+    LeftKneeEffectorPull = DoubleField(default_value=0.0)
 
-    LeftKneeEffectorStiffness = DoubleField()
+    LeftKneeEffectorStiffness = DoubleField(default_value=0.0)
 
     RightKneeEffectorGX = MatrixField(multi=True)
 
-    RightKneeEffectorPivot = RightKneeEffectorPivotField(multi=True)
+    RightKneeEffectorPivot = RightKneeEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightKneeEffectorReachT = DoubleField(multi=True)
+    RightKneeEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightKneeEffectorReachR = DoubleField(multi=True)
+    RightKneeEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightKneeEffectorPull = DoubleField()
+    RightKneeEffectorPull = DoubleField(default_value=0.0)
 
-    RightKneeEffectorStiffness = DoubleField()
+    RightKneeEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftElbowEffectorGX = MatrixField(multi=True)
 
-    LeftElbowEffectorPivot = LeftElbowEffectorPivotField(multi=True)
+    LeftElbowEffectorPivot = LeftElbowEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftElbowEffectorReachT = DoubleField(multi=True)
+    LeftElbowEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftElbowEffectorReachR = DoubleField(multi=True)
+    LeftElbowEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftElbowEffectorPull = DoubleField()
+    LeftElbowEffectorPull = DoubleField(default_value=0.0)
 
-    LeftElbowEffectorStiffness = DoubleField()
+    LeftElbowEffectorStiffness = DoubleField(default_value=0.0)
 
     RightElbowEffectorGX = MatrixField(multi=True)
 
-    RightElbowEffectorPivot = RightElbowEffectorPivotField(multi=True)
+    RightElbowEffectorPivot = RightElbowEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightElbowEffectorReachT = DoubleField(multi=True)
+    RightElbowEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightElbowEffectorReachR = DoubleField(multi=True)
+    RightElbowEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightElbowEffectorPull = DoubleField()
+    RightElbowEffectorPull = DoubleField(default_value=0.0)
 
-    RightElbowEffectorStiffness = DoubleField()
+    RightElbowEffectorStiffness = DoubleField(default_value=0.0)
 
     ChestOriginEffectorGX = MatrixField(multi=True)
 
-    ChestOriginEffectorPivot = ChestOriginEffectorPivotField(multi=True)
+    ChestOriginEffectorPivot = ChestOriginEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    ChestOriginEffectorReachT = DoubleField(multi=True)
+    ChestOriginEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    ChestOriginEffectorReachR = DoubleField(multi=True)
+    ChestOriginEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    ChestOriginEffectorPull = DoubleField()
+    ChestOriginEffectorPull = DoubleField(default_value=0.0)
 
-    ChestOriginEffectorStiffness = DoubleField()
+    ChestOriginEffectorStiffness = DoubleField(default_value=0.0)
 
     ChestEndEffectorGX = MatrixField(multi=True)
 
-    ChestEndEffectorPivot = ChestEndEffectorPivotField(multi=True)
+    ChestEndEffectorPivot = ChestEndEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    ChestEndEffectorReachT = DoubleField(multi=True)
+    ChestEndEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    ChestEndEffectorReachR = DoubleField(multi=True)
+    ChestEndEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    ChestEndEffectorPull = DoubleField()
+    ChestEndEffectorPull = DoubleField(default_value=0.0)
 
-    ChestEndEffectorStiffness = DoubleField()
+    ChestEndEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootEffectorGX = MatrixField(multi=True)
 
-    LeftFootEffectorPivot = LeftFootEffectorPivotField(multi=True)
+    LeftFootEffectorPivot = LeftFootEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootEffectorReachT = DoubleField(multi=True)
+    LeftFootEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootEffectorReachR = DoubleField(multi=True)
+    LeftFootEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootEffectorPull = DoubleField()
+    LeftFootEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootEffectorStiffness = DoubleField()
+    LeftFootEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootEffectorGX = MatrixField(multi=True)
 
-    RightFootEffectorPivot = RightFootEffectorPivotField(multi=True)
+    RightFootEffectorPivot = RightFootEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootEffectorReachT = DoubleField(multi=True)
+    RightFootEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootEffectorReachR = DoubleField(multi=True)
+    RightFootEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootEffectorPull = DoubleField()
+    RightFootEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootEffectorStiffness = DoubleField()
+    RightFootEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftShoulderEffectorGX = MatrixField(multi=True)
 
-    LeftShoulderEffectorPivot = LeftShoulderEffectorPivotField(multi=True)
+    LeftShoulderEffectorPivot = LeftShoulderEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftShoulderEffectorReachT = DoubleField(multi=True)
+    LeftShoulderEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftShoulderEffectorReachR = DoubleField(multi=True)
+    LeftShoulderEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftShoulderEffectorPull = DoubleField()
+    LeftShoulderEffectorPull = DoubleField(default_value=0.0)
 
-    LeftShoulderEffectorStiffness = DoubleField()
+    LeftShoulderEffectorStiffness = DoubleField(default_value=0.0)
 
     RightShoulderEffectorGX = MatrixField(multi=True)
 
-    RightShoulderEffectorPivot = RightShoulderEffectorPivotField(multi=True)
+    RightShoulderEffectorPivot = RightShoulderEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightShoulderEffectorReachT = DoubleField(multi=True)
+    RightShoulderEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightShoulderEffectorReachR = DoubleField(multi=True)
+    RightShoulderEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightShoulderEffectorPull = DoubleField()
+    RightShoulderEffectorPull = DoubleField(default_value=0.0)
 
-    RightShoulderEffectorStiffness = DoubleField()
+    RightShoulderEffectorStiffness = DoubleField(default_value=0.0)
 
     HeadEffectorGX = MatrixField(multi=True)
 
-    HeadEffectorPivot = HeadEffectorPivotField(multi=True)
+    HeadEffectorPivot = HeadEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    HeadEffectorReachT = DoubleField(multi=True)
+    HeadEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    HeadEffectorReachR = DoubleField(multi=True)
+    HeadEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    HeadEffectorPull = DoubleField()
+    HeadEffectorPull = DoubleField(default_value=0.0)
 
-    HeadEffectorStiffness = DoubleField()
+    HeadEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHipEffectorGX = MatrixField(multi=True)
 
-    LeftHipEffectorPivot = LeftHipEffectorPivotField(multi=True)
+    LeftHipEffectorPivot = LeftHipEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHipEffectorReachT = DoubleField(multi=True)
+    LeftHipEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHipEffectorReachR = DoubleField(multi=True)
+    LeftHipEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHipEffectorPull = DoubleField()
+    LeftHipEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHipEffectorStiffness = DoubleField()
+    LeftHipEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHipEffectorGX = MatrixField(multi=True)
 
-    RightHipEffectorPivot = RightHipEffectorPivotField(multi=True)
+    RightHipEffectorPivot = RightHipEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHipEffectorReachT = DoubleField(multi=True)
+    RightHipEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHipEffectorReachR = DoubleField(multi=True)
+    RightHipEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHipEffectorPull = DoubleField()
+    RightHipEffectorPull = DoubleField(default_value=0.0)
 
-    RightHipEffectorStiffness = DoubleField()
+    RightHipEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandEffectorGX = MatrixField(multi=True)
 
-    LeftHandEffectorPivot = LeftHandEffectorPivotField(multi=True)
+    LeftHandEffectorPivot = LeftHandEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandEffectorReachT = DoubleField(multi=True)
+    LeftHandEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandEffectorReachR = DoubleField(multi=True)
+    LeftHandEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandEffectorPull = DoubleField()
+    LeftHandEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandEffectorStiffness = DoubleField()
+    LeftHandEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandEffectorGX = MatrixField(multi=True)
 
-    RightHandEffectorPivot = RightHandEffectorPivotField(multi=True)
+    RightHandEffectorPivot = RightHandEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandEffectorReachT = DoubleField(multi=True)
+    RightHandEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandEffectorReachR = DoubleField(multi=True)
+    RightHandEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandEffectorPull = DoubleField()
+    RightHandEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandEffectorStiffness = DoubleField()
+    RightHandEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandThumbEffectorGX = MatrixField(multi=True)
 
-    LeftHandThumbEffectorPivot = LeftHandThumbEffectorPivotField(multi=True)
+    LeftHandThumbEffectorPivot = LeftHandThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandThumbEffectorReachT = DoubleField(multi=True)
+    LeftHandThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandThumbEffectorReachR = DoubleField(multi=True)
+    LeftHandThumbEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandThumbEffectorPull = DoubleField()
+    LeftHandThumbEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandThumbEffectorStiffness = DoubleField()
+    LeftHandThumbEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandIndexEffectorGX = MatrixField(multi=True)
 
-    LeftHandIndexEffectorPivot = LeftHandIndexEffectorPivotField(multi=True)
+    LeftHandIndexEffectorPivot = LeftHandIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandIndexEffectorReachT = DoubleField(multi=True)
+    LeftHandIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandIndexEffectorReachR = DoubleField(multi=True)
+    LeftHandIndexEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandIndexEffectorPull = DoubleField()
+    LeftHandIndexEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandIndexEffectorStiffness = DoubleField()
+    LeftHandIndexEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandMiddleEffectorGX = MatrixField(multi=True)
 
-    LeftHandMiddleEffectorPivot = LeftHandMiddleEffectorPivotField(multi=True)
+    LeftHandMiddleEffectorPivot = LeftHandMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandMiddleEffectorReachT = DoubleField(multi=True)
+    LeftHandMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandMiddleEffectorReachR = DoubleField(multi=True)
+    LeftHandMiddleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandMiddleEffectorPull = DoubleField()
+    LeftHandMiddleEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandMiddleEffectorStiffness = DoubleField()
+    LeftHandMiddleEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandRingEffectorGX = MatrixField(multi=True)
 
-    LeftHandRingEffectorPivot = LeftHandRingEffectorPivotField(multi=True)
+    LeftHandRingEffectorPivot = LeftHandRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandRingEffectorReachT = DoubleField(multi=True)
+    LeftHandRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandRingEffectorReachR = DoubleField(multi=True)
+    LeftHandRingEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandRingEffectorPull = DoubleField()
+    LeftHandRingEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandRingEffectorStiffness = DoubleField()
+    LeftHandRingEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandPinkyEffectorGX = MatrixField(multi=True)
 
-    LeftHandPinkyEffectorPivot = LeftHandPinkyEffectorPivotField(multi=True)
+    LeftHandPinkyEffectorPivot = LeftHandPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandPinkyEffectorReachT = DoubleField(multi=True)
+    LeftHandPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandPinkyEffectorReachR = DoubleField(multi=True)
+    LeftHandPinkyEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandPinkyEffectorPull = DoubleField()
+    LeftHandPinkyEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandPinkyEffectorStiffness = DoubleField()
+    LeftHandPinkyEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftHandExtraFingerEffectorGX = MatrixField(multi=True)
 
-    LeftHandExtraFingerEffectorPivot = LeftHandExtraFingerEffectorPivotField(multi=True)
+    LeftHandExtraFingerEffectorPivot = LeftHandExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftHandExtraFingerEffectorReachT = DoubleField(multi=True)
+    LeftHandExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandExtraFingerEffectorReachR = DoubleField(multi=True)
+    LeftHandExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftHandExtraFingerEffectorPull = DoubleField()
+    LeftHandExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorStiffness = DoubleField()
+    LeftHandExtraFingerEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandThumbEffectorGX = MatrixField(multi=True)
 
-    RightHandThumbEffectorPivot = RightHandThumbEffectorPivotField(multi=True)
+    RightHandThumbEffectorPivot = RightHandThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandThumbEffectorReachT = DoubleField(multi=True)
+    RightHandThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandThumbEffectorReachR = DoubleField(multi=True)
+    RightHandThumbEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandThumbEffectorPull = DoubleField()
+    RightHandThumbEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandThumbEffectorStiffness = DoubleField()
+    RightHandThumbEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandIndexEffectorGX = MatrixField(multi=True)
 
-    RightHandIndexEffectorPivot = RightHandIndexEffectorPivotField(multi=True)
+    RightHandIndexEffectorPivot = RightHandIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandIndexEffectorReachT = DoubleField(multi=True)
+    RightHandIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandIndexEffectorReachR = DoubleField(multi=True)
+    RightHandIndexEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandIndexEffectorPull = DoubleField()
+    RightHandIndexEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandIndexEffectorStiffness = DoubleField()
+    RightHandIndexEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandMiddleEffectorGX = MatrixField(multi=True)
 
-    RightHandMiddleEffectorPivot = RightHandMiddleEffectorPivotField(multi=True)
+    RightHandMiddleEffectorPivot = RightHandMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandMiddleEffectorReachT = DoubleField(multi=True)
+    RightHandMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandMiddleEffectorReachR = DoubleField(multi=True)
+    RightHandMiddleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandMiddleEffectorPull = DoubleField()
+    RightHandMiddleEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandMiddleEffectorStiffness = DoubleField()
+    RightHandMiddleEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandRingEffectorGX = MatrixField(multi=True)
 
-    RightHandRingEffectorPivot = RightHandRingEffectorPivotField(multi=True)
+    RightHandRingEffectorPivot = RightHandRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandRingEffectorReachT = DoubleField(multi=True)
+    RightHandRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandRingEffectorReachR = DoubleField(multi=True)
+    RightHandRingEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandRingEffectorPull = DoubleField()
+    RightHandRingEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandRingEffectorStiffness = DoubleField()
+    RightHandRingEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandPinkyEffectorGX = MatrixField(multi=True)
 
-    RightHandPinkyEffectorPivot = RightHandPinkyEffectorPivotField(multi=True)
+    RightHandPinkyEffectorPivot = RightHandPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandPinkyEffectorReachT = DoubleField(multi=True)
+    RightHandPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandPinkyEffectorReachR = DoubleField(multi=True)
+    RightHandPinkyEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandPinkyEffectorPull = DoubleField()
+    RightHandPinkyEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandPinkyEffectorStiffness = DoubleField()
+    RightHandPinkyEffectorStiffness = DoubleField(default_value=0.0)
 
     RightHandExtraFingerEffectorGX = MatrixField(multi=True)
 
-    RightHandExtraFingerEffectorPivot = RightHandExtraFingerEffectorPivotField(multi=True)
+    RightHandExtraFingerEffectorPivot = RightHandExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightHandExtraFingerEffectorReachT = DoubleField(multi=True)
+    RightHandExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightHandExtraFingerEffectorReachR = DoubleField(multi=True)
+    RightHandExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightHandExtraFingerEffectorPull = DoubleField()
+    RightHandExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
-    RightHandExtraFingerEffectorStiffness = DoubleField()
+    RightHandExtraFingerEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootThumbEffectorGX = MatrixField(multi=True)
 
-    LeftFootThumbEffectorPivot = LeftFootThumbEffectorPivotField(multi=True)
+    LeftFootThumbEffectorPivot = LeftFootThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootThumbEffectorReachT = DoubleField(multi=True)
+    LeftFootThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootThumbEffectorReachR = DoubleField(multi=True)
+    LeftFootThumbEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootThumbEffectorPull = DoubleField()
+    LeftFootThumbEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootThumbEffectorStiffness = DoubleField()
+    LeftFootThumbEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootIndexEffectorGX = MatrixField(multi=True)
 
-    LeftFootIndexEffectorPivot = LeftFootIndexEffectorPivotField(multi=True)
+    LeftFootIndexEffectorPivot = LeftFootIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootIndexEffectorReachT = DoubleField(multi=True)
+    LeftFootIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootIndexEffectorReachR = DoubleField(multi=True)
+    LeftFootIndexEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootIndexEffectorPull = DoubleField()
+    LeftFootIndexEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootIndexEffectorStiffness = DoubleField()
+    LeftFootIndexEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootMiddleEffectorGX = MatrixField(multi=True)
 
-    LeftFootMiddleEffectorPivot = LeftFootMiddleEffectorPivotField(multi=True)
+    LeftFootMiddleEffectorPivot = LeftFootMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootMiddleEffectorReachT = DoubleField(multi=True)
+    LeftFootMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootMiddleEffectorReachR = DoubleField(multi=True)
+    LeftFootMiddleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootMiddleEffectorPull = DoubleField()
+    LeftFootMiddleEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootMiddleEffectorStiffness = DoubleField()
+    LeftFootMiddleEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootRingEffectorGX = MatrixField(multi=True)
 
-    LeftFootRingEffectorPivot = LeftFootRingEffectorPivotField(multi=True)
+    LeftFootRingEffectorPivot = LeftFootRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootRingEffectorReachT = DoubleField(multi=True)
+    LeftFootRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootRingEffectorReachR = DoubleField(multi=True)
+    LeftFootRingEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootRingEffectorPull = DoubleField()
+    LeftFootRingEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootRingEffectorStiffness = DoubleField()
+    LeftFootRingEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootPinkyEffectorGX = MatrixField(multi=True)
 
-    LeftFootPinkyEffectorPivot = LeftFootPinkyEffectorPivotField(multi=True)
+    LeftFootPinkyEffectorPivot = LeftFootPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootPinkyEffectorReachT = DoubleField(multi=True)
+    LeftFootPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootPinkyEffectorReachR = DoubleField(multi=True)
+    LeftFootPinkyEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootPinkyEffectorPull = DoubleField()
+    LeftFootPinkyEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootPinkyEffectorStiffness = DoubleField()
+    LeftFootPinkyEffectorStiffness = DoubleField(default_value=0.0)
 
     LeftFootExtraFingerEffectorGX = MatrixField(multi=True)
 
-    LeftFootExtraFingerEffectorPivot = LeftFootExtraFingerEffectorPivotField(multi=True)
+    LeftFootExtraFingerEffectorPivot = LeftFootExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    LeftFootExtraFingerEffectorReachT = DoubleField(multi=True)
+    LeftFootExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootExtraFingerEffectorReachR = DoubleField(multi=True)
+    LeftFootExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    LeftFootExtraFingerEffectorPull = DoubleField()
+    LeftFootExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorStiffness = DoubleField()
+    LeftFootExtraFingerEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootThumbEffectorGX = MatrixField(multi=True)
 
-    RightFootThumbEffectorPivot = RightFootThumbEffectorPivotField(multi=True)
+    RightFootThumbEffectorPivot = RightFootThumbEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootThumbEffectorReachT = DoubleField(multi=True)
+    RightFootThumbEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootThumbEffectorReachR = DoubleField(multi=True)
+    RightFootThumbEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootThumbEffectorPull = DoubleField()
+    RightFootThumbEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootThumbEffectorStiffness = DoubleField()
+    RightFootThumbEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootIndexEffectorGX = MatrixField(multi=True)
 
-    RightFootIndexEffectorPivot = RightFootIndexEffectorPivotField(multi=True)
+    RightFootIndexEffectorPivot = RightFootIndexEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootIndexEffectorReachT = DoubleField(multi=True)
+    RightFootIndexEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootIndexEffectorReachR = DoubleField(multi=True)
+    RightFootIndexEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootIndexEffectorPull = DoubleField()
+    RightFootIndexEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootIndexEffectorStiffness = DoubleField()
+    RightFootIndexEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootMiddleEffectorGX = MatrixField(multi=True)
 
-    RightFootMiddleEffectorPivot = RightFootMiddleEffectorPivotField(multi=True)
+    RightFootMiddleEffectorPivot = RightFootMiddleEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootMiddleEffectorReachT = DoubleField(multi=True)
+    RightFootMiddleEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootMiddleEffectorReachR = DoubleField(multi=True)
+    RightFootMiddleEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootMiddleEffectorPull = DoubleField()
+    RightFootMiddleEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootMiddleEffectorStiffness = DoubleField()
+    RightFootMiddleEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootRingEffectorGX = MatrixField(multi=True)
 
-    RightFootRingEffectorPivot = RightFootRingEffectorPivotField(multi=True)
+    RightFootRingEffectorPivot = RightFootRingEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootRingEffectorReachT = DoubleField(multi=True)
+    RightFootRingEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootRingEffectorReachR = DoubleField(multi=True)
+    RightFootRingEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootRingEffectorPull = DoubleField()
+    RightFootRingEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootRingEffectorStiffness = DoubleField()
+    RightFootRingEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootPinkyEffectorGX = MatrixField(multi=True)
 
-    RightFootPinkyEffectorPivot = RightFootPinkyEffectorPivotField(multi=True)
+    RightFootPinkyEffectorPivot = RightFootPinkyEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootPinkyEffectorReachT = DoubleField(multi=True)
+    RightFootPinkyEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootPinkyEffectorReachR = DoubleField(multi=True)
+    RightFootPinkyEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootPinkyEffectorPull = DoubleField()
+    RightFootPinkyEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootPinkyEffectorStiffness = DoubleField()
+    RightFootPinkyEffectorStiffness = DoubleField(default_value=0.0)
 
     RightFootExtraFingerEffectorGX = MatrixField(multi=True)
 
-    RightFootExtraFingerEffectorPivot = RightFootExtraFingerEffectorPivotField(multi=True)
+    RightFootExtraFingerEffectorPivot = RightFootExtraFingerEffectorPivotField(multi=True, default_value=(0.0, 0.0, 0.0))
 
-    RightFootExtraFingerEffectorReachT = DoubleField(multi=True)
+    RightFootExtraFingerEffectorReachT = DoubleField(multi=True, default_value=0.0)
 
-    RightFootExtraFingerEffectorReachR = DoubleField(multi=True)
+    RightFootExtraFingerEffectorReachR = DoubleField(multi=True, default_value=0.0)
 
-    RightFootExtraFingerEffectorPull = DoubleField()
+    RightFootExtraFingerEffectorPull = DoubleField(default_value=0.0)
 
-    RightFootExtraFingerEffectorStiffness = DoubleField()
+    RightFootExtraFingerEffectorStiffness = DoubleField(default_value=0.0)
 
     leftHandFloorGX = MatrixField()
 

@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -193,11 +193,11 @@ class CentreOfSymmetryPlugOperator(
         ("centreOfSymmetry2", "centreOfSymmetry2"),
     )
 
-    centreOfSymmetry0 = FloatField()
+    centreOfSymmetry0 = FloatField(default_value=0.0)
 
-    centreOfSymmetry1 = FloatField()
+    centreOfSymmetry1 = FloatField(default_value=0.0)
 
-    centreOfSymmetry2 = FloatField()
+    centreOfSymmetry2 = FloatField(default_value=0.0)
 
 
 class CentreOfSymmetryAttrOperator(
@@ -205,11 +205,11 @@ class CentreOfSymmetryAttrOperator(
 ):
     __slots__ = ()
 
-    centreOfSymmetry0 = FloatField()
+    centreOfSymmetry0 = FloatField(default_value=0.0)
 
-    centreOfSymmetry1 = FloatField()
+    centreOfSymmetry1 = FloatField(default_value=0.0)
 
-    centreOfSymmetry2 = FloatField()
+    centreOfSymmetry2 = FloatField(default_value=0.0)
 
 
 class CentreOfSymmetryField(
@@ -220,11 +220,11 @@ class CentreOfSymmetryField(
     ATTR_CLS = CentreOfSymmetryAttrOperator
     PLUG_CLS = CentreOfSymmetryPlugOperator
 
-    centreOfSymmetry0 = FloatField()
+    centreOfSymmetry0 = FloatField(default_value=0.0)
 
-    centreOfSymmetry1 = FloatField()
+    centreOfSymmetry1 = FloatField(default_value=0.0)
 
-    centreOfSymmetry2 = FloatField()
+    centreOfSymmetry2 = FloatField(default_value=0.0)
 
 
 class ReflectionVectorPlugOperator(
@@ -237,11 +237,11 @@ class ReflectionVectorPlugOperator(
         ("reflectionVector2", "reflectionVector2"),
     )
 
-    reflectionVector0 = FloatField()
+    reflectionVector0 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector1 = FloatField()
+    reflectionVector1 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector2 = FloatField()
+    reflectionVector2 = FloatField(default_value=0.0, writable=False)
 
 
 class ReflectionVectorAttrOperator(
@@ -249,11 +249,11 @@ class ReflectionVectorAttrOperator(
 ):
     __slots__ = ()
 
-    reflectionVector0 = FloatField()
+    reflectionVector0 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector1 = FloatField()
+    reflectionVector1 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector2 = FloatField()
+    reflectionVector2 = FloatField(default_value=0.0, writable=False)
 
 
 class ReflectionVectorField(
@@ -264,11 +264,11 @@ class ReflectionVectorField(
     ATTR_CLS = ReflectionVectorAttrOperator
     PLUG_CLS = ReflectionVectorPlugOperator
 
-    reflectionVector0 = FloatField()
+    reflectionVector0 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector1 = FloatField()
+    reflectionVector1 = FloatField(default_value=0.0, writable=False)
 
-    reflectionVector2 = FloatField()
+    reflectionVector2 = FloatField(default_value=0.0, writable=False)
 
 
 class OffsetPositionPlugOperator(
@@ -281,11 +281,11 @@ class OffsetPositionPlugOperator(
         ("offsetPosition2", "offsetPosition2"),
     )
 
-    offsetPosition0 = FloatField()
+    offsetPosition0 = FloatField(default_value=0.0)
 
-    offsetPosition1 = FloatField()
+    offsetPosition1 = FloatField(default_value=0.0)
 
-    offsetPosition2 = FloatField()
+    offsetPosition2 = FloatField(default_value=0.0)
 
 
 class OffsetPositionAttrOperator(
@@ -293,11 +293,11 @@ class OffsetPositionAttrOperator(
 ):
     __slots__ = ()
 
-    offsetPosition0 = FloatField()
+    offsetPosition0 = FloatField(default_value=0.0)
 
-    offsetPosition1 = FloatField()
+    offsetPosition1 = FloatField(default_value=0.0)
 
-    offsetPosition2 = FloatField()
+    offsetPosition2 = FloatField(default_value=0.0)
 
 
 class OffsetPositionField(
@@ -308,11 +308,11 @@ class OffsetPositionField(
     ATTR_CLS = OffsetPositionAttrOperator
     PLUG_CLS = OffsetPositionPlugOperator
 
-    offsetPosition0 = FloatField()
+    offsetPosition0 = FloatField(default_value=0.0)
 
-    offsetPosition1 = FloatField()
+    offsetPosition1 = FloatField(default_value=0.0)
 
-    offsetPosition2 = FloatField()
+    offsetPosition2 = FloatField(default_value=0.0)
 
 
 class FalloffObjectPlugOperator(
@@ -325,13 +325,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -340,13 +340,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -358,11 +358,11 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ

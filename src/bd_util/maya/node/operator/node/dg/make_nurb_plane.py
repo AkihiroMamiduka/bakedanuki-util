@@ -57,7 +57,7 @@ class MakeNurbPlane(DG):
 
     NODE_TYPE = "makeNurbPlane"
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -66,7 +66,7 @@ class MakeNurbPlane(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    axis = AxisField()
+    axis = AxisField(default_value=(1.0, 0.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -75,20 +75,20 @@ class MakeNurbPlane(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    width = DoubleLinearField()
+    width = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=100.0)
     w = width
 
-    lengthRatio = DoubleField()
+    lengthRatio = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     lr = lengthRatio
 
-    patchesU = LongField()
+    patchesU = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
     u = patchesU
 
-    patchesV = LongField()
+    patchesV = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
     v = patchesV
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree

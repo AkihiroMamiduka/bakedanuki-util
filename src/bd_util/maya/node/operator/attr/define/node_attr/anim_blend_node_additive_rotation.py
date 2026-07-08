@@ -18,13 +18,13 @@ class InputAPlugOperator(
         ("inputAZ", "iaz"),
     )
 
-    inputAX = DoubleAngleField()
+    inputAX = DoubleAngleField(default_value=0.0)
     iax = inputAX
 
-    inputAY = DoubleAngleField()
+    inputAY = DoubleAngleField(default_value=0.0)
     iay = inputAY
 
-    inputAZ = DoubleAngleField()
+    inputAZ = DoubleAngleField(default_value=0.0)
     iaz = inputAZ
 
 
@@ -33,13 +33,13 @@ class InputAAttrOperator(
 ):
     __slots__ = ()
 
-    inputAX = DoubleAngleField()
+    inputAX = DoubleAngleField(default_value=0.0)
     iax = inputAX
 
-    inputAY = DoubleAngleField()
+    inputAY = DoubleAngleField(default_value=0.0)
     iay = inputAY
 
-    inputAZ = DoubleAngleField()
+    inputAZ = DoubleAngleField(default_value=0.0)
     iaz = inputAZ
 
 
@@ -51,13 +51,13 @@ class InputAField(
     ATTR_CLS = InputAAttrOperator
     PLUG_CLS = InputAPlugOperator
 
-    inputAX = DoubleAngleField()
+    inputAX = DoubleAngleField(default_value=0.0)
     iax = inputAX
 
-    inputAY = DoubleAngleField()
+    inputAY = DoubleAngleField(default_value=0.0)
     iay = inputAY
 
-    inputAZ = DoubleAngleField()
+    inputAZ = DoubleAngleField(default_value=0.0)
     iaz = inputAZ
 
 
@@ -71,13 +71,13 @@ class InputBPlugOperator(
         ("inputBZ", "ibz"),
     )
 
-    inputBX = DoubleAngleField()
+    inputBX = DoubleAngleField(default_value=0.0)
     ibx = inputBX
 
-    inputBY = DoubleAngleField()
+    inputBY = DoubleAngleField(default_value=0.0)
     iby = inputBY
 
-    inputBZ = DoubleAngleField()
+    inputBZ = DoubleAngleField(default_value=0.0)
     ibz = inputBZ
 
 
@@ -86,13 +86,13 @@ class InputBAttrOperator(
 ):
     __slots__ = ()
 
-    inputBX = DoubleAngleField()
+    inputBX = DoubleAngleField(default_value=0.0)
     ibx = inputBX
 
-    inputBY = DoubleAngleField()
+    inputBY = DoubleAngleField(default_value=0.0)
     iby = inputBY
 
-    inputBZ = DoubleAngleField()
+    inputBZ = DoubleAngleField(default_value=0.0)
     ibz = inputBZ
 
 
@@ -104,13 +104,13 @@ class InputBField(
     ATTR_CLS = InputBAttrOperator
     PLUG_CLS = InputBPlugOperator
 
-    inputBX = DoubleAngleField()
+    inputBX = DoubleAngleField(default_value=0.0)
     ibx = inputBX
 
-    inputBY = DoubleAngleField()
+    inputBY = DoubleAngleField(default_value=0.0)
     iby = inputBY
 
-    inputBZ = DoubleAngleField()
+    inputBZ = DoubleAngleField(default_value=0.0)
     ibz = inputBZ
 
 
@@ -124,13 +124,13 @@ class OutputPlugOperator(
         ("outputZ", "oz"),
     )
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0)
     oz = outputZ
 
 
@@ -139,13 +139,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0)
     oz = outputZ
 
 
@@ -157,11 +157,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0)
     oz = outputZ

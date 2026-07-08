@@ -44,11 +44,11 @@ class Chooser(DG):
 
     NODE_TYPE = "chooser"
 
-    inLevel = BoolField(multi=True)
+    inLevel = BoolField(multi=True, default_value=False)
     il = inLevel
 
-    displayLevel = DisplayLevelEnumField(multi=True)
+    displayLevel = DisplayLevelEnumField(multi=True, default_value=0)
     dl = displayLevel
 
-    output = BoolField(multi=True)
+    output = BoolField(multi=True, default_value=False, writable=False)
     o = output

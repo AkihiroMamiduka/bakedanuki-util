@@ -18,13 +18,13 @@ class OutputPlugOperator(
         ("outputZ", "oz"),
     )
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -33,13 +33,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -51,11 +51,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputX = DoubleAngleField()
+    outputX = DoubleAngleField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleAngleField()
+    outputY = DoubleAngleField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleAngleField()
+    outputZ = DoubleAngleField(default_value=0.0, writable=False)
     oz = outputZ

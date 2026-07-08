@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class Input1PlugOperator(
         ("input1B", "input1b"),
     )
 
-    input1R = FloatField()
+    input1R = FloatField(default_value=0.0)
     input1r = input1R
 
-    input1G = FloatField()
+    input1G = FloatField(default_value=0.0)
     input1g = input1G
 
-    input1B = FloatField()
+    input1B = FloatField(default_value=0.0)
     input1b = input1B
 
 
@@ -139,13 +139,13 @@ class Input1AttrOperator(
 ):
     __slots__ = ()
 
-    input1R = FloatField()
+    input1R = FloatField(default_value=0.0)
     input1r = input1R
 
-    input1G = FloatField()
+    input1G = FloatField(default_value=0.0)
     input1g = input1G
 
-    input1B = FloatField()
+    input1B = FloatField(default_value=0.0)
     input1b = input1B
 
 
@@ -157,13 +157,13 @@ class Input1Field(
     ATTR_CLS = Input1AttrOperator
     PLUG_CLS = Input1PlugOperator
 
-    input1R = FloatField()
+    input1R = FloatField(default_value=0.0)
     input1r = input1R
 
-    input1G = FloatField()
+    input1G = FloatField(default_value=0.0)
     input1g = input1G
 
-    input1B = FloatField()
+    input1B = FloatField(default_value=0.0)
     input1b = input1B
 
 
@@ -177,13 +177,13 @@ class Input2PlugOperator(
         ("input2B", "input2b"),
     )
 
-    input2R = FloatField()
+    input2R = FloatField(default_value=0.0)
     input2r = input2R
 
-    input2G = FloatField()
+    input2G = FloatField(default_value=0.0)
     input2g = input2G
 
-    input2B = FloatField()
+    input2B = FloatField(default_value=0.0)
     input2b = input2B
 
 
@@ -192,13 +192,13 @@ class Input2AttrOperator(
 ):
     __slots__ = ()
 
-    input2R = FloatField()
+    input2R = FloatField(default_value=0.0)
     input2r = input2R
 
-    input2G = FloatField()
+    input2G = FloatField(default_value=0.0)
     input2g = input2G
 
-    input2B = FloatField()
+    input2B = FloatField(default_value=0.0)
     input2b = input2B
 
 
@@ -210,13 +210,13 @@ class Input2Field(
     ATTR_CLS = Input2AttrOperator
     PLUG_CLS = Input2PlugOperator
 
-    input2R = FloatField()
+    input2R = FloatField(default_value=0.0)
     input2r = input2R
 
-    input2G = FloatField()
+    input2G = FloatField(default_value=0.0)
     input2g = input2G
 
-    input2B = FloatField()
+    input2B = FloatField(default_value=0.0)
     input2b = input2B
 
 
@@ -230,13 +230,13 @@ class Input3PlugOperator(
         ("input3B", "input3b"),
     )
 
-    input3R = FloatField()
+    input3R = FloatField(default_value=0.0)
     input3r = input3R
 
-    input3G = FloatField()
+    input3G = FloatField(default_value=0.0)
     input3g = input3G
 
-    input3B = FloatField()
+    input3B = FloatField(default_value=0.0)
     input3b = input3B
 
 
@@ -245,13 +245,13 @@ class Input3AttrOperator(
 ):
     __slots__ = ()
 
-    input3R = FloatField()
+    input3R = FloatField(default_value=0.0)
     input3r = input3R
 
-    input3G = FloatField()
+    input3G = FloatField(default_value=0.0)
     input3g = input3G
 
-    input3B = FloatField()
+    input3B = FloatField(default_value=0.0)
     input3b = input3B
 
 
@@ -263,13 +263,13 @@ class Input3Field(
     ATTR_CLS = Input3AttrOperator
     PLUG_CLS = Input3PlugOperator
 
-    input3R = FloatField()
+    input3R = FloatField(default_value=0.0)
     input3r = input3R
 
-    input3G = FloatField()
+    input3G = FloatField(default_value=0.0)
     input3g = input3G
 
-    input3B = FloatField()
+    input3B = FloatField(default_value=0.0)
     input3b = input3B
 
 
@@ -283,13 +283,13 @@ class Input4PlugOperator(
         ("input4B", "input4b"),
     )
 
-    input4R = FloatField()
+    input4R = FloatField(default_value=0.0)
     input4r = input4R
 
-    input4G = FloatField()
+    input4G = FloatField(default_value=0.0)
     input4g = input4G
 
-    input4B = FloatField()
+    input4B = FloatField(default_value=0.0)
     input4b = input4B
 
 
@@ -298,13 +298,13 @@ class Input4AttrOperator(
 ):
     __slots__ = ()
 
-    input4R = FloatField()
+    input4R = FloatField(default_value=0.0)
     input4r = input4R
 
-    input4G = FloatField()
+    input4G = FloatField(default_value=0.0)
     input4g = input4G
 
-    input4B = FloatField()
+    input4B = FloatField(default_value=0.0)
     input4b = input4B
 
 
@@ -316,13 +316,13 @@ class Input4Field(
     ATTR_CLS = Input4AttrOperator
     PLUG_CLS = Input4PlugOperator
 
-    input4R = FloatField()
+    input4R = FloatField(default_value=0.0)
     input4r = input4R
 
-    input4G = FloatField()
+    input4G = FloatField(default_value=0.0)
     input4g = input4G
 
-    input4B = FloatField()
+    input4B = FloatField(default_value=0.0)
     input4b = input4B
 
 
@@ -336,13 +336,13 @@ class Input5PlugOperator(
         ("input5B", "input5b"),
     )
 
-    input5R = FloatField()
+    input5R = FloatField(default_value=0.0)
     input5r = input5R
 
-    input5G = FloatField()
+    input5G = FloatField(default_value=0.0)
     input5g = input5G
 
-    input5B = FloatField()
+    input5B = FloatField(default_value=0.0)
     input5b = input5B
 
 
@@ -351,13 +351,13 @@ class Input5AttrOperator(
 ):
     __slots__ = ()
 
-    input5R = FloatField()
+    input5R = FloatField(default_value=0.0)
     input5r = input5R
 
-    input5G = FloatField()
+    input5G = FloatField(default_value=0.0)
     input5g = input5G
 
-    input5B = FloatField()
+    input5B = FloatField(default_value=0.0)
     input5b = input5B
 
 
@@ -369,13 +369,13 @@ class Input5Field(
     ATTR_CLS = Input5AttrOperator
     PLUG_CLS = Input5PlugOperator
 
-    input5R = FloatField()
+    input5R = FloatField(default_value=0.0)
     input5r = input5R
 
-    input5G = FloatField()
+    input5G = FloatField(default_value=0.0)
     input5g = input5G
 
-    input5B = FloatField()
+    input5B = FloatField(default_value=0.0)
     input5b = input5B
 
 
@@ -389,13 +389,13 @@ class Input6PlugOperator(
         ("input6B", "input6b"),
     )
 
-    input6R = FloatField()
+    input6R = FloatField(default_value=0.0)
     input6r = input6R
 
-    input6G = FloatField()
+    input6G = FloatField(default_value=0.0)
     input6g = input6G
 
-    input6B = FloatField()
+    input6B = FloatField(default_value=0.0)
     input6b = input6B
 
 
@@ -404,13 +404,13 @@ class Input6AttrOperator(
 ):
     __slots__ = ()
 
-    input6R = FloatField()
+    input6R = FloatField(default_value=0.0)
     input6r = input6R
 
-    input6G = FloatField()
+    input6G = FloatField(default_value=0.0)
     input6g = input6G
 
-    input6B = FloatField()
+    input6B = FloatField(default_value=0.0)
     input6b = input6B
 
 
@@ -422,13 +422,13 @@ class Input6Field(
     ATTR_CLS = Input6AttrOperator
     PLUG_CLS = Input6PlugOperator
 
-    input6R = FloatField()
+    input6R = FloatField(default_value=0.0)
     input6r = input6R
 
-    input6G = FloatField()
+    input6G = FloatField(default_value=0.0)
     input6g = input6G
 
-    input6B = FloatField()
+    input6B = FloatField(default_value=0.0)
     input6b = input6B
 
 
@@ -442,13 +442,13 @@ class Input7PlugOperator(
         ("input7B", "input7b"),
     )
 
-    input7R = FloatField()
+    input7R = FloatField(default_value=0.0)
     input7r = input7R
 
-    input7G = FloatField()
+    input7G = FloatField(default_value=0.0)
     input7g = input7G
 
-    input7B = FloatField()
+    input7B = FloatField(default_value=0.0)
     input7b = input7B
 
 
@@ -457,13 +457,13 @@ class Input7AttrOperator(
 ):
     __slots__ = ()
 
-    input7R = FloatField()
+    input7R = FloatField(default_value=0.0)
     input7r = input7R
 
-    input7G = FloatField()
+    input7G = FloatField(default_value=0.0)
     input7g = input7G
 
-    input7B = FloatField()
+    input7B = FloatField(default_value=0.0)
     input7b = input7B
 
 
@@ -475,13 +475,13 @@ class Input7Field(
     ATTR_CLS = Input7AttrOperator
     PLUG_CLS = Input7PlugOperator
 
-    input7R = FloatField()
+    input7R = FloatField(default_value=0.0)
     input7r = input7R
 
-    input7G = FloatField()
+    input7G = FloatField(default_value=0.0)
     input7g = input7G
 
-    input7B = FloatField()
+    input7B = FloatField(default_value=0.0)
     input7b = input7B
 
 
@@ -495,13 +495,13 @@ class Input8PlugOperator(
         ("input8B", "input8b"),
     )
 
-    input8R = FloatField()
+    input8R = FloatField(default_value=0.0)
     input8r = input8R
 
-    input8G = FloatField()
+    input8G = FloatField(default_value=0.0)
     input8g = input8G
 
-    input8B = FloatField()
+    input8B = FloatField(default_value=0.0)
     input8b = input8B
 
 
@@ -510,13 +510,13 @@ class Input8AttrOperator(
 ):
     __slots__ = ()
 
-    input8R = FloatField()
+    input8R = FloatField(default_value=0.0)
     input8r = input8R
 
-    input8G = FloatField()
+    input8G = FloatField(default_value=0.0)
     input8g = input8G
 
-    input8B = FloatField()
+    input8B = FloatField(default_value=0.0)
     input8b = input8B
 
 
@@ -528,11 +528,11 @@ class Input8Field(
     ATTR_CLS = Input8AttrOperator
     PLUG_CLS = Input8PlugOperator
 
-    input8R = FloatField()
+    input8R = FloatField(default_value=0.0)
     input8r = input8R
 
-    input8G = FloatField()
+    input8G = FloatField(default_value=0.0)
     input8g = input8G
 
-    input8B = FloatField()
+    input8B = FloatField(default_value=0.0)
     input8b = input8B

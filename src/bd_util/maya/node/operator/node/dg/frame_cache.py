@@ -8,17 +8,17 @@ class FrameCache(DG):
 
     NODE_TYPE = "frameCache"
 
-    future = DoubleField(multi=True)
+    future = DoubleField(multi=True, default_value=0.0, writable=False)
     f = future
 
-    past = DoubleField(multi=True)
+    past = DoubleField(multi=True, default_value=0.0, writable=False)
     p = past
 
-    varying = DoubleField()
+    varying = DoubleField(default_value=0.0, writable=False)
     v = varying
 
-    varyTime = DoubleField()
+    varyTime = DoubleField(default_value=0.0)
     vt = varyTime
 
-    stream = DoubleField()
+    stream = DoubleField(default_value=0.0)
     s = stream

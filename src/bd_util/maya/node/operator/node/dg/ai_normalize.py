@@ -12,7 +12,7 @@ class AiNormalize(DG):
 
     NODE_TYPE = "aiNormalize"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -21,7 +21,7 @@ class AiNormalize(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -30,7 +30,7 @@ class AiNormalize(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(1.0, 1.0, 1.0))
     inputX = input.inputX
     inputx = inputX
     inputY = input.inputY

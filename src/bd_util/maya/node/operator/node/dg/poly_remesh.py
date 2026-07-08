@@ -50,7 +50,7 @@ class PolyRemesh(DG):
 
     NODE_TYPE = "polyRemesh"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -59,50 +59,50 @@ class PolyRemesh(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    maxEdgeLength = FloatLinearField()
+    maxEdgeLength = FloatLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.1, soft_max_value=2.0)
     mel = maxEdgeLength
 
-    collapseThreshold = FloatField()
+    collapseThreshold = FloatField(default_value=20.0, min_value=0.0, max_value=100.0)
     cot = collapseThreshold
 
-    smoothStrength = FloatField()
+    smoothStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
     smt = smoothStrength
 
-    tessellateBorders = BoolField()
+    tessellateBorders = BoolField(default_value=True)
     tsb = tessellateBorders
 
-    interpolationType = InterpolationTypeEnumField()
+    interpolationType = InterpolationTypeEnumField(default_value=2)
     ipt = interpolationType
 
-    maxTriangleCount = LongField()
+    maxTriangleCount = LongField(default_value=5000000, min_value=0, soft_max_value=5000000)
     mtc = maxTriangleCount

@@ -46,17 +46,17 @@ class HIKSolverNode(DG):
 
     NODE_TYPE = "HIKSolverNode"
 
-    InputActive = BoolField()
+    InputActive = BoolField(default_value=True)
 
-    InputStance = BoolField()
+    InputStance = BoolField(default_value=False)
 
-    InputRelaxStance = BoolField()
+    InputRelaxStance = BoolField(default_value=False)
 
-    InputStanceMask = LongField()
+    InputStanceMask = LongField(default_value=0)
 
-    LowLOD = BoolField()
+    LowLOD = BoolField(default_value=False)
 
-    SNS = BoolField()
+    SNS = BoolField(default_value=False)
 
     InputCharacterDefinition = TypedField()
 
@@ -68,7 +68,7 @@ class HIKSolverNode(DG):
 
     InputPropertySetState = TypedField()
 
-    SolverMode = SolverModeEnumField()
+    SolverMode = SolverModeEnumField(default_value=0)
 
     OutputCharacterState = TypedField()
 

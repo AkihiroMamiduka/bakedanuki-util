@@ -18,13 +18,13 @@ class ValuePlugOperator(
         ("valueZ", "vz"),
     )
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0)
     vz = valueZ
 
 
@@ -33,13 +33,13 @@ class ValueAttrOperator(
 ):
     __slots__ = ()
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0)
     vz = valueZ
 
 
@@ -51,13 +51,13 @@ class ValueField(
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0)
     vz = valueZ
 
 
@@ -71,13 +71,13 @@ class GammaPlugOperator(
         ("gammaZ", "gz"),
     )
 
-    gammaX = FloatField()
+    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gx = gammaX
 
-    gammaY = FloatField()
+    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gy = gammaY
 
-    gammaZ = FloatField()
+    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gz = gammaZ
 
 
@@ -86,13 +86,13 @@ class GammaAttrOperator(
 ):
     __slots__ = ()
 
-    gammaX = FloatField()
+    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gx = gammaX
 
-    gammaY = FloatField()
+    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gy = gammaY
 
-    gammaZ = FloatField()
+    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gz = gammaZ
 
 
@@ -104,13 +104,13 @@ class GammaField(
     ATTR_CLS = GammaAttrOperator
     PLUG_CLS = GammaPlugOperator
 
-    gammaX = FloatField()
+    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gx = gammaX
 
-    gammaY = FloatField()
+    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gy = gammaY
 
-    gammaZ = FloatField()
+    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     gz = gammaZ
 
 
@@ -124,13 +124,13 @@ class OutValuePlugOperator(
         ("outValueZ", "oz"),
     )
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ
 
 
@@ -139,13 +139,13 @@ class OutValueAttrOperator(
 ):
     __slots__ = ()
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ
 
 
@@ -157,11 +157,11 @@ class OutValueField(
     ATTR_CLS = OutValueAttrOperator
     PLUG_CLS = OutValuePlugOperator
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ

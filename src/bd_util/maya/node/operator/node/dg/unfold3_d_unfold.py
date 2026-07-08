@@ -15,25 +15,25 @@ class Unfold3DUnfold(DG):
     inMesh = DataMeshField()
     im = inMesh
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     om = outMesh
 
-    iterations = LongField()
+    iterations = LongField(default_value=1)
     ite = iterations
 
-    borderIntersection = BoolField()
+    borderIntersection = BoolField(default_value=True)
     bi = borderIntersection
 
-    triangleFlip = BoolField()
+    triangleFlip = BoolField(default_value=True)
     trif = triangleFlip
 
-    mapSize = LongField()
+    mapSize = LongField(default_value=1024)
     msiz = mapSize
 
-    packing = BoolField()
+    packing = BoolField(default_value=True)
     pack = packing
 
-    roomSpace = LongField()
+    roomSpace = LongField(default_value=2)
     rspac = roomSpace
 
     meshDagPath = DataStringField()
@@ -51,5 +51,5 @@ class Unfold3DUnfold(DG):
     memvsexported = TypedField()
     mve = memvsexported
 
-    memisevereval = BoolField()
+    memisevereval = BoolField(default_value=False)
     miee = memisevereval

@@ -62,7 +62,7 @@ class PolyChipOff(DG):
 
     NODE_TYPE = "polyChipOff"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -71,37 +71,37 @@ class PolyChipOff(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -110,7 +110,7 @@ class PolyChipOff(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -119,7 +119,7 @@ class PolyChipOff(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     s = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -128,7 +128,7 @@ class PolyChipOff(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -137,13 +137,13 @@ class PolyChipOff(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField()
+    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ran = random
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0)
     rs = randomSeed
 
-    localTranslate = LocalTranslateField()
+    localTranslate = LocalTranslateField(default_value=(0.0, 0.0, 0.0))
     lt = localTranslate
     localTranslateX = localTranslate.localTranslateX
     ltx = localTranslateX
@@ -152,7 +152,7 @@ class PolyChipOff(DG):
     localTranslateZ = localTranslate.localTranslateZ
     ltz = localTranslateZ
 
-    localDirection = LocalDirectionField()
+    localDirection = LocalDirectionField(default_value=(1.0, 0.0, 0.0))
     ld = localDirection
     localDirectionX = localDirection.localDirectionX
     ldx = localDirectionX
@@ -161,16 +161,16 @@ class PolyChipOff(DG):
     localDirectionZ = localDirection.localDirectionZ
     ldz = localDirectionZ
 
-    matrix = DataMatrixField()
+    matrix = DataMatrixField(writable=False)
     cma = matrix
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    gain = FloatField(multi=True)
+    gain = FloatField(multi=True, default_value=1.0)
     ga = gain
 
-    localRotate = LocalRotateField()
+    localRotate = LocalRotateField(default_value=(0.0, 0.0, 0.0))
     lr = localRotate
     localRotateX = localRotate.localRotateX
     lrx = localRotateX
@@ -179,7 +179,7 @@ class PolyChipOff(DG):
     localRotateZ = localRotate.localRotateZ
     lrz = localRotateZ
 
-    localScale = LocalScaleField()
+    localScale = LocalScaleField(default_value=(1.0, 1.0, 1.0))
     ls = localScale
     localScaleX = localScale.localScaleX
     lsx = localScaleX
@@ -188,16 +188,16 @@ class PolyChipOff(DG):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    localCenter = LocalCenterEnumField()
+    localCenter = LocalCenterEnumField(default_value=0)
     lc = localCenter
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0)
     off = offset
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=0.0)
     w = weight
 
-    gravity = GravityField()
+    gravity = GravityField(default_value=(0.0, -1.0, 0.0))
     g = gravity
     gravityX = gravity.gravityX
     gx = gravityX
@@ -206,10 +206,10 @@ class PolyChipOff(DG):
     gravityZ = gravity.gravityZ
     gz = gravityZ
 
-    attraction = DoubleField()
+    attraction = DoubleField(default_value=0.0)
     att = attraction
 
-    magnet = MagnetField()
+    magnet = MagnetField(default_value=(0.0, 0.0, 0.0))
     m = magnet
     magnX = magnet.magnX
     mx = magnX
@@ -218,8 +218,8 @@ class PolyChipOff(DG):
     magnZ = magnet.magnZ
     mz = magnZ
 
-    keepFacesTogether = BoolField()
+    keepFacesTogether = BoolField(default_value=True)
     kft = keepFacesTogether
 
-    duplicate = BoolField()
+    duplicate = BoolField(default_value=True)
     dup = duplicate

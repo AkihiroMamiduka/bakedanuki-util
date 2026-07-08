@@ -18,13 +18,13 @@ class MinPlugOperator(
         ("minB", "mnb"),
     )
 
-    minR = FloatField()
+    minR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnr = minR
 
-    minG = FloatField()
+    minG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mng = minG
 
-    minB = FloatField()
+    minB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnb = minB
 
 
@@ -33,13 +33,13 @@ class MinAttrOperator(
 ):
     __slots__ = ()
 
-    minR = FloatField()
+    minR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnr = minR
 
-    minG = FloatField()
+    minG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mng = minG
 
-    minB = FloatField()
+    minB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnb = minB
 
 
@@ -51,13 +51,13 @@ class MinField(
     ATTR_CLS = MinAttrOperator
     PLUG_CLS = MinPlugOperator
 
-    minR = FloatField()
+    minR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnr = minR
 
-    minG = FloatField()
+    minG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mng = minG
 
-    minB = FloatField()
+    minB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mnb = minB
 
 
@@ -71,13 +71,13 @@ class MaxPlugOperator(
         ("maxB", "mxb"),
     )
 
-    maxR = FloatField()
+    maxR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxr = maxR
 
-    maxG = FloatField()
+    maxG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxg = maxG
 
-    maxB = FloatField()
+    maxB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxb = maxB
 
 
@@ -86,13 +86,13 @@ class MaxAttrOperator(
 ):
     __slots__ = ()
 
-    maxR = FloatField()
+    maxR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxr = maxR
 
-    maxG = FloatField()
+    maxG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxg = maxG
 
-    maxB = FloatField()
+    maxB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxb = maxB
 
 
@@ -104,13 +104,13 @@ class MaxField(
     ATTR_CLS = MaxAttrOperator
     PLUG_CLS = MaxPlugOperator
 
-    maxR = FloatField()
+    maxR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxr = maxR
 
-    maxG = FloatField()
+    maxG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxg = maxG
 
-    maxB = FloatField()
+    maxB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mxb = maxB
 
 
@@ -124,13 +124,13 @@ class InputPlugOperator(
         ("inputB", "ipb"),
     )
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipb = inputB
 
 
@@ -139,13 +139,13 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipb = inputB
 
 
@@ -157,13 +157,13 @@ class InputField(
     ATTR_CLS = InputAttrOperator
     PLUG_CLS = InputPlugOperator
 
-    inputR = FloatField()
+    inputR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipr = inputR
 
-    inputG = FloatField()
+    inputG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipg = inputG
 
-    inputB = FloatField()
+    inputB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     ipb = inputB
 
 
@@ -177,13 +177,13 @@ class OutputPlugOperator(
         ("outputB", "opb"),
     )
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB
 
 
@@ -192,13 +192,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB
 
 
@@ -210,11 +210,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB

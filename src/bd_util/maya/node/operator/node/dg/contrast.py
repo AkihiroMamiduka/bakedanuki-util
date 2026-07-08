@@ -52,7 +52,7 @@ class Contrast(DG):
 
     NODE_TYPE = "contrast"
 
-    value = ValueField()
+    value = ValueField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     v = value
     valueX = value.valueX
     vx = valueX
@@ -61,7 +61,7 @@ class Contrast(DG):
     valueZ = value.valueZ
     vz = valueZ
 
-    contrast = ContrastField()
+    contrast = ContrastField(default_value=(2.0, 2.0, 2.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
     c = contrast
     contrastX = contrast.contrastX
     cx = contrastX
@@ -70,7 +70,7 @@ class Contrast(DG):
     contrastZ = contrast.contrastZ
     cz = contrastZ
 
-    bias = BiasField()
+    bias = BiasField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     b = bias
     biasX = bias.biasX
     bx = biasX
@@ -79,10 +79,10 @@ class Contrast(DG):
     biasZ = bias.biasZ
     bz = biasZ
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = outValue
     outValueX = outValue.outValueX
     ox = outValueX

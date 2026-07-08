@@ -8,7 +8,7 @@ class SubdAddTopology(DG):
 
     NODE_TYPE = "subdAddTopology"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()

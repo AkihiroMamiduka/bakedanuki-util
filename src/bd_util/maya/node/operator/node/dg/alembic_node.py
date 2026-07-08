@@ -54,7 +54,7 @@ class AlembicNode(DG):
 
     NODE_TYPE = "AlembicNode"
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tm = time
 
     abc_File = DataStringField()
@@ -63,13 +63,13 @@ class AlembicNode(DG):
     abc_layerFiles = DataStringArrayField()
     fns = abc_layerFiles
 
-    speed = DoubleField()
+    speed = DoubleField(default_value=1.0)
     sp = speed
 
-    offset = DoubleField()
+    offset = DoubleField(default_value=0.0)
     of = offset
 
-    cycleType = CycleTypeEnumField()
+    cycleType = CycleTypeEnumField(default_value=0)
     ct = cycleType
 
     regexIncludeFilter = DataStringField()
@@ -78,32 +78,32 @@ class AlembicNode(DG):
     regexExcludeFilter = DataStringField()
     eft = regexExcludeFilter
 
-    startFrame = DoubleField()
+    startFrame = DoubleField(default_value=0.0, writable=False)
     sf = startFrame
 
-    endFrame = DoubleField()
+    endFrame = DoubleField(default_value=0.0, writable=False)
     ef = endFrame
 
-    outSubDMesh = DataMeshField(multi=True)
+    outSubDMesh = DataMeshField(multi=True, writable=False)
     osubd = outSubDMesh
 
-    outPolyMesh = DataMeshField(multi=True)
+    outPolyMesh = DataMeshField(multi=True, writable=False)
     opoly = outPolyMesh
 
-    outNSurface = DataNurbsSurfaceField(multi=True)
+    outNSurface = DataNurbsSurfaceField(multi=True, writable=False)
     ons = outNSurface
 
-    outNCurveGrp = DataNurbsCurveField(multi=True)
+    outNCurveGrp = DataNurbsCurveField(multi=True, writable=False)
     onc = outNCurveGrp
 
-    outLoc = DoubleField(multi=True)
+    outLoc = DoubleField(multi=True, default_value=0.0, writable=False)
     olo = outLoc
 
-    transOp = DoubleField(multi=True)
+    transOp = DoubleField(multi=True, default_value=0.0, writable=False)
     to = transOp
 
-    outCamera = DoubleField(multi=True)
+    outCamera = DoubleField(multi=True, default_value=0.0, writable=False)
     ocam = outCamera
 
-    prop = GenericField(multi=True)
+    prop = GenericField(multi=True, writable=False)
     pr = prop

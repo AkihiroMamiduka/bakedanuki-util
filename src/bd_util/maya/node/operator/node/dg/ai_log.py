@@ -13,7 +13,7 @@ class AiLog(DG):
 
     NODE_TYPE = "aiLog"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,7 +22,7 @@ class AiLog(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +31,7 @@ class AiLog(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -39,7 +39,7 @@ class AiLog(DG):
     inputB = input.inputB
     inputb = inputB
 
-    base = BaseField()
+    base = BaseField(default_value=(2.7182817459106445, 2.7182817459106445, 2.7182817459106445))
     baseR = base.baseR
     baser = baseR
     baseG = base.baseG

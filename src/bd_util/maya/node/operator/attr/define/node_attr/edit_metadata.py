@@ -20,7 +20,7 @@ class EditsPlugOperator(
     channelName = DataStringField()
     cn = channelName
 
-    channelEdits = CompoundField()
+    channelEdits = CompoundField(multi=True)
     ce = channelEdits
 
 
@@ -32,7 +32,7 @@ class EditsAttrOperator(
     channelName = DataStringField()
     cn = channelName
 
-    channelEdits = CompoundField()
+    channelEdits = CompoundField(multi=True)
     ce = channelEdits
 
 

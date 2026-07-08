@@ -52,10 +52,10 @@ class BlendColors(DG):
 
     NODE_TYPE = "blendColors"
 
-    blender = FloatField()
+    blender = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     b = blender
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(1.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -64,7 +64,7 @@ class BlendColors(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(0.0, 0.0, 1.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -73,10 +73,10 @@ class BlendColors(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     op = output
     outputR = output.outputR
     opr = outputR

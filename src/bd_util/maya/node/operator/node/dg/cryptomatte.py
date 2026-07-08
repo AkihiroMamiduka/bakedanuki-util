@@ -15,7 +15,7 @@ class Cryptomatte(DG):
 
     NODE_TYPE = "cryptomatte"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -24,10 +24,10 @@ class Cryptomatte(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,16 +36,16 @@ class Cryptomatte(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    sidecarManifests = BoolField()
+    sidecarManifests = BoolField(default_value=False)
     sidecar_manifests = sidecarManifests
 
-    cryptomatteDepth = LongField()
+    cryptomatteDepth = LongField(default_value=6)
     cryptomatte_depth = cryptomatteDepth
 
-    stripObjNamespaces = BoolField()
+    stripObjNamespaces = BoolField(default_value=True)
     strip_obj_namespaces = stripObjNamespaces
 
-    stripMatNamespaces = BoolField()
+    stripMatNamespaces = BoolField(default_value=True)
     strip_mat_namespaces = stripMatNamespaces
 
     aovCryptoAsset = DataStringField()
@@ -57,28 +57,28 @@ class Cryptomatte(DG):
     aovCryptoMaterial = DataStringField()
     aov_crypto_material = aovCryptoMaterial
 
-    previewInExr = BoolField()
+    previewInExr = BoolField(default_value=False)
     preview_in_exr = previewInExr
 
-    customOutputDriver = BoolField()
+    customOutputDriver = BoolField(default_value=False)
     custom_output_driver = customOutputDriver
 
-    createDepthOutputs = BoolField()
+    createDepthOutputs = BoolField(default_value=True)
     create_depth_outputs = createDepthOutputs
 
-    processMaya = BoolField()
+    processMaya = BoolField(default_value=True)
     process_maya = processMaya
 
-    processPaths = BoolField()
+    processPaths = BoolField(default_value=True)
     process_paths = processPaths
 
-    processObjPathPipes = BoolField()
+    processObjPathPipes = BoolField(default_value=True)
     process_obj_path_pipes = processObjPathPipes
 
-    processMatPathPipes = BoolField()
+    processMatPathPipes = BoolField(default_value=True)
     process_mat_path_pipes = processMatPathPipes
 
-    processLegacy = BoolField()
+    processLegacy = BoolField(default_value=True)
     process_legacy = processLegacy
 
     userCryptoAov0 = DataStringField()

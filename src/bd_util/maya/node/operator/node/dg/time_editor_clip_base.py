@@ -53,5 +53,5 @@ class TimeEditorClipBase(DG):
     rootObj = MessageField()
     rob = rootObj
 
-    lastEvaluationTime = TimeField()
+    lastEvaluationTime = TimeField(default_value=-3921501716349.82)
     let = lastEvaluationTime

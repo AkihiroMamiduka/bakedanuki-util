@@ -22,19 +22,19 @@ class EdgePlugOperator(
         ("edgeValid", "ev"),
     )
 
-    inputCurveA = DataNurbsCurveField()
+    inputCurveA = DataNurbsCurveField(multi=True)
     ica = inputCurveA
 
-    inputCurveB = DataNurbsCurveField()
+    inputCurveB = DataNurbsCurveField(multi=True)
     icb = inputCurveB
 
-    inSurfIdxA = LongField()
+    inSurfIdxA = LongField(multi=True, default_value=123456)
     isa = inSurfIdxA
 
-    inSurfIdxB = LongField()
+    inSurfIdxB = LongField(multi=True, default_value=123456)
     isb = inSurfIdxB
 
-    edgeValid = BoolField()
+    edgeValid = BoolField(default_value=True)
     ev = edgeValid
 
 
@@ -43,19 +43,19 @@ class EdgeAttrOperator(
 ):
     __slots__ = ()
 
-    inputCurveA = DataNurbsCurveField()
+    inputCurveA = DataNurbsCurveField(multi=True)
     ica = inputCurveA
 
-    inputCurveB = DataNurbsCurveField()
+    inputCurveB = DataNurbsCurveField(multi=True)
     icb = inputCurveB
 
-    inSurfIdxA = LongField()
+    inSurfIdxA = LongField(multi=True, default_value=123456)
     isa = inSurfIdxA
 
-    inSurfIdxB = LongField()
+    inSurfIdxB = LongField(multi=True, default_value=123456)
     isb = inSurfIdxB
 
-    edgeValid = BoolField()
+    edgeValid = BoolField(default_value=True)
     ev = edgeValid
 
 

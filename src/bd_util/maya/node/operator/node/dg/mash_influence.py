@@ -94,7 +94,7 @@ class MASH_Influence(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -105,21 +105,21 @@ class MASH_Influence(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -127,25 +127,25 @@ class MASH_Influence(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -159,9 +159,9 @@ class MASH_Influence(DG):
 
     falloffInfo = TypedField()
 
-    guideInputs = GuideInputsField(multi=True)
+    guideInputs = GuideInputsField(multi=True, default_value=(1.0, 1.0, 1.0), readable=False)
 
-    guideScale = GuideScaleField(multi=True)
+    guideScale = GuideScaleField(multi=True, default_value=(1.0, 1.0, 1.0), readable=False)
 
     guideMatrices = MatrixField(multi=True)
 
@@ -175,27 +175,27 @@ class MASH_Influence(DG):
     scaleOutPP = translateOutPP.scaleOutPP
     rotationOutPP = translateOutPP.rotationOutPP
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
 
-    enableRot = BoolField()
+    enableRot = BoolField(default_value=True)
 
-    overwriteRotation = BoolField()
+    overwriteRotation = BoolField(default_value=True)
 
-    overwriteScale = BoolField()
+    overwriteScale = BoolField(default_value=True)
 
-    influenceRadius = DoubleField()
+    influenceRadius = DoubleField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
 
-    influenceMode = BoolField()
+    influenceMode = BoolField(default_value=True)
 
-    vortexStrength = BoolField()
+    vortexStrength = BoolField(default_value=False)
 
-    translateX = BoolField()
+    translateX = BoolField(default_value=False)
     trx = translateX
 
-    translateY = BoolField()
+    translateY = BoolField(default_value=False)
     try_ = translateY
 
-    translateZ = BoolField()
+    translateZ = BoolField(default_value=False)
     trz = translateZ
 
-    falloffPower = DoubleField()
+    falloffPower = DoubleField(default_value=5.0, soft_min_value=1.0, soft_max_value=10.0)

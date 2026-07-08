@@ -12,7 +12,7 @@ class EditMetadata(DG):
     inData = TypedField()
     id = inData
 
-    outData = TypedField()
+    outData = TypedField(writable=False)
     od = outData
 
     edits = EditsField(multi=True)

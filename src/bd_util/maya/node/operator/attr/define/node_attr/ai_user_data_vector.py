@@ -18,13 +18,13 @@ class OutValuePlugOperator(
         ("outValueZ", "outz"),
     )
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -33,13 +33,13 @@ class OutValueAttrOperator(
 ):
     __slots__ = ()
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -51,13 +51,13 @@ class OutValueField(
     ATTR_CLS = OutValueAttrOperator
     PLUG_CLS = OutValuePlugOperator
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class DefaultValuePlugOperator(
         ("defaultValueZ", "defaultValuez"),
     )
 
-    defaultValueX = FloatField()
+    defaultValueX = FloatField(default_value=0.0)
     defaultValuex = defaultValueX
 
-    defaultValueY = FloatField()
+    defaultValueY = FloatField(default_value=0.0)
     defaultValuey = defaultValueY
 
-    defaultValueZ = FloatField()
+    defaultValueZ = FloatField(default_value=0.0)
     defaultValuez = defaultValueZ
 
 
@@ -139,13 +139,13 @@ class DefaultValueAttrOperator(
 ):
     __slots__ = ()
 
-    defaultValueX = FloatField()
+    defaultValueX = FloatField(default_value=0.0)
     defaultValuex = defaultValueX
 
-    defaultValueY = FloatField()
+    defaultValueY = FloatField(default_value=0.0)
     defaultValuey = defaultValueY
 
-    defaultValueZ = FloatField()
+    defaultValueZ = FloatField(default_value=0.0)
     defaultValuez = defaultValueZ
 
 
@@ -157,11 +157,11 @@ class DefaultValueField(
     ATTR_CLS = DefaultValueAttrOperator
     PLUG_CLS = DefaultValuePlugOperator
 
-    defaultValueX = FloatField()
+    defaultValueX = FloatField(default_value=0.0)
     defaultValuex = defaultValueX
 
-    defaultValueY = FloatField()
+    defaultValueY = FloatField(default_value=0.0)
     defaultValuey = defaultValueY
 
-    defaultValueZ = FloatField()
+    defaultValueZ = FloatField(default_value=0.0)
     defaultValuez = defaultValueZ

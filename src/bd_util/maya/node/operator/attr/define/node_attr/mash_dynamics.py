@@ -18,11 +18,11 @@ class InitialVelocityPlugOperator(
         ("initialVelocity2", "initialVelocity2"),
     )
 
-    initialVelocity0 = FloatField()
+    initialVelocity0 = FloatField(default_value=0.0)
 
-    initialVelocity1 = FloatField()
+    initialVelocity1 = FloatField(default_value=0.0)
 
-    initialVelocity2 = FloatField()
+    initialVelocity2 = FloatField(default_value=0.0)
 
 
 class InitialVelocityAttrOperator(
@@ -30,11 +30,11 @@ class InitialVelocityAttrOperator(
 ):
     __slots__ = ()
 
-    initialVelocity0 = FloatField()
+    initialVelocity0 = FloatField(default_value=0.0)
 
-    initialVelocity1 = FloatField()
+    initialVelocity1 = FloatField(default_value=0.0)
 
-    initialVelocity2 = FloatField()
+    initialVelocity2 = FloatField(default_value=0.0)
 
 
 class InitialVelocityField(
@@ -45,11 +45,11 @@ class InitialVelocityField(
     ATTR_CLS = InitialVelocityAttrOperator
     PLUG_CLS = InitialVelocityPlugOperator
 
-    initialVelocity0 = FloatField()
+    initialVelocity0 = FloatField(default_value=0.0)
 
-    initialVelocity1 = FloatField()
+    initialVelocity1 = FloatField(default_value=0.0)
 
-    initialVelocity2 = FloatField()
+    initialVelocity2 = FloatField(default_value=0.0)
 
 
 class InitialRotationalVelocityPlugOperator(
@@ -62,11 +62,11 @@ class InitialRotationalVelocityPlugOperator(
         ("initialRotationalVelocity2", "initialRotationalVelocity2"),
     )
 
-    initialRotationalVelocity0 = FloatField()
+    initialRotationalVelocity0 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity1 = FloatField()
+    initialRotationalVelocity1 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity2 = FloatField()
+    initialRotationalVelocity2 = FloatField(default_value=0.0)
 
 
 class InitialRotationalVelocityAttrOperator(
@@ -74,11 +74,11 @@ class InitialRotationalVelocityAttrOperator(
 ):
     __slots__ = ()
 
-    initialRotationalVelocity0 = FloatField()
+    initialRotationalVelocity0 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity1 = FloatField()
+    initialRotationalVelocity1 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity2 = FloatField()
+    initialRotationalVelocity2 = FloatField(default_value=0.0)
 
 
 class InitialRotationalVelocityField(
@@ -89,8 +89,8 @@ class InitialRotationalVelocityField(
     ATTR_CLS = InitialRotationalVelocityAttrOperator
     PLUG_CLS = InitialRotationalVelocityPlugOperator
 
-    initialRotationalVelocity0 = FloatField()
+    initialRotationalVelocity0 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity1 = FloatField()
+    initialRotationalVelocity1 = FloatField(default_value=0.0)
 
-    initialRotationalVelocity2 = FloatField()
+    initialRotationalVelocity2 = FloatField(default_value=0.0)

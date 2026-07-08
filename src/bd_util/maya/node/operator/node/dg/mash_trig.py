@@ -88,7 +88,7 @@ class MASH_Trig(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -99,21 +99,21 @@ class MASH_Trig(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -121,9 +121,9 @@ class MASH_Trig(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -135,64 +135,64 @@ class MASH_Trig(DG):
 
     inUtilityPositions = DataVectorArrayField()
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    xAxis = LongField()
+    xAxis = LongField(default_value=1)
     xAx = xAxis
 
-    yAxis = LongField()
+    yAxis = LongField(default_value=1)
     yAx = yAxis
 
-    zAxis = LongField()
+    zAxis = LongField(default_value=1)
     zAx = zAxis
 
-    positiveNoise = BoolField()
+    positiveNoise = BoolField(default_value=False)
     posNoi = positiveNoise
 
-    strengthAffectsAmplitude = BoolField()
+    strengthAffectsAmplitude = BoolField(default_value=True)
 
-    strengthAffectsFrequency = BoolField()
+    strengthAffectsFrequency = BoolField(default_value=False)
 
-    strengthAffectsStep = BoolField()
+    strengthAffectsStep = BoolField(default_value=False)
 
-    modular = LongField()
+    modular = LongField(default_value=1, min_value=1, soft_max_value=20)
     mod = modular
 
-    amplitudeX = FloatField()
+    amplitudeX = FloatField(default_value=5.0, soft_min_value=-20.0, soft_max_value=20.0)
     ampX = amplitudeX
 
-    frequencyX = FloatField()
+    frequencyX = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=2.0)
     freqX = frequencyX
 
-    amplitudeY = FloatField()
+    amplitudeY = FloatField(default_value=5.0, soft_min_value=-20.0, soft_max_value=20.0)
     ampY = amplitudeY
 
-    frequencyY = FloatField()
+    frequencyY = FloatField(default_value=0.20000000298023224, soft_min_value=0.0, soft_max_value=2.0)
     freqY = frequencyY
 
-    amplitudeZ = FloatField()
+    amplitudeZ = FloatField(default_value=5.0, soft_min_value=-20.0, soft_max_value=20.0)
     ampZ = amplitudeZ
 
-    frequencyZ = FloatField()
+    frequencyZ = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=2.0)
     freqZ = frequencyZ
 
-    step = FloatField()
+    step = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=100.0)
     st = step
 
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    amplitudeColour = AmplitudeColourField()
+    amplitudeColour = AmplitudeColourField(default_value=(1.0, 1.0, 1.0))
     amplitudeColourR = amplitudeColour.amplitudeColourR
     amplitudeColourG = amplitudeColour.amplitudeColourG
     amplitudeColourB = amplitudeColour.amplitudeColourB
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    intResults = BoolField()
+    intResults = BoolField(default_value=False)
     intRes = intResults
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations

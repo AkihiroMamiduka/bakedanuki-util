@@ -13,22 +13,22 @@ class RemapValue(DG):
 
     NODE_TYPE = "remapValue"
 
-    inputValue = FloatField()
+    inputValue = FloatField(default_value=0.0)
     i = inputValue
 
-    inputMin = FloatField()
+    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     imn = inputMin
 
-    inputMax = FloatField()
+    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     imx = inputMax
 
-    outputMin = FloatField()
+    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     omn = outputMin
 
-    outputMax = FloatField()
+    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     omx = outputMax
 
-    value = ValueField(multi=True)
+    value = ValueField(multi=True, default_value=(0.0, 0.0, 0.0))
     vl = value
 
     color = ColorField(multi=True)
@@ -43,10 +43,10 @@ class RemapValue(DG):
     color_ColorB = FloatField()
     clcb = color_ColorB
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     ov = outValue
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

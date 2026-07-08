@@ -8,5 +8,5 @@ class DefaultRenderUtilityList(DG):
 
     NODE_TYPE = "defaultRenderUtilityList"
 
-    utilities = MessageField(multi=True)
+    utilities = MessageField(multi=True, readable=False)
     u = utilities

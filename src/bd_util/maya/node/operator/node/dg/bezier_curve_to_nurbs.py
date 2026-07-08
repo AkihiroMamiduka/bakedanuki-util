@@ -11,5 +11,5 @@ class BezierCurveToNurbs(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

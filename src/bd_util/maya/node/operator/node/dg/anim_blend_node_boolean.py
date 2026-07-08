@@ -10,20 +10,20 @@ class AnimBlendNodeBoolean(DG):
 
     NODE_TYPE = "animBlendNodeBoolean"
 
-    weightA = DoubleField()
+    weightA = DoubleField(default_value=1.0)
     wa = weightA
 
-    weightB = DoubleField()
+    weightB = DoubleField(default_value=1.0)
     wb = weightB
 
     destinationPlug = DataStringField(multi=True)
     dp = destinationPlug
 
-    inputA = BoolField()
+    inputA = BoolField(default_value=False)
     ia = inputA
 
-    inputB = BoolField()
+    inputB = BoolField(default_value=False)
     ib = inputB
 
-    output = BoolField()
+    output = BoolField(default_value=False)
     o = output

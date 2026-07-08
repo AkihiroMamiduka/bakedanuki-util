@@ -384,106 +384,106 @@ class HardwareRenderingGlobals(DG):
     currentRendererName = DataStringField()
     cur = currentRendererName
 
-    holdOutMode = BoolField()
+    holdOutMode = BoolField(default_value=True)
     hom = holdOutMode
 
-    holdOutDetailMode = HoldOutDetailModeEnumField()
+    holdOutDetailMode = HoldOutDetailModeEnumField(default_value=1)
     hodm = holdOutDetailMode
 
-    xrayMode = BoolField()
+    xrayMode = BoolField(default_value=False)
     xry = xrayMode
 
-    xrayJointDisplay = BoolField()
+    xrayJointDisplay = BoolField(default_value=False)
     jxr = xrayJointDisplay
 
-    singleSidedLighting = BoolField()
+    singleSidedLighting = BoolField(default_value=False)
     sslt = singleSidedLighting
 
-    colorBakeResolution = LongField()
+    colorBakeResolution = LongField(default_value=64, min_value=4, max_value=8192, soft_max_value=2048)
     cbr = colorBakeResolution
 
-    bumpBakeResolution = LongField()
+    bumpBakeResolution = LongField(default_value=64, min_value=4, max_value=8192, soft_max_value=2048)
     bbr = bumpBakeResolution
 
-    maxHardwareLights = LongField()
+    maxHardwareLights = LongField(default_value=8, min_value=1, soft_max_value=16)
     mhl = maxHardwareLights
 
-    useMaximumHardwareLights = BoolField()
+    useMaximumHardwareLights = BoolField(default_value=True)
     uml = useMaximumHardwareLights
 
-    consolidateWorld = BoolField()
+    consolidateWorld = BoolField(default_value=True)
     cons = consolidateWorld
 
-    vertexAnimationCache = VertexAnimationCacheEnumField()
+    vertexAnimationCache = VertexAnimationCacheEnumField(default_value=0)
     vac = vertexAnimationCache
 
-    hwInstancing = BoolField()
+    hwInstancing = BoolField(default_value=False)
     hwi = hwInstancing
 
-    compressSharedVertexData = BoolField()
+    compressSharedVertexData = BoolField(default_value=True)
     csvd = compressSharedVertexData
 
-    transparencyAlgorithm = TransparencyAlgorithmEnumField()
+    transparencyAlgorithm = TransparencyAlgorithmEnumField(default_value=1)
     ta = transparencyAlgorithm
 
-    transparencyQuality = FloatField()
+    transparencyQuality = FloatField(default_value=0.33000001311302185, min_value=0.0, max_value=1.0)
     tq = transparencyQuality
 
-    transparentShadow = BoolField()
+    transparentShadow = BoolField(default_value=False)
     ts = transparentShadow
 
-    alphaCutPrepass = BoolField()
+    alphaCutPrepass = BoolField(default_value=False)
     acpp = alphaCutPrepass
 
-    enableTextureMaxRes = BoolField()
+    enableTextureMaxRes = BoolField(default_value=True)
     etmr = enableTextureMaxRes
 
-    textureMaxResMode = TextureMaxResModeEnumField()
+    textureMaxResMode = TextureMaxResModeEnumField(default_value=0)
     tmrm = textureMaxResMode
 
-    textureMaxResolution = LongField()
+    textureMaxResolution = LongField(default_value=2048, min_value=32, max_value=16384, soft_max_value=8192)
     tmr = textureMaxResolution
 
-    textureAutoMaxResolution = LongField()
+    textureAutoMaxResolution = LongField(default_value=2048, min_value=32, max_value=16384, soft_max_value=8192)
     tamr = textureAutoMaxResolution
 
-    ssaoEnable = BoolField()
+    ssaoEnable = BoolField(default_value=False)
     aoon = ssaoEnable
 
-    ssaoAmount = FloatField()
+    ssaoAmount = FloatField(default_value=1.0, min_value=0.0, max_value=3.0)
     aoam = ssaoAmount
 
-    ssaoRadius = LongField()
+    ssaoRadius = LongField(default_value=16, min_value=1, max_value=64)
     aora = ssaoRadius
 
     ssaoFilter = DataStringField()
     aoft = ssaoFilter
 
-    ssaoFilterRadius = LongField()
+    ssaoFilterRadius = LongField(default_value=16, min_value=1, max_value=32)
     aofr = ssaoFilterRadius
 
-    ssaoSamples = SsaoSamplesEnumField()
+    ssaoSamples = SsaoSamplesEnumField(default_value=16)
     aosm = ssaoSamples
 
-    renderDepthOfField = BoolField()
+    renderDepthOfField = BoolField(default_value=True)
     adof = renderDepthOfField
 
-    hwFogEnable = BoolField()
+    hwFogEnable = BoolField(default_value=False)
     hfon = hwFogEnable
 
-    hwFogFalloff = HwFogFalloffEnumField()
+    hwFogFalloff = HwFogFalloffEnumField(default_value=0)
     hff = hwFogFalloff
 
-    hwFogDensity = FloatField()
+    hwFogDensity = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     hfd = hwFogDensity
 
-    hwFogStart = FloatField()
+    hwFogStart = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0)
     hfs = hwFogStart
 
-    hwFogEnd = FloatField()
+    hwFogEnd = FloatField(default_value=100.0, soft_min_value=0.0, soft_max_value=1000.0)
     hfe = hwFogEnd
 
-    hwFogColor = HwFogColorField()
+    hwFogColor = HwFogColorField(default_value=(0.5, 0.5, 0.5))
     hfc = hwFogColor
     hwFogColorR = hwFogColor.hwFogColorR
     hfcr = hwFogColorR
@@ -492,31 +492,31 @@ class HardwareRenderingGlobals(DG):
     hwFogColorB = hwFogColor.hwFogColorB
     hfcb = hwFogColorB
 
-    hwFogAlpha = FloatField()
+    hwFogAlpha = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     hfa = hwFogAlpha
 
-    motionBlurEnable = BoolField()
+    motionBlurEnable = BoolField(default_value=False)
     mbe = motionBlurEnable
 
-    motionBlurType = MotionBlurTypeEnumField()
+    motionBlurType = MotionBlurTypeEnumField(default_value=0)
     mbt = motionBlurType
 
-    motionBlurShutterOpenFraction = FloatField()
+    motionBlurShutterOpenFraction = FloatField(default_value=0.20000000298023224, min_value=0.009999999776482582, max_value=2.0)
     mbsof = motionBlurShutterOpenFraction
 
-    motionBlurSampleCount = MotionBlurSampleCountEnumField()
+    motionBlurSampleCount = MotionBlurSampleCountEnumField(default_value=8)
     mbsc = motionBlurSampleCount
 
-    motionBlurCurved = BoolField()
+    motionBlurCurved = BoolField(default_value=False)
     mbc = motionBlurCurved
 
     motionBlurFadeFilter = DataStringField()
     mbff = motionBlurFadeFilter
 
-    motionBlurFadeAmount = FloatField()
+    motionBlurFadeAmount = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     mbfa = motionBlurFadeAmount
 
-    motionBlurFadeTint = MotionBlurFadeTintField()
+    motionBlurFadeTint = MotionBlurFadeTintField(default_value=(0.0, 0.0, 0.0))
     mbft = motionBlurFadeTint
     motionBlurFadeTintR = motionBlurFadeTint.motionBlurFadeTintR
     mbftr = motionBlurFadeTintR
@@ -525,78 +525,78 @@ class HardwareRenderingGlobals(DG):
     motionBlurFadeTintB = motionBlurFadeTint.motionBlurFadeTintB
     mbftb = motionBlurFadeTintB
 
-    motionBlurFadeTintA = FloatField()
+    motionBlurFadeTintA = FloatField(default_value=1.0)
     mbfta = motionBlurFadeTintA
 
-    motionBlurFadeEmphasis = FloatField()
+    motionBlurFadeEmphasis = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     mbfe = motionBlurFadeEmphasis
 
-    motionBlurMultiframeEnable = BoolField()
+    motionBlurMultiframeEnable = BoolField(default_value=False)
     mbme = motionBlurMultiframeEnable
 
-    motionBlurMultiframeChartSize = MotionBlurMultiframeChartSizeField()
+    motionBlurMultiframeChartSize = MotionBlurMultiframeChartSizeField(default_value=(256, 256), min_value=(1, 1), max_value=(4096, 4096))
     mbcs = motionBlurMultiframeChartSize
     motionBlurMultiframeChartSizeX = motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeX
     mbcsx = motionBlurMultiframeChartSizeX
     motionBlurMultiframeChartSizeY = motionBlurMultiframeChartSize.motionBlurMultiframeChartSizeY
     mbcsy = motionBlurMultiframeChartSizeY
 
-    motionBlurAtlasSize = MotionBlurAtlasSizeField()
+    motionBlurAtlasSize = MotionBlurAtlasSizeField(default_value=(8, 4), min_value=(1, 1), max_value=(32, 32))
     mbas = motionBlurAtlasSize
     motionBlurAtlasSizeX = motionBlurAtlasSize.motionBlurAtlasSizeX
     mbasx = motionBlurAtlasSizeX
     motionBlurAtlasSizeY = motionBlurAtlasSize.motionBlurAtlasSizeY
     mbasy = motionBlurAtlasSizeY
 
-    bloomEnable = BoolField()
+    bloomEnable = BoolField(default_value=False)
     blen = bloomEnable
 
-    bloomThreshold = FloatField()
+    bloomThreshold = FloatField(default_value=0.0, min_value=0.0)
     blth = bloomThreshold
 
     bloomFilter = DataStringField()
     blfl = bloomFilter
 
-    bloomFilterRadius = FloatField()
+    bloomFilterRadius = FloatField(default_value=0.0, min_value=0.0)
     blfr = bloomFilterRadius
 
-    bloomFilterAux = FloatField()
+    bloomFilterAux = FloatField(default_value=0.0, min_value=0.0)
     blfa = bloomFilterAux
 
-    bloomAmount = FloatField()
+    bloomAmount = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
     blat = bloomAmount
 
-    multiSampleEnable = BoolField()
+    multiSampleEnable = BoolField(default_value=False)
     msaa = multiSampleEnable
 
-    multiSampleCount = MultiSampleCountEnumField()
+    multiSampleCount = MultiSampleCountEnumField(default_value=8)
     aasc = multiSampleCount
 
-    multiSampleQuality = MultiSampleQualityEnumField()
+    multiSampleQuality = MultiSampleQualityEnumField(default_value=0)
     aasq = multiSampleQuality
 
-    lineAAEnable = BoolField()
+    lineAAEnable = BoolField(default_value=False)
     laa = lineAAEnable
 
-    defaultLightIntensity = FloatField()
+    defaultLightIntensity = FloatField(default_value=3.140000104904175, soft_min_value=0.0, soft_max_value=20.0)
     dli = defaultLightIntensity
 
-    gammaCorrectionEnable = BoolField()
+    gammaCorrectionEnable = BoolField(default_value=False)
     gamm = gammaCorrectionEnable
 
-    gammaValue = FloatField()
+    gammaValue = FloatField(default_value=2.200000047683716, soft_min_value=1.0, soft_max_value=2.200000047683716)
     gmmv = gammaValue
 
-    floatingPointRTEnable = BoolField()
+    floatingPointRTEnable = BoolField(default_value=False)
     fprt = floatingPointRTEnable
 
-    floatingPointRTFormat = FloatingPointRTFormatEnumField()
+    floatingPointRTFormat = FloatingPointRTFormatEnumField(default_value=1)
     rtfm = floatingPointRTFormat
 
-    quadDrawAlwaysOnTop = BoolField()
+    quadDrawAlwaysOnTop = BoolField(default_value=False)
     qdaot = quadDrawAlwaysOnTop
 
-    quadDrawOverrideColor = QuadDrawOverrideColorField()
+    quadDrawOverrideColor = QuadDrawOverrideColorField(default_value=(-1.0, -1.0, -1.0))
     qdoc = quadDrawOverrideColor
     quadDrawOverrideColorR = quadDrawOverrideColor.quadDrawOverrideColorR
     qdocr = quadDrawOverrideColorR
@@ -605,13 +605,13 @@ class HardwareRenderingGlobals(DG):
     quadDrawOverrideColorB = quadDrawOverrideColor.quadDrawOverrideColorB
     qdocb = quadDrawOverrideColorB
 
-    quadDrawOverrideTransparency = FloatField()
+    quadDrawOverrideTransparency = FloatField(default_value=-1.0)
     qdot = quadDrawOverrideTransparency
 
-    isCustomUVBorderColor = BoolField()
+    isCustomUVBorderColor = BoolField(default_value=False)
     isuvbc = isCustomUVBorderColor
 
-    customUVBorderColor = CustomUVBorderColorField()
+    customUVBorderColor = CustomUVBorderColorField(default_value=(-1.0, -1.0, -1.0))
     uvbc = customUVBorderColor
     customUVBorderColorR = customUVBorderColor.customUVBorderColorR
     uvbcr = customUVBorderColorR

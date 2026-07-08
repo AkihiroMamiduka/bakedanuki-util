@@ -15,16 +15,16 @@ class MaterialXSurfaceShader(DG):
     ufePath = DataStringField()
     up = ufePath
 
-    updateId = LongLongIntField()
+    updateId = LongLongIntField(default_value=1, writable=False)
     upid = updateId
 
-    resyncId = LongLongIntField()
+    resyncId = LongLongIntField(default_value=1, writable=False)
     rsid = resyncId
 
-    stack = TypedField()
+    stack = TypedField(readable=False)
     sk = stack
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -33,11 +33,11 @@ class MaterialXSurfaceShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    vp2Transparency = FloatField()
+    vp2Transparency = FloatField(default_value=0.0)
     vp2t = vp2Transparency
 
-    displacement = FloatField()
+    displacement = FloatField(default_value=0.0, writable=False)
     d = displacement
 
-    renderDocument = DataStringField()
+    renderDocument = DataStringField(writable=False)
     rd = renderDocument

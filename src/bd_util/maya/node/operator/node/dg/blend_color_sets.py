@@ -64,7 +64,7 @@ class BlendColorSets(DG):
 
     NODE_TYPE = "blendColorSets"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -73,25 +73,25 @@ class BlendColorSets(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     baseColorName = DataStringField()
@@ -103,17 +103,17 @@ class BlendColorSets(DG):
     dstColorName = DataStringField()
     dst = dstColorName
 
-    blendFunc = BlendFuncEnumField()
+    blendFunc = BlendFuncEnumField(default_value=0)
     bfn = blendFunc
 
-    blendWeightA = FloatField()
+    blendWeightA = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bwa = blendWeightA
 
-    blendWeightB = FloatField()
+    blendWeightB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bwb = blendWeightB
 
-    blendWeightC = FloatField()
+    blendWeightC = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bwc = blendWeightC
 
-    blendWeightD = FloatField()
+    blendWeightD = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bwd = blendWeightD

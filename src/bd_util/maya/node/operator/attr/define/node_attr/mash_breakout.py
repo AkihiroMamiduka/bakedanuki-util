@@ -29,27 +29,27 @@ class OutputsPlugOperator(
         ("angularVelocity", "angularVelocity"),
     )
 
-    translate = Float3Field()
+    translate = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    rotate = Double3Field()
+    rotate = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    scale = Float3Field()
+    scale = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    id = FloatField()
+    id = FloatField(default_value=0.0, writable=False)
 
-    visibility = LongField()
+    visibility = LongField(default_value=0, writable=False)
 
-    color = Float3Field()
+    color = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    time = FloatField()
+    time = FloatField(default_value=0.0, writable=False)
 
-    velocityVector = Float3Field()
+    velocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    angularVelocityVector = Float3Field()
+    angularVelocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    velocity = FloatField()
+    velocity = FloatField(default_value=0.0)
 
-    angularVelocity = FloatField()
+    angularVelocity = FloatField(default_value=0.0, writable=False)
 
 
 class OutputsAttrOperator(
@@ -57,27 +57,27 @@ class OutputsAttrOperator(
 ):
     __slots__ = ()
 
-    translate = Float3Field()
+    translate = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    rotate = Double3Field()
+    rotate = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    scale = Float3Field()
+    scale = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    id = FloatField()
+    id = FloatField(default_value=0.0, writable=False)
 
-    visibility = LongField()
+    visibility = LongField(default_value=0, writable=False)
 
-    color = Float3Field()
+    color = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    time = FloatField()
+    time = FloatField(default_value=0.0, writable=False)
 
-    velocityVector = Float3Field()
+    velocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    angularVelocityVector = Float3Field()
+    angularVelocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    velocity = FloatField()
+    velocity = FloatField(default_value=0.0)
 
-    angularVelocity = FloatField()
+    angularVelocity = FloatField(default_value=0.0, writable=False)
 
 
 class OutputsField(

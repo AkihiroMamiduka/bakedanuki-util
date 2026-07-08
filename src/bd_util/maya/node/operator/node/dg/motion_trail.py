@@ -51,25 +51,25 @@ class MotionTrail(DG):
 
     NODE_TYPE = "motionTrail"
 
-    startTime = TimeField()
+    startTime = TimeField(default_value=0.0)
     s = startTime
 
-    endTime = TimeField()
+    endTime = TimeField(default_value=0.0)
     e = endTime
 
-    increment = TimeField()
+    increment = TimeField(default_value=2.5, min_value=0.01)
     b = increment
 
     inputGeom = TypedField()
     in_ = inputGeom
 
-    outputGeom = TypedField(multi=True)
+    outputGeom = TypedField(multi=True, writable=False)
     out = outputGeom
 
     inputMatrix = DataMatrixField()
     im = inputMatrix
 
-    localPosition = LocalPositionField()
+    localPosition = LocalPositionField(default_value=(0.0, 0.0, 0.0))
     lp = localPosition
     localPositionX = localPosition.localPositionX
     lpx = localPositionX
@@ -84,10 +84,10 @@ class MotionTrail(DG):
     frames = TypedField()
     f = frames
 
-    animCurveChanged = MessageField()
+    animCurveChanged = MessageField(writable=False)
     acc = animCurveChanged
 
-    update = UpdateEnumField()
+    update = UpdateEnumField(default_value=1, writable=False)
     up = update
 
     snapshotObject = MessageField()
@@ -102,7 +102,7 @@ class MotionTrail(DG):
     extraKeyframeTimes = DataDoubleArrayField()
     ekt = extraKeyframeTimes
 
-    hasAnchorTransform = BoolField()
+    hasAnchorTransform = BoolField(default_value=False)
     hat = hasAnchorTransform
 
     anchorTransform = MessageField()

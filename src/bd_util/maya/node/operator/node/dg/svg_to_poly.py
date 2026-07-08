@@ -61,7 +61,7 @@ class SvgToPoly(DG):
 
     holeInfo = TypedField()
 
-    numberOfShells = LongField()
+    numberOfShells = LongField(default_value=0)
 
     solidsPerCharacter = DataDoubleArrayField()
 
@@ -75,29 +75,29 @@ class SvgToPoly(DG):
 
     shellPositions = DataVectorArrayField()
 
-    errorIndicator = BoolField()
+    errorIndicator = BoolField(default_value=False)
 
-    legacy2018 = BoolField()
+    legacy2018 = BoolField(default_value=False)
 
     svgFilepath = DataStringField()
 
     svgPaste = DataStringField()
 
-    svgMode = SvgModeEnumField()
+    svgMode = SvgModeEnumField(default_value=1)
 
-    curveResolution = LongField()
+    curveResolution = LongField(default_value=4, min_value=1, max_value=100, soft_max_value=10)
 
-    enableDistanceFilter = BoolField()
+    enableDistanceFilter = BoolField(default_value=True)
 
-    pointDistanceFilter = FloatField()
+    pointDistanceFilter = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=5.0)
 
-    removeColinear = BoolField()
+    removeColinear = BoolField(default_value=False)
 
-    displayVertexColours = BoolField()
+    displayVertexColours = BoolField(default_value=True)
 
-    colinearAngle = FloatField()
+    colinearAngle = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=40.0, soft_max_value=5.0)
 
-    zOffset = FloatField()
+    zOffset = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_max_value=5.0)
 
     vectorMessages = VectorMessagesField()
     svgMessages = vectorMessages
@@ -107,27 +107,27 @@ class SvgToPoly(DG):
     remeshMessage = vectorMessages.remeshMessage
     adjustMessage = vectorMessages.adjustMessage
 
-    animationPosition = AnimationPositionField()
+    animationPosition = AnimationPositionField(default_value=(0.0, 0.0, 0.0))
     animationPositionX = animationPosition.animationPositionX
     animationPositionY = animationPosition.animationPositionY
     animationPositionZ = animationPosition.animationPositionZ
 
-    animationRotation = AnimationRotationField()
+    animationRotation = AnimationRotationField(default_value=(0.0, 0.0, 0.0))
     animationRotationX = animationRotation.animationRotationX
     animationRotationY = animationRotation.animationRotationY
     animationRotationZ = animationRotation.animationRotationZ
 
-    animationScale = AnimationScaleField()
+    animationScale = AnimationScaleField(default_value=(1.0, 1.0, 1.0))
     animationScaleX = animationScale.animationScaleX
     animationScaleY = animationScale.animationScaleY
     animationScaleZ = animationScale.animationScaleZ
 
-    svgSize = FloatField()
+    svgSize = FloatField(default_value=10.0, min_value=0.0, soft_max_value=5.0)
 
-    deformableType = BoolField()
+    deformableType = BoolField(default_value=False)
 
-    maxDivisions = LongField()
+    maxDivisions = LongField(default_value=20, min_value=1, max_value=100, soft_max_value=30)
 
-    maxEdgeLength = FloatField()
+    maxEdgeLength = FloatField(default_value=5.0, min_value=0.01, soft_min_value=0.1, soft_max_value=15.0)
 
-    useArtboard = BoolField()
+    useArtboard = BoolField(default_value=False)

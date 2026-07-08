@@ -151,51 +151,51 @@ class MASH_Dynamics(DG):
 
     NODE_TYPE = "MASH_Dynamics"
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    autoFit = BoolField()
+    autoFit = BoolField(default_value=True)
 
-    initiallySleeping = BoolField()
+    initiallySleeping = BoolField(default_value=False)
 
-    bounce = FloatField()
+    bounce = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
 
-    friction = FloatField()
+    friction = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
 
-    damping = FloatField()
+    damping = FloatField(default_value=0.05000000074505806, min_value=0.0, max_value=1.0)
 
-    rollingFriction = FloatField()
+    rollingFriction = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
 
-    rollingDamping = FloatField()
+    rollingDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, max_value=1.0)
 
-    mass = FloatField()
+    mass = FloatField(default_value=1.0, min_value=0.0, soft_max_value=100.0)
 
-    useDensity = BoolField()
+    useDensity = BoolField(default_value=False)
 
-    positionStrength = FloatField()
+    positionStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    rotationalStrength = FloatField()
+    rotationalStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    collisionObjectScale = FloatField()
+    collisionObjectScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    maxVelocity = FloatField()
+    maxVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
 
-    maxAngularVelocity = FloatField()
+    maxAngularVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=2.0)
 
     dynamicsPP = TypedField(multi=True)
 
     constraintsPP = TypedField(multi=True)
 
-    ignoreInvisible = BoolField()
+    ignoreInvisible = BoolField(default_value=True)
 
-    emitFromCollisions = BoolField()
+    emitFromCollisions = BoolField(default_value=False)
 
-    collisionDistanceThreshold = FloatField()
+    collisionDistanceThreshold = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
     contactMaskLayers = DataStringField()
 
@@ -203,30 +203,30 @@ class MASH_Dynamics(DG):
 
     collisionGroupLayers = DataStringField()
 
-    hierarchyMode = HierarchyModeEnumField()
+    hierarchyMode = HierarchyModeEnumField(default_value=1)
 
-    initialVelocitySpace = InitialVelocitySpaceEnumField()
+    initialVelocitySpace = InitialVelocitySpaceEnumField(default_value=1)
 
-    initialVelocity = InitialVelocityField()
+    initialVelocity = InitialVelocityField(default_value=(0.0, 0.0, 0.0))
     initialVelocity0 = initialVelocity.initialVelocity0
     initialVelocity1 = initialVelocity.initialVelocity1
     initialVelocity2 = initialVelocity.initialVelocity2
 
-    initialRotationalVelocity = InitialRotationalVelocityField()
+    initialRotationalVelocity = InitialRotationalVelocityField(default_value=(0.0, 0.0, 0.0))
     initialRotationalVelocity0 = initialRotationalVelocity.initialRotationalVelocity0
     initialRotationalVelocity1 = initialRotationalVelocity.initialRotationalVelocity1
     initialRotationalVelocity2 = initialRotationalVelocity.initialRotationalVelocity2
 
-    linearVelocityThreshold = FloatField()
+    linearVelocityThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    angularVelocityThreshold = FloatField()
+    angularVelocityThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    collisionJitter = FloatField()
+    collisionJitter = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=1.0)
 
-    collisionShapeLength = FloatField()
+    collisionShapeLength = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
 
     initialStateJSON = DataStringField()
 
-    collisionShapeAxis = CollisionShapeAxisEnumField()
+    collisionShapeAxis = CollisionShapeAxisEnumField(default_value=1)
 
-    collisionShape = CollisionShapeEnumField()
+    collisionShape = CollisionShapeEnumField(default_value=0)

@@ -23,7 +23,7 @@ class PoseInterpolatorDirectoryPlugOperator(
     childIndices = TypedField()
     tpcd = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     tppi = parentIndex
 
     directoryName = DataStringField()
@@ -38,7 +38,7 @@ class PoseInterpolatorDirectoryAttrOperator(
     childIndices = TypedField()
     tpcd = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     tppi = parentIndex
 
     directoryName = DataStringField()

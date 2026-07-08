@@ -8,11 +8,11 @@ class Log(DG):
 
     NODE_TYPE = "log"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0, min_value=0.0)
     i = input
 
-    base = DoubleLinearField()
+    base = DoubleLinearField(default_value=2.0, min_value=0.0)
     e = base
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

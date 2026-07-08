@@ -9,14 +9,14 @@ class ApplyAbsStringOverride(DG):
 
     NODE_TYPE = "applyAbsStringOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = DataStringField()
+    out = DataStringField(writable=False)
     o = out
 
-    original = DataStringField()
+    original = DataStringField(readable=False)
     ori = original
 
-    value = DataStringField()
+    value = DataStringField(readable=False)
     val = value

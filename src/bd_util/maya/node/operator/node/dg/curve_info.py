@@ -14,14 +14,14 @@ class CurveInfo(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    arcLength = DoubleLinearField()
+    arcLength = DoubleLinearField(default_value=0.0, writable=False)
     al = arcLength
 
-    controlPoints = ControlPointsField(multi=True)
+    controlPoints = ControlPointsField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     cp = controlPoints
 
-    weights = DoubleField(multi=True)
+    weights = DoubleField(multi=True, default_value=1.0, writable=False)
     wt = weights
 
-    knots = DoubleField(multi=True)
+    knots = DoubleField(multi=True, default_value=0.0, writable=False)
     kn = knots

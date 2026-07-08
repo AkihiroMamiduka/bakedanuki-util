@@ -26,7 +26,7 @@ class Marble(DG):
 
     NODE_TYPE = "marble"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -35,7 +35,7 @@ class Marble(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -44,7 +44,7 @@ class Marble(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -59,28 +59,28 @@ class Marble(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +89,7 @@ class Marble(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +98,13 @@ class Marble(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -113,7 +113,7 @@ class Marble(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -122,13 +122,13 @@ class Marble(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -137,7 +137,7 @@ class Marble(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -146,7 +146,7 @@ class Marble(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -155,7 +155,7 @@ class Marble(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    fillerColor = FillerColorField()
+    fillerColor = FillerColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -164,7 +164,7 @@ class Marble(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    veinColor = VeinColorField()
+    veinColor = VeinColorField(default_value=(0.2980000078678131, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     vc = veinColor
     veinColorR = veinColor.veinColorR
     vcr = veinColorR
@@ -173,16 +173,16 @@ class Marble(DG):
     veinColorB = veinColor.veinColorB
     vcb = veinColorB
 
-    veinWidth = FloatField()
+    veinWidth = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
     vw = veinWidth
 
-    diffusion = FloatField()
+    diffusion = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     di = diffusion
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     c = contrast
 
-    ripples = RipplesField()
+    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0))
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -191,15 +191,15 @@ class Marble(DG):
     ripplesZ = ripples.ripplesZ
     rz = ripplesZ
 
-    depth = DepthField()
+    depth = DepthField(default_value=(0.0, 20.0), min_value=(0.0, 0.0))
     d = depth
     depthMin = depth.depthMin
     dmn = depthMin
     depthMax = depth.depthMax
     dmx = depthMax
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.5, min_value=0.0, soft_max_value=1.5)
     a = amplitude
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, max_value=1.0)
     ra = ratio

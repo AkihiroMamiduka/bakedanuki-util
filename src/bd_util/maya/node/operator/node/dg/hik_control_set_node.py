@@ -440,182 +440,182 @@ class HIKControlSetNode(DG):
 
     HipsEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx0 = LongField()
+    IKNodeCurrIdx0 = LongField(default_value=0, readable=False, writable=False)
 
     LeftAnkleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx1 = LongField()
+    IKNodeCurrIdx1 = LongField(default_value=0, readable=False, writable=False)
 
     RightAnkleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx2 = LongField()
+    IKNodeCurrIdx2 = LongField(default_value=0, readable=False, writable=False)
 
     LeftWristEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx3 = LongField()
+    IKNodeCurrIdx3 = LongField(default_value=0, readable=False, writable=False)
 
     RightWristEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx4 = LongField()
+    IKNodeCurrIdx4 = LongField(default_value=0, readable=False, writable=False)
 
     LeftKneeEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx5 = LongField()
+    IKNodeCurrIdx5 = LongField(default_value=0, readable=False, writable=False)
 
     RightKneeEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx6 = LongField()
+    IKNodeCurrIdx6 = LongField(default_value=0, readable=False, writable=False)
 
     LeftElbowEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx7 = LongField()
+    IKNodeCurrIdx7 = LongField(default_value=0, readable=False, writable=False)
 
     RightElbowEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx8 = LongField()
+    IKNodeCurrIdx8 = LongField(default_value=0, readable=False, writable=False)
 
     ChestOriginEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx9 = LongField()
+    IKNodeCurrIdx9 = LongField(default_value=0, readable=False, writable=False)
 
     ChestEndEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx10 = LongField()
+    IKNodeCurrIdx10 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx11 = LongField()
+    IKNodeCurrIdx11 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx12 = LongField()
+    IKNodeCurrIdx12 = LongField(default_value=0, readable=False, writable=False)
 
     LeftShoulderEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx13 = LongField()
+    IKNodeCurrIdx13 = LongField(default_value=0, readable=False, writable=False)
 
     RightShoulderEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx14 = LongField()
+    IKNodeCurrIdx14 = LongField(default_value=0, readable=False, writable=False)
 
     HeadEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx15 = LongField()
+    IKNodeCurrIdx15 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHipEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx16 = LongField()
+    IKNodeCurrIdx16 = LongField(default_value=0, readable=False, writable=False)
 
     RightHipEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx17 = LongField()
+    IKNodeCurrIdx17 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx18 = LongField()
+    IKNodeCurrIdx18 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx19 = LongField()
+    IKNodeCurrIdx19 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandThumbEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx20 = LongField()
+    IKNodeCurrIdx20 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandIndexEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx21 = LongField()
+    IKNodeCurrIdx21 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandMiddleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx22 = LongField()
+    IKNodeCurrIdx22 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandRingEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx23 = LongField()
+    IKNodeCurrIdx23 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandPinkyEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx24 = LongField()
+    IKNodeCurrIdx24 = LongField(default_value=0, readable=False, writable=False)
 
     LeftHandExtraFingerEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx25 = LongField()
+    IKNodeCurrIdx25 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandThumbEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx26 = LongField()
+    IKNodeCurrIdx26 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandIndexEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx27 = LongField()
+    IKNodeCurrIdx27 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandMiddleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx28 = LongField()
+    IKNodeCurrIdx28 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandRingEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx29 = LongField()
+    IKNodeCurrIdx29 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandPinkyEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx30 = LongField()
+    IKNodeCurrIdx30 = LongField(default_value=0, readable=False, writable=False)
 
     RightHandExtraFingerEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx31 = LongField()
+    IKNodeCurrIdx31 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootThumbEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx32 = LongField()
+    IKNodeCurrIdx32 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootIndexEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx33 = LongField()
+    IKNodeCurrIdx33 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootMiddleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx34 = LongField()
+    IKNodeCurrIdx34 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootRingEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx35 = LongField()
+    IKNodeCurrIdx35 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootPinkyEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx36 = LongField()
+    IKNodeCurrIdx36 = LongField(default_value=0, readable=False, writable=False)
 
     LeftFootExtraFingerEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx37 = LongField()
+    IKNodeCurrIdx37 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootThumbEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx38 = LongField()
+    IKNodeCurrIdx38 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootIndexEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx39 = LongField()
+    IKNodeCurrIdx39 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootMiddleEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx40 = LongField()
+    IKNodeCurrIdx40 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootRingEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx41 = LongField()
+    IKNodeCurrIdx41 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootPinkyEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx42 = LongField()
+    IKNodeCurrIdx42 = LongField(default_value=0, readable=False, writable=False)
 
     RightFootExtraFingerEffector = MessageField(multi=True)
 
-    IKNodeCurrIdx43 = LongField()
+    IKNodeCurrIdx43 = LongField(default_value=0, readable=False, writable=False)
 
-    rigAlign = BoolField()
+    rigAlign = BoolField(default_value=True)
     ra = rigAlign
 
-    rigAlignOut = BoolField()
+    rigAlignOut = BoolField(default_value=False, writable=False)
     rao = rigAlignOut

@@ -25,7 +25,7 @@ class Granite(DG):
 
     NODE_TYPE = "granite"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -34,7 +34,7 @@ class Granite(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -43,7 +43,7 @@ class Granite(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -58,28 +58,28 @@ class Granite(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -88,7 +88,7 @@ class Granite(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -97,13 +97,13 @@ class Granite(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -112,7 +112,7 @@ class Granite(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -121,10 +121,10 @@ class Granite(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -133,7 +133,7 @@ class Granite(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -142,7 +142,7 @@ class Granite(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -151,7 +151,7 @@ class Granite(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(0.5490000247955322, 0.7839999794960022, 0.3919999897480011), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -160,7 +160,7 @@ class Granite(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    color3 = Color3Field()
+    color3 = Color3Field(default_value=(0.6269999742507935, 0.8240000009536743, 0.8230000138282776), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c3 = color3
     color3R = color3.color3R
     c3r = color3R
@@ -169,7 +169,7 @@ class Granite(DG):
     color3B = color3.color3B
     c3b = color3B
 
-    fillerColor = FillerColorField()
+    fillerColor = FillerColorField(default_value=(0.5879999995231628, 0.2939999997615814, 0.19599999487400055), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -178,23 +178,23 @@ class Granite(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    cellSize = FloatField()
+    cellSize = FloatField(default_value=0.15000000596046448, min_value=0.0, soft_max_value=1.0)
     cs = cellSize
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     dy = density
 
-    mixRatio = FloatField()
+    mixRatio = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     mr = mixRatio
 
-    spottyness = FloatField()
+    spottyness = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0)
     s = spottyness
 
-    randomness = FloatField()
+    randomness = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     ra = randomness
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     th = threshold
 
-    creases = BoolField()
+    creases = BoolField(default_value=True)
     c = creases

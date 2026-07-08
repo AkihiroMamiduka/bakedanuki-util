@@ -51,7 +51,7 @@ class MakeNurbCone(DG):
 
     NODE_TYPE = "makeNurbCone"
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -60,7 +60,7 @@ class MakeNurbCone(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    axis = AxisField()
+    axis = AxisField(default_value=(1.0, 0.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -69,44 +69,44 @@ class MakeNurbCone(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     r = radius
 
-    startSweep = DoubleAngleField()
+    startSweep = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ssw = startSweep
 
-    endSweep = DoubleAngleField()
+    endSweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
     esw = endSweep
 
-    useTolerance = BoolField()
+    useTolerance = BoolField(default_value=False)
     ut = useTolerance
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField()
+    sections = LongField(default_value=8, min_value=1, max_value=1000, soft_max_value=100)
     s = sections
 
-    spans = LongField()
+    spans = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
     nsp = spans
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    heightRatio = DoubleField()
+    heightRatio = DoubleField(default_value=2.0, soft_min_value=0.1, soft_max_value=10.0)
     hr = heightRatio
 
-    topCapCurve = DataNurbsCurveField()
+    topCapCurve = DataNurbsCurveField(writable=False)
     tcc = topCapCurve
 
-    bottomCapCurve = DataNurbsCurveField()
+    bottomCapCurve = DataNurbsCurveField(writable=False)
     bcc = bottomCapCurve
 
-    absoluteSweepDifference = DoubleAngleField()
+    absoluteSweepDifference = DoubleAngleField(default_value=0.0, writable=False)
     asd = absoluteSweepDifference
 
-    useOldInitBehaviour = BoolField()
+    useOldInitBehaviour = BoolField(default_value=False)
     oib = useOldInitBehaviour

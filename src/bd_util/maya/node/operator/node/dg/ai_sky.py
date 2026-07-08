@@ -54,7 +54,7 @@ class AiSky(DG):
 
     NODE_TYPE = "aiSky"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -63,10 +63,10 @@ class AiSky(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -75,7 +75,7 @@ class AiSky(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -83,25 +83,25 @@ class AiSky(DG):
     colorB = color.colorB
     colorb = colorB
 
-    intensity = FloatField()
+    intensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    visibility = ByteField()
+    visibility = ByteField(default_value=255, min_value=0, max_value=255)
 
-    opaqueAlpha = BoolField()
+    opaqueAlpha = BoolField(default_value=True)
     opaque_alpha = opaqueAlpha
 
-    format = FormatEnumField()
+    format = FormatEnumField(default_value=1)
 
-    XAngle = FloatField()
+    XAngle = FloatField(default_value=0.0)
     X_angle = XAngle
 
-    YAngle = FloatField()
+    YAngle = FloatField(default_value=0.0)
     Y_angle = YAngle
 
-    ZAngle = FloatField()
+    ZAngle = FloatField(default_value=0.0)
     Z_angle = ZAngle
 
-    X = XField()
+    X = XField(default_value=(1.0, 0.0, 0.0))
     XX = X.XX
     Xx = XX
     XY = X.XY
@@ -109,7 +109,7 @@ class AiSky(DG):
     XZ = X.XZ
     Xz = XZ
 
-    Y = YField()
+    Y = YField(default_value=(0.0, 1.0, 0.0))
     YX = Y.YX
     Yx = YX
     YY = Y.YY
@@ -117,7 +117,7 @@ class AiSky(DG):
     YZ = Y.YZ
     Yz = YZ
 
-    Z = ZField()
+    Z = ZField(default_value=(0.0, 0.0, 1.0))
     ZX = Z.ZX
     Zx = ZX
     ZY = Z.ZY

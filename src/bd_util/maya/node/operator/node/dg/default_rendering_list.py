@@ -8,5 +8,5 @@ class DefaultRenderingList(DG):
 
     NODE_TYPE = "defaultRenderingList"
 
-    rendering = MessageField(multi=True)
+    rendering = MessageField(multi=True, readable=False)
     r = rendering

@@ -18,13 +18,13 @@ class ErrorColorBadTexturePlugOperator(
         ("errorColorBadTextureB", "error_color_bad_textureb"),
     )
 
-    errorColorBadTextureR = FloatField()
+    errorColorBadTextureR = FloatField(default_value=1.0)
     error_color_bad_texturer = errorColorBadTextureR
 
-    errorColorBadTextureG = FloatField()
+    errorColorBadTextureG = FloatField(default_value=0.0)
     error_color_bad_textureg = errorColorBadTextureG
 
-    errorColorBadTextureB = FloatField()
+    errorColorBadTextureB = FloatField(default_value=0.0)
     error_color_bad_textureb = errorColorBadTextureB
 
 
@@ -33,13 +33,13 @@ class ErrorColorBadTextureAttrOperator(
 ):
     __slots__ = ()
 
-    errorColorBadTextureR = FloatField()
+    errorColorBadTextureR = FloatField(default_value=1.0)
     error_color_bad_texturer = errorColorBadTextureR
 
-    errorColorBadTextureG = FloatField()
+    errorColorBadTextureG = FloatField(default_value=0.0)
     error_color_bad_textureg = errorColorBadTextureG
 
-    errorColorBadTextureB = FloatField()
+    errorColorBadTextureB = FloatField(default_value=0.0)
     error_color_bad_textureb = errorColorBadTextureB
 
 
@@ -51,13 +51,13 @@ class ErrorColorBadTextureField(
     ATTR_CLS = ErrorColorBadTextureAttrOperator
     PLUG_CLS = ErrorColorBadTexturePlugOperator
 
-    errorColorBadTextureR = FloatField()
+    errorColorBadTextureR = FloatField(default_value=1.0)
     error_color_bad_texturer = errorColorBadTextureR
 
-    errorColorBadTextureG = FloatField()
+    errorColorBadTextureG = FloatField(default_value=0.0)
     error_color_bad_textureg = errorColorBadTextureG
 
-    errorColorBadTextureB = FloatField()
+    errorColorBadTextureB = FloatField(default_value=0.0)
     error_color_bad_textureb = errorColorBadTextureB
 
 
@@ -71,13 +71,13 @@ class ErrorColorBadPixelPlugOperator(
         ("errorColorBadPixelB", "error_color_bad_pixelb"),
     )
 
-    errorColorBadPixelR = FloatField()
+    errorColorBadPixelR = FloatField(default_value=0.0)
     error_color_bad_pixelr = errorColorBadPixelR
 
-    errorColorBadPixelG = FloatField()
+    errorColorBadPixelG = FloatField(default_value=0.0)
     error_color_bad_pixelg = errorColorBadPixelG
 
-    errorColorBadPixelB = FloatField()
+    errorColorBadPixelB = FloatField(default_value=1.0)
     error_color_bad_pixelb = errorColorBadPixelB
 
 
@@ -86,13 +86,13 @@ class ErrorColorBadPixelAttrOperator(
 ):
     __slots__ = ()
 
-    errorColorBadPixelR = FloatField()
+    errorColorBadPixelR = FloatField(default_value=0.0)
     error_color_bad_pixelr = errorColorBadPixelR
 
-    errorColorBadPixelG = FloatField()
+    errorColorBadPixelG = FloatField(default_value=0.0)
     error_color_bad_pixelg = errorColorBadPixelG
 
-    errorColorBadPixelB = FloatField()
+    errorColorBadPixelB = FloatField(default_value=1.0)
     error_color_bad_pixelb = errorColorBadPixelB
 
 
@@ -104,11 +104,11 @@ class ErrorColorBadPixelField(
     ATTR_CLS = ErrorColorBadPixelAttrOperator
     PLUG_CLS = ErrorColorBadPixelPlugOperator
 
-    errorColorBadPixelR = FloatField()
+    errorColorBadPixelR = FloatField(default_value=0.0)
     error_color_bad_pixelr = errorColorBadPixelR
 
-    errorColorBadPixelG = FloatField()
+    errorColorBadPixelG = FloatField(default_value=0.0)
     error_color_bad_pixelg = errorColorBadPixelG
 
-    errorColorBadPixelB = FloatField()
+    errorColorBadPixelB = FloatField(default_value=1.0)
     error_color_bad_pixelb = errorColorBadPixelB

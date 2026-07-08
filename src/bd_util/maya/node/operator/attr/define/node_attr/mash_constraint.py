@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,11 +71,11 @@ class ConnectionColourPlugOperator(
         ("connectionColorBlue", "connectionColorBlue"),
     )
 
-    connectionColorRed = FloatField()
+    connectionColorRed = FloatField(default_value=1.0)
 
-    connectionColorGreen = FloatField()
+    connectionColorGreen = FloatField(default_value=1.0)
 
-    connectionColorBlue = FloatField()
+    connectionColorBlue = FloatField(default_value=1.0)
 
 
 class ConnectionColourAttrOperator(
@@ -83,11 +83,11 @@ class ConnectionColourAttrOperator(
 ):
     __slots__ = ()
 
-    connectionColorRed = FloatField()
+    connectionColorRed = FloatField(default_value=1.0)
 
-    connectionColorGreen = FloatField()
+    connectionColorGreen = FloatField(default_value=1.0)
 
-    connectionColorBlue = FloatField()
+    connectionColorBlue = FloatField(default_value=1.0)
 
 
 class ConnectionColourField(
@@ -98,11 +98,11 @@ class ConnectionColourField(
     ATTR_CLS = ConnectionColourAttrOperator
     PLUG_CLS = ConnectionColourPlugOperator
 
-    connectionColorRed = FloatField()
+    connectionColorRed = FloatField(default_value=1.0)
 
-    connectionColorGreen = FloatField()
+    connectionColorGreen = FloatField(default_value=1.0)
 
-    connectionColorBlue = FloatField()
+    connectionColorBlue = FloatField(default_value=1.0)
 
 
 class LinearMotorTargetSpeedPlugOperator(
@@ -115,13 +115,13 @@ class LinearMotorTargetSpeedPlugOperator(
         ("linearMotorTargetSpeedZ", "linearMotorTargetSpeedz"),
     )
 
-    linearMotorTargetSpeedX = FloatField()
+    linearMotorTargetSpeedX = FloatField(default_value=0.0)
     linearMotorTargetSpeedx = linearMotorTargetSpeedX
 
-    linearMotorTargetSpeedY = FloatField()
+    linearMotorTargetSpeedY = FloatField(default_value=0.0)
     linearMotorTargetSpeedy = linearMotorTargetSpeedY
 
-    linearMotorTargetSpeedZ = FloatField()
+    linearMotorTargetSpeedZ = FloatField(default_value=0.0)
     linearMotorTargetSpeedz = linearMotorTargetSpeedZ
 
 
@@ -130,13 +130,13 @@ class LinearMotorTargetSpeedAttrOperator(
 ):
     __slots__ = ()
 
-    linearMotorTargetSpeedX = FloatField()
+    linearMotorTargetSpeedX = FloatField(default_value=0.0)
     linearMotorTargetSpeedx = linearMotorTargetSpeedX
 
-    linearMotorTargetSpeedY = FloatField()
+    linearMotorTargetSpeedY = FloatField(default_value=0.0)
     linearMotorTargetSpeedy = linearMotorTargetSpeedY
 
-    linearMotorTargetSpeedZ = FloatField()
+    linearMotorTargetSpeedZ = FloatField(default_value=0.0)
     linearMotorTargetSpeedz = linearMotorTargetSpeedZ
 
 
@@ -148,13 +148,13 @@ class LinearMotorTargetSpeedField(
     ATTR_CLS = LinearMotorTargetSpeedAttrOperator
     PLUG_CLS = LinearMotorTargetSpeedPlugOperator
 
-    linearMotorTargetSpeedX = FloatField()
+    linearMotorTargetSpeedX = FloatField(default_value=0.0)
     linearMotorTargetSpeedx = linearMotorTargetSpeedX
 
-    linearMotorTargetSpeedY = FloatField()
+    linearMotorTargetSpeedY = FloatField(default_value=0.0)
     linearMotorTargetSpeedy = linearMotorTargetSpeedY
 
-    linearMotorTargetSpeedZ = FloatField()
+    linearMotorTargetSpeedZ = FloatField(default_value=0.0)
     linearMotorTargetSpeedz = linearMotorTargetSpeedZ
 
 
@@ -168,13 +168,13 @@ class LinearMotorMaxForcePlugOperator(
         ("linearMotorMaxForceZ", "linearMotorMaxForcez"),
     )
 
-    linearMotorMaxForceX = FloatField()
+    linearMotorMaxForceX = FloatField(default_value=10.0)
     linearMotorMaxForcex = linearMotorMaxForceX
 
-    linearMotorMaxForceY = FloatField()
+    linearMotorMaxForceY = FloatField(default_value=10.0)
     linearMotorMaxForcey = linearMotorMaxForceY
 
-    linearMotorMaxForceZ = FloatField()
+    linearMotorMaxForceZ = FloatField(default_value=10.0)
     linearMotorMaxForcez = linearMotorMaxForceZ
 
 
@@ -183,13 +183,13 @@ class LinearMotorMaxForceAttrOperator(
 ):
     __slots__ = ()
 
-    linearMotorMaxForceX = FloatField()
+    linearMotorMaxForceX = FloatField(default_value=10.0)
     linearMotorMaxForcex = linearMotorMaxForceX
 
-    linearMotorMaxForceY = FloatField()
+    linearMotorMaxForceY = FloatField(default_value=10.0)
     linearMotorMaxForcey = linearMotorMaxForceY
 
-    linearMotorMaxForceZ = FloatField()
+    linearMotorMaxForceZ = FloatField(default_value=10.0)
     linearMotorMaxForcez = linearMotorMaxForceZ
 
 
@@ -201,13 +201,13 @@ class LinearMotorMaxForceField(
     ATTR_CLS = LinearMotorMaxForceAttrOperator
     PLUG_CLS = LinearMotorMaxForcePlugOperator
 
-    linearMotorMaxForceX = FloatField()
+    linearMotorMaxForceX = FloatField(default_value=10.0)
     linearMotorMaxForcex = linearMotorMaxForceX
 
-    linearMotorMaxForceY = FloatField()
+    linearMotorMaxForceY = FloatField(default_value=10.0)
     linearMotorMaxForcey = linearMotorMaxForceY
 
-    linearMotorMaxForceZ = FloatField()
+    linearMotorMaxForceZ = FloatField(default_value=10.0)
     linearMotorMaxForcez = linearMotorMaxForceZ
 
 
@@ -221,13 +221,13 @@ class AngularMotorTargetSpeedPlugOperator(
         ("angularMotorTargetSpeedZ", "angularMotorTargetSpeedz"),
     )
 
-    angularMotorTargetSpeedX = FloatField()
+    angularMotorTargetSpeedX = FloatField(default_value=0.0)
     angularMotorTargetSpeedx = angularMotorTargetSpeedX
 
-    angularMotorTargetSpeedY = FloatField()
+    angularMotorTargetSpeedY = FloatField(default_value=0.0)
     angularMotorTargetSpeedy = angularMotorTargetSpeedY
 
-    angularMotorTargetSpeedZ = FloatField()
+    angularMotorTargetSpeedZ = FloatField(default_value=0.0)
     angularMotorTargetSpeedz = angularMotorTargetSpeedZ
 
 
@@ -236,13 +236,13 @@ class AngularMotorTargetSpeedAttrOperator(
 ):
     __slots__ = ()
 
-    angularMotorTargetSpeedX = FloatField()
+    angularMotorTargetSpeedX = FloatField(default_value=0.0)
     angularMotorTargetSpeedx = angularMotorTargetSpeedX
 
-    angularMotorTargetSpeedY = FloatField()
+    angularMotorTargetSpeedY = FloatField(default_value=0.0)
     angularMotorTargetSpeedy = angularMotorTargetSpeedY
 
-    angularMotorTargetSpeedZ = FloatField()
+    angularMotorTargetSpeedZ = FloatField(default_value=0.0)
     angularMotorTargetSpeedz = angularMotorTargetSpeedZ
 
 
@@ -254,13 +254,13 @@ class AngularMotorTargetSpeedField(
     ATTR_CLS = AngularMotorTargetSpeedAttrOperator
     PLUG_CLS = AngularMotorTargetSpeedPlugOperator
 
-    angularMotorTargetSpeedX = FloatField()
+    angularMotorTargetSpeedX = FloatField(default_value=0.0)
     angularMotorTargetSpeedx = angularMotorTargetSpeedX
 
-    angularMotorTargetSpeedY = FloatField()
+    angularMotorTargetSpeedY = FloatField(default_value=0.0)
     angularMotorTargetSpeedy = angularMotorTargetSpeedY
 
-    angularMotorTargetSpeedZ = FloatField()
+    angularMotorTargetSpeedZ = FloatField(default_value=0.0)
     angularMotorTargetSpeedz = angularMotorTargetSpeedZ
 
 
@@ -274,13 +274,13 @@ class AngularMotorMaxForcePlugOperator(
         ("angularMotorMaxForceZ", "angularMotorMaxForcez"),
     )
 
-    angularMotorMaxForceX = FloatField()
+    angularMotorMaxForceX = FloatField(default_value=10.0)
     angularMotorMaxForcex = angularMotorMaxForceX
 
-    angularMotorMaxForceY = FloatField()
+    angularMotorMaxForceY = FloatField(default_value=10.0)
     angularMotorMaxForcey = angularMotorMaxForceY
 
-    angularMotorMaxForceZ = FloatField()
+    angularMotorMaxForceZ = FloatField(default_value=10.0)
     angularMotorMaxForcez = angularMotorMaxForceZ
 
 
@@ -289,13 +289,13 @@ class AngularMotorMaxForceAttrOperator(
 ):
     __slots__ = ()
 
-    angularMotorMaxForceX = FloatField()
+    angularMotorMaxForceX = FloatField(default_value=10.0)
     angularMotorMaxForcex = angularMotorMaxForceX
 
-    angularMotorMaxForceY = FloatField()
+    angularMotorMaxForceY = FloatField(default_value=10.0)
     angularMotorMaxForcey = angularMotorMaxForceY
 
-    angularMotorMaxForceZ = FloatField()
+    angularMotorMaxForceZ = FloatField(default_value=10.0)
     angularMotorMaxForcez = angularMotorMaxForceZ
 
 
@@ -307,13 +307,13 @@ class AngularMotorMaxForceField(
     ATTR_CLS = AngularMotorMaxForceAttrOperator
     PLUG_CLS = AngularMotorMaxForcePlugOperator
 
-    angularMotorMaxForceX = FloatField()
+    angularMotorMaxForceX = FloatField(default_value=10.0)
     angularMotorMaxForcex = angularMotorMaxForceX
 
-    angularMotorMaxForceY = FloatField()
+    angularMotorMaxForceY = FloatField(default_value=10.0)
     angularMotorMaxForcey = angularMotorMaxForceY
 
-    angularMotorMaxForceZ = FloatField()
+    angularMotorMaxForceZ = FloatField(default_value=10.0)
     angularMotorMaxForcez = angularMotorMaxForceZ
 
 
@@ -327,13 +327,13 @@ class ConstraintMinimumPositionLimitPlugOperator(
         ("constraintMinimumPositionLimitZ", "constraintMinimumPositionLimitz"),
     )
 
-    constraintMinimumPositionLimitX = FloatField()
+    constraintMinimumPositionLimitX = FloatField(default_value=0.0)
     constraintMinimumPositionLimitx = constraintMinimumPositionLimitX
 
-    constraintMinimumPositionLimitY = FloatField()
+    constraintMinimumPositionLimitY = FloatField(default_value=0.0)
     constraintMinimumPositionLimity = constraintMinimumPositionLimitY
 
-    constraintMinimumPositionLimitZ = FloatField()
+    constraintMinimumPositionLimitZ = FloatField(default_value=0.0)
     constraintMinimumPositionLimitz = constraintMinimumPositionLimitZ
 
 
@@ -342,13 +342,13 @@ class ConstraintMinimumPositionLimitAttrOperator(
 ):
     __slots__ = ()
 
-    constraintMinimumPositionLimitX = FloatField()
+    constraintMinimumPositionLimitX = FloatField(default_value=0.0)
     constraintMinimumPositionLimitx = constraintMinimumPositionLimitX
 
-    constraintMinimumPositionLimitY = FloatField()
+    constraintMinimumPositionLimitY = FloatField(default_value=0.0)
     constraintMinimumPositionLimity = constraintMinimumPositionLimitY
 
-    constraintMinimumPositionLimitZ = FloatField()
+    constraintMinimumPositionLimitZ = FloatField(default_value=0.0)
     constraintMinimumPositionLimitz = constraintMinimumPositionLimitZ
 
 
@@ -360,13 +360,13 @@ class ConstraintMinimumPositionLimitField(
     ATTR_CLS = ConstraintMinimumPositionLimitAttrOperator
     PLUG_CLS = ConstraintMinimumPositionLimitPlugOperator
 
-    constraintMinimumPositionLimitX = FloatField()
+    constraintMinimumPositionLimitX = FloatField(default_value=0.0)
     constraintMinimumPositionLimitx = constraintMinimumPositionLimitX
 
-    constraintMinimumPositionLimitY = FloatField()
+    constraintMinimumPositionLimitY = FloatField(default_value=0.0)
     constraintMinimumPositionLimity = constraintMinimumPositionLimitY
 
-    constraintMinimumPositionLimitZ = FloatField()
+    constraintMinimumPositionLimitZ = FloatField(default_value=0.0)
     constraintMinimumPositionLimitz = constraintMinimumPositionLimitZ
 
 
@@ -380,13 +380,13 @@ class ConstraintMaximumPositionLimitPlugOperator(
         ("constraintMaximumPositionLimitZ", "constraintMaximumPositionLimitz"),
     )
 
-    constraintMaximumPositionLimitX = FloatField()
+    constraintMaximumPositionLimitX = FloatField(default_value=0.0)
     constraintMaximumPositionLimitx = constraintMaximumPositionLimitX
 
-    constraintMaximumPositionLimitY = FloatField()
+    constraintMaximumPositionLimitY = FloatField(default_value=0.0)
     constraintMaximumPositionLimity = constraintMaximumPositionLimitY
 
-    constraintMaximumPositionLimitZ = FloatField()
+    constraintMaximumPositionLimitZ = FloatField(default_value=0.0)
     constraintMaximumPositionLimitz = constraintMaximumPositionLimitZ
 
 
@@ -395,13 +395,13 @@ class ConstraintMaximumPositionLimitAttrOperator(
 ):
     __slots__ = ()
 
-    constraintMaximumPositionLimitX = FloatField()
+    constraintMaximumPositionLimitX = FloatField(default_value=0.0)
     constraintMaximumPositionLimitx = constraintMaximumPositionLimitX
 
-    constraintMaximumPositionLimitY = FloatField()
+    constraintMaximumPositionLimitY = FloatField(default_value=0.0)
     constraintMaximumPositionLimity = constraintMaximumPositionLimitY
 
-    constraintMaximumPositionLimitZ = FloatField()
+    constraintMaximumPositionLimitZ = FloatField(default_value=0.0)
     constraintMaximumPositionLimitz = constraintMaximumPositionLimitZ
 
 
@@ -413,13 +413,13 @@ class ConstraintMaximumPositionLimitField(
     ATTR_CLS = ConstraintMaximumPositionLimitAttrOperator
     PLUG_CLS = ConstraintMaximumPositionLimitPlugOperator
 
-    constraintMaximumPositionLimitX = FloatField()
+    constraintMaximumPositionLimitX = FloatField(default_value=0.0)
     constraintMaximumPositionLimitx = constraintMaximumPositionLimitX
 
-    constraintMaximumPositionLimitY = FloatField()
+    constraintMaximumPositionLimitY = FloatField(default_value=0.0)
     constraintMaximumPositionLimity = constraintMaximumPositionLimitY
 
-    constraintMaximumPositionLimitZ = FloatField()
+    constraintMaximumPositionLimitZ = FloatField(default_value=0.0)
     constraintMaximumPositionLimitz = constraintMaximumPositionLimitZ
 
 
@@ -433,13 +433,13 @@ class ConstraintMinimumRotationLimitPlugOperator(
         ("constraintMinimumRotationLimitZ", "constraintMinimumRotationLimitz"),
     )
 
-    constraintMinimumRotationLimitX = FloatField()
+    constraintMinimumRotationLimitX = FloatField(default_value=0.0)
     constraintMinimumRotationLimitx = constraintMinimumRotationLimitX
 
-    constraintMinimumRotationLimitY = FloatField()
+    constraintMinimumRotationLimitY = FloatField(default_value=0.0)
     constraintMinimumRotationLimity = constraintMinimumRotationLimitY
 
-    constraintMinimumRotationLimitZ = FloatField()
+    constraintMinimumRotationLimitZ = FloatField(default_value=0.0)
     constraintMinimumRotationLimitz = constraintMinimumRotationLimitZ
 
 
@@ -448,13 +448,13 @@ class ConstraintMinimumRotationLimitAttrOperator(
 ):
     __slots__ = ()
 
-    constraintMinimumRotationLimitX = FloatField()
+    constraintMinimumRotationLimitX = FloatField(default_value=0.0)
     constraintMinimumRotationLimitx = constraintMinimumRotationLimitX
 
-    constraintMinimumRotationLimitY = FloatField()
+    constraintMinimumRotationLimitY = FloatField(default_value=0.0)
     constraintMinimumRotationLimity = constraintMinimumRotationLimitY
 
-    constraintMinimumRotationLimitZ = FloatField()
+    constraintMinimumRotationLimitZ = FloatField(default_value=0.0)
     constraintMinimumRotationLimitz = constraintMinimumRotationLimitZ
 
 
@@ -466,13 +466,13 @@ class ConstraintMinimumRotationLimitField(
     ATTR_CLS = ConstraintMinimumRotationLimitAttrOperator
     PLUG_CLS = ConstraintMinimumRotationLimitPlugOperator
 
-    constraintMinimumRotationLimitX = FloatField()
+    constraintMinimumRotationLimitX = FloatField(default_value=0.0)
     constraintMinimumRotationLimitx = constraintMinimumRotationLimitX
 
-    constraintMinimumRotationLimitY = FloatField()
+    constraintMinimumRotationLimitY = FloatField(default_value=0.0)
     constraintMinimumRotationLimity = constraintMinimumRotationLimitY
 
-    constraintMinimumRotationLimitZ = FloatField()
+    constraintMinimumRotationLimitZ = FloatField(default_value=0.0)
     constraintMinimumRotationLimitz = constraintMinimumRotationLimitZ
 
 
@@ -486,13 +486,13 @@ class ConstraintMaximumRotationLimitPlugOperator(
         ("constraintMaximumRotationLimitZ", "constraintMaximumRotationLimitz"),
     )
 
-    constraintMaximumRotationLimitX = FloatField()
+    constraintMaximumRotationLimitX = FloatField(default_value=0.0)
     constraintMaximumRotationLimitx = constraintMaximumRotationLimitX
 
-    constraintMaximumRotationLimitY = FloatField()
+    constraintMaximumRotationLimitY = FloatField(default_value=0.0)
     constraintMaximumRotationLimity = constraintMaximumRotationLimitY
 
-    constraintMaximumRotationLimitZ = FloatField()
+    constraintMaximumRotationLimitZ = FloatField(default_value=0.0)
     constraintMaximumRotationLimitz = constraintMaximumRotationLimitZ
 
 
@@ -501,13 +501,13 @@ class ConstraintMaximumRotationLimitAttrOperator(
 ):
     __slots__ = ()
 
-    constraintMaximumRotationLimitX = FloatField()
+    constraintMaximumRotationLimitX = FloatField(default_value=0.0)
     constraintMaximumRotationLimitx = constraintMaximumRotationLimitX
 
-    constraintMaximumRotationLimitY = FloatField()
+    constraintMaximumRotationLimitY = FloatField(default_value=0.0)
     constraintMaximumRotationLimity = constraintMaximumRotationLimitY
 
-    constraintMaximumRotationLimitZ = FloatField()
+    constraintMaximumRotationLimitZ = FloatField(default_value=0.0)
     constraintMaximumRotationLimitz = constraintMaximumRotationLimitZ
 
 
@@ -519,13 +519,13 @@ class ConstraintMaximumRotationLimitField(
     ATTR_CLS = ConstraintMaximumRotationLimitAttrOperator
     PLUG_CLS = ConstraintMaximumRotationLimitPlugOperator
 
-    constraintMaximumRotationLimitX = FloatField()
+    constraintMaximumRotationLimitX = FloatField(default_value=0.0)
     constraintMaximumRotationLimitx = constraintMaximumRotationLimitX
 
-    constraintMaximumRotationLimitY = FloatField()
+    constraintMaximumRotationLimitY = FloatField(default_value=0.0)
     constraintMaximumRotationLimity = constraintMaximumRotationLimitY
 
-    constraintMaximumRotationLimitZ = FloatField()
+    constraintMaximumRotationLimitZ = FloatField(default_value=0.0)
     constraintMaximumRotationLimitz = constraintMaximumRotationLimitZ
 
 
@@ -539,13 +539,13 @@ class PointOffsetPlugOperator(
         ("pointOffsetZ", "pointOffsetz"),
     )
 
-    pointOffsetX = FloatField()
+    pointOffsetX = FloatField(default_value=0.0)
     pointOffsetx = pointOffsetX
 
-    pointOffsetY = FloatField()
+    pointOffsetY = FloatField(default_value=0.0)
     pointOffsety = pointOffsetY
 
-    pointOffsetZ = FloatField()
+    pointOffsetZ = FloatField(default_value=0.0)
     pointOffsetz = pointOffsetZ
 
 
@@ -554,13 +554,13 @@ class PointOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    pointOffsetX = FloatField()
+    pointOffsetX = FloatField(default_value=0.0)
     pointOffsetx = pointOffsetX
 
-    pointOffsetY = FloatField()
+    pointOffsetY = FloatField(default_value=0.0)
     pointOffsety = pointOffsetY
 
-    pointOffsetZ = FloatField()
+    pointOffsetZ = FloatField(default_value=0.0)
     pointOffsetz = pointOffsetZ
 
 
@@ -572,11 +572,11 @@ class PointOffsetField(
     ATTR_CLS = PointOffsetAttrOperator
     PLUG_CLS = PointOffsetPlugOperator
 
-    pointOffsetX = FloatField()
+    pointOffsetX = FloatField(default_value=0.0)
     pointOffsetx = pointOffsetX
 
-    pointOffsetY = FloatField()
+    pointOffsetY = FloatField(default_value=0.0)
     pointOffsety = pointOffsetY
 
-    pointOffsetZ = FloatField()
+    pointOffsetZ = FloatField(default_value=0.0)
     pointOffsetz = pointOffsetZ

@@ -90,62 +90,62 @@ class AlignSurface(DG):
     inputSurface2 = DataNurbsSurfaceField()
     is2 = inputSurface2
 
-    outputSurface1 = DataNurbsSurfaceField()
+    outputSurface1 = DataNurbsSurfaceField(writable=False)
     os1 = outputSurface1
 
-    outputSurface2 = DataNurbsSurfaceField()
+    outputSurface2 = DataNurbsSurfaceField(writable=False)
     os2 = outputSurface2
 
-    tangentScale1 = DoubleField()
+    tangentScale1 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
     ts1 = tangentScale1
 
-    tangentScale2 = DoubleField()
+    tangentScale2 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
     ts2 = tangentScale2
 
-    curvatureScale1 = DoubleField()
+    curvatureScale1 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
     cs1 = curvatureScale1
 
-    curvatureScale2 = DoubleField()
+    curvatureScale2 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
     cs2 = curvatureScale2
 
-    positionalContinuityType = PositionalContinuityTypeEnumField()
+    positionalContinuityType = PositionalContinuityTypeEnumField(default_value=1)
     pct = positionalContinuityType
 
-    tangentContinuityType = TangentContinuityTypeEnumField()
+    tangentContinuityType = TangentContinuityTypeEnumField(default_value=1)
     tct = tangentContinuityType
 
-    joinParameter = FloatField()
+    joinParameter = FloatField(default_value=123456.0, min_value=-123456.0, max_value=123456.0)
     jnp = joinParameter
 
-    twist = BoolField()
+    twist = BoolField(default_value=False)
     tw = twist
 
-    reverse1 = BoolField()
+    reverse1 = BoolField(default_value=False)
     rv1 = reverse1
 
-    reverse2 = BoolField()
+    reverse2 = BoolField(default_value=False)
     rv2 = reverse2
 
-    swap1 = BoolField()
+    swap1 = BoolField(default_value=False)
     sw1 = swap1
 
-    swap2 = BoolField()
+    swap2 = BoolField(default_value=False)
     sw2 = swap2
 
-    attach = BoolField()
+    attach = BoolField(default_value=False)
     at = attach
 
-    keepMultipleKnots = BoolField()
+    keepMultipleKnots = BoolField(default_value=True)
     kmk = keepMultipleKnots
 
-    positionalContinuity = BoolField()
+    positionalContinuity = BoolField(default_value=True)
     pc = positionalContinuity
 
-    tangentContinuity = BoolField()
+    tangentContinuity = BoolField(default_value=True)
     tc = tangentContinuity
 
-    curvatureContinuity = BoolField()
+    curvatureContinuity = BoolField(default_value=False)
     cc = curvatureContinuity
 
-    directionU = BoolField()
+    directionU = BoolField(default_value=True)
     du = directionU

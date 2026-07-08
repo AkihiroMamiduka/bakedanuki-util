@@ -66,13 +66,13 @@ class GroupIdsPlugOperator(
         ("charGroupId", "charGroupId"),
     )
 
-    capGroupId = LongField()
+    capGroupId = LongField(default_value=1)
 
-    bevelGroupId = LongField()
+    bevelGroupId = LongField(default_value=1)
 
-    extrudeGroupId = LongField()
+    extrudeGroupId = LongField(default_value=1)
 
-    charGroupId = LongField()
+    charGroupId = LongField(multi=True, default_value=0, readable=False)
 
 
 class GroupIdsAttrOperator(
@@ -80,13 +80,13 @@ class GroupIdsAttrOperator(
 ):
     __slots__ = ()
 
-    capGroupId = LongField()
+    capGroupId = LongField(default_value=1)
 
-    bevelGroupId = LongField()
+    bevelGroupId = LongField(default_value=1)
 
-    extrudeGroupId = LongField()
+    extrudeGroupId = LongField(default_value=1)
 
-    charGroupId = LongField()
+    charGroupId = LongField(multi=True, default_value=0, readable=False)
 
 
 class GroupIdsField(
@@ -97,13 +97,13 @@ class GroupIdsField(
     ATTR_CLS = GroupIdsAttrOperator
     PLUG_CLS = GroupIdsPlugOperator
 
-    capGroupId = LongField()
+    capGroupId = LongField(default_value=1)
 
-    bevelGroupId = LongField()
+    bevelGroupId = LongField(default_value=1)
 
-    extrudeGroupId = LongField()
+    extrudeGroupId = LongField(default_value=1)
 
-    charGroupId = LongField()
+    charGroupId = LongField(multi=True, default_value=0, readable=False)
 
 
 class OutComponentsPlugOperator(
@@ -159,10 +159,10 @@ class FrontBevelCurvePlugOperator(
         ("frontBevelCurve_Value", "frontBevelCurvev"),
     )
 
-    frontBevelCurve_Position = FloatField()
+    frontBevelCurve_Position = FloatField(default_value=0.0)
     frontBevelCurvep = frontBevelCurve_Position
 
-    frontBevelCurve_Value = FloatField()
+    frontBevelCurve_Value = FloatField(default_value=0.0)
     frontBevelCurvev = frontBevelCurve_Value
 
 
@@ -171,10 +171,10 @@ class FrontBevelCurveAttrOperator(
 ):
     __slots__ = ()
 
-    frontBevelCurve_Position = FloatField()
+    frontBevelCurve_Position = FloatField(default_value=0.0)
     frontBevelCurvep = frontBevelCurve_Position
 
-    frontBevelCurve_Value = FloatField()
+    frontBevelCurve_Value = FloatField(default_value=0.0)
     frontBevelCurvev = frontBevelCurve_Value
 
 
@@ -196,10 +196,10 @@ class BackBevelCurvePlugOperator(
         ("backBevelCurve_Value", "backBevelCurvev"),
     )
 
-    backBevelCurve_Position = FloatField()
+    backBevelCurve_Position = FloatField(default_value=0.0)
     backBevelCurvep = backBevelCurve_Position
 
-    backBevelCurve_Value = FloatField()
+    backBevelCurve_Value = FloatField(default_value=0.0)
     backBevelCurvev = backBevelCurve_Value
 
 
@@ -208,10 +208,10 @@ class BackBevelCurveAttrOperator(
 ):
     __slots__ = ()
 
-    backBevelCurve_Position = FloatField()
+    backBevelCurve_Position = FloatField(default_value=0.0)
     backBevelCurvep = backBevelCurve_Position
 
-    backBevelCurve_Value = FloatField()
+    backBevelCurve_Value = FloatField(default_value=0.0)
     backBevelCurvev = backBevelCurve_Value
 
 
@@ -233,10 +233,10 @@ class ExtrudeCurvePlugOperator(
         ("extrudeCurve_Value", "extrudeCurvev"),
     )
 
-    extrudeCurve_Position = FloatField()
+    extrudeCurve_Position = FloatField(default_value=0.0)
     extrudeCurvep = extrudeCurve_Position
 
-    extrudeCurve_Value = FloatField()
+    extrudeCurve_Value = FloatField(default_value=0.0)
     extrudeCurvev = extrudeCurve_Value
 
 
@@ -245,10 +245,10 @@ class ExtrudeCurveAttrOperator(
 ):
     __slots__ = ()
 
-    extrudeCurve_Position = FloatField()
+    extrudeCurve_Position = FloatField(default_value=0.0)
     extrudeCurvep = extrudeCurve_Position
 
-    extrudeCurve_Value = FloatField()
+    extrudeCurve_Value = FloatField(default_value=0.0)
     extrudeCurvev = extrudeCurve_Value
 
 
@@ -270,10 +270,10 @@ class OuterBevelCurvePlugOperator(
         ("outerBevelCurve_Value", "outerBevelCurvev"),
     )
 
-    outerBevelCurve_Position = FloatField()
+    outerBevelCurve_Position = FloatField(default_value=0.0)
     outerBevelCurvep = outerBevelCurve_Position
 
-    outerBevelCurve_Value = FloatField()
+    outerBevelCurve_Value = FloatField(default_value=0.0)
     outerBevelCurvev = outerBevelCurve_Value
 
 
@@ -282,10 +282,10 @@ class OuterBevelCurveAttrOperator(
 ):
     __slots__ = ()
 
-    outerBevelCurve_Position = FloatField()
+    outerBevelCurve_Position = FloatField(default_value=0.0)
     outerBevelCurvep = outerBevelCurve_Position
 
-    outerBevelCurve_Value = FloatField()
+    outerBevelCurve_Value = FloatField(default_value=0.0)
     outerBevelCurvev = outerBevelCurve_Value
 
 

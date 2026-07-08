@@ -25,10 +25,10 @@ class ViewRectLowPlugOperator(
         ("viewYL", "yl"),
     )
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -37,10 +37,10 @@ class ViewRectLowAttrOperator(
 ):
     __slots__ = ()
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -52,10 +52,10 @@ class ViewRectLowField(
     ATTR_CLS = ViewRectLowAttrOperator
     PLUG_CLS = ViewRectLowPlugOperator
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -68,10 +68,10 @@ class ViewRectHighPlugOperator(
         ("viewYH", "yh"),
     )
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH
 
 
@@ -80,10 +80,10 @@ class ViewRectHighAttrOperator(
 ):
     __slots__ = ()
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH
 
 
@@ -95,10 +95,10 @@ class ViewRectHighField(
     ATTR_CLS = ViewRectHighAttrOperator
     PLUG_CLS = ViewRectHighPlugOperator
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH
 
 
@@ -113,13 +113,13 @@ class NodeInfoPlugOperator(
         ("dependNode", "dn"),
     )
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.0)
     x = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.0)
     y = positionY
 
-    nodeVisualState = LongField()
+    nodeVisualState = LongField(default_value=0)
     nvs = nodeVisualState
 
     dependNode = MessageField()
@@ -131,13 +131,13 @@ class NodeInfoAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.0)
     x = positionX
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.0)
     y = positionY
 
-    nodeVisualState = LongField()
+    nodeVisualState = LongField(default_value=0)
     nvs = nodeVisualState
 
     dependNode = MessageField()

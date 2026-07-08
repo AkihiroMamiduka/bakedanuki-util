@@ -19,33 +19,33 @@ class Checker(DG):
 
     NODE_TYPE = "checker"
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -54,7 +54,7 @@ class Checker(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -63,13 +63,13 @@ class Checker(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -78,7 +78,7 @@ class Checker(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -87,10 +87,10 @@ class Checker(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -99,7 +99,7 @@ class Checker(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -108,5 +108,5 @@ class Checker(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ct = contrast

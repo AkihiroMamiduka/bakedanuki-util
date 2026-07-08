@@ -9,14 +9,14 @@ class MayaUsdProxyShapeListenerBase(DG):
 
     NODE_TYPE = "mayaUsdProxyShapeListenerBase"
 
-    stageCacheId = LongField()
+    stageCacheId = LongField(default_value=-1, readable=False)
     stcid = stageCacheId
 
-    outStageCacheId = LongField()
+    outStageCacheId = LongField(default_value=-1, writable=False)
     ostcid = outStageCacheId
 
-    updateId = LongLongIntField()
+    updateId = LongLongIntField(default_value=0, writable=False)
     upid = updateId
 
-    resyncId = LongLongIntField()
+    resyncId = LongLongIntField(default_value=0, writable=False)
     rsid = resyncId

@@ -100,7 +100,7 @@ class AiToon(DG):
 
     NODE_TYPE = "aiToon"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -109,7 +109,7 @@ class AiToon(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -118,7 +118,7 @@ class AiToon(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -127,7 +127,7 @@ class AiToon(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -136,7 +136,7 @@ class AiToon(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    maskColor = MaskColorField()
+    maskColor = MaskColorField(default_value=(0.0, 0.0, 0.0))
     mask_color = maskColor
     maskColorR = maskColor.maskColorR
     mask_colorr = maskColorR
@@ -145,7 +145,7 @@ class AiToon(DG):
     maskColorB = maskColor.maskColorB
     mask_colorb = maskColorB
 
-    edgeColor = EdgeColorField()
+    edgeColor = EdgeColorField(default_value=(0.0, 0.0, 0.0))
     edge_color = edgeColor
     edgeColorR = edgeColor.edgeColorR
     edge_colorr = edgeColorR
@@ -154,7 +154,7 @@ class AiToon(DG):
     edgeColorB = edgeColor.edgeColorB
     edge_colorb = edgeColorB
 
-    edgeTonemap = EdgeTonemapField()
+    edgeTonemap = EdgeTonemapField(default_value=(1.0, 1.0, 1.0))
     edge_tonemap = edgeTonemap
     edgeTonemapR = edgeTonemap.edgeTonemapR
     edge_tonemapr = edgeTonemapR
@@ -163,13 +163,13 @@ class AiToon(DG):
     edgeTonemapB = edgeTonemap.edgeTonemapB
     edge_tonemapb = edgeTonemapB
 
-    edgeOpacity = FloatField()
+    edgeOpacity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     edge_opacity = edgeOpacity
 
-    edgeWidthScale = FloatField()
+    edgeWidthScale = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     edge_width_scale = edgeWidthScale
 
-    silhouetteColor = SilhouetteColorField()
+    silhouetteColor = SilhouetteColorField(default_value=(0.0, 0.0, 0.0))
     silhouette_color = silhouetteColor
     silhouetteColorR = silhouetteColor.silhouetteColorR
     silhouette_colorr = silhouetteColorR
@@ -178,7 +178,7 @@ class AiToon(DG):
     silhouetteColorB = silhouetteColor.silhouetteColorB
     silhouette_colorb = silhouetteColorB
 
-    silhouetteTonemap = SilhouetteTonemapField()
+    silhouetteTonemap = SilhouetteTonemapField(default_value=(1.0, 1.0, 1.0))
     silhouette_tonemap = silhouetteTonemap
     silhouetteTonemapR = silhouetteTonemap.silhouetteTonemapR
     silhouette_tonemapr = silhouetteTonemapR
@@ -187,40 +187,40 @@ class AiToon(DG):
     silhouetteTonemapB = silhouetteTonemap.silhouetteTonemapB
     silhouette_tonemapb = silhouetteTonemapB
 
-    silhouetteOpacity = FloatField()
+    silhouetteOpacity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     silhouette_opacity = silhouetteOpacity
 
-    silhouetteWidthScale = FloatField()
+    silhouetteWidthScale = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     silhouette_width_scale = silhouetteWidthScale
 
-    priority = LongField()
+    priority = LongField(default_value=0)
 
-    enableSilhouette = BoolField()
+    enableSilhouette = BoolField(default_value=False)
     enable_silhouette = enableSilhouette
 
-    ignoreThroughput = BoolField()
+    ignoreThroughput = BoolField(default_value=False)
     ignore_throughput = ignoreThroughput
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    idDifference = BoolField()
+    idDifference = BoolField(default_value=True)
     id_difference = idDifference
 
-    shaderDifference = BoolField()
+    shaderDifference = BoolField(default_value=True)
     shader_difference = shaderDifference
 
-    uvThreshold = FloatField()
+    uvThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     uv_threshold = uvThreshold
 
-    angleThreshold = FloatField()
+    angleThreshold = FloatField(default_value=180.0, min_value=0.0, max_value=180.0)
     angle_threshold = angleThreshold
 
-    normalType = NormalTypeEnumField()
+    normalType = NormalTypeEnumField(default_value=0)
     normal_type = normalType
 
-    base = FloatField()
+    base = FloatField(default_value=0.800000011920929, min_value=0.0, max_value=1.0)
 
-    baseColor = BaseColorField()
+    baseColor = BaseColorField(default_value=(1.0, 1.0, 1.0))
     base_color = baseColor
     baseColorR = baseColor.baseColorR
     base_colorr = baseColorR
@@ -229,7 +229,7 @@ class AiToon(DG):
     baseColorB = baseColor.baseColorB
     base_colorb = baseColorB
 
-    baseTonemap = BaseTonemapField()
+    baseTonemap = BaseTonemapField(default_value=(1.0, 1.0, 1.0))
     base_tonemap = baseTonemap
     baseTonemapR = baseTonemap.baseTonemapR
     base_tonemapr = baseTonemapR
@@ -238,9 +238,9 @@ class AiToon(DG):
     baseTonemapB = baseTonemap.baseTonemapB
     base_tonemapb = baseTonemapB
 
-    specular = FloatField()
+    specular = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
     specular_color = specularColor
     specularColorR = specularColor.specularColorR
     specular_colorr = specularColorR
@@ -249,16 +249,16 @@ class AiToon(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularRoughness = FloatField()
+    specularRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     specular_roughness = specularRoughness
 
-    specularAnisotropy = FloatField()
+    specularAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     specular_anisotropy = specularAnisotropy
 
-    specularRotation = FloatField()
+    specularRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     specular_rotation = specularRotation
 
-    specularTonemap = SpecularTonemapField()
+    specularTonemap = SpecularTonemapField(default_value=(1.0, 1.0, 1.0))
     specular_tonemap = specularTonemap
     specularTonemapR = specularTonemap.specularTonemapR
     specular_tonemapr = specularTonemapR
@@ -269,7 +269,7 @@ class AiToon(DG):
 
     lights = DataStringField()
 
-    highlightColor = HighlightColorField()
+    highlightColor = HighlightColorField(default_value=(1.0, 1.0, 1.0))
     highlight_color = highlightColor
     highlightColorR = highlightColor.highlightColorR
     highlight_colorr = highlightColorR
@@ -278,7 +278,7 @@ class AiToon(DG):
     highlightColorB = highlightColor.highlightColorB
     highlight_colorb = highlightColorB
 
-    highlightSize = FloatField()
+    highlightSize = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     highlight_size = highlightSize
 
     aovHighlight = DataStringField()
@@ -287,7 +287,7 @@ class AiToon(DG):
     rimLight = DataStringField()
     rim_light = rimLight
 
-    rimLightColor = RimLightColorField()
+    rimLightColor = RimLightColorField(default_value=(0.0, 0.0, 0.0))
     rim_light_color = rimLightColor
     rimLightColorR = rimLightColor.rimLightColorR
     rim_light_colorr = rimLightColorR
@@ -296,18 +296,18 @@ class AiToon(DG):
     rimLightColorB = rimLightColor.rimLightColorB
     rim_light_colorb = rimLightColorB
 
-    rimLightWidth = FloatField()
+    rimLightWidth = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     rim_light_width = rimLightWidth
 
-    rimLightTint = FloatField()
+    rimLightTint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rim_light_tint = rimLightTint
 
     aovRimLight = DataStringField()
     aov_rim_light = aovRimLight
 
-    transmission = FloatField()
+    transmission = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    transmissionColor = TransmissionColorField()
+    transmissionColor = TransmissionColorField(default_value=(1.0, 1.0, 1.0))
     transmission_color = transmissionColor
     transmissionColorR = transmissionColor.transmissionColorR
     transmission_colorr = transmissionColorR
@@ -316,18 +316,18 @@ class AiToon(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     transmission_colorb = transmissionColorB
 
-    transmissionRoughness = FloatField()
+    transmissionRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     transmission_roughness = transmissionRoughness
 
-    transmissionAnisotropy = FloatField()
+    transmissionAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     transmission_anisotropy = transmissionAnisotropy
 
-    transmissionRotation = FloatField()
+    transmissionRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     transmission_rotation = transmissionRotation
 
-    sheen = FloatField()
+    sheen = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    sheenColor = SheenColorField()
+    sheenColor = SheenColorField(default_value=(1.0, 1.0, 1.0))
     sheen_color = sheenColor
     sheenColorR = sheenColor.sheenColorR
     sheen_colorr = sheenColorR
@@ -336,12 +336,12 @@ class AiToon(DG):
     sheenColorB = sheenColor.sheenColorB
     sheen_colorb = sheenColorB
 
-    sheenRoughness = FloatField()
+    sheenRoughness = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
     sheen_roughness = sheenRoughness
 
-    emission = FloatField()
+    emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -350,9 +350,9 @@ class AiToon(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    IOR = FloatField()
+    IOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0)
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY
@@ -360,7 +360,7 @@ class AiToon(DG):
     normalZ = normal.normalZ
     normalz = normalZ
 
-    tangent = TangentField()
+    tangent = TangentField(default_value=(0.0, 0.0, 0.0))
     tangentX = tangent.tangentX
     tangentx = tangentX
     tangentY = tangent.tangentY
@@ -368,19 +368,19 @@ class AiToon(DG):
     tangentZ = tangent.tangentZ
     tangentz = tangentZ
 
-    indirectDiffuse = FloatField()
+    indirectDiffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     indirect_diffuse = indirectDiffuse
 
-    indirectSpecular = FloatField()
+    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     indirect_specular = indirectSpecular
 
-    bumpMode = BumpModeEnumField()
+    bumpMode = BumpModeEnumField(default_value=0)
     bump_mode = bumpMode
 
-    energyConserving = BoolField()
+    energyConserving = BoolField(default_value=True)
     energy_conserving = energyConserving
 
-    userId = BoolField()
+    userId = BoolField(default_value=False)
     user_id = userId
 
     aovPrefix = DataStringField()

@@ -10,10 +10,10 @@ class AiSwitchOperator(DG):
 
     NODE_TYPE = "aiSwitchOperator"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
-    index = LongField()
+    index = LongField(default_value=0)

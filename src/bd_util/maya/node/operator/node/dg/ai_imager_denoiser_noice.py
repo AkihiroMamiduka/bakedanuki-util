@@ -12,20 +12,20 @@ class AiImagerDenoiserNoice(DG):
 
     NODE_TYPE = "aiImagerDenoiserNoice"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    patchRadius = LongField()
+    patchRadius = LongField(default_value=3, min_value=0, soft_max_value=6)
     patch_radius = patchRadius
 
-    searchRadius = LongField()
+    searchRadius = LongField(default_value=9, min_value=0, soft_min_value=6, soft_max_value=21)
     search_radius = searchRadius
 
-    variance = FloatField()
+    variance = FloatField(default_value=0.25, min_value=0.0, max_value=1.0)
 
     outputSuffix = DataStringField()
     output_suffix = outputSuffix

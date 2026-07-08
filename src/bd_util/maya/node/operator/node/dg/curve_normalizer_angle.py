@@ -9,11 +9,11 @@ class CurveNormalizerAngle(DG):
 
     NODE_TYPE = "curveNormalizerAngle"
 
-    scalar = DoubleField()
+    scalar = DoubleField(default_value=1.0)
     sc = scalar
 
-    animInput = DoubleAngleField()
+    animInput = DoubleAngleField(default_value=0.0)
     ai = animInput
 
-    output = DoubleAngleField()
+    output = DoubleAngleField(default_value=0.0, writable=False)
     o = output

@@ -159,7 +159,7 @@ class AiComposite(DG):
 
     NODE_TYPE = "aiComposite"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -168,10 +168,10 @@ class AiComposite(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -180,10 +180,10 @@ class AiComposite(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    AA = FloatField()
+    AA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     Aa = AA
 
-    A = AField()
+    A = AField(default_value=(1.0, 0.0, 0.0))
     AR = A.AR
     Ar = AR
     AG = A.AG
@@ -191,10 +191,10 @@ class AiComposite(DG):
     AB = A.AB
     Ab = AB
 
-    BA = FloatField()
+    BA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     Ba = BA
 
-    B = BField()
+    B = BField(default_value=(0.0, 1.0, 0.0))
     BR = B.BR
     Br = BR
     BG = B.BG
@@ -202,7 +202,7 @@ class AiComposite(DG):
     BB = B.BB
     Bb = BB
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=21)
 
-    alphaOperation = AlphaOperationEnumField()
+    alphaOperation = AlphaOperationEnumField(default_value=0)
     alpha_operation = alphaOperation

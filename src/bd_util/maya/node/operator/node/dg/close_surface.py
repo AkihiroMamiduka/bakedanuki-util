@@ -80,20 +80,20 @@ class CloseSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    preserveShape = PreserveShapeEnumField()
+    preserveShape = PreserveShapeEnumField(default_value=1)
     ps = preserveShape
 
-    blendBias = DoubleField()
+    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bb = blendBias
 
-    blendKnotInsertion = BoolField()
+    blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     p = parameter
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=0)
     d = direction
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

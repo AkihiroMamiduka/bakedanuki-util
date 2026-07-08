@@ -13,14 +13,14 @@ class AiUserDataVec2(DG):
 
     NODE_TYPE = "aiUserDataVec2"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
     outValueY = outValue.outValueY
     outy = outValueY
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -29,7 +29,7 @@ class AiUserDataVec2(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    defaultValue = DefaultValueField()
+    defaultValue = DefaultValueField(default_value=(0.0, 0.0))
     defaultValueX = defaultValue.defaultValueX
     defaultValuex = defaultValueX
     defaultValueY = defaultValue.defaultValueY

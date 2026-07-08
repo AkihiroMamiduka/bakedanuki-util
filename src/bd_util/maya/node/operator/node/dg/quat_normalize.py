@@ -11,7 +11,7 @@ class QuatNormalize(DG):
 
     NODE_TYPE = "quatNormalize"
 
-    inputQuat = InputQuatField()
+    inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat
     inputQuatX = inputQuat.inputQuatX
     iqx = inputQuatX
@@ -22,7 +22,7 @@ class QuatNormalize(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    outputQuat = OutputQuatField()
+    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

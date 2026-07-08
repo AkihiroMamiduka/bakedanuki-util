@@ -8,5 +8,5 @@ class Record(DG):
 
     NODE_TYPE = "record"
 
-    input = DoubleField()
+    input = DoubleField(default_value=0.0, readable=False)
     i = input

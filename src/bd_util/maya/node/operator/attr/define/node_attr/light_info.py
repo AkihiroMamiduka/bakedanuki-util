@@ -18,13 +18,13 @@ class PointCameraPlugOperator(
         ("pointCameraZ", "pz"),
     )
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -33,13 +33,13 @@ class PointCameraAttrOperator(
 ):
     __slots__ = ()
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -51,13 +51,13 @@ class PointCameraField(
     ATTR_CLS = PointCameraAttrOperator
     PLUG_CLS = PointCameraPlugOperator
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -71,13 +71,13 @@ class LightPositionPlugOperator(
         ("lightPositionZ", "lpz"),
     )
 
-    lightPositionX = FloatField()
+    lightPositionX = FloatField(default_value=0.0, writable=False)
     lpx = lightPositionX
 
-    lightPositionY = FloatField()
+    lightPositionY = FloatField(default_value=0.0, writable=False)
     lpy = lightPositionY
 
-    lightPositionZ = FloatField()
+    lightPositionZ = FloatField(default_value=0.0, writable=False)
     lpz = lightPositionZ
 
 
@@ -86,13 +86,13 @@ class LightPositionAttrOperator(
 ):
     __slots__ = ()
 
-    lightPositionX = FloatField()
+    lightPositionX = FloatField(default_value=0.0, writable=False)
     lpx = lightPositionX
 
-    lightPositionY = FloatField()
+    lightPositionY = FloatField(default_value=0.0, writable=False)
     lpy = lightPositionY
 
-    lightPositionZ = FloatField()
+    lightPositionZ = FloatField(default_value=0.0, writable=False)
     lpz = lightPositionZ
 
 
@@ -104,13 +104,13 @@ class LightPositionField(
     ATTR_CLS = LightPositionAttrOperator
     PLUG_CLS = LightPositionPlugOperator
 
-    lightPositionX = FloatField()
+    lightPositionX = FloatField(default_value=0.0, writable=False)
     lpx = lightPositionX
 
-    lightPositionY = FloatField()
+    lightPositionY = FloatField(default_value=0.0, writable=False)
     lpy = lightPositionY
 
-    lightPositionZ = FloatField()
+    lightPositionZ = FloatField(default_value=0.0, writable=False)
     lpz = lightPositionZ
 
 
@@ -124,13 +124,13 @@ class LightDirectionPlugOperator(
         ("lightDirectionZ", "ldz"),
     )
 
-    lightDirectionX = FloatField()
+    lightDirectionX = FloatField(default_value=0.0, writable=False)
     ldx = lightDirectionX
 
-    lightDirectionY = FloatField()
+    lightDirectionY = FloatField(default_value=0.0, writable=False)
     ldy = lightDirectionY
 
-    lightDirectionZ = FloatField()
+    lightDirectionZ = FloatField(default_value=1.0, writable=False)
     ldz = lightDirectionZ
 
 
@@ -139,13 +139,13 @@ class LightDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirectionX = FloatField()
+    lightDirectionX = FloatField(default_value=0.0, writable=False)
     ldx = lightDirectionX
 
-    lightDirectionY = FloatField()
+    lightDirectionY = FloatField(default_value=0.0, writable=False)
     ldy = lightDirectionY
 
-    lightDirectionZ = FloatField()
+    lightDirectionZ = FloatField(default_value=1.0, writable=False)
     ldz = lightDirectionZ
 
 
@@ -157,11 +157,11 @@ class LightDirectionField(
     ATTR_CLS = LightDirectionAttrOperator
     PLUG_CLS = LightDirectionPlugOperator
 
-    lightDirectionX = FloatField()
+    lightDirectionX = FloatField(default_value=0.0, writable=False)
     ldx = lightDirectionX
 
-    lightDirectionY = FloatField()
+    lightDirectionY = FloatField(default_value=0.0, writable=False)
     ldy = lightDirectionY
 
-    lightDirectionZ = FloatField()
+    lightDirectionZ = FloatField(default_value=1.0, writable=False)
     ldz = lightDirectionZ

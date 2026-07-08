@@ -382,16 +382,16 @@ class TextureBakeSet(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -412,13 +412,13 @@ class TextureBakeSet(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -433,16 +433,16 @@ class TextureBakeSet(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -451,112 +451,112 @@ class TextureBakeSet(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
-    bakeAlpha = BoolField()
+    bakeAlpha = BoolField(default_value=False)
     alpha = bakeAlpha
 
-    alphaMode = AlphaModeEnumField()
+    alphaMode = AlphaModeEnumField(default_value=1)
     mode = alphaMode
 
-    occlusionRays = LongField()
+    occlusionRays = LongField(default_value=64, min_value=0, soft_max_value=256)
     mor = occlusionRays
 
-    occlusionFalloff = FloatField()
+    occlusionFalloff = FloatField(default_value=0.0, min_value=0.0)
     mof = occlusionFalloff
 
-    colorMode = ColorModeEnumField()
+    colorMode = ColorModeEnumField(default_value=0)
     clm = colorMode
 
-    orthogonalReflection = BoolField()
+    orthogonalReflection = BoolField(default_value=False)
     orf = orthogonalReflection
 
-    normalDirection = NormalDirectionEnumField()
+    normalDirection = NormalDirectionEnumField(default_value=1)
     ndr = normalDirection
 
     customShader = MessageField()
     csh = customShader
 
-    separation = SeparationEnumField()
+    separation = SeparationEnumField(default_value=0)
     sep = separation
 
     prefix = DataStringField()
     pre = prefix
 
-    xResolution = LongField()
+    xResolution = LongField(default_value=512, min_value=1, max_value=16384, soft_min_value=128, soft_max_value=1024)
     xres = xResolution
 
-    yResolution = LongField()
+    yResolution = LongField(default_value=512, min_value=1, max_value=16384, soft_min_value=128, soft_max_value=1024)
     yres = yResolution
 
-    fileFormat = FileFormatEnumField()
+    fileFormat = FileFormatEnumField(default_value=1)
     format = fileFormat
 
-    bitsPerChannel = BitsPerChannelEnumField()
+    bitsPerChannel = BitsPerChannelEnumField(default_value=1)
     bits = bitsPerChannel
 
-    overrideUvSet = BoolField()
+    overrideUvSet = BoolField(default_value=False)
     overrideuv = overrideUvSet
 
     uvSetName = DataStringField()
     set = uvSetName
 
-    uvRange = UvRangeEnumField()
+    uvRange = UvRangeEnumField(default_value=0)
     range = uvRange
 
-    uMin = FloatField()
+    uMin = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
     ul = uMin
 
-    uMax = FloatField()
+    uMax = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
     uh = uMax
 
-    vMin = FloatField()
+    vMin = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
     vl = vMin
 
-    vMax = FloatField()
+    vMax = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
     vh = vMax
 
-    backgroundMode = BackgroundModeEnumField()
+    backgroundMode = BackgroundModeEnumField(default_value=0)
     bmode = backgroundMode
 
-    backgroundColor = BackgroundColorField()
+    backgroundColor = BackgroundColorField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     bgc = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     bgr = backgroundColorR
@@ -565,20 +565,20 @@ class TextureBakeSet(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     bgb = backgroundColorB
 
-    fillTextureSeams = FloatField()
+    fillTextureSeams = FloatField(default_value=1.0, min_value=0.0, max_value=32.0, soft_min_value=0.0, soft_max_value=3.0)
     fillseams = fillTextureSeams
 
-    fillScale = FloatField()
+    fillScale = FloatField(default_value=1.0, min_value=1.0, max_value=5.0)
     fillscale = fillScale
 
-    finalGatherQuality = FloatField()
+    finalGatherQuality = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     fgq = finalGatherQuality
 
-    finalGatherReflect = FloatField()
+    finalGatherReflect = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     fgr = finalGatherReflect
 
-    bakeToOneMap = BoolField()
+    bakeToOneMap = BoolField(default_value=False)
     one = bakeToOneMap
 
-    samples = LongField()
+    samples = LongField(default_value=1, min_value=0, soft_max_value=4)
     nsp = samples

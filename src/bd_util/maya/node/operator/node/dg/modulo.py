@@ -8,11 +8,11 @@ class Modulo(DG):
 
     NODE_TYPE = "modulo"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    modulus = DoubleLinearField()
+    modulus = DoubleLinearField(default_value=1.0)
     m = modulus
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

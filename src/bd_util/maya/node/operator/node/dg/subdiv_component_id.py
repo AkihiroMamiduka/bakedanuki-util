@@ -203,44 +203,44 @@ class SubdivComponentId(DG):
 
     NODE_TYPE = "subdivComponentId"
 
-    inBase = LongField()
+    inBase = LongField(default_value=0)
     ib = inBase
 
-    inEdge = LongField()
+    inEdge = LongField(default_value=0)
     ie = inEdge
 
-    inLevel = InLevelEnumField()
+    inLevel = InLevelEnumField(default_value=0)
     il = inLevel
 
-    inPath = LongField()
+    inPath = LongField(default_value=0)
     ip = inPath
 
-    inFinal = InFinalEnumField()
+    inFinal = InFinalEnumField(default_value=0)
     if_ = inFinal
 
-    outLeft = LongField()
+    outLeft = LongField(default_value=0, writable=False)
     olt = outLeft
 
-    outRight = LongField()
+    outRight = LongField(default_value=0, writable=False)
     or_ = outRight
 
-    inLeft = LongField()
+    inLeft = LongField(default_value=0)
     ilt = inLeft
 
-    inRight = LongField()
+    inRight = LongField(default_value=0)
     ir = inRight
 
-    outBase = LongField()
+    outBase = LongField(default_value=0, writable=False)
     ob = outBase
 
-    outEdge = LongField()
+    outEdge = LongField(default_value=0, writable=False)
     oe = outEdge
 
-    outLevel = OutLevelEnumField()
+    outLevel = OutLevelEnumField(default_value=0, writable=False)
     ol = outLevel
 
-    outPath = LongField()
+    outPath = LongField(default_value=0, writable=False)
     op = outPath
 
-    outFinal = OutFinalEnumField()
+    outFinal = OutFinalEnumField(default_value=0, writable=False)
     of = outFinal

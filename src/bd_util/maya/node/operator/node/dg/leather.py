@@ -23,7 +23,7 @@ class Leather(DG):
 
     NODE_TYPE = "leather"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -32,7 +32,7 @@ class Leather(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -41,7 +41,7 @@ class Leather(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -56,28 +56,28 @@ class Leather(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -86,7 +86,7 @@ class Leather(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -95,13 +95,13 @@ class Leather(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -110,7 +110,7 @@ class Leather(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -119,10 +119,10 @@ class Leather(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -131,7 +131,7 @@ class Leather(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -140,7 +140,7 @@ class Leather(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    cellColor = CellColorField()
+    cellColor = CellColorField(default_value=(0.37299999594688416, 0.15700000524520874, 0.05900000035762787), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     ce = cellColor
     cellColorR = cellColor.cellColorR
     cer = cellColorR
@@ -149,7 +149,7 @@ class Leather(DG):
     cellColorB = cellColor.cellColorB
     ceb = cellColorB
 
-    creaseColor = CreaseColorField()
+    creaseColor = CreaseColorField(default_value=(0.23499999940395355, 0.11800000071525574, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     cr = creaseColor
     creaseColorR = creaseColor.creaseColorR
     crr = creaseColorR
@@ -158,20 +158,20 @@ class Leather(DG):
     creaseColorB = creaseColor.creaseColorB
     crb = creaseColorB
 
-    cellSize = FloatField()
+    cellSize = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     cs = cellSize
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     d = density
 
-    spottyness = FloatField()
+    spottyness = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
     s = spottyness
 
-    randomness = FloatField()
+    randomness = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     r = randomness
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.8299999833106995, min_value=0.0, soft_max_value=1.0)
     th = threshold
 
-    creases = BoolField()
+    creases = BoolField(default_value=True)
     c = creases

@@ -49,38 +49,38 @@ class AttachSurface(DG):
     inputSurface2 = DataNurbsSurfaceField()
     is2 = inputSurface2
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    method = MethodEnumField()
+    method = MethodEnumField(default_value=0)
     m = method
 
-    directionU = BoolField()
+    directionU = BoolField(default_value=True)
     du = directionU
 
-    reverse1 = BoolField()
+    reverse1 = BoolField(default_value=False)
     rv1 = reverse1
 
-    reverse2 = BoolField()
+    reverse2 = BoolField(default_value=False)
     rv2 = reverse2
 
-    swap1 = BoolField()
+    swap1 = BoolField(default_value=False)
     sw1 = swap1
 
-    swap2 = BoolField()
+    swap2 = BoolField(default_value=False)
     sw2 = swap2
 
-    twist = BoolField()
+    twist = BoolField(default_value=False)
     tw = twist
 
-    blendBias = DoubleField()
+    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bb = blendBias
 
-    blendKnotInsertion = BoolField()
+    blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     p = parameter
 
-    keepMultipleKnots = BoolField()
+    keepMultipleKnots = BoolField(default_value=True)
     kmk = keepMultipleKnots

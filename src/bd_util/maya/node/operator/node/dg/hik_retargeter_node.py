@@ -10,7 +10,7 @@ class HIKRetargeterNode(DG):
 
     NODE_TYPE = "HIKRetargeterNode"
 
-    SNS = BoolField()
+    SNS = BoolField(default_value=False)
 
     referenceGX = MatrixField()
 

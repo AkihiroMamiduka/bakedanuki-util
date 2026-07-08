@@ -23,13 +23,13 @@ class PointObjPlugOperator(
         ("pointObjZ", "poz"),
     )
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -38,13 +38,13 @@ class PointObjAttrOperator(
 ):
     __slots__ = ()
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -56,13 +56,13 @@ class PointObjField(
     ATTR_CLS = PointObjAttrOperator
     PLUG_CLS = PointObjPlugOperator
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -76,13 +76,13 @@ class PointCameraPlugOperator(
         ("pointCameraZ", "pz"),
     )
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -91,13 +91,13 @@ class PointCameraAttrOperator(
 ):
     __slots__ = ()
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -109,13 +109,13 @@ class PointCameraField(
     ATTR_CLS = PointCameraAttrOperator
     PLUG_CLS = PointCameraPlugOperator
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -129,13 +129,13 @@ class FilterSizePlugOperator(
         ("filterSizeZ", "fsz"),
     )
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -144,13 +144,13 @@ class FilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -162,13 +162,13 @@ class FilterSizeField(
     ATTR_CLS = FilterSizeAttrOperator
     PLUG_CLS = FilterSizePlugOperator
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -182,13 +182,13 @@ class ColorGainPlugOperator(
         ("colorGainB", "cgb"),
     )
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -197,13 +197,13 @@ class ColorGainAttrOperator(
 ):
     __slots__ = ()
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -215,13 +215,13 @@ class ColorGainField(
     ATTR_CLS = ColorGainAttrOperator
     PLUG_CLS = ColorGainPlugOperator
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -235,13 +235,13 @@ class ColorOffsetPlugOperator(
         ("colorOffsetB", "cob"),
     )
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -250,13 +250,13 @@ class ColorOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -268,13 +268,13 @@ class ColorOffsetField(
     ATTR_CLS = ColorOffsetAttrOperator
     PLUG_CLS = ColorOffsetPlugOperator
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -288,13 +288,13 @@ class DefaultColorPlugOperator(
         ("defaultColorB", "dcb"),
     )
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -303,13 +303,13 @@ class DefaultColorAttrOperator(
 ):
     __slots__ = ()
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -321,13 +321,13 @@ class DefaultColorField(
     ATTR_CLS = DefaultColorAttrOperator
     PLUG_CLS = DefaultColorPlugOperator
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -341,13 +341,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -356,13 +356,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -374,13 +374,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -394,13 +394,13 @@ class NormalCameraPlugOperator(
         ("normalCameraZ", "nz"),
     )
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -409,13 +409,13 @@ class NormalCameraAttrOperator(
 ):
     __slots__ = ()
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -427,13 +427,13 @@ class NormalCameraField(
     ATTR_CLS = NormalCameraAttrOperator
     PLUG_CLS = NormalCameraPlugOperator
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -447,13 +447,13 @@ class SrfNormalPlugOperator(
         ("srfNormalZ", "snz"),
     )
 
-    srfNormalX = FloatField()
+    srfNormalX = FloatField(default_value=0.0)
     snx = srfNormalX
 
-    srfNormalY = FloatField()
+    srfNormalY = FloatField(default_value=0.0)
     sny = srfNormalY
 
-    srfNormalZ = FloatField()
+    srfNormalZ = FloatField(default_value=1.0)
     snz = srfNormalZ
 
 
@@ -462,13 +462,13 @@ class SrfNormalAttrOperator(
 ):
     __slots__ = ()
 
-    srfNormalX = FloatField()
+    srfNormalX = FloatField(default_value=0.0)
     snx = srfNormalX
 
-    srfNormalY = FloatField()
+    srfNormalY = FloatField(default_value=0.0)
     sny = srfNormalY
 
-    srfNormalZ = FloatField()
+    srfNormalZ = FloatField(default_value=1.0)
     snz = srfNormalZ
 
 
@@ -480,13 +480,13 @@ class SrfNormalField(
     ATTR_CLS = SrfNormalAttrOperator
     PLUG_CLS = SrfNormalPlugOperator
 
-    srfNormalX = FloatField()
+    srfNormalX = FloatField(default_value=0.0)
     snx = srfNormalX
 
-    srfNormalY = FloatField()
+    srfNormalY = FloatField(default_value=0.0)
     sny = srfNormalY
 
-    srfNormalZ = FloatField()
+    srfNormalZ = FloatField(default_value=1.0)
     snz = srfNormalZ
 
 
@@ -500,13 +500,13 @@ class RefPointObjPlugOperator(
         ("refPointObjZ", "roz"),
     )
 
-    refPointObjX = FloatField()
+    refPointObjX = FloatField(default_value=0.0)
     rox = refPointObjX
 
-    refPointObjY = FloatField()
+    refPointObjY = FloatField(default_value=0.0)
     roy = refPointObjY
 
-    refPointObjZ = FloatField()
+    refPointObjZ = FloatField(default_value=0.0)
     roz = refPointObjZ
 
 
@@ -515,13 +515,13 @@ class RefPointObjAttrOperator(
 ):
     __slots__ = ()
 
-    refPointObjX = FloatField()
+    refPointObjX = FloatField(default_value=0.0)
     rox = refPointObjX
 
-    refPointObjY = FloatField()
+    refPointObjY = FloatField(default_value=0.0)
     roy = refPointObjY
 
-    refPointObjZ = FloatField()
+    refPointObjZ = FloatField(default_value=0.0)
     roz = refPointObjZ
 
 
@@ -533,13 +533,13 @@ class RefPointObjField(
     ATTR_CLS = RefPointObjAttrOperator
     PLUG_CLS = RefPointObjPlugOperator
 
-    refPointObjX = FloatField()
+    refPointObjX = FloatField(default_value=0.0)
     rox = refPointObjX
 
-    refPointObjY = FloatField()
+    refPointObjY = FloatField(default_value=0.0)
     roy = refPointObjY
 
-    refPointObjZ = FloatField()
+    refPointObjZ = FloatField(default_value=0.0)
     roz = refPointObjZ
 
 
@@ -553,13 +553,13 @@ class RefPointCameraPlugOperator(
         ("refPointCameraZ", "rcz"),
     )
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -568,13 +568,13 @@ class RefPointCameraAttrOperator(
 ):
     __slots__ = ()
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -586,13 +586,13 @@ class RefPointCameraField(
     ATTR_CLS = RefPointCameraAttrOperator
     PLUG_CLS = RefPointCameraPlugOperator
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -606,13 +606,13 @@ class ImagePlugOperator(
         ("imageB", "imb"),
     )
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imr = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     img = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imb = imageB
 
 
@@ -621,13 +621,13 @@ class ImageAttrOperator(
 ):
     __slots__ = ()
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imr = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     img = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imb = imageB
 
 
@@ -639,13 +639,13 @@ class ImageField(
     ATTR_CLS = ImageAttrOperator
     PLUG_CLS = ImagePlugOperator
 
-    imageR = FloatField()
+    imageR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imr = imageR
 
-    imageG = FloatField()
+    imageG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     img = imageG
 
-    imageB = FloatField()
+    imageB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     imb = imageB
 
 
@@ -659,13 +659,13 @@ class TransparencyPlugOperator(
         ("transparencyB", "itb"),
     )
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itb = transparencyB
 
 
@@ -674,13 +674,13 @@ class TransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itb = transparencyB
 
 
@@ -692,13 +692,13 @@ class TransparencyField(
     ATTR_CLS = TransparencyAttrOperator
     PLUG_CLS = TransparencyPlugOperator
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     itb = transparencyB
 
 
@@ -712,13 +712,13 @@ class RipplesPlugOperator(
         ("ripplesZ", "rz"),
     )
 
-    ripplesX = FloatField()
+    ripplesX = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rx = ripplesX
 
-    ripplesY = FloatField()
+    ripplesY = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     ry = ripplesY
 
-    ripplesZ = FloatField()
+    ripplesZ = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rz = ripplesZ
 
 
@@ -727,13 +727,13 @@ class RipplesAttrOperator(
 ):
     __slots__ = ()
 
-    ripplesX = FloatField()
+    ripplesX = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rx = ripplesX
 
-    ripplesY = FloatField()
+    ripplesY = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     ry = ripplesY
 
-    ripplesZ = FloatField()
+    ripplesZ = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rz = ripplesZ
 
 
@@ -745,13 +745,13 @@ class RipplesField(
     ATTR_CLS = RipplesAttrOperator
     PLUG_CLS = RipplesPlugOperator
 
-    ripplesX = FloatField()
+    ripplesX = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rx = ripplesX
 
-    ripplesY = FloatField()
+    ripplesY = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     ry = ripplesY
 
-    ripplesZ = FloatField()
+    ripplesZ = FloatField(default_value=1.0, min_value=0.0, max_value=20.0)
     rz = ripplesZ
 
 
@@ -764,10 +764,10 @@ class DepthPlugOperator(
         ("depthMax", "dmx"),
     )
 
-    depthMin = FloatField()
+    depthMin = FloatField(default_value=0.0, min_value=0.0, max_value=25.0)
     dmn = depthMin
 
-    depthMax = FloatField()
+    depthMax = FloatField(default_value=10.0, min_value=0.0, max_value=25.0)
     dmx = depthMax
 
 
@@ -776,10 +776,10 @@ class DepthAttrOperator(
 ):
     __slots__ = ()
 
-    depthMin = FloatField()
+    depthMin = FloatField(default_value=0.0, min_value=0.0, max_value=25.0)
     dmn = depthMin
 
-    depthMax = FloatField()
+    depthMax = FloatField(default_value=10.0, min_value=0.0, max_value=25.0)
     dmx = depthMax
 
 
@@ -791,10 +791,10 @@ class DepthField(
     ATTR_CLS = DepthAttrOperator
     PLUG_CLS = DepthPlugOperator
 
-    depthMin = FloatField()
+    depthMin = FloatField(default_value=0.0, min_value=0.0, max_value=25.0)
     dmn = depthMin
 
-    depthMax = FloatField()
+    depthMax = FloatField(default_value=10.0, min_value=0.0, max_value=25.0)
     dmx = depthMax
 
 
@@ -808,13 +808,13 @@ class CamPosPlugOperator(
         ("camPsZ", "cpz"),
     )
 
-    camPsX = FloatField()
+    camPsX = FloatField(default_value=0.0)
     cpx = camPsX
 
-    camPsY = FloatField()
+    camPsY = FloatField(default_value=0.0)
     cpy = camPsY
 
-    camPsZ = FloatField()
+    camPsZ = FloatField(default_value=0.0)
     cpz = camPsZ
 
 
@@ -823,13 +823,13 @@ class CamPosAttrOperator(
 ):
     __slots__ = ()
 
-    camPsX = FloatField()
+    camPsX = FloatField(default_value=0.0)
     cpx = camPsX
 
-    camPsY = FloatField()
+    camPsY = FloatField(default_value=0.0)
     cpy = camPsY
 
-    camPsZ = FloatField()
+    camPsZ = FloatField(default_value=0.0)
     cpz = camPsZ
 
 
@@ -841,13 +841,13 @@ class CamPosField(
     ATTR_CLS = CamPosAttrOperator
     PLUG_CLS = CamPosPlugOperator
 
-    camPsX = FloatField()
+    camPsX = FloatField(default_value=0.0)
     cpx = camPsX
 
-    camPsY = FloatField()
+    camPsY = FloatField(default_value=0.0)
     cpy = camPsY
 
-    camPsZ = FloatField()
+    camPsZ = FloatField(default_value=0.0)
     cpz = camPsZ
 
 
@@ -861,13 +861,13 @@ class CamAgPlugOperator(
         ("camAngZ", "caz"),
     )
 
-    camAngX = FloatField()
+    camAngX = FloatField(default_value=0.0)
     cax = camAngX
 
-    camAngY = FloatField()
+    camAngY = FloatField(default_value=0.0)
     cay = camAngY
 
-    camAngZ = FloatField()
+    camAngZ = FloatField(default_value=0.0)
     caz = camAngZ
 
 
@@ -876,13 +876,13 @@ class CamAgAttrOperator(
 ):
     __slots__ = ()
 
-    camAngX = FloatField()
+    camAngX = FloatField(default_value=0.0)
     cax = camAngX
 
-    camAngY = FloatField()
+    camAngY = FloatField(default_value=0.0)
     cay = camAngY
 
-    camAngZ = FloatField()
+    camAngZ = FloatField(default_value=0.0)
     caz = camAngZ
 
 
@@ -894,13 +894,13 @@ class CamAgField(
     ATTR_CLS = CamAgAttrOperator
     PLUG_CLS = CamAgPlugOperator
 
-    camAngX = FloatField()
+    camAngX = FloatField(default_value=0.0)
     cax = camAngX
 
-    camAngY = FloatField()
+    camAngY = FloatField(default_value=0.0)
     cay = camAngY
 
-    camAngZ = FloatField()
+    camAngZ = FloatField(default_value=0.0)
     caz = camAngZ
 
 
@@ -914,13 +914,13 @@ class TransparencyGainPlugOperator(
         ("transparencyGainB", "tgb"),
     )
 
-    transparencyGainR = FloatField()
+    transparencyGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgr = transparencyGainR
 
-    transparencyGainG = FloatField()
+    transparencyGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgg = transparencyGainG
 
-    transparencyGainB = FloatField()
+    transparencyGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgb = transparencyGainB
 
 
@@ -929,13 +929,13 @@ class TransparencyGainAttrOperator(
 ):
     __slots__ = ()
 
-    transparencyGainR = FloatField()
+    transparencyGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgr = transparencyGainR
 
-    transparencyGainG = FloatField()
+    transparencyGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgg = transparencyGainG
 
-    transparencyGainB = FloatField()
+    transparencyGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgb = transparencyGainB
 
 
@@ -947,13 +947,13 @@ class TransparencyGainField(
     ATTR_CLS = TransparencyGainAttrOperator
     PLUG_CLS = TransparencyGainPlugOperator
 
-    transparencyGainR = FloatField()
+    transparencyGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgr = transparencyGainR
 
-    transparencyGainG = FloatField()
+    transparencyGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgg = transparencyGainG
 
-    transparencyGainB = FloatField()
+    transparencyGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     tgb = transparencyGainB
 
 
@@ -967,13 +967,13 @@ class TransparencyOffsetPlugOperator(
         ("transparencyOffsetB", "tob"),
     )
 
-    transparencyOffsetR = FloatField()
+    transparencyOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tor = transparencyOffsetR
 
-    transparencyOffsetG = FloatField()
+    transparencyOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tog = transparencyOffsetG
 
-    transparencyOffsetB = FloatField()
+    transparencyOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tob = transparencyOffsetB
 
 
@@ -982,13 +982,13 @@ class TransparencyOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    transparencyOffsetR = FloatField()
+    transparencyOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tor = transparencyOffsetR
 
-    transparencyOffsetG = FloatField()
+    transparencyOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tog = transparencyOffsetG
 
-    transparencyOffsetB = FloatField()
+    transparencyOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tob = transparencyOffsetB
 
 
@@ -1000,13 +1000,13 @@ class TransparencyOffsetField(
     ATTR_CLS = TransparencyOffsetAttrOperator
     PLUG_CLS = TransparencyOffsetPlugOperator
 
-    transparencyOffsetR = FloatField()
+    transparencyOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tor = transparencyOffsetR
 
-    transparencyOffsetG = FloatField()
+    transparencyOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tog = transparencyOffsetG
 
-    transparencyOffsetB = FloatField()
+    transparencyOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     tob = transparencyOffsetB
 
 
@@ -1020,13 +1020,13 @@ class DefaultTransparencyPlugOperator(
         ("defaultTransparencyB", "dtb"),
     )
 
-    defaultTransparencyR = FloatField()
+    defaultTransparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtr = defaultTransparencyR
 
-    defaultTransparencyG = FloatField()
+    defaultTransparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtg = defaultTransparencyG
 
-    defaultTransparencyB = FloatField()
+    defaultTransparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtb = defaultTransparencyB
 
 
@@ -1035,13 +1035,13 @@ class DefaultTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    defaultTransparencyR = FloatField()
+    defaultTransparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtr = defaultTransparencyR
 
-    defaultTransparencyG = FloatField()
+    defaultTransparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtg = defaultTransparencyG
 
-    defaultTransparencyB = FloatField()
+    defaultTransparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtb = defaultTransparencyB
 
 
@@ -1053,13 +1053,13 @@ class DefaultTransparencyField(
     ATTR_CLS = DefaultTransparencyAttrOperator
     PLUG_CLS = DefaultTransparencyPlugOperator
 
-    defaultTransparencyR = FloatField()
+    defaultTransparencyR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtr = defaultTransparencyR
 
-    defaultTransparencyG = FloatField()
+    defaultTransparencyG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtg = defaultTransparencyG
 
-    defaultTransparencyB = FloatField()
+    defaultTransparencyB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     dtb = defaultTransparencyB
 
 
@@ -1073,13 +1073,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -1088,13 +1088,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -1106,13 +1106,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -1125,10 +1125,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -1137,10 +1137,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -1152,10 +1152,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -1169,13 +1169,13 @@ class VertexCameraOnePlugOperator(
         ("vertexCameraOneZ", "c1z"),
     )
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -1184,13 +1184,13 @@ class VertexCameraOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -1202,13 +1202,13 @@ class VertexCameraOneField(
     ATTR_CLS = VertexCameraOneAttrOperator
     PLUG_CLS = VertexCameraOnePlugOperator
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -1222,13 +1222,13 @@ class VertexCameraTwoPlugOperator(
         ("vertexCameraTwoZ", "c2z"),
     )
 
-    vertexCameraTwoX = FloatField()
+    vertexCameraTwoX = FloatField(default_value=0.0)
     c2x = vertexCameraTwoX
 
-    vertexCameraTwoY = FloatField()
+    vertexCameraTwoY = FloatField(default_value=0.0)
     c2y = vertexCameraTwoY
 
-    vertexCameraTwoZ = FloatField()
+    vertexCameraTwoZ = FloatField(default_value=0.0)
     c2z = vertexCameraTwoZ
 
 
@@ -1237,13 +1237,13 @@ class VertexCameraTwoAttrOperator(
 ):
     __slots__ = ()
 
-    vertexCameraTwoX = FloatField()
+    vertexCameraTwoX = FloatField(default_value=0.0)
     c2x = vertexCameraTwoX
 
-    vertexCameraTwoY = FloatField()
+    vertexCameraTwoY = FloatField(default_value=0.0)
     c2y = vertexCameraTwoY
 
-    vertexCameraTwoZ = FloatField()
+    vertexCameraTwoZ = FloatField(default_value=0.0)
     c2z = vertexCameraTwoZ
 
 
@@ -1255,13 +1255,13 @@ class VertexCameraTwoField(
     ATTR_CLS = VertexCameraTwoAttrOperator
     PLUG_CLS = VertexCameraTwoPlugOperator
 
-    vertexCameraTwoX = FloatField()
+    vertexCameraTwoX = FloatField(default_value=0.0)
     c2x = vertexCameraTwoX
 
-    vertexCameraTwoY = FloatField()
+    vertexCameraTwoY = FloatField(default_value=0.0)
     c2y = vertexCameraTwoY
 
-    vertexCameraTwoZ = FloatField()
+    vertexCameraTwoZ = FloatField(default_value=0.0)
     c2z = vertexCameraTwoZ
 
 
@@ -1275,13 +1275,13 @@ class VertexCameraThreePlugOperator(
         ("vertexCameraThreeZ", "c3z"),
     )
 
-    vertexCameraThreeX = FloatField()
+    vertexCameraThreeX = FloatField(default_value=0.0)
     c3x = vertexCameraThreeX
 
-    vertexCameraThreeY = FloatField()
+    vertexCameraThreeY = FloatField(default_value=0.0)
     c3y = vertexCameraThreeY
 
-    vertexCameraThreeZ = FloatField()
+    vertexCameraThreeZ = FloatField(default_value=0.0)
     c3z = vertexCameraThreeZ
 
 
@@ -1290,13 +1290,13 @@ class VertexCameraThreeAttrOperator(
 ):
     __slots__ = ()
 
-    vertexCameraThreeX = FloatField()
+    vertexCameraThreeX = FloatField(default_value=0.0)
     c3x = vertexCameraThreeX
 
-    vertexCameraThreeY = FloatField()
+    vertexCameraThreeY = FloatField(default_value=0.0)
     c3y = vertexCameraThreeY
 
-    vertexCameraThreeZ = FloatField()
+    vertexCameraThreeZ = FloatField(default_value=0.0)
     c3z = vertexCameraThreeZ
 
 
@@ -1308,13 +1308,13 @@ class VertexCameraThreeField(
     ATTR_CLS = VertexCameraThreeAttrOperator
     PLUG_CLS = VertexCameraThreePlugOperator
 
-    vertexCameraThreeX = FloatField()
+    vertexCameraThreeX = FloatField(default_value=0.0)
     c3x = vertexCameraThreeX
 
-    vertexCameraThreeY = FloatField()
+    vertexCameraThreeY = FloatField(default_value=0.0)
     c3y = vertexCameraThreeY
 
-    vertexCameraThreeZ = FloatField()
+    vertexCameraThreeZ = FloatField(default_value=0.0)
     c3z = vertexCameraThreeZ
 
 
@@ -1327,10 +1327,10 @@ class VertexUvOnePlugOperator(
         ("vertexUvOneV", "t1v"),
     )
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -1339,10 +1339,10 @@ class VertexUvOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -1354,10 +1354,10 @@ class VertexUvOneField(
     ATTR_CLS = VertexUvOneAttrOperator
     PLUG_CLS = VertexUvOnePlugOperator
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -1370,10 +1370,10 @@ class VertexUvTwoPlugOperator(
         ("vertexUvTwoV", "t2v"),
     )
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -1382,10 +1382,10 @@ class VertexUvTwoAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -1397,10 +1397,10 @@ class VertexUvTwoField(
     ATTR_CLS = VertexUvTwoAttrOperator
     PLUG_CLS = VertexUvTwoPlugOperator
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -1413,10 +1413,10 @@ class VertexUvThreePlugOperator(
         ("vertexUvThreeV", "t3v"),
     )
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -1425,10 +1425,10 @@ class VertexUvThreeAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -1440,10 +1440,10 @@ class VertexUvThreeField(
     ATTR_CLS = VertexUvThreeAttrOperator
     PLUG_CLS = VertexUvThreePlugOperator
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -1456,10 +1456,10 @@ class UvFilterSizePlugOperator(
         ("uvFilterSizeY", "ufy"),
     )
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -1468,10 +1468,10 @@ class UvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -1483,10 +1483,10 @@ class UvFilterSizeField(
     ATTR_CLS = UvFilterSizeAttrOperator
     PLUG_CLS = UvFilterSizePlugOperator
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -1500,13 +1500,13 @@ class TangentUCameraPlugOperator(
         ("tangentUz", "tuz"),
     )
 
-    tangentUx = FloatField()
+    tangentUx = FloatField(default_value=1.0)
     tux = tangentUx
 
-    tangentUy = FloatField()
+    tangentUy = FloatField(default_value=0.0)
     tuy = tangentUy
 
-    tangentUz = FloatField()
+    tangentUz = FloatField(default_value=0.0)
     tuz = tangentUz
 
 
@@ -1515,13 +1515,13 @@ class TangentUCameraAttrOperator(
 ):
     __slots__ = ()
 
-    tangentUx = FloatField()
+    tangentUx = FloatField(default_value=1.0)
     tux = tangentUx
 
-    tangentUy = FloatField()
+    tangentUy = FloatField(default_value=0.0)
     tuy = tangentUy
 
-    tangentUz = FloatField()
+    tangentUz = FloatField(default_value=0.0)
     tuz = tangentUz
 
 
@@ -1533,13 +1533,13 @@ class TangentUCameraField(
     ATTR_CLS = TangentUCameraAttrOperator
     PLUG_CLS = TangentUCameraPlugOperator
 
-    tangentUx = FloatField()
+    tangentUx = FloatField(default_value=1.0)
     tux = tangentUx
 
-    tangentUy = FloatField()
+    tangentUy = FloatField(default_value=0.0)
     tuy = tangentUy
 
-    tangentUz = FloatField()
+    tangentUz = FloatField(default_value=0.0)
     tuz = tangentUz
 
 
@@ -1553,13 +1553,13 @@ class TangentVCameraPlugOperator(
         ("tangentVz", "tvz"),
     )
 
-    tangentVx = FloatField()
+    tangentVx = FloatField(default_value=0.0)
     tvx = tangentVx
 
-    tangentVy = FloatField()
+    tangentVy = FloatField(default_value=1.0)
     tvy = tangentVy
 
-    tangentVz = FloatField()
+    tangentVz = FloatField(default_value=0.0)
     tvz = tangentVz
 
 
@@ -1568,13 +1568,13 @@ class TangentVCameraAttrOperator(
 ):
     __slots__ = ()
 
-    tangentVx = FloatField()
+    tangentVx = FloatField(default_value=0.0)
     tvx = tangentVx
 
-    tangentVy = FloatField()
+    tangentVy = FloatField(default_value=1.0)
     tvy = tangentVy
 
-    tangentVz = FloatField()
+    tangentVz = FloatField(default_value=0.0)
     tvz = tangentVz
 
 
@@ -1586,11 +1586,11 @@ class TangentVCameraField(
     ATTR_CLS = TangentVCameraAttrOperator
     PLUG_CLS = TangentVCameraPlugOperator
 
-    tangentVx = FloatField()
+    tangentVx = FloatField(default_value=0.0)
     tvx = tangentVx
 
-    tangentVy = FloatField()
+    tangentVy = FloatField(default_value=1.0)
     tvy = tangentVy
 
-    tangentVz = FloatField()
+    tangentVz = FloatField(default_value=0.0)
     tvz = tangentVz

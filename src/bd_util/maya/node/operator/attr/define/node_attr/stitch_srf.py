@@ -18,13 +18,13 @@ class PositionPlugOperator(
         ("positionZ", "pz"),
     )
 
-    positionX = DoubleLinearField()
+    positionX = DoubleLinearField(default_value=0.0, writable=False)
     px = positionX
 
-    positionY = DoubleLinearField()
+    positionY = DoubleLinearField(default_value=0.0, writable=False)
     py = positionY
 
-    positionZ = DoubleLinearField()
+    positionZ = DoubleLinearField(default_value=0.0, writable=False)
     pz = positionZ
 
 
@@ -33,13 +33,13 @@ class PositionAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = DoubleLinearField()
+    positionX = DoubleLinearField(default_value=0.0, writable=False)
     px = positionX
 
-    positionY = DoubleLinearField()
+    positionY = DoubleLinearField(default_value=0.0, writable=False)
     py = positionY
 
-    positionZ = DoubleLinearField()
+    positionZ = DoubleLinearField(default_value=0.0, writable=False)
     pz = positionZ
 
 
@@ -62,13 +62,13 @@ class NormalPlugOperator(
         ("normalZ", "nz"),
     )
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0, writable=False)
     nx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0, writable=False)
     ny = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0, writable=False)
     nz = normalZ
 
 
@@ -77,13 +77,13 @@ class NormalAttrOperator(
 ):
     __slots__ = ()
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0, writable=False)
     nx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0, writable=False)
     ny = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0, writable=False)
     nz = normalZ
 
 
@@ -106,13 +106,13 @@ class CvPositionPlugOperator(
         ("cvpositionZ", "cvz"),
     )
 
-    cvpositionX = DoubleLinearField()
+    cvpositionX = DoubleLinearField(default_value=-1.0, writable=False)
     cvx = cvpositionX
 
-    cvpositionY = DoubleLinearField()
+    cvpositionY = DoubleLinearField(default_value=-1.0, writable=False)
     cvy = cvpositionY
 
-    cvpositionZ = DoubleLinearField()
+    cvpositionZ = DoubleLinearField(default_value=-1.0, writable=False)
     cvz = cvpositionZ
 
 
@@ -121,13 +121,13 @@ class CvPositionAttrOperator(
 ):
     __slots__ = ()
 
-    cvpositionX = DoubleLinearField()
+    cvpositionX = DoubleLinearField(default_value=-1.0, writable=False)
     cvx = cvpositionX
 
-    cvpositionY = DoubleLinearField()
+    cvpositionY = DoubleLinearField(default_value=-1.0, writable=False)
     cvy = cvpositionY
 
-    cvpositionZ = DoubleLinearField()
+    cvpositionZ = DoubleLinearField(default_value=-1.0, writable=False)
     cvz = cvpositionZ
 
 

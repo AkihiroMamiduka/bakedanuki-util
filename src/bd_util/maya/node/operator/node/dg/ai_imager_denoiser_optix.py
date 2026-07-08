@@ -11,9 +11,9 @@ class AiImagerDenoiserOptix(DG):
 
     NODE_TYPE = "aiImagerDenoiserOptix"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
@@ -21,15 +21,15 @@ class AiImagerDenoiserOptix(DG):
     outputSuffix = DataStringField()
     output_suffix = outputSuffix
 
-    blend = FloatField()
+    blend = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    clamp = BoolField()
+    clamp = BoolField(default_value=False)
 
-    clampMin = FloatField()
+    clampMin = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     clamp_min = clampMin
 
-    clampMax = FloatField()
+    clampMax = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     clamp_max = clampMax
 
-    useFeatureAovs = BoolField()
+    useFeatureAovs = BoolField(default_value=True)
     use_feature_aovs = useFeatureAovs

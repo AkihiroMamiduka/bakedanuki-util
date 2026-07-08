@@ -36,7 +36,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -51,7 +51,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -75,7 +75,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -84,7 +84,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -107,13 +107,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -122,13 +122,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -140,13 +140,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -158,7 +158,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -166,7 +166,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -285,13 +285,13 @@ class JointMidplaneAxisPlugOperator(
         ("jointMidplaneAxisZ", "jmz"),
     )
 
-    jointMidplaneAxisX = DoubleLinearField()
+    jointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     jmx = jointMidplaneAxisX
 
-    jointMidplaneAxisY = DoubleLinearField()
+    jointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     jmy = jointMidplaneAxisY
 
-    jointMidplaneAxisZ = DoubleLinearField()
+    jointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     jmz = jointMidplaneAxisZ
 
 
@@ -300,13 +300,13 @@ class JointMidplaneAxisAttrOperator(
 ):
     __slots__ = ()
 
-    jointMidplaneAxisX = DoubleLinearField()
+    jointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     jmx = jointMidplaneAxisX
 
-    jointMidplaneAxisY = DoubleLinearField()
+    jointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     jmy = jointMidplaneAxisY
 
-    jointMidplaneAxisZ = DoubleLinearField()
+    jointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     jmz = jointMidplaneAxisZ
 
 
@@ -318,13 +318,13 @@ class JointMidplaneAxisField(
     ATTR_CLS = JointMidplaneAxisAttrOperator
     PLUG_CLS = JointMidplaneAxisPlugOperator
 
-    jointMidplaneAxisX = DoubleLinearField()
+    jointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     jmx = jointMidplaneAxisX
 
-    jointMidplaneAxisY = DoubleLinearField()
+    jointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     jmy = jointMidplaneAxisY
 
-    jointMidplaneAxisZ = DoubleLinearField()
+    jointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     jmz = jointMidplaneAxisZ
 
 
@@ -391,13 +391,13 @@ class NextJointMidplaneAxisPlugOperator(
         ("nextjointMidplaneAxisZ", "nmz"),
     )
 
-    nextjointMidplaneAxisX = DoubleLinearField()
+    nextjointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     nmx = nextjointMidplaneAxisX
 
-    nextjointMidplaneAxisY = DoubleLinearField()
+    nextjointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     nmy = nextjointMidplaneAxisY
 
-    nextjointMidplaneAxisZ = DoubleLinearField()
+    nextjointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     nmz = nextjointMidplaneAxisZ
 
 
@@ -406,13 +406,13 @@ class NextJointMidplaneAxisAttrOperator(
 ):
     __slots__ = ()
 
-    nextjointMidplaneAxisX = DoubleLinearField()
+    nextjointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     nmx = nextjointMidplaneAxisX
 
-    nextjointMidplaneAxisY = DoubleLinearField()
+    nextjointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     nmy = nextjointMidplaneAxisY
 
-    nextjointMidplaneAxisZ = DoubleLinearField()
+    nextjointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     nmz = nextjointMidplaneAxisZ
 
 
@@ -424,13 +424,13 @@ class NextJointMidplaneAxisField(
     ATTR_CLS = NextJointMidplaneAxisAttrOperator
     PLUG_CLS = NextJointMidplaneAxisPlugOperator
 
-    nextjointMidplaneAxisX = DoubleLinearField()
+    nextjointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     nmx = nextjointMidplaneAxisX
 
-    nextjointMidplaneAxisY = DoubleLinearField()
+    nextjointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     nmy = nextjointMidplaneAxisY
 
-    nextjointMidplaneAxisZ = DoubleLinearField()
+    nextjointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     nmz = nextjointMidplaneAxisZ
 
 
@@ -444,13 +444,13 @@ class ChildJointMidplaneAxisPlugOperator(
         ("childjointMidplaneAxisZ", "cmz"),
     )
 
-    childjointMidplaneAxisX = DoubleLinearField()
+    childjointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     cmx = childjointMidplaneAxisX
 
-    childjointMidplaneAxisY = DoubleLinearField()
+    childjointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     cmy = childjointMidplaneAxisY
 
-    childjointMidplaneAxisZ = DoubleLinearField()
+    childjointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     cmz = childjointMidplaneAxisZ
 
 
@@ -459,13 +459,13 @@ class ChildJointMidplaneAxisAttrOperator(
 ):
     __slots__ = ()
 
-    childjointMidplaneAxisX = DoubleLinearField()
+    childjointMidplaneAxisX = DoubleLinearField(default_value=0.0)
     cmx = childjointMidplaneAxisX
 
-    childjointMidplaneAxisY = DoubleLinearField()
+    childjointMidplaneAxisY = DoubleLinearField(default_value=0.0)
     cmy = childjointMidplaneAxisY
 
-    childjointMidplaneAxisZ = DoubleLinearField()
+    childjointMidplaneAxisZ = DoubleLinearField(default_value=0.0)
     cmz = childjointMidplaneAxisZ
 
 
@@ -486,7 +486,7 @@ class DistanceListPlugOperator(
         ("distances", "cd"),
     )
 
-    distances = FloatField()
+    distances = FloatField(multi=True, default_value=0.0)
     cd = distances
 
 
@@ -495,7 +495,7 @@ class DistanceListAttrOperator(
 ):
     __slots__ = ()
 
-    distances = FloatField()
+    distances = FloatField(multi=True, default_value=0.0)
     cd = distances
 
 

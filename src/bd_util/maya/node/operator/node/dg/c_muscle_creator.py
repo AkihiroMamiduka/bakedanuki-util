@@ -135,7 +135,7 @@ class CMuscleCreator(DG):
     poseStretchStored = poseState.poseStretchStored
     psts = poseStretchStored
 
-    inTime = DoubleField()
+    inTime = DoubleField(default_value=0.0)
     it = inTime
 
     controlData = ControlDataField(multi=True)
@@ -150,7 +150,7 @@ class CMuscleCreator(DG):
     outNurbs = DataNurbsSurfaceField()
     onrb = outNurbs
 
-    outLength = DoubleField()
+    outLength = DoubleField(default_value=0.0)
     olen = outLength
 
     outLinearData = OutLinearDataField(multi=True)
@@ -195,7 +195,7 @@ class CMuscleCreator(DG):
     outAttachRotateZ = DoubleField()
     oarz = outAttachRotateZ
 
-    outDriven = OutDrivenField()
+    outDriven = OutDrivenField(default_value=(0.0, 0.0))
     odrvn = outDriven
     outDrivenSquash = outDriven.outDrivenSquash
     odsq = outDrivenSquash

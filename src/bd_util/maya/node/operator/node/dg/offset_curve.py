@@ -52,34 +52,34 @@ class OffsetCurve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    connectBreaks = ConnectBreaksEnumField()
+    connectBreaks = ConnectBreaksEnumField(default_value=2)
     cb = connectBreaks
 
-    reparameterize = BoolField()
+    reparameterize = BoolField(default_value=False)
     rp = reparameterize
 
-    stitch = BoolField()
+    stitch = BoolField(default_value=True)
     st = stitch
 
-    cutLoop = BoolField()
+    cutLoop = BoolField(default_value=False)
     cl = cutLoop
 
-    cutRadius = DoubleLinearField()
+    cutRadius = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=0.1)
     cr = cutRadius
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     d = distance
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.001, soft_max_value=0.5)
     tol = tolerance
 
-    subdivisionDensity = LongField()
+    subdivisionDensity = LongField(default_value=5, min_value=0, max_value=100, soft_max_value=10)
     sd = subdivisionDensity
 
-    useGivenNormal = BoolField()
+    useGivenNormal = BoolField(default_value=True)
     ugn = useGivenNormal
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 1.0, 0.0))
     nr = normal
     normalX = normal.normalX
     nrx = normalX
@@ -88,11 +88,11 @@ class OffsetCurve(DG):
     normalZ = normal.normalZ
     nrz = normalZ
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.0)
     p = parameter
 
-    useParameter = BoolField()
+    useParameter = BoolField(default_value=False)
     up = useParameter
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve

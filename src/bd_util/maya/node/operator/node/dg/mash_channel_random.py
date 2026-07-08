@@ -228,7 +228,7 @@ class MASH_ChannelRandom(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -239,21 +239,21 @@ class MASH_ChannelRandom(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -261,37 +261,37 @@ class MASH_ChannelRandom(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    startValue = FloatField()
+    startValue = FloatField(default_value=1.0)
 
-    startVector = StartVectorField()
+    startVector = StartVectorField(default_value=(0.0, 0.0, 0.0))
     startVector0 = startVector.startVector0
     startVector1 = startVector.startVector1
     startVector2 = startVector.startVector2
 
-    varianceVectorMin = VarianceVectorMinField()
+    varianceVectorMin = VarianceVectorMinField(default_value=(0.0, 0.0, 0.0))
     varianceVectorMin0 = varianceVectorMin.varianceVectorMin0
     varianceVectorMin1 = varianceVectorMin.varianceVectorMin1
     varianceVectorMin2 = varianceVectorMin.varianceVectorMin2
 
-    varianceMin = FloatField()
+    varianceMin = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    varianceVectorMax = VarianceVectorMaxField()
+    varianceVectorMax = VarianceVectorMaxField(default_value=(0.0, 0.0, 0.0))
     varianceVectorMax0 = varianceVectorMax.varianceVectorMax0
     varianceVectorMax1 = varianceVectorMax.varianceVectorMax1
     varianceVectorMax2 = varianceVectorMax.varianceVectorMax2
 
-    varianceMax = FloatField()
+    varianceMax = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    dynamicsChannelName = DynamicsChannelNameEnumField()
+    dynamicsChannelName = DynamicsChannelNameEnumField(default_value=11)
 
-    constraintChannelName = ConstraintChannelNameEnumField()
+    constraintChannelName = ConstraintChannelNameEnumField(default_value=1)

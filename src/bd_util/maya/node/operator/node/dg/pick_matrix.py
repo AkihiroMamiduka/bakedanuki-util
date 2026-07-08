@@ -12,17 +12,17 @@ class PickMatrix(DG):
     inputMatrix = MatrixField()
     imat = inputMatrix
 
-    useScale = BoolField()
+    useScale = BoolField(default_value=True)
     sca = useScale
 
-    useTranslate = BoolField()
+    useTranslate = BoolField(default_value=True)
     tra = useTranslate
 
-    useShear = BoolField()
+    useShear = BoolField(default_value=True)
     she = useShear
 
-    useRotate = BoolField()
+    useRotate = BoolField(default_value=True)
     rot = useRotate
 
-    outputMatrix = MatrixField()
+    outputMatrix = MatrixField(writable=False)
     tmat = outputMatrix

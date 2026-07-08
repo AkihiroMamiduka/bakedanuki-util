@@ -192,7 +192,7 @@ class ProximityPin(DG):
     originalGeometry = TypedField()
     orggeom = originalGeometry
 
-    normalOverride = NormalOverrideEnumField()
+    normalOverride = NormalOverrideEnumField(default_value=0)
     novr = normalOverride
 
     railCurve = TypedField()
@@ -201,35 +201,35 @@ class ProximityPin(DG):
     originalRailCurve = TypedField()
     orlcrv = originalRailCurve
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=3.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
     inputMatrix = MatrixField(multi=True)
     imat = inputMatrix
 
-    coordMode = CoordModeEnumField()
+    coordMode = CoordModeEnumField(default_value=0)
     crdm = coordMode
 
-    offsetTranslation = FloatField()
+    offsetTranslation = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ostr = offsetTranslation
 
-    offsetOrientation = FloatField()
+    offsetOrientation = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     osor = offsetOrientation
 
     uvSetName = DataStringField()
     msn = uvSetName
 
-    normalAxis = NormalAxisEnumField()
+    normalAxis = NormalAxisEnumField(default_value=0)
     nrm = normalAxis
 
-    tangentAxis = TangentAxisEnumField()
+    tangentAxis = TangentAxisEnumField(default_value=2)
     tng = tangentAxis
 
-    relativeSpaceMode = RelativeSpaceModeEnumField()
+    relativeSpaceMode = RelativeSpaceModeEnumField(default_value=0)
     rsmd = relativeSpaceMode
 
     relativeSpaceMatrix = MatrixField()
     rsmat = relativeSpaceMatrix
 
-    outputMatrix = MatrixField(multi=True)
+    outputMatrix = MatrixField(multi=True, writable=False)
     omat = outputMatrix

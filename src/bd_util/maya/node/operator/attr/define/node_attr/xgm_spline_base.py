@@ -18,13 +18,13 @@ class InitDirectionPlugOperator(
         ("initDirectionZ", "dz"),
     )
 
-    initDirectionX = FloatField()
+    initDirectionX = FloatField(default_value=0.0, writable=False)
     dx = initDirectionX
 
-    initDirectionY = FloatField()
+    initDirectionY = FloatField(default_value=0.0, writable=False)
     dy = initDirectionY
 
-    initDirectionZ = FloatField()
+    initDirectionZ = FloatField(default_value=0.0, writable=False)
     dz = initDirectionZ
 
 
@@ -33,13 +33,13 @@ class InitDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    initDirectionX = FloatField()
+    initDirectionX = FloatField(default_value=0.0, writable=False)
     dx = initDirectionX
 
-    initDirectionY = FloatField()
+    initDirectionY = FloatField(default_value=0.0, writable=False)
     dy = initDirectionY
 
-    initDirectionZ = FloatField()
+    initDirectionZ = FloatField(default_value=0.0, writable=False)
     dz = initDirectionZ
 
 
@@ -51,11 +51,11 @@ class InitDirectionField(
     ATTR_CLS = InitDirectionAttrOperator
     PLUG_CLS = InitDirectionPlugOperator
 
-    initDirectionX = FloatField()
+    initDirectionX = FloatField(default_value=0.0, writable=False)
     dx = initDirectionX
 
-    initDirectionY = FloatField()
+    initDirectionY = FloatField(default_value=0.0, writable=False)
     dy = initDirectionY
 
-    initDirectionZ = FloatField()
+    initDirectionZ = FloatField(default_value=0.0, writable=False)
     dz = initDirectionZ

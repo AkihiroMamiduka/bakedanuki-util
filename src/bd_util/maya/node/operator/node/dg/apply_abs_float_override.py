@@ -9,14 +9,14 @@ class ApplyAbsFloatOverride(DG):
 
     NODE_TYPE = "applyAbsFloatOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = FloatField()
+    out = FloatField(default_value=0.0, writable=False)
     o = out
 
-    original = FloatField()
+    original = FloatField(default_value=0.0, readable=False)
     ori = original
 
-    value = FloatField()
+    value = FloatField(default_value=0.0, readable=False)
     val = value

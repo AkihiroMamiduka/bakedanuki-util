@@ -119,16 +119,16 @@ class AnimBlendNodeAdditiveRotation(DG):
 
     NODE_TYPE = "animBlendNodeAdditiveRotation"
 
-    weightA = DoubleField()
+    weightA = DoubleField(default_value=1.0)
     wa = weightA
 
-    weightB = DoubleField()
+    weightB = DoubleField(default_value=1.0)
     wb = weightB
 
     destinationPlug = DataStringField(multi=True)
     dp = destinationPlug
 
-    inputA = InputAField()
+    inputA = InputAField(default_value=(0.0, 0.0, 0.0))
     ia = inputA
     inputAX = inputA.inputAX
     iax = inputAX
@@ -137,7 +137,7 @@ class AnimBlendNodeAdditiveRotation(DG):
     inputAZ = inputA.inputAZ
     iaz = inputAZ
 
-    inputB = InputBField()
+    inputB = InputBField(default_value=(0.0, 0.0, 0.0))
     ib = inputB
     inputBX = inputB.inputBX
     ibx = inputBX
@@ -146,19 +146,19 @@ class AnimBlendNodeAdditiveRotation(DG):
     inputBZ = inputB.inputBZ
     ibz = inputBZ
 
-    accumulationMode = AccumulationModeEnumField()
+    accumulationMode = AccumulationModeEnumField(default_value=0)
     acm = accumulationMode
 
-    byLayerAccLegacyMode = BoolField()
+    byLayerAccLegacyMode = BoolField(default_value=False)
     bllm = byLayerAccLegacyMode
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder
 
-    rotationInterpolation = RotationInterpolationEnumField()
+    rotationInterpolation = RotationInterpolationEnumField(default_value=0)
     ri = rotationInterpolation
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0))
     o = output
     outputX = output.outputX
     ox = outputX

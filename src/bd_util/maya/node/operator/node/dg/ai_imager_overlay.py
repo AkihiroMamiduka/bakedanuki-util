@@ -83,11 +83,11 @@ class AiImagerOverlay(DG):
 
     NODE_TYPE = "aiImagerOverlay"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
     input = MessageField()
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
@@ -97,31 +97,31 @@ class AiImagerOverlay(DG):
 
     text = DataStringField()
 
-    valign = ValignEnumField()
+    valign = ValignEnumField(default_value=2)
 
-    halign = HalignEnumField()
+    halign = HalignEnumField(default_value=0)
 
-    marginLeft = LongField()
+    marginLeft = LongField(default_value=20, min_value=0, soft_max_value=100)
     margin_left = marginLeft
 
-    marginRight = LongField()
+    marginRight = LongField(default_value=20, min_value=0, soft_max_value=100)
     margin_right = marginRight
 
-    marginTop = LongField()
+    marginTop = LongField(default_value=20, min_value=0, soft_max_value=100)
     margin_top = marginTop
 
-    marginBottom = LongField()
+    marginBottom = LongField(default_value=20, min_value=0, soft_max_value=100)
     margin_bottom = marginBottom
 
     font = DataStringField()
 
-    fontSize = LongField()
+    fontSize = LongField(default_value=24, min_value=0, soft_max_value=100)
     font_size = fontSize
 
-    adjustFontSize = BoolField()
+    adjustFontSize = BoolField(default_value=True)
     adjust_font_size = adjustFontSize
 
-    fontColor = FontColorField()
+    fontColor = FontColorField(default_value=(1.0, 1.0, 1.0))
     font_color = fontColor
     fontColorR = fontColor.fontColorR
     font_colorr = fontColorR
@@ -130,10 +130,10 @@ class AiImagerOverlay(DG):
     fontColorB = fontColor.fontColorB
     font_colorb = fontColorB
 
-    backgroundOpacity = FloatField()
+    backgroundOpacity = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
     background_opacity = backgroundOpacity
 
-    backgroundColor = BackgroundColorField()
+    backgroundColor = BackgroundColorField(default_value=(0.05000000074505806, 0.05000000074505806, 0.05000000074505806))
     background_color = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     background_colorr = backgroundColorR
@@ -142,8 +142,8 @@ class AiImagerOverlay(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     background_colorb = backgroundColorB
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    customTokens = DataStringField()
+    customTokens = DataStringField(category="arnold")
     cusTok = customTokens

@@ -8,14 +8,14 @@ class ApplyAbsBoolOverride(DG):
 
     NODE_TYPE = "applyAbsBoolOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = BoolField()
+    out = BoolField(default_value=False, writable=False)
     o = out
 
-    original = BoolField()
+    original = BoolField(default_value=False, readable=False)
     ori = original
 
-    value = BoolField()
+    value = BoolField(default_value=False, readable=False)
     val = value

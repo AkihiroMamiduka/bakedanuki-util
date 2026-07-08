@@ -53,14 +53,14 @@ class PolyDisc(DG):
 
     NODE_TYPE = "polyDisc"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
 
-    sides = LongField()
+    sides = LongField(default_value=3, min_value=3, soft_max_value=16)
 
-    subdivisionMode = SubdivisionModeEnumField()
+    subdivisionMode = SubdivisionModeEnumField(default_value=4)
 
-    subdivisions = LongField()
+    subdivisions = LongField(default_value=3, min_value=0, soft_max_value=6)
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
 
-    heightBaseline = FloatField()
+    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)

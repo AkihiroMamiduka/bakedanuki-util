@@ -57,7 +57,7 @@ class MakeNurbCube(DG):
 
     NODE_TYPE = "makeNurbCube"
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -66,7 +66,7 @@ class MakeNurbCube(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    axis = AxisField()
+    axis = AxisField(default_value=(1.0, 0.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -75,38 +75,38 @@ class MakeNurbCube(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    width = DoubleLinearField()
+    width = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     w = width
 
-    lengthRatio = DoubleField()
+    lengthRatio = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     lr = lengthRatio
 
-    heightRatio = DoubleField()
+    heightRatio = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     hr = heightRatio
 
-    patchesU = LongField()
+    patchesU = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
     u = patchesU
 
-    patchesV = LongField()
+    patchesV = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
     v = patchesV
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    outputSurface1 = DataNurbsSurfaceField()
+    outputSurface1 = DataNurbsSurfaceField(writable=False)
     os1 = outputSurface1
 
-    outputSurface2 = DataNurbsSurfaceField()
+    outputSurface2 = DataNurbsSurfaceField(writable=False)
     os2 = outputSurface2
 
-    outputSurface3 = DataNurbsSurfaceField()
+    outputSurface3 = DataNurbsSurfaceField(writable=False)
     os3 = outputSurface3
 
-    outputSurface4 = DataNurbsSurfaceField()
+    outputSurface4 = DataNurbsSurfaceField(writable=False)
     os4 = outputSurface4
 
-    outputSurface5 = DataNurbsSurfaceField()
+    outputSurface5 = DataNurbsSurfaceField(writable=False)
     os5 = outputSurface5

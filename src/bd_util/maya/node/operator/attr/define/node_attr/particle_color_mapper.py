@@ -18,13 +18,13 @@ class ParticleColorPlugOperator(
         ("particleColorB", "pcb"),
     )
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0)
     pcb = particleColorB
 
 
@@ -33,13 +33,13 @@ class ParticleColorAttrOperator(
 ):
     __slots__ = ()
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0)
     pcb = particleColorB
 
 
@@ -51,11 +51,11 @@ class ParticleColorField(
     ATTR_CLS = ParticleColorAttrOperator
     PLUG_CLS = ParticleColorPlugOperator
 
-    particleColorR = FloatField()
+    particleColorR = FloatField(default_value=0.0)
     pcr = particleColorR
 
-    particleColorG = FloatField()
+    particleColorG = FloatField(default_value=0.0)
     pcg = particleColorG
 
-    particleColorB = FloatField()
+    particleColorB = FloatField(default_value=0.0)
     pcb = particleColorB

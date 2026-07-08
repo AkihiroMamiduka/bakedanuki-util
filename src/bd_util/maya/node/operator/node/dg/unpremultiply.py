@@ -12,7 +12,7 @@ class Unpremultiply(DG):
 
     NODE_TYPE = "unpremultiply"
 
-    inColor = InColorField()
+    inColor = InColorField(default_value=(1.0, 0.0, 0.5))
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR
@@ -21,10 +21,10 @@ class Unpremultiply(DG):
     inColorB = inColor.inColorB
     cb = inColorB
 
-    inAlpha = FloatField()
+    inAlpha = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     a = inAlpha
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -33,5 +33,5 @@ class Unpremultiply(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

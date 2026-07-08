@@ -8,14 +8,14 @@ class SmoothStep(DG):
 
     NODE_TYPE = "smoothStep"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    leftEdge = DoubleLinearField()
+    leftEdge = DoubleLinearField(default_value=0.0)
     le = leftEdge
 
-    rightEdge = DoubleLinearField()
+    rightEdge = DoubleLinearField(default_value=1.0)
     re = rightEdge
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

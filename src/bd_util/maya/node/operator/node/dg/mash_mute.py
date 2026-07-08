@@ -94,7 +94,7 @@ class MASH_Mute(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -105,21 +105,21 @@ class MASH_Mute(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -127,9 +127,9 @@ class MASH_Mute(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -152,51 +152,51 @@ class MASH_Mute(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    envelopeRamp = EnvelopeRampField(multi=True)
+    envelopeRamp = EnvelopeRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    noiseEnvelope = FloatField()
+    noiseEnvelope = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    noiseEnvelopeScale = FloatField()
+    noiseEnvelopeScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    EnvelopeX = FloatField()
+    EnvelopeX = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     envX = EnvelopeX
 
-    EnvelopeY = FloatField()
+    EnvelopeY = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     envY = EnvelopeY
 
-    EnvelopeZ = FloatField()
+    EnvelopeZ = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     envZ = EnvelopeZ
 
-    randEnvelopeX = FloatField()
+    randEnvelopeX = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     raEnX = randEnvelopeX
 
-    randEnvelopeY = FloatField()
+    randEnvelopeY = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     raEnY = randEnvelopeY
 
-    randEnvelopeZ = FloatField()
+    randEnvelopeZ = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     raEnZ = randEnvelopeZ
 
-    StepEnvelopeX = FloatField()
+    StepEnvelopeX = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     StEnvX = StepEnvelopeX
 
-    StepEnvelopeY = FloatField()
+    StepEnvelopeY = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     StEnvY = StepEnvelopeY
 
-    StepEnvelopeZ = FloatField()
+    StepEnvelopeZ = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     StEnvZ = StepEnvelopeZ
 
-    lifespan = FloatField()
+    lifespan = FloatField(default_value=1.0, min_value=0.01, soft_max_value=10.0)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -205,53 +205,53 @@ class MASH_Mute(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
-    reverse = BoolField()
+    reverse = BoolField(default_value=False)
 
-    persistentFalloff = BoolField()
+    persistentFalloff = BoolField(default_value=False)
 
-    loopBeat = BoolField()
+    loopBeat = BoolField(default_value=True)
 
-    useStrengthGraph = BoolField()
+    useStrengthGraph = BoolField(default_value=False)
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    beatRamp = BeatRampField(multi=True)
+    beatRamp = BeatRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    muteRamp = MuteRampField(multi=True)
+    muteRamp = MuteRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    beatFrame = LongField()
+    beatFrame = LongField(default_value=25, min_value=1, soft_max_value=30)
 
-    timeStagger = LongField()
+    timeStagger = LongField(default_value=0, min_value=0, soft_max_value=30)
 
-    rampXStrength = FloatField()
+    rampXStrength = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    rampYStrength = FloatField()
+    rampYStrength = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    rampZStrength = FloatField()
+    rampZStrength = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    enableX = BoolField()
+    enableX = BoolField(default_value=True)
 
-    enableY = BoolField()
+    enableY = BoolField(default_value=True)
 
-    enableZ = BoolField()
+    enableZ = BoolField(default_value=True)
 
-    maxVelocity = FloatField()
+    maxVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
 
-    velocityStrength = FloatField()
+    velocityStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    velocityRamp = VelocityRampField(multi=True)
+    velocityRamp = VelocityRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    uniformVelocity = BoolField()
+    uniformVelocity = BoolField(default_value=True)
 
     falloffInfo = TypedField()
 

@@ -17,17 +17,17 @@ class CacheBlend(DG):
     outCacheData = GenericField(multi=True)
     ocd = outCacheData
 
-    outCacheArrayData = TypedField()
+    outCacheArrayData = TypedField(writable=False)
     ocad = outCacheArrayData
 
-    inRange = BoolField()
+    inRange = BoolField(default_value=True, writable=False)
     ir = inRange
 
     inCache = InCacheField(multi=True)
     ic = inCache
 
-    disableAll = BoolField()
+    disableAll = BoolField(default_value=False)
     da = disableAll
 
-    cacheData = CacheDataField(multi=True)
+    cacheData = CacheDataField(multi=True, default_value=(0.0, 0.0, 0.0, 1.0))
     cd = cacheData

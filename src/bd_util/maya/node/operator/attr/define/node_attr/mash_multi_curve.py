@@ -18,13 +18,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -33,13 +33,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -51,13 +51,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -71,13 +71,13 @@ class PointLocationPlugOperator(
         ("pointLocation2", "pointLoc2"),
     )
 
-    pointLocation0 = FloatField()
+    pointLocation0 = FloatField(default_value=0.0)
     pointLoc0 = pointLocation0
 
-    pointLocation1 = FloatField()
+    pointLocation1 = FloatField(default_value=0.0)
     pointLoc1 = pointLocation1
 
-    pointLocation2 = FloatField()
+    pointLocation2 = FloatField(default_value=0.0)
     pointLoc2 = pointLocation2
 
 
@@ -86,13 +86,13 @@ class PointLocationAttrOperator(
 ):
     __slots__ = ()
 
-    pointLocation0 = FloatField()
+    pointLocation0 = FloatField(default_value=0.0)
     pointLoc0 = pointLocation0
 
-    pointLocation1 = FloatField()
+    pointLocation1 = FloatField(default_value=0.0)
     pointLoc1 = pointLocation1
 
-    pointLocation2 = FloatField()
+    pointLocation2 = FloatField(default_value=0.0)
     pointLoc2 = pointLocation2
 
 
@@ -104,11 +104,11 @@ class PointLocationField(
     ATTR_CLS = PointLocationAttrOperator
     PLUG_CLS = PointLocationPlugOperator
 
-    pointLocation0 = FloatField()
+    pointLocation0 = FloatField(default_value=0.0)
     pointLoc0 = pointLocation0
 
-    pointLocation1 = FloatField()
+    pointLocation1 = FloatField(default_value=0.0)
     pointLoc1 = pointLocation1
 
-    pointLocation2 = FloatField()
+    pointLocation2 = FloatField(default_value=0.0)
     pointLoc2 = pointLocation2

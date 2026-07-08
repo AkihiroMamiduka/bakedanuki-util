@@ -24,13 +24,13 @@ class UpPlugOperator(
         ("upZ", "uz"),
     )
 
-    upX = DoubleField()
+    upX = DoubleField(default_value=0.0)
     ux = upX
 
-    upY = DoubleField()
+    upY = DoubleField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleField()
+    upZ = DoubleField(default_value=0.0)
     uz = upZ
 
 
@@ -39,13 +39,13 @@ class UpAttrOperator(
 ):
     __slots__ = ()
 
-    upX = DoubleField()
+    upX = DoubleField(default_value=0.0)
     ux = upX
 
-    upY = DoubleField()
+    upY = DoubleField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleField()
+    upZ = DoubleField(default_value=0.0)
     uz = upZ
 
 
@@ -57,13 +57,13 @@ class UpField(
     ATTR_CLS = UpAttrOperator
     PLUG_CLS = UpPlugOperator
 
-    upX = DoubleField()
+    upX = DoubleField(default_value=0.0)
     ux = upX
 
-    upY = DoubleField()
+    upY = DoubleField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleField()
+    upZ = DoubleField(default_value=0.0)
     uz = upZ
 
 
@@ -77,13 +77,13 @@ class ForwardPlugOperator(
         ("forwardZ", "fz"),
     )
 
-    forwardX = DoubleField()
+    forwardX = DoubleField(default_value=0.0)
     fx = forwardX
 
-    forwardY = DoubleField()
+    forwardY = DoubleField(default_value=0.0)
     fy = forwardY
 
-    forwardZ = DoubleField()
+    forwardZ = DoubleField(default_value=1.0)
     fz = forwardZ
 
 
@@ -92,13 +92,13 @@ class ForwardAttrOperator(
 ):
     __slots__ = ()
 
-    forwardX = DoubleField()
+    forwardX = DoubleField(default_value=0.0)
     fx = forwardX
 
-    forwardY = DoubleField()
+    forwardY = DoubleField(default_value=0.0)
     fy = forwardY
 
-    forwardZ = DoubleField()
+    forwardZ = DoubleField(default_value=1.0)
     fz = forwardZ
 
 
@@ -110,13 +110,13 @@ class ForwardField(
     ATTR_CLS = ForwardAttrOperator
     PLUG_CLS = ForwardPlugOperator
 
-    forwardX = DoubleField()
+    forwardX = DoubleField(default_value=0.0)
     fx = forwardX
 
-    forwardY = DoubleField()
+    forwardY = DoubleField(default_value=0.0)
     fy = forwardY
 
-    forwardZ = DoubleField()
+    forwardZ = DoubleField(default_value=1.0)
     fz = forwardZ
 
 
@@ -130,13 +130,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -145,13 +145,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -163,11 +163,11 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ

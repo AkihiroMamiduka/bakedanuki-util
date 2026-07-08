@@ -104,16 +104,16 @@ class ParticleSamplerInfo(DG):
 
     NODE_TYPE = "particleSamplerInfo"
 
-    particleAttrArray = AddrField()
+    particleAttrArray = AddrField(default_value=0.0, readable=False)
     paa = particleAttrArray
 
-    particleOrder = LongField()
+    particleOrder = LongField(default_value=0, readable=False)
     podr = particleOrder
 
-    objectType = CharField()
+    objectType = CharField(default_value=4, min_value=0, max_value=255, readable=False)
     otyp = objectType
 
-    particleColor = ParticleColorField()
+    particleColor = ParticleColorField(default_value=(0.0, 0.0, 0.0), readable=False)
     pc = particleColor
     particleColorR = particleColor.particleColorR
     pcr = particleColorR
@@ -122,7 +122,7 @@ class ParticleSamplerInfo(DG):
     particleColorB = particleColor.particleColorB
     pcb = particleColorB
 
-    particleTransparency = ParticleTransparencyField()
+    particleTransparency = ParticleTransparencyField(default_value=(0.0, 0.0, 0.0), readable=False)
     pt = particleTransparency
     particleTransparencyR = particleTransparency.particleTransparencyR
     ptr = particleTransparencyR
@@ -131,7 +131,7 @@ class ParticleSamplerInfo(DG):
     particleTransparencyB = particleTransparency.particleTransparencyB
     ptb = particleTransparencyB
 
-    particleIncandescence = ParticleIncandescenceField()
+    particleIncandescence = ParticleIncandescenceField(default_value=(0.0, 0.0, 0.0), readable=False)
     pi = particleIncandescence
     particleIncandescenceR = particleIncandescence.particleIncandescenceR
     pir = particleIncandescenceR
@@ -140,32 +140,32 @@ class ParticleSamplerInfo(DG):
     particleIncandescenceB = particleIncandescence.particleIncandescenceB
     pib = particleIncandescenceB
 
-    particleAge = FloatField()
+    particleAge = FloatField(default_value=0.0, readable=False)
     pa = particleAge
 
-    particleLifespan = FloatField()
+    particleLifespan = FloatField(default_value=0.0, readable=False)
     pls = particleLifespan
 
-    outUvCoord = OutUvCoordField()
+    outUvCoord = OutUvCoordField(default_value=(0.5, 0.5), writable=False)
     ouv = outUvCoord
     outUCoord = outUvCoord.outUCoord
     ouc = outUCoord
     outVCoord = outUvCoord.outVCoord
     ovc = outVCoord
 
-    outUvType = OutUvTypeEnumField()
+    outUvType = OutUvTypeEnumField(default_value=0)
     ouvt = outUvType
 
-    normalizationValue = FloatField()
+    normalizationValue = FloatField(default_value=1.0, min_value=-3.4028234663852886e+38)
     nlv = normalizationValue
 
-    normalizationMethod = NormalizationMethodEnumField()
+    normalizationMethod = NormalizationMethodEnumField(default_value=0)
     nlm = normalizationMethod
 
-    inverseOutUv = BoolField()
+    inverseOutUv = BoolField(default_value=False)
     iouv = inverseOutUv
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -174,7 +174,7 @@ class ParticleSamplerInfo(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -183,7 +183,7 @@ class ParticleSamplerInfo(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outIncandescence = OutIncandescenceField()
+    outIncandescence = OutIncandescenceField(default_value=(0.0, 0.0, 0.0), writable=False)
     oi = outIncandescence
     outIncandescenceR = outIncandescence.outIncandescenceR
     oicr = outIncandescenceR
@@ -192,25 +192,25 @@ class ParticleSamplerInfo(DG):
     outIncandescenceB = outIncandescence.outIncandescenceB
     oicb = outIncandescenceB
 
-    finalLifespanPP = FloatField()
+    finalLifespanPP = FloatField(default_value=1.0, writable=False)
     flp = finalLifespanPP
 
-    ageNormalized = FloatField()
+    ageNormalized = FloatField(default_value=0.5, writable=False)
     anl = ageNormalized
 
-    particleId = LongField()
+    particleId = LongField(default_value=0, writable=False)
     pid = particleId
 
-    age = FloatField()
+    age = FloatField(default_value=0.5, writable=False)
     ag = age
 
-    lifespan = FloatField()
+    lifespan = FloatField(default_value=0.5, writable=False)
     lsp = lifespan
 
-    lifespanPP = FloatField()
+    lifespanPP = FloatField(default_value=0.5, writable=False)
     lpp = lifespanPP
 
-    acceleration = AccelerationField()
+    acceleration = AccelerationField(default_value=(0.5, 0.5, 0.5), writable=False)
     acc = acceleration
     accelerationX = acceleration.accelerationX
     accx = accelerationX
@@ -219,10 +219,10 @@ class ParticleSamplerInfo(DG):
     accelerationZ = acceleration.accelerationZ
     accz = accelerationZ
 
-    birthTime = FloatField()
+    birthTime = FloatField(default_value=0.5, writable=False)
     bt = birthTime
 
-    force = ForceField()
+    force = ForceField(default_value=(0.5, 0.5, 0.5), writable=False)
     frc = force
     forceX = force.forceX
     frx = forceX
@@ -231,7 +231,7 @@ class ParticleSamplerInfo(DG):
     forceZ = force.forceZ
     frz = forceZ
 
-    position = PositionField()
+    position = PositionField(default_value=(0.5, 0.5, 0.5), writable=False)
     pos = position
     positionX = position.positionX
     posx = positionX
@@ -240,7 +240,7 @@ class ParticleSamplerInfo(DG):
     positionZ = position.positionZ
     posz = positionZ
 
-    birthPosition = BirthPositionField()
+    birthPosition = BirthPositionField(default_value=(0.5, 0.5, 0.5), writable=False)
     bpos = birthPosition
     birthPositionX = birthPosition.birthPositionX
     bpox = birthPositionX
@@ -249,7 +249,7 @@ class ParticleSamplerInfo(DG):
     birthPositionZ = birthPosition.birthPositionZ
     bpoz = birthPositionZ
 
-    birthWorldPosition = BirthWorldPositionField()
+    birthWorldPosition = BirthWorldPositionField(default_value=(0.5, 0.5, 0.5), writable=False)
     bwpo = birthWorldPosition
     birthWorldPositionX = birthWorldPosition.birthWorldPositionX
     bwpx = birthWorldPositionX
@@ -258,7 +258,7 @@ class ParticleSamplerInfo(DG):
     birthWorldPositionZ = birthWorldPosition.birthWorldPositionZ
     bwpz = birthWorldPositionZ
 
-    velocity = VelocityField()
+    velocity = VelocityField(default_value=(0.5, 0.5, 0.5), writable=False)
     vel = velocity
     velocityX = velocity.velocityX
     velx = velocityX
@@ -267,7 +267,7 @@ class ParticleSamplerInfo(DG):
     velocityZ = velocity.velocityZ
     velz = velocityZ
 
-    worldPosition = WorldPositionField()
+    worldPosition = WorldPositionField(default_value=(0.5, 0.5, 0.5), writable=False)
     wps = worldPosition
     worldPositionX = worldPosition.worldPositionX
     wpsx = worldPositionX
@@ -276,7 +276,7 @@ class ParticleSamplerInfo(DG):
     worldPositionZ = worldPosition.worldPositionZ
     wpsz = worldPositionZ
 
-    worldVelocity = WorldVelocityField()
+    worldVelocity = WorldVelocityField(default_value=(0.5, 0.5, 0.5), writable=False)
     wvl = worldVelocity
     worldVelocityX = worldVelocity.worldVelocityX
     wvlx = worldVelocityX
@@ -285,28 +285,28 @@ class ParticleSamplerInfo(DG):
     worldVelocityZ = worldVelocity.worldVelocityZ
     wvlz = worldVelocityZ
 
-    parentU = FloatField()
+    parentU = FloatField(default_value=0.5, writable=False)
     pau = parentU
 
-    parentV = FloatField()
+    parentV = FloatField(default_value=0.5, writable=False)
     pav = parentV
 
-    collisionU = FloatField()
+    collisionU = FloatField(default_value=0.5, writable=False)
     clu = collisionU
 
-    collisionV = FloatField()
+    collisionV = FloatField(default_value=0.5, writable=False)
     clv = collisionV
 
-    colorRed = FloatField()
+    colorRed = FloatField(default_value=0.5, writable=False)
     cr = colorRed
 
-    colorGreen = FloatField()
+    colorGreen = FloatField(default_value=0.5, writable=False)
     cg = colorGreen
 
-    colorBlue = FloatField()
+    colorBlue = FloatField(default_value=0.5, writable=False)
     cb = colorBlue
 
-    rgbPP = RgbPPField()
+    rgbPP = RgbPPField(default_value=(0.5, 0.5, 0.5), writable=False)
     rgb = rgbPP
     rPP = rgbPP.rPP
     rpp = rPP
@@ -315,7 +315,7 @@ class ParticleSamplerInfo(DG):
     bPP = rgbPP.bPP
     bpp = bPP
 
-    incandescencePP = IncandescencePPField()
+    incandescencePP = IncandescencePPField(default_value=(0.5, 0.5, 0.5), writable=False)
     oipp = incandescencePP
     incandescencePPR = incandescencePP.incandescencePPR
     ippr = incandescencePPR
@@ -324,7 +324,7 @@ class ParticleSamplerInfo(DG):
     incandescencePPB = incandescencePP.incandescencePPB
     ippb = incandescencePPB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.5, 0.5, 0.5), writable=False)
     in_ = incandescence
     incandescenceR = incandescence.incandescenceR
     inr = incandescenceR
@@ -333,34 +333,34 @@ class ParticleSamplerInfo(DG):
     incandescenceB = incandescence.incandescenceB
     inb = incandescenceB
 
-    opacity = FloatField()
+    opacity = FloatField(default_value=0.5, writable=False)
     op = opacity
 
-    opacityPP = FloatField()
+    opacityPP = FloatField(default_value=0.5, writable=False)
     opp = opacityPP
 
-    radius = FloatField()
+    radius = FloatField(default_value=1.0, writable=False)
     rds = radius
 
-    radiusPP = FloatField()
+    radiusPP = FloatField(default_value=1.0, writable=False)
     rdp = radiusPP
 
-    userScalar1PP = FloatField()
+    userScalar1PP = FloatField(default_value=0.0, writable=False)
     uds1 = userScalar1PP
 
-    userScalar2PP = FloatField()
+    userScalar2PP = FloatField(default_value=0.0, writable=False)
     uds2 = userScalar2PP
 
-    userScalar3PP = FloatField()
+    userScalar3PP = FloatField(default_value=0.0, writable=False)
     uds3 = userScalar3PP
 
-    userScalar4PP = FloatField()
+    userScalar4PP = FloatField(default_value=0.0, writable=False)
     uds4 = userScalar4PP
 
-    userScalar5PP = FloatField()
+    userScalar5PP = FloatField(default_value=0.0, writable=False)
     uds5 = userScalar5PP
 
-    userVector1PP = UserVector1PPField()
+    userVector1PP = UserVector1PPField(default_value=(0.0, 0.0, 0.0), writable=False)
     udv1 = userVector1PP
     userVector1PPX = userVector1PP.userVector1PPX
     uv1x = userVector1PPX
@@ -369,7 +369,7 @@ class ParticleSamplerInfo(DG):
     userVector1PPZ = userVector1PP.userVector1PPZ
     uv1z = userVector1PPZ
 
-    userVector2PP = UserVector2PPField()
+    userVector2PP = UserVector2PPField(default_value=(0.0, 0.0, 0.0), writable=False)
     udv2 = userVector2PP
     userVector2PPX = userVector2PP.userVector2PPX
     uv2x = userVector2PPX
@@ -378,7 +378,7 @@ class ParticleSamplerInfo(DG):
     userVector2PPZ = userVector2PP.userVector2PPZ
     uv2z = userVector2PPZ
 
-    userVector3PP = UserVector3PPField()
+    userVector3PP = UserVector3PPField(default_value=(0.0, 0.0, 0.0), writable=False)
     udv3 = userVector3PP
     userVector3PPX = userVector3PP.userVector3PPX
     uv3x = userVector3PPX
@@ -387,7 +387,7 @@ class ParticleSamplerInfo(DG):
     userVector3PPZ = userVector3PP.userVector3PPZ
     uv3z = userVector3PPZ
 
-    userVector4PP = UserVector4PPField()
+    userVector4PP = UserVector4PPField(default_value=(0.0, 0.0, 0.0), writable=False)
     udv4 = userVector4PP
     userVector4PPX = userVector4PP.userVector4PPX
     uv4x = userVector4PPX
@@ -396,7 +396,7 @@ class ParticleSamplerInfo(DG):
     userVector4PPZ = userVector4PP.userVector4PPZ
     uv4z = userVector4PPZ
 
-    userVector5PP = UserVector5PPField()
+    userVector5PP = UserVector5PPField(default_value=(0.0, 0.0, 0.0), writable=False)
     udv5 = userVector5PP
     userVector5PPX = userVector5PP.userVector5PPX
     uv5x = userVector5PPX

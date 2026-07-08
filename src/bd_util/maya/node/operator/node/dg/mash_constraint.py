@@ -386,7 +386,7 @@ class MASH_Constraint(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -397,21 +397,21 @@ class MASH_Constraint(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -419,64 +419,64 @@ class MASH_Constraint(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    connectionColour = ConnectionColourField()
+    connectionColour = ConnectionColourField(default_value=(1.0, 1.0, 1.0))
     connectionColorRed = connectionColour.connectionColorRed
     connectionColorGreen = connectionColour.connectionColorGreen
     connectionColorBlue = connectionColour.connectionColorBlue
 
     connectionMapMatrix = MatrixField()
 
-    connectionMapDirection = ConnectionMapDirectionEnumField()
+    connectionMapDirection = ConnectionMapDirectionEnumField(default_value=2)
 
-    connectionColorThreshold = FloatField()
+    connectionColorThreshold = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
 
     dynamicsPP = TypedField(multi=True)
 
-    constraintEnable = BoolField()
+    constraintEnable = BoolField(default_value=True)
 
-    continuousCreation = BoolField()
+    continuousCreation = BoolField(default_value=True)
 
-    constraintBreakable = BoolField()
+    constraintBreakable = BoolField(default_value=False)
 
-    constraintMaxCount = LongField()
+    constraintMaxCount = LongField(default_value=5)
 
-    constraintDistance = FloatField()
+    constraintDistance = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
 
-    constraintThreshold = FloatField()
+    constraintThreshold = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
 
-    constrainSpringPositiontStiffness = FloatField()
+    constrainSpringPositiontStiffness = FloatField(default_value=20.0, min_value=0.0, soft_max_value=200.0)
 
-    constraintSpringPositionDamping = FloatField()
+    constraintSpringPositionDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=200.0)
 
-    constrainSpringAngularStiffness = FloatField()
+    constrainSpringAngularStiffness = FloatField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
 
-    constraintSpringAngularDamping = FloatField()
+    constraintSpringAngularDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=100.0)
 
-    springRestLength = FloatField()
+    springRestLength = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    springRange = FloatField()
+    springRange = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    linearSpringEnabledX = BoolField()
+    linearSpringEnabledX = BoolField(default_value=False)
 
-    linearSpringEnabledY = BoolField()
+    linearSpringEnabledY = BoolField(default_value=True)
 
-    linearSpringEnabledZ = BoolField()
+    linearSpringEnabledZ = BoolField(default_value=False)
 
-    angularSpringEnabledX = BoolField()
+    angularSpringEnabledX = BoolField(default_value=True)
 
-    angularSpringEnabledY = BoolField()
+    angularSpringEnabledY = BoolField(default_value=False)
 
-    angularSpringEnabledZ = BoolField()
+    angularSpringEnabledZ = BoolField(default_value=True)
 
-    linearMotorEnabled = BoolField()
+    linearMotorEnabled = BoolField(default_value=False)
 
-    linearMotorTargetSpeed = LinearMotorTargetSpeedField()
+    linearMotorTargetSpeed = LinearMotorTargetSpeedField(default_value=(0.0, 0.0, 0.0))
     linearMotorTargetSpeedX = linearMotorTargetSpeed.linearMotorTargetSpeedX
     linearMotorTargetSpeedx = linearMotorTargetSpeedX
     linearMotorTargetSpeedY = linearMotorTargetSpeed.linearMotorTargetSpeedY
@@ -484,7 +484,7 @@ class MASH_Constraint(DG):
     linearMotorTargetSpeedZ = linearMotorTargetSpeed.linearMotorTargetSpeedZ
     linearMotorTargetSpeedz = linearMotorTargetSpeedZ
 
-    linearMotorMaxForce = LinearMotorMaxForceField()
+    linearMotorMaxForce = LinearMotorMaxForceField(default_value=(10.0, 10.0, 10.0))
     linearMotorMaxForceX = linearMotorMaxForce.linearMotorMaxForceX
     linearMotorMaxForcex = linearMotorMaxForceX
     linearMotorMaxForceY = linearMotorMaxForce.linearMotorMaxForceY
@@ -492,9 +492,9 @@ class MASH_Constraint(DG):
     linearMotorMaxForceZ = linearMotorMaxForce.linearMotorMaxForceZ
     linearMotorMaxForcez = linearMotorMaxForceZ
 
-    angularMotorEnabled = BoolField()
+    angularMotorEnabled = BoolField(default_value=False)
 
-    angularMotorTargetSpeed = AngularMotorTargetSpeedField()
+    angularMotorTargetSpeed = AngularMotorTargetSpeedField(default_value=(0.0, 0.0, 0.0))
     angularMotorTargetSpeedX = angularMotorTargetSpeed.angularMotorTargetSpeedX
     angularMotorTargetSpeedx = angularMotorTargetSpeedX
     angularMotorTargetSpeedY = angularMotorTargetSpeed.angularMotorTargetSpeedY
@@ -502,7 +502,7 @@ class MASH_Constraint(DG):
     angularMotorTargetSpeedZ = angularMotorTargetSpeed.angularMotorTargetSpeedZ
     angularMotorTargetSpeedz = angularMotorTargetSpeedZ
 
-    angularMotorMaxForce = AngularMotorMaxForceField()
+    angularMotorMaxForce = AngularMotorMaxForceField(default_value=(10.0, 10.0, 10.0))
     angularMotorMaxForceX = angularMotorMaxForce.angularMotorMaxForceX
     angularMotorMaxForcex = angularMotorMaxForceX
     angularMotorMaxForceY = angularMotorMaxForce.angularMotorMaxForceY
@@ -510,7 +510,7 @@ class MASH_Constraint(DG):
     angularMotorMaxForceZ = angularMotorMaxForce.angularMotorMaxForceZ
     angularMotorMaxForcez = angularMotorMaxForceZ
 
-    constraintMinimumPositionLimit = ConstraintMinimumPositionLimitField()
+    constraintMinimumPositionLimit = ConstraintMinimumPositionLimitField(default_value=(0.0, 0.0, 0.0))
     constraintMinimumPositionLimitX = constraintMinimumPositionLimit.constraintMinimumPositionLimitX
     constraintMinimumPositionLimitx = constraintMinimumPositionLimitX
     constraintMinimumPositionLimitY = constraintMinimumPositionLimit.constraintMinimumPositionLimitY
@@ -518,7 +518,7 @@ class MASH_Constraint(DG):
     constraintMinimumPositionLimitZ = constraintMinimumPositionLimit.constraintMinimumPositionLimitZ
     constraintMinimumPositionLimitz = constraintMinimumPositionLimitZ
 
-    constraintMaximumPositionLimit = ConstraintMaximumPositionLimitField()
+    constraintMaximumPositionLimit = ConstraintMaximumPositionLimitField(default_value=(0.0, 0.0, 0.0))
     constraintMaximumPositionLimitX = constraintMaximumPositionLimit.constraintMaximumPositionLimitX
     constraintMaximumPositionLimitx = constraintMaximumPositionLimitX
     constraintMaximumPositionLimitY = constraintMaximumPositionLimit.constraintMaximumPositionLimitY
@@ -526,7 +526,7 @@ class MASH_Constraint(DG):
     constraintMaximumPositionLimitZ = constraintMaximumPositionLimit.constraintMaximumPositionLimitZ
     constraintMaximumPositionLimitz = constraintMaximumPositionLimitZ
 
-    constraintMinimumRotationLimit = ConstraintMinimumRotationLimitField()
+    constraintMinimumRotationLimit = ConstraintMinimumRotationLimitField(default_value=(0.0, 0.0, 0.0))
     constraintMinimumRotationLimitX = constraintMinimumRotationLimit.constraintMinimumRotationLimitX
     constraintMinimumRotationLimitx = constraintMinimumRotationLimitX
     constraintMinimumRotationLimitY = constraintMinimumRotationLimit.constraintMinimumRotationLimitY
@@ -534,7 +534,7 @@ class MASH_Constraint(DG):
     constraintMinimumRotationLimitZ = constraintMinimumRotationLimit.constraintMinimumRotationLimitZ
     constraintMinimumRotationLimitz = constraintMinimumRotationLimitZ
 
-    constraintMaximumRotationLimit = ConstraintMaximumRotationLimitField()
+    constraintMaximumRotationLimit = ConstraintMaximumRotationLimitField(default_value=(0.0, 0.0, 0.0))
     constraintMaximumRotationLimitX = constraintMaximumRotationLimit.constraintMaximumRotationLimitX
     constraintMaximumRotationLimitx = constraintMaximumRotationLimitX
     constraintMaximumRotationLimitY = constraintMaximumRotationLimit.constraintMaximumRotationLimitY
@@ -542,25 +542,25 @@ class MASH_Constraint(DG):
     constraintMaximumRotationLimitZ = constraintMaximumRotationLimit.constraintMaximumRotationLimitZ
     constraintMaximumRotationLimitz = constraintMaximumRotationLimitZ
 
-    constraintLimitPositionX = ConstraintLimitPositionXEnumField()
+    constraintLimitPositionX = ConstraintLimitPositionXEnumField(default_value=2)
 
-    constraintLimitPositionY = ConstraintLimitPositionYEnumField()
+    constraintLimitPositionY = ConstraintLimitPositionYEnumField(default_value=2)
 
-    constraintLimitPositionZ = ConstraintLimitPositionZEnumField()
+    constraintLimitPositionZ = ConstraintLimitPositionZEnumField(default_value=2)
 
-    constraintLimitRotationX = ConstraintLimitRotationXEnumField()
+    constraintLimitRotationX = ConstraintLimitRotationXEnumField(default_value=1)
 
-    constraintLimitRotationY = ConstraintLimitRotationYEnumField()
+    constraintLimitRotationY = ConstraintLimitRotationYEnumField(default_value=1)
 
-    constraintLimitRotationZ = ConstraintLimitRotationZEnumField()
+    constraintLimitRotationZ = ConstraintLimitRotationZEnumField(default_value=1)
 
-    constraintType = ConstraintTypeEnumField()
+    constraintType = ConstraintTypeEnumField(default_value=1)
 
-    constraintMode = ConstraintModeEnumField()
+    constraintMode = ConstraintModeEnumField(default_value=2)
 
     constraintConnectionPoint = MatrixField()
 
-    pointOffset = PointOffsetField()
+    pointOffset = PointOffsetField(default_value=(0.0, 0.0, 0.0))
     pointOffsetX = pointOffset.pointOffsetX
     pointOffsetx = pointOffsetX
     pointOffsetY = pointOffset.pointOffsetY

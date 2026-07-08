@@ -307,13 +307,13 @@ class Color1PlugOperator(
         ("color1B", "c1b"),
     )
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=0.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0)
     c1b = color1B
 
 
@@ -322,13 +322,13 @@ class Color1AttrOperator(
 ):
     __slots__ = ()
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=0.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0)
     c1b = color1B
 
 
@@ -340,13 +340,13 @@ class Color1Field(
     ATTR_CLS = Color1AttrOperator
     PLUG_CLS = Color1PlugOperator
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=0.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0)
     c1b = color1B
 
 
@@ -360,13 +360,13 @@ class Color2PlugOperator(
         ("color2B", "c2b"),
     )
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0)
     c2b = color2B
 
 
@@ -375,13 +375,13 @@ class Color2AttrOperator(
 ):
     __slots__ = ()
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0)
     c2b = color2B
 
 
@@ -393,13 +393,13 @@ class Color2Field(
     ATTR_CLS = Color2AttrOperator
     PLUG_CLS = Color2PlugOperator
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0)
     c2b = color2B
 
 
@@ -413,13 +413,13 @@ class Transparency1PlugOperator(
         ("transparency1B", "t1b"),
     )
 
-    transparency1R = FloatField()
+    transparency1R = FloatField(default_value=0.0)
     t1r = transparency1R
 
-    transparency1G = FloatField()
+    transparency1G = FloatField(default_value=0.0)
     t1g = transparency1G
 
-    transparency1B = FloatField()
+    transparency1B = FloatField(default_value=0.0)
     t1b = transparency1B
 
 
@@ -428,13 +428,13 @@ class Transparency1AttrOperator(
 ):
     __slots__ = ()
 
-    transparency1R = FloatField()
+    transparency1R = FloatField(default_value=0.0)
     t1r = transparency1R
 
-    transparency1G = FloatField()
+    transparency1G = FloatField(default_value=0.0)
     t1g = transparency1G
 
-    transparency1B = FloatField()
+    transparency1B = FloatField(default_value=0.0)
     t1b = transparency1B
 
 
@@ -446,13 +446,13 @@ class Transparency1Field(
     ATTR_CLS = Transparency1AttrOperator
     PLUG_CLS = Transparency1PlugOperator
 
-    transparency1R = FloatField()
+    transparency1R = FloatField(default_value=0.0)
     t1r = transparency1R
 
-    transparency1G = FloatField()
+    transparency1G = FloatField(default_value=0.0)
     t1g = transparency1G
 
-    transparency1B = FloatField()
+    transparency1B = FloatField(default_value=0.0)
     t1b = transparency1B
 
 
@@ -466,13 +466,13 @@ class Transparency2PlugOperator(
         ("transparency2B", "t2b"),
     )
 
-    transparency2R = FloatField()
+    transparency2R = FloatField(default_value=0.0)
     t2r = transparency2R
 
-    transparency2G = FloatField()
+    transparency2G = FloatField(default_value=0.0)
     t2g = transparency2G
 
-    transparency2B = FloatField()
+    transparency2B = FloatField(default_value=0.0)
     t2b = transparency2B
 
 
@@ -481,13 +481,13 @@ class Transparency2AttrOperator(
 ):
     __slots__ = ()
 
-    transparency2R = FloatField()
+    transparency2R = FloatField(default_value=0.0)
     t2r = transparency2R
 
-    transparency2G = FloatField()
+    transparency2G = FloatField(default_value=0.0)
     t2g = transparency2G
 
-    transparency2B = FloatField()
+    transparency2B = FloatField(default_value=0.0)
     t2b = transparency2B
 
 
@@ -499,13 +499,13 @@ class Transparency2Field(
     ATTR_CLS = Transparency2AttrOperator
     PLUG_CLS = Transparency2PlugOperator
 
-    transparency2R = FloatField()
+    transparency2R = FloatField(default_value=0.0)
     t2r = transparency2R
 
-    transparency2G = FloatField()
+    transparency2G = FloatField(default_value=0.0)
     t2g = transparency2G
 
-    transparency2B = FloatField()
+    transparency2B = FloatField(default_value=0.0)
     t2b = transparency2B
 
 
@@ -519,13 +519,13 @@ class Incandescence1PlugOperator(
         ("incandescence1B", "i1b"),
     )
 
-    incandescence1R = FloatField()
+    incandescence1R = FloatField(default_value=0.0)
     i1r = incandescence1R
 
-    incandescence1G = FloatField()
+    incandescence1G = FloatField(default_value=0.0)
     i1g = incandescence1G
 
-    incandescence1B = FloatField()
+    incandescence1B = FloatField(default_value=0.0)
     i1b = incandescence1B
 
 
@@ -534,13 +534,13 @@ class Incandescence1AttrOperator(
 ):
     __slots__ = ()
 
-    incandescence1R = FloatField()
+    incandescence1R = FloatField(default_value=0.0)
     i1r = incandescence1R
 
-    incandescence1G = FloatField()
+    incandescence1G = FloatField(default_value=0.0)
     i1g = incandescence1G
 
-    incandescence1B = FloatField()
+    incandescence1B = FloatField(default_value=0.0)
     i1b = incandescence1B
 
 
@@ -552,13 +552,13 @@ class Incandescence1Field(
     ATTR_CLS = Incandescence1AttrOperator
     PLUG_CLS = Incandescence1PlugOperator
 
-    incandescence1R = FloatField()
+    incandescence1R = FloatField(default_value=0.0)
     i1r = incandescence1R
 
-    incandescence1G = FloatField()
+    incandescence1G = FloatField(default_value=0.0)
     i1g = incandescence1G
 
-    incandescence1B = FloatField()
+    incandescence1B = FloatField(default_value=0.0)
     i1b = incandescence1B
 
 
@@ -572,13 +572,13 @@ class Incandescence2PlugOperator(
         ("incandescence2B", "i2b"),
     )
 
-    incandescence2R = FloatField()
+    incandescence2R = FloatField(default_value=0.0)
     i2r = incandescence2R
 
-    incandescence2G = FloatField()
+    incandescence2G = FloatField(default_value=0.0)
     i2g = incandescence2G
 
-    incandescence2B = FloatField()
+    incandescence2B = FloatField(default_value=0.0)
     i2b = incandescence2B
 
 
@@ -587,13 +587,13 @@ class Incandescence2AttrOperator(
 ):
     __slots__ = ()
 
-    incandescence2R = FloatField()
+    incandescence2R = FloatField(default_value=0.0)
     i2r = incandescence2R
 
-    incandescence2G = FloatField()
+    incandescence2G = FloatField(default_value=0.0)
     i2g = incandescence2G
 
-    incandescence2B = FloatField()
+    incandescence2B = FloatField(default_value=0.0)
     i2b = incandescence2B
 
 
@@ -605,13 +605,13 @@ class Incandescence2Field(
     ATTR_CLS = Incandescence2AttrOperator
     PLUG_CLS = Incandescence2PlugOperator
 
-    incandescence2R = FloatField()
+    incandescence2R = FloatField(default_value=0.0)
     i2r = incandescence2R
 
-    incandescence2G = FloatField()
+    incandescence2G = FloatField(default_value=0.0)
     i2g = incandescence2G
 
-    incandescence2B = FloatField()
+    incandescence2B = FloatField(default_value=0.0)
     i2b = incandescence2B
 
 
@@ -625,13 +625,13 @@ class SpecularColorPlugOperator(
         ("specularColorB", "spb"),
     )
 
-    specularColorR = FloatField()
+    specularColorR = FloatField(default_value=1.0)
     spr = specularColorR
 
-    specularColorG = FloatField()
+    specularColorG = FloatField(default_value=1.0)
     spg = specularColorG
 
-    specularColorB = FloatField()
+    specularColorB = FloatField(default_value=1.0)
     spb = specularColorB
 
 
@@ -640,13 +640,13 @@ class SpecularColorAttrOperator(
 ):
     __slots__ = ()
 
-    specularColorR = FloatField()
+    specularColorR = FloatField(default_value=1.0)
     spr = specularColorR
 
-    specularColorG = FloatField()
+    specularColorG = FloatField(default_value=1.0)
     spg = specularColorG
 
-    specularColorB = FloatField()
+    specularColorB = FloatField(default_value=1.0)
     spb = specularColorB
 
 
@@ -658,13 +658,13 @@ class SpecularColorField(
     ATTR_CLS = SpecularColorAttrOperator
     PLUG_CLS = SpecularColorPlugOperator
 
-    specularColorR = FloatField()
+    specularColorR = FloatField(default_value=1.0)
     spr = specularColorR
 
-    specularColorG = FloatField()
+    specularColorG = FloatField(default_value=1.0)
     spg = specularColorG
 
-    specularColorB = FloatField()
+    specularColorB = FloatField(default_value=1.0)
     spb = specularColorB
 
 
@@ -678,13 +678,13 @@ class GlowColorPlugOperator(
         ("glowColorB", "glb"),
     )
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=0.5)
     glr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=0.5)
     glg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=0.5)
     glb = glowColorB
 
 
@@ -693,13 +693,13 @@ class GlowColorAttrOperator(
 ):
     __slots__ = ()
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=0.5)
     glr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=0.5)
     glg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=0.5)
     glb = glowColorB
 
 
@@ -711,13 +711,13 @@ class GlowColorField(
     ATTR_CLS = GlowColorAttrOperator
     PLUG_CLS = GlowColorPlugOperator
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=0.5)
     glr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=0.5)
     glg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=0.5)
     glb = glowColorB
 
 
@@ -731,13 +731,13 @@ class LightDirectionPlugOperator(
         ("lightDirectionZ", "ldz"),
     )
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.5)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=0.5)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ
 
 
@@ -746,13 +746,13 @@ class LightDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.5)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=0.5)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ
 
 
@@ -764,13 +764,13 @@ class LightDirectionField(
     ATTR_CLS = LightDirectionAttrOperator
     PLUG_CLS = LightDirectionPlugOperator
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.5)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=0.5)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ
 
 
@@ -784,13 +784,13 @@ class UniformForcePlugOperator(
         ("uniformForceZ", "ufz"),
     )
 
-    uniformForceX = DoubleField()
+    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufx = uniformForceX
 
-    uniformForceY = DoubleField()
+    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField()
+    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufz = uniformForceZ
 
 
@@ -799,13 +799,13 @@ class UniformForceAttrOperator(
 ):
     __slots__ = ()
 
-    uniformForceX = DoubleField()
+    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufx = uniformForceX
 
-    uniformForceY = DoubleField()
+    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField()
+    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufz = uniformForceZ
 
 
@@ -817,13 +817,13 @@ class UniformForceField(
     ATTR_CLS = UniformForceAttrOperator
     PLUG_CLS = UniformForcePlugOperator
 
-    uniformForceX = DoubleField()
+    uniformForceX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufx = uniformForceX
 
-    uniformForceY = DoubleField()
+    uniformForceY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufy = uniformForceY
 
-    uniformForceZ = DoubleField()
+    uniformForceZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     ufz = uniformForceZ
 
 
@@ -837,13 +837,13 @@ class TurbulenceOffsetPlugOperator(
         ("turbulenceOffsetZ", "trz"),
     )
 
-    turbulenceOffsetX = DoubleField()
+    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField()
+    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField()
+    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trz = turbulenceOffsetZ
 
 
@@ -852,13 +852,13 @@ class TurbulenceOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    turbulenceOffsetX = DoubleField()
+    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField()
+    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField()
+    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trz = turbulenceOffsetZ
 
 
@@ -870,13 +870,13 @@ class TurbulenceOffsetField(
     ATTR_CLS = TurbulenceOffsetAttrOperator
     PLUG_CLS = TurbulenceOffsetPlugOperator
 
-    turbulenceOffsetX = DoubleField()
+    turbulenceOffsetX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trx = turbulenceOffsetX
 
-    turbulenceOffsetY = DoubleField()
+    turbulenceOffsetY = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     try_ = turbulenceOffsetY
 
-    turbulenceOffsetZ = DoubleField()
+    turbulenceOffsetZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     trz = turbulenceOffsetZ
 
 
@@ -890,13 +890,13 @@ class SunDirectionPlugOperator(
         ("sunDirectionZ", "sndz"),
     )
 
-    sunDirectionX = DoubleField()
+    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField()
+    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField()
+    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndz = sunDirectionZ
 
 
@@ -905,13 +905,13 @@ class SunDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    sunDirectionX = DoubleField()
+    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField()
+    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField()
+    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndz = sunDirectionZ
 
 
@@ -923,13 +923,13 @@ class SunDirectionField(
     ATTR_CLS = SunDirectionAttrOperator
     PLUG_CLS = SunDirectionPlugOperator
 
-    sunDirectionX = DoubleField()
+    sunDirectionX = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndx = sunDirectionX
 
-    sunDirectionY = DoubleField()
+    sunDirectionY = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndy = sunDirectionY
 
-    sunDirectionZ = DoubleField()
+    sunDirectionZ = DoubleField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sndz = sunDirectionZ
 
 
@@ -943,13 +943,13 @@ class LeafCurlPlugOperator(
         ("leafCurl_Interp", "lcli"),
     )
 
-    leafCurl_Position = FloatField()
+    leafCurl_Position = FloatField(default_value=0.0)
     lclp = leafCurl_Position
 
-    leafCurl_FloatValue = FloatField()
+    leafCurl_FloatValue = FloatField(default_value=0.0)
     lclfv = leafCurl_FloatValue
 
-    leafCurl_Interp = LeafCurl_InterpEnumField()
+    leafCurl_Interp = LeafCurl_InterpEnumField(default_value=0)
     lcli = leafCurl_Interp
 
 
@@ -958,13 +958,13 @@ class LeafCurlAttrOperator(
 ):
     __slots__ = ()
 
-    leafCurl_Position = FloatField()
+    leafCurl_Position = FloatField(default_value=0.0)
     lclp = leafCurl_Position
 
-    leafCurl_FloatValue = FloatField()
+    leafCurl_FloatValue = FloatField(default_value=0.0)
     lclfv = leafCurl_FloatValue
 
-    leafCurl_Interp = LeafCurl_InterpEnumField()
+    leafCurl_Interp = LeafCurl_InterpEnumField(default_value=0)
     lcli = leafCurl_Interp
 
 
@@ -987,13 +987,13 @@ class LeafColor1PlugOperator(
         ("leafColor1B", "lb1"),
     )
 
-    leafColor1R = FloatField()
+    leafColor1R = FloatField(default_value=0.20000000298023224)
     lr1 = leafColor1R
 
-    leafColor1G = FloatField()
+    leafColor1G = FloatField(default_value=0.6000000238418579)
     lg1 = leafColor1G
 
-    leafColor1B = FloatField()
+    leafColor1B = FloatField(default_value=0.30000001192092896)
     lb1 = leafColor1B
 
 
@@ -1002,13 +1002,13 @@ class LeafColor1AttrOperator(
 ):
     __slots__ = ()
 
-    leafColor1R = FloatField()
+    leafColor1R = FloatField(default_value=0.20000000298023224)
     lr1 = leafColor1R
 
-    leafColor1G = FloatField()
+    leafColor1G = FloatField(default_value=0.6000000238418579)
     lg1 = leafColor1G
 
-    leafColor1B = FloatField()
+    leafColor1B = FloatField(default_value=0.30000001192092896)
     lb1 = leafColor1B
 
 
@@ -1020,13 +1020,13 @@ class LeafColor1Field(
     ATTR_CLS = LeafColor1AttrOperator
     PLUG_CLS = LeafColor1PlugOperator
 
-    leafColor1R = FloatField()
+    leafColor1R = FloatField(default_value=0.20000000298023224)
     lr1 = leafColor1R
 
-    leafColor1G = FloatField()
+    leafColor1G = FloatField(default_value=0.6000000238418579)
     lg1 = leafColor1G
 
-    leafColor1B = FloatField()
+    leafColor1B = FloatField(default_value=0.30000001192092896)
     lb1 = leafColor1B
 
 
@@ -1040,13 +1040,13 @@ class LeafColor2PlugOperator(
         ("leafColor2B", "lb2"),
     )
 
-    leafColor2R = FloatField()
+    leafColor2R = FloatField(default_value=0.4000000059604645)
     lr2 = leafColor2R
 
-    leafColor2G = FloatField()
+    leafColor2G = FloatField(default_value=0.6000000238418579)
     lg2 = leafColor2G
 
-    leafColor2B = FloatField()
+    leafColor2B = FloatField(default_value=0.30000001192092896)
     lb2 = leafColor2B
 
 
@@ -1055,13 +1055,13 @@ class LeafColor2AttrOperator(
 ):
     __slots__ = ()
 
-    leafColor2R = FloatField()
+    leafColor2R = FloatField(default_value=0.4000000059604645)
     lr2 = leafColor2R
 
-    leafColor2G = FloatField()
+    leafColor2G = FloatField(default_value=0.6000000238418579)
     lg2 = leafColor2G
 
-    leafColor2B = FloatField()
+    leafColor2B = FloatField(default_value=0.30000001192092896)
     lb2 = leafColor2B
 
 
@@ -1073,13 +1073,13 @@ class LeafColor2Field(
     ATTR_CLS = LeafColor2AttrOperator
     PLUG_CLS = LeafColor2PlugOperator
 
-    leafColor2R = FloatField()
+    leafColor2R = FloatField(default_value=0.4000000059604645)
     lr2 = leafColor2R
 
-    leafColor2G = FloatField()
+    leafColor2G = FloatField(default_value=0.6000000238418579)
     lg2 = leafColor2G
 
-    leafColor2B = FloatField()
+    leafColor2B = FloatField(default_value=0.30000001192092896)
     lb2 = leafColor2B
 
 
@@ -1093,13 +1093,13 @@ class BudColorPlugOperator(
         ("budColorB", "bub"),
     )
 
-    budColorR = FloatField()
+    budColorR = FloatField(default_value=0.4000000059604645)
     bur = budColorR
 
-    budColorG = FloatField()
+    budColorG = FloatField(default_value=0.800000011920929)
     bug = budColorG
 
-    budColorB = FloatField()
+    budColorB = FloatField(default_value=0.20000000298023224)
     bub = budColorB
 
 
@@ -1108,13 +1108,13 @@ class BudColorAttrOperator(
 ):
     __slots__ = ()
 
-    budColorR = FloatField()
+    budColorR = FloatField(default_value=0.4000000059604645)
     bur = budColorR
 
-    budColorG = FloatField()
+    budColorG = FloatField(default_value=0.800000011920929)
     bug = budColorG
 
-    budColorB = FloatField()
+    budColorB = FloatField(default_value=0.20000000298023224)
     bub = budColorB
 
 
@@ -1126,13 +1126,13 @@ class BudColorField(
     ATTR_CLS = BudColorAttrOperator
     PLUG_CLS = BudColorPlugOperator
 
-    budColorR = FloatField()
+    budColorR = FloatField(default_value=0.4000000059604645)
     bur = budColorR
 
-    budColorG = FloatField()
+    budColorG = FloatField(default_value=0.800000011920929)
     bug = budColorG
 
-    budColorB = FloatField()
+    budColorB = FloatField(default_value=0.20000000298023224)
     bub = budColorB
 
 
@@ -1146,13 +1146,13 @@ class PetalCurlPlugOperator(
         ("petalCurl_Interp", "pcli"),
     )
 
-    petalCurl_Position = FloatField()
+    petalCurl_Position = FloatField(default_value=0.0)
     pclp = petalCurl_Position
 
-    petalCurl_FloatValue = FloatField()
+    petalCurl_FloatValue = FloatField(default_value=0.0)
     pclfv = petalCurl_FloatValue
 
-    petalCurl_Interp = PetalCurl_InterpEnumField()
+    petalCurl_Interp = PetalCurl_InterpEnumField(default_value=0)
     pcli = petalCurl_Interp
 
 
@@ -1161,13 +1161,13 @@ class PetalCurlAttrOperator(
 ):
     __slots__ = ()
 
-    petalCurl_Position = FloatField()
+    petalCurl_Position = FloatField(default_value=0.0)
     pclp = petalCurl_Position
 
-    petalCurl_FloatValue = FloatField()
+    petalCurl_FloatValue = FloatField(default_value=0.0)
     pclfv = petalCurl_FloatValue
 
-    petalCurl_Interp = PetalCurl_InterpEnumField()
+    petalCurl_Interp = PetalCurl_InterpEnumField(default_value=0)
     pcli = petalCurl_Interp
 
 
@@ -1190,13 +1190,13 @@ class PetalColor1PlugOperator(
         ("petalColor1B", "pb1"),
     )
 
-    petalColor1R = FloatField()
+    petalColor1R = FloatField(default_value=0.800000011920929)
     pr1 = petalColor1R
 
-    petalColor1G = FloatField()
+    petalColor1G = FloatField(default_value=0.20000000298023224)
     pg1 = petalColor1G
 
-    petalColor1B = FloatField()
+    petalColor1B = FloatField(default_value=0.10000000149011612)
     pb1 = petalColor1B
 
 
@@ -1205,13 +1205,13 @@ class PetalColor1AttrOperator(
 ):
     __slots__ = ()
 
-    petalColor1R = FloatField()
+    petalColor1R = FloatField(default_value=0.800000011920929)
     pr1 = petalColor1R
 
-    petalColor1G = FloatField()
+    petalColor1G = FloatField(default_value=0.20000000298023224)
     pg1 = petalColor1G
 
-    petalColor1B = FloatField()
+    petalColor1B = FloatField(default_value=0.10000000149011612)
     pb1 = petalColor1B
 
 
@@ -1223,13 +1223,13 @@ class PetalColor1Field(
     ATTR_CLS = PetalColor1AttrOperator
     PLUG_CLS = PetalColor1PlugOperator
 
-    petalColor1R = FloatField()
+    petalColor1R = FloatField(default_value=0.800000011920929)
     pr1 = petalColor1R
 
-    petalColor1G = FloatField()
+    petalColor1G = FloatField(default_value=0.20000000298023224)
     pg1 = petalColor1G
 
-    petalColor1B = FloatField()
+    petalColor1B = FloatField(default_value=0.10000000149011612)
     pb1 = petalColor1B
 
 
@@ -1243,13 +1243,13 @@ class PetalColor2PlugOperator(
         ("petalColor2B", "pb2"),
     )
 
-    petalColor2R = FloatField()
+    petalColor2R = FloatField(default_value=1.0)
     pr2 = petalColor2R
 
-    petalColor2G = FloatField()
+    petalColor2G = FloatField(default_value=1.0)
     pg2 = petalColor2G
 
-    petalColor2B = FloatField()
+    petalColor2B = FloatField(default_value=1.0)
     pb2 = petalColor2B
 
 
@@ -1258,13 +1258,13 @@ class PetalColor2AttrOperator(
 ):
     __slots__ = ()
 
-    petalColor2R = FloatField()
+    petalColor2R = FloatField(default_value=1.0)
     pr2 = petalColor2R
 
-    petalColor2G = FloatField()
+    petalColor2G = FloatField(default_value=1.0)
     pg2 = petalColor2G
 
-    petalColor2B = FloatField()
+    petalColor2B = FloatField(default_value=1.0)
     pb2 = petalColor2B
 
 
@@ -1276,13 +1276,13 @@ class PetalColor2Field(
     ATTR_CLS = PetalColor2AttrOperator
     PLUG_CLS = PetalColor2PlugOperator
 
-    petalColor2R = FloatField()
+    petalColor2R = FloatField(default_value=1.0)
     pr2 = petalColor2R
 
-    petalColor2G = FloatField()
+    petalColor2G = FloatField(default_value=1.0)
     pg2 = petalColor2G
 
-    petalColor2B = FloatField()
+    petalColor2B = FloatField(default_value=1.0)
     pb2 = petalColor2B
 
 
@@ -1296,13 +1296,13 @@ class TexColor1PlugOperator(
         ("texColor1B", "x1b"),
     )
 
-    texColor1R = FloatField()
+    texColor1R = FloatField(default_value=1.0)
     x1r = texColor1R
 
-    texColor1G = FloatField()
+    texColor1G = FloatField(default_value=1.0)
     x1g = texColor1G
 
-    texColor1B = FloatField()
+    texColor1B = FloatField(default_value=1.0)
     x1b = texColor1B
 
 
@@ -1311,13 +1311,13 @@ class TexColor1AttrOperator(
 ):
     __slots__ = ()
 
-    texColor1R = FloatField()
+    texColor1R = FloatField(default_value=1.0)
     x1r = texColor1R
 
-    texColor1G = FloatField()
+    texColor1G = FloatField(default_value=1.0)
     x1g = texColor1G
 
-    texColor1B = FloatField()
+    texColor1B = FloatField(default_value=1.0)
     x1b = texColor1B
 
 
@@ -1329,13 +1329,13 @@ class TexColor1Field(
     ATTR_CLS = TexColor1AttrOperator
     PLUG_CLS = TexColor1PlugOperator
 
-    texColor1R = FloatField()
+    texColor1R = FloatField(default_value=1.0)
     x1r = texColor1R
 
-    texColor1G = FloatField()
+    texColor1G = FloatField(default_value=1.0)
     x1g = texColor1G
 
-    texColor1B = FloatField()
+    texColor1B = FloatField(default_value=1.0)
     x1b = texColor1B
 
 
@@ -1349,13 +1349,13 @@ class TexColor2PlugOperator(
         ("texColor2B", "x2b"),
     )
 
-    texColor2R = FloatField()
+    texColor2R = FloatField(default_value=0.0)
     x2r = texColor2R
 
-    texColor2G = FloatField()
+    texColor2G = FloatField(default_value=0.0)
     x2g = texColor2G
 
-    texColor2B = FloatField()
+    texColor2B = FloatField(default_value=0.0)
     x2b = texColor2B
 
 
@@ -1364,13 +1364,13 @@ class TexColor2AttrOperator(
 ):
     __slots__ = ()
 
-    texColor2R = FloatField()
+    texColor2R = FloatField(default_value=0.0)
     x2r = texColor2R
 
-    texColor2G = FloatField()
+    texColor2G = FloatField(default_value=0.0)
     x2g = texColor2G
 
-    texColor2B = FloatField()
+    texColor2B = FloatField(default_value=0.0)
     x2b = texColor2B
 
 
@@ -1382,13 +1382,13 @@ class TexColor2Field(
     ATTR_CLS = TexColor2AttrOperator
     PLUG_CLS = TexColor2PlugOperator
 
-    texColor2R = FloatField()
+    texColor2R = FloatField(default_value=0.0)
     x2r = texColor2R
 
-    texColor2G = FloatField()
+    texColor2G = FloatField(default_value=0.0)
     x2g = texColor2G
 
-    texColor2B = FloatField()
+    texColor2B = FloatField(default_value=0.0)
     x2b = texColor2B
 
 
@@ -1402,13 +1402,13 @@ class WidthScalePlugOperator(
         ("widthScale_Interp", "wsci"),
     )
 
-    widthScale_Position = FloatField()
+    widthScale_Position = FloatField(default_value=0.0)
     wscp = widthScale_Position
 
-    widthScale_FloatValue = FloatField()
+    widthScale_FloatValue = FloatField(default_value=0.0)
     wscfv = widthScale_FloatValue
 
-    widthScale_Interp = WidthScale_InterpEnumField()
+    widthScale_Interp = WidthScale_InterpEnumField(default_value=0)
     wsci = widthScale_Interp
 
 
@@ -1417,13 +1417,13 @@ class WidthScaleAttrOperator(
 ):
     __slots__ = ()
 
-    widthScale_Position = FloatField()
+    widthScale_Position = FloatField(default_value=0.0)
     wscp = widthScale_Position
 
-    widthScale_FloatValue = FloatField()
+    widthScale_FloatValue = FloatField(default_value=0.0)
     wscfv = widthScale_FloatValue
 
-    widthScale_Interp = WidthScale_InterpEnumField()
+    widthScale_Interp = WidthScale_InterpEnumField(default_value=0)
     wsci = widthScale_Interp
 
 
@@ -1446,13 +1446,13 @@ class LeafWidthScalePlugOperator(
         ("leafWidthScale_Interp", "lwsi"),
     )
 
-    leafWidthScale_Position = FloatField()
+    leafWidthScale_Position = FloatField(default_value=0.0)
     lwsp = leafWidthScale_Position
 
-    leafWidthScale_FloatValue = FloatField()
+    leafWidthScale_FloatValue = FloatField(default_value=0.0)
     lwsfv = leafWidthScale_FloatValue
 
-    leafWidthScale_Interp = LeafWidthScale_InterpEnumField()
+    leafWidthScale_Interp = LeafWidthScale_InterpEnumField(default_value=0)
     lwsi = leafWidthScale_Interp
 
 
@@ -1461,13 +1461,13 @@ class LeafWidthScaleAttrOperator(
 ):
     __slots__ = ()
 
-    leafWidthScale_Position = FloatField()
+    leafWidthScale_Position = FloatField(default_value=0.0)
     lwsp = leafWidthScale_Position
 
-    leafWidthScale_FloatValue = FloatField()
+    leafWidthScale_FloatValue = FloatField(default_value=0.0)
     lwsfv = leafWidthScale_FloatValue
 
-    leafWidthScale_Interp = LeafWidthScale_InterpEnumField()
+    leafWidthScale_Interp = LeafWidthScale_InterpEnumField(default_value=0)
     lwsi = leafWidthScale_Interp
 
 
@@ -1490,13 +1490,13 @@ class PetalWidthScalePlugOperator(
         ("petalWidthScale_Interp", "pwsi"),
     )
 
-    petalWidthScale_Position = FloatField()
+    petalWidthScale_Position = FloatField(default_value=0.0)
     pwsp = petalWidthScale_Position
 
-    petalWidthScale_FloatValue = FloatField()
+    petalWidthScale_FloatValue = FloatField(default_value=0.0)
     pwsfv = petalWidthScale_FloatValue
 
-    petalWidthScale_Interp = PetalWidthScale_InterpEnumField()
+    petalWidthScale_Interp = PetalWidthScale_InterpEnumField(default_value=0)
     pwsi = petalWidthScale_Interp
 
 
@@ -1505,13 +1505,13 @@ class PetalWidthScaleAttrOperator(
 ):
     __slots__ = ()
 
-    petalWidthScale_Position = FloatField()
+    petalWidthScale_Position = FloatField(default_value=0.0)
     pwsp = petalWidthScale_Position
 
-    petalWidthScale_FloatValue = FloatField()
+    petalWidthScale_FloatValue = FloatField(default_value=0.0)
     pwsfv = petalWidthScale_FloatValue
 
-    petalWidthScale_Interp = PetalWidthScale_InterpEnumField()
+    petalWidthScale_Interp = PetalWidthScale_InterpEnumField(default_value=0)
     pwsi = petalWidthScale_Interp
 
 
@@ -1534,13 +1534,13 @@ class TwigLengthScalePlugOperator(
         ("twigLengthScale_Interp", "tlsi"),
     )
 
-    twigLengthScale_Position = FloatField()
+    twigLengthScale_Position = FloatField(default_value=0.0)
     tlsp = twigLengthScale_Position
 
-    twigLengthScale_FloatValue = FloatField()
+    twigLengthScale_FloatValue = FloatField(default_value=0.0)
     tlsfv = twigLengthScale_FloatValue
 
-    twigLengthScale_Interp = TwigLengthScale_InterpEnumField()
+    twigLengthScale_Interp = TwigLengthScale_InterpEnumField(default_value=0)
     tlsi = twigLengthScale_Interp
 
 
@@ -1549,13 +1549,13 @@ class TwigLengthScaleAttrOperator(
 ):
     __slots__ = ()
 
-    twigLengthScale_Position = FloatField()
+    twigLengthScale_Position = FloatField(default_value=0.0)
     tlsp = twigLengthScale_Position
 
-    twigLengthScale_FloatValue = FloatField()
+    twigLengthScale_FloatValue = FloatField(default_value=0.0)
     tlsfv = twigLengthScale_FloatValue
 
-    twigLengthScale_Interp = TwigLengthScale_InterpEnumField()
+    twigLengthScale_Interp = TwigLengthScale_InterpEnumField(default_value=0)
     tlsi = twigLengthScale_Interp
 
 
@@ -1578,13 +1578,13 @@ class ThornBaseColorPlugOperator(
         ("thornBaseColorB", "tbcb"),
     )
 
-    thornBaseColorR = FloatField()
+    thornBaseColorR = FloatField(default_value=0.5)
     tbcr = thornBaseColorR
 
-    thornBaseColorG = FloatField()
+    thornBaseColorG = FloatField(default_value=0.5)
     tbcg = thornBaseColorG
 
-    thornBaseColorB = FloatField()
+    thornBaseColorB = FloatField(default_value=0.5)
     tbcb = thornBaseColorB
 
 
@@ -1593,13 +1593,13 @@ class ThornBaseColorAttrOperator(
 ):
     __slots__ = ()
 
-    thornBaseColorR = FloatField()
+    thornBaseColorR = FloatField(default_value=0.5)
     tbcr = thornBaseColorR
 
-    thornBaseColorG = FloatField()
+    thornBaseColorG = FloatField(default_value=0.5)
     tbcg = thornBaseColorG
 
-    thornBaseColorB = FloatField()
+    thornBaseColorB = FloatField(default_value=0.5)
     tbcb = thornBaseColorB
 
 
@@ -1611,13 +1611,13 @@ class ThornBaseColorField(
     ATTR_CLS = ThornBaseColorAttrOperator
     PLUG_CLS = ThornBaseColorPlugOperator
 
-    thornBaseColorR = FloatField()
+    thornBaseColorR = FloatField(default_value=0.5)
     tbcr = thornBaseColorR
 
-    thornBaseColorG = FloatField()
+    thornBaseColorG = FloatField(default_value=0.5)
     tbcg = thornBaseColorG
 
-    thornBaseColorB = FloatField()
+    thornBaseColorB = FloatField(default_value=0.5)
     tbcb = thornBaseColorB
 
 
@@ -1631,13 +1631,13 @@ class ThornTipColorPlugOperator(
         ("thornTipColorB", "ttcb"),
     )
 
-    thornTipColorR = FloatField()
+    thornTipColorR = FloatField(default_value=0.5)
     ttcr = thornTipColorR
 
-    thornTipColorG = FloatField()
+    thornTipColorG = FloatField(default_value=0.5)
     ttcg = thornTipColorG
 
-    thornTipColorB = FloatField()
+    thornTipColorB = FloatField(default_value=0.5)
     ttcb = thornTipColorB
 
 
@@ -1646,13 +1646,13 @@ class ThornTipColorAttrOperator(
 ):
     __slots__ = ()
 
-    thornTipColorR = FloatField()
+    thornTipColorR = FloatField(default_value=0.5)
     ttcr = thornTipColorR
 
-    thornTipColorG = FloatField()
+    thornTipColorG = FloatField(default_value=0.5)
     ttcg = thornTipColorG
 
-    thornTipColorB = FloatField()
+    thornTipColorB = FloatField(default_value=0.5)
     ttcb = thornTipColorB
 
 
@@ -1664,13 +1664,13 @@ class ThornTipColorField(
     ATTR_CLS = ThornTipColorAttrOperator
     PLUG_CLS = ThornTipColorPlugOperator
 
-    thornTipColorR = FloatField()
+    thornTipColorR = FloatField(default_value=0.5)
     ttcr = thornTipColorR
 
-    thornTipColorG = FloatField()
+    thornTipColorG = FloatField(default_value=0.5)
     ttcg = thornTipColorG
 
-    thornTipColorB = FloatField()
+    thornTipColorB = FloatField(default_value=0.5)
     ttcb = thornTipColorB
 
 
@@ -1684,13 +1684,13 @@ class EnvironmentPlugOperator(
         ("environment_Interp", "envi"),
     )
 
-    environment_Position = FloatField()
+    environment_Position = FloatField(default_value=0.0)
     envp = environment_Position
 
-    environment_Color = Float3Field()
+    environment_Color = Float3Field(default_value=(0.0, 0.0, 0.0))
     envc = environment_Color
 
-    environment_Interp = Environment_InterpEnumField()
+    environment_Interp = Environment_InterpEnumField(default_value=0)
     envi = environment_Interp
 
 
@@ -1699,13 +1699,13 @@ class EnvironmentAttrOperator(
 ):
     __slots__ = ()
 
-    environment_Position = FloatField()
+    environment_Position = FloatField(default_value=0.0)
     envp = environment_Position
 
-    environment_Color = Float3Field()
+    environment_Color = Float3Field(default_value=(0.0, 0.0, 0.0))
     envc = environment_Color
 
-    environment_Interp = Environment_InterpEnumField()
+    environment_Interp = Environment_InterpEnumField(default_value=0)
     envi = environment_Interp
 
 
@@ -1728,13 +1728,13 @@ class ReflectionRolloffPlugOperator(
         ("reflectionRolloff_Interp", "rroi"),
     )
 
-    reflectionRolloff_Position = FloatField()
+    reflectionRolloff_Position = FloatField(default_value=0.0)
     rrop = reflectionRolloff_Position
 
-    reflectionRolloff_FloatValue = FloatField()
+    reflectionRolloff_FloatValue = FloatField(default_value=0.0)
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField()
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(default_value=0)
     rroi = reflectionRolloff_Interp
 
 
@@ -1743,13 +1743,13 @@ class ReflectionRolloffAttrOperator(
 ):
     __slots__ = ()
 
-    reflectionRolloff_Position = FloatField()
+    reflectionRolloff_Position = FloatField(default_value=0.0)
     rrop = reflectionRolloff_Position
 
-    reflectionRolloff_FloatValue = FloatField()
+    reflectionRolloff_FloatValue = FloatField(default_value=0.0)
     rrofv = reflectionRolloff_FloatValue
 
-    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField()
+    reflectionRolloff_Interp = ReflectionRolloff_InterpEnumField(default_value=0)
     rroi = reflectionRolloff_Interp
 
 

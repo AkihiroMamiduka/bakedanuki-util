@@ -23,7 +23,7 @@ class PolyPlanarProj(DG):
 
     NODE_TYPE = "polyPlanarProj"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -32,37 +32,37 @@ class PolyPlanarProj(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    projectionCenter = ProjectionCenterField()
+    projectionCenter = ProjectionCenterField(default_value=(0.0, 0.0, 0.0))
     pc = projectionCenter
     projectionCenterX = projectionCenter.projectionCenterX
     pcx = projectionCenterX
@@ -71,14 +71,14 @@ class PolyPlanarProj(DG):
     projectionCenterZ = projectionCenter.projectionCenterZ
     pcz = projectionCenterZ
 
-    imageCenter = ImageCenterField()
+    imageCenter = ImageCenterField(default_value=(0.5, 0.5))
     ic = imageCenter
     imageCenterX = imageCenter.imageCenterX
     icx = imageCenterX
     imageCenterY = imageCenter.imageCenterY
     icy = imageCenterY
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -87,7 +87,7 @@ class PolyPlanarProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    projectionScale = ProjectionScaleField()
+    projectionScale = ProjectionScaleField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
     ps = projectionScale
     projectionWidth = projectionScale.projectionWidth
     pw = projectionWidth
@@ -97,36 +97,36 @@ class PolyPlanarProj(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    imageScale = ImageScaleField()
+    imageScale = ImageScaleField(default_value=(1.0, 1.0))
     is_ = imageScale
     imageScaleU = imageScale.imageScaleU
     isu = imageScaleU
     imageScaleV = imageScale.imageScaleV
     isv = imageScaleV
 
-    rotationAngle = DoubleAngleField()
+    rotationAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ra = rotationAngle
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=10.0)
     r = radius
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    isPerspective = BoolField()
+    isPerspective = BoolField(default_value=False)
     per = isPerspective
 
     cameraMatrix = DataMatrixField()
     cam = cameraMatrix
 
-    portLeft = ShortField()
+    portLeft = ShortField(default_value=0)
     plft = portLeft
 
-    portBottom = ShortField()
+    portBottom = ShortField(default_value=0)
     pbot = portBottom
 
-    portRight = ShortField()
+    portRight = ShortField(default_value=10)
     prgt = portRight
 
-    portTop = ShortField()
+    portTop = ShortField(default_value=10)
     ptop = portTop

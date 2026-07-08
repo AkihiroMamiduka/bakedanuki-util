@@ -12,11 +12,11 @@ class CreatePtexUV(DG):
     inMesh = DataMeshField()
     im = inMesh
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     om = outMesh
 
-    bleed = LongField()
+    bleed = LongField(default_value=10)
     bl = bleed
 
-    tileCount = LongField()
+    tileCount = LongField(default_value=1)
     tc = tileCount

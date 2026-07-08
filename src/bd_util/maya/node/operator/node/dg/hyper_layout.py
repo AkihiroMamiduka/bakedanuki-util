@@ -20,15 +20,15 @@ class HyperLayout(DG):
     imageName = DataStringField()
     img = imageName
 
-    imagePosition = ImagePositionField()
+    imagePosition = ImagePositionField(default_value=(0.0, 0.0))
     imp = imagePosition
     imagePositionX = imagePosition.imagePositionX
     ipx = imagePositionX
     imagePositionY = imagePosition.imagePositionY
     ipy = imagePositionY
 
-    imageScale = FloatField()
+    imageScale = FloatField(default_value=1.0, soft_min_value=0.1, soft_max_value=10.0)
     ims = imageScale
 
-    allNodesFreeform = BoolField()
+    allNodesFreeform = BoolField(default_value=False)
     anf = allNodesFreeform

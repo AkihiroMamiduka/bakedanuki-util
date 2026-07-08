@@ -23,50 +23,50 @@ class FfBlendSrf(DG):
     rightRail = DataNurbsCurveField()
     rr = rightRail
 
-    multipleKnots = BoolField()
+    multipleKnots = BoolField(default_value=True)
     mk = multipleKnots
 
-    positionTolerance = DoubleField()
+    positionTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
     pt = positionTolerance
 
-    tangentTolerance = DoubleField()
+    tangentTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
     tt = tangentTolerance
 
-    autoNormal = BoolField()
+    autoNormal = BoolField(default_value=True)
     an = autoNormal
 
-    flipLeftNormal = BoolField()
+    flipLeftNormal = BoolField(default_value=False)
     fln = flipLeftNormal
 
-    flipRightNormal = BoolField()
+    flipRightNormal = BoolField(default_value=False)
     frn = flipRightNormal
 
-    autoAnchor = BoolField()
+    autoAnchor = BoolField(default_value=True)
     aa = autoAnchor
 
-    leftAnchor = DoubleField()
+    leftAnchor = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     la = leftAnchor
 
-    leftStart = DoubleField()
+    leftStart = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     ls = leftStart
 
-    leftEnd = DoubleField()
+    leftEnd = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     le = leftEnd
 
-    reverseLeft = BoolField()
+    reverseLeft = BoolField(default_value=False)
     rvl = reverseLeft
 
-    rightAnchor = DoubleField()
+    rightAnchor = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     ra = rightAnchor
 
-    rightStart = DoubleField()
+    rightStart = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     rs = rightStart
 
-    rightEnd = DoubleField()
+    rightEnd = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     re = rightEnd
 
-    reverseRight = BoolField()
+    reverseRight = BoolField(default_value=False)
     rvr = reverseRight
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

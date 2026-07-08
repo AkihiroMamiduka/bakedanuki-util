@@ -18,13 +18,13 @@ class CenterPlugOperator(
         ("centerZ", "cz"),
     )
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0, writable=False)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0, writable=False)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0, writable=False)
     cz = centerZ
 
 
@@ -33,13 +33,13 @@ class CenterAttrOperator(
 ):
     __slots__ = ()
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0, writable=False)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0, writable=False)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0, writable=False)
     cz = centerZ
 
 
@@ -51,13 +51,13 @@ class CenterField(
     ATTR_CLS = CenterAttrOperator
     PLUG_CLS = CenterPlugOperator
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0, writable=False)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0, writable=False)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0, writable=False)
     cz = centerZ
 
 
@@ -71,13 +71,13 @@ class NormalPlugOperator(
         ("normalZ", "nrz"),
     )
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0, writable=False)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0, writable=False)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0, writable=False)
     nrz = normalZ
 
 
@@ -86,13 +86,13 @@ class NormalAttrOperator(
 ):
     __slots__ = ()
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0, writable=False)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0, writable=False)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0, writable=False)
     nrz = normalZ
 
 
@@ -104,13 +104,13 @@ class NormalField(
     ATTR_CLS = NormalAttrOperator
     PLUG_CLS = NormalPlugOperator
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0, writable=False)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0, writable=False)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0, writable=False)
     nrz = normalZ
 
 
@@ -124,13 +124,13 @@ class Point1PlugOperator(
         ("point1Z", "p1z"),
     )
 
-    point1X = DoubleLinearField()
+    point1X = DoubleLinearField(default_value=1.0)
     p1x = point1X
 
-    point1Y = DoubleLinearField()
+    point1Y = DoubleLinearField(default_value=0.0)
     p1y = point1Y
 
-    point1Z = DoubleLinearField()
+    point1Z = DoubleLinearField(default_value=0.0)
     p1z = point1Z
 
 
@@ -139,13 +139,13 @@ class Point1AttrOperator(
 ):
     __slots__ = ()
 
-    point1X = DoubleLinearField()
+    point1X = DoubleLinearField(default_value=1.0)
     p1x = point1X
 
-    point1Y = DoubleLinearField()
+    point1Y = DoubleLinearField(default_value=0.0)
     p1y = point1Y
 
-    point1Z = DoubleLinearField()
+    point1Z = DoubleLinearField(default_value=0.0)
     p1z = point1Z
 
 
@@ -157,13 +157,13 @@ class Point1Field(
     ATTR_CLS = Point1AttrOperator
     PLUG_CLS = Point1PlugOperator
 
-    point1X = DoubleLinearField()
+    point1X = DoubleLinearField(default_value=1.0)
     p1x = point1X
 
-    point1Y = DoubleLinearField()
+    point1Y = DoubleLinearField(default_value=0.0)
     p1y = point1Y
 
-    point1Z = DoubleLinearField()
+    point1Z = DoubleLinearField(default_value=0.0)
     p1z = point1Z
 
 
@@ -177,13 +177,13 @@ class Point2PlugOperator(
         ("point2Z", "p2z"),
     )
 
-    point2X = DoubleLinearField()
+    point2X = DoubleLinearField(default_value=-1.0)
     p2x = point2X
 
-    point2Y = DoubleLinearField()
+    point2Y = DoubleLinearField(default_value=0.0)
     p2y = point2Y
 
-    point2Z = DoubleLinearField()
+    point2Z = DoubleLinearField(default_value=0.0)
     p2z = point2Z
 
 
@@ -192,13 +192,13 @@ class Point2AttrOperator(
 ):
     __slots__ = ()
 
-    point2X = DoubleLinearField()
+    point2X = DoubleLinearField(default_value=-1.0)
     p2x = point2X
 
-    point2Y = DoubleLinearField()
+    point2Y = DoubleLinearField(default_value=0.0)
     p2y = point2Y
 
-    point2Z = DoubleLinearField()
+    point2Z = DoubleLinearField(default_value=0.0)
     p2z = point2Z
 
 
@@ -210,13 +210,13 @@ class Point2Field(
     ATTR_CLS = Point2AttrOperator
     PLUG_CLS = Point2PlugOperator
 
-    point2X = DoubleLinearField()
+    point2X = DoubleLinearField(default_value=-1.0)
     p2x = point2X
 
-    point2Y = DoubleLinearField()
+    point2Y = DoubleLinearField(default_value=0.0)
     p2y = point2Y
 
-    point2Z = DoubleLinearField()
+    point2Z = DoubleLinearField(default_value=0.0)
     p2z = point2Z
 
 
@@ -230,13 +230,13 @@ class DirectionVectorPlugOperator(
         ("directionVectorZ", "dvz"),
     )
 
-    directionVectorX = DoubleLinearField()
+    directionVectorX = DoubleLinearField(default_value=0.0)
     dvx = directionVectorX
 
-    directionVectorY = DoubleLinearField()
+    directionVectorY = DoubleLinearField(default_value=0.0)
     dvy = directionVectorY
 
-    directionVectorZ = DoubleLinearField()
+    directionVectorZ = DoubleLinearField(default_value=1.0)
     dvz = directionVectorZ
 
 
@@ -245,13 +245,13 @@ class DirectionVectorAttrOperator(
 ):
     __slots__ = ()
 
-    directionVectorX = DoubleLinearField()
+    directionVectorX = DoubleLinearField(default_value=0.0)
     dvx = directionVectorX
 
-    directionVectorY = DoubleLinearField()
+    directionVectorY = DoubleLinearField(default_value=0.0)
     dvy = directionVectorY
 
-    directionVectorZ = DoubleLinearField()
+    directionVectorZ = DoubleLinearField(default_value=1.0)
     dvz = directionVectorZ
 
 
@@ -263,11 +263,11 @@ class DirectionVectorField(
     ATTR_CLS = DirectionVectorAttrOperator
     PLUG_CLS = DirectionVectorPlugOperator
 
-    directionVectorX = DoubleLinearField()
+    directionVectorX = DoubleLinearField(default_value=0.0)
     dvx = directionVectorX
 
-    directionVectorY = DoubleLinearField()
+    directionVectorY = DoubleLinearField(default_value=0.0)
     dvy = directionVectorY
 
-    directionVectorZ = DoubleLinearField()
+    directionVectorZ = DoubleLinearField(default_value=1.0)
     dvz = directionVectorZ

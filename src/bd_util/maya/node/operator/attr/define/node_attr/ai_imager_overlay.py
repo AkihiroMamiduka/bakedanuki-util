@@ -18,13 +18,13 @@ class FontColorPlugOperator(
         ("fontColorB", "font_colorb"),
     )
 
-    fontColorR = FloatField()
+    fontColorR = FloatField(default_value=1.0)
     font_colorr = fontColorR
 
-    fontColorG = FloatField()
+    fontColorG = FloatField(default_value=1.0)
     font_colorg = fontColorG
 
-    fontColorB = FloatField()
+    fontColorB = FloatField(default_value=1.0)
     font_colorb = fontColorB
 
 
@@ -33,13 +33,13 @@ class FontColorAttrOperator(
 ):
     __slots__ = ()
 
-    fontColorR = FloatField()
+    fontColorR = FloatField(default_value=1.0)
     font_colorr = fontColorR
 
-    fontColorG = FloatField()
+    fontColorG = FloatField(default_value=1.0)
     font_colorg = fontColorG
 
-    fontColorB = FloatField()
+    fontColorB = FloatField(default_value=1.0)
     font_colorb = fontColorB
 
 
@@ -51,13 +51,13 @@ class FontColorField(
     ATTR_CLS = FontColorAttrOperator
     PLUG_CLS = FontColorPlugOperator
 
-    fontColorR = FloatField()
+    fontColorR = FloatField(default_value=1.0)
     font_colorr = fontColorR
 
-    fontColorG = FloatField()
+    fontColorG = FloatField(default_value=1.0)
     font_colorg = fontColorG
 
-    fontColorB = FloatField()
+    fontColorB = FloatField(default_value=1.0)
     font_colorb = fontColorB
 
 
@@ -71,13 +71,13 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "background_colorb"),
     )
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.05000000074505806)
     background_colorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.05000000074505806)
     background_colorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.05000000074505806)
     background_colorb = backgroundColorB
 
 
@@ -86,13 +86,13 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.05000000074505806)
     background_colorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.05000000074505806)
     background_colorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.05000000074505806)
     background_colorb = backgroundColorB
 
 
@@ -104,11 +104,11 @@ class BackgroundColorField(
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.05000000074505806)
     background_colorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.05000000074505806)
     background_colorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.05000000074505806)
     background_colorb = backgroundColorB

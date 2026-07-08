@@ -15,7 +15,7 @@ class NormalPerVertexPlugOperator(
         ("vertexNormal", "vn"),
     )
 
-    vertexNormal = CompoundField()
+    vertexNormal = CompoundField(multi=True)
     vn = vertexNormal
 
 
@@ -24,7 +24,7 @@ class NormalPerVertexAttrOperator(
 ):
     __slots__ = ()
 
-    vertexNormal = CompoundField()
+    vertexNormal = CompoundField(multi=True)
     vn = vertexNormal
 
 
@@ -36,5 +36,5 @@ class NormalPerVertexField(
     ATTR_CLS = NormalPerVertexAttrOperator
     PLUG_CLS = NormalPerVertexPlugOperator
 
-    vertexNormal = CompoundField()
+    vertexNormal = CompoundField(multi=True)
     vn = vertexNormal

@@ -81,91 +81,91 @@ class AnimClip(DG):
 
     NODE_TYPE = "animClip"
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     ea = enable
 
-    absoluteChannel = BoolField(multi=True)
+    absoluteChannel = BoolField(multi=True, default_value=False)
     ac = absoluteChannel
 
-    startFrame = TimeField()
+    startFrame = TimeField(default_value=0.0)
     sf = startFrame
 
-    scale = DoubleField()
+    scale = DoubleField(default_value=1.0, min_value=0.0)
     sc = scale
 
-    hold = TimeField()
+    hold = TimeField(default_value=0.0, min_value=0.0)
     h = hold
 
-    preCycle = DoubleField()
+    preCycle = DoubleField(default_value=0.0, min_value=0.0)
     cb = preCycle
 
-    postCycle = DoubleField()
+    postCycle = DoubleField(default_value=0.0, min_value=0.0)
     ca = postCycle
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0)
     w = weight
 
-    weightStyle = WeightStyleEnumField()
+    weightStyle = WeightStyleEnumField(default_value=0)
     ws = weightStyle
 
-    pose = BoolField()
+    pose = BoolField(default_value=False)
     ps = pose
 
-    sourceStart = TimeField()
+    sourceStart = TimeField(default_value=0.0)
     ss = sourceStart
 
-    sourceEnd = TimeField()
+    sourceEnd = TimeField(default_value=0.0)
     se = sourceEnd
 
     clip = MessageField()
     cl = clip
 
-    clipInstance = BoolField()
+    clipInstance = BoolField(default_value=True)
     ci = clipInstance
 
     clipData = TypedField()
     cd = clipData
 
-    recomputeOffset = BoolField()
+    recomputeOffset = BoolField(default_value=False, writable=False)
     roff = recomputeOffset
 
     offsetXform = DataMatrixField()
     oxf = offsetXform
 
-    timeWarp = DoubleField()
+    timeWarp = DoubleField(default_value=0.0)
     tw = timeWarp
 
-    timeWarpEnable = BoolField()
+    timeWarpEnable = BoolField(default_value=False)
     twe = timeWarpEnable
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     st = start
 
-    duration = TimeField()
+    duration = TimeField(default_value=0.0)
     du = duration
 
-    offset = OffsetEnumField()
+    offset = OffsetEnumField(default_value=0)
     o = offset
 
-    absoluteRotations = BoolField()
+    absoluteRotations = BoolField(default_value=False)
     abro = absoluteRotations
 
-    cycle = DoubleField()
+    cycle = DoubleField(default_value=1.0)
     cy = cycle
 
-    startTrim = TimeField()
+    startTrim = TimeField(default_value=0.0)
     str = startTrim
 
-    startPercent = DoubleField()
+    startPercent = DoubleField(default_value=0.0)
     sp = startPercent
 
-    useChannelOffset = BoolField()
+    useChannelOffset = BoolField(default_value=True)
     uco = useChannelOffset
 
-    channelOffset = DoubleField(multi=True)
+    channelOffset = DoubleField(multi=True, default_value=0.0)
     co = channelOffset
 
-    worldStartPosition = WorldStartPositionField()
+    worldStartPosition = WorldStartPositionField(default_value=(0.0, 0.0, 0.0))
     wsp = worldStartPosition
     worldStartPositionX = worldStartPosition.worldStartPositionX
     wspx = worldStartPositionX
@@ -174,7 +174,7 @@ class AnimClip(DG):
     worldStartPositionZ = worldStartPosition.worldStartPositionZ
     wspz = worldStartPositionZ
 
-    localStartPosition = LocalStartPositionField()
+    localStartPosition = LocalStartPositionField(default_value=(0.0, 0.0, 0.0))
     lsp = localStartPosition
     localStartPositionX = localStartPosition.localStartPositionX
     lspx = localStartPositionX

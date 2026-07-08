@@ -28,13 +28,13 @@ class CameraLayerPlugOperator(
     sceneData = MessageField()
     sda = sceneData
 
-    active = BoolField()
+    active = BoolField(default_value=True)
     act = active
 
-    order = LongField()
+    order = LongField(default_value=1)
     ord = order
 
-    clearDepth = BoolField()
+    clearDepth = BoolField(default_value=False)
     cld = clearDepth
 
 
@@ -49,13 +49,13 @@ class CameraLayerAttrOperator(
     sceneData = MessageField()
     sda = sceneData
 
-    active = BoolField()
+    active = BoolField(default_value=True)
     act = active
 
-    order = LongField()
+    order = LongField(default_value=1)
     ord = order
 
-    clearDepth = BoolField()
+    clearDepth = BoolField(default_value=False)
     cld = clearDepth
 
 

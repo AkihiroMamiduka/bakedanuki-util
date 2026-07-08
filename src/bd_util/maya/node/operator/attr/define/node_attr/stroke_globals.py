@@ -18,13 +18,13 @@ class LightDirectionPlugOperator(
         ("lightDirectionZ", "ldz"),
     )
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.2)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=-0.9)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ
 
 
@@ -33,13 +33,13 @@ class LightDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.2)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=-0.9)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ
 
 
@@ -51,11 +51,11 @@ class LightDirectionField(
     ATTR_CLS = LightDirectionAttrOperator
     PLUG_CLS = LightDirectionPlugOperator
 
-    lightDirectionX = DoubleField()
+    lightDirectionX = DoubleField(default_value=0.2)
     ldx = lightDirectionX
 
-    lightDirectionY = DoubleField()
+    lightDirectionY = DoubleField(default_value=-0.9)
     ldy = lightDirectionY
 
-    lightDirectionZ = DoubleField()
+    lightDirectionZ = DoubleField(default_value=-0.5)
     ldz = lightDirectionZ

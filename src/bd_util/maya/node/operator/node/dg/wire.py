@@ -25,22 +25,22 @@ class Wire(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -52,43 +52,43 @@ class Wire(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    crossingEffect = FloatField()
+    crossingEffect = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ce = crossingEffect
 
-    tension = FloatField()
+    tension = FloatField(default_value=1.0, min_value=-10.0, max_value=10.0)
     te = tension
 
-    localInfluence = FloatField()
+    localInfluence = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     li = localInfluence
 
-    rotation = FloatField()
+    rotation = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ro = rotation
 
-    freezeGeometry = BoolField()
+    freezeGeometry = BoolField(default_value=False)
     fg = freezeGeometry
 
-    bindToOriginalGeometry = BoolField()
+    bindToOriginalGeometry = BoolField(default_value=False)
     bog = bindToOriginalGeometry
 
-    dropoffDistance = FloatField(multi=True)
+    dropoffDistance = FloatField(multi=True, default_value=1.0, min_value=0.0)
     dds = dropoffDistance
 
-    scale = FloatField(multi=True)
+    scale = FloatField(multi=True, default_value=1.0, min_value=0.0)
     sc = scale
 
-    wireLocatorPercentage = FloatField(multi=True)
+    wireLocatorPercentage = FloatField(multi=True, default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     wlpc = wireLocatorPercentage
 
-    wireLocatorParameter = FloatField(multi=True)
+    wireLocatorParameter = FloatField(multi=True, default_value=0.0)
     wlp = wireLocatorParameter
 
-    wireLocatorEnvelope = FloatField(multi=True)
+    wireLocatorEnvelope = FloatField(multi=True, default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     wle = wireLocatorEnvelope
 
-    wireLocatorTwist = FloatAngleField(multi=True)
+    wireLocatorTwist = FloatAngleField(multi=True, default_value=0.0, soft_min_value=-10313.240312354817, soft_max_value=10313.240312354817)
     wlt = wireLocatorTwist
 
     deformedWire = DataNurbsCurveField(multi=True)

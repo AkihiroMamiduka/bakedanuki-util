@@ -22,7 +22,7 @@ class PolyCylProj(DG):
 
     NODE_TYPE = "polyCylProj"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -31,37 +31,37 @@ class PolyCylProj(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    projectionCenter = ProjectionCenterField()
+    projectionCenter = ProjectionCenterField(default_value=(0.0, 0.0, 0.0))
     pc = projectionCenter
     projectionCenterX = projectionCenter.projectionCenterX
     pcx = projectionCenterX
@@ -70,14 +70,14 @@ class PolyCylProj(DG):
     projectionCenterZ = projectionCenter.projectionCenterZ
     pcz = projectionCenterZ
 
-    imageCenter = ImageCenterField()
+    imageCenter = ImageCenterField(default_value=(0.5, 0.5))
     ic = imageCenter
     imageCenterX = imageCenter.imageCenterX
     icx = imageCenterX
     imageCenterY = imageCenter.imageCenterY
     icy = imageCenterY
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -86,14 +86,14 @@ class PolyCylProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    projectionScale = ProjectionScaleField()
+    projectionScale = ProjectionScaleField(default_value=(180.0, 1.0), min_value=(0.0, 0.0))
     ps = projectionScale
     projectionHorizontalSweep = projectionScale.projectionHorizontalSweep
     phs = projectionHorizontalSweep
     projectionHeight = projectionScale.projectionHeight
     ph = projectionHeight
 
-    imageScale = ImageScaleField()
+    imageScale = ImageScaleField(default_value=(1.0, 1.0))
     is_ = imageScale
     imageScaleU = imageScale.imageScaleU
     isu = imageScaleU
@@ -103,17 +103,17 @@ class PolyCylProj(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=10.0)
     r = radius
 
-    rotationAngle = DoubleAngleField()
+    rotationAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=20626.480624709635)
     ra = rotationAngle
 
-    seamCorrect = BoolField()
+    seamCorrect = BoolField(default_value=False)
     sc = seamCorrect
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    useOldPolyProjection = BoolField()
+    useOldPolyProjection = BoolField(default_value=False)
     uopp = useOldPolyProjection

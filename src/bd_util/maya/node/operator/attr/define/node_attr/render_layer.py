@@ -33,13 +33,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -48,13 +48,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -66,13 +66,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -85,10 +85,10 @@ class OutSizePlugOperator(
         ("outSizeY", "osy"),
     )
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -97,10 +97,10 @@ class OutSizeAttrOperator(
 ):
     __slots__ = ()
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -112,10 +112,10 @@ class OutSizeField(
     ATTR_CLS = OutSizeAttrOperator
     PLUG_CLS = OutSizePlugOperator
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -129,13 +129,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -144,13 +144,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -162,13 +162,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -182,13 +182,13 @@ class RenderInfoPlugOperator(
         ("drawColor", "c"),
     )
 
-    identification = ShortField()
+    identification = ShortField(default_value=0)
     rlid = identification
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     rndr = renderable
 
-    drawColor = ByteField()
+    drawColor = ByteField(default_value=0, min_value=0, max_value=255)
     c = drawColor
 
 
@@ -197,13 +197,13 @@ class RenderInfoAttrOperator(
 ):
     __slots__ = ()
 
-    identification = ShortField()
+    identification = ShortField(default_value=0)
     rlid = identification
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     rndr = renderable
 
-    drawColor = ByteField()
+    drawColor = ByteField(default_value=0, min_value=0, max_value=255)
     c = drawColor
 
 
@@ -215,13 +215,13 @@ class RenderInfoField(
     ATTR_CLS = RenderInfoAttrOperator
     PLUG_CLS = RenderInfoPlugOperator
 
-    identification = ShortField()
+    identification = ShortField(default_value=0)
     rlid = identification
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     rndr = renderable
 
-    drawColor = ByteField()
+    drawColor = ByteField(default_value=0, min_value=0, max_value=255)
     c = drawColor
 
 
@@ -238,22 +238,22 @@ class RenderPassInfoPlugOperator(
         ("shadow", "s"),
     )
 
-    beauty = BoolField()
+    beauty = BoolField(default_value=True)
     b = beauty
 
-    color = BoolField()
+    color = BoolField(default_value=False)
     cp = color
 
-    ambient = BoolField()
+    ambient = BoolField(default_value=False)
     am = ambient
 
-    diffuse = BoolField()
+    diffuse = BoolField(default_value=False)
     di = diffuse
 
-    specular = BoolField()
+    specular = BoolField(default_value=False)
     sp = specular
 
-    shadow = BoolField()
+    shadow = BoolField(default_value=False)
     s = shadow
 
 
@@ -262,22 +262,22 @@ class RenderPassInfoAttrOperator(
 ):
     __slots__ = ()
 
-    beauty = BoolField()
+    beauty = BoolField(default_value=True)
     b = beauty
 
-    color = BoolField()
+    color = BoolField(default_value=False)
     cp = color
 
-    ambient = BoolField()
+    ambient = BoolField(default_value=False)
     am = ambient
 
-    diffuse = BoolField()
+    diffuse = BoolField(default_value=False)
     di = diffuse
 
-    specular = BoolField()
+    specular = BoolField(default_value=False)
     sp = specular
 
-    shadow = BoolField()
+    shadow = BoolField(default_value=False)
     s = shadow
 
 
@@ -289,22 +289,22 @@ class RenderPassInfoField(
     ATTR_CLS = RenderPassInfoAttrOperator
     PLUG_CLS = RenderPassInfoPlugOperator
 
-    beauty = BoolField()
+    beauty = BoolField(default_value=True)
     b = beauty
 
-    color = BoolField()
+    color = BoolField(default_value=False)
     cp = color
 
-    ambient = BoolField()
+    ambient = BoolField(default_value=False)
     am = ambient
 
-    diffuse = BoolField()
+    diffuse = BoolField(default_value=False)
     di = diffuse
 
-    specular = BoolField()
+    specular = BoolField(default_value=False)
     sp = specular
 
-    shadow = BoolField()
+    shadow = BoolField(default_value=False)
     s = shadow
 
 
@@ -317,7 +317,7 @@ class AdjustmentsPlugOperator(
         ("value", "val"),
     )
 
-    plug = GenericField()
+    plug = GenericField(readable=False)
     plg = plug
 
     value = GenericField()
@@ -329,7 +329,7 @@ class AdjustmentsAttrOperator(
 ):
     __slots__ = ()
 
-    plug = GenericField()
+    plug = GenericField(readable=False)
     plg = plug
 
     value = GenericField()
@@ -355,13 +355,13 @@ class OutAdjustmentsPlugOperator(
         ("outId", "oaid"),
     )
 
-    outPlug = GenericField()
+    outPlug = GenericField(readable=False)
     opg = outPlug
 
     outValue = GenericField()
     ovl = outValue
 
-    outId = LongField()
+    outId = LongField(default_value=-1)
     oaid = outId
 
 
@@ -370,13 +370,13 @@ class OutAdjustmentsAttrOperator(
 ):
     __slots__ = ()
 
-    outPlug = GenericField()
+    outPlug = GenericField(readable=False)
     opg = outPlug
 
     outValue = GenericField()
     ovl = outValue
 
-    outId = LongField()
+    outId = LongField(default_value=-1)
     oaid = outId
 
 

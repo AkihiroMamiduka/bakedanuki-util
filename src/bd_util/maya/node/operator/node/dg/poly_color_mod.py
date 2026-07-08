@@ -20,7 +20,7 @@ class PolyColorMod(DG):
 
     NODE_TYPE = "polyColorMod"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -29,50 +29,50 @@ class PolyColorMod(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     baseColorName = DataStringField()
     bcn = baseColorName
 
-    redScale = RedScaleField(multi=True)
+    redScale = RedScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     r = redScale
 
-    greenScale = GreenScaleField(multi=True)
+    greenScale = GreenScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     g = greenScale
 
-    blueScale = BlueScaleField(multi=True)
+    blueScale = BlueScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     b = blueScale
 
-    alphaScale = AlphaScaleField(multi=True)
+    alphaScale = AlphaScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     a = alphaScale
 
-    intensityScale = IntensityScaleField(multi=True)
+    intensityScale = IntensityScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     n = intensityScale
 
-    huev = FloatField()
+    huev = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
     h = huev
 
-    satv = FloatField()
+    satv = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     s = satv
 
-    value = FloatField()
+    value = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     v = value

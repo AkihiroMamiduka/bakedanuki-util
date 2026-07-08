@@ -17,10 +17,10 @@ class UvTweakPlugOperator(
         ("uvTweakV", "tv"),
     )
 
-    uvTweakU = FloatField()
+    uvTweakU = FloatField(default_value=0.0)
     tu = uvTweakU
 
-    uvTweakV = FloatField()
+    uvTweakV = FloatField(default_value=0.0)
     tv = uvTweakV
 
 
@@ -29,10 +29,10 @@ class UvTweakAttrOperator(
 ):
     __slots__ = ()
 
-    uvTweakU = FloatField()
+    uvTweakU = FloatField(default_value=0.0)
     tu = uvTweakU
 
-    uvTweakV = FloatField()
+    uvTweakV = FloatField(default_value=0.0)
     tv = uvTweakV
 
 

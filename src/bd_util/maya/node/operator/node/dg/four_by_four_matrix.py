@@ -9,53 +9,53 @@ class FourByFourMatrix(DG):
 
     NODE_TYPE = "fourByFourMatrix"
 
-    in00 = DoubleField()
+    in00 = DoubleField(default_value=1.0)
     i00 = in00
 
-    in01 = DoubleField()
+    in01 = DoubleField(default_value=0.0)
     i01 = in01
 
-    in02 = DoubleField()
+    in02 = DoubleField(default_value=0.0)
     i02 = in02
 
-    in03 = DoubleField()
+    in03 = DoubleField(default_value=0.0)
     i03 = in03
 
-    in10 = DoubleField()
+    in10 = DoubleField(default_value=0.0)
     i10 = in10
 
-    in11 = DoubleField()
+    in11 = DoubleField(default_value=1.0)
     i11 = in11
 
-    in12 = DoubleField()
+    in12 = DoubleField(default_value=0.0)
     i12 = in12
 
-    in13 = DoubleField()
+    in13 = DoubleField(default_value=0.0)
     i13 = in13
 
-    in20 = DoubleField()
+    in20 = DoubleField(default_value=0.0)
     i20 = in20
 
-    in21 = DoubleField()
+    in21 = DoubleField(default_value=0.0)
     i21 = in21
 
-    in22 = DoubleField()
+    in22 = DoubleField(default_value=1.0)
     i22 = in22
 
-    in23 = DoubleField()
+    in23 = DoubleField(default_value=0.0)
     i23 = in23
 
-    in30 = DoubleField()
+    in30 = DoubleField(default_value=0.0)
     i30 = in30
 
-    in31 = DoubleField()
+    in31 = DoubleField(default_value=0.0)
     i31 = in31
 
-    in32 = DoubleField()
+    in32 = DoubleField(default_value=0.0)
     i32 = in32
 
-    in33 = DoubleField()
+    in33 = DoubleField(default_value=1.0)
     i33 = in33
 
-    output = DataMatrixField()
+    output = DataMatrixField(writable=False)
     o = output

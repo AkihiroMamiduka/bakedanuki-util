@@ -86,68 +86,68 @@ class RenderQuality(DG):
 
     NODE_TYPE = "renderQuality"
 
-    reflections = LongField()
+    reflections = LongField(default_value=1, min_value=0, soft_max_value=10)
     rfl = reflections
 
-    refractions = LongField()
+    refractions = LongField(default_value=6, min_value=0, soft_max_value=10)
     rfr = refractions
 
-    shadows = LongField()
+    shadows = LongField(default_value=2, min_value=0, soft_max_value=10)
     sl = shadows
 
-    rayTraceBias = FloatField()
+    rayTraceBias = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     rtb = rayTraceBias
 
-    edgeAntiAliasing = EdgeAntiAliasingEnumField()
+    edgeAntiAliasing = EdgeAntiAliasingEnumField(default_value=3)
     eaa = edgeAntiAliasing
 
-    renderSample = BoolField()
+    renderSample = BoolField(default_value=False)
     rsdn = renderSample
 
-    useMultiPixelFilter = BoolField()
+    useMultiPixelFilter = BoolField(default_value=False)
     ufil = useMultiPixelFilter
 
-    pixelFilterType = PixelFilterTypeEnumField()
+    pixelFilterType = PixelFilterTypeEnumField(default_value=2)
     pft = pixelFilterType
 
-    pixelFilterWidthX = FloatField()
+    pixelFilterWidthX = FloatField(default_value=2.200000047683716, min_value=1.0, max_value=3.0, soft_max_value=3.0)
     pfwx = pixelFilterWidthX
 
-    pixelFilterWidthY = FloatField()
+    pixelFilterWidthY = FloatField(default_value=2.200000047683716, min_value=1.0, max_value=3.0, soft_max_value=3.0)
     pfwy = pixelFilterWidthY
 
-    plugInFilterWeight = FloatField()
+    plugInFilterWeight = FloatField(default_value=1.0)
     pifw = plugInFilterWeight
 
-    shadingSamples = LongField()
+    shadingSamples = LongField(default_value=1, min_value=1, max_value=32, soft_max_value=20)
     ss = shadingSamples
 
-    maxShadingSamples = LongField()
+    maxShadingSamples = LongField(default_value=8, min_value=1, max_value=32, soft_max_value=20)
     mss = maxShadingSamples
 
-    visibilitySamples = LongField()
+    visibilitySamples = LongField(default_value=1, min_value=1, max_value=32, soft_max_value=20)
     mvs = visibilitySamples
 
-    maxVisibilitySamples = LongField()
+    maxVisibilitySamples = LongField(default_value=4, min_value=2, max_value=32, soft_max_value=20)
     mvm = maxVisibilitySamples
 
-    volumeSamples = LongField()
+    volumeSamples = LongField(default_value=1, min_value=1, soft_max_value=20)
     vs = volumeSamples
 
-    particleSamples = LongField()
+    particleSamples = LongField(default_value=1, min_value=1, max_value=32, soft_max_value=20)
     pss = particleSamples
 
-    enableRaytracing = BoolField()
+    enableRaytracing = BoolField(default_value=False)
     ert = enableRaytracing
 
-    redThreshold = FloatField()
+    redThreshold = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     rct = redThreshold
 
-    greenThreshold = FloatField()
+    greenThreshold = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
     gct = greenThreshold
 
-    blueThreshold = FloatField()
+    blueThreshold = FloatField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
     bct = blueThreshold
 
-    coverageThreshold = FloatField()
+    coverageThreshold = FloatField(default_value=0.125, min_value=0.0, max_value=1.0)
     cct = coverageThreshold

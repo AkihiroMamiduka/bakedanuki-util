@@ -17,7 +17,7 @@ class AiDistance(DG):
 
     NODE_TYPE = "aiDistance"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -26,9 +26,9 @@ class AiDistance(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    out_distance = FloatField()
+    out_distance = FloatField(default_value=0.0, writable=False)
 
-    out_direction = Out_directionField()
+    out_direction = Out_directionField(default_value=(0.0, 0.0, 0.0), writable=False)
     out_directionX = out_direction.out_directionX
     out_directionx = out_directionX
     out_directionY = out_direction.out_directionY
@@ -36,11 +36,11 @@ class AiDistance(DG):
     out_directionZ = out_direction.out_directionZ
     out_directionz = out_directionZ
 
-    samples = LongField()
+    samples = LongField(default_value=16, min_value=1)
 
-    distance = FloatField()
+    distance = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    nearColor = NearColorField()
+    nearColor = NearColorField(default_value=(0.0, 0.0, 0.0))
     near_color = nearColor
     nearColorR = nearColor.nearColorR
     near_colorr = nearColorR
@@ -49,7 +49,7 @@ class AiDistance(DG):
     nearColorB = nearColor.nearColorB
     near_colorb = nearColorB
 
-    farColor = FarColorField()
+    farColor = FarColorField(default_value=(1.0, 1.0, 1.0))
     far_color = farColor
     farColorR = farColor.farColorR
     far_colorr = farColorR
@@ -61,4 +61,4 @@ class AiDistance(DG):
     traceSet = DataStringField()
     trace_set = traceSet
 
-    inclusive = BoolField()
+    inclusive = BoolField(default_value=True)

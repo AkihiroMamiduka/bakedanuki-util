@@ -63,10 +63,10 @@ class DecomposeMatrix(DG):
     inputMatrix = MatrixField()
     imat = inputMatrix
 
-    inputRotateOrder = InputRotateOrderEnumField()
+    inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     ro = inputRotateOrder
 
-    outputTranslate = OutputTranslateField()
+    outputTranslate = OutputTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outputTranslate
     outputTranslateX = outputTranslate.outputTranslateX
     otx = outputTranslateX
@@ -75,7 +75,7 @@ class DecomposeMatrix(DG):
     outputTranslateZ = outputTranslate.outputTranslateZ
     otz = outputTranslateZ
 
-    outputRotate = OutputRotateField()
+    outputRotate = OutputRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
     or_ = outputRotate
     outputRotateX = outputRotate.outputRotateX
     orx = outputRotateX
@@ -84,7 +84,7 @@ class DecomposeMatrix(DG):
     outputRotateZ = outputRotate.outputRotateZ
     orz = outputRotateZ
 
-    outputScale = OutputScaleField()
+    outputScale = OutputScaleField(default_value=(0.0, 0.0, 0.0), writable=False)
     os = outputScale
     outputScaleX = outputScale.outputScaleX
     osx = outputScaleX
@@ -93,7 +93,7 @@ class DecomposeMatrix(DG):
     outputScaleZ = outputScale.outputScaleZ
     osz = outputScaleZ
 
-    outputShear = OutputShearField()
+    outputShear = OutputShearField(default_value=(0.0, 0.0, 0.0), writable=False)
     osh = outputShear
     outputShearX = outputShear.outputShearX
     oshx = outputShearX
@@ -102,7 +102,7 @@ class DecomposeMatrix(DG):
     outputShearZ = outputShear.outputShearZ
     oshz = outputShearZ
 
-    outputQuat = OutputQuatField()
+    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

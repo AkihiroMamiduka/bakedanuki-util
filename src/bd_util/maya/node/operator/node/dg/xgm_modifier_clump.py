@@ -24,64 +24,64 @@ class XgmModifierClump(DG):
 
     NODE_TYPE = "xgmModifierClump"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    clump = FloatField()
+    clump = FloatField(default_value=1.0)
     cp = clump
 
-    clumpScale = ClumpScaleField(multi=True)
+    clumpScale = ClumpScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     cs = clumpScale
 
-    clumpVolumize = BoolField()
+    clumpVolumize = BoolField(default_value=False)
     cvl = clumpVolumize
 
-    clumpVariance = FloatField()
+    clumpVariance = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     cvr = clumpVariance
 
-    preserveLength = FloatField()
+    preserveLength = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     pl = preserveLength
 
-    pointDensity = FloatField()
+    pointDensity = FloatField(default_value=1.0)
     pd = pointDensity
 
-    pointDensityMask = FloatField()
+    pointDensityMask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     pdm = pointDensityMask
 
-    pointRandomness = FloatField()
+    pointRandomness = FloatField(default_value=1.0, min_value=0.0)
     pr = pointRandomness
 
-    pointSeed = LongField()
+    pointSeed = LongField(default_value=0, min_value=0)
     ps = pointSeed
 
-    useInputPoints = BoolField()
+    useInputPoints = BoolField(default_value=False)
     uip = useInputPoints
 
-    inputPoints = TypedField()
+    inputPoints = TypedField(readable=False)
     ips = inputPoints
 
-    autoUpdate = BoolField()
+    autoUpdate = BoolField(default_value=True)
     au = autoUpdate
 
-    radiusVariance = FloatField()
+    radiusVariance = FloatField(default_value=0.5, min_value=0.0)
     rv = radiusVariance
 
-    updateClumpMap = BoolField()
+    updateClumpMap = BoolField(default_value=True)
     ucm = updateClumpMap
 
-    mapSubdLevel = LongField()
+    mapSubdLevel = LongField(default_value=3)
     msl = mapSubdLevel
 
-    useControlMap = BoolField()
+    useControlMap = BoolField(default_value=False)
     utm = useControlMap
 
     controlMaps = DataStringArrayField()
@@ -90,7 +90,7 @@ class XgmModifierClump(DG):
     activeControlMap = MessageField()
     acm = activeControlMap
 
-    customControlMap = CustomControlMapField()
+    customControlMap = CustomControlMapField(default_value=(1.0, 1.0, 1.0))
     ccm = customControlMap
     customControlMapR = customControlMap.customControlMapR
     ccmr = customControlMapR
@@ -99,7 +99,7 @@ class XgmModifierClump(DG):
     customControlMapB = customControlMap.customControlMapB
     ccmb = customControlMapB
 
-    controlMask = ControlMaskField()
+    controlMask = ControlMaskField(default_value=(1.0, 1.0, 1.0))
     cms = controlMask
     controlMaskR = controlMask.controlMaskR
     cmsr = controlMaskR
@@ -108,53 +108,53 @@ class XgmModifierClump(DG):
     controlMaskB = controlMask.controlMaskB
     cmsb = controlMaskB
 
-    previewColor = BoolField()
+    previewColor = BoolField(default_value=False)
     pc = previewColor
 
-    flatness = FloatField()
+    flatness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     fl = flatness
 
-    flatnessScale = FlatnessScaleField(multi=True)
+    flatnessScale = FlatnessScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     fls = flatnessScale
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0)
     of = offset
 
-    offsetScale = OffsetScaleField(multi=True)
+    offsetScale = OffsetScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     ofs = offsetScale
 
-    curl = FloatField()
+    curl = FloatField(default_value=0.0)
     cu = curl
 
-    curlScale = CurlScaleField(multi=True)
+    curlScale = CurlScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     cus = curlScale
 
-    orient = DoubleAngleField()
+    orient = DoubleAngleField(default_value=0.0, min_value=0.0, max_value=360.0)
     or_ = orient
 
-    copy = FloatField()
+    copy = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     co = copy
 
-    copyScale = CopyScaleField(multi=True)
+    copyScale = CopyScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     cos = copyScale
 
-    copyVariance = FloatField()
+    copyVariance = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     cov = copyVariance
 
-    cut = FloatField()
+    cut = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     ct = cut
 
-    noise = FloatField()
+    noise = FloatField(default_value=0.0, min_value=0.0)
     no = noise
 
-    noiseScale = NoiseScaleField(multi=True)
+    noiseScale = NoiseScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     nos = noiseScale
 
-    noiseFrequency = FloatField()
+    noiseFrequency = FloatField(default_value=0.0, min_value=0.0)
     nof = noiseFrequency
 
-    noiseCorrelation = FloatField()
+    noiseCorrelation = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     noc = noiseCorrelation
 
-    inMeshData = TypedField()
+    inMeshData = TypedField(readable=False)
     imd = inMeshData

@@ -30,13 +30,13 @@ class InRootTranslatePlugOperator(
         ("inRootTranslateZ", "rtiz"),
     )
 
-    inRootTranslateX = DoubleLinearField()
+    inRootTranslateX = DoubleLinearField(default_value=0.0)
     rtix = inRootTranslateX
 
-    inRootTranslateY = DoubleLinearField()
+    inRootTranslateY = DoubleLinearField(default_value=0.0)
     rtiy = inRootTranslateY
 
-    inRootTranslateZ = DoubleLinearField()
+    inRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtiz = inRootTranslateZ
 
 
@@ -45,13 +45,13 @@ class InRootTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    inRootTranslateX = DoubleLinearField()
+    inRootTranslateX = DoubleLinearField(default_value=0.0)
     rtix = inRootTranslateX
 
-    inRootTranslateY = DoubleLinearField()
+    inRootTranslateY = DoubleLinearField(default_value=0.0)
     rtiy = inRootTranslateY
 
-    inRootTranslateZ = DoubleLinearField()
+    inRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtiz = inRootTranslateZ
 
 
@@ -63,13 +63,13 @@ class InRootTranslateField(
     ATTR_CLS = InRootTranslateAttrOperator
     PLUG_CLS = InRootTranslatePlugOperator
 
-    inRootTranslateX = DoubleLinearField()
+    inRootTranslateX = DoubleLinearField(default_value=0.0)
     rtix = inRootTranslateX
 
-    inRootTranslateY = DoubleLinearField()
+    inRootTranslateY = DoubleLinearField(default_value=0.0)
     rtiy = inRootTranslateY
 
-    inRootTranslateZ = DoubleLinearField()
+    inRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtiz = inRootTranslateZ
 
 
@@ -83,13 +83,13 @@ class InRootRotatePlugOperator(
         ("inRootRotateZ", "rriz"),
     )
 
-    inRootRotateX = DoubleAngleField()
+    inRootRotateX = DoubleAngleField(default_value=0.0)
     rrix = inRootRotateX
 
-    inRootRotateY = DoubleAngleField()
+    inRootRotateY = DoubleAngleField(default_value=0.0)
     rriy = inRootRotateY
 
-    inRootRotateZ = DoubleAngleField()
+    inRootRotateZ = DoubleAngleField(default_value=0.0)
     rriz = inRootRotateZ
 
 
@@ -98,13 +98,13 @@ class InRootRotateAttrOperator(
 ):
     __slots__ = ()
 
-    inRootRotateX = DoubleAngleField()
+    inRootRotateX = DoubleAngleField(default_value=0.0)
     rrix = inRootRotateX
 
-    inRootRotateY = DoubleAngleField()
+    inRootRotateY = DoubleAngleField(default_value=0.0)
     rriy = inRootRotateY
 
-    inRootRotateZ = DoubleAngleField()
+    inRootRotateZ = DoubleAngleField(default_value=0.0)
     rriz = inRootRotateZ
 
 
@@ -116,13 +116,13 @@ class InRootRotateField(
     ATTR_CLS = InRootRotateAttrOperator
     PLUG_CLS = InRootRotatePlugOperator
 
-    inRootRotateX = DoubleAngleField()
+    inRootRotateX = DoubleAngleField(default_value=0.0)
     rrix = inRootRotateX
 
-    inRootRotateY = DoubleAngleField()
+    inRootRotateY = DoubleAngleField(default_value=0.0)
     rriy = inRootRotateY
 
-    inRootRotateZ = DoubleAngleField()
+    inRootRotateZ = DoubleAngleField(default_value=0.0)
     rriz = inRootRotateZ
 
 
@@ -136,13 +136,13 @@ class RootJointOrientPlugOperator(
         ("rootJointOrientZ", "rjoz"),
     )
 
-    rootJointOrientX = DoubleAngleField()
+    rootJointOrientX = DoubleAngleField(default_value=0.0)
     rjox = rootJointOrientX
 
-    rootJointOrientY = DoubleAngleField()
+    rootJointOrientY = DoubleAngleField(default_value=0.0)
     rjoy = rootJointOrientY
 
-    rootJointOrientZ = DoubleAngleField()
+    rootJointOrientZ = DoubleAngleField(default_value=0.0)
     rjoz = rootJointOrientZ
 
 
@@ -151,13 +151,13 @@ class RootJointOrientAttrOperator(
 ):
     __slots__ = ()
 
-    rootJointOrientX = DoubleAngleField()
+    rootJointOrientX = DoubleAngleField(default_value=0.0)
     rjox = rootJointOrientX
 
-    rootJointOrientY = DoubleAngleField()
+    rootJointOrientY = DoubleAngleField(default_value=0.0)
     rjoy = rootJointOrientY
 
-    rootJointOrientZ = DoubleAngleField()
+    rootJointOrientZ = DoubleAngleField(default_value=0.0)
     rjoz = rootJointOrientZ
 
 
@@ -169,13 +169,13 @@ class RootJointOrientField(
     ATTR_CLS = RootJointOrientAttrOperator
     PLUG_CLS = RootJointOrientPlugOperator
 
-    rootJointOrientX = DoubleAngleField()
+    rootJointOrientX = DoubleAngleField(default_value=0.0)
     rjox = rootJointOrientX
 
-    rootJointOrientY = DoubleAngleField()
+    rootJointOrientY = DoubleAngleField(default_value=0.0)
     rjoy = rootJointOrientY
 
-    rootJointOrientZ = DoubleAngleField()
+    rootJointOrientZ = DoubleAngleField(default_value=0.0)
     rjoz = rootJointOrientZ
 
 
@@ -189,13 +189,13 @@ class OffsetRootTranslatePlugOperator(
         ("offsetRootTranslateZ", "rtfz"),
     )
 
-    offsetRootTranslateX = DoubleLinearField()
+    offsetRootTranslateX = DoubleLinearField(default_value=0.0)
     rtfx = offsetRootTranslateX
 
-    offsetRootTranslateY = DoubleLinearField()
+    offsetRootTranslateY = DoubleLinearField(default_value=0.0)
     rtfy = offsetRootTranslateY
 
-    offsetRootTranslateZ = DoubleLinearField()
+    offsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtfz = offsetRootTranslateZ
 
 
@@ -204,13 +204,13 @@ class OffsetRootTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    offsetRootTranslateX = DoubleLinearField()
+    offsetRootTranslateX = DoubleLinearField(default_value=0.0)
     rtfx = offsetRootTranslateX
 
-    offsetRootTranslateY = DoubleLinearField()
+    offsetRootTranslateY = DoubleLinearField(default_value=0.0)
     rtfy = offsetRootTranslateY
 
-    offsetRootTranslateZ = DoubleLinearField()
+    offsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtfz = offsetRootTranslateZ
 
 
@@ -222,13 +222,13 @@ class OffsetRootTranslateField(
     ATTR_CLS = OffsetRootTranslateAttrOperator
     PLUG_CLS = OffsetRootTranslatePlugOperator
 
-    offsetRootTranslateX = DoubleLinearField()
+    offsetRootTranslateX = DoubleLinearField(default_value=0.0)
     rtfx = offsetRootTranslateX
 
-    offsetRootTranslateY = DoubleLinearField()
+    offsetRootTranslateY = DoubleLinearField(default_value=0.0)
     rtfy = offsetRootTranslateY
 
-    offsetRootTranslateZ = DoubleLinearField()
+    offsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     rtfz = offsetRootTranslateZ
 
 
@@ -242,13 +242,13 @@ class InitialOffsetRootTranslatePlugOperator(
         ("initialOffsetRootTranslateZ", "itfz"),
     )
 
-    initialOffsetRootTranslateX = DoubleLinearField()
+    initialOffsetRootTranslateX = DoubleLinearField(default_value=0.0)
     itfx = initialOffsetRootTranslateX
 
-    initialOffsetRootTranslateY = DoubleLinearField()
+    initialOffsetRootTranslateY = DoubleLinearField(default_value=0.0)
     itfy = initialOffsetRootTranslateY
 
-    initialOffsetRootTranslateZ = DoubleLinearField()
+    initialOffsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     itfz = initialOffsetRootTranslateZ
 
 
@@ -257,13 +257,13 @@ class InitialOffsetRootTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    initialOffsetRootTranslateX = DoubleLinearField()
+    initialOffsetRootTranslateX = DoubleLinearField(default_value=0.0)
     itfx = initialOffsetRootTranslateX
 
-    initialOffsetRootTranslateY = DoubleLinearField()
+    initialOffsetRootTranslateY = DoubleLinearField(default_value=0.0)
     itfy = initialOffsetRootTranslateY
 
-    initialOffsetRootTranslateZ = DoubleLinearField()
+    initialOffsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     itfz = initialOffsetRootTranslateZ
 
 
@@ -275,13 +275,13 @@ class InitialOffsetRootTranslateField(
     ATTR_CLS = InitialOffsetRootTranslateAttrOperator
     PLUG_CLS = InitialOffsetRootTranslatePlugOperator
 
-    initialOffsetRootTranslateX = DoubleLinearField()
+    initialOffsetRootTranslateX = DoubleLinearField(default_value=0.0)
     itfx = initialOffsetRootTranslateX
 
-    initialOffsetRootTranslateY = DoubleLinearField()
+    initialOffsetRootTranslateY = DoubleLinearField(default_value=0.0)
     itfy = initialOffsetRootTranslateY
 
-    initialOffsetRootTranslateZ = DoubleLinearField()
+    initialOffsetRootTranslateZ = DoubleLinearField(default_value=0.0)
     itfz = initialOffsetRootTranslateZ
 
 
@@ -295,13 +295,13 @@ class RotateControlScalePlugOperator(
         ("rotateControlScaleZ", "rcsz"),
     )
 
-    rotateControlScaleX = DoubleField()
+    rotateControlScaleX = DoubleField(default_value=1.0)
     rcsx = rotateControlScaleX
 
-    rotateControlScaleY = DoubleField()
+    rotateControlScaleY = DoubleField(default_value=1.0)
     rcsy = rotateControlScaleY
 
-    rotateControlScaleZ = DoubleField()
+    rotateControlScaleZ = DoubleField(default_value=1.0)
     rcsz = rotateControlScaleZ
 
 
@@ -310,13 +310,13 @@ class RotateControlScaleAttrOperator(
 ):
     __slots__ = ()
 
-    rotateControlScaleX = DoubleField()
+    rotateControlScaleX = DoubleField(default_value=1.0)
     rcsx = rotateControlScaleX
 
-    rotateControlScaleY = DoubleField()
+    rotateControlScaleY = DoubleField(default_value=1.0)
     rcsy = rotateControlScaleY
 
-    rotateControlScaleZ = DoubleField()
+    rotateControlScaleZ = DoubleField(default_value=1.0)
     rcsz = rotateControlScaleZ
 
 
@@ -328,13 +328,13 @@ class RotateControlScaleField(
     ATTR_CLS = RotateControlScaleAttrOperator
     PLUG_CLS = RotateControlScalePlugOperator
 
-    rotateControlScaleX = DoubleField()
+    rotateControlScaleX = DoubleField(default_value=1.0)
     rcsx = rotateControlScaleX
 
-    rotateControlScaleY = DoubleField()
+    rotateControlScaleY = DoubleField(default_value=1.0)
     rcsy = rotateControlScaleY
 
-    rotateControlScaleZ = DoubleField()
+    rotateControlScaleZ = DoubleField(default_value=1.0)
     rcsz = rotateControlScaleZ
 
 
@@ -348,13 +348,13 @@ class OffsetRootRotatePlugOperator(
         ("offsetRootRotateZ", "rrfz"),
     )
 
-    offsetRootRotateX = DoubleAngleField()
+    offsetRootRotateX = DoubleAngleField(default_value=0.0)
     rrfx = offsetRootRotateX
 
-    offsetRootRotateY = DoubleAngleField()
+    offsetRootRotateY = DoubleAngleField(default_value=0.0)
     rrfy = offsetRootRotateY
 
-    offsetRootRotateZ = DoubleAngleField()
+    offsetRootRotateZ = DoubleAngleField(default_value=0.0)
     rrfz = offsetRootRotateZ
 
 
@@ -363,13 +363,13 @@ class OffsetRootRotateAttrOperator(
 ):
     __slots__ = ()
 
-    offsetRootRotateX = DoubleAngleField()
+    offsetRootRotateX = DoubleAngleField(default_value=0.0)
     rrfx = offsetRootRotateX
 
-    offsetRootRotateY = DoubleAngleField()
+    offsetRootRotateY = DoubleAngleField(default_value=0.0)
     rrfy = offsetRootRotateY
 
-    offsetRootRotateZ = DoubleAngleField()
+    offsetRootRotateZ = DoubleAngleField(default_value=0.0)
     rrfz = offsetRootRotateZ
 
 
@@ -381,13 +381,13 @@ class OffsetRootRotateField(
     ATTR_CLS = OffsetRootRotateAttrOperator
     PLUG_CLS = OffsetRootRotatePlugOperator
 
-    offsetRootRotateX = DoubleAngleField()
+    offsetRootRotateX = DoubleAngleField(default_value=0.0)
     rrfx = offsetRootRotateX
 
-    offsetRootRotateY = DoubleAngleField()
+    offsetRootRotateY = DoubleAngleField(default_value=0.0)
     rrfy = offsetRootRotateY
 
-    offsetRootRotateZ = DoubleAngleField()
+    offsetRootRotateZ = DoubleAngleField(default_value=0.0)
     rrfz = offsetRootRotateZ
 
 
@@ -401,13 +401,13 @@ class OffsetRootRotatePivotPlugOperator(
         ("offsetRootRotatePivotZ", "rppfz"),
     )
 
-    offsetRootRotatePivotX = DoubleLinearField()
+    offsetRootRotatePivotX = DoubleLinearField(default_value=0.0)
     rppfx = offsetRootRotatePivotX
 
-    offsetRootRotatePivotY = DoubleLinearField()
+    offsetRootRotatePivotY = DoubleLinearField(default_value=0.0)
     rppfy = offsetRootRotatePivotY
 
-    offsetRootRotatePivotZ = DoubleLinearField()
+    offsetRootRotatePivotZ = DoubleLinearField(default_value=0.0)
     rppfz = offsetRootRotatePivotZ
 
 
@@ -416,13 +416,13 @@ class OffsetRootRotatePivotAttrOperator(
 ):
     __slots__ = ()
 
-    offsetRootRotatePivotX = DoubleLinearField()
+    offsetRootRotatePivotX = DoubleLinearField(default_value=0.0)
     rppfx = offsetRootRotatePivotX
 
-    offsetRootRotatePivotY = DoubleLinearField()
+    offsetRootRotatePivotY = DoubleLinearField(default_value=0.0)
     rppfy = offsetRootRotatePivotY
 
-    offsetRootRotatePivotZ = DoubleLinearField()
+    offsetRootRotatePivotZ = DoubleLinearField(default_value=0.0)
     rppfz = offsetRootRotatePivotZ
 
 
@@ -434,13 +434,13 @@ class OffsetRootRotatePivotField(
     ATTR_CLS = OffsetRootRotatePivotAttrOperator
     PLUG_CLS = OffsetRootRotatePivotPlugOperator
 
-    offsetRootRotatePivotX = DoubleLinearField()
+    offsetRootRotatePivotX = DoubleLinearField(default_value=0.0)
     rppfx = offsetRootRotatePivotX
 
-    offsetRootRotatePivotY = DoubleLinearField()
+    offsetRootRotatePivotY = DoubleLinearField(default_value=0.0)
     rppfy = offsetRootRotatePivotY
 
-    offsetRootRotatePivotZ = DoubleLinearField()
+    offsetRootRotatePivotZ = DoubleLinearField(default_value=0.0)
     rppfz = offsetRootRotatePivotZ
 
 
@@ -454,13 +454,13 @@ class OutRootTranslatePlugOperator(
         ("outRootTranslateZ", "rtoz"),
     )
 
-    outRootTranslateX = DoubleLinearField()
+    outRootTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     rtox = outRootTranslateX
 
-    outRootTranslateY = DoubleLinearField()
+    outRootTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     rtoy = outRootTranslateY
 
-    outRootTranslateZ = DoubleLinearField()
+    outRootTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     rtoz = outRootTranslateZ
 
 
@@ -469,13 +469,13 @@ class OutRootTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    outRootTranslateX = DoubleLinearField()
+    outRootTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     rtox = outRootTranslateX
 
-    outRootTranslateY = DoubleLinearField()
+    outRootTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     rtoy = outRootTranslateY
 
-    outRootTranslateZ = DoubleLinearField()
+    outRootTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     rtoz = outRootTranslateZ
 
 
@@ -487,13 +487,13 @@ class OutRootTranslateField(
     ATTR_CLS = OutRootTranslateAttrOperator
     PLUG_CLS = OutRootTranslatePlugOperator
 
-    outRootTranslateX = DoubleLinearField()
+    outRootTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     rtox = outRootTranslateX
 
-    outRootTranslateY = DoubleLinearField()
+    outRootTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     rtoy = outRootTranslateY
 
-    outRootTranslateZ = DoubleLinearField()
+    outRootTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     rtoz = outRootTranslateZ
 
 
@@ -507,13 +507,13 @@ class OutRootRotatePlugOperator(
         ("outRootRotateZ", "rroz"),
     )
 
-    outRootRotateX = DoubleAngleField()
+    outRootRotateX = DoubleAngleField(default_value=0.0, writable=False)
     rrox = outRootRotateX
 
-    outRootRotateY = DoubleAngleField()
+    outRootRotateY = DoubleAngleField(default_value=0.0, writable=False)
     rroy = outRootRotateY
 
-    outRootRotateZ = DoubleAngleField()
+    outRootRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rroz = outRootRotateZ
 
 
@@ -522,13 +522,13 @@ class OutRootRotateAttrOperator(
 ):
     __slots__ = ()
 
-    outRootRotateX = DoubleAngleField()
+    outRootRotateX = DoubleAngleField(default_value=0.0, writable=False)
     rrox = outRootRotateX
 
-    outRootRotateY = DoubleAngleField()
+    outRootRotateY = DoubleAngleField(default_value=0.0, writable=False)
     rroy = outRootRotateY
 
-    outRootRotateZ = DoubleAngleField()
+    outRootRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rroz = outRootRotateZ
 
 
@@ -540,11 +540,11 @@ class OutRootRotateField(
     ATTR_CLS = OutRootRotateAttrOperator
     PLUG_CLS = OutRootRotatePlugOperator
 
-    outRootRotateX = DoubleAngleField()
+    outRootRotateX = DoubleAngleField(default_value=0.0, writable=False)
     rrox = outRootRotateX
 
-    outRootRotateY = DoubleAngleField()
+    outRootRotateY = DoubleAngleField(default_value=0.0, writable=False)
     rroy = outRootRotateY
 
-    outRootRotateZ = DoubleAngleField()
+    outRootRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rroz = outRootRotateZ

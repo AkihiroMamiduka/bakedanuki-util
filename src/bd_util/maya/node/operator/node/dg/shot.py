@@ -75,55 +75,55 @@ class Shot(DG):
 
     NODE_TYPE = "shot"
 
-    startFrame = TimeField()
+    startFrame = TimeField(default_value=0.0)
     sf = startFrame
 
-    endFrame = TimeField()
+    endFrame = TimeField(default_value=60.0)
     ef = endFrame
 
-    sequenceStartFrame = TimeField()
+    sequenceStartFrame = TimeField(default_value=0.0)
     ssf = sequenceStartFrame
 
-    scale = DoubleField()
+    scale = DoubleField(default_value=1.0)
     s = scale
 
-    preHold = TimeField()
+    preHold = TimeField(default_value=0.0, min_value=0.0)
     prh = preHold
 
-    postHold = TimeField()
+    postHold = TimeField(default_value=0.0, min_value=0.0)
     psh = postHold
 
-    sequenceEndFrame = TimeField()
+    sequenceEndFrame = TimeField(default_value=60.0, writable=False)
     se = sequenceEndFrame
 
     clip = MessageField()
     clp = clip
 
-    clipScale = DoubleField()
+    clipScale = DoubleField(default_value=1.0)
     cs = clipScale
 
-    clipPreHold = TimeField()
+    clipPreHold = TimeField(default_value=0.0, min_value=0.0)
     cprh = clipPreHold
 
-    clipPostHold = TimeField()
+    clipPostHold = TimeField(default_value=0.0, min_value=0.0)
     cpsh = clipPostHold
 
-    clipZeroOffset = TimeField()
+    clipZeroOffset = TimeField(default_value=0.0)
     czo = clipZeroOffset
 
-    clipDuration = TimeField()
+    clipDuration = TimeField(default_value=0.0)
     cdr = clipDuration
 
-    clipValid = BoolField()
+    clipValid = BoolField(default_value=True)
     cv = clipValid
 
-    favorite = BoolField()
+    favorite = BoolField(default_value=False)
     fav = favorite
 
-    userStatus1 = BoolField()
+    userStatus1 = BoolField(default_value=False)
     us1 = userStatus1
 
-    userStatus2 = BoolField()
+    userStatus2 = BoolField(default_value=False)
     us2 = userStatus2
 
     audio = MessageField()
@@ -135,10 +135,10 @@ class Shot(DG):
     currentCamera = MessageField()
     ccm = currentCamera
 
-    track = LongField()
+    track = LongField(default_value=1)
     tk = track
 
-    trackState = ShortField()
+    trackState = ShortField(default_value=0, min_value=0)
     ts = trackState
 
     shotName = DataStringField()
@@ -147,32 +147,32 @@ class Shot(DG):
     members = MessageField()
     mbr = members
 
-    wResolution = LongField()
+    wResolution = LongField(default_value=1024)
     wres = wResolution
 
-    hResolution = LongField()
+    hResolution = LongField(default_value=778)
     hres = hResolution
 
-    customAnim = DoubleField()
+    customAnim = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     ca = customAnim
 
-    flags = LongField()
+    flags = LongField(default_value=0)
     f = flags
 
-    transitionInType = TransitionInTypeEnumField()
+    transitionInType = TransitionInTypeEnumField(default_value=0)
     tit = transitionInType
 
-    transitionOutType = TransitionOutTypeEnumField()
+    transitionOutType = TransitionOutTypeEnumField(default_value=0)
     tot = transitionOutType
 
-    transitionInLength = TimeField()
+    transitionInLength = TimeField(default_value=0.0, min_value=0.0)
     til = transitionInLength
 
-    transitionOutLength = TimeField()
+    transitionOutLength = TimeField(default_value=0.0, min_value=0.0)
     tol = transitionOutLength
 
-    hasIncomingStt = BoolField()
+    hasIncomingStt = BoolField(default_value=False)
     his = hasIncomingStt
 
-    hasOutgoingStt = BoolField()
+    hasOutgoingStt = BoolField(default_value=False)
     hos = hasOutgoingStt

@@ -241,10 +241,10 @@ class PairBlend(DG):
 
     NODE_TYPE = "pairBlend"
 
-    currentDriver = CurrentDriverEnumField()
+    currentDriver = CurrentDriverEnumField(default_value=1)
     c = currentDriver
 
-    inTranslate1 = InTranslate1Field()
+    inTranslate1 = InTranslate1Field(default_value=(0.0, 0.0, 0.0))
     it1 = inTranslate1
     inTranslateX1 = inTranslate1.inTranslateX1
     itx1 = inTranslateX1
@@ -253,7 +253,7 @@ class PairBlend(DG):
     inTranslateZ1 = inTranslate1.inTranslateZ1
     itz1 = inTranslateZ1
 
-    inRotate1 = InRotate1Field()
+    inRotate1 = InRotate1Field(default_value=(0.0, 0.0, 0.0))
     ir1 = inRotate1
     inRotateX1 = inRotate1.inRotateX1
     irx1 = inRotateX1
@@ -262,7 +262,7 @@ class PairBlend(DG):
     inRotateZ1 = inRotate1.inRotateZ1
     irz1 = inRotateZ1
 
-    inTranslate2 = InTranslate2Field()
+    inTranslate2 = InTranslate2Field(default_value=(0.0, 0.0, 0.0))
     it2 = inTranslate2
     inTranslateX2 = inTranslate2.inTranslateX2
     itx2 = inTranslateX2
@@ -271,7 +271,7 @@ class PairBlend(DG):
     inTranslateZ2 = inTranslate2.inTranslateZ2
     itz2 = inTranslateZ2
 
-    inRotate2 = InRotate2Field()
+    inRotate2 = InRotate2Field(default_value=(0.0, 0.0, 0.0))
     ir2 = inRotate2
     inRotateX2 = inRotate2.inRotateX2
     irx2 = inRotateX2
@@ -280,28 +280,28 @@ class PairBlend(DG):
     inRotateZ2 = inRotate2.inRotateZ2
     irz2 = inRotateZ2
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     w = weight
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     ro = rotateOrder
 
-    translateXMode = TranslateXModeEnumField()
+    translateXMode = TranslateXModeEnumField(default_value=0)
     txm = translateXMode
 
-    translateYMode = TranslateYModeEnumField()
+    translateYMode = TranslateYModeEnumField(default_value=0)
     tym = translateYMode
 
-    translateZMode = TranslateZModeEnumField()
+    translateZMode = TranslateZModeEnumField(default_value=0)
     tzm = translateZMode
 
-    rotateMode = RotateModeEnumField()
+    rotateMode = RotateModeEnumField(default_value=0)
     rm = rotateMode
 
-    rotInterpolation = RotInterpolationEnumField()
+    rotInterpolation = RotInterpolationEnumField(default_value=0)
     ri = rotInterpolation
 
-    outTranslate = OutTranslateField()
+    outTranslate = OutTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTranslate
     outTranslateX = outTranslate.outTranslateX
     otx = outTranslateX
@@ -310,7 +310,7 @@ class PairBlend(DG):
     outTranslateZ = outTranslate.outTranslateZ
     otz = outTranslateZ
 
-    outRotate = OutRotateField()
+    outRotate = OutRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
     or_ = outRotate
     outRotateX = outRotate.outRotateX
     orx = outRotateX

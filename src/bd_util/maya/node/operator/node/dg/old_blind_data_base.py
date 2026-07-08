@@ -8,5 +8,5 @@ class OldBlindDataBase(DG):
 
     NODE_TYPE = "oldBlindDataBase"
 
-    typeId = LongField()
+    typeId = LongField(default_value=0)
     tid = typeId

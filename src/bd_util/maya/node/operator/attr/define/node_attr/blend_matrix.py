@@ -27,22 +27,22 @@ class TargetPlugOperator(
     targetMatrix = MatrixField()
     tmat = targetMatrix
 
-    useMatrix = BoolField()
+    useMatrix = BoolField(default_value=True)
     umt = useMatrix
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     wgt = weight
 
-    scaleWeight = DoubleField()
+    scaleWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     sca = scaleWeight
 
-    translateWeight = DoubleField()
+    translateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     tra = translateWeight
 
-    rotateWeight = DoubleField()
+    rotateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     rot = rotateWeight
 
-    shearWeight = DoubleField()
+    shearWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     she = shearWeight
 
 
@@ -54,22 +54,22 @@ class TargetAttrOperator(
     targetMatrix = MatrixField()
     tmat = targetMatrix
 
-    useMatrix = BoolField()
+    useMatrix = BoolField(default_value=True)
     umt = useMatrix
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     wgt = weight
 
-    scaleWeight = DoubleField()
+    scaleWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     sca = scaleWeight
 
-    translateWeight = DoubleField()
+    translateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     tra = translateWeight
 
-    rotateWeight = DoubleField()
+    rotateWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     rot = rotateWeight
 
-    shearWeight = DoubleField()
+    shearWeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     she = shearWeight
 
 

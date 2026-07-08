@@ -8,8 +8,8 @@ class Min(DG):
 
     NODE_TYPE = "min"
 
-    input = DoubleLinearField(multi=True)
+    input = DoubleLinearField(multi=True, default_value=0.0)
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

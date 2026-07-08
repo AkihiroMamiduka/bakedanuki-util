@@ -8,11 +8,11 @@ class FloatMask(DG):
 
     NODE_TYPE = "floatMask"
 
-    inFloat = FloatField()
+    inFloat = FloatField(default_value=1.0)
     f = inFloat
 
-    mask = FloatField()
+    mask = FloatField(default_value=0.0)
     m = mask
 
-    outFloat = FloatField()
+    outFloat = FloatField(default_value=0.0, writable=False)
     of = outFloat

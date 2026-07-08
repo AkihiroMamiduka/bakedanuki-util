@@ -9,8 +9,8 @@ class Cos(DG):
 
     NODE_TYPE = "cos"
 
-    input = DoubleAngleField()
+    input = DoubleAngleField(default_value=0.0)
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

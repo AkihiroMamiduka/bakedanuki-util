@@ -159,7 +159,7 @@ class MASH_Color(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -170,21 +170,21 @@ class MASH_Color(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -192,27 +192,27 @@ class MASH_Color(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=False)
 
-    enableVelocity = BoolField()
+    enableVelocity = BoolField(default_value=False)
 
-    enableBackgroundColor = BoolField()
+    enableBackgroundColor = BoolField(default_value=False)
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    uvTileMode = UvTileModeEnumField()
+    uvTileMode = UvTileModeEnumField(default_value=1)
 
-    blendMode = BlendModeEnumField()
+    blendMode = BlendModeEnumField(default_value=1)
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -222,7 +222,7 @@ class MASH_Color(DG):
 
     uvMatrix = MatrixField()
 
-    backgroundColor = BackgroundColorField()
+    backgroundColor = BackgroundColorField(default_value=(0.0, 0.0, 0.0))
     backgroundColorR = backgroundColor.backgroundColorR
     backgroundColorr = backgroundColorR
     backgroundColorG = backgroundColor.backgroundColorG
@@ -230,16 +230,16 @@ class MASH_Color(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     backgroundColorb = backgroundColorB
 
-    hueRandom = FloatField()
+    hueRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    saturationRandom = FloatField()
+    saturationRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    valueRandom = FloatField()
+    valueRandom = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    enableMaxTiles = BoolField()
+    enableMaxTiles = BoolField(default_value=False)
 
-    randomUVTile = BoolField()
+    randomUVTile = BoolField(default_value=False)
 
-    maxTiles = LongField()
+    maxTiles = LongField(default_value=4, min_value=1, soft_max_value=10)
 
     colorSetName = DataStringField()

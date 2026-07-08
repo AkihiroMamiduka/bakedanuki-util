@@ -13,7 +13,7 @@ class Channels(DG):
 
     NODE_TYPE = "channels"
 
-    inColor = InColorField()
+    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
     ic = inColor
     inColorR = inColor.inColorR
     icr = inColorR
@@ -22,22 +22,22 @@ class Channels(DG):
     inColorB = inColor.inColorB
     icb = inColorB
 
-    inAlpha = FloatField()
+    inAlpha = FloatField(default_value=1.0)
     ia = inAlpha
 
-    channelR = ShortField()
+    channelR = ShortField(default_value=0, min_value=0, max_value=3)
     cr = channelR
 
-    channelG = ShortField()
+    channelG = ShortField(default_value=1, min_value=0, max_value=3)
     cg = channelG
 
-    channelB = ShortField()
+    channelB = ShortField(default_value=2, min_value=0, max_value=3)
     cb = channelB
 
-    channelA = ShortField()
+    channelA = ShortField(default_value=3, min_value=0, max_value=3)
     ca = channelA
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -46,5 +46,5 @@ class Channels(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

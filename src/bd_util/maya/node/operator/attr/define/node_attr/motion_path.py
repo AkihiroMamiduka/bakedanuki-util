@@ -30,13 +30,13 @@ class AllCoordinatesPlugOperator(
         ("zCoordinate", "zc"),
     )
 
-    xCoordinate = DoubleLinearField()
+    xCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     xc = xCoordinate
 
-    yCoordinate = DoubleLinearField()
+    yCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     yc = yCoordinate
 
-    zCoordinate = DoubleLinearField()
+    zCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     zc = zCoordinate
 
 
@@ -45,13 +45,13 @@ class AllCoordinatesAttrOperator(
 ):
     __slots__ = ()
 
-    xCoordinate = DoubleLinearField()
+    xCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     xc = xCoordinate
 
-    yCoordinate = DoubleLinearField()
+    yCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     yc = yCoordinate
 
-    zCoordinate = DoubleLinearField()
+    zCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     zc = zCoordinate
 
 
@@ -63,13 +63,13 @@ class AllCoordinatesField(
     ATTR_CLS = AllCoordinatesAttrOperator
     PLUG_CLS = AllCoordinatesPlugOperator
 
-    xCoordinate = DoubleLinearField()
+    xCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     xc = xCoordinate
 
-    yCoordinate = DoubleLinearField()
+    yCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     yc = yCoordinate
 
-    zCoordinate = DoubleLinearField()
+    zCoordinate = DoubleLinearField(default_value=0.0, writable=False)
     zc = zCoordinate
 
 
@@ -83,13 +83,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0, writable=False)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0, writable=False)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rz = rotateZ
 
 
@@ -98,13 +98,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0, writable=False)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0, writable=False)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rz = rotateZ
 
 
@@ -116,13 +116,13 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0, writable=False)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0, writable=False)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rz = rotateZ
 
 
@@ -136,13 +136,13 @@ class WorldUpVectorPlugOperator(
         ("worldUpVectorZ", "wuz"),
     )
 
-    worldUpVectorX = DoubleField()
+    worldUpVectorX = DoubleField(default_value=0.0)
     wux = worldUpVectorX
 
-    worldUpVectorY = DoubleField()
+    worldUpVectorY = DoubleField(default_value=1.0)
     wuy = worldUpVectorY
 
-    worldUpVectorZ = DoubleField()
+    worldUpVectorZ = DoubleField(default_value=0.0)
     wuz = worldUpVectorZ
 
 
@@ -151,13 +151,13 @@ class WorldUpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    worldUpVectorX = DoubleField()
+    worldUpVectorX = DoubleField(default_value=0.0)
     wux = worldUpVectorX
 
-    worldUpVectorY = DoubleField()
+    worldUpVectorY = DoubleField(default_value=1.0)
     wuy = worldUpVectorY
 
-    worldUpVectorZ = DoubleField()
+    worldUpVectorZ = DoubleField(default_value=0.0)
     wuz = worldUpVectorZ
 
 
@@ -169,11 +169,11 @@ class WorldUpVectorField(
     ATTR_CLS = WorldUpVectorAttrOperator
     PLUG_CLS = WorldUpVectorPlugOperator
 
-    worldUpVectorX = DoubleField()
+    worldUpVectorX = DoubleField(default_value=0.0)
     wux = worldUpVectorX
 
-    worldUpVectorY = DoubleField()
+    worldUpVectorY = DoubleField(default_value=1.0)
     wuy = worldUpVectorY
 
-    worldUpVectorZ = DoubleField()
+    worldUpVectorZ = DoubleField(default_value=0.0)
     wuz = worldUpVectorZ

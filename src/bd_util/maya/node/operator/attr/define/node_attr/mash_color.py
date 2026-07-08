@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,13 +71,13 @@ class ColorPlugOperator(
         ("colorB", "colorb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -86,13 +86,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -104,13 +104,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -124,13 +124,13 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "backgroundColorb"),
     )
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0)
     backgroundColorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0)
     backgroundColorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0)
     backgroundColorb = backgroundColorB
 
 
@@ -139,13 +139,13 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0)
     backgroundColorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0)
     backgroundColorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0)
     backgroundColorb = backgroundColorB
 
 
@@ -157,11 +157,11 @@ class BackgroundColorField(
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0)
     backgroundColorr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0)
     backgroundColorg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0)
     backgroundColorb = backgroundColorB

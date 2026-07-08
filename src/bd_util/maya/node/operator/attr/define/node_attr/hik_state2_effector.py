@@ -18,11 +18,11 @@ class HipsEffectorpivotOffsetPlugOperator(
         ("HipsEffectorpivotOffsetZ", "HipsEffectorpivotOffsetZ"),
     )
 
-    HipsEffectorpivotOffsetX = DoubleLinearField()
+    HipsEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorpivotOffsetY = DoubleLinearField()
+    HipsEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorpivotOffsetZ = DoubleLinearField()
+    HipsEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class HipsEffectorpivotOffsetAttrOperator(
@@ -30,11 +30,11 @@ class HipsEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    HipsEffectorpivotOffsetX = DoubleLinearField()
+    HipsEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorpivotOffsetY = DoubleLinearField()
+    HipsEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorpivotOffsetZ = DoubleLinearField()
+    HipsEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class HipsEffectorpivotOffsetField(
@@ -56,11 +56,11 @@ class LeftAnkleEffectorpivotOffsetPlugOperator(
         ("LeftAnkleEffectorpivotOffsetZ", "LeftAnkleEffectorpivotOffsetZ"),
     )
 
-    LeftAnkleEffectorpivotOffsetX = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorpivotOffsetY = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftAnkleEffectorpivotOffsetAttrOperator(
@@ -68,11 +68,11 @@ class LeftAnkleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftAnkleEffectorpivotOffsetX = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorpivotOffsetY = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftAnkleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftAnkleEffectorpivotOffsetField(
@@ -94,11 +94,11 @@ class RightAnkleEffectorpivotOffsetPlugOperator(
         ("RightAnkleEffectorpivotOffsetZ", "RightAnkleEffectorpivotOffsetZ"),
     )
 
-    RightAnkleEffectorpivotOffsetX = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorpivotOffsetY = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorpivotOffsetZ = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightAnkleEffectorpivotOffsetAttrOperator(
@@ -106,11 +106,11 @@ class RightAnkleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightAnkleEffectorpivotOffsetX = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorpivotOffsetY = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorpivotOffsetZ = DoubleLinearField()
+    RightAnkleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightAnkleEffectorpivotOffsetField(
@@ -132,11 +132,11 @@ class LeftWristEffectorpivotOffsetPlugOperator(
         ("LeftWristEffectorpivotOffsetZ", "LeftWristEffectorpivotOffsetZ"),
     )
 
-    LeftWristEffectorpivotOffsetX = DoubleLinearField()
+    LeftWristEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorpivotOffsetY = DoubleLinearField()
+    LeftWristEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorpivotOffsetZ = DoubleLinearField()
+    LeftWristEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftWristEffectorpivotOffsetAttrOperator(
@@ -144,11 +144,11 @@ class LeftWristEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftWristEffectorpivotOffsetX = DoubleLinearField()
+    LeftWristEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorpivotOffsetY = DoubleLinearField()
+    LeftWristEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorpivotOffsetZ = DoubleLinearField()
+    LeftWristEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftWristEffectorpivotOffsetField(
@@ -170,11 +170,11 @@ class RightWristEffectorpivotOffsetPlugOperator(
         ("RightWristEffectorpivotOffsetZ", "RightWristEffectorpivotOffsetZ"),
     )
 
-    RightWristEffectorpivotOffsetX = DoubleLinearField()
+    RightWristEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorpivotOffsetY = DoubleLinearField()
+    RightWristEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorpivotOffsetZ = DoubleLinearField()
+    RightWristEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightWristEffectorpivotOffsetAttrOperator(
@@ -182,11 +182,11 @@ class RightWristEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightWristEffectorpivotOffsetX = DoubleLinearField()
+    RightWristEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorpivotOffsetY = DoubleLinearField()
+    RightWristEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorpivotOffsetZ = DoubleLinearField()
+    RightWristEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightWristEffectorpivotOffsetField(
@@ -208,11 +208,11 @@ class LeftKneeEffectorpivotOffsetPlugOperator(
         ("LeftKneeEffectorpivotOffsetZ", "LeftKneeEffectorpivotOffsetZ"),
     )
 
-    LeftKneeEffectorpivotOffsetX = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorpivotOffsetY = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorpivotOffsetZ = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftKneeEffectorpivotOffsetAttrOperator(
@@ -220,11 +220,11 @@ class LeftKneeEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftKneeEffectorpivotOffsetX = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorpivotOffsetY = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorpivotOffsetZ = DoubleLinearField()
+    LeftKneeEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftKneeEffectorpivotOffsetField(
@@ -246,11 +246,11 @@ class RightKneeEffectorpivotOffsetPlugOperator(
         ("RightKneeEffectorpivotOffsetZ", "RightKneeEffectorpivotOffsetZ"),
     )
 
-    RightKneeEffectorpivotOffsetX = DoubleLinearField()
+    RightKneeEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorpivotOffsetY = DoubleLinearField()
+    RightKneeEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorpivotOffsetZ = DoubleLinearField()
+    RightKneeEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightKneeEffectorpivotOffsetAttrOperator(
@@ -258,11 +258,11 @@ class RightKneeEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightKneeEffectorpivotOffsetX = DoubleLinearField()
+    RightKneeEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorpivotOffsetY = DoubleLinearField()
+    RightKneeEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorpivotOffsetZ = DoubleLinearField()
+    RightKneeEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightKneeEffectorpivotOffsetField(
@@ -284,11 +284,11 @@ class LeftElbowEffectorpivotOffsetPlugOperator(
         ("LeftElbowEffectorpivotOffsetZ", "LeftElbowEffectorpivotOffsetZ"),
     )
 
-    LeftElbowEffectorpivotOffsetX = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorpivotOffsetY = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorpivotOffsetZ = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftElbowEffectorpivotOffsetAttrOperator(
@@ -296,11 +296,11 @@ class LeftElbowEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftElbowEffectorpivotOffsetX = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorpivotOffsetY = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorpivotOffsetZ = DoubleLinearField()
+    LeftElbowEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftElbowEffectorpivotOffsetField(
@@ -322,11 +322,11 @@ class RightElbowEffectorpivotOffsetPlugOperator(
         ("RightElbowEffectorpivotOffsetZ", "RightElbowEffectorpivotOffsetZ"),
     )
 
-    RightElbowEffectorpivotOffsetX = DoubleLinearField()
+    RightElbowEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorpivotOffsetY = DoubleLinearField()
+    RightElbowEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorpivotOffsetZ = DoubleLinearField()
+    RightElbowEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightElbowEffectorpivotOffsetAttrOperator(
@@ -334,11 +334,11 @@ class RightElbowEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightElbowEffectorpivotOffsetX = DoubleLinearField()
+    RightElbowEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorpivotOffsetY = DoubleLinearField()
+    RightElbowEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorpivotOffsetZ = DoubleLinearField()
+    RightElbowEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightElbowEffectorpivotOffsetField(
@@ -360,11 +360,11 @@ class ChestOriginEffectorpivotOffsetPlugOperator(
         ("ChestOriginEffectorpivotOffsetZ", "ChestOriginEffectorpivotOffsetZ"),
     )
 
-    ChestOriginEffectorpivotOffsetX = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorpivotOffsetY = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorpivotOffsetZ = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestOriginEffectorpivotOffsetAttrOperator(
@@ -372,11 +372,11 @@ class ChestOriginEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    ChestOriginEffectorpivotOffsetX = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorpivotOffsetY = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorpivotOffsetZ = DoubleLinearField()
+    ChestOriginEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestOriginEffectorpivotOffsetField(
@@ -398,11 +398,11 @@ class ChestEndEffectorpivotOffsetPlugOperator(
         ("ChestEndEffectorpivotOffsetZ", "ChestEndEffectorpivotOffsetZ"),
     )
 
-    ChestEndEffectorpivotOffsetX = DoubleLinearField()
+    ChestEndEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorpivotOffsetY = DoubleLinearField()
+    ChestEndEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorpivotOffsetZ = DoubleLinearField()
+    ChestEndEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestEndEffectorpivotOffsetAttrOperator(
@@ -410,11 +410,11 @@ class ChestEndEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    ChestEndEffectorpivotOffsetX = DoubleLinearField()
+    ChestEndEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorpivotOffsetY = DoubleLinearField()
+    ChestEndEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorpivotOffsetZ = DoubleLinearField()
+    ChestEndEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestEndEffectorpivotOffsetField(
@@ -436,11 +436,11 @@ class LeftFootEffectorpivotOffsetPlugOperator(
         ("LeftFootEffectorpivotOffsetZ", "LeftFootEffectorpivotOffsetZ"),
     )
 
-    LeftFootEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootEffectorpivotOffsetAttrOperator(
@@ -448,11 +448,11 @@ class LeftFootEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootEffectorpivotOffsetField(
@@ -474,11 +474,11 @@ class RightFootEffectorpivotOffsetPlugOperator(
         ("RightFootEffectorpivotOffsetZ", "RightFootEffectorpivotOffsetZ"),
     )
 
-    RightFootEffectorpivotOffsetX = DoubleLinearField()
+    RightFootEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorpivotOffsetY = DoubleLinearField()
+    RightFootEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootEffectorpivotOffsetAttrOperator(
@@ -486,11 +486,11 @@ class RightFootEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootEffectorpivotOffsetX = DoubleLinearField()
+    RightFootEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorpivotOffsetY = DoubleLinearField()
+    RightFootEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootEffectorpivotOffsetField(
@@ -512,11 +512,11 @@ class LeftShoulderEffectorpivotOffsetPlugOperator(
         ("LeftShoulderEffectorpivotOffsetZ", "LeftShoulderEffectorpivotOffsetZ"),
     )
 
-    LeftShoulderEffectorpivotOffsetX = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorpivotOffsetY = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorpivotOffsetZ = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderEffectorpivotOffsetAttrOperator(
@@ -524,11 +524,11 @@ class LeftShoulderEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderEffectorpivotOffsetX = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorpivotOffsetY = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorpivotOffsetZ = DoubleLinearField()
+    LeftShoulderEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderEffectorpivotOffsetField(
@@ -550,11 +550,11 @@ class RightShoulderEffectorpivotOffsetPlugOperator(
         ("RightShoulderEffectorpivotOffsetZ", "RightShoulderEffectorpivotOffsetZ"),
     )
 
-    RightShoulderEffectorpivotOffsetX = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorpivotOffsetY = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorpivotOffsetZ = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderEffectorpivotOffsetAttrOperator(
@@ -562,11 +562,11 @@ class RightShoulderEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderEffectorpivotOffsetX = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorpivotOffsetY = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorpivotOffsetZ = DoubleLinearField()
+    RightShoulderEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderEffectorpivotOffsetField(
@@ -588,11 +588,11 @@ class HeadEffectorpivotOffsetPlugOperator(
         ("HeadEffectorpivotOffsetZ", "HeadEffectorpivotOffsetZ"),
     )
 
-    HeadEffectorpivotOffsetX = DoubleLinearField()
+    HeadEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorpivotOffsetY = DoubleLinearField()
+    HeadEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorpivotOffsetZ = DoubleLinearField()
+    HeadEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class HeadEffectorpivotOffsetAttrOperator(
@@ -600,11 +600,11 @@ class HeadEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    HeadEffectorpivotOffsetX = DoubleLinearField()
+    HeadEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorpivotOffsetY = DoubleLinearField()
+    HeadEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorpivotOffsetZ = DoubleLinearField()
+    HeadEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class HeadEffectorpivotOffsetField(
@@ -626,11 +626,11 @@ class LeftHipEffectorpivotOffsetPlugOperator(
         ("LeftHipEffectorpivotOffsetZ", "LeftHipEffectorpivotOffsetZ"),
     )
 
-    LeftHipEffectorpivotOffsetX = DoubleLinearField()
+    LeftHipEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorpivotOffsetY = DoubleLinearField()
+    LeftHipEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHipEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHipEffectorpivotOffsetAttrOperator(
@@ -638,11 +638,11 @@ class LeftHipEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHipEffectorpivotOffsetX = DoubleLinearField()
+    LeftHipEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorpivotOffsetY = DoubleLinearField()
+    LeftHipEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHipEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHipEffectorpivotOffsetField(
@@ -664,11 +664,11 @@ class RightHipEffectorpivotOffsetPlugOperator(
         ("RightHipEffectorpivotOffsetZ", "RightHipEffectorpivotOffsetZ"),
     )
 
-    RightHipEffectorpivotOffsetX = DoubleLinearField()
+    RightHipEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorpivotOffsetY = DoubleLinearField()
+    RightHipEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorpivotOffsetZ = DoubleLinearField()
+    RightHipEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHipEffectorpivotOffsetAttrOperator(
@@ -676,11 +676,11 @@ class RightHipEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHipEffectorpivotOffsetX = DoubleLinearField()
+    RightHipEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorpivotOffsetY = DoubleLinearField()
+    RightHipEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorpivotOffsetZ = DoubleLinearField()
+    RightHipEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHipEffectorpivotOffsetField(
@@ -702,11 +702,11 @@ class LeftHandEffectorpivotOffsetPlugOperator(
         ("LeftHandEffectorpivotOffsetZ", "LeftHandEffectorpivotOffsetZ"),
     )
 
-    LeftHandEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandEffectorpivotOffsetAttrOperator(
@@ -714,11 +714,11 @@ class LeftHandEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandEffectorpivotOffsetField(
@@ -740,11 +740,11 @@ class RightHandEffectorpivotOffsetPlugOperator(
         ("RightHandEffectorpivotOffsetZ", "RightHandEffectorpivotOffsetZ"),
     )
 
-    RightHandEffectorpivotOffsetX = DoubleLinearField()
+    RightHandEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorpivotOffsetY = DoubleLinearField()
+    RightHandEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandEffectorpivotOffsetAttrOperator(
@@ -752,11 +752,11 @@ class RightHandEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandEffectorpivotOffsetX = DoubleLinearField()
+    RightHandEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorpivotOffsetY = DoubleLinearField()
+    RightHandEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandEffectorpivotOffsetField(
@@ -778,11 +778,11 @@ class LeftHandThumbEffectorpivotOffsetPlugOperator(
         ("LeftHandThumbEffectorpivotOffsetZ", "LeftHandThumbEffectorpivotOffsetZ"),
     )
 
-    LeftHandThumbEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumbEffectorpivotOffsetAttrOperator(
@@ -790,11 +790,11 @@ class LeftHandThumbEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumbEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumbEffectorpivotOffsetField(
@@ -816,11 +816,11 @@ class LeftHandIndexEffectorpivotOffsetPlugOperator(
         ("LeftHandIndexEffectorpivotOffsetZ", "LeftHandIndexEffectorpivotOffsetZ"),
     )
 
-    LeftHandIndexEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndexEffectorpivotOffsetAttrOperator(
@@ -828,11 +828,11 @@ class LeftHandIndexEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndexEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndexEffectorpivotOffsetField(
@@ -854,11 +854,11 @@ class LeftHandMiddleEffectorpivotOffsetPlugOperator(
         ("LeftHandMiddleEffectorpivotOffsetZ", "LeftHandMiddleEffectorpivotOffsetZ"),
     )
 
-    LeftHandMiddleEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddleEffectorpivotOffsetAttrOperator(
@@ -866,11 +866,11 @@ class LeftHandMiddleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddleEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddleEffectorpivotOffsetField(
@@ -892,11 +892,11 @@ class LeftHandRingEffectorpivotOffsetPlugOperator(
         ("LeftHandRingEffectorpivotOffsetZ", "LeftHandRingEffectorpivotOffsetZ"),
     )
 
-    LeftHandRingEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRingEffectorpivotOffsetAttrOperator(
@@ -904,11 +904,11 @@ class LeftHandRingEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRingEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRingEffectorpivotOffsetField(
@@ -930,11 +930,11 @@ class LeftHandPinkyEffectorpivotOffsetPlugOperator(
         ("LeftHandPinkyEffectorpivotOffsetZ", "LeftHandPinkyEffectorpivotOffsetZ"),
     )
 
-    LeftHandPinkyEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinkyEffectorpivotOffsetAttrOperator(
@@ -942,11 +942,11 @@ class LeftHandPinkyEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinkyEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinkyEffectorpivotOffsetField(
@@ -968,11 +968,11 @@ class LeftHandExtraFingerEffectorpivotOffsetPlugOperator(
         ("LeftHandExtraFingerEffectorpivotOffsetZ", "LeftHandExtraFingerEffectorpivotOffsetZ"),
     )
 
-    LeftHandExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFingerEffectorpivotOffsetAttrOperator(
@@ -980,11 +980,11 @@ class LeftHandExtraFingerEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    LeftHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFingerEffectorpivotOffsetField(
@@ -1006,11 +1006,11 @@ class RightHandThumbEffectorpivotOffsetPlugOperator(
         ("RightHandThumbEffectorpivotOffsetZ", "RightHandThumbEffectorpivotOffsetZ"),
     )
 
-    RightHandThumbEffectorpivotOffsetX = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorpivotOffsetY = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumbEffectorpivotOffsetAttrOperator(
@@ -1018,11 +1018,11 @@ class RightHandThumbEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumbEffectorpivotOffsetX = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorpivotOffsetY = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumbEffectorpivotOffsetField(
@@ -1044,11 +1044,11 @@ class RightHandIndexEffectorpivotOffsetPlugOperator(
         ("RightHandIndexEffectorpivotOffsetZ", "RightHandIndexEffectorpivotOffsetZ"),
     )
 
-    RightHandIndexEffectorpivotOffsetX = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorpivotOffsetY = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndexEffectorpivotOffsetAttrOperator(
@@ -1056,11 +1056,11 @@ class RightHandIndexEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndexEffectorpivotOffsetX = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorpivotOffsetY = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndexEffectorpivotOffsetField(
@@ -1082,11 +1082,11 @@ class RightHandMiddleEffectorpivotOffsetPlugOperator(
         ("RightHandMiddleEffectorpivotOffsetZ", "RightHandMiddleEffectorpivotOffsetZ"),
     )
 
-    RightHandMiddleEffectorpivotOffsetX = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorpivotOffsetY = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddleEffectorpivotOffsetAttrOperator(
@@ -1094,11 +1094,11 @@ class RightHandMiddleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddleEffectorpivotOffsetX = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorpivotOffsetY = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddleEffectorpivotOffsetField(
@@ -1120,11 +1120,11 @@ class RightHandRingEffectorpivotOffsetPlugOperator(
         ("RightHandRingEffectorpivotOffsetZ", "RightHandRingEffectorpivotOffsetZ"),
     )
 
-    RightHandRingEffectorpivotOffsetX = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorpivotOffsetY = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRingEffectorpivotOffsetAttrOperator(
@@ -1132,11 +1132,11 @@ class RightHandRingEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRingEffectorpivotOffsetX = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorpivotOffsetY = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRingEffectorpivotOffsetField(
@@ -1158,11 +1158,11 @@ class RightHandPinkyEffectorpivotOffsetPlugOperator(
         ("RightHandPinkyEffectorpivotOffsetZ", "RightHandPinkyEffectorpivotOffsetZ"),
     )
 
-    RightHandPinkyEffectorpivotOffsetX = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorpivotOffsetY = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinkyEffectorpivotOffsetAttrOperator(
@@ -1170,11 +1170,11 @@ class RightHandPinkyEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinkyEffectorpivotOffsetX = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorpivotOffsetY = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinkyEffectorpivotOffsetField(
@@ -1196,11 +1196,11 @@ class RightHandExtraFingerEffectorpivotOffsetPlugOperator(
         ("RightHandExtraFingerEffectorpivotOffsetZ", "RightHandExtraFingerEffectorpivotOffsetZ"),
     )
 
-    RightHandExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFingerEffectorpivotOffsetAttrOperator(
@@ -1208,11 +1208,11 @@ class RightHandExtraFingerEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    RightHandExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFingerEffectorpivotOffsetField(
@@ -1234,11 +1234,11 @@ class LeftFootThumbEffectorpivotOffsetPlugOperator(
         ("LeftFootThumbEffectorpivotOffsetZ", "LeftFootThumbEffectorpivotOffsetZ"),
     )
 
-    LeftFootThumbEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumbEffectorpivotOffsetAttrOperator(
@@ -1246,11 +1246,11 @@ class LeftFootThumbEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumbEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumbEffectorpivotOffsetField(
@@ -1272,11 +1272,11 @@ class LeftFootIndexEffectorpivotOffsetPlugOperator(
         ("LeftFootIndexEffectorpivotOffsetZ", "LeftFootIndexEffectorpivotOffsetZ"),
     )
 
-    LeftFootIndexEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndexEffectorpivotOffsetAttrOperator(
@@ -1284,11 +1284,11 @@ class LeftFootIndexEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndexEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndexEffectorpivotOffsetField(
@@ -1310,11 +1310,11 @@ class LeftFootMiddleEffectorpivotOffsetPlugOperator(
         ("LeftFootMiddleEffectorpivotOffsetZ", "LeftFootMiddleEffectorpivotOffsetZ"),
     )
 
-    LeftFootMiddleEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddleEffectorpivotOffsetAttrOperator(
@@ -1322,11 +1322,11 @@ class LeftFootMiddleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddleEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddleEffectorpivotOffsetField(
@@ -1348,11 +1348,11 @@ class LeftFootRingEffectorpivotOffsetPlugOperator(
         ("LeftFootRingEffectorpivotOffsetZ", "LeftFootRingEffectorpivotOffsetZ"),
     )
 
-    LeftFootRingEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRingEffectorpivotOffsetAttrOperator(
@@ -1360,11 +1360,11 @@ class LeftFootRingEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRingEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRingEffectorpivotOffsetField(
@@ -1386,11 +1386,11 @@ class LeftFootPinkyEffectorpivotOffsetPlugOperator(
         ("LeftFootPinkyEffectorpivotOffsetZ", "LeftFootPinkyEffectorpivotOffsetZ"),
     )
 
-    LeftFootPinkyEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinkyEffectorpivotOffsetAttrOperator(
@@ -1398,11 +1398,11 @@ class LeftFootPinkyEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinkyEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinkyEffectorpivotOffsetField(
@@ -1424,11 +1424,11 @@ class LeftFootExtraFingerEffectorpivotOffsetPlugOperator(
         ("LeftFootExtraFingerEffectorpivotOffsetZ", "LeftFootExtraFingerEffectorpivotOffsetZ"),
     )
 
-    LeftFootExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFingerEffectorpivotOffsetAttrOperator(
@@ -1436,11 +1436,11 @@ class LeftFootExtraFingerEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    LeftFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFingerEffectorpivotOffsetField(
@@ -1462,11 +1462,11 @@ class RightFootThumbEffectorpivotOffsetPlugOperator(
         ("RightFootThumbEffectorpivotOffsetZ", "RightFootThumbEffectorpivotOffsetZ"),
     )
 
-    RightFootThumbEffectorpivotOffsetX = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorpivotOffsetY = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumbEffectorpivotOffsetAttrOperator(
@@ -1474,11 +1474,11 @@ class RightFootThumbEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumbEffectorpivotOffsetX = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorpivotOffsetY = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootThumbEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumbEffectorpivotOffsetField(
@@ -1500,11 +1500,11 @@ class RightFootIndexEffectorpivotOffsetPlugOperator(
         ("RightFootIndexEffectorpivotOffsetZ", "RightFootIndexEffectorpivotOffsetZ"),
     )
 
-    RightFootIndexEffectorpivotOffsetX = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorpivotOffsetY = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndexEffectorpivotOffsetAttrOperator(
@@ -1512,11 +1512,11 @@ class RightFootIndexEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndexEffectorpivotOffsetX = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorpivotOffsetY = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootIndexEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndexEffectorpivotOffsetField(
@@ -1538,11 +1538,11 @@ class RightFootMiddleEffectorpivotOffsetPlugOperator(
         ("RightFootMiddleEffectorpivotOffsetZ", "RightFootMiddleEffectorpivotOffsetZ"),
     )
 
-    RightFootMiddleEffectorpivotOffsetX = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorpivotOffsetY = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddleEffectorpivotOffsetAttrOperator(
@@ -1550,11 +1550,11 @@ class RightFootMiddleEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddleEffectorpivotOffsetX = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorpivotOffsetY = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootMiddleEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddleEffectorpivotOffsetField(
@@ -1576,11 +1576,11 @@ class RightFootRingEffectorpivotOffsetPlugOperator(
         ("RightFootRingEffectorpivotOffsetZ", "RightFootRingEffectorpivotOffsetZ"),
     )
 
-    RightFootRingEffectorpivotOffsetX = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorpivotOffsetY = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRingEffectorpivotOffsetAttrOperator(
@@ -1588,11 +1588,11 @@ class RightFootRingEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRingEffectorpivotOffsetX = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorpivotOffsetY = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootRingEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRingEffectorpivotOffsetField(
@@ -1614,11 +1614,11 @@ class RightFootPinkyEffectorpivotOffsetPlugOperator(
         ("RightFootPinkyEffectorpivotOffsetZ", "RightFootPinkyEffectorpivotOffsetZ"),
     )
 
-    RightFootPinkyEffectorpivotOffsetX = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorpivotOffsetY = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinkyEffectorpivotOffsetAttrOperator(
@@ -1626,11 +1626,11 @@ class RightFootPinkyEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinkyEffectorpivotOffsetX = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorpivotOffsetY = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootPinkyEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinkyEffectorpivotOffsetField(
@@ -1652,11 +1652,11 @@ class RightFootExtraFingerEffectorpivotOffsetPlugOperator(
         ("RightFootExtraFingerEffectorpivotOffsetZ", "RightFootExtraFingerEffectorpivotOffsetZ"),
     )
 
-    RightFootExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFingerEffectorpivotOffsetAttrOperator(
@@ -1664,11 +1664,11 @@ class RightFootExtraFingerEffectorpivotOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFingerEffectorpivotOffsetX = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetX = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorpivotOffsetY = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetY = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField()
+    RightFootExtraFingerEffectorpivotOffsetZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFingerEffectorpivotOffsetField(

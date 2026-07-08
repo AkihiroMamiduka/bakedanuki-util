@@ -17,10 +17,10 @@ class OutUvCoordPlugOperator(
         ("outVCoord", "ovc"),
     )
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.0, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.0, writable=False)
     ovc = outVCoord
 
 
@@ -29,10 +29,10 @@ class OutUvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.0, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.0, writable=False)
     ovc = outVCoord
 
 
@@ -44,8 +44,8 @@ class OutUvCoordField(
     ATTR_CLS = OutUvCoordAttrOperator
     PLUG_CLS = OutUvCoordPlugOperator
 
-    outUCoord = FloatField()
+    outUCoord = FloatField(default_value=0.0, writable=False)
     ouc = outUCoord
 
-    outVCoord = FloatField()
+    outVCoord = FloatField(default_value=0.0, writable=False)
     ovc = outVCoord

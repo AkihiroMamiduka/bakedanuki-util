@@ -51,7 +51,7 @@ class AiRandom(DG):
 
     NODE_TYPE = "aiRandom"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -60,7 +60,7 @@ class AiRandom(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -69,16 +69,16 @@ class AiRandom(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    inputType = InputTypeEnumField()
+    inputType = InputTypeEnumField(default_value=0)
     input_type = inputType
 
-    inputInt = LongField()
+    inputInt = LongField(default_value=0, soft_min_value=-100, soft_max_value=100)
     input_int = inputInt
 
-    inputFloat = FloatField()
+    inputFloat = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     input_float = inputFloat
 
-    inputColor = InputColorField()
+    inputColor = InputColorField(default_value=(0.0, 0.0, 0.0))
     input_color = inputColor
     inputColorR = inputColor.inputColorR
     input_colorr = inputColorR
@@ -87,6 +87,6 @@ class AiRandom(DG):
     inputColorB = inputColor.inputColorB
     input_colorb = inputColorB
 
-    seed = LongField()
+    seed = LongField(default_value=0)
 
-    grayscale = BoolField()
+    grayscale = BoolField(default_value=False)

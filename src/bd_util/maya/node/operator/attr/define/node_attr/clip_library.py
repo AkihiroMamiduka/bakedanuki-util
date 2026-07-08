@@ -16,7 +16,7 @@ class ClipEvalListPlugOperator(
         ("clipEval", "cev"),
     )
 
-    clipEval = CompoundField()
+    clipEval = CompoundField(multi=True)
     cev = clipEval
 
 
@@ -25,7 +25,7 @@ class ClipEvalListAttrOperator(
 ):
     __slots__ = ()
 
-    clipEval = CompoundField()
+    clipEval = CompoundField(multi=True)
     cev = clipEval
 
 

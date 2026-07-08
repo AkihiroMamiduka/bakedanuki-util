@@ -153,47 +153,47 @@ class SquareSrf(DG):
     inputCurve4 = DataNurbsCurveField()
     ic4 = inputCurve4
 
-    endPointTolerance = DoubleLinearField()
+    endPointTolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     ept = endPointTolerance
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    curveFitCheckpoints = LongField()
+    curveFitCheckpoints = LongField(default_value=5, min_value=1, max_value=100)
     cfc = curveFitCheckpoints
 
-    continuityType1 = ContinuityType1EnumField()
+    continuityType1 = ContinuityType1EnumField(default_value=2)
     ct1 = continuityType1
 
-    continuityType2 = ContinuityType2EnumField()
+    continuityType2 = ContinuityType2EnumField(default_value=2)
     ct2 = continuityType2
 
-    continuityType3 = ContinuityType3EnumField()
+    continuityType3 = ContinuityType3EnumField(default_value=2)
     ct3 = continuityType3
 
-    continuityType4 = ContinuityType4EnumField()
+    continuityType4 = ContinuityType4EnumField(default_value=2)
     ct4 = continuityType4
 
-    rebuildCurve1 = BoolField()
+    rebuildCurve1 = BoolField(default_value=False)
     rc1 = rebuildCurve1
 
-    rebuildCurve2 = BoolField()
+    rebuildCurve2 = BoolField(default_value=False)
     rc2 = rebuildCurve2
 
-    rebuildCurve3 = BoolField()
+    rebuildCurve3 = BoolField(default_value=False)
     rc3 = rebuildCurve3
 
-    rebuildCurve4 = BoolField()
+    rebuildCurve4 = BoolField(default_value=False)
     rc4 = rebuildCurve4
 
-    continuityPassed1 = BoolField()
+    continuityPassed1 = BoolField(default_value=False, writable=False)
     cp1 = continuityPassed1
 
-    continuityPassed2 = BoolField()
+    continuityPassed2 = BoolField(default_value=False, writable=False)
     cp2 = continuityPassed2
 
-    continuityPassed3 = BoolField()
+    continuityPassed3 = BoolField(default_value=False, writable=False)
     cp3 = continuityPassed3
 
-    continuityPassed4 = BoolField()
+    continuityPassed4 = BoolField(default_value=False, writable=False)
     cp4 = continuityPassed4

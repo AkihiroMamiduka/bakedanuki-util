@@ -10,10 +10,10 @@ class SimpleTestNode(DG):
 
     NODE_TYPE = "simpleTestNode"
 
-    single = FloatField()
+    single = FloatField(default_value=0.0)
     s = single
 
-    compound = CompoundValueField()
+    compound = CompoundValueField(default_value=(0.0, 0.0, 0.0))
     c = compound
     level1S1 = compound.level1S1
     l1s1 = level1S1
@@ -22,5 +22,5 @@ class SimpleTestNode(DG):
     level1S3 = compound.level1S3
     l1s3 = level1S3
 
-    flag = BoolField()
+    flag = BoolField(default_value=False)
     f = flag

@@ -12,10 +12,10 @@ class BifrostBoard(DG):
     saveContainerToJSON = DataStringField()
     sc = saveContainerToJSON
 
-    runOnDemand = BoolField()
+    runOnDemand = BoolField(default_value=False, readable=False)
     rod = runOnDemand
 
-    resumableAfterEsc = BoolField()
+    resumableAfterEsc = BoolField(default_value=False, readable=False)
     rae = resumableAfterEsc
 
-    dirtyFlag = BoolField()
+    dirtyFlag = BoolField(default_value=False, readable=False)

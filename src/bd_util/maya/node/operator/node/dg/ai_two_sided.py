@@ -16,7 +16,7 @@ class AiTwoSided(DG):
 
     NODE_TYPE = "aiTwoSided"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -25,10 +25,10 @@ class AiTwoSided(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -37,7 +37,7 @@ class AiTwoSided(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -46,7 +46,7 @@ class AiTwoSided(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -55,10 +55,10 @@ class AiTwoSided(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    frontA = FloatField()
+    frontA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     fronta = frontA
 
-    front = FrontField()
+    front = FrontField(default_value=(0.0, 0.0, 0.0))
     frontR = front.frontR
     frontr = frontR
     frontG = front.frontG
@@ -66,10 +66,10 @@ class AiTwoSided(DG):
     frontB = front.frontB
     frontb = frontB
 
-    backA = FloatField()
+    backA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     backa = backA
 
-    back = BackField()
+    back = BackField(default_value=(0.0, 0.0, 0.0))
     backR = back.backR
     backr = backR
     backG = back.backG

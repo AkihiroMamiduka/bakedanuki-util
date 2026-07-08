@@ -121,22 +121,22 @@ class MASH_Jiggle(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -148,12 +148,12 @@ class MASH_Jiggle(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -164,31 +164,31 @@ class MASH_Jiggle(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    falloffAffects = FalloffAffectsEnumField()
+    falloffAffects = FalloffAffectsEnumField(default_value=1)
 
-    mapAffects = MapAffectsEnumField()
+    mapAffects = MapAffectsEnumField(default_value=1)
 
-    directionBias = FloatField()
+    directionBias = FloatField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
 
-    normalStrength = FloatField()
+    normalStrength = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    maxVelocity = FloatField()
+    maxVelocity = FloatField(default_value=3.0, soft_min_value=0.0, soft_max_value=4.0)
 
-    stiffness = FloatField()
+    stiffness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
 
-    damping = FloatField()
+    damping = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
 
     strengthPP = TypedField(multi=True)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
     perGeometry = PerGeometryField(multi=True)

@@ -44,41 +44,41 @@ class XgmModifierLinearWire(DG):
 
     NODE_TYPE = "xgmModifierLinearWire"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
     inWireData = TypedField()
     iwd = inWireData
 
-    mask = DoubleField()
+    mask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    magnitude = DoubleField()
+    magnitude = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True)
+    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     ms = magnitudeScale
 
-    smoothness = DoubleField()
+    smoothness = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     s = smoothness
 
-    breakage = DoubleField()
+    breakage = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     b = breakage
 
     refWire = TypedField()
     rw = refWire
 
-    transferMode = BoolField()
+    transferMode = BoolField(default_value=False)
     tmo = transferMode
 
-    transferModeAlignToNormal = BoolField()
+    transferModeAlignToNormal = BoolField(default_value=False)
     tan = transferModeAlignToNormal
 
-    transferModeMappingType = TransferModeMappingTypeEnumField()
+    transferModeMappingType = TransferModeMappingTypeEnumField(default_value=0)
     tmt = transferModeMappingType

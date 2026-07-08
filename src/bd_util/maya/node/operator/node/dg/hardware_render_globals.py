@@ -213,101 +213,101 @@ class HardwareRenderGlobals(DG):
 
     NODE_TYPE = "hardwareRenderGlobals"
 
-    colorTextureResolution = LongField()
+    colorTextureResolution = LongField(default_value=128, min_value=2, max_value=2048)
     ctrs = colorTextureResolution
 
-    bumpTextureResolution = LongField()
+    bumpTextureResolution = LongField(default_value=256, min_value=2, max_value=2048)
     btrs = bumpTextureResolution
 
-    frameBufferFormat = FrameBufferFormatEnumField()
+    frameBufferFormat = FrameBufferFormatEnumField(default_value=0)
     fbfm = frameBufferFormat
 
-    enableHighQualityLighting = BoolField()
+    enableHighQualityLighting = BoolField(default_value=True)
     ehql = enableHighQualityLighting
 
-    enableAcceleratedMultiSampling = BoolField()
+    enableAcceleratedMultiSampling = BoolField(default_value=True)
     eams = enableAcceleratedMultiSampling
 
-    enableEdgeAntiAliasing = BoolField()
+    enableEdgeAntiAliasing = BoolField(default_value=False)
     eeaa = enableEdgeAntiAliasing
 
-    enableGeometryMask = BoolField()
+    enableGeometryMask = BoolField(default_value=False)
     engm = enableGeometryMask
 
-    numberOfSamples = NumberOfSamplesEnumField()
+    numberOfSamples = NumberOfSamplesEnumField(default_value=1)
     mes = numberOfSamples
 
-    enableMotionBlur = BoolField()
+    enableMotionBlur = BoolField(default_value=False)
     emb = enableMotionBlur
 
-    motionBlurByFrame = FloatField()
+    motionBlurByFrame = FloatField(default_value=1.0)
     mbbf = motionBlurByFrame
 
-    numberOfExposures = LongField()
+    numberOfExposures = LongField(default_value=3)
     mbs = numberOfExposures
 
-    transparencySorting = TransparencySortingEnumField()
+    transparencySorting = TransparencySortingEnumField(default_value=0)
     trm = transparencySorting
 
-    transparentShadowCasting = BoolField()
+    transparentShadowCasting = BoolField(default_value=True)
     tshc = transparentShadowCasting
 
-    enableNonPowerOfTwoTexture = BoolField()
+    enableNonPowerOfTwoTexture = BoolField(default_value=True)
     enpt = enableNonPowerOfTwoTexture
 
-    culling = CullingEnumField()
+    culling = CullingEnumField(default_value=0)
     clmt = culling
 
-    textureCompression = TextureCompressionEnumField()
+    textureCompression = TextureCompressionEnumField(default_value=0)
     tcov = textureCompression
 
-    lightIntensityThreshold = FloatField()
+    lightIntensityThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0001, max_value=1.0)
     lith = lightIntensityThreshold
 
-    smallObjectCulling = BoolField()
+    smallObjectCulling = BoolField(default_value=True)
     sobc = smallObjectCulling
 
-    cullingThreshold = FloatField()
+    cullingThreshold = FloatField(default_value=0.0, min_value=0.0, max_value=100.0)
     cuth = cullingThreshold
 
-    graphicsHardwareGeometryCachingData = BoolField()
+    graphicsHardwareGeometryCachingData = BoolField(default_value=True)
     hgcd = graphicsHardwareGeometryCachingData
 
-    graphicsHardwareGeometryCachingIndexing = BoolField()
+    graphicsHardwareGeometryCachingIndexing = BoolField(default_value=True)
     hgci = graphicsHardwareGeometryCachingIndexing
 
-    maximumGeometryCacheSize = LongField()
+    maximumGeometryCacheSize = LongField(default_value=64, min_value=1, max_value=512)
     mgcs = maximumGeometryCacheSize
 
-    writeAlphaAsColor = BoolField()
+    writeAlphaAsColor = BoolField(default_value=False)
     twa = writeAlphaAsColor
 
-    writeZDepthAsColor = BoolField()
+    writeZDepthAsColor = BoolField(default_value=False)
     twz = writeZDepthAsColor
 
-    hardwareCodec = LongField()
+    hardwareCodec = LongField(default_value=1919706400)
     hwcc = hardwareCodec
 
-    hardwareDepth = LongField()
+    hardwareDepth = LongField(default_value=32)
     hwdp = hardwareDepth
 
-    hardwareQual = LongField()
+    hardwareQual = LongField(default_value=1024)
     hwql = hardwareQual
 
-    hardwareFrameRate = LongField()
+    hardwareFrameRate = LongField(default_value=24)
     hwfr = hardwareFrameRate
 
-    shadowsObeyLightLinking = BoolField()
+    shadowsObeyLightLinking = BoolField(default_value=True)
     soll = shadowsObeyLightLinking
 
-    shadowsObeyShadowLinking = BoolField()
+    shadowsObeyShadowLinking = BoolField(default_value=False)
     sosl = shadowsObeyShadowLinking
 
-    blendSpecularWithAlpha = BoolField()
+    blendSpecularWithAlpha = BoolField(default_value=False)
     bswa = blendSpecularWithAlpha
 
-    shadingModel = ShadingModelEnumField()
+    shadingModel = ShadingModelEnumField(default_value=0)
     shml = shadingModel
 
-    hardwareEnvironmentLookup = BoolField()
+    hardwareEnvironmentLookup = BoolField(default_value=False)
     hwel = hardwareEnvironmentLookup

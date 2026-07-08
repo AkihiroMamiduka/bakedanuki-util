@@ -26,7 +26,7 @@ class ParticleCloud(DG):
 
     NODE_TYPE = "particleCloud"
 
-    outParticleEmission = OutParticleEmissionField()
+    outParticleEmission = OutParticleEmissionField(default_value=(0.0, 0.0, 0.0), writable=False)
     oe = outParticleEmission
     outParticleEmissionR = outParticleEmission.outParticleEmissionR
     oer = outParticleEmissionR
@@ -35,7 +35,7 @@ class ParticleCloud(DG):
     outParticleEmissionB = outParticleEmission.outParticleEmissionB
     oeb = outParticleEmissionB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oi = outColor
     outColorR = outColor.outColorR
     oir = outColorR
@@ -44,7 +44,7 @@ class ParticleCloud(DG):
     outColorB = outColor.outColorB
     oib = outColorB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogi = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -53,7 +53,7 @@ class ParticleCloud(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -62,7 +62,7 @@ class ParticleCloud(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    color = ColorField()
+    color = ColorField(default_value=(0.0, 0.5882400274276733, 0.6439999938011169))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -71,7 +71,7 @@ class ParticleCloud(DG):
     colorB = color.colorB
     cb = colorB
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.5, 0.5, 0.5))
     t = transparency
     transparencyR = transparency.transparencyR
     tr = transparencyR
@@ -80,7 +80,7 @@ class ParticleCloud(DG):
     transparencyB = transparency.transparencyB
     tb = transparencyB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.0, 0.0, 0.0))
     i = incandescence
     incandescenceR = incandescence.incandescenceR
     ir = incandescenceR
@@ -89,25 +89,25 @@ class ParticleCloud(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     d = density
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gi = glowIntensity
 
-    noise = FloatField()
+    noise = FloatField(default_value=0.75, soft_min_value=0.0, soft_max_value=1.0)
     n = noise
 
-    noiseFreq = FloatField()
+    noiseFreq = FloatField(default_value=0.15000000596046448, soft_min_value=0.0, soft_max_value=1.0)
     nf = noiseFreq
 
-    noiseAspect = FloatField()
+    noiseAspect = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     na = noiseAspect
 
-    particleWeight = FloatField()
+    particleWeight = FloatField(default_value=0.0)
     w = particleWeight
 
-    particleEmission = ParticleEmissionField()
+    particleEmission = ParticleEmissionField(default_value=(0.0, 0.0, 0.0))
     e = particleEmission
     particleEmissionR = particleEmission.particleEmissionR
     er = particleEmissionR
@@ -116,7 +116,7 @@ class ParticleCloud(DG):
     particleEmissionB = particleEmission.particleEmissionB
     eb = particleEmissionB
 
-    blobMap = BlobMapField()
+    blobMap = BlobMapField(default_value=(1.0, 1.0, 1.0))
     m = blobMap
     blobMapR = blobMap.blobMapR
     mr = blobMapR
@@ -146,7 +146,7 @@ class ParticleCloud(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     p = pointObj
     pointObjX = pointObj.pointObjX
     px = pointObjX
@@ -155,7 +155,7 @@ class ParticleCloud(DG):
     pointObjZ = pointObj.pointObjZ
     pz = pointObjZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     nc = normalCamera
     normalCameraX = normalCamera.normalCameraX
     ncx = normalCameraX
@@ -164,16 +164,16 @@ class ParticleCloud(DG):
     normalCameraZ = normalCamera.normalCameraZ
     ncz = normalCameraZ
 
-    translucenceCoeff = FloatField()
+    translucenceCoeff = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tc = translucenceCoeff
 
-    diffuseCoeff = FloatField()
+    diffuseCoeff = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
     dc = diffuseCoeff
 
-    surfaceShadingShadow = BoolField()
+    surfaceShadingShadow = BoolField(default_value=False)
     sss = surfaceShadingShadow
 
-    surfaceColor = SurfaceColorField()
+    surfaceColor = SurfaceColorField(default_value=(0.4000000059604645, 0.4000000059604645, 0.4000000059604645))
     sc = surfaceColor
     surfaceColorR = surfaceColor.surfaceColorR
     scr = surfaceColorR
@@ -182,26 +182,26 @@ class ParticleCloud(DG):
     surfaceColorB = surfaceColor.surfaceColorB
     scb = surfaceColorB
 
-    solidCoreSize = FloatField()
+    solidCoreSize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     scs = solidCoreSize
 
-    translucence = FloatField()
+    translucence = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     trsl = translucence
 
-    noiseAnimRate = FloatField()
+    noiseAnimRate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     nanr = noiseAnimRate
 
-    roundness = FloatField()
+    roundness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     rdns = roundness
 
-    rayDepth = ShortField()
+    rayDepth = ShortField(default_value=0)
     rd = rayDepth
 
-    particleOrder = LongField()
+    particleOrder = LongField(default_value=0)
     podr = particleOrder
 
-    filterRadius = FloatField()
+    filterRadius = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     flrs = filterRadius
 
-    renderState = LongField()
+    renderState = LongField(default_value=0, readable=False)
     rdst = renderState

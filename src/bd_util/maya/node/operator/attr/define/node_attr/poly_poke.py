@@ -18,13 +18,13 @@ class TranslatePlugOperator(
         ("translateZ", "tz"),
     )
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -33,13 +33,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -51,13 +51,13 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -71,13 +71,13 @@ class LocalTranslatePlugOperator(
         ("localTranslateZ", "ltz"),
     )
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ
 
 
@@ -86,13 +86,13 @@ class LocalTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ
 
 
@@ -104,11 +104,11 @@ class LocalTranslateField(
     ATTR_CLS = LocalTranslateAttrOperator
     PLUG_CLS = LocalTranslatePlugOperator
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ

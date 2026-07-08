@@ -52,26 +52,26 @@ class AttachCurve(DG):
     inputCurves = DataNurbsCurveField(multi=True)
     ics = inputCurves
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    reverse1 = BoolField()
+    reverse1 = BoolField(default_value=False)
     rv1 = reverse1
 
-    reverse2 = BoolField()
+    reverse2 = BoolField(default_value=False)
     rv2 = reverse2
 
-    method = MethodEnumField()
+    method = MethodEnumField(default_value=0)
     m = method
 
-    keepMultipleKnots = BoolField()
+    keepMultipleKnots = BoolField(default_value=True)
     kmk = keepMultipleKnots
 
-    blendBias = DoubleField()
+    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bb = blendBias
 
-    blendKnotInsertion = BoolField()
+    blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     p = parameter

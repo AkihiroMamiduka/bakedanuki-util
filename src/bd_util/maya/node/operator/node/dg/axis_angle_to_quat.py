@@ -12,7 +12,7 @@ class AxisAngleToQuat(DG):
 
     NODE_TYPE = "axisAngleToQuat"
 
-    inputAxis = InputAxisField()
+    inputAxis = InputAxisField(default_value=(0.0, 0.0, 0.0))
     ia = inputAxis
     inputAxisX = inputAxis.inputAxisX
     iax = inputAxisX
@@ -21,10 +21,10 @@ class AxisAngleToQuat(DG):
     inputAxisZ = inputAxis.inputAxisZ
     iaz = inputAxisZ
 
-    inputAngle = DoubleAngleField()
+    inputAngle = DoubleAngleField(default_value=0.0)
     iang = inputAngle
 
-    outputQuat = OutputQuatField()
+    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

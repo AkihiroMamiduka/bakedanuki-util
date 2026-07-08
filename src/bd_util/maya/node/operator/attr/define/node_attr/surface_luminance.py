@@ -26,13 +26,13 @@ class NormalCameraPlugOperator(
         ("normalCameraZ", "nz"),
     )
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -41,13 +41,13 @@ class NormalCameraAttrOperator(
 ):
     __slots__ = ()
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -59,13 +59,13 @@ class NormalCameraField(
     ATTR_CLS = NormalCameraAttrOperator
     PLUG_CLS = NormalCameraPlugOperator
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -84,28 +84,28 @@ class LightDataArrayPlugOperator(
         ("lightBlindData", "lbd"),
     )
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=True, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=True, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 
@@ -114,28 +114,28 @@ class LightDataArrayAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=True, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=True, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 

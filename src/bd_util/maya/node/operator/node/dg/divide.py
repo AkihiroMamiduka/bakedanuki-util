@@ -8,11 +8,11 @@ class Divide(DG):
 
     NODE_TYPE = "divide"
 
-    input1 = DoubleLinearField()
+    input1 = DoubleLinearField(default_value=0.0)
     i1 = input1
 
-    input2 = DoubleLinearField()
+    input2 = DoubleLinearField(default_value=1.0)
     i2 = input2
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

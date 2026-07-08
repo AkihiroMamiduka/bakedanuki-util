@@ -50,8 +50,8 @@ class ReverseSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=0)
     d = direction
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

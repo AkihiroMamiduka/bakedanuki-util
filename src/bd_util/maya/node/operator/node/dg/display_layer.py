@@ -10,7 +10,7 @@ class DisplayLayer(DG):
 
     NODE_TYPE = "displayLayer"
 
-    identification = ShortField()
+    identification = ShortField(default_value=0)
     id = identification
 
     drawInfo = DrawInfoField()
@@ -43,5 +43,5 @@ class DisplayLayer(DG):
     ufeMembers = DataStringArrayField()
     ufem = ufeMembers
 
-    displayOrder = ShortField()
+    displayOrder = ShortField(default_value=0)
     do = displayOrder

@@ -23,13 +23,13 @@ class InputAxisPlugOperator(
         ("inputAxisZ", "iaz"),
     )
 
-    inputAxisX = DoubleField()
+    inputAxisX = DoubleField(default_value=0.0)
     iax = inputAxisX
 
-    inputAxisY = DoubleField()
+    inputAxisY = DoubleField(default_value=0.0)
     iay = inputAxisY
 
-    inputAxisZ = DoubleField()
+    inputAxisZ = DoubleField(default_value=0.0)
     iaz = inputAxisZ
 
 
@@ -38,13 +38,13 @@ class InputAxisAttrOperator(
 ):
     __slots__ = ()
 
-    inputAxisX = DoubleField()
+    inputAxisX = DoubleField(default_value=0.0)
     iax = inputAxisX
 
-    inputAxisY = DoubleField()
+    inputAxisY = DoubleField(default_value=0.0)
     iay = inputAxisY
 
-    inputAxisZ = DoubleField()
+    inputAxisZ = DoubleField(default_value=0.0)
     iaz = inputAxisZ
 
 
@@ -56,13 +56,13 @@ class InputAxisField(
     ATTR_CLS = InputAxisAttrOperator
     PLUG_CLS = InputAxisPlugOperator
 
-    inputAxisX = DoubleField()
+    inputAxisX = DoubleField(default_value=0.0)
     iax = inputAxisX
 
-    inputAxisY = DoubleField()
+    inputAxisY = DoubleField(default_value=0.0)
     iay = inputAxisY
 
-    inputAxisZ = DoubleField()
+    inputAxisZ = DoubleField(default_value=0.0)
     iaz = inputAxisZ
 
 
@@ -77,16 +77,16 @@ class OutputQuatPlugOperator(
         ("outputQuatW", "oqw"),
     )
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -95,16 +95,16 @@ class OutputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -116,14 +116,14 @@ class OutputQuatField(
     ATTR_CLS = OutputQuatAttrOperator
     PLUG_CLS = OutputQuatPlugOperator
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW

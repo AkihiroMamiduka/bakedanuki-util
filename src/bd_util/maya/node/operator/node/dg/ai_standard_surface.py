@@ -73,7 +73,7 @@ class AiStandardSurface(DG):
 
     NODE_TYPE = "aiStandardSurface"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -82,10 +82,10 @@ class AiStandardSurface(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -94,7 +94,7 @@ class AiStandardSurface(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -103,10 +103,10 @@ class AiStandardSurface(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    aiEnableMatte = BoolField()
+    aiEnableMatte = BoolField(default_value=False)
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField()
+    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0))
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -115,12 +115,12 @@ class AiStandardSurface(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField()
+    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ai_matte_color_a = aiMatteColorA
 
-    base = FloatField()
+    base = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    baseColor = BaseColorField()
+    baseColor = BaseColorField(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
     base_color = baseColor
     baseColorR = baseColor.baseColorR
     base_colorr = baseColorR
@@ -129,12 +129,12 @@ class AiStandardSurface(DG):
     baseColorB = baseColor.baseColorB
     base_colorb = baseColorB
 
-    diffuseRoughness = FloatField()
+    diffuseRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     diffuse_roughness = diffuseRoughness
 
-    specular = FloatField()
+    specular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
     specular_color = specularColor
     specularColorR = specularColor.specularColorR
     specular_colorr = specularColorR
@@ -143,23 +143,23 @@ class AiStandardSurface(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularRoughness = FloatField()
+    specularRoughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
     specular_roughness = specularRoughness
 
-    specularIOR = FloatField()
+    specularIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=3.0)
     specular_IOR = specularIOR
 
-    specularAnisotropy = FloatField()
+    specularAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     specular_anisotropy = specularAnisotropy
 
-    specularRotation = FloatField()
+    specularRotation = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     specular_rotation = specularRotation
 
-    metalness = FloatField()
+    metalness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    transmission = FloatField()
+    transmission = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    transmissionColor = TransmissionColorField()
+    transmissionColor = TransmissionColorField(default_value=(1.0, 1.0, 1.0))
     transmission_color = transmissionColor
     transmissionColorR = transmissionColor.transmissionColorR
     transmission_colorr = transmissionColorR
@@ -168,10 +168,10 @@ class AiStandardSurface(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     transmission_colorb = transmissionColorB
 
-    transmissionDepth = FloatField()
+    transmissionDepth = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
     transmission_depth = transmissionDepth
 
-    transmissionScatter = TransmissionScatterField()
+    transmissionScatter = TransmissionScatterField(default_value=(0.0, 0.0, 0.0))
     transmission_scatter = transmissionScatter
     transmissionScatterR = transmissionScatter.transmissionScatterR
     transmission_scatterr = transmissionScatterR
@@ -180,21 +180,21 @@ class AiStandardSurface(DG):
     transmissionScatterB = transmissionScatter.transmissionScatterB
     transmission_scatterb = transmissionScatterB
 
-    transmissionScatterAnisotropy = FloatField()
+    transmissionScatterAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     transmission_scatter_anisotropy = transmissionScatterAnisotropy
 
-    transmissionDispersion = FloatField()
+    transmissionDispersion = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
     transmission_dispersion = transmissionDispersion
 
-    transmissionExtraRoughness = FloatField()
+    transmissionExtraRoughness = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     transmission_extra_roughness = transmissionExtraRoughness
 
-    transmitAovs = BoolField()
+    transmitAovs = BoolField(default_value=False)
     transmit_aovs = transmitAovs
 
-    subsurface = FloatField()
+    subsurface = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    subsurfaceColor = SubsurfaceColorField()
+    subsurfaceColor = SubsurfaceColorField(default_value=(1.0, 1.0, 1.0))
     subsurface_color = subsurfaceColor
     subsurfaceColorR = subsurfaceColor.subsurfaceColorR
     subsurface_colorr = subsurfaceColorR
@@ -203,7 +203,7 @@ class AiStandardSurface(DG):
     subsurfaceColorB = subsurfaceColor.subsurfaceColorB
     subsurface_colorb = subsurfaceColorB
 
-    subsurfaceRadius = SubsurfaceRadiusField()
+    subsurfaceRadius = SubsurfaceRadiusField(default_value=(1.0, 1.0, 1.0))
     subsurface_radius = subsurfaceRadius
     subsurfaceRadiusR = subsurfaceRadius.subsurfaceRadiusR
     subsurface_radiusr = subsurfaceRadiusR
@@ -212,18 +212,18 @@ class AiStandardSurface(DG):
     subsurfaceRadiusB = subsurfaceRadius.subsurfaceRadiusB
     subsurface_radiusb = subsurfaceRadiusB
 
-    subsurfaceScale = FloatField()
+    subsurfaceScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     subsurface_scale = subsurfaceScale
 
-    subsurfaceAnisotropy = FloatField()
+    subsurfaceAnisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     subsurface_anisotropy = subsurfaceAnisotropy
 
-    subsurfaceType = SubsurfaceTypeEnumField()
+    subsurfaceType = SubsurfaceTypeEnumField(default_value=1)
     subsurface_type = subsurfaceType
 
-    sheen = FloatField()
+    sheen = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    sheenColor = SheenColorField()
+    sheenColor = SheenColorField(default_value=(1.0, 1.0, 1.0))
     sheen_color = sheenColor
     sheenColorR = sheenColor.sheenColorR
     sheen_colorr = sheenColorR
@@ -232,13 +232,13 @@ class AiStandardSurface(DG):
     sheenColorB = sheenColor.sheenColorB
     sheen_colorb = sheenColorB
 
-    sheenRoughness = FloatField()
+    sheenRoughness = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
     sheen_roughness = sheenRoughness
 
-    thinWalled = BoolField()
+    thinWalled = BoolField(default_value=False)
     thin_walled = thinWalled
 
-    tangent = TangentField()
+    tangent = TangentField(default_value=(0.0, 0.0, 0.0))
     tangentX = tangent.tangentX
     tangentx = tangentX
     tangentY = tangent.tangentY
@@ -246,9 +246,9 @@ class AiStandardSurface(DG):
     tangentZ = tangent.tangentZ
     tangentz = tangentZ
 
-    coat = FloatField()
+    coat = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    coatColor = CoatColorField()
+    coatColor = CoatColorField(default_value=(1.0, 1.0, 1.0))
     coat_color = coatColor
     coatColorR = coatColor.coatColorR
     coat_colorr = coatColorR
@@ -257,19 +257,19 @@ class AiStandardSurface(DG):
     coatColorB = coatColor.coatColorB
     coat_colorb = coatColorB
 
-    coatRoughness = FloatField()
+    coatRoughness = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     coat_roughness = coatRoughness
 
-    coatIOR = FloatField()
+    coatIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=5.0)
     coat_IOR = coatIOR
 
-    coatAnisotropy = FloatField()
+    coatAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     coat_anisotropy = coatAnisotropy
 
-    coatRotation = FloatField()
+    coatRotation = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     coat_rotation = coatRotation
 
-    coatNormal = CoatNormalField()
+    coatNormal = CoatNormalField(default_value=(0.0, 0.0, 0.0))
     coat_normal = coatNormal
     coatNormalX = coatNormal.coatNormalX
     coat_normalx = coatNormalX
@@ -278,21 +278,21 @@ class AiStandardSurface(DG):
     coatNormalZ = coatNormal.coatNormalZ
     coat_normalz = coatNormalZ
 
-    coatAffectColor = FloatField()
+    coatAffectColor = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     coat_affect_color = coatAffectColor
 
-    coatAffectRoughness = FloatField()
+    coatAffectRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     coat_affect_roughness = coatAffectRoughness
 
-    thinFilmThickness = FloatField()
+    thinFilmThickness = FloatField(default_value=0.0, min_value=0.0, soft_max_value=2000.0)
     thin_film_thickness = thinFilmThickness
 
-    thinFilmIOR = FloatField()
+    thinFilmIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=3.0)
     thin_film_IOR = thinFilmIOR
 
-    emission = FloatField()
+    emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -301,7 +301,7 @@ class AiStandardSurface(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    opacity = OpacityField()
+    opacity = OpacityField(default_value=(1.0, 1.0, 1.0))
     opacityR = opacity.opacityR
     opacityr = opacityR
     opacityG = opacity.opacityG
@@ -309,27 +309,27 @@ class AiStandardSurface(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    caustics = BoolField()
+    caustics = BoolField(default_value=False)
 
-    internalReflections = BoolField()
+    internalReflections = BoolField(default_value=True)
     internal_reflections = internalReflections
 
-    exitToBackground = BoolField()
+    exitToBackground = BoolField(default_value=False)
     exit_to_background = exitToBackground
 
-    indirectDiffuse = FloatField()
+    indirectDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_diffuse = indirectDiffuse
 
-    indirectSpecular = FloatField()
+    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     indirect_specular = indirectSpecular
 
-    dielectricPriority = LongField()
+    dielectricPriority = LongField(default_value=0, soft_min_value=-10, soft_max_value=10)
     dielectric_priority = dielectricPriority
 
     aovId1 = DataStringField()
     aov_id1 = aovId1
 
-    id1 = Id1Field()
+    id1 = Id1Field(default_value=(0.0, 0.0, 0.0))
     id1R = id1.id1R
     id1r = id1R
     id1G = id1.id1G
@@ -340,7 +340,7 @@ class AiStandardSurface(DG):
     aovId2 = DataStringField()
     aov_id2 = aovId2
 
-    id2 = Id2Field()
+    id2 = Id2Field(default_value=(0.0, 0.0, 0.0))
     id2R = id2.id2R
     id2r = id2R
     id2G = id2.id2G
@@ -351,7 +351,7 @@ class AiStandardSurface(DG):
     aovId3 = DataStringField()
     aov_id3 = aovId3
 
-    id3 = Id3Field()
+    id3 = Id3Field(default_value=(0.0, 0.0, 0.0))
     id3R = id3.id3R
     id3r = id3R
     id3G = id3.id3G
@@ -362,7 +362,7 @@ class AiStandardSurface(DG):
     aovId4 = DataStringField()
     aov_id4 = aovId4
 
-    id4 = Id4Field()
+    id4 = Id4Field(default_value=(0.0, 0.0, 0.0))
     id4R = id4.id4R
     id4r = id4R
     id4G = id4.id4G
@@ -373,7 +373,7 @@ class AiStandardSurface(DG):
     aovId5 = DataStringField()
     aov_id5 = aovId5
 
-    id5 = Id5Field()
+    id5 = Id5Field(default_value=(0.0, 0.0, 0.0))
     id5R = id5.id5R
     id5r = id5R
     id5G = id5.id5G
@@ -384,7 +384,7 @@ class AiStandardSurface(DG):
     aovId6 = DataStringField()
     aov_id6 = aovId6
 
-    id6 = Id6Field()
+    id6 = Id6Field(default_value=(0.0, 0.0, 0.0))
     id6R = id6.id6R
     id6r = id6R
     id6G = id6.id6G
@@ -395,7 +395,7 @@ class AiStandardSurface(DG):
     aovId7 = DataStringField()
     aov_id7 = aovId7
 
-    id7 = Id7Field()
+    id7 = Id7Field(default_value=(0.0, 0.0, 0.0))
     id7R = id7.id7R
     id7r = id7R
     id7G = id7.id7G
@@ -406,7 +406,7 @@ class AiStandardSurface(DG):
     aovId8 = DataStringField()
     aov_id8 = aovId8
 
-    id8 = Id8Field()
+    id8 = Id8Field(default_value=(0.0, 0.0, 0.0))
     id8R = id8.id8R
     id8r = id8R
     id8G = id8.id8G

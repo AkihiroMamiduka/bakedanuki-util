@@ -26,7 +26,7 @@ class EnvChrome(DG):
 
     NODE_TYPE = "envChrome"
 
-    objectType = CharField()
+    objectType = CharField(default_value=1, min_value=0, max_value=255)
     ot = objectType
 
     placementMatrix = FltMatrixField()
@@ -35,10 +35,10 @@ class EnvChrome(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -47,7 +47,7 @@ class EnvChrome(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -56,21 +56,21 @@ class EnvChrome(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -79,7 +79,7 @@ class EnvChrome(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -88,10 +88,10 @@ class EnvChrome(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -100,7 +100,7 @@ class EnvChrome(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    skyColor = SkyColorField()
+    skyColor = SkyColorField(default_value=(0.7839999794960022, 0.7839999794960022, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     sc = skyColor
     skyColorR = skyColor.skyColorR
     scr = skyColorR
@@ -109,7 +109,7 @@ class EnvChrome(DG):
     skyColorB = skyColor.skyColorB
     scb = skyColorB
 
-    zenithColor = ZenithColorField()
+    zenithColor = ZenithColorField(default_value=(0.3919999897480011, 0.3919999897480011, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     zc = zenithColor
     zenithColorR = zenithColor.zenithColorR
     zcr = zenithColorR
@@ -118,7 +118,7 @@ class EnvChrome(DG):
     zenithColorB = zenithColor.zenithColorB
     zcb = zenithColorB
 
-    lightColor = LightColorField()
+    lightColor = LightColorField(default_value=(0.7839999794960022, 0.7839999794960022, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     lc = lightColor
     lightColorR = lightColor.lightColorR
     lcr = lightColorR
@@ -127,28 +127,28 @@ class EnvChrome(DG):
     lightColorB = lightColor.lightColorB
     lcb = lightColorB
 
-    lightWidth = FloatField()
+    lightWidth = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     lw = lightWidth
 
-    lightWidthGain = FloatField()
+    lightWidthGain = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     lwg = lightWidthGain
 
-    lightWidthOffset = FloatField()
+    lightWidthOffset = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     lwo = lightWidthOffset
 
-    lightDepth = FloatField()
+    lightDepth = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     ld = lightDepth
 
-    lightDepthGain = FloatField()
+    lightDepthGain = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ldg = lightDepthGain
 
-    lightDepthOffset = FloatField()
+    lightDepthOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ldo = lightDepthOffset
 
-    realFloor = BoolField()
+    realFloor = BoolField(default_value=True)
     rf = realFloor
 
-    floorColor = FloorColorField()
+    floorColor = FloorColorField(default_value=(0.5879999995231628, 0.5879999995231628, 0.7839999794960022), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fc = floorColor
     floorColorR = floorColor.floorColorR
     fcr = floorColorR
@@ -157,10 +157,10 @@ class EnvChrome(DG):
     floorColorB = floorColor.floorColorB
     fcb = floorColorB
 
-    floorAltitude = FloatField()
+    floorAltitude = FloatField(default_value=-1.0, min_value=-1.0, max_value=1.0)
     fa = floorAltitude
 
-    horizonColor = HorizonColorField()
+    horizonColor = HorizonColorField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     hc = horizonColor
     horizonColorR = horizonColor.horizonColorR
     hcr = horizonColorR
@@ -169,7 +169,7 @@ class EnvChrome(DG):
     horizonColorB = horizonColor.horizonColorB
     hcb = horizonColorB
 
-    gridColor = GridColorField()
+    gridColor = GridColorField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     gc = gridColor
     gridColorR = gridColor.gridColorR
     gcr = gridColorR
@@ -178,20 +178,20 @@ class EnvChrome(DG):
     gridColorB = gridColor.gridColorB
     gcb = gridColorB
 
-    gridWidth = FloatField()
+    gridWidth = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     gw = gridWidth
 
-    gridWidthGain = FloatField()
+    gridWidthGain = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     gwg = gridWidthGain
 
-    gridWidthOffset = FloatField()
+    gridWidthOffset = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     gwo = gridWidthOffset
 
-    gridDepth = FloatField()
+    gridDepth = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     gd = gridDepth
 
-    gridDepthGain = FloatField()
+    gridDepthGain = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     gdg = gridDepthGain
 
-    gridDepthOffset = FloatField()
+    gridDepthOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gdo = gridDepthOffset

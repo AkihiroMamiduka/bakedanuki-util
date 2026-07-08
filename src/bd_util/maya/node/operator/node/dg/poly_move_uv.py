@@ -20,7 +20,7 @@ class PolyMoveUV(DG):
 
     NODE_TYPE = "polyMoveUV"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -29,65 +29,65 @@ class PolyMoveUV(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0))
     t = translate
     translateU = translate.translateU
     tu = translateU
     translateV = translate.translateV
     tv = translateV
 
-    rotationAngle = DoubleAngleField()
+    rotationAngle = DoubleAngleField(default_value=0.0)
     ra = rotationAngle
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.5, 0.5))
     pvt = pivot
     pivotU = pivot.pivotU
     pvu = pivotU
     pivotV = pivot.pivotV
     pvv = pivotV
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0))
     s = scale
     scaleU = scale.scaleU
     su = scaleU
     scaleV = scale.scaleV
     sv = scaleV
 
-    random = FloatField()
+    random = FloatField(default_value=0.0)
     ran = random
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0)
     rs = randomSeed
 
-    axisLen = AxisLenField()
+    axisLen = AxisLenField(default_value=(1.0, 1.0))
     l = axisLen
     axisLenX = axisLen.axisLenX
     lx = axisLenX
     axisLenY = axisLen.axisLenY
     ly = axisLenY
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
     uvSetName = DataStringField()

@@ -8,11 +8,11 @@ class Power(DG):
 
     NODE_TYPE = "power"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    exponent = DoubleLinearField()
+    exponent = DoubleLinearField(default_value=2.0)
     e = exponent
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

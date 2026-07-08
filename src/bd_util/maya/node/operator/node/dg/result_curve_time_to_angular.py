@@ -368,58 +368,58 @@ class ResultCurveTimeToAngular(DG):
 
     NODE_TYPE = "resultCurveTimeToAngular"
 
-    apply = TypedField()
+    apply = TypedField(writable=False)
     a = apply
 
-    tangentType = TangentTypeEnumField()
+    tangentType = TangentTypeEnumField(default_value=4)
     tan = tangentType
 
-    weightedTangents = BoolField()
+    weightedTangents = BoolField(default_value=True)
     wgt = weightedTangents
 
-    keyTanLocked = BoolField(multi=True)
+    keyTanLocked = BoolField(multi=True, default_value=True)
     ktl = keyTanLocked
 
-    keyWeightLocked = BoolField(multi=True)
+    keyWeightLocked = BoolField(multi=True, default_value=False)
     kwl = keyWeightLocked
 
-    keyTanInX = DoubleField(multi=True)
+    keyTanInX = DoubleField(multi=True, default_value=0.0)
     kix = keyTanInX
 
-    keyTanInY = DoubleField(multi=True)
+    keyTanInY = DoubleField(multi=True, default_value=0.0)
     kiy = keyTanInY
 
-    keyTanOutX = DoubleField(multi=True)
+    keyTanOutX = DoubleField(multi=True, default_value=0.0)
     kox = keyTanOutX
 
-    keyTanOutY = DoubleField(multi=True)
+    keyTanOutY = DoubleField(multi=True, default_value=0.0)
     koy = keyTanOutY
 
-    keyTanInType = KeyTanInTypeEnumField(multi=True)
+    keyTanInType = KeyTanInTypeEnumField(multi=True, default_value=4)
     kit = keyTanInType
 
-    keyTanOutType = KeyTanOutTypeEnumField(multi=True)
+    keyTanOutType = KeyTanOutTypeEnumField(multi=True, default_value=4)
     kot = keyTanOutType
 
-    keyBreakdown = BoolField(multi=True)
+    keyBreakdown = BoolField(multi=True, default_value=False)
     kbd = keyBreakdown
 
-    keyTickDrawSpecial = BoolField(multi=True)
+    keyTickDrawSpecial = BoolField(multi=True, default_value=False)
     kyts = keyTickDrawSpecial
 
-    rotationInterpolation = RotationInterpolationEnumField()
+    rotationInterpolation = RotationInterpolationEnumField(default_value=2)
     roti = rotationInterpolation
 
-    preInfinity = PreInfinityEnumField()
+    preInfinity = PreInfinityEnumField(default_value=0)
     pre = preInfinity
 
-    postInfinity = PostInfinityEnumField()
+    postInfinity = PostInfinityEnumField(default_value=0)
     pst = postInfinity
 
-    stipplePattern = StipplePatternEnumField()
+    stipplePattern = StipplePatternEnumField(default_value=6)
     sp = stipplePattern
 
-    outStippleThreshold = DoubleField()
+    outStippleThreshold = DoubleField(default_value=0.0)
     ot = outStippleThreshold
 
     outStippleRange = DataDoubleArrayField()
@@ -428,13 +428,13 @@ class ResultCurveTimeToAngular(DG):
     inStippleRange = DataDoubleArrayField()
     isr = inStippleRange
 
-    stippleReverse = BoolField()
+    stippleReverse = BoolField(default_value=False)
     sr = stippleReverse
 
-    useCurveColor = BoolField()
+    useCurveColor = BoolField(default_value=False)
     ucc = useCurveColor
 
-    curveColor = CurveColorField()
+    curveColor = CurveColorField(default_value=(0.0, 0.0, 0.0))
     cc = curveColor
     curveColorR = curveColor.curveColorR
     ccr = curveColorR
@@ -443,23 +443,23 @@ class ResultCurveTimeToAngular(DG):
     curveColorB = curveColor.curveColorB
     ccb = curveColorB
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     st = start
 
-    end = TimeField()
+    end = TimeField(default_value=75.0)
     et = end
 
-    sampleBy = TimeField()
+    sampleBy = TimeField(default_value=2.5)
     sby = sampleBy
 
-    input = TimeField()
+    input = TimeField(default_value=0.0)
     i = input
 
-    output = DoubleAngleField()
+    output = DoubleAngleField(default_value=0.0, writable=False)
     o = output
 
-    keyTimeValue = KeyTimeValueField(multi=True)
+    keyTimeValue = KeyTimeValueField(multi=True, default_value=(0.0, 0.0))
     ktv = keyTimeValue
 
-    inputResult = DoubleAngleField()
+    inputResult = DoubleAngleField(default_value=0.0)
     ir = inputResult

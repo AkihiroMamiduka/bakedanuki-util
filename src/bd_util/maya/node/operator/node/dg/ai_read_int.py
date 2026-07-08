@@ -10,10 +10,10 @@ class AiReadInt(DG):
 
     NODE_TYPE = "aiReadInt"
 
-    outValue = LongField()
+    outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

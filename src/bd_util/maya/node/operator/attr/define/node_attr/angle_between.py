@@ -30,13 +30,13 @@ class Vector1PlugOperator(
         ("vector1Z", "v1z"),
     )
 
-    vector1X = DoubleLinearField()
+    vector1X = DoubleLinearField(default_value=0.0)
     v1x = vector1X
 
-    vector1Y = DoubleLinearField()
+    vector1Y = DoubleLinearField(default_value=1.0)
     v1y = vector1Y
 
-    vector1Z = DoubleLinearField()
+    vector1Z = DoubleLinearField(default_value=0.0)
     v1z = vector1Z
 
 
@@ -45,13 +45,13 @@ class Vector1AttrOperator(
 ):
     __slots__ = ()
 
-    vector1X = DoubleLinearField()
+    vector1X = DoubleLinearField(default_value=0.0)
     v1x = vector1X
 
-    vector1Y = DoubleLinearField()
+    vector1Y = DoubleLinearField(default_value=1.0)
     v1y = vector1Y
 
-    vector1Z = DoubleLinearField()
+    vector1Z = DoubleLinearField(default_value=0.0)
     v1z = vector1Z
 
 
@@ -63,13 +63,13 @@ class Vector1Field(
     ATTR_CLS = Vector1AttrOperator
     PLUG_CLS = Vector1PlugOperator
 
-    vector1X = DoubleLinearField()
+    vector1X = DoubleLinearField(default_value=0.0)
     v1x = vector1X
 
-    vector1Y = DoubleLinearField()
+    vector1Y = DoubleLinearField(default_value=1.0)
     v1y = vector1Y
 
-    vector1Z = DoubleLinearField()
+    vector1Z = DoubleLinearField(default_value=0.0)
     v1z = vector1Z
 
 
@@ -83,13 +83,13 @@ class Vector2PlugOperator(
         ("vector2Z", "v2z"),
     )
 
-    vector2X = DoubleLinearField()
+    vector2X = DoubleLinearField(default_value=0.0)
     v2x = vector2X
 
-    vector2Y = DoubleLinearField()
+    vector2Y = DoubleLinearField(default_value=0.0)
     v2y = vector2Y
 
-    vector2Z = DoubleLinearField()
+    vector2Z = DoubleLinearField(default_value=1.0)
     v2z = vector2Z
 
 
@@ -98,13 +98,13 @@ class Vector2AttrOperator(
 ):
     __slots__ = ()
 
-    vector2X = DoubleLinearField()
+    vector2X = DoubleLinearField(default_value=0.0)
     v2x = vector2X
 
-    vector2Y = DoubleLinearField()
+    vector2Y = DoubleLinearField(default_value=0.0)
     v2y = vector2Y
 
-    vector2Z = DoubleLinearField()
+    vector2Z = DoubleLinearField(default_value=1.0)
     v2z = vector2Z
 
 
@@ -116,13 +116,13 @@ class Vector2Field(
     ATTR_CLS = Vector2AttrOperator
     PLUG_CLS = Vector2PlugOperator
 
-    vector2X = DoubleLinearField()
+    vector2X = DoubleLinearField(default_value=0.0)
     v2x = vector2X
 
-    vector2Y = DoubleLinearField()
+    vector2Y = DoubleLinearField(default_value=0.0)
     v2y = vector2Y
 
-    vector2Z = DoubleLinearField()
+    vector2Z = DoubleLinearField(default_value=1.0)
     v2z = vector2Z
 
 
@@ -136,13 +136,13 @@ class EulerPlugOperator(
         ("eulerZ", "euz"),
     )
 
-    eulerX = DoubleAngleField()
+    eulerX = DoubleAngleField(default_value=0.0, writable=False)
     eux = eulerX
 
-    eulerY = DoubleAngleField()
+    eulerY = DoubleAngleField(default_value=0.0, writable=False)
     euy = eulerY
 
-    eulerZ = DoubleAngleField()
+    eulerZ = DoubleAngleField(default_value=0.0, writable=False)
     euz = eulerZ
 
 
@@ -151,13 +151,13 @@ class EulerAttrOperator(
 ):
     __slots__ = ()
 
-    eulerX = DoubleAngleField()
+    eulerX = DoubleAngleField(default_value=0.0, writable=False)
     eux = eulerX
 
-    eulerY = DoubleAngleField()
+    eulerY = DoubleAngleField(default_value=0.0, writable=False)
     euy = eulerY
 
-    eulerZ = DoubleAngleField()
+    eulerZ = DoubleAngleField(default_value=0.0, writable=False)
     euz = eulerZ
 
 
@@ -169,13 +169,13 @@ class EulerField(
     ATTR_CLS = EulerAttrOperator
     PLUG_CLS = EulerPlugOperator
 
-    eulerX = DoubleAngleField()
+    eulerX = DoubleAngleField(default_value=0.0, writable=False)
     eux = eulerX
 
-    eulerY = DoubleAngleField()
+    eulerY = DoubleAngleField(default_value=0.0, writable=False)
     euy = eulerY
 
-    eulerZ = DoubleAngleField()
+    eulerZ = DoubleAngleField(default_value=0.0, writable=False)
     euz = eulerZ
 
 
@@ -188,10 +188,10 @@ class AxisAnglePlugOperator(
         ("angle", "a"),
     )
 
-    axis = Double3Field()
+    axis = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     ax = axis
 
-    angle = DoubleAngleField()
+    angle = DoubleAngleField(default_value=0.0, writable=False)
     a = angle
 
 
@@ -200,10 +200,10 @@ class AxisAngleAttrOperator(
 ):
     __slots__ = ()
 
-    axis = Double3Field()
+    axis = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     ax = axis
 
-    angle = DoubleAngleField()
+    angle = DoubleAngleField(default_value=0.0, writable=False)
     a = angle
 
 
@@ -215,8 +215,8 @@ class AxisAngleField(
     ATTR_CLS = AxisAngleAttrOperator
     PLUG_CLS = AxisAnglePlugOperator
 
-    axis = Double3Field()
+    axis = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     ax = axis
 
-    angle = DoubleAngleField()
+    angle = DoubleAngleField(default_value=0.0, writable=False)
     a = angle

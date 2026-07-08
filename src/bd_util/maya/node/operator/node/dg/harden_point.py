@@ -12,11 +12,11 @@ class HardenPoint(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    index = LongField(multi=True)
+    index = LongField(multi=True, default_value=0)
     i = index
 
-    multiplicity = LongField()
+    multiplicity = LongField(default_value=-1, soft_min_value=1, soft_max_value=3)
     m = multiplicity
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

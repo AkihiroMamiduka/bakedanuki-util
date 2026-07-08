@@ -115,7 +115,7 @@ class LayeredShader(DG):
 
     NODE_TYPE = "layeredShader"
 
-    compositingFlag = CompositingFlagEnumField()
+    compositingFlag = CompositingFlagEnumField(default_value=0)
     cf = compositingFlag
 
     inputs = InputsField(multi=True)
@@ -148,10 +148,10 @@ class LayeredShader(DG):
     glowColorB = FloatField()
     gb = glowColorB
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     rpm = renderPassMode
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hcr = hardwareColorR
@@ -160,7 +160,7 @@ class LayeredShader(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hcb = hardwareColorB
 
-    hardwareShader = HardwareShaderField()
+    hardwareShader = HardwareShaderField(default_value=(0.0, 0.0, 0.0))
     hws = hardwareShader
     hardwareShaderR = hardwareShader.hardwareShaderR
     hwr = hardwareShaderR
@@ -169,7 +169,7 @@ class LayeredShader(DG):
     hardwareShaderB = hardwareShader.hardwareShaderB
     hwb = hardwareShaderB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -178,7 +178,7 @@ class LayeredShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -187,7 +187,7 @@ class LayeredShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -196,13 +196,13 @@ class LayeredShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

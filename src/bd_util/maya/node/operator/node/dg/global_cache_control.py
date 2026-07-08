@@ -41,8 +41,8 @@ class GlobalCacheControl(DG):
 
     NODE_TYPE = "globalCacheControl"
 
-    enableStatus = EnableStatusEnumField()
+    enableStatus = EnableStatusEnumField(default_value=0)
     ebls = enableStatus
 
-    writeEnable = BoolField()
+    writeEnable = BoolField(default_value=False)
     webl = writeEnable

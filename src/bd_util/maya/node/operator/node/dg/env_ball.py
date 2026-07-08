@@ -22,7 +22,7 @@ class EnvBall(DG):
 
     NODE_TYPE = "envBall"
 
-    objectType = CharField()
+    objectType = CharField(default_value=1, min_value=0, max_value=255)
     ot = objectType
 
     placementMatrix = FltMatrixField()
@@ -31,10 +31,10 @@ class EnvBall(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -43,7 +43,7 @@ class EnvBall(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -52,21 +52,21 @@ class EnvBall(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -75,7 +75,7 @@ class EnvBall(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -84,10 +84,10 @@ class EnvBall(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -96,7 +96,7 @@ class EnvBall(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    image = ImageField()
+    image = ImageField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     so = image
     imageR = image.imageR
     sor = imageR
@@ -105,38 +105,38 @@ class EnvBall(DG):
     imageB = image.imageB
     sob = imageB
 
-    inclination = FloatField()
+    inclination = FloatField(default_value=0.0, min_value=0.0, max_value=3.141592653589793)
     i = inclination
 
-    elevation = FloatField()
+    elevation = FloatField(default_value=0.0, min_value=-1.5707963267948966, max_value=1.5707963267948966)
     e = elevation
 
-    skyRadius = FloatField()
+    skyRadius = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     sr = skyRadius
 
-    bottom = FloatField()
+    bottom = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     bo = bottom
 
-    top = FloatField()
+    top = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     to = top
 
-    left = FloatField()
+    left = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     le = left
 
-    right = FloatField()
+    right = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     ri = right
 
-    front = FloatField()
+    front = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     fr = front
 
-    back = FloatField()
+    back = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
     ba = back
 
-    reflect = BoolField()
+    reflect = BoolField(default_value=True)
     ref = reflect
 
-    eyeSpace = BoolField()
+    eyeSpace = BoolField(default_value=False)
     eye = eyeSpace
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits

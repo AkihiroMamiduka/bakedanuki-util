@@ -9,7 +9,7 @@ class Length(DG):
 
     NODE_TYPE = "length"
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     i = input
     inputX = input.inputX
     ix = inputX
@@ -18,5 +18,5 @@ class Length(DG):
     inputZ = input.inputZ
     iz = inputZ
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

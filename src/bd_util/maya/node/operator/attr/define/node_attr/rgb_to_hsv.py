@@ -18,13 +18,13 @@ class InRgbPlugOperator(
         ("inRgbB", "ib"),
     )
 
-    inRgbR = FloatField()
+    inRgbR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ir = inRgbR
 
-    inRgbG = FloatField()
+    inRgbG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inRgbG
 
-    inRgbB = FloatField()
+    inRgbB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inRgbB
 
 
@@ -33,13 +33,13 @@ class InRgbAttrOperator(
 ):
     __slots__ = ()
 
-    inRgbR = FloatField()
+    inRgbR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ir = inRgbR
 
-    inRgbG = FloatField()
+    inRgbG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inRgbG
 
-    inRgbB = FloatField()
+    inRgbB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inRgbB
 
 
@@ -51,13 +51,13 @@ class InRgbField(
     ATTR_CLS = InRgbAttrOperator
     PLUG_CLS = InRgbPlugOperator
 
-    inRgbR = FloatField()
+    inRgbR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ir = inRgbR
 
-    inRgbG = FloatField()
+    inRgbG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inRgbG
 
-    inRgbB = FloatField()
+    inRgbB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inRgbB
 
 
@@ -71,13 +71,13 @@ class OutHsvPlugOperator(
         ("outHsvV", "ov"),
     )
 
-    outHsvH = FloatField()
+    outHsvH = FloatField(default_value=0.0, writable=False)
     oh = outHsvH
 
-    outHsvS = FloatField()
+    outHsvS = FloatField(default_value=0.0, writable=False)
     os = outHsvS
 
-    outHsvV = FloatField()
+    outHsvV = FloatField(default_value=0.0, writable=False)
     ov = outHsvV
 
 
@@ -86,13 +86,13 @@ class OutHsvAttrOperator(
 ):
     __slots__ = ()
 
-    outHsvH = FloatField()
+    outHsvH = FloatField(default_value=0.0, writable=False)
     oh = outHsvH
 
-    outHsvS = FloatField()
+    outHsvS = FloatField(default_value=0.0, writable=False)
     os = outHsvS
 
-    outHsvV = FloatField()
+    outHsvV = FloatField(default_value=0.0, writable=False)
     ov = outHsvV
 
 
@@ -104,11 +104,11 @@ class OutHsvField(
     ATTR_CLS = OutHsvAttrOperator
     PLUG_CLS = OutHsvPlugOperator
 
-    outHsvH = FloatField()
+    outHsvH = FloatField(default_value=0.0, writable=False)
     oh = outHsvH
 
-    outHsvS = FloatField()
+    outHsvS = FloatField(default_value=0.0, writable=False)
     os = outHsvS
 
-    outHsvV = FloatField()
+    outHsvV = FloatField(default_value=0.0, writable=False)
     ov = outHsvV

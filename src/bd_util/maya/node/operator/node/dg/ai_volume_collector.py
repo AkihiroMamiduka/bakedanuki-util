@@ -171,7 +171,7 @@ class AiVolumeCollector(DG):
 
     NODE_TYPE = "aiVolumeCollector"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -180,10 +180,10 @@ class AiVolumeCollector(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -192,10 +192,10 @@ class AiVolumeCollector(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    scatteringSource = ScatteringSourceEnumField()
+    scatteringSource = ScatteringSourceEnumField(default_value=0)
     scattering_source = scatteringSource
 
-    scattering = ScatteringField()
+    scattering = ScatteringField(default_value=(1.0, 1.0, 1.0))
     scatteringR = scattering.scatteringR
     scatteringr = scatteringR
     scatteringG = scattering.scatteringG
@@ -206,7 +206,7 @@ class AiVolumeCollector(DG):
     scatteringChannel = DataStringField()
     scattering_channel = scatteringChannel
 
-    scatteringColor = ScatteringColorField()
+    scatteringColor = ScatteringColorField(default_value=(1.0, 1.0, 1.0))
     scattering_color = scatteringColor
     scatteringColorR = scatteringColor.scatteringColorR
     scattering_colorr = scatteringColorR
@@ -215,15 +215,15 @@ class AiVolumeCollector(DG):
     scatteringColorB = scatteringColor.scatteringColorB
     scattering_colorb = scatteringColorB
 
-    scatteringIntensity = FloatField()
+    scatteringIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     scattering_intensity = scatteringIntensity
 
-    anisotropy = FloatField()
+    anisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    attenuationSource = AttenuationSourceEnumField()
+    attenuationSource = AttenuationSourceEnumField(default_value=0)
     attenuation_source = attenuationSource
 
-    attenuation = AttenuationField()
+    attenuation = AttenuationField(default_value=(1.0, 1.0, 1.0))
     attenuationR = attenuation.attenuationR
     attenuationr = attenuationR
     attenuationG = attenuation.attenuationG
@@ -234,7 +234,7 @@ class AiVolumeCollector(DG):
     attenuationChannel = DataStringField()
     attenuation_channel = attenuationChannel
 
-    attenuationColor = AttenuationColorField()
+    attenuationColor = AttenuationColorField(default_value=(1.0, 1.0, 1.0))
     attenuation_color = attenuationColor
     attenuationColorR = attenuationColor.attenuationColorR
     attenuation_colorr = attenuationColorR
@@ -243,16 +243,16 @@ class AiVolumeCollector(DG):
     attenuationColorB = attenuationColor.attenuationColorB
     attenuation_colorb = attenuationColorB
 
-    attenuationIntensity = FloatField()
+    attenuationIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     attenuation_intensity = attenuationIntensity
 
-    attenuationMode = AttenuationModeEnumField()
+    attenuationMode = AttenuationModeEnumField(default_value=0)
     attenuation_mode = attenuationMode
 
-    emissionSource = EmissionSourceEnumField()
+    emissionSource = EmissionSourceEnumField(default_value=0)
     emission_source = emissionSource
 
-    emission = EmissionField()
+    emission = EmissionField(default_value=(0.0, 0.0, 0.0))
     emissionR = emission.emissionR
     emissionr = emissionR
     emissionG = emission.emissionG
@@ -263,7 +263,7 @@ class AiVolumeCollector(DG):
     emissionChannel = DataStringField()
     emission_channel = emissionChannel
 
-    emissionColor = EmissionColorField()
+    emissionColor = EmissionColorField(default_value=(1.0, 1.0, 1.0))
     emission_color = emissionColor
     emissionColorR = emissionColor.emissionColorR
     emission_colorr = emissionColorR
@@ -272,10 +272,10 @@ class AiVolumeCollector(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    emissionIntensity = FloatField()
+    emissionIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     emission_intensity = emissionIntensity
 
-    positionOffset = PositionOffsetField()
+    positionOffset = PositionOffsetField(default_value=(0.0, 0.0, 0.0))
     position_offset = positionOffset
     positionOffsetX = positionOffset.positionOffsetX
     position_offsetx = positionOffsetX
@@ -284,4 +284,4 @@ class AiVolumeCollector(DG):
     positionOffsetZ = positionOffset.positionOffsetZ
     position_offsetz = positionOffsetZ
 
-    interpolation = InterpolationEnumField()
+    interpolation = InterpolationEnumField(default_value=1)

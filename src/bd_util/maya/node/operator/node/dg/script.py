@@ -121,11 +121,11 @@ class Script(DG):
     after = DataStringField()
     a = after
 
-    scriptType = ScriptTypeEnumField()
+    scriptType = ScriptTypeEnumField(default_value=0)
     st = scriptType
 
-    sourceType = SourceTypeEnumField()
+    sourceType = SourceTypeEnumField(default_value=0)
     stp = sourceType
 
-    ignoreReferenceEdits = IgnoreReferenceEditsEnumField()
+    ignoreReferenceEdits = IgnoreReferenceEditsEnumField(default_value=0)
     ire = ignoreReferenceEdits

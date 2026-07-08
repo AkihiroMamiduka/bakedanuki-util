@@ -113,16 +113,16 @@ class Partition(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -143,13 +143,13 @@ class Partition(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -164,13 +164,13 @@ class Partition(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    sets = MessageField(multi=True)
+    sets = MessageField(multi=True, readable=False)
     st = sets
 
     annotation = DataStringField()
     an = annotation
 
-    partitionType = PartitionTypeEnumField()
+    partitionType = PartitionTypeEnumField(default_value=0)
     pt = partitionType
 
     environment = MessageField()

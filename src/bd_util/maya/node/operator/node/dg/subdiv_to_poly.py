@@ -85,56 +85,56 @@ class SubdivToPoly(DG):
 
     NODE_TYPE = "subdivToPoly"
 
-    inSubdiv = TypedField()
+    inSubdiv = TypedField(readable=False)
     i = inSubdiv
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     o = outMesh
 
-    format = FormatEnumField()
+    format = FormatEnumField(default_value=0)
     f = format
 
-    polygonType = PolygonTypeEnumField()
+    polygonType = PolygonTypeEnumField(default_value=2)
     pt = polygonType
 
-    extractPointPosition = BoolField()
+    extractPointPosition = BoolField(default_value=False)
     epp = extractPointPosition
 
-    sampleCount = LongField()
+    sampleCount = LongField(default_value=1, min_value=1, max_value=20, soft_min_value=1, soft_max_value=12)
     sc = sampleCount
 
-    depth = LongField()
+    depth = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
     d = depth
 
-    maxPolys = LongField()
+    maxPolys = LongField(default_value=0, min_value=0)
     mp = maxPolys
 
-    subdNormals = BoolField()
+    subdNormals = BoolField(default_value=False)
     un = subdNormals
 
-    copyUVTopology = BoolField()
+    copyUVTopology = BoolField(default_value=False)
     cut = copyUVTopology
 
-    shareUVs = BoolField()
+    shareUVs = BoolField(default_value=False)
     suv = shareUVs
 
-    level = LongField()
+    level = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
     l = level
 
-    convertComp = BoolField()
+    convertComp = BoolField(default_value=False)
     cc = convertComp
 
-    outSubdCVId = OutSubdCVIdField(multi=True)
+    outSubdCVId = OutSubdCVIdField(multi=True, default_value=(0, 0))
     os = outSubdCVId
 
-    inSubdCVId = InSubdCVIdField(multi=True)
+    inSubdCVId = InSubdCVIdField(multi=True, default_value=(0, 0))
     is_ = inSubdCVId
 
-    preserveVertexOrdering = BoolField()
+    preserveVertexOrdering = BoolField(default_value=True)
     pvo = preserveVertexOrdering
 
-    outv = LongField(multi=True)
+    outv = LongField(multi=True, default_value=0)
     ov = outv
 
-    applyMatrixToResult = BoolField()
+    applyMatrixToResult = BoolField(default_value=True)
     amr = applyMatrixToResult

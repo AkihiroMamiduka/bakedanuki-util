@@ -11,13 +11,13 @@ class MASH_PointToCurve(DG):
 
     NODE_TYPE = "MASH_PointToCurve"
 
-    outputCurves = DataNurbsCurveField(multi=True)
+    outputCurves = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurves
 
-    numCurves = LongField()
+    numCurves = LongField(default_value=5)
     nc = numCurves
 
-    curveOffset = DoubleField()
+    curveOffset = DoubleField(default_value=1.0)
     co = curveOffset
 
     inputPoints = TypedField()

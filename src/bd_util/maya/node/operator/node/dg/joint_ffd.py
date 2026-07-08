@@ -94,22 +94,22 @@ class JointFfd(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -121,7 +121,7 @@ class JointFfd(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     deformedLattice = DeformedLatticeField()
@@ -138,46 +138,46 @@ class JointFfd(DG):
     baseLatticeMatrix = baseLattice.baseLatticeMatrix
     blm = baseLatticeMatrix
 
-    stuCacheList = StuCacheListField(multi=True)
+    stuCacheList = StuCacheListField(multi=True, default_value=0.0)
     scl = stuCacheList
 
-    partialResolution = DoubleField()
+    partialResolution = DoubleField(default_value=0.01, min_value=0.0, max_value=0.1)
     ptr = partialResolution
 
-    localInfluenceS = ShortField()
+    localInfluenceS = ShortField(default_value=2, min_value=2, max_value=30)
     lis = localInfluenceS
 
-    localInfluenceT = ShortField()
+    localInfluenceT = ShortField(default_value=2, min_value=2, max_value=30)
     lit = localInfluenceT
 
-    localInfluenceU = ShortField()
+    localInfluenceU = ShortField(default_value=2, min_value=2, max_value=30)
     liu = localInfluenceU
 
-    freezeGeometry = BoolField()
+    freezeGeometry = BoolField(default_value=False)
     fg = freezeGeometry
 
-    bindToOriginalGeometry = BoolField()
+    bindToOriginalGeometry = BoolField(default_value=False)
     bog = bindToOriginalGeometry
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    usePartialResolution = UsePartialResolutionEnumField()
+    usePartialResolution = UsePartialResolutionEnumField(default_value=0)
     upr = usePartialResolution
 
-    outsideLattice = OutsideLatticeEnumField()
+    outsideLattice = OutsideLatticeEnumField(default_value=0)
     ot = outsideLattice
 
-    outsideFalloffDist = DoubleField()
+    outsideFalloffDist = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     ofd = outsideFalloffDist
 
     baseLattice2Matrix = MatrixField()
     b2 = baseLattice2Matrix
 
-    groupIdUpperBindSkin = LongField(multi=True)
+    groupIdUpperBindSkin = LongField(multi=True, default_value=-1)
     gu = groupIdUpperBindSkin
 
-    groupIdLowerBindSkin = LongField(multi=True)
+    groupIdLowerBindSkin = LongField(multi=True, default_value=-1)
     gl = groupIdLowerBindSkin
 
     upperBindSkinNode = MessageField()
@@ -186,11 +186,11 @@ class JointFfd(DG):
     lowerBindSkinNode = MessageField()
     lb = lowerBindSkinNode
 
-    useComponentCache = BoolField()
+    useComponentCache = BoolField(default_value=True)
     uc = useComponentCache
 
-    upperComponentCache = TypedField(multi=True)
+    upperComponentCache = TypedField(multi=True, writable=False)
     cu = upperComponentCache
 
-    lowerComponentCache = TypedField(multi=True)
+    lowerComponentCache = TypedField(multi=True, writable=False)
     cl = lowerComponentCache

@@ -9,11 +9,11 @@ class UnitToTimeConversion(DG):
 
     NODE_TYPE = "unitToTimeConversion"
 
-    input = DoubleField()
+    input = DoubleField(default_value=0.0)
     i = input
 
-    output = TimeField()
+    output = TimeField(default_value=0.0, writable=False)
     o = output
 
-    conversionFactor = DoubleField()
+    conversionFactor = DoubleField(default_value=1.0)
     cf = conversionFactor

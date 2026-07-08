@@ -17,10 +17,10 @@ class TranslatePlugOperator(
         ("translateV", "tv"),
     )
 
-    translateU = DoubleField()
+    translateU = DoubleField(default_value=0.0)
     tu = translateU
 
-    translateV = DoubleField()
+    translateV = DoubleField(default_value=0.0)
     tv = translateV
 
 
@@ -29,10 +29,10 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateU = DoubleField()
+    translateU = DoubleField(default_value=0.0)
     tu = translateU
 
-    translateV = DoubleField()
+    translateV = DoubleField(default_value=0.0)
     tv = translateV
 
 
@@ -44,10 +44,10 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateU = DoubleField()
+    translateU = DoubleField(default_value=0.0)
     tu = translateU
 
-    translateV = DoubleField()
+    translateV = DoubleField(default_value=0.0)
     tv = translateV
 
 
@@ -60,10 +60,10 @@ class PivotPlugOperator(
         ("pivotV", "pvv"),
     )
 
-    pivotU = DoubleField()
+    pivotU = DoubleField(default_value=0.5)
     pvu = pivotU
 
-    pivotV = DoubleField()
+    pivotV = DoubleField(default_value=0.5)
     pvv = pivotV
 
 
@@ -72,10 +72,10 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotU = DoubleField()
+    pivotU = DoubleField(default_value=0.5)
     pvu = pivotU
 
-    pivotV = DoubleField()
+    pivotV = DoubleField(default_value=0.5)
     pvv = pivotV
 
 
@@ -87,10 +87,10 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotU = DoubleField()
+    pivotU = DoubleField(default_value=0.5)
     pvu = pivotU
 
-    pivotV = DoubleField()
+    pivotV = DoubleField(default_value=0.5)
     pvv = pivotV
 
 
@@ -103,10 +103,10 @@ class ScalePlugOperator(
         ("scaleV", "sv"),
     )
 
-    scaleU = DoubleField()
+    scaleU = DoubleField(default_value=1.0)
     su = scaleU
 
-    scaleV = DoubleField()
+    scaleV = DoubleField(default_value=1.0)
     sv = scaleV
 
 
@@ -115,10 +115,10 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleU = DoubleField()
+    scaleU = DoubleField(default_value=1.0)
     su = scaleU
 
-    scaleV = DoubleField()
+    scaleV = DoubleField(default_value=1.0)
     sv = scaleV
 
 
@@ -130,10 +130,10 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleU = DoubleField()
+    scaleU = DoubleField(default_value=1.0)
     su = scaleU
 
-    scaleV = DoubleField()
+    scaleV = DoubleField(default_value=1.0)
     sv = scaleV
 
 
@@ -146,10 +146,10 @@ class AxisLenPlugOperator(
         ("axisLenY", "ly"),
     )
 
-    axisLenX = DoubleField()
+    axisLenX = DoubleField(default_value=1.0)
     lx = axisLenX
 
-    axisLenY = DoubleField()
+    axisLenY = DoubleField(default_value=1.0)
     ly = axisLenY
 
 
@@ -158,10 +158,10 @@ class AxisLenAttrOperator(
 ):
     __slots__ = ()
 
-    axisLenX = DoubleField()
+    axisLenX = DoubleField(default_value=1.0)
     lx = axisLenX
 
-    axisLenY = DoubleField()
+    axisLenY = DoubleField(default_value=1.0)
     ly = axisLenY
 
 
@@ -173,8 +173,8 @@ class AxisLenField(
     ATTR_CLS = AxisLenAttrOperator
     PLUG_CLS = AxisLenPlugOperator
 
-    axisLenX = DoubleField()
+    axisLenX = DoubleField(default_value=1.0)
     lx = axisLenX
 
-    axisLenY = DoubleField()
+    axisLenY = DoubleField(default_value=1.0)
     ly = axisLenY

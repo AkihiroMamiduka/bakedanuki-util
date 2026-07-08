@@ -20,11 +20,11 @@ class ReferenceTPlugOperator(
         ("ReferenceTz", "ReferenceTz"),
     )
 
-    ReferenceTx = DoubleLinearField()
+    ReferenceTx = DoubleLinearField(default_value=0.0)
 
-    ReferenceTy = DoubleLinearField()
+    ReferenceTy = DoubleLinearField(default_value=0.0)
 
-    ReferenceTz = DoubleLinearField()
+    ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
 class ReferenceTAttrOperator(
@@ -32,11 +32,11 @@ class ReferenceTAttrOperator(
 ):
     __slots__ = ()
 
-    ReferenceTx = DoubleLinearField()
+    ReferenceTx = DoubleLinearField(default_value=0.0)
 
-    ReferenceTy = DoubleLinearField()
+    ReferenceTy = DoubleLinearField(default_value=0.0)
 
-    ReferenceTz = DoubleLinearField()
+    ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
 class ReferenceTField(
@@ -47,11 +47,11 @@ class ReferenceTField(
     ATTR_CLS = ReferenceTAttrOperator
     PLUG_CLS = ReferenceTPlugOperator
 
-    ReferenceTx = DoubleLinearField()
+    ReferenceTx = DoubleLinearField(default_value=0.0)
 
-    ReferenceTy = DoubleLinearField()
+    ReferenceTy = DoubleLinearField(default_value=0.0)
 
-    ReferenceTz = DoubleLinearField()
+    ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
 class ReferenceRPlugOperator(
@@ -64,11 +64,11 @@ class ReferenceRPlugOperator(
         ("ReferenceRz", "ReferenceRz"),
     )
 
-    ReferenceRx = DoubleAngleField()
+    ReferenceRx = DoubleAngleField(default_value=0.0)
 
-    ReferenceRy = DoubleAngleField()
+    ReferenceRy = DoubleAngleField(default_value=0.0)
 
-    ReferenceRz = DoubleAngleField()
+    ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
 class ReferenceRAttrOperator(
@@ -76,11 +76,11 @@ class ReferenceRAttrOperator(
 ):
     __slots__ = ()
 
-    ReferenceRx = DoubleAngleField()
+    ReferenceRx = DoubleAngleField(default_value=0.0)
 
-    ReferenceRy = DoubleAngleField()
+    ReferenceRy = DoubleAngleField(default_value=0.0)
 
-    ReferenceRz = DoubleAngleField()
+    ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
 class ReferenceRField(
@@ -91,11 +91,11 @@ class ReferenceRField(
     ATTR_CLS = ReferenceRAttrOperator
     PLUG_CLS = ReferenceRPlugOperator
 
-    ReferenceRx = DoubleAngleField()
+    ReferenceRx = DoubleAngleField(default_value=0.0)
 
-    ReferenceRy = DoubleAngleField()
+    ReferenceRy = DoubleAngleField(default_value=0.0)
 
-    ReferenceRz = DoubleAngleField()
+    ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
 class ReferenceSPlugOperator(
@@ -108,11 +108,11 @@ class ReferenceSPlugOperator(
         ("ReferenceSz", "ReferenceSz"),
     )
 
-    ReferenceSx = DoubleField()
+    ReferenceSx = DoubleField(default_value=1.0)
 
-    ReferenceSy = DoubleField()
+    ReferenceSy = DoubleField(default_value=1.0)
 
-    ReferenceSz = DoubleField()
+    ReferenceSz = DoubleField(default_value=1.0)
 
 
 class ReferenceSAttrOperator(
@@ -120,11 +120,11 @@ class ReferenceSAttrOperator(
 ):
     __slots__ = ()
 
-    ReferenceSx = DoubleField()
+    ReferenceSx = DoubleField(default_value=1.0)
 
-    ReferenceSy = DoubleField()
+    ReferenceSy = DoubleField(default_value=1.0)
 
-    ReferenceSz = DoubleField()
+    ReferenceSz = DoubleField(default_value=1.0)
 
 
 class ReferenceSField(
@@ -135,11 +135,11 @@ class ReferenceSField(
     ATTR_CLS = ReferenceSAttrOperator
     PLUG_CLS = ReferenceSPlugOperator
 
-    ReferenceSx = DoubleField()
+    ReferenceSx = DoubleField(default_value=1.0)
 
-    ReferenceSy = DoubleField()
+    ReferenceSy = DoubleField(default_value=1.0)
 
-    ReferenceSz = DoubleField()
+    ReferenceSz = DoubleField(default_value=1.0)
 
 
 class HipsTPlugOperator(
@@ -152,11 +152,11 @@ class HipsTPlugOperator(
         ("HipsTz", "HipsTz"),
     )
 
-    HipsTx = DoubleLinearField()
+    HipsTx = DoubleLinearField(default_value=0.0)
 
-    HipsTy = DoubleLinearField()
+    HipsTy = DoubleLinearField(default_value=0.0)
 
-    HipsTz = DoubleLinearField()
+    HipsTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsTAttrOperator(
@@ -164,11 +164,11 @@ class HipsTAttrOperator(
 ):
     __slots__ = ()
 
-    HipsTx = DoubleLinearField()
+    HipsTx = DoubleLinearField(default_value=0.0)
 
-    HipsTy = DoubleLinearField()
+    HipsTy = DoubleLinearField(default_value=0.0)
 
-    HipsTz = DoubleLinearField()
+    HipsTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsTField(
@@ -179,11 +179,11 @@ class HipsTField(
     ATTR_CLS = HipsTAttrOperator
     PLUG_CLS = HipsTPlugOperator
 
-    HipsTx = DoubleLinearField()
+    HipsTx = DoubleLinearField(default_value=0.0)
 
-    HipsTy = DoubleLinearField()
+    HipsTy = DoubleLinearField(default_value=0.0)
 
-    HipsTz = DoubleLinearField()
+    HipsTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsRPlugOperator(
@@ -196,11 +196,11 @@ class HipsRPlugOperator(
         ("HipsRz", "HipsRz"),
     )
 
-    HipsRx = DoubleAngleField()
+    HipsRx = DoubleAngleField(default_value=0.0)
 
-    HipsRy = DoubleAngleField()
+    HipsRy = DoubleAngleField(default_value=0.0)
 
-    HipsRz = DoubleAngleField()
+    HipsRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsRAttrOperator(
@@ -208,11 +208,11 @@ class HipsRAttrOperator(
 ):
     __slots__ = ()
 
-    HipsRx = DoubleAngleField()
+    HipsRx = DoubleAngleField(default_value=0.0)
 
-    HipsRy = DoubleAngleField()
+    HipsRy = DoubleAngleField(default_value=0.0)
 
-    HipsRz = DoubleAngleField()
+    HipsRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsRField(
@@ -223,11 +223,11 @@ class HipsRField(
     ATTR_CLS = HipsRAttrOperator
     PLUG_CLS = HipsRPlugOperator
 
-    HipsRx = DoubleAngleField()
+    HipsRx = DoubleAngleField(default_value=0.0)
 
-    HipsRy = DoubleAngleField()
+    HipsRy = DoubleAngleField(default_value=0.0)
 
-    HipsRz = DoubleAngleField()
+    HipsRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsSPlugOperator(
@@ -240,11 +240,11 @@ class HipsSPlugOperator(
         ("HipsSz", "HipsSz"),
     )
 
-    HipsSx = DoubleField()
+    HipsSx = DoubleField(default_value=1.0)
 
-    HipsSy = DoubleField()
+    HipsSy = DoubleField(default_value=1.0)
 
-    HipsSz = DoubleField()
+    HipsSz = DoubleField(default_value=1.0)
 
 
 class HipsSAttrOperator(
@@ -252,11 +252,11 @@ class HipsSAttrOperator(
 ):
     __slots__ = ()
 
-    HipsSx = DoubleField()
+    HipsSx = DoubleField(default_value=1.0)
 
-    HipsSy = DoubleField()
+    HipsSy = DoubleField(default_value=1.0)
 
-    HipsSz = DoubleField()
+    HipsSz = DoubleField(default_value=1.0)
 
 
 class HipsSField(
@@ -267,11 +267,11 @@ class HipsSField(
     ATTR_CLS = HipsSAttrOperator
     PLUG_CLS = HipsSPlugOperator
 
-    HipsSx = DoubleField()
+    HipsSx = DoubleField(default_value=1.0)
 
-    HipsSy = DoubleField()
+    HipsSy = DoubleField(default_value=1.0)
 
-    HipsSz = DoubleField()
+    HipsSz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegTPlugOperator(
@@ -284,11 +284,11 @@ class LeftUpLegTPlugOperator(
         ("LeftUpLegTz", "LeftUpLegTz"),
     )
 
-    LeftUpLegTx = DoubleLinearField()
+    LeftUpLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTy = DoubleLinearField()
+    LeftUpLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTz = DoubleLinearField()
+    LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegTAttrOperator(
@@ -296,11 +296,11 @@ class LeftUpLegTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegTx = DoubleLinearField()
+    LeftUpLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTy = DoubleLinearField()
+    LeftUpLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTz = DoubleLinearField()
+    LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegTField(
@@ -311,11 +311,11 @@ class LeftUpLegTField(
     ATTR_CLS = LeftUpLegTAttrOperator
     PLUG_CLS = LeftUpLegTPlugOperator
 
-    LeftUpLegTx = DoubleLinearField()
+    LeftUpLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTy = DoubleLinearField()
+    LeftUpLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegTz = DoubleLinearField()
+    LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegRPlugOperator(
@@ -328,11 +328,11 @@ class LeftUpLegRPlugOperator(
         ("LeftUpLegRz", "LeftUpLegRz"),
     )
 
-    LeftUpLegRx = DoubleAngleField()
+    LeftUpLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRy = DoubleAngleField()
+    LeftUpLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRz = DoubleAngleField()
+    LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegRAttrOperator(
@@ -340,11 +340,11 @@ class LeftUpLegRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegRx = DoubleAngleField()
+    LeftUpLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRy = DoubleAngleField()
+    LeftUpLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRz = DoubleAngleField()
+    LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegRField(
@@ -355,11 +355,11 @@ class LeftUpLegRField(
     ATTR_CLS = LeftUpLegRAttrOperator
     PLUG_CLS = LeftUpLegRPlugOperator
 
-    LeftUpLegRx = DoubleAngleField()
+    LeftUpLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRy = DoubleAngleField()
+    LeftUpLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRz = DoubleAngleField()
+    LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegSPlugOperator(
@@ -372,11 +372,11 @@ class LeftUpLegSPlugOperator(
         ("LeftUpLegSz", "LeftUpLegSz"),
     )
 
-    LeftUpLegSx = DoubleField()
+    LeftUpLegSx = DoubleField(default_value=1.0)
 
-    LeftUpLegSy = DoubleField()
+    LeftUpLegSy = DoubleField(default_value=1.0)
 
-    LeftUpLegSz = DoubleField()
+    LeftUpLegSz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegSAttrOperator(
@@ -384,11 +384,11 @@ class LeftUpLegSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegSx = DoubleField()
+    LeftUpLegSx = DoubleField(default_value=1.0)
 
-    LeftUpLegSy = DoubleField()
+    LeftUpLegSy = DoubleField(default_value=1.0)
 
-    LeftUpLegSz = DoubleField()
+    LeftUpLegSz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegSField(
@@ -399,11 +399,11 @@ class LeftUpLegSField(
     ATTR_CLS = LeftUpLegSAttrOperator
     PLUG_CLS = LeftUpLegSPlugOperator
 
-    LeftUpLegSx = DoubleField()
+    LeftUpLegSx = DoubleField(default_value=1.0)
 
-    LeftUpLegSy = DoubleField()
+    LeftUpLegSy = DoubleField(default_value=1.0)
 
-    LeftUpLegSz = DoubleField()
+    LeftUpLegSz = DoubleField(default_value=1.0)
 
 
 class LeftLegTPlugOperator(
@@ -416,11 +416,11 @@ class LeftLegTPlugOperator(
         ("LeftLegTz", "LeftLegTz"),
     )
 
-    LeftLegTx = DoubleLinearField()
+    LeftLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegTy = DoubleLinearField()
+    LeftLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegTz = DoubleLinearField()
+    LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegTAttrOperator(
@@ -428,11 +428,11 @@ class LeftLegTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegTx = DoubleLinearField()
+    LeftLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegTy = DoubleLinearField()
+    LeftLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegTz = DoubleLinearField()
+    LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegTField(
@@ -443,11 +443,11 @@ class LeftLegTField(
     ATTR_CLS = LeftLegTAttrOperator
     PLUG_CLS = LeftLegTPlugOperator
 
-    LeftLegTx = DoubleLinearField()
+    LeftLegTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegTy = DoubleLinearField()
+    LeftLegTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegTz = DoubleLinearField()
+    LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegRPlugOperator(
@@ -460,11 +460,11 @@ class LeftLegRPlugOperator(
         ("LeftLegRz", "LeftLegRz"),
     )
 
-    LeftLegRx = DoubleAngleField()
+    LeftLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRy = DoubleAngleField()
+    LeftLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRz = DoubleAngleField()
+    LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegRAttrOperator(
@@ -472,11 +472,11 @@ class LeftLegRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegRx = DoubleAngleField()
+    LeftLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRy = DoubleAngleField()
+    LeftLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRz = DoubleAngleField()
+    LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegRField(
@@ -487,11 +487,11 @@ class LeftLegRField(
     ATTR_CLS = LeftLegRAttrOperator
     PLUG_CLS = LeftLegRPlugOperator
 
-    LeftLegRx = DoubleAngleField()
+    LeftLegRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRy = DoubleAngleField()
+    LeftLegRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRz = DoubleAngleField()
+    LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegSPlugOperator(
@@ -504,11 +504,11 @@ class LeftLegSPlugOperator(
         ("LeftLegSz", "LeftLegSz"),
     )
 
-    LeftLegSx = DoubleField()
+    LeftLegSx = DoubleField(default_value=1.0)
 
-    LeftLegSy = DoubleField()
+    LeftLegSy = DoubleField(default_value=1.0)
 
-    LeftLegSz = DoubleField()
+    LeftLegSz = DoubleField(default_value=1.0)
 
 
 class LeftLegSAttrOperator(
@@ -516,11 +516,11 @@ class LeftLegSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegSx = DoubleField()
+    LeftLegSx = DoubleField(default_value=1.0)
 
-    LeftLegSy = DoubleField()
+    LeftLegSy = DoubleField(default_value=1.0)
 
-    LeftLegSz = DoubleField()
+    LeftLegSz = DoubleField(default_value=1.0)
 
 
 class LeftLegSField(
@@ -531,11 +531,11 @@ class LeftLegSField(
     ATTR_CLS = LeftLegSAttrOperator
     PLUG_CLS = LeftLegSPlugOperator
 
-    LeftLegSx = DoubleField()
+    LeftLegSx = DoubleField(default_value=1.0)
 
-    LeftLegSy = DoubleField()
+    LeftLegSy = DoubleField(default_value=1.0)
 
-    LeftLegSz = DoubleField()
+    LeftLegSz = DoubleField(default_value=1.0)
 
 
 class LeftFootTPlugOperator(
@@ -548,11 +548,11 @@ class LeftFootTPlugOperator(
         ("LeftFootTz", "LeftFootTz"),
     )
 
-    LeftFootTx = DoubleLinearField()
+    LeftFootTx = DoubleLinearField(default_value=0.0)
 
-    LeftFootTy = DoubleLinearField()
+    LeftFootTy = DoubleLinearField(default_value=0.0)
 
-    LeftFootTz = DoubleLinearField()
+    LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootTAttrOperator(
@@ -560,11 +560,11 @@ class LeftFootTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootTx = DoubleLinearField()
+    LeftFootTx = DoubleLinearField(default_value=0.0)
 
-    LeftFootTy = DoubleLinearField()
+    LeftFootTy = DoubleLinearField(default_value=0.0)
 
-    LeftFootTz = DoubleLinearField()
+    LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootTField(
@@ -575,11 +575,11 @@ class LeftFootTField(
     ATTR_CLS = LeftFootTAttrOperator
     PLUG_CLS = LeftFootTPlugOperator
 
-    LeftFootTx = DoubleLinearField()
+    LeftFootTx = DoubleLinearField(default_value=0.0)
 
-    LeftFootTy = DoubleLinearField()
+    LeftFootTy = DoubleLinearField(default_value=0.0)
 
-    LeftFootTz = DoubleLinearField()
+    LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRPlugOperator(
@@ -592,11 +592,11 @@ class LeftFootRPlugOperator(
         ("LeftFootRz", "LeftFootRz"),
     )
 
-    LeftFootRx = DoubleAngleField()
+    LeftFootRx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRy = DoubleAngleField()
+    LeftFootRy = DoubleAngleField(default_value=0.0)
 
-    LeftFootRz = DoubleAngleField()
+    LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRAttrOperator(
@@ -604,11 +604,11 @@ class LeftFootRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRx = DoubleAngleField()
+    LeftFootRx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRy = DoubleAngleField()
+    LeftFootRy = DoubleAngleField(default_value=0.0)
 
-    LeftFootRz = DoubleAngleField()
+    LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRField(
@@ -619,11 +619,11 @@ class LeftFootRField(
     ATTR_CLS = LeftFootRAttrOperator
     PLUG_CLS = LeftFootRPlugOperator
 
-    LeftFootRx = DoubleAngleField()
+    LeftFootRx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRy = DoubleAngleField()
+    LeftFootRy = DoubleAngleField(default_value=0.0)
 
-    LeftFootRz = DoubleAngleField()
+    LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootSPlugOperator(
@@ -636,11 +636,11 @@ class LeftFootSPlugOperator(
         ("LeftFootSz", "LeftFootSz"),
     )
 
-    LeftFootSx = DoubleField()
+    LeftFootSx = DoubleField(default_value=1.0)
 
-    LeftFootSy = DoubleField()
+    LeftFootSy = DoubleField(default_value=1.0)
 
-    LeftFootSz = DoubleField()
+    LeftFootSz = DoubleField(default_value=1.0)
 
 
 class LeftFootSAttrOperator(
@@ -648,11 +648,11 @@ class LeftFootSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootSx = DoubleField()
+    LeftFootSx = DoubleField(default_value=1.0)
 
-    LeftFootSy = DoubleField()
+    LeftFootSy = DoubleField(default_value=1.0)
 
-    LeftFootSz = DoubleField()
+    LeftFootSz = DoubleField(default_value=1.0)
 
 
 class LeftFootSField(
@@ -663,11 +663,11 @@ class LeftFootSField(
     ATTR_CLS = LeftFootSAttrOperator
     PLUG_CLS = LeftFootSPlugOperator
 
-    LeftFootSx = DoubleField()
+    LeftFootSx = DoubleField(default_value=1.0)
 
-    LeftFootSy = DoubleField()
+    LeftFootSy = DoubleField(default_value=1.0)
 
-    LeftFootSz = DoubleField()
+    LeftFootSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegTPlugOperator(
@@ -680,11 +680,11 @@ class RightUpLegTPlugOperator(
         ("RightUpLegTz", "RightUpLegTz"),
     )
 
-    RightUpLegTx = DoubleLinearField()
+    RightUpLegTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTy = DoubleLinearField()
+    RightUpLegTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTz = DoubleLinearField()
+    RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegTAttrOperator(
@@ -692,11 +692,11 @@ class RightUpLegTAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegTx = DoubleLinearField()
+    RightUpLegTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTy = DoubleLinearField()
+    RightUpLegTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTz = DoubleLinearField()
+    RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegTField(
@@ -707,11 +707,11 @@ class RightUpLegTField(
     ATTR_CLS = RightUpLegTAttrOperator
     PLUG_CLS = RightUpLegTPlugOperator
 
-    RightUpLegTx = DoubleLinearField()
+    RightUpLegTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTy = DoubleLinearField()
+    RightUpLegTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegTz = DoubleLinearField()
+    RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegRPlugOperator(
@@ -724,11 +724,11 @@ class RightUpLegRPlugOperator(
         ("RightUpLegRz", "RightUpLegRz"),
     )
 
-    RightUpLegRx = DoubleAngleField()
+    RightUpLegRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRy = DoubleAngleField()
+    RightUpLegRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRz = DoubleAngleField()
+    RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegRAttrOperator(
@@ -736,11 +736,11 @@ class RightUpLegRAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegRx = DoubleAngleField()
+    RightUpLegRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRy = DoubleAngleField()
+    RightUpLegRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRz = DoubleAngleField()
+    RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegRField(
@@ -751,11 +751,11 @@ class RightUpLegRField(
     ATTR_CLS = RightUpLegRAttrOperator
     PLUG_CLS = RightUpLegRPlugOperator
 
-    RightUpLegRx = DoubleAngleField()
+    RightUpLegRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRy = DoubleAngleField()
+    RightUpLegRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRz = DoubleAngleField()
+    RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegSPlugOperator(
@@ -768,11 +768,11 @@ class RightUpLegSPlugOperator(
         ("RightUpLegSz", "RightUpLegSz"),
     )
 
-    RightUpLegSx = DoubleField()
+    RightUpLegSx = DoubleField(default_value=1.0)
 
-    RightUpLegSy = DoubleField()
+    RightUpLegSy = DoubleField(default_value=1.0)
 
-    RightUpLegSz = DoubleField()
+    RightUpLegSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegSAttrOperator(
@@ -780,11 +780,11 @@ class RightUpLegSAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegSx = DoubleField()
+    RightUpLegSx = DoubleField(default_value=1.0)
 
-    RightUpLegSy = DoubleField()
+    RightUpLegSy = DoubleField(default_value=1.0)
 
-    RightUpLegSz = DoubleField()
+    RightUpLegSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegSField(
@@ -795,11 +795,11 @@ class RightUpLegSField(
     ATTR_CLS = RightUpLegSAttrOperator
     PLUG_CLS = RightUpLegSPlugOperator
 
-    RightUpLegSx = DoubleField()
+    RightUpLegSx = DoubleField(default_value=1.0)
 
-    RightUpLegSy = DoubleField()
+    RightUpLegSy = DoubleField(default_value=1.0)
 
-    RightUpLegSz = DoubleField()
+    RightUpLegSz = DoubleField(default_value=1.0)
 
 
 class RightLegTPlugOperator(
@@ -812,11 +812,11 @@ class RightLegTPlugOperator(
         ("RightLegTz", "RightLegTz"),
     )
 
-    RightLegTx = DoubleLinearField()
+    RightLegTx = DoubleLinearField(default_value=0.0)
 
-    RightLegTy = DoubleLinearField()
+    RightLegTy = DoubleLinearField(default_value=0.0)
 
-    RightLegTz = DoubleLinearField()
+    RightLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegTAttrOperator(
@@ -824,11 +824,11 @@ class RightLegTAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegTx = DoubleLinearField()
+    RightLegTx = DoubleLinearField(default_value=0.0)
 
-    RightLegTy = DoubleLinearField()
+    RightLegTy = DoubleLinearField(default_value=0.0)
 
-    RightLegTz = DoubleLinearField()
+    RightLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegTField(
@@ -839,11 +839,11 @@ class RightLegTField(
     ATTR_CLS = RightLegTAttrOperator
     PLUG_CLS = RightLegTPlugOperator
 
-    RightLegTx = DoubleLinearField()
+    RightLegTx = DoubleLinearField(default_value=0.0)
 
-    RightLegTy = DoubleLinearField()
+    RightLegTy = DoubleLinearField(default_value=0.0)
 
-    RightLegTz = DoubleLinearField()
+    RightLegTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegRPlugOperator(
@@ -856,11 +856,11 @@ class RightLegRPlugOperator(
         ("RightLegRz", "RightLegRz"),
     )
 
-    RightLegRx = DoubleAngleField()
+    RightLegRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRy = DoubleAngleField()
+    RightLegRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRz = DoubleAngleField()
+    RightLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegRAttrOperator(
@@ -868,11 +868,11 @@ class RightLegRAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegRx = DoubleAngleField()
+    RightLegRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRy = DoubleAngleField()
+    RightLegRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRz = DoubleAngleField()
+    RightLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegRField(
@@ -883,11 +883,11 @@ class RightLegRField(
     ATTR_CLS = RightLegRAttrOperator
     PLUG_CLS = RightLegRPlugOperator
 
-    RightLegRx = DoubleAngleField()
+    RightLegRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRy = DoubleAngleField()
+    RightLegRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRz = DoubleAngleField()
+    RightLegRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegSPlugOperator(
@@ -900,11 +900,11 @@ class RightLegSPlugOperator(
         ("RightLegSz", "RightLegSz"),
     )
 
-    RightLegSx = DoubleField()
+    RightLegSx = DoubleField(default_value=1.0)
 
-    RightLegSy = DoubleField()
+    RightLegSy = DoubleField(default_value=1.0)
 
-    RightLegSz = DoubleField()
+    RightLegSz = DoubleField(default_value=1.0)
 
 
 class RightLegSAttrOperator(
@@ -912,11 +912,11 @@ class RightLegSAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegSx = DoubleField()
+    RightLegSx = DoubleField(default_value=1.0)
 
-    RightLegSy = DoubleField()
+    RightLegSy = DoubleField(default_value=1.0)
 
-    RightLegSz = DoubleField()
+    RightLegSz = DoubleField(default_value=1.0)
 
 
 class RightLegSField(
@@ -927,11 +927,11 @@ class RightLegSField(
     ATTR_CLS = RightLegSAttrOperator
     PLUG_CLS = RightLegSPlugOperator
 
-    RightLegSx = DoubleField()
+    RightLegSx = DoubleField(default_value=1.0)
 
-    RightLegSy = DoubleField()
+    RightLegSy = DoubleField(default_value=1.0)
 
-    RightLegSz = DoubleField()
+    RightLegSz = DoubleField(default_value=1.0)
 
 
 class RightFootTPlugOperator(
@@ -944,11 +944,11 @@ class RightFootTPlugOperator(
         ("RightFootTz", "RightFootTz"),
     )
 
-    RightFootTx = DoubleLinearField()
+    RightFootTx = DoubleLinearField(default_value=0.0)
 
-    RightFootTy = DoubleLinearField()
+    RightFootTy = DoubleLinearField(default_value=0.0)
 
-    RightFootTz = DoubleLinearField()
+    RightFootTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootTAttrOperator(
@@ -956,11 +956,11 @@ class RightFootTAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootTx = DoubleLinearField()
+    RightFootTx = DoubleLinearField(default_value=0.0)
 
-    RightFootTy = DoubleLinearField()
+    RightFootTy = DoubleLinearField(default_value=0.0)
 
-    RightFootTz = DoubleLinearField()
+    RightFootTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootTField(
@@ -971,11 +971,11 @@ class RightFootTField(
     ATTR_CLS = RightFootTAttrOperator
     PLUG_CLS = RightFootTPlugOperator
 
-    RightFootTx = DoubleLinearField()
+    RightFootTx = DoubleLinearField(default_value=0.0)
 
-    RightFootTy = DoubleLinearField()
+    RightFootTy = DoubleLinearField(default_value=0.0)
 
-    RightFootTz = DoubleLinearField()
+    RightFootTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRPlugOperator(
@@ -988,11 +988,11 @@ class RightFootRPlugOperator(
         ("RightFootRz", "RightFootRz"),
     )
 
-    RightFootRx = DoubleAngleField()
+    RightFootRx = DoubleAngleField(default_value=0.0)
 
-    RightFootRy = DoubleAngleField()
+    RightFootRy = DoubleAngleField(default_value=0.0)
 
-    RightFootRz = DoubleAngleField()
+    RightFootRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRAttrOperator(
@@ -1000,11 +1000,11 @@ class RightFootRAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRx = DoubleAngleField()
+    RightFootRx = DoubleAngleField(default_value=0.0)
 
-    RightFootRy = DoubleAngleField()
+    RightFootRy = DoubleAngleField(default_value=0.0)
 
-    RightFootRz = DoubleAngleField()
+    RightFootRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRField(
@@ -1015,11 +1015,11 @@ class RightFootRField(
     ATTR_CLS = RightFootRAttrOperator
     PLUG_CLS = RightFootRPlugOperator
 
-    RightFootRx = DoubleAngleField()
+    RightFootRx = DoubleAngleField(default_value=0.0)
 
-    RightFootRy = DoubleAngleField()
+    RightFootRy = DoubleAngleField(default_value=0.0)
 
-    RightFootRz = DoubleAngleField()
+    RightFootRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootSPlugOperator(
@@ -1032,11 +1032,11 @@ class RightFootSPlugOperator(
         ("RightFootSz", "RightFootSz"),
     )
 
-    RightFootSx = DoubleField()
+    RightFootSx = DoubleField(default_value=1.0)
 
-    RightFootSy = DoubleField()
+    RightFootSy = DoubleField(default_value=1.0)
 
-    RightFootSz = DoubleField()
+    RightFootSz = DoubleField(default_value=1.0)
 
 
 class RightFootSAttrOperator(
@@ -1044,11 +1044,11 @@ class RightFootSAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootSx = DoubleField()
+    RightFootSx = DoubleField(default_value=1.0)
 
-    RightFootSy = DoubleField()
+    RightFootSy = DoubleField(default_value=1.0)
 
-    RightFootSz = DoubleField()
+    RightFootSz = DoubleField(default_value=1.0)
 
 
 class RightFootSField(
@@ -1059,11 +1059,11 @@ class RightFootSField(
     ATTR_CLS = RightFootSAttrOperator
     PLUG_CLS = RightFootSPlugOperator
 
-    RightFootSx = DoubleField()
+    RightFootSx = DoubleField(default_value=1.0)
 
-    RightFootSy = DoubleField()
+    RightFootSy = DoubleField(default_value=1.0)
 
-    RightFootSz = DoubleField()
+    RightFootSz = DoubleField(default_value=1.0)
 
 
 class SpineTPlugOperator(
@@ -1076,11 +1076,11 @@ class SpineTPlugOperator(
         ("SpineTz", "SpineTz"),
     )
 
-    SpineTx = DoubleLinearField()
+    SpineTx = DoubleLinearField(default_value=0.0)
 
-    SpineTy = DoubleLinearField()
+    SpineTy = DoubleLinearField(default_value=0.0)
 
-    SpineTz = DoubleLinearField()
+    SpineTz = DoubleLinearField(default_value=0.0)
 
 
 class SpineTAttrOperator(
@@ -1088,11 +1088,11 @@ class SpineTAttrOperator(
 ):
     __slots__ = ()
 
-    SpineTx = DoubleLinearField()
+    SpineTx = DoubleLinearField(default_value=0.0)
 
-    SpineTy = DoubleLinearField()
+    SpineTy = DoubleLinearField(default_value=0.0)
 
-    SpineTz = DoubleLinearField()
+    SpineTz = DoubleLinearField(default_value=0.0)
 
 
 class SpineTField(
@@ -1103,11 +1103,11 @@ class SpineTField(
     ATTR_CLS = SpineTAttrOperator
     PLUG_CLS = SpineTPlugOperator
 
-    SpineTx = DoubleLinearField()
+    SpineTx = DoubleLinearField(default_value=0.0)
 
-    SpineTy = DoubleLinearField()
+    SpineTy = DoubleLinearField(default_value=0.0)
 
-    SpineTz = DoubleLinearField()
+    SpineTz = DoubleLinearField(default_value=0.0)
 
 
 class SpineRPlugOperator(
@@ -1120,11 +1120,11 @@ class SpineRPlugOperator(
         ("SpineRz", "SpineRz"),
     )
 
-    SpineRx = DoubleAngleField()
+    SpineRx = DoubleAngleField(default_value=0.0)
 
-    SpineRy = DoubleAngleField()
+    SpineRy = DoubleAngleField(default_value=0.0)
 
-    SpineRz = DoubleAngleField()
+    SpineRz = DoubleAngleField(default_value=0.0)
 
 
 class SpineRAttrOperator(
@@ -1132,11 +1132,11 @@ class SpineRAttrOperator(
 ):
     __slots__ = ()
 
-    SpineRx = DoubleAngleField()
+    SpineRx = DoubleAngleField(default_value=0.0)
 
-    SpineRy = DoubleAngleField()
+    SpineRy = DoubleAngleField(default_value=0.0)
 
-    SpineRz = DoubleAngleField()
+    SpineRz = DoubleAngleField(default_value=0.0)
 
 
 class SpineRField(
@@ -1147,11 +1147,11 @@ class SpineRField(
     ATTR_CLS = SpineRAttrOperator
     PLUG_CLS = SpineRPlugOperator
 
-    SpineRx = DoubleAngleField()
+    SpineRx = DoubleAngleField(default_value=0.0)
 
-    SpineRy = DoubleAngleField()
+    SpineRy = DoubleAngleField(default_value=0.0)
 
-    SpineRz = DoubleAngleField()
+    SpineRz = DoubleAngleField(default_value=0.0)
 
 
 class SpineSPlugOperator(
@@ -1164,11 +1164,11 @@ class SpineSPlugOperator(
         ("SpineSz", "SpineSz"),
     )
 
-    SpineSx = DoubleField()
+    SpineSx = DoubleField(default_value=1.0)
 
-    SpineSy = DoubleField()
+    SpineSy = DoubleField(default_value=1.0)
 
-    SpineSz = DoubleField()
+    SpineSz = DoubleField(default_value=1.0)
 
 
 class SpineSAttrOperator(
@@ -1176,11 +1176,11 @@ class SpineSAttrOperator(
 ):
     __slots__ = ()
 
-    SpineSx = DoubleField()
+    SpineSx = DoubleField(default_value=1.0)
 
-    SpineSy = DoubleField()
+    SpineSy = DoubleField(default_value=1.0)
 
-    SpineSz = DoubleField()
+    SpineSz = DoubleField(default_value=1.0)
 
 
 class SpineSField(
@@ -1191,11 +1191,11 @@ class SpineSField(
     ATTR_CLS = SpineSAttrOperator
     PLUG_CLS = SpineSPlugOperator
 
-    SpineSx = DoubleField()
+    SpineSx = DoubleField(default_value=1.0)
 
-    SpineSy = DoubleField()
+    SpineSy = DoubleField(default_value=1.0)
 
-    SpineSz = DoubleField()
+    SpineSz = DoubleField(default_value=1.0)
 
 
 class LeftArmTPlugOperator(
@@ -1208,11 +1208,11 @@ class LeftArmTPlugOperator(
         ("LeftArmTz", "LeftArmTz"),
     )
 
-    LeftArmTx = DoubleLinearField()
+    LeftArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmTy = DoubleLinearField()
+    LeftArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmTz = DoubleLinearField()
+    LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmTAttrOperator(
@@ -1220,11 +1220,11 @@ class LeftArmTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmTx = DoubleLinearField()
+    LeftArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmTy = DoubleLinearField()
+    LeftArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmTz = DoubleLinearField()
+    LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmTField(
@@ -1235,11 +1235,11 @@ class LeftArmTField(
     ATTR_CLS = LeftArmTAttrOperator
     PLUG_CLS = LeftArmTPlugOperator
 
-    LeftArmTx = DoubleLinearField()
+    LeftArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmTy = DoubleLinearField()
+    LeftArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmTz = DoubleLinearField()
+    LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmRPlugOperator(
@@ -1252,11 +1252,11 @@ class LeftArmRPlugOperator(
         ("LeftArmRz", "LeftArmRz"),
     )
 
-    LeftArmRx = DoubleAngleField()
+    LeftArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRy = DoubleAngleField()
+    LeftArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRz = DoubleAngleField()
+    LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmRAttrOperator(
@@ -1264,11 +1264,11 @@ class LeftArmRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmRx = DoubleAngleField()
+    LeftArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRy = DoubleAngleField()
+    LeftArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRz = DoubleAngleField()
+    LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmRField(
@@ -1279,11 +1279,11 @@ class LeftArmRField(
     ATTR_CLS = LeftArmRAttrOperator
     PLUG_CLS = LeftArmRPlugOperator
 
-    LeftArmRx = DoubleAngleField()
+    LeftArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRy = DoubleAngleField()
+    LeftArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRz = DoubleAngleField()
+    LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmSPlugOperator(
@@ -1296,11 +1296,11 @@ class LeftArmSPlugOperator(
         ("LeftArmSz", "LeftArmSz"),
     )
 
-    LeftArmSx = DoubleField()
+    LeftArmSx = DoubleField(default_value=1.0)
 
-    LeftArmSy = DoubleField()
+    LeftArmSy = DoubleField(default_value=1.0)
 
-    LeftArmSz = DoubleField()
+    LeftArmSz = DoubleField(default_value=1.0)
 
 
 class LeftArmSAttrOperator(
@@ -1308,11 +1308,11 @@ class LeftArmSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmSx = DoubleField()
+    LeftArmSx = DoubleField(default_value=1.0)
 
-    LeftArmSy = DoubleField()
+    LeftArmSy = DoubleField(default_value=1.0)
 
-    LeftArmSz = DoubleField()
+    LeftArmSz = DoubleField(default_value=1.0)
 
 
 class LeftArmSField(
@@ -1323,11 +1323,11 @@ class LeftArmSField(
     ATTR_CLS = LeftArmSAttrOperator
     PLUG_CLS = LeftArmSPlugOperator
 
-    LeftArmSx = DoubleField()
+    LeftArmSx = DoubleField(default_value=1.0)
 
-    LeftArmSy = DoubleField()
+    LeftArmSy = DoubleField(default_value=1.0)
 
-    LeftArmSz = DoubleField()
+    LeftArmSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmTPlugOperator(
@@ -1340,11 +1340,11 @@ class LeftForeArmTPlugOperator(
         ("LeftForeArmTz", "LeftForeArmTz"),
     )
 
-    LeftForeArmTx = DoubleLinearField()
+    LeftForeArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTy = DoubleLinearField()
+    LeftForeArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTz = DoubleLinearField()
+    LeftForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmTAttrOperator(
@@ -1352,11 +1352,11 @@ class LeftForeArmTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmTx = DoubleLinearField()
+    LeftForeArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTy = DoubleLinearField()
+    LeftForeArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTz = DoubleLinearField()
+    LeftForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmTField(
@@ -1367,11 +1367,11 @@ class LeftForeArmTField(
     ATTR_CLS = LeftForeArmTAttrOperator
     PLUG_CLS = LeftForeArmTPlugOperator
 
-    LeftForeArmTx = DoubleLinearField()
+    LeftForeArmTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTy = DoubleLinearField()
+    LeftForeArmTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmTz = DoubleLinearField()
+    LeftForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmRPlugOperator(
@@ -1384,11 +1384,11 @@ class LeftForeArmRPlugOperator(
         ("LeftForeArmRz", "LeftForeArmRz"),
     )
 
-    LeftForeArmRx = DoubleAngleField()
+    LeftForeArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRy = DoubleAngleField()
+    LeftForeArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRz = DoubleAngleField()
+    LeftForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmRAttrOperator(
@@ -1396,11 +1396,11 @@ class LeftForeArmRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmRx = DoubleAngleField()
+    LeftForeArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRy = DoubleAngleField()
+    LeftForeArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRz = DoubleAngleField()
+    LeftForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmRField(
@@ -1411,11 +1411,11 @@ class LeftForeArmRField(
     ATTR_CLS = LeftForeArmRAttrOperator
     PLUG_CLS = LeftForeArmRPlugOperator
 
-    LeftForeArmRx = DoubleAngleField()
+    LeftForeArmRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRy = DoubleAngleField()
+    LeftForeArmRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRz = DoubleAngleField()
+    LeftForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmSPlugOperator(
@@ -1428,11 +1428,11 @@ class LeftForeArmSPlugOperator(
         ("LeftForeArmSz", "LeftForeArmSz"),
     )
 
-    LeftForeArmSx = DoubleField()
+    LeftForeArmSx = DoubleField(default_value=1.0)
 
-    LeftForeArmSy = DoubleField()
+    LeftForeArmSy = DoubleField(default_value=1.0)
 
-    LeftForeArmSz = DoubleField()
+    LeftForeArmSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmSAttrOperator(
@@ -1440,11 +1440,11 @@ class LeftForeArmSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmSx = DoubleField()
+    LeftForeArmSx = DoubleField(default_value=1.0)
 
-    LeftForeArmSy = DoubleField()
+    LeftForeArmSy = DoubleField(default_value=1.0)
 
-    LeftForeArmSz = DoubleField()
+    LeftForeArmSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmSField(
@@ -1455,11 +1455,11 @@ class LeftForeArmSField(
     ATTR_CLS = LeftForeArmSAttrOperator
     PLUG_CLS = LeftForeArmSPlugOperator
 
-    LeftForeArmSx = DoubleField()
+    LeftForeArmSx = DoubleField(default_value=1.0)
 
-    LeftForeArmSy = DoubleField()
+    LeftForeArmSy = DoubleField(default_value=1.0)
 
-    LeftForeArmSz = DoubleField()
+    LeftForeArmSz = DoubleField(default_value=1.0)
 
 
 class LeftHandTPlugOperator(
@@ -1472,11 +1472,11 @@ class LeftHandTPlugOperator(
         ("LeftHandTz", "LeftHandTz"),
     )
 
-    LeftHandTx = DoubleLinearField()
+    LeftHandTx = DoubleLinearField(default_value=0.0)
 
-    LeftHandTy = DoubleLinearField()
+    LeftHandTy = DoubleLinearField(default_value=0.0)
 
-    LeftHandTz = DoubleLinearField()
+    LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandTAttrOperator(
@@ -1484,11 +1484,11 @@ class LeftHandTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandTx = DoubleLinearField()
+    LeftHandTx = DoubleLinearField(default_value=0.0)
 
-    LeftHandTy = DoubleLinearField()
+    LeftHandTy = DoubleLinearField(default_value=0.0)
 
-    LeftHandTz = DoubleLinearField()
+    LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandTField(
@@ -1499,11 +1499,11 @@ class LeftHandTField(
     ATTR_CLS = LeftHandTAttrOperator
     PLUG_CLS = LeftHandTPlugOperator
 
-    LeftHandTx = DoubleLinearField()
+    LeftHandTx = DoubleLinearField(default_value=0.0)
 
-    LeftHandTy = DoubleLinearField()
+    LeftHandTy = DoubleLinearField(default_value=0.0)
 
-    LeftHandTz = DoubleLinearField()
+    LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRPlugOperator(
@@ -1516,11 +1516,11 @@ class LeftHandRPlugOperator(
         ("LeftHandRz", "LeftHandRz"),
     )
 
-    LeftHandRx = DoubleAngleField()
+    LeftHandRx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRy = DoubleAngleField()
+    LeftHandRy = DoubleAngleField(default_value=0.0)
 
-    LeftHandRz = DoubleAngleField()
+    LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRAttrOperator(
@@ -1528,11 +1528,11 @@ class LeftHandRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRx = DoubleAngleField()
+    LeftHandRx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRy = DoubleAngleField()
+    LeftHandRy = DoubleAngleField(default_value=0.0)
 
-    LeftHandRz = DoubleAngleField()
+    LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRField(
@@ -1543,11 +1543,11 @@ class LeftHandRField(
     ATTR_CLS = LeftHandRAttrOperator
     PLUG_CLS = LeftHandRPlugOperator
 
-    LeftHandRx = DoubleAngleField()
+    LeftHandRx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRy = DoubleAngleField()
+    LeftHandRy = DoubleAngleField(default_value=0.0)
 
-    LeftHandRz = DoubleAngleField()
+    LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandSPlugOperator(
@@ -1560,11 +1560,11 @@ class LeftHandSPlugOperator(
         ("LeftHandSz", "LeftHandSz"),
     )
 
-    LeftHandSx = DoubleField()
+    LeftHandSx = DoubleField(default_value=1.0)
 
-    LeftHandSy = DoubleField()
+    LeftHandSy = DoubleField(default_value=1.0)
 
-    LeftHandSz = DoubleField()
+    LeftHandSz = DoubleField(default_value=1.0)
 
 
 class LeftHandSAttrOperator(
@@ -1572,11 +1572,11 @@ class LeftHandSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandSx = DoubleField()
+    LeftHandSx = DoubleField(default_value=1.0)
 
-    LeftHandSy = DoubleField()
+    LeftHandSy = DoubleField(default_value=1.0)
 
-    LeftHandSz = DoubleField()
+    LeftHandSz = DoubleField(default_value=1.0)
 
 
 class LeftHandSField(
@@ -1587,11 +1587,11 @@ class LeftHandSField(
     ATTR_CLS = LeftHandSAttrOperator
     PLUG_CLS = LeftHandSPlugOperator
 
-    LeftHandSx = DoubleField()
+    LeftHandSx = DoubleField(default_value=1.0)
 
-    LeftHandSy = DoubleField()
+    LeftHandSy = DoubleField(default_value=1.0)
 
-    LeftHandSz = DoubleField()
+    LeftHandSz = DoubleField(default_value=1.0)
 
 
 class RightArmTPlugOperator(
@@ -1604,11 +1604,11 @@ class RightArmTPlugOperator(
         ("RightArmTz", "RightArmTz"),
     )
 
-    RightArmTx = DoubleLinearField()
+    RightArmTx = DoubleLinearField(default_value=0.0)
 
-    RightArmTy = DoubleLinearField()
+    RightArmTy = DoubleLinearField(default_value=0.0)
 
-    RightArmTz = DoubleLinearField()
+    RightArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmTAttrOperator(
@@ -1616,11 +1616,11 @@ class RightArmTAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmTx = DoubleLinearField()
+    RightArmTx = DoubleLinearField(default_value=0.0)
 
-    RightArmTy = DoubleLinearField()
+    RightArmTy = DoubleLinearField(default_value=0.0)
 
-    RightArmTz = DoubleLinearField()
+    RightArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmTField(
@@ -1631,11 +1631,11 @@ class RightArmTField(
     ATTR_CLS = RightArmTAttrOperator
     PLUG_CLS = RightArmTPlugOperator
 
-    RightArmTx = DoubleLinearField()
+    RightArmTx = DoubleLinearField(default_value=0.0)
 
-    RightArmTy = DoubleLinearField()
+    RightArmTy = DoubleLinearField(default_value=0.0)
 
-    RightArmTz = DoubleLinearField()
+    RightArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmRPlugOperator(
@@ -1648,11 +1648,11 @@ class RightArmRPlugOperator(
         ("RightArmRz", "RightArmRz"),
     )
 
-    RightArmRx = DoubleAngleField()
+    RightArmRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRy = DoubleAngleField()
+    RightArmRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRz = DoubleAngleField()
+    RightArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmRAttrOperator(
@@ -1660,11 +1660,11 @@ class RightArmRAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmRx = DoubleAngleField()
+    RightArmRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRy = DoubleAngleField()
+    RightArmRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRz = DoubleAngleField()
+    RightArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmRField(
@@ -1675,11 +1675,11 @@ class RightArmRField(
     ATTR_CLS = RightArmRAttrOperator
     PLUG_CLS = RightArmRPlugOperator
 
-    RightArmRx = DoubleAngleField()
+    RightArmRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRy = DoubleAngleField()
+    RightArmRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRz = DoubleAngleField()
+    RightArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmSPlugOperator(
@@ -1692,11 +1692,11 @@ class RightArmSPlugOperator(
         ("RightArmSz", "RightArmSz"),
     )
 
-    RightArmSx = DoubleField()
+    RightArmSx = DoubleField(default_value=1.0)
 
-    RightArmSy = DoubleField()
+    RightArmSy = DoubleField(default_value=1.0)
 
-    RightArmSz = DoubleField()
+    RightArmSz = DoubleField(default_value=1.0)
 
 
 class RightArmSAttrOperator(
@@ -1704,11 +1704,11 @@ class RightArmSAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmSx = DoubleField()
+    RightArmSx = DoubleField(default_value=1.0)
 
-    RightArmSy = DoubleField()
+    RightArmSy = DoubleField(default_value=1.0)
 
-    RightArmSz = DoubleField()
+    RightArmSz = DoubleField(default_value=1.0)
 
 
 class RightArmSField(
@@ -1719,11 +1719,11 @@ class RightArmSField(
     ATTR_CLS = RightArmSAttrOperator
     PLUG_CLS = RightArmSPlugOperator
 
-    RightArmSx = DoubleField()
+    RightArmSx = DoubleField(default_value=1.0)
 
-    RightArmSy = DoubleField()
+    RightArmSy = DoubleField(default_value=1.0)
 
-    RightArmSz = DoubleField()
+    RightArmSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmTPlugOperator(
@@ -1736,11 +1736,11 @@ class RightForeArmTPlugOperator(
         ("RightForeArmTz", "RightForeArmTz"),
     )
 
-    RightForeArmTx = DoubleLinearField()
+    RightForeArmTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTy = DoubleLinearField()
+    RightForeArmTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTz = DoubleLinearField()
+    RightForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmTAttrOperator(
@@ -1748,11 +1748,11 @@ class RightForeArmTAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmTx = DoubleLinearField()
+    RightForeArmTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTy = DoubleLinearField()
+    RightForeArmTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTz = DoubleLinearField()
+    RightForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmTField(
@@ -1763,11 +1763,11 @@ class RightForeArmTField(
     ATTR_CLS = RightForeArmTAttrOperator
     PLUG_CLS = RightForeArmTPlugOperator
 
-    RightForeArmTx = DoubleLinearField()
+    RightForeArmTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTy = DoubleLinearField()
+    RightForeArmTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmTz = DoubleLinearField()
+    RightForeArmTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmRPlugOperator(
@@ -1780,11 +1780,11 @@ class RightForeArmRPlugOperator(
         ("RightForeArmRz", "RightForeArmRz"),
     )
 
-    RightForeArmRx = DoubleAngleField()
+    RightForeArmRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRy = DoubleAngleField()
+    RightForeArmRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRz = DoubleAngleField()
+    RightForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmRAttrOperator(
@@ -1792,11 +1792,11 @@ class RightForeArmRAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmRx = DoubleAngleField()
+    RightForeArmRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRy = DoubleAngleField()
+    RightForeArmRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRz = DoubleAngleField()
+    RightForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmRField(
@@ -1807,11 +1807,11 @@ class RightForeArmRField(
     ATTR_CLS = RightForeArmRAttrOperator
     PLUG_CLS = RightForeArmRPlugOperator
 
-    RightForeArmRx = DoubleAngleField()
+    RightForeArmRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRy = DoubleAngleField()
+    RightForeArmRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRz = DoubleAngleField()
+    RightForeArmRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmSPlugOperator(
@@ -1824,11 +1824,11 @@ class RightForeArmSPlugOperator(
         ("RightForeArmSz", "RightForeArmSz"),
     )
 
-    RightForeArmSx = DoubleField()
+    RightForeArmSx = DoubleField(default_value=1.0)
 
-    RightForeArmSy = DoubleField()
+    RightForeArmSy = DoubleField(default_value=1.0)
 
-    RightForeArmSz = DoubleField()
+    RightForeArmSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmSAttrOperator(
@@ -1836,11 +1836,11 @@ class RightForeArmSAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmSx = DoubleField()
+    RightForeArmSx = DoubleField(default_value=1.0)
 
-    RightForeArmSy = DoubleField()
+    RightForeArmSy = DoubleField(default_value=1.0)
 
-    RightForeArmSz = DoubleField()
+    RightForeArmSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmSField(
@@ -1851,11 +1851,11 @@ class RightForeArmSField(
     ATTR_CLS = RightForeArmSAttrOperator
     PLUG_CLS = RightForeArmSPlugOperator
 
-    RightForeArmSx = DoubleField()
+    RightForeArmSx = DoubleField(default_value=1.0)
 
-    RightForeArmSy = DoubleField()
+    RightForeArmSy = DoubleField(default_value=1.0)
 
-    RightForeArmSz = DoubleField()
+    RightForeArmSz = DoubleField(default_value=1.0)
 
 
 class RightHandTPlugOperator(
@@ -1868,11 +1868,11 @@ class RightHandTPlugOperator(
         ("RightHandTz", "RightHandTz"),
     )
 
-    RightHandTx = DoubleLinearField()
+    RightHandTx = DoubleLinearField(default_value=0.0)
 
-    RightHandTy = DoubleLinearField()
+    RightHandTy = DoubleLinearField(default_value=0.0)
 
-    RightHandTz = DoubleLinearField()
+    RightHandTz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandTAttrOperator(
@@ -1880,11 +1880,11 @@ class RightHandTAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandTx = DoubleLinearField()
+    RightHandTx = DoubleLinearField(default_value=0.0)
 
-    RightHandTy = DoubleLinearField()
+    RightHandTy = DoubleLinearField(default_value=0.0)
 
-    RightHandTz = DoubleLinearField()
+    RightHandTz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandTField(
@@ -1895,11 +1895,11 @@ class RightHandTField(
     ATTR_CLS = RightHandTAttrOperator
     PLUG_CLS = RightHandTPlugOperator
 
-    RightHandTx = DoubleLinearField()
+    RightHandTx = DoubleLinearField(default_value=0.0)
 
-    RightHandTy = DoubleLinearField()
+    RightHandTy = DoubleLinearField(default_value=0.0)
 
-    RightHandTz = DoubleLinearField()
+    RightHandTz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRPlugOperator(
@@ -1912,11 +1912,11 @@ class RightHandRPlugOperator(
         ("RightHandRz", "RightHandRz"),
     )
 
-    RightHandRx = DoubleAngleField()
+    RightHandRx = DoubleAngleField(default_value=0.0)
 
-    RightHandRy = DoubleAngleField()
+    RightHandRy = DoubleAngleField(default_value=0.0)
 
-    RightHandRz = DoubleAngleField()
+    RightHandRz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRAttrOperator(
@@ -1924,11 +1924,11 @@ class RightHandRAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRx = DoubleAngleField()
+    RightHandRx = DoubleAngleField(default_value=0.0)
 
-    RightHandRy = DoubleAngleField()
+    RightHandRy = DoubleAngleField(default_value=0.0)
 
-    RightHandRz = DoubleAngleField()
+    RightHandRz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRField(
@@ -1939,11 +1939,11 @@ class RightHandRField(
     ATTR_CLS = RightHandRAttrOperator
     PLUG_CLS = RightHandRPlugOperator
 
-    RightHandRx = DoubleAngleField()
+    RightHandRx = DoubleAngleField(default_value=0.0)
 
-    RightHandRy = DoubleAngleField()
+    RightHandRy = DoubleAngleField(default_value=0.0)
 
-    RightHandRz = DoubleAngleField()
+    RightHandRz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandSPlugOperator(
@@ -1956,11 +1956,11 @@ class RightHandSPlugOperator(
         ("RightHandSz", "RightHandSz"),
     )
 
-    RightHandSx = DoubleField()
+    RightHandSx = DoubleField(default_value=1.0)
 
-    RightHandSy = DoubleField()
+    RightHandSy = DoubleField(default_value=1.0)
 
-    RightHandSz = DoubleField()
+    RightHandSz = DoubleField(default_value=1.0)
 
 
 class RightHandSAttrOperator(
@@ -1968,11 +1968,11 @@ class RightHandSAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandSx = DoubleField()
+    RightHandSx = DoubleField(default_value=1.0)
 
-    RightHandSy = DoubleField()
+    RightHandSy = DoubleField(default_value=1.0)
 
-    RightHandSz = DoubleField()
+    RightHandSz = DoubleField(default_value=1.0)
 
 
 class RightHandSField(
@@ -1983,11 +1983,11 @@ class RightHandSField(
     ATTR_CLS = RightHandSAttrOperator
     PLUG_CLS = RightHandSPlugOperator
 
-    RightHandSx = DoubleField()
+    RightHandSx = DoubleField(default_value=1.0)
 
-    RightHandSy = DoubleField()
+    RightHandSy = DoubleField(default_value=1.0)
 
-    RightHandSz = DoubleField()
+    RightHandSz = DoubleField(default_value=1.0)
 
 
 class HeadTPlugOperator(
@@ -2000,11 +2000,11 @@ class HeadTPlugOperator(
         ("HeadTz", "HeadTz"),
     )
 
-    HeadTx = DoubleLinearField()
+    HeadTx = DoubleLinearField(default_value=0.0)
 
-    HeadTy = DoubleLinearField()
+    HeadTy = DoubleLinearField(default_value=0.0)
 
-    HeadTz = DoubleLinearField()
+    HeadTz = DoubleLinearField(default_value=0.0)
 
 
 class HeadTAttrOperator(
@@ -2012,11 +2012,11 @@ class HeadTAttrOperator(
 ):
     __slots__ = ()
 
-    HeadTx = DoubleLinearField()
+    HeadTx = DoubleLinearField(default_value=0.0)
 
-    HeadTy = DoubleLinearField()
+    HeadTy = DoubleLinearField(default_value=0.0)
 
-    HeadTz = DoubleLinearField()
+    HeadTz = DoubleLinearField(default_value=0.0)
 
 
 class HeadTField(
@@ -2027,11 +2027,11 @@ class HeadTField(
     ATTR_CLS = HeadTAttrOperator
     PLUG_CLS = HeadTPlugOperator
 
-    HeadTx = DoubleLinearField()
+    HeadTx = DoubleLinearField(default_value=0.0)
 
-    HeadTy = DoubleLinearField()
+    HeadTy = DoubleLinearField(default_value=0.0)
 
-    HeadTz = DoubleLinearField()
+    HeadTz = DoubleLinearField(default_value=0.0)
 
 
 class HeadRPlugOperator(
@@ -2044,11 +2044,11 @@ class HeadRPlugOperator(
         ("HeadRz", "HeadRz"),
     )
 
-    HeadRx = DoubleAngleField()
+    HeadRx = DoubleAngleField(default_value=0.0)
 
-    HeadRy = DoubleAngleField()
+    HeadRy = DoubleAngleField(default_value=0.0)
 
-    HeadRz = DoubleAngleField()
+    HeadRz = DoubleAngleField(default_value=0.0)
 
 
 class HeadRAttrOperator(
@@ -2056,11 +2056,11 @@ class HeadRAttrOperator(
 ):
     __slots__ = ()
 
-    HeadRx = DoubleAngleField()
+    HeadRx = DoubleAngleField(default_value=0.0)
 
-    HeadRy = DoubleAngleField()
+    HeadRy = DoubleAngleField(default_value=0.0)
 
-    HeadRz = DoubleAngleField()
+    HeadRz = DoubleAngleField(default_value=0.0)
 
 
 class HeadRField(
@@ -2071,11 +2071,11 @@ class HeadRField(
     ATTR_CLS = HeadRAttrOperator
     PLUG_CLS = HeadRPlugOperator
 
-    HeadRx = DoubleAngleField()
+    HeadRx = DoubleAngleField(default_value=0.0)
 
-    HeadRy = DoubleAngleField()
+    HeadRy = DoubleAngleField(default_value=0.0)
 
-    HeadRz = DoubleAngleField()
+    HeadRz = DoubleAngleField(default_value=0.0)
 
 
 class HeadSPlugOperator(
@@ -2088,11 +2088,11 @@ class HeadSPlugOperator(
         ("HeadSz", "HeadSz"),
     )
 
-    HeadSx = DoubleField()
+    HeadSx = DoubleField(default_value=1.0)
 
-    HeadSy = DoubleField()
+    HeadSy = DoubleField(default_value=1.0)
 
-    HeadSz = DoubleField()
+    HeadSz = DoubleField(default_value=1.0)
 
 
 class HeadSAttrOperator(
@@ -2100,11 +2100,11 @@ class HeadSAttrOperator(
 ):
     __slots__ = ()
 
-    HeadSx = DoubleField()
+    HeadSx = DoubleField(default_value=1.0)
 
-    HeadSy = DoubleField()
+    HeadSy = DoubleField(default_value=1.0)
 
-    HeadSz = DoubleField()
+    HeadSz = DoubleField(default_value=1.0)
 
 
 class HeadSField(
@@ -2115,11 +2115,11 @@ class HeadSField(
     ATTR_CLS = HeadSAttrOperator
     PLUG_CLS = HeadSPlugOperator
 
-    HeadSx = DoubleField()
+    HeadSx = DoubleField(default_value=1.0)
 
-    HeadSy = DoubleField()
+    HeadSy = DoubleField(default_value=1.0)
 
-    HeadSz = DoubleField()
+    HeadSz = DoubleField(default_value=1.0)
 
 
 class LeftToeBaseTPlugOperator(
@@ -2132,11 +2132,11 @@ class LeftToeBaseTPlugOperator(
         ("LeftToeBaseTz", "LeftToeBaseTz"),
     )
 
-    LeftToeBaseTx = DoubleLinearField()
+    LeftToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTy = DoubleLinearField()
+    LeftToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTz = DoubleLinearField()
+    LeftToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftToeBaseTAttrOperator(
@@ -2144,11 +2144,11 @@ class LeftToeBaseTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftToeBaseTx = DoubleLinearField()
+    LeftToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTy = DoubleLinearField()
+    LeftToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTz = DoubleLinearField()
+    LeftToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftToeBaseTField(
@@ -2159,11 +2159,11 @@ class LeftToeBaseTField(
     ATTR_CLS = LeftToeBaseTAttrOperator
     PLUG_CLS = LeftToeBaseTPlugOperator
 
-    LeftToeBaseTx = DoubleLinearField()
+    LeftToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTy = DoubleLinearField()
+    LeftToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftToeBaseTz = DoubleLinearField()
+    LeftToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftToeBaseRPlugOperator(
@@ -2176,11 +2176,11 @@ class LeftToeBaseRPlugOperator(
         ("LeftToeBaseRz", "LeftToeBaseRz"),
     )
 
-    LeftToeBaseRx = DoubleAngleField()
+    LeftToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRy = DoubleAngleField()
+    LeftToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRz = DoubleAngleField()
+    LeftToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftToeBaseRAttrOperator(
@@ -2188,11 +2188,11 @@ class LeftToeBaseRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftToeBaseRx = DoubleAngleField()
+    LeftToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRy = DoubleAngleField()
+    LeftToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRz = DoubleAngleField()
+    LeftToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftToeBaseRField(
@@ -2203,11 +2203,11 @@ class LeftToeBaseRField(
     ATTR_CLS = LeftToeBaseRAttrOperator
     PLUG_CLS = LeftToeBaseRPlugOperator
 
-    LeftToeBaseRx = DoubleAngleField()
+    LeftToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRy = DoubleAngleField()
+    LeftToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftToeBaseRz = DoubleAngleField()
+    LeftToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftToeBaseSPlugOperator(
@@ -2220,11 +2220,11 @@ class LeftToeBaseSPlugOperator(
         ("LeftToeBaseSz", "LeftToeBaseSz"),
     )
 
-    LeftToeBaseSx = DoubleField()
+    LeftToeBaseSx = DoubleField(default_value=1.0)
 
-    LeftToeBaseSy = DoubleField()
+    LeftToeBaseSy = DoubleField(default_value=1.0)
 
-    LeftToeBaseSz = DoubleField()
+    LeftToeBaseSz = DoubleField(default_value=1.0)
 
 
 class LeftToeBaseSAttrOperator(
@@ -2232,11 +2232,11 @@ class LeftToeBaseSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftToeBaseSx = DoubleField()
+    LeftToeBaseSx = DoubleField(default_value=1.0)
 
-    LeftToeBaseSy = DoubleField()
+    LeftToeBaseSy = DoubleField(default_value=1.0)
 
-    LeftToeBaseSz = DoubleField()
+    LeftToeBaseSz = DoubleField(default_value=1.0)
 
 
 class LeftToeBaseSField(
@@ -2247,11 +2247,11 @@ class LeftToeBaseSField(
     ATTR_CLS = LeftToeBaseSAttrOperator
     PLUG_CLS = LeftToeBaseSPlugOperator
 
-    LeftToeBaseSx = DoubleField()
+    LeftToeBaseSx = DoubleField(default_value=1.0)
 
-    LeftToeBaseSy = DoubleField()
+    LeftToeBaseSy = DoubleField(default_value=1.0)
 
-    LeftToeBaseSz = DoubleField()
+    LeftToeBaseSz = DoubleField(default_value=1.0)
 
 
 class RightToeBaseTPlugOperator(
@@ -2264,11 +2264,11 @@ class RightToeBaseTPlugOperator(
         ("RightToeBaseTz", "RightToeBaseTz"),
     )
 
-    RightToeBaseTx = DoubleLinearField()
+    RightToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTy = DoubleLinearField()
+    RightToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTz = DoubleLinearField()
+    RightToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightToeBaseTAttrOperator(
@@ -2276,11 +2276,11 @@ class RightToeBaseTAttrOperator(
 ):
     __slots__ = ()
 
-    RightToeBaseTx = DoubleLinearField()
+    RightToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTy = DoubleLinearField()
+    RightToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTz = DoubleLinearField()
+    RightToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightToeBaseTField(
@@ -2291,11 +2291,11 @@ class RightToeBaseTField(
     ATTR_CLS = RightToeBaseTAttrOperator
     PLUG_CLS = RightToeBaseTPlugOperator
 
-    RightToeBaseTx = DoubleLinearField()
+    RightToeBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTy = DoubleLinearField()
+    RightToeBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightToeBaseTz = DoubleLinearField()
+    RightToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightToeBaseRPlugOperator(
@@ -2308,11 +2308,11 @@ class RightToeBaseRPlugOperator(
         ("RightToeBaseRz", "RightToeBaseRz"),
     )
 
-    RightToeBaseRx = DoubleAngleField()
+    RightToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRy = DoubleAngleField()
+    RightToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRz = DoubleAngleField()
+    RightToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightToeBaseRAttrOperator(
@@ -2320,11 +2320,11 @@ class RightToeBaseRAttrOperator(
 ):
     __slots__ = ()
 
-    RightToeBaseRx = DoubleAngleField()
+    RightToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRy = DoubleAngleField()
+    RightToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRz = DoubleAngleField()
+    RightToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightToeBaseRField(
@@ -2335,11 +2335,11 @@ class RightToeBaseRField(
     ATTR_CLS = RightToeBaseRAttrOperator
     PLUG_CLS = RightToeBaseRPlugOperator
 
-    RightToeBaseRx = DoubleAngleField()
+    RightToeBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRy = DoubleAngleField()
+    RightToeBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightToeBaseRz = DoubleAngleField()
+    RightToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightToeBaseSPlugOperator(
@@ -2352,11 +2352,11 @@ class RightToeBaseSPlugOperator(
         ("RightToeBaseSz", "RightToeBaseSz"),
     )
 
-    RightToeBaseSx = DoubleField()
+    RightToeBaseSx = DoubleField(default_value=1.0)
 
-    RightToeBaseSy = DoubleField()
+    RightToeBaseSy = DoubleField(default_value=1.0)
 
-    RightToeBaseSz = DoubleField()
+    RightToeBaseSz = DoubleField(default_value=1.0)
 
 
 class RightToeBaseSAttrOperator(
@@ -2364,11 +2364,11 @@ class RightToeBaseSAttrOperator(
 ):
     __slots__ = ()
 
-    RightToeBaseSx = DoubleField()
+    RightToeBaseSx = DoubleField(default_value=1.0)
 
-    RightToeBaseSy = DoubleField()
+    RightToeBaseSy = DoubleField(default_value=1.0)
 
-    RightToeBaseSz = DoubleField()
+    RightToeBaseSz = DoubleField(default_value=1.0)
 
 
 class RightToeBaseSField(
@@ -2379,11 +2379,11 @@ class RightToeBaseSField(
     ATTR_CLS = RightToeBaseSAttrOperator
     PLUG_CLS = RightToeBaseSPlugOperator
 
-    RightToeBaseSx = DoubleField()
+    RightToeBaseSx = DoubleField(default_value=1.0)
 
-    RightToeBaseSy = DoubleField()
+    RightToeBaseSy = DoubleField(default_value=1.0)
 
-    RightToeBaseSz = DoubleField()
+    RightToeBaseSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderTPlugOperator(
@@ -2396,11 +2396,11 @@ class LeftShoulderTPlugOperator(
         ("LeftShoulderTz", "LeftShoulderTz"),
     )
 
-    LeftShoulderTx = DoubleLinearField()
+    LeftShoulderTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTy = DoubleLinearField()
+    LeftShoulderTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTz = DoubleLinearField()
+    LeftShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderTAttrOperator(
@@ -2408,11 +2408,11 @@ class LeftShoulderTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderTx = DoubleLinearField()
+    LeftShoulderTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTy = DoubleLinearField()
+    LeftShoulderTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTz = DoubleLinearField()
+    LeftShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderTField(
@@ -2423,11 +2423,11 @@ class LeftShoulderTField(
     ATTR_CLS = LeftShoulderTAttrOperator
     PLUG_CLS = LeftShoulderTPlugOperator
 
-    LeftShoulderTx = DoubleLinearField()
+    LeftShoulderTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTy = DoubleLinearField()
+    LeftShoulderTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderTz = DoubleLinearField()
+    LeftShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderRPlugOperator(
@@ -2440,11 +2440,11 @@ class LeftShoulderRPlugOperator(
         ("LeftShoulderRz", "LeftShoulderRz"),
     )
 
-    LeftShoulderRx = DoubleAngleField()
+    LeftShoulderRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRy = DoubleAngleField()
+    LeftShoulderRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRz = DoubleAngleField()
+    LeftShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderRAttrOperator(
@@ -2452,11 +2452,11 @@ class LeftShoulderRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderRx = DoubleAngleField()
+    LeftShoulderRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRy = DoubleAngleField()
+    LeftShoulderRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRz = DoubleAngleField()
+    LeftShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderRField(
@@ -2467,11 +2467,11 @@ class LeftShoulderRField(
     ATTR_CLS = LeftShoulderRAttrOperator
     PLUG_CLS = LeftShoulderRPlugOperator
 
-    LeftShoulderRx = DoubleAngleField()
+    LeftShoulderRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRy = DoubleAngleField()
+    LeftShoulderRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderRz = DoubleAngleField()
+    LeftShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderSPlugOperator(
@@ -2484,11 +2484,11 @@ class LeftShoulderSPlugOperator(
         ("LeftShoulderSz", "LeftShoulderSz"),
     )
 
-    LeftShoulderSx = DoubleField()
+    LeftShoulderSx = DoubleField(default_value=1.0)
 
-    LeftShoulderSy = DoubleField()
+    LeftShoulderSy = DoubleField(default_value=1.0)
 
-    LeftShoulderSz = DoubleField()
+    LeftShoulderSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderSAttrOperator(
@@ -2496,11 +2496,11 @@ class LeftShoulderSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderSx = DoubleField()
+    LeftShoulderSx = DoubleField(default_value=1.0)
 
-    LeftShoulderSy = DoubleField()
+    LeftShoulderSy = DoubleField(default_value=1.0)
 
-    LeftShoulderSz = DoubleField()
+    LeftShoulderSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderSField(
@@ -2511,11 +2511,11 @@ class LeftShoulderSField(
     ATTR_CLS = LeftShoulderSAttrOperator
     PLUG_CLS = LeftShoulderSPlugOperator
 
-    LeftShoulderSx = DoubleField()
+    LeftShoulderSx = DoubleField(default_value=1.0)
 
-    LeftShoulderSy = DoubleField()
+    LeftShoulderSy = DoubleField(default_value=1.0)
 
-    LeftShoulderSz = DoubleField()
+    LeftShoulderSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderTPlugOperator(
@@ -2528,11 +2528,11 @@ class RightShoulderTPlugOperator(
         ("RightShoulderTz", "RightShoulderTz"),
     )
 
-    RightShoulderTx = DoubleLinearField()
+    RightShoulderTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTy = DoubleLinearField()
+    RightShoulderTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTz = DoubleLinearField()
+    RightShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderTAttrOperator(
@@ -2540,11 +2540,11 @@ class RightShoulderTAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderTx = DoubleLinearField()
+    RightShoulderTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTy = DoubleLinearField()
+    RightShoulderTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTz = DoubleLinearField()
+    RightShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderTField(
@@ -2555,11 +2555,11 @@ class RightShoulderTField(
     ATTR_CLS = RightShoulderTAttrOperator
     PLUG_CLS = RightShoulderTPlugOperator
 
-    RightShoulderTx = DoubleLinearField()
+    RightShoulderTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTy = DoubleLinearField()
+    RightShoulderTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderTz = DoubleLinearField()
+    RightShoulderTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderRPlugOperator(
@@ -2572,11 +2572,11 @@ class RightShoulderRPlugOperator(
         ("RightShoulderRz", "RightShoulderRz"),
     )
 
-    RightShoulderRx = DoubleAngleField()
+    RightShoulderRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRy = DoubleAngleField()
+    RightShoulderRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRz = DoubleAngleField()
+    RightShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderRAttrOperator(
@@ -2584,11 +2584,11 @@ class RightShoulderRAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderRx = DoubleAngleField()
+    RightShoulderRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRy = DoubleAngleField()
+    RightShoulderRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRz = DoubleAngleField()
+    RightShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderRField(
@@ -2599,11 +2599,11 @@ class RightShoulderRField(
     ATTR_CLS = RightShoulderRAttrOperator
     PLUG_CLS = RightShoulderRPlugOperator
 
-    RightShoulderRx = DoubleAngleField()
+    RightShoulderRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRy = DoubleAngleField()
+    RightShoulderRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderRz = DoubleAngleField()
+    RightShoulderRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderSPlugOperator(
@@ -2616,11 +2616,11 @@ class RightShoulderSPlugOperator(
         ("RightShoulderSz", "RightShoulderSz"),
     )
 
-    RightShoulderSx = DoubleField()
+    RightShoulderSx = DoubleField(default_value=1.0)
 
-    RightShoulderSy = DoubleField()
+    RightShoulderSy = DoubleField(default_value=1.0)
 
-    RightShoulderSz = DoubleField()
+    RightShoulderSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderSAttrOperator(
@@ -2628,11 +2628,11 @@ class RightShoulderSAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderSx = DoubleField()
+    RightShoulderSx = DoubleField(default_value=1.0)
 
-    RightShoulderSy = DoubleField()
+    RightShoulderSy = DoubleField(default_value=1.0)
 
-    RightShoulderSz = DoubleField()
+    RightShoulderSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderSField(
@@ -2643,11 +2643,11 @@ class RightShoulderSField(
     ATTR_CLS = RightShoulderSAttrOperator
     PLUG_CLS = RightShoulderSPlugOperator
 
-    RightShoulderSx = DoubleField()
+    RightShoulderSx = DoubleField(default_value=1.0)
 
-    RightShoulderSy = DoubleField()
+    RightShoulderSy = DoubleField(default_value=1.0)
 
-    RightShoulderSz = DoubleField()
+    RightShoulderSz = DoubleField(default_value=1.0)
 
 
 class NeckTPlugOperator(
@@ -2660,11 +2660,11 @@ class NeckTPlugOperator(
         ("NeckTz", "NeckTz"),
     )
 
-    NeckTx = DoubleLinearField()
+    NeckTx = DoubleLinearField(default_value=0.0)
 
-    NeckTy = DoubleLinearField()
+    NeckTy = DoubleLinearField(default_value=0.0)
 
-    NeckTz = DoubleLinearField()
+    NeckTz = DoubleLinearField(default_value=0.0)
 
 
 class NeckTAttrOperator(
@@ -2672,11 +2672,11 @@ class NeckTAttrOperator(
 ):
     __slots__ = ()
 
-    NeckTx = DoubleLinearField()
+    NeckTx = DoubleLinearField(default_value=0.0)
 
-    NeckTy = DoubleLinearField()
+    NeckTy = DoubleLinearField(default_value=0.0)
 
-    NeckTz = DoubleLinearField()
+    NeckTz = DoubleLinearField(default_value=0.0)
 
 
 class NeckTField(
@@ -2687,11 +2687,11 @@ class NeckTField(
     ATTR_CLS = NeckTAttrOperator
     PLUG_CLS = NeckTPlugOperator
 
-    NeckTx = DoubleLinearField()
+    NeckTx = DoubleLinearField(default_value=0.0)
 
-    NeckTy = DoubleLinearField()
+    NeckTy = DoubleLinearField(default_value=0.0)
 
-    NeckTz = DoubleLinearField()
+    NeckTz = DoubleLinearField(default_value=0.0)
 
 
 class NeckRPlugOperator(
@@ -2704,11 +2704,11 @@ class NeckRPlugOperator(
         ("NeckRz", "NeckRz"),
     )
 
-    NeckRx = DoubleAngleField()
+    NeckRx = DoubleAngleField(default_value=0.0)
 
-    NeckRy = DoubleAngleField()
+    NeckRy = DoubleAngleField(default_value=0.0)
 
-    NeckRz = DoubleAngleField()
+    NeckRz = DoubleAngleField(default_value=0.0)
 
 
 class NeckRAttrOperator(
@@ -2716,11 +2716,11 @@ class NeckRAttrOperator(
 ):
     __slots__ = ()
 
-    NeckRx = DoubleAngleField()
+    NeckRx = DoubleAngleField(default_value=0.0)
 
-    NeckRy = DoubleAngleField()
+    NeckRy = DoubleAngleField(default_value=0.0)
 
-    NeckRz = DoubleAngleField()
+    NeckRz = DoubleAngleField(default_value=0.0)
 
 
 class NeckRField(
@@ -2731,11 +2731,11 @@ class NeckRField(
     ATTR_CLS = NeckRAttrOperator
     PLUG_CLS = NeckRPlugOperator
 
-    NeckRx = DoubleAngleField()
+    NeckRx = DoubleAngleField(default_value=0.0)
 
-    NeckRy = DoubleAngleField()
+    NeckRy = DoubleAngleField(default_value=0.0)
 
-    NeckRz = DoubleAngleField()
+    NeckRz = DoubleAngleField(default_value=0.0)
 
 
 class NeckSPlugOperator(
@@ -2748,11 +2748,11 @@ class NeckSPlugOperator(
         ("NeckSz", "NeckSz"),
     )
 
-    NeckSx = DoubleField()
+    NeckSx = DoubleField(default_value=1.0)
 
-    NeckSy = DoubleField()
+    NeckSy = DoubleField(default_value=1.0)
 
-    NeckSz = DoubleField()
+    NeckSz = DoubleField(default_value=1.0)
 
 
 class NeckSAttrOperator(
@@ -2760,11 +2760,11 @@ class NeckSAttrOperator(
 ):
     __slots__ = ()
 
-    NeckSx = DoubleField()
+    NeckSx = DoubleField(default_value=1.0)
 
-    NeckSy = DoubleField()
+    NeckSy = DoubleField(default_value=1.0)
 
-    NeckSz = DoubleField()
+    NeckSz = DoubleField(default_value=1.0)
 
 
 class NeckSField(
@@ -2775,11 +2775,11 @@ class NeckSField(
     ATTR_CLS = NeckSAttrOperator
     PLUG_CLS = NeckSPlugOperator
 
-    NeckSx = DoubleField()
+    NeckSx = DoubleField(default_value=1.0)
 
-    NeckSy = DoubleField()
+    NeckSy = DoubleField(default_value=1.0)
 
-    NeckSz = DoubleField()
+    NeckSz = DoubleField(default_value=1.0)
 
 
 class LeftFingerBaseTPlugOperator(
@@ -2792,11 +2792,11 @@ class LeftFingerBaseTPlugOperator(
         ("LeftFingerBaseTz", "LeftFingerBaseTz"),
     )
 
-    LeftFingerBaseTx = DoubleLinearField()
+    LeftFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTy = DoubleLinearField()
+    LeftFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTz = DoubleLinearField()
+    LeftFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFingerBaseTAttrOperator(
@@ -2804,11 +2804,11 @@ class LeftFingerBaseTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFingerBaseTx = DoubleLinearField()
+    LeftFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTy = DoubleLinearField()
+    LeftFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTz = DoubleLinearField()
+    LeftFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFingerBaseTField(
@@ -2819,11 +2819,11 @@ class LeftFingerBaseTField(
     ATTR_CLS = LeftFingerBaseTAttrOperator
     PLUG_CLS = LeftFingerBaseTPlugOperator
 
-    LeftFingerBaseTx = DoubleLinearField()
+    LeftFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTy = DoubleLinearField()
+    LeftFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    LeftFingerBaseTz = DoubleLinearField()
+    LeftFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFingerBaseRPlugOperator(
@@ -2836,11 +2836,11 @@ class LeftFingerBaseRPlugOperator(
         ("LeftFingerBaseRz", "LeftFingerBaseRz"),
     )
 
-    LeftFingerBaseRx = DoubleAngleField()
+    LeftFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRy = DoubleAngleField()
+    LeftFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRz = DoubleAngleField()
+    LeftFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFingerBaseRAttrOperator(
@@ -2848,11 +2848,11 @@ class LeftFingerBaseRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFingerBaseRx = DoubleAngleField()
+    LeftFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRy = DoubleAngleField()
+    LeftFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRz = DoubleAngleField()
+    LeftFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFingerBaseRField(
@@ -2863,11 +2863,11 @@ class LeftFingerBaseRField(
     ATTR_CLS = LeftFingerBaseRAttrOperator
     PLUG_CLS = LeftFingerBaseRPlugOperator
 
-    LeftFingerBaseRx = DoubleAngleField()
+    LeftFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRy = DoubleAngleField()
+    LeftFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    LeftFingerBaseRz = DoubleAngleField()
+    LeftFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFingerBaseSPlugOperator(
@@ -2880,11 +2880,11 @@ class LeftFingerBaseSPlugOperator(
         ("LeftFingerBaseSz", "LeftFingerBaseSz"),
     )
 
-    LeftFingerBaseSx = DoubleField()
+    LeftFingerBaseSx = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSy = DoubleField()
+    LeftFingerBaseSy = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSz = DoubleField()
+    LeftFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class LeftFingerBaseSAttrOperator(
@@ -2892,11 +2892,11 @@ class LeftFingerBaseSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFingerBaseSx = DoubleField()
+    LeftFingerBaseSx = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSy = DoubleField()
+    LeftFingerBaseSy = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSz = DoubleField()
+    LeftFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class LeftFingerBaseSField(
@@ -2907,11 +2907,11 @@ class LeftFingerBaseSField(
     ATTR_CLS = LeftFingerBaseSAttrOperator
     PLUG_CLS = LeftFingerBaseSPlugOperator
 
-    LeftFingerBaseSx = DoubleField()
+    LeftFingerBaseSx = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSy = DoubleField()
+    LeftFingerBaseSy = DoubleField(default_value=1.0)
 
-    LeftFingerBaseSz = DoubleField()
+    LeftFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class RightFingerBaseTPlugOperator(
@@ -2924,11 +2924,11 @@ class RightFingerBaseTPlugOperator(
         ("RightFingerBaseTz", "RightFingerBaseTz"),
     )
 
-    RightFingerBaseTx = DoubleLinearField()
+    RightFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTy = DoubleLinearField()
+    RightFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTz = DoubleLinearField()
+    RightFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFingerBaseTAttrOperator(
@@ -2936,11 +2936,11 @@ class RightFingerBaseTAttrOperator(
 ):
     __slots__ = ()
 
-    RightFingerBaseTx = DoubleLinearField()
+    RightFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTy = DoubleLinearField()
+    RightFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTz = DoubleLinearField()
+    RightFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFingerBaseTField(
@@ -2951,11 +2951,11 @@ class RightFingerBaseTField(
     ATTR_CLS = RightFingerBaseTAttrOperator
     PLUG_CLS = RightFingerBaseTPlugOperator
 
-    RightFingerBaseTx = DoubleLinearField()
+    RightFingerBaseTx = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTy = DoubleLinearField()
+    RightFingerBaseTy = DoubleLinearField(default_value=0.0)
 
-    RightFingerBaseTz = DoubleLinearField()
+    RightFingerBaseTz = DoubleLinearField(default_value=0.0)
 
 
 class RightFingerBaseRPlugOperator(
@@ -2968,11 +2968,11 @@ class RightFingerBaseRPlugOperator(
         ("RightFingerBaseRz", "RightFingerBaseRz"),
     )
 
-    RightFingerBaseRx = DoubleAngleField()
+    RightFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRy = DoubleAngleField()
+    RightFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRz = DoubleAngleField()
+    RightFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFingerBaseRAttrOperator(
@@ -2980,11 +2980,11 @@ class RightFingerBaseRAttrOperator(
 ):
     __slots__ = ()
 
-    RightFingerBaseRx = DoubleAngleField()
+    RightFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRy = DoubleAngleField()
+    RightFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRz = DoubleAngleField()
+    RightFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFingerBaseRField(
@@ -2995,11 +2995,11 @@ class RightFingerBaseRField(
     ATTR_CLS = RightFingerBaseRAttrOperator
     PLUG_CLS = RightFingerBaseRPlugOperator
 
-    RightFingerBaseRx = DoubleAngleField()
+    RightFingerBaseRx = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRy = DoubleAngleField()
+    RightFingerBaseRy = DoubleAngleField(default_value=0.0)
 
-    RightFingerBaseRz = DoubleAngleField()
+    RightFingerBaseRz = DoubleAngleField(default_value=0.0)
 
 
 class RightFingerBaseSPlugOperator(
@@ -3012,11 +3012,11 @@ class RightFingerBaseSPlugOperator(
         ("RightFingerBaseSz", "RightFingerBaseSz"),
     )
 
-    RightFingerBaseSx = DoubleField()
+    RightFingerBaseSx = DoubleField(default_value=1.0)
 
-    RightFingerBaseSy = DoubleField()
+    RightFingerBaseSy = DoubleField(default_value=1.0)
 
-    RightFingerBaseSz = DoubleField()
+    RightFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class RightFingerBaseSAttrOperator(
@@ -3024,11 +3024,11 @@ class RightFingerBaseSAttrOperator(
 ):
     __slots__ = ()
 
-    RightFingerBaseSx = DoubleField()
+    RightFingerBaseSx = DoubleField(default_value=1.0)
 
-    RightFingerBaseSy = DoubleField()
+    RightFingerBaseSy = DoubleField(default_value=1.0)
 
-    RightFingerBaseSz = DoubleField()
+    RightFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class RightFingerBaseSField(
@@ -3039,11 +3039,11 @@ class RightFingerBaseSField(
     ATTR_CLS = RightFingerBaseSAttrOperator
     PLUG_CLS = RightFingerBaseSPlugOperator
 
-    RightFingerBaseSx = DoubleField()
+    RightFingerBaseSx = DoubleField(default_value=1.0)
 
-    RightFingerBaseSy = DoubleField()
+    RightFingerBaseSy = DoubleField(default_value=1.0)
 
-    RightFingerBaseSz = DoubleField()
+    RightFingerBaseSz = DoubleField(default_value=1.0)
 
 
 class Spine1TPlugOperator(
@@ -3056,11 +3056,11 @@ class Spine1TPlugOperator(
         ("Spine1Tz", "Spine1Tz"),
     )
 
-    Spine1Tx = DoubleLinearField()
+    Spine1Tx = DoubleLinearField(default_value=0.0)
 
-    Spine1Ty = DoubleLinearField()
+    Spine1Ty = DoubleLinearField(default_value=0.0)
 
-    Spine1Tz = DoubleLinearField()
+    Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine1TAttrOperator(
@@ -3068,11 +3068,11 @@ class Spine1TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine1Tx = DoubleLinearField()
+    Spine1Tx = DoubleLinearField(default_value=0.0)
 
-    Spine1Ty = DoubleLinearField()
+    Spine1Ty = DoubleLinearField(default_value=0.0)
 
-    Spine1Tz = DoubleLinearField()
+    Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine1TField(
@@ -3083,11 +3083,11 @@ class Spine1TField(
     ATTR_CLS = Spine1TAttrOperator
     PLUG_CLS = Spine1TPlugOperator
 
-    Spine1Tx = DoubleLinearField()
+    Spine1Tx = DoubleLinearField(default_value=0.0)
 
-    Spine1Ty = DoubleLinearField()
+    Spine1Ty = DoubleLinearField(default_value=0.0)
 
-    Spine1Tz = DoubleLinearField()
+    Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine1RPlugOperator(
@@ -3100,11 +3100,11 @@ class Spine1RPlugOperator(
         ("Spine1Rz", "Spine1Rz"),
     )
 
-    Spine1Rx = DoubleAngleField()
+    Spine1Rx = DoubleAngleField(default_value=0.0)
 
-    Spine1Ry = DoubleAngleField()
+    Spine1Ry = DoubleAngleField(default_value=0.0)
 
-    Spine1Rz = DoubleAngleField()
+    Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine1RAttrOperator(
@@ -3112,11 +3112,11 @@ class Spine1RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine1Rx = DoubleAngleField()
+    Spine1Rx = DoubleAngleField(default_value=0.0)
 
-    Spine1Ry = DoubleAngleField()
+    Spine1Ry = DoubleAngleField(default_value=0.0)
 
-    Spine1Rz = DoubleAngleField()
+    Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine1RField(
@@ -3127,11 +3127,11 @@ class Spine1RField(
     ATTR_CLS = Spine1RAttrOperator
     PLUG_CLS = Spine1RPlugOperator
 
-    Spine1Rx = DoubleAngleField()
+    Spine1Rx = DoubleAngleField(default_value=0.0)
 
-    Spine1Ry = DoubleAngleField()
+    Spine1Ry = DoubleAngleField(default_value=0.0)
 
-    Spine1Rz = DoubleAngleField()
+    Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine1SPlugOperator(
@@ -3144,11 +3144,11 @@ class Spine1SPlugOperator(
         ("Spine1Sz", "Spine1Sz"),
     )
 
-    Spine1Sx = DoubleField()
+    Spine1Sx = DoubleField(default_value=1.0)
 
-    Spine1Sy = DoubleField()
+    Spine1Sy = DoubleField(default_value=1.0)
 
-    Spine1Sz = DoubleField()
+    Spine1Sz = DoubleField(default_value=1.0)
 
 
 class Spine1SAttrOperator(
@@ -3156,11 +3156,11 @@ class Spine1SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine1Sx = DoubleField()
+    Spine1Sx = DoubleField(default_value=1.0)
 
-    Spine1Sy = DoubleField()
+    Spine1Sy = DoubleField(default_value=1.0)
 
-    Spine1Sz = DoubleField()
+    Spine1Sz = DoubleField(default_value=1.0)
 
 
 class Spine1SField(
@@ -3171,11 +3171,11 @@ class Spine1SField(
     ATTR_CLS = Spine1SAttrOperator
     PLUG_CLS = Spine1SPlugOperator
 
-    Spine1Sx = DoubleField()
+    Spine1Sx = DoubleField(default_value=1.0)
 
-    Spine1Sy = DoubleField()
+    Spine1Sy = DoubleField(default_value=1.0)
 
-    Spine1Sz = DoubleField()
+    Spine1Sz = DoubleField(default_value=1.0)
 
 
 class Spine2TPlugOperator(
@@ -3188,11 +3188,11 @@ class Spine2TPlugOperator(
         ("Spine2Tz", "Spine2Tz"),
     )
 
-    Spine2Tx = DoubleLinearField()
+    Spine2Tx = DoubleLinearField(default_value=0.0)
 
-    Spine2Ty = DoubleLinearField()
+    Spine2Ty = DoubleLinearField(default_value=0.0)
 
-    Spine2Tz = DoubleLinearField()
+    Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine2TAttrOperator(
@@ -3200,11 +3200,11 @@ class Spine2TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine2Tx = DoubleLinearField()
+    Spine2Tx = DoubleLinearField(default_value=0.0)
 
-    Spine2Ty = DoubleLinearField()
+    Spine2Ty = DoubleLinearField(default_value=0.0)
 
-    Spine2Tz = DoubleLinearField()
+    Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine2TField(
@@ -3215,11 +3215,11 @@ class Spine2TField(
     ATTR_CLS = Spine2TAttrOperator
     PLUG_CLS = Spine2TPlugOperator
 
-    Spine2Tx = DoubleLinearField()
+    Spine2Tx = DoubleLinearField(default_value=0.0)
 
-    Spine2Ty = DoubleLinearField()
+    Spine2Ty = DoubleLinearField(default_value=0.0)
 
-    Spine2Tz = DoubleLinearField()
+    Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine2RPlugOperator(
@@ -3232,11 +3232,11 @@ class Spine2RPlugOperator(
         ("Spine2Rz", "Spine2Rz"),
     )
 
-    Spine2Rx = DoubleAngleField()
+    Spine2Rx = DoubleAngleField(default_value=0.0)
 
-    Spine2Ry = DoubleAngleField()
+    Spine2Ry = DoubleAngleField(default_value=0.0)
 
-    Spine2Rz = DoubleAngleField()
+    Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine2RAttrOperator(
@@ -3244,11 +3244,11 @@ class Spine2RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine2Rx = DoubleAngleField()
+    Spine2Rx = DoubleAngleField(default_value=0.0)
 
-    Spine2Ry = DoubleAngleField()
+    Spine2Ry = DoubleAngleField(default_value=0.0)
 
-    Spine2Rz = DoubleAngleField()
+    Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine2RField(
@@ -3259,11 +3259,11 @@ class Spine2RField(
     ATTR_CLS = Spine2RAttrOperator
     PLUG_CLS = Spine2RPlugOperator
 
-    Spine2Rx = DoubleAngleField()
+    Spine2Rx = DoubleAngleField(default_value=0.0)
 
-    Spine2Ry = DoubleAngleField()
+    Spine2Ry = DoubleAngleField(default_value=0.0)
 
-    Spine2Rz = DoubleAngleField()
+    Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine2SPlugOperator(
@@ -3276,11 +3276,11 @@ class Spine2SPlugOperator(
         ("Spine2Sz", "Spine2Sz"),
     )
 
-    Spine2Sx = DoubleField()
+    Spine2Sx = DoubleField(default_value=1.0)
 
-    Spine2Sy = DoubleField()
+    Spine2Sy = DoubleField(default_value=1.0)
 
-    Spine2Sz = DoubleField()
+    Spine2Sz = DoubleField(default_value=1.0)
 
 
 class Spine2SAttrOperator(
@@ -3288,11 +3288,11 @@ class Spine2SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine2Sx = DoubleField()
+    Spine2Sx = DoubleField(default_value=1.0)
 
-    Spine2Sy = DoubleField()
+    Spine2Sy = DoubleField(default_value=1.0)
 
-    Spine2Sz = DoubleField()
+    Spine2Sz = DoubleField(default_value=1.0)
 
 
 class Spine2SField(
@@ -3303,11 +3303,11 @@ class Spine2SField(
     ATTR_CLS = Spine2SAttrOperator
     PLUG_CLS = Spine2SPlugOperator
 
-    Spine2Sx = DoubleField()
+    Spine2Sx = DoubleField(default_value=1.0)
 
-    Spine2Sy = DoubleField()
+    Spine2Sy = DoubleField(default_value=1.0)
 
-    Spine2Sz = DoubleField()
+    Spine2Sz = DoubleField(default_value=1.0)
 
 
 class Spine3TPlugOperator(
@@ -3320,11 +3320,11 @@ class Spine3TPlugOperator(
         ("Spine3Tz", "Spine3Tz"),
     )
 
-    Spine3Tx = DoubleLinearField()
+    Spine3Tx = DoubleLinearField(default_value=0.0)
 
-    Spine3Ty = DoubleLinearField()
+    Spine3Ty = DoubleLinearField(default_value=0.0)
 
-    Spine3Tz = DoubleLinearField()
+    Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine3TAttrOperator(
@@ -3332,11 +3332,11 @@ class Spine3TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine3Tx = DoubleLinearField()
+    Spine3Tx = DoubleLinearField(default_value=0.0)
 
-    Spine3Ty = DoubleLinearField()
+    Spine3Ty = DoubleLinearField(default_value=0.0)
 
-    Spine3Tz = DoubleLinearField()
+    Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine3TField(
@@ -3347,11 +3347,11 @@ class Spine3TField(
     ATTR_CLS = Spine3TAttrOperator
     PLUG_CLS = Spine3TPlugOperator
 
-    Spine3Tx = DoubleLinearField()
+    Spine3Tx = DoubleLinearField(default_value=0.0)
 
-    Spine3Ty = DoubleLinearField()
+    Spine3Ty = DoubleLinearField(default_value=0.0)
 
-    Spine3Tz = DoubleLinearField()
+    Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine3RPlugOperator(
@@ -3364,11 +3364,11 @@ class Spine3RPlugOperator(
         ("Spine3Rz", "Spine3Rz"),
     )
 
-    Spine3Rx = DoubleAngleField()
+    Spine3Rx = DoubleAngleField(default_value=0.0)
 
-    Spine3Ry = DoubleAngleField()
+    Spine3Ry = DoubleAngleField(default_value=0.0)
 
-    Spine3Rz = DoubleAngleField()
+    Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine3RAttrOperator(
@@ -3376,11 +3376,11 @@ class Spine3RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine3Rx = DoubleAngleField()
+    Spine3Rx = DoubleAngleField(default_value=0.0)
 
-    Spine3Ry = DoubleAngleField()
+    Spine3Ry = DoubleAngleField(default_value=0.0)
 
-    Spine3Rz = DoubleAngleField()
+    Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine3RField(
@@ -3391,11 +3391,11 @@ class Spine3RField(
     ATTR_CLS = Spine3RAttrOperator
     PLUG_CLS = Spine3RPlugOperator
 
-    Spine3Rx = DoubleAngleField()
+    Spine3Rx = DoubleAngleField(default_value=0.0)
 
-    Spine3Ry = DoubleAngleField()
+    Spine3Ry = DoubleAngleField(default_value=0.0)
 
-    Spine3Rz = DoubleAngleField()
+    Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine3SPlugOperator(
@@ -3408,11 +3408,11 @@ class Spine3SPlugOperator(
         ("Spine3Sz", "Spine3Sz"),
     )
 
-    Spine3Sx = DoubleField()
+    Spine3Sx = DoubleField(default_value=1.0)
 
-    Spine3Sy = DoubleField()
+    Spine3Sy = DoubleField(default_value=1.0)
 
-    Spine3Sz = DoubleField()
+    Spine3Sz = DoubleField(default_value=1.0)
 
 
 class Spine3SAttrOperator(
@@ -3420,11 +3420,11 @@ class Spine3SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine3Sx = DoubleField()
+    Spine3Sx = DoubleField(default_value=1.0)
 
-    Spine3Sy = DoubleField()
+    Spine3Sy = DoubleField(default_value=1.0)
 
-    Spine3Sz = DoubleField()
+    Spine3Sz = DoubleField(default_value=1.0)
 
 
 class Spine3SField(
@@ -3435,11 +3435,11 @@ class Spine3SField(
     ATTR_CLS = Spine3SAttrOperator
     PLUG_CLS = Spine3SPlugOperator
 
-    Spine3Sx = DoubleField()
+    Spine3Sx = DoubleField(default_value=1.0)
 
-    Spine3Sy = DoubleField()
+    Spine3Sy = DoubleField(default_value=1.0)
 
-    Spine3Sz = DoubleField()
+    Spine3Sz = DoubleField(default_value=1.0)
 
 
 class Spine4TPlugOperator(
@@ -3452,11 +3452,11 @@ class Spine4TPlugOperator(
         ("Spine4Tz", "Spine4Tz"),
     )
 
-    Spine4Tx = DoubleLinearField()
+    Spine4Tx = DoubleLinearField(default_value=0.0)
 
-    Spine4Ty = DoubleLinearField()
+    Spine4Ty = DoubleLinearField(default_value=0.0)
 
-    Spine4Tz = DoubleLinearField()
+    Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine4TAttrOperator(
@@ -3464,11 +3464,11 @@ class Spine4TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine4Tx = DoubleLinearField()
+    Spine4Tx = DoubleLinearField(default_value=0.0)
 
-    Spine4Ty = DoubleLinearField()
+    Spine4Ty = DoubleLinearField(default_value=0.0)
 
-    Spine4Tz = DoubleLinearField()
+    Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine4TField(
@@ -3479,11 +3479,11 @@ class Spine4TField(
     ATTR_CLS = Spine4TAttrOperator
     PLUG_CLS = Spine4TPlugOperator
 
-    Spine4Tx = DoubleLinearField()
+    Spine4Tx = DoubleLinearField(default_value=0.0)
 
-    Spine4Ty = DoubleLinearField()
+    Spine4Ty = DoubleLinearField(default_value=0.0)
 
-    Spine4Tz = DoubleLinearField()
+    Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine4RPlugOperator(
@@ -3496,11 +3496,11 @@ class Spine4RPlugOperator(
         ("Spine4Rz", "Spine4Rz"),
     )
 
-    Spine4Rx = DoubleAngleField()
+    Spine4Rx = DoubleAngleField(default_value=0.0)
 
-    Spine4Ry = DoubleAngleField()
+    Spine4Ry = DoubleAngleField(default_value=0.0)
 
-    Spine4Rz = DoubleAngleField()
+    Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine4RAttrOperator(
@@ -3508,11 +3508,11 @@ class Spine4RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine4Rx = DoubleAngleField()
+    Spine4Rx = DoubleAngleField(default_value=0.0)
 
-    Spine4Ry = DoubleAngleField()
+    Spine4Ry = DoubleAngleField(default_value=0.0)
 
-    Spine4Rz = DoubleAngleField()
+    Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine4RField(
@@ -3523,11 +3523,11 @@ class Spine4RField(
     ATTR_CLS = Spine4RAttrOperator
     PLUG_CLS = Spine4RPlugOperator
 
-    Spine4Rx = DoubleAngleField()
+    Spine4Rx = DoubleAngleField(default_value=0.0)
 
-    Spine4Ry = DoubleAngleField()
+    Spine4Ry = DoubleAngleField(default_value=0.0)
 
-    Spine4Rz = DoubleAngleField()
+    Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine4SPlugOperator(
@@ -3540,11 +3540,11 @@ class Spine4SPlugOperator(
         ("Spine4Sz", "Spine4Sz"),
     )
 
-    Spine4Sx = DoubleField()
+    Spine4Sx = DoubleField(default_value=1.0)
 
-    Spine4Sy = DoubleField()
+    Spine4Sy = DoubleField(default_value=1.0)
 
-    Spine4Sz = DoubleField()
+    Spine4Sz = DoubleField(default_value=1.0)
 
 
 class Spine4SAttrOperator(
@@ -3552,11 +3552,11 @@ class Spine4SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine4Sx = DoubleField()
+    Spine4Sx = DoubleField(default_value=1.0)
 
-    Spine4Sy = DoubleField()
+    Spine4Sy = DoubleField(default_value=1.0)
 
-    Spine4Sz = DoubleField()
+    Spine4Sz = DoubleField(default_value=1.0)
 
 
 class Spine4SField(
@@ -3567,11 +3567,11 @@ class Spine4SField(
     ATTR_CLS = Spine4SAttrOperator
     PLUG_CLS = Spine4SPlugOperator
 
-    Spine4Sx = DoubleField()
+    Spine4Sx = DoubleField(default_value=1.0)
 
-    Spine4Sy = DoubleField()
+    Spine4Sy = DoubleField(default_value=1.0)
 
-    Spine4Sz = DoubleField()
+    Spine4Sz = DoubleField(default_value=1.0)
 
 
 class Spine5TPlugOperator(
@@ -3584,11 +3584,11 @@ class Spine5TPlugOperator(
         ("Spine5Tz", "Spine5Tz"),
     )
 
-    Spine5Tx = DoubleLinearField()
+    Spine5Tx = DoubleLinearField(default_value=0.0)
 
-    Spine5Ty = DoubleLinearField()
+    Spine5Ty = DoubleLinearField(default_value=0.0)
 
-    Spine5Tz = DoubleLinearField()
+    Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine5TAttrOperator(
@@ -3596,11 +3596,11 @@ class Spine5TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine5Tx = DoubleLinearField()
+    Spine5Tx = DoubleLinearField(default_value=0.0)
 
-    Spine5Ty = DoubleLinearField()
+    Spine5Ty = DoubleLinearField(default_value=0.0)
 
-    Spine5Tz = DoubleLinearField()
+    Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine5TField(
@@ -3611,11 +3611,11 @@ class Spine5TField(
     ATTR_CLS = Spine5TAttrOperator
     PLUG_CLS = Spine5TPlugOperator
 
-    Spine5Tx = DoubleLinearField()
+    Spine5Tx = DoubleLinearField(default_value=0.0)
 
-    Spine5Ty = DoubleLinearField()
+    Spine5Ty = DoubleLinearField(default_value=0.0)
 
-    Spine5Tz = DoubleLinearField()
+    Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine5RPlugOperator(
@@ -3628,11 +3628,11 @@ class Spine5RPlugOperator(
         ("Spine5Rz", "Spine5Rz"),
     )
 
-    Spine5Rx = DoubleAngleField()
+    Spine5Rx = DoubleAngleField(default_value=0.0)
 
-    Spine5Ry = DoubleAngleField()
+    Spine5Ry = DoubleAngleField(default_value=0.0)
 
-    Spine5Rz = DoubleAngleField()
+    Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine5RAttrOperator(
@@ -3640,11 +3640,11 @@ class Spine5RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine5Rx = DoubleAngleField()
+    Spine5Rx = DoubleAngleField(default_value=0.0)
 
-    Spine5Ry = DoubleAngleField()
+    Spine5Ry = DoubleAngleField(default_value=0.0)
 
-    Spine5Rz = DoubleAngleField()
+    Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine5RField(
@@ -3655,11 +3655,11 @@ class Spine5RField(
     ATTR_CLS = Spine5RAttrOperator
     PLUG_CLS = Spine5RPlugOperator
 
-    Spine5Rx = DoubleAngleField()
+    Spine5Rx = DoubleAngleField(default_value=0.0)
 
-    Spine5Ry = DoubleAngleField()
+    Spine5Ry = DoubleAngleField(default_value=0.0)
 
-    Spine5Rz = DoubleAngleField()
+    Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine5SPlugOperator(
@@ -3672,11 +3672,11 @@ class Spine5SPlugOperator(
         ("Spine5Sz", "Spine5Sz"),
     )
 
-    Spine5Sx = DoubleField()
+    Spine5Sx = DoubleField(default_value=1.0)
 
-    Spine5Sy = DoubleField()
+    Spine5Sy = DoubleField(default_value=1.0)
 
-    Spine5Sz = DoubleField()
+    Spine5Sz = DoubleField(default_value=1.0)
 
 
 class Spine5SAttrOperator(
@@ -3684,11 +3684,11 @@ class Spine5SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine5Sx = DoubleField()
+    Spine5Sx = DoubleField(default_value=1.0)
 
-    Spine5Sy = DoubleField()
+    Spine5Sy = DoubleField(default_value=1.0)
 
-    Spine5Sz = DoubleField()
+    Spine5Sz = DoubleField(default_value=1.0)
 
 
 class Spine5SField(
@@ -3699,11 +3699,11 @@ class Spine5SField(
     ATTR_CLS = Spine5SAttrOperator
     PLUG_CLS = Spine5SPlugOperator
 
-    Spine5Sx = DoubleField()
+    Spine5Sx = DoubleField(default_value=1.0)
 
-    Spine5Sy = DoubleField()
+    Spine5Sy = DoubleField(default_value=1.0)
 
-    Spine5Sz = DoubleField()
+    Spine5Sz = DoubleField(default_value=1.0)
 
 
 class Spine6TPlugOperator(
@@ -3716,11 +3716,11 @@ class Spine6TPlugOperator(
         ("Spine6Tz", "Spine6Tz"),
     )
 
-    Spine6Tx = DoubleLinearField()
+    Spine6Tx = DoubleLinearField(default_value=0.0)
 
-    Spine6Ty = DoubleLinearField()
+    Spine6Ty = DoubleLinearField(default_value=0.0)
 
-    Spine6Tz = DoubleLinearField()
+    Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine6TAttrOperator(
@@ -3728,11 +3728,11 @@ class Spine6TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine6Tx = DoubleLinearField()
+    Spine6Tx = DoubleLinearField(default_value=0.0)
 
-    Spine6Ty = DoubleLinearField()
+    Spine6Ty = DoubleLinearField(default_value=0.0)
 
-    Spine6Tz = DoubleLinearField()
+    Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine6TField(
@@ -3743,11 +3743,11 @@ class Spine6TField(
     ATTR_CLS = Spine6TAttrOperator
     PLUG_CLS = Spine6TPlugOperator
 
-    Spine6Tx = DoubleLinearField()
+    Spine6Tx = DoubleLinearField(default_value=0.0)
 
-    Spine6Ty = DoubleLinearField()
+    Spine6Ty = DoubleLinearField(default_value=0.0)
 
-    Spine6Tz = DoubleLinearField()
+    Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine6RPlugOperator(
@@ -3760,11 +3760,11 @@ class Spine6RPlugOperator(
         ("Spine6Rz", "Spine6Rz"),
     )
 
-    Spine6Rx = DoubleAngleField()
+    Spine6Rx = DoubleAngleField(default_value=0.0)
 
-    Spine6Ry = DoubleAngleField()
+    Spine6Ry = DoubleAngleField(default_value=0.0)
 
-    Spine6Rz = DoubleAngleField()
+    Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine6RAttrOperator(
@@ -3772,11 +3772,11 @@ class Spine6RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine6Rx = DoubleAngleField()
+    Spine6Rx = DoubleAngleField(default_value=0.0)
 
-    Spine6Ry = DoubleAngleField()
+    Spine6Ry = DoubleAngleField(default_value=0.0)
 
-    Spine6Rz = DoubleAngleField()
+    Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine6RField(
@@ -3787,11 +3787,11 @@ class Spine6RField(
     ATTR_CLS = Spine6RAttrOperator
     PLUG_CLS = Spine6RPlugOperator
 
-    Spine6Rx = DoubleAngleField()
+    Spine6Rx = DoubleAngleField(default_value=0.0)
 
-    Spine6Ry = DoubleAngleField()
+    Spine6Ry = DoubleAngleField(default_value=0.0)
 
-    Spine6Rz = DoubleAngleField()
+    Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine6SPlugOperator(
@@ -3804,11 +3804,11 @@ class Spine6SPlugOperator(
         ("Spine6Sz", "Spine6Sz"),
     )
 
-    Spine6Sx = DoubleField()
+    Spine6Sx = DoubleField(default_value=1.0)
 
-    Spine6Sy = DoubleField()
+    Spine6Sy = DoubleField(default_value=1.0)
 
-    Spine6Sz = DoubleField()
+    Spine6Sz = DoubleField(default_value=1.0)
 
 
 class Spine6SAttrOperator(
@@ -3816,11 +3816,11 @@ class Spine6SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine6Sx = DoubleField()
+    Spine6Sx = DoubleField(default_value=1.0)
 
-    Spine6Sy = DoubleField()
+    Spine6Sy = DoubleField(default_value=1.0)
 
-    Spine6Sz = DoubleField()
+    Spine6Sz = DoubleField(default_value=1.0)
 
 
 class Spine6SField(
@@ -3831,11 +3831,11 @@ class Spine6SField(
     ATTR_CLS = Spine6SAttrOperator
     PLUG_CLS = Spine6SPlugOperator
 
-    Spine6Sx = DoubleField()
+    Spine6Sx = DoubleField(default_value=1.0)
 
-    Spine6Sy = DoubleField()
+    Spine6Sy = DoubleField(default_value=1.0)
 
-    Spine6Sz = DoubleField()
+    Spine6Sz = DoubleField(default_value=1.0)
 
 
 class Spine7TPlugOperator(
@@ -3848,11 +3848,11 @@ class Spine7TPlugOperator(
         ("Spine7Tz", "Spine7Tz"),
     )
 
-    Spine7Tx = DoubleLinearField()
+    Spine7Tx = DoubleLinearField(default_value=0.0)
 
-    Spine7Ty = DoubleLinearField()
+    Spine7Ty = DoubleLinearField(default_value=0.0)
 
-    Spine7Tz = DoubleLinearField()
+    Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine7TAttrOperator(
@@ -3860,11 +3860,11 @@ class Spine7TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine7Tx = DoubleLinearField()
+    Spine7Tx = DoubleLinearField(default_value=0.0)
 
-    Spine7Ty = DoubleLinearField()
+    Spine7Ty = DoubleLinearField(default_value=0.0)
 
-    Spine7Tz = DoubleLinearField()
+    Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine7TField(
@@ -3875,11 +3875,11 @@ class Spine7TField(
     ATTR_CLS = Spine7TAttrOperator
     PLUG_CLS = Spine7TPlugOperator
 
-    Spine7Tx = DoubleLinearField()
+    Spine7Tx = DoubleLinearField(default_value=0.0)
 
-    Spine7Ty = DoubleLinearField()
+    Spine7Ty = DoubleLinearField(default_value=0.0)
 
-    Spine7Tz = DoubleLinearField()
+    Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine7RPlugOperator(
@@ -3892,11 +3892,11 @@ class Spine7RPlugOperator(
         ("Spine7Rz", "Spine7Rz"),
     )
 
-    Spine7Rx = DoubleAngleField()
+    Spine7Rx = DoubleAngleField(default_value=0.0)
 
-    Spine7Ry = DoubleAngleField()
+    Spine7Ry = DoubleAngleField(default_value=0.0)
 
-    Spine7Rz = DoubleAngleField()
+    Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine7RAttrOperator(
@@ -3904,11 +3904,11 @@ class Spine7RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine7Rx = DoubleAngleField()
+    Spine7Rx = DoubleAngleField(default_value=0.0)
 
-    Spine7Ry = DoubleAngleField()
+    Spine7Ry = DoubleAngleField(default_value=0.0)
 
-    Spine7Rz = DoubleAngleField()
+    Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine7RField(
@@ -3919,11 +3919,11 @@ class Spine7RField(
     ATTR_CLS = Spine7RAttrOperator
     PLUG_CLS = Spine7RPlugOperator
 
-    Spine7Rx = DoubleAngleField()
+    Spine7Rx = DoubleAngleField(default_value=0.0)
 
-    Spine7Ry = DoubleAngleField()
+    Spine7Ry = DoubleAngleField(default_value=0.0)
 
-    Spine7Rz = DoubleAngleField()
+    Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine7SPlugOperator(
@@ -3936,11 +3936,11 @@ class Spine7SPlugOperator(
         ("Spine7Sz", "Spine7Sz"),
     )
 
-    Spine7Sx = DoubleField()
+    Spine7Sx = DoubleField(default_value=1.0)
 
-    Spine7Sy = DoubleField()
+    Spine7Sy = DoubleField(default_value=1.0)
 
-    Spine7Sz = DoubleField()
+    Spine7Sz = DoubleField(default_value=1.0)
 
 
 class Spine7SAttrOperator(
@@ -3948,11 +3948,11 @@ class Spine7SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine7Sx = DoubleField()
+    Spine7Sx = DoubleField(default_value=1.0)
 
-    Spine7Sy = DoubleField()
+    Spine7Sy = DoubleField(default_value=1.0)
 
-    Spine7Sz = DoubleField()
+    Spine7Sz = DoubleField(default_value=1.0)
 
 
 class Spine7SField(
@@ -3963,11 +3963,11 @@ class Spine7SField(
     ATTR_CLS = Spine7SAttrOperator
     PLUG_CLS = Spine7SPlugOperator
 
-    Spine7Sx = DoubleField()
+    Spine7Sx = DoubleField(default_value=1.0)
 
-    Spine7Sy = DoubleField()
+    Spine7Sy = DoubleField(default_value=1.0)
 
-    Spine7Sz = DoubleField()
+    Spine7Sz = DoubleField(default_value=1.0)
 
 
 class Spine8TPlugOperator(
@@ -3980,11 +3980,11 @@ class Spine8TPlugOperator(
         ("Spine8Tz", "Spine8Tz"),
     )
 
-    Spine8Tx = DoubleLinearField()
+    Spine8Tx = DoubleLinearField(default_value=0.0)
 
-    Spine8Ty = DoubleLinearField()
+    Spine8Ty = DoubleLinearField(default_value=0.0)
 
-    Spine8Tz = DoubleLinearField()
+    Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine8TAttrOperator(
@@ -3992,11 +3992,11 @@ class Spine8TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine8Tx = DoubleLinearField()
+    Spine8Tx = DoubleLinearField(default_value=0.0)
 
-    Spine8Ty = DoubleLinearField()
+    Spine8Ty = DoubleLinearField(default_value=0.0)
 
-    Spine8Tz = DoubleLinearField()
+    Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine8TField(
@@ -4007,11 +4007,11 @@ class Spine8TField(
     ATTR_CLS = Spine8TAttrOperator
     PLUG_CLS = Spine8TPlugOperator
 
-    Spine8Tx = DoubleLinearField()
+    Spine8Tx = DoubleLinearField(default_value=0.0)
 
-    Spine8Ty = DoubleLinearField()
+    Spine8Ty = DoubleLinearField(default_value=0.0)
 
-    Spine8Tz = DoubleLinearField()
+    Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine8RPlugOperator(
@@ -4024,11 +4024,11 @@ class Spine8RPlugOperator(
         ("Spine8Rz", "Spine8Rz"),
     )
 
-    Spine8Rx = DoubleAngleField()
+    Spine8Rx = DoubleAngleField(default_value=0.0)
 
-    Spine8Ry = DoubleAngleField()
+    Spine8Ry = DoubleAngleField(default_value=0.0)
 
-    Spine8Rz = DoubleAngleField()
+    Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine8RAttrOperator(
@@ -4036,11 +4036,11 @@ class Spine8RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine8Rx = DoubleAngleField()
+    Spine8Rx = DoubleAngleField(default_value=0.0)
 
-    Spine8Ry = DoubleAngleField()
+    Spine8Ry = DoubleAngleField(default_value=0.0)
 
-    Spine8Rz = DoubleAngleField()
+    Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine8RField(
@@ -4051,11 +4051,11 @@ class Spine8RField(
     ATTR_CLS = Spine8RAttrOperator
     PLUG_CLS = Spine8RPlugOperator
 
-    Spine8Rx = DoubleAngleField()
+    Spine8Rx = DoubleAngleField(default_value=0.0)
 
-    Spine8Ry = DoubleAngleField()
+    Spine8Ry = DoubleAngleField(default_value=0.0)
 
-    Spine8Rz = DoubleAngleField()
+    Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine8SPlugOperator(
@@ -4068,11 +4068,11 @@ class Spine8SPlugOperator(
         ("Spine8Sz", "Spine8Sz"),
     )
 
-    Spine8Sx = DoubleField()
+    Spine8Sx = DoubleField(default_value=1.0)
 
-    Spine8Sy = DoubleField()
+    Spine8Sy = DoubleField(default_value=1.0)
 
-    Spine8Sz = DoubleField()
+    Spine8Sz = DoubleField(default_value=1.0)
 
 
 class Spine8SAttrOperator(
@@ -4080,11 +4080,11 @@ class Spine8SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine8Sx = DoubleField()
+    Spine8Sx = DoubleField(default_value=1.0)
 
-    Spine8Sy = DoubleField()
+    Spine8Sy = DoubleField(default_value=1.0)
 
-    Spine8Sz = DoubleField()
+    Spine8Sz = DoubleField(default_value=1.0)
 
 
 class Spine8SField(
@@ -4095,11 +4095,11 @@ class Spine8SField(
     ATTR_CLS = Spine8SAttrOperator
     PLUG_CLS = Spine8SPlugOperator
 
-    Spine8Sx = DoubleField()
+    Spine8Sx = DoubleField(default_value=1.0)
 
-    Spine8Sy = DoubleField()
+    Spine8Sy = DoubleField(default_value=1.0)
 
-    Spine8Sz = DoubleField()
+    Spine8Sz = DoubleField(default_value=1.0)
 
 
 class Spine9TPlugOperator(
@@ -4112,11 +4112,11 @@ class Spine9TPlugOperator(
         ("Spine9Tz", "Spine9Tz"),
     )
 
-    Spine9Tx = DoubleLinearField()
+    Spine9Tx = DoubleLinearField(default_value=0.0)
 
-    Spine9Ty = DoubleLinearField()
+    Spine9Ty = DoubleLinearField(default_value=0.0)
 
-    Spine9Tz = DoubleLinearField()
+    Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine9TAttrOperator(
@@ -4124,11 +4124,11 @@ class Spine9TAttrOperator(
 ):
     __slots__ = ()
 
-    Spine9Tx = DoubleLinearField()
+    Spine9Tx = DoubleLinearField(default_value=0.0)
 
-    Spine9Ty = DoubleLinearField()
+    Spine9Ty = DoubleLinearField(default_value=0.0)
 
-    Spine9Tz = DoubleLinearField()
+    Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine9TField(
@@ -4139,11 +4139,11 @@ class Spine9TField(
     ATTR_CLS = Spine9TAttrOperator
     PLUG_CLS = Spine9TPlugOperator
 
-    Spine9Tx = DoubleLinearField()
+    Spine9Tx = DoubleLinearField(default_value=0.0)
 
-    Spine9Ty = DoubleLinearField()
+    Spine9Ty = DoubleLinearField(default_value=0.0)
 
-    Spine9Tz = DoubleLinearField()
+    Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Spine9RPlugOperator(
@@ -4156,11 +4156,11 @@ class Spine9RPlugOperator(
         ("Spine9Rz", "Spine9Rz"),
     )
 
-    Spine9Rx = DoubleAngleField()
+    Spine9Rx = DoubleAngleField(default_value=0.0)
 
-    Spine9Ry = DoubleAngleField()
+    Spine9Ry = DoubleAngleField(default_value=0.0)
 
-    Spine9Rz = DoubleAngleField()
+    Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine9RAttrOperator(
@@ -4168,11 +4168,11 @@ class Spine9RAttrOperator(
 ):
     __slots__ = ()
 
-    Spine9Rx = DoubleAngleField()
+    Spine9Rx = DoubleAngleField(default_value=0.0)
 
-    Spine9Ry = DoubleAngleField()
+    Spine9Ry = DoubleAngleField(default_value=0.0)
 
-    Spine9Rz = DoubleAngleField()
+    Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine9RField(
@@ -4183,11 +4183,11 @@ class Spine9RField(
     ATTR_CLS = Spine9RAttrOperator
     PLUG_CLS = Spine9RPlugOperator
 
-    Spine9Rx = DoubleAngleField()
+    Spine9Rx = DoubleAngleField(default_value=0.0)
 
-    Spine9Ry = DoubleAngleField()
+    Spine9Ry = DoubleAngleField(default_value=0.0)
 
-    Spine9Rz = DoubleAngleField()
+    Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Spine9SPlugOperator(
@@ -4200,11 +4200,11 @@ class Spine9SPlugOperator(
         ("Spine9Sz", "Spine9Sz"),
     )
 
-    Spine9Sx = DoubleField()
+    Spine9Sx = DoubleField(default_value=1.0)
 
-    Spine9Sy = DoubleField()
+    Spine9Sy = DoubleField(default_value=1.0)
 
-    Spine9Sz = DoubleField()
+    Spine9Sz = DoubleField(default_value=1.0)
 
 
 class Spine9SAttrOperator(
@@ -4212,11 +4212,11 @@ class Spine9SAttrOperator(
 ):
     __slots__ = ()
 
-    Spine9Sx = DoubleField()
+    Spine9Sx = DoubleField(default_value=1.0)
 
-    Spine9Sy = DoubleField()
+    Spine9Sy = DoubleField(default_value=1.0)
 
-    Spine9Sz = DoubleField()
+    Spine9Sz = DoubleField(default_value=1.0)
 
 
 class Spine9SField(
@@ -4227,11 +4227,11 @@ class Spine9SField(
     ATTR_CLS = Spine9SAttrOperator
     PLUG_CLS = Spine9SPlugOperator
 
-    Spine9Sx = DoubleField()
+    Spine9Sx = DoubleField(default_value=1.0)
 
-    Spine9Sy = DoubleField()
+    Spine9Sy = DoubleField(default_value=1.0)
 
-    Spine9Sz = DoubleField()
+    Spine9Sz = DoubleField(default_value=1.0)
 
 
 class Neck1TPlugOperator(
@@ -4244,11 +4244,11 @@ class Neck1TPlugOperator(
         ("Neck1Tz", "Neck1Tz"),
     )
 
-    Neck1Tx = DoubleLinearField()
+    Neck1Tx = DoubleLinearField(default_value=0.0)
 
-    Neck1Ty = DoubleLinearField()
+    Neck1Ty = DoubleLinearField(default_value=0.0)
 
-    Neck1Tz = DoubleLinearField()
+    Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck1TAttrOperator(
@@ -4256,11 +4256,11 @@ class Neck1TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck1Tx = DoubleLinearField()
+    Neck1Tx = DoubleLinearField(default_value=0.0)
 
-    Neck1Ty = DoubleLinearField()
+    Neck1Ty = DoubleLinearField(default_value=0.0)
 
-    Neck1Tz = DoubleLinearField()
+    Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck1TField(
@@ -4271,11 +4271,11 @@ class Neck1TField(
     ATTR_CLS = Neck1TAttrOperator
     PLUG_CLS = Neck1TPlugOperator
 
-    Neck1Tx = DoubleLinearField()
+    Neck1Tx = DoubleLinearField(default_value=0.0)
 
-    Neck1Ty = DoubleLinearField()
+    Neck1Ty = DoubleLinearField(default_value=0.0)
 
-    Neck1Tz = DoubleLinearField()
+    Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck1RPlugOperator(
@@ -4288,11 +4288,11 @@ class Neck1RPlugOperator(
         ("Neck1Rz", "Neck1Rz"),
     )
 
-    Neck1Rx = DoubleAngleField()
+    Neck1Rx = DoubleAngleField(default_value=0.0)
 
-    Neck1Ry = DoubleAngleField()
+    Neck1Ry = DoubleAngleField(default_value=0.0)
 
-    Neck1Rz = DoubleAngleField()
+    Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck1RAttrOperator(
@@ -4300,11 +4300,11 @@ class Neck1RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck1Rx = DoubleAngleField()
+    Neck1Rx = DoubleAngleField(default_value=0.0)
 
-    Neck1Ry = DoubleAngleField()
+    Neck1Ry = DoubleAngleField(default_value=0.0)
 
-    Neck1Rz = DoubleAngleField()
+    Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck1RField(
@@ -4315,11 +4315,11 @@ class Neck1RField(
     ATTR_CLS = Neck1RAttrOperator
     PLUG_CLS = Neck1RPlugOperator
 
-    Neck1Rx = DoubleAngleField()
+    Neck1Rx = DoubleAngleField(default_value=0.0)
 
-    Neck1Ry = DoubleAngleField()
+    Neck1Ry = DoubleAngleField(default_value=0.0)
 
-    Neck1Rz = DoubleAngleField()
+    Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck1SPlugOperator(
@@ -4332,11 +4332,11 @@ class Neck1SPlugOperator(
         ("Neck1Sz", "Neck1Sz"),
     )
 
-    Neck1Sx = DoubleField()
+    Neck1Sx = DoubleField(default_value=1.0)
 
-    Neck1Sy = DoubleField()
+    Neck1Sy = DoubleField(default_value=1.0)
 
-    Neck1Sz = DoubleField()
+    Neck1Sz = DoubleField(default_value=1.0)
 
 
 class Neck1SAttrOperator(
@@ -4344,11 +4344,11 @@ class Neck1SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck1Sx = DoubleField()
+    Neck1Sx = DoubleField(default_value=1.0)
 
-    Neck1Sy = DoubleField()
+    Neck1Sy = DoubleField(default_value=1.0)
 
-    Neck1Sz = DoubleField()
+    Neck1Sz = DoubleField(default_value=1.0)
 
 
 class Neck1SField(
@@ -4359,11 +4359,11 @@ class Neck1SField(
     ATTR_CLS = Neck1SAttrOperator
     PLUG_CLS = Neck1SPlugOperator
 
-    Neck1Sx = DoubleField()
+    Neck1Sx = DoubleField(default_value=1.0)
 
-    Neck1Sy = DoubleField()
+    Neck1Sy = DoubleField(default_value=1.0)
 
-    Neck1Sz = DoubleField()
+    Neck1Sz = DoubleField(default_value=1.0)
 
 
 class Neck2TPlugOperator(
@@ -4376,11 +4376,11 @@ class Neck2TPlugOperator(
         ("Neck2Tz", "Neck2Tz"),
     )
 
-    Neck2Tx = DoubleLinearField()
+    Neck2Tx = DoubleLinearField(default_value=0.0)
 
-    Neck2Ty = DoubleLinearField()
+    Neck2Ty = DoubleLinearField(default_value=0.0)
 
-    Neck2Tz = DoubleLinearField()
+    Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck2TAttrOperator(
@@ -4388,11 +4388,11 @@ class Neck2TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck2Tx = DoubleLinearField()
+    Neck2Tx = DoubleLinearField(default_value=0.0)
 
-    Neck2Ty = DoubleLinearField()
+    Neck2Ty = DoubleLinearField(default_value=0.0)
 
-    Neck2Tz = DoubleLinearField()
+    Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck2TField(
@@ -4403,11 +4403,11 @@ class Neck2TField(
     ATTR_CLS = Neck2TAttrOperator
     PLUG_CLS = Neck2TPlugOperator
 
-    Neck2Tx = DoubleLinearField()
+    Neck2Tx = DoubleLinearField(default_value=0.0)
 
-    Neck2Ty = DoubleLinearField()
+    Neck2Ty = DoubleLinearField(default_value=0.0)
 
-    Neck2Tz = DoubleLinearField()
+    Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck2RPlugOperator(
@@ -4420,11 +4420,11 @@ class Neck2RPlugOperator(
         ("Neck2Rz", "Neck2Rz"),
     )
 
-    Neck2Rx = DoubleAngleField()
+    Neck2Rx = DoubleAngleField(default_value=0.0)
 
-    Neck2Ry = DoubleAngleField()
+    Neck2Ry = DoubleAngleField(default_value=0.0)
 
-    Neck2Rz = DoubleAngleField()
+    Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck2RAttrOperator(
@@ -4432,11 +4432,11 @@ class Neck2RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck2Rx = DoubleAngleField()
+    Neck2Rx = DoubleAngleField(default_value=0.0)
 
-    Neck2Ry = DoubleAngleField()
+    Neck2Ry = DoubleAngleField(default_value=0.0)
 
-    Neck2Rz = DoubleAngleField()
+    Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck2RField(
@@ -4447,11 +4447,11 @@ class Neck2RField(
     ATTR_CLS = Neck2RAttrOperator
     PLUG_CLS = Neck2RPlugOperator
 
-    Neck2Rx = DoubleAngleField()
+    Neck2Rx = DoubleAngleField(default_value=0.0)
 
-    Neck2Ry = DoubleAngleField()
+    Neck2Ry = DoubleAngleField(default_value=0.0)
 
-    Neck2Rz = DoubleAngleField()
+    Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck2SPlugOperator(
@@ -4464,11 +4464,11 @@ class Neck2SPlugOperator(
         ("Neck2Sz", "Neck2Sz"),
     )
 
-    Neck2Sx = DoubleField()
+    Neck2Sx = DoubleField(default_value=1.0)
 
-    Neck2Sy = DoubleField()
+    Neck2Sy = DoubleField(default_value=1.0)
 
-    Neck2Sz = DoubleField()
+    Neck2Sz = DoubleField(default_value=1.0)
 
 
 class Neck2SAttrOperator(
@@ -4476,11 +4476,11 @@ class Neck2SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck2Sx = DoubleField()
+    Neck2Sx = DoubleField(default_value=1.0)
 
-    Neck2Sy = DoubleField()
+    Neck2Sy = DoubleField(default_value=1.0)
 
-    Neck2Sz = DoubleField()
+    Neck2Sz = DoubleField(default_value=1.0)
 
 
 class Neck2SField(
@@ -4491,11 +4491,11 @@ class Neck2SField(
     ATTR_CLS = Neck2SAttrOperator
     PLUG_CLS = Neck2SPlugOperator
 
-    Neck2Sx = DoubleField()
+    Neck2Sx = DoubleField(default_value=1.0)
 
-    Neck2Sy = DoubleField()
+    Neck2Sy = DoubleField(default_value=1.0)
 
-    Neck2Sz = DoubleField()
+    Neck2Sz = DoubleField(default_value=1.0)
 
 
 class Neck3TPlugOperator(
@@ -4508,11 +4508,11 @@ class Neck3TPlugOperator(
         ("Neck3Tz", "Neck3Tz"),
     )
 
-    Neck3Tx = DoubleLinearField()
+    Neck3Tx = DoubleLinearField(default_value=0.0)
 
-    Neck3Ty = DoubleLinearField()
+    Neck3Ty = DoubleLinearField(default_value=0.0)
 
-    Neck3Tz = DoubleLinearField()
+    Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck3TAttrOperator(
@@ -4520,11 +4520,11 @@ class Neck3TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck3Tx = DoubleLinearField()
+    Neck3Tx = DoubleLinearField(default_value=0.0)
 
-    Neck3Ty = DoubleLinearField()
+    Neck3Ty = DoubleLinearField(default_value=0.0)
 
-    Neck3Tz = DoubleLinearField()
+    Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck3TField(
@@ -4535,11 +4535,11 @@ class Neck3TField(
     ATTR_CLS = Neck3TAttrOperator
     PLUG_CLS = Neck3TPlugOperator
 
-    Neck3Tx = DoubleLinearField()
+    Neck3Tx = DoubleLinearField(default_value=0.0)
 
-    Neck3Ty = DoubleLinearField()
+    Neck3Ty = DoubleLinearField(default_value=0.0)
 
-    Neck3Tz = DoubleLinearField()
+    Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck3RPlugOperator(
@@ -4552,11 +4552,11 @@ class Neck3RPlugOperator(
         ("Neck3Rz", "Neck3Rz"),
     )
 
-    Neck3Rx = DoubleAngleField()
+    Neck3Rx = DoubleAngleField(default_value=0.0)
 
-    Neck3Ry = DoubleAngleField()
+    Neck3Ry = DoubleAngleField(default_value=0.0)
 
-    Neck3Rz = DoubleAngleField()
+    Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck3RAttrOperator(
@@ -4564,11 +4564,11 @@ class Neck3RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck3Rx = DoubleAngleField()
+    Neck3Rx = DoubleAngleField(default_value=0.0)
 
-    Neck3Ry = DoubleAngleField()
+    Neck3Ry = DoubleAngleField(default_value=0.0)
 
-    Neck3Rz = DoubleAngleField()
+    Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck3RField(
@@ -4579,11 +4579,11 @@ class Neck3RField(
     ATTR_CLS = Neck3RAttrOperator
     PLUG_CLS = Neck3RPlugOperator
 
-    Neck3Rx = DoubleAngleField()
+    Neck3Rx = DoubleAngleField(default_value=0.0)
 
-    Neck3Ry = DoubleAngleField()
+    Neck3Ry = DoubleAngleField(default_value=0.0)
 
-    Neck3Rz = DoubleAngleField()
+    Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck3SPlugOperator(
@@ -4596,11 +4596,11 @@ class Neck3SPlugOperator(
         ("Neck3Sz", "Neck3Sz"),
     )
 
-    Neck3Sx = DoubleField()
+    Neck3Sx = DoubleField(default_value=1.0)
 
-    Neck3Sy = DoubleField()
+    Neck3Sy = DoubleField(default_value=1.0)
 
-    Neck3Sz = DoubleField()
+    Neck3Sz = DoubleField(default_value=1.0)
 
 
 class Neck3SAttrOperator(
@@ -4608,11 +4608,11 @@ class Neck3SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck3Sx = DoubleField()
+    Neck3Sx = DoubleField(default_value=1.0)
 
-    Neck3Sy = DoubleField()
+    Neck3Sy = DoubleField(default_value=1.0)
 
-    Neck3Sz = DoubleField()
+    Neck3Sz = DoubleField(default_value=1.0)
 
 
 class Neck3SField(
@@ -4623,11 +4623,11 @@ class Neck3SField(
     ATTR_CLS = Neck3SAttrOperator
     PLUG_CLS = Neck3SPlugOperator
 
-    Neck3Sx = DoubleField()
+    Neck3Sx = DoubleField(default_value=1.0)
 
-    Neck3Sy = DoubleField()
+    Neck3Sy = DoubleField(default_value=1.0)
 
-    Neck3Sz = DoubleField()
+    Neck3Sz = DoubleField(default_value=1.0)
 
 
 class Neck4TPlugOperator(
@@ -4640,11 +4640,11 @@ class Neck4TPlugOperator(
         ("Neck4Tz", "Neck4Tz"),
     )
 
-    Neck4Tx = DoubleLinearField()
+    Neck4Tx = DoubleLinearField(default_value=0.0)
 
-    Neck4Ty = DoubleLinearField()
+    Neck4Ty = DoubleLinearField(default_value=0.0)
 
-    Neck4Tz = DoubleLinearField()
+    Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck4TAttrOperator(
@@ -4652,11 +4652,11 @@ class Neck4TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck4Tx = DoubleLinearField()
+    Neck4Tx = DoubleLinearField(default_value=0.0)
 
-    Neck4Ty = DoubleLinearField()
+    Neck4Ty = DoubleLinearField(default_value=0.0)
 
-    Neck4Tz = DoubleLinearField()
+    Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck4TField(
@@ -4667,11 +4667,11 @@ class Neck4TField(
     ATTR_CLS = Neck4TAttrOperator
     PLUG_CLS = Neck4TPlugOperator
 
-    Neck4Tx = DoubleLinearField()
+    Neck4Tx = DoubleLinearField(default_value=0.0)
 
-    Neck4Ty = DoubleLinearField()
+    Neck4Ty = DoubleLinearField(default_value=0.0)
 
-    Neck4Tz = DoubleLinearField()
+    Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck4RPlugOperator(
@@ -4684,11 +4684,11 @@ class Neck4RPlugOperator(
         ("Neck4Rz", "Neck4Rz"),
     )
 
-    Neck4Rx = DoubleAngleField()
+    Neck4Rx = DoubleAngleField(default_value=0.0)
 
-    Neck4Ry = DoubleAngleField()
+    Neck4Ry = DoubleAngleField(default_value=0.0)
 
-    Neck4Rz = DoubleAngleField()
+    Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck4RAttrOperator(
@@ -4696,11 +4696,11 @@ class Neck4RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck4Rx = DoubleAngleField()
+    Neck4Rx = DoubleAngleField(default_value=0.0)
 
-    Neck4Ry = DoubleAngleField()
+    Neck4Ry = DoubleAngleField(default_value=0.0)
 
-    Neck4Rz = DoubleAngleField()
+    Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck4RField(
@@ -4711,11 +4711,11 @@ class Neck4RField(
     ATTR_CLS = Neck4RAttrOperator
     PLUG_CLS = Neck4RPlugOperator
 
-    Neck4Rx = DoubleAngleField()
+    Neck4Rx = DoubleAngleField(default_value=0.0)
 
-    Neck4Ry = DoubleAngleField()
+    Neck4Ry = DoubleAngleField(default_value=0.0)
 
-    Neck4Rz = DoubleAngleField()
+    Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck4SPlugOperator(
@@ -4728,11 +4728,11 @@ class Neck4SPlugOperator(
         ("Neck4Sz", "Neck4Sz"),
     )
 
-    Neck4Sx = DoubleField()
+    Neck4Sx = DoubleField(default_value=1.0)
 
-    Neck4Sy = DoubleField()
+    Neck4Sy = DoubleField(default_value=1.0)
 
-    Neck4Sz = DoubleField()
+    Neck4Sz = DoubleField(default_value=1.0)
 
 
 class Neck4SAttrOperator(
@@ -4740,11 +4740,11 @@ class Neck4SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck4Sx = DoubleField()
+    Neck4Sx = DoubleField(default_value=1.0)
 
-    Neck4Sy = DoubleField()
+    Neck4Sy = DoubleField(default_value=1.0)
 
-    Neck4Sz = DoubleField()
+    Neck4Sz = DoubleField(default_value=1.0)
 
 
 class Neck4SField(
@@ -4755,11 +4755,11 @@ class Neck4SField(
     ATTR_CLS = Neck4SAttrOperator
     PLUG_CLS = Neck4SPlugOperator
 
-    Neck4Sx = DoubleField()
+    Neck4Sx = DoubleField(default_value=1.0)
 
-    Neck4Sy = DoubleField()
+    Neck4Sy = DoubleField(default_value=1.0)
 
-    Neck4Sz = DoubleField()
+    Neck4Sz = DoubleField(default_value=1.0)
 
 
 class Neck5TPlugOperator(
@@ -4772,11 +4772,11 @@ class Neck5TPlugOperator(
         ("Neck5Tz", "Neck5Tz"),
     )
 
-    Neck5Tx = DoubleLinearField()
+    Neck5Tx = DoubleLinearField(default_value=0.0)
 
-    Neck5Ty = DoubleLinearField()
+    Neck5Ty = DoubleLinearField(default_value=0.0)
 
-    Neck5Tz = DoubleLinearField()
+    Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck5TAttrOperator(
@@ -4784,11 +4784,11 @@ class Neck5TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck5Tx = DoubleLinearField()
+    Neck5Tx = DoubleLinearField(default_value=0.0)
 
-    Neck5Ty = DoubleLinearField()
+    Neck5Ty = DoubleLinearField(default_value=0.0)
 
-    Neck5Tz = DoubleLinearField()
+    Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck5TField(
@@ -4799,11 +4799,11 @@ class Neck5TField(
     ATTR_CLS = Neck5TAttrOperator
     PLUG_CLS = Neck5TPlugOperator
 
-    Neck5Tx = DoubleLinearField()
+    Neck5Tx = DoubleLinearField(default_value=0.0)
 
-    Neck5Ty = DoubleLinearField()
+    Neck5Ty = DoubleLinearField(default_value=0.0)
 
-    Neck5Tz = DoubleLinearField()
+    Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck5RPlugOperator(
@@ -4816,11 +4816,11 @@ class Neck5RPlugOperator(
         ("Neck5Rz", "Neck5Rz"),
     )
 
-    Neck5Rx = DoubleAngleField()
+    Neck5Rx = DoubleAngleField(default_value=0.0)
 
-    Neck5Ry = DoubleAngleField()
+    Neck5Ry = DoubleAngleField(default_value=0.0)
 
-    Neck5Rz = DoubleAngleField()
+    Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck5RAttrOperator(
@@ -4828,11 +4828,11 @@ class Neck5RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck5Rx = DoubleAngleField()
+    Neck5Rx = DoubleAngleField(default_value=0.0)
 
-    Neck5Ry = DoubleAngleField()
+    Neck5Ry = DoubleAngleField(default_value=0.0)
 
-    Neck5Rz = DoubleAngleField()
+    Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck5RField(
@@ -4843,11 +4843,11 @@ class Neck5RField(
     ATTR_CLS = Neck5RAttrOperator
     PLUG_CLS = Neck5RPlugOperator
 
-    Neck5Rx = DoubleAngleField()
+    Neck5Rx = DoubleAngleField(default_value=0.0)
 
-    Neck5Ry = DoubleAngleField()
+    Neck5Ry = DoubleAngleField(default_value=0.0)
 
-    Neck5Rz = DoubleAngleField()
+    Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck5SPlugOperator(
@@ -4860,11 +4860,11 @@ class Neck5SPlugOperator(
         ("Neck5Sz", "Neck5Sz"),
     )
 
-    Neck5Sx = DoubleField()
+    Neck5Sx = DoubleField(default_value=1.0)
 
-    Neck5Sy = DoubleField()
+    Neck5Sy = DoubleField(default_value=1.0)
 
-    Neck5Sz = DoubleField()
+    Neck5Sz = DoubleField(default_value=1.0)
 
 
 class Neck5SAttrOperator(
@@ -4872,11 +4872,11 @@ class Neck5SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck5Sx = DoubleField()
+    Neck5Sx = DoubleField(default_value=1.0)
 
-    Neck5Sy = DoubleField()
+    Neck5Sy = DoubleField(default_value=1.0)
 
-    Neck5Sz = DoubleField()
+    Neck5Sz = DoubleField(default_value=1.0)
 
 
 class Neck5SField(
@@ -4887,11 +4887,11 @@ class Neck5SField(
     ATTR_CLS = Neck5SAttrOperator
     PLUG_CLS = Neck5SPlugOperator
 
-    Neck5Sx = DoubleField()
+    Neck5Sx = DoubleField(default_value=1.0)
 
-    Neck5Sy = DoubleField()
+    Neck5Sy = DoubleField(default_value=1.0)
 
-    Neck5Sz = DoubleField()
+    Neck5Sz = DoubleField(default_value=1.0)
 
 
 class Neck6TPlugOperator(
@@ -4904,11 +4904,11 @@ class Neck6TPlugOperator(
         ("Neck6Tz", "Neck6Tz"),
     )
 
-    Neck6Tx = DoubleLinearField()
+    Neck6Tx = DoubleLinearField(default_value=0.0)
 
-    Neck6Ty = DoubleLinearField()
+    Neck6Ty = DoubleLinearField(default_value=0.0)
 
-    Neck6Tz = DoubleLinearField()
+    Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck6TAttrOperator(
@@ -4916,11 +4916,11 @@ class Neck6TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck6Tx = DoubleLinearField()
+    Neck6Tx = DoubleLinearField(default_value=0.0)
 
-    Neck6Ty = DoubleLinearField()
+    Neck6Ty = DoubleLinearField(default_value=0.0)
 
-    Neck6Tz = DoubleLinearField()
+    Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck6TField(
@@ -4931,11 +4931,11 @@ class Neck6TField(
     ATTR_CLS = Neck6TAttrOperator
     PLUG_CLS = Neck6TPlugOperator
 
-    Neck6Tx = DoubleLinearField()
+    Neck6Tx = DoubleLinearField(default_value=0.0)
 
-    Neck6Ty = DoubleLinearField()
+    Neck6Ty = DoubleLinearField(default_value=0.0)
 
-    Neck6Tz = DoubleLinearField()
+    Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck6RPlugOperator(
@@ -4948,11 +4948,11 @@ class Neck6RPlugOperator(
         ("Neck6Rz", "Neck6Rz"),
     )
 
-    Neck6Rx = DoubleAngleField()
+    Neck6Rx = DoubleAngleField(default_value=0.0)
 
-    Neck6Ry = DoubleAngleField()
+    Neck6Ry = DoubleAngleField(default_value=0.0)
 
-    Neck6Rz = DoubleAngleField()
+    Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck6RAttrOperator(
@@ -4960,11 +4960,11 @@ class Neck6RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck6Rx = DoubleAngleField()
+    Neck6Rx = DoubleAngleField(default_value=0.0)
 
-    Neck6Ry = DoubleAngleField()
+    Neck6Ry = DoubleAngleField(default_value=0.0)
 
-    Neck6Rz = DoubleAngleField()
+    Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck6RField(
@@ -4975,11 +4975,11 @@ class Neck6RField(
     ATTR_CLS = Neck6RAttrOperator
     PLUG_CLS = Neck6RPlugOperator
 
-    Neck6Rx = DoubleAngleField()
+    Neck6Rx = DoubleAngleField(default_value=0.0)
 
-    Neck6Ry = DoubleAngleField()
+    Neck6Ry = DoubleAngleField(default_value=0.0)
 
-    Neck6Rz = DoubleAngleField()
+    Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck6SPlugOperator(
@@ -4992,11 +4992,11 @@ class Neck6SPlugOperator(
         ("Neck6Sz", "Neck6Sz"),
     )
 
-    Neck6Sx = DoubleField()
+    Neck6Sx = DoubleField(default_value=1.0)
 
-    Neck6Sy = DoubleField()
+    Neck6Sy = DoubleField(default_value=1.0)
 
-    Neck6Sz = DoubleField()
+    Neck6Sz = DoubleField(default_value=1.0)
 
 
 class Neck6SAttrOperator(
@@ -5004,11 +5004,11 @@ class Neck6SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck6Sx = DoubleField()
+    Neck6Sx = DoubleField(default_value=1.0)
 
-    Neck6Sy = DoubleField()
+    Neck6Sy = DoubleField(default_value=1.0)
 
-    Neck6Sz = DoubleField()
+    Neck6Sz = DoubleField(default_value=1.0)
 
 
 class Neck6SField(
@@ -5019,11 +5019,11 @@ class Neck6SField(
     ATTR_CLS = Neck6SAttrOperator
     PLUG_CLS = Neck6SPlugOperator
 
-    Neck6Sx = DoubleField()
+    Neck6Sx = DoubleField(default_value=1.0)
 
-    Neck6Sy = DoubleField()
+    Neck6Sy = DoubleField(default_value=1.0)
 
-    Neck6Sz = DoubleField()
+    Neck6Sz = DoubleField(default_value=1.0)
 
 
 class Neck7TPlugOperator(
@@ -5036,11 +5036,11 @@ class Neck7TPlugOperator(
         ("Neck7Tz", "Neck7Tz"),
     )
 
-    Neck7Tx = DoubleLinearField()
+    Neck7Tx = DoubleLinearField(default_value=0.0)
 
-    Neck7Ty = DoubleLinearField()
+    Neck7Ty = DoubleLinearField(default_value=0.0)
 
-    Neck7Tz = DoubleLinearField()
+    Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck7TAttrOperator(
@@ -5048,11 +5048,11 @@ class Neck7TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck7Tx = DoubleLinearField()
+    Neck7Tx = DoubleLinearField(default_value=0.0)
 
-    Neck7Ty = DoubleLinearField()
+    Neck7Ty = DoubleLinearField(default_value=0.0)
 
-    Neck7Tz = DoubleLinearField()
+    Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck7TField(
@@ -5063,11 +5063,11 @@ class Neck7TField(
     ATTR_CLS = Neck7TAttrOperator
     PLUG_CLS = Neck7TPlugOperator
 
-    Neck7Tx = DoubleLinearField()
+    Neck7Tx = DoubleLinearField(default_value=0.0)
 
-    Neck7Ty = DoubleLinearField()
+    Neck7Ty = DoubleLinearField(default_value=0.0)
 
-    Neck7Tz = DoubleLinearField()
+    Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck7RPlugOperator(
@@ -5080,11 +5080,11 @@ class Neck7RPlugOperator(
         ("Neck7Rz", "Neck7Rz"),
     )
 
-    Neck7Rx = DoubleAngleField()
+    Neck7Rx = DoubleAngleField(default_value=0.0)
 
-    Neck7Ry = DoubleAngleField()
+    Neck7Ry = DoubleAngleField(default_value=0.0)
 
-    Neck7Rz = DoubleAngleField()
+    Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck7RAttrOperator(
@@ -5092,11 +5092,11 @@ class Neck7RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck7Rx = DoubleAngleField()
+    Neck7Rx = DoubleAngleField(default_value=0.0)
 
-    Neck7Ry = DoubleAngleField()
+    Neck7Ry = DoubleAngleField(default_value=0.0)
 
-    Neck7Rz = DoubleAngleField()
+    Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck7RField(
@@ -5107,11 +5107,11 @@ class Neck7RField(
     ATTR_CLS = Neck7RAttrOperator
     PLUG_CLS = Neck7RPlugOperator
 
-    Neck7Rx = DoubleAngleField()
+    Neck7Rx = DoubleAngleField(default_value=0.0)
 
-    Neck7Ry = DoubleAngleField()
+    Neck7Ry = DoubleAngleField(default_value=0.0)
 
-    Neck7Rz = DoubleAngleField()
+    Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck7SPlugOperator(
@@ -5124,11 +5124,11 @@ class Neck7SPlugOperator(
         ("Neck7Sz", "Neck7Sz"),
     )
 
-    Neck7Sx = DoubleField()
+    Neck7Sx = DoubleField(default_value=1.0)
 
-    Neck7Sy = DoubleField()
+    Neck7Sy = DoubleField(default_value=1.0)
 
-    Neck7Sz = DoubleField()
+    Neck7Sz = DoubleField(default_value=1.0)
 
 
 class Neck7SAttrOperator(
@@ -5136,11 +5136,11 @@ class Neck7SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck7Sx = DoubleField()
+    Neck7Sx = DoubleField(default_value=1.0)
 
-    Neck7Sy = DoubleField()
+    Neck7Sy = DoubleField(default_value=1.0)
 
-    Neck7Sz = DoubleField()
+    Neck7Sz = DoubleField(default_value=1.0)
 
 
 class Neck7SField(
@@ -5151,11 +5151,11 @@ class Neck7SField(
     ATTR_CLS = Neck7SAttrOperator
     PLUG_CLS = Neck7SPlugOperator
 
-    Neck7Sx = DoubleField()
+    Neck7Sx = DoubleField(default_value=1.0)
 
-    Neck7Sy = DoubleField()
+    Neck7Sy = DoubleField(default_value=1.0)
 
-    Neck7Sz = DoubleField()
+    Neck7Sz = DoubleField(default_value=1.0)
 
 
 class Neck8TPlugOperator(
@@ -5168,11 +5168,11 @@ class Neck8TPlugOperator(
         ("Neck8Tz", "Neck8Tz"),
     )
 
-    Neck8Tx = DoubleLinearField()
+    Neck8Tx = DoubleLinearField(default_value=0.0)
 
-    Neck8Ty = DoubleLinearField()
+    Neck8Ty = DoubleLinearField(default_value=0.0)
 
-    Neck8Tz = DoubleLinearField()
+    Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck8TAttrOperator(
@@ -5180,11 +5180,11 @@ class Neck8TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck8Tx = DoubleLinearField()
+    Neck8Tx = DoubleLinearField(default_value=0.0)
 
-    Neck8Ty = DoubleLinearField()
+    Neck8Ty = DoubleLinearField(default_value=0.0)
 
-    Neck8Tz = DoubleLinearField()
+    Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck8TField(
@@ -5195,11 +5195,11 @@ class Neck8TField(
     ATTR_CLS = Neck8TAttrOperator
     PLUG_CLS = Neck8TPlugOperator
 
-    Neck8Tx = DoubleLinearField()
+    Neck8Tx = DoubleLinearField(default_value=0.0)
 
-    Neck8Ty = DoubleLinearField()
+    Neck8Ty = DoubleLinearField(default_value=0.0)
 
-    Neck8Tz = DoubleLinearField()
+    Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck8RPlugOperator(
@@ -5212,11 +5212,11 @@ class Neck8RPlugOperator(
         ("Neck8Rz", "Neck8Rz"),
     )
 
-    Neck8Rx = DoubleAngleField()
+    Neck8Rx = DoubleAngleField(default_value=0.0)
 
-    Neck8Ry = DoubleAngleField()
+    Neck8Ry = DoubleAngleField(default_value=0.0)
 
-    Neck8Rz = DoubleAngleField()
+    Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck8RAttrOperator(
@@ -5224,11 +5224,11 @@ class Neck8RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck8Rx = DoubleAngleField()
+    Neck8Rx = DoubleAngleField(default_value=0.0)
 
-    Neck8Ry = DoubleAngleField()
+    Neck8Ry = DoubleAngleField(default_value=0.0)
 
-    Neck8Rz = DoubleAngleField()
+    Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck8RField(
@@ -5239,11 +5239,11 @@ class Neck8RField(
     ATTR_CLS = Neck8RAttrOperator
     PLUG_CLS = Neck8RPlugOperator
 
-    Neck8Rx = DoubleAngleField()
+    Neck8Rx = DoubleAngleField(default_value=0.0)
 
-    Neck8Ry = DoubleAngleField()
+    Neck8Ry = DoubleAngleField(default_value=0.0)
 
-    Neck8Rz = DoubleAngleField()
+    Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck8SPlugOperator(
@@ -5256,11 +5256,11 @@ class Neck8SPlugOperator(
         ("Neck8Sz", "Neck8Sz"),
     )
 
-    Neck8Sx = DoubleField()
+    Neck8Sx = DoubleField(default_value=1.0)
 
-    Neck8Sy = DoubleField()
+    Neck8Sy = DoubleField(default_value=1.0)
 
-    Neck8Sz = DoubleField()
+    Neck8Sz = DoubleField(default_value=1.0)
 
 
 class Neck8SAttrOperator(
@@ -5268,11 +5268,11 @@ class Neck8SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck8Sx = DoubleField()
+    Neck8Sx = DoubleField(default_value=1.0)
 
-    Neck8Sy = DoubleField()
+    Neck8Sy = DoubleField(default_value=1.0)
 
-    Neck8Sz = DoubleField()
+    Neck8Sz = DoubleField(default_value=1.0)
 
 
 class Neck8SField(
@@ -5283,11 +5283,11 @@ class Neck8SField(
     ATTR_CLS = Neck8SAttrOperator
     PLUG_CLS = Neck8SPlugOperator
 
-    Neck8Sx = DoubleField()
+    Neck8Sx = DoubleField(default_value=1.0)
 
-    Neck8Sy = DoubleField()
+    Neck8Sy = DoubleField(default_value=1.0)
 
-    Neck8Sz = DoubleField()
+    Neck8Sz = DoubleField(default_value=1.0)
 
 
 class Neck9TPlugOperator(
@@ -5300,11 +5300,11 @@ class Neck9TPlugOperator(
         ("Neck9Tz", "Neck9Tz"),
     )
 
-    Neck9Tx = DoubleLinearField()
+    Neck9Tx = DoubleLinearField(default_value=0.0)
 
-    Neck9Ty = DoubleLinearField()
+    Neck9Ty = DoubleLinearField(default_value=0.0)
 
-    Neck9Tz = DoubleLinearField()
+    Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck9TAttrOperator(
@@ -5312,11 +5312,11 @@ class Neck9TAttrOperator(
 ):
     __slots__ = ()
 
-    Neck9Tx = DoubleLinearField()
+    Neck9Tx = DoubleLinearField(default_value=0.0)
 
-    Neck9Ty = DoubleLinearField()
+    Neck9Ty = DoubleLinearField(default_value=0.0)
 
-    Neck9Tz = DoubleLinearField()
+    Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck9TField(
@@ -5327,11 +5327,11 @@ class Neck9TField(
     ATTR_CLS = Neck9TAttrOperator
     PLUG_CLS = Neck9TPlugOperator
 
-    Neck9Tx = DoubleLinearField()
+    Neck9Tx = DoubleLinearField(default_value=0.0)
 
-    Neck9Ty = DoubleLinearField()
+    Neck9Ty = DoubleLinearField(default_value=0.0)
 
-    Neck9Tz = DoubleLinearField()
+    Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
 class Neck9RPlugOperator(
@@ -5344,11 +5344,11 @@ class Neck9RPlugOperator(
         ("Neck9Rz", "Neck9Rz"),
     )
 
-    Neck9Rx = DoubleAngleField()
+    Neck9Rx = DoubleAngleField(default_value=0.0)
 
-    Neck9Ry = DoubleAngleField()
+    Neck9Ry = DoubleAngleField(default_value=0.0)
 
-    Neck9Rz = DoubleAngleField()
+    Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck9RAttrOperator(
@@ -5356,11 +5356,11 @@ class Neck9RAttrOperator(
 ):
     __slots__ = ()
 
-    Neck9Rx = DoubleAngleField()
+    Neck9Rx = DoubleAngleField(default_value=0.0)
 
-    Neck9Ry = DoubleAngleField()
+    Neck9Ry = DoubleAngleField(default_value=0.0)
 
-    Neck9Rz = DoubleAngleField()
+    Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck9RField(
@@ -5371,11 +5371,11 @@ class Neck9RField(
     ATTR_CLS = Neck9RAttrOperator
     PLUG_CLS = Neck9RPlugOperator
 
-    Neck9Rx = DoubleAngleField()
+    Neck9Rx = DoubleAngleField(default_value=0.0)
 
-    Neck9Ry = DoubleAngleField()
+    Neck9Ry = DoubleAngleField(default_value=0.0)
 
-    Neck9Rz = DoubleAngleField()
+    Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
 class Neck9SPlugOperator(
@@ -5388,11 +5388,11 @@ class Neck9SPlugOperator(
         ("Neck9Sz", "Neck9Sz"),
     )
 
-    Neck9Sx = DoubleField()
+    Neck9Sx = DoubleField(default_value=1.0)
 
-    Neck9Sy = DoubleField()
+    Neck9Sy = DoubleField(default_value=1.0)
 
-    Neck9Sz = DoubleField()
+    Neck9Sz = DoubleField(default_value=1.0)
 
 
 class Neck9SAttrOperator(
@@ -5400,11 +5400,11 @@ class Neck9SAttrOperator(
 ):
     __slots__ = ()
 
-    Neck9Sx = DoubleField()
+    Neck9Sx = DoubleField(default_value=1.0)
 
-    Neck9Sy = DoubleField()
+    Neck9Sy = DoubleField(default_value=1.0)
 
-    Neck9Sz = DoubleField()
+    Neck9Sz = DoubleField(default_value=1.0)
 
 
 class Neck9SField(
@@ -5415,11 +5415,11 @@ class Neck9SField(
     ATTR_CLS = Neck9SAttrOperator
     PLUG_CLS = Neck9SPlugOperator
 
-    Neck9Sx = DoubleField()
+    Neck9Sx = DoubleField(default_value=1.0)
 
-    Neck9Sy = DoubleField()
+    Neck9Sy = DoubleField(default_value=1.0)
 
-    Neck9Sz = DoubleField()
+    Neck9Sz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegRollTPlugOperator(
@@ -5432,11 +5432,11 @@ class LeftUpLegRollTPlugOperator(
         ("LeftUpLegRollTz", "LeftUpLegRollTz"),
     )
 
-    LeftUpLegRollTx = DoubleLinearField()
+    LeftUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTy = DoubleLinearField()
+    LeftUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTz = DoubleLinearField()
+    LeftUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegRollTAttrOperator(
@@ -5444,11 +5444,11 @@ class LeftUpLegRollTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegRollTx = DoubleLinearField()
+    LeftUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTy = DoubleLinearField()
+    LeftUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTz = DoubleLinearField()
+    LeftUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegRollTField(
@@ -5459,11 +5459,11 @@ class LeftUpLegRollTField(
     ATTR_CLS = LeftUpLegRollTAttrOperator
     PLUG_CLS = LeftUpLegRollTPlugOperator
 
-    LeftUpLegRollTx = DoubleLinearField()
+    LeftUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTy = DoubleLinearField()
+    LeftUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftUpLegRollTz = DoubleLinearField()
+    LeftUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftUpLegRollRPlugOperator(
@@ -5476,11 +5476,11 @@ class LeftUpLegRollRPlugOperator(
         ("LeftUpLegRollRz", "LeftUpLegRollRz"),
     )
 
-    LeftUpLegRollRx = DoubleAngleField()
+    LeftUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRy = DoubleAngleField()
+    LeftUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRz = DoubleAngleField()
+    LeftUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegRollRAttrOperator(
@@ -5488,11 +5488,11 @@ class LeftUpLegRollRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegRollRx = DoubleAngleField()
+    LeftUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRy = DoubleAngleField()
+    LeftUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRz = DoubleAngleField()
+    LeftUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegRollRField(
@@ -5503,11 +5503,11 @@ class LeftUpLegRollRField(
     ATTR_CLS = LeftUpLegRollRAttrOperator
     PLUG_CLS = LeftUpLegRollRPlugOperator
 
-    LeftUpLegRollRx = DoubleAngleField()
+    LeftUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRy = DoubleAngleField()
+    LeftUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftUpLegRollRz = DoubleAngleField()
+    LeftUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftUpLegRollSPlugOperator(
@@ -5520,11 +5520,11 @@ class LeftUpLegRollSPlugOperator(
         ("LeftUpLegRollSz", "LeftUpLegRollSz"),
     )
 
-    LeftUpLegRollSx = DoubleField()
+    LeftUpLegRollSx = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSy = DoubleField()
+    LeftUpLegRollSy = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSz = DoubleField()
+    LeftUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegRollSAttrOperator(
@@ -5532,11 +5532,11 @@ class LeftUpLegRollSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftUpLegRollSx = DoubleField()
+    LeftUpLegRollSx = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSy = DoubleField()
+    LeftUpLegRollSy = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSz = DoubleField()
+    LeftUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftUpLegRollSField(
@@ -5547,11 +5547,11 @@ class LeftUpLegRollSField(
     ATTR_CLS = LeftUpLegRollSAttrOperator
     PLUG_CLS = LeftUpLegRollSPlugOperator
 
-    LeftUpLegRollSx = DoubleField()
+    LeftUpLegRollSx = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSy = DoubleField()
+    LeftUpLegRollSy = DoubleField(default_value=1.0)
 
-    LeftUpLegRollSz = DoubleField()
+    LeftUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftLegRollTPlugOperator(
@@ -5564,11 +5564,11 @@ class LeftLegRollTPlugOperator(
         ("LeftLegRollTz", "LeftLegRollTz"),
     )
 
-    LeftLegRollTx = DoubleLinearField()
+    LeftLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTy = DoubleLinearField()
+    LeftLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTz = DoubleLinearField()
+    LeftLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegRollTAttrOperator(
@@ -5576,11 +5576,11 @@ class LeftLegRollTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegRollTx = DoubleLinearField()
+    LeftLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTy = DoubleLinearField()
+    LeftLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTz = DoubleLinearField()
+    LeftLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegRollTField(
@@ -5591,11 +5591,11 @@ class LeftLegRollTField(
     ATTR_CLS = LeftLegRollTAttrOperator
     PLUG_CLS = LeftLegRollTPlugOperator
 
-    LeftLegRollTx = DoubleLinearField()
+    LeftLegRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTy = DoubleLinearField()
+    LeftLegRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftLegRollTz = DoubleLinearField()
+    LeftLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftLegRollRPlugOperator(
@@ -5608,11 +5608,11 @@ class LeftLegRollRPlugOperator(
         ("LeftLegRollRz", "LeftLegRollRz"),
     )
 
-    LeftLegRollRx = DoubleAngleField()
+    LeftLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRy = DoubleAngleField()
+    LeftLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRz = DoubleAngleField()
+    LeftLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegRollRAttrOperator(
@@ -5620,11 +5620,11 @@ class LeftLegRollRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegRollRx = DoubleAngleField()
+    LeftLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRy = DoubleAngleField()
+    LeftLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRz = DoubleAngleField()
+    LeftLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegRollRField(
@@ -5635,11 +5635,11 @@ class LeftLegRollRField(
     ATTR_CLS = LeftLegRollRAttrOperator
     PLUG_CLS = LeftLegRollRPlugOperator
 
-    LeftLegRollRx = DoubleAngleField()
+    LeftLegRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRy = DoubleAngleField()
+    LeftLegRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftLegRollRz = DoubleAngleField()
+    LeftLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftLegRollSPlugOperator(
@@ -5652,11 +5652,11 @@ class LeftLegRollSPlugOperator(
         ("LeftLegRollSz", "LeftLegRollSz"),
     )
 
-    LeftLegRollSx = DoubleField()
+    LeftLegRollSx = DoubleField(default_value=1.0)
 
-    LeftLegRollSy = DoubleField()
+    LeftLegRollSy = DoubleField(default_value=1.0)
 
-    LeftLegRollSz = DoubleField()
+    LeftLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftLegRollSAttrOperator(
@@ -5664,11 +5664,11 @@ class LeftLegRollSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftLegRollSx = DoubleField()
+    LeftLegRollSx = DoubleField(default_value=1.0)
 
-    LeftLegRollSy = DoubleField()
+    LeftLegRollSy = DoubleField(default_value=1.0)
 
-    LeftLegRollSz = DoubleField()
+    LeftLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftLegRollSField(
@@ -5679,11 +5679,11 @@ class LeftLegRollSField(
     ATTR_CLS = LeftLegRollSAttrOperator
     PLUG_CLS = LeftLegRollSPlugOperator
 
-    LeftLegRollSx = DoubleField()
+    LeftLegRollSx = DoubleField(default_value=1.0)
 
-    LeftLegRollSy = DoubleField()
+    LeftLegRollSy = DoubleField(default_value=1.0)
 
-    LeftLegRollSz = DoubleField()
+    LeftLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegRollTPlugOperator(
@@ -5696,11 +5696,11 @@ class RightUpLegRollTPlugOperator(
         ("RightUpLegRollTz", "RightUpLegRollTz"),
     )
 
-    RightUpLegRollTx = DoubleLinearField()
+    RightUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTy = DoubleLinearField()
+    RightUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTz = DoubleLinearField()
+    RightUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegRollTAttrOperator(
@@ -5708,11 +5708,11 @@ class RightUpLegRollTAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegRollTx = DoubleLinearField()
+    RightUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTy = DoubleLinearField()
+    RightUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTz = DoubleLinearField()
+    RightUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegRollTField(
@@ -5723,11 +5723,11 @@ class RightUpLegRollTField(
     ATTR_CLS = RightUpLegRollTAttrOperator
     PLUG_CLS = RightUpLegRollTPlugOperator
 
-    RightUpLegRollTx = DoubleLinearField()
+    RightUpLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTy = DoubleLinearField()
+    RightUpLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightUpLegRollTz = DoubleLinearField()
+    RightUpLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightUpLegRollRPlugOperator(
@@ -5740,11 +5740,11 @@ class RightUpLegRollRPlugOperator(
         ("RightUpLegRollRz", "RightUpLegRollRz"),
     )
 
-    RightUpLegRollRx = DoubleAngleField()
+    RightUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRy = DoubleAngleField()
+    RightUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRz = DoubleAngleField()
+    RightUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegRollRAttrOperator(
@@ -5752,11 +5752,11 @@ class RightUpLegRollRAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegRollRx = DoubleAngleField()
+    RightUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRy = DoubleAngleField()
+    RightUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRz = DoubleAngleField()
+    RightUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegRollRField(
@@ -5767,11 +5767,11 @@ class RightUpLegRollRField(
     ATTR_CLS = RightUpLegRollRAttrOperator
     PLUG_CLS = RightUpLegRollRPlugOperator
 
-    RightUpLegRollRx = DoubleAngleField()
+    RightUpLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRy = DoubleAngleField()
+    RightUpLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightUpLegRollRz = DoubleAngleField()
+    RightUpLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightUpLegRollSPlugOperator(
@@ -5784,11 +5784,11 @@ class RightUpLegRollSPlugOperator(
         ("RightUpLegRollSz", "RightUpLegRollSz"),
     )
 
-    RightUpLegRollSx = DoubleField()
+    RightUpLegRollSx = DoubleField(default_value=1.0)
 
-    RightUpLegRollSy = DoubleField()
+    RightUpLegRollSy = DoubleField(default_value=1.0)
 
-    RightUpLegRollSz = DoubleField()
+    RightUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegRollSAttrOperator(
@@ -5796,11 +5796,11 @@ class RightUpLegRollSAttrOperator(
 ):
     __slots__ = ()
 
-    RightUpLegRollSx = DoubleField()
+    RightUpLegRollSx = DoubleField(default_value=1.0)
 
-    RightUpLegRollSy = DoubleField()
+    RightUpLegRollSy = DoubleField(default_value=1.0)
 
-    RightUpLegRollSz = DoubleField()
+    RightUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightUpLegRollSField(
@@ -5811,11 +5811,11 @@ class RightUpLegRollSField(
     ATTR_CLS = RightUpLegRollSAttrOperator
     PLUG_CLS = RightUpLegRollSPlugOperator
 
-    RightUpLegRollSx = DoubleField()
+    RightUpLegRollSx = DoubleField(default_value=1.0)
 
-    RightUpLegRollSy = DoubleField()
+    RightUpLegRollSy = DoubleField(default_value=1.0)
 
-    RightUpLegRollSz = DoubleField()
+    RightUpLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightLegRollTPlugOperator(
@@ -5828,11 +5828,11 @@ class RightLegRollTPlugOperator(
         ("RightLegRollTz", "RightLegRollTz"),
     )
 
-    RightLegRollTx = DoubleLinearField()
+    RightLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTy = DoubleLinearField()
+    RightLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTz = DoubleLinearField()
+    RightLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegRollTAttrOperator(
@@ -5840,11 +5840,11 @@ class RightLegRollTAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegRollTx = DoubleLinearField()
+    RightLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTy = DoubleLinearField()
+    RightLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTz = DoubleLinearField()
+    RightLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegRollTField(
@@ -5855,11 +5855,11 @@ class RightLegRollTField(
     ATTR_CLS = RightLegRollTAttrOperator
     PLUG_CLS = RightLegRollTPlugOperator
 
-    RightLegRollTx = DoubleLinearField()
+    RightLegRollTx = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTy = DoubleLinearField()
+    RightLegRollTy = DoubleLinearField(default_value=0.0)
 
-    RightLegRollTz = DoubleLinearField()
+    RightLegRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightLegRollRPlugOperator(
@@ -5872,11 +5872,11 @@ class RightLegRollRPlugOperator(
         ("RightLegRollRz", "RightLegRollRz"),
     )
 
-    RightLegRollRx = DoubleAngleField()
+    RightLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRy = DoubleAngleField()
+    RightLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRz = DoubleAngleField()
+    RightLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegRollRAttrOperator(
@@ -5884,11 +5884,11 @@ class RightLegRollRAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegRollRx = DoubleAngleField()
+    RightLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRy = DoubleAngleField()
+    RightLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRz = DoubleAngleField()
+    RightLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegRollRField(
@@ -5899,11 +5899,11 @@ class RightLegRollRField(
     ATTR_CLS = RightLegRollRAttrOperator
     PLUG_CLS = RightLegRollRPlugOperator
 
-    RightLegRollRx = DoubleAngleField()
+    RightLegRollRx = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRy = DoubleAngleField()
+    RightLegRollRy = DoubleAngleField(default_value=0.0)
 
-    RightLegRollRz = DoubleAngleField()
+    RightLegRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightLegRollSPlugOperator(
@@ -5916,11 +5916,11 @@ class RightLegRollSPlugOperator(
         ("RightLegRollSz", "RightLegRollSz"),
     )
 
-    RightLegRollSx = DoubleField()
+    RightLegRollSx = DoubleField(default_value=1.0)
 
-    RightLegRollSy = DoubleField()
+    RightLegRollSy = DoubleField(default_value=1.0)
 
-    RightLegRollSz = DoubleField()
+    RightLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightLegRollSAttrOperator(
@@ -5928,11 +5928,11 @@ class RightLegRollSAttrOperator(
 ):
     __slots__ = ()
 
-    RightLegRollSx = DoubleField()
+    RightLegRollSx = DoubleField(default_value=1.0)
 
-    RightLegRollSy = DoubleField()
+    RightLegRollSy = DoubleField(default_value=1.0)
 
-    RightLegRollSz = DoubleField()
+    RightLegRollSz = DoubleField(default_value=1.0)
 
 
 class RightLegRollSField(
@@ -5943,11 +5943,11 @@ class RightLegRollSField(
     ATTR_CLS = RightLegRollSAttrOperator
     PLUG_CLS = RightLegRollSPlugOperator
 
-    RightLegRollSx = DoubleField()
+    RightLegRollSx = DoubleField(default_value=1.0)
 
-    RightLegRollSy = DoubleField()
+    RightLegRollSy = DoubleField(default_value=1.0)
 
-    RightLegRollSz = DoubleField()
+    RightLegRollSz = DoubleField(default_value=1.0)
 
 
 class LeftArmRollTPlugOperator(
@@ -5960,11 +5960,11 @@ class LeftArmRollTPlugOperator(
         ("LeftArmRollTz", "LeftArmRollTz"),
     )
 
-    LeftArmRollTx = DoubleLinearField()
+    LeftArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTy = DoubleLinearField()
+    LeftArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTz = DoubleLinearField()
+    LeftArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmRollTAttrOperator(
@@ -5972,11 +5972,11 @@ class LeftArmRollTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmRollTx = DoubleLinearField()
+    LeftArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTy = DoubleLinearField()
+    LeftArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTz = DoubleLinearField()
+    LeftArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmRollTField(
@@ -5987,11 +5987,11 @@ class LeftArmRollTField(
     ATTR_CLS = LeftArmRollTAttrOperator
     PLUG_CLS = LeftArmRollTPlugOperator
 
-    LeftArmRollTx = DoubleLinearField()
+    LeftArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTy = DoubleLinearField()
+    LeftArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftArmRollTz = DoubleLinearField()
+    LeftArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftArmRollRPlugOperator(
@@ -6004,11 +6004,11 @@ class LeftArmRollRPlugOperator(
         ("LeftArmRollRz", "LeftArmRollRz"),
     )
 
-    LeftArmRollRx = DoubleAngleField()
+    LeftArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRy = DoubleAngleField()
+    LeftArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRz = DoubleAngleField()
+    LeftArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmRollRAttrOperator(
@@ -6016,11 +6016,11 @@ class LeftArmRollRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmRollRx = DoubleAngleField()
+    LeftArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRy = DoubleAngleField()
+    LeftArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRz = DoubleAngleField()
+    LeftArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmRollRField(
@@ -6031,11 +6031,11 @@ class LeftArmRollRField(
     ATTR_CLS = LeftArmRollRAttrOperator
     PLUG_CLS = LeftArmRollRPlugOperator
 
-    LeftArmRollRx = DoubleAngleField()
+    LeftArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRy = DoubleAngleField()
+    LeftArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftArmRollRz = DoubleAngleField()
+    LeftArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftArmRollSPlugOperator(
@@ -6048,11 +6048,11 @@ class LeftArmRollSPlugOperator(
         ("LeftArmRollSz", "LeftArmRollSz"),
     )
 
-    LeftArmRollSx = DoubleField()
+    LeftArmRollSx = DoubleField(default_value=1.0)
 
-    LeftArmRollSy = DoubleField()
+    LeftArmRollSy = DoubleField(default_value=1.0)
 
-    LeftArmRollSz = DoubleField()
+    LeftArmRollSz = DoubleField(default_value=1.0)
 
 
 class LeftArmRollSAttrOperator(
@@ -6060,11 +6060,11 @@ class LeftArmRollSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftArmRollSx = DoubleField()
+    LeftArmRollSx = DoubleField(default_value=1.0)
 
-    LeftArmRollSy = DoubleField()
+    LeftArmRollSy = DoubleField(default_value=1.0)
 
-    LeftArmRollSz = DoubleField()
+    LeftArmRollSz = DoubleField(default_value=1.0)
 
 
 class LeftArmRollSField(
@@ -6075,11 +6075,11 @@ class LeftArmRollSField(
     ATTR_CLS = LeftArmRollSAttrOperator
     PLUG_CLS = LeftArmRollSPlugOperator
 
-    LeftArmRollSx = DoubleField()
+    LeftArmRollSx = DoubleField(default_value=1.0)
 
-    LeftArmRollSy = DoubleField()
+    LeftArmRollSy = DoubleField(default_value=1.0)
 
-    LeftArmRollSz = DoubleField()
+    LeftArmRollSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmRollTPlugOperator(
@@ -6092,11 +6092,11 @@ class LeftForeArmRollTPlugOperator(
         ("LeftForeArmRollTz", "LeftForeArmRollTz"),
     )
 
-    LeftForeArmRollTx = DoubleLinearField()
+    LeftForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTy = DoubleLinearField()
+    LeftForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTz = DoubleLinearField()
+    LeftForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmRollTAttrOperator(
@@ -6104,11 +6104,11 @@ class LeftForeArmRollTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmRollTx = DoubleLinearField()
+    LeftForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTy = DoubleLinearField()
+    LeftForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTz = DoubleLinearField()
+    LeftForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmRollTField(
@@ -6119,11 +6119,11 @@ class LeftForeArmRollTField(
     ATTR_CLS = LeftForeArmRollTAttrOperator
     PLUG_CLS = LeftForeArmRollTPlugOperator
 
-    LeftForeArmRollTx = DoubleLinearField()
+    LeftForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTy = DoubleLinearField()
+    LeftForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    LeftForeArmRollTz = DoubleLinearField()
+    LeftForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftForeArmRollRPlugOperator(
@@ -6136,11 +6136,11 @@ class LeftForeArmRollRPlugOperator(
         ("LeftForeArmRollRz", "LeftForeArmRollRz"),
     )
 
-    LeftForeArmRollRx = DoubleAngleField()
+    LeftForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRy = DoubleAngleField()
+    LeftForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRz = DoubleAngleField()
+    LeftForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmRollRAttrOperator(
@@ -6148,11 +6148,11 @@ class LeftForeArmRollRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmRollRx = DoubleAngleField()
+    LeftForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRy = DoubleAngleField()
+    LeftForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRz = DoubleAngleField()
+    LeftForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmRollRField(
@@ -6163,11 +6163,11 @@ class LeftForeArmRollRField(
     ATTR_CLS = LeftForeArmRollRAttrOperator
     PLUG_CLS = LeftForeArmRollRPlugOperator
 
-    LeftForeArmRollRx = DoubleAngleField()
+    LeftForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRy = DoubleAngleField()
+    LeftForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    LeftForeArmRollRz = DoubleAngleField()
+    LeftForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftForeArmRollSPlugOperator(
@@ -6180,11 +6180,11 @@ class LeftForeArmRollSPlugOperator(
         ("LeftForeArmRollSz", "LeftForeArmRollSz"),
     )
 
-    LeftForeArmRollSx = DoubleField()
+    LeftForeArmRollSx = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSy = DoubleField()
+    LeftForeArmRollSy = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSz = DoubleField()
+    LeftForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmRollSAttrOperator(
@@ -6192,11 +6192,11 @@ class LeftForeArmRollSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftForeArmRollSx = DoubleField()
+    LeftForeArmRollSx = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSy = DoubleField()
+    LeftForeArmRollSy = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSz = DoubleField()
+    LeftForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class LeftForeArmRollSField(
@@ -6207,11 +6207,11 @@ class LeftForeArmRollSField(
     ATTR_CLS = LeftForeArmRollSAttrOperator
     PLUG_CLS = LeftForeArmRollSPlugOperator
 
-    LeftForeArmRollSx = DoubleField()
+    LeftForeArmRollSx = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSy = DoubleField()
+    LeftForeArmRollSy = DoubleField(default_value=1.0)
 
-    LeftForeArmRollSz = DoubleField()
+    LeftForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightArmRollTPlugOperator(
@@ -6224,11 +6224,11 @@ class RightArmRollTPlugOperator(
         ("RightArmRollTz", "RightArmRollTz"),
     )
 
-    RightArmRollTx = DoubleLinearField()
+    RightArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTy = DoubleLinearField()
+    RightArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTz = DoubleLinearField()
+    RightArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmRollTAttrOperator(
@@ -6236,11 +6236,11 @@ class RightArmRollTAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmRollTx = DoubleLinearField()
+    RightArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTy = DoubleLinearField()
+    RightArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTz = DoubleLinearField()
+    RightArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmRollTField(
@@ -6251,11 +6251,11 @@ class RightArmRollTField(
     ATTR_CLS = RightArmRollTAttrOperator
     PLUG_CLS = RightArmRollTPlugOperator
 
-    RightArmRollTx = DoubleLinearField()
+    RightArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTy = DoubleLinearField()
+    RightArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightArmRollTz = DoubleLinearField()
+    RightArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightArmRollRPlugOperator(
@@ -6268,11 +6268,11 @@ class RightArmRollRPlugOperator(
         ("RightArmRollRz", "RightArmRollRz"),
     )
 
-    RightArmRollRx = DoubleAngleField()
+    RightArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRy = DoubleAngleField()
+    RightArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRz = DoubleAngleField()
+    RightArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmRollRAttrOperator(
@@ -6280,11 +6280,11 @@ class RightArmRollRAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmRollRx = DoubleAngleField()
+    RightArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRy = DoubleAngleField()
+    RightArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRz = DoubleAngleField()
+    RightArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmRollRField(
@@ -6295,11 +6295,11 @@ class RightArmRollRField(
     ATTR_CLS = RightArmRollRAttrOperator
     PLUG_CLS = RightArmRollRPlugOperator
 
-    RightArmRollRx = DoubleAngleField()
+    RightArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRy = DoubleAngleField()
+    RightArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightArmRollRz = DoubleAngleField()
+    RightArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightArmRollSPlugOperator(
@@ -6312,11 +6312,11 @@ class RightArmRollSPlugOperator(
         ("RightArmRollSz", "RightArmRollSz"),
     )
 
-    RightArmRollSx = DoubleField()
+    RightArmRollSx = DoubleField(default_value=1.0)
 
-    RightArmRollSy = DoubleField()
+    RightArmRollSy = DoubleField(default_value=1.0)
 
-    RightArmRollSz = DoubleField()
+    RightArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightArmRollSAttrOperator(
@@ -6324,11 +6324,11 @@ class RightArmRollSAttrOperator(
 ):
     __slots__ = ()
 
-    RightArmRollSx = DoubleField()
+    RightArmRollSx = DoubleField(default_value=1.0)
 
-    RightArmRollSy = DoubleField()
+    RightArmRollSy = DoubleField(default_value=1.0)
 
-    RightArmRollSz = DoubleField()
+    RightArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightArmRollSField(
@@ -6339,11 +6339,11 @@ class RightArmRollSField(
     ATTR_CLS = RightArmRollSAttrOperator
     PLUG_CLS = RightArmRollSPlugOperator
 
-    RightArmRollSx = DoubleField()
+    RightArmRollSx = DoubleField(default_value=1.0)
 
-    RightArmRollSy = DoubleField()
+    RightArmRollSy = DoubleField(default_value=1.0)
 
-    RightArmRollSz = DoubleField()
+    RightArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmRollTPlugOperator(
@@ -6356,11 +6356,11 @@ class RightForeArmRollTPlugOperator(
         ("RightForeArmRollTz", "RightForeArmRollTz"),
     )
 
-    RightForeArmRollTx = DoubleLinearField()
+    RightForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTy = DoubleLinearField()
+    RightForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTz = DoubleLinearField()
+    RightForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmRollTAttrOperator(
@@ -6368,11 +6368,11 @@ class RightForeArmRollTAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmRollTx = DoubleLinearField()
+    RightForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTy = DoubleLinearField()
+    RightForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTz = DoubleLinearField()
+    RightForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmRollTField(
@@ -6383,11 +6383,11 @@ class RightForeArmRollTField(
     ATTR_CLS = RightForeArmRollTAttrOperator
     PLUG_CLS = RightForeArmRollTPlugOperator
 
-    RightForeArmRollTx = DoubleLinearField()
+    RightForeArmRollTx = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTy = DoubleLinearField()
+    RightForeArmRollTy = DoubleLinearField(default_value=0.0)
 
-    RightForeArmRollTz = DoubleLinearField()
+    RightForeArmRollTz = DoubleLinearField(default_value=0.0)
 
 
 class RightForeArmRollRPlugOperator(
@@ -6400,11 +6400,11 @@ class RightForeArmRollRPlugOperator(
         ("RightForeArmRollRz", "RightForeArmRollRz"),
     )
 
-    RightForeArmRollRx = DoubleAngleField()
+    RightForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRy = DoubleAngleField()
+    RightForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRz = DoubleAngleField()
+    RightForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmRollRAttrOperator(
@@ -6412,11 +6412,11 @@ class RightForeArmRollRAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmRollRx = DoubleAngleField()
+    RightForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRy = DoubleAngleField()
+    RightForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRz = DoubleAngleField()
+    RightForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmRollRField(
@@ -6427,11 +6427,11 @@ class RightForeArmRollRField(
     ATTR_CLS = RightForeArmRollRAttrOperator
     PLUG_CLS = RightForeArmRollRPlugOperator
 
-    RightForeArmRollRx = DoubleAngleField()
+    RightForeArmRollRx = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRy = DoubleAngleField()
+    RightForeArmRollRy = DoubleAngleField(default_value=0.0)
 
-    RightForeArmRollRz = DoubleAngleField()
+    RightForeArmRollRz = DoubleAngleField(default_value=0.0)
 
 
 class RightForeArmRollSPlugOperator(
@@ -6444,11 +6444,11 @@ class RightForeArmRollSPlugOperator(
         ("RightForeArmRollSz", "RightForeArmRollSz"),
     )
 
-    RightForeArmRollSx = DoubleField()
+    RightForeArmRollSx = DoubleField(default_value=1.0)
 
-    RightForeArmRollSy = DoubleField()
+    RightForeArmRollSy = DoubleField(default_value=1.0)
 
-    RightForeArmRollSz = DoubleField()
+    RightForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmRollSAttrOperator(
@@ -6456,11 +6456,11 @@ class RightForeArmRollSAttrOperator(
 ):
     __slots__ = ()
 
-    RightForeArmRollSx = DoubleField()
+    RightForeArmRollSx = DoubleField(default_value=1.0)
 
-    RightForeArmRollSy = DoubleField()
+    RightForeArmRollSy = DoubleField(default_value=1.0)
 
-    RightForeArmRollSz = DoubleField()
+    RightForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class RightForeArmRollSField(
@@ -6471,11 +6471,11 @@ class RightForeArmRollSField(
     ATTR_CLS = RightForeArmRollSAttrOperator
     PLUG_CLS = RightForeArmRollSPlugOperator
 
-    RightForeArmRollSx = DoubleField()
+    RightForeArmRollSx = DoubleField(default_value=1.0)
 
-    RightForeArmRollSy = DoubleField()
+    RightForeArmRollSy = DoubleField(default_value=1.0)
 
-    RightForeArmRollSz = DoubleField()
+    RightForeArmRollSz = DoubleField(default_value=1.0)
 
 
 class HipsTranslationTPlugOperator(
@@ -6488,11 +6488,11 @@ class HipsTranslationTPlugOperator(
         ("HipsTranslationTz", "HipsTranslationTz"),
     )
 
-    HipsTranslationTx = DoubleLinearField()
+    HipsTranslationTx = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTy = DoubleLinearField()
+    HipsTranslationTy = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTz = DoubleLinearField()
+    HipsTranslationTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsTranslationTAttrOperator(
@@ -6500,11 +6500,11 @@ class HipsTranslationTAttrOperator(
 ):
     __slots__ = ()
 
-    HipsTranslationTx = DoubleLinearField()
+    HipsTranslationTx = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTy = DoubleLinearField()
+    HipsTranslationTy = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTz = DoubleLinearField()
+    HipsTranslationTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsTranslationTField(
@@ -6515,11 +6515,11 @@ class HipsTranslationTField(
     ATTR_CLS = HipsTranslationTAttrOperator
     PLUG_CLS = HipsTranslationTPlugOperator
 
-    HipsTranslationTx = DoubleLinearField()
+    HipsTranslationTx = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTy = DoubleLinearField()
+    HipsTranslationTy = DoubleLinearField(default_value=0.0)
 
-    HipsTranslationTz = DoubleLinearField()
+    HipsTranslationTz = DoubleLinearField(default_value=0.0)
 
 
 class HipsTranslationRPlugOperator(
@@ -6532,11 +6532,11 @@ class HipsTranslationRPlugOperator(
         ("HipsTranslationRz", "HipsTranslationRz"),
     )
 
-    HipsTranslationRx = DoubleAngleField()
+    HipsTranslationRx = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRy = DoubleAngleField()
+    HipsTranslationRy = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRz = DoubleAngleField()
+    HipsTranslationRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsTranslationRAttrOperator(
@@ -6544,11 +6544,11 @@ class HipsTranslationRAttrOperator(
 ):
     __slots__ = ()
 
-    HipsTranslationRx = DoubleAngleField()
+    HipsTranslationRx = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRy = DoubleAngleField()
+    HipsTranslationRy = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRz = DoubleAngleField()
+    HipsTranslationRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsTranslationRField(
@@ -6559,11 +6559,11 @@ class HipsTranslationRField(
     ATTR_CLS = HipsTranslationRAttrOperator
     PLUG_CLS = HipsTranslationRPlugOperator
 
-    HipsTranslationRx = DoubleAngleField()
+    HipsTranslationRx = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRy = DoubleAngleField()
+    HipsTranslationRy = DoubleAngleField(default_value=0.0)
 
-    HipsTranslationRz = DoubleAngleField()
+    HipsTranslationRz = DoubleAngleField(default_value=0.0)
 
 
 class HipsTranslationSPlugOperator(
@@ -6576,11 +6576,11 @@ class HipsTranslationSPlugOperator(
         ("HipsTranslationSz", "HipsTranslationSz"),
     )
 
-    HipsTranslationSx = DoubleField()
+    HipsTranslationSx = DoubleField(default_value=1.0)
 
-    HipsTranslationSy = DoubleField()
+    HipsTranslationSy = DoubleField(default_value=1.0)
 
-    HipsTranslationSz = DoubleField()
+    HipsTranslationSz = DoubleField(default_value=1.0)
 
 
 class HipsTranslationSAttrOperator(
@@ -6588,11 +6588,11 @@ class HipsTranslationSAttrOperator(
 ):
     __slots__ = ()
 
-    HipsTranslationSx = DoubleField()
+    HipsTranslationSx = DoubleField(default_value=1.0)
 
-    HipsTranslationSy = DoubleField()
+    HipsTranslationSy = DoubleField(default_value=1.0)
 
-    HipsTranslationSz = DoubleField()
+    HipsTranslationSz = DoubleField(default_value=1.0)
 
 
 class HipsTranslationSField(
@@ -6603,11 +6603,11 @@ class HipsTranslationSField(
     ATTR_CLS = HipsTranslationSAttrOperator
     PLUG_CLS = HipsTranslationSPlugOperator
 
-    HipsTranslationSx = DoubleField()
+    HipsTranslationSx = DoubleField(default_value=1.0)
 
-    HipsTranslationSy = DoubleField()
+    HipsTranslationSy = DoubleField(default_value=1.0)
 
-    HipsTranslationSz = DoubleField()
+    HipsTranslationSz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb1TPlugOperator(
@@ -6620,11 +6620,11 @@ class LeftHandThumb1TPlugOperator(
         ("LeftHandThumb1Tz", "LeftHandThumb1Tz"),
     )
 
-    LeftHandThumb1Tx = DoubleLinearField()
+    LeftHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Ty = DoubleLinearField()
+    LeftHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Tz = DoubleLinearField()
+    LeftHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb1TAttrOperator(
@@ -6632,11 +6632,11 @@ class LeftHandThumb1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb1Tx = DoubleLinearField()
+    LeftHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Ty = DoubleLinearField()
+    LeftHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Tz = DoubleLinearField()
+    LeftHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb1TField(
@@ -6647,11 +6647,11 @@ class LeftHandThumb1TField(
     ATTR_CLS = LeftHandThumb1TAttrOperator
     PLUG_CLS = LeftHandThumb1TPlugOperator
 
-    LeftHandThumb1Tx = DoubleLinearField()
+    LeftHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Ty = DoubleLinearField()
+    LeftHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb1Tz = DoubleLinearField()
+    LeftHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb1RPlugOperator(
@@ -6664,11 +6664,11 @@ class LeftHandThumb1RPlugOperator(
         ("LeftHandThumb1Rz", "LeftHandThumb1Rz"),
     )
 
-    LeftHandThumb1Rx = DoubleAngleField()
+    LeftHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Ry = DoubleAngleField()
+    LeftHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Rz = DoubleAngleField()
+    LeftHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb1RAttrOperator(
@@ -6676,11 +6676,11 @@ class LeftHandThumb1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb1Rx = DoubleAngleField()
+    LeftHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Ry = DoubleAngleField()
+    LeftHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Rz = DoubleAngleField()
+    LeftHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb1RField(
@@ -6691,11 +6691,11 @@ class LeftHandThumb1RField(
     ATTR_CLS = LeftHandThumb1RAttrOperator
     PLUG_CLS = LeftHandThumb1RPlugOperator
 
-    LeftHandThumb1Rx = DoubleAngleField()
+    LeftHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Ry = DoubleAngleField()
+    LeftHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb1Rz = DoubleAngleField()
+    LeftHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb1SPlugOperator(
@@ -6708,11 +6708,11 @@ class LeftHandThumb1SPlugOperator(
         ("LeftHandThumb1Sz", "LeftHandThumb1Sz"),
     )
 
-    LeftHandThumb1Sx = DoubleField()
+    LeftHandThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sy = DoubleField()
+    LeftHandThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sz = DoubleField()
+    LeftHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb1SAttrOperator(
@@ -6720,11 +6720,11 @@ class LeftHandThumb1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb1Sx = DoubleField()
+    LeftHandThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sy = DoubleField()
+    LeftHandThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sz = DoubleField()
+    LeftHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb1SField(
@@ -6735,11 +6735,11 @@ class LeftHandThumb1SField(
     ATTR_CLS = LeftHandThumb1SAttrOperator
     PLUG_CLS = LeftHandThumb1SPlugOperator
 
-    LeftHandThumb1Sx = DoubleField()
+    LeftHandThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sy = DoubleField()
+    LeftHandThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb1Sz = DoubleField()
+    LeftHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb2TPlugOperator(
@@ -6752,11 +6752,11 @@ class LeftHandThumb2TPlugOperator(
         ("LeftHandThumb2Tz", "LeftHandThumb2Tz"),
     )
 
-    LeftHandThumb2Tx = DoubleLinearField()
+    LeftHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Ty = DoubleLinearField()
+    LeftHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Tz = DoubleLinearField()
+    LeftHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb2TAttrOperator(
@@ -6764,11 +6764,11 @@ class LeftHandThumb2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb2Tx = DoubleLinearField()
+    LeftHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Ty = DoubleLinearField()
+    LeftHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Tz = DoubleLinearField()
+    LeftHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb2TField(
@@ -6779,11 +6779,11 @@ class LeftHandThumb2TField(
     ATTR_CLS = LeftHandThumb2TAttrOperator
     PLUG_CLS = LeftHandThumb2TPlugOperator
 
-    LeftHandThumb2Tx = DoubleLinearField()
+    LeftHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Ty = DoubleLinearField()
+    LeftHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb2Tz = DoubleLinearField()
+    LeftHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb2RPlugOperator(
@@ -6796,11 +6796,11 @@ class LeftHandThumb2RPlugOperator(
         ("LeftHandThumb2Rz", "LeftHandThumb2Rz"),
     )
 
-    LeftHandThumb2Rx = DoubleAngleField()
+    LeftHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Ry = DoubleAngleField()
+    LeftHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Rz = DoubleAngleField()
+    LeftHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb2RAttrOperator(
@@ -6808,11 +6808,11 @@ class LeftHandThumb2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb2Rx = DoubleAngleField()
+    LeftHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Ry = DoubleAngleField()
+    LeftHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Rz = DoubleAngleField()
+    LeftHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb2RField(
@@ -6823,11 +6823,11 @@ class LeftHandThumb2RField(
     ATTR_CLS = LeftHandThumb2RAttrOperator
     PLUG_CLS = LeftHandThumb2RPlugOperator
 
-    LeftHandThumb2Rx = DoubleAngleField()
+    LeftHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Ry = DoubleAngleField()
+    LeftHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb2Rz = DoubleAngleField()
+    LeftHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb2SPlugOperator(
@@ -6840,11 +6840,11 @@ class LeftHandThumb2SPlugOperator(
         ("LeftHandThumb2Sz", "LeftHandThumb2Sz"),
     )
 
-    LeftHandThumb2Sx = DoubleField()
+    LeftHandThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sy = DoubleField()
+    LeftHandThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sz = DoubleField()
+    LeftHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb2SAttrOperator(
@@ -6852,11 +6852,11 @@ class LeftHandThumb2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb2Sx = DoubleField()
+    LeftHandThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sy = DoubleField()
+    LeftHandThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sz = DoubleField()
+    LeftHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb2SField(
@@ -6867,11 +6867,11 @@ class LeftHandThumb2SField(
     ATTR_CLS = LeftHandThumb2SAttrOperator
     PLUG_CLS = LeftHandThumb2SPlugOperator
 
-    LeftHandThumb2Sx = DoubleField()
+    LeftHandThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sy = DoubleField()
+    LeftHandThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb2Sz = DoubleField()
+    LeftHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb3TPlugOperator(
@@ -6884,11 +6884,11 @@ class LeftHandThumb3TPlugOperator(
         ("LeftHandThumb3Tz", "LeftHandThumb3Tz"),
     )
 
-    LeftHandThumb3Tx = DoubleLinearField()
+    LeftHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Ty = DoubleLinearField()
+    LeftHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Tz = DoubleLinearField()
+    LeftHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb3TAttrOperator(
@@ -6896,11 +6896,11 @@ class LeftHandThumb3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb3Tx = DoubleLinearField()
+    LeftHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Ty = DoubleLinearField()
+    LeftHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Tz = DoubleLinearField()
+    LeftHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb3TField(
@@ -6911,11 +6911,11 @@ class LeftHandThumb3TField(
     ATTR_CLS = LeftHandThumb3TAttrOperator
     PLUG_CLS = LeftHandThumb3TPlugOperator
 
-    LeftHandThumb3Tx = DoubleLinearField()
+    LeftHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Ty = DoubleLinearField()
+    LeftHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb3Tz = DoubleLinearField()
+    LeftHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb3RPlugOperator(
@@ -6928,11 +6928,11 @@ class LeftHandThumb3RPlugOperator(
         ("LeftHandThumb3Rz", "LeftHandThumb3Rz"),
     )
 
-    LeftHandThumb3Rx = DoubleAngleField()
+    LeftHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Ry = DoubleAngleField()
+    LeftHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Rz = DoubleAngleField()
+    LeftHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb3RAttrOperator(
@@ -6940,11 +6940,11 @@ class LeftHandThumb3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb3Rx = DoubleAngleField()
+    LeftHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Ry = DoubleAngleField()
+    LeftHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Rz = DoubleAngleField()
+    LeftHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb3RField(
@@ -6955,11 +6955,11 @@ class LeftHandThumb3RField(
     ATTR_CLS = LeftHandThumb3RAttrOperator
     PLUG_CLS = LeftHandThumb3RPlugOperator
 
-    LeftHandThumb3Rx = DoubleAngleField()
+    LeftHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Ry = DoubleAngleField()
+    LeftHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb3Rz = DoubleAngleField()
+    LeftHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb3SPlugOperator(
@@ -6972,11 +6972,11 @@ class LeftHandThumb3SPlugOperator(
         ("LeftHandThumb3Sz", "LeftHandThumb3Sz"),
     )
 
-    LeftHandThumb3Sx = DoubleField()
+    LeftHandThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sy = DoubleField()
+    LeftHandThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sz = DoubleField()
+    LeftHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb3SAttrOperator(
@@ -6984,11 +6984,11 @@ class LeftHandThumb3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb3Sx = DoubleField()
+    LeftHandThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sy = DoubleField()
+    LeftHandThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sz = DoubleField()
+    LeftHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb3SField(
@@ -6999,11 +6999,11 @@ class LeftHandThumb3SField(
     ATTR_CLS = LeftHandThumb3SAttrOperator
     PLUG_CLS = LeftHandThumb3SPlugOperator
 
-    LeftHandThumb3Sx = DoubleField()
+    LeftHandThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sy = DoubleField()
+    LeftHandThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb3Sz = DoubleField()
+    LeftHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb4TPlugOperator(
@@ -7016,11 +7016,11 @@ class LeftHandThumb4TPlugOperator(
         ("LeftHandThumb4Tz", "LeftHandThumb4Tz"),
     )
 
-    LeftHandThumb4Tx = DoubleLinearField()
+    LeftHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Ty = DoubleLinearField()
+    LeftHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Tz = DoubleLinearField()
+    LeftHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb4TAttrOperator(
@@ -7028,11 +7028,11 @@ class LeftHandThumb4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb4Tx = DoubleLinearField()
+    LeftHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Ty = DoubleLinearField()
+    LeftHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Tz = DoubleLinearField()
+    LeftHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb4TField(
@@ -7043,11 +7043,11 @@ class LeftHandThumb4TField(
     ATTR_CLS = LeftHandThumb4TAttrOperator
     PLUG_CLS = LeftHandThumb4TPlugOperator
 
-    LeftHandThumb4Tx = DoubleLinearField()
+    LeftHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Ty = DoubleLinearField()
+    LeftHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumb4Tz = DoubleLinearField()
+    LeftHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumb4RPlugOperator(
@@ -7060,11 +7060,11 @@ class LeftHandThumb4RPlugOperator(
         ("LeftHandThumb4Rz", "LeftHandThumb4Rz"),
     )
 
-    LeftHandThumb4Rx = DoubleAngleField()
+    LeftHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Ry = DoubleAngleField()
+    LeftHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Rz = DoubleAngleField()
+    LeftHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb4RAttrOperator(
@@ -7072,11 +7072,11 @@ class LeftHandThumb4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb4Rx = DoubleAngleField()
+    LeftHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Ry = DoubleAngleField()
+    LeftHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Rz = DoubleAngleField()
+    LeftHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb4RField(
@@ -7087,11 +7087,11 @@ class LeftHandThumb4RField(
     ATTR_CLS = LeftHandThumb4RAttrOperator
     PLUG_CLS = LeftHandThumb4RPlugOperator
 
-    LeftHandThumb4Rx = DoubleAngleField()
+    LeftHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Ry = DoubleAngleField()
+    LeftHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandThumb4Rz = DoubleAngleField()
+    LeftHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandThumb4SPlugOperator(
@@ -7104,11 +7104,11 @@ class LeftHandThumb4SPlugOperator(
         ("LeftHandThumb4Sz", "LeftHandThumb4Sz"),
     )
 
-    LeftHandThumb4Sx = DoubleField()
+    LeftHandThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sy = DoubleField()
+    LeftHandThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sz = DoubleField()
+    LeftHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb4SAttrOperator(
@@ -7116,11 +7116,11 @@ class LeftHandThumb4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumb4Sx = DoubleField()
+    LeftHandThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sy = DoubleField()
+    LeftHandThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sz = DoubleField()
+    LeftHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandThumb4SField(
@@ -7131,11 +7131,11 @@ class LeftHandThumb4SField(
     ATTR_CLS = LeftHandThumb4SAttrOperator
     PLUG_CLS = LeftHandThumb4SPlugOperator
 
-    LeftHandThumb4Sx = DoubleField()
+    LeftHandThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sy = DoubleField()
+    LeftHandThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftHandThumb4Sz = DoubleField()
+    LeftHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex1TPlugOperator(
@@ -7148,11 +7148,11 @@ class LeftHandIndex1TPlugOperator(
         ("LeftHandIndex1Tz", "LeftHandIndex1Tz"),
     )
 
-    LeftHandIndex1Tx = DoubleLinearField()
+    LeftHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Ty = DoubleLinearField()
+    LeftHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Tz = DoubleLinearField()
+    LeftHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex1TAttrOperator(
@@ -7160,11 +7160,11 @@ class LeftHandIndex1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex1Tx = DoubleLinearField()
+    LeftHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Ty = DoubleLinearField()
+    LeftHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Tz = DoubleLinearField()
+    LeftHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex1TField(
@@ -7175,11 +7175,11 @@ class LeftHandIndex1TField(
     ATTR_CLS = LeftHandIndex1TAttrOperator
     PLUG_CLS = LeftHandIndex1TPlugOperator
 
-    LeftHandIndex1Tx = DoubleLinearField()
+    LeftHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Ty = DoubleLinearField()
+    LeftHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex1Tz = DoubleLinearField()
+    LeftHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex1RPlugOperator(
@@ -7192,11 +7192,11 @@ class LeftHandIndex1RPlugOperator(
         ("LeftHandIndex1Rz", "LeftHandIndex1Rz"),
     )
 
-    LeftHandIndex1Rx = DoubleAngleField()
+    LeftHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Ry = DoubleAngleField()
+    LeftHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Rz = DoubleAngleField()
+    LeftHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex1RAttrOperator(
@@ -7204,11 +7204,11 @@ class LeftHandIndex1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex1Rx = DoubleAngleField()
+    LeftHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Ry = DoubleAngleField()
+    LeftHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Rz = DoubleAngleField()
+    LeftHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex1RField(
@@ -7219,11 +7219,11 @@ class LeftHandIndex1RField(
     ATTR_CLS = LeftHandIndex1RAttrOperator
     PLUG_CLS = LeftHandIndex1RPlugOperator
 
-    LeftHandIndex1Rx = DoubleAngleField()
+    LeftHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Ry = DoubleAngleField()
+    LeftHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex1Rz = DoubleAngleField()
+    LeftHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex1SPlugOperator(
@@ -7236,11 +7236,11 @@ class LeftHandIndex1SPlugOperator(
         ("LeftHandIndex1Sz", "LeftHandIndex1Sz"),
     )
 
-    LeftHandIndex1Sx = DoubleField()
+    LeftHandIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sy = DoubleField()
+    LeftHandIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sz = DoubleField()
+    LeftHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex1SAttrOperator(
@@ -7248,11 +7248,11 @@ class LeftHandIndex1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex1Sx = DoubleField()
+    LeftHandIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sy = DoubleField()
+    LeftHandIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sz = DoubleField()
+    LeftHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex1SField(
@@ -7263,11 +7263,11 @@ class LeftHandIndex1SField(
     ATTR_CLS = LeftHandIndex1SAttrOperator
     PLUG_CLS = LeftHandIndex1SPlugOperator
 
-    LeftHandIndex1Sx = DoubleField()
+    LeftHandIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sy = DoubleField()
+    LeftHandIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex1Sz = DoubleField()
+    LeftHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex2TPlugOperator(
@@ -7280,11 +7280,11 @@ class LeftHandIndex2TPlugOperator(
         ("LeftHandIndex2Tz", "LeftHandIndex2Tz"),
     )
 
-    LeftHandIndex2Tx = DoubleLinearField()
+    LeftHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Ty = DoubleLinearField()
+    LeftHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Tz = DoubleLinearField()
+    LeftHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex2TAttrOperator(
@@ -7292,11 +7292,11 @@ class LeftHandIndex2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex2Tx = DoubleLinearField()
+    LeftHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Ty = DoubleLinearField()
+    LeftHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Tz = DoubleLinearField()
+    LeftHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex2TField(
@@ -7307,11 +7307,11 @@ class LeftHandIndex2TField(
     ATTR_CLS = LeftHandIndex2TAttrOperator
     PLUG_CLS = LeftHandIndex2TPlugOperator
 
-    LeftHandIndex2Tx = DoubleLinearField()
+    LeftHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Ty = DoubleLinearField()
+    LeftHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex2Tz = DoubleLinearField()
+    LeftHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex2RPlugOperator(
@@ -7324,11 +7324,11 @@ class LeftHandIndex2RPlugOperator(
         ("LeftHandIndex2Rz", "LeftHandIndex2Rz"),
     )
 
-    LeftHandIndex2Rx = DoubleAngleField()
+    LeftHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Ry = DoubleAngleField()
+    LeftHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Rz = DoubleAngleField()
+    LeftHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex2RAttrOperator(
@@ -7336,11 +7336,11 @@ class LeftHandIndex2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex2Rx = DoubleAngleField()
+    LeftHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Ry = DoubleAngleField()
+    LeftHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Rz = DoubleAngleField()
+    LeftHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex2RField(
@@ -7351,11 +7351,11 @@ class LeftHandIndex2RField(
     ATTR_CLS = LeftHandIndex2RAttrOperator
     PLUG_CLS = LeftHandIndex2RPlugOperator
 
-    LeftHandIndex2Rx = DoubleAngleField()
+    LeftHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Ry = DoubleAngleField()
+    LeftHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex2Rz = DoubleAngleField()
+    LeftHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex2SPlugOperator(
@@ -7368,11 +7368,11 @@ class LeftHandIndex2SPlugOperator(
         ("LeftHandIndex2Sz", "LeftHandIndex2Sz"),
     )
 
-    LeftHandIndex2Sx = DoubleField()
+    LeftHandIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sy = DoubleField()
+    LeftHandIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sz = DoubleField()
+    LeftHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex2SAttrOperator(
@@ -7380,11 +7380,11 @@ class LeftHandIndex2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex2Sx = DoubleField()
+    LeftHandIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sy = DoubleField()
+    LeftHandIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sz = DoubleField()
+    LeftHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex2SField(
@@ -7395,11 +7395,11 @@ class LeftHandIndex2SField(
     ATTR_CLS = LeftHandIndex2SAttrOperator
     PLUG_CLS = LeftHandIndex2SPlugOperator
 
-    LeftHandIndex2Sx = DoubleField()
+    LeftHandIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sy = DoubleField()
+    LeftHandIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex2Sz = DoubleField()
+    LeftHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex3TPlugOperator(
@@ -7412,11 +7412,11 @@ class LeftHandIndex3TPlugOperator(
         ("LeftHandIndex3Tz", "LeftHandIndex3Tz"),
     )
 
-    LeftHandIndex3Tx = DoubleLinearField()
+    LeftHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Ty = DoubleLinearField()
+    LeftHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Tz = DoubleLinearField()
+    LeftHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex3TAttrOperator(
@@ -7424,11 +7424,11 @@ class LeftHandIndex3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex3Tx = DoubleLinearField()
+    LeftHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Ty = DoubleLinearField()
+    LeftHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Tz = DoubleLinearField()
+    LeftHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex3TField(
@@ -7439,11 +7439,11 @@ class LeftHandIndex3TField(
     ATTR_CLS = LeftHandIndex3TAttrOperator
     PLUG_CLS = LeftHandIndex3TPlugOperator
 
-    LeftHandIndex3Tx = DoubleLinearField()
+    LeftHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Ty = DoubleLinearField()
+    LeftHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex3Tz = DoubleLinearField()
+    LeftHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex3RPlugOperator(
@@ -7456,11 +7456,11 @@ class LeftHandIndex3RPlugOperator(
         ("LeftHandIndex3Rz", "LeftHandIndex3Rz"),
     )
 
-    LeftHandIndex3Rx = DoubleAngleField()
+    LeftHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Ry = DoubleAngleField()
+    LeftHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Rz = DoubleAngleField()
+    LeftHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex3RAttrOperator(
@@ -7468,11 +7468,11 @@ class LeftHandIndex3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex3Rx = DoubleAngleField()
+    LeftHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Ry = DoubleAngleField()
+    LeftHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Rz = DoubleAngleField()
+    LeftHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex3RField(
@@ -7483,11 +7483,11 @@ class LeftHandIndex3RField(
     ATTR_CLS = LeftHandIndex3RAttrOperator
     PLUG_CLS = LeftHandIndex3RPlugOperator
 
-    LeftHandIndex3Rx = DoubleAngleField()
+    LeftHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Ry = DoubleAngleField()
+    LeftHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex3Rz = DoubleAngleField()
+    LeftHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex3SPlugOperator(
@@ -7500,11 +7500,11 @@ class LeftHandIndex3SPlugOperator(
         ("LeftHandIndex3Sz", "LeftHandIndex3Sz"),
     )
 
-    LeftHandIndex3Sx = DoubleField()
+    LeftHandIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sy = DoubleField()
+    LeftHandIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sz = DoubleField()
+    LeftHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex3SAttrOperator(
@@ -7512,11 +7512,11 @@ class LeftHandIndex3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex3Sx = DoubleField()
+    LeftHandIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sy = DoubleField()
+    LeftHandIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sz = DoubleField()
+    LeftHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex3SField(
@@ -7527,11 +7527,11 @@ class LeftHandIndex3SField(
     ATTR_CLS = LeftHandIndex3SAttrOperator
     PLUG_CLS = LeftHandIndex3SPlugOperator
 
-    LeftHandIndex3Sx = DoubleField()
+    LeftHandIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sy = DoubleField()
+    LeftHandIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex3Sz = DoubleField()
+    LeftHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex4TPlugOperator(
@@ -7544,11 +7544,11 @@ class LeftHandIndex4TPlugOperator(
         ("LeftHandIndex4Tz", "LeftHandIndex4Tz"),
     )
 
-    LeftHandIndex4Tx = DoubleLinearField()
+    LeftHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Ty = DoubleLinearField()
+    LeftHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Tz = DoubleLinearField()
+    LeftHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex4TAttrOperator(
@@ -7556,11 +7556,11 @@ class LeftHandIndex4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex4Tx = DoubleLinearField()
+    LeftHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Ty = DoubleLinearField()
+    LeftHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Tz = DoubleLinearField()
+    LeftHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex4TField(
@@ -7571,11 +7571,11 @@ class LeftHandIndex4TField(
     ATTR_CLS = LeftHandIndex4TAttrOperator
     PLUG_CLS = LeftHandIndex4TPlugOperator
 
-    LeftHandIndex4Tx = DoubleLinearField()
+    LeftHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Ty = DoubleLinearField()
+    LeftHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndex4Tz = DoubleLinearField()
+    LeftHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndex4RPlugOperator(
@@ -7588,11 +7588,11 @@ class LeftHandIndex4RPlugOperator(
         ("LeftHandIndex4Rz", "LeftHandIndex4Rz"),
     )
 
-    LeftHandIndex4Rx = DoubleAngleField()
+    LeftHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Ry = DoubleAngleField()
+    LeftHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Rz = DoubleAngleField()
+    LeftHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex4RAttrOperator(
@@ -7600,11 +7600,11 @@ class LeftHandIndex4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex4Rx = DoubleAngleField()
+    LeftHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Ry = DoubleAngleField()
+    LeftHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Rz = DoubleAngleField()
+    LeftHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex4RField(
@@ -7615,11 +7615,11 @@ class LeftHandIndex4RField(
     ATTR_CLS = LeftHandIndex4RAttrOperator
     PLUG_CLS = LeftHandIndex4RPlugOperator
 
-    LeftHandIndex4Rx = DoubleAngleField()
+    LeftHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Ry = DoubleAngleField()
+    LeftHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandIndex4Rz = DoubleAngleField()
+    LeftHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandIndex4SPlugOperator(
@@ -7632,11 +7632,11 @@ class LeftHandIndex4SPlugOperator(
         ("LeftHandIndex4Sz", "LeftHandIndex4Sz"),
     )
 
-    LeftHandIndex4Sx = DoubleField()
+    LeftHandIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sy = DoubleField()
+    LeftHandIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sz = DoubleField()
+    LeftHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex4SAttrOperator(
@@ -7644,11 +7644,11 @@ class LeftHandIndex4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndex4Sx = DoubleField()
+    LeftHandIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sy = DoubleField()
+    LeftHandIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sz = DoubleField()
+    LeftHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandIndex4SField(
@@ -7659,11 +7659,11 @@ class LeftHandIndex4SField(
     ATTR_CLS = LeftHandIndex4SAttrOperator
     PLUG_CLS = LeftHandIndex4SPlugOperator
 
-    LeftHandIndex4Sx = DoubleField()
+    LeftHandIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sy = DoubleField()
+    LeftHandIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftHandIndex4Sz = DoubleField()
+    LeftHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle1TPlugOperator(
@@ -7676,11 +7676,11 @@ class LeftHandMiddle1TPlugOperator(
         ("LeftHandMiddle1Tz", "LeftHandMiddle1Tz"),
     )
 
-    LeftHandMiddle1Tx = DoubleLinearField()
+    LeftHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Ty = DoubleLinearField()
+    LeftHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Tz = DoubleLinearField()
+    LeftHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle1TAttrOperator(
@@ -7688,11 +7688,11 @@ class LeftHandMiddle1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle1Tx = DoubleLinearField()
+    LeftHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Ty = DoubleLinearField()
+    LeftHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Tz = DoubleLinearField()
+    LeftHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle1TField(
@@ -7703,11 +7703,11 @@ class LeftHandMiddle1TField(
     ATTR_CLS = LeftHandMiddle1TAttrOperator
     PLUG_CLS = LeftHandMiddle1TPlugOperator
 
-    LeftHandMiddle1Tx = DoubleLinearField()
+    LeftHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Ty = DoubleLinearField()
+    LeftHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle1Tz = DoubleLinearField()
+    LeftHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle1RPlugOperator(
@@ -7720,11 +7720,11 @@ class LeftHandMiddle1RPlugOperator(
         ("LeftHandMiddle1Rz", "LeftHandMiddle1Rz"),
     )
 
-    LeftHandMiddle1Rx = DoubleAngleField()
+    LeftHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Ry = DoubleAngleField()
+    LeftHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Rz = DoubleAngleField()
+    LeftHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle1RAttrOperator(
@@ -7732,11 +7732,11 @@ class LeftHandMiddle1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle1Rx = DoubleAngleField()
+    LeftHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Ry = DoubleAngleField()
+    LeftHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Rz = DoubleAngleField()
+    LeftHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle1RField(
@@ -7747,11 +7747,11 @@ class LeftHandMiddle1RField(
     ATTR_CLS = LeftHandMiddle1RAttrOperator
     PLUG_CLS = LeftHandMiddle1RPlugOperator
 
-    LeftHandMiddle1Rx = DoubleAngleField()
+    LeftHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Ry = DoubleAngleField()
+    LeftHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle1Rz = DoubleAngleField()
+    LeftHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle1SPlugOperator(
@@ -7764,11 +7764,11 @@ class LeftHandMiddle1SPlugOperator(
         ("LeftHandMiddle1Sz", "LeftHandMiddle1Sz"),
     )
 
-    LeftHandMiddle1Sx = DoubleField()
+    LeftHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sy = DoubleField()
+    LeftHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sz = DoubleField()
+    LeftHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle1SAttrOperator(
@@ -7776,11 +7776,11 @@ class LeftHandMiddle1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle1Sx = DoubleField()
+    LeftHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sy = DoubleField()
+    LeftHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sz = DoubleField()
+    LeftHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle1SField(
@@ -7791,11 +7791,11 @@ class LeftHandMiddle1SField(
     ATTR_CLS = LeftHandMiddle1SAttrOperator
     PLUG_CLS = LeftHandMiddle1SPlugOperator
 
-    LeftHandMiddle1Sx = DoubleField()
+    LeftHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sy = DoubleField()
+    LeftHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle1Sz = DoubleField()
+    LeftHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle2TPlugOperator(
@@ -7808,11 +7808,11 @@ class LeftHandMiddle2TPlugOperator(
         ("LeftHandMiddle2Tz", "LeftHandMiddle2Tz"),
     )
 
-    LeftHandMiddle2Tx = DoubleLinearField()
+    LeftHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Ty = DoubleLinearField()
+    LeftHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Tz = DoubleLinearField()
+    LeftHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle2TAttrOperator(
@@ -7820,11 +7820,11 @@ class LeftHandMiddle2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle2Tx = DoubleLinearField()
+    LeftHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Ty = DoubleLinearField()
+    LeftHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Tz = DoubleLinearField()
+    LeftHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle2TField(
@@ -7835,11 +7835,11 @@ class LeftHandMiddle2TField(
     ATTR_CLS = LeftHandMiddle2TAttrOperator
     PLUG_CLS = LeftHandMiddle2TPlugOperator
 
-    LeftHandMiddle2Tx = DoubleLinearField()
+    LeftHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Ty = DoubleLinearField()
+    LeftHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle2Tz = DoubleLinearField()
+    LeftHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle2RPlugOperator(
@@ -7852,11 +7852,11 @@ class LeftHandMiddle2RPlugOperator(
         ("LeftHandMiddle2Rz", "LeftHandMiddle2Rz"),
     )
 
-    LeftHandMiddle2Rx = DoubleAngleField()
+    LeftHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Ry = DoubleAngleField()
+    LeftHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Rz = DoubleAngleField()
+    LeftHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle2RAttrOperator(
@@ -7864,11 +7864,11 @@ class LeftHandMiddle2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle2Rx = DoubleAngleField()
+    LeftHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Ry = DoubleAngleField()
+    LeftHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Rz = DoubleAngleField()
+    LeftHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle2RField(
@@ -7879,11 +7879,11 @@ class LeftHandMiddle2RField(
     ATTR_CLS = LeftHandMiddle2RAttrOperator
     PLUG_CLS = LeftHandMiddle2RPlugOperator
 
-    LeftHandMiddle2Rx = DoubleAngleField()
+    LeftHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Ry = DoubleAngleField()
+    LeftHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle2Rz = DoubleAngleField()
+    LeftHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle2SPlugOperator(
@@ -7896,11 +7896,11 @@ class LeftHandMiddle2SPlugOperator(
         ("LeftHandMiddle2Sz", "LeftHandMiddle2Sz"),
     )
 
-    LeftHandMiddle2Sx = DoubleField()
+    LeftHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sy = DoubleField()
+    LeftHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sz = DoubleField()
+    LeftHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle2SAttrOperator(
@@ -7908,11 +7908,11 @@ class LeftHandMiddle2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle2Sx = DoubleField()
+    LeftHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sy = DoubleField()
+    LeftHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sz = DoubleField()
+    LeftHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle2SField(
@@ -7923,11 +7923,11 @@ class LeftHandMiddle2SField(
     ATTR_CLS = LeftHandMiddle2SAttrOperator
     PLUG_CLS = LeftHandMiddle2SPlugOperator
 
-    LeftHandMiddle2Sx = DoubleField()
+    LeftHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sy = DoubleField()
+    LeftHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle2Sz = DoubleField()
+    LeftHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle3TPlugOperator(
@@ -7940,11 +7940,11 @@ class LeftHandMiddle3TPlugOperator(
         ("LeftHandMiddle3Tz", "LeftHandMiddle3Tz"),
     )
 
-    LeftHandMiddle3Tx = DoubleLinearField()
+    LeftHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Ty = DoubleLinearField()
+    LeftHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Tz = DoubleLinearField()
+    LeftHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle3TAttrOperator(
@@ -7952,11 +7952,11 @@ class LeftHandMiddle3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle3Tx = DoubleLinearField()
+    LeftHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Ty = DoubleLinearField()
+    LeftHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Tz = DoubleLinearField()
+    LeftHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle3TField(
@@ -7967,11 +7967,11 @@ class LeftHandMiddle3TField(
     ATTR_CLS = LeftHandMiddle3TAttrOperator
     PLUG_CLS = LeftHandMiddle3TPlugOperator
 
-    LeftHandMiddle3Tx = DoubleLinearField()
+    LeftHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Ty = DoubleLinearField()
+    LeftHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle3Tz = DoubleLinearField()
+    LeftHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle3RPlugOperator(
@@ -7984,11 +7984,11 @@ class LeftHandMiddle3RPlugOperator(
         ("LeftHandMiddle3Rz", "LeftHandMiddle3Rz"),
     )
 
-    LeftHandMiddle3Rx = DoubleAngleField()
+    LeftHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Ry = DoubleAngleField()
+    LeftHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Rz = DoubleAngleField()
+    LeftHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle3RAttrOperator(
@@ -7996,11 +7996,11 @@ class LeftHandMiddle3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle3Rx = DoubleAngleField()
+    LeftHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Ry = DoubleAngleField()
+    LeftHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Rz = DoubleAngleField()
+    LeftHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle3RField(
@@ -8011,11 +8011,11 @@ class LeftHandMiddle3RField(
     ATTR_CLS = LeftHandMiddle3RAttrOperator
     PLUG_CLS = LeftHandMiddle3RPlugOperator
 
-    LeftHandMiddle3Rx = DoubleAngleField()
+    LeftHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Ry = DoubleAngleField()
+    LeftHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle3Rz = DoubleAngleField()
+    LeftHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle3SPlugOperator(
@@ -8028,11 +8028,11 @@ class LeftHandMiddle3SPlugOperator(
         ("LeftHandMiddle3Sz", "LeftHandMiddle3Sz"),
     )
 
-    LeftHandMiddle3Sx = DoubleField()
+    LeftHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sy = DoubleField()
+    LeftHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sz = DoubleField()
+    LeftHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle3SAttrOperator(
@@ -8040,11 +8040,11 @@ class LeftHandMiddle3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle3Sx = DoubleField()
+    LeftHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sy = DoubleField()
+    LeftHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sz = DoubleField()
+    LeftHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle3SField(
@@ -8055,11 +8055,11 @@ class LeftHandMiddle3SField(
     ATTR_CLS = LeftHandMiddle3SAttrOperator
     PLUG_CLS = LeftHandMiddle3SPlugOperator
 
-    LeftHandMiddle3Sx = DoubleField()
+    LeftHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sy = DoubleField()
+    LeftHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle3Sz = DoubleField()
+    LeftHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle4TPlugOperator(
@@ -8072,11 +8072,11 @@ class LeftHandMiddle4TPlugOperator(
         ("LeftHandMiddle4Tz", "LeftHandMiddle4Tz"),
     )
 
-    LeftHandMiddle4Tx = DoubleLinearField()
+    LeftHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Ty = DoubleLinearField()
+    LeftHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Tz = DoubleLinearField()
+    LeftHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle4TAttrOperator(
@@ -8084,11 +8084,11 @@ class LeftHandMiddle4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle4Tx = DoubleLinearField()
+    LeftHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Ty = DoubleLinearField()
+    LeftHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Tz = DoubleLinearField()
+    LeftHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle4TField(
@@ -8099,11 +8099,11 @@ class LeftHandMiddle4TField(
     ATTR_CLS = LeftHandMiddle4TAttrOperator
     PLUG_CLS = LeftHandMiddle4TPlugOperator
 
-    LeftHandMiddle4Tx = DoubleLinearField()
+    LeftHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Ty = DoubleLinearField()
+    LeftHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddle4Tz = DoubleLinearField()
+    LeftHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddle4RPlugOperator(
@@ -8116,11 +8116,11 @@ class LeftHandMiddle4RPlugOperator(
         ("LeftHandMiddle4Rz", "LeftHandMiddle4Rz"),
     )
 
-    LeftHandMiddle4Rx = DoubleAngleField()
+    LeftHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Ry = DoubleAngleField()
+    LeftHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Rz = DoubleAngleField()
+    LeftHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle4RAttrOperator(
@@ -8128,11 +8128,11 @@ class LeftHandMiddle4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle4Rx = DoubleAngleField()
+    LeftHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Ry = DoubleAngleField()
+    LeftHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Rz = DoubleAngleField()
+    LeftHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle4RField(
@@ -8143,11 +8143,11 @@ class LeftHandMiddle4RField(
     ATTR_CLS = LeftHandMiddle4RAttrOperator
     PLUG_CLS = LeftHandMiddle4RPlugOperator
 
-    LeftHandMiddle4Rx = DoubleAngleField()
+    LeftHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Ry = DoubleAngleField()
+    LeftHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandMiddle4Rz = DoubleAngleField()
+    LeftHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandMiddle4SPlugOperator(
@@ -8160,11 +8160,11 @@ class LeftHandMiddle4SPlugOperator(
         ("LeftHandMiddle4Sz", "LeftHandMiddle4Sz"),
     )
 
-    LeftHandMiddle4Sx = DoubleField()
+    LeftHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sy = DoubleField()
+    LeftHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sz = DoubleField()
+    LeftHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle4SAttrOperator(
@@ -8172,11 +8172,11 @@ class LeftHandMiddle4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddle4Sx = DoubleField()
+    LeftHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sy = DoubleField()
+    LeftHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sz = DoubleField()
+    LeftHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandMiddle4SField(
@@ -8187,11 +8187,11 @@ class LeftHandMiddle4SField(
     ATTR_CLS = LeftHandMiddle4SAttrOperator
     PLUG_CLS = LeftHandMiddle4SPlugOperator
 
-    LeftHandMiddle4Sx = DoubleField()
+    LeftHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sy = DoubleField()
+    LeftHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftHandMiddle4Sz = DoubleField()
+    LeftHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing1TPlugOperator(
@@ -8204,11 +8204,11 @@ class LeftHandRing1TPlugOperator(
         ("LeftHandRing1Tz", "LeftHandRing1Tz"),
     )
 
-    LeftHandRing1Tx = DoubleLinearField()
+    LeftHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Ty = DoubleLinearField()
+    LeftHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Tz = DoubleLinearField()
+    LeftHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing1TAttrOperator(
@@ -8216,11 +8216,11 @@ class LeftHandRing1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing1Tx = DoubleLinearField()
+    LeftHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Ty = DoubleLinearField()
+    LeftHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Tz = DoubleLinearField()
+    LeftHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing1TField(
@@ -8231,11 +8231,11 @@ class LeftHandRing1TField(
     ATTR_CLS = LeftHandRing1TAttrOperator
     PLUG_CLS = LeftHandRing1TPlugOperator
 
-    LeftHandRing1Tx = DoubleLinearField()
+    LeftHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Ty = DoubleLinearField()
+    LeftHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing1Tz = DoubleLinearField()
+    LeftHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing1RPlugOperator(
@@ -8248,11 +8248,11 @@ class LeftHandRing1RPlugOperator(
         ("LeftHandRing1Rz", "LeftHandRing1Rz"),
     )
 
-    LeftHandRing1Rx = DoubleAngleField()
+    LeftHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Ry = DoubleAngleField()
+    LeftHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Rz = DoubleAngleField()
+    LeftHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing1RAttrOperator(
@@ -8260,11 +8260,11 @@ class LeftHandRing1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing1Rx = DoubleAngleField()
+    LeftHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Ry = DoubleAngleField()
+    LeftHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Rz = DoubleAngleField()
+    LeftHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing1RField(
@@ -8275,11 +8275,11 @@ class LeftHandRing1RField(
     ATTR_CLS = LeftHandRing1RAttrOperator
     PLUG_CLS = LeftHandRing1RPlugOperator
 
-    LeftHandRing1Rx = DoubleAngleField()
+    LeftHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Ry = DoubleAngleField()
+    LeftHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing1Rz = DoubleAngleField()
+    LeftHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing1SPlugOperator(
@@ -8292,11 +8292,11 @@ class LeftHandRing1SPlugOperator(
         ("LeftHandRing1Sz", "LeftHandRing1Sz"),
     )
 
-    LeftHandRing1Sx = DoubleField()
+    LeftHandRing1Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sy = DoubleField()
+    LeftHandRing1Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sz = DoubleField()
+    LeftHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing1SAttrOperator(
@@ -8304,11 +8304,11 @@ class LeftHandRing1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing1Sx = DoubleField()
+    LeftHandRing1Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sy = DoubleField()
+    LeftHandRing1Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sz = DoubleField()
+    LeftHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing1SField(
@@ -8319,11 +8319,11 @@ class LeftHandRing1SField(
     ATTR_CLS = LeftHandRing1SAttrOperator
     PLUG_CLS = LeftHandRing1SPlugOperator
 
-    LeftHandRing1Sx = DoubleField()
+    LeftHandRing1Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sy = DoubleField()
+    LeftHandRing1Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing1Sz = DoubleField()
+    LeftHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing2TPlugOperator(
@@ -8336,11 +8336,11 @@ class LeftHandRing2TPlugOperator(
         ("LeftHandRing2Tz", "LeftHandRing2Tz"),
     )
 
-    LeftHandRing2Tx = DoubleLinearField()
+    LeftHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Ty = DoubleLinearField()
+    LeftHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Tz = DoubleLinearField()
+    LeftHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing2TAttrOperator(
@@ -8348,11 +8348,11 @@ class LeftHandRing2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing2Tx = DoubleLinearField()
+    LeftHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Ty = DoubleLinearField()
+    LeftHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Tz = DoubleLinearField()
+    LeftHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing2TField(
@@ -8363,11 +8363,11 @@ class LeftHandRing2TField(
     ATTR_CLS = LeftHandRing2TAttrOperator
     PLUG_CLS = LeftHandRing2TPlugOperator
 
-    LeftHandRing2Tx = DoubleLinearField()
+    LeftHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Ty = DoubleLinearField()
+    LeftHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing2Tz = DoubleLinearField()
+    LeftHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing2RPlugOperator(
@@ -8380,11 +8380,11 @@ class LeftHandRing2RPlugOperator(
         ("LeftHandRing2Rz", "LeftHandRing2Rz"),
     )
 
-    LeftHandRing2Rx = DoubleAngleField()
+    LeftHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Ry = DoubleAngleField()
+    LeftHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Rz = DoubleAngleField()
+    LeftHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing2RAttrOperator(
@@ -8392,11 +8392,11 @@ class LeftHandRing2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing2Rx = DoubleAngleField()
+    LeftHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Ry = DoubleAngleField()
+    LeftHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Rz = DoubleAngleField()
+    LeftHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing2RField(
@@ -8407,11 +8407,11 @@ class LeftHandRing2RField(
     ATTR_CLS = LeftHandRing2RAttrOperator
     PLUG_CLS = LeftHandRing2RPlugOperator
 
-    LeftHandRing2Rx = DoubleAngleField()
+    LeftHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Ry = DoubleAngleField()
+    LeftHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing2Rz = DoubleAngleField()
+    LeftHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing2SPlugOperator(
@@ -8424,11 +8424,11 @@ class LeftHandRing2SPlugOperator(
         ("LeftHandRing2Sz", "LeftHandRing2Sz"),
     )
 
-    LeftHandRing2Sx = DoubleField()
+    LeftHandRing2Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sy = DoubleField()
+    LeftHandRing2Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sz = DoubleField()
+    LeftHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing2SAttrOperator(
@@ -8436,11 +8436,11 @@ class LeftHandRing2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing2Sx = DoubleField()
+    LeftHandRing2Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sy = DoubleField()
+    LeftHandRing2Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sz = DoubleField()
+    LeftHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing2SField(
@@ -8451,11 +8451,11 @@ class LeftHandRing2SField(
     ATTR_CLS = LeftHandRing2SAttrOperator
     PLUG_CLS = LeftHandRing2SPlugOperator
 
-    LeftHandRing2Sx = DoubleField()
+    LeftHandRing2Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sy = DoubleField()
+    LeftHandRing2Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing2Sz = DoubleField()
+    LeftHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing3TPlugOperator(
@@ -8468,11 +8468,11 @@ class LeftHandRing3TPlugOperator(
         ("LeftHandRing3Tz", "LeftHandRing3Tz"),
     )
 
-    LeftHandRing3Tx = DoubleLinearField()
+    LeftHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Ty = DoubleLinearField()
+    LeftHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Tz = DoubleLinearField()
+    LeftHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing3TAttrOperator(
@@ -8480,11 +8480,11 @@ class LeftHandRing3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing3Tx = DoubleLinearField()
+    LeftHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Ty = DoubleLinearField()
+    LeftHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Tz = DoubleLinearField()
+    LeftHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing3TField(
@@ -8495,11 +8495,11 @@ class LeftHandRing3TField(
     ATTR_CLS = LeftHandRing3TAttrOperator
     PLUG_CLS = LeftHandRing3TPlugOperator
 
-    LeftHandRing3Tx = DoubleLinearField()
+    LeftHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Ty = DoubleLinearField()
+    LeftHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing3Tz = DoubleLinearField()
+    LeftHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing3RPlugOperator(
@@ -8512,11 +8512,11 @@ class LeftHandRing3RPlugOperator(
         ("LeftHandRing3Rz", "LeftHandRing3Rz"),
     )
 
-    LeftHandRing3Rx = DoubleAngleField()
+    LeftHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Ry = DoubleAngleField()
+    LeftHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Rz = DoubleAngleField()
+    LeftHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing3RAttrOperator(
@@ -8524,11 +8524,11 @@ class LeftHandRing3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing3Rx = DoubleAngleField()
+    LeftHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Ry = DoubleAngleField()
+    LeftHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Rz = DoubleAngleField()
+    LeftHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing3RField(
@@ -8539,11 +8539,11 @@ class LeftHandRing3RField(
     ATTR_CLS = LeftHandRing3RAttrOperator
     PLUG_CLS = LeftHandRing3RPlugOperator
 
-    LeftHandRing3Rx = DoubleAngleField()
+    LeftHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Ry = DoubleAngleField()
+    LeftHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing3Rz = DoubleAngleField()
+    LeftHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing3SPlugOperator(
@@ -8556,11 +8556,11 @@ class LeftHandRing3SPlugOperator(
         ("LeftHandRing3Sz", "LeftHandRing3Sz"),
     )
 
-    LeftHandRing3Sx = DoubleField()
+    LeftHandRing3Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sy = DoubleField()
+    LeftHandRing3Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sz = DoubleField()
+    LeftHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing3SAttrOperator(
@@ -8568,11 +8568,11 @@ class LeftHandRing3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing3Sx = DoubleField()
+    LeftHandRing3Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sy = DoubleField()
+    LeftHandRing3Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sz = DoubleField()
+    LeftHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing3SField(
@@ -8583,11 +8583,11 @@ class LeftHandRing3SField(
     ATTR_CLS = LeftHandRing3SAttrOperator
     PLUG_CLS = LeftHandRing3SPlugOperator
 
-    LeftHandRing3Sx = DoubleField()
+    LeftHandRing3Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sy = DoubleField()
+    LeftHandRing3Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing3Sz = DoubleField()
+    LeftHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing4TPlugOperator(
@@ -8600,11 +8600,11 @@ class LeftHandRing4TPlugOperator(
         ("LeftHandRing4Tz", "LeftHandRing4Tz"),
     )
 
-    LeftHandRing4Tx = DoubleLinearField()
+    LeftHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Ty = DoubleLinearField()
+    LeftHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Tz = DoubleLinearField()
+    LeftHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing4TAttrOperator(
@@ -8612,11 +8612,11 @@ class LeftHandRing4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing4Tx = DoubleLinearField()
+    LeftHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Ty = DoubleLinearField()
+    LeftHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Tz = DoubleLinearField()
+    LeftHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing4TField(
@@ -8627,11 +8627,11 @@ class LeftHandRing4TField(
     ATTR_CLS = LeftHandRing4TAttrOperator
     PLUG_CLS = LeftHandRing4TPlugOperator
 
-    LeftHandRing4Tx = DoubleLinearField()
+    LeftHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Ty = DoubleLinearField()
+    LeftHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandRing4Tz = DoubleLinearField()
+    LeftHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRing4RPlugOperator(
@@ -8644,11 +8644,11 @@ class LeftHandRing4RPlugOperator(
         ("LeftHandRing4Rz", "LeftHandRing4Rz"),
     )
 
-    LeftHandRing4Rx = DoubleAngleField()
+    LeftHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Ry = DoubleAngleField()
+    LeftHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Rz = DoubleAngleField()
+    LeftHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing4RAttrOperator(
@@ -8656,11 +8656,11 @@ class LeftHandRing4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing4Rx = DoubleAngleField()
+    LeftHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Ry = DoubleAngleField()
+    LeftHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Rz = DoubleAngleField()
+    LeftHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing4RField(
@@ -8671,11 +8671,11 @@ class LeftHandRing4RField(
     ATTR_CLS = LeftHandRing4RAttrOperator
     PLUG_CLS = LeftHandRing4RPlugOperator
 
-    LeftHandRing4Rx = DoubleAngleField()
+    LeftHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Ry = DoubleAngleField()
+    LeftHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandRing4Rz = DoubleAngleField()
+    LeftHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandRing4SPlugOperator(
@@ -8688,11 +8688,11 @@ class LeftHandRing4SPlugOperator(
         ("LeftHandRing4Sz", "LeftHandRing4Sz"),
     )
 
-    LeftHandRing4Sx = DoubleField()
+    LeftHandRing4Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sy = DoubleField()
+    LeftHandRing4Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sz = DoubleField()
+    LeftHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing4SAttrOperator(
@@ -8700,11 +8700,11 @@ class LeftHandRing4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRing4Sx = DoubleField()
+    LeftHandRing4Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sy = DoubleField()
+    LeftHandRing4Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sz = DoubleField()
+    LeftHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandRing4SField(
@@ -8715,11 +8715,11 @@ class LeftHandRing4SField(
     ATTR_CLS = LeftHandRing4SAttrOperator
     PLUG_CLS = LeftHandRing4SPlugOperator
 
-    LeftHandRing4Sx = DoubleField()
+    LeftHandRing4Sx = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sy = DoubleField()
+    LeftHandRing4Sy = DoubleField(default_value=1.0)
 
-    LeftHandRing4Sz = DoubleField()
+    LeftHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky1TPlugOperator(
@@ -8732,11 +8732,11 @@ class LeftHandPinky1TPlugOperator(
         ("LeftHandPinky1Tz", "LeftHandPinky1Tz"),
     )
 
-    LeftHandPinky1Tx = DoubleLinearField()
+    LeftHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Ty = DoubleLinearField()
+    LeftHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Tz = DoubleLinearField()
+    LeftHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky1TAttrOperator(
@@ -8744,11 +8744,11 @@ class LeftHandPinky1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky1Tx = DoubleLinearField()
+    LeftHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Ty = DoubleLinearField()
+    LeftHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Tz = DoubleLinearField()
+    LeftHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky1TField(
@@ -8759,11 +8759,11 @@ class LeftHandPinky1TField(
     ATTR_CLS = LeftHandPinky1TAttrOperator
     PLUG_CLS = LeftHandPinky1TPlugOperator
 
-    LeftHandPinky1Tx = DoubleLinearField()
+    LeftHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Ty = DoubleLinearField()
+    LeftHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky1Tz = DoubleLinearField()
+    LeftHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky1RPlugOperator(
@@ -8776,11 +8776,11 @@ class LeftHandPinky1RPlugOperator(
         ("LeftHandPinky1Rz", "LeftHandPinky1Rz"),
     )
 
-    LeftHandPinky1Rx = DoubleAngleField()
+    LeftHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Ry = DoubleAngleField()
+    LeftHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Rz = DoubleAngleField()
+    LeftHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky1RAttrOperator(
@@ -8788,11 +8788,11 @@ class LeftHandPinky1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky1Rx = DoubleAngleField()
+    LeftHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Ry = DoubleAngleField()
+    LeftHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Rz = DoubleAngleField()
+    LeftHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky1RField(
@@ -8803,11 +8803,11 @@ class LeftHandPinky1RField(
     ATTR_CLS = LeftHandPinky1RAttrOperator
     PLUG_CLS = LeftHandPinky1RPlugOperator
 
-    LeftHandPinky1Rx = DoubleAngleField()
+    LeftHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Ry = DoubleAngleField()
+    LeftHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky1Rz = DoubleAngleField()
+    LeftHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky1SPlugOperator(
@@ -8820,11 +8820,11 @@ class LeftHandPinky1SPlugOperator(
         ("LeftHandPinky1Sz", "LeftHandPinky1Sz"),
     )
 
-    LeftHandPinky1Sx = DoubleField()
+    LeftHandPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sy = DoubleField()
+    LeftHandPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sz = DoubleField()
+    LeftHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky1SAttrOperator(
@@ -8832,11 +8832,11 @@ class LeftHandPinky1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky1Sx = DoubleField()
+    LeftHandPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sy = DoubleField()
+    LeftHandPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sz = DoubleField()
+    LeftHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky1SField(
@@ -8847,11 +8847,11 @@ class LeftHandPinky1SField(
     ATTR_CLS = LeftHandPinky1SAttrOperator
     PLUG_CLS = LeftHandPinky1SPlugOperator
 
-    LeftHandPinky1Sx = DoubleField()
+    LeftHandPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sy = DoubleField()
+    LeftHandPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky1Sz = DoubleField()
+    LeftHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky2TPlugOperator(
@@ -8864,11 +8864,11 @@ class LeftHandPinky2TPlugOperator(
         ("LeftHandPinky2Tz", "LeftHandPinky2Tz"),
     )
 
-    LeftHandPinky2Tx = DoubleLinearField()
+    LeftHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Ty = DoubleLinearField()
+    LeftHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Tz = DoubleLinearField()
+    LeftHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky2TAttrOperator(
@@ -8876,11 +8876,11 @@ class LeftHandPinky2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky2Tx = DoubleLinearField()
+    LeftHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Ty = DoubleLinearField()
+    LeftHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Tz = DoubleLinearField()
+    LeftHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky2TField(
@@ -8891,11 +8891,11 @@ class LeftHandPinky2TField(
     ATTR_CLS = LeftHandPinky2TAttrOperator
     PLUG_CLS = LeftHandPinky2TPlugOperator
 
-    LeftHandPinky2Tx = DoubleLinearField()
+    LeftHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Ty = DoubleLinearField()
+    LeftHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky2Tz = DoubleLinearField()
+    LeftHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky2RPlugOperator(
@@ -8908,11 +8908,11 @@ class LeftHandPinky2RPlugOperator(
         ("LeftHandPinky2Rz", "LeftHandPinky2Rz"),
     )
 
-    LeftHandPinky2Rx = DoubleAngleField()
+    LeftHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Ry = DoubleAngleField()
+    LeftHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Rz = DoubleAngleField()
+    LeftHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky2RAttrOperator(
@@ -8920,11 +8920,11 @@ class LeftHandPinky2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky2Rx = DoubleAngleField()
+    LeftHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Ry = DoubleAngleField()
+    LeftHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Rz = DoubleAngleField()
+    LeftHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky2RField(
@@ -8935,11 +8935,11 @@ class LeftHandPinky2RField(
     ATTR_CLS = LeftHandPinky2RAttrOperator
     PLUG_CLS = LeftHandPinky2RPlugOperator
 
-    LeftHandPinky2Rx = DoubleAngleField()
+    LeftHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Ry = DoubleAngleField()
+    LeftHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky2Rz = DoubleAngleField()
+    LeftHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky2SPlugOperator(
@@ -8952,11 +8952,11 @@ class LeftHandPinky2SPlugOperator(
         ("LeftHandPinky2Sz", "LeftHandPinky2Sz"),
     )
 
-    LeftHandPinky2Sx = DoubleField()
+    LeftHandPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sy = DoubleField()
+    LeftHandPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sz = DoubleField()
+    LeftHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky2SAttrOperator(
@@ -8964,11 +8964,11 @@ class LeftHandPinky2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky2Sx = DoubleField()
+    LeftHandPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sy = DoubleField()
+    LeftHandPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sz = DoubleField()
+    LeftHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky2SField(
@@ -8979,11 +8979,11 @@ class LeftHandPinky2SField(
     ATTR_CLS = LeftHandPinky2SAttrOperator
     PLUG_CLS = LeftHandPinky2SPlugOperator
 
-    LeftHandPinky2Sx = DoubleField()
+    LeftHandPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sy = DoubleField()
+    LeftHandPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky2Sz = DoubleField()
+    LeftHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky3TPlugOperator(
@@ -8996,11 +8996,11 @@ class LeftHandPinky3TPlugOperator(
         ("LeftHandPinky3Tz", "LeftHandPinky3Tz"),
     )
 
-    LeftHandPinky3Tx = DoubleLinearField()
+    LeftHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Ty = DoubleLinearField()
+    LeftHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Tz = DoubleLinearField()
+    LeftHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky3TAttrOperator(
@@ -9008,11 +9008,11 @@ class LeftHandPinky3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky3Tx = DoubleLinearField()
+    LeftHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Ty = DoubleLinearField()
+    LeftHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Tz = DoubleLinearField()
+    LeftHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky3TField(
@@ -9023,11 +9023,11 @@ class LeftHandPinky3TField(
     ATTR_CLS = LeftHandPinky3TAttrOperator
     PLUG_CLS = LeftHandPinky3TPlugOperator
 
-    LeftHandPinky3Tx = DoubleLinearField()
+    LeftHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Ty = DoubleLinearField()
+    LeftHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky3Tz = DoubleLinearField()
+    LeftHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky3RPlugOperator(
@@ -9040,11 +9040,11 @@ class LeftHandPinky3RPlugOperator(
         ("LeftHandPinky3Rz", "LeftHandPinky3Rz"),
     )
 
-    LeftHandPinky3Rx = DoubleAngleField()
+    LeftHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Ry = DoubleAngleField()
+    LeftHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Rz = DoubleAngleField()
+    LeftHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky3RAttrOperator(
@@ -9052,11 +9052,11 @@ class LeftHandPinky3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky3Rx = DoubleAngleField()
+    LeftHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Ry = DoubleAngleField()
+    LeftHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Rz = DoubleAngleField()
+    LeftHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky3RField(
@@ -9067,11 +9067,11 @@ class LeftHandPinky3RField(
     ATTR_CLS = LeftHandPinky3RAttrOperator
     PLUG_CLS = LeftHandPinky3RPlugOperator
 
-    LeftHandPinky3Rx = DoubleAngleField()
+    LeftHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Ry = DoubleAngleField()
+    LeftHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky3Rz = DoubleAngleField()
+    LeftHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky3SPlugOperator(
@@ -9084,11 +9084,11 @@ class LeftHandPinky3SPlugOperator(
         ("LeftHandPinky3Sz", "LeftHandPinky3Sz"),
     )
 
-    LeftHandPinky3Sx = DoubleField()
+    LeftHandPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sy = DoubleField()
+    LeftHandPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sz = DoubleField()
+    LeftHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky3SAttrOperator(
@@ -9096,11 +9096,11 @@ class LeftHandPinky3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky3Sx = DoubleField()
+    LeftHandPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sy = DoubleField()
+    LeftHandPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sz = DoubleField()
+    LeftHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky3SField(
@@ -9111,11 +9111,11 @@ class LeftHandPinky3SField(
     ATTR_CLS = LeftHandPinky3SAttrOperator
     PLUG_CLS = LeftHandPinky3SPlugOperator
 
-    LeftHandPinky3Sx = DoubleField()
+    LeftHandPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sy = DoubleField()
+    LeftHandPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky3Sz = DoubleField()
+    LeftHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky4TPlugOperator(
@@ -9128,11 +9128,11 @@ class LeftHandPinky4TPlugOperator(
         ("LeftHandPinky4Tz", "LeftHandPinky4Tz"),
     )
 
-    LeftHandPinky4Tx = DoubleLinearField()
+    LeftHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Ty = DoubleLinearField()
+    LeftHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Tz = DoubleLinearField()
+    LeftHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky4TAttrOperator(
@@ -9140,11 +9140,11 @@ class LeftHandPinky4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky4Tx = DoubleLinearField()
+    LeftHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Ty = DoubleLinearField()
+    LeftHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Tz = DoubleLinearField()
+    LeftHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky4TField(
@@ -9155,11 +9155,11 @@ class LeftHandPinky4TField(
     ATTR_CLS = LeftHandPinky4TAttrOperator
     PLUG_CLS = LeftHandPinky4TPlugOperator
 
-    LeftHandPinky4Tx = DoubleLinearField()
+    LeftHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Ty = DoubleLinearField()
+    LeftHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinky4Tz = DoubleLinearField()
+    LeftHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinky4RPlugOperator(
@@ -9172,11 +9172,11 @@ class LeftHandPinky4RPlugOperator(
         ("LeftHandPinky4Rz", "LeftHandPinky4Rz"),
     )
 
-    LeftHandPinky4Rx = DoubleAngleField()
+    LeftHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Ry = DoubleAngleField()
+    LeftHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Rz = DoubleAngleField()
+    LeftHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky4RAttrOperator(
@@ -9184,11 +9184,11 @@ class LeftHandPinky4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky4Rx = DoubleAngleField()
+    LeftHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Ry = DoubleAngleField()
+    LeftHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Rz = DoubleAngleField()
+    LeftHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky4RField(
@@ -9199,11 +9199,11 @@ class LeftHandPinky4RField(
     ATTR_CLS = LeftHandPinky4RAttrOperator
     PLUG_CLS = LeftHandPinky4RPlugOperator
 
-    LeftHandPinky4Rx = DoubleAngleField()
+    LeftHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Ry = DoubleAngleField()
+    LeftHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandPinky4Rz = DoubleAngleField()
+    LeftHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandPinky4SPlugOperator(
@@ -9216,11 +9216,11 @@ class LeftHandPinky4SPlugOperator(
         ("LeftHandPinky4Sz", "LeftHandPinky4Sz"),
     )
 
-    LeftHandPinky4Sx = DoubleField()
+    LeftHandPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sy = DoubleField()
+    LeftHandPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sz = DoubleField()
+    LeftHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky4SAttrOperator(
@@ -9228,11 +9228,11 @@ class LeftHandPinky4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinky4Sx = DoubleField()
+    LeftHandPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sy = DoubleField()
+    LeftHandPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sz = DoubleField()
+    LeftHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandPinky4SField(
@@ -9243,11 +9243,11 @@ class LeftHandPinky4SField(
     ATTR_CLS = LeftHandPinky4SAttrOperator
     PLUG_CLS = LeftHandPinky4SPlugOperator
 
-    LeftHandPinky4Sx = DoubleField()
+    LeftHandPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sy = DoubleField()
+    LeftHandPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftHandPinky4Sz = DoubleField()
+    LeftHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger1TPlugOperator(
@@ -9260,11 +9260,11 @@ class LeftHandExtraFinger1TPlugOperator(
         ("LeftHandExtraFinger1Tz", "LeftHandExtraFinger1Tz"),
     )
 
-    LeftHandExtraFinger1Tx = DoubleLinearField()
+    LeftHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Ty = DoubleLinearField()
+    LeftHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Tz = DoubleLinearField()
+    LeftHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger1TAttrOperator(
@@ -9272,11 +9272,11 @@ class LeftHandExtraFinger1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger1Tx = DoubleLinearField()
+    LeftHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Ty = DoubleLinearField()
+    LeftHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Tz = DoubleLinearField()
+    LeftHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger1TField(
@@ -9287,11 +9287,11 @@ class LeftHandExtraFinger1TField(
     ATTR_CLS = LeftHandExtraFinger1TAttrOperator
     PLUG_CLS = LeftHandExtraFinger1TPlugOperator
 
-    LeftHandExtraFinger1Tx = DoubleLinearField()
+    LeftHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Ty = DoubleLinearField()
+    LeftHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger1Tz = DoubleLinearField()
+    LeftHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger1RPlugOperator(
@@ -9304,11 +9304,11 @@ class LeftHandExtraFinger1RPlugOperator(
         ("LeftHandExtraFinger1Rz", "LeftHandExtraFinger1Rz"),
     )
 
-    LeftHandExtraFinger1Rx = DoubleAngleField()
+    LeftHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Ry = DoubleAngleField()
+    LeftHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Rz = DoubleAngleField()
+    LeftHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger1RAttrOperator(
@@ -9316,11 +9316,11 @@ class LeftHandExtraFinger1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger1Rx = DoubleAngleField()
+    LeftHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Ry = DoubleAngleField()
+    LeftHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Rz = DoubleAngleField()
+    LeftHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger1RField(
@@ -9331,11 +9331,11 @@ class LeftHandExtraFinger1RField(
     ATTR_CLS = LeftHandExtraFinger1RAttrOperator
     PLUG_CLS = LeftHandExtraFinger1RPlugOperator
 
-    LeftHandExtraFinger1Rx = DoubleAngleField()
+    LeftHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Ry = DoubleAngleField()
+    LeftHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger1Rz = DoubleAngleField()
+    LeftHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger1SPlugOperator(
@@ -9348,11 +9348,11 @@ class LeftHandExtraFinger1SPlugOperator(
         ("LeftHandExtraFinger1Sz", "LeftHandExtraFinger1Sz"),
     )
 
-    LeftHandExtraFinger1Sx = DoubleField()
+    LeftHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sy = DoubleField()
+    LeftHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sz = DoubleField()
+    LeftHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger1SAttrOperator(
@@ -9360,11 +9360,11 @@ class LeftHandExtraFinger1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger1Sx = DoubleField()
+    LeftHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sy = DoubleField()
+    LeftHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sz = DoubleField()
+    LeftHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger1SField(
@@ -9375,11 +9375,11 @@ class LeftHandExtraFinger1SField(
     ATTR_CLS = LeftHandExtraFinger1SAttrOperator
     PLUG_CLS = LeftHandExtraFinger1SPlugOperator
 
-    LeftHandExtraFinger1Sx = DoubleField()
+    LeftHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sy = DoubleField()
+    LeftHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger1Sz = DoubleField()
+    LeftHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger2TPlugOperator(
@@ -9392,11 +9392,11 @@ class LeftHandExtraFinger2TPlugOperator(
         ("LeftHandExtraFinger2Tz", "LeftHandExtraFinger2Tz"),
     )
 
-    LeftHandExtraFinger2Tx = DoubleLinearField()
+    LeftHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Ty = DoubleLinearField()
+    LeftHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Tz = DoubleLinearField()
+    LeftHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger2TAttrOperator(
@@ -9404,11 +9404,11 @@ class LeftHandExtraFinger2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger2Tx = DoubleLinearField()
+    LeftHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Ty = DoubleLinearField()
+    LeftHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Tz = DoubleLinearField()
+    LeftHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger2TField(
@@ -9419,11 +9419,11 @@ class LeftHandExtraFinger2TField(
     ATTR_CLS = LeftHandExtraFinger2TAttrOperator
     PLUG_CLS = LeftHandExtraFinger2TPlugOperator
 
-    LeftHandExtraFinger2Tx = DoubleLinearField()
+    LeftHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Ty = DoubleLinearField()
+    LeftHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger2Tz = DoubleLinearField()
+    LeftHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger2RPlugOperator(
@@ -9436,11 +9436,11 @@ class LeftHandExtraFinger2RPlugOperator(
         ("LeftHandExtraFinger2Rz", "LeftHandExtraFinger2Rz"),
     )
 
-    LeftHandExtraFinger2Rx = DoubleAngleField()
+    LeftHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Ry = DoubleAngleField()
+    LeftHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Rz = DoubleAngleField()
+    LeftHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger2RAttrOperator(
@@ -9448,11 +9448,11 @@ class LeftHandExtraFinger2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger2Rx = DoubleAngleField()
+    LeftHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Ry = DoubleAngleField()
+    LeftHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Rz = DoubleAngleField()
+    LeftHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger2RField(
@@ -9463,11 +9463,11 @@ class LeftHandExtraFinger2RField(
     ATTR_CLS = LeftHandExtraFinger2RAttrOperator
     PLUG_CLS = LeftHandExtraFinger2RPlugOperator
 
-    LeftHandExtraFinger2Rx = DoubleAngleField()
+    LeftHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Ry = DoubleAngleField()
+    LeftHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger2Rz = DoubleAngleField()
+    LeftHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger2SPlugOperator(
@@ -9480,11 +9480,11 @@ class LeftHandExtraFinger2SPlugOperator(
         ("LeftHandExtraFinger2Sz", "LeftHandExtraFinger2Sz"),
     )
 
-    LeftHandExtraFinger2Sx = DoubleField()
+    LeftHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sy = DoubleField()
+    LeftHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sz = DoubleField()
+    LeftHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger2SAttrOperator(
@@ -9492,11 +9492,11 @@ class LeftHandExtraFinger2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger2Sx = DoubleField()
+    LeftHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sy = DoubleField()
+    LeftHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sz = DoubleField()
+    LeftHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger2SField(
@@ -9507,11 +9507,11 @@ class LeftHandExtraFinger2SField(
     ATTR_CLS = LeftHandExtraFinger2SAttrOperator
     PLUG_CLS = LeftHandExtraFinger2SPlugOperator
 
-    LeftHandExtraFinger2Sx = DoubleField()
+    LeftHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sy = DoubleField()
+    LeftHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger2Sz = DoubleField()
+    LeftHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger3TPlugOperator(
@@ -9524,11 +9524,11 @@ class LeftHandExtraFinger3TPlugOperator(
         ("LeftHandExtraFinger3Tz", "LeftHandExtraFinger3Tz"),
     )
 
-    LeftHandExtraFinger3Tx = DoubleLinearField()
+    LeftHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Ty = DoubleLinearField()
+    LeftHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Tz = DoubleLinearField()
+    LeftHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger3TAttrOperator(
@@ -9536,11 +9536,11 @@ class LeftHandExtraFinger3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger3Tx = DoubleLinearField()
+    LeftHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Ty = DoubleLinearField()
+    LeftHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Tz = DoubleLinearField()
+    LeftHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger3TField(
@@ -9551,11 +9551,11 @@ class LeftHandExtraFinger3TField(
     ATTR_CLS = LeftHandExtraFinger3TAttrOperator
     PLUG_CLS = LeftHandExtraFinger3TPlugOperator
 
-    LeftHandExtraFinger3Tx = DoubleLinearField()
+    LeftHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Ty = DoubleLinearField()
+    LeftHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger3Tz = DoubleLinearField()
+    LeftHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger3RPlugOperator(
@@ -9568,11 +9568,11 @@ class LeftHandExtraFinger3RPlugOperator(
         ("LeftHandExtraFinger3Rz", "LeftHandExtraFinger3Rz"),
     )
 
-    LeftHandExtraFinger3Rx = DoubleAngleField()
+    LeftHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Ry = DoubleAngleField()
+    LeftHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Rz = DoubleAngleField()
+    LeftHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger3RAttrOperator(
@@ -9580,11 +9580,11 @@ class LeftHandExtraFinger3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger3Rx = DoubleAngleField()
+    LeftHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Ry = DoubleAngleField()
+    LeftHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Rz = DoubleAngleField()
+    LeftHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger3RField(
@@ -9595,11 +9595,11 @@ class LeftHandExtraFinger3RField(
     ATTR_CLS = LeftHandExtraFinger3RAttrOperator
     PLUG_CLS = LeftHandExtraFinger3RPlugOperator
 
-    LeftHandExtraFinger3Rx = DoubleAngleField()
+    LeftHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Ry = DoubleAngleField()
+    LeftHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger3Rz = DoubleAngleField()
+    LeftHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger3SPlugOperator(
@@ -9612,11 +9612,11 @@ class LeftHandExtraFinger3SPlugOperator(
         ("LeftHandExtraFinger3Sz", "LeftHandExtraFinger3Sz"),
     )
 
-    LeftHandExtraFinger3Sx = DoubleField()
+    LeftHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sy = DoubleField()
+    LeftHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sz = DoubleField()
+    LeftHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger3SAttrOperator(
@@ -9624,11 +9624,11 @@ class LeftHandExtraFinger3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger3Sx = DoubleField()
+    LeftHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sy = DoubleField()
+    LeftHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sz = DoubleField()
+    LeftHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger3SField(
@@ -9639,11 +9639,11 @@ class LeftHandExtraFinger3SField(
     ATTR_CLS = LeftHandExtraFinger3SAttrOperator
     PLUG_CLS = LeftHandExtraFinger3SPlugOperator
 
-    LeftHandExtraFinger3Sx = DoubleField()
+    LeftHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sy = DoubleField()
+    LeftHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger3Sz = DoubleField()
+    LeftHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger4TPlugOperator(
@@ -9656,11 +9656,11 @@ class LeftHandExtraFinger4TPlugOperator(
         ("LeftHandExtraFinger4Tz", "LeftHandExtraFinger4Tz"),
     )
 
-    LeftHandExtraFinger4Tx = DoubleLinearField()
+    LeftHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Ty = DoubleLinearField()
+    LeftHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Tz = DoubleLinearField()
+    LeftHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger4TAttrOperator(
@@ -9668,11 +9668,11 @@ class LeftHandExtraFinger4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger4Tx = DoubleLinearField()
+    LeftHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Ty = DoubleLinearField()
+    LeftHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Tz = DoubleLinearField()
+    LeftHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger4TField(
@@ -9683,11 +9683,11 @@ class LeftHandExtraFinger4TField(
     ATTR_CLS = LeftHandExtraFinger4TAttrOperator
     PLUG_CLS = LeftHandExtraFinger4TPlugOperator
 
-    LeftHandExtraFinger4Tx = DoubleLinearField()
+    LeftHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Ty = DoubleLinearField()
+    LeftHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFinger4Tz = DoubleLinearField()
+    LeftHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFinger4RPlugOperator(
@@ -9700,11 +9700,11 @@ class LeftHandExtraFinger4RPlugOperator(
         ("LeftHandExtraFinger4Rz", "LeftHandExtraFinger4Rz"),
     )
 
-    LeftHandExtraFinger4Rx = DoubleAngleField()
+    LeftHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Ry = DoubleAngleField()
+    LeftHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Rz = DoubleAngleField()
+    LeftHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger4RAttrOperator(
@@ -9712,11 +9712,11 @@ class LeftHandExtraFinger4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger4Rx = DoubleAngleField()
+    LeftHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Ry = DoubleAngleField()
+    LeftHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Rz = DoubleAngleField()
+    LeftHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger4RField(
@@ -9727,11 +9727,11 @@ class LeftHandExtraFinger4RField(
     ATTR_CLS = LeftHandExtraFinger4RAttrOperator
     PLUG_CLS = LeftHandExtraFinger4RPlugOperator
 
-    LeftHandExtraFinger4Rx = DoubleAngleField()
+    LeftHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Ry = DoubleAngleField()
+    LeftHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftHandExtraFinger4Rz = DoubleAngleField()
+    LeftHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftHandExtraFinger4SPlugOperator(
@@ -9744,11 +9744,11 @@ class LeftHandExtraFinger4SPlugOperator(
         ("LeftHandExtraFinger4Sz", "LeftHandExtraFinger4Sz"),
     )
 
-    LeftHandExtraFinger4Sx = DoubleField()
+    LeftHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sy = DoubleField()
+    LeftHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sz = DoubleField()
+    LeftHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger4SAttrOperator(
@@ -9756,11 +9756,11 @@ class LeftHandExtraFinger4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFinger4Sx = DoubleField()
+    LeftHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sy = DoubleField()
+    LeftHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sz = DoubleField()
+    LeftHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftHandExtraFinger4SField(
@@ -9771,11 +9771,11 @@ class LeftHandExtraFinger4SField(
     ATTR_CLS = LeftHandExtraFinger4SAttrOperator
     PLUG_CLS = LeftHandExtraFinger4SPlugOperator
 
-    LeftHandExtraFinger4Sx = DoubleField()
+    LeftHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sy = DoubleField()
+    LeftHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftHandExtraFinger4Sz = DoubleField()
+    LeftHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb1TPlugOperator(
@@ -9788,11 +9788,11 @@ class RightHandThumb1TPlugOperator(
         ("RightHandThumb1Tz", "RightHandThumb1Tz"),
     )
 
-    RightHandThumb1Tx = DoubleLinearField()
+    RightHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Ty = DoubleLinearField()
+    RightHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Tz = DoubleLinearField()
+    RightHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb1TAttrOperator(
@@ -9800,11 +9800,11 @@ class RightHandThumb1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb1Tx = DoubleLinearField()
+    RightHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Ty = DoubleLinearField()
+    RightHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Tz = DoubleLinearField()
+    RightHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb1TField(
@@ -9815,11 +9815,11 @@ class RightHandThumb1TField(
     ATTR_CLS = RightHandThumb1TAttrOperator
     PLUG_CLS = RightHandThumb1TPlugOperator
 
-    RightHandThumb1Tx = DoubleLinearField()
+    RightHandThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Ty = DoubleLinearField()
+    RightHandThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb1Tz = DoubleLinearField()
+    RightHandThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb1RPlugOperator(
@@ -9832,11 +9832,11 @@ class RightHandThumb1RPlugOperator(
         ("RightHandThumb1Rz", "RightHandThumb1Rz"),
     )
 
-    RightHandThumb1Rx = DoubleAngleField()
+    RightHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Ry = DoubleAngleField()
+    RightHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Rz = DoubleAngleField()
+    RightHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb1RAttrOperator(
@@ -9844,11 +9844,11 @@ class RightHandThumb1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb1Rx = DoubleAngleField()
+    RightHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Ry = DoubleAngleField()
+    RightHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Rz = DoubleAngleField()
+    RightHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb1RField(
@@ -9859,11 +9859,11 @@ class RightHandThumb1RField(
     ATTR_CLS = RightHandThumb1RAttrOperator
     PLUG_CLS = RightHandThumb1RPlugOperator
 
-    RightHandThumb1Rx = DoubleAngleField()
+    RightHandThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Ry = DoubleAngleField()
+    RightHandThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb1Rz = DoubleAngleField()
+    RightHandThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb1SPlugOperator(
@@ -9876,11 +9876,11 @@ class RightHandThumb1SPlugOperator(
         ("RightHandThumb1Sz", "RightHandThumb1Sz"),
     )
 
-    RightHandThumb1Sx = DoubleField()
+    RightHandThumb1Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sy = DoubleField()
+    RightHandThumb1Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sz = DoubleField()
+    RightHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb1SAttrOperator(
@@ -9888,11 +9888,11 @@ class RightHandThumb1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb1Sx = DoubleField()
+    RightHandThumb1Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sy = DoubleField()
+    RightHandThumb1Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sz = DoubleField()
+    RightHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb1SField(
@@ -9903,11 +9903,11 @@ class RightHandThumb1SField(
     ATTR_CLS = RightHandThumb1SAttrOperator
     PLUG_CLS = RightHandThumb1SPlugOperator
 
-    RightHandThumb1Sx = DoubleField()
+    RightHandThumb1Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sy = DoubleField()
+    RightHandThumb1Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb1Sz = DoubleField()
+    RightHandThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb2TPlugOperator(
@@ -9920,11 +9920,11 @@ class RightHandThumb2TPlugOperator(
         ("RightHandThumb2Tz", "RightHandThumb2Tz"),
     )
 
-    RightHandThumb2Tx = DoubleLinearField()
+    RightHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Ty = DoubleLinearField()
+    RightHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Tz = DoubleLinearField()
+    RightHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb2TAttrOperator(
@@ -9932,11 +9932,11 @@ class RightHandThumb2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb2Tx = DoubleLinearField()
+    RightHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Ty = DoubleLinearField()
+    RightHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Tz = DoubleLinearField()
+    RightHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb2TField(
@@ -9947,11 +9947,11 @@ class RightHandThumb2TField(
     ATTR_CLS = RightHandThumb2TAttrOperator
     PLUG_CLS = RightHandThumb2TPlugOperator
 
-    RightHandThumb2Tx = DoubleLinearField()
+    RightHandThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Ty = DoubleLinearField()
+    RightHandThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb2Tz = DoubleLinearField()
+    RightHandThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb2RPlugOperator(
@@ -9964,11 +9964,11 @@ class RightHandThumb2RPlugOperator(
         ("RightHandThumb2Rz", "RightHandThumb2Rz"),
     )
 
-    RightHandThumb2Rx = DoubleAngleField()
+    RightHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Ry = DoubleAngleField()
+    RightHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Rz = DoubleAngleField()
+    RightHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb2RAttrOperator(
@@ -9976,11 +9976,11 @@ class RightHandThumb2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb2Rx = DoubleAngleField()
+    RightHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Ry = DoubleAngleField()
+    RightHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Rz = DoubleAngleField()
+    RightHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb2RField(
@@ -9991,11 +9991,11 @@ class RightHandThumb2RField(
     ATTR_CLS = RightHandThumb2RAttrOperator
     PLUG_CLS = RightHandThumb2RPlugOperator
 
-    RightHandThumb2Rx = DoubleAngleField()
+    RightHandThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Ry = DoubleAngleField()
+    RightHandThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb2Rz = DoubleAngleField()
+    RightHandThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb2SPlugOperator(
@@ -10008,11 +10008,11 @@ class RightHandThumb2SPlugOperator(
         ("RightHandThumb2Sz", "RightHandThumb2Sz"),
     )
 
-    RightHandThumb2Sx = DoubleField()
+    RightHandThumb2Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sy = DoubleField()
+    RightHandThumb2Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sz = DoubleField()
+    RightHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb2SAttrOperator(
@@ -10020,11 +10020,11 @@ class RightHandThumb2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb2Sx = DoubleField()
+    RightHandThumb2Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sy = DoubleField()
+    RightHandThumb2Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sz = DoubleField()
+    RightHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb2SField(
@@ -10035,11 +10035,11 @@ class RightHandThumb2SField(
     ATTR_CLS = RightHandThumb2SAttrOperator
     PLUG_CLS = RightHandThumb2SPlugOperator
 
-    RightHandThumb2Sx = DoubleField()
+    RightHandThumb2Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sy = DoubleField()
+    RightHandThumb2Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb2Sz = DoubleField()
+    RightHandThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb3TPlugOperator(
@@ -10052,11 +10052,11 @@ class RightHandThumb3TPlugOperator(
         ("RightHandThumb3Tz", "RightHandThumb3Tz"),
     )
 
-    RightHandThumb3Tx = DoubleLinearField()
+    RightHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Ty = DoubleLinearField()
+    RightHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Tz = DoubleLinearField()
+    RightHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb3TAttrOperator(
@@ -10064,11 +10064,11 @@ class RightHandThumb3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb3Tx = DoubleLinearField()
+    RightHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Ty = DoubleLinearField()
+    RightHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Tz = DoubleLinearField()
+    RightHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb3TField(
@@ -10079,11 +10079,11 @@ class RightHandThumb3TField(
     ATTR_CLS = RightHandThumb3TAttrOperator
     PLUG_CLS = RightHandThumb3TPlugOperator
 
-    RightHandThumb3Tx = DoubleLinearField()
+    RightHandThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Ty = DoubleLinearField()
+    RightHandThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb3Tz = DoubleLinearField()
+    RightHandThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb3RPlugOperator(
@@ -10096,11 +10096,11 @@ class RightHandThumb3RPlugOperator(
         ("RightHandThumb3Rz", "RightHandThumb3Rz"),
     )
 
-    RightHandThumb3Rx = DoubleAngleField()
+    RightHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Ry = DoubleAngleField()
+    RightHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Rz = DoubleAngleField()
+    RightHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb3RAttrOperator(
@@ -10108,11 +10108,11 @@ class RightHandThumb3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb3Rx = DoubleAngleField()
+    RightHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Ry = DoubleAngleField()
+    RightHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Rz = DoubleAngleField()
+    RightHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb3RField(
@@ -10123,11 +10123,11 @@ class RightHandThumb3RField(
     ATTR_CLS = RightHandThumb3RAttrOperator
     PLUG_CLS = RightHandThumb3RPlugOperator
 
-    RightHandThumb3Rx = DoubleAngleField()
+    RightHandThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Ry = DoubleAngleField()
+    RightHandThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb3Rz = DoubleAngleField()
+    RightHandThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb3SPlugOperator(
@@ -10140,11 +10140,11 @@ class RightHandThumb3SPlugOperator(
         ("RightHandThumb3Sz", "RightHandThumb3Sz"),
     )
 
-    RightHandThumb3Sx = DoubleField()
+    RightHandThumb3Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sy = DoubleField()
+    RightHandThumb3Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sz = DoubleField()
+    RightHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb3SAttrOperator(
@@ -10152,11 +10152,11 @@ class RightHandThumb3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb3Sx = DoubleField()
+    RightHandThumb3Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sy = DoubleField()
+    RightHandThumb3Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sz = DoubleField()
+    RightHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb3SField(
@@ -10167,11 +10167,11 @@ class RightHandThumb3SField(
     ATTR_CLS = RightHandThumb3SAttrOperator
     PLUG_CLS = RightHandThumb3SPlugOperator
 
-    RightHandThumb3Sx = DoubleField()
+    RightHandThumb3Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sy = DoubleField()
+    RightHandThumb3Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb3Sz = DoubleField()
+    RightHandThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb4TPlugOperator(
@@ -10184,11 +10184,11 @@ class RightHandThumb4TPlugOperator(
         ("RightHandThumb4Tz", "RightHandThumb4Tz"),
     )
 
-    RightHandThumb4Tx = DoubleLinearField()
+    RightHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Ty = DoubleLinearField()
+    RightHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Tz = DoubleLinearField()
+    RightHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb4TAttrOperator(
@@ -10196,11 +10196,11 @@ class RightHandThumb4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb4Tx = DoubleLinearField()
+    RightHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Ty = DoubleLinearField()
+    RightHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Tz = DoubleLinearField()
+    RightHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb4TField(
@@ -10211,11 +10211,11 @@ class RightHandThumb4TField(
     ATTR_CLS = RightHandThumb4TAttrOperator
     PLUG_CLS = RightHandThumb4TPlugOperator
 
-    RightHandThumb4Tx = DoubleLinearField()
+    RightHandThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Ty = DoubleLinearField()
+    RightHandThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandThumb4Tz = DoubleLinearField()
+    RightHandThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumb4RPlugOperator(
@@ -10228,11 +10228,11 @@ class RightHandThumb4RPlugOperator(
         ("RightHandThumb4Rz", "RightHandThumb4Rz"),
     )
 
-    RightHandThumb4Rx = DoubleAngleField()
+    RightHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Ry = DoubleAngleField()
+    RightHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Rz = DoubleAngleField()
+    RightHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb4RAttrOperator(
@@ -10240,11 +10240,11 @@ class RightHandThumb4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb4Rx = DoubleAngleField()
+    RightHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Ry = DoubleAngleField()
+    RightHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Rz = DoubleAngleField()
+    RightHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb4RField(
@@ -10255,11 +10255,11 @@ class RightHandThumb4RField(
     ATTR_CLS = RightHandThumb4RAttrOperator
     PLUG_CLS = RightHandThumb4RPlugOperator
 
-    RightHandThumb4Rx = DoubleAngleField()
+    RightHandThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Ry = DoubleAngleField()
+    RightHandThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandThumb4Rz = DoubleAngleField()
+    RightHandThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandThumb4SPlugOperator(
@@ -10272,11 +10272,11 @@ class RightHandThumb4SPlugOperator(
         ("RightHandThumb4Sz", "RightHandThumb4Sz"),
     )
 
-    RightHandThumb4Sx = DoubleField()
+    RightHandThumb4Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sy = DoubleField()
+    RightHandThumb4Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sz = DoubleField()
+    RightHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb4SAttrOperator(
@@ -10284,11 +10284,11 @@ class RightHandThumb4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumb4Sx = DoubleField()
+    RightHandThumb4Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sy = DoubleField()
+    RightHandThumb4Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sz = DoubleField()
+    RightHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandThumb4SField(
@@ -10299,11 +10299,11 @@ class RightHandThumb4SField(
     ATTR_CLS = RightHandThumb4SAttrOperator
     PLUG_CLS = RightHandThumb4SPlugOperator
 
-    RightHandThumb4Sx = DoubleField()
+    RightHandThumb4Sx = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sy = DoubleField()
+    RightHandThumb4Sy = DoubleField(default_value=1.0)
 
-    RightHandThumb4Sz = DoubleField()
+    RightHandThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex1TPlugOperator(
@@ -10316,11 +10316,11 @@ class RightHandIndex1TPlugOperator(
         ("RightHandIndex1Tz", "RightHandIndex1Tz"),
     )
 
-    RightHandIndex1Tx = DoubleLinearField()
+    RightHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Ty = DoubleLinearField()
+    RightHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Tz = DoubleLinearField()
+    RightHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex1TAttrOperator(
@@ -10328,11 +10328,11 @@ class RightHandIndex1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex1Tx = DoubleLinearField()
+    RightHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Ty = DoubleLinearField()
+    RightHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Tz = DoubleLinearField()
+    RightHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex1TField(
@@ -10343,11 +10343,11 @@ class RightHandIndex1TField(
     ATTR_CLS = RightHandIndex1TAttrOperator
     PLUG_CLS = RightHandIndex1TPlugOperator
 
-    RightHandIndex1Tx = DoubleLinearField()
+    RightHandIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Ty = DoubleLinearField()
+    RightHandIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex1Tz = DoubleLinearField()
+    RightHandIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex1RPlugOperator(
@@ -10360,11 +10360,11 @@ class RightHandIndex1RPlugOperator(
         ("RightHandIndex1Rz", "RightHandIndex1Rz"),
     )
 
-    RightHandIndex1Rx = DoubleAngleField()
+    RightHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Ry = DoubleAngleField()
+    RightHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Rz = DoubleAngleField()
+    RightHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex1RAttrOperator(
@@ -10372,11 +10372,11 @@ class RightHandIndex1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex1Rx = DoubleAngleField()
+    RightHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Ry = DoubleAngleField()
+    RightHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Rz = DoubleAngleField()
+    RightHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex1RField(
@@ -10387,11 +10387,11 @@ class RightHandIndex1RField(
     ATTR_CLS = RightHandIndex1RAttrOperator
     PLUG_CLS = RightHandIndex1RPlugOperator
 
-    RightHandIndex1Rx = DoubleAngleField()
+    RightHandIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Ry = DoubleAngleField()
+    RightHandIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex1Rz = DoubleAngleField()
+    RightHandIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex1SPlugOperator(
@@ -10404,11 +10404,11 @@ class RightHandIndex1SPlugOperator(
         ("RightHandIndex1Sz", "RightHandIndex1Sz"),
     )
 
-    RightHandIndex1Sx = DoubleField()
+    RightHandIndex1Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sy = DoubleField()
+    RightHandIndex1Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sz = DoubleField()
+    RightHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex1SAttrOperator(
@@ -10416,11 +10416,11 @@ class RightHandIndex1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex1Sx = DoubleField()
+    RightHandIndex1Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sy = DoubleField()
+    RightHandIndex1Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sz = DoubleField()
+    RightHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex1SField(
@@ -10431,11 +10431,11 @@ class RightHandIndex1SField(
     ATTR_CLS = RightHandIndex1SAttrOperator
     PLUG_CLS = RightHandIndex1SPlugOperator
 
-    RightHandIndex1Sx = DoubleField()
+    RightHandIndex1Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sy = DoubleField()
+    RightHandIndex1Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex1Sz = DoubleField()
+    RightHandIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex2TPlugOperator(
@@ -10448,11 +10448,11 @@ class RightHandIndex2TPlugOperator(
         ("RightHandIndex2Tz", "RightHandIndex2Tz"),
     )
 
-    RightHandIndex2Tx = DoubleLinearField()
+    RightHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Ty = DoubleLinearField()
+    RightHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Tz = DoubleLinearField()
+    RightHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex2TAttrOperator(
@@ -10460,11 +10460,11 @@ class RightHandIndex2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex2Tx = DoubleLinearField()
+    RightHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Ty = DoubleLinearField()
+    RightHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Tz = DoubleLinearField()
+    RightHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex2TField(
@@ -10475,11 +10475,11 @@ class RightHandIndex2TField(
     ATTR_CLS = RightHandIndex2TAttrOperator
     PLUG_CLS = RightHandIndex2TPlugOperator
 
-    RightHandIndex2Tx = DoubleLinearField()
+    RightHandIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Ty = DoubleLinearField()
+    RightHandIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex2Tz = DoubleLinearField()
+    RightHandIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex2RPlugOperator(
@@ -10492,11 +10492,11 @@ class RightHandIndex2RPlugOperator(
         ("RightHandIndex2Rz", "RightHandIndex2Rz"),
     )
 
-    RightHandIndex2Rx = DoubleAngleField()
+    RightHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Ry = DoubleAngleField()
+    RightHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Rz = DoubleAngleField()
+    RightHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex2RAttrOperator(
@@ -10504,11 +10504,11 @@ class RightHandIndex2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex2Rx = DoubleAngleField()
+    RightHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Ry = DoubleAngleField()
+    RightHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Rz = DoubleAngleField()
+    RightHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex2RField(
@@ -10519,11 +10519,11 @@ class RightHandIndex2RField(
     ATTR_CLS = RightHandIndex2RAttrOperator
     PLUG_CLS = RightHandIndex2RPlugOperator
 
-    RightHandIndex2Rx = DoubleAngleField()
+    RightHandIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Ry = DoubleAngleField()
+    RightHandIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex2Rz = DoubleAngleField()
+    RightHandIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex2SPlugOperator(
@@ -10536,11 +10536,11 @@ class RightHandIndex2SPlugOperator(
         ("RightHandIndex2Sz", "RightHandIndex2Sz"),
     )
 
-    RightHandIndex2Sx = DoubleField()
+    RightHandIndex2Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sy = DoubleField()
+    RightHandIndex2Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sz = DoubleField()
+    RightHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex2SAttrOperator(
@@ -10548,11 +10548,11 @@ class RightHandIndex2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex2Sx = DoubleField()
+    RightHandIndex2Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sy = DoubleField()
+    RightHandIndex2Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sz = DoubleField()
+    RightHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex2SField(
@@ -10563,11 +10563,11 @@ class RightHandIndex2SField(
     ATTR_CLS = RightHandIndex2SAttrOperator
     PLUG_CLS = RightHandIndex2SPlugOperator
 
-    RightHandIndex2Sx = DoubleField()
+    RightHandIndex2Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sy = DoubleField()
+    RightHandIndex2Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex2Sz = DoubleField()
+    RightHandIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex3TPlugOperator(
@@ -10580,11 +10580,11 @@ class RightHandIndex3TPlugOperator(
         ("RightHandIndex3Tz", "RightHandIndex3Tz"),
     )
 
-    RightHandIndex3Tx = DoubleLinearField()
+    RightHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Ty = DoubleLinearField()
+    RightHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Tz = DoubleLinearField()
+    RightHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex3TAttrOperator(
@@ -10592,11 +10592,11 @@ class RightHandIndex3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex3Tx = DoubleLinearField()
+    RightHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Ty = DoubleLinearField()
+    RightHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Tz = DoubleLinearField()
+    RightHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex3TField(
@@ -10607,11 +10607,11 @@ class RightHandIndex3TField(
     ATTR_CLS = RightHandIndex3TAttrOperator
     PLUG_CLS = RightHandIndex3TPlugOperator
 
-    RightHandIndex3Tx = DoubleLinearField()
+    RightHandIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Ty = DoubleLinearField()
+    RightHandIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex3Tz = DoubleLinearField()
+    RightHandIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex3RPlugOperator(
@@ -10624,11 +10624,11 @@ class RightHandIndex3RPlugOperator(
         ("RightHandIndex3Rz", "RightHandIndex3Rz"),
     )
 
-    RightHandIndex3Rx = DoubleAngleField()
+    RightHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Ry = DoubleAngleField()
+    RightHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Rz = DoubleAngleField()
+    RightHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex3RAttrOperator(
@@ -10636,11 +10636,11 @@ class RightHandIndex3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex3Rx = DoubleAngleField()
+    RightHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Ry = DoubleAngleField()
+    RightHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Rz = DoubleAngleField()
+    RightHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex3RField(
@@ -10651,11 +10651,11 @@ class RightHandIndex3RField(
     ATTR_CLS = RightHandIndex3RAttrOperator
     PLUG_CLS = RightHandIndex3RPlugOperator
 
-    RightHandIndex3Rx = DoubleAngleField()
+    RightHandIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Ry = DoubleAngleField()
+    RightHandIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex3Rz = DoubleAngleField()
+    RightHandIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex3SPlugOperator(
@@ -10668,11 +10668,11 @@ class RightHandIndex3SPlugOperator(
         ("RightHandIndex3Sz", "RightHandIndex3Sz"),
     )
 
-    RightHandIndex3Sx = DoubleField()
+    RightHandIndex3Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sy = DoubleField()
+    RightHandIndex3Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sz = DoubleField()
+    RightHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex3SAttrOperator(
@@ -10680,11 +10680,11 @@ class RightHandIndex3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex3Sx = DoubleField()
+    RightHandIndex3Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sy = DoubleField()
+    RightHandIndex3Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sz = DoubleField()
+    RightHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex3SField(
@@ -10695,11 +10695,11 @@ class RightHandIndex3SField(
     ATTR_CLS = RightHandIndex3SAttrOperator
     PLUG_CLS = RightHandIndex3SPlugOperator
 
-    RightHandIndex3Sx = DoubleField()
+    RightHandIndex3Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sy = DoubleField()
+    RightHandIndex3Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex3Sz = DoubleField()
+    RightHandIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex4TPlugOperator(
@@ -10712,11 +10712,11 @@ class RightHandIndex4TPlugOperator(
         ("RightHandIndex4Tz", "RightHandIndex4Tz"),
     )
 
-    RightHandIndex4Tx = DoubleLinearField()
+    RightHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Ty = DoubleLinearField()
+    RightHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Tz = DoubleLinearField()
+    RightHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex4TAttrOperator(
@@ -10724,11 +10724,11 @@ class RightHandIndex4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex4Tx = DoubleLinearField()
+    RightHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Ty = DoubleLinearField()
+    RightHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Tz = DoubleLinearField()
+    RightHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex4TField(
@@ -10739,11 +10739,11 @@ class RightHandIndex4TField(
     ATTR_CLS = RightHandIndex4TAttrOperator
     PLUG_CLS = RightHandIndex4TPlugOperator
 
-    RightHandIndex4Tx = DoubleLinearField()
+    RightHandIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Ty = DoubleLinearField()
+    RightHandIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandIndex4Tz = DoubleLinearField()
+    RightHandIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndex4RPlugOperator(
@@ -10756,11 +10756,11 @@ class RightHandIndex4RPlugOperator(
         ("RightHandIndex4Rz", "RightHandIndex4Rz"),
     )
 
-    RightHandIndex4Rx = DoubleAngleField()
+    RightHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Ry = DoubleAngleField()
+    RightHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Rz = DoubleAngleField()
+    RightHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex4RAttrOperator(
@@ -10768,11 +10768,11 @@ class RightHandIndex4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex4Rx = DoubleAngleField()
+    RightHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Ry = DoubleAngleField()
+    RightHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Rz = DoubleAngleField()
+    RightHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex4RField(
@@ -10783,11 +10783,11 @@ class RightHandIndex4RField(
     ATTR_CLS = RightHandIndex4RAttrOperator
     PLUG_CLS = RightHandIndex4RPlugOperator
 
-    RightHandIndex4Rx = DoubleAngleField()
+    RightHandIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Ry = DoubleAngleField()
+    RightHandIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandIndex4Rz = DoubleAngleField()
+    RightHandIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandIndex4SPlugOperator(
@@ -10800,11 +10800,11 @@ class RightHandIndex4SPlugOperator(
         ("RightHandIndex4Sz", "RightHandIndex4Sz"),
     )
 
-    RightHandIndex4Sx = DoubleField()
+    RightHandIndex4Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sy = DoubleField()
+    RightHandIndex4Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sz = DoubleField()
+    RightHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex4SAttrOperator(
@@ -10812,11 +10812,11 @@ class RightHandIndex4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndex4Sx = DoubleField()
+    RightHandIndex4Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sy = DoubleField()
+    RightHandIndex4Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sz = DoubleField()
+    RightHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandIndex4SField(
@@ -10827,11 +10827,11 @@ class RightHandIndex4SField(
     ATTR_CLS = RightHandIndex4SAttrOperator
     PLUG_CLS = RightHandIndex4SPlugOperator
 
-    RightHandIndex4Sx = DoubleField()
+    RightHandIndex4Sx = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sy = DoubleField()
+    RightHandIndex4Sy = DoubleField(default_value=1.0)
 
-    RightHandIndex4Sz = DoubleField()
+    RightHandIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle1TPlugOperator(
@@ -10844,11 +10844,11 @@ class RightHandMiddle1TPlugOperator(
         ("RightHandMiddle1Tz", "RightHandMiddle1Tz"),
     )
 
-    RightHandMiddle1Tx = DoubleLinearField()
+    RightHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Ty = DoubleLinearField()
+    RightHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Tz = DoubleLinearField()
+    RightHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle1TAttrOperator(
@@ -10856,11 +10856,11 @@ class RightHandMiddle1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle1Tx = DoubleLinearField()
+    RightHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Ty = DoubleLinearField()
+    RightHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Tz = DoubleLinearField()
+    RightHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle1TField(
@@ -10871,11 +10871,11 @@ class RightHandMiddle1TField(
     ATTR_CLS = RightHandMiddle1TAttrOperator
     PLUG_CLS = RightHandMiddle1TPlugOperator
 
-    RightHandMiddle1Tx = DoubleLinearField()
+    RightHandMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Ty = DoubleLinearField()
+    RightHandMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle1Tz = DoubleLinearField()
+    RightHandMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle1RPlugOperator(
@@ -10888,11 +10888,11 @@ class RightHandMiddle1RPlugOperator(
         ("RightHandMiddle1Rz", "RightHandMiddle1Rz"),
     )
 
-    RightHandMiddle1Rx = DoubleAngleField()
+    RightHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Ry = DoubleAngleField()
+    RightHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Rz = DoubleAngleField()
+    RightHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle1RAttrOperator(
@@ -10900,11 +10900,11 @@ class RightHandMiddle1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle1Rx = DoubleAngleField()
+    RightHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Ry = DoubleAngleField()
+    RightHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Rz = DoubleAngleField()
+    RightHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle1RField(
@@ -10915,11 +10915,11 @@ class RightHandMiddle1RField(
     ATTR_CLS = RightHandMiddle1RAttrOperator
     PLUG_CLS = RightHandMiddle1RPlugOperator
 
-    RightHandMiddle1Rx = DoubleAngleField()
+    RightHandMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Ry = DoubleAngleField()
+    RightHandMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle1Rz = DoubleAngleField()
+    RightHandMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle1SPlugOperator(
@@ -10932,11 +10932,11 @@ class RightHandMiddle1SPlugOperator(
         ("RightHandMiddle1Sz", "RightHandMiddle1Sz"),
     )
 
-    RightHandMiddle1Sx = DoubleField()
+    RightHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sy = DoubleField()
+    RightHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sz = DoubleField()
+    RightHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle1SAttrOperator(
@@ -10944,11 +10944,11 @@ class RightHandMiddle1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle1Sx = DoubleField()
+    RightHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sy = DoubleField()
+    RightHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sz = DoubleField()
+    RightHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle1SField(
@@ -10959,11 +10959,11 @@ class RightHandMiddle1SField(
     ATTR_CLS = RightHandMiddle1SAttrOperator
     PLUG_CLS = RightHandMiddle1SPlugOperator
 
-    RightHandMiddle1Sx = DoubleField()
+    RightHandMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sy = DoubleField()
+    RightHandMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle1Sz = DoubleField()
+    RightHandMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle2TPlugOperator(
@@ -10976,11 +10976,11 @@ class RightHandMiddle2TPlugOperator(
         ("RightHandMiddle2Tz", "RightHandMiddle2Tz"),
     )
 
-    RightHandMiddle2Tx = DoubleLinearField()
+    RightHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Ty = DoubleLinearField()
+    RightHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Tz = DoubleLinearField()
+    RightHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle2TAttrOperator(
@@ -10988,11 +10988,11 @@ class RightHandMiddle2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle2Tx = DoubleLinearField()
+    RightHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Ty = DoubleLinearField()
+    RightHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Tz = DoubleLinearField()
+    RightHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle2TField(
@@ -11003,11 +11003,11 @@ class RightHandMiddle2TField(
     ATTR_CLS = RightHandMiddle2TAttrOperator
     PLUG_CLS = RightHandMiddle2TPlugOperator
 
-    RightHandMiddle2Tx = DoubleLinearField()
+    RightHandMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Ty = DoubleLinearField()
+    RightHandMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle2Tz = DoubleLinearField()
+    RightHandMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle2RPlugOperator(
@@ -11020,11 +11020,11 @@ class RightHandMiddle2RPlugOperator(
         ("RightHandMiddle2Rz", "RightHandMiddle2Rz"),
     )
 
-    RightHandMiddle2Rx = DoubleAngleField()
+    RightHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Ry = DoubleAngleField()
+    RightHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Rz = DoubleAngleField()
+    RightHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle2RAttrOperator(
@@ -11032,11 +11032,11 @@ class RightHandMiddle2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle2Rx = DoubleAngleField()
+    RightHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Ry = DoubleAngleField()
+    RightHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Rz = DoubleAngleField()
+    RightHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle2RField(
@@ -11047,11 +11047,11 @@ class RightHandMiddle2RField(
     ATTR_CLS = RightHandMiddle2RAttrOperator
     PLUG_CLS = RightHandMiddle2RPlugOperator
 
-    RightHandMiddle2Rx = DoubleAngleField()
+    RightHandMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Ry = DoubleAngleField()
+    RightHandMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle2Rz = DoubleAngleField()
+    RightHandMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle2SPlugOperator(
@@ -11064,11 +11064,11 @@ class RightHandMiddle2SPlugOperator(
         ("RightHandMiddle2Sz", "RightHandMiddle2Sz"),
     )
 
-    RightHandMiddle2Sx = DoubleField()
+    RightHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sy = DoubleField()
+    RightHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sz = DoubleField()
+    RightHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle2SAttrOperator(
@@ -11076,11 +11076,11 @@ class RightHandMiddle2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle2Sx = DoubleField()
+    RightHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sy = DoubleField()
+    RightHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sz = DoubleField()
+    RightHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle2SField(
@@ -11091,11 +11091,11 @@ class RightHandMiddle2SField(
     ATTR_CLS = RightHandMiddle2SAttrOperator
     PLUG_CLS = RightHandMiddle2SPlugOperator
 
-    RightHandMiddle2Sx = DoubleField()
+    RightHandMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sy = DoubleField()
+    RightHandMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle2Sz = DoubleField()
+    RightHandMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle3TPlugOperator(
@@ -11108,11 +11108,11 @@ class RightHandMiddle3TPlugOperator(
         ("RightHandMiddle3Tz", "RightHandMiddle3Tz"),
     )
 
-    RightHandMiddle3Tx = DoubleLinearField()
+    RightHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Ty = DoubleLinearField()
+    RightHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Tz = DoubleLinearField()
+    RightHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle3TAttrOperator(
@@ -11120,11 +11120,11 @@ class RightHandMiddle3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle3Tx = DoubleLinearField()
+    RightHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Ty = DoubleLinearField()
+    RightHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Tz = DoubleLinearField()
+    RightHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle3TField(
@@ -11135,11 +11135,11 @@ class RightHandMiddle3TField(
     ATTR_CLS = RightHandMiddle3TAttrOperator
     PLUG_CLS = RightHandMiddle3TPlugOperator
 
-    RightHandMiddle3Tx = DoubleLinearField()
+    RightHandMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Ty = DoubleLinearField()
+    RightHandMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle3Tz = DoubleLinearField()
+    RightHandMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle3RPlugOperator(
@@ -11152,11 +11152,11 @@ class RightHandMiddle3RPlugOperator(
         ("RightHandMiddle3Rz", "RightHandMiddle3Rz"),
     )
 
-    RightHandMiddle3Rx = DoubleAngleField()
+    RightHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Ry = DoubleAngleField()
+    RightHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Rz = DoubleAngleField()
+    RightHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle3RAttrOperator(
@@ -11164,11 +11164,11 @@ class RightHandMiddle3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle3Rx = DoubleAngleField()
+    RightHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Ry = DoubleAngleField()
+    RightHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Rz = DoubleAngleField()
+    RightHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle3RField(
@@ -11179,11 +11179,11 @@ class RightHandMiddle3RField(
     ATTR_CLS = RightHandMiddle3RAttrOperator
     PLUG_CLS = RightHandMiddle3RPlugOperator
 
-    RightHandMiddle3Rx = DoubleAngleField()
+    RightHandMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Ry = DoubleAngleField()
+    RightHandMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle3Rz = DoubleAngleField()
+    RightHandMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle3SPlugOperator(
@@ -11196,11 +11196,11 @@ class RightHandMiddle3SPlugOperator(
         ("RightHandMiddle3Sz", "RightHandMiddle3Sz"),
     )
 
-    RightHandMiddle3Sx = DoubleField()
+    RightHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sy = DoubleField()
+    RightHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sz = DoubleField()
+    RightHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle3SAttrOperator(
@@ -11208,11 +11208,11 @@ class RightHandMiddle3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle3Sx = DoubleField()
+    RightHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sy = DoubleField()
+    RightHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sz = DoubleField()
+    RightHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle3SField(
@@ -11223,11 +11223,11 @@ class RightHandMiddle3SField(
     ATTR_CLS = RightHandMiddle3SAttrOperator
     PLUG_CLS = RightHandMiddle3SPlugOperator
 
-    RightHandMiddle3Sx = DoubleField()
+    RightHandMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sy = DoubleField()
+    RightHandMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle3Sz = DoubleField()
+    RightHandMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle4TPlugOperator(
@@ -11240,11 +11240,11 @@ class RightHandMiddle4TPlugOperator(
         ("RightHandMiddle4Tz", "RightHandMiddle4Tz"),
     )
 
-    RightHandMiddle4Tx = DoubleLinearField()
+    RightHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Ty = DoubleLinearField()
+    RightHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Tz = DoubleLinearField()
+    RightHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle4TAttrOperator(
@@ -11252,11 +11252,11 @@ class RightHandMiddle4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle4Tx = DoubleLinearField()
+    RightHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Ty = DoubleLinearField()
+    RightHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Tz = DoubleLinearField()
+    RightHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle4TField(
@@ -11267,11 +11267,11 @@ class RightHandMiddle4TField(
     ATTR_CLS = RightHandMiddle4TAttrOperator
     PLUG_CLS = RightHandMiddle4TPlugOperator
 
-    RightHandMiddle4Tx = DoubleLinearField()
+    RightHandMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Ty = DoubleLinearField()
+    RightHandMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddle4Tz = DoubleLinearField()
+    RightHandMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddle4RPlugOperator(
@@ -11284,11 +11284,11 @@ class RightHandMiddle4RPlugOperator(
         ("RightHandMiddle4Rz", "RightHandMiddle4Rz"),
     )
 
-    RightHandMiddle4Rx = DoubleAngleField()
+    RightHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Ry = DoubleAngleField()
+    RightHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Rz = DoubleAngleField()
+    RightHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle4RAttrOperator(
@@ -11296,11 +11296,11 @@ class RightHandMiddle4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle4Rx = DoubleAngleField()
+    RightHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Ry = DoubleAngleField()
+    RightHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Rz = DoubleAngleField()
+    RightHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle4RField(
@@ -11311,11 +11311,11 @@ class RightHandMiddle4RField(
     ATTR_CLS = RightHandMiddle4RAttrOperator
     PLUG_CLS = RightHandMiddle4RPlugOperator
 
-    RightHandMiddle4Rx = DoubleAngleField()
+    RightHandMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Ry = DoubleAngleField()
+    RightHandMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandMiddle4Rz = DoubleAngleField()
+    RightHandMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandMiddle4SPlugOperator(
@@ -11328,11 +11328,11 @@ class RightHandMiddle4SPlugOperator(
         ("RightHandMiddle4Sz", "RightHandMiddle4Sz"),
     )
 
-    RightHandMiddle4Sx = DoubleField()
+    RightHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sy = DoubleField()
+    RightHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sz = DoubleField()
+    RightHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle4SAttrOperator(
@@ -11340,11 +11340,11 @@ class RightHandMiddle4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddle4Sx = DoubleField()
+    RightHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sy = DoubleField()
+    RightHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sz = DoubleField()
+    RightHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandMiddle4SField(
@@ -11355,11 +11355,11 @@ class RightHandMiddle4SField(
     ATTR_CLS = RightHandMiddle4SAttrOperator
     PLUG_CLS = RightHandMiddle4SPlugOperator
 
-    RightHandMiddle4Sx = DoubleField()
+    RightHandMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sy = DoubleField()
+    RightHandMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightHandMiddle4Sz = DoubleField()
+    RightHandMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing1TPlugOperator(
@@ -11372,11 +11372,11 @@ class RightHandRing1TPlugOperator(
         ("RightHandRing1Tz", "RightHandRing1Tz"),
     )
 
-    RightHandRing1Tx = DoubleLinearField()
+    RightHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Ty = DoubleLinearField()
+    RightHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Tz = DoubleLinearField()
+    RightHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing1TAttrOperator(
@@ -11384,11 +11384,11 @@ class RightHandRing1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing1Tx = DoubleLinearField()
+    RightHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Ty = DoubleLinearField()
+    RightHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Tz = DoubleLinearField()
+    RightHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing1TField(
@@ -11399,11 +11399,11 @@ class RightHandRing1TField(
     ATTR_CLS = RightHandRing1TAttrOperator
     PLUG_CLS = RightHandRing1TPlugOperator
 
-    RightHandRing1Tx = DoubleLinearField()
+    RightHandRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Ty = DoubleLinearField()
+    RightHandRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing1Tz = DoubleLinearField()
+    RightHandRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing1RPlugOperator(
@@ -11416,11 +11416,11 @@ class RightHandRing1RPlugOperator(
         ("RightHandRing1Rz", "RightHandRing1Rz"),
     )
 
-    RightHandRing1Rx = DoubleAngleField()
+    RightHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Ry = DoubleAngleField()
+    RightHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Rz = DoubleAngleField()
+    RightHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing1RAttrOperator(
@@ -11428,11 +11428,11 @@ class RightHandRing1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing1Rx = DoubleAngleField()
+    RightHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Ry = DoubleAngleField()
+    RightHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Rz = DoubleAngleField()
+    RightHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing1RField(
@@ -11443,11 +11443,11 @@ class RightHandRing1RField(
     ATTR_CLS = RightHandRing1RAttrOperator
     PLUG_CLS = RightHandRing1RPlugOperator
 
-    RightHandRing1Rx = DoubleAngleField()
+    RightHandRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Ry = DoubleAngleField()
+    RightHandRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing1Rz = DoubleAngleField()
+    RightHandRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing1SPlugOperator(
@@ -11460,11 +11460,11 @@ class RightHandRing1SPlugOperator(
         ("RightHandRing1Sz", "RightHandRing1Sz"),
     )
 
-    RightHandRing1Sx = DoubleField()
+    RightHandRing1Sx = DoubleField(default_value=1.0)
 
-    RightHandRing1Sy = DoubleField()
+    RightHandRing1Sy = DoubleField(default_value=1.0)
 
-    RightHandRing1Sz = DoubleField()
+    RightHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing1SAttrOperator(
@@ -11472,11 +11472,11 @@ class RightHandRing1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing1Sx = DoubleField()
+    RightHandRing1Sx = DoubleField(default_value=1.0)
 
-    RightHandRing1Sy = DoubleField()
+    RightHandRing1Sy = DoubleField(default_value=1.0)
 
-    RightHandRing1Sz = DoubleField()
+    RightHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing1SField(
@@ -11487,11 +11487,11 @@ class RightHandRing1SField(
     ATTR_CLS = RightHandRing1SAttrOperator
     PLUG_CLS = RightHandRing1SPlugOperator
 
-    RightHandRing1Sx = DoubleField()
+    RightHandRing1Sx = DoubleField(default_value=1.0)
 
-    RightHandRing1Sy = DoubleField()
+    RightHandRing1Sy = DoubleField(default_value=1.0)
 
-    RightHandRing1Sz = DoubleField()
+    RightHandRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing2TPlugOperator(
@@ -11504,11 +11504,11 @@ class RightHandRing2TPlugOperator(
         ("RightHandRing2Tz", "RightHandRing2Tz"),
     )
 
-    RightHandRing2Tx = DoubleLinearField()
+    RightHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Ty = DoubleLinearField()
+    RightHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Tz = DoubleLinearField()
+    RightHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing2TAttrOperator(
@@ -11516,11 +11516,11 @@ class RightHandRing2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing2Tx = DoubleLinearField()
+    RightHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Ty = DoubleLinearField()
+    RightHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Tz = DoubleLinearField()
+    RightHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing2TField(
@@ -11531,11 +11531,11 @@ class RightHandRing2TField(
     ATTR_CLS = RightHandRing2TAttrOperator
     PLUG_CLS = RightHandRing2TPlugOperator
 
-    RightHandRing2Tx = DoubleLinearField()
+    RightHandRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Ty = DoubleLinearField()
+    RightHandRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing2Tz = DoubleLinearField()
+    RightHandRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing2RPlugOperator(
@@ -11548,11 +11548,11 @@ class RightHandRing2RPlugOperator(
         ("RightHandRing2Rz", "RightHandRing2Rz"),
     )
 
-    RightHandRing2Rx = DoubleAngleField()
+    RightHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Ry = DoubleAngleField()
+    RightHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Rz = DoubleAngleField()
+    RightHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing2RAttrOperator(
@@ -11560,11 +11560,11 @@ class RightHandRing2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing2Rx = DoubleAngleField()
+    RightHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Ry = DoubleAngleField()
+    RightHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Rz = DoubleAngleField()
+    RightHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing2RField(
@@ -11575,11 +11575,11 @@ class RightHandRing2RField(
     ATTR_CLS = RightHandRing2RAttrOperator
     PLUG_CLS = RightHandRing2RPlugOperator
 
-    RightHandRing2Rx = DoubleAngleField()
+    RightHandRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Ry = DoubleAngleField()
+    RightHandRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing2Rz = DoubleAngleField()
+    RightHandRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing2SPlugOperator(
@@ -11592,11 +11592,11 @@ class RightHandRing2SPlugOperator(
         ("RightHandRing2Sz", "RightHandRing2Sz"),
     )
 
-    RightHandRing2Sx = DoubleField()
+    RightHandRing2Sx = DoubleField(default_value=1.0)
 
-    RightHandRing2Sy = DoubleField()
+    RightHandRing2Sy = DoubleField(default_value=1.0)
 
-    RightHandRing2Sz = DoubleField()
+    RightHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing2SAttrOperator(
@@ -11604,11 +11604,11 @@ class RightHandRing2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing2Sx = DoubleField()
+    RightHandRing2Sx = DoubleField(default_value=1.0)
 
-    RightHandRing2Sy = DoubleField()
+    RightHandRing2Sy = DoubleField(default_value=1.0)
 
-    RightHandRing2Sz = DoubleField()
+    RightHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing2SField(
@@ -11619,11 +11619,11 @@ class RightHandRing2SField(
     ATTR_CLS = RightHandRing2SAttrOperator
     PLUG_CLS = RightHandRing2SPlugOperator
 
-    RightHandRing2Sx = DoubleField()
+    RightHandRing2Sx = DoubleField(default_value=1.0)
 
-    RightHandRing2Sy = DoubleField()
+    RightHandRing2Sy = DoubleField(default_value=1.0)
 
-    RightHandRing2Sz = DoubleField()
+    RightHandRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing3TPlugOperator(
@@ -11636,11 +11636,11 @@ class RightHandRing3TPlugOperator(
         ("RightHandRing3Tz", "RightHandRing3Tz"),
     )
 
-    RightHandRing3Tx = DoubleLinearField()
+    RightHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Ty = DoubleLinearField()
+    RightHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Tz = DoubleLinearField()
+    RightHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing3TAttrOperator(
@@ -11648,11 +11648,11 @@ class RightHandRing3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing3Tx = DoubleLinearField()
+    RightHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Ty = DoubleLinearField()
+    RightHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Tz = DoubleLinearField()
+    RightHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing3TField(
@@ -11663,11 +11663,11 @@ class RightHandRing3TField(
     ATTR_CLS = RightHandRing3TAttrOperator
     PLUG_CLS = RightHandRing3TPlugOperator
 
-    RightHandRing3Tx = DoubleLinearField()
+    RightHandRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Ty = DoubleLinearField()
+    RightHandRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing3Tz = DoubleLinearField()
+    RightHandRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing3RPlugOperator(
@@ -11680,11 +11680,11 @@ class RightHandRing3RPlugOperator(
         ("RightHandRing3Rz", "RightHandRing3Rz"),
     )
 
-    RightHandRing3Rx = DoubleAngleField()
+    RightHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Ry = DoubleAngleField()
+    RightHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Rz = DoubleAngleField()
+    RightHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing3RAttrOperator(
@@ -11692,11 +11692,11 @@ class RightHandRing3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing3Rx = DoubleAngleField()
+    RightHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Ry = DoubleAngleField()
+    RightHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Rz = DoubleAngleField()
+    RightHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing3RField(
@@ -11707,11 +11707,11 @@ class RightHandRing3RField(
     ATTR_CLS = RightHandRing3RAttrOperator
     PLUG_CLS = RightHandRing3RPlugOperator
 
-    RightHandRing3Rx = DoubleAngleField()
+    RightHandRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Ry = DoubleAngleField()
+    RightHandRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing3Rz = DoubleAngleField()
+    RightHandRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing3SPlugOperator(
@@ -11724,11 +11724,11 @@ class RightHandRing3SPlugOperator(
         ("RightHandRing3Sz", "RightHandRing3Sz"),
     )
 
-    RightHandRing3Sx = DoubleField()
+    RightHandRing3Sx = DoubleField(default_value=1.0)
 
-    RightHandRing3Sy = DoubleField()
+    RightHandRing3Sy = DoubleField(default_value=1.0)
 
-    RightHandRing3Sz = DoubleField()
+    RightHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing3SAttrOperator(
@@ -11736,11 +11736,11 @@ class RightHandRing3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing3Sx = DoubleField()
+    RightHandRing3Sx = DoubleField(default_value=1.0)
 
-    RightHandRing3Sy = DoubleField()
+    RightHandRing3Sy = DoubleField(default_value=1.0)
 
-    RightHandRing3Sz = DoubleField()
+    RightHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing3SField(
@@ -11751,11 +11751,11 @@ class RightHandRing3SField(
     ATTR_CLS = RightHandRing3SAttrOperator
     PLUG_CLS = RightHandRing3SPlugOperator
 
-    RightHandRing3Sx = DoubleField()
+    RightHandRing3Sx = DoubleField(default_value=1.0)
 
-    RightHandRing3Sy = DoubleField()
+    RightHandRing3Sy = DoubleField(default_value=1.0)
 
-    RightHandRing3Sz = DoubleField()
+    RightHandRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing4TPlugOperator(
@@ -11768,11 +11768,11 @@ class RightHandRing4TPlugOperator(
         ("RightHandRing4Tz", "RightHandRing4Tz"),
     )
 
-    RightHandRing4Tx = DoubleLinearField()
+    RightHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Ty = DoubleLinearField()
+    RightHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Tz = DoubleLinearField()
+    RightHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing4TAttrOperator(
@@ -11780,11 +11780,11 @@ class RightHandRing4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing4Tx = DoubleLinearField()
+    RightHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Ty = DoubleLinearField()
+    RightHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Tz = DoubleLinearField()
+    RightHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing4TField(
@@ -11795,11 +11795,11 @@ class RightHandRing4TField(
     ATTR_CLS = RightHandRing4TAttrOperator
     PLUG_CLS = RightHandRing4TPlugOperator
 
-    RightHandRing4Tx = DoubleLinearField()
+    RightHandRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Ty = DoubleLinearField()
+    RightHandRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandRing4Tz = DoubleLinearField()
+    RightHandRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRing4RPlugOperator(
@@ -11812,11 +11812,11 @@ class RightHandRing4RPlugOperator(
         ("RightHandRing4Rz", "RightHandRing4Rz"),
     )
 
-    RightHandRing4Rx = DoubleAngleField()
+    RightHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Ry = DoubleAngleField()
+    RightHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Rz = DoubleAngleField()
+    RightHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing4RAttrOperator(
@@ -11824,11 +11824,11 @@ class RightHandRing4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing4Rx = DoubleAngleField()
+    RightHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Ry = DoubleAngleField()
+    RightHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Rz = DoubleAngleField()
+    RightHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing4RField(
@@ -11839,11 +11839,11 @@ class RightHandRing4RField(
     ATTR_CLS = RightHandRing4RAttrOperator
     PLUG_CLS = RightHandRing4RPlugOperator
 
-    RightHandRing4Rx = DoubleAngleField()
+    RightHandRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Ry = DoubleAngleField()
+    RightHandRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandRing4Rz = DoubleAngleField()
+    RightHandRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandRing4SPlugOperator(
@@ -11856,11 +11856,11 @@ class RightHandRing4SPlugOperator(
         ("RightHandRing4Sz", "RightHandRing4Sz"),
     )
 
-    RightHandRing4Sx = DoubleField()
+    RightHandRing4Sx = DoubleField(default_value=1.0)
 
-    RightHandRing4Sy = DoubleField()
+    RightHandRing4Sy = DoubleField(default_value=1.0)
 
-    RightHandRing4Sz = DoubleField()
+    RightHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing4SAttrOperator(
@@ -11868,11 +11868,11 @@ class RightHandRing4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRing4Sx = DoubleField()
+    RightHandRing4Sx = DoubleField(default_value=1.0)
 
-    RightHandRing4Sy = DoubleField()
+    RightHandRing4Sy = DoubleField(default_value=1.0)
 
-    RightHandRing4Sz = DoubleField()
+    RightHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandRing4SField(
@@ -11883,11 +11883,11 @@ class RightHandRing4SField(
     ATTR_CLS = RightHandRing4SAttrOperator
     PLUG_CLS = RightHandRing4SPlugOperator
 
-    RightHandRing4Sx = DoubleField()
+    RightHandRing4Sx = DoubleField(default_value=1.0)
 
-    RightHandRing4Sy = DoubleField()
+    RightHandRing4Sy = DoubleField(default_value=1.0)
 
-    RightHandRing4Sz = DoubleField()
+    RightHandRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky1TPlugOperator(
@@ -11900,11 +11900,11 @@ class RightHandPinky1TPlugOperator(
         ("RightHandPinky1Tz", "RightHandPinky1Tz"),
     )
 
-    RightHandPinky1Tx = DoubleLinearField()
+    RightHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Ty = DoubleLinearField()
+    RightHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Tz = DoubleLinearField()
+    RightHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky1TAttrOperator(
@@ -11912,11 +11912,11 @@ class RightHandPinky1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky1Tx = DoubleLinearField()
+    RightHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Ty = DoubleLinearField()
+    RightHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Tz = DoubleLinearField()
+    RightHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky1TField(
@@ -11927,11 +11927,11 @@ class RightHandPinky1TField(
     ATTR_CLS = RightHandPinky1TAttrOperator
     PLUG_CLS = RightHandPinky1TPlugOperator
 
-    RightHandPinky1Tx = DoubleLinearField()
+    RightHandPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Ty = DoubleLinearField()
+    RightHandPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky1Tz = DoubleLinearField()
+    RightHandPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky1RPlugOperator(
@@ -11944,11 +11944,11 @@ class RightHandPinky1RPlugOperator(
         ("RightHandPinky1Rz", "RightHandPinky1Rz"),
     )
 
-    RightHandPinky1Rx = DoubleAngleField()
+    RightHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Ry = DoubleAngleField()
+    RightHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Rz = DoubleAngleField()
+    RightHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky1RAttrOperator(
@@ -11956,11 +11956,11 @@ class RightHandPinky1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky1Rx = DoubleAngleField()
+    RightHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Ry = DoubleAngleField()
+    RightHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Rz = DoubleAngleField()
+    RightHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky1RField(
@@ -11971,11 +11971,11 @@ class RightHandPinky1RField(
     ATTR_CLS = RightHandPinky1RAttrOperator
     PLUG_CLS = RightHandPinky1RPlugOperator
 
-    RightHandPinky1Rx = DoubleAngleField()
+    RightHandPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Ry = DoubleAngleField()
+    RightHandPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky1Rz = DoubleAngleField()
+    RightHandPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky1SPlugOperator(
@@ -11988,11 +11988,11 @@ class RightHandPinky1SPlugOperator(
         ("RightHandPinky1Sz", "RightHandPinky1Sz"),
     )
 
-    RightHandPinky1Sx = DoubleField()
+    RightHandPinky1Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sy = DoubleField()
+    RightHandPinky1Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sz = DoubleField()
+    RightHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky1SAttrOperator(
@@ -12000,11 +12000,11 @@ class RightHandPinky1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky1Sx = DoubleField()
+    RightHandPinky1Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sy = DoubleField()
+    RightHandPinky1Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sz = DoubleField()
+    RightHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky1SField(
@@ -12015,11 +12015,11 @@ class RightHandPinky1SField(
     ATTR_CLS = RightHandPinky1SAttrOperator
     PLUG_CLS = RightHandPinky1SPlugOperator
 
-    RightHandPinky1Sx = DoubleField()
+    RightHandPinky1Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sy = DoubleField()
+    RightHandPinky1Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky1Sz = DoubleField()
+    RightHandPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky2TPlugOperator(
@@ -12032,11 +12032,11 @@ class RightHandPinky2TPlugOperator(
         ("RightHandPinky2Tz", "RightHandPinky2Tz"),
     )
 
-    RightHandPinky2Tx = DoubleLinearField()
+    RightHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Ty = DoubleLinearField()
+    RightHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Tz = DoubleLinearField()
+    RightHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky2TAttrOperator(
@@ -12044,11 +12044,11 @@ class RightHandPinky2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky2Tx = DoubleLinearField()
+    RightHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Ty = DoubleLinearField()
+    RightHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Tz = DoubleLinearField()
+    RightHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky2TField(
@@ -12059,11 +12059,11 @@ class RightHandPinky2TField(
     ATTR_CLS = RightHandPinky2TAttrOperator
     PLUG_CLS = RightHandPinky2TPlugOperator
 
-    RightHandPinky2Tx = DoubleLinearField()
+    RightHandPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Ty = DoubleLinearField()
+    RightHandPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky2Tz = DoubleLinearField()
+    RightHandPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky2RPlugOperator(
@@ -12076,11 +12076,11 @@ class RightHandPinky2RPlugOperator(
         ("RightHandPinky2Rz", "RightHandPinky2Rz"),
     )
 
-    RightHandPinky2Rx = DoubleAngleField()
+    RightHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Ry = DoubleAngleField()
+    RightHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Rz = DoubleAngleField()
+    RightHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky2RAttrOperator(
@@ -12088,11 +12088,11 @@ class RightHandPinky2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky2Rx = DoubleAngleField()
+    RightHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Ry = DoubleAngleField()
+    RightHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Rz = DoubleAngleField()
+    RightHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky2RField(
@@ -12103,11 +12103,11 @@ class RightHandPinky2RField(
     ATTR_CLS = RightHandPinky2RAttrOperator
     PLUG_CLS = RightHandPinky2RPlugOperator
 
-    RightHandPinky2Rx = DoubleAngleField()
+    RightHandPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Ry = DoubleAngleField()
+    RightHandPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky2Rz = DoubleAngleField()
+    RightHandPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky2SPlugOperator(
@@ -12120,11 +12120,11 @@ class RightHandPinky2SPlugOperator(
         ("RightHandPinky2Sz", "RightHandPinky2Sz"),
     )
 
-    RightHandPinky2Sx = DoubleField()
+    RightHandPinky2Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sy = DoubleField()
+    RightHandPinky2Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sz = DoubleField()
+    RightHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky2SAttrOperator(
@@ -12132,11 +12132,11 @@ class RightHandPinky2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky2Sx = DoubleField()
+    RightHandPinky2Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sy = DoubleField()
+    RightHandPinky2Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sz = DoubleField()
+    RightHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky2SField(
@@ -12147,11 +12147,11 @@ class RightHandPinky2SField(
     ATTR_CLS = RightHandPinky2SAttrOperator
     PLUG_CLS = RightHandPinky2SPlugOperator
 
-    RightHandPinky2Sx = DoubleField()
+    RightHandPinky2Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sy = DoubleField()
+    RightHandPinky2Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky2Sz = DoubleField()
+    RightHandPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky3TPlugOperator(
@@ -12164,11 +12164,11 @@ class RightHandPinky3TPlugOperator(
         ("RightHandPinky3Tz", "RightHandPinky3Tz"),
     )
 
-    RightHandPinky3Tx = DoubleLinearField()
+    RightHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Ty = DoubleLinearField()
+    RightHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Tz = DoubleLinearField()
+    RightHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky3TAttrOperator(
@@ -12176,11 +12176,11 @@ class RightHandPinky3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky3Tx = DoubleLinearField()
+    RightHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Ty = DoubleLinearField()
+    RightHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Tz = DoubleLinearField()
+    RightHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky3TField(
@@ -12191,11 +12191,11 @@ class RightHandPinky3TField(
     ATTR_CLS = RightHandPinky3TAttrOperator
     PLUG_CLS = RightHandPinky3TPlugOperator
 
-    RightHandPinky3Tx = DoubleLinearField()
+    RightHandPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Ty = DoubleLinearField()
+    RightHandPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky3Tz = DoubleLinearField()
+    RightHandPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky3RPlugOperator(
@@ -12208,11 +12208,11 @@ class RightHandPinky3RPlugOperator(
         ("RightHandPinky3Rz", "RightHandPinky3Rz"),
     )
 
-    RightHandPinky3Rx = DoubleAngleField()
+    RightHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Ry = DoubleAngleField()
+    RightHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Rz = DoubleAngleField()
+    RightHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky3RAttrOperator(
@@ -12220,11 +12220,11 @@ class RightHandPinky3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky3Rx = DoubleAngleField()
+    RightHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Ry = DoubleAngleField()
+    RightHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Rz = DoubleAngleField()
+    RightHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky3RField(
@@ -12235,11 +12235,11 @@ class RightHandPinky3RField(
     ATTR_CLS = RightHandPinky3RAttrOperator
     PLUG_CLS = RightHandPinky3RPlugOperator
 
-    RightHandPinky3Rx = DoubleAngleField()
+    RightHandPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Ry = DoubleAngleField()
+    RightHandPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky3Rz = DoubleAngleField()
+    RightHandPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky3SPlugOperator(
@@ -12252,11 +12252,11 @@ class RightHandPinky3SPlugOperator(
         ("RightHandPinky3Sz", "RightHandPinky3Sz"),
     )
 
-    RightHandPinky3Sx = DoubleField()
+    RightHandPinky3Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sy = DoubleField()
+    RightHandPinky3Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sz = DoubleField()
+    RightHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky3SAttrOperator(
@@ -12264,11 +12264,11 @@ class RightHandPinky3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky3Sx = DoubleField()
+    RightHandPinky3Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sy = DoubleField()
+    RightHandPinky3Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sz = DoubleField()
+    RightHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky3SField(
@@ -12279,11 +12279,11 @@ class RightHandPinky3SField(
     ATTR_CLS = RightHandPinky3SAttrOperator
     PLUG_CLS = RightHandPinky3SPlugOperator
 
-    RightHandPinky3Sx = DoubleField()
+    RightHandPinky3Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sy = DoubleField()
+    RightHandPinky3Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky3Sz = DoubleField()
+    RightHandPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky4TPlugOperator(
@@ -12296,11 +12296,11 @@ class RightHandPinky4TPlugOperator(
         ("RightHandPinky4Tz", "RightHandPinky4Tz"),
     )
 
-    RightHandPinky4Tx = DoubleLinearField()
+    RightHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Ty = DoubleLinearField()
+    RightHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Tz = DoubleLinearField()
+    RightHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky4TAttrOperator(
@@ -12308,11 +12308,11 @@ class RightHandPinky4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky4Tx = DoubleLinearField()
+    RightHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Ty = DoubleLinearField()
+    RightHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Tz = DoubleLinearField()
+    RightHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky4TField(
@@ -12323,11 +12323,11 @@ class RightHandPinky4TField(
     ATTR_CLS = RightHandPinky4TAttrOperator
     PLUG_CLS = RightHandPinky4TPlugOperator
 
-    RightHandPinky4Tx = DoubleLinearField()
+    RightHandPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Ty = DoubleLinearField()
+    RightHandPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandPinky4Tz = DoubleLinearField()
+    RightHandPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinky4RPlugOperator(
@@ -12340,11 +12340,11 @@ class RightHandPinky4RPlugOperator(
         ("RightHandPinky4Rz", "RightHandPinky4Rz"),
     )
 
-    RightHandPinky4Rx = DoubleAngleField()
+    RightHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Ry = DoubleAngleField()
+    RightHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Rz = DoubleAngleField()
+    RightHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky4RAttrOperator(
@@ -12352,11 +12352,11 @@ class RightHandPinky4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky4Rx = DoubleAngleField()
+    RightHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Ry = DoubleAngleField()
+    RightHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Rz = DoubleAngleField()
+    RightHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky4RField(
@@ -12367,11 +12367,11 @@ class RightHandPinky4RField(
     ATTR_CLS = RightHandPinky4RAttrOperator
     PLUG_CLS = RightHandPinky4RPlugOperator
 
-    RightHandPinky4Rx = DoubleAngleField()
+    RightHandPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Ry = DoubleAngleField()
+    RightHandPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandPinky4Rz = DoubleAngleField()
+    RightHandPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandPinky4SPlugOperator(
@@ -12384,11 +12384,11 @@ class RightHandPinky4SPlugOperator(
         ("RightHandPinky4Sz", "RightHandPinky4Sz"),
     )
 
-    RightHandPinky4Sx = DoubleField()
+    RightHandPinky4Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sy = DoubleField()
+    RightHandPinky4Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sz = DoubleField()
+    RightHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky4SAttrOperator(
@@ -12396,11 +12396,11 @@ class RightHandPinky4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinky4Sx = DoubleField()
+    RightHandPinky4Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sy = DoubleField()
+    RightHandPinky4Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sz = DoubleField()
+    RightHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandPinky4SField(
@@ -12411,11 +12411,11 @@ class RightHandPinky4SField(
     ATTR_CLS = RightHandPinky4SAttrOperator
     PLUG_CLS = RightHandPinky4SPlugOperator
 
-    RightHandPinky4Sx = DoubleField()
+    RightHandPinky4Sx = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sy = DoubleField()
+    RightHandPinky4Sy = DoubleField(default_value=1.0)
 
-    RightHandPinky4Sz = DoubleField()
+    RightHandPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger1TPlugOperator(
@@ -12428,11 +12428,11 @@ class RightHandExtraFinger1TPlugOperator(
         ("RightHandExtraFinger1Tz", "RightHandExtraFinger1Tz"),
     )
 
-    RightHandExtraFinger1Tx = DoubleLinearField()
+    RightHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Ty = DoubleLinearField()
+    RightHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Tz = DoubleLinearField()
+    RightHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger1TAttrOperator(
@@ -12440,11 +12440,11 @@ class RightHandExtraFinger1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger1Tx = DoubleLinearField()
+    RightHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Ty = DoubleLinearField()
+    RightHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Tz = DoubleLinearField()
+    RightHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger1TField(
@@ -12455,11 +12455,11 @@ class RightHandExtraFinger1TField(
     ATTR_CLS = RightHandExtraFinger1TAttrOperator
     PLUG_CLS = RightHandExtraFinger1TPlugOperator
 
-    RightHandExtraFinger1Tx = DoubleLinearField()
+    RightHandExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Ty = DoubleLinearField()
+    RightHandExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger1Tz = DoubleLinearField()
+    RightHandExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger1RPlugOperator(
@@ -12472,11 +12472,11 @@ class RightHandExtraFinger1RPlugOperator(
         ("RightHandExtraFinger1Rz", "RightHandExtraFinger1Rz"),
     )
 
-    RightHandExtraFinger1Rx = DoubleAngleField()
+    RightHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Ry = DoubleAngleField()
+    RightHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Rz = DoubleAngleField()
+    RightHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger1RAttrOperator(
@@ -12484,11 +12484,11 @@ class RightHandExtraFinger1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger1Rx = DoubleAngleField()
+    RightHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Ry = DoubleAngleField()
+    RightHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Rz = DoubleAngleField()
+    RightHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger1RField(
@@ -12499,11 +12499,11 @@ class RightHandExtraFinger1RField(
     ATTR_CLS = RightHandExtraFinger1RAttrOperator
     PLUG_CLS = RightHandExtraFinger1RPlugOperator
 
-    RightHandExtraFinger1Rx = DoubleAngleField()
+    RightHandExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Ry = DoubleAngleField()
+    RightHandExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger1Rz = DoubleAngleField()
+    RightHandExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger1SPlugOperator(
@@ -12516,11 +12516,11 @@ class RightHandExtraFinger1SPlugOperator(
         ("RightHandExtraFinger1Sz", "RightHandExtraFinger1Sz"),
     )
 
-    RightHandExtraFinger1Sx = DoubleField()
+    RightHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sy = DoubleField()
+    RightHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sz = DoubleField()
+    RightHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger1SAttrOperator(
@@ -12528,11 +12528,11 @@ class RightHandExtraFinger1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger1Sx = DoubleField()
+    RightHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sy = DoubleField()
+    RightHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sz = DoubleField()
+    RightHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger1SField(
@@ -12543,11 +12543,11 @@ class RightHandExtraFinger1SField(
     ATTR_CLS = RightHandExtraFinger1SAttrOperator
     PLUG_CLS = RightHandExtraFinger1SPlugOperator
 
-    RightHandExtraFinger1Sx = DoubleField()
+    RightHandExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sy = DoubleField()
+    RightHandExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger1Sz = DoubleField()
+    RightHandExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger2TPlugOperator(
@@ -12560,11 +12560,11 @@ class RightHandExtraFinger2TPlugOperator(
         ("RightHandExtraFinger2Tz", "RightHandExtraFinger2Tz"),
     )
 
-    RightHandExtraFinger2Tx = DoubleLinearField()
+    RightHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Ty = DoubleLinearField()
+    RightHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Tz = DoubleLinearField()
+    RightHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger2TAttrOperator(
@@ -12572,11 +12572,11 @@ class RightHandExtraFinger2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger2Tx = DoubleLinearField()
+    RightHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Ty = DoubleLinearField()
+    RightHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Tz = DoubleLinearField()
+    RightHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger2TField(
@@ -12587,11 +12587,11 @@ class RightHandExtraFinger2TField(
     ATTR_CLS = RightHandExtraFinger2TAttrOperator
     PLUG_CLS = RightHandExtraFinger2TPlugOperator
 
-    RightHandExtraFinger2Tx = DoubleLinearField()
+    RightHandExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Ty = DoubleLinearField()
+    RightHandExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger2Tz = DoubleLinearField()
+    RightHandExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger2RPlugOperator(
@@ -12604,11 +12604,11 @@ class RightHandExtraFinger2RPlugOperator(
         ("RightHandExtraFinger2Rz", "RightHandExtraFinger2Rz"),
     )
 
-    RightHandExtraFinger2Rx = DoubleAngleField()
+    RightHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Ry = DoubleAngleField()
+    RightHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Rz = DoubleAngleField()
+    RightHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger2RAttrOperator(
@@ -12616,11 +12616,11 @@ class RightHandExtraFinger2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger2Rx = DoubleAngleField()
+    RightHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Ry = DoubleAngleField()
+    RightHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Rz = DoubleAngleField()
+    RightHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger2RField(
@@ -12631,11 +12631,11 @@ class RightHandExtraFinger2RField(
     ATTR_CLS = RightHandExtraFinger2RAttrOperator
     PLUG_CLS = RightHandExtraFinger2RPlugOperator
 
-    RightHandExtraFinger2Rx = DoubleAngleField()
+    RightHandExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Ry = DoubleAngleField()
+    RightHandExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger2Rz = DoubleAngleField()
+    RightHandExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger2SPlugOperator(
@@ -12648,11 +12648,11 @@ class RightHandExtraFinger2SPlugOperator(
         ("RightHandExtraFinger2Sz", "RightHandExtraFinger2Sz"),
     )
 
-    RightHandExtraFinger2Sx = DoubleField()
+    RightHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sy = DoubleField()
+    RightHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sz = DoubleField()
+    RightHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger2SAttrOperator(
@@ -12660,11 +12660,11 @@ class RightHandExtraFinger2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger2Sx = DoubleField()
+    RightHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sy = DoubleField()
+    RightHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sz = DoubleField()
+    RightHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger2SField(
@@ -12675,11 +12675,11 @@ class RightHandExtraFinger2SField(
     ATTR_CLS = RightHandExtraFinger2SAttrOperator
     PLUG_CLS = RightHandExtraFinger2SPlugOperator
 
-    RightHandExtraFinger2Sx = DoubleField()
+    RightHandExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sy = DoubleField()
+    RightHandExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger2Sz = DoubleField()
+    RightHandExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger3TPlugOperator(
@@ -12692,11 +12692,11 @@ class RightHandExtraFinger3TPlugOperator(
         ("RightHandExtraFinger3Tz", "RightHandExtraFinger3Tz"),
     )
 
-    RightHandExtraFinger3Tx = DoubleLinearField()
+    RightHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Ty = DoubleLinearField()
+    RightHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Tz = DoubleLinearField()
+    RightHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger3TAttrOperator(
@@ -12704,11 +12704,11 @@ class RightHandExtraFinger3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger3Tx = DoubleLinearField()
+    RightHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Ty = DoubleLinearField()
+    RightHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Tz = DoubleLinearField()
+    RightHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger3TField(
@@ -12719,11 +12719,11 @@ class RightHandExtraFinger3TField(
     ATTR_CLS = RightHandExtraFinger3TAttrOperator
     PLUG_CLS = RightHandExtraFinger3TPlugOperator
 
-    RightHandExtraFinger3Tx = DoubleLinearField()
+    RightHandExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Ty = DoubleLinearField()
+    RightHandExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger3Tz = DoubleLinearField()
+    RightHandExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger3RPlugOperator(
@@ -12736,11 +12736,11 @@ class RightHandExtraFinger3RPlugOperator(
         ("RightHandExtraFinger3Rz", "RightHandExtraFinger3Rz"),
     )
 
-    RightHandExtraFinger3Rx = DoubleAngleField()
+    RightHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Ry = DoubleAngleField()
+    RightHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Rz = DoubleAngleField()
+    RightHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger3RAttrOperator(
@@ -12748,11 +12748,11 @@ class RightHandExtraFinger3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger3Rx = DoubleAngleField()
+    RightHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Ry = DoubleAngleField()
+    RightHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Rz = DoubleAngleField()
+    RightHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger3RField(
@@ -12763,11 +12763,11 @@ class RightHandExtraFinger3RField(
     ATTR_CLS = RightHandExtraFinger3RAttrOperator
     PLUG_CLS = RightHandExtraFinger3RPlugOperator
 
-    RightHandExtraFinger3Rx = DoubleAngleField()
+    RightHandExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Ry = DoubleAngleField()
+    RightHandExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger3Rz = DoubleAngleField()
+    RightHandExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger3SPlugOperator(
@@ -12780,11 +12780,11 @@ class RightHandExtraFinger3SPlugOperator(
         ("RightHandExtraFinger3Sz", "RightHandExtraFinger3Sz"),
     )
 
-    RightHandExtraFinger3Sx = DoubleField()
+    RightHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sy = DoubleField()
+    RightHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sz = DoubleField()
+    RightHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger3SAttrOperator(
@@ -12792,11 +12792,11 @@ class RightHandExtraFinger3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger3Sx = DoubleField()
+    RightHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sy = DoubleField()
+    RightHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sz = DoubleField()
+    RightHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger3SField(
@@ -12807,11 +12807,11 @@ class RightHandExtraFinger3SField(
     ATTR_CLS = RightHandExtraFinger3SAttrOperator
     PLUG_CLS = RightHandExtraFinger3SPlugOperator
 
-    RightHandExtraFinger3Sx = DoubleField()
+    RightHandExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sy = DoubleField()
+    RightHandExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger3Sz = DoubleField()
+    RightHandExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger4TPlugOperator(
@@ -12824,11 +12824,11 @@ class RightHandExtraFinger4TPlugOperator(
         ("RightHandExtraFinger4Tz", "RightHandExtraFinger4Tz"),
     )
 
-    RightHandExtraFinger4Tx = DoubleLinearField()
+    RightHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Ty = DoubleLinearField()
+    RightHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Tz = DoubleLinearField()
+    RightHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger4TAttrOperator(
@@ -12836,11 +12836,11 @@ class RightHandExtraFinger4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger4Tx = DoubleLinearField()
+    RightHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Ty = DoubleLinearField()
+    RightHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Tz = DoubleLinearField()
+    RightHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger4TField(
@@ -12851,11 +12851,11 @@ class RightHandExtraFinger4TField(
     ATTR_CLS = RightHandExtraFinger4TAttrOperator
     PLUG_CLS = RightHandExtraFinger4TPlugOperator
 
-    RightHandExtraFinger4Tx = DoubleLinearField()
+    RightHandExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Ty = DoubleLinearField()
+    RightHandExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFinger4Tz = DoubleLinearField()
+    RightHandExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFinger4RPlugOperator(
@@ -12868,11 +12868,11 @@ class RightHandExtraFinger4RPlugOperator(
         ("RightHandExtraFinger4Rz", "RightHandExtraFinger4Rz"),
     )
 
-    RightHandExtraFinger4Rx = DoubleAngleField()
+    RightHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Ry = DoubleAngleField()
+    RightHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Rz = DoubleAngleField()
+    RightHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger4RAttrOperator(
@@ -12880,11 +12880,11 @@ class RightHandExtraFinger4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger4Rx = DoubleAngleField()
+    RightHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Ry = DoubleAngleField()
+    RightHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Rz = DoubleAngleField()
+    RightHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger4RField(
@@ -12895,11 +12895,11 @@ class RightHandExtraFinger4RField(
     ATTR_CLS = RightHandExtraFinger4RAttrOperator
     PLUG_CLS = RightHandExtraFinger4RPlugOperator
 
-    RightHandExtraFinger4Rx = DoubleAngleField()
+    RightHandExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Ry = DoubleAngleField()
+    RightHandExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightHandExtraFinger4Rz = DoubleAngleField()
+    RightHandExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightHandExtraFinger4SPlugOperator(
@@ -12912,11 +12912,11 @@ class RightHandExtraFinger4SPlugOperator(
         ("RightHandExtraFinger4Sz", "RightHandExtraFinger4Sz"),
     )
 
-    RightHandExtraFinger4Sx = DoubleField()
+    RightHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sy = DoubleField()
+    RightHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sz = DoubleField()
+    RightHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger4SAttrOperator(
@@ -12924,11 +12924,11 @@ class RightHandExtraFinger4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFinger4Sx = DoubleField()
+    RightHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sy = DoubleField()
+    RightHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sz = DoubleField()
+    RightHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightHandExtraFinger4SField(
@@ -12939,11 +12939,11 @@ class RightHandExtraFinger4SField(
     ATTR_CLS = RightHandExtraFinger4SAttrOperator
     PLUG_CLS = RightHandExtraFinger4SPlugOperator
 
-    RightHandExtraFinger4Sx = DoubleField()
+    RightHandExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sy = DoubleField()
+    RightHandExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightHandExtraFinger4Sz = DoubleField()
+    RightHandExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb1TPlugOperator(
@@ -12956,11 +12956,11 @@ class LeftFootThumb1TPlugOperator(
         ("LeftFootThumb1Tz", "LeftFootThumb1Tz"),
     )
 
-    LeftFootThumb1Tx = DoubleLinearField()
+    LeftFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Ty = DoubleLinearField()
+    LeftFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Tz = DoubleLinearField()
+    LeftFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb1TAttrOperator(
@@ -12968,11 +12968,11 @@ class LeftFootThumb1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb1Tx = DoubleLinearField()
+    LeftFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Ty = DoubleLinearField()
+    LeftFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Tz = DoubleLinearField()
+    LeftFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb1TField(
@@ -12983,11 +12983,11 @@ class LeftFootThumb1TField(
     ATTR_CLS = LeftFootThumb1TAttrOperator
     PLUG_CLS = LeftFootThumb1TPlugOperator
 
-    LeftFootThumb1Tx = DoubleLinearField()
+    LeftFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Ty = DoubleLinearField()
+    LeftFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb1Tz = DoubleLinearField()
+    LeftFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb1RPlugOperator(
@@ -13000,11 +13000,11 @@ class LeftFootThumb1RPlugOperator(
         ("LeftFootThumb1Rz", "LeftFootThumb1Rz"),
     )
 
-    LeftFootThumb1Rx = DoubleAngleField()
+    LeftFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Ry = DoubleAngleField()
+    LeftFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Rz = DoubleAngleField()
+    LeftFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb1RAttrOperator(
@@ -13012,11 +13012,11 @@ class LeftFootThumb1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb1Rx = DoubleAngleField()
+    LeftFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Ry = DoubleAngleField()
+    LeftFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Rz = DoubleAngleField()
+    LeftFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb1RField(
@@ -13027,11 +13027,11 @@ class LeftFootThumb1RField(
     ATTR_CLS = LeftFootThumb1RAttrOperator
     PLUG_CLS = LeftFootThumb1RPlugOperator
 
-    LeftFootThumb1Rx = DoubleAngleField()
+    LeftFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Ry = DoubleAngleField()
+    LeftFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb1Rz = DoubleAngleField()
+    LeftFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb1SPlugOperator(
@@ -13044,11 +13044,11 @@ class LeftFootThumb1SPlugOperator(
         ("LeftFootThumb1Sz", "LeftFootThumb1Sz"),
     )
 
-    LeftFootThumb1Sx = DoubleField()
+    LeftFootThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sy = DoubleField()
+    LeftFootThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sz = DoubleField()
+    LeftFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb1SAttrOperator(
@@ -13056,11 +13056,11 @@ class LeftFootThumb1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb1Sx = DoubleField()
+    LeftFootThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sy = DoubleField()
+    LeftFootThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sz = DoubleField()
+    LeftFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb1SField(
@@ -13071,11 +13071,11 @@ class LeftFootThumb1SField(
     ATTR_CLS = LeftFootThumb1SAttrOperator
     PLUG_CLS = LeftFootThumb1SPlugOperator
 
-    LeftFootThumb1Sx = DoubleField()
+    LeftFootThumb1Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sy = DoubleField()
+    LeftFootThumb1Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb1Sz = DoubleField()
+    LeftFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb2TPlugOperator(
@@ -13088,11 +13088,11 @@ class LeftFootThumb2TPlugOperator(
         ("LeftFootThumb2Tz", "LeftFootThumb2Tz"),
     )
 
-    LeftFootThumb2Tx = DoubleLinearField()
+    LeftFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Ty = DoubleLinearField()
+    LeftFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Tz = DoubleLinearField()
+    LeftFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb2TAttrOperator(
@@ -13100,11 +13100,11 @@ class LeftFootThumb2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb2Tx = DoubleLinearField()
+    LeftFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Ty = DoubleLinearField()
+    LeftFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Tz = DoubleLinearField()
+    LeftFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb2TField(
@@ -13115,11 +13115,11 @@ class LeftFootThumb2TField(
     ATTR_CLS = LeftFootThumb2TAttrOperator
     PLUG_CLS = LeftFootThumb2TPlugOperator
 
-    LeftFootThumb2Tx = DoubleLinearField()
+    LeftFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Ty = DoubleLinearField()
+    LeftFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb2Tz = DoubleLinearField()
+    LeftFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb2RPlugOperator(
@@ -13132,11 +13132,11 @@ class LeftFootThumb2RPlugOperator(
         ("LeftFootThumb2Rz", "LeftFootThumb2Rz"),
     )
 
-    LeftFootThumb2Rx = DoubleAngleField()
+    LeftFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Ry = DoubleAngleField()
+    LeftFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Rz = DoubleAngleField()
+    LeftFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb2RAttrOperator(
@@ -13144,11 +13144,11 @@ class LeftFootThumb2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb2Rx = DoubleAngleField()
+    LeftFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Ry = DoubleAngleField()
+    LeftFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Rz = DoubleAngleField()
+    LeftFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb2RField(
@@ -13159,11 +13159,11 @@ class LeftFootThumb2RField(
     ATTR_CLS = LeftFootThumb2RAttrOperator
     PLUG_CLS = LeftFootThumb2RPlugOperator
 
-    LeftFootThumb2Rx = DoubleAngleField()
+    LeftFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Ry = DoubleAngleField()
+    LeftFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb2Rz = DoubleAngleField()
+    LeftFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb2SPlugOperator(
@@ -13176,11 +13176,11 @@ class LeftFootThumb2SPlugOperator(
         ("LeftFootThumb2Sz", "LeftFootThumb2Sz"),
     )
 
-    LeftFootThumb2Sx = DoubleField()
+    LeftFootThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sy = DoubleField()
+    LeftFootThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sz = DoubleField()
+    LeftFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb2SAttrOperator(
@@ -13188,11 +13188,11 @@ class LeftFootThumb2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb2Sx = DoubleField()
+    LeftFootThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sy = DoubleField()
+    LeftFootThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sz = DoubleField()
+    LeftFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb2SField(
@@ -13203,11 +13203,11 @@ class LeftFootThumb2SField(
     ATTR_CLS = LeftFootThumb2SAttrOperator
     PLUG_CLS = LeftFootThumb2SPlugOperator
 
-    LeftFootThumb2Sx = DoubleField()
+    LeftFootThumb2Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sy = DoubleField()
+    LeftFootThumb2Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb2Sz = DoubleField()
+    LeftFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb3TPlugOperator(
@@ -13220,11 +13220,11 @@ class LeftFootThumb3TPlugOperator(
         ("LeftFootThumb3Tz", "LeftFootThumb3Tz"),
     )
 
-    LeftFootThumb3Tx = DoubleLinearField()
+    LeftFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Ty = DoubleLinearField()
+    LeftFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Tz = DoubleLinearField()
+    LeftFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb3TAttrOperator(
@@ -13232,11 +13232,11 @@ class LeftFootThumb3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb3Tx = DoubleLinearField()
+    LeftFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Ty = DoubleLinearField()
+    LeftFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Tz = DoubleLinearField()
+    LeftFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb3TField(
@@ -13247,11 +13247,11 @@ class LeftFootThumb3TField(
     ATTR_CLS = LeftFootThumb3TAttrOperator
     PLUG_CLS = LeftFootThumb3TPlugOperator
 
-    LeftFootThumb3Tx = DoubleLinearField()
+    LeftFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Ty = DoubleLinearField()
+    LeftFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb3Tz = DoubleLinearField()
+    LeftFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb3RPlugOperator(
@@ -13264,11 +13264,11 @@ class LeftFootThumb3RPlugOperator(
         ("LeftFootThumb3Rz", "LeftFootThumb3Rz"),
     )
 
-    LeftFootThumb3Rx = DoubleAngleField()
+    LeftFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Ry = DoubleAngleField()
+    LeftFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Rz = DoubleAngleField()
+    LeftFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb3RAttrOperator(
@@ -13276,11 +13276,11 @@ class LeftFootThumb3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb3Rx = DoubleAngleField()
+    LeftFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Ry = DoubleAngleField()
+    LeftFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Rz = DoubleAngleField()
+    LeftFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb3RField(
@@ -13291,11 +13291,11 @@ class LeftFootThumb3RField(
     ATTR_CLS = LeftFootThumb3RAttrOperator
     PLUG_CLS = LeftFootThumb3RPlugOperator
 
-    LeftFootThumb3Rx = DoubleAngleField()
+    LeftFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Ry = DoubleAngleField()
+    LeftFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb3Rz = DoubleAngleField()
+    LeftFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb3SPlugOperator(
@@ -13308,11 +13308,11 @@ class LeftFootThumb3SPlugOperator(
         ("LeftFootThumb3Sz", "LeftFootThumb3Sz"),
     )
 
-    LeftFootThumb3Sx = DoubleField()
+    LeftFootThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sy = DoubleField()
+    LeftFootThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sz = DoubleField()
+    LeftFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb3SAttrOperator(
@@ -13320,11 +13320,11 @@ class LeftFootThumb3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb3Sx = DoubleField()
+    LeftFootThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sy = DoubleField()
+    LeftFootThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sz = DoubleField()
+    LeftFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb3SField(
@@ -13335,11 +13335,11 @@ class LeftFootThumb3SField(
     ATTR_CLS = LeftFootThumb3SAttrOperator
     PLUG_CLS = LeftFootThumb3SPlugOperator
 
-    LeftFootThumb3Sx = DoubleField()
+    LeftFootThumb3Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sy = DoubleField()
+    LeftFootThumb3Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb3Sz = DoubleField()
+    LeftFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb4TPlugOperator(
@@ -13352,11 +13352,11 @@ class LeftFootThumb4TPlugOperator(
         ("LeftFootThumb4Tz", "LeftFootThumb4Tz"),
     )
 
-    LeftFootThumb4Tx = DoubleLinearField()
+    LeftFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Ty = DoubleLinearField()
+    LeftFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Tz = DoubleLinearField()
+    LeftFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb4TAttrOperator(
@@ -13364,11 +13364,11 @@ class LeftFootThumb4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb4Tx = DoubleLinearField()
+    LeftFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Ty = DoubleLinearField()
+    LeftFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Tz = DoubleLinearField()
+    LeftFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb4TField(
@@ -13379,11 +13379,11 @@ class LeftFootThumb4TField(
     ATTR_CLS = LeftFootThumb4TAttrOperator
     PLUG_CLS = LeftFootThumb4TPlugOperator
 
-    LeftFootThumb4Tx = DoubleLinearField()
+    LeftFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Ty = DoubleLinearField()
+    LeftFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumb4Tz = DoubleLinearField()
+    LeftFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumb4RPlugOperator(
@@ -13396,11 +13396,11 @@ class LeftFootThumb4RPlugOperator(
         ("LeftFootThumb4Rz", "LeftFootThumb4Rz"),
     )
 
-    LeftFootThumb4Rx = DoubleAngleField()
+    LeftFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Ry = DoubleAngleField()
+    LeftFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Rz = DoubleAngleField()
+    LeftFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb4RAttrOperator(
@@ -13408,11 +13408,11 @@ class LeftFootThumb4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb4Rx = DoubleAngleField()
+    LeftFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Ry = DoubleAngleField()
+    LeftFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Rz = DoubleAngleField()
+    LeftFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb4RField(
@@ -13423,11 +13423,11 @@ class LeftFootThumb4RField(
     ATTR_CLS = LeftFootThumb4RAttrOperator
     PLUG_CLS = LeftFootThumb4RPlugOperator
 
-    LeftFootThumb4Rx = DoubleAngleField()
+    LeftFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Ry = DoubleAngleField()
+    LeftFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootThumb4Rz = DoubleAngleField()
+    LeftFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootThumb4SPlugOperator(
@@ -13440,11 +13440,11 @@ class LeftFootThumb4SPlugOperator(
         ("LeftFootThumb4Sz", "LeftFootThumb4Sz"),
     )
 
-    LeftFootThumb4Sx = DoubleField()
+    LeftFootThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sy = DoubleField()
+    LeftFootThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sz = DoubleField()
+    LeftFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb4SAttrOperator(
@@ -13452,11 +13452,11 @@ class LeftFootThumb4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumb4Sx = DoubleField()
+    LeftFootThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sy = DoubleField()
+    LeftFootThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sz = DoubleField()
+    LeftFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootThumb4SField(
@@ -13467,11 +13467,11 @@ class LeftFootThumb4SField(
     ATTR_CLS = LeftFootThumb4SAttrOperator
     PLUG_CLS = LeftFootThumb4SPlugOperator
 
-    LeftFootThumb4Sx = DoubleField()
+    LeftFootThumb4Sx = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sy = DoubleField()
+    LeftFootThumb4Sy = DoubleField(default_value=1.0)
 
-    LeftFootThumb4Sz = DoubleField()
+    LeftFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex1TPlugOperator(
@@ -13484,11 +13484,11 @@ class LeftFootIndex1TPlugOperator(
         ("LeftFootIndex1Tz", "LeftFootIndex1Tz"),
     )
 
-    LeftFootIndex1Tx = DoubleLinearField()
+    LeftFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Ty = DoubleLinearField()
+    LeftFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Tz = DoubleLinearField()
+    LeftFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex1TAttrOperator(
@@ -13496,11 +13496,11 @@ class LeftFootIndex1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex1Tx = DoubleLinearField()
+    LeftFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Ty = DoubleLinearField()
+    LeftFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Tz = DoubleLinearField()
+    LeftFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex1TField(
@@ -13511,11 +13511,11 @@ class LeftFootIndex1TField(
     ATTR_CLS = LeftFootIndex1TAttrOperator
     PLUG_CLS = LeftFootIndex1TPlugOperator
 
-    LeftFootIndex1Tx = DoubleLinearField()
+    LeftFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Ty = DoubleLinearField()
+    LeftFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex1Tz = DoubleLinearField()
+    LeftFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex1RPlugOperator(
@@ -13528,11 +13528,11 @@ class LeftFootIndex1RPlugOperator(
         ("LeftFootIndex1Rz", "LeftFootIndex1Rz"),
     )
 
-    LeftFootIndex1Rx = DoubleAngleField()
+    LeftFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Ry = DoubleAngleField()
+    LeftFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Rz = DoubleAngleField()
+    LeftFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex1RAttrOperator(
@@ -13540,11 +13540,11 @@ class LeftFootIndex1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex1Rx = DoubleAngleField()
+    LeftFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Ry = DoubleAngleField()
+    LeftFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Rz = DoubleAngleField()
+    LeftFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex1RField(
@@ -13555,11 +13555,11 @@ class LeftFootIndex1RField(
     ATTR_CLS = LeftFootIndex1RAttrOperator
     PLUG_CLS = LeftFootIndex1RPlugOperator
 
-    LeftFootIndex1Rx = DoubleAngleField()
+    LeftFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Ry = DoubleAngleField()
+    LeftFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex1Rz = DoubleAngleField()
+    LeftFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex1SPlugOperator(
@@ -13572,11 +13572,11 @@ class LeftFootIndex1SPlugOperator(
         ("LeftFootIndex1Sz", "LeftFootIndex1Sz"),
     )
 
-    LeftFootIndex1Sx = DoubleField()
+    LeftFootIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sy = DoubleField()
+    LeftFootIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sz = DoubleField()
+    LeftFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex1SAttrOperator(
@@ -13584,11 +13584,11 @@ class LeftFootIndex1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex1Sx = DoubleField()
+    LeftFootIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sy = DoubleField()
+    LeftFootIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sz = DoubleField()
+    LeftFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex1SField(
@@ -13599,11 +13599,11 @@ class LeftFootIndex1SField(
     ATTR_CLS = LeftFootIndex1SAttrOperator
     PLUG_CLS = LeftFootIndex1SPlugOperator
 
-    LeftFootIndex1Sx = DoubleField()
+    LeftFootIndex1Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sy = DoubleField()
+    LeftFootIndex1Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex1Sz = DoubleField()
+    LeftFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex2TPlugOperator(
@@ -13616,11 +13616,11 @@ class LeftFootIndex2TPlugOperator(
         ("LeftFootIndex2Tz", "LeftFootIndex2Tz"),
     )
 
-    LeftFootIndex2Tx = DoubleLinearField()
+    LeftFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Ty = DoubleLinearField()
+    LeftFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Tz = DoubleLinearField()
+    LeftFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex2TAttrOperator(
@@ -13628,11 +13628,11 @@ class LeftFootIndex2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex2Tx = DoubleLinearField()
+    LeftFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Ty = DoubleLinearField()
+    LeftFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Tz = DoubleLinearField()
+    LeftFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex2TField(
@@ -13643,11 +13643,11 @@ class LeftFootIndex2TField(
     ATTR_CLS = LeftFootIndex2TAttrOperator
     PLUG_CLS = LeftFootIndex2TPlugOperator
 
-    LeftFootIndex2Tx = DoubleLinearField()
+    LeftFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Ty = DoubleLinearField()
+    LeftFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex2Tz = DoubleLinearField()
+    LeftFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex2RPlugOperator(
@@ -13660,11 +13660,11 @@ class LeftFootIndex2RPlugOperator(
         ("LeftFootIndex2Rz", "LeftFootIndex2Rz"),
     )
 
-    LeftFootIndex2Rx = DoubleAngleField()
+    LeftFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Ry = DoubleAngleField()
+    LeftFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Rz = DoubleAngleField()
+    LeftFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex2RAttrOperator(
@@ -13672,11 +13672,11 @@ class LeftFootIndex2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex2Rx = DoubleAngleField()
+    LeftFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Ry = DoubleAngleField()
+    LeftFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Rz = DoubleAngleField()
+    LeftFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex2RField(
@@ -13687,11 +13687,11 @@ class LeftFootIndex2RField(
     ATTR_CLS = LeftFootIndex2RAttrOperator
     PLUG_CLS = LeftFootIndex2RPlugOperator
 
-    LeftFootIndex2Rx = DoubleAngleField()
+    LeftFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Ry = DoubleAngleField()
+    LeftFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex2Rz = DoubleAngleField()
+    LeftFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex2SPlugOperator(
@@ -13704,11 +13704,11 @@ class LeftFootIndex2SPlugOperator(
         ("LeftFootIndex2Sz", "LeftFootIndex2Sz"),
     )
 
-    LeftFootIndex2Sx = DoubleField()
+    LeftFootIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sy = DoubleField()
+    LeftFootIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sz = DoubleField()
+    LeftFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex2SAttrOperator(
@@ -13716,11 +13716,11 @@ class LeftFootIndex2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex2Sx = DoubleField()
+    LeftFootIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sy = DoubleField()
+    LeftFootIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sz = DoubleField()
+    LeftFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex2SField(
@@ -13731,11 +13731,11 @@ class LeftFootIndex2SField(
     ATTR_CLS = LeftFootIndex2SAttrOperator
     PLUG_CLS = LeftFootIndex2SPlugOperator
 
-    LeftFootIndex2Sx = DoubleField()
+    LeftFootIndex2Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sy = DoubleField()
+    LeftFootIndex2Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex2Sz = DoubleField()
+    LeftFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex3TPlugOperator(
@@ -13748,11 +13748,11 @@ class LeftFootIndex3TPlugOperator(
         ("LeftFootIndex3Tz", "LeftFootIndex3Tz"),
     )
 
-    LeftFootIndex3Tx = DoubleLinearField()
+    LeftFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Ty = DoubleLinearField()
+    LeftFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Tz = DoubleLinearField()
+    LeftFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex3TAttrOperator(
@@ -13760,11 +13760,11 @@ class LeftFootIndex3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex3Tx = DoubleLinearField()
+    LeftFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Ty = DoubleLinearField()
+    LeftFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Tz = DoubleLinearField()
+    LeftFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex3TField(
@@ -13775,11 +13775,11 @@ class LeftFootIndex3TField(
     ATTR_CLS = LeftFootIndex3TAttrOperator
     PLUG_CLS = LeftFootIndex3TPlugOperator
 
-    LeftFootIndex3Tx = DoubleLinearField()
+    LeftFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Ty = DoubleLinearField()
+    LeftFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex3Tz = DoubleLinearField()
+    LeftFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex3RPlugOperator(
@@ -13792,11 +13792,11 @@ class LeftFootIndex3RPlugOperator(
         ("LeftFootIndex3Rz", "LeftFootIndex3Rz"),
     )
 
-    LeftFootIndex3Rx = DoubleAngleField()
+    LeftFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Ry = DoubleAngleField()
+    LeftFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Rz = DoubleAngleField()
+    LeftFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex3RAttrOperator(
@@ -13804,11 +13804,11 @@ class LeftFootIndex3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex3Rx = DoubleAngleField()
+    LeftFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Ry = DoubleAngleField()
+    LeftFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Rz = DoubleAngleField()
+    LeftFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex3RField(
@@ -13819,11 +13819,11 @@ class LeftFootIndex3RField(
     ATTR_CLS = LeftFootIndex3RAttrOperator
     PLUG_CLS = LeftFootIndex3RPlugOperator
 
-    LeftFootIndex3Rx = DoubleAngleField()
+    LeftFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Ry = DoubleAngleField()
+    LeftFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex3Rz = DoubleAngleField()
+    LeftFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex3SPlugOperator(
@@ -13836,11 +13836,11 @@ class LeftFootIndex3SPlugOperator(
         ("LeftFootIndex3Sz", "LeftFootIndex3Sz"),
     )
 
-    LeftFootIndex3Sx = DoubleField()
+    LeftFootIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sy = DoubleField()
+    LeftFootIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sz = DoubleField()
+    LeftFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex3SAttrOperator(
@@ -13848,11 +13848,11 @@ class LeftFootIndex3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex3Sx = DoubleField()
+    LeftFootIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sy = DoubleField()
+    LeftFootIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sz = DoubleField()
+    LeftFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex3SField(
@@ -13863,11 +13863,11 @@ class LeftFootIndex3SField(
     ATTR_CLS = LeftFootIndex3SAttrOperator
     PLUG_CLS = LeftFootIndex3SPlugOperator
 
-    LeftFootIndex3Sx = DoubleField()
+    LeftFootIndex3Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sy = DoubleField()
+    LeftFootIndex3Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex3Sz = DoubleField()
+    LeftFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex4TPlugOperator(
@@ -13880,11 +13880,11 @@ class LeftFootIndex4TPlugOperator(
         ("LeftFootIndex4Tz", "LeftFootIndex4Tz"),
     )
 
-    LeftFootIndex4Tx = DoubleLinearField()
+    LeftFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Ty = DoubleLinearField()
+    LeftFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Tz = DoubleLinearField()
+    LeftFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex4TAttrOperator(
@@ -13892,11 +13892,11 @@ class LeftFootIndex4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex4Tx = DoubleLinearField()
+    LeftFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Ty = DoubleLinearField()
+    LeftFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Tz = DoubleLinearField()
+    LeftFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex4TField(
@@ -13907,11 +13907,11 @@ class LeftFootIndex4TField(
     ATTR_CLS = LeftFootIndex4TAttrOperator
     PLUG_CLS = LeftFootIndex4TPlugOperator
 
-    LeftFootIndex4Tx = DoubleLinearField()
+    LeftFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Ty = DoubleLinearField()
+    LeftFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndex4Tz = DoubleLinearField()
+    LeftFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndex4RPlugOperator(
@@ -13924,11 +13924,11 @@ class LeftFootIndex4RPlugOperator(
         ("LeftFootIndex4Rz", "LeftFootIndex4Rz"),
     )
 
-    LeftFootIndex4Rx = DoubleAngleField()
+    LeftFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Ry = DoubleAngleField()
+    LeftFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Rz = DoubleAngleField()
+    LeftFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex4RAttrOperator(
@@ -13936,11 +13936,11 @@ class LeftFootIndex4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex4Rx = DoubleAngleField()
+    LeftFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Ry = DoubleAngleField()
+    LeftFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Rz = DoubleAngleField()
+    LeftFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex4RField(
@@ -13951,11 +13951,11 @@ class LeftFootIndex4RField(
     ATTR_CLS = LeftFootIndex4RAttrOperator
     PLUG_CLS = LeftFootIndex4RPlugOperator
 
-    LeftFootIndex4Rx = DoubleAngleField()
+    LeftFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Ry = DoubleAngleField()
+    LeftFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootIndex4Rz = DoubleAngleField()
+    LeftFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootIndex4SPlugOperator(
@@ -13968,11 +13968,11 @@ class LeftFootIndex4SPlugOperator(
         ("LeftFootIndex4Sz", "LeftFootIndex4Sz"),
     )
 
-    LeftFootIndex4Sx = DoubleField()
+    LeftFootIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sy = DoubleField()
+    LeftFootIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sz = DoubleField()
+    LeftFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex4SAttrOperator(
@@ -13980,11 +13980,11 @@ class LeftFootIndex4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndex4Sx = DoubleField()
+    LeftFootIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sy = DoubleField()
+    LeftFootIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sz = DoubleField()
+    LeftFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootIndex4SField(
@@ -13995,11 +13995,11 @@ class LeftFootIndex4SField(
     ATTR_CLS = LeftFootIndex4SAttrOperator
     PLUG_CLS = LeftFootIndex4SPlugOperator
 
-    LeftFootIndex4Sx = DoubleField()
+    LeftFootIndex4Sx = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sy = DoubleField()
+    LeftFootIndex4Sy = DoubleField(default_value=1.0)
 
-    LeftFootIndex4Sz = DoubleField()
+    LeftFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle1TPlugOperator(
@@ -14012,11 +14012,11 @@ class LeftFootMiddle1TPlugOperator(
         ("LeftFootMiddle1Tz", "LeftFootMiddle1Tz"),
     )
 
-    LeftFootMiddle1Tx = DoubleLinearField()
+    LeftFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Ty = DoubleLinearField()
+    LeftFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Tz = DoubleLinearField()
+    LeftFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle1TAttrOperator(
@@ -14024,11 +14024,11 @@ class LeftFootMiddle1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle1Tx = DoubleLinearField()
+    LeftFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Ty = DoubleLinearField()
+    LeftFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Tz = DoubleLinearField()
+    LeftFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle1TField(
@@ -14039,11 +14039,11 @@ class LeftFootMiddle1TField(
     ATTR_CLS = LeftFootMiddle1TAttrOperator
     PLUG_CLS = LeftFootMiddle1TPlugOperator
 
-    LeftFootMiddle1Tx = DoubleLinearField()
+    LeftFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Ty = DoubleLinearField()
+    LeftFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle1Tz = DoubleLinearField()
+    LeftFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle1RPlugOperator(
@@ -14056,11 +14056,11 @@ class LeftFootMiddle1RPlugOperator(
         ("LeftFootMiddle1Rz", "LeftFootMiddle1Rz"),
     )
 
-    LeftFootMiddle1Rx = DoubleAngleField()
+    LeftFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Ry = DoubleAngleField()
+    LeftFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Rz = DoubleAngleField()
+    LeftFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle1RAttrOperator(
@@ -14068,11 +14068,11 @@ class LeftFootMiddle1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle1Rx = DoubleAngleField()
+    LeftFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Ry = DoubleAngleField()
+    LeftFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Rz = DoubleAngleField()
+    LeftFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle1RField(
@@ -14083,11 +14083,11 @@ class LeftFootMiddle1RField(
     ATTR_CLS = LeftFootMiddle1RAttrOperator
     PLUG_CLS = LeftFootMiddle1RPlugOperator
 
-    LeftFootMiddle1Rx = DoubleAngleField()
+    LeftFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Ry = DoubleAngleField()
+    LeftFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle1Rz = DoubleAngleField()
+    LeftFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle1SPlugOperator(
@@ -14100,11 +14100,11 @@ class LeftFootMiddle1SPlugOperator(
         ("LeftFootMiddle1Sz", "LeftFootMiddle1Sz"),
     )
 
-    LeftFootMiddle1Sx = DoubleField()
+    LeftFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sy = DoubleField()
+    LeftFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sz = DoubleField()
+    LeftFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle1SAttrOperator(
@@ -14112,11 +14112,11 @@ class LeftFootMiddle1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle1Sx = DoubleField()
+    LeftFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sy = DoubleField()
+    LeftFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sz = DoubleField()
+    LeftFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle1SField(
@@ -14127,11 +14127,11 @@ class LeftFootMiddle1SField(
     ATTR_CLS = LeftFootMiddle1SAttrOperator
     PLUG_CLS = LeftFootMiddle1SPlugOperator
 
-    LeftFootMiddle1Sx = DoubleField()
+    LeftFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sy = DoubleField()
+    LeftFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle1Sz = DoubleField()
+    LeftFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle2TPlugOperator(
@@ -14144,11 +14144,11 @@ class LeftFootMiddle2TPlugOperator(
         ("LeftFootMiddle2Tz", "LeftFootMiddle2Tz"),
     )
 
-    LeftFootMiddle2Tx = DoubleLinearField()
+    LeftFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Ty = DoubleLinearField()
+    LeftFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Tz = DoubleLinearField()
+    LeftFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle2TAttrOperator(
@@ -14156,11 +14156,11 @@ class LeftFootMiddle2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle2Tx = DoubleLinearField()
+    LeftFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Ty = DoubleLinearField()
+    LeftFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Tz = DoubleLinearField()
+    LeftFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle2TField(
@@ -14171,11 +14171,11 @@ class LeftFootMiddle2TField(
     ATTR_CLS = LeftFootMiddle2TAttrOperator
     PLUG_CLS = LeftFootMiddle2TPlugOperator
 
-    LeftFootMiddle2Tx = DoubleLinearField()
+    LeftFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Ty = DoubleLinearField()
+    LeftFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle2Tz = DoubleLinearField()
+    LeftFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle2RPlugOperator(
@@ -14188,11 +14188,11 @@ class LeftFootMiddle2RPlugOperator(
         ("LeftFootMiddle2Rz", "LeftFootMiddle2Rz"),
     )
 
-    LeftFootMiddle2Rx = DoubleAngleField()
+    LeftFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Ry = DoubleAngleField()
+    LeftFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Rz = DoubleAngleField()
+    LeftFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle2RAttrOperator(
@@ -14200,11 +14200,11 @@ class LeftFootMiddle2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle2Rx = DoubleAngleField()
+    LeftFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Ry = DoubleAngleField()
+    LeftFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Rz = DoubleAngleField()
+    LeftFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle2RField(
@@ -14215,11 +14215,11 @@ class LeftFootMiddle2RField(
     ATTR_CLS = LeftFootMiddle2RAttrOperator
     PLUG_CLS = LeftFootMiddle2RPlugOperator
 
-    LeftFootMiddle2Rx = DoubleAngleField()
+    LeftFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Ry = DoubleAngleField()
+    LeftFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle2Rz = DoubleAngleField()
+    LeftFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle2SPlugOperator(
@@ -14232,11 +14232,11 @@ class LeftFootMiddle2SPlugOperator(
         ("LeftFootMiddle2Sz", "LeftFootMiddle2Sz"),
     )
 
-    LeftFootMiddle2Sx = DoubleField()
+    LeftFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sy = DoubleField()
+    LeftFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sz = DoubleField()
+    LeftFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle2SAttrOperator(
@@ -14244,11 +14244,11 @@ class LeftFootMiddle2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle2Sx = DoubleField()
+    LeftFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sy = DoubleField()
+    LeftFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sz = DoubleField()
+    LeftFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle2SField(
@@ -14259,11 +14259,11 @@ class LeftFootMiddle2SField(
     ATTR_CLS = LeftFootMiddle2SAttrOperator
     PLUG_CLS = LeftFootMiddle2SPlugOperator
 
-    LeftFootMiddle2Sx = DoubleField()
+    LeftFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sy = DoubleField()
+    LeftFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle2Sz = DoubleField()
+    LeftFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle3TPlugOperator(
@@ -14276,11 +14276,11 @@ class LeftFootMiddle3TPlugOperator(
         ("LeftFootMiddle3Tz", "LeftFootMiddle3Tz"),
     )
 
-    LeftFootMiddle3Tx = DoubleLinearField()
+    LeftFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Ty = DoubleLinearField()
+    LeftFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Tz = DoubleLinearField()
+    LeftFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle3TAttrOperator(
@@ -14288,11 +14288,11 @@ class LeftFootMiddle3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle3Tx = DoubleLinearField()
+    LeftFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Ty = DoubleLinearField()
+    LeftFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Tz = DoubleLinearField()
+    LeftFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle3TField(
@@ -14303,11 +14303,11 @@ class LeftFootMiddle3TField(
     ATTR_CLS = LeftFootMiddle3TAttrOperator
     PLUG_CLS = LeftFootMiddle3TPlugOperator
 
-    LeftFootMiddle3Tx = DoubleLinearField()
+    LeftFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Ty = DoubleLinearField()
+    LeftFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle3Tz = DoubleLinearField()
+    LeftFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle3RPlugOperator(
@@ -14320,11 +14320,11 @@ class LeftFootMiddle3RPlugOperator(
         ("LeftFootMiddle3Rz", "LeftFootMiddle3Rz"),
     )
 
-    LeftFootMiddle3Rx = DoubleAngleField()
+    LeftFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Ry = DoubleAngleField()
+    LeftFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Rz = DoubleAngleField()
+    LeftFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle3RAttrOperator(
@@ -14332,11 +14332,11 @@ class LeftFootMiddle3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle3Rx = DoubleAngleField()
+    LeftFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Ry = DoubleAngleField()
+    LeftFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Rz = DoubleAngleField()
+    LeftFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle3RField(
@@ -14347,11 +14347,11 @@ class LeftFootMiddle3RField(
     ATTR_CLS = LeftFootMiddle3RAttrOperator
     PLUG_CLS = LeftFootMiddle3RPlugOperator
 
-    LeftFootMiddle3Rx = DoubleAngleField()
+    LeftFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Ry = DoubleAngleField()
+    LeftFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle3Rz = DoubleAngleField()
+    LeftFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle3SPlugOperator(
@@ -14364,11 +14364,11 @@ class LeftFootMiddle3SPlugOperator(
         ("LeftFootMiddle3Sz", "LeftFootMiddle3Sz"),
     )
 
-    LeftFootMiddle3Sx = DoubleField()
+    LeftFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sy = DoubleField()
+    LeftFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sz = DoubleField()
+    LeftFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle3SAttrOperator(
@@ -14376,11 +14376,11 @@ class LeftFootMiddle3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle3Sx = DoubleField()
+    LeftFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sy = DoubleField()
+    LeftFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sz = DoubleField()
+    LeftFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle3SField(
@@ -14391,11 +14391,11 @@ class LeftFootMiddle3SField(
     ATTR_CLS = LeftFootMiddle3SAttrOperator
     PLUG_CLS = LeftFootMiddle3SPlugOperator
 
-    LeftFootMiddle3Sx = DoubleField()
+    LeftFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sy = DoubleField()
+    LeftFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle3Sz = DoubleField()
+    LeftFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle4TPlugOperator(
@@ -14408,11 +14408,11 @@ class LeftFootMiddle4TPlugOperator(
         ("LeftFootMiddle4Tz", "LeftFootMiddle4Tz"),
     )
 
-    LeftFootMiddle4Tx = DoubleLinearField()
+    LeftFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Ty = DoubleLinearField()
+    LeftFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Tz = DoubleLinearField()
+    LeftFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle4TAttrOperator(
@@ -14420,11 +14420,11 @@ class LeftFootMiddle4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle4Tx = DoubleLinearField()
+    LeftFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Ty = DoubleLinearField()
+    LeftFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Tz = DoubleLinearField()
+    LeftFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle4TField(
@@ -14435,11 +14435,11 @@ class LeftFootMiddle4TField(
     ATTR_CLS = LeftFootMiddle4TAttrOperator
     PLUG_CLS = LeftFootMiddle4TPlugOperator
 
-    LeftFootMiddle4Tx = DoubleLinearField()
+    LeftFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Ty = DoubleLinearField()
+    LeftFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddle4Tz = DoubleLinearField()
+    LeftFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddle4RPlugOperator(
@@ -14452,11 +14452,11 @@ class LeftFootMiddle4RPlugOperator(
         ("LeftFootMiddle4Rz", "LeftFootMiddle4Rz"),
     )
 
-    LeftFootMiddle4Rx = DoubleAngleField()
+    LeftFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Ry = DoubleAngleField()
+    LeftFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Rz = DoubleAngleField()
+    LeftFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle4RAttrOperator(
@@ -14464,11 +14464,11 @@ class LeftFootMiddle4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle4Rx = DoubleAngleField()
+    LeftFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Ry = DoubleAngleField()
+    LeftFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Rz = DoubleAngleField()
+    LeftFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle4RField(
@@ -14479,11 +14479,11 @@ class LeftFootMiddle4RField(
     ATTR_CLS = LeftFootMiddle4RAttrOperator
     PLUG_CLS = LeftFootMiddle4RPlugOperator
 
-    LeftFootMiddle4Rx = DoubleAngleField()
+    LeftFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Ry = DoubleAngleField()
+    LeftFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootMiddle4Rz = DoubleAngleField()
+    LeftFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootMiddle4SPlugOperator(
@@ -14496,11 +14496,11 @@ class LeftFootMiddle4SPlugOperator(
         ("LeftFootMiddle4Sz", "LeftFootMiddle4Sz"),
     )
 
-    LeftFootMiddle4Sx = DoubleField()
+    LeftFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sy = DoubleField()
+    LeftFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sz = DoubleField()
+    LeftFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle4SAttrOperator(
@@ -14508,11 +14508,11 @@ class LeftFootMiddle4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddle4Sx = DoubleField()
+    LeftFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sy = DoubleField()
+    LeftFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sz = DoubleField()
+    LeftFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootMiddle4SField(
@@ -14523,11 +14523,11 @@ class LeftFootMiddle4SField(
     ATTR_CLS = LeftFootMiddle4SAttrOperator
     PLUG_CLS = LeftFootMiddle4SPlugOperator
 
-    LeftFootMiddle4Sx = DoubleField()
+    LeftFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sy = DoubleField()
+    LeftFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    LeftFootMiddle4Sz = DoubleField()
+    LeftFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing1TPlugOperator(
@@ -14540,11 +14540,11 @@ class LeftFootRing1TPlugOperator(
         ("LeftFootRing1Tz", "LeftFootRing1Tz"),
     )
 
-    LeftFootRing1Tx = DoubleLinearField()
+    LeftFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Ty = DoubleLinearField()
+    LeftFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Tz = DoubleLinearField()
+    LeftFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing1TAttrOperator(
@@ -14552,11 +14552,11 @@ class LeftFootRing1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing1Tx = DoubleLinearField()
+    LeftFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Ty = DoubleLinearField()
+    LeftFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Tz = DoubleLinearField()
+    LeftFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing1TField(
@@ -14567,11 +14567,11 @@ class LeftFootRing1TField(
     ATTR_CLS = LeftFootRing1TAttrOperator
     PLUG_CLS = LeftFootRing1TPlugOperator
 
-    LeftFootRing1Tx = DoubleLinearField()
+    LeftFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Ty = DoubleLinearField()
+    LeftFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing1Tz = DoubleLinearField()
+    LeftFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing1RPlugOperator(
@@ -14584,11 +14584,11 @@ class LeftFootRing1RPlugOperator(
         ("LeftFootRing1Rz", "LeftFootRing1Rz"),
     )
 
-    LeftFootRing1Rx = DoubleAngleField()
+    LeftFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Ry = DoubleAngleField()
+    LeftFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Rz = DoubleAngleField()
+    LeftFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing1RAttrOperator(
@@ -14596,11 +14596,11 @@ class LeftFootRing1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing1Rx = DoubleAngleField()
+    LeftFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Ry = DoubleAngleField()
+    LeftFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Rz = DoubleAngleField()
+    LeftFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing1RField(
@@ -14611,11 +14611,11 @@ class LeftFootRing1RField(
     ATTR_CLS = LeftFootRing1RAttrOperator
     PLUG_CLS = LeftFootRing1RPlugOperator
 
-    LeftFootRing1Rx = DoubleAngleField()
+    LeftFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Ry = DoubleAngleField()
+    LeftFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing1Rz = DoubleAngleField()
+    LeftFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing1SPlugOperator(
@@ -14628,11 +14628,11 @@ class LeftFootRing1SPlugOperator(
         ("LeftFootRing1Sz", "LeftFootRing1Sz"),
     )
 
-    LeftFootRing1Sx = DoubleField()
+    LeftFootRing1Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sy = DoubleField()
+    LeftFootRing1Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sz = DoubleField()
+    LeftFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing1SAttrOperator(
@@ -14640,11 +14640,11 @@ class LeftFootRing1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing1Sx = DoubleField()
+    LeftFootRing1Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sy = DoubleField()
+    LeftFootRing1Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sz = DoubleField()
+    LeftFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing1SField(
@@ -14655,11 +14655,11 @@ class LeftFootRing1SField(
     ATTR_CLS = LeftFootRing1SAttrOperator
     PLUG_CLS = LeftFootRing1SPlugOperator
 
-    LeftFootRing1Sx = DoubleField()
+    LeftFootRing1Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sy = DoubleField()
+    LeftFootRing1Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing1Sz = DoubleField()
+    LeftFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing2TPlugOperator(
@@ -14672,11 +14672,11 @@ class LeftFootRing2TPlugOperator(
         ("LeftFootRing2Tz", "LeftFootRing2Tz"),
     )
 
-    LeftFootRing2Tx = DoubleLinearField()
+    LeftFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Ty = DoubleLinearField()
+    LeftFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Tz = DoubleLinearField()
+    LeftFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing2TAttrOperator(
@@ -14684,11 +14684,11 @@ class LeftFootRing2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing2Tx = DoubleLinearField()
+    LeftFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Ty = DoubleLinearField()
+    LeftFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Tz = DoubleLinearField()
+    LeftFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing2TField(
@@ -14699,11 +14699,11 @@ class LeftFootRing2TField(
     ATTR_CLS = LeftFootRing2TAttrOperator
     PLUG_CLS = LeftFootRing2TPlugOperator
 
-    LeftFootRing2Tx = DoubleLinearField()
+    LeftFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Ty = DoubleLinearField()
+    LeftFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing2Tz = DoubleLinearField()
+    LeftFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing2RPlugOperator(
@@ -14716,11 +14716,11 @@ class LeftFootRing2RPlugOperator(
         ("LeftFootRing2Rz", "LeftFootRing2Rz"),
     )
 
-    LeftFootRing2Rx = DoubleAngleField()
+    LeftFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Ry = DoubleAngleField()
+    LeftFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Rz = DoubleAngleField()
+    LeftFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing2RAttrOperator(
@@ -14728,11 +14728,11 @@ class LeftFootRing2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing2Rx = DoubleAngleField()
+    LeftFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Ry = DoubleAngleField()
+    LeftFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Rz = DoubleAngleField()
+    LeftFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing2RField(
@@ -14743,11 +14743,11 @@ class LeftFootRing2RField(
     ATTR_CLS = LeftFootRing2RAttrOperator
     PLUG_CLS = LeftFootRing2RPlugOperator
 
-    LeftFootRing2Rx = DoubleAngleField()
+    LeftFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Ry = DoubleAngleField()
+    LeftFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing2Rz = DoubleAngleField()
+    LeftFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing2SPlugOperator(
@@ -14760,11 +14760,11 @@ class LeftFootRing2SPlugOperator(
         ("LeftFootRing2Sz", "LeftFootRing2Sz"),
     )
 
-    LeftFootRing2Sx = DoubleField()
+    LeftFootRing2Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sy = DoubleField()
+    LeftFootRing2Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sz = DoubleField()
+    LeftFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing2SAttrOperator(
@@ -14772,11 +14772,11 @@ class LeftFootRing2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing2Sx = DoubleField()
+    LeftFootRing2Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sy = DoubleField()
+    LeftFootRing2Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sz = DoubleField()
+    LeftFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing2SField(
@@ -14787,11 +14787,11 @@ class LeftFootRing2SField(
     ATTR_CLS = LeftFootRing2SAttrOperator
     PLUG_CLS = LeftFootRing2SPlugOperator
 
-    LeftFootRing2Sx = DoubleField()
+    LeftFootRing2Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sy = DoubleField()
+    LeftFootRing2Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing2Sz = DoubleField()
+    LeftFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing3TPlugOperator(
@@ -14804,11 +14804,11 @@ class LeftFootRing3TPlugOperator(
         ("LeftFootRing3Tz", "LeftFootRing3Tz"),
     )
 
-    LeftFootRing3Tx = DoubleLinearField()
+    LeftFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Ty = DoubleLinearField()
+    LeftFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Tz = DoubleLinearField()
+    LeftFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing3TAttrOperator(
@@ -14816,11 +14816,11 @@ class LeftFootRing3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing3Tx = DoubleLinearField()
+    LeftFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Ty = DoubleLinearField()
+    LeftFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Tz = DoubleLinearField()
+    LeftFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing3TField(
@@ -14831,11 +14831,11 @@ class LeftFootRing3TField(
     ATTR_CLS = LeftFootRing3TAttrOperator
     PLUG_CLS = LeftFootRing3TPlugOperator
 
-    LeftFootRing3Tx = DoubleLinearField()
+    LeftFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Ty = DoubleLinearField()
+    LeftFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing3Tz = DoubleLinearField()
+    LeftFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing3RPlugOperator(
@@ -14848,11 +14848,11 @@ class LeftFootRing3RPlugOperator(
         ("LeftFootRing3Rz", "LeftFootRing3Rz"),
     )
 
-    LeftFootRing3Rx = DoubleAngleField()
+    LeftFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Ry = DoubleAngleField()
+    LeftFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Rz = DoubleAngleField()
+    LeftFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing3RAttrOperator(
@@ -14860,11 +14860,11 @@ class LeftFootRing3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing3Rx = DoubleAngleField()
+    LeftFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Ry = DoubleAngleField()
+    LeftFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Rz = DoubleAngleField()
+    LeftFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing3RField(
@@ -14875,11 +14875,11 @@ class LeftFootRing3RField(
     ATTR_CLS = LeftFootRing3RAttrOperator
     PLUG_CLS = LeftFootRing3RPlugOperator
 
-    LeftFootRing3Rx = DoubleAngleField()
+    LeftFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Ry = DoubleAngleField()
+    LeftFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing3Rz = DoubleAngleField()
+    LeftFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing3SPlugOperator(
@@ -14892,11 +14892,11 @@ class LeftFootRing3SPlugOperator(
         ("LeftFootRing3Sz", "LeftFootRing3Sz"),
     )
 
-    LeftFootRing3Sx = DoubleField()
+    LeftFootRing3Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sy = DoubleField()
+    LeftFootRing3Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sz = DoubleField()
+    LeftFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing3SAttrOperator(
@@ -14904,11 +14904,11 @@ class LeftFootRing3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing3Sx = DoubleField()
+    LeftFootRing3Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sy = DoubleField()
+    LeftFootRing3Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sz = DoubleField()
+    LeftFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing3SField(
@@ -14919,11 +14919,11 @@ class LeftFootRing3SField(
     ATTR_CLS = LeftFootRing3SAttrOperator
     PLUG_CLS = LeftFootRing3SPlugOperator
 
-    LeftFootRing3Sx = DoubleField()
+    LeftFootRing3Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sy = DoubleField()
+    LeftFootRing3Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing3Sz = DoubleField()
+    LeftFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing4TPlugOperator(
@@ -14936,11 +14936,11 @@ class LeftFootRing4TPlugOperator(
         ("LeftFootRing4Tz", "LeftFootRing4Tz"),
     )
 
-    LeftFootRing4Tx = DoubleLinearField()
+    LeftFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Ty = DoubleLinearField()
+    LeftFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Tz = DoubleLinearField()
+    LeftFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing4TAttrOperator(
@@ -14948,11 +14948,11 @@ class LeftFootRing4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing4Tx = DoubleLinearField()
+    LeftFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Ty = DoubleLinearField()
+    LeftFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Tz = DoubleLinearField()
+    LeftFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing4TField(
@@ -14963,11 +14963,11 @@ class LeftFootRing4TField(
     ATTR_CLS = LeftFootRing4TAttrOperator
     PLUG_CLS = LeftFootRing4TPlugOperator
 
-    LeftFootRing4Tx = DoubleLinearField()
+    LeftFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Ty = DoubleLinearField()
+    LeftFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootRing4Tz = DoubleLinearField()
+    LeftFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRing4RPlugOperator(
@@ -14980,11 +14980,11 @@ class LeftFootRing4RPlugOperator(
         ("LeftFootRing4Rz", "LeftFootRing4Rz"),
     )
 
-    LeftFootRing4Rx = DoubleAngleField()
+    LeftFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Ry = DoubleAngleField()
+    LeftFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Rz = DoubleAngleField()
+    LeftFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing4RAttrOperator(
@@ -14992,11 +14992,11 @@ class LeftFootRing4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing4Rx = DoubleAngleField()
+    LeftFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Ry = DoubleAngleField()
+    LeftFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Rz = DoubleAngleField()
+    LeftFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing4RField(
@@ -15007,11 +15007,11 @@ class LeftFootRing4RField(
     ATTR_CLS = LeftFootRing4RAttrOperator
     PLUG_CLS = LeftFootRing4RPlugOperator
 
-    LeftFootRing4Rx = DoubleAngleField()
+    LeftFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Ry = DoubleAngleField()
+    LeftFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootRing4Rz = DoubleAngleField()
+    LeftFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootRing4SPlugOperator(
@@ -15024,11 +15024,11 @@ class LeftFootRing4SPlugOperator(
         ("LeftFootRing4Sz", "LeftFootRing4Sz"),
     )
 
-    LeftFootRing4Sx = DoubleField()
+    LeftFootRing4Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sy = DoubleField()
+    LeftFootRing4Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sz = DoubleField()
+    LeftFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing4SAttrOperator(
@@ -15036,11 +15036,11 @@ class LeftFootRing4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRing4Sx = DoubleField()
+    LeftFootRing4Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sy = DoubleField()
+    LeftFootRing4Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sz = DoubleField()
+    LeftFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootRing4SField(
@@ -15051,11 +15051,11 @@ class LeftFootRing4SField(
     ATTR_CLS = LeftFootRing4SAttrOperator
     PLUG_CLS = LeftFootRing4SPlugOperator
 
-    LeftFootRing4Sx = DoubleField()
+    LeftFootRing4Sx = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sy = DoubleField()
+    LeftFootRing4Sy = DoubleField(default_value=1.0)
 
-    LeftFootRing4Sz = DoubleField()
+    LeftFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky1TPlugOperator(
@@ -15068,11 +15068,11 @@ class LeftFootPinky1TPlugOperator(
         ("LeftFootPinky1Tz", "LeftFootPinky1Tz"),
     )
 
-    LeftFootPinky1Tx = DoubleLinearField()
+    LeftFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Ty = DoubleLinearField()
+    LeftFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Tz = DoubleLinearField()
+    LeftFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky1TAttrOperator(
@@ -15080,11 +15080,11 @@ class LeftFootPinky1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky1Tx = DoubleLinearField()
+    LeftFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Ty = DoubleLinearField()
+    LeftFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Tz = DoubleLinearField()
+    LeftFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky1TField(
@@ -15095,11 +15095,11 @@ class LeftFootPinky1TField(
     ATTR_CLS = LeftFootPinky1TAttrOperator
     PLUG_CLS = LeftFootPinky1TPlugOperator
 
-    LeftFootPinky1Tx = DoubleLinearField()
+    LeftFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Ty = DoubleLinearField()
+    LeftFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky1Tz = DoubleLinearField()
+    LeftFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky1RPlugOperator(
@@ -15112,11 +15112,11 @@ class LeftFootPinky1RPlugOperator(
         ("LeftFootPinky1Rz", "LeftFootPinky1Rz"),
     )
 
-    LeftFootPinky1Rx = DoubleAngleField()
+    LeftFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Ry = DoubleAngleField()
+    LeftFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Rz = DoubleAngleField()
+    LeftFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky1RAttrOperator(
@@ -15124,11 +15124,11 @@ class LeftFootPinky1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky1Rx = DoubleAngleField()
+    LeftFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Ry = DoubleAngleField()
+    LeftFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Rz = DoubleAngleField()
+    LeftFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky1RField(
@@ -15139,11 +15139,11 @@ class LeftFootPinky1RField(
     ATTR_CLS = LeftFootPinky1RAttrOperator
     PLUG_CLS = LeftFootPinky1RPlugOperator
 
-    LeftFootPinky1Rx = DoubleAngleField()
+    LeftFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Ry = DoubleAngleField()
+    LeftFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky1Rz = DoubleAngleField()
+    LeftFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky1SPlugOperator(
@@ -15156,11 +15156,11 @@ class LeftFootPinky1SPlugOperator(
         ("LeftFootPinky1Sz", "LeftFootPinky1Sz"),
     )
 
-    LeftFootPinky1Sx = DoubleField()
+    LeftFootPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sy = DoubleField()
+    LeftFootPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sz = DoubleField()
+    LeftFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky1SAttrOperator(
@@ -15168,11 +15168,11 @@ class LeftFootPinky1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky1Sx = DoubleField()
+    LeftFootPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sy = DoubleField()
+    LeftFootPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sz = DoubleField()
+    LeftFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky1SField(
@@ -15183,11 +15183,11 @@ class LeftFootPinky1SField(
     ATTR_CLS = LeftFootPinky1SAttrOperator
     PLUG_CLS = LeftFootPinky1SPlugOperator
 
-    LeftFootPinky1Sx = DoubleField()
+    LeftFootPinky1Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sy = DoubleField()
+    LeftFootPinky1Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky1Sz = DoubleField()
+    LeftFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky2TPlugOperator(
@@ -15200,11 +15200,11 @@ class LeftFootPinky2TPlugOperator(
         ("LeftFootPinky2Tz", "LeftFootPinky2Tz"),
     )
 
-    LeftFootPinky2Tx = DoubleLinearField()
+    LeftFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Ty = DoubleLinearField()
+    LeftFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Tz = DoubleLinearField()
+    LeftFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky2TAttrOperator(
@@ -15212,11 +15212,11 @@ class LeftFootPinky2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky2Tx = DoubleLinearField()
+    LeftFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Ty = DoubleLinearField()
+    LeftFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Tz = DoubleLinearField()
+    LeftFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky2TField(
@@ -15227,11 +15227,11 @@ class LeftFootPinky2TField(
     ATTR_CLS = LeftFootPinky2TAttrOperator
     PLUG_CLS = LeftFootPinky2TPlugOperator
 
-    LeftFootPinky2Tx = DoubleLinearField()
+    LeftFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Ty = DoubleLinearField()
+    LeftFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky2Tz = DoubleLinearField()
+    LeftFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky2RPlugOperator(
@@ -15244,11 +15244,11 @@ class LeftFootPinky2RPlugOperator(
         ("LeftFootPinky2Rz", "LeftFootPinky2Rz"),
     )
 
-    LeftFootPinky2Rx = DoubleAngleField()
+    LeftFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Ry = DoubleAngleField()
+    LeftFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Rz = DoubleAngleField()
+    LeftFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky2RAttrOperator(
@@ -15256,11 +15256,11 @@ class LeftFootPinky2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky2Rx = DoubleAngleField()
+    LeftFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Ry = DoubleAngleField()
+    LeftFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Rz = DoubleAngleField()
+    LeftFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky2RField(
@@ -15271,11 +15271,11 @@ class LeftFootPinky2RField(
     ATTR_CLS = LeftFootPinky2RAttrOperator
     PLUG_CLS = LeftFootPinky2RPlugOperator
 
-    LeftFootPinky2Rx = DoubleAngleField()
+    LeftFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Ry = DoubleAngleField()
+    LeftFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky2Rz = DoubleAngleField()
+    LeftFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky2SPlugOperator(
@@ -15288,11 +15288,11 @@ class LeftFootPinky2SPlugOperator(
         ("LeftFootPinky2Sz", "LeftFootPinky2Sz"),
     )
 
-    LeftFootPinky2Sx = DoubleField()
+    LeftFootPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sy = DoubleField()
+    LeftFootPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sz = DoubleField()
+    LeftFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky2SAttrOperator(
@@ -15300,11 +15300,11 @@ class LeftFootPinky2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky2Sx = DoubleField()
+    LeftFootPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sy = DoubleField()
+    LeftFootPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sz = DoubleField()
+    LeftFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky2SField(
@@ -15315,11 +15315,11 @@ class LeftFootPinky2SField(
     ATTR_CLS = LeftFootPinky2SAttrOperator
     PLUG_CLS = LeftFootPinky2SPlugOperator
 
-    LeftFootPinky2Sx = DoubleField()
+    LeftFootPinky2Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sy = DoubleField()
+    LeftFootPinky2Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky2Sz = DoubleField()
+    LeftFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky3TPlugOperator(
@@ -15332,11 +15332,11 @@ class LeftFootPinky3TPlugOperator(
         ("LeftFootPinky3Tz", "LeftFootPinky3Tz"),
     )
 
-    LeftFootPinky3Tx = DoubleLinearField()
+    LeftFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Ty = DoubleLinearField()
+    LeftFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Tz = DoubleLinearField()
+    LeftFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky3TAttrOperator(
@@ -15344,11 +15344,11 @@ class LeftFootPinky3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky3Tx = DoubleLinearField()
+    LeftFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Ty = DoubleLinearField()
+    LeftFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Tz = DoubleLinearField()
+    LeftFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky3TField(
@@ -15359,11 +15359,11 @@ class LeftFootPinky3TField(
     ATTR_CLS = LeftFootPinky3TAttrOperator
     PLUG_CLS = LeftFootPinky3TPlugOperator
 
-    LeftFootPinky3Tx = DoubleLinearField()
+    LeftFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Ty = DoubleLinearField()
+    LeftFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky3Tz = DoubleLinearField()
+    LeftFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky3RPlugOperator(
@@ -15376,11 +15376,11 @@ class LeftFootPinky3RPlugOperator(
         ("LeftFootPinky3Rz", "LeftFootPinky3Rz"),
     )
 
-    LeftFootPinky3Rx = DoubleAngleField()
+    LeftFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Ry = DoubleAngleField()
+    LeftFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Rz = DoubleAngleField()
+    LeftFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky3RAttrOperator(
@@ -15388,11 +15388,11 @@ class LeftFootPinky3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky3Rx = DoubleAngleField()
+    LeftFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Ry = DoubleAngleField()
+    LeftFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Rz = DoubleAngleField()
+    LeftFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky3RField(
@@ -15403,11 +15403,11 @@ class LeftFootPinky3RField(
     ATTR_CLS = LeftFootPinky3RAttrOperator
     PLUG_CLS = LeftFootPinky3RPlugOperator
 
-    LeftFootPinky3Rx = DoubleAngleField()
+    LeftFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Ry = DoubleAngleField()
+    LeftFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky3Rz = DoubleAngleField()
+    LeftFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky3SPlugOperator(
@@ -15420,11 +15420,11 @@ class LeftFootPinky3SPlugOperator(
         ("LeftFootPinky3Sz", "LeftFootPinky3Sz"),
     )
 
-    LeftFootPinky3Sx = DoubleField()
+    LeftFootPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sy = DoubleField()
+    LeftFootPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sz = DoubleField()
+    LeftFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky3SAttrOperator(
@@ -15432,11 +15432,11 @@ class LeftFootPinky3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky3Sx = DoubleField()
+    LeftFootPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sy = DoubleField()
+    LeftFootPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sz = DoubleField()
+    LeftFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky3SField(
@@ -15447,11 +15447,11 @@ class LeftFootPinky3SField(
     ATTR_CLS = LeftFootPinky3SAttrOperator
     PLUG_CLS = LeftFootPinky3SPlugOperator
 
-    LeftFootPinky3Sx = DoubleField()
+    LeftFootPinky3Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sy = DoubleField()
+    LeftFootPinky3Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky3Sz = DoubleField()
+    LeftFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky4TPlugOperator(
@@ -15464,11 +15464,11 @@ class LeftFootPinky4TPlugOperator(
         ("LeftFootPinky4Tz", "LeftFootPinky4Tz"),
     )
 
-    LeftFootPinky4Tx = DoubleLinearField()
+    LeftFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Ty = DoubleLinearField()
+    LeftFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Tz = DoubleLinearField()
+    LeftFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky4TAttrOperator(
@@ -15476,11 +15476,11 @@ class LeftFootPinky4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky4Tx = DoubleLinearField()
+    LeftFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Ty = DoubleLinearField()
+    LeftFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Tz = DoubleLinearField()
+    LeftFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky4TField(
@@ -15491,11 +15491,11 @@ class LeftFootPinky4TField(
     ATTR_CLS = LeftFootPinky4TAttrOperator
     PLUG_CLS = LeftFootPinky4TPlugOperator
 
-    LeftFootPinky4Tx = DoubleLinearField()
+    LeftFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Ty = DoubleLinearField()
+    LeftFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinky4Tz = DoubleLinearField()
+    LeftFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinky4RPlugOperator(
@@ -15508,11 +15508,11 @@ class LeftFootPinky4RPlugOperator(
         ("LeftFootPinky4Rz", "LeftFootPinky4Rz"),
     )
 
-    LeftFootPinky4Rx = DoubleAngleField()
+    LeftFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Ry = DoubleAngleField()
+    LeftFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Rz = DoubleAngleField()
+    LeftFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky4RAttrOperator(
@@ -15520,11 +15520,11 @@ class LeftFootPinky4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky4Rx = DoubleAngleField()
+    LeftFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Ry = DoubleAngleField()
+    LeftFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Rz = DoubleAngleField()
+    LeftFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky4RField(
@@ -15535,11 +15535,11 @@ class LeftFootPinky4RField(
     ATTR_CLS = LeftFootPinky4RAttrOperator
     PLUG_CLS = LeftFootPinky4RPlugOperator
 
-    LeftFootPinky4Rx = DoubleAngleField()
+    LeftFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Ry = DoubleAngleField()
+    LeftFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootPinky4Rz = DoubleAngleField()
+    LeftFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootPinky4SPlugOperator(
@@ -15552,11 +15552,11 @@ class LeftFootPinky4SPlugOperator(
         ("LeftFootPinky4Sz", "LeftFootPinky4Sz"),
     )
 
-    LeftFootPinky4Sx = DoubleField()
+    LeftFootPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sy = DoubleField()
+    LeftFootPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sz = DoubleField()
+    LeftFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky4SAttrOperator(
@@ -15564,11 +15564,11 @@ class LeftFootPinky4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinky4Sx = DoubleField()
+    LeftFootPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sy = DoubleField()
+    LeftFootPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sz = DoubleField()
+    LeftFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootPinky4SField(
@@ -15579,11 +15579,11 @@ class LeftFootPinky4SField(
     ATTR_CLS = LeftFootPinky4SAttrOperator
     PLUG_CLS = LeftFootPinky4SPlugOperator
 
-    LeftFootPinky4Sx = DoubleField()
+    LeftFootPinky4Sx = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sy = DoubleField()
+    LeftFootPinky4Sy = DoubleField(default_value=1.0)
 
-    LeftFootPinky4Sz = DoubleField()
+    LeftFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger1TPlugOperator(
@@ -15596,11 +15596,11 @@ class LeftFootExtraFinger1TPlugOperator(
         ("LeftFootExtraFinger1Tz", "LeftFootExtraFinger1Tz"),
     )
 
-    LeftFootExtraFinger1Tx = DoubleLinearField()
+    LeftFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Ty = DoubleLinearField()
+    LeftFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Tz = DoubleLinearField()
+    LeftFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger1TAttrOperator(
@@ -15608,11 +15608,11 @@ class LeftFootExtraFinger1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger1Tx = DoubleLinearField()
+    LeftFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Ty = DoubleLinearField()
+    LeftFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Tz = DoubleLinearField()
+    LeftFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger1TField(
@@ -15623,11 +15623,11 @@ class LeftFootExtraFinger1TField(
     ATTR_CLS = LeftFootExtraFinger1TAttrOperator
     PLUG_CLS = LeftFootExtraFinger1TPlugOperator
 
-    LeftFootExtraFinger1Tx = DoubleLinearField()
+    LeftFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Ty = DoubleLinearField()
+    LeftFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger1Tz = DoubleLinearField()
+    LeftFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger1RPlugOperator(
@@ -15640,11 +15640,11 @@ class LeftFootExtraFinger1RPlugOperator(
         ("LeftFootExtraFinger1Rz", "LeftFootExtraFinger1Rz"),
     )
 
-    LeftFootExtraFinger1Rx = DoubleAngleField()
+    LeftFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Ry = DoubleAngleField()
+    LeftFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Rz = DoubleAngleField()
+    LeftFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger1RAttrOperator(
@@ -15652,11 +15652,11 @@ class LeftFootExtraFinger1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger1Rx = DoubleAngleField()
+    LeftFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Ry = DoubleAngleField()
+    LeftFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Rz = DoubleAngleField()
+    LeftFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger1RField(
@@ -15667,11 +15667,11 @@ class LeftFootExtraFinger1RField(
     ATTR_CLS = LeftFootExtraFinger1RAttrOperator
     PLUG_CLS = LeftFootExtraFinger1RPlugOperator
 
-    LeftFootExtraFinger1Rx = DoubleAngleField()
+    LeftFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Ry = DoubleAngleField()
+    LeftFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger1Rz = DoubleAngleField()
+    LeftFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger1SPlugOperator(
@@ -15684,11 +15684,11 @@ class LeftFootExtraFinger1SPlugOperator(
         ("LeftFootExtraFinger1Sz", "LeftFootExtraFinger1Sz"),
     )
 
-    LeftFootExtraFinger1Sx = DoubleField()
+    LeftFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sy = DoubleField()
+    LeftFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sz = DoubleField()
+    LeftFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger1SAttrOperator(
@@ -15696,11 +15696,11 @@ class LeftFootExtraFinger1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger1Sx = DoubleField()
+    LeftFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sy = DoubleField()
+    LeftFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sz = DoubleField()
+    LeftFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger1SField(
@@ -15711,11 +15711,11 @@ class LeftFootExtraFinger1SField(
     ATTR_CLS = LeftFootExtraFinger1SAttrOperator
     PLUG_CLS = LeftFootExtraFinger1SPlugOperator
 
-    LeftFootExtraFinger1Sx = DoubleField()
+    LeftFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sy = DoubleField()
+    LeftFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger1Sz = DoubleField()
+    LeftFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger2TPlugOperator(
@@ -15728,11 +15728,11 @@ class LeftFootExtraFinger2TPlugOperator(
         ("LeftFootExtraFinger2Tz", "LeftFootExtraFinger2Tz"),
     )
 
-    LeftFootExtraFinger2Tx = DoubleLinearField()
+    LeftFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Ty = DoubleLinearField()
+    LeftFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Tz = DoubleLinearField()
+    LeftFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger2TAttrOperator(
@@ -15740,11 +15740,11 @@ class LeftFootExtraFinger2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger2Tx = DoubleLinearField()
+    LeftFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Ty = DoubleLinearField()
+    LeftFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Tz = DoubleLinearField()
+    LeftFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger2TField(
@@ -15755,11 +15755,11 @@ class LeftFootExtraFinger2TField(
     ATTR_CLS = LeftFootExtraFinger2TAttrOperator
     PLUG_CLS = LeftFootExtraFinger2TPlugOperator
 
-    LeftFootExtraFinger2Tx = DoubleLinearField()
+    LeftFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Ty = DoubleLinearField()
+    LeftFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger2Tz = DoubleLinearField()
+    LeftFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger2RPlugOperator(
@@ -15772,11 +15772,11 @@ class LeftFootExtraFinger2RPlugOperator(
         ("LeftFootExtraFinger2Rz", "LeftFootExtraFinger2Rz"),
     )
 
-    LeftFootExtraFinger2Rx = DoubleAngleField()
+    LeftFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Ry = DoubleAngleField()
+    LeftFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Rz = DoubleAngleField()
+    LeftFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger2RAttrOperator(
@@ -15784,11 +15784,11 @@ class LeftFootExtraFinger2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger2Rx = DoubleAngleField()
+    LeftFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Ry = DoubleAngleField()
+    LeftFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Rz = DoubleAngleField()
+    LeftFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger2RField(
@@ -15799,11 +15799,11 @@ class LeftFootExtraFinger2RField(
     ATTR_CLS = LeftFootExtraFinger2RAttrOperator
     PLUG_CLS = LeftFootExtraFinger2RPlugOperator
 
-    LeftFootExtraFinger2Rx = DoubleAngleField()
+    LeftFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Ry = DoubleAngleField()
+    LeftFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger2Rz = DoubleAngleField()
+    LeftFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger2SPlugOperator(
@@ -15816,11 +15816,11 @@ class LeftFootExtraFinger2SPlugOperator(
         ("LeftFootExtraFinger2Sz", "LeftFootExtraFinger2Sz"),
     )
 
-    LeftFootExtraFinger2Sx = DoubleField()
+    LeftFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sy = DoubleField()
+    LeftFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sz = DoubleField()
+    LeftFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger2SAttrOperator(
@@ -15828,11 +15828,11 @@ class LeftFootExtraFinger2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger2Sx = DoubleField()
+    LeftFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sy = DoubleField()
+    LeftFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sz = DoubleField()
+    LeftFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger2SField(
@@ -15843,11 +15843,11 @@ class LeftFootExtraFinger2SField(
     ATTR_CLS = LeftFootExtraFinger2SAttrOperator
     PLUG_CLS = LeftFootExtraFinger2SPlugOperator
 
-    LeftFootExtraFinger2Sx = DoubleField()
+    LeftFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sy = DoubleField()
+    LeftFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger2Sz = DoubleField()
+    LeftFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger3TPlugOperator(
@@ -15860,11 +15860,11 @@ class LeftFootExtraFinger3TPlugOperator(
         ("LeftFootExtraFinger3Tz", "LeftFootExtraFinger3Tz"),
     )
 
-    LeftFootExtraFinger3Tx = DoubleLinearField()
+    LeftFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Ty = DoubleLinearField()
+    LeftFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Tz = DoubleLinearField()
+    LeftFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger3TAttrOperator(
@@ -15872,11 +15872,11 @@ class LeftFootExtraFinger3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger3Tx = DoubleLinearField()
+    LeftFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Ty = DoubleLinearField()
+    LeftFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Tz = DoubleLinearField()
+    LeftFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger3TField(
@@ -15887,11 +15887,11 @@ class LeftFootExtraFinger3TField(
     ATTR_CLS = LeftFootExtraFinger3TAttrOperator
     PLUG_CLS = LeftFootExtraFinger3TPlugOperator
 
-    LeftFootExtraFinger3Tx = DoubleLinearField()
+    LeftFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Ty = DoubleLinearField()
+    LeftFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger3Tz = DoubleLinearField()
+    LeftFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger3RPlugOperator(
@@ -15904,11 +15904,11 @@ class LeftFootExtraFinger3RPlugOperator(
         ("LeftFootExtraFinger3Rz", "LeftFootExtraFinger3Rz"),
     )
 
-    LeftFootExtraFinger3Rx = DoubleAngleField()
+    LeftFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Ry = DoubleAngleField()
+    LeftFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Rz = DoubleAngleField()
+    LeftFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger3RAttrOperator(
@@ -15916,11 +15916,11 @@ class LeftFootExtraFinger3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger3Rx = DoubleAngleField()
+    LeftFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Ry = DoubleAngleField()
+    LeftFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Rz = DoubleAngleField()
+    LeftFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger3RField(
@@ -15931,11 +15931,11 @@ class LeftFootExtraFinger3RField(
     ATTR_CLS = LeftFootExtraFinger3RAttrOperator
     PLUG_CLS = LeftFootExtraFinger3RPlugOperator
 
-    LeftFootExtraFinger3Rx = DoubleAngleField()
+    LeftFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Ry = DoubleAngleField()
+    LeftFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger3Rz = DoubleAngleField()
+    LeftFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger3SPlugOperator(
@@ -15948,11 +15948,11 @@ class LeftFootExtraFinger3SPlugOperator(
         ("LeftFootExtraFinger3Sz", "LeftFootExtraFinger3Sz"),
     )
 
-    LeftFootExtraFinger3Sx = DoubleField()
+    LeftFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sy = DoubleField()
+    LeftFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sz = DoubleField()
+    LeftFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger3SAttrOperator(
@@ -15960,11 +15960,11 @@ class LeftFootExtraFinger3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger3Sx = DoubleField()
+    LeftFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sy = DoubleField()
+    LeftFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sz = DoubleField()
+    LeftFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger3SField(
@@ -15975,11 +15975,11 @@ class LeftFootExtraFinger3SField(
     ATTR_CLS = LeftFootExtraFinger3SAttrOperator
     PLUG_CLS = LeftFootExtraFinger3SPlugOperator
 
-    LeftFootExtraFinger3Sx = DoubleField()
+    LeftFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sy = DoubleField()
+    LeftFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger3Sz = DoubleField()
+    LeftFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger4TPlugOperator(
@@ -15992,11 +15992,11 @@ class LeftFootExtraFinger4TPlugOperator(
         ("LeftFootExtraFinger4Tz", "LeftFootExtraFinger4Tz"),
     )
 
-    LeftFootExtraFinger4Tx = DoubleLinearField()
+    LeftFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Ty = DoubleLinearField()
+    LeftFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Tz = DoubleLinearField()
+    LeftFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger4TAttrOperator(
@@ -16004,11 +16004,11 @@ class LeftFootExtraFinger4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger4Tx = DoubleLinearField()
+    LeftFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Ty = DoubleLinearField()
+    LeftFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Tz = DoubleLinearField()
+    LeftFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger4TField(
@@ -16019,11 +16019,11 @@ class LeftFootExtraFinger4TField(
     ATTR_CLS = LeftFootExtraFinger4TAttrOperator
     PLUG_CLS = LeftFootExtraFinger4TPlugOperator
 
-    LeftFootExtraFinger4Tx = DoubleLinearField()
+    LeftFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Ty = DoubleLinearField()
+    LeftFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFinger4Tz = DoubleLinearField()
+    LeftFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFinger4RPlugOperator(
@@ -16036,11 +16036,11 @@ class LeftFootExtraFinger4RPlugOperator(
         ("LeftFootExtraFinger4Rz", "LeftFootExtraFinger4Rz"),
     )
 
-    LeftFootExtraFinger4Rx = DoubleAngleField()
+    LeftFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Ry = DoubleAngleField()
+    LeftFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Rz = DoubleAngleField()
+    LeftFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger4RAttrOperator(
@@ -16048,11 +16048,11 @@ class LeftFootExtraFinger4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger4Rx = DoubleAngleField()
+    LeftFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Ry = DoubleAngleField()
+    LeftFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Rz = DoubleAngleField()
+    LeftFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger4RField(
@@ -16063,11 +16063,11 @@ class LeftFootExtraFinger4RField(
     ATTR_CLS = LeftFootExtraFinger4RAttrOperator
     PLUG_CLS = LeftFootExtraFinger4RPlugOperator
 
-    LeftFootExtraFinger4Rx = DoubleAngleField()
+    LeftFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Ry = DoubleAngleField()
+    LeftFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    LeftFootExtraFinger4Rz = DoubleAngleField()
+    LeftFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeftFootExtraFinger4SPlugOperator(
@@ -16080,11 +16080,11 @@ class LeftFootExtraFinger4SPlugOperator(
         ("LeftFootExtraFinger4Sz", "LeftFootExtraFinger4Sz"),
     )
 
-    LeftFootExtraFinger4Sx = DoubleField()
+    LeftFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sy = DoubleField()
+    LeftFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sz = DoubleField()
+    LeftFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger4SAttrOperator(
@@ -16092,11 +16092,11 @@ class LeftFootExtraFinger4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFinger4Sx = DoubleField()
+    LeftFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sy = DoubleField()
+    LeftFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sz = DoubleField()
+    LeftFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftFootExtraFinger4SField(
@@ -16107,11 +16107,11 @@ class LeftFootExtraFinger4SField(
     ATTR_CLS = LeftFootExtraFinger4SAttrOperator
     PLUG_CLS = LeftFootExtraFinger4SPlugOperator
 
-    LeftFootExtraFinger4Sx = DoubleField()
+    LeftFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sy = DoubleField()
+    LeftFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    LeftFootExtraFinger4Sz = DoubleField()
+    LeftFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb1TPlugOperator(
@@ -16124,11 +16124,11 @@ class RightFootThumb1TPlugOperator(
         ("RightFootThumb1Tz", "RightFootThumb1Tz"),
     )
 
-    RightFootThumb1Tx = DoubleLinearField()
+    RightFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Ty = DoubleLinearField()
+    RightFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Tz = DoubleLinearField()
+    RightFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb1TAttrOperator(
@@ -16136,11 +16136,11 @@ class RightFootThumb1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb1Tx = DoubleLinearField()
+    RightFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Ty = DoubleLinearField()
+    RightFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Tz = DoubleLinearField()
+    RightFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb1TField(
@@ -16151,11 +16151,11 @@ class RightFootThumb1TField(
     ATTR_CLS = RightFootThumb1TAttrOperator
     PLUG_CLS = RightFootThumb1TPlugOperator
 
-    RightFootThumb1Tx = DoubleLinearField()
+    RightFootThumb1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Ty = DoubleLinearField()
+    RightFootThumb1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb1Tz = DoubleLinearField()
+    RightFootThumb1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb1RPlugOperator(
@@ -16168,11 +16168,11 @@ class RightFootThumb1RPlugOperator(
         ("RightFootThumb1Rz", "RightFootThumb1Rz"),
     )
 
-    RightFootThumb1Rx = DoubleAngleField()
+    RightFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Ry = DoubleAngleField()
+    RightFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Rz = DoubleAngleField()
+    RightFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb1RAttrOperator(
@@ -16180,11 +16180,11 @@ class RightFootThumb1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb1Rx = DoubleAngleField()
+    RightFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Ry = DoubleAngleField()
+    RightFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Rz = DoubleAngleField()
+    RightFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb1RField(
@@ -16195,11 +16195,11 @@ class RightFootThumb1RField(
     ATTR_CLS = RightFootThumb1RAttrOperator
     PLUG_CLS = RightFootThumb1RPlugOperator
 
-    RightFootThumb1Rx = DoubleAngleField()
+    RightFootThumb1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Ry = DoubleAngleField()
+    RightFootThumb1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb1Rz = DoubleAngleField()
+    RightFootThumb1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb1SPlugOperator(
@@ -16212,11 +16212,11 @@ class RightFootThumb1SPlugOperator(
         ("RightFootThumb1Sz", "RightFootThumb1Sz"),
     )
 
-    RightFootThumb1Sx = DoubleField()
+    RightFootThumb1Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sy = DoubleField()
+    RightFootThumb1Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sz = DoubleField()
+    RightFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb1SAttrOperator(
@@ -16224,11 +16224,11 @@ class RightFootThumb1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb1Sx = DoubleField()
+    RightFootThumb1Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sy = DoubleField()
+    RightFootThumb1Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sz = DoubleField()
+    RightFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb1SField(
@@ -16239,11 +16239,11 @@ class RightFootThumb1SField(
     ATTR_CLS = RightFootThumb1SAttrOperator
     PLUG_CLS = RightFootThumb1SPlugOperator
 
-    RightFootThumb1Sx = DoubleField()
+    RightFootThumb1Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sy = DoubleField()
+    RightFootThumb1Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb1Sz = DoubleField()
+    RightFootThumb1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb2TPlugOperator(
@@ -16256,11 +16256,11 @@ class RightFootThumb2TPlugOperator(
         ("RightFootThumb2Tz", "RightFootThumb2Tz"),
     )
 
-    RightFootThumb2Tx = DoubleLinearField()
+    RightFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Ty = DoubleLinearField()
+    RightFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Tz = DoubleLinearField()
+    RightFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb2TAttrOperator(
@@ -16268,11 +16268,11 @@ class RightFootThumb2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb2Tx = DoubleLinearField()
+    RightFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Ty = DoubleLinearField()
+    RightFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Tz = DoubleLinearField()
+    RightFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb2TField(
@@ -16283,11 +16283,11 @@ class RightFootThumb2TField(
     ATTR_CLS = RightFootThumb2TAttrOperator
     PLUG_CLS = RightFootThumb2TPlugOperator
 
-    RightFootThumb2Tx = DoubleLinearField()
+    RightFootThumb2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Ty = DoubleLinearField()
+    RightFootThumb2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb2Tz = DoubleLinearField()
+    RightFootThumb2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb2RPlugOperator(
@@ -16300,11 +16300,11 @@ class RightFootThumb2RPlugOperator(
         ("RightFootThumb2Rz", "RightFootThumb2Rz"),
     )
 
-    RightFootThumb2Rx = DoubleAngleField()
+    RightFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Ry = DoubleAngleField()
+    RightFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Rz = DoubleAngleField()
+    RightFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb2RAttrOperator(
@@ -16312,11 +16312,11 @@ class RightFootThumb2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb2Rx = DoubleAngleField()
+    RightFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Ry = DoubleAngleField()
+    RightFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Rz = DoubleAngleField()
+    RightFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb2RField(
@@ -16327,11 +16327,11 @@ class RightFootThumb2RField(
     ATTR_CLS = RightFootThumb2RAttrOperator
     PLUG_CLS = RightFootThumb2RPlugOperator
 
-    RightFootThumb2Rx = DoubleAngleField()
+    RightFootThumb2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Ry = DoubleAngleField()
+    RightFootThumb2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb2Rz = DoubleAngleField()
+    RightFootThumb2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb2SPlugOperator(
@@ -16344,11 +16344,11 @@ class RightFootThumb2SPlugOperator(
         ("RightFootThumb2Sz", "RightFootThumb2Sz"),
     )
 
-    RightFootThumb2Sx = DoubleField()
+    RightFootThumb2Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sy = DoubleField()
+    RightFootThumb2Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sz = DoubleField()
+    RightFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb2SAttrOperator(
@@ -16356,11 +16356,11 @@ class RightFootThumb2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb2Sx = DoubleField()
+    RightFootThumb2Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sy = DoubleField()
+    RightFootThumb2Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sz = DoubleField()
+    RightFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb2SField(
@@ -16371,11 +16371,11 @@ class RightFootThumb2SField(
     ATTR_CLS = RightFootThumb2SAttrOperator
     PLUG_CLS = RightFootThumb2SPlugOperator
 
-    RightFootThumb2Sx = DoubleField()
+    RightFootThumb2Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sy = DoubleField()
+    RightFootThumb2Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb2Sz = DoubleField()
+    RightFootThumb2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb3TPlugOperator(
@@ -16388,11 +16388,11 @@ class RightFootThumb3TPlugOperator(
         ("RightFootThumb3Tz", "RightFootThumb3Tz"),
     )
 
-    RightFootThumb3Tx = DoubleLinearField()
+    RightFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Ty = DoubleLinearField()
+    RightFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Tz = DoubleLinearField()
+    RightFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb3TAttrOperator(
@@ -16400,11 +16400,11 @@ class RightFootThumb3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb3Tx = DoubleLinearField()
+    RightFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Ty = DoubleLinearField()
+    RightFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Tz = DoubleLinearField()
+    RightFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb3TField(
@@ -16415,11 +16415,11 @@ class RightFootThumb3TField(
     ATTR_CLS = RightFootThumb3TAttrOperator
     PLUG_CLS = RightFootThumb3TPlugOperator
 
-    RightFootThumb3Tx = DoubleLinearField()
+    RightFootThumb3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Ty = DoubleLinearField()
+    RightFootThumb3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb3Tz = DoubleLinearField()
+    RightFootThumb3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb3RPlugOperator(
@@ -16432,11 +16432,11 @@ class RightFootThumb3RPlugOperator(
         ("RightFootThumb3Rz", "RightFootThumb3Rz"),
     )
 
-    RightFootThumb3Rx = DoubleAngleField()
+    RightFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Ry = DoubleAngleField()
+    RightFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Rz = DoubleAngleField()
+    RightFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb3RAttrOperator(
@@ -16444,11 +16444,11 @@ class RightFootThumb3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb3Rx = DoubleAngleField()
+    RightFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Ry = DoubleAngleField()
+    RightFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Rz = DoubleAngleField()
+    RightFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb3RField(
@@ -16459,11 +16459,11 @@ class RightFootThumb3RField(
     ATTR_CLS = RightFootThumb3RAttrOperator
     PLUG_CLS = RightFootThumb3RPlugOperator
 
-    RightFootThumb3Rx = DoubleAngleField()
+    RightFootThumb3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Ry = DoubleAngleField()
+    RightFootThumb3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb3Rz = DoubleAngleField()
+    RightFootThumb3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb3SPlugOperator(
@@ -16476,11 +16476,11 @@ class RightFootThumb3SPlugOperator(
         ("RightFootThumb3Sz", "RightFootThumb3Sz"),
     )
 
-    RightFootThumb3Sx = DoubleField()
+    RightFootThumb3Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sy = DoubleField()
+    RightFootThumb3Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sz = DoubleField()
+    RightFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb3SAttrOperator(
@@ -16488,11 +16488,11 @@ class RightFootThumb3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb3Sx = DoubleField()
+    RightFootThumb3Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sy = DoubleField()
+    RightFootThumb3Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sz = DoubleField()
+    RightFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb3SField(
@@ -16503,11 +16503,11 @@ class RightFootThumb3SField(
     ATTR_CLS = RightFootThumb3SAttrOperator
     PLUG_CLS = RightFootThumb3SPlugOperator
 
-    RightFootThumb3Sx = DoubleField()
+    RightFootThumb3Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sy = DoubleField()
+    RightFootThumb3Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb3Sz = DoubleField()
+    RightFootThumb3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb4TPlugOperator(
@@ -16520,11 +16520,11 @@ class RightFootThumb4TPlugOperator(
         ("RightFootThumb4Tz", "RightFootThumb4Tz"),
     )
 
-    RightFootThumb4Tx = DoubleLinearField()
+    RightFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Ty = DoubleLinearField()
+    RightFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Tz = DoubleLinearField()
+    RightFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb4TAttrOperator(
@@ -16532,11 +16532,11 @@ class RightFootThumb4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb4Tx = DoubleLinearField()
+    RightFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Ty = DoubleLinearField()
+    RightFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Tz = DoubleLinearField()
+    RightFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb4TField(
@@ -16547,11 +16547,11 @@ class RightFootThumb4TField(
     ATTR_CLS = RightFootThumb4TAttrOperator
     PLUG_CLS = RightFootThumb4TPlugOperator
 
-    RightFootThumb4Tx = DoubleLinearField()
+    RightFootThumb4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Ty = DoubleLinearField()
+    RightFootThumb4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootThumb4Tz = DoubleLinearField()
+    RightFootThumb4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumb4RPlugOperator(
@@ -16564,11 +16564,11 @@ class RightFootThumb4RPlugOperator(
         ("RightFootThumb4Rz", "RightFootThumb4Rz"),
     )
 
-    RightFootThumb4Rx = DoubleAngleField()
+    RightFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Ry = DoubleAngleField()
+    RightFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Rz = DoubleAngleField()
+    RightFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb4RAttrOperator(
@@ -16576,11 +16576,11 @@ class RightFootThumb4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb4Rx = DoubleAngleField()
+    RightFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Ry = DoubleAngleField()
+    RightFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Rz = DoubleAngleField()
+    RightFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb4RField(
@@ -16591,11 +16591,11 @@ class RightFootThumb4RField(
     ATTR_CLS = RightFootThumb4RAttrOperator
     PLUG_CLS = RightFootThumb4RPlugOperator
 
-    RightFootThumb4Rx = DoubleAngleField()
+    RightFootThumb4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Ry = DoubleAngleField()
+    RightFootThumb4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootThumb4Rz = DoubleAngleField()
+    RightFootThumb4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootThumb4SPlugOperator(
@@ -16608,11 +16608,11 @@ class RightFootThumb4SPlugOperator(
         ("RightFootThumb4Sz", "RightFootThumb4Sz"),
     )
 
-    RightFootThumb4Sx = DoubleField()
+    RightFootThumb4Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sy = DoubleField()
+    RightFootThumb4Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sz = DoubleField()
+    RightFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb4SAttrOperator(
@@ -16620,11 +16620,11 @@ class RightFootThumb4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumb4Sx = DoubleField()
+    RightFootThumb4Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sy = DoubleField()
+    RightFootThumb4Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sz = DoubleField()
+    RightFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootThumb4SField(
@@ -16635,11 +16635,11 @@ class RightFootThumb4SField(
     ATTR_CLS = RightFootThumb4SAttrOperator
     PLUG_CLS = RightFootThumb4SPlugOperator
 
-    RightFootThumb4Sx = DoubleField()
+    RightFootThumb4Sx = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sy = DoubleField()
+    RightFootThumb4Sy = DoubleField(default_value=1.0)
 
-    RightFootThumb4Sz = DoubleField()
+    RightFootThumb4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex1TPlugOperator(
@@ -16652,11 +16652,11 @@ class RightFootIndex1TPlugOperator(
         ("RightFootIndex1Tz", "RightFootIndex1Tz"),
     )
 
-    RightFootIndex1Tx = DoubleLinearField()
+    RightFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Ty = DoubleLinearField()
+    RightFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Tz = DoubleLinearField()
+    RightFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex1TAttrOperator(
@@ -16664,11 +16664,11 @@ class RightFootIndex1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex1Tx = DoubleLinearField()
+    RightFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Ty = DoubleLinearField()
+    RightFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Tz = DoubleLinearField()
+    RightFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex1TField(
@@ -16679,11 +16679,11 @@ class RightFootIndex1TField(
     ATTR_CLS = RightFootIndex1TAttrOperator
     PLUG_CLS = RightFootIndex1TPlugOperator
 
-    RightFootIndex1Tx = DoubleLinearField()
+    RightFootIndex1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Ty = DoubleLinearField()
+    RightFootIndex1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex1Tz = DoubleLinearField()
+    RightFootIndex1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex1RPlugOperator(
@@ -16696,11 +16696,11 @@ class RightFootIndex1RPlugOperator(
         ("RightFootIndex1Rz", "RightFootIndex1Rz"),
     )
 
-    RightFootIndex1Rx = DoubleAngleField()
+    RightFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Ry = DoubleAngleField()
+    RightFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Rz = DoubleAngleField()
+    RightFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex1RAttrOperator(
@@ -16708,11 +16708,11 @@ class RightFootIndex1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex1Rx = DoubleAngleField()
+    RightFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Ry = DoubleAngleField()
+    RightFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Rz = DoubleAngleField()
+    RightFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex1RField(
@@ -16723,11 +16723,11 @@ class RightFootIndex1RField(
     ATTR_CLS = RightFootIndex1RAttrOperator
     PLUG_CLS = RightFootIndex1RPlugOperator
 
-    RightFootIndex1Rx = DoubleAngleField()
+    RightFootIndex1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Ry = DoubleAngleField()
+    RightFootIndex1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex1Rz = DoubleAngleField()
+    RightFootIndex1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex1SPlugOperator(
@@ -16740,11 +16740,11 @@ class RightFootIndex1SPlugOperator(
         ("RightFootIndex1Sz", "RightFootIndex1Sz"),
     )
 
-    RightFootIndex1Sx = DoubleField()
+    RightFootIndex1Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sy = DoubleField()
+    RightFootIndex1Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sz = DoubleField()
+    RightFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex1SAttrOperator(
@@ -16752,11 +16752,11 @@ class RightFootIndex1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex1Sx = DoubleField()
+    RightFootIndex1Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sy = DoubleField()
+    RightFootIndex1Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sz = DoubleField()
+    RightFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex1SField(
@@ -16767,11 +16767,11 @@ class RightFootIndex1SField(
     ATTR_CLS = RightFootIndex1SAttrOperator
     PLUG_CLS = RightFootIndex1SPlugOperator
 
-    RightFootIndex1Sx = DoubleField()
+    RightFootIndex1Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sy = DoubleField()
+    RightFootIndex1Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex1Sz = DoubleField()
+    RightFootIndex1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex2TPlugOperator(
@@ -16784,11 +16784,11 @@ class RightFootIndex2TPlugOperator(
         ("RightFootIndex2Tz", "RightFootIndex2Tz"),
     )
 
-    RightFootIndex2Tx = DoubleLinearField()
+    RightFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Ty = DoubleLinearField()
+    RightFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Tz = DoubleLinearField()
+    RightFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex2TAttrOperator(
@@ -16796,11 +16796,11 @@ class RightFootIndex2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex2Tx = DoubleLinearField()
+    RightFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Ty = DoubleLinearField()
+    RightFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Tz = DoubleLinearField()
+    RightFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex2TField(
@@ -16811,11 +16811,11 @@ class RightFootIndex2TField(
     ATTR_CLS = RightFootIndex2TAttrOperator
     PLUG_CLS = RightFootIndex2TPlugOperator
 
-    RightFootIndex2Tx = DoubleLinearField()
+    RightFootIndex2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Ty = DoubleLinearField()
+    RightFootIndex2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex2Tz = DoubleLinearField()
+    RightFootIndex2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex2RPlugOperator(
@@ -16828,11 +16828,11 @@ class RightFootIndex2RPlugOperator(
         ("RightFootIndex2Rz", "RightFootIndex2Rz"),
     )
 
-    RightFootIndex2Rx = DoubleAngleField()
+    RightFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Ry = DoubleAngleField()
+    RightFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Rz = DoubleAngleField()
+    RightFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex2RAttrOperator(
@@ -16840,11 +16840,11 @@ class RightFootIndex2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex2Rx = DoubleAngleField()
+    RightFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Ry = DoubleAngleField()
+    RightFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Rz = DoubleAngleField()
+    RightFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex2RField(
@@ -16855,11 +16855,11 @@ class RightFootIndex2RField(
     ATTR_CLS = RightFootIndex2RAttrOperator
     PLUG_CLS = RightFootIndex2RPlugOperator
 
-    RightFootIndex2Rx = DoubleAngleField()
+    RightFootIndex2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Ry = DoubleAngleField()
+    RightFootIndex2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex2Rz = DoubleAngleField()
+    RightFootIndex2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex2SPlugOperator(
@@ -16872,11 +16872,11 @@ class RightFootIndex2SPlugOperator(
         ("RightFootIndex2Sz", "RightFootIndex2Sz"),
     )
 
-    RightFootIndex2Sx = DoubleField()
+    RightFootIndex2Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sy = DoubleField()
+    RightFootIndex2Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sz = DoubleField()
+    RightFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex2SAttrOperator(
@@ -16884,11 +16884,11 @@ class RightFootIndex2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex2Sx = DoubleField()
+    RightFootIndex2Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sy = DoubleField()
+    RightFootIndex2Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sz = DoubleField()
+    RightFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex2SField(
@@ -16899,11 +16899,11 @@ class RightFootIndex2SField(
     ATTR_CLS = RightFootIndex2SAttrOperator
     PLUG_CLS = RightFootIndex2SPlugOperator
 
-    RightFootIndex2Sx = DoubleField()
+    RightFootIndex2Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sy = DoubleField()
+    RightFootIndex2Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex2Sz = DoubleField()
+    RightFootIndex2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex3TPlugOperator(
@@ -16916,11 +16916,11 @@ class RightFootIndex3TPlugOperator(
         ("RightFootIndex3Tz", "RightFootIndex3Tz"),
     )
 
-    RightFootIndex3Tx = DoubleLinearField()
+    RightFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Ty = DoubleLinearField()
+    RightFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Tz = DoubleLinearField()
+    RightFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex3TAttrOperator(
@@ -16928,11 +16928,11 @@ class RightFootIndex3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex3Tx = DoubleLinearField()
+    RightFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Ty = DoubleLinearField()
+    RightFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Tz = DoubleLinearField()
+    RightFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex3TField(
@@ -16943,11 +16943,11 @@ class RightFootIndex3TField(
     ATTR_CLS = RightFootIndex3TAttrOperator
     PLUG_CLS = RightFootIndex3TPlugOperator
 
-    RightFootIndex3Tx = DoubleLinearField()
+    RightFootIndex3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Ty = DoubleLinearField()
+    RightFootIndex3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex3Tz = DoubleLinearField()
+    RightFootIndex3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex3RPlugOperator(
@@ -16960,11 +16960,11 @@ class RightFootIndex3RPlugOperator(
         ("RightFootIndex3Rz", "RightFootIndex3Rz"),
     )
 
-    RightFootIndex3Rx = DoubleAngleField()
+    RightFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Ry = DoubleAngleField()
+    RightFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Rz = DoubleAngleField()
+    RightFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex3RAttrOperator(
@@ -16972,11 +16972,11 @@ class RightFootIndex3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex3Rx = DoubleAngleField()
+    RightFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Ry = DoubleAngleField()
+    RightFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Rz = DoubleAngleField()
+    RightFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex3RField(
@@ -16987,11 +16987,11 @@ class RightFootIndex3RField(
     ATTR_CLS = RightFootIndex3RAttrOperator
     PLUG_CLS = RightFootIndex3RPlugOperator
 
-    RightFootIndex3Rx = DoubleAngleField()
+    RightFootIndex3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Ry = DoubleAngleField()
+    RightFootIndex3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex3Rz = DoubleAngleField()
+    RightFootIndex3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex3SPlugOperator(
@@ -17004,11 +17004,11 @@ class RightFootIndex3SPlugOperator(
         ("RightFootIndex3Sz", "RightFootIndex3Sz"),
     )
 
-    RightFootIndex3Sx = DoubleField()
+    RightFootIndex3Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sy = DoubleField()
+    RightFootIndex3Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sz = DoubleField()
+    RightFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex3SAttrOperator(
@@ -17016,11 +17016,11 @@ class RightFootIndex3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex3Sx = DoubleField()
+    RightFootIndex3Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sy = DoubleField()
+    RightFootIndex3Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sz = DoubleField()
+    RightFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex3SField(
@@ -17031,11 +17031,11 @@ class RightFootIndex3SField(
     ATTR_CLS = RightFootIndex3SAttrOperator
     PLUG_CLS = RightFootIndex3SPlugOperator
 
-    RightFootIndex3Sx = DoubleField()
+    RightFootIndex3Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sy = DoubleField()
+    RightFootIndex3Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex3Sz = DoubleField()
+    RightFootIndex3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex4TPlugOperator(
@@ -17048,11 +17048,11 @@ class RightFootIndex4TPlugOperator(
         ("RightFootIndex4Tz", "RightFootIndex4Tz"),
     )
 
-    RightFootIndex4Tx = DoubleLinearField()
+    RightFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Ty = DoubleLinearField()
+    RightFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Tz = DoubleLinearField()
+    RightFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex4TAttrOperator(
@@ -17060,11 +17060,11 @@ class RightFootIndex4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex4Tx = DoubleLinearField()
+    RightFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Ty = DoubleLinearField()
+    RightFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Tz = DoubleLinearField()
+    RightFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex4TField(
@@ -17075,11 +17075,11 @@ class RightFootIndex4TField(
     ATTR_CLS = RightFootIndex4TAttrOperator
     PLUG_CLS = RightFootIndex4TPlugOperator
 
-    RightFootIndex4Tx = DoubleLinearField()
+    RightFootIndex4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Ty = DoubleLinearField()
+    RightFootIndex4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootIndex4Tz = DoubleLinearField()
+    RightFootIndex4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndex4RPlugOperator(
@@ -17092,11 +17092,11 @@ class RightFootIndex4RPlugOperator(
         ("RightFootIndex4Rz", "RightFootIndex4Rz"),
     )
 
-    RightFootIndex4Rx = DoubleAngleField()
+    RightFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Ry = DoubleAngleField()
+    RightFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Rz = DoubleAngleField()
+    RightFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex4RAttrOperator(
@@ -17104,11 +17104,11 @@ class RightFootIndex4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex4Rx = DoubleAngleField()
+    RightFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Ry = DoubleAngleField()
+    RightFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Rz = DoubleAngleField()
+    RightFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex4RField(
@@ -17119,11 +17119,11 @@ class RightFootIndex4RField(
     ATTR_CLS = RightFootIndex4RAttrOperator
     PLUG_CLS = RightFootIndex4RPlugOperator
 
-    RightFootIndex4Rx = DoubleAngleField()
+    RightFootIndex4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Ry = DoubleAngleField()
+    RightFootIndex4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootIndex4Rz = DoubleAngleField()
+    RightFootIndex4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootIndex4SPlugOperator(
@@ -17136,11 +17136,11 @@ class RightFootIndex4SPlugOperator(
         ("RightFootIndex4Sz", "RightFootIndex4Sz"),
     )
 
-    RightFootIndex4Sx = DoubleField()
+    RightFootIndex4Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sy = DoubleField()
+    RightFootIndex4Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sz = DoubleField()
+    RightFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex4SAttrOperator(
@@ -17148,11 +17148,11 @@ class RightFootIndex4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndex4Sx = DoubleField()
+    RightFootIndex4Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sy = DoubleField()
+    RightFootIndex4Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sz = DoubleField()
+    RightFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootIndex4SField(
@@ -17163,11 +17163,11 @@ class RightFootIndex4SField(
     ATTR_CLS = RightFootIndex4SAttrOperator
     PLUG_CLS = RightFootIndex4SPlugOperator
 
-    RightFootIndex4Sx = DoubleField()
+    RightFootIndex4Sx = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sy = DoubleField()
+    RightFootIndex4Sy = DoubleField(default_value=1.0)
 
-    RightFootIndex4Sz = DoubleField()
+    RightFootIndex4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle1TPlugOperator(
@@ -17180,11 +17180,11 @@ class RightFootMiddle1TPlugOperator(
         ("RightFootMiddle1Tz", "RightFootMiddle1Tz"),
     )
 
-    RightFootMiddle1Tx = DoubleLinearField()
+    RightFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Ty = DoubleLinearField()
+    RightFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Tz = DoubleLinearField()
+    RightFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle1TAttrOperator(
@@ -17192,11 +17192,11 @@ class RightFootMiddle1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle1Tx = DoubleLinearField()
+    RightFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Ty = DoubleLinearField()
+    RightFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Tz = DoubleLinearField()
+    RightFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle1TField(
@@ -17207,11 +17207,11 @@ class RightFootMiddle1TField(
     ATTR_CLS = RightFootMiddle1TAttrOperator
     PLUG_CLS = RightFootMiddle1TPlugOperator
 
-    RightFootMiddle1Tx = DoubleLinearField()
+    RightFootMiddle1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Ty = DoubleLinearField()
+    RightFootMiddle1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle1Tz = DoubleLinearField()
+    RightFootMiddle1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle1RPlugOperator(
@@ -17224,11 +17224,11 @@ class RightFootMiddle1RPlugOperator(
         ("RightFootMiddle1Rz", "RightFootMiddle1Rz"),
     )
 
-    RightFootMiddle1Rx = DoubleAngleField()
+    RightFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Ry = DoubleAngleField()
+    RightFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Rz = DoubleAngleField()
+    RightFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle1RAttrOperator(
@@ -17236,11 +17236,11 @@ class RightFootMiddle1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle1Rx = DoubleAngleField()
+    RightFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Ry = DoubleAngleField()
+    RightFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Rz = DoubleAngleField()
+    RightFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle1RField(
@@ -17251,11 +17251,11 @@ class RightFootMiddle1RField(
     ATTR_CLS = RightFootMiddle1RAttrOperator
     PLUG_CLS = RightFootMiddle1RPlugOperator
 
-    RightFootMiddle1Rx = DoubleAngleField()
+    RightFootMiddle1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Ry = DoubleAngleField()
+    RightFootMiddle1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle1Rz = DoubleAngleField()
+    RightFootMiddle1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle1SPlugOperator(
@@ -17268,11 +17268,11 @@ class RightFootMiddle1SPlugOperator(
         ("RightFootMiddle1Sz", "RightFootMiddle1Sz"),
     )
 
-    RightFootMiddle1Sx = DoubleField()
+    RightFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sy = DoubleField()
+    RightFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sz = DoubleField()
+    RightFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle1SAttrOperator(
@@ -17280,11 +17280,11 @@ class RightFootMiddle1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle1Sx = DoubleField()
+    RightFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sy = DoubleField()
+    RightFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sz = DoubleField()
+    RightFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle1SField(
@@ -17295,11 +17295,11 @@ class RightFootMiddle1SField(
     ATTR_CLS = RightFootMiddle1SAttrOperator
     PLUG_CLS = RightFootMiddle1SPlugOperator
 
-    RightFootMiddle1Sx = DoubleField()
+    RightFootMiddle1Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sy = DoubleField()
+    RightFootMiddle1Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle1Sz = DoubleField()
+    RightFootMiddle1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle2TPlugOperator(
@@ -17312,11 +17312,11 @@ class RightFootMiddle2TPlugOperator(
         ("RightFootMiddle2Tz", "RightFootMiddle2Tz"),
     )
 
-    RightFootMiddle2Tx = DoubleLinearField()
+    RightFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Ty = DoubleLinearField()
+    RightFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Tz = DoubleLinearField()
+    RightFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle2TAttrOperator(
@@ -17324,11 +17324,11 @@ class RightFootMiddle2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle2Tx = DoubleLinearField()
+    RightFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Ty = DoubleLinearField()
+    RightFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Tz = DoubleLinearField()
+    RightFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle2TField(
@@ -17339,11 +17339,11 @@ class RightFootMiddle2TField(
     ATTR_CLS = RightFootMiddle2TAttrOperator
     PLUG_CLS = RightFootMiddle2TPlugOperator
 
-    RightFootMiddle2Tx = DoubleLinearField()
+    RightFootMiddle2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Ty = DoubleLinearField()
+    RightFootMiddle2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle2Tz = DoubleLinearField()
+    RightFootMiddle2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle2RPlugOperator(
@@ -17356,11 +17356,11 @@ class RightFootMiddle2RPlugOperator(
         ("RightFootMiddle2Rz", "RightFootMiddle2Rz"),
     )
 
-    RightFootMiddle2Rx = DoubleAngleField()
+    RightFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Ry = DoubleAngleField()
+    RightFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Rz = DoubleAngleField()
+    RightFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle2RAttrOperator(
@@ -17368,11 +17368,11 @@ class RightFootMiddle2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle2Rx = DoubleAngleField()
+    RightFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Ry = DoubleAngleField()
+    RightFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Rz = DoubleAngleField()
+    RightFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle2RField(
@@ -17383,11 +17383,11 @@ class RightFootMiddle2RField(
     ATTR_CLS = RightFootMiddle2RAttrOperator
     PLUG_CLS = RightFootMiddle2RPlugOperator
 
-    RightFootMiddle2Rx = DoubleAngleField()
+    RightFootMiddle2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Ry = DoubleAngleField()
+    RightFootMiddle2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle2Rz = DoubleAngleField()
+    RightFootMiddle2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle2SPlugOperator(
@@ -17400,11 +17400,11 @@ class RightFootMiddle2SPlugOperator(
         ("RightFootMiddle2Sz", "RightFootMiddle2Sz"),
     )
 
-    RightFootMiddle2Sx = DoubleField()
+    RightFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sy = DoubleField()
+    RightFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sz = DoubleField()
+    RightFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle2SAttrOperator(
@@ -17412,11 +17412,11 @@ class RightFootMiddle2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle2Sx = DoubleField()
+    RightFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sy = DoubleField()
+    RightFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sz = DoubleField()
+    RightFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle2SField(
@@ -17427,11 +17427,11 @@ class RightFootMiddle2SField(
     ATTR_CLS = RightFootMiddle2SAttrOperator
     PLUG_CLS = RightFootMiddle2SPlugOperator
 
-    RightFootMiddle2Sx = DoubleField()
+    RightFootMiddle2Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sy = DoubleField()
+    RightFootMiddle2Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle2Sz = DoubleField()
+    RightFootMiddle2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle3TPlugOperator(
@@ -17444,11 +17444,11 @@ class RightFootMiddle3TPlugOperator(
         ("RightFootMiddle3Tz", "RightFootMiddle3Tz"),
     )
 
-    RightFootMiddle3Tx = DoubleLinearField()
+    RightFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Ty = DoubleLinearField()
+    RightFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Tz = DoubleLinearField()
+    RightFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle3TAttrOperator(
@@ -17456,11 +17456,11 @@ class RightFootMiddle3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle3Tx = DoubleLinearField()
+    RightFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Ty = DoubleLinearField()
+    RightFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Tz = DoubleLinearField()
+    RightFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle3TField(
@@ -17471,11 +17471,11 @@ class RightFootMiddle3TField(
     ATTR_CLS = RightFootMiddle3TAttrOperator
     PLUG_CLS = RightFootMiddle3TPlugOperator
 
-    RightFootMiddle3Tx = DoubleLinearField()
+    RightFootMiddle3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Ty = DoubleLinearField()
+    RightFootMiddle3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle3Tz = DoubleLinearField()
+    RightFootMiddle3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle3RPlugOperator(
@@ -17488,11 +17488,11 @@ class RightFootMiddle3RPlugOperator(
         ("RightFootMiddle3Rz", "RightFootMiddle3Rz"),
     )
 
-    RightFootMiddle3Rx = DoubleAngleField()
+    RightFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Ry = DoubleAngleField()
+    RightFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Rz = DoubleAngleField()
+    RightFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle3RAttrOperator(
@@ -17500,11 +17500,11 @@ class RightFootMiddle3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle3Rx = DoubleAngleField()
+    RightFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Ry = DoubleAngleField()
+    RightFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Rz = DoubleAngleField()
+    RightFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle3RField(
@@ -17515,11 +17515,11 @@ class RightFootMiddle3RField(
     ATTR_CLS = RightFootMiddle3RAttrOperator
     PLUG_CLS = RightFootMiddle3RPlugOperator
 
-    RightFootMiddle3Rx = DoubleAngleField()
+    RightFootMiddle3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Ry = DoubleAngleField()
+    RightFootMiddle3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle3Rz = DoubleAngleField()
+    RightFootMiddle3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle3SPlugOperator(
@@ -17532,11 +17532,11 @@ class RightFootMiddle3SPlugOperator(
         ("RightFootMiddle3Sz", "RightFootMiddle3Sz"),
     )
 
-    RightFootMiddle3Sx = DoubleField()
+    RightFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sy = DoubleField()
+    RightFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sz = DoubleField()
+    RightFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle3SAttrOperator(
@@ -17544,11 +17544,11 @@ class RightFootMiddle3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle3Sx = DoubleField()
+    RightFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sy = DoubleField()
+    RightFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sz = DoubleField()
+    RightFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle3SField(
@@ -17559,11 +17559,11 @@ class RightFootMiddle3SField(
     ATTR_CLS = RightFootMiddle3SAttrOperator
     PLUG_CLS = RightFootMiddle3SPlugOperator
 
-    RightFootMiddle3Sx = DoubleField()
+    RightFootMiddle3Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sy = DoubleField()
+    RightFootMiddle3Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle3Sz = DoubleField()
+    RightFootMiddle3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle4TPlugOperator(
@@ -17576,11 +17576,11 @@ class RightFootMiddle4TPlugOperator(
         ("RightFootMiddle4Tz", "RightFootMiddle4Tz"),
     )
 
-    RightFootMiddle4Tx = DoubleLinearField()
+    RightFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Ty = DoubleLinearField()
+    RightFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Tz = DoubleLinearField()
+    RightFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle4TAttrOperator(
@@ -17588,11 +17588,11 @@ class RightFootMiddle4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle4Tx = DoubleLinearField()
+    RightFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Ty = DoubleLinearField()
+    RightFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Tz = DoubleLinearField()
+    RightFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle4TField(
@@ -17603,11 +17603,11 @@ class RightFootMiddle4TField(
     ATTR_CLS = RightFootMiddle4TAttrOperator
     PLUG_CLS = RightFootMiddle4TPlugOperator
 
-    RightFootMiddle4Tx = DoubleLinearField()
+    RightFootMiddle4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Ty = DoubleLinearField()
+    RightFootMiddle4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddle4Tz = DoubleLinearField()
+    RightFootMiddle4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddle4RPlugOperator(
@@ -17620,11 +17620,11 @@ class RightFootMiddle4RPlugOperator(
         ("RightFootMiddle4Rz", "RightFootMiddle4Rz"),
     )
 
-    RightFootMiddle4Rx = DoubleAngleField()
+    RightFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Ry = DoubleAngleField()
+    RightFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Rz = DoubleAngleField()
+    RightFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle4RAttrOperator(
@@ -17632,11 +17632,11 @@ class RightFootMiddle4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle4Rx = DoubleAngleField()
+    RightFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Ry = DoubleAngleField()
+    RightFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Rz = DoubleAngleField()
+    RightFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle4RField(
@@ -17647,11 +17647,11 @@ class RightFootMiddle4RField(
     ATTR_CLS = RightFootMiddle4RAttrOperator
     PLUG_CLS = RightFootMiddle4RPlugOperator
 
-    RightFootMiddle4Rx = DoubleAngleField()
+    RightFootMiddle4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Ry = DoubleAngleField()
+    RightFootMiddle4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootMiddle4Rz = DoubleAngleField()
+    RightFootMiddle4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootMiddle4SPlugOperator(
@@ -17664,11 +17664,11 @@ class RightFootMiddle4SPlugOperator(
         ("RightFootMiddle4Sz", "RightFootMiddle4Sz"),
     )
 
-    RightFootMiddle4Sx = DoubleField()
+    RightFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sy = DoubleField()
+    RightFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sz = DoubleField()
+    RightFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle4SAttrOperator(
@@ -17676,11 +17676,11 @@ class RightFootMiddle4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddle4Sx = DoubleField()
+    RightFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sy = DoubleField()
+    RightFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sz = DoubleField()
+    RightFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootMiddle4SField(
@@ -17691,11 +17691,11 @@ class RightFootMiddle4SField(
     ATTR_CLS = RightFootMiddle4SAttrOperator
     PLUG_CLS = RightFootMiddle4SPlugOperator
 
-    RightFootMiddle4Sx = DoubleField()
+    RightFootMiddle4Sx = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sy = DoubleField()
+    RightFootMiddle4Sy = DoubleField(default_value=1.0)
 
-    RightFootMiddle4Sz = DoubleField()
+    RightFootMiddle4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing1TPlugOperator(
@@ -17708,11 +17708,11 @@ class RightFootRing1TPlugOperator(
         ("RightFootRing1Tz", "RightFootRing1Tz"),
     )
 
-    RightFootRing1Tx = DoubleLinearField()
+    RightFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Ty = DoubleLinearField()
+    RightFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Tz = DoubleLinearField()
+    RightFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing1TAttrOperator(
@@ -17720,11 +17720,11 @@ class RightFootRing1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing1Tx = DoubleLinearField()
+    RightFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Ty = DoubleLinearField()
+    RightFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Tz = DoubleLinearField()
+    RightFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing1TField(
@@ -17735,11 +17735,11 @@ class RightFootRing1TField(
     ATTR_CLS = RightFootRing1TAttrOperator
     PLUG_CLS = RightFootRing1TPlugOperator
 
-    RightFootRing1Tx = DoubleLinearField()
+    RightFootRing1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Ty = DoubleLinearField()
+    RightFootRing1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing1Tz = DoubleLinearField()
+    RightFootRing1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing1RPlugOperator(
@@ -17752,11 +17752,11 @@ class RightFootRing1RPlugOperator(
         ("RightFootRing1Rz", "RightFootRing1Rz"),
     )
 
-    RightFootRing1Rx = DoubleAngleField()
+    RightFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Ry = DoubleAngleField()
+    RightFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Rz = DoubleAngleField()
+    RightFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing1RAttrOperator(
@@ -17764,11 +17764,11 @@ class RightFootRing1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing1Rx = DoubleAngleField()
+    RightFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Ry = DoubleAngleField()
+    RightFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Rz = DoubleAngleField()
+    RightFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing1RField(
@@ -17779,11 +17779,11 @@ class RightFootRing1RField(
     ATTR_CLS = RightFootRing1RAttrOperator
     PLUG_CLS = RightFootRing1RPlugOperator
 
-    RightFootRing1Rx = DoubleAngleField()
+    RightFootRing1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Ry = DoubleAngleField()
+    RightFootRing1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing1Rz = DoubleAngleField()
+    RightFootRing1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing1SPlugOperator(
@@ -17796,11 +17796,11 @@ class RightFootRing1SPlugOperator(
         ("RightFootRing1Sz", "RightFootRing1Sz"),
     )
 
-    RightFootRing1Sx = DoubleField()
+    RightFootRing1Sx = DoubleField(default_value=1.0)
 
-    RightFootRing1Sy = DoubleField()
+    RightFootRing1Sy = DoubleField(default_value=1.0)
 
-    RightFootRing1Sz = DoubleField()
+    RightFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing1SAttrOperator(
@@ -17808,11 +17808,11 @@ class RightFootRing1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing1Sx = DoubleField()
+    RightFootRing1Sx = DoubleField(default_value=1.0)
 
-    RightFootRing1Sy = DoubleField()
+    RightFootRing1Sy = DoubleField(default_value=1.0)
 
-    RightFootRing1Sz = DoubleField()
+    RightFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing1SField(
@@ -17823,11 +17823,11 @@ class RightFootRing1SField(
     ATTR_CLS = RightFootRing1SAttrOperator
     PLUG_CLS = RightFootRing1SPlugOperator
 
-    RightFootRing1Sx = DoubleField()
+    RightFootRing1Sx = DoubleField(default_value=1.0)
 
-    RightFootRing1Sy = DoubleField()
+    RightFootRing1Sy = DoubleField(default_value=1.0)
 
-    RightFootRing1Sz = DoubleField()
+    RightFootRing1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing2TPlugOperator(
@@ -17840,11 +17840,11 @@ class RightFootRing2TPlugOperator(
         ("RightFootRing2Tz", "RightFootRing2Tz"),
     )
 
-    RightFootRing2Tx = DoubleLinearField()
+    RightFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Ty = DoubleLinearField()
+    RightFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Tz = DoubleLinearField()
+    RightFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing2TAttrOperator(
@@ -17852,11 +17852,11 @@ class RightFootRing2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing2Tx = DoubleLinearField()
+    RightFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Ty = DoubleLinearField()
+    RightFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Tz = DoubleLinearField()
+    RightFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing2TField(
@@ -17867,11 +17867,11 @@ class RightFootRing2TField(
     ATTR_CLS = RightFootRing2TAttrOperator
     PLUG_CLS = RightFootRing2TPlugOperator
 
-    RightFootRing2Tx = DoubleLinearField()
+    RightFootRing2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Ty = DoubleLinearField()
+    RightFootRing2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing2Tz = DoubleLinearField()
+    RightFootRing2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing2RPlugOperator(
@@ -17884,11 +17884,11 @@ class RightFootRing2RPlugOperator(
         ("RightFootRing2Rz", "RightFootRing2Rz"),
     )
 
-    RightFootRing2Rx = DoubleAngleField()
+    RightFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Ry = DoubleAngleField()
+    RightFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Rz = DoubleAngleField()
+    RightFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing2RAttrOperator(
@@ -17896,11 +17896,11 @@ class RightFootRing2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing2Rx = DoubleAngleField()
+    RightFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Ry = DoubleAngleField()
+    RightFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Rz = DoubleAngleField()
+    RightFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing2RField(
@@ -17911,11 +17911,11 @@ class RightFootRing2RField(
     ATTR_CLS = RightFootRing2RAttrOperator
     PLUG_CLS = RightFootRing2RPlugOperator
 
-    RightFootRing2Rx = DoubleAngleField()
+    RightFootRing2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Ry = DoubleAngleField()
+    RightFootRing2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing2Rz = DoubleAngleField()
+    RightFootRing2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing2SPlugOperator(
@@ -17928,11 +17928,11 @@ class RightFootRing2SPlugOperator(
         ("RightFootRing2Sz", "RightFootRing2Sz"),
     )
 
-    RightFootRing2Sx = DoubleField()
+    RightFootRing2Sx = DoubleField(default_value=1.0)
 
-    RightFootRing2Sy = DoubleField()
+    RightFootRing2Sy = DoubleField(default_value=1.0)
 
-    RightFootRing2Sz = DoubleField()
+    RightFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing2SAttrOperator(
@@ -17940,11 +17940,11 @@ class RightFootRing2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing2Sx = DoubleField()
+    RightFootRing2Sx = DoubleField(default_value=1.0)
 
-    RightFootRing2Sy = DoubleField()
+    RightFootRing2Sy = DoubleField(default_value=1.0)
 
-    RightFootRing2Sz = DoubleField()
+    RightFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing2SField(
@@ -17955,11 +17955,11 @@ class RightFootRing2SField(
     ATTR_CLS = RightFootRing2SAttrOperator
     PLUG_CLS = RightFootRing2SPlugOperator
 
-    RightFootRing2Sx = DoubleField()
+    RightFootRing2Sx = DoubleField(default_value=1.0)
 
-    RightFootRing2Sy = DoubleField()
+    RightFootRing2Sy = DoubleField(default_value=1.0)
 
-    RightFootRing2Sz = DoubleField()
+    RightFootRing2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing3TPlugOperator(
@@ -17972,11 +17972,11 @@ class RightFootRing3TPlugOperator(
         ("RightFootRing3Tz", "RightFootRing3Tz"),
     )
 
-    RightFootRing3Tx = DoubleLinearField()
+    RightFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Ty = DoubleLinearField()
+    RightFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Tz = DoubleLinearField()
+    RightFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing3TAttrOperator(
@@ -17984,11 +17984,11 @@ class RightFootRing3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing3Tx = DoubleLinearField()
+    RightFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Ty = DoubleLinearField()
+    RightFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Tz = DoubleLinearField()
+    RightFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing3TField(
@@ -17999,11 +17999,11 @@ class RightFootRing3TField(
     ATTR_CLS = RightFootRing3TAttrOperator
     PLUG_CLS = RightFootRing3TPlugOperator
 
-    RightFootRing3Tx = DoubleLinearField()
+    RightFootRing3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Ty = DoubleLinearField()
+    RightFootRing3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing3Tz = DoubleLinearField()
+    RightFootRing3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing3RPlugOperator(
@@ -18016,11 +18016,11 @@ class RightFootRing3RPlugOperator(
         ("RightFootRing3Rz", "RightFootRing3Rz"),
     )
 
-    RightFootRing3Rx = DoubleAngleField()
+    RightFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Ry = DoubleAngleField()
+    RightFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Rz = DoubleAngleField()
+    RightFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing3RAttrOperator(
@@ -18028,11 +18028,11 @@ class RightFootRing3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing3Rx = DoubleAngleField()
+    RightFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Ry = DoubleAngleField()
+    RightFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Rz = DoubleAngleField()
+    RightFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing3RField(
@@ -18043,11 +18043,11 @@ class RightFootRing3RField(
     ATTR_CLS = RightFootRing3RAttrOperator
     PLUG_CLS = RightFootRing3RPlugOperator
 
-    RightFootRing3Rx = DoubleAngleField()
+    RightFootRing3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Ry = DoubleAngleField()
+    RightFootRing3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing3Rz = DoubleAngleField()
+    RightFootRing3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing3SPlugOperator(
@@ -18060,11 +18060,11 @@ class RightFootRing3SPlugOperator(
         ("RightFootRing3Sz", "RightFootRing3Sz"),
     )
 
-    RightFootRing3Sx = DoubleField()
+    RightFootRing3Sx = DoubleField(default_value=1.0)
 
-    RightFootRing3Sy = DoubleField()
+    RightFootRing3Sy = DoubleField(default_value=1.0)
 
-    RightFootRing3Sz = DoubleField()
+    RightFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing3SAttrOperator(
@@ -18072,11 +18072,11 @@ class RightFootRing3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing3Sx = DoubleField()
+    RightFootRing3Sx = DoubleField(default_value=1.0)
 
-    RightFootRing3Sy = DoubleField()
+    RightFootRing3Sy = DoubleField(default_value=1.0)
 
-    RightFootRing3Sz = DoubleField()
+    RightFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing3SField(
@@ -18087,11 +18087,11 @@ class RightFootRing3SField(
     ATTR_CLS = RightFootRing3SAttrOperator
     PLUG_CLS = RightFootRing3SPlugOperator
 
-    RightFootRing3Sx = DoubleField()
+    RightFootRing3Sx = DoubleField(default_value=1.0)
 
-    RightFootRing3Sy = DoubleField()
+    RightFootRing3Sy = DoubleField(default_value=1.0)
 
-    RightFootRing3Sz = DoubleField()
+    RightFootRing3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing4TPlugOperator(
@@ -18104,11 +18104,11 @@ class RightFootRing4TPlugOperator(
         ("RightFootRing4Tz", "RightFootRing4Tz"),
     )
 
-    RightFootRing4Tx = DoubleLinearField()
+    RightFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Ty = DoubleLinearField()
+    RightFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Tz = DoubleLinearField()
+    RightFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing4TAttrOperator(
@@ -18116,11 +18116,11 @@ class RightFootRing4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing4Tx = DoubleLinearField()
+    RightFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Ty = DoubleLinearField()
+    RightFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Tz = DoubleLinearField()
+    RightFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing4TField(
@@ -18131,11 +18131,11 @@ class RightFootRing4TField(
     ATTR_CLS = RightFootRing4TAttrOperator
     PLUG_CLS = RightFootRing4TPlugOperator
 
-    RightFootRing4Tx = DoubleLinearField()
+    RightFootRing4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Ty = DoubleLinearField()
+    RightFootRing4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootRing4Tz = DoubleLinearField()
+    RightFootRing4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRing4RPlugOperator(
@@ -18148,11 +18148,11 @@ class RightFootRing4RPlugOperator(
         ("RightFootRing4Rz", "RightFootRing4Rz"),
     )
 
-    RightFootRing4Rx = DoubleAngleField()
+    RightFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Ry = DoubleAngleField()
+    RightFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Rz = DoubleAngleField()
+    RightFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing4RAttrOperator(
@@ -18160,11 +18160,11 @@ class RightFootRing4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing4Rx = DoubleAngleField()
+    RightFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Ry = DoubleAngleField()
+    RightFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Rz = DoubleAngleField()
+    RightFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing4RField(
@@ -18175,11 +18175,11 @@ class RightFootRing4RField(
     ATTR_CLS = RightFootRing4RAttrOperator
     PLUG_CLS = RightFootRing4RPlugOperator
 
-    RightFootRing4Rx = DoubleAngleField()
+    RightFootRing4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Ry = DoubleAngleField()
+    RightFootRing4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootRing4Rz = DoubleAngleField()
+    RightFootRing4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootRing4SPlugOperator(
@@ -18192,11 +18192,11 @@ class RightFootRing4SPlugOperator(
         ("RightFootRing4Sz", "RightFootRing4Sz"),
     )
 
-    RightFootRing4Sx = DoubleField()
+    RightFootRing4Sx = DoubleField(default_value=1.0)
 
-    RightFootRing4Sy = DoubleField()
+    RightFootRing4Sy = DoubleField(default_value=1.0)
 
-    RightFootRing4Sz = DoubleField()
+    RightFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing4SAttrOperator(
@@ -18204,11 +18204,11 @@ class RightFootRing4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRing4Sx = DoubleField()
+    RightFootRing4Sx = DoubleField(default_value=1.0)
 
-    RightFootRing4Sy = DoubleField()
+    RightFootRing4Sy = DoubleField(default_value=1.0)
 
-    RightFootRing4Sz = DoubleField()
+    RightFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootRing4SField(
@@ -18219,11 +18219,11 @@ class RightFootRing4SField(
     ATTR_CLS = RightFootRing4SAttrOperator
     PLUG_CLS = RightFootRing4SPlugOperator
 
-    RightFootRing4Sx = DoubleField()
+    RightFootRing4Sx = DoubleField(default_value=1.0)
 
-    RightFootRing4Sy = DoubleField()
+    RightFootRing4Sy = DoubleField(default_value=1.0)
 
-    RightFootRing4Sz = DoubleField()
+    RightFootRing4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky1TPlugOperator(
@@ -18236,11 +18236,11 @@ class RightFootPinky1TPlugOperator(
         ("RightFootPinky1Tz", "RightFootPinky1Tz"),
     )
 
-    RightFootPinky1Tx = DoubleLinearField()
+    RightFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Ty = DoubleLinearField()
+    RightFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Tz = DoubleLinearField()
+    RightFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky1TAttrOperator(
@@ -18248,11 +18248,11 @@ class RightFootPinky1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky1Tx = DoubleLinearField()
+    RightFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Ty = DoubleLinearField()
+    RightFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Tz = DoubleLinearField()
+    RightFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky1TField(
@@ -18263,11 +18263,11 @@ class RightFootPinky1TField(
     ATTR_CLS = RightFootPinky1TAttrOperator
     PLUG_CLS = RightFootPinky1TPlugOperator
 
-    RightFootPinky1Tx = DoubleLinearField()
+    RightFootPinky1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Ty = DoubleLinearField()
+    RightFootPinky1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky1Tz = DoubleLinearField()
+    RightFootPinky1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky1RPlugOperator(
@@ -18280,11 +18280,11 @@ class RightFootPinky1RPlugOperator(
         ("RightFootPinky1Rz", "RightFootPinky1Rz"),
     )
 
-    RightFootPinky1Rx = DoubleAngleField()
+    RightFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Ry = DoubleAngleField()
+    RightFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Rz = DoubleAngleField()
+    RightFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky1RAttrOperator(
@@ -18292,11 +18292,11 @@ class RightFootPinky1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky1Rx = DoubleAngleField()
+    RightFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Ry = DoubleAngleField()
+    RightFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Rz = DoubleAngleField()
+    RightFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky1RField(
@@ -18307,11 +18307,11 @@ class RightFootPinky1RField(
     ATTR_CLS = RightFootPinky1RAttrOperator
     PLUG_CLS = RightFootPinky1RPlugOperator
 
-    RightFootPinky1Rx = DoubleAngleField()
+    RightFootPinky1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Ry = DoubleAngleField()
+    RightFootPinky1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky1Rz = DoubleAngleField()
+    RightFootPinky1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky1SPlugOperator(
@@ -18324,11 +18324,11 @@ class RightFootPinky1SPlugOperator(
         ("RightFootPinky1Sz", "RightFootPinky1Sz"),
     )
 
-    RightFootPinky1Sx = DoubleField()
+    RightFootPinky1Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sy = DoubleField()
+    RightFootPinky1Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sz = DoubleField()
+    RightFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky1SAttrOperator(
@@ -18336,11 +18336,11 @@ class RightFootPinky1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky1Sx = DoubleField()
+    RightFootPinky1Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sy = DoubleField()
+    RightFootPinky1Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sz = DoubleField()
+    RightFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky1SField(
@@ -18351,11 +18351,11 @@ class RightFootPinky1SField(
     ATTR_CLS = RightFootPinky1SAttrOperator
     PLUG_CLS = RightFootPinky1SPlugOperator
 
-    RightFootPinky1Sx = DoubleField()
+    RightFootPinky1Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sy = DoubleField()
+    RightFootPinky1Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky1Sz = DoubleField()
+    RightFootPinky1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky2TPlugOperator(
@@ -18368,11 +18368,11 @@ class RightFootPinky2TPlugOperator(
         ("RightFootPinky2Tz", "RightFootPinky2Tz"),
     )
 
-    RightFootPinky2Tx = DoubleLinearField()
+    RightFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Ty = DoubleLinearField()
+    RightFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Tz = DoubleLinearField()
+    RightFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky2TAttrOperator(
@@ -18380,11 +18380,11 @@ class RightFootPinky2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky2Tx = DoubleLinearField()
+    RightFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Ty = DoubleLinearField()
+    RightFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Tz = DoubleLinearField()
+    RightFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky2TField(
@@ -18395,11 +18395,11 @@ class RightFootPinky2TField(
     ATTR_CLS = RightFootPinky2TAttrOperator
     PLUG_CLS = RightFootPinky2TPlugOperator
 
-    RightFootPinky2Tx = DoubleLinearField()
+    RightFootPinky2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Ty = DoubleLinearField()
+    RightFootPinky2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky2Tz = DoubleLinearField()
+    RightFootPinky2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky2RPlugOperator(
@@ -18412,11 +18412,11 @@ class RightFootPinky2RPlugOperator(
         ("RightFootPinky2Rz", "RightFootPinky2Rz"),
     )
 
-    RightFootPinky2Rx = DoubleAngleField()
+    RightFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Ry = DoubleAngleField()
+    RightFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Rz = DoubleAngleField()
+    RightFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky2RAttrOperator(
@@ -18424,11 +18424,11 @@ class RightFootPinky2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky2Rx = DoubleAngleField()
+    RightFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Ry = DoubleAngleField()
+    RightFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Rz = DoubleAngleField()
+    RightFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky2RField(
@@ -18439,11 +18439,11 @@ class RightFootPinky2RField(
     ATTR_CLS = RightFootPinky2RAttrOperator
     PLUG_CLS = RightFootPinky2RPlugOperator
 
-    RightFootPinky2Rx = DoubleAngleField()
+    RightFootPinky2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Ry = DoubleAngleField()
+    RightFootPinky2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky2Rz = DoubleAngleField()
+    RightFootPinky2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky2SPlugOperator(
@@ -18456,11 +18456,11 @@ class RightFootPinky2SPlugOperator(
         ("RightFootPinky2Sz", "RightFootPinky2Sz"),
     )
 
-    RightFootPinky2Sx = DoubleField()
+    RightFootPinky2Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sy = DoubleField()
+    RightFootPinky2Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sz = DoubleField()
+    RightFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky2SAttrOperator(
@@ -18468,11 +18468,11 @@ class RightFootPinky2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky2Sx = DoubleField()
+    RightFootPinky2Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sy = DoubleField()
+    RightFootPinky2Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sz = DoubleField()
+    RightFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky2SField(
@@ -18483,11 +18483,11 @@ class RightFootPinky2SField(
     ATTR_CLS = RightFootPinky2SAttrOperator
     PLUG_CLS = RightFootPinky2SPlugOperator
 
-    RightFootPinky2Sx = DoubleField()
+    RightFootPinky2Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sy = DoubleField()
+    RightFootPinky2Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky2Sz = DoubleField()
+    RightFootPinky2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky3TPlugOperator(
@@ -18500,11 +18500,11 @@ class RightFootPinky3TPlugOperator(
         ("RightFootPinky3Tz", "RightFootPinky3Tz"),
     )
 
-    RightFootPinky3Tx = DoubleLinearField()
+    RightFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Ty = DoubleLinearField()
+    RightFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Tz = DoubleLinearField()
+    RightFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky3TAttrOperator(
@@ -18512,11 +18512,11 @@ class RightFootPinky3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky3Tx = DoubleLinearField()
+    RightFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Ty = DoubleLinearField()
+    RightFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Tz = DoubleLinearField()
+    RightFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky3TField(
@@ -18527,11 +18527,11 @@ class RightFootPinky3TField(
     ATTR_CLS = RightFootPinky3TAttrOperator
     PLUG_CLS = RightFootPinky3TPlugOperator
 
-    RightFootPinky3Tx = DoubleLinearField()
+    RightFootPinky3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Ty = DoubleLinearField()
+    RightFootPinky3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky3Tz = DoubleLinearField()
+    RightFootPinky3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky3RPlugOperator(
@@ -18544,11 +18544,11 @@ class RightFootPinky3RPlugOperator(
         ("RightFootPinky3Rz", "RightFootPinky3Rz"),
     )
 
-    RightFootPinky3Rx = DoubleAngleField()
+    RightFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Ry = DoubleAngleField()
+    RightFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Rz = DoubleAngleField()
+    RightFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky3RAttrOperator(
@@ -18556,11 +18556,11 @@ class RightFootPinky3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky3Rx = DoubleAngleField()
+    RightFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Ry = DoubleAngleField()
+    RightFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Rz = DoubleAngleField()
+    RightFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky3RField(
@@ -18571,11 +18571,11 @@ class RightFootPinky3RField(
     ATTR_CLS = RightFootPinky3RAttrOperator
     PLUG_CLS = RightFootPinky3RPlugOperator
 
-    RightFootPinky3Rx = DoubleAngleField()
+    RightFootPinky3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Ry = DoubleAngleField()
+    RightFootPinky3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky3Rz = DoubleAngleField()
+    RightFootPinky3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky3SPlugOperator(
@@ -18588,11 +18588,11 @@ class RightFootPinky3SPlugOperator(
         ("RightFootPinky3Sz", "RightFootPinky3Sz"),
     )
 
-    RightFootPinky3Sx = DoubleField()
+    RightFootPinky3Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sy = DoubleField()
+    RightFootPinky3Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sz = DoubleField()
+    RightFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky3SAttrOperator(
@@ -18600,11 +18600,11 @@ class RightFootPinky3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky3Sx = DoubleField()
+    RightFootPinky3Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sy = DoubleField()
+    RightFootPinky3Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sz = DoubleField()
+    RightFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky3SField(
@@ -18615,11 +18615,11 @@ class RightFootPinky3SField(
     ATTR_CLS = RightFootPinky3SAttrOperator
     PLUG_CLS = RightFootPinky3SPlugOperator
 
-    RightFootPinky3Sx = DoubleField()
+    RightFootPinky3Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sy = DoubleField()
+    RightFootPinky3Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky3Sz = DoubleField()
+    RightFootPinky3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky4TPlugOperator(
@@ -18632,11 +18632,11 @@ class RightFootPinky4TPlugOperator(
         ("RightFootPinky4Tz", "RightFootPinky4Tz"),
     )
 
-    RightFootPinky4Tx = DoubleLinearField()
+    RightFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Ty = DoubleLinearField()
+    RightFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Tz = DoubleLinearField()
+    RightFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky4TAttrOperator(
@@ -18644,11 +18644,11 @@ class RightFootPinky4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky4Tx = DoubleLinearField()
+    RightFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Ty = DoubleLinearField()
+    RightFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Tz = DoubleLinearField()
+    RightFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky4TField(
@@ -18659,11 +18659,11 @@ class RightFootPinky4TField(
     ATTR_CLS = RightFootPinky4TAttrOperator
     PLUG_CLS = RightFootPinky4TPlugOperator
 
-    RightFootPinky4Tx = DoubleLinearField()
+    RightFootPinky4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Ty = DoubleLinearField()
+    RightFootPinky4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootPinky4Tz = DoubleLinearField()
+    RightFootPinky4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinky4RPlugOperator(
@@ -18676,11 +18676,11 @@ class RightFootPinky4RPlugOperator(
         ("RightFootPinky4Rz", "RightFootPinky4Rz"),
     )
 
-    RightFootPinky4Rx = DoubleAngleField()
+    RightFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Ry = DoubleAngleField()
+    RightFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Rz = DoubleAngleField()
+    RightFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky4RAttrOperator(
@@ -18688,11 +18688,11 @@ class RightFootPinky4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky4Rx = DoubleAngleField()
+    RightFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Ry = DoubleAngleField()
+    RightFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Rz = DoubleAngleField()
+    RightFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky4RField(
@@ -18703,11 +18703,11 @@ class RightFootPinky4RField(
     ATTR_CLS = RightFootPinky4RAttrOperator
     PLUG_CLS = RightFootPinky4RPlugOperator
 
-    RightFootPinky4Rx = DoubleAngleField()
+    RightFootPinky4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Ry = DoubleAngleField()
+    RightFootPinky4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootPinky4Rz = DoubleAngleField()
+    RightFootPinky4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootPinky4SPlugOperator(
@@ -18720,11 +18720,11 @@ class RightFootPinky4SPlugOperator(
         ("RightFootPinky4Sz", "RightFootPinky4Sz"),
     )
 
-    RightFootPinky4Sx = DoubleField()
+    RightFootPinky4Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sy = DoubleField()
+    RightFootPinky4Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sz = DoubleField()
+    RightFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky4SAttrOperator(
@@ -18732,11 +18732,11 @@ class RightFootPinky4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinky4Sx = DoubleField()
+    RightFootPinky4Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sy = DoubleField()
+    RightFootPinky4Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sz = DoubleField()
+    RightFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootPinky4SField(
@@ -18747,11 +18747,11 @@ class RightFootPinky4SField(
     ATTR_CLS = RightFootPinky4SAttrOperator
     PLUG_CLS = RightFootPinky4SPlugOperator
 
-    RightFootPinky4Sx = DoubleField()
+    RightFootPinky4Sx = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sy = DoubleField()
+    RightFootPinky4Sy = DoubleField(default_value=1.0)
 
-    RightFootPinky4Sz = DoubleField()
+    RightFootPinky4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger1TPlugOperator(
@@ -18764,11 +18764,11 @@ class RightFootExtraFinger1TPlugOperator(
         ("RightFootExtraFinger1Tz", "RightFootExtraFinger1Tz"),
     )
 
-    RightFootExtraFinger1Tx = DoubleLinearField()
+    RightFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Ty = DoubleLinearField()
+    RightFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Tz = DoubleLinearField()
+    RightFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger1TAttrOperator(
@@ -18776,11 +18776,11 @@ class RightFootExtraFinger1TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger1Tx = DoubleLinearField()
+    RightFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Ty = DoubleLinearField()
+    RightFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Tz = DoubleLinearField()
+    RightFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger1TField(
@@ -18791,11 +18791,11 @@ class RightFootExtraFinger1TField(
     ATTR_CLS = RightFootExtraFinger1TAttrOperator
     PLUG_CLS = RightFootExtraFinger1TPlugOperator
 
-    RightFootExtraFinger1Tx = DoubleLinearField()
+    RightFootExtraFinger1Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Ty = DoubleLinearField()
+    RightFootExtraFinger1Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger1Tz = DoubleLinearField()
+    RightFootExtraFinger1Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger1RPlugOperator(
@@ -18808,11 +18808,11 @@ class RightFootExtraFinger1RPlugOperator(
         ("RightFootExtraFinger1Rz", "RightFootExtraFinger1Rz"),
     )
 
-    RightFootExtraFinger1Rx = DoubleAngleField()
+    RightFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Ry = DoubleAngleField()
+    RightFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Rz = DoubleAngleField()
+    RightFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger1RAttrOperator(
@@ -18820,11 +18820,11 @@ class RightFootExtraFinger1RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger1Rx = DoubleAngleField()
+    RightFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Ry = DoubleAngleField()
+    RightFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Rz = DoubleAngleField()
+    RightFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger1RField(
@@ -18835,11 +18835,11 @@ class RightFootExtraFinger1RField(
     ATTR_CLS = RightFootExtraFinger1RAttrOperator
     PLUG_CLS = RightFootExtraFinger1RPlugOperator
 
-    RightFootExtraFinger1Rx = DoubleAngleField()
+    RightFootExtraFinger1Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Ry = DoubleAngleField()
+    RightFootExtraFinger1Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger1Rz = DoubleAngleField()
+    RightFootExtraFinger1Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger1SPlugOperator(
@@ -18852,11 +18852,11 @@ class RightFootExtraFinger1SPlugOperator(
         ("RightFootExtraFinger1Sz", "RightFootExtraFinger1Sz"),
     )
 
-    RightFootExtraFinger1Sx = DoubleField()
+    RightFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sy = DoubleField()
+    RightFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sz = DoubleField()
+    RightFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger1SAttrOperator(
@@ -18864,11 +18864,11 @@ class RightFootExtraFinger1SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger1Sx = DoubleField()
+    RightFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sy = DoubleField()
+    RightFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sz = DoubleField()
+    RightFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger1SField(
@@ -18879,11 +18879,11 @@ class RightFootExtraFinger1SField(
     ATTR_CLS = RightFootExtraFinger1SAttrOperator
     PLUG_CLS = RightFootExtraFinger1SPlugOperator
 
-    RightFootExtraFinger1Sx = DoubleField()
+    RightFootExtraFinger1Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sy = DoubleField()
+    RightFootExtraFinger1Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger1Sz = DoubleField()
+    RightFootExtraFinger1Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger2TPlugOperator(
@@ -18896,11 +18896,11 @@ class RightFootExtraFinger2TPlugOperator(
         ("RightFootExtraFinger2Tz", "RightFootExtraFinger2Tz"),
     )
 
-    RightFootExtraFinger2Tx = DoubleLinearField()
+    RightFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Ty = DoubleLinearField()
+    RightFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Tz = DoubleLinearField()
+    RightFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger2TAttrOperator(
@@ -18908,11 +18908,11 @@ class RightFootExtraFinger2TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger2Tx = DoubleLinearField()
+    RightFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Ty = DoubleLinearField()
+    RightFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Tz = DoubleLinearField()
+    RightFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger2TField(
@@ -18923,11 +18923,11 @@ class RightFootExtraFinger2TField(
     ATTR_CLS = RightFootExtraFinger2TAttrOperator
     PLUG_CLS = RightFootExtraFinger2TPlugOperator
 
-    RightFootExtraFinger2Tx = DoubleLinearField()
+    RightFootExtraFinger2Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Ty = DoubleLinearField()
+    RightFootExtraFinger2Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger2Tz = DoubleLinearField()
+    RightFootExtraFinger2Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger2RPlugOperator(
@@ -18940,11 +18940,11 @@ class RightFootExtraFinger2RPlugOperator(
         ("RightFootExtraFinger2Rz", "RightFootExtraFinger2Rz"),
     )
 
-    RightFootExtraFinger2Rx = DoubleAngleField()
+    RightFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Ry = DoubleAngleField()
+    RightFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Rz = DoubleAngleField()
+    RightFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger2RAttrOperator(
@@ -18952,11 +18952,11 @@ class RightFootExtraFinger2RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger2Rx = DoubleAngleField()
+    RightFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Ry = DoubleAngleField()
+    RightFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Rz = DoubleAngleField()
+    RightFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger2RField(
@@ -18967,11 +18967,11 @@ class RightFootExtraFinger2RField(
     ATTR_CLS = RightFootExtraFinger2RAttrOperator
     PLUG_CLS = RightFootExtraFinger2RPlugOperator
 
-    RightFootExtraFinger2Rx = DoubleAngleField()
+    RightFootExtraFinger2Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Ry = DoubleAngleField()
+    RightFootExtraFinger2Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger2Rz = DoubleAngleField()
+    RightFootExtraFinger2Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger2SPlugOperator(
@@ -18984,11 +18984,11 @@ class RightFootExtraFinger2SPlugOperator(
         ("RightFootExtraFinger2Sz", "RightFootExtraFinger2Sz"),
     )
 
-    RightFootExtraFinger2Sx = DoubleField()
+    RightFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sy = DoubleField()
+    RightFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sz = DoubleField()
+    RightFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger2SAttrOperator(
@@ -18996,11 +18996,11 @@ class RightFootExtraFinger2SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger2Sx = DoubleField()
+    RightFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sy = DoubleField()
+    RightFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sz = DoubleField()
+    RightFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger2SField(
@@ -19011,11 +19011,11 @@ class RightFootExtraFinger2SField(
     ATTR_CLS = RightFootExtraFinger2SAttrOperator
     PLUG_CLS = RightFootExtraFinger2SPlugOperator
 
-    RightFootExtraFinger2Sx = DoubleField()
+    RightFootExtraFinger2Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sy = DoubleField()
+    RightFootExtraFinger2Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger2Sz = DoubleField()
+    RightFootExtraFinger2Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger3TPlugOperator(
@@ -19028,11 +19028,11 @@ class RightFootExtraFinger3TPlugOperator(
         ("RightFootExtraFinger3Tz", "RightFootExtraFinger3Tz"),
     )
 
-    RightFootExtraFinger3Tx = DoubleLinearField()
+    RightFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Ty = DoubleLinearField()
+    RightFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Tz = DoubleLinearField()
+    RightFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger3TAttrOperator(
@@ -19040,11 +19040,11 @@ class RightFootExtraFinger3TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger3Tx = DoubleLinearField()
+    RightFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Ty = DoubleLinearField()
+    RightFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Tz = DoubleLinearField()
+    RightFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger3TField(
@@ -19055,11 +19055,11 @@ class RightFootExtraFinger3TField(
     ATTR_CLS = RightFootExtraFinger3TAttrOperator
     PLUG_CLS = RightFootExtraFinger3TPlugOperator
 
-    RightFootExtraFinger3Tx = DoubleLinearField()
+    RightFootExtraFinger3Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Ty = DoubleLinearField()
+    RightFootExtraFinger3Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger3Tz = DoubleLinearField()
+    RightFootExtraFinger3Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger3RPlugOperator(
@@ -19072,11 +19072,11 @@ class RightFootExtraFinger3RPlugOperator(
         ("RightFootExtraFinger3Rz", "RightFootExtraFinger3Rz"),
     )
 
-    RightFootExtraFinger3Rx = DoubleAngleField()
+    RightFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Ry = DoubleAngleField()
+    RightFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Rz = DoubleAngleField()
+    RightFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger3RAttrOperator(
@@ -19084,11 +19084,11 @@ class RightFootExtraFinger3RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger3Rx = DoubleAngleField()
+    RightFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Ry = DoubleAngleField()
+    RightFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Rz = DoubleAngleField()
+    RightFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger3RField(
@@ -19099,11 +19099,11 @@ class RightFootExtraFinger3RField(
     ATTR_CLS = RightFootExtraFinger3RAttrOperator
     PLUG_CLS = RightFootExtraFinger3RPlugOperator
 
-    RightFootExtraFinger3Rx = DoubleAngleField()
+    RightFootExtraFinger3Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Ry = DoubleAngleField()
+    RightFootExtraFinger3Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger3Rz = DoubleAngleField()
+    RightFootExtraFinger3Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger3SPlugOperator(
@@ -19116,11 +19116,11 @@ class RightFootExtraFinger3SPlugOperator(
         ("RightFootExtraFinger3Sz", "RightFootExtraFinger3Sz"),
     )
 
-    RightFootExtraFinger3Sx = DoubleField()
+    RightFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sy = DoubleField()
+    RightFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sz = DoubleField()
+    RightFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger3SAttrOperator(
@@ -19128,11 +19128,11 @@ class RightFootExtraFinger3SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger3Sx = DoubleField()
+    RightFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sy = DoubleField()
+    RightFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sz = DoubleField()
+    RightFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger3SField(
@@ -19143,11 +19143,11 @@ class RightFootExtraFinger3SField(
     ATTR_CLS = RightFootExtraFinger3SAttrOperator
     PLUG_CLS = RightFootExtraFinger3SPlugOperator
 
-    RightFootExtraFinger3Sx = DoubleField()
+    RightFootExtraFinger3Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sy = DoubleField()
+    RightFootExtraFinger3Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger3Sz = DoubleField()
+    RightFootExtraFinger3Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger4TPlugOperator(
@@ -19160,11 +19160,11 @@ class RightFootExtraFinger4TPlugOperator(
         ("RightFootExtraFinger4Tz", "RightFootExtraFinger4Tz"),
     )
 
-    RightFootExtraFinger4Tx = DoubleLinearField()
+    RightFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Ty = DoubleLinearField()
+    RightFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Tz = DoubleLinearField()
+    RightFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger4TAttrOperator(
@@ -19172,11 +19172,11 @@ class RightFootExtraFinger4TAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger4Tx = DoubleLinearField()
+    RightFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Ty = DoubleLinearField()
+    RightFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Tz = DoubleLinearField()
+    RightFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger4TField(
@@ -19187,11 +19187,11 @@ class RightFootExtraFinger4TField(
     ATTR_CLS = RightFootExtraFinger4TAttrOperator
     PLUG_CLS = RightFootExtraFinger4TPlugOperator
 
-    RightFootExtraFinger4Tx = DoubleLinearField()
+    RightFootExtraFinger4Tx = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Ty = DoubleLinearField()
+    RightFootExtraFinger4Ty = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFinger4Tz = DoubleLinearField()
+    RightFootExtraFinger4Tz = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFinger4RPlugOperator(
@@ -19204,11 +19204,11 @@ class RightFootExtraFinger4RPlugOperator(
         ("RightFootExtraFinger4Rz", "RightFootExtraFinger4Rz"),
     )
 
-    RightFootExtraFinger4Rx = DoubleAngleField()
+    RightFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Ry = DoubleAngleField()
+    RightFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Rz = DoubleAngleField()
+    RightFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger4RAttrOperator(
@@ -19216,11 +19216,11 @@ class RightFootExtraFinger4RAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger4Rx = DoubleAngleField()
+    RightFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Ry = DoubleAngleField()
+    RightFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Rz = DoubleAngleField()
+    RightFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger4RField(
@@ -19231,11 +19231,11 @@ class RightFootExtraFinger4RField(
     ATTR_CLS = RightFootExtraFinger4RAttrOperator
     PLUG_CLS = RightFootExtraFinger4RPlugOperator
 
-    RightFootExtraFinger4Rx = DoubleAngleField()
+    RightFootExtraFinger4Rx = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Ry = DoubleAngleField()
+    RightFootExtraFinger4Ry = DoubleAngleField(default_value=0.0)
 
-    RightFootExtraFinger4Rz = DoubleAngleField()
+    RightFootExtraFinger4Rz = DoubleAngleField(default_value=0.0)
 
 
 class RightFootExtraFinger4SPlugOperator(
@@ -19248,11 +19248,11 @@ class RightFootExtraFinger4SPlugOperator(
         ("RightFootExtraFinger4Sz", "RightFootExtraFinger4Sz"),
     )
 
-    RightFootExtraFinger4Sx = DoubleField()
+    RightFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sy = DoubleField()
+    RightFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sz = DoubleField()
+    RightFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger4SAttrOperator(
@@ -19260,11 +19260,11 @@ class RightFootExtraFinger4SAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFinger4Sx = DoubleField()
+    RightFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sy = DoubleField()
+    RightFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sz = DoubleField()
+    RightFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class RightFootExtraFinger4SField(
@@ -19275,11 +19275,11 @@ class RightFootExtraFinger4SField(
     ATTR_CLS = RightFootExtraFinger4SAttrOperator
     PLUG_CLS = RightFootExtraFinger4SPlugOperator
 
-    RightFootExtraFinger4Sx = DoubleField()
+    RightFootExtraFinger4Sx = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sy = DoubleField()
+    RightFootExtraFinger4Sy = DoubleField(default_value=1.0)
 
-    RightFootExtraFinger4Sz = DoubleField()
+    RightFootExtraFinger4Sz = DoubleField(default_value=1.0)
 
 
 class LeftInHandThumbTPlugOperator(
@@ -19292,11 +19292,11 @@ class LeftInHandThumbTPlugOperator(
         ("LeftInHandThumbTz", "LeftInHandThumbTz"),
     )
 
-    LeftInHandThumbTx = DoubleLinearField()
+    LeftInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTy = DoubleLinearField()
+    LeftInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTz = DoubleLinearField()
+    LeftInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandThumbTAttrOperator(
@@ -19304,11 +19304,11 @@ class LeftInHandThumbTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandThumbTx = DoubleLinearField()
+    LeftInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTy = DoubleLinearField()
+    LeftInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTz = DoubleLinearField()
+    LeftInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandThumbTField(
@@ -19319,11 +19319,11 @@ class LeftInHandThumbTField(
     ATTR_CLS = LeftInHandThumbTAttrOperator
     PLUG_CLS = LeftInHandThumbTPlugOperator
 
-    LeftInHandThumbTx = DoubleLinearField()
+    LeftInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTy = DoubleLinearField()
+    LeftInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandThumbTz = DoubleLinearField()
+    LeftInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandThumbRPlugOperator(
@@ -19336,11 +19336,11 @@ class LeftInHandThumbRPlugOperator(
         ("LeftInHandThumbRz", "LeftInHandThumbRz"),
     )
 
-    LeftInHandThumbRx = DoubleAngleField()
+    LeftInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRy = DoubleAngleField()
+    LeftInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRz = DoubleAngleField()
+    LeftInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandThumbRAttrOperator(
@@ -19348,11 +19348,11 @@ class LeftInHandThumbRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandThumbRx = DoubleAngleField()
+    LeftInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRy = DoubleAngleField()
+    LeftInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRz = DoubleAngleField()
+    LeftInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandThumbRField(
@@ -19363,11 +19363,11 @@ class LeftInHandThumbRField(
     ATTR_CLS = LeftInHandThumbRAttrOperator
     PLUG_CLS = LeftInHandThumbRPlugOperator
 
-    LeftInHandThumbRx = DoubleAngleField()
+    LeftInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRy = DoubleAngleField()
+    LeftInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandThumbRz = DoubleAngleField()
+    LeftInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandThumbSPlugOperator(
@@ -19380,11 +19380,11 @@ class LeftInHandThumbSPlugOperator(
         ("LeftInHandThumbSz", "LeftInHandThumbSz"),
     )
 
-    LeftInHandThumbSx = DoubleField()
+    LeftInHandThumbSx = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSy = DoubleField()
+    LeftInHandThumbSy = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSz = DoubleField()
+    LeftInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandThumbSAttrOperator(
@@ -19392,11 +19392,11 @@ class LeftInHandThumbSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandThumbSx = DoubleField()
+    LeftInHandThumbSx = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSy = DoubleField()
+    LeftInHandThumbSy = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSz = DoubleField()
+    LeftInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandThumbSField(
@@ -19407,11 +19407,11 @@ class LeftInHandThumbSField(
     ATTR_CLS = LeftInHandThumbSAttrOperator
     PLUG_CLS = LeftInHandThumbSPlugOperator
 
-    LeftInHandThumbSx = DoubleField()
+    LeftInHandThumbSx = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSy = DoubleField()
+    LeftInHandThumbSy = DoubleField(default_value=1.0)
 
-    LeftInHandThumbSz = DoubleField()
+    LeftInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandIndexTPlugOperator(
@@ -19424,11 +19424,11 @@ class LeftInHandIndexTPlugOperator(
         ("LeftInHandIndexTz", "LeftInHandIndexTz"),
     )
 
-    LeftInHandIndexTx = DoubleLinearField()
+    LeftInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTy = DoubleLinearField()
+    LeftInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTz = DoubleLinearField()
+    LeftInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandIndexTAttrOperator(
@@ -19436,11 +19436,11 @@ class LeftInHandIndexTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandIndexTx = DoubleLinearField()
+    LeftInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTy = DoubleLinearField()
+    LeftInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTz = DoubleLinearField()
+    LeftInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandIndexTField(
@@ -19451,11 +19451,11 @@ class LeftInHandIndexTField(
     ATTR_CLS = LeftInHandIndexTAttrOperator
     PLUG_CLS = LeftInHandIndexTPlugOperator
 
-    LeftInHandIndexTx = DoubleLinearField()
+    LeftInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTy = DoubleLinearField()
+    LeftInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandIndexTz = DoubleLinearField()
+    LeftInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandIndexRPlugOperator(
@@ -19468,11 +19468,11 @@ class LeftInHandIndexRPlugOperator(
         ("LeftInHandIndexRz", "LeftInHandIndexRz"),
     )
 
-    LeftInHandIndexRx = DoubleAngleField()
+    LeftInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRy = DoubleAngleField()
+    LeftInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRz = DoubleAngleField()
+    LeftInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandIndexRAttrOperator(
@@ -19480,11 +19480,11 @@ class LeftInHandIndexRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandIndexRx = DoubleAngleField()
+    LeftInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRy = DoubleAngleField()
+    LeftInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRz = DoubleAngleField()
+    LeftInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandIndexRField(
@@ -19495,11 +19495,11 @@ class LeftInHandIndexRField(
     ATTR_CLS = LeftInHandIndexRAttrOperator
     PLUG_CLS = LeftInHandIndexRPlugOperator
 
-    LeftInHandIndexRx = DoubleAngleField()
+    LeftInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRy = DoubleAngleField()
+    LeftInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandIndexRz = DoubleAngleField()
+    LeftInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandIndexSPlugOperator(
@@ -19512,11 +19512,11 @@ class LeftInHandIndexSPlugOperator(
         ("LeftInHandIndexSz", "LeftInHandIndexSz"),
     )
 
-    LeftInHandIndexSx = DoubleField()
+    LeftInHandIndexSx = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSy = DoubleField()
+    LeftInHandIndexSy = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSz = DoubleField()
+    LeftInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandIndexSAttrOperator(
@@ -19524,11 +19524,11 @@ class LeftInHandIndexSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandIndexSx = DoubleField()
+    LeftInHandIndexSx = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSy = DoubleField()
+    LeftInHandIndexSy = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSz = DoubleField()
+    LeftInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandIndexSField(
@@ -19539,11 +19539,11 @@ class LeftInHandIndexSField(
     ATTR_CLS = LeftInHandIndexSAttrOperator
     PLUG_CLS = LeftInHandIndexSPlugOperator
 
-    LeftInHandIndexSx = DoubleField()
+    LeftInHandIndexSx = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSy = DoubleField()
+    LeftInHandIndexSy = DoubleField(default_value=1.0)
 
-    LeftInHandIndexSz = DoubleField()
+    LeftInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandMiddleTPlugOperator(
@@ -19556,11 +19556,11 @@ class LeftInHandMiddleTPlugOperator(
         ("LeftInHandMiddleTz", "LeftInHandMiddleTz"),
     )
 
-    LeftInHandMiddleTx = DoubleLinearField()
+    LeftInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTy = DoubleLinearField()
+    LeftInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTz = DoubleLinearField()
+    LeftInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandMiddleTAttrOperator(
@@ -19568,11 +19568,11 @@ class LeftInHandMiddleTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandMiddleTx = DoubleLinearField()
+    LeftInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTy = DoubleLinearField()
+    LeftInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTz = DoubleLinearField()
+    LeftInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandMiddleTField(
@@ -19583,11 +19583,11 @@ class LeftInHandMiddleTField(
     ATTR_CLS = LeftInHandMiddleTAttrOperator
     PLUG_CLS = LeftInHandMiddleTPlugOperator
 
-    LeftInHandMiddleTx = DoubleLinearField()
+    LeftInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTy = DoubleLinearField()
+    LeftInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandMiddleTz = DoubleLinearField()
+    LeftInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandMiddleRPlugOperator(
@@ -19600,11 +19600,11 @@ class LeftInHandMiddleRPlugOperator(
         ("LeftInHandMiddleRz", "LeftInHandMiddleRz"),
     )
 
-    LeftInHandMiddleRx = DoubleAngleField()
+    LeftInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRy = DoubleAngleField()
+    LeftInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRz = DoubleAngleField()
+    LeftInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandMiddleRAttrOperator(
@@ -19612,11 +19612,11 @@ class LeftInHandMiddleRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandMiddleRx = DoubleAngleField()
+    LeftInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRy = DoubleAngleField()
+    LeftInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRz = DoubleAngleField()
+    LeftInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandMiddleRField(
@@ -19627,11 +19627,11 @@ class LeftInHandMiddleRField(
     ATTR_CLS = LeftInHandMiddleRAttrOperator
     PLUG_CLS = LeftInHandMiddleRPlugOperator
 
-    LeftInHandMiddleRx = DoubleAngleField()
+    LeftInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRy = DoubleAngleField()
+    LeftInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandMiddleRz = DoubleAngleField()
+    LeftInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandMiddleSPlugOperator(
@@ -19644,11 +19644,11 @@ class LeftInHandMiddleSPlugOperator(
         ("LeftInHandMiddleSz", "LeftInHandMiddleSz"),
     )
 
-    LeftInHandMiddleSx = DoubleField()
+    LeftInHandMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSy = DoubleField()
+    LeftInHandMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSz = DoubleField()
+    LeftInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandMiddleSAttrOperator(
@@ -19656,11 +19656,11 @@ class LeftInHandMiddleSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandMiddleSx = DoubleField()
+    LeftInHandMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSy = DoubleField()
+    LeftInHandMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSz = DoubleField()
+    LeftInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandMiddleSField(
@@ -19671,11 +19671,11 @@ class LeftInHandMiddleSField(
     ATTR_CLS = LeftInHandMiddleSAttrOperator
     PLUG_CLS = LeftInHandMiddleSPlugOperator
 
-    LeftInHandMiddleSx = DoubleField()
+    LeftInHandMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSy = DoubleField()
+    LeftInHandMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInHandMiddleSz = DoubleField()
+    LeftInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandRingTPlugOperator(
@@ -19688,11 +19688,11 @@ class LeftInHandRingTPlugOperator(
         ("LeftInHandRingTz", "LeftInHandRingTz"),
     )
 
-    LeftInHandRingTx = DoubleLinearField()
+    LeftInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTy = DoubleLinearField()
+    LeftInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTz = DoubleLinearField()
+    LeftInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandRingTAttrOperator(
@@ -19700,11 +19700,11 @@ class LeftInHandRingTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandRingTx = DoubleLinearField()
+    LeftInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTy = DoubleLinearField()
+    LeftInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTz = DoubleLinearField()
+    LeftInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandRingTField(
@@ -19715,11 +19715,11 @@ class LeftInHandRingTField(
     ATTR_CLS = LeftInHandRingTAttrOperator
     PLUG_CLS = LeftInHandRingTPlugOperator
 
-    LeftInHandRingTx = DoubleLinearField()
+    LeftInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTy = DoubleLinearField()
+    LeftInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandRingTz = DoubleLinearField()
+    LeftInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandRingRPlugOperator(
@@ -19732,11 +19732,11 @@ class LeftInHandRingRPlugOperator(
         ("LeftInHandRingRz", "LeftInHandRingRz"),
     )
 
-    LeftInHandRingRx = DoubleAngleField()
+    LeftInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRy = DoubleAngleField()
+    LeftInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRz = DoubleAngleField()
+    LeftInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandRingRAttrOperator(
@@ -19744,11 +19744,11 @@ class LeftInHandRingRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandRingRx = DoubleAngleField()
+    LeftInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRy = DoubleAngleField()
+    LeftInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRz = DoubleAngleField()
+    LeftInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandRingRField(
@@ -19759,11 +19759,11 @@ class LeftInHandRingRField(
     ATTR_CLS = LeftInHandRingRAttrOperator
     PLUG_CLS = LeftInHandRingRPlugOperator
 
-    LeftInHandRingRx = DoubleAngleField()
+    LeftInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRy = DoubleAngleField()
+    LeftInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandRingRz = DoubleAngleField()
+    LeftInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandRingSPlugOperator(
@@ -19776,11 +19776,11 @@ class LeftInHandRingSPlugOperator(
         ("LeftInHandRingSz", "LeftInHandRingSz"),
     )
 
-    LeftInHandRingSx = DoubleField()
+    LeftInHandRingSx = DoubleField(default_value=1.0)
 
-    LeftInHandRingSy = DoubleField()
+    LeftInHandRingSy = DoubleField(default_value=1.0)
 
-    LeftInHandRingSz = DoubleField()
+    LeftInHandRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandRingSAttrOperator(
@@ -19788,11 +19788,11 @@ class LeftInHandRingSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandRingSx = DoubleField()
+    LeftInHandRingSx = DoubleField(default_value=1.0)
 
-    LeftInHandRingSy = DoubleField()
+    LeftInHandRingSy = DoubleField(default_value=1.0)
 
-    LeftInHandRingSz = DoubleField()
+    LeftInHandRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandRingSField(
@@ -19803,11 +19803,11 @@ class LeftInHandRingSField(
     ATTR_CLS = LeftInHandRingSAttrOperator
     PLUG_CLS = LeftInHandRingSPlugOperator
 
-    LeftInHandRingSx = DoubleField()
+    LeftInHandRingSx = DoubleField(default_value=1.0)
 
-    LeftInHandRingSy = DoubleField()
+    LeftInHandRingSy = DoubleField(default_value=1.0)
 
-    LeftInHandRingSz = DoubleField()
+    LeftInHandRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandPinkyTPlugOperator(
@@ -19820,11 +19820,11 @@ class LeftInHandPinkyTPlugOperator(
         ("LeftInHandPinkyTz", "LeftInHandPinkyTz"),
     )
 
-    LeftInHandPinkyTx = DoubleLinearField()
+    LeftInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTy = DoubleLinearField()
+    LeftInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTz = DoubleLinearField()
+    LeftInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandPinkyTAttrOperator(
@@ -19832,11 +19832,11 @@ class LeftInHandPinkyTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandPinkyTx = DoubleLinearField()
+    LeftInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTy = DoubleLinearField()
+    LeftInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTz = DoubleLinearField()
+    LeftInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandPinkyTField(
@@ -19847,11 +19847,11 @@ class LeftInHandPinkyTField(
     ATTR_CLS = LeftInHandPinkyTAttrOperator
     PLUG_CLS = LeftInHandPinkyTPlugOperator
 
-    LeftInHandPinkyTx = DoubleLinearField()
+    LeftInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTy = DoubleLinearField()
+    LeftInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandPinkyTz = DoubleLinearField()
+    LeftInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandPinkyRPlugOperator(
@@ -19864,11 +19864,11 @@ class LeftInHandPinkyRPlugOperator(
         ("LeftInHandPinkyRz", "LeftInHandPinkyRz"),
     )
 
-    LeftInHandPinkyRx = DoubleAngleField()
+    LeftInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRy = DoubleAngleField()
+    LeftInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRz = DoubleAngleField()
+    LeftInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandPinkyRAttrOperator(
@@ -19876,11 +19876,11 @@ class LeftInHandPinkyRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandPinkyRx = DoubleAngleField()
+    LeftInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRy = DoubleAngleField()
+    LeftInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRz = DoubleAngleField()
+    LeftInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandPinkyRField(
@@ -19891,11 +19891,11 @@ class LeftInHandPinkyRField(
     ATTR_CLS = LeftInHandPinkyRAttrOperator
     PLUG_CLS = LeftInHandPinkyRPlugOperator
 
-    LeftInHandPinkyRx = DoubleAngleField()
+    LeftInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRy = DoubleAngleField()
+    LeftInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandPinkyRz = DoubleAngleField()
+    LeftInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandPinkySPlugOperator(
@@ -19908,11 +19908,11 @@ class LeftInHandPinkySPlugOperator(
         ("LeftInHandPinkySz", "LeftInHandPinkySz"),
     )
 
-    LeftInHandPinkySx = DoubleField()
+    LeftInHandPinkySx = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySy = DoubleField()
+    LeftInHandPinkySy = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySz = DoubleField()
+    LeftInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInHandPinkySAttrOperator(
@@ -19920,11 +19920,11 @@ class LeftInHandPinkySAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandPinkySx = DoubleField()
+    LeftInHandPinkySx = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySy = DoubleField()
+    LeftInHandPinkySy = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySz = DoubleField()
+    LeftInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInHandPinkySField(
@@ -19935,11 +19935,11 @@ class LeftInHandPinkySField(
     ATTR_CLS = LeftInHandPinkySAttrOperator
     PLUG_CLS = LeftInHandPinkySPlugOperator
 
-    LeftInHandPinkySx = DoubleField()
+    LeftInHandPinkySx = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySy = DoubleField()
+    LeftInHandPinkySy = DoubleField(default_value=1.0)
 
-    LeftInHandPinkySz = DoubleField()
+    LeftInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInHandExtraFingerTPlugOperator(
@@ -19952,11 +19952,11 @@ class LeftInHandExtraFingerTPlugOperator(
         ("LeftInHandExtraFingerTz", "LeftInHandExtraFingerTz"),
     )
 
-    LeftInHandExtraFingerTx = DoubleLinearField()
+    LeftInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTy = DoubleLinearField()
+    LeftInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTz = DoubleLinearField()
+    LeftInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandExtraFingerTAttrOperator(
@@ -19964,11 +19964,11 @@ class LeftInHandExtraFingerTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandExtraFingerTx = DoubleLinearField()
+    LeftInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTy = DoubleLinearField()
+    LeftInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTz = DoubleLinearField()
+    LeftInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandExtraFingerTField(
@@ -19979,11 +19979,11 @@ class LeftInHandExtraFingerTField(
     ATTR_CLS = LeftInHandExtraFingerTAttrOperator
     PLUG_CLS = LeftInHandExtraFingerTPlugOperator
 
-    LeftInHandExtraFingerTx = DoubleLinearField()
+    LeftInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTy = DoubleLinearField()
+    LeftInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInHandExtraFingerTz = DoubleLinearField()
+    LeftInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInHandExtraFingerRPlugOperator(
@@ -19996,11 +19996,11 @@ class LeftInHandExtraFingerRPlugOperator(
         ("LeftInHandExtraFingerRz", "LeftInHandExtraFingerRz"),
     )
 
-    LeftInHandExtraFingerRx = DoubleAngleField()
+    LeftInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRy = DoubleAngleField()
+    LeftInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRz = DoubleAngleField()
+    LeftInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandExtraFingerRAttrOperator(
@@ -20008,11 +20008,11 @@ class LeftInHandExtraFingerRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandExtraFingerRx = DoubleAngleField()
+    LeftInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRy = DoubleAngleField()
+    LeftInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRz = DoubleAngleField()
+    LeftInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandExtraFingerRField(
@@ -20023,11 +20023,11 @@ class LeftInHandExtraFingerRField(
     ATTR_CLS = LeftInHandExtraFingerRAttrOperator
     PLUG_CLS = LeftInHandExtraFingerRPlugOperator
 
-    LeftInHandExtraFingerRx = DoubleAngleField()
+    LeftInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRy = DoubleAngleField()
+    LeftInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInHandExtraFingerRz = DoubleAngleField()
+    LeftInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInHandExtraFingerSPlugOperator(
@@ -20040,11 +20040,11 @@ class LeftInHandExtraFingerSPlugOperator(
         ("LeftInHandExtraFingerSz", "LeftInHandExtraFingerSz"),
     )
 
-    LeftInHandExtraFingerSx = DoubleField()
+    LeftInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSy = DoubleField()
+    LeftInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSz = DoubleField()
+    LeftInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandExtraFingerSAttrOperator(
@@ -20052,11 +20052,11 @@ class LeftInHandExtraFingerSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInHandExtraFingerSx = DoubleField()
+    LeftInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSy = DoubleField()
+    LeftInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSz = DoubleField()
+    LeftInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftInHandExtraFingerSField(
@@ -20067,11 +20067,11 @@ class LeftInHandExtraFingerSField(
     ATTR_CLS = LeftInHandExtraFingerSAttrOperator
     PLUG_CLS = LeftInHandExtraFingerSPlugOperator
 
-    LeftInHandExtraFingerSx = DoubleField()
+    LeftInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSy = DoubleField()
+    LeftInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInHandExtraFingerSz = DoubleField()
+    LeftInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInHandThumbTPlugOperator(
@@ -20084,11 +20084,11 @@ class RightInHandThumbTPlugOperator(
         ("RightInHandThumbTz", "RightInHandThumbTz"),
     )
 
-    RightInHandThumbTx = DoubleLinearField()
+    RightInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTy = DoubleLinearField()
+    RightInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTz = DoubleLinearField()
+    RightInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandThumbTAttrOperator(
@@ -20096,11 +20096,11 @@ class RightInHandThumbTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandThumbTx = DoubleLinearField()
+    RightInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTy = DoubleLinearField()
+    RightInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTz = DoubleLinearField()
+    RightInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandThumbTField(
@@ -20111,11 +20111,11 @@ class RightInHandThumbTField(
     ATTR_CLS = RightInHandThumbTAttrOperator
     PLUG_CLS = RightInHandThumbTPlugOperator
 
-    RightInHandThumbTx = DoubleLinearField()
+    RightInHandThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTy = DoubleLinearField()
+    RightInHandThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandThumbTz = DoubleLinearField()
+    RightInHandThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandThumbRPlugOperator(
@@ -20128,11 +20128,11 @@ class RightInHandThumbRPlugOperator(
         ("RightInHandThumbRz", "RightInHandThumbRz"),
     )
 
-    RightInHandThumbRx = DoubleAngleField()
+    RightInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRy = DoubleAngleField()
+    RightInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRz = DoubleAngleField()
+    RightInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandThumbRAttrOperator(
@@ -20140,11 +20140,11 @@ class RightInHandThumbRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandThumbRx = DoubleAngleField()
+    RightInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRy = DoubleAngleField()
+    RightInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRz = DoubleAngleField()
+    RightInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandThumbRField(
@@ -20155,11 +20155,11 @@ class RightInHandThumbRField(
     ATTR_CLS = RightInHandThumbRAttrOperator
     PLUG_CLS = RightInHandThumbRPlugOperator
 
-    RightInHandThumbRx = DoubleAngleField()
+    RightInHandThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRy = DoubleAngleField()
+    RightInHandThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandThumbRz = DoubleAngleField()
+    RightInHandThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandThumbSPlugOperator(
@@ -20172,11 +20172,11 @@ class RightInHandThumbSPlugOperator(
         ("RightInHandThumbSz", "RightInHandThumbSz"),
     )
 
-    RightInHandThumbSx = DoubleField()
+    RightInHandThumbSx = DoubleField(default_value=1.0)
 
-    RightInHandThumbSy = DoubleField()
+    RightInHandThumbSy = DoubleField(default_value=1.0)
 
-    RightInHandThumbSz = DoubleField()
+    RightInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInHandThumbSAttrOperator(
@@ -20184,11 +20184,11 @@ class RightInHandThumbSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandThumbSx = DoubleField()
+    RightInHandThumbSx = DoubleField(default_value=1.0)
 
-    RightInHandThumbSy = DoubleField()
+    RightInHandThumbSy = DoubleField(default_value=1.0)
 
-    RightInHandThumbSz = DoubleField()
+    RightInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInHandThumbSField(
@@ -20199,11 +20199,11 @@ class RightInHandThumbSField(
     ATTR_CLS = RightInHandThumbSAttrOperator
     PLUG_CLS = RightInHandThumbSPlugOperator
 
-    RightInHandThumbSx = DoubleField()
+    RightInHandThumbSx = DoubleField(default_value=1.0)
 
-    RightInHandThumbSy = DoubleField()
+    RightInHandThumbSy = DoubleField(default_value=1.0)
 
-    RightInHandThumbSz = DoubleField()
+    RightInHandThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInHandIndexTPlugOperator(
@@ -20216,11 +20216,11 @@ class RightInHandIndexTPlugOperator(
         ("RightInHandIndexTz", "RightInHandIndexTz"),
     )
 
-    RightInHandIndexTx = DoubleLinearField()
+    RightInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTy = DoubleLinearField()
+    RightInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTz = DoubleLinearField()
+    RightInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandIndexTAttrOperator(
@@ -20228,11 +20228,11 @@ class RightInHandIndexTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandIndexTx = DoubleLinearField()
+    RightInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTy = DoubleLinearField()
+    RightInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTz = DoubleLinearField()
+    RightInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandIndexTField(
@@ -20243,11 +20243,11 @@ class RightInHandIndexTField(
     ATTR_CLS = RightInHandIndexTAttrOperator
     PLUG_CLS = RightInHandIndexTPlugOperator
 
-    RightInHandIndexTx = DoubleLinearField()
+    RightInHandIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTy = DoubleLinearField()
+    RightInHandIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandIndexTz = DoubleLinearField()
+    RightInHandIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandIndexRPlugOperator(
@@ -20260,11 +20260,11 @@ class RightInHandIndexRPlugOperator(
         ("RightInHandIndexRz", "RightInHandIndexRz"),
     )
 
-    RightInHandIndexRx = DoubleAngleField()
+    RightInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRy = DoubleAngleField()
+    RightInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRz = DoubleAngleField()
+    RightInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandIndexRAttrOperator(
@@ -20272,11 +20272,11 @@ class RightInHandIndexRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandIndexRx = DoubleAngleField()
+    RightInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRy = DoubleAngleField()
+    RightInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRz = DoubleAngleField()
+    RightInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandIndexRField(
@@ -20287,11 +20287,11 @@ class RightInHandIndexRField(
     ATTR_CLS = RightInHandIndexRAttrOperator
     PLUG_CLS = RightInHandIndexRPlugOperator
 
-    RightInHandIndexRx = DoubleAngleField()
+    RightInHandIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRy = DoubleAngleField()
+    RightInHandIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandIndexRz = DoubleAngleField()
+    RightInHandIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandIndexSPlugOperator(
@@ -20304,11 +20304,11 @@ class RightInHandIndexSPlugOperator(
         ("RightInHandIndexSz", "RightInHandIndexSz"),
     )
 
-    RightInHandIndexSx = DoubleField()
+    RightInHandIndexSx = DoubleField(default_value=1.0)
 
-    RightInHandIndexSy = DoubleField()
+    RightInHandIndexSy = DoubleField(default_value=1.0)
 
-    RightInHandIndexSz = DoubleField()
+    RightInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInHandIndexSAttrOperator(
@@ -20316,11 +20316,11 @@ class RightInHandIndexSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandIndexSx = DoubleField()
+    RightInHandIndexSx = DoubleField(default_value=1.0)
 
-    RightInHandIndexSy = DoubleField()
+    RightInHandIndexSy = DoubleField(default_value=1.0)
 
-    RightInHandIndexSz = DoubleField()
+    RightInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInHandIndexSField(
@@ -20331,11 +20331,11 @@ class RightInHandIndexSField(
     ATTR_CLS = RightInHandIndexSAttrOperator
     PLUG_CLS = RightInHandIndexSPlugOperator
 
-    RightInHandIndexSx = DoubleField()
+    RightInHandIndexSx = DoubleField(default_value=1.0)
 
-    RightInHandIndexSy = DoubleField()
+    RightInHandIndexSy = DoubleField(default_value=1.0)
 
-    RightInHandIndexSz = DoubleField()
+    RightInHandIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInHandMiddleTPlugOperator(
@@ -20348,11 +20348,11 @@ class RightInHandMiddleTPlugOperator(
         ("RightInHandMiddleTz", "RightInHandMiddleTz"),
     )
 
-    RightInHandMiddleTx = DoubleLinearField()
+    RightInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTy = DoubleLinearField()
+    RightInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTz = DoubleLinearField()
+    RightInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandMiddleTAttrOperator(
@@ -20360,11 +20360,11 @@ class RightInHandMiddleTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandMiddleTx = DoubleLinearField()
+    RightInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTy = DoubleLinearField()
+    RightInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTz = DoubleLinearField()
+    RightInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandMiddleTField(
@@ -20375,11 +20375,11 @@ class RightInHandMiddleTField(
     ATTR_CLS = RightInHandMiddleTAttrOperator
     PLUG_CLS = RightInHandMiddleTPlugOperator
 
-    RightInHandMiddleTx = DoubleLinearField()
+    RightInHandMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTy = DoubleLinearField()
+    RightInHandMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandMiddleTz = DoubleLinearField()
+    RightInHandMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandMiddleRPlugOperator(
@@ -20392,11 +20392,11 @@ class RightInHandMiddleRPlugOperator(
         ("RightInHandMiddleRz", "RightInHandMiddleRz"),
     )
 
-    RightInHandMiddleRx = DoubleAngleField()
+    RightInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRy = DoubleAngleField()
+    RightInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRz = DoubleAngleField()
+    RightInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandMiddleRAttrOperator(
@@ -20404,11 +20404,11 @@ class RightInHandMiddleRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandMiddleRx = DoubleAngleField()
+    RightInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRy = DoubleAngleField()
+    RightInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRz = DoubleAngleField()
+    RightInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandMiddleRField(
@@ -20419,11 +20419,11 @@ class RightInHandMiddleRField(
     ATTR_CLS = RightInHandMiddleRAttrOperator
     PLUG_CLS = RightInHandMiddleRPlugOperator
 
-    RightInHandMiddleRx = DoubleAngleField()
+    RightInHandMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRy = DoubleAngleField()
+    RightInHandMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandMiddleRz = DoubleAngleField()
+    RightInHandMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandMiddleSPlugOperator(
@@ -20436,11 +20436,11 @@ class RightInHandMiddleSPlugOperator(
         ("RightInHandMiddleSz", "RightInHandMiddleSz"),
     )
 
-    RightInHandMiddleSx = DoubleField()
+    RightInHandMiddleSx = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSy = DoubleField()
+    RightInHandMiddleSy = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSz = DoubleField()
+    RightInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInHandMiddleSAttrOperator(
@@ -20448,11 +20448,11 @@ class RightInHandMiddleSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandMiddleSx = DoubleField()
+    RightInHandMiddleSx = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSy = DoubleField()
+    RightInHandMiddleSy = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSz = DoubleField()
+    RightInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInHandMiddleSField(
@@ -20463,11 +20463,11 @@ class RightInHandMiddleSField(
     ATTR_CLS = RightInHandMiddleSAttrOperator
     PLUG_CLS = RightInHandMiddleSPlugOperator
 
-    RightInHandMiddleSx = DoubleField()
+    RightInHandMiddleSx = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSy = DoubleField()
+    RightInHandMiddleSy = DoubleField(default_value=1.0)
 
-    RightInHandMiddleSz = DoubleField()
+    RightInHandMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInHandRingTPlugOperator(
@@ -20480,11 +20480,11 @@ class RightInHandRingTPlugOperator(
         ("RightInHandRingTz", "RightInHandRingTz"),
     )
 
-    RightInHandRingTx = DoubleLinearField()
+    RightInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTy = DoubleLinearField()
+    RightInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTz = DoubleLinearField()
+    RightInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandRingTAttrOperator(
@@ -20492,11 +20492,11 @@ class RightInHandRingTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandRingTx = DoubleLinearField()
+    RightInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTy = DoubleLinearField()
+    RightInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTz = DoubleLinearField()
+    RightInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandRingTField(
@@ -20507,11 +20507,11 @@ class RightInHandRingTField(
     ATTR_CLS = RightInHandRingTAttrOperator
     PLUG_CLS = RightInHandRingTPlugOperator
 
-    RightInHandRingTx = DoubleLinearField()
+    RightInHandRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTy = DoubleLinearField()
+    RightInHandRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandRingTz = DoubleLinearField()
+    RightInHandRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandRingRPlugOperator(
@@ -20524,11 +20524,11 @@ class RightInHandRingRPlugOperator(
         ("RightInHandRingRz", "RightInHandRingRz"),
     )
 
-    RightInHandRingRx = DoubleAngleField()
+    RightInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRy = DoubleAngleField()
+    RightInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRz = DoubleAngleField()
+    RightInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandRingRAttrOperator(
@@ -20536,11 +20536,11 @@ class RightInHandRingRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandRingRx = DoubleAngleField()
+    RightInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRy = DoubleAngleField()
+    RightInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRz = DoubleAngleField()
+    RightInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandRingRField(
@@ -20551,11 +20551,11 @@ class RightInHandRingRField(
     ATTR_CLS = RightInHandRingRAttrOperator
     PLUG_CLS = RightInHandRingRPlugOperator
 
-    RightInHandRingRx = DoubleAngleField()
+    RightInHandRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRy = DoubleAngleField()
+    RightInHandRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandRingRz = DoubleAngleField()
+    RightInHandRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandRingSPlugOperator(
@@ -20568,11 +20568,11 @@ class RightInHandRingSPlugOperator(
         ("RightInHandRingSz", "RightInHandRingSz"),
     )
 
-    RightInHandRingSx = DoubleField()
+    RightInHandRingSx = DoubleField(default_value=1.0)
 
-    RightInHandRingSy = DoubleField()
+    RightInHandRingSy = DoubleField(default_value=1.0)
 
-    RightInHandRingSz = DoubleField()
+    RightInHandRingSz = DoubleField(default_value=1.0)
 
 
 class RightInHandRingSAttrOperator(
@@ -20580,11 +20580,11 @@ class RightInHandRingSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandRingSx = DoubleField()
+    RightInHandRingSx = DoubleField(default_value=1.0)
 
-    RightInHandRingSy = DoubleField()
+    RightInHandRingSy = DoubleField(default_value=1.0)
 
-    RightInHandRingSz = DoubleField()
+    RightInHandRingSz = DoubleField(default_value=1.0)
 
 
 class RightInHandRingSField(
@@ -20595,11 +20595,11 @@ class RightInHandRingSField(
     ATTR_CLS = RightInHandRingSAttrOperator
     PLUG_CLS = RightInHandRingSPlugOperator
 
-    RightInHandRingSx = DoubleField()
+    RightInHandRingSx = DoubleField(default_value=1.0)
 
-    RightInHandRingSy = DoubleField()
+    RightInHandRingSy = DoubleField(default_value=1.0)
 
-    RightInHandRingSz = DoubleField()
+    RightInHandRingSz = DoubleField(default_value=1.0)
 
 
 class RightInHandPinkyTPlugOperator(
@@ -20612,11 +20612,11 @@ class RightInHandPinkyTPlugOperator(
         ("RightInHandPinkyTz", "RightInHandPinkyTz"),
     )
 
-    RightInHandPinkyTx = DoubleLinearField()
+    RightInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTy = DoubleLinearField()
+    RightInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTz = DoubleLinearField()
+    RightInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandPinkyTAttrOperator(
@@ -20624,11 +20624,11 @@ class RightInHandPinkyTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandPinkyTx = DoubleLinearField()
+    RightInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTy = DoubleLinearField()
+    RightInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTz = DoubleLinearField()
+    RightInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandPinkyTField(
@@ -20639,11 +20639,11 @@ class RightInHandPinkyTField(
     ATTR_CLS = RightInHandPinkyTAttrOperator
     PLUG_CLS = RightInHandPinkyTPlugOperator
 
-    RightInHandPinkyTx = DoubleLinearField()
+    RightInHandPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTy = DoubleLinearField()
+    RightInHandPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandPinkyTz = DoubleLinearField()
+    RightInHandPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandPinkyRPlugOperator(
@@ -20656,11 +20656,11 @@ class RightInHandPinkyRPlugOperator(
         ("RightInHandPinkyRz", "RightInHandPinkyRz"),
     )
 
-    RightInHandPinkyRx = DoubleAngleField()
+    RightInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRy = DoubleAngleField()
+    RightInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRz = DoubleAngleField()
+    RightInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandPinkyRAttrOperator(
@@ -20668,11 +20668,11 @@ class RightInHandPinkyRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandPinkyRx = DoubleAngleField()
+    RightInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRy = DoubleAngleField()
+    RightInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRz = DoubleAngleField()
+    RightInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandPinkyRField(
@@ -20683,11 +20683,11 @@ class RightInHandPinkyRField(
     ATTR_CLS = RightInHandPinkyRAttrOperator
     PLUG_CLS = RightInHandPinkyRPlugOperator
 
-    RightInHandPinkyRx = DoubleAngleField()
+    RightInHandPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRy = DoubleAngleField()
+    RightInHandPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandPinkyRz = DoubleAngleField()
+    RightInHandPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandPinkySPlugOperator(
@@ -20700,11 +20700,11 @@ class RightInHandPinkySPlugOperator(
         ("RightInHandPinkySz", "RightInHandPinkySz"),
     )
 
-    RightInHandPinkySx = DoubleField()
+    RightInHandPinkySx = DoubleField(default_value=1.0)
 
-    RightInHandPinkySy = DoubleField()
+    RightInHandPinkySy = DoubleField(default_value=1.0)
 
-    RightInHandPinkySz = DoubleField()
+    RightInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInHandPinkySAttrOperator(
@@ -20712,11 +20712,11 @@ class RightInHandPinkySAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandPinkySx = DoubleField()
+    RightInHandPinkySx = DoubleField(default_value=1.0)
 
-    RightInHandPinkySy = DoubleField()
+    RightInHandPinkySy = DoubleField(default_value=1.0)
 
-    RightInHandPinkySz = DoubleField()
+    RightInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInHandPinkySField(
@@ -20727,11 +20727,11 @@ class RightInHandPinkySField(
     ATTR_CLS = RightInHandPinkySAttrOperator
     PLUG_CLS = RightInHandPinkySPlugOperator
 
-    RightInHandPinkySx = DoubleField()
+    RightInHandPinkySx = DoubleField(default_value=1.0)
 
-    RightInHandPinkySy = DoubleField()
+    RightInHandPinkySy = DoubleField(default_value=1.0)
 
-    RightInHandPinkySz = DoubleField()
+    RightInHandPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInHandExtraFingerTPlugOperator(
@@ -20744,11 +20744,11 @@ class RightInHandExtraFingerTPlugOperator(
         ("RightInHandExtraFingerTz", "RightInHandExtraFingerTz"),
     )
 
-    RightInHandExtraFingerTx = DoubleLinearField()
+    RightInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTy = DoubleLinearField()
+    RightInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTz = DoubleLinearField()
+    RightInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandExtraFingerTAttrOperator(
@@ -20756,11 +20756,11 @@ class RightInHandExtraFingerTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandExtraFingerTx = DoubleLinearField()
+    RightInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTy = DoubleLinearField()
+    RightInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTz = DoubleLinearField()
+    RightInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandExtraFingerTField(
@@ -20771,11 +20771,11 @@ class RightInHandExtraFingerTField(
     ATTR_CLS = RightInHandExtraFingerTAttrOperator
     PLUG_CLS = RightInHandExtraFingerTPlugOperator
 
-    RightInHandExtraFingerTx = DoubleLinearField()
+    RightInHandExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTy = DoubleLinearField()
+    RightInHandExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInHandExtraFingerTz = DoubleLinearField()
+    RightInHandExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInHandExtraFingerRPlugOperator(
@@ -20788,11 +20788,11 @@ class RightInHandExtraFingerRPlugOperator(
         ("RightInHandExtraFingerRz", "RightInHandExtraFingerRz"),
     )
 
-    RightInHandExtraFingerRx = DoubleAngleField()
+    RightInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRy = DoubleAngleField()
+    RightInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRz = DoubleAngleField()
+    RightInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandExtraFingerRAttrOperator(
@@ -20800,11 +20800,11 @@ class RightInHandExtraFingerRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandExtraFingerRx = DoubleAngleField()
+    RightInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRy = DoubleAngleField()
+    RightInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRz = DoubleAngleField()
+    RightInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandExtraFingerRField(
@@ -20815,11 +20815,11 @@ class RightInHandExtraFingerRField(
     ATTR_CLS = RightInHandExtraFingerRAttrOperator
     PLUG_CLS = RightInHandExtraFingerRPlugOperator
 
-    RightInHandExtraFingerRx = DoubleAngleField()
+    RightInHandExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRy = DoubleAngleField()
+    RightInHandExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInHandExtraFingerRz = DoubleAngleField()
+    RightInHandExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInHandExtraFingerSPlugOperator(
@@ -20832,11 +20832,11 @@ class RightInHandExtraFingerSPlugOperator(
         ("RightInHandExtraFingerSz", "RightInHandExtraFingerSz"),
     )
 
-    RightInHandExtraFingerSx = DoubleField()
+    RightInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSy = DoubleField()
+    RightInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSz = DoubleField()
+    RightInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInHandExtraFingerSAttrOperator(
@@ -20844,11 +20844,11 @@ class RightInHandExtraFingerSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInHandExtraFingerSx = DoubleField()
+    RightInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSy = DoubleField()
+    RightInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSz = DoubleField()
+    RightInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInHandExtraFingerSField(
@@ -20859,11 +20859,11 @@ class RightInHandExtraFingerSField(
     ATTR_CLS = RightInHandExtraFingerSAttrOperator
     PLUG_CLS = RightInHandExtraFingerSPlugOperator
 
-    RightInHandExtraFingerSx = DoubleField()
+    RightInHandExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSy = DoubleField()
+    RightInHandExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInHandExtraFingerSz = DoubleField()
+    RightInHandExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootThumbTPlugOperator(
@@ -20876,11 +20876,11 @@ class LeftInFootThumbTPlugOperator(
         ("LeftInFootThumbTz", "LeftInFootThumbTz"),
     )
 
-    LeftInFootThumbTx = DoubleLinearField()
+    LeftInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTy = DoubleLinearField()
+    LeftInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTz = DoubleLinearField()
+    LeftInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootThumbTAttrOperator(
@@ -20888,11 +20888,11 @@ class LeftInFootThumbTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootThumbTx = DoubleLinearField()
+    LeftInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTy = DoubleLinearField()
+    LeftInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTz = DoubleLinearField()
+    LeftInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootThumbTField(
@@ -20903,11 +20903,11 @@ class LeftInFootThumbTField(
     ATTR_CLS = LeftInFootThumbTAttrOperator
     PLUG_CLS = LeftInFootThumbTPlugOperator
 
-    LeftInFootThumbTx = DoubleLinearField()
+    LeftInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTy = DoubleLinearField()
+    LeftInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootThumbTz = DoubleLinearField()
+    LeftInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootThumbRPlugOperator(
@@ -20920,11 +20920,11 @@ class LeftInFootThumbRPlugOperator(
         ("LeftInFootThumbRz", "LeftInFootThumbRz"),
     )
 
-    LeftInFootThumbRx = DoubleAngleField()
+    LeftInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRy = DoubleAngleField()
+    LeftInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRz = DoubleAngleField()
+    LeftInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootThumbRAttrOperator(
@@ -20932,11 +20932,11 @@ class LeftInFootThumbRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootThumbRx = DoubleAngleField()
+    LeftInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRy = DoubleAngleField()
+    LeftInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRz = DoubleAngleField()
+    LeftInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootThumbRField(
@@ -20947,11 +20947,11 @@ class LeftInFootThumbRField(
     ATTR_CLS = LeftInFootThumbRAttrOperator
     PLUG_CLS = LeftInFootThumbRPlugOperator
 
-    LeftInFootThumbRx = DoubleAngleField()
+    LeftInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRy = DoubleAngleField()
+    LeftInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootThumbRz = DoubleAngleField()
+    LeftInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootThumbSPlugOperator(
@@ -20964,11 +20964,11 @@ class LeftInFootThumbSPlugOperator(
         ("LeftInFootThumbSz", "LeftInFootThumbSz"),
     )
 
-    LeftInFootThumbSx = DoubleField()
+    LeftInFootThumbSx = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSy = DoubleField()
+    LeftInFootThumbSy = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSz = DoubleField()
+    LeftInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootThumbSAttrOperator(
@@ -20976,11 +20976,11 @@ class LeftInFootThumbSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootThumbSx = DoubleField()
+    LeftInFootThumbSx = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSy = DoubleField()
+    LeftInFootThumbSy = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSz = DoubleField()
+    LeftInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootThumbSField(
@@ -20991,11 +20991,11 @@ class LeftInFootThumbSField(
     ATTR_CLS = LeftInFootThumbSAttrOperator
     PLUG_CLS = LeftInFootThumbSPlugOperator
 
-    LeftInFootThumbSx = DoubleField()
+    LeftInFootThumbSx = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSy = DoubleField()
+    LeftInFootThumbSy = DoubleField(default_value=1.0)
 
-    LeftInFootThumbSz = DoubleField()
+    LeftInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootIndexTPlugOperator(
@@ -21008,11 +21008,11 @@ class LeftInFootIndexTPlugOperator(
         ("LeftInFootIndexTz", "LeftInFootIndexTz"),
     )
 
-    LeftInFootIndexTx = DoubleLinearField()
+    LeftInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTy = DoubleLinearField()
+    LeftInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTz = DoubleLinearField()
+    LeftInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootIndexTAttrOperator(
@@ -21020,11 +21020,11 @@ class LeftInFootIndexTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootIndexTx = DoubleLinearField()
+    LeftInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTy = DoubleLinearField()
+    LeftInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTz = DoubleLinearField()
+    LeftInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootIndexTField(
@@ -21035,11 +21035,11 @@ class LeftInFootIndexTField(
     ATTR_CLS = LeftInFootIndexTAttrOperator
     PLUG_CLS = LeftInFootIndexTPlugOperator
 
-    LeftInFootIndexTx = DoubleLinearField()
+    LeftInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTy = DoubleLinearField()
+    LeftInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootIndexTz = DoubleLinearField()
+    LeftInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootIndexRPlugOperator(
@@ -21052,11 +21052,11 @@ class LeftInFootIndexRPlugOperator(
         ("LeftInFootIndexRz", "LeftInFootIndexRz"),
     )
 
-    LeftInFootIndexRx = DoubleAngleField()
+    LeftInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRy = DoubleAngleField()
+    LeftInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRz = DoubleAngleField()
+    LeftInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootIndexRAttrOperator(
@@ -21064,11 +21064,11 @@ class LeftInFootIndexRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootIndexRx = DoubleAngleField()
+    LeftInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRy = DoubleAngleField()
+    LeftInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRz = DoubleAngleField()
+    LeftInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootIndexRField(
@@ -21079,11 +21079,11 @@ class LeftInFootIndexRField(
     ATTR_CLS = LeftInFootIndexRAttrOperator
     PLUG_CLS = LeftInFootIndexRPlugOperator
 
-    LeftInFootIndexRx = DoubleAngleField()
+    LeftInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRy = DoubleAngleField()
+    LeftInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootIndexRz = DoubleAngleField()
+    LeftInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootIndexSPlugOperator(
@@ -21096,11 +21096,11 @@ class LeftInFootIndexSPlugOperator(
         ("LeftInFootIndexSz", "LeftInFootIndexSz"),
     )
 
-    LeftInFootIndexSx = DoubleField()
+    LeftInFootIndexSx = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSy = DoubleField()
+    LeftInFootIndexSy = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSz = DoubleField()
+    LeftInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootIndexSAttrOperator(
@@ -21108,11 +21108,11 @@ class LeftInFootIndexSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootIndexSx = DoubleField()
+    LeftInFootIndexSx = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSy = DoubleField()
+    LeftInFootIndexSy = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSz = DoubleField()
+    LeftInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootIndexSField(
@@ -21123,11 +21123,11 @@ class LeftInFootIndexSField(
     ATTR_CLS = LeftInFootIndexSAttrOperator
     PLUG_CLS = LeftInFootIndexSPlugOperator
 
-    LeftInFootIndexSx = DoubleField()
+    LeftInFootIndexSx = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSy = DoubleField()
+    LeftInFootIndexSy = DoubleField(default_value=1.0)
 
-    LeftInFootIndexSz = DoubleField()
+    LeftInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootMiddleTPlugOperator(
@@ -21140,11 +21140,11 @@ class LeftInFootMiddleTPlugOperator(
         ("LeftInFootMiddleTz", "LeftInFootMiddleTz"),
     )
 
-    LeftInFootMiddleTx = DoubleLinearField()
+    LeftInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTy = DoubleLinearField()
+    LeftInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTz = DoubleLinearField()
+    LeftInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootMiddleTAttrOperator(
@@ -21152,11 +21152,11 @@ class LeftInFootMiddleTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootMiddleTx = DoubleLinearField()
+    LeftInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTy = DoubleLinearField()
+    LeftInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTz = DoubleLinearField()
+    LeftInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootMiddleTField(
@@ -21167,11 +21167,11 @@ class LeftInFootMiddleTField(
     ATTR_CLS = LeftInFootMiddleTAttrOperator
     PLUG_CLS = LeftInFootMiddleTPlugOperator
 
-    LeftInFootMiddleTx = DoubleLinearField()
+    LeftInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTy = DoubleLinearField()
+    LeftInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootMiddleTz = DoubleLinearField()
+    LeftInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootMiddleRPlugOperator(
@@ -21184,11 +21184,11 @@ class LeftInFootMiddleRPlugOperator(
         ("LeftInFootMiddleRz", "LeftInFootMiddleRz"),
     )
 
-    LeftInFootMiddleRx = DoubleAngleField()
+    LeftInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRy = DoubleAngleField()
+    LeftInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRz = DoubleAngleField()
+    LeftInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootMiddleRAttrOperator(
@@ -21196,11 +21196,11 @@ class LeftInFootMiddleRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootMiddleRx = DoubleAngleField()
+    LeftInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRy = DoubleAngleField()
+    LeftInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRz = DoubleAngleField()
+    LeftInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootMiddleRField(
@@ -21211,11 +21211,11 @@ class LeftInFootMiddleRField(
     ATTR_CLS = LeftInFootMiddleRAttrOperator
     PLUG_CLS = LeftInFootMiddleRPlugOperator
 
-    LeftInFootMiddleRx = DoubleAngleField()
+    LeftInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRy = DoubleAngleField()
+    LeftInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootMiddleRz = DoubleAngleField()
+    LeftInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootMiddleSPlugOperator(
@@ -21228,11 +21228,11 @@ class LeftInFootMiddleSPlugOperator(
         ("LeftInFootMiddleSz", "LeftInFootMiddleSz"),
     )
 
-    LeftInFootMiddleSx = DoubleField()
+    LeftInFootMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSy = DoubleField()
+    LeftInFootMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSz = DoubleField()
+    LeftInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootMiddleSAttrOperator(
@@ -21240,11 +21240,11 @@ class LeftInFootMiddleSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootMiddleSx = DoubleField()
+    LeftInFootMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSy = DoubleField()
+    LeftInFootMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSz = DoubleField()
+    LeftInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootMiddleSField(
@@ -21255,11 +21255,11 @@ class LeftInFootMiddleSField(
     ATTR_CLS = LeftInFootMiddleSAttrOperator
     PLUG_CLS = LeftInFootMiddleSPlugOperator
 
-    LeftInFootMiddleSx = DoubleField()
+    LeftInFootMiddleSx = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSy = DoubleField()
+    LeftInFootMiddleSy = DoubleField(default_value=1.0)
 
-    LeftInFootMiddleSz = DoubleField()
+    LeftInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootRingTPlugOperator(
@@ -21272,11 +21272,11 @@ class LeftInFootRingTPlugOperator(
         ("LeftInFootRingTz", "LeftInFootRingTz"),
     )
 
-    LeftInFootRingTx = DoubleLinearField()
+    LeftInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTy = DoubleLinearField()
+    LeftInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTz = DoubleLinearField()
+    LeftInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootRingTAttrOperator(
@@ -21284,11 +21284,11 @@ class LeftInFootRingTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootRingTx = DoubleLinearField()
+    LeftInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTy = DoubleLinearField()
+    LeftInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTz = DoubleLinearField()
+    LeftInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootRingTField(
@@ -21299,11 +21299,11 @@ class LeftInFootRingTField(
     ATTR_CLS = LeftInFootRingTAttrOperator
     PLUG_CLS = LeftInFootRingTPlugOperator
 
-    LeftInFootRingTx = DoubleLinearField()
+    LeftInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTy = DoubleLinearField()
+    LeftInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootRingTz = DoubleLinearField()
+    LeftInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootRingRPlugOperator(
@@ -21316,11 +21316,11 @@ class LeftInFootRingRPlugOperator(
         ("LeftInFootRingRz", "LeftInFootRingRz"),
     )
 
-    LeftInFootRingRx = DoubleAngleField()
+    LeftInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRy = DoubleAngleField()
+    LeftInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRz = DoubleAngleField()
+    LeftInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootRingRAttrOperator(
@@ -21328,11 +21328,11 @@ class LeftInFootRingRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootRingRx = DoubleAngleField()
+    LeftInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRy = DoubleAngleField()
+    LeftInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRz = DoubleAngleField()
+    LeftInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootRingRField(
@@ -21343,11 +21343,11 @@ class LeftInFootRingRField(
     ATTR_CLS = LeftInFootRingRAttrOperator
     PLUG_CLS = LeftInFootRingRPlugOperator
 
-    LeftInFootRingRx = DoubleAngleField()
+    LeftInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRy = DoubleAngleField()
+    LeftInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootRingRz = DoubleAngleField()
+    LeftInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootRingSPlugOperator(
@@ -21360,11 +21360,11 @@ class LeftInFootRingSPlugOperator(
         ("LeftInFootRingSz", "LeftInFootRingSz"),
     )
 
-    LeftInFootRingSx = DoubleField()
+    LeftInFootRingSx = DoubleField(default_value=1.0)
 
-    LeftInFootRingSy = DoubleField()
+    LeftInFootRingSy = DoubleField(default_value=1.0)
 
-    LeftInFootRingSz = DoubleField()
+    LeftInFootRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootRingSAttrOperator(
@@ -21372,11 +21372,11 @@ class LeftInFootRingSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootRingSx = DoubleField()
+    LeftInFootRingSx = DoubleField(default_value=1.0)
 
-    LeftInFootRingSy = DoubleField()
+    LeftInFootRingSy = DoubleField(default_value=1.0)
 
-    LeftInFootRingSz = DoubleField()
+    LeftInFootRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootRingSField(
@@ -21387,11 +21387,11 @@ class LeftInFootRingSField(
     ATTR_CLS = LeftInFootRingSAttrOperator
     PLUG_CLS = LeftInFootRingSPlugOperator
 
-    LeftInFootRingSx = DoubleField()
+    LeftInFootRingSx = DoubleField(default_value=1.0)
 
-    LeftInFootRingSy = DoubleField()
+    LeftInFootRingSy = DoubleField(default_value=1.0)
 
-    LeftInFootRingSz = DoubleField()
+    LeftInFootRingSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootPinkyTPlugOperator(
@@ -21404,11 +21404,11 @@ class LeftInFootPinkyTPlugOperator(
         ("LeftInFootPinkyTz", "LeftInFootPinkyTz"),
     )
 
-    LeftInFootPinkyTx = DoubleLinearField()
+    LeftInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTy = DoubleLinearField()
+    LeftInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTz = DoubleLinearField()
+    LeftInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootPinkyTAttrOperator(
@@ -21416,11 +21416,11 @@ class LeftInFootPinkyTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootPinkyTx = DoubleLinearField()
+    LeftInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTy = DoubleLinearField()
+    LeftInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTz = DoubleLinearField()
+    LeftInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootPinkyTField(
@@ -21431,11 +21431,11 @@ class LeftInFootPinkyTField(
     ATTR_CLS = LeftInFootPinkyTAttrOperator
     PLUG_CLS = LeftInFootPinkyTPlugOperator
 
-    LeftInFootPinkyTx = DoubleLinearField()
+    LeftInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTy = DoubleLinearField()
+    LeftInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootPinkyTz = DoubleLinearField()
+    LeftInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootPinkyRPlugOperator(
@@ -21448,11 +21448,11 @@ class LeftInFootPinkyRPlugOperator(
         ("LeftInFootPinkyRz", "LeftInFootPinkyRz"),
     )
 
-    LeftInFootPinkyRx = DoubleAngleField()
+    LeftInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRy = DoubleAngleField()
+    LeftInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRz = DoubleAngleField()
+    LeftInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootPinkyRAttrOperator(
@@ -21460,11 +21460,11 @@ class LeftInFootPinkyRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootPinkyRx = DoubleAngleField()
+    LeftInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRy = DoubleAngleField()
+    LeftInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRz = DoubleAngleField()
+    LeftInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootPinkyRField(
@@ -21475,11 +21475,11 @@ class LeftInFootPinkyRField(
     ATTR_CLS = LeftInFootPinkyRAttrOperator
     PLUG_CLS = LeftInFootPinkyRPlugOperator
 
-    LeftInFootPinkyRx = DoubleAngleField()
+    LeftInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRy = DoubleAngleField()
+    LeftInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootPinkyRz = DoubleAngleField()
+    LeftInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootPinkySPlugOperator(
@@ -21492,11 +21492,11 @@ class LeftInFootPinkySPlugOperator(
         ("LeftInFootPinkySz", "LeftInFootPinkySz"),
     )
 
-    LeftInFootPinkySx = DoubleField()
+    LeftInFootPinkySx = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySy = DoubleField()
+    LeftInFootPinkySy = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySz = DoubleField()
+    LeftInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInFootPinkySAttrOperator(
@@ -21504,11 +21504,11 @@ class LeftInFootPinkySAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootPinkySx = DoubleField()
+    LeftInFootPinkySx = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySy = DoubleField()
+    LeftInFootPinkySy = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySz = DoubleField()
+    LeftInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInFootPinkySField(
@@ -21519,11 +21519,11 @@ class LeftInFootPinkySField(
     ATTR_CLS = LeftInFootPinkySAttrOperator
     PLUG_CLS = LeftInFootPinkySPlugOperator
 
-    LeftInFootPinkySx = DoubleField()
+    LeftInFootPinkySx = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySy = DoubleField()
+    LeftInFootPinkySy = DoubleField(default_value=1.0)
 
-    LeftInFootPinkySz = DoubleField()
+    LeftInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class LeftInFootExtraFingerTPlugOperator(
@@ -21536,11 +21536,11 @@ class LeftInFootExtraFingerTPlugOperator(
         ("LeftInFootExtraFingerTz", "LeftInFootExtraFingerTz"),
     )
 
-    LeftInFootExtraFingerTx = DoubleLinearField()
+    LeftInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTy = DoubleLinearField()
+    LeftInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTz = DoubleLinearField()
+    LeftInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootExtraFingerTAttrOperator(
@@ -21548,11 +21548,11 @@ class LeftInFootExtraFingerTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootExtraFingerTx = DoubleLinearField()
+    LeftInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTy = DoubleLinearField()
+    LeftInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTz = DoubleLinearField()
+    LeftInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootExtraFingerTField(
@@ -21563,11 +21563,11 @@ class LeftInFootExtraFingerTField(
     ATTR_CLS = LeftInFootExtraFingerTAttrOperator
     PLUG_CLS = LeftInFootExtraFingerTPlugOperator
 
-    LeftInFootExtraFingerTx = DoubleLinearField()
+    LeftInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTy = DoubleLinearField()
+    LeftInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    LeftInFootExtraFingerTz = DoubleLinearField()
+    LeftInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftInFootExtraFingerRPlugOperator(
@@ -21580,11 +21580,11 @@ class LeftInFootExtraFingerRPlugOperator(
         ("LeftInFootExtraFingerRz", "LeftInFootExtraFingerRz"),
     )
 
-    LeftInFootExtraFingerRx = DoubleAngleField()
+    LeftInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRy = DoubleAngleField()
+    LeftInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRz = DoubleAngleField()
+    LeftInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootExtraFingerRAttrOperator(
@@ -21592,11 +21592,11 @@ class LeftInFootExtraFingerRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootExtraFingerRx = DoubleAngleField()
+    LeftInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRy = DoubleAngleField()
+    LeftInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRz = DoubleAngleField()
+    LeftInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootExtraFingerRField(
@@ -21607,11 +21607,11 @@ class LeftInFootExtraFingerRField(
     ATTR_CLS = LeftInFootExtraFingerRAttrOperator
     PLUG_CLS = LeftInFootExtraFingerRPlugOperator
 
-    LeftInFootExtraFingerRx = DoubleAngleField()
+    LeftInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRy = DoubleAngleField()
+    LeftInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    LeftInFootExtraFingerRz = DoubleAngleField()
+    LeftInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftInFootExtraFingerSPlugOperator(
@@ -21624,11 +21624,11 @@ class LeftInFootExtraFingerSPlugOperator(
         ("LeftInFootExtraFingerSz", "LeftInFootExtraFingerSz"),
     )
 
-    LeftInFootExtraFingerSx = DoubleField()
+    LeftInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSy = DoubleField()
+    LeftInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSz = DoubleField()
+    LeftInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootExtraFingerSAttrOperator(
@@ -21636,11 +21636,11 @@ class LeftInFootExtraFingerSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftInFootExtraFingerSx = DoubleField()
+    LeftInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSy = DoubleField()
+    LeftInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSz = DoubleField()
+    LeftInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftInFootExtraFingerSField(
@@ -21651,11 +21651,11 @@ class LeftInFootExtraFingerSField(
     ATTR_CLS = LeftInFootExtraFingerSAttrOperator
     PLUG_CLS = LeftInFootExtraFingerSPlugOperator
 
-    LeftInFootExtraFingerSx = DoubleField()
+    LeftInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSy = DoubleField()
+    LeftInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    LeftInFootExtraFingerSz = DoubleField()
+    LeftInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInFootThumbTPlugOperator(
@@ -21668,11 +21668,11 @@ class RightInFootThumbTPlugOperator(
         ("RightInFootThumbTz", "RightInFootThumbTz"),
     )
 
-    RightInFootThumbTx = DoubleLinearField()
+    RightInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTy = DoubleLinearField()
+    RightInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTz = DoubleLinearField()
+    RightInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootThumbTAttrOperator(
@@ -21680,11 +21680,11 @@ class RightInFootThumbTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootThumbTx = DoubleLinearField()
+    RightInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTy = DoubleLinearField()
+    RightInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTz = DoubleLinearField()
+    RightInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootThumbTField(
@@ -21695,11 +21695,11 @@ class RightInFootThumbTField(
     ATTR_CLS = RightInFootThumbTAttrOperator
     PLUG_CLS = RightInFootThumbTPlugOperator
 
-    RightInFootThumbTx = DoubleLinearField()
+    RightInFootThumbTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTy = DoubleLinearField()
+    RightInFootThumbTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootThumbTz = DoubleLinearField()
+    RightInFootThumbTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootThumbRPlugOperator(
@@ -21712,11 +21712,11 @@ class RightInFootThumbRPlugOperator(
         ("RightInFootThumbRz", "RightInFootThumbRz"),
     )
 
-    RightInFootThumbRx = DoubleAngleField()
+    RightInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRy = DoubleAngleField()
+    RightInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRz = DoubleAngleField()
+    RightInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootThumbRAttrOperator(
@@ -21724,11 +21724,11 @@ class RightInFootThumbRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootThumbRx = DoubleAngleField()
+    RightInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRy = DoubleAngleField()
+    RightInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRz = DoubleAngleField()
+    RightInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootThumbRField(
@@ -21739,11 +21739,11 @@ class RightInFootThumbRField(
     ATTR_CLS = RightInFootThumbRAttrOperator
     PLUG_CLS = RightInFootThumbRPlugOperator
 
-    RightInFootThumbRx = DoubleAngleField()
+    RightInFootThumbRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRy = DoubleAngleField()
+    RightInFootThumbRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootThumbRz = DoubleAngleField()
+    RightInFootThumbRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootThumbSPlugOperator(
@@ -21756,11 +21756,11 @@ class RightInFootThumbSPlugOperator(
         ("RightInFootThumbSz", "RightInFootThumbSz"),
     )
 
-    RightInFootThumbSx = DoubleField()
+    RightInFootThumbSx = DoubleField(default_value=1.0)
 
-    RightInFootThumbSy = DoubleField()
+    RightInFootThumbSy = DoubleField(default_value=1.0)
 
-    RightInFootThumbSz = DoubleField()
+    RightInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInFootThumbSAttrOperator(
@@ -21768,11 +21768,11 @@ class RightInFootThumbSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootThumbSx = DoubleField()
+    RightInFootThumbSx = DoubleField(default_value=1.0)
 
-    RightInFootThumbSy = DoubleField()
+    RightInFootThumbSy = DoubleField(default_value=1.0)
 
-    RightInFootThumbSz = DoubleField()
+    RightInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInFootThumbSField(
@@ -21783,11 +21783,11 @@ class RightInFootThumbSField(
     ATTR_CLS = RightInFootThumbSAttrOperator
     PLUG_CLS = RightInFootThumbSPlugOperator
 
-    RightInFootThumbSx = DoubleField()
+    RightInFootThumbSx = DoubleField(default_value=1.0)
 
-    RightInFootThumbSy = DoubleField()
+    RightInFootThumbSy = DoubleField(default_value=1.0)
 
-    RightInFootThumbSz = DoubleField()
+    RightInFootThumbSz = DoubleField(default_value=1.0)
 
 
 class RightInFootIndexTPlugOperator(
@@ -21800,11 +21800,11 @@ class RightInFootIndexTPlugOperator(
         ("RightInFootIndexTz", "RightInFootIndexTz"),
     )
 
-    RightInFootIndexTx = DoubleLinearField()
+    RightInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTy = DoubleLinearField()
+    RightInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTz = DoubleLinearField()
+    RightInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootIndexTAttrOperator(
@@ -21812,11 +21812,11 @@ class RightInFootIndexTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootIndexTx = DoubleLinearField()
+    RightInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTy = DoubleLinearField()
+    RightInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTz = DoubleLinearField()
+    RightInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootIndexTField(
@@ -21827,11 +21827,11 @@ class RightInFootIndexTField(
     ATTR_CLS = RightInFootIndexTAttrOperator
     PLUG_CLS = RightInFootIndexTPlugOperator
 
-    RightInFootIndexTx = DoubleLinearField()
+    RightInFootIndexTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTy = DoubleLinearField()
+    RightInFootIndexTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootIndexTz = DoubleLinearField()
+    RightInFootIndexTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootIndexRPlugOperator(
@@ -21844,11 +21844,11 @@ class RightInFootIndexRPlugOperator(
         ("RightInFootIndexRz", "RightInFootIndexRz"),
     )
 
-    RightInFootIndexRx = DoubleAngleField()
+    RightInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRy = DoubleAngleField()
+    RightInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRz = DoubleAngleField()
+    RightInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootIndexRAttrOperator(
@@ -21856,11 +21856,11 @@ class RightInFootIndexRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootIndexRx = DoubleAngleField()
+    RightInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRy = DoubleAngleField()
+    RightInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRz = DoubleAngleField()
+    RightInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootIndexRField(
@@ -21871,11 +21871,11 @@ class RightInFootIndexRField(
     ATTR_CLS = RightInFootIndexRAttrOperator
     PLUG_CLS = RightInFootIndexRPlugOperator
 
-    RightInFootIndexRx = DoubleAngleField()
+    RightInFootIndexRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRy = DoubleAngleField()
+    RightInFootIndexRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootIndexRz = DoubleAngleField()
+    RightInFootIndexRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootIndexSPlugOperator(
@@ -21888,11 +21888,11 @@ class RightInFootIndexSPlugOperator(
         ("RightInFootIndexSz", "RightInFootIndexSz"),
     )
 
-    RightInFootIndexSx = DoubleField()
+    RightInFootIndexSx = DoubleField(default_value=1.0)
 
-    RightInFootIndexSy = DoubleField()
+    RightInFootIndexSy = DoubleField(default_value=1.0)
 
-    RightInFootIndexSz = DoubleField()
+    RightInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInFootIndexSAttrOperator(
@@ -21900,11 +21900,11 @@ class RightInFootIndexSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootIndexSx = DoubleField()
+    RightInFootIndexSx = DoubleField(default_value=1.0)
 
-    RightInFootIndexSy = DoubleField()
+    RightInFootIndexSy = DoubleField(default_value=1.0)
 
-    RightInFootIndexSz = DoubleField()
+    RightInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInFootIndexSField(
@@ -21915,11 +21915,11 @@ class RightInFootIndexSField(
     ATTR_CLS = RightInFootIndexSAttrOperator
     PLUG_CLS = RightInFootIndexSPlugOperator
 
-    RightInFootIndexSx = DoubleField()
+    RightInFootIndexSx = DoubleField(default_value=1.0)
 
-    RightInFootIndexSy = DoubleField()
+    RightInFootIndexSy = DoubleField(default_value=1.0)
 
-    RightInFootIndexSz = DoubleField()
+    RightInFootIndexSz = DoubleField(default_value=1.0)
 
 
 class RightInFootMiddleTPlugOperator(
@@ -21932,11 +21932,11 @@ class RightInFootMiddleTPlugOperator(
         ("RightInFootMiddleTz", "RightInFootMiddleTz"),
     )
 
-    RightInFootMiddleTx = DoubleLinearField()
+    RightInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTy = DoubleLinearField()
+    RightInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTz = DoubleLinearField()
+    RightInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootMiddleTAttrOperator(
@@ -21944,11 +21944,11 @@ class RightInFootMiddleTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootMiddleTx = DoubleLinearField()
+    RightInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTy = DoubleLinearField()
+    RightInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTz = DoubleLinearField()
+    RightInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootMiddleTField(
@@ -21959,11 +21959,11 @@ class RightInFootMiddleTField(
     ATTR_CLS = RightInFootMiddleTAttrOperator
     PLUG_CLS = RightInFootMiddleTPlugOperator
 
-    RightInFootMiddleTx = DoubleLinearField()
+    RightInFootMiddleTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTy = DoubleLinearField()
+    RightInFootMiddleTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootMiddleTz = DoubleLinearField()
+    RightInFootMiddleTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootMiddleRPlugOperator(
@@ -21976,11 +21976,11 @@ class RightInFootMiddleRPlugOperator(
         ("RightInFootMiddleRz", "RightInFootMiddleRz"),
     )
 
-    RightInFootMiddleRx = DoubleAngleField()
+    RightInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRy = DoubleAngleField()
+    RightInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRz = DoubleAngleField()
+    RightInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootMiddleRAttrOperator(
@@ -21988,11 +21988,11 @@ class RightInFootMiddleRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootMiddleRx = DoubleAngleField()
+    RightInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRy = DoubleAngleField()
+    RightInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRz = DoubleAngleField()
+    RightInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootMiddleRField(
@@ -22003,11 +22003,11 @@ class RightInFootMiddleRField(
     ATTR_CLS = RightInFootMiddleRAttrOperator
     PLUG_CLS = RightInFootMiddleRPlugOperator
 
-    RightInFootMiddleRx = DoubleAngleField()
+    RightInFootMiddleRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRy = DoubleAngleField()
+    RightInFootMiddleRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootMiddleRz = DoubleAngleField()
+    RightInFootMiddleRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootMiddleSPlugOperator(
@@ -22020,11 +22020,11 @@ class RightInFootMiddleSPlugOperator(
         ("RightInFootMiddleSz", "RightInFootMiddleSz"),
     )
 
-    RightInFootMiddleSx = DoubleField()
+    RightInFootMiddleSx = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSy = DoubleField()
+    RightInFootMiddleSy = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSz = DoubleField()
+    RightInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInFootMiddleSAttrOperator(
@@ -22032,11 +22032,11 @@ class RightInFootMiddleSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootMiddleSx = DoubleField()
+    RightInFootMiddleSx = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSy = DoubleField()
+    RightInFootMiddleSy = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSz = DoubleField()
+    RightInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInFootMiddleSField(
@@ -22047,11 +22047,11 @@ class RightInFootMiddleSField(
     ATTR_CLS = RightInFootMiddleSAttrOperator
     PLUG_CLS = RightInFootMiddleSPlugOperator
 
-    RightInFootMiddleSx = DoubleField()
+    RightInFootMiddleSx = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSy = DoubleField()
+    RightInFootMiddleSy = DoubleField(default_value=1.0)
 
-    RightInFootMiddleSz = DoubleField()
+    RightInFootMiddleSz = DoubleField(default_value=1.0)
 
 
 class RightInFootRingTPlugOperator(
@@ -22064,11 +22064,11 @@ class RightInFootRingTPlugOperator(
         ("RightInFootRingTz", "RightInFootRingTz"),
     )
 
-    RightInFootRingTx = DoubleLinearField()
+    RightInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTy = DoubleLinearField()
+    RightInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTz = DoubleLinearField()
+    RightInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootRingTAttrOperator(
@@ -22076,11 +22076,11 @@ class RightInFootRingTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootRingTx = DoubleLinearField()
+    RightInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTy = DoubleLinearField()
+    RightInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTz = DoubleLinearField()
+    RightInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootRingTField(
@@ -22091,11 +22091,11 @@ class RightInFootRingTField(
     ATTR_CLS = RightInFootRingTAttrOperator
     PLUG_CLS = RightInFootRingTPlugOperator
 
-    RightInFootRingTx = DoubleLinearField()
+    RightInFootRingTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTy = DoubleLinearField()
+    RightInFootRingTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootRingTz = DoubleLinearField()
+    RightInFootRingTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootRingRPlugOperator(
@@ -22108,11 +22108,11 @@ class RightInFootRingRPlugOperator(
         ("RightInFootRingRz", "RightInFootRingRz"),
     )
 
-    RightInFootRingRx = DoubleAngleField()
+    RightInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRy = DoubleAngleField()
+    RightInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRz = DoubleAngleField()
+    RightInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootRingRAttrOperator(
@@ -22120,11 +22120,11 @@ class RightInFootRingRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootRingRx = DoubleAngleField()
+    RightInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRy = DoubleAngleField()
+    RightInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRz = DoubleAngleField()
+    RightInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootRingRField(
@@ -22135,11 +22135,11 @@ class RightInFootRingRField(
     ATTR_CLS = RightInFootRingRAttrOperator
     PLUG_CLS = RightInFootRingRPlugOperator
 
-    RightInFootRingRx = DoubleAngleField()
+    RightInFootRingRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRy = DoubleAngleField()
+    RightInFootRingRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootRingRz = DoubleAngleField()
+    RightInFootRingRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootRingSPlugOperator(
@@ -22152,11 +22152,11 @@ class RightInFootRingSPlugOperator(
         ("RightInFootRingSz", "RightInFootRingSz"),
     )
 
-    RightInFootRingSx = DoubleField()
+    RightInFootRingSx = DoubleField(default_value=1.0)
 
-    RightInFootRingSy = DoubleField()
+    RightInFootRingSy = DoubleField(default_value=1.0)
 
-    RightInFootRingSz = DoubleField()
+    RightInFootRingSz = DoubleField(default_value=1.0)
 
 
 class RightInFootRingSAttrOperator(
@@ -22164,11 +22164,11 @@ class RightInFootRingSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootRingSx = DoubleField()
+    RightInFootRingSx = DoubleField(default_value=1.0)
 
-    RightInFootRingSy = DoubleField()
+    RightInFootRingSy = DoubleField(default_value=1.0)
 
-    RightInFootRingSz = DoubleField()
+    RightInFootRingSz = DoubleField(default_value=1.0)
 
 
 class RightInFootRingSField(
@@ -22179,11 +22179,11 @@ class RightInFootRingSField(
     ATTR_CLS = RightInFootRingSAttrOperator
     PLUG_CLS = RightInFootRingSPlugOperator
 
-    RightInFootRingSx = DoubleField()
+    RightInFootRingSx = DoubleField(default_value=1.0)
 
-    RightInFootRingSy = DoubleField()
+    RightInFootRingSy = DoubleField(default_value=1.0)
 
-    RightInFootRingSz = DoubleField()
+    RightInFootRingSz = DoubleField(default_value=1.0)
 
 
 class RightInFootPinkyTPlugOperator(
@@ -22196,11 +22196,11 @@ class RightInFootPinkyTPlugOperator(
         ("RightInFootPinkyTz", "RightInFootPinkyTz"),
     )
 
-    RightInFootPinkyTx = DoubleLinearField()
+    RightInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTy = DoubleLinearField()
+    RightInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTz = DoubleLinearField()
+    RightInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootPinkyTAttrOperator(
@@ -22208,11 +22208,11 @@ class RightInFootPinkyTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootPinkyTx = DoubleLinearField()
+    RightInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTy = DoubleLinearField()
+    RightInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTz = DoubleLinearField()
+    RightInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootPinkyTField(
@@ -22223,11 +22223,11 @@ class RightInFootPinkyTField(
     ATTR_CLS = RightInFootPinkyTAttrOperator
     PLUG_CLS = RightInFootPinkyTPlugOperator
 
-    RightInFootPinkyTx = DoubleLinearField()
+    RightInFootPinkyTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTy = DoubleLinearField()
+    RightInFootPinkyTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootPinkyTz = DoubleLinearField()
+    RightInFootPinkyTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootPinkyRPlugOperator(
@@ -22240,11 +22240,11 @@ class RightInFootPinkyRPlugOperator(
         ("RightInFootPinkyRz", "RightInFootPinkyRz"),
     )
 
-    RightInFootPinkyRx = DoubleAngleField()
+    RightInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRy = DoubleAngleField()
+    RightInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRz = DoubleAngleField()
+    RightInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootPinkyRAttrOperator(
@@ -22252,11 +22252,11 @@ class RightInFootPinkyRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootPinkyRx = DoubleAngleField()
+    RightInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRy = DoubleAngleField()
+    RightInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRz = DoubleAngleField()
+    RightInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootPinkyRField(
@@ -22267,11 +22267,11 @@ class RightInFootPinkyRField(
     ATTR_CLS = RightInFootPinkyRAttrOperator
     PLUG_CLS = RightInFootPinkyRPlugOperator
 
-    RightInFootPinkyRx = DoubleAngleField()
+    RightInFootPinkyRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRy = DoubleAngleField()
+    RightInFootPinkyRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootPinkyRz = DoubleAngleField()
+    RightInFootPinkyRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootPinkySPlugOperator(
@@ -22284,11 +22284,11 @@ class RightInFootPinkySPlugOperator(
         ("RightInFootPinkySz", "RightInFootPinkySz"),
     )
 
-    RightInFootPinkySx = DoubleField()
+    RightInFootPinkySx = DoubleField(default_value=1.0)
 
-    RightInFootPinkySy = DoubleField()
+    RightInFootPinkySy = DoubleField(default_value=1.0)
 
-    RightInFootPinkySz = DoubleField()
+    RightInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInFootPinkySAttrOperator(
@@ -22296,11 +22296,11 @@ class RightInFootPinkySAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootPinkySx = DoubleField()
+    RightInFootPinkySx = DoubleField(default_value=1.0)
 
-    RightInFootPinkySy = DoubleField()
+    RightInFootPinkySy = DoubleField(default_value=1.0)
 
-    RightInFootPinkySz = DoubleField()
+    RightInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInFootPinkySField(
@@ -22311,11 +22311,11 @@ class RightInFootPinkySField(
     ATTR_CLS = RightInFootPinkySAttrOperator
     PLUG_CLS = RightInFootPinkySPlugOperator
 
-    RightInFootPinkySx = DoubleField()
+    RightInFootPinkySx = DoubleField(default_value=1.0)
 
-    RightInFootPinkySy = DoubleField()
+    RightInFootPinkySy = DoubleField(default_value=1.0)
 
-    RightInFootPinkySz = DoubleField()
+    RightInFootPinkySz = DoubleField(default_value=1.0)
 
 
 class RightInFootExtraFingerTPlugOperator(
@@ -22328,11 +22328,11 @@ class RightInFootExtraFingerTPlugOperator(
         ("RightInFootExtraFingerTz", "RightInFootExtraFingerTz"),
     )
 
-    RightInFootExtraFingerTx = DoubleLinearField()
+    RightInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTy = DoubleLinearField()
+    RightInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTz = DoubleLinearField()
+    RightInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootExtraFingerTAttrOperator(
@@ -22340,11 +22340,11 @@ class RightInFootExtraFingerTAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootExtraFingerTx = DoubleLinearField()
+    RightInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTy = DoubleLinearField()
+    RightInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTz = DoubleLinearField()
+    RightInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootExtraFingerTField(
@@ -22355,11 +22355,11 @@ class RightInFootExtraFingerTField(
     ATTR_CLS = RightInFootExtraFingerTAttrOperator
     PLUG_CLS = RightInFootExtraFingerTPlugOperator
 
-    RightInFootExtraFingerTx = DoubleLinearField()
+    RightInFootExtraFingerTx = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTy = DoubleLinearField()
+    RightInFootExtraFingerTy = DoubleLinearField(default_value=0.0)
 
-    RightInFootExtraFingerTz = DoubleLinearField()
+    RightInFootExtraFingerTz = DoubleLinearField(default_value=0.0)
 
 
 class RightInFootExtraFingerRPlugOperator(
@@ -22372,11 +22372,11 @@ class RightInFootExtraFingerRPlugOperator(
         ("RightInFootExtraFingerRz", "RightInFootExtraFingerRz"),
     )
 
-    RightInFootExtraFingerRx = DoubleAngleField()
+    RightInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRy = DoubleAngleField()
+    RightInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRz = DoubleAngleField()
+    RightInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootExtraFingerRAttrOperator(
@@ -22384,11 +22384,11 @@ class RightInFootExtraFingerRAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootExtraFingerRx = DoubleAngleField()
+    RightInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRy = DoubleAngleField()
+    RightInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRz = DoubleAngleField()
+    RightInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootExtraFingerRField(
@@ -22399,11 +22399,11 @@ class RightInFootExtraFingerRField(
     ATTR_CLS = RightInFootExtraFingerRAttrOperator
     PLUG_CLS = RightInFootExtraFingerRPlugOperator
 
-    RightInFootExtraFingerRx = DoubleAngleField()
+    RightInFootExtraFingerRx = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRy = DoubleAngleField()
+    RightInFootExtraFingerRy = DoubleAngleField(default_value=0.0)
 
-    RightInFootExtraFingerRz = DoubleAngleField()
+    RightInFootExtraFingerRz = DoubleAngleField(default_value=0.0)
 
 
 class RightInFootExtraFingerSPlugOperator(
@@ -22416,11 +22416,11 @@ class RightInFootExtraFingerSPlugOperator(
         ("RightInFootExtraFingerSz", "RightInFootExtraFingerSz"),
     )
 
-    RightInFootExtraFingerSx = DoubleField()
+    RightInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSy = DoubleField()
+    RightInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSz = DoubleField()
+    RightInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInFootExtraFingerSAttrOperator(
@@ -22428,11 +22428,11 @@ class RightInFootExtraFingerSAttrOperator(
 ):
     __slots__ = ()
 
-    RightInFootExtraFingerSx = DoubleField()
+    RightInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSy = DoubleField()
+    RightInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSz = DoubleField()
+    RightInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class RightInFootExtraFingerSField(
@@ -22443,11 +22443,11 @@ class RightInFootExtraFingerSField(
     ATTR_CLS = RightInFootExtraFingerSAttrOperator
     PLUG_CLS = RightInFootExtraFingerSPlugOperator
 
-    RightInFootExtraFingerSx = DoubleField()
+    RightInFootExtraFingerSx = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSy = DoubleField()
+    RightInFootExtraFingerSy = DoubleField(default_value=1.0)
 
-    RightInFootExtraFingerSz = DoubleField()
+    RightInFootExtraFingerSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderExtraTPlugOperator(
@@ -22460,11 +22460,11 @@ class LeftShoulderExtraTPlugOperator(
         ("LeftShoulderExtraTz", "LeftShoulderExtraTz"),
     )
 
-    LeftShoulderExtraTx = DoubleLinearField()
+    LeftShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTy = DoubleLinearField()
+    LeftShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTz = DoubleLinearField()
+    LeftShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderExtraTAttrOperator(
@@ -22472,11 +22472,11 @@ class LeftShoulderExtraTAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderExtraTx = DoubleLinearField()
+    LeftShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTy = DoubleLinearField()
+    LeftShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTz = DoubleLinearField()
+    LeftShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderExtraTField(
@@ -22487,11 +22487,11 @@ class LeftShoulderExtraTField(
     ATTR_CLS = LeftShoulderExtraTAttrOperator
     PLUG_CLS = LeftShoulderExtraTPlugOperator
 
-    LeftShoulderExtraTx = DoubleLinearField()
+    LeftShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTy = DoubleLinearField()
+    LeftShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderExtraTz = DoubleLinearField()
+    LeftShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderExtraRPlugOperator(
@@ -22504,11 +22504,11 @@ class LeftShoulderExtraRPlugOperator(
         ("LeftShoulderExtraRz", "LeftShoulderExtraRz"),
     )
 
-    LeftShoulderExtraRx = DoubleAngleField()
+    LeftShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRy = DoubleAngleField()
+    LeftShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRz = DoubleAngleField()
+    LeftShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderExtraRAttrOperator(
@@ -22516,11 +22516,11 @@ class LeftShoulderExtraRAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderExtraRx = DoubleAngleField()
+    LeftShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRy = DoubleAngleField()
+    LeftShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRz = DoubleAngleField()
+    LeftShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderExtraRField(
@@ -22531,11 +22531,11 @@ class LeftShoulderExtraRField(
     ATTR_CLS = LeftShoulderExtraRAttrOperator
     PLUG_CLS = LeftShoulderExtraRPlugOperator
 
-    LeftShoulderExtraRx = DoubleAngleField()
+    LeftShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRy = DoubleAngleField()
+    LeftShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    LeftShoulderExtraRz = DoubleAngleField()
+    LeftShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class LeftShoulderExtraSPlugOperator(
@@ -22548,11 +22548,11 @@ class LeftShoulderExtraSPlugOperator(
         ("LeftShoulderExtraSz", "LeftShoulderExtraSz"),
     )
 
-    LeftShoulderExtraSx = DoubleField()
+    LeftShoulderExtraSx = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSy = DoubleField()
+    LeftShoulderExtraSy = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSz = DoubleField()
+    LeftShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderExtraSAttrOperator(
@@ -22560,11 +22560,11 @@ class LeftShoulderExtraSAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderExtraSx = DoubleField()
+    LeftShoulderExtraSx = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSy = DoubleField()
+    LeftShoulderExtraSy = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSz = DoubleField()
+    LeftShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class LeftShoulderExtraSField(
@@ -22575,11 +22575,11 @@ class LeftShoulderExtraSField(
     ATTR_CLS = LeftShoulderExtraSAttrOperator
     PLUG_CLS = LeftShoulderExtraSPlugOperator
 
-    LeftShoulderExtraSx = DoubleField()
+    LeftShoulderExtraSx = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSy = DoubleField()
+    LeftShoulderExtraSy = DoubleField(default_value=1.0)
 
-    LeftShoulderExtraSz = DoubleField()
+    LeftShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderExtraTPlugOperator(
@@ -22592,11 +22592,11 @@ class RightShoulderExtraTPlugOperator(
         ("RightShoulderExtraTz", "RightShoulderExtraTz"),
     )
 
-    RightShoulderExtraTx = DoubleLinearField()
+    RightShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTy = DoubleLinearField()
+    RightShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTz = DoubleLinearField()
+    RightShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderExtraTAttrOperator(
@@ -22604,11 +22604,11 @@ class RightShoulderExtraTAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderExtraTx = DoubleLinearField()
+    RightShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTy = DoubleLinearField()
+    RightShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTz = DoubleLinearField()
+    RightShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderExtraTField(
@@ -22619,11 +22619,11 @@ class RightShoulderExtraTField(
     ATTR_CLS = RightShoulderExtraTAttrOperator
     PLUG_CLS = RightShoulderExtraTPlugOperator
 
-    RightShoulderExtraTx = DoubleLinearField()
+    RightShoulderExtraTx = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTy = DoubleLinearField()
+    RightShoulderExtraTy = DoubleLinearField(default_value=0.0)
 
-    RightShoulderExtraTz = DoubleLinearField()
+    RightShoulderExtraTz = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderExtraRPlugOperator(
@@ -22636,11 +22636,11 @@ class RightShoulderExtraRPlugOperator(
         ("RightShoulderExtraRz", "RightShoulderExtraRz"),
     )
 
-    RightShoulderExtraRx = DoubleAngleField()
+    RightShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRy = DoubleAngleField()
+    RightShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRz = DoubleAngleField()
+    RightShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderExtraRAttrOperator(
@@ -22648,11 +22648,11 @@ class RightShoulderExtraRAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderExtraRx = DoubleAngleField()
+    RightShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRy = DoubleAngleField()
+    RightShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRz = DoubleAngleField()
+    RightShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderExtraRField(
@@ -22663,11 +22663,11 @@ class RightShoulderExtraRField(
     ATTR_CLS = RightShoulderExtraRAttrOperator
     PLUG_CLS = RightShoulderExtraRPlugOperator
 
-    RightShoulderExtraRx = DoubleAngleField()
+    RightShoulderExtraRx = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRy = DoubleAngleField()
+    RightShoulderExtraRy = DoubleAngleField(default_value=0.0)
 
-    RightShoulderExtraRz = DoubleAngleField()
+    RightShoulderExtraRz = DoubleAngleField(default_value=0.0)
 
 
 class RightShoulderExtraSPlugOperator(
@@ -22680,11 +22680,11 @@ class RightShoulderExtraSPlugOperator(
         ("RightShoulderExtraSz", "RightShoulderExtraSz"),
     )
 
-    RightShoulderExtraSx = DoubleField()
+    RightShoulderExtraSx = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSy = DoubleField()
+    RightShoulderExtraSy = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSz = DoubleField()
+    RightShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderExtraSAttrOperator(
@@ -22692,11 +22692,11 @@ class RightShoulderExtraSAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderExtraSx = DoubleField()
+    RightShoulderExtraSx = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSy = DoubleField()
+    RightShoulderExtraSy = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSz = DoubleField()
+    RightShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class RightShoulderExtraSField(
@@ -22707,11 +22707,11 @@ class RightShoulderExtraSField(
     ATTR_CLS = RightShoulderExtraSAttrOperator
     PLUG_CLS = RightShoulderExtraSPlugOperator
 
-    RightShoulderExtraSx = DoubleField()
+    RightShoulderExtraSx = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSy = DoubleField()
+    RightShoulderExtraSy = DoubleField(default_value=1.0)
 
-    RightShoulderExtraSz = DoubleField()
+    RightShoulderExtraSz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll1TPlugOperator(
@@ -22724,11 +22724,11 @@ class LeafLeftUpLegRoll1TPlugOperator(
         ("LeafLeftUpLegRoll1Tz", "LeafLeftUpLegRoll1Tz"),
     )
 
-    LeafLeftUpLegRoll1Tx = DoubleLinearField()
+    LeafLeftUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ty = DoubleLinearField()
+    LeafLeftUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Tz = DoubleLinearField()
+    LeafLeftUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1TAttrOperator(
@@ -22736,11 +22736,11 @@ class LeafLeftUpLegRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll1Tx = DoubleLinearField()
+    LeafLeftUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ty = DoubleLinearField()
+    LeafLeftUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Tz = DoubleLinearField()
+    LeafLeftUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1TField(
@@ -22751,11 +22751,11 @@ class LeafLeftUpLegRoll1TField(
     ATTR_CLS = LeafLeftUpLegRoll1TAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll1TPlugOperator
 
-    LeafLeftUpLegRoll1Tx = DoubleLinearField()
+    LeafLeftUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ty = DoubleLinearField()
+    LeafLeftUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Tz = DoubleLinearField()
+    LeafLeftUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1RPlugOperator(
@@ -22768,11 +22768,11 @@ class LeafLeftUpLegRoll1RPlugOperator(
         ("LeafLeftUpLegRoll1Rz", "LeafLeftUpLegRoll1Rz"),
     )
 
-    LeafLeftUpLegRoll1Rx = DoubleAngleField()
+    LeafLeftUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ry = DoubleAngleField()
+    LeafLeftUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Rz = DoubleAngleField()
+    LeafLeftUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1RAttrOperator(
@@ -22780,11 +22780,11 @@ class LeafLeftUpLegRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll1Rx = DoubleAngleField()
+    LeafLeftUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ry = DoubleAngleField()
+    LeafLeftUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Rz = DoubleAngleField()
+    LeafLeftUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1RField(
@@ -22795,11 +22795,11 @@ class LeafLeftUpLegRoll1RField(
     ATTR_CLS = LeafLeftUpLegRoll1RAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll1RPlugOperator
 
-    LeafLeftUpLegRoll1Rx = DoubleAngleField()
+    LeafLeftUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Ry = DoubleAngleField()
+    LeafLeftUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll1Rz = DoubleAngleField()
+    LeafLeftUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll1SPlugOperator(
@@ -22812,11 +22812,11 @@ class LeafLeftUpLegRoll1SPlugOperator(
         ("LeafLeftUpLegRoll1Sz", "LeafLeftUpLegRoll1Sz"),
     )
 
-    LeafLeftUpLegRoll1Sx = DoubleField()
+    LeafLeftUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sy = DoubleField()
+    LeafLeftUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sz = DoubleField()
+    LeafLeftUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll1SAttrOperator(
@@ -22824,11 +22824,11 @@ class LeafLeftUpLegRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll1Sx = DoubleField()
+    LeafLeftUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sy = DoubleField()
+    LeafLeftUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sz = DoubleField()
+    LeafLeftUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll1SField(
@@ -22839,11 +22839,11 @@ class LeafLeftUpLegRoll1SField(
     ATTR_CLS = LeafLeftUpLegRoll1SAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll1SPlugOperator
 
-    LeafLeftUpLegRoll1Sx = DoubleField()
+    LeafLeftUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sy = DoubleField()
+    LeafLeftUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll1Sz = DoubleField()
+    LeafLeftUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll1TPlugOperator(
@@ -22856,11 +22856,11 @@ class LeafLeftLegRoll1TPlugOperator(
         ("LeafLeftLegRoll1Tz", "LeafLeftLegRoll1Tz"),
     )
 
-    LeafLeftLegRoll1Tx = DoubleLinearField()
+    LeafLeftLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Ty = DoubleLinearField()
+    LeafLeftLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Tz = DoubleLinearField()
+    LeafLeftLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll1TAttrOperator(
@@ -22868,11 +22868,11 @@ class LeafLeftLegRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll1Tx = DoubleLinearField()
+    LeafLeftLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Ty = DoubleLinearField()
+    LeafLeftLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Tz = DoubleLinearField()
+    LeafLeftLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll1TField(
@@ -22883,11 +22883,11 @@ class LeafLeftLegRoll1TField(
     ATTR_CLS = LeafLeftLegRoll1TAttrOperator
     PLUG_CLS = LeafLeftLegRoll1TPlugOperator
 
-    LeafLeftLegRoll1Tx = DoubleLinearField()
+    LeafLeftLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Ty = DoubleLinearField()
+    LeafLeftLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll1Tz = DoubleLinearField()
+    LeafLeftLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll1RPlugOperator(
@@ -22900,11 +22900,11 @@ class LeafLeftLegRoll1RPlugOperator(
         ("LeafLeftLegRoll1Rz", "LeafLeftLegRoll1Rz"),
     )
 
-    LeafLeftLegRoll1Rx = DoubleAngleField()
+    LeafLeftLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Ry = DoubleAngleField()
+    LeafLeftLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Rz = DoubleAngleField()
+    LeafLeftLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll1RAttrOperator(
@@ -22912,11 +22912,11 @@ class LeafLeftLegRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll1Rx = DoubleAngleField()
+    LeafLeftLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Ry = DoubleAngleField()
+    LeafLeftLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Rz = DoubleAngleField()
+    LeafLeftLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll1RField(
@@ -22927,11 +22927,11 @@ class LeafLeftLegRoll1RField(
     ATTR_CLS = LeafLeftLegRoll1RAttrOperator
     PLUG_CLS = LeafLeftLegRoll1RPlugOperator
 
-    LeafLeftLegRoll1Rx = DoubleAngleField()
+    LeafLeftLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Ry = DoubleAngleField()
+    LeafLeftLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll1Rz = DoubleAngleField()
+    LeafLeftLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll1SPlugOperator(
@@ -22944,11 +22944,11 @@ class LeafLeftLegRoll1SPlugOperator(
         ("LeafLeftLegRoll1Sz", "LeafLeftLegRoll1Sz"),
     )
 
-    LeafLeftLegRoll1Sx = DoubleField()
+    LeafLeftLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sy = DoubleField()
+    LeafLeftLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sz = DoubleField()
+    LeafLeftLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll1SAttrOperator(
@@ -22956,11 +22956,11 @@ class LeafLeftLegRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll1Sx = DoubleField()
+    LeafLeftLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sy = DoubleField()
+    LeafLeftLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sz = DoubleField()
+    LeafLeftLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll1SField(
@@ -22971,11 +22971,11 @@ class LeafLeftLegRoll1SField(
     ATTR_CLS = LeafLeftLegRoll1SAttrOperator
     PLUG_CLS = LeafLeftLegRoll1SPlugOperator
 
-    LeafLeftLegRoll1Sx = DoubleField()
+    LeafLeftLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sy = DoubleField()
+    LeafLeftLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll1Sz = DoubleField()
+    LeafLeftLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll1TPlugOperator(
@@ -22988,11 +22988,11 @@ class LeafRightUpLegRoll1TPlugOperator(
         ("LeafRightUpLegRoll1Tz", "LeafRightUpLegRoll1Tz"),
     )
 
-    LeafRightUpLegRoll1Tx = DoubleLinearField()
+    LeafRightUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ty = DoubleLinearField()
+    LeafRightUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Tz = DoubleLinearField()
+    LeafRightUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1TAttrOperator(
@@ -23000,11 +23000,11 @@ class LeafRightUpLegRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll1Tx = DoubleLinearField()
+    LeafRightUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ty = DoubleLinearField()
+    LeafRightUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Tz = DoubleLinearField()
+    LeafRightUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1TField(
@@ -23015,11 +23015,11 @@ class LeafRightUpLegRoll1TField(
     ATTR_CLS = LeafRightUpLegRoll1TAttrOperator
     PLUG_CLS = LeafRightUpLegRoll1TPlugOperator
 
-    LeafRightUpLegRoll1Tx = DoubleLinearField()
+    LeafRightUpLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ty = DoubleLinearField()
+    LeafRightUpLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll1Tz = DoubleLinearField()
+    LeafRightUpLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1RPlugOperator(
@@ -23032,11 +23032,11 @@ class LeafRightUpLegRoll1RPlugOperator(
         ("LeafRightUpLegRoll1Rz", "LeafRightUpLegRoll1Rz"),
     )
 
-    LeafRightUpLegRoll1Rx = DoubleAngleField()
+    LeafRightUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ry = DoubleAngleField()
+    LeafRightUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Rz = DoubleAngleField()
+    LeafRightUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1RAttrOperator(
@@ -23044,11 +23044,11 @@ class LeafRightUpLegRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll1Rx = DoubleAngleField()
+    LeafRightUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ry = DoubleAngleField()
+    LeafRightUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Rz = DoubleAngleField()
+    LeafRightUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1RField(
@@ -23059,11 +23059,11 @@ class LeafRightUpLegRoll1RField(
     ATTR_CLS = LeafRightUpLegRoll1RAttrOperator
     PLUG_CLS = LeafRightUpLegRoll1RPlugOperator
 
-    LeafRightUpLegRoll1Rx = DoubleAngleField()
+    LeafRightUpLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Ry = DoubleAngleField()
+    LeafRightUpLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll1Rz = DoubleAngleField()
+    LeafRightUpLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll1SPlugOperator(
@@ -23076,11 +23076,11 @@ class LeafRightUpLegRoll1SPlugOperator(
         ("LeafRightUpLegRoll1Sz", "LeafRightUpLegRoll1Sz"),
     )
 
-    LeafRightUpLegRoll1Sx = DoubleField()
+    LeafRightUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sy = DoubleField()
+    LeafRightUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sz = DoubleField()
+    LeafRightUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll1SAttrOperator(
@@ -23088,11 +23088,11 @@ class LeafRightUpLegRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll1Sx = DoubleField()
+    LeafRightUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sy = DoubleField()
+    LeafRightUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sz = DoubleField()
+    LeafRightUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll1SField(
@@ -23103,11 +23103,11 @@ class LeafRightUpLegRoll1SField(
     ATTR_CLS = LeafRightUpLegRoll1SAttrOperator
     PLUG_CLS = LeafRightUpLegRoll1SPlugOperator
 
-    LeafRightUpLegRoll1Sx = DoubleField()
+    LeafRightUpLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sy = DoubleField()
+    LeafRightUpLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll1Sz = DoubleField()
+    LeafRightUpLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll1TPlugOperator(
@@ -23120,11 +23120,11 @@ class LeafRightLegRoll1TPlugOperator(
         ("LeafRightLegRoll1Tz", "LeafRightLegRoll1Tz"),
     )
 
-    LeafRightLegRoll1Tx = DoubleLinearField()
+    LeafRightLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Ty = DoubleLinearField()
+    LeafRightLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Tz = DoubleLinearField()
+    LeafRightLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll1TAttrOperator(
@@ -23132,11 +23132,11 @@ class LeafRightLegRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll1Tx = DoubleLinearField()
+    LeafRightLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Ty = DoubleLinearField()
+    LeafRightLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Tz = DoubleLinearField()
+    LeafRightLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll1TField(
@@ -23147,11 +23147,11 @@ class LeafRightLegRoll1TField(
     ATTR_CLS = LeafRightLegRoll1TAttrOperator
     PLUG_CLS = LeafRightLegRoll1TPlugOperator
 
-    LeafRightLegRoll1Tx = DoubleLinearField()
+    LeafRightLegRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Ty = DoubleLinearField()
+    LeafRightLegRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll1Tz = DoubleLinearField()
+    LeafRightLegRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll1RPlugOperator(
@@ -23164,11 +23164,11 @@ class LeafRightLegRoll1RPlugOperator(
         ("LeafRightLegRoll1Rz", "LeafRightLegRoll1Rz"),
     )
 
-    LeafRightLegRoll1Rx = DoubleAngleField()
+    LeafRightLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Ry = DoubleAngleField()
+    LeafRightLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Rz = DoubleAngleField()
+    LeafRightLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll1RAttrOperator(
@@ -23176,11 +23176,11 @@ class LeafRightLegRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll1Rx = DoubleAngleField()
+    LeafRightLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Ry = DoubleAngleField()
+    LeafRightLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Rz = DoubleAngleField()
+    LeafRightLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll1RField(
@@ -23191,11 +23191,11 @@ class LeafRightLegRoll1RField(
     ATTR_CLS = LeafRightLegRoll1RAttrOperator
     PLUG_CLS = LeafRightLegRoll1RPlugOperator
 
-    LeafRightLegRoll1Rx = DoubleAngleField()
+    LeafRightLegRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Ry = DoubleAngleField()
+    LeafRightLegRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll1Rz = DoubleAngleField()
+    LeafRightLegRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll1SPlugOperator(
@@ -23208,11 +23208,11 @@ class LeafRightLegRoll1SPlugOperator(
         ("LeafRightLegRoll1Sz", "LeafRightLegRoll1Sz"),
     )
 
-    LeafRightLegRoll1Sx = DoubleField()
+    LeafRightLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sy = DoubleField()
+    LeafRightLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sz = DoubleField()
+    LeafRightLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll1SAttrOperator(
@@ -23220,11 +23220,11 @@ class LeafRightLegRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll1Sx = DoubleField()
+    LeafRightLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sy = DoubleField()
+    LeafRightLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sz = DoubleField()
+    LeafRightLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll1SField(
@@ -23235,11 +23235,11 @@ class LeafRightLegRoll1SField(
     ATTR_CLS = LeafRightLegRoll1SAttrOperator
     PLUG_CLS = LeafRightLegRoll1SPlugOperator
 
-    LeafRightLegRoll1Sx = DoubleField()
+    LeafRightLegRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sy = DoubleField()
+    LeafRightLegRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll1Sz = DoubleField()
+    LeafRightLegRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll1TPlugOperator(
@@ -23252,11 +23252,11 @@ class LeafLeftArmRoll1TPlugOperator(
         ("LeafLeftArmRoll1Tz", "LeafLeftArmRoll1Tz"),
     )
 
-    LeafLeftArmRoll1Tx = DoubleLinearField()
+    LeafLeftArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Ty = DoubleLinearField()
+    LeafLeftArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Tz = DoubleLinearField()
+    LeafLeftArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll1TAttrOperator(
@@ -23264,11 +23264,11 @@ class LeafLeftArmRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll1Tx = DoubleLinearField()
+    LeafLeftArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Ty = DoubleLinearField()
+    LeafLeftArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Tz = DoubleLinearField()
+    LeafLeftArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll1TField(
@@ -23279,11 +23279,11 @@ class LeafLeftArmRoll1TField(
     ATTR_CLS = LeafLeftArmRoll1TAttrOperator
     PLUG_CLS = LeafLeftArmRoll1TPlugOperator
 
-    LeafLeftArmRoll1Tx = DoubleLinearField()
+    LeafLeftArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Ty = DoubleLinearField()
+    LeafLeftArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll1Tz = DoubleLinearField()
+    LeafLeftArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll1RPlugOperator(
@@ -23296,11 +23296,11 @@ class LeafLeftArmRoll1RPlugOperator(
         ("LeafLeftArmRoll1Rz", "LeafLeftArmRoll1Rz"),
     )
 
-    LeafLeftArmRoll1Rx = DoubleAngleField()
+    LeafLeftArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Ry = DoubleAngleField()
+    LeafLeftArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Rz = DoubleAngleField()
+    LeafLeftArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll1RAttrOperator(
@@ -23308,11 +23308,11 @@ class LeafLeftArmRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll1Rx = DoubleAngleField()
+    LeafLeftArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Ry = DoubleAngleField()
+    LeafLeftArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Rz = DoubleAngleField()
+    LeafLeftArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll1RField(
@@ -23323,11 +23323,11 @@ class LeafLeftArmRoll1RField(
     ATTR_CLS = LeafLeftArmRoll1RAttrOperator
     PLUG_CLS = LeafLeftArmRoll1RPlugOperator
 
-    LeafLeftArmRoll1Rx = DoubleAngleField()
+    LeafLeftArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Ry = DoubleAngleField()
+    LeafLeftArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll1Rz = DoubleAngleField()
+    LeafLeftArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll1SPlugOperator(
@@ -23340,11 +23340,11 @@ class LeafLeftArmRoll1SPlugOperator(
         ("LeafLeftArmRoll1Sz", "LeafLeftArmRoll1Sz"),
     )
 
-    LeafLeftArmRoll1Sx = DoubleField()
+    LeafLeftArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sy = DoubleField()
+    LeafLeftArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sz = DoubleField()
+    LeafLeftArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll1SAttrOperator(
@@ -23352,11 +23352,11 @@ class LeafLeftArmRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll1Sx = DoubleField()
+    LeafLeftArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sy = DoubleField()
+    LeafLeftArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sz = DoubleField()
+    LeafLeftArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll1SField(
@@ -23367,11 +23367,11 @@ class LeafLeftArmRoll1SField(
     ATTR_CLS = LeafLeftArmRoll1SAttrOperator
     PLUG_CLS = LeafLeftArmRoll1SPlugOperator
 
-    LeafLeftArmRoll1Sx = DoubleField()
+    LeafLeftArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sy = DoubleField()
+    LeafLeftArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll1Sz = DoubleField()
+    LeafLeftArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll1TPlugOperator(
@@ -23384,11 +23384,11 @@ class LeafLeftForeArmRoll1TPlugOperator(
         ("LeafLeftForeArmRoll1Tz", "LeafLeftForeArmRoll1Tz"),
     )
 
-    LeafLeftForeArmRoll1Tx = DoubleLinearField()
+    LeafLeftForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ty = DoubleLinearField()
+    LeafLeftForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Tz = DoubleLinearField()
+    LeafLeftForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1TAttrOperator(
@@ -23396,11 +23396,11 @@ class LeafLeftForeArmRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll1Tx = DoubleLinearField()
+    LeafLeftForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ty = DoubleLinearField()
+    LeafLeftForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Tz = DoubleLinearField()
+    LeafLeftForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1TField(
@@ -23411,11 +23411,11 @@ class LeafLeftForeArmRoll1TField(
     ATTR_CLS = LeafLeftForeArmRoll1TAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll1TPlugOperator
 
-    LeafLeftForeArmRoll1Tx = DoubleLinearField()
+    LeafLeftForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ty = DoubleLinearField()
+    LeafLeftForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Tz = DoubleLinearField()
+    LeafLeftForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1RPlugOperator(
@@ -23428,11 +23428,11 @@ class LeafLeftForeArmRoll1RPlugOperator(
         ("LeafLeftForeArmRoll1Rz", "LeafLeftForeArmRoll1Rz"),
     )
 
-    LeafLeftForeArmRoll1Rx = DoubleAngleField()
+    LeafLeftForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ry = DoubleAngleField()
+    LeafLeftForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Rz = DoubleAngleField()
+    LeafLeftForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1RAttrOperator(
@@ -23440,11 +23440,11 @@ class LeafLeftForeArmRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll1Rx = DoubleAngleField()
+    LeafLeftForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ry = DoubleAngleField()
+    LeafLeftForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Rz = DoubleAngleField()
+    LeafLeftForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1RField(
@@ -23455,11 +23455,11 @@ class LeafLeftForeArmRoll1RField(
     ATTR_CLS = LeafLeftForeArmRoll1RAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll1RPlugOperator
 
-    LeafLeftForeArmRoll1Rx = DoubleAngleField()
+    LeafLeftForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Ry = DoubleAngleField()
+    LeafLeftForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll1Rz = DoubleAngleField()
+    LeafLeftForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll1SPlugOperator(
@@ -23472,11 +23472,11 @@ class LeafLeftForeArmRoll1SPlugOperator(
         ("LeafLeftForeArmRoll1Sz", "LeafLeftForeArmRoll1Sz"),
     )
 
-    LeafLeftForeArmRoll1Sx = DoubleField()
+    LeafLeftForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sy = DoubleField()
+    LeafLeftForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sz = DoubleField()
+    LeafLeftForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll1SAttrOperator(
@@ -23484,11 +23484,11 @@ class LeafLeftForeArmRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll1Sx = DoubleField()
+    LeafLeftForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sy = DoubleField()
+    LeafLeftForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sz = DoubleField()
+    LeafLeftForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll1SField(
@@ -23499,11 +23499,11 @@ class LeafLeftForeArmRoll1SField(
     ATTR_CLS = LeafLeftForeArmRoll1SAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll1SPlugOperator
 
-    LeafLeftForeArmRoll1Sx = DoubleField()
+    LeafLeftForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sy = DoubleField()
+    LeafLeftForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll1Sz = DoubleField()
+    LeafLeftForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll1TPlugOperator(
@@ -23516,11 +23516,11 @@ class LeafRightArmRoll1TPlugOperator(
         ("LeafRightArmRoll1Tz", "LeafRightArmRoll1Tz"),
     )
 
-    LeafRightArmRoll1Tx = DoubleLinearField()
+    LeafRightArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Ty = DoubleLinearField()
+    LeafRightArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Tz = DoubleLinearField()
+    LeafRightArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll1TAttrOperator(
@@ -23528,11 +23528,11 @@ class LeafRightArmRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll1Tx = DoubleLinearField()
+    LeafRightArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Ty = DoubleLinearField()
+    LeafRightArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Tz = DoubleLinearField()
+    LeafRightArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll1TField(
@@ -23543,11 +23543,11 @@ class LeafRightArmRoll1TField(
     ATTR_CLS = LeafRightArmRoll1TAttrOperator
     PLUG_CLS = LeafRightArmRoll1TPlugOperator
 
-    LeafRightArmRoll1Tx = DoubleLinearField()
+    LeafRightArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Ty = DoubleLinearField()
+    LeafRightArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll1Tz = DoubleLinearField()
+    LeafRightArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll1RPlugOperator(
@@ -23560,11 +23560,11 @@ class LeafRightArmRoll1RPlugOperator(
         ("LeafRightArmRoll1Rz", "LeafRightArmRoll1Rz"),
     )
 
-    LeafRightArmRoll1Rx = DoubleAngleField()
+    LeafRightArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Ry = DoubleAngleField()
+    LeafRightArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Rz = DoubleAngleField()
+    LeafRightArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll1RAttrOperator(
@@ -23572,11 +23572,11 @@ class LeafRightArmRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll1Rx = DoubleAngleField()
+    LeafRightArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Ry = DoubleAngleField()
+    LeafRightArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Rz = DoubleAngleField()
+    LeafRightArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll1RField(
@@ -23587,11 +23587,11 @@ class LeafRightArmRoll1RField(
     ATTR_CLS = LeafRightArmRoll1RAttrOperator
     PLUG_CLS = LeafRightArmRoll1RPlugOperator
 
-    LeafRightArmRoll1Rx = DoubleAngleField()
+    LeafRightArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Ry = DoubleAngleField()
+    LeafRightArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll1Rz = DoubleAngleField()
+    LeafRightArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll1SPlugOperator(
@@ -23604,11 +23604,11 @@ class LeafRightArmRoll1SPlugOperator(
         ("LeafRightArmRoll1Sz", "LeafRightArmRoll1Sz"),
     )
 
-    LeafRightArmRoll1Sx = DoubleField()
+    LeafRightArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sy = DoubleField()
+    LeafRightArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sz = DoubleField()
+    LeafRightArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll1SAttrOperator(
@@ -23616,11 +23616,11 @@ class LeafRightArmRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll1Sx = DoubleField()
+    LeafRightArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sy = DoubleField()
+    LeafRightArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sz = DoubleField()
+    LeafRightArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll1SField(
@@ -23631,11 +23631,11 @@ class LeafRightArmRoll1SField(
     ATTR_CLS = LeafRightArmRoll1SAttrOperator
     PLUG_CLS = LeafRightArmRoll1SPlugOperator
 
-    LeafRightArmRoll1Sx = DoubleField()
+    LeafRightArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sy = DoubleField()
+    LeafRightArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll1Sz = DoubleField()
+    LeafRightArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll1TPlugOperator(
@@ -23648,11 +23648,11 @@ class LeafRightForeArmRoll1TPlugOperator(
         ("LeafRightForeArmRoll1Tz", "LeafRightForeArmRoll1Tz"),
     )
 
-    LeafRightForeArmRoll1Tx = DoubleLinearField()
+    LeafRightForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ty = DoubleLinearField()
+    LeafRightForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Tz = DoubleLinearField()
+    LeafRightForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1TAttrOperator(
@@ -23660,11 +23660,11 @@ class LeafRightForeArmRoll1TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll1Tx = DoubleLinearField()
+    LeafRightForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ty = DoubleLinearField()
+    LeafRightForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Tz = DoubleLinearField()
+    LeafRightForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1TField(
@@ -23675,11 +23675,11 @@ class LeafRightForeArmRoll1TField(
     ATTR_CLS = LeafRightForeArmRoll1TAttrOperator
     PLUG_CLS = LeafRightForeArmRoll1TPlugOperator
 
-    LeafRightForeArmRoll1Tx = DoubleLinearField()
+    LeafRightForeArmRoll1Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ty = DoubleLinearField()
+    LeafRightForeArmRoll1Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll1Tz = DoubleLinearField()
+    LeafRightForeArmRoll1Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1RPlugOperator(
@@ -23692,11 +23692,11 @@ class LeafRightForeArmRoll1RPlugOperator(
         ("LeafRightForeArmRoll1Rz", "LeafRightForeArmRoll1Rz"),
     )
 
-    LeafRightForeArmRoll1Rx = DoubleAngleField()
+    LeafRightForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ry = DoubleAngleField()
+    LeafRightForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Rz = DoubleAngleField()
+    LeafRightForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1RAttrOperator(
@@ -23704,11 +23704,11 @@ class LeafRightForeArmRoll1RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll1Rx = DoubleAngleField()
+    LeafRightForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ry = DoubleAngleField()
+    LeafRightForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Rz = DoubleAngleField()
+    LeafRightForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1RField(
@@ -23719,11 +23719,11 @@ class LeafRightForeArmRoll1RField(
     ATTR_CLS = LeafRightForeArmRoll1RAttrOperator
     PLUG_CLS = LeafRightForeArmRoll1RPlugOperator
 
-    LeafRightForeArmRoll1Rx = DoubleAngleField()
+    LeafRightForeArmRoll1Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Ry = DoubleAngleField()
+    LeafRightForeArmRoll1Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll1Rz = DoubleAngleField()
+    LeafRightForeArmRoll1Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll1SPlugOperator(
@@ -23736,11 +23736,11 @@ class LeafRightForeArmRoll1SPlugOperator(
         ("LeafRightForeArmRoll1Sz", "LeafRightForeArmRoll1Sz"),
     )
 
-    LeafRightForeArmRoll1Sx = DoubleField()
+    LeafRightForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sy = DoubleField()
+    LeafRightForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sz = DoubleField()
+    LeafRightForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll1SAttrOperator(
@@ -23748,11 +23748,11 @@ class LeafRightForeArmRoll1SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll1Sx = DoubleField()
+    LeafRightForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sy = DoubleField()
+    LeafRightForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sz = DoubleField()
+    LeafRightForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll1SField(
@@ -23763,11 +23763,11 @@ class LeafRightForeArmRoll1SField(
     ATTR_CLS = LeafRightForeArmRoll1SAttrOperator
     PLUG_CLS = LeafRightForeArmRoll1SPlugOperator
 
-    LeafRightForeArmRoll1Sx = DoubleField()
+    LeafRightForeArmRoll1Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sy = DoubleField()
+    LeafRightForeArmRoll1Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll1Sz = DoubleField()
+    LeafRightForeArmRoll1Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll2TPlugOperator(
@@ -23780,11 +23780,11 @@ class LeafLeftUpLegRoll2TPlugOperator(
         ("LeafLeftUpLegRoll2Tz", "LeafLeftUpLegRoll2Tz"),
     )
 
-    LeafLeftUpLegRoll2Tx = DoubleLinearField()
+    LeafLeftUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ty = DoubleLinearField()
+    LeafLeftUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Tz = DoubleLinearField()
+    LeafLeftUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2TAttrOperator(
@@ -23792,11 +23792,11 @@ class LeafLeftUpLegRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll2Tx = DoubleLinearField()
+    LeafLeftUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ty = DoubleLinearField()
+    LeafLeftUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Tz = DoubleLinearField()
+    LeafLeftUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2TField(
@@ -23807,11 +23807,11 @@ class LeafLeftUpLegRoll2TField(
     ATTR_CLS = LeafLeftUpLegRoll2TAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll2TPlugOperator
 
-    LeafLeftUpLegRoll2Tx = DoubleLinearField()
+    LeafLeftUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ty = DoubleLinearField()
+    LeafLeftUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Tz = DoubleLinearField()
+    LeafLeftUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2RPlugOperator(
@@ -23824,11 +23824,11 @@ class LeafLeftUpLegRoll2RPlugOperator(
         ("LeafLeftUpLegRoll2Rz", "LeafLeftUpLegRoll2Rz"),
     )
 
-    LeafLeftUpLegRoll2Rx = DoubleAngleField()
+    LeafLeftUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ry = DoubleAngleField()
+    LeafLeftUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Rz = DoubleAngleField()
+    LeafLeftUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2RAttrOperator(
@@ -23836,11 +23836,11 @@ class LeafLeftUpLegRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll2Rx = DoubleAngleField()
+    LeafLeftUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ry = DoubleAngleField()
+    LeafLeftUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Rz = DoubleAngleField()
+    LeafLeftUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2RField(
@@ -23851,11 +23851,11 @@ class LeafLeftUpLegRoll2RField(
     ATTR_CLS = LeafLeftUpLegRoll2RAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll2RPlugOperator
 
-    LeafLeftUpLegRoll2Rx = DoubleAngleField()
+    LeafLeftUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Ry = DoubleAngleField()
+    LeafLeftUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll2Rz = DoubleAngleField()
+    LeafLeftUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll2SPlugOperator(
@@ -23868,11 +23868,11 @@ class LeafLeftUpLegRoll2SPlugOperator(
         ("LeafLeftUpLegRoll2Sz", "LeafLeftUpLegRoll2Sz"),
     )
 
-    LeafLeftUpLegRoll2Sx = DoubleField()
+    LeafLeftUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sy = DoubleField()
+    LeafLeftUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sz = DoubleField()
+    LeafLeftUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll2SAttrOperator(
@@ -23880,11 +23880,11 @@ class LeafLeftUpLegRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll2Sx = DoubleField()
+    LeafLeftUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sy = DoubleField()
+    LeafLeftUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sz = DoubleField()
+    LeafLeftUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll2SField(
@@ -23895,11 +23895,11 @@ class LeafLeftUpLegRoll2SField(
     ATTR_CLS = LeafLeftUpLegRoll2SAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll2SPlugOperator
 
-    LeafLeftUpLegRoll2Sx = DoubleField()
+    LeafLeftUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sy = DoubleField()
+    LeafLeftUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll2Sz = DoubleField()
+    LeafLeftUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll2TPlugOperator(
@@ -23912,11 +23912,11 @@ class LeafLeftLegRoll2TPlugOperator(
         ("LeafLeftLegRoll2Tz", "LeafLeftLegRoll2Tz"),
     )
 
-    LeafLeftLegRoll2Tx = DoubleLinearField()
+    LeafLeftLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Ty = DoubleLinearField()
+    LeafLeftLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Tz = DoubleLinearField()
+    LeafLeftLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll2TAttrOperator(
@@ -23924,11 +23924,11 @@ class LeafLeftLegRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll2Tx = DoubleLinearField()
+    LeafLeftLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Ty = DoubleLinearField()
+    LeafLeftLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Tz = DoubleLinearField()
+    LeafLeftLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll2TField(
@@ -23939,11 +23939,11 @@ class LeafLeftLegRoll2TField(
     ATTR_CLS = LeafLeftLegRoll2TAttrOperator
     PLUG_CLS = LeafLeftLegRoll2TPlugOperator
 
-    LeafLeftLegRoll2Tx = DoubleLinearField()
+    LeafLeftLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Ty = DoubleLinearField()
+    LeafLeftLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll2Tz = DoubleLinearField()
+    LeafLeftLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll2RPlugOperator(
@@ -23956,11 +23956,11 @@ class LeafLeftLegRoll2RPlugOperator(
         ("LeafLeftLegRoll2Rz", "LeafLeftLegRoll2Rz"),
     )
 
-    LeafLeftLegRoll2Rx = DoubleAngleField()
+    LeafLeftLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Ry = DoubleAngleField()
+    LeafLeftLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Rz = DoubleAngleField()
+    LeafLeftLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll2RAttrOperator(
@@ -23968,11 +23968,11 @@ class LeafLeftLegRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll2Rx = DoubleAngleField()
+    LeafLeftLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Ry = DoubleAngleField()
+    LeafLeftLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Rz = DoubleAngleField()
+    LeafLeftLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll2RField(
@@ -23983,11 +23983,11 @@ class LeafLeftLegRoll2RField(
     ATTR_CLS = LeafLeftLegRoll2RAttrOperator
     PLUG_CLS = LeafLeftLegRoll2RPlugOperator
 
-    LeafLeftLegRoll2Rx = DoubleAngleField()
+    LeafLeftLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Ry = DoubleAngleField()
+    LeafLeftLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll2Rz = DoubleAngleField()
+    LeafLeftLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll2SPlugOperator(
@@ -24000,11 +24000,11 @@ class LeafLeftLegRoll2SPlugOperator(
         ("LeafLeftLegRoll2Sz", "LeafLeftLegRoll2Sz"),
     )
 
-    LeafLeftLegRoll2Sx = DoubleField()
+    LeafLeftLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sy = DoubleField()
+    LeafLeftLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sz = DoubleField()
+    LeafLeftLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll2SAttrOperator(
@@ -24012,11 +24012,11 @@ class LeafLeftLegRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll2Sx = DoubleField()
+    LeafLeftLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sy = DoubleField()
+    LeafLeftLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sz = DoubleField()
+    LeafLeftLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll2SField(
@@ -24027,11 +24027,11 @@ class LeafLeftLegRoll2SField(
     ATTR_CLS = LeafLeftLegRoll2SAttrOperator
     PLUG_CLS = LeafLeftLegRoll2SPlugOperator
 
-    LeafLeftLegRoll2Sx = DoubleField()
+    LeafLeftLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sy = DoubleField()
+    LeafLeftLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll2Sz = DoubleField()
+    LeafLeftLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll2TPlugOperator(
@@ -24044,11 +24044,11 @@ class LeafRightUpLegRoll2TPlugOperator(
         ("LeafRightUpLegRoll2Tz", "LeafRightUpLegRoll2Tz"),
     )
 
-    LeafRightUpLegRoll2Tx = DoubleLinearField()
+    LeafRightUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ty = DoubleLinearField()
+    LeafRightUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Tz = DoubleLinearField()
+    LeafRightUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2TAttrOperator(
@@ -24056,11 +24056,11 @@ class LeafRightUpLegRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll2Tx = DoubleLinearField()
+    LeafRightUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ty = DoubleLinearField()
+    LeafRightUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Tz = DoubleLinearField()
+    LeafRightUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2TField(
@@ -24071,11 +24071,11 @@ class LeafRightUpLegRoll2TField(
     ATTR_CLS = LeafRightUpLegRoll2TAttrOperator
     PLUG_CLS = LeafRightUpLegRoll2TPlugOperator
 
-    LeafRightUpLegRoll2Tx = DoubleLinearField()
+    LeafRightUpLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ty = DoubleLinearField()
+    LeafRightUpLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll2Tz = DoubleLinearField()
+    LeafRightUpLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2RPlugOperator(
@@ -24088,11 +24088,11 @@ class LeafRightUpLegRoll2RPlugOperator(
         ("LeafRightUpLegRoll2Rz", "LeafRightUpLegRoll2Rz"),
     )
 
-    LeafRightUpLegRoll2Rx = DoubleAngleField()
+    LeafRightUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ry = DoubleAngleField()
+    LeafRightUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Rz = DoubleAngleField()
+    LeafRightUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2RAttrOperator(
@@ -24100,11 +24100,11 @@ class LeafRightUpLegRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll2Rx = DoubleAngleField()
+    LeafRightUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ry = DoubleAngleField()
+    LeafRightUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Rz = DoubleAngleField()
+    LeafRightUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2RField(
@@ -24115,11 +24115,11 @@ class LeafRightUpLegRoll2RField(
     ATTR_CLS = LeafRightUpLegRoll2RAttrOperator
     PLUG_CLS = LeafRightUpLegRoll2RPlugOperator
 
-    LeafRightUpLegRoll2Rx = DoubleAngleField()
+    LeafRightUpLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Ry = DoubleAngleField()
+    LeafRightUpLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll2Rz = DoubleAngleField()
+    LeafRightUpLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll2SPlugOperator(
@@ -24132,11 +24132,11 @@ class LeafRightUpLegRoll2SPlugOperator(
         ("LeafRightUpLegRoll2Sz", "LeafRightUpLegRoll2Sz"),
     )
 
-    LeafRightUpLegRoll2Sx = DoubleField()
+    LeafRightUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sy = DoubleField()
+    LeafRightUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sz = DoubleField()
+    LeafRightUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll2SAttrOperator(
@@ -24144,11 +24144,11 @@ class LeafRightUpLegRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll2Sx = DoubleField()
+    LeafRightUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sy = DoubleField()
+    LeafRightUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sz = DoubleField()
+    LeafRightUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll2SField(
@@ -24159,11 +24159,11 @@ class LeafRightUpLegRoll2SField(
     ATTR_CLS = LeafRightUpLegRoll2SAttrOperator
     PLUG_CLS = LeafRightUpLegRoll2SPlugOperator
 
-    LeafRightUpLegRoll2Sx = DoubleField()
+    LeafRightUpLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sy = DoubleField()
+    LeafRightUpLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll2Sz = DoubleField()
+    LeafRightUpLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll2TPlugOperator(
@@ -24176,11 +24176,11 @@ class LeafRightLegRoll2TPlugOperator(
         ("LeafRightLegRoll2Tz", "LeafRightLegRoll2Tz"),
     )
 
-    LeafRightLegRoll2Tx = DoubleLinearField()
+    LeafRightLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Ty = DoubleLinearField()
+    LeafRightLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Tz = DoubleLinearField()
+    LeafRightLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll2TAttrOperator(
@@ -24188,11 +24188,11 @@ class LeafRightLegRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll2Tx = DoubleLinearField()
+    LeafRightLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Ty = DoubleLinearField()
+    LeafRightLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Tz = DoubleLinearField()
+    LeafRightLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll2TField(
@@ -24203,11 +24203,11 @@ class LeafRightLegRoll2TField(
     ATTR_CLS = LeafRightLegRoll2TAttrOperator
     PLUG_CLS = LeafRightLegRoll2TPlugOperator
 
-    LeafRightLegRoll2Tx = DoubleLinearField()
+    LeafRightLegRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Ty = DoubleLinearField()
+    LeafRightLegRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll2Tz = DoubleLinearField()
+    LeafRightLegRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll2RPlugOperator(
@@ -24220,11 +24220,11 @@ class LeafRightLegRoll2RPlugOperator(
         ("LeafRightLegRoll2Rz", "LeafRightLegRoll2Rz"),
     )
 
-    LeafRightLegRoll2Rx = DoubleAngleField()
+    LeafRightLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Ry = DoubleAngleField()
+    LeafRightLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Rz = DoubleAngleField()
+    LeafRightLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll2RAttrOperator(
@@ -24232,11 +24232,11 @@ class LeafRightLegRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll2Rx = DoubleAngleField()
+    LeafRightLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Ry = DoubleAngleField()
+    LeafRightLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Rz = DoubleAngleField()
+    LeafRightLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll2RField(
@@ -24247,11 +24247,11 @@ class LeafRightLegRoll2RField(
     ATTR_CLS = LeafRightLegRoll2RAttrOperator
     PLUG_CLS = LeafRightLegRoll2RPlugOperator
 
-    LeafRightLegRoll2Rx = DoubleAngleField()
+    LeafRightLegRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Ry = DoubleAngleField()
+    LeafRightLegRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll2Rz = DoubleAngleField()
+    LeafRightLegRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll2SPlugOperator(
@@ -24264,11 +24264,11 @@ class LeafRightLegRoll2SPlugOperator(
         ("LeafRightLegRoll2Sz", "LeafRightLegRoll2Sz"),
     )
 
-    LeafRightLegRoll2Sx = DoubleField()
+    LeafRightLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sy = DoubleField()
+    LeafRightLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sz = DoubleField()
+    LeafRightLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll2SAttrOperator(
@@ -24276,11 +24276,11 @@ class LeafRightLegRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll2Sx = DoubleField()
+    LeafRightLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sy = DoubleField()
+    LeafRightLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sz = DoubleField()
+    LeafRightLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll2SField(
@@ -24291,11 +24291,11 @@ class LeafRightLegRoll2SField(
     ATTR_CLS = LeafRightLegRoll2SAttrOperator
     PLUG_CLS = LeafRightLegRoll2SPlugOperator
 
-    LeafRightLegRoll2Sx = DoubleField()
+    LeafRightLegRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sy = DoubleField()
+    LeafRightLegRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll2Sz = DoubleField()
+    LeafRightLegRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll2TPlugOperator(
@@ -24308,11 +24308,11 @@ class LeafLeftArmRoll2TPlugOperator(
         ("LeafLeftArmRoll2Tz", "LeafLeftArmRoll2Tz"),
     )
 
-    LeafLeftArmRoll2Tx = DoubleLinearField()
+    LeafLeftArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Ty = DoubleLinearField()
+    LeafLeftArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Tz = DoubleLinearField()
+    LeafLeftArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll2TAttrOperator(
@@ -24320,11 +24320,11 @@ class LeafLeftArmRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll2Tx = DoubleLinearField()
+    LeafLeftArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Ty = DoubleLinearField()
+    LeafLeftArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Tz = DoubleLinearField()
+    LeafLeftArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll2TField(
@@ -24335,11 +24335,11 @@ class LeafLeftArmRoll2TField(
     ATTR_CLS = LeafLeftArmRoll2TAttrOperator
     PLUG_CLS = LeafLeftArmRoll2TPlugOperator
 
-    LeafLeftArmRoll2Tx = DoubleLinearField()
+    LeafLeftArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Ty = DoubleLinearField()
+    LeafLeftArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll2Tz = DoubleLinearField()
+    LeafLeftArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll2RPlugOperator(
@@ -24352,11 +24352,11 @@ class LeafLeftArmRoll2RPlugOperator(
         ("LeafLeftArmRoll2Rz", "LeafLeftArmRoll2Rz"),
     )
 
-    LeafLeftArmRoll2Rx = DoubleAngleField()
+    LeafLeftArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Ry = DoubleAngleField()
+    LeafLeftArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Rz = DoubleAngleField()
+    LeafLeftArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll2RAttrOperator(
@@ -24364,11 +24364,11 @@ class LeafLeftArmRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll2Rx = DoubleAngleField()
+    LeafLeftArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Ry = DoubleAngleField()
+    LeafLeftArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Rz = DoubleAngleField()
+    LeafLeftArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll2RField(
@@ -24379,11 +24379,11 @@ class LeafLeftArmRoll2RField(
     ATTR_CLS = LeafLeftArmRoll2RAttrOperator
     PLUG_CLS = LeafLeftArmRoll2RPlugOperator
 
-    LeafLeftArmRoll2Rx = DoubleAngleField()
+    LeafLeftArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Ry = DoubleAngleField()
+    LeafLeftArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll2Rz = DoubleAngleField()
+    LeafLeftArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll2SPlugOperator(
@@ -24396,11 +24396,11 @@ class LeafLeftArmRoll2SPlugOperator(
         ("LeafLeftArmRoll2Sz", "LeafLeftArmRoll2Sz"),
     )
 
-    LeafLeftArmRoll2Sx = DoubleField()
+    LeafLeftArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sy = DoubleField()
+    LeafLeftArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sz = DoubleField()
+    LeafLeftArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll2SAttrOperator(
@@ -24408,11 +24408,11 @@ class LeafLeftArmRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll2Sx = DoubleField()
+    LeafLeftArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sy = DoubleField()
+    LeafLeftArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sz = DoubleField()
+    LeafLeftArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll2SField(
@@ -24423,11 +24423,11 @@ class LeafLeftArmRoll2SField(
     ATTR_CLS = LeafLeftArmRoll2SAttrOperator
     PLUG_CLS = LeafLeftArmRoll2SPlugOperator
 
-    LeafLeftArmRoll2Sx = DoubleField()
+    LeafLeftArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sy = DoubleField()
+    LeafLeftArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll2Sz = DoubleField()
+    LeafLeftArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll2TPlugOperator(
@@ -24440,11 +24440,11 @@ class LeafLeftForeArmRoll2TPlugOperator(
         ("LeafLeftForeArmRoll2Tz", "LeafLeftForeArmRoll2Tz"),
     )
 
-    LeafLeftForeArmRoll2Tx = DoubleLinearField()
+    LeafLeftForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ty = DoubleLinearField()
+    LeafLeftForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Tz = DoubleLinearField()
+    LeafLeftForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2TAttrOperator(
@@ -24452,11 +24452,11 @@ class LeafLeftForeArmRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll2Tx = DoubleLinearField()
+    LeafLeftForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ty = DoubleLinearField()
+    LeafLeftForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Tz = DoubleLinearField()
+    LeafLeftForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2TField(
@@ -24467,11 +24467,11 @@ class LeafLeftForeArmRoll2TField(
     ATTR_CLS = LeafLeftForeArmRoll2TAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll2TPlugOperator
 
-    LeafLeftForeArmRoll2Tx = DoubleLinearField()
+    LeafLeftForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ty = DoubleLinearField()
+    LeafLeftForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Tz = DoubleLinearField()
+    LeafLeftForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2RPlugOperator(
@@ -24484,11 +24484,11 @@ class LeafLeftForeArmRoll2RPlugOperator(
         ("LeafLeftForeArmRoll2Rz", "LeafLeftForeArmRoll2Rz"),
     )
 
-    LeafLeftForeArmRoll2Rx = DoubleAngleField()
+    LeafLeftForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ry = DoubleAngleField()
+    LeafLeftForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Rz = DoubleAngleField()
+    LeafLeftForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2RAttrOperator(
@@ -24496,11 +24496,11 @@ class LeafLeftForeArmRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll2Rx = DoubleAngleField()
+    LeafLeftForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ry = DoubleAngleField()
+    LeafLeftForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Rz = DoubleAngleField()
+    LeafLeftForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2RField(
@@ -24511,11 +24511,11 @@ class LeafLeftForeArmRoll2RField(
     ATTR_CLS = LeafLeftForeArmRoll2RAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll2RPlugOperator
 
-    LeafLeftForeArmRoll2Rx = DoubleAngleField()
+    LeafLeftForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Ry = DoubleAngleField()
+    LeafLeftForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll2Rz = DoubleAngleField()
+    LeafLeftForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll2SPlugOperator(
@@ -24528,11 +24528,11 @@ class LeafLeftForeArmRoll2SPlugOperator(
         ("LeafLeftForeArmRoll2Sz", "LeafLeftForeArmRoll2Sz"),
     )
 
-    LeafLeftForeArmRoll2Sx = DoubleField()
+    LeafLeftForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sy = DoubleField()
+    LeafLeftForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sz = DoubleField()
+    LeafLeftForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll2SAttrOperator(
@@ -24540,11 +24540,11 @@ class LeafLeftForeArmRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll2Sx = DoubleField()
+    LeafLeftForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sy = DoubleField()
+    LeafLeftForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sz = DoubleField()
+    LeafLeftForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll2SField(
@@ -24555,11 +24555,11 @@ class LeafLeftForeArmRoll2SField(
     ATTR_CLS = LeafLeftForeArmRoll2SAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll2SPlugOperator
 
-    LeafLeftForeArmRoll2Sx = DoubleField()
+    LeafLeftForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sy = DoubleField()
+    LeafLeftForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll2Sz = DoubleField()
+    LeafLeftForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll2TPlugOperator(
@@ -24572,11 +24572,11 @@ class LeafRightArmRoll2TPlugOperator(
         ("LeafRightArmRoll2Tz", "LeafRightArmRoll2Tz"),
     )
 
-    LeafRightArmRoll2Tx = DoubleLinearField()
+    LeafRightArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Ty = DoubleLinearField()
+    LeafRightArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Tz = DoubleLinearField()
+    LeafRightArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll2TAttrOperator(
@@ -24584,11 +24584,11 @@ class LeafRightArmRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll2Tx = DoubleLinearField()
+    LeafRightArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Ty = DoubleLinearField()
+    LeafRightArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Tz = DoubleLinearField()
+    LeafRightArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll2TField(
@@ -24599,11 +24599,11 @@ class LeafRightArmRoll2TField(
     ATTR_CLS = LeafRightArmRoll2TAttrOperator
     PLUG_CLS = LeafRightArmRoll2TPlugOperator
 
-    LeafRightArmRoll2Tx = DoubleLinearField()
+    LeafRightArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Ty = DoubleLinearField()
+    LeafRightArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll2Tz = DoubleLinearField()
+    LeafRightArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll2RPlugOperator(
@@ -24616,11 +24616,11 @@ class LeafRightArmRoll2RPlugOperator(
         ("LeafRightArmRoll2Rz", "LeafRightArmRoll2Rz"),
     )
 
-    LeafRightArmRoll2Rx = DoubleAngleField()
+    LeafRightArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Ry = DoubleAngleField()
+    LeafRightArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Rz = DoubleAngleField()
+    LeafRightArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll2RAttrOperator(
@@ -24628,11 +24628,11 @@ class LeafRightArmRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll2Rx = DoubleAngleField()
+    LeafRightArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Ry = DoubleAngleField()
+    LeafRightArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Rz = DoubleAngleField()
+    LeafRightArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll2RField(
@@ -24643,11 +24643,11 @@ class LeafRightArmRoll2RField(
     ATTR_CLS = LeafRightArmRoll2RAttrOperator
     PLUG_CLS = LeafRightArmRoll2RPlugOperator
 
-    LeafRightArmRoll2Rx = DoubleAngleField()
+    LeafRightArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Ry = DoubleAngleField()
+    LeafRightArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll2Rz = DoubleAngleField()
+    LeafRightArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll2SPlugOperator(
@@ -24660,11 +24660,11 @@ class LeafRightArmRoll2SPlugOperator(
         ("LeafRightArmRoll2Sz", "LeafRightArmRoll2Sz"),
     )
 
-    LeafRightArmRoll2Sx = DoubleField()
+    LeafRightArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sy = DoubleField()
+    LeafRightArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sz = DoubleField()
+    LeafRightArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll2SAttrOperator(
@@ -24672,11 +24672,11 @@ class LeafRightArmRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll2Sx = DoubleField()
+    LeafRightArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sy = DoubleField()
+    LeafRightArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sz = DoubleField()
+    LeafRightArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll2SField(
@@ -24687,11 +24687,11 @@ class LeafRightArmRoll2SField(
     ATTR_CLS = LeafRightArmRoll2SAttrOperator
     PLUG_CLS = LeafRightArmRoll2SPlugOperator
 
-    LeafRightArmRoll2Sx = DoubleField()
+    LeafRightArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sy = DoubleField()
+    LeafRightArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll2Sz = DoubleField()
+    LeafRightArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll2TPlugOperator(
@@ -24704,11 +24704,11 @@ class LeafRightForeArmRoll2TPlugOperator(
         ("LeafRightForeArmRoll2Tz", "LeafRightForeArmRoll2Tz"),
     )
 
-    LeafRightForeArmRoll2Tx = DoubleLinearField()
+    LeafRightForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ty = DoubleLinearField()
+    LeafRightForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Tz = DoubleLinearField()
+    LeafRightForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2TAttrOperator(
@@ -24716,11 +24716,11 @@ class LeafRightForeArmRoll2TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll2Tx = DoubleLinearField()
+    LeafRightForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ty = DoubleLinearField()
+    LeafRightForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Tz = DoubleLinearField()
+    LeafRightForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2TField(
@@ -24731,11 +24731,11 @@ class LeafRightForeArmRoll2TField(
     ATTR_CLS = LeafRightForeArmRoll2TAttrOperator
     PLUG_CLS = LeafRightForeArmRoll2TPlugOperator
 
-    LeafRightForeArmRoll2Tx = DoubleLinearField()
+    LeafRightForeArmRoll2Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ty = DoubleLinearField()
+    LeafRightForeArmRoll2Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll2Tz = DoubleLinearField()
+    LeafRightForeArmRoll2Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2RPlugOperator(
@@ -24748,11 +24748,11 @@ class LeafRightForeArmRoll2RPlugOperator(
         ("LeafRightForeArmRoll2Rz", "LeafRightForeArmRoll2Rz"),
     )
 
-    LeafRightForeArmRoll2Rx = DoubleAngleField()
+    LeafRightForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ry = DoubleAngleField()
+    LeafRightForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Rz = DoubleAngleField()
+    LeafRightForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2RAttrOperator(
@@ -24760,11 +24760,11 @@ class LeafRightForeArmRoll2RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll2Rx = DoubleAngleField()
+    LeafRightForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ry = DoubleAngleField()
+    LeafRightForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Rz = DoubleAngleField()
+    LeafRightForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2RField(
@@ -24775,11 +24775,11 @@ class LeafRightForeArmRoll2RField(
     ATTR_CLS = LeafRightForeArmRoll2RAttrOperator
     PLUG_CLS = LeafRightForeArmRoll2RPlugOperator
 
-    LeafRightForeArmRoll2Rx = DoubleAngleField()
+    LeafRightForeArmRoll2Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Ry = DoubleAngleField()
+    LeafRightForeArmRoll2Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll2Rz = DoubleAngleField()
+    LeafRightForeArmRoll2Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll2SPlugOperator(
@@ -24792,11 +24792,11 @@ class LeafRightForeArmRoll2SPlugOperator(
         ("LeafRightForeArmRoll2Sz", "LeafRightForeArmRoll2Sz"),
     )
 
-    LeafRightForeArmRoll2Sx = DoubleField()
+    LeafRightForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sy = DoubleField()
+    LeafRightForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sz = DoubleField()
+    LeafRightForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll2SAttrOperator(
@@ -24804,11 +24804,11 @@ class LeafRightForeArmRoll2SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll2Sx = DoubleField()
+    LeafRightForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sy = DoubleField()
+    LeafRightForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sz = DoubleField()
+    LeafRightForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll2SField(
@@ -24819,11 +24819,11 @@ class LeafRightForeArmRoll2SField(
     ATTR_CLS = LeafRightForeArmRoll2SAttrOperator
     PLUG_CLS = LeafRightForeArmRoll2SPlugOperator
 
-    LeafRightForeArmRoll2Sx = DoubleField()
+    LeafRightForeArmRoll2Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sy = DoubleField()
+    LeafRightForeArmRoll2Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll2Sz = DoubleField()
+    LeafRightForeArmRoll2Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll3TPlugOperator(
@@ -24836,11 +24836,11 @@ class LeafLeftUpLegRoll3TPlugOperator(
         ("LeafLeftUpLegRoll3Tz", "LeafLeftUpLegRoll3Tz"),
     )
 
-    LeafLeftUpLegRoll3Tx = DoubleLinearField()
+    LeafLeftUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ty = DoubleLinearField()
+    LeafLeftUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Tz = DoubleLinearField()
+    LeafLeftUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3TAttrOperator(
@@ -24848,11 +24848,11 @@ class LeafLeftUpLegRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll3Tx = DoubleLinearField()
+    LeafLeftUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ty = DoubleLinearField()
+    LeafLeftUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Tz = DoubleLinearField()
+    LeafLeftUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3TField(
@@ -24863,11 +24863,11 @@ class LeafLeftUpLegRoll3TField(
     ATTR_CLS = LeafLeftUpLegRoll3TAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll3TPlugOperator
 
-    LeafLeftUpLegRoll3Tx = DoubleLinearField()
+    LeafLeftUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ty = DoubleLinearField()
+    LeafLeftUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Tz = DoubleLinearField()
+    LeafLeftUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3RPlugOperator(
@@ -24880,11 +24880,11 @@ class LeafLeftUpLegRoll3RPlugOperator(
         ("LeafLeftUpLegRoll3Rz", "LeafLeftUpLegRoll3Rz"),
     )
 
-    LeafLeftUpLegRoll3Rx = DoubleAngleField()
+    LeafLeftUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ry = DoubleAngleField()
+    LeafLeftUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Rz = DoubleAngleField()
+    LeafLeftUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3RAttrOperator(
@@ -24892,11 +24892,11 @@ class LeafLeftUpLegRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll3Rx = DoubleAngleField()
+    LeafLeftUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ry = DoubleAngleField()
+    LeafLeftUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Rz = DoubleAngleField()
+    LeafLeftUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3RField(
@@ -24907,11 +24907,11 @@ class LeafLeftUpLegRoll3RField(
     ATTR_CLS = LeafLeftUpLegRoll3RAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll3RPlugOperator
 
-    LeafLeftUpLegRoll3Rx = DoubleAngleField()
+    LeafLeftUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Ry = DoubleAngleField()
+    LeafLeftUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll3Rz = DoubleAngleField()
+    LeafLeftUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll3SPlugOperator(
@@ -24924,11 +24924,11 @@ class LeafLeftUpLegRoll3SPlugOperator(
         ("LeafLeftUpLegRoll3Sz", "LeafLeftUpLegRoll3Sz"),
     )
 
-    LeafLeftUpLegRoll3Sx = DoubleField()
+    LeafLeftUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sy = DoubleField()
+    LeafLeftUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sz = DoubleField()
+    LeafLeftUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll3SAttrOperator(
@@ -24936,11 +24936,11 @@ class LeafLeftUpLegRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll3Sx = DoubleField()
+    LeafLeftUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sy = DoubleField()
+    LeafLeftUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sz = DoubleField()
+    LeafLeftUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll3SField(
@@ -24951,11 +24951,11 @@ class LeafLeftUpLegRoll3SField(
     ATTR_CLS = LeafLeftUpLegRoll3SAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll3SPlugOperator
 
-    LeafLeftUpLegRoll3Sx = DoubleField()
+    LeafLeftUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sy = DoubleField()
+    LeafLeftUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll3Sz = DoubleField()
+    LeafLeftUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll3TPlugOperator(
@@ -24968,11 +24968,11 @@ class LeafLeftLegRoll3TPlugOperator(
         ("LeafLeftLegRoll3Tz", "LeafLeftLegRoll3Tz"),
     )
 
-    LeafLeftLegRoll3Tx = DoubleLinearField()
+    LeafLeftLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Ty = DoubleLinearField()
+    LeafLeftLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Tz = DoubleLinearField()
+    LeafLeftLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll3TAttrOperator(
@@ -24980,11 +24980,11 @@ class LeafLeftLegRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll3Tx = DoubleLinearField()
+    LeafLeftLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Ty = DoubleLinearField()
+    LeafLeftLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Tz = DoubleLinearField()
+    LeafLeftLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll3TField(
@@ -24995,11 +24995,11 @@ class LeafLeftLegRoll3TField(
     ATTR_CLS = LeafLeftLegRoll3TAttrOperator
     PLUG_CLS = LeafLeftLegRoll3TPlugOperator
 
-    LeafLeftLegRoll3Tx = DoubleLinearField()
+    LeafLeftLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Ty = DoubleLinearField()
+    LeafLeftLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll3Tz = DoubleLinearField()
+    LeafLeftLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll3RPlugOperator(
@@ -25012,11 +25012,11 @@ class LeafLeftLegRoll3RPlugOperator(
         ("LeafLeftLegRoll3Rz", "LeafLeftLegRoll3Rz"),
     )
 
-    LeafLeftLegRoll3Rx = DoubleAngleField()
+    LeafLeftLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Ry = DoubleAngleField()
+    LeafLeftLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Rz = DoubleAngleField()
+    LeafLeftLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll3RAttrOperator(
@@ -25024,11 +25024,11 @@ class LeafLeftLegRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll3Rx = DoubleAngleField()
+    LeafLeftLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Ry = DoubleAngleField()
+    LeafLeftLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Rz = DoubleAngleField()
+    LeafLeftLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll3RField(
@@ -25039,11 +25039,11 @@ class LeafLeftLegRoll3RField(
     ATTR_CLS = LeafLeftLegRoll3RAttrOperator
     PLUG_CLS = LeafLeftLegRoll3RPlugOperator
 
-    LeafLeftLegRoll3Rx = DoubleAngleField()
+    LeafLeftLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Ry = DoubleAngleField()
+    LeafLeftLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll3Rz = DoubleAngleField()
+    LeafLeftLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll3SPlugOperator(
@@ -25056,11 +25056,11 @@ class LeafLeftLegRoll3SPlugOperator(
         ("LeafLeftLegRoll3Sz", "LeafLeftLegRoll3Sz"),
     )
 
-    LeafLeftLegRoll3Sx = DoubleField()
+    LeafLeftLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sy = DoubleField()
+    LeafLeftLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sz = DoubleField()
+    LeafLeftLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll3SAttrOperator(
@@ -25068,11 +25068,11 @@ class LeafLeftLegRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll3Sx = DoubleField()
+    LeafLeftLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sy = DoubleField()
+    LeafLeftLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sz = DoubleField()
+    LeafLeftLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll3SField(
@@ -25083,11 +25083,11 @@ class LeafLeftLegRoll3SField(
     ATTR_CLS = LeafLeftLegRoll3SAttrOperator
     PLUG_CLS = LeafLeftLegRoll3SPlugOperator
 
-    LeafLeftLegRoll3Sx = DoubleField()
+    LeafLeftLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sy = DoubleField()
+    LeafLeftLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll3Sz = DoubleField()
+    LeafLeftLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll3TPlugOperator(
@@ -25100,11 +25100,11 @@ class LeafRightUpLegRoll3TPlugOperator(
         ("LeafRightUpLegRoll3Tz", "LeafRightUpLegRoll3Tz"),
     )
 
-    LeafRightUpLegRoll3Tx = DoubleLinearField()
+    LeafRightUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ty = DoubleLinearField()
+    LeafRightUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Tz = DoubleLinearField()
+    LeafRightUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3TAttrOperator(
@@ -25112,11 +25112,11 @@ class LeafRightUpLegRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll3Tx = DoubleLinearField()
+    LeafRightUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ty = DoubleLinearField()
+    LeafRightUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Tz = DoubleLinearField()
+    LeafRightUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3TField(
@@ -25127,11 +25127,11 @@ class LeafRightUpLegRoll3TField(
     ATTR_CLS = LeafRightUpLegRoll3TAttrOperator
     PLUG_CLS = LeafRightUpLegRoll3TPlugOperator
 
-    LeafRightUpLegRoll3Tx = DoubleLinearField()
+    LeafRightUpLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ty = DoubleLinearField()
+    LeafRightUpLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll3Tz = DoubleLinearField()
+    LeafRightUpLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3RPlugOperator(
@@ -25144,11 +25144,11 @@ class LeafRightUpLegRoll3RPlugOperator(
         ("LeafRightUpLegRoll3Rz", "LeafRightUpLegRoll3Rz"),
     )
 
-    LeafRightUpLegRoll3Rx = DoubleAngleField()
+    LeafRightUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ry = DoubleAngleField()
+    LeafRightUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Rz = DoubleAngleField()
+    LeafRightUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3RAttrOperator(
@@ -25156,11 +25156,11 @@ class LeafRightUpLegRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll3Rx = DoubleAngleField()
+    LeafRightUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ry = DoubleAngleField()
+    LeafRightUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Rz = DoubleAngleField()
+    LeafRightUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3RField(
@@ -25171,11 +25171,11 @@ class LeafRightUpLegRoll3RField(
     ATTR_CLS = LeafRightUpLegRoll3RAttrOperator
     PLUG_CLS = LeafRightUpLegRoll3RPlugOperator
 
-    LeafRightUpLegRoll3Rx = DoubleAngleField()
+    LeafRightUpLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Ry = DoubleAngleField()
+    LeafRightUpLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll3Rz = DoubleAngleField()
+    LeafRightUpLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll3SPlugOperator(
@@ -25188,11 +25188,11 @@ class LeafRightUpLegRoll3SPlugOperator(
         ("LeafRightUpLegRoll3Sz", "LeafRightUpLegRoll3Sz"),
     )
 
-    LeafRightUpLegRoll3Sx = DoubleField()
+    LeafRightUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sy = DoubleField()
+    LeafRightUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sz = DoubleField()
+    LeafRightUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll3SAttrOperator(
@@ -25200,11 +25200,11 @@ class LeafRightUpLegRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll3Sx = DoubleField()
+    LeafRightUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sy = DoubleField()
+    LeafRightUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sz = DoubleField()
+    LeafRightUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll3SField(
@@ -25215,11 +25215,11 @@ class LeafRightUpLegRoll3SField(
     ATTR_CLS = LeafRightUpLegRoll3SAttrOperator
     PLUG_CLS = LeafRightUpLegRoll3SPlugOperator
 
-    LeafRightUpLegRoll3Sx = DoubleField()
+    LeafRightUpLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sy = DoubleField()
+    LeafRightUpLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll3Sz = DoubleField()
+    LeafRightUpLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll3TPlugOperator(
@@ -25232,11 +25232,11 @@ class LeafRightLegRoll3TPlugOperator(
         ("LeafRightLegRoll3Tz", "LeafRightLegRoll3Tz"),
     )
 
-    LeafRightLegRoll3Tx = DoubleLinearField()
+    LeafRightLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Ty = DoubleLinearField()
+    LeafRightLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Tz = DoubleLinearField()
+    LeafRightLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll3TAttrOperator(
@@ -25244,11 +25244,11 @@ class LeafRightLegRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll3Tx = DoubleLinearField()
+    LeafRightLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Ty = DoubleLinearField()
+    LeafRightLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Tz = DoubleLinearField()
+    LeafRightLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll3TField(
@@ -25259,11 +25259,11 @@ class LeafRightLegRoll3TField(
     ATTR_CLS = LeafRightLegRoll3TAttrOperator
     PLUG_CLS = LeafRightLegRoll3TPlugOperator
 
-    LeafRightLegRoll3Tx = DoubleLinearField()
+    LeafRightLegRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Ty = DoubleLinearField()
+    LeafRightLegRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll3Tz = DoubleLinearField()
+    LeafRightLegRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll3RPlugOperator(
@@ -25276,11 +25276,11 @@ class LeafRightLegRoll3RPlugOperator(
         ("LeafRightLegRoll3Rz", "LeafRightLegRoll3Rz"),
     )
 
-    LeafRightLegRoll3Rx = DoubleAngleField()
+    LeafRightLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Ry = DoubleAngleField()
+    LeafRightLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Rz = DoubleAngleField()
+    LeafRightLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll3RAttrOperator(
@@ -25288,11 +25288,11 @@ class LeafRightLegRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll3Rx = DoubleAngleField()
+    LeafRightLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Ry = DoubleAngleField()
+    LeafRightLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Rz = DoubleAngleField()
+    LeafRightLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll3RField(
@@ -25303,11 +25303,11 @@ class LeafRightLegRoll3RField(
     ATTR_CLS = LeafRightLegRoll3RAttrOperator
     PLUG_CLS = LeafRightLegRoll3RPlugOperator
 
-    LeafRightLegRoll3Rx = DoubleAngleField()
+    LeafRightLegRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Ry = DoubleAngleField()
+    LeafRightLegRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll3Rz = DoubleAngleField()
+    LeafRightLegRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll3SPlugOperator(
@@ -25320,11 +25320,11 @@ class LeafRightLegRoll3SPlugOperator(
         ("LeafRightLegRoll3Sz", "LeafRightLegRoll3Sz"),
     )
 
-    LeafRightLegRoll3Sx = DoubleField()
+    LeafRightLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sy = DoubleField()
+    LeafRightLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sz = DoubleField()
+    LeafRightLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll3SAttrOperator(
@@ -25332,11 +25332,11 @@ class LeafRightLegRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll3Sx = DoubleField()
+    LeafRightLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sy = DoubleField()
+    LeafRightLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sz = DoubleField()
+    LeafRightLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll3SField(
@@ -25347,11 +25347,11 @@ class LeafRightLegRoll3SField(
     ATTR_CLS = LeafRightLegRoll3SAttrOperator
     PLUG_CLS = LeafRightLegRoll3SPlugOperator
 
-    LeafRightLegRoll3Sx = DoubleField()
+    LeafRightLegRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sy = DoubleField()
+    LeafRightLegRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll3Sz = DoubleField()
+    LeafRightLegRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll3TPlugOperator(
@@ -25364,11 +25364,11 @@ class LeafLeftArmRoll3TPlugOperator(
         ("LeafLeftArmRoll3Tz", "LeafLeftArmRoll3Tz"),
     )
 
-    LeafLeftArmRoll3Tx = DoubleLinearField()
+    LeafLeftArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Ty = DoubleLinearField()
+    LeafLeftArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Tz = DoubleLinearField()
+    LeafLeftArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll3TAttrOperator(
@@ -25376,11 +25376,11 @@ class LeafLeftArmRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll3Tx = DoubleLinearField()
+    LeafLeftArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Ty = DoubleLinearField()
+    LeafLeftArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Tz = DoubleLinearField()
+    LeafLeftArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll3TField(
@@ -25391,11 +25391,11 @@ class LeafLeftArmRoll3TField(
     ATTR_CLS = LeafLeftArmRoll3TAttrOperator
     PLUG_CLS = LeafLeftArmRoll3TPlugOperator
 
-    LeafLeftArmRoll3Tx = DoubleLinearField()
+    LeafLeftArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Ty = DoubleLinearField()
+    LeafLeftArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll3Tz = DoubleLinearField()
+    LeafLeftArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll3RPlugOperator(
@@ -25408,11 +25408,11 @@ class LeafLeftArmRoll3RPlugOperator(
         ("LeafLeftArmRoll3Rz", "LeafLeftArmRoll3Rz"),
     )
 
-    LeafLeftArmRoll3Rx = DoubleAngleField()
+    LeafLeftArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Ry = DoubleAngleField()
+    LeafLeftArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Rz = DoubleAngleField()
+    LeafLeftArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll3RAttrOperator(
@@ -25420,11 +25420,11 @@ class LeafLeftArmRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll3Rx = DoubleAngleField()
+    LeafLeftArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Ry = DoubleAngleField()
+    LeafLeftArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Rz = DoubleAngleField()
+    LeafLeftArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll3RField(
@@ -25435,11 +25435,11 @@ class LeafLeftArmRoll3RField(
     ATTR_CLS = LeafLeftArmRoll3RAttrOperator
     PLUG_CLS = LeafLeftArmRoll3RPlugOperator
 
-    LeafLeftArmRoll3Rx = DoubleAngleField()
+    LeafLeftArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Ry = DoubleAngleField()
+    LeafLeftArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll3Rz = DoubleAngleField()
+    LeafLeftArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll3SPlugOperator(
@@ -25452,11 +25452,11 @@ class LeafLeftArmRoll3SPlugOperator(
         ("LeafLeftArmRoll3Sz", "LeafLeftArmRoll3Sz"),
     )
 
-    LeafLeftArmRoll3Sx = DoubleField()
+    LeafLeftArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sy = DoubleField()
+    LeafLeftArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sz = DoubleField()
+    LeafLeftArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll3SAttrOperator(
@@ -25464,11 +25464,11 @@ class LeafLeftArmRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll3Sx = DoubleField()
+    LeafLeftArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sy = DoubleField()
+    LeafLeftArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sz = DoubleField()
+    LeafLeftArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll3SField(
@@ -25479,11 +25479,11 @@ class LeafLeftArmRoll3SField(
     ATTR_CLS = LeafLeftArmRoll3SAttrOperator
     PLUG_CLS = LeafLeftArmRoll3SPlugOperator
 
-    LeafLeftArmRoll3Sx = DoubleField()
+    LeafLeftArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sy = DoubleField()
+    LeafLeftArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll3Sz = DoubleField()
+    LeafLeftArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll3TPlugOperator(
@@ -25496,11 +25496,11 @@ class LeafLeftForeArmRoll3TPlugOperator(
         ("LeafLeftForeArmRoll3Tz", "LeafLeftForeArmRoll3Tz"),
     )
 
-    LeafLeftForeArmRoll3Tx = DoubleLinearField()
+    LeafLeftForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ty = DoubleLinearField()
+    LeafLeftForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Tz = DoubleLinearField()
+    LeafLeftForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3TAttrOperator(
@@ -25508,11 +25508,11 @@ class LeafLeftForeArmRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll3Tx = DoubleLinearField()
+    LeafLeftForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ty = DoubleLinearField()
+    LeafLeftForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Tz = DoubleLinearField()
+    LeafLeftForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3TField(
@@ -25523,11 +25523,11 @@ class LeafLeftForeArmRoll3TField(
     ATTR_CLS = LeafLeftForeArmRoll3TAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll3TPlugOperator
 
-    LeafLeftForeArmRoll3Tx = DoubleLinearField()
+    LeafLeftForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ty = DoubleLinearField()
+    LeafLeftForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Tz = DoubleLinearField()
+    LeafLeftForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3RPlugOperator(
@@ -25540,11 +25540,11 @@ class LeafLeftForeArmRoll3RPlugOperator(
         ("LeafLeftForeArmRoll3Rz", "LeafLeftForeArmRoll3Rz"),
     )
 
-    LeafLeftForeArmRoll3Rx = DoubleAngleField()
+    LeafLeftForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ry = DoubleAngleField()
+    LeafLeftForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Rz = DoubleAngleField()
+    LeafLeftForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3RAttrOperator(
@@ -25552,11 +25552,11 @@ class LeafLeftForeArmRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll3Rx = DoubleAngleField()
+    LeafLeftForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ry = DoubleAngleField()
+    LeafLeftForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Rz = DoubleAngleField()
+    LeafLeftForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3RField(
@@ -25567,11 +25567,11 @@ class LeafLeftForeArmRoll3RField(
     ATTR_CLS = LeafLeftForeArmRoll3RAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll3RPlugOperator
 
-    LeafLeftForeArmRoll3Rx = DoubleAngleField()
+    LeafLeftForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Ry = DoubleAngleField()
+    LeafLeftForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll3Rz = DoubleAngleField()
+    LeafLeftForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll3SPlugOperator(
@@ -25584,11 +25584,11 @@ class LeafLeftForeArmRoll3SPlugOperator(
         ("LeafLeftForeArmRoll3Sz", "LeafLeftForeArmRoll3Sz"),
     )
 
-    LeafLeftForeArmRoll3Sx = DoubleField()
+    LeafLeftForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sy = DoubleField()
+    LeafLeftForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sz = DoubleField()
+    LeafLeftForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll3SAttrOperator(
@@ -25596,11 +25596,11 @@ class LeafLeftForeArmRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll3Sx = DoubleField()
+    LeafLeftForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sy = DoubleField()
+    LeafLeftForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sz = DoubleField()
+    LeafLeftForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll3SField(
@@ -25611,11 +25611,11 @@ class LeafLeftForeArmRoll3SField(
     ATTR_CLS = LeafLeftForeArmRoll3SAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll3SPlugOperator
 
-    LeafLeftForeArmRoll3Sx = DoubleField()
+    LeafLeftForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sy = DoubleField()
+    LeafLeftForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll3Sz = DoubleField()
+    LeafLeftForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll3TPlugOperator(
@@ -25628,11 +25628,11 @@ class LeafRightArmRoll3TPlugOperator(
         ("LeafRightArmRoll3Tz", "LeafRightArmRoll3Tz"),
     )
 
-    LeafRightArmRoll3Tx = DoubleLinearField()
+    LeafRightArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Ty = DoubleLinearField()
+    LeafRightArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Tz = DoubleLinearField()
+    LeafRightArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll3TAttrOperator(
@@ -25640,11 +25640,11 @@ class LeafRightArmRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll3Tx = DoubleLinearField()
+    LeafRightArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Ty = DoubleLinearField()
+    LeafRightArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Tz = DoubleLinearField()
+    LeafRightArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll3TField(
@@ -25655,11 +25655,11 @@ class LeafRightArmRoll3TField(
     ATTR_CLS = LeafRightArmRoll3TAttrOperator
     PLUG_CLS = LeafRightArmRoll3TPlugOperator
 
-    LeafRightArmRoll3Tx = DoubleLinearField()
+    LeafRightArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Ty = DoubleLinearField()
+    LeafRightArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll3Tz = DoubleLinearField()
+    LeafRightArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll3RPlugOperator(
@@ -25672,11 +25672,11 @@ class LeafRightArmRoll3RPlugOperator(
         ("LeafRightArmRoll3Rz", "LeafRightArmRoll3Rz"),
     )
 
-    LeafRightArmRoll3Rx = DoubleAngleField()
+    LeafRightArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Ry = DoubleAngleField()
+    LeafRightArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Rz = DoubleAngleField()
+    LeafRightArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll3RAttrOperator(
@@ -25684,11 +25684,11 @@ class LeafRightArmRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll3Rx = DoubleAngleField()
+    LeafRightArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Ry = DoubleAngleField()
+    LeafRightArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Rz = DoubleAngleField()
+    LeafRightArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll3RField(
@@ -25699,11 +25699,11 @@ class LeafRightArmRoll3RField(
     ATTR_CLS = LeafRightArmRoll3RAttrOperator
     PLUG_CLS = LeafRightArmRoll3RPlugOperator
 
-    LeafRightArmRoll3Rx = DoubleAngleField()
+    LeafRightArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Ry = DoubleAngleField()
+    LeafRightArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll3Rz = DoubleAngleField()
+    LeafRightArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll3SPlugOperator(
@@ -25716,11 +25716,11 @@ class LeafRightArmRoll3SPlugOperator(
         ("LeafRightArmRoll3Sz", "LeafRightArmRoll3Sz"),
     )
 
-    LeafRightArmRoll3Sx = DoubleField()
+    LeafRightArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sy = DoubleField()
+    LeafRightArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sz = DoubleField()
+    LeafRightArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll3SAttrOperator(
@@ -25728,11 +25728,11 @@ class LeafRightArmRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll3Sx = DoubleField()
+    LeafRightArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sy = DoubleField()
+    LeafRightArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sz = DoubleField()
+    LeafRightArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll3SField(
@@ -25743,11 +25743,11 @@ class LeafRightArmRoll3SField(
     ATTR_CLS = LeafRightArmRoll3SAttrOperator
     PLUG_CLS = LeafRightArmRoll3SPlugOperator
 
-    LeafRightArmRoll3Sx = DoubleField()
+    LeafRightArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sy = DoubleField()
+    LeafRightArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll3Sz = DoubleField()
+    LeafRightArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll3TPlugOperator(
@@ -25760,11 +25760,11 @@ class LeafRightForeArmRoll3TPlugOperator(
         ("LeafRightForeArmRoll3Tz", "LeafRightForeArmRoll3Tz"),
     )
 
-    LeafRightForeArmRoll3Tx = DoubleLinearField()
+    LeafRightForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ty = DoubleLinearField()
+    LeafRightForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Tz = DoubleLinearField()
+    LeafRightForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3TAttrOperator(
@@ -25772,11 +25772,11 @@ class LeafRightForeArmRoll3TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll3Tx = DoubleLinearField()
+    LeafRightForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ty = DoubleLinearField()
+    LeafRightForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Tz = DoubleLinearField()
+    LeafRightForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3TField(
@@ -25787,11 +25787,11 @@ class LeafRightForeArmRoll3TField(
     ATTR_CLS = LeafRightForeArmRoll3TAttrOperator
     PLUG_CLS = LeafRightForeArmRoll3TPlugOperator
 
-    LeafRightForeArmRoll3Tx = DoubleLinearField()
+    LeafRightForeArmRoll3Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ty = DoubleLinearField()
+    LeafRightForeArmRoll3Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll3Tz = DoubleLinearField()
+    LeafRightForeArmRoll3Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3RPlugOperator(
@@ -25804,11 +25804,11 @@ class LeafRightForeArmRoll3RPlugOperator(
         ("LeafRightForeArmRoll3Rz", "LeafRightForeArmRoll3Rz"),
     )
 
-    LeafRightForeArmRoll3Rx = DoubleAngleField()
+    LeafRightForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ry = DoubleAngleField()
+    LeafRightForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Rz = DoubleAngleField()
+    LeafRightForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3RAttrOperator(
@@ -25816,11 +25816,11 @@ class LeafRightForeArmRoll3RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll3Rx = DoubleAngleField()
+    LeafRightForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ry = DoubleAngleField()
+    LeafRightForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Rz = DoubleAngleField()
+    LeafRightForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3RField(
@@ -25831,11 +25831,11 @@ class LeafRightForeArmRoll3RField(
     ATTR_CLS = LeafRightForeArmRoll3RAttrOperator
     PLUG_CLS = LeafRightForeArmRoll3RPlugOperator
 
-    LeafRightForeArmRoll3Rx = DoubleAngleField()
+    LeafRightForeArmRoll3Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Ry = DoubleAngleField()
+    LeafRightForeArmRoll3Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll3Rz = DoubleAngleField()
+    LeafRightForeArmRoll3Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll3SPlugOperator(
@@ -25848,11 +25848,11 @@ class LeafRightForeArmRoll3SPlugOperator(
         ("LeafRightForeArmRoll3Sz", "LeafRightForeArmRoll3Sz"),
     )
 
-    LeafRightForeArmRoll3Sx = DoubleField()
+    LeafRightForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sy = DoubleField()
+    LeafRightForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sz = DoubleField()
+    LeafRightForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll3SAttrOperator(
@@ -25860,11 +25860,11 @@ class LeafRightForeArmRoll3SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll3Sx = DoubleField()
+    LeafRightForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sy = DoubleField()
+    LeafRightForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sz = DoubleField()
+    LeafRightForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll3SField(
@@ -25875,11 +25875,11 @@ class LeafRightForeArmRoll3SField(
     ATTR_CLS = LeafRightForeArmRoll3SAttrOperator
     PLUG_CLS = LeafRightForeArmRoll3SPlugOperator
 
-    LeafRightForeArmRoll3Sx = DoubleField()
+    LeafRightForeArmRoll3Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sy = DoubleField()
+    LeafRightForeArmRoll3Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll3Sz = DoubleField()
+    LeafRightForeArmRoll3Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll4TPlugOperator(
@@ -25892,11 +25892,11 @@ class LeafLeftUpLegRoll4TPlugOperator(
         ("LeafLeftUpLegRoll4Tz", "LeafLeftUpLegRoll4Tz"),
     )
 
-    LeafLeftUpLegRoll4Tx = DoubleLinearField()
+    LeafLeftUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ty = DoubleLinearField()
+    LeafLeftUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Tz = DoubleLinearField()
+    LeafLeftUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4TAttrOperator(
@@ -25904,11 +25904,11 @@ class LeafLeftUpLegRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll4Tx = DoubleLinearField()
+    LeafLeftUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ty = DoubleLinearField()
+    LeafLeftUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Tz = DoubleLinearField()
+    LeafLeftUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4TField(
@@ -25919,11 +25919,11 @@ class LeafLeftUpLegRoll4TField(
     ATTR_CLS = LeafLeftUpLegRoll4TAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll4TPlugOperator
 
-    LeafLeftUpLegRoll4Tx = DoubleLinearField()
+    LeafLeftUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ty = DoubleLinearField()
+    LeafLeftUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Tz = DoubleLinearField()
+    LeafLeftUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4RPlugOperator(
@@ -25936,11 +25936,11 @@ class LeafLeftUpLegRoll4RPlugOperator(
         ("LeafLeftUpLegRoll4Rz", "LeafLeftUpLegRoll4Rz"),
     )
 
-    LeafLeftUpLegRoll4Rx = DoubleAngleField()
+    LeafLeftUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ry = DoubleAngleField()
+    LeafLeftUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Rz = DoubleAngleField()
+    LeafLeftUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4RAttrOperator(
@@ -25948,11 +25948,11 @@ class LeafLeftUpLegRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll4Rx = DoubleAngleField()
+    LeafLeftUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ry = DoubleAngleField()
+    LeafLeftUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Rz = DoubleAngleField()
+    LeafLeftUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4RField(
@@ -25963,11 +25963,11 @@ class LeafLeftUpLegRoll4RField(
     ATTR_CLS = LeafLeftUpLegRoll4RAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll4RPlugOperator
 
-    LeafLeftUpLegRoll4Rx = DoubleAngleField()
+    LeafLeftUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Ry = DoubleAngleField()
+    LeafLeftUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll4Rz = DoubleAngleField()
+    LeafLeftUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll4SPlugOperator(
@@ -25980,11 +25980,11 @@ class LeafLeftUpLegRoll4SPlugOperator(
         ("LeafLeftUpLegRoll4Sz", "LeafLeftUpLegRoll4Sz"),
     )
 
-    LeafLeftUpLegRoll4Sx = DoubleField()
+    LeafLeftUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sy = DoubleField()
+    LeafLeftUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sz = DoubleField()
+    LeafLeftUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll4SAttrOperator(
@@ -25992,11 +25992,11 @@ class LeafLeftUpLegRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll4Sx = DoubleField()
+    LeafLeftUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sy = DoubleField()
+    LeafLeftUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sz = DoubleField()
+    LeafLeftUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll4SField(
@@ -26007,11 +26007,11 @@ class LeafLeftUpLegRoll4SField(
     ATTR_CLS = LeafLeftUpLegRoll4SAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll4SPlugOperator
 
-    LeafLeftUpLegRoll4Sx = DoubleField()
+    LeafLeftUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sy = DoubleField()
+    LeafLeftUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll4Sz = DoubleField()
+    LeafLeftUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll4TPlugOperator(
@@ -26024,11 +26024,11 @@ class LeafLeftLegRoll4TPlugOperator(
         ("LeafLeftLegRoll4Tz", "LeafLeftLegRoll4Tz"),
     )
 
-    LeafLeftLegRoll4Tx = DoubleLinearField()
+    LeafLeftLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Ty = DoubleLinearField()
+    LeafLeftLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Tz = DoubleLinearField()
+    LeafLeftLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll4TAttrOperator(
@@ -26036,11 +26036,11 @@ class LeafLeftLegRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll4Tx = DoubleLinearField()
+    LeafLeftLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Ty = DoubleLinearField()
+    LeafLeftLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Tz = DoubleLinearField()
+    LeafLeftLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll4TField(
@@ -26051,11 +26051,11 @@ class LeafLeftLegRoll4TField(
     ATTR_CLS = LeafLeftLegRoll4TAttrOperator
     PLUG_CLS = LeafLeftLegRoll4TPlugOperator
 
-    LeafLeftLegRoll4Tx = DoubleLinearField()
+    LeafLeftLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Ty = DoubleLinearField()
+    LeafLeftLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll4Tz = DoubleLinearField()
+    LeafLeftLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll4RPlugOperator(
@@ -26068,11 +26068,11 @@ class LeafLeftLegRoll4RPlugOperator(
         ("LeafLeftLegRoll4Rz", "LeafLeftLegRoll4Rz"),
     )
 
-    LeafLeftLegRoll4Rx = DoubleAngleField()
+    LeafLeftLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Ry = DoubleAngleField()
+    LeafLeftLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Rz = DoubleAngleField()
+    LeafLeftLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll4RAttrOperator(
@@ -26080,11 +26080,11 @@ class LeafLeftLegRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll4Rx = DoubleAngleField()
+    LeafLeftLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Ry = DoubleAngleField()
+    LeafLeftLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Rz = DoubleAngleField()
+    LeafLeftLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll4RField(
@@ -26095,11 +26095,11 @@ class LeafLeftLegRoll4RField(
     ATTR_CLS = LeafLeftLegRoll4RAttrOperator
     PLUG_CLS = LeafLeftLegRoll4RPlugOperator
 
-    LeafLeftLegRoll4Rx = DoubleAngleField()
+    LeafLeftLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Ry = DoubleAngleField()
+    LeafLeftLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll4Rz = DoubleAngleField()
+    LeafLeftLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll4SPlugOperator(
@@ -26112,11 +26112,11 @@ class LeafLeftLegRoll4SPlugOperator(
         ("LeafLeftLegRoll4Sz", "LeafLeftLegRoll4Sz"),
     )
 
-    LeafLeftLegRoll4Sx = DoubleField()
+    LeafLeftLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sy = DoubleField()
+    LeafLeftLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sz = DoubleField()
+    LeafLeftLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll4SAttrOperator(
@@ -26124,11 +26124,11 @@ class LeafLeftLegRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll4Sx = DoubleField()
+    LeafLeftLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sy = DoubleField()
+    LeafLeftLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sz = DoubleField()
+    LeafLeftLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll4SField(
@@ -26139,11 +26139,11 @@ class LeafLeftLegRoll4SField(
     ATTR_CLS = LeafLeftLegRoll4SAttrOperator
     PLUG_CLS = LeafLeftLegRoll4SPlugOperator
 
-    LeafLeftLegRoll4Sx = DoubleField()
+    LeafLeftLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sy = DoubleField()
+    LeafLeftLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll4Sz = DoubleField()
+    LeafLeftLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll4TPlugOperator(
@@ -26156,11 +26156,11 @@ class LeafRightUpLegRoll4TPlugOperator(
         ("LeafRightUpLegRoll4Tz", "LeafRightUpLegRoll4Tz"),
     )
 
-    LeafRightUpLegRoll4Tx = DoubleLinearField()
+    LeafRightUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ty = DoubleLinearField()
+    LeafRightUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Tz = DoubleLinearField()
+    LeafRightUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4TAttrOperator(
@@ -26168,11 +26168,11 @@ class LeafRightUpLegRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll4Tx = DoubleLinearField()
+    LeafRightUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ty = DoubleLinearField()
+    LeafRightUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Tz = DoubleLinearField()
+    LeafRightUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4TField(
@@ -26183,11 +26183,11 @@ class LeafRightUpLegRoll4TField(
     ATTR_CLS = LeafRightUpLegRoll4TAttrOperator
     PLUG_CLS = LeafRightUpLegRoll4TPlugOperator
 
-    LeafRightUpLegRoll4Tx = DoubleLinearField()
+    LeafRightUpLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ty = DoubleLinearField()
+    LeafRightUpLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll4Tz = DoubleLinearField()
+    LeafRightUpLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4RPlugOperator(
@@ -26200,11 +26200,11 @@ class LeafRightUpLegRoll4RPlugOperator(
         ("LeafRightUpLegRoll4Rz", "LeafRightUpLegRoll4Rz"),
     )
 
-    LeafRightUpLegRoll4Rx = DoubleAngleField()
+    LeafRightUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ry = DoubleAngleField()
+    LeafRightUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Rz = DoubleAngleField()
+    LeafRightUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4RAttrOperator(
@@ -26212,11 +26212,11 @@ class LeafRightUpLegRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll4Rx = DoubleAngleField()
+    LeafRightUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ry = DoubleAngleField()
+    LeafRightUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Rz = DoubleAngleField()
+    LeafRightUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4RField(
@@ -26227,11 +26227,11 @@ class LeafRightUpLegRoll4RField(
     ATTR_CLS = LeafRightUpLegRoll4RAttrOperator
     PLUG_CLS = LeafRightUpLegRoll4RPlugOperator
 
-    LeafRightUpLegRoll4Rx = DoubleAngleField()
+    LeafRightUpLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Ry = DoubleAngleField()
+    LeafRightUpLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll4Rz = DoubleAngleField()
+    LeafRightUpLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll4SPlugOperator(
@@ -26244,11 +26244,11 @@ class LeafRightUpLegRoll4SPlugOperator(
         ("LeafRightUpLegRoll4Sz", "LeafRightUpLegRoll4Sz"),
     )
 
-    LeafRightUpLegRoll4Sx = DoubleField()
+    LeafRightUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sy = DoubleField()
+    LeafRightUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sz = DoubleField()
+    LeafRightUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll4SAttrOperator(
@@ -26256,11 +26256,11 @@ class LeafRightUpLegRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll4Sx = DoubleField()
+    LeafRightUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sy = DoubleField()
+    LeafRightUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sz = DoubleField()
+    LeafRightUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll4SField(
@@ -26271,11 +26271,11 @@ class LeafRightUpLegRoll4SField(
     ATTR_CLS = LeafRightUpLegRoll4SAttrOperator
     PLUG_CLS = LeafRightUpLegRoll4SPlugOperator
 
-    LeafRightUpLegRoll4Sx = DoubleField()
+    LeafRightUpLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sy = DoubleField()
+    LeafRightUpLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll4Sz = DoubleField()
+    LeafRightUpLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll4TPlugOperator(
@@ -26288,11 +26288,11 @@ class LeafRightLegRoll4TPlugOperator(
         ("LeafRightLegRoll4Tz", "LeafRightLegRoll4Tz"),
     )
 
-    LeafRightLegRoll4Tx = DoubleLinearField()
+    LeafRightLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Ty = DoubleLinearField()
+    LeafRightLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Tz = DoubleLinearField()
+    LeafRightLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll4TAttrOperator(
@@ -26300,11 +26300,11 @@ class LeafRightLegRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll4Tx = DoubleLinearField()
+    LeafRightLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Ty = DoubleLinearField()
+    LeafRightLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Tz = DoubleLinearField()
+    LeafRightLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll4TField(
@@ -26315,11 +26315,11 @@ class LeafRightLegRoll4TField(
     ATTR_CLS = LeafRightLegRoll4TAttrOperator
     PLUG_CLS = LeafRightLegRoll4TPlugOperator
 
-    LeafRightLegRoll4Tx = DoubleLinearField()
+    LeafRightLegRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Ty = DoubleLinearField()
+    LeafRightLegRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll4Tz = DoubleLinearField()
+    LeafRightLegRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll4RPlugOperator(
@@ -26332,11 +26332,11 @@ class LeafRightLegRoll4RPlugOperator(
         ("LeafRightLegRoll4Rz", "LeafRightLegRoll4Rz"),
     )
 
-    LeafRightLegRoll4Rx = DoubleAngleField()
+    LeafRightLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Ry = DoubleAngleField()
+    LeafRightLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Rz = DoubleAngleField()
+    LeafRightLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll4RAttrOperator(
@@ -26344,11 +26344,11 @@ class LeafRightLegRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll4Rx = DoubleAngleField()
+    LeafRightLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Ry = DoubleAngleField()
+    LeafRightLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Rz = DoubleAngleField()
+    LeafRightLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll4RField(
@@ -26359,11 +26359,11 @@ class LeafRightLegRoll4RField(
     ATTR_CLS = LeafRightLegRoll4RAttrOperator
     PLUG_CLS = LeafRightLegRoll4RPlugOperator
 
-    LeafRightLegRoll4Rx = DoubleAngleField()
+    LeafRightLegRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Ry = DoubleAngleField()
+    LeafRightLegRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll4Rz = DoubleAngleField()
+    LeafRightLegRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll4SPlugOperator(
@@ -26376,11 +26376,11 @@ class LeafRightLegRoll4SPlugOperator(
         ("LeafRightLegRoll4Sz", "LeafRightLegRoll4Sz"),
     )
 
-    LeafRightLegRoll4Sx = DoubleField()
+    LeafRightLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sy = DoubleField()
+    LeafRightLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sz = DoubleField()
+    LeafRightLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll4SAttrOperator(
@@ -26388,11 +26388,11 @@ class LeafRightLegRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll4Sx = DoubleField()
+    LeafRightLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sy = DoubleField()
+    LeafRightLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sz = DoubleField()
+    LeafRightLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll4SField(
@@ -26403,11 +26403,11 @@ class LeafRightLegRoll4SField(
     ATTR_CLS = LeafRightLegRoll4SAttrOperator
     PLUG_CLS = LeafRightLegRoll4SPlugOperator
 
-    LeafRightLegRoll4Sx = DoubleField()
+    LeafRightLegRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sy = DoubleField()
+    LeafRightLegRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll4Sz = DoubleField()
+    LeafRightLegRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll4TPlugOperator(
@@ -26420,11 +26420,11 @@ class LeafLeftArmRoll4TPlugOperator(
         ("LeafLeftArmRoll4Tz", "LeafLeftArmRoll4Tz"),
     )
 
-    LeafLeftArmRoll4Tx = DoubleLinearField()
+    LeafLeftArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Ty = DoubleLinearField()
+    LeafLeftArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Tz = DoubleLinearField()
+    LeafLeftArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll4TAttrOperator(
@@ -26432,11 +26432,11 @@ class LeafLeftArmRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll4Tx = DoubleLinearField()
+    LeafLeftArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Ty = DoubleLinearField()
+    LeafLeftArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Tz = DoubleLinearField()
+    LeafLeftArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll4TField(
@@ -26447,11 +26447,11 @@ class LeafLeftArmRoll4TField(
     ATTR_CLS = LeafLeftArmRoll4TAttrOperator
     PLUG_CLS = LeafLeftArmRoll4TPlugOperator
 
-    LeafLeftArmRoll4Tx = DoubleLinearField()
+    LeafLeftArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Ty = DoubleLinearField()
+    LeafLeftArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll4Tz = DoubleLinearField()
+    LeafLeftArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll4RPlugOperator(
@@ -26464,11 +26464,11 @@ class LeafLeftArmRoll4RPlugOperator(
         ("LeafLeftArmRoll4Rz", "LeafLeftArmRoll4Rz"),
     )
 
-    LeafLeftArmRoll4Rx = DoubleAngleField()
+    LeafLeftArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Ry = DoubleAngleField()
+    LeafLeftArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Rz = DoubleAngleField()
+    LeafLeftArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll4RAttrOperator(
@@ -26476,11 +26476,11 @@ class LeafLeftArmRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll4Rx = DoubleAngleField()
+    LeafLeftArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Ry = DoubleAngleField()
+    LeafLeftArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Rz = DoubleAngleField()
+    LeafLeftArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll4RField(
@@ -26491,11 +26491,11 @@ class LeafLeftArmRoll4RField(
     ATTR_CLS = LeafLeftArmRoll4RAttrOperator
     PLUG_CLS = LeafLeftArmRoll4RPlugOperator
 
-    LeafLeftArmRoll4Rx = DoubleAngleField()
+    LeafLeftArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Ry = DoubleAngleField()
+    LeafLeftArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll4Rz = DoubleAngleField()
+    LeafLeftArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll4SPlugOperator(
@@ -26508,11 +26508,11 @@ class LeafLeftArmRoll4SPlugOperator(
         ("LeafLeftArmRoll4Sz", "LeafLeftArmRoll4Sz"),
     )
 
-    LeafLeftArmRoll4Sx = DoubleField()
+    LeafLeftArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sy = DoubleField()
+    LeafLeftArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sz = DoubleField()
+    LeafLeftArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll4SAttrOperator(
@@ -26520,11 +26520,11 @@ class LeafLeftArmRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll4Sx = DoubleField()
+    LeafLeftArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sy = DoubleField()
+    LeafLeftArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sz = DoubleField()
+    LeafLeftArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll4SField(
@@ -26535,11 +26535,11 @@ class LeafLeftArmRoll4SField(
     ATTR_CLS = LeafLeftArmRoll4SAttrOperator
     PLUG_CLS = LeafLeftArmRoll4SPlugOperator
 
-    LeafLeftArmRoll4Sx = DoubleField()
+    LeafLeftArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sy = DoubleField()
+    LeafLeftArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll4Sz = DoubleField()
+    LeafLeftArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll4TPlugOperator(
@@ -26552,11 +26552,11 @@ class LeafLeftForeArmRoll4TPlugOperator(
         ("LeafLeftForeArmRoll4Tz", "LeafLeftForeArmRoll4Tz"),
     )
 
-    LeafLeftForeArmRoll4Tx = DoubleLinearField()
+    LeafLeftForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ty = DoubleLinearField()
+    LeafLeftForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Tz = DoubleLinearField()
+    LeafLeftForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4TAttrOperator(
@@ -26564,11 +26564,11 @@ class LeafLeftForeArmRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll4Tx = DoubleLinearField()
+    LeafLeftForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ty = DoubleLinearField()
+    LeafLeftForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Tz = DoubleLinearField()
+    LeafLeftForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4TField(
@@ -26579,11 +26579,11 @@ class LeafLeftForeArmRoll4TField(
     ATTR_CLS = LeafLeftForeArmRoll4TAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll4TPlugOperator
 
-    LeafLeftForeArmRoll4Tx = DoubleLinearField()
+    LeafLeftForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ty = DoubleLinearField()
+    LeafLeftForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Tz = DoubleLinearField()
+    LeafLeftForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4RPlugOperator(
@@ -26596,11 +26596,11 @@ class LeafLeftForeArmRoll4RPlugOperator(
         ("LeafLeftForeArmRoll4Rz", "LeafLeftForeArmRoll4Rz"),
     )
 
-    LeafLeftForeArmRoll4Rx = DoubleAngleField()
+    LeafLeftForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ry = DoubleAngleField()
+    LeafLeftForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Rz = DoubleAngleField()
+    LeafLeftForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4RAttrOperator(
@@ -26608,11 +26608,11 @@ class LeafLeftForeArmRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll4Rx = DoubleAngleField()
+    LeafLeftForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ry = DoubleAngleField()
+    LeafLeftForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Rz = DoubleAngleField()
+    LeafLeftForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4RField(
@@ -26623,11 +26623,11 @@ class LeafLeftForeArmRoll4RField(
     ATTR_CLS = LeafLeftForeArmRoll4RAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll4RPlugOperator
 
-    LeafLeftForeArmRoll4Rx = DoubleAngleField()
+    LeafLeftForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Ry = DoubleAngleField()
+    LeafLeftForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll4Rz = DoubleAngleField()
+    LeafLeftForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll4SPlugOperator(
@@ -26640,11 +26640,11 @@ class LeafLeftForeArmRoll4SPlugOperator(
         ("LeafLeftForeArmRoll4Sz", "LeafLeftForeArmRoll4Sz"),
     )
 
-    LeafLeftForeArmRoll4Sx = DoubleField()
+    LeafLeftForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sy = DoubleField()
+    LeafLeftForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sz = DoubleField()
+    LeafLeftForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll4SAttrOperator(
@@ -26652,11 +26652,11 @@ class LeafLeftForeArmRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll4Sx = DoubleField()
+    LeafLeftForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sy = DoubleField()
+    LeafLeftForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sz = DoubleField()
+    LeafLeftForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll4SField(
@@ -26667,11 +26667,11 @@ class LeafLeftForeArmRoll4SField(
     ATTR_CLS = LeafLeftForeArmRoll4SAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll4SPlugOperator
 
-    LeafLeftForeArmRoll4Sx = DoubleField()
+    LeafLeftForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sy = DoubleField()
+    LeafLeftForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll4Sz = DoubleField()
+    LeafLeftForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll4TPlugOperator(
@@ -26684,11 +26684,11 @@ class LeafRightArmRoll4TPlugOperator(
         ("LeafRightArmRoll4Tz", "LeafRightArmRoll4Tz"),
     )
 
-    LeafRightArmRoll4Tx = DoubleLinearField()
+    LeafRightArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Ty = DoubleLinearField()
+    LeafRightArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Tz = DoubleLinearField()
+    LeafRightArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll4TAttrOperator(
@@ -26696,11 +26696,11 @@ class LeafRightArmRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll4Tx = DoubleLinearField()
+    LeafRightArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Ty = DoubleLinearField()
+    LeafRightArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Tz = DoubleLinearField()
+    LeafRightArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll4TField(
@@ -26711,11 +26711,11 @@ class LeafRightArmRoll4TField(
     ATTR_CLS = LeafRightArmRoll4TAttrOperator
     PLUG_CLS = LeafRightArmRoll4TPlugOperator
 
-    LeafRightArmRoll4Tx = DoubleLinearField()
+    LeafRightArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Ty = DoubleLinearField()
+    LeafRightArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll4Tz = DoubleLinearField()
+    LeafRightArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll4RPlugOperator(
@@ -26728,11 +26728,11 @@ class LeafRightArmRoll4RPlugOperator(
         ("LeafRightArmRoll4Rz", "LeafRightArmRoll4Rz"),
     )
 
-    LeafRightArmRoll4Rx = DoubleAngleField()
+    LeafRightArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Ry = DoubleAngleField()
+    LeafRightArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Rz = DoubleAngleField()
+    LeafRightArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll4RAttrOperator(
@@ -26740,11 +26740,11 @@ class LeafRightArmRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll4Rx = DoubleAngleField()
+    LeafRightArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Ry = DoubleAngleField()
+    LeafRightArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Rz = DoubleAngleField()
+    LeafRightArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll4RField(
@@ -26755,11 +26755,11 @@ class LeafRightArmRoll4RField(
     ATTR_CLS = LeafRightArmRoll4RAttrOperator
     PLUG_CLS = LeafRightArmRoll4RPlugOperator
 
-    LeafRightArmRoll4Rx = DoubleAngleField()
+    LeafRightArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Ry = DoubleAngleField()
+    LeafRightArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll4Rz = DoubleAngleField()
+    LeafRightArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll4SPlugOperator(
@@ -26772,11 +26772,11 @@ class LeafRightArmRoll4SPlugOperator(
         ("LeafRightArmRoll4Sz", "LeafRightArmRoll4Sz"),
     )
 
-    LeafRightArmRoll4Sx = DoubleField()
+    LeafRightArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sy = DoubleField()
+    LeafRightArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sz = DoubleField()
+    LeafRightArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll4SAttrOperator(
@@ -26784,11 +26784,11 @@ class LeafRightArmRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll4Sx = DoubleField()
+    LeafRightArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sy = DoubleField()
+    LeafRightArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sz = DoubleField()
+    LeafRightArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll4SField(
@@ -26799,11 +26799,11 @@ class LeafRightArmRoll4SField(
     ATTR_CLS = LeafRightArmRoll4SAttrOperator
     PLUG_CLS = LeafRightArmRoll4SPlugOperator
 
-    LeafRightArmRoll4Sx = DoubleField()
+    LeafRightArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sy = DoubleField()
+    LeafRightArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll4Sz = DoubleField()
+    LeafRightArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll4TPlugOperator(
@@ -26816,11 +26816,11 @@ class LeafRightForeArmRoll4TPlugOperator(
         ("LeafRightForeArmRoll4Tz", "LeafRightForeArmRoll4Tz"),
     )
 
-    LeafRightForeArmRoll4Tx = DoubleLinearField()
+    LeafRightForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ty = DoubleLinearField()
+    LeafRightForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Tz = DoubleLinearField()
+    LeafRightForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4TAttrOperator(
@@ -26828,11 +26828,11 @@ class LeafRightForeArmRoll4TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll4Tx = DoubleLinearField()
+    LeafRightForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ty = DoubleLinearField()
+    LeafRightForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Tz = DoubleLinearField()
+    LeafRightForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4TField(
@@ -26843,11 +26843,11 @@ class LeafRightForeArmRoll4TField(
     ATTR_CLS = LeafRightForeArmRoll4TAttrOperator
     PLUG_CLS = LeafRightForeArmRoll4TPlugOperator
 
-    LeafRightForeArmRoll4Tx = DoubleLinearField()
+    LeafRightForeArmRoll4Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ty = DoubleLinearField()
+    LeafRightForeArmRoll4Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll4Tz = DoubleLinearField()
+    LeafRightForeArmRoll4Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4RPlugOperator(
@@ -26860,11 +26860,11 @@ class LeafRightForeArmRoll4RPlugOperator(
         ("LeafRightForeArmRoll4Rz", "LeafRightForeArmRoll4Rz"),
     )
 
-    LeafRightForeArmRoll4Rx = DoubleAngleField()
+    LeafRightForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ry = DoubleAngleField()
+    LeafRightForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Rz = DoubleAngleField()
+    LeafRightForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4RAttrOperator(
@@ -26872,11 +26872,11 @@ class LeafRightForeArmRoll4RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll4Rx = DoubleAngleField()
+    LeafRightForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ry = DoubleAngleField()
+    LeafRightForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Rz = DoubleAngleField()
+    LeafRightForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4RField(
@@ -26887,11 +26887,11 @@ class LeafRightForeArmRoll4RField(
     ATTR_CLS = LeafRightForeArmRoll4RAttrOperator
     PLUG_CLS = LeafRightForeArmRoll4RPlugOperator
 
-    LeafRightForeArmRoll4Rx = DoubleAngleField()
+    LeafRightForeArmRoll4Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Ry = DoubleAngleField()
+    LeafRightForeArmRoll4Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll4Rz = DoubleAngleField()
+    LeafRightForeArmRoll4Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll4SPlugOperator(
@@ -26904,11 +26904,11 @@ class LeafRightForeArmRoll4SPlugOperator(
         ("LeafRightForeArmRoll4Sz", "LeafRightForeArmRoll4Sz"),
     )
 
-    LeafRightForeArmRoll4Sx = DoubleField()
+    LeafRightForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sy = DoubleField()
+    LeafRightForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sz = DoubleField()
+    LeafRightForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll4SAttrOperator(
@@ -26916,11 +26916,11 @@ class LeafRightForeArmRoll4SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll4Sx = DoubleField()
+    LeafRightForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sy = DoubleField()
+    LeafRightForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sz = DoubleField()
+    LeafRightForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll4SField(
@@ -26931,11 +26931,11 @@ class LeafRightForeArmRoll4SField(
     ATTR_CLS = LeafRightForeArmRoll4SAttrOperator
     PLUG_CLS = LeafRightForeArmRoll4SPlugOperator
 
-    LeafRightForeArmRoll4Sx = DoubleField()
+    LeafRightForeArmRoll4Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sy = DoubleField()
+    LeafRightForeArmRoll4Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll4Sz = DoubleField()
+    LeafRightForeArmRoll4Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll5TPlugOperator(
@@ -26948,11 +26948,11 @@ class LeafLeftUpLegRoll5TPlugOperator(
         ("LeafLeftUpLegRoll5Tz", "LeafLeftUpLegRoll5Tz"),
     )
 
-    LeafLeftUpLegRoll5Tx = DoubleLinearField()
+    LeafLeftUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ty = DoubleLinearField()
+    LeafLeftUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Tz = DoubleLinearField()
+    LeafLeftUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5TAttrOperator(
@@ -26960,11 +26960,11 @@ class LeafLeftUpLegRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll5Tx = DoubleLinearField()
+    LeafLeftUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ty = DoubleLinearField()
+    LeafLeftUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Tz = DoubleLinearField()
+    LeafLeftUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5TField(
@@ -26975,11 +26975,11 @@ class LeafLeftUpLegRoll5TField(
     ATTR_CLS = LeafLeftUpLegRoll5TAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll5TPlugOperator
 
-    LeafLeftUpLegRoll5Tx = DoubleLinearField()
+    LeafLeftUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ty = DoubleLinearField()
+    LeafLeftUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Tz = DoubleLinearField()
+    LeafLeftUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5RPlugOperator(
@@ -26992,11 +26992,11 @@ class LeafLeftUpLegRoll5RPlugOperator(
         ("LeafLeftUpLegRoll5Rz", "LeafLeftUpLegRoll5Rz"),
     )
 
-    LeafLeftUpLegRoll5Rx = DoubleAngleField()
+    LeafLeftUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ry = DoubleAngleField()
+    LeafLeftUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Rz = DoubleAngleField()
+    LeafLeftUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5RAttrOperator(
@@ -27004,11 +27004,11 @@ class LeafLeftUpLegRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll5Rx = DoubleAngleField()
+    LeafLeftUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ry = DoubleAngleField()
+    LeafLeftUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Rz = DoubleAngleField()
+    LeafLeftUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5RField(
@@ -27019,11 +27019,11 @@ class LeafLeftUpLegRoll5RField(
     ATTR_CLS = LeafLeftUpLegRoll5RAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll5RPlugOperator
 
-    LeafLeftUpLegRoll5Rx = DoubleAngleField()
+    LeafLeftUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Ry = DoubleAngleField()
+    LeafLeftUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftUpLegRoll5Rz = DoubleAngleField()
+    LeafLeftUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftUpLegRoll5SPlugOperator(
@@ -27036,11 +27036,11 @@ class LeafLeftUpLegRoll5SPlugOperator(
         ("LeafLeftUpLegRoll5Sz", "LeafLeftUpLegRoll5Sz"),
     )
 
-    LeafLeftUpLegRoll5Sx = DoubleField()
+    LeafLeftUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sy = DoubleField()
+    LeafLeftUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sz = DoubleField()
+    LeafLeftUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll5SAttrOperator(
@@ -27048,11 +27048,11 @@ class LeafLeftUpLegRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftUpLegRoll5Sx = DoubleField()
+    LeafLeftUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sy = DoubleField()
+    LeafLeftUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sz = DoubleField()
+    LeafLeftUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftUpLegRoll5SField(
@@ -27063,11 +27063,11 @@ class LeafLeftUpLegRoll5SField(
     ATTR_CLS = LeafLeftUpLegRoll5SAttrOperator
     PLUG_CLS = LeafLeftUpLegRoll5SPlugOperator
 
-    LeafLeftUpLegRoll5Sx = DoubleField()
+    LeafLeftUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sy = DoubleField()
+    LeafLeftUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftUpLegRoll5Sz = DoubleField()
+    LeafLeftUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll5TPlugOperator(
@@ -27080,11 +27080,11 @@ class LeafLeftLegRoll5TPlugOperator(
         ("LeafLeftLegRoll5Tz", "LeafLeftLegRoll5Tz"),
     )
 
-    LeafLeftLegRoll5Tx = DoubleLinearField()
+    LeafLeftLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Ty = DoubleLinearField()
+    LeafLeftLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Tz = DoubleLinearField()
+    LeafLeftLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll5TAttrOperator(
@@ -27092,11 +27092,11 @@ class LeafLeftLegRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll5Tx = DoubleLinearField()
+    LeafLeftLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Ty = DoubleLinearField()
+    LeafLeftLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Tz = DoubleLinearField()
+    LeafLeftLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll5TField(
@@ -27107,11 +27107,11 @@ class LeafLeftLegRoll5TField(
     ATTR_CLS = LeafLeftLegRoll5TAttrOperator
     PLUG_CLS = LeafLeftLegRoll5TPlugOperator
 
-    LeafLeftLegRoll5Tx = DoubleLinearField()
+    LeafLeftLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Ty = DoubleLinearField()
+    LeafLeftLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftLegRoll5Tz = DoubleLinearField()
+    LeafLeftLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftLegRoll5RPlugOperator(
@@ -27124,11 +27124,11 @@ class LeafLeftLegRoll5RPlugOperator(
         ("LeafLeftLegRoll5Rz", "LeafLeftLegRoll5Rz"),
     )
 
-    LeafLeftLegRoll5Rx = DoubleAngleField()
+    LeafLeftLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Ry = DoubleAngleField()
+    LeafLeftLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Rz = DoubleAngleField()
+    LeafLeftLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll5RAttrOperator(
@@ -27136,11 +27136,11 @@ class LeafLeftLegRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll5Rx = DoubleAngleField()
+    LeafLeftLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Ry = DoubleAngleField()
+    LeafLeftLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Rz = DoubleAngleField()
+    LeafLeftLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll5RField(
@@ -27151,11 +27151,11 @@ class LeafLeftLegRoll5RField(
     ATTR_CLS = LeafLeftLegRoll5RAttrOperator
     PLUG_CLS = LeafLeftLegRoll5RPlugOperator
 
-    LeafLeftLegRoll5Rx = DoubleAngleField()
+    LeafLeftLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Ry = DoubleAngleField()
+    LeafLeftLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftLegRoll5Rz = DoubleAngleField()
+    LeafLeftLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftLegRoll5SPlugOperator(
@@ -27168,11 +27168,11 @@ class LeafLeftLegRoll5SPlugOperator(
         ("LeafLeftLegRoll5Sz", "LeafLeftLegRoll5Sz"),
     )
 
-    LeafLeftLegRoll5Sx = DoubleField()
+    LeafLeftLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sy = DoubleField()
+    LeafLeftLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sz = DoubleField()
+    LeafLeftLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll5SAttrOperator(
@@ -27180,11 +27180,11 @@ class LeafLeftLegRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftLegRoll5Sx = DoubleField()
+    LeafLeftLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sy = DoubleField()
+    LeafLeftLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sz = DoubleField()
+    LeafLeftLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftLegRoll5SField(
@@ -27195,11 +27195,11 @@ class LeafLeftLegRoll5SField(
     ATTR_CLS = LeafLeftLegRoll5SAttrOperator
     PLUG_CLS = LeafLeftLegRoll5SPlugOperator
 
-    LeafLeftLegRoll5Sx = DoubleField()
+    LeafLeftLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sy = DoubleField()
+    LeafLeftLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftLegRoll5Sz = DoubleField()
+    LeafLeftLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll5TPlugOperator(
@@ -27212,11 +27212,11 @@ class LeafRightUpLegRoll5TPlugOperator(
         ("LeafRightUpLegRoll5Tz", "LeafRightUpLegRoll5Tz"),
     )
 
-    LeafRightUpLegRoll5Tx = DoubleLinearField()
+    LeafRightUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ty = DoubleLinearField()
+    LeafRightUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Tz = DoubleLinearField()
+    LeafRightUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5TAttrOperator(
@@ -27224,11 +27224,11 @@ class LeafRightUpLegRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll5Tx = DoubleLinearField()
+    LeafRightUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ty = DoubleLinearField()
+    LeafRightUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Tz = DoubleLinearField()
+    LeafRightUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5TField(
@@ -27239,11 +27239,11 @@ class LeafRightUpLegRoll5TField(
     ATTR_CLS = LeafRightUpLegRoll5TAttrOperator
     PLUG_CLS = LeafRightUpLegRoll5TPlugOperator
 
-    LeafRightUpLegRoll5Tx = DoubleLinearField()
+    LeafRightUpLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ty = DoubleLinearField()
+    LeafRightUpLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightUpLegRoll5Tz = DoubleLinearField()
+    LeafRightUpLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5RPlugOperator(
@@ -27256,11 +27256,11 @@ class LeafRightUpLegRoll5RPlugOperator(
         ("LeafRightUpLegRoll5Rz", "LeafRightUpLegRoll5Rz"),
     )
 
-    LeafRightUpLegRoll5Rx = DoubleAngleField()
+    LeafRightUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ry = DoubleAngleField()
+    LeafRightUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Rz = DoubleAngleField()
+    LeafRightUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5RAttrOperator(
@@ -27268,11 +27268,11 @@ class LeafRightUpLegRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll5Rx = DoubleAngleField()
+    LeafRightUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ry = DoubleAngleField()
+    LeafRightUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Rz = DoubleAngleField()
+    LeafRightUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5RField(
@@ -27283,11 +27283,11 @@ class LeafRightUpLegRoll5RField(
     ATTR_CLS = LeafRightUpLegRoll5RAttrOperator
     PLUG_CLS = LeafRightUpLegRoll5RPlugOperator
 
-    LeafRightUpLegRoll5Rx = DoubleAngleField()
+    LeafRightUpLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Ry = DoubleAngleField()
+    LeafRightUpLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightUpLegRoll5Rz = DoubleAngleField()
+    LeafRightUpLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightUpLegRoll5SPlugOperator(
@@ -27300,11 +27300,11 @@ class LeafRightUpLegRoll5SPlugOperator(
         ("LeafRightUpLegRoll5Sz", "LeafRightUpLegRoll5Sz"),
     )
 
-    LeafRightUpLegRoll5Sx = DoubleField()
+    LeafRightUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sy = DoubleField()
+    LeafRightUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sz = DoubleField()
+    LeafRightUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll5SAttrOperator(
@@ -27312,11 +27312,11 @@ class LeafRightUpLegRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightUpLegRoll5Sx = DoubleField()
+    LeafRightUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sy = DoubleField()
+    LeafRightUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sz = DoubleField()
+    LeafRightUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightUpLegRoll5SField(
@@ -27327,11 +27327,11 @@ class LeafRightUpLegRoll5SField(
     ATTR_CLS = LeafRightUpLegRoll5SAttrOperator
     PLUG_CLS = LeafRightUpLegRoll5SPlugOperator
 
-    LeafRightUpLegRoll5Sx = DoubleField()
+    LeafRightUpLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sy = DoubleField()
+    LeafRightUpLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightUpLegRoll5Sz = DoubleField()
+    LeafRightUpLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll5TPlugOperator(
@@ -27344,11 +27344,11 @@ class LeafRightLegRoll5TPlugOperator(
         ("LeafRightLegRoll5Tz", "LeafRightLegRoll5Tz"),
     )
 
-    LeafRightLegRoll5Tx = DoubleLinearField()
+    LeafRightLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Ty = DoubleLinearField()
+    LeafRightLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Tz = DoubleLinearField()
+    LeafRightLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll5TAttrOperator(
@@ -27356,11 +27356,11 @@ class LeafRightLegRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll5Tx = DoubleLinearField()
+    LeafRightLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Ty = DoubleLinearField()
+    LeafRightLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Tz = DoubleLinearField()
+    LeafRightLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll5TField(
@@ -27371,11 +27371,11 @@ class LeafRightLegRoll5TField(
     ATTR_CLS = LeafRightLegRoll5TAttrOperator
     PLUG_CLS = LeafRightLegRoll5TPlugOperator
 
-    LeafRightLegRoll5Tx = DoubleLinearField()
+    LeafRightLegRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Ty = DoubleLinearField()
+    LeafRightLegRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightLegRoll5Tz = DoubleLinearField()
+    LeafRightLegRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightLegRoll5RPlugOperator(
@@ -27388,11 +27388,11 @@ class LeafRightLegRoll5RPlugOperator(
         ("LeafRightLegRoll5Rz", "LeafRightLegRoll5Rz"),
     )
 
-    LeafRightLegRoll5Rx = DoubleAngleField()
+    LeafRightLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Ry = DoubleAngleField()
+    LeafRightLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Rz = DoubleAngleField()
+    LeafRightLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll5RAttrOperator(
@@ -27400,11 +27400,11 @@ class LeafRightLegRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll5Rx = DoubleAngleField()
+    LeafRightLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Ry = DoubleAngleField()
+    LeafRightLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Rz = DoubleAngleField()
+    LeafRightLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll5RField(
@@ -27415,11 +27415,11 @@ class LeafRightLegRoll5RField(
     ATTR_CLS = LeafRightLegRoll5RAttrOperator
     PLUG_CLS = LeafRightLegRoll5RPlugOperator
 
-    LeafRightLegRoll5Rx = DoubleAngleField()
+    LeafRightLegRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Ry = DoubleAngleField()
+    LeafRightLegRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightLegRoll5Rz = DoubleAngleField()
+    LeafRightLegRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightLegRoll5SPlugOperator(
@@ -27432,11 +27432,11 @@ class LeafRightLegRoll5SPlugOperator(
         ("LeafRightLegRoll5Sz", "LeafRightLegRoll5Sz"),
     )
 
-    LeafRightLegRoll5Sx = DoubleField()
+    LeafRightLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sy = DoubleField()
+    LeafRightLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sz = DoubleField()
+    LeafRightLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll5SAttrOperator(
@@ -27444,11 +27444,11 @@ class LeafRightLegRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightLegRoll5Sx = DoubleField()
+    LeafRightLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sy = DoubleField()
+    LeafRightLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sz = DoubleField()
+    LeafRightLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightLegRoll5SField(
@@ -27459,11 +27459,11 @@ class LeafRightLegRoll5SField(
     ATTR_CLS = LeafRightLegRoll5SAttrOperator
     PLUG_CLS = LeafRightLegRoll5SPlugOperator
 
-    LeafRightLegRoll5Sx = DoubleField()
+    LeafRightLegRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sy = DoubleField()
+    LeafRightLegRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightLegRoll5Sz = DoubleField()
+    LeafRightLegRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll5TPlugOperator(
@@ -27476,11 +27476,11 @@ class LeafLeftArmRoll5TPlugOperator(
         ("LeafLeftArmRoll5Tz", "LeafLeftArmRoll5Tz"),
     )
 
-    LeafLeftArmRoll5Tx = DoubleLinearField()
+    LeafLeftArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Ty = DoubleLinearField()
+    LeafLeftArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Tz = DoubleLinearField()
+    LeafLeftArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll5TAttrOperator(
@@ -27488,11 +27488,11 @@ class LeafLeftArmRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll5Tx = DoubleLinearField()
+    LeafLeftArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Ty = DoubleLinearField()
+    LeafLeftArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Tz = DoubleLinearField()
+    LeafLeftArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll5TField(
@@ -27503,11 +27503,11 @@ class LeafLeftArmRoll5TField(
     ATTR_CLS = LeafLeftArmRoll5TAttrOperator
     PLUG_CLS = LeafLeftArmRoll5TPlugOperator
 
-    LeafLeftArmRoll5Tx = DoubleLinearField()
+    LeafLeftArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Ty = DoubleLinearField()
+    LeafLeftArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftArmRoll5Tz = DoubleLinearField()
+    LeafLeftArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftArmRoll5RPlugOperator(
@@ -27520,11 +27520,11 @@ class LeafLeftArmRoll5RPlugOperator(
         ("LeafLeftArmRoll5Rz", "LeafLeftArmRoll5Rz"),
     )
 
-    LeafLeftArmRoll5Rx = DoubleAngleField()
+    LeafLeftArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Ry = DoubleAngleField()
+    LeafLeftArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Rz = DoubleAngleField()
+    LeafLeftArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll5RAttrOperator(
@@ -27532,11 +27532,11 @@ class LeafLeftArmRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll5Rx = DoubleAngleField()
+    LeafLeftArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Ry = DoubleAngleField()
+    LeafLeftArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Rz = DoubleAngleField()
+    LeafLeftArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll5RField(
@@ -27547,11 +27547,11 @@ class LeafLeftArmRoll5RField(
     ATTR_CLS = LeafLeftArmRoll5RAttrOperator
     PLUG_CLS = LeafLeftArmRoll5RPlugOperator
 
-    LeafLeftArmRoll5Rx = DoubleAngleField()
+    LeafLeftArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Ry = DoubleAngleField()
+    LeafLeftArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftArmRoll5Rz = DoubleAngleField()
+    LeafLeftArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftArmRoll5SPlugOperator(
@@ -27564,11 +27564,11 @@ class LeafLeftArmRoll5SPlugOperator(
         ("LeafLeftArmRoll5Sz", "LeafLeftArmRoll5Sz"),
     )
 
-    LeafLeftArmRoll5Sx = DoubleField()
+    LeafLeftArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sy = DoubleField()
+    LeafLeftArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sz = DoubleField()
+    LeafLeftArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll5SAttrOperator(
@@ -27576,11 +27576,11 @@ class LeafLeftArmRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftArmRoll5Sx = DoubleField()
+    LeafLeftArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sy = DoubleField()
+    LeafLeftArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sz = DoubleField()
+    LeafLeftArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftArmRoll5SField(
@@ -27591,11 +27591,11 @@ class LeafLeftArmRoll5SField(
     ATTR_CLS = LeafLeftArmRoll5SAttrOperator
     PLUG_CLS = LeafLeftArmRoll5SPlugOperator
 
-    LeafLeftArmRoll5Sx = DoubleField()
+    LeafLeftArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sy = DoubleField()
+    LeafLeftArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftArmRoll5Sz = DoubleField()
+    LeafLeftArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll5TPlugOperator(
@@ -27608,11 +27608,11 @@ class LeafLeftForeArmRoll5TPlugOperator(
         ("LeafLeftForeArmRoll5Tz", "LeafLeftForeArmRoll5Tz"),
     )
 
-    LeafLeftForeArmRoll5Tx = DoubleLinearField()
+    LeafLeftForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ty = DoubleLinearField()
+    LeafLeftForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Tz = DoubleLinearField()
+    LeafLeftForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5TAttrOperator(
@@ -27620,11 +27620,11 @@ class LeafLeftForeArmRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll5Tx = DoubleLinearField()
+    LeafLeftForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ty = DoubleLinearField()
+    LeafLeftForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Tz = DoubleLinearField()
+    LeafLeftForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5TField(
@@ -27635,11 +27635,11 @@ class LeafLeftForeArmRoll5TField(
     ATTR_CLS = LeafLeftForeArmRoll5TAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll5TPlugOperator
 
-    LeafLeftForeArmRoll5Tx = DoubleLinearField()
+    LeafLeftForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ty = DoubleLinearField()
+    LeafLeftForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Tz = DoubleLinearField()
+    LeafLeftForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5RPlugOperator(
@@ -27652,11 +27652,11 @@ class LeafLeftForeArmRoll5RPlugOperator(
         ("LeafLeftForeArmRoll5Rz", "LeafLeftForeArmRoll5Rz"),
     )
 
-    LeafLeftForeArmRoll5Rx = DoubleAngleField()
+    LeafLeftForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ry = DoubleAngleField()
+    LeafLeftForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Rz = DoubleAngleField()
+    LeafLeftForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5RAttrOperator(
@@ -27664,11 +27664,11 @@ class LeafLeftForeArmRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll5Rx = DoubleAngleField()
+    LeafLeftForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ry = DoubleAngleField()
+    LeafLeftForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Rz = DoubleAngleField()
+    LeafLeftForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5RField(
@@ -27679,11 +27679,11 @@ class LeafLeftForeArmRoll5RField(
     ATTR_CLS = LeafLeftForeArmRoll5RAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll5RPlugOperator
 
-    LeafLeftForeArmRoll5Rx = DoubleAngleField()
+    LeafLeftForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Ry = DoubleAngleField()
+    LeafLeftForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafLeftForeArmRoll5Rz = DoubleAngleField()
+    LeafLeftForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafLeftForeArmRoll5SPlugOperator(
@@ -27696,11 +27696,11 @@ class LeafLeftForeArmRoll5SPlugOperator(
         ("LeafLeftForeArmRoll5Sz", "LeafLeftForeArmRoll5Sz"),
     )
 
-    LeafLeftForeArmRoll5Sx = DoubleField()
+    LeafLeftForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sy = DoubleField()
+    LeafLeftForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sz = DoubleField()
+    LeafLeftForeArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll5SAttrOperator(
@@ -27708,11 +27708,11 @@ class LeafLeftForeArmRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafLeftForeArmRoll5Sx = DoubleField()
+    LeafLeftForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sy = DoubleField()
+    LeafLeftForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sz = DoubleField()
+    LeafLeftForeArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafLeftForeArmRoll5SField(
@@ -27723,11 +27723,11 @@ class LeafLeftForeArmRoll5SField(
     ATTR_CLS = LeafLeftForeArmRoll5SAttrOperator
     PLUG_CLS = LeafLeftForeArmRoll5SPlugOperator
 
-    LeafLeftForeArmRoll5Sx = DoubleField()
+    LeafLeftForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sy = DoubleField()
+    LeafLeftForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafLeftForeArmRoll5Sz = DoubleField()
+    LeafLeftForeArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll5TPlugOperator(
@@ -27740,11 +27740,11 @@ class LeafRightArmRoll5TPlugOperator(
         ("LeafRightArmRoll5Tz", "LeafRightArmRoll5Tz"),
     )
 
-    LeafRightArmRoll5Tx = DoubleLinearField()
+    LeafRightArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Ty = DoubleLinearField()
+    LeafRightArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Tz = DoubleLinearField()
+    LeafRightArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll5TAttrOperator(
@@ -27752,11 +27752,11 @@ class LeafRightArmRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll5Tx = DoubleLinearField()
+    LeafRightArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Ty = DoubleLinearField()
+    LeafRightArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Tz = DoubleLinearField()
+    LeafRightArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll5TField(
@@ -27767,11 +27767,11 @@ class LeafRightArmRoll5TField(
     ATTR_CLS = LeafRightArmRoll5TAttrOperator
     PLUG_CLS = LeafRightArmRoll5TPlugOperator
 
-    LeafRightArmRoll5Tx = DoubleLinearField()
+    LeafRightArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Ty = DoubleLinearField()
+    LeafRightArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightArmRoll5Tz = DoubleLinearField()
+    LeafRightArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightArmRoll5RPlugOperator(
@@ -27784,11 +27784,11 @@ class LeafRightArmRoll5RPlugOperator(
         ("LeafRightArmRoll5Rz", "LeafRightArmRoll5Rz"),
     )
 
-    LeafRightArmRoll5Rx = DoubleAngleField()
+    LeafRightArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Ry = DoubleAngleField()
+    LeafRightArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Rz = DoubleAngleField()
+    LeafRightArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll5RAttrOperator(
@@ -27796,11 +27796,11 @@ class LeafRightArmRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll5Rx = DoubleAngleField()
+    LeafRightArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Ry = DoubleAngleField()
+    LeafRightArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Rz = DoubleAngleField()
+    LeafRightArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll5RField(
@@ -27811,11 +27811,11 @@ class LeafRightArmRoll5RField(
     ATTR_CLS = LeafRightArmRoll5RAttrOperator
     PLUG_CLS = LeafRightArmRoll5RPlugOperator
 
-    LeafRightArmRoll5Rx = DoubleAngleField()
+    LeafRightArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Ry = DoubleAngleField()
+    LeafRightArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightArmRoll5Rz = DoubleAngleField()
+    LeafRightArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightArmRoll5SPlugOperator(
@@ -27828,11 +27828,11 @@ class LeafRightArmRoll5SPlugOperator(
         ("LeafRightArmRoll5Sz", "LeafRightArmRoll5Sz"),
     )
 
-    LeafRightArmRoll5Sx = DoubleField()
+    LeafRightArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sy = DoubleField()
+    LeafRightArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sz = DoubleField()
+    LeafRightArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll5SAttrOperator(
@@ -27840,11 +27840,11 @@ class LeafRightArmRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightArmRoll5Sx = DoubleField()
+    LeafRightArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sy = DoubleField()
+    LeafRightArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sz = DoubleField()
+    LeafRightArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightArmRoll5SField(
@@ -27855,11 +27855,11 @@ class LeafRightArmRoll5SField(
     ATTR_CLS = LeafRightArmRoll5SAttrOperator
     PLUG_CLS = LeafRightArmRoll5SPlugOperator
 
-    LeafRightArmRoll5Sx = DoubleField()
+    LeafRightArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sy = DoubleField()
+    LeafRightArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightArmRoll5Sz = DoubleField()
+    LeafRightArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll5TPlugOperator(
@@ -27872,11 +27872,11 @@ class LeafRightForeArmRoll5TPlugOperator(
         ("LeafRightForeArmRoll5Tz", "LeafRightForeArmRoll5Tz"),
     )
 
-    LeafRightForeArmRoll5Tx = DoubleLinearField()
+    LeafRightForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ty = DoubleLinearField()
+    LeafRightForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Tz = DoubleLinearField()
+    LeafRightForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5TAttrOperator(
@@ -27884,11 +27884,11 @@ class LeafRightForeArmRoll5TAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll5Tx = DoubleLinearField()
+    LeafRightForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ty = DoubleLinearField()
+    LeafRightForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Tz = DoubleLinearField()
+    LeafRightForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5TField(
@@ -27899,11 +27899,11 @@ class LeafRightForeArmRoll5TField(
     ATTR_CLS = LeafRightForeArmRoll5TAttrOperator
     PLUG_CLS = LeafRightForeArmRoll5TPlugOperator
 
-    LeafRightForeArmRoll5Tx = DoubleLinearField()
+    LeafRightForeArmRoll5Tx = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ty = DoubleLinearField()
+    LeafRightForeArmRoll5Ty = DoubleLinearField(default_value=0.0)
 
-    LeafRightForeArmRoll5Tz = DoubleLinearField()
+    LeafRightForeArmRoll5Tz = DoubleLinearField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5RPlugOperator(
@@ -27916,11 +27916,11 @@ class LeafRightForeArmRoll5RPlugOperator(
         ("LeafRightForeArmRoll5Rz", "LeafRightForeArmRoll5Rz"),
     )
 
-    LeafRightForeArmRoll5Rx = DoubleAngleField()
+    LeafRightForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ry = DoubleAngleField()
+    LeafRightForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Rz = DoubleAngleField()
+    LeafRightForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5RAttrOperator(
@@ -27928,11 +27928,11 @@ class LeafRightForeArmRoll5RAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll5Rx = DoubleAngleField()
+    LeafRightForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ry = DoubleAngleField()
+    LeafRightForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Rz = DoubleAngleField()
+    LeafRightForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5RField(
@@ -27943,11 +27943,11 @@ class LeafRightForeArmRoll5RField(
     ATTR_CLS = LeafRightForeArmRoll5RAttrOperator
     PLUG_CLS = LeafRightForeArmRoll5RPlugOperator
 
-    LeafRightForeArmRoll5Rx = DoubleAngleField()
+    LeafRightForeArmRoll5Rx = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Ry = DoubleAngleField()
+    LeafRightForeArmRoll5Ry = DoubleAngleField(default_value=0.0)
 
-    LeafRightForeArmRoll5Rz = DoubleAngleField()
+    LeafRightForeArmRoll5Rz = DoubleAngleField(default_value=0.0)
 
 
 class LeafRightForeArmRoll5SPlugOperator(
@@ -27960,11 +27960,11 @@ class LeafRightForeArmRoll5SPlugOperator(
         ("LeafRightForeArmRoll5Sz", "LeafRightForeArmRoll5Sz"),
     )
 
-    LeafRightForeArmRoll5Sx = DoubleField()
+    LeafRightForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sy = DoubleField()
+    LeafRightForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sz = DoubleField()
+    LeafRightForeArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll5SAttrOperator(
@@ -27972,11 +27972,11 @@ class LeafRightForeArmRoll5SAttrOperator(
 ):
     __slots__ = ()
 
-    LeafRightForeArmRoll5Sx = DoubleField()
+    LeafRightForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sy = DoubleField()
+    LeafRightForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sz = DoubleField()
+    LeafRightForeArmRoll5Sz = DoubleField(default_value=1.0)
 
 
 class LeafRightForeArmRoll5SField(
@@ -27987,8 +27987,8 @@ class LeafRightForeArmRoll5SField(
     ATTR_CLS = LeafRightForeArmRoll5SAttrOperator
     PLUG_CLS = LeafRightForeArmRoll5SPlugOperator
 
-    LeafRightForeArmRoll5Sx = DoubleField()
+    LeafRightForeArmRoll5Sx = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sy = DoubleField()
+    LeafRightForeArmRoll5Sy = DoubleField(default_value=1.0)
 
-    LeafRightForeArmRoll5Sz = DoubleField()
+    LeafRightForeArmRoll5Sz = DoubleField(default_value=1.0)

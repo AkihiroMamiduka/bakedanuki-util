@@ -9,8 +9,8 @@ class AnimBlend(DG):
 
     NODE_TYPE = "animBlend"
 
-    blend = TypedField()
+    blend = TypedField(writable=False)
     b = blend
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=0.0)
     w = weight

@@ -14,17 +14,17 @@ class NurbsToSubdiv(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    outputSubd = TypedField()
+    outputSubd = TypedField(writable=False)
     os = outputSubd
 
-    maxPolyCount = LongField()
+    maxPolyCount = LongField(default_value=1000, min_value=1, max_value=100000)
     mpc = maxPolyCount
 
-    reverseNormal = BoolField()
+    reverseNormal = BoolField(default_value=True)
     rn = reverseNormal
 
-    matchPeriodic = BoolField()
+    matchPeriodic = BoolField(default_value=False)
     mp = matchPeriodic
 
-    collapsePoles = BoolField()
+    collapsePoles = BoolField(default_value=False)
     cp = collapsePoles

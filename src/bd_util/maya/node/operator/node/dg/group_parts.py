@@ -19,8 +19,8 @@ class GroupParts(DG):
     inputRemoveComponent = TypedField()
     irc = inputRemoveComponent
 
-    outputGeometry = GenericField()
+    outputGeometry = GenericField(writable=False)
     og = outputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=-1)
     gi = groupId

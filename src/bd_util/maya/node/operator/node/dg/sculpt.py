@@ -116,22 +116,22 @@ class Sculpt(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -149,22 +149,22 @@ class Sculpt(DG):
     sculptObjectGeometry = TypedField()
     sg = sculptObjectGeometry
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=2)
     mo = mode
 
-    insideMode = InsideModeEnumField()
+    insideMode = InsideModeEnumField(default_value=1)
     im = insideMode
 
-    maximumDisplacement = DoubleLinearField()
+    maximumDisplacement = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     md = maximumDisplacement
 
-    dropoffDistance = DoubleLinearField()
+    dropoffDistance = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     dd = dropoffDistance
 
-    dropoffType = DropoffTypeEnumField()
+    dropoffType = DropoffTypeEnumField(default_value=1)
     dt = dropoffType
 
-    startPosition = StartPositionField()
+    startPosition = StartPositionField(default_value=(0.0, 0.0, 0.0))
     sp = startPosition
     startPosX = startPosition.startPosX
     sx = startPosX
@@ -173,5 +173,5 @@ class Sculpt(DG):
     startPosZ = startPosition.startPosZ
     sz = startPosZ
 
-    extendedEnd = BoolField()
+    extendedEnd = BoolField(default_value=False)
     exd = extendedEnd

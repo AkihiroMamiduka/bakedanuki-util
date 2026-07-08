@@ -27,13 +27,13 @@ class ColorPlugOperator(
         ("colorB", "clb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5609999895095825)
     clr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.7570000290870667)
     clg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8119999766349792)
     clb = colorB
 
 
@@ -42,13 +42,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5609999895095825)
     clr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.7570000290870667)
     clg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8119999766349792)
     clb = colorB
 
 
@@ -60,13 +60,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5609999895095825)
     clr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.7570000290870667)
     clg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8119999766349792)
     clb = colorB
 
 
@@ -82,7 +82,7 @@ class FramePlugOperator(
         ("frameEnable", "fen"),
     )
 
-    frameTime = TimeField()
+    frameTime = TimeField(default_value=0.0)
     ftv = frameTime
 
     frameLabel = DataStringField()
@@ -91,10 +91,10 @@ class FramePlugOperator(
     frameImage = MessageField()
     fim = frameImage
 
-    frameAlpha = FloatField()
+    frameAlpha = FloatField(default_value=0.0)
     fal = frameAlpha
 
-    frameEnable = BoolField()
+    frameEnable = BoolField(default_value=False)
     fen = frameEnable
 
 
@@ -103,7 +103,7 @@ class FrameAttrOperator(
 ):
     __slots__ = ()
 
-    frameTime = TimeField()
+    frameTime = TimeField(default_value=0.0)
     ftv = frameTime
 
     frameLabel = DataStringField()
@@ -112,10 +112,10 @@ class FrameAttrOperator(
     frameImage = MessageField()
     fim = frameImage
 
-    frameAlpha = FloatField()
+    frameAlpha = FloatField(default_value=0.0)
     fal = frameAlpha
 
-    frameEnable = BoolField()
+    frameEnable = BoolField(default_value=False)
     fen = frameEnable
 
 

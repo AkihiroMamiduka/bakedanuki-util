@@ -198,76 +198,76 @@ class ClipPlugOperator(
         ("parentTime", "cpt"),
     )
 
-    clipid = LongField()
+    clipid = LongField(default_value=0, min_value=0)
     cid = clipid
 
     clipName = DataStringField()
     cn = clipName
 
-    clipType = ClipTypeEnumField()
+    clipType = ClipTypeEnumField(default_value=0)
     ct = clipType
 
-    clipStart = TimeField()
+    clipStart = TimeField(default_value=0.0)
     cst = clipStart
 
-    clipDuration = TimeField()
+    clipDuration = TimeField(default_value=0.0, min_value=0.01)
     cpd = clipDuration
 
-    clipScale = DoubleField()
+    clipScale = DoubleField(default_value=0.0, min_value=0.01)
     cscl = clipScale
 
-    speedInput = DoubleField()
+    speedInput = DoubleField(default_value=0.0)
     sin = speedInput
 
-    timeWarped = BoolField()
+    timeWarped = BoolField(default_value=False)
     tw = timeWarped
 
-    timeWarpType = TimeWarpTypeEnumField()
+    timeWarpType = TimeWarpTypeEnumField(default_value=1)
     twt = timeWarpType
 
-    clipLoopAfter = DoubleField()
+    clipLoopAfter = DoubleField(default_value=0.0, min_value=0.0)
     cla = clipLoopAfter
 
-    clipLoopBefore = DoubleField()
+    clipLoopBefore = DoubleField(default_value=0.0, min_value=0.0)
     clb = clipLoopBefore
 
-    clipLoopBeforeMode = ClipLoopBeforeModeEnumField()
+    clipLoopBeforeMode = ClipLoopBeforeModeEnumField(default_value=0)
     clbm = clipLoopBeforeMode
 
-    clipLoopAfterMode = ClipLoopAfterModeEnumField()
+    clipLoopAfterMode = ClipLoopAfterModeEnumField(default_value=0)
     clam = clipLoopAfterMode
 
-    clipHoldBefore = TimeField()
+    clipHoldBefore = TimeField(default_value=0.0, min_value=0.0)
     chb = clipHoldBefore
 
-    clipHoldAfter = TimeField()
+    clipHoldAfter = TimeField(default_value=0.0, min_value=0.0)
     cha = clipHoldAfter
 
-    clipBlendMode = ClipBlendModeEnumField()
+    clipBlendMode = ClipBlendModeEnumField(default_value=0)
     cbm = clipBlendMode
 
-    clipMuted = BoolField()
+    clipMuted = BoolField(default_value=False)
     cm = clipMuted
 
-    clipEvaluationData = TypedField()
+    clipEvaluationData = TypedField(writable=False)
     ced = clipEvaluationData
 
-    clipParent = TypedField()
+    clipParent = TypedField(readable=False)
     cprn = clipParent
 
-    useClipColor = BoolField()
+    useClipColor = BoolField(default_value=False)
     ucc = useClipColor
 
-    clipColor = Float3Field()
+    clipColor = Float3Field(default_value=(0.5839999914169312, 0.4350000023841858, 0.09799999743700027), min_value=(0.0, 0.0, 0.0))
     cc = clipColor
 
-    curveStart = TimeField()
+    curveStart = TimeField(default_value=0.0)
     cvst = curveStart
 
-    localTime = TimeField()
+    localTime = TimeField(default_value=0.0)
     clt = localTime
 
-    parentTime = TimeField()
+    parentTime = TimeField(default_value=0.0)
     cpt = parentTime
 
 
@@ -276,76 +276,76 @@ class ClipAttrOperator(
 ):
     __slots__ = ()
 
-    clipid = LongField()
+    clipid = LongField(default_value=0, min_value=0)
     cid = clipid
 
     clipName = DataStringField()
     cn = clipName
 
-    clipType = ClipTypeEnumField()
+    clipType = ClipTypeEnumField(default_value=0)
     ct = clipType
 
-    clipStart = TimeField()
+    clipStart = TimeField(default_value=0.0)
     cst = clipStart
 
-    clipDuration = TimeField()
+    clipDuration = TimeField(default_value=0.0, min_value=0.01)
     cpd = clipDuration
 
-    clipScale = DoubleField()
+    clipScale = DoubleField(default_value=0.0, min_value=0.01)
     cscl = clipScale
 
-    speedInput = DoubleField()
+    speedInput = DoubleField(default_value=0.0)
     sin = speedInput
 
-    timeWarped = BoolField()
+    timeWarped = BoolField(default_value=False)
     tw = timeWarped
 
-    timeWarpType = TimeWarpTypeEnumField()
+    timeWarpType = TimeWarpTypeEnumField(default_value=1)
     twt = timeWarpType
 
-    clipLoopAfter = DoubleField()
+    clipLoopAfter = DoubleField(default_value=0.0, min_value=0.0)
     cla = clipLoopAfter
 
-    clipLoopBefore = DoubleField()
+    clipLoopBefore = DoubleField(default_value=0.0, min_value=0.0)
     clb = clipLoopBefore
 
-    clipLoopBeforeMode = ClipLoopBeforeModeEnumField()
+    clipLoopBeforeMode = ClipLoopBeforeModeEnumField(default_value=0)
     clbm = clipLoopBeforeMode
 
-    clipLoopAfterMode = ClipLoopAfterModeEnumField()
+    clipLoopAfterMode = ClipLoopAfterModeEnumField(default_value=0)
     clam = clipLoopAfterMode
 
-    clipHoldBefore = TimeField()
+    clipHoldBefore = TimeField(default_value=0.0, min_value=0.0)
     chb = clipHoldBefore
 
-    clipHoldAfter = TimeField()
+    clipHoldAfter = TimeField(default_value=0.0, min_value=0.0)
     cha = clipHoldAfter
 
-    clipBlendMode = ClipBlendModeEnumField()
+    clipBlendMode = ClipBlendModeEnumField(default_value=0)
     cbm = clipBlendMode
 
-    clipMuted = BoolField()
+    clipMuted = BoolField(default_value=False)
     cm = clipMuted
 
-    clipEvaluationData = TypedField()
+    clipEvaluationData = TypedField(writable=False)
     ced = clipEvaluationData
 
-    clipParent = TypedField()
+    clipParent = TypedField(readable=False)
     cprn = clipParent
 
-    useClipColor = BoolField()
+    useClipColor = BoolField(default_value=False)
     ucc = useClipColor
 
-    clipColor = Float3Field()
+    clipColor = Float3Field(default_value=(0.5839999914169312, 0.4350000023841858, 0.09799999743700027), min_value=(0.0, 0.0, 0.0))
     cc = clipColor
 
-    curveStart = TimeField()
+    curveStart = TimeField(default_value=0.0)
     cvst = curveStart
 
-    localTime = TimeField()
+    localTime = TimeField(default_value=0.0)
     clt = localTime
 
-    parentTime = TimeField()
+    parentTime = TimeField(default_value=0.0)
     cpt = parentTime
 
 
@@ -372,7 +372,7 @@ class OffsetPlugOperator(
         ("matchObj", "mob"),
     )
 
-    offsetMode = LongField()
+    offsetMode = LongField(default_value=0)
     ofm = offsetMode
 
     offsetMtx = DataMatrixField()
@@ -381,13 +381,13 @@ class OffsetPlugOperator(
     pivotMtx = DataMatrixField()
     pmt = pivotMtx
 
-    matchclip = LongField()
+    matchclip = LongField(default_value=-1)
     mcl = matchclip
 
-    matchTime = TimeField()
+    matchTime = TimeField(default_value=0.0)
     mtm = matchTime
 
-    roots = CompoundField()
+    roots = CompoundField(multi=True)
     rts = roots
 
     matchObj = MessageField()
@@ -399,7 +399,7 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetMode = LongField()
+    offsetMode = LongField(default_value=0)
     ofm = offsetMode
 
     offsetMtx = DataMatrixField()
@@ -408,13 +408,13 @@ class OffsetAttrOperator(
     pivotMtx = DataMatrixField()
     pmt = pivotMtx
 
-    matchclip = LongField()
+    matchclip = LongField(default_value=-1)
     mcl = matchclip
 
-    matchTime = TimeField()
+    matchTime = TimeField(default_value=0.0)
     mtm = matchTime
 
-    roots = CompoundField()
+    roots = CompoundField(multi=True)
     rts = roots
 
     matchObj = MessageField()
@@ -429,7 +429,7 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetMode = LongField()
+    offsetMode = LongField(default_value=0)
     ofm = offsetMode
 
     offsetMtx = DataMatrixField()
@@ -438,13 +438,13 @@ class OffsetField(
     pivotMtx = DataMatrixField()
     pmt = pivotMtx
 
-    matchclip = LongField()
+    matchclip = LongField(default_value=-1)
     mcl = matchclip
 
-    matchTime = TimeField()
+    matchTime = TimeField(default_value=0.0)
     mtm = matchTime
 
-    roots = CompoundField()
+    roots = CompoundField(multi=True)
     rts = roots
 
     matchObj = MessageField()

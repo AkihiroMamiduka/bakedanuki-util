@@ -26,16 +26,16 @@ class PolyProjectCurve(DG):
     inputMatrix = DataMatrixField()
     imt = inputMatrix
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve
 
-    pointsOnEdges = BoolField()
+    pointsOnEdges = BoolField(default_value=False)
     poe = pointsOnEdges
 
-    curveSamples = LongField()
+    curveSamples = LongField(default_value=50, min_value=2)
     cs = curveSamples
 
-    automatic = BoolField()
+    automatic = BoolField(default_value=True)
     as_ = automatic
 
     curvePoints = CurvePointsField(multi=True)
@@ -50,7 +50,7 @@ class PolyProjectCurve(DG):
     baryCoord3 = DoubleLinearField()
     bc3 = baryCoord3
 
-    direction = DirectionField()
+    direction = DirectionField(default_value=(0.0, 0.0, 1.0))
     d = direction
     directionX = direction.directionX
     dx = directionX
@@ -59,5 +59,5 @@ class PolyProjectCurve(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.0001, min_value=1e-05, max_value=1.0)
     tol = tolerance

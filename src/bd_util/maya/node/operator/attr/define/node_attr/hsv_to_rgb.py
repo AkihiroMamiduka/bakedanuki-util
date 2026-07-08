@@ -18,13 +18,13 @@ class InHsvPlugOperator(
         ("inHsvB", "ib"),
     )
 
-    inHsvR = FloatField()
+    inHsvR = FloatField(default_value=0.0, min_value=0.0, max_value=360.0)
     ir = inHsvR
 
-    inHsvG = FloatField()
+    inHsvG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inHsvG
 
-    inHsvB = FloatField()
+    inHsvB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inHsvB
 
 
@@ -33,13 +33,13 @@ class InHsvAttrOperator(
 ):
     __slots__ = ()
 
-    inHsvR = FloatField()
+    inHsvR = FloatField(default_value=0.0, min_value=0.0, max_value=360.0)
     ir = inHsvR
 
-    inHsvG = FloatField()
+    inHsvG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inHsvG
 
-    inHsvB = FloatField()
+    inHsvB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inHsvB
 
 
@@ -51,13 +51,13 @@ class InHsvField(
     ATTR_CLS = InHsvAttrOperator
     PLUG_CLS = InHsvPlugOperator
 
-    inHsvR = FloatField()
+    inHsvR = FloatField(default_value=0.0, min_value=0.0, max_value=360.0)
     ir = inHsvR
 
-    inHsvG = FloatField()
+    inHsvG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ig = inHsvG
 
-    inHsvB = FloatField()
+    inHsvB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ib = inHsvB
 
 
@@ -71,13 +71,13 @@ class OutRgbPlugOperator(
         ("outRgbB", "ob"),
     )
 
-    outRgbR = FloatField()
+    outRgbR = FloatField(default_value=0.0, writable=False)
     or_ = outRgbR
 
-    outRgbG = FloatField()
+    outRgbG = FloatField(default_value=0.0, writable=False)
     og = outRgbG
 
-    outRgbB = FloatField()
+    outRgbB = FloatField(default_value=0.0, writable=False)
     ob = outRgbB
 
 
@@ -86,13 +86,13 @@ class OutRgbAttrOperator(
 ):
     __slots__ = ()
 
-    outRgbR = FloatField()
+    outRgbR = FloatField(default_value=0.0, writable=False)
     or_ = outRgbR
 
-    outRgbG = FloatField()
+    outRgbG = FloatField(default_value=0.0, writable=False)
     og = outRgbG
 
-    outRgbB = FloatField()
+    outRgbB = FloatField(default_value=0.0, writable=False)
     ob = outRgbB
 
 
@@ -104,11 +104,11 @@ class OutRgbField(
     ATTR_CLS = OutRgbAttrOperator
     PLUG_CLS = OutRgbPlugOperator
 
-    outRgbR = FloatField()
+    outRgbR = FloatField(default_value=0.0, writable=False)
     or_ = outRgbR
 
-    outRgbG = FloatField()
+    outRgbG = FloatField(default_value=0.0, writable=False)
     og = outRgbG
 
-    outRgbB = FloatField()
+    outRgbB = FloatField(default_value=0.0, writable=False)
     ob = outRgbB

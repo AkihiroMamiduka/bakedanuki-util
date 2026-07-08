@@ -47,7 +47,7 @@ class AiColorJitter(DG):
 
     NODE_TYPE = "aiColorJitter"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -56,10 +56,10 @@ class AiColorJitter(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -68,7 +68,7 @@ class AiColorJitter(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(1.0, 1.0, 1.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -76,92 +76,92 @@ class AiColorJitter(DG):
     inputB = input.inputB
     inputb = inputB
 
-    dataInput = LongField()
+    dataInput = LongField(default_value=0)
     data_input = dataInput
 
-    dataGainMin = FloatField()
+    dataGainMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     data_gain_min = dataGainMin
 
-    dataGainMax = FloatField()
+    dataGainMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     data_gain_max = dataGainMax
 
-    dataHueMin = FloatField()
+    dataHueMin = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     data_hue_min = dataHueMin
 
-    dataHueMax = FloatField()
+    dataHueMax = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     data_hue_max = dataHueMax
 
-    dataSaturationMin = FloatField()
+    dataSaturationMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     data_saturation_min = dataSaturationMin
 
-    dataSaturationMax = FloatField()
+    dataSaturationMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     data_saturation_max = dataSaturationMax
 
-    dataSeed = LongField()
+    dataSeed = LongField(default_value=0)
     data_seed = dataSeed
 
-    procGainMin = FloatField()
+    procGainMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     proc_gain_min = procGainMin
 
-    procGainMax = FloatField()
+    procGainMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     proc_gain_max = procGainMax
 
-    procHueMin = FloatField()
+    procHueMin = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     proc_hue_min = procHueMin
 
-    procHueMax = FloatField()
+    procHueMax = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     proc_hue_max = procHueMax
 
-    procSaturationMin = FloatField()
+    procSaturationMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     proc_saturation_min = procSaturationMin
 
-    procSaturationMax = FloatField()
+    procSaturationMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     proc_saturation_max = procSaturationMax
 
-    procSeed = LongField()
+    procSeed = LongField(default_value=0)
     proc_seed = procSeed
 
-    objGainMin = FloatField()
+    objGainMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     obj_gain_min = objGainMin
 
-    objGainMax = FloatField()
+    objGainMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     obj_gain_max = objGainMax
 
-    objHueMin = FloatField()
+    objHueMin = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     obj_hue_min = objHueMin
 
-    objHueMax = FloatField()
+    objHueMax = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     obj_hue_max = objHueMax
 
-    objSaturationMin = FloatField()
+    objSaturationMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     obj_saturation_min = objSaturationMin
 
-    objSaturationMax = FloatField()
+    objSaturationMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     obj_saturation_max = objSaturationMax
 
-    objSeed = LongField()
+    objSeed = LongField(default_value=0)
     obj_seed = objSeed
 
-    faceGainMin = FloatField()
+    faceGainMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     face_gain_min = faceGainMin
 
-    faceGainMax = FloatField()
+    faceGainMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     face_gain_max = faceGainMax
 
-    faceHueMin = FloatField()
+    faceHueMin = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     face_hue_min = faceHueMin
 
-    faceHueMax = FloatField()
+    faceHueMax = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     face_hue_max = faceHueMax
 
-    faceSaturationMin = FloatField()
+    faceSaturationMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     face_saturation_min = faceSaturationMin
 
-    faceSaturationMax = FloatField()
+    faceSaturationMax = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     face_saturation_max = faceSaturationMax
 
-    faceSeed = LongField()
+    faceSeed = LongField(default_value=0)
     face_seed = faceSeed
 
-    faceMode = FaceModeEnumField()
+    faceMode = FaceModeEnumField(default_value=0)
     face_mode = faceMode

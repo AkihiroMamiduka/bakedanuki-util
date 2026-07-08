@@ -16,7 +16,7 @@ class AiWriteColor(DG):
 
     NODE_TYPE = "aiWriteColor"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -25,10 +25,10 @@ class AiWriteColor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -37,10 +37,10 @@ class AiWriteColor(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    beautyA = FloatField()
+    beautyA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     passthrougha = beautyA
 
-    beauty = BeautyField()
+    beauty = BeautyField(default_value=(0.0, 0.0, 0.0))
     passthrough = beauty
     beautyR = beauty.beautyR
     passthroughr = beautyR
@@ -49,7 +49,7 @@ class AiWriteColor(DG):
     beautyB = beauty.beautyB
     passthroughb = beautyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     aov_input = input
     inputR = input.inputR
     aov_inputr = inputR
@@ -61,5 +61,5 @@ class AiWriteColor(DG):
     aovName = DataStringField()
     aov_name = aovName
 
-    blend = BoolField()
+    blend = BoolField(default_value=True)
     blend_opacity = blend

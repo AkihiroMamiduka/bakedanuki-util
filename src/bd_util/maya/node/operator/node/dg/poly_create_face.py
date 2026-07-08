@@ -47,19 +47,19 @@ class PolyCreateFace(DG):
 
     NODE_TYPE = "polyCreateFace"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    vertices = VerticesField(multi=True)
+    vertices = VerticesField(multi=True, default_value=(0.0, 0.0, 0.0))
     v = vertices
 
-    loop = LongField(multi=True)
+    loop = LongField(multi=True, default_value=0)
     l = loop
 
-    subdivision = LongField()
+    subdivision = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
     s = subdivision
 
-    texture = TextureEnumField()
+    texture = TextureEnumField(default_value=0)
     tx = texture
 
     uvSetName = DataStringField()

@@ -13,10 +13,10 @@ class ApplyAbs3FloatsOverride(DG):
 
     NODE_TYPE = "applyAbs3FloatsOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = OutField()
+    out = OutField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = out
     out0 = out.out0
     o0 = out0
@@ -25,7 +25,7 @@ class ApplyAbs3FloatsOverride(DG):
     out2 = out.out2
     o2 = out2
 
-    original = OriginalField()
+    original = OriginalField(default_value=(0.0, 0.0, 0.0), readable=False)
     ori = original
     original0 = original.original0
     ori0 = original0
@@ -34,7 +34,7 @@ class ApplyAbs3FloatsOverride(DG):
     original2 = original.original2
     ori2 = original2
 
-    value = ValueField()
+    value = ValueField(default_value=(0.0, 0.0, 0.0), readable=False)
     val = value
     value0 = value.value0
     val0 = value0

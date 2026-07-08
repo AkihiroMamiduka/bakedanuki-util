@@ -29,7 +29,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -44,7 +44,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -70,13 +70,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -85,13 +85,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -103,13 +103,13 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -123,13 +123,13 @@ class MinColorPlugOperator(
         ("minColorB", "lb"),
     )
 
-    minColorR = FloatField()
+    minColorR = FloatField(default_value=0.0)
     lr = minColorR
 
-    minColorG = FloatField()
+    minColorG = FloatField(default_value=0.0)
     lg = minColorG
 
-    minColorB = FloatField()
+    minColorB = FloatField(default_value=0.0)
     lb = minColorB
 
 
@@ -138,13 +138,13 @@ class MinColorAttrOperator(
 ):
     __slots__ = ()
 
-    minColorR = FloatField()
+    minColorR = FloatField(default_value=0.0)
     lr = minColorR
 
-    minColorG = FloatField()
+    minColorG = FloatField(default_value=0.0)
     lg = minColorG
 
-    minColorB = FloatField()
+    minColorB = FloatField(default_value=0.0)
     lb = minColorB
 
 
@@ -156,13 +156,13 @@ class MinColorField(
     ATTR_CLS = MinColorAttrOperator
     PLUG_CLS = MinColorPlugOperator
 
-    minColorR = FloatField()
+    minColorR = FloatField(default_value=0.0)
     lr = minColorR
 
-    minColorG = FloatField()
+    minColorG = FloatField(default_value=0.0)
     lg = minColorG
 
-    minColorB = FloatField()
+    minColorB = FloatField(default_value=0.0)
     lb = minColorB
 
 
@@ -176,13 +176,13 @@ class MaxColorPlugOperator(
         ("maxColorB", "hb"),
     )
 
-    maxColorR = FloatField()
+    maxColorR = FloatField(default_value=0.0)
     hr = maxColorR
 
-    maxColorG = FloatField()
+    maxColorG = FloatField(default_value=0.0)
     hg = maxColorG
 
-    maxColorB = FloatField()
+    maxColorB = FloatField(default_value=0.0)
     hb = maxColorB
 
 
@@ -191,13 +191,13 @@ class MaxColorAttrOperator(
 ):
     __slots__ = ()
 
-    maxColorR = FloatField()
+    maxColorR = FloatField(default_value=0.0)
     hr = maxColorR
 
-    maxColorG = FloatField()
+    maxColorG = FloatField(default_value=0.0)
     hg = maxColorG
 
-    maxColorB = FloatField()
+    maxColorB = FloatField(default_value=0.0)
     hb = maxColorB
 
 
@@ -209,11 +209,11 @@ class MaxColorField(
     ATTR_CLS = MaxColorAttrOperator
     PLUG_CLS = MaxColorPlugOperator
 
-    maxColorR = FloatField()
+    maxColorR = FloatField(default_value=0.0)
     hr = maxColorR
 
-    maxColorG = FloatField()
+    maxColorG = FloatField(default_value=0.0)
     hg = maxColorG
 
-    maxColorB = FloatField()
+    maxColorB = FloatField(default_value=0.0)
     hb = maxColorB

@@ -56,7 +56,7 @@ class EulerToQuat(DG):
 
     NODE_TYPE = "eulerToQuat"
 
-    inputRotate = InputRotateField()
+    inputRotate = InputRotateField(default_value=(0.0, 0.0, 0.0))
     irt = inputRotate
     inputRotateX = inputRotate.inputRotateX
     irx = inputRotateX
@@ -65,10 +65,10 @@ class EulerToQuat(DG):
     inputRotateZ = inputRotate.inputRotateZ
     irz = inputRotateZ
 
-    inputRotateOrder = InputRotateOrderEnumField()
+    inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     ro = inputRotateOrder
 
-    outputQuat = OutputQuatField()
+    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

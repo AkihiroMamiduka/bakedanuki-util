@@ -56,22 +56,22 @@ class ColorProfile(DG):
 
     NODE_TYPE = "colorProfile"
 
-    colorProfileType = ColorProfileTypeEnumField()
+    colorProfileType = ColorProfileTypeEnumField(default_value=2)
     cpt = colorProfileType
 
-    gamma = FloatField()
+    gamma = FloatField(default_value=1.0)
     gam = gamma
 
-    gammaOffset = FloatField()
+    gammaOffset = FloatField(default_value=0.0)
     gmo = gammaOffset
 
-    forceGamma = BoolField()
+    forceGamma = BoolField(default_value=False)
     fga = forceGamma
 
-    colorTemperature = LongField()
+    colorTemperature = LongField(default_value=0)
     tmp = colorTemperature
 
-    whitepoint = WhitepointField()
+    whitepoint = WhitepointField(default_value=(0.0, 0.0, 0.0))
     wp = whitepoint
     whitepointR = whitepoint.whitepointR
     wpr = whitepointR
@@ -80,7 +80,7 @@ class ColorProfile(DG):
     whitepointB = whitepoint.whitepointB
     wpb = whitepointB
 
-    intensity = FloatField()
+    intensity = FloatField(default_value=0.0)
     int = intensity
 
     transform = TransformField()

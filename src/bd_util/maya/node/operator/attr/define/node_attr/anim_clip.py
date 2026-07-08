@@ -18,13 +18,13 @@ class WorldStartPositionPlugOperator(
         ("worldStartPositionZ", "wspz"),
     )
 
-    worldStartPositionX = DoubleField()
+    worldStartPositionX = DoubleField(default_value=0.0)
     wspx = worldStartPositionX
 
-    worldStartPositionY = DoubleField()
+    worldStartPositionY = DoubleField(default_value=0.0)
     wspy = worldStartPositionY
 
-    worldStartPositionZ = DoubleField()
+    worldStartPositionZ = DoubleField(default_value=0.0)
     wspz = worldStartPositionZ
 
 
@@ -33,13 +33,13 @@ class WorldStartPositionAttrOperator(
 ):
     __slots__ = ()
 
-    worldStartPositionX = DoubleField()
+    worldStartPositionX = DoubleField(default_value=0.0)
     wspx = worldStartPositionX
 
-    worldStartPositionY = DoubleField()
+    worldStartPositionY = DoubleField(default_value=0.0)
     wspy = worldStartPositionY
 
-    worldStartPositionZ = DoubleField()
+    worldStartPositionZ = DoubleField(default_value=0.0)
     wspz = worldStartPositionZ
 
 
@@ -51,13 +51,13 @@ class WorldStartPositionField(
     ATTR_CLS = WorldStartPositionAttrOperator
     PLUG_CLS = WorldStartPositionPlugOperator
 
-    worldStartPositionX = DoubleField()
+    worldStartPositionX = DoubleField(default_value=0.0)
     wspx = worldStartPositionX
 
-    worldStartPositionY = DoubleField()
+    worldStartPositionY = DoubleField(default_value=0.0)
     wspy = worldStartPositionY
 
-    worldStartPositionZ = DoubleField()
+    worldStartPositionZ = DoubleField(default_value=0.0)
     wspz = worldStartPositionZ
 
 
@@ -71,13 +71,13 @@ class LocalStartPositionPlugOperator(
         ("localStartPositionZ", "lspz"),
     )
 
-    localStartPositionX = DoubleField()
+    localStartPositionX = DoubleField(default_value=0.0)
     lspx = localStartPositionX
 
-    localStartPositionY = DoubleField()
+    localStartPositionY = DoubleField(default_value=0.0)
     lspy = localStartPositionY
 
-    localStartPositionZ = DoubleField()
+    localStartPositionZ = DoubleField(default_value=0.0)
     lspz = localStartPositionZ
 
 
@@ -86,13 +86,13 @@ class LocalStartPositionAttrOperator(
 ):
     __slots__ = ()
 
-    localStartPositionX = DoubleField()
+    localStartPositionX = DoubleField(default_value=0.0)
     lspx = localStartPositionX
 
-    localStartPositionY = DoubleField()
+    localStartPositionY = DoubleField(default_value=0.0)
     lspy = localStartPositionY
 
-    localStartPositionZ = DoubleField()
+    localStartPositionZ = DoubleField(default_value=0.0)
     lspz = localStartPositionZ
 
 
@@ -104,11 +104,11 @@ class LocalStartPositionField(
     ATTR_CLS = LocalStartPositionAttrOperator
     PLUG_CLS = LocalStartPositionPlugOperator
 
-    localStartPositionX = DoubleField()
+    localStartPositionX = DoubleField(default_value=0.0)
     lspx = localStartPositionX
 
-    localStartPositionY = DoubleField()
+    localStartPositionY = DoubleField(default_value=0.0)
     lspy = localStartPositionY
 
-    localStartPositionZ = DoubleField()
+    localStartPositionZ = DoubleField(default_value=0.0)
     lspz = localStartPositionZ

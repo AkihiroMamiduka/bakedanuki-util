@@ -10,14 +10,14 @@ class BlendWeighted(DG):
 
     NODE_TYPE = "blendWeighted"
 
-    input = DoubleField(multi=True)
+    input = DoubleField(multi=True, default_value=0.0)
     i = input
 
-    output = DoubleField()
+    output = DoubleField(default_value=0.0, writable=False)
     o = output
 
-    current = LongField()
+    current = LongField(default_value=0)
     c = current
 
-    weight = FloatField(multi=True)
+    weight = FloatField(multi=True, default_value=1.0)
     w = weight

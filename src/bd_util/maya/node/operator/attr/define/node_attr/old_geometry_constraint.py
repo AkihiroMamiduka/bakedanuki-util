@@ -28,19 +28,19 @@ class InputPlugOperator(
         ("weight", "w"),
     )
 
-    inputTrans = Double3Field()
+    inputTrans = Double3Field(default_value=(0.0, 0.0, 0.0))
     it = inputTrans
 
-    inputRotPivot = Double3Field()
+    inputRotPivot = Double3Field(default_value=(0.0, 0.0, 0.0))
     irp = inputRotPivot
 
-    inputRotTrans = Double3Field()
+    inputRotTrans = Double3Field(default_value=(0.0, 0.0, 0.0))
     irt = inputRotTrans
 
     inputMatrix = GenericField()
     im = inputMatrix
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0)
     w = weight
 
 
@@ -49,19 +49,19 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inputTrans = Double3Field()
+    inputTrans = Double3Field(default_value=(0.0, 0.0, 0.0))
     it = inputTrans
 
-    inputRotPivot = Double3Field()
+    inputRotPivot = Double3Field(default_value=(0.0, 0.0, 0.0))
     irp = inputRotPivot
 
-    inputRotTrans = Double3Field()
+    inputRotTrans = Double3Field(default_value=(0.0, 0.0, 0.0))
     irt = inputRotTrans
 
     inputMatrix = GenericField()
     im = inputMatrix
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0)
     w = weight
 
 
@@ -84,13 +84,13 @@ class ObjectRotPivotPlugOperator(
         ("objectRotPivotZ", "orpz"),
     )
 
-    objectRotPivotX = DoubleLinearField()
+    objectRotPivotX = DoubleLinearField(default_value=0.0)
     orpx = objectRotPivotX
 
-    objectRotPivotY = DoubleLinearField()
+    objectRotPivotY = DoubleLinearField(default_value=0.0)
     orpy = objectRotPivotY
 
-    objectRotPivotZ = DoubleLinearField()
+    objectRotPivotZ = DoubleLinearField(default_value=0.0)
     orpz = objectRotPivotZ
 
 
@@ -99,13 +99,13 @@ class ObjectRotPivotAttrOperator(
 ):
     __slots__ = ()
 
-    objectRotPivotX = DoubleLinearField()
+    objectRotPivotX = DoubleLinearField(default_value=0.0)
     orpx = objectRotPivotX
 
-    objectRotPivotY = DoubleLinearField()
+    objectRotPivotY = DoubleLinearField(default_value=0.0)
     orpy = objectRotPivotY
 
-    objectRotPivotZ = DoubleLinearField()
+    objectRotPivotZ = DoubleLinearField(default_value=0.0)
     orpz = objectRotPivotZ
 
 
@@ -117,13 +117,13 @@ class ObjectRotPivotField(
     ATTR_CLS = ObjectRotPivotAttrOperator
     PLUG_CLS = ObjectRotPivotPlugOperator
 
-    objectRotPivotX = DoubleLinearField()
+    objectRotPivotX = DoubleLinearField(default_value=0.0)
     orpx = objectRotPivotX
 
-    objectRotPivotY = DoubleLinearField()
+    objectRotPivotY = DoubleLinearField(default_value=0.0)
     orpy = objectRotPivotY
 
-    objectRotPivotZ = DoubleLinearField()
+    objectRotPivotZ = DoubleLinearField(default_value=0.0)
     orpz = objectRotPivotZ
 
 
@@ -137,13 +137,13 @@ class ObjectRotTransPlugOperator(
         ("objectRotTransZ", "ortz"),
     )
 
-    objectRotTransX = DoubleLinearField()
+    objectRotTransX = DoubleLinearField(default_value=0.0)
     ortx = objectRotTransX
 
-    objectRotTransY = DoubleLinearField()
+    objectRotTransY = DoubleLinearField(default_value=0.0)
     orty = objectRotTransY
 
-    objectRotTransZ = DoubleLinearField()
+    objectRotTransZ = DoubleLinearField(default_value=0.0)
     ortz = objectRotTransZ
 
 
@@ -152,13 +152,13 @@ class ObjectRotTransAttrOperator(
 ):
     __slots__ = ()
 
-    objectRotTransX = DoubleLinearField()
+    objectRotTransX = DoubleLinearField(default_value=0.0)
     ortx = objectRotTransX
 
-    objectRotTransY = DoubleLinearField()
+    objectRotTransY = DoubleLinearField(default_value=0.0)
     orty = objectRotTransY
 
-    objectRotTransZ = DoubleLinearField()
+    objectRotTransZ = DoubleLinearField(default_value=0.0)
     ortz = objectRotTransZ
 
 
@@ -170,13 +170,13 @@ class ObjectRotTransField(
     ATTR_CLS = ObjectRotTransAttrOperator
     PLUG_CLS = ObjectRotTransPlugOperator
 
-    objectRotTransX = DoubleLinearField()
+    objectRotTransX = DoubleLinearField(default_value=0.0)
     ortx = objectRotTransX
 
-    objectRotTransY = DoubleLinearField()
+    objectRotTransY = DoubleLinearField(default_value=0.0)
     orty = objectRotTransY
 
-    objectRotTransZ = DoubleLinearField()
+    objectRotTransZ = DoubleLinearField(default_value=0.0)
     ortz = objectRotTransZ
 
 
@@ -190,13 +190,13 @@ class OutputPlugOperator(
         ("outputZ", "oz"),
     )
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -205,13 +205,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ
 
 
@@ -223,11 +223,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputX = DoubleLinearField()
+    outputX = DoubleLinearField(default_value=0.0, writable=False)
     ox = outputX
 
-    outputY = DoubleLinearField()
+    outputY = DoubleLinearField(default_value=0.0, writable=False)
     oy = outputY
 
-    outputZ = DoubleLinearField()
+    outputZ = DoubleLinearField(default_value=0.0, writable=False)
     oz = outputZ

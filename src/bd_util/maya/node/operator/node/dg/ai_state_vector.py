@@ -105,7 +105,7 @@ class AiStateVector(DG):
 
     NODE_TYPE = "aiStateVector"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -114,7 +114,7 @@ class AiStateVector(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    Ro = RoField()
+    Ro = RoField(default_value=(0.0, 0.0, 0.0), writable=False)
     RoX = Ro.RoX
     Rox = RoX
     RoY = Ro.RoY
@@ -122,7 +122,7 @@ class AiStateVector(DG):
     RoZ = Ro.RoZ
     Roz = RoZ
 
-    Rd = RdField()
+    Rd = RdField(default_value=(0.0, 0.0, 0.0), writable=False)
     RdX = Rd.RdX
     Rdx = RdX
     RdY = Rd.RdY
@@ -130,7 +130,7 @@ class AiStateVector(DG):
     RdZ = Rd.RdZ
     Rdz = RdZ
 
-    Po = PoField()
+    Po = PoField(default_value=(0.0, 0.0, 0.0), writable=False)
     PoX = Po.PoX
     Pox = PoX
     PoY = Po.PoY
@@ -138,7 +138,7 @@ class AiStateVector(DG):
     PoZ = Po.PoZ
     Poz = PoZ
 
-    P = PField()
+    P = PField(default_value=(0.0, 0.0, 0.0), writable=False)
     PX = P.PX
     Px = PX
     PY = P.PY
@@ -146,7 +146,7 @@ class AiStateVector(DG):
     PZ = P.PZ
     Pz = PZ
 
-    dPdx = DPdxField()
+    dPdx = DPdxField(default_value=(0.0, 0.0, 0.0), writable=False)
     dPdxX = dPdx.dPdxX
     dPdxx = dPdxX
     dPdxY = dPdx.dPdxY
@@ -154,7 +154,7 @@ class AiStateVector(DG):
     dPdxZ = dPdx.dPdxZ
     dPdxz = dPdxZ
 
-    dPdy = DPdyField()
+    dPdy = DPdyField(default_value=(0.0, 0.0, 0.0), writable=False)
     dPdyX = dPdy.dPdyX
     dPdyx = dPdyX
     dPdyY = dPdy.dPdyY
@@ -162,7 +162,7 @@ class AiStateVector(DG):
     dPdyZ = dPdy.dPdyZ
     dPdyz = dPdyZ
 
-    N = NField()
+    N = NField(default_value=(0.0, 0.0, 0.0), writable=False)
     NX = N.NX
     Nx = NX
     NY = N.NY
@@ -170,7 +170,7 @@ class AiStateVector(DG):
     NZ = N.NZ
     Nz = NZ
 
-    Nf = NfField()
+    Nf = NfField(default_value=(0.0, 0.0, 0.0), writable=False)
     NfX = Nf.NfX
     Nfx = NfX
     NfY = Nf.NfY
@@ -178,7 +178,7 @@ class AiStateVector(DG):
     NfZ = Nf.NfZ
     Nfz = NfZ
 
-    Ng = NgField()
+    Ng = NgField(default_value=(0.0, 0.0, 0.0), writable=False)
     NgX = Ng.NgX
     Ngx = NgX
     NgY = Ng.NgY
@@ -186,7 +186,7 @@ class AiStateVector(DG):
     NgZ = Ng.NgZ
     Ngz = NgZ
 
-    Ngf = NgfField()
+    Ngf = NgfField(default_value=(0.0, 0.0, 0.0), writable=False)
     NgfX = Ngf.NgfX
     Ngfx = NgfX
     NgfY = Ngf.NgfY
@@ -194,7 +194,7 @@ class AiStateVector(DG):
     NgfZ = Ngf.NgfZ
     Ngfz = NgfZ
 
-    Ns = NsField()
+    Ns = NsField(default_value=(0.0, 0.0, 0.0), writable=False)
     NsX = Ns.NsX
     Nsx = NsX
     NsY = Ns.NsY
@@ -202,7 +202,7 @@ class AiStateVector(DG):
     NsZ = Ns.NsZ
     Nsz = NsZ
 
-    dPdu = DPduField()
+    dPdu = DPduField(default_value=(0.0, 0.0, 0.0), writable=False)
     dPduX = dPdu.dPduX
     dPdux = dPduX
     dPduY = dPdu.dPduY
@@ -210,7 +210,7 @@ class AiStateVector(DG):
     dPduZ = dPdu.dPduZ
     dPduz = dPduZ
 
-    dPdv = DPdvField()
+    dPdv = DPdvField(default_value=(0.0, 0.0, 0.0), writable=False)
     dPdvX = dPdv.dPdvX
     dPdvx = dPdvX
     dPdvY = dPdv.dPdvY
@@ -218,7 +218,7 @@ class AiStateVector(DG):
     dPdvZ = dPdv.dPdvZ
     dPdvz = dPdvZ
 
-    dDdx = DDdxField()
+    dDdx = DDdxField(default_value=(0.0, 0.0, 0.0), writable=False)
     dDdxX = dDdx.dDdxX
     dDdxx = dDdxX
     dDdxY = dDdx.dDdxY
@@ -226,7 +226,7 @@ class AiStateVector(DG):
     dDdxZ = dDdx.dDdxZ
     dDdxz = dDdxZ
 
-    dDdy = DDdyField()
+    dDdy = DDdyField(default_value=(0.0, 0.0, 0.0), writable=False)
     dDdyX = dDdy.dDdyX
     dDdyx = dDdyX
     dDdyY = dDdy.dDdyY
@@ -234,7 +234,7 @@ class AiStateVector(DG):
     dDdyZ = dDdy.dDdyZ
     dDdyz = dDdyZ
 
-    dNdx = DNdxField()
+    dNdx = DNdxField(default_value=(0.0, 0.0, 0.0), writable=False)
     dNdxX = dNdx.dNdxX
     dNdxx = dNdxX
     dNdxY = dNdx.dNdxY
@@ -242,7 +242,7 @@ class AiStateVector(DG):
     dNdxZ = dNdx.dNdxZ
     dNdxz = dNdxZ
 
-    dNdy = DNdyField()
+    dNdy = DNdyField(default_value=(0.0, 0.0, 0.0), writable=False)
     dNdyX = dNdy.dNdyX
     dNdyx = dNdyX
     dNdyY = dNdy.dNdyY
@@ -250,4 +250,4 @@ class AiStateVector(DG):
     dNdyZ = dNdy.dNdyZ
     dNdyz = dNdyZ
 
-    variable = VariableEnumField()
+    variable = VariableEnumField(default_value=0)

@@ -168,7 +168,7 @@ class SubdLayoutUV(DG):
 
     NODE_TYPE = "subdLayoutUV"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()
@@ -183,32 +183,32 @@ class SubdLayoutUV(DG):
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    separate = SeparateEnumField()
+    separate = SeparateEnumField(default_value=0)
     se = separate
 
-    flipReversed = BoolField()
+    flipReversed = BoolField(default_value=True)
     fr = flipReversed
 
-    layout = LayoutEnumField()
+    layout = LayoutEnumField(default_value=2)
     l = layout
 
-    percentageSpace = FloatField()
+    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
     ps = percentageSpace
 
-    scale = ScaleEnumField()
+    scale = ScaleEnumField(default_value=1)
     sc = scale
 
-    denseLayout = BoolField()
+    denseLayout = BoolField(default_value=False)
     dl = denseLayout
 
-    rotateForBestFit = RotateForBestFitEnumField()
+    rotateForBestFit = RotateForBestFitEnumField(default_value=0)
     rbf = rotateForBestFit
 
-    layoutMethod = LayoutMethodEnumField()
+    layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod

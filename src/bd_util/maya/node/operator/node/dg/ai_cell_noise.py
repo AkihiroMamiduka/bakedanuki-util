@@ -102,7 +102,7 @@ class AiCellNoise(DG):
 
     NODE_TYPE = "aiCellNoise"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -111,7 +111,7 @@ class AiCellNoise(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -120,19 +120,19 @@ class AiCellNoise(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    pattern = PatternEnumField()
+    pattern = PatternEnumField(default_value=0)
 
-    additive = BoolField()
+    additive = BoolField(default_value=True)
 
-    octaves = LongField()
+    octaves = LongField(default_value=1, soft_min_value=1, soft_max_value=8)
 
-    randomness = FloatField()
+    randomness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    lacunarity = FloatField()
+    lacunarity = FloatField(default_value=1.9199999570846558, min_value=9.999999747378752e-05, soft_min_value=1.0, soft_max_value=5.0)
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX
     scalex = scaleX
     scaleY = scale.scaleY
@@ -140,7 +140,7 @@ class AiCellNoise(DG):
     scaleZ = scale.scaleZ
     scalez = scaleZ
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0))
     offsetX = offset.offsetX
     offsetx = offsetX
     offsetY = offset.offsetY
@@ -148,13 +148,13 @@ class AiCellNoise(DG):
     offsetZ = offset.offsetZ
     offsetz = offsetZ
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=1)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    P = PField()
+    P = PField(default_value=(0.0, 0.0, 0.0))
     PX = P.PX
     Px = PX
     PY = P.PY
@@ -162,9 +162,9 @@ class AiCellNoise(DG):
     PZ = P.PZ
     Pz = PZ
 
-    time = FloatField()
+    time = FloatField(default_value=0.0)
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -172,7 +172,7 @@ class AiCellNoise(DG):
     colorB = color.colorB
     colorb = colorB
 
-    palette = PaletteField()
+    palette = PaletteField(default_value=(1.0, 1.0, 1.0))
     paletteR = palette.paletteR
     paletter = paletteR
     paletteG = palette.paletteG
@@ -180,4 +180,4 @@ class AiCellNoise(DG):
     paletteB = palette.paletteB
     paletteb = paletteB
 
-    density = FloatField()
+    density = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)

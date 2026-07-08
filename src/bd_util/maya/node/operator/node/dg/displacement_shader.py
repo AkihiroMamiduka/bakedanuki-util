@@ -112,13 +112,13 @@ class DisplacementShader(DG):
 
     NODE_TYPE = "displacementShader"
 
-    displacementMode = DisplacementModeEnumField()
+    displacementMode = DisplacementModeEnumField(default_value=0)
     dm = displacementMode
 
-    displacement = FloatField()
+    displacement = FloatField(default_value=0.0)
     d = displacement
 
-    vectorDisplacement = VectorDisplacementField()
+    vectorDisplacement = VectorDisplacementField(default_value=(0.0, 0.0, 0.0))
     vd = vectorDisplacement
     vectorDisplacementX = vectorDisplacement.vectorDisplacementX
     vdx = vectorDisplacementX
@@ -127,19 +127,19 @@ class DisplacementShader(DG):
     vectorDisplacementZ = vectorDisplacement.vectorDisplacementZ
     vdz = vectorDisplacementZ
 
-    scale = FloatField()
+    scale = FloatField(default_value=1.0)
     scl = scale
 
-    vectorEncoding = VectorEncodingEnumField()
+    vectorEncoding = VectorEncodingEnumField(default_value=0)
     ve = vectorEncoding
 
-    vectorSpace = VectorSpaceEnumField()
+    vectorSpace = VectorSpaceEnumField(default_value=1)
     vs = vectorSpace
 
-    yIsUp = BoolField()
+    yIsUp = BoolField(default_value=True)
     yup = yIsUp
 
-    tangent = TangentField()
+    tangent = TangentField(default_value=(0.0, 0.0, 0.0))
     tan = tangent
     tangentX = tangent.tangentX
     tx = tangentX
@@ -148,14 +148,14 @@ class DisplacementShader(DG):
     tangentZ = tangent.tangentZ
     tz = tangentZ
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiDisplacementPadding = FloatField()
+    aiDisplacementPadding = FloatField(default_value=0.0, category="arnold")
     ai_displacement_padding = aiDisplacementPadding
 
-    aiDisplacementZeroValue = FloatField()
+    aiDisplacementZeroValue = FloatField(default_value=0.0, category="arnold")
     ai_displacement_zero_value = aiDisplacementZeroValue
 
-    aiDisplacementAutoBump = BoolField()
+    aiDisplacementAutoBump = BoolField(default_value=True, category="arnold")
     ai_displacement_auto_bump = aiDisplacementAutoBump

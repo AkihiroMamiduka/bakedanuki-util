@@ -13,7 +13,7 @@ class AiMaterialXShader(DG):
 
     NODE_TYPE = "aiMaterialXShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ocl = outColor
     outColorR = outColor.outColorR
     oclr = outColorR
@@ -22,7 +22,7 @@ class AiMaterialXShader(DG):
     outColorB = outColor.outColorB
     oclb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -53,7 +53,7 @@ class LightFog(DG):
 
     NODE_TYPE = "lightFog"
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0), readable=False)
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -62,7 +62,7 @@ class LightFog(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -83,7 +83,7 @@ class LightFog(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -92,22 +92,22 @@ class LightFog(DG):
     colorB = color.colorB
     cb = colorB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     d = density
 
-    fastDropOff = BoolField()
+    fastDropOff = BoolField(default_value=False)
     fd = fastDropOff
 
-    colorBasedTransparency = BoolField()
+    colorBasedTransparency = BoolField(default_value=True)
     cbt = colorBasedTransparency
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -116,7 +116,7 @@ class LightFog(DG):
     outMatteOpacityB = outMatteOpacity.outMatteOpacityB
     omob = outMatteOpacityB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -125,7 +125,7 @@ class LightFog(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -11,7 +11,7 @@ class PolyClean(DG):
 
     NODE_TYPE = "polyClean"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -20,35 +20,35 @@ class PolyClean(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    cleanVertices = BoolField()
+    cleanVertices = BoolField(default_value=True)
     cv = cleanVertices
 
-    cleanEdges = BoolField()
+    cleanEdges = BoolField(default_value=True)
     ce = cleanEdges
 
-    cleanUVs = BoolField()
+    cleanUVs = BoolField(default_value=True)
     cuv = cleanUVs
 
-    cleanPartialUVMapping = BoolField()
+    cleanPartialUVMapping = BoolField(default_value=True)
     cpm = cleanPartialUVMapping

@@ -148,37 +148,37 @@ class Lambert(DG):
 
     NODE_TYPE = "lambert"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0, readable=False)
     oi = objectId
 
-    primitiveId = LongField()
+    primitiveId = LongField(default_value=0, readable=False)
     pi = primitiveId
 
-    raySampler = AddrField()
+    raySampler = AddrField(default_value=0.0, readable=False)
     rtr = raySampler
 
-    rayDepth = ShortField()
+    rayDepth = ShortField(default_value=0, readable=False)
     rd = rayDepth
 
-    rayInstance = LongField()
+    rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField()
+    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
     rdl = refractionLimit
 
-    refractiveIndex = FloatField()
+    refractiveIndex = FloatField(default_value=1.0, min_value=0.01, soft_max_value=3.0)
     rfi = refractiveIndex
 
-    mediumRefractiveIndex = FloatField()
+    mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
     mrfi = mediumRefractiveIndex
 
-    refractions = BoolField()
+    refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField()
+    diffuse = FloatField(default_value=0.800000011920929, min_value=0.0, soft_max_value=1.0)
     dc = diffuse
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -187,7 +187,7 @@ class Lambert(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    color = ColorField()
+    color = ColorField(default_value=(0.5, 0.5, 0.5))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -196,7 +196,7 @@ class Lambert(DG):
     colorB = color.colorB
     cb = colorB
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.0, 0.0, 0.0))
     it = transparency
     transparencyR = transparency.transparencyR
     itr = transparencyR
@@ -205,7 +205,7 @@ class Lambert(DG):
     transparencyB = transparency.transparencyB
     itb = transparencyB
 
-    ambientColor = AmbientColorField()
+    ambientColor = AmbientColorField(default_value=(0.0, 0.0, 0.0))
     ambc = ambientColor
     ambientColorR = ambientColor.ambientColorR
     acr = ambientColorR
@@ -214,7 +214,7 @@ class Lambert(DG):
     ambientColorB = ambientColor.ambientColorB
     acb = ambientColorB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.0, 0.0, 0.0))
     ic = incandescence
     incandescenceR = incandescence.incandescenceR
     ir = incandescenceR
@@ -223,31 +223,31 @@ class Lambert(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    translucence = FloatField()
+    translucence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tc = translucence
 
-    translucenceFocus = FloatField()
+    translucenceFocus = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField()
+    translucenceDepth = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=5.0)
     trsd = translucenceDepth
 
-    opacityDepth = FloatField()
+    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     opad = opacityDepth
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gi = glowIntensity
 
-    vrOverwriteDefaults = BoolField()
+    vrOverwriteDefaults = BoolField(default_value=False)
     vrod = vrOverwriteDefaults
 
-    vrFillObject = VrFillObjectEnumField()
+    vrFillObject = VrFillObjectEnumField(default_value=0)
     vrfo = vrFillObject
 
-    vrEdgeWeight = DoubleField()
+    vrEdgeWeight = DoubleField(default_value=0.0)
     vrew = vrEdgeWeight
 
-    vrEdgeColor = VrEdgeColorField()
+    vrEdgeColor = VrEdgeColorField(default_value=(0.5, 0.5, 0.5))
     vrec = vrEdgeColor
     vrEdgeColorR = vrEdgeColor.vrEdgeColorR
     vecr = vrEdgeColorR
@@ -256,43 +256,43 @@ class Lambert(DG):
     vrEdgeColorB = vrEdgeColor.vrEdgeColorB
     vecb = vrEdgeColorB
 
-    vrEdgeStyle = VrEdgeStyleEnumField()
+    vrEdgeStyle = VrEdgeStyleEnumField(default_value=0)
     vres = vrEdgeStyle
 
-    vrEdgePriority = LongField()
+    vrEdgePriority = LongField(default_value=0, min_value=0)
     vrep = vrEdgePriority
 
-    vrHiddenEdges = BoolField()
+    vrHiddenEdges = BoolField(default_value=False)
     vrhe = vrHiddenEdges
 
-    vrHiddenEdgesOnTransparent = BoolField()
+    vrHiddenEdgesOnTransparent = BoolField(default_value=False)
     vrht = vrHiddenEdgesOnTransparent
 
-    vrOutlinesAtIntersections = BoolField()
+    vrOutlinesAtIntersections = BoolField(default_value=True)
     vroi = vrOutlinesAtIntersections
 
-    materialAlphaGain = FloatField()
+    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     maga = materialAlphaGain
 
-    hideSource = BoolField()
+    hideSource = BoolField(default_value=False)
     hs = hideSource
 
-    surfaceThickness = FloatField()
+    surfaceThickness = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     thik = surfaceThickness
 
-    shadowAttenuation = FloatField()
+    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     fakc = shadowAttenuation
 
-    transparencyDepth = FloatField()
+    transparencyDepth = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     trdp = transparencyDepth
 
-    lightAbsorbance = FloatField()
+    lightAbsorbance = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     absb = lightAbsorbance
 
-    chromaticAberration = BoolField()
+    chromaticAberration = BoolField(default_value=False)
     crab = chromaticAberration
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -301,7 +301,7 @@ class Lambert(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -310,7 +310,7 @@ class Lambert(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -319,7 +319,7 @@ class Lambert(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0))
     pc = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -328,7 +328,7 @@ class Lambert(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -337,7 +337,7 @@ class Lambert(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -358,13 +358,13 @@ class Lambert(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -373,7 +373,7 @@ class Lambert(DG):
     outMatteOpacityB = outMatteOpacity.outMatteOpacityB
     omob = outMatteOpacityB
 
-    hardwareShader = HardwareShaderField()
+    hardwareShader = HardwareShaderField(default_value=(0.0, 0.0, 0.0))
     hws = hardwareShader
     hardwareShaderR = hardwareShader.hardwareShaderR
     hwr = hardwareShaderR

@@ -106,7 +106,7 @@ class AiComplexIor(DG):
 
     NODE_TYPE = "aiComplexIor"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -115,7 +115,7 @@ class AiComplexIor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -124,11 +124,11 @@ class AiComplexIor(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    material = MaterialEnumField()
+    material = MaterialEnumField(default_value=0)
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    reflectivity = ReflectivityField()
+    reflectivity = ReflectivityField(default_value=(0.9259520173072815, 0.7208870053291321, 0.5041540265083313))
     reflectivityR = reflectivity.reflectivityR
     reflectivityr = reflectivityR
     reflectivityG = reflectivity.reflectivityG
@@ -136,7 +136,7 @@ class AiComplexIor(DG):
     reflectivityB = reflectivity.reflectivityB
     reflectivityb = reflectivityB
 
-    edgetint = EdgetintField()
+    edgetint = EdgetintField(default_value=(0.995523989200592, 0.957414984703064, 0.8227760195732117))
     edgetintR = edgetint.edgetintR
     edgetintr = edgetintR
     edgetintG = edgetint.edgetintG
@@ -144,7 +144,7 @@ class AiComplexIor(DG):
     edgetintB = edgetint.edgetintB
     edgetintb = edgetintB
 
-    n = NField()
+    n = NField(default_value=(0.27105000615119934, 0.6769300103187561, 1.3164000511169434))
     nX = n.nX
     nx = nX
     nY = n.nY
@@ -152,7 +152,7 @@ class AiComplexIor(DG):
     nZ = n.nZ
     nz = nZ
 
-    k = KField()
+    k = KField(default_value=(3.6092000007629395, 2.6247000694274902, 2.292099952697754))
     kX = k.kX
     kx = kX
     kY = k.kY

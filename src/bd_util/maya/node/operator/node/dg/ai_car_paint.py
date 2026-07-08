@@ -65,7 +65,7 @@ class AiCarPaint(DG):
 
     NODE_TYPE = "aiCarPaint"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -74,10 +74,10 @@ class AiCarPaint(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -86,7 +86,7 @@ class AiCarPaint(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -95,7 +95,7 @@ class AiCarPaint(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -104,9 +104,9 @@ class AiCarPaint(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    base = FloatField()
+    base = FloatField(default_value=0.800000011920929, min_value=0.0, max_value=1.0)
 
-    baseColor = BaseColorField()
+    baseColor = BaseColorField(default_value=(1.0, 0.0, 0.0))
     base_color = baseColor
     baseColorR = baseColor.baseColorR
     base_colorr = baseColorR
@@ -115,12 +115,12 @@ class AiCarPaint(DG):
     baseColorB = baseColor.baseColorB
     base_colorb = baseColorB
 
-    baseRoughness = FloatField()
+    baseRoughness = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     base_roughness = baseRoughness
 
-    specular = FloatField()
+    specular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
     specular_color = specularColor
     specularColorR = specularColor.specularColorR
     specular_colorr = specularColorR
@@ -129,7 +129,7 @@ class AiCarPaint(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularFlipFlop = SpecularFlipFlopField()
+    specularFlipFlop = SpecularFlipFlopField(default_value=(1.0, 1.0, 1.0))
     specular_flip_flop = specularFlipFlop
     specularFlipFlopR = specularFlipFlop.specularFlipFlopR
     specular_flip_flopr = specularFlipFlopR
@@ -138,7 +138,7 @@ class AiCarPaint(DG):
     specularFlipFlopB = specularFlipFlop.specularFlipFlopB
     specular_flip_flopb = specularFlipFlopB
 
-    specularLightFacing = SpecularLightFacingField()
+    specularLightFacing = SpecularLightFacingField(default_value=(1.0, 1.0, 1.0))
     specular_light_facing = specularLightFacing
     specularLightFacingR = specularLightFacing.specularLightFacingR
     specular_light_facingr = specularLightFacingR
@@ -147,16 +147,16 @@ class AiCarPaint(DG):
     specularLightFacingB = specularLightFacing.specularLightFacingB
     specular_light_facingb = specularLightFacingB
 
-    specularFalloff = FloatField()
+    specularFalloff = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     specular_falloff = specularFalloff
 
-    specularRoughness = FloatField()
+    specularRoughness = FloatField(default_value=0.05000000074505806, min_value=0.0, max_value=1.0)
     specular_roughness = specularRoughness
 
-    specularIOR = FloatField()
+    specularIOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0)
     specular_IOR = specularIOR
 
-    transmissionColor = TransmissionColorField()
+    transmissionColor = TransmissionColorField(default_value=(1.0, 1.0, 1.0))
     transmission_color = transmissionColor
     transmissionColorR = transmissionColor.transmissionColorR
     transmission_colorr = transmissionColorR
@@ -165,7 +165,7 @@ class AiCarPaint(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     transmission_colorb = transmissionColorB
 
-    flakeColor = FlakeColorField()
+    flakeColor = FlakeColorField(default_value=(1.0, 1.0, 1.0))
     flake_color = flakeColor
     flakeColorR = flakeColor.flakeColorR
     flake_colorr = flakeColorR
@@ -174,7 +174,7 @@ class AiCarPaint(DG):
     flakeColorB = flakeColor.flakeColorB
     flake_colorb = flakeColorB
 
-    flakeFlipFlop = FlakeFlipFlopField()
+    flakeFlipFlop = FlakeFlipFlopField(default_value=(1.0, 1.0, 1.0))
     flake_flip_flop = flakeFlipFlop
     flakeFlipFlopR = flakeFlipFlop.flakeFlipFlopR
     flake_flip_flopr = flakeFlipFlopR
@@ -183,7 +183,7 @@ class AiCarPaint(DG):
     flakeFlipFlopB = flakeFlipFlop.flakeFlipFlopB
     flake_flip_flopb = flakeFlipFlopB
 
-    flakeLightFacing = FlakeLightFacingField()
+    flakeLightFacing = FlakeLightFacingField(default_value=(1.0, 1.0, 1.0))
     flake_light_facing = flakeLightFacing
     flakeLightFacingR = flakeLightFacing.flakeLightFacingR
     flake_light_facingr = flakeLightFacingR
@@ -192,36 +192,36 @@ class AiCarPaint(DG):
     flakeLightFacingB = flakeLightFacing.flakeLightFacingB
     flake_light_facingb = flakeLightFacingB
 
-    flakeFalloff = FloatField()
+    flakeFalloff = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     flake_falloff = flakeFalloff
 
-    flakeRoughness = FloatField()
+    flakeRoughness = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     flake_roughness = flakeRoughness
 
-    flakeIOR = FloatField()
+    flakeIOR = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
     flake_IOR = flakeIOR
 
-    flakeScale = FloatField()
+    flakeScale = FloatField(default_value=0.0010000000474974513, min_value=9.999999974752427e-07, soft_max_value=100.0)
     flake_scale = flakeScale
 
-    flakeDensity = FloatField()
+    flakeDensity = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     flake_density = flakeDensity
 
-    flakeLayers = LongField()
+    flakeLayers = LongField(default_value=1, min_value=1, soft_max_value=4)
     flake_layers = flakeLayers
 
-    flakeNormalRandomize = FloatField()
+    flakeNormalRandomize = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     flake_normal_randomize = flakeNormalRandomize
 
-    flakeCoordSpace = FlakeCoordSpaceEnumField()
+    flakeCoordSpace = FlakeCoordSpaceEnumField(default_value=2)
     flake_coord_space = flakeCoordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    coat = FloatField()
+    coat = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    coatColor = CoatColorField()
+    coatColor = CoatColorField(default_value=(1.0, 1.0, 1.0))
     coat_color = coatColor
     coatColorR = coatColor.coatColorR
     coat_colorr = coatColorR
@@ -230,13 +230,13 @@ class AiCarPaint(DG):
     coatColorB = coatColor.coatColorB
     coat_colorb = coatColorB
 
-    coatRoughness = FloatField()
+    coatRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     coat_roughness = coatRoughness
 
-    coatIOR = FloatField()
+    coatIOR = FloatField(default_value=1.5, min_value=0.0, soft_max_value=5.0)
     coat_IOR = coatIOR
 
-    coatNormal = CoatNormalField()
+    coatNormal = CoatNormalField(default_value=(0.0, 0.0, 0.0))
     coat_normal = coatNormal
     coatNormalX = coatNormal.coatNormalX
     coat_normalx = coatNormalX

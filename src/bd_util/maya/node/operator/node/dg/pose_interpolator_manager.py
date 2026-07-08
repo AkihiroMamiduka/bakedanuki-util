@@ -12,5 +12,5 @@ class PoseInterpolatorManager(DG):
     poseInterpolatorDirectory = PoseInterpolatorDirectoryField(multi=True)
     tpdt = poseInterpolatorDirectory
 
-    poseInterpolatorParent = LongField(multi=True)
+    poseInterpolatorParent = LongField(multi=True, default_value=0)
     tppr = poseInterpolatorParent

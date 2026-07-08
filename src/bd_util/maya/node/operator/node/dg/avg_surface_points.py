@@ -14,19 +14,19 @@ class AvgSurfacePoints(DG):
     inputSurfaces = DataNurbsSurfaceField(multi=True)
     is_ = inputSurfaces
 
-    weight = DoubleField(multi=True)
+    weight = DoubleField(multi=True, default_value=0.5)
     wt = weight
 
-    parameterU = DoubleField(multi=True)
+    parameterU = DoubleField(multi=True, default_value=0.0)
     u = parameterU
 
-    parameterV = DoubleField(multi=True)
+    parameterV = DoubleField(multi=True, default_value=0.0)
     v = parameterV
 
-    turnOnPercentage = BoolField()
+    turnOnPercentage = BoolField(default_value=False)
     top = turnOnPercentage
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

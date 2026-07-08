@@ -15,7 +15,7 @@ class ClosestPointOnSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    inPosition = InPositionField()
+    inPosition = InPositionField(default_value=(0.0, 0.0, 0.0))
     ip = inPosition
     inPositionX = inPosition.inPositionX
     ipx = inPositionX
@@ -24,7 +24,7 @@ class ClosestPointOnSurface(DG):
     inPositionZ = inPosition.inPositionZ
     ipz = inPositionZ
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

@@ -18,20 +18,20 @@ class ClipToGhostData(DG):
     character = MessageField()
     c = character
 
-    clipSourceStart = TimeField(multi=True)
+    clipSourceStart = TimeField(multi=True, default_value=0.0)
     css = clipSourceStart
 
-    clipSourceEnd = TimeField(multi=True)
+    clipSourceEnd = TimeField(multi=True, default_value=0.0)
     cse = clipSourceEnd
 
-    clipPreCycle = DoubleField(multi=True)
+    clipPreCycle = DoubleField(multi=True, default_value=0.0)
     cpr = clipPreCycle
 
-    clipPostCycle = DoubleField(multi=True)
+    clipPostCycle = DoubleField(multi=True, default_value=0.0)
     cpo = clipPostCycle
 
-    clipIntermediatePoses = LongField(multi=True)
+    clipIntermediatePoses = LongField(multi=True, default_value=0)
     cip = clipIntermediatePoses
 
-    clipGhostData = TypedField(multi=True)
+    clipGhostData = TypedField(multi=True, writable=False)
     cgd = clipGhostData

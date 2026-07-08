@@ -10,7 +10,7 @@ class ApplyConnectionOverride(DG):
 
     NODE_TYPE = "applyConnectionOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
     target = GenericField()
@@ -19,5 +19,5 @@ class ApplyConnectionOverride(DG):
     previous = MessageField()
     p = previous
 
-    next = MessageField()
+    next = MessageField(writable=False)
     n = next

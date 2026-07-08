@@ -8,7 +8,7 @@ class SubdCleanTopology(DG):
 
     NODE_TYPE = "subdCleanTopology"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()

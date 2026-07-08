@@ -13,7 +13,7 @@ class ArrayMapper(DG):
 
     NODE_TYPE = "arrayMapper"
 
-    computeNode = MessageField()
+    computeNode = MessageField(readable=False)
     cn = computeNode
 
     uCoordPP = DataDoubleArrayField()
@@ -22,13 +22,13 @@ class ArrayMapper(DG):
     vCoordPP = DataDoubleArrayField()
     vpp = vCoordPP
 
-    minValue = DoubleField()
+    minValue = DoubleField(default_value=0.0)
     min = minValue
 
-    maxValue = DoubleField()
+    maxValue = DoubleField(default_value=1.0)
     max = maxValue
 
-    computeNodeColor = ComputeNodeColorField()
+    computeNodeColor = ComputeNodeColorField(default_value=(0.0, 0.0, 0.0))
     cnc = computeNodeColor
     computeNodeColorR = computeNodeColor.computeNodeColorR
     cncr = computeNodeColorR
@@ -37,11 +37,11 @@ class ArrayMapper(DG):
     computeNodeColorB = computeNodeColor.computeNodeColorB
     cncb = computeNodeColorB
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tim = time
 
-    outColorPP = DataVectorArrayField()
+    outColorPP = DataVectorArrayField(writable=False)
     ocpp = outColorPP
 
-    outValuePP = DataDoubleArrayField()
+    outValuePP = DataDoubleArrayField(writable=False)
     ovpp = outValuePP

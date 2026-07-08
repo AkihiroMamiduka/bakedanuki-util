@@ -10,68 +10,68 @@ class DynController(DG):
 
     NODE_TYPE = "dynController"
 
-    lastEvalTime = DoubleField()
+    lastEvalTime = DoubleField(default_value=0.0)
     let = lastEvalTime
 
-    evalTime = DoubleField()
+    evalTime = DoubleField(default_value=0.0)
     evt = evalTime
 
-    startTime = DoubleField()
+    startTime = DoubleField(default_value=0.0)
     stt = startTime
 
-    startFrame = DoubleField()
+    startFrame = DoubleField(default_value=1.0)
     stf = startFrame
 
-    currEvalTime = DoubleField()
+    currEvalTime = DoubleField(default_value=0.0)
     cet = currEvalTime
 
-    makeDirty = LongField()
+    makeDirty = LongField(default_value=0)
     md = makeDirty
 
-    output = BoolField()
+    output = BoolField(default_value=False, writable=False)
     out = output
 
-    traceDepth = LongField()
+    traceDepth = LongField(default_value=10)
     td = traceDepth
 
-    particleCache = BoolField()
+    particleCache = BoolField(default_value=False)
     pc = particleCache
 
-    cacheTime = DoubleField()
+    cacheTime = DoubleField(default_value=0.0)
     ct = cacheTime
 
-    doRunup = BoolField()
+    doRunup = BoolField(default_value=True)
     dru = doRunup
 
-    particlesOn = BoolField()
+    particlesOn = BoolField(default_value=True)
     pon = particlesOn
 
-    allOn = BoolField()
+    allOn = BoolField(default_value=True)
     aon = allOn
 
-    rigidOn = BoolField()
+    rigidOn = BoolField(default_value=True)
     rgo = rigidOn
 
-    particleLOD = DoubleField()
+    particleLOD = DoubleField(default_value=1.0)
     pld = particleLOD
 
-    oversample = LongField()
+    oversample = LongField(default_value=1)
     os = oversample
 
-    seed = LongField()
+    seed = LongField(default_value=0)
     sd = seed
 
-    autoCreate = BoolField()
+    autoCreate = BoolField(default_value=True)
     ac = autoCreate
 
-    firstEval = BoolField()
+    firstEval = BoolField(default_value=True)
     fev = firstEval
 
-    allOnWhenRun = BoolField()
+    allOnWhenRun = BoolField(default_value=True)
     awr = allOnWhenRun
 
-    startRunup = BoolField()
+    startRunup = BoolField(default_value=False)
     str = startRunup
 
-    breakRunup = BoolField()
+    breakRunup = BoolField(default_value=False)
     brr = breakRunup

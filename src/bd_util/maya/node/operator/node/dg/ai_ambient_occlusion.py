@@ -20,7 +20,7 @@ class AiAmbientOcclusion(DG):
 
     NODE_TYPE = "aiAmbientOcclusion"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -29,7 +29,7 @@ class AiAmbientOcclusion(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,7 +38,7 @@ class AiAmbientOcclusion(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -47,7 +47,7 @@ class AiAmbientOcclusion(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -56,19 +56,19 @@ class AiAmbientOcclusion(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    samples = LongField()
+    samples = LongField(default_value=3, min_value=0, soft_max_value=10)
 
-    spread = FloatField()
+    spread = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    nearClip = FloatField()
+    nearClip = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
     near_clip = nearClip
 
-    farClip = FloatField()
+    farClip = FloatField(default_value=100.0, min_value=0.0, soft_max_value=2000.0)
     far_clip = farClip
 
-    falloff = FloatField()
+    falloff = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
 
-    black = BlackField()
+    black = BlackField(default_value=(0.0, 0.0, 0.0))
     blackR = black.blackR
     blackr = blackR
     blackG = black.blackG
@@ -76,7 +76,7 @@ class AiAmbientOcclusion(DG):
     blackB = black.blackB
     blackb = blackB
 
-    white = WhiteField()
+    white = WhiteField(default_value=(1.0, 1.0, 1.0))
     whiteR = white.whiteR
     whiter = whiteR
     whiteG = white.whiteG
@@ -84,7 +84,7 @@ class AiAmbientOcclusion(DG):
     whiteB = white.whiteB
     whiteb = whiteB
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY
@@ -92,13 +92,13 @@ class AiAmbientOcclusion(DG):
     normalZ = normal.normalZ
     normalz = normalZ
 
-    invertNormals = BoolField()
+    invertNormals = BoolField(default_value=False)
     invert_normals = invertNormals
 
     traceSet = DataStringField()
     trace_set = traceSet
 
-    inclusive = BoolField()
+    inclusive = BoolField(default_value=True)
 
-    selfOnly = BoolField()
+    selfOnly = BoolField(default_value=False)
     self_only = selfOnly

@@ -18,13 +18,13 @@ class VectorDisplacementPlugOperator(
         ("vectorDisplacementZ", "vdz"),
     )
 
-    vectorDisplacementX = FloatField()
+    vectorDisplacementX = FloatField(default_value=0.0)
     vdx = vectorDisplacementX
 
-    vectorDisplacementY = FloatField()
+    vectorDisplacementY = FloatField(default_value=0.0)
     vdy = vectorDisplacementY
 
-    vectorDisplacementZ = FloatField()
+    vectorDisplacementZ = FloatField(default_value=0.0)
     vdz = vectorDisplacementZ
 
 
@@ -33,13 +33,13 @@ class VectorDisplacementAttrOperator(
 ):
     __slots__ = ()
 
-    vectorDisplacementX = FloatField()
+    vectorDisplacementX = FloatField(default_value=0.0)
     vdx = vectorDisplacementX
 
-    vectorDisplacementY = FloatField()
+    vectorDisplacementY = FloatField(default_value=0.0)
     vdy = vectorDisplacementY
 
-    vectorDisplacementZ = FloatField()
+    vectorDisplacementZ = FloatField(default_value=0.0)
     vdz = vectorDisplacementZ
 
 
@@ -51,13 +51,13 @@ class VectorDisplacementField(
     ATTR_CLS = VectorDisplacementAttrOperator
     PLUG_CLS = VectorDisplacementPlugOperator
 
-    vectorDisplacementX = FloatField()
+    vectorDisplacementX = FloatField(default_value=0.0)
     vdx = vectorDisplacementX
 
-    vectorDisplacementY = FloatField()
+    vectorDisplacementY = FloatField(default_value=0.0)
     vdy = vectorDisplacementY
 
-    vectorDisplacementZ = FloatField()
+    vectorDisplacementZ = FloatField(default_value=0.0)
     vdz = vectorDisplacementZ
 
 
@@ -71,13 +71,13 @@ class TangentPlugOperator(
         ("tangentZ", "tz"),
     )
 
-    tangentX = FloatField()
+    tangentX = FloatField(default_value=0.0)
     tx = tangentX
 
-    tangentY = FloatField()
+    tangentY = FloatField(default_value=0.0)
     ty = tangentY
 
-    tangentZ = FloatField()
+    tangentZ = FloatField(default_value=0.0)
     tz = tangentZ
 
 
@@ -86,13 +86,13 @@ class TangentAttrOperator(
 ):
     __slots__ = ()
 
-    tangentX = FloatField()
+    tangentX = FloatField(default_value=0.0)
     tx = tangentX
 
-    tangentY = FloatField()
+    tangentY = FloatField(default_value=0.0)
     ty = tangentY
 
-    tangentZ = FloatField()
+    tangentZ = FloatField(default_value=0.0)
     tz = tangentZ
 
 
@@ -104,11 +104,11 @@ class TangentField(
     ATTR_CLS = TangentAttrOperator
     PLUG_CLS = TangentPlugOperator
 
-    tangentX = FloatField()
+    tangentX = FloatField(default_value=0.0)
     tx = tangentX
 
-    tangentY = FloatField()
+    tangentY = FloatField(default_value=0.0)
     ty = tangentY
 
-    tangentZ = FloatField()
+    tangentZ = FloatField(default_value=0.0)
     tz = tangentZ

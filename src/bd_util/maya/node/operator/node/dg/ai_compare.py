@@ -55,10 +55,10 @@ class AiCompare(DG):
 
     NODE_TYPE = "aiCompare"
 
-    outValue = BoolField()
+    outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -67,8 +67,8 @@ class AiCompare(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    test = TestEnumField()
+    test = TestEnumField(default_value=0)
 
-    input1 = FloatField()
+    input1 = FloatField(default_value=0.0)
 
-    input2 = FloatField()
+    input2 = FloatField(default_value=0.0)

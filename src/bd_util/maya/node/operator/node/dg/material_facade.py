@@ -34,7 +34,7 @@ class MaterialFacade(DG):
     proxyInitProc = DataStringField()
     pip = proxyInitProc
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(1.0, 0.6000000238418579, 0.4000000059604645))
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

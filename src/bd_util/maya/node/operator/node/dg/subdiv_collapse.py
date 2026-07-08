@@ -15,5 +15,5 @@ class SubdivCollapse(DG):
     outSubdiv = TypedField()
     os = outSubdiv
 
-    level = LongField()
+    level = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=2)
     l = level

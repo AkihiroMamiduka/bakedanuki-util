@@ -14,13 +14,13 @@ class PointOnCurveInfo(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.0)
     pr = parameter
 
-    turnOnPercentage = BoolField()
+    turnOnPercentage = BoolField(default_value=False)
     top = turnOnPercentage
 
-    result = ResultField()
+    result = ResultField(writable=False)
     rs = result
     position = result.position
     p = position

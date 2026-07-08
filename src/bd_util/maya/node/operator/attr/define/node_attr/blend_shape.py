@@ -37,7 +37,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -52,7 +52,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -76,7 +76,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -85,7 +85,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -108,13 +108,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -123,13 +123,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -141,13 +141,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -159,7 +159,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -167,7 +167,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -196,25 +196,25 @@ class InputTargetPlugOperator(
         ("deformMatrixModified", "dmxm"),
     )
 
-    inputTargetGroup = CompoundField()
+    inputTargetGroup = CompoundField(multi=True)
     itg = inputTargetGroup
 
-    baseWeights = FloatField()
+    baseWeights = FloatField(multi=True, default_value=1.0)
     bw = baseWeights
 
-    normalizationGroup = CompoundField()
+    normalizationGroup = CompoundField(multi=True, default_value=(0.0, 1.0))
     ng = normalizationGroup
 
-    paintTargetWeights = FloatField()
+    paintTargetWeights = FloatField(multi=True, default_value=1.0)
     pwt = paintTargetWeights
 
-    paintTargetIndex = LongField()
+    paintTargetIndex = LongField(default_value=0)
     pti = paintTargetIndex
 
-    sculptTargetIndex = LongField()
+    sculptTargetIndex = LongField(default_value=-1)
     sti = sculptTargetIndex
 
-    sculptInbetweenWeight = DoubleField()
+    sculptInbetweenWeight = DoubleField(default_value=-1.0)
     siw = sculptInbetweenWeight
 
     sculptTargetTweaks = CompoundField()
@@ -223,7 +223,7 @@ class InputTargetPlugOperator(
     deformMatrix = TypedField()
     dmx = deformMatrix
 
-    deformMatrixModified = BoolField()
+    deformMatrixModified = BoolField(default_value=False)
     dmxm = deformMatrixModified
 
 
@@ -232,25 +232,25 @@ class InputTargetAttrOperator(
 ):
     __slots__ = ()
 
-    inputTargetGroup = CompoundField()
+    inputTargetGroup = CompoundField(multi=True)
     itg = inputTargetGroup
 
-    baseWeights = FloatField()
+    baseWeights = FloatField(multi=True, default_value=1.0)
     bw = baseWeights
 
-    normalizationGroup = CompoundField()
+    normalizationGroup = CompoundField(multi=True, default_value=(0.0, 1.0))
     ng = normalizationGroup
 
-    paintTargetWeights = FloatField()
+    paintTargetWeights = FloatField(multi=True, default_value=1.0)
     pwt = paintTargetWeights
 
-    paintTargetIndex = LongField()
+    paintTargetIndex = LongField(default_value=0)
     pti = paintTargetIndex
 
-    sculptTargetIndex = LongField()
+    sculptTargetIndex = LongField(default_value=-1)
     sti = sculptTargetIndex
 
-    sculptInbetweenWeight = DoubleField()
+    sculptInbetweenWeight = DoubleField(default_value=-1.0)
     siw = sculptInbetweenWeight
 
     sculptTargetTweaks = CompoundField()
@@ -259,7 +259,7 @@ class InputTargetAttrOperator(
     deformMatrix = TypedField()
     dmx = deformMatrix
 
-    deformMatrixModified = BoolField()
+    deformMatrixModified = BoolField(default_value=False)
     dmxm = deformMatrixModified
 
 
@@ -282,13 +282,13 @@ class BaseOriginPlugOperator(
         ("baseOriginZ", "bz"),
     )
 
-    baseOriginX = DoubleLinearField()
+    baseOriginX = DoubleLinearField(default_value=0.0)
     bx = baseOriginX
 
-    baseOriginY = DoubleLinearField()
+    baseOriginY = DoubleLinearField(default_value=0.0)
     by = baseOriginY
 
-    baseOriginZ = DoubleLinearField()
+    baseOriginZ = DoubleLinearField(default_value=0.0)
     bz = baseOriginZ
 
 
@@ -297,13 +297,13 @@ class BaseOriginAttrOperator(
 ):
     __slots__ = ()
 
-    baseOriginX = DoubleLinearField()
+    baseOriginX = DoubleLinearField(default_value=0.0)
     bx = baseOriginX
 
-    baseOriginY = DoubleLinearField()
+    baseOriginY = DoubleLinearField(default_value=0.0)
     by = baseOriginY
 
-    baseOriginZ = DoubleLinearField()
+    baseOriginZ = DoubleLinearField(default_value=0.0)
     bz = baseOriginZ
 
 
@@ -315,13 +315,13 @@ class BaseOriginField(
     ATTR_CLS = BaseOriginAttrOperator
     PLUG_CLS = BaseOriginPlugOperator
 
-    baseOriginX = DoubleLinearField()
+    baseOriginX = DoubleLinearField(default_value=0.0)
     bx = baseOriginX
 
-    baseOriginY = DoubleLinearField()
+    baseOriginY = DoubleLinearField(default_value=0.0)
     by = baseOriginY
 
-    baseOriginZ = DoubleLinearField()
+    baseOriginZ = DoubleLinearField(default_value=0.0)
     bz = baseOriginZ
 
 
@@ -335,13 +335,13 @@ class TargetOriginPlugOperator(
         ("targetOriginZ", "tz"),
     )
 
-    targetOriginX = DoubleLinearField()
+    targetOriginX = DoubleLinearField(default_value=0.0)
     tx = targetOriginX
 
-    targetOriginY = DoubleLinearField()
+    targetOriginY = DoubleLinearField(default_value=0.0)
     ty = targetOriginY
 
-    targetOriginZ = DoubleLinearField()
+    targetOriginZ = DoubleLinearField(default_value=0.0)
     tz = targetOriginZ
 
 
@@ -350,13 +350,13 @@ class TargetOriginAttrOperator(
 ):
     __slots__ = ()
 
-    targetOriginX = DoubleLinearField()
+    targetOriginX = DoubleLinearField(default_value=0.0)
     tx = targetOriginX
 
-    targetOriginY = DoubleLinearField()
+    targetOriginY = DoubleLinearField(default_value=0.0)
     ty = targetOriginY
 
-    targetOriginZ = DoubleLinearField()
+    targetOriginZ = DoubleLinearField(default_value=0.0)
     tz = targetOriginZ
 
 
@@ -368,13 +368,13 @@ class TargetOriginField(
     ATTR_CLS = TargetOriginAttrOperator
     PLUG_CLS = TargetOriginPlugOperator
 
-    targetOriginX = DoubleLinearField()
+    targetOriginX = DoubleLinearField(default_value=0.0)
     tx = targetOriginX
 
-    targetOriginY = DoubleLinearField()
+    targetOriginY = DoubleLinearField(default_value=0.0)
     ty = targetOriginY
 
-    targetOriginZ = DoubleLinearField()
+    targetOriginZ = DoubleLinearField(default_value=0.0)
     tz = targetOriginZ
 
 
@@ -388,13 +388,13 @@ class OffsetDeformerPlugOperator(
         ("offsetZ", "ofz"),
     )
 
-    offsetX = DoubleLinearField()
+    offsetX = DoubleLinearField(default_value=0.0)
     ofx = offsetX
 
-    offsetY = DoubleLinearField()
+    offsetY = DoubleLinearField(default_value=0.0)
     ofy = offsetY
 
-    offsetZ = DoubleLinearField()
+    offsetZ = DoubleLinearField(default_value=0.0)
     ofz = offsetZ
 
 
@@ -403,13 +403,13 @@ class OffsetDeformerAttrOperator(
 ):
     __slots__ = ()
 
-    offsetX = DoubleLinearField()
+    offsetX = DoubleLinearField(default_value=0.0)
     ofx = offsetX
 
-    offsetY = DoubleLinearField()
+    offsetY = DoubleLinearField(default_value=0.0)
     ofy = offsetY
 
-    offsetZ = DoubleLinearField()
+    offsetZ = DoubleLinearField(default_value=0.0)
     ofz = offsetZ
 
 
@@ -421,13 +421,13 @@ class OffsetDeformerField(
     ATTR_CLS = OffsetDeformerAttrOperator
     PLUG_CLS = OffsetDeformerPlugOperator
 
-    offsetX = DoubleLinearField()
+    offsetX = DoubleLinearField(default_value=0.0)
     ofx = offsetX
 
-    offsetY = DoubleLinearField()
+    offsetY = DoubleLinearField(default_value=0.0)
     ofy = offsetY
 
-    offsetZ = DoubleLinearField()
+    offsetZ = DoubleLinearField(default_value=0.0)
     ofz = offsetZ
 
 
@@ -447,19 +447,19 @@ class TargetDirectoryPlugOperator(
     childIndices = TypedField()
     cid = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     pnid = parentIndex
 
     directoryName = DataStringField()
     dtn = directoryName
 
-    directoryVisibility = BoolField()
+    directoryVisibility = BoolField(default_value=True)
     dvs = directoryVisibility
 
-    directoryParentVisibility = BoolField()
+    directoryParentVisibility = BoolField(default_value=True)
     dpvs = directoryParentVisibility
 
-    directoryWeight = FloatField()
+    directoryWeight = FloatField(default_value=1.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0)
     dwgh = directoryWeight
 
 
@@ -471,19 +471,19 @@ class TargetDirectoryAttrOperator(
     childIndices = TypedField()
     cid = childIndices
 
-    parentIndex = LongField()
+    parentIndex = LongField(default_value=0)
     pnid = parentIndex
 
     directoryName = DataStringField()
     dtn = directoryName
 
-    directoryVisibility = BoolField()
+    directoryVisibility = BoolField(default_value=True)
     dvs = directoryVisibility
 
-    directoryParentVisibility = BoolField()
+    directoryParentVisibility = BoolField(default_value=True)
     dpvs = directoryParentVisibility
 
-    directoryWeight = FloatField()
+    directoryWeight = FloatField(default_value=1.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0)
     dwgh = directoryWeight
 
 
@@ -504,7 +504,7 @@ class InbetweenInfoGroupPlugOperator(
         ("inbetweenInfo", "ibi"),
     )
 
-    inbetweenInfo = CompoundField()
+    inbetweenInfo = CompoundField(multi=True)
     ibi = inbetweenInfo
 
 
@@ -513,7 +513,7 @@ class InbetweenInfoGroupAttrOperator(
 ):
     __slots__ = ()
 
-    inbetweenInfo = CompoundField()
+    inbetweenInfo = CompoundField(multi=True)
     ibi = inbetweenInfo
 
 

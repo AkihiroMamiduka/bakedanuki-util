@@ -35,13 +35,13 @@ class ProjectionCenterPlugOperator(
         ("projectionCenterZ", "pcz"),
     )
 
-    projectionCenterX = DoubleLinearField()
+    projectionCenterX = DoubleLinearField(default_value=0.0)
     pcx = projectionCenterX
 
-    projectionCenterY = DoubleLinearField()
+    projectionCenterY = DoubleLinearField(default_value=0.0)
     pcy = projectionCenterY
 
-    projectionCenterZ = DoubleLinearField()
+    projectionCenterZ = DoubleLinearField(default_value=0.0)
     pcz = projectionCenterZ
 
 
@@ -50,13 +50,13 @@ class ProjectionCenterAttrOperator(
 ):
     __slots__ = ()
 
-    projectionCenterX = DoubleLinearField()
+    projectionCenterX = DoubleLinearField(default_value=0.0)
     pcx = projectionCenterX
 
-    projectionCenterY = DoubleLinearField()
+    projectionCenterY = DoubleLinearField(default_value=0.0)
     pcy = projectionCenterY
 
-    projectionCenterZ = DoubleLinearField()
+    projectionCenterZ = DoubleLinearField(default_value=0.0)
     pcz = projectionCenterZ
 
 
@@ -68,13 +68,13 @@ class ProjectionCenterField(
     ATTR_CLS = ProjectionCenterAttrOperator
     PLUG_CLS = ProjectionCenterPlugOperator
 
-    projectionCenterX = DoubleLinearField()
+    projectionCenterX = DoubleLinearField(default_value=0.0)
     pcx = projectionCenterX
 
-    projectionCenterY = DoubleLinearField()
+    projectionCenterY = DoubleLinearField(default_value=0.0)
     pcy = projectionCenterY
 
-    projectionCenterZ = DoubleLinearField()
+    projectionCenterZ = DoubleLinearField(default_value=0.0)
     pcz = projectionCenterZ
 
 
@@ -87,10 +87,10 @@ class ImageCenterPlugOperator(
         ("imageCenterY", "icy"),
     )
 
-    imageCenterX = DoubleField()
+    imageCenterX = DoubleField(default_value=0.5)
     icx = imageCenterX
 
-    imageCenterY = DoubleField()
+    imageCenterY = DoubleField(default_value=0.5)
     icy = imageCenterY
 
 
@@ -99,10 +99,10 @@ class ImageCenterAttrOperator(
 ):
     __slots__ = ()
 
-    imageCenterX = DoubleField()
+    imageCenterX = DoubleField(default_value=0.5)
     icx = imageCenterX
 
-    imageCenterY = DoubleField()
+    imageCenterY = DoubleField(default_value=0.5)
     icy = imageCenterY
 
 
@@ -114,10 +114,10 @@ class ImageCenterField(
     ATTR_CLS = ImageCenterAttrOperator
     PLUG_CLS = ImageCenterPlugOperator
 
-    imageCenterX = DoubleField()
+    imageCenterX = DoubleField(default_value=0.5)
     icx = imageCenterX
 
-    imageCenterY = DoubleField()
+    imageCenterY = DoubleField(default_value=0.5)
     icy = imageCenterY
 
 
@@ -131,13 +131,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -146,13 +146,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -164,13 +164,13 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -183,10 +183,10 @@ class ProjectionScalePlugOperator(
         ("projectionHeight", "ph"),
     )
 
-    projectionHorizontalSweep = DoubleLinearField()
+    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
     phs = projectionHorizontalSweep
 
-    projectionHeight = DoubleLinearField()
+    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = projectionHeight
 
 
@@ -195,10 +195,10 @@ class ProjectionScaleAttrOperator(
 ):
     __slots__ = ()
 
-    projectionHorizontalSweep = DoubleLinearField()
+    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
     phs = projectionHorizontalSweep
 
-    projectionHeight = DoubleLinearField()
+    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = projectionHeight
 
 
@@ -210,10 +210,10 @@ class ProjectionScaleField(
     ATTR_CLS = ProjectionScaleAttrOperator
     PLUG_CLS = ProjectionScalePlugOperator
 
-    projectionHorizontalSweep = DoubleLinearField()
+    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
     phs = projectionHorizontalSweep
 
-    projectionHeight = DoubleLinearField()
+    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = projectionHeight
 
 
@@ -226,10 +226,10 @@ class ImageScalePlugOperator(
         ("imageScaleV", "isv"),
     )
 
-    imageScaleU = DoubleField()
+    imageScaleU = DoubleField(default_value=1.0)
     isu = imageScaleU
 
-    imageScaleV = DoubleField()
+    imageScaleV = DoubleField(default_value=1.0)
     isv = imageScaleV
 
 
@@ -238,10 +238,10 @@ class ImageScaleAttrOperator(
 ):
     __slots__ = ()
 
-    imageScaleU = DoubleField()
+    imageScaleU = DoubleField(default_value=1.0)
     isu = imageScaleU
 
-    imageScaleV = DoubleField()
+    imageScaleV = DoubleField(default_value=1.0)
     isv = imageScaleV
 
 
@@ -253,8 +253,8 @@ class ImageScaleField(
     ATTR_CLS = ImageScaleAttrOperator
     PLUG_CLS = ImageScalePlugOperator
 
-    imageScaleU = DoubleField()
+    imageScaleU = DoubleField(default_value=1.0)
     isu = imageScaleU
 
-    imageScaleV = DoubleField()
+    imageScaleV = DoubleField(default_value=1.0)
     isv = imageScaleV

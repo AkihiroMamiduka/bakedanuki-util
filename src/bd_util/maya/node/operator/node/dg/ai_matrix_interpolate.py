@@ -43,10 +43,10 @@ class AiMatrixInterpolate(DG):
 
     NODE_TYPE = "aiMatrixInterpolate"
 
-    outValue = FltMatrixField()
+    outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -58,6 +58,6 @@ class AiMatrixInterpolate(DG):
     placementMatrix = FltMatrixField()
     matrix = placementMatrix
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
 
-    value = FloatField()
+    value = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)

@@ -21,16 +21,16 @@ class LayerAttributePlugOperator(
         ("layerAttributeValue", "lv"),
     )
 
-    layerAttributeIndex = LongField()
+    layerAttributeIndex = LongField(default_value=-1, min_value=0)
     lai = layerAttributeIndex
 
-    layerAttributeLayerId = LongField()
+    layerAttributeLayerId = LongField(default_value=-1)
     lid = layerAttributeLayerId
 
     layerAttributeInput = GenericField()
     lin = layerAttributeInput
 
-    layerAttributeValue = DoubleField()
+    layerAttributeValue = DoubleField(default_value=0.0)
     lv = layerAttributeValue
 
 
@@ -39,16 +39,16 @@ class LayerAttributeAttrOperator(
 ):
     __slots__ = ()
 
-    layerAttributeIndex = LongField()
+    layerAttributeIndex = LongField(default_value=-1, min_value=0)
     lai = layerAttributeIndex
 
-    layerAttributeLayerId = LongField()
+    layerAttributeLayerId = LongField(default_value=-1)
     lid = layerAttributeLayerId
 
     layerAttributeInput = GenericField()
     lin = layerAttributeInput
 
-    layerAttributeValue = DoubleField()
+    layerAttributeValue = DoubleField(default_value=0.0)
     lv = layerAttributeValue
 
 

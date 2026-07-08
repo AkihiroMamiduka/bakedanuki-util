@@ -159,13 +159,13 @@ class RampRGBPlugOperator(
         ("rampRGB_Interp", "aiRampRGBi"),
     )
 
-    rampRGB_Position = FloatField()
+    rampRGB_Position = FloatField(default_value=0.0)
     aiRampRGBp = rampRGB_Position
 
-    rampRGB_FloatValue = FloatField()
+    rampRGB_FloatValue = FloatField(default_value=0.0)
     aiRampRGBfv = rampRGB_FloatValue
 
-    rampRGB_Interp = RampRGB_InterpEnumField()
+    rampRGB_Interp = RampRGB_InterpEnumField(default_value=1)
     aiRampRGBi = rampRGB_Interp
 
 
@@ -174,13 +174,13 @@ class RampRGBAttrOperator(
 ):
     __slots__ = ()
 
-    rampRGB_Position = FloatField()
+    rampRGB_Position = FloatField(default_value=0.0)
     aiRampRGBp = rampRGB_Position
 
-    rampRGB_FloatValue = FloatField()
+    rampRGB_FloatValue = FloatField(default_value=0.0)
     aiRampRGBfv = rampRGB_FloatValue
 
-    rampRGB_Interp = RampRGB_InterpEnumField()
+    rampRGB_Interp = RampRGB_InterpEnumField(default_value=1)
     aiRampRGBi = rampRGB_Interp
 
 
@@ -203,13 +203,13 @@ class RampRPlugOperator(
         ("rampR_Interp", "aiRampRi"),
     )
 
-    rampR_Position = FloatField()
+    rampR_Position = FloatField(default_value=0.0)
     aiRampRp = rampR_Position
 
-    rampR_FloatValue = FloatField()
+    rampR_FloatValue = FloatField(default_value=0.0)
     aiRampRfv = rampR_FloatValue
 
-    rampR_Interp = RampR_InterpEnumField()
+    rampR_Interp = RampR_InterpEnumField(default_value=1)
     aiRampRi = rampR_Interp
 
 
@@ -218,13 +218,13 @@ class RampRAttrOperator(
 ):
     __slots__ = ()
 
-    rampR_Position = FloatField()
+    rampR_Position = FloatField(default_value=0.0)
     aiRampRp = rampR_Position
 
-    rampR_FloatValue = FloatField()
+    rampR_FloatValue = FloatField(default_value=0.0)
     aiRampRfv = rampR_FloatValue
 
-    rampR_Interp = RampR_InterpEnumField()
+    rampR_Interp = RampR_InterpEnumField(default_value=1)
     aiRampRi = rampR_Interp
 
 
@@ -247,13 +247,13 @@ class RampGPlugOperator(
         ("rampG_Interp", "aiRampGi"),
     )
 
-    rampG_Position = FloatField()
+    rampG_Position = FloatField(default_value=0.0)
     aiRampGp = rampG_Position
 
-    rampG_FloatValue = FloatField()
+    rampG_FloatValue = FloatField(default_value=0.0)
     aiRampGfv = rampG_FloatValue
 
-    rampG_Interp = RampG_InterpEnumField()
+    rampG_Interp = RampG_InterpEnumField(default_value=1)
     aiRampGi = rampG_Interp
 
 
@@ -262,13 +262,13 @@ class RampGAttrOperator(
 ):
     __slots__ = ()
 
-    rampG_Position = FloatField()
+    rampG_Position = FloatField(default_value=0.0)
     aiRampGp = rampG_Position
 
-    rampG_FloatValue = FloatField()
+    rampG_FloatValue = FloatField(default_value=0.0)
     aiRampGfv = rampG_FloatValue
 
-    rampG_Interp = RampG_InterpEnumField()
+    rampG_Interp = RampG_InterpEnumField(default_value=1)
     aiRampGi = rampG_Interp
 
 
@@ -291,13 +291,13 @@ class RampBPlugOperator(
         ("rampB_Interp", "aiRampBi"),
     )
 
-    rampB_Position = FloatField()
+    rampB_Position = FloatField(default_value=0.0)
     aiRampBp = rampB_Position
 
-    rampB_FloatValue = FloatField()
+    rampB_FloatValue = FloatField(default_value=0.0)
     aiRampBfv = rampB_FloatValue
 
-    rampB_Interp = RampB_InterpEnumField()
+    rampB_Interp = RampB_InterpEnumField(default_value=1)
     aiRampBi = rampB_Interp
 
 
@@ -306,13 +306,13 @@ class RampBAttrOperator(
 ):
     __slots__ = ()
 
-    rampB_Position = FloatField()
+    rampB_Position = FloatField(default_value=0.0)
     aiRampBp = rampB_Position
 
-    rampB_FloatValue = FloatField()
+    rampB_FloatValue = FloatField(default_value=0.0)
     aiRampBfv = rampB_FloatValue
 
-    rampB_Interp = RampB_InterpEnumField()
+    rampB_Interp = RampB_InterpEnumField(default_value=1)
     aiRampBi = rampB_Interp
 
 

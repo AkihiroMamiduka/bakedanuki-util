@@ -13,14 +13,14 @@ class SurfaceInfo(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    controlPoints = ControlPointsField(multi=True)
+    controlPoints = ControlPointsField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     cp = controlPoints
 
-    weights = DoubleField(multi=True)
+    weights = DoubleField(multi=True, default_value=1.0, writable=False)
     wt = weights
 
-    knotsU = DoubleField(multi=True)
+    knotsU = DoubleField(multi=True, default_value=0.0, writable=False)
     ku = knotsU
 
-    knotsV = DoubleField(multi=True)
+    knotsV = DoubleField(multi=True, default_value=0.0, writable=False)
     kv = knotsV

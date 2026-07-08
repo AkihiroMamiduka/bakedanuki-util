@@ -9,13 +9,13 @@ class HwReflectionMap(DG):
 
     NODE_TYPE = "hwReflectionMap"
 
-    decalMode = BoolField()
+    decalMode = BoolField(default_value=True)
     dm = decalMode
 
-    cubeMap = BoolField()
+    cubeMap = BoolField(default_value=False)
     cm = cubeMap
 
-    textureHasChanged = BoolField()
+    textureHasChanged = BoolField(default_value=False)
     thc = textureHasChanged
 
     sphereMapTextureName = DataStringField()

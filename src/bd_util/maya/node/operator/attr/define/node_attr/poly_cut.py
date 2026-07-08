@@ -29,13 +29,13 @@ class CutPlaneCenterPlugOperator(
         ("cutPlaneCenterZ", "pcz"),
     )
 
-    cutPlaneCenterX = DoubleLinearField()
+    cutPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = cutPlaneCenterX
 
-    cutPlaneCenterY = DoubleLinearField()
+    cutPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = cutPlaneCenterY
 
-    cutPlaneCenterZ = DoubleLinearField()
+    cutPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = cutPlaneCenterZ
 
 
@@ -44,13 +44,13 @@ class CutPlaneCenterAttrOperator(
 ):
     __slots__ = ()
 
-    cutPlaneCenterX = DoubleLinearField()
+    cutPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = cutPlaneCenterX
 
-    cutPlaneCenterY = DoubleLinearField()
+    cutPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = cutPlaneCenterY
 
-    cutPlaneCenterZ = DoubleLinearField()
+    cutPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = cutPlaneCenterZ
 
 
@@ -62,13 +62,13 @@ class CutPlaneCenterField(
     ATTR_CLS = CutPlaneCenterAttrOperator
     PLUG_CLS = CutPlaneCenterPlugOperator
 
-    cutPlaneCenterX = DoubleLinearField()
+    cutPlaneCenterX = DoubleLinearField(default_value=0.0)
     pcx = cutPlaneCenterX
 
-    cutPlaneCenterY = DoubleLinearField()
+    cutPlaneCenterY = DoubleLinearField(default_value=0.0)
     pcy = cutPlaneCenterY
 
-    cutPlaneCenterZ = DoubleLinearField()
+    cutPlaneCenterZ = DoubleLinearField(default_value=0.0)
     pcz = cutPlaneCenterZ
 
 
@@ -82,13 +82,13 @@ class CutPlaneRotatePlugOperator(
         ("cutPlaneRotateZ", "rz"),
     )
 
-    cutPlaneRotateX = DoubleAngleField()
+    cutPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = cutPlaneRotateX
 
-    cutPlaneRotateY = DoubleAngleField()
+    cutPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = cutPlaneRotateY
 
-    cutPlaneRotateZ = DoubleAngleField()
+    cutPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = cutPlaneRotateZ
 
 
@@ -97,13 +97,13 @@ class CutPlaneRotateAttrOperator(
 ):
     __slots__ = ()
 
-    cutPlaneRotateX = DoubleAngleField()
+    cutPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = cutPlaneRotateX
 
-    cutPlaneRotateY = DoubleAngleField()
+    cutPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = cutPlaneRotateY
 
-    cutPlaneRotateZ = DoubleAngleField()
+    cutPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = cutPlaneRotateZ
 
 
@@ -115,13 +115,13 @@ class CutPlaneRotateField(
     ATTR_CLS = CutPlaneRotateAttrOperator
     PLUG_CLS = CutPlaneRotatePlugOperator
 
-    cutPlaneRotateX = DoubleAngleField()
+    cutPlaneRotateX = DoubleAngleField(default_value=0.0)
     rx = cutPlaneRotateX
 
-    cutPlaneRotateY = DoubleAngleField()
+    cutPlaneRotateY = DoubleAngleField(default_value=0.0)
     ry = cutPlaneRotateY
 
-    cutPlaneRotateZ = DoubleAngleField()
+    cutPlaneRotateZ = DoubleAngleField(default_value=0.0)
     rz = cutPlaneRotateZ
 
 
@@ -134,10 +134,10 @@ class CutPlaneSizePlugOperator(
         ("cutPlaneHeight", "ph"),
     )
 
-    cutPlaneWidth = DoubleLinearField()
+    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField()
+    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = cutPlaneHeight
 
 
@@ -146,10 +146,10 @@ class CutPlaneSizeAttrOperator(
 ):
     __slots__ = ()
 
-    cutPlaneWidth = DoubleLinearField()
+    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField()
+    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = cutPlaneHeight
 
 
@@ -161,10 +161,10 @@ class CutPlaneSizeField(
     ATTR_CLS = CutPlaneSizeAttrOperator
     PLUG_CLS = CutPlaneSizePlugOperator
 
-    cutPlaneWidth = DoubleLinearField()
+    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField()
+    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     ph = cutPlaneHeight
 
 
@@ -178,13 +178,13 @@ class ExtractOffsetPlugOperator(
         ("extractOffsetZ", "eoz"),
     )
 
-    extractOffsetX = DoubleLinearField()
+    extractOffsetX = DoubleLinearField(default_value=0.5)
     eox = extractOffsetX
 
-    extractOffsetY = DoubleLinearField()
+    extractOffsetY = DoubleLinearField(default_value=0.5)
     eoy = extractOffsetY
 
-    extractOffsetZ = DoubleLinearField()
+    extractOffsetZ = DoubleLinearField(default_value=0.5)
     eoz = extractOffsetZ
 
 
@@ -193,13 +193,13 @@ class ExtractOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    extractOffsetX = DoubleLinearField()
+    extractOffsetX = DoubleLinearField(default_value=0.5)
     eox = extractOffsetX
 
-    extractOffsetY = DoubleLinearField()
+    extractOffsetY = DoubleLinearField(default_value=0.5)
     eoy = extractOffsetY
 
-    extractOffsetZ = DoubleLinearField()
+    extractOffsetZ = DoubleLinearField(default_value=0.5)
     eoz = extractOffsetZ
 
 
@@ -211,11 +211,11 @@ class ExtractOffsetField(
     ATTR_CLS = ExtractOffsetAttrOperator
     PLUG_CLS = ExtractOffsetPlugOperator
 
-    extractOffsetX = DoubleLinearField()
+    extractOffsetX = DoubleLinearField(default_value=0.5)
     eox = extractOffsetX
 
-    extractOffsetY = DoubleLinearField()
+    extractOffsetY = DoubleLinearField(default_value=0.5)
     eoy = extractOffsetY
 
-    extractOffsetZ = DoubleLinearField()
+    extractOffsetZ = DoubleLinearField(default_value=0.5)
     eoz = extractOffsetZ

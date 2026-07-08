@@ -79,11 +79,11 @@ class AnimationPositionPlugOperator(
         ("animationPositionZ", "animationPositionZ"),
     )
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationPositionAttrOperator(
@@ -91,11 +91,11 @@ class AnimationPositionAttrOperator(
 ):
     __slots__ = ()
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationPositionField(
@@ -106,11 +106,11 @@ class AnimationPositionField(
     ATTR_CLS = AnimationPositionAttrOperator
     PLUG_CLS = AnimationPositionPlugOperator
 
-    animationPositionX = DoubleLinearField()
+    animationPositionX = DoubleLinearField(default_value=0.0)
 
-    animationPositionY = DoubleLinearField()
+    animationPositionY = DoubleLinearField(default_value=0.0)
 
-    animationPositionZ = DoubleLinearField()
+    animationPositionZ = DoubleLinearField(default_value=0.0)
 
 
 class AnimationRotationPlugOperator(
@@ -123,11 +123,11 @@ class AnimationRotationPlugOperator(
         ("animationRotationZ", "animationRotationZ"),
     )
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationRotationAttrOperator(
@@ -135,11 +135,11 @@ class AnimationRotationAttrOperator(
 ):
     __slots__ = ()
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationRotationField(
@@ -150,11 +150,11 @@ class AnimationRotationField(
     ATTR_CLS = AnimationRotationAttrOperator
     PLUG_CLS = AnimationRotationPlugOperator
 
-    animationRotationX = DoubleAngleField()
+    animationRotationX = DoubleAngleField(default_value=0.0)
 
-    animationRotationY = DoubleAngleField()
+    animationRotationY = DoubleAngleField(default_value=0.0)
 
-    animationRotationZ = DoubleAngleField()
+    animationRotationZ = DoubleAngleField(default_value=0.0)
 
 
 class AnimationScalePlugOperator(
@@ -167,11 +167,11 @@ class AnimationScalePlugOperator(
         ("animationScaleZ", "animationScaleZ"),
     )
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)
 
 
 class AnimationScaleAttrOperator(
@@ -179,11 +179,11 @@ class AnimationScaleAttrOperator(
 ):
     __slots__ = ()
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)
 
 
 class AnimationScaleField(
@@ -194,8 +194,8 @@ class AnimationScaleField(
     ATTR_CLS = AnimationScaleAttrOperator
     PLUG_CLS = AnimationScalePlugOperator
 
-    animationScaleX = DoubleField()
+    animationScaleX = DoubleField(default_value=1.0)
 
-    animationScaleY = DoubleField()
+    animationScaleY = DoubleField(default_value=1.0)
 
-    animationScaleZ = DoubleField()
+    animationScaleZ = DoubleField(default_value=1.0)

@@ -18,13 +18,13 @@ class Input1PlugOperator(
         ("input1Z", "i1z"),
     )
 
-    input1X = DoubleLinearField()
+    input1X = DoubleLinearField(default_value=0.0, readable=False)
     i1x = input1X
 
-    input1Y = DoubleLinearField()
+    input1Y = DoubleLinearField(default_value=0.0, readable=False)
     i1y = input1Y
 
-    input1Z = DoubleLinearField()
+    input1Z = DoubleLinearField(default_value=0.0, readable=False)
     i1z = input1Z
 
 
@@ -33,13 +33,13 @@ class Input1AttrOperator(
 ):
     __slots__ = ()
 
-    input1X = DoubleLinearField()
+    input1X = DoubleLinearField(default_value=0.0, readable=False)
     i1x = input1X
 
-    input1Y = DoubleLinearField()
+    input1Y = DoubleLinearField(default_value=0.0, readable=False)
     i1y = input1Y
 
-    input1Z = DoubleLinearField()
+    input1Z = DoubleLinearField(default_value=0.0, readable=False)
     i1z = input1Z
 
 
@@ -51,13 +51,13 @@ class Input1Field(
     ATTR_CLS = Input1AttrOperator
     PLUG_CLS = Input1PlugOperator
 
-    input1X = DoubleLinearField()
+    input1X = DoubleLinearField(default_value=0.0, readable=False)
     i1x = input1X
 
-    input1Y = DoubleLinearField()
+    input1Y = DoubleLinearField(default_value=0.0, readable=False)
     i1y = input1Y
 
-    input1Z = DoubleLinearField()
+    input1Z = DoubleLinearField(default_value=0.0, readable=False)
     i1z = input1Z
 
 
@@ -71,13 +71,13 @@ class Input2PlugOperator(
         ("input2Z", "i2z"),
     )
 
-    input2X = DoubleLinearField()
+    input2X = DoubleLinearField(default_value=0.0, readable=False)
     i2x = input2X
 
-    input2Y = DoubleLinearField()
+    input2Y = DoubleLinearField(default_value=0.0, readable=False)
     i2y = input2Y
 
-    input2Z = DoubleLinearField()
+    input2Z = DoubleLinearField(default_value=0.0, readable=False)
     i2z = input2Z
 
 
@@ -86,13 +86,13 @@ class Input2AttrOperator(
 ):
     __slots__ = ()
 
-    input2X = DoubleLinearField()
+    input2X = DoubleLinearField(default_value=0.0, readable=False)
     i2x = input2X
 
-    input2Y = DoubleLinearField()
+    input2Y = DoubleLinearField(default_value=0.0, readable=False)
     i2y = input2Y
 
-    input2Z = DoubleLinearField()
+    input2Z = DoubleLinearField(default_value=0.0, readable=False)
     i2z = input2Z
 
 
@@ -104,11 +104,11 @@ class Input2Field(
     ATTR_CLS = Input2AttrOperator
     PLUG_CLS = Input2PlugOperator
 
-    input2X = DoubleLinearField()
+    input2X = DoubleLinearField(default_value=0.0, readable=False)
     i2x = input2X
 
-    input2Y = DoubleLinearField()
+    input2Y = DoubleLinearField(default_value=0.0, readable=False)
     i2y = input2Y
 
-    input2Z = DoubleLinearField()
+    input2Z = DoubleLinearField(default_value=0.0, readable=False)
     i2z = input2Z

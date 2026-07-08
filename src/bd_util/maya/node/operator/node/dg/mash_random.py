@@ -88,7 +88,7 @@ class MASH_Random(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -99,21 +99,21 @@ class MASH_Random(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -121,9 +121,9 @@ class MASH_Random(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -136,41 +136,41 @@ class MASH_Random(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
     falloffInfo = TypedField()
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    enableX = BoolField()
+    enableX = BoolField(default_value=True)
 
-    enableY = BoolField()
+    enableY = BoolField(default_value=True)
 
-    enableZ = BoolField()
+    enableZ = BoolField(default_value=True)
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    rotationX = FloatField()
+    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationY = FloatField()
+    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationZ = FloatField()
+    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    absoluteScale = BoolField()
+    absoluteScale = BoolField(default_value=True)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -182,37 +182,37 @@ class MASH_Random(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    wholeNumbers = BoolField()
+    wholeNumbers = BoolField(default_value=False)
     whoNum = wholeNumbers
 
-    normaliseRandom = BoolField()
+    normaliseRandom = BoolField(default_value=False)
 
-    uniformRandom = BoolField()
+    uniformRandom = BoolField(default_value=False)
     uniRand = uniformRandom
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
     seed = randomSeed
 
-    maxNumber = FloatField()
+    maxNumber = FloatField(default_value=10.0, soft_min_value=-100.0, soft_max_value=100.0)
     max = maxNumber
 
-    minNumber = FloatField()
+    minNumber = FloatField(default_value=-10.0, soft_min_value=-100.0, soft_max_value=100.0)
     min = minNumber
 
-    maxNumberX = FloatField()
+    maxNumberX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     maxX = maxNumberX
 
-    minNumberX = FloatField()
+    minNumberX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     minX = minNumberX
 
-    maxNumberY = FloatField()
+    maxNumberY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     maxY = maxNumberY
 
-    minNumberY = FloatField()
+    minNumberY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     minY = minNumberY
 
-    maxNumberZ = FloatField()
+    maxNumberZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     maxZ = maxNumberZ
 
-    minNumberZ = FloatField()
+    minNumberZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     minZ = minNumberZ

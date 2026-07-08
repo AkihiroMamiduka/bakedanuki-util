@@ -10,14 +10,14 @@ class SingleShadingSwitch(DG):
 
     NODE_TYPE = "singleShadingSwitch"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0)
     id = objectId
 
     input = InputField(multi=True)
     i = input
 
-    default = FloatField()
+    default = FloatField(default_value=0.0)
     def_ = default
 
-    output = FloatField()
+    output = FloatField(default_value=0.0, writable=False)
     out = output

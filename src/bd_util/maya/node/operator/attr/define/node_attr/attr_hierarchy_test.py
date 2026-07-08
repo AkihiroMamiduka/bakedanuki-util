@@ -22,13 +22,13 @@ class CompoundValuePlugOperator(
     level1CC = CompoundField()
     l1cc = level1CC
 
-    level1CMC = CompoundField()
+    level1CMC = CompoundField(multi=True)
     cmc = level1CMC
 
-    level1CM = FloatField()
+    level1CM = FloatField(multi=True, default_value=0.0)
     cm = level1CM
 
-    level1CS = FloatField()
+    level1CS = FloatField(default_value=0.0)
     cs = level1CS
 
 
@@ -40,13 +40,13 @@ class CompoundValueAttrOperator(
     level1CC = CompoundField()
     l1cc = level1CC
 
-    level1CMC = CompoundField()
+    level1CMC = CompoundField(multi=True)
     cmc = level1CMC
 
-    level1CM = FloatField()
+    level1CM = FloatField(multi=True, default_value=0.0)
     cm = level1CM
 
-    level1CS = FloatField()
+    level1CS = FloatField(default_value=0.0)
     cs = level1CS
 
 
@@ -61,13 +61,13 @@ class CompoundValueField(
     level1CC = CompoundField()
     l1cc = level1CC
 
-    level1CMC = CompoundField()
+    level1CMC = CompoundField(multi=True)
     cmc = level1CMC
 
-    level1CM = FloatField()
+    level1CM = FloatField(multi=True, default_value=0.0)
     cm = level1CM
 
-    level1CS = FloatField()
+    level1CS = FloatField(default_value=0.0)
     cs = level1CS
 
 
@@ -85,13 +85,13 @@ class MultiCompoundPlugOperator(
     level1MCC = CompoundField()
     mcc = level1MCC
 
-    level1MCMC = CompoundField()
+    level1MCMC = CompoundField(multi=True)
     mcmc = level1MCMC
 
-    level1MCM = FloatField()
+    level1MCM = FloatField(multi=True, default_value=0.0)
     mm = level1MCM
 
-    level1MCS = FloatField()
+    level1MCS = FloatField(default_value=0.0)
     mcs = level1MCS
 
 
@@ -103,13 +103,13 @@ class MultiCompoundAttrOperator(
     level1MCC = CompoundField()
     mcc = level1MCC
 
-    level1MCMC = CompoundField()
+    level1MCMC = CompoundField(multi=True)
     mcmc = level1MCMC
 
-    level1MCM = FloatField()
+    level1MCM = FloatField(multi=True, default_value=0.0)
     mm = level1MCM
 
-    level1MCS = FloatField()
+    level1MCS = FloatField(default_value=0.0)
     mcs = level1MCS
 
 

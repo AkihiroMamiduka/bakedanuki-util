@@ -9,8 +9,8 @@ class Asin(DG):
 
     NODE_TYPE = "asin"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     i = input
 
-    output = DoubleAngleField()
+    output = DoubleAngleField(default_value=0.0, writable=False)
     o = output

@@ -94,7 +94,7 @@ class AiUvProjection(DG):
 
     NODE_TYPE = "aiUvProjection"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -103,10 +103,10 @@ class AiUvProjection(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -115,10 +115,10 @@ class AiUvProjection(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    projectionColorA = FloatField()
+    projectionColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     projection_colora = projectionColorA
 
-    projectionColor = ProjectionColorField()
+    projectionColor = ProjectionColorField(default_value=(1.0, 1.0, 1.0))
     projection_color = projectionColor
     projectionColorR = projectionColor.projectionColorR
     projection_colorr = projectionColorR
@@ -127,16 +127,16 @@ class AiUvProjection(DG):
     projectionColorB = projectionColor.projectionColorB
     projection_colorb = projectionColorB
 
-    projectionType = ProjectionTypeEnumField()
+    projectionType = ProjectionTypeEnumField(default_value=0)
     projection_type = projectionType
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=0)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    P = PField()
+    P = PField(default_value=(0.0, 0.0, 0.0))
     PX = P.PX
     Px = PX
     PY = P.PY
@@ -144,18 +144,18 @@ class AiUvProjection(DG):
     PZ = P.PZ
     Pz = PZ
 
-    uAngle = FloatField()
+    uAngle = FloatField(default_value=180.0, soft_min_value=0.0, soft_max_value=360.0)
     u_angle = uAngle
 
-    vAngle = FloatField()
+    vAngle = FloatField(default_value=90.0, soft_min_value=0.0, soft_max_value=360.0)
     v_angle = vAngle
 
-    clamp = BoolField()
+    clamp = BoolField(default_value=False)
 
-    defaultColorA = FloatField()
+    defaultColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     default_colora = defaultColorA
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.0, 0.0, 0.0))
     default_color = defaultColor
     defaultColorR = defaultColor.defaultColorR
     default_colorr = defaultColorR

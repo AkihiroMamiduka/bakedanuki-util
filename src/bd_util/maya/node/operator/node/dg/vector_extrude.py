@@ -119,7 +119,7 @@ class VectorExtrude(DG):
     solidsPerWord = grouping.solidsPerWord
     solidsPerLine = grouping.solidsPerLine
 
-    groupIds = GroupIdsField()
+    groupIds = GroupIdsField(default_value=(1.0, 1.0, 1.0, 0.0))
     capGroupId = groupIds.capGroupId
     bevelGroupId = groupIds.bevelGroupId
     extrudeGroupId = groupIds.extrudeGroupId
@@ -132,33 +132,33 @@ class VectorExtrude(DG):
 
     outputMesh = DataMeshField()
 
-    enablePlanarCapUVs = BoolField()
+    enablePlanarCapUVs = BoolField(default_value=False)
 
     inputMesh = DataMeshField()
 
-    extrudeDistance = FloatField()
+    extrudeDistance = FloatField(default_value=2.5, soft_min_value=0.1, soft_max_value=10.0)
 
-    extrudeDivisions = LongField()
+    extrudeDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    extrudeOffset = FloatField()
+    extrudeOffset = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
 
-    bevelDistance = FloatField()
+    bevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
 
-    bevelOffset = FloatField()
+    bevelOffset = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    outerBevelDistance = FloatField()
+    outerBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
 
-    outerBevelDivisions = LongField()
+    outerBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    bevelDivisions = LongField()
+    bevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    backBevelDistance = FloatField()
+    backBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
 
-    backBevelOffset = FloatField()
+    backBevelOffset = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    backBevelDivisions = LongField()
+    backBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    frontBevelAdaptivity = FloatField()
+    frontBevelAdaptivity = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     inputComponents = TypedField()
     ics = inputComponents
@@ -167,42 +167,42 @@ class VectorExtrude(DG):
 
     extrudeDistanceScalePP = DataDoubleArrayField()
 
-    enableExtrusion = BoolField()
+    enableExtrusion = BoolField(default_value=True)
 
-    enableFrontBevel = BoolField()
+    enableFrontBevel = BoolField(default_value=False)
 
-    enableBackBevel = BoolField()
+    enableBackBevel = BoolField(default_value=False)
 
-    enableOuterBevel = BoolField()
+    enableOuterBevel = BoolField(default_value=False)
 
-    offsetFrontBevelAsFraction = BoolField()
+    offsetFrontBevelAsFraction = BoolField(default_value=True)
 
-    offsetBackBevelAsFraction = BoolField()
+    offsetBackBevelAsFraction = BoolField(default_value=True)
 
-    offsetExtrudeAsFraction = BoolField()
+    offsetExtrudeAsFraction = BoolField(default_value=True)
 
-    keepFacesTogether = BoolField()
+    keepFacesTogether = BoolField(default_value=True)
 
-    deleteCaps = BoolField()
+    deleteCaps = BoolField(default_value=False)
 
-    rearBevelUsesFront = BoolField()
+    rearBevelUsesFront = BoolField(default_value=False)
 
     vertsPerChar = DataDoubleArrayField()
 
     vertexGroupIds = TypedField()
 
-    frontBevelCurve = FrontBevelCurveField(multi=True)
+    frontBevelCurve = FrontBevelCurveField(multi=True, default_value=(0.0, 0.0))
 
-    backBevelCurve = BackBevelCurveField(multi=True)
+    backBevelCurve = BackBevelCurveField(multi=True, default_value=(0.0, 0.0))
 
-    extrudeCurve = ExtrudeCurveField(multi=True)
+    extrudeCurve = ExtrudeCurveField(multi=True, default_value=(0.0, 0.0))
 
-    outerBevelCurve = OuterBevelCurveField(multi=True)
+    outerBevelCurve = OuterBevelCurveField(multi=True, default_value=(0.0, 0.0))
 
-    bevelStyle = BevelStyleEnumField()
+    bevelStyle = BevelStyleEnumField(default_value=1)
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=1)
     md = mode
 
-    bevel = BevelEnumField()
+    bevel = BevelEnumField(default_value=0)
     bv = bevel

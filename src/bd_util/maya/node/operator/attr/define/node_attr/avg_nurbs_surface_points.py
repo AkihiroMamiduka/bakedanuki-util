@@ -27,19 +27,19 @@ class SurfacePointPlugOperator(
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=0.5)
     wt = weight
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=-1000.0)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=-1000.0)
     v = parameterV
 
-    cvIthIndex = LongField()
+    cvIthIndex = LongField(default_value=-1)
     ci = cvIthIndex
 
-    cvJthIndex = LongField()
+    cvJthIndex = LongField(default_value=-1)
     cj = cvJthIndex
 
 
@@ -51,19 +51,19 @@ class SurfacePointAttrOperator(
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=0.5)
     wt = weight
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=-1000.0)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=-1000.0)
     v = parameterV
 
-    cvIthIndex = LongField()
+    cvIthIndex = LongField(default_value=-1)
     ci = cvIthIndex
 
-    cvJthIndex = LongField()
+    cvJthIndex = LongField(default_value=-1)
     cj = cvJthIndex
 
 
@@ -85,10 +85,10 @@ class ResultPlugOperator(
         ("normal", "n"),
     )
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
 
@@ -97,10 +97,10 @@ class ResultAttrOperator(
 ):
     __slots__ = ()
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
 
@@ -112,8 +112,8 @@ class ResultField(
     ATTR_CLS = ResultAttrOperator
     PLUG_CLS = ResultPlugOperator
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal

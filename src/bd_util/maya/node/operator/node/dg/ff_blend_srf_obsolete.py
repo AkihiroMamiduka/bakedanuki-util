@@ -17,19 +17,19 @@ class FfBlendSrfObsolete(DG):
     rightCurve = DataNurbsCurveField(multi=True)
     rc = rightCurve
 
-    positionTolerance = DoubleField()
+    positionTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
     pt = positionTolerance
 
-    tangentTolerance = DoubleField()
+    tangentTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
     tt = tangentTolerance
 
-    flipLeft = BoolField()
+    flipLeft = BoolField(default_value=False)
     fl = flipLeft
 
-    flipRight = BoolField()
+    flipRight = BoolField(default_value=False)
     fr = flipRight
 
-    autoDirection = BoolField()
+    autoDirection = BoolField(default_value=True)
     ad = autoDirection
 
     leftRail = DataNurbsCurveField()
@@ -38,14 +38,14 @@ class FfBlendSrfObsolete(DG):
     rightRail = DataNurbsCurveField()
     rr = rightRail
 
-    leftParameter = DoubleField()
+    leftParameter = DoubleField(default_value=123456.0, min_value=-123456.0, max_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0)
     lp = leftParameter
 
-    rightParameter = DoubleField()
+    rightParameter = DoubleField(default_value=123456.0, min_value=-123456.0, max_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0)
     rp = rightParameter
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    multipleKnots = BoolField()
+    multipleKnots = BoolField(default_value=True)
     mk = multipleKnots

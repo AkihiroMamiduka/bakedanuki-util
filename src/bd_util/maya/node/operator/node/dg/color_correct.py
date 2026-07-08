@@ -18,7 +18,7 @@ class ColorCorrect(DG):
 
     NODE_TYPE = "colorCorrect"
 
-    inColor = InColorField()
+    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR
@@ -27,25 +27,25 @@ class ColorCorrect(DG):
     inColorB = inColor.inColorB
     cb = inColorB
 
-    inAlpha = FloatField()
+    inAlpha = FloatField(default_value=1.0)
     a = inAlpha
 
-    unpremultiplyInput = BoolField()
+    unpremultiplyInput = BoolField(default_value=False)
     up = unpremultiplyInput
 
-    premultiplyResult = BoolField()
+    premultiplyResult = BoolField(default_value=False)
     pr = premultiplyResult
 
-    hueShift = FloatField()
+    hueShift = FloatField(default_value=0.0, min_value=0.0, soft_max_value=360.0)
     hs = hueShift
 
-    satGain = FloatField()
+    satGain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     sg = satGain
 
-    valGain = FloatField()
+    valGain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     vg = valGain
 
-    colGain = ColGainField()
+    colGain = ColGainField(default_value=(1.0, 1.0, 1.0))
     ccg = colGain
     colGainR = colGain.colGainR
     ccgr = colGainR
@@ -54,7 +54,7 @@ class ColorCorrect(DG):
     colGainB = colGain.colGainB
     ccgb = colGainB
 
-    colOffset = ColOffsetField()
+    colOffset = ColOffsetField(default_value=(0.0, 0.0, 0.0))
     co = colOffset
     colOffsetR = colOffset.colOffsetR
     cor = colOffsetR
@@ -63,7 +63,7 @@ class ColorCorrect(DG):
     colOffsetB = colOffset.colOffsetB
     cob = colOffsetB
 
-    colGamma = ColGammaField()
+    colGamma = ColGammaField(default_value=(1.0, 1.0, 1.0))
     cga = colGamma
     colGammaX = colGamma.colGammaX
     cgax = colGammaX
@@ -72,10 +72,10 @@ class ColorCorrect(DG):
     colGammaZ = colGamma.colGammaZ
     cgaz = colGammaZ
 
-    colClamp = BoolField()
+    colClamp = BoolField(default_value=False)
     ccmp = colClamp
 
-    colClampMin = ColClampMinField()
+    colClampMin = ColClampMinField(default_value=(0.0, 0.0, 0.0))
     ccmn = colClampMin
     colClampMinR = colClampMin.colClampMinR
     ccmnr = colClampMinR
@@ -84,7 +84,7 @@ class ColorCorrect(DG):
     colClampMinB = colClampMin.colClampMinB
     ccmnb = colClampMinB
 
-    colClampMax = ColClampMaxField()
+    colClampMax = ColClampMaxField(default_value=(1.0, 1.0, 1.0))
     ccmx = colClampMax
     colClampMaxR = colClampMax.colClampMaxR
     ccmxr = colClampMaxR
@@ -93,25 +93,25 @@ class ColorCorrect(DG):
     colClampMaxB = colClampMax.colClampMaxB
     ccmxb = colClampMaxB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     aag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     ao = alphaOffset
 
-    alphaGamma = FloatField()
+    alphaGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     agg = alphaGamma
 
-    alphaClamp = BoolField()
+    alphaClamp = BoolField(default_value=False)
     acmp = alphaClamp
 
-    alphaClampMin = FloatField()
+    alphaClampMin = FloatField(default_value=0.0)
     acmn = alphaClampMin
 
-    alphaClampMax = FloatField()
+    alphaClampMax = FloatField(default_value=1.0)
     acmx = alphaClampMax
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -120,5 +120,5 @@ class ColorCorrect(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

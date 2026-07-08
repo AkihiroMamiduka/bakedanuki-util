@@ -47,7 +47,7 @@ class PolyFlipUV(DG):
 
     NODE_TYPE = "polyFlipUV"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -56,31 +56,31 @@ class PolyFlipUV(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -89,20 +89,20 @@ class PolyFlipUV(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    flipType = FlipTypeEnumField()
+    flipType = FlipTypeEnumField(default_value=0)
     ft = flipType
 
-    local = BoolField()
+    local = BoolField(default_value=True)
     l = local
 
-    cutUV = BoolField()
+    cutUV = BoolField(default_value=True)
     cut = cutUV
 
-    usePivot = BoolField()
+    usePivot = BoolField(default_value=False)
     up = usePivot
 
-    pivotU = DoubleField()
+    pivotU = DoubleField(default_value=0.0)
     pu = pivotU
 
-    pivotV = DoubleField()
+    pivotV = DoubleField(default_value=0.0)
     pv = pivotV

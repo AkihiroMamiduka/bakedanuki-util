@@ -29,7 +29,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -44,7 +44,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -70,13 +70,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -85,13 +85,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -103,13 +103,13 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -123,13 +123,13 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "bgb"),
     )
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgb = backgroundColorB
 
 
@@ -138,13 +138,13 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgb = backgroundColorB
 
 
@@ -156,11 +156,11 @@ class BackgroundColorField(
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bgb = backgroundColorB

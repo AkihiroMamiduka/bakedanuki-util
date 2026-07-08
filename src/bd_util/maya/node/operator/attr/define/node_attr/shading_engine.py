@@ -36,7 +36,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -51,7 +51,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -77,13 +77,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -92,13 +92,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -110,13 +110,13 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -135,28 +135,28 @@ class DefaultShadowsPlugOperator(
         ("dShadowBlindData", "dbld"),
     )
 
-    dShadowDirection = Float3Field()
+    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field()
+    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsi = dShadowIntensity
 
-    dShadowAmbient = BoolField()
+    dShadowAmbient = BoolField(default_value=False, readable=False)
     dsa = dShadowAmbient
 
-    dShadowDiffuse = BoolField()
+    dShadowDiffuse = BoolField(default_value=False, readable=False)
     dsf = dShadowDiffuse
 
-    dShadowSpecular = BoolField()
+    dShadowSpecular = BoolField(default_value=False, readable=False)
     dss = dShadowSpecular
 
-    dShadowShadowFraction = FloatField()
+    dShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     dssf = dShadowShadowFraction
 
-    dShadowPreShadowIntensity = FloatField()
+    dShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     dsps = dShadowPreShadowIntensity
 
-    dShadowBlindData = AddrField()
+    dShadowBlindData = AddrField(default_value=0.0, readable=False)
     dbld = dShadowBlindData
 
 
@@ -165,28 +165,28 @@ class DefaultShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    dShadowDirection = Float3Field()
+    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field()
+    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsi = dShadowIntensity
 
-    dShadowAmbient = BoolField()
+    dShadowAmbient = BoolField(default_value=False, readable=False)
     dsa = dShadowAmbient
 
-    dShadowDiffuse = BoolField()
+    dShadowDiffuse = BoolField(default_value=False, readable=False)
     dsf = dShadowDiffuse
 
-    dShadowSpecular = BoolField()
+    dShadowSpecular = BoolField(default_value=False, readable=False)
     dss = dShadowSpecular
 
-    dShadowShadowFraction = FloatField()
+    dShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     dssf = dShadowShadowFraction
 
-    dShadowPreShadowIntensity = FloatField()
+    dShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     dsps = dShadowPreShadowIntensity
 
-    dShadowBlindData = AddrField()
+    dShadowBlindData = AddrField(default_value=0.0, readable=False)
     dbld = dShadowBlindData
 
 
@@ -198,28 +198,28 @@ class DefaultShadowsField(
     ATTR_CLS = DefaultShadowsAttrOperator
     PLUG_CLS = DefaultShadowsPlugOperator
 
-    dShadowDirection = Float3Field()
+    dShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsd = dShadowDirection
 
-    dShadowIntensity = Float3Field()
+    dShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     dsi = dShadowIntensity
 
-    dShadowAmbient = BoolField()
+    dShadowAmbient = BoolField(default_value=False, readable=False)
     dsa = dShadowAmbient
 
-    dShadowDiffuse = BoolField()
+    dShadowDiffuse = BoolField(default_value=False, readable=False)
     dsf = dShadowDiffuse
 
-    dShadowSpecular = BoolField()
+    dShadowSpecular = BoolField(default_value=False, readable=False)
     dss = dShadowSpecular
 
-    dShadowShadowFraction = FloatField()
+    dShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     dssf = dShadowShadowFraction
 
-    dShadowPreShadowIntensity = FloatField()
+    dShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     dsps = dShadowPreShadowIntensity
 
-    dShadowBlindData = AddrField()
+    dShadowBlindData = AddrField(default_value=0.0, readable=False)
     dbld = dShadowBlindData
 
 
@@ -238,28 +238,28 @@ class LinkedShadowsPlugOperator(
         ("lShadowBlindData", "lbld"),
     )
 
-    lShadowDirection = Float3Field()
+    lShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     lsd = lShadowDirection
 
-    lShadowIntensity = Float3Field()
+    lShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     lsi = lShadowIntensity
 
-    lShadowAmbient = BoolField()
+    lShadowAmbient = BoolField(default_value=False, readable=False)
     lsa = lShadowAmbient
 
-    lShadowDiffuse = BoolField()
+    lShadowDiffuse = BoolField(default_value=False, readable=False)
     lsf = lShadowDiffuse
 
-    lShadowSpecular = BoolField()
+    lShadowSpecular = BoolField(default_value=False, readable=False)
     lss = lShadowSpecular
 
-    lShadowShadowFraction = FloatField()
+    lShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     lssf = lShadowShadowFraction
 
-    lShadowPreShadowIntensity = FloatField()
+    lShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     lsps = lShadowPreShadowIntensity
 
-    lShadowBlindData = AddrField()
+    lShadowBlindData = AddrField(default_value=0.0, readable=False)
     lbld = lShadowBlindData
 
 
@@ -268,28 +268,28 @@ class LinkedShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    lShadowDirection = Float3Field()
+    lShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     lsd = lShadowDirection
 
-    lShadowIntensity = Float3Field()
+    lShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     lsi = lShadowIntensity
 
-    lShadowAmbient = BoolField()
+    lShadowAmbient = BoolField(default_value=False, readable=False)
     lsa = lShadowAmbient
 
-    lShadowDiffuse = BoolField()
+    lShadowDiffuse = BoolField(default_value=False, readable=False)
     lsf = lShadowDiffuse
 
-    lShadowSpecular = BoolField()
+    lShadowSpecular = BoolField(default_value=False, readable=False)
     lss = lShadowSpecular
 
-    lShadowShadowFraction = FloatField()
+    lShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     lssf = lShadowShadowFraction
 
-    lShadowPreShadowIntensity = FloatField()
+    lShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     lsps = lShadowPreShadowIntensity
 
-    lShadowBlindData = AddrField()
+    lShadowBlindData = AddrField(default_value=0.0, readable=False)
     lbld = lShadowBlindData
 
 
@@ -317,28 +317,28 @@ class IgnoredShadowsPlugOperator(
         ("xShadowBlindData", "xbld"),
     )
 
-    xShadowDirection = Float3Field()
+    xShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     xsd = xShadowDirection
 
-    xShadowIntensity = Float3Field()
+    xShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     xsi = xShadowIntensity
 
-    xShadowAmbient = BoolField()
+    xShadowAmbient = BoolField(default_value=False, readable=False)
     xsa = xShadowAmbient
 
-    xShadowDiffuse = BoolField()
+    xShadowDiffuse = BoolField(default_value=False, readable=False)
     xsf = xShadowDiffuse
 
-    xShadowSpecular = BoolField()
+    xShadowSpecular = BoolField(default_value=False, readable=False)
     xss = xShadowSpecular
 
-    xShadowShadowFraction = FloatField()
+    xShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     xssf = xShadowShadowFraction
 
-    xShadowPreShadowIntensity = FloatField()
+    xShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     xsps = xShadowPreShadowIntensity
 
-    xShadowBlindData = AddrField()
+    xShadowBlindData = AddrField(default_value=0.0, readable=False)
     xbld = xShadowBlindData
 
 
@@ -347,28 +347,28 @@ class IgnoredShadowsAttrOperator(
 ):
     __slots__ = ()
 
-    xShadowDirection = Float3Field()
+    xShadowDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     xsd = xShadowDirection
 
-    xShadowIntensity = Float3Field()
+    xShadowIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     xsi = xShadowIntensity
 
-    xShadowAmbient = BoolField()
+    xShadowAmbient = BoolField(default_value=False, readable=False)
     xsa = xShadowAmbient
 
-    xShadowDiffuse = BoolField()
+    xShadowDiffuse = BoolField(default_value=False, readable=False)
     xsf = xShadowDiffuse
 
-    xShadowSpecular = BoolField()
+    xShadowSpecular = BoolField(default_value=False, readable=False)
     xss = xShadowSpecular
 
-    xShadowShadowFraction = FloatField()
+    xShadowShadowFraction = FloatField(default_value=0.0, readable=False)
     xssf = xShadowShadowFraction
 
-    xShadowPreShadowIntensity = FloatField()
+    xShadowPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     xsps = xShadowPreShadowIntensity
 
-    xShadowBlindData = AddrField()
+    xShadowBlindData = AddrField(default_value=0.0, readable=False)
     xbld = xShadowBlindData
 
 
@@ -396,28 +396,28 @@ class BogusAttributePlugOperator(
         ("bogusBlindData", "bbld"),
     )
 
-    bogusDirection = Float3Field()
+    bogusDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     bld = bogusDirection
 
-    bogusIntensity = Float3Field()
+    bogusIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     bli = bogusIntensity
 
-    bogusAmbient = BoolField()
+    bogusAmbient = BoolField(default_value=False, readable=False)
     bla = bogusAmbient
 
-    bogusDiffuse = BoolField()
+    bogusDiffuse = BoolField(default_value=False, readable=False)
     blf = bogusDiffuse
 
-    bogusSpecular = BoolField()
+    bogusSpecular = BoolField(default_value=False, readable=False)
     bls = bogusSpecular
 
-    bogusShadowFraction = FloatField()
+    bogusShadowFraction = FloatField(default_value=0.0, readable=False)
     blp = bogusShadowFraction
 
-    bogusPreShadowIntensity = FloatField()
+    bogusPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     blps = bogusPreShadowIntensity
 
-    bogusBlindData = AddrField()
+    bogusBlindData = AddrField(default_value=0.0, readable=False)
     bbld = bogusBlindData
 
 
@@ -426,28 +426,28 @@ class BogusAttributeAttrOperator(
 ):
     __slots__ = ()
 
-    bogusDirection = Float3Field()
+    bogusDirection = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     bld = bogusDirection
 
-    bogusIntensity = Float3Field()
+    bogusIntensity = Float3Field(default_value=(0.0, 0.0, 0.0), readable=False)
     bli = bogusIntensity
 
-    bogusAmbient = BoolField()
+    bogusAmbient = BoolField(default_value=False, readable=False)
     bla = bogusAmbient
 
-    bogusDiffuse = BoolField()
+    bogusDiffuse = BoolField(default_value=False, readable=False)
     blf = bogusDiffuse
 
-    bogusSpecular = BoolField()
+    bogusSpecular = BoolField(default_value=False, readable=False)
     bls = bogusSpecular
 
-    bogusShadowFraction = FloatField()
+    bogusShadowFraction = FloatField(default_value=0.0, readable=False)
     blp = bogusShadowFraction
 
-    bogusPreShadowIntensity = FloatField()
+    bogusPreShadowIntensity = FloatField(default_value=0.0, readable=False)
     blps = bogusPreShadowIntensity
 
-    bogusBlindData = AddrField()
+    bogusBlindData = AddrField(default_value=0.0, readable=False)
     bbld = bogusBlindData
 
 
@@ -507,13 +507,13 @@ class AiSurfaceShaderPlugOperator(
         ("aiSurfaceShaderB", "ai_surface_shaderb"),
     )
 
-    aiSurfaceShaderR = FloatField()
+    aiSurfaceShaderR = FloatField(default_value=0.0)
     ai_surface_shaderr = aiSurfaceShaderR
 
-    aiSurfaceShaderG = FloatField()
+    aiSurfaceShaderG = FloatField(default_value=0.0)
     ai_surface_shaderg = aiSurfaceShaderG
 
-    aiSurfaceShaderB = FloatField()
+    aiSurfaceShaderB = FloatField(default_value=0.0)
     ai_surface_shaderb = aiSurfaceShaderB
 
 
@@ -522,13 +522,13 @@ class AiSurfaceShaderAttrOperator(
 ):
     __slots__ = ()
 
-    aiSurfaceShaderR = FloatField()
+    aiSurfaceShaderR = FloatField(default_value=0.0)
     ai_surface_shaderr = aiSurfaceShaderR
 
-    aiSurfaceShaderG = FloatField()
+    aiSurfaceShaderG = FloatField(default_value=0.0)
     ai_surface_shaderg = aiSurfaceShaderG
 
-    aiSurfaceShaderB = FloatField()
+    aiSurfaceShaderB = FloatField(default_value=0.0)
     ai_surface_shaderb = aiSurfaceShaderB
 
 
@@ -540,13 +540,13 @@ class AiSurfaceShaderField(
     ATTR_CLS = AiSurfaceShaderAttrOperator
     PLUG_CLS = AiSurfaceShaderPlugOperator
 
-    aiSurfaceShaderR = FloatField()
+    aiSurfaceShaderR = FloatField(default_value=0.0)
     ai_surface_shaderr = aiSurfaceShaderR
 
-    aiSurfaceShaderG = FloatField()
+    aiSurfaceShaderG = FloatField(default_value=0.0)
     ai_surface_shaderg = aiSurfaceShaderG
 
-    aiSurfaceShaderB = FloatField()
+    aiSurfaceShaderB = FloatField(default_value=0.0)
     ai_surface_shaderb = aiSurfaceShaderB
 
 
@@ -560,13 +560,13 @@ class AiVolumeShaderPlugOperator(
         ("aiVolumeShaderB", "ai_volume_shaderb"),
     )
 
-    aiVolumeShaderR = FloatField()
+    aiVolumeShaderR = FloatField(default_value=0.0)
     ai_volume_shaderr = aiVolumeShaderR
 
-    aiVolumeShaderG = FloatField()
+    aiVolumeShaderG = FloatField(default_value=0.0)
     ai_volume_shaderg = aiVolumeShaderG
 
-    aiVolumeShaderB = FloatField()
+    aiVolumeShaderB = FloatField(default_value=0.0)
     ai_volume_shaderb = aiVolumeShaderB
 
 
@@ -575,13 +575,13 @@ class AiVolumeShaderAttrOperator(
 ):
     __slots__ = ()
 
-    aiVolumeShaderR = FloatField()
+    aiVolumeShaderR = FloatField(default_value=0.0)
     ai_volume_shaderr = aiVolumeShaderR
 
-    aiVolumeShaderG = FloatField()
+    aiVolumeShaderG = FloatField(default_value=0.0)
     ai_volume_shaderg = aiVolumeShaderG
 
-    aiVolumeShaderB = FloatField()
+    aiVolumeShaderB = FloatField(default_value=0.0)
     ai_volume_shaderb = aiVolumeShaderB
 
 
@@ -593,11 +593,11 @@ class AiVolumeShaderField(
     ATTR_CLS = AiVolumeShaderAttrOperator
     PLUG_CLS = AiVolumeShaderPlugOperator
 
-    aiVolumeShaderR = FloatField()
+    aiVolumeShaderR = FloatField(default_value=0.0)
     ai_volume_shaderr = aiVolumeShaderR
 
-    aiVolumeShaderG = FloatField()
+    aiVolumeShaderG = FloatField(default_value=0.0)
     ai_volume_shaderg = aiVolumeShaderG
 
-    aiVolumeShaderB = FloatField()
+    aiVolumeShaderB = FloatField(default_value=0.0)
     ai_volume_shaderb = aiVolumeShaderB

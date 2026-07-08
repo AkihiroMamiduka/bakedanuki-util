@@ -47,10 +47,10 @@ class ObjectRenderFilter(DG):
 
     NODE_TYPE = "objectRenderFilter"
 
-    child = BoolField()
+    child = BoolField(default_value=False)
     ch = child
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     inv = invert
 
     inputList = TypedField()
@@ -65,44 +65,44 @@ class ObjectRenderFilter(DG):
     category = DataStringArrayField()
     cat = category
 
-    disable = BoolField()
+    disable = BoolField(default_value=False)
     dis = disable
 
-    filterClass = FilterClassEnumField()
+    filterClass = FilterClassEnumField(default_value=2)
     fcls = filterClass
 
-    shaders = BoolField()
+    shaders = BoolField(default_value=False)
     shad = shaders
 
-    textures = BoolField()
+    textures = BoolField(default_value=False)
     txtr = textures
 
-    textures2D = BoolField()
+    textures2D = BoolField(default_value=False)
     tx2d = textures2D
 
-    textures3D = BoolField()
+    textures3D = BoolField(default_value=False)
     tx3d = textures3D
 
-    lights = BoolField()
+    lights = BoolField(default_value=False)
     lght = lights
 
-    exclusiveLights = BoolField()
+    exclusiveLights = BoolField(default_value=False)
     exlt = exclusiveLights
 
-    nonExclusiveLights = BoolField()
+    nonExclusiveLights = BoolField(default_value=False)
     nxlt = nonExclusiveLights
 
-    postProcess = BoolField()
+    postProcess = BoolField(default_value=False)
     post = postProcess
 
-    utility = BoolField()
+    utility = BoolField(default_value=False)
     util = utility
 
-    rendering = BoolField()
+    rendering = BoolField(default_value=False)
     ren = rendering
 
-    renderableObjectSets = BoolField()
+    renderableObjectSets = BoolField(default_value=False)
     ros = renderableObjectSets
 
-    lightSets = BoolField()
+    lightSets = BoolField(default_value=False)
     ls = lightSets

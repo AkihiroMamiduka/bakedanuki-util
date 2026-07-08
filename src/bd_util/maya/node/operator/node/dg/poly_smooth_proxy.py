@@ -229,7 +229,7 @@ class PolySmoothProxy(DG):
 
     NODE_TYPE = "polySmoothProxy"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -238,101 +238,101 @@ class PolySmoothProxy(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     cachedSmoothMesh = DataMeshField()
     csm = cachedSmoothMesh
 
-    method = MethodEnumField()
+    method = MethodEnumField(default_value=0)
     mth = method
 
-    subdivisionType = SubdivisionTypeEnumField()
+    subdivisionType = SubdivisionTypeEnumField(default_value=0)
     sdt = subdivisionType
 
-    useOsdBoundaryMethods = BoolField()
+    useOsdBoundaryMethods = BoolField(default_value=True)
     uob = useOsdBoundaryMethods
 
-    osdVertBoundary = OsdVertBoundaryEnumField()
+    osdVertBoundary = OsdVertBoundaryEnumField(default_value=1)
     ovb = osdVertBoundary
 
-    osdFvarBoundary = OsdFvarBoundaryEnumField()
+    osdFvarBoundary = OsdFvarBoundaryEnumField(default_value=3)
     ofb = osdFvarBoundary
 
-    osdFvarPropagateCorners = BoolField()
+    osdFvarPropagateCorners = BoolField(default_value=False)
     ofc = osdFvarPropagateCorners
 
-    osdSmoothTriangles = BoolField()
+    osdSmoothTriangles = BoolField(default_value=False)
     ost = osdSmoothTriangles
 
-    osdCreaseMethod = OsdCreaseMethodEnumField()
+    osdCreaseMethod = OsdCreaseMethodEnumField(default_value=0)
     ocr = osdCreaseMethod
 
-    osdIndependentUVChannels = BoolField()
+    osdIndependentUVChannels = BoolField(default_value=True)
     iuv = osdIndependentUVChannels
 
-    exponentialLevel = ShortField()
+    exponentialLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
     el = exponentialLevel
 
-    continuity = FloatField()
+    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c = continuity
 
-    smoothUVs = BoolField()
+    smoothUVs = BoolField(default_value=False)
     suv = smoothUVs
 
-    keepBorder = BoolField()
+    keepBorder = BoolField(default_value=True)
     kb = keepBorder
 
-    keepHardEdge = BoolField()
+    keepHardEdge = BoolField(default_value=False)
     khe = keepHardEdge
 
-    boundaryRule = BoundaryRuleEnumField()
+    boundaryRule = BoundaryRuleEnumField(default_value=1)
     bnr = boundaryRule
 
-    propagateEdgeHardness = BoolField()
+    propagateEdgeHardness = BoolField(default_value=False)
     peh = propagateEdgeHardness
 
-    keepMapBorders = KeepMapBordersEnumField()
+    keepMapBorders = KeepMapBordersEnumField(default_value=1)
     kmb = keepMapBorders
 
-    linearLevel = ShortField()
+    linearLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
     ll = linearLevel
 
-    divisionsPerEdge = LongField()
+    divisionsPerEdge = LongField(default_value=1, min_value=0, max_value=10, soft_min_value=0, soft_max_value=4)
     dpe = divisionsPerEdge
 
-    degree = LongField()
+    degree = LongField(default_value=3)
     deg = degree
 
-    pushStrength = FloatField()
+    pushStrength = FloatField(default_value=0.0, min_value=-1.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     ps = pushStrength
 
-    roundness = FloatField()
+    roundness = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0, soft_min_value=-2.0, soft_max_value=2.0)
     ro = roundness
 
-    multiEdgeCrease = BoolField()
+    multiEdgeCrease = BoolField(default_value=True)
     mec = multiEdgeCrease
 
-    maya65Above = BoolField()
+    maya65Above = BoolField(default_value=False)
     ma = maya65Above
 
-    maya2008Above = BoolField()
+    maya2008Above = BoolField(default_value=False)
     mn = maya2008Above

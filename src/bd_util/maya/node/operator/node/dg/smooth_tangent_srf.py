@@ -73,14 +73,14 @@ class SmoothTangentSrf(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    parameter = DoubleField(multi=True)
+    parameter = DoubleField(multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     p = parameter
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=1)
     d = direction
 
-    smoothness = SmoothnessEnumField()
+    smoothness = SmoothnessEnumField(default_value=0)
     s = smoothness
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

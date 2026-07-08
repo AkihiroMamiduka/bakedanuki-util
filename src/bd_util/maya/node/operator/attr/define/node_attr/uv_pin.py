@@ -23,10 +23,10 @@ class CoordinatePlugOperator(
         ("coordinateV", "cv"),
     )
 
-    coordinateU = DoubleField()
+    coordinateU = DoubleField(default_value=0.0, readable=False)
     cu = coordinateU
 
-    coordinateV = DoubleField()
+    coordinateV = DoubleField(default_value=0.0, readable=False)
     cv = coordinateV
 
 
@@ -35,10 +35,10 @@ class CoordinateAttrOperator(
 ):
     __slots__ = ()
 
-    coordinateU = DoubleField()
+    coordinateU = DoubleField(default_value=0.0, readable=False)
     cu = coordinateU
 
-    coordinateV = DoubleField()
+    coordinateV = DoubleField(default_value=0.0, readable=False)
     cv = coordinateV
 
 
@@ -61,13 +61,13 @@ class OutputTranslatePlugOperator(
         ("outputTranslateZ", "otz"),
     )
 
-    outputTranslateX = DoubleLinearField()
+    outputTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outputTranslateX
 
-    outputTranslateY = DoubleLinearField()
+    outputTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outputTranslateY
 
-    outputTranslateZ = DoubleLinearField()
+    outputTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outputTranslateZ
 
 
@@ -76,13 +76,13 @@ class OutputTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    outputTranslateX = DoubleLinearField()
+    outputTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outputTranslateX
 
-    outputTranslateY = DoubleLinearField()
+    outputTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outputTranslateY
 
-    outputTranslateZ = DoubleLinearField()
+    outputTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outputTranslateZ
 
 

@@ -50,7 +50,7 @@ class AiVolumeSampleRgb(DG):
 
     NODE_TYPE = "aiVolumeSampleRgb"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -59,7 +59,7 @@ class AiVolumeSampleRgb(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -70,7 +70,7 @@ class AiVolumeSampleRgb(DG):
 
     channel = DataStringField()
 
-    positionOffset = PositionOffsetField()
+    positionOffset = PositionOffsetField(default_value=(0.0, 0.0, 0.0))
     position_offset = positionOffset
     positionOffsetX = positionOffset.positionOffsetX
     position_offsetx = positionOffsetX
@@ -79,22 +79,22 @@ class AiVolumeSampleRgb(DG):
     positionOffsetZ = positionOffset.positionOffsetZ
     position_offsetz = positionOffsetZ
 
-    interpolation = InterpolationEnumField()
+    interpolation = InterpolationEnumField(default_value=1)
 
-    gamma = FloatField()
+    gamma = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
 
-    hueShift = FloatField()
+    hueShift = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     hue_shift = hueShift
 
-    saturation = FloatField()
+    saturation = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    contrastPivot = FloatField()
+    contrastPivot = FloatField(default_value=0.18000000715255737, soft_min_value=0.0, soft_max_value=1.0)
     contrast_pivot = contrastPivot
 
-    exposure = FloatField()
+    exposure = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
 
-    multiply = FloatField()
+    multiply = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    add = FloatField()
+    add = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)

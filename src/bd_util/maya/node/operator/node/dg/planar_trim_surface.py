@@ -47,14 +47,14 @@ class PlanarTrimSurface(DG):
     inputCurve = DataNurbsCurveField(multi=True)
     ic = inputCurve
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    keepOutside = BoolField()
+    keepOutside = BoolField(default_value=False)
     ko = keepOutside
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance

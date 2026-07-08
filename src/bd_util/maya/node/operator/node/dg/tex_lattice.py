@@ -13,23 +13,23 @@ class TexLattice(DG):
 
     NODE_TYPE = "texLattice"
 
-    latticeWidth = LongField()
+    latticeWidth = LongField(default_value=0)
     lw = latticeWidth
 
-    latticeHeight = LongField()
+    latticeHeight = LongField(default_value=0)
     lh = latticeHeight
 
-    latticePoint = LatticePointField(multi=True)
+    latticePoint = LatticePointField(multi=True, default_value=(0.0, 0.0))
     lp = latticePoint
 
-    boundingBoxInf = BoundingBoxInfField()
+    boundingBoxInf = BoundingBoxInfField(default_value=(0.0, 0.0))
     bbi = boundingBoxInf
     boundingBoxTop = boundingBoxInf.boundingBoxTop
     bbxt = boundingBoxTop
     boundingBoxLeft = boundingBoxInf.boundingBoxLeft
     bbxl = boundingBoxLeft
 
-    boundingBoxSup = BoundingBoxSupField()
+    boundingBoxSup = BoundingBoxSupField(default_value=(0.0, 0.0))
     bbxs = boundingBoxSup
     boundingBoxBottom = boundingBoxSup.boundingBoxBottom
     bbxb = boundingBoxBottom

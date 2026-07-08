@@ -62,13 +62,13 @@ class MagnitudeScalePlugOperator(
         ("magnitudeScale_Interp", "msi"),
     )
 
-    magnitudeScale_Position = FloatField()
+    magnitudeScale_Position = FloatField(default_value=0.0)
     msp = magnitudeScale_Position
 
-    magnitudeScale_FloatValue = FloatField()
+    magnitudeScale_FloatValue = FloatField(default_value=0.0)
     msfv = magnitudeScale_FloatValue
 
-    magnitudeScale_Interp = MagnitudeScale_InterpEnumField()
+    magnitudeScale_Interp = MagnitudeScale_InterpEnumField(default_value=1)
     msi = magnitudeScale_Interp
 
 
@@ -77,13 +77,13 @@ class MagnitudeScaleAttrOperator(
 ):
     __slots__ = ()
 
-    magnitudeScale_Position = FloatField()
+    magnitudeScale_Position = FloatField(default_value=0.0)
     msp = magnitudeScale_Position
 
-    magnitudeScale_FloatValue = FloatField()
+    magnitudeScale_FloatValue = FloatField(default_value=0.0)
     msfv = magnitudeScale_FloatValue
 
-    magnitudeScale_Interp = MagnitudeScale_InterpEnumField()
+    magnitudeScale_Interp = MagnitudeScale_InterpEnumField(default_value=1)
     msi = magnitudeScale_Interp
 
 
@@ -106,13 +106,13 @@ class RegionMapPlugOperator(
         ("regionMapB", "rmpb"),
     )
 
-    regionMapR = FloatField()
+    regionMapR = FloatField(default_value=1.0)
     rmpr = regionMapR
 
-    regionMapG = FloatField()
+    regionMapG = FloatField(default_value=1.0)
     rmpg = regionMapG
 
-    regionMapB = FloatField()
+    regionMapB = FloatField(default_value=1.0)
     rmpb = regionMapB
 
 
@@ -121,13 +121,13 @@ class RegionMapAttrOperator(
 ):
     __slots__ = ()
 
-    regionMapR = FloatField()
+    regionMapR = FloatField(default_value=1.0)
     rmpr = regionMapR
 
-    regionMapG = FloatField()
+    regionMapG = FloatField(default_value=1.0)
     rmpg = regionMapG
 
-    regionMapB = FloatField()
+    regionMapB = FloatField(default_value=1.0)
     rmpb = regionMapB
 
 
@@ -139,11 +139,11 @@ class RegionMapField(
     ATTR_CLS = RegionMapAttrOperator
     PLUG_CLS = RegionMapPlugOperator
 
-    regionMapR = FloatField()
+    regionMapR = FloatField(default_value=1.0)
     rmpr = regionMapR
 
-    regionMapG = FloatField()
+    regionMapG = FloatField(default_value=1.0)
     rmpg = regionMapG
 
-    regionMapB = FloatField()
+    regionMapB = FloatField(default_value=1.0)
     rmpb = regionMapB

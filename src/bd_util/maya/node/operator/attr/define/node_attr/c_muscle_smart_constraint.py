@@ -81,16 +81,16 @@ class ConstrainDataPlugOperator(
     worldMatrixBBase = MatrixField()
     wmbb = worldMatrixBBase
 
-    axis = AxisEnumField()
+    axis = AxisEnumField(default_value=1)
     ax = axis
 
-    triggerMin = DoubleField()
+    triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    bias = DoubleField()
+    bias = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bis = bias
 
-    biasAdjust = DoubleField()
+    biasAdjust = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
     bisadj = biasAdjust
 
 
@@ -111,16 +111,16 @@ class ConstrainDataAttrOperator(
     worldMatrixBBase = MatrixField()
     wmbb = worldMatrixBBase
 
-    axis = AxisEnumField()
+    axis = AxisEnumField(default_value=1)
     ax = axis
 
-    triggerMin = DoubleField()
+    triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    bias = DoubleField()
+    bias = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bis = bias
 
-    biasAdjust = DoubleField()
+    biasAdjust = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
     bisadj = biasAdjust
 
 
@@ -144,16 +144,16 @@ class ConstrainDataField(
     worldMatrixBBase = MatrixField()
     wmbb = worldMatrixBBase
 
-    axis = AxisEnumField()
+    axis = AxisEnumField(default_value=1)
     ax = axis
 
-    triggerMin = DoubleField()
+    triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    bias = DoubleField()
+    bias = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bis = bias
 
-    biasAdjust = DoubleField()
+    biasAdjust = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
     bisadj = biasAdjust
 
 
@@ -167,13 +167,13 @@ class OutDataPlugOperator(
         ("outTrigger", "otrg"),
     )
 
-    outTranslate = CompoundField()
+    outTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     ot = outTranslate
 
-    outRotate = CompoundField()
+    outRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     or_ = outRotate
 
-    outTrigger = DoubleField()
+    outTrigger = DoubleField(default_value=0.0)
     otrg = outTrigger
 
 
@@ -182,13 +182,13 @@ class OutDataAttrOperator(
 ):
     __slots__ = ()
 
-    outTranslate = CompoundField()
+    outTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     ot = outTranslate
 
-    outRotate = CompoundField()
+    outRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     or_ = outRotate
 
-    outTrigger = DoubleField()
+    outTrigger = DoubleField(default_value=0.0)
     otrg = outTrigger
 
 
@@ -200,11 +200,11 @@ class OutDataField(
     ATTR_CLS = OutDataAttrOperator
     PLUG_CLS = OutDataPlugOperator
 
-    outTranslate = CompoundField()
+    outTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
     ot = outTranslate
 
-    outRotate = CompoundField()
+    outRotate = CompoundField(default_value=(0.0, 0.0, 0.0))
     or_ = outRotate
 
-    outTrigger = DoubleField()
+    outTrigger = DoubleField(default_value=0.0)
     otrg = outTrigger

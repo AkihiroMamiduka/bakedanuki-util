@@ -18,13 +18,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -33,13 +33,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -51,13 +51,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -71,13 +71,13 @@ class PositionOffsetPlugOperator(
         ("positionOffsetZ", "position_offsetz"),
     )
 
-    positionOffsetX = FloatField()
+    positionOffsetX = FloatField(default_value=0.0)
     position_offsetx = positionOffsetX
 
-    positionOffsetY = FloatField()
+    positionOffsetY = FloatField(default_value=0.0)
     position_offsety = positionOffsetY
 
-    positionOffsetZ = FloatField()
+    positionOffsetZ = FloatField(default_value=0.0)
     position_offsetz = positionOffsetZ
 
 
@@ -86,13 +86,13 @@ class PositionOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    positionOffsetX = FloatField()
+    positionOffsetX = FloatField(default_value=0.0)
     position_offsetx = positionOffsetX
 
-    positionOffsetY = FloatField()
+    positionOffsetY = FloatField(default_value=0.0)
     position_offsety = positionOffsetY
 
-    positionOffsetZ = FloatField()
+    positionOffsetZ = FloatField(default_value=0.0)
     position_offsetz = positionOffsetZ
 
 
@@ -104,11 +104,11 @@ class PositionOffsetField(
     ATTR_CLS = PositionOffsetAttrOperator
     PLUG_CLS = PositionOffsetPlugOperator
 
-    positionOffsetX = FloatField()
+    positionOffsetX = FloatField(default_value=0.0)
     position_offsetx = positionOffsetX
 
-    positionOffsetY = FloatField()
+    positionOffsetY = FloatField(default_value=0.0)
     position_offsety = positionOffsetY
 
-    positionOffsetZ = FloatField()
+    positionOffsetZ = FloatField(default_value=0.0)
     position_offsetz = positionOffsetZ

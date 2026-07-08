@@ -18,13 +18,13 @@ class ComputeNodeColorPlugOperator(
         ("computeNodeColorB", "cncb"),
     )
 
-    computeNodeColorR = DoubleField()
+    computeNodeColorR = DoubleField(default_value=0.0)
     cncr = computeNodeColorR
 
-    computeNodeColorG = DoubleField()
+    computeNodeColorG = DoubleField(default_value=0.0)
     cncg = computeNodeColorG
 
-    computeNodeColorB = DoubleField()
+    computeNodeColorB = DoubleField(default_value=0.0)
     cncb = computeNodeColorB
 
 
@@ -33,13 +33,13 @@ class ComputeNodeColorAttrOperator(
 ):
     __slots__ = ()
 
-    computeNodeColorR = DoubleField()
+    computeNodeColorR = DoubleField(default_value=0.0)
     cncr = computeNodeColorR
 
-    computeNodeColorG = DoubleField()
+    computeNodeColorG = DoubleField(default_value=0.0)
     cncg = computeNodeColorG
 
-    computeNodeColorB = DoubleField()
+    computeNodeColorB = DoubleField(default_value=0.0)
     cncb = computeNodeColorB
 
 
@@ -51,11 +51,11 @@ class ComputeNodeColorField(
     ATTR_CLS = ComputeNodeColorAttrOperator
     PLUG_CLS = ComputeNodeColorPlugOperator
 
-    computeNodeColorR = DoubleField()
+    computeNodeColorR = DoubleField(default_value=0.0)
     cncr = computeNodeColorR
 
-    computeNodeColorG = DoubleField()
+    computeNodeColorG = DoubleField(default_value=0.0)
     cncg = computeNodeColorG
 
-    computeNodeColorB = DoubleField()
+    computeNodeColorB = DoubleField(default_value=0.0)
     cncb = computeNodeColorB

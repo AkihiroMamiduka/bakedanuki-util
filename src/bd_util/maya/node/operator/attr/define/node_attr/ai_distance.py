@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class Out_directionPlugOperator(
         ("out_directionZ", "out_directionz"),
     )
 
-    out_directionX = FloatField()
+    out_directionX = FloatField(default_value=0.0, writable=False)
     out_directionx = out_directionX
 
-    out_directionY = FloatField()
+    out_directionY = FloatField(default_value=0.0, writable=False)
     out_directiony = out_directionY
 
-    out_directionZ = FloatField()
+    out_directionZ = FloatField(default_value=0.0, writable=False)
     out_directionz = out_directionZ
 
 
@@ -86,13 +86,13 @@ class Out_directionAttrOperator(
 ):
     __slots__ = ()
 
-    out_directionX = FloatField()
+    out_directionX = FloatField(default_value=0.0, writable=False)
     out_directionx = out_directionX
 
-    out_directionY = FloatField()
+    out_directionY = FloatField(default_value=0.0, writable=False)
     out_directiony = out_directionY
 
-    out_directionZ = FloatField()
+    out_directionZ = FloatField(default_value=0.0, writable=False)
     out_directionz = out_directionZ
 
 
@@ -104,13 +104,13 @@ class Out_directionField(
     ATTR_CLS = Out_directionAttrOperator
     PLUG_CLS = Out_directionPlugOperator
 
-    out_directionX = FloatField()
+    out_directionX = FloatField(default_value=0.0, writable=False)
     out_directionx = out_directionX
 
-    out_directionY = FloatField()
+    out_directionY = FloatField(default_value=0.0, writable=False)
     out_directiony = out_directionY
 
-    out_directionZ = FloatField()
+    out_directionZ = FloatField(default_value=0.0, writable=False)
     out_directionz = out_directionZ
 
 
@@ -124,13 +124,13 @@ class NearColorPlugOperator(
         ("nearColorB", "near_colorb"),
     )
 
-    nearColorR = FloatField()
+    nearColorR = FloatField(default_value=0.0)
     near_colorr = nearColorR
 
-    nearColorG = FloatField()
+    nearColorG = FloatField(default_value=0.0)
     near_colorg = nearColorG
 
-    nearColorB = FloatField()
+    nearColorB = FloatField(default_value=0.0)
     near_colorb = nearColorB
 
 
@@ -139,13 +139,13 @@ class NearColorAttrOperator(
 ):
     __slots__ = ()
 
-    nearColorR = FloatField()
+    nearColorR = FloatField(default_value=0.0)
     near_colorr = nearColorR
 
-    nearColorG = FloatField()
+    nearColorG = FloatField(default_value=0.0)
     near_colorg = nearColorG
 
-    nearColorB = FloatField()
+    nearColorB = FloatField(default_value=0.0)
     near_colorb = nearColorB
 
 
@@ -157,13 +157,13 @@ class NearColorField(
     ATTR_CLS = NearColorAttrOperator
     PLUG_CLS = NearColorPlugOperator
 
-    nearColorR = FloatField()
+    nearColorR = FloatField(default_value=0.0)
     near_colorr = nearColorR
 
-    nearColorG = FloatField()
+    nearColorG = FloatField(default_value=0.0)
     near_colorg = nearColorG
 
-    nearColorB = FloatField()
+    nearColorB = FloatField(default_value=0.0)
     near_colorb = nearColorB
 
 
@@ -177,13 +177,13 @@ class FarColorPlugOperator(
         ("farColorB", "far_colorb"),
     )
 
-    farColorR = FloatField()
+    farColorR = FloatField(default_value=1.0)
     far_colorr = farColorR
 
-    farColorG = FloatField()
+    farColorG = FloatField(default_value=1.0)
     far_colorg = farColorG
 
-    farColorB = FloatField()
+    farColorB = FloatField(default_value=1.0)
     far_colorb = farColorB
 
 
@@ -192,13 +192,13 @@ class FarColorAttrOperator(
 ):
     __slots__ = ()
 
-    farColorR = FloatField()
+    farColorR = FloatField(default_value=1.0)
     far_colorr = farColorR
 
-    farColorG = FloatField()
+    farColorG = FloatField(default_value=1.0)
     far_colorg = farColorG
 
-    farColorB = FloatField()
+    farColorB = FloatField(default_value=1.0)
     far_colorb = farColorB
 
 
@@ -210,11 +210,11 @@ class FarColorField(
     ATTR_CLS = FarColorAttrOperator
     PLUG_CLS = FarColorPlugOperator
 
-    farColorR = FloatField()
+    farColorR = FloatField(default_value=1.0)
     far_colorr = farColorR
 
-    farColorG = FloatField()
+    farColorG = FloatField(default_value=1.0)
     far_colorg = farColorG
 
-    farColorB = FloatField()
+    farColorB = FloatField(default_value=1.0)
     far_colorb = farColorB

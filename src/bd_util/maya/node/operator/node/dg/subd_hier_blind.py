@@ -12,7 +12,7 @@ class SubdHierBlind(DG):
 
     NODE_TYPE = "subdHierBlind"
 
-    typeId = LongField()
+    typeId = LongField(default_value=0)
     tid = typeId
 
     blindDataPresets = BlindDataPresetsField(multi=True)
@@ -21,5 +21,5 @@ class SubdHierBlind(DG):
     bdUserInfo = BdUserInfoField(multi=True)
     bdui = bdUserInfo
 
-    whichOneIndex = LongField()
+    whichOneIndex = LongField(default_value=-1)
     woi = whichOneIndex

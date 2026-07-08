@@ -62,13 +62,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -77,13 +77,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -95,13 +95,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -115,13 +115,13 @@ class RampPlugOperator(
         ("ramp_Interp", "aiRampi"),
     )
 
-    ramp_Position = FloatField()
+    ramp_Position = FloatField(default_value=0.0)
     aiRampp = ramp_Position
 
-    ramp_FloatValue = FloatField()
+    ramp_FloatValue = FloatField(default_value=0.0)
     aiRampfv = ramp_FloatValue
 
-    ramp_Interp = Ramp_InterpEnumField()
+    ramp_Interp = Ramp_InterpEnumField(default_value=1)
     aiRampi = ramp_Interp
 
 
@@ -130,13 +130,13 @@ class RampAttrOperator(
 ):
     __slots__ = ()
 
-    ramp_Position = FloatField()
+    ramp_Position = FloatField(default_value=0.0)
     aiRampp = ramp_Position
 
-    ramp_FloatValue = FloatField()
+    ramp_FloatValue = FloatField(default_value=0.0)
     aiRampfv = ramp_FloatValue
 
-    ramp_Interp = Ramp_InterpEnumField()
+    ramp_Interp = Ramp_InterpEnumField(default_value=1)
     aiRampi = ramp_Interp
 
 

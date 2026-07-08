@@ -20,7 +20,7 @@ class AiPhysicalSky(DG):
 
     NODE_TYPE = "aiPhysicalSky"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -29,10 +29,10 @@ class AiPhysicalSky(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -41,9 +41,9 @@ class AiPhysicalSky(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    turbidity = FloatField()
+    turbidity = FloatField(default_value=3.0, soft_min_value=1.0, soft_max_value=10.0)
 
-    groundAlbedo = GroundAlbedoField()
+    groundAlbedo = GroundAlbedoField(default_value=(0.10000000149011612, 0.10000000149011612, 0.10000000149011612))
     ground_albedo = groundAlbedo
     groundAlbedoR = groundAlbedo.groundAlbedoR
     ground_albedor = groundAlbedoR
@@ -52,14 +52,14 @@ class AiPhysicalSky(DG):
     groundAlbedoB = groundAlbedo.groundAlbedoB
     ground_albedob = groundAlbedoB
 
-    useDegrees = BoolField()
+    useDegrees = BoolField(default_value=True)
     use_degrees = useDegrees
 
-    elevation = FloatField()
+    elevation = FloatField(default_value=45.0, soft_min_value=0.0, soft_max_value=90.0)
 
-    azimuth = FloatField()
+    azimuth = FloatField(default_value=90.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    sunDirection = SunDirectionField()
+    sunDirection = SunDirectionField(default_value=(0.0, 1.0, 0.0))
     sun_direction = sunDirection
     sunDirectionX = sunDirection.sunDirectionX
     sun_directionx = sunDirectionX
@@ -68,16 +68,16 @@ class AiPhysicalSky(DG):
     sunDirectionZ = sunDirection.sunDirectionZ
     sun_directionz = sunDirectionZ
 
-    enableSun = BoolField()
+    enableSun = BoolField(default_value=True)
     enable_sun = enableSun
 
-    enableSky = BoolField()
+    enableSky = BoolField(default_value=True)
     enable_sky = enableSky
 
-    sunSize = FloatField()
+    sunSize = FloatField(default_value=0.5099999904632568, soft_min_value=0.10000000149011612, soft_max_value=5.0)
     sun_size = sunSize
 
-    sunTint = SunTintField()
+    sunTint = SunTintField(default_value=(1.0, 1.0, 1.0))
     sun_tint = sunTint
     sunTintR = sunTint.sunTintR
     sun_tintr = sunTintR
@@ -86,7 +86,7 @@ class AiPhysicalSky(DG):
     sunTintB = sunTint.sunTintB
     sun_tintb = sunTintB
 
-    skyTint = SkyTintField()
+    skyTint = SkyTintField(default_value=(1.0, 1.0, 1.0))
     sky_tint = skyTint
     skyTintR = skyTint.skyTintR
     sky_tintr = skyTintR
@@ -95,9 +95,9 @@ class AiPhysicalSky(DG):
     skyTintB = skyTint.skyTintB
     sky_tintb = skyTintB
 
-    intensity = FloatField()
+    intensity = FloatField(default_value=1.0, soft_min_value=0.10000000149011612, soft_max_value=10.0)
 
-    X = XField()
+    X = XField(default_value=(1.0, 0.0, 0.0))
     XX = X.XX
     Xx = XX
     XY = X.XY
@@ -105,7 +105,7 @@ class AiPhysicalSky(DG):
     XZ = X.XZ
     Xz = XZ
 
-    Y = YField()
+    Y = YField(default_value=(0.0, 1.0, 0.0))
     YX = Y.YX
     Yx = YX
     YY = Y.YY
@@ -113,7 +113,7 @@ class AiPhysicalSky(DG):
     YZ = Y.YZ
     Yz = YZ
 
-    Z = ZField()
+    Z = ZField(default_value=(0.0, 0.0, 1.0))
     ZX = Z.ZX
     Zx = ZX
     ZY = Z.ZY

@@ -19,22 +19,22 @@ class ClipLibrary(DG):
     clipEvalList = ClipEvalListField(multi=True)
     cel = clipEvalList
 
-    clipFunction = TypedField()
+    clipFunction = TypedField(writable=False)
     cf = clipFunction
 
     characterdata = CharacterdataField(multi=True)
     cd = characterdata
 
-    activeClip = LongField()
+    activeClip = LongField(default_value=-1)
     act = activeClip
 
     clipName = DataStringField(multi=True)
     cn = clipName
 
-    start = TimeField(multi=True)
+    start = TimeField(multi=True, default_value=0.0)
     st = start
 
-    duration = TimeField(multi=True)
+    duration = TimeField(multi=True, default_value=0.0)
     du = duration
 
     sourceClip = MessageField(multi=True)

@@ -83,10 +83,10 @@ class PolyPyramid(DG):
 
     NODE_TYPE = "polyPyramid"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 1.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -95,16 +95,16 @@ class PolyPyramid(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField()
+    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     hbl = heightBaseline
 
-    paramWarn = BoolField()
+    paramWarn = BoolField(default_value=True)
     pw = paramWarn
 
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    componentTagCreate = BoolField()
+    componentTagCreate = BoolField(default_value=True)
     ctc = componentTagCreate
 
     componentTagPrefix = DataStringField()
@@ -113,20 +113,20 @@ class PolyPyramid(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    sideLength = DoubleLinearField()
+    sideLength = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     w = sideLength
 
-    numberOfSides = NumberOfSidesEnumField()
+    numberOfSides = NumberOfSidesEnumField(default_value=4)
     ns = numberOfSides
 
-    subdivisionsHeight = LongField()
+    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
     sh = subdivisionsHeight
 
-    subdivisionsCaps = LongField()
+    subdivisionsCaps = LongField(default_value=0, min_value=0, soft_max_value=50)
     sc = subdivisionsCaps
 
-    texture = BoolField()
+    texture = BoolField(default_value=True)
     tx = texture
 
-    createUVs = CreateUVsEnumField()
+    createUVs = CreateUVsEnumField(default_value=2)
     cuv = createUVs

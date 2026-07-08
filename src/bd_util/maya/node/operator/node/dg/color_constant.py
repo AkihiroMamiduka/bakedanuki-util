@@ -12,7 +12,7 @@ class ColorConstant(DG):
 
     NODE_TYPE = "colorConstant"
 
-    inColor = InColorField()
+    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR
@@ -21,10 +21,10 @@ class ColorConstant(DG):
     inColorB = inColor.inColorB
     cb = inColorB
 
-    inAlpha = FloatField()
+    inAlpha = FloatField(default_value=1.0)
     a = inAlpha
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -33,5 +33,5 @@ class ColorConstant(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

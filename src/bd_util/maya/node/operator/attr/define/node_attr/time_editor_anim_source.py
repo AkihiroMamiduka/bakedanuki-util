@@ -24,7 +24,7 @@ class AnimationPlugOperator(
     source = MessageField()
     as_ = source
 
-    sourceValue = DoubleField()
+    sourceValue = DoubleField(default_value=0.0)
     asv = sourceValue
 
     sourcePath = DataStringField()
@@ -42,7 +42,7 @@ class AnimationAttrOperator(
     source = MessageField()
     as_ = source
 
-    sourceValue = DoubleField()
+    sourceValue = DoubleField(default_value=0.0)
     asv = sourceValue
 
     sourcePath = DataStringField()

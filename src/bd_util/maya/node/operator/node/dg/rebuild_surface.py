@@ -272,44 +272,44 @@ class RebuildSurface(DG):
     matchSurface = DataNurbsSurfaceField()
     ms = matchSurface
 
-    rebuildType = RebuildTypeEnumField()
+    rebuildType = RebuildTypeEnumField(default_value=0)
     rt = rebuildType
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=2)
     dir = direction
 
-    spansU = LongField()
+    spansU = LongField(default_value=4, min_value=0, soft_max_value=100)
     su = spansU
 
-    spansV = LongField()
+    spansV = LongField(default_value=4, min_value=0, soft_max_value=100)
     sv = spansV
 
-    degreeU = DegreeUEnumField()
+    degreeU = DegreeUEnumField(default_value=3)
     du = degreeU
 
-    degreeV = DegreeVEnumField()
+    degreeV = DegreeVEnumField(default_value=3)
     dv = degreeV
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    endKnots = EndKnotsEnumField()
+    endKnots = EndKnotsEnumField(default_value=0)
     end = endKnots
 
-    keepCorners = BoolField()
+    keepCorners = BoolField(default_value=True)
     kc = keepCorners
 
-    keepRange = KeepRangeEnumField()
+    keepRange = KeepRangeEnumField(default_value=1)
     kr = keepRange
 
-    keepControlPoints = BoolField()
+    keepControlPoints = BoolField(default_value=False)
     kcp = keepControlPoints
 
-    fitRebuild = FitRebuildEnumField()
+    fitRebuild = FitRebuildEnumField(default_value=0)
     fr = fitRebuild
 
-    oldRebuildRational = BoolField()
+    oldRebuildRational = BoolField(default_value=False)
     orr = oldRebuildRational
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

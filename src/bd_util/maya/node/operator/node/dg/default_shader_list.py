@@ -8,5 +8,5 @@ class DefaultShaderList(DG):
 
     NODE_TYPE = "defaultShaderList"
 
-    shaders = MessageField(multi=True)
+    shaders = MessageField(multi=True, readable=False)
     s = shaders

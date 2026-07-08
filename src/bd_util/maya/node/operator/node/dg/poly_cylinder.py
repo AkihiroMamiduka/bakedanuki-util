@@ -83,10 +83,10 @@ class PolyCylinder(DG):
 
     NODE_TYPE = "polyCylinder"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 1.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -95,16 +95,16 @@ class PolyCylinder(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField()
+    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     hbl = heightBaseline
 
-    paramWarn = BoolField()
+    paramWarn = BoolField(default_value=True)
     pw = paramWarn
 
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    componentTagCreate = BoolField()
+    componentTagCreate = BoolField(default_value=True)
     ctc = componentTagCreate
 
     componentTagPrefix = DataStringField()
@@ -113,35 +113,35 @@ class PolyCylinder(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     r = radius
 
-    height = DoubleLinearField()
+    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
     h = height
 
-    subdivisionsAxis = LongField()
+    subdivisionsAxis = LongField(default_value=20, min_value=3, soft_max_value=50)
     sa = subdivisionsAxis
 
-    subdivisionsHeight = LongField()
+    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
     sh = subdivisionsHeight
 
-    subdivisionsCaps = LongField()
+    subdivisionsCaps = LongField(default_value=0, min_value=0, soft_max_value=50)
     sc = subdivisionsCaps
 
-    texture = TextureEnumField()
+    texture = TextureEnumField(default_value=2)
     tx = texture
 
-    createUVs = CreateUVsEnumField()
+    createUVs = CreateUVsEnumField(default_value=2)
     cuv = createUVs
 
-    maya70 = BoolField()
+    maya70 = BoolField(default_value=False)
     m70 = maya70
 
-    roundCap = BoolField()
+    roundCap = BoolField(default_value=False)
     rcp = roundCap
 
-    roundCapHeightCompensation = BoolField()
+    roundCapHeightCompensation = BoolField(default_value=False)
     rch = roundCapHeightCompensation
 
-    maya2022UVs = BoolField()
+    maya2022UVs = BoolField(default_value=False)
     ouv = maya2022UVs

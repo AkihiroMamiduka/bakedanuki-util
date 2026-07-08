@@ -14,7 +14,7 @@ class ColorComposite(DG):
 
     NODE_TYPE = "colorComposite"
 
-    colorA = ColorAField()
+    colorA = ColorAField(default_value=(1.0, 0.0, 0.0))
     ca = colorA
     colorAR = colorA.colorAR
     car = colorAR
@@ -23,10 +23,10 @@ class ColorComposite(DG):
     colorAB = colorA.colorAB
     cab = colorAB
 
-    alphaA = FloatField()
+    alphaA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     aa = alphaA
 
-    colorB = ColorBField()
+    colorB = ColorBField(default_value=(0.0, 1.0, 0.0))
     cb = colorB
     colorBR = colorB.colorBR
     cbr = colorBR
@@ -35,16 +35,16 @@ class ColorComposite(DG):
     colorBB = colorB.colorBB
     cbb = colorBB
 
-    alphaB = FloatField()
+    alphaB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ab = alphaB
 
-    operation = ShortField()
+    operation = ShortField(default_value=0, min_value=0, max_value=8)
     op = operation
 
-    factor = FloatField()
+    factor = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     fx = factor
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -53,5 +53,5 @@ class ColorComposite(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha

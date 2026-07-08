@@ -13,7 +13,7 @@ class AiMotionVector(DG):
 
     NODE_TYPE = "aiMotionVector"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,7 +22,7 @@ class AiMotionVector(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,11 +31,11 @@ class AiMotionVector(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    raw = BoolField()
+    raw = BoolField(default_value=False)
 
-    time0 = FloatField()
+    time0 = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    time1 = FloatField()
+    time1 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    maxDisplace = FloatField()
+    maxDisplace = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     max_displace = maxDisplace

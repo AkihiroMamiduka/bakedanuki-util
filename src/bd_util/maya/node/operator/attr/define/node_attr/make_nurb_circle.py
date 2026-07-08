@@ -18,13 +18,13 @@ class FirstPlugOperator(
         ("firstPointZ", "fpz"),
     )
 
-    firstPointX = DoubleLinearField()
+    firstPointX = DoubleLinearField(default_value=1.0)
     fpx = firstPointX
 
-    firstPointY = DoubleLinearField()
+    firstPointY = DoubleLinearField(default_value=0.0)
     fpy = firstPointY
 
-    firstPointZ = DoubleLinearField()
+    firstPointZ = DoubleLinearField(default_value=0.0)
     fpz = firstPointZ
 
 
@@ -33,13 +33,13 @@ class FirstAttrOperator(
 ):
     __slots__ = ()
 
-    firstPointX = DoubleLinearField()
+    firstPointX = DoubleLinearField(default_value=1.0)
     fpx = firstPointX
 
-    firstPointY = DoubleLinearField()
+    firstPointY = DoubleLinearField(default_value=0.0)
     fpy = firstPointY
 
-    firstPointZ = DoubleLinearField()
+    firstPointZ = DoubleLinearField(default_value=0.0)
     fpz = firstPointZ
 
 
@@ -51,13 +51,13 @@ class FirstField(
     ATTR_CLS = FirstAttrOperator
     PLUG_CLS = FirstPlugOperator
 
-    firstPointX = DoubleLinearField()
+    firstPointX = DoubleLinearField(default_value=1.0)
     fpx = firstPointX
 
-    firstPointY = DoubleLinearField()
+    firstPointY = DoubleLinearField(default_value=0.0)
     fpy = firstPointY
 
-    firstPointZ = DoubleLinearField()
+    firstPointZ = DoubleLinearField(default_value=0.0)
     fpz = firstPointZ
 
 
@@ -71,13 +71,13 @@ class NormalPlugOperator(
         ("normalZ", "nrz"),
     )
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=1.0)
     nrz = normalZ
 
 
@@ -86,13 +86,13 @@ class NormalAttrOperator(
 ):
     __slots__ = ()
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=1.0)
     nrz = normalZ
 
 
@@ -104,13 +104,13 @@ class NormalField(
     ATTR_CLS = NormalAttrOperator
     PLUG_CLS = NormalPlugOperator
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=0.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=1.0)
     nrz = normalZ
 
 
@@ -124,13 +124,13 @@ class CenterPlugOperator(
         ("centerZ", "cz"),
     )
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     cz = centerZ
 
 
@@ -139,13 +139,13 @@ class CenterAttrOperator(
 ):
     __slots__ = ()
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     cz = centerZ
 
 
@@ -157,11 +157,11 @@ class CenterField(
     ATTR_CLS = CenterAttrOperator
     PLUG_CLS = CenterPlugOperator
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0)
     cx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0)
     cy = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0)
     cz = centerZ

@@ -176,7 +176,7 @@ class EnvFog(DG):
 
     NODE_TYPE = "envFog"
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0), readable=False)
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -185,7 +185,7 @@ class EnvFog(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -206,7 +206,7 @@ class EnvFog(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    color = ColorField()
+    color = ColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -215,22 +215,22 @@ class EnvFog(DG):
     colorB = color.colorB
     cb = colorB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     d = density
 
-    fastDropOff = BoolField()
+    fastDropOff = BoolField(default_value=False)
     fd = fastDropOff
 
-    colorBasedTransparency = BoolField()
+    colorBasedTransparency = BoolField(default_value=True)
     cbt = colorBasedTransparency
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -239,7 +239,7 @@ class EnvFog(DG):
     outMatteOpacityB = outMatteOpacity.outMatteOpacityB
     omob = outMatteOpacityB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -248,7 +248,7 @@ class EnvFog(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -260,7 +260,7 @@ class EnvFog(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -269,7 +269,7 @@ class EnvFog(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(0.0, 0.0, 0.0))
     pw = pointWorld
     pointWorldX = pointWorld.pointWorldX
     pwx = pointWorldX
@@ -278,7 +278,7 @@ class EnvFog(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pwz = pointWorldZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -287,55 +287,55 @@ class EnvFog(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    distanceClipPlanes = DistanceClipPlanesEnumField()
+    distanceClipPlanes = DistanceClipPlanesEnumField(default_value=1, readable=False)
     dcp = distanceClipPlanes
 
-    useLayer = BoolField()
+    useLayer = BoolField(default_value=False)
     ul = useLayer
 
-    useHeight = BoolField()
+    useHeight = BoolField(default_value=False)
     uh = useHeight
 
-    blendRange = FloatField()
+    blendRange = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     br = blendRange
 
-    saturationDistance = FloatField()
+    saturationDistance = FloatField(default_value=100.0, min_value=0.001, soft_max_value=200.0)
     sdt = saturationDistance
 
-    fogNearDistance = FloatField()
+    fogNearDistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=200.0)
     fnd = fogNearDistance
 
-    fogFarDistance = FloatField()
+    fogFarDistance = FloatField(default_value=200.0, soft_min_value=0.0, soft_max_value=200.0)
     ffd = fogFarDistance
 
-    layer = FloatField()
+    layer = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     l = layer
 
-    minHeight = FloatField()
+    minHeight = FloatField(default_value=-1.0, soft_min_value=-10.0, soft_max_value=10.0)
     mnh = minHeight
 
-    maxHeight = FloatField()
+    maxHeight = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     mxh = maxHeight
 
-    useDistance = BoolField()
+    useDistance = BoolField(default_value=False)
     ud = useDistance
 
-    startDistance = FloatField()
+    startDistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     sd = startDistance
 
-    endDistance = FloatField()
+    endDistance = FloatField(default_value=-1.0, min_value=-1.0, soft_max_value=100.0)
     ed = endDistance
 
-    physicalFog = BoolField()
+    physicalFog = BoolField(default_value=False)
     sff = physicalFog
 
-    fogType = FogTypeEnumField()
+    fogType = FogTypeEnumField(default_value=0)
     ftp = fogType
 
-    fogDensity = DoubleField()
+    fogDensity = DoubleField(default_value=0.4, soft_min_value=0.0, soft_max_value=1.0)
     fdn = fogDensity
 
-    fogColor = FogColorField()
+    fogColor = FogColorField(default_value=(1.0, 1.0, 1.0))
     fcl = fogColor
     fogColorR = fogColor.fogColorR
     fcr = fogColorR
@@ -344,7 +344,7 @@ class EnvFog(DG):
     fogColorB = fogColor.fogColorB
     fcb = fogColorB
 
-    fogOpacity = FogOpacityField()
+    fogOpacity = FogOpacityField(default_value=(0.5, 0.5, 0.5))
     fop = fogOpacity
     fogOpacityR = fogOpacity.fogOpacityR
     for_ = fogOpacityR
@@ -353,22 +353,22 @@ class EnvFog(DG):
     fogOpacityB = fogOpacity.fogOpacityB
     fob = fogOpacityB
 
-    fogMinHeight = DoubleField()
+    fogMinHeight = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     fmh = fogMinHeight
 
-    fogMaxHeight = DoubleField()
+    fogMaxHeight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     fxh = fogMaxHeight
 
-    fogDecay = DoubleField()
+    fogDecay = DoubleField(default_value=0.2, soft_min_value=0.0, soft_max_value=1.0)
     fdc = fogDecay
 
-    fogLightScatter = DoubleField()
+    fogLightScatter = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     flc = fogLightScatter
 
-    airDensity = DoubleField()
+    airDensity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.1)
     adn = airDensity
 
-    airColor = AirColorField()
+    airColor = AirColorField(default_value=(0.6000000238418579, 0.800000011920929, 1.0))
     acl = airColor
     airColorR = airColor.airColorR
     acr = airColorR
@@ -377,7 +377,7 @@ class EnvFog(DG):
     airColorB = airColor.airColorB
     acb = airColorB
 
-    airOpacity = AirOpacityField()
+    airOpacity = AirOpacityField(default_value=(0.3700000047683716, 0.4699999988079071, 0.8999999761581421))
     aop = airOpacity
     airOpacityR = airOpacity.airOpacityR
     aor = airOpacityR
@@ -386,22 +386,22 @@ class EnvFog(DG):
     airOpacityB = airOpacity.airOpacityB
     aob = airOpacityB
 
-    airMinHeight = DoubleField()
+    airMinHeight = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0)
     amh = airMinHeight
 
-    airMaxHeight = DoubleField()
+    airMaxHeight = DoubleField(default_value=50.0, soft_min_value=0.0, soft_max_value=1000.0)
     axh = airMaxHeight
 
-    airDecay = DoubleField()
+    airDecay = DoubleField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     adc = airDecay
 
-    airLightScatter = DoubleField()
+    airLightScatter = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     alc = airLightScatter
 
-    waterDensity = DoubleField()
+    waterDensity = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.1)
     wdn = waterDensity
 
-    waterColor = WaterColorField()
+    waterColor = WaterColorField(default_value=(0.6000000238418579, 0.800000011920929, 1.0))
     wcl = waterColor
     waterColorR = waterColor.waterColorR
     wcr = waterColorR
@@ -410,7 +410,7 @@ class EnvFog(DG):
     waterColorB = waterColor.waterColorB
     wcb = waterColorB
 
-    waterOpacity = WaterOpacityField()
+    waterOpacity = WaterOpacityField(default_value=(0.3700000047683716, 0.4699999988079071, 0.8999999761581421))
     wop = waterOpacity
     waterOpacityR = waterOpacity.waterOpacityR
     wor = waterOpacityR
@@ -419,34 +419,34 @@ class EnvFog(DG):
     waterOpacityB = waterOpacity.waterOpacityB
     wob = waterOpacityB
 
-    waterLevel = DoubleField()
+    waterLevel = DoubleField(default_value=0.0, soft_min_value=-1000.0, soft_max_value=0.0)
     wlv = waterLevel
 
-    waterDepth = DoubleField()
+    waterDepth = DoubleField(default_value=50.0, soft_min_value=0.0, soft_max_value=1000.0)
     wdp = waterDepth
 
-    waterLightDecay = DoubleField()
+    waterLightDecay = DoubleField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
     wdc = waterLightDecay
 
-    waterLightScatter = DoubleField()
+    waterLightScatter = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     wlc = waterLightScatter
 
-    planetRadius = DoubleField()
+    planetRadius = DoubleField(default_value=1000.0, soft_min_value=0.0, soft_max_value=10000.0)
     prd = planetRadius
 
-    fogAxis = FogAxisEnumField()
+    fogAxis = FogAxisEnumField(default_value=2)
     fax = fogAxis
 
-    sunIntensity = DoubleField()
+    sunIntensity = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     sin = sunIntensity
 
-    sunAzimuth = DoubleField()
+    sunAzimuth = DoubleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
     saz = sunAzimuth
 
-    sunElevation = DoubleField()
+    sunElevation = DoubleField(default_value=45.0, soft_min_value=0.0, soft_max_value=90.0)
     sel = sunElevation
 
-    sunColor = SunColorField()
+    sunColor = SunColorField(default_value=(1.0, 1.0, 1.0))
     snc = sunColor
     sunColorR = sunColor.sunColorR
     snr = sunColorR

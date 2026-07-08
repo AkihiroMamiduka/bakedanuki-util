@@ -60,26 +60,26 @@ class ProjectTangent(DG):
     inputSurfaceToProjectTo = DataNurbsSurfaceField()
     is_ = inputSurfaceToProjectTo
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    tangentScale = DoubleLinearField()
+    tangentScale = DoubleLinearField(default_value=1.0, min_value=-10.0, max_value=10.0)
     ts = tangentScale
 
-    curvatureScale = DoubleLinearField()
+    curvatureScale = DoubleLinearField(default_value=0.0, min_value=-10.0, max_value=10.0)
     cs = curvatureScale
 
-    rotate = DoubleAngleField()
+    rotate = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ro = rotate
 
-    tangentDirection = TangentDirectionEnumField()
+    tangentDirection = TangentDirectionEnumField(default_value=1)
     td = tangentDirection
 
-    curvature = BoolField()
+    curvature = BoolField(default_value=False)
     c = curvature
 
-    reverseTangent = BoolField()
+    reverseTangent = BoolField(default_value=False)
     rt = reverseTangent
 
-    ignoreEdges = BoolField()
+    ignoreEdges = BoolField(default_value=False)
     ie = ignoreEdges

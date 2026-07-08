@@ -217,7 +217,7 @@ class MASH_Signal(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -228,21 +228,21 @@ class MASH_Signal(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -250,63 +250,63 @@ class MASH_Signal(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    signalScale = FloatField()
+    signalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    advection = FloatField()
+    advection = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0)
 
-    signalScaleMultiplier = SignalScaleMultiplierField()
+    signalScaleMultiplier = SignalScaleMultiplierField(default_value=(1.0, 1.0, 1.0))
     signalScaleMultiplier0 = signalScaleMultiplier.signalScaleMultiplier0
     signalScaleMultiplier1 = signalScaleMultiplier.signalScaleMultiplier1
     signalScaleMultiplier2 = signalScaleMultiplier.signalScaleMultiplier2
 
-    noiseOctaves = LongField()
+    noiseOctaves = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    noisePersistance = FloatField()
+    noisePersistance = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
 
-    rotationX = FloatField()
+    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationY = FloatField()
+    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationZ = FloatField()
+    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    timeScale = FloatField()
+    timeScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    enableStep = BoolField()
+    enableStep = BoolField(default_value=True)
 
-    stepAmount = FloatField()
+    stepAmount = FloatField(default_value=150.0, min_value=0.0, soft_max_value=200.0)
 
-    loopFrames = LongField()
+    loopFrames = LongField(default_value=120, min_value=2, soft_max_value=250)
 
-    signalType = SignalTypeEnumField()
+    signalType = SignalTypeEnumField(default_value=1)
 
-    trigonometryModeX = TrigonometryModeXEnumField()
+    trigonometryModeX = TrigonometryModeXEnumField(default_value=1)
 
-    trigonometryModeY = TrigonometryModeYEnumField()
+    trigonometryModeY = TrigonometryModeYEnumField(default_value=1)
 
-    trigonometryModeZ = TrigonometryModeZEnumField()
+    trigonometryModeZ = TrigonometryModeZEnumField(default_value=1)
 
-    uniformScale = BoolField()
+    uniformScale = BoolField(default_value=True)
 
-    positiveScale = BoolField()
+    positiveScale = BoolField(default_value=True)

@@ -18,13 +18,13 @@ class GlowColorPlugOperator(
         ("glowColorB", "gb"),
     )
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=1.0)
     gr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=1.0)
     gg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=1.0)
     gb = glowColorB
 
 
@@ -33,13 +33,13 @@ class GlowColorAttrOperator(
 ):
     __slots__ = ()
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=1.0)
     gr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=1.0)
     gg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=1.0)
     gb = glowColorB
 
 
@@ -51,13 +51,13 @@ class GlowColorField(
     ATTR_CLS = GlowColorAttrOperator
     PLUG_CLS = GlowColorPlugOperator
 
-    glowColorR = FloatField()
+    glowColorR = FloatField(default_value=1.0)
     gr = glowColorR
 
-    glowColorG = FloatField()
+    glowColorG = FloatField(default_value=1.0)
     gg = glowColorG
 
-    glowColorB = FloatField()
+    glowColorB = FloatField(default_value=1.0)
     gb = glowColorB
 
 
@@ -71,13 +71,13 @@ class HaloColorPlugOperator(
         ("haloColorB", "hb"),
     )
 
-    haloColorR = FloatField()
+    haloColorR = FloatField(default_value=1.0)
     hr = haloColorR
 
-    haloColorG = FloatField()
+    haloColorG = FloatField(default_value=1.0)
     hg = haloColorG
 
-    haloColorB = FloatField()
+    haloColorB = FloatField(default_value=1.0)
     hb = haloColorB
 
 
@@ -86,13 +86,13 @@ class HaloColorAttrOperator(
 ):
     __slots__ = ()
 
-    haloColorR = FloatField()
+    haloColorR = FloatField(default_value=1.0)
     hr = haloColorR
 
-    haloColorG = FloatField()
+    haloColorG = FloatField(default_value=1.0)
     hg = haloColorG
 
-    haloColorB = FloatField()
+    haloColorB = FloatField(default_value=1.0)
     hb = haloColorB
 
 
@@ -104,11 +104,11 @@ class HaloColorField(
     ATTR_CLS = HaloColorAttrOperator
     PLUG_CLS = HaloColorPlugOperator
 
-    haloColorR = FloatField()
+    haloColorR = FloatField(default_value=1.0)
     hr = haloColorR
 
-    haloColorG = FloatField()
+    haloColorG = FloatField(default_value=1.0)
     hg = haloColorG
 
-    haloColorB = FloatField()
+    haloColorB = FloatField(default_value=1.0)
     hb = haloColorB

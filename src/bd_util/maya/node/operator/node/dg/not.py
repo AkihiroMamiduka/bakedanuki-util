@@ -8,8 +8,8 @@ class Not(DG):
 
     NODE_TYPE = "not"
 
-    input = BoolField()
+    input = BoolField(default_value=False)
     i = input
 
-    output = BoolField()
+    output = BoolField(default_value=False, writable=False)
     o = output

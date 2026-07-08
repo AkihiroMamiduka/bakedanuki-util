@@ -30,13 +30,13 @@ class CompBoundingBoxMinPlugOperator(
         ("compBoundingBoxMinZ", "cnz"),
     )
 
-    compBoundingBoxMinX = DoubleLinearField()
+    compBoundingBoxMinX = DoubleLinearField(default_value=0.0)
     cnx = compBoundingBoxMinX
 
-    compBoundingBoxMinY = DoubleLinearField()
+    compBoundingBoxMinY = DoubleLinearField(default_value=0.0)
     cny = compBoundingBoxMinY
 
-    compBoundingBoxMinZ = DoubleLinearField()
+    compBoundingBoxMinZ = DoubleLinearField(default_value=0.0)
     cnz = compBoundingBoxMinZ
 
 
@@ -45,13 +45,13 @@ class CompBoundingBoxMinAttrOperator(
 ):
     __slots__ = ()
 
-    compBoundingBoxMinX = DoubleLinearField()
+    compBoundingBoxMinX = DoubleLinearField(default_value=0.0)
     cnx = compBoundingBoxMinX
 
-    compBoundingBoxMinY = DoubleLinearField()
+    compBoundingBoxMinY = DoubleLinearField(default_value=0.0)
     cny = compBoundingBoxMinY
 
-    compBoundingBoxMinZ = DoubleLinearField()
+    compBoundingBoxMinZ = DoubleLinearField(default_value=0.0)
     cnz = compBoundingBoxMinZ
 
 
@@ -63,13 +63,13 @@ class CompBoundingBoxMinField(
     ATTR_CLS = CompBoundingBoxMinAttrOperator
     PLUG_CLS = CompBoundingBoxMinPlugOperator
 
-    compBoundingBoxMinX = DoubleLinearField()
+    compBoundingBoxMinX = DoubleLinearField(default_value=0.0)
     cnx = compBoundingBoxMinX
 
-    compBoundingBoxMinY = DoubleLinearField()
+    compBoundingBoxMinY = DoubleLinearField(default_value=0.0)
     cny = compBoundingBoxMinY
 
-    compBoundingBoxMinZ = DoubleLinearField()
+    compBoundingBoxMinZ = DoubleLinearField(default_value=0.0)
     cnz = compBoundingBoxMinZ
 
 
@@ -83,13 +83,13 @@ class CompBoundingBoxMaxPlugOperator(
         ("compBoundingBoxMaxZ", "cxz"),
     )
 
-    compBoundingBoxMaxX = DoubleLinearField()
+    compBoundingBoxMaxX = DoubleLinearField(default_value=1.0)
     cxx = compBoundingBoxMaxX
 
-    compBoundingBoxMaxY = DoubleLinearField()
+    compBoundingBoxMaxY = DoubleLinearField(default_value=1.0)
     cxy = compBoundingBoxMaxY
 
-    compBoundingBoxMaxZ = DoubleLinearField()
+    compBoundingBoxMaxZ = DoubleLinearField(default_value=1.0)
     cxz = compBoundingBoxMaxZ
 
 
@@ -98,13 +98,13 @@ class CompBoundingBoxMaxAttrOperator(
 ):
     __slots__ = ()
 
-    compBoundingBoxMaxX = DoubleLinearField()
+    compBoundingBoxMaxX = DoubleLinearField(default_value=1.0)
     cxx = compBoundingBoxMaxX
 
-    compBoundingBoxMaxY = DoubleLinearField()
+    compBoundingBoxMaxY = DoubleLinearField(default_value=1.0)
     cxy = compBoundingBoxMaxY
 
-    compBoundingBoxMaxZ = DoubleLinearField()
+    compBoundingBoxMaxZ = DoubleLinearField(default_value=1.0)
     cxz = compBoundingBoxMaxZ
 
 
@@ -116,13 +116,13 @@ class CompBoundingBoxMaxField(
     ATTR_CLS = CompBoundingBoxMaxAttrOperator
     PLUG_CLS = CompBoundingBoxMaxPlugOperator
 
-    compBoundingBoxMaxX = DoubleLinearField()
+    compBoundingBoxMaxX = DoubleLinearField(default_value=1.0)
     cxx = compBoundingBoxMaxX
 
-    compBoundingBoxMaxY = DoubleLinearField()
+    compBoundingBoxMaxY = DoubleLinearField(default_value=1.0)
     cxy = compBoundingBoxMaxY
 
-    compBoundingBoxMaxZ = DoubleLinearField()
+    compBoundingBoxMaxZ = DoubleLinearField(default_value=1.0)
     cxz = compBoundingBoxMaxZ
 
 
@@ -136,13 +136,13 @@ class TranslatePlugOperator(
         ("translateZ", "tz"),
     )
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -151,13 +151,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -169,13 +169,13 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -189,13 +189,13 @@ class PivotPlugOperator(
         ("pivotZ", "pvz"),
     )
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -204,13 +204,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -222,13 +222,13 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -242,13 +242,13 @@ class PivotOrientationPlugOperator(
         ("pivotOrientationZ", "poz"),
     )
 
-    pivotOrientationX = DoubleAngleField()
+    pivotOrientationX = DoubleAngleField(default_value=0.0)
     pox = pivotOrientationX
 
-    pivotOrientationY = DoubleAngleField()
+    pivotOrientationY = DoubleAngleField(default_value=0.0)
     poy = pivotOrientationY
 
-    pivotOrientationZ = DoubleAngleField()
+    pivotOrientationZ = DoubleAngleField(default_value=0.0)
     poz = pivotOrientationZ
 
 
@@ -257,13 +257,13 @@ class PivotOrientationAttrOperator(
 ):
     __slots__ = ()
 
-    pivotOrientationX = DoubleAngleField()
+    pivotOrientationX = DoubleAngleField(default_value=0.0)
     pox = pivotOrientationX
 
-    pivotOrientationY = DoubleAngleField()
+    pivotOrientationY = DoubleAngleField(default_value=0.0)
     poy = pivotOrientationY
 
-    pivotOrientationZ = DoubleAngleField()
+    pivotOrientationZ = DoubleAngleField(default_value=0.0)
     poz = pivotOrientationZ
 
 
@@ -275,13 +275,13 @@ class PivotOrientationField(
     ATTR_CLS = PivotOrientationAttrOperator
     PLUG_CLS = PivotOrientationPlugOperator
 
-    pivotOrientationX = DoubleAngleField()
+    pivotOrientationX = DoubleAngleField(default_value=0.0)
     pox = pivotOrientationX
 
-    pivotOrientationY = DoubleAngleField()
+    pivotOrientationY = DoubleAngleField(default_value=0.0)
     poy = pivotOrientationY
 
-    pivotOrientationZ = DoubleAngleField()
+    pivotOrientationZ = DoubleAngleField(default_value=0.0)
     poz = pivotOrientationZ
 
 
@@ -295,13 +295,13 @@ class CompPivotOrientationPlugOperator(
         ("compPivotOrientationZ", "cpz"),
     )
 
-    compPivotOrientationX = DoubleAngleField()
+    compPivotOrientationX = DoubleAngleField(default_value=0.0)
     cpx = compPivotOrientationX
 
-    compPivotOrientationY = DoubleAngleField()
+    compPivotOrientationY = DoubleAngleField(default_value=0.0)
     cpy = compPivotOrientationY
 
-    compPivotOrientationZ = DoubleAngleField()
+    compPivotOrientationZ = DoubleAngleField(default_value=0.0)
     cpz = compPivotOrientationZ
 
 
@@ -310,13 +310,13 @@ class CompPivotOrientationAttrOperator(
 ):
     __slots__ = ()
 
-    compPivotOrientationX = DoubleAngleField()
+    compPivotOrientationX = DoubleAngleField(default_value=0.0)
     cpx = compPivotOrientationX
 
-    compPivotOrientationY = DoubleAngleField()
+    compPivotOrientationY = DoubleAngleField(default_value=0.0)
     cpy = compPivotOrientationY
 
-    compPivotOrientationZ = DoubleAngleField()
+    compPivotOrientationZ = DoubleAngleField(default_value=0.0)
     cpz = compPivotOrientationZ
 
 
@@ -328,11 +328,11 @@ class CompPivotOrientationField(
     ATTR_CLS = CompPivotOrientationAttrOperator
     PLUG_CLS = CompPivotOrientationPlugOperator
 
-    compPivotOrientationX = DoubleAngleField()
+    compPivotOrientationX = DoubleAngleField(default_value=0.0)
     cpx = compPivotOrientationX
 
-    compPivotOrientationY = DoubleAngleField()
+    compPivotOrientationY = DoubleAngleField(default_value=0.0)
     cpy = compPivotOrientationY
 
-    compPivotOrientationZ = DoubleAngleField()
+    compPivotOrientationZ = DoubleAngleField(default_value=0.0)
     cpz = compPivotOrientationZ

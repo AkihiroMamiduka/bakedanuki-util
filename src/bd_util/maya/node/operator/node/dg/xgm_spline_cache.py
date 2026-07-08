@@ -54,13 +54,13 @@ class XgmSplineCache(DG):
 
     NODE_TYPE = "xgmSplineCache"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
     fileName = DataStringField()
@@ -72,32 +72,32 @@ class XgmSplineCache(DG):
     activeDescription = DataStringField()
     ad = activeDescription
 
-    startFrame = DoubleField()
+    startFrame = DoubleField(default_value=0.0, writable=False)
     sf = startFrame
 
-    endFrame = DoubleField()
+    endFrame = DoubleField(default_value=0.0, writable=False)
     ef = endFrame
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
     tm = time
 
-    speed = DoubleField()
+    speed = DoubleField(default_value=1.0)
     sp = speed
 
-    offset = DoubleField()
+    offset = DoubleField(default_value=0.0)
     of = offset
 
-    cycleType = CycleTypeEnumField()
+    cycleType = CycleTypeEnumField(default_value=0)
     ct = cycleType
 
-    width = FloatField()
+    width = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     w = width
 
-    widthTaper = FloatField()
+    widthTaper = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wdt = widthTaper
 
-    widthTaperStart = FloatField()
+    widthTaperStart = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     wdts = widthTaperStart
 
-    widthRamp = WidthRampField(multi=True)
+    widthRamp = WidthRampField(multi=True, default_value=(0.0, 0.0, 1.0))
     wdr = widthRamp

@@ -101,22 +101,22 @@ class MASH_Deformer(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -128,7 +128,7 @@ class MASH_Deformer(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     inputPoints = TypedField()
@@ -144,13 +144,13 @@ class MASH_Deformer(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -161,20 +161,20 @@ class MASH_Deformer(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     StEnv = StepEnvelope
 
     strengthPP = TypedField(multi=True)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -183,15 +183,15 @@ class MASH_Deformer(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    localGlobalEnv = BoolField()
+    localGlobalEnv = BoolField(default_value=True)
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
@@ -207,14 +207,14 @@ class MASH_Deformer(DG):
     scaleOutPP = translateOutPP.scaleOutPP
     rotationOutPP = translateOutPP.rotationOutPP
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
     enpos = enablePosition
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=True)
     enrot = enableRotation
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
     ensca = enableScale
 
-    componentType = ComponentTypeEnumField()
+    componentType = ComponentTypeEnumField(default_value=2)
     cty = componentType

@@ -17,178 +17,178 @@ class HIKPinning2State(DG):
 
     InputEffectorStateNoAux = TypedField()
 
-    HipsEffectorPinT = BoolField()
+    HipsEffectorPinT = BoolField(default_value=False)
 
-    HipsEffectorPinR = BoolField()
+    HipsEffectorPinR = BoolField(default_value=False)
 
-    LeftAnkleEffectorPinT = BoolField()
+    LeftAnkleEffectorPinT = BoolField(default_value=False)
 
-    LeftAnkleEffectorPinR = BoolField()
+    LeftAnkleEffectorPinR = BoolField(default_value=False)
 
-    RightAnkleEffectorPinT = BoolField()
+    RightAnkleEffectorPinT = BoolField(default_value=False)
 
-    RightAnkleEffectorPinR = BoolField()
+    RightAnkleEffectorPinR = BoolField(default_value=False)
 
-    LeftWristEffectorPinT = BoolField()
+    LeftWristEffectorPinT = BoolField(default_value=False)
 
-    LeftWristEffectorPinR = BoolField()
+    LeftWristEffectorPinR = BoolField(default_value=False)
 
-    RightWristEffectorPinT = BoolField()
+    RightWristEffectorPinT = BoolField(default_value=False)
 
-    RightWristEffectorPinR = BoolField()
+    RightWristEffectorPinR = BoolField(default_value=False)
 
-    LeftKneeEffectorPinT = BoolField()
+    LeftKneeEffectorPinT = BoolField(default_value=False)
 
-    LeftKneeEffectorPinR = BoolField()
+    LeftKneeEffectorPinR = BoolField(default_value=False)
 
-    RightKneeEffectorPinT = BoolField()
+    RightKneeEffectorPinT = BoolField(default_value=False)
 
-    RightKneeEffectorPinR = BoolField()
+    RightKneeEffectorPinR = BoolField(default_value=False)
 
-    LeftElbowEffectorPinT = BoolField()
+    LeftElbowEffectorPinT = BoolField(default_value=False)
 
-    LeftElbowEffectorPinR = BoolField()
+    LeftElbowEffectorPinR = BoolField(default_value=False)
 
-    RightElbowEffectorPinT = BoolField()
+    RightElbowEffectorPinT = BoolField(default_value=False)
 
-    RightElbowEffectorPinR = BoolField()
+    RightElbowEffectorPinR = BoolField(default_value=False)
 
-    ChestOriginEffectorPinT = BoolField()
+    ChestOriginEffectorPinT = BoolField(default_value=False)
 
-    ChestOriginEffectorPinR = BoolField()
+    ChestOriginEffectorPinR = BoolField(default_value=False)
 
-    ChestEndEffectorPinT = BoolField()
+    ChestEndEffectorPinT = BoolField(default_value=False)
 
-    ChestEndEffectorPinR = BoolField()
+    ChestEndEffectorPinR = BoolField(default_value=False)
 
-    LeftFootEffectorPinT = BoolField()
+    LeftFootEffectorPinT = BoolField(default_value=False)
 
-    LeftFootEffectorPinR = BoolField()
+    LeftFootEffectorPinR = BoolField(default_value=False)
 
-    RightFootEffectorPinT = BoolField()
+    RightFootEffectorPinT = BoolField(default_value=False)
 
-    RightFootEffectorPinR = BoolField()
+    RightFootEffectorPinR = BoolField(default_value=False)
 
-    LeftShoulderEffectorPinT = BoolField()
+    LeftShoulderEffectorPinT = BoolField(default_value=False)
 
-    LeftShoulderEffectorPinR = BoolField()
+    LeftShoulderEffectorPinR = BoolField(default_value=False)
 
-    RightShoulderEffectorPinT = BoolField()
+    RightShoulderEffectorPinT = BoolField(default_value=False)
 
-    RightShoulderEffectorPinR = BoolField()
+    RightShoulderEffectorPinR = BoolField(default_value=False)
 
-    HeadEffectorPinT = BoolField()
+    HeadEffectorPinT = BoolField(default_value=False)
 
-    HeadEffectorPinR = BoolField()
+    HeadEffectorPinR = BoolField(default_value=False)
 
-    LeftHipEffectorPinT = BoolField()
+    LeftHipEffectorPinT = BoolField(default_value=False)
 
-    LeftHipEffectorPinR = BoolField()
+    LeftHipEffectorPinR = BoolField(default_value=False)
 
-    RightHipEffectorPinT = BoolField()
+    RightHipEffectorPinT = BoolField(default_value=False)
 
-    RightHipEffectorPinR = BoolField()
+    RightHipEffectorPinR = BoolField(default_value=False)
 
-    LeftHandEffectorPinT = BoolField()
+    LeftHandEffectorPinT = BoolField(default_value=False)
 
-    LeftHandEffectorPinR = BoolField()
+    LeftHandEffectorPinR = BoolField(default_value=False)
 
-    RightHandEffectorPinT = BoolField()
+    RightHandEffectorPinT = BoolField(default_value=False)
 
-    RightHandEffectorPinR = BoolField()
+    RightHandEffectorPinR = BoolField(default_value=False)
 
-    LeftHandThumbEffectorPinT = BoolField()
+    LeftHandThumbEffectorPinT = BoolField(default_value=False)
 
-    LeftHandThumbEffectorPinR = BoolField()
+    LeftHandThumbEffectorPinR = BoolField(default_value=False)
 
-    LeftHandIndexEffectorPinT = BoolField()
+    LeftHandIndexEffectorPinT = BoolField(default_value=False)
 
-    LeftHandIndexEffectorPinR = BoolField()
+    LeftHandIndexEffectorPinR = BoolField(default_value=False)
 
-    LeftHandMiddleEffectorPinT = BoolField()
+    LeftHandMiddleEffectorPinT = BoolField(default_value=False)
 
-    LeftHandMiddleEffectorPinR = BoolField()
+    LeftHandMiddleEffectorPinR = BoolField(default_value=False)
 
-    LeftHandRingEffectorPinT = BoolField()
+    LeftHandRingEffectorPinT = BoolField(default_value=False)
 
-    LeftHandRingEffectorPinR = BoolField()
+    LeftHandRingEffectorPinR = BoolField(default_value=False)
 
-    LeftHandPinkyEffectorPinT = BoolField()
+    LeftHandPinkyEffectorPinT = BoolField(default_value=False)
 
-    LeftHandPinkyEffectorPinR = BoolField()
+    LeftHandPinkyEffectorPinR = BoolField(default_value=False)
 
-    LeftHandExtraFingerEffectorPinT = BoolField()
+    LeftHandExtraFingerEffectorPinT = BoolField(default_value=False)
 
-    LeftHandExtraFingerEffectorPinR = BoolField()
+    LeftHandExtraFingerEffectorPinR = BoolField(default_value=False)
 
-    RightHandThumbEffectorPinT = BoolField()
+    RightHandThumbEffectorPinT = BoolField(default_value=False)
 
-    RightHandThumbEffectorPinR = BoolField()
+    RightHandThumbEffectorPinR = BoolField(default_value=False)
 
-    RightHandIndexEffectorPinT = BoolField()
+    RightHandIndexEffectorPinT = BoolField(default_value=False)
 
-    RightHandIndexEffectorPinR = BoolField()
+    RightHandIndexEffectorPinR = BoolField(default_value=False)
 
-    RightHandMiddleEffectorPinT = BoolField()
+    RightHandMiddleEffectorPinT = BoolField(default_value=False)
 
-    RightHandMiddleEffectorPinR = BoolField()
+    RightHandMiddleEffectorPinR = BoolField(default_value=False)
 
-    RightHandRingEffectorPinT = BoolField()
+    RightHandRingEffectorPinT = BoolField(default_value=False)
 
-    RightHandRingEffectorPinR = BoolField()
+    RightHandRingEffectorPinR = BoolField(default_value=False)
 
-    RightHandPinkyEffectorPinT = BoolField()
+    RightHandPinkyEffectorPinT = BoolField(default_value=False)
 
-    RightHandPinkyEffectorPinR = BoolField()
+    RightHandPinkyEffectorPinR = BoolField(default_value=False)
 
-    RightHandExtraFingerEffectorPinT = BoolField()
+    RightHandExtraFingerEffectorPinT = BoolField(default_value=False)
 
-    RightHandExtraFingerEffectorPinR = BoolField()
+    RightHandExtraFingerEffectorPinR = BoolField(default_value=False)
 
-    LeftFootThumbEffectorPinT = BoolField()
+    LeftFootThumbEffectorPinT = BoolField(default_value=False)
 
-    LeftFootThumbEffectorPinR = BoolField()
+    LeftFootThumbEffectorPinR = BoolField(default_value=False)
 
-    LeftFootIndexEffectorPinT = BoolField()
+    LeftFootIndexEffectorPinT = BoolField(default_value=False)
 
-    LeftFootIndexEffectorPinR = BoolField()
+    LeftFootIndexEffectorPinR = BoolField(default_value=False)
 
-    LeftFootMiddleEffectorPinT = BoolField()
+    LeftFootMiddleEffectorPinT = BoolField(default_value=False)
 
-    LeftFootMiddleEffectorPinR = BoolField()
+    LeftFootMiddleEffectorPinR = BoolField(default_value=False)
 
-    LeftFootRingEffectorPinT = BoolField()
+    LeftFootRingEffectorPinT = BoolField(default_value=False)
 
-    LeftFootRingEffectorPinR = BoolField()
+    LeftFootRingEffectorPinR = BoolField(default_value=False)
 
-    LeftFootPinkyEffectorPinT = BoolField()
+    LeftFootPinkyEffectorPinT = BoolField(default_value=False)
 
-    LeftFootPinkyEffectorPinR = BoolField()
+    LeftFootPinkyEffectorPinR = BoolField(default_value=False)
 
-    LeftFootExtraFingerEffectorPinT = BoolField()
+    LeftFootExtraFingerEffectorPinT = BoolField(default_value=False)
 
-    LeftFootExtraFingerEffectorPinR = BoolField()
+    LeftFootExtraFingerEffectorPinR = BoolField(default_value=False)
 
-    RightFootThumbEffectorPinT = BoolField()
+    RightFootThumbEffectorPinT = BoolField(default_value=False)
 
-    RightFootThumbEffectorPinR = BoolField()
+    RightFootThumbEffectorPinR = BoolField(default_value=False)
 
-    RightFootIndexEffectorPinT = BoolField()
+    RightFootIndexEffectorPinT = BoolField(default_value=False)
 
-    RightFootIndexEffectorPinR = BoolField()
+    RightFootIndexEffectorPinR = BoolField(default_value=False)
 
-    RightFootMiddleEffectorPinT = BoolField()
+    RightFootMiddleEffectorPinT = BoolField(default_value=False)
 
-    RightFootMiddleEffectorPinR = BoolField()
+    RightFootMiddleEffectorPinR = BoolField(default_value=False)
 
-    RightFootRingEffectorPinT = BoolField()
+    RightFootRingEffectorPinT = BoolField(default_value=False)
 
-    RightFootRingEffectorPinR = BoolField()
+    RightFootRingEffectorPinR = BoolField(default_value=False)
 
-    RightFootPinkyEffectorPinT = BoolField()
+    RightFootPinkyEffectorPinT = BoolField(default_value=False)
 
-    RightFootPinkyEffectorPinR = BoolField()
+    RightFootPinkyEffectorPinR = BoolField(default_value=False)
 
-    RightFootExtraFingerEffectorPinT = BoolField()
+    RightFootExtraFingerEffectorPinT = BoolField(default_value=False)
 
-    RightFootExtraFingerEffectorPinR = BoolField()
+    RightFootExtraFingerEffectorPinR = BoolField(default_value=False)

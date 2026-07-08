@@ -73,7 +73,7 @@ class AiColorConvert(DG):
 
     NODE_TYPE = "aiColorConvert"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -82,7 +82,7 @@ class AiColorConvert(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -91,7 +91,7 @@ class AiColorConvert(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(1.0, 1.0, 1.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -99,6 +99,6 @@ class AiColorConvert(DG):
     inputB = input.inputB
     inputb = inputB
 
-    from_ = From_EnumField(long_name="from", short_name="from")
+    from_ = From_EnumField(default_value=0, long_name="from", short_name="from")
 
-    to = ToEnumField()
+    to = ToEnumField(default_value=1)

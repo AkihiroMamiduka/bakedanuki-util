@@ -78,7 +78,7 @@ class SelectionListOperator(DG):
 
     NODE_TYPE = "selectionListOperator"
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=0)
     op = operation
 
     inputListA = TypedField()
@@ -90,5 +90,5 @@ class SelectionListOperator(DG):
     outputList = TypedField()
     out = outputList
 
-    operatorClass = OperatorClassEnumField()
+    operatorClass = OperatorClassEnumField(default_value=2)
     ocls = operatorClass

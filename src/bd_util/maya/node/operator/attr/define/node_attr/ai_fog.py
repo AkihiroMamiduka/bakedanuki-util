@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class ColorPlugOperator(
         ("colorB", "colorb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -139,13 +139,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -157,13 +157,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=1.0)
     colorr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=1.0)
     colorg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=1.0)
     colorb = colorB
 
 
@@ -177,13 +177,13 @@ class GroundPointPlugOperator(
         ("groundPointZ", "ground_pointz"),
     )
 
-    groundPointX = FloatField()
+    groundPointX = FloatField(default_value=0.0)
     ground_pointx = groundPointX
 
-    groundPointY = FloatField()
+    groundPointY = FloatField(default_value=0.0)
     ground_pointy = groundPointY
 
-    groundPointZ = FloatField()
+    groundPointZ = FloatField(default_value=0.0)
     ground_pointz = groundPointZ
 
 
@@ -192,13 +192,13 @@ class GroundPointAttrOperator(
 ):
     __slots__ = ()
 
-    groundPointX = FloatField()
+    groundPointX = FloatField(default_value=0.0)
     ground_pointx = groundPointX
 
-    groundPointY = FloatField()
+    groundPointY = FloatField(default_value=0.0)
     ground_pointy = groundPointY
 
-    groundPointZ = FloatField()
+    groundPointZ = FloatField(default_value=0.0)
     ground_pointz = groundPointZ
 
 
@@ -210,13 +210,13 @@ class GroundPointField(
     ATTR_CLS = GroundPointAttrOperator
     PLUG_CLS = GroundPointPlugOperator
 
-    groundPointX = FloatField()
+    groundPointX = FloatField(default_value=0.0)
     ground_pointx = groundPointX
 
-    groundPointY = FloatField()
+    groundPointY = FloatField(default_value=0.0)
     ground_pointy = groundPointY
 
-    groundPointZ = FloatField()
+    groundPointZ = FloatField(default_value=0.0)
     ground_pointz = groundPointZ
 
 
@@ -230,13 +230,13 @@ class GroundNormalPlugOperator(
         ("groundNormalZ", "ground_normalz"),
     )
 
-    groundNormalX = FloatField()
+    groundNormalX = FloatField(default_value=0.0)
     ground_normalx = groundNormalX
 
-    groundNormalY = FloatField()
+    groundNormalY = FloatField(default_value=0.0)
     ground_normaly = groundNormalY
 
-    groundNormalZ = FloatField()
+    groundNormalZ = FloatField(default_value=1.0)
     ground_normalz = groundNormalZ
 
 
@@ -245,13 +245,13 @@ class GroundNormalAttrOperator(
 ):
     __slots__ = ()
 
-    groundNormalX = FloatField()
+    groundNormalX = FloatField(default_value=0.0)
     ground_normalx = groundNormalX
 
-    groundNormalY = FloatField()
+    groundNormalY = FloatField(default_value=0.0)
     ground_normaly = groundNormalY
 
-    groundNormalZ = FloatField()
+    groundNormalZ = FloatField(default_value=1.0)
     ground_normalz = groundNormalZ
 
 
@@ -263,11 +263,11 @@ class GroundNormalField(
     ATTR_CLS = GroundNormalAttrOperator
     PLUG_CLS = GroundNormalPlugOperator
 
-    groundNormalX = FloatField()
+    groundNormalX = FloatField(default_value=0.0)
     ground_normalx = groundNormalX
 
-    groundNormalY = FloatField()
+    groundNormalY = FloatField(default_value=0.0)
     ground_normaly = groundNormalY
 
-    groundNormalZ = FloatField()
+    groundNormalZ = FloatField(default_value=1.0)
     ground_normalz = groundNormalZ

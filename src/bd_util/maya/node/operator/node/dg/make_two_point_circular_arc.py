@@ -52,13 +52,13 @@ class MakeTwoPointCircularArc(DG):
 
     NODE_TYPE = "makeTwoPointCircularArc"
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField()
+    sections = LongField(default_value=8, min_value=4, soft_max_value=100)
     s = sections
 
-    center = CenterField()
+    center = CenterField(default_value=(0.0, 0.0, 0.0), writable=False)
     c = center
     centerX = center.centerX
     cx = centerX
@@ -67,7 +67,7 @@ class MakeTwoPointCircularArc(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0), writable=False)
     nr = normal
     normalX = normal.normalX
     nrx = normalX
@@ -76,13 +76,13 @@ class MakeTwoPointCircularArc(DG):
     normalZ = normal.normalZ
     nrz = normalZ
 
-    sweep = DoubleAngleField()
+    sweep = DoubleAngleField(default_value=0.0, writable=False)
     sw = sweep
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    point1 = Point1Field()
+    point1 = Point1Field(default_value=(1.0, 0.0, 0.0))
     pt1 = point1
     point1X = point1.point1X
     p1x = point1X
@@ -91,7 +91,7 @@ class MakeTwoPointCircularArc(DG):
     point1Z = point1.point1Z
     p1z = point1Z
 
-    point2 = Point2Field()
+    point2 = Point2Field(default_value=(-1.0, 0.0, 0.0))
     pt2 = point2
     point2X = point2.point2X
     p2x = point2X
@@ -100,7 +100,7 @@ class MakeTwoPointCircularArc(DG):
     point2Z = point2.point2Z
     p2z = point2Z
 
-    directionVector = DirectionVectorField()
+    directionVector = DirectionVectorField(default_value=(0.0, 0.0, 1.0))
     dv = directionVector
     directionVectorX = directionVector.directionVectorX
     dvx = directionVectorX
@@ -109,8 +109,8 @@ class MakeTwoPointCircularArc(DG):
     directionVectorZ = directionVector.directionVectorZ
     dvz = directionVectorZ
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0)
     r = radius
 
-    toggleArc = BoolField()
+    toggleArc = BoolField(default_value=False)
     tac = toggleArc

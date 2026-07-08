@@ -17,10 +17,10 @@ class PositionPlugOperator(
         ("positionY", "py"),
     )
 
-    positionX = DoubleField()
+    positionX = DoubleField(default_value=0.0)
     px = positionX
 
-    positionY = DoubleField()
+    positionY = DoubleField(default_value=0.0)
     py = positionY
 
 
@@ -29,10 +29,10 @@ class PositionAttrOperator(
 ):
     __slots__ = ()
 
-    positionX = DoubleField()
+    positionX = DoubleField(default_value=0.0)
     px = positionX
 
-    positionY = DoubleField()
+    positionY = DoubleField(default_value=0.0)
     py = positionY
 
 
@@ -44,10 +44,10 @@ class PositionField(
     ATTR_CLS = PositionAttrOperator
     PLUG_CLS = PositionPlugOperator
 
-    positionX = DoubleField()
+    positionX = DoubleField(default_value=0.0)
     px = positionX
 
-    positionY = DoubleField()
+    positionY = DoubleField(default_value=0.0)
     py = positionY
 
 
@@ -60,10 +60,10 @@ class ViewRectLowPlugOperator(
         ("viewYL", "yl"),
     )
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -72,10 +72,10 @@ class ViewRectLowAttrOperator(
 ):
     __slots__ = ()
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -87,10 +87,10 @@ class ViewRectLowField(
     ATTR_CLS = ViewRectLowAttrOperator
     PLUG_CLS = ViewRectLowPlugOperator
 
-    viewXL = DoubleField()
+    viewXL = DoubleField(default_value=0.0)
     xl = viewXL
 
-    viewYL = DoubleField()
+    viewYL = DoubleField(default_value=0.0)
     yl = viewYL
 
 
@@ -103,10 +103,10 @@ class ViewRectHighPlugOperator(
         ("viewYH", "yh"),
     )
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH
 
 
@@ -115,10 +115,10 @@ class ViewRectHighAttrOperator(
 ):
     __slots__ = ()
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH
 
 
@@ -130,8 +130,8 @@ class ViewRectHighField(
     ATTR_CLS = ViewRectHighAttrOperator
     PLUG_CLS = ViewRectHighPlugOperator
 
-    viewXH = DoubleField()
+    viewXH = DoubleField(default_value=0.0)
     xh = viewXH
 
-    viewYH = DoubleField()
+    viewYH = DoubleField(default_value=0.0)
     yh = viewYH

@@ -30,56 +30,56 @@ class StitchSrf(DG):
     inputReferenceCOS = DataNurbsCurveField(multi=True)
     ir = inputReferenceCOS
 
-    positionalContinuity = BoolField(multi=True)
+    positionalContinuity = BoolField(multi=True, default_value=True)
     pc = positionalContinuity
 
-    tangentialContinuity = BoolField(multi=True)
+    tangentialContinuity = BoolField(multi=True, default_value=False)
     tc = tangentialContinuity
 
-    toggleTolerance = BoolField(multi=True)
+    toggleTolerance = BoolField(multi=True, default_value=False)
     tt = toggleTolerance
 
-    tolerance = DoubleLinearField(multi=True)
+    tolerance = DoubleLinearField(multi=True, default_value=0.1, soft_min_value=0.0001, soft_max_value=0.1)
     tol = tolerance
 
-    stepCount = LongField(multi=True)
+    stepCount = LongField(multi=True, default_value=20, min_value=6)
     sc = stepCount
 
-    parameterU = DoubleField(multi=True)
+    parameterU = DoubleField(multi=True, default_value=-10000.0)
     u = parameterU
 
-    parameterV = DoubleField(multi=True)
+    parameterV = DoubleField(multi=True, default_value=-10000.0)
     v = parameterV
 
-    position = PositionField(multi=True)
+    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0))
     p = position
 
-    normal = NormalField(multi=True)
+    normal = NormalField(multi=True, default_value=(0.0, 0.0, 0.0))
     n = normal
 
-    togglePointNormals = BoolField()
+    togglePointNormals = BoolField(default_value=False)
     tpn = togglePointNormals
 
-    togglePointPosition = BoolField()
+    togglePointPosition = BoolField(default_value=True)
     tpp = togglePointPosition
 
-    cvIthIndex = LongField(multi=True)
+    cvIthIndex = LongField(multi=True, default_value=-1)
     ci = cvIthIndex
 
-    cvJthIndex = LongField(multi=True)
+    cvJthIndex = LongField(multi=True, default_value=-1)
     cj = cvJthIndex
 
-    cvPosition = CvPositionField(multi=True)
+    cvPosition = CvPositionField(multi=True, default_value=(-1.0, -1.0, -1.0))
     cv = cvPosition
 
-    bias = DoubleField()
+    bias = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     b = bias
 
-    fixBoundary = BoolField()
+    fixBoundary = BoolField(default_value=False)
     fb = fixBoundary
 
-    shouldBeLast = BoolField()
+    shouldBeLast = BoolField(default_value=True, writable=False)
     sbl = shouldBeLast
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

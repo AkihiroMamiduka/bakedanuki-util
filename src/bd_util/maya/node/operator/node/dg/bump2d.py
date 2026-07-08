@@ -64,7 +64,7 @@ class Bump2d(DG):
 
     NODE_TYPE = "bump2d"
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -73,7 +73,7 @@ class Bump2d(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -82,7 +82,7 @@ class Bump2d(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rpox = refPointObjX
@@ -91,7 +91,7 @@ class Bump2d(DG):
     refPointObjZ = refPointObj.refPointObjZ
     rpoz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -100,7 +100,7 @@ class Bump2d(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    rayOrigin = RayOriginField()
+    rayOrigin = RayOriginField(default_value=(0.0, 0.0, 0.0))
     ro = rayOrigin
     rayOriginX = rayOrigin.rayOriginX
     rox = rayOriginX
@@ -109,27 +109,27 @@ class Bump2d(DG):
     rayOriginZ = rayOrigin.rayOriginZ
     roz = rayOriginZ
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -138,7 +138,7 @@ class Bump2d(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    tangentUCamera = TangentUCameraField()
+    tangentUCamera = TangentUCameraField(default_value=(1.0, 0.0, 0.0))
     tu = tangentUCamera
     tangentUx = tangentUCamera.tangentUx
     tux = tangentUx
@@ -147,7 +147,7 @@ class Bump2d(DG):
     tangentUz = tangentUCamera.tangentUz
     tuz = tangentUz
 
-    tangentVCamera = TangentVCameraField()
+    tangentVCamera = TangentVCameraField(default_value=(0.0, 1.0, 0.0))
     tv = tangentVCamera
     tangentVx = tangentVCamera.tangentVx
     tvx = tangentVx
@@ -156,28 +156,28 @@ class Bump2d(DG):
     tangentVz = tangentVCamera.tangentVz
     tvz = tangentVz
 
-    adjustEdges = BoolField()
+    adjustEdges = BoolField(default_value=False)
     ae = adjustEdges
 
-    bumpDepth = FloatField()
+    bumpDepth = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
     bd = bumpDepth
 
-    bumpInterp = BumpInterpEnumField()
+    bumpInterp = BumpInterpEnumField(default_value=0)
     bi = bumpInterp
 
-    bumpFilter = FloatField()
+    bumpFilter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     bf = bumpFilter
 
-    bumpFilterOffset = FloatField()
+    bumpFilterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     bfo = bumpFilterOffset
 
-    bumpValue = FloatField()
+    bumpValue = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     bv = bumpValue
 
-    provide3dInfo = BoolField()
+    provide3dInfo = BoolField(default_value=False)
     p3d = provide3dInfo
 
-    outNormal = OutNormalField()
+    outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)
     o = outNormal
     outNormalX = outNormal.outNormalX
     ox = outNormalX
@@ -186,21 +186,21 @@ class Bump2d(DG):
     outNormalZ = outNormal.outNormalZ
     oz = outNormalZ
 
-    vertexUvOne = VertexUvOneField()
+    vertexUvOne = VertexUvOneField(default_value=(0.0, 0.0))
     vt1 = vertexUvOne
     vertexUvOneU = vertexUvOne.vertexUvOneU
     t1u = vertexUvOneU
     vertexUvOneV = vertexUvOne.vertexUvOneV
     t1v = vertexUvOneV
 
-    vertexUvTwo = VertexUvTwoField()
+    vertexUvTwo = VertexUvTwoField(default_value=(0.0, 0.0))
     vt2 = vertexUvTwo
     vertexUvTwoU = vertexUvTwo.vertexUvTwoU
     t2u = vertexUvTwoU
     vertexUvTwoV = vertexUvTwo.vertexUvTwoV
     t2v = vertexUvTwoV
 
-    vertexCameraOne = VertexCameraOneField()
+    vertexCameraOne = VertexCameraOneField(default_value=(0.0, 0.0, 0.0))
     vc1 = vertexCameraOne
     vertexCameraOneX = vertexCameraOne.vertexCameraOneX
     c1x = vertexCameraOneX
@@ -209,7 +209,7 @@ class Bump2d(DG):
     vertexCameraOneZ = vertexCameraOne.vertexCameraOneZ
     c1z = vertexCameraOneZ
 
-    vertexCameraTwo = VertexCameraTwoField()
+    vertexCameraTwo = VertexCameraTwoField(default_value=(0.0, 0.0, 0.0))
     vc2 = vertexCameraTwo
     vertexCameraTwoX = vertexCameraTwo.vertexCameraTwoX
     c2x = vertexCameraTwoX
@@ -218,17 +218,17 @@ class Bump2d(DG):
     vertexCameraTwoZ = vertexCameraTwo.vertexCameraTwoZ
     c2z = vertexCameraTwoZ
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiFlipR = BoolField()
+    aiFlipR = BoolField(default_value=False, category="arnold")
     flip_r = aiFlipR
 
-    aiFlipG = BoolField()
+    aiFlipG = BoolField(default_value=False, category="arnold")
     flip_g = aiFlipG
 
-    aiSwapTangents = BoolField()
+    aiSwapTangents = BoolField(default_value=False, category="arnold")
     swap_tangents = aiSwapTangents
 
-    aiUseDerivatives = BoolField()
+    aiUseDerivatives = BoolField(default_value=True, category="arnold")
     use_derivatives = aiUseDerivatives

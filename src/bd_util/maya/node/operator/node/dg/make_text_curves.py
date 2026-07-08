@@ -18,13 +18,13 @@ class MakeTextCurves(DG):
     font = DataStringField()
     f = font
 
-    deprecatedFontName = BoolField()
+    deprecatedFontName = BoolField(default_value=False)
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve
 
-    position = PositionField(multi=True)
+    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    count = LongField(multi=True)
+    count = LongField(multi=True, default_value=0, writable=False)
     c = count

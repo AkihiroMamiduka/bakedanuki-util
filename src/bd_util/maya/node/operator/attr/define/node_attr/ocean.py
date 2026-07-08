@@ -134,10 +134,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -146,10 +146,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -161,10 +161,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -177,10 +177,10 @@ class UvFilterSizePlugOperator(
         ("uvFilterSizeY", "fsy"),
     )
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -189,10 +189,10 @@ class UvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -204,10 +204,10 @@ class UvFilterSizeField(
     ATTR_CLS = UvFilterSizeAttrOperator
     PLUG_CLS = UvFilterSizePlugOperator
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -221,13 +221,13 @@ class ColorGainPlugOperator(
         ("colorGainB", "cgb"),
     )
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -236,13 +236,13 @@ class ColorGainAttrOperator(
 ):
     __slots__ = ()
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -254,13 +254,13 @@ class ColorGainField(
     ATTR_CLS = ColorGainAttrOperator
     PLUG_CLS = ColorGainPlugOperator
 
-    colorGainR = FloatField()
+    colorGainR = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgr = colorGainR
 
-    colorGainG = FloatField()
+    colorGainG = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgg = colorGainG
 
-    colorGainB = FloatField()
+    colorGainB = FloatField(default_value=1.0, min_value=0.0, max_value=2.0)
     cgb = colorGainB
 
 
@@ -274,13 +274,13 @@ class ColorOffsetPlugOperator(
         ("colorOffsetB", "cob"),
     )
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -289,13 +289,13 @@ class ColorOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -307,13 +307,13 @@ class ColorOffsetField(
     ATTR_CLS = ColorOffsetAttrOperator
     PLUG_CLS = ColorOffsetPlugOperator
 
-    colorOffsetR = FloatField()
+    colorOffsetR = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cor = colorOffsetR
 
-    colorOffsetG = FloatField()
+    colorOffsetG = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cog = colorOffsetG
 
-    colorOffsetB = FloatField()
+    colorOffsetB = FloatField(default_value=0.0, min_value=0.0, max_value=2.0)
     cob = colorOffsetB
 
 
@@ -327,13 +327,13 @@ class DefaultColorPlugOperator(
         ("defaultColorB", "dcb"),
     )
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -342,13 +342,13 @@ class DefaultColorAttrOperator(
 ):
     __slots__ = ()
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -360,13 +360,13 @@ class DefaultColorField(
     ATTR_CLS = DefaultColorAttrOperator
     PLUG_CLS = DefaultColorPlugOperator
 
-    defaultColorR = FloatField()
+    defaultColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcr = defaultColorR
 
-    defaultColorG = FloatField()
+    defaultColorG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcg = defaultColorG
 
-    defaultColorB = FloatField()
+    defaultColorB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     dcb = defaultColorB
 
 
@@ -380,13 +380,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -395,13 +395,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -413,13 +413,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -432,10 +432,10 @@ class WindUVPlugOperator(
         ("windV", "wiv"),
     )
 
-    windU = FloatField()
+    windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     wiu = windU
 
-    windV = FloatField()
+    windV = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wiv = windV
 
 
@@ -444,10 +444,10 @@ class WindUVAttrOperator(
 ):
     __slots__ = ()
 
-    windU = FloatField()
+    windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     wiu = windU
 
-    windV = FloatField()
+    windV = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wiv = windV
 
 
@@ -459,10 +459,10 @@ class WindUVField(
     ATTR_CLS = WindUVAttrOperator
     PLUG_CLS = WindUVPlugOperator
 
-    windU = FloatField()
+    windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     wiu = windU
 
-    windV = FloatField()
+    windV = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wiv = windV
 
 
@@ -476,13 +476,13 @@ class WaveHeightPlugOperator(
         ("waveHeight_Interp", "whi"),
     )
 
-    waveHeight_Position = FloatField()
+    waveHeight_Position = FloatField(default_value=0.0)
     whp = waveHeight_Position
 
-    waveHeight_FloatValue = FloatField()
+    waveHeight_FloatValue = FloatField(default_value=0.0)
     whfv = waveHeight_FloatValue
 
-    waveHeight_Interp = WaveHeight_InterpEnumField()
+    waveHeight_Interp = WaveHeight_InterpEnumField(default_value=0)
     whi = waveHeight_Interp
 
 
@@ -491,13 +491,13 @@ class WaveHeightAttrOperator(
 ):
     __slots__ = ()
 
-    waveHeight_Position = FloatField()
+    waveHeight_Position = FloatField(default_value=0.0)
     whp = waveHeight_Position
 
-    waveHeight_FloatValue = FloatField()
+    waveHeight_FloatValue = FloatField(default_value=0.0)
     whfv = waveHeight_FloatValue
 
-    waveHeight_Interp = WaveHeight_InterpEnumField()
+    waveHeight_Interp = WaveHeight_InterpEnumField(default_value=0)
     whi = waveHeight_Interp
 
 
@@ -520,13 +520,13 @@ class WaveTurbulencePlugOperator(
         ("waveTurbulence_Interp", "wtbi"),
     )
 
-    waveTurbulence_Position = FloatField()
+    waveTurbulence_Position = FloatField(default_value=0.0)
     wtbp = waveTurbulence_Position
 
-    waveTurbulence_FloatValue = FloatField()
+    waveTurbulence_FloatValue = FloatField(default_value=0.0)
     wtbfv = waveTurbulence_FloatValue
 
-    waveTurbulence_Interp = WaveTurbulence_InterpEnumField()
+    waveTurbulence_Interp = WaveTurbulence_InterpEnumField(default_value=0)
     wtbi = waveTurbulence_Interp
 
 
@@ -535,13 +535,13 @@ class WaveTurbulenceAttrOperator(
 ):
     __slots__ = ()
 
-    waveTurbulence_Position = FloatField()
+    waveTurbulence_Position = FloatField(default_value=0.0)
     wtbp = waveTurbulence_Position
 
-    waveTurbulence_FloatValue = FloatField()
+    waveTurbulence_FloatValue = FloatField(default_value=0.0)
     wtbfv = waveTurbulence_FloatValue
 
-    waveTurbulence_Interp = WaveTurbulence_InterpEnumField()
+    waveTurbulence_Interp = WaveTurbulence_InterpEnumField(default_value=0)
     wtbi = waveTurbulence_Interp
 
 
@@ -564,13 +564,13 @@ class WavePeakingPlugOperator(
         ("wavePeaking_Interp", "wpi"),
     )
 
-    wavePeaking_Position = FloatField()
+    wavePeaking_Position = FloatField(default_value=0.0)
     wpp = wavePeaking_Position
 
-    wavePeaking_FloatValue = FloatField()
+    wavePeaking_FloatValue = FloatField(default_value=0.0)
     wpfv = wavePeaking_FloatValue
 
-    wavePeaking_Interp = WavePeaking_InterpEnumField()
+    wavePeaking_Interp = WavePeaking_InterpEnumField(default_value=0)
     wpi = wavePeaking_Interp
 
 
@@ -579,13 +579,13 @@ class WavePeakingAttrOperator(
 ):
     __slots__ = ()
 
-    wavePeaking_Position = FloatField()
+    wavePeaking_Position = FloatField(default_value=0.0)
     wpp = wavePeaking_Position
 
-    wavePeaking_FloatValue = FloatField()
+    wavePeaking_FloatValue = FloatField(default_value=0.0)
     wpfv = wavePeaking_FloatValue
 
-    wavePeaking_Interp = WavePeaking_InterpEnumField()
+    wavePeaking_Interp = WavePeaking_InterpEnumField(default_value=0)
     wpi = wavePeaking_Interp
 
 

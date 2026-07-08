@@ -18,13 +18,13 @@ class CompoundValuePlugOperator(
         ("level1S3", "l1s3"),
     )
 
-    level1S1 = FloatField()
+    level1S1 = FloatField(default_value=0.0)
     l1s1 = level1S1
 
-    level1S2 = FloatField()
+    level1S2 = FloatField(default_value=0.0)
     l1s2 = level1S2
 
-    level1S3 = FloatField()
+    level1S3 = FloatField(default_value=0.0)
     l1s3 = level1S3
 
 
@@ -33,13 +33,13 @@ class CompoundValueAttrOperator(
 ):
     __slots__ = ()
 
-    level1S1 = FloatField()
+    level1S1 = FloatField(default_value=0.0)
     l1s1 = level1S1
 
-    level1S2 = FloatField()
+    level1S2 = FloatField(default_value=0.0)
     l1s2 = level1S2
 
-    level1S3 = FloatField()
+    level1S3 = FloatField(default_value=0.0)
     l1s3 = level1S3
 
 
@@ -51,11 +51,11 @@ class CompoundValueField(
     ATTR_CLS = CompoundValueAttrOperator
     PLUG_CLS = CompoundValuePlugOperator
 
-    level1S1 = FloatField()
+    level1S1 = FloatField(default_value=0.0)
     l1s1 = level1S1
 
-    level1S2 = FloatField()
+    level1S2 = FloatField(default_value=0.0)
     l1s2 = level1S2
 
-    level1S3 = FloatField()
+    level1S3 = FloatField(default_value=0.0)
     l1s3 = level1S3

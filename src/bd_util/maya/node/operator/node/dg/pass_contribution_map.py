@@ -9,17 +9,17 @@ class PassContributionMap(DG):
 
     NODE_TYPE = "passContributionMap"
 
-    owner = MessageField(multi=True)
+    owner = MessageField(multi=True, readable=False)
     ow = owner
 
-    active = BoolField()
+    active = BoolField(default_value=True)
     a = active
 
-    renderPass = MessageField(multi=True)
+    renderPass = MessageField(multi=True, readable=False)
     rps = renderPass
 
-    light = MessageField(multi=True)
+    light = MessageField(multi=True, readable=False)
     l = light
 
-    dagObjects = MessageField(multi=True)
+    dagObjects = MessageField(multi=True, readable=False)
     o = dagObjects

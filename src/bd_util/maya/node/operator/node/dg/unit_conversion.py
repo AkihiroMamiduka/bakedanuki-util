@@ -12,8 +12,8 @@ class UnitConversion(DG):
     input = GenericField()
     i = input
 
-    output = GenericField()
+    output = GenericField(writable=False)
     o = output
 
-    conversionFactor = DoubleField()
+    conversionFactor = DoubleField(default_value=1.0)
     cf = conversionFactor

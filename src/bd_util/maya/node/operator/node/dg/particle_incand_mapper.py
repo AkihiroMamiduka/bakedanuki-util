@@ -8,7 +8,7 @@ class ParticleIncandMapper(DG):
 
     NODE_TYPE = "particleIncandMapper"
 
-    particleIncandescence = ParticleIncandescenceField()
+    particleIncandescence = ParticleIncandescenceField(default_value=(0.0, 0.0, 0.0))
     pi = particleIncandescence
     particleIncandescenceR = particleIncandescence.particleIncandescenceR
     pir = particleIncandescenceR

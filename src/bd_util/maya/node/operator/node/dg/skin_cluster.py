@@ -191,22 +191,22 @@ class SkinCluster(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -218,16 +218,16 @@ class SkinCluster(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    skinningMethod = SkinningMethodEnumField()
+    skinningMethod = SkinningMethodEnumField(default_value=0)
     skm = skinningMethod
 
-    blendWeights = DoubleField(multi=True)
+    blendWeights = DoubleField(multi=True, default_value=0.0)
     bw = blendWeights
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=0.0)
     wl = weightList
 
-    perInfluenceWeights = PerInfluenceWeightsField(multi=True)
+    perInfluenceWeights = PerInfluenceWeightsField(multi=True, default_value=0.0, writable=False)
     piw = perInfluenceWeights
 
     bindPreMatrix = DataMatrixField(multi=True)
@@ -239,31 +239,31 @@ class SkinCluster(DG):
     matrix = DataMatrixField(multi=True)
     ma = matrix
 
-    dropoffRate = DoubleField()
+    dropoffRate = DoubleField(default_value=4.0, min_value=0.1, max_value=10.0)
     dr = dropoffRate
 
-    dropoff = DoubleField(multi=True)
+    dropoff = DoubleField(multi=True, default_value=4.0, min_value=0.1, max_value=100.0)
     dpf = dropoff
 
-    smoothness = DoubleField(multi=True)
+    smoothness = DoubleField(multi=True, default_value=0.0)
     smt = smoothness
 
-    lockWeights = BoolField(multi=True)
+    lockWeights = BoolField(multi=True, default_value=False)
     lw = lockWeights
 
-    maintainMaxInfluences = BoolField()
+    maintainMaxInfluences = BoolField(default_value=False)
     mmi = maintainMaxInfluences
 
-    maxInfluences = LongField()
+    maxInfluences = LongField(default_value=2, min_value=0)
     mi = maxInfluences
 
-    relativeSpaceMode = RelativeSpaceModeEnumField()
+    relativeSpaceMode = RelativeSpaceModeEnumField(default_value=0)
     rsmd = relativeSpaceMode
 
     relativeSpaceMatrix = MatrixField()
     rsmat = relativeSpaceMatrix
 
-    bindMethod = BindMethodEnumField()
+    bindMethod = BindMethodEnumField(default_value=0)
     bm = bindMethod
 
     driverPoints = TypedField(multi=True)
@@ -284,22 +284,22 @@ class SkinCluster(DG):
     paintArrDirty = MessageField()
     pad = paintArrDirty
 
-    useComponents = BoolField()
+    useComponents = BoolField(default_value=False)
     uc = useComponents
 
-    nurbsSamples = LongField(multi=True)
+    nurbsSamples = LongField(multi=True, default_value=10)
     ns = nurbsSamples
 
-    useComponentsMatrix = BoolField()
+    useComponentsMatrix = BoolField(default_value=False)
     ucm = useComponentsMatrix
 
-    normalizeWeights = NormalizeWeightsEnumField()
+    normalizeWeights = NormalizeWeightsEnumField(default_value=1)
     nw = normalizeWeights
 
-    weightDistribution = WeightDistributionEnumField()
+    weightDistribution = WeightDistributionEnumField(default_value=0)
     wd = weightDistribution
 
-    deformUserNormals = BoolField()
+    deformUserNormals = BoolField(default_value=True)
     dun = deformUserNormals
 
     wtDrty = MessageField()
@@ -311,19 +311,19 @@ class SkinCluster(DG):
     bindVolume = MessageField()
     bc = bindVolume
 
-    heatmapFalloff = DoubleField()
+    heatmapFalloff = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     hmf = heatmapFalloff
 
-    influenceColor = InfluenceColorField(multi=True)
+    influenceColor = InfluenceColorField(multi=True, default_value=(0.0, 0.0, 0.0))
     ifcl = influenceColor
 
     geomBind = MessageField()
     gb = geomBind
 
-    dqsSupportNonRigid = BoolField()
+    dqsSupportNonRigid = BoolField(default_value=False)
     dsnr = dqsSupportNonRigid
 
-    dqsScale = DqsScaleField()
+    dqsScale = DqsScaleField(default_value=(1.0, 1.0, 1.0))
     dsc = dqsScale
     dqsScaleX = dqsScale.dqsScaleX
     dscx = dqsScaleX

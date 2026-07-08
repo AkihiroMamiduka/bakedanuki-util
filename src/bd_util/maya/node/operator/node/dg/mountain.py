@@ -19,33 +19,33 @@ class Mountain(DG):
 
     NODE_TYPE = "mountain"
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     fs = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     fsx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -54,7 +54,7 @@ class Mountain(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -63,13 +63,13 @@ class Mountain(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -78,7 +78,7 @@ class Mountain(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -87,10 +87,10 @@ class Mountain(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    snowColor = SnowColorField()
+    snowColor = SnowColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     sc = snowColor
     snowColorR = snowColor.snowColorR
     scr = snowColorR
@@ -99,7 +99,7 @@ class Mountain(DG):
     snowColorB = snowColor.snowColorB
     scb = snowColorB
 
-    rockColor = RockColorField()
+    rockColor = RockColorField(default_value=(0.2619999945163727, 0.10199999809265137, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     rc = rockColor
     rockColorR = rockColor.rockColorR
     rcr = rockColorR
@@ -108,26 +108,26 @@ class Mountain(DG):
     rockColorB = rockColor.rockColorB
     rcb = rockColorB
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     a = amplitude
 
-    snowRoughness = FloatField()
+    snowRoughness = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     sr = snowRoughness
 
-    rockRoughness = FloatField()
+    rockRoughness = FloatField(default_value=0.7070000171661377, min_value=0.0, max_value=1.0)
     rr = rockRoughness
 
-    boundary = FloatField()
+    boundary = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     bo = boundary
 
-    snowAltitude = FloatField()
+    snowAltitude = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     sa = snowAltitude
 
-    snowDropoff = FloatField()
+    snowDropoff = FloatField(default_value=2.0, min_value=0.0, soft_max_value=2.0)
     sd = snowDropoff
 
-    snowSlope = FloatField()
+    snowSlope = FloatField(default_value=0.800000011920929, min_value=0.0, soft_max_value=3.0)
     ss = snowSlope
 
-    depthMax = FloatField()
+    depthMax = FloatField(default_value=20.0, min_value=0.0, max_value=40.0)
     dmx = depthMax

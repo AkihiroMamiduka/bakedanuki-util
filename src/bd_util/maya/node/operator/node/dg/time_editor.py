@@ -11,17 +11,17 @@ class TimeEditor(DG):
 
     NODE_TYPE = "timeEditor"
 
-    composition = MessageField(multi=True)
+    composition = MessageField(multi=True, writable=False)
     cmp = composition
 
-    activeComposition = LongField()
+    activeComposition = LongField(default_value=-1)
     ac = activeComposition
 
     attributes = AttributesField(multi=True)
     ats = attributes
 
-    nextClipId = LongField()
+    nextClipId = LongField(default_value=1, min_value=1)
     ncid = nextClipId
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     mt = mute

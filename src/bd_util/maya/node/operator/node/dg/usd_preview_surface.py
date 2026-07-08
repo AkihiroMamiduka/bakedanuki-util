@@ -17,13 +17,13 @@ class UsdPreviewSurface(DG):
 
     NODE_TYPE = "usdPreviewSurface"
 
-    clearcoat = FloatField()
+    clearcoat = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     cc = clearcoat
 
-    clearcoatRoughness = FloatField()
+    clearcoatRoughness = FloatField(default_value=0.009999999776482582, min_value=0.001, soft_min_value=0.001, soft_max_value=1.0)
     ccr = clearcoatRoughness
 
-    diffuseColor = DiffuseColorField()
+    diffuseColor = DiffuseColorField(default_value=(0.18000000715255737, 0.18000000715255737, 0.18000000715255737))
     dc = diffuseColor
     diffuseColorR = diffuseColor.diffuseColorR
     dcr = diffuseColorR
@@ -32,10 +32,10 @@ class UsdPreviewSurface(DG):
     diffuseColorB = diffuseColor.diffuseColorB
     dcb = diffuseColorB
 
-    displacement = FloatField()
+    displacement = FloatField(default_value=0.0)
     dsp = displacement
 
-    emissiveColor = EmissiveColorField()
+    emissiveColor = EmissiveColorField(default_value=(0.0, 0.0, 0.0))
     ec = emissiveColor
     emissiveColorR = emissiveColor.emissiveColorR
     ecr = emissiveColorR
@@ -44,12 +44,12 @@ class UsdPreviewSurface(DG):
     emissiveColorB = emissiveColor.emissiveColorB
     ecb = emissiveColorB
 
-    ior = FloatField()
+    ior = FloatField(default_value=1.5)
 
-    metallic = FloatField()
+    metallic = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     mtl = metallic
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 1.0, 0.0))
     nrm = normal
     normal0 = normal.normal0
     nrm0 = normal0
@@ -58,19 +58,19 @@ class UsdPreviewSurface(DG):
     normal2 = normal.normal2
     nrm2 = normal2
 
-    occlusion = FloatField()
+    occlusion = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     ocl = occlusion
 
-    opacity = FloatField()
+    opacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     opc = opacity
 
-    opacityThreshold = FloatField()
+    opacityThreshold = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     opt = opacityThreshold
 
-    roughness = FloatField()
+    roughness = FloatField(default_value=0.5, min_value=0.001, soft_min_value=0.001, soft_max_value=1.0)
     rgh = roughness
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(0.0, 0.0, 0.0))
     spc = specularColor
     specularColorR = specularColor.specularColorR
     spcr = specularColorR
@@ -79,10 +79,10 @@ class UsdPreviewSurface(DG):
     specularColorB = specularColor.specularColorB
     spcb = specularColorB
 
-    useSpecularWorkflow = BoolField()
+    useSpecularWorkflow = BoolField(default_value=False)
     usw = useSpecularWorkflow
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -91,7 +91,7 @@ class UsdPreviewSurface(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -100,5 +100,5 @@ class UsdPreviewSurface(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outTransparencyOn = FloatField()
+    outTransparencyOn = FloatField(default_value=0.0, writable=False)
     oto = outTransparencyOn

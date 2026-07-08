@@ -101,7 +101,7 @@ class VolumeNoise(DG):
 
     NODE_TYPE = "volumeNoise"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -110,7 +110,7 @@ class VolumeNoise(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -119,7 +119,7 @@ class VolumeNoise(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -134,28 +134,28 @@ class VolumeNoise(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -164,7 +164,7 @@ class VolumeNoise(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -173,13 +173,13 @@ class VolumeNoise(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -188,7 +188,7 @@ class VolumeNoise(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -197,13 +197,13 @@ class VolumeNoise(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -212,7 +212,7 @@ class VolumeNoise(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -221,16 +221,16 @@ class VolumeNoise(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     a = amplitude
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, max_value=1.0)
     ra = ratio
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     th = threshold
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0))
     sc = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -239,7 +239,7 @@ class VolumeNoise(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    origin = OriginField()
+    origin = OriginField(default_value=(0.0, 0.0, 0.0))
     orr = origin
     originX = origin.originX
     orx = originX
@@ -248,46 +248,46 @@ class VolumeNoise(DG):
     originZ = origin.originZ
     orz = originZ
 
-    depthMax = ShortField()
+    depthMax = ShortField(default_value=3, min_value=1, max_value=80, soft_max_value=8)
     dm = depthMax
 
-    frequency = FloatField()
+    frequency = FloatField(default_value=8.0, soft_min_value=0.0, soft_max_value=100.0)
     fq = frequency
 
-    frequencyRatio = FloatField()
+    frequencyRatio = FloatField(default_value=2.0, soft_min_value=1.0, soft_max_value=10.0)
     fr = frequencyRatio
 
-    inflection = BoolField()
+    inflection = BoolField(default_value=False)
     in_ = inflection
 
-    time = FloatField()
+    time = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     ti = time
 
-    noiseType = NoiseTypeEnumField()
+    noiseType = NoiseTypeEnumField(default_value=1)
     nty = noiseType
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     d = density
 
-    spottyness = FloatField()
+    spottyness = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
     sp = spottyness
 
-    sizeRand = FloatField()
+    sizeRand = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     sr = sizeRand
 
-    randomness = FloatField()
+    randomness = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     rn = randomness
 
-    falloff = FalloffEnumField()
+    falloff = FalloffEnumField(default_value=2)
     fof = falloff
 
-    numWaves = ShortField()
+    numWaves = ShortField(default_value=5, min_value=1, soft_max_value=20)
     nw = numWaves
 
-    implode = FloatField()
+    implode = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     imp = implode
 
-    implodeCenter = ImplodeCenterField()
+    implodeCenter = ImplodeCenterField(default_value=(0.0, 0.0, 0.0))
     imc = implodeCenter
     implodeCenterX = implodeCenter.implodeCenterX
     imx = implodeCenterX

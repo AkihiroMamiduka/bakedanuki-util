@@ -11,10 +11,10 @@ class Time(DG):
 
     NODE_TYPE = "time"
 
-    outTime = TimeField()
+    outTime = TimeField(default_value=0.0)
     o = outTime
 
-    unwarpedTime = TimeField()
+    unwarpedTime = TimeField(default_value=0.0)
     unw = unwarpedTime
 
     timewarpIn = TimewarpInField()
@@ -40,11 +40,11 @@ class Time(DG):
     timewarpIn_OutmapFrom = ShortField()
     twiof = timewarpIn_OutmapFrom
 
-    enableTimewarp = BoolField()
+    enableTimewarp = BoolField(default_value=False)
     etw = enableTimewarp
 
-    timecodeProductionStart = TimeField()
+    timecodeProductionStart = TimeField(default_value=0.0)
     tps = timecodeProductionStart
 
-    timecodeMayaStart = TimeField()
+    timecodeMayaStart = TimeField(default_value=0.0)
     tms = timecodeMayaStart

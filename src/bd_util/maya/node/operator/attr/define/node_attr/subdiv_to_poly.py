@@ -17,10 +17,10 @@ class OutSubdCVIdPlugOperator(
         ("outSubdCVIdRight", "osr"),
     )
 
-    outSubdCVIdLeft = LongField()
+    outSubdCVIdLeft = LongField(default_value=0)
     osl = outSubdCVIdLeft
 
-    outSubdCVIdRight = LongField()
+    outSubdCVIdRight = LongField(default_value=0)
     osr = outSubdCVIdRight
 
 
@@ -29,10 +29,10 @@ class OutSubdCVIdAttrOperator(
 ):
     __slots__ = ()
 
-    outSubdCVIdLeft = LongField()
+    outSubdCVIdLeft = LongField(default_value=0)
     osl = outSubdCVIdLeft
 
-    outSubdCVIdRight = LongField()
+    outSubdCVIdRight = LongField(default_value=0)
     osr = outSubdCVIdRight
 
 
@@ -54,10 +54,10 @@ class InSubdCVIdPlugOperator(
         ("inSubdCVIdRight", "isr"),
     )
 
-    inSubdCVIdLeft = LongField()
+    inSubdCVIdLeft = LongField(default_value=0)
     isl = inSubdCVIdLeft
 
-    inSubdCVIdRight = LongField()
+    inSubdCVIdRight = LongField(default_value=0)
     isr = inSubdCVIdRight
 
 
@@ -66,10 +66,10 @@ class InSubdCVIdAttrOperator(
 ):
     __slots__ = ()
 
-    inSubdCVIdLeft = LongField()
+    inSubdCVIdLeft = LongField(default_value=0)
     isl = inSubdCVIdLeft
 
-    inSubdCVIdRight = LongField()
+    inSubdCVIdRight = LongField(default_value=0)
     isr = inSubdCVIdRight
 
 

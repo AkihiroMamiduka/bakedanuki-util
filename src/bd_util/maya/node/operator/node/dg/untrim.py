@@ -12,8 +12,8 @@ class Untrim(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve

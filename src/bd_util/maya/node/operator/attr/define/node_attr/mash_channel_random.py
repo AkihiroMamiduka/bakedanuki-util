@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,11 +71,11 @@ class StartVectorPlugOperator(
         ("startVector2", "startVector2"),
     )
 
-    startVector0 = FloatField()
+    startVector0 = FloatField(default_value=0.0)
 
-    startVector1 = FloatField()
+    startVector1 = FloatField(default_value=0.0)
 
-    startVector2 = FloatField()
+    startVector2 = FloatField(default_value=0.0)
 
 
 class StartVectorAttrOperator(
@@ -83,11 +83,11 @@ class StartVectorAttrOperator(
 ):
     __slots__ = ()
 
-    startVector0 = FloatField()
+    startVector0 = FloatField(default_value=0.0)
 
-    startVector1 = FloatField()
+    startVector1 = FloatField(default_value=0.0)
 
-    startVector2 = FloatField()
+    startVector2 = FloatField(default_value=0.0)
 
 
 class StartVectorField(
@@ -98,11 +98,11 @@ class StartVectorField(
     ATTR_CLS = StartVectorAttrOperator
     PLUG_CLS = StartVectorPlugOperator
 
-    startVector0 = FloatField()
+    startVector0 = FloatField(default_value=0.0)
 
-    startVector1 = FloatField()
+    startVector1 = FloatField(default_value=0.0)
 
-    startVector2 = FloatField()
+    startVector2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMinPlugOperator(
@@ -115,11 +115,11 @@ class VarianceVectorMinPlugOperator(
         ("varianceVectorMin2", "varianceVectorMin2"),
     )
 
-    varianceVectorMin0 = FloatField()
+    varianceVectorMin0 = FloatField(default_value=0.0)
 
-    varianceVectorMin1 = FloatField()
+    varianceVectorMin1 = FloatField(default_value=0.0)
 
-    varianceVectorMin2 = FloatField()
+    varianceVectorMin2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMinAttrOperator(
@@ -127,11 +127,11 @@ class VarianceVectorMinAttrOperator(
 ):
     __slots__ = ()
 
-    varianceVectorMin0 = FloatField()
+    varianceVectorMin0 = FloatField(default_value=0.0)
 
-    varianceVectorMin1 = FloatField()
+    varianceVectorMin1 = FloatField(default_value=0.0)
 
-    varianceVectorMin2 = FloatField()
+    varianceVectorMin2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMinField(
@@ -142,11 +142,11 @@ class VarianceVectorMinField(
     ATTR_CLS = VarianceVectorMinAttrOperator
     PLUG_CLS = VarianceVectorMinPlugOperator
 
-    varianceVectorMin0 = FloatField()
+    varianceVectorMin0 = FloatField(default_value=0.0)
 
-    varianceVectorMin1 = FloatField()
+    varianceVectorMin1 = FloatField(default_value=0.0)
 
-    varianceVectorMin2 = FloatField()
+    varianceVectorMin2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMaxPlugOperator(
@@ -159,11 +159,11 @@ class VarianceVectorMaxPlugOperator(
         ("varianceVectorMax2", "varianceVectorMax2"),
     )
 
-    varianceVectorMax0 = FloatField()
+    varianceVectorMax0 = FloatField(default_value=0.0)
 
-    varianceVectorMax1 = FloatField()
+    varianceVectorMax1 = FloatField(default_value=0.0)
 
-    varianceVectorMax2 = FloatField()
+    varianceVectorMax2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMaxAttrOperator(
@@ -171,11 +171,11 @@ class VarianceVectorMaxAttrOperator(
 ):
     __slots__ = ()
 
-    varianceVectorMax0 = FloatField()
+    varianceVectorMax0 = FloatField(default_value=0.0)
 
-    varianceVectorMax1 = FloatField()
+    varianceVectorMax1 = FloatField(default_value=0.0)
 
-    varianceVectorMax2 = FloatField()
+    varianceVectorMax2 = FloatField(default_value=0.0)
 
 
 class VarianceVectorMaxField(
@@ -186,8 +186,8 @@ class VarianceVectorMaxField(
     ATTR_CLS = VarianceVectorMaxAttrOperator
     PLUG_CLS = VarianceVectorMaxPlugOperator
 
-    varianceVectorMax0 = FloatField()
+    varianceVectorMax0 = FloatField(default_value=0.0)
 
-    varianceVectorMax1 = FloatField()
+    varianceVectorMax1 = FloatField(default_value=0.0)
 
-    varianceVectorMax2 = FloatField()
+    varianceVectorMax2 = FloatField(default_value=0.0)

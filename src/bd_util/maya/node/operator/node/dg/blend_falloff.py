@@ -10,11 +10,11 @@ class BlendFalloff(DG):
 
     NODE_TYPE = "blendFalloff"
 
-    baseWeight = FloatField()
+    baseWeight = FloatField(default_value=1.0)
     env = baseWeight
 
     target = TargetField(multi=True)
     tgt = target
 
-    outputWeightFunction = TypedField()
+    outputWeightFunction = TypedField(writable=False)
     wft = outputWeightFunction

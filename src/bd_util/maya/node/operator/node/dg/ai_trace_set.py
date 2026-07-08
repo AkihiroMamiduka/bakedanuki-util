@@ -15,7 +15,7 @@ class AiTraceSet(DG):
 
     NODE_TYPE = "aiTraceSet"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -24,10 +24,10 @@ class AiTraceSet(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,10 +36,10 @@ class AiTraceSet(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    passthroughA = FloatField()
+    passthroughA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     passthrougha = passthroughA
 
-    passthrough = PassthroughField()
+    passthrough = PassthroughField(default_value=(0.0, 0.0, 0.0))
     passthroughR = passthrough.passthroughR
     passthroughr = passthroughR
     passthroughG = passthrough.passthroughG
@@ -50,4 +50,4 @@ class AiTraceSet(DG):
     traceSet = DataStringField()
     trace_set = traceSet
 
-    inclusive = BoolField()
+    inclusive = BoolField(default_value=True)

@@ -16,14 +16,14 @@ class IntersectSurface(DG):
     inputSurface2 = DataNurbsSurfaceField()
     is2 = inputSurface2
 
-    curveOnSurface1 = DataNurbsCurveField(multi=True)
+    curveOnSurface1 = DataNurbsCurveField(multi=True, writable=False)
     cs1 = curveOnSurface1
 
-    curveOnSurface2 = DataNurbsCurveField(multi=True)
+    curveOnSurface2 = DataNurbsCurveField(multi=True, writable=False)
     cs2 = curveOnSurface2
 
-    output3dCurve = DataNurbsCurveField(multi=True)
+    output3dCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = output3dCurve
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance

@@ -49,29 +49,29 @@ class SubsetFalloff(DG):
     falloffTags = DataStringField()
     ftg = falloffTags
 
-    useFalloffTags = BoolField()
+    useFalloffTags = BoolField(default_value=False)
     uds = useFalloffTags
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
     md = mode
 
-    start = DoubleField()
+    start = DoubleField(default_value=0.0, min_value=0.0)
     st = start
 
-    end = DoubleField()
+    end = DoubleField(default_value=1.0, min_value=0.0)
     ed = end
 
-    ramp = RampField(multi=True)
+    ramp = RampField(multi=True, default_value=(0.0, 0.0, 0.0))
     rmp = ramp
 
-    scale = DoubleLinearField()
+    scale = DoubleLinearField(default_value=1.0, min_value=0.01, soft_min_value=0.0, soft_max_value=25.0)
     scl = scale
 
-    useOriginalGeometry = BoolField()
+    useOriginalGeometry = BoolField(default_value=True)
     uo = useOriginalGeometry
 
-    withinBoundary = BoolField()
+    withinBoundary = BoolField(default_value=True)
     wb = withinBoundary
 
-    outputWeightFunction = TypedField()
+    outputWeightFunction = TypedField(writable=False)
     wft = outputWeightFunction

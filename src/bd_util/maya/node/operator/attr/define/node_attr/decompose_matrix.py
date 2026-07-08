@@ -35,13 +35,13 @@ class OutputTranslatePlugOperator(
         ("outputTranslateZ", "otz"),
     )
 
-    outputTranslateX = DoubleLinearField()
+    outputTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outputTranslateX
 
-    outputTranslateY = DoubleLinearField()
+    outputTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outputTranslateY
 
-    outputTranslateZ = DoubleLinearField()
+    outputTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outputTranslateZ
 
 
@@ -50,13 +50,13 @@ class OutputTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    outputTranslateX = DoubleLinearField()
+    outputTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outputTranslateX
 
-    outputTranslateY = DoubleLinearField()
+    outputTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outputTranslateY
 
-    outputTranslateZ = DoubleLinearField()
+    outputTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outputTranslateZ
 
 
@@ -68,13 +68,13 @@ class OutputTranslateField(
     ATTR_CLS = OutputTranslateAttrOperator
     PLUG_CLS = OutputTranslatePlugOperator
 
-    outputTranslateX = DoubleLinearField()
+    outputTranslateX = DoubleLinearField(default_value=0.0, writable=False)
     otx = outputTranslateX
 
-    outputTranslateY = DoubleLinearField()
+    outputTranslateY = DoubleLinearField(default_value=0.0, writable=False)
     oty = outputTranslateY
 
-    outputTranslateZ = DoubleLinearField()
+    outputTranslateZ = DoubleLinearField(default_value=0.0, writable=False)
     otz = outputTranslateZ
 
 
@@ -88,13 +88,13 @@ class OutputRotatePlugOperator(
         ("outputRotateZ", "orz"),
     )
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ
 
 
@@ -103,13 +103,13 @@ class OutputRotateAttrOperator(
 ):
     __slots__ = ()
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ
 
 
@@ -121,13 +121,13 @@ class OutputRotateField(
     ATTR_CLS = OutputRotateAttrOperator
     PLUG_CLS = OutputRotatePlugOperator
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ
 
 
@@ -141,13 +141,13 @@ class OutputScalePlugOperator(
         ("outputScaleZ", "osz"),
     )
 
-    outputScaleX = DoubleField()
+    outputScaleX = DoubleField(default_value=0.0, writable=False)
     osx = outputScaleX
 
-    outputScaleY = DoubleField()
+    outputScaleY = DoubleField(default_value=0.0, writable=False)
     osy = outputScaleY
 
-    outputScaleZ = DoubleField()
+    outputScaleZ = DoubleField(default_value=0.0, writable=False)
     osz = outputScaleZ
 
 
@@ -156,13 +156,13 @@ class OutputScaleAttrOperator(
 ):
     __slots__ = ()
 
-    outputScaleX = DoubleField()
+    outputScaleX = DoubleField(default_value=0.0, writable=False)
     osx = outputScaleX
 
-    outputScaleY = DoubleField()
+    outputScaleY = DoubleField(default_value=0.0, writable=False)
     osy = outputScaleY
 
-    outputScaleZ = DoubleField()
+    outputScaleZ = DoubleField(default_value=0.0, writable=False)
     osz = outputScaleZ
 
 
@@ -174,13 +174,13 @@ class OutputScaleField(
     ATTR_CLS = OutputScaleAttrOperator
     PLUG_CLS = OutputScalePlugOperator
 
-    outputScaleX = DoubleField()
+    outputScaleX = DoubleField(default_value=0.0, writable=False)
     osx = outputScaleX
 
-    outputScaleY = DoubleField()
+    outputScaleY = DoubleField(default_value=0.0, writable=False)
     osy = outputScaleY
 
-    outputScaleZ = DoubleField()
+    outputScaleZ = DoubleField(default_value=0.0, writable=False)
     osz = outputScaleZ
 
 
@@ -194,13 +194,13 @@ class OutputShearPlugOperator(
         ("outputShearZ", "oshz"),
     )
 
-    outputShearX = DoubleField()
+    outputShearX = DoubleField(default_value=0.0, writable=False)
     oshx = outputShearX
 
-    outputShearY = DoubleField()
+    outputShearY = DoubleField(default_value=0.0, writable=False)
     oshy = outputShearY
 
-    outputShearZ = DoubleField()
+    outputShearZ = DoubleField(default_value=0.0, writable=False)
     oshz = outputShearZ
 
 
@@ -209,13 +209,13 @@ class OutputShearAttrOperator(
 ):
     __slots__ = ()
 
-    outputShearX = DoubleField()
+    outputShearX = DoubleField(default_value=0.0, writable=False)
     oshx = outputShearX
 
-    outputShearY = DoubleField()
+    outputShearY = DoubleField(default_value=0.0, writable=False)
     oshy = outputShearY
 
-    outputShearZ = DoubleField()
+    outputShearZ = DoubleField(default_value=0.0, writable=False)
     oshz = outputShearZ
 
 
@@ -227,13 +227,13 @@ class OutputShearField(
     ATTR_CLS = OutputShearAttrOperator
     PLUG_CLS = OutputShearPlugOperator
 
-    outputShearX = DoubleField()
+    outputShearX = DoubleField(default_value=0.0, writable=False)
     oshx = outputShearX
 
-    outputShearY = DoubleField()
+    outputShearY = DoubleField(default_value=0.0, writable=False)
     oshy = outputShearY
 
-    outputShearZ = DoubleField()
+    outputShearZ = DoubleField(default_value=0.0, writable=False)
     oshz = outputShearZ
 
 
@@ -248,16 +248,16 @@ class OutputQuatPlugOperator(
         ("outputQuatW", "oqw"),
     )
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -266,16 +266,16 @@ class OutputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW
 
 
@@ -287,14 +287,14 @@ class OutputQuatField(
     ATTR_CLS = OutputQuatAttrOperator
     PLUG_CLS = OutputQuatPlugOperator
 
-    outputQuatX = DoubleField()
+    outputQuatX = DoubleField(default_value=0.0, writable=False)
     oqx = outputQuatX
 
-    outputQuatY = DoubleField()
+    outputQuatY = DoubleField(default_value=0.0, writable=False)
     oqy = outputQuatY
 
-    outputQuatZ = DoubleField()
+    outputQuatZ = DoubleField(default_value=0.0, writable=False)
     oqz = outputQuatZ
 
-    outputQuatW = DoubleField()
+    outputQuatW = DoubleField(default_value=0.0, writable=False)
     oqw = outputQuatW

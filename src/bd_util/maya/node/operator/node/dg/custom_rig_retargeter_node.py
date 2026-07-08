@@ -10,7 +10,7 @@ class CustomRigRetargeterNode(DG):
 
     NODE_TYPE = "CustomRigRetargeterNode"
 
-    connected = LongField()
+    connected = LongField(default_value=0)
     c = connected
 
     source = MessageField()

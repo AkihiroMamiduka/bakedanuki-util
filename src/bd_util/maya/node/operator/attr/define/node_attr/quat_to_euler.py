@@ -25,16 +25,16 @@ class InputQuatPlugOperator(
         ("inputQuatW", "iqw"),
     )
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -43,16 +43,16 @@ class InputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -64,16 +64,16 @@ class InputQuatField(
     ATTR_CLS = InputQuatAttrOperator
     PLUG_CLS = InputQuatPlugOperator
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -87,13 +87,13 @@ class OutputRotatePlugOperator(
         ("outputRotateZ", "orz"),
     )
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ
 
 
@@ -102,13 +102,13 @@ class OutputRotateAttrOperator(
 ):
     __slots__ = ()
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ
 
 
@@ -120,11 +120,11 @@ class OutputRotateField(
     ATTR_CLS = OutputRotateAttrOperator
     PLUG_CLS = OutputRotatePlugOperator
 
-    outputRotateX = DoubleAngleField()
+    outputRotateX = DoubleAngleField(default_value=0.0, writable=False)
     orx = outputRotateX
 
-    outputRotateY = DoubleAngleField()
+    outputRotateY = DoubleAngleField(default_value=0.0, writable=False)
     ory = outputRotateY
 
-    outputRotateZ = DoubleAngleField()
+    outputRotateZ = DoubleAngleField(default_value=0.0, writable=False)
     orz = outputRotateZ

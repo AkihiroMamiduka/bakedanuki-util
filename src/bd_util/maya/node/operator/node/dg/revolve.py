@@ -150,25 +150,25 @@ class Revolve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    startSweep = DoubleAngleField()
+    startSweep = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ssw = startSweep
 
-    endSweep = DoubleAngleField()
+    endSweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
     esw = endSweep
 
-    useTolerance = BoolField()
+    useTolerance = BoolField(default_value=False)
     ut = useTolerance
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField()
+    sections = LongField(default_value=8, min_value=1, soft_max_value=100)
     s = sections
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    axis = AxisField()
+    axis = AxisField(default_value=(1.0, 0.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -177,7 +177,7 @@ class Revolve(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -186,31 +186,31 @@ class Revolve(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    autoCorrectNormal = BoolField()
+    autoCorrectNormal = BoolField(default_value=False)
     acn = autoCorrectNormal
 
-    computePivotAndAxis = ComputePivotAndAxisEnumField()
+    computePivotAndAxis = ComputePivotAndAxisEnumField(default_value=0)
     cpa = computePivotAndAxis
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0)
     r = radius
 
-    radiusAnchor = DoubleField()
+    radiusAnchor = DoubleField(default_value=-1.0)
     ra = radiusAnchor
 
-    axisChoice = AxisChoiceEnumField()
+    axisChoice = AxisChoiceEnumField(default_value=1)
     aco = axisChoice
 
-    bridge = BoolField()
+    bridge = BoolField(default_value=False)
     br = bridge
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    bridgeCurve = DataNurbsCurveField()
+    bridgeCurve = DataNurbsCurveField(writable=False)
     bc = bridgeCurve
 
-    compAxis = CompAxisField()
+    compAxis = CompAxisField(default_value=(0.0, 0.0, 0.0), writable=False)
     ca = compAxis
     compAxisX = compAxis.compAxisX
     cax = compAxisX
@@ -219,7 +219,7 @@ class Revolve(DG):
     compAxisZ = compAxis.compAxisZ
     caz = compAxisZ
 
-    compPivot = CompPivotField()
+    compPivot = CompPivotField(default_value=(0.0, 0.0, 0.0), writable=False)
     cp = compPivot
     compPivotX = compPivot.compPivotX
     cpx = compPivotX
@@ -228,10 +228,10 @@ class Revolve(DG):
     compPivotZ = compPivot.compPivotZ
     cpz = compPivotZ
 
-    compAxisChoice = CompAxisChoiceEnumField()
+    compAxisChoice = CompAxisChoiceEnumField(default_value=0, writable=False)
     cac = compAxisChoice
 
-    compAnchor = CompAnchorField()
+    compAnchor = CompAnchorField(default_value=(0.0, 0.0, 0.0), writable=False)
     cn = compAnchor
     compAnchorX = compAnchor.compAnchorX
     cnx = compAnchorX

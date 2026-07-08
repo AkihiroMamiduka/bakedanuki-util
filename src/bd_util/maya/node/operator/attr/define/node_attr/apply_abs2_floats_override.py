@@ -17,10 +17,10 @@ class OutPlugOperator(
         ("out1", "o1"),
     )
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -29,10 +29,10 @@ class OutAttrOperator(
 ):
     __slots__ = ()
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -44,10 +44,10 @@ class OutField(
     ATTR_CLS = OutAttrOperator
     PLUG_CLS = OutPlugOperator
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -60,10 +60,10 @@ class OriginalPlugOperator(
         ("original1", "ori1"),
     )
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -72,10 +72,10 @@ class OriginalAttrOperator(
 ):
     __slots__ = ()
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -87,10 +87,10 @@ class OriginalField(
     ATTR_CLS = OriginalAttrOperator
     PLUG_CLS = OriginalPlugOperator
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -103,10 +103,10 @@ class ValuePlugOperator(
         ("value1", "val1"),
     )
 
-    value0 = FloatField()
+    value0 = FloatField(default_value=0.0, readable=False)
     val0 = value0
 
-    value1 = FloatField()
+    value1 = FloatField(default_value=0.0, readable=False)
     val1 = value1
 
 
@@ -115,10 +115,10 @@ class ValueAttrOperator(
 ):
     __slots__ = ()
 
-    value0 = FloatField()
+    value0 = FloatField(default_value=0.0, readable=False)
     val0 = value0
 
-    value1 = FloatField()
+    value1 = FloatField(default_value=0.0, readable=False)
     val1 = value1
 
 
@@ -130,8 +130,8 @@ class ValueField(
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
-    value0 = FloatField()
+    value0 = FloatField(default_value=0.0, readable=False)
     val0 = value0
 
-    value1 = FloatField()
+    value1 = FloatField(default_value=0.0, readable=False)
     val1 = value1

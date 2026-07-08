@@ -252,7 +252,7 @@ class PolyMirror(DG):
 
     NODE_TYPE = "polyMirror"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -261,37 +261,37 @@ class PolyMirror(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -300,37 +300,37 @@ class PolyMirror(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    userSpecifiedPivot = BoolField()
+    userSpecifiedPivot = BoolField(default_value=False)
     pu = userSpecifiedPivot
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=0)
     d = direction
 
-    axis = AxisEnumField()
+    axis = AxisEnumField(default_value=0)
     a = axis
 
-    axisDirection = AxisDirectionEnumField()
+    axisDirection = AxisDirectionEnumField(default_value=1)
     ad = axisDirection
 
-    mirrorAxis = MirrorAxisEnumField()
+    mirrorAxis = MirrorAxisEnumField(default_value=2)
     ma = mirrorAxis
 
-    mirrorPosition = FloatLinearField()
+    mirrorPosition = FloatLinearField(default_value=0.0)
     mps = mirrorPosition
 
-    mergeMode = MergeModeEnumField()
+    mergeMode = MergeModeEnumField(default_value=1)
     mm = mergeMode
 
-    mergeThresholdType = MergeThresholdTypeEnumField()
+    mergeThresholdType = MergeThresholdTypeEnumField(default_value=0)
     mtt = mergeThresholdType
 
-    mergeThreshold = DoubleLinearField()
+    mergeThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
     mt = mergeThreshold
 
-    smoothingAngle = FloatField()
+    smoothingAngle = FloatField(default_value=30.0, min_value=0.0)
     sa = smoothingAngle
 
-    scalePivot = ScalePivotField()
+    scalePivot = ScalePivotField(default_value=(0.0, 0.0, 0.0))
     sp = scalePivot
     scalePivotX = scalePivot.scalePivotX
     spx = scalePivotX
@@ -339,22 +339,22 @@ class PolyMirror(DG):
     scalePivotZ = scalePivot.scalePivotZ
     spz = scalePivotZ
 
-    cutMesh = BoolField()
+    cutMesh = BoolField(default_value=False)
     cm = cutMesh
 
-    firstNewFace = LongField()
+    firstNewFace = LongField(default_value=0)
     fnf = firstNewFace
 
-    lastNewFace = LongField()
+    lastNewFace = LongField(default_value=0)
     lnf = lastNewFace
 
-    flipUVs = FlipUVsEnumField()
+    flipUVs = FlipUVsEnumField(default_value=0)
     fuv = flipUVs
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    mirrorPlaneCenter = MirrorPlaneCenterField()
+    mirrorPlaneCenter = MirrorPlaneCenterField(default_value=(0.0, 0.0, 0.0))
     pc = mirrorPlaneCenter
     mirrorPlaneCenterX = mirrorPlaneCenter.mirrorPlaneCenterX
     pcx = mirrorPlaneCenterX
@@ -363,7 +363,7 @@ class PolyMirror(DG):
     mirrorPlaneCenterZ = mirrorPlaneCenter.mirrorPlaneCenterZ
     pcz = mirrorPlaneCenterZ
 
-    mirrorPlaneRotate = MirrorPlaneRotateField()
+    mirrorPlaneRotate = MirrorPlaneRotateField(default_value=(0.0, 0.0, 0.0))
     ro = mirrorPlaneRotate
     mirrorPlaneRotateX = mirrorPlaneRotate.mirrorPlaneRotateX
     rx = mirrorPlaneRotateX
@@ -372,8 +372,8 @@ class PolyMirror(DG):
     mirrorPlaneRotateZ = mirrorPlaneRotate.mirrorPlaneRotateZ
     rz = mirrorPlaneRotateZ
 
-    maya2017 = BoolField()
+    maya2017 = BoolField(default_value=False)
     m17 = maya2017
 
-    keepVertexIDs = BoolField()
+    keepVertexIDs = BoolField(default_value=True)
     kv = keepVertexIDs

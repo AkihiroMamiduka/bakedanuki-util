@@ -56,7 +56,7 @@ class QuatToEuler(DG):
 
     NODE_TYPE = "quatToEuler"
 
-    inputQuat = InputQuatField()
+    inputQuat = InputQuatField(default_value=(0.0, 0.0, 0.0, 1.0))
     iq = inputQuat
     inputQuatX = inputQuat.inputQuatX
     iqx = inputQuatX
@@ -67,10 +67,10 @@ class QuatToEuler(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    inputRotateOrder = InputRotateOrderEnumField()
+    inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     iro = inputRotateOrder
 
-    outputRotate = OutputRotateField()
+    outputRotate = OutputRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
     ort = outputRotate
     outputRotateX = outputRotate.outputRotateX
     orx = outputRotateX

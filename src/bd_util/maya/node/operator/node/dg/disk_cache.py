@@ -48,22 +48,22 @@ class DiskCache(DG):
     diskCache = MessageField()
     dc = diskCache
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     ebl = enable
 
     cacheName = DataStringField()
     cn = cacheName
 
-    startTime = TimeField()
+    startTime = TimeField(default_value=0.0, writable=False)
     stim = startTime
 
-    endTime = TimeField()
+    endTime = TimeField(default_value=0.0, writable=False)
     etim = endTime
 
-    samplingType = SamplingTypeEnumField()
+    samplingType = SamplingTypeEnumField(default_value=0, writable=False)
     st = samplingType
 
-    samplingRate = LongField()
+    samplingRate = LongField(default_value=0, writable=False)
     sr = samplingRate
 
     cacheType = DataStringField()
@@ -72,5 +72,5 @@ class DiskCache(DG):
     hiddenCacheName = DataStringField()
     hcn = hiddenCacheName
 
-    copyLocally = BoolField()
+    copyLocally = BoolField(default_value=True)
     cpl = copyLocally

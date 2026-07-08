@@ -10,14 +10,14 @@ class FloatLogic(DG):
 
     NODE_TYPE = "floatLogic"
 
-    floatA = FloatField()
+    floatA = FloatField(default_value=1.0)
     aa = floatA
 
-    floatB = FloatField()
+    floatB = FloatField(default_value=1.0)
     ab = floatB
 
-    operation = LongField()
+    operation = LongField(default_value=0)
     op = operation
 
-    outBool = BoolField()
+    outBool = BoolField(default_value=False, writable=False)
     ob = outBool

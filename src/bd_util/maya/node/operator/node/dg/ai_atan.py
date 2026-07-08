@@ -46,7 +46,7 @@ class AiAtan(DG):
 
     NODE_TYPE = "aiAtan"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -55,7 +55,7 @@ class AiAtan(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -64,7 +64,7 @@ class AiAtan(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    y = YField()
+    y = YField(default_value=(0.0, 0.0, 0.0))
     yR = y.yR
     yr = yR
     yG = y.yG
@@ -72,7 +72,7 @@ class AiAtan(DG):
     yB = y.yB
     yb = yB
 
-    x = XField()
+    x = XField(default_value=(0.0, 0.0, 0.0))
     xR = x.xR
     xr = xR
     xG = x.xG
@@ -80,4 +80,4 @@ class AiAtan(DG):
     xB = x.xB
     xb = xB
 
-    units = UnitsEnumField()
+    units = UnitsEnumField(default_value=0)

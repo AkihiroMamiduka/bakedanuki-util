@@ -84,82 +84,82 @@ class TypeExtrude(DG):
     inputMesh = DataMeshField()
     in_ = inputMesh
 
-    outputMesh = DataMeshField()
+    outputMesh = DataMeshField(writable=False)
     out = outputMesh
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=1)
     md = mode
 
-    enableExtrusion = BoolField()
+    enableExtrusion = BoolField(default_value=True)
     enEx = enableExtrusion
 
-    extrudeDivisions = LongField()
+    extrudeDivisions = LongField(default_value=4, min_value=1, soft_min_value=1, soft_max_value=10)
     exdv = extrudeDivisions
 
-    extrudeDistance = FloatField()
+    extrudeDistance = FloatField(default_value=2.5, soft_min_value=0.1, soft_max_value=10.0)
     exds = extrudeDistance
 
-    extrudeOffset = FloatField()
+    extrudeOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     exof = extrudeOffset
 
-    extrudeCurve = ExtrudeCurveField(multi=True)
+    extrudeCurve = ExtrudeCurveField(multi=True, default_value=(0.0, 0.0))
     exc = extrudeCurve
 
-    deleteCaps = BoolField()
+    deleteCaps = BoolField(default_value=False)
     dcs = deleteCaps
 
-    gridSize = LongField()
+    gridSize = LongField(default_value=100)
     gs = gridSize
 
-    bevelOffset = FloatField()
+    bevelOffset = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
     bof = bevelOffset
 
-    frontBevelCurve = FrontBevelCurveField(multi=True)
+    frontBevelCurve = FrontBevelCurveField(multi=True, default_value=(0.0, 0.0))
     fbc = frontBevelCurve
 
-    bevelDivisions = LongField()
+    bevelDivisions = LongField(default_value=6, min_value=1, soft_min_value=1, soft_max_value=20)
     bdv = bevelDivisions
 
-    bevelDistance = FloatField()
+    bevelDistance = FloatField(default_value=0.3499999940395355, soft_min_value=-1.0, soft_max_value=1.0)
     bds = bevelDistance
 
-    capGroupId = LongField()
+    capGroupId = LongField(default_value=-1)
     cid = capGroupId
 
-    bevelGroupId = LongField()
+    bevelGroupId = LongField(default_value=-1)
     bid = bevelGroupId
 
-    extrudeGroupId = LongField()
+    extrudeGroupId = LongField(default_value=-1)
     eid = extrudeGroupId
 
-    defaultGroupId = LongField()
+    defaultGroupId = LongField(default_value=-1)
     did = defaultGroupId
 
-    enableBackBevel = BoolField()
+    enableBackBevel = BoolField(default_value=False)
     ebb = enableBackBevel
 
-    backBevelOffset = FloatField()
+    backBevelOffset = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
     bbof = backBevelOffset
 
-    backBevelCurve = BackBevelCurveField(multi=True)
+    backBevelCurve = BackBevelCurveField(multi=True, default_value=(0.0, 0.0))
     bbc = backBevelCurve
 
-    backBevelDivisions = LongField()
+    backBevelDivisions = LongField(default_value=6, min_value=1, soft_min_value=1, soft_max_value=20)
     bbdv = backBevelDivisions
 
-    backBevelDistance = FloatField()
+    backBevelDistance = FloatField(default_value=0.3499999940395355, soft_min_value=-1.0, soft_max_value=1.0)
     bbds = backBevelDistance
 
-    rearBevelUsesFront = BoolField()
+    rearBevelUsesFront = BoolField(default_value=False)
     rbuf = rearBevelUsesFront
 
-    enableCapShader = BoolField()
+    enableCapShader = BoolField(default_value=False)
     ecs = enableCapShader
 
-    enableBevelShader = BoolField()
+    enableBevelShader = BoolField(default_value=False)
     ebs = enableBevelShader
 
-    enableExtrudeShader = BoolField()
+    enableExtrudeShader = BoolField(default_value=False)
     ees = enableExtrudeShader
 
     outComponents = OutComponentsField()
@@ -167,27 +167,27 @@ class TypeExtrude(DG):
     bevelComponents = outComponents.bevelComponents
     extrusionComponents = outComponents.extrusionComponents
 
-    charGroupId = LongField(multi=True)
+    charGroupId = LongField(multi=True, default_value=0, readable=False)
 
     vertsPerChar = DataDoubleArrayField()
 
-    offsetFrontBevelAsFraction = BoolField()
+    offsetFrontBevelAsFraction = BoolField(default_value=True)
 
-    offsetBackBevelAsFraction = BoolField()
+    offsetBackBevelAsFraction = BoolField(default_value=True)
 
-    offsetExtrudeAsFraction = BoolField()
+    offsetExtrudeAsFraction = BoolField(default_value=True)
 
-    enableFrontBevel = BoolField()
+    enableFrontBevel = BoolField(default_value=False)
 
-    enableOuterBevel = BoolField()
+    enableOuterBevel = BoolField(default_value=False)
 
-    outerBevelCurve = OuterBevelCurveField(multi=True)
+    outerBevelCurve = OuterBevelCurveField(multi=True, default_value=(0.0, 0.0))
     obc = outerBevelCurve
 
-    outerBevelDistance = FloatField()
+    outerBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
 
-    outerBevelDivisions = LongField()
+    outerBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
 
-    bevelStyle = BevelStyleEnumField()
+    bevelStyle = BevelStyleEnumField(default_value=1)
 
     vertexGroupIds = TypedField()

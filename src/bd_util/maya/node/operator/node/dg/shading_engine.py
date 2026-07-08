@@ -95,16 +95,16 @@ class ShadingEngine(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -125,13 +125,13 @@ class ShadingEngine(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -146,16 +146,16 @@ class ShadingEngine(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -164,46 +164,46 @@ class ShadingEngine(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
-    unsolicited = TypedField(multi=True)
+    unsolicited = TypedField(multi=True, readable=False)
     un = unsolicited
 
     displacementShader = TypedField()
@@ -218,16 +218,16 @@ class ShadingEngine(DG):
     surfaceShader = TypedField()
     ss = surfaceShader
 
-    defaultLights = TypedField()
+    defaultLights = TypedField(readable=False)
     dl = defaultLights
 
-    linkedLights = TypedField(multi=True)
+    linkedLights = TypedField(multi=True, readable=False)
     ll = linkedLights
 
-    ignoredLights = TypedField(multi=True)
+    ignoredLights = TypedField(multi=True, readable=False)
     xl = ignoredLights
 
-    defaultShadows = DefaultShadowsField()
+    defaultShadows = DefaultShadowsField(readable=False)
     dsl = defaultShadows
     dShadowDirection = defaultShadows.dShadowDirection
     dsd = dShadowDirection
@@ -246,7 +246,7 @@ class ShadingEngine(DG):
     dShadowBlindData = defaultShadows.dShadowBlindData
     dbld = dShadowBlindData
 
-    linkedShadows = LinkedShadowsField(multi=True)
+    linkedShadows = LinkedShadowsField(multi=True, readable=False)
     ls = linkedShadows
 
     lShadowDirectionX = FloatField()
@@ -267,7 +267,7 @@ class ShadingEngine(DG):
     lShadowIntensityB = FloatField()
     lsb = lShadowIntensityB
 
-    ignoredShadows = IgnoredShadowsField(multi=True)
+    ignoredShadows = IgnoredShadowsField(multi=True, readable=False)
     xs = ignoredShadows
 
     xShadowDirectionX = FloatField()
@@ -288,7 +288,7 @@ class ShadingEngine(DG):
     xShadowIntensityB = FloatField()
     xsb = xShadowIntensityB
 
-    bogusAttribute = BogusAttributeField(multi=True)
+    bogusAttribute = BogusAttributeField(multi=True, readable=False)
     blt = bogusAttribute
 
     bogusDirectionX = FloatField()
@@ -309,10 +309,10 @@ class ShadingEngine(DG):
     bogusIntensityB = FloatField()
     blb = bogusIntensityB
 
-    aiCustomAOVs = AiCustomAOVsField(multi=True)
+    aiCustomAOVs = AiCustomAOVsField(multi=True, category="arnold")
     aovs = aiCustomAOVs
 
-    aiSurfaceShader = AiSurfaceShaderField()
+    aiSurfaceShader = AiSurfaceShaderField(default_value=(0.0, 0.0, 0.0), category="arnold")
     ai_surface_shader = aiSurfaceShader
     aiSurfaceShaderR = aiSurfaceShader.aiSurfaceShaderR
     ai_surface_shaderr = aiSurfaceShaderR
@@ -321,7 +321,7 @@ class ShadingEngine(DG):
     aiSurfaceShaderB = aiSurfaceShader.aiSurfaceShaderB
     ai_surface_shaderb = aiSurfaceShaderB
 
-    aiVolumeShader = AiVolumeShaderField()
+    aiVolumeShader = AiVolumeShaderField(default_value=(0.0, 0.0, 0.0), category="arnold")
     ai_volume_shader = aiVolumeShader
     aiVolumeShaderR = aiVolumeShader.aiVolumeShaderR
     ai_volume_shaderr = aiVolumeShaderR

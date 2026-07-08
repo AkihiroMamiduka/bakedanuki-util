@@ -45,11 +45,11 @@ class OffsetSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     d = distance
 
-    method = MethodEnumField()
+    method = MethodEnumField(default_value=0)
     m = method
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

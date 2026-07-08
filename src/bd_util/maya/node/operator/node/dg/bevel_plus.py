@@ -113,80 +113,80 @@ class BevelPlus(DG):
     innerStyleCurve = DataNurbsCurveField()
     isc = innerStyleCurve
 
-    outputPoly = DataMeshField()
+    outputPoly = DataMeshField(writable=False)
     op = outputPoly
 
-    startCapSurface = DataNurbsSurfaceField()
+    startCapSurface = DataNurbsSurfaceField(writable=False)
     scs = startCapSurface
 
-    endCapSurface = DataNurbsSurfaceField()
+    endCapSurface = DataNurbsSurfaceField(writable=False)
     ecs = endCapSurface
 
-    outputSurfaces = DataNurbsSurfaceField(multi=True)
+    outputSurfaces = DataNurbsSurfaceField(multi=True, writable=False)
     os1 = outputSurfaces
 
-    bevelInside = BoolField()
+    bevelInside = BoolField(default_value=False)
     bin = bevelInside
 
-    count = LongField(multi=True)
+    count = LongField(multi=True, default_value=0)
     c = count
 
-    position = PositionField(multi=True)
+    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0))
     p = position
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=0.1)
     tol = tolerance
 
-    width = DoubleLinearField()
+    width = DoubleLinearField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     w = width
 
-    depth = DoubleLinearField()
+    depth = DoubleLinearField(default_value=0.1, soft_min_value=0.0, soft_max_value=1.0)
     d = depth
 
-    extrudeDepth = DoubleLinearField()
+    extrudeDepth = DoubleLinearField(default_value=0.25, soft_min_value=0.0, soft_max_value=4.0)
     ed = extrudeDepth
 
-    numberOfSides = LongField()
+    numberOfSides = LongField(default_value=4, min_value=1, max_value=4)
     ns = numberOfSides
 
-    capSides = LongField()
+    capSides = LongField(default_value=1, min_value=1, max_value=4)
     cap = capSides
 
-    joinSurfaces = BoolField()
+    joinSurfaces = BoolField(default_value=True)
     js = joinSurfaces
 
-    orderedCurves = BoolField()
+    orderedCurves = BoolField(default_value=False)
     oc = orderedCurves
 
-    normalsOutwards = BoolField()
+    normalsOutwards = BoolField(default_value=False)
     no = normalsOutwards
 
-    polyOutMethod = PolyOutMethodEnumField()
+    polyOutMethod = PolyOutMethodEnumField(default_value=2)
     pom = polyOutMethod
 
-    polyOutCount = LongField()
+    polyOutCount = LongField(default_value=200, min_value=2, soft_max_value=1000)
     poc = polyOutCount
 
-    polyOutExtrusionType = PolyOutExtrusionTypeEnumField()
+    polyOutExtrusionType = PolyOutExtrusionTypeEnumField(default_value=3)
     pet = polyOutExtrusionType
 
-    polyOutExtrusionSamples = LongField()
+    polyOutExtrusionSamples = LongField(default_value=2, min_value=1, soft_max_value=8)
     pes = polyOutExtrusionSamples
 
-    polyOutCurveType = PolyOutCurveTypeEnumField()
+    polyOutCurveType = PolyOutCurveTypeEnumField(default_value=3)
     pct = polyOutCurveType
 
-    polyOutCurveSamples = LongField()
+    polyOutCurveSamples = LongField(default_value=6, min_value=1, soft_max_value=32)
     pcs = polyOutCurveSamples
 
-    polyOutUseChordHeight = BoolField()
+    polyOutUseChordHeight = BoolField(default_value=False)
     uch = polyOutUseChordHeight
 
-    polyOutChordHeight = DoubleLinearField()
+    polyOutChordHeight = DoubleLinearField(default_value=0.1, min_value=0.01, soft_min_value=0.05, soft_max_value=0.2)
     cht = polyOutChordHeight
 
-    polyOutUseChordHeightRatio = BoolField()
+    polyOutUseChordHeightRatio = BoolField(default_value=True)
     ucr = polyOutUseChordHeightRatio
 
-    polyOutChordHeightRatio = DoubleField()
+    polyOutChordHeightRatio = DoubleField(default_value=0.1, min_value=0.01, soft_min_value=0.05, soft_max_value=0.2)
     chr = polyOutChordHeightRatio

@@ -116,7 +116,7 @@ class MASH_Time(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -127,21 +127,21 @@ class MASH_Time(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -149,44 +149,44 @@ class MASH_Time(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
     inFrames = DataDoubleArrayField()
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=False)
 
-    enableVelocity = BoolField()
+    enableVelocity = BoolField(default_value=False)
 
-    limitLoops = BoolField()
+    limitLoops = BoolField(default_value=False)
 
-    randomStagger = BoolField()
+    randomStagger = BoolField(default_value=False)
 
-    simulateTime = BoolField()
+    simulateTime = BoolField(default_value=False)
 
-    roundTime = BoolField()
+    roundTime = BoolField(default_value=False)
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    timeOffset = LongField()
+    timeOffset = LongField(default_value=0)
 
-    animationStart = LongField()
+    animationStart = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
 
-    animationEnd = LongField()
+    animationEnd = LongField(default_value=25, soft_min_value=1, soft_max_value=100)
 
-    staggerFrames = FloatField()
+    staggerFrames = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    timeScale = FloatField()
+    timeScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=3.0)
 
-    timeScaleRandom = FloatField()
+    timeScaleRandom = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=3.0)
 
-    numberOfLoops = LongField()
+    numberOfLoops = LongField(default_value=3, min_value=1, soft_max_value=10)
 
-    simStartFrame = LongField()
+    simStartFrame = LongField(default_value=0)
 
-    strengthMode = StrengthModeEnumField()
+    strengthMode = StrengthModeEnumField(default_value=1)

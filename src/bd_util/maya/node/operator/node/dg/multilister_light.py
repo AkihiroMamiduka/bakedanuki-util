@@ -12,10 +12,10 @@ class MultilisterLight(DG):
 
     NODE_TYPE = "multilisterLight"
 
-    inLightIntensity = FloatField()
+    inLightIntensity = FloatField(default_value=1.0, readable=False)
     ili = inLightIntensity
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0), readable=False)
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -24,7 +24,7 @@ class MultilisterLight(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    lightData = LightDataField()
+    lightData = LightDataField(writable=False)
     ltd = lightData
     lightDirection = lightData.lightDirection
     ld = lightDirection

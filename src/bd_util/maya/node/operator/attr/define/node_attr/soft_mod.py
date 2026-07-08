@@ -75,7 +75,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -90,7 +90,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -114,7 +114,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -123,7 +123,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -146,13 +146,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -161,13 +161,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -179,13 +179,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -197,7 +197,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -205,7 +205,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -280,13 +280,13 @@ class FalloffCurvePlugOperator(
         ("falloffCurve_Interp", "fci"),
     )
 
-    falloffCurve_Position = FloatField()
+    falloffCurve_Position = FloatField(default_value=0.0)
     fcp = falloffCurve_Position
 
-    falloffCurve_FloatValue = FloatField()
+    falloffCurve_FloatValue = FloatField(default_value=0.0)
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = FalloffCurve_InterpEnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField(default_value=0)
     fci = falloffCurve_Interp
 
 
@@ -295,13 +295,13 @@ class FalloffCurveAttrOperator(
 ):
     __slots__ = ()
 
-    falloffCurve_Position = FloatField()
+    falloffCurve_Position = FloatField(default_value=0.0)
     fcp = falloffCurve_Position
 
-    falloffCurve_FloatValue = FloatField()
+    falloffCurve_FloatValue = FloatField(default_value=0.0)
     fcfv = falloffCurve_FloatValue
 
-    falloffCurve_Interp = FalloffCurve_InterpEnumField()
+    falloffCurve_Interp = FalloffCurve_InterpEnumField(default_value=0)
     fci = falloffCurve_Interp
 
 
@@ -324,13 +324,13 @@ class FalloffCenterPlugOperator(
         ("falloffCenterZ", "fcz"),
     )
 
-    falloffCenterX = DoubleLinearField()
+    falloffCenterX = DoubleLinearField(default_value=0.0)
     fcx = falloffCenterX
 
-    falloffCenterY = DoubleLinearField()
+    falloffCenterY = DoubleLinearField(default_value=0.0)
     fcy = falloffCenterY
 
-    falloffCenterZ = DoubleLinearField()
+    falloffCenterZ = DoubleLinearField(default_value=0.0)
     fcz = falloffCenterZ
 
 
@@ -339,13 +339,13 @@ class FalloffCenterAttrOperator(
 ):
     __slots__ = ()
 
-    falloffCenterX = DoubleLinearField()
+    falloffCenterX = DoubleLinearField(default_value=0.0)
     fcx = falloffCenterX
 
-    falloffCenterY = DoubleLinearField()
+    falloffCenterY = DoubleLinearField(default_value=0.0)
     fcy = falloffCenterY
 
-    falloffCenterZ = DoubleLinearField()
+    falloffCenterZ = DoubleLinearField(default_value=0.0)
     fcz = falloffCenterZ
 
 
@@ -357,11 +357,11 @@ class FalloffCenterField(
     ATTR_CLS = FalloffCenterAttrOperator
     PLUG_CLS = FalloffCenterPlugOperator
 
-    falloffCenterX = DoubleLinearField()
+    falloffCenterX = DoubleLinearField(default_value=0.0)
     fcx = falloffCenterX
 
-    falloffCenterY = DoubleLinearField()
+    falloffCenterY = DoubleLinearField(default_value=0.0)
     fcy = falloffCenterY
 
-    falloffCenterZ = DoubleLinearField()
+    falloffCenterZ = DoubleLinearField(default_value=0.0)
     fcz = falloffCenterZ

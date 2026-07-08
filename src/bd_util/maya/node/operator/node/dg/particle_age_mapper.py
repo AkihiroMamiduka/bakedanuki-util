@@ -10,24 +10,24 @@ class ParticleAgeMapper(DG):
 
     NODE_TYPE = "particleAgeMapper"
 
-    outUvCoord = OutUvCoordField()
+    outUvCoord = OutUvCoordField(default_value=(0.0, 0.0), writable=False)
     ouv = outUvCoord
     outUCoord = outUvCoord.outUCoord
     ouc = outUCoord
     outVCoord = outUvCoord.outVCoord
     ovc = outVCoord
 
-    particleAge = FloatField()
+    particleAge = FloatField(default_value=0.0)
     pa = particleAge
 
-    particleLifespan = FloatField()
+    particleLifespan = FloatField(default_value=0.0)
     pls = particleLifespan
 
-    relativeAge = BoolField()
+    relativeAge = BoolField(default_value=False)
     rea = relativeAge
 
-    timeScale = FloatField()
+    timeScale = FloatField(default_value=1.0)
     ts = timeScale
 
-    foldAtEnd = BoolField()
+    foldAtEnd = BoolField(default_value=False)
     fae = foldAtEnd

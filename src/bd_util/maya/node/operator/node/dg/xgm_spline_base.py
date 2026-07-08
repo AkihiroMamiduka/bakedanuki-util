@@ -83,37 +83,37 @@ class XgmSplineBase(DG):
     boundInfoData = TypedField()
     bid = boundInfoData
 
-    resolution = LongField(multi=True)
+    resolution = LongField(multi=True, default_value=3, min_value=1, max_value=5)
     r = resolution
 
-    densityMultiplier = FloatField()
+    densityMultiplier = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     dm = densityMultiplier
 
-    densityMask = DoubleField()
+    densityMask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     dmk = densityMask
 
-    generatorSeed = LongField()
+    generatorSeed = LongField(default_value=0, min_value=0)
     gs = generatorSeed
 
-    interpolate = BoolField()
+    interpolate = BoolField(default_value=True)
     i = interpolate
 
-    interpFrom = InterpFromEnumField()
+    interpFrom = InterpFromEnumField(default_value=0)
     if_ = interpFrom
 
     interpSource = TypedField()
     is_ = interpSource
 
-    interpSmoothness = FloatField()
+    interpSmoothness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     ism = interpSmoothness
 
-    initLength = DoubleLinearField()
+    initLength = DoubleLinearField(default_value=1.0, min_value=0.001)
     l = initLength
 
-    initWidth = DoubleLinearField()
+    initWidth = DoubleLinearField(default_value=0.01, min_value=0.001)
     w = initWidth
 
-    initDirection = InitDirectionField()
+    initDirection = InitDirectionField(default_value=(0.0, 0.0, 0.0), writable=False)
     d = initDirection
     initDirectionX = initDirection.initDirectionX
     dx = initDirectionX
@@ -131,16 +131,16 @@ class XgmSplineBase(DG):
     outMeshData = TypedField()
     omd = outMeshData
 
-    cvCount = LongField()
+    cvCount = LongField(default_value=5, min_value=4, max_value=100000)
     cvc = cvCount
 
-    transferMode = BoolField()
+    transferMode = BoolField(default_value=False)
     tmo = transferMode
 
-    transferModeAlignToNormal = BoolField()
+    transferModeAlignToNormal = BoolField(default_value=False)
     tan = transferModeAlignToNormal
 
-    transferModeMappingType = TransferModeMappingTypeEnumField()
+    transferModeMappingType = TransferModeMappingTypeEnumField(default_value=0)
     tmt = transferModeMappingType
 
     transferModeBBInfo = DataStringField()

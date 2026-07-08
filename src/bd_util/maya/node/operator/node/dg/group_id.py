@@ -8,5 +8,5 @@ class GroupId(DG):
 
     NODE_TYPE = "groupId"
 
-    groupId = LongField()
+    groupId = LongField(default_value=0, writable=False)
     id = groupId

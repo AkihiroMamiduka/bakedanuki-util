@@ -15,7 +15,7 @@ class NearestPointOnCurve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    inPosition = InPositionField()
+    inPosition = InPositionField(default_value=(0.0, 0.0, 0.0))
     ip = inPosition
     inPositionX = inPosition.inPositionX
     ipx = inPositionX
@@ -24,7 +24,7 @@ class NearestPointOnCurve(DG):
     inPositionZ = inPosition.inPositionZ
     ipz = inPositionZ
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

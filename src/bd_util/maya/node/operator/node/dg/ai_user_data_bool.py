@@ -9,9 +9,9 @@ class AiUserDataBool(DG):
 
     NODE_TYPE = "aiUserDataBool"
 
-    outValue = BoolField()
+    outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    defaultValue = BoolField()
+    defaultValue = BoolField(default_value=False)
 
     boolAttrName = DataStringField()

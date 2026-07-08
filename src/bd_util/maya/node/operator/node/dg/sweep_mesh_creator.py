@@ -247,100 +247,100 @@ class SweepMeshCreator(DG):
 
     NODE_TYPE = "sweepMeshCreator"
 
-    sweepProfileType = SweepProfileTypeEnumField()
+    sweepProfileType = SweepProfileTypeEnumField(default_value=0)
 
-    customSweepProfileData = TypedField()
+    customSweepProfileData = TypedField(readable=False)
 
-    profileArcAngle = DoubleAngleField()
+    profileArcAngle = DoubleAngleField(default_value=180.0, min_value=0.0, max_value=360.0)
 
-    profileArcSegments = LongField()
+    profileArcSegments = LongField(default_value=4, min_value=1, soft_max_value=40)
 
-    profilePolyType = ProfilePolyTypeEnumField()
+    profilePolyType = ProfilePolyTypeEnumField(default_value=0)
 
-    profilePolySides = LongField()
+    profilePolySides = LongField(default_value=8, min_value=3, soft_max_value=20)
 
-    profilePolyInnerRadius = FloatField()
+    profilePolyInnerRadius = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    profileRectWidth = DoubleLinearField()
+    profileRectWidth = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=2.0)
 
-    profileRectHeight = DoubleLinearField()
+    profileRectHeight = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=2.0)
 
-    profileRectCornerRadius = DoubleLinearField()
+    profileRectCornerRadius = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
 
-    profileRectCornerSegments = LongField()
+    profileRectCornerSegments = LongField(default_value=2, min_value=1, soft_max_value=5)
 
-    profileRectCornerDepth = FloatField()
+    profileRectCornerDepth = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
-    profileWaveAmplitude = DoubleLinearField()
+    profileWaveAmplitude = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=0.5)
 
-    profileWaveCycles = FloatField()
+    profileWaveCycles = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
 
-    profileWaveOffset = FloatField()
+    profileWaveOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    profileWaveSegments = LongField()
+    profileWaveSegments = LongField(default_value=6, min_value=1, soft_max_value=40)
 
-    patternEnable = BoolField()
+    patternEnable = BoolField(default_value=False)
 
-    patternDistribution = PatternDistributionEnumField()
+    patternDistribution = PatternDistributionEnumField(default_value=0)
 
-    patternNumberOfElements = LongField()
+    patternNumberOfElements = LongField(default_value=5, min_value=0, soft_max_value=10)
 
-    patternScaleElementsUniform = BoolField()
+    patternScaleElementsUniform = BoolField(default_value=True)
 
-    patternScaleElementsX = FloatField()
+    patternScaleElementsX = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
 
-    patternScaleElementsY = FloatField()
+    patternScaleElementsY = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
 
-    patternAutomaticOrientation = BoolField()
+    patternAutomaticOrientation = BoolField(default_value=True)
 
-    patternRotateElements = DoubleAngleField()
+    patternRotateElements = DoubleAngleField(default_value=0.0, min_value=-360.0, max_value=360.0)
 
-    patternCoverage = FloatField()
+    patternCoverage = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    alignProfileEnable = BoolField()
+    alignProfileEnable = BoolField(default_value=False)
 
-    alignProfileHorizontal = AlignProfileHorizontalEnumField()
+    alignProfileHorizontal = AlignProfileHorizontalEnumField(default_value=1)
 
-    alignProfileVertical = AlignProfileVerticalEnumField()
+    alignProfileVertical = AlignProfileVerticalEnumField(default_value=1)
 
-    automaticRoll = BoolField()
+    automaticRoll = BoolField(default_value=True)
 
-    scaleProfileUniform = BoolField()
+    scaleProfileUniform = BoolField(default_value=True)
 
-    scaleProfileX = FloatField()
+    scaleProfileX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    scaleProfileY = FloatField()
+    scaleProfileY = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    rotateProfile = DoubleAngleField()
+    rotateProfile = DoubleAngleField(default_value=0.0, min_value=-360.0, max_value=360.0)
 
-    translateProfileX = DoubleLinearField()
+    translateProfileX = DoubleLinearField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    translateProfileY = DoubleLinearField()
+    translateProfileY = DoubleLinearField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    twist = FloatField()
+    twist = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
 
-    taper = FloatField()
+    taper = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    taperCurve = TaperCurveField(multi=True)
+    taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    interpolationMode = InterpolationModeEnumField()
+    interpolationMode = InterpolationModeEnumField(default_value=0)
 
-    interpolationPrecision = FloatField()
+    interpolationPrecision = FloatField(default_value=75.0, min_value=0.0, max_value=100.0)
 
-    interpolationSteps = LongField()
+    interpolationSteps = LongField(default_value=20, min_value=1, soft_max_value=50)
 
-    interpolationDistance = DoubleLinearField()
+    interpolationDistance = DoubleLinearField(default_value=0.0, min_value=0.01, soft_min_value=0.5, soft_max_value=10.0)
 
-    interpolationOptimize = BoolField()
+    interpolationOptimize = BoolField(default_value=False)
 
-    normalsReverse = BoolField()
+    normalsReverse = BoolField(default_value=False)
 
-    normalsSmoothing = DoubleAngleField()
+    normalsSmoothing = DoubleAngleField(default_value=59.99999999999999, min_value=0.0, max_value=180.0)
 
-    createUVs = CreateUVsEnumField()
+    createUVs = CreateUVsEnumField(default_value=2)
 
-    capsEnable = BoolField()
+    capsEnable = BoolField(default_value=False)
 
-    inCurveArray = DataNurbsCurveField(multi=True)
+    inCurveArray = DataNurbsCurveField(multi=True, readable=False)
 
-    outMeshArray = DataMeshField(multi=True)
+    outMeshArray = DataMeshField(multi=True, writable=False)

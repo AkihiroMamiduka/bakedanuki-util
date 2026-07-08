@@ -13,7 +13,7 @@ class AiModulo(DG):
 
     NODE_TYPE = "aiModulo"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,7 +22,7 @@ class AiModulo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,7 +31,7 @@ class AiModulo(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(1.0, 1.0, 1.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -39,7 +39,7 @@ class AiModulo(DG):
     inputB = input.inputB
     inputb = inputB
 
-    divisor = DivisorField()
+    divisor = DivisorField(default_value=(1.0, 1.0, 1.0))
     divisorR = divisor.divisorR
     divisorr = divisorR
     divisorG = divisor.divisorG

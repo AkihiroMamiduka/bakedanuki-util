@@ -25,28 +25,28 @@ class UvChooser(DG):
 
     NODE_TYPE = "uvChooser"
 
-    stCoord = StCoordField()
+    stCoord = StCoordField(default_value=(0.0, 0.0))
     st = stCoord
     sCoord = stCoord.sCoord
     s = sCoord
     tCoord = stCoord.tCoord
     t = tCoord
 
-    vertexStOne = VertexStOneField()
+    vertexStOne = VertexStOneField(default_value=(0.0, 0.0))
     vs1 = vertexStOne
     vertexStOneS = vertexStOne.vertexStOneS
     s1s = vertexStOneS
     vertexStOneT = vertexStOne.vertexStOneT
     s1t = vertexStOneT
 
-    vertexStTwo = VertexStTwoField()
+    vertexStTwo = VertexStTwoField(default_value=(0.0, 0.0))
     vs2 = vertexStTwo
     vertexStTwoS = vertexStTwo.vertexStTwoS
     s2s = vertexStTwoS
     vertexStTwoT = vertexStTwo.vertexStTwoT
     s2t = vertexStTwoT
 
-    vertexStThree = VertexStThreeField()
+    vertexStThree = VertexStThreeField(default_value=(0.0, 0.0))
     vs3 = vertexStThree
     vertexStThreeS = vertexStThree.vertexStThreeS
     s3s = vertexStThreeS
@@ -56,35 +56,35 @@ class UvChooser(DG):
     uvSets = DataStringField(multi=True)
     uvs = uvSets
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    vertexUvOne = VertexUvOneField()
+    vertexUvOne = VertexUvOneField(default_value=(0.0, 0.0))
     vt1 = vertexUvOne
     vertexUvOneU = vertexUvOne.vertexUvOneU
     t1u = vertexUvOneU
     vertexUvOneV = vertexUvOne.vertexUvOneV
     t1v = vertexUvOneV
 
-    vertexUvTwo = VertexUvTwoField()
+    vertexUvTwo = VertexUvTwoField(default_value=(0.0, 0.0))
     vt2 = vertexUvTwo
     vertexUvTwoU = vertexUvTwo.vertexUvTwoU
     t2u = vertexUvTwoU
     vertexUvTwoV = vertexUvTwo.vertexUvTwoV
     t2v = vertexUvTwoV
 
-    vertexUvThree = VertexUvThreeField()
+    vertexUvThree = VertexUvThreeField(default_value=(0.0, 0.0))
     vt3 = vertexUvThree
     vertexUvThreeU = vertexUvThree.vertexUvThreeU
     t3u = vertexUvThreeU
     vertexUvThreeV = vertexUvThree.vertexUvThreeV
     t3v = vertexUvThreeV
 
-    vertexCameraOne = VertexCameraOneField()
+    vertexCameraOne = VertexCameraOneField(default_value=(0.0, 0.0, 0.0))
     vc1 = vertexCameraOne
     vertexCameraOneX = vertexCameraOne.vertexCameraOneX
     c1x = vertexCameraOneX
@@ -93,38 +93,38 @@ class UvChooser(DG):
     vertexCameraOneZ = vertexCameraOne.vertexCameraOneZ
     c1z = vertexCameraOneZ
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits
 
-    outUv = OutUvField()
+    outUv = OutUvField(default_value=(0.0, 0.0), writable=False)
     ouv = outUv
     outU = outUv.outU
     ou = outU
     outV = outUv.outV
     ov = outV
 
-    outVertexUvOne = OutVertexUvOneField()
+    outVertexUvOne = OutVertexUvOneField(default_value=(0.0, 0.0))
     ov1 = outVertexUvOne
     outVertexUvOneU = outVertexUvOne.outVertexUvOneU
     o1u = outVertexUvOneU
     outVertexUvOneV = outVertexUvOne.outVertexUvOneV
     o1v = outVertexUvOneV
 
-    outVertexUvTwo = OutVertexUvTwoField()
+    outVertexUvTwo = OutVertexUvTwoField(default_value=(0.0, 0.0))
     ov2 = outVertexUvTwo
     outVertexUvTwoU = outVertexUvTwo.outVertexUvTwoU
     o2u = outVertexUvTwoU
     outVertexUvTwoV = outVertexUvTwo.outVertexUvTwoV
     o2v = outVertexUvTwoV
 
-    outVertexUvThree = OutVertexUvThreeField()
+    outVertexUvThree = OutVertexUvThreeField(default_value=(0.0, 0.0))
     ov3 = outVertexUvThree
     outVertexUvThreeU = outVertexUvThree.outVertexUvThreeU
     o3u = outVertexUvThreeU
     outVertexUvThreeV = outVertexUvThree.outVertexUvThreeV
     o3v = outVertexUvThreeV
 
-    outVertexCameraOne = OutVertexCameraOneField()
+    outVertexCameraOne = OutVertexCameraOneField(default_value=(0.0, 0.0, 0.0))
     oc1 = outVertexCameraOne
     outVertexCameraOneX = outVertexCameraOne.outVertexCameraOneX
     o1x = outVertexCameraOneX

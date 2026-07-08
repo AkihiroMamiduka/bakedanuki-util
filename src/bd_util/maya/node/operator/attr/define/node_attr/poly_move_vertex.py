@@ -36,13 +36,13 @@ class TranslatePlugOperator(
         ("translateZ", "tz"),
     )
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -51,13 +51,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -69,13 +69,13 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -89,13 +89,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -104,13 +104,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -122,13 +122,13 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -142,13 +142,13 @@ class ScalePlugOperator(
         ("scaleZ", "sz"),
     )
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -157,13 +157,13 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -175,13 +175,13 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -195,13 +195,13 @@ class PivotPlugOperator(
         ("pivotZ", "pvz"),
     )
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -210,13 +210,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -228,13 +228,13 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = FloatLinearField()
+    pivotX = FloatLinearField(default_value=0.0)
     pvx = pivotX
 
-    pivotY = FloatLinearField()
+    pivotY = FloatLinearField(default_value=0.0)
     pvy = pivotY
 
-    pivotZ = FloatLinearField()
+    pivotZ = FloatLinearField(default_value=0.0)
     pvz = pivotZ
 
 
@@ -248,13 +248,13 @@ class LocalTranslatePlugOperator(
         ("localTranslateZ", "ltz"),
     )
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ
 
 
@@ -263,13 +263,13 @@ class LocalTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ
 
 
@@ -281,13 +281,13 @@ class LocalTranslateField(
     ATTR_CLS = LocalTranslateAttrOperator
     PLUG_CLS = LocalTranslatePlugOperator
 
-    localTranslateX = DoubleLinearField()
+    localTranslateX = DoubleLinearField(default_value=0.0)
     ltx = localTranslateX
 
-    localTranslateY = DoubleLinearField()
+    localTranslateY = DoubleLinearField(default_value=0.0)
     lty = localTranslateY
 
-    localTranslateZ = DoubleLinearField()
+    localTranslateZ = DoubleLinearField(default_value=0.0)
     ltz = localTranslateZ
 
 
@@ -301,13 +301,13 @@ class LocalDirectionPlugOperator(
         ("localDirectionZ", "ldz"),
     )
 
-    localDirectionX = DoubleLinearField()
+    localDirectionX = DoubleLinearField(default_value=1.0)
     ldx = localDirectionX
 
-    localDirectionY = DoubleLinearField()
+    localDirectionY = DoubleLinearField(default_value=0.0)
     ldy = localDirectionY
 
-    localDirectionZ = DoubleLinearField()
+    localDirectionZ = DoubleLinearField(default_value=0.0)
     ldz = localDirectionZ
 
 
@@ -316,13 +316,13 @@ class LocalDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    localDirectionX = DoubleLinearField()
+    localDirectionX = DoubleLinearField(default_value=1.0)
     ldx = localDirectionX
 
-    localDirectionY = DoubleLinearField()
+    localDirectionY = DoubleLinearField(default_value=0.0)
     ldy = localDirectionY
 
-    localDirectionZ = DoubleLinearField()
+    localDirectionZ = DoubleLinearField(default_value=0.0)
     ldz = localDirectionZ
 
 
@@ -334,11 +334,11 @@ class LocalDirectionField(
     ATTR_CLS = LocalDirectionAttrOperator
     PLUG_CLS = LocalDirectionPlugOperator
 
-    localDirectionX = DoubleLinearField()
+    localDirectionX = DoubleLinearField(default_value=1.0)
     ldx = localDirectionX
 
-    localDirectionY = DoubleLinearField()
+    localDirectionY = DoubleLinearField(default_value=0.0)
     ldy = localDirectionY
 
-    localDirectionZ = DoubleLinearField()
+    localDirectionZ = DoubleLinearField(default_value=0.0)
     ldz = localDirectionZ

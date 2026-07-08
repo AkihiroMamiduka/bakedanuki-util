@@ -105,22 +105,22 @@ class OpticalFX(DG):
 
     NODE_TYPE = "opticalFX"
 
-    active = BoolField()
+    active = BoolField(default_value=True)
     act = active
 
-    glowType = GlowTypeEnumField()
+    glowType = GlowTypeEnumField(default_value=1)
     gt = glowType
 
-    haloType = HaloTypeEnumField()
+    haloType = HaloTypeEnumField(default_value=0)
     ht = haloType
 
-    fogType = ShortField()
+    fogType = ShortField(default_value=0, min_value=0, max_value=5)
     ft = fogType
 
-    lensFlare = BoolField()
+    lensFlare = BoolField(default_value=False)
     lf = lensFlare
 
-    glowColor = GlowColorField()
+    glowColor = GlowColorField(default_value=(1.0, 1.0, 1.0))
     gc = glowColor
     glowColorR = glowColor.glowColorR
     gr = glowColorR
@@ -129,7 +129,7 @@ class OpticalFX(DG):
     glowColorB = glowColor.glowColorB
     gb = glowColorB
 
-    haloColor = HaloColorField()
+    haloColor = HaloColorField(default_value=(1.0, 1.0, 1.0))
     hc = haloColor
     haloColorR = haloColor.haloColorR
     hr = haloColorR
@@ -138,7 +138,7 @@ class OpticalFX(DG):
     haloColorB = haloColor.haloColorB
     hb = haloColorB
 
-    fogColor = FogColorField()
+    fogColor = FogColorField(default_value=(1.0, 1.0, 1.0))
     fc = fogColor
     fogColorR = fogColor.fogColorR
     fr = fogColorR
@@ -147,7 +147,7 @@ class OpticalFX(DG):
     fogColorB = fogColor.fogColorB
     fb = fogColorB
 
-    flareColor = FlareColorField()
+    flareColor = FlareColorField(default_value=(1.0, 1.0, 1.0))
     rc = flareColor
     flareColorR = flareColor.flareColorR
     rr = flareColorR
@@ -156,115 +156,115 @@ class OpticalFX(DG):
     flareColorB = flareColor.flareColorB
     rb = flareColorB
 
-    flareIntensity = FloatField()
+    flareIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     fi = flareIntensity
 
-    flareNumCircles = FloatField()
+    flareNumCircles = FloatField(default_value=20.0, min_value=0.0, soft_max_value=30.0)
     fn = flareNumCircles
 
-    flareMinSize = FloatField()
+    flareMinSize = FloatField(default_value=0.10000000149011612, soft_min_value=0.001, soft_max_value=5.0)
     fm = flareMinSize
 
-    flareMaxSize = FloatField()
+    flareMaxSize = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=5.0)
     fa = flareMaxSize
 
-    flareColSpread = FloatField()
+    flareColSpread = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     lc = flareColSpread
 
-    flareFocus = FloatField()
+    flareFocus = FloatField(default_value=0.6000000238418579, soft_min_value=0.0, soft_max_value=1.0)
     ff = flareFocus
 
-    flareVertical = FloatField()
+    flareVertical = FloatField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     fv = flareVertical
 
-    flareHorizontal = FloatField()
+    flareHorizontal = FloatField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     fh = flareHorizontal
 
-    flareLength = FloatField()
+    flareLength = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     fl = flareLength
 
-    hexagonFlare = BoolField()
+    hexagonFlare = BoolField(default_value=False)
     hf = hexagonFlare
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     gi = glowIntensity
 
-    haloIntensity = FloatField()
+    haloIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     hi = haloIntensity
 
-    fogIntensity = FloatField()
+    fogIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     oi = fogIntensity
 
-    glowSpread = FloatField()
+    glowSpread = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=5.0)
     gs = glowSpread
 
-    haloSpread = FloatField()
+    haloSpread = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=5.0)
     hs = haloSpread
 
-    fogSpread = FloatField()
+    fogSpread = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=5.0)
     fs = fogSpread
 
-    glowNoise = FloatField()
+    glowNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gd = glowNoise
 
-    fogNoise = FloatField()
+    fogNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fd = fogNoise
 
-    glowRadialNoise = FloatField()
+    glowRadialNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gn = glowRadialNoise
 
-    fogRadialNoise = FloatField()
+    fogRadialNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fz = fogRadialNoise
 
-    glowStarLevel = FloatField()
+    glowStarLevel = FloatField(default_value=3.0, soft_min_value=0.0, soft_max_value=10.0)
     gv = glowStarLevel
 
-    fogStarlevel = FloatField()
+    fogStarlevel = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     fe = fogStarlevel
 
-    glowOpacity = FloatField()
+    glowOpacity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.5)
     go = glowOpacity
 
-    fogOpacity = FloatField()
+    fogOpacity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=0.5)
     fo = fogOpacity
 
-    radialFrequency = FloatField()
+    radialFrequency = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=5.0)
     rf = radialFrequency
 
-    starPoints = FloatField()
+    starPoints = FloatField(default_value=4.0, soft_min_value=0.0, soft_max_value=10.0)
     sp = starPoints
 
-    rotation = FloatField()
+    rotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     ra = rotation
 
-    noiseUscale = FloatField()
+    noiseUscale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     nu = noiseUscale
 
-    noiseVscale = FloatField()
+    noiseVscale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     nv = noiseVscale
 
-    noiseUoffset = FloatField()
+    noiseUoffset = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     ni = noiseUoffset
 
-    noiseVoffset = FloatField()
+    noiseVoffset = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=10.0)
     nf = noiseVoffset
 
-    noiseThreshold = FloatField()
+    noiseThreshold = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     nt = noiseThreshold
 
-    ignoreLight = BoolField()
+    ignoreLight = BoolField(default_value=False)
     il = ignoreLight
 
-    lightWorldMat = DataMatrixField()
+    lightWorldMat = DataMatrixField(readable=False)
     lw = lightWorldMat
 
-    lightConnection = MessageField()
+    lightConnection = MessageField(writable=False)
     ln = lightConnection
 
-    glowVisibility = FloatField()
+    glowVisibility = FloatField(default_value=1.0, readable=False)
     gvb = glowVisibility
 
-    lightColor = LightColorField()
+    lightColor = LightColorField(default_value=(1.0, 1.0, 1.0), readable=False)
     lr = lightColor
     lightColorR = lightColor.lightColorR
     lcr = lightColorR
@@ -273,7 +273,7 @@ class OpticalFX(DG):
     lightColorB = lightColor.lightColorB
     lgb = lightColorB
 
-    visibility = VisibilityField()
+    visibility = VisibilityField(default_value=(1.0, 1.0, 1.0), readable=False)
     vb = visibility
     visibilityR = visibility.visibilityR
     vbr = visibilityR

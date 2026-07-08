@@ -8,8 +8,8 @@ class AboutToSetValueTestNode(DG):
 
     NODE_TYPE = "aboutToSetValueTestNode"
 
-    attribA = FloatField()
+    attribA = FloatField(default_value=2.0)
     a = attribA
 
-    attribB = FloatField()
+    attribB = FloatField(default_value=2.0)
     b = attribB

@@ -12,34 +12,34 @@ class XgmModifierCollision(DG):
 
     NODE_TYPE = "xgmModifierCollision"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    collisionDistance = FloatField()
+    collisionDistance = FloatField(default_value=0.009999999776482582, min_value=0.0010000000474974513, max_value=10.0)
     cd = collisionDistance
 
-    meshSampling = LongField()
+    meshSampling = LongField(default_value=5, min_value=3, max_value=20)
     ac = meshSampling
 
-    resolveType = LongField()
+    resolveType = LongField(default_value=0)
     rt = resolveType
 
-    iterations = LongField()
+    iterations = LongField(default_value=5, min_value=3, max_value=20)
     it = iterations
 
-    sigma = LongField()
+    sigma = LongField(default_value=1, min_value=0, max_value=3)
     sg = sigma
 
-    deformationPreserved = BoolField()
+    deformationPreserved = BoolField(default_value=False)
     dp = deformationPreserved
 
     tweak = TypedField()

@@ -56,7 +56,7 @@ class MakeNurbsSquare(DG):
 
     NODE_TYPE = "makeNurbsSquare"
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 1.0))
     nr = normal
     normalX = normal.normalX
     nrx = normalX
@@ -65,7 +65,7 @@ class MakeNurbsSquare(DG):
     normalZ = normal.normalZ
     nrz = normalZ
 
-    center = CenterField()
+    center = CenterField(default_value=(0.0, 0.0, 0.0))
     c = center
     centerX = center.centerX
     cx = centerX
@@ -74,26 +74,26 @@ class MakeNurbsSquare(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    sideLength1 = DoubleLinearField()
+    sideLength1 = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     sl1 = sideLength1
 
-    sideLength2 = DoubleLinearField()
+    sideLength2 = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     sl2 = sideLength2
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    spansPerSide = LongField()
+    spansPerSide = LongField(default_value=1, min_value=1, max_value=1024, soft_max_value=4)
     sps = spansPerSide
 
-    outputCurve1 = DataNurbsCurveField()
+    outputCurve1 = DataNurbsCurveField(writable=False)
     oc1 = outputCurve1
 
-    outputCurve2 = DataNurbsCurveField()
+    outputCurve2 = DataNurbsCurveField(writable=False)
     oc2 = outputCurve2
 
-    outputCurve3 = DataNurbsCurveField()
+    outputCurve3 = DataNurbsCurveField(writable=False)
     oc3 = outputCurve3
 
-    outputCurve4 = DataNurbsCurveField()
+    outputCurve4 = DataNurbsCurveField(writable=False)
     oc4 = outputCurve4

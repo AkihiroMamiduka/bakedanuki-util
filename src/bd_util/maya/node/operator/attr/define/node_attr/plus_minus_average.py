@@ -22,10 +22,10 @@ class Input2DPlugOperator(
         ("input2Dy", "i2y"),
     )
 
-    input2Dx = FloatField()
+    input2Dx = FloatField(default_value=0.0, readable=False)
     i2x = input2Dx
 
-    input2Dy = FloatField()
+    input2Dy = FloatField(default_value=0.0, readable=False)
     i2y = input2Dy
 
 
@@ -34,10 +34,10 @@ class Input2DAttrOperator(
 ):
     __slots__ = ()
 
-    input2Dx = FloatField()
+    input2Dx = FloatField(default_value=0.0, readable=False)
     i2x = input2Dx
 
-    input2Dy = FloatField()
+    input2Dy = FloatField(default_value=0.0, readable=False)
     i2y = input2Dy
 
 
@@ -60,13 +60,13 @@ class Input3DPlugOperator(
         ("input3Dz", "i3z"),
     )
 
-    input3Dx = FloatField()
+    input3Dx = FloatField(default_value=0.0, readable=False)
     i3x = input3Dx
 
-    input3Dy = FloatField()
+    input3Dy = FloatField(default_value=0.0, readable=False)
     i3y = input3Dy
 
-    input3Dz = FloatField()
+    input3Dz = FloatField(default_value=0.0, readable=False)
     i3z = input3Dz
 
 
@@ -75,13 +75,13 @@ class Input3DAttrOperator(
 ):
     __slots__ = ()
 
-    input3Dx = FloatField()
+    input3Dx = FloatField(default_value=0.0, readable=False)
     i3x = input3Dx
 
-    input3Dy = FloatField()
+    input3Dy = FloatField(default_value=0.0, readable=False)
     i3y = input3Dy
 
-    input3Dz = FloatField()
+    input3Dz = FloatField(default_value=0.0, readable=False)
     i3z = input3Dz
 
 
@@ -103,10 +103,10 @@ class Output2DPlugOperator(
         ("output2Dy", "o2y"),
     )
 
-    output2Dx = FloatField()
+    output2Dx = FloatField(default_value=0.0, writable=False)
     o2x = output2Dx
 
-    output2Dy = FloatField()
+    output2Dy = FloatField(default_value=0.0, writable=False)
     o2y = output2Dy
 
 
@@ -115,10 +115,10 @@ class Output2DAttrOperator(
 ):
     __slots__ = ()
 
-    output2Dx = FloatField()
+    output2Dx = FloatField(default_value=0.0, writable=False)
     o2x = output2Dx
 
-    output2Dy = FloatField()
+    output2Dy = FloatField(default_value=0.0, writable=False)
     o2y = output2Dy
 
 
@@ -130,10 +130,10 @@ class Output2DField(
     ATTR_CLS = Output2DAttrOperator
     PLUG_CLS = Output2DPlugOperator
 
-    output2Dx = FloatField()
+    output2Dx = FloatField(default_value=0.0, writable=False)
     o2x = output2Dx
 
-    output2Dy = FloatField()
+    output2Dy = FloatField(default_value=0.0, writable=False)
     o2y = output2Dy
 
 
@@ -147,13 +147,13 @@ class Output3DPlugOperator(
         ("output3Dz", "o3z"),
     )
 
-    output3Dx = FloatField()
+    output3Dx = FloatField(default_value=0.0, writable=False)
     o3x = output3Dx
 
-    output3Dy = FloatField()
+    output3Dy = FloatField(default_value=0.0, writable=False)
     o3y = output3Dy
 
-    output3Dz = FloatField()
+    output3Dz = FloatField(default_value=0.0, writable=False)
     o3z = output3Dz
 
 
@@ -162,13 +162,13 @@ class Output3DAttrOperator(
 ):
     __slots__ = ()
 
-    output3Dx = FloatField()
+    output3Dx = FloatField(default_value=0.0, writable=False)
     o3x = output3Dx
 
-    output3Dy = FloatField()
+    output3Dy = FloatField(default_value=0.0, writable=False)
     o3y = output3Dy
 
-    output3Dz = FloatField()
+    output3Dz = FloatField(default_value=0.0, writable=False)
     o3z = output3Dz
 
 
@@ -180,11 +180,11 @@ class Output3DField(
     ATTR_CLS = Output3DAttrOperator
     PLUG_CLS = Output3DPlugOperator
 
-    output3Dx = FloatField()
+    output3Dx = FloatField(default_value=0.0, writable=False)
     o3x = output3Dx
 
-    output3Dy = FloatField()
+    output3Dy = FloatField(default_value=0.0, writable=False)
     o3y = output3Dy
 
-    output3Dz = FloatField()
+    output3Dz = FloatField(default_value=0.0, writable=False)
     o3z = output3Dz

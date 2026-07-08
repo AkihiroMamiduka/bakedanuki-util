@@ -147,14 +147,14 @@ class MASH_Repro(DG):
 
     NODE_TYPE = "MASH_Repro"
 
-    numberOfObjects = LongField()
+    numberOfObjects = LongField(default_value=0)
 
-    loopId = LongField()
+    loopId = LongField(default_value=0, writable=False)
 
-    updating = BoolField()
+    updating = BoolField(default_value=False)
     upd = updating
 
-    finishUpdating = BoolField()
+    finishUpdating = BoolField(default_value=False)
     fupd = finishUpdating
 
     meshMessage = MessageField()
@@ -162,31 +162,31 @@ class MASH_Repro(DG):
 
     inputPoints = TypedField()
 
-    setNormals = BoolField()
+    setNormals = BoolField(default_value=True)
     setN = setNormals
 
-    normalMode = NormalModeEnumField()
+    normalMode = NormalModeEnumField(default_value=1)
 
-    setUVs = BoolField()
+    setUVs = BoolField(default_value=True)
 
-    setColors = BoolField()
+    setColors = BoolField(default_value=False)
     setC = setColors
 
-    useGPU = BoolField()
+    useGPU = BoolField(default_value=False)
     gpu = useGPU
 
-    levelOfDetail = LevelOfDetailEnumField()
+    levelOfDetail = LevelOfDetailEnumField(default_value=0)
     lod = levelOfDetail
 
     cameraMatrix = MatrixField()
     cmtx = cameraMatrix
 
-    rotationOrder = RotationOrderEnumField()
+    rotationOrder = RotationOrderEnumField(default_value=0)
     roto = rotationOrder
 
     instancedGroup = InstancedGroupField(multi=True)
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     out = outMesh
 
     meshMatrix = MatrixField()
@@ -219,5 +219,5 @@ class MASH_Repro(DG):
     frameAttributeName = DataStringField()
     frameAttrName = frameAttributeName
 
-    motionBlurInstanceMode = MotionBlurInstanceModeEnumField()
+    motionBlurInstanceMode = MotionBlurInstanceModeEnumField(default_value=0)
     mbim = motionBlurInstanceMode

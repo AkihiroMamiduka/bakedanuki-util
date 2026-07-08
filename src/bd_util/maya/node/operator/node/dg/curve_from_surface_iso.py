@@ -47,23 +47,23 @@ class CurveFromSurfaceIso(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    minValue = DoubleField()
+    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     min = minValue
 
-    maxValue = DoubleField()
+    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
     max = maxValue
 
-    relative = BoolField()
+    relative = BoolField(default_value=False)
     r = relative
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    isoparmValue = DoubleField()
+    isoparmValue = DoubleField(default_value=0.0)
     iv = isoparmValue
 
-    isoparmDirection = IsoparmDirectionEnumField()
+    isoparmDirection = IsoparmDirectionEnumField(default_value=0)
     idr = isoparmDirection
 
-    relativeValue = BoolField()
+    relativeValue = BoolField(default_value=False)
     rv = relativeValue

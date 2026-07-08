@@ -48,32 +48,32 @@ class PolyToSubdiv(DG):
 
     NODE_TYPE = "polyToSubdiv"
 
-    inMesh = DataMeshField()
+    inMesh = DataMeshField(readable=False)
     i = inMesh
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     o = outSubdiv
 
-    maxPolyCount = LongField()
+    maxPolyCount = LongField(default_value=1000, min_value=1, max_value=100000)
     mpc = maxPolyCount
 
-    maxEdgesPerVert = LongField()
+    maxEdgesPerVert = LongField(default_value=32, min_value=2, max_value=255)
     me = maxEdgesPerVert
 
-    applyMatrixToResult = BoolField()
+    applyMatrixToResult = BoolField(default_value=True)
     amr = applyMatrixToResult
 
-    absolutePosition = BoolField()
+    absolutePosition = BoolField(default_value=False)
     ap = absolutePosition
 
-    uvTreatment = UvTreatmentEnumField()
+    uvTreatment = UvTreatmentEnumField(default_value=0)
     uvt = uvTreatment
 
     cachedUVs = CachedUVsField(multi=True)
     cuv = cachedUVs
 
-    preserveVertexOrdering = BoolField()
+    preserveVertexOrdering = BoolField(default_value=True)
     pvo = preserveVertexOrdering
 
-    quickConvert = BoolField()
+    quickConvert = BoolField(default_value=True)
     qc = quickConvert

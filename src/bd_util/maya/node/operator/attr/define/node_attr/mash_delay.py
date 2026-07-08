@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -77,11 +77,11 @@ class TranslateOutPPPlugOperator(
         ("rotationOutPP", "rotationOutPP"),
     )
 
-    positionOutPP = DataVectorArrayField()
+    positionOutPP = DataVectorArrayField(writable=False)
 
-    scaleOutPP = DataVectorArrayField()
+    scaleOutPP = DataVectorArrayField(writable=False)
 
-    rotationOutPP = DataVectorArrayField()
+    rotationOutPP = DataVectorArrayField(writable=False)
 
 
 class TranslateOutPPAttrOperator(
@@ -89,11 +89,11 @@ class TranslateOutPPAttrOperator(
 ):
     __slots__ = ()
 
-    positionOutPP = DataVectorArrayField()
+    positionOutPP = DataVectorArrayField(writable=False)
 
-    scaleOutPP = DataVectorArrayField()
+    scaleOutPP = DataVectorArrayField(writable=False)
 
-    rotationOutPP = DataVectorArrayField()
+    rotationOutPP = DataVectorArrayField(writable=False)
 
 
 class TranslateOutPPField(
@@ -104,11 +104,11 @@ class TranslateOutPPField(
     ATTR_CLS = TranslateOutPPAttrOperator
     PLUG_CLS = TranslateOutPPPlugOperator
 
-    positionOutPP = DataVectorArrayField()
+    positionOutPP = DataVectorArrayField(writable=False)
 
-    scaleOutPP = DataVectorArrayField()
+    scaleOutPP = DataVectorArrayField(writable=False)
 
-    rotationOutPP = DataVectorArrayField()
+    rotationOutPP = DataVectorArrayField(writable=False)
 
 
 class TranslateInPPPlugOperator(
@@ -165,13 +165,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -180,13 +180,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -198,11 +198,11 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ

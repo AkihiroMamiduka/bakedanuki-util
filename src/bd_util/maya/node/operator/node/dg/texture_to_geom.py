@@ -16,13 +16,13 @@ class TextureToGeom(DG):
 
     NODE_TYPE = "textureToGeom"
 
-    segmentCount = LongField()
+    segmentCount = LongField(default_value=0, writable=False)
     sc = segmentCount
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    outColorData = OutColorDataField(multi=True)
+    outColorData = OutColorDataField(multi=True, writable=False)
     ocd = outColorData
 
     outColorR = FloatField()
@@ -34,10 +34,10 @@ class TextureToGeom(DG):
     outColorB = FloatField()
     ocb = outColorB
 
-    outSegFace = TypedField(multi=True)
+    outSegFace = TypedField(multi=True, writable=False)
     ofm = outSegFace
 
-    segGroupIds = LongField(multi=True)
+    segGroupIds = LongField(multi=True, default_value=-1)
     sgi = segGroupIds
 
     inputMesh = DataMeshField()
@@ -46,58 +46,58 @@ class TextureToGeom(DG):
     inputMeshUVSet = DataStringField()
     iuv = inputMeshUVSet
 
-    quantize = BoolField()
+    quantize = BoolField(default_value=False)
     qut = quantize
 
-    quantizeLevels = ByteField()
+    quantizeLevels = ByteField(default_value=10, min_value=1, max_value=64)
     qutl = quantizeLevels
 
-    maxColorDiff = FloatField()
+    maxColorDiff = FloatField(default_value=0.125, min_value=9.999999747378752e-06, max_value=0.5)
     mcd = maxColorDiff
 
-    minSegmentSize = FloatField()
+    minSegmentSize = FloatField(default_value=0.004999999888241291, min_value=0.0, max_value=1.0)
     msz = minSegmentSize
 
-    spatialRadius = LongField()
+    spatialRadius = LongField(default_value=7, min_value=3, max_value=10)
     spr = spatialRadius
 
-    colorRange = FloatField()
+    colorRange = FloatField(default_value=4.5, min_value=1.0, max_value=10.0)
     crng = colorRange
 
     imageFile = DataStringField()
     if_ = imageFile
 
-    meshQuality = DoubleField()
+    meshQuality = DoubleField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
     mq = meshQuality
 
-    surfaceOffset = FloatField()
+    surfaceOffset = FloatField(default_value=0.009999999776482582, soft_min_value=0.0, soft_max_value=1.0)
     so = surfaceOffset
 
-    smoothBoundary = BoolField()
+    smoothBoundary = BoolField(default_value=True)
     smbd = smoothBoundary
 
-    smoothFactor = FloatField()
+    smoothFactor = FloatField(default_value=0.5, min_value=9.999999747378752e-06, max_value=0.9999900000002526)
     smf = smoothFactor
 
-    fitTolerance = FloatField()
+    fitTolerance = FloatField(default_value=0.007000000216066837, min_value=0.0, max_value=4.0)
     ft = fitTolerance
 
-    hardCornerDetect = BoolField()
+    hardCornerDetect = BoolField(default_value=True)
     hcd = hardCornerDetect
 
-    hardCornerMaxLength = FloatField()
+    hardCornerMaxLength = FloatField(default_value=10.0, min_value=10.0, max_value=100.0)
     hcml = hardCornerMaxLength
 
-    simplifyBoundary = BoolField()
+    simplifyBoundary = BoolField(default_value=True)
     smpl = simplifyBoundary
 
-    simplifyThreshold = DoubleField()
+    simplifyThreshold = DoubleField(default_value=1e-10, min_value=1e-10, max_value=1.0)
     smpt = simplifyThreshold
 
-    pointsOnBoundary = BoolField()
+    pointsOnBoundary = BoolField(default_value=True)
     pob = pointsOnBoundary
 
-    maxPointsAdded = LongField()
+    maxPointsAdded = LongField(default_value=0, min_value=0, soft_max_value=100000)
     mpa = maxPointsAdded
 
     shaderScript = DataStringField()

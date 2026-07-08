@@ -18,13 +18,13 @@ class BloomTintPlugOperator(
         ("bloomTintB", "bloom_tintb"),
     )
 
-    bloomTintR = FloatField()
+    bloomTintR = FloatField(default_value=1.0)
     bloom_tintr = bloomTintR
 
-    bloomTintG = FloatField()
+    bloomTintG = FloatField(default_value=1.0)
     bloom_tintg = bloomTintG
 
-    bloomTintB = FloatField()
+    bloomTintB = FloatField(default_value=1.0)
     bloom_tintb = bloomTintB
 
 
@@ -33,13 +33,13 @@ class BloomTintAttrOperator(
 ):
     __slots__ = ()
 
-    bloomTintR = FloatField()
+    bloomTintR = FloatField(default_value=1.0)
     bloom_tintr = bloomTintR
 
-    bloomTintG = FloatField()
+    bloomTintG = FloatField(default_value=1.0)
     bloom_tintg = bloomTintG
 
-    bloomTintB = FloatField()
+    bloomTintB = FloatField(default_value=1.0)
     bloom_tintb = bloomTintB
 
 
@@ -51,11 +51,11 @@ class BloomTintField(
     ATTR_CLS = BloomTintAttrOperator
     PLUG_CLS = BloomTintPlugOperator
 
-    bloomTintR = FloatField()
+    bloomTintR = FloatField(default_value=1.0)
     bloom_tintr = bloomTintR
 
-    bloomTintG = FloatField()
+    bloomTintG = FloatField(default_value=1.0)
     bloom_tintg = bloomTintG
 
-    bloomTintB = FloatField()
+    bloomTintB = FloatField(default_value=1.0)
     bloom_tintb = bloomTintB

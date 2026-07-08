@@ -18,10 +18,10 @@ class OutColorDataPlugOperator(
         ("outAlpha", "oa"),
     )
 
-    outColor = Float3Field()
+    outColor = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
 
@@ -30,10 +30,10 @@ class OutColorDataAttrOperator(
 ):
     __slots__ = ()
 
-    outColor = Float3Field()
+    outColor = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
 

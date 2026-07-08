@@ -18,13 +18,13 @@ class ParticleTransparencyPlugOperator(
         ("particleTransparencyB", "ptb"),
     )
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0)
     ptb = particleTransparencyB
 
 
@@ -33,13 +33,13 @@ class ParticleTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0)
     ptb = particleTransparencyB
 
 
@@ -51,11 +51,11 @@ class ParticleTransparencyField(
     ATTR_CLS = ParticleTransparencyAttrOperator
     PLUG_CLS = ParticleTransparencyPlugOperator
 
-    particleTransparencyR = FloatField()
+    particleTransparencyR = FloatField(default_value=0.0)
     ptr = particleTransparencyR
 
-    particleTransparencyG = FloatField()
+    particleTransparencyG = FloatField(default_value=0.0)
     ptg = particleTransparencyG
 
-    particleTransparencyB = FloatField()
+    particleTransparencyB = FloatField(default_value=0.0)
     ptb = particleTransparencyB

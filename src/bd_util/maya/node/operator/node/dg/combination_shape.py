@@ -44,11 +44,11 @@ class CombinationShape(DG):
 
     NODE_TYPE = "combinationShape"
 
-    inputWeight = FloatField(multi=True)
+    inputWeight = FloatField(multi=True, default_value=0.0)
     iw = inputWeight
 
-    combinationMethod = CombinationMethodEnumField()
+    combinationMethod = CombinationMethodEnumField(default_value=0)
     cm = combinationMethod
 
-    outputWeight = FloatField()
+    outputWeight = FloatField(default_value=0.0)
     ow = outputWeight

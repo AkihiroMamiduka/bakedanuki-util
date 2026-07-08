@@ -13,10 +13,10 @@ class XgmSeExpr(DG):
     expression = DataStringField()
     expr = expression
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=1.0, writable=False)
     oa = outAlpha
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

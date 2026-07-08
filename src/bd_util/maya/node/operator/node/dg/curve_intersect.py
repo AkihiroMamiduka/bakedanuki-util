@@ -18,13 +18,13 @@ class CurveIntersect(DG):
     inputCurve2 = DataNurbsCurveField()
     ic2 = inputCurve2
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.001, soft_min_value=0.0001, soft_max_value=1.0)
     tol = tolerance
 
-    useDirection = BoolField()
+    useDirection = BoolField(default_value=False)
     ud = useDirection
 
-    direction = DirectionField()
+    direction = DirectionField(default_value=(0.0, 1.0, 0.0))
     d = direction
     directionX = direction.directionX
     dx = directionX
@@ -33,8 +33,8 @@ class CurveIntersect(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    parameter1 = DoubleField(multi=True)
+    parameter1 = DoubleField(multi=True, default_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0, writable=False)
     p1 = parameter1
 
-    parameter2 = DoubleField(multi=True)
+    parameter2 = DoubleField(multi=True, default_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0, writable=False)
     p2 = parameter2

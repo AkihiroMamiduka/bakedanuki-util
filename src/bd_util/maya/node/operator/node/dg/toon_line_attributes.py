@@ -42,11 +42,11 @@ class ToonLineAttributes(DG):
 
     NODE_TYPE = "toonLineAttributes"
 
-    lineWidth = FloatField()
+    lineWidth = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     lwd = lineWidth
 
-    lineVisibility = BoolField()
+    lineVisibility = BoolField(default_value=True)
     lv = lineVisibility
 
-    viewUpdate = ViewUpdateEnumField()
+    viewUpdate = ViewUpdateEnumField(default_value=0)
     vu = viewUpdate

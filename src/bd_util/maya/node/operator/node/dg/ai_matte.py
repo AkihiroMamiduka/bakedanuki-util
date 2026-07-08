@@ -17,7 +17,7 @@ class AiMatte(DG):
 
     NODE_TYPE = "aiMatte"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -26,10 +26,10 @@ class AiMatte(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,7 +38,7 @@ class AiMatte(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -47,7 +47,7 @@ class AiMatte(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -56,10 +56,10 @@ class AiMatte(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    passthroughA = FloatField()
+    passthroughA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     passthrougha = passthroughA
 
-    passthrough = PassthroughField()
+    passthrough = PassthroughField(default_value=(0.0, 0.0, 0.0))
     passthroughR = passthrough.passthroughR
     passthroughr = passthroughR
     passthroughG = passthrough.passthroughG
@@ -67,10 +67,10 @@ class AiMatte(DG):
     passthroughB = passthrough.passthroughB
     passthroughb = passthroughB
 
-    colorA = FloatField()
+    colorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     colora = colorA
 
-    color = ColorField()
+    color = ColorField(default_value=(0.0, 0.0, 0.0))
     colorR = color.colorR
     colorr = colorR
     colorG = color.colorG
@@ -78,7 +78,7 @@ class AiMatte(DG):
     colorB = color.colorB
     colorb = colorB
 
-    opacity = OpacityField()
+    opacity = OpacityField(default_value=(1.0, 1.0, 1.0))
     opacityR = opacity.opacityR
     opacityr = opacityR
     opacityG = opacity.opacityG

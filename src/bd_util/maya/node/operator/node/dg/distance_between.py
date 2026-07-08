@@ -13,7 +13,7 @@ class DistanceBetween(DG):
 
     NODE_TYPE = "distanceBetween"
 
-    point1 = Point1Field()
+    point1 = Point1Field(default_value=(0.0, 0.0, 0.0), readable=False)
     p1 = point1
     point1X = point1.point1X
     p1x = point1X
@@ -22,10 +22,10 @@ class DistanceBetween(DG):
     point1Z = point1.point1Z
     p1z = point1Z
 
-    inMatrix1 = DataMatrixField()
+    inMatrix1 = DataMatrixField(readable=False)
     im1 = inMatrix1
 
-    point2 = Point2Field()
+    point2 = Point2Field(default_value=(0.0, 0.0, 0.0), readable=False)
     p2 = point2
     point2X = point2.point2X
     p2x = point2X
@@ -34,8 +34,8 @@ class DistanceBetween(DG):
     point2Z = point2.point2Z
     p2z = point2Z
 
-    inMatrix2 = DataMatrixField()
+    inMatrix2 = DataMatrixField(readable=False)
     im2 = inMatrix2
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=0.0, writable=False)
     d = distance

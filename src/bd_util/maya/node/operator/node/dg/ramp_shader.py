@@ -135,40 +135,40 @@ class RampShader(DG):
 
     NODE_TYPE = "rampShader"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0, readable=False)
     oi = objectId
 
-    primitiveId = LongField()
+    primitiveId = LongField(default_value=0, readable=False)
     pi = primitiveId
 
-    raySampler = AddrField()
+    raySampler = AddrField(default_value=0.0, readable=False)
     rtr = raySampler
 
-    rayDepth = ShortField()
+    rayDepth = ShortField(default_value=0, readable=False)
     rd = rayDepth
 
-    rayInstance = LongField()
+    rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField()
+    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
     rdl = refractionLimit
 
-    refractiveIndex = FloatField()
+    refractiveIndex = FloatField(default_value=1.0, min_value=0.01, soft_max_value=3.0)
     rfi = refractiveIndex
 
-    mediumRefractiveIndex = FloatField()
+    mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
     mrfi = mediumRefractiveIndex
 
-    refractions = BoolField()
+    refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField()
+    diffuse = FloatField(default_value=0.800000011920929, soft_min_value=0.0, soft_max_value=1.0)
     dc = diffuse
 
-    forwardScatter = FloatField()
+    forwardScatter = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fsc = forwardScatter
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -189,13 +189,13 @@ class RampShader(DG):
     color_ColorB = FloatField()
     clrcb = color_ColorB
 
-    colorInput = ColorInputEnumField()
+    colorInput = ColorInputEnumField(default_value=0)
     cin = colorInput
 
-    shadowMode = ShadowModeEnumField()
+    shadowMode = ShadowModeEnumField(default_value=0)
     smd = shadowMode
 
-    shadowColor = ShadowColorField()
+    shadowColor = ShadowColorField(default_value=(0.0, 0.0, 0.0))
     shc = shadowColor
     shadowColorR = shadowColor.shadowColorR
     shr = shadowColorR
@@ -204,7 +204,7 @@ class RampShader(DG):
     shadowColorB = shadowColor.shadowColorB
     shb = shadowColorB
 
-    shadowThreshold = FloatField()
+    shadowThreshold = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     sht = shadowThreshold
 
     transparency = TransparencyField(multi=True)
@@ -219,7 +219,7 @@ class RampShader(DG):
     transparency_ColorB = FloatField()
     itcb = transparency_ColorB
 
-    ambientColor = AmbientColorField()
+    ambientColor = AmbientColorField(default_value=(0.0, 0.0, 0.0))
     ambc = ambientColor
     ambientColorR = ambientColor.ambientColorR
     acr = ambientColorR
@@ -240,52 +240,52 @@ class RampShader(DG):
     incandescence_ColorB = FloatField()
     iccb = incandescence_ColorB
 
-    translucence = FloatField()
+    translucence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tc = translucence
 
-    translucenceFocus = FloatField()
+    translucenceFocus = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField()
+    translucenceDepth = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=5.0)
     trsd = translucenceDepth
 
-    opacityDepth = FloatField()
+    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     opad = opacityDepth
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gi = glowIntensity
 
-    specularGlow = FloatField()
+    specularGlow = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     spg = specularGlow
 
-    hideSource = BoolField()
+    hideSource = BoolField(default_value=False)
     hs = hideSource
 
-    surfaceThickness = FloatField()
+    surfaceThickness = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     thik = surfaceThickness
 
-    shadowAttenuation = FloatField()
+    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     fakc = shadowAttenuation
 
-    transparencyDepth = FloatField()
+    transparencyDepth = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     trdp = transparencyDepth
 
-    lightAbsorbance = FloatField()
+    lightAbsorbance = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     absb = lightAbsorbance
 
-    chromaticAberration = BoolField()
+    chromaticAberration = BoolField(default_value=False)
     crab = chromaticAberration
 
-    eccentricity = FloatField()
+    eccentricity = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
     ec = eccentricity
 
-    specularity = FloatField()
+    specularity = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
     spl = specularity
 
-    specularRollOff = SpecularRollOffField(multi=True)
+    specularRollOff = SpecularRollOffField(multi=True, default_value=(0.0, 0.0, 0.0))
     sro = specularRollOff
 
-    reflectionLimit = ShortField()
+    reflectionLimit = ShortField(default_value=1, min_value=0, soft_max_value=10)
     fll = reflectionLimit
 
     specularColor = SpecularColorField(multi=True)
@@ -300,7 +300,7 @@ class RampShader(DG):
     specularColor_ColorB = FloatField()
     sccb = specularColor_ColorB
 
-    reflectivity = ReflectivityField(multi=True)
+    reflectivity = ReflectivityField(multi=True, default_value=(0.0, 0.0, 0.0))
     rfl = reflectivity
 
     environment = EnvironmentField(multi=True)
@@ -315,7 +315,7 @@ class RampShader(DG):
     environment_ColorB = FloatField()
     envcb = environment_ColorB
 
-    reflectedColor = ReflectedColorField()
+    reflectedColor = ReflectedColorField(default_value=(0.0, 0.0, 0.0))
     rc = reflectedColor
     reflectedColorR = reflectedColor.reflectedColorR
     rr = reflectedColorR
@@ -324,7 +324,7 @@ class RampShader(DG):
     reflectedColorB = reflectedColor.reflectedColorB
     rb = reflectedColorB
 
-    triangleNormalCamera = TriangleNormalCameraField()
+    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -333,10 +333,10 @@ class RampShader(DG):
     triangleNormalCameraZ = triangleNormalCamera.triangleNormalCameraZ
     tnz = triangleNormalCameraZ
 
-    reflectionSpecularity = FloatField()
+    reflectionSpecularity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     rsp = reflectionSpecularity
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -345,7 +345,7 @@ class RampShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -354,7 +354,7 @@ class RampShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -363,7 +363,7 @@ class RampShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0))
     pc = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -372,7 +372,7 @@ class RampShader(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -384,7 +384,7 @@ class RampShader(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -405,13 +405,13 @@ class RampShader(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

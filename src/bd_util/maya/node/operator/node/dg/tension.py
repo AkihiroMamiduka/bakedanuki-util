@@ -24,22 +24,22 @@ class Tension(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -51,37 +51,37 @@ class Tension(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    smoothingIterations = LongField()
+    smoothingIterations = LongField(default_value=10, min_value=0)
     si = smoothingIterations
 
-    smoothingStep = FloatField()
+    smoothingStep = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ss = smoothingStep
 
-    inwardConstraint = FloatField()
+    inwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     iwc = inwardConstraint
 
-    outwardConstraint = FloatField()
+    outwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     owc = outwardConstraint
 
-    squashConstraint = FloatField()
+    squashConstraint = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     sqc = squashConstraint
 
-    stretchConstraint = FloatField()
+    stretchConstraint = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     stc = stretchConstraint
 
-    relative = FloatField()
+    relative = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rel = relative
 
-    shearStrength = FloatField()
+    shearStrength = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     shr = shearStrength
 
-    bendStrength = FloatField()
+    bendStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bnd = bendStrength
 
-    pinBorderVertices = BoolField()
+    pinBorderVertices = BoolField(default_value=True)
     pbv = pinBorderVertices
 
     cache = CacheField(multi=True)

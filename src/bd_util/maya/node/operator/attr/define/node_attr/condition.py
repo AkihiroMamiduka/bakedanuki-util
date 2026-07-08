@@ -18,13 +18,13 @@ class ColorIfTruePlugOperator(
         ("colorIfTrueB", "ctb"),
     )
 
-    colorIfTrueR = FloatField()
+    colorIfTrueR = FloatField(default_value=0.0)
     ctr = colorIfTrueR
 
-    colorIfTrueG = FloatField()
+    colorIfTrueG = FloatField(default_value=0.0)
     ctg = colorIfTrueG
 
-    colorIfTrueB = FloatField()
+    colorIfTrueB = FloatField(default_value=0.0)
     ctb = colorIfTrueB
 
 
@@ -33,13 +33,13 @@ class ColorIfTrueAttrOperator(
 ):
     __slots__ = ()
 
-    colorIfTrueR = FloatField()
+    colorIfTrueR = FloatField(default_value=0.0)
     ctr = colorIfTrueR
 
-    colorIfTrueG = FloatField()
+    colorIfTrueG = FloatField(default_value=0.0)
     ctg = colorIfTrueG
 
-    colorIfTrueB = FloatField()
+    colorIfTrueB = FloatField(default_value=0.0)
     ctb = colorIfTrueB
 
 
@@ -51,13 +51,13 @@ class ColorIfTrueField(
     ATTR_CLS = ColorIfTrueAttrOperator
     PLUG_CLS = ColorIfTruePlugOperator
 
-    colorIfTrueR = FloatField()
+    colorIfTrueR = FloatField(default_value=0.0)
     ctr = colorIfTrueR
 
-    colorIfTrueG = FloatField()
+    colorIfTrueG = FloatField(default_value=0.0)
     ctg = colorIfTrueG
 
-    colorIfTrueB = FloatField()
+    colorIfTrueB = FloatField(default_value=0.0)
     ctb = colorIfTrueB
 
 
@@ -71,13 +71,13 @@ class ColorIfFalsePlugOperator(
         ("colorIfFalseB", "cfb"),
     )
 
-    colorIfFalseR = FloatField()
+    colorIfFalseR = FloatField(default_value=1.0)
     cfr = colorIfFalseR
 
-    colorIfFalseG = FloatField()
+    colorIfFalseG = FloatField(default_value=1.0)
     cfg = colorIfFalseG
 
-    colorIfFalseB = FloatField()
+    colorIfFalseB = FloatField(default_value=1.0)
     cfb = colorIfFalseB
 
 
@@ -86,13 +86,13 @@ class ColorIfFalseAttrOperator(
 ):
     __slots__ = ()
 
-    colorIfFalseR = FloatField()
+    colorIfFalseR = FloatField(default_value=1.0)
     cfr = colorIfFalseR
 
-    colorIfFalseG = FloatField()
+    colorIfFalseG = FloatField(default_value=1.0)
     cfg = colorIfFalseG
 
-    colorIfFalseB = FloatField()
+    colorIfFalseB = FloatField(default_value=1.0)
     cfb = colorIfFalseB
 
 
@@ -104,13 +104,13 @@ class ColorIfFalseField(
     ATTR_CLS = ColorIfFalseAttrOperator
     PLUG_CLS = ColorIfFalsePlugOperator
 
-    colorIfFalseR = FloatField()
+    colorIfFalseR = FloatField(default_value=1.0)
     cfr = colorIfFalseR
 
-    colorIfFalseG = FloatField()
+    colorIfFalseG = FloatField(default_value=1.0)
     cfg = colorIfFalseG
 
-    colorIfFalseB = FloatField()
+    colorIfFalseB = FloatField(default_value=1.0)
     cfb = colorIfFalseB
 
 
@@ -124,13 +124,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -139,13 +139,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -157,11 +157,11 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB

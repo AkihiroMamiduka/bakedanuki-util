@@ -17,10 +17,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -29,10 +29,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -44,10 +44,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -60,10 +60,10 @@ class UvFilterSizePlugOperator(
         ("uvFilterSizeY", "fsy"),
     )
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -72,10 +72,10 @@ class UvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -87,10 +87,10 @@ class UvFilterSizeField(
     ATTR_CLS = UvFilterSizeAttrOperator
     PLUG_CLS = UvFilterSizePlugOperator
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     fsx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     fsy = uvFilterSizeY
 
 
@@ -103,10 +103,10 @@ class CoveragePlugOperator(
         ("coverageV", "cv"),
     )
 
-    coverageU = FloatField()
+    coverageU = FloatField(default_value=1.0, min_value=0.0)
     cu = coverageU
 
-    coverageV = FloatField()
+    coverageV = FloatField(default_value=1.0, min_value=0.0)
     cv = coverageV
 
 
@@ -115,10 +115,10 @@ class CoverageAttrOperator(
 ):
     __slots__ = ()
 
-    coverageU = FloatField()
+    coverageU = FloatField(default_value=1.0, min_value=0.0)
     cu = coverageU
 
-    coverageV = FloatField()
+    coverageV = FloatField(default_value=1.0, min_value=0.0)
     cv = coverageV
 
 
@@ -130,10 +130,10 @@ class CoverageField(
     ATTR_CLS = CoverageAttrOperator
     PLUG_CLS = CoveragePlugOperator
 
-    coverageU = FloatField()
+    coverageU = FloatField(default_value=1.0, min_value=0.0)
     cu = coverageU
 
-    coverageV = FloatField()
+    coverageV = FloatField(default_value=1.0, min_value=0.0)
     cv = coverageV
 
 
@@ -146,10 +146,10 @@ class TranslateFramePlugOperator(
         ("translateFrameV", "tfv"),
     )
 
-    translateFrameU = FloatField()
+    translateFrameU = FloatField(default_value=0.0)
     tfu = translateFrameU
 
-    translateFrameV = FloatField()
+    translateFrameV = FloatField(default_value=0.0)
     tfv = translateFrameV
 
 
@@ -158,10 +158,10 @@ class TranslateFrameAttrOperator(
 ):
     __slots__ = ()
 
-    translateFrameU = FloatField()
+    translateFrameU = FloatField(default_value=0.0)
     tfu = translateFrameU
 
-    translateFrameV = FloatField()
+    translateFrameV = FloatField(default_value=0.0)
     tfv = translateFrameV
 
 
@@ -173,10 +173,10 @@ class TranslateFrameField(
     ATTR_CLS = TranslateFrameAttrOperator
     PLUG_CLS = TranslateFramePlugOperator
 
-    translateFrameU = FloatField()
+    translateFrameU = FloatField(default_value=0.0)
     tfu = translateFrameU
 
-    translateFrameV = FloatField()
+    translateFrameV = FloatField(default_value=0.0)
     tfv = translateFrameV
 
 
@@ -189,10 +189,10 @@ class RepeatUVPlugOperator(
         ("repeatV", "rev"),
     )
 
-    repeatU = FloatField()
+    repeatU = FloatField(default_value=1.0)
     reu = repeatU
 
-    repeatV = FloatField()
+    repeatV = FloatField(default_value=1.0)
     rev = repeatV
 
 
@@ -201,10 +201,10 @@ class RepeatUVAttrOperator(
 ):
     __slots__ = ()
 
-    repeatU = FloatField()
+    repeatU = FloatField(default_value=1.0)
     reu = repeatU
 
-    repeatV = FloatField()
+    repeatV = FloatField(default_value=1.0)
     rev = repeatV
 
 
@@ -216,10 +216,10 @@ class RepeatUVField(
     ATTR_CLS = RepeatUVAttrOperator
     PLUG_CLS = RepeatUVPlugOperator
 
-    repeatU = FloatField()
+    repeatU = FloatField(default_value=1.0)
     reu = repeatU
 
-    repeatV = FloatField()
+    repeatV = FloatField(default_value=1.0)
     rev = repeatV
 
 
@@ -232,10 +232,10 @@ class OffsetPlugOperator(
         ("offsetV", "ofv"),
     )
 
-    offsetU = FloatField()
+    offsetU = FloatField(default_value=0.0)
     ofu = offsetU
 
-    offsetV = FloatField()
+    offsetV = FloatField(default_value=0.0)
     ofv = offsetV
 
 
@@ -244,10 +244,10 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetU = FloatField()
+    offsetU = FloatField(default_value=0.0)
     ofu = offsetU
 
-    offsetV = FloatField()
+    offsetV = FloatField(default_value=0.0)
     ofv = offsetV
 
 
@@ -259,10 +259,10 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetU = FloatField()
+    offsetU = FloatField(default_value=0.0)
     ofu = offsetU
 
-    offsetV = FloatField()
+    offsetV = FloatField(default_value=0.0)
     ofv = offsetV
 
 
@@ -275,10 +275,10 @@ class OutUVPlugOperator(
         ("outV", "ov"),
     )
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -287,10 +287,10 @@ class OutUVAttrOperator(
 ):
     __slots__ = ()
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -302,10 +302,10 @@ class OutUVField(
     ATTR_CLS = OutUVAttrOperator
     PLUG_CLS = OutUVPlugOperator
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -318,10 +318,10 @@ class OutUvFilterSizePlugOperator(
         ("outUvFilterSizeY", "ofsy"),
     )
 
-    outUvFilterSizeX = FloatField()
+    outUvFilterSizeX = FloatField(default_value=0.0, writable=False)
     ofsx = outUvFilterSizeX
 
-    outUvFilterSizeY = FloatField()
+    outUvFilterSizeY = FloatField(default_value=0.0, writable=False)
     ofsy = outUvFilterSizeY
 
 
@@ -330,10 +330,10 @@ class OutUvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    outUvFilterSizeX = FloatField()
+    outUvFilterSizeX = FloatField(default_value=0.0, writable=False)
     ofsx = outUvFilterSizeX
 
-    outUvFilterSizeY = FloatField()
+    outUvFilterSizeY = FloatField(default_value=0.0, writable=False)
     ofsy = outUvFilterSizeY
 
 
@@ -345,8 +345,8 @@ class OutUvFilterSizeField(
     ATTR_CLS = OutUvFilterSizeAttrOperator
     PLUG_CLS = OutUvFilterSizePlugOperator
 
-    outUvFilterSizeX = FloatField()
+    outUvFilterSizeX = FloatField(default_value=0.0, writable=False)
     ofsx = outUvFilterSizeX
 
-    outUvFilterSizeY = FloatField()
+    outUvFilterSizeY = FloatField(default_value=0.0, writable=False)
     ofsy = outUvFilterSizeY

@@ -20,13 +20,13 @@ class TranslatePlugOperator(
         ("translateZ", "tz"),
     )
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -35,13 +35,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -53,13 +53,13 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -73,13 +73,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -88,13 +88,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -106,13 +106,13 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -126,13 +126,13 @@ class ScalePlugOperator(
         ("scaleZ", "sz"),
     )
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=0.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=0.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=0.0)
     sz = scaleZ
 
 
@@ -141,13 +141,13 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=0.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=0.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=0.0)
     sz = scaleZ
 
 
@@ -159,13 +159,13 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=0.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=0.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=0.0)
     sz = scaleZ
 
 
@@ -179,11 +179,11 @@ class PreRPlugOperator(
         ("PreRz", "PreRz"),
     )
 
-    PreRx = DoubleAngleField()
+    PreRx = DoubleAngleField(default_value=0.0)
 
-    PreRy = DoubleAngleField()
+    PreRy = DoubleAngleField(default_value=0.0)
 
-    PreRz = DoubleAngleField()
+    PreRz = DoubleAngleField(default_value=0.0)
 
 
 class PreRAttrOperator(
@@ -191,11 +191,11 @@ class PreRAttrOperator(
 ):
     __slots__ = ()
 
-    PreRx = DoubleAngleField()
+    PreRx = DoubleAngleField(default_value=0.0)
 
-    PreRy = DoubleAngleField()
+    PreRy = DoubleAngleField(default_value=0.0)
 
-    PreRz = DoubleAngleField()
+    PreRz = DoubleAngleField(default_value=0.0)
 
 
 class PreRField(
@@ -206,11 +206,11 @@ class PreRField(
     ATTR_CLS = PreRAttrOperator
     PLUG_CLS = PreRPlugOperator
 
-    PreRx = DoubleAngleField()
+    PreRx = DoubleAngleField(default_value=0.0)
 
-    PreRy = DoubleAngleField()
+    PreRy = DoubleAngleField(default_value=0.0)
 
-    PreRz = DoubleAngleField()
+    PreRz = DoubleAngleField(default_value=0.0)
 
 
 class PostRPlugOperator(
@@ -223,11 +223,11 @@ class PostRPlugOperator(
         ("PostRz", "PostRz"),
     )
 
-    PostRx = DoubleAngleField()
+    PostRx = DoubleAngleField(default_value=0.0)
 
-    PostRy = DoubleAngleField()
+    PostRy = DoubleAngleField(default_value=0.0)
 
-    PostRz = DoubleAngleField()
+    PostRz = DoubleAngleField(default_value=0.0)
 
 
 class PostRAttrOperator(
@@ -235,11 +235,11 @@ class PostRAttrOperator(
 ):
     __slots__ = ()
 
-    PostRx = DoubleAngleField()
+    PostRx = DoubleAngleField(default_value=0.0)
 
-    PostRy = DoubleAngleField()
+    PostRy = DoubleAngleField(default_value=0.0)
 
-    PostRz = DoubleAngleField()
+    PostRz = DoubleAngleField(default_value=0.0)
 
 
 class PostRField(
@@ -250,8 +250,8 @@ class PostRField(
     ATTR_CLS = PostRAttrOperator
     PLUG_CLS = PostRPlugOperator
 
-    PostRx = DoubleAngleField()
+    PostRx = DoubleAngleField(default_value=0.0)
 
-    PostRy = DoubleAngleField()
+    PostRy = DoubleAngleField(default_value=0.0)
 
-    PostRz = DoubleAngleField()
+    PostRz = DoubleAngleField(default_value=0.0)

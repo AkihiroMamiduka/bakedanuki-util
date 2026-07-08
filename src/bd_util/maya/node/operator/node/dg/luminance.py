@@ -48,7 +48,7 @@ class Luminance(DG):
 
     NODE_TYPE = "luminance"
 
-    value = ValueField()
+    value = ValueField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     v = value
     valueR = value.valueR
     vr = valueR
@@ -57,8 +57,8 @@ class Luminance(DG):
     valueB = value.valueB
     vb = valueB
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     o = outValue

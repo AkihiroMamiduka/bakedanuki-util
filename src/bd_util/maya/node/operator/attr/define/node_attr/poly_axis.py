@@ -18,13 +18,13 @@ class AxisPlugOperator(
         ("axisZ", "axz"),
     )
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=1.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -33,13 +33,13 @@ class AxisAttrOperator(
 ):
     __slots__ = ()
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=1.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -51,11 +51,11 @@ class AxisField(
     ATTR_CLS = AxisAttrOperator
     PLUG_CLS = AxisPlugOperator
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=0.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=1.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ

@@ -14,19 +14,19 @@ class SkinBinding(DG):
 
     NODE_TYPE = "skinBinding"
 
-    length = DoubleField(multi=True)
+    length = DoubleField(multi=True, default_value=0.0)
     l = length
 
-    rightRadius = DoubleField(multi=True)
+    rightRadius = DoubleField(multi=True, default_value=0.0)
     rr = rightRadius
 
-    leftRadius = DoubleField(multi=True)
+    leftRadius = DoubleField(multi=True, default_value=0.0)
     lr = leftRadius
 
-    rightCap = DoubleField(multi=True)
+    rightCap = DoubleField(multi=True, default_value=1.0)
     rc = rightCap
 
-    leftCap = DoubleField(multi=True)
+    leftCap = DoubleField(multi=True, default_value=1.0)
     lc = leftCap
 
     bindPreMatrix = DataMatrixField(multi=True)
@@ -47,11 +47,11 @@ class SkinBinding(DG):
     outWeights = DataDoubleArrayField()
     otw = outWeights
 
-    falloffCurve = FalloffCurveField(multi=True)
+    falloffCurve = FalloffCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     fc = falloffCurve
 
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    currentInfluence = LongField()
+    currentInfluence = LongField(default_value=0)
     ci = currentInfluence

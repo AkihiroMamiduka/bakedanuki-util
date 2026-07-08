@@ -101,22 +101,22 @@ class BlendShape(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -128,15 +128,15 @@ class BlendShape(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    topologyCheck = BoolField()
+    topologyCheck = BoolField(default_value=True)
     tc = topologyCheck
 
-    weight = FloatField(multi=True, long_name=".weight", short_name=".w")
+    weight = FloatField(multi=True, default_value=0.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0, long_name=".weight", short_name=".w")
 
-    icon = DataStringField(multi=True)
+    icon = DataStringField(multi=True, readable=False)
     icn = icon
 
     inputTarget = InputTargetField(multi=True)
@@ -166,10 +166,10 @@ class BlendShape(DG):
     zValue = DoubleLinearField()
     zv = zValue
 
-    origin = OriginEnumField()
+    origin = OriginEnumField(default_value=1)
     or_ = origin
 
-    baseOrigin = BaseOriginField()
+    baseOrigin = BaseOriginField(default_value=(0.0, 0.0, 0.0))
     bo = baseOrigin
     baseOriginX = baseOrigin.baseOriginX
     bx = baseOriginX
@@ -178,7 +178,7 @@ class BlendShape(DG):
     baseOriginZ = baseOrigin.baseOriginZ
     bz = baseOriginZ
 
-    targetOrigin = TargetOriginField()
+    targetOrigin = TargetOriginField(default_value=(0.0, 0.0, 0.0))
     to = targetOrigin
     targetOriginX = targetOrigin.targetOriginX
     tx = targetOriginX
@@ -187,19 +187,19 @@ class BlendShape(DG):
     targetOriginZ = targetOrigin.targetOriginZ
     tz = targetOriginZ
 
-    parallelBlender = BoolField()
+    parallelBlender = BoolField(default_value=False)
     pb = parallelBlender
 
-    useTargetCompWeights = BoolField()
+    useTargetCompWeights = BoolField(default_value=True)
     itcw = useTargetCompWeights
 
-    supportNegativeWeights = BoolField()
+    supportNegativeWeights = BoolField(default_value=False)
     sn = supportNegativeWeights
 
     paintWeights = DataDoubleArrayField()
     ptw = paintWeights
 
-    offsetDeformer = OffsetDeformerField()
+    offsetDeformer = OffsetDeformerField(default_value=(0.0, 0.0, 0.0))
     ofm = offsetDeformer
     offsetX = offsetDeformer.offsetX
     ofx = offsetX
@@ -208,34 +208,34 @@ class BlendShape(DG):
     offsetZ = offsetDeformer.offsetZ
     ofz = offsetZ
 
-    localVertexFrame = BoolField()
+    localVertexFrame = BoolField(default_value=True)
     lvf = localVertexFrame
 
-    midLayerId = LongField()
+    midLayerId = LongField(default_value=-2147483648)
     mlid = midLayerId
 
-    midLayerParent = LongField()
+    midLayerParent = LongField(default_value=-1)
     mlpr = midLayerParent
 
-    nextNode = LongField()
+    nextNode = LongField(default_value=-2147483648)
     nxnd = nextNode
 
-    parentDirectory = LongField(multi=True)
+    parentDirectory = LongField(multi=True, default_value=-1)
     pndr = parentDirectory
 
-    nextTarget = LongField(multi=True)
+    nextTarget = LongField(multi=True, default_value=-2147483648)
     nxtg = nextTarget
 
-    targetVisibility = BoolField(multi=True)
+    targetVisibility = BoolField(multi=True, default_value=True)
     tgvs = targetVisibility
 
-    targetParentVisibility = BoolField(multi=True)
+    targetParentVisibility = BoolField(multi=True, default_value=True)
     tpvs = targetParentVisibility
 
     targetDirectory = TargetDirectoryField(multi=True)
     tgdt = targetDirectory
 
-    deformationOrder = DeformationOrderEnumField()
+    deformationOrder = DeformationOrderEnumField(default_value=0)
     dfo = deformationOrder
 
     inbetweenInfoGroup = InbetweenInfoGroupField(multi=True)

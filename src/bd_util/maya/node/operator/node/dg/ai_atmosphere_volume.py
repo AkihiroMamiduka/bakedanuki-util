@@ -15,7 +15,7 @@ class AiAtmosphereVolume(DG):
 
     NODE_TYPE = "aiAtmosphereVolume"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -24,10 +24,10 @@ class AiAtmosphereVolume(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,24 +36,24 @@ class AiAtmosphereVolume(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    density = FloatField()
+    density = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    samples = LongField()
+    samples = LongField(default_value=5, min_value=1, max_value=100, soft_max_value=64)
 
-    eccentricity = FloatField()
+    eccentricity = FloatField(default_value=0.0, min_value=-0.8999999761581421, max_value=0.8999999761581421)
 
-    attenuation = FloatField()
+    attenuation = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    affectCamera = FloatField()
+    affectCamera = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     affect_camera = affectCamera
 
-    affectDiffuse = FloatField()
+    affectDiffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     affect_diffuse = affectDiffuse
 
-    affectSpecular = FloatField()
+    affectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     affect_specular = affectSpecular
 
-    rgbDensity = RgbDensityField()
+    rgbDensity = RgbDensityField(default_value=(1.0, 1.0, 1.0))
     rgb_density = rgbDensity
     rgbDensityR = rgbDensity.rgbDensityR
     rgb_densityr = rgbDensityR
@@ -62,7 +62,7 @@ class AiAtmosphereVolume(DG):
     rgbDensityB = rgbDensity.rgbDensityB
     rgb_densityb = rgbDensityB
 
-    rgbAttenuation = RgbAttenuationField()
+    rgbAttenuation = RgbAttenuationField(default_value=(1.0, 1.0, 1.0))
     rgb_attenuation = rgbAttenuation
     rgbAttenuationR = rgbAttenuation.rgbAttenuationR
     rgb_attenuationr = rgbAttenuationR

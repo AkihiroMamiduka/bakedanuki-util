@@ -126,7 +126,7 @@ class AiSpaceTransform(DG):
 
     NODE_TYPE = "aiSpaceTransform"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -135,7 +135,7 @@ class AiSpaceTransform(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -144,7 +144,7 @@ class AiSpaceTransform(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputX = input.inputX
     inputx = inputX
     inputY = input.inputY
@@ -152,13 +152,13 @@ class AiSpaceTransform(DG):
     inputZ = input.inputZ
     inputz = inputZ
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
 
-    from_ = From_EnumField(long_name="from", short_name="from")
+    from_ = From_EnumField(default_value=0, long_name="from", short_name="from")
 
-    to = ToEnumField()
+    to = ToEnumField(default_value=0)
 
-    tangent = TangentField()
+    tangent = TangentField(default_value=(0.0, 0.0, 0.0))
     tangentX = tangent.tangentX
     tangentx = tangentX
     tangentY = tangent.tangentY
@@ -166,7 +166,7 @@ class AiSpaceTransform(DG):
     tangentZ = tangent.tangentZ
     tangentz = tangentZ
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY
@@ -174,6 +174,6 @@ class AiSpaceTransform(DG):
     normalZ = normal.normalZ
     normalz = normalZ
 
-    normalize = BoolField()
+    normalize = BoolField(default_value=False)
 
-    scale = FloatField()
+    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)

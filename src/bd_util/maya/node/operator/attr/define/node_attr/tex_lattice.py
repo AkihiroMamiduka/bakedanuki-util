@@ -17,10 +17,10 @@ class LatticePointPlugOperator(
         ("latticePointY", "lpy"),
     )
 
-    latticePointX = DoubleField()
+    latticePointX = DoubleField(default_value=0.0)
     lpx = latticePointX
 
-    latticePointY = DoubleField()
+    latticePointY = DoubleField(default_value=0.0)
     lpy = latticePointY
 
 
@@ -29,10 +29,10 @@ class LatticePointAttrOperator(
 ):
     __slots__ = ()
 
-    latticePointX = DoubleField()
+    latticePointX = DoubleField(default_value=0.0)
     lpx = latticePointX
 
-    latticePointY = DoubleField()
+    latticePointY = DoubleField(default_value=0.0)
     lpy = latticePointY
 
 
@@ -54,10 +54,10 @@ class BoundingBoxInfPlugOperator(
         ("boundingBoxLeft", "bbxl"),
     )
 
-    boundingBoxTop = DoubleField()
+    boundingBoxTop = DoubleField(default_value=0.0)
     bbxt = boundingBoxTop
 
-    boundingBoxLeft = DoubleField()
+    boundingBoxLeft = DoubleField(default_value=0.0)
     bbxl = boundingBoxLeft
 
 
@@ -66,10 +66,10 @@ class BoundingBoxInfAttrOperator(
 ):
     __slots__ = ()
 
-    boundingBoxTop = DoubleField()
+    boundingBoxTop = DoubleField(default_value=0.0)
     bbxt = boundingBoxTop
 
-    boundingBoxLeft = DoubleField()
+    boundingBoxLeft = DoubleField(default_value=0.0)
     bbxl = boundingBoxLeft
 
 
@@ -81,10 +81,10 @@ class BoundingBoxInfField(
     ATTR_CLS = BoundingBoxInfAttrOperator
     PLUG_CLS = BoundingBoxInfPlugOperator
 
-    boundingBoxTop = DoubleField()
+    boundingBoxTop = DoubleField(default_value=0.0)
     bbxt = boundingBoxTop
 
-    boundingBoxLeft = DoubleField()
+    boundingBoxLeft = DoubleField(default_value=0.0)
     bbxl = boundingBoxLeft
 
 
@@ -97,10 +97,10 @@ class BoundingBoxSupPlugOperator(
         ("boundingBoxRight", "bbxr"),
     )
 
-    boundingBoxBottom = DoubleField()
+    boundingBoxBottom = DoubleField(default_value=0.0)
     bbxb = boundingBoxBottom
 
-    boundingBoxRight = DoubleField()
+    boundingBoxRight = DoubleField(default_value=0.0)
     bbxr = boundingBoxRight
 
 
@@ -109,10 +109,10 @@ class BoundingBoxSupAttrOperator(
 ):
     __slots__ = ()
 
-    boundingBoxBottom = DoubleField()
+    boundingBoxBottom = DoubleField(default_value=0.0)
     bbxb = boundingBoxBottom
 
-    boundingBoxRight = DoubleField()
+    boundingBoxRight = DoubleField(default_value=0.0)
     bbxr = boundingBoxRight
 
 
@@ -124,8 +124,8 @@ class BoundingBoxSupField(
     ATTR_CLS = BoundingBoxSupAttrOperator
     PLUG_CLS = BoundingBoxSupPlugOperator
 
-    boundingBoxBottom = DoubleField()
+    boundingBoxBottom = DoubleField(default_value=0.0)
     bbxb = boundingBoxBottom
 
-    boundingBoxRight = DoubleField()
+    boundingBoxRight = DoubleField(default_value=0.0)
     bbxr = boundingBoxRight

@@ -70,13 +70,13 @@ class RayDirectionPlugOperator(
         ("rayDirectionZ", "rdz"),
     )
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rdx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     rdy = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rdz = rayDirectionZ
 
 
@@ -85,13 +85,13 @@ class RayDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rdx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     rdy = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rdz = rayDirectionZ
 
 
@@ -103,13 +103,13 @@ class RayDirectionField(
     ATTR_CLS = RayDirectionAttrOperator
     PLUG_CLS = RayDirectionPlugOperator
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rdx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     rdy = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rdz = rayDirectionZ
 
 
@@ -123,13 +123,13 @@ class PointWorldPlugOperator(
         ("pointWorldZ", "pwz"),
     )
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -138,13 +138,13 @@ class PointWorldAttrOperator(
 ):
     __slots__ = ()
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -156,13 +156,13 @@ class PointWorldField(
     ATTR_CLS = PointWorldAttrOperator
     PLUG_CLS = PointWorldPlugOperator
 
-    pointWorldX = FloatField()
+    pointWorldX = FloatField(default_value=0.0)
     pwx = pointWorldX
 
-    pointWorldY = FloatField()
+    pointWorldY = FloatField(default_value=0.0)
     pwy = pointWorldY
 
-    pointWorldZ = FloatField()
+    pointWorldZ = FloatField(default_value=0.0)
     pwz = pointWorldZ
 
 
@@ -176,13 +176,13 @@ class FarPointWorldPlugOperator(
         ("farPointWorldZ", "fwz"),
     )
 
-    farPointWorldX = FloatField()
+    farPointWorldX = FloatField(default_value=1.0)
     fwx = farPointWorldX
 
-    farPointWorldY = FloatField()
+    farPointWorldY = FloatField(default_value=1.0)
     fwy = farPointWorldY
 
-    farPointWorldZ = FloatField()
+    farPointWorldZ = FloatField(default_value=1.0)
     fwz = farPointWorldZ
 
 
@@ -191,13 +191,13 @@ class FarPointWorldAttrOperator(
 ):
     __slots__ = ()
 
-    farPointWorldX = FloatField()
+    farPointWorldX = FloatField(default_value=1.0)
     fwx = farPointWorldX
 
-    farPointWorldY = FloatField()
+    farPointWorldY = FloatField(default_value=1.0)
     fwy = farPointWorldY
 
-    farPointWorldZ = FloatField()
+    farPointWorldZ = FloatField(default_value=1.0)
     fwz = farPointWorldZ
 
 
@@ -209,13 +209,13 @@ class FarPointWorldField(
     ATTR_CLS = FarPointWorldAttrOperator
     PLUG_CLS = FarPointWorldPlugOperator
 
-    farPointWorldX = FloatField()
+    farPointWorldX = FloatField(default_value=1.0)
     fwx = farPointWorldX
 
-    farPointWorldY = FloatField()
+    farPointWorldY = FloatField(default_value=1.0)
     fwy = farPointWorldY
 
-    farPointWorldZ = FloatField()
+    farPointWorldZ = FloatField(default_value=1.0)
     fwz = farPointWorldZ
 
 
@@ -229,13 +229,13 @@ class PointObjPlugOperator(
         ("pointObjZ", "poz"),
     )
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -244,13 +244,13 @@ class PointObjAttrOperator(
 ):
     __slots__ = ()
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -262,13 +262,13 @@ class PointObjField(
     ATTR_CLS = PointObjAttrOperator
     PLUG_CLS = PointObjPlugOperator
 
-    pointObjX = FloatField()
+    pointObjX = FloatField(default_value=0.0)
     pox = pointObjX
 
-    pointObjY = FloatField()
+    pointObjY = FloatField(default_value=0.0)
     poy = pointObjY
 
-    pointObjZ = FloatField()
+    pointObjZ = FloatField(default_value=0.0)
     poz = pointObjZ
 
 
@@ -282,13 +282,13 @@ class FarPointObjPlugOperator(
         ("farPointObjectZ", "foz"),
     )
 
-    farPointObjectX = FloatField()
+    farPointObjectX = FloatField(default_value=1.0)
     fox = farPointObjectX
 
-    farPointObjectY = FloatField()
+    farPointObjectY = FloatField(default_value=1.0)
     foy = farPointObjectY
 
-    farPointObjectZ = FloatField()
+    farPointObjectZ = FloatField(default_value=1.0)
     foz = farPointObjectZ
 
 
@@ -297,13 +297,13 @@ class FarPointObjAttrOperator(
 ):
     __slots__ = ()
 
-    farPointObjectX = FloatField()
+    farPointObjectX = FloatField(default_value=1.0)
     fox = farPointObjectX
 
-    farPointObjectY = FloatField()
+    farPointObjectY = FloatField(default_value=1.0)
     foy = farPointObjectY
 
-    farPointObjectZ = FloatField()
+    farPointObjectZ = FloatField(default_value=1.0)
     foz = farPointObjectZ
 
 
@@ -315,13 +315,13 @@ class FarPointObjField(
     ATTR_CLS = FarPointObjAttrOperator
     PLUG_CLS = FarPointObjPlugOperator
 
-    farPointObjectX = FloatField()
+    farPointObjectX = FloatField(default_value=1.0)
     fox = farPointObjectX
 
-    farPointObjectY = FloatField()
+    farPointObjectY = FloatField(default_value=1.0)
     foy = farPointObjectY
 
-    farPointObjectZ = FloatField()
+    farPointObjectZ = FloatField(default_value=1.0)
     foz = farPointObjectZ
 
 
@@ -340,28 +340,28 @@ class LightDataArrayPlugOperator(
         ("lightBlindData", "lbd"),
     )
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=True, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=True, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 
@@ -370,28 +370,28 @@ class LightDataArrayAttrOperator(
 ):
     __slots__ = ()
 
-    lightDirection = Float3Field()
+    lightDirection = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     ld = lightDirection
 
-    lightIntensity = Float3Field()
+    lightIntensity = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     li = lightIntensity
 
-    lightAmbient = BoolField()
+    lightAmbient = BoolField(default_value=True, readable=False)
     la = lightAmbient
 
-    lightDiffuse = BoolField()
+    lightDiffuse = BoolField(default_value=True, readable=False)
     ldf = lightDiffuse
 
-    lightSpecular = BoolField()
+    lightSpecular = BoolField(default_value=False, readable=False)
     ls = lightSpecular
 
-    lightShadowFraction = FloatField()
+    lightShadowFraction = FloatField(default_value=0.0, readable=False)
     lsf = lightShadowFraction
 
-    preShadowIntensity = FloatField()
+    preShadowIntensity = FloatField(default_value=0.0, readable=False)
     psi = preShadowIntensity
 
-    lightBlindData = AddrField()
+    lightBlindData = AddrField(default_value=0.0, readable=False)
     lbd = lightBlindData
 
 
@@ -414,13 +414,13 @@ class ColorPlugOperator(
         ("colorB", "cb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.8999999761581421)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.8999999761581421)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8999999761581421)
     cb = colorB
 
 
@@ -429,13 +429,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.8999999761581421)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.8999999761581421)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8999999761581421)
     cb = colorB
 
 
@@ -447,13 +447,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.8999999761581421)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.8999999761581421)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.8999999761581421)
     cb = colorB
 
 
@@ -467,13 +467,13 @@ class ColorRampPlugOperator(
         ("colorRamp_Interp", "crmi"),
     )
 
-    colorRamp_Position = FloatField()
+    colorRamp_Position = FloatField(default_value=0.0)
     crmp = colorRamp_Position
 
-    colorRamp_Color = Float3Field()
+    colorRamp_Color = Float3Field(default_value=(0.0, 0.0, 0.0))
     crmc = colorRamp_Color
 
-    colorRamp_Interp = ColorRamp_InterpEnumField()
+    colorRamp_Interp = ColorRamp_InterpEnumField(default_value=0)
     crmi = colorRamp_Interp
 
 
@@ -482,13 +482,13 @@ class ColorRampAttrOperator(
 ):
     __slots__ = ()
 
-    colorRamp_Position = FloatField()
+    colorRamp_Position = FloatField(default_value=0.0)
     crmp = colorRamp_Position
 
-    colorRamp_Color = Float3Field()
+    colorRamp_Color = Float3Field(default_value=(0.0, 0.0, 0.0))
     crmc = colorRamp_Color
 
-    colorRamp_Interp = ColorRamp_InterpEnumField()
+    colorRamp_Interp = ColorRamp_InterpEnumField(default_value=0)
     crmi = colorRamp_Interp
 
 
@@ -511,13 +511,13 @@ class TransparencyPlugOperator(
         ("transparencyB", "tb"),
     )
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.5)
     tr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.5)
     tg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.5)
     tb = transparencyB
 
 
@@ -526,13 +526,13 @@ class TransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.5)
     tr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.5)
     tg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.5)
     tb = transparencyB
 
 
@@ -544,13 +544,13 @@ class TransparencyField(
     ATTR_CLS = TransparencyAttrOperator
     PLUG_CLS = TransparencyPlugOperator
 
-    transparencyR = FloatField()
+    transparencyR = FloatField(default_value=0.5)
     tr = transparencyR
 
-    transparencyG = FloatField()
+    transparencyG = FloatField(default_value=0.5)
     tg = transparencyG
 
-    transparencyB = FloatField()
+    transparencyB = FloatField(default_value=0.5)
     tb = transparencyB
 
 
@@ -564,13 +564,13 @@ class IncandescencePlugOperator(
         ("incandescenceB", "ib"),
     )
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.0)
     ir = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.0)
     ig = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.0)
     ib = incandescenceB
 
 
@@ -579,13 +579,13 @@ class IncandescenceAttrOperator(
 ):
     __slots__ = ()
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.0)
     ir = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.0)
     ig = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.0)
     ib = incandescenceB
 
 
@@ -597,13 +597,13 @@ class IncandescenceField(
     ATTR_CLS = IncandescenceAttrOperator
     PLUG_CLS = IncandescencePlugOperator
 
-    incandescenceR = FloatField()
+    incandescenceR = FloatField(default_value=0.0)
     ir = incandescenceR
 
-    incandescenceG = FloatField()
+    incandescenceG = FloatField(default_value=0.0)
     ig = incandescenceG
 
-    incandescenceB = FloatField()
+    incandescenceB = FloatField(default_value=0.0)
     ib = incandescenceB
 
 
@@ -617,13 +617,13 @@ class OutGlowColorPlugOperator(
         ("outGlowColorB", "ogb"),
     )
 
-    outGlowColorR = FloatField()
+    outGlowColorR = FloatField(default_value=0.0, writable=False)
     ogr = outGlowColorR
 
-    outGlowColorG = FloatField()
+    outGlowColorG = FloatField(default_value=0.0, writable=False)
     ogg = outGlowColorG
 
-    outGlowColorB = FloatField()
+    outGlowColorB = FloatField(default_value=0.0, writable=False)
     ogb = outGlowColorB
 
 
@@ -632,13 +632,13 @@ class OutGlowColorAttrOperator(
 ):
     __slots__ = ()
 
-    outGlowColorR = FloatField()
+    outGlowColorR = FloatField(default_value=0.0, writable=False)
     ogr = outGlowColorR
 
-    outGlowColorG = FloatField()
+    outGlowColorG = FloatField(default_value=0.0, writable=False)
     ogg = outGlowColorG
 
-    outGlowColorB = FloatField()
+    outGlowColorB = FloatField(default_value=0.0, writable=False)
     ogb = outGlowColorB
 
 
@@ -650,13 +650,13 @@ class OutGlowColorField(
     ATTR_CLS = OutGlowColorAttrOperator
     PLUG_CLS = OutGlowColorPlugOperator
 
-    outGlowColorR = FloatField()
+    outGlowColorR = FloatField(default_value=0.0, writable=False)
     ogr = outGlowColorR
 
-    outGlowColorG = FloatField()
+    outGlowColorG = FloatField(default_value=0.0, writable=False)
     ogg = outGlowColorG
 
-    outGlowColorB = FloatField()
+    outGlowColorB = FloatField(default_value=0.0, writable=False)
     ogb = outGlowColorB
 
 
@@ -670,13 +670,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -685,13 +685,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -703,13 +703,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -723,13 +723,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -738,13 +738,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -756,13 +756,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -776,13 +776,13 @@ class OutMatteOpacityPlugOperator(
         ("outMatteOpacityB", "omob"),
     )
 
-    outMatteOpacityR = FloatField()
+    outMatteOpacityR = FloatField(default_value=1.0, writable=False)
     omor = outMatteOpacityR
 
-    outMatteOpacityG = FloatField()
+    outMatteOpacityG = FloatField(default_value=1.0, writable=False)
     omog = outMatteOpacityG
 
-    outMatteOpacityB = FloatField()
+    outMatteOpacityB = FloatField(default_value=1.0, writable=False)
     omob = outMatteOpacityB
 
 
@@ -791,13 +791,13 @@ class OutMatteOpacityAttrOperator(
 ):
     __slots__ = ()
 
-    outMatteOpacityR = FloatField()
+    outMatteOpacityR = FloatField(default_value=1.0, writable=False)
     omor = outMatteOpacityR
 
-    outMatteOpacityG = FloatField()
+    outMatteOpacityG = FloatField(default_value=1.0, writable=False)
     omog = outMatteOpacityG
 
-    outMatteOpacityB = FloatField()
+    outMatteOpacityB = FloatField(default_value=1.0, writable=False)
     omob = outMatteOpacityB
 
 
@@ -809,11 +809,11 @@ class OutMatteOpacityField(
     ATTR_CLS = OutMatteOpacityAttrOperator
     PLUG_CLS = OutMatteOpacityPlugOperator
 
-    outMatteOpacityR = FloatField()
+    outMatteOpacityR = FloatField(default_value=1.0, writable=False)
     omor = outMatteOpacityR
 
-    outMatteOpacityG = FloatField()
+    outMatteOpacityG = FloatField(default_value=1.0, writable=False)
     omog = outMatteOpacityG
 
-    outMatteOpacityB = FloatField()
+    outMatteOpacityB = FloatField(default_value=1.0, writable=False)
     omob = outMatteOpacityB

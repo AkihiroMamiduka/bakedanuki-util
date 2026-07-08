@@ -24,13 +24,13 @@ class AxisPlugOperator(
         ("axisZ", "axz"),
     )
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -39,13 +39,13 @@ class AxisAttrOperator(
 ):
     __slots__ = ()
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -57,13 +57,13 @@ class AxisField(
     ATTR_CLS = AxisAttrOperator
     PLUG_CLS = AxisPlugOperator
 
-    axisX = DoubleLinearField()
+    axisX = DoubleLinearField(default_value=1.0)
     axx = axisX
 
-    axisY = DoubleLinearField()
+    axisY = DoubleLinearField(default_value=0.0)
     axy = axisY
 
-    axisZ = DoubleLinearField()
+    axisZ = DoubleLinearField(default_value=0.0)
     axz = axisZ
 
 
@@ -77,13 +77,13 @@ class PivotPlugOperator(
         ("pivotZ", "pz"),
     )
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -92,13 +92,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -110,13 +110,13 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -130,13 +130,13 @@ class CompAxisPlugOperator(
         ("compAxisZ", "caz"),
     )
 
-    compAxisX = DoubleField()
+    compAxisX = DoubleField(default_value=0.0, writable=False)
     cax = compAxisX
 
-    compAxisY = DoubleField()
+    compAxisY = DoubleField(default_value=0.0, writable=False)
     cay = compAxisY
 
-    compAxisZ = DoubleField()
+    compAxisZ = DoubleField(default_value=0.0, writable=False)
     caz = compAxisZ
 
 
@@ -145,13 +145,13 @@ class CompAxisAttrOperator(
 ):
     __slots__ = ()
 
-    compAxisX = DoubleField()
+    compAxisX = DoubleField(default_value=0.0, writable=False)
     cax = compAxisX
 
-    compAxisY = DoubleField()
+    compAxisY = DoubleField(default_value=0.0, writable=False)
     cay = compAxisY
 
-    compAxisZ = DoubleField()
+    compAxisZ = DoubleField(default_value=0.0, writable=False)
     caz = compAxisZ
 
 
@@ -163,13 +163,13 @@ class CompAxisField(
     ATTR_CLS = CompAxisAttrOperator
     PLUG_CLS = CompAxisPlugOperator
 
-    compAxisX = DoubleField()
+    compAxisX = DoubleField(default_value=0.0, writable=False)
     cax = compAxisX
 
-    compAxisY = DoubleField()
+    compAxisY = DoubleField(default_value=0.0, writable=False)
     cay = compAxisY
 
-    compAxisZ = DoubleField()
+    compAxisZ = DoubleField(default_value=0.0, writable=False)
     caz = compAxisZ
 
 
@@ -183,13 +183,13 @@ class CompPivotPlugOperator(
         ("compPivotZ", "cpz"),
     )
 
-    compPivotX = DoubleLinearField()
+    compPivotX = DoubleLinearField(default_value=0.0, writable=False)
     cpx = compPivotX
 
-    compPivotY = DoubleLinearField()
+    compPivotY = DoubleLinearField(default_value=0.0, writable=False)
     cpy = compPivotY
 
-    compPivotZ = DoubleLinearField()
+    compPivotZ = DoubleLinearField(default_value=0.0, writable=False)
     cpz = compPivotZ
 
 
@@ -198,13 +198,13 @@ class CompPivotAttrOperator(
 ):
     __slots__ = ()
 
-    compPivotX = DoubleLinearField()
+    compPivotX = DoubleLinearField(default_value=0.0, writable=False)
     cpx = compPivotX
 
-    compPivotY = DoubleLinearField()
+    compPivotY = DoubleLinearField(default_value=0.0, writable=False)
     cpy = compPivotY
 
-    compPivotZ = DoubleLinearField()
+    compPivotZ = DoubleLinearField(default_value=0.0, writable=False)
     cpz = compPivotZ
 
 
@@ -216,13 +216,13 @@ class CompPivotField(
     ATTR_CLS = CompPivotAttrOperator
     PLUG_CLS = CompPivotPlugOperator
 
-    compPivotX = DoubleLinearField()
+    compPivotX = DoubleLinearField(default_value=0.0, writable=False)
     cpx = compPivotX
 
-    compPivotY = DoubleLinearField()
+    compPivotY = DoubleLinearField(default_value=0.0, writable=False)
     cpy = compPivotY
 
-    compPivotZ = DoubleLinearField()
+    compPivotZ = DoubleLinearField(default_value=0.0, writable=False)
     cpz = compPivotZ
 
 
@@ -236,13 +236,13 @@ class CompAnchorPlugOperator(
         ("compAnchorZ", "cnz"),
     )
 
-    compAnchorX = DoubleLinearField()
+    compAnchorX = DoubleLinearField(default_value=0.0, writable=False)
     cnx = compAnchorX
 
-    compAnchorY = DoubleLinearField()
+    compAnchorY = DoubleLinearField(default_value=0.0, writable=False)
     cny = compAnchorY
 
-    compAnchorZ = DoubleLinearField()
+    compAnchorZ = DoubleLinearField(default_value=0.0, writable=False)
     cnz = compAnchorZ
 
 
@@ -251,13 +251,13 @@ class CompAnchorAttrOperator(
 ):
     __slots__ = ()
 
-    compAnchorX = DoubleLinearField()
+    compAnchorX = DoubleLinearField(default_value=0.0, writable=False)
     cnx = compAnchorX
 
-    compAnchorY = DoubleLinearField()
+    compAnchorY = DoubleLinearField(default_value=0.0, writable=False)
     cny = compAnchorY
 
-    compAnchorZ = DoubleLinearField()
+    compAnchorZ = DoubleLinearField(default_value=0.0, writable=False)
     cnz = compAnchorZ
 
 
@@ -269,11 +269,11 @@ class CompAnchorField(
     ATTR_CLS = CompAnchorAttrOperator
     PLUG_CLS = CompAnchorPlugOperator
 
-    compAnchorX = DoubleLinearField()
+    compAnchorX = DoubleLinearField(default_value=0.0, writable=False)
     cnx = compAnchorX
 
-    compAnchorY = DoubleLinearField()
+    compAnchorY = DoubleLinearField(default_value=0.0, writable=False)
     cny = compAnchorY
 
-    compAnchorZ = DoubleLinearField()
+    compAnchorZ = DoubleLinearField(default_value=0.0, writable=False)
     cnz = compAnchorZ

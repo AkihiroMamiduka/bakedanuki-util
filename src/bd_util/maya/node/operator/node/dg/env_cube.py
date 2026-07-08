@@ -60,7 +60,7 @@ class EnvCube(DG):
 
     NODE_TYPE = "envCube"
 
-    objectType = CharField()
+    objectType = CharField(default_value=1, min_value=0, max_value=255)
     ot = objectType
 
     placementMatrix = FltMatrixField()
@@ -69,10 +69,10 @@ class EnvCube(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -81,7 +81,7 @@ class EnvCube(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -90,21 +90,21 @@ class EnvCube(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -113,7 +113,7 @@ class EnvCube(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -122,10 +122,10 @@ class EnvCube(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(0.0, 0.0, 0.0))
     pw = pointWorld
     pointWorldX = pointWorld.pointWorldX
     pwx = pointWorldX
@@ -134,13 +134,13 @@ class EnvCube(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pwz = pointWorldZ
 
-    infiniteSize = BoolField()
+    infiniteSize = BoolField(default_value=False)
     ie = infiniteSize
 
-    lookupType = LookupTypeEnumField()
+    lookupType = LookupTypeEnumField(default_value=0)
     lt = lookupType
 
-    left = LeftField()
+    left = LeftField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     le = left
     leftR = left.leftR
     ler = leftR
@@ -149,7 +149,7 @@ class EnvCube(DG):
     leftB = left.leftB
     leb = leftB
 
-    right = RightField()
+    right = RightField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     ri = right
     rightR = right.rightR
     rir = rightR
@@ -158,7 +158,7 @@ class EnvCube(DG):
     rightB = right.rightB
     rib = rightB
 
-    top = TopField()
+    top = TopField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     to = top
     topR = top.topR
     tor = topR
@@ -167,7 +167,7 @@ class EnvCube(DG):
     topB = top.topB
     tob = topB
 
-    bottom = BottomField()
+    bottom = BottomField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     bo = bottom
     bottomR = bottom.bottomR
     bor = bottomR
@@ -176,7 +176,7 @@ class EnvCube(DG):
     bottomB = bottom.bottomB
     bob = bottomB
 
-    front = FrontField()
+    front = FrontField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fr = front
     frontR = front.frontR
     frr = frontR
@@ -185,7 +185,7 @@ class EnvCube(DG):
     frontB = front.frontB
     frb = frontB
 
-    back = BackField()
+    back = BackField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     ba = back
     backR = back.backR
     bar = backR
@@ -194,5 +194,5 @@ class EnvCube(DG):
     backB = back.backB
     bab = backB
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits

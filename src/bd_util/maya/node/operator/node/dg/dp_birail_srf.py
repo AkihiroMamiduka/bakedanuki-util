@@ -78,13 +78,13 @@ class DpBirailSrf(DG):
     inputRail2 = DataNurbsCurveField()
     ir2 = inputRail2
 
-    sweepStyle = SweepStyleEnumField()
+    sweepStyle = SweepStyleEnumField(default_value=0, writable=False)
     ss = sweepStyle
 
-    transformMode = TransformModeEnumField()
+    transformMode = TransformModeEnumField(default_value=0)
     tm = transformMode
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
     surfaceCache = DataNurbsSurfaceField()
@@ -96,11 +96,11 @@ class DpBirailSrf(DG):
     inputProfile2 = DataNurbsCurveField()
     ip2 = inputProfile2
 
-    blendFactor = DoubleField()
+    blendFactor = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     bl = blendFactor
 
-    tangentContinuityProfile1 = BoolField()
+    tangentContinuityProfile1 = BoolField(default_value=False)
     tp1 = tangentContinuityProfile1
 
-    tangentContinuityProfile2 = BoolField()
+    tangentContinuityProfile2 = BoolField(default_value=False)
     tp2 = tangentContinuityProfile2

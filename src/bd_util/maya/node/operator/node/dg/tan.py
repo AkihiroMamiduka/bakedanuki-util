@@ -9,8 +9,8 @@ class Tan(DG):
 
     NODE_TYPE = "tan"
 
-    input = DoubleAngleField()
+    input = DoubleAngleField(default_value=0.0)
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

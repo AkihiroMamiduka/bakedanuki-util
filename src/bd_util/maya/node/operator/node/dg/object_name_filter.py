@@ -47,10 +47,10 @@ class ObjectNameFilter(DG):
 
     NODE_TYPE = "objectNameFilter"
 
-    child = BoolField()
+    child = BoolField(default_value=False)
     ch = child
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     inv = invert
 
     inputList = TypedField()
@@ -65,10 +65,10 @@ class ObjectNameFilter(DG):
     category = DataStringArrayField()
     cat = category
 
-    disable = BoolField()
+    disable = BoolField(default_value=False)
     dis = disable
 
-    filterClass = FilterClassEnumField()
+    filterClass = FilterClassEnumField(default_value=2)
     fcls = filterClass
 
     regExp = DataStringField()
@@ -77,5 +77,5 @@ class ObjectNameFilter(DG):
     nameStrings = DataStringArrayField()
     nstr = nameStrings
 
-    attrName = BoolField()
+    attrName = BoolField(default_value=False)
     attr = attrName

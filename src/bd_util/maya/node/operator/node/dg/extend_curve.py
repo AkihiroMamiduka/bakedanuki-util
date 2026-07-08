@@ -116,7 +116,7 @@ class ExtendCurve(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    inputPoint = InputPointField()
+    inputPoint = InputPointField(default_value=(0.0, 0.0, 0.0))
     ip = inputPoint
     pointX = inputPoint.pointX
     px = pointX
@@ -125,26 +125,26 @@ class ExtendCurve(DG):
     pointZ = inputPoint.pointZ
     pz = pointZ
 
-    extensionType = ExtensionTypeEnumField()
+    extensionType = ExtensionTypeEnumField(default_value=0)
     et = extensionType
 
-    extendMethod = ExtendMethodEnumField()
+    extendMethod = ExtendMethodEnumField(default_value=0)
     em = extendMethod
 
-    start = StartEnumField()
+    start = StartEnumField(default_value=1)
     s = start
 
-    bothEnds = BoolField()
+    bothEnds = BoolField(default_value=False, readable=False)
     be = bothEnds
 
-    join = BoolField()
+    join = BoolField(default_value=True)
     jn = join
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=20.0)
     d = distance
 
-    removeMultipleKnots = BoolField()
+    removeMultipleKnots = BoolField(default_value=False)
     rmk = removeMultipleKnots
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

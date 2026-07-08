@@ -66,29 +66,29 @@ class MASH_MultiCurve(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
     startPositions = DataVectorArrayField()
 
-    extraPoints = BoolField()
+    extraPoints = BoolField(default_value=False)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -97,31 +97,31 @@ class MASH_MultiCurve(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    curveClosed = BoolField()
+    curveClosed = BoolField(default_value=False)
 
-    fixZeroPoints = BoolField()
+    fixZeroPoints = BoolField(default_value=True)
 
-    numberOfCurves = LongField()
+    numberOfCurves = LongField(default_value=1, min_value=0, soft_max_value=50)
 
-    maxCurveLength = LongField()
+    maxCurveLength = LongField(default_value=100, min_value=0, soft_max_value=100)
 
-    maxLengthVariance = LongField()
+    maxLengthVariance = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    curveDegree = LongField()
+    curveDegree = LongField(default_value=1, min_value=1, max_value=7)
 
-    pointLocation = PointLocationField()
+    pointLocation = PointLocationField(default_value=(0.0, 0.0, 0.0))
     pointLoc = pointLocation
     pointLocation0 = pointLocation.pointLocation0
     pointLoc0 = pointLocation0
@@ -130,5 +130,5 @@ class MASH_MultiCurve(DG):
     pointLocation2 = pointLocation.pointLocation2
     pointLoc2 = pointLocation2
 
-    offsetType = OffsetTypeEnumField()
+    offsetType = OffsetTypeEnumField(default_value=1)
     oft = offsetType

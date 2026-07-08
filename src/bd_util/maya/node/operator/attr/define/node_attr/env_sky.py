@@ -23,13 +23,13 @@ class NormalCameraPlugOperator(
         ("normalCameraZ", "nz"),
     )
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -38,13 +38,13 @@ class NormalCameraAttrOperator(
 ):
     __slots__ = ()
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -56,13 +56,13 @@ class NormalCameraField(
     ATTR_CLS = NormalCameraAttrOperator
     PLUG_CLS = NormalCameraPlugOperator
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=1.0)
     nz = normalCameraZ
 
 
@@ -76,13 +76,13 @@ class RayDirectionPlugOperator(
         ("rayDirectionZ", "rz"),
     )
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -91,13 +91,13 @@ class RayDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -109,13 +109,13 @@ class RayDirectionField(
     ATTR_CLS = RayDirectionAttrOperator
     PLUG_CLS = RayDirectionPlugOperator
 
-    rayDirectionX = FloatField()
+    rayDirectionX = FloatField(default_value=0.0)
     rx = rayDirectionX
 
-    rayDirectionY = FloatField()
+    rayDirectionY = FloatField(default_value=0.0)
     ry = rayDirectionY
 
-    rayDirectionZ = FloatField()
+    rayDirectionZ = FloatField(default_value=1.0)
     rz = rayDirectionZ
 
 
@@ -128,10 +128,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -140,10 +140,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -155,10 +155,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -171,10 +171,10 @@ class UvFilterSizePlugOperator(
         ("uvFilterSizeY", "ufy"),
     )
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -183,10 +183,10 @@ class UvFilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -198,10 +198,10 @@ class UvFilterSizeField(
     ATTR_CLS = UvFilterSizeAttrOperator
     PLUG_CLS = UvFilterSizePlugOperator
 
-    uvFilterSizeX = FloatField()
+    uvFilterSizeX = FloatField(default_value=0.0)
     ufx = uvFilterSizeX
 
-    uvFilterSizeY = FloatField()
+    uvFilterSizeY = FloatField(default_value=0.0)
     ufy = uvFilterSizeY
 
 
@@ -215,13 +215,13 @@ class FilterSizePlugOperator(
         ("filterSizeZ", "fsz"),
     )
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -230,13 +230,13 @@ class FilterSizeAttrOperator(
 ):
     __slots__ = ()
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -248,13 +248,13 @@ class FilterSizeField(
     ATTR_CLS = FilterSizeAttrOperator
     PLUG_CLS = FilterSizePlugOperator
 
-    filterSizeX = FloatField()
+    filterSizeX = FloatField(default_value=0.0)
     fsx = filterSizeX
 
-    filterSizeY = FloatField()
+    filterSizeY = FloatField(default_value=0.0)
     fsy = filterSizeY
 
-    filterSizeZ = FloatField()
+    filterSizeZ = FloatField(default_value=0.0)
     fsz = filterSizeZ
 
 
@@ -268,13 +268,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -283,13 +283,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -301,13 +301,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -321,13 +321,13 @@ class PointCameraPlugOperator(
         ("pointCameraZ", "pz"),
     )
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -336,13 +336,13 @@ class PointCameraAttrOperator(
 ):
     __slots__ = ()
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -354,13 +354,13 @@ class PointCameraField(
     ATTR_CLS = PointCameraAttrOperator
     PLUG_CLS = PointCameraPlugOperator
 
-    pointCameraX = FloatField()
+    pointCameraX = FloatField(default_value=0.0)
     px = pointCameraX
 
-    pointCameraY = FloatField()
+    pointCameraY = FloatField(default_value=0.0)
     py = pointCameraY
 
-    pointCameraZ = FloatField()
+    pointCameraZ = FloatField(default_value=0.0)
     pz = pointCameraZ
 
 
@@ -374,13 +374,13 @@ class RefPointCameraPlugOperator(
         ("refPointCameraZ", "rcz"),
     )
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -389,13 +389,13 @@ class RefPointCameraAttrOperator(
 ):
     __slots__ = ()
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -407,13 +407,13 @@ class RefPointCameraField(
     ATTR_CLS = RefPointCameraAttrOperator
     PLUG_CLS = RefPointCameraPlugOperator
 
-    refPointCameraX = FloatField()
+    refPointCameraX = FloatField(default_value=0.0)
     rcx = refPointCameraX
 
-    refPointCameraY = FloatField()
+    refPointCameraY = FloatField(default_value=0.0)
     rcy = refPointCameraY
 
-    refPointCameraZ = FloatField()
+    refPointCameraZ = FloatField(default_value=0.0)
     rcz = refPointCameraZ
 
 
@@ -427,13 +427,13 @@ class SunBrightnessPlugOperator(
         ("sunBrightnessB", "sub"),
     )
 
-    sunBrightnessR = FloatField()
+    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField()
+    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField()
+    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sub = sunBrightnessB
 
 
@@ -442,13 +442,13 @@ class SunBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    sunBrightnessR = FloatField()
+    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField()
+    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField()
+    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sub = sunBrightnessB
 
 
@@ -460,13 +460,13 @@ class SunBrightnessField(
     ATTR_CLS = SunBrightnessAttrOperator
     PLUG_CLS = SunBrightnessPlugOperator
 
-    sunBrightnessR = FloatField()
+    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField()
+    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField()
+    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     sub = sunBrightnessB
 
 
@@ -480,13 +480,13 @@ class HaloBrightnessPlugOperator(
         ("haloBrightnessB", "hbb"),
     )
 
-    haloBrightnessR = FloatField()
+    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField()
+    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField()
+    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbb = haloBrightnessB
 
 
@@ -495,13 +495,13 @@ class HaloBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    haloBrightnessR = FloatField()
+    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField()
+    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField()
+    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbb = haloBrightnessB
 
 
@@ -513,13 +513,13 @@ class HaloBrightnessField(
     ATTR_CLS = HaloBrightnessAttrOperator
     PLUG_CLS = HaloBrightnessPlugOperator
 
-    haloBrightnessR = FloatField()
+    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField()
+    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField()
+    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     hbb = haloBrightnessB
 
 
@@ -533,13 +533,13 @@ class SkyBrightnessPlugOperator(
         ("skyBrightnessB", "skb"),
     )
 
-    skyBrightnessR = FloatField()
+    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField()
+    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField()
+    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skb = skyBrightnessB
 
 
@@ -548,13 +548,13 @@ class SkyBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    skyBrightnessR = FloatField()
+    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField()
+    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField()
+    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skb = skyBrightnessB
 
 
@@ -566,13 +566,13 @@ class SkyBrightnessField(
     ATTR_CLS = SkyBrightnessAttrOperator
     PLUG_CLS = SkyBrightnessPlugOperator
 
-    skyBrightnessR = FloatField()
+    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField()
+    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField()
+    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     skb = skyBrightnessB
 
 
@@ -586,13 +586,13 @@ class FloorColorPlugOperator(
         ("floorColorB", "fcb"),
     )
 
-    floorColorR = FloatField()
+    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcr = floorColorR
 
-    floorColorG = FloatField()
+    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcg = floorColorG
 
-    floorColorB = FloatField()
+    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcb = floorColorB
 
 
@@ -601,13 +601,13 @@ class FloorColorAttrOperator(
 ):
     __slots__ = ()
 
-    floorColorR = FloatField()
+    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcr = floorColorR
 
-    floorColorG = FloatField()
+    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcg = floorColorG
 
-    floorColorB = FloatField()
+    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcb = floorColorB
 
 
@@ -619,13 +619,13 @@ class FloorColorField(
     ATTR_CLS = FloorColorAttrOperator
     PLUG_CLS = FloorColorPlugOperator
 
-    floorColorR = FloatField()
+    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcr = floorColorR
 
-    floorColorG = FloatField()
+    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcg = floorColorG
 
-    floorColorB = FloatField()
+    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
     fcb = floorColorB
 
 
@@ -639,13 +639,13 @@ class CloudBrightnessPlugOperator(
         ("cloudBrightnessB", "cbb"),
     )
 
-    cloudBrightnessR = FloatField()
+    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField()
+    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField()
+    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbb = cloudBrightnessB
 
 
@@ -654,13 +654,13 @@ class CloudBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    cloudBrightnessR = FloatField()
+    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField()
+    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField()
+    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbb = cloudBrightnessB
 
 
@@ -672,13 +672,13 @@ class CloudBrightnessField(
     ATTR_CLS = CloudBrightnessAttrOperator
     PLUG_CLS = CloudBrightnessPlugOperator
 
-    cloudBrightnessR = FloatField()
+    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField()
+    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField()
+    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     cbb = cloudBrightnessB
 
 
@@ -692,13 +692,13 @@ class SunsetBrightnessPlugOperator(
         ("sunsetBrightnessB", "ssb"),
     )
 
-    sunsetBrightnessR = FloatField()
+    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField()
+    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField()
+    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssb = sunsetBrightnessB
 
 
@@ -707,13 +707,13 @@ class SunsetBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    sunsetBrightnessR = FloatField()
+    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField()
+    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField()
+    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssb = sunsetBrightnessB
 
 
@@ -725,11 +725,11 @@ class SunsetBrightnessField(
     ATTR_CLS = SunsetBrightnessAttrOperator
     PLUG_CLS = SunsetBrightnessPlugOperator
 
-    sunsetBrightnessR = FloatField()
+    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField()
+    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField()
+    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ssb = sunsetBrightnessB

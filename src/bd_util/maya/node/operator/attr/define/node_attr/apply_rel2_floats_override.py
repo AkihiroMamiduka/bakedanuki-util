@@ -17,10 +17,10 @@ class OutPlugOperator(
         ("out1", "o1"),
     )
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -29,10 +29,10 @@ class OutAttrOperator(
 ):
     __slots__ = ()
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -44,10 +44,10 @@ class OutField(
     ATTR_CLS = OutAttrOperator
     PLUG_CLS = OutPlugOperator
 
-    out0 = FloatField()
+    out0 = FloatField(default_value=0.0, writable=False)
     o0 = out0
 
-    out1 = FloatField()
+    out1 = FloatField(default_value=0.0, writable=False)
     o1 = out1
 
 
@@ -60,10 +60,10 @@ class OriginalPlugOperator(
         ("original1", "ori1"),
     )
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -72,10 +72,10 @@ class OriginalAttrOperator(
 ):
     __slots__ = ()
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -87,10 +87,10 @@ class OriginalField(
     ATTR_CLS = OriginalAttrOperator
     PLUG_CLS = OriginalPlugOperator
 
-    original0 = FloatField()
+    original0 = FloatField(default_value=0.0, readable=False)
     ori0 = original0
 
-    original1 = FloatField()
+    original1 = FloatField(default_value=0.0, readable=False)
     ori1 = original1
 
 
@@ -103,10 +103,10 @@ class MultiplyPlugOperator(
         ("multiply1", "mul1"),
     )
 
-    multiply0 = FloatField()
+    multiply0 = FloatField(default_value=1.0, readable=False)
     mul0 = multiply0
 
-    multiply1 = FloatField()
+    multiply1 = FloatField(default_value=1.0, readable=False)
     mul1 = multiply1
 
 
@@ -115,10 +115,10 @@ class MultiplyAttrOperator(
 ):
     __slots__ = ()
 
-    multiply0 = FloatField()
+    multiply0 = FloatField(default_value=1.0, readable=False)
     mul0 = multiply0
 
-    multiply1 = FloatField()
+    multiply1 = FloatField(default_value=1.0, readable=False)
     mul1 = multiply1
 
 
@@ -130,10 +130,10 @@ class MultiplyField(
     ATTR_CLS = MultiplyAttrOperator
     PLUG_CLS = MultiplyPlugOperator
 
-    multiply0 = FloatField()
+    multiply0 = FloatField(default_value=1.0, readable=False)
     mul0 = multiply0
 
-    multiply1 = FloatField()
+    multiply1 = FloatField(default_value=1.0, readable=False)
     mul1 = multiply1
 
 
@@ -146,10 +146,10 @@ class OffsetPlugOperator(
         ("offset1", "ofs1"),
     )
 
-    offset0 = FloatField()
+    offset0 = FloatField(default_value=0.0, readable=False)
     ofs0 = offset0
 
-    offset1 = FloatField()
+    offset1 = FloatField(default_value=0.0, readable=False)
     ofs1 = offset1
 
 
@@ -158,10 +158,10 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offset0 = FloatField()
+    offset0 = FloatField(default_value=0.0, readable=False)
     ofs0 = offset0
 
-    offset1 = FloatField()
+    offset1 = FloatField(default_value=0.0, readable=False)
     ofs1 = offset1
 
 
@@ -173,8 +173,8 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offset0 = FloatField()
+    offset0 = FloatField(default_value=0.0, readable=False)
     ofs0 = offset0
 
-    offset1 = FloatField()
+    offset1 = FloatField(default_value=0.0, readable=False)
     ofs1 = offset1

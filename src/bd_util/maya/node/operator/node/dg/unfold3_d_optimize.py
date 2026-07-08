@@ -16,28 +16,28 @@ class Unfold3DOptimize(DG):
     inMesh = DataMeshField()
     im = inMesh
 
-    outMesh = DataMeshField()
+    outMesh = DataMeshField(writable=False)
     om = outMesh
 
-    iterations = LongField()
+    iterations = LongField(default_value=1)
     ite = iterations
 
-    borderIntersection = BoolField()
+    borderIntersection = BoolField(default_value=True)
     bi = borderIntersection
 
-    triangleFlip = BoolField()
+    triangleFlip = BoolField(default_value=True)
     trif = triangleFlip
 
-    mapSize = LongField()
+    mapSize = LongField(default_value=1024)
     msiz = mapSize
 
-    roomSpace = LongField()
+    roomSpace = LongField(default_value=2)
     rspac = roomSpace
 
-    surfangle = FloatField()
+    surfangle = FloatField(default_value=1.0)
     sa = surfangle
 
-    power = FloatField()
+    power = FloatField(default_value=1.0)
     pow = power
 
     meshDagPath = DataStringField()
@@ -55,5 +55,5 @@ class Unfold3DOptimize(DG):
     memvsexported = TypedField()
     mve = memvsexported
 
-    memisevereval = BoolField()
+    memisevereval = BoolField(default_value=False)
     miee = memisevereval

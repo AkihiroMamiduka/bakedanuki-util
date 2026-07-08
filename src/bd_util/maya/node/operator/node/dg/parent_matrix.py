@@ -11,10 +11,10 @@ class ParentMatrix(DG):
 
     NODE_TYPE = "parentMatrix"
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     enb = enable
 
-    envelope = DoubleField()
+    envelope = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = envelope
 
     target = TargetField(multi=True)
@@ -29,5 +29,5 @@ class ParentMatrix(DG):
     inputMatrix = MatrixField()
     imat = inputMatrix
 
-    outputMatrix = MatrixField()
+    outputMatrix = MatrixField(writable=False)
     omat = outputMatrix

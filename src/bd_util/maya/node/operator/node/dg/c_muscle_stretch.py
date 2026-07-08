@@ -108,22 +108,22 @@ class CMuscleStretch(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -135,7 +135,7 @@ class CMuscleStretch(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     worldMatrixStart = MatrixField()
@@ -156,122 +156,122 @@ class CMuscleStretch(DG):
     worldMatrixEndBase = MatrixField()
     wmeb = worldMatrixEndBase
 
-    SCALING = SCALINGEnumField()
+    SCALING = SCALINGEnumField(default_value=0)
     SCL = SCALING
 
-    manualSquish = DoubleField()
+    manualSquish = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     mans = manualSquish
 
-    maxStretch = DoubleField()
+    maxStretch = DoubleField(default_value=2.0, min_value=1.0)
     mst = maxStretch
 
-    stretchStart = DoubleField()
+    stretchStart = DoubleField(default_value=1.0)
     st1 = stretchStart
 
-    stretchMid = DoubleField()
+    stretchMid = DoubleField(default_value=0.5)
     st2 = stretchMid
 
-    stretchEnd = DoubleField()
+    stretchEnd = DoubleField(default_value=1.0)
     st3 = stretchEnd
 
-    maxSquash = DoubleField()
+    maxSquash = DoubleField(default_value=0.5, min_value=1e-06, max_value=1.0)
     msq = maxSquash
 
-    squashStart = DoubleField()
+    squashStart = DoubleField(default_value=1.0)
     sq1 = squashStart
 
-    squashMid = DoubleField()
+    squashMid = DoubleField(default_value=1.5)
     sq2 = squashMid
 
-    squashEnd = DoubleField()
+    squashEnd = DoubleField(default_value=1.0)
     sq3 = squashEnd
 
-    xFactor = DoubleField()
+    xFactor = DoubleField(default_value=1.0)
     xfc = xFactor
 
-    zFactor = DoubleField()
+    zFactor = DoubleField(default_value=1.0)
     zfc = zFactor
 
-    WEIGHTING = WEIGHTINGEnumField()
+    WEIGHTING = WEIGHTINGEnumField(default_value=0)
     WTNG = WEIGHTING
 
-    innerFalloffStart = DoubleField()
+    innerFalloffStart = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     ifs = innerFalloffStart
 
-    innerFalloffMid = DoubleField()
+    innerFalloffMid = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     ifm = innerFalloffMid
 
-    innerFalloffEnd = DoubleField()
+    innerFalloffEnd = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     ife = innerFalloffEnd
 
-    outerFalloffStart = DoubleField()
+    outerFalloffStart = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
     ofs = outerFalloffStart
 
-    outerFalloffMid = DoubleField()
+    outerFalloffMid = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
     ofm = outerFalloffMid
 
-    outerFalloffEnd = DoubleField()
+    outerFalloffEnd = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
     ofe = outerFalloffEnd
 
-    weightStart = DoubleField()
+    weightStart = DoubleField(default_value=1.0, min_value=0.0)
     wts = weightStart
 
-    weightMid = DoubleField()
+    weightMid = DoubleField(default_value=1.0, min_value=0.0)
     wtm = weightMid
 
-    weightEnd = DoubleField()
+    weightEnd = DoubleField(default_value=1.0, min_value=0.0)
     wte = weightEnd
 
-    JIGGLE = JIGGLEEnumField()
+    JIGGLE = JIGGLEEnumField(default_value=0)
     JIG = JIGGLE
 
-    resetFrame = DoubleField()
+    resetFrame = DoubleField(default_value=0.0, min_value=-1024.0)
     rf = resetFrame
 
-    inTime = DoubleField()
+    inTime = DoubleField(default_value=0.0)
     it = inTime
 
-    jiggleStart = DoubleField()
+    jiggleStart = DoubleField(default_value=0.0, min_value=0.0)
     js = jiggleStart
 
-    jiggleMid = DoubleField()
+    jiggleMid = DoubleField(default_value=1.0, min_value=0.0)
     jm = jiggleMid
 
-    jiggleEnd = DoubleField()
+    jiggleEnd = DoubleField(default_value=0.0, min_value=0.0)
     je = jiggleEnd
 
-    cycleStart = DoubleField()
+    cycleStart = DoubleField(default_value=8.0, min_value=0.0)
     cs = cycleStart
 
-    cycleMid = DoubleField()
+    cycleMid = DoubleField(default_value=8.0, min_value=0.0)
     cm = cycleMid
 
-    cycleEnd = DoubleField()
+    cycleEnd = DoubleField(default_value=8.0, min_value=0.0)
     ce = cycleEnd
 
-    restStart = LongField()
+    restStart = LongField(default_value=24, min_value=0)
     rs = restStart
 
-    restMid = LongField()
+    restMid = LongField(default_value=24, min_value=0)
     rm = restMid
 
-    restEnd = LongField()
+    restEnd = LongField(default_value=24, min_value=0)
     re = restEnd
 
-    dampenOnSquash = DoubleField()
+    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField()
+    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
     dmpst = dampenOnStretch
 
-    forceStart = ForceStartField(multi=True)
+    forceStart = ForceStartField(multi=True, default_value=(0.0, 0.0, 0.0))
     fst = forceStart
 
-    forceMid = ForceMidField(multi=True)
+    forceMid = ForceMidField(multi=True, default_value=(0.0, 0.0, 0.0))
     fmd = forceMid
 
-    forceEnd = ForceEndField(multi=True)
+    forceEnd = ForceEndField(multi=True, default_value=(0.0, 0.0, 0.0))
     fed = forceEnd
 
-    lengthCalc = DoubleField()
+    lengthCalc = DoubleField(default_value=0.0)
     len = lengthCalc

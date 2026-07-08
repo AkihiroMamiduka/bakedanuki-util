@@ -99,22 +99,22 @@ class ProximityWrap(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -126,7 +126,7 @@ class ProximityWrap(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     associativeGeometry = TypedField(multi=True)
@@ -138,47 +138,47 @@ class ProximityWrap(DG):
     driverWeightFunction = TypedField(multi=True)
     dwfl = driverWeightFunction
 
-    maxDrivers = LongField()
+    maxDrivers = LongField(default_value=10, min_value=1, max_value=20)
     maxd = maxDrivers
 
-    falloffScale = DoubleField()
+    falloffScale = DoubleField(default_value=1.0, min_value=0.01, soft_min_value=0.01, soft_max_value=10.0)
     sfo = falloffScale
 
-    dropoffRateScale = DoubleField()
+    dropoffRateScale = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     sdpo = dropoffRateScale
 
-    scaleCompensation = DoubleField()
+    scaleCompensation = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     scp = scaleCompensation
 
-    wrapMode = WrapModeEnumField()
+    wrapMode = WrapModeEnumField(default_value=1)
     wmd = wrapMode
 
-    coordinateFrames = CoordinateFramesEnumField()
+    coordinateFrames = CoordinateFramesEnumField(default_value=0)
     crdf = coordinateFrames
 
-    smoothNormals = LongField()
+    smoothNormals = LongField(default_value=0, min_value=0, max_value=20)
     snrm = smoothNormals
 
-    spanSamples = LongField()
+    spanSamples = LongField(default_value=2, min_value=1, max_value=10)
     spns = spanSamples
 
-    smoothInfluences = LongField()
+    smoothInfluences = LongField(default_value=0, min_value=0, max_value=20)
     sinf = smoothInfluences
 
-    falloffRamp = FalloffRampField(multi=True)
+    falloffRamp = FalloffRampField(multi=True, default_value=(0.0, 0.0, 0.0))
     frmp = falloffRamp
 
-    softNormalization = BoolField()
+    softNormalization = BoolField(default_value=False)
     sftn = softNormalization
 
-    useBindTags = BoolField()
+    useBindTags = BoolField(default_value=False)
     ubt = useBindTags
 
     bindTagsFilter = DataStringField()
     btf = bindTagsFilter
 
-    perDriverWeightsList = PerDriverWeightsListField(multi=True)
+    perDriverWeightsList = PerDriverWeightsListField(multi=True, writable=False)
     pdwl = perDriverWeightsList
 
-    perVertexWeightsList = PerVertexWeightsListField(multi=True)
+    perVertexWeightsList = PerVertexWeightsListField(multi=True, writable=False)
     pvwl = perVertexWeightsList

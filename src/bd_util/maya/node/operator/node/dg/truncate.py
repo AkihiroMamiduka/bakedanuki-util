@@ -8,8 +8,8 @@ class Truncate(DG):
 
     NODE_TYPE = "truncate"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

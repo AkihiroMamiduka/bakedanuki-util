@@ -132,7 +132,7 @@ class SubdAutoProj(DG):
 
     NODE_TYPE = "subdAutoProj"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()
@@ -147,32 +147,32 @@ class SubdAutoProj(DG):
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    planes = LongField()
+    planes = LongField(default_value=6)
     p = planes
 
-    optimize = OptimizeEnumField()
+    optimize = OptimizeEnumField(default_value=1)
     o = optimize
 
-    skipIntersect = BoolField()
+    skipIntersect = BoolField(default_value=False)
     si = skipIntersect
 
-    layout = LayoutEnumField()
+    layout = LayoutEnumField(default_value=2)
     l = layout
 
-    layoutMethod = LayoutMethodEnumField()
+    layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod
 
-    percentageSpace = FloatField()
+    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
     ps = percentageSpace
 
-    scale = ScaleEnumField()
+    scale = ScaleEnumField(default_value=1)
     sc = scale
 
-    denseLayout = BoolField()
+    denseLayout = BoolField(default_value=False)
     dl = denseLayout

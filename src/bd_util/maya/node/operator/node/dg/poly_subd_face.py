@@ -72,7 +72,7 @@ class PolySubdFace(DG):
 
     NODE_TYPE = "polySubdFace"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -81,38 +81,38 @@ class PolySubdFace(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    divisions = LongField()
+    divisions = LongField(default_value=1, min_value=0, max_value=8, soft_max_value=4)
     dv = divisions
 
-    divisionsU = LongField()
+    divisionsU = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
     duv = divisionsU
 
-    divisionsV = LongField()
+    divisionsV = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
     dvv = divisionsV
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
     m = mode
 
-    subdMethod = SubdMethodEnumField()
+    subdMethod = SubdMethodEnumField(default_value=0)
     sbm = subdMethod

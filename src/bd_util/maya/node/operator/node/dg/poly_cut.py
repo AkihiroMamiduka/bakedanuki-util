@@ -18,7 +18,7 @@ class PolyCut(DG):
 
     NODE_TYPE = "polyCut"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -27,37 +27,37 @@ class PolyCut(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    cutPlaneCenter = CutPlaneCenterField()
+    cutPlaneCenter = CutPlaneCenterField(default_value=(0.0, 0.0, 0.0))
     pc = cutPlaneCenter
     cutPlaneCenterX = cutPlaneCenter.cutPlaneCenterX
     pcx = cutPlaneCenterX
@@ -66,7 +66,7 @@ class PolyCut(DG):
     cutPlaneCenterZ = cutPlaneCenter.cutPlaneCenterZ
     pcz = cutPlaneCenterZ
 
-    cutPlaneRotate = CutPlaneRotateField()
+    cutPlaneRotate = CutPlaneRotateField(default_value=(0.0, 0.0, 0.0))
     ro = cutPlaneRotate
     cutPlaneRotateX = cutPlaneRotate.cutPlaneRotateX
     rx = cutPlaneRotateX
@@ -75,17 +75,17 @@ class PolyCut(DG):
     cutPlaneRotateZ = cutPlaneRotate.cutPlaneRotateZ
     rz = cutPlaneRotateZ
 
-    cutPlaneSize = CutPlaneSizeField()
+    cutPlaneSize = CutPlaneSizeField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
     ps = cutPlaneSize
     cutPlaneWidth = cutPlaneSize.cutPlaneWidth
     pw = cutPlaneWidth
     cutPlaneHeight = cutPlaneSize.cutPlaneHeight
     ph = cutPlaneHeight
 
-    extractFaces = BoolField()
+    extractFaces = BoolField(default_value=False)
     ef = extractFaces
 
-    extractOffset = ExtractOffsetField()
+    extractOffset = ExtractOffsetField(default_value=(0.5, 0.5, 0.5))
     eo = extractOffset
     extractOffsetX = extractOffset.extractOffsetX
     eox = extractOffsetX
@@ -94,14 +94,14 @@ class PolyCut(DG):
     extractOffsetZ = extractOffset.extractOffsetZ
     eoz = extractOffsetZ
 
-    deleteFaces = BoolField()
+    deleteFaces = BoolField(default_value=False)
     df = deleteFaces
 
-    onObject = BoolField()
+    onObject = BoolField(default_value=True)
     oo = onObject
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    cutEdges = TypedField()
+    cutEdges = TypedField(writable=False)
     cec = cutEdges

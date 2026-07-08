@@ -40,7 +40,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -55,7 +55,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -79,7 +79,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -88,7 +88,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -111,13 +111,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -126,13 +126,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -144,13 +144,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -162,7 +162,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -170,7 +170,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -192,13 +192,13 @@ class TexturePlugOperator(
         ("textureB", "tb"),
     )
 
-    textureR = FloatField()
+    textureR = FloatField(default_value=0.0)
     tr = textureR
 
-    textureG = FloatField()
+    textureG = FloatField(default_value=0.0)
     tg = textureG
 
-    textureB = FloatField()
+    textureB = FloatField(default_value=0.0)
     tb = textureB
 
 
@@ -207,13 +207,13 @@ class TextureAttrOperator(
 ):
     __slots__ = ()
 
-    textureR = FloatField()
+    textureR = FloatField(default_value=0.0)
     tr = textureR
 
-    textureG = FloatField()
+    textureG = FloatField(default_value=0.0)
     tg = textureG
 
-    textureB = FloatField()
+    textureB = FloatField(default_value=0.0)
     tb = textureB
 
 
@@ -225,13 +225,13 @@ class TextureField(
     ATTR_CLS = TextureAttrOperator
     PLUG_CLS = TexturePlugOperator
 
-    textureR = FloatField()
+    textureR = FloatField(default_value=0.0)
     tr = textureR
 
-    textureG = FloatField()
+    textureG = FloatField(default_value=0.0)
     tg = textureG
 
-    textureB = FloatField()
+    textureB = FloatField(default_value=0.0)
     tb = textureB
 
 
@@ -245,13 +245,13 @@ class VectorStrengthPlugOperator(
         ("vectorStrengthZ", "vsz"),
     )
 
-    vectorStrengthX = DoubleLinearField()
+    vectorStrengthX = DoubleLinearField(default_value=1.0)
     vsx = vectorStrengthX
 
-    vectorStrengthY = DoubleLinearField()
+    vectorStrengthY = DoubleLinearField(default_value=1.0)
     vsy = vectorStrengthY
 
-    vectorStrengthZ = DoubleLinearField()
+    vectorStrengthZ = DoubleLinearField(default_value=1.0)
     vsz = vectorStrengthZ
 
 
@@ -260,13 +260,13 @@ class VectorStrengthAttrOperator(
 ):
     __slots__ = ()
 
-    vectorStrengthX = DoubleLinearField()
+    vectorStrengthX = DoubleLinearField(default_value=1.0)
     vsx = vectorStrengthX
 
-    vectorStrengthY = DoubleLinearField()
+    vectorStrengthY = DoubleLinearField(default_value=1.0)
     vsy = vectorStrengthY
 
-    vectorStrengthZ = DoubleLinearField()
+    vectorStrengthZ = DoubleLinearField(default_value=1.0)
     vsz = vectorStrengthZ
 
 
@@ -278,13 +278,13 @@ class VectorStrengthField(
     ATTR_CLS = VectorStrengthAttrOperator
     PLUG_CLS = VectorStrengthPlugOperator
 
-    vectorStrengthX = DoubleLinearField()
+    vectorStrengthX = DoubleLinearField(default_value=1.0)
     vsx = vectorStrengthX
 
-    vectorStrengthY = DoubleLinearField()
+    vectorStrengthY = DoubleLinearField(default_value=1.0)
     vsy = vectorStrengthY
 
-    vectorStrengthZ = DoubleLinearField()
+    vectorStrengthZ = DoubleLinearField(default_value=1.0)
     vsz = vectorStrengthZ
 
 
@@ -298,13 +298,13 @@ class VectorOffsetPlugOperator(
         ("vectorOffsetZ", "voz"),
     )
 
-    vectorOffsetX = DoubleLinearField()
+    vectorOffsetX = DoubleLinearField(default_value=0.0)
     vox = vectorOffsetX
 
-    vectorOffsetY = DoubleLinearField()
+    vectorOffsetY = DoubleLinearField(default_value=0.0)
     voy = vectorOffsetY
 
-    vectorOffsetZ = DoubleLinearField()
+    vectorOffsetZ = DoubleLinearField(default_value=0.0)
     voz = vectorOffsetZ
 
 
@@ -313,13 +313,13 @@ class VectorOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    vectorOffsetX = DoubleLinearField()
+    vectorOffsetX = DoubleLinearField(default_value=0.0)
     vox = vectorOffsetX
 
-    vectorOffsetY = DoubleLinearField()
+    vectorOffsetY = DoubleLinearField(default_value=0.0)
     voy = vectorOffsetY
 
-    vectorOffsetZ = DoubleLinearField()
+    vectorOffsetZ = DoubleLinearField(default_value=0.0)
     voz = vectorOffsetZ
 
 
@@ -331,11 +331,11 @@ class VectorOffsetField(
     ATTR_CLS = VectorOffsetAttrOperator
     PLUG_CLS = VectorOffsetPlugOperator
 
-    vectorOffsetX = DoubleLinearField()
+    vectorOffsetX = DoubleLinearField(default_value=0.0)
     vox = vectorOffsetX
 
-    vectorOffsetY = DoubleLinearField()
+    vectorOffsetY = DoubleLinearField(default_value=0.0)
     voy = vectorOffsetY
 
-    vectorOffsetZ = DoubleLinearField()
+    vectorOffsetZ = DoubleLinearField(default_value=0.0)
     voz = vectorOffsetZ

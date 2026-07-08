@@ -14,16 +14,16 @@ class PointOnSurfaceInfo(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0)
     v = parameterV
 
-    turnOnPercentage = BoolField()
+    turnOnPercentage = BoolField(default_value=False)
     top = turnOnPercentage
 
-    result = ResultField()
+    result = ResultField(writable=False)
     r = result
     position = result.position
     p = position

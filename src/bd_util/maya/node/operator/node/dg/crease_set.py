@@ -88,16 +88,16 @@ class CreaseSet(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -118,13 +118,13 @@ class CreaseSet(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -139,16 +139,16 @@ class CreaseSet(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -157,44 +157,44 @@ class CreaseSet(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
-    creaseLevel = DoubleField()
+    creaseLevel = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=5.0)
     crlv = creaseLevel

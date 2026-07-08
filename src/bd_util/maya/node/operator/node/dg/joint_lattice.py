@@ -24,22 +24,22 @@ class JointLattice(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -51,22 +51,22 @@ class JointLattice(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    creasing = DoubleLinearField()
+    creasing = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     cr = creasing
 
-    rounding = DoubleLinearField()
+    rounding = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     ro = rounding
 
-    lengthIn = DoubleLinearField()
+    lengthIn = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     li = lengthIn
 
-    lengthOut = DoubleLinearField()
+    lengthOut = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     lo = lengthOut
 
-    widthLeft = DoubleLinearField()
+    widthLeft = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     wl = widthLeft
 
-    widthRight = DoubleLinearField()
+    widthRight = DoubleLinearField(default_value=0.0, soft_min_value=-20.0, soft_max_value=80.0)
     wr = widthRight
 
     upperMatrix = MatrixField()
@@ -87,13 +87,13 @@ class JointLattice(DG):
     baseLatticeMatrix = MatrixField()
     mb = baseLatticeMatrix
 
-    adjustedUpperBaseLatticeMatrix = MatrixField()
+    adjustedUpperBaseLatticeMatrix = MatrixField(writable=False)
     au = adjustedUpperBaseLatticeMatrix
 
-    adjustedLowerBaseLatticeMatrix = MatrixField()
+    adjustedLowerBaseLatticeMatrix = MatrixField(writable=False)
     al = adjustedLowerBaseLatticeMatrix
 
-    bendVector = BendVectorField()
+    bendVector = BendVectorField(default_value=(0.0, 0.0, 0.0))
     bv = bendVector
     bendVectorX = bendVector.bendVectorX
     bx = bendVectorX
@@ -102,5 +102,5 @@ class JointLattice(DG):
     bendVectorZ = bendVector.bendVectorZ
     bz = bendVectorZ
 
-    bendMagnitude = DoubleLinearField()
+    bendMagnitude = DoubleLinearField(default_value=0.0)
     bm = bendMagnitude

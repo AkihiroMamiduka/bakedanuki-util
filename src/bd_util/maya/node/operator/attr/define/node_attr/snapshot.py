@@ -18,13 +18,13 @@ class LocalPositionPlugOperator(
         ("localPositionZ", "lpz"),
     )
 
-    localPositionX = DoubleLinearField()
+    localPositionX = DoubleLinearField(default_value=0.0)
     lpx = localPositionX
 
-    localPositionY = DoubleLinearField()
+    localPositionY = DoubleLinearField(default_value=0.0)
     lpy = localPositionY
 
-    localPositionZ = DoubleLinearField()
+    localPositionZ = DoubleLinearField(default_value=0.0)
     lpz = localPositionZ
 
 
@@ -33,13 +33,13 @@ class LocalPositionAttrOperator(
 ):
     __slots__ = ()
 
-    localPositionX = DoubleLinearField()
+    localPositionX = DoubleLinearField(default_value=0.0)
     lpx = localPositionX
 
-    localPositionY = DoubleLinearField()
+    localPositionY = DoubleLinearField(default_value=0.0)
     lpy = localPositionY
 
-    localPositionZ = DoubleLinearField()
+    localPositionZ = DoubleLinearField(default_value=0.0)
     lpz = localPositionZ
 
 
@@ -51,11 +51,11 @@ class LocalPositionField(
     ATTR_CLS = LocalPositionAttrOperator
     PLUG_CLS = LocalPositionPlugOperator
 
-    localPositionX = DoubleLinearField()
+    localPositionX = DoubleLinearField(default_value=0.0)
     lpx = localPositionX
 
-    localPositionY = DoubleLinearField()
+    localPositionY = DoubleLinearField(default_value=0.0)
     lpy = localPositionY
 
-    localPositionZ = DoubleLinearField()
+    localPositionZ = DoubleLinearField(default_value=0.0)
     lpz = localPositionZ

@@ -29,36 +29,36 @@ class MASH_Inherit(DG):
     scaleOutPP = translateOutPP.scaleOutPP
     rotationOutPP = translateOutPP.rotationOutPP
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=True)
 
     inTargetMatrices = MatrixField(multi=True)
     targetInMatrices = inTargetMatrices
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
     falloffInfo = TypedField()
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -67,26 +67,26 @@ class MASH_Inherit(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    force = FloatField()
+    force = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
     for_ = force
 
-    forceVar = FloatField()
+    forceVar = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     forV = forceVar
 
-    inheritStyle = LongField()
+    inheritStyle = LongField(default_value=1)
     inSty = inheritStyle
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
     raSe = randomSeed

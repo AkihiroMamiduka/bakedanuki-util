@@ -11,7 +11,7 @@ class SubdMapSewMove(DG):
 
     NODE_TYPE = "subdMapSewMove"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()
@@ -26,14 +26,14 @@ class SubdMapSewMove(DG):
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    limitPieceSize = BoolField()
+    limitPieceSize = BoolField(default_value=False)
     lps = limitPieceSize
 
-    numberFaces = LongField()
+    numberFaces = LongField(default_value=10)
     nf = numberFaces

@@ -25,7 +25,7 @@ class AttributesPlugOperator(
     animationSource = MessageField()
     as_ = animationSource
 
-    value = DoubleField()
+    value = DoubleField(default_value=0.0)
     v = value
 
 
@@ -40,7 +40,7 @@ class AttributesAttrOperator(
     animationSource = MessageField()
     as_ = animationSource
 
-    value = DoubleField()
+    value = DoubleField(default_value=0.0)
     v = value
 
 

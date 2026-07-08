@@ -22,7 +22,7 @@ class RenderLayer(DG):
 
     NODE_TYPE = "renderLayer"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -31,20 +31,20 @@ class RenderLayer(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    outSize = OutSizeField()
+    outSize = OutSizeField(default_value=(0.0, 0.0), writable=False)
     os = outSize
     outSizeX = outSize.outSizeX
     osx = outSizeX
     outSizeY = outSize.outSizeY
     osy = outSizeY
 
-    fileHasAlpha = BoolField()
+    fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -53,10 +53,10 @@ class RenderLayer(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    global_ = BoolField(long_name="global", short_name="g")
+    global_ = BoolField(default_value=False, long_name="global", short_name="g")
     g = global_
 
-    renderInfo = RenderInfoField()
+    renderInfo = RenderInfoField(default_value=(0.0, 1.0, 0.0))
     ri = renderInfo
     identification = renderInfo.identification
     rlid = identification
@@ -65,13 +65,13 @@ class RenderLayer(DG):
     drawColor = renderInfo.drawColor
     c = drawColor
 
-    layerParent = ShortField()
+    layerParent = ShortField(default_value=0)
     rlp = layerParent
 
-    layerChildren = ShortField(multi=True)
+    layerChildren = ShortField(multi=True, default_value=0, readable=False)
     rlc = layerChildren
 
-    renderPassInfo = RenderPassInfoField()
+    renderPassInfo = RenderPassInfoField(default_value=(1.0, 0.0, 0.0, 0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
     rp = renderPassInfo
     beauty = renderPassInfo.beauty
     b = beauty
@@ -104,32 +104,32 @@ class RenderLayer(DG):
     attributeOverrideScript = DataStringField()
     aos = attributeOverrideScript
 
-    renderPass = MessageField()
+    renderPass = MessageField(writable=False)
     rps = renderPass
 
-    passContributionMap = MessageField()
+    passContributionMap = MessageField(writable=False)
     pcm = passContributionMap
 
-    imageRendered = BoolField()
+    imageRendered = BoolField(default_value=False)
     ird = imageRendered
 
-    recycleImage = BoolField()
+    recycleImage = BoolField(default_value=False)
     rci = recycleImage
 
     imageName = DataStringField()
     img = imageName
 
-    displayOrder = ShortField()
+    displayOrder = ShortField(default_value=0)
     do = displayOrder
 
-    psdBlendMode = ShortField()
+    psdBlendMode = ShortField(default_value=0)
     bm = psdBlendMode
 
-    psdAlphaChannel = ShortField()
+    psdAlphaChannel = ShortField(default_value=0)
     ac = psdAlphaChannel
 
     precompTemplate = DataStringField()
     tpc = precompTemplate
 
-    isDefaultPrecompTemplateOverride = BoolField()
+    isDefaultPrecompTemplateOverride = BoolField(default_value=True)
     idpo = isDefaultPrecompTemplateOverride

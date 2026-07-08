@@ -8,8 +8,8 @@ class DisplayLayerManager(DG):
 
     NODE_TYPE = "displayLayerManager"
 
-    currentDisplayLayer = ShortField()
+    currentDisplayLayer = ShortField(default_value=0)
     cdl = currentDisplayLayer
 
-    displayLayerId = ShortField(multi=True)
+    displayLayerId = ShortField(multi=True, default_value=0)
     dli = displayLayerId

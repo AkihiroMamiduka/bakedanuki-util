@@ -9,8 +9,8 @@ class IkPASolver(DG):
 
     NODE_TYPE = "ikPASolver"
 
-    maxIterations = LongField()
+    maxIterations = LongField(default_value=2147483647)
     mxi = maxIterations
 
-    tolerance = DoubleField()
+    tolerance = DoubleField(default_value=1e-05)
     tol = tolerance

@@ -2437,645 +2437,645 @@ class HIKProperty2State(DG):
 
     OutputPropertySetState = TypedField()
 
-    rigAlign = BoolField()
+    rigAlign = BoolField(default_value=True)
     ra = rigAlign
 
-    leftHipRoll = FloatField()
+    leftHipRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     lhr = leftHipRoll
 
-    leftKneeRoll = FloatField()
+    leftKneeRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     lkr = leftKneeRoll
 
-    rightHipRoll = FloatField()
+    rightHipRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rhr = rightHipRoll
 
-    rightKneeRoll = FloatField()
+    rightKneeRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rkr = rightKneeRoll
 
-    leftShoulderRoll = FloatField()
+    leftShoulderRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     lsr = leftShoulderRoll
 
-    leftElbowRoll = FloatField()
+    leftElbowRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ler = leftElbowRoll
 
-    rightShoulderRoll = FloatField()
+    rightShoulderRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rsr = rightShoulderRoll
 
-    rightElbowRoll = FloatField()
+    rightElbowRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rer = rightElbowRoll
 
-    ForceActorSpace = ForceActorSpaceEnumField()
+    ForceActorSpace = ForceActorSpaceEnumField(default_value=0)
 
-    ScaleCompensationMode = ScaleCompensationModeEnumField()
+    ScaleCompensationMode = ScaleCompensationModeEnumField(default_value=1)
 
-    ScaleCompensation = DoubleField()
+    ScaleCompensation = DoubleField(default_value=100.0)
 
-    MassCenterCompensationMode = MassCenterCompensationModeEnumField()
+    MassCenterCompensationMode = MassCenterCompensationModeEnumField(default_value=1)
 
-    MassCenterCompensation = DoubleField()
+    MassCenterCompensation = DoubleField(default_value=80.0, min_value=0.0, max_value=120.0)
 
-    AnkleHeightCompensationMode = AnkleHeightCompensationModeEnumField()
+    AnkleHeightCompensationMode = AnkleHeightCompensationModeEnumField(default_value=1)
 
-    AnkleHeightCompensation = DoubleField()
+    AnkleHeightCompensation = DoubleField(default_value=0.0)
 
-    AnkleProximityCompensationMode = AnkleProximityCompensationModeEnumField()
+    AnkleProximityCompensationMode = AnkleProximityCompensationModeEnumField(default_value=1)
 
-    AnkleProximityCompensation = DoubleField()
+    AnkleProximityCompensation = DoubleField(default_value=0.0)
 
-    HipsHeightCompensationMode = HipsHeightCompensationModeEnumField()
+    HipsHeightCompensationMode = HipsHeightCompensationModeEnumField(default_value=1)
 
-    HipsHeightCompensation = DoubleField()
+    HipsHeightCompensation = DoubleField(default_value=0.0)
 
-    ReachActorLeftAnkle = DoubleField()
+    ReachActorLeftAnkle = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightAnkle = DoubleField()
+    ReachActorRightAnkle = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    ReachActorChest = DoubleField()
+    ReachActorChest = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftWrist = DoubleField()
+    ReachActorLeftWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightWrist = DoubleField()
+    ReachActorRightWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftKnee = DoubleField()
+    ReachActorLeftKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightKnee = DoubleField()
+    ReachActorRightKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorHead = DoubleField()
+    ReachActorHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftElbow = DoubleField()
+    ReachActorLeftElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightElbow = DoubleField()
+    ReachActorRightElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftAnkleRotationRotation = DoubleField()
+    ReachActorLeftAnkleRotationRotation = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightAnkleRotation = DoubleField()
+    ReachActorRightAnkleRotation = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    ReachActorHeadRotation = DoubleField()
+    ReachActorHeadRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftWristRotation = DoubleField()
+    ReachActorLeftWristRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightWristRotation = DoubleField()
+    ReachActorRightWristRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFingerBase = DoubleField()
+    ReachActorLeftFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFingerBase = DoubleField()
+    ReachActorRightFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftToesBase = DoubleField()
+    ReachActorLeftToesBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightToesBase = DoubleField()
+    ReachActorRightToesBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFingerBaseRotation = DoubleField()
+    ReachActorLeftFingerBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFingerBaseRotation = DoubleField()
+    ReachActorRightFingerBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftToesBaseRotation = DoubleField()
+    ReachActorLeftToesBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightToesBaseRotation = DoubleField()
+    ReachActorRightToesBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorChestRotation = DoubleField()
+    ReachActorChestRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLowerChestRotation = DoubleField()
+    ReachActorLowerChestRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandThumb = DoubleField()
+    ReachActorLeftHandThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandIndex = DoubleField()
+    ReachActorLeftHandIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandMiddle = DoubleField()
+    ReachActorLeftHandMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandRing = DoubleField()
+    ReachActorLeftHandRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandPinky = DoubleField()
+    ReachActorLeftHandPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftHandExtraFinger = DoubleField()
+    ReachActorLeftHandExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandThumb = DoubleField()
+    ReachActorRightHandThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandIndex = DoubleField()
+    ReachActorRightHandIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandMiddle = DoubleField()
+    ReachActorRightHandMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandRing = DoubleField()
+    ReachActorRightHandRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandPinky = DoubleField()
+    ReachActorRightHandPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightHandExtraFinger = DoubleField()
+    ReachActorRightHandExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootThumb = DoubleField()
+    ReachActorLeftFootThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootIndex = DoubleField()
+    ReachActorLeftFootIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootMiddle = DoubleField()
+    ReachActorLeftFootMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootRing = DoubleField()
+    ReachActorLeftFootRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootPinky = DoubleField()
+    ReachActorLeftFootPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorLeftFootExtraFinger = DoubleField()
+    ReachActorLeftFootExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootThumb = DoubleField()
+    ReachActorRightFootThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootIndex = DoubleField()
+    ReachActorRightFootIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootMiddle = DoubleField()
+    ReachActorRightFootMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootRing = DoubleField()
+    ReachActorRightFootRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootPinky = DoubleField()
+    ReachActorRightFootPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightFootExtraFinger = DoubleField()
+    ReachActorRightFootExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    FloorContact = FloorContactEnumField()
+    FloorContact = FloorContactEnumField(default_value=0)
 
-    FootBottomToAnkle = DoubleField()
+    FootBottomToAnkle = DoubleField(default_value=0.0)
 
-    FootBackToAnkle = DoubleField()
+    FootBackToAnkle = DoubleField(default_value=4.5)
 
-    FootMiddleToAnkle = DoubleField()
+    FootMiddleToAnkle = DoubleField(default_value=13.0)
 
-    FootFrontToMiddle = DoubleField()
+    FootFrontToMiddle = DoubleField(default_value=7.0)
 
-    FootInToAnkle = DoubleField()
+    FootInToAnkle = DoubleField(default_value=5.0)
 
-    FootOutToAnkle = DoubleField()
+    FootOutToAnkle = DoubleField(default_value=5.0)
 
-    HandFloorContact = HandFloorContactEnumField()
+    HandFloorContact = HandFloorContactEnumField(default_value=0)
 
-    HandBottomToWrist = DoubleField()
+    HandBottomToWrist = DoubleField(default_value=0.0)
 
-    HandBackToWrist = DoubleField()
+    HandBackToWrist = DoubleField(default_value=4.5)
 
-    HandMiddleToWrist = DoubleField()
+    HandMiddleToWrist = DoubleField(default_value=13.0)
 
-    HandFrontToMiddle = DoubleField()
+    HandFrontToMiddle = DoubleField(default_value=7.0)
 
-    HandInToWrist = DoubleField()
+    HandInToWrist = DoubleField(default_value=5.0)
 
-    HandOutToWrist = DoubleField()
+    HandOutToWrist = DoubleField(default_value=5.0)
 
-    HandContactType = HandContactTypeEnumField()
+    HandContactType = HandContactTypeEnumField(default_value=0)
 
-    HandFingerContact = HandFingerContactEnumField()
+    HandFingerContact = HandFingerContactEnumField(default_value=0)
 
-    HandFingerContactMode = HandFingerContactModeEnumField()
+    HandFingerContactMode = HandFingerContactModeEnumField(default_value=1)
 
-    FootContactType = FootContactTypeEnumField()
+    FootContactType = FootContactTypeEnumField(default_value=0)
 
-    FootFingerContact = FootFingerContactEnumField()
+    FootFingerContact = FootFingerContactEnumField(default_value=0)
 
-    FootFingerContactMode = FootFingerContactModeEnumField()
+    FootFingerContactMode = FootFingerContactModeEnumField(default_value=1)
 
-    LeftUpLegRollMode = LeftUpLegRollModeEnumField()
+    LeftUpLegRollMode = LeftUpLegRollModeEnumField(default_value=0)
 
-    LeftUpLegRoll = DoubleField()
+    LeftUpLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    LeftLegRollMode = LeftLegRollModeEnumField()
+    LeftLegRollMode = LeftLegRollModeEnumField(default_value=0)
 
-    LeftLegRoll = DoubleField()
+    LeftLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    RightUpLegRollMode = RightUpLegRollModeEnumField()
+    RightUpLegRollMode = RightUpLegRollModeEnumField(default_value=0)
 
-    RightUpLegRoll = DoubleField()
+    RightUpLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    RightLegRollMode = RightLegRollModeEnumField()
+    RightLegRollMode = RightLegRollModeEnumField(default_value=0)
 
-    RightLegRoll = DoubleField()
+    RightLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    LeftArmRollMode = LeftArmRollModeEnumField()
+    LeftArmRollMode = LeftArmRollModeEnumField(default_value=0)
 
-    LeftArmRoll = DoubleField()
+    LeftArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    LeftForeArmRollMode = LeftForeArmRollModeEnumField()
+    LeftForeArmRollMode = LeftForeArmRollModeEnumField(default_value=0)
 
-    LeftForeArmRoll = DoubleField()
+    LeftForeArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    RightArmRollMode = RightArmRollModeEnumField()
+    RightArmRollMode = RightArmRollModeEnumField(default_value=0)
 
-    RightArmRoll = DoubleField()
+    RightArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    RightForeArmRollMode = RightForeArmRollModeEnumField()
+    RightForeArmRollMode = RightForeArmRollModeEnumField(default_value=0)
 
-    RightForeArmRoll = DoubleField()
+    RightForeArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    Mirror = MirrorEnumField()
+    Mirror = MirrorEnumField(default_value=0)
 
-    LeftKneeKillPitch = LeftKneeKillPitchEnumField()
+    LeftKneeKillPitch = LeftKneeKillPitchEnumField(default_value=0)
 
-    RightKneeKillPitch = RightKneeKillPitchEnumField()
+    RightKneeKillPitch = RightKneeKillPitchEnumField(default_value=0)
 
-    LeftElbowKillPitch = LeftElbowKillPitchEnumField()
+    LeftElbowKillPitch = LeftElbowKillPitchEnumField(default_value=0)
 
-    RightElbowKillPitch = RightElbowKillPitchEnumField()
+    RightElbowKillPitch = RightElbowKillPitchEnumField(default_value=0)
 
-    CtrlPullLeftFoot = DoubleField()
+    CtrlPullLeftFoot = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightFoot = DoubleField()
+    CtrlPullRightFoot = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftHand = DoubleField()
+    CtrlPullLeftHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightHand = DoubleField()
+    CtrlPullRightHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullHead = DoubleField()
+    CtrlPullHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftToeBase = DoubleField()
+    CtrlPullLeftToeBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftKnee = DoubleField()
+    CtrlPullLeftKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightToeBase = DoubleField()
+    CtrlPullRightToeBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightKnee = DoubleField()
+    CtrlPullRightKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftFingerBase = DoubleField()
+    CtrlPullLeftFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftElbow = DoubleField()
+    CtrlPullLeftElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightFingerBase = DoubleField()
+    CtrlPullRightFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullRightElbow = DoubleField()
+    CtrlPullRightElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlChestPullLeftHand = DoubleField()
+    CtrlChestPullLeftHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlChestPullRightHand = DoubleField()
+    CtrlChestPullRightHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    CtrlResistHipsPosition = DoubleField()
+    CtrlResistHipsPosition = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlEnforceGravity = DoubleField()
+    CtrlEnforceGravity = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
 
-    CtrlResistHipsOrientation = DoubleField()
+    CtrlResistHipsOrientation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlResistChestPosition = DoubleField()
+    CtrlResistChestPosition = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlResistChestOrientation = DoubleField()
+    CtrlResistChestOrientation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlResistLeftCollar = DoubleField()
+    CtrlResistLeftCollar = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistRightCollar = DoubleField()
+    CtrlResistRightCollar = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistLeftKnee = DoubleField()
+    CtrlResistLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistRightKnee = DoubleField()
+    CtrlResistRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistLeftElbow = DoubleField()
+    CtrlResistLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistRightElbow = DoubleField()
+    CtrlResistRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamCtrlSpineStiffness = DoubleField()
+    ParamCtrlSpineStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    HipsTOffsetX = DoubleField()
+    HipsTOffsetX = DoubleField(default_value=0.0)
 
-    HipsTOffsetY = DoubleField()
+    HipsTOffsetY = DoubleField(default_value=0.0)
 
-    HipsTOffsetZ = DoubleField()
+    HipsTOffsetZ = DoubleField(default_value=0.0)
 
-    ChestTOffsetX = DoubleField()
+    ChestTOffsetX = DoubleField(default_value=0.0)
 
-    ChestTOffsetY = DoubleField()
+    ChestTOffsetY = DoubleField(default_value=0.0)
 
-    ChestTOffsetZ = DoubleField()
+    ChestTOffsetZ = DoubleField(default_value=0.0)
 
-    AutomaticToes = AutomaticToesEnumField()
+    AutomaticToes = AutomaticToesEnumField(default_value=0)
 
-    FloorPivot = FloorPivotEnumField()
+    FloorPivot = FloorPivotEnumField(default_value=0)
 
-    Posture = PostureEnumField()
+    Posture = PostureEnumField(default_value=0)
 
-    AutomaticFingers = AutomaticFingersEnumField()
+    AutomaticFingers = AutomaticFingersEnumField(default_value=0)
 
-    HandFloorPivot = HandFloorPivotEnumField()
+    HandFloorPivot = HandFloorPivotEnumField(default_value=0)
 
-    ParamCtrlNeckStiffness = DoubleField()
+    ParamCtrlNeckStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    HipsTranslationMode = HipsTranslationModeEnumField()
+    HipsTranslationMode = HipsTranslationModeEnumField(default_value=0)
 
-    FingerSolving = FingerSolvingEnumField()
+    FingerSolving = FingerSolvingEnumField(default_value=1)
 
-    ParamFootContactStiffness = DoubleField()
+    ParamFootContactStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlResistMaximumExtensionLeftKnee = DoubleField()
+    CtrlResistMaximumExtensionLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistMaximumExtensionRightKnee = DoubleField()
+    CtrlResistMaximumExtensionRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistMaximumExtensionLeftElbow = DoubleField()
+    CtrlResistMaximumExtensionLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistMaximumExtensionRightElbow = DoubleField()
+    CtrlResistMaximumExtensionRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistCompressionFactorLeftKnee = DoubleField()
+    CtrlResistCompressionFactorLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistCompressionFactorRightKnee = DoubleField()
+    CtrlResistCompressionFactorRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistCompressionFactorLeftElbow = DoubleField()
+    CtrlResistCompressionFactorLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    CtrlResistCompressionFactorRightElbow = DoubleField()
+    CtrlResistCompressionFactorRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamHandFingerContactRollStiffness = DoubleField()
+    ParamHandFingerContactRollStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ParamFootFingerContactRollStiffness = DoubleField()
+    ParamFootFingerContactRollStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ParamHandContactStiffness = DoubleField()
+    ParamHandContactStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RollExtractionMode = RollExtractionModeEnumField()
+    RollExtractionMode = RollExtractionModeEnumField(default_value=0)
 
-    PullIterationCount = DoubleField()
+    PullIterationCount = DoubleField(default_value=10.0, min_value=0.0, max_value=30.0)
 
-    LeftHandThumbTip = DoubleField()
+    LeftHandThumbTip = DoubleField(default_value=0.5)
 
-    LeftHandIndexTip = DoubleField()
+    LeftHandIndexTip = DoubleField(default_value=0.5)
 
-    LeftHandMiddleTip = DoubleField()
+    LeftHandMiddleTip = DoubleField(default_value=0.5)
 
-    LeftHandRingTip = DoubleField()
+    LeftHandRingTip = DoubleField(default_value=0.5)
 
-    LeftHandPinkyTip = DoubleField()
+    LeftHandPinkyTip = DoubleField(default_value=0.5)
 
-    LeftHandExtraFingerTip = DoubleField()
+    LeftHandExtraFingerTip = DoubleField(default_value=0.5)
 
-    RightHandThumbTip = DoubleField()
+    RightHandThumbTip = DoubleField(default_value=0.5)
 
-    RightHandIndexTip = DoubleField()
+    RightHandIndexTip = DoubleField(default_value=0.5)
 
-    RightHandMiddleTip = DoubleField()
+    RightHandMiddleTip = DoubleField(default_value=0.5)
 
-    RightHandRingTip = DoubleField()
+    RightHandRingTip = DoubleField(default_value=0.5)
 
-    RightHandPinkyTip = DoubleField()
+    RightHandPinkyTip = DoubleField(default_value=0.5)
 
-    RightHandExtraFingerTip = DoubleField()
+    RightHandExtraFingerTip = DoubleField(default_value=0.5)
 
-    LeftFootThumbTip = DoubleField()
+    LeftFootThumbTip = DoubleField(default_value=0.5)
 
-    LeftFootIndexTip = DoubleField()
+    LeftFootIndexTip = DoubleField(default_value=0.5)
 
-    LeftFootMiddleTip = DoubleField()
+    LeftFootMiddleTip = DoubleField(default_value=0.5)
 
-    LeftFootRingTip = DoubleField()
+    LeftFootRingTip = DoubleField(default_value=0.5)
 
-    LeftFootPinkyTip = DoubleField()
+    LeftFootPinkyTip = DoubleField(default_value=0.5)
 
-    LeftFootExtraFingerTip = DoubleField()
+    LeftFootExtraFingerTip = DoubleField(default_value=0.5)
 
-    RightFootThumbTip = DoubleField()
+    RightFootThumbTip = DoubleField(default_value=0.5)
 
-    RightFootIndexTip = DoubleField()
+    RightFootIndexTip = DoubleField(default_value=0.5)
 
-    RightFootMiddleTip = DoubleField()
+    RightFootMiddleTip = DoubleField(default_value=0.5)
 
-    RightFootRingTip = DoubleField()
+    RightFootRingTip = DoubleField(default_value=0.5)
 
-    RightFootPinkyTip = DoubleField()
+    RightFootPinkyTip = DoubleField(default_value=0.5)
 
-    RightFootExtraFingerTip = DoubleField()
+    RightFootExtraFingerTip = DoubleField(default_value=0.5)
 
-    ShoulderCorrection = DoubleField()
+    ShoulderCorrection = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftLegMaxExtensionAngle = DoubleField()
+    LeftLegMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
 
-    RightLegMaxExtensionAngle = DoubleField()
+    RightLegMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
 
-    LeftArmMaxExtensionAngle = DoubleField()
+    LeftArmMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
 
-    RightArmMaxExtensionAngle = DoubleField()
+    RightArmMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
 
-    ExtraCollarRatio = DoubleField()
+    ExtraCollarRatio = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CollarStiffnessX = DoubleField()
+    CollarStiffnessX = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    CollarStiffnessY = DoubleField()
+    CollarStiffnessY = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    CollarStiffnessZ = DoubleField()
+    CollarStiffnessZ = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
 
-    ReachActorLeftShoulder = DoubleField()
+    ReachActorLeftShoulder = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    ReachActorRightShoulder = DoubleField()
+    ReachActorRightShoulder = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    FingerPropagation = FingerPropagationEnumField()
+    FingerPropagation = FingerPropagationEnumField(default_value=0)
 
-    RealisticLeftKneeSolving = DoubleField()
+    RealisticLeftKneeSolving = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RealisticRightKneeSolving = DoubleField()
+    RealisticRightKneeSolving = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSScaleArmsAndLegs = DoubleField()
+    SnSScaleArmsAndLegs = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachLeftWrist = DoubleField()
+    SnSReachLeftWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachRightWrist = DoubleField()
+    SnSReachRightWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachLeftAnkle = DoubleField()
+    SnSReachLeftAnkle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachRightAnkle = DoubleField()
+    SnSReachRightAnkle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSScaleSpine = DoubleField()
+    SnSScaleSpine = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSScaleSpineChildren = DoubleField()
+    SnSScaleSpineChildren = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachChestEnd = DoubleField()
+    SnSReachChestEnd = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSScaleNeck = DoubleField()
+    SnSScaleNeck = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSReachHead = DoubleField()
+    SnSReachHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftUpLegRollEx = DoubleField()
+    LeftUpLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftLegRollEx = DoubleField()
+    LeftLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightUpLegRollEx = DoubleField()
+    RightUpLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightLegRollEx = DoubleField()
+    RightLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftArmRollEx = DoubleField()
+    LeftArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftForeArmRollEx = DoubleField()
+    LeftForeArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightArmRollEx = DoubleField()
+    RightArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightForeArmRollEx = DoubleField()
+    RightForeArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    TopSpineCorrection = DoubleField()
+    TopSpineCorrection = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    LowerSpineCorrection = DoubleField()
+    LowerSpineCorrection = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    SnSSmoothReach = SnSSmoothReachEnumField()
+    SnSSmoothReach = SnSSmoothReachEnumField(default_value=0)
 
-    LockX = LockXEnumField()
+    LockX = LockXEnumField(default_value=0)
 
-    LockY = LockYEnumField()
+    LockY = LockYEnumField(default_value=0)
 
-    LockZ = LockZEnumField()
+    LockZ = LockZEnumField(default_value=0)
 
-    ParamRealisticArmSolving = ParamRealisticArmSolvingEnumField()
+    ParamRealisticArmSolving = ParamRealisticArmSolvingEnumField(default_value=0)
 
-    ParamLeafLeftUpLegRoll1Mode = ParamLeafLeftUpLegRoll1ModeEnumField()
+    ParamLeafLeftUpLegRoll1Mode = ParamLeafLeftUpLegRoll1ModeEnumField(default_value=1)
 
-    ParamLeafLeftUpLegRoll1 = DoubleField()
+    ParamLeafLeftUpLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftLegRoll1Mode = ParamLeafLeftLegRoll1ModeEnumField()
+    ParamLeafLeftLegRoll1Mode = ParamLeafLeftLegRoll1ModeEnumField(default_value=1)
 
-    ParamLeafLeftLegRoll1 = DoubleField()
+    ParamLeafLeftLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightUpLegRoll1Mode = ParamLeafRightUpLegRoll1ModeEnumField()
+    ParamLeafRightUpLegRoll1Mode = ParamLeafRightUpLegRoll1ModeEnumField(default_value=1)
 
-    ParamLeafRightUpLegRoll1 = DoubleField()
+    ParamLeafRightUpLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightLegRoll1Mode = ParamLeafRightLegRoll1ModeEnumField()
+    ParamLeafRightLegRoll1Mode = ParamLeafRightLegRoll1ModeEnumField(default_value=1)
 
-    ParamLeafRightLegRoll1 = DoubleField()
+    ParamLeafRightLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftArmRoll1Mode = ParamLeafLeftArmRoll1ModeEnumField()
+    ParamLeafLeftArmRoll1Mode = ParamLeafLeftArmRoll1ModeEnumField(default_value=1)
 
-    ParamLeafLeftArmRoll1 = DoubleField()
+    ParamLeafLeftArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftForeArmRoll1Mode = ParamLeafLeftForeArmRoll1ModeEnumField()
+    ParamLeafLeftForeArmRoll1Mode = ParamLeafLeftForeArmRoll1ModeEnumField(default_value=1)
 
-    ParamLeafLeftForeArmRoll1 = DoubleField()
+    ParamLeafLeftForeArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightArmRoll1Mode = ParamLeafRightArmRoll1ModeEnumField()
+    ParamLeafRightArmRoll1Mode = ParamLeafRightArmRoll1ModeEnumField(default_value=1)
 
-    ParamLeafRightArmRoll1 = DoubleField()
+    ParamLeafRightArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightForeArmRoll1Mode = ParamLeafRightForeArmRoll1ModeEnumField()
+    ParamLeafRightForeArmRoll1Mode = ParamLeafRightForeArmRoll1ModeEnumField(default_value=1)
 
-    ParamLeafRightForeArmRoll1 = DoubleField()
+    ParamLeafRightForeArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftUpLegRoll2Mode = ParamLeafLeftUpLegRoll2ModeEnumField()
+    ParamLeafLeftUpLegRoll2Mode = ParamLeafLeftUpLegRoll2ModeEnumField(default_value=1)
 
-    ParamLeafLeftUpLegRoll2 = DoubleField()
+    ParamLeafLeftUpLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftLegRoll2Mode = ParamLeafLeftLegRoll2ModeEnumField()
+    ParamLeafLeftLegRoll2Mode = ParamLeafLeftLegRoll2ModeEnumField(default_value=1)
 
-    ParamLeafLeftLegRoll2 = DoubleField()
+    ParamLeafLeftLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightUpLegRoll2Mode = ParamLeafRightUpLegRoll2ModeEnumField()
+    ParamLeafRightUpLegRoll2Mode = ParamLeafRightUpLegRoll2ModeEnumField(default_value=1)
 
-    ParamLeafRightUpLegRoll2 = DoubleField()
+    ParamLeafRightUpLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightLegRoll2Mode = ParamLeafRightLegRoll2ModeEnumField()
+    ParamLeafRightLegRoll2Mode = ParamLeafRightLegRoll2ModeEnumField(default_value=1)
 
-    ParamLeafRightLegRoll2 = DoubleField()
+    ParamLeafRightLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftArmRoll2Mode = ParamLeafLeftArmRoll2ModeEnumField()
+    ParamLeafLeftArmRoll2Mode = ParamLeafLeftArmRoll2ModeEnumField(default_value=1)
 
-    ParamLeafLeftArmRoll2 = DoubleField()
+    ParamLeafLeftArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftForeArmRoll2Mode = ParamLeafLeftForeArmRoll2ModeEnumField()
+    ParamLeafLeftForeArmRoll2Mode = ParamLeafLeftForeArmRoll2ModeEnumField(default_value=1)
 
-    ParamLeafLeftForeArmRoll2 = DoubleField()
+    ParamLeafLeftForeArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightArmRoll2Mode = ParamLeafRightArmRoll2ModeEnumField()
+    ParamLeafRightArmRoll2Mode = ParamLeafRightArmRoll2ModeEnumField(default_value=1)
 
-    ParamLeafRightArmRoll2 = DoubleField()
+    ParamLeafRightArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightForeArmRoll2Mode = ParamLeafRightForeArmRoll2ModeEnumField()
+    ParamLeafRightForeArmRoll2Mode = ParamLeafRightForeArmRoll2ModeEnumField(default_value=1)
 
-    ParamLeafRightForeArmRoll2 = DoubleField()
+    ParamLeafRightForeArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftUpLegRoll3Mode = ParamLeafLeftUpLegRoll3ModeEnumField()
+    ParamLeafLeftUpLegRoll3Mode = ParamLeafLeftUpLegRoll3ModeEnumField(default_value=1)
 
-    ParamLeafLeftUpLegRoll3 = DoubleField()
+    ParamLeafLeftUpLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftLegRoll3Mode = ParamLeafLeftLegRoll3ModeEnumField()
+    ParamLeafLeftLegRoll3Mode = ParamLeafLeftLegRoll3ModeEnumField(default_value=1)
 
-    ParamLeafLeftLegRoll3 = DoubleField()
+    ParamLeafLeftLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightUpLegRoll3Mode = ParamLeafRightUpLegRoll3ModeEnumField()
+    ParamLeafRightUpLegRoll3Mode = ParamLeafRightUpLegRoll3ModeEnumField(default_value=1)
 
-    ParamLeafRightUpLegRoll3 = DoubleField()
+    ParamLeafRightUpLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightLegRoll3Mode = ParamLeafRightLegRoll3ModeEnumField()
+    ParamLeafRightLegRoll3Mode = ParamLeafRightLegRoll3ModeEnumField(default_value=1)
 
-    ParamLeafRightLegRoll3 = DoubleField()
+    ParamLeafRightLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftArmRoll3Mode = ParamLeafLeftArmRoll3ModeEnumField()
+    ParamLeafLeftArmRoll3Mode = ParamLeafLeftArmRoll3ModeEnumField(default_value=1)
 
-    ParamLeafLeftArmRoll3 = DoubleField()
+    ParamLeafLeftArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftForeArmRoll3Mode = ParamLeafLeftForeArmRoll3ModeEnumField()
+    ParamLeafLeftForeArmRoll3Mode = ParamLeafLeftForeArmRoll3ModeEnumField(default_value=1)
 
-    ParamLeafLeftForeArmRoll3 = DoubleField()
+    ParamLeafLeftForeArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightArmRoll3Mode = ParamLeafRightArmRoll3ModeEnumField()
+    ParamLeafRightArmRoll3Mode = ParamLeafRightArmRoll3ModeEnumField(default_value=1)
 
-    ParamLeafRightArmRoll3 = DoubleField()
+    ParamLeafRightArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightForeArmRoll3Mode = ParamLeafRightForeArmRoll3ModeEnumField()
+    ParamLeafRightForeArmRoll3Mode = ParamLeafRightForeArmRoll3ModeEnumField(default_value=1)
 
-    ParamLeafRightForeArmRoll3 = DoubleField()
+    ParamLeafRightForeArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftUpLegRoll4Mode = ParamLeafLeftUpLegRoll4ModeEnumField()
+    ParamLeafLeftUpLegRoll4Mode = ParamLeafLeftUpLegRoll4ModeEnumField(default_value=1)
 
-    ParamLeafLeftUpLegRoll4 = DoubleField()
+    ParamLeafLeftUpLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftLegRoll4Mode = ParamLeafLeftLegRoll4ModeEnumField()
+    ParamLeafLeftLegRoll4Mode = ParamLeafLeftLegRoll4ModeEnumField(default_value=1)
 
-    ParamLeafLeftLegRoll4 = DoubleField()
+    ParamLeafLeftLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightUpLegRoll4Mode = ParamLeafRightUpLegRoll4ModeEnumField()
+    ParamLeafRightUpLegRoll4Mode = ParamLeafRightUpLegRoll4ModeEnumField(default_value=1)
 
-    ParamLeafRightUpLegRoll4 = DoubleField()
+    ParamLeafRightUpLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightLegRoll4Mode = ParamLeafRightLegRoll4ModeEnumField()
+    ParamLeafRightLegRoll4Mode = ParamLeafRightLegRoll4ModeEnumField(default_value=1)
 
-    ParamLeafRightLegRoll4 = DoubleField()
+    ParamLeafRightLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftArmRoll4Mode = ParamLeafLeftArmRoll4ModeEnumField()
+    ParamLeafLeftArmRoll4Mode = ParamLeafLeftArmRoll4ModeEnumField(default_value=1)
 
-    ParamLeafLeftArmRoll4 = DoubleField()
+    ParamLeafLeftArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftForeArmRoll4Mode = ParamLeafLeftForeArmRoll4ModeEnumField()
+    ParamLeafLeftForeArmRoll4Mode = ParamLeafLeftForeArmRoll4ModeEnumField(default_value=1)
 
-    ParamLeafLeftForeArmRoll4 = DoubleField()
+    ParamLeafLeftForeArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightArmRoll4Mode = ParamLeafRightArmRoll4ModeEnumField()
+    ParamLeafRightArmRoll4Mode = ParamLeafRightArmRoll4ModeEnumField(default_value=1)
 
-    ParamLeafRightArmRoll4 = DoubleField()
+    ParamLeafRightArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightForeArmRoll4Mode = ParamLeafRightForeArmRoll4ModeEnumField()
+    ParamLeafRightForeArmRoll4Mode = ParamLeafRightForeArmRoll4ModeEnumField(default_value=1)
 
-    ParamLeafRightForeArmRoll4 = DoubleField()
+    ParamLeafRightForeArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftUpLegRoll5Mode = ParamLeafLeftUpLegRoll5ModeEnumField()
+    ParamLeafLeftUpLegRoll5Mode = ParamLeafLeftUpLegRoll5ModeEnumField(default_value=1)
 
-    ParamLeafLeftUpLegRoll5 = DoubleField()
+    ParamLeafLeftUpLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftLegRoll5Mode = ParamLeafLeftLegRoll5ModeEnumField()
+    ParamLeafLeftLegRoll5Mode = ParamLeafLeftLegRoll5ModeEnumField(default_value=1)
 
-    ParamLeafLeftLegRoll5 = DoubleField()
+    ParamLeafLeftLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightUpLegRoll5Mode = ParamLeafRightUpLegRoll5ModeEnumField()
+    ParamLeafRightUpLegRoll5Mode = ParamLeafRightUpLegRoll5ModeEnumField(default_value=1)
 
-    ParamLeafRightUpLegRoll5 = DoubleField()
+    ParamLeafRightUpLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightLegRoll5Mode = ParamLeafRightLegRoll5ModeEnumField()
+    ParamLeafRightLegRoll5Mode = ParamLeafRightLegRoll5ModeEnumField(default_value=1)
 
-    ParamLeafRightLegRoll5 = DoubleField()
+    ParamLeafRightLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftArmRoll5Mode = ParamLeafLeftArmRoll5ModeEnumField()
+    ParamLeafLeftArmRoll5Mode = ParamLeafLeftArmRoll5ModeEnumField(default_value=1)
 
-    ParamLeafLeftArmRoll5 = DoubleField()
+    ParamLeafLeftArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafLeftForeArmRoll5Mode = ParamLeafLeftForeArmRoll5ModeEnumField()
+    ParamLeafLeftForeArmRoll5Mode = ParamLeafLeftForeArmRoll5ModeEnumField(default_value=1)
 
-    ParamLeafLeftForeArmRoll5 = DoubleField()
+    ParamLeafLeftForeArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightArmRoll5Mode = ParamLeafRightArmRoll5ModeEnumField()
+    ParamLeafRightArmRoll5Mode = ParamLeafRightArmRoll5ModeEnumField(default_value=1)
 
-    ParamLeafRightArmRoll5 = DoubleField()
+    ParamLeafRightArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ParamLeafRightForeArmRoll5Mode = ParamLeafRightForeArmRoll5ModeEnumField()
+    ParamLeafRightForeArmRoll5Mode = ParamLeafRightForeArmRoll5ModeEnumField(default_value=1)
 
-    ParamLeafRightForeArmRoll5 = DoubleField()
+    ParamLeafRightForeArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    LeftLegFullRollExtractionMode = LeftLegFullRollExtractionModeEnumField()
+    LeftLegFullRollExtractionMode = LeftLegFullRollExtractionModeEnumField(default_value=1)
 
-    LeftLegFullRollExtraction = DoubleField()
+    LeftLegFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightLegFullRollExtractionMode = RightLegFullRollExtractionModeEnumField()
+    RightLegFullRollExtractionMode = RightLegFullRollExtractionModeEnumField(default_value=1)
 
-    RightLegFullRollExtraction = DoubleField()
+    RightLegFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftArmFullRollExtractionMode = LeftArmFullRollExtractionModeEnumField()
+    LeftArmFullRollExtractionMode = LeftArmFullRollExtractionModeEnumField(default_value=1)
 
-    LeftArmFullRollExtraction = DoubleField()
+    LeftArmFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    RightArmFullRollExtractionMode = RightArmFullRollExtractionModeEnumField()
+    RightArmFullRollExtractionMode = RightArmFullRollExtractionModeEnumField(default_value=1)
 
-    RightArmFullRollExtraction = DoubleField()
+    RightArmFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    NeckMotionReduction = DoubleField()
+    NeckMotionReduction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)

@@ -23,10 +23,10 @@ class UvTweakPlugOperator(
         ("uvTweakV", "tv"),
     )
 
-    uvTweakU = FloatField()
+    uvTweakU = FloatField(default_value=0.0)
     tu = uvTweakU
 
-    uvTweakV = FloatField()
+    uvTweakV = FloatField(default_value=0.0)
     tv = uvTweakV
 
 
@@ -35,10 +35,10 @@ class UvTweakAttrOperator(
 ):
     __slots__ = ()
 
-    uvTweakU = FloatField()
+    uvTweakU = FloatField(default_value=0.0)
     tu = uvTweakU
 
-    uvTweakV = FloatField()
+    uvTweakV = FloatField(default_value=0.0)
     tv = uvTweakV
 
 
@@ -62,16 +62,16 @@ class NewUVPlugOperator(
         ("newVValue", "nv"),
     )
 
-    faceId = LongField()
+    faceId = LongField(default_value=-1)
     fid = faceId
 
-    vertexId = LongField()
+    vertexId = LongField(default_value=0)
     vid = vertexId
 
-    newUValue = FloatField()
+    newUValue = FloatField(default_value=0.0)
     nu = newUValue
 
-    newVValue = FloatField()
+    newVValue = FloatField(default_value=0.0)
     nv = newVValue
 
 
@@ -80,16 +80,16 @@ class NewUVAttrOperator(
 ):
     __slots__ = ()
 
-    faceId = LongField()
+    faceId = LongField(default_value=-1)
     fid = faceId
 
-    vertexId = LongField()
+    vertexId = LongField(default_value=0)
     vid = vertexId
 
-    newUValue = FloatField()
+    newUValue = FloatField(default_value=0.0)
     nu = newUValue
 
-    newVValue = FloatField()
+    newVValue = FloatField(default_value=0.0)
     nv = newVValue
 
 

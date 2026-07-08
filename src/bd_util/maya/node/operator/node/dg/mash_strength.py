@@ -194,7 +194,7 @@ class MASH_Strength(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -205,21 +205,21 @@ class MASH_Strength(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -227,40 +227,40 @@ class MASH_Strength(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    time = TimeField()
+    time = TimeField(default_value=0.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    positionStrength = PositionStrengthField()
+    positionStrength = PositionStrengthField(default_value=(1.0, 1.0, 1.0))
     positionStrength0 = positionStrength.positionStrength0
     positionStrength1 = positionStrength.positionStrength1
     positionStrength2 = positionStrength.positionStrength2
 
-    rotationStrength = RotationStrengthField()
+    rotationStrength = RotationStrengthField(default_value=(1.0, 1.0, 1.0))
     rotationStrength0 = rotationStrength.rotationStrength0
     rotationStrength1 = rotationStrength.rotationStrength1
     rotationStrength2 = rotationStrength.rotationStrength2
 
-    scaleStrength = ScaleStrengthField()
+    scaleStrength = ScaleStrengthField(default_value=(1.0, 1.0, 1.0))
     scaleStrength0 = scaleStrength.scaleStrength0
     scaleStrength1 = scaleStrength.scaleStrength1
     scaleStrength2 = scaleStrength.scaleStrength2
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    positionDelay = FloatField()
+    positionDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
 
-    rotationDelay = FloatField()
+    rotationDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
 
-    scaleDelay = FloatField()
+    scaleDelay = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
 
-    positionStrengthMap = PositionStrengthMapField()
+    positionStrengthMap = PositionStrengthMapField(default_value=(1.0, 1.0, 1.0))
     positionStrengthMapR = positionStrengthMap.positionStrengthMapR
     positionStrengthMapr = positionStrengthMapR
     positionStrengthMapG = positionStrengthMap.positionStrengthMapG
@@ -268,7 +268,7 @@ class MASH_Strength(DG):
     positionStrengthMapB = positionStrengthMap.positionStrengthMapB
     positionStrengthMapb = positionStrengthMapB
 
-    rotationStrengthMap = RotationStrengthMapField()
+    rotationStrengthMap = RotationStrengthMapField(default_value=(1.0, 1.0, 1.0))
     rotationStrengthMapR = rotationStrengthMap.rotationStrengthMapR
     rotationStrengthMapr = rotationStrengthMapR
     rotationStrengthMapG = rotationStrengthMap.rotationStrengthMapG
@@ -276,7 +276,7 @@ class MASH_Strength(DG):
     rotationStrengthMapB = rotationStrengthMap.rotationStrengthMapB
     rotationStrengthMapb = rotationStrengthMapB
 
-    scaleStrengthMap = ScaleStrengthMapField()
+    scaleStrengthMap = ScaleStrengthMapField(default_value=(1.0, 1.0, 1.0))
     scaleStrengthMapR = scaleStrengthMap.scaleStrengthMapR
     scaleStrengthMapr = scaleStrengthMapR
     scaleStrengthMapG = scaleStrengthMap.scaleStrengthMapG
@@ -284,23 +284,23 @@ class MASH_Strength(DG):
     scaleStrengthMapB = scaleStrengthMap.scaleStrengthMapB
     scaleStrengthMapb = scaleStrengthMapB
 
-    reversePosition = BoolField()
+    reversePosition = BoolField(default_value=False)
 
-    reverseRotation = BoolField()
+    reverseRotation = BoolField(default_value=False)
 
-    reverseScale = BoolField()
+    reverseScale = BoolField(default_value=False)
 
-    positionRandomise = BoolField()
+    positionRandomise = BoolField(default_value=False)
 
-    rotationRandomise = BoolField()
+    rotationRandomise = BoolField(default_value=False)
 
-    scaleRandomise = BoolField()
+    scaleRandomise = BoolField(default_value=False)
 
-    affectsPosition = BoolField()
+    affectsPosition = BoolField(default_value=False)
 
-    affectsRotation = BoolField()
+    affectsRotation = BoolField(default_value=False)
 
-    affectsScale = BoolField()
+    affectsScale = BoolField(default_value=True)
 
     positionMapMatrix = MatrixField()
 
@@ -308,8 +308,8 @@ class MASH_Strength(DG):
 
     scaleMapMatrix = MatrixField()
 
-    posMapDirection = PosMapDirectionEnumField()
+    posMapDirection = PosMapDirectionEnumField(default_value=2)
 
-    rotMapDirection = RotMapDirectionEnumField()
+    rotMapDirection = RotMapDirectionEnumField(default_value=2)
 
-    scaleMapDirection = ScaleMapDirectionEnumField()
+    scaleMapDirection = ScaleMapDirectionEnumField(default_value=2)

@@ -54,7 +54,7 @@ class AiCameraProjection(DG):
 
     NODE_TYPE = "aiCameraProjection"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -63,10 +63,10 @@ class AiCameraProjection(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -75,10 +75,10 @@ class AiCameraProjection(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    projectionColorA = FloatField()
+    projectionColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     projection_colora = projectionColorA
 
-    projectionColor = ProjectionColorField()
+    projectionColor = ProjectionColorField(default_value=(1.0, 1.0, 1.0))
     projection_color = projectionColor
     projectionColorR = projectionColor.projectionColorR
     projection_colorr = projectionColorR
@@ -87,10 +87,10 @@ class AiCameraProjection(DG):
     projectionColorB = projectionColor.projectionColorB
     projection_colorb = projectionColorB
 
-    offscreenColorA = FloatField()
+    offscreenColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     offscreen_colora = offscreenColorA
 
-    offscreenColor = OffscreenColorField()
+    offscreenColor = OffscreenColorField(default_value=(0.0, 0.0, 0.0))
     offscreen_color = offscreenColor
     offscreenColorR = offscreenColor.offscreenColorR
     offscreen_colorr = offscreenColorR
@@ -99,29 +99,29 @@ class AiCameraProjection(DG):
     offscreenColorB = offscreenColor.offscreenColorB
     offscreen_colorb = offscreenColorB
 
-    mask = FloatField()
+    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
 
     camera = MessageField()
 
-    aspectRatio = FloatField()
+    aspectRatio = FloatField(default_value=1.3329999446868896, min_value=9.999999747378752e-05, soft_max_value=3.0)
     aspect_ratio = aspectRatio
 
-    frontFacing = BoolField()
+    frontFacing = BoolField(default_value=True)
     front_facing = frontFacing
 
-    backFacing = BoolField()
+    backFacing = BoolField(default_value=True)
     back_facing = backFacing
 
-    useShadingNormal = BoolField()
+    useShadingNormal = BoolField(default_value=False)
     use_shading_normal = useShadingNormal
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=0)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    P = PField()
+    P = PField(default_value=(0.0, 0.0, 0.0))
     PX = P.PX
     Px = PX
     PY = P.PY

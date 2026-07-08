@@ -20,7 +20,7 @@ class Bump3d(DG):
 
     NODE_TYPE = "bump3d"
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -29,7 +29,7 @@ class Bump3d(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -38,7 +38,7 @@ class Bump3d(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rpox = refPointObjX
@@ -47,7 +47,7 @@ class Bump3d(DG):
     refPointObjZ = refPointObj.refPointObjZ
     rpoz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -56,7 +56,7 @@ class Bump3d(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    rayOrigin = RayOriginField()
+    rayOrigin = RayOriginField(default_value=(0.0, 0.0, 0.0))
     ro = rayOrigin
     rayOriginX = rayOrigin.rayOriginX
     rox = rayOriginX
@@ -65,13 +65,13 @@ class Bump3d(DG):
     rayOriginZ = rayOrigin.rayOriginZ
     roz = rayOriginZ
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -80,7 +80,7 @@ class Bump3d(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    tangentUCamera = TangentUCameraField()
+    tangentUCamera = TangentUCameraField(default_value=(1.0, 0.0, 0.0))
     tu = tangentUCamera
     tangentUx = tangentUCamera.tangentUx
     tux = tangentUx
@@ -89,7 +89,7 @@ class Bump3d(DG):
     tangentUz = tangentUCamera.tangentUz
     tuz = tangentUz
 
-    tangentVCamera = TangentVCameraField()
+    tangentVCamera = TangentVCameraField(default_value=(0.0, 1.0, 0.0))
     tv = tangentVCamera
     tangentVx = tangentVCamera.tangentVx
     tvx = tangentVx
@@ -98,19 +98,19 @@ class Bump3d(DG):
     tangentVz = tangentVCamera.tangentVz
     tvz = tangentVz
 
-    bumpDepth = FloatField()
+    bumpDepth = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
     bd = bumpDepth
 
-    bumpFilter = FloatField()
+    bumpFilter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     bf = bumpFilter
 
-    bumpFilterOffset = FloatField()
+    bumpFilterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     bfo = bumpFilterOffset
 
-    bumpValue = FloatField()
+    bumpValue = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     bv = bumpValue
 
-    outNormal = OutNormalField()
+    outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)
     o = outNormal
     outNormalX = outNormal.outNormalX
     ox = outNormalX

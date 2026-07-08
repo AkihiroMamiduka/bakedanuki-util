@@ -12,7 +12,7 @@ class SurfaceLuminance(DG):
 
     NODE_TYPE = "surfaceLuminance"
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -21,7 +21,7 @@ class SurfaceLuminance(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -42,5 +42,5 @@ class SurfaceLuminance(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     o = outValue

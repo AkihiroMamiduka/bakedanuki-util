@@ -21,7 +21,7 @@ class LooksPlugOperator(
     variantName = DataStringField()
     name_ = variantName
 
-    inputs = MessageField()
+    inputs = MessageField(multi=True)
     ipts = inputs
 
 
@@ -33,7 +33,7 @@ class LooksAttrOperator(
     variantName = DataStringField()
     name_ = variantName
 
-    inputs = MessageField()
+    inputs = MessageField(multi=True)
     ipts = inputs
 
 

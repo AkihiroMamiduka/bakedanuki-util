@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class PassthroughPlugOperator(
         ("passthroughB", "passthroughb"),
     )
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB
 
 
@@ -139,13 +139,13 @@ class PassthroughAttrOperator(
 ):
     __slots__ = ()
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB
 
 
@@ -157,11 +157,11 @@ class PassthroughField(
     ATTR_CLS = PassthroughAttrOperator
     PLUG_CLS = PassthroughPlugOperator
 
-    passthroughR = FloatField()
+    passthroughR = FloatField(default_value=0.0)
     passthroughr = passthroughR
 
-    passthroughG = FloatField()
+    passthroughG = FloatField(default_value=0.0)
     passthroughg = passthroughG
 
-    passthroughB = FloatField()
+    passthroughB = FloatField(default_value=0.0)
     passthroughb = passthroughB

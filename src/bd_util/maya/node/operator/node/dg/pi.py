@@ -8,5 +8,5 @@ class Pi(DG):
 
     NODE_TYPE = "pi"
 
-    output = DoubleAngleField()
+    output = DoubleAngleField(default_value=180.0, writable=False)
     o = output

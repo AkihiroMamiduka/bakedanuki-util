@@ -49,17 +49,17 @@ class CloseCurve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    preserveShape = PreserveShapeEnumField()
+    preserveShape = PreserveShapeEnumField(default_value=1)
     ps = preserveShape
 
-    blendBias = DoubleField()
+    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     bb = blendBias
 
-    blendKnotInsertion = BoolField()
+    blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField()
+    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
     p = parameter
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

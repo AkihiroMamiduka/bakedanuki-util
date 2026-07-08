@@ -10,11 +10,11 @@ class ColumnFromMatrix(DG):
 
     NODE_TYPE = "columnFromMatrix"
 
-    input = LongField()
+    input = LongField(default_value=0, min_value=0, max_value=3, readable=False)
     i = input
 
-    matrix = MatrixField()
+    matrix = MatrixField(readable=False)
     m = matrix
 
-    output = Double4Field()
+    output = Double4Field(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
     o = output

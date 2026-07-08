@@ -15,7 +15,7 @@ class ColorPerVertexPlugOperator(
         ("vertexColor", "vclr"),
     )
 
-    vertexColor = CompoundField()
+    vertexColor = CompoundField(multi=True)
     vclr = vertexColor
 
 
@@ -24,7 +24,7 @@ class ColorPerVertexAttrOperator(
 ):
     __slots__ = ()
 
-    vertexColor = CompoundField()
+    vertexColor = CompoundField(multi=True)
     vclr = vertexColor
 
 
@@ -36,5 +36,5 @@ class ColorPerVertexField(
     ATTR_CLS = ColorPerVertexAttrOperator
     PLUG_CLS = ColorPerVertexPlugOperator
 
-    vertexColor = CompoundField()
+    vertexColor = CompoundField(multi=True)
     vclr = vertexColor

@@ -17,7 +17,7 @@ class AiClipGeo(DG):
 
     NODE_TYPE = "aiClipGeo"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -26,10 +26,10 @@ class AiClipGeo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,7 +38,7 @@ class AiClipGeo(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -47,7 +47,7 @@ class AiClipGeo(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -56,10 +56,10 @@ class AiClipGeo(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    intersectionA = FloatField()
+    intersectionA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     intersectiona = intersectionA
 
-    intersection = IntersectionField()
+    intersection = IntersectionField(default_value=(0.0, 0.0, 0.0))
     intersectionR = intersection.intersectionR
     intersectionr = intersectionR
     intersectionG = intersection.intersectionG
@@ -70,4 +70,4 @@ class AiClipGeo(DG):
     traceSet = DataStringField()
     trace_set = traceSet
 
-    inclusive = BoolField()
+    inclusive = BoolField(default_value=True)

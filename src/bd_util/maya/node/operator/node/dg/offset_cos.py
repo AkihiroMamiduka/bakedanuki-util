@@ -51,26 +51,26 @@ class OffsetCos(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    cutLoop = BoolField()
+    cutLoop = BoolField(default_value=False)
     cl = cutLoop
 
-    connectBreaks = ConnectBreaksEnumField()
+    connectBreaks = ConnectBreaksEnumField(default_value=2)
     cb = connectBreaks
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
     d = distance
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.001, soft_max_value=0.5)
     tol = tolerance
 
-    subdivisionDensity = LongField()
+    subdivisionDensity = LongField(default_value=5, min_value=0, max_value=100, soft_max_value=10)
     sd = subdivisionDensity
 
-    checkPoints = ShortField()
+    checkPoints = ShortField(default_value=3, min_value=1, max_value=100, soft_max_value=10)
     cp = checkPoints
 
-    stitch = BoolField()
+    stitch = BoolField(default_value=True)
     st = stitch
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve

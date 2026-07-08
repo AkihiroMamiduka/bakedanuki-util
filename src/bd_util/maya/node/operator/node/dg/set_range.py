@@ -15,7 +15,7 @@ class SetRange(DG):
 
     NODE_TYPE = "setRange"
 
-    value = ValueField()
+    value = ValueField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
     v = value
     valueX = value.valueX
     vx = valueX
@@ -24,7 +24,7 @@ class SetRange(DG):
     valueZ = value.valueZ
     vz = valueZ
 
-    min = MinField()
+    min = MinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     n = min
     minX = min.minX
     nx = minX
@@ -33,7 +33,7 @@ class SetRange(DG):
     minZ = min.minZ
     nz = minZ
 
-    max = MaxField()
+    max = MaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     m = max
     maxX = max.maxX
     mx = maxX
@@ -42,7 +42,7 @@ class SetRange(DG):
     maxZ = max.maxZ
     mz = maxZ
 
-    oldMin = OldMinField()
+    oldMin = OldMinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     on = oldMin
     oldMinX = oldMin.oldMinX
     onx = oldMinX
@@ -51,7 +51,7 @@ class SetRange(DG):
     oldMinZ = oldMin.oldMinZ
     onz = oldMinZ
 
-    oldMax = OldMaxField()
+    oldMax = OldMaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     om = oldMax
     oldMaxX = oldMax.oldMaxX
     omx = oldMaxX
@@ -60,7 +60,7 @@ class SetRange(DG):
     oldMaxZ = oldMax.oldMaxZ
     omz = oldMaxZ
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = outValue
     outValueX = outValue.outValueX
     ox = outValueX

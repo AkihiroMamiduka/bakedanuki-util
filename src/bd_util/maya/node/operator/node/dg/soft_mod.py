@@ -119,22 +119,22 @@ class SoftMod(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -146,16 +146,16 @@ class SoftMod(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    percentResolution = FloatField()
+    percentResolution = FloatField(default_value=5.0, min_value=0.0, max_value=10.0)
     ptr = percentResolution
 
-    usePartialResolution = UsePartialResolutionEnumField()
+    usePartialResolution = UsePartialResolutionEnumField(default_value=0)
     upr = usePartialResolution
 
-    relative = BoolField()
+    relative = BoolField(default_value=False)
     rel = relative
 
     softModXforms = SoftModXformsField()
@@ -179,13 +179,13 @@ class SoftMod(DG):
     bindPreMatrix = DataMatrixField()
     pm = bindPreMatrix
 
-    falloffCurve = FalloffCurveField(multi=True)
+    falloffCurve = FalloffCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     fc = falloffCurve
 
-    falloffRadius = DoubleLinearField()
+    falloffRadius = DoubleLinearField(default_value=5.0, soft_min_value=0.0, soft_max_value=25.0)
     fr = falloffRadius
 
-    falloffCenter = FalloffCenterField()
+    falloffCenter = FalloffCenterField(default_value=(0.0, 0.0, 0.0))
     fcr = falloffCenter
     falloffCenterX = falloffCenter.falloffCenterX
     fcx = falloffCenterX
@@ -194,41 +194,41 @@ class SoftMod(DG):
     falloffCenterZ = falloffCenter.falloffCenterZ
     fcz = falloffCenterZ
 
-    falloffInX = BoolField()
+    falloffInX = BoolField(default_value=True)
     fix = falloffInX
 
-    falloffInY = BoolField()
+    falloffInY = BoolField(default_value=True)
     fiy = falloffInY
 
-    falloffInZ = BoolField()
+    falloffInZ = BoolField(default_value=True)
     fiz = falloffInZ
 
-    falloffAroundSelection = BoolField()
+    falloffAroundSelection = BoolField(default_value=False)
     fas = falloffAroundSelection
 
-    falloffMasking = BoolField()
+    falloffMasking = BoolField(default_value=True)
     fm = falloffMasking
 
     influenceMatrix = DataMatrixField()
     im = influenceMatrix
 
-    angleInterpolation = AngleInterpolationEnumField()
+    angleInterpolation = AngleInterpolationEnumField(default_value=0)
     ait = angleInterpolation
 
-    useDistanceCache = BoolField()
+    useDistanceCache = BoolField(default_value=True)
     udc = useDistanceCache
 
-    limitCacheUpdates = BoolField()
+    limitCacheUpdates = BoolField(default_value=False)
     lcu = limitCacheUpdates
 
-    distanceCacheDirty = BoolField()
+    distanceCacheDirty = BoolField(default_value=True, writable=False)
     dcd = distanceCacheDirty
 
-    falloffMode = FalloffModeEnumField()
+    falloffMode = FalloffModeEnumField(default_value=0)
     fom = falloffMode
 
-    distanceCache = TypedField(multi=True)
+    distanceCache = TypedField(multi=True, writable=False)
     dic = distanceCache
 
-    fastFalloffCenter = BoolField()
+    fastFalloffCenter = BoolField(default_value=False)
     ffc = fastFalloffCenter

@@ -100,13 +100,13 @@ class Membrane(DG):
     outputMesh = DataMeshField()
     omsh = outputMesh
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     enb = enable
 
-    gravity = FloatField()
+    gravity = FloatField(default_value=9.800000190734863, soft_min_value=0.0, soft_max_value=100.0)
     grty = gravity
 
-    gravityDirection = GravityDirectionField()
+    gravityDirection = GravityDirectionField(default_value=(0.0, -1.0, 0.0))
     grdi = gravityDirection
     gravityDirectionX = gravityDirection.gravityDirectionX
     grdx = gravityDirectionX
@@ -115,10 +115,10 @@ class Membrane(DG):
     gravityDirectionZ = gravityDirection.gravityDirectionZ
     grdz = gravityDirectionZ
 
-    windSpeed = FloatField()
+    windSpeed = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
     wisp = windSpeed
 
-    windDirection = WindDirectionField()
+    windDirection = WindDirectionField(default_value=(1.0, 0.0, 0.0))
     widi = windDirection
     windDirectionX = windDirection.windDirectionX
     widx = windDirectionX
@@ -127,16 +127,16 @@ class Membrane(DG):
     windDirectionZ = windDirection.windDirectionZ
     widz = windDirectionZ
 
-    turbulence = FloatField()
+    turbulence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     trb = turbulence
 
-    turbulenceTime = FloatField()
+    turbulenceTime = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     trt = turbulenceTime
 
-    turbulenceFrequency = FloatField()
+    turbulenceFrequency = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     tf = turbulenceFrequency
 
-    turbulenceOffset = TurbulenceOffsetField()
+    turbulenceOffset = TurbulenceOffsetField(default_value=(0.0, 0.0, 0.0), soft_min_value=(-10.0, -10.0, -10.0), soft_max_value=(10.0, 10.0, 10.0))
     to = turbulenceOffset
     turbulenceOffsetX = turbulenceOffset.turbulenceOffsetX
     tox = turbulenceOffsetX
@@ -145,79 +145,79 @@ class Membrane(DG):
     turbulenceOffsetZ = turbulenceOffset.turbulenceOffsetZ
     toz = turbulenceOffsetZ
 
-    lift = FloatField()
+    lift = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     lft = lift
 
-    drag = FloatField()
+    drag = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=2.0)
     drg = drag
 
-    tangentialDrag = FloatField()
+    tangentialDrag = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
     tdrg = tangentialDrag
 
-    steps = LongField()
+    steps = LongField(default_value=1, soft_min_value=1, soft_max_value=20)
     stps = steps
 
-    subSteps = LongField()
+    subSteps = LongField(default_value=3, soft_min_value=1, soft_max_value=20)
     sstp = subSteps
 
-    stepSize = FloatField()
+    stepSize = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     stsz = stepSize
 
-    spaceScale = FloatField()
+    spaceScale = FloatField(default_value=1.0, soft_min_value=0.01, soft_max_value=10.0)
     spsc = spaceScale
 
-    thickness = FloatField()
+    thickness = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=1.0)
     thss = thickness
 
-    friction = FloatField()
+    friction = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=1.0)
     fron = friction
 
-    selfCollisionFlag = SelfCollisionFlagEnumField()
+    selfCollisionFlag = SelfCollisionFlagEnumField(default_value=3)
     scfl = selfCollisionFlag
 
-    restLengthScale = FloatField()
+    restLengthScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     rlsc = restLengthScale
 
-    collide = BoolField()
+    collide = BoolField(default_value=True)
     cold = collide
 
-    selfCollide = BoolField()
+    selfCollide = BoolField(default_value=False)
     scld = selfCollide
 
-    selfCollideWidthScale = FloatField()
+    selfCollideWidthScale = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=2.0)
     scws = selfCollideWidthScale
 
-    pushOut = FloatField()
+    pushOut = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     pou = pushOut
 
-    pushOutRadius = FloatField()
+    pushOutRadius = FloatField(default_value=2.0, min_value=0.0, soft_max_value=100.0)
     por = pushOutRadius
 
-    stretchResistance = FloatField()
+    stretchResistance = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=200.0)
     stch = stretchResistance
 
-    compressionResistance = FloatField()
+    compressionResistance = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=200.0)
     comr = compressionResistance
 
-    bendResistance = FloatField()
+    bendResistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=200.0)
     bnd = bendResistance
 
-    bendAngleDropoff = FloatField()
+    bendAngleDropoff = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     bnad = bendAngleDropoff
 
-    shearResistance = FloatField()
+    shearResistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=200.0)
     shr = shearResistance
 
-    bendAngleScale = FloatField()
+    bendAngleScale = FloatField(default_value=1.0, soft_min_value=-2.0, soft_max_value=2.0)
     basc = bendAngleScale
 
-    rigidity = FloatField()
+    rigidity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     rity = rigidity
 
-    pressure = FloatField()
+    pressure = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     pres = pressure
 
-    pressureMethod = PressureMethodEnumField()
+    pressureMethod = PressureMethodEnumField(default_value=0)
     pmth = pressureMethod
 
     weightPerVertex = DataDoubleArrayField()

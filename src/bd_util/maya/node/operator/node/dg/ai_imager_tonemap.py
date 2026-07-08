@@ -47,34 +47,34 @@ class AiImagerTonemap(DG):
 
     NODE_TYPE = "aiImagerTonemap"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    filmicToeStrength = FloatField()
+    filmicToeStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     filmic_toe_strength = filmicToeStrength
 
-    filmicToeLength = FloatField()
+    filmicToeLength = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     filmic_toe_length = filmicToeLength
 
-    filmicShoulderStrength = FloatField()
+    filmicShoulderStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     filmic_shoulder_strength = filmicShoulderStrength
 
-    filmicShoulderLength = FloatField()
+    filmicShoulderLength = FloatField(default_value=0.5, min_value=0.0, soft_max_value=3.0)
     filmic_shoulder_length = filmicShoulderLength
 
-    filmicShoulderAngle = FloatField()
+    filmicShoulderAngle = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     filmic_shoulder_angle = filmicShoulderAngle
 
-    reinhardHighlights = FloatField()
+    reinhardHighlights = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     reinhard_highlights = reinhardHighlights
 
-    reinhardShadows = FloatField()
+    reinhardShadows = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     reinhard_shadows = reinhardShadows
 
     lutFilename = DataStringField()
@@ -83,9 +83,9 @@ class AiImagerTonemap(DG):
     lutWorkingColorSpace = DataStringField()
     lut_working_color_space = lutWorkingColorSpace
 
-    preserveSaturation = BoolField()
+    preserveSaturation = BoolField(default_value=False)
     preserve_saturation = preserveSaturation
 
-    gamma = FloatField()
+    gamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
-    mix = FloatField()
+    mix = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)

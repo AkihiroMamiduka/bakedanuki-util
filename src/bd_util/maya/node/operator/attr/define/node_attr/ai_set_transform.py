@@ -18,13 +18,13 @@ class TranslatePlugOperator(
         ("translateZ", "translatez"),
     )
 
-    translateX = FloatField()
+    translateX = FloatField(default_value=0.0)
     translatex = translateX
 
-    translateY = FloatField()
+    translateY = FloatField(default_value=0.0)
     translatey = translateY
 
-    translateZ = FloatField()
+    translateZ = FloatField(default_value=0.0)
     translatez = translateZ
 
 
@@ -33,13 +33,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = FloatField()
+    translateX = FloatField(default_value=0.0)
     translatex = translateX
 
-    translateY = FloatField()
+    translateY = FloatField(default_value=0.0)
     translatey = translateY
 
-    translateZ = FloatField()
+    translateZ = FloatField(default_value=0.0)
     translatez = translateZ
 
 
@@ -51,13 +51,13 @@ class TranslateField(
     ATTR_CLS = TranslateAttrOperator
     PLUG_CLS = TranslatePlugOperator
 
-    translateX = FloatField()
+    translateX = FloatField(default_value=0.0)
     translatex = translateX
 
-    translateY = FloatField()
+    translateY = FloatField(default_value=0.0)
     translatey = translateY
 
-    translateZ = FloatField()
+    translateZ = FloatField(default_value=0.0)
     translatez = translateZ
 
 
@@ -71,13 +71,13 @@ class RotatePlugOperator(
         ("rotateZ", "rotatez"),
     )
 
-    rotateX = FloatField()
+    rotateX = FloatField(default_value=0.0)
     rotatex = rotateX
 
-    rotateY = FloatField()
+    rotateY = FloatField(default_value=0.0)
     rotatey = rotateY
 
-    rotateZ = FloatField()
+    rotateZ = FloatField(default_value=0.0)
     rotatez = rotateZ
 
 
@@ -86,13 +86,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = FloatField()
+    rotateX = FloatField(default_value=0.0)
     rotatex = rotateX
 
-    rotateY = FloatField()
+    rotateY = FloatField(default_value=0.0)
     rotatey = rotateY
 
-    rotateZ = FloatField()
+    rotateZ = FloatField(default_value=0.0)
     rotatez = rotateZ
 
 
@@ -104,13 +104,13 @@ class RotateField(
     ATTR_CLS = RotateAttrOperator
     PLUG_CLS = RotatePlugOperator
 
-    rotateX = FloatField()
+    rotateX = FloatField(default_value=0.0)
     rotatex = rotateX
 
-    rotateY = FloatField()
+    rotateY = FloatField(default_value=0.0)
     rotatey = rotateY
 
-    rotateZ = FloatField()
+    rotateZ = FloatField(default_value=0.0)
     rotatez = rotateZ
 
 
@@ -124,13 +124,13 @@ class ScalePlugOperator(
         ("scaleZ", "scalez"),
     )
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ
 
 
@@ -139,13 +139,13 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ
 
 
@@ -157,11 +157,11 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=1.0)
     scalex = scaleX
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=1.0)
     scaley = scaleY
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=1.0)
     scalez = scaleZ

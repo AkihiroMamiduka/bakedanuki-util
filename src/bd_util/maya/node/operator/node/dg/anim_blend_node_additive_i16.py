@@ -43,23 +43,23 @@ class AnimBlendNodeAdditiveI16(DG):
 
     NODE_TYPE = "animBlendNodeAdditiveI16"
 
-    weightA = DoubleField()
+    weightA = DoubleField(default_value=1.0)
     wa = weightA
 
-    weightB = DoubleField()
+    weightB = DoubleField(default_value=1.0)
     wb = weightB
 
     destinationPlug = DataStringField(multi=True)
     dp = destinationPlug
 
-    inputA = ShortField()
+    inputA = ShortField(default_value=0)
     ia = inputA
 
-    inputB = ShortField()
+    inputB = ShortField(default_value=0)
     ib = inputB
 
-    output = ShortField()
+    output = ShortField(default_value=0)
     o = output
 
-    interpolateMode = InterpolateModeEnumField()
+    interpolateMode = InterpolateModeEnumField(default_value=0)
     im = interpolateMode

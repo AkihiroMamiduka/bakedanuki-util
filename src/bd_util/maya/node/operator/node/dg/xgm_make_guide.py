@@ -17,7 +17,7 @@ class XgmMakeGuide(DG):
     cGeom = DataPointArrayField()
     cgm = cGeom
 
-    minCount = LongField()
+    minCount = LongField(default_value=0, min_value=1)
     mct = minCount
 
     frame = DataVectorArrayField()
@@ -26,10 +26,10 @@ class XgmMakeGuide(DG):
     override = DataNurbsCurveField()
     ovr = override
 
-    outputMesh = TypedField()
+    outputMesh = TypedField(writable=False)
     os = outputMesh
 
-    geomHitIn = BoolField()
+    geomHitIn = BoolField(default_value=False)
     gi = geomHitIn
 
     toGuide = MessageField()

@@ -57,13 +57,13 @@ class ProfileCurvePlugOperator(
         ("profileCurve_Interp", "pi"),
     )
 
-    profileCurve_Position = FloatField()
+    profileCurve_Position = FloatField(default_value=0.0)
     pp = profileCurve_Position
 
-    profileCurve_FloatValue = FloatField()
+    profileCurve_FloatValue = FloatField(default_value=0.0)
     pfv = profileCurve_FloatValue
 
-    profileCurve_Interp = ProfileCurve_InterpEnumField()
+    profileCurve_Interp = ProfileCurve_InterpEnumField(default_value=0)
     pi = profileCurve_Interp
 
 
@@ -72,13 +72,13 @@ class ProfileCurveAttrOperator(
 ):
     __slots__ = ()
 
-    profileCurve_Position = FloatField()
+    profileCurve_Position = FloatField(default_value=0.0)
     pp = profileCurve_Position
 
-    profileCurve_FloatValue = FloatField()
+    profileCurve_FloatValue = FloatField(default_value=0.0)
     pfv = profileCurve_FloatValue
 
-    profileCurve_Interp = ProfileCurve_InterpEnumField()
+    profileCurve_Interp = ProfileCurve_InterpEnumField(default_value=0)
     pi = profileCurve_Interp
 
 

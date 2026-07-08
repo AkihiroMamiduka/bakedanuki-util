@@ -10,10 +10,10 @@ class AiFloatToMatrix(DG):
 
     NODE_TYPE = "aiFloatToMatrix"
 
-    outValue = FltMatrixField()
+    outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -22,50 +22,50 @@ class AiFloatToMatrix(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input00 = FloatField()
+    input00 = FloatField(default_value=1.0)
     input_00 = input00
 
-    input01 = FloatField()
+    input01 = FloatField(default_value=0.0)
     input_01 = input01
 
-    input02 = FloatField()
+    input02 = FloatField(default_value=0.0)
     input_02 = input02
 
-    input03 = FloatField()
+    input03 = FloatField(default_value=0.0)
     input_03 = input03
 
-    input10 = FloatField()
+    input10 = FloatField(default_value=0.0)
     input_10 = input10
 
-    input11 = FloatField()
+    input11 = FloatField(default_value=1.0)
     input_11 = input11
 
-    input12 = FloatField()
+    input12 = FloatField(default_value=0.0)
     input_12 = input12
 
-    input13 = FloatField()
+    input13 = FloatField(default_value=0.0)
     input_13 = input13
 
-    input20 = FloatField()
+    input20 = FloatField(default_value=0.0)
     input_20 = input20
 
-    input21 = FloatField()
+    input21 = FloatField(default_value=0.0)
     input_21 = input21
 
-    input22 = FloatField()
+    input22 = FloatField(default_value=1.0)
     input_22 = input22
 
-    input23 = FloatField()
+    input23 = FloatField(default_value=0.0)
     input_23 = input23
 
-    input30 = FloatField()
+    input30 = FloatField(default_value=0.0)
     input_30 = input30
 
-    input31 = FloatField()
+    input31 = FloatField(default_value=0.0)
     input_31 = input31
 
-    input32 = FloatField()
+    input32 = FloatField(default_value=0.0)
     input_32 = input32
 
-    input33 = FloatField()
+    input33 = FloatField(default_value=1.0)
     input_33 = input33

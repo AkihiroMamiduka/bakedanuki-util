@@ -27,10 +27,10 @@ class ColliderPlugOperator(
     colliderMatrix = MatrixField()
     cmx = colliderMatrix
 
-    colliderEnabled = BoolField()
+    colliderEnabled = BoolField(default_value=True)
     ce = colliderEnabled
 
-    colliderNormalFlipped = BoolField()
+    colliderNormalFlipped = BoolField(default_value=False)
     cnf = colliderNormalFlipped
 
 
@@ -45,10 +45,10 @@ class ColliderAttrOperator(
     colliderMatrix = MatrixField()
     cmx = colliderMatrix
 
-    colliderEnabled = BoolField()
+    colliderEnabled = BoolField(default_value=True)
     ce = colliderEnabled
 
-    colliderNormalFlipped = BoolField()
+    colliderNormalFlipped = BoolField(default_value=False)
     cnf = colliderNormalFlipped
 
 

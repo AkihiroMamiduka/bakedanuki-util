@@ -136,7 +136,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -151,7 +151,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -175,7 +175,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -184,7 +184,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -207,13 +207,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -222,13 +222,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -240,13 +240,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -258,7 +258,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -266,7 +266,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -289,16 +289,16 @@ class ControlDataPlugOperator(
         ("up", "u"),
     )
 
-    point = CompoundField()
+    point = CompoundField(default_value=(0.0, 0.0, 0.0))
     pt = point
 
-    pointJiggle = CompoundField()
+    pointJiggle = CompoundField(default_value=(0.0, 0.0, 0.0))
     pj = pointJiggle
 
-    tangent = CompoundField()
+    tangent = CompoundField(default_value=(0.0, 0.0, 0.0))
     tg = tangent
 
-    up = CompoundField()
+    up = CompoundField(default_value=(0.0, 0.0, 0.0))
     u = up
 
 
@@ -307,16 +307,16 @@ class ControlDataAttrOperator(
 ):
     __slots__ = ()
 
-    point = CompoundField()
+    point = CompoundField(default_value=(0.0, 0.0, 0.0))
     pt = point
 
-    pointJiggle = CompoundField()
+    pointJiggle = CompoundField(default_value=(0.0, 0.0, 0.0))
     pj = pointJiggle
 
-    tangent = CompoundField()
+    tangent = CompoundField(default_value=(0.0, 0.0, 0.0))
     tg = tangent
 
-    up = CompoundField()
+    up = CompoundField(default_value=(0.0, 0.0, 0.0))
     u = up
 
 
@@ -340,16 +340,16 @@ class ControlDataBasePlugOperator(
         ("upBase", "ub"),
     )
 
-    pointBase = CompoundField()
+    pointBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     ptb = pointBase
 
-    pointJiggleBase = CompoundField()
+    pointJiggleBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     pjb = pointJiggleBase
 
-    tangentBase = CompoundField()
+    tangentBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     tgb = tangentBase
 
-    upBase = CompoundField()
+    upBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     ub = upBase
 
 
@@ -358,16 +358,16 @@ class ControlDataBaseAttrOperator(
 ):
     __slots__ = ()
 
-    pointBase = CompoundField()
+    pointBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     ptb = pointBase
 
-    pointJiggleBase = CompoundField()
+    pointJiggleBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     pjb = pointJiggleBase
 
-    tangentBase = CompoundField()
+    tangentBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     tgb = tangentBase
 
-    upBase = CompoundField()
+    upBase = CompoundField(default_value=(0.0, 0.0, 0.0))
     ub = upBase
 
 
@@ -414,85 +414,85 @@ class SquashDataPlugOperator(
         ("stretchZEnd", "stzend"),
     )
 
-    STATE = STATEEnumField()
+    STATE = STATEEnumField(default_value=0)
     STA = STATE
 
-    curLen = DoubleField()
+    curLen = DoubleField(default_value=1.0, min_value=0.0001)
     clen = curLen
 
-    pctSquash = DoubleField()
+    pctSquash = DoubleField(default_value=0.0)
     psq = pctSquash
 
-    pctStretch = DoubleField()
+    pctStretch = DoubleField(default_value=0.0)
     pst = pctStretch
 
-    soften = DoubleField()
+    soften = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     sft = soften
 
-    biasX = DoubleField()
+    biasX = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bix = biasX
 
-    biasZ = DoubleField()
+    biasZ = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     biz = biasZ
 
-    biasTolernace = DoubleField()
+    biasTolernace = DoubleField(default_value=1e-05, min_value=0.0)
     btol = biasTolernace
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    SHAPING = SHAPINGEnumField()
+    SHAPING = SHAPINGEnumField(default_value=0)
     SHA = SHAPING
 
-    enableShaping = BoolField()
+    enableShaping = BoolField(default_value=False)
     eshp = enableShaping
 
-    shapingBlend = DoubleField()
+    shapingBlend = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     shbl = shapingBlend
 
-    SQUASH = SQUASHEnumField()
+    SQUASH = SQUASHEnumField(default_value=0)
     SQA = SQUASH
 
-    squashXStart = DoubleField()
+    squashXStart = DoubleField(default_value=1.0)
     sqxsta = squashXStart
 
-    squashZStart = DoubleField()
+    squashZStart = DoubleField(default_value=1.0)
     sqzsta = squashZStart
 
-    squashXMid = DoubleField()
+    squashXMid = DoubleField(default_value=2.0)
     sqxmid = squashXMid
 
-    squashZMid = DoubleField()
+    squashZMid = DoubleField(default_value=2.0)
     sqzmid = squashZMid
 
-    squashXEnd = DoubleField()
+    squashXEnd = DoubleField(default_value=1.0)
     sqxend = squashXEnd
 
-    squashZEnd = DoubleField()
+    squashZEnd = DoubleField(default_value=1.0)
     sqzend = squashZEnd
 
-    STRETCH = STRETCHEnumField()
+    STRETCH = STRETCHEnumField(default_value=0)
     STE = STRETCH
 
-    stretchXStart = DoubleField()
+    stretchXStart = DoubleField(default_value=1.0)
     stxsta = stretchXStart
 
-    stretchZStart = DoubleField()
+    stretchZStart = DoubleField(default_value=1.0)
     stzsta = stretchZStart
 
-    stretchXMid = DoubleField()
+    stretchXMid = DoubleField(default_value=0.5)
     stxmid = stretchXMid
 
-    stretchZMid = DoubleField()
+    stretchZMid = DoubleField(default_value=0.5)
     stzmid = stretchZMid
 
-    stretchXEnd = DoubleField()
+    stretchXEnd = DoubleField(default_value=1.0)
     stxend = stretchXEnd
 
-    stretchZEnd = DoubleField()
+    stretchZEnd = DoubleField(default_value=1.0)
     stzend = stretchZEnd
 
 
@@ -501,85 +501,85 @@ class SquashDataAttrOperator(
 ):
     __slots__ = ()
 
-    STATE = STATEEnumField()
+    STATE = STATEEnumField(default_value=0)
     STA = STATE
 
-    curLen = DoubleField()
+    curLen = DoubleField(default_value=1.0, min_value=0.0001)
     clen = curLen
 
-    pctSquash = DoubleField()
+    pctSquash = DoubleField(default_value=0.0)
     psq = pctSquash
 
-    pctStretch = DoubleField()
+    pctStretch = DoubleField(default_value=0.0)
     pst = pctStretch
 
-    soften = DoubleField()
+    soften = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     sft = soften
 
-    biasX = DoubleField()
+    biasX = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bix = biasX
 
-    biasZ = DoubleField()
+    biasZ = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     biz = biasZ
 
-    biasTolernace = DoubleField()
+    biasTolernace = DoubleField(default_value=1e-05, min_value=0.0)
     btol = biasTolernace
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    SHAPING = SHAPINGEnumField()
+    SHAPING = SHAPINGEnumField(default_value=0)
     SHA = SHAPING
 
-    enableShaping = BoolField()
+    enableShaping = BoolField(default_value=False)
     eshp = enableShaping
 
-    shapingBlend = DoubleField()
+    shapingBlend = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     shbl = shapingBlend
 
-    SQUASH = SQUASHEnumField()
+    SQUASH = SQUASHEnumField(default_value=0)
     SQA = SQUASH
 
-    squashXStart = DoubleField()
+    squashXStart = DoubleField(default_value=1.0)
     sqxsta = squashXStart
 
-    squashZStart = DoubleField()
+    squashZStart = DoubleField(default_value=1.0)
     sqzsta = squashZStart
 
-    squashXMid = DoubleField()
+    squashXMid = DoubleField(default_value=2.0)
     sqxmid = squashXMid
 
-    squashZMid = DoubleField()
+    squashZMid = DoubleField(default_value=2.0)
     sqzmid = squashZMid
 
-    squashXEnd = DoubleField()
+    squashXEnd = DoubleField(default_value=1.0)
     sqxend = squashXEnd
 
-    squashZEnd = DoubleField()
+    squashZEnd = DoubleField(default_value=1.0)
     sqzend = squashZEnd
 
-    STRETCH = STRETCHEnumField()
+    STRETCH = STRETCHEnumField(default_value=0)
     STE = STRETCH
 
-    stretchXStart = DoubleField()
+    stretchXStart = DoubleField(default_value=1.0)
     stxsta = stretchXStart
 
-    stretchZStart = DoubleField()
+    stretchZStart = DoubleField(default_value=1.0)
     stzsta = stretchZStart
 
-    stretchXMid = DoubleField()
+    stretchXMid = DoubleField(default_value=0.5)
     stxmid = stretchXMid
 
-    stretchZMid = DoubleField()
+    stretchZMid = DoubleField(default_value=0.5)
     stzmid = stretchZMid
 
-    stretchXEnd = DoubleField()
+    stretchXEnd = DoubleField(default_value=1.0)
     stxend = stretchXEnd
 
-    stretchZEnd = DoubleField()
+    stretchZEnd = DoubleField(default_value=1.0)
     stzend = stretchZEnd
 
 
@@ -591,85 +591,85 @@ class SquashDataField(
     ATTR_CLS = SquashDataAttrOperator
     PLUG_CLS = SquashDataPlugOperator
 
-    STATE = STATEEnumField()
+    STATE = STATEEnumField(default_value=0)
     STA = STATE
 
-    curLen = DoubleField()
+    curLen = DoubleField(default_value=1.0, min_value=0.0001)
     clen = curLen
 
-    pctSquash = DoubleField()
+    pctSquash = DoubleField(default_value=0.0)
     psq = pctSquash
 
-    pctStretch = DoubleField()
+    pctStretch = DoubleField(default_value=0.0)
     pst = pctStretch
 
-    soften = DoubleField()
+    soften = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     sft = soften
 
-    biasX = DoubleField()
+    biasX = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bix = biasX
 
-    biasZ = DoubleField()
+    biasZ = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     biz = biasZ
 
-    biasTolernace = DoubleField()
+    biasTolernace = DoubleField(default_value=1e-05, min_value=0.0)
     btol = biasTolernace
 
-    manualSqSt = DoubleField()
+    manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    userScale = DoubleField()
+    userScale = DoubleField(default_value=1.0)
     usc = userScale
 
-    SHAPING = SHAPINGEnumField()
+    SHAPING = SHAPINGEnumField(default_value=0)
     SHA = SHAPING
 
-    enableShaping = BoolField()
+    enableShaping = BoolField(default_value=False)
     eshp = enableShaping
 
-    shapingBlend = DoubleField()
+    shapingBlend = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     shbl = shapingBlend
 
-    SQUASH = SQUASHEnumField()
+    SQUASH = SQUASHEnumField(default_value=0)
     SQA = SQUASH
 
-    squashXStart = DoubleField()
+    squashXStart = DoubleField(default_value=1.0)
     sqxsta = squashXStart
 
-    squashZStart = DoubleField()
+    squashZStart = DoubleField(default_value=1.0)
     sqzsta = squashZStart
 
-    squashXMid = DoubleField()
+    squashXMid = DoubleField(default_value=2.0)
     sqxmid = squashXMid
 
-    squashZMid = DoubleField()
+    squashZMid = DoubleField(default_value=2.0)
     sqzmid = squashZMid
 
-    squashXEnd = DoubleField()
+    squashXEnd = DoubleField(default_value=1.0)
     sqxend = squashXEnd
 
-    squashZEnd = DoubleField()
+    squashZEnd = DoubleField(default_value=1.0)
     sqzend = squashZEnd
 
-    STRETCH = STRETCHEnumField()
+    STRETCH = STRETCHEnumField(default_value=0)
     STE = STRETCH
 
-    stretchXStart = DoubleField()
+    stretchXStart = DoubleField(default_value=1.0)
     stxsta = stretchXStart
 
-    stretchZStart = DoubleField()
+    stretchZStart = DoubleField(default_value=1.0)
     stzsta = stretchZStart
 
-    stretchXMid = DoubleField()
+    stretchXMid = DoubleField(default_value=0.5)
     stxmid = stretchXMid
 
-    stretchZMid = DoubleField()
+    stretchZMid = DoubleField(default_value=0.5)
     stzmid = stretchZMid
 
-    stretchXEnd = DoubleField()
+    stretchXEnd = DoubleField(default_value=1.0)
     stxend = stretchXEnd
 
-    stretchZEnd = DoubleField()
+    stretchZEnd = DoubleField(default_value=1.0)
     stzend = stretchZEnd
 
 
@@ -688,16 +688,16 @@ class ShapeDataPlugOperator(
     shapeName = DataStringField()
     snm = shapeName
 
-    shapeLength = DoubleField()
+    shapeLength = DoubleField(default_value=0.0)
     slen = shapeLength
 
-    shapeActive = BoolField()
+    shapeActive = BoolField(default_value=False)
     sact = shapeActive
 
-    shapeManualTrigger = DoubleField()
+    shapeManualTrigger = DoubleField(default_value=0.0, min_value=0.0, max_value=0.0)
     strg = shapeManualTrigger
 
-    shapeDelta = CompoundField()
+    shapeDelta = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     sdlt = shapeDelta
 
 
@@ -709,16 +709,16 @@ class ShapeDataAttrOperator(
     shapeName = DataStringField()
     snm = shapeName
 
-    shapeLength = DoubleField()
+    shapeLength = DoubleField(default_value=0.0)
     slen = shapeLength
 
-    shapeActive = BoolField()
+    shapeActive = BoolField(default_value=False)
     sact = shapeActive
 
-    shapeManualTrigger = DoubleField()
+    shapeManualTrigger = DoubleField(default_value=0.0, min_value=0.0, max_value=0.0)
     strg = shapeManualTrigger
 
-    shapeDelta = CompoundField()
+    shapeDelta = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     sdlt = shapeDelta
 
 

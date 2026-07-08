@@ -13,7 +13,7 @@ class AiBlackbody(DG):
 
     NODE_TYPE = "aiBlackbody"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -22,10 +22,10 @@ class AiBlackbody(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -34,8 +34,8 @@ class AiBlackbody(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    temperature = FloatField()
+    temperature = FloatField(default_value=6500.0, min_value=0.0, soft_max_value=20000.0)
 
-    normalize = BoolField()
+    normalize = BoolField(default_value=False)
 
-    intensity = FloatField()
+    intensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)

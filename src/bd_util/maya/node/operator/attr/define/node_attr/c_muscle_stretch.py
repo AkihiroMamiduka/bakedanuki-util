@@ -34,7 +34,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -49,7 +49,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -73,7 +73,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -82,7 +82,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -105,13 +105,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -120,13 +120,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -138,13 +138,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -156,7 +156,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -164,7 +164,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -186,13 +186,13 @@ class ForceStartPlugOperator(
         ("forceStartZ", "fstz"),
     )
 
-    forceStartX = FloatField()
+    forceStartX = FloatField(default_value=0.0)
     fstx = forceStartX
 
-    forceStartY = FloatField()
+    forceStartY = FloatField(default_value=0.0)
     fsty = forceStartY
 
-    forceStartZ = FloatField()
+    forceStartZ = FloatField(default_value=0.0)
     fstz = forceStartZ
 
 
@@ -201,13 +201,13 @@ class ForceStartAttrOperator(
 ):
     __slots__ = ()
 
-    forceStartX = FloatField()
+    forceStartX = FloatField(default_value=0.0)
     fstx = forceStartX
 
-    forceStartY = FloatField()
+    forceStartY = FloatField(default_value=0.0)
     fsty = forceStartY
 
-    forceStartZ = FloatField()
+    forceStartZ = FloatField(default_value=0.0)
     fstz = forceStartZ
 
 
@@ -230,13 +230,13 @@ class ForceMidPlugOperator(
         ("forceMidZ", "fmdz"),
     )
 
-    forceMidX = FloatField()
+    forceMidX = FloatField(default_value=0.0)
     fmdx = forceMidX
 
-    forceMidY = FloatField()
+    forceMidY = FloatField(default_value=0.0)
     fmdy = forceMidY
 
-    forceMidZ = FloatField()
+    forceMidZ = FloatField(default_value=0.0)
     fmdz = forceMidZ
 
 
@@ -245,13 +245,13 @@ class ForceMidAttrOperator(
 ):
     __slots__ = ()
 
-    forceMidX = FloatField()
+    forceMidX = FloatField(default_value=0.0)
     fmdx = forceMidX
 
-    forceMidY = FloatField()
+    forceMidY = FloatField(default_value=0.0)
     fmdy = forceMidY
 
-    forceMidZ = FloatField()
+    forceMidZ = FloatField(default_value=0.0)
     fmdz = forceMidZ
 
 
@@ -274,13 +274,13 @@ class ForceEndPlugOperator(
         ("forceEndZ", "fedz"),
     )
 
-    forceEndX = FloatField()
+    forceEndX = FloatField(default_value=0.0)
     fedx = forceEndX
 
-    forceEndY = FloatField()
+    forceEndY = FloatField(default_value=0.0)
     fedy = forceEndY
 
-    forceEndZ = FloatField()
+    forceEndZ = FloatField(default_value=0.0)
     fedz = forceEndZ
 
 
@@ -289,13 +289,13 @@ class ForceEndAttrOperator(
 ):
     __slots__ = ()
 
-    forceEndX = FloatField()
+    forceEndX = FloatField(default_value=0.0)
     fedx = forceEndX
 
-    forceEndY = FloatField()
+    forceEndY = FloatField(default_value=0.0)
     fedy = forceEndY
 
-    forceEndZ = FloatField()
+    forceEndZ = FloatField(default_value=0.0)
     fedz = forceEndZ
 
 

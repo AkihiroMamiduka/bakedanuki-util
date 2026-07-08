@@ -17,41 +17,41 @@ class FilletCurve(DG):
     secondaryCurve = DataNurbsCurveField()
     sc = secondaryCurve
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    detachedCurve1 = DataNurbsCurveField()
+    detachedCurve1 = DataNurbsCurveField(writable=False)
     dc1 = detachedCurve1
 
-    detachedCurve2 = DataNurbsCurveField()
+    detachedCurve2 = DataNurbsCurveField(writable=False)
     dc2 = detachedCurve2
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0)
     r = radius
 
-    depth = DoubleLinearField()
+    depth = DoubleLinearField(default_value=0.5, min_value=0.0, max_value=1.0)
     d = depth
 
-    bias = DoubleLinearField()
+    bias = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     b = bias
 
-    curveParameter1 = DoubleField()
+    curveParameter1 = DoubleField(default_value=0.0)
     cp1 = curveParameter1
 
-    curveParameter2 = DoubleField()
+    curveParameter2 = DoubleField(default_value=0.0)
     cp2 = curveParameter2
 
-    trim = BoolField()
+    trim = BoolField(default_value=False)
     t = trim
 
-    join = BoolField()
+    join = BoolField(default_value=False)
     jn = join
 
-    circular = BoolField()
+    circular = BoolField(default_value=True)
     cir = circular
 
-    freeformBlend = BoolField()
+    freeformBlend = BoolField(default_value=False)
     fb = freeformBlend
 
-    blendControl = BoolField()
+    blendControl = BoolField(default_value=False)
     bc = blendControl

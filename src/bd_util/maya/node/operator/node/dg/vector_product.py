@@ -56,10 +56,10 @@ class VectorProduct(DG):
 
     NODE_TYPE = "vectorProduct"
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=1)
     op = operation
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
     i1 = input1
     input1X = input1.input1X
     i1x = input1X
@@ -68,7 +68,7 @@ class VectorProduct(DG):
     input1Z = input1.input1Z
     i1z = input1Z
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
     i2 = input2
     input2X = input2.input2X
     i2x = input2X
@@ -80,10 +80,10 @@ class VectorProduct(DG):
     matrix = FltMatrixField()
     m = matrix
 
-    normalizeOutput = BoolField()
+    normalizeOutput = BoolField(default_value=False)
     no = normalizeOutput
 
-    output = OutputField()
+    output = OutputField(default_value=(1.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

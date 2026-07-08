@@ -100,34 +100,34 @@ class TrackPlugOperator(
         ("trackColor", "tc"),
     )
 
-    index = LongField()
+    index = LongField(default_value=0)
     idx = index
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
     typ = type
 
     trackName = DataStringField()
     n = trackName
 
-    trackMuted = BoolField()
+    trackMuted = BoolField(default_value=False)
     tm = trackMuted
 
-    trackSolo = BoolField()
+    trackSolo = BoolField(default_value=False)
     ts = trackSolo
 
-    trackGhost = BoolField()
+    trackGhost = BoolField(default_value=False)
     tgh = trackGhost
 
-    trackSoloMute = BoolField()
+    trackSoloMute = BoolField(default_value=False)
     tsm = trackSoloMute
 
-    trackHeight = LongField()
+    trackHeight = LongField(default_value=32)
     th = trackHeight
 
-    useTrackColor = BoolField()
+    useTrackColor = BoolField(default_value=False)
     utc = useTrackColor
 
-    trackColor = Float3Field()
+    trackColor = Float3Field(default_value=(0.21960000693798065, 0.21960000693798065, 0.21960000693798065))
     tc = trackColor
 
 
@@ -136,34 +136,34 @@ class TrackAttrOperator(
 ):
     __slots__ = ()
 
-    index = LongField()
+    index = LongField(default_value=0)
     idx = index
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=0)
     typ = type
 
     trackName = DataStringField()
     n = trackName
 
-    trackMuted = BoolField()
+    trackMuted = BoolField(default_value=False)
     tm = trackMuted
 
-    trackSolo = BoolField()
+    trackSolo = BoolField(default_value=False)
     ts = trackSolo
 
-    trackGhost = BoolField()
+    trackGhost = BoolField(default_value=False)
     tgh = trackGhost
 
-    trackSoloMute = BoolField()
+    trackSoloMute = BoolField(default_value=False)
     tsm = trackSoloMute
 
-    trackHeight = LongField()
+    trackHeight = LongField(default_value=32)
     th = trackHeight
 
-    useTrackColor = BoolField()
+    useTrackColor = BoolField(default_value=False)
     utc = useTrackColor
 
-    trackColor = Float3Field()
+    trackColor = Float3Field(default_value=(0.21960000693798065, 0.21960000693798065, 0.21960000693798065))
     tc = trackColor
 
 
@@ -187,13 +187,13 @@ class CrossfadePlugOperator(
         ("crossfadeCurve", "cc"),
     )
 
-    crossfadeClipId1 = MessageField()
+    crossfadeClipId1 = MessageField(readable=False)
     cid1 = crossfadeClipId1
 
-    crossfadeClipId2 = MessageField()
+    crossfadeClipId2 = MessageField(readable=False)
     cid2 = crossfadeClipId2
 
-    crossfadeMode = CrossfadeModeEnumField()
+    crossfadeMode = CrossfadeModeEnumField(default_value=0)
     cm = crossfadeMode
 
     crossfadeCurve = GenericField()
@@ -205,13 +205,13 @@ class CrossfadeAttrOperator(
 ):
     __slots__ = ()
 
-    crossfadeClipId1 = MessageField()
+    crossfadeClipId1 = MessageField(readable=False)
     cid1 = crossfadeClipId1
 
-    crossfadeClipId2 = MessageField()
+    crossfadeClipId2 = MessageField(readable=False)
     cid2 = crossfadeClipId2
 
-    crossfadeMode = CrossfadeModeEnumField()
+    crossfadeMode = CrossfadeModeEnumField(default_value=0)
     cm = crossfadeMode
 
     crossfadeCurve = GenericField()

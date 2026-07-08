@@ -131,13 +131,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -146,13 +146,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -164,13 +164,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -344,11 +344,11 @@ class RotateAroundPlugOperator(
         ("rotateAround2", "rotateAround2"),
     )
 
-    rotateAround0 = FloatField()
+    rotateAround0 = FloatField(default_value=0.0)
 
-    rotateAround1 = FloatField()
+    rotateAround1 = FloatField(default_value=0.0)
 
-    rotateAround2 = FloatField()
+    rotateAround2 = FloatField(default_value=0.0)
 
 
 class RotateAroundAttrOperator(
@@ -356,11 +356,11 @@ class RotateAroundAttrOperator(
 ):
     __slots__ = ()
 
-    rotateAround0 = FloatField()
+    rotateAround0 = FloatField(default_value=0.0)
 
-    rotateAround1 = FloatField()
+    rotateAround1 = FloatField(default_value=0.0)
 
-    rotateAround2 = FloatField()
+    rotateAround2 = FloatField(default_value=0.0)
 
 
 class RotateAroundField(
@@ -371,11 +371,11 @@ class RotateAroundField(
     ATTR_CLS = RotateAroundAttrOperator
     PLUG_CLS = RotateAroundPlugOperator
 
-    rotateAround0 = FloatField()
+    rotateAround0 = FloatField(default_value=0.0)
 
-    rotateAround1 = FloatField()
+    rotateAround1 = FloatField(default_value=0.0)
 
-    rotateAround2 = FloatField()
+    rotateAround2 = FloatField(default_value=0.0)
 
 
 class FalloffObjectPlugOperator(
@@ -388,13 +388,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -403,13 +403,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -421,13 +421,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -441,13 +441,13 @@ class PositionRampPlugOperator(
         ("positionRamp_Interp", "positionRampi"),
     )
 
-    positionRamp_Position = FloatField()
+    positionRamp_Position = FloatField(default_value=0.0)
     positionRampp = positionRamp_Position
 
-    positionRamp_FloatValue = FloatField()
+    positionRamp_FloatValue = FloatField(default_value=0.0)
     positionRampfv = positionRamp_FloatValue
 
-    positionRamp_Interp = PositionRamp_InterpEnumField()
+    positionRamp_Interp = PositionRamp_InterpEnumField(default_value=1)
     positionRampi = positionRamp_Interp
 
 
@@ -456,13 +456,13 @@ class PositionRampAttrOperator(
 ):
     __slots__ = ()
 
-    positionRamp_Position = FloatField()
+    positionRamp_Position = FloatField(default_value=0.0)
     positionRampp = positionRamp_Position
 
-    positionRamp_FloatValue = FloatField()
+    positionRamp_FloatValue = FloatField(default_value=0.0)
     positionRampfv = positionRamp_FloatValue
 
-    positionRamp_Interp = PositionRamp_InterpEnumField()
+    positionRamp_Interp = PositionRamp_InterpEnumField(default_value=1)
     positionRampi = positionRamp_Interp
 
 
@@ -485,13 +485,13 @@ class ScaleRampPlugOperator(
         ("scaleRamp_Interp", "scaleRampi"),
     )
 
-    scaleRamp_Position = FloatField()
+    scaleRamp_Position = FloatField(default_value=0.0)
     scaleRampp = scaleRamp_Position
 
-    scaleRamp_FloatValue = FloatField()
+    scaleRamp_FloatValue = FloatField(default_value=0.0)
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = ScaleRamp_InterpEnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField(default_value=1)
     scaleRampi = scaleRamp_Interp
 
 
@@ -500,13 +500,13 @@ class ScaleRampAttrOperator(
 ):
     __slots__ = ()
 
-    scaleRamp_Position = FloatField()
+    scaleRamp_Position = FloatField(default_value=0.0)
     scaleRampp = scaleRamp_Position
 
-    scaleRamp_FloatValue = FloatField()
+    scaleRamp_FloatValue = FloatField(default_value=0.0)
     scaleRampfv = scaleRamp_FloatValue
 
-    scaleRamp_Interp = ScaleRamp_InterpEnumField()
+    scaleRamp_Interp = ScaleRamp_InterpEnumField(default_value=1)
     scaleRampi = scaleRamp_Interp
 
 
@@ -529,13 +529,13 @@ class RotationRampPlugOperator(
         ("rotationRamp_Interp", "rotationRampi"),
     )
 
-    rotationRamp_Position = FloatField()
+    rotationRamp_Position = FloatField(default_value=0.0)
     rotationRampp = rotationRamp_Position
 
-    rotationRamp_FloatValue = FloatField()
+    rotationRamp_FloatValue = FloatField(default_value=0.0)
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = RotationRamp_InterpEnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField(default_value=1)
     rotationRampi = rotationRamp_Interp
 
 
@@ -544,13 +544,13 @@ class RotationRampAttrOperator(
 ):
     __slots__ = ()
 
-    rotationRamp_Position = FloatField()
+    rotationRamp_Position = FloatField(default_value=0.0)
     rotationRampp = rotationRamp_Position
 
-    rotationRamp_FloatValue = FloatField()
+    rotationRamp_FloatValue = FloatField(default_value=0.0)
     rotationRampfv = rotationRamp_FloatValue
 
-    rotationRamp_Interp = RotationRamp_InterpEnumField()
+    rotationRamp_Interp = RotationRamp_InterpEnumField(default_value=1)
     rotationRampi = rotationRamp_Interp
 
 
@@ -573,13 +573,13 @@ class UpVectorPlugOperator(
         ("upVector2", "uVec2"),
     )
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=1.0)
     uVec2 = upVector2
 
 
@@ -588,13 +588,13 @@ class UpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=1.0)
     uVec2 = upVector2
 
 
@@ -606,13 +606,13 @@ class UpVectorField(
     ATTR_CLS = UpVectorAttrOperator
     PLUG_CLS = UpVectorPlugOperator
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=0.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=1.0)
     uVec2 = upVector2
 
 
@@ -626,11 +626,11 @@ class RotationOffsetPlugOperator(
         ("rotationOffset2", "rotationOffset2"),
     )
 
-    rotationOffset0 = FloatField()
+    rotationOffset0 = FloatField(default_value=0.0)
 
-    rotationOffset1 = FloatField()
+    rotationOffset1 = FloatField(default_value=0.0)
 
-    rotationOffset2 = FloatField()
+    rotationOffset2 = FloatField(default_value=90.0)
 
 
 class RotationOffsetAttrOperator(
@@ -638,11 +638,11 @@ class RotationOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    rotationOffset0 = FloatField()
+    rotationOffset0 = FloatField(default_value=0.0)
 
-    rotationOffset1 = FloatField()
+    rotationOffset1 = FloatField(default_value=0.0)
 
-    rotationOffset2 = FloatField()
+    rotationOffset2 = FloatField(default_value=90.0)
 
 
 class RotationOffsetField(
@@ -653,11 +653,11 @@ class RotationOffsetField(
     ATTR_CLS = RotationOffsetAttrOperator
     PLUG_CLS = RotationOffsetPlugOperator
 
-    rotationOffset0 = FloatField()
+    rotationOffset0 = FloatField(default_value=0.0)
 
-    rotationOffset1 = FloatField()
+    rotationOffset1 = FloatField(default_value=0.0)
 
-    rotationOffset2 = FloatField()
+    rotationOffset2 = FloatField(default_value=90.0)
 
 
 class ForwardVectorPlugOperator(
@@ -670,11 +670,11 @@ class ForwardVectorPlugOperator(
         ("forwardVector2", "forwardVector2"),
     )
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)
 
 
 class ForwardVectorAttrOperator(
@@ -682,11 +682,11 @@ class ForwardVectorAttrOperator(
 ):
     __slots__ = ()
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)
 
 
 class ForwardVectorField(
@@ -697,8 +697,8 @@ class ForwardVectorField(
     ATTR_CLS = ForwardVectorAttrOperator
     PLUG_CLS = ForwardVectorPlugOperator
 
-    forwardVector0 = FloatField()
+    forwardVector0 = FloatField(default_value=0.0)
 
-    forwardVector1 = FloatField()
+    forwardVector1 = FloatField(default_value=0.0)
 
-    forwardVector2 = FloatField()
+    forwardVector2 = FloatField(default_value=0.0)

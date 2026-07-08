@@ -38,7 +38,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -53,7 +53,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -77,7 +77,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -86,7 +86,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -109,13 +109,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -124,13 +124,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -142,13 +142,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -160,7 +160,7 @@ class WeightListPlugOperator(
         ("weights", "wl.w"),
     )
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListAttrOperator(
@@ -168,7 +168,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = FloatField()
+    weights = FloatField(multi=True, default_value=1.0)
 
 
 class WeightListField(
@@ -190,13 +190,13 @@ class ScalePlugOperator(
         ("scaleZ", "sz"),
     )
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -205,13 +205,13 @@ class ScaleAttrOperator(
 ):
     __slots__ = ()
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -223,13 +223,13 @@ class ScaleField(
     ATTR_CLS = ScaleAttrOperator
     PLUG_CLS = ScalePlugOperator
 
-    scaleX = DoubleField()
+    scaleX = DoubleField(default_value=1.0)
     sx = scaleX
 
-    scaleY = DoubleField()
+    scaleY = DoubleField(default_value=1.0)
     sy = scaleY
 
-    scaleZ = DoubleField()
+    scaleZ = DoubleField(default_value=1.0)
     sz = scaleZ
 
 
@@ -247,16 +247,16 @@ class CachePlugOperator(
         ("cacheFrames", "cfrm"),
     )
 
-    cacheSmoothingAlgorithm = ShortField()
+    cacheSmoothingAlgorithm = ShortField(default_value=0)
     csa = cacheSmoothingAlgorithm
 
-    cacheSmoothingIterations = LongField()
+    cacheSmoothingIterations = LongField(default_value=0, min_value=0)
     csi = cacheSmoothingIterations
 
-    cachePinBorderVertices = BoolField()
+    cachePinBorderVertices = BoolField(default_value=True)
     cpbv = cachePinBorderVertices
 
-    cacheSmoothingStep = FloatField()
+    cacheSmoothingStep = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     css = cacheSmoothingStep
 
     cacheBindPositions = TypedField()
@@ -274,16 +274,16 @@ class CacheAttrOperator(
 ):
     __slots__ = ()
 
-    cacheSmoothingAlgorithm = ShortField()
+    cacheSmoothingAlgorithm = ShortField(default_value=0)
     csa = cacheSmoothingAlgorithm
 
-    cacheSmoothingIterations = LongField()
+    cacheSmoothingIterations = LongField(default_value=0, min_value=0)
     csi = cacheSmoothingIterations
 
-    cachePinBorderVertices = BoolField()
+    cachePinBorderVertices = BoolField(default_value=True)
     cpbv = cachePinBorderVertices
 
-    cacheSmoothingStep = FloatField()
+    cacheSmoothingStep = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     css = cacheSmoothingStep
 
     cacheBindPositions = TypedField()

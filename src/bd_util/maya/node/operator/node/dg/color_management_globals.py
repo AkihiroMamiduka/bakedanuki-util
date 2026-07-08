@@ -9,10 +9,10 @@ class ColorManagementGlobals(DG):
 
     NODE_TYPE = "colorManagementGlobals"
 
-    cmEnabled = BoolField()
+    cmEnabled = BoolField(default_value=True)
     cme = cmEnabled
 
-    configFileEnabled = BoolField()
+    configFileEnabled = BoolField(default_value=False)
     cfe = configFileEnabled
 
     configFilePath = DataStringField()
@@ -33,22 +33,22 @@ class ColorManagementGlobals(DG):
     defaultInputSpaceName = DataStringField()
     din = defaultInputSpaceName
 
-    outputTransformEnabled = BoolField()
+    outputTransformEnabled = BoolField(default_value=False)
     ote = outputTransformEnabled
 
-    outputTransformUseColorConversion = BoolField()
+    outputTransformUseColorConversion = BoolField(default_value=False)
     otc = outputTransformUseColorConversion
 
-    playblastOutputTransformEnabled = BoolField()
+    playblastOutputTransformEnabled = BoolField(default_value=True)
     pote = playblastOutputTransformEnabled
 
-    playblastOutputTransformUseColorConversion = BoolField()
+    playblastOutputTransformUseColorConversion = BoolField(default_value=False)
     potc = playblastOutputTransformUseColorConversion
 
-    outputUseViewTransform = BoolField()
+    outputUseViewTransform = BoolField(default_value=True)
     ovt = outputUseViewTransform
 
-    playblastOutputUseViewTransform = BoolField()
+    playblastOutputUseViewTransform = BoolField(default_value=True)
     povt = playblastOutputUseViewTransform
 
     outputTransformName = DataStringField()

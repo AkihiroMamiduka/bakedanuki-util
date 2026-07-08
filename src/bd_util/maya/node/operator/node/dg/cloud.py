@@ -26,7 +26,7 @@ class Cloud(DG):
 
     NODE_TYPE = "cloud"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -35,7 +35,7 @@ class Cloud(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -44,7 +44,7 @@ class Cloud(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -59,28 +59,28 @@ class Cloud(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +89,7 @@ class Cloud(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +98,13 @@ class Cloud(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -113,7 +113,7 @@ class Cloud(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -122,10 +122,10 @@ class Cloud(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -134,7 +134,7 @@ class Cloud(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -143,7 +143,7 @@ class Cloud(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -152,13 +152,13 @@ class Cloud(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
     eyeToTextureMatrix = FltMatrixField()
     e2t = eyeToTextureMatrix
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -167,7 +167,7 @@ class Cloud(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -176,22 +176,22 @@ class Cloud(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     c = contrast
 
-    softEdges = BoolField()
+    softEdges = BoolField(default_value=True)
     se = softEdges
 
-    transpRange = FloatField()
+    transpRange = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     tr = transpRange
 
-    centerThresh = FloatField()
+    centerThresh = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ct = centerThresh
 
-    edgeThresh = FloatField()
+    edgeThresh = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     et = edgeThresh
 
-    ripples = RipplesField()
+    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0))
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -200,15 +200,15 @@ class Cloud(DG):
     ripplesZ = ripples.ripplesZ
     rz = ripplesZ
 
-    depth = DepthField()
+    depth = DepthField(default_value=(0.0, 8.0), min_value=(0.0, 0.0))
     d = depth
     depthMin = depth.depthMin
     dmn = depthMin
     depthMax = depth.depthMax
     dmx = depthMax
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     a = amplitude
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ra = ratio

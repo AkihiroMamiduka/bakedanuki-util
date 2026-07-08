@@ -56,10 +56,10 @@ class DefaultPlugOperator(
         ("defSingle", "dsi"),
     )
 
-    defTriple = Float3Field()
+    defTriple = Float3Field(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
     dtr = defTriple
 
-    defSingle = FloatField()
+    defSingle = FloatField(default_value=0.0)
     dsi = defSingle
 
 
@@ -68,10 +68,10 @@ class DefaultAttrOperator(
 ):
     __slots__ = ()
 
-    defTriple = Float3Field()
+    defTriple = Float3Field(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
     dtr = defTriple
 
-    defSingle = FloatField()
+    defSingle = FloatField(default_value=0.0)
     dsi = defSingle
 
 
@@ -83,10 +83,10 @@ class DefaultField(
     ATTR_CLS = DefaultAttrOperator
     PLUG_CLS = DefaultPlugOperator
 
-    defTriple = Float3Field()
+    defTriple = Float3Field(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
     dtr = defTriple
 
-    defSingle = FloatField()
+    defSingle = FloatField(default_value=0.0)
     dsi = defSingle
 
 
@@ -99,10 +99,10 @@ class OutputPlugOperator(
         ("outSingle", "osi"),
     )
 
-    outTriple = Float3Field()
+    outTriple = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     otr = outTriple
 
-    outSingle = FloatField()
+    outSingle = FloatField(default_value=0.0, writable=False)
     osi = outSingle
 
 
@@ -111,10 +111,10 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outTriple = Float3Field()
+    outTriple = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     otr = outTriple
 
-    outSingle = FloatField()
+    outSingle = FloatField(default_value=0.0, writable=False)
     osi = outSingle
 
 
@@ -126,8 +126,8 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outTriple = Float3Field()
+    outTriple = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     otr = outTriple
 
-    outSingle = FloatField()
+    outSingle = FloatField(default_value=0.0, writable=False)
     osi = outSingle

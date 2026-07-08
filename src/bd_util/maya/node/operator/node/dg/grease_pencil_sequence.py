@@ -15,28 +15,28 @@ class GreasePencilSequence(DG):
 
     NODE_TYPE = "greasePencilSequence"
 
-    timeInput = TimeField()
+    timeInput = TimeField(default_value=0.0)
     ti = timeInput
 
-    blendLen = TimeField()
+    blendLen = TimeField(default_value=2.5, min_value=0.0, max_value=120.0)
     bl = blendLen
 
-    preGhost = BoolField()
+    preGhost = BoolField(default_value=True)
     peg = preGhost
 
-    preFrames = LongField()
+    preFrames = LongField(default_value=1, min_value=0, max_value=10)
     prf = preFrames
 
-    postGhost = BoolField()
+    postGhost = BoolField(default_value=True)
     pog = postGhost
 
-    postFrames = LongField()
+    postFrames = LongField(default_value=1, min_value=0, max_value=10)
     pof = postFrames
 
-    alphaMultiplier = FloatField()
+    alphaMultiplier = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     amp = alphaMultiplier
 
-    color = ColorField()
+    color = ColorField(default_value=(0.5609999895095825, 0.7570000290870667, 0.8119999766349792))
     col = color
     colorR = color.colorR
     clr = colorR
@@ -45,7 +45,7 @@ class GreasePencilSequence(DG):
     colorB = color.colorB
     clb = colorB
 
-    activeFrameIndex = LongField()
+    activeFrameIndex = LongField(default_value=0)
     afi = activeFrameIndex
 
     frame = FrameField(multi=True)

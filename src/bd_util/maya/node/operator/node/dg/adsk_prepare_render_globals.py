@@ -18,5 +18,5 @@ class AdskPrepareRenderGlobals(DG):
     repType = DataStringField()
     rty = repType
 
-    useRegExp = BoolField()
+    useRegExp = BoolField(default_value=False)
     urx = useRegExp

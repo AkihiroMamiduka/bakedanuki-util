@@ -8,7 +8,7 @@ class Network(DG):
 
     NODE_TYPE = "network"
 
-    affects = MessageField(multi=True)
+    affects = MessageField(multi=True, writable=False)
     a = affects
 
     affectedBy = MessageField(multi=True)

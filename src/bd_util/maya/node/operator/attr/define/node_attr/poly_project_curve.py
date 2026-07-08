@@ -21,7 +21,7 @@ class CurvePointsPlugOperator(
         ("projectedPoint", "pp"),
     )
 
-    projectedPoint = CompoundField()
+    projectedPoint = CompoundField(multi=True)
     pp = projectedPoint
 
 
@@ -30,7 +30,7 @@ class CurvePointsAttrOperator(
 ):
     __slots__ = ()
 
-    projectedPoint = CompoundField()
+    projectedPoint = CompoundField(multi=True)
     pp = projectedPoint
 
 
@@ -53,13 +53,13 @@ class DirectionPlugOperator(
         ("directionZ", "dz"),
     )
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=0.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=1.0)
     dz = directionZ
 
 
@@ -68,13 +68,13 @@ class DirectionAttrOperator(
 ):
     __slots__ = ()
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=0.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=1.0)
     dz = directionZ
 
 
@@ -86,11 +86,11 @@ class DirectionField(
     ATTR_CLS = DirectionAttrOperator
     PLUG_CLS = DirectionPlugOperator
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=0.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=1.0)
     dz = directionZ

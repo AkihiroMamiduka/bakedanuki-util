@@ -15,7 +15,7 @@ class LodThresholds(DG):
 
     NODE_TYPE = "lodThresholds"
 
-    inBoxMin = InBoxMinField()
+    inBoxMin = InBoxMinField(default_value=(0.0, 0.0, 0.0))
     bmn = inBoxMin
     inBoxMinX = inBoxMin.inBoxMinX
     bmix = inBoxMinX
@@ -24,7 +24,7 @@ class LodThresholds(DG):
     inBoxMinZ = inBoxMin.inBoxMinZ
     bmiz = inBoxMinZ
 
-    inBoxMax = InBoxMaxField()
+    inBoxMax = InBoxMaxField(default_value=(0.0, 0.0, 0.0))
     bmx = inBoxMax
     inBoxMaxX = inBoxMax.inBoxMaxX
     bmax = inBoxMaxX
@@ -33,7 +33,7 @@ class LodThresholds(DG):
     inBoxMaxZ = inBoxMax.inBoxMaxZ
     bmaz = inBoxMaxZ
 
-    camera = CameraField()
+    camera = CameraField(default_value=(0.0, 0.0, 0.0))
     cam = camera
     cameraX = camera.cameraX
     cax = cameraX
@@ -42,14 +42,14 @@ class LodThresholds(DG):
     cameraZ = camera.cameraZ
     caz = cameraZ
 
-    threshold = DoubleLinearField(multi=True)
+    threshold = DoubleLinearField(multi=True, default_value=0.0)
     th = threshold
 
-    distance = DoubleLinearField()
+    distance = DoubleLinearField(default_value=0.0)
     d = distance
 
-    activeLevel = LongField()
+    activeLevel = LongField(default_value=0)
     al = activeLevel
 
-    outLevel = BoolField(multi=True)
+    outLevel = BoolField(multi=True, default_value=False, writable=False)
     ol = outLevel

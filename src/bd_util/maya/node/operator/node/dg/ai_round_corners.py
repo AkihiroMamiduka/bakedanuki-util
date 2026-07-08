@@ -16,7 +16,7 @@ class AiRoundCorners(DG):
 
     NODE_TYPE = "aiRoundCorners"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -25,7 +25,7 @@ class AiRoundCorners(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -34,11 +34,11 @@ class AiRoundCorners(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    samples = LongField()
+    samples = LongField(default_value=6, min_value=0, soft_max_value=20)
 
-    radius = FloatField()
+    radius = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=10.0)
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalCamera = normal
     normalX = normal.normalX
     normalCamerax = normalX
@@ -50,16 +50,16 @@ class AiRoundCorners(DG):
     traceSet = DataStringField()
     trace_set = traceSet
 
-    inclusive = BoolField()
+    inclusive = BoolField(default_value=True)
 
-    selfOnly = BoolField()
+    selfOnly = BoolField(default_value=False)
     self_only = selfOnly
 
-    objectSpace = BoolField()
+    objectSpace = BoolField(default_value=True)
     object_space = objectSpace
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, category="arnold")
     out_alpha = outAlpha

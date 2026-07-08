@@ -11,12 +11,12 @@ class AiLookSwitch(DG):
 
     NODE_TYPE = "aiLookSwitch"
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    index = LongField()
+    index = LongField(default_value=0)
     idx = index
 
     looks = LooksField(multi=True)
 
-    out = MessageField()
+    out = MessageField(writable=False)

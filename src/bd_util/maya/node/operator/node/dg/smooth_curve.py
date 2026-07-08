@@ -13,11 +13,11 @@ class SmoothCurve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    smoothness = DoubleField()
+    smoothness = DoubleField(default_value=10.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     s = smoothness
 
-    index = LongField(multi=True)
+    index = LongField(multi=True, default_value=0)
     i = index
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

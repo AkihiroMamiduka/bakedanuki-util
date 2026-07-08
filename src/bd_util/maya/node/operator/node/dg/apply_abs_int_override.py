@@ -9,14 +9,14 @@ class ApplyAbsIntOverride(DG):
 
     NODE_TYPE = "applyAbsIntOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = LongField()
+    out = LongField(default_value=0, writable=False)
     o = out
 
-    original = LongField()
+    original = LongField(default_value=0, readable=False)
     ori = original
 
-    value = LongField()
+    value = LongField(default_value=0, readable=False)
     val = value

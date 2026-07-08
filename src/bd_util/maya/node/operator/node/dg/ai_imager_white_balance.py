@@ -178,20 +178,20 @@ class AiImagerWhiteBalance(DG):
 
     NODE_TYPE = "aiImagerWhiteBalance"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)
 
-    temperature = FloatField()
+    temperature = FloatField(default_value=6500.0, min_value=0.0, soft_max_value=15000.0)
 
-    illuminant = IlluminantEnumField()
+    illuminant = IlluminantEnumField(default_value=0)
 
-    custom = CustomField()
+    custom = CustomField(default_value=(1.0, 1.0, 1.0))
     customR = custom.customR
     customr = customR
     customG = custom.customG

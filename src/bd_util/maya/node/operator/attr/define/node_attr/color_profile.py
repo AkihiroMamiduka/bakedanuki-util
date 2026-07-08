@@ -24,13 +24,13 @@ class WhitepointPlugOperator(
         ("whitepointB", "wpb"),
     )
 
-    whitepointR = FloatField()
+    whitepointR = FloatField(default_value=0.0)
     wpr = whitepointR
 
-    whitepointG = FloatField()
+    whitepointG = FloatField(default_value=0.0)
     wpg = whitepointG
 
-    whitepointB = FloatField()
+    whitepointB = FloatField(default_value=0.0)
     wpb = whitepointB
 
 
@@ -39,13 +39,13 @@ class WhitepointAttrOperator(
 ):
     __slots__ = ()
 
-    whitepointR = FloatField()
+    whitepointR = FloatField(default_value=0.0)
     wpr = whitepointR
 
-    whitepointG = FloatField()
+    whitepointG = FloatField(default_value=0.0)
     wpg = whitepointG
 
-    whitepointB = FloatField()
+    whitepointB = FloatField(default_value=0.0)
     wpb = whitepointB
 
 
@@ -57,13 +57,13 @@ class WhitepointField(
     ATTR_CLS = WhitepointAttrOperator
     PLUG_CLS = WhitepointPlugOperator
 
-    whitepointR = FloatField()
+    whitepointR = FloatField(default_value=0.0)
     wpr = whitepointR
 
-    whitepointG = FloatField()
+    whitepointG = FloatField(default_value=0.0)
     wpg = whitepointG
 
-    whitepointB = FloatField()
+    whitepointB = FloatField(default_value=0.0)
     wpb = whitepointB
 
 
@@ -77,13 +77,13 @@ class TransformPlugOperator(
         ("transformRow3", "tr3"),
     )
 
-    transformRow1 = Float3Field()
+    transformRow1 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr1 = transformRow1
 
-    transformRow2 = Float3Field()
+    transformRow2 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr2 = transformRow2
 
-    transformRow3 = Float3Field()
+    transformRow3 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr3 = transformRow3
 
 
@@ -92,13 +92,13 @@ class TransformAttrOperator(
 ):
     __slots__ = ()
 
-    transformRow1 = Float3Field()
+    transformRow1 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr1 = transformRow1
 
-    transformRow2 = Float3Field()
+    transformRow2 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr2 = transformRow2
 
-    transformRow3 = Float3Field()
+    transformRow3 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr3 = transformRow3
 
 
@@ -110,11 +110,11 @@ class TransformField(
     ATTR_CLS = TransformAttrOperator
     PLUG_CLS = TransformPlugOperator
 
-    transformRow1 = Float3Field()
+    transformRow1 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr1 = transformRow1
 
-    transformRow2 = Float3Field()
+    transformRow2 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr2 = transformRow2
 
-    transformRow3 = Float3Field()
+    transformRow3 = Float3Field(default_value=(0.0, 0.0, 0.0))
     tr3 = transformRow3

@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -77,13 +77,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -92,13 +92,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -110,13 +110,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -130,11 +130,11 @@ class GuideInputsPlugOperator(
         ("guideInputs2", "guideInputs2"),
     )
 
-    guideInputs0 = FloatField()
+    guideInputs0 = FloatField(default_value=1.0, readable=False)
 
-    guideInputs1 = FloatField()
+    guideInputs1 = FloatField(default_value=1.0, readable=False)
 
-    guideInputs2 = FloatField()
+    guideInputs2 = FloatField(default_value=1.0, readable=False)
 
 
 class GuideInputsAttrOperator(
@@ -142,11 +142,11 @@ class GuideInputsAttrOperator(
 ):
     __slots__ = ()
 
-    guideInputs0 = FloatField()
+    guideInputs0 = FloatField(default_value=1.0, readable=False)
 
-    guideInputs1 = FloatField()
+    guideInputs1 = FloatField(default_value=1.0, readable=False)
 
-    guideInputs2 = FloatField()
+    guideInputs2 = FloatField(default_value=1.0, readable=False)
 
 
 class GuideInputsField(
@@ -168,11 +168,11 @@ class GuideScalePlugOperator(
         ("guideScale2", "guideScale2"),
     )
 
-    guideScale0 = FloatField()
+    guideScale0 = FloatField(default_value=1.0, readable=False)
 
-    guideScale1 = FloatField()
+    guideScale1 = FloatField(default_value=1.0, readable=False)
 
-    guideScale2 = FloatField()
+    guideScale2 = FloatField(default_value=1.0, readable=False)
 
 
 class GuideScaleAttrOperator(
@@ -180,11 +180,11 @@ class GuideScaleAttrOperator(
 ):
     __slots__ = ()
 
-    guideScale0 = FloatField()
+    guideScale0 = FloatField(default_value=1.0, readable=False)
 
-    guideScale1 = FloatField()
+    guideScale1 = FloatField(default_value=1.0, readable=False)
 
-    guideScale2 = FloatField()
+    guideScale2 = FloatField(default_value=1.0, readable=False)
 
 
 class GuideScaleField(

@@ -87,13 +87,13 @@ class PrimaryPlugOperator(
         ("primaryTargetMatrix", "pmat"),
     )
 
-    primaryInputAxis = Double3Field()
+    primaryInputAxis = Double3Field(default_value=(1.0, 0.0, 0.0))
     pmi = primaryInputAxis
 
-    primaryMode = PrimaryModeEnumField()
+    primaryMode = PrimaryModeEnumField(default_value=1)
     prmd = primaryMode
 
-    primaryTargetVector = Double3Field()
+    primaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     pmiv = primaryTargetVector
 
     primaryTargetMatrix = MatrixField()
@@ -105,13 +105,13 @@ class PrimaryAttrOperator(
 ):
     __slots__ = ()
 
-    primaryInputAxis = Double3Field()
+    primaryInputAxis = Double3Field(default_value=(1.0, 0.0, 0.0))
     pmi = primaryInputAxis
 
-    primaryMode = PrimaryModeEnumField()
+    primaryMode = PrimaryModeEnumField(default_value=1)
     prmd = primaryMode
 
-    primaryTargetVector = Double3Field()
+    primaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     pmiv = primaryTargetVector
 
     primaryTargetMatrix = MatrixField()
@@ -126,13 +126,13 @@ class PrimaryField(
     ATTR_CLS = PrimaryAttrOperator
     PLUG_CLS = PrimaryPlugOperator
 
-    primaryInputAxis = Double3Field()
+    primaryInputAxis = Double3Field(default_value=(1.0, 0.0, 0.0))
     pmi = primaryInputAxis
 
-    primaryMode = PrimaryModeEnumField()
+    primaryMode = PrimaryModeEnumField(default_value=1)
     prmd = primaryMode
 
-    primaryTargetVector = Double3Field()
+    primaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     pmiv = primaryTargetVector
 
     primaryTargetMatrix = MatrixField()
@@ -150,13 +150,13 @@ class SecondaryPlugOperator(
         ("secondaryTargetMatrix", "smat"),
     )
 
-    secondaryInputAxis = Double3Field()
+    secondaryInputAxis = Double3Field(default_value=(0.0, 1.0, 0.0))
     smi = secondaryInputAxis
 
-    secondaryMode = SecondaryModeEnumField()
+    secondaryMode = SecondaryModeEnumField(default_value=0)
     sm = secondaryMode
 
-    secondaryTargetVector = Double3Field()
+    secondaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     smiv = secondaryTargetVector
 
     secondaryTargetMatrix = MatrixField()
@@ -168,13 +168,13 @@ class SecondaryAttrOperator(
 ):
     __slots__ = ()
 
-    secondaryInputAxis = Double3Field()
+    secondaryInputAxis = Double3Field(default_value=(0.0, 1.0, 0.0))
     smi = secondaryInputAxis
 
-    secondaryMode = SecondaryModeEnumField()
+    secondaryMode = SecondaryModeEnumField(default_value=0)
     sm = secondaryMode
 
-    secondaryTargetVector = Double3Field()
+    secondaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     smiv = secondaryTargetVector
 
     secondaryTargetMatrix = MatrixField()
@@ -189,13 +189,13 @@ class SecondaryField(
     ATTR_CLS = SecondaryAttrOperator
     PLUG_CLS = SecondaryPlugOperator
 
-    secondaryInputAxis = Double3Field()
+    secondaryInputAxis = Double3Field(default_value=(0.0, 1.0, 0.0))
     smi = secondaryInputAxis
 
-    secondaryMode = SecondaryModeEnumField()
+    secondaryMode = SecondaryModeEnumField(default_value=0)
     sm = secondaryMode
 
-    secondaryTargetVector = Double3Field()
+    secondaryTargetVector = Double3Field(default_value=(0.0, 0.0, 0.0))
     smiv = secondaryTargetVector
 
     secondaryTargetMatrix = MatrixField()

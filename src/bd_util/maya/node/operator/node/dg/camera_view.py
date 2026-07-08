@@ -50,7 +50,7 @@ class CameraView(DG):
 
     NODE_TYPE = "cameraView"
 
-    eye = EyeField()
+    eye = EyeField(default_value=(60.0, 45.0, 60.0))
     e = eye
     eyeX = eye.eyeX
     ex = eyeX
@@ -59,7 +59,7 @@ class CameraView(DG):
     eyeZ = eye.eyeZ
     ez = eyeZ
 
-    centerOfInterest = CenterOfInterestField()
+    centerOfInterest = CenterOfInterestField(default_value=(0.0, 0.0, 0.0))
     coi = centerOfInterest
     centerOfInterestX = centerOfInterest.centerOfInterestX
     cx = centerOfInterestX
@@ -68,7 +68,7 @@ class CameraView(DG):
     centerOfInterestZ = centerOfInterest.centerOfInterestZ
     cz = centerOfInterestZ
 
-    up = UpField()
+    up = UpField(default_value=(0.0, 1.0, 0.0))
     u = up
     upX = up.upX
     ux = upX
@@ -77,7 +77,7 @@ class CameraView(DG):
     upZ = up.upZ
     uz = upZ
 
-    tumblePivot = TumblePivotField()
+    tumblePivot = TumblePivotField(default_value=(0.0, 0.0, 0.0))
     tp = tumblePivot
     tumblePivotX = tumblePivot.tumblePivotX
     tpx = tumblePivotX
@@ -86,37 +86,37 @@ class CameraView(DG):
     tumblePivotZ = tumblePivot.tumblePivotZ
     tpz = tumblePivotZ
 
-    horizontalAperture = DoubleField()
+    horizontalAperture = DoubleField(default_value=1.4173200000000001)
     ha = horizontalAperture
 
-    verticalAperture = DoubleField()
+    verticalAperture = DoubleField(default_value=0.94488)
     va = verticalAperture
 
-    focalLength = DoubleField()
+    focalLength = DoubleField(default_value=35.0)
     fl = focalLength
 
-    orthographicWidth = DoubleLinearField()
+    orthographicWidth = DoubleLinearField(default_value=10.0)
     ow = orthographicWidth
 
-    orthographic = BoolField()
+    orthographic = BoolField(default_value=False)
     o = orthographic
 
-    panZoomEnabled = BoolField()
+    panZoomEnabled = BoolField(default_value=False)
     pze = panZoomEnabled
 
-    renderPanZoom = BoolField()
+    renderPanZoom = BoolField(default_value=False)
     rpz = renderPanZoom
 
-    horizontalPan = DoubleField()
+    horizontalPan = DoubleField(default_value=0.0)
     hpn = horizontalPan
 
-    verticalPan = DoubleField()
+    verticalPan = DoubleField(default_value=0.0)
     vpn = verticalPan
 
-    zoom = DoubleField()
+    zoom = DoubleField(default_value=1.0, min_value=1e-10)
     zom = zoom
 
-    viewType = ViewTypeEnumField()
+    viewType = ViewTypeEnumField(default_value=0)
     typ = viewType
 
     description = DataStringField()

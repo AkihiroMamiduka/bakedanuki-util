@@ -18,13 +18,13 @@ class DirectionPlugOperator(
         ("directionZ", "dz"),
     )
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=1.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=0.0)
     dz = directionZ
 
 
@@ -33,13 +33,13 @@ class DirectionAttrOperator(
 ):
     __slots__ = ()
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=1.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=0.0)
     dz = directionZ
 
 
@@ -51,13 +51,13 @@ class DirectionField(
     ATTR_CLS = DirectionAttrOperator
     PLUG_CLS = DirectionPlugOperator
 
-    directionX = DoubleLinearField()
+    directionX = DoubleLinearField(default_value=0.0)
     dx = directionX
 
-    directionY = DoubleLinearField()
+    directionY = DoubleLinearField(default_value=1.0)
     dy = directionY
 
-    directionZ = DoubleLinearField()
+    directionZ = DoubleLinearField(default_value=0.0)
     dz = directionZ
 
 
@@ -71,13 +71,13 @@ class PivotPlugOperator(
         ("pivotZ", "pz"),
     )
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -86,13 +86,13 @@ class PivotAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ
 
 
@@ -104,11 +104,11 @@ class PivotField(
     ATTR_CLS = PivotAttrOperator
     PLUG_CLS = PivotPlugOperator
 
-    pivotX = DoubleLinearField()
+    pivotX = DoubleLinearField(default_value=0.0)
     px = pivotX
 
-    pivotY = DoubleLinearField()
+    pivotY = DoubleLinearField(default_value=0.0)
     py = pivotY
 
-    pivotZ = DoubleLinearField()
+    pivotZ = DoubleLinearField(default_value=0.0)
     pz = pivotZ

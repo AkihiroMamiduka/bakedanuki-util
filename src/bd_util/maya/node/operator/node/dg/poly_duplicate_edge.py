@@ -46,7 +46,7 @@ class PolyDuplicateEdge(DG):
 
     NODE_TYPE = "polyDuplicateEdge"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -55,47 +55,47 @@ class PolyDuplicateEdge(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     of = offset
 
-    startVertexOffset = FloatField()
+    startVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     svo = startVertexOffset
 
-    endVertexOffset = FloatField()
+    endVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     evo = endVertexOffset
 
-    deleteEdge = BoolField()
+    deleteEdge = BoolField(default_value=True)
     de = deleteEdge
 
-    smoothingAngle = DoubleAngleField()
+    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
     sma = smoothingAngle
 
-    splitType = SplitTypeEnumField()
+    splitType = SplitTypeEnumField(default_value=1)
     stp = splitType
 
-    insertWithEdgeFlow = BoolField()
+    insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField()
+    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     aef = adjustEdgeFlow

@@ -143,22 +143,22 @@ class Morph(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -170,13 +170,13 @@ class Morph(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    morphSpace = MorphSpaceEnumField()
+    morphSpace = MorphSpaceEnumField(default_value=0)
     mspc = morphSpace
 
-    morphMode = MorphModeEnumField()
+    morphMode = MorphModeEnumField(default_value=0)
     mmd = morphMode
 
     morphTarget = TypedField(multi=True)
@@ -185,53 +185,53 @@ class Morph(DG):
     originalMorphTarget = TypedField(multi=True)
     otrg = originalMorphTarget
 
-    componentLookupList = ComponentLookupListField(multi=True)
+    componentLookupList = ComponentLookupListField(multi=True, default_value=0.0)
     clkl = componentLookupList
 
-    useComponentLookup = BoolField()
+    useComponentLookup = BoolField(default_value=False)
     uclkp = useComponentLookup
 
-    useOriginalMorphTarget = BoolField()
+    useOriginalMorphTarget = BoolField(default_value=False)
     uotrg = useOriginalMorphTarget
 
-    neighborLevel = LongField()
+    neighborLevel = LongField(default_value=0, min_value=0, max_value=15)
     nbl = neighborLevel
 
-    neighborExponent = FloatField()
+    neighborExponent = FloatField(default_value=0.0, min_value=0.0, max_value=4.0)
     nbe = neighborExponent
 
-    neighborBias = FloatField()
+    neighborBias = FloatField(default_value=0.0, min_value=0.0)
     nbb = neighborBias
 
-    scaleLevel = LongField()
+    scaleLevel = LongField(default_value=0, min_value=0, max_value=20)
     slvl = scaleLevel
 
-    scaleEnvelope = FloatField()
+    scaleEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     sen = scaleEnvelope
 
-    uniformScaleWeight = FloatField()
+    uniformScaleWeight = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     uen = uniformScaleWeight
 
-    normalScale = FloatField()
+    normalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     nsc = normalScale
 
-    tangentPlaneScale = FloatField()
+    tangentPlaneScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     tsc = tangentPlaneScale
 
-    smoothNormals = LongField()
+    smoothNormals = LongField(default_value=0, min_value=0, max_value=20)
     snrm = smoothNormals
 
-    mirrorDirection = MirrorDirectionEnumField()
+    mirrorDirection = MirrorDirectionEnumField(default_value=0)
     mird = mirrorDirection
 
-    useTangentialConstraints = BoolField()
+    useTangentialConstraints = BoolField(default_value=False)
     utnc = useTangentialConstraints
 
-    tangentialDamping = FloatField()
+    tangentialDamping = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tndm = tangentialDamping
 
-    inwardConstraint = FloatField()
+    inwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     iwc = inwardConstraint
 
-    outwardConstraint = FloatField()
+    outwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     owc = outwardConstraint

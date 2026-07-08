@@ -51,29 +51,29 @@ class Trim(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    locatorU = DoubleField(multi=True)
+    locatorU = DoubleField(multi=True, default_value=0.5)
     lu = locatorU
 
-    locatorV = DoubleField(multi=True)
+    locatorV = DoubleField(multi=True, default_value=0.5)
     lv = locatorV
 
-    selected = SelectedEnumField()
+    selected = SelectedEnumField(default_value=0)
     sl = selected
 
-    shrink = BoolField()
+    shrink = BoolField(default_value=False)
     sh = shrink
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.001, soft_min_value=0.0001, soft_max_value=1.0)
     tol = tolerance
 
-    usedCurves = BoolField(multi=True)
+    usedCurves = BoolField(multi=True, default_value=False, writable=False)
     uc = usedCurves
 
-    splitSurface = DataNurbsSurfaceField()
+    splitSurface = DataNurbsSurfaceField(writable=False)
     ss = splitSurface
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    shouldBeLast = BoolField()
+    shouldBeLast = BoolField(default_value=True, writable=False)
     sbl = shouldBeLast

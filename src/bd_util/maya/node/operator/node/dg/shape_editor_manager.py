@@ -14,10 +14,10 @@ class ShapeEditorManager(DG):
     blendShapeDirectory = BlendShapeDirectoryField(multi=True)
     bsdt = blendShapeDirectory
 
-    blendShapeParent = LongField(multi=True)
+    blendShapeParent = LongField(multi=True, default_value=0)
     bspr = blendShapeParent
 
-    outBlendShapeVisibility = BoolField(multi=True)
+    outBlendShapeVisibility = BoolField(multi=True, default_value=False, writable=False)
     obsv = outBlendShapeVisibility
 
     filterString = DataStringField()

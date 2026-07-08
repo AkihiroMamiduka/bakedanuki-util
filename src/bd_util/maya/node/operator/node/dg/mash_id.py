@@ -156,7 +156,7 @@ class MASH_Id(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -167,21 +167,21 @@ class MASH_Id(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -189,9 +189,9 @@ class MASH_Id(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -208,20 +208,20 @@ class MASH_Id(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    timeScale = FloatField()
+    timeScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    oscillate = BoolField()
+    oscillate = BoolField(default_value=False)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -230,46 +230,46 @@ class MASH_Id(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    stopCycleEnd = BoolField()
+    stopCycleEnd = BoolField(default_value=False)
     sce = stopCycleEnd
 
-    seed = LongField()
+    seed = LongField(default_value=1, min_value=0, soft_max_value=100)
     see = seed
 
-    grpsize = LongField()
+    grpsize = LongField(default_value=1, min_value=1, soft_max_value=100)
     gsz = grpsize
 
-    numObjects = LongField()
+    numObjects = LongField(default_value=1, min_value=1, soft_max_value=30)
     nuob = numObjects
 
-    indexAnimateGap = LongField()
+    indexAnimateGap = LongField(default_value=0, min_value=0, soft_max_value=30)
     inAnG = indexAnimateGap
 
-    randomCycleLimit = LongField()
+    randomCycleLimit = LongField(default_value=0, min_value=0, soft_max_value=30)
 
-    fixed = LongField()
+    fixed = LongField(default_value=0, min_value=0, soft_max_value=30)
     fix = fixed
 
-    randomCycle = BoolField()
+    randomCycle = BoolField(default_value=True)
     ranCyc = randomCycle
 
-    idtype = IdtypeEnumField()
+    idtype = IdtypeEnumField(default_value=1)
     idt = idtype
 
-    loopType = LoopTypeEnumField()
+    loopType = LoopTypeEnumField(default_value=1)
 
-    useProbability = BoolField()
+    useProbability = BoolField(default_value=False)
 
-    probabilityRamp = ProbabilityRampField(multi=True)
+    probabilityRamp = ProbabilityRampField(multi=True, default_value=(0.0, 0.0, 1.0))

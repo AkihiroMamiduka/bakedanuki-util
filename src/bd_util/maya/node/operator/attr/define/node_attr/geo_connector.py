@@ -23,10 +23,10 @@ class IdMappingPlugOperator(
         ("idIndex", "idix"),
     )
 
-    sortedId = TypedField()
+    sortedId = TypedField(writable=False)
     sid = sortedId
 
-    idIndex = TypedField()
+    idIndex = TypedField(writable=False)
     idix = idIndex
 
 
@@ -35,10 +35,10 @@ class IdMappingAttrOperator(
 ):
     __slots__ = ()
 
-    sortedId = TypedField()
+    sortedId = TypedField(writable=False)
     sid = sortedId
 
-    idIndex = TypedField()
+    idIndex = TypedField(writable=False)
     idix = idIndex
 
 
@@ -50,10 +50,10 @@ class IdMappingField(
     ATTR_CLS = IdMappingAttrOperator
     PLUG_CLS = IdMappingPlugOperator
 
-    sortedId = TypedField()
+    sortedId = TypedField(writable=False)
     sid = sortedId
 
-    idIndex = TypedField()
+    idIndex = TypedField(writable=False)
     idix = idIndex
 
 
@@ -67,13 +67,13 @@ class OwnerCentroidPlugOperator(
         ("ownerCentroidZ", "ocz"),
     )
 
-    ownerCentroidX = DoubleLinearField()
+    ownerCentroidX = DoubleLinearField(default_value=0.0, writable=False)
     ocx = ownerCentroidX
 
-    ownerCentroidY = DoubleLinearField()
+    ownerCentroidY = DoubleLinearField(default_value=0.0, writable=False)
     ocy = ownerCentroidY
 
-    ownerCentroidZ = DoubleLinearField()
+    ownerCentroidZ = DoubleLinearField(default_value=0.0, writable=False)
     ocz = ownerCentroidZ
 
 
@@ -82,13 +82,13 @@ class OwnerCentroidAttrOperator(
 ):
     __slots__ = ()
 
-    ownerCentroidX = DoubleLinearField()
+    ownerCentroidX = DoubleLinearField(default_value=0.0, writable=False)
     ocx = ownerCentroidX
 
-    ownerCentroidY = DoubleLinearField()
+    ownerCentroidY = DoubleLinearField(default_value=0.0, writable=False)
     ocy = ownerCentroidY
 
-    ownerCentroidZ = DoubleLinearField()
+    ownerCentroidZ = DoubleLinearField(default_value=0.0, writable=False)
     ocz = ownerCentroidZ
 
 
@@ -100,13 +100,13 @@ class OwnerCentroidField(
     ATTR_CLS = OwnerCentroidAttrOperator
     PLUG_CLS = OwnerCentroidPlugOperator
 
-    ownerCentroidX = DoubleLinearField()
+    ownerCentroidX = DoubleLinearField(default_value=0.0, writable=False)
     ocx = ownerCentroidX
 
-    ownerCentroidY = DoubleLinearField()
+    ownerCentroidY = DoubleLinearField(default_value=0.0, writable=False)
     ocy = ownerCentroidY
 
-    ownerCentroidZ = DoubleLinearField()
+    ownerCentroidZ = DoubleLinearField(default_value=0.0, writable=False)
     ocz = ownerCentroidZ
 
 
@@ -120,13 +120,13 @@ class OwnerCentroidLocalPlugOperator(
         ("ownerCentroidLocalZ", "oclz"),
     )
 
-    ownerCentroidLocalX = DoubleLinearField()
+    ownerCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
     olcx = ownerCentroidLocalX
 
-    ownerCentroidLocalY = DoubleLinearField()
+    ownerCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
     ocly = ownerCentroidLocalY
 
-    ownerCentroidLocalZ = DoubleLinearField()
+    ownerCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
     oclz = ownerCentroidLocalZ
 
 
@@ -135,13 +135,13 @@ class OwnerCentroidLocalAttrOperator(
 ):
     __slots__ = ()
 
-    ownerCentroidLocalX = DoubleLinearField()
+    ownerCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
     olcx = ownerCentroidLocalX
 
-    ownerCentroidLocalY = DoubleLinearField()
+    ownerCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
     ocly = ownerCentroidLocalY
 
-    ownerCentroidLocalZ = DoubleLinearField()
+    ownerCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
     oclz = ownerCentroidLocalZ
 
 
@@ -153,13 +153,13 @@ class OwnerCentroidLocalField(
     ATTR_CLS = OwnerCentroidLocalAttrOperator
     PLUG_CLS = OwnerCentroidLocalPlugOperator
 
-    ownerCentroidLocalX = DoubleLinearField()
+    ownerCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
     olcx = ownerCentroidLocalX
 
-    ownerCentroidLocalY = DoubleLinearField()
+    ownerCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
     ocly = ownerCentroidLocalY
 
-    ownerCentroidLocalZ = DoubleLinearField()
+    ownerCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
     oclz = ownerCentroidLocalZ
 
 
@@ -173,13 +173,13 @@ class ComponentCentroidPlugOperator(
         ("componentCentroidZ", "ccz"),
     )
 
-    componentCentroidX = DoubleLinearField()
+    componentCentroidX = DoubleLinearField(default_value=0.0, writable=False)
     ccx = componentCentroidX
 
-    componentCentroidY = DoubleLinearField()
+    componentCentroidY = DoubleLinearField(default_value=0.0, writable=False)
     ccy = componentCentroidY
 
-    componentCentroidZ = DoubleLinearField()
+    componentCentroidZ = DoubleLinearField(default_value=0.0, writable=False)
     ccz = componentCentroidZ
 
 
@@ -188,13 +188,13 @@ class ComponentCentroidAttrOperator(
 ):
     __slots__ = ()
 
-    componentCentroidX = DoubleLinearField()
+    componentCentroidX = DoubleLinearField(default_value=0.0, writable=False)
     ccx = componentCentroidX
 
-    componentCentroidY = DoubleLinearField()
+    componentCentroidY = DoubleLinearField(default_value=0.0, writable=False)
     ccy = componentCentroidY
 
-    componentCentroidZ = DoubleLinearField()
+    componentCentroidZ = DoubleLinearField(default_value=0.0, writable=False)
     ccz = componentCentroidZ
 
 
@@ -217,13 +217,13 @@ class ComponentCentroidLocalPlugOperator(
         ("componentCentroidLocalZ", "clcz"),
     )
 
-    componentCentroidLocalX = DoubleLinearField()
+    componentCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
     cclx = componentCentroidLocalX
 
-    componentCentroidLocalY = DoubleLinearField()
+    componentCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
     clcy = componentCentroidLocalY
 
-    componentCentroidLocalZ = DoubleLinearField()
+    componentCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
     clcz = componentCentroidLocalZ
 
 
@@ -232,13 +232,13 @@ class ComponentCentroidLocalAttrOperator(
 ):
     __slots__ = ()
 
-    componentCentroidLocalX = DoubleLinearField()
+    componentCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
     cclx = componentCentroidLocalX
 
-    componentCentroidLocalY = DoubleLinearField()
+    componentCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
     clcy = componentCentroidLocalY
 
-    componentCentroidLocalZ = DoubleLinearField()
+    componentCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
     clcz = componentCentroidLocalZ
 
 

@@ -18,11 +18,11 @@ class HipsEffectorPivotPlugOperator(
         ("HipsEffectorPivotZ", "HipsEffectorPivotZ"),
     )
 
-    HipsEffectorPivotX = DoubleLinearField()
+    HipsEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorPivotY = DoubleLinearField()
+    HipsEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorPivotZ = DoubleLinearField()
+    HipsEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class HipsEffectorPivotAttrOperator(
@@ -30,11 +30,11 @@ class HipsEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    HipsEffectorPivotX = DoubleLinearField()
+    HipsEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorPivotY = DoubleLinearField()
+    HipsEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    HipsEffectorPivotZ = DoubleLinearField()
+    HipsEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class HipsEffectorPivotField(
@@ -56,11 +56,11 @@ class LeftAnkleEffectorPivotPlugOperator(
         ("LeftAnkleEffectorPivotZ", "LeftAnkleEffectorPivotZ"),
     )
 
-    LeftAnkleEffectorPivotX = DoubleLinearField()
+    LeftAnkleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorPivotY = DoubleLinearField()
+    LeftAnkleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorPivotZ = DoubleLinearField()
+    LeftAnkleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftAnkleEffectorPivotAttrOperator(
@@ -68,11 +68,11 @@ class LeftAnkleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftAnkleEffectorPivotX = DoubleLinearField()
+    LeftAnkleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorPivotY = DoubleLinearField()
+    LeftAnkleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftAnkleEffectorPivotZ = DoubleLinearField()
+    LeftAnkleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftAnkleEffectorPivotField(
@@ -94,11 +94,11 @@ class RightAnkleEffectorPivotPlugOperator(
         ("RightAnkleEffectorPivotZ", "RightAnkleEffectorPivotZ"),
     )
 
-    RightAnkleEffectorPivotX = DoubleLinearField()
+    RightAnkleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorPivotY = DoubleLinearField()
+    RightAnkleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorPivotZ = DoubleLinearField()
+    RightAnkleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightAnkleEffectorPivotAttrOperator(
@@ -106,11 +106,11 @@ class RightAnkleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightAnkleEffectorPivotX = DoubleLinearField()
+    RightAnkleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorPivotY = DoubleLinearField()
+    RightAnkleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightAnkleEffectorPivotZ = DoubleLinearField()
+    RightAnkleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightAnkleEffectorPivotField(
@@ -132,11 +132,11 @@ class LeftWristEffectorPivotPlugOperator(
         ("LeftWristEffectorPivotZ", "LeftWristEffectorPivotZ"),
     )
 
-    LeftWristEffectorPivotX = DoubleLinearField()
+    LeftWristEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorPivotY = DoubleLinearField()
+    LeftWristEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorPivotZ = DoubleLinearField()
+    LeftWristEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftWristEffectorPivotAttrOperator(
@@ -144,11 +144,11 @@ class LeftWristEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftWristEffectorPivotX = DoubleLinearField()
+    LeftWristEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorPivotY = DoubleLinearField()
+    LeftWristEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftWristEffectorPivotZ = DoubleLinearField()
+    LeftWristEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftWristEffectorPivotField(
@@ -170,11 +170,11 @@ class RightWristEffectorPivotPlugOperator(
         ("RightWristEffectorPivotZ", "RightWristEffectorPivotZ"),
     )
 
-    RightWristEffectorPivotX = DoubleLinearField()
+    RightWristEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorPivotY = DoubleLinearField()
+    RightWristEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorPivotZ = DoubleLinearField()
+    RightWristEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightWristEffectorPivotAttrOperator(
@@ -182,11 +182,11 @@ class RightWristEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightWristEffectorPivotX = DoubleLinearField()
+    RightWristEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorPivotY = DoubleLinearField()
+    RightWristEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightWristEffectorPivotZ = DoubleLinearField()
+    RightWristEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightWristEffectorPivotField(
@@ -208,11 +208,11 @@ class LeftKneeEffectorPivotPlugOperator(
         ("LeftKneeEffectorPivotZ", "LeftKneeEffectorPivotZ"),
     )
 
-    LeftKneeEffectorPivotX = DoubleLinearField()
+    LeftKneeEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorPivotY = DoubleLinearField()
+    LeftKneeEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorPivotZ = DoubleLinearField()
+    LeftKneeEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftKneeEffectorPivotAttrOperator(
@@ -220,11 +220,11 @@ class LeftKneeEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftKneeEffectorPivotX = DoubleLinearField()
+    LeftKneeEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorPivotY = DoubleLinearField()
+    LeftKneeEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftKneeEffectorPivotZ = DoubleLinearField()
+    LeftKneeEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftKneeEffectorPivotField(
@@ -246,11 +246,11 @@ class RightKneeEffectorPivotPlugOperator(
         ("RightKneeEffectorPivotZ", "RightKneeEffectorPivotZ"),
     )
 
-    RightKneeEffectorPivotX = DoubleLinearField()
+    RightKneeEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorPivotY = DoubleLinearField()
+    RightKneeEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorPivotZ = DoubleLinearField()
+    RightKneeEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightKneeEffectorPivotAttrOperator(
@@ -258,11 +258,11 @@ class RightKneeEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightKneeEffectorPivotX = DoubleLinearField()
+    RightKneeEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorPivotY = DoubleLinearField()
+    RightKneeEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightKneeEffectorPivotZ = DoubleLinearField()
+    RightKneeEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightKneeEffectorPivotField(
@@ -284,11 +284,11 @@ class LeftElbowEffectorPivotPlugOperator(
         ("LeftElbowEffectorPivotZ", "LeftElbowEffectorPivotZ"),
     )
 
-    LeftElbowEffectorPivotX = DoubleLinearField()
+    LeftElbowEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorPivotY = DoubleLinearField()
+    LeftElbowEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorPivotZ = DoubleLinearField()
+    LeftElbowEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftElbowEffectorPivotAttrOperator(
@@ -296,11 +296,11 @@ class LeftElbowEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftElbowEffectorPivotX = DoubleLinearField()
+    LeftElbowEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorPivotY = DoubleLinearField()
+    LeftElbowEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftElbowEffectorPivotZ = DoubleLinearField()
+    LeftElbowEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftElbowEffectorPivotField(
@@ -322,11 +322,11 @@ class RightElbowEffectorPivotPlugOperator(
         ("RightElbowEffectorPivotZ", "RightElbowEffectorPivotZ"),
     )
 
-    RightElbowEffectorPivotX = DoubleLinearField()
+    RightElbowEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorPivotY = DoubleLinearField()
+    RightElbowEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorPivotZ = DoubleLinearField()
+    RightElbowEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightElbowEffectorPivotAttrOperator(
@@ -334,11 +334,11 @@ class RightElbowEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightElbowEffectorPivotX = DoubleLinearField()
+    RightElbowEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorPivotY = DoubleLinearField()
+    RightElbowEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightElbowEffectorPivotZ = DoubleLinearField()
+    RightElbowEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightElbowEffectorPivotField(
@@ -360,11 +360,11 @@ class ChestOriginEffectorPivotPlugOperator(
         ("ChestOriginEffectorPivotZ", "ChestOriginEffectorPivotZ"),
     )
 
-    ChestOriginEffectorPivotX = DoubleLinearField()
+    ChestOriginEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorPivotY = DoubleLinearField()
+    ChestOriginEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorPivotZ = DoubleLinearField()
+    ChestOriginEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestOriginEffectorPivotAttrOperator(
@@ -372,11 +372,11 @@ class ChestOriginEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    ChestOriginEffectorPivotX = DoubleLinearField()
+    ChestOriginEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorPivotY = DoubleLinearField()
+    ChestOriginEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    ChestOriginEffectorPivotZ = DoubleLinearField()
+    ChestOriginEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestOriginEffectorPivotField(
@@ -398,11 +398,11 @@ class ChestEndEffectorPivotPlugOperator(
         ("ChestEndEffectorPivotZ", "ChestEndEffectorPivotZ"),
     )
 
-    ChestEndEffectorPivotX = DoubleLinearField()
+    ChestEndEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorPivotY = DoubleLinearField()
+    ChestEndEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorPivotZ = DoubleLinearField()
+    ChestEndEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestEndEffectorPivotAttrOperator(
@@ -410,11 +410,11 @@ class ChestEndEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    ChestEndEffectorPivotX = DoubleLinearField()
+    ChestEndEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorPivotY = DoubleLinearField()
+    ChestEndEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    ChestEndEffectorPivotZ = DoubleLinearField()
+    ChestEndEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class ChestEndEffectorPivotField(
@@ -436,11 +436,11 @@ class LeftFootEffectorPivotPlugOperator(
         ("LeftFootEffectorPivotZ", "LeftFootEffectorPivotZ"),
     )
 
-    LeftFootEffectorPivotX = DoubleLinearField()
+    LeftFootEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorPivotY = DoubleLinearField()
+    LeftFootEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorPivotZ = DoubleLinearField()
+    LeftFootEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootEffectorPivotAttrOperator(
@@ -448,11 +448,11 @@ class LeftFootEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootEffectorPivotX = DoubleLinearField()
+    LeftFootEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorPivotY = DoubleLinearField()
+    LeftFootEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootEffectorPivotZ = DoubleLinearField()
+    LeftFootEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootEffectorPivotField(
@@ -474,11 +474,11 @@ class RightFootEffectorPivotPlugOperator(
         ("RightFootEffectorPivotZ", "RightFootEffectorPivotZ"),
     )
 
-    RightFootEffectorPivotX = DoubleLinearField()
+    RightFootEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorPivotY = DoubleLinearField()
+    RightFootEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorPivotZ = DoubleLinearField()
+    RightFootEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootEffectorPivotAttrOperator(
@@ -486,11 +486,11 @@ class RightFootEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootEffectorPivotX = DoubleLinearField()
+    RightFootEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorPivotY = DoubleLinearField()
+    RightFootEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootEffectorPivotZ = DoubleLinearField()
+    RightFootEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootEffectorPivotField(
@@ -512,11 +512,11 @@ class LeftShoulderEffectorPivotPlugOperator(
         ("LeftShoulderEffectorPivotZ", "LeftShoulderEffectorPivotZ"),
     )
 
-    LeftShoulderEffectorPivotX = DoubleLinearField()
+    LeftShoulderEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorPivotY = DoubleLinearField()
+    LeftShoulderEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorPivotZ = DoubleLinearField()
+    LeftShoulderEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderEffectorPivotAttrOperator(
@@ -524,11 +524,11 @@ class LeftShoulderEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftShoulderEffectorPivotX = DoubleLinearField()
+    LeftShoulderEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorPivotY = DoubleLinearField()
+    LeftShoulderEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftShoulderEffectorPivotZ = DoubleLinearField()
+    LeftShoulderEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftShoulderEffectorPivotField(
@@ -550,11 +550,11 @@ class RightShoulderEffectorPivotPlugOperator(
         ("RightShoulderEffectorPivotZ", "RightShoulderEffectorPivotZ"),
     )
 
-    RightShoulderEffectorPivotX = DoubleLinearField()
+    RightShoulderEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorPivotY = DoubleLinearField()
+    RightShoulderEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorPivotZ = DoubleLinearField()
+    RightShoulderEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderEffectorPivotAttrOperator(
@@ -562,11 +562,11 @@ class RightShoulderEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightShoulderEffectorPivotX = DoubleLinearField()
+    RightShoulderEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorPivotY = DoubleLinearField()
+    RightShoulderEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightShoulderEffectorPivotZ = DoubleLinearField()
+    RightShoulderEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightShoulderEffectorPivotField(
@@ -588,11 +588,11 @@ class HeadEffectorPivotPlugOperator(
         ("HeadEffectorPivotZ", "HeadEffectorPivotZ"),
     )
 
-    HeadEffectorPivotX = DoubleLinearField()
+    HeadEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorPivotY = DoubleLinearField()
+    HeadEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorPivotZ = DoubleLinearField()
+    HeadEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class HeadEffectorPivotAttrOperator(
@@ -600,11 +600,11 @@ class HeadEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    HeadEffectorPivotX = DoubleLinearField()
+    HeadEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorPivotY = DoubleLinearField()
+    HeadEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    HeadEffectorPivotZ = DoubleLinearField()
+    HeadEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class HeadEffectorPivotField(
@@ -626,11 +626,11 @@ class LeftHipEffectorPivotPlugOperator(
         ("LeftHipEffectorPivotZ", "LeftHipEffectorPivotZ"),
     )
 
-    LeftHipEffectorPivotX = DoubleLinearField()
+    LeftHipEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorPivotY = DoubleLinearField()
+    LeftHipEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorPivotZ = DoubleLinearField()
+    LeftHipEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHipEffectorPivotAttrOperator(
@@ -638,11 +638,11 @@ class LeftHipEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHipEffectorPivotX = DoubleLinearField()
+    LeftHipEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorPivotY = DoubleLinearField()
+    LeftHipEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHipEffectorPivotZ = DoubleLinearField()
+    LeftHipEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHipEffectorPivotField(
@@ -664,11 +664,11 @@ class RightHipEffectorPivotPlugOperator(
         ("RightHipEffectorPivotZ", "RightHipEffectorPivotZ"),
     )
 
-    RightHipEffectorPivotX = DoubleLinearField()
+    RightHipEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorPivotY = DoubleLinearField()
+    RightHipEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorPivotZ = DoubleLinearField()
+    RightHipEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHipEffectorPivotAttrOperator(
@@ -676,11 +676,11 @@ class RightHipEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHipEffectorPivotX = DoubleLinearField()
+    RightHipEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorPivotY = DoubleLinearField()
+    RightHipEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHipEffectorPivotZ = DoubleLinearField()
+    RightHipEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHipEffectorPivotField(
@@ -702,11 +702,11 @@ class LeftHandEffectorPivotPlugOperator(
         ("LeftHandEffectorPivotZ", "LeftHandEffectorPivotZ"),
     )
 
-    LeftHandEffectorPivotX = DoubleLinearField()
+    LeftHandEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorPivotY = DoubleLinearField()
+    LeftHandEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorPivotZ = DoubleLinearField()
+    LeftHandEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandEffectorPivotAttrOperator(
@@ -714,11 +714,11 @@ class LeftHandEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandEffectorPivotX = DoubleLinearField()
+    LeftHandEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorPivotY = DoubleLinearField()
+    LeftHandEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandEffectorPivotZ = DoubleLinearField()
+    LeftHandEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandEffectorPivotField(
@@ -740,11 +740,11 @@ class RightHandEffectorPivotPlugOperator(
         ("RightHandEffectorPivotZ", "RightHandEffectorPivotZ"),
     )
 
-    RightHandEffectorPivotX = DoubleLinearField()
+    RightHandEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorPivotY = DoubleLinearField()
+    RightHandEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorPivotZ = DoubleLinearField()
+    RightHandEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandEffectorPivotAttrOperator(
@@ -752,11 +752,11 @@ class RightHandEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandEffectorPivotX = DoubleLinearField()
+    RightHandEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorPivotY = DoubleLinearField()
+    RightHandEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandEffectorPivotZ = DoubleLinearField()
+    RightHandEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandEffectorPivotField(
@@ -778,11 +778,11 @@ class LeftHandThumbEffectorPivotPlugOperator(
         ("LeftHandThumbEffectorPivotZ", "LeftHandThumbEffectorPivotZ"),
     )
 
-    LeftHandThumbEffectorPivotX = DoubleLinearField()
+    LeftHandThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorPivotY = DoubleLinearField()
+    LeftHandThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorPivotZ = DoubleLinearField()
+    LeftHandThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumbEffectorPivotAttrOperator(
@@ -790,11 +790,11 @@ class LeftHandThumbEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandThumbEffectorPivotX = DoubleLinearField()
+    LeftHandThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorPivotY = DoubleLinearField()
+    LeftHandThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandThumbEffectorPivotZ = DoubleLinearField()
+    LeftHandThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandThumbEffectorPivotField(
@@ -816,11 +816,11 @@ class LeftHandIndexEffectorPivotPlugOperator(
         ("LeftHandIndexEffectorPivotZ", "LeftHandIndexEffectorPivotZ"),
     )
 
-    LeftHandIndexEffectorPivotX = DoubleLinearField()
+    LeftHandIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorPivotY = DoubleLinearField()
+    LeftHandIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorPivotZ = DoubleLinearField()
+    LeftHandIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndexEffectorPivotAttrOperator(
@@ -828,11 +828,11 @@ class LeftHandIndexEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandIndexEffectorPivotX = DoubleLinearField()
+    LeftHandIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorPivotY = DoubleLinearField()
+    LeftHandIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandIndexEffectorPivotZ = DoubleLinearField()
+    LeftHandIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandIndexEffectorPivotField(
@@ -854,11 +854,11 @@ class LeftHandMiddleEffectorPivotPlugOperator(
         ("LeftHandMiddleEffectorPivotZ", "LeftHandMiddleEffectorPivotZ"),
     )
 
-    LeftHandMiddleEffectorPivotX = DoubleLinearField()
+    LeftHandMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorPivotY = DoubleLinearField()
+    LeftHandMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorPivotZ = DoubleLinearField()
+    LeftHandMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddleEffectorPivotAttrOperator(
@@ -866,11 +866,11 @@ class LeftHandMiddleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandMiddleEffectorPivotX = DoubleLinearField()
+    LeftHandMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorPivotY = DoubleLinearField()
+    LeftHandMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandMiddleEffectorPivotZ = DoubleLinearField()
+    LeftHandMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandMiddleEffectorPivotField(
@@ -892,11 +892,11 @@ class LeftHandRingEffectorPivotPlugOperator(
         ("LeftHandRingEffectorPivotZ", "LeftHandRingEffectorPivotZ"),
     )
 
-    LeftHandRingEffectorPivotX = DoubleLinearField()
+    LeftHandRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorPivotY = DoubleLinearField()
+    LeftHandRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorPivotZ = DoubleLinearField()
+    LeftHandRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRingEffectorPivotAttrOperator(
@@ -904,11 +904,11 @@ class LeftHandRingEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandRingEffectorPivotX = DoubleLinearField()
+    LeftHandRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorPivotY = DoubleLinearField()
+    LeftHandRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandRingEffectorPivotZ = DoubleLinearField()
+    LeftHandRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandRingEffectorPivotField(
@@ -930,11 +930,11 @@ class LeftHandPinkyEffectorPivotPlugOperator(
         ("LeftHandPinkyEffectorPivotZ", "LeftHandPinkyEffectorPivotZ"),
     )
 
-    LeftHandPinkyEffectorPivotX = DoubleLinearField()
+    LeftHandPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorPivotY = DoubleLinearField()
+    LeftHandPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorPivotZ = DoubleLinearField()
+    LeftHandPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinkyEffectorPivotAttrOperator(
@@ -942,11 +942,11 @@ class LeftHandPinkyEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandPinkyEffectorPivotX = DoubleLinearField()
+    LeftHandPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorPivotY = DoubleLinearField()
+    LeftHandPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandPinkyEffectorPivotZ = DoubleLinearField()
+    LeftHandPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandPinkyEffectorPivotField(
@@ -968,11 +968,11 @@ class LeftHandExtraFingerEffectorPivotPlugOperator(
         ("LeftHandExtraFingerEffectorPivotZ", "LeftHandExtraFingerEffectorPivotZ"),
     )
 
-    LeftHandExtraFingerEffectorPivotX = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorPivotY = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorPivotZ = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFingerEffectorPivotAttrOperator(
@@ -980,11 +980,11 @@ class LeftHandExtraFingerEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftHandExtraFingerEffectorPivotX = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorPivotY = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftHandExtraFingerEffectorPivotZ = DoubleLinearField()
+    LeftHandExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftHandExtraFingerEffectorPivotField(
@@ -1006,11 +1006,11 @@ class RightHandThumbEffectorPivotPlugOperator(
         ("RightHandThumbEffectorPivotZ", "RightHandThumbEffectorPivotZ"),
     )
 
-    RightHandThumbEffectorPivotX = DoubleLinearField()
+    RightHandThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorPivotY = DoubleLinearField()
+    RightHandThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorPivotZ = DoubleLinearField()
+    RightHandThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumbEffectorPivotAttrOperator(
@@ -1018,11 +1018,11 @@ class RightHandThumbEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandThumbEffectorPivotX = DoubleLinearField()
+    RightHandThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorPivotY = DoubleLinearField()
+    RightHandThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandThumbEffectorPivotZ = DoubleLinearField()
+    RightHandThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandThumbEffectorPivotField(
@@ -1044,11 +1044,11 @@ class RightHandIndexEffectorPivotPlugOperator(
         ("RightHandIndexEffectorPivotZ", "RightHandIndexEffectorPivotZ"),
     )
 
-    RightHandIndexEffectorPivotX = DoubleLinearField()
+    RightHandIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorPivotY = DoubleLinearField()
+    RightHandIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorPivotZ = DoubleLinearField()
+    RightHandIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndexEffectorPivotAttrOperator(
@@ -1056,11 +1056,11 @@ class RightHandIndexEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandIndexEffectorPivotX = DoubleLinearField()
+    RightHandIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorPivotY = DoubleLinearField()
+    RightHandIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandIndexEffectorPivotZ = DoubleLinearField()
+    RightHandIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandIndexEffectorPivotField(
@@ -1082,11 +1082,11 @@ class RightHandMiddleEffectorPivotPlugOperator(
         ("RightHandMiddleEffectorPivotZ", "RightHandMiddleEffectorPivotZ"),
     )
 
-    RightHandMiddleEffectorPivotX = DoubleLinearField()
+    RightHandMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorPivotY = DoubleLinearField()
+    RightHandMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorPivotZ = DoubleLinearField()
+    RightHandMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddleEffectorPivotAttrOperator(
@@ -1094,11 +1094,11 @@ class RightHandMiddleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandMiddleEffectorPivotX = DoubleLinearField()
+    RightHandMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorPivotY = DoubleLinearField()
+    RightHandMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandMiddleEffectorPivotZ = DoubleLinearField()
+    RightHandMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandMiddleEffectorPivotField(
@@ -1120,11 +1120,11 @@ class RightHandRingEffectorPivotPlugOperator(
         ("RightHandRingEffectorPivotZ", "RightHandRingEffectorPivotZ"),
     )
 
-    RightHandRingEffectorPivotX = DoubleLinearField()
+    RightHandRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorPivotY = DoubleLinearField()
+    RightHandRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorPivotZ = DoubleLinearField()
+    RightHandRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRingEffectorPivotAttrOperator(
@@ -1132,11 +1132,11 @@ class RightHandRingEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandRingEffectorPivotX = DoubleLinearField()
+    RightHandRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorPivotY = DoubleLinearField()
+    RightHandRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandRingEffectorPivotZ = DoubleLinearField()
+    RightHandRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandRingEffectorPivotField(
@@ -1158,11 +1158,11 @@ class RightHandPinkyEffectorPivotPlugOperator(
         ("RightHandPinkyEffectorPivotZ", "RightHandPinkyEffectorPivotZ"),
     )
 
-    RightHandPinkyEffectorPivotX = DoubleLinearField()
+    RightHandPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorPivotY = DoubleLinearField()
+    RightHandPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorPivotZ = DoubleLinearField()
+    RightHandPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinkyEffectorPivotAttrOperator(
@@ -1170,11 +1170,11 @@ class RightHandPinkyEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandPinkyEffectorPivotX = DoubleLinearField()
+    RightHandPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorPivotY = DoubleLinearField()
+    RightHandPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandPinkyEffectorPivotZ = DoubleLinearField()
+    RightHandPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandPinkyEffectorPivotField(
@@ -1196,11 +1196,11 @@ class RightHandExtraFingerEffectorPivotPlugOperator(
         ("RightHandExtraFingerEffectorPivotZ", "RightHandExtraFingerEffectorPivotZ"),
     )
 
-    RightHandExtraFingerEffectorPivotX = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorPivotY = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorPivotZ = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFingerEffectorPivotAttrOperator(
@@ -1208,11 +1208,11 @@ class RightHandExtraFingerEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightHandExtraFingerEffectorPivotX = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorPivotY = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightHandExtraFingerEffectorPivotZ = DoubleLinearField()
+    RightHandExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightHandExtraFingerEffectorPivotField(
@@ -1234,11 +1234,11 @@ class LeftFootThumbEffectorPivotPlugOperator(
         ("LeftFootThumbEffectorPivotZ", "LeftFootThumbEffectorPivotZ"),
     )
 
-    LeftFootThumbEffectorPivotX = DoubleLinearField()
+    LeftFootThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorPivotY = DoubleLinearField()
+    LeftFootThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorPivotZ = DoubleLinearField()
+    LeftFootThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumbEffectorPivotAttrOperator(
@@ -1246,11 +1246,11 @@ class LeftFootThumbEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootThumbEffectorPivotX = DoubleLinearField()
+    LeftFootThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorPivotY = DoubleLinearField()
+    LeftFootThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootThumbEffectorPivotZ = DoubleLinearField()
+    LeftFootThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootThumbEffectorPivotField(
@@ -1272,11 +1272,11 @@ class LeftFootIndexEffectorPivotPlugOperator(
         ("LeftFootIndexEffectorPivotZ", "LeftFootIndexEffectorPivotZ"),
     )
 
-    LeftFootIndexEffectorPivotX = DoubleLinearField()
+    LeftFootIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorPivotY = DoubleLinearField()
+    LeftFootIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorPivotZ = DoubleLinearField()
+    LeftFootIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndexEffectorPivotAttrOperator(
@@ -1284,11 +1284,11 @@ class LeftFootIndexEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootIndexEffectorPivotX = DoubleLinearField()
+    LeftFootIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorPivotY = DoubleLinearField()
+    LeftFootIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootIndexEffectorPivotZ = DoubleLinearField()
+    LeftFootIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootIndexEffectorPivotField(
@@ -1310,11 +1310,11 @@ class LeftFootMiddleEffectorPivotPlugOperator(
         ("LeftFootMiddleEffectorPivotZ", "LeftFootMiddleEffectorPivotZ"),
     )
 
-    LeftFootMiddleEffectorPivotX = DoubleLinearField()
+    LeftFootMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorPivotY = DoubleLinearField()
+    LeftFootMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorPivotZ = DoubleLinearField()
+    LeftFootMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddleEffectorPivotAttrOperator(
@@ -1322,11 +1322,11 @@ class LeftFootMiddleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootMiddleEffectorPivotX = DoubleLinearField()
+    LeftFootMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorPivotY = DoubleLinearField()
+    LeftFootMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootMiddleEffectorPivotZ = DoubleLinearField()
+    LeftFootMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootMiddleEffectorPivotField(
@@ -1348,11 +1348,11 @@ class LeftFootRingEffectorPivotPlugOperator(
         ("LeftFootRingEffectorPivotZ", "LeftFootRingEffectorPivotZ"),
     )
 
-    LeftFootRingEffectorPivotX = DoubleLinearField()
+    LeftFootRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorPivotY = DoubleLinearField()
+    LeftFootRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorPivotZ = DoubleLinearField()
+    LeftFootRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRingEffectorPivotAttrOperator(
@@ -1360,11 +1360,11 @@ class LeftFootRingEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootRingEffectorPivotX = DoubleLinearField()
+    LeftFootRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorPivotY = DoubleLinearField()
+    LeftFootRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootRingEffectorPivotZ = DoubleLinearField()
+    LeftFootRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootRingEffectorPivotField(
@@ -1386,11 +1386,11 @@ class LeftFootPinkyEffectorPivotPlugOperator(
         ("LeftFootPinkyEffectorPivotZ", "LeftFootPinkyEffectorPivotZ"),
     )
 
-    LeftFootPinkyEffectorPivotX = DoubleLinearField()
+    LeftFootPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorPivotY = DoubleLinearField()
+    LeftFootPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorPivotZ = DoubleLinearField()
+    LeftFootPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinkyEffectorPivotAttrOperator(
@@ -1398,11 +1398,11 @@ class LeftFootPinkyEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootPinkyEffectorPivotX = DoubleLinearField()
+    LeftFootPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorPivotY = DoubleLinearField()
+    LeftFootPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootPinkyEffectorPivotZ = DoubleLinearField()
+    LeftFootPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootPinkyEffectorPivotField(
@@ -1424,11 +1424,11 @@ class LeftFootExtraFingerEffectorPivotPlugOperator(
         ("LeftFootExtraFingerEffectorPivotZ", "LeftFootExtraFingerEffectorPivotZ"),
     )
 
-    LeftFootExtraFingerEffectorPivotX = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorPivotY = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorPivotZ = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFingerEffectorPivotAttrOperator(
@@ -1436,11 +1436,11 @@ class LeftFootExtraFingerEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    LeftFootExtraFingerEffectorPivotX = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorPivotY = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    LeftFootExtraFingerEffectorPivotZ = DoubleLinearField()
+    LeftFootExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class LeftFootExtraFingerEffectorPivotField(
@@ -1462,11 +1462,11 @@ class RightFootThumbEffectorPivotPlugOperator(
         ("RightFootThumbEffectorPivotZ", "RightFootThumbEffectorPivotZ"),
     )
 
-    RightFootThumbEffectorPivotX = DoubleLinearField()
+    RightFootThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorPivotY = DoubleLinearField()
+    RightFootThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorPivotZ = DoubleLinearField()
+    RightFootThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumbEffectorPivotAttrOperator(
@@ -1474,11 +1474,11 @@ class RightFootThumbEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootThumbEffectorPivotX = DoubleLinearField()
+    RightFootThumbEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorPivotY = DoubleLinearField()
+    RightFootThumbEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootThumbEffectorPivotZ = DoubleLinearField()
+    RightFootThumbEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootThumbEffectorPivotField(
@@ -1500,11 +1500,11 @@ class RightFootIndexEffectorPivotPlugOperator(
         ("RightFootIndexEffectorPivotZ", "RightFootIndexEffectorPivotZ"),
     )
 
-    RightFootIndexEffectorPivotX = DoubleLinearField()
+    RightFootIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorPivotY = DoubleLinearField()
+    RightFootIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorPivotZ = DoubleLinearField()
+    RightFootIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndexEffectorPivotAttrOperator(
@@ -1512,11 +1512,11 @@ class RightFootIndexEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootIndexEffectorPivotX = DoubleLinearField()
+    RightFootIndexEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorPivotY = DoubleLinearField()
+    RightFootIndexEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootIndexEffectorPivotZ = DoubleLinearField()
+    RightFootIndexEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootIndexEffectorPivotField(
@@ -1538,11 +1538,11 @@ class RightFootMiddleEffectorPivotPlugOperator(
         ("RightFootMiddleEffectorPivotZ", "RightFootMiddleEffectorPivotZ"),
     )
 
-    RightFootMiddleEffectorPivotX = DoubleLinearField()
+    RightFootMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorPivotY = DoubleLinearField()
+    RightFootMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorPivotZ = DoubleLinearField()
+    RightFootMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddleEffectorPivotAttrOperator(
@@ -1550,11 +1550,11 @@ class RightFootMiddleEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootMiddleEffectorPivotX = DoubleLinearField()
+    RightFootMiddleEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorPivotY = DoubleLinearField()
+    RightFootMiddleEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootMiddleEffectorPivotZ = DoubleLinearField()
+    RightFootMiddleEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootMiddleEffectorPivotField(
@@ -1576,11 +1576,11 @@ class RightFootRingEffectorPivotPlugOperator(
         ("RightFootRingEffectorPivotZ", "RightFootRingEffectorPivotZ"),
     )
 
-    RightFootRingEffectorPivotX = DoubleLinearField()
+    RightFootRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorPivotY = DoubleLinearField()
+    RightFootRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorPivotZ = DoubleLinearField()
+    RightFootRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRingEffectorPivotAttrOperator(
@@ -1588,11 +1588,11 @@ class RightFootRingEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootRingEffectorPivotX = DoubleLinearField()
+    RightFootRingEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorPivotY = DoubleLinearField()
+    RightFootRingEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootRingEffectorPivotZ = DoubleLinearField()
+    RightFootRingEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootRingEffectorPivotField(
@@ -1614,11 +1614,11 @@ class RightFootPinkyEffectorPivotPlugOperator(
         ("RightFootPinkyEffectorPivotZ", "RightFootPinkyEffectorPivotZ"),
     )
 
-    RightFootPinkyEffectorPivotX = DoubleLinearField()
+    RightFootPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorPivotY = DoubleLinearField()
+    RightFootPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorPivotZ = DoubleLinearField()
+    RightFootPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinkyEffectorPivotAttrOperator(
@@ -1626,11 +1626,11 @@ class RightFootPinkyEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootPinkyEffectorPivotX = DoubleLinearField()
+    RightFootPinkyEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorPivotY = DoubleLinearField()
+    RightFootPinkyEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootPinkyEffectorPivotZ = DoubleLinearField()
+    RightFootPinkyEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootPinkyEffectorPivotField(
@@ -1652,11 +1652,11 @@ class RightFootExtraFingerEffectorPivotPlugOperator(
         ("RightFootExtraFingerEffectorPivotZ", "RightFootExtraFingerEffectorPivotZ"),
     )
 
-    RightFootExtraFingerEffectorPivotX = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorPivotY = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorPivotZ = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFingerEffectorPivotAttrOperator(
@@ -1664,11 +1664,11 @@ class RightFootExtraFingerEffectorPivotAttrOperator(
 ):
     __slots__ = ()
 
-    RightFootExtraFingerEffectorPivotX = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotX = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorPivotY = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotY = DoubleLinearField(default_value=0.0)
 
-    RightFootExtraFingerEffectorPivotZ = DoubleLinearField()
+    RightFootExtraFingerEffectorPivotZ = DoubleLinearField(default_value=0.0)
 
 
 class RightFootExtraFingerEffectorPivotField(

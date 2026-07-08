@@ -18,13 +18,13 @@ class InColorPlugOperator(
         ("inColorB", "_cb"),
     )
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     cr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     cg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     cb = inColorB
 
 
@@ -33,13 +33,13 @@ class InColorAttrOperator(
 ):
     __slots__ = ()
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     cr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     cg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     cb = inColorB
 
 
@@ -51,13 +51,13 @@ class InColorField(
     ATTR_CLS = InColorAttrOperator
     PLUG_CLS = InColorPlugOperator
 
-    inColorR = FloatField()
+    inColorR = FloatField(default_value=0.30000001192092896)
     cr = inColorR
 
-    inColorG = FloatField()
+    inColorG = FloatField(default_value=0.30000001192092896)
     cg = inColorG
 
-    inColorB = FloatField()
+    inColorB = FloatField(default_value=0.30000001192092896)
     cb = inColorB
 
 
@@ -71,13 +71,13 @@ class ColGainPlugOperator(
         ("colGainB", "_ccgb"),
     )
 
-    colGainR = FloatField()
+    colGainR = FloatField(default_value=1.0)
     ccgr = colGainR
 
-    colGainG = FloatField()
+    colGainG = FloatField(default_value=1.0)
     ccgg = colGainG
 
-    colGainB = FloatField()
+    colGainB = FloatField(default_value=1.0)
     ccgb = colGainB
 
 
@@ -86,13 +86,13 @@ class ColGainAttrOperator(
 ):
     __slots__ = ()
 
-    colGainR = FloatField()
+    colGainR = FloatField(default_value=1.0)
     ccgr = colGainR
 
-    colGainG = FloatField()
+    colGainG = FloatField(default_value=1.0)
     ccgg = colGainG
 
-    colGainB = FloatField()
+    colGainB = FloatField(default_value=1.0)
     ccgb = colGainB
 
 
@@ -104,13 +104,13 @@ class ColGainField(
     ATTR_CLS = ColGainAttrOperator
     PLUG_CLS = ColGainPlugOperator
 
-    colGainR = FloatField()
+    colGainR = FloatField(default_value=1.0)
     ccgr = colGainR
 
-    colGainG = FloatField()
+    colGainG = FloatField(default_value=1.0)
     ccgg = colGainG
 
-    colGainB = FloatField()
+    colGainB = FloatField(default_value=1.0)
     ccgb = colGainB
 
 
@@ -124,13 +124,13 @@ class ColOffsetPlugOperator(
         ("colOffsetB", "_cob"),
     )
 
-    colOffsetR = FloatField()
+    colOffsetR = FloatField(default_value=0.0)
     cor = colOffsetR
 
-    colOffsetG = FloatField()
+    colOffsetG = FloatField(default_value=0.0)
     cog = colOffsetG
 
-    colOffsetB = FloatField()
+    colOffsetB = FloatField(default_value=0.0)
     cob = colOffsetB
 
 
@@ -139,13 +139,13 @@ class ColOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    colOffsetR = FloatField()
+    colOffsetR = FloatField(default_value=0.0)
     cor = colOffsetR
 
-    colOffsetG = FloatField()
+    colOffsetG = FloatField(default_value=0.0)
     cog = colOffsetG
 
-    colOffsetB = FloatField()
+    colOffsetB = FloatField(default_value=0.0)
     cob = colOffsetB
 
 
@@ -157,13 +157,13 @@ class ColOffsetField(
     ATTR_CLS = ColOffsetAttrOperator
     PLUG_CLS = ColOffsetPlugOperator
 
-    colOffsetR = FloatField()
+    colOffsetR = FloatField(default_value=0.0)
     cor = colOffsetR
 
-    colOffsetG = FloatField()
+    colOffsetG = FloatField(default_value=0.0)
     cog = colOffsetG
 
-    colOffsetB = FloatField()
+    colOffsetB = FloatField(default_value=0.0)
     cob = colOffsetB
 
 
@@ -177,13 +177,13 @@ class ColGammaPlugOperator(
         ("colGammaZ", "_cgaz"),
     )
 
-    colGammaX = FloatField()
+    colGammaX = FloatField(default_value=1.0)
     cgax = colGammaX
 
-    colGammaY = FloatField()
+    colGammaY = FloatField(default_value=1.0)
     cgay = colGammaY
 
-    colGammaZ = FloatField()
+    colGammaZ = FloatField(default_value=1.0)
     cgaz = colGammaZ
 
 
@@ -192,13 +192,13 @@ class ColGammaAttrOperator(
 ):
     __slots__ = ()
 
-    colGammaX = FloatField()
+    colGammaX = FloatField(default_value=1.0)
     cgax = colGammaX
 
-    colGammaY = FloatField()
+    colGammaY = FloatField(default_value=1.0)
     cgay = colGammaY
 
-    colGammaZ = FloatField()
+    colGammaZ = FloatField(default_value=1.0)
     cgaz = colGammaZ
 
 
@@ -210,13 +210,13 @@ class ColGammaField(
     ATTR_CLS = ColGammaAttrOperator
     PLUG_CLS = ColGammaPlugOperator
 
-    colGammaX = FloatField()
+    colGammaX = FloatField(default_value=1.0)
     cgax = colGammaX
 
-    colGammaY = FloatField()
+    colGammaY = FloatField(default_value=1.0)
     cgay = colGammaY
 
-    colGammaZ = FloatField()
+    colGammaZ = FloatField(default_value=1.0)
     cgaz = colGammaZ
 
 
@@ -230,13 +230,13 @@ class ColClampMinPlugOperator(
         ("colClampMinB", "_ccmnb"),
     )
 
-    colClampMinR = FloatField()
+    colClampMinR = FloatField(default_value=0.0)
     ccmnr = colClampMinR
 
-    colClampMinG = FloatField()
+    colClampMinG = FloatField(default_value=0.0)
     ccmng = colClampMinG
 
-    colClampMinB = FloatField()
+    colClampMinB = FloatField(default_value=0.0)
     ccmnb = colClampMinB
 
 
@@ -245,13 +245,13 @@ class ColClampMinAttrOperator(
 ):
     __slots__ = ()
 
-    colClampMinR = FloatField()
+    colClampMinR = FloatField(default_value=0.0)
     ccmnr = colClampMinR
 
-    colClampMinG = FloatField()
+    colClampMinG = FloatField(default_value=0.0)
     ccmng = colClampMinG
 
-    colClampMinB = FloatField()
+    colClampMinB = FloatField(default_value=0.0)
     ccmnb = colClampMinB
 
 
@@ -263,13 +263,13 @@ class ColClampMinField(
     ATTR_CLS = ColClampMinAttrOperator
     PLUG_CLS = ColClampMinPlugOperator
 
-    colClampMinR = FloatField()
+    colClampMinR = FloatField(default_value=0.0)
     ccmnr = colClampMinR
 
-    colClampMinG = FloatField()
+    colClampMinG = FloatField(default_value=0.0)
     ccmng = colClampMinG
 
-    colClampMinB = FloatField()
+    colClampMinB = FloatField(default_value=0.0)
     ccmnb = colClampMinB
 
 
@@ -283,13 +283,13 @@ class ColClampMaxPlugOperator(
         ("colClampMaxB", "_ccmxb"),
     )
 
-    colClampMaxR = FloatField()
+    colClampMaxR = FloatField(default_value=1.0)
     ccmxr = colClampMaxR
 
-    colClampMaxG = FloatField()
+    colClampMaxG = FloatField(default_value=1.0)
     ccmxg = colClampMaxG
 
-    colClampMaxB = FloatField()
+    colClampMaxB = FloatField(default_value=1.0)
     ccmxb = colClampMaxB
 
 
@@ -298,13 +298,13 @@ class ColClampMaxAttrOperator(
 ):
     __slots__ = ()
 
-    colClampMaxR = FloatField()
+    colClampMaxR = FloatField(default_value=1.0)
     ccmxr = colClampMaxR
 
-    colClampMaxG = FloatField()
+    colClampMaxG = FloatField(default_value=1.0)
     ccmxg = colClampMaxG
 
-    colClampMaxB = FloatField()
+    colClampMaxB = FloatField(default_value=1.0)
     ccmxb = colClampMaxB
 
 
@@ -316,13 +316,13 @@ class ColClampMaxField(
     ATTR_CLS = ColClampMaxAttrOperator
     PLUG_CLS = ColClampMaxPlugOperator
 
-    colClampMaxR = FloatField()
+    colClampMaxR = FloatField(default_value=1.0)
     ccmxr = colClampMaxR
 
-    colClampMaxG = FloatField()
+    colClampMaxG = FloatField(default_value=1.0)
     ccmxg = colClampMaxG
 
-    colClampMaxB = FloatField()
+    colClampMaxB = FloatField(default_value=1.0)
     ccmxb = colClampMaxB
 
 
@@ -336,13 +336,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -351,13 +351,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -369,11 +369,11 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB

@@ -9,8 +9,8 @@ class Atan(DG):
 
     NODE_TYPE = "atan"
 
-    input = DoubleLinearField()
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
-    output = DoubleAngleField()
+    output = DoubleAngleField(default_value=0.0, writable=False)
     o = output

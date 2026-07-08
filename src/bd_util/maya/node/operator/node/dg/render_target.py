@@ -88,7 +88,7 @@ class RenderTarget(DG):
 
     NODE_TYPE = "renderTarget"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -97,20 +97,20 @@ class RenderTarget(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    outSize = OutSizeField()
+    outSize = OutSizeField(default_value=(0.0, 0.0), writable=False)
     os = outSize
     outSizeX = outSize.outSizeX
     osx = outSizeX
     outSizeY = outSize.outSizeY
     osy = outSizeY
 
-    fileHasAlpha = BoolField()
+    fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -119,10 +119,10 @@ class RenderTarget(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    renderLayer = MessageField()
+    renderLayer = MessageField(readable=False)
     rl = renderLayer
 
-    color = ColorField()
+    color = ColorField(default_value=(0.0, 0.0, 0.0))
     col = color
     colorR = color.colorR
     cr = colorR
@@ -131,38 +131,38 @@ class RenderTarget(DG):
     colorB = color.colorB
     cb = colorB
 
-    alpha = FloatField()
+    alpha = FloatField(default_value=0.0)
     a = alpha
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     r = renderable
 
-    renderingOverride = BoolField()
+    renderingOverride = BoolField(default_value=False)
     reno = renderingOverride
 
     renderer = DataStringField()
     rdr = renderer
 
-    colorProfile = LongField()
+    colorProfile = LongField(default_value=0)
     cp = colorProfile
 
-    frameBufferOverride = BoolField()
+    frameBufferOverride = BoolField(default_value=False)
     fbo = frameBufferOverride
 
-    frameBufferType = FrameBufferTypeEnumField()
+    frameBufferType = FrameBufferTypeEnumField(default_value=0)
     fbt = frameBufferType
 
-    numberOfChannels = NumberOfChannelsEnumField()
+    numberOfChannels = NumberOfChannelsEnumField(default_value=3)
     nc = numberOfChannels
 
-    resolutionOverride = BoolField()
+    resolutionOverride = BoolField(default_value=False)
     reso = resolutionOverride
 
-    width = LongField()
+    width = LongField(default_value=640, min_value=2, soft_min_value=128, soft_max_value=8192)
     w = width
 
-    height = LongField()
+    height = LongField(default_value=480, min_value=2, soft_min_value=128, soft_max_value=8192)
     h = height
 
-    camera = MessageField()
+    camera = MessageField(readable=False)
     cam = camera

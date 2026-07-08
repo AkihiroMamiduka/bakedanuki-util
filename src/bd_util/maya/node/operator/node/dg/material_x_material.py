@@ -23,7 +23,7 @@ class MaterialXMaterial(DG):
     element = DataStringField()
     el = element
 
-    outSurface = OutSurfaceField()
+    outSurface = OutSurfaceField(default_value=(0.0, 0.0, 0.0), writable=False)
     os = outSurface
     outSurfaceR = outSurface.outSurfaceR
     osr = outSurfaceR
@@ -32,7 +32,7 @@ class MaterialXMaterial(DG):
     outSurfaceB = outSurface.outSurfaceB
     osb = outSurfaceB
 
-    outVolume = OutVolumeField()
+    outVolume = OutVolumeField(default_value=(0.0, 0.0, 0.0), writable=False)
     ov = outVolume
     outVolumeR = outVolume.outVolumeR
     ovr = outVolumeR
@@ -41,5 +41,5 @@ class MaterialXMaterial(DG):
     outVolumeB = outVolume.outVolumeB
     ovb = outVolumeB
 
-    outDisplacement = FloatField()
+    outDisplacement = FloatField(default_value=0.0, writable=False)
     od = outDisplacement

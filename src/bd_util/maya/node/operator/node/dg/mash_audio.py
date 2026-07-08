@@ -276,7 +276,7 @@ class MASH_Audio(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -287,21 +287,21 @@ class MASH_Audio(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -309,11 +309,11 @@ class MASH_Audio(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
-    falloffOut = TypedField()
+    falloffOut = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -326,36 +326,36 @@ class MASH_Audio(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    modifiedTime = TimeField()
+    modifiedTime = TimeField(default_value=1.0, writable=False)
     moTi = modifiedTime
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    eqOutput = FloatField(multi=True)
+    eqOutput = FloatField(multi=True, default_value=0.0, writable=False)
 
-    enableX = BoolField()
+    enableX = BoolField(default_value=False)
     enX = enableX
 
-    enableY = BoolField()
+    enableY = BoolField(default_value=True)
     enY = enableY
 
-    enableZ = BoolField()
+    enableZ = BoolField(default_value=False)
     enZ = enableZ
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=True)
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -364,81 +364,81 @@ class MASH_Audio(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
-    eqBOutput = BoolField()
+    eqBOutput = BoolField(default_value=False)
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
     falloffInfo = TypedField()
 
-    soundLength = FloatField()
+    soundLength = FloatField(default_value=0.0, writable=False)
 
-    maxBands = LongField()
+    maxBands = LongField(default_value=64, min_value=0, soft_max_value=100)
 
-    outVolume = FloatField()
+    outVolume = FloatField(default_value=0.0, writable=False)
 
-    timeStep = BoolField()
+    timeStep = BoolField(default_value=True)
 
-    legacy2016 = BoolField()
+    legacy2016 = BoolField(default_value=False)
 
-    legacy2017 = BoolField()
+    legacy2017 = BoolField(default_value=False)
 
-    filterStrength = FilterStrengthEnumField()
+    filterStrength = FilterStrengthEnumField(default_value=1)
 
-    minThreshold = FloatField()
+    minThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=30.0)
 
-    maxThreshold = FloatField()
+    maxThreshold = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
 
     filename = DataStringField()
 
-    timeOffset = TimeField()
+    timeOffset = TimeField(default_value=0.0)
 
-    outputMode = OutputModeEnumField()
+    outputMode = OutputModeEnumField(default_value=0)
 
-    sampleRate = SampleRateEnumField()
+    sampleRate = SampleRateEnumField(default_value=1)
 
-    nodeMode = NodeModeEnumField()
+    nodeMode = NodeModeEnumField(default_value=0)
 
-    fourierScaling = FourierScalingEnumField()
+    fourierScaling = FourierScalingEnumField(default_value=0)
 
-    volumeMode = VolumeModeEnumField()
+    volumeMode = VolumeModeEnumField(default_value=0)
 
-    frequencyGraph = FrequencyGraphField(multi=True)
+    frequencyGraph = FrequencyGraphField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    timeSmoothing = LongField()
+    timeSmoothing = LongField(default_value=1, min_value=1, soft_max_value=5)
 
-    ampScale = FloatField()
+    ampScale = FloatField(default_value=30.0, soft_min_value=0.0, soft_max_value=100.0)
     as_ = ampScale
 
-    amplitudeLeft = FloatField()
+    amplitudeLeft = FloatField(default_value=0.0, writable=False)
     ampL = amplitudeLeft
 
-    amplitudeRight = FloatField()
+    amplitudeRight = FloatField(default_value=0.0, writable=False)
     ampR = amplitudeRight
 
-    positionX = FloatField()
+    positionX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    positionY = FloatField()
+    positionY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    positionZ = FloatField()
+    positionZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    rotationX = FloatField()
+    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationY = FloatField()
+    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    rotationZ = FloatField()
+    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
 
-    scaleX = FloatField()
+    scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleY = FloatField()
+    scaleY = FloatField(default_value=30.0, min_value=0.0, soft_max_value=10.0)
 
-    scaleZ = FloatField()
+    scaleZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)

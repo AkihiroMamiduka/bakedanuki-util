@@ -68,19 +68,19 @@ class InObjectArrayPlugOperator(
         ("curveOptimize", "curveOptimize"),
     )
 
-    inputType = InputTypeEnumField()
+    inputType = InputTypeEnumField(default_value=3)
 
-    mesh = DataMeshField()
+    mesh = DataMeshField(readable=False)
 
-    curve = DataNurbsCurveField()
+    curve = DataNurbsCurveField(readable=False)
 
     components = TypedField()
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField()
+    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
 
-    curveOptimize = BoolField()
+    curveOptimize = BoolField(default_value=True)
 
 
 class InObjectArrayAttrOperator(
@@ -88,19 +88,19 @@ class InObjectArrayAttrOperator(
 ):
     __slots__ = ()
 
-    inputType = InputTypeEnumField()
+    inputType = InputTypeEnumField(default_value=3)
 
-    mesh = DataMeshField()
+    mesh = DataMeshField(readable=False)
 
-    curve = DataNurbsCurveField()
+    curve = DataNurbsCurveField(readable=False)
 
     components = TypedField()
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField()
+    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
 
-    curveOptimize = BoolField()
+    curveOptimize = BoolField(default_value=True)
 
 
 class InObjectArrayField(
@@ -123,7 +123,7 @@ class CachedLocalZCompoundArrayPlugOperator(
 
     cachedLocalZNodeUUID = DataStringField()
 
-    cachedLocalZVector = Double3Field()
+    cachedLocalZVector = Double3Field(default_value=(0.0, 0.0, 0.0))
 
 
 class CachedLocalZCompoundArrayAttrOperator(
@@ -133,7 +133,7 @@ class CachedLocalZCompoundArrayAttrOperator(
 
     cachedLocalZNodeUUID = DataStringField()
 
-    cachedLocalZVector = Double3Field()
+    cachedLocalZVector = Double3Field(default_value=(0.0, 0.0, 0.0))
 
 
 class CachedLocalZCompoundArrayField(

@@ -10,10 +10,10 @@ class TimeWarp(DG):
 
     NODE_TYPE = "timeWarp"
 
-    input = TimeField()
+    input = TimeField(default_value=0.0)
     i = input
 
-    output = TimeField()
+    output = TimeField(default_value=0.0, writable=False)
     o = output
 
     origFrames = DataDoubleArrayField()
@@ -25,5 +25,5 @@ class TimeWarp(DG):
     interpType = TypedField()
     it = interpType
 
-    apply = TypedField()
+    apply = TypedField(writable=False)
     a = apply

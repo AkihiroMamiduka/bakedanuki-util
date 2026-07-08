@@ -22,11 +22,11 @@ class DagPose(DG):
     parents = MessageField(multi=True)
     p = parents
 
-    global_ = BoolField(multi=True, long_name="global", short_name="g")
+    global_ = BoolField(multi=True, default_value=False, long_name="global", short_name="g")
     g = global_
 
-    world = MessageField()
+    world = MessageField(writable=False)
     w = world
 
-    bindPose = BoolField()
+    bindPose = BoolField(default_value=False)
     bp = bindPose

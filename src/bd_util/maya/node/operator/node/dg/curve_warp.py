@@ -125,22 +125,22 @@ class CurveWarp(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -152,36 +152,36 @@ class CurveWarp(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    rotation = DoubleField()
+    rotation = DoubleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    twistRotation = DoubleField()
+    twistRotation = DoubleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    offset = DoubleField()
+    offset = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    lengthScale = DoubleField()
+    lengthScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    samplingAccuracy = DoubleField()
+    samplingAccuracy = DoubleField(default_value=1.0, min_value=0.01, soft_max_value=2.0)
 
-    maxScale = DoubleField()
+    maxScale = DoubleField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    flipAxis = BoolField()
+    flipAxis = BoolField(default_value=False)
 
-    loopClosedCurves = BoolField()
+    loopClosedCurves = BoolField(default_value=False)
 
-    keepLength = BoolField()
+    keepLength = BoolField(default_value=True)
 
-    alignmentMode = AlignmentModeEnumField()
+    alignmentMode = AlignmentModeEnumField(default_value=1)
 
-    aimCurveMode = AimCurveModeEnumField()
+    aimCurveMode = AimCurveModeEnumField(default_value=2)
 
-    aimMode = AimModeEnumField()
+    aimMode = AimModeEnumField(default_value=2)
 
-    scaleCurve = ScaleCurveField(multi=True)
+    scaleCurve = ScaleCurveField(multi=True, default_value=(0.0, 0.0))
 
-    twistCurve = TwistCurveField(multi=True)
+    twistCurve = TwistCurveField(multi=True, default_value=(0.0, 0.0))
 
     inputCurve = DataNurbsCurveField()
 
@@ -189,4 +189,4 @@ class CurveWarp(DG):
 
     curveParams = DataDoubleArrayField()
 
-    legacy2017 = BoolField()
+    legacy2017 = BoolField(default_value=False)

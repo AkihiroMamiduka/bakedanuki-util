@@ -130,13 +130,13 @@ class ColorPlugOperator(
         ("colorB", "cb"),
     )
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.5)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.5)
     cb = colorB
 
 
@@ -145,13 +145,13 @@ class ColorAttrOperator(
 ):
     __slots__ = ()
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.5)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.5)
     cb = colorB
 
 
@@ -163,13 +163,13 @@ class ColorField(
     ATTR_CLS = ColorAttrOperator
     PLUG_CLS = ColorPlugOperator
 
-    colorR = FloatField()
+    colorR = FloatField(default_value=0.5)
     cr = colorR
 
-    colorG = FloatField()
+    colorG = FloatField(default_value=0.5)
     cg = colorG
 
-    colorB = FloatField()
+    colorB = FloatField(default_value=0.5)
     cb = colorB
 
 
@@ -183,13 +183,13 @@ class HuePlugOperator(
         ("hue_Interp", "hi"),
     )
 
-    hue_Position = FloatField()
+    hue_Position = FloatField(default_value=0.0)
     hp = hue_Position
 
-    hue_FloatValue = FloatField()
+    hue_FloatValue = FloatField(default_value=0.0)
     hfv = hue_FloatValue
 
-    hue_Interp = Hue_InterpEnumField()
+    hue_Interp = Hue_InterpEnumField(default_value=0)
     hi = hue_Interp
 
 
@@ -198,13 +198,13 @@ class HueAttrOperator(
 ):
     __slots__ = ()
 
-    hue_Position = FloatField()
+    hue_Position = FloatField(default_value=0.0)
     hp = hue_Position
 
-    hue_FloatValue = FloatField()
+    hue_FloatValue = FloatField(default_value=0.0)
     hfv = hue_FloatValue
 
-    hue_Interp = Hue_InterpEnumField()
+    hue_Interp = Hue_InterpEnumField(default_value=0)
     hi = hue_Interp
 
 
@@ -227,13 +227,13 @@ class SaturationPlugOperator(
         ("saturation_Interp", "si"),
     )
 
-    saturation_Position = FloatField()
+    saturation_Position = FloatField(default_value=0.0)
     sp = saturation_Position
 
-    saturation_FloatValue = FloatField()
+    saturation_FloatValue = FloatField(default_value=0.0)
     sfv = saturation_FloatValue
 
-    saturation_Interp = Saturation_InterpEnumField()
+    saturation_Interp = Saturation_InterpEnumField(default_value=0)
     si = saturation_Interp
 
 
@@ -242,13 +242,13 @@ class SaturationAttrOperator(
 ):
     __slots__ = ()
 
-    saturation_Position = FloatField()
+    saturation_Position = FloatField(default_value=0.0)
     sp = saturation_Position
 
-    saturation_FloatValue = FloatField()
+    saturation_FloatValue = FloatField(default_value=0.0)
     sfv = saturation_FloatValue
 
-    saturation_Interp = Saturation_InterpEnumField()
+    saturation_Interp = Saturation_InterpEnumField(default_value=0)
     si = saturation_Interp
 
 
@@ -271,13 +271,13 @@ class ValuePlugOperator(
         ("value_Interp", "vi"),
     )
 
-    value_Position = FloatField()
+    value_Position = FloatField(default_value=0.0)
     vp = value_Position
 
-    value_FloatValue = FloatField()
+    value_FloatValue = FloatField(default_value=0.0)
     vfv = value_FloatValue
 
-    value_Interp = Value_InterpEnumField()
+    value_Interp = Value_InterpEnumField(default_value=0)
     vi = value_Interp
 
 
@@ -286,13 +286,13 @@ class ValueAttrOperator(
 ):
     __slots__ = ()
 
-    value_Position = FloatField()
+    value_Position = FloatField(default_value=0.0)
     vp = value_Position
 
-    value_FloatValue = FloatField()
+    value_FloatValue = FloatField(default_value=0.0)
     vfv = value_FloatValue
 
-    value_Interp = Value_InterpEnumField()
+    value_Interp = Value_InterpEnumField(default_value=0)
     vi = value_Interp
 
 
@@ -315,13 +315,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -330,13 +330,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -348,11 +348,11 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB

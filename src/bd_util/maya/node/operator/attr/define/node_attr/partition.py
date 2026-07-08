@@ -23,7 +23,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -38,7 +38,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()

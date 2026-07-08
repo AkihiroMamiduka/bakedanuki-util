@@ -35,13 +35,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -50,13 +50,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -68,13 +68,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -87,9 +87,9 @@ class RandomScalePlugOperator(
         ("randomScale1", "randomScale1"),
     )
 
-    randomScale0 = FloatField()
+    randomScale0 = FloatField(default_value=1.0, min_value=0.0)
 
-    randomScale1 = FloatField()
+    randomScale1 = FloatField(default_value=1.0, min_value=0.0)
 
 
 class RandomScaleAttrOperator(
@@ -97,9 +97,9 @@ class RandomScaleAttrOperator(
 ):
     __slots__ = ()
 
-    randomScale0 = FloatField()
+    randomScale0 = FloatField(default_value=1.0, min_value=0.0)
 
-    randomScale1 = FloatField()
+    randomScale1 = FloatField(default_value=1.0, min_value=0.0)
 
 
 class RandomScaleField(
@@ -110,9 +110,9 @@ class RandomScaleField(
     ATTR_CLS = RandomScaleAttrOperator
     PLUG_CLS = RandomScalePlugOperator
 
-    randomScale0 = FloatField()
+    randomScale0 = FloatField(default_value=1.0, min_value=0.0)
 
-    randomScale1 = FloatField()
+    randomScale1 = FloatField(default_value=1.0, min_value=0.0)
 
 
 class RandomRotationPlugOperator(
@@ -125,11 +125,11 @@ class RandomRotationPlugOperator(
         ("randomRotation2", "randomRotation2"),
     )
 
-    randomRotation0 = FloatField()
+    randomRotation0 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation1 = FloatField()
+    randomRotation1 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation2 = FloatField()
+    randomRotation2 = FloatField(default_value=0.0, min_value=0.0)
 
 
 class RandomRotationAttrOperator(
@@ -137,11 +137,11 @@ class RandomRotationAttrOperator(
 ):
     __slots__ = ()
 
-    randomRotation0 = FloatField()
+    randomRotation0 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation1 = FloatField()
+    randomRotation1 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation2 = FloatField()
+    randomRotation2 = FloatField(default_value=0.0, min_value=0.0)
 
 
 class RandomRotationField(
@@ -152,11 +152,11 @@ class RandomRotationField(
     ATTR_CLS = RandomRotationAttrOperator
     PLUG_CLS = RandomRotationPlugOperator
 
-    randomRotation0 = FloatField()
+    randomRotation0 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation1 = FloatField()
+    randomRotation1 = FloatField(default_value=0.0, min_value=0.0)
 
-    randomRotation2 = FloatField()
+    randomRotation2 = FloatField(default_value=0.0, min_value=0.0)
 
 
 class RandomIdPlugOperator(
@@ -168,9 +168,9 @@ class RandomIdPlugOperator(
         ("randomId1", "randomId1"),
     )
 
-    randomId0 = LongField()
+    randomId0 = LongField(default_value=0, min_value=0)
 
-    randomId1 = LongField()
+    randomId1 = LongField(default_value=0, min_value=0)
 
 
 class RandomIdAttrOperator(
@@ -178,9 +178,9 @@ class RandomIdAttrOperator(
 ):
     __slots__ = ()
 
-    randomId0 = LongField()
+    randomId0 = LongField(default_value=0, min_value=0)
 
-    randomId1 = LongField()
+    randomId1 = LongField(default_value=0, min_value=0)
 
 
 class RandomIdField(
@@ -191,9 +191,9 @@ class RandomIdField(
     ATTR_CLS = RandomIdAttrOperator
     PLUG_CLS = RandomIdPlugOperator
 
-    randomId0 = LongField()
+    randomId0 = LongField(default_value=0, min_value=0)
 
-    randomId1 = LongField()
+    randomId1 = LongField(default_value=0, min_value=0)
 
 
 class PositionAdjustPlugOperator(
@@ -206,11 +206,11 @@ class PositionAdjustPlugOperator(
         ("positionAdjust2", "positionAdjust2"),
     )
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class PositionAdjustAttrOperator(
@@ -218,11 +218,11 @@ class PositionAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class PositionAdjustField(
@@ -233,11 +233,11 @@ class PositionAdjustField(
     ATTR_CLS = PositionAdjustAttrOperator
     PLUG_CLS = PositionAdjustPlugOperator
 
-    positionAdjust0 = DoubleField()
+    positionAdjust0 = DoubleField(default_value=0.0)
 
-    positionAdjust1 = DoubleField()
+    positionAdjust1 = DoubleField(default_value=0.0)
 
-    positionAdjust2 = DoubleField()
+    positionAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustPlugOperator(
@@ -250,11 +250,11 @@ class RotationAdjustPlugOperator(
         ("rotationAdjust2", "rotationAdjust2"),
     )
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustAttrOperator(
@@ -262,11 +262,11 @@ class RotationAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class RotationAdjustField(
@@ -277,11 +277,11 @@ class RotationAdjustField(
     ATTR_CLS = RotationAdjustAttrOperator
     PLUG_CLS = RotationAdjustPlugOperator
 
-    rotationAdjust0 = DoubleField()
+    rotationAdjust0 = DoubleField(default_value=0.0)
 
-    rotationAdjust1 = DoubleField()
+    rotationAdjust1 = DoubleField(default_value=0.0)
 
-    rotationAdjust2 = DoubleField()
+    rotationAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustPlugOperator(
@@ -294,11 +294,11 @@ class ScaleAdjustPlugOperator(
         ("scaleAdjust2", "scaleAdjust2"),
     )
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustAttrOperator(
@@ -306,11 +306,11 @@ class ScaleAdjustAttrOperator(
 ):
     __slots__ = ()
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)
 
 
 class ScaleAdjustField(
@@ -321,8 +321,8 @@ class ScaleAdjustField(
     ATTR_CLS = ScaleAdjustAttrOperator
     PLUG_CLS = ScaleAdjustPlugOperator
 
-    scaleAdjust0 = DoubleField()
+    scaleAdjust0 = DoubleField(default_value=0.0)
 
-    scaleAdjust1 = DoubleField()
+    scaleAdjust1 = DoubleField(default_value=0.0)
 
-    scaleAdjust2 = DoubleField()
+    scaleAdjust2 = DoubleField(default_value=0.0)

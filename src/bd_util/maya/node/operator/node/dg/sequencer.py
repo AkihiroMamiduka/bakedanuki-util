@@ -9,13 +9,13 @@ class Sequencer(DG):
 
     NODE_TYPE = "sequencer"
 
-    minFrame = TimeField()
+    minFrame = TimeField(default_value=0.01)
     mnf = minFrame
 
-    maxFrame = TimeField()
+    maxFrame = TimeField(default_value=0.1)
     mxf = maxFrame
 
-    shots = MessageField(multi=True)
+    shots = MessageField(multi=True, readable=False)
     shts = shots
 
     audio = MessageField(multi=True)

@@ -18,13 +18,13 @@ class ValuePlugOperator(
         ("valueZ", "vz"),
     )
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vz = valueZ
 
 
@@ -33,13 +33,13 @@ class ValueAttrOperator(
 ):
     __slots__ = ()
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vz = valueZ
 
 
@@ -51,13 +51,13 @@ class ValueField(
     ATTR_CLS = ValueAttrOperator
     PLUG_CLS = ValuePlugOperator
 
-    valueX = FloatField()
+    valueX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vx = valueX
 
-    valueY = FloatField()
+    valueY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vy = valueY
 
-    valueZ = FloatField()
+    valueZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     vz = valueZ
 
 
@@ -71,13 +71,13 @@ class ContrastPlugOperator(
         ("contrastZ", "cz"),
     )
 
-    contrastX = FloatField()
+    contrastX = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cx = contrastX
 
-    contrastY = FloatField()
+    contrastY = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cy = contrastY
 
-    contrastZ = FloatField()
+    contrastZ = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cz = contrastZ
 
 
@@ -86,13 +86,13 @@ class ContrastAttrOperator(
 ):
     __slots__ = ()
 
-    contrastX = FloatField()
+    contrastX = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cx = contrastX
 
-    contrastY = FloatField()
+    contrastY = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cy = contrastY
 
-    contrastZ = FloatField()
+    contrastZ = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cz = contrastZ
 
 
@@ -104,13 +104,13 @@ class ContrastField(
     ATTR_CLS = ContrastAttrOperator
     PLUG_CLS = ContrastPlugOperator
 
-    contrastX = FloatField()
+    contrastX = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cx = contrastX
 
-    contrastY = FloatField()
+    contrastY = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cy = contrastY
 
-    contrastZ = FloatField()
+    contrastZ = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=5.0)
     cz = contrastZ
 
 
@@ -124,13 +124,13 @@ class BiasPlugOperator(
         ("biasZ", "bz"),
     )
 
-    biasX = FloatField()
+    biasX = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bx = biasX
 
-    biasY = FloatField()
+    biasY = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     by = biasY
 
-    biasZ = FloatField()
+    biasZ = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bz = biasZ
 
 
@@ -139,13 +139,13 @@ class BiasAttrOperator(
 ):
     __slots__ = ()
 
-    biasX = FloatField()
+    biasX = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bx = biasX
 
-    biasY = FloatField()
+    biasY = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     by = biasY
 
-    biasZ = FloatField()
+    biasZ = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bz = biasZ
 
 
@@ -157,13 +157,13 @@ class BiasField(
     ATTR_CLS = BiasAttrOperator
     PLUG_CLS = BiasPlugOperator
 
-    biasX = FloatField()
+    biasX = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bx = biasX
 
-    biasY = FloatField()
+    biasY = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     by = biasY
 
-    biasZ = FloatField()
+    biasZ = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     bz = biasZ
 
 
@@ -177,13 +177,13 @@ class OutValuePlugOperator(
         ("outValueZ", "oz"),
     )
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ
 
 
@@ -192,13 +192,13 @@ class OutValueAttrOperator(
 ):
     __slots__ = ()
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ
 
 
@@ -210,11 +210,11 @@ class OutValueField(
     ATTR_CLS = OutValueAttrOperator
     PLUG_CLS = OutValuePlugOperator
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     ox = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     oy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     oz = outValueZ

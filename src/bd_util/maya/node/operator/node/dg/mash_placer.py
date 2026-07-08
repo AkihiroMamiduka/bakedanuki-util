@@ -262,7 +262,7 @@ class MASH_Placer(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -273,21 +273,21 @@ class MASH_Placer(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -295,56 +295,56 @@ class MASH_Placer(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
-    collideOnCreate = CollideOnCreateEnumField()
+    collideOnCreate = CollideOnCreateEnumField(default_value=1)
 
-    alignBrushAxis = AlignBrushAxisEnumField()
+    alignBrushAxis = AlignBrushAxisEnumField(default_value=3)
 
-    rotationMode = RotationModeEnumField()
+    rotationMode = RotationModeEnumField(default_value=2)
 
-    leanAmount = FloatField()
+    leanAmount = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    pushAlongNormal = FloatField()
+    pushAlongNormal = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    paintId = LongField()
+    paintId = LongField(default_value=0, min_value=0, soft_max_value=10)
 
-    brushRadius = FloatField()
+    brushRadius = FloatField(default_value=2.0, min_value=0.0, soft_max_value=20.0)
 
-    scatterDensity = LongField()
+    scatterDensity = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    brushSpacing = FloatField()
+    brushSpacing = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
 
-    brushStrength = FloatField()
+    brushStrength = FloatField(default_value=5.0, min_value=0.0, soft_max_value=5.0)
 
-    randomScale = RandomScaleField()
+    randomScale = RandomScaleField(default_value=(1.0, 1.0), min_value=(0.0, 0.0))
     randomScale0 = randomScale.randomScale0
     randomScale1 = randomScale.randomScale1
 
-    randomRotation = RandomRotationField()
+    randomRotation = RandomRotationField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0))
     randomRotation0 = randomRotation.randomRotation0
     randomRotation1 = randomRotation.randomRotation1
     randomRotation2 = randomRotation.randomRotation2
 
-    randomId = RandomIdField()
+    randomId = RandomIdField(default_value=(0, 0), min_value=(0, 0))
     randomId0 = randomId.randomId0
     randomId1 = randomId.randomId1
 
-    scatter = BoolField()
+    scatter = BoolField(default_value=False)
 
     paintPoints = TypedField()
 
-    idMode = IdModeEnumField()
+    idMode = IdModeEnumField(default_value=1)
 
-    brushType = BrushTypeEnumField()
+    brushType = BrushTypeEnumField(default_value=1)
 
     paintJson = DataStringField()
 
@@ -352,19 +352,19 @@ class MASH_Placer(DG):
 
     paintMeshes = DataMeshField(multi=True)
 
-    positionAdjust = PositionAdjustField()
+    positionAdjust = PositionAdjustField(default_value=(0.0, 0.0, 0.0))
     positionAdjust0 = positionAdjust.positionAdjust0
     positionAdjust1 = positionAdjust.positionAdjust1
     positionAdjust2 = positionAdjust.positionAdjust2
 
-    rotationAdjust = RotationAdjustField()
+    rotationAdjust = RotationAdjustField(default_value=(0.0, 0.0, 0.0))
     rotationAdjust0 = rotationAdjust.rotationAdjust0
     rotationAdjust1 = rotationAdjust.rotationAdjust1
     rotationAdjust2 = rotationAdjust.rotationAdjust2
 
-    scaleAdjust = ScaleAdjustField()
+    scaleAdjust = ScaleAdjustField(default_value=(0.0, 0.0, 0.0))
     scaleAdjust0 = scaleAdjust.scaleAdjust0
     scaleAdjust1 = scaleAdjust.scaleAdjust1
     scaleAdjust2 = scaleAdjust.scaleAdjust2
 
-    stickToMesh = BoolField()
+    stickToMesh = BoolField(default_value=False)

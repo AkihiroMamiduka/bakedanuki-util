@@ -15,7 +15,7 @@ class QuadShadingSwitch(DG):
 
     NODE_TYPE = "quadShadingSwitch"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0)
     id = objectId
 
     input = InputField(multi=True)
@@ -43,7 +43,7 @@ class QuadShadingSwitch(DG):
     defSingle = default.defSingle
     dsi = defSingle
 
-    output = OutputField()
+    output = OutputField(writable=False)
     out = output
     outTriple = output.outTriple
     otr = outTriple

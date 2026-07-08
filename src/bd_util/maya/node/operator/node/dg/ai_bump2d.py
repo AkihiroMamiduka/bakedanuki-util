@@ -13,7 +13,7 @@ class AiBump2d(DG):
 
     NODE_TYPE = "aiBump2d"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -22,7 +22,7 @@ class AiBump2d(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -31,13 +31,13 @@ class AiBump2d(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    bumpMap = FloatField()
+    bumpMap = FloatField(default_value=0.0)
     bump_map = bumpMap
 
-    bumpHeight = FloatField()
+    bumpHeight = FloatField(default_value=0.009999999776482582, soft_min_value=0.0, soft_max_value=1.0)
     bump_height = bumpHeight
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY

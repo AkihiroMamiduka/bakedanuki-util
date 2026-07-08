@@ -9,14 +9,14 @@ class FloatMath(DG):
 
     NODE_TYPE = "floatMath"
 
-    floatA = FloatField()
+    floatA = FloatField(default_value=1.0)
     fa = floatA
 
-    floatB = FloatField()
+    floatB = FloatField(default_value=1.0)
     fb = floatB
 
-    operation = LongField()
+    operation = LongField(default_value=0, min_value=0, max_value=8)
     cnd = operation
 
-    outFloat = FloatField()
+    outFloat = FloatField(default_value=0.0, writable=False)
     of = outFloat

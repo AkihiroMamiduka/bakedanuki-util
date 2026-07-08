@@ -9,11 +9,11 @@ class RenderPassSet(DG):
 
     NODE_TYPE = "renderPassSet"
 
-    owner = MessageField(multi=True)
+    owner = MessageField(multi=True, readable=False)
     ow = owner
 
-    renderable = BoolField()
+    renderable = BoolField(default_value=True)
     r = renderable
 
-    renderPass = MessageField()
+    renderPass = MessageField(writable=False)
     rps = renderPass

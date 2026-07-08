@@ -165,35 +165,35 @@ class UvPin(DG):
     originalGeometry = TypedField()
     orggeom = originalGeometry
 
-    normalOverride = NormalOverrideEnumField()
+    normalOverride = NormalOverrideEnumField(default_value=0)
     novr = normalOverride
 
     railCurve = TypedField()
     rlcrv = railCurve
 
-    coordinate = CoordinateField(multi=True)
+    coordinate = CoordinateField(multi=True, default_value=(0.0, 0.0), readable=False)
     coord = coordinate
 
     uvSetName = DataStringField()
     msn = uvSetName
 
-    normalAxis = NormalAxisEnumField()
+    normalAxis = NormalAxisEnumField(default_value=0)
     nrm = normalAxis
 
-    tangentAxis = TangentAxisEnumField()
+    tangentAxis = TangentAxisEnumField(default_value=2)
     tng = tangentAxis
 
-    normalizedIsoParms = BoolField()
+    normalizedIsoParms = BoolField(default_value=True)
     nrmip = normalizedIsoParms
 
-    relativeSpaceMode = RelativeSpaceModeEnumField()
+    relativeSpaceMode = RelativeSpaceModeEnumField(default_value=0)
     rsmd = relativeSpaceMode
 
     relativeSpaceMatrix = MatrixField()
     rsmat = relativeSpaceMatrix
 
-    outputTranslate = OutputTranslateField(multi=True)
+    outputTranslate = OutputTranslateField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outputTranslate
 
-    outputMatrix = MatrixField(multi=True)
+    outputMatrix = MatrixField(multi=True, writable=False)
     omat = outputMatrix

@@ -18,9 +18,9 @@ class MASH_InitialState(DG):
     inputArray = DataVectorArrayField()
     inArray = inputArray
 
-    inScale = DataVectorArrayField()
+    inScale = DataVectorArrayField(readable=False)
 
-    inRotation = DataVectorArrayField()
+    inRotation = DataVectorArrayField(readable=False)
 
     outputArray = DataVectorArrayField()
     outArray = outputArray
@@ -34,32 +34,32 @@ class MASH_InitialState(DG):
 
     falloffInfo = TypedField()
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = Envelope
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
     enablePos = enablePosition
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=False)
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=False)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     raEn = randEnvelope
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -68,13 +68,13 @@ class MASH_InitialState(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()

@@ -18,13 +18,13 @@ class EyePlugOperator(
         ("eyeZ", "ez"),
     )
 
-    eyeX = DoubleLinearField()
+    eyeX = DoubleLinearField(default_value=60.0)
     ex = eyeX
 
-    eyeY = DoubleLinearField()
+    eyeY = DoubleLinearField(default_value=45.0)
     ey = eyeY
 
-    eyeZ = DoubleLinearField()
+    eyeZ = DoubleLinearField(default_value=60.0)
     ez = eyeZ
 
 
@@ -33,13 +33,13 @@ class EyeAttrOperator(
 ):
     __slots__ = ()
 
-    eyeX = DoubleLinearField()
+    eyeX = DoubleLinearField(default_value=60.0)
     ex = eyeX
 
-    eyeY = DoubleLinearField()
+    eyeY = DoubleLinearField(default_value=45.0)
     ey = eyeY
 
-    eyeZ = DoubleLinearField()
+    eyeZ = DoubleLinearField(default_value=60.0)
     ez = eyeZ
 
 
@@ -51,13 +51,13 @@ class EyeField(
     ATTR_CLS = EyeAttrOperator
     PLUG_CLS = EyePlugOperator
 
-    eyeX = DoubleLinearField()
+    eyeX = DoubleLinearField(default_value=60.0)
     ex = eyeX
 
-    eyeY = DoubleLinearField()
+    eyeY = DoubleLinearField(default_value=45.0)
     ey = eyeY
 
-    eyeZ = DoubleLinearField()
+    eyeZ = DoubleLinearField(default_value=60.0)
     ez = eyeZ
 
 
@@ -71,13 +71,13 @@ class CenterOfInterestPlugOperator(
         ("centerOfInterestZ", "cz"),
     )
 
-    centerOfInterestX = DoubleLinearField()
+    centerOfInterestX = DoubleLinearField(default_value=0.0)
     cx = centerOfInterestX
 
-    centerOfInterestY = DoubleLinearField()
+    centerOfInterestY = DoubleLinearField(default_value=0.0)
     cy = centerOfInterestY
 
-    centerOfInterestZ = DoubleLinearField()
+    centerOfInterestZ = DoubleLinearField(default_value=0.0)
     cz = centerOfInterestZ
 
 
@@ -86,13 +86,13 @@ class CenterOfInterestAttrOperator(
 ):
     __slots__ = ()
 
-    centerOfInterestX = DoubleLinearField()
+    centerOfInterestX = DoubleLinearField(default_value=0.0)
     cx = centerOfInterestX
 
-    centerOfInterestY = DoubleLinearField()
+    centerOfInterestY = DoubleLinearField(default_value=0.0)
     cy = centerOfInterestY
 
-    centerOfInterestZ = DoubleLinearField()
+    centerOfInterestZ = DoubleLinearField(default_value=0.0)
     cz = centerOfInterestZ
 
 
@@ -104,13 +104,13 @@ class CenterOfInterestField(
     ATTR_CLS = CenterOfInterestAttrOperator
     PLUG_CLS = CenterOfInterestPlugOperator
 
-    centerOfInterestX = DoubleLinearField()
+    centerOfInterestX = DoubleLinearField(default_value=0.0)
     cx = centerOfInterestX
 
-    centerOfInterestY = DoubleLinearField()
+    centerOfInterestY = DoubleLinearField(default_value=0.0)
     cy = centerOfInterestY
 
-    centerOfInterestZ = DoubleLinearField()
+    centerOfInterestZ = DoubleLinearField(default_value=0.0)
     cz = centerOfInterestZ
 
 
@@ -124,13 +124,13 @@ class UpPlugOperator(
         ("upZ", "uz"),
     )
 
-    upX = DoubleLinearField()
+    upX = DoubleLinearField(default_value=0.0)
     ux = upX
 
-    upY = DoubleLinearField()
+    upY = DoubleLinearField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleLinearField()
+    upZ = DoubleLinearField(default_value=0.0)
     uz = upZ
 
 
@@ -139,13 +139,13 @@ class UpAttrOperator(
 ):
     __slots__ = ()
 
-    upX = DoubleLinearField()
+    upX = DoubleLinearField(default_value=0.0)
     ux = upX
 
-    upY = DoubleLinearField()
+    upY = DoubleLinearField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleLinearField()
+    upZ = DoubleLinearField(default_value=0.0)
     uz = upZ
 
 
@@ -157,13 +157,13 @@ class UpField(
     ATTR_CLS = UpAttrOperator
     PLUG_CLS = UpPlugOperator
 
-    upX = DoubleLinearField()
+    upX = DoubleLinearField(default_value=0.0)
     ux = upX
 
-    upY = DoubleLinearField()
+    upY = DoubleLinearField(default_value=1.0)
     uy = upY
 
-    upZ = DoubleLinearField()
+    upZ = DoubleLinearField(default_value=0.0)
     uz = upZ
 
 
@@ -177,13 +177,13 @@ class TumblePivotPlugOperator(
         ("tumblePivotZ", "tpz"),
     )
 
-    tumblePivotX = DoubleLinearField()
+    tumblePivotX = DoubleLinearField(default_value=0.0)
     tpx = tumblePivotX
 
-    tumblePivotY = DoubleLinearField()
+    tumblePivotY = DoubleLinearField(default_value=0.0)
     tpy = tumblePivotY
 
-    tumblePivotZ = DoubleLinearField()
+    tumblePivotZ = DoubleLinearField(default_value=0.0)
     tpz = tumblePivotZ
 
 
@@ -192,13 +192,13 @@ class TumblePivotAttrOperator(
 ):
     __slots__ = ()
 
-    tumblePivotX = DoubleLinearField()
+    tumblePivotX = DoubleLinearField(default_value=0.0)
     tpx = tumblePivotX
 
-    tumblePivotY = DoubleLinearField()
+    tumblePivotY = DoubleLinearField(default_value=0.0)
     tpy = tumblePivotY
 
-    tumblePivotZ = DoubleLinearField()
+    tumblePivotZ = DoubleLinearField(default_value=0.0)
     tpz = tumblePivotZ
 
 
@@ -210,11 +210,11 @@ class TumblePivotField(
     ATTR_CLS = TumblePivotAttrOperator
     PLUG_CLS = TumblePivotPlugOperator
 
-    tumblePivotX = DoubleLinearField()
+    tumblePivotX = DoubleLinearField(default_value=0.0)
     tpx = tumblePivotX
 
-    tumblePivotY = DoubleLinearField()
+    tumblePivotY = DoubleLinearField(default_value=0.0)
     tpy = tumblePivotY
 
-    tumblePivotZ = DoubleLinearField()
+    tumblePivotZ = DoubleLinearField(default_value=0.0)
     tpz = tumblePivotZ

@@ -18,13 +18,13 @@ class ColorAPlugOperator(
         ("colorAB", "_cab"),
     )
 
-    colorAR = FloatField()
+    colorAR = FloatField(default_value=1.0)
     car = colorAR
 
-    colorAG = FloatField()
+    colorAG = FloatField(default_value=0.0)
     cag = colorAG
 
-    colorAB = FloatField()
+    colorAB = FloatField(default_value=0.5)
     cab = colorAB
 
 
@@ -33,13 +33,13 @@ class ColorAAttrOperator(
 ):
     __slots__ = ()
 
-    colorAR = FloatField()
+    colorAR = FloatField(default_value=1.0)
     car = colorAR
 
-    colorAG = FloatField()
+    colorAG = FloatField(default_value=0.0)
     cag = colorAG
 
-    colorAB = FloatField()
+    colorAB = FloatField(default_value=0.5)
     cab = colorAB
 
 
@@ -51,13 +51,13 @@ class ColorAField(
     ATTR_CLS = ColorAAttrOperator
     PLUG_CLS = ColorAPlugOperator
 
-    colorAR = FloatField()
+    colorAR = FloatField(default_value=1.0)
     car = colorAR
 
-    colorAG = FloatField()
+    colorAG = FloatField(default_value=0.0)
     cag = colorAG
 
-    colorAB = FloatField()
+    colorAB = FloatField(default_value=0.5)
     cab = colorAB
 
 
@@ -71,13 +71,13 @@ class ColorBPlugOperator(
         ("colorBB", "_cbb"),
     )
 
-    colorBR = FloatField()
+    colorBR = FloatField(default_value=1.0)
     cbr = colorBR
 
-    colorBG = FloatField()
+    colorBG = FloatField(default_value=0.0)
     cbg = colorBG
 
-    colorBB = FloatField()
+    colorBB = FloatField(default_value=0.5)
     cbb = colorBB
 
 
@@ -86,13 +86,13 @@ class ColorBAttrOperator(
 ):
     __slots__ = ()
 
-    colorBR = FloatField()
+    colorBR = FloatField(default_value=1.0)
     cbr = colorBR
 
-    colorBG = FloatField()
+    colorBG = FloatField(default_value=0.0)
     cbg = colorBG
 
-    colorBB = FloatField()
+    colorBB = FloatField(default_value=0.5)
     cbb = colorBB
 
 
@@ -104,11 +104,11 @@ class ColorBField(
     ATTR_CLS = ColorBAttrOperator
     PLUG_CLS = ColorBPlugOperator
 
-    colorBR = FloatField()
+    colorBR = FloatField(default_value=1.0)
     cbr = colorBR
 
-    colorBG = FloatField()
+    colorBG = FloatField(default_value=0.0)
     cbg = colorBG
 
-    colorBB = FloatField()
+    colorBB = FloatField(default_value=0.5)
     cbb = colorBB

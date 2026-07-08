@@ -189,7 +189,7 @@ class VolumeFog(DG):
 
     NODE_TYPE = "volumeFog"
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -198,7 +198,7 @@ class VolumeFog(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(0.0, 0.0, 0.0))
     pw = pointWorld
     pointWorldX = pointWorld.pointWorldX
     pwx = pointWorldX
@@ -207,7 +207,7 @@ class VolumeFog(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pwz = pointWorldZ
 
-    farPointWorld = FarPointWorldField()
+    farPointWorld = FarPointWorldField(default_value=(1.0, 1.0, 1.0))
     fw = farPointWorld
     farPointWorldX = farPointWorld.farPointWorldX
     fwx = farPointWorldX
@@ -216,7 +216,7 @@ class VolumeFog(DG):
     farPointWorldZ = farPointWorld.farPointWorldZ
     fwz = farPointWorldZ
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -225,7 +225,7 @@ class VolumeFog(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    farPointObj = FarPointObjField()
+    farPointObj = FarPointObjField(default_value=(1.0, 1.0, 1.0))
     fo = farPointObj
     farPointObjectX = farPointObj.farPointObjectX
     fox = farPointObjectX
@@ -234,10 +234,10 @@ class VolumeFog(DG):
     farPointObjectZ = farPointObj.farPointObjectZ
     foz = farPointObjectZ
 
-    matrixWorldToEye = FltMatrixField()
+    matrixWorldToEye = FltMatrixField(readable=False)
     wte = matrixWorldToEye
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -258,7 +258,7 @@ class VolumeFog(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    color = ColorField()
+    color = ColorField(default_value=(0.8999999761581421, 0.8999999761581421, 0.8999999761581421))
     cl = color
     colorR = color.colorR
     cr = colorR
@@ -267,7 +267,7 @@ class VolumeFog(DG):
     colorB = color.colorB
     cb = colorB
 
-    colorRampInput = ColorRampInputEnumField()
+    colorRampInput = ColorRampInputEnumField(default_value=0)
     cri = colorRampInput
 
     colorRamp = ColorRampField(multi=True)
@@ -282,7 +282,7 @@ class VolumeFog(DG):
     colorRamp_ColorB = FloatField()
     crmcb = colorRamp_ColorB
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.5, 0.5, 0.5))
     t = transparency
     transparencyR = transparency.transparencyR
     tr = transparencyR
@@ -291,7 +291,7 @@ class VolumeFog(DG):
     transparencyB = transparency.transparencyB
     tb = transparencyB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.0, 0.0, 0.0))
     ic = incandescence
     incandescenceR = incandescence.incandescenceR
     ir = incandescenceR
@@ -300,10 +300,10 @@ class VolumeFog(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gi = glowIntensity
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -312,40 +312,40 @@ class VolumeFog(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     dns = density
 
-    densityMode = DensityModeEnumField()
+    densityMode = DensityModeEnumField(default_value=1)
     dmd = densityMode
 
-    dropoffShape = DropoffShapeEnumField()
+    dropoffShape = DropoffShapeEnumField(default_value=0)
     dos = dropoffShape
 
-    edgeDropoff = FloatField()
+    edgeDropoff = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     edr = edgeDropoff
 
-    axialDropoff = FloatField()
+    axialDropoff = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
     axd = axialDropoff
 
-    dropoffMethod = DropoffMethodEnumField()
+    dropoffMethod = DropoffMethodEnumField(default_value=0)
     drm = dropoffMethod
 
-    dropoffSubtract = FloatField()
+    dropoffSubtract = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     drs = dropoffSubtract
 
-    illuminated = BoolField()
+    illuminated = BoolField(default_value=False)
     il = illuminated
 
-    lightScatter = FloatField()
+    lightScatter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     lsc = lightScatter
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -354,7 +354,7 @@ class VolumeFog(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -363,7 +363,7 @@ class VolumeFog(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(1.0, 1.0, 1.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

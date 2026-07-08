@@ -48,7 +48,7 @@ class PolyAppend(DG):
 
     NODE_TYPE = "polyAppend"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -57,38 +57,38 @@ class PolyAppend(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    vertices = VerticesField(multi=True)
+    vertices = VerticesField(multi=True, default_value=(0.0, 0.0, 0.0))
     v = vertices
 
-    desc = LongField(multi=True)
+    desc = LongField(multi=True, default_value=0)
     d = desc
 
-    subdivision = LongField()
+    subdivision = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
     s = subdivision
 
-    texture = TextureEnumField()
+    texture = TextureEnumField(default_value=0)
     tx = texture
 
-    test2EdgeLoops = BoolField()
+    test2EdgeLoops = BoolField(default_value=True)
     tel = test2EdgeLoops

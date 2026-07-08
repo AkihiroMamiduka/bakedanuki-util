@@ -57,13 +57,13 @@ class TaperCurvePlugOperator(
         ("taperCurve_Interp", "ci"),
     )
 
-    taperCurve_Position = FloatField()
+    taperCurve_Position = FloatField(default_value=0.0)
     cp = taperCurve_Position
 
-    taperCurve_FloatValue = FloatField()
+    taperCurve_FloatValue = FloatField(default_value=0.0)
     cfv = taperCurve_FloatValue
 
-    taperCurve_Interp = TaperCurve_InterpEnumField()
+    taperCurve_Interp = TaperCurve_InterpEnumField(default_value=0)
     ci = taperCurve_Interp
 
 
@@ -72,13 +72,13 @@ class TaperCurveAttrOperator(
 ):
     __slots__ = ()
 
-    taperCurve_Position = FloatField()
+    taperCurve_Position = FloatField(default_value=0.0)
     cp = taperCurve_Position
 
-    taperCurve_FloatValue = FloatField()
+    taperCurve_FloatValue = FloatField(default_value=0.0)
     cfv = taperCurve_FloatValue
 
-    taperCurve_Interp = TaperCurve_InterpEnumField()
+    taperCurve_Interp = TaperCurve_InterpEnumField(default_value=0)
     ci = taperCurve_Interp
 
 

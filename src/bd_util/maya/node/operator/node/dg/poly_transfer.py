@@ -11,7 +11,7 @@ class PolyTransfer(DG):
 
     NODE_TYPE = "polyTransfer"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -20,35 +20,35 @@ class PolyTransfer(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     otherPoly = DataMeshField()
     op = otherPoly
 
-    vertices = BoolField()
+    vertices = BoolField(default_value=False)
     v = vertices
 
-    uvSets = BoolField()
+    uvSets = BoolField(default_value=True)
     uv = uvSets
 
-    vertexColor = BoolField()
+    vertexColor = BoolField(default_value=False)
     vc = vertexColor

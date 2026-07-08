@@ -47,10 +47,10 @@ class PolyUnite(DG):
 
     NODE_TYPE = "polyUnite"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
     inputPoly = DataMeshField(multi=True)
@@ -62,8 +62,8 @@ class PolyUnite(DG):
     componentTagName = DataStringField(multi=True)
     ctg = componentTagName
 
-    mergeUVSets = MergeUVSetsEnumField()
+    mergeUVSets = MergeUVSetsEnumField(default_value=1)
     muv = mergeUVSets
 
-    outputUVSetName = DataStringField(multi=True)
+    outputUVSetName = DataStringField(multi=True, writable=False)
     ouv = outputUVSetName

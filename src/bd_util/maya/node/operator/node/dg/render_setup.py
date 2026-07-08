@@ -8,7 +8,7 @@ class RenderSetup(DG):
 
     NODE_TYPE = "renderSetup"
 
-    listItems = MessageField()
+    listItems = MessageField(writable=False)
     lit = listItems
 
     firstRenderLayer = MessageField()

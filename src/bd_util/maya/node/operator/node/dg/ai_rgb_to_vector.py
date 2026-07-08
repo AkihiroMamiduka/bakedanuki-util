@@ -45,7 +45,7 @@ class AiRgbToVector(DG):
 
     NODE_TYPE = "aiRgbToVector"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -54,7 +54,7 @@ class AiRgbToVector(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -63,7 +63,7 @@ class AiRgbToVector(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -71,4 +71,4 @@ class AiRgbToVector(DG):
     inputB = input.inputB
     inputb = inputB
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)

@@ -70,10 +70,10 @@ class TargetPlugOperator(
         ("weightFunction", "whf"),
     )
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=1)
     mod = mode
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0)
     wgt = weight
 
     weightFunction = TypedField()
@@ -85,10 +85,10 @@ class TargetAttrOperator(
 ):
     __slots__ = ()
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=1)
     mod = mode
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0)
     wgt = weight
 
     weightFunction = TypedField()

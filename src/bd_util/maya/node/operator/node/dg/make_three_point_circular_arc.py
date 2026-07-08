@@ -51,13 +51,13 @@ class MakeThreePointCircularArc(DG):
 
     NODE_TYPE = "makeThreePointCircularArc"
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField()
+    sections = LongField(default_value=8, min_value=4, soft_max_value=100)
     s = sections
 
-    center = CenterField()
+    center = CenterField(default_value=(0.0, 0.0, 0.0), writable=False)
     c = center
     centerX = center.centerX
     cx = centerX
@@ -66,7 +66,7 @@ class MakeThreePointCircularArc(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0), writable=False)
     nr = normal
     normalX = normal.normalX
     nrx = normalX
@@ -75,13 +75,13 @@ class MakeThreePointCircularArc(DG):
     normalZ = normal.normalZ
     nrz = normalZ
 
-    sweep = DoubleAngleField()
+    sweep = DoubleAngleField(default_value=0.0, writable=False)
     sw = sweep
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    point1 = Point1Field()
+    point1 = Point1Field(default_value=(0.0, 1.0, 0.0))
     pt1 = point1
     point1X = point1.point1X
     p1x = point1X
@@ -90,7 +90,7 @@ class MakeThreePointCircularArc(DG):
     point1Z = point1.point1Z
     p1z = point1Z
 
-    point2 = Point2Field()
+    point2 = Point2Field(default_value=(0.7071, 0.7071, 0.0))
     pt2 = point2
     point2X = point2.point2X
     p2x = point2X
@@ -99,7 +99,7 @@ class MakeThreePointCircularArc(DG):
     point2Z = point2.point2Z
     p2z = point2Z
 
-    point3 = Point3Field()
+    point3 = Point3Field(default_value=(1.0, 0.0, 0.0))
     pt3 = point3
     point3X = point3.point3X
     p3x = point3X
@@ -108,5 +108,5 @@ class MakeThreePointCircularArc(DG):
     point3Z = point3.point3Z
     p3z = point3Z
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=0.0, writable=False)
     r = radius

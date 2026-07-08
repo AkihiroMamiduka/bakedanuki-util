@@ -12,17 +12,17 @@ class SubSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    firstFaceU = LongField()
+    firstFaceU = LongField(default_value=0, min_value=0, soft_min_value=0)
     ffu = firstFaceU
 
-    firstFaceV = LongField()
+    firstFaceV = LongField(default_value=0, min_value=0, soft_min_value=0)
     ffv = firstFaceV
 
-    faceCountU = LongField()
+    faceCountU = LongField(default_value=1, min_value=1, soft_min_value=1)
     fcu = faceCountU
 
-    faceCountV = LongField()
+    faceCountV = LongField(default_value=1, min_value=1, soft_min_value=1)
     fcv = faceCountV
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface

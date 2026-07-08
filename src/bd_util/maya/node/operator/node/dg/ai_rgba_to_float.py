@@ -66,10 +66,10 @@ class AiRgbaToFloat(DG):
 
     NODE_TYPE = "aiRgbaToFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -78,10 +78,10 @@ class AiRgbaToFloat(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    inputA = FloatField()
+    inputA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     inputa = inputA
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -89,4 +89,4 @@ class AiRgbaToFloat(DG):
     inputB = input.inputB
     inputb = inputB
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=2)

@@ -53,29 +53,29 @@ class PlusMinusAverage(DG):
 
     NODE_TYPE = "plusMinusAverage"
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=1)
     op = operation
 
-    input1D = FloatField(multi=True)
+    input1D = FloatField(multi=True, default_value=0.0, readable=False)
     i1 = input1D
 
-    input2D = Input2DField(multi=True)
+    input2D = Input2DField(multi=True, default_value=(0.0, 0.0), readable=False)
     i2 = input2D
 
-    input3D = Input3DField(multi=True)
+    input3D = Input3DField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
     i3 = input3D
 
-    output1D = FloatField()
+    output1D = FloatField(default_value=0.0, writable=False)
     o1 = output1D
 
-    output2D = Output2DField()
+    output2D = Output2DField(default_value=(0.0, 0.0), writable=False)
     o2 = output2D
     output2Dx = output2D.output2Dx
     o2x = output2Dx
     output2Dy = output2D.output2Dy
     o2y = output2Dy
 
-    output3D = Output3DField()
+    output3D = Output3DField(default_value=(0.0, 0.0, 0.0), writable=False)
     o3 = output3D
     output3Dx = output3D.output3Dx
     o3x = output3Dx

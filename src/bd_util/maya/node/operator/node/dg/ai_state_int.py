@@ -89,43 +89,43 @@ class AiStateInt(DG):
 
     NODE_TYPE = "aiStateInt"
 
-    outValue = LongField()
+    outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    x = LongField()
+    x = LongField(default_value=0, writable=False)
 
-    y = LongField()
+    y = LongField(default_value=0, writable=False)
 
-    si = LongField()
+    si = LongField(default_value=0, writable=False)
 
-    Rt = LongField()
+    Rt = LongField(default_value=0, writable=False)
 
-    transp_index = LongField()
+    transp_index = LongField(default_value=0, writable=False)
 
-    tid = LongField()
+    tid = LongField(default_value=0, writable=False)
 
-    bounces = LongField()
+    bounces = LongField(default_value=0, writable=False)
 
-    bounces_diffuse = LongField()
+    bounces_diffuse = LongField(default_value=0, writable=False)
 
-    bounces_specular = LongField()
+    bounces_specular = LongField(default_value=0, writable=False)
 
-    bounces_reflect = LongField()
+    bounces_reflect = LongField(default_value=0, writable=False)
 
-    bounces_transmit = LongField()
+    bounces_transmit = LongField(default_value=0, writable=False)
 
-    bounces_volume = LongField()
+    bounces_volume = LongField(default_value=0, writable=False)
 
-    fhemi = LongField()
+    fhemi = LongField(default_value=0, writable=False)
 
-    fi = LongField()
+    fi = LongField(default_value=0, writable=False)
 
-    nlights = LongField()
+    nlights = LongField(default_value=0, writable=False)
 
-    inclusive_traceset = LongField()
+    inclusive_traceset = LongField(default_value=0, writable=False)
 
-    skip_shadow = LongField()
+    skip_shadow = LongField(default_value=0, writable=False)
 
-    sc = LongField()
+    sc = LongField(default_value=0, writable=False)
 
-    variable = VariableEnumField()
+    variable = VariableEnumField(default_value=0)

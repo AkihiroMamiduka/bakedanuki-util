@@ -75,10 +75,10 @@ class ObjectMultiFilter(DG):
 
     NODE_TYPE = "objectMultiFilter"
 
-    child = BoolField()
+    child = BoolField(default_value=False)
     ch = child
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     inv = invert
 
     inputList = TypedField()
@@ -93,14 +93,14 @@ class ObjectMultiFilter(DG):
     category = DataStringArrayField()
     cat = category
 
-    disable = BoolField()
+    disable = BoolField(default_value=False)
     dis = disable
 
-    filterClass = FilterClassEnumField()
+    filterClass = FilterClassEnumField(default_value=2)
     fcls = filterClass
 
     resultList = TypedField()
     res = resultList
 
-    filterType = FilterTypeEnumField()
+    filterType = FilterTypeEnumField(default_value=0)
     ftyp = filterType

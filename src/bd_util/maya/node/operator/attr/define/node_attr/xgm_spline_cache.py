@@ -57,13 +57,13 @@ class WidthRampPlugOperator(
         ("widthRamp_Interp", "wdri"),
     )
 
-    widthRamp_Position = FloatField()
+    widthRamp_Position = FloatField(default_value=0.0)
     wdrp = widthRamp_Position
 
-    widthRamp_FloatValue = FloatField()
+    widthRamp_FloatValue = FloatField(default_value=0.0)
     wdrfv = widthRamp_FloatValue
 
-    widthRamp_Interp = WidthRamp_InterpEnumField()
+    widthRamp_Interp = WidthRamp_InterpEnumField(default_value=1)
     wdri = widthRamp_Interp
 
 
@@ -72,13 +72,13 @@ class WidthRampAttrOperator(
 ):
     __slots__ = ()
 
-    widthRamp_Position = FloatField()
+    widthRamp_Position = FloatField(default_value=0.0)
     wdrp = widthRamp_Position
 
-    widthRamp_FloatValue = FloatField()
+    widthRamp_FloatValue = FloatField(default_value=0.0)
     wdrfv = widthRamp_FloatValue
 
-    widthRamp_Interp = WidthRamp_InterpEnumField()
+    widthRamp_Interp = WidthRamp_InterpEnumField(default_value=1)
     wdri = widthRamp_Interp
 
 

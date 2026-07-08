@@ -8,7 +8,7 @@ class ParticleTranspMapper(DG):
 
     NODE_TYPE = "particleTranspMapper"
 
-    particleTransparency = ParticleTransparencyField()
+    particleTransparency = ParticleTransparencyField(default_value=(0.0, 0.0, 0.0))
     pt = particleTransparency
     particleTransparencyR = particleTransparency.particleTransparencyR
     ptr = particleTransparencyR

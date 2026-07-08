@@ -77,7 +77,7 @@ class PolyNormalizeUV(DG):
 
     NODE_TYPE = "polyNormalizeUV"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -86,31 +86,31 @@ class PolyNormalizeUV(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -119,14 +119,14 @@ class PolyNormalizeUV(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    normalizeType = NormalizeTypeEnumField()
+    normalizeType = NormalizeTypeEnumField(default_value=1)
     nt = normalizeType
 
-    preserveAspectRatio = BoolField()
+    preserveAspectRatio = BoolField(default_value=True)
     pa = preserveAspectRatio
 
-    centerOnTile = BoolField()
+    centerOnTile = BoolField(default_value=False)
     cot = centerOnTile
 
-    normalizeDirection = NormalizeDirectionEnumField()
+    normalizeDirection = NormalizeDirectionEnumField(default_value=0)
     nd = normalizeDirection

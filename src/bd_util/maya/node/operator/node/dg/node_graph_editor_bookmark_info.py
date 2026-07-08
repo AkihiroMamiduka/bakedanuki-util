@@ -16,14 +16,14 @@ class NodeGraphEditorBookmarkInfo(DG):
     name_ = DataStringField(long_name="name", short_name="nm")
     nm = name_
 
-    viewRectLow = ViewRectLowField()
+    viewRectLow = ViewRectLowField(default_value=(0.0, 0.0))
     vl = viewRectLow
     viewXL = viewRectLow.viewXL
     xl = viewXL
     viewYL = viewRectLow.viewYL
     yl = viewYL
 
-    viewRectHigh = ViewRectHighField()
+    viewRectHigh = ViewRectHighField(default_value=(0.0, 0.0))
     vh = viewRectHigh
     viewXH = viewRectHigh.viewXH
     xh = viewXH

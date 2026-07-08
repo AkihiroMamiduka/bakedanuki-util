@@ -14,10 +14,10 @@ class AimMatrix(DG):
 
     NODE_TYPE = "aimMatrix"
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     enb = enable
 
-    envelope = DoubleField()
+    envelope = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     env = envelope
 
     inputMatrix = MatrixField()
@@ -51,5 +51,5 @@ class AimMatrix(DG):
     postSpaceMatrix = MatrixField()
     pstmat = postSpaceMatrix
 
-    outputMatrix = MatrixField()
+    outputMatrix = MatrixField(writable=False)
     tmat = outputMatrix

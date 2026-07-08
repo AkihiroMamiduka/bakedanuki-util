@@ -25,13 +25,13 @@ class InPositionPlugOperator(
         ("inPositionZ", "ipz"),
     )
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -40,13 +40,13 @@ class InPositionAttrOperator(
 ):
     __slots__ = ()
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -58,13 +58,13 @@ class InPositionField(
     ATTR_CLS = InPositionAttrOperator
     PLUG_CLS = InPositionPlugOperator
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -78,13 +78,13 @@ class ResultPlugOperator(
         ("parameterV", "v"),
     )
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV
 
 
@@ -93,13 +93,13 @@ class ResultAttrOperator(
 ):
     __slots__ = ()
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV
 
 
@@ -111,11 +111,11 @@ class ResultField(
     ATTR_CLS = ResultAttrOperator
     PLUG_CLS = ResultPlugOperator
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV

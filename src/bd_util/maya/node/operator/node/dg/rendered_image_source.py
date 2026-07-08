@@ -15,7 +15,7 @@ class RenderedImageSource(DG):
 
     NODE_TYPE = "renderedImageSource"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -24,20 +24,20 @@ class RenderedImageSource(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    outSize = OutSizeField()
+    outSize = OutSizeField(default_value=(0.0, 0.0), writable=False)
     os = outSize
     outSizeX = outSize.outSizeX
     osx = outSizeX
     outSizeY = outSize.outSizeY
     osy = outSizeY
 
-    fileHasAlpha = BoolField()
+    fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -46,11 +46,11 @@ class RenderedImageSource(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    camera = MessageField()
+    camera = MessageField(readable=False)
     cam = camera
 
-    renderLayer = MessageField()
+    renderLayer = MessageField(readable=False)
     lyr = renderLayer
 
-    imageSource = MessageField()
+    imageSource = MessageField(readable=False)
     ims = imageSource

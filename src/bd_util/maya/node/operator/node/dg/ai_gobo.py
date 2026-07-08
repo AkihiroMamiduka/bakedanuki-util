@@ -130,7 +130,7 @@ class AiGobo(DG):
 
     NODE_TYPE = "aiGobo"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -139,7 +139,7 @@ class AiGobo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -148,7 +148,7 @@ class AiGobo(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    slidemap = SlidemapField()
+    slidemap = SlidemapField(default_value=(1.0, 1.0, 1.0))
     slidemapR = slidemap.slidemapR
     slidemapr = slidemapR
     slidemapG = slidemap.slidemapG
@@ -156,23 +156,23 @@ class AiGobo(DG):
     slidemapB = slidemap.slidemapB
     slidemapb = slidemapB
 
-    rotate = FloatField(multi=True)
+    rotate = FloatField(multi=True, default_value=0.0, min_value=0.0, max_value=360.0)
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0))
     offsetX = offset.offsetX
     offsetx = offsetX
     offsetY = offset.offsetY
     offsety = offsetY
 
-    density = FloatField()
+    density = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    filterMode = FilterModeEnumField()
+    filterMode = FilterModeEnumField(default_value=0)
     filter_mode = filterMode
 
-    swrap = SwrapEnumField()
+    swrap = SwrapEnumField(default_value=2)
 
-    twrap = TwrapEnumField()
+    twrap = TwrapEnumField(default_value=2)
 
-    sscale = FloatField()
+    sscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)
 
-    tscale = FloatField()
+    tscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)

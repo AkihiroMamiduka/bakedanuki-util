@@ -94,7 +94,7 @@ class MASH_Transform(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -105,21 +105,21 @@ class MASH_Transform(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -127,9 +127,9 @@ class MASH_Transform(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -150,41 +150,41 @@ class MASH_Transform(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    scaleAmount = ScaleAmountField()
+    scaleAmount = ScaleAmountField(default_value=(1.0, 1.0, 1.0))
     scaleAmount0 = scaleAmount.scaleAmount0
     scaleAmount1 = scaleAmount.scaleAmount1
     scaleAmount2 = scaleAmount.scaleAmount2
 
-    rotationAmount = RotationAmountField()
+    rotationAmount = RotationAmountField(default_value=(0.0, 0.0, 0.0))
     rotationAmount0 = rotationAmount.rotationAmount0
     rotationAmount1 = rotationAmount.rotationAmount1
     rotationAmount2 = rotationAmount.rotationAmount2
 
-    positionAmount = PositionAmountField()
+    positionAmount = PositionAmountField(default_value=(0.0, 0.0, 0.0))
     positionAmount0 = positionAmount.positionAmount0
     positionAmount1 = positionAmount.positionAmount1
     positionAmount2 = positionAmount.positionAmount2
 
-    strengthPosition = BoolField()
+    strengthPosition = BoolField(default_value=True)
 
-    strengthRotation = BoolField()
+    strengthRotation = BoolField(default_value=True)
 
-    strengthScale = BoolField()
+    strengthScale = BoolField(default_value=True)
 
-    fadeToNull = BoolField()
+    fadeToNull = BoolField(default_value=False)
 
-    enablePointScale = BoolField()
+    enablePointScale = BoolField(default_value=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -193,13 +193,13 @@ class MASH_Transform(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()

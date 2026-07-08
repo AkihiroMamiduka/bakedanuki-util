@@ -16,20 +16,20 @@ class MakeIllustratorCurves(DG):
     illustratorFilename = DataStringField()
     ifn = illustratorFilename
 
-    scaleFactor = FloatField()
+    scaleFactor = FloatField(default_value=1.0, min_value=0.0010000000474974513)
     sf = scaleFactor
 
-    reload = BoolField()
+    reload = BoolField(default_value=False)
     rl = reload
 
-    outputCurves = DataNurbsCurveField(multi=True)
+    outputCurves = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurves
 
-    count = LongField(multi=True)
+    count = LongField(multi=True, default_value=0, writable=False)
     c = count
 
-    position = PositionField(multi=True)
+    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    tolerance = FloatField()
+    tolerance = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_min_value=0.0, soft_max_value=0.10000000149011612)
     tl = tolerance

@@ -61,7 +61,7 @@ class AiVectorMap(DG):
 
     NODE_TYPE = "aiVectorMap"
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outValue
     outValueX = outValue.outValueX
     outx = outValueX
@@ -70,7 +70,7 @@ class AiVectorMap(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -79,7 +79,7 @@ class AiVectorMap(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputX = input.inputX
     inputx = inputX
     inputY = input.inputY
@@ -87,7 +87,7 @@ class AiVectorMap(DG):
     inputZ = input.inputZ
     inputz = inputZ
 
-    tangent = TangentField()
+    tangent = TangentField(default_value=(0.0, 0.0, 0.0))
     tangentX = tangent.tangentX
     tangentx = tangentX
     tangentY = tangent.tangentY
@@ -95,7 +95,7 @@ class AiVectorMap(DG):
     tangentZ = tangent.tangentZ
     tangentz = tangentZ
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY
@@ -103,21 +103,21 @@ class AiVectorMap(DG):
     normalZ = normal.normalZ
     normalz = normalZ
 
-    order = OrderEnumField()
+    order = OrderEnumField(default_value=0)
 
-    invertX = BoolField()
+    invertX = BoolField(default_value=False)
     invert_x = invertX
 
-    invertY = BoolField()
+    invertY = BoolField(default_value=False)
     invert_y = invertY
 
-    invertZ = BoolField()
+    invertZ = BoolField(default_value=False)
     invert_z = invertZ
 
-    colorToSigned = BoolField()
+    colorToSigned = BoolField(default_value=False)
     color_to_signed = colorToSigned
 
-    tangentSpace = BoolField()
+    tangentSpace = BoolField(default_value=True)
     tangent_space = tangentSpace
 
-    scale = FloatField()
+    scale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)

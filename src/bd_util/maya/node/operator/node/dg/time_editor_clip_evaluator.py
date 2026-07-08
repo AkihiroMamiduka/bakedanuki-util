@@ -14,7 +14,7 @@ class TimeEditorClipEvaluator(DG):
 
     NODE_TYPE = "timeEditorClipEvaluator"
 
-    parentContainerState = TypedField()
+    parentContainerState = TypedField(readable=False)
     pcs = parentContainerState
 
     attribute = AttributeField(multi=True)
@@ -23,7 +23,7 @@ class TimeEditorClipEvaluator(DG):
     output = GenericField()
     o = output
 
-    rosterItems = MessageField(multi=True)
+    rosterItems = MessageField(multi=True, readable=False)
     tas = rosterItems
 
     layerAttribute = LayerAttributeField(multi=True)

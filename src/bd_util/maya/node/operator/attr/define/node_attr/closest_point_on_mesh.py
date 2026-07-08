@@ -26,13 +26,13 @@ class InPositionPlugOperator(
         ("inPositionZ", "ipz"),
     )
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -41,13 +41,13 @@ class InPositionAttrOperator(
 ):
     __slots__ = ()
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -59,13 +59,13 @@ class InPositionField(
     ATTR_CLS = InPositionAttrOperator
     PLUG_CLS = InPositionPlugOperator
 
-    inPositionX = DoubleLinearField()
+    inPositionX = DoubleLinearField(default_value=0.0)
     ipx = inPositionX
 
-    inPositionY = DoubleLinearField()
+    inPositionY = DoubleLinearField(default_value=0.0)
     ipy = inPositionY
 
-    inPositionZ = DoubleLinearField()
+    inPositionZ = DoubleLinearField(default_value=0.0)
     ipz = inPositionZ
 
 
@@ -82,22 +82,22 @@ class ResultPlugOperator(
         ("closestVertexIndex", "vt"),
     )
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     n = normal
 
-    closestFaceIndex = LongField()
+    closestFaceIndex = LongField(default_value=-1, writable=False)
     f = closestFaceIndex
 
-    closestVertexIndex = LongField()
+    closestVertexIndex = LongField(default_value=-1, writable=False)
     vt = closestVertexIndex
 
 
@@ -106,22 +106,22 @@ class ResultAttrOperator(
 ):
     __slots__ = ()
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     n = normal
 
-    closestFaceIndex = LongField()
+    closestFaceIndex = LongField(default_value=-1, writable=False)
     f = closestFaceIndex
 
-    closestVertexIndex = LongField()
+    closestVertexIndex = LongField(default_value=-1, writable=False)
     vt = closestVertexIndex
 
 
@@ -133,20 +133,20 @@ class ResultField(
     ATTR_CLS = ResultAttrOperator
     PLUG_CLS = ResultPlugOperator
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    parameterU = DoubleField()
+    parameterU = DoubleField(default_value=0.0, writable=False)
     u = parameterU
 
-    parameterV = DoubleField()
+    parameterV = DoubleField(default_value=0.0, writable=False)
     v = parameterV
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     n = normal
 
-    closestFaceIndex = LongField()
+    closestFaceIndex = LongField(default_value=-1, writable=False)
     f = closestFaceIndex
 
-    closestVertexIndex = LongField()
+    closestVertexIndex = LongField(default_value=-1, writable=False)
     vt = closestVertexIndex

@@ -22,10 +22,10 @@ class StCoordPlugOperator(
         ("tCoord", "t"),
     )
 
-    sCoord = FloatField()
+    sCoord = FloatField(default_value=0.0)
     s = sCoord
 
-    tCoord = FloatField()
+    tCoord = FloatField(default_value=0.0)
     t = tCoord
 
 
@@ -34,10 +34,10 @@ class StCoordAttrOperator(
 ):
     __slots__ = ()
 
-    sCoord = FloatField()
+    sCoord = FloatField(default_value=0.0)
     s = sCoord
 
-    tCoord = FloatField()
+    tCoord = FloatField(default_value=0.0)
     t = tCoord
 
 
@@ -49,10 +49,10 @@ class StCoordField(
     ATTR_CLS = StCoordAttrOperator
     PLUG_CLS = StCoordPlugOperator
 
-    sCoord = FloatField()
+    sCoord = FloatField(default_value=0.0)
     s = sCoord
 
-    tCoord = FloatField()
+    tCoord = FloatField(default_value=0.0)
     t = tCoord
 
 
@@ -65,10 +65,10 @@ class VertexStOnePlugOperator(
         ("vertexStOneT", "s1t"),
     )
 
-    vertexStOneS = FloatField()
+    vertexStOneS = FloatField(default_value=0.0)
     s1s = vertexStOneS
 
-    vertexStOneT = FloatField()
+    vertexStOneT = FloatField(default_value=0.0)
     s1t = vertexStOneT
 
 
@@ -77,10 +77,10 @@ class VertexStOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexStOneS = FloatField()
+    vertexStOneS = FloatField(default_value=0.0)
     s1s = vertexStOneS
 
-    vertexStOneT = FloatField()
+    vertexStOneT = FloatField(default_value=0.0)
     s1t = vertexStOneT
 
 
@@ -92,10 +92,10 @@ class VertexStOneField(
     ATTR_CLS = VertexStOneAttrOperator
     PLUG_CLS = VertexStOnePlugOperator
 
-    vertexStOneS = FloatField()
+    vertexStOneS = FloatField(default_value=0.0)
     s1s = vertexStOneS
 
-    vertexStOneT = FloatField()
+    vertexStOneT = FloatField(default_value=0.0)
     s1t = vertexStOneT
 
 
@@ -108,10 +108,10 @@ class VertexStTwoPlugOperator(
         ("vertexStTwoT", "s2t"),
     )
 
-    vertexStTwoS = FloatField()
+    vertexStTwoS = FloatField(default_value=0.0)
     s2s = vertexStTwoS
 
-    vertexStTwoT = FloatField()
+    vertexStTwoT = FloatField(default_value=0.0)
     s2t = vertexStTwoT
 
 
@@ -120,10 +120,10 @@ class VertexStTwoAttrOperator(
 ):
     __slots__ = ()
 
-    vertexStTwoS = FloatField()
+    vertexStTwoS = FloatField(default_value=0.0)
     s2s = vertexStTwoS
 
-    vertexStTwoT = FloatField()
+    vertexStTwoT = FloatField(default_value=0.0)
     s2t = vertexStTwoT
 
 
@@ -135,10 +135,10 @@ class VertexStTwoField(
     ATTR_CLS = VertexStTwoAttrOperator
     PLUG_CLS = VertexStTwoPlugOperator
 
-    vertexStTwoS = FloatField()
+    vertexStTwoS = FloatField(default_value=0.0)
     s2s = vertexStTwoS
 
-    vertexStTwoT = FloatField()
+    vertexStTwoT = FloatField(default_value=0.0)
     s2t = vertexStTwoT
 
 
@@ -151,10 +151,10 @@ class VertexStThreePlugOperator(
         ("vertexStThreeT", "s3t"),
     )
 
-    vertexStThreeS = FloatField()
+    vertexStThreeS = FloatField(default_value=0.0)
     s3s = vertexStThreeS
 
-    vertexStThreeT = FloatField()
+    vertexStThreeT = FloatField(default_value=0.0)
     s3t = vertexStThreeT
 
 
@@ -163,10 +163,10 @@ class VertexStThreeAttrOperator(
 ):
     __slots__ = ()
 
-    vertexStThreeS = FloatField()
+    vertexStThreeS = FloatField(default_value=0.0)
     s3s = vertexStThreeS
 
-    vertexStThreeT = FloatField()
+    vertexStThreeT = FloatField(default_value=0.0)
     s3t = vertexStThreeT
 
 
@@ -178,10 +178,10 @@ class VertexStThreeField(
     ATTR_CLS = VertexStThreeAttrOperator
     PLUG_CLS = VertexStThreePlugOperator
 
-    vertexStThreeS = FloatField()
+    vertexStThreeS = FloatField(default_value=0.0)
     s3s = vertexStThreeS
 
-    vertexStThreeT = FloatField()
+    vertexStThreeT = FloatField(default_value=0.0)
     s3t = vertexStThreeT
 
 
@@ -194,10 +194,10 @@ class UvCoordPlugOperator(
         ("vCoord", "v"),
     )
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -206,10 +206,10 @@ class UvCoordAttrOperator(
 ):
     __slots__ = ()
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -221,10 +221,10 @@ class UvCoordField(
     ATTR_CLS = UvCoordAttrOperator
     PLUG_CLS = UvCoordPlugOperator
 
-    uCoord = FloatField()
+    uCoord = FloatField(default_value=0.0)
     u = uCoord
 
-    vCoord = FloatField()
+    vCoord = FloatField(default_value=0.0)
     v = vCoord
 
 
@@ -237,10 +237,10 @@ class VertexUvOnePlugOperator(
         ("vertexUvOneV", "t1v"),
     )
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -249,10 +249,10 @@ class VertexUvOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -264,10 +264,10 @@ class VertexUvOneField(
     ATTR_CLS = VertexUvOneAttrOperator
     PLUG_CLS = VertexUvOnePlugOperator
 
-    vertexUvOneU = FloatField()
+    vertexUvOneU = FloatField(default_value=0.0)
     t1u = vertexUvOneU
 
-    vertexUvOneV = FloatField()
+    vertexUvOneV = FloatField(default_value=0.0)
     t1v = vertexUvOneV
 
 
@@ -280,10 +280,10 @@ class VertexUvTwoPlugOperator(
         ("vertexUvTwoV", "t2v"),
     )
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -292,10 +292,10 @@ class VertexUvTwoAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -307,10 +307,10 @@ class VertexUvTwoField(
     ATTR_CLS = VertexUvTwoAttrOperator
     PLUG_CLS = VertexUvTwoPlugOperator
 
-    vertexUvTwoU = FloatField()
+    vertexUvTwoU = FloatField(default_value=0.0)
     t2u = vertexUvTwoU
 
-    vertexUvTwoV = FloatField()
+    vertexUvTwoV = FloatField(default_value=0.0)
     t2v = vertexUvTwoV
 
 
@@ -323,10 +323,10 @@ class VertexUvThreePlugOperator(
         ("vertexUvThreeV", "t3v"),
     )
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -335,10 +335,10 @@ class VertexUvThreeAttrOperator(
 ):
     __slots__ = ()
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -350,10 +350,10 @@ class VertexUvThreeField(
     ATTR_CLS = VertexUvThreeAttrOperator
     PLUG_CLS = VertexUvThreePlugOperator
 
-    vertexUvThreeU = FloatField()
+    vertexUvThreeU = FloatField(default_value=0.0)
     t3u = vertexUvThreeU
 
-    vertexUvThreeV = FloatField()
+    vertexUvThreeV = FloatField(default_value=0.0)
     t3v = vertexUvThreeV
 
 
@@ -367,13 +367,13 @@ class VertexCameraOnePlugOperator(
         ("vertexCameraOneZ", "c1z"),
     )
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -382,13 +382,13 @@ class VertexCameraOneAttrOperator(
 ):
     __slots__ = ()
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -400,13 +400,13 @@ class VertexCameraOneField(
     ATTR_CLS = VertexCameraOneAttrOperator
     PLUG_CLS = VertexCameraOnePlugOperator
 
-    vertexCameraOneX = FloatField()
+    vertexCameraOneX = FloatField(default_value=0.0)
     c1x = vertexCameraOneX
 
-    vertexCameraOneY = FloatField()
+    vertexCameraOneY = FloatField(default_value=0.0)
     c1y = vertexCameraOneY
 
-    vertexCameraOneZ = FloatField()
+    vertexCameraOneZ = FloatField(default_value=0.0)
     c1z = vertexCameraOneZ
 
 
@@ -419,10 +419,10 @@ class OutUvPlugOperator(
         ("outV", "ov"),
     )
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -431,10 +431,10 @@ class OutUvAttrOperator(
 ):
     __slots__ = ()
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -446,10 +446,10 @@ class OutUvField(
     ATTR_CLS = OutUvAttrOperator
     PLUG_CLS = OutUvPlugOperator
 
-    outU = FloatField()
+    outU = FloatField(default_value=0.0, writable=False)
     ou = outU
 
-    outV = FloatField()
+    outV = FloatField(default_value=0.0, writable=False)
     ov = outV
 
 
@@ -462,10 +462,10 @@ class OutVertexUvOnePlugOperator(
         ("outVertexUvOneV", "o1v"),
     )
 
-    outVertexUvOneU = FloatField()
+    outVertexUvOneU = FloatField(default_value=0.0)
     o1u = outVertexUvOneU
 
-    outVertexUvOneV = FloatField()
+    outVertexUvOneV = FloatField(default_value=0.0)
     o1v = outVertexUvOneV
 
 
@@ -474,10 +474,10 @@ class OutVertexUvOneAttrOperator(
 ):
     __slots__ = ()
 
-    outVertexUvOneU = FloatField()
+    outVertexUvOneU = FloatField(default_value=0.0)
     o1u = outVertexUvOneU
 
-    outVertexUvOneV = FloatField()
+    outVertexUvOneV = FloatField(default_value=0.0)
     o1v = outVertexUvOneV
 
 
@@ -489,10 +489,10 @@ class OutVertexUvOneField(
     ATTR_CLS = OutVertexUvOneAttrOperator
     PLUG_CLS = OutVertexUvOnePlugOperator
 
-    outVertexUvOneU = FloatField()
+    outVertexUvOneU = FloatField(default_value=0.0)
     o1u = outVertexUvOneU
 
-    outVertexUvOneV = FloatField()
+    outVertexUvOneV = FloatField(default_value=0.0)
     o1v = outVertexUvOneV
 
 
@@ -505,10 +505,10 @@ class OutVertexUvTwoPlugOperator(
         ("outVertexUvTwoV", "o2v"),
     )
 
-    outVertexUvTwoU = FloatField()
+    outVertexUvTwoU = FloatField(default_value=0.0)
     o2u = outVertexUvTwoU
 
-    outVertexUvTwoV = FloatField()
+    outVertexUvTwoV = FloatField(default_value=0.0)
     o2v = outVertexUvTwoV
 
 
@@ -517,10 +517,10 @@ class OutVertexUvTwoAttrOperator(
 ):
     __slots__ = ()
 
-    outVertexUvTwoU = FloatField()
+    outVertexUvTwoU = FloatField(default_value=0.0)
     o2u = outVertexUvTwoU
 
-    outVertexUvTwoV = FloatField()
+    outVertexUvTwoV = FloatField(default_value=0.0)
     o2v = outVertexUvTwoV
 
 
@@ -532,10 +532,10 @@ class OutVertexUvTwoField(
     ATTR_CLS = OutVertexUvTwoAttrOperator
     PLUG_CLS = OutVertexUvTwoPlugOperator
 
-    outVertexUvTwoU = FloatField()
+    outVertexUvTwoU = FloatField(default_value=0.0)
     o2u = outVertexUvTwoU
 
-    outVertexUvTwoV = FloatField()
+    outVertexUvTwoV = FloatField(default_value=0.0)
     o2v = outVertexUvTwoV
 
 
@@ -548,10 +548,10 @@ class OutVertexUvThreePlugOperator(
         ("outVertexUvThreeV", "o3v"),
     )
 
-    outVertexUvThreeU = FloatField()
+    outVertexUvThreeU = FloatField(default_value=0.0)
     o3u = outVertexUvThreeU
 
-    outVertexUvThreeV = FloatField()
+    outVertexUvThreeV = FloatField(default_value=0.0)
     o3v = outVertexUvThreeV
 
 
@@ -560,10 +560,10 @@ class OutVertexUvThreeAttrOperator(
 ):
     __slots__ = ()
 
-    outVertexUvThreeU = FloatField()
+    outVertexUvThreeU = FloatField(default_value=0.0)
     o3u = outVertexUvThreeU
 
-    outVertexUvThreeV = FloatField()
+    outVertexUvThreeV = FloatField(default_value=0.0)
     o3v = outVertexUvThreeV
 
 
@@ -575,10 +575,10 @@ class OutVertexUvThreeField(
     ATTR_CLS = OutVertexUvThreeAttrOperator
     PLUG_CLS = OutVertexUvThreePlugOperator
 
-    outVertexUvThreeU = FloatField()
+    outVertexUvThreeU = FloatField(default_value=0.0)
     o3u = outVertexUvThreeU
 
-    outVertexUvThreeV = FloatField()
+    outVertexUvThreeV = FloatField(default_value=0.0)
     o3v = outVertexUvThreeV
 
 
@@ -592,13 +592,13 @@ class OutVertexCameraOnePlugOperator(
         ("outVertexCameraOneZ", "o1z"),
     )
 
-    outVertexCameraOneX = FloatField()
+    outVertexCameraOneX = FloatField(default_value=0.0)
     o1x = outVertexCameraOneX
 
-    outVertexCameraOneY = FloatField()
+    outVertexCameraOneY = FloatField(default_value=0.0)
     o1y = outVertexCameraOneY
 
-    outVertexCameraOneZ = FloatField()
+    outVertexCameraOneZ = FloatField(default_value=0.0)
     o1z = outVertexCameraOneZ
 
 
@@ -607,13 +607,13 @@ class OutVertexCameraOneAttrOperator(
 ):
     __slots__ = ()
 
-    outVertexCameraOneX = FloatField()
+    outVertexCameraOneX = FloatField(default_value=0.0)
     o1x = outVertexCameraOneX
 
-    outVertexCameraOneY = FloatField()
+    outVertexCameraOneY = FloatField(default_value=0.0)
     o1y = outVertexCameraOneY
 
-    outVertexCameraOneZ = FloatField()
+    outVertexCameraOneZ = FloatField(default_value=0.0)
     o1z = outVertexCameraOneZ
 
 
@@ -625,11 +625,11 @@ class OutVertexCameraOneField(
     ATTR_CLS = OutVertexCameraOneAttrOperator
     PLUG_CLS = OutVertexCameraOnePlugOperator
 
-    outVertexCameraOneX = FloatField()
+    outVertexCameraOneX = FloatField(default_value=0.0)
     o1x = outVertexCameraOneX
 
-    outVertexCameraOneY = FloatField()
+    outVertexCameraOneY = FloatField(default_value=0.0)
     o1y = outVertexCameraOneY
 
-    outVertexCameraOneZ = FloatField()
+    outVertexCameraOneZ = FloatField(default_value=0.0)
     o1z = outVertexCameraOneZ

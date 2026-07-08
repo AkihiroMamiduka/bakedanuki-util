@@ -25,10 +25,10 @@ class TimewarpInPlugOperator(
     timewarpIn_Raw = TypedField()
     twir = timewarpIn_Raw
 
-    timewarpIn_Inmap = CompoundField()
+    timewarpIn_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twii = timewarpIn_Inmap
 
-    timewarpIn_Outmap = CompoundField()
+    timewarpIn_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twio = timewarpIn_Outmap
 
 
@@ -43,10 +43,10 @@ class TimewarpInAttrOperator(
     timewarpIn_Raw = TypedField()
     twir = timewarpIn_Raw
 
-    timewarpIn_Inmap = CompoundField()
+    timewarpIn_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twii = timewarpIn_Inmap
 
-    timewarpIn_Outmap = CompoundField()
+    timewarpIn_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twio = timewarpIn_Outmap
 
 
@@ -64,8 +64,8 @@ class TimewarpInField(
     timewarpIn_Raw = TypedField()
     twir = timewarpIn_Raw
 
-    timewarpIn_Inmap = CompoundField()
+    timewarpIn_Inmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twii = timewarpIn_Inmap
 
-    timewarpIn_Outmap = CompoundField()
+    timewarpIn_Outmap = CompoundField(multi=True, default_value=(0.0, 0.0))
     twio = timewarpIn_Outmap

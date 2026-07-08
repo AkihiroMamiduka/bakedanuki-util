@@ -18,13 +18,13 @@ class AllCoordsPlugOperator(
         ("zCoord", "zc"),
     )
 
-    xCoord = DoubleLinearField()
+    xCoord = DoubleLinearField(default_value=0.0, readable=False)
     xc = xCoord
 
-    yCoord = DoubleLinearField()
+    yCoord = DoubleLinearField(default_value=0.0, readable=False)
     yc = yCoord
 
-    zCoord = DoubleLinearField()
+    zCoord = DoubleLinearField(default_value=0.0, readable=False)
     zc = zCoord
 
 
@@ -33,13 +33,13 @@ class AllCoordsAttrOperator(
 ):
     __slots__ = ()
 
-    xCoord = DoubleLinearField()
+    xCoord = DoubleLinearField(default_value=0.0, readable=False)
     xc = xCoord
 
-    yCoord = DoubleLinearField()
+    yCoord = DoubleLinearField(default_value=0.0, readable=False)
     yc = yCoord
 
-    zCoord = DoubleLinearField()
+    zCoord = DoubleLinearField(default_value=0.0, readable=False)
     zc = zCoord
 
 
@@ -51,13 +51,13 @@ class AllCoordsField(
     ATTR_CLS = AllCoordsAttrOperator
     PLUG_CLS = AllCoordsPlugOperator
 
-    xCoord = DoubleLinearField()
+    xCoord = DoubleLinearField(default_value=0.0, readable=False)
     xc = xCoord
 
-    yCoord = DoubleLinearField()
+    yCoord = DoubleLinearField(default_value=0.0, readable=False)
     yc = yCoord
 
-    zCoord = DoubleLinearField()
+    zCoord = DoubleLinearField(default_value=0.0, readable=False)
     zc = zCoord
 
 
@@ -71,13 +71,13 @@ class CenterPlugOperator(
         ("centerZ", "ctz"),
     )
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0, readable=False)
     ctx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0, readable=False)
     cty = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0, readable=False)
     ctz = centerZ
 
 
@@ -86,13 +86,13 @@ class CenterAttrOperator(
 ):
     __slots__ = ()
 
-    centerX = DoubleLinearField()
+    centerX = DoubleLinearField(default_value=0.0, readable=False)
     ctx = centerX
 
-    centerY = DoubleLinearField()
+    centerY = DoubleLinearField(default_value=0.0, readable=False)
     cty = centerY
 
-    centerZ = DoubleLinearField()
+    centerZ = DoubleLinearField(default_value=0.0, readable=False)
     ctz = centerZ
 
 

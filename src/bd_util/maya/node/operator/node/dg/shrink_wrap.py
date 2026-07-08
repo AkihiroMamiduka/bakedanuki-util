@@ -220,22 +220,22 @@ class ShrinkWrap(DG):
     weightFunction = TypedField(multi=True)
     wfl = weightFunction
 
-    outputGeometry = TypedField(multi=True)
+    outputGeometry = TypedField(multi=True, writable=False)
     og = outputGeometry
 
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True)
+    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
     ocw = envelopeWeightsList
 
-    blockGPU = BoolField()
+    blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField()
+    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     en = envelope
 
-    function = FunctionField()
+    function = FunctionField(default_value=(0, 0, 0), readable=False)
     f = function
     fchild1 = function.fchild1
     f1 = fchild1
@@ -247,7 +247,7 @@ class ShrinkWrap(DG):
     map64BitIndices = TypedField()
     map = map64BitIndices
 
-    weightList = WeightListField(multi=True)
+    weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
     targetGeom = TypedField()
@@ -256,92 +256,92 @@ class ShrinkWrap(DG):
     cachedSmoothTarget = DataMeshField()
     cst = cachedSmoothTarget
 
-    targetSmoothLevel = ShortField()
+    targetSmoothLevel = ShortField(default_value=0, min_value=0, max_value=7, soft_min_value=0, soft_max_value=4)
     tsl = targetSmoothLevel
 
-    continuity = FloatField()
+    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     co = continuity
 
-    smoothUVs = BoolField()
+    smoothUVs = BoolField(default_value=True)
     suv = smoothUVs
 
-    keepBorder = BoolField()
+    keepBorder = BoolField(default_value=False)
     kb = keepBorder
 
-    boundaryRule = BoundaryRuleEnumField()
+    boundaryRule = BoundaryRuleEnumField(default_value=1)
     bnr = boundaryRule
 
-    keepHardEdge = BoolField()
+    keepHardEdge = BoolField(default_value=False)
     khe = keepHardEdge
 
-    propagateEdgeHardness = BoolField()
+    propagateEdgeHardness = BoolField(default_value=False)
     peh = propagateEdgeHardness
 
-    keepMapBorders = KeepMapBordersEnumField()
+    keepMapBorders = KeepMapBordersEnumField(default_value=1)
     kmb = keepMapBorders
 
     innerGeom = TypedField()
     in_ = innerGeom
 
-    innerGroupId = LongField()
+    innerGroupId = LongField(default_value=0)
     igi = innerGroupId
 
-    projection = ProjectionEnumField()
+    projection = ProjectionEnumField(default_value=0)
     prj = projection
 
-    closestIfNoIntersection = BoolField()
+    closestIfNoIntersection = BoolField(default_value=False)
     cni = closestIfNoIntersection
 
-    reverse = BoolField()
+    reverse = BoolField(default_value=False)
     rev = reverse
 
-    bidirectional = BoolField()
+    bidirectional = BoolField(default_value=False)
     bi = bidirectional
 
-    boundingBoxCenter = BoolField()
+    boundingBoxCenter = BoolField(default_value=False)
     bbc = boundingBoxCenter
 
-    axisReference = AxisReferenceEnumField()
+    axisReference = AxisReferenceEnumField(default_value=0)
     ar = axisReference
 
-    alongX = BoolField()
+    alongX = BoolField(default_value=False)
     ax = alongX
 
-    alongY = BoolField()
+    alongY = BoolField(default_value=False)
     ay = alongY
 
-    alongZ = BoolField()
+    alongZ = BoolField(default_value=False)
     az = alongZ
 
-    offset = DoubleLinearField()
+    offset = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     o = offset
 
-    targetInflation = DoubleLinearField()
+    targetInflation = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ti = targetInflation
 
     cachedInflatedTarget = DataMeshField()
     cit = cachedInflatedTarget
 
-    falloff = DoubleLinearField()
+    falloff = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = falloff
 
-    falloffIterations = ShortField()
+    falloffIterations = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
     fi = falloffIterations
 
-    shapePreservationEnable = BoolField()
+    shapePreservationEnable = BoolField(default_value=False)
     spe = shapePreservationEnable
 
-    shapePreservationSteps = ShortField()
+    shapePreservationSteps = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=100)
     sps = shapePreservationSteps
 
-    shapePreservationIterations = ShortField()
+    shapePreservationIterations = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
     spi = shapePreservationIterations
 
-    shapePreservationReprojection = ShapePreservationReprojectionEnumField()
+    shapePreservationReprojection = ShapePreservationReprojectionEnumField(default_value=1)
     spr = shapePreservationReprojection
 
-    shapePreservationMethod = ShapePreservationMethodEnumField()
+    shapePreservationMethod = ShapePreservationMethodEnumField(default_value=0)
     spm = shapePreservationMethod
 
-    inputEnvelope = FloatField(multi=True)
+    inputEnvelope = FloatField(multi=True, default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
     ien = inputEnvelope

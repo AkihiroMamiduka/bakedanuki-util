@@ -14,37 +14,37 @@ class XgmModifierGuide(DG):
 
     NODE_TYPE = "xgmModifierGuide"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
     inGuideData = TypedField()
     igd = inGuideData
 
-    mask = DoubleField()
+    mask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    magnitude = DoubleField()
+    magnitude = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True)
+    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
     ms = magnitudeScale
 
-    blend = DoubleField()
+    blend = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     bl = blend
 
-    useRegionMap = BoolField()
+    useRegionMap = BoolField(default_value=False)
     urm = useRegionMap
 
-    regionMask = DoubleField()
+    regionMask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     rm = regionMask
 
-    regionMap = RegionMapField()
+    regionMap = RegionMapField(default_value=(1.0, 1.0, 1.0))
     rmp = regionMap
     regionMapR = regionMap.regionMapR
     rmpr = regionMapR
@@ -53,5 +53,5 @@ class XgmModifierGuide(DG):
     regionMapB = regionMap.regionMapB
     rmpb = regionMapB
 
-    previewColor = BoolField()
+    previewColor = BoolField(default_value=False)
     pc = previewColor

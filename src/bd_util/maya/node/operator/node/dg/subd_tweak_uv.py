@@ -9,7 +9,7 @@ class SubdTweakUV(DG):
 
     NODE_TYPE = "subdTweakUV"
 
-    outSubdiv = TypedField()
+    outSubdiv = TypedField(writable=False)
     os = outSubdiv
 
     inSubdiv = TypedField()
@@ -21,5 +21,5 @@ class SubdTweakUV(DG):
     inputComponents = TypedField()
     ics = inputComponents
 
-    uvTweak = UvTweakField(multi=True)
+    uvTweak = UvTweakField(multi=True, default_value=(0.0, 0.0))
     uvtk = uvTweak

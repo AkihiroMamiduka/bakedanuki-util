@@ -9,14 +9,14 @@ class Equal(DG):
 
     NODE_TYPE = "equal"
 
-    input1 = DoubleLinearField()
+    input1 = DoubleLinearField(default_value=0.0)
     i1 = input1
 
-    input2 = DoubleLinearField()
+    input2 = DoubleLinearField(default_value=0.0)
     i2 = input2
 
-    epsilon = DoubleLinearField()
+    epsilon = DoubleLinearField(default_value=0.0)
     e = epsilon
 
-    output = BoolField()
+    output = BoolField(default_value=False, writable=False)
     o = output

@@ -67,13 +67,13 @@ class LightsCollectionSelector(DG):
 
     NODE_TYPE = "lightsCollectionSelector"
 
-    input = LongField()
+    input = LongField(default_value=0)
     in_ = input
 
-    output = LongField()
+    output = LongField(default_value=0)
     out = output
 
-    collection = MessageField()
+    collection = MessageField(writable=False)
     c = collection
 
     pattern = DataStringField()
@@ -85,7 +85,7 @@ class LightsCollectionSelector(DG):
     staticSelection = DataStringField()
     ssl = staticSelection
 
-    typeFilter = TypeFilterEnumField()
+    typeFilter = TypeFilterEnumField(default_value=1)
     tf = typeFilter
 
     customFilterValue = DataStringField()

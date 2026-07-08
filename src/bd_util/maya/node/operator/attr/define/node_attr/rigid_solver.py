@@ -67,13 +67,13 @@ class TranslatePlugOperator(
         ("translateZ", "tz"),
     )
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -82,13 +82,13 @@ class TranslateAttrOperator(
 ):
     __slots__ = ()
 
-    translateX = DoubleLinearField()
+    translateX = DoubleLinearField(default_value=0.0)
     tx = translateX
 
-    translateY = DoubleLinearField()
+    translateY = DoubleLinearField(default_value=0.0)
     ty = translateY
 
-    translateZ = DoubleLinearField()
+    translateZ = DoubleLinearField(default_value=0.0)
     tz = translateZ
 
 
@@ -111,13 +111,13 @@ class RotatePlugOperator(
         ("rotateZ", "rz"),
     )
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -126,13 +126,13 @@ class RotateAttrOperator(
 ):
     __slots__ = ()
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0)
     rz = rotateZ
 
 
@@ -155,13 +155,13 @@ class ConstraintTranslatePlugOperator(
         ("constraintTranslateZ", "ctz"),
     )
 
-    constraintTranslateX = DoubleLinearField()
+    constraintTranslateX = DoubleLinearField(default_value=0.0)
     ctx = constraintTranslateX
 
-    constraintTranslateY = DoubleLinearField()
+    constraintTranslateY = DoubleLinearField(default_value=0.0)
     cty = constraintTranslateY
 
-    constraintTranslateZ = DoubleLinearField()
+    constraintTranslateZ = DoubleLinearField(default_value=0.0)
     ctz = constraintTranslateZ
 
 
@@ -170,13 +170,13 @@ class ConstraintTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    constraintTranslateX = DoubleLinearField()
+    constraintTranslateX = DoubleLinearField(default_value=0.0)
     ctx = constraintTranslateX
 
-    constraintTranslateY = DoubleLinearField()
+    constraintTranslateY = DoubleLinearField(default_value=0.0)
     cty = constraintTranslateY
 
-    constraintTranslateZ = DoubleLinearField()
+    constraintTranslateZ = DoubleLinearField(default_value=0.0)
     ctz = constraintTranslateZ
 
 
@@ -199,13 +199,13 @@ class ConstraintRotatePlugOperator(
         ("constraintRotateZ", "crz"),
     )
 
-    constraintRotateX = DoubleAngleField()
+    constraintRotateX = DoubleAngleField(default_value=0.0)
     crx = constraintRotateX
 
-    constraintRotateY = DoubleAngleField()
+    constraintRotateY = DoubleAngleField(default_value=0.0)
     cry = constraintRotateY
 
-    constraintRotateZ = DoubleAngleField()
+    constraintRotateZ = DoubleAngleField(default_value=0.0)
     crz = constraintRotateZ
 
 
@@ -214,13 +214,13 @@ class ConstraintRotateAttrOperator(
 ):
     __slots__ = ()
 
-    constraintRotateX = DoubleAngleField()
+    constraintRotateX = DoubleAngleField(default_value=0.0)
     crx = constraintRotateX
 
-    constraintRotateY = DoubleAngleField()
+    constraintRotateY = DoubleAngleField(default_value=0.0)
     cry = constraintRotateY
 
-    constraintRotateZ = DoubleAngleField()
+    constraintRotateZ = DoubleAngleField(default_value=0.0)
     crz = constraintRotateZ
 
 

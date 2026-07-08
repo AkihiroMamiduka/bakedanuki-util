@@ -13,10 +13,10 @@ class DataBlockTest(DG):
 
     NODE_TYPE = "dataBlockTest"
 
-    single = FloatField()
+    single = FloatField(default_value=0.0)
     s = single
 
-    multi = FloatField(multi=True)
+    multi = FloatField(multi=True, default_value=0.0)
     m = multi
 
     compound = CompoundValueField()

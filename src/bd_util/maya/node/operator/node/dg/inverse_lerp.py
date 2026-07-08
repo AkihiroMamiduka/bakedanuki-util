@@ -8,14 +8,14 @@ class InverseLerp(DG):
 
     NODE_TYPE = "inverseLerp"
 
-    input1 = DoubleLinearField()
+    input1 = DoubleLinearField(default_value=0.0)
     i1 = input1
 
-    input2 = DoubleLinearField()
+    input2 = DoubleLinearField(default_value=0.0)
     i2 = input2
 
-    interpolation = DoubleLinearField()
+    interpolation = DoubleLinearField(default_value=0.0)
     i = interpolation
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

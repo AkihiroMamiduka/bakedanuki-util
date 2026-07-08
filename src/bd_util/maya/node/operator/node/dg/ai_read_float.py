@@ -10,10 +10,10 @@ class AiReadFloat(DG):
 
     NODE_TYPE = "aiReadFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

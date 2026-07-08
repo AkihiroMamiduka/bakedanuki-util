@@ -14,11 +14,11 @@ class SweepProfileConverter(DG):
 
     NODE_TYPE = "sweepProfileConverter"
 
-    sweepProfileData = TypedField()
+    sweepProfileData = TypedField(writable=False)
 
-    inObjectArray = InObjectArrayField(multi=True)
+    inObjectArray = InObjectArrayField(multi=True, readable=False)
 
-    outDebugMesh = DataMeshField()
+    outDebugMesh = DataMeshField(writable=False)
 
     cachedLocalZCompoundArray = CachedLocalZCompoundArrayField(multi=True)
 

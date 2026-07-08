@@ -47,10 +47,10 @@ class ObjectFilter(DG):
 
     NODE_TYPE = "objectFilter"
 
-    child = BoolField()
+    child = BoolField(default_value=False)
     ch = child
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     inv = invert
 
     inputList = TypedField()
@@ -65,8 +65,8 @@ class ObjectFilter(DG):
     category = DataStringArrayField()
     cat = category
 
-    disable = BoolField()
+    disable = BoolField(default_value=False)
     dis = disable
 
-    filterClass = FilterClassEnumField()
+    filterClass = FilterClassEnumField(default_value=2)
     fcls = filterClass

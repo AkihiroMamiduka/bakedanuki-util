@@ -50,7 +50,7 @@ class PolyContourProj(DG):
 
     NODE_TYPE = "polyContourProj"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -59,31 +59,31 @@ class PolyContourProj(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -92,47 +92,47 @@ class PolyContourProj(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    method = MethodEnumField()
+    method = MethodEnumField(default_value=0)
     m = method
 
-    smoothness0 = DoubleField()
+    smoothness0 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     s0 = smoothness0
 
-    smoothness1 = DoubleField()
+    smoothness1 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     s1 = smoothness1
 
-    smoothness2 = DoubleField()
+    smoothness2 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     s2 = smoothness2
 
-    smoothness3 = DoubleField()
+    smoothness3 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
     s3 = smoothness3
 
-    offset0 = DoubleLinearField()
+    offset0 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o0 = offset0
 
-    offset1 = DoubleLinearField()
+    offset1 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o1 = offset1
 
-    offset2 = DoubleLinearField()
+    offset2 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o2 = offset2
 
-    offset3 = DoubleLinearField()
+    offset3 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o3 = offset3
 
-    userDefinedCorners = BoolField()
+    userDefinedCorners = BoolField(default_value=False)
     udc = userDefinedCorners
 
     cornerVertices = TypedField()
     cv = cornerVertices
 
-    flipRails = BoolField()
+    flipRails = BoolField(default_value=False)
     fr = flipRails
 
-    reduceShear = DoubleField()
+    reduceShear = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     rs = reduceShear
 
-    surface = DataNurbsSurfaceField()
+    surface = DataNurbsSurfaceField(writable=False)
     srf = surface
 
-    manipPoints = DataPointArrayField()
+    manipPoints = DataPointArrayField(writable=False)
     mnp = manipPoints

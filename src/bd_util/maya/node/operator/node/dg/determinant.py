@@ -12,5 +12,5 @@ class Determinant(DG):
     input = MatrixField()
     i = input
 
-    output = DoubleLinearField()
+    output = DoubleLinearField(default_value=0.0, writable=False)
     o = output

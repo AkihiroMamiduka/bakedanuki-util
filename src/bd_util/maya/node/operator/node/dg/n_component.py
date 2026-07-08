@@ -183,59 +183,59 @@ class NComponent(DG):
     surface = DataMeshField()
     srf = surface
 
-    componentGroupId = LongField()
+    componentGroupId = LongField(default_value=0)
     cid = componentGroupId
 
-    componentType = ComponentTypeEnumField()
+    componentType = ComponentTypeEnumField(default_value=0)
     ct = componentType
 
-    elements = ElementsEnumField()
+    elements = ElementsEnumField(default_value=0)
     el = elements
 
-    strength = DoubleField()
+    strength = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     stn = strength
 
-    strengthMap = FloatField()
+    strengthMap = FloatField(default_value=1.0)
     stnm = strengthMap
 
     strengthPerVertex = DataDoubleArrayField()
     spv = strengthPerVertex
 
-    glueStrength = DoubleField()
+    glueStrength = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     gst = glueStrength
 
-    glueStrengthMap = FloatField()
+    glueStrengthMap = FloatField(default_value=1.0)
     gstm = glueStrengthMap
 
     glueStrengthPerVertex = DataDoubleArrayField()
     gspv = glueStrengthPerVertex
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     wgh = weight
 
-    weightMap = FloatField()
+    weightMap = FloatField(default_value=1.0)
     wemp = weightMap
 
     weightPerVertex = DataDoubleArrayField()
     wpv = weightPerVertex
 
-    tangentStrength = DoubleField()
+    tangentStrength = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     tst = tangentStrength
 
     objectId = GenericField()
     obid = objectId
 
-    componentIndices = LongField(multi=True)
+    componentIndices = LongField(multi=True, default_value=0)
     ci = componentIndices
 
-    outComponent = TypedField()
+    outComponent = TypedField(writable=False)
     ocp = outComponent
 
-    strengthMapType = StrengthMapTypeEnumField()
+    strengthMapType = StrengthMapTypeEnumField(default_value=2)
     smt = strengthMapType
 
-    glueStrengthMapType = GlueStrengthMapTypeEnumField()
+    glueStrengthMapType = GlueStrengthMapTypeEnumField(default_value=2)
     gsmt = glueStrengthMapType
 
-    weightMapType = WeightMapTypeEnumField()
+    weightMapType = WeightMapTypeEnumField(default_value=2)
     wmt = weightMapType

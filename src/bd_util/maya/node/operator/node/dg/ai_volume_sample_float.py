@@ -78,10 +78,10 @@ class AiVolumeSampleFloat(DG):
 
     NODE_TYPE = "aiVolumeSampleFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -92,7 +92,7 @@ class AiVolumeSampleFloat(DG):
 
     channel = DataStringField()
 
-    positionOffset = PositionOffsetField()
+    positionOffset = PositionOffsetField(default_value=(0.0, 0.0, 0.0))
     position_offset = positionOffset
     positionOffsetX = positionOffset.positionOffsetX
     position_offsetx = positionOffsetX
@@ -101,43 +101,43 @@ class AiVolumeSampleFloat(DG):
     positionOffsetZ = positionOffset.positionOffsetZ
     position_offsetz = positionOffsetZ
 
-    interpolation = InterpolationEnumField()
+    interpolation = InterpolationEnumField(default_value=1)
 
-    volumeType = VolumeTypeEnumField()
+    volumeType = VolumeTypeEnumField(default_value=0)
     volume_type = volumeType
 
-    sdfOffset = FloatField()
+    sdfOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     sdf_offset = sdfOffset
 
-    sdfBlend = FloatField()
+    sdfBlend = FloatField(default_value=0.0)
     sdf_blend = sdfBlend
 
-    sdfInvert = BoolField()
+    sdfInvert = BoolField(default_value=False)
     sdf_invert = sdfInvert
 
-    inputMin = FloatField()
+    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     input_min = inputMin
 
-    inputMax = FloatField()
+    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     input_max = inputMax
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
 
-    contrastPivot = FloatField()
+    contrastPivot = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     contrast_pivot = contrastPivot
 
-    bias = FloatField()
+    bias = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    gain = FloatField()
+    gain = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    outputMin = FloatField()
+    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     output_min = outputMin
 
-    outputMax = FloatField()
+    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     output_max = outputMax
 
-    clampMin = BoolField()
+    clampMin = BoolField(default_value=False)
     clamp_min = clampMin
 
-    clampMax = BoolField()
+    clampMax = BoolField(default_value=False)
     clamp_max = clampMax

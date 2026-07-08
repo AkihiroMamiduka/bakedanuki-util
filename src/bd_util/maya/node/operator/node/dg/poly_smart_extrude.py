@@ -20,7 +20,7 @@ class PolySmartExtrude(DG):
 
     NODE_TYPE = "polySmartExtrude"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -29,37 +29,37 @@ class PolySmartExtrude(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    compBoundingBoxMin = CompBoundingBoxMinField()
+    compBoundingBoxMin = CompBoundingBoxMinField(default_value=(0.0, 0.0, 0.0))
     cbn = compBoundingBoxMin
     compBoundingBoxMinX = compBoundingBoxMin.compBoundingBoxMinX
     cnx = compBoundingBoxMinX
@@ -68,7 +68,7 @@ class PolySmartExtrude(DG):
     compBoundingBoxMinZ = compBoundingBoxMin.compBoundingBoxMinZ
     cnz = compBoundingBoxMinZ
 
-    compBoundingBoxMax = CompBoundingBoxMaxField()
+    compBoundingBoxMax = CompBoundingBoxMaxField(default_value=(1.0, 1.0, 1.0))
     cbx = compBoundingBoxMax
     compBoundingBoxMaxX = compBoundingBoxMax.compBoundingBoxMaxX
     cxx = compBoundingBoxMaxX
@@ -77,7 +77,7 @@ class PolySmartExtrude(DG):
     compBoundingBoxMaxZ = compBoundingBoxMax.compBoundingBoxMaxZ
     cxz = compBoundingBoxMaxZ
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -86,7 +86,7 @@ class PolySmartExtrude(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -95,10 +95,10 @@ class PolySmartExtrude(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    interactiveUpdate = BoolField()
+    interactiveUpdate = BoolField(default_value=True)
     iu = interactiveUpdate
 
-    pivotOrientation = PivotOrientationField()
+    pivotOrientation = PivotOrientationField(default_value=(0.0, 0.0, 0.0))
     por = pivotOrientation
     pivotOrientationX = pivotOrientation.pivotOrientationX
     pox = pivotOrientationX
@@ -107,7 +107,7 @@ class PolySmartExtrude(DG):
     pivotOrientationZ = pivotOrientation.pivotOrientationZ
     poz = pivotOrientationZ
 
-    compPivotOrientation = CompPivotOrientationField()
+    compPivotOrientation = CompPivotOrientationField(default_value=(0.0, 0.0, 0.0))
     cpr = compPivotOrientation
     compPivotOrientationX = compPivotOrientation.compPivotOrientationX
     cpx = compPivotOrientationX

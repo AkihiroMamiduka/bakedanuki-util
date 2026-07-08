@@ -48,7 +48,7 @@ class PolyAppendVertex(DG):
 
     NODE_TYPE = "polyAppendVertex"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -57,32 +57,32 @@ class PolyAppendVertex(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    vertices = VerticesField(multi=True)
+    vertices = VerticesField(multi=True, default_value=(0.0, 0.0, 0.0))
     v = vertices
 
-    desc = LongField(multi=True)
+    desc = LongField(multi=True, default_value=0)
     d = desc
 
-    texture = TextureEnumField()
+    texture = TextureEnumField(default_value=0)
     tx = texture

@@ -232,13 +232,13 @@ class ClumpScalePlugOperator(
         ("clumpScale_Interp", "csi"),
     )
 
-    clumpScale_Position = FloatField()
+    clumpScale_Position = FloatField(default_value=0.0)
     csp = clumpScale_Position
 
-    clumpScale_FloatValue = FloatField()
+    clumpScale_FloatValue = FloatField(default_value=0.0)
     csfv = clumpScale_FloatValue
 
-    clumpScale_Interp = ClumpScale_InterpEnumField()
+    clumpScale_Interp = ClumpScale_InterpEnumField(default_value=1)
     csi = clumpScale_Interp
 
 
@@ -247,13 +247,13 @@ class ClumpScaleAttrOperator(
 ):
     __slots__ = ()
 
-    clumpScale_Position = FloatField()
+    clumpScale_Position = FloatField(default_value=0.0)
     csp = clumpScale_Position
 
-    clumpScale_FloatValue = FloatField()
+    clumpScale_FloatValue = FloatField(default_value=0.0)
     csfv = clumpScale_FloatValue
 
-    clumpScale_Interp = ClumpScale_InterpEnumField()
+    clumpScale_Interp = ClumpScale_InterpEnumField(default_value=1)
     csi = clumpScale_Interp
 
 
@@ -276,13 +276,13 @@ class CustomControlMapPlugOperator(
         ("customControlMapB", "ccmb"),
     )
 
-    customControlMapR = FloatField()
+    customControlMapR = FloatField(default_value=1.0)
     ccmr = customControlMapR
 
-    customControlMapG = FloatField()
+    customControlMapG = FloatField(default_value=1.0)
     ccmg = customControlMapG
 
-    customControlMapB = FloatField()
+    customControlMapB = FloatField(default_value=1.0)
     ccmb = customControlMapB
 
 
@@ -291,13 +291,13 @@ class CustomControlMapAttrOperator(
 ):
     __slots__ = ()
 
-    customControlMapR = FloatField()
+    customControlMapR = FloatField(default_value=1.0)
     ccmr = customControlMapR
 
-    customControlMapG = FloatField()
+    customControlMapG = FloatField(default_value=1.0)
     ccmg = customControlMapG
 
-    customControlMapB = FloatField()
+    customControlMapB = FloatField(default_value=1.0)
     ccmb = customControlMapB
 
 
@@ -309,13 +309,13 @@ class CustomControlMapField(
     ATTR_CLS = CustomControlMapAttrOperator
     PLUG_CLS = CustomControlMapPlugOperator
 
-    customControlMapR = FloatField()
+    customControlMapR = FloatField(default_value=1.0)
     ccmr = customControlMapR
 
-    customControlMapG = FloatField()
+    customControlMapG = FloatField(default_value=1.0)
     ccmg = customControlMapG
 
-    customControlMapB = FloatField()
+    customControlMapB = FloatField(default_value=1.0)
     ccmb = customControlMapB
 
 
@@ -329,13 +329,13 @@ class ControlMaskPlugOperator(
         ("controlMaskB", "cmsb"),
     )
 
-    controlMaskR = FloatField()
+    controlMaskR = FloatField(default_value=1.0)
     cmsr = controlMaskR
 
-    controlMaskG = FloatField()
+    controlMaskG = FloatField(default_value=1.0)
     cmsg = controlMaskG
 
-    controlMaskB = FloatField()
+    controlMaskB = FloatField(default_value=1.0)
     cmsb = controlMaskB
 
 
@@ -344,13 +344,13 @@ class ControlMaskAttrOperator(
 ):
     __slots__ = ()
 
-    controlMaskR = FloatField()
+    controlMaskR = FloatField(default_value=1.0)
     cmsr = controlMaskR
 
-    controlMaskG = FloatField()
+    controlMaskG = FloatField(default_value=1.0)
     cmsg = controlMaskG
 
-    controlMaskB = FloatField()
+    controlMaskB = FloatField(default_value=1.0)
     cmsb = controlMaskB
 
 
@@ -362,13 +362,13 @@ class ControlMaskField(
     ATTR_CLS = ControlMaskAttrOperator
     PLUG_CLS = ControlMaskPlugOperator
 
-    controlMaskR = FloatField()
+    controlMaskR = FloatField(default_value=1.0)
     cmsr = controlMaskR
 
-    controlMaskG = FloatField()
+    controlMaskG = FloatField(default_value=1.0)
     cmsg = controlMaskG
 
-    controlMaskB = FloatField()
+    controlMaskB = FloatField(default_value=1.0)
     cmsb = controlMaskB
 
 
@@ -382,13 +382,13 @@ class FlatnessScalePlugOperator(
         ("flatnessScale_Interp", "flsi"),
     )
 
-    flatnessScale_Position = FloatField()
+    flatnessScale_Position = FloatField(default_value=0.0)
     flsp = flatnessScale_Position
 
-    flatnessScale_FloatValue = FloatField()
+    flatnessScale_FloatValue = FloatField(default_value=0.0)
     flsfv = flatnessScale_FloatValue
 
-    flatnessScale_Interp = FlatnessScale_InterpEnumField()
+    flatnessScale_Interp = FlatnessScale_InterpEnumField(default_value=1)
     flsi = flatnessScale_Interp
 
 
@@ -397,13 +397,13 @@ class FlatnessScaleAttrOperator(
 ):
     __slots__ = ()
 
-    flatnessScale_Position = FloatField()
+    flatnessScale_Position = FloatField(default_value=0.0)
     flsp = flatnessScale_Position
 
-    flatnessScale_FloatValue = FloatField()
+    flatnessScale_FloatValue = FloatField(default_value=0.0)
     flsfv = flatnessScale_FloatValue
 
-    flatnessScale_Interp = FlatnessScale_InterpEnumField()
+    flatnessScale_Interp = FlatnessScale_InterpEnumField(default_value=1)
     flsi = flatnessScale_Interp
 
 
@@ -426,13 +426,13 @@ class OffsetScalePlugOperator(
         ("offsetScale_Interp", "ofsi"),
     )
 
-    offsetScale_Position = FloatField()
+    offsetScale_Position = FloatField(default_value=0.0)
     ofsp = offsetScale_Position
 
-    offsetScale_FloatValue = FloatField()
+    offsetScale_FloatValue = FloatField(default_value=0.0)
     ofsfv = offsetScale_FloatValue
 
-    offsetScale_Interp = OffsetScale_InterpEnumField()
+    offsetScale_Interp = OffsetScale_InterpEnumField(default_value=1)
     ofsi = offsetScale_Interp
 
 
@@ -441,13 +441,13 @@ class OffsetScaleAttrOperator(
 ):
     __slots__ = ()
 
-    offsetScale_Position = FloatField()
+    offsetScale_Position = FloatField(default_value=0.0)
     ofsp = offsetScale_Position
 
-    offsetScale_FloatValue = FloatField()
+    offsetScale_FloatValue = FloatField(default_value=0.0)
     ofsfv = offsetScale_FloatValue
 
-    offsetScale_Interp = OffsetScale_InterpEnumField()
+    offsetScale_Interp = OffsetScale_InterpEnumField(default_value=1)
     ofsi = offsetScale_Interp
 
 
@@ -470,13 +470,13 @@ class CurlScalePlugOperator(
         ("curlScale_Interp", "cusi"),
     )
 
-    curlScale_Position = FloatField()
+    curlScale_Position = FloatField(default_value=0.0)
     cusp = curlScale_Position
 
-    curlScale_FloatValue = FloatField()
+    curlScale_FloatValue = FloatField(default_value=0.0)
     cusfv = curlScale_FloatValue
 
-    curlScale_Interp = CurlScale_InterpEnumField()
+    curlScale_Interp = CurlScale_InterpEnumField(default_value=1)
     cusi = curlScale_Interp
 
 
@@ -485,13 +485,13 @@ class CurlScaleAttrOperator(
 ):
     __slots__ = ()
 
-    curlScale_Position = FloatField()
+    curlScale_Position = FloatField(default_value=0.0)
     cusp = curlScale_Position
 
-    curlScale_FloatValue = FloatField()
+    curlScale_FloatValue = FloatField(default_value=0.0)
     cusfv = curlScale_FloatValue
 
-    curlScale_Interp = CurlScale_InterpEnumField()
+    curlScale_Interp = CurlScale_InterpEnumField(default_value=1)
     cusi = curlScale_Interp
 
 
@@ -514,13 +514,13 @@ class CopyScalePlugOperator(
         ("copyScale_Interp", "cosi"),
     )
 
-    copyScale_Position = FloatField()
+    copyScale_Position = FloatField(default_value=0.0)
     cosp = copyScale_Position
 
-    copyScale_FloatValue = FloatField()
+    copyScale_FloatValue = FloatField(default_value=0.0)
     cosfv = copyScale_FloatValue
 
-    copyScale_Interp = CopyScale_InterpEnumField()
+    copyScale_Interp = CopyScale_InterpEnumField(default_value=1)
     cosi = copyScale_Interp
 
 
@@ -529,13 +529,13 @@ class CopyScaleAttrOperator(
 ):
     __slots__ = ()
 
-    copyScale_Position = FloatField()
+    copyScale_Position = FloatField(default_value=0.0)
     cosp = copyScale_Position
 
-    copyScale_FloatValue = FloatField()
+    copyScale_FloatValue = FloatField(default_value=0.0)
     cosfv = copyScale_FloatValue
 
-    copyScale_Interp = CopyScale_InterpEnumField()
+    copyScale_Interp = CopyScale_InterpEnumField(default_value=1)
     cosi = copyScale_Interp
 
 
@@ -558,13 +558,13 @@ class NoiseScalePlugOperator(
         ("noiseScale_Interp", "nosi"),
     )
 
-    noiseScale_Position = FloatField()
+    noiseScale_Position = FloatField(default_value=0.0)
     nosp = noiseScale_Position
 
-    noiseScale_FloatValue = FloatField()
+    noiseScale_FloatValue = FloatField(default_value=0.0)
     nosfv = noiseScale_FloatValue
 
-    noiseScale_Interp = NoiseScale_InterpEnumField()
+    noiseScale_Interp = NoiseScale_InterpEnumField(default_value=1)
     nosi = noiseScale_Interp
 
 
@@ -573,13 +573,13 @@ class NoiseScaleAttrOperator(
 ):
     __slots__ = ()
 
-    noiseScale_Position = FloatField()
+    noiseScale_Position = FloatField(default_value=0.0)
     nosp = noiseScale_Position
 
-    noiseScale_FloatValue = FloatField()
+    noiseScale_FloatValue = FloatField(default_value=0.0)
     nosfv = noiseScale_FloatValue
 
-    noiseScale_Interp = NoiseScale_InterpEnumField()
+    noiseScale_Interp = NoiseScale_InterpEnumField(default_value=1)
     nosi = noiseScale_Interp
 
 

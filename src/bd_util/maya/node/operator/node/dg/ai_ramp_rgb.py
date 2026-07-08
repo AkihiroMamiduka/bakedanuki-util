@@ -97,7 +97,7 @@ class AiRampRgb(DG):
 
     NODE_TYPE = "aiRampRgb"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -106,7 +106,7 @@ class AiRampRgb(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -115,22 +115,22 @@ class AiRampRgb(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    type = TypeEnumField()
+    type = TypeEnumField(default_value=2)
 
-    input = FloatField()
+    input = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     uvset = DataStringField()
 
-    useImplicitUvs = UseImplicitUvsEnumField()
+    useImplicitUvs = UseImplicitUvsEnumField(default_value=0)
     use_implicit_uvs = useImplicitUvs
 
-    wrapUvs = BoolField()
+    wrapUvs = BoolField(default_value=False)
     wrap_uvs = wrapUvs
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    ramp = RampField(multi=True)
+    ramp = RampField(multi=True, category="arnold")
     aiRamp = ramp
 
     ramp_ColorR = FloatField()

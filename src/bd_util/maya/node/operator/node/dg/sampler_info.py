@@ -21,7 +21,7 @@ class SamplerInfo(DG):
 
     NODE_TYPE = "samplerInfo"
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -30,7 +30,7 @@ class SamplerInfo(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -39,7 +39,7 @@ class SamplerInfo(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(0.0, 0.0, 0.0))
     pw = pointWorld
     pointWorldX = pointWorld.pointWorldX
     pwx = pointWorldX
@@ -48,7 +48,7 @@ class SamplerInfo(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pwz = pointWorldZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -57,14 +57,14 @@ class SamplerInfo(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -73,7 +73,7 @@ class SamplerInfo(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    tangentUCamera = TangentUCameraField()
+    tangentUCamera = TangentUCameraField(default_value=(1.0, 0.0, 0.0))
     tu = tangentUCamera
     tangentUx = tangentUCamera.tangentUx
     tux = tangentUx
@@ -82,7 +82,7 @@ class SamplerInfo(DG):
     tangentUz = tangentUCamera.tangentUz
     tuz = tangentUz
 
-    tangentVCamera = TangentVCameraField()
+    tangentVCamera = TangentVCameraField(default_value=(0.0, 1.0, 0.0))
     tv = tangentVCamera
     tangentVx = tangentVCamera.tangentVx
     tvx = tangentVx
@@ -94,15 +94,15 @@ class SamplerInfo(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    pixelCenter = PixelCenterField()
+    pixelCenter = PixelCenterField(default_value=(0.0, 0.0))
     pc = pixelCenter
     pixelCenterX = pixelCenter.pixelCenterX
     pcx = pixelCenterX
     pixelCenterY = pixelCenter.pixelCenterY
     pcy = pixelCenterY
 
-    flippedNormal = BoolField()
+    flippedNormal = BoolField(default_value=False)
     fn = flippedNormal
 
-    facingRatio = FloatField()
+    facingRatio = FloatField(default_value=0.0)
     fr = facingRatio

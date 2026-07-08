@@ -29,7 +29,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -44,7 +44,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -70,13 +70,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -85,13 +85,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -103,11 +103,11 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB

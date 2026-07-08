@@ -17,7 +17,7 @@ class CMuscleShader(DG):
 
     NODE_TYPE = "cMuscleShader"
 
-    pointWorld = PointWorldField()
+    pointWorld = PointWorldField(default_value=(0.0, 0.0, 0.0))
     pw = pointWorld
     pointWorldX = pointWorld.pointWorldX
     pwx = pointWorldX
@@ -26,35 +26,35 @@ class CMuscleShader(DG):
     pointWorldZ = pointWorld.pointWorldZ
     pwz = pointWorldZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    vertexUvOne = VertexUvOneField()
+    vertexUvOne = VertexUvOneField(default_value=(0.0, 0.0))
     vt1 = vertexUvOne
     vertexUvOneU = vertexUvOne.vertexUvOneU
     t1u = vertexUvOneU
     vertexUvOneV = vertexUvOne.vertexUvOneV
     t1v = vertexUvOneV
 
-    vertexUvTwo = VertexUvTwoField()
+    vertexUvTwo = VertexUvTwoField(default_value=(0.0, 0.0))
     vt2 = vertexUvTwo
     vertexUvTwoU = vertexUvTwo.vertexUvTwoU
     t2u = vertexUvTwoU
     vertexUvTwoV = vertexUvTwo.vertexUvTwoV
     t2v = vertexUvTwoV
 
-    vertexUvThree = VertexUvThreeField()
+    vertexUvThree = VertexUvThreeField(default_value=(0.0, 0.0))
     vt3 = vertexUvThree
     vertexUvThreeU = vertexUvThree.vertexUvThreeU
     t3u = vertexUvThreeU
     vertexUvThreeV = vertexUvThree.vertexUvThreeV
     t3v = vertexUvThreeV
 
-    image = ImageField()
+    image = ImageField(default_value=(0.0, 0.0, 0.0))
     i = image
     imageR = image.imageR
     ir = imageR
@@ -63,7 +63,7 @@ class CMuscleShader(DG):
     imageB = image.imageB
     ib = imageB
 
-    inDisplacement = FloatField()
+    inDisplacement = FloatField(default_value=0.0)
     id = inDisplacement
 
     dispData = DispDataField()
@@ -89,11 +89,11 @@ class CMuscleShader(DG):
     shader = dispData.shader
     sha = shader
 
-    displacement = FloatField()
+    displacement = FloatField(default_value=0.0)
     d = displacement
 
-    displacementLocal = FloatField()
+    displacementLocal = FloatField(default_value=0.0)
     dl = displacementLocal
 
-    displacementLocalNormalized = FloatField()
+    displacementLocalNormalized = FloatField(default_value=0.0)
     dln = displacementLocalNormalized

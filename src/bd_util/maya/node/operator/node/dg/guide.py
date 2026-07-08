@@ -66,10 +66,10 @@ class Guide(DG):
     jointBelowMatrix = MatrixField()
     bm = jointBelowMatrix
 
-    jointGuideAxis = JointGuideAxisEnumField()
+    jointGuideAxis = JointGuideAxisEnumField(default_value=0)
     ga = jointGuideAxis
 
-    bendVector = BendVectorField()
+    bendVector = BendVectorField(default_value=(0.0, 0.0, 0.0), writable=False)
     bv = bendVector
     bendVectorX = bendVector.bendVectorX
     bx = bendVectorX
@@ -78,23 +78,23 @@ class Guide(DG):
     bendVectorZ = bendVector.bendVectorZ
     bz = bendVectorZ
 
-    bendAngle = DoubleAngleField()
+    bendAngle = DoubleAngleField(default_value=0.0, writable=False)
     ba = bendAngle
 
-    bendMagnitude = DoubleLinearField()
+    bendMagnitude = DoubleLinearField(default_value=0.0, writable=False)
     mg = bendMagnitude
 
-    rotateX = DoubleAngleField()
+    rotateX = DoubleAngleField(default_value=0.0, writable=False)
     rx = rotateX
 
-    rotateY = DoubleAngleField()
+    rotateY = DoubleAngleField(default_value=0.0, writable=False)
     ry = rotateY
 
-    rotateZ = DoubleAngleField()
+    rotateZ = DoubleAngleField(default_value=0.0, writable=False)
     rz = rotateZ
 
-    maxXYZ = DoubleAngleField()
+    maxXYZ = DoubleAngleField(default_value=0.0, writable=False)
     ma = maxXYZ
 
-    autoGuide = DoubleAngleField()
+    autoGuide = DoubleAngleField(default_value=0.0, writable=False)
     ag = autoGuide

@@ -205,7 +205,7 @@ class MASH_Offset(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -216,21 +216,21 @@ class MASH_Offset(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -238,9 +238,9 @@ class MASH_Offset(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     inputPoints = TypedField()
 
@@ -253,28 +253,28 @@ class MASH_Offset(DG):
     fallPosArray = DataVectorArrayField()
     fArray = fallPosArray
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
-    inIterations = LongField()
+    inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
     en = enable
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=True)
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
 
-    holdValue = FloatField()
+    holdValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    startFrame = LongField()
+    startFrame = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
 
-    useTime = BoolField()
+    useTime = BoolField(default_value=True)
 
-    falloffObject = FalloffObjectField()
+    falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
     falloffObjectX = falloffObject.falloffObjectX
     fallObjx = falloffObjectX
@@ -283,29 +283,29 @@ class MASH_Offset(DG):
     falloffObjectZ = falloffObject.falloffObjectZ
     fallObjz = falloffObjectZ
 
-    falloffX = BoolField()
+    falloffX = BoolField(default_value=True)
     fax = falloffX
 
-    falloffY = BoolField()
+    falloffY = BoolField(default_value=True)
     fay = falloffY
 
-    falloffZ = BoolField()
+    falloffZ = BoolField(default_value=True)
     faz = falloffZ
 
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    enableId = BoolField()
+    enableId = BoolField(default_value=False)
 
-    idOffset = LongField()
+    idOffset = LongField(default_value=0, soft_min_value=0, soft_max_value=20)
 
-    enableLC = BoolField()
+    enableLC = BoolField(default_value=False)
     enLC = enableLC
 
-    enableHC = BoolField()
+    enableHC = BoolField(default_value=False)
     enHC = enableHC
 
-    lowClamp = LowClampField()
+    lowClamp = LowClampField(default_value=(1.0, 1.0, 1.0))
     lcl = lowClamp
     lowClamp0 = lowClamp.lowClamp0
     lcl0 = lowClamp0
@@ -314,9 +314,9 @@ class MASH_Offset(DG):
     lowClamp2 = lowClamp.lowClamp2
     lcl2 = lowClamp2
 
-    strengthAffectsOffsets = BoolField()
+    strengthAffectsOffsets = BoolField(default_value=False)
 
-    highClamp = HighClampField()
+    highClamp = HighClampField(default_value=(10.0, 10.0, 10.0))
     hcl = highClamp
     highClamp0 = highClamp.highClamp0
     hcl0 = highClamp0
@@ -325,14 +325,14 @@ class MASH_Offset(DG):
     highClamp2 = highClamp.highClamp2
     hcl2 = highClamp2
 
-    offsetType = OffsetTypeEnumField()
+    offsetType = OffsetTypeEnumField(default_value=1)
     oft = offsetType
 
-    reorderPoints = ReorderPointsEnumField()
+    reorderPoints = ReorderPointsEnumField(default_value=1)
 
-    reversePointOrder = BoolField()
+    reversePointOrder = BoolField(default_value=False)
 
-    reorderDistancePoint = ReorderDistancePointField()
+    reorderDistancePoint = ReorderDistancePointField(default_value=(0.0, 0.0, 0.0))
     reorderDistancePointX = reorderDistancePoint.reorderDistancePointX
     reorderDistancePointx = reorderDistancePointX
     reorderDistancePointY = reorderDistancePoint.reorderDistancePointY
@@ -342,9 +342,9 @@ class MASH_Offset(DG):
 
     reorderInputMesh = DataMeshField()
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=1, min_value=1, soft_max_value=100)
 
-    offsets = OffsetsField()
+    offsets = OffsetsField(default_value=(0.0, 0.0, 0.0))
     off = offsets
     offsets0 = offsets.offsets0
     off0 = offsets0
@@ -353,14 +353,14 @@ class MASH_Offset(DG):
     offsets2 = offsets.offsets2
     off2 = offsets2
 
-    closestPointMode = ClosestPointModeEnumField()
+    closestPointMode = ClosestPointModeEnumField(default_value=1)
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, -1.0, 0.0))
     rayDirection0 = rayDirection.rayDirection0
     rayDirection1 = rayDirection.rayDirection1
     rayDirection2 = rayDirection.rayDirection2
 
-    hideOnRayMiss = BoolField()
+    hideOnRayMiss = BoolField(default_value=False)
 
     offsetInputs = OffsetInputsField()
     positionOffset = offsetInputs.positionOffset
@@ -370,7 +370,7 @@ class MASH_Offset(DG):
     inputMesh = DataMeshField()
     inM = inputMesh
 
-    centreOfRotation = CentreOfRotationField()
+    centreOfRotation = CentreOfRotationField(default_value=(0.0, 0.0, 0.0))
     centreOfRotation0 = centreOfRotation.centreOfRotation0
     centreOfRotation1 = centreOfRotation.centreOfRotation1
     centreOfRotation2 = centreOfRotation.centreOfRotation2

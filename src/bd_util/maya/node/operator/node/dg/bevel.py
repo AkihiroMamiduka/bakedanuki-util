@@ -82,35 +82,35 @@ class Bevel(DG):
     useDirectionCurve = DataNurbsCurveField()
     udc = useDirectionCurve
 
-    outputSurface1 = DataNurbsSurfaceField()
+    outputSurface1 = DataNurbsSurfaceField(writable=False)
     os1 = outputSurface1
 
-    outputSurface2 = DataNurbsSurfaceField()
+    outputSurface2 = DataNurbsSurfaceField(writable=False)
     os2 = outputSurface2
 
-    outputSurface3 = DataNurbsSurfaceField()
+    outputSurface3 = DataNurbsSurfaceField(writable=False)
     os3 = outputSurface3
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    width = DoubleLinearField()
+    width = DoubleLinearField(default_value=0.5, soft_min_value=0.0, soft_max_value=10.0)
     w = width
 
-    depth = DoubleLinearField()
+    depth = DoubleLinearField(default_value=0.5, soft_min_value=0.0, soft_max_value=10.0)
     d = depth
 
-    extrudeDepth = DoubleLinearField()
+    extrudeDepth = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     ed = extrudeDepth
 
-    cornerType = CornerTypeEnumField()
+    cornerType = CornerTypeEnumField(default_value=2)
     ct = cornerType
 
-    numberOfSides = LongField()
+    numberOfSides = LongField(default_value=4, min_value=1, max_value=4)
     ns = numberOfSides
 
-    bevelShapeType = BevelShapeTypeEnumField()
+    bevelShapeType = BevelShapeTypeEnumField(default_value=1)
     bst = bevelShapeType
 
-    joinSurfaces = BoolField()
+    joinSurfaces = BoolField(default_value=True)
     js = joinSurfaces

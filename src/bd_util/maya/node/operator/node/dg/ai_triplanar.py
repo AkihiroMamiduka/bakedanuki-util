@@ -56,7 +56,7 @@ class AiTriplanar(DG):
 
     NODE_TYPE = "aiTriplanar"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -65,7 +65,7 @@ class AiTriplanar(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -74,7 +74,7 @@ class AiTriplanar(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(1.0, 1.0, 1.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -82,7 +82,7 @@ class AiTriplanar(DG):
     inputB = input.inputB
     inputb = inputB
 
-    inputY = InputYField()
+    inputY = InputYField(default_value=(1.0, 1.0, 1.0))
     input_Y = inputY
     inputYR = inputY.inputYR
     input_Yr = inputYR
@@ -91,7 +91,7 @@ class AiTriplanar(DG):
     inputYB = inputY.inputYB
     input_Yb = inputYB
 
-    inputZ = InputZField()
+    inputZ = InputZField(default_value=(1.0, 1.0, 1.0))
     input_Z = inputZ
     inputZR = inputZ.inputZR
     input_Zr = inputZR
@@ -100,7 +100,7 @@ class AiTriplanar(DG):
     inputZB = inputZ.inputZB
     input_Zb = inputZB
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX
     scalex = scaleX
     scaleY = scale.scaleY
@@ -108,7 +108,7 @@ class AiTriplanar(DG):
     scaleZ = scale.scaleZ
     scalez = scaleZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     rotateX = rotate.rotateX
     rotatex = rotateX
     rotateY = rotate.rotateY
@@ -116,7 +116,7 @@ class AiTriplanar(DG):
     rotateZ = rotate.rotateZ
     rotatez = rotateZ
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0))
     offsetX = offset.offsetX
     offsetx = offsetX
     offsetY = offset.offsetY
@@ -124,24 +124,24 @@ class AiTriplanar(DG):
     offsetZ = offset.offsetZ
     offsetz = offsetZ
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=1)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
 
-    cell = BoolField()
+    cell = BoolField(default_value=False)
 
-    cellRotate = FloatField()
+    cellRotate = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     cell_rotate = cellRotate
 
-    cellBlend = FloatField()
+    cellBlend = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
     cell_blend = cellBlend
 
-    inputPerAxis = BoolField()
+    inputPerAxis = BoolField(default_value=False)
     input_per_axis = inputPerAxis
 
-    flipOnOppositeDirection = BoolField()
+    flipOnOppositeDirection = BoolField(default_value=True)
     flip_on_opposite_direction = flipOnOppositeDirection

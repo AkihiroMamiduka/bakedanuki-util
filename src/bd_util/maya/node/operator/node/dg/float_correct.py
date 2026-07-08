@@ -9,26 +9,26 @@ class FloatCorrect(DG):
 
     NODE_TYPE = "floatCorrect"
 
-    inFloat = FloatField()
+    inFloat = FloatField(default_value=1.0)
     f = inFloat
 
-    gain = FloatField()
+    gain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     g = gain
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o = offset
 
-    gammaScale = FloatField()
+    gammaScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
     gg = gammaScale
 
-    clampOutput = BoolField()
+    clampOutput = BoolField(default_value=False)
     cmp = clampOutput
 
-    clampMin = FloatField()
+    clampMin = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     cmn = clampMin
 
-    clampMax = FloatField()
+    clampMax = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     cmx = clampMax
 
-    outFloat = FloatField()
+    outFloat = FloatField(default_value=0.0, writable=False)
     of = outFloat

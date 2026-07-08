@@ -158,10 +158,10 @@ class AiMatrixTransform(DG):
 
     NODE_TYPE = "aiMatrixTransform"
 
-    outValue = FltMatrixField()
+    outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -170,18 +170,18 @@ class AiMatrixTransform(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    transformOrder = TransformOrderEnumField()
+    transformOrder = TransformOrderEnumField(default_value=0)
     transform_order = transformOrder
 
-    rotationType = RotationTypeEnumField()
+    rotationType = RotationTypeEnumField(default_value=0)
     rotation_type = rotationType
 
-    units = UnitsEnumField()
+    units = UnitsEnumField(default_value=1)
 
-    rotationOrder = RotationOrderEnumField()
+    rotationOrder = RotationOrderEnumField(default_value=0)
     rotation_order = rotationOrder
 
-    rotation = RotationField()
+    rotation = RotationField(default_value=(0.0, 0.0, 0.0))
     rotationX = rotation.rotationX
     rotationx = rotationX
     rotationY = rotation.rotationY
@@ -189,7 +189,7 @@ class AiMatrixTransform(DG):
     rotationZ = rotation.rotationZ
     rotationz = rotationZ
 
-    axis = AxisField()
+    axis = AxisField(default_value=(1.0, 0.0, 0.0))
     axisX = axis.axisX
     axisx = axisX
     axisY = axis.axisY
@@ -197,9 +197,9 @@ class AiMatrixTransform(DG):
     axisZ = axis.axisZ
     axisz = axisZ
 
-    angle = FloatField()
+    angle = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     translateX = translate.translateX
     translatex = translateX
     translateY = translate.translateY
@@ -207,7 +207,7 @@ class AiMatrixTransform(DG):
     translateZ = translate.translateZ
     translatez = translateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX
     scalex = scaleX
     scaleY = scale.scaleY
@@ -215,7 +215,7 @@ class AiMatrixTransform(DG):
     scaleZ = scale.scaleZ
     scalez = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pivotX = pivot.pivotX
     pivotx = pivotX
     pivotY = pivot.pivotY

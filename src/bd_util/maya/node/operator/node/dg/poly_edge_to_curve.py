@@ -123,13 +123,13 @@ class PolyEdgeToCurve(DG):
     inputSmoothPolymesh = DataMeshField()
     ism = inputSmoothPolymesh
 
-    displaySmoothMesh = DisplaySmoothMeshEnumField()
+    displaySmoothMesh = DisplaySmoothMeshEnumField(default_value=0)
     dsm = displaySmoothMesh
 
-    smoothLevel = ShortField()
+    smoothLevel = ShortField(default_value=2, min_value=0, max_value=15, soft_min_value=0, soft_max_value=4)
     lev = smoothLevel
 
-    conformToSmoothMeshPreview = BoolField()
+    conformToSmoothMeshPreview = BoolField(default_value=True)
     usm = conformToSmoothMeshPreview
 
     inputMat = DataMatrixField()
@@ -141,8 +141,8 @@ class PolyEdgeToCurve(DG):
     inputComponents = TypedField()
     ics = inputComponents
 
-    form = FormEnumField()
+    form = FormEnumField(default_value=2)
     f = form
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     dg = degree

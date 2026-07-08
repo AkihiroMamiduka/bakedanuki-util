@@ -17,7 +17,7 @@ class PolyWedgeFace(DG):
 
     NODE_TYPE = "polyWedgeFace"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -26,46 +26,46 @@ class PolyWedgeFace(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    wedgeAngle = DoubleAngleField()
+    wedgeAngle = DoubleAngleField(default_value=0.0)
     wa = wedgeAngle
 
-    divisions = LongField()
+    divisions = LongField(default_value=1, min_value=1)
     d = divisions
 
-    edge = LongField(multi=True)
+    edge = LongField(multi=True, default_value=0)
     ed = edge
 
-    center = CenterField()
+    center = CenterField(default_value=(0.0, 0.0, 0.0))
     ct = center
     centerX = center.centerX
     ctx = centerX
@@ -74,7 +74,7 @@ class PolyWedgeFace(DG):
     centerZ = center.centerZ
     ctz = centerZ
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 0.0, 0.0))
     as_ = axis
     axisX = axis.axisX
     asx = axisX

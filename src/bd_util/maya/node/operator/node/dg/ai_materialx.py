@@ -43,9 +43,9 @@ class AiMaterialx(DG):
 
     NODE_TYPE = "aiMaterialx"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
@@ -55,14 +55,14 @@ class AiMaterialx(DG):
 
     look = DataStringField()
 
-    assignType = AssignTypeEnumField()
+    assignType = AssignTypeEnumField(default_value=0)
     assign_type = assignType
 
-    assignMaterials = BoolField()
+    assignMaterials = BoolField(default_value=True)
     assign_materials = assignMaterials
 
-    assignProperties = BoolField()
+    assignProperties = BoolField(default_value=True)
     assign_properties = assignProperties
 
-    assignVisibilities = BoolField()
+    assignVisibilities = BoolField(default_value=True)
     assign_visibilities = assignVisibilities

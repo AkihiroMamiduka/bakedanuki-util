@@ -18,13 +18,13 @@ class OutValuePlugOperator(
         ("outValueZ", "outz"),
     )
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -33,13 +33,13 @@ class OutValueAttrOperator(
 ):
     __slots__ = ()
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -51,13 +51,13 @@ class OutValueField(
     ATTR_CLS = OutValueAttrOperator
     PLUG_CLS = OutValuePlugOperator
 
-    outValueX = FloatField()
+    outValueX = FloatField(default_value=0.0, writable=False)
     outx = outValueX
 
-    outValueY = FloatField()
+    outValueY = FloatField(default_value=0.0, writable=False)
     outy = outValueY
 
-    outValueZ = FloatField()
+    outValueZ = FloatField(default_value=0.0, writable=False)
     outz = outValueZ
 
 
@@ -71,13 +71,13 @@ class RoPlugOperator(
         ("RoZ", "Roz"),
     )
 
-    RoX = FloatField()
+    RoX = FloatField(default_value=0.0, writable=False)
     Rox = RoX
 
-    RoY = FloatField()
+    RoY = FloatField(default_value=0.0, writable=False)
     Roy = RoY
 
-    RoZ = FloatField()
+    RoZ = FloatField(default_value=0.0, writable=False)
     Roz = RoZ
 
 
@@ -86,13 +86,13 @@ class RoAttrOperator(
 ):
     __slots__ = ()
 
-    RoX = FloatField()
+    RoX = FloatField(default_value=0.0, writable=False)
     Rox = RoX
 
-    RoY = FloatField()
+    RoY = FloatField(default_value=0.0, writable=False)
     Roy = RoY
 
-    RoZ = FloatField()
+    RoZ = FloatField(default_value=0.0, writable=False)
     Roz = RoZ
 
 
@@ -104,13 +104,13 @@ class RoField(
     ATTR_CLS = RoAttrOperator
     PLUG_CLS = RoPlugOperator
 
-    RoX = FloatField()
+    RoX = FloatField(default_value=0.0, writable=False)
     Rox = RoX
 
-    RoY = FloatField()
+    RoY = FloatField(default_value=0.0, writable=False)
     Roy = RoY
 
-    RoZ = FloatField()
+    RoZ = FloatField(default_value=0.0, writable=False)
     Roz = RoZ
 
 
@@ -124,13 +124,13 @@ class RdPlugOperator(
         ("RdZ", "Rdz"),
     )
 
-    RdX = FloatField()
+    RdX = FloatField(default_value=0.0, writable=False)
     Rdx = RdX
 
-    RdY = FloatField()
+    RdY = FloatField(default_value=0.0, writable=False)
     Rdy = RdY
 
-    RdZ = FloatField()
+    RdZ = FloatField(default_value=0.0, writable=False)
     Rdz = RdZ
 
 
@@ -139,13 +139,13 @@ class RdAttrOperator(
 ):
     __slots__ = ()
 
-    RdX = FloatField()
+    RdX = FloatField(default_value=0.0, writable=False)
     Rdx = RdX
 
-    RdY = FloatField()
+    RdY = FloatField(default_value=0.0, writable=False)
     Rdy = RdY
 
-    RdZ = FloatField()
+    RdZ = FloatField(default_value=0.0, writable=False)
     Rdz = RdZ
 
 
@@ -157,13 +157,13 @@ class RdField(
     ATTR_CLS = RdAttrOperator
     PLUG_CLS = RdPlugOperator
 
-    RdX = FloatField()
+    RdX = FloatField(default_value=0.0, writable=False)
     Rdx = RdX
 
-    RdY = FloatField()
+    RdY = FloatField(default_value=0.0, writable=False)
     Rdy = RdY
 
-    RdZ = FloatField()
+    RdZ = FloatField(default_value=0.0, writable=False)
     Rdz = RdZ
 
 
@@ -177,13 +177,13 @@ class PoPlugOperator(
         ("PoZ", "Poz"),
     )
 
-    PoX = FloatField()
+    PoX = FloatField(default_value=0.0, writable=False)
     Pox = PoX
 
-    PoY = FloatField()
+    PoY = FloatField(default_value=0.0, writable=False)
     Poy = PoY
 
-    PoZ = FloatField()
+    PoZ = FloatField(default_value=0.0, writable=False)
     Poz = PoZ
 
 
@@ -192,13 +192,13 @@ class PoAttrOperator(
 ):
     __slots__ = ()
 
-    PoX = FloatField()
+    PoX = FloatField(default_value=0.0, writable=False)
     Pox = PoX
 
-    PoY = FloatField()
+    PoY = FloatField(default_value=0.0, writable=False)
     Poy = PoY
 
-    PoZ = FloatField()
+    PoZ = FloatField(default_value=0.0, writable=False)
     Poz = PoZ
 
 
@@ -210,13 +210,13 @@ class PoField(
     ATTR_CLS = PoAttrOperator
     PLUG_CLS = PoPlugOperator
 
-    PoX = FloatField()
+    PoX = FloatField(default_value=0.0, writable=False)
     Pox = PoX
 
-    PoY = FloatField()
+    PoY = FloatField(default_value=0.0, writable=False)
     Poy = PoY
 
-    PoZ = FloatField()
+    PoZ = FloatField(default_value=0.0, writable=False)
     Poz = PoZ
 
 
@@ -230,13 +230,13 @@ class PPlugOperator(
         ("PZ", "Pz"),
     )
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0, writable=False)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0, writable=False)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0, writable=False)
     Pz = PZ
 
 
@@ -245,13 +245,13 @@ class PAttrOperator(
 ):
     __slots__ = ()
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0, writable=False)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0, writable=False)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0, writable=False)
     Pz = PZ
 
 
@@ -263,13 +263,13 @@ class PField(
     ATTR_CLS = PAttrOperator
     PLUG_CLS = PPlugOperator
 
-    PX = FloatField()
+    PX = FloatField(default_value=0.0, writable=False)
     Px = PX
 
-    PY = FloatField()
+    PY = FloatField(default_value=0.0, writable=False)
     Py = PY
 
-    PZ = FloatField()
+    PZ = FloatField(default_value=0.0, writable=False)
     Pz = PZ
 
 
@@ -283,13 +283,13 @@ class DPdxPlugOperator(
         ("dPdxZ", "dPdxz"),
     )
 
-    dPdxX = FloatField()
+    dPdxX = FloatField(default_value=0.0, writable=False)
     dPdxx = dPdxX
 
-    dPdxY = FloatField()
+    dPdxY = FloatField(default_value=0.0, writable=False)
     dPdxy = dPdxY
 
-    dPdxZ = FloatField()
+    dPdxZ = FloatField(default_value=0.0, writable=False)
     dPdxz = dPdxZ
 
 
@@ -298,13 +298,13 @@ class DPdxAttrOperator(
 ):
     __slots__ = ()
 
-    dPdxX = FloatField()
+    dPdxX = FloatField(default_value=0.0, writable=False)
     dPdxx = dPdxX
 
-    dPdxY = FloatField()
+    dPdxY = FloatField(default_value=0.0, writable=False)
     dPdxy = dPdxY
 
-    dPdxZ = FloatField()
+    dPdxZ = FloatField(default_value=0.0, writable=False)
     dPdxz = dPdxZ
 
 
@@ -316,13 +316,13 @@ class DPdxField(
     ATTR_CLS = DPdxAttrOperator
     PLUG_CLS = DPdxPlugOperator
 
-    dPdxX = FloatField()
+    dPdxX = FloatField(default_value=0.0, writable=False)
     dPdxx = dPdxX
 
-    dPdxY = FloatField()
+    dPdxY = FloatField(default_value=0.0, writable=False)
     dPdxy = dPdxY
 
-    dPdxZ = FloatField()
+    dPdxZ = FloatField(default_value=0.0, writable=False)
     dPdxz = dPdxZ
 
 
@@ -336,13 +336,13 @@ class DPdyPlugOperator(
         ("dPdyZ", "dPdyz"),
     )
 
-    dPdyX = FloatField()
+    dPdyX = FloatField(default_value=0.0, writable=False)
     dPdyx = dPdyX
 
-    dPdyY = FloatField()
+    dPdyY = FloatField(default_value=0.0, writable=False)
     dPdyy = dPdyY
 
-    dPdyZ = FloatField()
+    dPdyZ = FloatField(default_value=0.0, writable=False)
     dPdyz = dPdyZ
 
 
@@ -351,13 +351,13 @@ class DPdyAttrOperator(
 ):
     __slots__ = ()
 
-    dPdyX = FloatField()
+    dPdyX = FloatField(default_value=0.0, writable=False)
     dPdyx = dPdyX
 
-    dPdyY = FloatField()
+    dPdyY = FloatField(default_value=0.0, writable=False)
     dPdyy = dPdyY
 
-    dPdyZ = FloatField()
+    dPdyZ = FloatField(default_value=0.0, writable=False)
     dPdyz = dPdyZ
 
 
@@ -369,13 +369,13 @@ class DPdyField(
     ATTR_CLS = DPdyAttrOperator
     PLUG_CLS = DPdyPlugOperator
 
-    dPdyX = FloatField()
+    dPdyX = FloatField(default_value=0.0, writable=False)
     dPdyx = dPdyX
 
-    dPdyY = FloatField()
+    dPdyY = FloatField(default_value=0.0, writable=False)
     dPdyy = dPdyY
 
-    dPdyZ = FloatField()
+    dPdyZ = FloatField(default_value=0.0, writable=False)
     dPdyz = dPdyZ
 
 
@@ -389,13 +389,13 @@ class NPlugOperator(
         ("NZ", "Nz"),
     )
 
-    NX = FloatField()
+    NX = FloatField(default_value=0.0, writable=False)
     Nx = NX
 
-    NY = FloatField()
+    NY = FloatField(default_value=0.0, writable=False)
     Ny = NY
 
-    NZ = FloatField()
+    NZ = FloatField(default_value=0.0, writable=False)
     Nz = NZ
 
 
@@ -404,13 +404,13 @@ class NAttrOperator(
 ):
     __slots__ = ()
 
-    NX = FloatField()
+    NX = FloatField(default_value=0.0, writable=False)
     Nx = NX
 
-    NY = FloatField()
+    NY = FloatField(default_value=0.0, writable=False)
     Ny = NY
 
-    NZ = FloatField()
+    NZ = FloatField(default_value=0.0, writable=False)
     Nz = NZ
 
 
@@ -422,13 +422,13 @@ class NField(
     ATTR_CLS = NAttrOperator
     PLUG_CLS = NPlugOperator
 
-    NX = FloatField()
+    NX = FloatField(default_value=0.0, writable=False)
     Nx = NX
 
-    NY = FloatField()
+    NY = FloatField(default_value=0.0, writable=False)
     Ny = NY
 
-    NZ = FloatField()
+    NZ = FloatField(default_value=0.0, writable=False)
     Nz = NZ
 
 
@@ -442,13 +442,13 @@ class NfPlugOperator(
         ("NfZ", "Nfz"),
     )
 
-    NfX = FloatField()
+    NfX = FloatField(default_value=0.0, writable=False)
     Nfx = NfX
 
-    NfY = FloatField()
+    NfY = FloatField(default_value=0.0, writable=False)
     Nfy = NfY
 
-    NfZ = FloatField()
+    NfZ = FloatField(default_value=0.0, writable=False)
     Nfz = NfZ
 
 
@@ -457,13 +457,13 @@ class NfAttrOperator(
 ):
     __slots__ = ()
 
-    NfX = FloatField()
+    NfX = FloatField(default_value=0.0, writable=False)
     Nfx = NfX
 
-    NfY = FloatField()
+    NfY = FloatField(default_value=0.0, writable=False)
     Nfy = NfY
 
-    NfZ = FloatField()
+    NfZ = FloatField(default_value=0.0, writable=False)
     Nfz = NfZ
 
 
@@ -475,13 +475,13 @@ class NfField(
     ATTR_CLS = NfAttrOperator
     PLUG_CLS = NfPlugOperator
 
-    NfX = FloatField()
+    NfX = FloatField(default_value=0.0, writable=False)
     Nfx = NfX
 
-    NfY = FloatField()
+    NfY = FloatField(default_value=0.0, writable=False)
     Nfy = NfY
 
-    NfZ = FloatField()
+    NfZ = FloatField(default_value=0.0, writable=False)
     Nfz = NfZ
 
 
@@ -495,13 +495,13 @@ class NgPlugOperator(
         ("NgZ", "Ngz"),
     )
 
-    NgX = FloatField()
+    NgX = FloatField(default_value=0.0, writable=False)
     Ngx = NgX
 
-    NgY = FloatField()
+    NgY = FloatField(default_value=0.0, writable=False)
     Ngy = NgY
 
-    NgZ = FloatField()
+    NgZ = FloatField(default_value=0.0, writable=False)
     Ngz = NgZ
 
 
@@ -510,13 +510,13 @@ class NgAttrOperator(
 ):
     __slots__ = ()
 
-    NgX = FloatField()
+    NgX = FloatField(default_value=0.0, writable=False)
     Ngx = NgX
 
-    NgY = FloatField()
+    NgY = FloatField(default_value=0.0, writable=False)
     Ngy = NgY
 
-    NgZ = FloatField()
+    NgZ = FloatField(default_value=0.0, writable=False)
     Ngz = NgZ
 
 
@@ -528,13 +528,13 @@ class NgField(
     ATTR_CLS = NgAttrOperator
     PLUG_CLS = NgPlugOperator
 
-    NgX = FloatField()
+    NgX = FloatField(default_value=0.0, writable=False)
     Ngx = NgX
 
-    NgY = FloatField()
+    NgY = FloatField(default_value=0.0, writable=False)
     Ngy = NgY
 
-    NgZ = FloatField()
+    NgZ = FloatField(default_value=0.0, writable=False)
     Ngz = NgZ
 
 
@@ -548,13 +548,13 @@ class NgfPlugOperator(
         ("NgfZ", "Ngfz"),
     )
 
-    NgfX = FloatField()
+    NgfX = FloatField(default_value=0.0, writable=False)
     Ngfx = NgfX
 
-    NgfY = FloatField()
+    NgfY = FloatField(default_value=0.0, writable=False)
     Ngfy = NgfY
 
-    NgfZ = FloatField()
+    NgfZ = FloatField(default_value=0.0, writable=False)
     Ngfz = NgfZ
 
 
@@ -563,13 +563,13 @@ class NgfAttrOperator(
 ):
     __slots__ = ()
 
-    NgfX = FloatField()
+    NgfX = FloatField(default_value=0.0, writable=False)
     Ngfx = NgfX
 
-    NgfY = FloatField()
+    NgfY = FloatField(default_value=0.0, writable=False)
     Ngfy = NgfY
 
-    NgfZ = FloatField()
+    NgfZ = FloatField(default_value=0.0, writable=False)
     Ngfz = NgfZ
 
 
@@ -581,13 +581,13 @@ class NgfField(
     ATTR_CLS = NgfAttrOperator
     PLUG_CLS = NgfPlugOperator
 
-    NgfX = FloatField()
+    NgfX = FloatField(default_value=0.0, writable=False)
     Ngfx = NgfX
 
-    NgfY = FloatField()
+    NgfY = FloatField(default_value=0.0, writable=False)
     Ngfy = NgfY
 
-    NgfZ = FloatField()
+    NgfZ = FloatField(default_value=0.0, writable=False)
     Ngfz = NgfZ
 
 
@@ -601,13 +601,13 @@ class NsPlugOperator(
         ("NsZ", "Nsz"),
     )
 
-    NsX = FloatField()
+    NsX = FloatField(default_value=0.0, writable=False)
     Nsx = NsX
 
-    NsY = FloatField()
+    NsY = FloatField(default_value=0.0, writable=False)
     Nsy = NsY
 
-    NsZ = FloatField()
+    NsZ = FloatField(default_value=0.0, writable=False)
     Nsz = NsZ
 
 
@@ -616,13 +616,13 @@ class NsAttrOperator(
 ):
     __slots__ = ()
 
-    NsX = FloatField()
+    NsX = FloatField(default_value=0.0, writable=False)
     Nsx = NsX
 
-    NsY = FloatField()
+    NsY = FloatField(default_value=0.0, writable=False)
     Nsy = NsY
 
-    NsZ = FloatField()
+    NsZ = FloatField(default_value=0.0, writable=False)
     Nsz = NsZ
 
 
@@ -634,13 +634,13 @@ class NsField(
     ATTR_CLS = NsAttrOperator
     PLUG_CLS = NsPlugOperator
 
-    NsX = FloatField()
+    NsX = FloatField(default_value=0.0, writable=False)
     Nsx = NsX
 
-    NsY = FloatField()
+    NsY = FloatField(default_value=0.0, writable=False)
     Nsy = NsY
 
-    NsZ = FloatField()
+    NsZ = FloatField(default_value=0.0, writable=False)
     Nsz = NsZ
 
 
@@ -654,13 +654,13 @@ class DPduPlugOperator(
         ("dPduZ", "dPduz"),
     )
 
-    dPduX = FloatField()
+    dPduX = FloatField(default_value=0.0, writable=False)
     dPdux = dPduX
 
-    dPduY = FloatField()
+    dPduY = FloatField(default_value=0.0, writable=False)
     dPduy = dPduY
 
-    dPduZ = FloatField()
+    dPduZ = FloatField(default_value=0.0, writable=False)
     dPduz = dPduZ
 
 
@@ -669,13 +669,13 @@ class DPduAttrOperator(
 ):
     __slots__ = ()
 
-    dPduX = FloatField()
+    dPduX = FloatField(default_value=0.0, writable=False)
     dPdux = dPduX
 
-    dPduY = FloatField()
+    dPduY = FloatField(default_value=0.0, writable=False)
     dPduy = dPduY
 
-    dPduZ = FloatField()
+    dPduZ = FloatField(default_value=0.0, writable=False)
     dPduz = dPduZ
 
 
@@ -687,13 +687,13 @@ class DPduField(
     ATTR_CLS = DPduAttrOperator
     PLUG_CLS = DPduPlugOperator
 
-    dPduX = FloatField()
+    dPduX = FloatField(default_value=0.0, writable=False)
     dPdux = dPduX
 
-    dPduY = FloatField()
+    dPduY = FloatField(default_value=0.0, writable=False)
     dPduy = dPduY
 
-    dPduZ = FloatField()
+    dPduZ = FloatField(default_value=0.0, writable=False)
     dPduz = dPduZ
 
 
@@ -707,13 +707,13 @@ class DPdvPlugOperator(
         ("dPdvZ", "dPdvz"),
     )
 
-    dPdvX = FloatField()
+    dPdvX = FloatField(default_value=0.0, writable=False)
     dPdvx = dPdvX
 
-    dPdvY = FloatField()
+    dPdvY = FloatField(default_value=0.0, writable=False)
     dPdvy = dPdvY
 
-    dPdvZ = FloatField()
+    dPdvZ = FloatField(default_value=0.0, writable=False)
     dPdvz = dPdvZ
 
 
@@ -722,13 +722,13 @@ class DPdvAttrOperator(
 ):
     __slots__ = ()
 
-    dPdvX = FloatField()
+    dPdvX = FloatField(default_value=0.0, writable=False)
     dPdvx = dPdvX
 
-    dPdvY = FloatField()
+    dPdvY = FloatField(default_value=0.0, writable=False)
     dPdvy = dPdvY
 
-    dPdvZ = FloatField()
+    dPdvZ = FloatField(default_value=0.0, writable=False)
     dPdvz = dPdvZ
 
 
@@ -740,13 +740,13 @@ class DPdvField(
     ATTR_CLS = DPdvAttrOperator
     PLUG_CLS = DPdvPlugOperator
 
-    dPdvX = FloatField()
+    dPdvX = FloatField(default_value=0.0, writable=False)
     dPdvx = dPdvX
 
-    dPdvY = FloatField()
+    dPdvY = FloatField(default_value=0.0, writable=False)
     dPdvy = dPdvY
 
-    dPdvZ = FloatField()
+    dPdvZ = FloatField(default_value=0.0, writable=False)
     dPdvz = dPdvZ
 
 
@@ -760,13 +760,13 @@ class DDdxPlugOperator(
         ("dDdxZ", "dDdxz"),
     )
 
-    dDdxX = FloatField()
+    dDdxX = FloatField(default_value=0.0, writable=False)
     dDdxx = dDdxX
 
-    dDdxY = FloatField()
+    dDdxY = FloatField(default_value=0.0, writable=False)
     dDdxy = dDdxY
 
-    dDdxZ = FloatField()
+    dDdxZ = FloatField(default_value=0.0, writable=False)
     dDdxz = dDdxZ
 
 
@@ -775,13 +775,13 @@ class DDdxAttrOperator(
 ):
     __slots__ = ()
 
-    dDdxX = FloatField()
+    dDdxX = FloatField(default_value=0.0, writable=False)
     dDdxx = dDdxX
 
-    dDdxY = FloatField()
+    dDdxY = FloatField(default_value=0.0, writable=False)
     dDdxy = dDdxY
 
-    dDdxZ = FloatField()
+    dDdxZ = FloatField(default_value=0.0, writable=False)
     dDdxz = dDdxZ
 
 
@@ -793,13 +793,13 @@ class DDdxField(
     ATTR_CLS = DDdxAttrOperator
     PLUG_CLS = DDdxPlugOperator
 
-    dDdxX = FloatField()
+    dDdxX = FloatField(default_value=0.0, writable=False)
     dDdxx = dDdxX
 
-    dDdxY = FloatField()
+    dDdxY = FloatField(default_value=0.0, writable=False)
     dDdxy = dDdxY
 
-    dDdxZ = FloatField()
+    dDdxZ = FloatField(default_value=0.0, writable=False)
     dDdxz = dDdxZ
 
 
@@ -813,13 +813,13 @@ class DDdyPlugOperator(
         ("dDdyZ", "dDdyz"),
     )
 
-    dDdyX = FloatField()
+    dDdyX = FloatField(default_value=0.0, writable=False)
     dDdyx = dDdyX
 
-    dDdyY = FloatField()
+    dDdyY = FloatField(default_value=0.0, writable=False)
     dDdyy = dDdyY
 
-    dDdyZ = FloatField()
+    dDdyZ = FloatField(default_value=0.0, writable=False)
     dDdyz = dDdyZ
 
 
@@ -828,13 +828,13 @@ class DDdyAttrOperator(
 ):
     __slots__ = ()
 
-    dDdyX = FloatField()
+    dDdyX = FloatField(default_value=0.0, writable=False)
     dDdyx = dDdyX
 
-    dDdyY = FloatField()
+    dDdyY = FloatField(default_value=0.0, writable=False)
     dDdyy = dDdyY
 
-    dDdyZ = FloatField()
+    dDdyZ = FloatField(default_value=0.0, writable=False)
     dDdyz = dDdyZ
 
 
@@ -846,13 +846,13 @@ class DDdyField(
     ATTR_CLS = DDdyAttrOperator
     PLUG_CLS = DDdyPlugOperator
 
-    dDdyX = FloatField()
+    dDdyX = FloatField(default_value=0.0, writable=False)
     dDdyx = dDdyX
 
-    dDdyY = FloatField()
+    dDdyY = FloatField(default_value=0.0, writable=False)
     dDdyy = dDdyY
 
-    dDdyZ = FloatField()
+    dDdyZ = FloatField(default_value=0.0, writable=False)
     dDdyz = dDdyZ
 
 
@@ -866,13 +866,13 @@ class DNdxPlugOperator(
         ("dNdxZ", "dNdxz"),
     )
 
-    dNdxX = FloatField()
+    dNdxX = FloatField(default_value=0.0, writable=False)
     dNdxx = dNdxX
 
-    dNdxY = FloatField()
+    dNdxY = FloatField(default_value=0.0, writable=False)
     dNdxy = dNdxY
 
-    dNdxZ = FloatField()
+    dNdxZ = FloatField(default_value=0.0, writable=False)
     dNdxz = dNdxZ
 
 
@@ -881,13 +881,13 @@ class DNdxAttrOperator(
 ):
     __slots__ = ()
 
-    dNdxX = FloatField()
+    dNdxX = FloatField(default_value=0.0, writable=False)
     dNdxx = dNdxX
 
-    dNdxY = FloatField()
+    dNdxY = FloatField(default_value=0.0, writable=False)
     dNdxy = dNdxY
 
-    dNdxZ = FloatField()
+    dNdxZ = FloatField(default_value=0.0, writable=False)
     dNdxz = dNdxZ
 
 
@@ -899,13 +899,13 @@ class DNdxField(
     ATTR_CLS = DNdxAttrOperator
     PLUG_CLS = DNdxPlugOperator
 
-    dNdxX = FloatField()
+    dNdxX = FloatField(default_value=0.0, writable=False)
     dNdxx = dNdxX
 
-    dNdxY = FloatField()
+    dNdxY = FloatField(default_value=0.0, writable=False)
     dNdxy = dNdxY
 
-    dNdxZ = FloatField()
+    dNdxZ = FloatField(default_value=0.0, writable=False)
     dNdxz = dNdxZ
 
 
@@ -919,13 +919,13 @@ class DNdyPlugOperator(
         ("dNdyZ", "dNdyz"),
     )
 
-    dNdyX = FloatField()
+    dNdyX = FloatField(default_value=0.0, writable=False)
     dNdyx = dNdyX
 
-    dNdyY = FloatField()
+    dNdyY = FloatField(default_value=0.0, writable=False)
     dNdyy = dNdyY
 
-    dNdyZ = FloatField()
+    dNdyZ = FloatField(default_value=0.0, writable=False)
     dNdyz = dNdyZ
 
 
@@ -934,13 +934,13 @@ class DNdyAttrOperator(
 ):
     __slots__ = ()
 
-    dNdyX = FloatField()
+    dNdyX = FloatField(default_value=0.0, writable=False)
     dNdyx = dNdyX
 
-    dNdyY = FloatField()
+    dNdyY = FloatField(default_value=0.0, writable=False)
     dNdyy = dNdyY
 
-    dNdyZ = FloatField()
+    dNdyZ = FloatField(default_value=0.0, writable=False)
     dNdyz = dNdyZ
 
 
@@ -952,11 +952,11 @@ class DNdyField(
     ATTR_CLS = DNdyAttrOperator
     PLUG_CLS = DNdyPlugOperator
 
-    dNdyX = FloatField()
+    dNdyX = FloatField(default_value=0.0, writable=False)
     dNdyx = dNdyX
 
-    dNdyY = FloatField()
+    dNdyY = FloatField(default_value=0.0, writable=False)
     dNdyy = dNdyY
 
-    dNdyZ = FloatField()
+    dNdyZ = FloatField(default_value=0.0, writable=False)
     dNdyz = dNdyZ

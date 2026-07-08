@@ -22,25 +22,25 @@ class ResultPlugOperator(
         ("normalizedTangentV", "ntv"),
     )
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field()
+    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     nn = normalizedNormal
 
-    tangentU = Double3Field()
+    tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field()
+    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntu = normalizedTangentU
 
-    tangentV = Double3Field()
+    tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field()
+    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntv = normalizedTangentV
 
 
@@ -49,25 +49,25 @@ class ResultAttrOperator(
 ):
     __slots__ = ()
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field()
+    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     nn = normalizedNormal
 
-    tangentU = Double3Field()
+    tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field()
+    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntu = normalizedTangentU
 
-    tangentV = Double3Field()
+    tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field()
+    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntv = normalizedTangentV
 
 
@@ -79,23 +79,23 @@ class ResultField(
     ATTR_CLS = ResultAttrOperator
     PLUG_CLS = ResultPlugOperator
 
-    position = Double3Field()
+    position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
     p = position
 
-    normal = Double3Field()
+    normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field()
+    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     nn = normalizedNormal
 
-    tangentU = Double3Field()
+    tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field()
+    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntu = normalizedTangentU
 
-    tangentV = Double3Field()
+    tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field()
+    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     ntv = normalizedTangentV

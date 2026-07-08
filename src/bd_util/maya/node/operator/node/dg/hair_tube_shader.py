@@ -183,37 +183,37 @@ class HairTubeShader(DG):
 
     NODE_TYPE = "hairTubeShader"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0, readable=False)
     oi = objectId
 
-    primitiveId = LongField()
+    primitiveId = LongField(default_value=0, readable=False)
     pi = primitiveId
 
-    raySampler = AddrField()
+    raySampler = AddrField(default_value=0.0, readable=False)
     rtr = raySampler
 
-    rayDepth = ShortField()
+    rayDepth = ShortField(default_value=0, readable=False)
     rd = rayDepth
 
-    rayInstance = LongField()
+    rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField()
+    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
     rdl = refractionLimit
 
-    refractiveIndex = FloatField()
+    refractiveIndex = FloatField(default_value=1.0, min_value=0.01, soft_max_value=3.0)
     rfi = refractiveIndex
 
-    mediumRefractiveIndex = FloatField()
+    mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
     mrfi = mediumRefractiveIndex
 
-    refractions = BoolField()
+    refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField()
+    diffuse = FloatField(default_value=0.800000011920929, min_value=0.0, soft_max_value=1.0)
     dc = diffuse
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -222,7 +222,7 @@ class HairTubeShader(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    color = ColorField()
+    color = ColorField(default_value=(0.5, 0.5, 0.5))
     c = color
     colorR = color.colorR
     cr = colorR
@@ -231,7 +231,7 @@ class HairTubeShader(DG):
     colorB = color.colorB
     cb = colorB
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.0, 0.0, 0.0))
     it = transparency
     transparencyR = transparency.transparencyR
     itr = transparencyR
@@ -240,7 +240,7 @@ class HairTubeShader(DG):
     transparencyB = transparency.transparencyB
     itb = transparencyB
 
-    ambientColor = AmbientColorField()
+    ambientColor = AmbientColorField(default_value=(0.0, 0.0, 0.0))
     ambc = ambientColor
     ambientColorR = ambientColor.ambientColorR
     acr = ambientColorR
@@ -249,7 +249,7 @@ class HairTubeShader(DG):
     ambientColorB = ambientColor.ambientColorB
     acb = ambientColorB
 
-    incandescence = IncandescenceField()
+    incandescence = IncandescenceField(default_value=(0.0, 0.0, 0.0))
     ic = incandescence
     incandescenceR = incandescence.incandescenceR
     ir = incandescenceR
@@ -258,31 +258,31 @@ class HairTubeShader(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    translucence = FloatField()
+    translucence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     tc = translucence
 
-    translucenceFocus = FloatField()
+    translucenceFocus = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField()
+    translucenceDepth = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=5.0)
     trsd = translucenceDepth
 
-    opacityDepth = FloatField()
+    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
     opad = opacityDepth
 
-    glowIntensity = FloatField()
+    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     gi = glowIntensity
 
-    vrOverwriteDefaults = BoolField()
+    vrOverwriteDefaults = BoolField(default_value=False)
     vrod = vrOverwriteDefaults
 
-    vrFillObject = VrFillObjectEnumField()
+    vrFillObject = VrFillObjectEnumField(default_value=0)
     vrfo = vrFillObject
 
-    vrEdgeWeight = DoubleField()
+    vrEdgeWeight = DoubleField(default_value=0.0)
     vrew = vrEdgeWeight
 
-    vrEdgeColor = VrEdgeColorField()
+    vrEdgeColor = VrEdgeColorField(default_value=(0.5, 0.5, 0.5))
     vrec = vrEdgeColor
     vrEdgeColorR = vrEdgeColor.vrEdgeColorR
     vecr = vrEdgeColorR
@@ -291,43 +291,43 @@ class HairTubeShader(DG):
     vrEdgeColorB = vrEdgeColor.vrEdgeColorB
     vecb = vrEdgeColorB
 
-    vrEdgeStyle = VrEdgeStyleEnumField()
+    vrEdgeStyle = VrEdgeStyleEnumField(default_value=0)
     vres = vrEdgeStyle
 
-    vrEdgePriority = LongField()
+    vrEdgePriority = LongField(default_value=0, min_value=0)
     vrep = vrEdgePriority
 
-    vrHiddenEdges = BoolField()
+    vrHiddenEdges = BoolField(default_value=False)
     vrhe = vrHiddenEdges
 
-    vrHiddenEdgesOnTransparent = BoolField()
+    vrHiddenEdgesOnTransparent = BoolField(default_value=False)
     vrht = vrHiddenEdgesOnTransparent
 
-    vrOutlinesAtIntersections = BoolField()
+    vrOutlinesAtIntersections = BoolField(default_value=True)
     vroi = vrOutlinesAtIntersections
 
-    materialAlphaGain = FloatField()
+    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     maga = materialAlphaGain
 
-    hideSource = BoolField()
+    hideSource = BoolField(default_value=False)
     hs = hideSource
 
-    surfaceThickness = FloatField()
+    surfaceThickness = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     thik = surfaceThickness
 
-    shadowAttenuation = FloatField()
+    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     fakc = shadowAttenuation
 
-    transparencyDepth = FloatField()
+    transparencyDepth = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     trdp = transparencyDepth
 
-    lightAbsorbance = FloatField()
+    lightAbsorbance = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     absb = lightAbsorbance
 
-    chromaticAberration = BoolField()
+    chromaticAberration = BoolField(default_value=False)
     crab = chromaticAberration
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -336,7 +336,7 @@ class HairTubeShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -345,7 +345,7 @@ class HairTubeShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField()
+    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -354,7 +354,7 @@ class HairTubeShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0))
     pc = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -363,7 +363,7 @@ class HairTubeShader(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -372,7 +372,7 @@ class HairTubeShader(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -393,13 +393,13 @@ class HairTubeShader(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -408,7 +408,7 @@ class HairTubeShader(DG):
     outMatteOpacityB = outMatteOpacity.outMatteOpacityB
     omob = outMatteOpacityB
 
-    hardwareShader = HardwareShaderField()
+    hardwareShader = HardwareShaderField(default_value=(0.0, 0.0, 0.0))
     hws = hardwareShader
     hardwareShaderR = hardwareShader.hardwareShaderR
     hwr = hardwareShaderR
@@ -417,10 +417,10 @@ class HairTubeShader(DG):
     hardwareShaderB = hardwareShader.hardwareShaderB
     hwb = hardwareShaderB
 
-    reflectionLimit = ShortField()
+    reflectionLimit = ShortField(default_value=1, min_value=0, soft_max_value=10)
     fll = reflectionLimit
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(0.5, 0.5, 0.5))
     sc = specularColor
     specularColorR = specularColor.specularColorR
     sr = specularColorR
@@ -429,10 +429,10 @@ class HairTubeShader(DG):
     specularColorB = specularColor.specularColorB
     sb = specularColorB
 
-    reflectivity = FloatField()
+    reflectivity = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     rfl = reflectivity
 
-    reflectedColor = ReflectedColorField()
+    reflectedColor = ReflectedColorField(default_value=(0.0, 0.0, 0.0))
     rc = reflectedColor
     reflectedColorR = reflectedColor.reflectedColorR
     rr = reflectedColorR
@@ -441,7 +441,7 @@ class HairTubeShader(DG):
     reflectedColorB = reflectedColor.reflectedColorB
     rb = reflectedColorB
 
-    triangleNormalCamera = TriangleNormalCameraField()
+    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -450,10 +450,10 @@ class HairTubeShader(DG):
     triangleNormalCameraZ = triangleNormalCamera.triangleNormalCameraZ
     tnz = triangleNormalCameraZ
 
-    reflectionSpecularity = FloatField()
+    reflectionSpecularity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     rsp = reflectionSpecularity
 
-    tangentUCamera = TangentUCameraField()
+    tangentUCamera = TangentUCameraField(default_value=(1.0, 1.0, 1.0))
     utan = tangentUCamera
     tangentUCameraX = tangentUCamera.tangentUCameraX
     utnx = tangentUCameraX
@@ -462,7 +462,7 @@ class HairTubeShader(DG):
     tangentUCameraZ = tangentUCamera.tangentUCameraZ
     utnz = tangentUCameraZ
 
-    tangentVCamera = TangentVCameraField()
+    tangentVCamera = TangentVCameraField(default_value=(1.0, 1.0, 1.0))
     vtan = tangentVCamera
     tangentVCameraX = tangentVCamera.tangentVCameraX
     vtnx = tangentVCameraX
@@ -471,14 +471,14 @@ class HairTubeShader(DG):
     tangentVCameraZ = tangentVCamera.tangentVCameraZ
     vtnz = tangentVCameraZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     uvu = uCoord
     vCoord = uvCoord.vCoord
     uvv = vCoord
 
-    tubeDirection = TubeDirectionEnumField()
+    tubeDirection = TubeDirectionEnumField(default_value=0)
     tdr = tubeDirection
 
     colorScale = ColorScaleField(multi=True)
@@ -493,14 +493,14 @@ class HairTubeShader(DG):
     colorScale_ColorB = FloatField()
     clscb = colorScale_ColorB
 
-    specularPower = FloatField()
+    specularPower = FloatField(default_value=20.0, min_value=2.0, soft_max_value=100.0)
     sp = specularPower
 
-    specularShift = FloatField()
+    specularShift = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=20.0)
     ssh = specularShift
 
-    scatterPower = FloatField()
+    scatterPower = FloatField(default_value=5.0, min_value=2.0, soft_max_value=50.0)
     scp = scatterPower
 
-    scatter = FloatField()
+    scatter = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0)
     sct = scatter

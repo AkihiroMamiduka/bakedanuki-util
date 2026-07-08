@@ -34,19 +34,19 @@ class TimeEditorTracks(DG):
     composition = MessageField()
     cmp = composition
 
-    parentTime = TimeField()
+    parentTime = TimeField(default_value=0.0, readable=False)
     ptm = parentTime
 
-    clipTime = TimeField(multi=True)
+    clipTime = TimeField(multi=True, default_value=0.0, writable=False)
     ct = clipTime
 
-    clipchanged = BoolField()
+    clipchanged = BoolField(default_value=False)
     clch = clipchanged
 
-    state = TypedField()
+    state = TypedField(writable=False)
     st = state
 
-    muted = BoolField()
+    muted = BoolField(default_value=False)
     m = muted
 
     crossfade = CrossfadeField(multi=True)

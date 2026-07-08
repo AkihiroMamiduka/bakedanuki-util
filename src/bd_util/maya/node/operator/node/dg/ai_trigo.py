@@ -95,7 +95,7 @@ class AiTrigo(DG):
 
     NODE_TYPE = "aiTrigo"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -104,7 +104,7 @@ class AiTrigo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -113,7 +113,7 @@ class AiTrigo(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -121,10 +121,10 @@ class AiTrigo(DG):
     inputB = input.inputB
     inputb = inputB
 
-    function = FunctionEnumField()
+    function = FunctionEnumField(default_value=0)
 
-    units = UnitsEnumField()
+    units = UnitsEnumField(default_value=0)
 
-    frequency = FloatField()
+    frequency = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
 
-    phase = FloatField()
+    phase = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)

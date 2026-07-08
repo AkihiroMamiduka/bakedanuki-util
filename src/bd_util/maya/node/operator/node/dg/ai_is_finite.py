@@ -12,10 +12,10 @@ class AiIsFinite(DG):
 
     NODE_TYPE = "aiIsFinite"
 
-    outValue = BoolField()
+    outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -24,7 +24,7 @@ class AiIsFinite(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG

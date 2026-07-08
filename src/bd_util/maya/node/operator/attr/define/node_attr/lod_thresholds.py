@@ -18,13 +18,13 @@ class InBoxMinPlugOperator(
         ("inBoxMinZ", "bmiz"),
     )
 
-    inBoxMinX = DoubleLinearField()
+    inBoxMinX = DoubleLinearField(default_value=0.0)
     bmix = inBoxMinX
 
-    inBoxMinY = DoubleLinearField()
+    inBoxMinY = DoubleLinearField(default_value=0.0)
     bmiy = inBoxMinY
 
-    inBoxMinZ = DoubleLinearField()
+    inBoxMinZ = DoubleLinearField(default_value=0.0)
     bmiz = inBoxMinZ
 
 
@@ -33,13 +33,13 @@ class InBoxMinAttrOperator(
 ):
     __slots__ = ()
 
-    inBoxMinX = DoubleLinearField()
+    inBoxMinX = DoubleLinearField(default_value=0.0)
     bmix = inBoxMinX
 
-    inBoxMinY = DoubleLinearField()
+    inBoxMinY = DoubleLinearField(default_value=0.0)
     bmiy = inBoxMinY
 
-    inBoxMinZ = DoubleLinearField()
+    inBoxMinZ = DoubleLinearField(default_value=0.0)
     bmiz = inBoxMinZ
 
 
@@ -51,13 +51,13 @@ class InBoxMinField(
     ATTR_CLS = InBoxMinAttrOperator
     PLUG_CLS = InBoxMinPlugOperator
 
-    inBoxMinX = DoubleLinearField()
+    inBoxMinX = DoubleLinearField(default_value=0.0)
     bmix = inBoxMinX
 
-    inBoxMinY = DoubleLinearField()
+    inBoxMinY = DoubleLinearField(default_value=0.0)
     bmiy = inBoxMinY
 
-    inBoxMinZ = DoubleLinearField()
+    inBoxMinZ = DoubleLinearField(default_value=0.0)
     bmiz = inBoxMinZ
 
 
@@ -71,13 +71,13 @@ class InBoxMaxPlugOperator(
         ("inBoxMaxZ", "bmaz"),
     )
 
-    inBoxMaxX = DoubleLinearField()
+    inBoxMaxX = DoubleLinearField(default_value=0.0)
     bmax = inBoxMaxX
 
-    inBoxMaxY = DoubleLinearField()
+    inBoxMaxY = DoubleLinearField(default_value=0.0)
     bmay = inBoxMaxY
 
-    inBoxMaxZ = DoubleLinearField()
+    inBoxMaxZ = DoubleLinearField(default_value=0.0)
     bmaz = inBoxMaxZ
 
 
@@ -86,13 +86,13 @@ class InBoxMaxAttrOperator(
 ):
     __slots__ = ()
 
-    inBoxMaxX = DoubleLinearField()
+    inBoxMaxX = DoubleLinearField(default_value=0.0)
     bmax = inBoxMaxX
 
-    inBoxMaxY = DoubleLinearField()
+    inBoxMaxY = DoubleLinearField(default_value=0.0)
     bmay = inBoxMaxY
 
-    inBoxMaxZ = DoubleLinearField()
+    inBoxMaxZ = DoubleLinearField(default_value=0.0)
     bmaz = inBoxMaxZ
 
 
@@ -104,13 +104,13 @@ class InBoxMaxField(
     ATTR_CLS = InBoxMaxAttrOperator
     PLUG_CLS = InBoxMaxPlugOperator
 
-    inBoxMaxX = DoubleLinearField()
+    inBoxMaxX = DoubleLinearField(default_value=0.0)
     bmax = inBoxMaxX
 
-    inBoxMaxY = DoubleLinearField()
+    inBoxMaxY = DoubleLinearField(default_value=0.0)
     bmay = inBoxMaxY
 
-    inBoxMaxZ = DoubleLinearField()
+    inBoxMaxZ = DoubleLinearField(default_value=0.0)
     bmaz = inBoxMaxZ
 
 
@@ -124,13 +124,13 @@ class CameraPlugOperator(
         ("cameraZ", "caz"),
     )
 
-    cameraX = DoubleLinearField()
+    cameraX = DoubleLinearField(default_value=0.0)
     cax = cameraX
 
-    cameraY = DoubleLinearField()
+    cameraY = DoubleLinearField(default_value=0.0)
     cay = cameraY
 
-    cameraZ = DoubleLinearField()
+    cameraZ = DoubleLinearField(default_value=0.0)
     caz = cameraZ
 
 
@@ -139,13 +139,13 @@ class CameraAttrOperator(
 ):
     __slots__ = ()
 
-    cameraX = DoubleLinearField()
+    cameraX = DoubleLinearField(default_value=0.0)
     cax = cameraX
 
-    cameraY = DoubleLinearField()
+    cameraY = DoubleLinearField(default_value=0.0)
     cay = cameraY
 
-    cameraZ = DoubleLinearField()
+    cameraZ = DoubleLinearField(default_value=0.0)
     caz = cameraZ
 
 
@@ -157,11 +157,11 @@ class CameraField(
     ATTR_CLS = CameraAttrOperator
     PLUG_CLS = CameraPlugOperator
 
-    cameraX = DoubleLinearField()
+    cameraX = DoubleLinearField(default_value=0.0)
     cax = cameraX
 
-    cameraY = DoubleLinearField()
+    cameraY = DoubleLinearField(default_value=0.0)
     cay = cameraY
 
-    cameraZ = DoubleLinearField()
+    cameraZ = DoubleLinearField(default_value=0.0)
     caz = cameraZ

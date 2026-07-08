@@ -24,7 +24,7 @@ class InputPlugOperator(
         ("inShape", "is"),
     )
 
-    inDouble = Float2Field()
+    inDouble = Float2Field(default_value=(0.0, 0.0))
     idl = inDouble
 
     inShape = MessageField()
@@ -36,7 +36,7 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inDouble = Float2Field()
+    inDouble = Float2Field(default_value=(0.0, 0.0))
     idl = inDouble
 
     inShape = MessageField()
@@ -61,10 +61,10 @@ class DefaultPlugOperator(
         ("defComp2", "dc2"),
     )
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.0)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.0)
     dc2 = defComp2
 
 
@@ -73,10 +73,10 @@ class DefaultAttrOperator(
 ):
     __slots__ = ()
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.0)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.0)
     dc2 = defComp2
 
 
@@ -88,10 +88,10 @@ class DefaultField(
     ATTR_CLS = DefaultAttrOperator
     PLUG_CLS = DefaultPlugOperator
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.0)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.0)
     dc2 = defComp2
 
 
@@ -104,10 +104,10 @@ class OutputPlugOperator(
         ("outComp2", "oc2"),
     )
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2
 
 
@@ -116,10 +116,10 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2
 
 
@@ -131,8 +131,8 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2

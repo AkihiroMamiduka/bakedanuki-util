@@ -8,7 +8,7 @@ class ParticleColorMapper(DG):
 
     NODE_TYPE = "particleColorMapper"
 
-    particleColor = ParticleColorField()
+    particleColor = ParticleColorField(default_value=(0.0, 0.0, 0.0))
     pc = particleColor
     particleColorR = particleColor.particleColorR
     pcr = particleColorR

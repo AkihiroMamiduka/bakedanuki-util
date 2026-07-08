@@ -10,22 +10,22 @@ class DynGlobals(DG):
 
     NODE_TYPE = "dynGlobals"
 
-    overSamples = LongField()
+    overSamples = LongField(default_value=1, min_value=1)
     os = overSamples
 
-    internalOverSamples = LongField()
+    internalOverSamples = LongField(default_value=0, min_value=1, writable=False)
     ios = internalOverSamples
 
-    useParticleDiskCache = BoolField()
+    useParticleDiskCache = BoolField(default_value=False)
     upd = useParticleDiskCache
 
     cacheDirectory = DataStringField()
     cd = cacheDirectory
 
-    minFrameCached = LongField()
+    minFrameCached = LongField(default_value=0)
     mnf = minFrameCached
 
-    maxFrameCached = LongField()
+    maxFrameCached = LongField(default_value=0)
     mxf = maxFrameCached
 
     confirmedPath = DataStringField()

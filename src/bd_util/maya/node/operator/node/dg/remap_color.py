@@ -54,7 +54,7 @@ class RemapColor(DG):
 
     NODE_TYPE = "remapColor"
 
-    color = ColorField()
+    color = ColorField(default_value=(0.5, 0.5, 0.5))
     cl = color
     colorR = color.colorR
     cr = colorR
@@ -63,31 +63,31 @@ class RemapColor(DG):
     colorB = color.colorB
     cb = colorB
 
-    inputMin = FloatField()
+    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     imn = inputMin
 
-    inputMax = FloatField()
+    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     imx = inputMax
 
-    outputMin = FloatField()
+    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     omn = outputMin
 
-    outputMax = FloatField()
+    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     omx = outputMax
 
-    red = RedField(multi=True)
+    red = RedField(multi=True, default_value=(0.0, 0.0, 0.0))
     r = red
 
-    green = GreenField(multi=True)
+    green = GreenField(multi=True, default_value=(0.0, 0.0, 0.0))
     g = green
 
-    blue = BlueField(multi=True)
+    blue = BlueField(multi=True, default_value=(0.0, 0.0, 0.0))
     b = blue
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

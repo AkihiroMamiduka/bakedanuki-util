@@ -13,19 +13,19 @@ class AiImagerLensEffects(DG):
 
     NODE_TYPE = "aiImagerLensEffects"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    vignetting = FloatField()
+    vignetting = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
 
-    bloomThreshold = FloatField()
+    bloomThreshold = FloatField(default_value=0.8999999761581421, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     bloom_threshold = bloomThreshold
 
-    bloomTint = BloomTintField()
+    bloomTint = BloomTintField(default_value=(1.0, 1.0, 1.0))
     bloom_tint = bloomTint
     bloomTintR = bloomTint.bloomTintR
     bloom_tintr = bloomTintR
@@ -34,8 +34,8 @@ class AiImagerLensEffects(DG):
     bloomTintB = bloomTint.bloomTintB
     bloom_tintb = bloomTintB
 
-    bloomRadius = LongField()
+    bloomRadius = LongField(default_value=4, min_value=1, soft_min_value=1, soft_max_value=12)
     bloom_radius = bloomRadius
 
-    bloomStrength = FloatField()
+    bloomStrength = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     bloom_strength = bloomStrength

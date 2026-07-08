@@ -28,7 +28,7 @@ class EnvSky(DG):
 
     NODE_TYPE = "envSky"
 
-    objectType = CharField()
+    objectType = CharField(default_value=1, min_value=0, max_value=255)
     ot = objectType
 
     placementMatrix = FltMatrixField()
@@ -37,10 +37,10 @@ class EnvSky(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -49,7 +49,7 @@ class EnvSky(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -58,21 +58,21 @@ class EnvSky(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -81,7 +81,7 @@ class EnvSky(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -90,10 +90,10 @@ class EnvSky(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -102,7 +102,7 @@ class EnvSky(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -111,10 +111,10 @@ class EnvSky(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    totalBrightness = FloatField()
+    totalBrightness = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
     tb = totalBrightness
 
-    sunBrightness = SunBrightnessField()
+    sunBrightness = SunBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     su = sunBrightness
     sunBrightnessR = sunBrightness.sunBrightnessR
     sur = sunBrightnessR
@@ -123,7 +123,7 @@ class EnvSky(DG):
     sunBrightnessB = sunBrightness.sunBrightnessB
     sub = sunBrightnessB
 
-    haloBrightness = HaloBrightnessField()
+    haloBrightness = HaloBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     hb = haloBrightness
     haloBrightnessR = haloBrightness.haloBrightnessR
     hbr = haloBrightnessR
@@ -132,19 +132,19 @@ class EnvSky(DG):
     haloBrightnessB = haloBrightness.haloBrightnessB
     hbb = haloBrightnessB
 
-    elevation = DoubleAngleField()
+    elevation = DoubleAngleField(default_value=45.0, min_value=-90.0, max_value=90.0, soft_min_value=0.0)
     e = elevation
 
-    azimuth = DoubleAngleField()
+    azimuth = DoubleAngleField(default_value=145.0, min_value=0.0, max_value=360.0)
     az = azimuth
 
-    size = FloatField()
+    size = FloatField(default_value=0.531000018119812, min_value=0.0, soft_max_value=20.0)
     sz = size
 
-    blur = FloatField()
+    blur = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
     b = blur
 
-    skyBrightness = SkyBrightnessField()
+    skyBrightness = SkyBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     sk = skyBrightness
     skyBrightnessR = skyBrightness.skyBrightnessR
     skr = skyBrightnessR
@@ -153,22 +153,22 @@ class EnvSky(DG):
     skyBrightnessB = skyBrightness.skyBrightnessB
     skb = skyBrightnessB
 
-    airDensity = FloatField()
+    airDensity = FloatField(default_value=1.0, min_value=0.0, max_value=3.0)
     ad = airDensity
 
-    dustDensity = FloatField()
+    dustDensity = FloatField(default_value=0.0, min_value=0.0, max_value=3.0)
     dd = dustDensity
 
-    skyThickness = FloatField()
+    skyThickness = FloatField(default_value=1000.0, min_value=100.0, max_value=10000.0)
     st = skyThickness
 
-    skyRadius = FloatField()
+    skyRadius = FloatField(default_value=50.0, min_value=0.01, soft_max_value=300.0)
     sr = skyRadius
 
-    hasFloor = BoolField()
+    hasFloor = BoolField(default_value=True)
     hf = hasFloor
 
-    floorColor = FloorColorField()
+    floorColor = FloorColorField(default_value=(0.4000000059604645, 0.4000000059604645, 0.4000000059604645), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     fc = floorColor
     floorColorR = floorColor.floorColorR
     fcr = floorColorR
@@ -177,16 +177,16 @@ class EnvSky(DG):
     floorColorB = floorColor.floorColorB
     fcb = floorColorB
 
-    floorAltitude = FloatField()
+    floorAltitude = FloatField(default_value=-10.0, min_value=-100.0, max_value=100.0)
     fa = floorAltitude
 
-    useTexture = BoolField()
+    useTexture = BoolField(default_value=False)
     ut = useTexture
 
-    cloudTexture = FloatField()
+    cloudTexture = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ct = cloudTexture
 
-    cloudBrightness = CloudBrightnessField()
+    cloudBrightness = CloudBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     cb = cloudBrightness
     cloudBrightnessR = cloudBrightness.cloudBrightnessR
     cbr = cloudBrightnessR
@@ -195,7 +195,7 @@ class EnvSky(DG):
     cloudBrightnessB = cloudBrightness.cloudBrightnessB
     cbb = cloudBrightnessB
 
-    sunsetBrightness = SunsetBrightnessField()
+    sunsetBrightness = SunsetBrightnessField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     ss = sunsetBrightness
     sunsetBrightnessR = sunsetBrightness.sunsetBrightnessR
     ssr = sunsetBrightnessR
@@ -204,26 +204,26 @@ class EnvSky(DG):
     sunsetBrightnessB = sunsetBrightness.sunsetBrightnessB
     ssb = sunsetBrightnessB
 
-    density = FloatField()
+    density = FloatField(default_value=1.0, min_value=0.0, max_value=5.0)
     d = density
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     t = threshold
 
-    power = FloatField()
+    power = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     po = power
 
-    altitude = FloatField()
+    altitude = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
     a = altitude
 
-    haloSize = FloatField()
+    haloSize = FloatField(default_value=20.0, min_value=0.0, max_value=50.0)
     hs = haloSize
 
-    skySamples = FloatField()
+    skySamples = FloatField(default_value=5.0, min_value=0.0, max_value=5.0)
     ssa = skySamples
 
-    floorSamples = FloatField()
+    floorSamples = FloatField(default_value=1.0, min_value=0.0, max_value=3.0)
     fsa = floorSamples
 
-    cloudSamples = FloatField()
+    cloudSamples = FloatField(default_value=5.0, min_value=0.0, max_value=5.0)
     csa = cloudSamples

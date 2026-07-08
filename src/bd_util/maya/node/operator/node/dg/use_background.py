@@ -54,25 +54,25 @@ class UseBackground(DG):
 
     NODE_TYPE = "useBackground"
 
-    objectId = AddrField()
+    objectId = AddrField(default_value=0.0, readable=False)
     oi = objectId
 
-    primitiveId = LongField()
+    primitiveId = LongField(default_value=0, readable=False)
     pi = primitiveId
 
-    raySampler = AddrField()
+    raySampler = AddrField(default_value=0.0, readable=False)
     rtr = raySampler
 
-    backgroundSampler = AddrField()
+    backgroundSampler = AddrField(default_value=0.0, readable=False)
     rtb = backgroundSampler
 
-    rayDepth = ShortField()
+    rayDepth = ShortField(default_value=0, readable=False)
     rd = rayDepth
 
-    rayInstance = LongField()
+    rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -81,7 +81,7 @@ class UseBackground(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -90,7 +90,7 @@ class UseBackground(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -99,7 +99,7 @@ class UseBackground(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0))
     pc = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -108,7 +108,7 @@ class UseBackground(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(1.0, 1.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -117,7 +117,7 @@ class UseBackground(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    lightDataArray = LightDataArrayField(multi=True)
+    lightDataArray = LightDataArrayField(multi=True, readable=False)
     ltd = lightDataArray
 
     lightDirectionX = FloatField()
@@ -138,13 +138,13 @@ class UseBackground(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    shadowMask = FloatField()
+    shadowMask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     sm = shadowMask
 
-    reflectionLimit = ShortField()
+    reflectionLimit = ShortField(default_value=2, min_value=0, soft_max_value=10)
     fll = reflectionLimit
 
-    specularColor = SpecularColorField()
+    specularColor = SpecularColorField(default_value=(0.5, 0.5, 0.5))
     sc = specularColor
     specularColorR = specularColor.specularColorR
     sr = specularColorR
@@ -153,16 +153,16 @@ class UseBackground(DG):
     specularColorB = specularColor.specularColorB
     sb = specularColorB
 
-    reflectivity = FloatField()
+    reflectivity = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     rfl = reflectivity
 
-    matteOpacityMode = MatteOpacityModeEnumField()
+    matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField()
+    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField()
+    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

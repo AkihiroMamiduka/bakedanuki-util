@@ -18,13 +18,13 @@ class NormalPlugOperator(
         ("normalZ", "nrz"),
     )
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=1.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0)
     nrz = normalZ
 
 
@@ -33,13 +33,13 @@ class NormalAttrOperator(
 ):
     __slots__ = ()
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=1.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0)
     nrz = normalZ
 
 
@@ -51,11 +51,11 @@ class NormalField(
     ATTR_CLS = NormalAttrOperator
     PLUG_CLS = NormalPlugOperator
 
-    normalX = DoubleLinearField()
+    normalX = DoubleLinearField(default_value=0.0)
     nrx = normalX
 
-    normalY = DoubleLinearField()
+    normalY = DoubleLinearField(default_value=1.0)
     nry = normalY
 
-    normalZ = DoubleLinearField()
+    normalZ = DoubleLinearField(default_value=0.0)
     nrz = normalZ

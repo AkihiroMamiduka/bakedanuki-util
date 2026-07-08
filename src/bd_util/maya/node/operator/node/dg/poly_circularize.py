@@ -114,7 +114,7 @@ class PolyCircularize(DG):
 
     NODE_TYPE = "polyCircularize"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -123,62 +123,62 @@ class PolyCircularize(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    normalOrientation = NormalOrientationEnumField()
+    normalOrientation = NormalOrientationEnumField(default_value=0)
     nor = normalOrientation
 
-    normalOffset = FloatField()
+    normalOffset = FloatField(default_value=0.0)
     no = normalOffset
 
-    alignment = AlignmentEnumField()
+    alignment = AlignmentEnumField(default_value=0)
     al = alignment
 
-    evenlyDistribute = BoolField()
+    evenlyDistribute = BoolField(default_value=True)
     ed = evenlyDistribute
 
-    radialOffset = FloatField()
+    radialOffset = FloatField(default_value=0.0)
     ro = radialOffset
 
-    smoothingAngle = FloatField()
+    smoothingAngle = FloatField(default_value=30.0, min_value=0.0, max_value=180.0)
     sa = smoothingAngle
 
-    divisions = LongField()
+    divisions = LongField(default_value=0, min_value=0)
     d = divisions
 
-    supportingEdges = SupportingEdgesEnumField()
+    supportingEdges = SupportingEdgesEnumField(default_value=0)
     se = supportingEdges
 
-    twist = FloatField()
+    twist = FloatField(default_value=0.0, min_value=-180.0, max_value=180.0)
     t = twist
 
-    relaxInterior = FloatField()
+    relaxInterior = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ri = relaxInterior

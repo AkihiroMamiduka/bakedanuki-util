@@ -18,13 +18,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.5, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.5, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.5, writable=False)
     outb = outColorB
 
 
@@ -33,13 +33,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.5, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.5, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.5, writable=False)
     outb = outColorB
 
 
@@ -51,13 +51,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.5, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.5, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.5, writable=False)
     outb = outColorB
 
 
@@ -71,13 +71,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.5, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.5, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.5, writable=False)
     otb = outTransparencyB
 
 
@@ -86,13 +86,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.5, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.5, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.5, writable=False)
     otb = outTransparencyB
 
 
@@ -104,13 +104,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.5, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.5, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.5, writable=False)
     otb = outTransparencyB
 
 
@@ -124,13 +124,13 @@ class NormalCameraPlugOperator(
         ("normalCameraZ", "nz"),
     )
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=0.0)
     nz = normalCameraZ
 
 
@@ -139,13 +139,13 @@ class NormalCameraAttrOperator(
 ):
     __slots__ = ()
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=0.0)
     nz = normalCameraZ
 
 
@@ -157,13 +157,13 @@ class NormalCameraField(
     ATTR_CLS = NormalCameraAttrOperator
     PLUG_CLS = NormalCameraPlugOperator
 
-    normalCameraX = FloatField()
+    normalCameraX = FloatField(default_value=0.0)
     nx = normalCameraX
 
-    normalCameraY = FloatField()
+    normalCameraY = FloatField(default_value=0.0)
     ny = normalCameraY
 
-    normalCameraZ = FloatField()
+    normalCameraZ = FloatField(default_value=0.0)
     nz = normalCameraZ
 
 
@@ -177,13 +177,13 @@ class HardwareColorPlugOperator(
         ("hardwareColorB", "hwcb"),
     )
 
-    hardwareColorR = FloatField()
+    hardwareColorR = FloatField(default_value=0.5)
     hwcr = hardwareColorR
 
-    hardwareColorG = FloatField()
+    hardwareColorG = FloatField(default_value=0.5)
     hwcg = hardwareColorG
 
-    hardwareColorB = FloatField()
+    hardwareColorB = FloatField(default_value=0.5)
     hwcb = hardwareColorB
 
 
@@ -192,13 +192,13 @@ class HardwareColorAttrOperator(
 ):
     __slots__ = ()
 
-    hardwareColorR = FloatField()
+    hardwareColorR = FloatField(default_value=0.5)
     hwcr = hardwareColorR
 
-    hardwareColorG = FloatField()
+    hardwareColorG = FloatField(default_value=0.5)
     hwcg = hardwareColorG
 
-    hardwareColorB = FloatField()
+    hardwareColorB = FloatField(default_value=0.5)
     hwcb = hardwareColorB
 
 
@@ -210,13 +210,13 @@ class HardwareColorField(
     ATTR_CLS = HardwareColorAttrOperator
     PLUG_CLS = HardwareColorPlugOperator
 
-    hardwareColorR = FloatField()
+    hardwareColorR = FloatField(default_value=0.5)
     hwcr = hardwareColorR
 
-    hardwareColorG = FloatField()
+    hardwareColorG = FloatField(default_value=0.5)
     hwcg = hardwareColorG
 
-    hardwareColorB = FloatField()
+    hardwareColorB = FloatField(default_value=0.5)
     hwcb = hardwareColorB
 
 
@@ -230,13 +230,13 @@ class CameraPlugOperator(
         ("cameraB", "camerab"),
     )
 
-    cameraR = FloatField()
+    cameraR = FloatField(default_value=0.0)
     camerar = cameraR
 
-    cameraG = FloatField()
+    cameraG = FloatField(default_value=0.0)
     camerag = cameraG
 
-    cameraB = FloatField()
+    cameraB = FloatField(default_value=0.0)
     camerab = cameraB
 
 
@@ -245,13 +245,13 @@ class CameraAttrOperator(
 ):
     __slots__ = ()
 
-    cameraR = FloatField()
+    cameraR = FloatField(default_value=0.0)
     camerar = cameraR
 
-    cameraG = FloatField()
+    cameraG = FloatField(default_value=0.0)
     camerag = cameraG
 
-    cameraB = FloatField()
+    cameraB = FloatField(default_value=0.0)
     camerab = cameraB
 
 
@@ -263,13 +263,13 @@ class CameraField(
     ATTR_CLS = CameraAttrOperator
     PLUG_CLS = CameraPlugOperator
 
-    cameraR = FloatField()
+    cameraR = FloatField(default_value=0.0)
     camerar = cameraR
 
-    cameraG = FloatField()
+    cameraG = FloatField(default_value=0.0)
     camerag = cameraG
 
-    cameraB = FloatField()
+    cameraB = FloatField(default_value=0.0)
     camerab = cameraB
 
 
@@ -283,13 +283,13 @@ class ShadowPlugOperator(
         ("shadowB", "shadowb"),
     )
 
-    shadowR = FloatField()
+    shadowR = FloatField(default_value=0.0)
     shadowr = shadowR
 
-    shadowG = FloatField()
+    shadowG = FloatField(default_value=0.0)
     shadowg = shadowG
 
-    shadowB = FloatField()
+    shadowB = FloatField(default_value=0.0)
     shadowb = shadowB
 
 
@@ -298,13 +298,13 @@ class ShadowAttrOperator(
 ):
     __slots__ = ()
 
-    shadowR = FloatField()
+    shadowR = FloatField(default_value=0.0)
     shadowr = shadowR
 
-    shadowG = FloatField()
+    shadowG = FloatField(default_value=0.0)
     shadowg = shadowG
 
-    shadowB = FloatField()
+    shadowB = FloatField(default_value=0.0)
     shadowb = shadowB
 
 
@@ -316,13 +316,13 @@ class ShadowField(
     ATTR_CLS = ShadowAttrOperator
     PLUG_CLS = ShadowPlugOperator
 
-    shadowR = FloatField()
+    shadowR = FloatField(default_value=0.0)
     shadowr = shadowR
 
-    shadowG = FloatField()
+    shadowG = FloatField(default_value=0.0)
     shadowg = shadowG
 
-    shadowB = FloatField()
+    shadowB = FloatField(default_value=0.0)
     shadowb = shadowB
 
 
@@ -336,13 +336,13 @@ class DiffuseReflectionPlugOperator(
         ("diffuseReflectionB", "diffuse_reflectionb"),
     )
 
-    diffuseReflectionR = FloatField()
+    diffuseReflectionR = FloatField(default_value=0.0)
     diffuse_reflectionr = diffuseReflectionR
 
-    diffuseReflectionG = FloatField()
+    diffuseReflectionG = FloatField(default_value=0.0)
     diffuse_reflectiong = diffuseReflectionG
 
-    diffuseReflectionB = FloatField()
+    diffuseReflectionB = FloatField(default_value=0.0)
     diffuse_reflectionb = diffuseReflectionB
 
 
@@ -351,13 +351,13 @@ class DiffuseReflectionAttrOperator(
 ):
     __slots__ = ()
 
-    diffuseReflectionR = FloatField()
+    diffuseReflectionR = FloatField(default_value=0.0)
     diffuse_reflectionr = diffuseReflectionR
 
-    diffuseReflectionG = FloatField()
+    diffuseReflectionG = FloatField(default_value=0.0)
     diffuse_reflectiong = diffuseReflectionG
 
-    diffuseReflectionB = FloatField()
+    diffuseReflectionB = FloatField(default_value=0.0)
     diffuse_reflectionb = diffuseReflectionB
 
 
@@ -369,13 +369,13 @@ class DiffuseReflectionField(
     ATTR_CLS = DiffuseReflectionAttrOperator
     PLUG_CLS = DiffuseReflectionPlugOperator
 
-    diffuseReflectionR = FloatField()
+    diffuseReflectionR = FloatField(default_value=0.0)
     diffuse_reflectionr = diffuseReflectionR
 
-    diffuseReflectionG = FloatField()
+    diffuseReflectionG = FloatField(default_value=0.0)
     diffuse_reflectiong = diffuseReflectionG
 
-    diffuseReflectionB = FloatField()
+    diffuseReflectionB = FloatField(default_value=0.0)
     diffuse_reflectionb = diffuseReflectionB
 
 
@@ -389,13 +389,13 @@ class DiffuseTransmissionPlugOperator(
         ("diffuseTransmissionB", "diffuse_transmissionb"),
     )
 
-    diffuseTransmissionR = FloatField()
+    diffuseTransmissionR = FloatField(default_value=0.0)
     diffuse_transmissionr = diffuseTransmissionR
 
-    diffuseTransmissionG = FloatField()
+    diffuseTransmissionG = FloatField(default_value=0.0)
     diffuse_transmissiong = diffuseTransmissionG
 
-    diffuseTransmissionB = FloatField()
+    diffuseTransmissionB = FloatField(default_value=0.0)
     diffuse_transmissionb = diffuseTransmissionB
 
 
@@ -404,13 +404,13 @@ class DiffuseTransmissionAttrOperator(
 ):
     __slots__ = ()
 
-    diffuseTransmissionR = FloatField()
+    diffuseTransmissionR = FloatField(default_value=0.0)
     diffuse_transmissionr = diffuseTransmissionR
 
-    diffuseTransmissionG = FloatField()
+    diffuseTransmissionG = FloatField(default_value=0.0)
     diffuse_transmissiong = diffuseTransmissionG
 
-    diffuseTransmissionB = FloatField()
+    diffuseTransmissionB = FloatField(default_value=0.0)
     diffuse_transmissionb = diffuseTransmissionB
 
 
@@ -422,13 +422,13 @@ class DiffuseTransmissionField(
     ATTR_CLS = DiffuseTransmissionAttrOperator
     PLUG_CLS = DiffuseTransmissionPlugOperator
 
-    diffuseTransmissionR = FloatField()
+    diffuseTransmissionR = FloatField(default_value=0.0)
     diffuse_transmissionr = diffuseTransmissionR
 
-    diffuseTransmissionG = FloatField()
+    diffuseTransmissionG = FloatField(default_value=0.0)
     diffuse_transmissiong = diffuseTransmissionG
 
-    diffuseTransmissionB = FloatField()
+    diffuseTransmissionB = FloatField(default_value=0.0)
     diffuse_transmissionb = diffuseTransmissionB
 
 
@@ -442,13 +442,13 @@ class SpecularReflectionPlugOperator(
         ("specularReflectionB", "specular_reflectionb"),
     )
 
-    specularReflectionR = FloatField()
+    specularReflectionR = FloatField(default_value=0.0)
     specular_reflectionr = specularReflectionR
 
-    specularReflectionG = FloatField()
+    specularReflectionG = FloatField(default_value=0.0)
     specular_reflectiong = specularReflectionG
 
-    specularReflectionB = FloatField()
+    specularReflectionB = FloatField(default_value=0.0)
     specular_reflectionb = specularReflectionB
 
 
@@ -457,13 +457,13 @@ class SpecularReflectionAttrOperator(
 ):
     __slots__ = ()
 
-    specularReflectionR = FloatField()
+    specularReflectionR = FloatField(default_value=0.0)
     specular_reflectionr = specularReflectionR
 
-    specularReflectionG = FloatField()
+    specularReflectionG = FloatField(default_value=0.0)
     specular_reflectiong = specularReflectionG
 
-    specularReflectionB = FloatField()
+    specularReflectionB = FloatField(default_value=0.0)
     specular_reflectionb = specularReflectionB
 
 
@@ -475,13 +475,13 @@ class SpecularReflectionField(
     ATTR_CLS = SpecularReflectionAttrOperator
     PLUG_CLS = SpecularReflectionPlugOperator
 
-    specularReflectionR = FloatField()
+    specularReflectionR = FloatField(default_value=0.0)
     specular_reflectionr = specularReflectionR
 
-    specularReflectionG = FloatField()
+    specularReflectionG = FloatField(default_value=0.0)
     specular_reflectiong = specularReflectionG
 
-    specularReflectionB = FloatField()
+    specularReflectionB = FloatField(default_value=0.0)
     specular_reflectionb = specularReflectionB
 
 
@@ -495,13 +495,13 @@ class SpecularTransmissionPlugOperator(
         ("specularTransmissionB", "specular_transmissionb"),
     )
 
-    specularTransmissionR = FloatField()
+    specularTransmissionR = FloatField(default_value=0.0)
     specular_transmissionr = specularTransmissionR
 
-    specularTransmissionG = FloatField()
+    specularTransmissionG = FloatField(default_value=0.0)
     specular_transmissiong = specularTransmissionG
 
-    specularTransmissionB = FloatField()
+    specularTransmissionB = FloatField(default_value=0.0)
     specular_transmissionb = specularTransmissionB
 
 
@@ -510,13 +510,13 @@ class SpecularTransmissionAttrOperator(
 ):
     __slots__ = ()
 
-    specularTransmissionR = FloatField()
+    specularTransmissionR = FloatField(default_value=0.0)
     specular_transmissionr = specularTransmissionR
 
-    specularTransmissionG = FloatField()
+    specularTransmissionG = FloatField(default_value=0.0)
     specular_transmissiong = specularTransmissionG
 
-    specularTransmissionB = FloatField()
+    specularTransmissionB = FloatField(default_value=0.0)
     specular_transmissionb = specularTransmissionB
 
 
@@ -528,13 +528,13 @@ class SpecularTransmissionField(
     ATTR_CLS = SpecularTransmissionAttrOperator
     PLUG_CLS = SpecularTransmissionPlugOperator
 
-    specularTransmissionR = FloatField()
+    specularTransmissionR = FloatField(default_value=0.0)
     specular_transmissionr = specularTransmissionR
 
-    specularTransmissionG = FloatField()
+    specularTransmissionG = FloatField(default_value=0.0)
     specular_transmissiong = specularTransmissionG
 
-    specularTransmissionB = FloatField()
+    specularTransmissionB = FloatField(default_value=0.0)
     specular_transmissionb = specularTransmissionB
 
 
@@ -548,13 +548,13 @@ class VolumePlugOperator(
         ("volumeB", "volumeb"),
     )
 
-    volumeR = FloatField()
+    volumeR = FloatField(default_value=0.0)
     volumer = volumeR
 
-    volumeG = FloatField()
+    volumeG = FloatField(default_value=0.0)
     volumeg = volumeG
 
-    volumeB = FloatField()
+    volumeB = FloatField(default_value=0.0)
     volumeb = volumeB
 
 
@@ -563,13 +563,13 @@ class VolumeAttrOperator(
 ):
     __slots__ = ()
 
-    volumeR = FloatField()
+    volumeR = FloatField(default_value=0.0)
     volumer = volumeR
 
-    volumeG = FloatField()
+    volumeG = FloatField(default_value=0.0)
     volumeg = volumeG
 
-    volumeB = FloatField()
+    volumeB = FloatField(default_value=0.0)
     volumeb = volumeB
 
 
@@ -581,11 +581,11 @@ class VolumeField(
     ATTR_CLS = VolumeAttrOperator
     PLUG_CLS = VolumePlugOperator
 
-    volumeR = FloatField()
+    volumeR = FloatField(default_value=0.0)
     volumer = volumeR
 
-    volumeG = FloatField()
+    volumeG = FloatField(default_value=0.0)
     volumeg = volumeG
 
-    volumeB = FloatField()
+    volumeB = FloatField(default_value=0.0)
     volumeb = volumeB

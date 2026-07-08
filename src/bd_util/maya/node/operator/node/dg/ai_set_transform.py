@@ -129,15 +129,15 @@ class AiSetTransform(DG):
 
     NODE_TYPE = "aiSetTransform"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 
     selection = DataStringField()
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     translateX = translate.translateX
     translatex = translateX
     translateY = translate.translateY
@@ -145,7 +145,7 @@ class AiSetTransform(DG):
     translateZ = translate.translateZ
     translatez = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     rotateX = rotate.rotateX
     rotatex = rotateX
     rotateY = rotate.rotateY
@@ -153,7 +153,7 @@ class AiSetTransform(DG):
     rotateZ = rotate.rotateZ
     rotatez = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX
     scalex = scaleX
     scaleY = scale.scaleY
@@ -163,10 +163,10 @@ class AiSetTransform(DG):
 
     matrix = FltMatrixField()
 
-    transformOrder = TransformOrderEnumField()
+    transformOrder = TransformOrderEnumField(default_value=0)
     transform_order = transformOrder
 
-    rotateOrder = RotateOrderEnumField()
+    rotateOrder = RotateOrderEnumField(default_value=0)
     rotate_order = rotateOrder
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)

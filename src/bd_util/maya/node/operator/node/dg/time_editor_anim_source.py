@@ -14,23 +14,23 @@ class TimeEditorAnimSource(DG):
     animation = AnimationField(multi=True)
     an = animation
 
-    start = TimeField()
+    start = TimeField(default_value=0.0)
     s = start
 
-    duration = TimeField()
+    duration = TimeField(default_value=0.0)
     d = duration
 
-    initialClipStart = TimeField()
+    initialClipStart = TimeField(default_value=0.0)
     ics = initialClipStart
 
-    initialClipDuration = TimeField()
+    initialClipDuration = TimeField(default_value=0.0)
     icd = initialClipDuration
 
-    initialClipAbsoluteDuration = TimeField()
+    initialClipAbsoluteDuration = TimeField(default_value=0.0)
     iad = initialClipAbsoluteDuration
 
     rosters = MessageField()
     rs = rosters
 
-    blendShapeSource = BoolField()
+    blendShapeSource = BoolField(default_value=False, writable=False)
     bs = blendShapeSource

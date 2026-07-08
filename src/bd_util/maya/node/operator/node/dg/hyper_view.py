@@ -52,28 +52,28 @@ class HyperView(DG):
 
     NODE_TYPE = "hyperView"
 
-    position = PositionField()
+    position = PositionField(default_value=(0.0, 0.0))
     p = position
     positionX = position.positionX
     px = positionX
     positionY = position.positionY
     py = positionY
 
-    viewRectLow = ViewRectLowField()
+    viewRectLow = ViewRectLowField(default_value=(0.0, 0.0))
     vl = viewRectLow
     viewXL = viewRectLow.viewXL
     xl = viewXL
     viewYL = viewRectLow.viewYL
     yl = viewYL
 
-    viewRectHigh = ViewRectHighField()
+    viewRectHigh = ViewRectHighField(default_value=(0.0, 0.0))
     vh = viewRectHigh
     viewXH = viewRectHigh.viewXH
     xh = viewXH
     viewYH = viewRectHigh.viewYH
     yh = viewYH
 
-    dagView = BoolField()
+    dagView = BoolField(default_value=True)
     dag = dagView
 
     description = DataStringField()
@@ -91,10 +91,10 @@ class HyperView(DG):
     shortName = DataStringField()
     sn = shortName
 
-    buildDirection = BuildDirectionEnumField()
+    buildDirection = BuildDirectionEnumField(default_value=2)
     bd = buildDirection
 
-    graphTraversalLimit = LongField()
+    graphTraversalLimit = LongField(default_value=-1)
     gtl = graphTraversalLimit
 
     hyperLayout = MessageField()

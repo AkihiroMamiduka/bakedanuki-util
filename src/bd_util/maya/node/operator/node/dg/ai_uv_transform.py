@@ -136,7 +136,7 @@ class AiUvTransform(DG):
 
     NODE_TYPE = "aiUvTransform"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -145,10 +145,10 @@ class AiUvTransform(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -157,10 +157,10 @@ class AiUvTransform(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    passthroughA = FloatField()
+    passthroughA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     passthrougha = passthroughA
 
-    passthrough = PassthroughField()
+    passthrough = PassthroughField(default_value=(0.0, 0.0, 0.0))
     passthroughR = passthrough.passthroughR
     passthroughr = passthroughR
     passthroughG = passthrough.passthroughG
@@ -168,9 +168,9 @@ class AiUvTransform(DG):
     passthroughB = passthrough.passthroughB
     passthroughb = passthroughB
 
-    unit = UnitEnumField()
+    unit = UnitEnumField(default_value=1)
 
-    uvcoords = UvcoordsField()
+    uvcoords = UvcoordsField(default_value=(0.0, 0.0, 0.0))
     uvcoordsX = uvcoords.uvcoordsX
     uvcoordsx = uvcoordsX
     uvcoordsY = uvcoords.uvcoordsY
@@ -180,46 +180,46 @@ class AiUvTransform(DG):
 
     uvset = DataStringField()
 
-    coverage = CoverageField()
+    coverage = CoverageField(default_value=(1.0, 1.0))
     coverageX = coverage.coverageX
     coveragex = coverageX
     coverageY = coverage.coverageY
     coveragey = coverageY
 
-    scaleFrame = ScaleFrameField()
+    scaleFrame = ScaleFrameField(default_value=(1.0, 1.0))
     scale_frame = scaleFrame
     scaleFrameX = scaleFrame.scaleFrameX
     scale_framex = scaleFrameX
     scaleFrameY = scaleFrame.scaleFrameY
     scale_framey = scaleFrameY
 
-    translateFrame = TranslateFrameField()
+    translateFrame = TranslateFrameField(default_value=(0.0, 0.0))
     translate_frame = translateFrame
     translateFrameX = translateFrame.translateFrameX
     translate_framex = translateFrameX
     translateFrameY = translateFrame.translateFrameY
     translate_framey = translateFrameY
 
-    rotateFrame = FloatField()
+    rotateFrame = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
     rotate_frame = rotateFrame
 
-    pivotFrame = PivotFrameField()
+    pivotFrame = PivotFrameField(default_value=(0.5, 0.5))
     pivot_frame = pivotFrame
     pivotFrameX = pivotFrame.pivotFrameX
     pivot_framex = pivotFrameX
     pivotFrameY = pivotFrame.pivotFrameY
     pivot_framey = pivotFrameY
 
-    wrapFrameU = WrapFrameUEnumField()
+    wrapFrameU = WrapFrameUEnumField(default_value=0)
     wrap_frame_u = wrapFrameU
 
-    wrapFrameV = WrapFrameVEnumField()
+    wrapFrameV = WrapFrameVEnumField(default_value=0)
     wrap_frame_v = wrapFrameV
 
-    wrapFrameColorA = FloatField()
+    wrapFrameColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     wrap_frame_colora = wrapFrameColorA
 
-    wrapFrameColor = WrapFrameColorField()
+    wrapFrameColor = WrapFrameColorField(default_value=(0.0, 0.0, 0.0))
     wrap_frame_color = wrapFrameColor
     wrapFrameColorR = wrapFrameColor.wrapFrameColorR
     wrap_frame_colorr = wrapFrameColorR
@@ -228,48 +228,48 @@ class AiUvTransform(DG):
     wrapFrameColorB = wrapFrameColor.wrapFrameColorB
     wrap_frame_colorb = wrapFrameColorB
 
-    repeat = RepeatField()
+    repeat = RepeatField(default_value=(1.0, 1.0))
     repeatX = repeat.repeatX
     repeatx = repeatX
     repeatY = repeat.repeatY
     repeaty = repeatY
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0))
     offsetX = offset.offsetX
     offsetx = offsetX
     offsetY = offset.offsetY
     offsety = offsetY
 
-    rotate = FloatField()
+    rotate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.5, 0.5))
     pivotX = pivot.pivotX
     pivotx = pivotX
     pivotY = pivot.pivotY
     pivoty = pivotY
 
-    noise = NoiseField()
+    noise = NoiseField(default_value=(0.0, 0.0))
     noiseX = noise.noiseX
     noisex = noiseX
     noiseY = noise.noiseY
     noisey = noiseY
 
-    mirrorU = BoolField()
+    mirrorU = BoolField(default_value=False)
     mirror_u = mirrorU
 
-    mirrorV = BoolField()
+    mirrorV = BoolField(default_value=False)
     mirror_v = mirrorV
 
-    flipU = BoolField()
+    flipU = BoolField(default_value=False)
     flip_u = flipU
 
-    flipV = BoolField()
+    flipV = BoolField(default_value=False)
     flip_v = flipV
 
-    swapUv = BoolField()
+    swapUv = BoolField(default_value=False)
     swap_uv = swapUv
 
-    stagger = BoolField()
+    stagger = BoolField(default_value=False)
 
     wset = DataStringField()
 

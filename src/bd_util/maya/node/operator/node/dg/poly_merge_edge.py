@@ -47,7 +47,7 @@ class PolyMergeEdge(DG):
 
     NODE_TYPE = "polyMergeEdge"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -56,35 +56,35 @@ class PolyMergeEdge(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    mergeMode = MergeModeEnumField()
+    mergeMode = MergeModeEnumField(default_value=1)
     mm = mergeMode
 
-    firstEdge = LongField()
+    firstEdge = LongField(default_value=-1)
     fe = firstEdge
 
-    secondEdge = LongField()
+    secondEdge = LongField(default_value=-1)
     se = secondEdge
 
-    mergeTexture = BoolField()
+    mergeTexture = BoolField(default_value=False)
     mt = mergeTexture

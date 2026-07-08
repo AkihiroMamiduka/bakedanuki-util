@@ -30,13 +30,13 @@ class OutColorPlugOperator(
         ("outColorB", "ocb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -45,13 +45,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -63,13 +63,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     ocr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     ocg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     ocb = outColorB
 
 
@@ -82,10 +82,10 @@ class OutSizePlugOperator(
         ("outSizeY", "osy"),
     )
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -94,10 +94,10 @@ class OutSizeAttrOperator(
 ):
     __slots__ = ()
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -109,10 +109,10 @@ class OutSizeField(
     ATTR_CLS = OutSizeAttrOperator
     PLUG_CLS = OutSizePlugOperator
 
-    outSizeX = FloatField()
+    outSizeX = FloatField(default_value=0.0, writable=False)
     osx = outSizeX
 
-    outSizeY = FloatField()
+    outSizeY = FloatField(default_value=0.0, writable=False)
     osy = outSizeY
 
 
@@ -126,13 +126,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -141,13 +141,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -159,13 +159,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -178,10 +178,10 @@ class BackupPlugOperator(
         ("backupData", "bd"),
     )
 
-    backupAttributes = DataStringField()
+    backupAttributes = DataStringField(readable=False, writable=False)
     ba = backupAttributes
 
-    backupData = GenericField()
+    backupData = GenericField(readable=False, writable=False)
     bd = backupData
 
 
@@ -190,10 +190,10 @@ class BackupAttrOperator(
 ):
     __slots__ = ()
 
-    backupAttributes = DataStringField()
+    backupAttributes = DataStringField(readable=False, writable=False)
     ba = backupAttributes
 
-    backupData = GenericField()
+    backupData = GenericField(readable=False, writable=False)
     bd = backupData
 
 

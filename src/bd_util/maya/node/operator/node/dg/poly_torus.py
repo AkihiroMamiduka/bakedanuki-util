@@ -14,10 +14,10 @@ class PolyTorus(DG):
 
     NODE_TYPE = "polyTorus"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 1.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -26,16 +26,16 @@ class PolyTorus(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField()
+    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     hbl = heightBaseline
 
-    paramWarn = BoolField()
+    paramWarn = BoolField(default_value=True)
     pw = paramWarn
 
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    componentTagCreate = BoolField()
+    componentTagCreate = BoolField(default_value=True)
     ctc = componentTagCreate
 
     componentTagPrefix = DataStringField()
@@ -44,26 +44,26 @@ class PolyTorus(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     r = radius
 
-    sectionRadius = DoubleLinearField()
+    sectionRadius = DoubleLinearField(default_value=0.5, min_value=0.01, soft_max_value=100.0)
     sr = sectionRadius
 
-    twist = DoubleAngleField()
+    twist = DoubleAngleField(default_value=0.0, min_value=0.0, max_value=360.0)
     tw = twist
 
-    subdivisionsAxis = LongField()
+    subdivisionsAxis = LongField(default_value=20, min_value=3, soft_max_value=50)
     sa = subdivisionsAxis
 
-    subdivisionsHeight = LongField()
+    subdivisionsHeight = LongField(default_value=20, min_value=3, soft_max_value=50)
     sh = subdivisionsHeight
 
-    texture = BoolField()
+    texture = BoolField(default_value=True)
     tx = texture
 
-    createUVs = BoolField()
+    createUVs = BoolField(default_value=True)
     cuv = createUVs
 
-    reverseTexture = BoolField()
+    reverseTexture = BoolField(default_value=False)
     rtx = reverseTexture

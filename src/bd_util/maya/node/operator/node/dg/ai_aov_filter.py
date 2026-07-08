@@ -132,25 +132,25 @@ class AiAOVFilter(DG):
     aiTranslator = DataStringField()
     ai_translator = aiTranslator
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    width = FloatField()
+    width = FloatField(default_value=2.0, category="arnold")
 
-    domain = DomainEnumField()
+    domain = DomainEnumField(default_value=0, category="arnold")
 
-    scalarMode = BoolField()
+    scalarMode = BoolField(default_value=False, category="arnold")
     scalar_mode = scalarMode
 
-    filterWeights = FilterWeightsEnumField()
+    filterWeights = FilterWeightsEnumField(default_value=1, category="arnold")
     filter_weights = filterWeights
 
-    minimum = FloatField()
+    minimum = FloatField(default_value=0.0, category="arnold")
 
-    maximum = FloatField()
+    maximum = FloatField(default_value=1.0, category="arnold")
 
-    aiWidth = FloatField()
+    aiWidth = FloatField(default_value=2.0, category="arnold")
     ai_width = aiWidth
 
-    aiFilterWeights = AiFilterWeightsEnumField()
+    aiFilterWeights = AiFilterWeightsEnumField(default_value=1, category="arnold")
     ai_filter_weights = aiFilterWeights

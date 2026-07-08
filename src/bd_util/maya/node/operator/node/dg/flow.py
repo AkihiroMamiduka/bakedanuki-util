@@ -85,43 +85,43 @@ class Flow(DG):
 
     NODE_TYPE = "flow"
 
-    latticeOnObject = BoolField()
+    latticeOnObject = BoolField(default_value=False)
     lo = latticeOnObject
 
     motionPath = MessageField()
     mp = motionPath
 
-    curve = GenericField()
+    curve = GenericField(readable=False)
     crv = curve
 
-    parmValue = DoubleLinearField()
+    parmValue = DoubleLinearField(default_value=0.0, readable=False)
     pv = parmValue
 
-    sDivisions = ShortField()
+    sDivisions = ShortField(default_value=2)
     sdv = sDivisions
 
-    tDivisions = ShortField()
+    tDivisions = ShortField(default_value=5)
     tdv = tDivisions
 
-    uDivisions = ShortField()
+    uDivisions = ShortField(default_value=2)
     udv = uDivisions
 
-    inBaseMatrix = DataMatrixField()
+    inBaseMatrix = DataMatrixField(readable=False)
     ibm = inBaseMatrix
 
-    defMatrixInv = DataMatrixField()
+    defMatrixInv = DataMatrixField(readable=False)
     dmi = defMatrixInv
 
-    setFrontAxis = SetFrontAxisEnumField()
+    setFrontAxis = SetFrontAxisEnumField(default_value=1, readable=False)
     sfa = setFrontAxis
 
-    setUpAxis = SetUpAxisEnumField()
+    setUpAxis = SetUpAxisEnumField(default_value=2, readable=False)
     sua = setUpAxis
 
-    orientMatrix = DataMatrixField()
+    orientMatrix = DataMatrixField(readable=False)
     omx = orientMatrix
 
-    allCoords = AllCoordsField()
+    allCoords = AllCoordsField(default_value=(0.0, 0.0, 0.0), readable=False)
     ac = allCoords
     xCoord = allCoords.xCoord
     xc = xCoord
@@ -130,14 +130,14 @@ class Flow(DG):
     zCoord = allCoords.zCoord
     zc = zCoord
 
-    center = CenterField(multi=True)
+    center = CenterField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
     ctr = center
 
-    objectWorldMatrix = DataMatrixField(multi=True)
+    objectWorldMatrix = DataMatrixField(multi=True, readable=False)
     owmx = objectWorldMatrix
 
-    outBaseMatrix = DataMatrixField()
+    outBaseMatrix = DataMatrixField(writable=False)
     obm = outBaseMatrix
 
-    defPts = TypedField()
+    defPts = TypedField(writable=False)
     dpt = defPts

@@ -17,7 +17,7 @@ class AiLambert(DG):
 
     NODE_TYPE = "aiLambert"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -26,10 +26,10 @@ class AiLambert(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,7 +38,7 @@ class AiLambert(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -47,7 +47,7 @@ class AiLambert(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -56,9 +56,9 @@ class AiLambert(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    Kd = FloatField()
+    Kd = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
 
-    KdColor = KdColorField()
+    KdColor = KdColorField(default_value=(1.0, 1.0, 1.0))
     Kd_color = KdColor
     KdColorR = KdColor.KdColorR
     Kd_colorr = KdColorR
@@ -67,7 +67,7 @@ class AiLambert(DG):
     KdColorB = KdColor.KdColorB
     Kd_colorb = KdColorB
 
-    opacity = OpacityField()
+    opacity = OpacityField(default_value=(1.0, 1.0, 1.0))
     opacityR = opacity.opacityR
     opacityr = opacityR
     opacityG = opacity.opacityG
@@ -75,7 +75,7 @@ class AiLambert(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    normal = NormalField()
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
     normalx = normalX
     normalY = normal.normalY

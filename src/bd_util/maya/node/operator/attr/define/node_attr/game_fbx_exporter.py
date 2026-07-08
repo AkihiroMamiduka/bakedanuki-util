@@ -27,16 +27,16 @@ class AnimClipsPlugOperator(
     animClipName = DataStringField()
     acn = animClipName
 
-    animClipStart = FloatField()
+    animClipStart = FloatField(default_value=0.0)
     acs = animClipStart
 
-    animClipEnd = FloatField()
+    animClipEnd = FloatField(default_value=0.0)
     ace = animClipEnd
 
-    exportAnimClip = BoolField()
+    exportAnimClip = BoolField(default_value=True)
     eac = exportAnimClip
 
-    animClipId = LongField()
+    animClipId = LongField(default_value=0)
     aci = animClipId
 
     animClipSrcNode = DataStringField()
@@ -51,16 +51,16 @@ class AnimClipsAttrOperator(
     animClipName = DataStringField()
     acn = animClipName
 
-    animClipStart = FloatField()
+    animClipStart = FloatField(default_value=0.0)
     acs = animClipStart
 
-    animClipEnd = FloatField()
+    animClipEnd = FloatField(default_value=0.0)
     ace = animClipEnd
 
-    exportAnimClip = BoolField()
+    exportAnimClip = BoolField(default_value=True)
     eac = exportAnimClip
 
-    animClipId = LongField()
+    animClipId = LongField(default_value=0)
     aci = animClipId
 
     animClipSrcNode = DataStringField()

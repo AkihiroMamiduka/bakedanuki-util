@@ -9,7 +9,7 @@ class MASH_Legacy(DG):
 
     NODE_TYPE = "MASH_Legacy"
 
-    outputPoints = TypedField()
+    outputPoints = TypedField(writable=False)
 
     translateInPP = TranslateInPPField()
     positionInPP = translateInPP.positionInPP

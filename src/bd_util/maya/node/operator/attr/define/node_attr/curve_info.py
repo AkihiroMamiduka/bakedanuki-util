@@ -18,13 +18,13 @@ class ControlPointsPlugOperator(
         ("zValue", "zv"),
     )
 
-    xValue = DoubleLinearField()
+    xValue = DoubleLinearField(default_value=0.0, writable=False)
     xv = xValue
 
-    yValue = DoubleLinearField()
+    yValue = DoubleLinearField(default_value=0.0, writable=False)
     yv = yValue
 
-    zValue = DoubleLinearField()
+    zValue = DoubleLinearField(default_value=0.0, writable=False)
     zv = zValue
 
 
@@ -33,13 +33,13 @@ class ControlPointsAttrOperator(
 ):
     __slots__ = ()
 
-    xValue = DoubleLinearField()
+    xValue = DoubleLinearField(default_value=0.0, writable=False)
     xv = xValue
 
-    yValue = DoubleLinearField()
+    yValue = DoubleLinearField(default_value=0.0, writable=False)
     yv = yValue
 
-    zValue = DoubleLinearField()
+    zValue = DoubleLinearField(default_value=0.0, writable=False)
     zv = zValue
 
 

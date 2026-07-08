@@ -11,7 +11,7 @@ class BifrostGeoToMaya(DG):
 
     NODE_TYPE = "bifrostGeoToMaya"
 
-    transferNormals = BoolField()
+    transferNormals = BoolField(default_value=False)
     tn = transferNormals
 
     properties = DataStringField()
@@ -23,5 +23,5 @@ class BifrostGeoToMaya(DG):
     componentTags = DataStringField()
     ct = componentTags
 
-    mayaMesh = DataMeshField(multi=True)
+    mayaMesh = DataMeshField(multi=True, writable=False)
     mm = mayaMesh

@@ -42,11 +42,11 @@ class AnimBlendInOut(DG):
 
     NODE_TYPE = "animBlendInOut"
 
-    blend = TypedField()
+    blend = TypedField(writable=False)
     b = blend
 
-    weight = DoubleField()
+    weight = DoubleField(default_value=0.0)
     w = weight
 
-    rotateInterp = RotateInterpEnumField()
+    rotateInterp = RotateInterpEnumField(default_value=0)
     ri = rotateInterp

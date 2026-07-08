@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,11 +71,11 @@ class AmplitudeColourPlugOperator(
         ("amplitudeColourB", "amplitudeColourB"),
     )
 
-    amplitudeColourR = FloatField()
+    amplitudeColourR = FloatField(default_value=1.0)
 
-    amplitudeColourG = FloatField()
+    amplitudeColourG = FloatField(default_value=1.0)
 
-    amplitudeColourB = FloatField()
+    amplitudeColourB = FloatField(default_value=1.0)
 
 
 class AmplitudeColourAttrOperator(
@@ -83,11 +83,11 @@ class AmplitudeColourAttrOperator(
 ):
     __slots__ = ()
 
-    amplitudeColourR = FloatField()
+    amplitudeColourR = FloatField(default_value=1.0)
 
-    amplitudeColourG = FloatField()
+    amplitudeColourG = FloatField(default_value=1.0)
 
-    amplitudeColourB = FloatField()
+    amplitudeColourB = FloatField(default_value=1.0)
 
 
 class AmplitudeColourField(
@@ -98,8 +98,8 @@ class AmplitudeColourField(
     ATTR_CLS = AmplitudeColourAttrOperator
     PLUG_CLS = AmplitudeColourPlugOperator
 
-    amplitudeColourR = FloatField()
+    amplitudeColourR = FloatField(default_value=1.0)
 
-    amplitudeColourG = FloatField()
+    amplitudeColourG = FloatField(default_value=1.0)
 
-    amplitudeColourB = FloatField()
+    amplitudeColourB = FloatField(default_value=1.0)

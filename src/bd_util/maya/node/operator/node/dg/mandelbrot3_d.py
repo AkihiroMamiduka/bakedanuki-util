@@ -144,7 +144,7 @@ class Mandelbrot3D(DG):
 
     NODE_TYPE = "mandelbrot3D"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -153,7 +153,7 @@ class Mandelbrot3D(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -162,7 +162,7 @@ class Mandelbrot3D(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -177,28 +177,28 @@ class Mandelbrot3D(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -207,7 +207,7 @@ class Mandelbrot3D(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -216,13 +216,13 @@ class Mandelbrot3D(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -231,7 +231,7 @@ class Mandelbrot3D(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -240,13 +240,13 @@ class Mandelbrot3D(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -255,7 +255,7 @@ class Mandelbrot3D(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -264,19 +264,19 @@ class Mandelbrot3D(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    centerX = FloatField()
+    centerX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     cnx = centerX
 
-    centerY = FloatField()
+    centerY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     cny = centerY
 
-    centerZ = FloatField()
+    centerZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
     cnz = centerZ
 
-    zoomFactor = FloatField()
+    zoomFactor = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     zfc = zoomFactor
 
-    value = ValueField(multi=True)
+    value = ValueField(multi=True, default_value=(0.0, 0.0, 0.0))
     vl = value
 
     color = ColorField(multi=True)
@@ -291,94 +291,94 @@ class Mandelbrot3D(DG):
     color_ColorB = FloatField()
     clcb = color_ColorB
 
-    depth = LongField()
+    depth = LongField(default_value=20, min_value=1, soft_max_value=500)
     dm = depth
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     a = amplitude
 
-    shift = FloatField()
+    shift = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     shi = shift
 
-    focus = FloatField()
+    focus = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     foc = focus
 
-    escapeRadius = FloatField()
+    escapeRadius = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
     esr = escapeRadius
 
-    lobes = FloatField()
+    lobes = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     lbs = lobes
 
-    wrapAmplitude = BoolField()
+    wrapAmplitude = BoolField(default_value=True)
     wra = wrapAmplitude
 
-    leafEffect = FloatField()
+    leafEffect = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     lef = leafEffect
 
-    checker = FloatField()
+    checker = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     chk = checker
 
-    lineBlending = BoolField()
+    lineBlending = BoolField(default_value=False)
     lbl = lineBlending
 
-    lineFocus = FloatField()
+    lineFocus = FloatField(default_value=0.5, max_value=1.0, soft_min_value=0.0)
     lfc = lineFocus
 
-    points = FloatField()
+    points = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     pts = points
 
-    stalksU = FloatField()
+    stalksU = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     stku = stalksU
 
-    stalksV = FloatField()
+    stalksV = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     stkv = stalksV
 
-    circles = FloatField()
+    circles = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     cir = circles
 
-    circleRadius = FloatField()
+    circleRadius = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     ccr = circleRadius
 
-    circleSizeRatio = FloatField()
+    circleSizeRatio = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     csr = circleSizeRatio
 
-    lineOffsetU = FloatField()
+    lineOffsetU = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     lou = lineOffsetU
 
-    lineOffsetV = FloatField()
+    lineOffsetV = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     lov = lineOffsetV
 
-    lineOffsetRatio = FloatField()
+    lineOffsetRatio = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     lor = lineOffsetRatio
 
-    juliaU = FloatField()
+    juliaU = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     jlu = juliaU
 
-    juliaV = FloatField()
+    juliaV = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     jlv = juliaV
 
-    boxRadius = FloatField()
+    boxRadius = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
     bxr = boxRadius
 
-    boxMinRadius = FloatField()
+    boxMinRadius = FloatField(default_value=0.5, min_value=0.0, soft_max_value=2.0)
     bxm = boxMinRadius
 
-    boxRatio = FloatField()
+    boxRatio = FloatField(default_value=-3.0, soft_min_value=-4.0, soft_max_value=4.0)
     brt = boxRatio
 
-    mandelbrotType = MandelbrotTypeEnumField()
+    mandelbrotType = MandelbrotTypeEnumField(default_value=1)
     nty = mandelbrotType
 
-    mandelbrotShadeMethod = MandelbrotShadeMethodEnumField()
+    mandelbrotShadeMethod = MandelbrotShadeMethodEnumField(default_value=1)
     msm = mandelbrotShadeMethod
 
-    mandelbrotInsideMethod = MandelbrotInsideMethodEnumField()
+    mandelbrotInsideMethod = MandelbrotInsideMethodEnumField(default_value=2)
     mim = mandelbrotInsideMethod
 
-    implode = FloatField()
+    implode = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     imp = implode
 
-    implodeCenter = ImplodeCenterField()
+    implodeCenter = ImplodeCenterField(default_value=(0.0, 0.0, 0.0))
     imc = implodeCenter
     implodeCenterX = implodeCenter.implodeCenterX
     imx = implodeCenterX

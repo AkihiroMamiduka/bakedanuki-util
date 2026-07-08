@@ -51,7 +51,7 @@ class OldGeometryConstraint(DG):
     parentInverseMatrix = GenericField()
     pim = parentInverseMatrix
 
-    objectRotPivot = ObjectRotPivotField()
+    objectRotPivot = ObjectRotPivotField(default_value=(0.0, 0.0, 0.0))
     orp = objectRotPivot
     objectRotPivotX = objectRotPivot.objectRotPivotX
     orpx = objectRotPivotX
@@ -60,7 +60,7 @@ class OldGeometryConstraint(DG):
     objectRotPivotZ = objectRotPivot.objectRotPivotZ
     orpz = objectRotPivotZ
 
-    objectRotTrans = ObjectRotTransField()
+    objectRotTrans = ObjectRotTransField(default_value=(0.0, 0.0, 0.0))
     ort = objectRotTrans
     objectRotTransX = objectRotTrans.objectRotTransX
     ortx = objectRotTransX
@@ -69,7 +69,7 @@ class OldGeometryConstraint(DG):
     objectRotTransZ = objectRotTrans.objectRotTransZ
     ortz = objectRotTransZ
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

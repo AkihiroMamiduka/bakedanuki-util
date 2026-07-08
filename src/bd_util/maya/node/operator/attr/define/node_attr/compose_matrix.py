@@ -35,13 +35,13 @@ class InputTranslatePlugOperator(
         ("inputTranslateZ", "itz"),
     )
 
-    inputTranslateX = DoubleLinearField()
+    inputTranslateX = DoubleLinearField(default_value=0.0)
     itx = inputTranslateX
 
-    inputTranslateY = DoubleLinearField()
+    inputTranslateY = DoubleLinearField(default_value=0.0)
     ity = inputTranslateY
 
-    inputTranslateZ = DoubleLinearField()
+    inputTranslateZ = DoubleLinearField(default_value=0.0)
     itz = inputTranslateZ
 
 
@@ -50,13 +50,13 @@ class InputTranslateAttrOperator(
 ):
     __slots__ = ()
 
-    inputTranslateX = DoubleLinearField()
+    inputTranslateX = DoubleLinearField(default_value=0.0)
     itx = inputTranslateX
 
-    inputTranslateY = DoubleLinearField()
+    inputTranslateY = DoubleLinearField(default_value=0.0)
     ity = inputTranslateY
 
-    inputTranslateZ = DoubleLinearField()
+    inputTranslateZ = DoubleLinearField(default_value=0.0)
     itz = inputTranslateZ
 
 
@@ -68,13 +68,13 @@ class InputTranslateField(
     ATTR_CLS = InputTranslateAttrOperator
     PLUG_CLS = InputTranslatePlugOperator
 
-    inputTranslateX = DoubleLinearField()
+    inputTranslateX = DoubleLinearField(default_value=0.0)
     itx = inputTranslateX
 
-    inputTranslateY = DoubleLinearField()
+    inputTranslateY = DoubleLinearField(default_value=0.0)
     ity = inputTranslateY
 
-    inputTranslateZ = DoubleLinearField()
+    inputTranslateZ = DoubleLinearField(default_value=0.0)
     itz = inputTranslateZ
 
 
@@ -88,13 +88,13 @@ class InputRotatePlugOperator(
         ("inputRotateZ", "irz"),
     )
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -103,13 +103,13 @@ class InputRotateAttrOperator(
 ):
     __slots__ = ()
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -121,13 +121,13 @@ class InputRotateField(
     ATTR_CLS = InputRotateAttrOperator
     PLUG_CLS = InputRotatePlugOperator
 
-    inputRotateX = DoubleAngleField()
+    inputRotateX = DoubleAngleField(default_value=0.0)
     irx = inputRotateX
 
-    inputRotateY = DoubleAngleField()
+    inputRotateY = DoubleAngleField(default_value=0.0)
     iry = inputRotateY
 
-    inputRotateZ = DoubleAngleField()
+    inputRotateZ = DoubleAngleField(default_value=0.0)
     irz = inputRotateZ
 
 
@@ -141,13 +141,13 @@ class InputScalePlugOperator(
         ("inputScaleZ", "isz"),
     )
 
-    inputScaleX = DoubleField()
+    inputScaleX = DoubleField(default_value=1.0)
     isx = inputScaleX
 
-    inputScaleY = DoubleField()
+    inputScaleY = DoubleField(default_value=1.0)
     isy = inputScaleY
 
-    inputScaleZ = DoubleField()
+    inputScaleZ = DoubleField(default_value=1.0)
     isz = inputScaleZ
 
 
@@ -156,13 +156,13 @@ class InputScaleAttrOperator(
 ):
     __slots__ = ()
 
-    inputScaleX = DoubleField()
+    inputScaleX = DoubleField(default_value=1.0)
     isx = inputScaleX
 
-    inputScaleY = DoubleField()
+    inputScaleY = DoubleField(default_value=1.0)
     isy = inputScaleY
 
-    inputScaleZ = DoubleField()
+    inputScaleZ = DoubleField(default_value=1.0)
     isz = inputScaleZ
 
 
@@ -174,13 +174,13 @@ class InputScaleField(
     ATTR_CLS = InputScaleAttrOperator
     PLUG_CLS = InputScalePlugOperator
 
-    inputScaleX = DoubleField()
+    inputScaleX = DoubleField(default_value=1.0)
     isx = inputScaleX
 
-    inputScaleY = DoubleField()
+    inputScaleY = DoubleField(default_value=1.0)
     isy = inputScaleY
 
-    inputScaleZ = DoubleField()
+    inputScaleZ = DoubleField(default_value=1.0)
     isz = inputScaleZ
 
 
@@ -194,13 +194,13 @@ class InputShearPlugOperator(
         ("inputShearZ", "ishz"),
     )
 
-    inputShearX = DoubleField()
+    inputShearX = DoubleField(default_value=0.0)
     ishx = inputShearX
 
-    inputShearY = DoubleField()
+    inputShearY = DoubleField(default_value=0.0)
     ishy = inputShearY
 
-    inputShearZ = DoubleField()
+    inputShearZ = DoubleField(default_value=0.0)
     ishz = inputShearZ
 
 
@@ -209,13 +209,13 @@ class InputShearAttrOperator(
 ):
     __slots__ = ()
 
-    inputShearX = DoubleField()
+    inputShearX = DoubleField(default_value=0.0)
     ishx = inputShearX
 
-    inputShearY = DoubleField()
+    inputShearY = DoubleField(default_value=0.0)
     ishy = inputShearY
 
-    inputShearZ = DoubleField()
+    inputShearZ = DoubleField(default_value=0.0)
     ishz = inputShearZ
 
 
@@ -227,13 +227,13 @@ class InputShearField(
     ATTR_CLS = InputShearAttrOperator
     PLUG_CLS = InputShearPlugOperator
 
-    inputShearX = DoubleField()
+    inputShearX = DoubleField(default_value=0.0)
     ishx = inputShearX
 
-    inputShearY = DoubleField()
+    inputShearY = DoubleField(default_value=0.0)
     ishy = inputShearY
 
-    inputShearZ = DoubleField()
+    inputShearZ = DoubleField(default_value=0.0)
     ishz = inputShearZ
 
 
@@ -248,16 +248,16 @@ class InputQuatPlugOperator(
         ("inputQuatW", "iqw"),
     )
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqwx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqwy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqwz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -266,16 +266,16 @@ class InputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqwx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqwy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqwz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -287,14 +287,14 @@ class InputQuatField(
     ATTR_CLS = InputQuatAttrOperator
     PLUG_CLS = InputQuatPlugOperator
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqwx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqwy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqwz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW

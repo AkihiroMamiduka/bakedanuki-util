@@ -46,9 +46,9 @@ class AiImagerDenoiserOidn(DG):
 
     NODE_TYPE = "aiImagerDenoiserOidn"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerSelection = DataStringField()
     layer_selection = layerSelection
@@ -58,5 +58,5 @@ class AiImagerDenoiserOidn(DG):
 
     albedo = DataStringField()
 
-    renderDevice = RenderDeviceEnumField()
+    renderDevice = RenderDeviceEnumField(default_value=0)
     render_device = renderDevice

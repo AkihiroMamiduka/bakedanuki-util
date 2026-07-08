@@ -25,13 +25,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -40,13 +40,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -58,13 +58,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -78,13 +78,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -93,13 +93,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -111,13 +111,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -131,13 +131,13 @@ class LowClampPlugOperator(
         ("lowClamp2", "lcl2"),
     )
 
-    lowClamp0 = FloatField()
+    lowClamp0 = FloatField(default_value=1.0)
     lcl0 = lowClamp0
 
-    lowClamp1 = FloatField()
+    lowClamp1 = FloatField(default_value=1.0)
     lcl1 = lowClamp1
 
-    lowClamp2 = FloatField()
+    lowClamp2 = FloatField(default_value=1.0)
     lcl2 = lowClamp2
 
 
@@ -146,13 +146,13 @@ class LowClampAttrOperator(
 ):
     __slots__ = ()
 
-    lowClamp0 = FloatField()
+    lowClamp0 = FloatField(default_value=1.0)
     lcl0 = lowClamp0
 
-    lowClamp1 = FloatField()
+    lowClamp1 = FloatField(default_value=1.0)
     lcl1 = lowClamp1
 
-    lowClamp2 = FloatField()
+    lowClamp2 = FloatField(default_value=1.0)
     lcl2 = lowClamp2
 
 
@@ -164,13 +164,13 @@ class LowClampField(
     ATTR_CLS = LowClampAttrOperator
     PLUG_CLS = LowClampPlugOperator
 
-    lowClamp0 = FloatField()
+    lowClamp0 = FloatField(default_value=1.0)
     lcl0 = lowClamp0
 
-    lowClamp1 = FloatField()
+    lowClamp1 = FloatField(default_value=1.0)
     lcl1 = lowClamp1
 
-    lowClamp2 = FloatField()
+    lowClamp2 = FloatField(default_value=1.0)
     lcl2 = lowClamp2
 
 
@@ -184,13 +184,13 @@ class HighClampPlugOperator(
         ("highClamp2", "hcl2"),
     )
 
-    highClamp0 = FloatField()
+    highClamp0 = FloatField(default_value=10.0)
     hcl0 = highClamp0
 
-    highClamp1 = FloatField()
+    highClamp1 = FloatField(default_value=10.0)
     hcl1 = highClamp1
 
-    highClamp2 = FloatField()
+    highClamp2 = FloatField(default_value=10.0)
     hcl2 = highClamp2
 
 
@@ -199,13 +199,13 @@ class HighClampAttrOperator(
 ):
     __slots__ = ()
 
-    highClamp0 = FloatField()
+    highClamp0 = FloatField(default_value=10.0)
     hcl0 = highClamp0
 
-    highClamp1 = FloatField()
+    highClamp1 = FloatField(default_value=10.0)
     hcl1 = highClamp1
 
-    highClamp2 = FloatField()
+    highClamp2 = FloatField(default_value=10.0)
     hcl2 = highClamp2
 
 
@@ -217,13 +217,13 @@ class HighClampField(
     ATTR_CLS = HighClampAttrOperator
     PLUG_CLS = HighClampPlugOperator
 
-    highClamp0 = FloatField()
+    highClamp0 = FloatField(default_value=10.0)
     hcl0 = highClamp0
 
-    highClamp1 = FloatField()
+    highClamp1 = FloatField(default_value=10.0)
     hcl1 = highClamp1
 
-    highClamp2 = FloatField()
+    highClamp2 = FloatField(default_value=10.0)
     hcl2 = highClamp2
 
 
@@ -237,13 +237,13 @@ class ReorderDistancePointPlugOperator(
         ("reorderDistancePointZ", "reorderDistancePointz"),
     )
 
-    reorderDistancePointX = FloatField()
+    reorderDistancePointX = FloatField(default_value=0.0)
     reorderDistancePointx = reorderDistancePointX
 
-    reorderDistancePointY = FloatField()
+    reorderDistancePointY = FloatField(default_value=0.0)
     reorderDistancePointy = reorderDistancePointY
 
-    reorderDistancePointZ = FloatField()
+    reorderDistancePointZ = FloatField(default_value=0.0)
     reorderDistancePointz = reorderDistancePointZ
 
 
@@ -252,13 +252,13 @@ class ReorderDistancePointAttrOperator(
 ):
     __slots__ = ()
 
-    reorderDistancePointX = FloatField()
+    reorderDistancePointX = FloatField(default_value=0.0)
     reorderDistancePointx = reorderDistancePointX
 
-    reorderDistancePointY = FloatField()
+    reorderDistancePointY = FloatField(default_value=0.0)
     reorderDistancePointy = reorderDistancePointY
 
-    reorderDistancePointZ = FloatField()
+    reorderDistancePointZ = FloatField(default_value=0.0)
     reorderDistancePointz = reorderDistancePointZ
 
 
@@ -270,13 +270,13 @@ class ReorderDistancePointField(
     ATTR_CLS = ReorderDistancePointAttrOperator
     PLUG_CLS = ReorderDistancePointPlugOperator
 
-    reorderDistancePointX = FloatField()
+    reorderDistancePointX = FloatField(default_value=0.0)
     reorderDistancePointx = reorderDistancePointX
 
-    reorderDistancePointY = FloatField()
+    reorderDistancePointY = FloatField(default_value=0.0)
     reorderDistancePointy = reorderDistancePointY
 
-    reorderDistancePointZ = FloatField()
+    reorderDistancePointZ = FloatField(default_value=0.0)
     reorderDistancePointz = reorderDistancePointZ
 
 
@@ -290,13 +290,13 @@ class OffsetsPlugOperator(
         ("offsets2", "off2"),
     )
 
-    offsets0 = FloatField()
+    offsets0 = FloatField(default_value=0.0)
     off0 = offsets0
 
-    offsets1 = FloatField()
+    offsets1 = FloatField(default_value=0.0)
     off1 = offsets1
 
-    offsets2 = FloatField()
+    offsets2 = FloatField(default_value=0.0)
     off2 = offsets2
 
 
@@ -305,13 +305,13 @@ class OffsetsAttrOperator(
 ):
     __slots__ = ()
 
-    offsets0 = FloatField()
+    offsets0 = FloatField(default_value=0.0)
     off0 = offsets0
 
-    offsets1 = FloatField()
+    offsets1 = FloatField(default_value=0.0)
     off1 = offsets1
 
-    offsets2 = FloatField()
+    offsets2 = FloatField(default_value=0.0)
     off2 = offsets2
 
 
@@ -323,13 +323,13 @@ class OffsetsField(
     ATTR_CLS = OffsetsAttrOperator
     PLUG_CLS = OffsetsPlugOperator
 
-    offsets0 = FloatField()
+    offsets0 = FloatField(default_value=0.0)
     off0 = offsets0
 
-    offsets1 = FloatField()
+    offsets1 = FloatField(default_value=0.0)
     off1 = offsets1
 
-    offsets2 = FloatField()
+    offsets2 = FloatField(default_value=0.0)
     off2 = offsets2
 
 
@@ -343,11 +343,11 @@ class RayDirectionPlugOperator(
         ("rayDirection2", "rayDirection2"),
     )
 
-    rayDirection0 = FloatField()
+    rayDirection0 = FloatField(default_value=0.0)
 
-    rayDirection1 = FloatField()
+    rayDirection1 = FloatField(default_value=-1.0)
 
-    rayDirection2 = FloatField()
+    rayDirection2 = FloatField(default_value=0.0)
 
 
 class RayDirectionAttrOperator(
@@ -355,11 +355,11 @@ class RayDirectionAttrOperator(
 ):
     __slots__ = ()
 
-    rayDirection0 = FloatField()
+    rayDirection0 = FloatField(default_value=0.0)
 
-    rayDirection1 = FloatField()
+    rayDirection1 = FloatField(default_value=-1.0)
 
-    rayDirection2 = FloatField()
+    rayDirection2 = FloatField(default_value=0.0)
 
 
 class RayDirectionField(
@@ -370,11 +370,11 @@ class RayDirectionField(
     ATTR_CLS = RayDirectionAttrOperator
     PLUG_CLS = RayDirectionPlugOperator
 
-    rayDirection0 = FloatField()
+    rayDirection0 = FloatField(default_value=0.0)
 
-    rayDirection1 = FloatField()
+    rayDirection1 = FloatField(default_value=-1.0)
 
-    rayDirection2 = FloatField()
+    rayDirection2 = FloatField(default_value=0.0)
 
 
 class OffsetInputsPlugOperator(
@@ -387,11 +387,11 @@ class OffsetInputsPlugOperator(
         ("scaleOffset", "scaleOffset"),
     )
 
-    positionOffset = Float3Field()
+    positionOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
-    rotationOffset = Double3Field()
+    rotationOffset = Double3Field(default_value=(0.0, 0.0, 0.0))
 
-    scaleOffset = Float3Field()
+    scaleOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
 
 class OffsetInputsAttrOperator(
@@ -399,11 +399,11 @@ class OffsetInputsAttrOperator(
 ):
     __slots__ = ()
 
-    positionOffset = Float3Field()
+    positionOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
-    rotationOffset = Double3Field()
+    rotationOffset = Double3Field(default_value=(0.0, 0.0, 0.0))
 
-    scaleOffset = Float3Field()
+    scaleOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
 
 class OffsetInputsField(
@@ -414,11 +414,11 @@ class OffsetInputsField(
     ATTR_CLS = OffsetInputsAttrOperator
     PLUG_CLS = OffsetInputsPlugOperator
 
-    positionOffset = Float3Field()
+    positionOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
-    rotationOffset = Double3Field()
+    rotationOffset = Double3Field(default_value=(0.0, 0.0, 0.0))
 
-    scaleOffset = Float3Field()
+    scaleOffset = Float3Field(default_value=(0.0, 0.0, 0.0))
 
 
 class CentreOfRotationPlugOperator(
@@ -431,11 +431,11 @@ class CentreOfRotationPlugOperator(
         ("centreOfRotation2", "centreOfRotation2"),
     )
 
-    centreOfRotation0 = FloatField()
+    centreOfRotation0 = FloatField(default_value=0.0)
 
-    centreOfRotation1 = FloatField()
+    centreOfRotation1 = FloatField(default_value=0.0)
 
-    centreOfRotation2 = FloatField()
+    centreOfRotation2 = FloatField(default_value=0.0)
 
 
 class CentreOfRotationAttrOperator(
@@ -443,11 +443,11 @@ class CentreOfRotationAttrOperator(
 ):
     __slots__ = ()
 
-    centreOfRotation0 = FloatField()
+    centreOfRotation0 = FloatField(default_value=0.0)
 
-    centreOfRotation1 = FloatField()
+    centreOfRotation1 = FloatField(default_value=0.0)
 
-    centreOfRotation2 = FloatField()
+    centreOfRotation2 = FloatField(default_value=0.0)
 
 
 class CentreOfRotationField(
@@ -458,8 +458,8 @@ class CentreOfRotationField(
     ATTR_CLS = CentreOfRotationAttrOperator
     PLUG_CLS = CentreOfRotationPlugOperator
 
-    centreOfRotation0 = FloatField()
+    centreOfRotation0 = FloatField(default_value=0.0)
 
-    centreOfRotation1 = FloatField()
+    centreOfRotation1 = FloatField(default_value=0.0)
 
-    centreOfRotation2 = FloatField()
+    centreOfRotation2 = FloatField(default_value=0.0)

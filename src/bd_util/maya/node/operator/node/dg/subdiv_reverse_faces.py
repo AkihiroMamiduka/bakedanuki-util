@@ -12,13 +12,13 @@ class SubdivReverseFaces(DG):
     inSubdiv = TypedField()
     is_ = inSubdiv
 
-    xMirror = BoolField()
+    xMirror = BoolField(default_value=False)
     xm = xMirror
 
-    yMirror = BoolField()
+    yMirror = BoolField(default_value=False)
     ym = yMirror
 
-    zMirror = BoolField()
+    zMirror = BoolField(default_value=False)
     zm = zMirror
 
     outSubdiv = TypedField()

@@ -50,7 +50,7 @@ class PolyOptUvs(DG):
 
     NODE_TYPE = "polyOptUvs"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -59,31 +59,31 @@ class PolyOptUvs(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -92,35 +92,35 @@ class PolyOptUvs(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    iterations = LongField()
+    iterations = LongField(default_value=100, min_value=0, soft_max_value=1000)
     i = iterations
 
-    stoppingThreshold = FloatField()
+    stoppingThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0, max_value=10.0, soft_max_value=1.0)
     ss = stoppingThreshold
 
-    areaWeight = FloatField()
+    areaWeight = FloatField(default_value=1.0, min_value=0.0, max_value=10.0, soft_max_value=1.0)
     aw = areaWeight
 
-    useScale = BoolField()
+    useScale = BoolField(default_value=False)
     us = useScale
 
-    scale = FloatField()
+    scale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
     s = scale
 
-    pinUvBorder = BoolField()
+    pinUvBorder = BoolField(default_value=False)
     pub = pinUvBorder
 
-    pinSelected = BoolField()
+    pinSelected = BoolField(default_value=False)
     ps = pinSelected
 
-    applyToShell = BoolField()
+    applyToShell = BoolField(default_value=False)
     as_ = applyToShell
 
-    optimizeAxis = OptimizeAxisEnumField()
+    optimizeAxis = OptimizeAxisEnumField(default_value=0)
     oa = optimizeAxis
 
-    globalBlend = FloatField()
+    globalBlend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     gb = globalBlend
 
-    globalMethodBlend = FloatField()
+    globalMethodBlend = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     gmb = globalMethodBlend

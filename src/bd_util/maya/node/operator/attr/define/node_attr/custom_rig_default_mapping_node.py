@@ -18,13 +18,13 @@ class OffsetPlugOperator(
         ("offsetZ", "oz"),
     )
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     ox = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     oy = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     oz = offsetZ
 
 
@@ -33,13 +33,13 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     ox = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     oy = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     oz = offsetZ
 
 
@@ -51,11 +51,11 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     ox = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     oy = offsetY
 
-    offsetZ = FloatField()
+    offsetZ = FloatField(default_value=0.0)
     oz = offsetZ

@@ -88,7 +88,7 @@ class MASH_Explode(DG):
 
     savedData = TypedField()
 
-    mColour = MColourField()
+    mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
     mColourR = mColour.mColourR
     mcr = mColourR
@@ -99,21 +99,21 @@ class MASH_Explode(DG):
 
     inMapMatrix = MatrixField()
 
-    mapDirection = MapDirectionEnumField()
+    mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField()
+    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    randEnvelope = FloatField()
+    randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    StepEnvelope = FloatField()
+    StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
 
     mFalloffInfo = TypedField(multi=True)
 
-    enableStrengthX = BoolField()
+    enableStrengthX = BoolField(default_value=True)
 
-    enableStrengthY = BoolField()
+    enableStrengthY = BoolField(default_value=True)
 
-    enableStrengthZ = BoolField()
+    enableStrengthZ = BoolField(default_value=True)
 
     stringOn = DataStringField()
 
@@ -121,20 +121,20 @@ class MASH_Explode(DG):
 
     strengthPP = TypedField(multi=True)
 
-    transformationSpace = TransformationSpaceEnumField()
+    transformationSpace = TransformationSpaceEnumField(default_value=1)
 
     outputMesh = DataMeshField()
     outMesh = outputMesh
 
-    time = TimeField()
+    time = TimeField(default_value=1.0)
     ti = time
 
     inputMesh = DataMeshField()
     inMesh = inputMesh
 
-    threshold = FloatField()
+    threshold = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=4.0)
 
-    pivotPoints = PivotPointsField()
+    pivotPoints = PivotPointsField(default_value=(0.5, 0.5, 0.5), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
     pivotX = pivotPoints.pivotX
     pivotY = pivotPoints.pivotY
     pivotZ = pivotPoints.pivotZ
@@ -146,10 +146,10 @@ class MASH_Explode(DG):
 
     inputPoints = TypedField()
 
-    enablePosition = BoolField()
+    enablePosition = BoolField(default_value=True)
 
-    enableRotation = BoolField()
+    enableRotation = BoolField(default_value=False)
 
-    enableScale = BoolField()
+    enableScale = BoolField(default_value=True)
 
-    scaleToZero = BoolField()
+    scaleToZero = BoolField(default_value=False)

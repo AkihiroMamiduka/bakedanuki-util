@@ -13,8 +13,8 @@ class StitchAsNurbsShell(DG):
     inputSurface = DataNurbsSurfaceField(multi=True)
     is_ = inputSurface
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.1, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    outputShell = TypedField()
+    outputShell = TypedField(writable=False)
     osh = outputShell

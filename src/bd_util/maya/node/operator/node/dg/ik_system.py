@@ -10,23 +10,23 @@ class IkSystem(DG):
 
     NODE_TYPE = "ikSystem"
 
-    globalSnap = BoolField()
+    globalSnap = BoolField(default_value=True)
     gsn = globalSnap
 
-    globalSolve = BoolField()
+    globalSolve = BoolField(default_value=True)
     gsv = globalSolve
 
-    preMaya2011IKFKBlend = BoolField()
+    preMaya2011IKFKBlend = BoolField(default_value=False)
     pbd = preMaya2011IKFKBlend
 
-    ikSolver = MessageField(multi=True)
+    ikSolver = MessageField(multi=True, readable=False)
     sol = ikSolver
 
     handleGroupsList = TypedField()
     hgl = handleGroupsList
 
-    handleGroupsListDirtyFlag = BoolField()
+    handleGroupsListDirtyFlag = BoolField(default_value=False)
     hld = handleGroupsListDirtyFlag
 
-    handleGroupsListSortedFlag = BoolField()
+    handleGroupsListSortedFlag = BoolField(default_value=False)
     hls = handleGroupsListSortedFlag

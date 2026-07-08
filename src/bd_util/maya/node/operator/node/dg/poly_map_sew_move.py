@@ -13,7 +13,7 @@ class PolyMapSewMove(DG):
 
     NODE_TYPE = "polyMapSewMove"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -22,31 +22,31 @@ class PolyMapSewMove(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -55,8 +55,8 @@ class PolyMapSewMove(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    limitPieceSize = BoolField()
+    limitPieceSize = BoolField(default_value=False)
     lps = limitPieceSize
 
-    numberFaces = LongField()
+    numberFaces = LongField(default_value=10)
     nf = numberFaces

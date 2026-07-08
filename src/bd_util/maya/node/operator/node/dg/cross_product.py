@@ -12,7 +12,7 @@ class CrossProduct(DG):
 
     NODE_TYPE = "crossProduct"
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0), readable=False)
     i1 = input1
     input1X = input1.input1X
     i1x = input1X
@@ -21,7 +21,7 @@ class CrossProduct(DG):
     input1Z = input1.input1Z
     i1z = input1Z
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0), readable=False)
     i2 = input2
     input2X = input2.input2X
     i2x = input2X
@@ -30,7 +30,7 @@ class CrossProduct(DG):
     input2Z = input2.input2Z
     i2z = input2Z
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

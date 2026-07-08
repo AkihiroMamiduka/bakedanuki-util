@@ -15,7 +15,7 @@ class AiWriteInt(DG):
 
     NODE_TYPE = "aiWriteInt"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -24,10 +24,10 @@ class AiWriteInt(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,10 +36,10 @@ class AiWriteInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    beautyA = FloatField()
+    beautyA = FloatField(default_value=5.885453550164232e-43, min_value=0.0, max_value=1.0)
     passthrougha = beautyA
 
-    beauty = BeautyField()
+    beauty = BeautyField(default_value=(0.0, 0.0, 0.0))
     passthrough = beauty
     beautyR = beauty.beautyR
     passthroughr = beautyR
@@ -48,7 +48,7 @@ class AiWriteInt(DG):
     beautyB = beauty.beautyB
     passthroughb = beautyB
 
-    input = LongField()
+    input = LongField(default_value=0)
     aov_input = input
 
     aovName = DataStringField()

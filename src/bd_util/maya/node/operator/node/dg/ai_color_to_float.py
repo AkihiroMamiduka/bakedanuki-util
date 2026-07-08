@@ -63,10 +63,10 @@ class AiColorToFloat(DG):
 
     NODE_TYPE = "aiColorToFloat"
 
-    outValue = FloatField()
+    outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -75,7 +75,7 @@ class AiColorToFloat(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0))
     inputR = input.inputR
     inputr = inputR
     inputG = input.inputG
@@ -83,4 +83,4 @@ class AiColorToFloat(DG):
     inputB = input.inputB
     inputb = inputB
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=2)

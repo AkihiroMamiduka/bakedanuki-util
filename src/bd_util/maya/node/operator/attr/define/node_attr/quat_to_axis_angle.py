@@ -24,16 +24,16 @@ class InputQuatPlugOperator(
         ("inputQuatW", "iqw"),
     )
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -42,16 +42,16 @@ class InputQuatAttrOperator(
 ):
     __slots__ = ()
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -63,16 +63,16 @@ class InputQuatField(
     ATTR_CLS = InputQuatAttrOperator
     PLUG_CLS = InputQuatPlugOperator
 
-    inputQuatX = DoubleField()
+    inputQuatX = DoubleField(default_value=0.0)
     iqx = inputQuatX
 
-    inputQuatY = DoubleField()
+    inputQuatY = DoubleField(default_value=0.0)
     iqy = inputQuatY
 
-    inputQuatZ = DoubleField()
+    inputQuatZ = DoubleField(default_value=0.0)
     iqz = inputQuatZ
 
-    inputQuatW = DoubleField()
+    inputQuatW = DoubleField(default_value=1.0)
     iqw = inputQuatW
 
 
@@ -86,13 +86,13 @@ class OutputAxisPlugOperator(
         ("outputAxisZ", "oaz"),
     )
 
-    outputAxisX = DoubleField()
+    outputAxisX = DoubleField(default_value=0.0, writable=False)
     oax = outputAxisX
 
-    outputAxisY = DoubleField()
+    outputAxisY = DoubleField(default_value=0.0, writable=False)
     oay = outputAxisY
 
-    outputAxisZ = DoubleField()
+    outputAxisZ = DoubleField(default_value=0.0, writable=False)
     oaz = outputAxisZ
 
 
@@ -101,13 +101,13 @@ class OutputAxisAttrOperator(
 ):
     __slots__ = ()
 
-    outputAxisX = DoubleField()
+    outputAxisX = DoubleField(default_value=0.0, writable=False)
     oax = outputAxisX
 
-    outputAxisY = DoubleField()
+    outputAxisY = DoubleField(default_value=0.0, writable=False)
     oay = outputAxisY
 
-    outputAxisZ = DoubleField()
+    outputAxisZ = DoubleField(default_value=0.0, writable=False)
     oaz = outputAxisZ
 
 
@@ -119,11 +119,11 @@ class OutputAxisField(
     ATTR_CLS = OutputAxisAttrOperator
     PLUG_CLS = OutputAxisPlugOperator
 
-    outputAxisX = DoubleField()
+    outputAxisX = DoubleField(default_value=0.0, writable=False)
     oax = outputAxisX
 
-    outputAxisY = DoubleField()
+    outputAxisY = DoubleField(default_value=0.0, writable=False)
     oay = outputAxisY
 
-    outputAxisZ = DoubleField()
+    outputAxisZ = DoubleField(default_value=0.0, writable=False)
     oaz = outputAxisZ

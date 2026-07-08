@@ -23,14 +23,14 @@ class Boundary(DG):
     inputCurve4 = DataNurbsCurveField()
     ic4 = inputCurve4
 
-    endPointTolerance = DoubleLinearField()
+    endPointTolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     ept = endPointTolerance
 
-    outputSurface = DataNurbsSurfaceField()
+    outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    order = BoolField()
+    order = BoolField(default_value=True)
     or_ = order
 
-    endPoint = BoolField()
+    endPoint = BoolField(default_value=False)
     ep = endPoint

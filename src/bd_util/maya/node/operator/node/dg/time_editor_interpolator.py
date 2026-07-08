@@ -11,19 +11,19 @@ class TimeEditorInterpolator(DG):
 
     NODE_TYPE = "timeEditorInterpolator"
 
-    parentCompound = TypedField()
+    parentCompound = TypedField(readable=False)
     pc = parentCompound
 
-    parentCompoundState = TypedField()
+    parentCompoundState = TypedField(readable=False)
     pcs = parentCompoundState
 
-    parentTracksState = TypedField()
+    parentTracksState = TypedField(readable=False)
     pts = parentTracksState
 
     output = GenericField(multi=True)
     o = output
 
-    outputRaw = GenericField()
+    outputRaw = GenericField(writable=False)
     or_ = outputRaw
 
     targetAttribute = MessageField(multi=True)

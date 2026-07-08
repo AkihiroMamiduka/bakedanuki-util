@@ -8,8 +8,8 @@ class FloatConstant(DG):
 
     NODE_TYPE = "floatConstant"
 
-    inFloat = FloatField()
+    inFloat = FloatField(default_value=1.0)
     f = inFloat
 
-    outFloat = FloatField()
+    outFloat = FloatField(default_value=0.0, writable=False)
     of = outFloat

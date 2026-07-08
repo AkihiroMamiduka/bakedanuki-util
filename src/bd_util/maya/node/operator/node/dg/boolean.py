@@ -51,11 +51,11 @@ class Boolean(DG):
     inputShellB = TypedField()
     isb = inputShellB
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=0)
     op = operation
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.01, soft_max_value=1.0)
     tlb = tolerance
 
-    outputShell = TypedField()
+    outputShell = TypedField(writable=False)
     osh = outputShell

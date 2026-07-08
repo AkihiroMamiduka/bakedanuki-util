@@ -91,19 +91,19 @@ class ViewColorManager(DG):
 
     NODE_TYPE = "viewColorManager"
 
-    imageColorProfile = ImageColorProfileEnumField()
+    imageColorProfile = ImageColorProfileEnumField(default_value=3)
     ip = imageColorProfile
 
-    displayColorProfile = DisplayColorProfileEnumField()
+    displayColorProfile = DisplayColorProfileEnumField(default_value=3)
     dp = displayColorProfile
 
-    exposure = FloatField()
+    exposure = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
     exp = exposure
 
-    contrast = FloatField()
+    contrast = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
     c = contrast
 
-    contrastPivot = FloatField()
+    contrastPivot = FloatField(default_value=0.18000000715255737)
     cp = contrastPivot
 
     lutFile = DataStringField()

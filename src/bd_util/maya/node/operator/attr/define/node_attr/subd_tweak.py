@@ -18,13 +18,13 @@ class TweakPlugOperator(
         ("tweakZ", "tz"),
     )
 
-    tweakX = DoubleField()
+    tweakX = DoubleField(default_value=0.0)
     tx = tweakX
 
-    tweakY = DoubleField()
+    tweakY = DoubleField(default_value=0.0)
     ty = tweakY
 
-    tweakZ = DoubleField()
+    tweakZ = DoubleField(default_value=0.0)
     tz = tweakZ
 
 
@@ -33,13 +33,13 @@ class TweakAttrOperator(
 ):
     __slots__ = ()
 
-    tweakX = DoubleField()
+    tweakX = DoubleField(default_value=0.0)
     tx = tweakX
 
-    tweakY = DoubleField()
+    tweakY = DoubleField(default_value=0.0)
     ty = tweakY
 
-    tweakZ = DoubleField()
+    tweakZ = DoubleField(default_value=0.0)
     tz = tweakZ
 
 

@@ -13,7 +13,7 @@ class PointMatrixMult(DG):
 
     NODE_TYPE = "pointMatrixMult"
 
-    inPoint = InPointField()
+    inPoint = InPointField(default_value=(0.0, 0.0, 0.0), readable=False)
     ip = inPoint
     inPointX = inPoint.inPointX
     ipx = inPointX
@@ -22,13 +22,13 @@ class PointMatrixMult(DG):
     inPointZ = inPoint.inPointZ
     ipz = inPointZ
 
-    inMatrix = MatrixField()
+    inMatrix = MatrixField(readable=False)
     im = inMatrix
 
-    vectorMultiply = BoolField()
+    vectorMultiply = BoolField(default_value=False, readable=False)
     vm = vectorMultiply
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX

@@ -8,11 +8,11 @@ class Or(DG):
 
     NODE_TYPE = "or"
 
-    input1 = BoolField()
+    input1 = BoolField(default_value=False)
     i1 = input1
 
-    input2 = BoolField()
+    input2 = BoolField(default_value=False)
     i2 = input2
 
-    output = BoolField()
+    output = BoolField(default_value=False, writable=False)
     o = output

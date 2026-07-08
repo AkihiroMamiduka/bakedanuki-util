@@ -13,8 +13,8 @@ class CurveFromMeshEdge(DG):
     inputMesh = DataMeshField()
     im = inputMesh
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    edgeIndex = LongField(multi=True)
+    edgeIndex = LongField(multi=True, default_value=0)
     ei = edgeIndex

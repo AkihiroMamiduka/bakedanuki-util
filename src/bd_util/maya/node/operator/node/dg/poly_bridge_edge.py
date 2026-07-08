@@ -136,7 +136,7 @@ class PolyBridgeEdge(DG):
 
     NODE_TYPE = "polyBridgeEdge"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -145,31 +145,31 @@ class PolyBridgeEdge(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -178,41 +178,41 @@ class PolyBridgeEdge(DG):
     inputProfile = DataNurbsCurveField()
     ipc = inputProfile
 
-    twist = DoubleAngleField()
+    twist = DoubleAngleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
     twt = twist
 
-    taper = DoubleField()
+    taper = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=15.0)
     tp = taper
 
-    taperCurve = TaperCurveField(multi=True)
+    taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     c = taperCurve
 
-    divisions = LongField()
+    divisions = LongField(default_value=1, min_value=0)
     dv = divisions
 
-    startVert1 = LongField()
+    startVert1 = LongField(default_value=-1)
     sv1 = startVert1
 
-    startVert2 = LongField()
+    startVert2 = LongField(default_value=-1)
     sv2 = startVert2
 
-    bridgeOffset = LongField()
+    bridgeOffset = LongField(default_value=0, min_value=0)
     bo = bridgeOffset
 
-    curveType = CurveTypeEnumField()
+    curveType = CurveTypeEnumField(default_value=0)
     ctp = curveType
 
-    smoothingAngle = DoubleAngleField()
+    smoothingAngle = DoubleAngleField(default_value=29.999999999999996, soft_min_value=0.0, soft_max_value=180.0)
     sma = smoothingAngle
 
-    reverse = BoolField()
+    reverse = BoolField(default_value=False)
     rev = reverse
 
-    direction = DirectionEnumField()
+    direction = DirectionEnumField(default_value=0)
     d = direction
 
-    sourceDirection = SourceDirectionEnumField()
+    sourceDirection = SourceDirectionEnumField(default_value=0)
     sd = sourceDirection
 
-    targetDirection = TargetDirectionEnumField()
+    targetDirection = TargetDirectionEnumField(default_value=0)
     td = targetDirection

@@ -28,13 +28,13 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "bcb"),
     )
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.699999988079071)
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.699999988079071)
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.699999988079071)
     bcb = backgroundColorB
 
 
@@ -43,13 +43,13 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.699999988079071)
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.699999988079071)
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.699999988079071)
     bcb = backgroundColorB
 
 
@@ -61,13 +61,13 @@ class BackgroundColorField(
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField()
+    backgroundColorR = FloatField(default_value=0.699999988079071)
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField()
+    backgroundColorG = FloatField(default_value=0.699999988079071)
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField()
+    backgroundColorB = FloatField(default_value=0.699999988079071)
     bcb = backgroundColorB
 
 
@@ -89,25 +89,25 @@ class ExtraLightInfoPlugOperator(
     extraLightShape = MessageField()
     elsh = extraLightShape
 
-    extraLightShadows = BoolField()
+    extraLightShadows = BoolField(default_value=False)
     elsd = extraLightShadows
 
-    extraLightOnOff = BoolField()
+    extraLightOnOff = BoolField(default_value=False)
     eloo = extraLightOnOff
 
-    extraLightIntensity = FloatField()
+    extraLightIntensity = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
     elin = extraLightIntensity
 
-    extraLightColor = Float3Field()
+    extraLightColor = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     elc = extraLightColor
 
-    extraLightShadowColor = Float3Field()
+    extraLightShadowColor = Float3Field(default_value=(0.0, 0.0, 0.0))
     elsc = extraLightShadowColor
 
-    extraLightShadowSmoothness = ShortField()
+    extraLightShadowSmoothness = ShortField(default_value=1, min_value=1, max_value=40)
     elss = extraLightShadowSmoothness
 
-    extraLightShadowWidth = DoubleField()
+    extraLightShadowWidth = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0)
     elsw = extraLightShadowWidth
 
 
@@ -119,25 +119,25 @@ class ExtraLightInfoAttrOperator(
     extraLightShape = MessageField()
     elsh = extraLightShape
 
-    extraLightShadows = BoolField()
+    extraLightShadows = BoolField(default_value=False)
     elsd = extraLightShadows
 
-    extraLightOnOff = BoolField()
+    extraLightOnOff = BoolField(default_value=False)
     eloo = extraLightOnOff
 
-    extraLightIntensity = FloatField()
+    extraLightIntensity = FloatField(default_value=1.0, min_value=1.0, max_value=10.0)
     elin = extraLightIntensity
 
-    extraLightColor = Float3Field()
+    extraLightColor = Float3Field(default_value=(1.0, 1.0, 1.0), readable=False)
     elc = extraLightColor
 
-    extraLightShadowColor = Float3Field()
+    extraLightShadowColor = Float3Field(default_value=(0.0, 0.0, 0.0))
     elsc = extraLightShadowColor
 
-    extraLightShadowSmoothness = ShortField()
+    extraLightShadowSmoothness = ShortField(default_value=1, min_value=1, max_value=40)
     elss = extraLightShadowSmoothness
 
-    extraLightShadowWidth = DoubleField()
+    extraLightShadowWidth = DoubleField(default_value=0.0, min_value=0.0, max_value=10.0)
     elsw = extraLightShadowWidth
 
 

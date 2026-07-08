@@ -10,17 +10,17 @@ class ApplyRelIntOverride(DG):
 
     NODE_TYPE = "applyRelIntOverride"
 
-    enabled = BoolField()
+    enabled = BoolField(default_value=True, readable=False)
     en = enabled
 
-    out = LongField()
+    out = LongField(default_value=0, writable=False)
     o = out
 
-    original = LongField()
+    original = LongField(default_value=0, readable=False)
     ori = original
 
-    multiply = FloatField()
+    multiply = FloatField(default_value=1.0, readable=False)
     mul = multiply
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0, readable=False)
     ofs = offset

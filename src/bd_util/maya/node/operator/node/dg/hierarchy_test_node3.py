@@ -13,7 +13,7 @@ class HierarchyTestNode3(DG):
 
     NODE_TYPE = "hierarchyTestNode3"
 
-    n1single = FloatField()
+    n1single = FloatField(default_value=0.0)
     n1s = n1single
 
     n1compound = N1compoundField()
@@ -25,7 +25,7 @@ class HierarchyTestNode3(DG):
     n1level1C = n1compound.n1level1C
     n1c1 = n1level1C
 
-    n2single = FloatField()
+    n2single = FloatField(default_value=0.0)
     n2s = n2single
 
     n2compound = N2compoundField()
@@ -37,7 +37,7 @@ class HierarchyTestNode3(DG):
     n2level1C = n2compound.n2level1C
     n2c1 = n2level1C
 
-    n3single = FloatField()
+    n3single = FloatField(default_value=0.0)
     n3s = n3single
 
     n3compound = N3compoundField()

@@ -35,7 +35,7 @@ class AiSwitch(DG):
 
     NODE_TYPE = "aiSwitch"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.5, 0.5, 0.5), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -44,10 +44,10 @@ class AiSwitch(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -56,7 +56,7 @@ class AiSwitch(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 0.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -65,7 +65,7 @@ class AiSwitch(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    hardwareColor = HardwareColorField()
+    hardwareColor = HardwareColorField(default_value=(0.5, 0.5, 0.5))
     hwc = hardwareColor
     hardwareColorR = hardwareColor.hardwareColorR
     hwcr = hardwareColorR
@@ -74,12 +74,12 @@ class AiSwitch(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    index = LongField()
+    index = LongField(default_value=0, min_value=0, max_value=19)
 
-    input0A = FloatField()
+    input0A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input0a = input0A
 
-    input0 = Input0Field()
+    input0 = Input0Field(default_value=(0.0, 0.0, 0.0))
     input0R = input0.input0R
     input0r = input0R
     input0G = input0.input0G
@@ -87,10 +87,10 @@ class AiSwitch(DG):
     input0B = input0.input0B
     input0b = input0B
 
-    input1A = FloatField()
+    input1A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input1a = input1A
 
-    input1 = Input1Field()
+    input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
     input1R = input1.input1R
     input1r = input1R
     input1G = input1.input1G
@@ -98,10 +98,10 @@ class AiSwitch(DG):
     input1B = input1.input1B
     input1b = input1B
 
-    input2A = FloatField()
+    input2A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input2a = input2A
 
-    input2 = Input2Field()
+    input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
     input2R = input2.input2R
     input2r = input2R
     input2G = input2.input2G
@@ -109,10 +109,10 @@ class AiSwitch(DG):
     input2B = input2.input2B
     input2b = input2B
 
-    input3A = FloatField()
+    input3A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input3a = input3A
 
-    input3 = Input3Field()
+    input3 = Input3Field(default_value=(0.0, 0.0, 0.0))
     input3R = input3.input3R
     input3r = input3R
     input3G = input3.input3G
@@ -120,10 +120,10 @@ class AiSwitch(DG):
     input3B = input3.input3B
     input3b = input3B
 
-    input4A = FloatField()
+    input4A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input4a = input4A
 
-    input4 = Input4Field()
+    input4 = Input4Field(default_value=(0.0, 0.0, 0.0))
     input4R = input4.input4R
     input4r = input4R
     input4G = input4.input4G
@@ -131,10 +131,10 @@ class AiSwitch(DG):
     input4B = input4.input4B
     input4b = input4B
 
-    input5A = FloatField()
+    input5A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input5a = input5A
 
-    input5 = Input5Field()
+    input5 = Input5Field(default_value=(0.0, 0.0, 0.0))
     input5R = input5.input5R
     input5r = input5R
     input5G = input5.input5G
@@ -142,10 +142,10 @@ class AiSwitch(DG):
     input5B = input5.input5B
     input5b = input5B
 
-    input6A = FloatField()
+    input6A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input6a = input6A
 
-    input6 = Input6Field()
+    input6 = Input6Field(default_value=(0.0, 0.0, 0.0))
     input6R = input6.input6R
     input6r = input6R
     input6G = input6.input6G
@@ -153,10 +153,10 @@ class AiSwitch(DG):
     input6B = input6.input6B
     input6b = input6B
 
-    input7A = FloatField()
+    input7A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input7a = input7A
 
-    input7 = Input7Field()
+    input7 = Input7Field(default_value=(0.0, 0.0, 0.0))
     input7R = input7.input7R
     input7r = input7R
     input7G = input7.input7G
@@ -164,10 +164,10 @@ class AiSwitch(DG):
     input7B = input7.input7B
     input7b = input7B
 
-    input8A = FloatField()
+    input8A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input8a = input8A
 
-    input8 = Input8Field()
+    input8 = Input8Field(default_value=(0.0, 0.0, 0.0))
     input8R = input8.input8R
     input8r = input8R
     input8G = input8.input8G
@@ -175,10 +175,10 @@ class AiSwitch(DG):
     input8B = input8.input8B
     input8b = input8B
 
-    input9A = FloatField()
+    input9A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input9a = input9A
 
-    input9 = Input9Field()
+    input9 = Input9Field(default_value=(0.0, 0.0, 0.0))
     input9R = input9.input9R
     input9r = input9R
     input9G = input9.input9G
@@ -186,10 +186,10 @@ class AiSwitch(DG):
     input9B = input9.input9B
     input9b = input9B
 
-    input10A = FloatField()
+    input10A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input10a = input10A
 
-    input10 = Input10Field()
+    input10 = Input10Field(default_value=(0.0, 0.0, 0.0))
     input10R = input10.input10R
     input10r = input10R
     input10G = input10.input10G
@@ -197,10 +197,10 @@ class AiSwitch(DG):
     input10B = input10.input10B
     input10b = input10B
 
-    input11A = FloatField()
+    input11A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input11a = input11A
 
-    input11 = Input11Field()
+    input11 = Input11Field(default_value=(0.0, 0.0, 0.0))
     input11R = input11.input11R
     input11r = input11R
     input11G = input11.input11G
@@ -208,10 +208,10 @@ class AiSwitch(DG):
     input11B = input11.input11B
     input11b = input11B
 
-    input12A = FloatField()
+    input12A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input12a = input12A
 
-    input12 = Input12Field()
+    input12 = Input12Field(default_value=(0.0, 0.0, 0.0))
     input12R = input12.input12R
     input12r = input12R
     input12G = input12.input12G
@@ -219,10 +219,10 @@ class AiSwitch(DG):
     input12B = input12.input12B
     input12b = input12B
 
-    input13A = FloatField()
+    input13A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input13a = input13A
 
-    input13 = Input13Field()
+    input13 = Input13Field(default_value=(0.0, 0.0, 0.0))
     input13R = input13.input13R
     input13r = input13R
     input13G = input13.input13G
@@ -230,10 +230,10 @@ class AiSwitch(DG):
     input13B = input13.input13B
     input13b = input13B
 
-    input14A = FloatField()
+    input14A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input14a = input14A
 
-    input14 = Input14Field()
+    input14 = Input14Field(default_value=(0.0, 0.0, 0.0))
     input14R = input14.input14R
     input14r = input14R
     input14G = input14.input14G
@@ -241,10 +241,10 @@ class AiSwitch(DG):
     input14B = input14.input14B
     input14b = input14B
 
-    input15A = FloatField()
+    input15A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input15a = input15A
 
-    input15 = Input15Field()
+    input15 = Input15Field(default_value=(0.0, 0.0, 0.0))
     input15R = input15.input15R
     input15r = input15R
     input15G = input15.input15G
@@ -252,10 +252,10 @@ class AiSwitch(DG):
     input15B = input15.input15B
     input15b = input15B
 
-    input16A = FloatField()
+    input16A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input16a = input16A
 
-    input16 = Input16Field()
+    input16 = Input16Field(default_value=(0.0, 0.0, 0.0))
     input16R = input16.input16R
     input16r = input16R
     input16G = input16.input16G
@@ -263,10 +263,10 @@ class AiSwitch(DG):
     input16B = input16.input16B
     input16b = input16B
 
-    input17A = FloatField()
+    input17A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input17a = input17A
 
-    input17 = Input17Field()
+    input17 = Input17Field(default_value=(0.0, 0.0, 0.0))
     input17R = input17.input17R
     input17r = input17R
     input17G = input17.input17G
@@ -274,10 +274,10 @@ class AiSwitch(DG):
     input17B = input17.input17B
     input17b = input17B
 
-    input18A = FloatField()
+    input18A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input18a = input18A
 
-    input18 = Input18Field()
+    input18 = Input18Field(default_value=(0.0, 0.0, 0.0))
     input18R = input18.input18R
     input18r = input18R
     input18G = input18.input18G
@@ -285,10 +285,10 @@ class AiSwitch(DG):
     input18B = input18.input18B
     input18b = input18B
 
-    input19A = FloatField()
+    input19A = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     input19a = input19A
 
-    input19 = Input19Field()
+    input19 = Input19Field(default_value=(0.0, 0.0, 0.0))
     input19R = input19.input19R
     input19r = input19R
     input19G = input19.input19G

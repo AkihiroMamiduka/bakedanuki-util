@@ -40,7 +40,7 @@ class InputPlugOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -55,7 +55,7 @@ class InputAttrOperator(
     inputGeometry = TypedField()
     ig = inputGeometry
 
-    groupId = LongField()
+    groupId = LongField(default_value=0)
     gi = groupId
 
     componentTagExpression = DataStringField()
@@ -79,7 +79,7 @@ class EnvelopeWeightsListPlugOperator(
         ("envelopeWeights", "owt"),
     )
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -88,7 +88,7 @@ class EnvelopeWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    envelopeWeights = FloatField()
+    envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
 
 
@@ -111,13 +111,13 @@ class FunctionPlugOperator(
         ("fchild3", "f3"),
     )
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -126,13 +126,13 @@ class FunctionAttrOperator(
 ):
     __slots__ = ()
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -144,13 +144,13 @@ class FunctionField(
     ATTR_CLS = FunctionAttrOperator
     PLUG_CLS = FunctionPlugOperator
 
-    fchild1 = LongField()
+    fchild1 = LongField(default_value=0, readable=False)
     f1 = fchild1
 
-    fchild2 = LongField()
+    fchild2 = LongField(default_value=0, readable=False)
     f2 = fchild2
 
-    fchild3 = LongField()
+    fchild3 = LongField(default_value=0, readable=False)
     f3 = fchild3
 
 
@@ -162,7 +162,7 @@ class WeightListPlugOperator(
         ("weights", "w"),
     )
 
-    weights = DoubleField()
+    weights = DoubleField(multi=True, default_value=0.0)
     w = weights
 
 
@@ -171,7 +171,7 @@ class WeightListAttrOperator(
 ):
     __slots__ = ()
 
-    weights = DoubleField()
+    weights = DoubleField(multi=True, default_value=0.0)
     w = weights
 
 
@@ -192,7 +192,7 @@ class PerInfluenceWeightsPlugOperator(
         ("perInfluenceVertexWeights", "pivw"),
     )
 
-    perInfluenceVertexWeights = DoubleField()
+    perInfluenceVertexWeights = DoubleField(multi=True, default_value=0.0, writable=False)
     pivw = perInfluenceVertexWeights
 
 
@@ -201,7 +201,7 @@ class PerInfluenceWeightsAttrOperator(
 ):
     __slots__ = ()
 
-    perInfluenceVertexWeights = DoubleField()
+    perInfluenceVertexWeights = DoubleField(multi=True, default_value=0.0, writable=False)
     pivw = perInfluenceVertexWeights
 
 
@@ -224,13 +224,13 @@ class InfluenceColorPlugOperator(
         ("influenceColorB", "ifcb"),
     )
 
-    influenceColorR = FloatField()
+    influenceColorR = FloatField(default_value=0.0)
     ifcr = influenceColorR
 
-    influenceColorG = FloatField()
+    influenceColorG = FloatField(default_value=0.0)
     ifcg = influenceColorG
 
-    influenceColorB = FloatField()
+    influenceColorB = FloatField(default_value=0.0)
     ifcb = influenceColorB
 
 
@@ -239,13 +239,13 @@ class InfluenceColorAttrOperator(
 ):
     __slots__ = ()
 
-    influenceColorR = FloatField()
+    influenceColorR = FloatField(default_value=0.0)
     ifcr = influenceColorR
 
-    influenceColorG = FloatField()
+    influenceColorG = FloatField(default_value=0.0)
     ifcg = influenceColorG
 
-    influenceColorB = FloatField()
+    influenceColorB = FloatField(default_value=0.0)
     ifcb = influenceColorB
 
 
@@ -268,13 +268,13 @@ class DqsScalePlugOperator(
         ("dqsScaleZ", "dscz"),
     )
 
-    dqsScaleX = DoubleField()
+    dqsScaleX = DoubleField(default_value=1.0)
     dscx = dqsScaleX
 
-    dqsScaleY = DoubleField()
+    dqsScaleY = DoubleField(default_value=1.0)
     dscy = dqsScaleY
 
-    dqsScaleZ = DoubleField()
+    dqsScaleZ = DoubleField(default_value=1.0)
     dscz = dqsScaleZ
 
 
@@ -283,13 +283,13 @@ class DqsScaleAttrOperator(
 ):
     __slots__ = ()
 
-    dqsScaleX = DoubleField()
+    dqsScaleX = DoubleField(default_value=1.0)
     dscx = dqsScaleX
 
-    dqsScaleY = DoubleField()
+    dqsScaleY = DoubleField(default_value=1.0)
     dscy = dqsScaleY
 
-    dqsScaleZ = DoubleField()
+    dqsScaleZ = DoubleField(default_value=1.0)
     dscz = dqsScaleZ
 
 
@@ -301,11 +301,11 @@ class DqsScaleField(
     ATTR_CLS = DqsScaleAttrOperator
     PLUG_CLS = DqsScalePlugOperator
 
-    dqsScaleX = DoubleField()
+    dqsScaleX = DoubleField(default_value=1.0)
     dscx = dqsScaleX
 
-    dqsScaleY = DoubleField()
+    dqsScaleY = DoubleField(default_value=1.0)
     dscy = dqsScaleY
 
-    dqsScaleZ = DoubleField()
+    dqsScaleZ = DoubleField(default_value=1.0)
     dscz = dqsScaleZ

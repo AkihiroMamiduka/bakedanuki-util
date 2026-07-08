@@ -24,7 +24,7 @@ class InputPlugOperator(
         ("inShape", "is"),
     )
 
-    inTriple = Float3Field()
+    inTriple = Float3Field(default_value=(0.0, 0.0, 0.0))
     it = inTriple
 
     inShape = MessageField()
@@ -36,7 +36,7 @@ class InputAttrOperator(
 ):
     __slots__ = ()
 
-    inTriple = Float3Field()
+    inTriple = Float3Field(default_value=(0.0, 0.0, 0.0))
     it = inTriple
 
     inShape = MessageField()
@@ -62,13 +62,13 @@ class DefaultPlugOperator(
         ("defComp3", "dc3"),
     )
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.800000011920929)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.800000011920929)
     dc2 = defComp2
 
-    defComp3 = FloatField()
+    defComp3 = FloatField(default_value=0.800000011920929)
     dc3 = defComp3
 
 
@@ -77,13 +77,13 @@ class DefaultAttrOperator(
 ):
     __slots__ = ()
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.800000011920929)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.800000011920929)
     dc2 = defComp2
 
-    defComp3 = FloatField()
+    defComp3 = FloatField(default_value=0.800000011920929)
     dc3 = defComp3
 
 
@@ -95,13 +95,13 @@ class DefaultField(
     ATTR_CLS = DefaultAttrOperator
     PLUG_CLS = DefaultPlugOperator
 
-    defComp1 = FloatField()
+    defComp1 = FloatField(default_value=0.800000011920929)
     dc1 = defComp1
 
-    defComp2 = FloatField()
+    defComp2 = FloatField(default_value=0.800000011920929)
     dc2 = defComp2
 
-    defComp3 = FloatField()
+    defComp3 = FloatField(default_value=0.800000011920929)
     dc3 = defComp3
 
 
@@ -115,13 +115,13 @@ class OutputPlugOperator(
         ("outComp3", "oc3"),
     )
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2
 
-    outComp3 = FloatField()
+    outComp3 = FloatField(default_value=0.0, writable=False)
     oc3 = outComp3
 
 
@@ -130,13 +130,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2
 
-    outComp3 = FloatField()
+    outComp3 = FloatField(default_value=0.0, writable=False)
     oc3 = outComp3
 
 
@@ -148,11 +148,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outComp1 = FloatField()
+    outComp1 = FloatField(default_value=0.0, writable=False)
     oc1 = outComp1
 
-    outComp2 = FloatField()
+    outComp2 = FloatField(default_value=0.0, writable=False)
     oc2 = outComp2
 
-    outComp3 = FloatField()
+    outComp3 = FloatField(default_value=0.0, writable=False)
     oc3 = outComp3

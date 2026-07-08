@@ -51,7 +51,7 @@ class GammaCorrect(DG):
 
     NODE_TYPE = "gammaCorrect"
 
-    value = ValueField()
+    value = ValueField(default_value=(0.0, 0.0, 0.0))
     v = value
     valueX = value.valueX
     vx = valueX
@@ -60,7 +60,7 @@ class GammaCorrect(DG):
     valueZ = value.valueZ
     vz = valueZ
 
-    gamma = GammaField()
+    gamma = GammaField(default_value=(1.0, 1.0, 1.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
     g = gamma
     gammaX = gamma.gammaX
     gx = gammaX
@@ -69,10 +69,10 @@ class GammaCorrect(DG):
     gammaZ = gamma.gammaZ
     gz = gammaZ
 
-    renderPassMode = RenderPassModeEnumField()
+    renderPassMode = RenderPassModeEnumField(default_value=1)
     arp = renderPassMode
 
-    outValue = OutValueField()
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = outValue
     outValueX = outValue.outValueX
     ox = outValueX

@@ -21,7 +21,7 @@ class PolyMoveVertex(DG):
 
     NODE_TYPE = "polyMoveVertex"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -30,37 +30,37 @@ class PolyMoveVertex(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -69,7 +69,7 @@ class PolyMoveVertex(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -78,7 +78,7 @@ class PolyMoveVertex(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     s = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -87,7 +87,7 @@ class PolyMoveVertex(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -96,13 +96,13 @@ class PolyMoveVertex(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField()
+    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     ran = random
 
-    randomSeed = LongField()
+    randomSeed = LongField(default_value=0)
     rs = randomSeed
 
-    localTranslate = LocalTranslateField()
+    localTranslate = LocalTranslateField(default_value=(0.0, 0.0, 0.0))
     lt = localTranslate
     localTranslateX = localTranslate.localTranslateX
     ltx = localTranslateX
@@ -111,7 +111,7 @@ class PolyMoveVertex(DG):
     localTranslateZ = localTranslate.localTranslateZ
     ltz = localTranslateZ
 
-    localDirection = LocalDirectionField()
+    localDirection = LocalDirectionField(default_value=(1.0, 0.0, 0.0))
     ld = localDirection
     localDirectionX = localDirection.localDirectionX
     ldx = localDirectionX
@@ -120,11 +120,11 @@ class PolyMoveVertex(DG):
     localDirectionZ = localDirection.localDirectionZ
     ldz = localDirectionZ
 
-    matrix = DataMatrixField()
+    matrix = DataMatrixField(writable=False)
     cma = matrix
 
-    compId = LongField()
+    compId = LongField(default_value=0, writable=False)
     cid = compId
 
-    gain = FloatField(multi=True)
+    gain = FloatField(multi=True, default_value=1.0)
     ga = gain

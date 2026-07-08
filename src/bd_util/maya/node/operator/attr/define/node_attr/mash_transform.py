@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -193,11 +193,11 @@ class ScaleAmountPlugOperator(
         ("scaleAmount2", "scaleAmount2"),
     )
 
-    scaleAmount0 = FloatField()
+    scaleAmount0 = FloatField(default_value=1.0)
 
-    scaleAmount1 = FloatField()
+    scaleAmount1 = FloatField(default_value=1.0)
 
-    scaleAmount2 = FloatField()
+    scaleAmount2 = FloatField(default_value=1.0)
 
 
 class ScaleAmountAttrOperator(
@@ -205,11 +205,11 @@ class ScaleAmountAttrOperator(
 ):
     __slots__ = ()
 
-    scaleAmount0 = FloatField()
+    scaleAmount0 = FloatField(default_value=1.0)
 
-    scaleAmount1 = FloatField()
+    scaleAmount1 = FloatField(default_value=1.0)
 
-    scaleAmount2 = FloatField()
+    scaleAmount2 = FloatField(default_value=1.0)
 
 
 class ScaleAmountField(
@@ -220,11 +220,11 @@ class ScaleAmountField(
     ATTR_CLS = ScaleAmountAttrOperator
     PLUG_CLS = ScaleAmountPlugOperator
 
-    scaleAmount0 = FloatField()
+    scaleAmount0 = FloatField(default_value=1.0)
 
-    scaleAmount1 = FloatField()
+    scaleAmount1 = FloatField(default_value=1.0)
 
-    scaleAmount2 = FloatField()
+    scaleAmount2 = FloatField(default_value=1.0)
 
 
 class RotationAmountPlugOperator(
@@ -237,11 +237,11 @@ class RotationAmountPlugOperator(
         ("rotationAmount2", "rotationAmount2"),
     )
 
-    rotationAmount0 = FloatField()
+    rotationAmount0 = FloatField(default_value=0.0)
 
-    rotationAmount1 = FloatField()
+    rotationAmount1 = FloatField(default_value=0.0)
 
-    rotationAmount2 = FloatField()
+    rotationAmount2 = FloatField(default_value=0.0)
 
 
 class RotationAmountAttrOperator(
@@ -249,11 +249,11 @@ class RotationAmountAttrOperator(
 ):
     __slots__ = ()
 
-    rotationAmount0 = FloatField()
+    rotationAmount0 = FloatField(default_value=0.0)
 
-    rotationAmount1 = FloatField()
+    rotationAmount1 = FloatField(default_value=0.0)
 
-    rotationAmount2 = FloatField()
+    rotationAmount2 = FloatField(default_value=0.0)
 
 
 class RotationAmountField(
@@ -264,11 +264,11 @@ class RotationAmountField(
     ATTR_CLS = RotationAmountAttrOperator
     PLUG_CLS = RotationAmountPlugOperator
 
-    rotationAmount0 = FloatField()
+    rotationAmount0 = FloatField(default_value=0.0)
 
-    rotationAmount1 = FloatField()
+    rotationAmount1 = FloatField(default_value=0.0)
 
-    rotationAmount2 = FloatField()
+    rotationAmount2 = FloatField(default_value=0.0)
 
 
 class PositionAmountPlugOperator(
@@ -281,11 +281,11 @@ class PositionAmountPlugOperator(
         ("positionAmount2", "positionAmount2"),
     )
 
-    positionAmount0 = FloatField()
+    positionAmount0 = FloatField(default_value=0.0)
 
-    positionAmount1 = FloatField()
+    positionAmount1 = FloatField(default_value=0.0)
 
-    positionAmount2 = FloatField()
+    positionAmount2 = FloatField(default_value=0.0)
 
 
 class PositionAmountAttrOperator(
@@ -293,11 +293,11 @@ class PositionAmountAttrOperator(
 ):
     __slots__ = ()
 
-    positionAmount0 = FloatField()
+    positionAmount0 = FloatField(default_value=0.0)
 
-    positionAmount1 = FloatField()
+    positionAmount1 = FloatField(default_value=0.0)
 
-    positionAmount2 = FloatField()
+    positionAmount2 = FloatField(default_value=0.0)
 
 
 class PositionAmountField(
@@ -308,11 +308,11 @@ class PositionAmountField(
     ATTR_CLS = PositionAmountAttrOperator
     PLUG_CLS = PositionAmountPlugOperator
 
-    positionAmount0 = FloatField()
+    positionAmount0 = FloatField(default_value=0.0)
 
-    positionAmount1 = FloatField()
+    positionAmount1 = FloatField(default_value=0.0)
 
-    positionAmount2 = FloatField()
+    positionAmount2 = FloatField(default_value=0.0)
 
 
 class FalloffObjectPlugOperator(
@@ -325,13 +325,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -340,13 +340,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -358,11 +358,11 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ

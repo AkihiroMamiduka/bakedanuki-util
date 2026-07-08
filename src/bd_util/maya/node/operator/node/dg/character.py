@@ -95,16 +95,16 @@ class Character(DG):
     hyperLayout = MessageField()
     hl = hyperLayout
 
-    isCollapsed = BoolField()
+    isCollapsed = BoolField(default_value=False)
     isc = isCollapsed
 
-    blackBox = BoolField()
+    blackBox = BoolField(default_value=False)
     bbx = blackBox
 
     borderConnections = MessageField(multi=True)
     boc = borderConnections
 
-    isHierarchicalConnection = BoolField(multi=True)
+    isHierarchicalConnection = BoolField(multi=True, default_value=False)
     ish = isHierarchicalConnection
 
     publishedNodeInfo = PublishedNodeInfoField(multi=True)
@@ -125,13 +125,13 @@ class Character(DG):
     iconName = DataStringField()
     icn = iconName
 
-    viewMode = ViewModeEnumField()
+    viewMode = ViewModeEnumField(default_value=2)
     vwm = viewMode
 
-    templateVersion = LongField()
+    templateVersion = LongField(default_value=0)
     tpv = templateVersion
 
-    uiTreatment = UiTreatmentEnumField()
+    uiTreatment = UiTreatmentEnumField(default_value=0)
     uit = uiTreatment
 
     customTreatment = DataStringField()
@@ -146,16 +146,16 @@ class Character(DG):
     containerType = DataStringField()
     ctyp = containerType
 
-    dagSetMembers = TypedField(multi=True)
+    dagSetMembers = TypedField(multi=True, readable=False)
     dsm = dagSetMembers
 
-    dnSetMembers = TypedField(multi=True)
+    dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField()
+    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
     mwc = memberWireframeColor
 
-    channelSetColor = ChannelSetColorField()
+    channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
     cscol = channelSetColor
     channelSetColorR = channelSetColor.channelSetColorR
     cscolr = channelSetColorR
@@ -164,43 +164,43 @@ class Character(DG):
     channelSetColorB = channelSetColor.channelSetColorB
     cscolb = channelSetColorB
 
-    channelSetColorIndex = ShortField()
+    channelSetColorIndex = ShortField(default_value=-1)
     csci = channelSetColorIndex
 
     annotation = DataStringField()
     an = annotation
 
-    isLayer = BoolField()
+    isLayer = BoolField(default_value=False)
     il = isLayer
 
-    verticesOnlySet = BoolField()
+    verticesOnlySet = BoolField(default_value=False)
     vo = verticesOnlySet
 
-    edgesOnlySet = BoolField()
+    edgesOnlySet = BoolField(default_value=False)
     eo = edgesOnlySet
 
-    facetsOnlySet = BoolField()
+    facetsOnlySet = BoolField(default_value=False)
     fo = facetsOnlySet
 
-    editPointsOnlySet = BoolField()
+    editPointsOnlySet = BoolField(default_value=False)
     epo = editPointsOnlySet
 
-    renderableOnlySet = BoolField()
+    renderableOnlySet = BoolField(default_value=False)
     ro = renderableOnlySet
 
     partition = MessageField()
     pa = partition
 
-    groupNodes = MessageField(multi=True)
+    groupNodes = MessageField(multi=True, readable=False)
     gn = groupNodes
 
     usedBy = MessageField(multi=True)
     ub = usedBy
 
-    hiddenInOutliner = BoolField()
+    hiddenInOutliner = BoolField(default_value=False)
     hio = hiddenInOutliner
 
-    aiOverride = BoolField()
+    aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
     clipEvaluate = ClipEvaluateField()
@@ -249,28 +249,28 @@ class Character(DG):
     clipStatePercentEval_OutmapFrom = ShortField()
     cspeof = clipStatePercentEval_OutmapFrom
 
-    unitlessValues = DoubleField(multi=True)
+    unitlessValues = DoubleField(multi=True, default_value=0.0)
     uv = unitlessValues
 
-    linearValues = DoubleLinearField(multi=True)
+    linearValues = DoubleLinearField(multi=True, default_value=0.0)
     lv = linearValues
 
-    angularValues = DoubleAngleField(multi=True)
+    angularValues = DoubleAngleField(multi=True, default_value=0.0)
     av = angularValues
 
-    timeValues = TimeField(multi=True)
+    timeValues = TimeField(multi=True, default_value=0.0)
     tv = timeValues
 
-    unitlessClipValues = DoubleField(multi=True)
+    unitlessClipValues = DoubleField(multi=True, default_value=0.0)
     uc = unitlessClipValues
 
-    linearClipValues = DoubleLinearField(multi=True)
+    linearClipValues = DoubleLinearField(multi=True, default_value=0.0)
     lc = linearClipValues
 
-    angularClipValues = DoubleAngleField(multi=True)
+    angularClipValues = DoubleAngleField(multi=True, default_value=0.0)
     ac = angularClipValues
 
-    timeClipValues = TimeField(multi=True)
+    timeClipValues = TimeField(multi=True, default_value=0.0)
     tc = timeClipValues
 
     animationMapping = TypedField()
@@ -282,55 +282,55 @@ class Character(DG):
     clipIndexMap = TypedField()
     cim = clipIndexMap
 
-    offsetObjects = MessageField(multi=True)
+    offsetObjects = MessageField(multi=True, readable=False)
     ofo = offsetObjects
 
     offsetObjectLocalXForms = DataMatrixField(multi=True)
     oolxs = offsetObjectLocalXForms
 
-    activeClipConnected = BoolField()
+    activeClipConnected = BoolField(default_value=False)
     acc = activeClipConnected
 
-    evalCharacterKeys = BoolField()
+    evalCharacterKeys = BoolField(default_value=True)
     eck = evalCharacterKeys
 
-    timelineClipStart = TimeField()
+    timelineClipStart = TimeField(default_value=0.0)
     tcs = timelineClipStart
 
-    timelineClipEnd = TimeField()
+    timelineClipEnd = TimeField(default_value=0.0)
     tce = timelineClipEnd
 
     offsetNode = MessageField()
     ofn = offsetNode
 
-    translationOffsetIndicesX = LongField(multi=True)
+    translationOffsetIndicesX = LongField(multi=True, default_value=-1)
     toix = translationOffsetIndicesX
 
-    translationOffsetIndicesY = LongField(multi=True)
+    translationOffsetIndicesY = LongField(multi=True, default_value=-1)
     toiy = translationOffsetIndicesY
 
-    translationOffsetIndicesZ = LongField(multi=True)
+    translationOffsetIndicesZ = LongField(multi=True, default_value=-1)
     toiz = translationOffsetIndicesZ
 
-    matchNode = MessageField()
+    matchNode = MessageField(readable=False)
     mn = matchNode
 
-    copyUnitlessValues = DoubleField(multi=True)
+    copyUnitlessValues = DoubleField(multi=True, default_value=0.0)
     cuv = copyUnitlessValues
 
-    copyLinearValues = DoubleLinearField(multi=True)
+    copyLinearValues = DoubleLinearField(multi=True, default_value=0.0)
     clv = copyLinearValues
 
-    copyAngularValues = DoubleAngleField(multi=True)
+    copyAngularValues = DoubleAngleField(multi=True, default_value=0.0)
     cav = copyAngularValues
 
-    copyTimeValues = TimeField(multi=True)
+    copyTimeValues = TimeField(multi=True, default_value=0.0)
     ctv = copyTimeValues
 
     offsetObjectLocalXForm = DataMatrixField()
     oolx = offsetObjectLocalXForm
 
-    translationOffsetIndices = TranslationOffsetIndicesField()
+    translationOffsetIndices = TranslationOffsetIndicesField(default_value=(-1.0, -1.0, -1.0))
     toi = translationOffsetIndices
     translationOffsetIndexX = translationOffsetIndices.translationOffsetIndexX
     tox = translationOffsetIndexX

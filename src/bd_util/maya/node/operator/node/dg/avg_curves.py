@@ -16,17 +16,17 @@ class AvgCurves(DG):
     inputCurve2 = DataNurbsCurveField()
     ic2 = inputCurve2
 
-    weight1 = DoubleField()
+    weight1 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     w1 = weight1
 
-    weight2 = DoubleField()
+    weight2 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
     w2 = weight2
 
-    automaticWeight = BoolField()
+    automaticWeight = BoolField(default_value=True)
     aw = automaticWeight
 
-    normalizeWeights = BoolField()
+    normalizeWeights = BoolField(default_value=True)
     nw = normalizeWeights
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve

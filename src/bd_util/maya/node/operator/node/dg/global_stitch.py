@@ -115,44 +115,44 @@ class GlobalStitch(DG):
     inputSurface = DataNurbsSurfaceField(multi=True)
     is_ = inputSurface
 
-    stitchCorners = StitchCornersEnumField()
+    stitchCorners = StitchCornersEnumField(default_value=1)
     sc = stitchCorners
 
-    stitchEdges = StitchEdgesEnumField()
+    stitchEdges = StitchEdgesEnumField(default_value=1)
     se = stitchEdges
 
-    stitchSmoothness = StitchSmoothnessEnumField()
+    stitchSmoothness = StitchSmoothnessEnumField(default_value=0)
     ss = stitchSmoothness
 
-    stitchPartialEdges = BoolField()
+    stitchPartialEdges = BoolField(default_value=False)
     spe = stitchPartialEdges
 
-    maxSeparation = DoubleLinearField()
+    maxSeparation = DoubleLinearField(default_value=0.1, min_value=0.0001, soft_min_value=0.001, soft_max_value=1.0)
     ms = maxSeparation
 
-    sampling = LongField()
+    sampling = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
     sam = sampling
 
-    modificationResistance = DoubleField()
+    modificationResistance = DoubleField(default_value=0.1, min_value=0.001, max_value=1000.0, soft_max_value=1.0)
     mr = modificationResistance
 
-    lockSurface = BoolField(multi=True)
+    lockSurface = BoolField(multi=True, default_value=False)
     lk = lockSurface
 
-    shouldBeLast = BoolField()
+    shouldBeLast = BoolField(default_value=True, writable=False)
     sbl = shouldBeLast
 
-    outputSurface = DataNurbsSurfaceField(multi=True)
+    outputSurface = DataNurbsSurfaceField(multi=True, writable=False)
     os = outputSurface
 
-    connectedEdges = DataNurbsCurveField(multi=True)
+    connectedEdges = DataNurbsCurveField(multi=True, writable=False)
     ce = connectedEdges
 
-    unconnectedEdges = DataNurbsCurveField(multi=True)
+    unconnectedEdges = DataNurbsCurveField(multi=True, writable=False)
     ue = unconnectedEdges
 
     topology = TypedField()
     top = topology
 
-    updateSampling = BoolField()
+    updateSampling = BoolField(default_value=False)
     us = updateSampling

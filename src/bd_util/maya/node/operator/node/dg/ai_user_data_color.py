@@ -14,7 +14,7 @@ class AiUserDataColor(DG):
 
     NODE_TYPE = "aiUserDataColor"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -23,10 +23,10 @@ class AiUserDataColor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,10 +38,10 @@ class AiUserDataColor(DG):
     attribute = DataStringField()
     colorAttrName = attribute
 
-    defaultA = FloatField()
+    defaultA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     defaultValuea = defaultA
 
-    default = DefaultField()
+    default = DefaultField(default_value=(0.0, 0.0, 0.0))
     defaultValue = default
     defaultR = default.defaultR
     defaultValuer = defaultR

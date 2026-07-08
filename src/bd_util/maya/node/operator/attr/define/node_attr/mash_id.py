@@ -62,13 +62,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -77,13 +77,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -95,13 +95,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -115,13 +115,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -130,13 +130,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -148,13 +148,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -168,13 +168,13 @@ class ProbabilityRampPlugOperator(
         ("probabilityRamp_Interp", "probabilityRampi"),
     )
 
-    probabilityRamp_Position = FloatField()
+    probabilityRamp_Position = FloatField(default_value=0.0)
     probabilityRampp = probabilityRamp_Position
 
-    probabilityRamp_FloatValue = FloatField()
+    probabilityRamp_FloatValue = FloatField(default_value=0.0)
     probabilityRampfv = probabilityRamp_FloatValue
 
-    probabilityRamp_Interp = ProbabilityRamp_InterpEnumField()
+    probabilityRamp_Interp = ProbabilityRamp_InterpEnumField(default_value=1)
     probabilityRampi = probabilityRamp_Interp
 
 
@@ -183,13 +183,13 @@ class ProbabilityRampAttrOperator(
 ):
     __slots__ = ()
 
-    probabilityRamp_Position = FloatField()
+    probabilityRamp_Position = FloatField(default_value=0.0)
     probabilityRampp = probabilityRamp_Position
 
-    probabilityRamp_FloatValue = FloatField()
+    probabilityRamp_FloatValue = FloatField(default_value=0.0)
     probabilityRampfv = probabilityRamp_FloatValue
 
-    probabilityRamp_Interp = ProbabilityRamp_InterpEnumField()
+    probabilityRamp_Interp = ProbabilityRamp_InterpEnumField(default_value=1)
     probabilityRampi = probabilityRamp_Interp
 
 

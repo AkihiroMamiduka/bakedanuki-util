@@ -139,7 +139,7 @@ class AiImage(DG):
 
     NODE_TYPE = "aiImage"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -148,10 +148,10 @@ class AiImage(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -165,37 +165,37 @@ class AiImage(DG):
     colorSpace = DataStringField()
     cs = colorSpace
 
-    filter = FilterEnumField()
+    filter = FilterEnumField(default_value=3)
 
-    mipmapBias = LongField()
+    mipmapBias = LongField(default_value=0)
     mipmap_bias = mipmapBias
 
-    singleChannel = BoolField()
+    singleChannel = BoolField(default_value=False)
     single_channel = singleChannel
 
-    startChannel = ByteField()
+    startChannel = ByteField(default_value=0, min_value=0, max_value=255)
     start_channel = startChannel
 
-    swrap = SwrapEnumField()
+    swrap = SwrapEnumField(default_value=0)
 
-    twrap = TwrapEnumField()
+    twrap = TwrapEnumField(default_value=0)
 
-    sscale = FloatField()
+    sscale = FloatField(default_value=1.0)
 
-    tscale = FloatField()
+    tscale = FloatField(default_value=1.0)
 
-    sflip = BoolField()
+    sflip = BoolField(default_value=False)
 
-    tflip = BoolField()
+    tflip = BoolField(default_value=False)
 
-    soffset = FloatField()
+    soffset = FloatField(default_value=0.0)
 
-    toffset = FloatField()
+    toffset = FloatField(default_value=0.0)
 
-    swapSt = BoolField()
+    swapSt = BoolField(default_value=False)
     swap_st = swapSt
 
-    uvcoords = UvcoordsField()
+    uvcoords = UvcoordsField(default_value=(0.0, 0.0))
     uvcoordsX = uvcoords.uvcoordsX
     uvcoordsx = uvcoordsX
     uvcoordsY = uvcoords.uvcoordsY
@@ -203,7 +203,7 @@ class AiImage(DG):
 
     uvset = DataStringField()
 
-    multiply = MultiplyField()
+    multiply = MultiplyField(default_value=(1.0, 1.0, 1.0))
     multiplyR = multiply.multiplyR
     multiplyr = multiplyR
     multiplyG = multiply.multiplyG
@@ -211,7 +211,7 @@ class AiImage(DG):
     multiplyB = multiply.multiplyB
     multiplyb = multiplyB
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0))
     offsetR = offset.offsetR
     offsetr = offsetR
     offsetG = offset.offsetG
@@ -219,13 +219,13 @@ class AiImage(DG):
     offsetB = offset.offsetB
     offsetb = offsetB
 
-    ignoreMissingTextures = BoolField()
+    ignoreMissingTextures = BoolField(default_value=False)
     ignore_missing_textures = ignoreMissingTextures
 
-    missingTextureColorA = FloatField()
+    missingTextureColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     missing_texture_colora = missingTextureColorA
 
-    missingTextureColor = MissingTextureColorField()
+    missingTextureColor = MissingTextureColorField(default_value=(0.0, 0.0, 0.0))
     missing_texture_color = missingTextureColor
     missingTextureColorR = missingTextureColor.missingTextureColorR
     missing_texture_colorr = missingTextureColorR
@@ -234,30 +234,30 @@ class AiImage(DG):
     missingTextureColorB = missingTextureColor.missingTextureColorB
     missing_texture_colorb = missingTextureColorB
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    autoTx = BoolField()
+    autoTx = BoolField(default_value=True, category="arnold")
     autotx = autoTx
 
-    colorManagementConfigFileEnabled = BoolField()
+    colorManagementConfigFileEnabled = BoolField(default_value=False, category="arnold")
     cmcf = colorManagementConfigFileEnabled
 
-    colorManagementConfigFilePath = DataStringField()
+    colorManagementConfigFilePath = DataStringField(category="arnold")
     cmcp = colorManagementConfigFilePath
 
-    colorManagementEnabled = BoolField()
+    colorManagementEnabled = BoolField(default_value=False, category="arnold")
     cme = colorManagementEnabled
 
-    colorProfile = LongField()
+    colorProfile = LongField(default_value=0, category="arnold")
     cp = colorProfile
 
-    workingSpace = DataStringField()
+    workingSpace = DataStringField(category="arnold")
     ws = workingSpace
 
-    useFrameExtension = BoolField()
+    useFrameExtension = BoolField(default_value=False, category="arnold")
 
-    frame = FloatField()
+    frame = FloatField(default_value=0.0, category="arnold")
 
-    ignoreColorSpaceFileRules = BoolField()
+    ignoreColorSpaceFileRules = BoolField(default_value=False, category="arnold")
     ifr = ignoreColorSpaceFileRules

@@ -146,7 +146,7 @@ class PolyAutoProj(DG):
 
     NODE_TYPE = "polyAutoProj"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -155,31 +155,31 @@ class PolyAutoProj(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -188,7 +188,7 @@ class PolyAutoProj(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    translate = TranslateField()
+    translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     t = translate
     translateX = translate.translateX
     tx = translateX
@@ -197,7 +197,7 @@ class PolyAutoProj(DG):
     translateZ = translate.translateZ
     tz = translateZ
 
-    rotate = RotateField()
+    rotate = RotateField(default_value=(0.0, 0.0, 0.0))
     ro = rotate
     rotateX = rotate.rotateX
     rx = rotateX
@@ -206,7 +206,7 @@ class PolyAutoProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     s = scale
     scaleX = scale.scaleX
     sx = scaleX
@@ -215,7 +215,7 @@ class PolyAutoProj(DG):
     scaleZ = scale.scaleZ
     sz = scaleZ
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     pvt = pivot
     pivotX = pivot.pivotX
     pvx = pivotX
@@ -224,38 +224,38 @@ class PolyAutoProj(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    planes = LongField()
+    planes = LongField(default_value=6, min_value=3, max_value=12)
     p = planes
 
-    optimize = OptimizeEnumField()
+    optimize = OptimizeEnumField(default_value=1)
     o = optimize
 
-    layoutMethod = LayoutMethodEnumField()
+    layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod
 
-    skipIntersect = BoolField()
+    skipIntersect = BoolField(default_value=False)
     si = skipIntersect
 
-    layout = LayoutEnumField()
+    layout = LayoutEnumField(default_value=2)
     l = layout
 
-    percentageSpace = FloatField()
+    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
     ps = percentageSpace
 
-    scaleMode = ScaleModeEnumField()
+    scaleMode = ScaleModeEnumField(default_value=1)
     sc = scaleMode
 
-    denseLayout = BoolField()
+    denseLayout = BoolField(default_value=False)
     dl = denseLayout
 
-    projectBothDirections = BoolField()
+    projectBothDirections = BoolField(default_value=False)
     pb = projectBothDirections
 
     polyGeomObject = TypedField()
     pg = polyGeomObject
 
-    maintainSymmetry = BoolField()
+    maintainSymmetry = BoolField(default_value=True)
     ms = maintainSymmetry
 
-    twoSidedLayout = BoolField()
+    twoSidedLayout = BoolField(default_value=True)
     tl = twoSidedLayout

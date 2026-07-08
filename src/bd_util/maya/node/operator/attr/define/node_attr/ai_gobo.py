@@ -23,13 +23,13 @@ class OutColorPlugOperator(
         ("outColorB", "outb"),
     )
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -38,13 +38,13 @@ class OutColorAttrOperator(
 ):
     __slots__ = ()
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -56,13 +56,13 @@ class OutColorField(
     ATTR_CLS = OutColorAttrOperator
     PLUG_CLS = OutColorPlugOperator
 
-    outColorR = FloatField()
+    outColorR = FloatField(default_value=0.0, writable=False)
     outr = outColorR
 
-    outColorG = FloatField()
+    outColorG = FloatField(default_value=0.0, writable=False)
     outg = outColorG
 
-    outColorB = FloatField()
+    outColorB = FloatField(default_value=0.0, writable=False)
     outb = outColorB
 
 
@@ -76,13 +76,13 @@ class OutTransparencyPlugOperator(
         ("outTransparencyB", "otb"),
     )
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -91,13 +91,13 @@ class OutTransparencyAttrOperator(
 ):
     __slots__ = ()
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -109,13 +109,13 @@ class OutTransparencyField(
     ATTR_CLS = OutTransparencyAttrOperator
     PLUG_CLS = OutTransparencyPlugOperator
 
-    outTransparencyR = FloatField()
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
     otr = outTransparencyR
 
-    outTransparencyG = FloatField()
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
     otg = outTransparencyG
 
-    outTransparencyB = FloatField()
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
     otb = outTransparencyB
 
 
@@ -129,13 +129,13 @@ class SlidemapPlugOperator(
         ("slidemapB", "slidemapb"),
     )
 
-    slidemapR = FloatField()
+    slidemapR = FloatField(default_value=1.0)
     slidemapr = slidemapR
 
-    slidemapG = FloatField()
+    slidemapG = FloatField(default_value=1.0)
     slidemapg = slidemapG
 
-    slidemapB = FloatField()
+    slidemapB = FloatField(default_value=1.0)
     slidemapb = slidemapB
 
 
@@ -144,13 +144,13 @@ class SlidemapAttrOperator(
 ):
     __slots__ = ()
 
-    slidemapR = FloatField()
+    slidemapR = FloatField(default_value=1.0)
     slidemapr = slidemapR
 
-    slidemapG = FloatField()
+    slidemapG = FloatField(default_value=1.0)
     slidemapg = slidemapG
 
-    slidemapB = FloatField()
+    slidemapB = FloatField(default_value=1.0)
     slidemapb = slidemapB
 
 
@@ -162,13 +162,13 @@ class SlidemapField(
     ATTR_CLS = SlidemapAttrOperator
     PLUG_CLS = SlidemapPlugOperator
 
-    slidemapR = FloatField()
+    slidemapR = FloatField(default_value=1.0)
     slidemapr = slidemapR
 
-    slidemapG = FloatField()
+    slidemapG = FloatField(default_value=1.0)
     slidemapg = slidemapG
 
-    slidemapB = FloatField()
+    slidemapB = FloatField(default_value=1.0)
     slidemapb = slidemapB
 
 
@@ -181,10 +181,10 @@ class OffsetPlugOperator(
         ("offsetY", "offsety"),
     )
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
 
@@ -193,10 +193,10 @@ class OffsetAttrOperator(
 ):
     __slots__ = ()
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY
 
 
@@ -208,8 +208,8 @@ class OffsetField(
     ATTR_CLS = OffsetAttrOperator
     PLUG_CLS = OffsetPlugOperator
 
-    offsetX = FloatField()
+    offsetX = FloatField(default_value=0.0)
     offsetx = offsetX
 
-    offsetY = FloatField()
+    offsetY = FloatField(default_value=0.0)
     offsety = offsetY

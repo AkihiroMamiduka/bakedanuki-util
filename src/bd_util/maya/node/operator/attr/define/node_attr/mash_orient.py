@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -151,13 +151,13 @@ class FalloffObjectPlugOperator(
         ("falloffObjectZ", "fallObjz"),
     )
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -166,13 +166,13 @@ class FalloffObjectAttrOperator(
 ):
     __slots__ = ()
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -184,13 +184,13 @@ class FalloffObjectField(
     ATTR_CLS = FalloffObjectAttrOperator
     PLUG_CLS = FalloffObjectPlugOperator
 
-    falloffObjectX = FloatField()
+    falloffObjectX = FloatField(default_value=0.0)
     fallObjx = falloffObjectX
 
-    falloffObjectY = FloatField()
+    falloffObjectY = FloatField(default_value=0.0)
     fallObjy = falloffObjectY
 
-    falloffObjectZ = FloatField()
+    falloffObjectZ = FloatField(default_value=0.0)
     fallObjz = falloffObjectZ
 
 
@@ -204,13 +204,13 @@ class UpVectorPlugOperator(
         ("upVector2", "uVec2"),
     )
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -219,13 +219,13 @@ class UpVectorAttrOperator(
 ):
     __slots__ = ()
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -237,13 +237,13 @@ class UpVectorField(
     ATTR_CLS = UpVectorAttrOperator
     PLUG_CLS = UpVectorPlugOperator
 
-    upVector0 = FloatField()
+    upVector0 = FloatField(default_value=0.0)
     uVec0 = upVector0
 
-    upVector1 = FloatField()
+    upVector1 = FloatField(default_value=1.0)
     uVec1 = upVector1
 
-    upVector2 = FloatField()
+    upVector2 = FloatField(default_value=0.0)
     uVec2 = upVector2
 
 
@@ -257,13 +257,13 @@ class TargetInputPlugOperator(
         ("targetInput2", "tin2"),
     )
 
-    targetInput0 = FloatField()
+    targetInput0 = FloatField(default_value=0.0)
     tin0 = targetInput0
 
-    targetInput1 = FloatField()
+    targetInput1 = FloatField(default_value=0.0)
     tin1 = targetInput1
 
-    targetInput2 = FloatField()
+    targetInput2 = FloatField(default_value=0.0)
     tin2 = targetInput2
 
 
@@ -272,13 +272,13 @@ class TargetInputAttrOperator(
 ):
     __slots__ = ()
 
-    targetInput0 = FloatField()
+    targetInput0 = FloatField(default_value=0.0)
     tin0 = targetInput0
 
-    targetInput1 = FloatField()
+    targetInput1 = FloatField(default_value=0.0)
     tin1 = targetInput1
 
-    targetInput2 = FloatField()
+    targetInput2 = FloatField(default_value=0.0)
     tin2 = targetInput2
 
 
@@ -290,11 +290,11 @@ class TargetInputField(
     ATTR_CLS = TargetInputAttrOperator
     PLUG_CLS = TargetInputPlugOperator
 
-    targetInput0 = FloatField()
+    targetInput0 = FloatField(default_value=0.0)
     tin0 = targetInput0
 
-    targetInput1 = FloatField()
+    targetInput1 = FloatField(default_value=0.0)
     tin1 = targetInput1
 
-    targetInput2 = FloatField()
+    targetInput2 = FloatField(default_value=0.0)
     tin2 = targetInput2

@@ -86,7 +86,7 @@ class AiNoise(DG):
 
     NODE_TYPE = "aiNoise"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     out = outColor
     outColorR = outColor.outColorR
     outr = outColorR
@@ -95,7 +95,7 @@ class AiNoise(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -104,15 +104,15 @@ class AiNoise(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    octaves = LongField()
+    octaves = LongField(default_value=1, soft_min_value=1, soft_max_value=8)
 
-    distortion = FloatField()
+    distortion = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
 
-    lacunarity = FloatField()
+    lacunarity = FloatField(default_value=1.9199999570846558, min_value=9.999999747378752e-05, soft_min_value=1.0, soft_max_value=5.0)
 
-    amplitude = FloatField()
+    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
 
-    scale = ScaleField()
+    scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX
     scalex = scaleX
     scaleY = scale.scaleY
@@ -120,7 +120,7 @@ class AiNoise(DG):
     scaleZ = scale.scaleZ
     scalez = scaleZ
 
-    offset = OffsetField()
+    offset = OffsetField(default_value=(0.0, 0.0, 0.0))
     offsetX = offset.offsetX
     offsetx = offsetX
     offsetY = offset.offsetY
@@ -128,13 +128,13 @@ class AiNoise(DG):
     offsetZ = offset.offsetZ
     offsetz = offsetZ
 
-    coordSpace = CoordSpaceEnumField()
+    coordSpace = CoordSpaceEnumField(default_value=1)
     coord_space = coordSpace
 
     prefName = DataStringField()
     pref_name = prefName
 
-    P = PField()
+    P = PField(default_value=(0.0, 0.0, 0.0))
     PX = P.PX
     Px = PX
     PY = P.PY
@@ -142,9 +142,9 @@ class AiNoise(DG):
     PZ = P.PZ
     Pz = PZ
 
-    time = FloatField()
+    time = FloatField(default_value=0.0)
 
-    color1 = Color1Field()
+    color1 = Color1Field(default_value=(0.0, 0.0, 0.0))
     color1R = color1.color1R
     color1r = color1R
     color1G = color1.color1G
@@ -152,7 +152,7 @@ class AiNoise(DG):
     color1B = color1.color1B
     color1b = color1B
 
-    color2 = Color2Field()
+    color2 = Color2Field(default_value=(1.0, 1.0, 1.0))
     color2R = color2.color2R
     color2r = color2R
     color2G = color2.color2G
@@ -160,4 +160,4 @@ class AiNoise(DG):
     color2B = color2.color2B
     color2b = color2B
 
-    mode = ModeEnumField()
+    mode = ModeEnumField(default_value=0)

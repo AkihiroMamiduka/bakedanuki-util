@@ -13,7 +13,7 @@ class AiAxfShader(DG):
 
     NODE_TYPE = "aiAxfShader"
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     ocl = outColor
     outColorR = outColor.outColorR
     oclr = outColorR
@@ -22,7 +22,7 @@ class AiAxfShader(DG):
     outColorB = outColor.outColorB
     oclb = outColorB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -37,5 +37,5 @@ class AiAxfShader(DG):
     texturePath = DataStringField()
     texPth = texturePath
 
-    uvScale = FloatField()
+    uvScale = FloatField(default_value=1.0)
     uvscl = uvScale

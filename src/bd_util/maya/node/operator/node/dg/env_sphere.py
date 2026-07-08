@@ -24,7 +24,7 @@ class EnvSphere(DG):
 
     NODE_TYPE = "envSphere"
 
-    objectType = CharField()
+    objectType = CharField(default_value=1, min_value=0, max_value=255)
     ot = objectType
 
     placementMatrix = FltMatrixField()
@@ -33,10 +33,10 @@ class EnvSphere(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -45,7 +45,7 @@ class EnvSphere(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    rayDirection = RayDirectionField()
+    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0))
     r = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rx = rayDirectionX
@@ -54,21 +54,21 @@ class EnvSphere(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rz = rayDirectionZ
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -77,7 +77,7 @@ class EnvSphere(DG):
     filterSizeZ = filterSize.filterSizeZ
     fsz = filterSizeZ
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -86,10 +86,10 @@ class EnvSphere(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -98,7 +98,7 @@ class EnvSphere(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -107,7 +107,7 @@ class EnvSphere(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    image = ImageField()
+    image = ImageField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     so = image
     imageR = image.imageR
     sor = imageR
@@ -116,15 +116,15 @@ class EnvSphere(DG):
     imageB = image.imageB
     sob = imageB
 
-    shearUV = ShearUVField()
+    shearUV = ShearUVField(default_value=(0.0, 0.0), min_value=(-10.0, -10.0), max_value=(10.0, 10.0))
     suv = shearUV
     shearU = shearUV.shearU
     su = shearU
     shearV = shearUV.shearV
     sv = shearV
 
-    flip = BoolField()
+    flip = BoolField(default_value=False)
     f = flip
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits

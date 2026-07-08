@@ -18,13 +18,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -33,13 +33,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -51,13 +51,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -71,11 +71,11 @@ class SignalScaleMultiplierPlugOperator(
         ("signalScaleMultiplier2", "signalScaleMultiplier2"),
     )
 
-    signalScaleMultiplier0 = FloatField()
+    signalScaleMultiplier0 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier1 = FloatField()
+    signalScaleMultiplier1 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier2 = FloatField()
+    signalScaleMultiplier2 = FloatField(default_value=1.0)
 
 
 class SignalScaleMultiplierAttrOperator(
@@ -83,11 +83,11 @@ class SignalScaleMultiplierAttrOperator(
 ):
     __slots__ = ()
 
-    signalScaleMultiplier0 = FloatField()
+    signalScaleMultiplier0 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier1 = FloatField()
+    signalScaleMultiplier1 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier2 = FloatField()
+    signalScaleMultiplier2 = FloatField(default_value=1.0)
 
 
 class SignalScaleMultiplierField(
@@ -98,8 +98,8 @@ class SignalScaleMultiplierField(
     ATTR_CLS = SignalScaleMultiplierAttrOperator
     PLUG_CLS = SignalScaleMultiplierPlugOperator
 
-    signalScaleMultiplier0 = FloatField()
+    signalScaleMultiplier0 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier1 = FloatField()
+    signalScaleMultiplier1 = FloatField(default_value=1.0)
 
-    signalScaleMultiplier2 = FloatField()
+    signalScaleMultiplier2 = FloatField(default_value=1.0)

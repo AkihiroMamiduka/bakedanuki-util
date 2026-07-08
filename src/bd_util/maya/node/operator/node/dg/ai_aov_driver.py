@@ -227,7 +227,7 @@ class AiAOVDriver(DG):
 
     NODE_TYPE = "aiAOVDriver"
 
-    mergeAOVs = BoolField()
+    mergeAOVs = BoolField(default_value=False)
     merge_AOVs = mergeAOVs
 
     aiTranslator = DataStringField()
@@ -236,97 +236,97 @@ class AiAOVDriver(DG):
     prefix = DataStringField()
     pre = prefix
 
-    outputMode = OutputModeEnumField()
+    outputMode = OutputModeEnumField(default_value=2)
     output_mode = outputMode
 
-    colorManagement = ColorManagementEnumField()
+    colorManagement = ColorManagementEnumField(default_value=2)
     color_management = colorManagement
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    quality = LongField()
+    quality = LongField(default_value=100, min_value=0, max_value=100, category="arnold")
 
-    outputPadded = BoolField()
+    outputPadded = BoolField(default_value=False, category="arnold")
     output_padded = outputPadded
 
-    dither = BoolField()
+    dither = BoolField(default_value=True, category="arnold")
 
-    pngFormat = PngFormatEnumField()
+    pngFormat = PngFormatEnumField(default_value=0, category="arnold")
     png_format = pngFormat
 
-    pngUnpremultAlpha = BoolField()
+    pngUnpremultAlpha = BoolField(default_value=False, category="arnold")
     png_unpremult_alpha = pngUnpremultAlpha
 
-    pngSkipAlpha = BoolField()
+    pngSkipAlpha = BoolField(default_value=True, category="arnold")
     png_skip_alpha = pngSkipAlpha
 
-    tiffCompression = TiffCompressionEnumField()
+    tiffCompression = TiffCompressionEnumField(default_value=1, category="arnold")
     tiff_compression = tiffCompression
 
-    tiffFormat = TiffFormatEnumField()
+    tiffFormat = TiffFormatEnumField(default_value=0, category="arnold")
     tiff_format = tiffFormat
 
-    tiffTiled = BoolField()
+    tiffTiled = BoolField(default_value=False, category="arnold")
     tiff_tiled = tiffTiled
 
-    unpremultAlpha = BoolField()
+    unpremultAlpha = BoolField(default_value=False, category="arnold")
     unpremult_alpha = unpremultAlpha
 
-    skipAlpha = BoolField()
+    skipAlpha = BoolField(default_value=False, category="arnold")
     skip_alpha = skipAlpha
 
-    append = BoolField()
+    append = BoolField(default_value=False, category="arnold")
 
-    deepexrTiled = BoolField()
+    deepexrTiled = BoolField(default_value=False, category="arnold")
     deepexr_tiled = deepexrTiled
 
-    subpixelMerge = BoolField()
+    subpixelMerge = BoolField(default_value=True, category="arnold")
     subpixel_merge = subpixelMerge
 
-    useRGBOpacity = BoolField()
+    useRGBOpacity = BoolField(default_value=False, category="arnold")
     use_RGB_opacity = useRGBOpacity
 
-    alphaTolerance = FloatField()
+    alphaTolerance = FloatField(default_value=0.009999999776482582, category="arnold")
     alpha_tolerance = alphaTolerance
 
-    depthTolerance = FloatField()
+    depthTolerance = FloatField(default_value=0.009999999776482582, category="arnold")
     depth_tolerance = depthTolerance
 
-    alphaHalfPrecision = BoolField()
+    alphaHalfPrecision = BoolField(default_value=False, category="arnold")
     alpha_half_precision = alphaHalfPrecision
 
-    depthHalfPrecision = BoolField()
+    depthHalfPrecision = BoolField(default_value=False, category="arnold")
     depth_half_precision = depthHalfPrecision
 
-    layerTolerance = FloatField(multi=True)
+    layerTolerance = FloatField(multi=True, default_value=5.872578867638367e-09, category="arnold")
     layer_tolerance = layerTolerance
 
-    layerEnableFiltering = BoolField(multi=True)
+    layerEnableFiltering = BoolField(multi=True, default_value=True, category="arnold")
     layer_enable_filtering = layerEnableFiltering
 
-    layerHalfPrecision = BoolField(multi=True)
+    layerHalfPrecision = BoolField(multi=True, default_value=False, category="arnold")
     layer_half_precision = layerHalfPrecision
 
-    customAttributes = DataStringField(multi=True)
+    customAttributes = DataStringField(multi=True, category="arnold")
     custom_attributes = customAttributes
 
-    exrCompression = ExrCompressionEnumField()
+    exrCompression = ExrCompressionEnumField(default_value=3, category="arnold")
     exr_compression = exrCompression
 
-    halfPrecision = BoolField()
+    halfPrecision = BoolField(default_value=False, category="arnold")
     half_precision = halfPrecision
 
-    exrTiled = BoolField()
+    exrTiled = BoolField(default_value=True, category="arnold")
     tiled = exrTiled
 
-    multipart = BoolField()
+    multipart = BoolField(default_value=False, category="arnold")
 
-    preserveLayerName = BoolField()
+    preserveLayerName = BoolField(default_value=False, category="arnold")
     preserve_layer_name = preserveLayerName
 
-    autocrop = BoolField()
+    autocrop = BoolField(default_value=False, category="arnold")
 
-    input = MessageField()
+    input = MessageField(category="arnold")
 
-    renderSession = DataStringField()
+    renderSession = DataStringField(category="arnold")

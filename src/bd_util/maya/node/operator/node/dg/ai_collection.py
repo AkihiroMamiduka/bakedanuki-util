@@ -10,9 +10,9 @@ class AiCollection(DG):
 
     NODE_TYPE = "aiCollection"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     inputs = MessageField(multi=True)
 

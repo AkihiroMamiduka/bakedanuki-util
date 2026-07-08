@@ -163,7 +163,7 @@ class Projection(DG):
 
     NODE_TYPE = "projection"
 
-    pointObj = PointObjField()
+    pointObj = PointObjField(default_value=(0.0, 0.0, 0.0))
     po = pointObj
     pointObjX = pointObj.pointObjX
     pox = pointObjX
@@ -172,7 +172,7 @@ class Projection(DG):
     pointObjZ = pointObj.pointObjZ
     poz = pointObjZ
 
-    pointCamera = PointCameraField()
+    pointCamera = PointCameraField(default_value=(0.0, 0.0, 0.0))
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX
@@ -181,7 +181,7 @@ class Projection(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    filterSize = FilterSizeField()
+    filterSize = FilterSizeField(default_value=(0.0, 0.0, 0.0))
     fs = filterSize
     filterSizeX = filterSize.filterSizeX
     fsx = filterSizeX
@@ -196,28 +196,28 @@ class Projection(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField()
+    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     f = filter
 
-    filterOffset = FloatField()
+    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     fo = filterOffset
 
-    blend = FloatField()
+    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     b = blend
 
-    local = BoolField()
+    local = BoolField(default_value=False)
     lo = local
 
-    wrap = BoolField()
+    wrap = BoolField(default_value=True)
     w = wrap
 
-    invert = BoolField()
+    invert = BoolField(default_value=False)
     i = invert
 
-    alphaIsLuminance = BoolField()
+    alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField()
+    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -226,7 +226,7 @@ class Projection(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField()
+    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -235,13 +235,13 @@ class Projection(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField()
+    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
     ag = alphaGain
 
-    alphaOffset = FloatField()
+    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
     ao = alphaOffset
 
-    defaultColor = DefaultColorField()
+    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -250,7 +250,7 @@ class Projection(DG):
     defaultColorB = defaultColor.defaultColorB
     dcb = defaultColorB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR
@@ -259,10 +259,10 @@ class Projection(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outAlpha = FloatField()
+    outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    normalCamera = NormalCameraField()
+    normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
     n = normalCamera
     normalCameraX = normalCamera.normalCameraX
     nx = normalCameraX
@@ -271,7 +271,7 @@ class Projection(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    srfNormal = SrfNormalField()
+    srfNormal = SrfNormalField(default_value=(0.0, 0.0, 1.0))
     srn = srfNormal
     srfNormalX = srfNormal.srfNormalX
     snx = srfNormalX
@@ -280,7 +280,7 @@ class Projection(DG):
     srfNormalZ = srfNormal.srfNormalZ
     snz = srfNormalZ
 
-    refPointObj = RefPointObjField()
+    refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
     rpo = refPointObj
     refPointObjX = refPointObj.refPointObjX
     rox = refPointObjX
@@ -289,7 +289,7 @@ class Projection(DG):
     refPointObjZ = refPointObj.refPointObjZ
     roz = refPointObjZ
 
-    refPointCamera = RefPointCameraField()
+    refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))
     rpc = refPointCamera
     refPointCameraX = refPointCamera.refPointCameraX
     rcx = refPointCameraX
@@ -298,10 +298,10 @@ class Projection(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    xPixelAngle = FloatField()
+    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
     xpa = xPixelAngle
 
-    image = ImageField()
+    image = ImageField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     im = image
     imageR = image.imageR
     imr = imageR
@@ -310,7 +310,7 @@ class Projection(DG):
     imageB = image.imageB
     imb = imageB
 
-    transparency = TransparencyField()
+    transparency = TransparencyField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     it = transparency
     transparencyR = transparency.transparencyR
     itr = transparencyR
@@ -319,25 +319,25 @@ class Projection(DG):
     transparencyB = transparency.transparencyB
     itb = transparencyB
 
-    uAngle = DoubleAngleField()
+    uAngle = DoubleAngleField(default_value=180.0, min_value=0.0, max_value=360.0)
     ua = uAngle
 
-    vAngle = DoubleAngleField()
+    vAngle = DoubleAngleField(default_value=90.0, min_value=0.0, max_value=180.0)
     va = vAngle
 
-    projType = ProjTypeEnumField()
+    projType = ProjTypeEnumField(default_value=1)
     t = projType
 
     linkedCamera = MessageField()
     lc = linkedCamera
 
-    fitType = FitTypeEnumField()
+    fitType = FitTypeEnumField(default_value=1)
     ft = fitType
 
-    fitFill = FitFillEnumField()
+    fitFill = FitFillEnumField(default_value=0)
     ff = fitFill
 
-    ripples = RipplesField()
+    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(20.0, 20.0, 20.0))
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -346,32 +346,32 @@ class Projection(DG):
     ripplesZ = ripples.ripplesZ
     rz = ripplesZ
 
-    depth = DepthField()
+    depth = DepthField(default_value=(0.0, 10.0), min_value=(0.0, 0.0), max_value=(25.0, 25.0))
     d = depth
     depthMin = depth.depthMin
     dmn = depthMin
     depthMax = depth.depthMax
     dmx = depthMax
 
-    amplitudeX = FloatField()
+    amplitudeX = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ax = amplitudeX
 
-    amplitudeY = FloatField()
+    amplitudeY = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ay = amplitudeY
 
-    ratio = FloatField()
+    ratio = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
     ra = ratio
 
-    infoBits = LongField()
+    infoBits = LongField(default_value=0)
     ib = infoBits
 
-    depWts = FloatField()
+    depWts = FloatField(default_value=0.0, writable=False)
     dwt = depWts
 
-    angWts = FloatField()
+    angWts = FloatField(default_value=0.0, writable=False)
     awt = angWts
 
-    camPos = CamPosField()
+    camPos = CamPosField(default_value=(0.0, 0.0, 0.0))
     cpo = camPos
     camPsX = camPos.camPsX
     cpx = camPsX
@@ -380,7 +380,7 @@ class Projection(DG):
     camPsZ = camPos.camPsZ
     cpz = camPsZ
 
-    camAg = CamAgField()
+    camAg = CamAgField(default_value=(0.0, 0.0, 0.0))
     cag = camAg
     camAngX = camAg.camAngX
     cax = camAngX
@@ -389,10 +389,10 @@ class Projection(DG):
     camAngZ = camAg.camAngZ
     caz = camAngZ
 
-    passTr = BoolField()
+    passTr = BoolField(default_value=False)
     pst = passTr
 
-    transparencyGain = TransparencyGainField()
+    transparencyGain = TransparencyGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     tg = transparencyGain
     transparencyGainR = transparencyGain.transparencyGainR
     tgr = transparencyGainR
@@ -401,7 +401,7 @@ class Projection(DG):
     transparencyGainB = transparencyGain.transparencyGainB
     tgb = transparencyGainB
 
-    transparencyOffset = TransparencyOffsetField()
+    transparencyOffset = TransparencyOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
     to = transparencyOffset
     transparencyOffsetR = transparencyOffset.transparencyOffsetR
     tor = transparencyOffsetR
@@ -410,7 +410,7 @@ class Projection(DG):
     transparencyOffsetB = transparencyOffset.transparencyOffsetB
     tob = transparencyOffsetB
 
-    defaultTransparency = DefaultTransparencyField()
+    defaultTransparency = DefaultTransparencyField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
     dt = defaultTransparency
     defaultTransparencyR = defaultTransparency.defaultTransparencyR
     dtr = defaultTransparencyR
@@ -419,7 +419,7 @@ class Projection(DG):
     defaultTransparencyB = defaultTransparency.defaultTransparencyB
     dtb = defaultTransparencyB
 
-    outTransparency = OutTransparencyField()
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -428,14 +428,14 @@ class Projection(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    uvCoord = UvCoordField()
+    uvCoord = UvCoordField(default_value=(0.0, 0.0))
     uv = uvCoord
     uCoord = uvCoord.uCoord
     u = uCoord
     vCoord = uvCoord.vCoord
     v = vCoord
 
-    vertexCameraOne = VertexCameraOneField()
+    vertexCameraOne = VertexCameraOneField(default_value=(0.0, 0.0, 0.0))
     vc1 = vertexCameraOne
     vertexCameraOneX = vertexCameraOne.vertexCameraOneX
     c1x = vertexCameraOneX
@@ -444,7 +444,7 @@ class Projection(DG):
     vertexCameraOneZ = vertexCameraOne.vertexCameraOneZ
     c1z = vertexCameraOneZ
 
-    vertexCameraTwo = VertexCameraTwoField()
+    vertexCameraTwo = VertexCameraTwoField(default_value=(0.0, 0.0, 0.0))
     vc2 = vertexCameraTwo
     vertexCameraTwoX = vertexCameraTwo.vertexCameraTwoX
     c2x = vertexCameraTwoX
@@ -453,7 +453,7 @@ class Projection(DG):
     vertexCameraTwoZ = vertexCameraTwo.vertexCameraTwoZ
     c2z = vertexCameraTwoZ
 
-    vertexCameraThree = VertexCameraThreeField()
+    vertexCameraThree = VertexCameraThreeField(default_value=(0.0, 0.0, 0.0))
     vc3 = vertexCameraThree
     vertexCameraThreeX = vertexCameraThree.vertexCameraThreeX
     c3x = vertexCameraThreeX
@@ -462,35 +462,35 @@ class Projection(DG):
     vertexCameraThreeZ = vertexCameraThree.vertexCameraThreeZ
     c3z = vertexCameraThreeZ
 
-    vertexUvOne = VertexUvOneField()
+    vertexUvOne = VertexUvOneField(default_value=(0.0, 0.0))
     vt1 = vertexUvOne
     vertexUvOneU = vertexUvOne.vertexUvOneU
     t1u = vertexUvOneU
     vertexUvOneV = vertexUvOne.vertexUvOneV
     t1v = vertexUvOneV
 
-    vertexUvTwo = VertexUvTwoField()
+    vertexUvTwo = VertexUvTwoField(default_value=(0.0, 0.0))
     vt2 = vertexUvTwo
     vertexUvTwoU = vertexUvTwo.vertexUvTwoU
     t2u = vertexUvTwoU
     vertexUvTwoV = vertexUvTwo.vertexUvTwoV
     t2v = vertexUvTwoV
 
-    vertexUvThree = VertexUvThreeField()
+    vertexUvThree = VertexUvThreeField(default_value=(0.0, 0.0))
     vt3 = vertexUvThree
     vertexUvThreeU = vertexUvThree.vertexUvThreeU
     t3u = vertexUvThreeU
     vertexUvThreeV = vertexUvThree.vertexUvThreeV
     t3v = vertexUvThreeV
 
-    uvFilterSize = UvFilterSizeField()
+    uvFilterSize = UvFilterSizeField(default_value=(0.0, 0.0))
     uf = uvFilterSize
     uvFilterSizeX = uvFilterSize.uvFilterSizeX
     ufx = uvFilterSizeX
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     ufy = uvFilterSizeY
 
-    tangentUCamera = TangentUCameraField()
+    tangentUCamera = TangentUCameraField(default_value=(1.0, 0.0, 0.0))
     tu = tangentUCamera
     tangentUx = tangentUCamera.tangentUx
     tux = tangentUx
@@ -499,7 +499,7 @@ class Projection(DG):
     tangentUz = tangentUCamera.tangentUz
     tuz = tangentUz
 
-    tangentVCamera = TangentVCameraField()
+    tangentVCamera = TangentVCameraField(default_value=(0.0, 1.0, 0.0))
     tv = tangentVCamera
     tangentVx = tangentVCamera.tangentVx
     tvx = tangentVx
@@ -508,8 +508,8 @@ class Projection(DG):
     tangentVz = tangentVCamera.tangentVz
     tvz = tangentVz
 
-    aiUserOptions = DataStringField()
+    aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    aiUseReferenceObject = BoolField()
+    aiUseReferenceObject = BoolField(default_value=True, category="arnold")
     ai_use_reference_object = aiUseReferenceObject

@@ -9,14 +9,14 @@ class FloatCondition(DG):
 
     NODE_TYPE = "floatCondition"
 
-    floatA = FloatField()
+    floatA = FloatField(default_value=1.0)
     fa = floatA
 
-    floatB = FloatField()
+    floatB = FloatField(default_value=1.0)
     fb = floatB
 
-    condition = BoolField()
+    condition = BoolField(default_value=False)
     cnd = condition
 
-    outFloat = FloatField()
+    outFloat = FloatField(default_value=0.0, writable=False)
     of = outFloat

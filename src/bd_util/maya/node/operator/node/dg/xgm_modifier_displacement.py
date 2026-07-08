@@ -44,19 +44,19 @@ class XgmModifierDisplacement(DG):
 
     NODE_TYPE = "xgmModifierDisplacement"
 
-    inSplineData = TypedField()
+    inSplineData = TypedField(readable=False)
     isd = inSplineData
 
-    outSplineData = TypedField()
+    outSplineData = TypedField(writable=False)
     osd = outSplineData
 
-    mute = BoolField()
+    mute = BoolField(default_value=False)
     m = mute
 
-    displacement = FloatField()
+    displacement = FloatField(default_value=0.0)
     dis = displacement
 
-    vectorDisplacement = VectorDisplacementField()
+    vectorDisplacement = VectorDisplacementField(default_value=(0.0, 0.0, 0.0))
     vdis = vectorDisplacement
     vectorDisplacement0 = vectorDisplacement.vectorDisplacement0
     vdis0 = vectorDisplacement0
@@ -65,19 +65,19 @@ class XgmModifierDisplacement(DG):
     vectorDisplacement2 = vectorDisplacement.vectorDisplacement2
     vdis2 = vectorDisplacement2
 
-    coordsys = CoordsysEnumField()
+    coordsys = CoordsysEnumField(default_value=1)
     cds = coordsys
 
-    scale = FloatField()
+    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
     scl = scale
 
-    base = FloatField()
+    base = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
     bs = base
 
-    offset = FloatField()
+    offset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     os = offset
 
-    bump = FloatField()
+    bump = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
     bp = bump
 
     tweak = TypedField()

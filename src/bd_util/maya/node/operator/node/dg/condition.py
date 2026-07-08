@@ -58,16 +58,16 @@ class Condition(DG):
 
     NODE_TYPE = "condition"
 
-    operation = OperationEnumField()
+    operation = OperationEnumField(default_value=0)
     op = operation
 
-    firstTerm = FloatField()
+    firstTerm = FloatField(default_value=0.0)
     ft = firstTerm
 
-    secondTerm = FloatField()
+    secondTerm = FloatField(default_value=0.0)
     st = secondTerm
 
-    colorIfTrue = ColorIfTrueField()
+    colorIfTrue = ColorIfTrueField(default_value=(0.0, 0.0, 0.0))
     ct = colorIfTrue
     colorIfTrueR = colorIfTrue.colorIfTrueR
     ctr = colorIfTrueR
@@ -76,7 +76,7 @@ class Condition(DG):
     colorIfTrueB = colorIfTrue.colorIfTrueB
     ctb = colorIfTrueB
 
-    colorIfFalse = ColorIfFalseField()
+    colorIfFalse = ColorIfFalseField(default_value=(1.0, 1.0, 1.0))
     cf = colorIfFalse
     colorIfFalseR = colorIfFalse.colorIfFalseR
     cfr = colorIfFalseR
@@ -85,7 +85,7 @@ class Condition(DG):
     colorIfFalseB = colorIfFalse.colorIfFalseB
     cfb = colorIfFalseB
 
-    outColor = OutColorField()
+    outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
     oc = outColor
     outColorR = outColor.outColorR
     ocr = outColorR

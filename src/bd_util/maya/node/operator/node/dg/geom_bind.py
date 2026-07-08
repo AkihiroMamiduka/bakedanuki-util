@@ -17,14 +17,14 @@ class GeomBind(DG):
     bindPose = MessageField()
     bp = bindPose
 
-    falloff = DoubleField()
+    falloff = DoubleField(default_value=0.2, min_value=0.0, max_value=1.0)
     fo = falloff
 
-    maxInfluences = LongField()
+    maxInfluences = LongField(default_value=-1)
     mi = maxInfluences
 
-    gvResolution = LongField()
+    gvResolution = LongField(default_value=256, min_value=1)
     gvr = gvResolution
 
-    gvPostVoxelCheck = BoolField()
+    gvPostVoxelCheck = BoolField(default_value=True)
     gvpv = gvPostVoxelCheck

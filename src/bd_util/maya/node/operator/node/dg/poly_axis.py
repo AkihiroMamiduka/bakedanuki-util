@@ -80,10 +80,10 @@ class PolyAxis(DG):
 
     NODE_TYPE = "polyAxis"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
-    axis = AxisField()
+    axis = AxisField(default_value=(0.0, 1.0, 0.0))
     ax = axis
     axisX = axis.axisX
     axx = axisX
@@ -92,16 +92,16 @@ class PolyAxis(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField()
+    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
     hbl = heightBaseline
 
-    paramWarn = BoolField()
+    paramWarn = BoolField(default_value=True)
     pw = paramWarn
 
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    componentTagCreate = BoolField()
+    componentTagCreate = BoolField(default_value=True)
     ctc = componentTagCreate
 
     componentTagPrefix = DataStringField()
@@ -110,29 +110,29 @@ class PolyAxis(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    frameType = FrameTypeEnumField()
+    frameType = FrameTypeEnumField(default_value=0)
     ftp = frameType
 
-    scale = DoubleLinearField()
+    scale = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     sca = scale
 
-    radius = DoubleLinearField()
+    radius = DoubleLinearField(default_value=0.05, min_value=0.001, soft_max_value=100.0)
     r = radius
 
-    lengthX = DoubleLinearField()
+    lengthX = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     lx = lengthX
 
-    lengthY = DoubleLinearField()
+    lengthY = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     ly = lengthY
 
-    lengthZ = DoubleLinearField()
+    lengthZ = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
     lz = lengthZ
 
-    arrowType = ArrowTypeEnumField()
+    arrowType = ArrowTypeEnumField(default_value=1)
     arw = arrowType
 
-    subdivisionsAxis = LongField()
+    subdivisionsAxis = LongField(default_value=10, min_value=3, soft_max_value=50)
     sa = subdivisionsAxis
 
-    rightHanded = BoolField()
+    rightHanded = BoolField(default_value=True)
     rhd = rightHanded

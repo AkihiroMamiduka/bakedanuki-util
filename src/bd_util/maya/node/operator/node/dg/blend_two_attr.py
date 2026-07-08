@@ -10,14 +10,14 @@ class BlendTwoAttr(DG):
 
     NODE_TYPE = "blendTwoAttr"
 
-    input = DoubleField(multi=True)
+    input = DoubleField(multi=True, default_value=0.0)
     i = input
 
-    output = DoubleField()
+    output = DoubleField(default_value=0.0, writable=False)
     o = output
 
-    current = LongField()
+    current = LongField(default_value=0)
     c = current
 
-    attributesBlender = FloatField()
+    attributesBlender = FloatField(default_value=0.0)
     ab = attributesBlender

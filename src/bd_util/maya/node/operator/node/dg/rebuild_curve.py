@@ -161,41 +161,41 @@ class RebuildCurve(DG):
     matchCurve = DataNurbsCurveField()
     mc = matchCurve
 
-    fitRebuild = BoolField()
+    fitRebuild = BoolField(default_value=True)
     fr = fitRebuild
 
-    rebuildType = RebuildTypeEnumField()
+    rebuildType = RebuildTypeEnumField(default_value=0)
     rt = rebuildType
 
-    spans = LongField()
+    spans = LongField(default_value=4, min_value=1, soft_max_value=100)
     s = spans
 
-    degree = DegreeEnumField()
+    degree = DegreeEnumField(default_value=3)
     d = degree
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    endKnots = EndKnotsEnumField()
+    endKnots = EndKnotsEnumField(default_value=0)
     end = endKnots
 
-    keepRange = KeepRangeEnumField()
+    keepRange = KeepRangeEnumField(default_value=1)
     kr = keepRange
 
-    keepEndPoints = BoolField()
+    keepEndPoints = BoolField(default_value=True)
     kep = keepEndPoints
 
-    keepTangents = BoolField()
+    keepTangents = BoolField(default_value=True)
     kt = keepTangents
 
-    outputCurve = DataNurbsCurveField()
+    outputCurve = DataNurbsCurveField(writable=False)
     oc = outputCurve
 
-    keepControlPoints = BoolField()
+    keepControlPoints = BoolField(default_value=False)
     kcp = keepControlPoints
 
-    smartSurfaceCurveRebuild = BoolField()
+    smartSurfaceCurveRebuild = BoolField(default_value=False)
     scr = smartSurfaceCurveRebuild
 
-    smooth = DoubleLinearField()
+    smooth = DoubleLinearField(default_value=-3.0, min_value=-3.0, soft_max_value=5.0)
     sm = smooth

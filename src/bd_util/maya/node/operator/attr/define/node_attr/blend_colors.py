@@ -18,13 +18,13 @@ class Color1PlugOperator(
         ("color1B", "c1b"),
     )
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1b = color1B
 
 
@@ -33,13 +33,13 @@ class Color1AttrOperator(
 ):
     __slots__ = ()
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1b = color1B
 
 
@@ -51,13 +51,13 @@ class Color1Field(
     ATTR_CLS = Color1AttrOperator
     PLUG_CLS = Color1PlugOperator
 
-    color1R = FloatField()
+    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c1r = color1R
 
-    color1G = FloatField()
+    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1g = color1G
 
-    color1B = FloatField()
+    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c1b = color1B
 
 
@@ -71,13 +71,13 @@ class Color2PlugOperator(
         ("color2B", "c2b"),
     )
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c2b = color2B
 
 
@@ -86,13 +86,13 @@ class Color2AttrOperator(
 ):
     __slots__ = ()
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c2b = color2B
 
 
@@ -104,13 +104,13 @@ class Color2Field(
     ATTR_CLS = Color2AttrOperator
     PLUG_CLS = Color2PlugOperator
 
-    color2R = FloatField()
+    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2r = color2R
 
-    color2G = FloatField()
+    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
     c2g = color2G
 
-    color2B = FloatField()
+    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
     c2b = color2B
 
 
@@ -124,13 +124,13 @@ class OutputPlugOperator(
         ("outputB", "opb"),
     )
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB
 
 
@@ -139,13 +139,13 @@ class OutputAttrOperator(
 ):
     __slots__ = ()
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB
 
 
@@ -157,11 +157,11 @@ class OutputField(
     ATTR_CLS = OutputAttrOperator
     PLUG_CLS = OutputPlugOperator
 
-    outputR = FloatField()
+    outputR = FloatField(default_value=0.0, writable=False)
     opr = outputR
 
-    outputG = FloatField()
+    outputG = FloatField(default_value=0.0, writable=False)
     opg = outputG
 
-    outputB = FloatField()
+    outputB = FloatField(default_value=0.0, writable=False)
     opb = outputB

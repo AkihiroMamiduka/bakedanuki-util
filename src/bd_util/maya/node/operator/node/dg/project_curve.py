@@ -18,10 +18,10 @@ class ProjectCurve(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    outputCurve = DataNurbsCurveField(multi=True)
+    outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve
 
-    direction = DirectionField()
+    direction = DirectionField(default_value=(0.0, 0.0, 1.0))
     d = direction
     directionX = direction.directionX
     dx = directionX
@@ -30,8 +30,8 @@ class ProjectCurve(DG):
     directionZ = direction.directionZ
     dz = directionZ
 
-    tolerance = DoubleLinearField()
+    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
     tol = tolerance
 
-    useNormal = BoolField()
+    useNormal = BoolField(default_value=False)
     un = useNormal

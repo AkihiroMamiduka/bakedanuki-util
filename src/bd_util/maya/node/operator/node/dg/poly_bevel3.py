@@ -91,7 +91,7 @@ class PolyBevel3(DG):
 
     NODE_TYPE = "polyBevel3"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -100,101 +100,101 @@ class PolyBevel3(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    offsetAsFraction = BoolField()
+    offsetAsFraction = BoolField(default_value=False)
     oaf = offsetAsFraction
 
-    forceParallel = BoolField()
+    forceParallel = BoolField(default_value=False)
     fp = forceParallel
 
-    offset = DoubleLinearField()
+    offset = DoubleLinearField(default_value=0.2, min_value=0.0, soft_max_value=5.0)
     o = offset
 
-    fraction = DoubleField()
+    fraction = DoubleField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
     f = fraction
 
-    roundness = DoubleField()
+    roundness = DoubleField(default_value=0.5, min_value=-1.0, soft_min_value=-0.5, soft_max_value=0.5)
     r = roundness
 
-    segments = LongField()
+    segments = LongField(default_value=1, min_value=1, soft_max_value=12)
     sg = segments
 
-    depth = DoubleField()
+    depth = DoubleField(default_value=1.0, soft_min_value=-1.0, soft_max_value=1.0)
     d = depth
 
-    mitering = MiteringEnumField()
+    mitering = MiteringEnumField(default_value=0)
     m = mitering
 
-    miterAlong = MiterAlongEnumField()
+    miterAlong = MiterAlongEnumField(default_value=0)
     mia = miterAlong
 
-    chamfer = BoolField()
+    chamfer = BoolField(default_value=True)
     c = chamfer
 
-    autoFit = BoolField()
+    autoFit = BoolField(default_value=True)
     af = autoFit
 
-    angleTolerance = DoubleField()
+    angleTolerance = DoubleField(default_value=20.0, min_value=0.0, soft_max_value=180.0)
     at = angleTolerance
 
-    subdivideNgons = BoolField()
+    subdivideNgons = BoolField(default_value=False)
     sn = subdivideNgons
 
-    mergeVertices = BoolField()
+    mergeVertices = BoolField(default_value=False)
     mv = mergeVertices
 
-    mergeVertexTolerance = DoubleLinearField()
+    mergeVertexTolerance = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     mvt = mergeVertexTolerance
 
-    smoothingAngle = DoubleField()
+    smoothingAngle = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
     sa = smoothingAngle
 
-    miteringAngle = DoubleField()
+    miteringAngle = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
     ma = miteringAngle
 
-    maya2015 = BoolField()
+    maya2015 = BoolField(default_value=True)
     m15 = maya2015
 
-    maya2016SP3 = BoolField()
+    maya2016SP3 = BoolField(default_value=True)
     m16 = maya2016SP3
 
-    maya2017Update1 = BoolField()
+    maya2017Update1 = BoolField(default_value=True)
     m17 = maya2017Update1
 
-    filterEdgesByAngle = BoolField()
+    filterEdgesByAngle = BoolField(default_value=False)
     fea = filterEdgesByAngle
 
-    filterAngle = DoubleAngleField()
+    filterAngle = DoubleAngleField(default_value=29.999999999999996, min_value=0.0, max_value=180.0)
     fan = filterAngle
 
-    filterHardEdges = BoolField()
+    filterHardEdges = BoolField(default_value=False)
     fhe = filterHardEdges

@@ -180,7 +180,7 @@ class PolyLayoutUV(DG):
 
     NODE_TYPE = "polyLayoutUV"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -189,31 +189,31 @@ class PolyLayoutUV(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
@@ -222,35 +222,35 @@ class PolyLayoutUV(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    separate = SeparateEnumField()
+    separate = SeparateEnumField(default_value=0)
     se = separate
 
-    flipReversed = BoolField()
+    flipReversed = BoolField(default_value=True)
     fr = flipReversed
 
-    layout = LayoutEnumField()
+    layout = LayoutEnumField(default_value=2)
     l = layout
 
-    gridU = LongField()
+    gridU = LongField(default_value=1)
     gu = gridU
 
-    gridV = LongField()
+    gridV = LongField(default_value=1)
     gv = gridV
 
-    percentageSpace = FloatField()
+    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
     ps = percentageSpace
 
-    scale = ScaleEnumField()
+    scale = ScaleEnumField(default_value=1)
     sc = scale
 
-    denseLayout = BoolField()
+    denseLayout = BoolField(default_value=False)
     dl = denseLayout
 
-    rotateForBestFit = RotateForBestFitEnumField()
+    rotateForBestFit = RotateForBestFitEnumField(default_value=0)
     rbf = rotateForBestFit
 
-    layoutMethod = LayoutMethodEnumField()
+    layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod
 
-    twoSidedLayout = BoolField()
+    twoSidedLayout = BoolField(default_value=True)
     tl = twoSidedLayout

@@ -12,5 +12,5 @@ class PxrUsdStageNode(DG):
     filePath = DataStringField()
     fp = filePath
 
-    outUsdStage = TypedField()
+    outUsdStage = TypedField(writable=False)
     os = outUsdStage

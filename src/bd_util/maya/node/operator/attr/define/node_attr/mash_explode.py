@@ -24,13 +24,13 @@ class MColourPlugOperator(
         ("mColourB", "mcb"),
     )
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -39,13 +39,13 @@ class MColourAttrOperator(
 ):
     __slots__ = ()
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -57,13 +57,13 @@ class MColourField(
     ATTR_CLS = MColourAttrOperator
     PLUG_CLS = MColourPlugOperator
 
-    mColourR = FloatField()
+    mColourR = FloatField(default_value=1.0)
     mcr = mColourR
 
-    mColourG = FloatField()
+    mColourG = FloatField(default_value=1.0)
     mcg = mColourG
 
-    mColourB = FloatField()
+    mColourB = FloatField(default_value=1.0)
     mcb = mColourB
 
 
@@ -77,11 +77,11 @@ class PivotPointsPlugOperator(
         ("pivotZ", "pivotZ"),
     )
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotZ = FloatField()
+    pivotZ = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
 
 class PivotPointsAttrOperator(
@@ -89,11 +89,11 @@ class PivotPointsAttrOperator(
 ):
     __slots__ = ()
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotZ = FloatField()
+    pivotZ = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
 
 class PivotPointsField(
@@ -104,11 +104,11 @@ class PivotPointsField(
     ATTR_CLS = PivotPointsAttrOperator
     PLUG_CLS = PivotPointsPlugOperator
 
-    pivotX = FloatField()
+    pivotX = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotY = FloatField()
+    pivotY = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
-    pivotZ = FloatField()
+    pivotZ = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
 
 
 class TranslateInPPPlugOperator(

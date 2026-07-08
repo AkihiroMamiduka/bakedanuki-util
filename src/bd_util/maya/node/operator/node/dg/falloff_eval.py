@@ -25,8 +25,8 @@ class FalloffEval(DG):
     weightFunction = TypedField(multi=True)
     whf = weightFunction
 
-    perFunctionWeights = PerFunctionWeightsField(multi=True)
+    perFunctionWeights = PerFunctionWeightsField(multi=True, default_value=0.0, writable=False)
     pfw = perFunctionWeights
 
-    perVertexWeights = PerVertexWeightsField(multi=True)
+    perVertexWeights = PerVertexWeightsField(multi=True, default_value=0.0, writable=False)
     pvw = perVertexWeights

@@ -94,7 +94,7 @@ class PolyRetopo(DG):
 
     NODE_TYPE = "polyRetopo"
 
-    output = DataMeshField()
+    output = DataMeshField(writable=False)
     out = output
 
     inputPolymesh = DataMeshField()
@@ -103,76 +103,76 @@ class PolyRetopo(DG):
     inMeshCache = DataMeshField()
     imc = inMeshCache
 
-    cacheInput = LongField()
+    cacheInput = LongField(default_value=0)
     cin = cacheInput
 
-    useOldPolyArchitecture = BoolField()
+    useOldPolyArchitecture = BoolField(default_value=False)
     uopa = useOldPolyArchitecture
 
-    vertexIdMap = BoolField()
+    vertexIdMap = BoolField(default_value=False)
     vmap = vertexIdMap
 
-    edgeIdMap = BoolField()
+    edgeIdMap = BoolField(default_value=False)
     emap = edgeIdMap
 
-    faceIdMap = BoolField()
+    faceIdMap = BoolField(default_value=False)
     fmap = faceIdMap
 
     inputComponents = TypedField()
     ics = inputComponents
 
-    useInputComp = BoolField()
+    useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
     inputMatrix = DataMatrixField()
     ix = inputMatrix
 
-    worldSpace = BoolField()
+    worldSpace = BoolField(default_value=False)
     ws = worldSpace
 
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    targetFaceCount = LongField()
+    targetFaceCount = LongField(default_value=0, min_value=0, soft_max_value=100000)
     tfc = targetFaceCount
 
-    targetFaceCountTolerance = LongField()
+    targetFaceCountTolerance = LongField(default_value=10, min_value=1, max_value=100)
     tft = targetFaceCountTolerance
 
-    topologyRegularity = DoubleField()
+    topologyRegularity = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     trg = topologyRegularity
 
-    faceUniformity = DoubleField()
+    faceUniformity = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     fun = faceUniformity
 
-    anisotropy = DoubleField()
+    anisotropy = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
     a = anisotropy
 
-    targetEdgeDeviation = DoubleField()
+    targetEdgeDeviation = DoubleField(default_value=0.2929, min_value=0.0001, max_value=1.0)
     ted = targetEdgeDeviation
 
-    curveSingularitySeparation = DoubleField()
+    curveSingularitySeparation = DoubleField(default_value=0.1, min_value=0.0, max_value=100.0)
     css = curveSingularitySeparation
 
-    curveInfluenceDirection = DoubleField()
+    curveInfluenceDirection = DoubleField(default_value=0.01, min_value=0.0, max_value=100.0)
     cid = curveInfluenceDirection
 
-    preserveHardEdges = BoolField()
+    preserveHardEdges = BoolField(default_value=False)
     phe = preserveHardEdges
 
-    edgesByAngle = BoolField()
+    edgesByAngle = BoolField(default_value=False)
     eba = edgesByAngle
 
-    angle = DoubleAngleField()
+    angle = DoubleAngleField(default_value=29.999999999999996, min_value=0.0, max_value=180.0)
     ang = angle
 
-    useFeatureTags = BoolField()
+    useFeatureTags = BoolField(default_value=False)
     uft = useFeatureTags
 
     featureTags = DataStringField()
     ft = featureTags
 
-    preprocessMesh = BoolField()
+    preprocessMesh = BoolField(default_value=True)
     pm = preprocessMesh
 
     preprocessedMesh = DataMeshField()
@@ -181,19 +181,19 @@ class PolyRetopo(DG):
     symmetryEdges = TypedField()
     sme = symmetryEdges
 
-    symmetry = BoolField()
+    symmetry = BoolField(default_value=False)
     sym = symmetry
 
-    axisPosition = AxisPositionEnumField()
+    axisPosition = AxisPositionEnumField(default_value=1)
     ap = axisPosition
 
-    axisOffset = FloatLinearField()
+    axisOffset = FloatLinearField(default_value=0.0)
     ao = axisOffset
 
-    axis = AxisEnumField()
+    axis = AxisEnumField(default_value=1)
     an = axis
 
-    pivot = PivotField()
+    pivot = PivotField(default_value=(0.0, 0.0, 0.0))
     p = pivot
     pivotX = pivot.pivotX
     px = pivotX
@@ -202,11 +202,11 @@ class PolyRetopo(DG):
     pivotZ = pivot.pivotZ
     pz = pivotZ
 
-    shortEdgeTolerance = DoubleLinearField()
+    shortEdgeTolerance = DoubleLinearField(default_value=0.0001, min_value=0.0)
     se = shortEdgeTolerance
 
-    thinTriangleAngleTolerance = DoubleAngleField()
+    thinTriangleAngleTolerance = DoubleAngleField(default_value=0.9740282517223996)
     tt = thinTriangleAngleTolerance
 
-    interactiveMode = BoolField()
+    interactiveMode = BoolField(default_value=False)
     imd = interactiveMode

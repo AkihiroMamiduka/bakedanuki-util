@@ -12,26 +12,26 @@ class AiImagerLightMixer(DG):
 
     NODE_TYPE = "aiImagerLightMixer"
 
-    out = MessageField()
+    out = MessageField(writable=False)
 
-    enable = BoolField()
+    enable = BoolField(default_value=True)
 
     layerName = DataStringField(multi=True)
     layer_name = layerName
 
-    layerEnable = BoolField(multi=True)
+    layerEnable = BoolField(multi=True, default_value=False)
     layer_enable = layerEnable
 
-    layerSolo = BoolField(multi=True)
+    layerSolo = BoolField(multi=True, default_value=True)
     layer_solo = layerSolo
 
-    layerTint = LayerTintField(multi=True)
+    layerTint = LayerTintField(multi=True, default_value=(5.872863084732671e-09, 5.885453550164232e-43, 1.0))
     layer_tint = layerTint
 
-    layerIntensity = FloatField(multi=True)
+    layerIntensity = FloatField(multi=True, default_value=5.8728772955873865e-09)
     layer_intensity = layerIntensity
 
-    layerExposure = FloatField(multi=True)
+    layerExposure = FloatField(multi=True, default_value=5.872891506442102e-09)
     layer_exposure = layerExposure
 
     outputName = DataStringField()

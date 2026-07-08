@@ -30,7 +30,7 @@ class PublishedNodeInfoPlugOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -45,7 +45,7 @@ class PublishedNodeInfoAttrOperator(
     publishedNode = MessageField()
     pnod = publishedNode
 
-    isHierarchicalNode = BoolField()
+    isHierarchicalNode = BoolField(default_value=False)
     ihn = isHierarchicalNode
 
     publishedNodeType = DataStringField()
@@ -71,13 +71,13 @@ class ChannelSetColorPlugOperator(
         ("channelSetColorB", "cscolb"),
     )
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -86,13 +86,13 @@ class ChannelSetColorAttrOperator(
 ):
     __slots__ = ()
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -104,13 +104,13 @@ class ChannelSetColorField(
     ATTR_CLS = ChannelSetColorAttrOperator
     PLUG_CLS = ChannelSetColorPlugOperator
 
-    channelSetColorR = FloatField()
+    channelSetColorR = FloatField(default_value=0.5)
     cscolr = channelSetColorR
 
-    channelSetColorG = FloatField()
+    channelSetColorG = FloatField(default_value=0.5)
     cscolg = channelSetColorG
 
-    channelSetColorB = FloatField()
+    channelSetColorB = FloatField(default_value=0.5)
     cscolb = channelSetColorB
 
 
@@ -252,13 +252,13 @@ class LabelColorPlugOperator(
         ("labelColorB", "labelColorb"),
     )
 
-    labelColorR = FloatField()
+    labelColorR = FloatField(default_value=0.9450980424880981)
     labelColorr = labelColorR
 
-    labelColorG = FloatField()
+    labelColorG = FloatField(default_value=0.3529411852359772)
     labelColorg = labelColorG
 
-    labelColorB = FloatField()
+    labelColorB = FloatField(default_value=0.35686275362968445)
     labelColorb = labelColorB
 
 
@@ -267,13 +267,13 @@ class LabelColorAttrOperator(
 ):
     __slots__ = ()
 
-    labelColorR = FloatField()
+    labelColorR = FloatField(default_value=0.9450980424880981)
     labelColorr = labelColorR
 
-    labelColorG = FloatField()
+    labelColorG = FloatField(default_value=0.3529411852359772)
     labelColorg = labelColorG
 
-    labelColorB = FloatField()
+    labelColorB = FloatField(default_value=0.35686275362968445)
     labelColorb = labelColorB
 
 
@@ -285,11 +285,11 @@ class LabelColorField(
     ATTR_CLS = LabelColorAttrOperator
     PLUG_CLS = LabelColorPlugOperator
 
-    labelColorR = FloatField()
+    labelColorR = FloatField(default_value=0.9450980424880981)
     labelColorr = labelColorR
 
-    labelColorG = FloatField()
+    labelColorG = FloatField(default_value=0.3529411852359772)
     labelColorg = labelColorG
 
-    labelColorB = FloatField()
+    labelColorB = FloatField(default_value=0.35686275362968445)
     labelColorb = labelColorB

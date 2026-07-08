@@ -12,7 +12,7 @@ class MultiplyVectorByMatrix(DG):
 
     NODE_TYPE = "multiplyVectorByMatrix"
 
-    input = InputField()
+    input = InputField(default_value=(0.0, 0.0, 0.0), readable=False)
     i = input
     inputX = input.inputX
     x = inputX
@@ -21,10 +21,10 @@ class MultiplyVectorByMatrix(DG):
     inputZ = input.inputZ
     z = inputZ
 
-    matrix = MatrixField()
+    matrix = MatrixField(readable=False)
     m = matrix
 
-    output = OutputField()
+    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
     outputX = output.outputX
     ox = outputX
