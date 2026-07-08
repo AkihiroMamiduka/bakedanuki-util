@@ -25,6 +25,14 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 - `data_type`
 - `enum_name`
 - `multi`
+- `default_value`
+- `min_value`
+- `max_value`
+- `soft_min_value`
+- `soft_max_value`
+- `readable`
+- `writable`
+- `category`
 - `number_of_children`
 - `parent`
 - `path_name`
@@ -72,6 +80,49 @@ Maya 側の本来の `long_name` / `short_name` と Python field 名が異なる
 name_ = DataStringField(long_name="name", short_name="nm")
 nm = name_
 ```
+
+## Field constructor metadata
+
+Generator は取得できた attribute metadata を、Field constructor 引数へ反映します。
+
+主な生成対象は次の通りです。
+
+- `multi`
+- `default_value`
+- `min_value`
+- `max_value`
+- `soft_min_value`
+- `soft_max_value`
+- `readable`
+- `writable`
+- `category`
+
+`cmds.attributeQuery(..., listDefault=True)` などは `[0.0]` のような list を返すことがあります。
+単一要素 list は scalar に畳み、複数要素 list は tuple として生成します。
+
+```python
+input = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+vector = Float3Field(default_value=(1.0, 2.0, 3.0))
+```
+
+bool / int / enum 系は、Maya query が `0.0` / `1.0` のような float を返しても、Field の意味に合わせて正規化します。
+
+```python
+visible = BoolField(default_value=True)
+count = LongField(default_value=3, min_value=0, max_value=10)
+mode = ModeEnumField(default_value=2)
+```
+
+bool と enum の `min_value` / `max_value` / `soft_min_value` / `soft_max_value` は、Field 定義としては冗長なため生成しません。
+
+`readable=True` / `writable=True` は Maya attribute の一般的な状態なので、生成コードを冗長にしないため出力しません。
+`readable=False` / `writable=False` の場合だけ明示します。
+
+```python
+output = DoubleField(default_value=0.0, writable=False)
+```
+
+`category` は現行の `AttributeField(category=...)` に合わせ、取得できた最初の category を文字列として出力します。
 
 ## short_name alias
 

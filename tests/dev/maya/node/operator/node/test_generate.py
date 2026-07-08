@@ -15,9 +15,17 @@ def _attr(
     *,
     data_type: str | None = None,
     enum_name=None,
+    default_value=None,
+    min_value=None,
+    max_value=None,
+    soft_min_value=None,
+    soft_max_value=None,
     multi: bool = False,
     number_of_children: int | None = None,
     parent: str | None = None,
+    readable: bool | None = True,
+    writable: bool | None = True,
+    category=None,
     path_name: str | None = None,
     enforcing_unique_name: bool | None = None,
 ) -> AttrInfo:
@@ -26,18 +34,18 @@ def _attr(
         short_name=short_name,
         attribute_type=attribute_type,
         data_type=data_type,
-        default_value=None,
-        min_value=None,
-        max_value=None,
-        soft_min_value=None,
-        soft_max_value=None,
+        default_value=default_value,
+        min_value=min_value,
+        max_value=max_value,
+        soft_min_value=soft_min_value,
+        soft_max_value=soft_max_value,
         enum_name=enum_name,
         multi=multi,
         number_of_children=number_of_children,
         parent=[parent] if parent is not None else None,
-        readable=True,
-        writable=True,
-        category=None,
+        readable=readable,
+        writable=writable,
+        category=category,
         path_name=path_name,
         enforcing_unique_name=enforcing_unique_name,
     )
@@ -368,6 +376,99 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
+
+
+def test_generate_field_init_args_include_attribute_metadata():
+    code = generate_node_class_code(
+        "metadataNode",
+        attr_infos=[
+            _attr(
+                "input",
+                "in",
+                "float",
+                default_value=[0.5],
+                min_value=[0.0],
+                max_value=[1.0],
+                soft_min_value=[0.25],
+                soft_max_value=[0.75],
+                category=["bdMetadata"],
+            ),
+            _attr(
+                "output",
+                "out",
+                "double",
+                default_value=[0.0],
+                writable=False,
+            ),
+            _attr(
+                "hidden",
+                "hdn",
+                "bool",
+                default_value=[0.0],
+                min_value=[0.0],
+                max_value=[1.0],
+                readable=False,
+            ),
+            _attr(
+                "count",
+                "cnt",
+                "long",
+                default_value=[3.0],
+                min_value=[0.0],
+                max_value=[10.0],
+            ),
+            _attr(
+                "mode",
+                "md",
+                "enum",
+                enum_name=["Off:On:Auto"],
+                default_value=[2.0],
+                min_value=[0.0],
+                max_value=[2.0],
+            ),
+            _attr(
+                "vector",
+                "vec",
+                "float3",
+                default_value=[1.0, 2.0, 3.0],
+                min_value=[-1.0, -2.0, -3.0],
+                number_of_children=3,
+            ),
+            _attr(
+                "indices",
+                "idx",
+                "long3",
+                default_value=[1.0, 2.0, 3.0],
+                min_value=[0.0, 0.0, 0.0],
+                number_of_children=3,
+            ),
+        ],
+    )
+
+    compile(code, "metadata_node.py", "exec")
+
+    assert (
+        "input = FloatField(default_value=0.5, min_value=0.0, "
+        'max_value=1.0, soft_min_value=0.25, soft_max_value=0.75, category="bdMetadata")'
+        in code
+    )
+    assert "output = DoubleField(default_value=0.0, writable=False)" in code
+    assert "hidden = BoolField(default_value=False, readable=False)" in code
+    assert "count = LongField(default_value=3, min_value=0, max_value=10)" in code
+    assert "mode = ModeEnumField(default_value=2)" in code
+    assert (
+        "vector = Float3Field(default_value=(1.0, 2.0, 3.0), "
+        "min_value=(-1.0, -2.0, -3.0))"
+        in code
+    )
+    assert (
+        "indices = Long3Field(default_value=(1, 2, 3), min_value=(0, 0, 0))"
+        in code
+    )
+    assert "readable=True" not in code
+    assert "writable=True" not in code
+    assert "hidden = BoolField(default_value=0.0" not in code
+    assert "mode = ModeEnumField(default_value=2, min_value=" not in code
 
 
 def test_generate_suffixes_duplicate_enum_member_names():

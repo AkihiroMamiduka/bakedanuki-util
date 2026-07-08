@@ -641,20 +641,153 @@ def _parse_enum_entries(
     return entries if entries else None
 
 
-def _build_attr_init_args(attr_info: AttrInfo) -> str:
-    """Field コンストラクタ引数文字列を生成する。
+def _build_attr_init_args(attr_info: AttrInfo) -> list[str]:
+    """Field コンストラクタ引数リストを生成する。
 
-    例: ``multi=True``
-
-    .. note::
-        現状は ``multi=True`` のみを生成する。
+    例: ``multi=True`` / ``default_value=0.0`` / ``writable=False``
     """
     args: list[str] = []
 
     if attr_info.multi:
         args.append("multi=True")
 
-    return ", ".join(args)
+    for arg_name, value in _iter_attr_metadata_args(attr_info):
+        args.append(f"{arg_name}={_field_arg_literal(value)}")
+
+    return args
+
+
+def _field_arg_literal(value) -> str:
+    """Return a stable Python literal for generated Field kwargs."""
+    if isinstance(value, str):
+        escaped = value.replace("\\", "\\\\").replace('"', '\\"')
+        return f'"{escaped}"'
+    return repr(value)
+
+
+def _normalize_attr_query_value(value):
+    """Normalize Maya attributeQuery list results for Field kwargs."""
+    if value is None:
+        return None
+    if isinstance(value, (list, tuple)):
+        if not value:
+            return None
+        if len(value) == 1:
+            return value[0]
+        return tuple(value)
+    return value
+
+
+_BOOL_ATTR_TYPES: frozenset[str] = frozenset({"bool"})
+
+_INT_ATTR_TYPES: frozenset[str] = frozenset(
+    {
+        "byte",
+        "char",
+        "short",
+        "long",
+        "long long int",
+        "long_long_int",
+        "short2",
+        "short3",
+        "long2",
+        "long3",
+    }
+)
+
+_ENUM_ATTR_TYPES: frozenset[str] = frozenset({"enum"})
+
+_RANGE_ARG_NAMES: frozenset[str] = frozenset(
+    {
+        "min_value",
+        "max_value",
+        "soft_min_value",
+        "soft_max_value",
+    }
+)
+
+
+def _to_int_if_integral(value):
+    """Convert Maya's numeric float result to int when it is integral."""
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return value
+
+
+def _normalize_int_metadata_value(value):
+    """Normalize int-like metadata values, including compound tuples."""
+    if isinstance(value, tuple):
+        return tuple(_to_int_if_integral(v) for v in value)
+    return _to_int_if_integral(value)
+
+
+def _normalize_bool_metadata_value(value):
+    """Normalize bool metadata default values from Maya query results."""
+    value = _to_int_if_integral(value)
+    if isinstance(value, int):
+        return bool(value)
+    return value
+
+
+def _normalize_metadata_value(attr_info: AttrInfo, arg_name: str, value):
+    """Normalize Field metadata by Maya attribute type."""
+    attr_type = attr_info.attribute_type
+    value = _normalize_attr_query_value(value)
+    if value is None:
+        return None
+
+    if attr_type in _BOOL_ATTR_TYPES:
+        if arg_name in _RANGE_ARG_NAMES:
+            return None
+        return _normalize_bool_metadata_value(value)
+
+    if attr_type in _ENUM_ATTR_TYPES:
+        if arg_name in _RANGE_ARG_NAMES:
+            return None
+        return _normalize_int_metadata_value(value)
+
+    if attr_type in _INT_ATTR_TYPES:
+        return _normalize_int_metadata_value(value)
+
+    return value
+
+
+def _normalize_category_value(value) -> str | None:
+    """Normalize Maya category query results to AttributeField's string API."""
+    if value is None:
+        return None
+    if isinstance(value, (list, tuple)):
+        if not value:
+            return None
+        value = value[0]
+    if value is None:
+        return None
+    return str(value)
+
+
+def _iter_attr_metadata_args(attr_info: AttrInfo):
+    """Yield generated Field metadata kwargs for known Maya attr state."""
+    for arg_name, value in (
+        ("default_value", attr_info.default_value),
+        ("min_value", attr_info.min_value),
+        ("max_value", attr_info.max_value),
+        ("soft_min_value", attr_info.soft_min_value),
+        ("soft_max_value", attr_info.soft_max_value),
+    ):
+        value = _normalize_metadata_value(attr_info, arg_name, value)
+        if value is not None:
+            yield arg_name, value
+
+    if attr_info.readable is False:
+        yield "readable", False
+    if attr_info.writable is False:
+        yield "writable", False
+
+    category = _normalize_category_value(attr_info.category)
+    if category is not None:
+        yield "category", category
 
 
 # 記号をその英単語名に変換するマッピング。長い記号を先に処理する。
@@ -1093,7 +1226,7 @@ def generate_node_attr_code(
 
             safe_child_name = _safe_field_name(child_name)
             init_args = _field_init_args(
-                [],
+                _build_attr_init_args(child_info),
                 safe_child_name,
                 child_name,
                 child_short,
@@ -1303,9 +1436,7 @@ def generate_node_class_code(
             continue
 
         # コンストラクタ引数を組み立てる
-        args: list[str] = []
-        if attr_info.multi:
-            args.append("multi=True")
+        args = _build_attr_init_args(attr_info)
 
         # compound 型で子が存在する場合はカスタムクラスを使用する
         if long_name in custom_compound_cls:

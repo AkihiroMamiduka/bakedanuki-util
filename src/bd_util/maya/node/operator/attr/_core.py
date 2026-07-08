@@ -851,6 +851,8 @@ class AttrOperator(Generic[P]):
         max_value: Any = None,
         soft_min_value: Any = None,
         soft_max_value: Any = None,
+        enum_name: str | None = None,
+        number_of_children: int | None = None,
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
@@ -878,6 +880,8 @@ class AttrOperator(Generic[P]):
         self.max_value: Any = max_value
         self.soft_min_value: Any = soft_min_value
         self.soft_max_value: Any = soft_max_value
+        self.enum_name: str | None = enum_name
+        self.number_of_children: int | None = number_of_children
         self.readable: bool | None = readable
         self.writable: bool | None = writable
         self.category: str | None = category
