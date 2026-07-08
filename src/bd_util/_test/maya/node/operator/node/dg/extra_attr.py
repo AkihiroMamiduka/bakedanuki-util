@@ -41,8 +41,12 @@ class TestExtraNestedCompoundPlugOperator(
 ):
     __slots__ = ()
 
-    visible = AddAttr.at.bool(default_value=True)
-    blend = AddAttr.at.float(default_value=0.5, min_value=0.0, max_value=1.0)
+    cmp2Bool = AddAttr.at.bool(default_value=True)
+    cmp2Float = AddAttr.at.float(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+    )
 
 
 class TestExtraNestedCompoundField(
@@ -54,31 +58,66 @@ class TestExtraNestedCompoundField(
 class TestExtraCompoundPlugOperator(AddAttr.define.at.compound.plug_operator):
     __slots__ = ()
 
-    enabled = AddAttr.at.bool(default_value=False)
-    weight = AddAttr.at.float(default_value=1.0, min_value=0.0)
-    mode = TestExtraEnumField()
-    nested = TestExtraNestedCompoundField()
-    uv = AddAttr.at.double2(default_value=[4.0, 5.0])
-    offset = AddAttr.at.double3(default_value=[1.0, 2.0, 3.0])
-    tangent = AddAttr.at.double4(default_value=[4.0, 5.0, 6.0, 7.0])
-    orient = AddAttr.at.quat(default_value=[0.1, 0.2, 0.3, 0.4])
-    floatUv = AddAttr.at.float2(default_value=[0.25, 0.75])
-    color = AddAttr.at.float3(default_value=[0.1, 0.2, 0.3])
-    indexPair = AddAttr.at.long2(default_value=[1, 2])
-    indexTriplet = AddAttr.at.long3(default_value=[3, 4, 5])
-    shortPair = AddAttr.at.short2(default_value=[6, 7])
-    shortTriplet = AddAttr.at.short3(default_value=[8, 9, 10])
-    linear2 = AddAttr.at.double_linear2(default_value=[11.0, 12.0])
-    linear3 = AddAttr.at.double_linear3(default_value=[13.0, 14.0, 15.0])
-    angle2 = AddAttr.at.double_angle2(default_value=[16.0, 17.0])
-    aim = AddAttr.at.double_angle3(default_value=[10.0, 20.0, 30.0])
-    floatLinear2 = AddAttr.at.float_linear2(default_value=[18.0, 19.0])
-    floatLinear3 = AddAttr.at.float_linear3(
-        default_value=[20.0, 21.0, 22.0]
+    cmp1Bool = AddAttr.at.bool(default_value=False)
+    cmp1Float = AddAttr.at.float(
+        default_value=1.0,
+        min_value=0.0,
     )
-    floatAngle2 = AddAttr.at.float_angle2(default_value=[23.0, 24.0])
-    floatAngle3 = AddAttr.at.float_angle3(
-        default_value=[25.0, 26.0, 27.0]
+    cmp1Enum = TestExtraEnumField()
+    cmp1Compound = TestExtraNestedCompoundField()
+    cmp1Double2 = AddAttr.at.double2(
+        default_value=[4.0, 5.0],
+    )
+    cmp1Double3 = AddAttr.at.double3(
+        default_value=[1.0, 2.0, 3.0],
+    )
+    cmp1Double4 = AddAttr.at.double4(
+        default_value=[4.0, 5.0, 6.0, 7.0],
+    )
+    cmp1Quat = AddAttr.at.quat(
+        default_value=[0.1, 0.2, 0.3, 0.4],
+    )
+    cmp1Float2 = AddAttr.at.float2(
+        default_value=[0.25, 0.75],
+    )
+    cmp1Float3 = AddAttr.at.float3(
+        default_value=[0.1, 0.2, 0.3],
+    )
+    cmp1Long2 = AddAttr.at.long2(
+        default_value=[1, 2],
+    )
+    cmp1Long3 = AddAttr.at.long3(
+        default_value=[3, 4, 5],
+    )
+    cmp1Short2 = AddAttr.at.short2(
+        default_value=[6, 7],
+    )
+    cmp1Short3 = AddAttr.at.short3(
+        default_value=[8, 9, 10],
+    )
+    cmp1DoubleLinear2 = AddAttr.at.double_linear2(
+        default_value=[11.0, 12.0],
+    )
+    cmp1DoubleLinear3 = AddAttr.at.double_linear3(
+        default_value=[13.0, 14.0, 15.0],
+    )
+    cmp1DoubleAngle2 = AddAttr.at.double_angle2(
+        default_value=[16.0, 17.0],
+    )
+    cmp1DoubleAngle3 = AddAttr.at.double_angle3(
+        default_value=[10.0, 20.0, 30.0],
+    )
+    cmp1FloatLinear2 = AddAttr.at.float_linear2(
+        default_value=[18.0, 19.0],
+    )
+    cmp1FloatLinear3 = AddAttr.at.float_linear3(
+        default_value=[20.0, 21.0, 22.0],
+    )
+    cmp1FloatAngle2 = AddAttr.at.float_angle2(
+        default_value=[23.0, 24.0],
+    )
+    cmp1FloatAngle3 = AddAttr.at.float_angle3(
+        default_value=[25.0, 26.0, 27.0],
     )
 
 
