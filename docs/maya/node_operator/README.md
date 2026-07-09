@@ -122,10 +122,14 @@ mult_div = node_creater.multiplyDivide(name="mult_div")
 modifier_manager.do_it_dg()
 ```
 
-`NodeCreater` は DG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
+`NodeCreater` は DG ノード名と transform 系 DAG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
 生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
+
+`transform` / `joint` は `NodeCreater` から作成できます。
+shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
+ただし `BDNode` 用の class 解決対象には含めています。
 
 シーン上に既に存在するノードは `BDNode` で対応する `NodeOperator` に変換できます。
 
@@ -143,6 +147,9 @@ node.modifier_manager.do_it_dg()
 
 `BDNode` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
 必要な場合は `BDNode("nodeName", auto_add_attr=True)` のように指定します。
+
+`BDNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
+そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

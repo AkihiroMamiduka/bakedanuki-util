@@ -86,6 +86,35 @@ def test_bd_node_wraps_joint(new_scene, maya_cmds):
     assert node.name == "test_joint"
 
 
+def test_bd_node_wraps_mesh_shape(new_scene, maya_cmds):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
+
+    transform, _ = maya_cmds.polyCube(name="test_mesh")
+    shape = maya_cmds.listRelatives(transform, shapes=True)[0]
+
+    node = bd_util.BDNode(shape)
+
+    assert isinstance(node, Mesh)
+    assert node.NODE_TYPE == "mesh"
+    assert node.name == shape
+    assert node.face.long_name == "face"
+
+
+def test_bd_node_wraps_camera_shape(new_scene, maya_cmds):
+    import bd_util
+    from bd_util.maya.node.operator.node.dag.shape.camera import Camera
+
+    _, shape = maya_cmds.camera(name="test_camera")
+
+    node = bd_util.BDNode(shape)
+
+    assert isinstance(node, Camera)
+    assert node.NODE_TYPE == "camera"
+    assert node.name == shape
+    assert node.focalLength.long_name == "focalLength"
+
+
 def test_bd_node_unknown_node_raises_value_error(new_scene):
     import bd_util
 

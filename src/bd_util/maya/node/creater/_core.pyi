@@ -5,6 +5,8 @@ from collections.abc import Callable
 
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
+from ..operator.node.dag.transform._core import Transform
+from ..operator.node.dag.transform.joint import Joint
 from ..operator.node.dg.about_to_set_value_test_node import AboutToSetValueTestNode
 from ..operator.node.dg.abs_override import AbsOverride
 from ..operator.node.dg.abs_unique_override import AbsUniqueOverride
@@ -3747,6 +3749,12 @@ class NodeCreater:
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Jiggle: ...
 
+    def joint(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> Joint: ...
+
     def jointCluster(
         self,
         name: str | None = None,
@@ -6452,6 +6460,12 @@ class NodeCreater:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> TransferFalloff: ...
+
+    def transform(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> Transform: ...
 
     def transformGeometry(
         self,

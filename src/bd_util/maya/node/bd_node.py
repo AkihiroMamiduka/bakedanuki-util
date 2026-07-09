@@ -6,8 +6,6 @@ from maya.api import OpenMaya as om
 from .creater import NodeCreater
 from .modifier import ModifierManager
 from .operator.node._core import NodeOperator
-from .operator.node.dag.transform._core import Transform
-from .operator.node.dag.transform.joint import Joint
 
 
 class BDNode:
@@ -49,13 +47,6 @@ def _get_node_cls(
     node_type: str,
     modifier_manager: ModifierManager,
 ) -> type[NodeOperator]:
-    dag_node_cls_map: dict[str, type[NodeOperator]] = {
-        "transform": Transform,
-        "joint": Joint,
-    }
-    if node_type in dag_node_cls_map:
-        return dag_node_cls_map[node_type]
-
     try:
         return NodeCreater(modifier_manager=modifier_manager).node_class(
             node_type

@@ -23,12 +23,19 @@ class DAG(NodeOperator):
         auto_add_attr = kwargs.pop(
             "auto_add_attr", DEFAULT_VALUE_AUTO_ADD_ATTR
         )
+        rename_name = None
+        if kwargs.get("m_obj") is not None and kwargs.get("name"):
+            rename_name = kwargs.pop("name")
+
         super().__init__(*args, auto_add_attr=False, **kwargs)
 
         # dag_path
         self._dag_path = om.MDagPath.getAPathTo(self.m_obj)
         # full_path
         self._full_path = None
+
+        if rename_name:
+            self._dag_mod.renameNode(self.m_obj, rename_name)
 
         # auto_add_attr
         if auto_add_attr and self._extra_attributes:

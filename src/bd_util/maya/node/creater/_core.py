@@ -4,7 +4,7 @@ from __future__ import annotations
 import importlib
 import keyword
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from importlib import resources
 
 from ..modifier import ModifierManager
@@ -29,6 +29,26 @@ def _node_type_to_creator_name(node_type: str) -> str:
     return node_type
 
 
+def _node_module_name(package_name: str, module_name: str) -> str:
+    if package_name.endswith(".transform") and module_name == "transform":
+        return "_core"
+    if package_name.endswith(".shape") and module_name == "shape":
+        return "_core"
+    return module_name
+
+
+def _iter_node_module_paths(
+    packages: tuple[str, ...],
+    module_name: str,
+) -> Iterator[str]:
+    for package_name in packages:
+        node_module_name = _node_module_name(package_name, module_name)
+        package_files = resources.files(package_name)
+        if not package_files.joinpath(f"{node_module_name}.py").is_file():
+            continue
+        yield f"{package_name}.{node_module_name}"
+
+
 class NodeCreater:
     __slots__ = (
         "_modifier_manager",
@@ -38,10 +58,25 @@ class NodeCreater:
     )
 
     _DG_PACKAGE = "bd_util.maya.node.operator.node.dg"
+    _DAG_PACKAGE = "bd_util.maya.node.operator.node.dag"
+    _DAG_TRANSFORM_PACKAGE = "bd_util.maya.node.operator.node.dag.transform"
+    _DAG_SHAPE_PACKAGE = "bd_util.maya.node.operator.node.dag.shape"
+    _NODE_CLASS_PACKAGES = (
+        _DG_PACKAGE,
+        _DAG_PACKAGE,
+        _DAG_TRANSFORM_PACKAGE,
+        _DAG_SHAPE_PACKAGE,
+    )
+    _CREATOR_PACKAGES = (
+        _DG_PACKAGE,
+        _DAG_TRANSFORM_PACKAGE,
+    )
 
     def __init__(self, modifier_manager: ModifierManager | None = None):
         self._modifier_manager = modifier_manager or ModifierManager()
-        self._node_cls_cache: dict[str, type[NodeOperator]] = {}
+        self._node_cls_cache: dict[
+            tuple[tuple[str, ...], str], type[NodeOperator]
+        ] = {}
         self._creator_cache: dict[str, Callable[..., NodeOperator]] = {}
         self._node_names_cache: tuple[str, ...] | None = None
 
@@ -55,7 +90,7 @@ class NodeCreater:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> NodeOperator:
-        node_cls = self.node_class(node_name)
+        node_cls = self._creator_node_class(node_name)
         return node_cls.create(
             self._modifier_manager,
             name=name,
@@ -63,21 +98,41 @@ class NodeCreater:
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
-        module_name = self._normalize_node_name(node_name)
+        return self._node_class_from_packages(
+            node_name,
+            self._NODE_CLASS_PACKAGES,
+        )
 
-        cached = self._node_cls_cache.get(module_name)
+    def _creator_node_class(self, node_name: str) -> type[NodeOperator]:
+        return self._node_class_from_packages(
+            node_name,
+            self._CREATOR_PACKAGES,
+        )
+
+    def _node_class_from_packages(
+        self,
+        node_name: str,
+        packages: tuple[str, ...],
+    ) -> type[NodeOperator]:
+        module_name = self._normalize_node_name(node_name)
+        cache_key = (packages, module_name)
+
+        cached = self._node_cls_cache.get(cache_key)
         if cached is not None:
             return cached
 
-        module_path = f"{self._DG_PACKAGE}.{module_name}"
-        try:
-            module = importlib.import_module(module_path)
-        except ModuleNotFoundError as e:
-            if e.name == module_path:
-                raise AttributeError(
-                    f"Unsupported node type: {node_name}"
-                ) from e
-            raise
+        module = None
+        for module_path in _iter_node_module_paths(packages, module_name):
+            try:
+                module = importlib.import_module(module_path)
+            except ModuleNotFoundError as e:
+                if e.name == module_path:
+                    continue
+                raise
+            break
+
+        if module is None:
+            raise AttributeError(f"Unsupported node type: {node_name}")
 
         node_classes = [
             obj
@@ -99,24 +154,32 @@ class NodeCreater:
             )
 
         node_cls = node_classes[0]
-        self._node_cls_cache[module_name] = node_cls
+        self._node_cls_cache[cache_key] = node_cls
         return node_cls
 
     def available_node_names(self) -> tuple[str, ...]:
         if self._node_names_cache is not None:
             return self._node_names_cache
 
-        package_files = resources.files(self._DG_PACKAGE)
-        names = sorted(
-            _node_type_to_creator_name(
-                _read_node_type(path.read_text(encoding="utf-8"))
-            )
-            for path in package_files.iterdir()
-            if path.is_file()
-            and path.name.endswith(".py")
-            and path.name not in {"_core.py", "__init__.py"}
-        )
-        self._node_names_cache = tuple(names)
+        names: set[str] = set()
+        for package_name in self._CREATOR_PACKAGES:
+            for path in resources.files(package_name).iterdir():
+                if (
+                    not path.is_file()
+                    or not path.name.endswith(".py")
+                    or path.name == "__init__.py"
+                ):
+                    continue
+                try:
+                    node_type = _read_node_type(
+                        path.read_text(encoding="utf-8")
+                    )
+                except ValueError:
+                    continue
+                names.add(_node_type_to_creator_name(node_type))
+
+        sorted_names = sorted(names)
+        self._node_names_cache = tuple(sorted_names)
         return self._node_names_cache
 
     def __getattr__(self, node_name: str) -> Callable[..., NodeOperator]:
@@ -127,7 +190,7 @@ class NodeCreater:
         if cached is not None:
             return cached
 
-        node_cls = self.node_class(node_name)
+        node_cls = self._creator_node_class(node_name)
 
         def _create(
             name: str | None = None,
