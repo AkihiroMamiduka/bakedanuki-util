@@ -205,6 +205,9 @@ output = DoubleField(default_value=0.0, writable=False)
 `cmds.attributeQuery(..., attributeType=True)` が `None` を返す場合でも、`MFnNumericAttribute` / `MFnUnitAttribute` / `MFnMatrixAttribute` などから型を復元できる場合があります。
 `bd_util.maya.attr.query` はこの OpenMaya fallback を使い、multi compound の内部 leaf のような attribute も `FloatField` / `DoubleField` / `DoubleLinearField` などとして解決します。
 
+一部 plugin node の attribute は、`cmds.listAttr()` / `cmds.attributeQuery()` では参照できても、`MFnDependencyNode.findPlug()` が失敗する場合があります。
+その場合は OpenMaya fallback を諦め、`cmds.attributeQuery()` で取得できた metadata を優先して生成を継続します。
+
 解決できない attribute は TODO コメントとして残します。
 全 DG 生成では、NodeOperator の通常利用対象から外れる特殊ノードを skip するため、生成 snapshot 側に TODO が残らない状態を目指します。
 
@@ -222,6 +225,15 @@ OpenMaya 上では `MFnTypedAttribute` として見えますが、標準的な `
   - Node Editor の UI 状態保存寄りの内部ノードです。
   - standalone mayapy では一部 attribute の型情報を十分に取得できません。
   - 通常の NodeOperator 操作対象としての実用性が低いため、全量生成から除外します。
+- `caddyManipBase`
+  - mayapy で node 作成時に native crash することを確認済みの manipulator 系ノードです。
+  - 通常の DAG 全量生成からは既知危険ノードとして除外します。
+- `*manip*`
+  - Manipulator 系の node type です。
+  - DAG 全量生成の安定性を優先するため、node type 名に `manip` を含むものは現状まとめて除外します。
+- `placerTool`
+  - Viewport 上に不安定な tool overlay を残すことを確認済みの node type です。
+  - 新規シーン後も表示が残り、触ると Maya が落ちるケースがあるため除外します。
 
 調査目的で明示的に生成したい場合は `include_skipped=True` を指定します。
 
@@ -386,6 +398,8 @@ from bd_util._dev.maya.node.operator.node.generate import (
 path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
 generate_dag_node_class_files(path)
 ```
+
+`caddyManipBase`、`*manip*`、`placerTool` など、DAG 全量生成中に Maya を不安定にすることを確認済みの node type は、通常生成から除外します。
 
 `mayapy` で単体実行する場合は、必要に応じて `maya.standalone.initialize(name="python")` を先に呼びます。
 

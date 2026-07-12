@@ -194,6 +194,26 @@ _SKIPPED_DG_NODE_TYPES: dict[str, str] = {
     ),
 }
 
+_SKIPPED_DAG_NODE_TYPES: dict[str, str] = {
+    "caddyManipBase": (
+        "Known unsafe manipulator node. Creating it from mayapy can cause a "
+        "native Maya crash, so it is excluded from normal DAG generation."
+    ),
+    "placerTool": (
+        "Known unsafe tool node. Creating it during DAG bulk generation can "
+        "leave an unstable viewport tool overlay, so it is excluded from "
+        "normal DAG generation."
+    ),
+}
+
+_SKIPPED_DAG_NODE_TYPE_KEYWORDS: dict[str, str] = {
+    "manip": (
+        "Manipulator node type. Manipulator-related DAG nodes can make Maya "
+        "unstable during bulk generation, so node types containing 'manip' "
+        "are excluded from normal DAG generation."
+    ),
+}
+
 # node class 生成時の対象種別。
 _NODE_KIND_DG = "dg"
 _NODE_KIND_DAG = "dag"
@@ -210,6 +230,27 @@ _VALID_NODE_KINDS: frozenset[str] = frozenset(
         _NODE_KIND_AUTO,
     }
 )
+
+_DAG_NODE_KINDS: frozenset[str] = frozenset(
+    {
+        _NODE_KIND_DAG,
+        _NODE_KIND_TRANSFORM,
+        _NODE_KIND_SHAPE,
+    }
+)
+
+
+def _get_skipped_dag_node_type_reason(node_type: str) -> str | None:
+    reason = _SKIPPED_DAG_NODE_TYPES.get(node_type)
+    if reason:
+        return reason
+
+    node_type_lower = node_type.lower()
+    for keyword, keyword_reason in _SKIPPED_DAG_NODE_TYPE_KEYWORDS.items():
+        if keyword.lower() in node_type_lower:
+            return keyword_reason
+    return None
+
 
 _INHERITED_ATTR_INFOS_CACHE: dict[str, list[AttrInfo]] = {}
 
@@ -1849,6 +1890,8 @@ def generate_node_class_file(
     skip_reason = None
     if resolved_node_kind == _NODE_KIND_DG:
         skip_reason = _SKIPPED_DG_NODE_TYPES.get(node_type)
+    elif resolved_node_kind in _DAG_NODE_KINDS:
+        skip_reason = _get_skipped_dag_node_type_reason(node_type)
     if skip_reason and not include_skipped:
         logger.warning(
             f"Skipping node type '{node_type}': {skip_reason}"

@@ -696,6 +696,178 @@ def test_generate_node_class_file_can_include_skipped_node_type(tmp_path):
     assert "def_ = default" in code
 
 
+def test_generate_node_class_file_skips_unsafe_dag_node_type(tmp_path):
+    generate_node_class_file(
+        "caddyManipBase",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "caddy_manip_base.py",
+    )
+
+    assert not output_path.exists()
+
+
+def test_generate_node_class_file_can_include_unsafe_dag_node_type(tmp_path):
+    generate_node_class_file(
+        "caddyManipBase",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        include_skipped=True,
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "caddy_manip_base.py",
+    )
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "caddy_manip_base.py", "exec")
+    assert 'NODE_TYPE = "caddyManipBase"' in code
+    assert "default = BoolField()" in code
+    assert "def_ = default" in code
+
+
+def test_generate_node_class_file_skips_unsafe_dag_tool_node_type(tmp_path):
+    generate_node_class_file(
+        "placerTool",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "placer_tool.py",
+    )
+
+    assert not output_path.exists()
+
+
+def test_generate_node_class_file_can_include_unsafe_dag_tool_node_type(
+    tmp_path,
+):
+    generate_node_class_file(
+        "placerTool",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        include_skipped=True,
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "placer_tool.py",
+    )
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "placer_tool.py", "exec")
+    assert 'NODE_TYPE = "placerTool"' in code
+    assert "default = BoolField()" in code
+    assert "def_ = default" in code
+
+
+def test_generate_node_class_file_outputs_xgm_dag_node_type(tmp_path):
+    generate_node_class_file(
+        "xgmSubPatch",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "xgm_sub_patch.py",
+    )
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "xgm_sub_patch.py", "exec")
+    assert 'NODE_TYPE = "xgmSubPatch"' in code
+    assert "default = BoolField()" in code
+    assert "def_ = default" in code
+
+
+def test_generate_node_class_file_skips_unsafe_dag_node_type_keyword(
+    tmp_path,
+):
+    generate_node_class_file(
+        "buttonManip",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "button_manip.py",
+    )
+
+    assert not output_path.exists()
+
+
+def test_generate_node_class_file_can_include_unsafe_dag_node_type_keyword(
+    tmp_path,
+):
+    generate_node_class_file(
+        "buttonManip",
+        tmp_path,
+        attr_infos=[_attr("default", "def", "bool")],
+        include_skipped=True,
+        node_kind="dag",
+    )
+
+    output_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "button_manip.py",
+    )
+    code = output_path.read_text(encoding="utf-8")
+
+    compile(code, "button_manip.py", "exec")
+    assert 'NODE_TYPE = "buttonManip"' in code
+    assert "default = BoolField()" in code
+    assert "def_ = default" in code
+
+
 def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
     generate_node_class_file(
         "joint",

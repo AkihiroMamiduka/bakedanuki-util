@@ -75,3 +75,27 @@ def test_get_attribute_info_falls_back_to_mfn_light_data_child_type(
     assert info.short_name == "ldx"
     assert info.attribute_type == "float"
     assert info.data_type is None
+
+
+def test_get_attribute_infos_handles_attrs_without_open_maya_plug(
+    new_scene,
+    maya_cmds,
+):
+    try:
+        maya_cmds.loadPlugin("mtoa", quiet=True)
+    except Exception as exc:
+        pytest.skip(f"mtoa is unavailable: {exc}")
+
+    infos = get_attribute_infos("aiAreaLight")
+    by_long_name = {info.long_name: info for info in infos}
+
+    assert by_long_name["exposure"].data_type is None
+    assert by_long_name["normalize"].data_type is None
+
+
+def test_get_attribute_infos_skips_created_node_without_node_type(
+    new_scene,
+):
+    infos = get_attribute_infos("Manipulator", mode_error_skip=True)
+
+    assert isinstance(infos, list)

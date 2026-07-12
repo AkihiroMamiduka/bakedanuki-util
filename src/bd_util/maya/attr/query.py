@@ -58,10 +58,10 @@ def get_attr_short_name(node, attr) -> str | None:
 
 
 def is_typed_attr(node, attr):
-    state = False
-    if get_attr(node, attr).hasFn(om.MFn.kTypedAttribute):
-        state = True
-    return state
+    attr_obj = safe_query(get_attr, node, attr)
+    if attr_obj is None:
+        return False
+    return attr_obj.hasFn(om.MFn.kTypedAttribute)
 
 
 class AttrKind(Enum):
@@ -86,7 +86,9 @@ def is_data_type(node, attr):
 
 # data_type_name
 def get_data_type_name(node, attr) -> str | None:
-    attr_obj = get_attr(node, attr)
+    attr_obj = safe_query(get_attr, node, attr)
+    if attr_obj is None:
+        return None
 
     if not attr_obj.hasFn(om.MFn.kTypedAttribute):
         return None
@@ -169,7 +171,9 @@ def get_attribute_type_name(node, attr) -> str | None:
     if attribute_type is not None:
         return attribute_type
 
-    attr_obj = get_attr(node, attr)
+    attr_obj = safe_query(get_attr, node, attr)
+    if attr_obj is None:
+        return None
 
     for resolver in (
         get_numeric_attribute_type_name,
@@ -315,7 +319,8 @@ def get_attribute_infos(
         if mode_new_scene:
             u_scene.new_scene()
         else:
-            cmds.delete(node)
+            if safe_query(cmds.objExists, node):
+                safe_query(cmds.delete, node)
 
     logger.debug(f"node_type: {node_type}")
 
@@ -331,8 +336,19 @@ def get_attribute_infos(
         else:
             raise ValueError(f"Invalid node type: '{node_type}'")
 
+    created_node_type = safe_query(cmds.nodeType, node)
+    if created_node_type is None:
+        _post_process(node)
+        if mode_error_skip:
+            logger.warning(
+                f"Failed to query created node '{node}' for node type '{node_type}'. Skipping."
+            )
+            return []
+        else:
+            raise ValueError(f"Invalid node type: '{node_type}'")
+
     # 不明なノードタイプの場合は例外を出す
-    if cmds.nodeType(node) == "unknown":
+    if created_node_type == "unknown":
         _post_process(node)
         if mode_error_skip:
             logger.warning(f"Node type '{node_type}' is unknown. Skipping.")
