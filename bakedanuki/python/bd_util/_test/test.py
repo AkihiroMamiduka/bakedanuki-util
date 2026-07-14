@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from bd_util import NodeCreater
+from ...bd_util import NodeCreater
 
 creater = NodeCreater()
 

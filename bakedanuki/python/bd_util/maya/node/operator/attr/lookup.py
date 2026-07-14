@@ -5,7 +5,7 @@ from typing import Type
 
 import maya.cmds as cmds
 
-from .....maya.attr.query import get_attribute_info
+from ....attr.query import get_attribute_info
 from ._core import AttrOperator
 from .define.std.at.numeric_scalar.bool import BoolAttrOperator
 from .define.std.at.numeric_scalar_range.byte import ByteAttrOperator

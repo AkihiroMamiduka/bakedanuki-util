@@ -4,7 +4,7 @@
 from maya import cmds
 
 # self
-from bd_util.maya.node.type import (
+from .type import (
     is_dag_node_type,
     is_dg_node_type,
     is_shape_type,

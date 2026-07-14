@@ -8,12 +8,8 @@ plugin ファイル内では、絶対 import しか使用できない。
 """
 
 # self
-from bd_util._sample.maya.mpx_cmd.cmds.sample_cmd_a.cmd import (
-    BDUSampleCommandA,
-)
-from bd_util._sample.maya.mpx_cmd.cmds.sample_cmd_b.cmd import (
-    BDUSampleCommandB,
-)
+from ..cmds.sample_cmd_a.cmd import BDUSampleCommandA
+from ..cmds.sample_cmd_b.cmd import BDUSampleCommandB
 
 
 def initializePlugin(plugin):

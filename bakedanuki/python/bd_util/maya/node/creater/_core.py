@@ -150,7 +150,11 @@ class NodeCreater:
         if len(node_classes) > 1:
             class_names = ", ".join(cls.__name__ for cls in node_classes)
             raise RuntimeError(
-                f"Multiple NodeOperator classes found in {module_path}: {class_names}"
+                "{} {}: {}".format(
+                    "Multiple NodeOperator classes found in",
+                    module_path,
+                    class_names,
+                )
             )
 
         node_cls = node_classes[0]

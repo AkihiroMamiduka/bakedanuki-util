@@ -6,12 +6,12 @@ plugin から呼ばれるコマンド本体。
 """
 
 # self
-from bd_util import MPxCommandBase
+from ......maya.mpx_cmd.base.cmd import MPxCommandBase
 from . import some_cmd
 
 
-class BDUSampleCommandA(MPxCommandBase):
-    COMMAND_NAME = "bduSampleCommandA"
+class BDUSampleCommandB(MPxCommandBase):
+    COMMAND_NAME = "bduSampleCommandB"
 
     def do_process(self, args):
         some_cmd.create(self.mod)
