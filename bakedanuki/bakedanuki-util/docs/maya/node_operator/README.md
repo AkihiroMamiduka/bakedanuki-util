@@ -18,25 +18,25 @@
 
 ## 主要ファイル
 
-- `src/bd_util/maya/node/operator/node/_core.py`
+- `python/bd_util/maya/node/operator/node/_core.py`
   - `NodeOperator` の基底クラスです。
-- `src/bd_util/maya/node/operator/node/dg/_core.py`
+- `python/bd_util/maya/node/operator/node/dg/_core.py`
   - DG ノード共通の基底クラスです。
-- `src/bd_util/maya/node/operator/node/dag/_core.py`
+- `python/bd_util/maya/node/operator/node/dag/_core.py`
   - DAG ノード共通の基底クラスです。
-- `src/bd_util/maya/node/operator/node/dag/transform/_core.py`
+- `python/bd_util/maya/node/operator/node/dag/transform/_core.py`
   - `Transform` ノード定義です。
-- `src/bd_util/maya/node/operator/attr/_core.py`
+- `python/bd_util/maya/node/operator/attr/_core.py`
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
-- `src/bd_util/maya/node/operator/attr/extra/add_attr.py`
+- `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
   - extra attribute 作成用の `AddAttr` API です。
-- `src/bd_util/maya/node/operator/attr/lookup.py`
+- `python/bd_util/maya/node/operator/attr/lookup.py`
   - Maya 上の既存アトリビュートから対応する `AttrOperator` を推定します。
-- `src/bd_util/maya/node/modifier/_core.py`
+- `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
-- `src/bd_util/maya/node/creater/_core.py`
+- `python/bd_util/maya/node/creater/_core.py`
   - `NodeCreater` です。ノードクラスの個別 import を減らすための生成入口です。
-- `src/bd_util/maya/node/bd_node.py`
+- `python/bd_util/maya/node/bd_node.py`
   - `BDNode` です。シーン上に既に存在するノードを対応する `NodeOperator` として包む入口です。
 
 ## 基本構成

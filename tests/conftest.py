@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-SRC_DIR = ROOT_DIR / "src"
+PACKAGE_PYTHON_DIR = ROOT_DIR / "bakedanuki" / "bakedanuki-util" / "python"
 
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+if str(PACKAGE_PYTHON_DIR) not in sys.path:
+    sys.path.insert(0, str(PACKAGE_PYTHON_DIR))

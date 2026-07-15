@@ -36,7 +36,7 @@
 
 ### 1. docs の継続更新
 
-仕様変更後は `docs/maya/node_operator` を更新します。
+仕様変更後は `bakedanuki/bakedanuki-util/docs/maya/node_operator` を更新します。
 
 特に API の使用例、未対応仕様、設計判断の理由はここに残すと後続作業が安定します。
 

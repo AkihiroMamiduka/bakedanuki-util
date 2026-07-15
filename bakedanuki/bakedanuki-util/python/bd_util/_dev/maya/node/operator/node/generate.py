@@ -11,20 +11,20 @@ Python ファイルを生成するモジュール。
 使用例::
 
     # Maya Python Script Editor で実行
-    from bd_util.maya.node.operator.node.generate import generate_node_class_file
+    from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
 
     generate_node_class_file(
         node_type="multiplyDivide",
-        src_dir=r"C:/path/bakedanuki-util/src",
+        src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
     )
-    # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dg/multiply_divide.py
+    # → C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/multiply_divide.py
 
     generate_node_class_file(
         node_type="joint",
-        src_dir=r"C:/path/bakedanuki-util/src",
+        src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
         node_kind="transform",
     )
-    # → C:/path/bakedanuki-util/src/bd_util/maya/node/operator/node/dag/transform/joint.py
+    # → C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/joint.py
 """
 
 from __future__ import annotations
@@ -1858,7 +1858,7 @@ def generate_node_class_file(
 ) -> None:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python ファイルを生成する。
 
-    ``src_dir`` に src ディレクトリを指定するだけで、出力先パスを自動で構築する。
+    ``src_dir`` に ``bd_util`` パッケージの親ディレクトリを指定するだけで、出力先パスを自動で構築する。
 
     compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) が存在する場合は、
     node_attr ファイルも同時に生成する。
@@ -1869,12 +1869,12 @@ def generate_node_class_file(
         {src_dir}/bd_util/maya/node/operator/node/dag/{snake_case_node_type}.py
         {src_dir}/bd_util/maya/node/operator/node/dag/transform/{snake_case_node_type}.py
         {src_dir}/bd_util/maya/node/operator/node/dag/shape/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/attr/node_attr/{snake_case_node_type}.py  (compound アトリビュートがある場合のみ)
+        {src_dir}/bd_util/maya/node/operator/attr/define/node_attr/{snake_case_node_type}.py  (compound アトリビュートがある場合のみ)
 
     Args:
         node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
-        src_dir (str | pathlib.Path): リポジトリの src ディレクトリへのパス
-            (例: ``r"C:/path/bakedanuki-util/src"``)
+        src_dir (str | pathlib.Path): ``bd_util`` パッケージの親ディレクトリへのパス
+            (例: ``r"C:/path/bakedanuki/bakedanuki-util/python"``)
         attr_infos (list[AttrInfo] | None): 属性情報のリスト。
             ``None`` の場合は :func:`~bd_util.maya.attr.query.get_attribute_infos`
             で自動取得する。

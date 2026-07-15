@@ -1,6 +1,6 @@
 # Node Generator
 
-このページは `src/bd_util/_dev/maya/node/operator/node/generate.py` の現行仕様をまとめます。
+このページは `python/bd_util/_dev/maya/node/operator/node/generate.py` の現行仕様をまとめます。
 Generator は Maya の node type と attribute query 結果から、`NodeOperator` 用の Python class を生成する開発用ツールです。
 
 ## 目的
@@ -350,7 +350,7 @@ Maya Script Editor または mayapy 上で実行します。
 ```python
 from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
 
-path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
+path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\python"
 
 node_types = [
     "plusMinusAverage",
@@ -370,7 +370,7 @@ DG / DAG を混ぜて調査用に出力する場合は、`node_kind="auto"` を�
 ```python
 from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
 
-path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
+path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\python"
 
 node_types = [
     "transform",
@@ -388,14 +388,14 @@ for node_type in node_types:
 ```
 
 DAG 全体を一括生成したい場合は、次の helper を使います。
-出力対象が多いため、まずは `generate_test/src` へ出力し、TODO や import error を確認してから正式な `src` 側へ反映します。
+出力対象が多いため、まずは `generate_test/python` へ出力し、TODO や import error を確認してから正式な `bakedanuki/bakedanuki-util/python` 側へ反映します。
 
 ```python
 from bd_util._dev.maya.node.operator.node.generate import (
     generate_dag_node_class_files,
 )
 
-path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\src"
+path = r"D:\develop\bakedanuki_dev\bakedanuki-util\generate_test\python"
 generate_dag_node_class_files(path)
 ```
 
@@ -440,7 +440,7 @@ tests/dev/maya/node/operator/node/test_generate.py
 from pathlib import Path
 
 errors = []
-for path in Path("generate_test/src").rglob("*.py"):
+for path in Path("generate_test/python").rglob("*.py"):
     try:
         compile(path.read_text(encoding="utf-8"), str(path), "exec")
     except SyntaxError as exc:
@@ -451,7 +451,7 @@ print(errors)
 
 ## 現状の注意点
 
-- `generate_test/src` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。
+- `generate_test/python` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
 - 生成後は必ず git diff を確認します。

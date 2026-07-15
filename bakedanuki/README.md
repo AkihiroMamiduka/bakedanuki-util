@@ -1,0 +1,87 @@
+# bakedanuki
+
+このフォルダは、bakedanuki 系パッケージを Maya Module としてまとめて配置するための親フォルダです。
+
+`bakedanuki-util`、今後追加予定の `bakedanuki-rig`、`bakedanuki-tool` などは、各パッケージの `bakedanuki` フォルダを同じ場所へ重ねて配置する想定です。
+
+## Layout
+
+```text
+bakedanuki/
+  Maya.env
+  maya2025.bat
+  modules/
+    bd_util.mod
+    bd_rig.mod
+    bd_tool.mod
+
+  bakedanuki-util/
+    README.md
+    LICENSE
+    docs/
+    python/
+
+  bakedanuki-rig/
+    README.md
+    LICENSE
+    docs/
+    python/
+    plugins/
+
+  bakedanuki-tool/
+    README.md
+    LICENSE
+    docs/
+    python/
+    scripts/
+```
+
+Maya には `bakedanuki/modules` だけを `MAYA_MODULE_PATH` として追加します。
+
+各 `.mod` ファイルが、それぞれのパッケージフォルダ内にある `python`、`plugins` などを Maya へ追加します。
+
+## Setup With Maya.env
+
+ユーザー自身の Maya 2025 用 `Maya.env` に、次の行を追加してください。
+
+```env
+MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules
+```
+
+Windows の標準的な配置先は次の通りです。
+
+```text
+%USERPROFILE%\Documents\maya\2025\Maya.env
+```
+
+すでに `MAYA_MODULE_PATH` がある場合は、別行を作らず同じ行へ `;` 区切りで追加してください。
+
+```env
+MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules;D:\another\maya\modules
+```
+
+このフォルダにある [Maya.env](Maya.env) は追記例です。この場所に置くだけでは Maya には読み込まれないため、自分の Maya preferences 配下の `Maya.env` へ内容をコピーして使ってください。
+
+## Setup With bat
+
+試しに起動するだけであれば、[maya2025.bat](maya2025.bat) を実行できます。
+
+この bat は、自分自身と同じ階層にある `modules` を `MAYA_MODULE_PATH` の先頭に追加してから、Maya 2025 を起動します。
+
+Maya のインストール先が標準と異なる場合は、bat 内の `MAYA_EXE` を環境に合わせて変更してください。
+
+## Check
+
+Maya 起動後、Script Editor などで次を実行します。
+
+```python
+import bd_util
+
+print(bd_util.__file__)
+```
+
+`bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば、`bakedanuki-util` のパスが通っています。
+
+## Package Docs
+
+- [bakedanuki-util](bakedanuki-util/README.md)

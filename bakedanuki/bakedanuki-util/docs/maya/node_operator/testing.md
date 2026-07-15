@@ -17,7 +17,9 @@ PowerShell では、パスにスペースが含まれる executable を呼ぶた
 Codex 側の mayapy に pytest が入っていない場合は、target install した pytest の場所を `PYTHONPATH` に足して実行します。
 
 ```powershell
-$env:PYTHONPATH = (Join-Path $env:TEMP 'codex-mayapy-pytest')
+$pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
+$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
@@ -46,7 +48,7 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 
 ## _test の扱い
 
-`src/bd_util/_test` は速度計測や手元確認用です。
+`bakedanuki/bakedanuki-util/python/bd_util/_test` は速度計測や手元確認用です。
 
 一般的な仕様固定は pytest に移し、ベンチマークや Maya console からの確認は `_test` に残します。
 

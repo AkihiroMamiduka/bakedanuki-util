@@ -28,22 +28,32 @@
 
 主な構成です。
 
-- `src/bd_util`
+- `bakedanuki/bakedanuki-util/python/bd_util`
   - パッケージ本体です。
-- `src/bd_util/maya`
+- `bakedanuki/bakedanuki-util/python/bd_util/maya`
   - Maya 関連の実装です。
-- `src/bd_util/maya/node`
+- `bakedanuki/bakedanuki-util/python/bd_util/maya/node`
   - ノード、modifier、NodeOperator 関連の中心です。
-- `src/bd_util/_dev`
+- `bakedanuki/bakedanuki-util/python/bd_util/_dev`
   - 開発用コードです。ノード生成スクリプトなどがあります。
-- `src/bd_util/_test`
+- `bakedanuki/bakedanuki-util/python/bd_util/_test`
   - 古い手動テスト、ベンチ、Maya 上で直接実行する検証コードが残っています。
+- `bakedanuki/modules`
+  - Maya Module の `.mod` ファイルを配置します。
+- `bakedanuki/Maya.env`
+  - ユーザー自身の `Maya.env` へ追記するためのサンプルです。この場所に置くだけでは Maya には読み込まれません。
+- `bakedanuki/maya2025.bat`
+  - 試用向けに `bakedanuki/modules` を `MAYA_MODULE_PATH` へ追加して Maya 2025 を起動します。
 - `tests`
   - pytest 化されたテストです。
-- `docs/maya/node_operator`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator`
   - NodeOperator 周辺の設計メモです。
 - `README.md`
-  - 初見向けの説明です。
+  - 開発リポジトリとしての入口です。
+- `bakedanuki/README.md`
+  - Maya Module 配布フォルダとしての入口です。
+- `bakedanuki/bakedanuki-util/README.md`
+  - `bakedanuki-util` パッケージ本体の説明です。
 
 ## Development Environment
 
@@ -75,12 +85,12 @@ Get-Content -Raw -Encoding UTF8 README.md
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install --target $env:TEMP\codex-mayapy-pytest pytest
 ```
 
-テスト実行時は、pytest の配置先と `src` の両方を `PYTHONPATH` に入れるのが安全です。
+テスト実行時は、pytest の配置先と `bakedanuki/bakedanuki-util/python` の両方を `PYTHONPATH` に入れるのが安全です。
 
 ```powershell
 $pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$srcPath = Resolve-Path .\src
-$env:PYTHONPATH = "$pytestTarget;$srcPath"
+$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
@@ -88,8 +98,8 @@ $env:PYTHONPATH = "$pytestTarget;$srcPath"
 
 ```powershell
 $pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$srcPath = Resolve-Path .\src
-$env:PYTHONPATH = "$pytestTarget;$srcPath"
+$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests\maya\node\operator\attr\test_extra_attr.py
 ```
 
@@ -112,8 +122,8 @@ $env:PYTHONPATH = "$pytestTarget;$srcPath"
 
 ```powershell
 $pytestTarget = Join-Path $env:TEMP 'codex-mayapy-pytest'
-$srcPath = Resolve-Path .\src
-$env:PYTHONPATH = "$pytestTarget;$srcPath"
+$pythonPath = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
@@ -242,17 +252,17 @@ node = bdu.BDNode("existing_node")
 
 - `README.md`
   - 初見向けです。短い利用例とパッケージの位置づけを重視します。
-- `docs/maya/node_operator/README.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/README.md`
   - NodeOperator 周辺の現行仕様の入口です。
-- `docs/maya/node_operator/attributes.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/attributes.md`
   - Attribute / Plug / AddAttr 周辺です。
-- `docs/maya/node_operator/modifier_manager.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/modifier_manager.md`
   - ModifierManager の設計です。
-- `docs/maya/node_operator/generator.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/generator.md`
   - ノード生成器の設計です。
-- `docs/maya/node_operator/testing.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md`
   - テスト方針です。
-- `docs/maya/node_operator/roadmap.md`
+- `bakedanuki/bakedanuki-util/docs/maya/node_operator/roadmap.md`
   - 今後の予定です。
 
 README のコード例は、実際にユーザーが好んでいる短い書き方に寄せてください。
@@ -264,7 +274,7 @@ README のコード例は、実際にユーザーが好んでいる短い書き�
 1. ユーザーの直近の指示
 2. この `AGENTS.md`
 3. 既存コードの実装パターン
-4. `docs/maya/node_operator` 以下の設計メモ
+4. `bakedanuki/bakedanuki-util/docs/maya/node_operator` 以下の設計メモ
 5. Maya / OpenMaya の実挙動
 
 特に Maya API の挙動に関わる場合は、推測より `mayapy` での確認を優先してください。
