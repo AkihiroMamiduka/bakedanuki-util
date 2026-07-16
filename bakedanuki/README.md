@@ -9,7 +9,10 @@
 ```text
 bakedanuki/
   Maya.env
-  maya2025.bat
+  launchers/
+    maya2025.bat
+    maya2026.bat
+    maya2027.bat
   modules/
     bd_util.mod
     bd_rig.mod
@@ -42,13 +45,13 @@ Maya には `bakedanuki/modules` だけを `MAYA_MODULE_PATH` として追加し
 
 ## Setup With Maya.env
 
-ユーザー自身の Maya 2025 用 `Maya.env` に、次の行を追加してください。
+ユーザー自身の利用する Maya バージョン用 `Maya.env` に、次の行を追加してください。
 
 ```env
 MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules
 ```
 
-Windows の標準的な配置先は次の通りです。
+Windows の標準的な配置先は次の通りです。Maya 2026 / 2027 を使う場合は、パス中の `2025` を利用するバージョンに読み替えてください。
 
 ```text
 %USERPROFILE%\Documents\maya\2025\Maya.env
@@ -64,11 +67,15 @@ MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules;D:\another\maya\modules
 
 ## Setup With bat
 
-試しに起動するだけであれば、[maya2025.bat](maya2025.bat) を実行できます。
+試しに起動するだけであれば、利用する Maya バージョンに合わせて次の bat を実行できます。
 
-この bat は、自分自身と同じ階層にある `modules` を `MAYA_MODULE_PATH` の先頭に追加してから、Maya 2025 を起動します。
+- [launchers/maya2025.bat](launchers/maya2025.bat)
+- [launchers/maya2026.bat](launchers/maya2026.bat)
+- [launchers/maya2027.bat](launchers/maya2027.bat)
 
-Maya のインストール先が標準と異なる場合は、bat 内の `MAYA_EXE` を環境に合わせて変更してください。
+これらの bat は、`bakedanuki/modules` を `MAYA_MODULE_PATH` の先頭に追加してから、対応する Maya を起動します。
+
+Maya のインストール先が標準と異なる場合は、各 bat 内の `MAYA_EXE` を環境に合わせて変更してください。
 
 ## Check
 

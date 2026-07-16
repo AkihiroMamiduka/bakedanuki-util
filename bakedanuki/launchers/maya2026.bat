@@ -1,12 +1,12 @@
 @echo off
 setlocal
 
-set "BAKEDANUKI_ROOT=%~dp0"
-set "BAKEDANUKI_MODULES=%BAKEDANUKI_ROOT%modules"
-set "MAYA_EXE=C:\Program Files\Autodesk\Maya2025\bin\maya.exe"
+for %%I in ("%~dp0..") do set "BAKEDANUKI_ROOT=%%~fI"
+set "BAKEDANUKI_MODULES=%BAKEDANUKI_ROOT%\modules"
+set "MAYA_EXE=C:\Program Files\Autodesk\Maya2026\bin\maya.exe"
 
 if not exist "%MAYA_EXE%" (
-    echo Maya 2025 executable was not found:
+    echo Maya 2026 executable was not found:
     echo   %MAYA_EXE%
     exit /b 1
 )

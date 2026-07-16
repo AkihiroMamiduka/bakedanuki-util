@@ -8,7 +8,7 @@
 
 ## Status
 
-- Target: Maya 2025 / Python 3.11.4 以降
+- Target: Maya 2025 以降 / Python 3.11.4 以降
 - Runtime: Maya 専用
 - Distribution: Maya Module
 - Stage: pre-1.0.0 / active development
@@ -143,13 +143,13 @@ PYTHONPATH+:=python
 
 ### Maya.env
 
-ユーザー自身の Maya 2025 用 `Maya.env` に次の行を追加します。
+ユーザー自身の利用する Maya バージョン用 `Maya.env` に次の行を追加します。
 
 ```env
 MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules
 ```
 
-Windows の標準的な配置先は次の通りです。
+Windows の標準的な配置先は次の通りです。Maya 2026 / 2027 を使う場合は、パス中の `2025` を利用するバージョンに読み替えてください。
 
 ```text
 %USERPROFILE%\Documents\maya\2025\Maya.env
@@ -165,15 +165,19 @@ MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules;D:\another\maya\modules
 
 ### bat
 
-試用向けに、Maya 2025 を起動する [../maya2025.bat](../maya2025.bat) も同梱しています。
+試用向けに、Maya を起動する bat も同梱しています。
 
-この bat は、自分自身と同じ階層にある `modules` を `MAYA_MODULE_PATH` に追加してから、Maya 2025 を起動します。
+- [../launchers/maya2025.bat](../launchers/maya2025.bat)
+- [../launchers/maya2026.bat](../launchers/maya2026.bat)
+- [../launchers/maya2027.bat](../launchers/maya2027.bat)
+
+これらの bat は、`bakedanuki/modules` を `MAYA_MODULE_PATH` に追加してから、対応する Maya を起動します。
 
 ```bat
 set "BAKEDANUKI_MODULES=%BAKEDANUKI_ROOT%modules"
 ```
 
-Maya のインストール先が標準と異なる場合は、bat 内の `MAYA_EXE` を環境に合わせて変更してください。
+Maya のインストール先が標準と異なる場合は、各 bat 内の `MAYA_EXE` を環境に合わせて変更してください。
 
 ### Import Check
 

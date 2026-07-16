@@ -26,7 +26,10 @@
 ```text
 bakedanuki/
   Maya.env
-  maya2025.bat
+  launchers/
+    maya2025.bat
+    maya2026.bat
+    maya2027.bat
   modules/
     bd_util.mod
 
