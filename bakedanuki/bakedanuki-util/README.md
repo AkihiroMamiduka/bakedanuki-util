@@ -123,7 +123,6 @@ mod.do_it_dg()
 ```text
 bakedanuki/
   installer.py
-  Maya.env
   launchers/
     maya2025.bat
     maya2026.bat
@@ -165,7 +164,7 @@ PYTHONPATH+:=python
 
 ### Maya.env
 
-ユーザー自身の利用する Maya バージョン用 `Maya.env` に次の行を追加します。
+`installer.py` を使用しない場合は、ユーザー自身の利用する Maya バージョン用 `Maya.env` に次の行を追加します。
 
 ```env
 MAYA_MODULE_PATH=D:/path/to/bakedanuki/modules;
@@ -182,8 +181,6 @@ Windows の標準的な配置先は次の通りです。Maya 2026 / 2027 を使�
 ```env
 MAYA_MODULE_PATH=D:/path/to/bakedanuki/modules;D:/another/maya/modules;
 ```
-
-このリポジトリには、追記例として [../Maya.env](../Maya.env) を同梱しています。
 
 ### bat
 
