@@ -174,6 +174,34 @@ def _installer_dir() -> Path:
         raise RuntimeError("installer.py のパスを取得できませんでした。") from exc
 
 
+def _cleanup_bytecode_cache(installer_path: Path | None = None) -> None:
+    if installer_path is None:
+        try:
+            installer_path = Path(__file__).resolve()
+        except (NameError, OSError):
+            return
+
+    cache_dir = installer_path.parent / "__pycache__"
+    if not cache_dir.is_dir() or cache_dir.is_symlink():
+        return
+
+    try:
+        cache_files = list(cache_dir.glob(f"{installer_path.stem}.*.pyc"))
+    except OSError:
+        return
+
+    for cache_file in cache_files:
+        try:
+            cache_file.unlink()
+        except OSError:
+            pass
+
+    try:
+        cache_dir.rmdir()
+    except OSError:
+        pass
+
+
 def _target_modules_dir() -> Path:
     return _installer_dir() / "modules"
 
@@ -277,9 +305,16 @@ def main() -> None:
             raise
 
 
+def _run() -> None:
+    try:
+        main()
+    finally:
+        _cleanup_bytecode_cache()
+
+
 def onMayaDroppedPythonFile(*_args) -> None:
-    main()
+    _run()
 
 
 if __name__ == "__main__":
-    main()
+    _run()
