@@ -1,10 +1,15 @@
 # conding: utf-8
 
+# builtin
+import importlib.util
+from pathlib import Path
+
 # maya
 from maya import cmds
 from maya.api import OpenMaya as om
 
 # self
+from ...... import logger as u_logger
 from ..... import str as test_str
 from ......_dev.timer import run_timed_repeat, timer
 from ......maya.node.modifier import ModifierManager
@@ -12,6 +17,8 @@ from ......maya.node.operator.node.dg.plus_minus_average import (
     PlusMinusAverage,
 )
 from ......maya import scene as u_scene
+
+logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 ACCURATE = False
 REPEAT_COUNT = 3
@@ -22,6 +29,14 @@ COUNT = 30000
 GET_SET_COUNT = COUNT
 SCALAR_VALUE = 1.25
 COMPOUND_VALUE = (1.25, 2.5, 3.75)
+
+_PYMEL_VERSIONED_CACHE_NAMES = (
+    "mayaApi",
+    "mayaCmdsDocs",
+    "mayaCmdsExamples",
+    "mayaCmdsList",
+)
+_PYMEL_CACHE_EXTENSIONS = (".py", ".pyc.zip", ".py.zip", ".bin", ".zip")
 
 
 def main(
@@ -181,8 +196,46 @@ def _run_get_set_benchmarks(accurate: bool, repeat_count: int):
 
 
 def _run_benchmarks(funcs, accurate: bool, repeat_count: int):
+    pymel_available = None
     for func in funcs:
+        if func.__name__.endswith("_pm"):
+            if pymel_available is None:
+                pymel_available = _pymel_benchmarks_available()
+            if not pymel_available:
+                logger.debug(
+                    f"[skip] {func.__name__}: PyMEL cache for Maya "
+                    f"{_current_maya_version()} is unavailable."
+                )
+                continue
         _run_benchmark(func, accurate=accurate, repeat_count=repeat_count)
+
+
+def _pymel_benchmarks_available() -> bool:
+    try:
+        spec = importlib.util.find_spec("pymel")
+    except (ImportError, ValueError):
+        return False
+
+    if spec is None or spec.origin is None:
+        return False
+
+    cache_dir = Path(spec.origin).parent / "cache"
+    maya_version = _current_maya_version()
+    return all(
+        _pymel_cache_exists(cache_dir, f"{cache_name}{maya_version}")
+        for cache_name in _PYMEL_VERSIONED_CACHE_NAMES
+    )
+
+
+def _pymel_cache_exists(cache_dir: Path, cache_name: str) -> bool:
+    return any(
+        (cache_dir / f"{cache_name}{extension}").is_file()
+        for extension in _PYMEL_CACHE_EXTENSIONS
+    )
+
+
+def _current_maya_version() -> str:
+    return str(cmds.about(apiVersion=True))[:4]
 
 
 def _run_benchmark(func, accurate: bool, repeat_count: int):

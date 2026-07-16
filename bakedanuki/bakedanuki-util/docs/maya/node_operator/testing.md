@@ -63,6 +63,8 @@ ps.main(accurate=True, repeat_count=3)
 
 `accurate=True` の場合は median / min / max を出すため、通常計測より時間がかかります。
 
+PyMEL の比較ベンチマークは、現在の Maya バージョン用キャッシュが PyMEL に含まれる場合のみ実行します。未対応の Maya バージョンでは PyMEL の計測だけをスキップし、その他の比較は継続します。
+
 ## ベンチマークの見方
 
 NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的にありません。
