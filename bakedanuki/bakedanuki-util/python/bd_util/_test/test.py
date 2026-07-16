@@ -1,12 +1,15 @@
 # coding:utf-8
 
-from ...bd_util import NodeCreater
+# self
+from ..maya.node.creater._core import NodeCreater
 
-creater = NodeCreater()
 
-cmp_m = creater.composeMatrix(name="cmp_m")
-mult_m = creater.multMatrix(name="mult_m")
+def main():
+    creater = NodeCreater()
 
-cmp_m.outputMatrix > mult_m.matrixIn[next]
+    cmp_m = creater.composeMatrix(name="cmp_m")
+    mult_m = creater.multMatrix(name="mult_m")
 
-creater.modifier_manager.do_it_dg()
+    cmp_m.outputMatrix > mult_m.matrixIn[next]
+
+    creater.modifier_manager.do_it_dg()
