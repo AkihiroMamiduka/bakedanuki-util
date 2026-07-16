@@ -25,6 +25,7 @@
 
 ```text
 bakedanuki/
+  installer.py
   Maya.env
   launchers/
     maya2025.bat

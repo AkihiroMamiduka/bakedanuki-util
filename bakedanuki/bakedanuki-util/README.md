@@ -122,6 +122,12 @@ mod.do_it_dg()
 
 ```text
 bakedanuki/
+  installer.py
+  Maya.env
+  launchers/
+    maya2025.bat
+    maya2026.bat
+    maya2027.bat
   modules/
     bd_util.mod
   bakedanuki-util/
@@ -141,12 +147,28 @@ PYTHONPATH+:=python
 
 そのため、Maya から使う場合は `bakedanuki/modules` を `MAYA_MODULE_PATH` に追加してください。
 
+### installer.py
+
+最も簡単な導入方法は、`bakedanuki/installer.py` を Maya のビューポートへドラッグ&ドロップする方法です。
+
+`installer.py` は、自分自身と同じ階層にある `modules` フォルダを検出し、現在起動している Maya バージョン用の `Maya.env` に `MAYA_MODULE_PATH` を追加します。
+
+追加前には確認ダイアログが表示され、`OK` を選んだ場合だけ `Maya.env` を更新します。`Cancel` を選んだ場合は何も変更しません。`Maya.env` が存在しない場合は新しく作成します。
+
+同じ modules パスが既に登録されている場合は重複して追加しません。パスの大文字・小文字、区切り文字の `\` / `/`、末尾の区切り文字の違いも同じパスとして扱います。
+
+別の bakedanuki フォルダを指すパスが登録されている場合は、置き換え確認のダイアログが表示されます。置き換え時も、bakedanuki 以外の module パスはそのまま維持されます。
+
+新規追加または置き換えられるパスは `/` 区切りで記述され、後から別のパスを追加しやすいように末尾へ `;` が付きます。
+
+変更を反映するには、Maya を再起動してください。
+
 ### Maya.env
 
 ユーザー自身の利用する Maya バージョン用 `Maya.env` に次の行を追加します。
 
 ```env
-MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules
+MAYA_MODULE_PATH=D:/path/to/bakedanuki/modules;
 ```
 
 Windows の標準的な配置先は次の通りです。Maya 2026 / 2027 を使う場合は、パス中の `2025` を利用するバージョンに読み替えてください。
@@ -158,7 +180,7 @@ Windows の標準的な配置先は次の通りです。Maya 2026 / 2027 を使�
 すでに `MAYA_MODULE_PATH` がある場合は、別行を作らず同じ行へ `;` 区切りで追加してください。
 
 ```env
-MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules;D:\another\maya\modules
+MAYA_MODULE_PATH=D:/path/to/bakedanuki/modules;D:/another/maya/modules;
 ```
 
 このリポジトリには、追記例として [../Maya.env](../Maya.env) を同梱しています。
@@ -174,7 +196,7 @@ MAYA_MODULE_PATH=D:\path\to\bakedanuki\modules;D:\another\maya\modules
 これらの bat は、`bakedanuki/modules` を `MAYA_MODULE_PATH` に追加してから、対応する Maya を起動します。
 
 ```bat
-set "BAKEDANUKI_MODULES=%BAKEDANUKI_ROOT%modules"
+set "BAKEDANUKI_MODULES=%BAKEDANUKI_ROOT%\modules"
 ```
 
 Maya のインストール先が標準と異なる場合は、各 bat 内の `MAYA_EXE` を環境に合わせて変更してください。

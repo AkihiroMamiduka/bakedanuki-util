@@ -40,6 +40,8 @@
   - 古い手動テスト、ベンチ、Maya 上で直接実行する検証コードが残っています。
 - `bakedanuki/modules`
   - Maya Module の `.mod` ファイルを配置します。
+- `bakedanuki/installer.py`
+  - Maya のビューポートへドラッグ&ドロップして、現在の Maya バージョン用 `Maya.env` に `bakedanuki/modules` を登録する導入補助です。
 - `bakedanuki/Maya.env`
   - ユーザー自身の `Maya.env` へ追記するためのサンプルです。この場所に置くだけでは Maya には読み込まれません。
 - `bakedanuki/launchers/maya2025.bat` / `bakedanuki/launchers/maya2026.bat` / `bakedanuki/launchers/maya2027.bat`
