@@ -37,9 +37,9 @@
 - `python/bd_util/maya/node/nodes.py`
   - `Nodes` です。ノード作成と既存ノード変換で同じ `ModifierManager` を共有する統合入口です。
 - `python/bd_util/maya/node/creator/_core.py`
-  - `NodeCreator` です。ノードクラスの個別 import を減らすための生成入口です。
+  - `nodes.create` を構成する内部実装の `NodeCreator` です。
 - `python/bd_util/maya/node/existing_node.py`
-  - `ExistingNode` です。シーン上に既に存在するノードを対応する `NodeOperator` として包む入口です。
+  - `nodes.existing` を構成する内部実装の `ExistingNode` です。
 
 ## 基本構成
 
@@ -121,8 +121,8 @@ existing = nodes.existing.transform("existing_node")
 modifier_manager.do_it_dag()
 ```
 
-`nodes.create` は、共有 `ModifierManager` を受け取った `NodeCreator` です。
-`nodes.existing` は、同じ `ModifierManager` を自動的に `ExistingNode` へ渡す専用アクセサです。
+`nodes.create` は、共有 `ModifierManager` を使うノード作成アクセサです。
+`nodes.existing` は、同じ `ModifierManager` を使う既存ノードアクセサです。
 したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
 
 ```python
@@ -136,7 +136,8 @@ assert existing.modifier_manager is modifier_manager
 existing = nodes.existing("existing_node")
 ```
 
-`Nodes` を使わず、`NodeCreator` / `ExistingNode` を直接利用する既存APIも維持します。
+`NodeCreator` / `ExistingNode` は `Nodes` の内部実装として維持しますが、`bd_util` の公開APIには含めません。
+ノード作成と既存ノード変換は、どちらも `Nodes` から利用します。
 
 ノード作成は `ModifierManager` を受け取ります。
 
@@ -150,66 +151,65 @@ node = PlusMinusAverage.create(modifier_manager, name="test_pma")
 modifier_manager.do_it_dg()
 ```
 
-複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`NodeCreator` から作成できます。
-
-```python
-from bd_util import ModifierManager, NodeCreator
-
-modifier_manager = ModifierManager()
-node_creator = NodeCreator(modifier_manager=modifier_manager)
-
-pma = node_creator.plusMinusAverage(name="plus_minus_ave")
-mult_div = node_creator.multiplyDivide(name="mult_div")
-
-modifier_manager.do_it_dg()
-```
-
-`NodeCreator` は DG ノード名と transform 系 DAG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
-生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
-`create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
-IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
-
-`transform` / `joint` は `NodeCreator` から作成できます。
-shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
-ただし `ExistingNode` 用の class 解決対象には含めています。
-
-シーン上に既に存在するノードは `ExistingNode` で対応する `NodeOperator` に変換できます。
-
-```python
-from maya import cmds
-
-from bd_util import ExistingNode
-
-cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
-
-node = ExistingNode("test_plus_minus_ave")
-node.input1D[0].set(10.0)
-node.modifier_manager.do_it_dg()
-```
-
-`ExistingNode` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
-必要な場合は `ExistingNode("nodeName", auto_add_attr=True)` のように指定します。
-
-`ExistingNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
-そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
-
-nodeType を呼び出し側で明示したい場合は、`ExistingNode` の型別メソッドを使用できます。
+複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`nodes.create` から作成できます。
 
 ```python
 import bd_util as bdu
 
 modifier_manager = bdu.ModifierManager()
-node = bdu.ExistingNode.decomposeMatrix(
-    "test_decompose_matrix",
-    modifier_manager=modifier_manager,
-)
+nodes = bdu.Nodes(modifier_manager=modifier_manager)
+
+pma = nodes.create.plusMinusAverage(name="plus_minus_ave")
+mult_div = nodes.create.multiplyDivide(name="mult_div")
+
+modifier_manager.do_it_dg()
+```
+
+内部の `NodeCreator` は DG ノード名と transform 系 DAG ノード名を lazy import し、`NodeOperator.create()` を呼びます。
+生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
+`create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
+IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
+
+`transform` / `joint` は `nodes.create` から作成できます。
+shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
+ただし `nodes.existing` 用の class 解決対象には含めています。
+
+シーン上に既に存在するノードは `nodes.existing` で対応する `NodeOperator` に変換できます。
+
+```python
+from maya import cmds
+
+import bd_util as bdu
+
+cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
+
+nodes = bdu.Nodes()
+node = nodes.existing("test_plus_minus_ave")
+node.input1D[0].set(10.0)
+nodes.modifier_manager.do_it_dg()
+```
+
+`nodes.existing` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
+必要な場合は `nodes.existing("nodeName", auto_add_attr=True)` のように指定します。
+
+内部の `ExistingNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
+そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
+
+nodeType を呼び出し側で明示したい場合は、`nodes.existing` の型別メソッドを使用できます。
+
+```python
+import bd_util as bdu
+
+modifier_manager = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=modifier_manager)
+node = nodes.existing.decomposeMatrix("test_decompose_matrix")
 ```
 
 型別メソッドは実行時に対象 class を lazy import し、`existing_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
 `nodes.existing` についても `nodes.pyi` で同じ具体的な戻り値型を公開します。
 この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
-自動判定する `ExistingNode("nodeName")` と型を明示する `ExistingNode.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
+自動判定する `nodes.existing("nodeName")` と型を明示する `nodes.existing.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

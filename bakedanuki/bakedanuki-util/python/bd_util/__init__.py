@@ -2,8 +2,6 @@
 from . import _version
 from ._dev.reload import reload_package
 from ._dev.timer import timer
-from .maya.node.creator import NodeCreator
-from .maya.node.existing_node import ExistingNode
 from .maya.node.modifier import ModifierManager
 from .maya.node.nodes import Nodes
 from .maya.mpx_cmd.base.cmd import MPxCommandBase
@@ -18,8 +16,6 @@ __all__ = [
     "timer",
     "MPxCommandBase",
     "LoaderBase",
-    "ExistingNode",
     "ModifierManager",
-    "NodeCreator",
     "Nodes",
 ]

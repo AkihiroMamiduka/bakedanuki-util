@@ -26,12 +26,6 @@
 - `Nodes`
   - ノード作成と既存ノード変換を、同じ `ModifierManager` から扱う統合入口です。
   - `nodes.create.transform()` / `nodes.existing.transform()` のように用途を明示できます。
-- `NodeCreator`
-  - ノード作成用の入口です。
-  - 各 `NodeOperator` クラスを個別に import せず、Maya の nodeType 名に近いメソッドから作成できます。
-- `ExistingNode`
-  - シーン上に既に存在するノードを、対応する `NodeOperator` として包む入口です。
-  - nodeType を明示するメソッドでは、具体的な戻り値型を IDE から追えます。
 - `ModifierManager`
   - `MDGModifier` / `MDagModifier` をまとめて扱う管理クラスです。
   - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
@@ -76,7 +70,7 @@ mult = nodes.create.multiplyDivide(name="mult")
 mod.do_it_dg()
 ```
 
-`nodes.create` は、同じ `ModifierManager` を持つ `NodeCreator` です。
+`nodes.create` は、同じ `ModifierManager` を使うノード作成アクセサです。
 生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
 
 ```python
@@ -85,7 +79,6 @@ decompose = nodes.create.decomposeMatrix(name="decompose")
 ```
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
-`NodeCreator` を直接利用する既存APIも維持しています。
 
 ### Wrap Existing Nodes
 
@@ -115,8 +108,7 @@ dcmp_m = nodes.existing.decomposeMatrix("dcmp_m")
 指定したメソッドと Maya 上の実際の nodeType が異なる場合は `TypeError` を送出します。
 例えば `nodes.existing.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
 
-`ExistingNode` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
-`ExistingNode` を直接利用する既存APIも維持しています。
+`nodes.existing` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
 
 ```python
 nodes = bdu.Nodes()

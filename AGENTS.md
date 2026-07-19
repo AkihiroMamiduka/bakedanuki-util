@@ -19,8 +19,7 @@
 - `AttributeField` / `AttrOperator` / `PlugOperator`
 - `ModifierManager`
 - `Nodes`
-- `NodeCreator`
-- `ExistingNode`
+- `NodeCreator` / `ExistingNode`（`Nodes` の内部実装）
 - extra attribute / `AddAttr`
 - Maya API / `maya.api.OpenMaya`
 - pytest による Maya 実行環境での検証
@@ -187,7 +186,7 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 重要な方針です。
 
 - 公開 API は、可能な限りドットアクセス補完が効く設計にする。
-- `NodeOperator` / `PlugOperator` / `AttributeField` / `Nodes` / `NodeCreator` など、ユーザーが直接触る面では戻り値型が追えるようにする。
+- `NodeOperator` / `PlugOperator` / `AttributeField` / `Nodes` など、ユーザーが直接触る面では戻り値型が追えるようにする。
 - 動的生成や `__getattr__()` を使う場合でも、必要に応じて `.pyi` stub、明示メソッド、`Generic`、型引数などで補完を補助する。
 - 具象クラスで補完が失われた場合は、単なる表示上の問題として放置しない。API の使い勝手の不具合として扱う。
 - 抽象基底クラス、内部 helper、意図的に型が未確定な generic base では、補完が限定的でも許容する。ただし、それが意図的な設計かどうかを判断する。
@@ -207,7 +206,6 @@ nodes = bdu.Nodes(modifier_manager=mod)
 ```
 
 `Nodes` のインスタンス変数名は `nodes` を使う方針です。
-`NodeCreator` を直接利用する場合は、インスタンス変数名に `creator` を使います。
 
 ```python
 cmp_m = nodes.create.composeMatrix(name="cmp_m")
@@ -243,8 +241,8 @@ node = nodes.existing("existing_node")
 - `do_it_dg()` / `do_it_dag()` した modifier は履歴として閉じ、次の操作には新しい modifier を使う設計です。
 - `undo_it()` は積まれた modifier を逆順に undo します。
 - `redo_it()` は undo 済みの stack を順順に doIt します。
-- `NodeCreator` はノード作成用です。
-- `ExistingNode` は既存ノード変換用です。
+- `NodeCreator` は `nodes.create` の内部実装です。`bd_util` のトップレベルには公開しません。
+- `ExistingNode` は `nodes.existing` の内部実装です。`bd_util` および `bd_util.maya.node` のトップレベルには公開しません。
 - `node.multiAttr[next]` は Python builtin の `next` を sentinel として使い、次の空き logical index を取ります。
 - docs では `bdu`, `nodes`, `nodes.create`, `nodes.existing`, `matrixIn[next]`, 最後の 1 回の `mod.do_it_dg()` を優先してください。
 

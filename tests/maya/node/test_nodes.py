@@ -21,6 +21,19 @@ def test_nodes_can_import_from_maya_node_package(new_scene):
     assert Nodes.__name__ == "Nodes"
 
 
+def test_nodes_is_the_only_public_node_access_entry(new_scene):
+    import bd_util
+    from bd_util.maya import node as node_package
+
+    assert "Nodes" in bd_util.__all__
+    assert "NodeCreator" not in bd_util.__all__
+    assert "ExistingNode" not in bd_util.__all__
+    assert not hasattr(bd_util, "NodeCreator")
+    assert not hasattr(bd_util, "ExistingNode")
+    assert node_package.__all__ == ("Nodes",)
+    assert not hasattr(node_package, "ExistingNode")
+
+
 def test_nodes_create_and_existing_share_modifier_manager(
     new_scene,
     maya_cmds,

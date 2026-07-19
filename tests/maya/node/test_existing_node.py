@@ -3,27 +3,26 @@ from __future__ import annotations
 
 import pytest
 
+from bd_util.maya.node.existing_node import ExistingNode
+
 
 def test_existing_node_wraps_existing_dg_node(new_scene, maya_cmds):
-    import bd_util
     from bd_util.maya.node.operator.node.dg.plus_minus_average import (
         PlusMinusAverage,
     )
 
     maya_cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-    node = bd_util.ExistingNode("test_plus_minus_ave")
+    node = ExistingNode("test_plus_minus_ave")
 
     assert isinstance(node, PlusMinusAverage)
     assert node.name == "test_plus_minus_ave"
 
 
 def test_existing_node_can_edit_wrapped_node(new_scene, maya_cmds):
-    import bd_util
-
     maya_cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-    node = bd_util.ExistingNode("test_plus_minus_ave")
+    node = ExistingNode("test_plus_minus_ave")
     node.input1D[0].set(10.0)
     node.modifier_manager.do_it_dg()
 
@@ -36,7 +35,7 @@ def test_existing_node_uses_passed_modifier_manager(new_scene, maya_cmds):
     maya_cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
     modifier_manager = bd_util.ModifierManager()
 
-    node = bd_util.ExistingNode(
+    node = ExistingNode(
         "test_plus_minus_ave",
         modifier_manager=modifier_manager,
     )
@@ -55,7 +54,7 @@ def test_existing_node_typed_accessor_wraps_existing_node(
 
     maya_cmds.createNode("decomposeMatrix", name="test_decompose_matrix")
 
-    node = bd_util.ExistingNode.decomposeMatrix("test_decompose_matrix")
+    node = ExistingNode.decomposeMatrix("test_decompose_matrix")
 
     assert isinstance(node, DecomposeMatrix)
     assert node.name == "test_decompose_matrix"
@@ -70,7 +69,7 @@ def test_existing_node_typed_accessor_uses_passed_modifier_manager(
     maya_cmds.createNode("decomposeMatrix", name="test_decompose_matrix")
     modifier_manager = bd_util.ModifierManager()
 
-    node = bd_util.ExistingNode.decomposeMatrix(
+    node = ExistingNode.decomposeMatrix(
         "test_decompose_matrix",
         modifier_manager=modifier_manager,
     )
@@ -93,11 +92,10 @@ def test_existing_node_typed_accessor_rejects_different_node_type(
             "got 'composeMatrix'"
         ),
     ):
-        bd_util.ExistingNode.decomposeMatrix("test_compose_matrix")
+        ExistingNode.decomposeMatrix("test_compose_matrix")
 
 
 def test_existing_node_wraps_m_object(new_scene, maya_cmds, maya_om):
-    import bd_util
     from bd_util.maya.node.operator.node.dg.plus_minus_average import (
         PlusMinusAverage,
     )
@@ -107,31 +105,29 @@ def test_existing_node_wraps_m_object(new_scene, maya_cmds, maya_om):
     selection.add("test_plus_minus_ave")
     m_obj = selection.getDependNode(0)
 
-    node = bd_util.ExistingNode(m_obj)
+    node = ExistingNode(m_obj)
 
     assert isinstance(node, PlusMinusAverage)
     assert node.name == "test_plus_minus_ave"
 
 
 def test_existing_node_wraps_transform(new_scene, maya_cmds):
-    import bd_util
     from bd_util.maya.node.operator.node.dag.transform._core import Transform
 
     maya_cmds.createNode("transform", name="test_transform")
 
-    node = bd_util.ExistingNode("test_transform")
+    node = ExistingNode("test_transform")
 
     assert isinstance(node, Transform)
     assert node.name == "test_transform"
 
 
 def test_existing_node_wraps_joint(new_scene, maya_cmds):
-    import bd_util
     from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
     maya_cmds.createNode("joint", name="test_joint")
 
-    node = bd_util.ExistingNode("test_joint")
+    node = ExistingNode("test_joint")
 
     assert isinstance(node, Joint)
     assert node.NODE_TYPE == "joint"
@@ -139,13 +135,12 @@ def test_existing_node_wraps_joint(new_scene, maya_cmds):
 
 
 def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
-    import bd_util
     from bd_util.maya.node.operator.node.dag.shape.mesh import Mesh
 
     transform, _ = maya_cmds.polyCube(name="test_mesh")
     shape = maya_cmds.listRelatives(transform, shapes=True)[0]
 
-    node = bd_util.ExistingNode(shape)
+    node = ExistingNode(shape)
 
     assert isinstance(node, Mesh)
     assert node.NODE_TYPE == "mesh"
@@ -154,12 +149,11 @@ def test_existing_node_wraps_mesh_shape(new_scene, maya_cmds):
 
 
 def test_existing_node_wraps_camera_shape(new_scene, maya_cmds):
-    import bd_util
     from bd_util.maya.node.operator.node.dag.shape.camera import Camera
 
     _, shape = maya_cmds.camera(name="test_camera")
 
-    node = bd_util.ExistingNode(shape)
+    node = ExistingNode(shape)
 
     assert isinstance(node, Camera)
     assert node.NODE_TYPE == "camera"
@@ -168,7 +162,5 @@ def test_existing_node_wraps_camera_shape(new_scene, maya_cmds):
 
 
 def test_existing_node_unknown_node_raises_value_error(new_scene):
-    import bd_util
-
     with pytest.raises(ValueError):
-        bd_util.ExistingNode("not_existing_node")
+        ExistingNode("not_existing_node")

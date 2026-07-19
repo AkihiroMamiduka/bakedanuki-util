@@ -451,8 +451,8 @@ print(errors)
 
 ## ノードアクセス用の補完 stub
 
-`ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
-`nodes.existing.decomposeMatrix()` も、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
+内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
+公開APIの `nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
 IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の2ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
