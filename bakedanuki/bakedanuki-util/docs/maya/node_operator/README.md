@@ -34,10 +34,10 @@
   - Maya 上の既存アトリビュートから対応する `AttrOperator` を推定します。
 - `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
-- `python/bd_util/maya/node/creater/_core.py`
-  - `NodeCreater` です。ノードクラスの個別 import を減らすための生成入口です。
-- `python/bd_util/maya/node/bd_node.py`
-  - `BDNode` です。シーン上に既に存在するノードを対応する `NodeOperator` として包む入口です。
+- `python/bd_util/maya/node/creator/_core.py`
+  - `NodeCreator` です。ノードクラスの個別 import を減らすための生成入口です。
+- `python/bd_util/maya/node/existing_node.py`
+  - `ExistingNode` です。シーン上に既に存在するノードを対応する `NodeOperator` として包む入口です。
 
 ## 基本構成
 
@@ -51,14 +51,14 @@ flowchart TD
     AttrOperator["AttrOperator"]
     PlugOperator["PlugOperator"]
     ModifierManager["ModifierManager"]
-    NodeCreater["NodeCreater"]
-    BDNode["BDNode"]
+    NodeCreator["NodeCreator"]
+    ExistingNode["ExistingNode"]
     OpenMaya["maya.api.OpenMaya"]
 
-    NodeCreater --> NodeOperator
-    NodeCreater --> ModifierManager
-    BDNode --> NodeOperator
-    BDNode --> ModifierManager
+    NodeCreator --> NodeOperator
+    NodeCreator --> ModifierManager
+    ExistingNode --> NodeOperator
+    ExistingNode --> ModifierManager
     NodeOperator --> DG
     NodeOperator --> DAG
     DAG --> Transform
@@ -108,65 +108,65 @@ node = PlusMinusAverage.create(modifier_manager, name="test_pma")
 modifier_manager.do_it_dg()
 ```
 
-複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`NodeCreater` から作成できます。
+複数のノード型を扱う場合は、個別の `NodeOperator` クラスを毎回 import せず、`NodeCreator` から作成できます。
 
 ```python
-from bd_util import ModifierManager, NodeCreater
+from bd_util import ModifierManager, NodeCreator
 
 modifier_manager = ModifierManager()
-node_creater = NodeCreater(modifier_manager=modifier_manager)
+node_creator = NodeCreator(modifier_manager=modifier_manager)
 
-pma = node_creater.plusMinusAverage(name="plus_minus_ave")
-mult_div = node_creater.multiplyDivide(name="mult_div")
+pma = node_creator.plusMinusAverage(name="plus_minus_ave")
+mult_div = node_creator.multiplyDivide(name="mult_div")
 
 modifier_manager.do_it_dg()
 ```
 
-`NodeCreater` は DG ノード名と transform 系 DAG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
+`NodeCreator` は DG ノード名と transform 系 DAG ノード名を lazy import し、内部で `NodeOperator.create()` を呼びます。
 生成メソッド名は `multiplyDivide` のような Maya nodeType 名に合わせています。
 `create()` には `plus_minus_average` のような snake_case と、`multiplyDivide` のような Maya nodeType 名のどちらでも渡せます。
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
 
-`transform` / `joint` は `NodeCreater` から作成できます。
+`transform` / `joint` は `NodeCreator` から作成できます。
 shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
-ただし `BDNode` 用の class 解決対象には含めています。
+ただし `ExistingNode` 用の class 解決対象には含めています。
 
-シーン上に既に存在するノードは `BDNode` で対応する `NodeOperator` に変換できます。
+シーン上に既に存在するノードは `ExistingNode` で対応する `NodeOperator` に変換できます。
 
 ```python
 from maya import cmds
 
-from bd_util import BDNode
+from bd_util import ExistingNode
 
 cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-node = BDNode("test_plus_minus_ave")
+node = ExistingNode("test_plus_minus_ave")
 node.input1D[0].set(10.0)
 node.modifier_manager.do_it_dg()
 ```
 
-`BDNode` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
-必要な場合は `BDNode("nodeName", auto_add_attr=True)` のように指定します。
+`ExistingNode` は既存ノードを包むだけなので、初期値では extra attribute を自動追加しません。
+必要な場合は `ExistingNode("nodeName", auto_add_attr=True)` のように指定します。
 
-`BDNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
+`ExistingNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
 そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
 
-nodeType を呼び出し側で明示したい場合は、`BDNode` の型別メソッドを使用できます。
+nodeType を呼び出し側で明示したい場合は、`ExistingNode` の型別メソッドを使用できます。
 
 ```python
 import bd_util as bdu
 
 modifier_manager = bdu.ModifierManager()
-node = bdu.BDNode.decomposeMatrix(
+node = bdu.ExistingNode.decomposeMatrix(
     "test_decompose_matrix",
     modifier_manager=modifier_manager,
 )
 ```
 
-型別メソッドは実行時に対象 class を lazy import し、`bd_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
+型別メソッドは実行時に対象 class を lazy import し、`existing_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
 この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
-自動判定する `BDNode("nodeName")` と型を明示する `BDNode.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
+自動判定する `ExistingNode("nodeName")` と型を明示する `ExistingNode.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
 
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 

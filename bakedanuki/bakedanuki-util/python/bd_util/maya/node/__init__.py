@@ -1,4 +1,4 @@
 # coding: utf-8
-from .bd_node import BDNode
+from .existing_node import ExistingNode
 
-__all__ = ("BDNode",)
+__all__ = ("ExistingNode",)

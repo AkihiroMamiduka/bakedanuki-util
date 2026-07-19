@@ -94,8 +94,8 @@ generate_node_class_file("transform", path, node_kind="transform")
 
 DG の既存呼び出しとの互換のため、デフォルトは `node_kind="dg"` です。
 
-現段階では、DAG node の生成は主に `BDNode` で既存 node を包む準備段階です。
-特に shape node の作成 API は transform 親の扱いが絡むため、`NodeCreater` への接続や shape 作成メソッドは後段で設計します。
+現段階では、DAG node の生成は主に `ExistingNode` で既存 node を包む準備段階です。
+特に shape node の作成 API は transform 親の扱いが絡むため、`NodeCreator` への接続や shape 作成メソッドは後段で設計します。
 
 ## 命名規則
 
@@ -449,25 +449,25 @@ for path in Path("generate_test/python").rglob("*.py"):
 print(errors)
 ```
 
-## BDNode の補完 stub
+## ExistingNode の補完 stub
 
-`BDNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して `python/bd_util/maya/node/bd_node.pyi` を生成します。
+`ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して `python/bd_util/maya/node/existing_node.pyi` を生成します。
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
-    python\bd_util\_dev\maya\node\operator\node\generate_bd_node_stub.py
+    python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py
 ```
 
 新しい NodeOperator class を追加または再生成した場合は、この stub も再生成してください。
 差分を発生させず、現在の stub が最新か確認する場合は `--check` を指定します。
 
-Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreater` と同様に `and_()` / `or_()` / `not_()` として公開します。
+Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
 
 ```powershell
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
-    python\bd_util\_dev\maya\node\operator\node\generate_bd_node_stub.py `
+    python\bd_util\_dev\maya\node\operator\node\generate_existing_node_stub.py `
     --check
 ```
 

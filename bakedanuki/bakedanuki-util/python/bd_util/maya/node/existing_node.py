@@ -5,12 +5,12 @@ from collections.abc import Callable
 
 from maya.api import OpenMaya as om
 
-from .creater import NodeCreater
+from .creator import NodeCreator
 from .modifier import ModifierManager
 from .operator.node._core import NodeOperator
 
 
-class _BDNodeMeta(type):
+class _ExistingNodeMeta(type):
     _accessor_cache: dict[str, Callable[..., NodeOperator]] = {}
 
     def __getattr__(cls, node_name: str) -> Callable[..., NodeOperator]:
@@ -46,7 +46,7 @@ class _BDNodeMeta(type):
         return _wrap
 
 
-class BDNode(metaclass=_BDNodeMeta):
+class ExistingNode(metaclass=_ExistingNodeMeta):
     def __new__(
         cls,
         node: str | om.MObject,
@@ -115,7 +115,7 @@ def _get_node_cls(
     modifier_manager: ModifierManager,
 ) -> type[NodeOperator]:
     try:
-        return NodeCreater(modifier_manager=modifier_manager).node_class(
+        return NodeCreator(modifier_manager=modifier_manager).node_class(
             node_type
         )
     except AttributeError as e:

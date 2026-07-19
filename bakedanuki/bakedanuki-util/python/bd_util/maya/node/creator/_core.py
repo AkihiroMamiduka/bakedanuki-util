@@ -49,7 +49,7 @@ def _iter_node_module_paths(
         yield f"{package_name}.{node_module_name}"
 
 
-class NodeCreater:
+class NodeCreator:
     __slots__ = (
         "_modifier_manager",
         "_node_cls_cache",

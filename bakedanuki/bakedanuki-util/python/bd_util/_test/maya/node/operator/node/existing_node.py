@@ -4,7 +4,7 @@
 from maya import cmds
 
 # self
-from ......maya.node.bd_node import BDNode
+from ......maya.node.existing_node import ExistingNode
 
 
 def main():
@@ -12,10 +12,10 @@ def main():
 
 
 def test_transform():
-    name = "test_bd_node"
+    name = "test_existing_node"
     cmds.createNode("transform", name=name)
 
-    node = BDNode.transform(name)
+    node = ExistingNode.transform(name)
     node.translate.set(1, 2, 3)
     node.rotate.set(45, 90, 135)
     node.scale.set(7, 8, 9)

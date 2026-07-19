@@ -970,7 +970,7 @@ from ..operator.node.dg.xgm_spline_base import XgmSplineBase
 from ..operator.node.dg.xgm_spline_cache import XgmSplineCache
 
 
-class NodeCreater:
+class NodeCreator:
     def __init__(self, modifier_manager: ModifierManager | None = None) -> None: ...
 
     @property

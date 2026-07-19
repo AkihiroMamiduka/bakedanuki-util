@@ -23,10 +23,10 @@
 - `NodeOperator`
   - Maya ノードを Python クラスとして扱うためのラッパーです。
   - `node.input1D[0].set(10.0)` のように、プラグ操作をオブジェクト経由で書けます。
-- `NodeCreater`
+- `NodeCreator`
   - ノード作成用の入口です。
   - 各 `NodeOperator` クラスを個別に import せず、Maya の nodeType 名に近いメソッドから作成できます。
-- `BDNode`
+- `ExistingNode`
   - シーン上に既に存在するノードを、対応する `NodeOperator` として包む入口です。
   - nodeType を明示するメソッドでは、具体的な戻り値型を IDE から追えます。
 - `ModifierManager`
@@ -45,19 +45,19 @@
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-creater = bdu.NodeCreater(modifier_manager=mod)
+creator = bdu.NodeCreator(modifier_manager=mod)
 
-pma = creater.plusMinusAverage(name="pma")
-mult = creater.multiplyDivide(name="mult")
+pma = creator.plusMinusAverage(name="pma")
+mult = creator.multiplyDivide(name="mult")
 
 mod.do_it_dg()
 ```
 
-`NodeCreater` の生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
+`NodeCreator` の生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
 
 ```python
-compose = creater.composeMatrix(name="compose")
-decompose = creater.decomposeMatrix(name="decompose")
+compose = creator.composeMatrix(name="compose")
+decompose = creator.decomposeMatrix(name="decompose")
 ```
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
@@ -70,7 +70,7 @@ import bd_util as bdu
 
 cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-pma = bdu.BDNode("test_plus_minus_ave")
+pma = bdu.ExistingNode("test_plus_minus_ave")
 pma.input1D[0].set(10.0)
 pma.modifier_manager.do_it_dg()
 ```
@@ -82,19 +82,19 @@ nodeType を自動判定させる代わりに、対応するメソッドを明�
 mod = bdu.ModifierManager()
 
 cmds.createNode("decomposeMatrix", name="dcmp_m")
-dcmp_m = bdu.BDNode.decomposeMatrix(
+dcmp_m = bdu.ExistingNode.decomposeMatrix(
     "dcmp_m",
     modifier_manager=mod,
 )
 ```
 
 指定したメソッドと Maya 上の実際の nodeType が異なる場合は `TypeError` を送出します。
-例えば `BDNode.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
+例えば `ExistingNode.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
 
-`BDNode` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
+`ExistingNode` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
 
 ```python
-node = bdu.BDNode("my_node", auto_add_attr=True)
+node = bdu.ExistingNode("my_node", auto_add_attr=True)
 ```
 
 ### Connect Plugs
@@ -103,10 +103,10 @@ node = bdu.BDNode("my_node", auto_add_attr=True)
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-creater = bdu.NodeCreater(modifier_manager=mod)
+creator = bdu.NodeCreator(modifier_manager=mod)
 
-a = creater.plusMinusAverage(name="a")
-b = creater.plusMinusAverage(name="b")
+a = creator.plusMinusAverage(name="a")
+b = creator.plusMinusAverage(name="b")
 
 a.output1D.connect(b.input1D[0])
 mod.do_it_dg()
@@ -122,8 +122,8 @@ mod.do_it_dg()
 マルチアトリビュートへ次の空き index で接続したい場合は、`[next]` を使えます。
 
 ```python
-cmp_m = creater.composeMatrix(name="cmp_m")
-mult_m = creater.multMatrix(name="mult_m")
+cmp_m = creator.composeMatrix(name="cmp_m")
+mult_m = creator.multMatrix(name="mult_m")
 
 cmp_m.outputMatrix > mult_m.matrixIn[next]
 mod.do_it_dg()
