@@ -17,6 +17,16 @@ class DataMatrixPlugOperator(DataTypePlugOperator["DataMatrixAttrOperator"]):
     def get(self) -> om.MMatrix:
         return self.plug.asMDataHandle().asMatrix()
 
+    @property
+    def transformation_matrix(self) -> om.MTransformationMatrix:
+        """
+        MPlug から om.MTransformationMatrix を取得する
+
+        Returns:
+            om.MTransformationMatrix: om.MTransformationMatrix 形式の値
+        """
+        return om.MTransformationMatrix(self.get())
+
     # set
     def set_direct(self, value: om.MMatrix):
         """
