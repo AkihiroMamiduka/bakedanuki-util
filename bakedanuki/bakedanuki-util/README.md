@@ -23,6 +23,9 @@
 - `NodeOperator`
   - Maya ノードを Python クラスとして扱うためのラッパーです。
   - `node.input1D[0].set(10.0)` のように、プラグ操作をオブジェクト経由で書けます。
+- `Nodes`
+  - ノード作成と既存ノード変換を、同じ `ModifierManager` から扱う統合入口です。
+  - `nodes.create.transform()` / `nodes.existing.transform()` のように用途を明示できます。
 - `NodeCreator`
   - ノード作成用の入口です。
   - 各 `NodeOperator` クラスを個別に import せず、Maya の nodeType 名に近いメソッドから作成できます。
@@ -39,28 +42,50 @@
 
 ## Quick Example
 
+### Unified Node Access
+
+```python
+from maya import cmds
+import bd_util as bdu
+
+cmds.createNode("transform", name="existing_node")
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+created = nodes.create.transform(name="new_node")
+existing = nodes.existing.transform("existing_node")
+
+mod.do_it_dag()
+```
+
+`nodes.create` と `nodes.existing` は同じ `ModifierManager` を共有します。
+`nodes.existing("nodeName")` と呼ぶと、既存ノードの nodeType を自動判定できます。
+
 ### Create Nodes
 
 ```python
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-creator = bdu.NodeCreator(modifier_manager=mod)
+nodes = bdu.Nodes(modifier_manager=mod)
 
-pma = creator.plusMinusAverage(name="pma")
-mult = creator.multiplyDivide(name="mult")
+pma = nodes.create.plusMinusAverage(name="pma")
+mult = nodes.create.multiplyDivide(name="mult")
 
 mod.do_it_dg()
 ```
 
-`NodeCreator` の生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
+`nodes.create` は、同じ `ModifierManager` を持つ `NodeCreator` です。
+生成メソッド名は、基本的に Maya の nodeType 名に合わせています。
 
 ```python
-compose = creator.composeMatrix(name="compose")
-decompose = creator.decomposeMatrix(name="decompose")
+compose = nodes.create.composeMatrix(name="compose")
+decompose = nodes.create.decomposeMatrix(name="decompose")
 ```
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
+`NodeCreator` を直接利用する既存APIも維持しています。
 
 ### Wrap Existing Nodes
 
@@ -70,7 +95,8 @@ import bd_util as bdu
 
 cmds.createNode("plusMinusAverage", name="test_plus_minus_ave")
 
-pma = bdu.ExistingNode("test_plus_minus_ave")
+nodes = bdu.Nodes()
+pma = nodes.existing("test_plus_minus_ave")
 pma.input1D[0].set(10.0)
 pma.modifier_manager.do_it_dg()
 ```
@@ -80,21 +106,21 @@ nodeType を自動判定させる代わりに、対応するメソッドを明�
 
 ```python
 mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
 
 cmds.createNode("decomposeMatrix", name="dcmp_m")
-dcmp_m = bdu.ExistingNode.decomposeMatrix(
-    "dcmp_m",
-    modifier_manager=mod,
-)
+dcmp_m = nodes.existing.decomposeMatrix("dcmp_m")
 ```
 
 指定したメソッドと Maya 上の実際の nodeType が異なる場合は `TypeError` を送出します。
-例えば `ExistingNode.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
+例えば `nodes.existing.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
 
 `ExistingNode` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
+`ExistingNode` を直接利用する既存APIも維持しています。
 
 ```python
-node = bdu.ExistingNode("my_node", auto_add_attr=True)
+nodes = bdu.Nodes()
+node = nodes.existing("my_node", auto_add_attr=True)
 ```
 
 ### Connect Plugs
@@ -103,10 +129,10 @@ node = bdu.ExistingNode("my_node", auto_add_attr=True)
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-creator = bdu.NodeCreator(modifier_manager=mod)
+nodes = bdu.Nodes(modifier_manager=mod)
 
-a = creator.plusMinusAverage(name="a")
-b = creator.plusMinusAverage(name="b")
+a = nodes.create.plusMinusAverage(name="a")
+b = nodes.create.plusMinusAverage(name="b")
 
 a.output1D.connect(b.input1D[0])
 mod.do_it_dg()
@@ -122,8 +148,8 @@ mod.do_it_dg()
 マルチアトリビュートへ次の空き index で接続したい場合は、`[next]` を使えます。
 
 ```python
-cmp_m = creator.composeMatrix(name="cmp_m")
-mult_m = creator.multMatrix(name="mult_m")
+cmp_m = nodes.create.composeMatrix(name="cmp_m")
+mult_m = nodes.create.multMatrix(name="mult_m")
 
 cmp_m.outputMatrix > mult_m.matrixIn[next]
 mod.do_it_dg()

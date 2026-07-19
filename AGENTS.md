@@ -18,6 +18,7 @@
 - `NodeOperator`
 - `AttributeField` / `AttrOperator` / `PlugOperator`
 - `ModifierManager`
+- `Nodes`
 - `NodeCreator`
 - `ExistingNode`
 - extra attribute / `AddAttr`
@@ -186,13 +187,13 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 重要な方針です。
 
 - 公開 API は、可能な限りドットアクセス補完が効く設計にする。
-- `NodeOperator` / `PlugOperator` / `AttributeField` / `NodeCreator` など、ユーザーが直接触る面では戻り値型が追えるようにする。
+- `NodeOperator` / `PlugOperator` / `AttributeField` / `Nodes` / `NodeCreator` など、ユーザーが直接触る面では戻り値型が追えるようにする。
 - 動的生成や `__getattr__()` を使う場合でも、必要に応じて `.pyi` stub、明示メソッド、`Generic`、型引数などで補完を補助する。
 - 具象クラスで補完が失われた場合は、単なる表示上の問題として放置しない。API の使い勝手の不具合として扱う。
 - 抽象基底クラス、内部 helper、意図的に型が未確定な generic base では、補完が限定的でも許容する。ただし、それが意図的な設計かどうかを判断する。
 - 既存の補完を壊すリファクタは避ける。必要な場合は、代替の型情報を同時に用意する。
 
-特に、`node.attr.child` や `creator.composeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
+特に、`node.attr.child` や `nodes.create.composeMatrix(...)` / `nodes.existing.decomposeMatrix(...)` のような主要な利用経路では、ユーザーが IDE 上で候補を辿れることを重視してください。
 
 ## NodeOperator Usage Conventions
 
@@ -202,14 +203,15 @@ README や docs のサンプルでは、基本的に次の書き方を使って�
 import bd_util as bdu
 
 mod = bdu.ModifierManager()
-creator = bdu.NodeCreator(modifier_manager=mod)
+nodes = bdu.Nodes(modifier_manager=mod)
 ```
 
-`NodeCreator` のインスタンス変数名は `creator` を使う方針です。
+`Nodes` のインスタンス変数名は `nodes` を使う方針です。
+`NodeCreator` を直接利用する場合は、インスタンス変数名に `creator` を使います。
 
 ```python
-cmp_m = creator.composeMatrix(name="cmp_m")
-mult_m = creator.multMatrix(name="mult_m")
+cmp_m = nodes.create.composeMatrix(name="cmp_m")
+mult_m = nodes.create.multMatrix(name="mult_m")
 
 cmp_m.outputMatrix > mult_m.matrixIn[next]
 mod.do_it_dg()
@@ -225,24 +227,26 @@ mod.do_it_dg()
 src.output.connect(dst.input)
 ```
 
-`ExistingNode` はシーン上に既に存在するノードを包む入口です。
+`nodes.existing` はシーン上に既に存在するノードを包む入口です。
 
 ```python
-node = bdu.ExistingNode("existing_node")
+node = nodes.existing("existing_node")
 ```
 
-`ExistingNode` は既存ノードを勝手に変更しないため、初期値では `auto_add_attr=False` です。
+`nodes.existing` は内部で `ExistingNode` を利用します。
+既存ノードを勝手に変更しないため、初期値では `auto_add_attr=False` です。
 
 ## Important Implementation Notes
 
 - `ModifierManager` は `MDGModifier` / `MDagModifier` を管理します。
+- `Nodes` は `NodeCreator` と既存ノードアクセサに同じ `ModifierManager` を渡します。
 - `do_it_dg()` / `do_it_dag()` した modifier は履歴として閉じ、次の操作には新しい modifier を使う設計です。
 - `undo_it()` は積まれた modifier を逆順に undo します。
 - `redo_it()` は undo 済みの stack を順順に doIt します。
 - `NodeCreator` はノード作成用です。
 - `ExistingNode` は既存ノード変換用です。
 - `node.multiAttr[next]` は Python builtin の `next` を sentinel として使い、次の空き logical index を取ります。
-- docs では `bdu`, `creator`, `matrixIn[next]`, 最後の 1 回の `mod.do_it_dg()` を優先してください。
+- docs では `bdu`, `nodes`, `nodes.create`, `nodes.existing`, `matrixIn[next]`, 最後の 1 回の `mod.do_it_dg()` を優先してください。
 
 ## Documentation Policy
 

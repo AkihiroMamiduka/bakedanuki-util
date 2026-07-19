@@ -15,3 +15,18 @@ def test_existing_node_stub_matches_generated_code():
     assert output_path.read_text(
         encoding="utf-8"
     ) == generate_existing_node_stub_code(python_root)
+
+
+def test_nodes_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node.generate_existing_node_stub import (
+        generate_nodes_stub_code,
+        nodes_stub_path,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    output_path = nodes_stub_path(python_root)
+
+    assert output_path.read_text(
+        encoding="utf-8"
+    ) == generate_nodes_stub_code(python_root)

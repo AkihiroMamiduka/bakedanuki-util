@@ -34,6 +34,8 @@
   - Maya 上の既存アトリビュートから対応する `AttrOperator` を推定します。
 - `python/bd_util/maya/node/modifier/_core.py`
   - `ModifierManager` です。
+- `python/bd_util/maya/node/nodes.py`
+  - `Nodes` です。ノード作成と既存ノード変換で同じ `ModifierManager` を共有する統合入口です。
 - `python/bd_util/maya/node/creator/_core.py`
   - `NodeCreator` です。ノードクラスの個別 import を減らすための生成入口です。
 - `python/bd_util/maya/node/existing_node.py`
@@ -51,10 +53,16 @@ flowchart TD
     AttrOperator["AttrOperator"]
     PlugOperator["PlugOperator"]
     ModifierManager["ModifierManager"]
+    Nodes["Nodes"]
     NodeCreator["NodeCreator"]
+    ExistingAccessor["nodes.existing"]
     ExistingNode["ExistingNode"]
     OpenMaya["maya.api.OpenMaya"]
 
+    Nodes --> NodeCreator
+    Nodes --> ExistingAccessor
+    Nodes --> ModifierManager
+    ExistingAccessor --> ExistingNode
     NodeCreator --> NodeOperator
     NodeCreator --> ModifierManager
     ExistingNode --> NodeOperator
@@ -95,6 +103,40 @@ node.input3D[0] is node.input3D[0]
 ```
 
 ## NodeOperator の生成
+
+`Nodes` は、ノード作成と既存ノード変換を一つの `ModifierManager` から扱う推奨入口です。
+
+```python
+from maya import cmds
+import bd_util as bdu
+
+cmds.createNode("transform", name="existing_node")
+
+modifier_manager = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=modifier_manager)
+
+created = nodes.create.transform(name="new_node")
+existing = nodes.existing.transform("existing_node")
+
+modifier_manager.do_it_dag()
+```
+
+`nodes.create` は、共有 `ModifierManager` を受け取った `NodeCreator` です。
+`nodes.existing` は、同じ `ModifierManager` を自動的に `ExistingNode` へ渡す専用アクセサです。
+したがって、各呼び出しで `modifier_manager=` を繰り返す必要はありません。
+
+```python
+assert created.modifier_manager is modifier_manager
+assert existing.modifier_manager is modifier_manager
+```
+
+既存ノードの nodeType を自動判定する場合は、`nodes.existing` 自体を呼び出します。
+
+```python
+existing = nodes.existing("existing_node")
+```
+
+`Nodes` を使わず、`NodeCreator` / `ExistingNode` を直接利用する既存APIも維持します。
 
 ノード作成は `ModifierManager` を受け取ります。
 
@@ -164,6 +206,7 @@ node = bdu.ExistingNode.decomposeMatrix(
 ```
 
 型別メソッドは実行時に対象 class を lazy import し、`existing_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
+`nodes.existing` についても `nodes.pyi` で同じ具体的な戻り値型を公開します。
 この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
 Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
 自動判定する `ExistingNode("nodeName")` と型を明示する `ExistingNode.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
