@@ -151,6 +151,23 @@ node.modifier_manager.do_it_dg()
 `BDNode` は生成済みの DG / DAG / transform / shape class から node type を解決します。
 そのため、既存の mesh shape や camera shape も対応する `NodeOperator` として包めます。
 
+nodeType を呼び出し側で明示したい場合は、`BDNode` の型別メソッドを使用できます。
+
+```python
+import bd_util as bdu
+
+modifier_manager = bdu.ModifierManager()
+node = bdu.BDNode.decomposeMatrix(
+    "test_decompose_matrix",
+    modifier_manager=modifier_manager,
+)
+```
+
+型別メソッドは実行時に対象 class を lazy import し、`bd_node.pyi` では通常の nodeType に対して具体的な戻り値型を公開します。
+この例の `node` は IDE 上でも `DecomposeMatrix` として扱われます。
+Maya 上の実際の nodeType が指定したメソッドと異なる場合は `TypeError` を送出します。
+自動判定する `BDNode("nodeName")` と型を明示する `BDNode.decomposeMatrix("nodeName")` は、同じ既存ノード変換処理を共有します。
+
 `NodeOperator` は内部で `m_obj` と lazy な `MFnDependencyNode` を持ちます。
 
 `fn_node` は初回アクセス時に作られ、以降はキャッシュされます。

@@ -44,6 +44,55 @@ def test_bd_node_uses_passed_modifier_manager(new_scene, maya_cmds):
     assert node.modifier_manager is modifier_manager
 
 
+def test_bd_node_typed_accessor_wraps_existing_node(new_scene, maya_cmds):
+    import bd_util
+    from bd_util.maya.node.operator.node.dg.decompose_matrix import (
+        DecomposeMatrix,
+    )
+
+    maya_cmds.createNode("decomposeMatrix", name="test_decompose_matrix")
+
+    node = bd_util.BDNode.decomposeMatrix("test_decompose_matrix")
+
+    assert isinstance(node, DecomposeMatrix)
+    assert node.name == "test_decompose_matrix"
+
+
+def test_bd_node_typed_accessor_uses_passed_modifier_manager(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+
+    maya_cmds.createNode("decomposeMatrix", name="test_decompose_matrix")
+    modifier_manager = bd_util.ModifierManager()
+
+    node = bd_util.BDNode.decomposeMatrix(
+        "test_decompose_matrix",
+        modifier_manager=modifier_manager,
+    )
+
+    assert node.modifier_manager is modifier_manager
+
+
+def test_bd_node_typed_accessor_rejects_different_node_type(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util
+
+    maya_cmds.createNode("composeMatrix", name="test_compose_matrix")
+
+    with pytest.raises(
+        TypeError,
+        match=(
+            "Node type mismatch.*expected 'decomposeMatrix'.*"
+            "got 'composeMatrix'"
+        ),
+    ):
+        bd_util.BDNode.decomposeMatrix("test_compose_matrix")
+
+
 def test_bd_node_wraps_m_object(new_scene, maya_cmds, maya_om):
     import bd_util
     from bd_util.maya.node.operator.node.dg.plus_minus_average import (

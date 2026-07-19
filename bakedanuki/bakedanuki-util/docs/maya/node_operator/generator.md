@@ -449,6 +449,28 @@ for path in Path("generate_test/python").rglob("*.py"):
 print(errors)
 ```
 
+## BDNode の補完 stub
+
+`BDNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して `python/bd_util/maya/node/bd_node.pyi` を生成します。
+
+```powershell
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
+    python\bd_util\_dev\maya\node\operator\node\generate_bd_node_stub.py
+```
+
+新しい NodeOperator class を追加または再生成した場合は、この stub も再生成してください。
+差分を発生させず、現在の stub が最新か確認する場合は `--check` を指定します。
+
+Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreater` と同様に `and_()` / `or_()` / `not_()` として公開します。
+これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
+
+```powershell
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" `
+    python\bd_util\_dev\maya\node\operator\node\generate_bd_node_stub.py `
+    --check
+```
+
 ## 現状の注意点
 
 - `generate_test/python` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。

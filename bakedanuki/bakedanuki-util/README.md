@@ -28,6 +28,7 @@
   - 各 `NodeOperator` クラスを個別に import せず、Maya の nodeType 名に近いメソッドから作成できます。
 - `BDNode`
   - シーン上に既に存在するノードを、対応する `NodeOperator` として包む入口です。
+  - nodeType を明示するメソッドでは、具体的な戻り値型を IDE から追えます。
 - `ModifierManager`
   - `MDGModifier` / `MDagModifier` をまとめて扱う管理クラスです。
   - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
@@ -73,6 +74,22 @@ pma = bdu.BDNode("test_plus_minus_ave")
 pma.input1D[0].set(10.0)
 pma.modifier_manager.do_it_dg()
 ```
+
+nodeType を自動判定させる代わりに、対応するメソッドを明示することもできます。
+通常の nodeType では、各メソッドの戻り値が具体的な `NodeOperator` 型として補完されます。
+
+```python
+mod = bdu.ModifierManager()
+
+cmds.createNode("decomposeMatrix", name="dcmp_m")
+dcmp_m = bdu.BDNode.decomposeMatrix(
+    "dcmp_m",
+    modifier_manager=mod,
+)
+```
+
+指定したメソッドと Maya 上の実際の nodeType が異なる場合は `TypeError` を送出します。
+例えば `BDNode.decomposeMatrix()` に `composeMatrix` ノードを渡すことはできません。
 
 `BDNode` は既存ノードを包むだけなので、初期状態では extra attribute を自動追加しません。必要な場合は `auto_add_attr=True` を渡してください。
 
