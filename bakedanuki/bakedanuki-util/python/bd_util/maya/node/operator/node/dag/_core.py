@@ -6,6 +6,7 @@ from maya.api import OpenMaya as om
 
 # self
 from ....modifier import ModifierManager
+from .....transform import TransformMatrix
 from .._core import NodeOperator, DEFAULT_VALUE_AUTO_ADD_ATTR
 
 
@@ -85,3 +86,41 @@ class DAG(NodeOperator):
             self._full_path = self._dag_path.fullPathName()
 
         return new_name
+
+    def _get_instance_transform_matrix(
+        self,
+        attribute_name: str,
+    ) -> TransformMatrix:
+        instance_index = self._dag_path.instanceNumber()
+        matrix_plug = getattr(self, attribute_name)[instance_index]
+        return matrix_plug.transform_matrix
+
+    def get_relative_matrix(self, dst_dag: "DAG") -> TransformMatrix:
+        """self の行列を dst_dag 自身の空間で表して返す。"""
+        if not isinstance(dst_dag, DAG):
+            raise TypeError(
+                f"dst_dag must be DAG; got {type(dst_dag).__name__}"
+            )
+
+        src_world_matrix = self._get_instance_transform_matrix(
+            "worldMatrix"
+        )
+        dst_world_inverse_matrix = dst_dag._get_instance_transform_matrix(
+            "worldInverseMatrix"
+        )
+        return src_world_matrix * dst_world_inverse_matrix
+
+    def get_local_matrix(self, dst_dag: "DAG") -> TransformMatrix:
+        """self の worldMatrix を再現する dst_dag の local 行列を返す。"""
+        if not isinstance(dst_dag, DAG):
+            raise TypeError(
+                f"dst_dag must be DAG; got {type(dst_dag).__name__}"
+            )
+
+        src_world_matrix = self._get_instance_transform_matrix(
+            "worldMatrix"
+        )
+        dst_parent_inverse_matrix = dst_dag._get_instance_transform_matrix(
+            "parentInverseMatrix"
+        )
+        return src_world_matrix * dst_parent_inverse_matrix

@@ -239,5 +239,5 @@ def test_constructor_reports_invalid_plug(new_scene, maya_cmds):
 
     with pytest.raises(ValueError, match="Could not resolve matrix plug"):
         TransformMatrix("missing.worldMatrix[0]")
-    with pytest.raises(TypeError, match="Plug must contain a matrix value"):
+    with pytest.raises(TypeError, match="Plug must be a matrix plug"):
         TransformMatrix(f"{transform}.translateX")

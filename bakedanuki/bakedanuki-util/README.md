@@ -47,15 +47,18 @@ import bd_util as bdu
 src = cmds.createNode("transform", name="src")
 dst = cmds.createNode("transform", name="dst")
 
-src_wm = bdu.TransformMatrix(f"{src}.worldMatrix[0]")
-dst_pim = bdu.TransformMatrix(f"{dst}.parentInverseMatrix[0]")
+nodes = bdu.Nodes()
+src_dag = nodes.existing.transform(src)
+dst_dag = nodes.existing.transform(dst)
 
-local_tm = src_wm * dst_pim
+local_tm = src_dag.get_local_matrix(dst_dag)
 translate = local_tm.translate
 inverse_tm = local_tm.inverse()
+
+world_translate = src_dag.worldMatrix[0].translate
 ```
 
-`translate` / `rotate` / `scale` / `shear` / `quat` は float の tuple として取得できます。`rotate` は XYZ order の degree です。
+matrix plug と `TransformMatrix` の `translate` / `rotate` / `scale` / `shear` / `quat` は、float の tuple として取得できます。`rotate` は XYZ order の degree です。
 
 詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
 

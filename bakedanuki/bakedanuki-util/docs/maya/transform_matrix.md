@@ -64,6 +64,37 @@ matrix = tm.matrix
 transformation_matrix = tm.transformation_matrix
 ```
 
+## Matrix plug からの取得
+
+`DataMatrixPlugOperator` は、現在の plug 値を `TransformMatrix` として取得できます。
+
+```python
+import bd_util as bdu
+
+nodes = bdu.Nodes()
+node = nodes.existing.transform("test")
+world_matrix = node.worldMatrix[0]
+
+tm = world_matrix.transform_matrix
+translate = world_matrix.translate
+rotate = world_matrix.rotate
+rotate_zyx = world_matrix.get_rotate(order="zyx")
+scale = world_matrix.scale
+shear = world_matrix.shear
+quat = world_matrix.quat
+```
+
+各プロパティはアクセス時点の plug 値から、新しい `TransformMatrix` のスナップショットを作ります。複数成分を同じ評価時点の値として扱う場合は、`transform_matrix` を一度取得してから各成分へアクセスします。
+
+```python
+tm = node.worldMatrix[0].transform_matrix
+translate = tm.translate
+rotate = tm.rotate
+scale = tm.scale
+```
+
+既存の `get()` は `MMatrix`、`transformation_matrix` は `MTransformationMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、この2つは `None` を返します。分解には実体が必要なので、同じ状態で `transform_matrix` や各成分へアクセスすると `ValueError` を送出します。
+
 ## 行列積
 
 `TransformMatrix` 同士を `*` で乗算すると、新しい `TransformMatrix` を返します。計算は TRS の各値ではなく、保持している `MMatrix` 同士で行います。
@@ -77,6 +108,36 @@ local_translate = local_tm.translate
 ```
 
 この例の結果は、src のワールド行列を dst の親空間へ変換した行列です。
+
+## DAG 間の行列変換
+
+DAG の `get_relative_matrix()` は、self の行列を指定した dst 自身の空間で表します。
+
+```python
+relative_tm = src_dag.get_relative_matrix(dst_dag)
+```
+
+内部では、各DAGパスの `instanceNumber()` に対応する配列要素を使って次の計算を行います。
+
+```python
+relative_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.worldInverseMatrix[dst_index].transform_matrix
+```
+
+`get_local_matrix()` は、self の `worldMatrix` を再現するための dst 用local行列を返します。
+
+```python
+local_tm = src_dag.get_local_matrix(dst_dag)
+```
+
+計算は次のとおりです。
+
+```python
+local_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.parentInverseMatrix[dst_index].transform_matrix
+```
+
+Mayaの `parentMatrix` には dst の `offsetParentMatrix` が既に合成されています。その逆行列である `parentInverseMatrix` を使うため、`get_local_matrix()` の結果にも `offsetParentMatrix` の補正が含まれます。
+
+`ModifierManager` に積んだノード作成や値設定は、行列を取得する前に `do_it_dag()` / `do_it_dg()` で実行してください。
 
 ## 逆行列
 

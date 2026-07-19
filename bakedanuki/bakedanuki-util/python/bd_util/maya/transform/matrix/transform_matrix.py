@@ -75,12 +75,22 @@ class TransformMatrix:
 
     @staticmethod
     def _matrix_from_plug(plug: om.MPlug) -> om.MMatrix:
+        attribute = plug.attribute()
+        is_typed_matrix = (
+            attribute.hasFn(om.MFn.kTypedAttribute)
+            and om.MFnTypedAttribute(attribute).attrType()
+            == om.MFnData.kMatrix
+        )
+        is_matrix_attribute = attribute.hasFn(om.MFn.kMatrixAttribute)
+        if not is_typed_matrix and not is_matrix_attribute:
+            raise TypeError(f"Plug must be a matrix plug: {plug.name()}")
+
         try:
             matrix_data = om.MFnMatrixData(plug.asMObject())
             return om.MMatrix(matrix_data.matrix())
         except (RuntimeError, TypeError) as error:
-            raise TypeError(
-                f"Plug must contain a matrix value: {plug.name()}"
+            raise ValueError(
+                f"Plug does not contain a matrix value: {plug.name()}"
             ) from error
 
     @property

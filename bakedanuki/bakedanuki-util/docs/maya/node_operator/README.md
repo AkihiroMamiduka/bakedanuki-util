@@ -174,6 +174,25 @@ IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型�
 shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
 ただし `nodes.existing` 用の class 解決対象には含めています。
 
+## DAG の行列変換
+
+`DAG` は、2つのDAGノード間で行列を変換する共通メソッドを持ちます。
+
+```python
+relative_tm = src_dag.get_relative_matrix(dst_dag)
+local_tm = src_dag.get_local_matrix(dst_dag)
+```
+
+- `get_relative_matrix(dst_dag)`
+  - src の行列を dst 自身の空間で表した `TransformMatrix` を返します。
+  - `src.worldMatrix * dst.worldInverseMatrix` に相当します。
+- `get_local_matrix(dst_dag)`
+  - src の `worldMatrix` を再現するdst用local行列を返します。
+  - `src.worldMatrix * dst.parentInverseMatrix` に相当します。
+  - `parentInverseMatrix` を通じて、dst の `offsetParentMatrix` も補正されます。
+
+どちらも各 `MDagPath.instanceNumber()` に対応する matrix plug を使います。戻り値の分解方法とmatrix plugからの直接取得については、[TransformMatrix](../transform_matrix.md) を参照してください。
+
 シーン上に既に存在するノードは `nodes.existing` で対応する `NodeOperator` に変換できます。
 
 ```python

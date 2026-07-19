@@ -8,6 +8,7 @@ import maya.cmds as cmds
 # self
 from ....... import logger as u_logger
 from ...... import str as test_str
+from .......maya.node.nodes import Nodes
 from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag._core import DAG
 from .......maya.node.operator.node.dag.transform._core import Transform
@@ -19,6 +20,7 @@ def main():
     # long_name_root()
     # long_name_under_group()
     operate_transform()
+    get_local_matrix()
 
 
 def long_name_root():
@@ -98,3 +100,49 @@ def operate_transform():
     logger.debug(f"translate: {node.translate.get()}")
     logger.debug(f"rotate: {node.rotate.get()}")
     logger.debug(f"scale: {node.scale.get()}")
+
+
+def get_local_matrix():
+    test_str.title("get_local_matrix")
+
+    nodes = Nodes()
+
+    # 作成
+    src_parent = nodes.create.transform(name="src_parent")
+    src = nodes.create.transform(name="src")
+    dst_parent = nodes.create.transform(name="dst_parent")
+    dst = nodes.create.transform(name="dst")
+
+    # mod
+    nodes.modifier_manager.do_it_dag()
+
+    # 階層構造を作る
+    cmds.parent(src.name, src_parent.name)
+    cmds.parent(dst.name, dst_parent.name)
+
+    # 値をセット
+    #   src_parent
+    src_parent.translate.set(10.0, 20.0, 30.0)
+    src_parent.rotate.set(30, 60, 90)
+    src_parent.scale.set(2, 3, 4)
+    #   src
+    src.translate.set(10.0, 20.0, 30.0)
+    src.rotate.set(-90, -60, -30)
+    src.scale.set(0.6, 0.5, 0.4)
+    #   dst_parent
+    dst_parent.translate.set(-6, -7, -8)
+    dst_parent.rotate.set(45, 90, 135)
+    dst_parent.scale.set(8, 7, 6)
+
+    # mod
+    nodes.modifier_manager.do_it_dg()
+
+    # local 行列を取得
+    local_m = src.get_local_matrix(dst)
+    dst.translate.set(local_m.translate)
+    dst.rotate.set(local_m.rotate)
+    dst.scale.set(local_m.scale)
+    dst.shear.set(local_m.shear)
+
+    # mod
+    nodes.modifier_manager.do_it_dg()
