@@ -29,12 +29,35 @@
 - `ModifierManager`
   - `MDGModifier` / `MDagModifier` をまとめて扱う管理クラスです。
   - 将来的に MPxCommand の undo / redo へ組み込みやすい形を目指しています。
+- `TransformMatrix`
+  - matrix plug や `MMatrix` を、合成・逆行列・TRS 分解が可能なスナップショット値として扱います。
 - Attribute / Plug helpers
   - `AttributeField`, `AttrOperator`, `PlugOperator` により、クラス定義とインスタンス操作を分けて扱います。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。
 
 ## Quick Example
+
+### Transform Matrix
+
+```python
+from maya import cmds
+import bd_util as bdu
+
+src = cmds.createNode("transform", name="src")
+dst = cmds.createNode("transform", name="dst")
+
+src_wm = bdu.TransformMatrix(f"{src}.worldMatrix[0]")
+dst_pim = bdu.TransformMatrix(f"{dst}.parentInverseMatrix[0]")
+
+local_tm = src_wm * dst_pim
+translate = local_tm.translate
+inverse_tm = local_tm.inverse()
+```
+
+`translate` / `rotate` / `scale` / `shear` / `quat` は float の tuple として取得できます。`rotate` は XYZ order の degree です。
+
+詳細は [TransformMatrix](docs/maya/transform_matrix.md) を参照してください。
 
 ### Unified Node Access
 
@@ -266,6 +289,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 
 詳細な設計メモは `docs/` 以下にあります。
 
+- [TransformMatrix](docs/maya/transform_matrix.md)
 - [NodeOperator Overview](docs/maya/node_operator/README.md)
 - [Attributes](docs/maya/node_operator/attributes.md)
 - [Core](docs/maya/node_operator/core.md)

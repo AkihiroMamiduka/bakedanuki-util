@@ -15,6 +15,7 @@ import bd_util._test.maya.node.operator.node._core
 import bd_util._test.maya.node.operator.node.existing_node
 import bd_util._test.maya.node.operator.node.nodes
 import bd_util._test.maya.node.operator.node.process_speed
+import bd_util._test.maya.transform.matrix.transform_matrix
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -33,5 +34,6 @@ def main():
     bd_util._test.maya.node.operator.node.existing_node.main()
     bd_util._test.maya.node.operator.node.nodes.main()
     bd_util._test.maya.node.operator.node.process_speed.main()
+    bd_util._test.maya.transform.matrix.transform_matrix.main()
 
     logger.debug("---- All tests passed. ----")
