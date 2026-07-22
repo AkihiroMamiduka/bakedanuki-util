@@ -5,6 +5,7 @@ from collections.abc import Callable
 
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
+from ..operator.node.dag._core import DAG
 from ..operator.node.dag.transform._core import Transform
 from ..operator.node.dag.transform.joint import Joint
 from ..operator.node.dg.about_to_set_value_test_node import AboutToSetValueTestNode
@@ -981,6 +982,8 @@ class NodeCreator:
         node_name: str,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: DAG | None = None,
     ) -> NodeOperator: ...
 
     def node_class(self, node_name: str) -> type[NodeOperator]: ...
@@ -3753,6 +3756,8 @@ class NodeCreator:
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform | None = None,
     ) -> Joint: ...
 
     def jointCluster(
@@ -6465,6 +6470,8 @@ class NodeCreator:
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform | None = None,
     ) -> Transform: ...
 
     def transformGeometry(

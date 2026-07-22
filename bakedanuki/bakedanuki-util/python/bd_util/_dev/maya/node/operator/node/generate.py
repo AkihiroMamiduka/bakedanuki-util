@@ -550,6 +550,12 @@ def _node_type_to_class_name(node_type: str) -> str:
     return node_type[0].upper() + node_type[1:]
 
 
+def _node_kind_class_name(node_type: str, node_kind: str) -> str:
+    if node_kind == _NODE_KIND_TRANSFORM and node_type == "transform":
+        return "_GeneratedTransform"
+    return _node_type_to_class_name(node_type)
+
+
 def _camel_to_snake(name: str) -> str:
     """camelCase 文字列を snake_case へ変換する。
 
@@ -653,7 +659,7 @@ def _node_kind_output_rel_parts(node_kind: str) -> tuple[str, ...]:
 
 def _node_kind_output_file_name(node_type: str, node_kind: str) -> str:
     if node_kind == _NODE_KIND_TRANSFORM and node_type == "transform":
-        return "_core.py"
+        return "_generated.py"
     if node_kind == _NODE_KIND_SHAPE and node_type == "shape":
         return "_core.py"
     return _node_type_to_file_name(node_type)
@@ -1244,10 +1250,8 @@ def _long_name_to_compound_class_names(
     safe_name = _safe_attr_name(long_name)
     pascal = safe_name[:1].upper() + safe_name[1:]
     if (
-        f"{pascal}PlugOperator"
-        in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
-        or f"{pascal}AttrOperator"
-        in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
+        f"{pascal}PlugOperator" in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
+        or f"{pascal}AttrOperator" in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
         or f"{pascal}Field" in _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS
     ):
         pascal = f"{pascal}Value"
@@ -1466,7 +1470,9 @@ def generate_node_attr_code(
                         child_cls_name, _node_attr_module_path(child_module)
                     )
             else:
-                _add_import(child_cls_name, _node_attr_module_path(child_module))
+                _add_import(
+                    child_cls_name, _node_attr_module_path(child_module)
+                )
 
             safe_child_name = _safe_field_name(child_name)
             init_args = _field_init_args(
@@ -1640,15 +1646,15 @@ def generate_node_class_code(
         )
         attr_infos = []
 
-    class_name = _node_type_to_class_name(node_type)
+    class_name = _node_kind_class_name(node_type, resolved_node_kind)
     base_class_name = _node_kind_base_class_name(
         node_type,
         resolved_node_kind,
     )
     attr_import_prefix = _node_kind_attr_import_prefix(resolved_node_kind)
-    base_long_names = _node_kind_base_long_names(
-        resolved_node_kind
-    ) | inherited_long_names
+    base_long_names = (
+        _node_kind_base_long_names(resolved_node_kind) | inherited_long_names
+    )
 
     # short_name → long_name  (short_name が long_name と異なる場合のみ)
     short_to_long: dict[str, str] = {}
@@ -1893,9 +1899,7 @@ def generate_node_class_file(
     elif resolved_node_kind in _DAG_NODE_KINDS:
         skip_reason = _get_skipped_dag_node_type_reason(node_type)
     if skip_reason and not include_skipped:
-        logger.warning(
-            f"Skipping node type '{node_type}': {skip_reason}"
-        )
+        logger.warning(f"Skipping node type '{node_type}': {skip_reason}")
         return
 
     if attr_infos is None:

@@ -25,7 +25,9 @@
 - `python/bd_util/maya/node/operator/node/dag/_core.py`
   - DAG ノード共通の基底クラスです。
 - `python/bd_util/maya/node/operator/node/dag/transform/_core.py`
-  - `Transform` ノード定義です。
+  - 手書きの公開 `Transform` クラスと、Transform 固有の操作 API です。
+- `python/bd_util/maya/node/operator/node/dag/transform/_generated.py`
+  - Generator が出力する `_GeneratedTransform` と標準 attribute 定義です。
 - `python/bd_util/maya/node/operator/attr/_core.py`
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`
@@ -171,8 +173,71 @@ modifier_manager.do_it_dg()
 IDE 補完用に `.pyi` を用意し、主要な生成メソッドの戻り型が各 `NodeOperator` クラスとして見えるようにしています。
 
 `transform` / `joint` は `nodes.create` から作成できます。
+作成時の親は `parent=` で指定でき、親子を同じ `MDagModifier` に積めます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+parent = nodes.create.transform(name="parent")
+child = nodes.create.transform(name="child", parent=parent)
+
+mod.do_it_dag()
+```
+
 shape 系ノードは transform 親の扱いが絡むため、現時点では作成 API には出していません。
 ただし `nodes.existing` 用の class 解決対象には含めています。
+
+## DAG の親子操作
+
+`DAG.parent` は直接の親を返し、ワールド直下では `None` を返します。
+`DAG.parents` は直接の親を tuple で返し、ワールドは含めません。
+
+```python
+parent = child.parent
+parents = child.parents
+is_instanced = child.is_instanced
+```
+
+親変更は `set_parent()` で現在の `MDagModifier` に積みます。
+初期値では local transform を維持するため、親の transform に応じて world transform が変わります。
+
+```python
+child.set_parent(parent)
+mod.do_it_dag()
+```
+
+`Transform.set_parent()` では、親変更時の world transform を維持できます。
+
+```python
+child.set_parent(
+    parent,
+    preserve_world_transform=True,
+)
+mod.do_it_dag()
+```
+
+ワールド直下への親変更は Transform 専用です。
+
+```python
+child.set_parent_to_world()
+mod.do_it_dag()
+```
+
+world transform を維持する場合は、次のように指定します。
+
+```python
+child.set_parent_to_world(preserve_world_transform=True)
+mod.do_it_dag()
+```
+
+インスタンス DAG は階層パスが複数あるため、`parent`、`set_parent()`、`set_parent_to_world()` は `RuntimeError` にします。
+すべての直接の親を調べる場合は `parents` を使用します。
+
+`full_path` は保持中の `MDagPath` からアクセスごとに取得します。
+親変更や rename の確定、および undo / redo 後も現在のフルパスを返します。
 
 ## DAG の行列変換
 

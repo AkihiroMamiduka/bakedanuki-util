@@ -56,10 +56,14 @@ bd_util/maya/node/operator/attr/define/node_attr/<node_type_snake>.py
 `transform` 本体は transform 派生 node の基底でもあるため、`node_kind="transform"` で生成する場合だけ次の特殊な出力先になります。
 
 ```text
-bd_util/maya/node/operator/node/dag/transform/_core.py
+bd_util/maya/node/operator/node/dag/transform/_generated.py
 ```
 
-将来的に `shape` 本体を生成対象にする場合も、同じ理由で `dag/shape/_core.py` へ出力します。
+このファイルには、標準 attribute を持つ `_GeneratedTransform(DAG)` を生成します。
+手書きの `dag/transform/_core.py` は上書きせず、公開 `Transform` は
+`_GeneratedTransform` を継承して Transform 固有の操作 API を定義します。
+
+`shape` 本体は今回の分離対象に含めず、従来どおり `dag/shape/_core.py` へ出力します。
 
 `node_attr` 側のファイルは、compound attribute 用の専用 class が必要な場合に出力されます。
 単純な scalar / typed / enum attribute だけで構成できる場合は、node class 側だけで完結します。
@@ -83,7 +87,8 @@ generate_node_class_file("transform", path, node_kind="transform")
   - `node/dag` に出力し、`DAG` を継承します。
 - `transform`
   - `node/dag/transform` に出力し、`Transform` を継承します。
-  - `node_type == "transform"` の場合は `_core.py` に出力し、`DAG` を継承します。
+  - `node_type == "transform"` の場合は `_generated.py` に `_GeneratedTransform(DAG)` を出力します。
+  - 手書きの `_core.py` にある公開 `Transform` は `_GeneratedTransform` を継承します。
   - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
 - `shape`

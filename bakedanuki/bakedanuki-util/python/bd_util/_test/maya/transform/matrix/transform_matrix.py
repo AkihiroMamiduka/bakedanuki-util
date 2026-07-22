@@ -1,10 +1,6 @@
 # coding: utf-8
 
-# maya
-from maya import cmds
-
 # self
-from .....maya.transform.matrix.transform_matrix import TransformMatrix
 from .....maya.node.nodes import Nodes
 
 
@@ -16,7 +12,7 @@ def test_transform_matrix():
     nodes = Nodes()
     src = nodes.create.transform(name="src")
     dst_parent = nodes.create.transform(name="dst_parent")
-    dst = nodes.create.transform(name="dst")
+    dst = nodes.create.transform(name="dst", parent=dst_parent)
 
     # transform をセット
     #   src
@@ -32,12 +28,9 @@ def test_transform_matrix():
     nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
-    # parent (DagNodeOperator に parent メソッドをまだ実装できていないので、cmds で parent する)
-    cmds.parent(dst.name, dst_parent.name)
-
     # local 値を取得
-    src_wm = TransformMatrix(src.wm[0].plug)
-    dst_parent_wim = TransformMatrix(dst_parent.wim[0].plug)
+    src_wm = src.wm[0].transform_matrix
+    dst_parent_wim = dst_parent.wim[0].transform_matrix
 
     local_m = src_wm * dst_parent_wim
 

@@ -465,11 +465,11 @@ def test_generate_transform_base_node_class_code():
         node_kind="transform",
     )
 
-    compile(code, "_core.py", "exec")
+    compile(code, "_generated.py", "exec")
 
     assert "from .._core import DAG" in code
     assert "from ....attr.define.node_attr.transform import TranslateField" in code
-    assert "class Transform(DAG):" in code
+    assert "class _GeneratedTransform(DAG):" in code
     assert 'NODE_TYPE = "transform"' in code
     assert "translate = TranslateField()" in code
 
@@ -914,6 +914,19 @@ def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
 
 
 def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
+    core_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "transform",
+        "_core.py",
+    )
+    core_path.parent.mkdir(parents=True, exist_ok=True)
+    core_path.write_text("# manual transform class\n", encoding="utf-8")
+
     generate_node_class_file(
         "transform",
         tmp_path,
@@ -929,13 +942,14 @@ def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
         "node",
         "dag",
         "transform",
-        "_core.py",
+        "_generated.py",
     )
 
     assert output_path.exists()
+    assert core_path.read_text(encoding="utf-8") == "# manual transform class\n"
 
     code = output_path.read_text(encoding="utf-8")
 
-    compile(code, "_core.py", "exec")
+    compile(code, "_generated.py", "exec")
     assert "from .._core import DAG" in code
-    assert "class Transform(DAG):" in code
+    assert "class _GeneratedTransform(DAG):" in code

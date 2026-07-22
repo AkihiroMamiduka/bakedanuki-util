@@ -39,6 +39,8 @@ def _find_node_definition(
     for statement in tree.body:
         if not isinstance(statement, ast.ClassDef):
             continue
+        if statement.name.startswith("_"):
+            continue
         for class_statement in statement.body:
             if not isinstance(class_statement, ast.Assign):
                 continue

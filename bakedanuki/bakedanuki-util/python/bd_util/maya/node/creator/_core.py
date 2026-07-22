@@ -9,6 +9,7 @@ from importlib import resources
 
 from ..modifier import ModifierManager
 from ..operator.node._core import DEFAULT_VALUE_AUTO_ADD_ATTR, NodeOperator
+from ..operator.node.dag._core import DAG
 
 _VALID_MODULE_NAME_PATTERN = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 _NODE_TYPE_PATTERN = re.compile(
@@ -89,12 +90,25 @@ class NodeCreator:
         node_name: str,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: DAG | None = None,
     ) -> NodeOperator:
         node_cls = self._creator_node_class(node_name)
+        if not issubclass(node_cls, DAG):
+            if parent is not None:
+                raise TypeError(
+                    f"parent is only supported for DAG nodes: {node_name}"
+                )
+            return node_cls.create(
+                self._modifier_manager,
+                name=name,
+                auto_add_attr=auto_add_attr,
+            )
         return node_cls.create(
             self._modifier_manager,
             name=name,
             auto_add_attr=auto_add_attr,
+            parent=parent,
         )
 
     def node_class(self, node_name: str) -> type[NodeOperator]:
@@ -196,15 +210,32 @@ class NodeCreator:
 
         node_cls = self._creator_node_class(node_name)
 
-        def _create(
-            name: str | None = None,
-            auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-        ) -> NodeOperator:
-            return node_cls.create(
-                self._modifier_manager,
-                name=name,
-                auto_add_attr=auto_add_attr,
-            )
+        if issubclass(node_cls, DAG):
+
+            def _create(
+                name: str | None = None,
+                auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+                *,
+                parent: DAG | None = None,
+            ) -> NodeOperator:
+                return node_cls.create(
+                    self._modifier_manager,
+                    name=name,
+                    auto_add_attr=auto_add_attr,
+                    parent=parent,
+                )
+
+        else:
+
+            def _create(
+                name: str | None = None,
+                auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+            ) -> NodeOperator:
+                return node_cls.create(
+                    self._modifier_manager,
+                    name=name,
+                    auto_add_attr=auto_add_attr,
+                )
 
         _create.__name__ = node_name
         _create.__qualname__ = f"{type(self).__name__}.{node_name}"

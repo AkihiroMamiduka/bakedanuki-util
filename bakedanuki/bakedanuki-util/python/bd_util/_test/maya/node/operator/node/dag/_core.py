@@ -57,21 +57,22 @@ def long_name_under_group():
         if cmds.objExists(n):
             cmds.delete(n)
 
-    grp = Transform.create(group_name)
-    child = Transform.create(child_name)
-    cmds.parent(child.name, grp.name)
-    node = DAG(child.name)
+    nodes = Nodes()
+
+    grp = nodes.create.transform(name=group_name)
+    child = nodes.create.transform(name=child_name, parent=grp)
 
     logger.debug(
         "{}: {}".format(
-            "node.name",
-            node.name,
+            "child.name",
+            child.name,
         )
     )
+    child.name
     logger.debug(
         "{}: {}".format(
-            "node.long_name",
-            node.long_name,
+            "child.long_name",
+            child.long_name,
         )
     )
     # 期待値: "|test_dag_group|test_dag_child"
@@ -109,16 +110,9 @@ def get_local_matrix():
 
     # 作成
     src_parent = nodes.create.transform(name="src_parent")
-    src = nodes.create.transform(name="src")
+    src = nodes.create.transform(name="src", parent=src_parent)
     dst_parent = nodes.create.transform(name="dst_parent")
-    dst = nodes.create.transform(name="dst")
-
-    # mod
-    nodes.modifier_manager.do_it_dag()
-
-    # 階層構造を作る
-    cmds.parent(src.name, src_parent.name)
-    cmds.parent(dst.name, dst_parent.name)
+    dst = nodes.create.transform(name="dst", parent=dst_parent)
 
     # 値をセット
     #   src_parent
@@ -135,6 +129,7 @@ def get_local_matrix():
     dst_parent.scale.set(8, 7, 6)
 
     # mod
+    nodes.modifier_manager.do_it_dag()
     nodes.modifier_manager.do_it_dg()
 
     # local 行列を取得

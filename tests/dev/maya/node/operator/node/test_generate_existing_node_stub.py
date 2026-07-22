@@ -2,6 +2,24 @@
 from pathlib import Path
 
 
+def test_transform_stub_uses_public_manual_class():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node.generate_existing_node_stub import (
+        collect_node_definitions,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = collect_node_definitions(python_root)
+    transform = next(
+        definition
+        for definition in definitions
+        if definition.node_type == "transform"
+    )
+
+    assert transform.class_name == "Transform"
+    assert transform.module_name.endswith(".dag.transform._core")
+
+
 def test_existing_node_stub_matches_generated_code():
     import bd_util
     from bd_util._dev.maya.node.operator.node.generate_existing_node_stub import (
