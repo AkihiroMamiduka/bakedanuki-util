@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.matrix import MatrixField
+from ._generated.add_matrix import _GeneratedAddMatrix
 
 
-class AddMatrix(DG):
+class AddMatrix(_GeneratedAddMatrix):
     __slots__ = ()
 
     NODE_TYPE = "addMatrix"
-
-    matrixIn = MatrixField(multi=True)
-    i = matrixIn
-
-    matrixSum = MatrixField(writable=False)
-    o = matrixSum

@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ...attr.define.std.at.typed import TypedField
+from ._generated.time_function import _GeneratedTimeFunction
 
 
-class TimeFunction(DG):
+class TimeFunction(_GeneratedTimeFunction):
     __slots__ = ()
 
     NODE_TYPE = "timeFunction"
-
-    input = DoubleField(default_value=0.0)
-    i = input
-
-    output = TypedField(writable=False)
-    o = output

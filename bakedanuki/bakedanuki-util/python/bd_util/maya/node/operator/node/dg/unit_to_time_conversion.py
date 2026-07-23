@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ...attr.define.std.at.unit_scalar.time import TimeField
+from ._generated.unit_to_time_conversion import _GeneratedUnitToTimeConversion
 
 
-class UnitToTimeConversion(DG):
+class UnitToTimeConversion(_GeneratedUnitToTimeConversion):
     __slots__ = ()
 
     NODE_TYPE = "unitToTimeConversion"
-
-    input = DoubleField(default_value=0.0)
-    i = input
-
-    output = TimeField(default_value=0.0, writable=False)
-    o = output
-
-    conversionFactor = DoubleField(default_value=1.0)
-    cf = conversionFactor

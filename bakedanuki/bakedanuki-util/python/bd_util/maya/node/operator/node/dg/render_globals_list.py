@@ -1,18 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.render_globals_list import _GeneratedRenderGlobalsList
 
 
-class RenderGlobalsList(DG):
+class RenderGlobalsList(_GeneratedRenderGlobalsList):
     __slots__ = ()
 
     NODE_TYPE = "renderGlobalsList"
-
-    renderGlobals = MessageField(multi=True)
-    rg = renderGlobals
-
-    renderQualities = MessageField(multi=True)
-    rq = renderQualities
-
-    renderResolutions = MessageField(multi=True)
-    rr = renderResolutions

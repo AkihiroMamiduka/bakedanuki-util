@@ -1,17 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
+from ._generated.hik_effector_from_character import _GeneratedHIKEffectorFromCharacter
 
 
-class HIKEffectorFromCharacter(DG):
+class HIKEffectorFromCharacter(_GeneratedHIKEffectorFromCharacter):
     __slots__ = ()
 
     NODE_TYPE = "HIKEffectorFromCharacter"
-
-    InputCharacterDefinition = TypedField()
-
-    InputCharacterState = TypedField()
-
-    InputPropertySetState = TypedField()
-
-    OutputEffectorState = TypedField()

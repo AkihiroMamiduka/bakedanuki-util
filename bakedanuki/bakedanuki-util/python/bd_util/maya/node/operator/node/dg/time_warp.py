@@ -1,29 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
-from ...attr.define.std.at.unit_scalar.time import TimeField
-from ...attr.define.std.dt.double_array import DataDoubleArrayField
+from ._generated.time_warp import _GeneratedTimeWarp
 
 
-class TimeWarp(DG):
+class TimeWarp(_GeneratedTimeWarp):
     __slots__ = ()
 
     NODE_TYPE = "timeWarp"
-
-    input = TimeField(default_value=0.0)
-    i = input
-
-    output = TimeField(default_value=0.0, writable=False)
-    o = output
-
-    origFrames = DataDoubleArrayField()
-    of = origFrames
-
-    endFrames = DataDoubleArrayField()
-    ef = endFrames
-
-    interpType = TypedField()
-    it = interpType
-
-    apply = TypedField(writable=False)
-    a = apply

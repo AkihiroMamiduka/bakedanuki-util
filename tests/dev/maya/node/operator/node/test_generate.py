@@ -414,7 +414,7 @@ def test_generate_plus_minus_average_node_class_code():
 
     compile(code, "plus_minus_average.py", "exec")
 
-    assert "from ...attr.define.node_attr.plus_minus_average import" in code
+    assert "from ....attr.define.node_attr.plus_minus_average import" in code
     assert "Input2DField" in code
     assert "Input3DField" in code
     assert "Output2DField" in code
@@ -431,6 +431,7 @@ def test_generate_plus_minus_average_node_class_code():
     assert "output3D = Output3DField()" in code
     assert "output3Dz = output3D.output3Dz" in code
     assert "o3z = output3Dz" in code
+    assert "class _GeneratedPlusMinusAverage(DG):" in code
 
 
 def test_generate_transform_node_class_code():
@@ -443,9 +444,9 @@ def test_generate_transform_node_class_code():
 
     compile(code, "joint.py", "exec")
 
-    assert "from ._core import Transform" in code
-    assert "from ....attr.define.node_attr.joint import JointOrientField" in code
-    assert "class Joint(Transform):" in code
+    assert "from .._core import Transform" in code
+    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
+    assert "class _GeneratedJoint(Transform):" in code
     assert 'NODE_TYPE = "joint"' in code
     assert "message = MessageField()" not in code
     assert "translate = TranslateField()" not in code
@@ -465,10 +466,10 @@ def test_generate_transform_base_node_class_code():
         node_kind="transform",
     )
 
-    compile(code, "_generated.py", "exec")
+    compile(code, "transform.py", "exec")
 
-    assert "from .._core import DAG" in code
-    assert "from ....attr.define.node_attr.transform import TranslateField" in code
+    assert "from ..._core import DAG" in code
+    assert "from .....attr.define.node_attr.transform import TranslateField" in code
     assert "class _GeneratedTransform(DAG):" in code
     assert 'NODE_TYPE = "transform"' in code
     assert "translate = TranslateField()" in code
@@ -483,9 +484,9 @@ def test_generate_shape_node_class_code():
 
     compile(code, "mesh.py", "exec")
 
-    assert "from ._core import Shape" in code
-    assert "from ....attr.define.std.dt.mesh import DataMeshField" in code
-    assert "class Mesh(Shape):" in code
+    assert "from .._core import Shape" in code
+    assert "from .....attr.define.std.dt.mesh import DataMeshField" in code
+    assert "class _GeneratedMesh(Shape):" in code
     assert 'NODE_TYPE = "mesh"' in code
     assert "message = MessageField()" not in code
     assert "outMesh = DataMeshField(writable=False)" in code
@@ -559,6 +560,19 @@ def test_generate_field_init_args_include_attribute_metadata():
                 min_value=[0.0, 0.0, 0.0],
                 number_of_children=3,
             ),
+            _attr(
+                "notANumber",
+                "nanv",
+                "float",
+                default_value=[float("nan")],
+            ),
+            _attr(
+                "infiniteRange",
+                "infr",
+                "float2",
+                default_value=[float("-inf"), float("inf")],
+                number_of_children=2,
+            ),
         ],
     )
 
@@ -580,6 +594,12 @@ def test_generate_field_init_args_include_attribute_metadata():
     )
     assert (
         "indices = Long3Field(default_value=(1, 2, 3), min_value=(0, 0, 0))"
+        in code
+    )
+    assert 'notANumber = FloatField(default_value=float("nan"))' in code
+    assert (
+        'infiniteRange = Float2Field(default_value=(-float("inf"), '
+        'float("inf")))'
         in code
     )
     assert "readable=True" not in code
@@ -686,14 +706,74 @@ def test_generate_node_class_file_can_include_skipped_node_type(tmp_path):
         "operator",
         "node",
         "dg",
+        "_generated",
         "node_graph_editor_info.py",
     )
+    public_path = output_path.parent.parent / "node_graph_editor_info.py"
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
 
     compile(code, "node_graph_editor_info.py", "exec")
+    compile(public_code, "node_graph_editor_info_public.py", "exec")
     assert 'NODE_TYPE = "nodeGraphEditorInfo"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+    assert (
+        "class NodeGraphEditorInfo(_GeneratedNodeGraphEditorInfo):"
+        in public_code
+    )
+
+
+def test_generate_node_class_file_preserves_existing_public_wrapper(tmp_path):
+    public_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+        "custom_node.py",
+    )
+    public_path.parent.mkdir(parents=True, exist_ok=True)
+    public_path.write_text("# handwritten public wrapper\n", encoding="utf-8")
+
+    generate_node_class_file(
+        "customNode",
+        tmp_path,
+        attr_infos=[_attr("input", "in", "float")],
+    )
+
+    generated_path = public_path.parent / "_generated" / "custom_node.py"
+
+    assert generated_path.exists()
+    assert (
+        public_path.read_text(encoding="utf-8")
+        == "# handwritten public wrapper\n"
+    )
+
+
+def test_generate_node_class_file_supports_keyword_module_wrapper(tmp_path):
+    generate_node_class_file(
+        "and",
+        tmp_path,
+        attr_infos=[_attr("input", "in", "float")],
+    )
+
+    public_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dg",
+        "and.py",
+    )
+    code = public_path.read_text(encoding="utf-8")
+
+    compile(code, "and_public.py", "exec")
+    assert "from importlib import import_module" in code
+    assert 'f"{__package__}._generated.and"' in code
+    assert "class And(_GeneratedAnd):" in code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_node_type(tmp_path):
@@ -733,14 +813,19 @@ def test_generate_node_class_file_can_include_unsafe_dag_node_type(tmp_path):
         "operator",
         "node",
         "dag",
+        "_generated",
         "caddy_manip_base.py",
     )
+    public_path = output_path.parent.parent / "caddy_manip_base.py"
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
 
     compile(code, "caddy_manip_base.py", "exec")
+    compile(public_code, "caddy_manip_base_public.py", "exec")
     assert 'NODE_TYPE = "caddyManipBase"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+    assert "class CaddyManipBase(_GeneratedCaddyManipBase):" in public_code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_tool_node_type(tmp_path):
@@ -782,14 +867,19 @@ def test_generate_node_class_file_can_include_unsafe_dag_tool_node_type(
         "operator",
         "node",
         "dag",
+        "_generated",
         "placer_tool.py",
     )
+    public_path = output_path.parent.parent / "placer_tool.py"
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
 
     compile(code, "placer_tool.py", "exec")
+    compile(public_code, "placer_tool_public.py", "exec")
     assert 'NODE_TYPE = "placerTool"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+    assert "class PlacerTool(_GeneratedPlacerTool):" in public_code
 
 
 def test_generate_node_class_file_outputs_xgm_dag_node_type(tmp_path):
@@ -807,14 +897,19 @@ def test_generate_node_class_file_outputs_xgm_dag_node_type(tmp_path):
         "operator",
         "node",
         "dag",
+        "_generated",
         "xgm_sub_patch.py",
     )
+    public_path = output_path.parent.parent / "xgm_sub_patch.py"
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
 
     compile(code, "xgm_sub_patch.py", "exec")
+    compile(public_code, "xgm_sub_patch_public.py", "exec")
     assert 'NODE_TYPE = "xgmSubPatch"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+    assert "class XgmSubPatch(_GeneratedXgmSubPatch):" in public_code
 
 
 def test_generate_node_class_file_skips_unsafe_dag_node_type_keyword(
@@ -858,14 +953,19 @@ def test_generate_node_class_file_can_include_unsafe_dag_node_type_keyword(
         "operator",
         "node",
         "dag",
+        "_generated",
         "button_manip.py",
     )
+    public_path = output_path.parent.parent / "button_manip.py"
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
 
     compile(code, "button_manip.py", "exec")
+    compile(public_code, "button_manip_public.py", "exec")
     assert 'NODE_TYPE = "buttonManip"' in code
     assert "default = BoolField()" in code
     assert "def_ = default" in code
+    assert "class ButtonManip(_GeneratedButtonManip):" in public_code
 
 
 def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
@@ -885,8 +985,10 @@ def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
         "node",
         "dag",
         "transform",
+        "_generated",
         "joint.py",
     )
+    public_path = output_path.parent.parent / "joint.py"
     node_attr_path = tmp_path.joinpath(
         "bd_util",
         "maya",
@@ -902,12 +1004,15 @@ def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
     assert node_attr_path.exists()
 
     code = output_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
     node_attr_code = node_attr_path.read_text(encoding="utf-8")
 
     compile(code, "joint.py", "exec")
+    compile(public_code, "joint_public.py", "exec")
     compile(node_attr_code, "joint_node_attr.py", "exec")
-    assert "from ._core import Transform" in code
-    assert "from ....attr.define.node_attr.joint import JointOrientField" in code
+    assert "from .._core import Transform" in code
+    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
+    assert "class Joint(_GeneratedJoint):" in public_code
     assert "translate = TranslateField()" not in code
     assert "class TranslateField(" not in node_attr_code
     assert "class JointOrientField(" in node_attr_code
@@ -942,7 +1047,8 @@ def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
         "node",
         "dag",
         "transform",
-        "_generated.py",
+        "_generated",
+        "transform.py",
     )
 
     assert output_path.exists()
@@ -950,6 +1056,36 @@ def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
 
     code = output_path.read_text(encoding="utf-8")
 
-    compile(code, "_generated.py", "exec")
-    assert "from .._core import DAG" in code
+    compile(code, "transform.py", "exec")
+    assert "from ..._core import DAG" in code
     assert "class _GeneratedTransform(DAG):" in code
+
+
+def test_generate_node_class_file_outputs_shape_base_path(tmp_path):
+    generate_node_class_file(
+        "shape",
+        tmp_path,
+        attr_infos=_shape_like_attr_infos(),
+        node_kind="shape",
+    )
+
+    generated_path = tmp_path.joinpath(
+        "bd_util",
+        "maya",
+        "node",
+        "operator",
+        "node",
+        "dag",
+        "shape",
+        "_generated",
+        "shape.py",
+    )
+    public_path = generated_path.parent.parent / "_core.py"
+    generated_code = generated_path.read_text(encoding="utf-8")
+    public_code = public_path.read_text(encoding="utf-8")
+
+    compile(generated_code, "shape.py", "exec")
+    compile(public_code, "shape_public.py", "exec")
+    assert "from ..._core import DAG" in generated_code
+    assert "class _GeneratedShape(DAG):" in generated_code
+    assert "class Shape(_GeneratedShape):" in public_code

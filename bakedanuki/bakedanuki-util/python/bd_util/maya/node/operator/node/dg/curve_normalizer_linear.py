@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.curve_normalizer_linear import _GeneratedCurveNormalizerLinear
 
 
-class CurveNormalizerLinear(DG):
+class CurveNormalizerLinear(_GeneratedCurveNormalizerLinear):
     __slots__ = ()
 
     NODE_TYPE = "curveNormalizerLinear"
-
-    scalar = DoubleField(default_value=1.0)
-    sc = scalar
-
-    animInput = DoubleLinearField(default_value=0.0)
-    ai = animInput
-
-    output = DoubleLinearField(default_value=0.0, writable=False)
-    o = output

@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.node_graph_editor_bookmarks import _GeneratedNodeGraphEditorBookmarks
 
 
-class NodeGraphEditorBookmarks(DG):
+class NodeGraphEditorBookmarks(_GeneratedNodeGraphEditorBookmarks):
     __slots__ = ()
 
     NODE_TYPE = "nodeGraphEditorBookmarks"
-
-    bookmarks = MessageField(multi=True)
-    b = bookmarks

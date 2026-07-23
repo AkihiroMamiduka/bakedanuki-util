@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.apply_rel_override import _GeneratedApplyRelOverride
 
 
-class ApplyRelOverride(DG):
+class ApplyRelOverride(_GeneratedApplyRelOverride):
     __slots__ = ()
 
     NODE_TYPE = "applyRelOverride"

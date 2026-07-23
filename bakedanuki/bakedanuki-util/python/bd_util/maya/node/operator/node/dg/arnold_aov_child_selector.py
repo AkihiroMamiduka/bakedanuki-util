@@ -1,23 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.at.numeric_scalar_range.long import LongField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.arnold_aov_child_selector import _GeneratedArnoldAOVChildSelector
 
 
-class ArnoldAOVChildSelector(DG):
+class ArnoldAOVChildSelector(_GeneratedArnoldAOVChildSelector):
     __slots__ = ()
 
     NODE_TYPE = "arnoldAOVChildSelector"
-
-    input = LongField(default_value=0)
-    in_ = input
-
-    output = LongField(default_value=0)
-    out = output
-
-    collection = MessageField(writable=False)
-    c = collection
-
-    arnoldAOVNodeName = DataStringField()
-    ann = arnoldAOVNodeName

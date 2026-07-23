@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ...attr.define.std.at.typed import TypedField
+from ._generated.anim_blend import _GeneratedAnimBlend
 
 
-class AnimBlend(DG):
+class AnimBlend(_GeneratedAnimBlend):
     __slots__ = ()
 
     NODE_TYPE = "animBlend"
-
-    blend = TypedField(writable=False)
-    b = blend
-
-    weight = DoubleField(default_value=0.0)
-    w = weight

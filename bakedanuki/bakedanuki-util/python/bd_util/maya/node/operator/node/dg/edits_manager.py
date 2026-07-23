@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
+from ._generated.edits_manager import _GeneratedEditsManager
 
 
-class EditsManager(DG):
+class EditsManager(_GeneratedEditsManager):
     __slots__ = ()
 
     NODE_TYPE = "editsManager"
-
-    edits = TypedField()
-    edt = edits

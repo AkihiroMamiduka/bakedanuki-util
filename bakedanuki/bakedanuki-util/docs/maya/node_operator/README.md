@@ -26,8 +26,16 @@
   - DAG ノード共通の基底クラスです。
 - `python/bd_util/maya/node/operator/node/dag/transform/_core.py`
   - 手書きの公開 `Transform` クラスと、Transform 固有の操作 API です。
-- `python/bd_util/maya/node/operator/node/dag/transform/_generated.py`
-  - Generator が出力する `_GeneratedTransform` と標準 attribute 定義です。
+- `python/bd_util/maya/node/operator/node/dg/_generated`
+  - DG NodeOperator の自動生成 class を置く package です。
+- `python/bd_util/maya/node/operator/node/dag/_generated`
+  - DAG NodeOperator の自動生成 class を置く package です。
+- `python/bd_util/maya/node/operator/node/dag/transform/_generated`
+  - Generator が出力する `_GeneratedTransform` と Transform 派生 NodeOperator の生成 class です。
+- `python/bd_util/maya/node/operator/node/dag/shape/_generated`
+  - Shape NodeOperator の自動生成 class を置く package です。
+- `python/bd_util/maya/node/operator/node/dg/<node_type>.py`
+  - 生成 class を継承する手書き可能な公開 wrapper です。Transform / Shape 派生 node も同じ分離方針です。
 - `python/bd_util/maya/node/operator/attr/_core.py`
   - `AttributeField` / `AttrOperator` / `PlugOperator` の中核です。
 - `python/bd_util/maya/node/operator/attr/extra/add_attr.py`

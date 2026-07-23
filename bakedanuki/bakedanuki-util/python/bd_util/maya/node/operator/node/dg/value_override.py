@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.value_override import _GeneratedValueOverride
 
 
-class ValueOverride(DG):
+class ValueOverride(_GeneratedValueOverride):
     __slots__ = ()
 
     NODE_TYPE = "valueOverride"

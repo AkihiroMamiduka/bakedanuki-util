@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.xgm_modifier_base import _GeneratedXgmModifierBase
 
 
-class XgmModifierBase(DG):
+class XgmModifierBase(_GeneratedXgmModifierBase):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierBase"

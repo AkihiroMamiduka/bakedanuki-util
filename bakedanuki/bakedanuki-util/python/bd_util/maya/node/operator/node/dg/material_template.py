@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.material_template import AssignField
-from ...attr.define.std.at.message import MessageField
+from ._generated.material_template import _GeneratedMaterialTemplate
 
 
-class MaterialTemplate(DG):
+class MaterialTemplate(_GeneratedMaterialTemplate):
     __slots__ = ()
 
     NODE_TYPE = "materialTemplate"
-
-    assign = AssignField(multi=True)
-    asg = assign
-
-    defaultShadingEngine = MessageField()
-    dsh = defaultShadingEngine

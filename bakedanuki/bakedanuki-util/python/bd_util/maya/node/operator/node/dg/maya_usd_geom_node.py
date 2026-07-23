@@ -1,23 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.dt.matrix import DataMatrixField
-from ...attr.define.std.dt.mesh import DataMeshField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.maya_usd_geom_node import _GeneratedMayaUsdGeomNode
 
 
-class MayaUsdGeomNode(DG):
+class MayaUsdGeomNode(_GeneratedMayaUsdGeomNode):
     __slots__ = ()
 
     NODE_TYPE = "mayaUsdGeomNode"
-
-    filePath = DataStringField(readable=False)
-    fp = filePath
-
-    rootPrim = DataStringField(readable=False)
-    rp = rootPrim
-
-    geometry = DataMeshField(multi=True, writable=False)
-    geo = geometry
-
-    matrix = DataMatrixField(multi=True, writable=False)
-    tra = matrix

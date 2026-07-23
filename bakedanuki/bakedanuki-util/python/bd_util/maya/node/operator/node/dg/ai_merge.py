@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ._generated.ai_merge import _GeneratedAiMerge
 
 
-class AiMerge(DG):
+class AiMerge(_GeneratedAiMerge):
     __slots__ = ()
 
     NODE_TYPE = "aiMerge"
-
-    out = MessageField(writable=False)
-
-    enable = BoolField(default_value=True)
-
-    inputs = MessageField(multi=True)

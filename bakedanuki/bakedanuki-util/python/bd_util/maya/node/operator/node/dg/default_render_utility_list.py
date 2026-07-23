@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.default_render_utility_list import _GeneratedDefaultRenderUtilityList
 
 
-class DefaultRenderUtilityList(DG):
+class DefaultRenderUtilityList(_GeneratedDefaultRenderUtilityList):
     __slots__ = ()
 
     NODE_TYPE = "defaultRenderUtilityList"
-
-    utilities = MessageField(multi=True, readable=False)
-    u = utilities

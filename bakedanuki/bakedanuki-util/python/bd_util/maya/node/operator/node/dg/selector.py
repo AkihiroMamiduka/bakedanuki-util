@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.selector import _GeneratedSelector
 
 
-class Selector(DG):
+class Selector(_GeneratedSelector):
     __slots__ = ()
 
     NODE_TYPE = "selector"

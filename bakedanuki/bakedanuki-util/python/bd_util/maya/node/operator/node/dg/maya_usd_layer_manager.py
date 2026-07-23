@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.maya_usd_layer_manager import LayersField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.maya_usd_layer_manager import _GeneratedMayaUsdLayerManager
 
 
-class MayaUsdLayerManager(DG):
+class MayaUsdLayerManager(_GeneratedMayaUsdLayerManager):
     __slots__ = ()
 
     NODE_TYPE = "mayaUsdLayerManager"
-
-    selectedStage = DataStringField()
-    sst = selectedStage
-
-    layers = LayersField(multi=True)
-    lyr = layers

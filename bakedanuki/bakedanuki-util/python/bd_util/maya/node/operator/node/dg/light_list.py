@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.light_list import _GeneratedLightList
 
 
-class LightList(DG):
+class LightList(_GeneratedLightList):
     __slots__ = ()
 
     NODE_TYPE = "lightList"
-
-    lights = MessageField(multi=True, readable=False)
-    l = lights

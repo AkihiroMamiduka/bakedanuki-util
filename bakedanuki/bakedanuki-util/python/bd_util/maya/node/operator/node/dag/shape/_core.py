@@ -1,6 +1,8 @@
 # coding: utf-8
-from .._core import DAG
+from ._generated.shape import _GeneratedShape
 
 
-class Shape(DAG):
+class Shape(_GeneratedShape):
     __slots__ = ()
+
+    NODE_TYPE = "shape"

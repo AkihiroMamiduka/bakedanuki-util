@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.long import LongField
+from ._generated.group_id import _GeneratedGroupId
 
 
-class GroupId(DG):
+class GroupId(_GeneratedGroupId):
     __slots__ = ()
 
     NODE_TYPE = "groupId"
-
-    groupId = LongField(default_value=0, writable=False)
-    id = groupId

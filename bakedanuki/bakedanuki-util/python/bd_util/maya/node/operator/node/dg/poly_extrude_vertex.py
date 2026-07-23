@@ -1,62 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.at.numeric_scalar_range.float import FloatField
-from ...attr.define.std.at.numeric_scalar_range.long import LongField
-from ...attr.define.std.at.typed import TypedField
-from ...attr.define.std.dt.matrix import DataMatrixField
-from ...attr.define.std.dt.mesh import DataMeshField
+from ._generated.poly_extrude_vertex import _GeneratedPolyExtrudeVertex
 
 
-class PolyExtrudeVertex(DG):
+class PolyExtrudeVertex(_GeneratedPolyExtrudeVertex):
     __slots__ = ()
 
     NODE_TYPE = "polyExtrudeVertex"
-
-    output = DataMeshField(writable=False)
-    out = output
-
-    inputPolymesh = DataMeshField()
-    ip = inputPolymesh
-
-    inMeshCache = DataMeshField()
-    imc = inMeshCache
-
-    cacheInput = LongField(default_value=0)
-    cin = cacheInput
-
-    useOldPolyArchitecture = BoolField(default_value=False)
-    uopa = useOldPolyArchitecture
-
-    vertexIdMap = BoolField(default_value=False)
-    vmap = vertexIdMap
-
-    edgeIdMap = BoolField(default_value=False)
-    emap = edgeIdMap
-
-    faceIdMap = BoolField(default_value=False)
-    fmap = faceIdMap
-
-    inputComponents = TypedField()
-    ics = inputComponents
-
-    useInputComp = BoolField(default_value=True)
-    uic = useInputComp
-
-    inputMatrix = DataMatrixField()
-    ix = inputMatrix
-
-    worldSpace = BoolField(default_value=False)
-    ws = worldSpace
-
-    manipMatrix = DataMatrixField()
-    mp = manipMatrix
-
-    length = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
-    l = length
-
-    width = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
-    w = width
-
-    divisions = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=25)
-    d = divisions

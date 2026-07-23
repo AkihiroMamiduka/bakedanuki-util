@@ -1,15 +1,12 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from importlib import import_module
+
+_GeneratedNot = import_module(
+    f"{__package__}._generated.not"
+)._GeneratedNot
 
 
-class Not(DG):
+class Not(_GeneratedNot):
     __slots__ = ()
 
     NODE_TYPE = "not"
-
-    input = BoolField(default_value=False)
-    i = input
-
-    output = BoolField(default_value=False, writable=False)
-    o = output

@@ -841,6 +841,7 @@ from .operator.node.dg.shader_glow import ShaderGlow
 from .operator.node.dg.shader_override import ShaderOverride
 from .operator.node.dg.shading_engine import ShadingEngine
 from .operator.node.dg.shading_map import ShadingMap
+from .operator.node.dag.shape._core import Shape
 from .operator.node.dg.shape_editor_manager import ShapeEditorManager
 from .operator.node.dg.shell_deformer import ShellDeformer
 from .operator.node.dg.shell_tessellate import ShellTessellate
@@ -6846,6 +6847,13 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> ShadingMap: ...
+
+    @staticmethod
+    def shape(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> Shape: ...
 
     @staticmethod
     def shapeEditorManager(

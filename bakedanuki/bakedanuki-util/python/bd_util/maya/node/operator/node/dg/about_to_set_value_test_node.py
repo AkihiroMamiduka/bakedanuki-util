@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.float import FloatField
+from ._generated.about_to_set_value_test_node import _GeneratedAboutToSetValueTestNode
 
 
-class AboutToSetValueTestNode(DG):
+class AboutToSetValueTestNode(_GeneratedAboutToSetValueTestNode):
     __slots__ = ()
 
     NODE_TYPE = "aboutToSetValueTestNode"
-
-    attribA = FloatField(default_value=2.0)
-    a = attribA
-
-    attribB = FloatField(default_value=2.0)
-    b = attribB

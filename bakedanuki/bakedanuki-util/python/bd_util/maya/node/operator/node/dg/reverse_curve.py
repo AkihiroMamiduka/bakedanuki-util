@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.dt.nurbs_curve import DataNurbsCurveField
+from ._generated.reverse_curve import _GeneratedReverseCurve
 
 
-class ReverseCurve(DG):
+class ReverseCurve(_GeneratedReverseCurve):
     __slots__ = ()
 
     NODE_TYPE = "reverseCurve"
-
-    inputCurve = DataNurbsCurveField()
-    ic = inputCurve
-
-    outputCurve = DataNurbsCurveField(writable=False)
-    oc = outputCurve

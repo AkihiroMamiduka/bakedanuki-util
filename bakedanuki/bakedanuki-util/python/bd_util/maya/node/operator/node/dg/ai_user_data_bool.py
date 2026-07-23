@@ -1,17 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.ai_user_data_bool import _GeneratedAiUserDataBool
 
 
-class AiUserDataBool(DG):
+class AiUserDataBool(_GeneratedAiUserDataBool):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataBool"
-
-    outValue = BoolField(default_value=False, writable=False)
-    out = outValue
-
-    defaultValue = BoolField(default_value=False)
-
-    boolAttrName = DataStringField()

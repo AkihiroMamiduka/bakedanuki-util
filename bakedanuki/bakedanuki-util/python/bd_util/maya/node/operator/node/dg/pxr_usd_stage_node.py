@@ -1,16 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.pxr_usd_stage_node import _GeneratedPxrUsdStageNode
 
 
-class PxrUsdStageNode(DG):
+class PxrUsdStageNode(_GeneratedPxrUsdStageNode):
     __slots__ = ()
 
     NODE_TYPE = "pxrUsdStageNode"
-
-    filePath = DataStringField()
-    fp = filePath
-
-    outUsdStage = TypedField(writable=False)
-    os = outUsdStage

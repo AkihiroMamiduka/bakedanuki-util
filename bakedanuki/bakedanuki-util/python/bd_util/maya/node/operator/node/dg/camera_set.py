@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.camera_set import CameraLayerField
+from ._generated.camera_set import _GeneratedCameraSet
 
 
-class CameraSet(DG):
+class CameraSet(_GeneratedCameraSet):
     __slots__ = ()
 
     NODE_TYPE = "cameraSet"
-
-    cameraLayer = CameraLayerField(multi=True)
-    cl = cameraLayer

@@ -15,7 +15,7 @@ def _world_matrix(maya_cmds, node: str) -> list[float]:
 
 def test_transform_uses_generated_base_class():
     from bd_util.maya.node.operator.node.dag.transform._core import Transform
-    from bd_util.maya.node.operator.node.dag.transform._generated import (
+    from bd_util.maya.node.operator.node.dag.transform._generated.transform import (
         _GeneratedTransform,
     )
 

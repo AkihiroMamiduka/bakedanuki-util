@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.greater_than import _GeneratedGreaterThan
 
 
-class GreaterThan(DG):
+class GreaterThan(_GeneratedGreaterThan):
     __slots__ = ()
 
     NODE_TYPE = "greaterThan"
-
-    input1 = DoubleLinearField(default_value=0.0)
-    i1 = input1
-
-    input2 = DoubleLinearField(default_value=0.0)
-    i2 = input2
-
-    output = BoolField(default_value=False, writable=False)
-    o = output

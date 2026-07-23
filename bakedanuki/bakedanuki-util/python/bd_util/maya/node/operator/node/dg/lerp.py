@@ -1,21 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.lerp import _GeneratedLerp
 
 
-class Lerp(DG):
+class Lerp(_GeneratedLerp):
     __slots__ = ()
 
     NODE_TYPE = "lerp"
-
-    input1 = DoubleLinearField(default_value=0.0)
-    i1 = input1
-
-    input2 = DoubleLinearField(default_value=0.0)
-    i2 = input2
-
-    weight = DoubleLinearField(default_value=0.0)
-    w = weight
-
-    output = DoubleLinearField(default_value=0.0, writable=False)
-    o = output

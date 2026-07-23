@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar_range.float import FloatField
+from ._generated.float_constant import _GeneratedFloatConstant
 
 
-class FloatConstant(DG):
+class FloatConstant(_GeneratedFloatConstant):
     __slots__ = ()
 
     NODE_TYPE = "floatConstant"
-
-    inFloat = FloatField(default_value=1.0)
-    f = inFloat
-
-    outFloat = FloatField(default_value=0.0, writable=False)
-    of = outFloat

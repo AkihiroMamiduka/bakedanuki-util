@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.max import _GeneratedMax
 
 
-class Max(DG):
+class Max(_GeneratedMax):
     __slots__ = ()
 
     NODE_TYPE = "max"
-
-    input = DoubleLinearField(multi=True, default_value=0.0)
-    i = input
-
-    output = DoubleLinearField(default_value=0.0, writable=False)
-    o = output

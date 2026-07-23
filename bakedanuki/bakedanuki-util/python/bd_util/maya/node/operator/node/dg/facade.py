@@ -1,28 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.facade import _GeneratedFacade
 
 
-class Facade(DG):
+class Facade(_GeneratedFacade):
     __slots__ = ()
 
     NODE_TYPE = "facade"
-
-    sharedLibName = DataStringField()
-    sln = sharedLibName
-
-    connection = MessageField()
-    c = connection
-
-    uiName = DataStringField()
-    uin = uiName
-
-    keyWords = DataStringField()
-    kwds = keyWords
-
-    uiScript = DataStringField()
-    uis = uiScript
-
-    uniqueID = DataStringField()
-    uid = uniqueID

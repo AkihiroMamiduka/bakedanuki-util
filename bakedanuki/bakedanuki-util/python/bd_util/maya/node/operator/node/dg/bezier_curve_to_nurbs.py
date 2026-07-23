@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.dt.nurbs_curve import DataNurbsCurveField
+from ._generated.bezier_curve_to_nurbs import _GeneratedBezierCurveToNurbs
 
 
-class BezierCurveToNurbs(DG):
+class BezierCurveToNurbs(_GeneratedBezierCurveToNurbs):
     __slots__ = ()
 
     NODE_TYPE = "bezierCurveToNurbs"
-
-    inputCurve = DataNurbsCurveField()
-    ic = inputCurve
-
-    outputCurve = DataNurbsCurveField(writable=False)
-    oc = outputCurve

@@ -1,26 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.at.numeric_scalar_range.long import LongField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.custom_rig_retargeter_node import _GeneratedCustomRigRetargeterNode
 
 
-class CustomRigRetargeterNode(DG):
+class CustomRigRetargeterNode(_GeneratedCustomRigRetargeterNode):
     __slots__ = ()
 
     NODE_TYPE = "CustomRigRetargeterNode"
-
-    connected = LongField(default_value=0)
-    c = connected
-
-    source = MessageField()
-    s = source
-
-    destination = MessageField()
-    d = destination
-
-    mappings = MessageField(multi=True)
-    ms = mappings
-
-    pythonVar = DataStringField()
-    pv = pythonVar

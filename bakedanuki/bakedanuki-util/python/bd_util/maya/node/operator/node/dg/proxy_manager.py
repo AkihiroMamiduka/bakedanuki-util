@@ -1,18 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.proxy_manager import _GeneratedProxyManager
 
 
-class ProxyManager(DG):
+class ProxyManager(_GeneratedProxyManager):
     __slots__ = ()
 
     NODE_TYPE = "proxyManager"
-
-    proxyList = MessageField(multi=True)
-    plst = proxyList
-
-    activeProxy = MessageField()
-    aprx = activeProxy
-
-    sharedEditsOwner = MessageField()
-    psed = sharedEditsOwner

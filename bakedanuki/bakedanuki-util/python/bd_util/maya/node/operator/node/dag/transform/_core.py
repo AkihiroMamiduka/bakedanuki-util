@@ -4,7 +4,7 @@ from typing import Self
 from maya.api import OpenMaya as om
 
 from .._core import DAG
-from ._generated import _GeneratedTransform
+from ._generated.transform import _GeneratedTransform
 
 
 class Transform(_GeneratedTransform):

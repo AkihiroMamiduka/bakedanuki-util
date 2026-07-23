@@ -1,62 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.enum import (
-    EnumAttrOperator,
-    EnumPlugOperator,
-    EnumField,
-)
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.ai_disable import _GeneratedAiDisable
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
-    __slots__ = ()
-
-    DISABLE = 0
-    ENABLE = 1
-
-
-class ModeEnumAttrOperator(EnumAttrOperator):
-    __slots__ = ()
-
-    DISABLE = 0
-    ENABLE = 1
-
-    NAME_MAP = {
-        DISABLE: "disable",
-        ENABLE: "enable",
-    }
-
-
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ModeEnumAttrOperator
-    PLUG_CLS = ModeEnumPlugOperator
-
-
-class AiDisable(DG):
+class AiDisable(_GeneratedAiDisable):
     __slots__ = ()
 
     NODE_TYPE = "aiDisable"
-
-    out = MessageField(writable=False)
-
-    enable = BoolField(default_value=True)
-
-    inputs = MessageField(multi=True)
-
-    selection = DataStringField()
-
-    mode = ModeEnumField(default_value=0)
-
-    shapes = BoolField(default_value=True)
-
-    lights = BoolField(default_value=True)
-
-    shaders = BoolField(default_value=True)
-
-    operators = BoolField(default_value=True)

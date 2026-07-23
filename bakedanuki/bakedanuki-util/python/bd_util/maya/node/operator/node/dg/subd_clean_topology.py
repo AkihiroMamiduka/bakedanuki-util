@@ -1,21 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
+from ._generated.subd_clean_topology import _GeneratedSubdCleanTopology
 
 
-class SubdCleanTopology(DG):
+class SubdCleanTopology(_GeneratedSubdCleanTopology):
     __slots__ = ()
 
     NODE_TYPE = "subdCleanTopology"
-
-    outSubdiv = TypedField(writable=False)
-    os = outSubdiv
-
-    inSubdiv = TypedField()
-    is_ = inSubdiv
-
-    cachedSubdiv = TypedField()
-    ic = cachedSubdiv
-
-    inputComponents = TypedField()
-    ics = inputComponents

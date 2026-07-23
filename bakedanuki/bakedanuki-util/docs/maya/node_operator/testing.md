@@ -71,7 +71,7 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 ### 開発用 generator
 
 - `tests/dev/maya/node/operator/node/test_generate.py`
-  - AttributeField と NodeOperator の生成内容、安全でない nodeType の除外を検証します。
+  - AttributeField と非公開の生成 NodeOperator、公開 wrapper の生成・保護、安全でない nodeType の除外を検証します。
 - `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
   - `nodes.create` / `nodes.existing` の型情報を公開する stub の生成結果を検証します。
 

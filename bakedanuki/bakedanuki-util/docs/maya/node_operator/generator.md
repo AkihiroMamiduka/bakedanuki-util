@@ -7,9 +7,11 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 
 主な目的は、Maya 標準 DG / DAG ノードを `NodeOperator` として扱える形へ機械的に変換することです。
 
-- Maya の node type から `DG` / `DAG` / `Transform` / `Shape` 継承 class を生成する。
+- Maya の node type から、`DG` / `DAG` / `Transform` / `Shape` を継承する非公開の生成 class を作る。
+- 従来の公開 module path には、生成 class を継承する手書き可能な公開 wrapper を置く。
 - compound attribute が必要な場合は `attr.define.node_attr` 側に専用 Field / AttrOperator / PlugOperator を生成する。
-- 生成後の差分を git で確認し、手書き実装との差分や未対応型を炙り出す。
+- 再生成時は生成 class だけを上書きし、公開 wrapper の手書き実装を保護する。
+- 生成後の差分を git で確認し、attribute 差分や未対応型を炙り出す。
 - 生成できない attribute は TODO コメントとして残し、後続対応しやすくする。
 
 ## 入力
@@ -43,27 +45,53 @@ Generator は Maya の node type と attribute query 結果から、`NodeOperato
 
 ## 出力
 
-`generate_node_class_file(node_type, src_dir)` は、`src_dir` 以下に次のファイルを生成します。
+`generate_node_class_file(node_type, src_dir)` は、`src_dir` 以下の node kind ごとの
+`_generated` package に生成 class を出力します。
+
+```text
+bd_util/maya/node/operator/node/dg/_generated/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/_generated/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/transform/_generated/<node_type_snake>.py
+bd_util/maya/node/operator/node/dag/shape/_generated/<node_type_snake>.py
+```
+
+生成 class は `_GeneratedComposeMatrix` / `_GeneratedJoint` のような非公開名を持ち、
+node kind に応じた基底 class を継承します。
+
+```python
+class _GeneratedComposeMatrix(DG):
+    ...
+```
+
+従来の公開 module path には、生成 class を継承する公開 wrapper を置きます。
+公開 wrapper が存在しない場合は Generator が初期形を作成しますが、既存ファイルは
+再生成時に上書きしません。
 
 ```text
 bd_util/maya/node/operator/node/dg/<node_type_snake>.py
 bd_util/maya/node/operator/node/dag/<node_type_snake>.py
 bd_util/maya/node/operator/node/dag/transform/<node_type_snake>.py
 bd_util/maya/node/operator/node/dag/shape/<node_type_snake>.py
-bd_util/maya/node/operator/attr/define/node_attr/<node_type_snake>.py
 ```
 
-`transform` 本体は transform 派生 node の基底でもあるため、`node_kind="transform"` で生成する場合だけ次の特殊な出力先になります。
+```python
+from ._generated.compose_matrix import _GeneratedComposeMatrix
+
+
+class ComposeMatrix(_GeneratedComposeMatrix):
+    __slots__ = ()
+
+    NODE_TYPE = "composeMatrix"
+```
+
+`transform` / `shape` 本体の公開 class は、それぞれ既存の `_core.py` に維持します。
 
 ```text
-bd_util/maya/node/operator/node/dag/transform/_generated.py
+bd_util/maya/node/operator/node/dag/transform/_generated/transform.py
+bd_util/maya/node/operator/node/dag/transform/_core.py
+bd_util/maya/node/operator/node/dag/shape/_generated/shape.py
+bd_util/maya/node/operator/node/dag/shape/_core.py
 ```
-
-このファイルには、標準 attribute を持つ `_GeneratedTransform(DAG)` を生成します。
-手書きの `dag/transform/_core.py` は上書きせず、公開 `Transform` は
-`_GeneratedTransform` を継承して Transform 固有の操作 API を定義します。
-
-`shape` 本体は今回の分離対象に含めず、従来どおり `dag/shape/_core.py` へ出力します。
 
 `node_attr` 側のファイルは、compound attribute 用の専用 class が必要な場合に出力されます。
 単純な scalar / typed / enum attribute だけで構成できる場合は、node class 側だけで完結します。
@@ -82,18 +110,21 @@ generate_node_class_file("transform", path, node_kind="transform")
 指定できる値は次の通りです。
 
 - `dg`
-  - `node/dg` に出力し、`DG` を継承します。
+  - `node/dg/_generated` に `_Generated<NodeClass>(DG)` を出力します。
+  - 公開 wrapper は従来どおり `node/dg/<node_type_snake>.py` に置きます。
 - `dag`
-  - `node/dag` に出力し、`DAG` を継承します。
+  - `node/dag/_generated` に `_Generated<NodeClass>(DAG)` を出力します。
+  - 公開 wrapper は従来どおり `node/dag/<node_type_snake>.py` に置きます。
 - `transform`
-  - `node/dag/transform` に出力し、`Transform` を継承します。
-  - `node_type == "transform"` の場合は `_generated.py` に `_GeneratedTransform(DAG)` を出力します。
+  - `node/dag/transform/_generated` に、通常は `_Generated<NodeClass>(Transform)` を出力します。
+  - `node_type == "transform"` の場合は `transform.py` に `_GeneratedTransform(DAG)` を出力します。
   - 手書きの `_core.py` にある公開 `Transform` は `_GeneratedTransform` を継承します。
   - `joint` など transform 派生 node では、`transform` で定義済みの attribute は生成しません。
     これにより、派生 class には固有 attribute だけが出力され、共通 attribute は `Transform` から継承されます。
 - `shape`
-  - `node/dag/shape` に出力し、`Shape` を継承します。
-  - `node_type == "shape"` の場合は `_core.py` に出力し、`DAG` を継承します。
+  - `node/dag/shape/_generated` に、通常は `_Generated<NodeClass>(Shape)` を出力します。
+  - `node_type == "shape"` の場合は `shape.py` に `_GeneratedShape(DAG)` を出力します。
+  - 手書きの `_core.py` にある公開 `Shape` は `_GeneratedShape` を継承します。
 - `auto`
   - Maya の `cmds.nodeType(..., inherited=True, isTypeName=True)` を使い、transform / shape / DAG / DG を自動判定します。
 
@@ -482,8 +513,8 @@ Python キーワードと module 名が衝突する `and` / `or` / `not` は、`
 
 ## 現状の注意点
 
-- `generate_test/python` は生成結果確認用の snapshot です。後で削除予定ですが、現状は generator 差分確認のため git 管理しています。
 - `attributeType=None, dataType=None` の attribute はまだ自動解決できません。
 - DAG / shape 系では DG では目立たなかった attribute type が出る場合があります。未対応型は TODO として残し、型定義を追加してから再生成します。
 - 生成後は必ず git diff を確認します。
-- 既存手書き class を上書きする場合は、生成差分が意味的に一致しているか確認します。
+- `_generated` package 以下は再生成時に上書きされるため、手書きコードを追加しません。
+- 公開 wrapper は Generator が上書きしません。ノード固有のメソッドは公開 wrapper 側へ追加します。

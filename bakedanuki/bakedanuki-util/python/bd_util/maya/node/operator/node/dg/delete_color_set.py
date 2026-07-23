@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.typed import TypedField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.delete_color_set import _GeneratedDeleteColorSet
 
 
-class DeleteColorSet(DG):
+class DeleteColorSet(_GeneratedDeleteColorSet):
     __slots__ = ()
 
     NODE_TYPE = "deleteColorSet"
-
-    inputGeometry = TypedField()
-    ig = inputGeometry
-
-    outputGeometry = TypedField()
-    og = outputGeometry
-
-    colorSetName = DataStringField()
-    cols = colorSetName

@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.edit_metadata import EditsField
-from ...attr.define.std.at.typed import TypedField
+from ._generated.edit_metadata import _GeneratedEditMetadata
 
 
-class EditMetadata(DG):
+class EditMetadata(_GeneratedEditMetadata):
     __slots__ = ()
 
     NODE_TYPE = "editMetadata"
-
-    inData = TypedField()
-    id = inData
-
-    outData = TypedField(writable=False)
-    od = outData
-
-    edits = EditsField(multi=True)
-    e = edits

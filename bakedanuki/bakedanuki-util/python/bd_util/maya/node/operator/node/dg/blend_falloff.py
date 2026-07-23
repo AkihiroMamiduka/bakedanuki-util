@@ -1,20 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.blend_falloff import TargetField
-from ...attr.define.std.at.numeric_scalar_range.float import FloatField
-from ...attr.define.std.at.typed import TypedField
+from ._generated.blend_falloff import _GeneratedBlendFalloff
 
 
-class BlendFalloff(DG):
+class BlendFalloff(_GeneratedBlendFalloff):
     __slots__ = ()
 
     NODE_TYPE = "blendFalloff"
-
-    baseWeight = FloatField(default_value=1.0)
-    env = baseWeight
-
-    target = TargetField(multi=True)
-    tgt = target
-
-    outputWeightFunction = TypedField(writable=False)
-    wft = outputWeightFunction

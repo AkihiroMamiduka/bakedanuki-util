@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.truncate import _GeneratedTruncate
 
 
-class Truncate(DG):
+class Truncate(_GeneratedTruncate):
     __slots__ = ()
 
     NODE_TYPE = "truncate"
-
-    input = DoubleLinearField(default_value=0.0)
-    i = input
-
-    output = DoubleLinearField(default_value=0.0, writable=False)
-    o = output

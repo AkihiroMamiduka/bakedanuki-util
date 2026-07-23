@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ._generated.negate import _GeneratedNegate
 
 
-class Negate(DG):
+class Negate(_GeneratedNegate):
     __slots__ = ()
 
     NODE_TYPE = "negate"
-
-    input = DoubleLinearField(default_value=0.0)
-    i = input
-
-    output = DoubleLinearField(default_value=0.0, writable=False)
-    o = output

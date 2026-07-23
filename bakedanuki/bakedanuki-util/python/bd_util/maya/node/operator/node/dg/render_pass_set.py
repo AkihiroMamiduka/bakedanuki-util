@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
+from ._generated.render_pass_set import _GeneratedRenderPassSet
 
 
-class RenderPassSet(DG):
+class RenderPassSet(_GeneratedRenderPassSet):
     __slots__ = ()
 
     NODE_TYPE = "renderPassSet"
-
-    owner = MessageField(multi=True, readable=False)
-    ow = owner
-
-    renderable = BoolField(default_value=True)
-    r = renderable
-
-    renderPass = MessageField(writable=False)
-    rps = renderPass

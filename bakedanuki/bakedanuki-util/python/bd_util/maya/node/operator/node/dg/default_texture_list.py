@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.default_texture_list import _GeneratedDefaultTextureList
 
 
-class DefaultTextureList(DG):
+class DefaultTextureList(_GeneratedDefaultTextureList):
     __slots__ = ()
 
     NODE_TYPE = "defaultTextureList"
-
-    textures = MessageField(multi=True, readable=False)
-    tx = textures

@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.matrix import MatrixField
+from ._generated.hold_matrix import _GeneratedHoldMatrix
 
 
-class HoldMatrix(DG):
+class HoldMatrix(_GeneratedHoldMatrix):
     __slots__ = ()
 
     NODE_TYPE = "holdMatrix"
-
-    inMatrix = MatrixField()
-    i = inMatrix
-
-    outMatrix = MatrixField()
-    o = outMatrix

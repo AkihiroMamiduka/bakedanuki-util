@@ -1,28 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.node_attr.hierarchy_test_node4 import (
-    KitAField,
-    KitBField,
-    PntsField,
-)
-from ...attr.define.std.at.numeric_scalar_range.float import FloatField
+from ._generated.hierarchy_test_node4 import _GeneratedHierarchyTestNode4
 
 
-class HierarchyTestNode4(DG):
+class HierarchyTestNode4(_GeneratedHierarchyTestNode4):
     __slots__ = ()
 
     NODE_TYPE = "hierarchyTestNode4"
-
-    envelope = FloatField(default_value=0.0, long_name=".envelope", short_name=".en")
-
-    pnts = PntsField(multi=True, default_value=(1.0, 1.0, 1.0), long_name=".pnts", short_name=".pt")
-
-    kitA = KitAField()
-    ka = kitA
-    envelope = kitA.envelope
-    pnts = kitA.pnts
-
-    kitB = KitBField()
-    kb = kitB
-    envelope = kitB.envelope
-    pnts = kitB.pnts

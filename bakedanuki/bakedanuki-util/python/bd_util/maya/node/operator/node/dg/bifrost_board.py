@@ -1,21 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.dt.string import DataStringField
+from ._generated.bifrost_board import _GeneratedBifrostBoard
 
 
-class BifrostBoard(DG):
+class BifrostBoard(_GeneratedBifrostBoard):
     __slots__ = ()
 
     NODE_TYPE = "bifrostBoard"
-
-    saveContainerToJSON = DataStringField()
-    sc = saveContainerToJSON
-
-    runOnDemand = BoolField(default_value=False, readable=False)
-    rod = runOnDemand
-
-    resumableAfterEsc = BoolField(default_value=False, readable=False)
-    rae = resumableAfterEsc
-
-    dirtyFlag = BoolField(default_value=False, readable=False)

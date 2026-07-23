@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.post_process_list import _GeneratedPostProcessList
 
 
-class PostProcessList(DG):
+class PostProcessList(_GeneratedPostProcessList):
     __slots__ = ()
 
     NODE_TYPE = "postProcessList"
-
-    postProcesses = MessageField(multi=True, readable=False)
-    p = postProcesses

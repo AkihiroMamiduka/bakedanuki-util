@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.r_scontainer import _GeneratedRScontainer
 
 
-class RScontainer(DG):
+class RScontainer(_GeneratedRScontainer):
     __slots__ = ()
 
     NODE_TYPE = "RScontainer"

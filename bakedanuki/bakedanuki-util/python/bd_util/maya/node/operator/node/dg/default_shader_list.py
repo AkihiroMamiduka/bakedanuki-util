@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.default_shader_list import _GeneratedDefaultShaderList
 
 
-class DefaultShaderList(DG):
+class DefaultShaderList(_GeneratedDefaultShaderList):
     __slots__ = ()
 
     NODE_TYPE = "defaultShaderList"
-
-    shaders = MessageField(multi=True, readable=False)
-    s = shaders

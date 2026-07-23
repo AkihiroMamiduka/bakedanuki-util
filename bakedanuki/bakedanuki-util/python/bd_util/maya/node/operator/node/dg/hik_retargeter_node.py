@@ -1,27 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.matrix import MatrixField
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.at.typed import TypedField
+from ._generated.hik_retargeter_node import _GeneratedHIKRetargeterNode
 
 
-class HIKRetargeterNode(DG):
+class HIKRetargeterNode(_GeneratedHIKRetargeterNode):
     __slots__ = ()
 
     NODE_TYPE = "HIKRetargeterNode"
-
-    SNS = BoolField(default_value=False)
-
-    referenceGX = MatrixField()
-
-    InputCharacterDefinitionSrc = TypedField()
-
-    InputCharacterDefinitionDst = TypedField()
-
-    InputCharacterState = TypedField()
-
-    InputSrcPropertySetState = TypedField()
-
-    InputDstPropertySetState = TypedField()
-
-    OutputCharacterState = TypedField()

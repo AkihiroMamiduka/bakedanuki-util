@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._core import DG
+from ._generated.unknown import _GeneratedUnknown
 
 
-class Unknown(DG):
+class Unknown(_GeneratedUnknown):
     __slots__ = ()
 
     NODE_TYPE = "unknown"

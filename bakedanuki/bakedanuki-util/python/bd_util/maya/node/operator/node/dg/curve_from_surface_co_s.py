@@ -1,30 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.numeric_scalar.bool import BoolField
-from ...attr.define.std.at.numeric_scalar_range.double import DoubleField
-from ...attr.define.std.dt.nurbs_curve import DataNurbsCurveField
-from ...attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
+from ._generated.curve_from_surface_co_s import _GeneratedCurveFromSurfaceCoS
 
 
-class CurveFromSurfaceCoS(DG):
+class CurveFromSurfaceCoS(_GeneratedCurveFromSurfaceCoS):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSurfaceCoS"
-
-    inputSurface = DataNurbsSurfaceField()
-    is_ = inputSurface
-
-    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
-    min = minValue
-
-    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
-    max = maxValue
-
-    relative = BoolField(default_value=False)
-    r = relative
-
-    outputCurve = DataNurbsCurveField(writable=False)
-    oc = outputCurve
-
-    curveOnSurface = DataNurbsCurveField()
-    cos = curveOnSurface

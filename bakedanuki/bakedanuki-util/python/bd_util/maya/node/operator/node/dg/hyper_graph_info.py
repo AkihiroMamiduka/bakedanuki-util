@@ -1,12 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.hyper_graph_info import _GeneratedHyperGraphInfo
 
 
-class HyperGraphInfo(DG):
+class HyperGraphInfo(_GeneratedHyperGraphInfo):
     __slots__ = ()
 
     NODE_TYPE = "hyperGraphInfo"
-
-    bookmarks = MessageField(multi=True)
-    b = bookmarks

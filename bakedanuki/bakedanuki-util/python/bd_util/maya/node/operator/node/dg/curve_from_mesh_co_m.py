@@ -1,19 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.dt.mesh import DataMeshField
-from ...attr.define.std.dt.nurbs_curve import DataNurbsCurveField
+from ._generated.curve_from_mesh_co_m import _GeneratedCurveFromMeshCoM
 
 
-class CurveFromMeshCoM(DG):
+class CurveFromMeshCoM(_GeneratedCurveFromMeshCoM):
     __slots__ = ()
 
     NODE_TYPE = "curveFromMeshCoM"
-
-    inputMesh = DataMeshField()
-    im = inputMesh
-
-    outputCurve = DataNurbsCurveField(writable=False)
-    oc = outputCurve
-
-    curveOnMesh = DataNurbsCurveField()
-    com = curveOnMesh

@@ -1,15 +1,8 @@
 # coding: utf-8
-from ._core import DG
-from ...attr.define.std.at.message import MessageField
+from ._generated.network import _GeneratedNetwork
 
 
-class Network(DG):
+class Network(_GeneratedNetwork):
     __slots__ = ()
 
     NODE_TYPE = "network"
-
-    affects = MessageField(multi=True, writable=False)
-    a = affects
-
-    affectedBy = MessageField(multi=True)
-    ab = affectedBy

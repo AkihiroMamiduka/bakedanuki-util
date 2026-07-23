@@ -3,10 +3,9 @@
 Maya ノードの attributeQuery 情報をもとに、Node Operator クラスの
 Python ファイルを生成するモジュール。
 
-生成されるファイルは ``bd_util.maya.node.operator.node.dg`` または
-``bd_util.maya.node.operator.node.dag`` 以下に配置し、既存の
-``AddDoubleLinear`` / ``PlusMinusAverage`` / ``WtAddMatrix`` と同じ
-スタイルで利用できることを想定している。
+生成される attribute 定義は node kind ごとの ``_generated`` package
+以下に配置する。公開 module は従来のパスに維持し、生成 class を継承する
+手書き可能な wrapper として扱う。
 
 使用例::
 
@@ -17,19 +16,26 @@ Python ファイルを生成するモジュール。
         node_type="multiplyDivide",
         src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
     )
-    # → C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/multiply_divide.py
+    # generated:
+    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/_generated/multiply_divide.py
+    # public:
+    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dg/multiply_divide.py
 
     generate_node_class_file(
         node_type="joint",
         src_dir=r"C:/path/bakedanuki/bakedanuki-util/python",
         node_kind="transform",
     )
-    # → C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/joint.py
+    # generated:
+    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/_generated/joint.py
+    # public:
+    # C:/path/bakedanuki/bakedanuki-util/python/bd_util/maya/node/operator/node/dag/transform/joint.py
 """
 
 from __future__ import annotations
 
 import keyword
+import math
 import pathlib
 import re
 
@@ -551,9 +557,7 @@ def _node_type_to_class_name(node_type: str) -> str:
 
 
 def _node_kind_class_name(node_type: str, node_kind: str) -> str:
-    if node_kind == _NODE_KIND_TRANSFORM and node_type == "transform":
-        return "_GeneratedTransform"
-    return _node_type_to_class_name(node_type)
+    return f"_Generated{_node_type_to_class_name(node_type)}"
 
 
 def _camel_to_snake(name: str) -> str:
@@ -623,25 +627,25 @@ def _node_kind_base_class_name(node_type: str, node_kind: str) -> str:
 
 def _node_kind_base_import_line(node_type: str, node_kind: str) -> str:
     if node_kind == _NODE_KIND_DG:
-        return "from ._core import DG"
+        return "from .._core import DG"
     if node_kind == _NODE_KIND_DAG:
-        return "from ._core import DAG"
+        return "from .._core import DAG"
     if node_kind == _NODE_KIND_TRANSFORM:
         if node_type == "transform":
-            return "from .._core import DAG"
-        return "from ._core import Transform"
+            return "from ..._core import DAG"
+        return "from .._core import Transform"
     if node_kind == _NODE_KIND_SHAPE:
         if node_type == "shape":
-            return "from .._core import DAG"
-        return "from ._core import Shape"
+            return "from ..._core import DAG"
+        return "from .._core import Shape"
     raise ValueError(f"Unsupported node kind: {node_kind}")
 
 
 def _node_kind_attr_import_prefix(node_kind: str) -> str:
     if node_kind in {_NODE_KIND_TRANSFORM, _NODE_KIND_SHAPE}:
-        return "....attr"
+        return ".....attr"
     if node_kind in {_NODE_KIND_DG, _NODE_KIND_DAG}:
-        return "...attr"
+        return "....attr"
     raise ValueError(f"Unsupported node kind: {node_kind}")
 
 
@@ -657,12 +661,57 @@ def _node_kind_output_rel_parts(node_kind: str) -> tuple[str, ...]:
     raise ValueError(f"Unsupported node kind: {node_kind}")
 
 
-def _node_kind_output_file_name(node_type: str, node_kind: str) -> str:
+def _node_kind_public_output_file_name(
+    node_type: str,
+    node_kind: str,
+) -> str:
     if node_kind == _NODE_KIND_TRANSFORM and node_type == "transform":
-        return "_generated.py"
+        return "_core.py"
     if node_kind == _NODE_KIND_SHAPE and node_type == "shape":
         return "_core.py"
     return _node_type_to_file_name(node_type)
+
+
+def _generated_package_parts(node_kind: str) -> tuple[str, ...]:
+    return (*_node_kind_output_rel_parts(node_kind), "_generated")
+
+
+def _generate_public_node_class_code(
+    node_type: str,
+    node_kind: str,
+) -> str:
+    class_name = _node_type_to_class_name(node_type)
+    generated_class_name = _node_kind_class_name(node_type, node_kind)
+    module_name = _camel_to_snake(node_type)
+
+    if keyword.iskeyword(module_name):
+        import_lines = [
+            "from importlib import import_module",
+            "",
+            f"{generated_class_name} = import_module(",
+            f'    f"{{__package__}}._generated.{module_name}"',
+            f").{generated_class_name}",
+        ]
+    else:
+        import_lines = [
+            "from ._generated.{} import {}".format(
+                module_name,
+                generated_class_name,
+            )
+        ]
+
+    lines = [
+        "# coding: utf-8",
+        *import_lines,
+        "",
+        "",
+        f"class {class_name}({generated_class_name}):",
+        "    __slots__ = ()",
+        "",
+        f'    NODE_TYPE = "{node_type}"',
+        "",
+    ]
+    return "\n".join(lines)
 
 
 def _node_kind_inherited_node_type(
@@ -912,6 +961,20 @@ def _field_arg_literal(value) -> str:
     if isinstance(value, str):
         escaped = value.replace("\\", "\\\\").replace('"', '\\"')
         return f'"{escaped}"'
+    if isinstance(value, float):
+        if math.isnan(value):
+            return 'float("nan")'
+        if math.isinf(value):
+            sign = "-" if value < 0 else ""
+            return f'{sign}float("inf")'
+    if isinstance(value, tuple):
+        items = ", ".join(_field_arg_literal(item) for item in value)
+        if len(value) == 1:
+            items += ","
+        return f"({items})"
+    if isinstance(value, list):
+        items = ", ".join(_field_arg_literal(item) for item in value)
+        return f"[{items}]"
     return repr(value)
 
 
@@ -1596,8 +1659,9 @@ def generate_node_class_code(
 ) -> str:
     """Maya ノードタイプの属性情報をもとに Node Operator クラスの Python コードを生成する。
 
-    生成されるコードは ``node_kind`` に応じた node package 以下に配置する
-    ことを想定した相対インポートを使用する。
+    生成されるコードは ``node_kind`` に応じた node package の
+    ``_generated`` package 以下に配置することを想定した相対インポートを
+    使用する。
 
     Args:
         node_type (str): Maya ノードタイプ名 (例: ``"addDoubleLinear"``)
@@ -1869,13 +1933,19 @@ def generate_node_class_file(
     compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) が存在する場合は、
     node_attr ファイルも同時に生成する。
 
-    出力先::
+    生成 class の出力先::
 
-        {src_dir}/bd_util/maya/node/operator/node/dg/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/transform/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/node/dag/shape/{snake_case_node_type}.py
-        {src_dir}/bd_util/maya/node/operator/attr/define/node_attr/{snake_case_node_type}.py  (compound アトリビュートがある場合のみ)
+        {src_dir}/bd_util/maya/node/operator/node/dg/_generated/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/_generated/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/transform/_generated/{snake_case_node_type}.py
+        {src_dir}/bd_util/maya/node/operator/node/dag/shape/_generated/{snake_case_node_type}.py
+
+    公開 wrapper は従来の node module path に、存在しない場合だけ作成する。
+    既存 wrapper は手書きコードを保護するため上書きしない。
+
+    compound attribute がある場合は、従来どおり次へ出力する::
+
+        {src_dir}/bd_util/maya/node/operator/attr/define/node_attr/{snake_case_node_type}.py
 
     Args:
         node_type (str): Maya ノードタイプ名 (例: ``"multiplyDivide"``)
@@ -1943,13 +2013,41 @@ def generate_node_class_file(
             f"Generated code for node type '{node_type}' is empty. Skipping file generation."
         )
         return
-    output_path = (
+    generated_package_path = pathlib.Path(src_dir).joinpath(
+        *_generated_package_parts(resolved_node_kind)
+    )
+    generated_package_path.mkdir(parents=True, exist_ok=True)
+    generated_package_init_path = generated_package_path / "__init__.py"
+    if not generated_package_init_path.exists():
+        generated_package_init_path.write_text(
+            "# coding: utf-8\n",
+            encoding="utf-8",
+        )
+
+    output_path = generated_package_path.joinpath(
+        _node_type_to_file_name(node_type)
+    )
+    output_path.write_text(code, encoding="utf-8")
+
+    public_output_path = (
         pathlib.Path(src_dir)
         .joinpath(*_node_kind_output_rel_parts(resolved_node_kind))
-        .joinpath(_node_kind_output_file_name(node_type, resolved_node_kind))
+        .joinpath(
+            _node_kind_public_output_file_name(
+                node_type,
+                resolved_node_kind,
+            )
+        )
     )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(code, encoding="utf-8")
+    if not public_output_path.exists():
+        public_output_path.parent.mkdir(parents=True, exist_ok=True)
+        public_output_path.write_text(
+            _generate_public_node_class_code(
+                node_type,
+                resolved_node_kind,
+            ),
+            encoding="utf-8",
+        )
 
 
 #   node_type ごとのファイル生成
