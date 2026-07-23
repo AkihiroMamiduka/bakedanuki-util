@@ -20,6 +20,20 @@ def test_transform_stub_uses_public_manual_class():
     assert transform.module_name.endswith(".dag.transform._core")
 
 
+def test_shape_stub_excludes_abstract_base_class():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node.generate_existing_node_stub import (
+        collect_node_definitions,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = collect_node_definitions(python_root)
+
+    assert all(
+        definition.node_type != "shape" for definition in definitions
+    )
+
+
 def test_existing_node_stub_matches_generated_code():
     import bd_util
     from bd_util._dev.maya.node.operator.node.generate_existing_node_stub import (

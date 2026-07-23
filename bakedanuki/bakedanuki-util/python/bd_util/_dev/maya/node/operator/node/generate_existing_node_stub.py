@@ -8,6 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+_ABSTRACT_NODE_TYPES = frozenset({"shape"})
+
+
 @dataclass(frozen=True)
 class NodeDefinition:
     method_name: str
@@ -56,6 +59,8 @@ def _find_node_definition(
                 continue
 
             node_type = value.value
+            if node_type in _ABSTRACT_NODE_TYPES:
+                continue
             method_name = (
                 f"{node_type}_" if keyword.iskeyword(node_type) else node_type
             )

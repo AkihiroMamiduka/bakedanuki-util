@@ -502,6 +502,10 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 新しい NodeOperator class を追加または再生成した場合は、両方のstubも再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
 
+公開基底クラスの `Shape` は、具体的な Maya node type ではありません。
+そのため `Shape` クラス自体は継承用に維持しますが、実ノードを型別に包めない
+`nodes.existing.shape()` / `ExistingNode.shape()` は補完 stub の生成対象から除外します。
+
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。
 
