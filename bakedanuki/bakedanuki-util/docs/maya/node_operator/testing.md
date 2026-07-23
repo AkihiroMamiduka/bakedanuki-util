@@ -78,6 +78,26 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 `mayapy.exe -m pytest tests` では、上記の Maya 実行テストと開発用 generator
 テストをまとめて実行します。
 
+## MtoA 由来の warning
+
+`tests/maya/attr/test_query.py` では、`aiAreaLight` の attribute 情報を検証するため
+`mtoa` plugin を読み込みます。
+
+Maya 2025 付属の MtoA は、読み込み時に正規表現文字列の
+`invalid escape sequence` と、Python の旧 import API である
+`find_module()` / `find_loader()` / `load_module()` の
+`DeprecationWarning` を出力します。
+
+これらは `bd_util` ではなく MtoA 内部から発生するため、MtoA を読み込む
+`test_get_attribute_infos_handles_attrs_without_open_maya_plug` だけに
+`pytest.mark.filterwarnings` を指定して抑制します。
+
+`pytest.ini` で `DeprecationWarning` 全体を無効化すると、`bd_util` 自身の
+非推奨 API を見落とす可能性があるため、外部 package 由来と確認できた warning
+だけを test 単位で抑制します。
+
+Maya / MtoA の更新により警告が解消された場合は、この filter の削除を検討します。
+
 ## pytest 化の方針
 
 pytest 側では、ログ出力ではなく assert で仕様を固定します。

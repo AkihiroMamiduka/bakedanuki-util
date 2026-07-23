@@ -77,6 +77,12 @@ def test_get_attribute_info_falls_back_to_mfn_light_data_child_type(
     assert info.data_type is None
 
 
+@pytest.mark.filterwarnings(
+    r"ignore:invalid escape sequence.*:DeprecationWarning",
+    r"ignore:find_module\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:FileFinder\.find_loader\(\) is deprecated.*:DeprecationWarning",
+    r"ignore:the load_module\(\) method is deprecated.*:DeprecationWarning",
+)
 def test_get_attribute_infos_handles_attrs_without_open_maya_plug(
     new_scene,
     maya_cmds,
