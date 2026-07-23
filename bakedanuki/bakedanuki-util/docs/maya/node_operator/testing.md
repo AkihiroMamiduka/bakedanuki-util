@@ -25,13 +25,58 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 
 ## 現在の pytest 対象
 
-主なテストは次の通りです。
+`tests` 以下では、公開 API、NodeOperator、matrix 操作、開発用 generator を
+次のように分けて検証しています。
 
+### 公開 node API と modifier
+
+- `tests/maya/node/test_nodes.py`
+  - `Nodes` の公開範囲、`nodes.create` / `nodes.existing` の共有状態を検証します。
+- `tests/maya/node/test_existing_node.py`
+  - 既存 DG / DAG / shape node の自動判定と型別アクセスを検証します。
+- `tests/maya/node/creator/test_node_creator.py`
+  - node 作成、nodeType 解決、補完用 node 名を検証します。
 - `tests/maya/node/modifier/test_modifier_manager.py`
+  - DG / DAG modifier の実行履歴と undo / redo を検証します。
+
+### Attribute と Plug
+
+- `tests/maya/attr/test_query.py`
+  - Maya attribute 情報の取得と fallback を検証します。
 - `tests/maya/node/operator/attr/test_extra_attr.py`
+  - extra attribute の追加、型解決、値設定を検証します。
 - `tests/maya/node/operator/attr/test_keyframe.py`
+  - animCurve の作成、query、削除、tangent 操作を検証します。
+- `tests/maya/node/operator/attr/test_data_matrix.py`
+  - matrix plug と `TransformMatrix` の連携を検証します。
+
+### NodeOperator
+
 - `tests/maya/node/operator/node/dg/test_plus_minus_average.py`
+  - scalar / multi plug、alias、接続、enum 操作を検証します。
 - `tests/maya/node/operator/node/dg/test_wt_add_matrix.py`
+  - compound multi plug と次の空き logical index への接続を検証します。
+- `tests/maya/node/operator/node/dag/test_parent.py`
+  - DAG の親子操作、undo / redo、循環する親子関係の防止を検証します。
+- `tests/maya/node/operator/node/dag/test_matrix.py`
+  - DAG 間の relative / local matrix 計算を検証します。
+- `tests/maya/node/operator/node/test_process_speed.py`
+  - Maya バージョンに応じた PyMEL 比較ベンチマークの実行可否を検証します。
+
+### TransformMatrix
+
+- `tests/maya/transform/matrix/test_transform_matrix.py`
+  - matrix の入力、snapshot、分解、乗算、逆行列を検証します。
+
+### 開発用 generator
+
+- `tests/dev/maya/node/operator/node/test_generate.py`
+  - AttributeField と NodeOperator の生成内容、安全でない nodeType の除外を検証します。
+- `tests/dev/maya/node/operator/node/test_generate_existing_node_stub.py`
+  - `nodes.create` / `nodes.existing` の型情報を公開する stub の生成結果を検証します。
+
+`mayapy.exe -m pytest tests` では、上記の Maya 実行テストと開発用 generator
+テストをまとめて実行します。
 
 ## pytest 化の方針
 
@@ -39,12 +84,18 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 
 特に次のような挙動は pytest に向いています。
 
+- `Nodes` が公開 node API の入口になり、内部 accessor が同じ `ModifierManager` を共有する。
+- `nodes.existing` の自動判定と型別アクセスが、実際の Maya nodeType を正しく解決する。
+- `NodeCreator` と生成 stub が、公開する node 名と具体的な戻り値型を維持する。
 - alias が同じ `PlugOperator` instance を返す。
 - child plug access が正しい plug 名を指す。
 - `set()` / `set_direct()` / `get()` の結果が一致する。
 - wrong count などの error が期待通り発生する。
+- DAG の親子操作が undo / redo に対応し、循環する親子関係を作らない。
+- `TransformMatrix` と matrix plug が同じ行列値を扱う。
 - `ModifierManager` の undo / redo が期待通り動作する。
 - `lookup_attr_cls()` が新しい型を解決できる。
+- generator の生成結果と `.pyi` stub が実装と一致する。
 
 ## _test の扱い
 
