@@ -210,6 +210,8 @@ mod.do_it_dag()
 ```
 
 `Transform.set_parent()` では、親変更時の world transform を維持できます。
+自身または自身の子孫を親にする循環操作は、同じ `ModifierManager` に積まれた
+未実行の作成・親変更も含め、modifierへ積む前に拒否します。
 
 ```python
 child.set_parent(

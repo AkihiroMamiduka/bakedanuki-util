@@ -57,6 +57,7 @@ class DAG(NodeOperator):
             parent.m_obj if parent is not None else om.MObject.kNullObj
         )
         m_obj = modifier_manager.dag_mod.createNode(cls.NODE_TYPE, parent_obj)
+        modifier_manager._record_pending_dag_parent(m_obj, parent_obj)
 
         # インスタンス生成
         return cls(
@@ -122,6 +123,10 @@ class DAG(NodeOperator):
         """local transform を維持して親変更を DAG modifier に積む。"""
         self._validate_set_parent(parent)
         self._dag_mod.reparentNode(self.m_obj, parent.m_obj)
+        self.modifier_manager._record_pending_dag_parent(
+            self.m_obj,
+            parent.m_obj,
+        )
         return self
 
     @staticmethod
@@ -155,6 +160,13 @@ class DAG(NodeOperator):
         self._validate_parent(parent, self.modifier_manager)
         if parent.m_obj == self.m_obj:
             raise ValueError("a DAG node cannot be parented to itself")
+        if self.modifier_manager._would_create_dag_cycle(
+            self.m_obj,
+            parent.m_obj,
+        ):
+            raise ValueError(
+                "a DAG node cannot be parented to its descendant"
+            )
 
     @property
     def _cmd_access_name(self) -> str:

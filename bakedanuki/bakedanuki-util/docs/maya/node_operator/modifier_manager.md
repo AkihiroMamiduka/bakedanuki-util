@@ -68,6 +68,15 @@ undo 時は実行済み modifier を逆順に `undoIt()` します。
 
 redo 時は undo 済み modifier を順番に `doIt()` します。
 
+## 未実行の DAG 親関係
+
+DAG `NodeOperator` 経由の作成・親変更では、現在の `MDagModifier` に積まれた
+未実行の直接親を `ModifierManager` が内部的に記録します。
+現在のシーン階層とこの記録を組み合わせることで、未作成ノードを含む循環した
+親変更を `do_it_dag()` より前に拒否します。
+
+この記録は `do_it_dag()` の成功後、または `clear()` で破棄します。
+
 ## redo の扱い
 
 `undo_it()` 後、`redo_it()` を呼ぶと履歴を再実行します。

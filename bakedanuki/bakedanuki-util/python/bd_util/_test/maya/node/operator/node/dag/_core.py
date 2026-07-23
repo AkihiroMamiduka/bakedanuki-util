@@ -10,7 +10,6 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.nodes import Nodes
 from .......maya.node.modifier import ModifierManager
-from .......maya.node.operator.node.dag._core import DAG
 from .......maya.node.operator.node.dag.transform._core import Transform
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)

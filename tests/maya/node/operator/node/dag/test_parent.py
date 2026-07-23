@@ -328,6 +328,107 @@ def test_create_rejects_parent_for_dg_node(new_scene):
         nodes.create.create("multiplyDivide", parent=parent)
 
 
+@pytest.mark.parametrize("preserve_world_transform", (False, True))
+def test_set_parent_rejects_descendant(
+    new_scene,
+    maya_cmds,
+    preserve_world_transform,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    child_name = maya_cmds.createNode(
+        "transform",
+        name="child",
+        parent=root_name,
+    )
+    descendant_name = maya_cmds.createNode(
+        "transform",
+        name="descendant",
+        parent=child_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    descendant = nodes.existing.transform(descendant_name)
+
+    with pytest.raises(ValueError, match="parented to its descendant"):
+        root.set_parent(
+            descendant,
+            preserve_world_transform=preserve_world_transform,
+        )
+
+
+@pytest.mark.parametrize("preserve_world_transform", (False, True))
+def test_set_parent_rejects_uncommitted_descendant(
+    new_scene,
+    preserve_world_transform,
+):
+    import bd_util as bdu
+
+    nodes = bdu.Nodes()
+    root = nodes.create.transform(name="test1")
+    child = nodes.create.transform(name="test2", parent=root)
+    descendant = nodes.create.transform(name="test3", parent=child)
+
+    with pytest.raises(ValueError, match="parented to its descendant"):
+        root.set_parent(
+            child,
+            preserve_world_transform=preserve_world_transform,
+        )
+
+    nodes.modifier_manager.do_it_dag()
+
+    assert root.full_path == "|test1"
+    assert child.full_path == "|test1|test2"
+    assert descendant.full_path == "|test1|test2|test3"
+
+
+def test_set_parent_rejects_cycle_from_pending_reparent(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    first_name = maya_cmds.createNode("transform", name="first")
+    second_name = maya_cmds.createNode("transform", name="second")
+    nodes = bdu.Nodes()
+    first = nodes.existing.transform(first_name)
+    second = nodes.existing.transform(second_name)
+
+    first.set_parent(second)
+    with pytest.raises(ValueError, match="parented to its descendant"):
+        second.set_parent(first)
+
+    nodes.modifier_manager.do_it_dag()
+
+    assert first.full_path == "|second|first"
+    assert second.full_path == "|second"
+
+
+def test_pending_world_parent_replaces_current_parent_for_cycle_check(
+    new_scene,
+    maya_cmds,
+):
+    import bd_util as bdu
+
+    root_name = maya_cmds.createNode("transform", name="root")
+    child_name = maya_cmds.createNode(
+        "transform",
+        name="child",
+        parent=root_name,
+    )
+    nodes = bdu.Nodes()
+    root = nodes.existing.transform(root_name)
+    child = nodes.existing.transform(child_name)
+
+    child.set_parent_to_world()
+    root.set_parent(child)
+    nodes.modifier_manager.do_it_dag()
+
+    assert child.full_path == "|child"
+    assert root.full_path == "|child|root"
+
+
 def test_parent_must_be_transform_dag_node(new_scene, maya_cmds):
     import bd_util as bdu
 

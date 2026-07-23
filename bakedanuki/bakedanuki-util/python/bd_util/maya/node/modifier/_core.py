@@ -34,6 +34,7 @@ class ModifierManager:
     __slots__ = (
         "_dg_mod",
         "_dag_mod",
+        "_pending_dag_parents",
         "_done_stack",
         "_redo_stack",
     )
@@ -41,6 +42,9 @@ class ModifierManager:
     def __init__(self):
         self._dg_mod = om.MDGModifier()
         self._dag_mod = om.MDagModifier()
+        self._pending_dag_parents: dict[
+            om.MObjectHandle, om.MObject
+        ] = {}
         self._done_stack: list[_ExecutedModifier] = []
         self._redo_stack: list[_ExecutedModifier] = []
 
@@ -103,8 +107,55 @@ class ModifierManager:
     def clear(self):
         self._dg_mod = om.MDGModifier()
         self._dag_mod = om.MDagModifier()
+        self._pending_dag_parents = {}
         self._done_stack = []
         self._redo_stack = []
+
+    def _record_pending_dag_parent(
+        self,
+        node: om.MObject,
+        parent: om.MObject,
+    ) -> None:
+        self._pending_dag_parents[om.MObjectHandle(node)] = parent
+
+    def _would_create_dag_cycle(
+        self,
+        node: om.MObject,
+        parent: om.MObject,
+    ) -> bool:
+        if node == parent:
+            return True
+        if not self._pending_dag_parents:
+            return om.MFnDagNode(node).isParentOf(parent)
+
+        target = om.MObjectHandle(node)
+        visited: set[om.MObjectHandle] = set()
+        pending = [parent]
+
+        while pending:
+            current = pending.pop()
+            if current.isNull():
+                continue
+
+            current_handle = om.MObjectHandle(current)
+            if current_handle == target:
+                return True
+            if current_handle in visited:
+                continue
+            visited.add(current_handle)
+
+            pending_parent = self._pending_dag_parents.get(current_handle)
+            if pending_parent is not None:
+                pending.append(pending_parent)
+                continue
+
+            fn_dag = om.MFnDagNode(current)
+            for index in range(fn_dag.parentCount()):
+                current_parent = fn_dag.parent(index)
+                if not current_parent.hasFn(om.MFn.kWorld):
+                    pending.append(current_parent)
+
+        return False
 
     def _do_it(self, kind: ModifierKind):
         if kind == "dg":
@@ -125,5 +176,6 @@ class ModifierManager:
             self._dg_mod = om.MDGModifier()
         elif kind == "dag":
             self._dag_mod = om.MDagModifier()
+            self._pending_dag_parents = {}
         else:
             raise ValueError(f"Unsupported modifier kind: {kind}")
