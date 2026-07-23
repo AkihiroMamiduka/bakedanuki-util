@@ -128,4 +128,3 @@ def test_dag_matrix_methods_require_dag_destination(
         dag.get_relative_matrix(dg)
     with pytest.raises(TypeError, match="dst_dag must be DAG"):
         dag.get_local_matrix(dg)
-
