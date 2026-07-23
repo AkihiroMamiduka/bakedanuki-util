@@ -18,10 +18,10 @@ class LayerTintPlugOperator(
         ("layerTintB", "layer_tintb"),
     )
 
-    layerTintR = FloatField(default_value=5.872863084732671e-09)
+    layerTintR = FloatField(default_value=-2.2096994373166368e-13)
     layer_tintr = layerTintR
 
-    layerTintG = FloatField(default_value=5.885453550164232e-43)
+    layerTintG = FloatField(default_value=9.332647772403282e-43)
     layer_tintg = layerTintG
 
     layerTintB = FloatField(default_value=1.0)
@@ -33,10 +33,10 @@ class LayerTintAttrOperator(
 ):
     __slots__ = ()
 
-    layerTintR = FloatField(default_value=5.872863084732671e-09)
+    layerTintR = FloatField(default_value=-2.2096994373166368e-13)
     layer_tintr = layerTintR
 
-    layerTintG = FloatField(default_value=5.885453550164232e-43)
+    layerTintG = FloatField(default_value=9.332647772403282e-43)
     layer_tintg = layerTintG
 
     layerTintB = FloatField(default_value=1.0)

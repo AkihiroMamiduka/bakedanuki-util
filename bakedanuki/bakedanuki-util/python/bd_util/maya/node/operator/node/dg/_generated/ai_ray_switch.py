@@ -61,7 +61,7 @@ class _GeneratedAiRaySwitch(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    cameraA = FloatField(default_value=4.591074158667398e-41, min_value=0.0, max_value=1.0)
+    cameraA = FloatField(default_value=4.591634678053128e-41, min_value=0.0, max_value=1.0)
     cameraa = cameraA
 
     camera = CameraField(default_value=(0.0, 0.0, 0.0))

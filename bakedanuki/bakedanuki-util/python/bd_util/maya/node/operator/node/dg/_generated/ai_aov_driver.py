@@ -299,7 +299,7 @@ class _GeneratedAiAOVDriver(DG):
     depthHalfPrecision = BoolField(default_value=False, category="arnold")
     depth_half_precision = depthHalfPrecision
 
-    layerTolerance = FloatField(multi=True, default_value=5.872578867638367e-09, category="arnold")
+    layerTolerance = FloatField(multi=True, default_value=-2.209612701142838e-13, category="arnold")
     layer_tolerance = layerTolerance
 
     layerEnableFiltering = BoolField(multi=True, default_value=True, category="arnold")
