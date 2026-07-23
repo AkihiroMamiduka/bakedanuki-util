@@ -4,7 +4,7 @@
 
 今後制作予定のリグシステムパッケージ `bakedanuki-rig` で使用するために開発しています。その中でも、リグシステム専用ではなく他の Maya ツール開発でも使える汎用部分を `util` として切り出しています。
 
-現在は **v0.0.1 に向けた開発中パッケージ**です。正式リリース前のため API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
+現在は **v0.1.0 / pre-1.0.0 の開発中パッケージ**です。API は今後変わる可能性がありますが、Maya のノード操作を Python から短く、読みやすく、できるだけ OpenMaya に近い形で扱えることを目指しています。
 
 ## Status
 
@@ -201,7 +201,7 @@ bakedanuki/
 `bakedanuki/modules/bd_util.mod` には、`bakedanuki-util/python` を Python path に追加する設定が入っています。
 
 ```text
-+ bd_util 0.0.0 ../bakedanuki-util
++ bd_util 0.1.0 ../bakedanuki-util
 PYTHONPATH+:=python
 ```
 
