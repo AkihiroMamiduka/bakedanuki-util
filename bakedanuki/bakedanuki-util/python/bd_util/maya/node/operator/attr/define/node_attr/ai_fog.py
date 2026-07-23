@@ -1,0 +1,273 @@
+# coding: utf-8
+
+from ..std.at.numeric_scalar_range.float import FloatField
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+)
+
+
+class OutColorPlugOperator(
+    Float3CompoundBasePlugOperator["OutColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("outColorR", "outr"),
+        ("outColorG", "outg"),
+        ("outColorB", "outb"),
+    )
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    outr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    outg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    outb = outColorB
+
+
+class OutColorAttrOperator(
+    Float3CompoundBaseAttrOperator[OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    outr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    outg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    outb = outColorB
+
+
+class OutColorField(
+    Float3CompoundBaseField[OutColorAttrOperator, OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OutColorAttrOperator
+    PLUG_CLS = OutColorPlugOperator
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    outr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    outg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    outb = outColorB
+
+
+class OutTransparencyPlugOperator(
+    Float3CompoundBasePlugOperator["OutTransparencyAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("outTransparencyR", "otr"),
+        ("outTransparencyG", "otg"),
+        ("outTransparencyB", "otb"),
+    )
+
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
+    otr = outTransparencyR
+
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
+    otg = outTransparencyG
+
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
+    otb = outTransparencyB
+
+
+class OutTransparencyAttrOperator(
+    Float3CompoundBaseAttrOperator[OutTransparencyPlugOperator]
+):
+    __slots__ = ()
+
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
+    otr = outTransparencyR
+
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
+    otg = outTransparencyG
+
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
+    otb = outTransparencyB
+
+
+class OutTransparencyField(
+    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OutTransparencyAttrOperator
+    PLUG_CLS = OutTransparencyPlugOperator
+
+    outTransparencyR = FloatField(default_value=0.0, writable=False)
+    otr = outTransparencyR
+
+    outTransparencyG = FloatField(default_value=0.0, writable=False)
+    otg = outTransparencyG
+
+    outTransparencyB = FloatField(default_value=0.0, writable=False)
+    otb = outTransparencyB
+
+
+class ColorPlugOperator(
+    Float3CompoundBasePlugOperator["ColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("colorR", "colorr"),
+        ("colorG", "colorg"),
+        ("colorB", "colorb"),
+    )
+
+    colorR = FloatField(default_value=1.0)
+    colorr = colorR
+
+    colorG = FloatField(default_value=1.0)
+    colorg = colorG
+
+    colorB = FloatField(default_value=1.0)
+    colorb = colorB
+
+
+class ColorAttrOperator(
+    Float3CompoundBaseAttrOperator[ColorPlugOperator]
+):
+    __slots__ = ()
+
+    colorR = FloatField(default_value=1.0)
+    colorr = colorR
+
+    colorG = FloatField(default_value=1.0)
+    colorg = colorG
+
+    colorB = FloatField(default_value=1.0)
+    colorb = colorB
+
+
+class ColorField(
+    Float3CompoundBaseField[ColorAttrOperator, ColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ColorAttrOperator
+    PLUG_CLS = ColorPlugOperator
+
+    colorR = FloatField(default_value=1.0)
+    colorr = colorR
+
+    colorG = FloatField(default_value=1.0)
+    colorg = colorG
+
+    colorB = FloatField(default_value=1.0)
+    colorb = colorB
+
+
+class GroundPointPlugOperator(
+    Float3CompoundBasePlugOperator["GroundPointAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("groundPointX", "ground_pointx"),
+        ("groundPointY", "ground_pointy"),
+        ("groundPointZ", "ground_pointz"),
+    )
+
+    groundPointX = FloatField(default_value=0.0)
+    ground_pointx = groundPointX
+
+    groundPointY = FloatField(default_value=0.0)
+    ground_pointy = groundPointY
+
+    groundPointZ = FloatField(default_value=0.0)
+    ground_pointz = groundPointZ
+
+
+class GroundPointAttrOperator(
+    Float3CompoundBaseAttrOperator[GroundPointPlugOperator]
+):
+    __slots__ = ()
+
+    groundPointX = FloatField(default_value=0.0)
+    ground_pointx = groundPointX
+
+    groundPointY = FloatField(default_value=0.0)
+    ground_pointy = groundPointY
+
+    groundPointZ = FloatField(default_value=0.0)
+    ground_pointz = groundPointZ
+
+
+class GroundPointField(
+    Float3CompoundBaseField[GroundPointAttrOperator, GroundPointPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = GroundPointAttrOperator
+    PLUG_CLS = GroundPointPlugOperator
+
+    groundPointX = FloatField(default_value=0.0)
+    ground_pointx = groundPointX
+
+    groundPointY = FloatField(default_value=0.0)
+    ground_pointy = groundPointY
+
+    groundPointZ = FloatField(default_value=0.0)
+    ground_pointz = groundPointZ
+
+
+class GroundNormalPlugOperator(
+    Float3CompoundBasePlugOperator["GroundNormalAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("groundNormalX", "ground_normalx"),
+        ("groundNormalY", "ground_normaly"),
+        ("groundNormalZ", "ground_normalz"),
+    )
+
+    groundNormalX = FloatField(default_value=0.0)
+    ground_normalx = groundNormalX
+
+    groundNormalY = FloatField(default_value=0.0)
+    ground_normaly = groundNormalY
+
+    groundNormalZ = FloatField(default_value=1.0)
+    ground_normalz = groundNormalZ
+
+
+class GroundNormalAttrOperator(
+    Float3CompoundBaseAttrOperator[GroundNormalPlugOperator]
+):
+    __slots__ = ()
+
+    groundNormalX = FloatField(default_value=0.0)
+    ground_normalx = groundNormalX
+
+    groundNormalY = FloatField(default_value=0.0)
+    ground_normaly = groundNormalY
+
+    groundNormalZ = FloatField(default_value=1.0)
+    ground_normalz = groundNormalZ
+
+
+class GroundNormalField(
+    Float3CompoundBaseField[GroundNormalAttrOperator, GroundNormalPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = GroundNormalAttrOperator
+    PLUG_CLS = GroundNormalPlugOperator
+
+    groundNormalX = FloatField(default_value=0.0)
+    ground_normalx = groundNormalX
+
+    groundNormalY = FloatField(default_value=0.0)
+    ground_normaly = groundNormalY
+
+    groundNormalZ = FloatField(default_value=1.0)
+    ground_normalz = groundNormalZ

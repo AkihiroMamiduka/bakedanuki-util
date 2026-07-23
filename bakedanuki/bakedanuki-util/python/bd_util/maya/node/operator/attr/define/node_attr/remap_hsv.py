@@ -1,0 +1,358 @@
+# coding: utf-8
+
+from ..std.at.compound import (
+    CompoundAttrOperator,
+    CompoundPlugOperator,
+    CompoundField,
+)
+from ..std.at.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
+from ..std.at.numeric_scalar_range.float import FloatField
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+)
+
+
+class Hue_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Hue_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Hue_InterpEnumField(
+    EnumField[Hue_InterpEnumAttrOperator, Hue_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Hue_InterpEnumAttrOperator
+    PLUG_CLS = Hue_InterpEnumPlugOperator
+
+
+class Saturation_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Saturation_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Saturation_InterpEnumField(
+    EnumField[Saturation_InterpEnumAttrOperator, Saturation_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Saturation_InterpEnumAttrOperator
+    PLUG_CLS = Saturation_InterpEnumPlugOperator
+
+
+class Value_InterpEnumPlugOperator(EnumPlugOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+
+class Value_InterpEnumAttrOperator(EnumAttrOperator):
+    __slots__ = ()
+
+    NONE = 0
+    LINEAR = 1
+    SMOOTH = 2
+    SPLINE = 3
+
+    NAME_MAP = {
+        NONE: "None",
+        LINEAR: "Linear",
+        SMOOTH: "Smooth",
+        SPLINE: "Spline",
+    }
+
+
+class Value_InterpEnumField(
+    EnumField[Value_InterpEnumAttrOperator, Value_InterpEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Value_InterpEnumAttrOperator
+    PLUG_CLS = Value_InterpEnumPlugOperator
+
+
+class ColorPlugOperator(
+    Float3CompoundBasePlugOperator["ColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("colorR", "cr"),
+        ("colorG", "cg"),
+        ("colorB", "cb"),
+    )
+
+    colorR = FloatField(default_value=0.5)
+    cr = colorR
+
+    colorG = FloatField(default_value=0.5)
+    cg = colorG
+
+    colorB = FloatField(default_value=0.5)
+    cb = colorB
+
+
+class ColorAttrOperator(
+    Float3CompoundBaseAttrOperator[ColorPlugOperator]
+):
+    __slots__ = ()
+
+    colorR = FloatField(default_value=0.5)
+    cr = colorR
+
+    colorG = FloatField(default_value=0.5)
+    cg = colorG
+
+    colorB = FloatField(default_value=0.5)
+    cb = colorB
+
+
+class ColorField(
+    Float3CompoundBaseField[ColorAttrOperator, ColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ColorAttrOperator
+    PLUG_CLS = ColorPlugOperator
+
+    colorR = FloatField(default_value=0.5)
+    cr = colorR
+
+    colorG = FloatField(default_value=0.5)
+    cg = colorG
+
+    colorB = FloatField(default_value=0.5)
+    cb = colorB
+
+
+class HuePlugOperator(
+    CompoundPlugOperator["HueAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("hue_Position", "hp"),
+        ("hue_FloatValue", "hfv"),
+        ("hue_Interp", "hi"),
+    )
+
+    hue_Position = FloatField(default_value=0.0)
+    hp = hue_Position
+
+    hue_FloatValue = FloatField(default_value=0.0)
+    hfv = hue_FloatValue
+
+    hue_Interp = Hue_InterpEnumField(default_value=0)
+    hi = hue_Interp
+
+
+class HueAttrOperator(
+    CompoundAttrOperator[HuePlugOperator]
+):
+    __slots__ = ()
+
+    hue_Position = FloatField(default_value=0.0)
+    hp = hue_Position
+
+    hue_FloatValue = FloatField(default_value=0.0)
+    hfv = hue_FloatValue
+
+    hue_Interp = Hue_InterpEnumField(default_value=0)
+    hi = hue_Interp
+
+
+class HueField(
+    CompoundField[HueAttrOperator, HuePlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = HueAttrOperator
+    PLUG_CLS = HuePlugOperator
+
+
+class SaturationPlugOperator(
+    CompoundPlugOperator["SaturationAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("saturation_Position", "sp"),
+        ("saturation_FloatValue", "sfv"),
+        ("saturation_Interp", "si"),
+    )
+
+    saturation_Position = FloatField(default_value=0.0)
+    sp = saturation_Position
+
+    saturation_FloatValue = FloatField(default_value=0.0)
+    sfv = saturation_FloatValue
+
+    saturation_Interp = Saturation_InterpEnumField(default_value=0)
+    si = saturation_Interp
+
+
+class SaturationAttrOperator(
+    CompoundAttrOperator[SaturationPlugOperator]
+):
+    __slots__ = ()
+
+    saturation_Position = FloatField(default_value=0.0)
+    sp = saturation_Position
+
+    saturation_FloatValue = FloatField(default_value=0.0)
+    sfv = saturation_FloatValue
+
+    saturation_Interp = Saturation_InterpEnumField(default_value=0)
+    si = saturation_Interp
+
+
+class SaturationField(
+    CompoundField[SaturationAttrOperator, SaturationPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = SaturationAttrOperator
+    PLUG_CLS = SaturationPlugOperator
+
+
+class ValuePlugOperator(
+    CompoundPlugOperator["ValueAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("value_Position", "vp"),
+        ("value_FloatValue", "vfv"),
+        ("value_Interp", "vi"),
+    )
+
+    value_Position = FloatField(default_value=0.0)
+    vp = value_Position
+
+    value_FloatValue = FloatField(default_value=0.0)
+    vfv = value_FloatValue
+
+    value_Interp = Value_InterpEnumField(default_value=0)
+    vi = value_Interp
+
+
+class ValueAttrOperator(
+    CompoundAttrOperator[ValuePlugOperator]
+):
+    __slots__ = ()
+
+    value_Position = FloatField(default_value=0.0)
+    vp = value_Position
+
+    value_FloatValue = FloatField(default_value=0.0)
+    vfv = value_FloatValue
+
+    value_Interp = Value_InterpEnumField(default_value=0)
+    vi = value_Interp
+
+
+class ValueField(
+    CompoundField[ValueAttrOperator, ValuePlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ValueAttrOperator
+    PLUG_CLS = ValuePlugOperator
+
+
+class OutColorPlugOperator(
+    Float3CompoundBasePlugOperator["OutColorAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("outColorR", "ocr"),
+        ("outColorG", "ocg"),
+        ("outColorB", "ocb"),
+    )
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    ocr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    ocg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    ocb = outColorB
+
+
+class OutColorAttrOperator(
+    Float3CompoundBaseAttrOperator[OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    ocr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    ocg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    ocb = outColorB
+
+
+class OutColorField(
+    Float3CompoundBaseField[OutColorAttrOperator, OutColorPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = OutColorAttrOperator
+    PLUG_CLS = OutColorPlugOperator
+
+    outColorR = FloatField(default_value=0.0, writable=False)
+    ocr = outColorR
+
+    outColorG = FloatField(default_value=0.0, writable=False)
+    ocg = outColorG
+
+    outColorB = FloatField(default_value=0.0, writable=False)
+    ocb = outColorB

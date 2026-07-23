@@ -1,0 +1,154 @@
+# TransformMatrix
+
+`TransformMatrix` は、Maya の 4x4 transform 行列を合成・分解するための読み取り専用ラッパーです。
+
+生成時点の行列値を保持するスナップショットとして動作します。元の plug や `MTransformationMatrix` を後から変更しても、既に作成した `TransformMatrix` の値は変わりません。
+
+## 作成
+
+公開APIから利用できます。
+
+```python
+from maya import cmds
+from maya.api import OpenMaya as om
+import bd_util as bdu
+
+transform = cmds.createNode("transform", name="test")
+
+from_name = bdu.TransformMatrix(f"{transform}.worldMatrix[0]")
+
+selection = om.MSelectionList()
+selection.add(f"{transform}.worldMatrix[0]")
+from_plug = bdu.TransformMatrix(selection.getPlug(0))
+
+from_matrix = bdu.TransformMatrix(om.MMatrix())
+from_transformation = bdu.TransformMatrix(om.MTransformationMatrix())
+```
+
+コンストラクタは次の値を受け取ります。
+
+- `TransformMatrix`
+- `node.attr` 形式の matrix plug 名
+- `MPlug`
+- `MMatrix`
+- `MTransformationMatrix`
+
+matrix ではない plug を渡した場合は `TypeError` を送出します。
+
+## 値の取得
+
+```python
+tm = bdu.TransformMatrix(f"{transform}.worldMatrix[0]")
+
+translate = tm.translate  # (x, y, z)
+rotate = tm.rotate        # XYZ order / degree
+scale = tm.scale          # (x, y, z)
+shear = tm.shear          # (xy, xz, yz)
+quat = tm.quat            # (x, y, z, w)
+```
+
+すべての戻り値は `float` の tuple です。`rotate` は既存の angle plug API と同じく degree を返します。
+
+XYZ 以外の Euler 回転が必要な場合は `get_rotate()` で回転順序を指定します。
+
+```python
+rotate_zyx = tm.get_rotate(order="zyx")
+```
+
+対応する値は `xyz` / `yzx` / `zxy` / `xzy` / `yxz` / `zyx` です。大文字と小文字は区別しません。
+
+生の OpenMaya 値が必要な場合は、コピーを取得できます。
+
+```python
+matrix = tm.matrix
+transformation_matrix = tm.transformation_matrix
+```
+
+## Matrix plug からの取得
+
+`DataMatrixPlugOperator` は、現在の plug 値を `TransformMatrix` として取得できます。
+
+```python
+import bd_util as bdu
+
+nodes = bdu.Nodes()
+node = nodes.existing.transform("test")
+world_matrix = node.worldMatrix[0]
+
+tm = world_matrix.transform_matrix
+translate = world_matrix.translate
+rotate = world_matrix.rotate
+rotate_zyx = world_matrix.get_rotate(order="zyx")
+scale = world_matrix.scale
+shear = world_matrix.shear
+quat = world_matrix.quat
+```
+
+各プロパティはアクセス時点の plug 値から、新しい `TransformMatrix` のスナップショットを作ります。複数成分を同じ評価時点の値として扱う場合は、`transform_matrix` を一度取得してから各成分へアクセスします。
+
+```python
+tm = node.worldMatrix[0].transform_matrix
+translate = tm.translate
+rotate = tm.rotate
+scale = tm.scale
+```
+
+既存の `get()` は `MMatrix`、`transformation_matrix` は `MTransformationMatrix` を返します。未設定のtyped matrix plugはmatrix data自体を持たないため、この2つは `None` を返します。分解には実体が必要なので、同じ状態で `transform_matrix` や各成分へアクセスすると `ValueError` を送出します。
+
+## 行列積
+
+`TransformMatrix` 同士を `*` で乗算すると、新しい `TransformMatrix` を返します。計算は TRS の各値ではなく、保持している `MMatrix` 同士で行います。
+
+```python
+src_wm = bdu.TransformMatrix(f"{src}.worldMatrix[0]")
+dst_pim = bdu.TransformMatrix(f"{dst}.parentInverseMatrix[0]")
+
+local_tm = src_wm * dst_pim
+local_translate = local_tm.translate
+```
+
+この例の結果は、src のワールド行列を dst の親空間へ変換した行列です。
+
+## DAG 間の行列変換
+
+DAG の `get_relative_matrix()` は、self の行列を指定した dst 自身の空間で表します。
+
+```python
+relative_tm = src_dag.get_relative_matrix(dst_dag)
+```
+
+内部では、各DAGパスの `instanceNumber()` に対応する配列要素を使って次の計算を行います。
+
+```python
+relative_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.worldInverseMatrix[dst_index].transform_matrix
+```
+
+`get_local_matrix()` は、self の `worldMatrix` を再現するための dst 用local行列を返します。
+
+```python
+local_tm = src_dag.get_local_matrix(dst_dag)
+```
+
+計算は次のとおりです。
+
+```python
+local_tm = src_dag.worldMatrix[src_index].transform_matrix * dst_dag.parentInverseMatrix[dst_index].transform_matrix
+```
+
+Mayaの `parentMatrix` には dst の `offsetParentMatrix` が既に合成されています。その逆行列である `parentInverseMatrix` を使うため、`get_local_matrix()` の結果にも `offsetParentMatrix` の補正が含まれます。
+
+`ModifierManager` に積んだノード作成や値設定は、行列を取得する前に `do_it_dag()` / `do_it_dg()` で実行してください。
+
+## 逆行列
+
+`inverse()` は逆行列を保持する新しい `TransformMatrix` を返します。
+
+```python
+inverse_tm = tm.inverse()
+```
+
+## 分解時の注意
+
+行列から取得する translate / rotate / scale / shear は、行列に対する等価な分解結果です。元の transform ノードが持つ `rotatePivot`、`rotateAxis`、`jointOrient` などの個別属性を復元するものではありません。
+
+また、行列自体は元ノードの `rotateOrder` を保持しません。`rotate` は XYZ として分解し、別の回転順序が必要な場合は `get_rotate()` を使用します。負スケールや shear を含む行列では、等価な分解が複数存在する場合があります。

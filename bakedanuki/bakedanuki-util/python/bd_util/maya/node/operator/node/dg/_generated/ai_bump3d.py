@@ -1,0 +1,48 @@
+# coding: utf-8
+from .._core import DG
+from ....attr.define.node_attr.ai_bump3d import (
+    NormalField,
+    OutTransparencyField,
+    OutValueField,
+)
+from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+
+
+class _GeneratedAiBump3d(DG):
+    __slots__ = ()
+
+    NODE_TYPE = "aiBump3d"
+
+    outValue = OutValueField(default_value=(0.0, 0.0, 0.0), writable=False)
+    out = outValue
+    outValueX = outValue.outValueX
+    outx = outValueX
+    outValueY = outValue.outValueY
+    outy = outValueY
+    outValueZ = outValue.outValueZ
+    outz = outValueZ
+
+    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    ot = outTransparency
+    outTransparencyR = outTransparency.outTransparencyR
+    otr = outTransparencyR
+    outTransparencyG = outTransparency.outTransparencyG
+    otg = outTransparencyG
+    outTransparencyB = outTransparency.outTransparencyB
+    otb = outTransparencyB
+
+    bumpMap = FloatField(default_value=0.0)
+    bump_map = bumpMap
+
+    bumpHeight = FloatField(default_value=0.009999999776482582, soft_min_value=0.0, soft_max_value=1.0)
+    bump_height = bumpHeight
+
+    epsilon = FloatField(default_value=0.0010000000474974513, min_value=1.0000000116860974e-07, soft_min_value=9.999999747378752e-05, soft_max_value=1.0)
+
+    normal = NormalField(default_value=(0.0, 0.0, 0.0))
+    normalX = normal.normalX
+    normalx = normalX
+    normalY = normal.normalY
+    normaly = normalY
+    normalZ = normal.normalZ
+    normalz = normalZ
