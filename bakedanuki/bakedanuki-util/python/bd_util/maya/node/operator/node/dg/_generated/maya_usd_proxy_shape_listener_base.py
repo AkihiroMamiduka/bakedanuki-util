@@ -1,7 +1,7 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
-from ....attr.define.std.at.numeric_scalar_range.long_long_int import LongLongIntField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long_long_int import LongLongIntField
 
 
 class _GeneratedMayaUsdProxyShapeListenerBase(DG):

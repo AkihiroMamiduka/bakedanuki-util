@@ -1,7 +1,7 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.ai_user_data_int import OutTransparencyField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 

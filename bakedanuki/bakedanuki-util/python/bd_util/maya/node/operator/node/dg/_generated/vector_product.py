@@ -5,13 +5,13 @@ from ....attr.define.node_attr.vector_product import (
     Input2Field,
     OutputField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.flt_matrix import FltMatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator):

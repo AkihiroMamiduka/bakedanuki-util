@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.typed import TypedField
 from ..std.dt.double_array import DataDoubleArrayField
 from ..std.dt.vector_array import DataVectorArrayField

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.numeric_scalar_range.long_long_int import (
+from ....define.std.at.scalar.numeric.range.long_long_int import (
     LongLongIntField,
 )
 

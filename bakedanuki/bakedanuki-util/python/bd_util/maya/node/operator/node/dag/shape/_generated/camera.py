@@ -35,21 +35,21 @@ from .....attr.define.node_attr.camera import (
     TumblePivotField,
     WireColorRGBField,
 )
-from .....attr.define.std.at.enum import (
+from .....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from .....attr.define.std.at.flt_matrix import FltMatrixField
 from .....attr.define.std.at.message import MessageField
-from .....attr.define.std.at.numeric_scalar.bool import BoolField
-from .....attr.define.std.at.numeric_scalar_range.double import DoubleField
-from .....attr.define.std.at.numeric_scalar_range.float import FloatField
-from .....attr.define.std.at.numeric_scalar_range.long import LongField
-from .....attr.define.std.at.numeric_scalar_range.short import ShortField
+from .....attr.define.std.at.scalar.numeric.bool import BoolField
+from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from .....attr.define.std.at.scalar.numeric.range.float import FloatField
+from .....attr.define.std.at.scalar.numeric.range.long import LongField
+from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.typed import TypedField
-from .....attr.define.std.at.unit_scalar_range.double_angle import DoubleAngleField
-from .....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from .....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from .....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 

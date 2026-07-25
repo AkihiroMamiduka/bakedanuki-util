@@ -1,7 +1,7 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.axis_from_matrix import OutputField
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

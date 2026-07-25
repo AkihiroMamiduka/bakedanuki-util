@@ -1,8 +1,8 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.round_constant_radius import EdgeField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
+from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 

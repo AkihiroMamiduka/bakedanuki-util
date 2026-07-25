@@ -2,8 +2,8 @@
 from .._core import DG
 from ....attr.define.node_attr.time_editor_anim_source import AnimationField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
 class _GeneratedTimeEditorAnimSource(DG):

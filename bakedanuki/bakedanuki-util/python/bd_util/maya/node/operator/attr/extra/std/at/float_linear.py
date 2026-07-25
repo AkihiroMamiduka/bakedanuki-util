@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.unit_scalar_range.float_linear import FloatLinearField
+from ....define.std.at.scalar.unit.range.float_linear import FloatLinearField
 
 
 class ExtraFloatLinearField(FloatLinearField):

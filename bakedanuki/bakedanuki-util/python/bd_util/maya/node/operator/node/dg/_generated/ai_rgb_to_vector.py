@@ -5,7 +5,7 @@ from ....attr.define.node_attr.ai_rgb_to_vector import (
     OutTransparencyField,
     OutValueField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

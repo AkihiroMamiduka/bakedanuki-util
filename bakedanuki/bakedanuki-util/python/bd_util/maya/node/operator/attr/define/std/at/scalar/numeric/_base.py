@@ -5,8 +5,8 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from ......... import logger as u_logger
-from ..scalar._base import (
+from .......... import logger as u_logger
+from .._base import (
     ScalarBaseAttrOperator,
     ScalarBasePlugOperator,
     ScalarBaseField,

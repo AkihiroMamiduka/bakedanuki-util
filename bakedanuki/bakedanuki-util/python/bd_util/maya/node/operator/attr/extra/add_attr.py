@@ -7,7 +7,7 @@ from typing import ClassVar
 #   difine
 #       at
 #           std
-from ..define.std.at.enum import EnumPlugOperator
+from ..define.std.at.scalar.enum import EnumPlugOperator
 from ..define.std.at.compound import CompoundPlugOperator
 
 #   extra

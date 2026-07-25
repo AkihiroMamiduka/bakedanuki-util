@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from ..std.at.numeric_scalar_range.double import DoubleField
+from ..std.at.scalar.numeric.range.double import DoubleField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base import (
     QuatCompoundBaseAttrOperator,
     QuatCompoundBasePlugOperator,

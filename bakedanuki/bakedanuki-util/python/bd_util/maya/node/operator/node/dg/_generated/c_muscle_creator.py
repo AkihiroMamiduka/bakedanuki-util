@@ -11,7 +11,7 @@ from ....attr.define.node_attr.c_muscle_creator import (
     OutLinearDataField,
     PoseStateField,
 )
-from ....attr.define.std.at.numeric_scalar_range.double import DoubleField
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 

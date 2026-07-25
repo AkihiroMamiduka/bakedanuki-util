@@ -2,8 +2,8 @@
 from .._core import DG
 from ....attr.define.node_attr.time_editor import AttributesField
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
 class _GeneratedTimeEditor(DG):

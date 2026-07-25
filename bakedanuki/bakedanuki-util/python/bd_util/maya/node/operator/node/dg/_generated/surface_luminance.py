@@ -4,7 +4,7 @@ from ....attr.define.node_attr.surface_luminance import (
     LightDataArrayField,
     NormalCameraField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
 class _GeneratedSurfaceLuminance(DG):

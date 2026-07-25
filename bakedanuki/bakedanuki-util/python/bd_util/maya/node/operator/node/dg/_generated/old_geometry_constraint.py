@@ -7,7 +7,7 @@ from ....attr.define.node_attr.old_geometry_constraint import (
     OutputField,
 )
 from ....attr.define.std.at.generic import GenericField
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class _GeneratedOldGeometryConstraint(DG):

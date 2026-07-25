@@ -11,8 +11,8 @@ from ....attr.define.node_attr.cloth import (
     UvFilterSizeField,
     VColorField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
 class _GeneratedCloth(DG):

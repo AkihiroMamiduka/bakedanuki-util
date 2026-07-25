@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.float_linear import FloatLinearField
+from ..std.at.scalar.unit.range.float_linear import FloatLinearField
 from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base import (
     FloatLinear3CompoundBaseAttrOperator,
     FloatLinear3CompoundBasePlugOperator,

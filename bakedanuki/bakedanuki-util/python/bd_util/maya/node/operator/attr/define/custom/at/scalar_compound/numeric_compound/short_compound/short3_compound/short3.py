@@ -6,7 +6,7 @@ from ._base import (
     Short3CompoundBaseAttrOperator,
     Short3CompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.short import ShortField
+from .......std.at.scalar.numeric.range.short import ShortField
 
 
 class Short3PlugOperator(

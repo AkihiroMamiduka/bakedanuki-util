@@ -6,7 +6,7 @@ from ._base import (
     FloatAngle2CompoundBaseAttrOperator,
     FloatAngle2CompoundBaseField,
 )
-from .......std.at.unit_scalar_range.float_angle import FloatAngleField
+from .......std.at.scalar.unit.range.float_angle import FloatAngleField
 
 
 class FloatAngle2PlugOperator(

@@ -6,7 +6,7 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar.bool import BoolField
+from ..std.at.scalar.numeric.bool import BoolField
 from ..std.dt.mesh import DataMeshField
 
 

@@ -5,11 +5,11 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.numeric_scalar_range.short import ShortField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.numeric.range.short import ShortField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
 from ..std.dt.vector_array import DataVectorArrayField

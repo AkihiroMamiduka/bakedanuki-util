@@ -16,7 +16,7 @@ from ....attr.define.node_attr.uv_chooser import (
     VertexUvThreeField,
     VertexUvTwoField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 

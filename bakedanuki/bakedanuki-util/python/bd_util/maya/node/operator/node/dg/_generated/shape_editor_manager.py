@@ -1,8 +1,8 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.shape_editor_manager import BlendShapeDirectoryField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 

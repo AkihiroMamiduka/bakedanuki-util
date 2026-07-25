@@ -12,9 +12,9 @@ from ....attr.define.node_attr.water import (
     UvFilterSizeField,
     WindUVField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.short import ShortField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
 class _GeneratedWater(DG):

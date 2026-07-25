@@ -5,7 +5,7 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from .scalar._base import (
+from ._base import (
     ScalarBaseAttrOperator,
     ScalarBasePlugOperator,
     ScalarBaseField,

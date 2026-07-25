@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class ExtraDoubleLinearField(DoubleLinearField):

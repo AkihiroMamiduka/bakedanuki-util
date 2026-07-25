@@ -5,19 +5,19 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ..std.at.message import MessageField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.byte import ByteField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.numeric_scalar_range.short import ShortField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.byte import ByteField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.numeric.range.short import ShortField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.dt.string import DataStringField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
     Double2CompoundBaseAttrOperator,

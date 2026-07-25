@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar.bool import BoolField
+from ..std.at.scalar.numeric.bool import BoolField
 from ..std.dt.string import DataStringField
 
 

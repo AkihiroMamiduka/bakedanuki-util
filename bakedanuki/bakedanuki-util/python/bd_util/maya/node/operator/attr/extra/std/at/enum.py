@@ -3,7 +3,7 @@
 from typing import TypeVar, Type, cast, get_args, get_origin
 
 # self
-from ....define.std.at.enum import (
+from ....define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

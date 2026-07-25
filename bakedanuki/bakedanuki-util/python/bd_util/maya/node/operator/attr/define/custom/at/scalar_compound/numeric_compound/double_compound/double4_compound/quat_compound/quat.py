@@ -6,7 +6,7 @@ from ._base import (
     QuatCompoundBasePlugOperator,
     QuatCompoundBaseField,
 )
-from ........std.at.numeric_scalar_range.double import DoubleField
+from ........std.at.scalar.numeric.range.double import DoubleField
 
 
 class QuatPlugOperator(QuatCompoundBasePlugOperator["Quat4AttrOperator"]):

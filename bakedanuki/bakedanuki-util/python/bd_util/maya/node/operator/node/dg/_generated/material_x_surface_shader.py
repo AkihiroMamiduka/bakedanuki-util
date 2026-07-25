@@ -1,8 +1,8 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.material_x_surface_shader import OutColorField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.numeric_scalar_range.long_long_int import LongLongIntField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.long_long_int import LongLongIntField
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 

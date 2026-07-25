@@ -5,7 +5,7 @@ from ....attr.define.node_attr.hierarchy_test_node4 import (
     KitBField,
     PntsField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
 class _GeneratedHierarchyTestNode4(DG):

@@ -13,7 +13,7 @@ from ....attr.define.node_attr.hair_physical_shader import (
     TipColorDField,
     TransparencyField,
 )
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 

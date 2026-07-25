@@ -6,11 +6,11 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.generic import GenericField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.byte import ByteField
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.numeric_scalar_range.long import LongField
-from ..std.at.numeric_scalar_range.short import ShortField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.byte import ByteField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.numeric.range.long import LongField
+from ..std.at.scalar.numeric.range.short import ShortField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,

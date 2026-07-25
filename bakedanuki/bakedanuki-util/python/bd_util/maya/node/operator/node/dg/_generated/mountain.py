@@ -10,8 +10,8 @@ from ....attr.define.node_attr.mountain import (
     UvCoordField,
     UvFilterSizeField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
 class _GeneratedMountain(DG):

@@ -5,14 +5,14 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.enum import (
+from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ..std.at.matrix import MatrixField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.typed import TypedField
 from ..std.dt.mesh import DataMeshField
 from ..std.dt.nurbs_curve import DataNurbsCurveField

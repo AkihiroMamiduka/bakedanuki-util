@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_imager_color_curves import (
     RampRGBField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 

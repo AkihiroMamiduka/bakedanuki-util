@@ -63,11 +63,11 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 # attributeType ベースのマッピング (attr/define/std/at or attr/define/custom/at)
 _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "addr": ("AddrField", "define.std.at.addr"),
-    "bool": ("BoolField", "define.std.at.numeric_scalar.bool"),
-    "byte": ("ByteField", "define.std.at.numeric_scalar_range.byte"),
-    "char": ("CharField", "define.std.at.numeric_scalar_range.char"),
+    "bool": ("BoolField", "define.std.at.scalar.numeric.bool"),
+    "byte": ("ByteField", "define.std.at.scalar.numeric.range.byte"),
+    "char": ("CharField", "define.std.at.scalar.numeric.range.char"),
     "compound": ("CompoundField", "define.std.at.compound"),
-    "double": ("DoubleField", "define.std.at.numeric_scalar_range.double"),
+    "double": ("DoubleField", "define.std.at.scalar.numeric.range.double"),
     "double2": (
         "Double2Field",
         "define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2",
@@ -82,14 +82,14 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     ),
     "doubleAngle": (
         "DoubleAngleField",
-        "define.std.at.unit_scalar_range.double_angle",
+        "define.std.at.scalar.unit.range.double_angle",
     ),
     "doubleLinear": (
         "DoubleLinearField",
-        "define.std.at.unit_scalar_range.double_linear",
+        "define.std.at.scalar.unit.range.double_linear",
     ),
-    "enum": ("EnumField", "define.std.at.enum"),
-    "float": ("FloatField", "define.std.at.numeric_scalar_range.float"),
+    "enum": ("EnumField", "define.std.at.scalar.enum"),
+    "float": ("FloatField", "define.std.at.scalar.numeric.range.float"),
     "float2": (
         "Float2Field",
         "define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2",
@@ -100,16 +100,16 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     ),
     "floatAngle": (
         "FloatAngleField",
-        "define.std.at.unit_scalar_range.float_angle",
+        "define.std.at.scalar.unit.range.float_angle",
     ),
     "floatLinear": (
         "FloatLinearField",
-        "define.std.at.unit_scalar_range.float_linear",
+        "define.std.at.scalar.unit.range.float_linear",
     ),
     "fltMatrix": ("FltMatrixField", "define.std.at.flt_matrix"),
     "generic": ("GenericField", "define.std.at.generic"),
     "lightData": ("LightDataField", "define.std.at.light_data"),
-    "long": ("LongField", "define.std.at.numeric_scalar_range.long"),
+    "long": ("LongField", "define.std.at.scalar.numeric.range.long"),
     "long2": (
         "Long2Field",
         "define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2",
@@ -120,17 +120,17 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     ),
     "long long int": (
         "LongLongIntField",
-        "define.std.at.numeric_scalar_range.long_long_int",
+        "define.std.at.scalar.numeric.range.long_long_int",
     ),
     "long_long_int": (
         "LongLongIntField",
-        "define.std.at.numeric_scalar_range.long_long_int",
+        "define.std.at.scalar.numeric.range.long_long_int",
     ),
     "matrix": ("MatrixField", "define.std.at.matrix"),
     "message": ("MessageField", "define.std.at.message"),
     "polyFaces": ("TypedField", "define.std.at.typed"),
     "reflectance": ("ReflectanceField", "define.std.at.reflectance"),
-    "short": ("ShortField", "define.std.at.numeric_scalar_range.short"),
+    "short": ("ShortField", "define.std.at.scalar.numeric.range.short"),
     "short2": (
         "Short2Field",
         "define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2",
@@ -140,7 +140,7 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
         "define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3",
     ),
     "spectrum": ("SpectrumField", "define.std.at.spectrum"),
-    "time": ("TimeField", "define.std.at.unit_scalar.time"),
+    "time": ("TimeField", "define.std.at.scalar.unit.time"),
     "typed": ("TypedField", "define.std.at.typed"),
 }
 
@@ -1525,9 +1525,9 @@ def generate_node_attr_code(
                     )
                     enum_classes.setdefault(enum_cls_name, entries)
                     child_cls_name = f"{enum_cls_name}Field"
-                    _add_import("EnumAttrOperator", "std.at.enum")
-                    _add_import("EnumPlugOperator", "std.at.enum")
-                    _add_import("EnumField", "std.at.enum")
+                    _add_import("EnumAttrOperator", "std.at.scalar.enum")
+                    _add_import("EnumPlugOperator", "std.at.scalar.enum")
+                    _add_import("EnumField", "std.at.scalar.enum")
                 else:
                     _add_import(
                         child_cls_name, _node_attr_module_path(child_module)
@@ -1883,7 +1883,7 @@ def generate_node_class_code(
     if enum_classes:
         import_lines.extend(
             _build_import_lines(
-                f"{attr_import_prefix}.define.std.at.enum",
+                f"{attr_import_prefix}.define.std.at.scalar.enum",
                 ["EnumAttrOperator", "EnumPlugOperator", "EnumField"],
             )
         )

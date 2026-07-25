@@ -13,17 +13,17 @@ def test_scalar_operator_families_share_scalar_base(new_scene):
         CompoundPlugOperator,
         CompoundField,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.enum import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.enum import (
         EnumAttrOperator,
         EnumPlugOperator,
         EnumField,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.numeric_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric._base import (
         NumericBaseAttrOperator,
         NumericBasePlugOperator,
         NumericBaseField,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.numeric_scalar_range._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range._base import (
         NumericRangeBaseAttrOperator,
         NumericRangeBasePlugOperator,
         NumericRangeBaseField,
@@ -33,12 +33,12 @@ def test_scalar_operator_families_share_scalar_base(new_scene):
         ScalarBasePlugOperator,
         ScalarBaseField,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit._base import (
         UnitBaseAttrOperator,
         UnitBasePlugOperator,
         UnitBaseField,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range._base import (
         UnitRangeBaseAttrOperator,
         UnitRangeBasePlugOperator,
         UnitRangeBaseField,
@@ -68,19 +68,19 @@ def test_scalar_operator_families_share_scalar_base(new_scene):
 
 
 def test_scalar_attr_type_placeholder_is_defined_on_scalar_base(new_scene):
-    from bd_util.maya.node.operator.attr.define.std.at.numeric_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric._base import (
         NumericBaseAttrOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.numeric_scalar_range._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range._base import (
         NumericRangeBaseAttrOperator,
     )
     from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
         ScalarBaseAttrOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit._base import (
         UnitBaseAttrOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range._base import (
         UnitRangeBaseAttrOperator,
     )
 
@@ -92,22 +92,22 @@ def test_scalar_attr_type_placeholder_is_defined_on_scalar_base(new_scene):
 
 
 def test_keyframe_property_is_defined_only_on_scalar_base(new_scene):
-    from bd_util.maya.node.operator.attr.define.std.at.enum import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.enum import (
         EnumPlugOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.numeric_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric._base import (
         NumericBasePlugOperator,
     )
     from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
         ScalarBasePlugOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar._base import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit._base import (
         UnitBasePlugOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range.float_angle import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.float_angle import (
         FloatAnglePlugOperator,
     )
-    from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range.float_linear import (
+    from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.float_linear import (
         FloatLinearPlugOperator,
     )
 

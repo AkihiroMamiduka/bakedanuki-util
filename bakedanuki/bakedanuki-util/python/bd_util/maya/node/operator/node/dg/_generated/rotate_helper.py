@@ -5,7 +5,7 @@ from ....attr.define.node_attr.rotate_helper import (
     RotateField,
     UpField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

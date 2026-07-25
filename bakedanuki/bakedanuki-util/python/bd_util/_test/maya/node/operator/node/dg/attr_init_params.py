@@ -21,10 +21,10 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.define.std.at.numeric_scalar_range.double import (
+from .......maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoubleField,
 )
-from .......maya.node.operator.attr.define.std.at.enum import (
+from .......maya.node.operator.attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

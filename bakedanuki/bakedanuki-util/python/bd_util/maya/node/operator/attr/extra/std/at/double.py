@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.numeric_scalar_range.double import DoubleField
+from ....define.std.at.scalar.numeric.range.double import DoubleField
 
 
 class ExtraDoubleField(DoubleField):

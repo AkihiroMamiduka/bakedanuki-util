@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.unit_scalar.time import TimeField
+from ....define.std.at.scalar.unit.time import TimeField
 
 
 class ExtraTimeField(TimeField):

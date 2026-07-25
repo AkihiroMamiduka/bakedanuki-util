@@ -1,11 +1,35 @@
 # coding: utf-8
 from bd_util._dev.maya.node.operator.node.generate import (
+    _AT_TYPE_MAP,
     generate_node_attr_code,
     generate_node_class_code,
     generate_node_class_file,
 )
 from bd_util.maya.attr.query import AttrInfo
 from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
+
+
+def test_scalar_attribute_type_map_uses_scalar_package_hierarchy():
+    expected_modules = {
+        "bool": "define.std.at.scalar.numeric.bool",
+        "byte": "define.std.at.scalar.numeric.range.byte",
+        "char": "define.std.at.scalar.numeric.range.char",
+        "double": "define.std.at.scalar.numeric.range.double",
+        "doubleAngle": "define.std.at.scalar.unit.range.double_angle",
+        "doubleLinear": "define.std.at.scalar.unit.range.double_linear",
+        "enum": "define.std.at.scalar.enum",
+        "float": "define.std.at.scalar.numeric.range.float",
+        "floatAngle": "define.std.at.scalar.unit.range.float_angle",
+        "floatLinear": "define.std.at.scalar.unit.range.float_linear",
+        "long": "define.std.at.scalar.numeric.range.long",
+        "long long int": "define.std.at.scalar.numeric.range.long_long_int",
+        "long_long_int": "define.std.at.scalar.numeric.range.long_long_int",
+        "short": "define.std.at.scalar.numeric.range.short",
+        "time": "define.std.at.scalar.unit.time",
+    }
+
+    for attribute_type, expected_module in expected_modules.items():
+        assert _AT_TYPE_MAP[attribute_type][1] == expected_module
 
 
 def _attr(
@@ -415,6 +439,11 @@ def test_generate_plus_minus_average_node_class_code():
     compile(code, "plus_minus_average.py", "exec")
 
     assert "from ....attr.define.node_attr.plus_minus_average import" in code
+    assert "from ....attr.define.std.at.scalar.enum import" in code
+    assert (
+        "from ....attr.define.std.at.scalar.numeric.range.float "
+        "import FloatField"
+    ) in code
     assert "Input2DField" in code
     assert "Input3DField" in code
     assert "Output2DField" in code
@@ -446,6 +475,10 @@ def test_generate_transform_node_class_code():
 
     assert "from .._core import Transform" in code
     assert "from .....attr.define.node_attr.joint import JointOrientField" in code
+    assert (
+        "from .....attr.define.std.at.scalar.numeric.bool "
+        "import BoolField"
+    ) in code
     assert "class _GeneratedJoint(Transform):" in code
     assert 'NODE_TYPE = "joint"' in code
     assert "message = MessageField()" not in code

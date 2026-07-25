@@ -7,13 +7,13 @@ from ....attr.define.node_attr.compose_matrix import (
     InputShearField,
     InputTranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
 class InputRotateOrderEnumPlugOperator(EnumPlugOperator):

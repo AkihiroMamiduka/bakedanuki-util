@@ -21,7 +21,7 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
     ScalarBasePlugOperator,
     ScalarBaseField,
 )
-from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range.double_linear import (
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (

@@ -5,7 +5,7 @@ from ....attr.define.node_attr.attr_hierarchy_test import (
     MultiCompoundField,
 )
 from ....attr.define.std.at.compound import CompoundField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
 class _GeneratedAttrHierarchyTest(DG):

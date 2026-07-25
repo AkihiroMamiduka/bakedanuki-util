@@ -7,7 +7,7 @@ from ....attr.define.node_attr.decompose_matrix import (
     OutputShearField,
     OutputTranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

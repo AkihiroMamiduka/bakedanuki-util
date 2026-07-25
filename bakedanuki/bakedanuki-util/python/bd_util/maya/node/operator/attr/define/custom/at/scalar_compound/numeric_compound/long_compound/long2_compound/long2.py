@@ -6,7 +6,7 @@ from ._base import (
     Long2CompoundBaseAttrOperator,
     Long2CompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.long import LongField
+from .......std.at.scalar.numeric.range.long import LongField
 
 
 class Long2PlugOperator(Long2CompoundBasePlugOperator["Long2AttrOperator"]):

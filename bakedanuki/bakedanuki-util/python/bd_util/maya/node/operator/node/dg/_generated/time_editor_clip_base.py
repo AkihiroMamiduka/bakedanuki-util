@@ -5,8 +5,8 @@ from ....attr.define.node_attr.time_editor_clip_base import (
     OffsetField,
 )
 from ....attr.define.std.at.message import MessageField
-from ....attr.define.std.at.numeric_scalar_range.float import FloatField
-from ....attr.define.std.at.unit_scalar.time import TimeField
+from ....attr.define.std.at.scalar.numeric.range.float import FloatField
+from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 

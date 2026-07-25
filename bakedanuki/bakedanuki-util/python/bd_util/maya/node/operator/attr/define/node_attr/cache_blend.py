@@ -6,9 +6,9 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.generic import GenericField
-from ..std.at.numeric_scalar.bool import BoolField
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.unit_scalar.time import TimeField
+from ..std.at.scalar.numeric.bool import BoolField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.unit.time import TimeField
 from ..std.dt.double_array import DataDoubleArrayField
 
 

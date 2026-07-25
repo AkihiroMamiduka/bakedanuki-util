@@ -7,7 +7,7 @@ from ....attr.define.node_attr.compute_local import (
     ScaleField,
     TranslateField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

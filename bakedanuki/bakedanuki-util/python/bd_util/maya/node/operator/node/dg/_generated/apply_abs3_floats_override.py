@@ -5,7 +5,7 @@ from ....attr.define.node_attr.apply_abs3_floats_override import (
     OutField,
     ValueField,
 )
-from ....attr.define.std.at.numeric_scalar.bool import BoolField
+from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
 class _GeneratedApplyAbs3FloatsOverride(DG):

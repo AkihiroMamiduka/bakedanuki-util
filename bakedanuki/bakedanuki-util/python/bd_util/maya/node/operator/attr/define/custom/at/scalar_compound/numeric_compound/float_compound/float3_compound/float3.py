@@ -6,7 +6,7 @@ from ._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBaseField,
 )
-from .......std.at.numeric_scalar_range.float import FloatField
+from .......std.at.scalar.numeric.range.float import FloatField
 
 
 class Float3PlugOperator(

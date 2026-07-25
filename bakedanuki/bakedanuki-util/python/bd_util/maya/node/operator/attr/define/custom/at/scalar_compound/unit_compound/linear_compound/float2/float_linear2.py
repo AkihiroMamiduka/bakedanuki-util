@@ -8,7 +8,7 @@ from ._base import (
     FloatLinear2CompoundBaseField,
 )
 
-from .......std.at.unit_scalar_range.float_linear import FloatLinearField
+from .......std.at.scalar.unit.range.float_linear import FloatLinearField
 
 
 class FloatLinear2PlugOperator(

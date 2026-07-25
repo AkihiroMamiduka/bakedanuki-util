@@ -6,7 +6,7 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.typed import TypedField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,

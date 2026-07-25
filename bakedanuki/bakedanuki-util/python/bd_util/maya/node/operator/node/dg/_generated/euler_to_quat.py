@@ -4,7 +4,7 @@ from ....attr.define.node_attr.euler_to_quat import (
     InputRotateField,
     OutputQuatField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

@@ -6,7 +6,7 @@ from ....attr.define.node_attr.ai_atan import (
     XField,
     YField,
 )
-from ....attr.define.std.at.enum import (
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,

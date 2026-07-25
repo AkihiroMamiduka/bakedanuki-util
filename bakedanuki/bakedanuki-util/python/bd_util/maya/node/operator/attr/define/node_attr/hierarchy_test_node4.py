@@ -5,8 +5,8 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.double import DoubleField
-from ..std.at.numeric_scalar_range.float import FloatField
+from ..std.at.scalar.numeric.range.double import DoubleField
+from ..std.at.scalar.numeric.range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,

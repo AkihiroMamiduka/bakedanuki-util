@@ -5,7 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
 class HipsEffectorPivotPlugOperator(

@@ -4,7 +4,7 @@ from ....attr.define.node_attr.distance_between import (
     Point1Field,
     Point2Field,
 )
-from ....attr.define.std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 

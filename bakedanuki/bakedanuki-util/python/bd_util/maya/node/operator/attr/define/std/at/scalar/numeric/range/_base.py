@@ -2,8 +2,8 @@
 from typing import TypeVar, Type, cast
 
 # self
-from ......... import logger as u_logger
-from ..numeric_scalar._base import (
+from ........... import logger as u_logger
+from .._base import (
     NumericBaseAttrOperator,
     NumericBasePlugOperator,
     NumericBaseField,

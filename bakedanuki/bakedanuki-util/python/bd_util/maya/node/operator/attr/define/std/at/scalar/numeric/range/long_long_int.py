@@ -4,7 +4,7 @@
 from maya.api import OpenMaya as om
 
 # self
-from .........py.error import UnsupportedOperationError
+from ...........py.error import UnsupportedOperationError
 from ._base import (
     NumericRangeBaseAttrOperator,
     NumericRangeBasePlugOperator,

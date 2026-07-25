@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ....define.std.at.unit_scalar_range.double_angle import DoubleAngleField
+from ....define.std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
 class ExtraDoubleAngleField(DoubleAngleField):

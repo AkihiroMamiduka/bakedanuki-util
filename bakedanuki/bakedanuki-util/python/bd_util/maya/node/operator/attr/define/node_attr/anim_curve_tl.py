@@ -5,9 +5,9 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.numeric_scalar_range.float import FloatField
-from ..std.at.unit_scalar.time import TimeField
-from ..std.at.unit_scalar_range.double_linear import DoubleLinearField
+from ..std.at.scalar.numeric.range.float import FloatField
+from ..std.at.scalar.unit.time import TimeField
+from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,

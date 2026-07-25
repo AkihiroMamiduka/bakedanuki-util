@@ -4,7 +4,7 @@ from ....attr.define.node_attr.subd_hier_blind import (
     BdUserInfoField,
     BlindDataPresetsField,
 )
-from ....attr.define.std.at.numeric_scalar_range.long import LongField
+from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
 class _GeneratedSubdHierBlind(DG):
