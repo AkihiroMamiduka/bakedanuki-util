@@ -6,22 +6,22 @@ from maya.api import OpenMaya as om
 
 # self
 from ......... import logger as u_logger
-from ....._core import AttrOperator, PlugOperator, AttributeField
+from ..scalar._base import (
+    ScalarBaseAttrOperator,
+    ScalarBasePlugOperator,
+    ScalarBaseField,
+)
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="NumericBaseAttrOperator")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="NumericBasePlugOperator")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class NumericBasePlugOperator(PlugOperator[A]):
+class NumericBasePlugOperator(ScalarBasePlugOperator[A]):
     __slots__ = ()
-
-    @property
-    def keyframe(self):
-        return self._get_keyframe_manager()
 
     # add
     def _add_attr_base(self, mfn_numeric_data_type: int):
@@ -46,13 +46,11 @@ class NumericBasePlugOperator(PlugOperator[A]):
         self._node.fn_node.addAttribute(attr_obj)
 
 
-class NumericBaseAttrOperator(AttrOperator[P]):
+class NumericBaseAttrOperator(ScalarBaseAttrOperator[P]):
     __slots__ = ()
 
-    ATTR_TYPE = "abc"
 
-
-class NumericBaseField(AttributeField[A, P]):
+class NumericBaseField(ScalarBaseField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], NumericBaseAttrOperator)

@@ -27,10 +27,6 @@ class FloatLinearPlugOperator(
     def set(self, value: float):
         self._node._dg_mod.newPlugValueMDistance(self.plug, value)
 
-    @property
-    def keyframe(self):
-        return self._get_keyframe_manager()
-
     # add
     def add_attr(self):
         self._add_attr_base(om.MFnUnitAttribute.kDistance)

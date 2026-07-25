@@ -59,8 +59,6 @@ class NumericRangeBasePlugOperator(NumericBasePlugOperator[A]):
 class NumericRangeBaseAttrOperator(NumericBaseAttrOperator[P]):
     __slots__ = ()
 
-    ATTR_TYPE = "abc"
-
 
 class NumericRangeBaseField(NumericBaseField[A, P]):
     __slots__ = ()

@@ -3,6 +3,7 @@ from typing import Literal, assert_type
 import bd_util as bdu
 from maya.api import OpenMaya as om
 
+from bd_util.maya.node.operator.attr import KeyframeManager
 from bd_util.maya.node.operator.attr.define.node_attr.compose_matrix import (
     InputTranslateAttrOperator,
     InputTranslatePlugOperator,
@@ -15,6 +16,11 @@ from bd_util.maya.node.operator.attr.define.std.at.matrix import (
     MatrixAttrOperator,
     MatrixPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
+    ScalarBaseAttrOperator,
+    ScalarBasePlugOperator,
+    ScalarBaseField,
+)
 from bd_util.maya.node.operator.attr.define.std.at.unit_scalar_range.double_linear import (
     DoubleLinearPlugOperator,
 )
@@ -25,6 +31,7 @@ from bd_util.maya.node.operator.node._core import NodeOperator
 from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
     InputRotateOrderEnumAttrOperator,
     InputRotateOrderEnumPlugOperator,
+    InputRotateOrderEnumField,
 )
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
@@ -57,6 +64,10 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         DoubleLinearPlugOperator,
     )
     assert_type(compose.inputTranslate.inputTranslateX.get(), float)
+    assert_type(
+        compose.inputTranslate.inputTranslateX.keyframe,
+        KeyframeManager,
+    )
 
     assert_type(
         ComposeMatrix.inputRotateOrder,
@@ -67,6 +78,37 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         InputRotateOrderEnumPlugOperator,
     )
     assert_type(compose.inputRotateOrder.XYZ, Literal[0])
+    assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
+
+
+def scalar_base_contract(
+    attr: InputRotateOrderEnumAttrOperator,
+    plug: InputRotateOrderEnumPlugOperator,
+    field: InputRotateOrderEnumField,
+) -> None:
+    scalar_attr: ScalarBaseAttrOperator[
+        InputRotateOrderEnumPlugOperator
+    ] = attr
+    scalar_plug: ScalarBasePlugOperator[
+        InputRotateOrderEnumAttrOperator
+    ] = plug
+    scalar_field: ScalarBaseField[
+        InputRotateOrderEnumAttrOperator,
+        InputRotateOrderEnumPlugOperator,
+    ] = field
+
+    assert_type(
+        scalar_attr,
+        InputRotateOrderEnumAttrOperator,
+    )
+    assert_type(
+        scalar_plug,
+        InputRotateOrderEnumPlugOperator,
+    )
+    assert_type(
+        scalar_field,
+        InputRotateOrderEnumField,
+    )
 
 
 def multi_compound_contract(nodes: bdu.Nodes) -> None:

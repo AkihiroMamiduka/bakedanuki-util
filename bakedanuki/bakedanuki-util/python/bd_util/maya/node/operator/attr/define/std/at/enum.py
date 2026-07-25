@@ -5,7 +5,11 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
-from ...._core import AttrOperator, PlugOperator, AttributeField
+from .scalar._base import (
+    ScalarBaseAttrOperator,
+    ScalarBasePlugOperator,
+    ScalarBaseField,
+)
 
 A = TypeVar("A", bound="EnumAttrOperator")
 
@@ -39,7 +43,7 @@ def _index_by_name_from_name_map(
     return {v: k for k, v in name_map.items()}[name]
 
 
-class EnumPlugOperator(PlugOperator[A]):
+class EnumPlugOperator(ScalarBasePlugOperator[A]):
     __slots__ = ("_fn_enum",)
 
     NAME_MAP: dict[int, str] | None = None
@@ -84,10 +88,6 @@ class EnumPlugOperator(PlugOperator[A]):
     def set(self, value: int):
         self._node._dg_mod.newPlugValueShort(self.plug, value)
 
-    @property
-    def keyframe(self):
-        return self._get_keyframe_manager()
-
     # add
     def add_attr(self):
         # アトリビュートが既に存在する場合はスキップ
@@ -110,7 +110,7 @@ class EnumPlugOperator(PlugOperator[A]):
             fn_attr.addField(name, index)
 
 
-class EnumAttrOperator(AttrOperator[P]):
+class EnumAttrOperator(ScalarBaseAttrOperator[P]):
     __slots__ = ()
 
     ATTR_TYPE = "enum"
@@ -143,7 +143,7 @@ class EnumAttrOperator(AttrOperator[P]):
         return _index_by_name_from_name_map(self._active_name_map, name)
 
 
-class EnumField(AttributeField[A, P]):
+class EnumField(ScalarBaseField[A, P]):
     __slots__ = ()
 
     ATTR_CLS = cast(Type[A], EnumAttrOperator)

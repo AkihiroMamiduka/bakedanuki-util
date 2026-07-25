@@ -59,8 +59,6 @@ class UnitRangeBasePlugOperator(UnitBasePlugOperator[A]):
 class UnitRangeBaseAttrOperator(UnitBaseAttrOperator[P]):
     __slots__ = ()
 
-    ATTR_TYPE = "abc"
-
 
 class UnitRangeBaseField(UnitBaseField[A, P]):
     __slots__ = ()
