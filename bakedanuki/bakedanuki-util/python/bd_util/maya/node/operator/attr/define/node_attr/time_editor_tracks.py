@@ -5,13 +5,13 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
+from ..std.at.generic import GenericField
+from ..std.at.message import MessageField
 from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.generic import GenericField
-from ..std.at.message import MessageField
 from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.string import DataStringField

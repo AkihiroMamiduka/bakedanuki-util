@@ -8,8 +8,8 @@ from ....attr.define.node_attr.pxr_usd_point_based_deformer_node import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.time import TimeField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 

@@ -6,15 +6,15 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..std.at.scalar.enum import (
-    EnumAttrOperator,
-    EnumPlugOperator,
-    EnumField,
-)
 from ..std.at.light_data import (
     LightDataAttrOperator,
     LightDataPlugOperator,
     LightDataField,
+)
+from ..std.at.scalar.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
 )
 from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.float import FloatField

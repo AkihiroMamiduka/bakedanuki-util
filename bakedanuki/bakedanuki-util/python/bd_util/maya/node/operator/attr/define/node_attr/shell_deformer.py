@@ -8,9 +8,9 @@ from ..std.at.compound import (
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.numeric.range.long import LongField
-from ..std.at.typed import TypedField
 from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ..std.at.typed import TypedField
 from ..std.dt.double_array import DataDoubleArrayField
 from ..std.dt.string import DataStringField
 from ..std.dt.vector_array import DataVectorArrayField

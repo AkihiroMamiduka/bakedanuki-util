@@ -9,8 +9,8 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.time import TimeField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 

@@ -67,7 +67,7 @@ class _GeneratedAiLayerShader(DG):
 
     name1 = DataStringField()
 
-    input1A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input1A = FloatField(default_value=7.458411076368839e-41, min_value=0.0, max_value=1.0)
     input1a = input1A
 
     input1 = Input1Field(default_value=(0.0, 0.0, 0.0))
@@ -84,7 +84,7 @@ class _GeneratedAiLayerShader(DG):
 
     name2 = DataStringField()
 
-    input2A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input2A = FloatField(default_value=7.458411076368839e-41, min_value=0.0, max_value=1.0)
     input2a = input2A
 
     input2 = Input2Field(default_value=(0.0, 0.0, 0.0))
@@ -118,7 +118,7 @@ class _GeneratedAiLayerShader(DG):
 
     name4 = DataStringField()
 
-    input4A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input4A = FloatField(default_value=7.458411076368839e-41, min_value=0.0, max_value=1.0)
     input4a = input4A
 
     input4 = Input4Field(default_value=(0.0, 0.0, 0.0))
@@ -135,7 +135,7 @@ class _GeneratedAiLayerShader(DG):
 
     name5 = DataStringField()
 
-    input5A = FloatField(default_value=3.363116314379561e-43, min_value=0.0, max_value=1.0)
+    input5A = FloatField(default_value=7.42688186092153e-44, min_value=0.0, max_value=1.0)
     input5a = input5A
 
     input5 = Input5Field(default_value=(0.0, 0.0, 0.0))
@@ -169,7 +169,7 @@ class _GeneratedAiLayerShader(DG):
 
     name7 = DataStringField()
 
-    input7A = FloatField(default_value=4.642501812308119e-42, min_value=0.0, max_value=1.0)
+    input7A = FloatField(default_value=7.458411076368839e-41, min_value=0.0, max_value=1.0)
     input7a = input7A
 
     input7 = Input7Field(default_value=(0.0, 0.0, 0.0))

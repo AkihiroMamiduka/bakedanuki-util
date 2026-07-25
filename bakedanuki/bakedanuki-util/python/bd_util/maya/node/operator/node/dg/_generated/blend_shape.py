@@ -22,8 +22,8 @@ from ....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.f
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 

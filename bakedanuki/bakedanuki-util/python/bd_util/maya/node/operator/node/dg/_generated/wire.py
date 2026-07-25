@@ -9,8 +9,8 @@ from ....attr.define.node_attr.wire import (
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.range.float_angle import FloatAngleField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 

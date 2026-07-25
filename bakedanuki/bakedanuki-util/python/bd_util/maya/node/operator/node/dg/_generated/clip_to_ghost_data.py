@@ -3,8 +3,8 @@ from .._core import DG
 from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.time import TimeField
+from ....attr.define.std.at.typed import TypedField
 
 
 class _GeneratedClipToGhostData(DG):

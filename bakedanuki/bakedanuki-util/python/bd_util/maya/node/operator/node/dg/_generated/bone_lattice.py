@@ -9,8 +9,8 @@ from ....attr.define.node_attr.bone_lattice import (
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.typed import TypedField
 
 
 class _GeneratedBoneLattice(DG):

@@ -5,12 +5,12 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
+from ..std.at.matrix import MatrixField
 from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
 
 

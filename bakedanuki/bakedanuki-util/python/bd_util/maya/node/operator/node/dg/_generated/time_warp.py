@@ -1,7 +1,7 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.time import TimeField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 
 

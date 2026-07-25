@@ -6,8 +6,8 @@ from ....attr.define.node_attr.clip_library import (
 )
 from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.time import TimeField
+from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 

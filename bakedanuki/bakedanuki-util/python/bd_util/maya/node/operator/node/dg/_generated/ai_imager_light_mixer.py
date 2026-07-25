@@ -25,13 +25,13 @@ class _GeneratedAiImagerLightMixer(DG):
     layerSolo = BoolField(multi=True, default_value=True)
     layer_solo = layerSolo
 
-    layerTint = LayerTintField(multi=True, default_value=(-2.2096994373166368e-13, 9.332647772403282e-43, 1.0))
+    layerTint = LayerTintField(multi=True, default_value=(2.246063752498668e+26, 6.305843089461677e-43, 1.0))
     layer_tint = layerTint
 
-    layerIntensity = FloatField(multi=True, default_value=-2.2097037741253267e-13)
+    layerIntensity = FloatField(multi=True, default_value=2.2460696554567714e+26)
     layer_intensity = layerIntensity
 
-    layerExposure = FloatField(multi=True, default_value=-2.2097081109340166e-13)
+    layerExposure = FloatField(multi=True, default_value=2.246075558414875e+26)
     layer_exposure = layerExposure
 
     outputName = DataStringField()

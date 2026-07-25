@@ -5,13 +5,13 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
+from ..std.at.matrix import MatrixField
+from ..std.at.message import MessageField
 from ..std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.matrix import MatrixField
-from ..std.at.message import MessageField
 
 
 class DisplayTypeEnumPlugOperator(EnumPlugOperator):

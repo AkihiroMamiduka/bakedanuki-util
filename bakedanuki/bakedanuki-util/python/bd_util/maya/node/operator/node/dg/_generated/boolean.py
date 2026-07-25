@@ -5,8 +5,8 @@ from ....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.typed import TypedField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator):
