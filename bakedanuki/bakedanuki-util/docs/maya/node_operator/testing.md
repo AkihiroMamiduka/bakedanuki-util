@@ -193,6 +193,88 @@ NodeOperator は生の `maya.api.OpenMaya` より速くなることは基本的�
 
 速度比較では 1 回ごとの揺れが大きいため、判断が難しい場合は accurate mode の median を見ます。
 
+## 競合パッケージとの同条件ベンチマーク
+
+`competitor_benchmark` は次の API を同じ Maya、同じ処理件数、
+各計測前の新規シーンという条件で比較します。
+
+- `maya.cmds`
+- `maya.api.OpenMaya`
+- NodeOperator
+- PyMEL
+- cymel
+- cmdx
+- AL_omx
+
+対象シナリオは、既存ノードのラップ、plug access、scalar get / set、
+node 作成、直列接続、matrix graph 作成です。library import、scene 初期化、
+事前準備、結果検証、scene 破棄は計測区間に含めません。
+また、import による Maya plug-in 読み込みの影響を全対象で揃えるため、
+利用可能な全 library を最初に import してから計測を開始します。
+
+NodeOperator と OpenMaya は処理を modifier に積んで最後に実行できます。
+一方、cmdx と AL_omx は node 作成を途中で即時反映するため、
+完全な一括実行にはなりません。この差を隠さないため、CSV の
+`execution_mode` に `immediate` / `batched` / `hybrid` を記録します。
+比較結果は単一の総合順位ではなく、scenario と execution mode ごとに
+解釈してください。
+
+### 競合パッケージの配置
+
+pip で配布されている比較対象は `requirements-benchmark.txt` で
+計測時のバージョンを固定します。
+
+```powershell
+$thirdParty = 'D:\thirdparty\python\site-packages'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
+    --upgrade `
+    --target $thirdParty `
+    -r requirements-benchmark.txt
+```
+
+cymel は PyPI package ではないため、source を同じ third-party
+directory の下へ clone します。
+
+```powershell
+git clone --depth 1 --branch main `
+    https://github.com/ryusas/cymel.git `
+    D:\thirdparty\python\site-packages\_cymel_source
+```
+
+初回の比較基準は cymel `0.33.2026070600`
+（commit `f46f395517d907b852fd7d1cede78b5268508a90`）です。
+将来更新した場合は、CSV の `adapter_version` とあわせて比較してください。
+
+### 実行方法
+
+PyMEL が home directory に `pymel.log` を作らないよう、benchmark 同梱の
+logging config を指定します。third-party packages と `bd_util` の両方を
+`PYTHONPATH` に入れて mayapy から実行します。
+
+```powershell
+$thirdParty = 'D:\thirdparty\python\site-packages'
+$cymelPython = Join-Path $thirdParty '_cymel_source\python'
+$packagePython = Resolve-Path .\bakedanuki\bakedanuki-util\python
+$env:PYTHONPATH = "$cymelPython;$thirdParty;$packagePython"
+$env:PYMEL_CONF = Resolve-Path `
+    .\bakedanuki\bakedanuki-util\python\bd_util\_test\maya\node\operator\node\competitor_benchmark\pymel.conf
+
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m `
+    bd_util._test.maya.node.operator.node.competitor_benchmark `
+    --count 1000 `
+    --repeat-count 5
+```
+
+手早い疎通確認では `--count 10 --repeat-count 1` を使用できます。
+`--adapter NodeOperator` や `--scenario matrix_graph` は複数回指定でき、
+対象を絞り込めます。
+
+計測値は既定で repository root の
+`benchmark_results/competitor/*.csv` へ保存します。
+`benchmark_results/` は `.gitignore` で除外しているため、
+比較結果そのものは Git 管理されません。CSV には各 repeat の生データを保存し、
+console には scenario ごとの median / min / max を表示します。
+
 ## 現行 snapshot
 
 このドキュメント作成時点では、直近の開発確認で `mayapy -m pytest tests` が通っている状態を前提にしています。
