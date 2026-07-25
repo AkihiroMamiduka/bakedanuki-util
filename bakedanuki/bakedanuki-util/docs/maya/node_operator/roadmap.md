@@ -23,6 +23,8 @@
 - `plus_minus_average` / `wt_add_matrix` の代表的な挙動を pytest 化。
 - `ModifierManager` 追加。
 - NodeOperator / PlugOperator の modifier 参照を manager 経由へ移行。
+- Pyright による node 作成、descriptor、compound / multi、戻り値型の
+  contract test を追加。
 - plug cache / indexed plug cache / child direct index などの速度改善。
 - custom scalar compound の階層整理。
 - `double2` / `double3` / `double4` / `float2` / `float3` などを custom compound 側へ移行。

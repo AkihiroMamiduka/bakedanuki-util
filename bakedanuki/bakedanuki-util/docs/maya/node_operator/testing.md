@@ -23,6 +23,48 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
+## Pyright 型・補完 contract
+
+`tests/typecheck/node_operator_contract.py` は、公開 API を利用したときに
+Pyright が解決する型を `typing.assert_type()` で固定します。
+
+現在は次の経路を検証します。
+
+- `nodes.create` / `nodes.existing` の具体的な node 戻り値型。
+- `AttributeField` の class access と instance access。
+- compound child と alias の具体的な plug 型。
+- enum plug と enum 定数。
+- `multi[index]` / `multi[next]` の具体的な plug 型。
+- `get()` の値型。
+- 存在しない属性や不正な引数が型エラーになること。
+
+型エラーになるべき行は、対象の diagnostic rule を
+`# pyright: ignore[...]` で指定しています。
+`pyrightconfig.json` の `reportUnnecessaryTypeIgnoreComment` を有効にしているため、
+誤用が型エラーにならなくなった場合も contract failure になります。
+
+Pyright と Maya API stub は、Maya 環境へ常設せず一時ディレクトリへ
+インストールできます。
+
+```powershell
+$pyrightTarget = Join-Path $env:TEMP 'codex-mayapy-pyright'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
+    --upgrade `
+    --target $pyrightTarget `
+    -r requirements-typecheck.txt
+
+$env:PYTHONPATH = $pyrightTarget
+$env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
+& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pyright `
+    --project pyrightconfig.json `
+    --pythonpath "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe"
+```
+
+期待する結果は `0 errors, 0 warnings, 0 informations` です。
+
+このcontractは静的解析用で、Maya sceneを作成するruntime testではありません。
+通常の挙動は引き続き `mayapy -m pytest tests` で検証します。
+
 ## 現在の pytest 対象
 
 `tests` 以下では、公開 API、NodeOperator、matrix 操作、開発用 generator を

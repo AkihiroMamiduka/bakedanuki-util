@@ -1,0 +1,13 @@
+{
+    "include": [
+        "tests/typecheck"
+    ],
+    "extraPaths": [
+        "bakedanuki/bakedanuki-util/python"
+    ],
+    "pythonVersion": "3.11",
+    "pythonPlatform": "Windows",
+    "typeCheckingMode": "strict",
+    "reportMissingTypeStubs": "none",
+    "reportUnnecessaryTypeIgnoreComment": "error"
+}

@@ -1,7 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import TypeVar, Type, Generic, Self, Any, overload
+from collections.abc import Iterator
+from typing import TypeVar, Type, Generic, Self, Any, Protocol, overload
 
 # maya
 from maya import cmds
@@ -25,6 +26,27 @@ class AccessMeta(type):
 A = TypeVar("A", bound="AttrOperator")
 
 P = TypeVar("P", bound="PlugOperator")
+
+_NextValue = TypeVar("_NextValue")
+_NextDefault = TypeVar("_NextDefault")
+
+
+class _NextIndexSentinel(Protocol):
+
+    @overload
+    def __call__(
+        self,
+        iterator: Iterator[_NextValue],
+        /,
+    ) -> _NextValue: ...
+
+    @overload
+    def __call__(
+        self,
+        iterator: Iterator[_NextValue],
+        default: _NextDefault,
+        /,
+    ) -> _NextValue | _NextDefault: ...
 
 
 class BaseAccess:
@@ -304,7 +326,7 @@ class PlugOperator(Generic[A], ABC):
     # [] アクセス
     def __getitem__(
         self,
-        key: int | str,
+        key: int | str | _NextIndexSentinel,
     ) -> Self:
         """
         [index] 指定（int）または文字列によるサブアトリビュートアクセス（str）を行い、
@@ -315,13 +337,15 @@ class PlugOperator(Generic[A], ABC):
         str には "subAttr" または "subAttr[0]" 形式を使用できる。
 
         Args:
-            key (int | str): インデックス（int）またはサブアトリビュート名（str）
+            key (int | str | _NextIndexSentinel):
+                インデックス（int）、サブアトリビュート名（str）、
+                または次の空き index を表す builtin の next
 
         Raises:
             AttributeError: 親アトリビュートが [index] アクセスされている場合に
                             さらに int インデックスアクセスしようとした場合
             AttributeError: 指定した文字列アトリビュートがノードに存在しない場合
-            TypeError: int / str 以外の型が渡された場合
+            TypeError: int / str / next 以外の値が渡された場合
 
         Returns:
             Plug: 対応する Plug インスタンス
