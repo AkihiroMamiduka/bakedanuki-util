@@ -16,7 +16,10 @@ class FloatPlugOperator(NumericRangeBasePlugOperator["FloatAttrOperator"]):
 
     # get
     def get(self) -> float:
-        return self.plug.asFloat()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asFloat()
 
     # set
     def set(self, value: float):

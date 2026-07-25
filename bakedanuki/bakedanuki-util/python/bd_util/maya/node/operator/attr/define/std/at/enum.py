@@ -51,7 +51,10 @@ class EnumPlugOperator(PlugOperator[A]):
 
     # get
     def get(self) -> int:
-        return self.plug.asShort()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asShort()
 
     def _get_fn_enum(self) -> om.MFnEnumAttribute:
         # MFnEnumAttribute をキャッシュする

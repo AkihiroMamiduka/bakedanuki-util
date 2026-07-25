@@ -16,7 +16,10 @@ class BytePlugOperator(NumericRangeBasePlugOperator["ByteAttrOperator"]):
 
     # get
     def get(self) -> int:
-        return self.plug.asChar()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asChar()
 
     # set
     def set(self, value: int):

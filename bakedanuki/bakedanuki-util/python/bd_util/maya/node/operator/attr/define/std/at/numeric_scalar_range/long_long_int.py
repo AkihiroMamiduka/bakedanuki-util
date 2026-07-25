@@ -19,7 +19,10 @@ class LongLongIntPlugOperator(
 
     # get
     def get(self) -> int:
-        return self.plug.asInt64()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asInt64()
 
     # set
     def set(self, value: int):

@@ -18,7 +18,10 @@ class DoubleLinearPlugOperator(
 
     # get
     def get(self) -> float:
-        return self.plug.asMDistance().asCentimeters()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asMDistance().asCentimeters()
 
     # set
     def set(self, value: float):

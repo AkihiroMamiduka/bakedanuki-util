@@ -16,7 +16,10 @@ class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
 
     # get
     def get(self) -> str:
-        return self.plug.asChar()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asChar()
 
     # set
     def set(self, value: str):

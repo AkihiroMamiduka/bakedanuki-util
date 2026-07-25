@@ -83,8 +83,10 @@ def test_node_creator_caches_creator_and_node_class(new_scene):
     from bd_util.maya.node.creator import NodeCreator
 
     node_creator = NodeCreator()
+    creator = node_creator.plusMinusAverage
 
-    assert node_creator.plusMinusAverage is node_creator.plusMinusAverage
+    assert node_creator.plusMinusAverage is creator
+    assert node_creator.__dict__["plusMinusAverage"] is creator
     assert node_creator.node_class("plus_minus_average") is node_creator.node_class(
         "plusMinusAverage"
     )

@@ -16,7 +16,10 @@ class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
 
     # get
     def get(self) -> int:
-        return self.plug.asInt()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asInt()
 
     # set
     def set(self, value: int):

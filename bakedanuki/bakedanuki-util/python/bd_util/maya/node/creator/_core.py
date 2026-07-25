@@ -52,9 +52,9 @@ def _iter_node_module_paths(
 
 class NodeCreator:
     __slots__ = (
+        "__dict__",
         "_modifier_manager",
         "_node_cls_cache",
-        "_creator_cache",
         "_node_names_cache",
     )
 
@@ -78,7 +78,6 @@ class NodeCreator:
         self._node_cls_cache: dict[
             tuple[tuple[str, ...], str], type[NodeOperator]
         ] = {}
-        self._creator_cache: dict[str, Callable[..., NodeOperator]] = {}
         self._node_names_cache: tuple[str, ...] | None = None
 
     @property
@@ -204,10 +203,6 @@ class NodeCreator:
         if node_name.startswith("_"):
             raise AttributeError(node_name)
 
-        cached = self._creator_cache.get(node_name)
-        if cached is not None:
-            return cached
-
         node_cls = self._creator_node_class(node_name)
 
         if issubclass(node_cls, DAG):
@@ -240,7 +235,7 @@ class NodeCreator:
         _create.__name__ = node_name
         _create.__qualname__ = f"{type(self).__name__}.{node_name}"
         _create.__doc__ = f"Create {node_cls.__name__}."
-        self._creator_cache[node_name] = _create
+        setattr(self, node_name, _create)
         return _create
 
     def __dir__(self) -> list[str]:

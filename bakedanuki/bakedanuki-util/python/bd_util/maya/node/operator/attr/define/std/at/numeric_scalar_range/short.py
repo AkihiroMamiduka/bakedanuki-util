@@ -16,7 +16,10 @@ class ShortPlugOperator(NumericRangeBasePlugOperator["ShortAttrOperator"]):
 
     # get
     def get(self) -> int:
-        return self.plug.asShort()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asShort()
 
     # set
     def set(self, value: int):

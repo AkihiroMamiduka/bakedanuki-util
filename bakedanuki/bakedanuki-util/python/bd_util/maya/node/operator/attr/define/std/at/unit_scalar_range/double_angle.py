@@ -26,7 +26,10 @@ class DoubleAnglePlugOperator(
 
     # get
     def get(self) -> float:
-        return self.plug.asMAngle().asDegrees()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asMAngle().asDegrees()
 
     # set
     def set(self, value: float):

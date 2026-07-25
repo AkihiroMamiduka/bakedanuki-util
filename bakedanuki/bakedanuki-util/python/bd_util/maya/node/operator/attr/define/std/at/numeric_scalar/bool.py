@@ -19,7 +19,10 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
 
     # get
     def get(self) -> bool:
-        return self.plug.asBool()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asBool()
 
     # set
     def set(self, value: bool):

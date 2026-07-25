@@ -18,7 +18,10 @@ class FloatLinearPlugOperator(
 
     # get
     def get(self) -> float:
-        return self.plug.asMDistance()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asMDistance()
 
     # set
     def set(self, value: float):

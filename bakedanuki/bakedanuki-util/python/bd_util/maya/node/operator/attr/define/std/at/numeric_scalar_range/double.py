@@ -16,7 +16,10 @@ class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
 
     # get
     def get(self) -> float:
-        return self.plug.asDouble()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asDouble()
 
     # set
     def set(self, value: float):

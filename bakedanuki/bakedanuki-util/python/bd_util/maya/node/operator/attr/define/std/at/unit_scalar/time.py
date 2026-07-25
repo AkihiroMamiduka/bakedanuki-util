@@ -16,7 +16,10 @@ class TimePlugOperator(UnitBasePlugOperator["TimeAttrOperator"]):
 
     # get
     def get(self) -> float:
-        return self.plug.asMTime()
+        plug = self._m_plug
+        if plug is None:
+            plug = self.plug
+        return plug.asMTime()
 
     # set
     def set(self, value: float):
