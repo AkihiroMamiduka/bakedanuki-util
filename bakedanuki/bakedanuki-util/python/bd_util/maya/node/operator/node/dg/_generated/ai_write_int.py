@@ -36,7 +36,7 @@ class _GeneratedAiWriteInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    beautyA = FloatField(default_value=6.305843089461677e-43, min_value=0.0, max_value=1.0)
+    beautyA = FloatField(min_value=0.0, max_value=1.0)
     passthrougha = beautyA
 
     beauty = BeautyField(default_value=(0.0, 0.0, 0.0))

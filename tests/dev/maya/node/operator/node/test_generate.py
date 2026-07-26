@@ -1,5 +1,6 @@
 # coding: utf-8
 from bd_util._dev.maya.node.operator.node.generate import (
+    _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
     _AT_TYPE_MAP,
     generate_node_attr_code,
     generate_node_class_code,
@@ -30,6 +31,44 @@ def test_scalar_attribute_type_map_uses_scalar_package_hierarchy():
 
     for attribute_type, expected_module in expected_modules.items():
         assert _AT_TYPE_MAP[attribute_type][1] == expected_module
+
+
+def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
+    assert _ARNOLD_UNRELIABLE_DEFAULT_ATTRS == {
+        "aiAOVDriver": frozenset({"layerTolerance"}),
+        "aiImagerLightMixer": frozenset(
+            {
+                "layerTint",
+                "layerTintR",
+                "layerTintG",
+                "layerIntensity",
+                "layerExposure",
+            }
+        ),
+        "aiLayerShader": frozenset(
+            {
+                "input1A",
+                "input2A",
+                "input4A",
+                "input5A",
+                "input7A",
+            }
+        ),
+        "aiMixShader": frozenset({"shader1A", "shader2A"}),
+        "aiPassthrough": frozenset(
+            {
+                "eval2A",
+                "eval3A",
+                "eval4A",
+                "eval5A",
+                "eval6A",
+                "eval11A",
+                "eval14A",
+                "eval18A",
+            }
+        ),
+        "aiWriteInt": frozenset({"beautyA"}),
+    }
 
 
 def _attr(
@@ -73,6 +112,81 @@ def _attr(
         path_name=path_name,
         enforcing_unique_name=enforcing_unique_name,
     )
+
+
+def test_generate_omits_only_known_unreliable_arnold_defaults():
+    code = generate_node_class_code(
+        "aiLayerShader",
+        attr_infos=[
+            _attr(
+                "input1A",
+                "input1a",
+                "float",
+                default_value=[123.0],
+                min_value=[0.0],
+                max_value=[1.0],
+            ),
+            _attr(
+                "input3A",
+                "input3a",
+                "float",
+                default_value=[0.0],
+                min_value=[0.0],
+                max_value=[1.0],
+            ),
+        ],
+    )
+
+    assert "input1A = FloatField(min_value=0.0, max_value=1.0)" in code
+    assert "input1A = FloatField(default_value=" not in code
+    assert (
+        "input3A = FloatField(default_value=0.0, min_value=0.0, "
+        "max_value=1.0)" in code
+    )
+
+
+def test_generate_node_attr_omits_known_unreliable_arnold_child_default():
+    code = generate_node_attr_code(
+        "aiImagerLightMixer",
+        attr_infos=[
+            _attr(
+                "layerTint",
+                "layer_tint",
+                "float3",
+                default_value=[123.0, 456.0, 1.0],
+                number_of_children=3,
+            ),
+            _attr(
+                "layerTint.layerTintR",
+                "layer_tintr",
+                "float",
+                default_value=[123.0],
+                parent="layerTint",
+                path_name="layerTintR",
+            ),
+            _attr(
+                "layerTint.layerTintG",
+                "layer_tintg",
+                "float",
+                default_value=[456.0],
+                parent="layerTint",
+                path_name="layerTintG",
+            ),
+            _attr(
+                "layerTint.layerTintB",
+                "layer_tintb",
+                "float",
+                default_value=[1.0],
+                parent="layerTint",
+                path_name="layerTintB",
+            ),
+        ],
+    )
+
+    assert code is not None
+    assert "layerTintR = FloatField()" in code
+    assert "layerTintG = FloatField()" in code
+    assert "layerTintB = FloatField(default_value=1.0)" in code
 
 
 def _plus_minus_average_attr_infos() -> list[AttrInfo]:

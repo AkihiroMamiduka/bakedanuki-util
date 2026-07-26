@@ -34,6 +34,7 @@ Python ファイルを生成するモジュール。
 
 from __future__ import annotations
 
+import dataclasses
 import keyword
 import math
 import pathlib
@@ -217,6 +218,57 @@ _SKIPPED_DAG_NODE_TYPE_KEYWORDS: dict[str, str] = {
         "Manipulator node type. Manipulator-related DAG nodes can make Maya "
         "unstable during bulk generation, so node types containing 'manip' "
         "are excluded from normal DAG generation."
+    ),
+}
+
+# Maya 2025 / MtoA で default query がプロセス依存の未初期化値を返す
+# Arnold attribute。安定した metadata として生成コードへ埋め込まない。
+_ARNOLD_UNRELIABLE_DEFAULT_ATTRS: dict[str, frozenset[str]] = {
+    "aiAOVDriver": frozenset(
+        {
+            "layerTolerance",
+        }
+    ),
+    "aiImagerLightMixer": frozenset(
+        {
+            "layerTint",
+            "layerTintR",
+            "layerTintG",
+            "layerIntensity",
+            "layerExposure",
+        }
+    ),
+    "aiLayerShader": frozenset(
+        {
+            "input1A",
+            "input2A",
+            "input4A",
+            "input5A",
+            "input7A",
+        }
+    ),
+    "aiMixShader": frozenset(
+        {
+            "shader1A",
+            "shader2A",
+        }
+    ),
+    "aiPassthrough": frozenset(
+        {
+            "eval2A",
+            "eval3A",
+            "eval4A",
+            "eval5A",
+            "eval6A",
+            "eval11A",
+            "eval14A",
+            "eval18A",
+        }
+    ),
+    "aiWriteInt": frozenset(
+        {
+            "beautyA",
+        }
     ),
 }
 
@@ -749,6 +801,24 @@ def _get_inherited_attr_infos(
 
 def _attr_long_names(attr_infos: list[AttrInfo]) -> frozenset[str]:
     return frozenset(_attr_long_name(info) for info in attr_infos)
+
+
+def _omit_unreliable_default_values(
+    node_type: str,
+    attr_infos: list[AttrInfo],
+) -> list[AttrInfo]:
+    attr_names = _ARNOLD_UNRELIABLE_DEFAULT_ATTRS.get(node_type)
+    if not attr_names:
+        return attr_infos
+
+    return [
+        (
+            dataclasses.replace(attr_info, default_value=None)
+            if _attr_long_name(attr_info) in attr_names
+            else attr_info
+        )
+        for attr_info in attr_infos
+    ]
 
 
 def _filter_inherited_attr_infos(
@@ -1437,6 +1507,7 @@ def generate_node_attr_code(
             mode_error_skip=True,
         )
 
+    attr_infos = _omit_unreliable_default_values(node_type, attr_infos)
     attr_infos = _filter_supported_attr_infos(attr_infos)
 
     # 子アトリビュートを親ごとにグループ化
@@ -1685,6 +1756,8 @@ def generate_node_class_code(
             mode_new_scene=True,
             mode_error_skip=True,
         )
+
+    attr_infos = _omit_unreliable_default_values(node_type, attr_infos)
 
     if inherited_attr_infos is None:
         if should_query_inherited_attrs:

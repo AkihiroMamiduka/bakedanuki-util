@@ -204,6 +204,18 @@ output = DoubleField(default_value=0.0, writable=False)
 
 `category` は現行の `AttributeField(category=...)` に合わせ、取得できた最初の category を文字列として出力します。
 
+### Arnold の不定な default 値
+
+Maya 2025 / MtoA の一部 attribute は、`cmds.attributeQuery(..., listDefault=True)` と
+OpenMaya の attribute default query の双方で、`mayapy` プロセスごとに異なる
+未初期化値を返します。
+
+Generator は、複数プロセスで不定になることを確認した Arnold の6ノードタイプ・
+22 attribute だけ、生成時に `default_value` を省略します。通常の attribute query
+結果は変更せず、安定して取得できる `0.0`、`1.0`、`NaN` などの default 値も維持します。
+対象は数値の見た目では判定せず、`(node_type, canonical attribute name)`
+の明示リストで限定します。
+
 ## short_name alias
 
 `short_name` alias は、次の条件を満たす場合だけ生成します。

@@ -96,7 +96,7 @@ class _GeneratedAiMixShader(DG):
     addTransparency = BoolField(default_value=False)
     add_transparency = addTransparency
 
-    shader1A = FloatField(default_value=6.305843089461677e-43, min_value=0.0, max_value=1.0)
+    shader1A = FloatField(min_value=0.0, max_value=1.0)
     shader1a = shader1A
 
     shader1 = Shader1Field(default_value=(0.0, 0.0, 0.0))
@@ -107,7 +107,7 @@ class _GeneratedAiMixShader(DG):
     shader1B = shader1.shader1B
     shader1b = shader1B
 
-    shader2A = FloatField(default_value=6.305843089461677e-43, min_value=0.0, max_value=1.0)
+    shader2A = FloatField(min_value=0.0, max_value=1.0)
     shader2a = shader2A
 
     shader2 = Shader2Field(default_value=(0.0, 0.0, 0.0))
