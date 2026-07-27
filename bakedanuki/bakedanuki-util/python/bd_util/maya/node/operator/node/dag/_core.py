@@ -101,7 +101,7 @@ class DAG(NodeOperator):
         from ....existing_node import ExistingNode
 
         fn_dag = om.MFnDagNode(self.m_obj)
-        parents = []
+        parents: list[DAG] = []
         for index in range(fn_dag.parentCount()):
             parent_obj = fn_dag.parent(index)
             if parent_obj.hasFn(om.MFn.kWorld):
