@@ -43,7 +43,11 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 `pyrightconfig.json` の `reportUnnecessaryTypeIgnoreComment` を有効にしているため、
 誤用が型エラーにならなくなった場合も contract failure になります。
 
-Pyright と Maya API stub は、Maya 環境へ常設せず一時ディレクトリへ
+Maya API stub はリポジトリの `typings/maya` に同梱しています。
+`pyrightconfig.json` の `stubPath` を通して Pyright / Pylance から参照されるため、
+開発環境ごとに `maya-stubs` をインストールする必要はありません。
+
+Pyright CLI は、Maya 環境へ常設せず一時ディレクトリへ
 インストールできます。
 
 ```powershell

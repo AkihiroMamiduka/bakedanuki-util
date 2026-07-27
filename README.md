@@ -57,6 +57,18 @@ print(bd_util.__file__)
 
 `bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば導入できています。
 
+## Development
+
+VS Code / Pylance で開発する場合は、使用する Maya バージョンの
+`mayapy.exe` を Python interpreter に選択してください。
+
+Maya API の型スタブは `typings/maya` に同梱しています。
+リポジトリ直下の `pyrightconfig.json` が自動的に参照するため、
+クローン後に `maya-stubs` を別途インストールする必要はありません。
+
+Pyright の型・補完 contract と pytest の実行方法は、
+[testing.md](bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md) を参照してください。
+
 ## Repository Entry Points
 
 このリポジトリでは、開発リポジトリとしての入口と、配布用 `bakedanuki` フォルダとしての入口を分けています。
