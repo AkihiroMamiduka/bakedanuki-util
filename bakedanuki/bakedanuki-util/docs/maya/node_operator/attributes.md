@@ -328,6 +328,12 @@ result.as_tuple()
 継承関係が分かる package 構造で配置します。各専用値型は `bd_util` の
 トップレベルからも公開します。
 
+`bd_util` パッケージ内部で専用値型や関連 module を参照する場合は、
+`from bd_util.maya...` のような package top 起点の import ではなく、
+import 元の module を基準にした相対 import を使用します。
+これは内部実装の規約であり、利用者向けコードでは従来どおり
+`import bd_util as bdu` から公開 API を利用します。
+
 主な対応は次の通りです。
 
 - `double2/3/4` -> `Double2` / `Double3` / `Double4`

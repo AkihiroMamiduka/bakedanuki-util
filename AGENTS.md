@@ -170,6 +170,9 @@ CRLF warning はこの環境で出ることがあります。`git diff --check` 
 - Maya 専用パッケージとして割り切る。
 - OpenMaya の実挙動を優先する。
 - 推測で Maya API の意味を決めない。怪しい場合は `mayapy` で確認する。
+- `bd_util` パッケージ内部の module 間 import は、`from bd_util.maya...` のような
+  package top 起点ではなく、import 元の module を基準にした相対 import を使う。
+  利用者向けサンプルやテストから公開 API を import する場合は、この制約の対象外とする。
 - `cmds` / PyMEL より、可能な範囲で `maya.api.OpenMaya` を中心に考える。
 - ただし Maya 標準挙動や undo の都合で必要な場合は、既存方針に従う。
 - 共有基盤を触る場合は、影響範囲を広く見る。
