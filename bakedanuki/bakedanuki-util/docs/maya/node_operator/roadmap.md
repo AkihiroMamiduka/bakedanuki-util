@@ -34,6 +34,92 @@
 - compound child limit の public method 化。
 - `lookup.py` の double4 / quat 解決対応。
 
+## 決定済みのロードマップ
+
+次の順序で、compound value、DAG 階層、shape 作成 API を整備します。
+
+### 1. compound 専用値型
+
+`double2` / `double3` / `float2` / `float3` など、固定長かつ同種の
+scalar child で構成される compound の `get()` は、list ではなく
+専用の immutable value object を返す形へ移行します。
+
+専用値型は次を満たす方針です。
+
+- `result.x` / `result.y` / `result.z` / `result.w` で各要素へアクセスできる。
+- index access、unpack、iteration など、固定長 sequence として扱える。
+- `set()` / `set_direct()` は、専用値型に限定せず従来どおり通常の
+  list / tuple も受け付ける。
+- `get()` の具体的な戻り値型を Pyright などの Language Server から追える。
+- 初期実装では四則演算を追加しない。
+
+`double3` などは必ずしも幾何ベクトルを意味せず、色、範囲、任意の複数値にも
+使われます。演算は用途と意味が固まってから、通常の scalar compound と
+`Quat` などの意味付き型を分けて検討します。
+
+mixed compound はこの変更の対象外です。
+
+### 2. DAG path と instancing の方針
+
+子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
+扱いを決めます。
+
+現在の `NodeOperator` は `MObject` を中心に扱うため、同じ node が複数の
+DAG path を持つ場合に、どの path の階層を返すかが曖昧になります。
+
+初期版で曖昧な操作を `RuntimeError` にするか、`ExistingNode` から
+具体的な `MDagPath` を保持できる設計へ拡張するかを先に決定します。
+
+### 3. DAG 階層 traversal
+
+DAG path / instancing の方針確定後、次の階層取得 API を追加します。
+
+- 直接の子。
+- 直接親から root 方向へ辿る先祖。
+- depth-first で辿る子孫。
+
+戻り値は同じ `ModifierManager` を共有する `DAG` 系の `NodeOperator` とし、
+world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
+変更を含めるかを仕様として固定します。
+
+### 4. 親 Transform 必須の shape 作成
+
+最初の shape 作成 API は、親 `Transform` を必須として公開します。
+
+```python
+mesh = nodes.create.mesh(
+    name="meshShape",
+    parent=transform,
+)
+```
+
+親を指定せず `MDagModifier.createNode()` で shape type を作成すると、
+Maya が transform を自動生成し、返される `MObject` も transform になる
+場合があります。そのため、既存の DG / transform 作成 API と同じ形で
+shape package 全体を無条件に公開しません。
+
+まずは作成可能なことを確認できた shape type から限定して公開し、
+戻り値型、undo / redo、命名、親との `ModifierManager` 共有を検証します。
+
+### 5. transform と shape の一括作成
+
+親 Transform 必須の API が安定した後、transform と shape を同じ
+`ModifierManager` に積んで一括作成する便利 API を検討します。
+
+shape 名と transform 名、戻り値を shape 単体にするか両方返すか、
+既存の `nodes.create.<nodeType>()` とどう区別するかを明示します。
+
+`polyCube` のように history node も生成する primitive 作成は、raw shape
+作成とは別の高レベル API として扱います。
+
+### 6. compound 専用値型の演算
+
+compound 専用値型の利用例が集まり、演算の意味を固定できてから追加します。
+
+通常の numeric compound では、同じ型同士の加算・減算、scalar との
+乗算・除算を最初の候補とします。要素積、内積、行列との演算、
+quaternion multiplication などは同じ演算子へ一律に割り当てません。
+
 ## 近い作業候補
 
 ### 1. docs の継続更新
