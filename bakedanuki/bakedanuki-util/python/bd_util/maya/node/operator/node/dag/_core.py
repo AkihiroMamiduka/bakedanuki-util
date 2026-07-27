@@ -164,9 +164,7 @@ class DAG(NodeOperator):
             self.m_obj,
             parent.m_obj,
         ):
-            raise ValueError(
-                "a DAG node cannot be parented to its descendant"
-            )
+            raise ValueError("a DAG node cannot be parented to its descendant")
 
     @property
     def _cmd_access_name(self) -> str:
