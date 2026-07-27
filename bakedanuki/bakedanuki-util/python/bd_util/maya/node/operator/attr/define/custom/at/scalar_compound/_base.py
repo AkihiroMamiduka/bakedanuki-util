@@ -1,11 +1,14 @@
 # coding: utf-8
 from collections.abc import Sequence
-from typing import TypeVar, Type, cast
+from typing import Generic, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
 
 # self
+from ........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from ......... import logger as u_logger
 from ....._core import AttrOperator, PlugOperator, AttributeField
 
@@ -13,17 +16,20 @@ A = TypeVar("A", bound="AttrOperator")
 
 P = TypeVar("P", bound="PlugOperator")
 
+V = TypeVar("V", bound=ScalarCompoundValue[int | float])
+
 ScalarValue = int | float
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class ScalarCompoundBasePlugOperator(PlugOperator[A]):
+class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
     __slots__ = ()
 
     CHILD_M_FN = None
     CHILD_M_ATTR_TYPE: int = None
+    VALUE_TYPE: type[V]
     _SUFFIXES: tuple[str, ...] = ()
     CHILD_FIELDS: tuple[AttributeField, ...] = ()
     CHILD_ATTR_NAMES: tuple[tuple[str, str], ...] = ()
@@ -70,11 +76,28 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A]):
     def _get_child_value(self, child_plug: om.MPlug) -> ScalarValue:
         pass
 
-    def get(self) -> list[ScalarValue]:
-        return [
+    def get(self) -> V:
+        values = tuple(
             self._get_child_value(self.plug.child(i))
             for i in range(len(self._SUFFIXES))
-        ]
+        )
+        return self.VALUE_TYPE.from_values(values)
+
+    @property
+    def value(self) -> V:
+        return self.get()
+
+    @value.setter
+    def value(self, value: Sequence[ScalarValue]) -> None:
+        self.set(value)
+
+    @property
+    def value_direct(self) -> V:
+        return self.get()
+
+    @value_direct.setter
+    def value_direct(self, value: Sequence[ScalarValue]) -> None:
+        self.set_direct(value)
 
     # set
     def _set_child_value(

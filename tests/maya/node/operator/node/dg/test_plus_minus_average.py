@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import pytest
 
+import bd_util as bdu
+
 
 pytestmark = pytest.mark.maya
 
@@ -72,7 +74,9 @@ def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     modifier_manager.do_it_dg()
     assert node.input2D[0].input2Dx.get() == pytest.approx(201.0)
     assert node.input2D[0].input2Dy.get() == pytest.approx(202.0)
-    assert node.input2D[0].get() == pytest.approx([201.0, 202.0])
+    input2d = node.input2D[0].get()
+    assert isinstance(input2d, bdu.Float2)
+    assert input2d == pytest.approx([201.0, 202.0])
 
     node.input3D[0].input3Dx.set(301.0)
     node.input3D[0].input3Dy.set(302.0)
@@ -81,7 +85,9 @@ def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     assert node.input3D[0].input3Dx.get() == pytest.approx(301.0)
     assert node.input3D[0].input3Dy.get() == pytest.approx(302.0)
     assert node.input3D[0].input3Dz.get() == pytest.approx(303.0)
-    assert node.input3D[0].get() == pytest.approx(
+    input3d = node.input3D[0].get()
+    assert isinstance(input3d, bdu.Float3)
+    assert input3d == pytest.approx(
         [301.0, 302.0, 303.0]
     )
 

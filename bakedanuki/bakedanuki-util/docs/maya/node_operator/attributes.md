@@ -306,22 +306,67 @@ default は未指定時に `[0.0, 0.0, 0.0, 1.0]` です。
 
 ## compound get / set
 
-compound の `get()` は child 値の list を返します。
+固定長かつ同種の scalar child で構成される compound の `get()` は、
+attribute type に対応する immutable な専用値型を返します。
 
 ```python
-node.offset.get()
-# [1.0, 2.0, 3.0]
+import bd_util as bdu
+
+result = node.offset.get()
+
+isinstance(result, bdu.Double3)
+result.x
+result.y
+result.z
+
+x, y, z = result
+result[0]
+result.as_tuple()
+```
+
+専用値型は `bd_util.maya.value.scalar_compound` 以下に、attribute type の
+継承関係が分かる package 構造で配置します。各専用値型は `bd_util` の
+トップレベルからも公開します。
+
+主な対応は次の通りです。
+
+- `double2/3/4` -> `Double2` / `Double3` / `Double4`
+- `float2/3` -> `Float2` / `Float3`
+- `long2/3` -> `Long2` / `Long3`
+- `short2/3` -> `Short2` / `Short3`
+- `double_linear2/3` -> `DoubleLinear2` / `DoubleLinear3`
+- `float_linear2/3` -> `FloatLinear2` / `FloatLinear3`
+- `double_angle2/3` -> `DoubleAngle2` / `DoubleAngle3`
+- `float_angle2/3` -> `FloatAngle2` / `FloatAngle3`
+- `quat` -> `Quat`
+
+専用値型は `Sequence` として index access、slice、iteration、unpack、
+`tuple()` / `list()` への変換に対応します。値は変更できず、hashable です。
+
+初期実装では四則演算を持ちません。
+
+```python
+bdu.Double2(1.0, 2.0) + bdu.Double2(3.0, 4.0)
+# TypeError
 ```
 
 `set()` と `set_direct()` は、展開引数と sequence の両方を受け取ります。
+専用値型も sequence としてそのまま渡せます。
 
 ```python
 node.offset.set(1.0, 2.0, 3.0)
 node.offset.set([1.0, 2.0, 3.0])
 node.offset.set((1.0, 2.0, 3.0))
+node.offset.set(bdu.Double3(1.0, 2.0, 3.0))
 
 node.offset.set_direct(1.0, 2.0, 3.0)
 ```
+
+専用値型同士の比較では、値に加えて型も一致する必要があります。
+通常の list / tuple と比較したい場合は `tuple(result)`、`list(result)`、
+またはテスト用途の `pytest.approx()` などを使用します。
+
+mixed compound の `get()` は専用値型の対象外です。
 
 要素数が child 数と一致しない場合は `TypeError` です。
 

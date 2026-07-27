@@ -64,6 +64,14 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
         DoubleLinearPlugOperator,
     )
     assert_type(compose.inputTranslate.inputTranslateX.get(), float)
+    assert_type(compose.inputTranslate.get(), bdu.DoubleLinear3)
+    assert_type(compose.inputTranslate.value, bdu.DoubleLinear3)
+    assert_type(compose.inputTranslate.value_direct, bdu.DoubleLinear3)
+    assert_type(compose.inputTranslate.get().x, float)
+    assert_type(
+        compose.inputTranslate.get().as_tuple(),
+        tuple[float, float, float],
+    )
     assert_type(
         compose.inputTranslate.inputTranslateX.keyframe,
         KeyframeManager,

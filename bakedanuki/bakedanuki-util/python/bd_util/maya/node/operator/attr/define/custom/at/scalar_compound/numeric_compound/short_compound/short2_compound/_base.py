@@ -2,6 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
+from ...........value import Short2
 from .._base import (
     ShortCompoundBasePlugOperator,
     ShortCompoundBaseAttrOperator,
@@ -13,8 +14,12 @@ A = TypeVar("A", bound="Short2CompoundBaseAttrOperator")
 P = TypeVar("P", bound="Short2CompoundBasePlugOperator")
 
 
-class Short2CompoundBasePlugOperator(ShortCompoundBasePlugOperator[A]):
+class Short2CompoundBasePlugOperator(
+    ShortCompoundBasePlugOperator[A, Short2]
+):
     __slots__ = ()
+
+    VALUE_TYPE = Short2
 
 
 class Short2CompoundBaseAttrOperator(ShortCompoundBaseAttrOperator[P]):

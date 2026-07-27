@@ -91,6 +91,9 @@ $env:PYRIGHT_PYTHON_CACHE_DIR = Join-Path $env:TEMP 'codex-pyright-cache'
   - animCurve の作成、query、削除、tangent 操作を検証します。
 - `tests/maya/node/operator/attr/test_data_matrix.py`
   - matrix plug と `TransformMatrix` の連携を検証します。
+- `tests/maya/value/test_scalar_compound.py`
+  - compound 専用値型の immutable sequence、component access、型ごとの
+    equality、演算未対応を検証します。
 
 ### NodeOperator
 

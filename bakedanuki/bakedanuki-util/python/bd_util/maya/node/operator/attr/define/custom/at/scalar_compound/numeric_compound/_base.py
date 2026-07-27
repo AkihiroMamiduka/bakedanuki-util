@@ -5,6 +5,9 @@ from typing import TypeVar, Type, cast
 from maya.api import OpenMaya as om
 
 # self
+from .........value.scalar_compound.scalar_compound_value import (
+    ScalarCompoundValue,
+)
 from .......... import logger as u_logger
 from .._base import (
     ScalarCompoundBasePlugOperator,
@@ -16,11 +19,15 @@ A = TypeVar("A", bound="NumericCompoundBaseAttrOperator")
 
 P = TypeVar("P", bound="NumericCompoundBasePlugOperator")
 
+V = TypeVar("V", bound=ScalarCompoundValue[int | float])
+
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class NumericCompoundBasePlugOperator(ScalarCompoundBasePlugOperator[A]):
+class NumericCompoundBasePlugOperator(
+    ScalarCompoundBasePlugOperator[A, V]
+):
     __slots__ = ()
 
     CHILD_M_FN = om.MFnNumericAttribute

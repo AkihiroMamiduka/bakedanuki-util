@@ -2,6 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
+from ...........value import FloatAngle2
 from .._base import (
     AngleCompoundBasePlugOperator,
     AngleCompoundBaseAttrOperator,
@@ -13,8 +14,12 @@ A = TypeVar("A", bound="FloatAngle2CompoundBaseAttrOperator")
 P = TypeVar("P", bound="FloatAngle2CompoundBasePlugOperator")
 
 
-class FloatAngle2CompoundBasePlugOperator(AngleCompoundBasePlugOperator[A]):
+class FloatAngle2CompoundBasePlugOperator(
+    AngleCompoundBasePlugOperator[A, FloatAngle2]
+):
     __slots__ = ()
+
+    VALUE_TYPE = FloatAngle2
 
 
 class FloatAngle2CompoundBaseAttrOperator(AngleCompoundBaseAttrOperator[P]):

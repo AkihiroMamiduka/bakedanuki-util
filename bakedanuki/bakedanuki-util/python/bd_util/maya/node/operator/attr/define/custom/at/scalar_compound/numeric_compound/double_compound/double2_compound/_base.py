@@ -2,6 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
+from ...........value import Double2
 from .._base import (
     DoubleCompoundBasePlugOperator,
     DoubleCompoundBaseAttrOperator,
@@ -13,8 +14,12 @@ A = TypeVar("A", bound="Double2CompoundBaseAttrOperator")
 P = TypeVar("P", bound="Double2CompoundBasePlugOperator")
 
 
-class Double2CompoundBasePlugOperator(DoubleCompoundBasePlugOperator[A]):
+class Double2CompoundBasePlugOperator(
+    DoubleCompoundBasePlugOperator[A, Double2]
+):
     __slots__ = ()
+
+    VALUE_TYPE = Double2
 
 
 class Double2CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):

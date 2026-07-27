@@ -2,6 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
+from ...........value import FloatLinear3
 from .._base import (
     LinearCompoundBasePlugOperator,
     LinearCompoundBaseAttrOperator,
@@ -13,8 +14,12 @@ A = TypeVar("A", bound="FloatLinear3CompoundBaseAttrOperator")
 P = TypeVar("P", bound="FloatLinear3CompoundBasePlugOperator")
 
 
-class FloatLinear3CompoundBasePlugOperator(LinearCompoundBasePlugOperator[A]):
+class FloatLinear3CompoundBasePlugOperator(
+    LinearCompoundBasePlugOperator[A, FloatLinear3]
+):
     __slots__ = ()
+
+    VALUE_TYPE = FloatLinear3
 
 
 class FloatLinear3CompoundBaseAttrOperator(LinearCompoundBaseAttrOperator[P]):

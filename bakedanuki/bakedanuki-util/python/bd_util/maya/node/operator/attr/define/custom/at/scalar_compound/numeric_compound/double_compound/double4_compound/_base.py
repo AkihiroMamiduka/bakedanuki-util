@@ -2,6 +2,7 @@
 from typing import TypeVar, Type, cast
 
 # self
+from ...........value import Double4
 from ............ import logger as u_logger
 from .._base import (
     DoubleCompoundBasePlugOperator,
@@ -17,8 +18,12 @@ P = TypeVar("P", bound="Double4CompoundBasePlugOperator")
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class Double4CompoundBasePlugOperator(DoubleCompoundBasePlugOperator[A]):
+class Double4CompoundBasePlugOperator(
+    DoubleCompoundBasePlugOperator[A, Double4]
+):
     __slots__ = ()
+
+    VALUE_TYPE = Double4
 
 
 class Double4CompoundBaseAttrOperator(DoubleCompoundBaseAttrOperator[P]):

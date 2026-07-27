@@ -33,16 +33,18 @@
 - compound `get()` / `set()` / `set_direct()` を整備。
 - compound child limit の public method 化。
 - `lookup.py` の double4 / quat 解決対応。
+- 18 種類の compound 専用値型を追加し、scalar compound の
+  `get()` / `value` / `value_direct` の戻り値へ接続。
 
 ## 決定済みのロードマップ
 
 次の順序で、compound value、DAG 階層、shape 作成 API を整備します。
 
-### 1. compound 専用値型
+### 1. compound 専用値型（完了）
 
 `double2` / `double3` / `float2` / `float3` など、固定長かつ同種の
 scalar child で構成される compound の `get()` は、list ではなく
-専用の immutable value object を返す形へ移行します。
+専用の immutable value object を返します。
 
 専用値型は次を満たす方針です。
 

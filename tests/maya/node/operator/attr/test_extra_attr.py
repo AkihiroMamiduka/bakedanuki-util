@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import pytest
 
+import bd_util as bdu
 from bd_util.maya.node.operator.attr.extra.add_attr import AddAttr
 from bd_util.maya.node.operator.attr.define.std.at.addr import AddrField
 from bd_util.maya.node.operator.node.dag.transform._core import Transform
@@ -248,12 +249,36 @@ COMPOUND_SET_CASES = (
     ("extraFloatAngle3", [81.0, 82.0, 83.0]),
 )
 
+COMPOUND_VALUE_TYPES = {
+    "extraDouble2": bdu.Double2,
+    "extraDouble3": bdu.Double3,
+    "extraDouble4": bdu.Double4,
+    "extraQuat": bdu.Quat,
+    "extraQuatCustom": bdu.Quat,
+    "extraFloat2": bdu.Float2,
+    "extraFloat3": bdu.Float3,
+    "extraLong2": bdu.Long2,
+    "extraLong3": bdu.Long3,
+    "extraShort2": bdu.Short2,
+    "extraShort3": bdu.Short3,
+    "extraDoubleLinear2": bdu.DoubleLinear2,
+    "extraDoubleLinear3": bdu.DoubleLinear3,
+    "extraDoubleAngle2": bdu.DoubleAngle2,
+    "extraDoubleAngle3": bdu.DoubleAngle3,
+    "extraFloatLinear2": bdu.FloatLinear2,
+    "extraFloatLinear3": bdu.FloatLinear3,
+    "extraFloatAngle2": bdu.FloatAngle2,
+    "extraFloatAngle3": bdu.FloatAngle3,
+}
+
 
 @pytest.mark.parametrize(("attr_name", "expected"), COMPOUND_DEFAULT_CASES)
 def test_compound_defaults(extra_compound_node, attr_name, expected):
     node = extra_compound_node
+    value = getattr(node, attr_name).get()
 
-    assert getattr(node, attr_name).get() == pytest.approx(expected)
+    assert isinstance(value, COMPOUND_VALUE_TYPES[attr_name])
+    assert value == pytest.approx(expected)
 
 
 @pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
@@ -287,6 +312,38 @@ def test_compound_set_accepts_tuple_and_rejects_wrong_count(
 
     modifier_manager.do_it_dg()
     assert node.extraDouble4.get() == pytest.approx([4.0, 3.0, 2.0, 1.0])
+
+
+def test_compound_set_accepts_dedicated_value(
+    modifier_manager,
+    extra_compound_node,
+):
+    value = bdu.Double4(4.0, 3.0, 2.0, 1.0)
+
+    extra_compound_node.extraDouble4.set(value)
+    modifier_manager.do_it_dg()
+
+    assert extra_compound_node.extraDouble4.get() == value
+    assert extra_compound_node.extraDouble4.value == value
+
+    extra_compound_node.extraDouble4.value = bdu.Double4(
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+    )
+    modifier_manager.do_it_dg()
+
+    assert extra_compound_node.extraDouble4.value == bdu.Double4(
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+    )
+
+    extra_compound_node.extraDouble4.value_direct = value
+
+    assert extra_compound_node.extraDouble4.value_direct == value
 
 
 @pytest.mark.parametrize(("attr_name", "values"), COMPOUND_SET_CASES)
