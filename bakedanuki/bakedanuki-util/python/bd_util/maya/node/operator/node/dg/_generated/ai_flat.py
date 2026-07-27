@@ -9,7 +9,7 @@ from ....attr.define.node_attr.ai_flat import (
 )
 
 
-class _GeneratedAiFlat(DG):
+class GeneratedAiFlat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFlat"

@@ -49,7 +49,7 @@ class SolverMethodEnumField(
     PLUG_CLS = SolverMethodEnumPlugOperator
 
 
-class _GeneratedRigidSolver(DG):
+class GeneratedRigidSolver(DG):
     __slots__ = ()
 
     NODE_TYPE = "rigidSolver"

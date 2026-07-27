@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_fraction import _GeneratedAiFraction
+from ._generated.ai_fraction import GeneratedAiFraction
 
 
-class AiFraction(_GeneratedAiFraction):
+class AiFraction(GeneratedAiFraction):
     __slots__ = ()
 
     NODE_TYPE = "aiFraction"

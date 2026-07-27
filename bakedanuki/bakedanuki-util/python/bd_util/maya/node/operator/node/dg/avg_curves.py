@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.avg_curves import _GeneratedAvgCurves
+from ._generated.avg_curves import GeneratedAvgCurves
 
 
-class AvgCurves(_GeneratedAvgCurves):
+class AvgCurves(GeneratedAvgCurves):
     __slots__ = ()
 
     NODE_TYPE = "avgCurves"

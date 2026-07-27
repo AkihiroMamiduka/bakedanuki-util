@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.material_info import _GeneratedMaterialInfo
+from ._generated.material_info import GeneratedMaterialInfo
 
 
-class MaterialInfo(_GeneratedMaterialInfo):
+class MaterialInfo(GeneratedMaterialInfo):
     __slots__ = ()
 
     NODE_TYPE = "materialInfo"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.material_override import _GeneratedMaterialOverride
+from ._generated.material_override import GeneratedMaterialOverride
 
 
-class MaterialOverride(_GeneratedMaterialOverride):
+class MaterialOverride(GeneratedMaterialOverride):
     __slots__ = ()
 
     NODE_TYPE = "materialOverride"

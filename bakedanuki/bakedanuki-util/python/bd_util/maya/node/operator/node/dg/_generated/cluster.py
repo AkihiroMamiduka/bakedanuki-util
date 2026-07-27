@@ -52,7 +52,7 @@ class AngleInterpolationEnumField(
     PLUG_CLS = AngleInterpolationEnumPlugOperator
 
 
-class _GeneratedCluster(DG):
+class GeneratedCluster(DG):
     __slots__ = ()
 
     NODE_TYPE = "cluster"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_abs import _GeneratedAiAbs
+from ._generated.ai_abs import GeneratedAiAbs
 
 
-class AiAbs(_GeneratedAiAbs):
+class AiAbs(GeneratedAiAbs):
     __slots__ = ()
 
     NODE_TYPE = "aiAbs"

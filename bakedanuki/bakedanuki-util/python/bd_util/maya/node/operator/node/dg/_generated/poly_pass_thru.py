@@ -7,7 +7,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyPassThru(DG):
+class GeneratedPolyPassThru(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPassThru"

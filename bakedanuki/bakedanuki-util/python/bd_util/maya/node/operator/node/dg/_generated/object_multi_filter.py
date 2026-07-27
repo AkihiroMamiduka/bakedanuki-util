@@ -70,7 +70,7 @@ class FilterTypeEnumField(
     PLUG_CLS = FilterTypeEnumPlugOperator
 
 
-class _GeneratedObjectMultiFilter(DG):
+class GeneratedObjectMultiFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "objectMultiFilter"

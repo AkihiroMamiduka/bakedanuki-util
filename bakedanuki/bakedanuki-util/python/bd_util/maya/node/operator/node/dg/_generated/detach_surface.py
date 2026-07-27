@@ -38,7 +38,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class _GeneratedDetachSurface(DG):
+class GeneratedDetachSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "detachSurface"

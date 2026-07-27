@@ -41,7 +41,7 @@ class SplitTypeEnumField(
     PLUG_CLS = SplitTypeEnumPlugOperator
 
 
-class _GeneratedPolyDuplicateEdge(DG):
+class GeneratedPolyDuplicateEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyDuplicateEdge"

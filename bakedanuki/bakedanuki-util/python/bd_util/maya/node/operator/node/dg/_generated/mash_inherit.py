@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedMASH_Inherit(DG):
+class GeneratedMASH_Inherit(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Inherit"

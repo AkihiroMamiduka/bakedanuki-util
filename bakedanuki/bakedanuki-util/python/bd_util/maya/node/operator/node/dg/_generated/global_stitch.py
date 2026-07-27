@@ -107,7 +107,7 @@ class StitchSmoothnessEnumField(
     PLUG_CLS = StitchSmoothnessEnumPlugOperator
 
 
-class _GeneratedGlobalStitch(DG):
+class GeneratedGlobalStitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "globalStitch"

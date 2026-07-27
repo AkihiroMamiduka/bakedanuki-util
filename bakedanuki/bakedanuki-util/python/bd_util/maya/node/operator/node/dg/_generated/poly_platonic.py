@@ -82,7 +82,7 @@ class SubdivisionModeEnumField(
     PLUG_CLS = SubdivisionModeEnumPlugOperator
 
 
-class _GeneratedPolyPlatonic(DG):
+class GeneratedPolyPlatonic(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPlatonic"

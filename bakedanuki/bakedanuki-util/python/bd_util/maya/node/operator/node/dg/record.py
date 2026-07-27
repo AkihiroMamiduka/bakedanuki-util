@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.record import _GeneratedRecord
+from ._generated.record import GeneratedRecord
 
 
-class Record(_GeneratedRecord):
+class Record(GeneratedRecord):
     __slots__ = ()
 
     NODE_TYPE = "record"

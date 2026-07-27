@@ -41,7 +41,7 @@ class SolverModeEnumField(
     PLUG_CLS = SolverModeEnumPlugOperator
 
 
-class _GeneratedHIKSolverNode(DG):
+class GeneratedHIKSolverNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKSolverNode"

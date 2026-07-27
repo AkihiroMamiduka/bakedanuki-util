@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedUvChooser(DG):
+class GeneratedUvChooser(DG):
     __slots__ = ()
 
     NODE_TYPE = "uvChooser"

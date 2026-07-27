@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_merge_vert import _GeneratedPolyMergeVert
+from ._generated.poly_merge_vert import GeneratedPolyMergeVert
 
 
-class PolyMergeVert(_GeneratedPolyMergeVert):
+class PolyMergeVert(GeneratedPolyMergeVert):
     __slots__ = ()
 
     NODE_TYPE = "polyMergeVert"

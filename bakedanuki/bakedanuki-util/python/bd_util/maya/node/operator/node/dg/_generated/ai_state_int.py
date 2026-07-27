@@ -84,7 +84,7 @@ class VariableEnumField(
     PLUG_CLS = VariableEnumPlugOperator
 
 
-class _GeneratedAiStateInt(DG):
+class GeneratedAiStateInt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStateInt"

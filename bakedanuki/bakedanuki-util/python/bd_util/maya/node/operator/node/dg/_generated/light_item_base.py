@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedLightItemBase(DG):
+class GeneratedLightItemBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightItemBase"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.color_math import _GeneratedColorMath
+from ._generated.color_math import GeneratedColorMath
 
 
-class ColorMath(_GeneratedColorMath):
+class ColorMath(GeneratedColorMath):
     __slots__ = ()
 
     NODE_TYPE = "colorMath"

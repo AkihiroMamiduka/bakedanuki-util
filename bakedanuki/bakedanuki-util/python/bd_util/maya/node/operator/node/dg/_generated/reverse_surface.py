@@ -42,7 +42,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class _GeneratedReverseSurface(DG):
+class GeneratedReverseSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "reverseSurface"

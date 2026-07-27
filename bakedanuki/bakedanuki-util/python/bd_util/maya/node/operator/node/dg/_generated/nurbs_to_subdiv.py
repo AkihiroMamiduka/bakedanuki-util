@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedNurbsToSubdiv(DG):
+class GeneratedNurbsToSubdiv(DG):
     __slots__ = ()
 
     NODE_TYPE = "nurbsToSubdiv"

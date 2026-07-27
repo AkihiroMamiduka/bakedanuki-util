@@ -99,7 +99,7 @@ class PolyOutCurveTypeEnumField(
     PLUG_CLS = PolyOutCurveTypeEnumPlugOperator
 
 
-class _GeneratedBevelPlus(DG):
+class GeneratedBevelPlus(DG):
     __slots__ = ()
 
     NODE_TYPE = "bevelPlus"

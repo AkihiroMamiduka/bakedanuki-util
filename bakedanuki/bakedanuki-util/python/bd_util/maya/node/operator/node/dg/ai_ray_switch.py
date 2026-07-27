@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_ray_switch import _GeneratedAiRaySwitch
+from ._generated.ai_ray_switch import GeneratedAiRaySwitch
 
 
-class AiRaySwitch(_GeneratedAiRaySwitch):
+class AiRaySwitch(GeneratedAiRaySwitch):
     __slots__ = ()
 
     NODE_TYPE = "aiRaySwitch"

@@ -51,7 +51,7 @@ class InputRotateOrderEnumField(
     PLUG_CLS = InputRotateOrderEnumPlugOperator
 
 
-class _GeneratedQuatToEuler(DG):
+class GeneratedQuatToEuler(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatToEuler"

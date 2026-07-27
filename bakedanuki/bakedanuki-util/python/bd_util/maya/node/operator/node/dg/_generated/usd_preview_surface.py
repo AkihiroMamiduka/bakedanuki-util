@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedUsdPreviewSurface(DG):
+class GeneratedUsdPreviewSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "usdPreviewSurface"

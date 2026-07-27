@@ -79,7 +79,7 @@ class TangentContinuityTypeEnumField(
     PLUG_CLS = TangentContinuityTypeEnumPlugOperator
 
 
-class _GeneratedAlignCurve(DG):
+class GeneratedAlignCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "alignCurve"

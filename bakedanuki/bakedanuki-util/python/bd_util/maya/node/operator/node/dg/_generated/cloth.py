@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedCloth(DG):
+class GeneratedCloth(DG):
     __slots__ = ()
 
     NODE_TYPE = "cloth"

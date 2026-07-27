@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_modulo import (
 )
 
 
-class _GeneratedAiModulo(DG):
+class GeneratedAiModulo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiModulo"

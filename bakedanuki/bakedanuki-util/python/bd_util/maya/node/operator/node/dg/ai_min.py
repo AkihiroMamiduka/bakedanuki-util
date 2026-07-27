@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_min import _GeneratedAiMin
+from ._generated.ai_min import GeneratedAiMin
 
 
-class AiMin(_GeneratedAiMin):
+class AiMin(GeneratedAiMin):
     __slots__ = ()
 
     NODE_TYPE = "aiMin"

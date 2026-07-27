@@ -4,7 +4,7 @@ from ....attr.define.node_attr.precomp_export import ExcludedExportItemListField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPrecompExport(DG):
+class GeneratedPrecompExport(DG):
     __slots__ = ()
 
     NODE_TYPE = "precompExport"

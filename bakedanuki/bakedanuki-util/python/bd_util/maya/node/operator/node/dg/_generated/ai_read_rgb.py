@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_read_rgb import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiReadRGB(DG):
+class GeneratedAiReadRGB(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiReadRGB"

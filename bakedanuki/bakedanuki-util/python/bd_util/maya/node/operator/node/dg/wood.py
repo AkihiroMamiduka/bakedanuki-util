@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.wood import _GeneratedWood
+from ._generated.wood import GeneratedWood
 
 
-class Wood(_GeneratedWood):
+class Wood(GeneratedWood):
     __slots__ = ()
 
     NODE_TYPE = "wood"

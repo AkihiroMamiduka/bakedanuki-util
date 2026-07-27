@@ -44,7 +44,7 @@ class ConnectBreaksEnumField(
     PLUG_CLS = ConnectBreaksEnumPlugOperator
 
 
-class _GeneratedOffsetCurve(DG):
+class GeneratedOffsetCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "offsetCurve"

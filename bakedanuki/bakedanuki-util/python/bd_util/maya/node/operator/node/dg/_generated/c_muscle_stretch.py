@@ -97,7 +97,7 @@ class JIGGLEEnumField(
     PLUG_CLS = JIGGLEEnumPlugOperator
 
 
-class _GeneratedCMuscleStretch(DG):
+class GeneratedCMuscleStretch(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleStretch"

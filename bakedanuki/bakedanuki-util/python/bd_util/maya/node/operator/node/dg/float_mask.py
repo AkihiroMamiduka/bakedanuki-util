@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.float_mask import _GeneratedFloatMask
+from ._generated.float_mask import GeneratedFloatMask
 
 
-class FloatMask(_GeneratedFloatMask):
+class FloatMask(GeneratedFloatMask):
     __slots__ = ()
 
     NODE_TYPE = "floatMask"

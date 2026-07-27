@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.axis_from_matrix import _GeneratedAxisFromMatrix
+from ._generated.axis_from_matrix import GeneratedAxisFromMatrix
 
 
-class AxisFromMatrix(_GeneratedAxisFromMatrix):
+class AxisFromMatrix(GeneratedAxisFromMatrix):
     __slots__ = ()
 
     NODE_TYPE = "axisFromMatrix"

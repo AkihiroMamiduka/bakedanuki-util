@@ -61,7 +61,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiRgbaToFloat(DG):
+class GeneratedAiRgbaToFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRgbaToFloat"

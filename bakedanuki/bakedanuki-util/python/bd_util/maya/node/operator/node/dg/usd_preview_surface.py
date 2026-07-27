@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.usd_preview_surface import _GeneratedUsdPreviewSurface
+from ._generated.usd_preview_surface import GeneratedUsdPreviewSurface
 
 
-class UsdPreviewSurface(_GeneratedUsdPreviewSurface):
+class UsdPreviewSurface(GeneratedUsdPreviewSurface):
     __slots__ = ()
 
     NODE_TYPE = "usdPreviewSurface"

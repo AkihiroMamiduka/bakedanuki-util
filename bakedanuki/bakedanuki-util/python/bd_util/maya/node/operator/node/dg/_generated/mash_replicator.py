@@ -133,7 +133,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class _GeneratedMASH_Replicator(DG):
+class GeneratedMASH_Replicator(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Replicator"

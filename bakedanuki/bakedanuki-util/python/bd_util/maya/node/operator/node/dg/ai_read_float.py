@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_read_float import _GeneratedAiReadFloat
+from ._generated.ai_read_float import GeneratedAiReadFloat
 
 
-class AiReadFloat(_GeneratedAiReadFloat):
+class AiReadFloat(GeneratedAiReadFloat):
     __slots__ = ()
 
     NODE_TYPE = "aiReadFloat"

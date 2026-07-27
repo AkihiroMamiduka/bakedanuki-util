@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.bulge import _GeneratedBulge
+from ._generated.bulge import GeneratedBulge
 
 
-class Bulge(_GeneratedBulge):
+class Bulge(GeneratedBulge):
     __slots__ = ()
 
     NODE_TYPE = "bulge"

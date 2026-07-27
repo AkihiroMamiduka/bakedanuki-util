@@ -4,7 +4,7 @@ from ....attr.define.node_attr.mash_legacy import TranslateInPPField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedMASH_Legacy(DG):
+class GeneratedMASH_Legacy(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Legacy"

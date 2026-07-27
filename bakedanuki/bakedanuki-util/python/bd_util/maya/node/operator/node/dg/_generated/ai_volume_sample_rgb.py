@@ -45,7 +45,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedAiVolumeSampleRgb(DG):
+class GeneratedAiVolumeSampleRgb(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVolumeSampleRgb"

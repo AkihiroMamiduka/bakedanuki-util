@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSimpleTestNode(DG):
+class GeneratedSimpleTestNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "simpleTestNode"

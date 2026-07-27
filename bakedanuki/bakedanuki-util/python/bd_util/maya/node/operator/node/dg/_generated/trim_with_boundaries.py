@@ -6,7 +6,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedTrimWithBoundaries(DG):
+class GeneratedTrimWithBoundaries(DG):
     __slots__ = ()
 
     NODE_TYPE = "trimWithBoundaries"

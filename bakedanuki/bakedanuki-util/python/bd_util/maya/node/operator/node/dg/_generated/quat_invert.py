@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_invert import (
 )
 
 
-class _GeneratedQuatInvert(DG):
+class GeneratedQuatInvert(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatInvert"

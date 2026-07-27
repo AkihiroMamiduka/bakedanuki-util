@@ -40,7 +40,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedCustomRigDefaultMappingNode(DG):
+class GeneratedCustomRigDefaultMappingNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "CustomRigDefaultMappingNode"

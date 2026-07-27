@@ -1430,7 +1430,7 @@ class AlphaOperation8EnumField(
     PLUG_CLS = AlphaOperation8EnumPlugOperator
 
 
-class _GeneratedAiLayerRgba(DG):
+class GeneratedAiLayerRgba(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLayerRgba"

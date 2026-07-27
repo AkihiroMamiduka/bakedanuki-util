@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.anim_curve_ut import _GeneratedAnimCurveUT
+from ._generated.anim_curve_ut import GeneratedAnimCurveUT
 
 
-class AnimCurveUT(_GeneratedAnimCurveUT):
+class AnimCurveUT(GeneratedAnimCurveUT):
     __slots__ = ()
 
     NODE_TYPE = "animCurveUT"

@@ -87,7 +87,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedCharacter(DG):
+class GeneratedCharacter(DG):
     __slots__ = ()
 
     NODE_TYPE = "character"

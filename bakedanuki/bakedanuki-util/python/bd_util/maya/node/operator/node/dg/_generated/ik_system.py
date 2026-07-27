@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedIkSystem(DG):
+class GeneratedIkSystem(DG):
     __slots__ = ()
 
     NODE_TYPE = "ikSystem"

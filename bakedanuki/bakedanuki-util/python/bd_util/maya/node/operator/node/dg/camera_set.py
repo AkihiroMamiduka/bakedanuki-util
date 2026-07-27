@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.camera_set import _GeneratedCameraSet
+from ._generated.camera_set import GeneratedCameraSet
 
 
-class CameraSet(_GeneratedCameraSet):
+class CameraSet(GeneratedCameraSet):
     __slots__ = ()
 
     NODE_TYPE = "cameraSet"

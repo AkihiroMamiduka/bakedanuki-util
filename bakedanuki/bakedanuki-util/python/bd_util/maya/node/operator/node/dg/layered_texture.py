@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.layered_texture import _GeneratedLayeredTexture
+from ._generated.layered_texture import GeneratedLayeredTexture
 
 
-class LayeredTexture(_GeneratedLayeredTexture):
+class LayeredTexture(GeneratedLayeredTexture):
     __slots__ = ()
 
     NODE_TYPE = "layeredTexture"

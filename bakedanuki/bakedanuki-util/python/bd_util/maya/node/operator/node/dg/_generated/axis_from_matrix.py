@@ -49,7 +49,7 @@ class AxisEnumField(
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class _GeneratedAxisFromMatrix(DG):
+class GeneratedAxisFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "axisFromMatrix"

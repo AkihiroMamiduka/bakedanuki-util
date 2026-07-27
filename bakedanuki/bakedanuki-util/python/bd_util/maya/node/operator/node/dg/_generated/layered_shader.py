@@ -110,7 +110,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedLayeredShader(DG):
+class GeneratedLayeredShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "layeredShader"

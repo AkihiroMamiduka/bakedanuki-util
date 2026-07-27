@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_separate import _GeneratedPolySeparate
+from ._generated.poly_separate import GeneratedPolySeparate
 
 
-class PolySeparate(_GeneratedPolySeparate):
+class PolySeparate(GeneratedPolySeparate):
     __slots__ = ()
 
     NODE_TYPE = "polySeparate"

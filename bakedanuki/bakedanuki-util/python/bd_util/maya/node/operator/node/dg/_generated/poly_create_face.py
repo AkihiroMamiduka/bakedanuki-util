@@ -42,7 +42,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class _GeneratedPolyCreateFace(DG):
+class GeneratedPolyCreateFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCreateFace"

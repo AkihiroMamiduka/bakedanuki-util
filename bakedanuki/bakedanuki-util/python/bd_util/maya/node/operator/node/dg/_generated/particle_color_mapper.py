@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.node_attr.particle_color_mapper import ParticleColorField
 
 
-class _GeneratedParticleColorMapper(DG):
+class GeneratedParticleColorMapper(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleColorMapper"

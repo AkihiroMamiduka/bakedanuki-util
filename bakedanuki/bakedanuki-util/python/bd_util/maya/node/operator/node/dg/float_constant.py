@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.float_constant import _GeneratedFloatConstant
+from ._generated.float_constant import GeneratedFloatConstant
 
 
-class FloatConstant(_GeneratedFloatConstant):
+class FloatConstant(GeneratedFloatConstant):
     __slots__ = ()
 
     NODE_TYPE = "floatConstant"

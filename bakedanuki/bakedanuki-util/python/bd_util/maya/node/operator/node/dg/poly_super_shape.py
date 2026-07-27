@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_super_shape import _GeneratedPolySuperShape
+from ._generated.poly_super_shape import GeneratedPolySuperShape
 
 
-class PolySuperShape(_GeneratedPolySuperShape):
+class PolySuperShape(GeneratedPolySuperShape):
     __slots__ = ()
 
     NODE_TYPE = "polySuperShape"

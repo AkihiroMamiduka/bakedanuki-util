@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedSimplexNoise(DG):
+class GeneratedSimplexNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "simplexNoise"

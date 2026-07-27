@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.curve_from_mesh_edge import _GeneratedCurveFromMeshEdge
+from ._generated.curve_from_mesh_edge import GeneratedCurveFromMeshEdge
 
 
-class CurveFromMeshEdge(_GeneratedCurveFromMeshEdge):
+class CurveFromMeshEdge(GeneratedCurveFromMeshEdge):
     __slots__ = ()
 
     NODE_TYPE = "curveFromMeshEdge"

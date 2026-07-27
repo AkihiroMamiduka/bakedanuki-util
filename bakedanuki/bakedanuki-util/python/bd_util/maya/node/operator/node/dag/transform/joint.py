@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.joint import _GeneratedJoint
+from ._generated.joint import GeneratedJoint
 
 
-class Joint(_GeneratedJoint):
+class Joint(GeneratedJoint):
     __slots__ = ()
 
     NODE_TYPE = "joint"

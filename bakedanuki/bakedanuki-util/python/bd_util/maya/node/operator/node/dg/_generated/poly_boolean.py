@@ -188,7 +188,7 @@ class GeometryModeEnumField(
     PLUG_CLS = GeometryModeEnumPlugOperator
 
 
-class _GeneratedPolyBoolean(DG):
+class GeneratedPolyBoolean(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBoolean"

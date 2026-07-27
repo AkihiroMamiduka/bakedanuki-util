@@ -150,7 +150,7 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class _GeneratedRebuildCurve(DG):
+class GeneratedRebuildCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "rebuildCurve"

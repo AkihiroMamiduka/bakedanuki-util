@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_sqrt import (
 )
 
 
-class _GeneratedAiSqrt(DG):
+class GeneratedAiSqrt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSqrt"

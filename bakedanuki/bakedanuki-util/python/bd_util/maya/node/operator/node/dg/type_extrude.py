@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.type_extrude import _GeneratedTypeExtrude
+from ._generated.type_extrude import GeneratedTypeExtrude
 
 
-class TypeExtrude(_GeneratedTypeExtrude):
+class TypeExtrude(GeneratedTypeExtrude):
     __slots__ = ()
 
     NODE_TYPE = "typeExtrude"

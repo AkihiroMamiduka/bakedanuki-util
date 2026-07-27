@@ -107,7 +107,7 @@ class BridgeEnumField(
     PLUG_CLS = BridgeEnumPlugOperator
 
 
-class _GeneratedNurbsToSubdivProc(DG):
+class GeneratedNurbsToSubdivProc(DG):
     __slots__ = ()
 
     NODE_TYPE = "nurbsToSubdivProc"

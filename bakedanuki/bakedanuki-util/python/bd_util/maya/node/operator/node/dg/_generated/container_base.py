@@ -73,7 +73,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedContainerBase(DG):
+class GeneratedContainerBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "containerBase"

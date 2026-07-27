@@ -242,7 +242,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedSweepMeshCreator(DG):
+class GeneratedSweepMeshCreator(DG):
     __slots__ = ()
 
     NODE_TYPE = "sweepMeshCreator"

@@ -43,7 +43,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiLength(DG):
+class GeneratedAiLength(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLength"

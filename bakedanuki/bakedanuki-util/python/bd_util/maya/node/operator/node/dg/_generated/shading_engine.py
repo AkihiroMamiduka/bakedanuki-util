@@ -87,7 +87,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedShadingEngine(DG):
+class GeneratedShadingEngine(DG):
     __slots__ = ()
 
     NODE_TYPE = "shadingEngine"

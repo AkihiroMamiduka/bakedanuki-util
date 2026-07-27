@@ -107,7 +107,7 @@ class VectorSpaceEnumField(
     PLUG_CLS = VectorSpaceEnumPlugOperator
 
 
-class _GeneratedDisplacementShader(DG):
+class GeneratedDisplacementShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "displacementShader"

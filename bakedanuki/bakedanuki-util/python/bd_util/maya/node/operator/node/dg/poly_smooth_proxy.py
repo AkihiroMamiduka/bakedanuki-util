@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_smooth_proxy import _GeneratedPolySmoothProxy
+from ._generated.poly_smooth_proxy import GeneratedPolySmoothProxy
 
 
-class PolySmoothProxy(_GeneratedPolySmoothProxy):
+class PolySmoothProxy(GeneratedPolySmoothProxy):
     __slots__ = ()
 
     NODE_TYPE = "polySmoothProxy"

@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedSampler(DG):
+class GeneratedSampler(DG):
     __slots__ = ()
 
     NODE_TYPE = "sampler"

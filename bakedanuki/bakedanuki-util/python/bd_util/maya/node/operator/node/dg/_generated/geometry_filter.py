@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedGeometryFilter(DG):
+class GeneratedGeometryFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "geometryFilter"

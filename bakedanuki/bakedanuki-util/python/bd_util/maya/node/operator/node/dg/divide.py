@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.divide import _GeneratedDivide
+from ._generated.divide import GeneratedDivide
 
 
-class Divide(_GeneratedDivide):
+class Divide(GeneratedDivide):
     __slots__ = ()
 
     NODE_TYPE = "divide"

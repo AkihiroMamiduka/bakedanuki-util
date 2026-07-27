@@ -72,7 +72,7 @@ class TransferModeMappingTypeEnumField(
     PLUG_CLS = TransferModeMappingTypeEnumPlugOperator
 
 
-class _GeneratedXgmSplineBase(DG):
+class GeneratedXgmSplineBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmSplineBase"

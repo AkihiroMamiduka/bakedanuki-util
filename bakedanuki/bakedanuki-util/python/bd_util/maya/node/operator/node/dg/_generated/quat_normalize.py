@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_normalize import (
 )
 
 
-class _GeneratedQuatNormalize(DG):
+class GeneratedQuatNormalize(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatNormalize"

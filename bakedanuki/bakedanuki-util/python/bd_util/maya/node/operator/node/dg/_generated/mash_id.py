@@ -149,7 +149,7 @@ class LoopTypeEnumField(
     PLUG_CLS = LoopTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Id(DG):
+class GeneratedMASH_Id(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Id"

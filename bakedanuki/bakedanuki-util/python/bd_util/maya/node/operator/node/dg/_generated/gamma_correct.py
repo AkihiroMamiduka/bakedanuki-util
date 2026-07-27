@@ -46,7 +46,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedGammaCorrect(DG):
+class GeneratedGammaCorrect(DG):
     __slots__ = ()
 
     NODE_TYPE = "gammaCorrect"

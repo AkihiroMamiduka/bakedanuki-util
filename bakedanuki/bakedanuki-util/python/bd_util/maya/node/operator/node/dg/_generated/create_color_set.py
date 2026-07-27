@@ -44,7 +44,7 @@ class RepresentationEnumField(
     PLUG_CLS = RepresentationEnumPlugOperator
 
 
-class _GeneratedCreateColorSet(DG):
+class GeneratedCreateColorSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "createColorSet"

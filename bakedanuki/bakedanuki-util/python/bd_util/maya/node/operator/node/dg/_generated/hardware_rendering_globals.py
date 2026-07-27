@@ -358,7 +358,7 @@ class FloatingPointRTFormatEnumField(
     PLUG_CLS = FloatingPointRTFormatEnumPlugOperator
 
 
-class _GeneratedHardwareRenderingGlobals(DG):
+class GeneratedHardwareRenderingGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "hardwareRenderingGlobals"

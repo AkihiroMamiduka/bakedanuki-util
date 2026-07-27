@@ -7,7 +7,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyColorDel(DG):
+class GeneratedPolyColorDel(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyColorDel"

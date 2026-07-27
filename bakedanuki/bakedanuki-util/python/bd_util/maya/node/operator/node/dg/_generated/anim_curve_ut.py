@@ -362,7 +362,7 @@ class StipplePatternEnumField(
     PLUG_CLS = StipplePatternEnumPlugOperator
 
 
-class _GeneratedAnimCurveUT(DG):
+class GeneratedAnimCurveUT(DG):
     __slots__ = ()
 
     NODE_TYPE = "animCurveUT"

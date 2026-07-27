@@ -8,7 +8,7 @@ from ....attr.define.node_attr.quat_prod import (
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedQuatProd(DG):
+class GeneratedQuatProd(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatProd"

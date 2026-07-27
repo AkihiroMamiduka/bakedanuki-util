@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_bump2d import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiBump2d(DG):
+class GeneratedAiBump2d(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiBump2d"

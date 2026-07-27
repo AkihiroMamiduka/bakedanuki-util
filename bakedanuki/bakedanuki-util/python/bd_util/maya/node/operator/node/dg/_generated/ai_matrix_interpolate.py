@@ -38,7 +38,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiMatrixInterpolate(DG):
+class GeneratedAiMatrixInterpolate(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatrixInterpolate"

@@ -5,7 +5,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedFfFilletSrf(DG):
+class GeneratedFfFilletSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "ffFilletSrf"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.adsk_material import _GeneratedAdskMaterial
+from ._generated.adsk_material import GeneratedAdskMaterial
 
 
-class AdskMaterial(_GeneratedAdskMaterial):
+class AdskMaterial(GeneratedAdskMaterial):
     __slots__ = ()
 
     NODE_TYPE = "adskMaterial"

@@ -48,7 +48,7 @@ class BackgroundEnumField(
     PLUG_CLS = BackgroundEnumPlugOperator
 
 
-class _GeneratedAiShadowMatte(DG):
+class GeneratedAiShadowMatte(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiShadowMatte"

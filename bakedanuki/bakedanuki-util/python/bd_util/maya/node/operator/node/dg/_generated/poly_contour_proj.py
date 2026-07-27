@@ -45,7 +45,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class _GeneratedPolyContourProj(DG):
+class GeneratedPolyContourProj(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyContourProj"

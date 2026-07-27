@@ -38,7 +38,7 @@ class InterpolateModeEnumField(
     PLUG_CLS = InterpolateModeEnumPlugOperator
 
 
-class _GeneratedAnimBlendNodeAdditiveF(DG):
+class GeneratedAnimBlendNodeAdditiveF(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeAdditiveF"

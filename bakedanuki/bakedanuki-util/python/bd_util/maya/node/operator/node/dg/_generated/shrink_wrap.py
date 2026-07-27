@@ -209,7 +209,7 @@ class ShapePreservationMethodEnumField(
     PLUG_CLS = ShapePreservationMethodEnumPlugOperator
 
 
-class _GeneratedShrinkWrap(DG):
+class GeneratedShrinkWrap(DG):
     __slots__ = ()
 
     NODE_TYPE = "shrinkWrap"

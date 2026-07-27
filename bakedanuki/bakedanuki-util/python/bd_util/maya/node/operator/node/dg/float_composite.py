@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.float_composite import _GeneratedFloatComposite
+from ._generated.float_composite import GeneratedFloatComposite
 
 
-class FloatComposite(_GeneratedFloatComposite):
+class FloatComposite(GeneratedFloatComposite):
     __slots__ = ()
 
     NODE_TYPE = "floatComposite"

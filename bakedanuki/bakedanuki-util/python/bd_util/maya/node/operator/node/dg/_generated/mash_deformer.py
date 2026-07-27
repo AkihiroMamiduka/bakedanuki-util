@@ -90,7 +90,7 @@ class ComponentTypeEnumField(
     PLUG_CLS = ComponentTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Deformer(DG):
+class GeneratedMASH_Deformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Deformer"

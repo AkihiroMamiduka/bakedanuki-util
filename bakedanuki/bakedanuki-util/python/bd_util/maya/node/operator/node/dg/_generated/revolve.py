@@ -142,7 +142,7 @@ class CompAxisChoiceEnumField(
     PLUG_CLS = CompAxisChoiceEnumPlugOperator
 
 
-class _GeneratedRevolve(DG):
+class GeneratedRevolve(DG):
     __slots__ = ()
 
     NODE_TYPE = "revolve"

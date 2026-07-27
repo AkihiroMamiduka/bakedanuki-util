@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiImagerColorCurves(DG):
+class GeneratedAiImagerColorCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerColorCurves"

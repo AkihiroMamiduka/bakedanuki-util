@@ -15,7 +15,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedSubdPlanarProj(DG):
+class GeneratedSubdPlanarProj(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdPlanarProj"

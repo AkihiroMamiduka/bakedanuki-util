@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.proximity_pin import _GeneratedProximityPin
+from ._generated.proximity_pin import GeneratedProximityPin
 
 
-class ProximityPin(_GeneratedProximityPin):
+class ProximityPin(GeneratedProximityPin):
     __slots__ = ()
 
     NODE_TYPE = "proximityPin"

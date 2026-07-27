@@ -80,7 +80,7 @@ class OutsideLatticeEnumField(
     PLUG_CLS = OutsideLatticeEnumPlugOperator
 
 
-class _GeneratedFfd(DG):
+class GeneratedFfd(DG):
     __slots__ = ()
 
     NODE_TYPE = "ffd"

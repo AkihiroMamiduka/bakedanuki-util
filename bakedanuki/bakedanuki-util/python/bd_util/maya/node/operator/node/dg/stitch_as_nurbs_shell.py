@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.stitch_as_nurbs_shell import _GeneratedStitchAsNurbsShell
+from ._generated.stitch_as_nurbs_shell import GeneratedStitchAsNurbsShell
 
 
-class StitchAsNurbsShell(_GeneratedStitchAsNurbsShell):
+class StitchAsNurbsShell(GeneratedStitchAsNurbsShell):
     __slots__ = ()
 
     NODE_TYPE = "stitchAsNurbsShell"

@@ -100,7 +100,7 @@ class HaloTypeEnumField(
     PLUG_CLS = HaloTypeEnumPlugOperator
 
 
-class _GeneratedOpticalFX(DG):
+class GeneratedOpticalFX(DG):
     __slots__ = ()
 
     NODE_TYPE = "opticalFX"

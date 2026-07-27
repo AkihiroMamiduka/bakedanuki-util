@@ -7,7 +7,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedMakeTextCurves(DG):
+class GeneratedMakeTextCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeTextCurves"

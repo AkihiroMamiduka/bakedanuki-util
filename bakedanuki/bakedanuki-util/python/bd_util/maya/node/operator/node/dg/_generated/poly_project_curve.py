@@ -12,7 +12,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedPolyProjectCurve(DG):
+class GeneratedPolyProjectCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyProjectCurve"

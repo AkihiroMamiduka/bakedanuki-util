@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.node_attr.particle_transp_mapper import ParticleTransparencyField
 
 
-class _GeneratedParticleTranspMapper(DG):
+class GeneratedParticleTranspMapper(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleTranspMapper"

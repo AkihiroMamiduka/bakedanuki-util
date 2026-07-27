@@ -8,7 +8,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedMakeIllustratorCurves(DG):
+class GeneratedMakeIllustratorCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeIllustratorCurves"

@@ -89,7 +89,7 @@ class AxisEnumField(
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class _GeneratedPolyRetopo(DG):
+class GeneratedPolyRetopo(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyRetopo"

@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_cross import (
 )
 
 
-class _GeneratedAiCross(DG):
+class GeneratedAiCross(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCross"

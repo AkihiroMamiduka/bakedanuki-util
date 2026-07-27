@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_user_data_vec2 import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataVec2(DG):
+class GeneratedAiUserDataVec2(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataVec2"

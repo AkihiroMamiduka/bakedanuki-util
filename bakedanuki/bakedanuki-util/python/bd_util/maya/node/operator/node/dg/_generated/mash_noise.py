@@ -115,7 +115,7 @@ class NoiseTypeEnumField(
     PLUG_CLS = NoiseTypeEnumPlugOperator
 
 
-class _GeneratedMASH_Noise(DG):
+class GeneratedMASH_Noise(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Noise"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.anim_blend_node_enum import _GeneratedAnimBlendNodeEnum
+from ._generated.anim_blend_node_enum import GeneratedAnimBlendNodeEnum
 
 
-class AnimBlendNodeEnum(_GeneratedAnimBlendNodeEnum):
+class AnimBlendNodeEnum(GeneratedAnimBlendNodeEnum):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeEnum"

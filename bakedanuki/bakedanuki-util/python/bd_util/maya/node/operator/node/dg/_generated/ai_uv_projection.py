@@ -89,7 +89,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiUvProjection(DG):
+class GeneratedAiUvProjection(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUvProjection"

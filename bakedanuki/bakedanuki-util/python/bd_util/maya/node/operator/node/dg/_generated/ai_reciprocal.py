@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_reciprocal import (
 )
 
 
-class _GeneratedAiReciprocal(DG):
+class GeneratedAiReciprocal(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiReciprocal"

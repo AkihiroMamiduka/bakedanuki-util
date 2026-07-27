@@ -9976,7 +9976,7 @@ class LeafRightForeArmRoll5RotateOrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll5RotateOrderEnumPlugOperator
 
 
-class _GeneratedHIKCharacterNode(DG):
+class GeneratedHIKCharacterNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKCharacterNode"

@@ -222,7 +222,7 @@ class ExrCompressionEnumField(
     PLUG_CLS = ExrCompressionEnumPlugOperator
 
 
-class _GeneratedAiAOVDriver(DG):
+class GeneratedAiAOVDriver(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAOVDriver"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.standard_surface import _GeneratedStandardSurface
+from ._generated.standard_surface import GeneratedStandardSurface
 
 
-class StandardSurface(_GeneratedStandardSurface):
+class StandardSurface(GeneratedStandardSurface):
     __slots__ = ()
 
     NODE_TYPE = "standardSurface"

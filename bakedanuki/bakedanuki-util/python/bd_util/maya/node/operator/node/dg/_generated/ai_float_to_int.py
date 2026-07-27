@@ -44,7 +44,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiFloatToInt(DG):
+class GeneratedAiFloatToInt(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFloatToInt"

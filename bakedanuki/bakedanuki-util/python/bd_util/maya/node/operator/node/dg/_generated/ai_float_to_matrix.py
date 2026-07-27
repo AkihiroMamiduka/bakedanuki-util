@@ -5,7 +5,7 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiFloatToMatrix(DG):
+class GeneratedAiFloatToMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFloatToMatrix"

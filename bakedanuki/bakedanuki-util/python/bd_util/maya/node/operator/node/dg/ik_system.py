@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ik_system import _GeneratedIkSystem
+from ._generated.ik_system import GeneratedIkSystem
 
 
-class IkSystem(_GeneratedIkSystem):
+class IkSystem(GeneratedIkSystem):
     __slots__ = ()
 
     NODE_TYPE = "ikSystem"

@@ -20,7 +20,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class _GeneratedGeoConnector(DG):
+class GeneratedGeoConnector(DG):
     __slots__ = ()
 
     NODE_TYPE = "geoConnector"

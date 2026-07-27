@@ -45,7 +45,7 @@ class InterpolationTypeEnumField(
     PLUG_CLS = InterpolationTypeEnumPlugOperator
 
 
-class _GeneratedPolyRemesh(DG):
+class GeneratedPolyRemesh(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyRemesh"

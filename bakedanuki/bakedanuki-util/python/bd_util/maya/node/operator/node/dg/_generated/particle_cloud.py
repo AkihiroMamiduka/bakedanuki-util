@@ -21,7 +21,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedParticleCloud(DG):
+class GeneratedParticleCloud(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleCloud"

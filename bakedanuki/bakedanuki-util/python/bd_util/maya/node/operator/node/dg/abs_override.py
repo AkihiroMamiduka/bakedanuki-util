@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.abs_override import _GeneratedAbsOverride
+from ._generated.abs_override import GeneratedAbsOverride
 
 
-class AbsOverride(_GeneratedAbsOverride):
+class AbsOverride(GeneratedAbsOverride):
     __slots__ = ()
 
     NODE_TYPE = "absOverride"

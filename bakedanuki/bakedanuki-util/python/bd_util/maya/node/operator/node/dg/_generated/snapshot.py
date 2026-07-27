@@ -44,7 +44,7 @@ class UpdateEnumField(
     PLUG_CLS = UpdateEnumPlugOperator
 
 
-class _GeneratedSnapshot(DG):
+class GeneratedSnapshot(DG):
     __slots__ = ()
 
     NODE_TYPE = "snapshot"

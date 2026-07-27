@@ -40,7 +40,7 @@ class SamplingTypeEnumField(
     PLUG_CLS = SamplingTypeEnumPlugOperator
 
 
-class _GeneratedDiskCache(DG):
+class GeneratedDiskCache(DG):
     __slots__ = ()
 
     NODE_TYPE = "diskCache"

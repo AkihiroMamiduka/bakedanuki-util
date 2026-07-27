@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedHyperLayout(DG):
+class GeneratedHyperLayout(DG):
     __slots__ = ()
 
     NODE_TYPE = "hyperLayout"

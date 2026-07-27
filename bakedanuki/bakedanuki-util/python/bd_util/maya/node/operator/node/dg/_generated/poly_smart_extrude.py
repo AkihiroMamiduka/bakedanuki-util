@@ -15,7 +15,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolySmartExtrude(DG):
+class GeneratedPolySmartExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySmartExtrude"

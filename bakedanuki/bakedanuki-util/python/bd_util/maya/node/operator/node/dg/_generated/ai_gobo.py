@@ -125,7 +125,7 @@ class TwrapEnumField(
     PLUG_CLS = TwrapEnumPlugOperator
 
 
-class _GeneratedAiGobo(DG):
+class GeneratedAiGobo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiGobo"

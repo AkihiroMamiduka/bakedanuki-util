@@ -5,7 +5,7 @@ from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedRowFromMatrix(DG):
+class GeneratedRowFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "rowFromMatrix"

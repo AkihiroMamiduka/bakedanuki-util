@@ -86,7 +86,7 @@ class MiterAlongEnumField(
     PLUG_CLS = MiterAlongEnumPlugOperator
 
 
-class _GeneratedPolyBevel3(DG):
+class GeneratedPolyBevel3(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBevel3"

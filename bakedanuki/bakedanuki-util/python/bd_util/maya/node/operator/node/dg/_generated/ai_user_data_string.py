@@ -4,7 +4,7 @@ from ....attr.define.node_attr.ai_user_data_string import OutTransparencyField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataString(DG):
+class GeneratedAiUserDataString(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataString"

@@ -124,7 +124,7 @@ class AiFilterWeightsEnumField(
     PLUG_CLS = AiFilterWeightsEnumPlugOperator
 
 
-class _GeneratedAiAOVFilter(DG):
+class GeneratedAiAOVFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAOVFilter"

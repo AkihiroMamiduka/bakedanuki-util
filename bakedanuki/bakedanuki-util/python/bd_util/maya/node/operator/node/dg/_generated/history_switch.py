@@ -12,7 +12,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class _GeneratedHistorySwitch(DG):
+class GeneratedHistorySwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "historySwitch"

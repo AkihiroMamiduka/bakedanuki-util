@@ -39,7 +39,7 @@ class TransferModeMappingTypeEnumField(
     PLUG_CLS = TransferModeMappingTypeEnumPlugOperator
 
 
-class _GeneratedXgmModifierLinearWire(DG):
+class GeneratedXgmModifierLinearWire(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierLinearWire"

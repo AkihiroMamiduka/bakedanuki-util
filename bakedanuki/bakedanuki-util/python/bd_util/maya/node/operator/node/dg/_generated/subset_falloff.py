@@ -41,7 +41,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedSubsetFalloff(DG):
+class GeneratedSubsetFalloff(DG):
     __slots__ = ()
 
     NODE_TYPE = "subsetFalloff"

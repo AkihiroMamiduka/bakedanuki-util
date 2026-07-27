@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sub_curve import _GeneratedSubCurve
+from ._generated.sub_curve import GeneratedSubCurve
 
 
-class SubCurve(_GeneratedSubCurve):
+class SubCurve(GeneratedSubCurve):
     __slots__ = ()
 
     NODE_TYPE = "subCurve"

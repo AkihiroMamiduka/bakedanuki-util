@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_abs import (
 )
 
 
-class _GeneratedAiAbs(DG):
+class GeneratedAiAbs(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAbs"

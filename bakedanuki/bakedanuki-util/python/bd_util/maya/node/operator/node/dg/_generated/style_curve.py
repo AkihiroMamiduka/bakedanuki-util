@@ -75,7 +75,7 @@ class StyleEnumField(
     PLUG_CLS = StyleEnumPlugOperator
 
 
-class _GeneratedStyleCurve(DG):
+class GeneratedStyleCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "styleCurve"

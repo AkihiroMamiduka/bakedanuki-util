@@ -43,7 +43,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedLuminance(DG):
+class GeneratedLuminance(DG):
     __slots__ = ()
 
     NODE_TYPE = "luminance"

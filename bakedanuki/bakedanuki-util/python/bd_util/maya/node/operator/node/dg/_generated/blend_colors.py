@@ -47,7 +47,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedBlendColors(DG):
+class GeneratedBlendColors(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendColors"

@@ -146,7 +146,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedPhong(DG):
+class GeneratedPhong(DG):
     __slots__ = ()
 
     NODE_TYPE = "phong"

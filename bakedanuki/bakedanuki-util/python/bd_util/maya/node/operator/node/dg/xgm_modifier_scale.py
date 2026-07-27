@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.xgm_modifier_scale import _GeneratedXgmModifierScale
+from ._generated.xgm_modifier_scale import GeneratedXgmModifierScale
 
 
-class XgmModifierScale(_GeneratedXgmModifierScale):
+class XgmModifierScale(GeneratedXgmModifierScale):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierScale"

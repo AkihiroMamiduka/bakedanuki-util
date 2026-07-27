@@ -5,7 +5,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 
 
-class _GeneratedTimeWarp(DG):
+class GeneratedTimeWarp(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeWarp"

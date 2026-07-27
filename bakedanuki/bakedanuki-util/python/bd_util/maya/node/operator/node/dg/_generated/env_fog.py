@@ -171,7 +171,7 @@ class FogAxisEnumField(
     PLUG_CLS = FogAxisEnumPlugOperator
 
 
-class _GeneratedEnvFog(DG):
+class GeneratedEnvFog(DG):
     __slots__ = ()
 
     NODE_TYPE = "envFog"

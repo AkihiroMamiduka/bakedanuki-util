@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_max import (
 )
 
 
-class _GeneratedAiMax(DG):
+class GeneratedAiMax(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMax"

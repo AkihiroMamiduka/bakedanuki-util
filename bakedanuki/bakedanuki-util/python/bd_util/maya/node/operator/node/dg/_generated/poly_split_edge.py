@@ -39,7 +39,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPolySplitEdge(DG):
+class GeneratedPolySplitEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySplitEdge"

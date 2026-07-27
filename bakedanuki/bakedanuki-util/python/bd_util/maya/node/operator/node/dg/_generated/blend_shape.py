@@ -90,7 +90,7 @@ class DeformationOrderEnumField(
     PLUG_CLS = DeformationOrderEnumPlugOperator
 
 
-class _GeneratedBlendShape(DG):
+class GeneratedBlendShape(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendShape"

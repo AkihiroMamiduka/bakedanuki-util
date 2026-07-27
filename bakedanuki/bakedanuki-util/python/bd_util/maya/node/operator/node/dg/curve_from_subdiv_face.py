@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.curve_from_subdiv_face import _GeneratedCurveFromSubdivFace
+from ._generated.curve_from_subdiv_face import GeneratedCurveFromSubdivFace
 
 
-class CurveFromSubdivFace(_GeneratedCurveFromSubdivFace):
+class CurveFromSubdivFace(GeneratedCurveFromSubdivFace):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSubdivFace"

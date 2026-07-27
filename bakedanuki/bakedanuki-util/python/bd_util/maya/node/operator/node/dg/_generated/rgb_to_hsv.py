@@ -45,7 +45,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedRgbToHsv(DG):
+class GeneratedRgbToHsv(DG):
     __slots__ = ()
 
     NODE_TYPE = "rgbToHsv"

@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedSmoothCurve(DG):
+class GeneratedSmoothCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "smoothCurve"

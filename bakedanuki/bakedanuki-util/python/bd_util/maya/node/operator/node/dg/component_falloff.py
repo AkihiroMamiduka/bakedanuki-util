@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.component_falloff import _GeneratedComponentFalloff
+from ._generated.component_falloff import GeneratedComponentFalloff
 
 
-class ComponentFalloff(_GeneratedComponentFalloff):
+class ComponentFalloff(GeneratedComponentFalloff):
     __slots__ = ()
 
     NODE_TYPE = "componentFalloff"

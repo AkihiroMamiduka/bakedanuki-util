@@ -38,7 +38,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiDisable(DG):
+class GeneratedAiDisable(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiDisable"

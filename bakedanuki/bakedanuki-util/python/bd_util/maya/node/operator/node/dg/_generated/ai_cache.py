@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_cache import (
 )
 
 
-class _GeneratedAiCache(DG):
+class GeneratedAiCache(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCache"

@@ -50,7 +50,7 @@ from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKState2Effector(DG):
+class GeneratedHIKState2Effector(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKState2Effector"

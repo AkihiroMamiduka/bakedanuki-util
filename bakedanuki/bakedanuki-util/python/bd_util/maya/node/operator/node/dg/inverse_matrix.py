@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.inverse_matrix import _GeneratedInverseMatrix
+from ._generated.inverse_matrix import GeneratedInverseMatrix
 
 
-class InverseMatrix(_GeneratedInverseMatrix):
+class InverseMatrix(GeneratedInverseMatrix):
     __slots__ = ()
 
     NODE_TYPE = "inverseMatrix"

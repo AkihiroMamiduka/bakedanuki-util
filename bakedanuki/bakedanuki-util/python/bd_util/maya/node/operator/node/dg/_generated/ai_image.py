@@ -134,7 +134,7 @@ class TwrapEnumField(
     PLUG_CLS = TwrapEnumPlugOperator
 
 
-class _GeneratedAiImage(DG):
+class GeneratedAiImage(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImage"

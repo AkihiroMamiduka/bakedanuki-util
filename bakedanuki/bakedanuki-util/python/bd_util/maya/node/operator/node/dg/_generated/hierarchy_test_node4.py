@@ -8,7 +8,7 @@ from ....attr.define.node_attr.hierarchy_test_node4 import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedHierarchyTestNode4(DG):
+class GeneratedHierarchyTestNode4(DG):
     __slots__ = ()
 
     NODE_TYPE = "hierarchyTestNode4"

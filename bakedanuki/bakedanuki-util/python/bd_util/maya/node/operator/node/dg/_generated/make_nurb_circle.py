@@ -45,7 +45,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeNurbCircle(DG):
+class GeneratedMakeNurbCircle(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbCircle"

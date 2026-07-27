@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedAnimBlend(DG):
+class GeneratedAnimBlend(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlend"

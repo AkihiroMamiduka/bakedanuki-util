@@ -236,7 +236,7 @@ class RotInterpolationEnumField(
     PLUG_CLS = RotInterpolationEnumPlugOperator
 
 
-class _GeneratedPairBlend(DG):
+class GeneratedPairBlend(DG):
     __slots__ = ()
 
     NODE_TYPE = "pairBlend"

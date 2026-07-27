@@ -2430,7 +2430,7 @@ class RightArmFullRollExtractionModeEnumField(
     PLUG_CLS = RightArmFullRollExtractionModeEnumPlugOperator
 
 
-class _GeneratedHIKProperty2State(DG):
+class GeneratedHIKProperty2State(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKProperty2State"

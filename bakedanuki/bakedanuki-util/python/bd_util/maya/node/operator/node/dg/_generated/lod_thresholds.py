@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedLodThresholds(DG):
+class GeneratedLodThresholds(DG):
     __slots__ = ()
 
     NODE_TYPE = "lodThresholds"

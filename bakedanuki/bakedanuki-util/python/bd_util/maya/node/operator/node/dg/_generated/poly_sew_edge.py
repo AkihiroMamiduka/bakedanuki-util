@@ -8,7 +8,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolySewEdge(DG):
+class GeneratedPolySewEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySewEdge"

@@ -40,7 +40,7 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class _GeneratedFitBspline(DG):
+class GeneratedFitBspline(DG):
     __slots__ = ()
 
     NODE_TYPE = "fitBspline"

@@ -7,7 +7,7 @@ from ....attr.define.node_attr.unpremultiply import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedUnpremultiply(DG):
+class GeneratedUnpremultiply(DG):
     __slots__ = ()
 
     NODE_TYPE = "unpremultiply"

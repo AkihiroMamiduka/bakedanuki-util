@@ -198,7 +198,7 @@ class ClosestPointModeEnumField(
     PLUG_CLS = ClosestPointModeEnumPlugOperator
 
 
-class _GeneratedMASH_Offset(DG):
+class GeneratedMASH_Offset(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Offset"

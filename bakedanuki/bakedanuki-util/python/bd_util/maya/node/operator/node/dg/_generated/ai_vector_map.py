@@ -56,7 +56,7 @@ class OrderEnumField(
     PLUG_CLS = OrderEnumPlugOperator
 
 
-class _GeneratedAiVectorMap(DG):
+class GeneratedAiVectorMap(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVectorMap"

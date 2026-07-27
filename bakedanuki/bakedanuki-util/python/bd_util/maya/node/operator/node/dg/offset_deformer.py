@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.offset_deformer import _GeneratedOffsetDeformer
+from ._generated.offset_deformer import GeneratedOffsetDeformer
 
 
-class OffsetDeformer(_GeneratedOffsetDeformer):
+class OffsetDeformer(GeneratedOffsetDeformer):
     __slots__ = ()
 
     NODE_TYPE = "offsetDeformer"

@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedAvgCurves(DG):
+class GeneratedAvgCurves(DG):
     __slots__ = ()
 
     NODE_TYPE = "avgCurves"

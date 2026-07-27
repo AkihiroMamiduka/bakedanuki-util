@@ -267,7 +267,7 @@ class AiFilterEnumField(
     PLUG_CLS = AiFilterEnumPlugOperator
 
 
-class _GeneratedPsdFileTex(DG):
+class GeneratedPsdFileTex(DG):
     __slots__ = ()
 
     NODE_TYPE = "psdFileTex"

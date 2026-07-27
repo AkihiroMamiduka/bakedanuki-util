@@ -112,7 +112,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedPolyEdgeToCurve(DG):
+class GeneratedPolyEdgeToCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyEdgeToCurve"

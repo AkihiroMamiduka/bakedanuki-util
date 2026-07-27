@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.data_block_test import _GeneratedDataBlockTest
+from ._generated.data_block_test import GeneratedDataBlockTest
 
 
-class DataBlockTest(_GeneratedDataBlockTest):
+class DataBlockTest(GeneratedDataBlockTest):
     __slots__ = ()
 
     NODE_TYPE = "dataBlockTest"

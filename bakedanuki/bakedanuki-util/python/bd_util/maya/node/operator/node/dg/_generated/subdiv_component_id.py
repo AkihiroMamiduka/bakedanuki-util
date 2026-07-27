@@ -198,7 +198,7 @@ class OutFinalEnumField(
     PLUG_CLS = OutFinalEnumPlugOperator
 
 
-class _GeneratedSubdivComponentId(DG):
+class GeneratedSubdivComponentId(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdivComponentId"

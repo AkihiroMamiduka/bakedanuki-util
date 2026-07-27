@@ -114,7 +114,7 @@ class AimModeEnumField(
     PLUG_CLS = AimModeEnumPlugOperator
 
 
-class _GeneratedCurveWarp(DG):
+class GeneratedCurveWarp(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveWarp"

@@ -75,7 +75,7 @@ class AiSubsurfaceTypeEnumField(
     PLUG_CLS = AiSubsurfaceTypeEnumPlugOperator
 
 
-class _GeneratedStandardSurface(DG):
+class GeneratedStandardSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "standardSurface"

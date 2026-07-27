@@ -502,7 +502,7 @@ class RenderUnitEnumField(
     PLUG_CLS = RenderUnitEnumPlugOperator
 
 
-class _GeneratedAiOptions(DG):
+class GeneratedAiOptions(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiOptions"

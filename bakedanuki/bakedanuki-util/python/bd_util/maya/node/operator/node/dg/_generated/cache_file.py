@@ -11,7 +11,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedCacheFile(DG):
+class GeneratedCacheFile(DG):
     __slots__ = ()
 
     NODE_TYPE = "cacheFile"

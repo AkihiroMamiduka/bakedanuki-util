@@ -75,7 +75,7 @@ class UnitOptionEnumField(
     PLUG_CLS = UnitOptionEnumPlugOperator
 
 
-class _GeneratedExpression(DG):
+class GeneratedExpression(DG):
     __slots__ = ()
 
     NODE_TYPE = "expression"

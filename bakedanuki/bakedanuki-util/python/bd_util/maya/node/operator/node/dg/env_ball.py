@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.env_ball import _GeneratedEnvBall
+from ._generated.env_ball import GeneratedEnvBall
 
 
-class EnvBall(_GeneratedEnvBall):
+class EnvBall(GeneratedEnvBall):
     __slots__ = ()
 
     NODE_TYPE = "envBall"

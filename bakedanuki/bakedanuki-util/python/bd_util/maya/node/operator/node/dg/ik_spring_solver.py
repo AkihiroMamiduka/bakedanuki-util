@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ik_spring_solver import _GeneratedIkSpringSolver
+from ._generated.ik_spring_solver import GeneratedIkSpringSolver
 
 
-class IkSpringSolver(_GeneratedIkSpringSolver):
+class IkSpringSolver(GeneratedIkSpringSolver):
     __slots__ = ()
 
     NODE_TYPE = "ikSpringSolver"

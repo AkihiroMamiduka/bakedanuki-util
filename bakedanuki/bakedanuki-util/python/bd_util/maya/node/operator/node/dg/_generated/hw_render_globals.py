@@ -276,7 +276,7 @@ class LightingModeEnumField(
     PLUG_CLS = LightingModeEnumPlugOperator
 
 
-class _GeneratedHwRenderGlobals(DG):
+class GeneratedHwRenderGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "hwRenderGlobals"

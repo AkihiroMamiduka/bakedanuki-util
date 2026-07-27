@@ -148,7 +148,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedAnisotropic(DG):
+class GeneratedAnisotropic(DG):
     __slots__ = ()
 
     NODE_TYPE = "anisotropic"

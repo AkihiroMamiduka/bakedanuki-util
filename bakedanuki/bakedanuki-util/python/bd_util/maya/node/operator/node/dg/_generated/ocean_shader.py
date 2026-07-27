@@ -70,7 +70,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedOceanShader(DG):
+class GeneratedOceanShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "oceanShader"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_opt_uvs import _GeneratedPolyOptUvs
+from ._generated.poly_opt_uvs import GeneratedPolyOptUvs
 
 
-class PolyOptUvs(_GeneratedPolyOptUvs):
+class PolyOptUvs(GeneratedPolyOptUvs):
     __slots__ = ()
 
     NODE_TYPE = "polyOptUvs"

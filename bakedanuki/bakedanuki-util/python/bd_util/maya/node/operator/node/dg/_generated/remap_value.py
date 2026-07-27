@@ -8,7 +8,7 @@ from ....attr.define.node_attr.remap_value import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedRemapValue(DG):
+class GeneratedRemapValue(DG):
     __slots__ = ()
 
     NODE_TYPE = "remapValue"

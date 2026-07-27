@@ -105,7 +105,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPrimitiveMisc(DG):
+class GeneratedPolyPrimitiveMisc(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPrimitiveMisc"

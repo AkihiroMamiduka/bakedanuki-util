@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.boundary import _GeneratedBoundary
+from ._generated.boundary import GeneratedBoundary
 
 
-class Boundary(_GeneratedBoundary):
+class Boundary(GeneratedBoundary):
     __slots__ = ()
 
     NODE_TYPE = "boundary"

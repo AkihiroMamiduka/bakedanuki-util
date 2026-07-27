@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.long_long_int import LongLongIntField
 
 
-class _GeneratedMayaUsdProxyShapeListener(DG):
+class GeneratedMayaUsdProxyShapeListener(DG):
     __slots__ = ()
 
     NODE_TYPE = "mayaUsdProxyShapeListener"

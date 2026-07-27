@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedGreaterThan(DG):
+class GeneratedGreaterThan(DG):
     __slots__ = ()
 
     NODE_TYPE = "greaterThan"

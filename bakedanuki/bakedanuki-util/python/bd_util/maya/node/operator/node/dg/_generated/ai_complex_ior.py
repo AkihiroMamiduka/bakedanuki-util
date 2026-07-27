@@ -101,7 +101,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiComplexIor(DG):
+class GeneratedAiComplexIor(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComplexIor"

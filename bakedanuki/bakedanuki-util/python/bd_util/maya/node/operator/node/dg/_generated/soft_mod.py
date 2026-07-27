@@ -108,7 +108,7 @@ class FalloffModeEnumField(
     PLUG_CLS = FalloffModeEnumPlugOperator
 
 
-class _GeneratedSoftMod(DG):
+class GeneratedSoftMod(DG):
     __slots__ = ()
 
     NODE_TYPE = "softMod"

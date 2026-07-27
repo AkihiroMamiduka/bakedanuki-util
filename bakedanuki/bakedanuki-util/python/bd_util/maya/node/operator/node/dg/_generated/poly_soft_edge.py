@@ -8,7 +8,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolySoftEdge(DG):
+class GeneratedPolySoftEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySoftEdge"

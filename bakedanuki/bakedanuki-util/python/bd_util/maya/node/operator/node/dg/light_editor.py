@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.light_editor import _GeneratedLightEditor
+from ._generated.light_editor import GeneratedLightEditor
 
 
-class LightEditor(_GeneratedLightEditor):
+class LightEditor(GeneratedLightEditor):
     __slots__ = ()
 
     NODE_TYPE = "lightEditor"

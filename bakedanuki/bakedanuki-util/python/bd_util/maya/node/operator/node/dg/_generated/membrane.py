@@ -80,7 +80,7 @@ class PressureMethodEnumField(
     PLUG_CLS = PressureMethodEnumPlugOperator
 
 
-class _GeneratedMembrane(DG):
+class GeneratedMembrane(DG):
     __slots__ = ()
 
     NODE_TYPE = "membrane"

@@ -50,7 +50,7 @@ class SvgModeEnumField(
     PLUG_CLS = SvgModeEnumPlugOperator
 
 
-class _GeneratedSvgToPoly(DG):
+class GeneratedSvgToPoly(DG):
     __slots__ = ()
 
     NODE_TYPE = "svgToPoly"

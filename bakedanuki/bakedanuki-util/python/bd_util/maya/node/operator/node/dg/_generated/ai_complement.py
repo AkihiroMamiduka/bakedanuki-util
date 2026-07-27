@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_complement import (
 )
 
 
-class _GeneratedAiComplement(DG):
+class GeneratedAiComplement(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComplement"

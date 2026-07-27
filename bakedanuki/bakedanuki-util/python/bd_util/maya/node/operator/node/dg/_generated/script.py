@@ -110,7 +110,7 @@ class IgnoreReferenceEditsEnumField(
     PLUG_CLS = IgnoreReferenceEditsEnumPlugOperator
 
 
-class _GeneratedScript(DG):
+class GeneratedScript(DG):
     __slots__ = ()
 
     NODE_TYPE = "script"

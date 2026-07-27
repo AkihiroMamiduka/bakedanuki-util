@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.modulo import _GeneratedModulo
+from ._generated.modulo import GeneratedModulo
 
 
-class Modulo(_GeneratedModulo):
+class Modulo(GeneratedModulo):
     __slots__ = ()
 
     NODE_TYPE = "modulo"

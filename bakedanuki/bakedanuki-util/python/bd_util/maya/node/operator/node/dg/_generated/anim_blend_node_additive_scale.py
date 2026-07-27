@@ -37,7 +37,7 @@ class AccumulationModeEnumField(
     PLUG_CLS = AccumulationModeEnumPlugOperator
 
 
-class _GeneratedAnimBlendNodeAdditiveScale(DG):
+class GeneratedAnimBlendNodeAdditiveScale(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeAdditiveScale"

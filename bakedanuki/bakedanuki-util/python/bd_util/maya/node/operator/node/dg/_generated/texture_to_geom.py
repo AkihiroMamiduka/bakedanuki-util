@@ -11,7 +11,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedTextureToGeom(DG):
+class GeneratedTextureToGeom(DG):
     __slots__ = ()
 
     NODE_TYPE = "textureToGeom"

@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Curve(DG):
+class GeneratedMASH_Curve(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Curve"

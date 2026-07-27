@@ -42,7 +42,7 @@ class FilterClassEnumField(
     PLUG_CLS = FilterClassEnumPlugOperator
 
 
-class _GeneratedObjectTypeFilter(DG):
+class GeneratedObjectTypeFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "objectTypeFilter"

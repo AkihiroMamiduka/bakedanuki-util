@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_map_del import _GeneratedPolyMapDel
+from ._generated.poly_map_del import GeneratedPolyMapDel
 
 
-class PolyMapDel(_GeneratedPolyMapDel):
+class PolyMapDel(GeneratedPolyMapDel):
     __slots__ = ()
 
     NODE_TYPE = "polyMapDel"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.multiply import _GeneratedMultiply
+from ._generated.multiply import GeneratedMultiply
 
 
-class Multiply(_GeneratedMultiply):
+class Multiply(GeneratedMultiply):
     __slots__ = ()
 
     NODE_TYPE = "multiply"

@@ -11,7 +11,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyTweakUV(DG):
+class GeneratedPolyTweakUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyTweakUV"

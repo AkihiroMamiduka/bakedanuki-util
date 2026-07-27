@@ -8,7 +8,7 @@ from ....attr.define.std.at.compound import CompoundField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAttrHierarchyTest(DG):
+class GeneratedAttrHierarchyTest(DG):
     __slots__ = ()
 
     NODE_TYPE = "attrHierarchyTest"

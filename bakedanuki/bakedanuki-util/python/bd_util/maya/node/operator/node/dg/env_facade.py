@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.env_facade import _GeneratedEnvFacade
+from ._generated.env_facade import GeneratedEnvFacade
 
 
-class EnvFacade(_GeneratedEnvFacade):
+class EnvFacade(GeneratedEnvFacade):
     __slots__ = ()
 
     NODE_TYPE = "envFacade"

@@ -62,7 +62,7 @@ class TypeFilterEnumField(
     PLUG_CLS = TypeFilterEnumPlugOperator
 
 
-class _GeneratedSimpleSelector(DG):
+class GeneratedSimpleSelector(DG):
     __slots__ = ()
 
     NODE_TYPE = "simpleSelector"

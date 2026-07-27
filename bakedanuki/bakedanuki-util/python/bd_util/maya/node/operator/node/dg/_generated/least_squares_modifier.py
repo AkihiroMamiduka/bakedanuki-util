@@ -9,7 +9,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedLeastSquaresModifier(DG):
+class GeneratedLeastSquaresModifier(DG):
     __slots__ = ()
 
     NODE_TYPE = "leastSquaresModifier"

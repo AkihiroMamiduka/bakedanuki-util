@@ -52,7 +52,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class _GeneratedRotateVector(DG):
+class GeneratedRotateVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "rotateVector"

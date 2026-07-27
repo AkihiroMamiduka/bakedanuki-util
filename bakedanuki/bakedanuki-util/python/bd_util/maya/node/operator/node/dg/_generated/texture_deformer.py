@@ -114,7 +114,7 @@ class VectorSpaceEnumField(
     PLUG_CLS = VectorSpaceEnumPlugOperator
 
 
-class _GeneratedTextureDeformer(DG):
+class GeneratedTextureDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "textureDeformer"

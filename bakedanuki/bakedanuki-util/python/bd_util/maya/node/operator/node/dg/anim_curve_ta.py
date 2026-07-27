@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.anim_curve_ta import _GeneratedAnimCurveTA
+from ._generated.anim_curve_ta import GeneratedAnimCurveTA
 
 
-class AnimCurveTA(_GeneratedAnimCurveTA):
+class AnimCurveTA(GeneratedAnimCurveTA):
     __slots__ = ()
 
     NODE_TYPE = "animCurveTA"

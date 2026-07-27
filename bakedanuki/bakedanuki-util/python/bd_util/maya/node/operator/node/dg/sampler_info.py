@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sampler_info import _GeneratedSamplerInfo
+from ._generated.sampler_info import GeneratedSamplerInfo
 
 
-class SamplerInfo(_GeneratedSamplerInfo):
+class SamplerInfo(GeneratedSamplerInfo):
     __slots__ = ()
 
     NODE_TYPE = "samplerInfo"

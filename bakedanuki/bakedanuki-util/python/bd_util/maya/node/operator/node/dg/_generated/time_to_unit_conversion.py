@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedTimeToUnitConversion(DG):
+class GeneratedTimeToUnitConversion(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeToUnitConversion"

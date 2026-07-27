@@ -60,7 +60,7 @@ class LocalCenterEnumField(
     PLUG_CLS = LocalCenterEnumPlugOperator
 
 
-class _GeneratedPolyExtrudeEdge(DG):
+class GeneratedPolyExtrudeEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyExtrudeEdge"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.xgm_modifier_displacement import _GeneratedXgmModifierDisplacement
+from ._generated.xgm_modifier_displacement import GeneratedXgmModifierDisplacement
 
 
-class XgmModifierDisplacement(_GeneratedXgmModifierDisplacement):
+class XgmModifierDisplacement(GeneratedXgmModifierDisplacement):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierDisplacement"

@@ -7,7 +7,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyConnectComponents(DG):
+class GeneratedPolyConnectComponents(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyConnectComponents"

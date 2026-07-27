@@ -7,7 +7,7 @@ from ....attr.define.node_attr.volume_shader import (
 )
 
 
-class _GeneratedVolumeShader(DG):
+class GeneratedVolumeShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "volumeShader"

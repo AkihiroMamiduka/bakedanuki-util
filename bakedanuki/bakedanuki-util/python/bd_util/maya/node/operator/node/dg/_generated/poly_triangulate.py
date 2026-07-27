@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyTriangulate(DG):
+class GeneratedPolyTriangulate(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyTriangulate"

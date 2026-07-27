@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedTime(DG):
+class GeneratedTime(DG):
     __slots__ = ()
 
     NODE_TYPE = "time"

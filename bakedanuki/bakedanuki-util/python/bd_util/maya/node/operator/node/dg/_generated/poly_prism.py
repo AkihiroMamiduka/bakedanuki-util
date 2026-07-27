@@ -78,7 +78,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPrism(DG):
+class GeneratedPolyPrism(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPrism"

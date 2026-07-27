@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_remesh import _GeneratedPolyRemesh
+from ._generated.poly_remesh import GeneratedPolyRemesh
 
 
-class PolyRemesh(_GeneratedPolyRemesh):
+class PolyRemesh(GeneratedPolyRemesh):
     __slots__ = ()
 
     NODE_TYPE = "polyRemesh"

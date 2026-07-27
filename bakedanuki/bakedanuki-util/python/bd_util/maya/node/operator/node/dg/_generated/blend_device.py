@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 
 
-class _GeneratedBlendDevice(DG):
+class GeneratedBlendDevice(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendDevice"

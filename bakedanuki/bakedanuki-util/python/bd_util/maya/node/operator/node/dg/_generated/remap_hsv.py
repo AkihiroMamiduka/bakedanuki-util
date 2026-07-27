@@ -49,7 +49,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedRemapHsv(DG):
+class GeneratedRemapHsv(DG):
     __slots__ = ()
 
     NODE_TYPE = "remapHsv"

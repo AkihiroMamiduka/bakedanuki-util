@@ -11,7 +11,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyPoke(DG):
+class GeneratedPolyPoke(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPoke"

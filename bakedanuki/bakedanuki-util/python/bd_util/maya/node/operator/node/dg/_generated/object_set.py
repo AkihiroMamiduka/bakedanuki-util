@@ -79,7 +79,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedObjectSet(DG):
+class GeneratedObjectSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "objectSet"

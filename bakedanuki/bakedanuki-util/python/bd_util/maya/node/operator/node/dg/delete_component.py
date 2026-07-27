@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.delete_component import _GeneratedDeleteComponent
+from ._generated.delete_component import GeneratedDeleteComponent
 
 
-class DeleteComponent(_GeneratedDeleteComponent):
+class DeleteComponent(GeneratedDeleteComponent):
     __slots__ = ()
 
     NODE_TYPE = "deleteComponent"

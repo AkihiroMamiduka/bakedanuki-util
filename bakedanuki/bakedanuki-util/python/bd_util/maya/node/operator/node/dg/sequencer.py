@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sequencer import _GeneratedSequencer
+from ._generated.sequencer import GeneratedSequencer
 
 
-class Sequencer(_GeneratedSequencer):
+class Sequencer(GeneratedSequencer):
     __slots__ = ()
 
     NODE_TYPE = "sequencer"

@@ -114,7 +114,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPlatonicSolid(DG):
+class GeneratedPolyPlatonicSolid(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPlatonicSolid"

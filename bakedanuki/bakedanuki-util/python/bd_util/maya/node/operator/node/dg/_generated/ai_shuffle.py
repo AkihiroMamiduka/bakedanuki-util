@@ -150,7 +150,7 @@ class ChannelAEnumField(
     PLUG_CLS = ChannelAEnumPlugOperator
 
 
-class _GeneratedAiShuffle(DG):
+class GeneratedAiShuffle(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiShuffle"

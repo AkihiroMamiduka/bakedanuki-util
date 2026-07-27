@@ -44,7 +44,7 @@ class TransferModeMappingTypeEnumField(
     PLUG_CLS = TransferModeMappingTypeEnumPlugOperator
 
 
-class _GeneratedXgmModifierSculpt(DG):
+class GeneratedXgmModifierSculpt(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierSculpt"

@@ -7,7 +7,7 @@ from ....attr.define.node_attr.default_light_list import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedDefaultLightList(DG):
+class GeneratedDefaultLightList(DG):
     __slots__ = ()
 
     NODE_TYPE = "defaultLightList"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_negate import _GeneratedAiNegate
+from ._generated.ai_negate import GeneratedAiNegate
 
 
-class AiNegate(_GeneratedAiNegate):
+class AiNegate(GeneratedAiNegate):
     __slots__ = ()
 
     NODE_TYPE = "aiNegate"

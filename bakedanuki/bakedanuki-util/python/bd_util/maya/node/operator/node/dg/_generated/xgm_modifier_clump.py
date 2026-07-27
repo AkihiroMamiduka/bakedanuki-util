@@ -19,7 +19,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class _GeneratedXgmModifierClump(DG):
+class GeneratedXgmModifierClump(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierClump"

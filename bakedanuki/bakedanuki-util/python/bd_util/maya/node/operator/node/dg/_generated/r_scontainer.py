@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedRScontainer(DG):
+class GeneratedRScontainer(DG):
     __slots__ = ()
 
     NODE_TYPE = "RScontainer"

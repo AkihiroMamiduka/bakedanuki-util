@@ -166,7 +166,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedAiVolumeCollector(DG):
+class GeneratedAiVolumeCollector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVolumeCollector"

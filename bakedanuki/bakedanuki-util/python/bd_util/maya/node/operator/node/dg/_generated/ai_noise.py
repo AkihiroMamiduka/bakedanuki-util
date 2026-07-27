@@ -81,7 +81,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiNoise(DG):
+class GeneratedAiNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiNoise"

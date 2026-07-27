@@ -52,7 +52,7 @@ class JointGuideAxisEnumField(
     PLUG_CLS = JointGuideAxisEnumPlugOperator
 
 
-class _GeneratedGuide(DG):
+class GeneratedGuide(DG):
     __slots__ = ()
 
     NODE_TYPE = "guide"

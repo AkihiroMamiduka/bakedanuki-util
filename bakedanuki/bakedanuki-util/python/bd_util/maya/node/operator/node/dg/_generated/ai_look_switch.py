@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedAiLookSwitch(DG):
+class GeneratedAiLookSwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLookSwitch"

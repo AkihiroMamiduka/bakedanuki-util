@@ -72,7 +72,7 @@ class NormalizeDirectionEnumField(
     PLUG_CLS = NormalizeDirectionEnumPlugOperator
 
 
-class _GeneratedPolyNormalizeUV(DG):
+class GeneratedPolyNormalizeUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyNormalizeUV"

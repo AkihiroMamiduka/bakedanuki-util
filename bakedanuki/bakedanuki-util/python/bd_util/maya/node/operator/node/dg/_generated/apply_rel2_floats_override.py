@@ -9,7 +9,7 @@ from ....attr.define.node_attr.apply_rel2_floats_override import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedApplyRel2FloatsOverride(DG):
+class GeneratedApplyRel2FloatsOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "applyRel2FloatsOverride"

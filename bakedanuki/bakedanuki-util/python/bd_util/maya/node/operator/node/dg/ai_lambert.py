@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_lambert import _GeneratedAiLambert
+from ._generated.ai_lambert import GeneratedAiLambert
 
 
-class AiLambert(_GeneratedAiLambert):
+class AiLambert(GeneratedAiLambert):
     __slots__ = ()
 
     NODE_TYPE = "aiLambert"

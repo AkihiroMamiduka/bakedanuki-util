@@ -56,7 +56,7 @@ class OrderEnumField(
     PLUG_CLS = OrderEnumPlugOperator
 
 
-class _GeneratedAiNormalMap(DG):
+class GeneratedAiNormalMap(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiNormalMap"

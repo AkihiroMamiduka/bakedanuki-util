@@ -105,7 +105,7 @@ class DropoffTypeEnumField(
     PLUG_CLS = DropoffTypeEnumPlugOperator
 
 
-class _GeneratedSculpt(DG):
+class GeneratedSculpt(DG):
     __slots__ = ()
 
     NODE_TYPE = "sculpt"

@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_negate import (
 )
 
 
-class _GeneratedAiNegate(DG):
+class GeneratedAiNegate(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiNegate"

@@ -100,7 +100,7 @@ class VariableEnumField(
     PLUG_CLS = VariableEnumPlugOperator
 
 
-class _GeneratedAiStateVector(DG):
+class GeneratedAiStateVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStateVector"

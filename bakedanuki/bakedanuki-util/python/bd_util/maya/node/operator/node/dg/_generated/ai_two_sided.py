@@ -11,7 +11,7 @@ from ....attr.define.node_attr.ai_two_sided import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiTwoSided(DG):
+class GeneratedAiTwoSided(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiTwoSided"

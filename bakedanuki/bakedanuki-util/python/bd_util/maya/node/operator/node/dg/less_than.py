@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.less_than import _GeneratedLessThan
+from ._generated.less_than import GeneratedLessThan
 
 
-class LessThan(_GeneratedLessThan):
+class LessThan(GeneratedLessThan):
     __slots__ = ()
 
     NODE_TYPE = "lessThan"

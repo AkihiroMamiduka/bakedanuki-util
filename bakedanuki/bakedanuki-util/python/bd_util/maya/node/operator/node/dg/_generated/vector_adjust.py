@@ -51,7 +51,7 @@ class AlignmentModeEnumField(
     PLUG_CLS = AlignmentModeEnumPlugOperator
 
 
-class _GeneratedVectorAdjust(DG):
+class GeneratedVectorAdjust(DG):
     __slots__ = ()
 
     NODE_TYPE = "vectorAdjust"

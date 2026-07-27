@@ -4,7 +4,7 @@ from ....attr.define.node_attr.cpv_color import OutColorField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedCpvColor(DG):
+class GeneratedCpvColor(DG):
     __slots__ = ()
 
     NODE_TYPE = "cpvColor"

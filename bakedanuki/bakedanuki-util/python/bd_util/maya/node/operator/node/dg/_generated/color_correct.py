@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedColorCorrect(DG):
+class GeneratedColorCorrect(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorCorrect"

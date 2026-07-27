@@ -105,7 +105,7 @@ class PartitionTypeEnumField(
     PLUG_CLS = PartitionTypeEnumPlugOperator
 
 
-class _GeneratedPartition(DG):
+class GeneratedPartition(DG):
     __slots__ = ()
 
     NODE_TYPE = "partition"

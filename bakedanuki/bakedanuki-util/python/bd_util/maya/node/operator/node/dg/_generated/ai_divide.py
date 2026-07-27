@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_divide import (
 )
 
 
-class _GeneratedAiDivide(DG):
+class GeneratedAiDivide(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiDivide"

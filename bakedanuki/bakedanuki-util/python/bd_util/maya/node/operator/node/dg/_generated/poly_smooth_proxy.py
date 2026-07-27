@@ -224,7 +224,7 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class _GeneratedPolySmoothProxy(DG):
+class GeneratedPolySmoothProxy(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySmoothProxy"

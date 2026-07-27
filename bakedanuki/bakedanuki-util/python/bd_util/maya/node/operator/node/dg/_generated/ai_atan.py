@@ -41,7 +41,7 @@ class UnitsEnumField(
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class _GeneratedAiAtan(DG):
+class GeneratedAiAtan(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAtan"

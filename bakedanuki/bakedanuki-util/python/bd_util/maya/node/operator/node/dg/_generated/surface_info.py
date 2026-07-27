@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedSurfaceInfo(DG):
+class GeneratedSurfaceInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "surfaceInfo"

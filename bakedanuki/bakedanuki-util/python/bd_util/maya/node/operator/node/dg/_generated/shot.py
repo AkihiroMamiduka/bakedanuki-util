@@ -70,7 +70,7 @@ class TransitionOutTypeEnumField(
     PLUG_CLS = TransitionOutTypeEnumPlugOperator
 
 
-class _GeneratedShot(DG):
+class GeneratedShot(DG):
     __slots__ = ()
 
     NODE_TYPE = "shot"

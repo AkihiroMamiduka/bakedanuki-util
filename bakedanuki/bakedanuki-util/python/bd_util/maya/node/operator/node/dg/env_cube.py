@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.env_cube import _GeneratedEnvCube
+from ._generated.env_cube import GeneratedEnvCube
 
 
-class EnvCube(_GeneratedEnvCube):
+class EnvCube(GeneratedEnvCube):
     __slots__ = ()
 
     NODE_TYPE = "envCube"

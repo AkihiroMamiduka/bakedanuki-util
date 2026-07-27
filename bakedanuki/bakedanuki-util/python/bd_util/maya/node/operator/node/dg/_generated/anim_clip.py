@@ -76,7 +76,7 @@ class OffsetEnumField(
     PLUG_CLS = OffsetEnumPlugOperator
 
 
-class _GeneratedAnimClip(DG):
+class GeneratedAnimClip(DG):
     __slots__ = ()
 
     NODE_TYPE = "animClip"

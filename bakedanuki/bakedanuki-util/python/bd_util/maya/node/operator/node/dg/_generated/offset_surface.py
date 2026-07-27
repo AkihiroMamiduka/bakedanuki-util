@@ -37,7 +37,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class _GeneratedOffsetSurface(DG):
+class GeneratedOffsetSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "offsetSurface"

@@ -39,7 +39,7 @@ class CoordsysEnumField(
     PLUG_CLS = CoordsysEnumPlugOperator
 
 
-class _GeneratedXgmModifierDisplacement(DG):
+class GeneratedXgmModifierDisplacement(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierDisplacement"

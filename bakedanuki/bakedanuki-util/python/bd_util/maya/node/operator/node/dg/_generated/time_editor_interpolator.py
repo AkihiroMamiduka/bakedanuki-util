@@ -6,7 +6,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedTimeEditorInterpolator(DG):
+class GeneratedTimeEditorInterpolator(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeEditorInterpolator"

@@ -80,7 +80,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedCreaseSet(DG):
+class GeneratedCreaseSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "creaseSet"

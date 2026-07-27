@@ -109,7 +109,7 @@ class BevelEnumField(
     PLUG_CLS = BevelEnumPlugOperator
 
 
-class _GeneratedVectorExtrude(DG):
+class GeneratedVectorExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "vectorExtrude"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_sqrt import _GeneratedAiSqrt
+from ._generated.ai_sqrt import GeneratedAiSqrt
 
 
-class AiSqrt(_GeneratedAiSqrt):
+class AiSqrt(GeneratedAiSqrt):
     __slots__ = ()
 
     NODE_TYPE = "aiSqrt"

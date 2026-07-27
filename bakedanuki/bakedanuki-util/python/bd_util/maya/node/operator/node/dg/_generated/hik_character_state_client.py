@@ -9,7 +9,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedHIKCharacterStateClient(DG):
+class GeneratedHIKCharacterStateClient(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKCharacterStateClient"

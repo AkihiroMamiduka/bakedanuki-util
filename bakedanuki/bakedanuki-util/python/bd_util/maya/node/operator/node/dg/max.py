@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.max import _GeneratedMax
+from ._generated.max import GeneratedMax
 
 
-class Max(_GeneratedMax):
+class Max(GeneratedMax):
     __slots__ = ()
 
     NODE_TYPE = "max"

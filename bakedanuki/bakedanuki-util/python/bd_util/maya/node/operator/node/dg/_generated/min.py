@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedMin(DG):
+class GeneratedMin(DG):
     __slots__ = ()
 
     NODE_TYPE = "min"

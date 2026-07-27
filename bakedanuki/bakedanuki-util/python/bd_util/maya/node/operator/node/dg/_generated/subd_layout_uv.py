@@ -163,7 +163,7 @@ class LayoutMethodEnumField(
     PLUG_CLS = LayoutMethodEnumPlugOperator
 
 
-class _GeneratedSubdLayoutUV(DG):
+class GeneratedSubdLayoutUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdLayoutUV"

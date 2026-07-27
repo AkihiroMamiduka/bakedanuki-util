@@ -73,7 +73,7 @@ class VolumeTypeEnumField(
     PLUG_CLS = VolumeTypeEnumPlugOperator
 
 
-class _GeneratedAiVolumeSampleFloat(DG):
+class GeneratedAiVolumeSampleFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVolumeSampleFloat"

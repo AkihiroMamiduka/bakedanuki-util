@@ -41,7 +41,7 @@ class FreezeNormalsEnumField(
     PLUG_CLS = FreezeNormalsEnumPlugOperator
 
 
-class _GeneratedTransformGeometry(DG):
+class GeneratedTransformGeometry(DG):
     __slots__ = ()
 
     NODE_TYPE = "transformGeometry"

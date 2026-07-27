@@ -121,7 +121,7 @@ class ToEnumField(
     PLUG_CLS = ToEnumPlugOperator
 
 
-class _GeneratedAiSpaceTransform(DG):
+class GeneratedAiSpaceTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSpaceTransform"

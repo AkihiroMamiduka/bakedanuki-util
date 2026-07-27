@@ -8,7 +8,7 @@ from ....attr.define.node_attr.angle_between import (
 )
 
 
-class _GeneratedAngleBetween(DG):
+class GeneratedAngleBetween(DG):
     __slots__ = ()
 
     NODE_TYPE = "angleBetween"

@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedSubtract(DG):
+class GeneratedSubtract(DG):
     __slots__ = ()
 
     NODE_TYPE = "subtract"

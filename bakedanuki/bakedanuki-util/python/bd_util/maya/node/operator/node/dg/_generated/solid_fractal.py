@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSolidFractal(DG):
+class GeneratedSolidFractal(DG):
     __slots__ = ()
 
     NODE_TYPE = "solidFractal"

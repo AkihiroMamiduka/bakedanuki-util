@@ -261,7 +261,7 @@ class FitRebuildEnumField(
     PLUG_CLS = FitRebuildEnumPlugOperator
 
 
-class _GeneratedRebuildSurface(DG):
+class GeneratedRebuildSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "rebuildSurface"

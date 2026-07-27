@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_barndoor import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiBarndoor(DG):
+class GeneratedAiBarndoor(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiBarndoor"

@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedEqual(DG):
+class GeneratedEqual(DG):
     __slots__ = ()
 
     NODE_TYPE = "equal"

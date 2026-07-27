@@ -42,7 +42,7 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class _GeneratedPolyUnite(DG):
+class GeneratedPolyUnite(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyUnite"

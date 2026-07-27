@@ -49,7 +49,7 @@ class CycleTypeEnumField(
     PLUG_CLS = CycleTypeEnumPlugOperator
 
 
-class _GeneratedAlembicNode(DG):
+class GeneratedAlembicNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "AlembicNode"

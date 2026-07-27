@@ -5,7 +5,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedMaterialFacade(DG):
+class GeneratedMaterialFacade(DG):
     __slots__ = ()
 
     NODE_TYPE = "materialFacade"

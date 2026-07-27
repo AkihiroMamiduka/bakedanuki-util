@@ -363,7 +363,7 @@ class StipplePatternEnumField(
     PLUG_CLS = StipplePatternEnumPlugOperator
 
 
-class _GeneratedResultCurveTimeToAngular(DG):
+class GeneratedResultCurveTimeToAngular(DG):
     __slots__ = ()
 
     NODE_TYPE = "resultCurveTimeToAngular"

@@ -136,7 +136,7 @@ class ContinuityType4EnumField(
     PLUG_CLS = ContinuityType4EnumPlugOperator
 
 
-class _GeneratedSquareSrf(DG):
+class GeneratedSquareSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "squareSrf"

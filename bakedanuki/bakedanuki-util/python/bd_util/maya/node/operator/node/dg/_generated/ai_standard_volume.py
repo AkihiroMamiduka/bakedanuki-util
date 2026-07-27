@@ -113,7 +113,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedAiStandardVolume(DG):
+class GeneratedAiStandardVolume(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStandardVolume"

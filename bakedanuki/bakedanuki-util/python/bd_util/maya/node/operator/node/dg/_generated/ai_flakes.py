@@ -75,7 +75,7 @@ class OutputSpaceEnumField(
     PLUG_CLS = OutputSpaceEnumPlugOperator
 
 
-class _GeneratedAiFlakes(DG):
+class GeneratedAiFlakes(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFlakes"

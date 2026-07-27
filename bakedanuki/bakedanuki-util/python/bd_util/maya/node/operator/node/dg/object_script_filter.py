@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.object_script_filter import _GeneratedObjectScriptFilter
+from ._generated.object_script_filter import GeneratedObjectScriptFilter
 
 
-class ObjectScriptFilter(_GeneratedObjectScriptFilter):
+class ObjectScriptFilter(GeneratedObjectScriptFilter):
     __slots__ = ()
 
     NODE_TYPE = "objectScriptFilter"

@@ -51,7 +51,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiTriplanar(DG):
+class GeneratedAiTriplanar(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiTriplanar"

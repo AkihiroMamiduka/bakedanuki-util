@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.optical_fx import _GeneratedOpticalFX
+from ._generated.optical_fx import GeneratedOpticalFX
 
 
-class OpticalFX(_GeneratedOpticalFX):
+class OpticalFX(GeneratedOpticalFX):
     __slots__ = ()
 
     NODE_TYPE = "opticalFX"

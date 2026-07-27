@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_blackbody import _GeneratedAiBlackbody
+from ._generated.ai_blackbody import GeneratedAiBlackbody
 
 
-class AiBlackbody(_GeneratedAiBlackbody):
+class AiBlackbody(GeneratedAiBlackbody):
     __slots__ = ()
 
     NODE_TYPE = "aiBlackbody"

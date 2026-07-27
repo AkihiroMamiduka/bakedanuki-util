@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.vector_adjust import _GeneratedVectorAdjust
+from ._generated.vector_adjust import GeneratedVectorAdjust
 
 
-class VectorAdjust(_GeneratedVectorAdjust):
+class VectorAdjust(GeneratedVectorAdjust):
     __slots__ = ()
 
     NODE_TYPE = "vectorAdjust"

@@ -14,7 +14,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedWire(DG):
+class GeneratedWire(DG):
     __slots__ = ()
 
     NODE_TYPE = "wire"

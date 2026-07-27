@@ -7,7 +7,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedClipToGhostData(DG):
+class GeneratedClipToGhostData(DG):
     __slots__ = ()
 
     NODE_TYPE = "clipToGhostData"

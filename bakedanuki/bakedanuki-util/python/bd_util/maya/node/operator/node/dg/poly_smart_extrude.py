@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_smart_extrude import _GeneratedPolySmartExtrude
+from ._generated.poly_smart_extrude import GeneratedPolySmartExtrude
 
 
-class PolySmartExtrude(_GeneratedPolySmartExtrude):
+class PolySmartExtrude(GeneratedPolySmartExtrude):
     __slots__ = ()
 
     NODE_TYPE = "polySmartExtrude"

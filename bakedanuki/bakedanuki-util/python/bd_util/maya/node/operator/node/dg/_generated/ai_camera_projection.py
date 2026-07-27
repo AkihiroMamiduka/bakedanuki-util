@@ -49,7 +49,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiCameraProjection(DG):
+class GeneratedAiCameraProjection(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCameraProjection"

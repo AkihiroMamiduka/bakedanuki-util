@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.group_parts import _GeneratedGroupParts
+from ._generated.group_parts import GeneratedGroupParts
 
 
-class GroupParts(_GeneratedGroupParts):
+class GroupParts(GeneratedGroupParts):
     __slots__ = ()
 
     NODE_TYPE = "groupParts"

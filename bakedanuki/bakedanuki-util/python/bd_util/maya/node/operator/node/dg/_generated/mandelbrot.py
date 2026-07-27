@@ -199,7 +199,7 @@ class OrbitMapColoringEnumField(
     PLUG_CLS = OrbitMapColoringEnumPlugOperator
 
 
-class _GeneratedMandelbrot(DG):
+class GeneratedMandelbrot(DG):
     __slots__ = ()
 
     NODE_TYPE = "mandelbrot"

@@ -9,7 +9,7 @@ from ....attr.define.node_attr.surface_shader import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSurfaceShader(DG):
+class GeneratedSurfaceShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "surfaceShader"

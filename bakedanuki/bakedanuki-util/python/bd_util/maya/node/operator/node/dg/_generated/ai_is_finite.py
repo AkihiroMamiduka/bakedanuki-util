@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_is_finite import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedAiIsFinite(DG):
+class GeneratedAiIsFinite(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiIsFinite"

@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_thin_film import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiThinFilm(DG):
+class GeneratedAiThinFilm(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiThinFilm"

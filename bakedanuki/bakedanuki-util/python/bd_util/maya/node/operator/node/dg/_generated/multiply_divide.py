@@ -46,7 +46,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedMultiplyDivide(DG):
+class GeneratedMultiplyDivide(DG):
     __slots__ = ()
 
     NODE_TYPE = "multiplyDivide"

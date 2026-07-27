@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedFilletCurve(DG):
+class GeneratedFilletCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "filletCurve"

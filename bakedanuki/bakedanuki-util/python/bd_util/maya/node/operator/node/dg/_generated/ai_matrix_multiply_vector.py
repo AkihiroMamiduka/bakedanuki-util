@@ -44,7 +44,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiMatrixMultiplyVector(DG):
+class GeneratedAiMatrixMultiplyVector(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatrixMultiplyVector"

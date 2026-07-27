@@ -56,7 +56,7 @@ class InputRotateOrderEnumField(
     PLUG_CLS = InputRotateOrderEnumPlugOperator
 
 
-class _GeneratedComposeMatrix(DG):
+class GeneratedComposeMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "composeMatrix"

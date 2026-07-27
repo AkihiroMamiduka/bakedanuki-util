@@ -45,7 +45,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPolyPinUV(DG):
+class GeneratedPolyPinUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPinUV"

@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Influence(DG):
+class GeneratedMASH_Influence(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Influence"

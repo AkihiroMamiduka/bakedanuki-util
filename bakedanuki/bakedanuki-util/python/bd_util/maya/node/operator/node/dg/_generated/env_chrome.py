@@ -21,7 +21,7 @@ from ....attr.define.std.at.scalar.numeric.range.char import CharField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedEnvChrome(DG):
+class GeneratedEnvChrome(DG):
     __slots__ = ()
 
     NODE_TYPE = "envChrome"

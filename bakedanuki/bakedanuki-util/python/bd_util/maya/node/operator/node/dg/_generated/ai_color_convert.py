@@ -68,7 +68,7 @@ class ToEnumField(
     PLUG_CLS = ToEnumPlugOperator
 
 
-class _GeneratedAiColorConvert(DG):
+class GeneratedAiColorConvert(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiColorConvert"

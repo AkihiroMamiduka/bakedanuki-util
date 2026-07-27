@@ -44,7 +44,7 @@ class SmoothingAlgorithmEnumField(
     PLUG_CLS = SmoothingAlgorithmEnumPlugOperator
 
 
-class _GeneratedDeltaMush(DG):
+class GeneratedDeltaMush(DG):
     __slots__ = ()
 
     NODE_TYPE = "deltaMush"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.curve_intersect import _GeneratedCurveIntersect
+from ._generated.curve_intersect import GeneratedCurveIntersect
 
 
-class CurveIntersect(_GeneratedCurveIntersect):
+class CurveIntersect(GeneratedCurveIntersect):
     __slots__ = ()
 
     NODE_TYPE = "curveIntersect"

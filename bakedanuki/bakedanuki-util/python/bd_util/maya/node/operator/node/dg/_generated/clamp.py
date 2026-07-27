@@ -47,7 +47,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedClamp(DG):
+class GeneratedClamp(DG):
     __slots__ = ()
 
     NODE_TYPE = "clamp"

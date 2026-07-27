@@ -97,7 +97,7 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiCellNoise(DG):
+class GeneratedAiCellNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCellNoise"

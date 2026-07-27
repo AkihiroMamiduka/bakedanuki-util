@@ -50,7 +50,7 @@ class RepresentationEnumField(
     PLUG_CLS = RepresentationEnumPlugOperator
 
 
-class _GeneratedPolyColorPerVertex(DG):
+class GeneratedPolyColorPerVertex(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyColorPerVertex"

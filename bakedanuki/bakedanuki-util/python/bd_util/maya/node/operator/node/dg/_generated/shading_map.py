@@ -170,7 +170,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedShadingMap(DG):
+class GeneratedShadingMap(DG):
     __slots__ = ()
 
     NODE_TYPE = "shadingMap"

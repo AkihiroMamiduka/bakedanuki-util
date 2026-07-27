@@ -311,7 +311,7 @@ class RotationInterpolationEnumField(
     PLUG_CLS = RotationInterpolationEnumPlugOperator
 
 
-class _GeneratedTransform(DAG):
+class GeneratedTransform(DAG):
     __slots__ = ()
 
     NODE_TYPE = "transform"

@@ -39,7 +39,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedPlanarTrimSurface(DG):
+class GeneratedPlanarTrimSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "planarTrimSurface"

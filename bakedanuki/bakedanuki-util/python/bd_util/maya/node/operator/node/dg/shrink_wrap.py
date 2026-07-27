@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.shrink_wrap import _GeneratedShrinkWrap
+from ._generated.shrink_wrap import GeneratedShrinkWrap
 
 
-class ShrinkWrap(_GeneratedShrinkWrap):
+class ShrinkWrap(GeneratedShrinkWrap):
     __slots__ = ()
 
     NODE_TYPE = "shrinkWrap"

@@ -107,7 +107,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyHelix(DG):
+class GeneratedPolyHelix(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyHelix"

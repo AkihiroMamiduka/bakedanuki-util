@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_multiply import (
 )
 
 
-class _GeneratedAiMultiply(DG):
+class GeneratedAiMultiply(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMultiply"

@@ -8,7 +8,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyMapSewMove(DG):
+class GeneratedPolyMapSewMove(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMapSewMove"

@@ -4,7 +4,7 @@ from ....attr.define.node_attr.scale_from_matrix import OutputField
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedScaleFromMatrix(DG):
+class GeneratedScaleFromMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "scaleFromMatrix"

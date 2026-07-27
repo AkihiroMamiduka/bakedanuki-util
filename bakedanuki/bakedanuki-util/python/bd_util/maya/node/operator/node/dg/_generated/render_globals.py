@@ -476,7 +476,7 @@ class RenderedOutputEnumField(
     PLUG_CLS = RenderedOutputEnumPlugOperator
 
 
-class _GeneratedRenderGlobals(DG):
+class GeneratedRenderGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderGlobals"

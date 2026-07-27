@@ -180,7 +180,7 @@ class WeightDistributionEnumField(
     PLUG_CLS = WeightDistributionEnumPlugOperator
 
 
-class _GeneratedSkinCluster(DG):
+class GeneratedSkinCluster(DG):
     __slots__ = ()
 
     NODE_TYPE = "skinCluster"

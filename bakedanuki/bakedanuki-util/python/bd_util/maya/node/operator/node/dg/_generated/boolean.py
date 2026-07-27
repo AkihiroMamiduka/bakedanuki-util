@@ -40,7 +40,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedBoolean(DG):
+class GeneratedBoolean(DG):
     __slots__ = ()
 
     NODE_TYPE = "boolean"

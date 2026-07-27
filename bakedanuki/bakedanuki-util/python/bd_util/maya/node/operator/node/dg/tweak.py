@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.tweak import _GeneratedTweak
+from ._generated.tweak import GeneratedTweak
 
 
-class Tweak(_GeneratedTweak):
+class Tweak(GeneratedTweak):
     __slots__ = ()
 
     NODE_TYPE = "tweak"

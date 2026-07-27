@@ -131,7 +131,7 @@ class WrapFrameVEnumField(
     PLUG_CLS = WrapFrameVEnumPlugOperator
 
 
-class _GeneratedAiUvTransform(DG):
+class GeneratedAiUvTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUvTransform"

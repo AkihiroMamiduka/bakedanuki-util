@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.fractal import _GeneratedFractal
+from ._generated.fractal import GeneratedFractal
 
 
-class Fractal(_GeneratedFractal):
+class Fractal(GeneratedFractal):
     __slots__ = ()
 
     NODE_TYPE = "fractal"

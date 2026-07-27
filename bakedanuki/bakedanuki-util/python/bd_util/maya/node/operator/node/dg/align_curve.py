@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.align_curve import _GeneratedAlignCurve
+from ._generated.align_curve import GeneratedAlignCurve
 
 
-class AlignCurve(_GeneratedAlignCurve):
+class AlignCurve(GeneratedAlignCurve):
     __slots__ = ()
 
     NODE_TYPE = "alignCurve"

@@ -7,7 +7,7 @@ from ....attr.define.node_attr.axis_angle_to_quat import (
 from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
-class _GeneratedAxisAngleToQuat(DG):
+class GeneratedAxisAngleToQuat(DG):
     __slots__ = ()
 
     NODE_TYPE = "axisAngleToQuat"

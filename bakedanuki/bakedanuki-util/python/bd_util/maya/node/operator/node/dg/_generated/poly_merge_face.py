@@ -54,7 +54,7 @@ class MergeModeEnumField(
     PLUG_CLS = MergeModeEnumPlugOperator
 
 
-class _GeneratedPolyMergeFace(DG):
+class GeneratedPolyMergeFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMergeFace"

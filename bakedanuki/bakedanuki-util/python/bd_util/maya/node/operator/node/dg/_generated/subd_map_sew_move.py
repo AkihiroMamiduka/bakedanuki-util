@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedSubdMapSewMove(DG):
+class GeneratedSubdMapSewMove(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdMapSewMove"

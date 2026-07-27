@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.floor import _GeneratedFloor
+from ._generated.floor import GeneratedFloor
 
 
-class Floor(_GeneratedFloor):
+class Floor(GeneratedFloor):
     __slots__ = ()
 
     NODE_TYPE = "floor"

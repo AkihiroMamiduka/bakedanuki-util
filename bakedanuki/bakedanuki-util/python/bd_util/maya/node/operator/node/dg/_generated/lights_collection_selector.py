@@ -62,7 +62,7 @@ class TypeFilterEnumField(
     PLUG_CLS = TypeFilterEnumPlugOperator
 
 
-class _GeneratedLightsCollectionSelector(DG):
+class GeneratedLightsCollectionSelector(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightsCollectionSelector"

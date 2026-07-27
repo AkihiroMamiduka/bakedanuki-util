@@ -94,7 +94,7 @@ class HaloTypeEnumField(
     PLUG_CLS = HaloTypeEnumPlugOperator
 
 
-class _GeneratedShaderGlow(DG):
+class GeneratedShaderGlow(DG):
     __slots__ = ()
 
     NODE_TYPE = "shaderGlow"

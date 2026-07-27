@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.double_shading_switch import _GeneratedDoubleShadingSwitch
+from ._generated.double_shading_switch import GeneratedDoubleShadingSwitch
 
 
-class DoubleShadingSwitch(_GeneratedDoubleShadingSwitch):
+class DoubleShadingSwitch(GeneratedDoubleShadingSwitch):
     __slots__ = ()
 
     NODE_TYPE = "doubleShadingSwitch"

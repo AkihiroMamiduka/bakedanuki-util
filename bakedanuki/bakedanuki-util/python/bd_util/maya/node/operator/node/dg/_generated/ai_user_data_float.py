@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiUserDataFloat(DG):
+class GeneratedAiUserDataFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUserDataFloat"

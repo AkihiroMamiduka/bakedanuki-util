@@ -7,7 +7,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyGear(DG):
+class GeneratedPolyGear(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyGear"

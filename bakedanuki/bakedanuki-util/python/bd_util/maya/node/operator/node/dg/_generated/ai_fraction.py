@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_fraction import (
 )
 
 
-class _GeneratedAiFraction(DG):
+class GeneratedAiFraction(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFraction"

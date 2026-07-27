@@ -4,7 +4,7 @@ from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedUnitConversion(DG):
+class GeneratedUnitConversion(DG):
     __slots__ = ()
 
     NODE_TYPE = "unitConversion"

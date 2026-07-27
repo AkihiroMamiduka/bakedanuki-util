@@ -48,7 +48,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedLightFog(DG):
+class GeneratedLightFog(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightFog"

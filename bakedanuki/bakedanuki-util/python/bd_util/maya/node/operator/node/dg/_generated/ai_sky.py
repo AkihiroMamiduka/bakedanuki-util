@@ -49,7 +49,7 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class _GeneratedAiSky(DG):
+class GeneratedAiSky(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSky"

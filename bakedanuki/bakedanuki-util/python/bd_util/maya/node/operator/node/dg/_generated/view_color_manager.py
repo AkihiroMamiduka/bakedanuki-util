@@ -86,7 +86,7 @@ class DisplayColorProfileEnumField(
     PLUG_CLS = DisplayColorProfileEnumPlugOperator
 
 
-class _GeneratedViewColorManager(DG):
+class GeneratedViewColorManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "viewColorManager"

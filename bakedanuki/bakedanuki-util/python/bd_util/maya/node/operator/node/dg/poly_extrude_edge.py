@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_extrude_edge import _GeneratedPolyExtrudeEdge
+from ._generated.poly_extrude_edge import GeneratedPolyExtrudeEdge
 
 
-class PolyExtrudeEdge(_GeneratedPolyExtrudeEdge):
+class PolyExtrudeEdge(GeneratedPolyExtrudeEdge):
     __slots__ = ()
 
     NODE_TYPE = "polyExtrudeEdge"

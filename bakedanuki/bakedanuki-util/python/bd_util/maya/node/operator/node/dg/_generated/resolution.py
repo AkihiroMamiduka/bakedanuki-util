@@ -143,7 +143,7 @@ class PixelDensityUnitsEnumField(
     PLUG_CLS = PixelDensityUnitsEnumPlugOperator
 
 
-class _GeneratedResolution(DG):
+class GeneratedResolution(DG):
     __slots__ = ()
 
     NODE_TYPE = "resolution"

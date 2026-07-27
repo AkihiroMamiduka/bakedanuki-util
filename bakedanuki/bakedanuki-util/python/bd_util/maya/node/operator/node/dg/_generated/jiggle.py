@@ -52,7 +52,7 @@ class EnableEnumField(
     PLUG_CLS = EnableEnumPlugOperator
 
 
-class _GeneratedJiggle(DG):
+class GeneratedJiggle(DG):
     __slots__ = ()
 
     NODE_TYPE = "jiggle"

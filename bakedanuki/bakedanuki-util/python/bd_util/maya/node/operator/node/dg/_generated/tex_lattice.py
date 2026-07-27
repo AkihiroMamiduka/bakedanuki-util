@@ -8,7 +8,7 @@ from ....attr.define.node_attr.tex_lattice import (
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedTexLattice(DG):
+class GeneratedTexLattice(DG):
     __slots__ = ()
 
     NODE_TYPE = "texLattice"

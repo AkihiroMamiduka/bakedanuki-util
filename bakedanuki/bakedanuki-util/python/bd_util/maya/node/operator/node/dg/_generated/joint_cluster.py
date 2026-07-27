@@ -127,7 +127,7 @@ class LowerDropoffTypeEnumField(
     PLUG_CLS = LowerDropoffTypeEnumPlugOperator
 
 
-class _GeneratedJointCluster(DG):
+class GeneratedJointCluster(DG):
     __slots__ = ()
 
     NODE_TYPE = "jointCluster"

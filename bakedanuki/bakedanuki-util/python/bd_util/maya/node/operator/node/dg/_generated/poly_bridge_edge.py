@@ -131,7 +131,7 @@ class TargetDirectionEnumField(
     PLUG_CLS = TargetDirectionEnumPlugOperator
 
 
-class _GeneratedPolyBridgeEdge(DG):
+class GeneratedPolyBridgeEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBridgeEdge"

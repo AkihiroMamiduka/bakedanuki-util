@@ -57,7 +57,7 @@ class LocalCenterEnumField(
     PLUG_CLS = LocalCenterEnumPlugOperator
 
 
-class _GeneratedPolyChipOff(DG):
+class GeneratedPolyChipOff(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyChipOff"

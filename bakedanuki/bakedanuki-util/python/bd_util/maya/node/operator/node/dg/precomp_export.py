@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.precomp_export import _GeneratedPrecompExport
+from ._generated.precomp_export import GeneratedPrecompExport
 
 
-class PrecompExport(_GeneratedPrecompExport):
+class PrecompExport(GeneratedPrecompExport):
     __slots__ = ()
 
     NODE_TYPE = "precompExport"

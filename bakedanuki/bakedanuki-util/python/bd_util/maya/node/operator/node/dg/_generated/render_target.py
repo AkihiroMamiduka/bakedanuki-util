@@ -83,7 +83,7 @@ class NumberOfChannelsEnumField(
     PLUG_CLS = NumberOfChannelsEnumPlugOperator
 
 
-class _GeneratedRenderTarget(DG):
+class GeneratedRenderTarget(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderTarget"

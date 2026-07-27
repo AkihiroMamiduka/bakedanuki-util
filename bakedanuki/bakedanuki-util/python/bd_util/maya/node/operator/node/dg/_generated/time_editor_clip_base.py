@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedTimeEditorClipBase(DG):
+class GeneratedTimeEditorClipBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeEditorClipBase"

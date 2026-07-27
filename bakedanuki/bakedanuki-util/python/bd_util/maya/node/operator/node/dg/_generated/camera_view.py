@@ -45,7 +45,7 @@ class ViewTypeEnumField(
     PLUG_CLS = ViewTypeEnumPlugOperator
 
 
-class _GeneratedCameraView(DG):
+class GeneratedCameraView(DG):
     __slots__ = ()
 
     NODE_TYPE = "cameraView"

@@ -932,7 +932,7 @@ class AiMotionVectorUnitEnumField(
     PLUG_CLS = AiMotionVectorUnitEnumPlugOperator
 
 
-class _GeneratedMesh(Shape):
+class GeneratedMesh(Shape):
     __slots__ = ()
 
     NODE_TYPE = "mesh"

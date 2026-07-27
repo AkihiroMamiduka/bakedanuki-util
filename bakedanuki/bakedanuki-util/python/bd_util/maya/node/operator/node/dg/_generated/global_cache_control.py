@@ -36,7 +36,7 @@ class EnableStatusEnumField(
     PLUG_CLS = EnableStatusEnumPlugOperator
 
 
-class _GeneratedGlobalCacheControl(DG):
+class GeneratedGlobalCacheControl(DG):
     __slots__ = ()
 
     NODE_TYPE = "globalCacheControl"

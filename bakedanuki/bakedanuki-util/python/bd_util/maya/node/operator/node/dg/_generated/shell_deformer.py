@@ -56,7 +56,7 @@ class AnimationModeEnumField(
     PLUG_CLS = AnimationModeEnumPlugOperator
 
 
-class _GeneratedShellDeformer(DG):
+class GeneratedShellDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "shellDeformer"

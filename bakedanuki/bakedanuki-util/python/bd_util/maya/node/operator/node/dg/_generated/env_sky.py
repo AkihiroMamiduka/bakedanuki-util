@@ -23,7 +23,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
-class _GeneratedEnvSky(DG):
+class GeneratedEnvSky(DG):
     __slots__ = ()
 
     NODE_TYPE = "envSky"

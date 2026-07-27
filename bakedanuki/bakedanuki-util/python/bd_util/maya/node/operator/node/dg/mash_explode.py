@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_explode import _GeneratedMASH_Explode
+from ._generated.mash_explode import GeneratedMASH_Explode
 
 
-class MASH_Explode(_GeneratedMASH_Explode):
+class MASH_Explode(GeneratedMASH_Explode):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Explode"

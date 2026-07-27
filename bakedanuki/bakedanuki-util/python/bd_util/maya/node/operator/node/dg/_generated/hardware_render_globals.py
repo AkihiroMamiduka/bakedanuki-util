@@ -208,7 +208,7 @@ class ShadingModelEnumField(
     PLUG_CLS = ShadingModelEnumPlugOperator
 
 
-class _GeneratedHardwareRenderGlobals(DG):
+class GeneratedHardwareRenderGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "hardwareRenderGlobals"

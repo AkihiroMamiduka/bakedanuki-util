@@ -55,7 +55,7 @@ class LookupTypeEnumField(
     PLUG_CLS = LookupTypeEnumPlugOperator
 
 
-class _GeneratedEnvCube(DG):
+class GeneratedEnvCube(DG):
     __slots__ = ()
 
     NODE_TYPE = "envCube"

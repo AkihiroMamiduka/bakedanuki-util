@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedHoldMatrix(DG):
+class GeneratedHoldMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "holdMatrix"

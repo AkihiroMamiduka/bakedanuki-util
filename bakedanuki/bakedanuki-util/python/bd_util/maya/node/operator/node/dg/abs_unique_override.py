@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.abs_unique_override import _GeneratedAbsUniqueOverride
+from ._generated.abs_unique_override import GeneratedAbsUniqueOverride
 
 
-class AbsUniqueOverride(_GeneratedAbsUniqueOverride):
+class AbsUniqueOverride(GeneratedAbsUniqueOverride):
     __slots__ = ()
 
     NODE_TYPE = "absUniqueOverride"

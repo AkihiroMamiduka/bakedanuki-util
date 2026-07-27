@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_bridge_edge import _GeneratedPolyBridgeEdge
+from ._generated.poly_bridge_edge import GeneratedPolyBridgeEdge
 
 
-class PolyBridgeEdge(_GeneratedPolyBridgeEdge):
+class PolyBridgeEdge(GeneratedPolyBridgeEdge):
     __slots__ = ()
 
     NODE_TYPE = "polyBridgeEdge"

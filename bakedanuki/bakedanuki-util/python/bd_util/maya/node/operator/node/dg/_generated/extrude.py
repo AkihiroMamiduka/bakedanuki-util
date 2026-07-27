@@ -80,7 +80,7 @@ class UseComponentPivotEnumField(
     PLUG_CLS = UseComponentPivotEnumPlugOperator
 
 
-class _GeneratedExtrude(DG):
+class GeneratedExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "extrude"

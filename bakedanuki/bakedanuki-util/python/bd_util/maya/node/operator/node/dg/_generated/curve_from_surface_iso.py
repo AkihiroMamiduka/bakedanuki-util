@@ -39,7 +39,7 @@ class IsoparmDirectionEnumField(
     PLUG_CLS = IsoparmDirectionEnumPlugOperator
 
 
-class _GeneratedCurveFromSurfaceIso(DG):
+class GeneratedCurveFromSurfaceIso(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSurfaceIso"

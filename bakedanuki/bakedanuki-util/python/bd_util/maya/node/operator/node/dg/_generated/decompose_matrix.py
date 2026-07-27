@@ -55,7 +55,7 @@ class InputRotateOrderEnumField(
     PLUG_CLS = InputRotateOrderEnumPlugOperator
 
 
-class _GeneratedDecomposeMatrix(DG):
+class GeneratedDecomposeMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "decomposeMatrix"

@@ -47,7 +47,7 @@ class BuildDirectionEnumField(
     PLUG_CLS = BuildDirectionEnumPlugOperator
 
 
-class _GeneratedHyperView(DG):
+class GeneratedHyperView(DG):
     __slots__ = ()
 
     NODE_TYPE = "hyperView"

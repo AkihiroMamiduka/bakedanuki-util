@@ -112,7 +112,7 @@ class DelayModeEnumField(
     PLUG_CLS = DelayModeEnumPlugOperator
 
 
-class _GeneratedMASH_Delay(DG):
+class GeneratedMASH_Delay(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Delay"

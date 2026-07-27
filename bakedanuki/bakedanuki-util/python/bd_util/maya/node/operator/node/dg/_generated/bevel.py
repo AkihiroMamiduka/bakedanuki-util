@@ -71,7 +71,7 @@ class BevelShapeTypeEnumField(
     PLUG_CLS = BevelShapeTypeEnumPlugOperator
 
 
-class _GeneratedBevel(DG):
+class GeneratedBevel(DG):
     __slots__ = ()
 
     NODE_TYPE = "bevel"

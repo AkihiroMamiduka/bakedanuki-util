@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_subtract import (
 )
 
 
-class _GeneratedAiSubtract(DG):
+class GeneratedAiSubtract(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSubtract"

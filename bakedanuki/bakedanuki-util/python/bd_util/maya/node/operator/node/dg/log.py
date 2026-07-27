@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.log import _GeneratedLog
+from ._generated.log import GeneratedLog
 
 
-class Log(_GeneratedLog):
+class Log(GeneratedLog):
     __slots__ = ()
 
     NODE_TYPE = "log"

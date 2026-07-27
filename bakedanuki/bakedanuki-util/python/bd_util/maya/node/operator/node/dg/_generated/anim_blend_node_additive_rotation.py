@@ -114,7 +114,7 @@ class RotationInterpolationEnumField(
     PLUG_CLS = RotationInterpolationEnumPlugOperator
 
 
-class _GeneratedAnimBlendNodeAdditiveRotation(DG):
+class GeneratedAnimBlendNodeAdditiveRotation(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeAdditiveRotation"

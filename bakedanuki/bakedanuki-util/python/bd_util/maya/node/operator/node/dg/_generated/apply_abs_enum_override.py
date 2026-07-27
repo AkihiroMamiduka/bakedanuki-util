@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedApplyAbsEnumOverride(DG):
+class GeneratedApplyAbsEnumOverride(DG):
     __slots__ = ()
 
     NODE_TYPE = "applyAbsEnumOverride"

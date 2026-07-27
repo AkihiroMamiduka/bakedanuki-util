@@ -141,7 +141,7 @@ class ScaleModeEnumField(
     PLUG_CLS = ScaleModeEnumPlugOperator
 
 
-class _GeneratedPolyAutoProj(DG):
+class GeneratedPolyAutoProj(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyAutoProj"

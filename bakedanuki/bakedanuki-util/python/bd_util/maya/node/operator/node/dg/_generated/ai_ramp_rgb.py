@@ -92,7 +92,7 @@ class UseImplicitUvsEnumField(
     PLUG_CLS = UseImplicitUvsEnumPlugOperator
 
 
-class _GeneratedAiRampRgb(DG):
+class GeneratedAiRampRgb(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRampRgb"

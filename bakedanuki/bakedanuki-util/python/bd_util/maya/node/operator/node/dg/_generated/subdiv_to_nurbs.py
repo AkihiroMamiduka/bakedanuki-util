@@ -38,7 +38,7 @@ class OutputTypeEnumField(
     PLUG_CLS = OutputTypeEnumPlugOperator
 
 
-class _GeneratedSubdivToNurbs(DG):
+class GeneratedSubdivToNurbs(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdivToNurbs"

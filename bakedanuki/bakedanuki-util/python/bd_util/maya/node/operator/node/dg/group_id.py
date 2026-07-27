@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.group_id import _GeneratedGroupId
+from ._generated.group_id import GeneratedGroupId
 
 
-class GroupId(_GeneratedGroupId):
+class GroupId(GeneratedGroupId):
     __slots__ = ()
 
     NODE_TYPE = "groupId"

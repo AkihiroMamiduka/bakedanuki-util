@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.facade import _GeneratedFacade
+from ._generated.facade import GeneratedFacade
 
 
-class Facade(_GeneratedFacade):
+class Facade(GeneratedFacade):
     __slots__ = ()
 
     NODE_TYPE = "facade"

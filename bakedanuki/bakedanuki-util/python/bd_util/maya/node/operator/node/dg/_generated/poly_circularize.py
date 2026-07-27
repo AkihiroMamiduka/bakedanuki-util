@@ -109,7 +109,7 @@ class SupportingEdgesEnumField(
     PLUG_CLS = SupportingEdgesEnumPlugOperator
 
 
-class _GeneratedPolyCircularize(DG):
+class GeneratedPolyCircularize(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCircularize"

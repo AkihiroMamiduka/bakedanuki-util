@@ -7,7 +7,7 @@ from ....attr.define.node_attr.cross_product import (
 )
 
 
-class _GeneratedCrossProduct(DG):
+class GeneratedCrossProduct(DG):
     __slots__ = ()
 
     NODE_TYPE = "crossProduct"

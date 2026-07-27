@@ -124,7 +124,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiSetTransform(DG):
+class GeneratedAiSetTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSetTransform"

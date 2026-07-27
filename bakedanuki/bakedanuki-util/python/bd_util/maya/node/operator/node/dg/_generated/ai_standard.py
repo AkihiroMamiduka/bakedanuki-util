@@ -55,7 +55,7 @@ class SpecularDistributionEnumField(
     PLUG_CLS = SpecularDistributionEnumPlugOperator
 
 
-class _GeneratedAiStandard(DG):
+class GeneratedAiStandard(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStandard"

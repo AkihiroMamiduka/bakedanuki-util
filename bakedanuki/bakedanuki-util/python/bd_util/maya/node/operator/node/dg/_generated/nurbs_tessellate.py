@@ -174,7 +174,7 @@ class CurvatureToleranceEnumField(
     PLUG_CLS = CurvatureToleranceEnumPlugOperator
 
 
-class _GeneratedNurbsTessellate(DG):
+class GeneratedNurbsTessellate(DG):
     __slots__ = ()
 
     NODE_TYPE = "nurbsTessellate"

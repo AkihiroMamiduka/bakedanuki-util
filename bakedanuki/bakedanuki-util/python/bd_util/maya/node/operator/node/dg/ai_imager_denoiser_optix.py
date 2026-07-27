@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_imager_denoiser_optix import _GeneratedAiImagerDenoiserOptix
+from ._generated.ai_imager_denoiser_optix import GeneratedAiImagerDenoiserOptix
 
 
-class AiImagerDenoiserOptix(_GeneratedAiImagerDenoiserOptix):
+class AiImagerDenoiserOptix(GeneratedAiImagerDenoiserOptix):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerDenoiserOptix"

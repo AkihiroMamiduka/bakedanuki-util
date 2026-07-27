@@ -50,7 +50,7 @@ class TestEnumField(
     PLUG_CLS = TestEnumPlugOperator
 
 
-class _GeneratedAiCompare(DG):
+class GeneratedAiCompare(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCompare"

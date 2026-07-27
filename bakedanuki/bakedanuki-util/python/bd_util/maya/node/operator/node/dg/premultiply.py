@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.premultiply import _GeneratedPremultiply
+from ._generated.premultiply import GeneratedPremultiply
 
 
-class Premultiply(_GeneratedPremultiply):
+class Premultiply(GeneratedPremultiply):
     __slots__ = ()
 
     NODE_TYPE = "premultiply"

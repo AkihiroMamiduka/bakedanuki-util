@@ -6,7 +6,7 @@ from ....attr.define.node_attr.avg_nurbs_surface_points import (
 )
 
 
-class _GeneratedAvgNurbsSurfacePoints(DG):
+class GeneratedAvgNurbsSurfacePoints(DG):
     __slots__ = ()
 
     NODE_TYPE = "avgNurbsSurfacePoints"

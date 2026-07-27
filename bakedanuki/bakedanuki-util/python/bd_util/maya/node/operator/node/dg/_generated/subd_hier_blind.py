@@ -7,7 +7,7 @@ from ....attr.define.node_attr.subd_hier_blind import (
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedSubdHierBlind(DG):
+class GeneratedSubdHierBlind(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdHierBlind"

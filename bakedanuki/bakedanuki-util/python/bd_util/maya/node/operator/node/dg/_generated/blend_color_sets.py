@@ -59,7 +59,7 @@ class BlendFuncEnumField(
     PLUG_CLS = BlendFuncEnumPlugOperator
 
 
-class _GeneratedBlendColorSets(DG):
+class GeneratedBlendColorSets(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendColorSets"

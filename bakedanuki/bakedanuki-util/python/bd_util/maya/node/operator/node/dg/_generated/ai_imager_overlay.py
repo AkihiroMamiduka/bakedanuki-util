@@ -78,7 +78,7 @@ class HalignEnumField(
     PLUG_CLS = HalignEnumPlugOperator
 
 
-class _GeneratedAiImagerOverlay(DG):
+class GeneratedAiImagerOverlay(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerOverlay"

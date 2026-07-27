@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.node_attr.particle_incand_mapper import ParticleIncandescenceField
 
 
-class _GeneratedParticleIncandMapper(DG):
+class GeneratedParticleIncandMapper(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleIncandMapper"

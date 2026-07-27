@@ -181,7 +181,7 @@ class RelativeSpaceModeEnumField(
     PLUG_CLS = RelativeSpaceModeEnumPlugOperator
 
 
-class _GeneratedProximityPin(DG):
+class GeneratedProximityPin(DG):
     __slots__ = ()
 
     NODE_TYPE = "proximityPin"

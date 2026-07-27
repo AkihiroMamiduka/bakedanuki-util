@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.smooth_step import _GeneratedSmoothStep
+from ._generated.smooth_step import GeneratedSmoothStep
 
 
-class SmoothStep(_GeneratedSmoothStep):
+class SmoothStep(GeneratedSmoothStep):
     __slots__ = ()
 
     NODE_TYPE = "smoothStep"

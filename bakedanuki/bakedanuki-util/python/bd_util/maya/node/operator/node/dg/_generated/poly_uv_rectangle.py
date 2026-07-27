@@ -7,7 +7,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyUVRectangle(DG):
+class GeneratedPolyUVRectangle(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyUVRectangle"

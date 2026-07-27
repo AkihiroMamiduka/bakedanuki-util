@@ -247,7 +247,7 @@ class FlipUVsEnumField(
     PLUG_CLS = FlipUVsEnumPlugOperator
 
 
-class _GeneratedPolyMirror(DG):
+class GeneratedPolyMirror(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMirror"

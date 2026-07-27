@@ -79,7 +79,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class _GeneratedKeyingGroup(DG):
+class GeneratedKeyingGroup(DG):
     __slots__ = ()
 
     NODE_TYPE = "keyingGroup"

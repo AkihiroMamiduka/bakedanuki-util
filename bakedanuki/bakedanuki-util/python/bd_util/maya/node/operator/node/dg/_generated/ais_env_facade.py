@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAISEnvFacade(DG):
+class GeneratedAISEnvFacade(DG):
     __slots__ = ()
 
     NODE_TYPE = "AISEnvFacade"

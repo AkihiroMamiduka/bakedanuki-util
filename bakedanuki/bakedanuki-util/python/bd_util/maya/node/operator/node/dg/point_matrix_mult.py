@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.point_matrix_mult import _GeneratedPointMatrixMult
+from ._generated.point_matrix_mult import GeneratedPointMatrixMult
 
 
-class PointMatrixMult(_GeneratedPointMatrixMult):
+class PointMatrixMult(GeneratedPointMatrixMult):
     __slots__ = ()
 
     NODE_TYPE = "pointMatrixMult"

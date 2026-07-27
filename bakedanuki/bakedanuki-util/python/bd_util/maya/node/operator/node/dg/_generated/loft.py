@@ -39,7 +39,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedLoft(DG):
+class GeneratedLoft(DG):
     __slots__ = ()
 
     NODE_TYPE = "loft"

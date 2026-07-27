@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ramp_shader import _GeneratedRampShader
+from ._generated.ramp_shader import GeneratedRampShader
 
 
-class RampShader(_GeneratedRampShader):
+class RampShader(GeneratedRampShader):
     __slots__ = ()
 
     NODE_TYPE = "rampShader"

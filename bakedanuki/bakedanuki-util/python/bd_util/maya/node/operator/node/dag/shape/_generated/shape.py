@@ -2,7 +2,7 @@
 from ..._core import DAG
 
 
-class _GeneratedShape(DAG):
+class GeneratedShape(DAG):
     __slots__ = ()
 
     NODE_TYPE = "shape"

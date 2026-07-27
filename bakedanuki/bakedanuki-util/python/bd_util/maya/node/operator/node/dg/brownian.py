@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.brownian import _GeneratedBrownian
+from ._generated.brownian import GeneratedBrownian
 
 
-class Brownian(_GeneratedBrownian):
+class Brownian(GeneratedBrownian):
     __slots__ = ()
 
     NODE_TYPE = "brownian"

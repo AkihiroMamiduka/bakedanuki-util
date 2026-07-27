@@ -37,7 +37,7 @@ class ViewUpdateEnumField(
     PLUG_CLS = ViewUpdateEnumPlugOperator
 
 
-class _GeneratedToonLineAttributes(DG):
+class GeneratedToonLineAttributes(DG):
     __slots__ = ()
 
     NODE_TYPE = "toonLineAttributes"

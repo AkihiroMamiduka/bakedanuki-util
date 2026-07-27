@@ -46,7 +46,7 @@ class SplitTypeEnumField(
     PLUG_CLS = SplitTypeEnumPlugOperator
 
 
-class _GeneratedPolySplitRing(DG):
+class GeneratedPolySplitRing(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySplitRing"

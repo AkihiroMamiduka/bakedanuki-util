@@ -39,7 +39,7 @@ class MatchModeEnumField(
     PLUG_CLS = MatchModeEnumPlugOperator
 
 
-class _GeneratedComponentMatch(DG):
+class GeneratedComponentMatch(DG):
     __slots__ = ()
 
     NODE_TYPE = "componentMatch"

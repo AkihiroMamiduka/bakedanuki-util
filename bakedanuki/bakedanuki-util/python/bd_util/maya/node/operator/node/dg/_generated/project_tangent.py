@@ -43,7 +43,7 @@ class TangentDirectionEnumField(
     PLUG_CLS = TangentDirectionEnumPlugOperator
 
 
-class _GeneratedProjectTangent(DG):
+class GeneratedProjectTangent(DG):
     __slots__ = ()
 
     NODE_TYPE = "projectTangent"

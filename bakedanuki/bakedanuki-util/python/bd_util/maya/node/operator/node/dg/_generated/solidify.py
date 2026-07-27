@@ -77,7 +77,7 @@ class ScaleModeEnumField(
     PLUG_CLS = ScaleModeEnumPlugOperator
 
 
-class _GeneratedSolidify(DG):
+class GeneratedSolidify(DG):
     __slots__ = ()
 
     NODE_TYPE = "solidify"

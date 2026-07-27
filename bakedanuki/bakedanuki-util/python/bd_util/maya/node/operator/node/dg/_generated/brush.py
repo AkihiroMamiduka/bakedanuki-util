@@ -581,7 +581,7 @@ class MapMethodEnumField(
     PLUG_CLS = MapMethodEnumPlugOperator
 
 
-class _GeneratedBrush(DG):
+class GeneratedBrush(DG):
     __slots__ = ()
 
     NODE_TYPE = "brush"

@@ -39,7 +39,7 @@ class CutModeEnumField(
     PLUG_CLS = CutModeEnumPlugOperator
 
 
-class _GeneratedXgmModifierCut(DG):
+class GeneratedXgmModifierCut(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierCut"

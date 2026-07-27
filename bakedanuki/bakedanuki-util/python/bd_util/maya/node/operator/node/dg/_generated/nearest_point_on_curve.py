@@ -7,7 +7,7 @@ from ....attr.define.node_attr.nearest_point_on_curve import (
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedNearestPointOnCurve(DG):
+class GeneratedNearestPointOnCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "nearestPointOnCurve"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.anim_layer import _GeneratedAnimLayer
+from ._generated.anim_layer import GeneratedAnimLayer
 
 
-class AnimLayer(_GeneratedAnimLayer):
+class AnimLayer(GeneratedAnimLayer):
     __slots__ = ()
 
     NODE_TYPE = "animLayer"

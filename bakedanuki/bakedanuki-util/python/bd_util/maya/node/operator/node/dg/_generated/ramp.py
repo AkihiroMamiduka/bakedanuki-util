@@ -111,7 +111,7 @@ class InterpolationEnumField(
     PLUG_CLS = InterpolationEnumPlugOperator
 
 
-class _GeneratedRamp(DG):
+class GeneratedRamp(DG):
     __slots__ = ()
 
     NODE_TYPE = "ramp"

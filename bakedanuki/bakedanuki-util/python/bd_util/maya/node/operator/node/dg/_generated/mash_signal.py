@@ -210,7 +210,7 @@ class TrigonometryModeZEnumField(
     PLUG_CLS = TrigonometryModeZEnumPlugOperator
 
 
-class _GeneratedMASH_Signal(DG):
+class GeneratedMASH_Signal(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Signal"

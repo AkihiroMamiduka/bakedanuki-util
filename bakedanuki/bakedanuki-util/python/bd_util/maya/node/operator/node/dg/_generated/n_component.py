@@ -175,7 +175,7 @@ class WeightMapTypeEnumField(
     PLUG_CLS = WeightMapTypeEnumPlugOperator
 
 
-class _GeneratedNComponent(DG):
+class GeneratedNComponent(DG):
     __slots__ = ()
 
     NODE_TYPE = "nComponent"

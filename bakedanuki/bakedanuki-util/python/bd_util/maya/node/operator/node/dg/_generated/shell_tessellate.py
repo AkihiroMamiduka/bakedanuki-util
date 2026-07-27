@@ -137,7 +137,7 @@ class VTypeEnumField(
     PLUG_CLS = VTypeEnumPlugOperator
 
 
-class _GeneratedShellTessellate(DG):
+class GeneratedShellTessellate(DG):
     __slots__ = ()
 
     NODE_TYPE = "shellTessellate"

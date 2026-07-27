@@ -48,7 +48,7 @@ class CycleTypeEnumField(
     PLUG_CLS = CycleTypeEnumPlugOperator
 
 
-class _GeneratedXgmCurveToSpline(DG):
+class GeneratedXgmCurveToSpline(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmCurveToSpline"

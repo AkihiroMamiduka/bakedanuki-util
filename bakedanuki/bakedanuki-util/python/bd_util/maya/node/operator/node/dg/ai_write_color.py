@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_write_color import _GeneratedAiWriteColor
+from ._generated.ai_write_color import GeneratedAiWriteColor
 
 
-class AiWriteColor(_GeneratedAiWriteColor):
+class AiWriteColor(GeneratedAiWriteColor):
     __slots__ = ()
 
     NODE_TYPE = "aiWriteColor"

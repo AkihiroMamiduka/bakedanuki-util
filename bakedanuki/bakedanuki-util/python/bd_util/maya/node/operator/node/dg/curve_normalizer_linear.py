@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.curve_normalizer_linear import _GeneratedCurveNormalizerLinear
+from ._generated.curve_normalizer_linear import GeneratedCurveNormalizerLinear
 
 
-class CurveNormalizerLinear(_GeneratedCurveNormalizerLinear):
+class CurveNormalizerLinear(GeneratedCurveNormalizerLinear):
     __slots__ = ()
 
     NODE_TYPE = "curveNormalizerLinear"

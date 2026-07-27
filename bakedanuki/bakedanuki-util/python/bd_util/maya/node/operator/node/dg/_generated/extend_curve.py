@@ -102,7 +102,7 @@ class StartEnumField(
     PLUG_CLS = StartEnumPlugOperator
 
 
-class _GeneratedExtendCurve(DG):
+class GeneratedExtendCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "extendCurve"

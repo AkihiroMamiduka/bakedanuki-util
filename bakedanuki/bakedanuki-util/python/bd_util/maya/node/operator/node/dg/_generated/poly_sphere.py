@@ -75,7 +75,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolySphere(DG):
+class GeneratedPolySphere(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySphere"

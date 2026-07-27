@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sequence_manager import _GeneratedSequenceManager
+from ._generated.sequence_manager import GeneratedSequenceManager
 
 
-class SequenceManager(_GeneratedSequenceManager):
+class SequenceManager(GeneratedSequenceManager):
     __slots__ = ()
 
     NODE_TYPE = "sequenceManager"

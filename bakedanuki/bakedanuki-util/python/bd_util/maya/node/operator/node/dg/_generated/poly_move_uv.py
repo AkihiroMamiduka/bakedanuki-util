@@ -15,7 +15,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedPolyMoveUV(DG):
+class GeneratedPolyMoveUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMoveUV"

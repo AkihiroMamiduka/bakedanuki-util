@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.transfer_attributes import _GeneratedTransferAttributes
+from ._generated.transfer_attributes import GeneratedTransferAttributes
 
 
-class TransferAttributes(_GeneratedTransferAttributes):
+class TransferAttributes(GeneratedTransferAttributes):
     __slots__ = ()
 
     NODE_TYPE = "transferAttributes"

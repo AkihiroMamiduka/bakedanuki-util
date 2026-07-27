@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class _GeneratedTransposeMatrix(DG):
+class GeneratedTransposeMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "transposeMatrix"

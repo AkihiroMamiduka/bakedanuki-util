@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.global_stitch import _GeneratedGlobalStitch
+from ._generated.global_stitch import GeneratedGlobalStitch
 
 
-class GlobalStitch(_GeneratedGlobalStitch):
+class GlobalStitch(GeneratedGlobalStitch):
     __slots__ = ()
 
     NODE_TYPE = "globalStitch"

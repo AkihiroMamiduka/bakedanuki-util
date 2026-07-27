@@ -8,7 +8,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAiMaterialXShader(DG):
+class GeneratedAiMaterialXShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMaterialXShader"

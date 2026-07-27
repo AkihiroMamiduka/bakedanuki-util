@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedUniformFalloff(DG):
+class GeneratedUniformFalloff(DG):
     __slots__ = ()
 
     NODE_TYPE = "uniformFalloff"

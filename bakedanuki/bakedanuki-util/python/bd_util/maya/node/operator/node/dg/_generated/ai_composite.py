@@ -154,7 +154,7 @@ class AlphaOperationEnumField(
     PLUG_CLS = AlphaOperationEnumPlugOperator
 
 
-class _GeneratedAiComposite(DG):
+class GeneratedAiComposite(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiComposite"

@@ -43,7 +43,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiVectorToRgb(DG):
+class GeneratedAiVectorToRgb(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiVectorToRgb"

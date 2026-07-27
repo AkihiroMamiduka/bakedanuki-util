@@ -47,7 +47,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeTwoPointCircularArc(DG):
+class GeneratedMakeTwoPointCircularArc(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeTwoPointCircularArc"

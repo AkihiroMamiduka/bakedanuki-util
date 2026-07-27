@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_quad import _GeneratedPolyQuad
+from ._generated.poly_quad import GeneratedPolyQuad
 
 
-class PolyQuad(_GeneratedPolyQuad):
+class PolyQuad(GeneratedPolyQuad):
     __slots__ = ()
 
     NODE_TYPE = "polyQuad"

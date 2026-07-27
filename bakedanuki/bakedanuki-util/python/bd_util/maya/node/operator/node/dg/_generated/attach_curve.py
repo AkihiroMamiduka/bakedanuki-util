@@ -38,7 +38,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class _GeneratedAttachCurve(DG):
+class GeneratedAttachCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "attachCurve"

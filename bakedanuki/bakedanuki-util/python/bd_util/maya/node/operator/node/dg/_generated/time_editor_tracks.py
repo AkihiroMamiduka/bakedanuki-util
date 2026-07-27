@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedTimeEditorTracks(DG):
+class GeneratedTimeEditorTracks(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeEditorTracks"

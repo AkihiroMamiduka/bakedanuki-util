@@ -48,7 +48,7 @@ class NormalModeEnumField(
     PLUG_CLS = NormalModeEnumPlugOperator
 
 
-class _GeneratedPolyNormal(DG):
+class GeneratedPolyNormal(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyNormal"

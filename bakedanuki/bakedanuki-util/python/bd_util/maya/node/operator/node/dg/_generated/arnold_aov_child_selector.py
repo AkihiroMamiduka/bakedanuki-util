@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedArnoldAOVChildSelector(DG):
+class GeneratedArnoldAOVChildSelector(DG):
     __slots__ = ()
 
     NODE_TYPE = "arnoldAOVChildSelector"

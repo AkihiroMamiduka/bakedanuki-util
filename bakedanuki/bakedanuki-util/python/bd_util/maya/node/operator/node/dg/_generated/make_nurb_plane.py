@@ -52,7 +52,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeNurbPlane(DG):
+class GeneratedMakeNurbPlane(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbPlane"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_pyramid import _GeneratedPolyPyramid
+from ._generated.poly_pyramid import GeneratedPolyPyramid
 
 
-class PolyPyramid(_GeneratedPolyPyramid):
+class PolyPyramid(GeneratedPolyPyramid):
     __slots__ = ()
 
     NODE_TYPE = "polyPyramid"

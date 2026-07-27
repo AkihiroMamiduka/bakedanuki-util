@@ -42,7 +42,7 @@ class UvAssignmentEnumField(
     PLUG_CLS = UvAssignmentEnumPlugOperator
 
 
-class _GeneratedPolyBevel2(DG):
+class GeneratedPolyBevel2(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBevel2"

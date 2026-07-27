@@ -58,7 +58,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiColorToFloat(DG):
+class GeneratedAiColorToFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiColorToFloat"

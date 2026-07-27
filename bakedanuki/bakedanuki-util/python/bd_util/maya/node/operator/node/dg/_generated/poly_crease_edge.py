@@ -44,7 +44,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPolyCreaseEdge(DG):
+class GeneratedPolyCreaseEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCreaseEdge"

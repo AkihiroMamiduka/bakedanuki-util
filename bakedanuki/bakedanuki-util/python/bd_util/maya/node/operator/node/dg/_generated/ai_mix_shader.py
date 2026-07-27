@@ -45,7 +45,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiMixShader(DG):
+class GeneratedAiMixShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMixShader"

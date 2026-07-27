@@ -54,7 +54,7 @@ class LocalCenterEnumField(
     PLUG_CLS = LocalCenterEnumPlugOperator
 
 
-class _GeneratedPolyMoveEdge(DG):
+class GeneratedPolyMoveEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyMoveEdge"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_utility import _GeneratedAiUtility
+from ._generated.ai_utility import GeneratedAiUtility
 
 
-class AiUtility(_GeneratedAiUtility):
+class AiUtility(GeneratedAiUtility):
     __slots__ = ()
 
     NODE_TYPE = "aiUtility"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.quat_slerp import _GeneratedQuatSlerp
+from ._generated.quat_slerp import GeneratedQuatSlerp
 
 
-class QuatSlerp(_GeneratedQuatSlerp):
+class QuatSlerp(GeneratedQuatSlerp):
     __slots__ = ()
 
     NODE_TYPE = "quatSlerp"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sampler import _GeneratedSampler
+from ._generated.sampler import GeneratedSampler
 
 
-class Sampler(_GeneratedSampler):
+class Sampler(GeneratedSampler):
     __slots__ = ()
 
     NODE_TYPE = "sampler"

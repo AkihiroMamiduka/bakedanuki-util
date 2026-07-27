@@ -44,7 +44,7 @@ class OsEnumField(
     PLUG_CLS = OsEnumPlugOperator
 
 
-class _GeneratedAiStringReplace(DG):
+class GeneratedAiStringReplace(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiStringReplace"

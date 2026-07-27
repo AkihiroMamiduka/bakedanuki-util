@@ -48,7 +48,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedPlusMinusAverage(DG):
+class GeneratedPlusMinusAverage(DG):
     __slots__ = ()
 
     NODE_TYPE = "plusMinusAverage"

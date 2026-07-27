@@ -224,7 +224,7 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class _GeneratedPolySmoothFace(DG):
+class GeneratedPolySmoothFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySmoothFace"

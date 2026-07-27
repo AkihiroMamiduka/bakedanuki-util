@@ -11,7 +11,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedReference(DG):
+class GeneratedReference(DG):
     __slots__ = ()
 
     NODE_TYPE = "reference"

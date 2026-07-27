@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.fit_bspline import _GeneratedFitBspline
+from ._generated.fit_bspline import GeneratedFitBspline
 
 
-class FitBspline(_GeneratedFitBspline):
+class FitBspline(GeneratedFitBspline):
     __slots__ = ()
 
     NODE_TYPE = "fitBspline"

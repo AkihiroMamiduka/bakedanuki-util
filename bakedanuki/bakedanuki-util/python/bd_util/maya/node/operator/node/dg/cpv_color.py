@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.cpv_color import _GeneratedCpvColor
+from ._generated.cpv_color import GeneratedCpvColor
 
 
-class CpvColor(_GeneratedCpvColor):
+class CpvColor(GeneratedCpvColor):
     __slots__ = ()
 
     NODE_TYPE = "cpvColor"

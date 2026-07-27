@@ -160,7 +160,7 @@ class WorldUpTypeEnumField(
     PLUG_CLS = WorldUpTypeEnumPlugOperator
 
 
-class _GeneratedMotionPath(DG):
+class GeneratedMotionPath(DG):
     __slots__ = ()
 
     NODE_TYPE = "motionPath"

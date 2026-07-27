@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.component_tag_base import _GeneratedComponentTagBase
+from ._generated.component_tag_base import GeneratedComponentTagBase
 
 
-class ComponentTagBase(_GeneratedComponentTagBase):
+class ComponentTagBase(GeneratedComponentTagBase):
     __slots__ = ()
 
     NODE_TYPE = "componentTagBase"

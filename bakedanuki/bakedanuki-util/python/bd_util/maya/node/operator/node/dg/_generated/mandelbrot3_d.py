@@ -139,7 +139,7 @@ class MandelbrotInsideMethodEnumField(
     PLUG_CLS = MandelbrotInsideMethodEnumPlugOperator
 
 
-class _GeneratedMandelbrot3D(DG):
+class GeneratedMandelbrot3D(DG):
     __slots__ = ()
 
     NODE_TYPE = "mandelbrot3D"

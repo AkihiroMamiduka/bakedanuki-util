@@ -181,7 +181,7 @@ class OverlayModeEnumField(
     PLUG_CLS = OverlayModeEnumPlugOperator
 
 
-class _GeneratedAiUtility(DG):
+class GeneratedAiUtility(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiUtility"

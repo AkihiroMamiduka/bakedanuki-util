@@ -1,12 +1,12 @@
 # coding: utf-8
 from importlib import import_module
 
-_GeneratedAnd = import_module(
+GeneratedAnd = import_module(
     f"{__package__}._generated.and"
-)._GeneratedAnd
+).GeneratedAnd
 
 
-class And(_GeneratedAnd):
+class And(GeneratedAnd):
     __slots__ = ()
 
     NODE_TYPE = "and"

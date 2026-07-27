@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyDelFacet(DG):
+class GeneratedPolyDelFacet(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyDelFacet"

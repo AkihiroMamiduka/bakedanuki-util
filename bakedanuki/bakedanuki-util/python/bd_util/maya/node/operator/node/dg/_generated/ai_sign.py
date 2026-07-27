@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_sign import (
 )
 
 
-class _GeneratedAiSign(DG):
+class GeneratedAiSign(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiSign"

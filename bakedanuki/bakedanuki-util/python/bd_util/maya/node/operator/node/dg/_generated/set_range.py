@@ -10,7 +10,7 @@ from ....attr.define.node_attr.set_range import (
 )
 
 
-class _GeneratedSetRange(DG):
+class GeneratedSetRange(DG):
     __slots__ = ()
 
     NODE_TYPE = "setRange"

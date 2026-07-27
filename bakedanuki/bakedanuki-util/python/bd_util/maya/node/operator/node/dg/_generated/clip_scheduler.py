@@ -49,7 +49,7 @@ class WeightStyleEnumField(
     PLUG_CLS = WeightStyleEnumPlugOperator
 
 
-class _GeneratedClipScheduler(DG):
+class GeneratedClipScheduler(DG):
     __slots__ = ()
 
     NODE_TYPE = "clipScheduler"

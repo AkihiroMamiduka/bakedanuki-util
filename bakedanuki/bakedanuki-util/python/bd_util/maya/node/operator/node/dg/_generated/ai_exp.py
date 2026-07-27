@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_exp import (
 )
 
 
-class _GeneratedAiExp(DG):
+class GeneratedAiExp(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiExp"

@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_log import (
 )
 
 
-class _GeneratedAiLog(DG):
+class GeneratedAiLog(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiLog"

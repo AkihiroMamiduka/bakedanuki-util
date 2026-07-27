@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedHIKControlSetNode(DG):
+class GeneratedHIKControlSetNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKControlSetNode"

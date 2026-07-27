@@ -175,7 +175,7 @@ class LayoutMethodEnumField(
     PLUG_CLS = LayoutMethodEnumPlugOperator
 
 
-class _GeneratedPolyLayoutUV(DG):
+class GeneratedPolyLayoutUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyLayoutUV"

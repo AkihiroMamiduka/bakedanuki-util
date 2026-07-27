@@ -76,7 +76,7 @@ class BevelStyleEnumField(
     PLUG_CLS = BevelStyleEnumPlugOperator
 
 
-class _GeneratedTypeExtrude(DG):
+class GeneratedTypeExtrude(DG):
     __slots__ = ()
 
     NODE_TYPE = "typeExtrude"

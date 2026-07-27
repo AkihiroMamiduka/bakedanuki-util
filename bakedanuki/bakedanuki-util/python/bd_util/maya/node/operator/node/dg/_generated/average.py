@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedAverage(DG):
+class GeneratedAverage(DG):
     __slots__ = ()
 
     NODE_TYPE = "average"

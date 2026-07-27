@@ -49,7 +49,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedUseBackground(DG):
+class GeneratedUseBackground(DG):
     __slots__ = ()
 
     NODE_TYPE = "useBackground"

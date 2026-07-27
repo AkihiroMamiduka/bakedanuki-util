@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedBlendMatrix(DG):
+class GeneratedBlendMatrix(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendMatrix"

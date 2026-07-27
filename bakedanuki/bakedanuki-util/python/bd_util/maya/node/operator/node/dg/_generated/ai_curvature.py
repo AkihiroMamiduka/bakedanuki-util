@@ -46,7 +46,7 @@ class OutputEnumField(
     PLUG_CLS = OutputEnumPlugOperator
 
 
-class _GeneratedAiCurvature(DG):
+class GeneratedAiCurvature(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCurvature"

@@ -38,7 +38,7 @@ class AssignTypeEnumField(
     PLUG_CLS = AssignTypeEnumPlugOperator
 
 
-class _GeneratedAiMaterialx(DG):
+class GeneratedAiMaterialx(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMaterialx"

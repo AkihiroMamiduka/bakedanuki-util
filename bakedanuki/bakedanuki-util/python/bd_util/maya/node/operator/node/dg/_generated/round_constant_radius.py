@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedRoundConstantRadius(DG):
+class GeneratedRoundConstantRadius(DG):
     __slots__ = ()
 
     NODE_TYPE = "roundConstantRadius"

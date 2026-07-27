@@ -4,7 +4,7 @@ from ....attr.define.node_attr.pose_interpolator_manager import PoseInterpolator
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedPoseInterpolatorManager(DG):
+class GeneratedPoseInterpolatorManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "poseInterpolatorManager"

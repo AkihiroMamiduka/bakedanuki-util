@@ -265,7 +265,7 @@ class AiFilterEnumField(
     PLUG_CLS = AiFilterEnumPlugOperator
 
 
-class _GeneratedMovie(DG):
+class GeneratedMovie(DG):
     __slots__ = ()
 
     NODE_TYPE = "movie"

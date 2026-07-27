@@ -5,7 +5,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedStitchAsNurbsShell(DG):
+class GeneratedStitchAsNurbsShell(DG):
     __slots__ = ()
 
     NODE_TYPE = "stitchAsNurbsShell"

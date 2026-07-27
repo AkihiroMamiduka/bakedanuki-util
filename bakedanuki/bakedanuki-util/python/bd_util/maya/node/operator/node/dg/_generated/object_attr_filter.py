@@ -97,7 +97,7 @@ class AttrTypeEnumField(
     PLUG_CLS = AttrTypeEnumPlugOperator
 
 
-class _GeneratedObjectAttrFilter(DG):
+class GeneratedObjectAttrFilter(DG):
     __slots__ = ()
 
     NODE_TYPE = "objectAttrFilter"

@@ -109,7 +109,7 @@ class StrengthModeEnumField(
     PLUG_CLS = StrengthModeEnumPlugOperator
 
 
-class _GeneratedMASH_Time(DG):
+class GeneratedMASH_Time(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Time"

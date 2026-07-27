@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.length import _GeneratedLength
+from ._generated.length import GeneratedLength
 
 
-class Length(_GeneratedLength):
+class Length(GeneratedLength):
     __slots__ = ()
 
     NODE_TYPE = "length"

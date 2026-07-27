@@ -4,17 +4,17 @@ from typing import Self
 from maya.api import OpenMaya as om
 
 from .._core import DAG
-from ._generated.transform import _GeneratedTransform
+from ._generated.transform import GeneratedTransform
 
 
-class Transform(_GeneratedTransform):
+class Transform(GeneratedTransform):
     __slots__ = ()
 
     NODE_TYPE = "transform"
 
     def set_parent(
         self,
-        parent: "Transform",
+        parent: DAG,
         *,
         preserve_world_transform: bool = False,
     ) -> Self:

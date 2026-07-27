@@ -265,7 +265,7 @@ class AiFilterEnumField(
     PLUG_CLS = AiFilterEnumPlugOperator
 
 
-class _GeneratedFile(DG):
+class GeneratedFile(DG):
     __slots__ = ()
 
     NODE_TYPE = "file"

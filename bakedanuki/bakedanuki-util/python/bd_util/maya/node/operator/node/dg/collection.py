@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.collection import _GeneratedCollection
+from ._generated.collection import GeneratedCollection
 
 
-class Collection(_GeneratedCollection):
+class Collection(GeneratedCollection):
     __slots__ = ()
 
     NODE_TYPE = "collection"

@@ -167,7 +167,7 @@ class ScaleAccumulationModeEnumField(
     PLUG_CLS = ScaleAccumulationModeEnumPlugOperator
 
 
-class _GeneratedAnimLayer(DG):
+class GeneratedAnimLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "animLayer"

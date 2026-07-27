@@ -8,7 +8,7 @@ from ....attr.define.node_attr.quat_sub import (
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class _GeneratedQuatSub(DG):
+class GeneratedQuatSub(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatSub"

@@ -125,7 +125,7 @@ class ExtendDirectionEnumField(
     PLUG_CLS = ExtendDirectionEnumPlugOperator
 
 
-class _GeneratedExtendSurface(DG):
+class GeneratedExtendSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "extendSurface"

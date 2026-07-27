@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedLightGroup(DG):
+class GeneratedLightGroup(DG):
     __slots__ = ()
 
     NODE_TYPE = "lightGroup"

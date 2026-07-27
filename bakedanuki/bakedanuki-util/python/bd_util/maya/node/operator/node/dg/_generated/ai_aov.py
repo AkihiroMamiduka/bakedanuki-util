@@ -60,7 +60,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedAiAOV(DG):
+class GeneratedAiAOV(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiAOV"

@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedXgmModifierScale(DG):
+class GeneratedXgmModifierScale(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierScale"

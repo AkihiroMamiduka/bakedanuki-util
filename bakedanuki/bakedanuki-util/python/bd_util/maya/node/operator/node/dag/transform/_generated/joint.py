@@ -210,7 +210,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class _GeneratedJoint(Transform):
+class GeneratedJoint(Transform):
     __slots__ = ()
 
     NODE_TYPE = "joint"

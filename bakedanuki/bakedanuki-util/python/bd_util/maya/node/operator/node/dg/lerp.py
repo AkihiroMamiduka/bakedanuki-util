@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.lerp import _GeneratedLerp
+from ._generated.lerp import GeneratedLerp
 
 
-class Lerp(_GeneratedLerp):
+class Lerp(GeneratedLerp):
     __slots__ = ()
 
     NODE_TYPE = "lerp"

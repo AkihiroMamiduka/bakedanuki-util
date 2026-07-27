@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_negate import (
 )
 
 
-class _GeneratedQuatNegate(DG):
+class GeneratedQuatNegate(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatNegate"

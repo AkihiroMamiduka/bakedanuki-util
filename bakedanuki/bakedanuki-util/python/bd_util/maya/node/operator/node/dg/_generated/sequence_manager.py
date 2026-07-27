@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedSequenceManager(DG):
+class GeneratedSequenceManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "sequenceManager"

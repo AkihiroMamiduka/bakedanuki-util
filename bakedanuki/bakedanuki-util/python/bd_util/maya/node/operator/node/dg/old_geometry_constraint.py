@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.old_geometry_constraint import _GeneratedOldGeometryConstraint
+from ._generated.old_geometry_constraint import GeneratedOldGeometryConstraint
 
 
-class OldGeometryConstraint(_GeneratedOldGeometryConstraint):
+class OldGeometryConstraint(GeneratedOldGeometryConstraint):
     __slots__ = ()
 
     NODE_TYPE = "oldGeometryConstraint"

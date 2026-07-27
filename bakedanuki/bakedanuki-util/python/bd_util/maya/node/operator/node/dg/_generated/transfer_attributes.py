@@ -268,7 +268,7 @@ class ColorBordersEnumField(
     PLUG_CLS = ColorBordersEnumPlugOperator
 
 
-class _GeneratedTransferAttributes(DG):
+class GeneratedTransferAttributes(DG):
     __slots__ = ()
 
     NODE_TYPE = "transferAttributes"

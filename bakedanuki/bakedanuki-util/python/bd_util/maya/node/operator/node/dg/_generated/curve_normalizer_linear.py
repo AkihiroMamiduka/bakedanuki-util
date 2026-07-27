@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedCurveNormalizerLinear(DG):
+class GeneratedCurveNormalizerLinear(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveNormalizerLinear"

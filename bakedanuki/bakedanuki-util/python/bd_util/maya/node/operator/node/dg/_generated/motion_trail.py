@@ -46,7 +46,7 @@ class UpdateEnumField(
     PLUG_CLS = UpdateEnumPlugOperator
 
 
-class _GeneratedMotionTrail(DG):
+class GeneratedMotionTrail(DG):
     __slots__ = ()
 
     NODE_TYPE = "motionTrail"

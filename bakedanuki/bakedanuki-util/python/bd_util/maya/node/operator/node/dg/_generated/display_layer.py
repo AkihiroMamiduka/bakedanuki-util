@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class _GeneratedDisplayLayer(DG):
+class GeneratedDisplayLayer(DG):
     __slots__ = ()
 
     NODE_TYPE = "displayLayer"

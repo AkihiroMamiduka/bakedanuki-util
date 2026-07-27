@@ -7,7 +7,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedGameFbxExporter(DG):
+class GeneratedGameFbxExporter(DG):
     __slots__ = ()
 
     NODE_TYPE = "gameFbxExporter"

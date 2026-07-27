@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.color_composite import _GeneratedColorComposite
+from ._generated.color_composite import GeneratedColorComposite
 
 
-class ColorComposite(_GeneratedColorComposite):
+class ColorComposite(GeneratedColorComposite):
     __slots__ = ()
 
     NODE_TYPE = "colorComposite"

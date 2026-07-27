@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.node_attr.camera_set import CameraLayerField
 
 
-class _GeneratedCameraSet(DG):
+class GeneratedCameraSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "cameraSet"

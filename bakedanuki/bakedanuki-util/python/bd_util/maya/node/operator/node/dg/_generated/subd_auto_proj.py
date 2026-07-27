@@ -127,7 +127,7 @@ class ScaleEnumField(
     PLUG_CLS = ScaleEnumPlugOperator
 
 
-class _GeneratedSubdAutoProj(DG):
+class GeneratedSubdAutoProj(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdAutoProj"

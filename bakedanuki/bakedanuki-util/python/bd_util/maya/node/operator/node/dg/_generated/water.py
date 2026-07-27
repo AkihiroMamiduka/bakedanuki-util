@@ -17,7 +17,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedWater(DG):
+class GeneratedWater(DG):
     __slots__ = ()
 
     NODE_TYPE = "water"

@@ -153,7 +153,7 @@ class RotationOrderEnumField(
     PLUG_CLS = RotationOrderEnumPlugOperator
 
 
-class _GeneratedAiMatrixTransform(DG):
+class GeneratedAiMatrixTransform(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatrixTransform"

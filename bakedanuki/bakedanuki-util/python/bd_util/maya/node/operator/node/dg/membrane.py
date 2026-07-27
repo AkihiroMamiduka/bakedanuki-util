@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.membrane import _GeneratedMembrane
+from ._generated.membrane import GeneratedMembrane
 
 
-class Membrane(_GeneratedMembrane):
+class Membrane(GeneratedMembrane):
     __slots__ = ()
 
     NODE_TYPE = "membrane"

@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class _GeneratedPolyCollapseEdge(DG):
+class GeneratedPolyCollapseEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyCollapseEdge"

@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Mute(DG):
+class GeneratedMASH_Mute(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Mute"

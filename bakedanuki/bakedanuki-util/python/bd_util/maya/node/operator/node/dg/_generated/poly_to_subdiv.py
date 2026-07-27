@@ -43,7 +43,7 @@ class UvTreatmentEnumField(
     PLUG_CLS = UvTreatmentEnumPlugOperator
 
 
-class _GeneratedPolyToSubdiv(DG):
+class GeneratedPolyToSubdiv(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyToSubdiv"

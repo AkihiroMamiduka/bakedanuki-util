@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedInsertKnotCurve(DG):
+class GeneratedInsertKnotCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "insertKnotCurve"

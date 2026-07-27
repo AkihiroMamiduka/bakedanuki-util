@@ -12,7 +12,7 @@ from ....attr.define.node_attr.xgm_hair_mapping import (
 )
 
 
-class _GeneratedXgmHairMapping(DG):
+class GeneratedXgmHairMapping(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmHairMapping"

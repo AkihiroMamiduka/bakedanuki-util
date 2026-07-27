@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedMultDoubleLinear(DG):
+class GeneratedMultDoubleLinear(DG):
     __slots__ = ()
 
     NODE_TYPE = "multDoubleLinear"

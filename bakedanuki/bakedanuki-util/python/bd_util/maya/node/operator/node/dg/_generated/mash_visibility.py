@@ -81,7 +81,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class _GeneratedMASH_Visibility(DG):
+class GeneratedMASH_Visibility(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Visibility"

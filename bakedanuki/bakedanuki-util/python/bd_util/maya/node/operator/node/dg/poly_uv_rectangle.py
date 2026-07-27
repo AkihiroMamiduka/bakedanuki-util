@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_uv_rectangle import _GeneratedPolyUVRectangle
+from ._generated.poly_uv_rectangle import GeneratedPolyUVRectangle
 
 
-class PolyUVRectangle(_GeneratedPolyUVRectangle):
+class PolyUVRectangle(GeneratedPolyUVRectangle):
     __slots__ = ()
 
     NODE_TYPE = "polyUVRectangle"

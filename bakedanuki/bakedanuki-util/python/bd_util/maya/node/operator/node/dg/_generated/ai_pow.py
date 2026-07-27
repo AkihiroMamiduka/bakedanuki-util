@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_pow import (
 )
 
 
-class _GeneratedAiPow(DG):
+class GeneratedAiPow(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiPow"

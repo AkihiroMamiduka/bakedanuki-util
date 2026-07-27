@@ -9,7 +9,7 @@ from ....attr.define.std.dt.point_array import DataPointArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class _GeneratedXgmMakeGuide(DG):
+class GeneratedXgmMakeGuide(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmMakeGuide"

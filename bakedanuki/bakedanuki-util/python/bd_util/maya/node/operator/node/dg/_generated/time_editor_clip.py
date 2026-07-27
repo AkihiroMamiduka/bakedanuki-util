@@ -19,7 +19,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedTimeEditorClip(DG):
+class GeneratedTimeEditorClip(DG):
     __slots__ = ()
 
     NODE_TYPE = "timeEditorClip"

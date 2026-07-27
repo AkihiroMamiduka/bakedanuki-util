@@ -41,7 +41,7 @@ class PreserveShapeEnumField(
     PLUG_CLS = PreserveShapeEnumPlugOperator
 
 
-class _GeneratedCloseCurve(DG):
+class GeneratedCloseCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "closeCurve"

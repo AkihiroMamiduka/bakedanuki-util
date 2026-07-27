@@ -178,7 +178,7 @@ class TubeDirectionEnumField(
     PLUG_CLS = TubeDirectionEnumPlugOperator
 
 
-class _GeneratedHairTubeShader(DG):
+class GeneratedHairTubeShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "hairTubeShader"

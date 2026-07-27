@@ -6,7 +6,7 @@ from ....attr.define.node_attr.quat_conjugate import (
 )
 
 
-class _GeneratedQuatConjugate(DG):
+class GeneratedQuatConjugate(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatConjugate"

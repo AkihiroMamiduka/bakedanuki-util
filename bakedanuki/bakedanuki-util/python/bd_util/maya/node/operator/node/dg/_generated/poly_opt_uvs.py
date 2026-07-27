@@ -45,7 +45,7 @@ class OptimizeAxisEnumField(
     PLUG_CLS = OptimizeAxisEnumPlugOperator
 
 
-class _GeneratedPolyOptUvs(DG):
+class GeneratedPolyOptUvs(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyOptUvs"

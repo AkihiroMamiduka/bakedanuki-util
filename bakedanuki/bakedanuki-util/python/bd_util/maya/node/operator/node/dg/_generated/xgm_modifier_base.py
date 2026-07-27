@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedXgmModifierBase(DG):
+class GeneratedXgmModifierBase(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmModifierBase"

@@ -19,7 +19,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
-class _GeneratedPlace2dTexture(DG):
+class GeneratedPlace2dTexture(DG):
     __slots__ = ()
 
     NODE_TYPE = "place2dTexture"

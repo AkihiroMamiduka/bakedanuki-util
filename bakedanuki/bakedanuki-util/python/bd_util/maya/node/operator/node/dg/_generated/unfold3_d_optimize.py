@@ -8,7 +8,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedUnfold3DOptimize(DG):
+class GeneratedUnfold3DOptimize(DG):
     __slots__ = ()
 
     NODE_TYPE = "Unfold3DOptimize"

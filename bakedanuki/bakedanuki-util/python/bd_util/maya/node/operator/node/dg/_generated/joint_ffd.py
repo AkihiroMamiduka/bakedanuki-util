@@ -83,7 +83,7 @@ class OutsideLatticeEnumField(
     PLUG_CLS = OutsideLatticeEnumPlugOperator
 
 
-class _GeneratedJointFfd(DG):
+class GeneratedJointFfd(DG):
     __slots__ = ()
 
     NODE_TYPE = "jointFfd"

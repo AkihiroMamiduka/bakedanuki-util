@@ -152,7 +152,7 @@ class BlendModeEnumField(
     PLUG_CLS = BlendModeEnumPlugOperator
 
 
-class _GeneratedMASH_Color(DG):
+class GeneratedMASH_Color(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Color"

@@ -88,7 +88,7 @@ class CoordinateFramesEnumField(
     PLUG_CLS = CoordinateFramesEnumPlugOperator
 
 
-class _GeneratedProximityWrap(DG):
+class GeneratedProximityWrap(DG):
     __slots__ = ()
 
     NODE_TYPE = "proximityWrap"

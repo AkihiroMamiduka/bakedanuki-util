@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.point_on_curve_info import _GeneratedPointOnCurveInfo
+from ._generated.point_on_curve_info import GeneratedPointOnCurveInfo
 
 
-class PointOnCurveInfo(_GeneratedPointOnCurveInfo):
+class PointOnCurveInfo(GeneratedPointOnCurveInfo):
     __slots__ = ()
 
     NODE_TYPE = "pointOnCurveInfo"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.connection_override import _GeneratedConnectionOverride
+from ._generated.connection_override import GeneratedConnectionOverride
 
 
-class ConnectionOverride(_GeneratedConnectionOverride):
+class ConnectionOverride(GeneratedConnectionOverride):
     __slots__ = ()
 
     NODE_TYPE = "connectionOverride"

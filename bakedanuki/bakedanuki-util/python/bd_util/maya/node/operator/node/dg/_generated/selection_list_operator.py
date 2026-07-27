@@ -73,7 +73,7 @@ class OperatorClassEnumField(
     PLUG_CLS = OperatorClassEnumPlugOperator
 
 
-class _GeneratedSelectionListOperator(DG):
+class GeneratedSelectionListOperator(DG):
     __slots__ = ()
 
     NODE_TYPE = "selectionListOperator"

@@ -52,7 +52,7 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class _GeneratedOcean(DG):
+class GeneratedOcean(DG):
     __slots__ = ()
 
     NODE_TYPE = "ocean"

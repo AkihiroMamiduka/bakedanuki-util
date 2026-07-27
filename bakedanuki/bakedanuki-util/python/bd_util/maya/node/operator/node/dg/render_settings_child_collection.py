@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.render_settings_child_collection import _GeneratedRenderSettingsChildCollection
+from ._generated.render_settings_child_collection import GeneratedRenderSettingsChildCollection
 
 
-class RenderSettingsChildCollection(_GeneratedRenderSettingsChildCollection):
+class RenderSettingsChildCollection(GeneratedRenderSettingsChildCollection):
     __slots__ = ()
 
     NODE_TYPE = "renderSettingsChildCollection"

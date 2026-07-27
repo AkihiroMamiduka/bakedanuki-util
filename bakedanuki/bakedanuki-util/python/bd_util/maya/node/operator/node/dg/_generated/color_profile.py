@@ -51,7 +51,7 @@ class ColorProfileTypeEnumField(
     PLUG_CLS = ColorProfileTypeEnumPlugOperator
 
 
-class _GeneratedColorProfile(DG):
+class GeneratedColorProfile(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorProfile"

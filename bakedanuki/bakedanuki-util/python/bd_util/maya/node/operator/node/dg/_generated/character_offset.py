@@ -101,7 +101,7 @@ class OffsetRootRotateOrderEnumField(
     PLUG_CLS = OffsetRootRotateOrderEnumPlugOperator
 
 
-class _GeneratedCharacterOffset(DG):
+class GeneratedCharacterOffset(DG):
     __slots__ = ()
 
     NODE_TYPE = "characterOffset"

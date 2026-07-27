@@ -48,7 +48,7 @@ class EdgeTypeEnumField(
     PLUG_CLS = EdgeTypeEnumPlugOperator
 
 
-class _GeneratedAiWireframe(DG):
+class GeneratedAiWireframe(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiWireframe"

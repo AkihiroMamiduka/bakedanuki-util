@@ -7,7 +7,7 @@ from ....attr.define.node_attr.color_constant import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedColorConstant(DG):
+class GeneratedColorConstant(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorConstant"

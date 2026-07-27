@@ -37,7 +37,7 @@ class RotateInterpEnumField(
     PLUG_CLS = RotateInterpEnumPlugOperator
 
 
-class _GeneratedAnimBlendInOut(DG):
+class GeneratedAnimBlendInOut(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendInOut"

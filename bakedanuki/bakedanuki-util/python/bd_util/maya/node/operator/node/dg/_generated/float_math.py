@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedFloatMath(DG):
+class GeneratedFloatMath(DG):
     __slots__ = ()
 
     NODE_TYPE = "floatMath"

@@ -72,7 +72,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class _GeneratedCloseSurface(DG):
+class GeneratedCloseSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "closeSurface"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.triple_shading_switch import _GeneratedTripleShadingSwitch
+from ._generated.triple_shading_switch import GeneratedTripleShadingSwitch
 
 
-class TripleShadingSwitch(_GeneratedTripleShadingSwitch):
+class TripleShadingSwitch(GeneratedTripleShadingSwitch):
     __slots__ = ()
 
     NODE_TYPE = "tripleShadingSwitch"

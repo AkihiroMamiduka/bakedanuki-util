@@ -105,7 +105,7 @@ class UseVirtualSymmetryEnumField(
     PLUG_CLS = UseVirtualSymmetryEnumPlugOperator
 
 
-class _GeneratedPolyReduce(DG):
+class GeneratedPolyReduce(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyReduce"

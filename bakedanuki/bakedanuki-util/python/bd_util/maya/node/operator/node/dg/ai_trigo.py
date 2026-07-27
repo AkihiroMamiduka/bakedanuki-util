@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_trigo import _GeneratedAiTrigo
+from ._generated.ai_trigo import GeneratedAiTrigo
 
 
-class AiTrigo(_GeneratedAiTrigo):
+class AiTrigo(GeneratedAiTrigo):
     __slots__ = ()
 
     NODE_TYPE = "aiTrigo"

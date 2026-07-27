@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.subd_layout_uv import _GeneratedSubdLayoutUV
+from ._generated.subd_layout_uv import GeneratedSubdLayoutUV
 
 
-class SubdLayoutUV(_GeneratedSubdLayoutUV):
+class SubdLayoutUV(GeneratedSubdLayoutUV):
     __slots__ = ()
 
     NODE_TYPE = "subdLayoutUV"

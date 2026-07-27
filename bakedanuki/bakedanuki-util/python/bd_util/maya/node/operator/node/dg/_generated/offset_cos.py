@@ -43,7 +43,7 @@ class ConnectBreaksEnumField(
     PLUG_CLS = ConnectBreaksEnumPlugOperator
 
 
-class _GeneratedOffsetCos(DG):
+class GeneratedOffsetCos(DG):
     __slots__ = ()
 
     NODE_TYPE = "offsetCos"

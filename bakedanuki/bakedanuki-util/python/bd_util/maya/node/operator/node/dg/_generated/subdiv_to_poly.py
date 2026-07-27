@@ -80,7 +80,7 @@ class PolygonTypeEnumField(
     PLUG_CLS = PolygonTypeEnumPlugOperator
 
 
-class _GeneratedSubdivToPoly(DG):
+class GeneratedSubdivToPoly(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdivToPoly"

@@ -374,7 +374,7 @@ class BackgroundModeEnumField(
     PLUG_CLS = BackgroundModeEnumPlugOperator
 
 
-class _GeneratedTextureBakeSet(DG):
+class GeneratedTextureBakeSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "textureBakeSet"

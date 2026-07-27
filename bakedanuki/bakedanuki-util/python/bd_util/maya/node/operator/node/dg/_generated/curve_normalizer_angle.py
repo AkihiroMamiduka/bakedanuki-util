@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
 
 
-class _GeneratedCurveNormalizerAngle(DG):
+class GeneratedCurveNormalizerAngle(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveNormalizerAngle"

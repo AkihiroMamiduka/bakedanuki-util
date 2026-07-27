@@ -531,7 +531,7 @@ class MotionBlurOverrideEnumField(
     PLUG_CLS = MotionBlurOverrideEnumPlugOperator
 
 
-class _GeneratedCamera(Shape):
+class GeneratedCamera(Shape):
     __slots__ = ()
 
     NODE_TYPE = "camera"

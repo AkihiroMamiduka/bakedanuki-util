@@ -39,7 +39,7 @@ class CombinationMethodEnumField(
     PLUG_CLS = CombinationMethodEnumPlugOperator
 
 
-class _GeneratedCombinationShape(DG):
+class GeneratedCombinationShape(DG):
     __slots__ = ()
 
     NODE_TYPE = "combinationShape"

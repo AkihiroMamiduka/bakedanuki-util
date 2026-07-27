@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.color_correct import _GeneratedColorCorrect
+from ._generated.color_correct import GeneratedColorCorrect
 
 
-class ColorCorrect(_GeneratedColorCorrect):
+class ColorCorrect(GeneratedColorCorrect):
     __slots__ = ()
 
     NODE_TYPE = "colorCorrect"

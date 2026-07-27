@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.make_nurb_torus import _GeneratedMakeNurbTorus
+from ._generated.make_nurb_torus import GeneratedMakeNurbTorus
 
 
-class MakeNurbTorus(_GeneratedMakeNurbTorus):
+class MakeNurbTorus(GeneratedMakeNurbTorus):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbTorus"

@@ -52,7 +52,7 @@ class TextureFilterEnumField(
     PLUG_CLS = TextureFilterEnumPlugOperator
 
 
-class _GeneratedMaterialInfo(DG):
+class GeneratedMaterialInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "materialInfo"

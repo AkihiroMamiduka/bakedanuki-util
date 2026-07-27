@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedBlendWeighted(DG):
+class GeneratedBlendWeighted(DG):
     __slots__ = ()
 
     NODE_TYPE = "blendWeighted"

@@ -8,7 +8,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class _GeneratedDistanceBetween(DG):
+class GeneratedDistanceBetween(DG):
     __slots__ = ()
 
     NODE_TYPE = "distanceBetween"

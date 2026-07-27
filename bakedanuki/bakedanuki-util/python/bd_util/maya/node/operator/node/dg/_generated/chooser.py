@@ -39,7 +39,7 @@ class DisplayLevelEnumField(
     PLUG_CLS = DisplayLevelEnumPlugOperator
 
 
-class _GeneratedChooser(DG):
+class GeneratedChooser(DG):
     __slots__ = ()
 
     NODE_TYPE = "chooser"

@@ -7,7 +7,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedCurveFromSubdivEdge(DG):
+class GeneratedCurveFromSubdivEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSubdivEdge"

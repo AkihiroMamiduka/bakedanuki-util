@@ -65,7 +65,7 @@ class SmoothnessEnumField(
     PLUG_CLS = SmoothnessEnumPlugOperator
 
 
-class _GeneratedSmoothTangentSrf(DG):
+class GeneratedSmoothTangentSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "smoothTangentSrf"

@@ -379,7 +379,7 @@ class ConstraintModeEnumField(
     PLUG_CLS = ConstraintModeEnumPlugOperator
 
 
-class _GeneratedMASH_Constraint(DG):
+class GeneratedMASH_Constraint(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Constraint"

@@ -17,7 +17,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedEnvBall(DG):
+class GeneratedEnvBall(DG):
     __slots__ = ()
 
     NODE_TYPE = "envBall"

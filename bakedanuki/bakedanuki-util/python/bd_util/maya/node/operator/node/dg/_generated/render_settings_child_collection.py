@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedRenderSettingsChildCollection(DG):
+class GeneratedRenderSettingsChildCollection(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderSettingsChildCollection"

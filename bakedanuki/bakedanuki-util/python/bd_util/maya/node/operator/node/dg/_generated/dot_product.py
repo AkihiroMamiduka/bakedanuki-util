@@ -7,7 +7,7 @@ from ....attr.define.node_attr.dot_product import (
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedDotProduct(DG):
+class GeneratedDotProduct(DG):
     __slots__ = ()
 
     NODE_TYPE = "dotProduct"

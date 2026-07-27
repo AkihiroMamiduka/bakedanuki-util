@@ -47,7 +47,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedContrast(DG):
+class GeneratedContrast(DG):
     __slots__ = ()
 
     NODE_TYPE = "contrast"

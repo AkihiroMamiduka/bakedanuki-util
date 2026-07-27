@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.track_info_manager import _GeneratedTrackInfoManager
+from ._generated.track_info_manager import GeneratedTrackInfoManager
 
 
-class TrackInfoManager(_GeneratedTrackInfoManager):
+class TrackInfoManager(GeneratedTrackInfoManager):
     __slots__ = ()
 
     NODE_TYPE = "trackInfoManager"

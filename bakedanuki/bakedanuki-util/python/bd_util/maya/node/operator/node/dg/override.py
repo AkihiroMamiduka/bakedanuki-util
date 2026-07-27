@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.override import _GeneratedOverride
+from ._generated.override import GeneratedOverride
 
 
-class Override(_GeneratedOverride):
+class Override(GeneratedOverride):
     __slots__ = ()
 
     NODE_TYPE = "override"

@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedColorManagementGlobals(DG):
+class GeneratedColorManagementGlobals(DG):
     __slots__ = ()
 
     NODE_TYPE = "colorManagementGlobals"

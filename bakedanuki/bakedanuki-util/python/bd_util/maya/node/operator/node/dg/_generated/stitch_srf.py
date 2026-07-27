@@ -13,7 +13,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedStitchSrf(DG):
+class GeneratedStitchSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "stitchSrf"

@@ -42,7 +42,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiImagerTonemap(DG):
+class GeneratedAiImagerTonemap(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerTonemap"

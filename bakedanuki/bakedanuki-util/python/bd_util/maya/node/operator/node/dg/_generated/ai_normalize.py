@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_normalize import (
 )
 
 
-class _GeneratedAiNormalize(DG):
+class GeneratedAiNormalize(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiNormalize"

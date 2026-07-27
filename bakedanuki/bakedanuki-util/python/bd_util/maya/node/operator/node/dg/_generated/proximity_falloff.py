@@ -71,7 +71,7 @@ class VolumeEnumField(
     PLUG_CLS = VolumeEnumPlugOperator
 
 
-class _GeneratedProximityFalloff(DG):
+class GeneratedProximityFalloff(DG):
     __slots__ = ()
 
     NODE_TYPE = "proximityFalloff"

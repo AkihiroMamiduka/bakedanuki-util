@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedGranite(DG):
+class GeneratedGranite(DG):
     __slots__ = ()
 
     NODE_TYPE = "granite"

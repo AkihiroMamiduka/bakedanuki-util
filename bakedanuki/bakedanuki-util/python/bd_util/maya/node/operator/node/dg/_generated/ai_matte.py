@@ -12,7 +12,7 @@ from ....attr.define.node_attr.ai_matte import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiMatte(DG):
+class GeneratedAiMatte(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMatte"

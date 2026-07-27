@@ -67,7 +67,7 @@ class TransformModeEnumField(
     PLUG_CLS = TransformModeEnumPlugOperator
 
 
-class _GeneratedDpBirailSrf(DG):
+class GeneratedDpBirailSrf(DG):
     __slots__ = ()
 
     NODE_TYPE = "dpBirailSrf"

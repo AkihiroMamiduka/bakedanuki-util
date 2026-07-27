@@ -67,7 +67,7 @@ class SubdMethodEnumField(
     PLUG_CLS = SubdMethodEnumPlugOperator
 
 
-class _GeneratedPolySubdFace(DG):
+class GeneratedPolySubdFace(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySubdFace"

@@ -40,7 +40,7 @@ class VisibilityModeEnumField(
     PLUG_CLS = VisibilityModeEnumPlugOperator
 
 
-class _GeneratedController(DG):
+class GeneratedController(DG):
     __slots__ = ()
 
     NODE_TYPE = "controller"

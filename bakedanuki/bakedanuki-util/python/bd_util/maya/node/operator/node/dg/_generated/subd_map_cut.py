@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedSubdMapCut(DG):
+class GeneratedSubdMapCut(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdMapCut"

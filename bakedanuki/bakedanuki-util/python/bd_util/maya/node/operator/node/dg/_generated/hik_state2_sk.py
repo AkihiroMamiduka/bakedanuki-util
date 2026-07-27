@@ -9764,7 +9764,7 @@ class LeafRightForeArmRoll5ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll5ROrderEnumPlugOperator
 
 
-class _GeneratedHIKState2SK(DG):
+class GeneratedHIKState2SK(DG):
     __slots__ = ()
 
     NODE_TYPE = "HIKState2SK"

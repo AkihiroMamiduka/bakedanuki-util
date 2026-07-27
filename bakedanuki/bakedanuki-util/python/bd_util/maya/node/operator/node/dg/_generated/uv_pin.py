@@ -154,7 +154,7 @@ class RelativeSpaceModeEnumField(
     PLUG_CLS = RelativeSpaceModeEnumPlugOperator
 
 
-class _GeneratedUvPin(DG):
+class GeneratedUvPin(DG):
     __slots__ = ()
 
     NODE_TYPE = "uvPin"

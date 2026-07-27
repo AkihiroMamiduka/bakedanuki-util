@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_checkerboard import _GeneratedAiCheckerboard
+from ._generated.ai_checkerboard import GeneratedAiCheckerboard
 
 
-class AiCheckerboard(_GeneratedAiCheckerboard):
+class AiCheckerboard(GeneratedAiCheckerboard):
     __slots__ = ()
 
     NODE_TYPE = "aiCheckerboard"

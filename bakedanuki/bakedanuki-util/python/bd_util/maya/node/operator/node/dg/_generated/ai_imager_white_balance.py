@@ -173,7 +173,7 @@ class IlluminantEnumField(
     PLUG_CLS = IlluminantEnumPlugOperator
 
 
-class _GeneratedAiImagerWhiteBalance(DG):
+class GeneratedAiImagerWhiteBalance(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerWhiteBalance"

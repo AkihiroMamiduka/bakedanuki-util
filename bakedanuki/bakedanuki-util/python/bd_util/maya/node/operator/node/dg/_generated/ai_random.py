@@ -46,7 +46,7 @@ class InputTypeEnumField(
     PLUG_CLS = InputTypeEnumPlugOperator
 
 
-class _GeneratedAiRandom(DG):
+class GeneratedAiRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRandom"

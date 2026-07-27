@@ -40,7 +40,7 @@ class SelectedEnumField(
     PLUG_CLS = SelectedEnumPlugOperator
 
 
-class _GeneratedTrim(DG):
+class GeneratedTrim(DG):
     __slots__ = ()
 
     NODE_TYPE = "trim"

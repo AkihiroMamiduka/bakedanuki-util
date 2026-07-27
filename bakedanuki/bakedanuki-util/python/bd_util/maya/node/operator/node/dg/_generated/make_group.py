@@ -47,7 +47,7 @@ class GroupTypeEnumField(
     PLUG_CLS = GroupTypeEnumPlugOperator
 
 
-class _GeneratedMakeGroup(DG):
+class GeneratedMakeGroup(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeGroup"

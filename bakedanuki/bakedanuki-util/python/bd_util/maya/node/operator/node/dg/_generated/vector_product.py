@@ -51,7 +51,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class _GeneratedVectorProduct(DG):
+class GeneratedVectorProduct(DG):
     __slots__ = ()
 
     NODE_TYPE = "vectorProduct"

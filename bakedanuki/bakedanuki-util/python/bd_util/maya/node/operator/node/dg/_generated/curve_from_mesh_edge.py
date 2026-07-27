@@ -5,7 +5,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedCurveFromMeshEdge(DG):
+class GeneratedCurveFromMeshEdge(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromMeshEdge"

@@ -81,7 +81,7 @@ class PixelFilterTypeEnumField(
     PLUG_CLS = PixelFilterTypeEnumPlugOperator
 
 
-class _GeneratedRenderQuality(DG):
+class GeneratedRenderQuality(DG):
     __slots__ = ()
 
     NODE_TYPE = "renderQuality"

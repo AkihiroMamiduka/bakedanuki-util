@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.partition import _GeneratedPartition
+from ._generated.partition import GeneratedPartition
 
 
-class Partition(_GeneratedPartition):
+class Partition(GeneratedPartition):
     __slots__ = ()
 
     NODE_TYPE = "partition"

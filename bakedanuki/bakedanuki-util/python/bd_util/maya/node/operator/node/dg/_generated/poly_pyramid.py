@@ -78,7 +78,7 @@ class CreateUVsEnumField(
     PLUG_CLS = CreateUVsEnumPlugOperator
 
 
-class _GeneratedPolyPyramid(DG):
+class GeneratedPolyPyramid(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyPyramid"

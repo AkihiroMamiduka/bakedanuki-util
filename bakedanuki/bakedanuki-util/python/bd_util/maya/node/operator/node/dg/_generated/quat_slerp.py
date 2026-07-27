@@ -44,7 +44,7 @@ class AngleInterpolationEnumField(
     PLUG_CLS = AngleInterpolationEnumPlugOperator
 
 
-class _GeneratedQuatSlerp(DG):
+class GeneratedQuatSlerp(DG):
     __slots__ = ()
 
     NODE_TYPE = "quatSlerp"

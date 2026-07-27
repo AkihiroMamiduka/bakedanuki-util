@@ -99,7 +99,7 @@ class NormalizationMethodEnumField(
     PLUG_CLS = NormalizationMethodEnumPlugOperator
 
 
-class _GeneratedParticleSamplerInfo(DG):
+class GeneratedParticleSamplerInfo(DG):
     __slots__ = ()
 
     NODE_TYPE = "particleSamplerInfo"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.game_fbx_exporter import _GeneratedGameFbxExporter
+from ._generated.game_fbx_exporter import GeneratedGameFbxExporter
 
 
-class GameFbxExporter(_GeneratedGameFbxExporter):
+class GameFbxExporter(GeneratedGameFbxExporter):
     __slots__ = ()
 
     NODE_TYPE = "gameFbxExporter"

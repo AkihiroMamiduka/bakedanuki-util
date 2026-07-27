@@ -130,7 +130,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class _GeneratedRampShader(DG):
+class GeneratedRampShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "rampShader"

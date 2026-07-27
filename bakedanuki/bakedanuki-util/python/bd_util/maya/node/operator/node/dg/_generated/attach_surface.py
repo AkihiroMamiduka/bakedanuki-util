@@ -38,7 +38,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class _GeneratedAttachSurface(DG):
+class GeneratedAttachSurface(DG):
     __slots__ = ()
 
     NODE_TYPE = "attachSurface"

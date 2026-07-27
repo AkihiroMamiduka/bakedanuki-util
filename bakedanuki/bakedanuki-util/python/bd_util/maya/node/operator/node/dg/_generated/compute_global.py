@@ -55,7 +55,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class _GeneratedComputeGlobal(DG):
+class GeneratedComputeGlobal(DG):
     __slots__ = ()
 
     NODE_TYPE = "ComputeGlobal"

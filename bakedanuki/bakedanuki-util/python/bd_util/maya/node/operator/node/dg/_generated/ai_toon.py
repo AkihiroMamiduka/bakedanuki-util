@@ -95,7 +95,7 @@ class BumpModeEnumField(
     PLUG_CLS = BumpModeEnumPlugOperator
 
 
-class _GeneratedAiToon(DG):
+class GeneratedAiToon(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiToon"

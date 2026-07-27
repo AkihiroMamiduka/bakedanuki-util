@@ -158,7 +158,7 @@ class FitFillEnumField(
     PLUG_CLS = FitFillEnumPlugOperator
 
 
-class _GeneratedProjection(DG):
+class GeneratedProjection(DG):
     __slots__ = ()
 
     NODE_TYPE = "projection"

@@ -48,7 +48,7 @@ class SubdivisionModeEnumField(
     PLUG_CLS = SubdivisionModeEnumPlugOperator
 
 
-class _GeneratedPolyDisc(DG):
+class GeneratedPolyDisc(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyDisc"

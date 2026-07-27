@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.particle_age_mapper import _GeneratedParticleAgeMapper
+from ._generated.particle_age_mapper import GeneratedParticleAgeMapper
 
 
-class ParticleAgeMapper(_GeneratedParticleAgeMapper):
+class ParticleAgeMapper(GeneratedParticleAgeMapper):
     __slots__ = ()
 
     NODE_TYPE = "particleAgeMapper"

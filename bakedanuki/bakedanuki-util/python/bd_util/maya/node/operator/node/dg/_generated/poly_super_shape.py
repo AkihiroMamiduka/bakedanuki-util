@@ -73,7 +73,7 @@ class UvModeEnumField(
     PLUG_CLS = UvModeEnumPlugOperator
 
 
-class _GeneratedPolySuperShape(DG):
+class GeneratedPolySuperShape(DG):
     __slots__ = ()
 
     NODE_TYPE = "polySuperShape"

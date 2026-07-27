@@ -46,7 +46,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class _GeneratedMakeNurbCylinder(DG):
+class GeneratedMakeNurbCylinder(DG):
     __slots__ = ()
 
     NODE_TYPE = "makeNurbCylinder"

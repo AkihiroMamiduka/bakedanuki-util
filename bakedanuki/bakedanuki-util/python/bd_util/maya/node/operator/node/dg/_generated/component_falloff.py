@@ -7,7 +7,7 @@ from ....attr.define.node_attr.component_falloff import (
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedComponentFalloff(DG):
+class GeneratedComponentFalloff(DG):
     __slots__ = ()
 
     NODE_TYPE = "componentFalloff"

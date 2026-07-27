@@ -10,7 +10,7 @@ from ....attr.define.node_attr.simple_volume_shader import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedSimpleVolumeShader(DG):
+class GeneratedSimpleVolumeShader(DG):
     __slots__ = ()
 
     NODE_TYPE = "simpleVolumeShader"

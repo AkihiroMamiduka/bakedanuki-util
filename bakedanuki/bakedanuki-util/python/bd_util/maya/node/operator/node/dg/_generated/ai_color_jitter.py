@@ -42,7 +42,7 @@ class FaceModeEnumField(
     PLUG_CLS = FaceModeEnumPlugOperator
 
 
-class _GeneratedAiColorJitter(DG):
+class GeneratedAiColorJitter(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiColorJitter"

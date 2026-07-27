@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class _GeneratedReverseCurve(DG):
+class GeneratedReverseCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "reverseCurve"

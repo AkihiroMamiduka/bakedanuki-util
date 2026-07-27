@@ -42,7 +42,7 @@ class FlipTypeEnumField(
     PLUG_CLS = FlipTypeEnumPlugOperator
 
 
-class _GeneratedPolyFlipUV(DG):
+class GeneratedPolyFlipUV(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyFlipUV"

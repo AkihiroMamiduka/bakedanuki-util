@@ -90,7 +90,7 @@ class UnitsEnumField(
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class _GeneratedAiTrigo(DG):
+class GeneratedAiTrigo(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiTrigo"

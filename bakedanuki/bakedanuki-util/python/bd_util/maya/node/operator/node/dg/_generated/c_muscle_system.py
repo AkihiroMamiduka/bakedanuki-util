@@ -42,7 +42,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedCMuscleSystem(DG):
+class GeneratedCMuscleSystem(DG):
     __slots__ = ()
 
     NODE_TYPE = "cMuscleSystem"

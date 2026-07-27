@@ -134,7 +134,7 @@ class RandomizerModeEnumField(
     PLUG_CLS = RandomizerModeEnumPlugOperator
 
 
-class _GeneratedType(DG):
+class GeneratedType(DG):
     __slots__ = ()
 
     NODE_TYPE = "type"

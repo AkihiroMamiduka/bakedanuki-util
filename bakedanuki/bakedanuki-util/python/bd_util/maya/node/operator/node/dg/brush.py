@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.brush import _GeneratedBrush
+from ._generated.brush import GeneratedBrush
 
 
-class Brush(_GeneratedBrush):
+class Brush(GeneratedBrush):
     __slots__ = ()
 
     NODE_TYPE = "brush"

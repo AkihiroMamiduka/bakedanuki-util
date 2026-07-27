@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.parent_matrix import _GeneratedParentMatrix
+from ._generated.parent_matrix import GeneratedParentMatrix
 
 
-class ParentMatrix(_GeneratedParentMatrix):
+class ParentMatrix(GeneratedParentMatrix):
     __slots__ = ()
 
     NODE_TYPE = "parentMatrix"

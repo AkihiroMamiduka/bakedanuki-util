@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.child_node import _GeneratedChildNode
+from ._generated.child_node import GeneratedChildNode
 
 
-class ChildNode(_GeneratedChildNode):
+class ChildNode(GeneratedChildNode):
     __slots__ = ()
 
     NODE_TYPE = "childNode"

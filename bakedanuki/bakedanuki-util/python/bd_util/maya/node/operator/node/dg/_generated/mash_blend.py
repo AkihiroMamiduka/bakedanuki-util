@@ -144,7 +144,7 @@ class RotationInterpolationEnumField(
     PLUG_CLS = RotationInterpolationEnumPlugOperator
 
 
-class _GeneratedMASH_Blend(DG):
+class GeneratedMASH_Blend(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Blend"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.condition import _GeneratedCondition
+from ._generated.condition import GeneratedCondition
 
 
-class Condition(_GeneratedCondition):
+class Condition(GeneratedCondition):
     __slots__ = ()
 
     NODE_TYPE = "condition"

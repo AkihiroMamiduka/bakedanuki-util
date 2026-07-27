@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ocean import _GeneratedOcean
+from ._generated.ocean import GeneratedOcean
 
 
-class Ocean(_GeneratedOcean):
+class Ocean(GeneratedOcean):
     __slots__ = ()
 
     NODE_TYPE = "ocean"

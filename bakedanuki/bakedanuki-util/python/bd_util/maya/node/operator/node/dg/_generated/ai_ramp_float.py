@@ -91,7 +91,7 @@ class UseImplicitUvsEnumField(
     PLUG_CLS = UseImplicitUvsEnumPlugOperator
 
 
-class _GeneratedAiRampFloat(DG):
+class GeneratedAiRampFloat(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiRampFloat"

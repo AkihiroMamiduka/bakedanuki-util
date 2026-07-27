@@ -132,7 +132,7 @@ class MirrorDirectionEnumField(
     PLUG_CLS = MirrorDirectionEnumPlugOperator
 
 
-class _GeneratedMorph(DG):
+class GeneratedMorph(DG):
     __slots__ = ()
 
     NODE_TYPE = "morph"

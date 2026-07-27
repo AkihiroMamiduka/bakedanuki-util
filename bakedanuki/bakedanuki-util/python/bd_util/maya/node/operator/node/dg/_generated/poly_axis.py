@@ -75,7 +75,7 @@ class ArrowTypeEnumField(
     PLUG_CLS = ArrowTypeEnumPlugOperator
 
 
-class _GeneratedPolyAxis(DG):
+class GeneratedPolyAxis(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyAxis"

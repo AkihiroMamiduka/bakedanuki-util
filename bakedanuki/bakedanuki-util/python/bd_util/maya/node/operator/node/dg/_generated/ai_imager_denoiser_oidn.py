@@ -41,7 +41,7 @@ class RenderDeviceEnumField(
     PLUG_CLS = RenderDeviceEnumPlugOperator
 
 
-class _GeneratedAiImagerDenoiserOidn(DG):
+class GeneratedAiImagerDenoiserOidn(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiImagerDenoiserOidn"

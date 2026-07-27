@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.choice import _GeneratedChoice
+from ._generated.choice import GeneratedChoice
 
 
-class Choice(_GeneratedChoice):
+class Choice(GeneratedChoice):
     __slots__ = ()
 
     NODE_TYPE = "choice"

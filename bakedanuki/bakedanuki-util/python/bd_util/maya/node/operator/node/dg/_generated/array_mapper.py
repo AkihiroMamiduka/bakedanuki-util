@@ -8,7 +8,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class _GeneratedArrayMapper(DG):
+class GeneratedArrayMapper(DG):
     __slots__ = ()
 
     NODE_TYPE = "arrayMapper"

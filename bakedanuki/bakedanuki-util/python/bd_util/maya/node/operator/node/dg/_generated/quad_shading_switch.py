@@ -10,7 +10,7 @@ from ....attr.define.std.at.addr import AddrField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedQuadShadingSwitch(DG):
+class GeneratedQuadShadingSwitch(DG):
     __slots__ = ()
 
     NODE_TYPE = "quadShadingSwitch"

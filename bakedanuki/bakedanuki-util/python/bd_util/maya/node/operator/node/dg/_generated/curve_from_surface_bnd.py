@@ -7,7 +7,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class _GeneratedCurveFromSurfaceBnd(DG):
+class GeneratedCurveFromSurfaceBnd(DG):
     __slots__ = ()
 
     NODE_TYPE = "curveFromSurfaceBnd"

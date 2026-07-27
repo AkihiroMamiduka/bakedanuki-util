@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.blinn import _GeneratedBlinn
+from ._generated.blinn import GeneratedBlinn
 
 
-class Blinn(_GeneratedBlinn):
+class Blinn(GeneratedBlinn):
     __slots__ = ()
 
     NODE_TYPE = "blinn"

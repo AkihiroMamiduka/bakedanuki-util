@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedOr(DG):
+class GeneratedOr(DG):
     __slots__ = ()
 
     NODE_TYPE = "or"

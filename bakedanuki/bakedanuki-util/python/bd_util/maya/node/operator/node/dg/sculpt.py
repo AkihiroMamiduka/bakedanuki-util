@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.sculpt import _GeneratedSculpt
+from ._generated.sculpt import GeneratedSculpt
 
 
-class Sculpt(_GeneratedSculpt):
+class Sculpt(GeneratedSculpt):
     __slots__ = ()
 
     NODE_TYPE = "sculpt"

@@ -43,7 +43,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class _GeneratedPolyAppend(DG):
+class GeneratedPolyAppend(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyAppend"

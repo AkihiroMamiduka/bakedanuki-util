@@ -6,7 +6,7 @@ from ....attr.define.node_attr.normalize import (
 )
 
 
-class _GeneratedNormalize(DG):
+class GeneratedNormalize(DG):
     __slots__ = ()
 
     NODE_TYPE = "normalize"

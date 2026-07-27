@@ -142,7 +142,7 @@ class MotionBlurInstanceModeEnumField(
     PLUG_CLS = MotionBlurInstanceModeEnumPlugOperator
 
 
-class _GeneratedMASH_Repro(DG):
+class GeneratedMASH_Repro(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Repro"

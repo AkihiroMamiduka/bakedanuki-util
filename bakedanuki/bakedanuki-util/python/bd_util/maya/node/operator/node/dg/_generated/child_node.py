@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedChildNode(DG):
+class GeneratedChildNode(DG):
     __slots__ = ()
 
     NODE_TYPE = "childNode"

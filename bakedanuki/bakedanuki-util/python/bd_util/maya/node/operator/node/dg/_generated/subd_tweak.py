@@ -4,7 +4,7 @@ from ....attr.define.node_attr.subd_tweak import TweakField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedSubdTweak(DG):
+class GeneratedSubdTweak(DG):
     __slots__ = ()
 
     NODE_TYPE = "subdTweak"

@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class _GeneratedIkRPsolver(DG):
+class GeneratedIkRPsolver(DG):
     __slots__ = ()
 
     NODE_TYPE = "ikRPsolver"

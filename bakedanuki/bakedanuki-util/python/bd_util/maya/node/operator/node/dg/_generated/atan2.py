@@ -4,7 +4,7 @@ from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleFie
 from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class _GeneratedAtan2(DG):
+class GeneratedAtan2(DG):
     __slots__ = ()
 
     NODE_TYPE = "atan2"

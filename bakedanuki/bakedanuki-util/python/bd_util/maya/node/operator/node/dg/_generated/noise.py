@@ -90,7 +90,7 @@ class FalloffEnumField(
     PLUG_CLS = FalloffEnumPlugOperator
 
 
-class _GeneratedNoise(DG):
+class GeneratedNoise(DG):
     __slots__ = ()
 
     NODE_TYPE = "noise"

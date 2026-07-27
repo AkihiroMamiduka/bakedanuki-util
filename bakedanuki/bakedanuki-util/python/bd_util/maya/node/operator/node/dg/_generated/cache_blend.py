@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedCacheBlend(DG):
+class GeneratedCacheBlend(DG):
     __slots__ = ()
 
     NODE_TYPE = "cacheBlend"

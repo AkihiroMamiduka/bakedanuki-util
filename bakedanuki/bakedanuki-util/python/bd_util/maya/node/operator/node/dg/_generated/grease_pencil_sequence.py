@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class _GeneratedGreasePencilSequence(DG):
+class GeneratedGreasePencilSequence(DG):
     __slots__ = ()
 
     NODE_TYPE = "greasePencilSequence"

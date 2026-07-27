@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class _GeneratedNot(DG):
+class GeneratedNot(DG):
     __slots__ = ()
 
     NODE_TYPE = "not"

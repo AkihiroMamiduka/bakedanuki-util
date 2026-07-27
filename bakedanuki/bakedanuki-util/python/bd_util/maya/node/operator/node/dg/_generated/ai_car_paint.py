@@ -60,7 +60,7 @@ class FlakeCoordSpaceEnumField(
     PLUG_CLS = FlakeCoordSpaceEnumPlugOperator
 
 
-class _GeneratedAiCarPaint(DG):
+class GeneratedAiCarPaint(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiCarPaint"

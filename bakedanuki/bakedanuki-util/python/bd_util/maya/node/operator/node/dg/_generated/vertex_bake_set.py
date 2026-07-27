@@ -264,7 +264,7 @@ class AlphaBlendingEnumField(
     PLUG_CLS = AlphaBlendingEnumPlugOperator
 
 
-class _GeneratedVertexBakeSet(DG):
+class GeneratedVertexBakeSet(DG):
     __slots__ = ()
 
     NODE_TYPE = "vertexBakeSet"

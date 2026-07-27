@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.at.typed import TypedField
 
 
-class _GeneratedJointLattice(DG):
+class GeneratedJointLattice(DG):
     __slots__ = ()
 
     NODE_TYPE = "jointLattice"

@@ -50,7 +50,7 @@ class SampleTypeEnumField(
     PLUG_CLS = SampleTypeEnumPlugOperator
 
 
-class _GeneratedArubaTessellate(DG):
+class GeneratedArubaTessellate(DG):
     __slots__ = ()
 
     NODE_TYPE = "arubaTessellate"

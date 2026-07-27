@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class _GeneratedDisplayLayerManager(DG):
+class GeneratedDisplayLayerManager(DG):
     __slots__ = ()
 
     NODE_TYPE = "displayLayerManager"

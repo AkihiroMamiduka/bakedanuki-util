@@ -102,7 +102,7 @@ class ClassificationEnumField(
     PLUG_CLS = ClassificationEnumPlugOperator
 
 
-class _GeneratedPolyBoolOp(DG):
+class GeneratedPolyBoolOp(DG):
     __slots__ = ()
 
     NODE_TYPE = "polyBoolOp"

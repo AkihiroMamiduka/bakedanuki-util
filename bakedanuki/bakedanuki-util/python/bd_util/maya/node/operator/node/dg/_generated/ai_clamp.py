@@ -43,7 +43,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class _GeneratedAiClamp(DG):
+class GeneratedAiClamp(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiClamp"

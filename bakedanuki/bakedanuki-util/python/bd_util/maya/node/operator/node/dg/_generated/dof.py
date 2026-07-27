@@ -2,7 +2,7 @@
 from .._core import DG
 
 
-class _GeneratedDof(DG):
+class GeneratedDof(DG):
     __slots__ = ()
 
     NODE_TYPE = "dof"

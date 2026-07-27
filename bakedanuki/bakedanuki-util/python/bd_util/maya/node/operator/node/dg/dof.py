@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.dof import _GeneratedDof
+from ._generated.dof import GeneratedDof
 
 
-class Dof(_GeneratedDof):
+class Dof(GeneratedDof):
     __slots__ = ()
 
     NODE_TYPE = "dof"

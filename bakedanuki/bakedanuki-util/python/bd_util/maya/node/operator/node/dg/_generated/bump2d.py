@@ -59,7 +59,7 @@ class BumpInterpEnumField(
     PLUG_CLS = BumpInterpEnumPlugOperator
 
 
-class _GeneratedBump2d(DG):
+class GeneratedBump2d(DG):
     __slots__ = ()
 
     NODE_TYPE = "bump2d"

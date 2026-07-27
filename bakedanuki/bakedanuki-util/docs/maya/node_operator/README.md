@@ -31,7 +31,7 @@
 - `python/bd_util/maya/node/operator/node/dag/_generated`
   - DAG NodeOperator の自動生成 class を置く package です。
 - `python/bd_util/maya/node/operator/node/dag/transform/_generated`
-  - Generator が出力する `_GeneratedTransform` と Transform 派生 NodeOperator の生成 class です。
+  - Generator が出力する `GeneratedTransform` と Transform 派生 NodeOperator の生成 class です。
 - `python/bd_util/maya/node/operator/node/dag/shape/_generated`
   - Shape NodeOperator の自動生成 class を置く package です。
 - `python/bd_util/maya/node/operator/node/dg/<node_type>.py`

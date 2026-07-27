@@ -7,7 +7,7 @@ from ....attr.define.node_attr.ai_float_to_rgba import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedAiFloatToRgba(DG):
+class GeneratedAiFloatToRgba(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiFloatToRgba"

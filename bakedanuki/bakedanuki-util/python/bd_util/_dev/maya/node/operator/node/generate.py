@@ -609,7 +609,7 @@ def _node_type_to_class_name(node_type: str) -> str:
 
 
 def _node_kind_class_name(node_type: str, node_kind: str) -> str:
-    return f"_Generated{_node_type_to_class_name(node_type)}"
+    return f"Generated{_node_type_to_class_name(node_type)}"
 
 
 def _camel_to_snake(name: str) -> str:

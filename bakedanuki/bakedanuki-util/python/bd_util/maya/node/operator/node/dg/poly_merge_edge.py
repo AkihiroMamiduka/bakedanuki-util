@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.poly_merge_edge import _GeneratedPolyMergeEdge
+from ._generated.poly_merge_edge import GeneratedPolyMergeEdge
 
 
-class PolyMergeEdge(_GeneratedPolyMergeEdge):
+class PolyMergeEdge(GeneratedPolyMergeEdge):
     __slots__ = ()
 
     NODE_TYPE = "polyMergeEdge"

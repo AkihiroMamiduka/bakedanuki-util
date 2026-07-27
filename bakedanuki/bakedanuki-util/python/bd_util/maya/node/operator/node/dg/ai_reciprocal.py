@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.ai_reciprocal import _GeneratedAiReciprocal
+from ._generated.ai_reciprocal import GeneratedAiReciprocal
 
 
-class AiReciprocal(_GeneratedAiReciprocal):
+class AiReciprocal(GeneratedAiReciprocal):
     __slots__ = ()
 
     NODE_TYPE = "aiReciprocal"

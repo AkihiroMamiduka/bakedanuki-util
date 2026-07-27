@@ -3,7 +3,7 @@ from .._core import DG
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class _GeneratedFloatMask(DG):
+class GeneratedFloatMask(DG):
     __slots__ = ()
 
     NODE_TYPE = "floatMask"

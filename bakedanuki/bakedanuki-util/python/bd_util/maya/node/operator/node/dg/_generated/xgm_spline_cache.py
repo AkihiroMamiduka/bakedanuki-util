@@ -49,7 +49,7 @@ class CycleTypeEnumField(
     PLUG_CLS = CycleTypeEnumPlugOperator
 
 
-class _GeneratedXgmSplineCache(DG):
+class GeneratedXgmSplineCache(DG):
     __slots__ = ()
 
     NODE_TYPE = "xgmSplineCache"

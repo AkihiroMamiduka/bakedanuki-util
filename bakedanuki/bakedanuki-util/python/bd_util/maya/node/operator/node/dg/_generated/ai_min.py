@@ -8,7 +8,7 @@ from ....attr.define.node_attr.ai_min import (
 )
 
 
-class _GeneratedAiMin(DG):
+class GeneratedAiMin(DG):
     __slots__ = ()
 
     NODE_TYPE = "aiMin"

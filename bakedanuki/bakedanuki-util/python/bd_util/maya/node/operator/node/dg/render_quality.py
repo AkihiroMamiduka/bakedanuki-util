@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.render_quality import _GeneratedRenderQuality
+from ._generated.render_quality import GeneratedRenderQuality
 
 
-class RenderQuality(_GeneratedRenderQuality):
+class RenderQuality(GeneratedRenderQuality):
     __slots__ = ()
 
     NODE_TYPE = "renderQuality"

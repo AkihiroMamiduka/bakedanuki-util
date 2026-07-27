@@ -80,7 +80,7 @@ class SetUpAxisEnumField(
     PLUG_CLS = SetUpAxisEnumPlugOperator
 
 
-class _GeneratedFlow(DG):
+class GeneratedFlow(DG):
     __slots__ = ()
 
     NODE_TYPE = "flow"

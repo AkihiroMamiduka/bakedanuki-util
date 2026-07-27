@@ -5,7 +5,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class _GeneratedAnimBlendNodeBoolean(DG):
+class GeneratedAnimBlendNodeBoolean(DG):
     __slots__ = ()
 
     NODE_TYPE = "animBlendNodeBoolean"

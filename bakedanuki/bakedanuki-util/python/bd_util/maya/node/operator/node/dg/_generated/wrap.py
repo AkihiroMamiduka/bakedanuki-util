@@ -48,7 +48,7 @@ class FalloffModeEnumField(
     PLUG_CLS = FalloffModeEnumPlugOperator
 
 
-class _GeneratedWrap(DG):
+class GeneratedWrap(DG):
     __slots__ = ()
 
     NODE_TYPE = "wrap"

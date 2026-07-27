@@ -49,7 +49,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class _GeneratedRemapColor(DG):
+class GeneratedRemapColor(DG):
     __slots__ = ()
 
     NODE_TYPE = "remapColor"

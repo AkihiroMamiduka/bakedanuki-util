@@ -149,7 +149,7 @@ class UpVectorMenuEnumField(
     PLUG_CLS = UpVectorMenuEnumPlugOperator
 
 
-class _GeneratedMASH_Orient(DG):
+class GeneratedMASH_Orient(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Orient"
