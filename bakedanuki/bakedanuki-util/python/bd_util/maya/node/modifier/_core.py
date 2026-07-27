@@ -111,14 +111,14 @@ class ModifierManager:
         self._done_stack = []
         self._redo_stack = []
 
-    def _record_pending_dag_parent(
+    def record_pending_dag_parent(
         self,
         node: om.MObject,
         parent: om.MObject,
     ) -> None:
         self._pending_dag_parents[om.MObjectHandle(node)] = parent
 
-    def _would_create_dag_cycle(
+    def would_create_dag_cycle(
         self,
         node: om.MObject,
         parent: om.MObject,

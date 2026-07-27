@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Self
+from typing import Protocol, Self
 
 # maya
 import maya.cmds as cmds
@@ -15,6 +15,10 @@ from ...modifier import ModifierManager
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 DEFAULT_VALUE_AUTO_ADD_ATTR = True
+
+
+class _ExtraAttributeField(Protocol):
+    name: str
 
 
 class IsInstance(ImmutableDescriptor):
@@ -80,7 +84,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     is_instance = IsInstance()
     _attributes_map_by_long_name: dict = {}
     _attributes_map_by_short_name: dict = {}
-    _extra_attributes: tuple = ()
+    _extra_attributes: tuple[_ExtraAttributeField, ...] = ()
 
     __slots__ = (
         "__weakref__",
@@ -139,10 +143,10 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def __init__(
         self,
         modifier_manager: ModifierManager,
-        name: str = None,
-        m_obj: om.MObject = None,
+        name: str | None = None,
+        m_obj: om.MObject | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ):
+    ) -> None:
         if m_obj is None and name is None:
             raise ValueError("Either m_obj or name must be provided.")
         # modifier_manager
@@ -258,8 +262,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def create(
         cls,
         modifier_manager: ModifierManager,
-        name=None,
-        auto_add_attr=DEFAULT_VALUE_AUTO_ADD_ATTR,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> Self:
         if cls.NODE_TYPE is None:
             raise ValueError(f"{cls.__name__} must define NODE_TYPE")

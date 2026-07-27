@@ -28,7 +28,7 @@ class Transform(_GeneratedTransform):
         self._dag_mod.pythonCommandToExecute(
             self._parent_python_command(parent)
         )
-        self.modifier_manager._record_pending_dag_parent(
+        self.modifier_manager.record_pending_dag_parent(
             self.m_obj,
             parent.m_obj,
         )
@@ -52,7 +52,7 @@ class Transform(_GeneratedTransform):
             )
         else:
             self._dag_mod.reparentNode(self.m_obj)
-        self.modifier_manager._record_pending_dag_parent(
+        self.modifier_manager.record_pending_dag_parent(
             self.m_obj,
             om.MObject.kNullObj,
         )

@@ -40,6 +40,10 @@ modifier_manager.redo_it()
 modifier_manager.clear()
 ```
 
+`record_pending_dag_parent()` と `would_create_dag_cycle()` は、
+DAG `NodeOperator` が未実行の親関係を管理するための連携 API です。
+通常の利用コードから直接呼ぶ必要はありません。
+
 ## 使用例
 
 ```python
