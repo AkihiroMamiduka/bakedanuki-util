@@ -38,30 +38,9 @@
 
 ## 決定済みのロードマップ
 
-次の順序で、compound value、DAG 階層、shape 作成 API を整備します。
+次の順序で、DAG 階層と shape 作成 API を整備します。
 
-### 1. compound 専用値型（完了）
-
-`double2` / `double3` / `float2` / `float3` など、固定長かつ同種の
-scalar child で構成される compound の `get()` は、list ではなく
-専用の immutable value object を返します。
-
-専用値型は次を満たす方針です。
-
-- `result.x` / `result.y` / `result.z` / `result.w` で各要素へアクセスできる。
-- index access、unpack、iteration など、固定長 sequence として扱える。
-- `set()` / `set_direct()` は、専用値型に限定せず従来どおり通常の
-  list / tuple も受け付ける。
-- `get()` の具体的な戻り値型を Pyright などの Language Server から追える。
-- 初期実装では四則演算を追加しない。
-
-`double3` などは必ずしも幾何ベクトルを意味せず、色、範囲、任意の複数値にも
-使われます。演算は用途と意味が固まってから、通常の scalar compound と
-`Quat` などの意味付き型を分けて検討します。
-
-mixed compound はこの変更の対象外です。
-
-### 2. DAG path と instancing の方針
+### 1. DAG path と instancing の方針
 
 子孫・先祖 traversal の実装前に、`MDagPath` と instanced DAG node の
 扱いを決めます。
@@ -72,7 +51,7 @@ DAG path を持つ場合に、どの path の階層を返すかが曖昧にな�
 初期版で曖昧な操作を `RuntimeError` にするか、`ExistingNode` から
 具体的な `MDagPath` を保持できる設計へ拡張するかを先に決定します。
 
-### 3. DAG 階層 traversal
+### 2. DAG 階層 traversal
 
 DAG path / instancing の方針確定後、次の階層取得 API を追加します。
 
@@ -84,7 +63,7 @@ DAG path / instancing の方針確定後、次の階層取得 API を追加し�
 world を含めるか、shape を含めるか、列挙順、未実行の `MDagModifier` の
 変更を含めるかを仕様として固定します。
 
-### 4. 親 Transform 必須の shape 作成
+### 3. 親 Transform 必須の shape 作成
 
 最初の shape 作成 API は、親 `Transform` を必須として公開します。
 
@@ -103,7 +82,7 @@ shape package 全体を無条件に公開しません。
 まずは作成可能なことを確認できた shape type から限定して公開し、
 戻り値型、undo / redo、命名、親との `ModifierManager` 共有を検証します。
 
-### 5. transform と shape の一括作成
+### 4. transform と shape の一括作成
 
 親 Transform 必須の API が安定した後、transform と shape を同じ
 `ModifierManager` に積んで一括作成する便利 API を検討します。
@@ -114,7 +93,9 @@ shape 名と transform 名、戻り値を shape 単体にするか両方返す�
 `polyCube` のように history node も生成する primitive 作成は、raw shape
 作成とは別の高レベル API として扱います。
 
-### 6. compound 専用値型の演算
+## 将来の拡張候補
+
+### compound 専用値型の演算
 
 compound 専用値型の利用例が集まり、演算の意味を固定できてから追加します。
 
