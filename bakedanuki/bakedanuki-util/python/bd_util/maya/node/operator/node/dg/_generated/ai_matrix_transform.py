@@ -17,7 +17,7 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TransformOrderEnumPlugOperator(EnumPlugOperator):
+class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOperator"]):
     __slots__ = ()
 
     SRT = 0
@@ -28,7 +28,7 @@ class TransformOrderEnumPlugOperator(EnumPlugOperator):
     TRS = 5
 
 
-class TransformOrderEnumAttrOperator(EnumAttrOperator):
+class TransformOrderEnumAttrOperator(EnumAttrOperator[TransformOrderEnumPlugOperator]):
     __slots__ = ()
 
     SRT = 0
@@ -57,14 +57,14 @@ class TransformOrderEnumField(
     PLUG_CLS = TransformOrderEnumPlugOperator
 
 
-class RotationTypeEnumPlugOperator(EnumPlugOperator):
+class RotationTypeEnumPlugOperator(EnumPlugOperator["RotationTypeEnumAttrOperator"]):
     __slots__ = ()
 
     EULER = 0
     AXIS = 1
 
 
-class RotationTypeEnumAttrOperator(EnumAttrOperator):
+class RotationTypeEnumAttrOperator(EnumAttrOperator[RotationTypeEnumPlugOperator]):
     __slots__ = ()
 
     EULER = 0
@@ -85,14 +85,14 @@ class RotationTypeEnumField(
     PLUG_CLS = RotationTypeEnumPlugOperator
 
 
-class UnitsEnumPlugOperator(EnumPlugOperator):
+class UnitsEnumPlugOperator(EnumPlugOperator["UnitsEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
     DEGREES = 1
 
 
-class UnitsEnumAttrOperator(EnumAttrOperator):
+class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0
@@ -113,7 +113,7 @@ class UnitsEnumField(
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class RotationOrderEnumPlugOperator(EnumPlugOperator):
+class RotationOrderEnumPlugOperator(EnumPlugOperator["RotationOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -124,7 +124,7 @@ class RotationOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotationOrderEnumAttrOperator(EnumAttrOperator):
+class RotationOrderEnumAttrOperator(EnumAttrOperator[RotationOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

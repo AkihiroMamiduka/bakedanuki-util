@@ -562,8 +562,14 @@ def test_generate_plus_minus_average_node_class_code():
     assert "Input3DField" in code
     assert "Output2DField" in code
     assert "Output3DField" in code
-    assert "class OperationEnumPlugOperator(EnumPlugOperator):" in code
-    assert "class OperationEnumAttrOperator(EnumAttrOperator):" in code
+    assert (
+        'class OperationEnumPlugOperator('
+        'EnumPlugOperator["OperationEnumAttrOperator"]):'
+    ) in code
+    assert (
+        "class OperationEnumAttrOperator("
+        "EnumAttrOperator[OperationEnumPlugOperator]):"
+    ) in code
     assert "class OperationEnumField(" in code
     assert "NO_OPERATION = 0" in code
     assert 'NO_OPERATION: "No operation"' in code
@@ -794,8 +800,14 @@ def test_generate_compound_child_enum_uses_generated_enum_field():
     assert code is not None
     compile(code, "compound_enum_node_attr.py", "exec")
 
-    assert "class Primary_primaryModeEnumPlugOperator(" in code
-    assert "class Primary_primaryModeEnumAttrOperator(" in code
+    assert (
+        'class Primary_primaryModeEnumPlugOperator('
+        'EnumPlugOperator["Primary_primaryModeEnumAttrOperator"]):'
+    ) in code
+    assert (
+        "class Primary_primaryModeEnumAttrOperator("
+        "EnumAttrOperator[Primary_primaryModeEnumPlugOperator]):"
+    ) in code
     assert "class Primary_primaryModeEnumField(" in code
     assert "NAME_MAP = {" in code
     assert "primaryMode = Primary_primaryModeEnumField()" in code

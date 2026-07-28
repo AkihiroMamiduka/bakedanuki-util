@@ -28,7 +28,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator):
+class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator["FalloffCurve_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -37,7 +37,7 @@ class FalloffCurve_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class FalloffCurve_InterpEnumAttrOperator(EnumAttrOperator):
+class FalloffCurve_InterpEnumAttrOperator(EnumAttrOperator[FalloffCurve_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

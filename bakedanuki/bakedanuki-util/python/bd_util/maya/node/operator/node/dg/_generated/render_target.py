@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FrameBufferTypeEnumPlugOperator(EnumPlugOperator):
+class FrameBufferTypeEnumPlugOperator(EnumPlugOperator["FrameBufferTypeEnumAttrOperator"]):
     __slots__ = ()
 
     _8_MINUS_BIT_INTEGER_UNSIGNED = 0
@@ -27,7 +27,7 @@ class FrameBufferTypeEnumPlugOperator(EnumPlugOperator):
     _32_MINUS_BIT_FLOAT = 3
 
 
-class FrameBufferTypeEnumAttrOperator(EnumAttrOperator):
+class FrameBufferTypeEnumAttrOperator(EnumAttrOperator[FrameBufferTypeEnumPlugOperator]):
     __slots__ = ()
 
     _8_MINUS_BIT_INTEGER_UNSIGNED = 0
@@ -52,7 +52,7 @@ class FrameBufferTypeEnumField(
     PLUG_CLS = FrameBufferTypeEnumPlugOperator
 
 
-class NumberOfChannelsEnumPlugOperator(EnumPlugOperator):
+class NumberOfChannelsEnumPlugOperator(EnumPlugOperator["NumberOfChannelsEnumAttrOperator"]):
     __slots__ = ()
 
     _1 = 1
@@ -60,7 +60,7 @@ class NumberOfChannelsEnumPlugOperator(EnumPlugOperator):
     _4 = 4
 
 
-class NumberOfChannelsEnumAttrOperator(EnumAttrOperator):
+class NumberOfChannelsEnumAttrOperator(EnumAttrOperator[NumberOfChannelsEnumPlugOperator]):
     __slots__ = ()
 
     _1 = 1

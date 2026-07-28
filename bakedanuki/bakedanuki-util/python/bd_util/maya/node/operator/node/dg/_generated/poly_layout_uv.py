@@ -14,7 +14,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class SeparateEnumPlugOperator(EnumPlugOperator):
+class SeparateEnumPlugOperator(EnumPlugOperator["SeparateEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +22,7 @@ class SeparateEnumPlugOperator(EnumPlugOperator):
     ALL_INTERSECTING = 2
 
 
-class SeparateEnumAttrOperator(EnumAttrOperator):
+class SeparateEnumAttrOperator(EnumAttrOperator[SeparateEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +45,7 @@ class SeparateEnumField(
     PLUG_CLS = SeparateEnumPlugOperator
 
 
-class LayoutEnumPlugOperator(EnumPlugOperator):
+class LayoutEnumPlugOperator(EnumPlugOperator["LayoutEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -55,7 +55,7 @@ class LayoutEnumPlugOperator(EnumPlugOperator):
     NEAREST_REGION = 4
 
 
-class LayoutEnumAttrOperator(EnumAttrOperator):
+class LayoutEnumAttrOperator(EnumAttrOperator[LayoutEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +82,7 @@ class LayoutEnumField(
     PLUG_CLS = LayoutEnumPlugOperator
 
 
-class ScaleEnumPlugOperator(EnumPlugOperator):
+class ScaleEnumPlugOperator(EnumPlugOperator["ScaleEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +90,7 @@ class ScaleEnumPlugOperator(EnumPlugOperator):
     STRETCH_TO_SQUARE = 2
 
 
-class ScaleEnumAttrOperator(EnumAttrOperator):
+class ScaleEnumAttrOperator(EnumAttrOperator[ScaleEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -113,7 +113,7 @@ class ScaleEnumField(
     PLUG_CLS = ScaleEnumPlugOperator
 
 
-class RotateForBestFitEnumPlugOperator(EnumPlugOperator):
+class RotateForBestFitEnumPlugOperator(EnumPlugOperator["RotateForBestFitEnumAttrOperator"]):
     __slots__ = ()
 
     NO_ROTATION = 0
@@ -122,7 +122,7 @@ class RotateForBestFitEnumPlugOperator(EnumPlugOperator):
     BEST_BOUNDING_BOX_AREA = 3
 
 
-class RotateForBestFitEnumAttrOperator(EnumAttrOperator):
+class RotateForBestFitEnumAttrOperator(EnumAttrOperator[RotateForBestFitEnumPlugOperator]):
     __slots__ = ()
 
     NO_ROTATION = 0
@@ -147,14 +147,14 @@ class RotateForBestFitEnumField(
     PLUG_CLS = RotateForBestFitEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator):
+class LayoutMethodEnumPlugOperator(EnumPlugOperator["LayoutMethodEnumAttrOperator"]):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator):
+class LayoutMethodEnumAttrOperator(EnumAttrOperator[LayoutMethodEnumPlugOperator]):
     __slots__ = ()
 
     BLOCK_STACKING = 0

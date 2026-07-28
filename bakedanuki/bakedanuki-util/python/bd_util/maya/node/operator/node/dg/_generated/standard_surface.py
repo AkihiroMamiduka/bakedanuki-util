@@ -44,7 +44,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AiSubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
+class AiSubsurfaceTypeEnumPlugOperator(EnumPlugOperator["AiSubsurfaceTypeEnumAttrOperator"]):
     __slots__ = ()
 
     DIFFUSION = 0
@@ -52,7 +52,7 @@ class AiSubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
     RANDOMWALK_V2 = 2
 
 
-class AiSubsurfaceTypeEnumAttrOperator(EnumAttrOperator):
+class AiSubsurfaceTypeEnumAttrOperator(EnumAttrOperator[AiSubsurfaceTypeEnumPlugOperator]):
     __slots__ = ()
 
     DIFFUSION = 0

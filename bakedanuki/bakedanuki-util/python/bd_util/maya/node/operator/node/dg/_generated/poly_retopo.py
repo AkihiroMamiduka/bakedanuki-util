@@ -18,7 +18,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AxisPositionEnumPlugOperator(EnumPlugOperator):
+class AxisPositionEnumPlugOperator(EnumPlugOperator["AxisPositionEnumAttrOperator"]):
     __slots__ = ()
 
     OBJECT = 1
@@ -26,7 +26,7 @@ class AxisPositionEnumPlugOperator(EnumPlugOperator):
     WORLD = 3
 
 
-class AxisPositionEnumAttrOperator(EnumAttrOperator):
+class AxisPositionEnumAttrOperator(EnumAttrOperator[AxisPositionEnumPlugOperator]):
     __slots__ = ()
 
     OBJECT = 1
@@ -49,7 +49,7 @@ class AxisPositionEnumField(
     PLUG_CLS = AxisPositionEnumPlugOperator
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS_X_TO_MINUS_X = 1
@@ -60,7 +60,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z_TO_PLUS_Z = 6
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     PLUS_X_TO_MINUS_X = 1

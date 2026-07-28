@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ImageColorProfileEnumPlugOperator(EnumPlugOperator):
+class ImageColorProfileEnumPlugOperator(EnumPlugOperator["ImageColorProfileEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -19,7 +19,7 @@ class ImageColorProfileEnumPlugOperator(EnumPlugOperator):
     CIE_XYZ = 10
 
 
-class ImageColorProfileEnumAttrOperator(EnumAttrOperator):
+class ImageColorProfileEnumAttrOperator(EnumAttrOperator[ImageColorProfileEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -46,7 +46,7 @@ class ImageColorProfileEnumField(
     PLUG_CLS = ImageColorProfileEnumPlugOperator
 
 
-class DisplayColorProfileEnumPlugOperator(EnumPlugOperator):
+class DisplayColorProfileEnumPlugOperator(EnumPlugOperator["DisplayColorProfileEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -57,7 +57,7 @@ class DisplayColorProfileEnumPlugOperator(EnumPlugOperator):
     CINEON_LOG = 15
 
 
-class DisplayColorProfileEnumAttrOperator(EnumAttrOperator):
+class DisplayColorProfileEnumAttrOperator(EnumAttrOperator[DisplayColorProfileEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR_SRGB = 2

@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
+class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator["DisplaySmoothMeshEnumAttrOperator"]):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -21,7 +21,7 @@ class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
     SMOOTH_MESH_ONLY = 2
 
 
-class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator):
+class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator[DisplaySmoothMeshEnumPlugOperator]):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -44,7 +44,7 @@ class DisplaySmoothMeshEnumField(
     PLUG_CLS = DisplaySmoothMeshEnumPlugOperator
 
 
-class FormEnumPlugOperator(EnumPlugOperator):
+class FormEnumPlugOperator(EnumPlugOperator["FormEnumAttrOperator"]):
     __slots__ = ()
 
     OPEN = 0
@@ -52,7 +52,7 @@ class FormEnumPlugOperator(EnumPlugOperator):
     BEST_GUESS = 2
 
 
-class FormEnumAttrOperator(EnumAttrOperator):
+class FormEnumAttrOperator(EnumAttrOperator[FormEnumPlugOperator]):
     __slots__ = ()
 
     OPEN = 0
@@ -75,7 +75,7 @@ class FormEnumField(
     PLUG_CLS = FormEnumPlugOperator
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     _1 = 1
@@ -85,7 +85,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     _7 = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     _1 = 1

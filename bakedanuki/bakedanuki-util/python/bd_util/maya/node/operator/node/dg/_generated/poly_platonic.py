@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class PrimitiveEnumPlugOperator(EnumPlugOperator):
+class PrimitiveEnumPlugOperator(EnumPlugOperator["PrimitiveEnumAttrOperator"]):
     __slots__ = ()
 
     TETRAHEDRON = 0
@@ -21,7 +21,7 @@ class PrimitiveEnumPlugOperator(EnumPlugOperator):
     ICOSAHEDRON = 4
 
 
-class PrimitiveEnumAttrOperator(EnumAttrOperator):
+class PrimitiveEnumAttrOperator(EnumAttrOperator[PrimitiveEnumPlugOperator]):
     __slots__ = ()
 
     TETRAHEDRON = 0
@@ -48,7 +48,7 @@ class PrimitiveEnumField(
     PLUG_CLS = PrimitiveEnumPlugOperator
 
 
-class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
+class SubdivisionModeEnumPlugOperator(EnumPlugOperator["SubdivisionModeEnumAttrOperator"]):
     __slots__ = ()
 
     QUADS = 0
@@ -57,7 +57,7 @@ class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
     CAPS = 3
 
 
-class SubdivisionModeEnumAttrOperator(EnumAttrOperator):
+class SubdivisionModeEnumAttrOperator(EnumAttrOperator[SubdivisionModeEnumPlugOperator]):
     __slots__ = ()
 
     QUADS = 0

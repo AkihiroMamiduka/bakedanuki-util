@@ -23,7 +23,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class WrapModeEnumPlugOperator(EnumPlugOperator):
+class WrapModeEnumPlugOperator(EnumPlugOperator["WrapModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFFSET = 0
@@ -33,7 +33,7 @@ class WrapModeEnumPlugOperator(EnumPlugOperator):
     CLUSTER = 4
 
 
-class WrapModeEnumAttrOperator(EnumAttrOperator):
+class WrapModeEnumAttrOperator(EnumAttrOperator[WrapModeEnumPlugOperator]):
     __slots__ = ()
 
     OFFSET = 0
@@ -60,14 +60,14 @@ class WrapModeEnumField(
     PLUG_CLS = WrapModeEnumPlugOperator
 
 
-class CoordinateFramesEnumPlugOperator(EnumPlugOperator):
+class CoordinateFramesEnumPlugOperator(EnumPlugOperator["CoordinateFramesEnumAttrOperator"]):
     __slots__ = ()
 
     DRIVER = 0
     SNAP = 1
 
 
-class CoordinateFramesEnumAttrOperator(EnumAttrOperator):
+class CoordinateFramesEnumAttrOperator(EnumAttrOperator[CoordinateFramesEnumPlugOperator]):
     __slots__ = ()
 
     DRIVER = 0

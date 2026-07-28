@@ -10,14 +10,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class DomainEnumPlugOperator(EnumPlugOperator):
+class DomainEnumPlugOperator(EnumPlugOperator["DomainEnumAttrOperator"]):
     __slots__ = ()
 
     FIRST_HIT = 0
     ALL_HITS = 1
 
 
-class DomainEnumAttrOperator(EnumAttrOperator):
+class DomainEnumAttrOperator(EnumAttrOperator[DomainEnumPlugOperator]):
     __slots__ = ()
 
     FIRST_HIT = 0
@@ -38,7 +38,7 @@ class DomainEnumField(
     PLUG_CLS = DomainEnumPlugOperator
 
 
-class FilterWeightsEnumPlugOperator(EnumPlugOperator):
+class FilterWeightsEnumPlugOperator(EnumPlugOperator["FilterWeightsEnumAttrOperator"]):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -50,7 +50,7 @@ class FilterWeightsEnumPlugOperator(EnumPlugOperator):
     TRIANGLE = 6
 
 
-class FilterWeightsEnumAttrOperator(EnumAttrOperator):
+class FilterWeightsEnumAttrOperator(EnumAttrOperator[FilterWeightsEnumPlugOperator]):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -81,7 +81,7 @@ class FilterWeightsEnumField(
     PLUG_CLS = FilterWeightsEnumPlugOperator
 
 
-class AiFilterWeightsEnumPlugOperator(EnumPlugOperator):
+class AiFilterWeightsEnumPlugOperator(EnumPlugOperator["AiFilterWeightsEnumAttrOperator"]):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -93,7 +93,7 @@ class AiFilterWeightsEnumPlugOperator(EnumPlugOperator):
     TRIANGLE = 6
 
 
-class AiFilterWeightsEnumAttrOperator(EnumAttrOperator):
+class AiFilterWeightsEnumAttrOperator(EnumAttrOperator[AiFilterWeightsEnumPlugOperator]):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0

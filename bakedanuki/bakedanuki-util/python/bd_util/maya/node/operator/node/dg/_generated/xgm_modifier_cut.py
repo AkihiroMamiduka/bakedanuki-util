@@ -11,14 +11,14 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.at.typed import TypedField
 
 
-class CutModeEnumPlugOperator(EnumPlugOperator):
+class CutModeEnumPlugOperator(EnumPlugOperator["CutModeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
     RELATIVE = 1
 
 
-class CutModeEnumAttrOperator(EnumAttrOperator):
+class CutModeEnumAttrOperator(EnumAttrOperator[CutModeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0

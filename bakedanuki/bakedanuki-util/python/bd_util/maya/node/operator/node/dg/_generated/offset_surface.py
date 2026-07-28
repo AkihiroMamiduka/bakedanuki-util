@@ -9,14 +9,14 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     SURFACE_FIT = 0
     CV_FIT = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     SURFACE_FIT = 0

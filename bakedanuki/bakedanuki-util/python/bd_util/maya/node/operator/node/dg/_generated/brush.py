@@ -45,7 +45,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BrushTypeEnumPlugOperator(EnumPlugOperator):
+class BrushTypeEnumPlugOperator(EnumPlugOperator["BrushTypeEnumAttrOperator"]):
     __slots__ = ()
 
     PAINT = 0
@@ -56,7 +56,7 @@ class BrushTypeEnumPlugOperator(EnumPlugOperator):
     MESH = 5
 
 
-class BrushTypeEnumAttrOperator(EnumAttrOperator):
+class BrushTypeEnumAttrOperator(EnumAttrOperator[BrushTypeEnumPlugOperator]):
     __slots__ = ()
 
     PAINT = 0
@@ -85,7 +85,7 @@ class BrushTypeEnumField(
     PLUG_CLS = BrushTypeEnumPlugOperator
 
 
-class FakeShadowEnumPlugOperator(EnumPlugOperator):
+class FakeShadowEnumPlugOperator(EnumPlugOperator["FakeShadowEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -93,7 +93,7 @@ class FakeShadowEnumPlugOperator(EnumPlugOperator):
     _3D_CAST = 2
 
 
-class FakeShadowEnumAttrOperator(EnumAttrOperator):
+class FakeShadowEnumAttrOperator(EnumAttrOperator[FakeShadowEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -116,14 +116,14 @@ class FakeShadowEnumField(
     PLUG_CLS = FakeShadowEnumPlugOperator
 
 
-class DepthShadowTypeEnumPlugOperator(EnumPlugOperator):
+class DepthShadowTypeEnumPlugOperator(EnumPlugOperator["DepthShadowTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SURFACEDEPTH = 0
     PATHDIST = 1
 
 
-class DepthShadowTypeEnumAttrOperator(EnumAttrOperator):
+class DepthShadowTypeEnumAttrOperator(EnumAttrOperator[DepthShadowTypeEnumPlugOperator]):
     __slots__ = ()
 
     SURFACEDEPTH = 0
@@ -144,14 +144,14 @@ class DepthShadowTypeEnumField(
     PLUG_CLS = DepthShadowTypeEnumPlugOperator
 
 
-class TubeDirectionEnumPlugOperator(EnumPlugOperator):
+class TubeDirectionEnumPlugOperator(EnumPlugOperator["TubeDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     ALONG_NORMAL = 0
     ALONG_PATH = 1
 
 
-class TubeDirectionEnumAttrOperator(EnumAttrOperator):
+class TubeDirectionEnumAttrOperator(EnumAttrOperator[TubeDirectionEnumPlugOperator]):
     __slots__ = ()
 
     ALONG_NORMAL = 0
@@ -172,7 +172,7 @@ class TubeDirectionEnumField(
     PLUG_CLS = TubeDirectionEnumPlugOperator
 
 
-class TurbulenceTypeEnumPlugOperator(EnumPlugOperator):
+class TurbulenceTypeEnumPlugOperator(EnumPlugOperator["TurbulenceTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -184,7 +184,7 @@ class TurbulenceTypeEnumPlugOperator(EnumPlugOperator):
     TREE_WIND = 6
 
 
-class TurbulenceTypeEnumAttrOperator(EnumAttrOperator):
+class TurbulenceTypeEnumAttrOperator(EnumAttrOperator[TurbulenceTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -215,7 +215,7 @@ class TurbulenceTypeEnumField(
     PLUG_CLS = TurbulenceTypeEnumPlugOperator
 
 
-class TurbulenceInterpolationEnumPlugOperator(EnumPlugOperator):
+class TurbulenceInterpolationEnumPlugOperator(EnumPlugOperator["TurbulenceInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -223,7 +223,7 @@ class TurbulenceInterpolationEnumPlugOperator(EnumPlugOperator):
     SMOOTH_OVER_TIME_AND_SPACE = 2
 
 
-class TurbulenceInterpolationEnumAttrOperator(EnumAttrOperator):
+class TurbulenceInterpolationEnumAttrOperator(EnumAttrOperator[TurbulenceInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -246,7 +246,7 @@ class TurbulenceInterpolationEnumField(
     PLUG_CLS = TurbulenceInterpolationEnumPlugOperator
 
 
-class CollideMethodEnumPlugOperator(EnumPlugOperator):
+class CollideMethodEnumPlugOperator(EnumPlugOperator["CollideMethodEnumAttrOperator"]):
     __slots__ = ()
 
     OUTSIDE = 0
@@ -254,7 +254,7 @@ class CollideMethodEnumPlugOperator(EnumPlugOperator):
     BOTH_SIDES = 2
 
 
-class CollideMethodEnumAttrOperator(EnumAttrOperator):
+class CollideMethodEnumAttrOperator(EnumAttrOperator[CollideMethodEnumPlugOperator]):
     __slots__ = ()
 
     OUTSIDE = 0
@@ -277,7 +277,7 @@ class CollideMethodEnumField(
     PLUG_CLS = CollideMethodEnumPlugOperator
 
 
-class LeafLocationEnumPlugOperator(EnumPlugOperator):
+class LeafLocationEnumPlugOperator(EnumPlugOperator["LeafLocationEnumAttrOperator"]):
     __slots__ = ()
 
     ON_ALL = 0
@@ -285,7 +285,7 @@ class LeafLocationEnumPlugOperator(EnumPlugOperator):
     ON_TWIGS_ONLY = 2
 
 
-class LeafLocationEnumAttrOperator(EnumAttrOperator):
+class LeafLocationEnumAttrOperator(EnumAttrOperator[LeafLocationEnumPlugOperator]):
     __slots__ = ()
 
     ON_ALL = 0
@@ -308,7 +308,7 @@ class LeafLocationEnumField(
     PLUG_CLS = LeafLocationEnumPlugOperator
 
 
-class FlowerLocationEnumPlugOperator(EnumPlugOperator):
+class FlowerLocationEnumPlugOperator(EnumPlugOperator["FlowerLocationEnumAttrOperator"]):
     __slots__ = ()
 
     ON_ALL = 0
@@ -316,7 +316,7 @@ class FlowerLocationEnumPlugOperator(EnumPlugOperator):
     ON_TWIGS_ONLY = 2
 
 
-class FlowerLocationEnumAttrOperator(EnumAttrOperator):
+class FlowerLocationEnumAttrOperator(EnumAttrOperator[FlowerLocationEnumPlugOperator]):
     __slots__ = ()
 
     ON_ALL = 0
@@ -339,7 +339,7 @@ class FlowerLocationEnumField(
     PLUG_CLS = FlowerLocationEnumPlugOperator
 
 
-class SimplifyMethodEnumPlugOperator(EnumPlugOperator):
+class SimplifyMethodEnumPlugOperator(EnumPlugOperator["SimplifyMethodEnumAttrOperator"]):
     __slots__ = ()
 
     TUBES_PER_STEP = 0
@@ -347,7 +347,7 @@ class SimplifyMethodEnumPlugOperator(EnumPlugOperator):
     TUBES_AND_SEGMENTS = 2
 
 
-class SimplifyMethodEnumAttrOperator(EnumAttrOperator):
+class SimplifyMethodEnumAttrOperator(EnumAttrOperator[SimplifyMethodEnumPlugOperator]):
     __slots__ = ()
 
     TUBES_PER_STEP = 0
@@ -370,14 +370,14 @@ class SimplifyMethodEnumField(
     PLUG_CLS = SimplifyMethodEnumPlugOperator
 
 
-class ColorLengthMapEnumPlugOperator(EnumPlugOperator):
+class ColorLengthMapEnumPlugOperator(EnumPlugOperator["ColorLengthMapEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
     MAXLENGTH = 1
 
 
-class ColorLengthMapEnumAttrOperator(EnumAttrOperator):
+class ColorLengthMapEnumAttrOperator(EnumAttrOperator[ColorLengthMapEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -398,14 +398,14 @@ class ColorLengthMapEnumField(
     PLUG_CLS = ColorLengthMapEnumPlugOperator
 
 
-class TranspLengthMapEnumPlugOperator(EnumPlugOperator):
+class TranspLengthMapEnumPlugOperator(EnumPlugOperator["TranspLengthMapEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
     MAXLENGTH = 1
 
 
-class TranspLengthMapEnumAttrOperator(EnumAttrOperator):
+class TranspLengthMapEnumAttrOperator(EnumAttrOperator[TranspLengthMapEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -426,14 +426,14 @@ class TranspLengthMapEnumField(
     PLUG_CLS = TranspLengthMapEnumPlugOperator
 
 
-class IncandLengthMapEnumPlugOperator(EnumPlugOperator):
+class IncandLengthMapEnumPlugOperator(EnumPlugOperator["IncandLengthMapEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
     MAXLENGTH = 1
 
 
-class IncandLengthMapEnumAttrOperator(EnumAttrOperator):
+class IncandLengthMapEnumAttrOperator(EnumAttrOperator[IncandLengthMapEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -454,14 +454,14 @@ class IncandLengthMapEnumField(
     PLUG_CLS = IncandLengthMapEnumPlugOperator
 
 
-class WidthLengthMapEnumPlugOperator(EnumPlugOperator):
+class WidthLengthMapEnumPlugOperator(EnumPlugOperator["WidthLengthMapEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
     MAXLENGTH = 1
 
 
-class WidthLengthMapEnumAttrOperator(EnumAttrOperator):
+class WidthLengthMapEnumAttrOperator(EnumAttrOperator[WidthLengthMapEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -482,14 +482,14 @@ class WidthLengthMapEnumField(
     PLUG_CLS = WidthLengthMapEnumPlugOperator
 
 
-class SplitLengthMapEnumPlugOperator(EnumPlugOperator):
+class SplitLengthMapEnumPlugOperator(EnumPlugOperator["SplitLengthMapEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
     MAXLENGTH = 1
 
 
-class SplitLengthMapEnumAttrOperator(EnumAttrOperator):
+class SplitLengthMapEnumAttrOperator(EnumAttrOperator[SplitLengthMapEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -510,7 +510,7 @@ class SplitLengthMapEnumField(
     PLUG_CLS = SplitLengthMapEnumPlugOperator
 
 
-class TextureTypeEnumPlugOperator(EnumPlugOperator):
+class TextureTypeEnumPlugOperator(EnumPlugOperator["TextureTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CHECKER = 0
@@ -520,7 +520,7 @@ class TextureTypeEnumPlugOperator(EnumPlugOperator):
     FILE = 4
 
 
-class TextureTypeEnumAttrOperator(EnumAttrOperator):
+class TextureTypeEnumAttrOperator(EnumAttrOperator[TextureTypeEnumPlugOperator]):
     __slots__ = ()
 
     CHECKER = 0
@@ -547,7 +547,7 @@ class TextureTypeEnumField(
     PLUG_CLS = TextureTypeEnumPlugOperator
 
 
-class MapMethodEnumPlugOperator(EnumPlugOperator):
+class MapMethodEnumPlugOperator(EnumPlugOperator["MapMethodEnumAttrOperator"]):
     __slots__ = ()
 
     FULL_VIEW = 0
@@ -556,7 +556,7 @@ class MapMethodEnumPlugOperator(EnumPlugOperator):
     TUBE_3D = 3
 
 
-class MapMethodEnumAttrOperator(EnumAttrOperator):
+class MapMethodEnumAttrOperator(EnumAttrOperator[MapMethodEnumPlugOperator]):
     __slots__ = ()
 
     FULL_VIEW = 0

@@ -14,7 +14,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     PIN = 0
@@ -22,7 +22,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     REMOVE_ALL = 2
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     PIN = 0

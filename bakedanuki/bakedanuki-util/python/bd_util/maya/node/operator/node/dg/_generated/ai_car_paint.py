@@ -26,7 +26,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FlakeCoordSpaceEnumPlugOperator(EnumPlugOperator):
+class FlakeCoordSpaceEnumPlugOperator(EnumPlugOperator["FlakeCoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -35,7 +35,7 @@ class FlakeCoordSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 3
 
 
-class FlakeCoordSpaceEnumAttrOperator(EnumAttrOperator):
+class FlakeCoordSpaceEnumAttrOperator(EnumAttrOperator[FlakeCoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

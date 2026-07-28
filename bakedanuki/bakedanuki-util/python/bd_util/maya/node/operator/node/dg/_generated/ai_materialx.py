@@ -10,14 +10,14 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AssignTypeEnumPlugOperator(EnumPlugOperator):
+class AssignTypeEnumPlugOperator(EnumPlugOperator["AssignTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LOOK = 0
     MATERIAL = 1
 
 
-class AssignTypeEnumAttrOperator(EnumAttrOperator):
+class AssignTypeEnumAttrOperator(EnumAttrOperator[AssignTypeEnumPlugOperator]):
     __slots__ = ()
 
     LOOK = 0

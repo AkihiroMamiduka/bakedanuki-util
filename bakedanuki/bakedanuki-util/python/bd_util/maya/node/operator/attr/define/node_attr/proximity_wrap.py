@@ -24,7 +24,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class DriverWrapModeEnumPlugOperator(EnumPlugOperator):
+class DriverWrapModeEnumPlugOperator(EnumPlugOperator["DriverWrapModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFFSET = 0
@@ -35,7 +35,7 @@ class DriverWrapModeEnumPlugOperator(EnumPlugOperator):
     GLOBAL = 100
 
 
-class DriverWrapModeEnumAttrOperator(EnumAttrOperator):
+class DriverWrapModeEnumAttrOperator(EnumAttrOperator[DriverWrapModeEnumPlugOperator]):
     __slots__ = ()
 
     OFFSET = 0
@@ -64,7 +64,7 @@ class DriverWrapModeEnumField(
     PLUG_CLS = DriverWrapModeEnumPlugOperator
 
 
-class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator["FalloffRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -73,7 +73,7 @@ class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class FalloffRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class FalloffRamp_InterpEnumAttrOperator(EnumAttrOperator[FalloffRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

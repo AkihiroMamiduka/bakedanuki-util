@@ -21,7 +21,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ColorModeEnumPlugOperator(EnumPlugOperator):
+class ColorModeEnumPlugOperator(EnumPlugOperator["ColorModeEnumAttrOperator"]):
     __slots__ = ()
 
     WAVEHEIGHT = 0
@@ -29,7 +29,7 @@ class ColorModeEnumPlugOperator(EnumPlugOperator):
     FOAMONWAVES = 2
 
 
-class ColorModeEnumAttrOperator(EnumAttrOperator):
+class ColorModeEnumAttrOperator(EnumAttrOperator[ColorModeEnumPlugOperator]):
     __slots__ = ()
 
     WAVEHEIGHT = 0

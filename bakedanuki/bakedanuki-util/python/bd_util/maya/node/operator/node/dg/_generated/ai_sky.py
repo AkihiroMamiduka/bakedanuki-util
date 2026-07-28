@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.numeric.range.byte import ByteField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FormatEnumPlugOperator(EnumPlugOperator):
+class FormatEnumPlugOperator(EnumPlugOperator["FormatEnumAttrOperator"]):
     __slots__ = ()
 
     MIRRORED_BALL = 0
@@ -26,7 +26,7 @@ class FormatEnumPlugOperator(EnumPlugOperator):
     LATLONG = 2
 
 
-class FormatEnumAttrOperator(EnumAttrOperator):
+class FormatEnumAttrOperator(EnumAttrOperator[FormatEnumPlugOperator]):
     __slots__ = ()
 
     MIRRORED_BALL = 0

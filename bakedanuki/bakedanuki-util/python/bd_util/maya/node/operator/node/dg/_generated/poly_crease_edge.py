@@ -13,7 +13,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     CREASE = 0
@@ -21,7 +21,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     REMOVE_ALL = 2
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     CREASE = 0

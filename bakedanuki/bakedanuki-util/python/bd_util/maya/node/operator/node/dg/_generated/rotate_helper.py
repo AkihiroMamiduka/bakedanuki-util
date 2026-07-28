@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -24,7 +24,7 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

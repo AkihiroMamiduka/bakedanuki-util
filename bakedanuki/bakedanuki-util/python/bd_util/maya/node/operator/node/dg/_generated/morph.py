@@ -18,14 +18,14 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class MorphSpaceEnumPlugOperator(EnumPlugOperator):
+class MorphSpaceEnumPlugOperator(EnumPlugOperator["MorphSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     OBJECT_SPACE = 0
     WORLD_SPACE = 1
 
 
-class MorphSpaceEnumAttrOperator(EnumAttrOperator):
+class MorphSpaceEnumAttrOperator(EnumAttrOperator[MorphSpaceEnumPlugOperator]):
     __slots__ = ()
 
     OBJECT_SPACE = 0
@@ -46,7 +46,7 @@ class MorphSpaceEnumField(
     PLUG_CLS = MorphSpaceEnumPlugOperator
 
 
-class MorphModeEnumPlugOperator(EnumPlugOperator):
+class MorphModeEnumPlugOperator(EnumPlugOperator["MorphModeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -56,7 +56,7 @@ class MorphModeEnumPlugOperator(EnumPlugOperator):
     MIRROR = 4
 
 
-class MorphModeEnumAttrOperator(EnumAttrOperator):
+class MorphModeEnumAttrOperator(EnumAttrOperator[MorphModeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -83,7 +83,7 @@ class MorphModeEnumField(
     PLUG_CLS = MorphModeEnumPlugOperator
 
 
-class MirrorDirectionEnumPlugOperator(EnumPlugOperator):
+class MirrorDirectionEnumPlugOperator(EnumPlugOperator["MirrorDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS_X = 0
@@ -97,7 +97,7 @@ class MirrorDirectionEnumPlugOperator(EnumPlugOperator):
     FLIP_Z = 8
 
 
-class MirrorDirectionEnumAttrOperator(EnumAttrOperator):
+class MirrorDirectionEnumAttrOperator(EnumAttrOperator[MirrorDirectionEnumPlugOperator]):
     __slots__ = ()
 
     PLUS_X = 0

@@ -13,14 +13,14 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class UnitsEnumPlugOperator(EnumPlugOperator):
+class UnitsEnumPlugOperator(EnumPlugOperator["UnitsEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
     DEGREES = 1
 
 
-class UnitsEnumAttrOperator(EnumAttrOperator):
+class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0

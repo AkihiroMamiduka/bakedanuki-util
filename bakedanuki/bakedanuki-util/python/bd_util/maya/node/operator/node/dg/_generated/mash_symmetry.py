@@ -25,7 +25,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +34,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +59,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class AxisOfSymmetryEnumPlugOperator(EnumPlugOperator):
+class AxisOfSymmetryEnumPlugOperator(EnumPlugOperator["AxisOfSymmetryEnumAttrOperator"]):
     __slots__ = ()
 
     X = 1
@@ -95,7 +95,7 @@ class AxisOfSymmetryEnumPlugOperator(EnumPlugOperator):
     Z = 5
 
 
-class AxisOfSymmetryEnumAttrOperator(EnumAttrOperator):
+class AxisOfSymmetryEnumAttrOperator(EnumAttrOperator[AxisOfSymmetryEnumPlugOperator]):
     __slots__ = ()
 
     X = 1
@@ -118,7 +118,7 @@ class AxisOfSymmetryEnumField(
     PLUG_CLS = AxisOfSymmetryEnumPlugOperator
 
 
-class PlacementModeEnumPlugOperator(EnumPlugOperator):
+class PlacementModeEnumPlugOperator(EnumPlugOperator["PlacementModeEnumAttrOperator"]):
     __slots__ = ()
 
     MIRROR_PLANE = 1
@@ -126,7 +126,7 @@ class PlacementModeEnumPlugOperator(EnumPlugOperator):
     BOUNDING_BOX_MINUS = 3
 
 
-class PlacementModeEnumAttrOperator(EnumAttrOperator):
+class PlacementModeEnumAttrOperator(EnumAttrOperator[PlacementModeEnumPlugOperator]):
     __slots__ = ()
 
     MIRROR_PLANE = 1

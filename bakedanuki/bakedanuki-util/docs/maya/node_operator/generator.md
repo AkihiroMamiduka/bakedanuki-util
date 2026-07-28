@@ -298,14 +298,25 @@ generate_node_class_file(
 enum attribute は専用の `EnumPlugOperator` / `EnumAttrOperator` / `EnumField` を node class 内に生成します。
 
 ```python
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(
+    EnumPlugOperator["OperationEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_OPERATION = 0
     SUM = 1
     SUBTRACT = 2
     AVERAGE = 3
+
+
+class OperationEnumAttrOperator(
+    EnumAttrOperator[OperationEnumPlugOperator]
+):
+    ...
 ```
+
+Plug / Attr の具象 class は互いを generic 型引数として指定します。
+先に定義する Plug 側では、後続の Attr class を文字列による前方参照にします。
 
 Maya の enum label に explicit value が含まれる場合は、それを反映します。
 

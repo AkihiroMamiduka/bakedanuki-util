@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class GlowTypeEnumPlugOperator(EnumPlugOperator):
+class GlowTypeEnumPlugOperator(EnumPlugOperator["GlowTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -31,7 +31,7 @@ class GlowTypeEnumPlugOperator(EnumPlugOperator):
     RIM_HALO = 5
 
 
-class GlowTypeEnumAttrOperator(EnumAttrOperator):
+class GlowTypeEnumAttrOperator(EnumAttrOperator[GlowTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -60,7 +60,7 @@ class GlowTypeEnumField(
     PLUG_CLS = GlowTypeEnumPlugOperator
 
 
-class HaloTypeEnumPlugOperator(EnumPlugOperator):
+class HaloTypeEnumPlugOperator(EnumPlugOperator["HaloTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -71,7 +71,7 @@ class HaloTypeEnumPlugOperator(EnumPlugOperator):
     RIM_HALO = 5
 
 
-class HaloTypeEnumAttrOperator(EnumAttrOperator):
+class HaloTypeEnumAttrOperator(EnumAttrOperator[HaloTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

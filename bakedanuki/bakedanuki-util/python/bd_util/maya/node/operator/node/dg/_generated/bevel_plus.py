@@ -15,14 +15,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class PolyOutMethodEnumPlugOperator(EnumPlugOperator):
+class PolyOutMethodEnumPlugOperator(EnumPlugOperator["PolyOutMethodEnumAttrOperator"]):
     __slots__ = ()
 
     COUNT = 0
     SAMPLING = 2
 
 
-class PolyOutMethodEnumAttrOperator(EnumAttrOperator):
+class PolyOutMethodEnumAttrOperator(EnumAttrOperator[PolyOutMethodEnumPlugOperator]):
     __slots__ = ()
 
     COUNT = 0
@@ -43,14 +43,14 @@ class PolyOutMethodEnumField(
     PLUG_CLS = PolyOutMethodEnumPlugOperator
 
 
-class PolyOutExtrusionTypeEnumPlugOperator(EnumPlugOperator):
+class PolyOutExtrusionTypeEnumPlugOperator(EnumPlugOperator["PolyOutExtrusionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     COMPLETE_EXTRUSION = 2
     EXTRUSION_SECTION = 3
 
 
-class PolyOutExtrusionTypeEnumAttrOperator(EnumAttrOperator):
+class PolyOutExtrusionTypeEnumAttrOperator(EnumAttrOperator[PolyOutExtrusionTypeEnumPlugOperator]):
     __slots__ = ()
 
     COMPLETE_EXTRUSION = 2
@@ -71,14 +71,14 @@ class PolyOutExtrusionTypeEnumField(
     PLUG_CLS = PolyOutExtrusionTypeEnumPlugOperator
 
 
-class PolyOutCurveTypeEnumPlugOperator(EnumPlugOperator):
+class PolyOutCurveTypeEnumPlugOperator(EnumPlugOperator["PolyOutCurveTypeEnumAttrOperator"]):
     __slots__ = ()
 
     COMPLETE_CURVE = 2
     CURVE_SPAN = 3
 
 
-class PolyOutCurveTypeEnumAttrOperator(EnumAttrOperator):
+class PolyOutCurveTypeEnumAttrOperator(EnumAttrOperator[PolyOutCurveTypeEnumPlugOperator]):
     __slots__ = ()
 
     COMPLETE_CURVE = 2

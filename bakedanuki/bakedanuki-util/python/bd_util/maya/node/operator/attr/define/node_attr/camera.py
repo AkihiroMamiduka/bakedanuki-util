@@ -49,7 +49,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator):
+class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -57,7 +57,7 @@ class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator):
     REFERENCE = 2
 
 
-class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator):
+class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -80,14 +80,14 @@ class OverrideDisplayTypeEnumField(
     PLUG_CLS = OverrideDisplayTypeEnumPlugOperator
 
 
-class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator):
+class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator):
+class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0

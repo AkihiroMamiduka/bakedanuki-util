@@ -23,7 +23,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +32,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +57,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -85,7 +85,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class MergeTypeEnumPlugOperator(EnumPlugOperator):
+class MergeTypeEnumPlugOperator(EnumPlugOperator["MergeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CROSSFADE = 1
@@ -93,7 +93,7 @@ class MergeTypeEnumPlugOperator(EnumPlugOperator):
     SUBTRACT = 3
 
 
-class MergeTypeEnumAttrOperator(EnumAttrOperator):
+class MergeTypeEnumAttrOperator(EnumAttrOperator[MergeTypeEnumPlugOperator]):
     __slots__ = ()
 
     CROSSFADE = 1
@@ -116,14 +116,14 @@ class MergeTypeEnumField(
     PLUG_CLS = MergeTypeEnumPlugOperator
 
 
-class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
+class RotationInterpolationEnumPlugOperator(EnumPlugOperator["RotationInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     MATRIX_LERP = 1
     QUATERNION_SLERP = 2
 
 
-class RotationInterpolationEnumAttrOperator(EnumAttrOperator):
+class RotationInterpolationEnumAttrOperator(EnumAttrOperator[RotationInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     MATRIX_LERP = 1

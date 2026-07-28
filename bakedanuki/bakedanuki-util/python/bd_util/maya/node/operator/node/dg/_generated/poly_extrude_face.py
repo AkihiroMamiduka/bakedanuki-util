@@ -31,7 +31,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class LocalCenterEnumPlugOperator(EnumPlugOperator):
+class LocalCenterEnumPlugOperator(EnumPlugOperator["LocalCenterEnumAttrOperator"]):
     __slots__ = ()
 
     MIDDLE = 0
@@ -39,7 +39,7 @@ class LocalCenterEnumPlugOperator(EnumPlugOperator):
     END = 2
 
 
-class LocalCenterEnumAttrOperator(EnumAttrOperator):
+class LocalCenterEnumAttrOperator(EnumAttrOperator[LocalCenterEnumPlugOperator]):
     __slots__ = ()
 
     MIDDLE = 0

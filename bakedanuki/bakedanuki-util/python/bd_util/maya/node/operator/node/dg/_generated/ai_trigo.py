@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FunctionEnumPlugOperator(EnumPlugOperator):
+class FunctionEnumPlugOperator(EnumPlugOperator["FunctionEnumAttrOperator"]):
     __slots__ = ()
 
     COS = 0
@@ -27,7 +27,7 @@ class FunctionEnumPlugOperator(EnumPlugOperator):
     TANH = 8
 
 
-class FunctionEnumAttrOperator(EnumAttrOperator):
+class FunctionEnumAttrOperator(EnumAttrOperator[FunctionEnumPlugOperator]):
     __slots__ = ()
 
     COS = 0
@@ -62,14 +62,14 @@ class FunctionEnumField(
     PLUG_CLS = FunctionEnumPlugOperator
 
 
-class UnitsEnumPlugOperator(EnumPlugOperator):
+class UnitsEnumPlugOperator(EnumPlugOperator["UnitsEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
     DEGREES = 1
 
 
-class UnitsEnumAttrOperator(EnumAttrOperator):
+class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0

@@ -8,7 +8,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class VariableEnumPlugOperator(EnumPlugOperator):
+class VariableEnumPlugOperator(EnumPlugOperator["VariableEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -31,7 +31,7 @@ class VariableEnumPlugOperator(EnumPlugOperator):
     SC = 17
 
 
-class VariableEnumAttrOperator(EnumAttrOperator):
+class VariableEnumAttrOperator(EnumAttrOperator[VariableEnumPlugOperator]):
     __slots__ = ()
 
     X = 0

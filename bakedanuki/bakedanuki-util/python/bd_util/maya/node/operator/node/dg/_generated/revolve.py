@@ -21,14 +21,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
     CUBIC = 3
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -49,7 +49,7 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class ComputePivotAndAxisEnumPlugOperator(EnumPlugOperator):
+class ComputePivotAndAxisEnumPlugOperator(EnumPlugOperator["ComputePivotAndAxisEnumAttrOperator"]):
     __slots__ = ()
 
     SUPPLIED = 0
@@ -57,7 +57,7 @@ class ComputePivotAndAxisEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class ComputePivotAndAxisEnumAttrOperator(EnumAttrOperator):
+class ComputePivotAndAxisEnumAttrOperator(EnumAttrOperator[ComputePivotAndAxisEnumPlugOperator]):
     __slots__ = ()
 
     SUPPLIED = 0
@@ -80,7 +80,7 @@ class ComputePivotAndAxisEnumField(
     PLUG_CLS = ComputePivotAndAxisEnumPlugOperator
 
 
-class AxisChoiceEnumPlugOperator(EnumPlugOperator):
+class AxisChoiceEnumPlugOperator(EnumPlugOperator["AxisChoiceEnumAttrOperator"]):
     __slots__ = ()
 
     LONGER = 0
@@ -88,7 +88,7 @@ class AxisChoiceEnumPlugOperator(EnumPlugOperator):
     SECOND = 2
 
 
-class AxisChoiceEnumAttrOperator(EnumAttrOperator):
+class AxisChoiceEnumAttrOperator(EnumAttrOperator[AxisChoiceEnumPlugOperator]):
     __slots__ = ()
 
     LONGER = 0
@@ -111,7 +111,7 @@ class AxisChoiceEnumField(
     PLUG_CLS = AxisChoiceEnumPlugOperator
 
 
-class CompAxisChoiceEnumPlugOperator(EnumPlugOperator):
+class CompAxisChoiceEnumPlugOperator(EnumPlugOperator["CompAxisChoiceEnumAttrOperator"]):
     __slots__ = ()
 
     LONGER = 0
@@ -119,7 +119,7 @@ class CompAxisChoiceEnumPlugOperator(EnumPlugOperator):
     SECOND = 2
 
 
-class CompAxisChoiceEnumAttrOperator(EnumAttrOperator):
+class CompAxisChoiceEnumAttrOperator(EnumAttrOperator[CompAxisChoiceEnumPlugOperator]):
     __slots__ = ()
 
     LONGER = 0

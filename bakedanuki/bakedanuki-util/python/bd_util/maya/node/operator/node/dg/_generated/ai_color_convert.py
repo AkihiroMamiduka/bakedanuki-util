@@ -12,14 +12,14 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class From_EnumPlugOperator(EnumPlugOperator):
+class From_EnumPlugOperator(EnumPlugOperator["From_EnumAttrOperator"]):
     __slots__ = ()
 
     RGB = 0
     HSV = 1
 
 
-class From_EnumAttrOperator(EnumAttrOperator):
+class From_EnumAttrOperator(EnumAttrOperator[From_EnumPlugOperator]):
     __slots__ = ()
 
     RGB = 0
@@ -40,14 +40,14 @@ class From_EnumField(
     PLUG_CLS = From_EnumPlugOperator
 
 
-class ToEnumPlugOperator(EnumPlugOperator):
+class ToEnumPlugOperator(EnumPlugOperator["ToEnumAttrOperator"]):
     __slots__ = ()
 
     RGB = 0
     HSV = 1
 
 
-class ToEnumAttrOperator(EnumAttrOperator):
+class ToEnumAttrOperator(EnumAttrOperator[ToEnumPlugOperator]):
     __slots__ = ()
 
     RGB = 0

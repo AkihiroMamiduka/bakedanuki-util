@@ -17,14 +17,14 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class CompositingFlagEnumPlugOperator(EnumPlugOperator):
+class CompositingFlagEnumPlugOperator(EnumPlugOperator["CompositingFlagEnumAttrOperator"]):
     __slots__ = ()
 
     LAYER_SHADERS = 0
     LAYER_TEXTURE = 1
 
 
-class CompositingFlagEnumAttrOperator(EnumAttrOperator):
+class CompositingFlagEnumAttrOperator(EnumAttrOperator[CompositingFlagEnumPlugOperator]):
     __slots__ = ()
 
     LAYER_SHADERS = 0
@@ -45,7 +45,7 @@ class CompositingFlagEnumField(
     PLUG_CLS = CompositingFlagEnumPlugOperator
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -54,7 +54,7 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -79,7 +79,7 @@ class RenderPassModeEnumField(
     PLUG_CLS = RenderPassModeEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -87,7 +87,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0

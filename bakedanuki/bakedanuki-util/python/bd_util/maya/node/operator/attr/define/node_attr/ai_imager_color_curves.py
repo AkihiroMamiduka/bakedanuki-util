@@ -13,7 +13,7 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class RampRGB_InterpEnumPlugOperator(EnumPlugOperator):
+class RampRGB_InterpEnumPlugOperator(EnumPlugOperator["RampRGB_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +22,7 @@ class RampRGB_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampRGB_InterpEnumAttrOperator(EnumAttrOperator):
+class RampRGB_InterpEnumAttrOperator(EnumAttrOperator[RampRGB_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -47,7 +47,7 @@ class RampRGB_InterpEnumField(
     PLUG_CLS = RampRGB_InterpEnumPlugOperator
 
 
-class RampR_InterpEnumPlugOperator(EnumPlugOperator):
+class RampR_InterpEnumPlugOperator(EnumPlugOperator["RampR_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -56,7 +56,7 @@ class RampR_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampR_InterpEnumAttrOperator(EnumAttrOperator):
+class RampR_InterpEnumAttrOperator(EnumAttrOperator[RampR_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -81,7 +81,7 @@ class RampR_InterpEnumField(
     PLUG_CLS = RampR_InterpEnumPlugOperator
 
 
-class RampG_InterpEnumPlugOperator(EnumPlugOperator):
+class RampG_InterpEnumPlugOperator(EnumPlugOperator["RampG_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +90,7 @@ class RampG_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampG_InterpEnumAttrOperator(EnumAttrOperator):
+class RampG_InterpEnumAttrOperator(EnumAttrOperator[RampG_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -115,7 +115,7 @@ class RampG_InterpEnumField(
     PLUG_CLS = RampG_InterpEnumPlugOperator
 
 
-class RampB_InterpEnumPlugOperator(EnumPlugOperator):
+class RampB_InterpEnumPlugOperator(EnumPlugOperator["RampB_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -124,7 +124,7 @@ class RampB_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RampB_InterpEnumAttrOperator(EnumAttrOperator):
+class RampB_InterpEnumAttrOperator(EnumAttrOperator[RampB_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

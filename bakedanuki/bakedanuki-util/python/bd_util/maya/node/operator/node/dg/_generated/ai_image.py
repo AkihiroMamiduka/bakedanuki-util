@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FilterEnumPlugOperator(EnumPlugOperator):
+class FilterEnumPlugOperator(EnumPlugOperator["FilterEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -29,7 +29,7 @@ class FilterEnumPlugOperator(EnumPlugOperator):
     SMART_BICUBIC = 3
 
 
-class FilterEnumAttrOperator(EnumAttrOperator):
+class FilterEnumAttrOperator(EnumAttrOperator[FilterEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -54,7 +54,7 @@ class FilterEnumField(
     PLUG_CLS = FilterEnumPlugOperator
 
 
-class SwrapEnumPlugOperator(EnumPlugOperator):
+class SwrapEnumPlugOperator(EnumPlugOperator["SwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -65,7 +65,7 @@ class SwrapEnumPlugOperator(EnumPlugOperator):
     MISSING = 5
 
 
-class SwrapEnumAttrOperator(EnumAttrOperator):
+class SwrapEnumAttrOperator(EnumAttrOperator[SwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -94,7 +94,7 @@ class SwrapEnumField(
     PLUG_CLS = SwrapEnumPlugOperator
 
 
-class TwrapEnumPlugOperator(EnumPlugOperator):
+class TwrapEnumPlugOperator(EnumPlugOperator["TwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -105,7 +105,7 @@ class TwrapEnumPlugOperator(EnumPlugOperator):
     MISSING = 5
 
 
-class TwrapEnumAttrOperator(EnumAttrOperator):
+class TwrapEnumAttrOperator(EnumAttrOperator[TwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0

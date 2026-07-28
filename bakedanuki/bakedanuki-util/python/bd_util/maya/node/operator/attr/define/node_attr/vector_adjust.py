@@ -23,7 +23,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class ManipulatorModeEnumPlugOperator(EnumPlugOperator):
+class ManipulatorModeEnumPlugOperator(EnumPlugOperator["ManipulatorModeEnumAttrOperator"]):
     __slots__ = ()
 
     CHARACTER = 0
@@ -31,7 +31,7 @@ class ManipulatorModeEnumPlugOperator(EnumPlugOperator):
     LINE = 2
 
 
-class ManipulatorModeEnumAttrOperator(EnumAttrOperator):
+class ManipulatorModeEnumAttrOperator(EnumAttrOperator[ManipulatorModeEnumPlugOperator]):
     __slots__ = ()
 
     CHARACTER = 0

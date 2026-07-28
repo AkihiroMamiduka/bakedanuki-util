@@ -12,13 +12,13 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class PolyTypeEnumPlugOperator(EnumPlugOperator):
+class PolyTypeEnumPlugOperator(EnumPlugOperator["PolyTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SOCCER_BALL = 0
 
 
-class PolyTypeEnumAttrOperator(EnumAttrOperator):
+class PolyTypeEnumAttrOperator(EnumAttrOperator[PolyTypeEnumPlugOperator]):
     __slots__ = ()
 
     SOCCER_BALL = 0
@@ -37,7 +37,7 @@ class PolyTypeEnumField(
     PLUG_CLS = PolyTypeEnumPlugOperator
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +45,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -68,7 +68,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -78,7 +78,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO = 4
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

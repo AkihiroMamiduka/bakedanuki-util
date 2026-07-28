@@ -33,7 +33,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -42,7 +42,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -67,14 +67,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -95,7 +95,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class ModelAxisEnumPlugOperator(EnumPlugOperator):
+class ModelAxisEnumPlugOperator(EnumPlugOperator["ModelAxisEnumAttrOperator"]):
     __slots__ = ()
 
     XY = 1
@@ -103,7 +103,7 @@ class ModelAxisEnumPlugOperator(EnumPlugOperator):
     ZX = 3
 
 
-class ModelAxisEnumAttrOperator(EnumAttrOperator):
+class ModelAxisEnumAttrOperator(EnumAttrOperator[ModelAxisEnumPlugOperator]):
     __slots__ = ()
 
     XY = 1
@@ -126,7 +126,7 @@ class ModelAxisEnumField(
     PLUG_CLS = ModelAxisEnumPlugOperator
 
 
-class MeshTypeEnumPlugOperator(EnumPlugOperator):
+class MeshTypeEnumPlugOperator(EnumPlugOperator["MeshTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SCATTER = 1
@@ -141,7 +141,7 @@ class MeshTypeEnumPlugOperator(EnumPlugOperator):
     UV_SPACE = 10
 
 
-class MeshTypeEnumAttrOperator(EnumAttrOperator):
+class MeshTypeEnumAttrOperator(EnumAttrOperator[MeshTypeEnumPlugOperator]):
     __slots__ = ()
 
     SCATTER = 1
@@ -178,7 +178,7 @@ class MeshTypeEnumField(
     PLUG_CLS = MeshTypeEnumPlugOperator
 
 
-class EdgeAlignmentEnumPlugOperator(EnumPlugOperator):
+class EdgeAlignmentEnumPlugOperator(EnumPlugOperator["EdgeAlignmentEnumAttrOperator"]):
     __slots__ = ()
 
     CENTRE = 1
@@ -186,7 +186,7 @@ class EdgeAlignmentEnumPlugOperator(EnumPlugOperator):
     END = 3
 
 
-class EdgeAlignmentEnumAttrOperator(EnumAttrOperator):
+class EdgeAlignmentEnumAttrOperator(EnumAttrOperator[EdgeAlignmentEnumPlugOperator]):
     __slots__ = ()
 
     CENTRE = 1
@@ -209,7 +209,7 @@ class EdgeAlignmentEnumField(
     PLUG_CLS = EdgeAlignmentEnumPlugOperator
 
 
-class VoxelModeEnumPlugOperator(EnumPlugOperator):
+class VoxelModeEnumPlugOperator(EnumPlugOperator["VoxelModeEnumAttrOperator"]):
     __slots__ = ()
 
     SHELL_ONLY = 1
@@ -217,7 +217,7 @@ class VoxelModeEnumPlugOperator(EnumPlugOperator):
     FILL_ONLY = 3
 
 
-class VoxelModeEnumAttrOperator(EnumAttrOperator):
+class VoxelModeEnumAttrOperator(EnumAttrOperator[VoxelModeEnumPlugOperator]):
     __slots__ = ()
 
     SHELL_ONLY = 1
@@ -240,7 +240,7 @@ class VoxelModeEnumField(
     PLUG_CLS = VoxelModeEnumPlugOperator
 
 
-class PfxModeEnumPlugOperator(EnumPlugOperator):
+class PfxModeEnumPlugOperator(EnumPlugOperator["PfxModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
@@ -249,7 +249,7 @@ class PfxModeEnumPlugOperator(EnumPlugOperator):
     LEAF_MODE = 4
 
 
-class PfxModeEnumAttrOperator(EnumAttrOperator):
+class PfxModeEnumAttrOperator(EnumAttrOperator[PfxModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -274,7 +274,7 @@ class PfxModeEnumField(
     PLUG_CLS = PfxModeEnumPlugOperator
 
 
-class VolumeShapeEnumPlugOperator(EnumPlugOperator):
+class VolumeShapeEnumPlugOperator(EnumPlugOperator["VolumeShapeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 1
@@ -282,7 +282,7 @@ class VolumeShapeEnumPlugOperator(EnumPlugOperator):
     SPHERE = 3
 
 
-class VolumeShapeEnumAttrOperator(EnumAttrOperator):
+class VolumeShapeEnumAttrOperator(EnumAttrOperator[VolumeShapeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 1
@@ -305,7 +305,7 @@ class VolumeShapeEnumField(
     PLUG_CLS = VolumeShapeEnumPlugOperator
 
 
-class ArrangementEnumPlugOperator(EnumPlugOperator):
+class ArrangementEnumPlugOperator(EnumPlugOperator["ArrangementEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -319,7 +319,7 @@ class ArrangementEnumPlugOperator(EnumPlugOperator):
     VOLUME = 9
 
 
-class ArrangementEnumAttrOperator(EnumAttrOperator):
+class ArrangementEnumAttrOperator(EnumAttrOperator[ArrangementEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1

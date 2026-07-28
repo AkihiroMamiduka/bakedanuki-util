@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.at.typed import TypedField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 0
@@ -17,7 +17,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     INTERSECT = 2
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 0

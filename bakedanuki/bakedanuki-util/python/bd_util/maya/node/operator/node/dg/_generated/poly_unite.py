@@ -11,7 +11,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
+class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"]):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -19,7 +19,7 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator):
+class MergeUVSetsEnumAttrOperator(EnumAttrOperator[MergeUVSetsEnumPlugOperator]):
     __slots__ = ()
 
     NO_MERGE = 0

@@ -12,7 +12,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class SolidTypeEnumPlugOperator(EnumPlugOperator):
+class SolidTypeEnumPlugOperator(EnumPlugOperator["SolidTypeEnumAttrOperator"]):
     __slots__ = ()
 
     DODECAHEDRON = 0
@@ -21,7 +21,7 @@ class SolidTypeEnumPlugOperator(EnumPlugOperator):
     TETRAHEDRON = 3
 
 
-class SolidTypeEnumAttrOperator(EnumAttrOperator):
+class SolidTypeEnumAttrOperator(EnumAttrOperator[SolidTypeEnumPlugOperator]):
     __slots__ = ()
 
     DODECAHEDRON = 0
@@ -46,7 +46,7 @@ class SolidTypeEnumField(
     PLUG_CLS = SolidTypeEnumPlugOperator
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -54,7 +54,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -77,7 +77,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -87,7 +87,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO = 4
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

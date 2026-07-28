@@ -16,7 +16,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ValignEnumPlugOperator(EnumPlugOperator):
+class ValignEnumPlugOperator(EnumPlugOperator["ValignEnumAttrOperator"]):
     __slots__ = ()
 
     TOP = 0
@@ -24,7 +24,7 @@ class ValignEnumPlugOperator(EnumPlugOperator):
     BOTTOM = 2
 
 
-class ValignEnumAttrOperator(EnumAttrOperator):
+class ValignEnumAttrOperator(EnumAttrOperator[ValignEnumPlugOperator]):
     __slots__ = ()
 
     TOP = 0
@@ -47,7 +47,7 @@ class ValignEnumField(
     PLUG_CLS = ValignEnumPlugOperator
 
 
-class HalignEnumPlugOperator(EnumPlugOperator):
+class HalignEnumPlugOperator(EnumPlugOperator["HalignEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 0
@@ -55,7 +55,7 @@ class HalignEnumPlugOperator(EnumPlugOperator):
     RIGHT = 2
 
 
-class HalignEnumAttrOperator(EnumAttrOperator):
+class HalignEnumAttrOperator(EnumAttrOperator[HalignEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 0

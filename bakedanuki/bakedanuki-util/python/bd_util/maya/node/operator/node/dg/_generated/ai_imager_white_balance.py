@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     ILLUMINANT = 0
@@ -20,7 +20,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     ILLUMINANT = 0
@@ -43,7 +43,7 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class IlluminantEnumPlugOperator(EnumPlugOperator):
+class IlluminantEnumPlugOperator(EnumPlugOperator["IlluminantEnumAttrOperator"]):
     __slots__ = ()
 
     DAYLIGHT = 0
@@ -84,7 +84,7 @@ class IlluminantEnumPlugOperator(EnumPlugOperator):
     LOW_PRESS_SODIUM = 35
 
 
-class IlluminantEnumAttrOperator(EnumAttrOperator):
+class IlluminantEnumAttrOperator(EnumAttrOperator[IlluminantEnumPlugOperator]):
     __slots__ = ()
 
     DAYLIGHT = 0

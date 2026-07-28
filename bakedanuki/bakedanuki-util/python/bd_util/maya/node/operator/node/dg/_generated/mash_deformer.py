@@ -25,7 +25,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +34,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -59,7 +59,7 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class ComponentTypeEnumPlugOperator(EnumPlugOperator):
+class ComponentTypeEnumPlugOperator(EnumPlugOperator["ComponentTypeEnumAttrOperator"]):
     __slots__ = ()
 
     VERTEX = 1
@@ -67,7 +67,7 @@ class ComponentTypeEnumPlugOperator(EnumPlugOperator):
     VERTEX_NORMAL = 3
 
 
-class ComponentTypeEnumAttrOperator(EnumAttrOperator):
+class ComponentTypeEnumAttrOperator(EnumAttrOperator[ComponentTypeEnumPlugOperator]):
     __slots__ = ()
 
     VERTEX = 1

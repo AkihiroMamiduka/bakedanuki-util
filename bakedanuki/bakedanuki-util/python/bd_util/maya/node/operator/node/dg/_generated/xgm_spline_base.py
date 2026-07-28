@@ -16,14 +16,14 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpFromEnumPlugOperator(EnumPlugOperator):
+class InterpFromEnumPlugOperator(EnumPlugOperator["InterpFromEnumAttrOperator"]):
     __slots__ = ()
 
     CURRENT_DESCRIPTION = 0
     INTERPOLATION_SOURCE = 1
 
 
-class InterpFromEnumAttrOperator(EnumAttrOperator):
+class InterpFromEnumAttrOperator(EnumAttrOperator[InterpFromEnumPlugOperator]):
     __slots__ = ()
 
     CURRENT_DESCRIPTION = 0
@@ -44,14 +44,14 @@ class InterpFromEnumField(
     PLUG_CLS = InterpFromEnumPlugOperator
 
 
-class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator):
+class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator["TransferModeMappingTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POSITION_BASED = 0
     UV_BASED = 1
 
 
-class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator):
+class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator[TransferModeMappingTypeEnumPlugOperator]):
     __slots__ = ()
 
     POSITION_BASED = 0

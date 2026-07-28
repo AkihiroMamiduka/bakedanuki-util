@@ -20,14 +20,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class FalloffModeEnumPlugOperator(EnumPlugOperator):
+class FalloffModeEnumPlugOperator(EnumPlugOperator["FalloffModeEnumAttrOperator"]):
     __slots__ = ()
 
     VOLUME = 0
     SURFACE = 1
 
 
-class FalloffModeEnumAttrOperator(EnumAttrOperator):
+class FalloffModeEnumAttrOperator(EnumAttrOperator[FalloffModeEnumPlugOperator]):
     __slots__ = ()
 
     VOLUME = 0

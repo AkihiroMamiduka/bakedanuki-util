@@ -12,7 +12,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtensionTypeEnumPlugOperator(EnumPlugOperator):
+class ExtensionTypeEnumPlugOperator(EnumPlugOperator["ExtensionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -20,7 +20,7 @@ class ExtensionTypeEnumPlugOperator(EnumPlugOperator):
     EXTRAPOLATE = 2
 
 
-class ExtensionTypeEnumAttrOperator(EnumAttrOperator):
+class ExtensionTypeEnumAttrOperator(EnumAttrOperator[ExtensionTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -43,14 +43,14 @@ class ExtensionTypeEnumField(
     PLUG_CLS = ExtensionTypeEnumPlugOperator
 
 
-class ExtendMethodEnumPlugOperator(EnumPlugOperator):
+class ExtendMethodEnumPlugOperator(EnumPlugOperator["ExtendMethodEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE = 0
     POINT = 2
 
 
-class ExtendMethodEnumAttrOperator(EnumAttrOperator):
+class ExtendMethodEnumAttrOperator(EnumAttrOperator[ExtendMethodEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE = 0
@@ -71,7 +71,7 @@ class ExtendMethodEnumField(
     PLUG_CLS = ExtendMethodEnumPlugOperator
 
 
-class StartEnumPlugOperator(EnumPlugOperator):
+class StartEnumPlugOperator(EnumPlugOperator["StartEnumAttrOperator"]):
     __slots__ = ()
 
     END = 0
@@ -79,7 +79,7 @@ class StartEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class StartEnumAttrOperator(EnumAttrOperator):
+class StartEnumAttrOperator(EnumAttrOperator[StartEnumPlugOperator]):
     __slots__ = ()
 
     END = 0

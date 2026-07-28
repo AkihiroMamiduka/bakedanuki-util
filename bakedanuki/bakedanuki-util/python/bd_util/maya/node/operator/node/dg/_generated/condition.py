@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     EQUAL = 0
@@ -24,7 +24,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     LESS_OR_EQUAL = 5
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     EQUAL = 0

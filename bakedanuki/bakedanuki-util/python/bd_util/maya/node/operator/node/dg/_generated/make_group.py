@@ -10,7 +10,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class GroupTypeEnumPlugOperator(EnumPlugOperator):
+class GroupTypeEnumPlugOperator(EnumPlugOperator["GroupTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -20,7 +20,7 @@ class GroupTypeEnumPlugOperator(EnumPlugOperator):
     UVMAP = 4
 
 
-class GroupTypeEnumAttrOperator(EnumAttrOperator):
+class GroupTypeEnumAttrOperator(EnumAttrOperator[GroupTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

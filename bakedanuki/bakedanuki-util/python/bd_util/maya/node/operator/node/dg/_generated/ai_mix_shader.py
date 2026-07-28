@@ -17,14 +17,14 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLEND = 0
     ADD = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     BLEND = 0

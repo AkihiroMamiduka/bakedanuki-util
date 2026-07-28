@@ -23,13 +23,13 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class STATEEnumPlugOperator(EnumPlugOperator):
+class STATEEnumPlugOperator(EnumPlugOperator["STATEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class STATEEnumAttrOperator(EnumAttrOperator):
+class STATEEnumAttrOperator(EnumAttrOperator[STATEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -48,13 +48,13 @@ class STATEEnumField(
     PLUG_CLS = STATEEnumPlugOperator
 
 
-class SHAPINGEnumPlugOperator(EnumPlugOperator):
+class SHAPINGEnumPlugOperator(EnumPlugOperator["SHAPINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SHAPINGEnumAttrOperator(EnumAttrOperator):
+class SHAPINGEnumAttrOperator(EnumAttrOperator[SHAPINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -73,13 +73,13 @@ class SHAPINGEnumField(
     PLUG_CLS = SHAPINGEnumPlugOperator
 
 
-class SQUASHEnumPlugOperator(EnumPlugOperator):
+class SQUASHEnumPlugOperator(EnumPlugOperator["SQUASHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SQUASHEnumAttrOperator(EnumAttrOperator):
+class SQUASHEnumAttrOperator(EnumAttrOperator[SQUASHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -98,13 +98,13 @@ class SQUASHEnumField(
     PLUG_CLS = SQUASHEnumPlugOperator
 
 
-class STRETCHEnumPlugOperator(EnumPlugOperator):
+class STRETCHEnumPlugOperator(EnumPlugOperator["STRETCHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class STRETCHEnumAttrOperator(EnumAttrOperator):
+class STRETCHEnumAttrOperator(EnumAttrOperator[STRETCHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0

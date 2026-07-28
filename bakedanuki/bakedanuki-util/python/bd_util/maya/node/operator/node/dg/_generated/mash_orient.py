@@ -25,7 +25,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +34,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +59,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class OrientModeEnumPlugOperator(EnumPlugOperator):
+class OrientModeEnumPlugOperator(EnumPlugOperator["OrientModeEnumAttrOperator"]):
     __slots__ = ()
 
     VELOCITY = 1
@@ -95,7 +95,7 @@ class OrientModeEnumPlugOperator(EnumPlugOperator):
     ORIENT_TO_MESH = 3
 
 
-class OrientModeEnumAttrOperator(EnumAttrOperator):
+class OrientModeEnumAttrOperator(EnumAttrOperator[OrientModeEnumPlugOperator]):
     __slots__ = ()
 
     VELOCITY = 1
@@ -118,7 +118,7 @@ class OrientModeEnumField(
     PLUG_CLS = OrientModeEnumPlugOperator
 
 
-class UpVectorMenuEnumPlugOperator(EnumPlugOperator):
+class UpVectorMenuEnumPlugOperator(EnumPlugOperator["UpVectorMenuEnumAttrOperator"]):
     __slots__ = ()
 
     X = 1
@@ -126,7 +126,7 @@ class UpVectorMenuEnumPlugOperator(EnumPlugOperator):
     Z = 3
 
 
-class UpVectorMenuEnumAttrOperator(EnumAttrOperator):
+class UpVectorMenuEnumAttrOperator(EnumAttrOperator[UpVectorMenuEnumPlugOperator]):
     __slots__ = ()
 
     X = 1

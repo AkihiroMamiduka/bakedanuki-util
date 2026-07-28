@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class RebuildTypeEnumPlugOperator(EnumPlugOperator):
+class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -24,7 +24,7 @@ class RebuildTypeEnumPlugOperator(EnumPlugOperator):
     BEZIER = 7
 
 
-class RebuildTypeEnumAttrOperator(EnumAttrOperator):
+class RebuildTypeEnumAttrOperator(EnumAttrOperator[RebuildTypeEnumPlugOperator]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -57,7 +57,7 @@ class RebuildTypeEnumField(
     PLUG_CLS = RebuildTypeEnumPlugOperator
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 0
@@ -65,7 +65,7 @@ class DirectionEnumPlugOperator(EnumPlugOperator):
     U_RREBUILDSURFACEBOTH_V = 2
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 0
@@ -88,7 +88,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class DegreeUEnumPlugOperator(EnumPlugOperator):
+class DegreeUEnumPlugOperator(EnumPlugOperator["DegreeUEnumAttrOperator"]):
     __slots__ = ()
 
     ORIGINAL = 0
@@ -99,7 +99,7 @@ class DegreeUEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeUEnumAttrOperator(EnumAttrOperator):
+class DegreeUEnumAttrOperator(EnumAttrOperator[DegreeUEnumPlugOperator]):
     __slots__ = ()
 
     ORIGINAL = 0
@@ -128,7 +128,7 @@ class DegreeUEnumField(
     PLUG_CLS = DegreeUEnumPlugOperator
 
 
-class DegreeVEnumPlugOperator(EnumPlugOperator):
+class DegreeVEnumPlugOperator(EnumPlugOperator["DegreeVEnumAttrOperator"]):
     __slots__ = ()
 
     ORIGINAL = 0
@@ -139,7 +139,7 @@ class DegreeVEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeVEnumAttrOperator(EnumAttrOperator):
+class DegreeVEnumAttrOperator(EnumAttrOperator[DegreeVEnumPlugOperator]):
     __slots__ = ()
 
     ORIGINAL = 0
@@ -168,14 +168,14 @@ class DegreeVEnumField(
     PLUG_CLS = DegreeVEnumPlugOperator
 
 
-class EndKnotsEnumPlugOperator(EnumPlugOperator):
+class EndKnotsEnumPlugOperator(EnumPlugOperator["EndKnotsEnumAttrOperator"]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
     MULTIPLE_END_KNOTS = 1
 
 
-class EndKnotsEnumAttrOperator(EnumAttrOperator):
+class EndKnotsEnumAttrOperator(EnumAttrOperator[EndKnotsEnumPlugOperator]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
@@ -196,7 +196,7 @@ class EndKnotsEnumField(
     PLUG_CLS = EndKnotsEnumPlugOperator
 
 
-class KeepRangeEnumPlugOperator(EnumPlugOperator):
+class KeepRangeEnumPlugOperator(EnumPlugOperator["KeepRangeEnumAttrOperator"]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -204,7 +204,7 @@ class KeepRangeEnumPlugOperator(EnumPlugOperator):
     _0_TO_HASH_SPANS = 2
 
 
-class KeepRangeEnumAttrOperator(EnumAttrOperator):
+class KeepRangeEnumAttrOperator(EnumAttrOperator[KeepRangeEnumPlugOperator]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -227,7 +227,7 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class FitRebuildEnumPlugOperator(EnumPlugOperator):
+class FitRebuildEnumPlugOperator(EnumPlugOperator["FitRebuildEnumAttrOperator"]):
     __slots__ = ()
 
     CONVERT_CLASSIC = 0
@@ -236,7 +236,7 @@ class FitRebuildEnumPlugOperator(EnumPlugOperator):
     CONVERT_GRID = 3
 
 
-class FitRebuildEnumAttrOperator(EnumAttrOperator):
+class FitRebuildEnumAttrOperator(EnumAttrOperator[FitRebuildEnumPlugOperator]):
     __slots__ = ()
 
     CONVERT_CLASSIC = 0

@@ -25,7 +25,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +34,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +59,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class FalloffAffectsEnumPlugOperator(EnumPlugOperator):
+class FalloffAffectsEnumPlugOperator(EnumPlugOperator["FalloffAffectsEnumAttrOperator"]):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class FalloffAffectsEnumAttrOperator(EnumAttrOperator):
+class FalloffAffectsEnumAttrOperator(EnumAttrOperator[FalloffAffectsEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 1
@@ -87,14 +87,14 @@ class FalloffAffectsEnumField(
     PLUG_CLS = FalloffAffectsEnumPlugOperator
 
 
-class MapAffectsEnumPlugOperator(EnumPlugOperator):
+class MapAffectsEnumPlugOperator(EnumPlugOperator["MapAffectsEnumAttrOperator"]):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class MapAffectsEnumAttrOperator(EnumAttrOperator):
+class MapAffectsEnumAttrOperator(EnumAttrOperator[MapAffectsEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 1

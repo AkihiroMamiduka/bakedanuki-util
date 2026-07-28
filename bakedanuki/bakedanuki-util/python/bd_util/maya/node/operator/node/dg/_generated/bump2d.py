@@ -28,7 +28,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BumpInterpEnumPlugOperator(EnumPlugOperator):
+class BumpInterpEnumPlugOperator(EnumPlugOperator["BumpInterpEnumAttrOperator"]):
     __slots__ = ()
 
     BUMP = 0
@@ -36,7 +36,7 @@ class BumpInterpEnumPlugOperator(EnumPlugOperator):
     OBJECT_SPACE_NORMALS = 2
 
 
-class BumpInterpEnumAttrOperator(EnumAttrOperator):
+class BumpInterpEnumAttrOperator(EnumAttrOperator[BumpInterpEnumPlugOperator]):
     __slots__ = ()
 
     BUMP = 0

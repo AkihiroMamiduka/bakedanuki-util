@@ -18,7 +18,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class OffsetTypeEnumPlugOperator(EnumPlugOperator):
+class OffsetTypeEnumPlugOperator(EnumPlugOperator["OffsetTypeEnumAttrOperator"]):
     __slots__ = ()
 
     JOIN_THE_DOTS = 1
@@ -26,7 +26,7 @@ class OffsetTypeEnumPlugOperator(EnumPlugOperator):
     POINT_TO_POINT = 3
 
 
-class OffsetTypeEnumAttrOperator(EnumAttrOperator):
+class OffsetTypeEnumAttrOperator(EnumAttrOperator[OffsetTypeEnumPlugOperator]):
     __slots__ = ()
 
     JOIN_THE_DOTS = 1

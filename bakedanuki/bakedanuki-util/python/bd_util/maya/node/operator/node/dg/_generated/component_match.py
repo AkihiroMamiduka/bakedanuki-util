@@ -11,14 +11,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MatchModeEnumPlugOperator(EnumPlugOperator):
+class MatchModeEnumPlugOperator(EnumPlugOperator["MatchModeEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSESTPOINT = 0
     OTHER = 1
 
 
-class MatchModeEnumAttrOperator(EnumAttrOperator):
+class MatchModeEnumAttrOperator(EnumAttrOperator[MatchModeEnumPlugOperator]):
     __slots__ = ()
 
     CLOSESTPOINT = 0

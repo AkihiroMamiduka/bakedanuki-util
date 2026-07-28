@@ -26,7 +26,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     PLANAR = 0
@@ -34,7 +34,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     CURVES = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     PLANAR = 0
@@ -57,14 +57,14 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class PushModeEnumPlugOperator(EnumPlugOperator):
+class PushModeEnumPlugOperator(EnumPlugOperator["PushModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     GIZMO = 1
 
 
-class PushModeEnumAttrOperator(EnumAttrOperator):
+class PushModeEnumAttrOperator(EnumAttrOperator[PushModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -85,14 +85,14 @@ class PushModeEnumField(
     PLUG_CLS = PushModeEnumPlugOperator
 
 
-class CombineModeEnumPlugOperator(EnumPlugOperator):
+class CombineModeEnumPlugOperator(EnumPlugOperator["CombineModeEnumAttrOperator"]):
     __slots__ = ()
 
     MAX = 0
     ADD = 1
 
 
-class CombineModeEnumAttrOperator(EnumAttrOperator):
+class CombineModeEnumAttrOperator(EnumAttrOperator[CombineModeEnumPlugOperator]):
     __slots__ = ()
 
     MAX = 0

@@ -12,14 +12,14 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class SamplingTypeEnumPlugOperator(EnumPlugOperator):
+class SamplingTypeEnumPlugOperator(EnumPlugOperator["SamplingTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OVER_SAMPLING = 0
     UNDER_SAMPLING = 1
 
 
-class SamplingTypeEnumAttrOperator(EnumAttrOperator):
+class SamplingTypeEnumAttrOperator(EnumAttrOperator[SamplingTypeEnumPlugOperator]):
     __slots__ = ()
 
     OVER_SAMPLING = 0

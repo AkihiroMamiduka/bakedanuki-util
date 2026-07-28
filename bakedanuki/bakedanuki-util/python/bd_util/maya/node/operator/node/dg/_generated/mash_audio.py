@@ -21,7 +21,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -30,7 +30,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -55,14 +55,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -83,7 +83,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class FilterStrengthEnumPlugOperator(EnumPlugOperator):
+class FilterStrengthEnumPlugOperator(EnumPlugOperator["FilterStrengthEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 1
@@ -92,7 +92,7 @@ class FilterStrengthEnumPlugOperator(EnumPlugOperator):
     STRONG = 4
 
 
-class FilterStrengthEnumAttrOperator(EnumAttrOperator):
+class FilterStrengthEnumAttrOperator(EnumAttrOperator[FilterStrengthEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 1
@@ -117,14 +117,14 @@ class FilterStrengthEnumField(
     PLUG_CLS = FilterStrengthEnumPlugOperator
 
 
-class OutputModeEnumPlugOperator(EnumPlugOperator):
+class OutputModeEnumPlugOperator(EnumPlugOperator["OutputModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     MULTIPLY = 1
 
 
-class OutputModeEnumAttrOperator(EnumAttrOperator):
+class OutputModeEnumAttrOperator(EnumAttrOperator[OutputModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -145,7 +145,7 @@ class OutputModeEnumField(
     PLUG_CLS = OutputModeEnumPlugOperator
 
 
-class SampleRateEnumPlugOperator(EnumPlugOperator):
+class SampleRateEnumPlugOperator(EnumPlugOperator["SampleRateEnumAttrOperator"]):
     __slots__ = ()
 
     _48000 = 0
@@ -155,7 +155,7 @@ class SampleRateEnumPlugOperator(EnumPlugOperator):
     _96000 = 4
 
 
-class SampleRateEnumAttrOperator(EnumAttrOperator):
+class SampleRateEnumAttrOperator(EnumAttrOperator[SampleRateEnumPlugOperator]):
     __slots__ = ()
 
     _48000 = 0
@@ -182,14 +182,14 @@ class SampleRateEnumField(
     PLUG_CLS = SampleRateEnumPlugOperator
 
 
-class NodeModeEnumPlugOperator(EnumPlugOperator):
+class NodeModeEnumPlugOperator(EnumPlugOperator["NodeModeEnumAttrOperator"]):
     __slots__ = ()
 
     SPECTRUM = 0
     AVERAGE = 1
 
 
-class NodeModeEnumAttrOperator(EnumAttrOperator):
+class NodeModeEnumAttrOperator(EnumAttrOperator[NodeModeEnumPlugOperator]):
     __slots__ = ()
 
     SPECTRUM = 0
@@ -210,7 +210,7 @@ class NodeModeEnumField(
     PLUG_CLS = NodeModeEnumPlugOperator
 
 
-class FourierScalingEnumPlugOperator(EnumPlugOperator):
+class FourierScalingEnumPlugOperator(EnumPlugOperator["FourierScalingEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -218,7 +218,7 @@ class FourierScalingEnumPlugOperator(EnumPlugOperator):
     LOGARITHMIC = 2
 
 
-class FourierScalingEnumAttrOperator(EnumAttrOperator):
+class FourierScalingEnumAttrOperator(EnumAttrOperator[FourierScalingEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -241,14 +241,14 @@ class FourierScalingEnumField(
     PLUG_CLS = FourierScalingEnumPlugOperator
 
 
-class VolumeModeEnumPlugOperator(EnumPlugOperator):
+class VolumeModeEnumPlugOperator(EnumPlugOperator["VolumeModeEnumAttrOperator"]):
     __slots__ = ()
 
     AVERAGE = 0
     LOUDEST = 1
 
 
-class VolumeModeEnumAttrOperator(EnumAttrOperator):
+class VolumeModeEnumAttrOperator(EnumAttrOperator[VolumeModeEnumPlugOperator]):
     __slots__ = ()
 
     AVERAGE = 0

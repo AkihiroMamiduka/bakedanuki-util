@@ -19,7 +19,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +28,7 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -53,7 +53,7 @@ class ScaleRamp_InterpEnumField(
     PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
 
 
-class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator["RotationRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -62,7 +62,7 @@ class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator[RotationRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -87,7 +87,7 @@ class RotationRamp_InterpEnumField(
     PLUG_CLS = RotationRamp_InterpEnumPlugOperator
 
 
-class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator["BiasRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -96,7 +96,7 @@ class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BiasRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class BiasRamp_InterpEnumAttrOperator(EnumAttrOperator[BiasRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -121,7 +121,7 @@ class BiasRamp_InterpEnumField(
     PLUG_CLS = BiasRamp_InterpEnumPlugOperator
 
 
-class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator):
+class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator["BiasRampX_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -130,7 +130,7 @@ class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BiasRampX_InterpEnumAttrOperator(EnumAttrOperator):
+class BiasRampX_InterpEnumAttrOperator(EnumAttrOperator[BiasRampX_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -155,7 +155,7 @@ class BiasRampX_InterpEnumField(
     PLUG_CLS = BiasRampX_InterpEnumPlugOperator
 
 
-class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator):
+class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator["BiasRampY_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -164,7 +164,7 @@ class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BiasRampY_InterpEnumAttrOperator(EnumAttrOperator):
+class BiasRampY_InterpEnumAttrOperator(EnumAttrOperator[BiasRampY_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -189,7 +189,7 @@ class BiasRampY_InterpEnumField(
     PLUG_CLS = BiasRampY_InterpEnumPlugOperator
 
 
-class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator):
+class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator["BiasRampZ_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -198,7 +198,7 @@ class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BiasRampZ_InterpEnumAttrOperator(EnumAttrOperator):
+class BiasRampZ_InterpEnumAttrOperator(EnumAttrOperator[BiasRampZ_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

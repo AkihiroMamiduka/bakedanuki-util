@@ -17,14 +17,14 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewTypeEnumPlugOperator(EnumPlugOperator):
+class ViewTypeEnumPlugOperator(EnumPlugOperator["ViewTypeEnumAttrOperator"]):
     __slots__ = ()
 
     _3D = 0
     _2D_PAN_SLASH_ZOOM = 1
 
 
-class ViewTypeEnumAttrOperator(EnumAttrOperator):
+class ViewTypeEnumAttrOperator(EnumAttrOperator[ViewTypeEnumPlugOperator]):
     __slots__ = ()
 
     _3D = 0

@@ -21,7 +21,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class RootRotateOrderEnumPlugOperator(EnumPlugOperator):
+class RootRotateOrderEnumPlugOperator(EnumPlugOperator["RootRotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -32,7 +32,7 @@ class RootRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RootRotateOrderEnumAttrOperator(EnumAttrOperator):
+class RootRotateOrderEnumAttrOperator(EnumAttrOperator[RootRotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -61,7 +61,7 @@ class RootRotateOrderEnumField(
     PLUG_CLS = RootRotateOrderEnumPlugOperator
 
 
-class OffsetRootRotateOrderEnumPlugOperator(EnumPlugOperator):
+class OffsetRootRotateOrderEnumPlugOperator(EnumPlugOperator["OffsetRootRotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -72,7 +72,7 @@ class OffsetRootRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class OffsetRootRotateOrderEnumAttrOperator(EnumAttrOperator):
+class OffsetRootRotateOrderEnumAttrOperator(EnumAttrOperator[OffsetRootRotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

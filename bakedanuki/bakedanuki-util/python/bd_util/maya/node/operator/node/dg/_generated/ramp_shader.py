@@ -34,7 +34,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class ColorInputEnumPlugOperator(EnumPlugOperator):
+class ColorInputEnumPlugOperator(EnumPlugOperator["ColorInputEnumAttrOperator"]):
     __slots__ = ()
 
     LIGHT_ANGLE = 0
@@ -43,7 +43,7 @@ class ColorInputEnumPlugOperator(EnumPlugOperator):
     NORMALIZED_BRIGHTNESS = 3
 
 
-class ColorInputEnumAttrOperator(EnumAttrOperator):
+class ColorInputEnumAttrOperator(EnumAttrOperator[ColorInputEnumPlugOperator]):
     __slots__ = ()
 
     LIGHT_ANGLE = 0
@@ -68,7 +68,7 @@ class ColorInputEnumField(
     PLUG_CLS = ColorInputEnumPlugOperator
 
 
-class ShadowModeEnumPlugOperator(EnumPlugOperator):
+class ShadowModeEnumPlugOperator(EnumPlugOperator["ShadowModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -76,7 +76,7 @@ class ShadowModeEnumPlugOperator(EnumPlugOperator):
     CONSTANT_COLOR = 2
 
 
-class ShadowModeEnumAttrOperator(EnumAttrOperator):
+class ShadowModeEnumAttrOperator(EnumAttrOperator[ShadowModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -99,7 +99,7 @@ class ShadowModeEnumField(
     PLUG_CLS = ShadowModeEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -107,7 +107,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0

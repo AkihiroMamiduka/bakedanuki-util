@@ -25,7 +25,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class AnimationModeEnumPlugOperator(EnumPlugOperator):
+class AnimationModeEnumPlugOperator(EnumPlugOperator["AnimationModeEnumAttrOperator"]):
     __slots__ = ()
 
     CHARACTER = 1
@@ -33,7 +33,7 @@ class AnimationModeEnumPlugOperator(EnumPlugOperator):
     LINE = 3
 
 
-class AnimationModeEnumAttrOperator(EnumAttrOperator):
+class AnimationModeEnumAttrOperator(EnumAttrOperator[AnimationModeEnumPlugOperator]):
     __slots__ = ()
 
     CHARACTER = 1

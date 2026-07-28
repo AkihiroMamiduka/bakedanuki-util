@@ -21,7 +21,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class EnableEnumPlugOperator(EnumPlugOperator):
+class EnableEnumPlugOperator(EnumPlugOperator["EnableEnumAttrOperator"]):
     __slots__ = ()
 
     ENABLE = 0
@@ -29,7 +29,7 @@ class EnableEnumPlugOperator(EnumPlugOperator):
     ENABLE_ONLY_AFTER_OBJECT_STOPS = 2
 
 
-class EnableEnumAttrOperator(EnumAttrOperator):
+class EnableEnumAttrOperator(EnumAttrOperator[EnableEnumPlugOperator]):
     __slots__ = ()
 
     ENABLE = 0

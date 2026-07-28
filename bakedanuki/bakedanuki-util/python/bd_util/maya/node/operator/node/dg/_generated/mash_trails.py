@@ -22,7 +22,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class FrontCapModeEnumPlugOperator(EnumPlugOperator):
+class FrontCapModeEnumPlugOperator(EnumPlugOperator["FrontCapModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 1
@@ -30,7 +30,7 @@ class FrontCapModeEnumPlugOperator(EnumPlugOperator):
     BEVEL_CAP = 3
 
 
-class FrontCapModeEnumAttrOperator(EnumAttrOperator):
+class FrontCapModeEnumAttrOperator(EnumAttrOperator[FrontCapModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 1
@@ -53,7 +53,7 @@ class FrontCapModeEnumField(
     PLUG_CLS = FrontCapModeEnumPlugOperator
 
 
-class RearCapModeEnumPlugOperator(EnumPlugOperator):
+class RearCapModeEnumPlugOperator(EnumPlugOperator["RearCapModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 1
@@ -61,7 +61,7 @@ class RearCapModeEnumPlugOperator(EnumPlugOperator):
     BEVEL_CAP = 3
 
 
-class RearCapModeEnumAttrOperator(EnumAttrOperator):
+class RearCapModeEnumAttrOperator(EnumAttrOperator[RearCapModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 1
@@ -84,7 +84,7 @@ class RearCapModeEnumField(
     PLUG_CLS = RearCapModeEnumPlugOperator
 
 
-class TrailsModeEnumPlugOperator(EnumPlugOperator):
+class TrailsModeEnumPlugOperator(EnumPlugOperator["TrailsModeEnumAttrOperator"]):
     __slots__ = ()
 
     TRAILS = 1
@@ -95,7 +95,7 @@ class TrailsModeEnumPlugOperator(EnumPlugOperator):
     CONSTRAINT_PAIRS = 6
 
 
-class TrailsModeEnumAttrOperator(EnumAttrOperator):
+class TrailsModeEnumAttrOperator(EnumAttrOperator[TrailsModeEnumPlugOperator]):
     __slots__ = ()
 
     TRAILS = 1

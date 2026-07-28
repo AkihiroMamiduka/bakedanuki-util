@@ -25,7 +25,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class NoiseTypeEnumPlugOperator(EnumPlugOperator):
+class NoiseTypeEnumPlugOperator(EnumPlugOperator["NoiseTypeEnumAttrOperator"]):
     __slots__ = ()
 
     PERLIN_NOISE = 0
@@ -35,7 +35,7 @@ class NoiseTypeEnumPlugOperator(EnumPlugOperator):
     SPACETIME = 4
 
 
-class NoiseTypeEnumAttrOperator(EnumAttrOperator):
+class NoiseTypeEnumAttrOperator(EnumAttrOperator[NoiseTypeEnumPlugOperator]):
     __slots__ = ()
 
     PERLIN_NOISE = 0
@@ -62,7 +62,7 @@ class NoiseTypeEnumField(
     PLUG_CLS = NoiseTypeEnumPlugOperator
 
 
-class FalloffEnumPlugOperator(EnumPlugOperator):
+class FalloffEnumPlugOperator(EnumPlugOperator["FalloffEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -71,7 +71,7 @@ class FalloffEnumPlugOperator(EnumPlugOperator):
     BUBBLE = 3
 
 
-class FalloffEnumAttrOperator(EnumAttrOperator):
+class FalloffEnumAttrOperator(EnumAttrOperator[FalloffEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0

@@ -26,7 +26,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._
 )
 
 
-class RenderModeEnumPlugOperator(EnumPlugOperator):
+class RenderModeEnumPlugOperator(EnumPlugOperator["RenderModeEnumAttrOperator"]):
     __slots__ = ()
 
     WIRE = 0
@@ -38,7 +38,7 @@ class RenderModeEnumPlugOperator(EnumPlugOperator):
     BOUNDING_BOX = 6
 
 
-class RenderModeEnumAttrOperator(EnumAttrOperator):
+class RenderModeEnumAttrOperator(EnumAttrOperator[RenderModeEnumPlugOperator]):
     __slots__ = ()
 
     WIRE = 0
@@ -69,7 +69,7 @@ class RenderModeEnumField(
     PLUG_CLS = RenderModeEnumPlugOperator
 
 
-class LightingModeEnumPlugOperator(EnumPlugOperator):
+class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -79,7 +79,7 @@ class LightingModeEnumPlugOperator(EnumPlugOperator):
     FULL_AMBIENT = 4
 
 
-class LightingModeEnumAttrOperator(EnumAttrOperator):
+class LightingModeEnumAttrOperator(EnumAttrOperator[LightingModeEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT = 0

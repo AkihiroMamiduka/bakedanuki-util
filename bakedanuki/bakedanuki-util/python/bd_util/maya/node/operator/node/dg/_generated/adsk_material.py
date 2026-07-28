@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -23,7 +23,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0

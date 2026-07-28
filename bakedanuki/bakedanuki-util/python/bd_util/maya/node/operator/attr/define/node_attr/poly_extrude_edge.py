@@ -37,7 +37,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
 )
 
 
-class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator):
+class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator["TaperCurve_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -46,7 +46,7 @@ class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator):
+class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator[TaperCurve_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

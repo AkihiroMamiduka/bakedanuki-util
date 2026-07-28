@@ -14,7 +14,7 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -25,7 +25,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     NEG_Z_MINUS_AXIS = 5
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0

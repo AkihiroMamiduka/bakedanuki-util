@@ -33,7 +33,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalTypeEnumPlugOperator(EnumPlugOperator):
+class NormalTypeEnumPlugOperator(EnumPlugOperator["NormalTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SHADING_NORMAL = 0
@@ -41,7 +41,7 @@ class NormalTypeEnumPlugOperator(EnumPlugOperator):
     GEOMETRIC_NORMAL = 2
 
 
-class NormalTypeEnumAttrOperator(EnumAttrOperator):
+class NormalTypeEnumAttrOperator(EnumAttrOperator[NormalTypeEnumPlugOperator]):
     __slots__ = ()
 
     SHADING_NORMAL = 0
@@ -64,7 +64,7 @@ class NormalTypeEnumField(
     PLUG_CLS = NormalTypeEnumPlugOperator
 
 
-class BumpModeEnumPlugOperator(EnumPlugOperator):
+class BumpModeEnumPlugOperator(EnumPlugOperator["BumpModeEnumAttrOperator"]):
     __slots__ = ()
 
     BOTH = 0
@@ -72,7 +72,7 @@ class BumpModeEnumPlugOperator(EnumPlugOperator):
     SPECULAR = 2
 
 
-class BumpModeEnumAttrOperator(EnumAttrOperator):
+class BumpModeEnumAttrOperator(EnumAttrOperator[BumpModeEnumPlugOperator]):
     __slots__ = ()
 
     BOTH = 0

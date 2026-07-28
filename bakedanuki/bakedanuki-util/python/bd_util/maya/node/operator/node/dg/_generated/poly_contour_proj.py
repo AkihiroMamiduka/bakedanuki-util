@@ -17,14 +17,14 @@ from ....attr.define.std.dt.point_array import DataPointArrayField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     WALK_CONTOURS = 0
     NURBS_PROJECTION = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     WALK_CONTOURS = 0

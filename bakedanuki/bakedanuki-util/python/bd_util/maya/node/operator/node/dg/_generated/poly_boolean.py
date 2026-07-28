@@ -15,7 +15,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
+class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"]):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -23,7 +23,7 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator):
+class MergeUVSetsEnumAttrOperator(EnumAttrOperator[MergeUVSetsEnumPlugOperator]):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -46,7 +46,7 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class NewInputOperationEnumPlugOperator(EnumPlugOperator):
+class NewInputOperationEnumPlugOperator(EnumPlugOperator["NewInputOperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 1
@@ -59,7 +59,7 @@ class NewInputOperationEnumPlugOperator(EnumPlugOperator):
     SPLIT_EDGE = 8
 
 
-class NewInputOperationEnumAttrOperator(EnumAttrOperator):
+class NewInputOperationEnumAttrOperator(EnumAttrOperator[NewInputOperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 1
@@ -92,7 +92,7 @@ class NewInputOperationEnumField(
     PLUG_CLS = NewInputOperationEnumPlugOperator
 
 
-class NewInputDisplayEnumPlugOperator(EnumPlugOperator):
+class NewInputDisplayEnumPlugOperator(EnumPlugOperator["NewInputDisplayEnumAttrOperator"]):
     __slots__ = ()
 
     WIREFRAME = 0
@@ -102,7 +102,7 @@ class NewInputDisplayEnumPlugOperator(EnumPlugOperator):
     HIDDEN = 4
 
 
-class NewInputDisplayEnumAttrOperator(EnumAttrOperator):
+class NewInputDisplayEnumAttrOperator(EnumAttrOperator[NewInputDisplayEnumPlugOperator]):
     __slots__ = ()
 
     WIREFRAME = 0
@@ -129,7 +129,7 @@ class NewInputDisplayEnumField(
     PLUG_CLS = NewInputDisplayEnumPlugOperator
 
 
-class ClassificationEnumPlugOperator(EnumPlugOperator):
+class ClassificationEnumPlugOperator(EnumPlugOperator["ClassificationEnumAttrOperator"]):
     __slots__ = ()
 
     EDGE = 1
@@ -137,7 +137,7 @@ class ClassificationEnumPlugOperator(EnumPlugOperator):
     AUTO = 3
 
 
-class ClassificationEnumAttrOperator(EnumAttrOperator):
+class ClassificationEnumAttrOperator(EnumAttrOperator[ClassificationEnumPlugOperator]):
     __slots__ = ()
 
     EDGE = 1
@@ -160,14 +160,14 @@ class ClassificationEnumField(
     PLUG_CLS = ClassificationEnumPlugOperator
 
 
-class GeometryModeEnumPlugOperator(EnumPlugOperator):
+class GeometryModeEnumPlugOperator(EnumPlugOperator["GeometryModeEnumAttrOperator"]):
     __slots__ = ()
 
     MESH = 0
     OPENVDB = 1
 
 
-class GeometryModeEnumAttrOperator(EnumAttrOperator):
+class GeometryModeEnumAttrOperator(EnumAttrOperator[GeometryModeEnumPlugOperator]):
     __slots__ = ()
 
     MESH = 0

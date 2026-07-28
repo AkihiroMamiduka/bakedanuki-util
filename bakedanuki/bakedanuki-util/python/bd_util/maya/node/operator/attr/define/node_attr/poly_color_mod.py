@@ -13,7 +13,7 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class RedScale_InterpEnumPlugOperator(EnumPlugOperator):
+class RedScale_InterpEnumPlugOperator(EnumPlugOperator["RedScale_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +22,7 @@ class RedScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RedScale_InterpEnumAttrOperator(EnumAttrOperator):
+class RedScale_InterpEnumAttrOperator(EnumAttrOperator[RedScale_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -47,7 +47,7 @@ class RedScale_InterpEnumField(
     PLUG_CLS = RedScale_InterpEnumPlugOperator
 
 
-class GreenScale_InterpEnumPlugOperator(EnumPlugOperator):
+class GreenScale_InterpEnumPlugOperator(EnumPlugOperator["GreenScale_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -56,7 +56,7 @@ class GreenScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class GreenScale_InterpEnumAttrOperator(EnumAttrOperator):
+class GreenScale_InterpEnumAttrOperator(EnumAttrOperator[GreenScale_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -81,7 +81,7 @@ class GreenScale_InterpEnumField(
     PLUG_CLS = GreenScale_InterpEnumPlugOperator
 
 
-class BlueScale_InterpEnumPlugOperator(EnumPlugOperator):
+class BlueScale_InterpEnumPlugOperator(EnumPlugOperator["BlueScale_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +90,7 @@ class BlueScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BlueScale_InterpEnumAttrOperator(EnumAttrOperator):
+class BlueScale_InterpEnumAttrOperator(EnumAttrOperator[BlueScale_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -115,7 +115,7 @@ class BlueScale_InterpEnumField(
     PLUG_CLS = BlueScale_InterpEnumPlugOperator
 
 
-class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator):
+class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator["AlphaScale_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -124,7 +124,7 @@ class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class AlphaScale_InterpEnumAttrOperator(EnumAttrOperator):
+class AlphaScale_InterpEnumAttrOperator(EnumAttrOperator[AlphaScale_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -149,7 +149,7 @@ class AlphaScale_InterpEnumField(
     PLUG_CLS = AlphaScale_InterpEnumPlugOperator
 
 
-class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator):
+class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator["IntensityScale_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +158,7 @@ class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class IntensityScale_InterpEnumAttrOperator(EnumAttrOperator):
+class IntensityScale_InterpEnumAttrOperator(EnumAttrOperator[IntensityScale_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

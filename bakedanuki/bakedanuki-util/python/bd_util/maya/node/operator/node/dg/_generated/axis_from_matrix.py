@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -20,7 +20,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0

@@ -19,7 +19,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -28,7 +28,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 3
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -53,14 +53,14 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     SCALAR = 0
     VECTOR = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     SCALAR = 0

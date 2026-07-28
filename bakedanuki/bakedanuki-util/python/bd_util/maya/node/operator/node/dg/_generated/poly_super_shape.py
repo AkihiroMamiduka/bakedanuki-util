@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ShapeEnumPlugOperator(EnumPlugOperator):
+class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
     SUPER_ELLIPSE = 0
@@ -19,7 +19,7 @@ class ShapeEnumPlugOperator(EnumPlugOperator):
     ULTRA = 2
 
 
-class ShapeEnumAttrOperator(EnumAttrOperator):
+class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     __slots__ = ()
 
     SUPER_ELLIPSE = 0
@@ -42,7 +42,7 @@ class ShapeEnumField(
     PLUG_CLS = ShapeEnumPlugOperator
 
 
-class UvModeEnumPlugOperator(EnumPlugOperator):
+class UvModeEnumPlugOperator(EnumPlugOperator["UvModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -50,7 +50,7 @@ class UvModeEnumPlugOperator(EnumPlugOperator):
     SAWTOOTH_AT_POLE = 2
 
 
-class UvModeEnumAttrOperator(EnumAttrOperator):
+class UvModeEnumAttrOperator(EnumAttrOperator[UvModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

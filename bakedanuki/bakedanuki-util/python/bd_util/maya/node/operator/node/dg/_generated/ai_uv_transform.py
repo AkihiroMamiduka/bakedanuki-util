@@ -26,7 +26,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class UnitEnumPlugOperator(EnumPlugOperator):
+class UnitEnumPlugOperator(EnumPlugOperator["UnitEnumAttrOperator"]):
     __slots__ = ()
 
     RADIANS = 0
@@ -34,7 +34,7 @@ class UnitEnumPlugOperator(EnumPlugOperator):
     NORMALIZED = 2
 
 
-class UnitEnumAttrOperator(EnumAttrOperator):
+class UnitEnumAttrOperator(EnumAttrOperator[UnitEnumPlugOperator]):
     __slots__ = ()
 
     RADIANS = 0
@@ -57,7 +57,7 @@ class UnitEnumField(
     PLUG_CLS = UnitEnumPlugOperator
 
 
-class WrapFrameUEnumPlugOperator(EnumPlugOperator):
+class WrapFrameUEnumPlugOperator(EnumPlugOperator["WrapFrameUEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -67,7 +67,7 @@ class WrapFrameUEnumPlugOperator(EnumPlugOperator):
     NONE = 4
 
 
-class WrapFrameUEnumAttrOperator(EnumAttrOperator):
+class WrapFrameUEnumAttrOperator(EnumAttrOperator[WrapFrameUEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -94,7 +94,7 @@ class WrapFrameUEnumField(
     PLUG_CLS = WrapFrameUEnumPlugOperator
 
 
-class WrapFrameVEnumPlugOperator(EnumPlugOperator):
+class WrapFrameVEnumPlugOperator(EnumPlugOperator["WrapFrameVEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -104,7 +104,7 @@ class WrapFrameVEnumPlugOperator(EnumPlugOperator):
     NONE = 4
 
 
-class WrapFrameVEnumAttrOperator(EnumAttrOperator):
+class WrapFrameVEnumAttrOperator(EnumAttrOperator[WrapFrameVEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0

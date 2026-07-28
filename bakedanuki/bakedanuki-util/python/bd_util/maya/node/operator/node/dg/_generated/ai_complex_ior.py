@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class MaterialEnumPlugOperator(EnumPlugOperator):
+class MaterialEnumPlugOperator(EnumPlugOperator["MaterialEnumAttrOperator"]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -32,7 +32,7 @@ class MaterialEnumPlugOperator(EnumPlugOperator):
     SODIUM = 11
 
 
-class MaterialEnumAttrOperator(EnumAttrOperator):
+class MaterialEnumAttrOperator(EnumAttrOperator[MaterialEnumPlugOperator]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -73,14 +73,14 @@ class MaterialEnumField(
     PLUG_CLS = MaterialEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     ARTISTIC = 0
     PHYSICAL = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     ARTISTIC = 0

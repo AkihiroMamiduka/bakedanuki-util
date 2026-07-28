@@ -47,7 +47,7 @@ from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleFie
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ProjTypeEnumPlugOperator(EnumPlugOperator):
+class ProjTypeEnumPlugOperator(EnumPlugOperator["ProjTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -61,7 +61,7 @@ class ProjTypeEnumPlugOperator(EnumPlugOperator):
     PERSPECTIVE = 8
 
 
-class ProjTypeEnumAttrOperator(EnumAttrOperator):
+class ProjTypeEnumAttrOperator(EnumAttrOperator[ProjTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -96,7 +96,7 @@ class ProjTypeEnumField(
     PLUG_CLS = ProjTypeEnumPlugOperator
 
 
-class FitTypeEnumPlugOperator(EnumPlugOperator):
+class FitTypeEnumPlugOperator(EnumPlugOperator["FitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -104,7 +104,7 @@ class FitTypeEnumPlugOperator(EnumPlugOperator):
     MATCH_CAMERA_RESOLUTION = 2
 
 
-class FitTypeEnumAttrOperator(EnumAttrOperator):
+class FitTypeEnumAttrOperator(EnumAttrOperator[FitTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -127,7 +127,7 @@ class FitTypeEnumField(
     PLUG_CLS = FitTypeEnumPlugOperator
 
 
-class FitFillEnumPlugOperator(EnumPlugOperator):
+class FitFillEnumPlugOperator(EnumPlugOperator["FitFillEnumAttrOperator"]):
     __slots__ = ()
 
     FILL = 0
@@ -135,7 +135,7 @@ class FitFillEnumPlugOperator(EnumPlugOperator):
     VERTICAL = 2
 
 
-class FitFillEnumAttrOperator(EnumAttrOperator):
+class FitFillEnumAttrOperator(EnumAttrOperator[FitFillEnumPlugOperator]):
     __slots__ = ()
 
     FILL = 0

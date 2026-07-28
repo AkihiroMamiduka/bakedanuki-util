@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class JointGuideAxisEnumPlugOperator(EnumPlugOperator):
+class JointGuideAxisEnumPlugOperator(EnumPlugOperator["JointGuideAxisEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -23,7 +23,7 @@ class JointGuideAxisEnumPlugOperator(EnumPlugOperator):
     NONE = 5
 
 
-class JointGuideAxisEnumAttrOperator(EnumAttrOperator):
+class JointGuideAxisEnumAttrOperator(EnumAttrOperator[JointGuideAxisEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0

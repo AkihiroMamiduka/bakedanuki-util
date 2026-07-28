@@ -8,7 +8,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class VariableEnumPlugOperator(EnumPlugOperator):
+class VariableEnumPlugOperator(EnumPlugOperator["VariableEnumAttrOperator"]):
     __slots__ = ()
 
     SX = 0
@@ -30,7 +30,7 @@ class VariableEnumPlugOperator(EnumPlugOperator):
     SHUTTER_END = 16
 
 
-class VariableEnumAttrOperator(EnumAttrOperator):
+class VariableEnumAttrOperator(EnumAttrOperator[VariableEnumPlugOperator]):
     __slots__ = ()
 
     SX = 0

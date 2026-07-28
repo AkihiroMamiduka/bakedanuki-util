@@ -22,14 +22,14 @@ from ....attr.define.std.dt.string_array import DataStringArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class SvgModeEnumPlugOperator(EnumPlugOperator):
+class SvgModeEnumPlugOperator(EnumPlugOperator["SvgModeEnumAttrOperator"]):
     __slots__ = ()
 
     FROM_FILE = 1
     COPY_SLASH_PASTE = 2
 
 
-class SvgModeEnumAttrOperator(EnumAttrOperator):
+class SvgModeEnumAttrOperator(EnumAttrOperator[SvgModeEnumPlugOperator]):
     __slots__ = ()
 
     FROM_FILE = 1

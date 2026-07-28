@@ -11,14 +11,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class ForceActorSpaceEnumPlugOperator(EnumPlugOperator):
+class ForceActorSpaceEnumPlugOperator(EnumPlugOperator["ForceActorSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ForceActorSpaceEnumAttrOperator(EnumAttrOperator):
+class ForceActorSpaceEnumAttrOperator(EnumAttrOperator[ForceActorSpaceEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -39,7 +39,7 @@ class ForceActorSpaceEnumField(
     PLUG_CLS = ForceActorSpaceEnumPlugOperator
 
 
-class ScaleCompensationModeEnumPlugOperator(EnumPlugOperator):
+class ScaleCompensationModeEnumPlugOperator(EnumPlugOperator["ScaleCompensationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -47,7 +47,7 @@ class ScaleCompensationModeEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class ScaleCompensationModeEnumAttrOperator(EnumAttrOperator):
+class ScaleCompensationModeEnumAttrOperator(EnumAttrOperator[ScaleCompensationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -70,14 +70,14 @@ class ScaleCompensationModeEnumField(
     PLUG_CLS = ScaleCompensationModeEnumPlugOperator
 
 
-class MassCenterCompensationModeEnumPlugOperator(EnumPlugOperator):
+class MassCenterCompensationModeEnumPlugOperator(EnumPlugOperator["MassCenterCompensationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class MassCenterCompensationModeEnumAttrOperator(EnumAttrOperator):
+class MassCenterCompensationModeEnumAttrOperator(EnumAttrOperator[MassCenterCompensationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -98,7 +98,7 @@ class MassCenterCompensationModeEnumField(
     PLUG_CLS = MassCenterCompensationModeEnumPlugOperator
 
 
-class AnkleHeightCompensationModeEnumPlugOperator(EnumPlugOperator):
+class AnkleHeightCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleHeightCompensationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -106,7 +106,7 @@ class AnkleHeightCompensationModeEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class AnkleHeightCompensationModeEnumAttrOperator(EnumAttrOperator):
+class AnkleHeightCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleHeightCompensationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -129,7 +129,7 @@ class AnkleHeightCompensationModeEnumField(
     PLUG_CLS = AnkleHeightCompensationModeEnumPlugOperator
 
 
-class AnkleProximityCompensationModeEnumPlugOperator(EnumPlugOperator):
+class AnkleProximityCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleProximityCompensationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -137,7 +137,7 @@ class AnkleProximityCompensationModeEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class AnkleProximityCompensationModeEnumAttrOperator(EnumAttrOperator):
+class AnkleProximityCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleProximityCompensationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -160,7 +160,7 @@ class AnkleProximityCompensationModeEnumField(
     PLUG_CLS = AnkleProximityCompensationModeEnumPlugOperator
 
 
-class HipsHeightCompensationModeEnumPlugOperator(EnumPlugOperator):
+class HipsHeightCompensationModeEnumPlugOperator(EnumPlugOperator["HipsHeightCompensationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -168,7 +168,7 @@ class HipsHeightCompensationModeEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class HipsHeightCompensationModeEnumAttrOperator(EnumAttrOperator):
+class HipsHeightCompensationModeEnumAttrOperator(EnumAttrOperator[HipsHeightCompensationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -191,14 +191,14 @@ class HipsHeightCompensationModeEnumField(
     PLUG_CLS = HipsHeightCompensationModeEnumPlugOperator
 
 
-class FloorContactEnumPlugOperator(EnumPlugOperator):
+class FloorContactEnumPlugOperator(EnumPlugOperator["FloorContactEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FloorContactEnumAttrOperator(EnumAttrOperator):
+class FloorContactEnumAttrOperator(EnumAttrOperator[FloorContactEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -219,14 +219,14 @@ class FloorContactEnumField(
     PLUG_CLS = FloorContactEnumPlugOperator
 
 
-class HandFloorContactEnumPlugOperator(EnumPlugOperator):
+class HandFloorContactEnumPlugOperator(EnumPlugOperator["HandFloorContactEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class HandFloorContactEnumAttrOperator(EnumAttrOperator):
+class HandFloorContactEnumAttrOperator(EnumAttrOperator[HandFloorContactEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -247,7 +247,7 @@ class HandFloorContactEnumField(
     PLUG_CLS = HandFloorContactEnumPlugOperator
 
 
-class HandContactTypeEnumPlugOperator(EnumPlugOperator):
+class HandContactTypeEnumPlugOperator(EnumPlugOperator["HandContactTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -256,7 +256,7 @@ class HandContactTypeEnumPlugOperator(EnumPlugOperator):
     HOOF = 3
 
 
-class HandContactTypeEnumAttrOperator(EnumAttrOperator):
+class HandContactTypeEnumAttrOperator(EnumAttrOperator[HandContactTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -281,14 +281,14 @@ class HandContactTypeEnumField(
     PLUG_CLS = HandContactTypeEnumPlugOperator
 
 
-class HandFingerContactEnumPlugOperator(EnumPlugOperator):
+class HandFingerContactEnumPlugOperator(EnumPlugOperator["HandFingerContactEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class HandFingerContactEnumAttrOperator(EnumAttrOperator):
+class HandFingerContactEnumAttrOperator(EnumAttrOperator[HandFingerContactEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -309,7 +309,7 @@ class HandFingerContactEnumField(
     PLUG_CLS = HandFingerContactEnumPlugOperator
 
 
-class HandFingerContactModeEnumPlugOperator(EnumPlugOperator):
+class HandFingerContactModeEnumPlugOperator(EnumPlugOperator["HandFingerContactModeEnumAttrOperator"]):
     __slots__ = ()
 
     STICKY = 0
@@ -317,7 +317,7 @@ class HandFingerContactModeEnumPlugOperator(EnumPlugOperator):
     STICKY_AMP_SPREAD = 2
 
 
-class HandFingerContactModeEnumAttrOperator(EnumAttrOperator):
+class HandFingerContactModeEnumAttrOperator(EnumAttrOperator[HandFingerContactModeEnumPlugOperator]):
     __slots__ = ()
 
     STICKY = 0
@@ -340,7 +340,7 @@ class HandFingerContactModeEnumField(
     PLUG_CLS = HandFingerContactModeEnumPlugOperator
 
 
-class FootContactTypeEnumPlugOperator(EnumPlugOperator):
+class FootContactTypeEnumPlugOperator(EnumPlugOperator["FootContactTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -349,7 +349,7 @@ class FootContactTypeEnumPlugOperator(EnumPlugOperator):
     HOOF = 3
 
 
-class FootContactTypeEnumAttrOperator(EnumAttrOperator):
+class FootContactTypeEnumAttrOperator(EnumAttrOperator[FootContactTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -374,14 +374,14 @@ class FootContactTypeEnumField(
     PLUG_CLS = FootContactTypeEnumPlugOperator
 
 
-class FootFingerContactEnumPlugOperator(EnumPlugOperator):
+class FootFingerContactEnumPlugOperator(EnumPlugOperator["FootFingerContactEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FootFingerContactEnumAttrOperator(EnumAttrOperator):
+class FootFingerContactEnumAttrOperator(EnumAttrOperator[FootFingerContactEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -402,7 +402,7 @@ class FootFingerContactEnumField(
     PLUG_CLS = FootFingerContactEnumPlugOperator
 
 
-class FootFingerContactModeEnumPlugOperator(EnumPlugOperator):
+class FootFingerContactModeEnumPlugOperator(EnumPlugOperator["FootFingerContactModeEnumAttrOperator"]):
     __slots__ = ()
 
     STICKY = 0
@@ -410,7 +410,7 @@ class FootFingerContactModeEnumPlugOperator(EnumPlugOperator):
     STICKY_AMP_SPREAD = 2
 
 
-class FootFingerContactModeEnumAttrOperator(EnumAttrOperator):
+class FootFingerContactModeEnumAttrOperator(EnumAttrOperator[FootFingerContactModeEnumPlugOperator]):
     __slots__ = ()
 
     STICKY = 0
@@ -433,14 +433,14 @@ class FootFingerContactModeEnumField(
     PLUG_CLS = FootFingerContactModeEnumPlugOperator
 
 
-class LeftUpLegRollModeEnumPlugOperator(EnumPlugOperator):
+class LeftUpLegRollModeEnumPlugOperator(EnumPlugOperator["LeftUpLegRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftUpLegRollModeEnumAttrOperator(EnumAttrOperator):
+class LeftUpLegRollModeEnumAttrOperator(EnumAttrOperator[LeftUpLegRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -461,14 +461,14 @@ class LeftUpLegRollModeEnumField(
     PLUG_CLS = LeftUpLegRollModeEnumPlugOperator
 
 
-class LeftLegRollModeEnumPlugOperator(EnumPlugOperator):
+class LeftLegRollModeEnumPlugOperator(EnumPlugOperator["LeftLegRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftLegRollModeEnumAttrOperator(EnumAttrOperator):
+class LeftLegRollModeEnumAttrOperator(EnumAttrOperator[LeftLegRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -489,14 +489,14 @@ class LeftLegRollModeEnumField(
     PLUG_CLS = LeftLegRollModeEnumPlugOperator
 
 
-class RightUpLegRollModeEnumPlugOperator(EnumPlugOperator):
+class RightUpLegRollModeEnumPlugOperator(EnumPlugOperator["RightUpLegRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightUpLegRollModeEnumAttrOperator(EnumAttrOperator):
+class RightUpLegRollModeEnumAttrOperator(EnumAttrOperator[RightUpLegRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -517,14 +517,14 @@ class RightUpLegRollModeEnumField(
     PLUG_CLS = RightUpLegRollModeEnumPlugOperator
 
 
-class RightLegRollModeEnumPlugOperator(EnumPlugOperator):
+class RightLegRollModeEnumPlugOperator(EnumPlugOperator["RightLegRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightLegRollModeEnumAttrOperator(EnumAttrOperator):
+class RightLegRollModeEnumAttrOperator(EnumAttrOperator[RightLegRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -545,14 +545,14 @@ class RightLegRollModeEnumField(
     PLUG_CLS = RightLegRollModeEnumPlugOperator
 
 
-class LeftArmRollModeEnumPlugOperator(EnumPlugOperator):
+class LeftArmRollModeEnumPlugOperator(EnumPlugOperator["LeftArmRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftArmRollModeEnumAttrOperator(EnumAttrOperator):
+class LeftArmRollModeEnumAttrOperator(EnumAttrOperator[LeftArmRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -573,14 +573,14 @@ class LeftArmRollModeEnumField(
     PLUG_CLS = LeftArmRollModeEnumPlugOperator
 
 
-class LeftForeArmRollModeEnumPlugOperator(EnumPlugOperator):
+class LeftForeArmRollModeEnumPlugOperator(EnumPlugOperator["LeftForeArmRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftForeArmRollModeEnumAttrOperator(EnumAttrOperator):
+class LeftForeArmRollModeEnumAttrOperator(EnumAttrOperator[LeftForeArmRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -601,14 +601,14 @@ class LeftForeArmRollModeEnumField(
     PLUG_CLS = LeftForeArmRollModeEnumPlugOperator
 
 
-class RightArmRollModeEnumPlugOperator(EnumPlugOperator):
+class RightArmRollModeEnumPlugOperator(EnumPlugOperator["RightArmRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightArmRollModeEnumAttrOperator(EnumAttrOperator):
+class RightArmRollModeEnumAttrOperator(EnumAttrOperator[RightArmRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -629,14 +629,14 @@ class RightArmRollModeEnumField(
     PLUG_CLS = RightArmRollModeEnumPlugOperator
 
 
-class RightForeArmRollModeEnumPlugOperator(EnumPlugOperator):
+class RightForeArmRollModeEnumPlugOperator(EnumPlugOperator["RightForeArmRollModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightForeArmRollModeEnumAttrOperator(EnumAttrOperator):
+class RightForeArmRollModeEnumAttrOperator(EnumAttrOperator[RightForeArmRollModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -657,14 +657,14 @@ class RightForeArmRollModeEnumField(
     PLUG_CLS = RightForeArmRollModeEnumPlugOperator
 
 
-class MirrorEnumPlugOperator(EnumPlugOperator):
+class MirrorEnumPlugOperator(EnumPlugOperator["MirrorEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class MirrorEnumAttrOperator(EnumAttrOperator):
+class MirrorEnumAttrOperator(EnumAttrOperator[MirrorEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -685,14 +685,14 @@ class MirrorEnumField(
     PLUG_CLS = MirrorEnumPlugOperator
 
 
-class LeftKneeKillPitchEnumPlugOperator(EnumPlugOperator):
+class LeftKneeKillPitchEnumPlugOperator(EnumPlugOperator["LeftKneeKillPitchEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftKneeKillPitchEnumAttrOperator(EnumAttrOperator):
+class LeftKneeKillPitchEnumAttrOperator(EnumAttrOperator[LeftKneeKillPitchEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -713,14 +713,14 @@ class LeftKneeKillPitchEnumField(
     PLUG_CLS = LeftKneeKillPitchEnumPlugOperator
 
 
-class RightKneeKillPitchEnumPlugOperator(EnumPlugOperator):
+class RightKneeKillPitchEnumPlugOperator(EnumPlugOperator["RightKneeKillPitchEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightKneeKillPitchEnumAttrOperator(EnumAttrOperator):
+class RightKneeKillPitchEnumAttrOperator(EnumAttrOperator[RightKneeKillPitchEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -741,14 +741,14 @@ class RightKneeKillPitchEnumField(
     PLUG_CLS = RightKneeKillPitchEnumPlugOperator
 
 
-class LeftElbowKillPitchEnumPlugOperator(EnumPlugOperator):
+class LeftElbowKillPitchEnumPlugOperator(EnumPlugOperator["LeftElbowKillPitchEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftElbowKillPitchEnumAttrOperator(EnumAttrOperator):
+class LeftElbowKillPitchEnumAttrOperator(EnumAttrOperator[LeftElbowKillPitchEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -769,14 +769,14 @@ class LeftElbowKillPitchEnumField(
     PLUG_CLS = LeftElbowKillPitchEnumPlugOperator
 
 
-class RightElbowKillPitchEnumPlugOperator(EnumPlugOperator):
+class RightElbowKillPitchEnumPlugOperator(EnumPlugOperator["RightElbowKillPitchEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightElbowKillPitchEnumAttrOperator(EnumAttrOperator):
+class RightElbowKillPitchEnumAttrOperator(EnumAttrOperator[RightElbowKillPitchEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -797,14 +797,14 @@ class RightElbowKillPitchEnumField(
     PLUG_CLS = RightElbowKillPitchEnumPlugOperator
 
 
-class AutomaticToesEnumPlugOperator(EnumPlugOperator):
+class AutomaticToesEnumPlugOperator(EnumPlugOperator["AutomaticToesEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class AutomaticToesEnumAttrOperator(EnumAttrOperator):
+class AutomaticToesEnumAttrOperator(EnumAttrOperator[AutomaticToesEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -825,7 +825,7 @@ class AutomaticToesEnumField(
     PLUG_CLS = AutomaticToesEnumPlugOperator
 
 
-class FloorPivotEnumPlugOperator(EnumPlugOperator):
+class FloorPivotEnumPlugOperator(EnumPlugOperator["FloorPivotEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -833,7 +833,7 @@ class FloorPivotEnumPlugOperator(EnumPlugOperator):
     TOES = 2
 
 
-class FloorPivotEnumAttrOperator(EnumAttrOperator):
+class FloorPivotEnumAttrOperator(EnumAttrOperator[FloorPivotEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -856,14 +856,14 @@ class FloorPivotEnumField(
     PLUG_CLS = FloorPivotEnumPlugOperator
 
 
-class PostureEnumPlugOperator(EnumPlugOperator):
+class PostureEnumPlugOperator(EnumPlugOperator["PostureEnumAttrOperator"]):
     __slots__ = ()
 
     BIPED = 0
     QUADRUPED = 1
 
 
-class PostureEnumAttrOperator(EnumAttrOperator):
+class PostureEnumAttrOperator(EnumAttrOperator[PostureEnumPlugOperator]):
     __slots__ = ()
 
     BIPED = 0
@@ -884,14 +884,14 @@ class PostureEnumField(
     PLUG_CLS = PostureEnumPlugOperator
 
 
-class AutomaticFingersEnumPlugOperator(EnumPlugOperator):
+class AutomaticFingersEnumPlugOperator(EnumPlugOperator["AutomaticFingersEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class AutomaticFingersEnumAttrOperator(EnumAttrOperator):
+class AutomaticFingersEnumAttrOperator(EnumAttrOperator[AutomaticFingersEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -912,7 +912,7 @@ class AutomaticFingersEnumField(
     PLUG_CLS = AutomaticFingersEnumPlugOperator
 
 
-class HandFloorPivotEnumPlugOperator(EnumPlugOperator):
+class HandFloorPivotEnumPlugOperator(EnumPlugOperator["HandFloorPivotEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -920,7 +920,7 @@ class HandFloorPivotEnumPlugOperator(EnumPlugOperator):
     FINGERS = 2
 
 
-class HandFloorPivotEnumAttrOperator(EnumAttrOperator):
+class HandFloorPivotEnumAttrOperator(EnumAttrOperator[HandFloorPivotEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -943,7 +943,7 @@ class HandFloorPivotEnumField(
     PLUG_CLS = HandFloorPivotEnumPlugOperator
 
 
-class HipsTranslationModeEnumPlugOperator(EnumPlugOperator):
+class HipsTranslationModeEnumPlugOperator(EnumPlugOperator["HipsTranslationModeEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD_RIGID = 0
@@ -951,7 +951,7 @@ class HipsTranslationModeEnumPlugOperator(EnumPlugOperator):
     TRAJECTORY = 2
 
 
-class HipsTranslationModeEnumAttrOperator(EnumAttrOperator):
+class HipsTranslationModeEnumAttrOperator(EnumAttrOperator[HipsTranslationModeEnumPlugOperator]):
     __slots__ = ()
 
     WORLD_RIGID = 0
@@ -974,14 +974,14 @@ class HipsTranslationModeEnumField(
     PLUG_CLS = HipsTranslationModeEnumPlugOperator
 
 
-class FingerSolvingEnumPlugOperator(EnumPlugOperator):
+class FingerSolvingEnumPlugOperator(EnumPlugOperator["FingerSolvingEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FingerSolvingEnumAttrOperator(EnumAttrOperator):
+class FingerSolvingEnumAttrOperator(EnumAttrOperator[FingerSolvingEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1002,14 +1002,14 @@ class FingerSolvingEnumField(
     PLUG_CLS = FingerSolvingEnumPlugOperator
 
 
-class RollExtractionModeEnumPlugOperator(EnumPlugOperator):
+class RollExtractionModeEnumPlugOperator(EnumPlugOperator["RollExtractionModeEnumAttrOperator"]):
     __slots__ = ()
 
     RELATIVE = 0
     ABSOLUTE = 1
 
 
-class RollExtractionModeEnumAttrOperator(EnumAttrOperator):
+class RollExtractionModeEnumAttrOperator(EnumAttrOperator[RollExtractionModeEnumPlugOperator]):
     __slots__ = ()
 
     RELATIVE = 0
@@ -1030,14 +1030,14 @@ class RollExtractionModeEnumField(
     PLUG_CLS = RollExtractionModeEnumPlugOperator
 
 
-class FingerPropagationEnumPlugOperator(EnumPlugOperator):
+class FingerPropagationEnumPlugOperator(EnumPlugOperator["FingerPropagationEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FingerPropagationEnumAttrOperator(EnumAttrOperator):
+class FingerPropagationEnumAttrOperator(EnumAttrOperator[FingerPropagationEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1058,14 +1058,14 @@ class FingerPropagationEnumField(
     PLUG_CLS = FingerPropagationEnumPlugOperator
 
 
-class SnSSmoothReachEnumPlugOperator(EnumPlugOperator):
+class SnSSmoothReachEnumPlugOperator(EnumPlugOperator["SnSSmoothReachEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class SnSSmoothReachEnumAttrOperator(EnumAttrOperator):
+class SnSSmoothReachEnumAttrOperator(EnumAttrOperator[SnSSmoothReachEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1086,14 +1086,14 @@ class SnSSmoothReachEnumField(
     PLUG_CLS = SnSSmoothReachEnumPlugOperator
 
 
-class LockXEnumPlugOperator(EnumPlugOperator):
+class LockXEnumPlugOperator(EnumPlugOperator["LockXEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LockXEnumAttrOperator(EnumAttrOperator):
+class LockXEnumAttrOperator(EnumAttrOperator[LockXEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1114,14 +1114,14 @@ class LockXEnumField(
     PLUG_CLS = LockXEnumPlugOperator
 
 
-class LockYEnumPlugOperator(EnumPlugOperator):
+class LockYEnumPlugOperator(EnumPlugOperator["LockYEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LockYEnumAttrOperator(EnumAttrOperator):
+class LockYEnumAttrOperator(EnumAttrOperator[LockYEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1142,14 +1142,14 @@ class LockYEnumField(
     PLUG_CLS = LockYEnumPlugOperator
 
 
-class LockZEnumPlugOperator(EnumPlugOperator):
+class LockZEnumPlugOperator(EnumPlugOperator["LockZEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LockZEnumAttrOperator(EnumAttrOperator):
+class LockZEnumAttrOperator(EnumAttrOperator[LockZEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1170,14 +1170,14 @@ class LockZEnumField(
     PLUG_CLS = LockZEnumPlugOperator
 
 
-class ParamRealisticArmSolvingEnumPlugOperator(EnumPlugOperator):
+class ParamRealisticArmSolvingEnumPlugOperator(EnumPlugOperator["ParamRealisticArmSolvingEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamRealisticArmSolvingEnumAttrOperator(EnumAttrOperator):
+class ParamRealisticArmSolvingEnumAttrOperator(EnumAttrOperator[ParamRealisticArmSolvingEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1198,14 +1198,14 @@ class ParamRealisticArmSolvingEnumField(
     PLUG_CLS = ParamRealisticArmSolvingEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1226,14 +1226,14 @@ class ParamLeafLeftUpLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1254,14 +1254,14 @@ class ParamLeafLeftLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1282,14 +1282,14 @@ class ParamLeafRightUpLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1310,14 +1310,14 @@ class ParamLeafRightLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1338,14 +1338,14 @@ class ParamLeafLeftArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1366,14 +1366,14 @@ class ParamLeafLeftForeArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1394,14 +1394,14 @@ class ParamLeafRightArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll1ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll1ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1422,14 +1422,14 @@ class ParamLeafRightForeArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1450,14 +1450,14 @@ class ParamLeafLeftUpLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1478,14 +1478,14 @@ class ParamLeafLeftLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1506,14 +1506,14 @@ class ParamLeafRightUpLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1534,14 +1534,14 @@ class ParamLeafRightLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1562,14 +1562,14 @@ class ParamLeafLeftArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1590,14 +1590,14 @@ class ParamLeafLeftForeArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1618,14 +1618,14 @@ class ParamLeafRightArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll2ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll2ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1646,14 +1646,14 @@ class ParamLeafRightForeArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1674,14 +1674,14 @@ class ParamLeafLeftUpLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1702,14 +1702,14 @@ class ParamLeafLeftLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1730,14 +1730,14 @@ class ParamLeafRightUpLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1758,14 +1758,14 @@ class ParamLeafRightLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1786,14 +1786,14 @@ class ParamLeafLeftArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1814,14 +1814,14 @@ class ParamLeafLeftForeArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1842,14 +1842,14 @@ class ParamLeafRightArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll3ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll3ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1870,14 +1870,14 @@ class ParamLeafRightForeArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1898,14 +1898,14 @@ class ParamLeafLeftUpLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1926,14 +1926,14 @@ class ParamLeafLeftLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1954,14 +1954,14 @@ class ParamLeafRightUpLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -1982,14 +1982,14 @@ class ParamLeafRightLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2010,14 +2010,14 @@ class ParamLeafLeftArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2038,14 +2038,14 @@ class ParamLeafLeftForeArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2066,14 +2066,14 @@ class ParamLeafRightArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll4ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll4ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2094,14 +2094,14 @@ class ParamLeafRightForeArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2122,14 +2122,14 @@ class ParamLeafLeftUpLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2150,14 +2150,14 @@ class ParamLeafLeftLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2178,14 +2178,14 @@ class ParamLeafRightUpLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2206,14 +2206,14 @@ class ParamLeafRightLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2234,14 +2234,14 @@ class ParamLeafLeftArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafLeftForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafLeftForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2262,14 +2262,14 @@ class ParamLeafLeftForeArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2290,14 +2290,14 @@ class ParamLeafRightArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator):
+class ParamLeafRightForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll5ModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator):
+class ParamLeafRightForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll5ModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2318,14 +2318,14 @@ class ParamLeafRightForeArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll5ModeEnumPlugOperator
 
 
-class LeftLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator):
+class LeftLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["LeftLegFullRollExtractionModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator):
+class LeftLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftLegFullRollExtractionModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2346,14 +2346,14 @@ class LeftLegFullRollExtractionModeEnumField(
     PLUG_CLS = LeftLegFullRollExtractionModeEnumPlugOperator
 
 
-class RightLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator):
+class RightLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["RightLegFullRollExtractionModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator):
+class RightLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightLegFullRollExtractionModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2374,14 +2374,14 @@ class RightLegFullRollExtractionModeEnumField(
     PLUG_CLS = RightLegFullRollExtractionModeEnumPlugOperator
 
 
-class LeftArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator):
+class LeftArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["LeftArmFullRollExtractionModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator):
+class LeftArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftArmFullRollExtractionModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -2402,14 +2402,14 @@ class LeftArmFullRollExtractionModeEnumField(
     PLUG_CLS = LeftArmFullRollExtractionModeEnumPlugOperator
 
 
-class RightArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator):
+class RightArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["RightArmFullRollExtractionModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator):
+class RightArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightArmFullRollExtractionModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

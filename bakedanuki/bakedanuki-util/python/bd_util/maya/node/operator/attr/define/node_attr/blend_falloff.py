@@ -14,7 +14,7 @@ from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.typed import TypedField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -27,7 +27,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     ALPHABLEND = 7
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0

@@ -27,14 +27,14 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class SpecularDistributionEnumPlugOperator(EnumPlugOperator):
+class SpecularDistributionEnumPlugOperator(EnumPlugOperator["SpecularDistributionEnumAttrOperator"]):
     __slots__ = ()
 
     BECKMANN = 0
     GGX = 1
 
 
-class SpecularDistributionEnumAttrOperator(EnumAttrOperator):
+class SpecularDistributionEnumAttrOperator(EnumAttrOperator[SpecularDistributionEnumPlugOperator]):
     __slots__ = ()
 
     BECKMANN = 0

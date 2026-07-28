@@ -16,14 +16,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class HierarchyModeEnumPlugOperator(EnumPlugOperator):
+class HierarchyModeEnumPlugOperator(EnumPlugOperator["HierarchyModeEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 4
 
 
-class HierarchyModeEnumAttrOperator(EnumAttrOperator):
+class HierarchyModeEnumAttrOperator(EnumAttrOperator[HierarchyModeEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -44,14 +44,14 @@ class HierarchyModeEnumField(
     PLUG_CLS = HierarchyModeEnumPlugOperator
 
 
-class InitialVelocitySpaceEnumPlugOperator(EnumPlugOperator):
+class InitialVelocitySpaceEnumPlugOperator(EnumPlugOperator["InitialVelocitySpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class InitialVelocitySpaceEnumAttrOperator(EnumAttrOperator):
+class InitialVelocitySpaceEnumAttrOperator(EnumAttrOperator[InitialVelocitySpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -72,7 +72,7 @@ class InitialVelocitySpaceEnumField(
     PLUG_CLS = InitialVelocitySpaceEnumPlugOperator
 
 
-class CollisionShapeAxisEnumPlugOperator(EnumPlugOperator):
+class CollisionShapeAxisEnumPlugOperator(EnumPlugOperator["CollisionShapeAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -80,7 +80,7 @@ class CollisionShapeAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class CollisionShapeAxisEnumAttrOperator(EnumAttrOperator):
+class CollisionShapeAxisEnumAttrOperator(EnumAttrOperator[CollisionShapeAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -103,7 +103,7 @@ class CollisionShapeAxisEnumField(
     PLUG_CLS = CollisionShapeAxisEnumPlugOperator
 
 
-class CollisionShapeEnumPlugOperator(EnumPlugOperator):
+class CollisionShapeEnumPlugOperator(EnumPlugOperator["CollisionShapeEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -115,7 +115,7 @@ class CollisionShapeEnumPlugOperator(EnumPlugOperator):
     MESH = 8
 
 
-class CollisionShapeEnumAttrOperator(EnumAttrOperator):
+class CollisionShapeEnumAttrOperator(EnumAttrOperator[CollisionShapeEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0

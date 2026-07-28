@@ -21,14 +21,14 @@ from ..std.dt.string import DataStringField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class ClipTypeEnumPlugOperator(EnumPlugOperator):
+class ClipTypeEnumPlugOperator(EnumPlugOperator["ClipTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ANIMATION = 0
     AUDIO = 1
 
 
-class ClipTypeEnumAttrOperator(EnumAttrOperator):
+class ClipTypeEnumAttrOperator(EnumAttrOperator[ClipTypeEnumPlugOperator]):
     __slots__ = ()
 
     ANIMATION = 0
@@ -49,14 +49,14 @@ class ClipTypeEnumField(
     PLUG_CLS = ClipTypeEnumPlugOperator
 
 
-class TimeWarpTypeEnumPlugOperator(EnumPlugOperator):
+class TimeWarpTypeEnumPlugOperator(EnumPlugOperator["TimeWarpTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TIME_WARP = 0
     SPEED_CURVE = 1
 
 
-class TimeWarpTypeEnumAttrOperator(EnumAttrOperator):
+class TimeWarpTypeEnumAttrOperator(EnumAttrOperator[TimeWarpTypeEnumPlugOperator]):
     __slots__ = ()
 
     TIME_WARP = 0
@@ -77,7 +77,7 @@ class TimeWarpTypeEnumField(
     PLUG_CLS = TimeWarpTypeEnumPlugOperator
 
 
-class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator):
+class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator["ClipLoopBeforeModeEnumAttrOperator"]):
     __slots__ = ()
 
     LOOP = 0
@@ -85,7 +85,7 @@ class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator):
     HOLD = 2
 
 
-class ClipLoopBeforeModeEnumAttrOperator(EnumAttrOperator):
+class ClipLoopBeforeModeEnumAttrOperator(EnumAttrOperator[ClipLoopBeforeModeEnumPlugOperator]):
     __slots__ = ()
 
     LOOP = 0
@@ -108,7 +108,7 @@ class ClipLoopBeforeModeEnumField(
     PLUG_CLS = ClipLoopBeforeModeEnumPlugOperator
 
 
-class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator):
+class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator["ClipLoopAfterModeEnumAttrOperator"]):
     __slots__ = ()
 
     LOOP = 0
@@ -116,7 +116,7 @@ class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator):
     HOLD = 2
 
 
-class ClipLoopAfterModeEnumAttrOperator(EnumAttrOperator):
+class ClipLoopAfterModeEnumAttrOperator(EnumAttrOperator[ClipLoopAfterModeEnumPlugOperator]):
     __slots__ = ()
 
     LOOP = 0
@@ -139,14 +139,14 @@ class ClipLoopAfterModeEnumField(
     PLUG_CLS = ClipLoopAfterModeEnumPlugOperator
 
 
-class ClipBlendModeEnumPlugOperator(EnumPlugOperator):
+class ClipBlendModeEnumPlugOperator(EnumPlugOperator["ClipBlendModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     ADDITIVE = 1
 
 
-class ClipBlendModeEnumAttrOperator(EnumAttrOperator):
+class ClipBlendModeEnumAttrOperator(EnumAttrOperator[ClipBlendModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0

@@ -15,7 +15,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class MiteringEnumPlugOperator(EnumPlugOperator):
+class MiteringEnumPlugOperator(EnumPlugOperator["MiteringEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -25,7 +25,7 @@ class MiteringEnumPlugOperator(EnumPlugOperator):
     NONE = 4
 
 
-class MiteringEnumAttrOperator(EnumAttrOperator):
+class MiteringEnumAttrOperator(EnumAttrOperator[MiteringEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -52,7 +52,7 @@ class MiteringEnumField(
     PLUG_CLS = MiteringEnumPlugOperator
 
 
-class MiterAlongEnumPlugOperator(EnumPlugOperator):
+class MiterAlongEnumPlugOperator(EnumPlugOperator["MiterAlongEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -61,7 +61,7 @@ class MiterAlongEnumPlugOperator(EnumPlugOperator):
     HARD_EDGE = 3
 
 
-class MiterAlongEnumAttrOperator(EnumAttrOperator):
+class MiterAlongEnumAttrOperator(EnumAttrOperator[MiterAlongEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0

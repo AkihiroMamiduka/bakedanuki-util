@@ -14,7 +14,7 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -24,7 +24,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     POINT_MATRIX_PRODUCT = 4
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0

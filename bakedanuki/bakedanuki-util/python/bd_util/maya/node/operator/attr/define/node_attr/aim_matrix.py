@@ -14,7 +14,7 @@ from ..std.at.scalar.enum import (
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
 
 
-class PrimaryModeEnumPlugOperator(EnumPlugOperator):
+class PrimaryModeEnumPlugOperator(EnumPlugOperator["PrimaryModeEnumAttrOperator"]):
     __slots__ = ()
 
     LOCK_AXIS = 0
@@ -22,7 +22,7 @@ class PrimaryModeEnumPlugOperator(EnumPlugOperator):
     ALIGN = 2
 
 
-class PrimaryModeEnumAttrOperator(EnumAttrOperator):
+class PrimaryModeEnumAttrOperator(EnumAttrOperator[PrimaryModeEnumPlugOperator]):
     __slots__ = ()
 
     LOCK_AXIS = 0
@@ -45,7 +45,7 @@ class PrimaryModeEnumField(
     PLUG_CLS = PrimaryModeEnumPlugOperator
 
 
-class SecondaryModeEnumPlugOperator(EnumPlugOperator):
+class SecondaryModeEnumPlugOperator(EnumPlugOperator["SecondaryModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -53,7 +53,7 @@ class SecondaryModeEnumPlugOperator(EnumPlugOperator):
     ALIGN = 2
 
 
-class SecondaryModeEnumAttrOperator(EnumAttrOperator):
+class SecondaryModeEnumAttrOperator(EnumAttrOperator[SecondaryModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

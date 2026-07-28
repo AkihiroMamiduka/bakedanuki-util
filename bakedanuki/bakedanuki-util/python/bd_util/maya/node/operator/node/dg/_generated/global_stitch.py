@@ -14,7 +14,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class StitchCornersEnumPlugOperator(EnumPlugOperator):
+class StitchCornersEnumPlugOperator(EnumPlugOperator["StitchCornersEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -22,7 +22,7 @@ class StitchCornersEnumPlugOperator(EnumPlugOperator):
     CLOSEST_KNOT = 2
 
 
-class StitchCornersEnumAttrOperator(EnumAttrOperator):
+class StitchCornersEnumAttrOperator(EnumAttrOperator[StitchCornersEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -45,7 +45,7 @@ class StitchCornersEnumField(
     PLUG_CLS = StitchCornersEnumPlugOperator
 
 
-class StitchEdgesEnumPlugOperator(EnumPlugOperator):
+class StitchEdgesEnumPlugOperator(EnumPlugOperator["StitchEdgesEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -53,7 +53,7 @@ class StitchEdgesEnumPlugOperator(EnumPlugOperator):
     MATCH_PARAMETERS = 2
 
 
-class StitchEdgesEnumAttrOperator(EnumAttrOperator):
+class StitchEdgesEnumAttrOperator(EnumAttrOperator[StitchEdgesEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -76,7 +76,7 @@ class StitchEdgesEnumField(
     PLUG_CLS = StitchEdgesEnumPlugOperator
 
 
-class StitchSmoothnessEnumPlugOperator(EnumPlugOperator):
+class StitchSmoothnessEnumPlugOperator(EnumPlugOperator["StitchSmoothnessEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +84,7 @@ class StitchSmoothnessEnumPlugOperator(EnumPlugOperator):
     NORMAL = 2
 
 
-class StitchSmoothnessEnumAttrOperator(EnumAttrOperator):
+class StitchSmoothnessEnumAttrOperator(EnumAttrOperator[StitchSmoothnessEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

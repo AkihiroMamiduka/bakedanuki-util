@@ -13,7 +13,7 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class WidthRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class WidthRamp_InterpEnumPlugOperator(EnumPlugOperator["WidthRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +22,7 @@ class WidthRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WidthRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class WidthRamp_InterpEnumAttrOperator(EnumAttrOperator[WidthRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

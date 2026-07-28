@@ -23,7 +23,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +32,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +57,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -85,7 +85,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class CollideOnCreateEnumPlugOperator(EnumPlugOperator):
+class CollideOnCreateEnumPlugOperator(EnumPlugOperator["CollideOnCreateEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 1
@@ -93,7 +93,7 @@ class CollideOnCreateEnumPlugOperator(EnumPlugOperator):
     STRICT = 3
 
 
-class CollideOnCreateEnumAttrOperator(EnumAttrOperator):
+class CollideOnCreateEnumAttrOperator(EnumAttrOperator[CollideOnCreateEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 1
@@ -116,7 +116,7 @@ class CollideOnCreateEnumField(
     PLUG_CLS = CollideOnCreateEnumPlugOperator
 
 
-class AlignBrushAxisEnumPlugOperator(EnumPlugOperator):
+class AlignBrushAxisEnumPlugOperator(EnumPlugOperator["AlignBrushAxisEnumAttrOperator"]):
     __slots__ = ()
 
     ALL = 1
@@ -125,7 +125,7 @@ class AlignBrushAxisEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class AlignBrushAxisEnumAttrOperator(EnumAttrOperator):
+class AlignBrushAxisEnumAttrOperator(EnumAttrOperator[AlignBrushAxisEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 1
@@ -150,7 +150,7 @@ class AlignBrushAxisEnumField(
     PLUG_CLS = AlignBrushAxisEnumPlugOperator
 
 
-class RotationModeEnumPlugOperator(EnumPlugOperator):
+class RotationModeEnumPlugOperator(EnumPlugOperator["RotationModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 1
@@ -158,7 +158,7 @@ class RotationModeEnumPlugOperator(EnumPlugOperator):
     ALIGN_TO_BRUSH = 3
 
 
-class RotationModeEnumAttrOperator(EnumAttrOperator):
+class RotationModeEnumAttrOperator(EnumAttrOperator[RotationModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 1
@@ -181,14 +181,14 @@ class RotationModeEnumField(
     PLUG_CLS = RotationModeEnumPlugOperator
 
 
-class IdModeEnumPlugOperator(EnumPlugOperator):
+class IdModeEnumPlugOperator(EnumPlugOperator["IdModeEnumAttrOperator"]):
     __slots__ = ()
 
     FIXED = 1
     RANDOM = 2
 
 
-class IdModeEnumAttrOperator(EnumAttrOperator):
+class IdModeEnumAttrOperator(EnumAttrOperator[IdModeEnumPlugOperator]):
     __slots__ = ()
 
     FIXED = 1
@@ -209,7 +209,7 @@ class IdModeEnumField(
     PLUG_CLS = IdModeEnumPlugOperator
 
 
-class BrushTypeEnumPlugOperator(EnumPlugOperator):
+class BrushTypeEnumPlugOperator(EnumPlugOperator["BrushTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINTS_BRUSH = 1
@@ -222,7 +222,7 @@ class BrushTypeEnumPlugOperator(EnumPlugOperator):
     NUDGE_BRUSH = 8
 
 
-class BrushTypeEnumAttrOperator(EnumAttrOperator):
+class BrushTypeEnumAttrOperator(EnumAttrOperator[BrushTypeEnumPlugOperator]):
     __slots__ = ()
 
     POINTS_BRUSH = 1

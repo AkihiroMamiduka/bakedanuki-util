@@ -27,7 +27,7 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class VariableEnumPlugOperator(EnumPlugOperator):
+class VariableEnumPlugOperator(EnumPlugOperator["VariableEnumAttrOperator"]):
     __slots__ = ()
 
     RO = 0
@@ -49,7 +49,7 @@ class VariableEnumPlugOperator(EnumPlugOperator):
     DNDY = 16
 
 
-class VariableEnumAttrOperator(EnumAttrOperator):
+class VariableEnumAttrOperator(EnumAttrOperator[VariableEnumPlugOperator]):
     __slots__ = ()
 
     RO = 0

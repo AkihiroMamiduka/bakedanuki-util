@@ -20,14 +20,14 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE_FIELD = 0
     NORMALS = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE_FIELD = 0
@@ -48,14 +48,14 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class BevelStyleEnumPlugOperator(EnumPlugOperator):
+class BevelStyleEnumPlugOperator(EnumPlugOperator["BevelStyleEnumAttrOperator"]):
     __slots__ = ()
 
     OUTER = 1
     INNER = 2
 
 
-class BevelStyleEnumAttrOperator(EnumAttrOperator):
+class BevelStyleEnumAttrOperator(EnumAttrOperator[BevelStyleEnumPlugOperator]):
     __slots__ = ()
 
     OUTER = 1

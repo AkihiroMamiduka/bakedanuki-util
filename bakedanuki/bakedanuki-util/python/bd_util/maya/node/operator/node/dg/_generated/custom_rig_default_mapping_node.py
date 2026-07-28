@@ -12,14 +12,14 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     T = 0
     R = 1
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     T = 0

@@ -21,7 +21,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class AlignmentModeEnumPlugOperator(EnumPlugOperator):
+class AlignmentModeEnumPlugOperator(EnumPlugOperator["AlignmentModeEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 1
@@ -30,7 +30,7 @@ class AlignmentModeEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class AlignmentModeEnumAttrOperator(EnumAttrOperator):
+class AlignmentModeEnumAttrOperator(EnumAttrOperator[AlignmentModeEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 1
@@ -55,14 +55,14 @@ class AlignmentModeEnumField(
     PLUG_CLS = AlignmentModeEnumPlugOperator
 
 
-class AimCurveModeEnumPlugOperator(EnumPlugOperator):
+class AimCurveModeEnumPlugOperator(EnumPlugOperator["AimCurveModeEnumAttrOperator"]):
     __slots__ = ()
 
     U_VALUE_FAST = 1
     CLOSEST_POINT_SLOW = 2
 
 
-class AimCurveModeEnumAttrOperator(EnumAttrOperator):
+class AimCurveModeEnumAttrOperator(EnumAttrOperator[AimCurveModeEnumPlugOperator]):
     __slots__ = ()
 
     U_VALUE_FAST = 1
@@ -83,7 +83,7 @@ class AimCurveModeEnumField(
     PLUG_CLS = AimCurveModeEnumPlugOperator
 
 
-class AimModeEnumPlugOperator(EnumPlugOperator):
+class AimModeEnumPlugOperator(EnumPlugOperator["AimModeEnumAttrOperator"]):
     __slots__ = ()
 
     CURVE_NORMALS = 1
@@ -91,7 +91,7 @@ class AimModeEnumPlugOperator(EnumPlugOperator):
     AIM_CURVE = 3
 
 
-class AimModeEnumAttrOperator(EnumAttrOperator):
+class AimModeEnumAttrOperator(EnumAttrOperator[AimModeEnumPlugOperator]):
     __slots__ = ()
 
     CURVE_NORMALS = 1

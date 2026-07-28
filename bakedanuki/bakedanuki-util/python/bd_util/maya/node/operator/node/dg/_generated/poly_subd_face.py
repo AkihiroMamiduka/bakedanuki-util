@@ -11,14 +11,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     QUADS = 0
     TRIANGLES = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     QUADS = 0
@@ -39,14 +39,14 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class SubdMethodEnumPlugOperator(EnumPlugOperator):
+class SubdMethodEnumPlugOperator(EnumPlugOperator["SubdMethodEnumAttrOperator"]):
     __slots__ = ()
 
     EXPONENTIAL = 0
     LINEAR = 1
 
 
-class SubdMethodEnumAttrOperator(EnumAttrOperator):
+class SubdMethodEnumAttrOperator(EnumAttrOperator[SubdMethodEnumPlugOperator]):
     __slots__ = ()
 
     EXPONENTIAL = 0

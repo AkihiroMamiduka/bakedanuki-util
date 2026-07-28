@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class PatternEnumPlugOperator(EnumPlugOperator):
+class PatternEnumPlugOperator(EnumPlugOperator["PatternEnumAttrOperator"]):
     __slots__ = ()
 
     NOISE1 = 0
@@ -32,7 +32,7 @@ class PatternEnumPlugOperator(EnumPlugOperator):
     ALLIGATOR = 6
 
 
-class PatternEnumAttrOperator(EnumAttrOperator):
+class PatternEnumAttrOperator(EnumAttrOperator[PatternEnumPlugOperator]):
     __slots__ = ()
 
     NOISE1 = 0
@@ -63,7 +63,7 @@ class PatternEnumField(
     PLUG_CLS = PatternEnumPlugOperator
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -72,7 +72,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 3
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

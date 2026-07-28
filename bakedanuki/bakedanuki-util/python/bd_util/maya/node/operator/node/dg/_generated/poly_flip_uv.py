@@ -14,14 +14,14 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FlipTypeEnumPlugOperator(EnumPlugOperator):
+class FlipTypeEnumPlugOperator(EnumPlugOperator["FlipTypeEnumAttrOperator"]):
     __slots__ = ()
 
     HORIZONTAL = 0
     VERTICAL = 1
 
 
-class FlipTypeEnumAttrOperator(EnumAttrOperator):
+class FlipTypeEnumAttrOperator(EnumAttrOperator[FlipTypeEnumPlugOperator]):
     __slots__ = ()
 
     HORIZONTAL = 0

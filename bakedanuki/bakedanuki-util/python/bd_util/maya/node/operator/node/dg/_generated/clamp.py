@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -22,7 +22,7 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 0

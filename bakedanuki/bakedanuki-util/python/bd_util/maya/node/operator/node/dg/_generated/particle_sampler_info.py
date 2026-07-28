@@ -37,7 +37,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class OutUvTypeEnumPlugOperator(EnumPlugOperator):
+class OutUvTypeEnumPlugOperator(EnumPlugOperator["OutUvTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMALIZED_AGE = 0
@@ -46,7 +46,7 @@ class OutUvTypeEnumPlugOperator(EnumPlugOperator):
     COLLISION_UV = 3
 
 
-class OutUvTypeEnumAttrOperator(EnumAttrOperator):
+class OutUvTypeEnumAttrOperator(EnumAttrOperator[OutUvTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMALIZED_AGE = 0
@@ -71,14 +71,14 @@ class OutUvTypeEnumField(
     PLUG_CLS = OutUvTypeEnumPlugOperator
 
 
-class NormalizationMethodEnumPlugOperator(EnumPlugOperator):
+class NormalizationMethodEnumPlugOperator(EnumPlugOperator["NormalizationMethodEnumAttrOperator"]):
     __slots__ = ()
 
     OSCILLATE = 0
     CLAMP = 1
 
 
-class NormalizationMethodEnumAttrOperator(EnumAttrOperator):
+class NormalizationMethodEnumAttrOperator(EnumAttrOperator[NormalizationMethodEnumPlugOperator]):
     __slots__ = ()
 
     OSCILLATE = 0

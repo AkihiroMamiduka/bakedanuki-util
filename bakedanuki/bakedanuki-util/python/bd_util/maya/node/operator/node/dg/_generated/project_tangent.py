@@ -12,7 +12,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class TangentDirectionEnumPlugOperator(EnumPlugOperator):
+class TangentDirectionEnumPlugOperator(EnumPlugOperator["TangentDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 1
@@ -20,7 +20,7 @@ class TangentDirectionEnumPlugOperator(EnumPlugOperator):
     NORMAL = 3
 
 
-class TangentDirectionEnumAttrOperator(EnumAttrOperator):
+class TangentDirectionEnumAttrOperator(EnumAttrOperator[TangentDirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 1

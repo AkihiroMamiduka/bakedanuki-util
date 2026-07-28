@@ -14,7 +14,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class InterpolationTypeEnumPlugOperator(EnumPlugOperator):
+class InterpolationTypeEnumPlugOperator(EnumPlugOperator["InterpolationTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -22,7 +22,7 @@ class InterpolationTypeEnumPlugOperator(EnumPlugOperator):
     HYBRID = 2
 
 
-class InterpolationTypeEnumAttrOperator(EnumAttrOperator):
+class InterpolationTypeEnumAttrOperator(EnumAttrOperator[InterpolationTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0

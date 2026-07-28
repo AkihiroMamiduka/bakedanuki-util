@@ -17,7 +17,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class WeightStyleEnumPlugOperator(EnumPlugOperator):
+class WeightStyleEnumPlugOperator(EnumPlugOperator["WeightStyleEnumAttrOperator"]):
     __slots__ = ()
 
     FROM_START = 0
@@ -25,7 +25,7 @@ class WeightStyleEnumPlugOperator(EnumPlugOperator):
     ABSOLUTE_FROM_ZERO = 2
 
 
-class WeightStyleEnumAttrOperator(EnumAttrOperator):
+class WeightStyleEnumAttrOperator(EnumAttrOperator[WeightStyleEnumPlugOperator]):
     __slots__ = ()
 
     FROM_START = 0
@@ -48,14 +48,14 @@ class WeightStyleEnumField(
     PLUG_CLS = WeightStyleEnumPlugOperator
 
 
-class OffsetEnumPlugOperator(EnumPlugOperator):
+class OffsetEnumPlugOperator(EnumPlugOperator["OffsetEnumAttrOperator"]):
     __slots__ = ()
 
     RELATIVE = 0
     ABSOLUTE = 1
 
 
-class OffsetEnumAttrOperator(EnumAttrOperator):
+class OffsetEnumAttrOperator(EnumAttrOperator[OffsetEnumPlugOperator]):
     __slots__ = ()
 
     RELATIVE = 0

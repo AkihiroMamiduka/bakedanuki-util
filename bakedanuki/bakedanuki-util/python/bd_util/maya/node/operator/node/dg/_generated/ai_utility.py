@@ -16,7 +16,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ColorModeEnumPlugOperator(EnumPlugOperator):
+class ColorModeEnumPlugOperator(EnumPlugOperator["ColorModeEnumAttrOperator"]):
     __slots__ = ()
 
     COLOR = 0
@@ -45,7 +45,7 @@ class ColorModeEnumPlugOperator(EnumPlugOperator):
     PIXELERROR = 23
 
 
-class ColorModeEnumAttrOperator(EnumAttrOperator):
+class ColorModeEnumAttrOperator(EnumAttrOperator[ColorModeEnumPlugOperator]):
     __slots__ = ()
 
     COLOR = 0
@@ -110,7 +110,7 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class ShadeModeEnumPlugOperator(EnumPlugOperator):
+class ShadeModeEnumPlugOperator(EnumPlugOperator["ShadeModeEnumAttrOperator"]):
     __slots__ = ()
 
     NDOTEYE = 0
@@ -121,7 +121,7 @@ class ShadeModeEnumPlugOperator(EnumPlugOperator):
     METAL = 5
 
 
-class ShadeModeEnumAttrOperator(EnumAttrOperator):
+class ShadeModeEnumAttrOperator(EnumAttrOperator[ShadeModeEnumPlugOperator]):
     __slots__ = ()
 
     NDOTEYE = 0
@@ -150,7 +150,7 @@ class ShadeModeEnumField(
     PLUG_CLS = ShadeModeEnumPlugOperator
 
 
-class OverlayModeEnumPlugOperator(EnumPlugOperator):
+class OverlayModeEnumPlugOperator(EnumPlugOperator["OverlayModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +158,7 @@ class OverlayModeEnumPlugOperator(EnumPlugOperator):
     POLYWIRE = 2
 
 
-class OverlayModeEnumAttrOperator(EnumAttrOperator):
+class OverlayModeEnumAttrOperator(EnumAttrOperator[OverlayModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

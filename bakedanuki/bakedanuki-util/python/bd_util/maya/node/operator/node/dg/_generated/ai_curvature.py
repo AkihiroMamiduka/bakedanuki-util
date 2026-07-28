@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OutputEnumPlugOperator(EnumPlugOperator):
+class OutputEnumPlugOperator(EnumPlugOperator["OutputEnumAttrOperator"]):
     __slots__ = ()
 
     CONVEX = 0
@@ -23,7 +23,7 @@ class OutputEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class OutputEnumAttrOperator(EnumAttrOperator):
+class OutputEnumAttrOperator(EnumAttrOperator[OutputEnumPlugOperator]):
     __slots__ = ()
 
     CONVEX = 0

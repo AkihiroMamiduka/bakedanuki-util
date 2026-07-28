@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -21,7 +21,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     FACE = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +44,7 @@ class TextureEnumField(
     PLUG_CLS = TextureEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -53,7 +53,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     NORMALIZE_AND_PRESERVE_ASPECT_RATIO = 3
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

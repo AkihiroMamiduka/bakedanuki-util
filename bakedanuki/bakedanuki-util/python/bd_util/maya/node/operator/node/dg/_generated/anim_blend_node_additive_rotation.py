@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AccumulationModeEnumPlugOperator(EnumPlugOperator):
+class AccumulationModeEnumPlugOperator(EnumPlugOperator["AccumulationModeEnumAttrOperator"]):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -23,7 +23,7 @@ class AccumulationModeEnumPlugOperator(EnumPlugOperator):
     BY_LAYER_BLENDED = 2
 
 
-class AccumulationModeEnumAttrOperator(EnumAttrOperator):
+class AccumulationModeEnumAttrOperator(EnumAttrOperator[AccumulationModeEnumPlugOperator]):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -46,7 +46,7 @@ class AccumulationModeEnumField(
     PLUG_CLS = AccumulationModeEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -57,7 +57,7 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -86,14 +86,14 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
+class RotationInterpolationEnumPlugOperator(EnumPlugOperator["RotationInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     EULER = 0
     QUATERNION_SLERP = 1
 
 
-class RotationInterpolationEnumAttrOperator(EnumAttrOperator):
+class RotationInterpolationEnumAttrOperator(EnumAttrOperator[RotationInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     EULER = 0

@@ -29,7 +29,7 @@ from ....attr.define.std.dt.string_array import DataStringArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class AlignmentModeEnumPlugOperator(EnumPlugOperator):
+class AlignmentModeEnumPlugOperator(EnumPlugOperator["AlignmentModeEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 1
@@ -37,7 +37,7 @@ class AlignmentModeEnumPlugOperator(EnumPlugOperator):
     RIGHT = 3
 
 
-class AlignmentModeEnumAttrOperator(EnumAttrOperator):
+class AlignmentModeEnumAttrOperator(EnumAttrOperator[AlignmentModeEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 1
@@ -60,7 +60,7 @@ class AlignmentModeEnumField(
     PLUG_CLS = AlignmentModeEnumPlugOperator
 
 
-class GeneratorEnumPlugOperator(EnumPlugOperator):
+class GeneratorEnumPlugOperator(EnumPlugOperator["GeneratorEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -71,7 +71,7 @@ class GeneratorEnumPlugOperator(EnumPlugOperator):
     PYTHON = 9
 
 
-class GeneratorEnumAttrOperator(EnumAttrOperator):
+class GeneratorEnumAttrOperator(EnumAttrOperator[GeneratorEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -100,7 +100,7 @@ class GeneratorEnumField(
     PLUG_CLS = GeneratorEnumPlugOperator
 
 
-class RandomizerModeEnumPlugOperator(EnumPlugOperator):
+class RandomizerModeEnumPlugOperator(EnumPlugOperator["RandomizerModeEnumAttrOperator"]):
     __slots__ = ()
 
     ALPHANUMERIC = 0
@@ -109,7 +109,7 @@ class RandomizerModeEnumPlugOperator(EnumPlugOperator):
     INPUT_TEXT = 3
 
 
-class RandomizerModeEnumAttrOperator(EnumAttrOperator):
+class RandomizerModeEnumAttrOperator(EnumAttrOperator[RandomizerModeEnumPlugOperator]):
     __slots__ = ()
 
     ALPHANUMERIC = 0

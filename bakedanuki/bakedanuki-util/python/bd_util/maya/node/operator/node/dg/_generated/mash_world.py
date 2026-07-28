@@ -27,7 +27,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -36,7 +36,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -61,14 +61,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -89,7 +89,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class PrevousPointsModeEnumPlugOperator(EnumPlugOperator):
+class PrevousPointsModeEnumPlugOperator(EnumPlugOperator["PrevousPointsModeEnumAttrOperator"]):
     __slots__ = ()
 
     KEEP = 1
@@ -98,7 +98,7 @@ class PrevousPointsModeEnumPlugOperator(EnumPlugOperator):
     KILL = 4
 
 
-class PrevousPointsModeEnumAttrOperator(EnumAttrOperator):
+class PrevousPointsModeEnumAttrOperator(EnumAttrOperator[PrevousPointsModeEnumPlugOperator]):
     __slots__ = ()
 
     KEEP = 1
@@ -123,7 +123,7 @@ class PrevousPointsModeEnumField(
     PLUG_CLS = PrevousPointsModeEnumPlugOperator
 
 
-class ClusterModeEnumPlugOperator(EnumPlugOperator):
+class ClusterModeEnumPlugOperator(EnumPlugOperator["ClusterModeEnumAttrOperator"]):
     __slots__ = ()
 
     BALL = 1
@@ -135,7 +135,7 @@ class ClusterModeEnumPlugOperator(EnumPlugOperator):
     TERRESTRIAL_ECOSYSTEM = 7
 
 
-class ClusterModeEnumAttrOperator(EnumAttrOperator):
+class ClusterModeEnumAttrOperator(EnumAttrOperator[ClusterModeEnumPlugOperator]):
     __slots__ = ()
 
     BALL = 1
@@ -166,7 +166,7 @@ class ClusterModeEnumField(
     PLUG_CLS = ClusterModeEnumPlugOperator
 
 
-class IdModeEnumPlugOperator(EnumPlugOperator):
+class IdModeEnumPlugOperator(EnumPlugOperator["IdModeEnumAttrOperator"]):
     __slots__ = ()
 
     FIXED = 1
@@ -175,7 +175,7 @@ class IdModeEnumPlugOperator(EnumPlugOperator):
     CLUSTER_RANDOM = 4
 
 
-class IdModeEnumAttrOperator(EnumAttrOperator):
+class IdModeEnumAttrOperator(EnumAttrOperator[IdModeEnumPlugOperator]):
     __slots__ = ()
 
     FIXED = 1
@@ -200,7 +200,7 @@ class IdModeEnumField(
     PLUG_CLS = IdModeEnumPlugOperator
 
 
-class ScaleModeEnumPlugOperator(EnumPlugOperator):
+class ScaleModeEnumPlugOperator(EnumPlugOperator["ScaleModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 1
@@ -209,7 +209,7 @@ class ScaleModeEnumPlugOperator(EnumPlugOperator):
     INHERIT = 4
 
 
-class ScaleModeEnumAttrOperator(EnumAttrOperator):
+class ScaleModeEnumAttrOperator(EnumAttrOperator[ScaleModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 1
@@ -234,7 +234,7 @@ class ScaleModeEnumField(
     PLUG_CLS = ScaleModeEnumPlugOperator
 
 
-class PruningMapDirectionEnumPlugOperator(EnumPlugOperator):
+class PruningMapDirectionEnumPlugOperator(EnumPlugOperator["PruningMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -243,7 +243,7 @@ class PruningMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class PruningMapDirectionEnumAttrOperator(EnumAttrOperator):
+class PruningMapDirectionEnumAttrOperator(EnumAttrOperator[PruningMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -268,7 +268,7 @@ class PruningMapDirectionEnumField(
     PLUG_CLS = PruningMapDirectionEnumPlugOperator
 
 
-class ConditionMapDirectionEnumPlugOperator(EnumPlugOperator):
+class ConditionMapDirectionEnumPlugOperator(EnumPlugOperator["ConditionMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -277,7 +277,7 @@ class ConditionMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class ConditionMapDirectionEnumAttrOperator(EnumAttrOperator):
+class ConditionMapDirectionEnumAttrOperator(EnumAttrOperator[ConditionMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -302,7 +302,7 @@ class ConditionMapDirectionEnumField(
     PLUG_CLS = ConditionMapDirectionEnumPlugOperator
 
 
-class IdMapDirectionEnumPlugOperator(EnumPlugOperator):
+class IdMapDirectionEnumPlugOperator(EnumPlugOperator["IdMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -311,7 +311,7 @@ class IdMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class IdMapDirectionEnumAttrOperator(EnumAttrOperator):
+class IdMapDirectionEnumAttrOperator(EnumAttrOperator[IdMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1

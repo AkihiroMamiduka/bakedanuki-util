@@ -19,13 +19,13 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SmoothingAlgorithmEnumPlugOperator(EnumPlugOperator):
+class SmoothingAlgorithmEnumPlugOperator(EnumPlugOperator["SmoothingAlgorithmEnumAttrOperator"]):
     __slots__ = ()
 
     AVERAGE = 0
 
 
-class SmoothingAlgorithmEnumAttrOperator(EnumAttrOperator):
+class SmoothingAlgorithmEnumAttrOperator(EnumAttrOperator[SmoothingAlgorithmEnumPlugOperator]):
     __slots__ = ()
 
     AVERAGE = 0

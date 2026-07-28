@@ -16,7 +16,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 0
@@ -24,7 +24,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 2
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 0
@@ -47,7 +47,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class From_EnumPlugOperator(EnumPlugOperator):
+class From_EnumPlugOperator(EnumPlugOperator["From_EnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -57,7 +57,7 @@ class From_EnumPlugOperator(EnumPlugOperator):
     TANGENT = 4
 
 
-class From_EnumAttrOperator(EnumAttrOperator):
+class From_EnumAttrOperator(EnumAttrOperator[From_EnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -84,7 +84,7 @@ class From_EnumField(
     PLUG_CLS = From_EnumPlugOperator
 
 
-class ToEnumPlugOperator(EnumPlugOperator):
+class ToEnumPlugOperator(EnumPlugOperator["ToEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -94,7 +94,7 @@ class ToEnumPlugOperator(EnumPlugOperator):
     TANGENT = 4
 
 
-class ToEnumAttrOperator(EnumAttrOperator):
+class ToEnumAttrOperator(EnumAttrOperator[ToEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

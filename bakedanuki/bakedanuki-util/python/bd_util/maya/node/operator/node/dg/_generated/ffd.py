@@ -21,14 +21,14 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.typed import TypedField
 
 
-class UsePartialResolutionEnumPlugOperator(EnumPlugOperator):
+class UsePartialResolutionEnumPlugOperator(EnumPlugOperator["UsePartialResolutionEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
     PARTIAL = 1
 
 
-class UsePartialResolutionEnumAttrOperator(EnumAttrOperator):
+class UsePartialResolutionEnumAttrOperator(EnumAttrOperator[UsePartialResolutionEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0
@@ -49,7 +49,7 @@ class UsePartialResolutionEnumField(
     PLUG_CLS = UsePartialResolutionEnumPlugOperator
 
 
-class OutsideLatticeEnumPlugOperator(EnumPlugOperator):
+class OutsideLatticeEnumPlugOperator(EnumPlugOperator["OutsideLatticeEnumAttrOperator"]):
     __slots__ = ()
 
     INSIDE = 0
@@ -57,7 +57,7 @@ class OutsideLatticeEnumPlugOperator(EnumPlugOperator):
     FALLOFF = 2
 
 
-class OutsideLatticeEnumAttrOperator(EnumAttrOperator):
+class OutsideLatticeEnumAttrOperator(EnumAttrOperator[OutsideLatticeEnumPlugOperator]):
     __slots__ = ()
 
     INSIDE = 0

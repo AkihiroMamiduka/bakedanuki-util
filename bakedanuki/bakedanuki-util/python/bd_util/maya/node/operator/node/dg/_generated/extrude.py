@@ -18,7 +18,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtrudeTypeEnumPlugOperator(EnumPlugOperator):
+class ExtrudeTypeEnumPlugOperator(EnumPlugOperator["ExtrudeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE = 0
@@ -26,7 +26,7 @@ class ExtrudeTypeEnumPlugOperator(EnumPlugOperator):
     TUBE = 2
 
 
-class ExtrudeTypeEnumAttrOperator(EnumAttrOperator):
+class ExtrudeTypeEnumAttrOperator(EnumAttrOperator[ExtrudeTypeEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE = 0
@@ -49,7 +49,7 @@ class ExtrudeTypeEnumField(
     PLUG_CLS = ExtrudeTypeEnumPlugOperator
 
 
-class UseComponentPivotEnumPlugOperator(EnumPlugOperator):
+class UseComponentPivotEnumPlugOperator(EnumPlugOperator["UseComponentPivotEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_ENDPOINT_OF_THE_PATH = 0
@@ -57,7 +57,7 @@ class UseComponentPivotEnumPlugOperator(EnumPlugOperator):
     CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE = 2
 
 
-class UseComponentPivotEnumAttrOperator(EnumAttrOperator):
+class UseComponentPivotEnumAttrOperator(EnumAttrOperator[UseComponentPivotEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_ENDPOINT_OF_THE_PATH = 0

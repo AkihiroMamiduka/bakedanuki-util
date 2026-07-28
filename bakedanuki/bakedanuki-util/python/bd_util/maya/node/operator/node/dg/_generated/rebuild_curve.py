@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class RebuildTypeEnumPlugOperator(EnumPlugOperator):
+class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -23,7 +23,7 @@ class RebuildTypeEnumPlugOperator(EnumPlugOperator):
     CLEAN = 6
 
 
-class RebuildTypeEnumAttrOperator(EnumAttrOperator):
+class RebuildTypeEnumAttrOperator(EnumAttrOperator[RebuildTypeEnumPlugOperator]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -54,7 +54,7 @@ class RebuildTypeEnumField(
     PLUG_CLS = RebuildTypeEnumPlugOperator
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -64,7 +64,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -91,14 +91,14 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class EndKnotsEnumPlugOperator(EnumPlugOperator):
+class EndKnotsEnumPlugOperator(EnumPlugOperator["EndKnotsEnumAttrOperator"]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
     MULTIPLE_END_KNOTS = 1
 
 
-class EndKnotsEnumAttrOperator(EnumAttrOperator):
+class EndKnotsEnumAttrOperator(EnumAttrOperator[EndKnotsEnumPlugOperator]):
     __slots__ = ()
 
     NON_MULTIPLE_END_KNOTS = 0
@@ -119,7 +119,7 @@ class EndKnotsEnumField(
     PLUG_CLS = EndKnotsEnumPlugOperator
 
 
-class KeepRangeEnumPlugOperator(EnumPlugOperator):
+class KeepRangeEnumPlugOperator(EnumPlugOperator["KeepRangeEnumAttrOperator"]):
     __slots__ = ()
 
     _0_TO_1 = 0
@@ -127,7 +127,7 @@ class KeepRangeEnumPlugOperator(EnumPlugOperator):
     _0_TO_HASH_SPANS = 2
 
 
-class KeepRangeEnumAttrOperator(EnumAttrOperator):
+class KeepRangeEnumAttrOperator(EnumAttrOperator[KeepRangeEnumPlugOperator]):
     __slots__ = ()
 
     _0_TO_1 = 0

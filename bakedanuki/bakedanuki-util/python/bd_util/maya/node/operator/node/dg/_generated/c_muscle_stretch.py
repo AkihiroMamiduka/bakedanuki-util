@@ -22,13 +22,13 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SCALINGEnumPlugOperator(EnumPlugOperator):
+class SCALINGEnumPlugOperator(EnumPlugOperator["SCALINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SCALINGEnumAttrOperator(EnumAttrOperator):
+class SCALINGEnumAttrOperator(EnumAttrOperator[SCALINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -47,13 +47,13 @@ class SCALINGEnumField(
     PLUG_CLS = SCALINGEnumPlugOperator
 
 
-class WEIGHTINGEnumPlugOperator(EnumPlugOperator):
+class WEIGHTINGEnumPlugOperator(EnumPlugOperator["WEIGHTINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class WEIGHTINGEnumAttrOperator(EnumAttrOperator):
+class WEIGHTINGEnumAttrOperator(EnumAttrOperator[WEIGHTINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -72,13 +72,13 @@ class WEIGHTINGEnumField(
     PLUG_CLS = WEIGHTINGEnumPlugOperator
 
 
-class JIGGLEEnumPlugOperator(EnumPlugOperator):
+class JIGGLEEnumPlugOperator(EnumPlugOperator["JIGGLEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class JIGGLEEnumAttrOperator(EnumAttrOperator):
+class JIGGLEEnumAttrOperator(EnumAttrOperator[JIGGLEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0

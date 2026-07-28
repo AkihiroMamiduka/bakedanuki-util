@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class ConnectBreaksEnumPlugOperator(EnumPlugOperator):
+class ConnectBreaksEnumPlugOperator(EnumPlugOperator["ConnectBreaksEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -20,7 +20,7 @@ class ConnectBreaksEnumPlugOperator(EnumPlugOperator):
     LINEAR = 2
 
 
-class ConnectBreaksEnumAttrOperator(EnumAttrOperator):
+class ConnectBreaksEnumAttrOperator(EnumAttrOperator[ConnectBreaksEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

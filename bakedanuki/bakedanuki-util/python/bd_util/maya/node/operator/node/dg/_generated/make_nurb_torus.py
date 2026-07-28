@@ -18,14 +18,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
     CUBIC = 3
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1

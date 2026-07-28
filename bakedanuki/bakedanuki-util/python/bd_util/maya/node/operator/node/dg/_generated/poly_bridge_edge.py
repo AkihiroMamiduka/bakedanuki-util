@@ -16,7 +16,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class CurveTypeEnumPlugOperator(EnumPlugOperator):
+class CurveTypeEnumPlugOperator(EnumPlugOperator["CurveTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -24,7 +24,7 @@ class CurveTypeEnumPlugOperator(EnumPlugOperator):
     CURVE = 2
 
 
-class CurveTypeEnumAttrOperator(EnumAttrOperator):
+class CurveTypeEnumAttrOperator(EnumAttrOperator[CurveTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -47,14 +47,14 @@ class CurveTypeEnumField(
     PLUG_CLS = CurveTypeEnumPlugOperator
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
     CUSTOM = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -75,14 +75,14 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class SourceDirectionEnumPlugOperator(EnumPlugOperator):
+class SourceDirectionEnumPlugOperator(EnumPlugOperator["SourceDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class SourceDirectionEnumAttrOperator(EnumAttrOperator):
+class SourceDirectionEnumAttrOperator(EnumAttrOperator[SourceDirectionEnumPlugOperator]):
     __slots__ = ()
 
     PLUS = 0
@@ -103,14 +103,14 @@ class SourceDirectionEnumField(
     PLUG_CLS = SourceDirectionEnumPlugOperator
 
 
-class TargetDirectionEnumPlugOperator(EnumPlugOperator):
+class TargetDirectionEnumPlugOperator(EnumPlugOperator["TargetDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class TargetDirectionEnumAttrOperator(EnumAttrOperator):
+class TargetDirectionEnumAttrOperator(EnumAttrOperator[TargetDirectionEnumPlugOperator]):
     __slots__ = ()
 
     PLUS = 0

@@ -10,14 +10,14 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     TIME = 0
     VALUE = 1
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     TIME = 0

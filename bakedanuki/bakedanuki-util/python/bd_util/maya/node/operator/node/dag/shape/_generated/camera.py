@@ -54,7 +54,7 @@ from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -62,7 +62,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -85,7 +85,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -93,7 +93,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -116,7 +116,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class UseObjectColorEnumPlugOperator(EnumPlugOperator):
+class UseObjectColorEnumPlugOperator(EnumPlugOperator["UseObjectColorEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -124,7 +124,7 @@ class UseObjectColorEnumPlugOperator(EnumPlugOperator):
     RGB = 2
 
 
-class UseObjectColorEnumAttrOperator(EnumAttrOperator):
+class UseObjectColorEnumAttrOperator(EnumAttrOperator[UseObjectColorEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -147,7 +147,7 @@ class UseObjectColorEnumField(
     PLUG_CLS = UseObjectColorEnumPlugOperator
 
 
-class GhostingModeEnumPlugOperator(EnumPlugOperator):
+class GhostingModeEnumPlugOperator(EnumPlugOperator["GhostingModeEnumAttrOperator"]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -158,7 +158,7 @@ class GhostingModeEnumPlugOperator(EnumPlugOperator):
     ALL_KEYFRAMES = 5
 
 
-class GhostingModeEnumAttrOperator(EnumAttrOperator):
+class GhostingModeEnumAttrOperator(EnumAttrOperator[GhostingModeEnumPlugOperator]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -187,7 +187,7 @@ class GhostingModeEnumField(
     PLUG_CLS = GhostingModeEnumPlugOperator
 
 
-class FilmFitEnumPlugOperator(EnumPlugOperator):
+class FilmFitEnumPlugOperator(EnumPlugOperator["FilmFitEnumAttrOperator"]):
     __slots__ = ()
 
     FILL = 0
@@ -196,7 +196,7 @@ class FilmFitEnumPlugOperator(EnumPlugOperator):
     OVERSCAN = 3
 
 
-class FilmFitEnumAttrOperator(EnumAttrOperator):
+class FilmFitEnumAttrOperator(EnumAttrOperator[FilmFitEnumPlugOperator]):
     __slots__ = ()
 
     FILL = 0
@@ -221,14 +221,14 @@ class FilmFitEnumField(
     PLUG_CLS = FilmFitEnumPlugOperator
 
 
-class DepthTypeEnumPlugOperator(EnumPlugOperator):
+class DepthTypeEnumPlugOperator(EnumPlugOperator["DepthTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_VISIBLE_DEPTH = 0
     FURTHEST_VISIBLE_DEPTH = 1
 
 
-class DepthTypeEnumAttrOperator(EnumAttrOperator):
+class DepthTypeEnumAttrOperator(EnumAttrOperator[DepthTypeEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_VISIBLE_DEPTH = 0
@@ -249,14 +249,14 @@ class DepthTypeEnumField(
     PLUG_CLS = DepthTypeEnumPlugOperator
 
 
-class AiHandednessEnumPlugOperator(EnumPlugOperator):
+class AiHandednessEnumPlugOperator(EnumPlugOperator["AiHandednessEnumAttrOperator"]):
     __slots__ = ()
 
     RIGHT = 0
     LEFT = 1
 
 
-class AiHandednessEnumAttrOperator(EnumAttrOperator):
+class AiHandednessEnumAttrOperator(EnumAttrOperator[AiHandednessEnumPlugOperator]):
     __slots__ = ()
 
     RIGHT = 0
@@ -277,7 +277,7 @@ class AiHandednessEnumField(
     PLUG_CLS = AiHandednessEnumPlugOperator
 
 
-class AiShutterTypeEnumPlugOperator(EnumPlugOperator):
+class AiShutterTypeEnumPlugOperator(EnumPlugOperator["AiShutterTypeEnumAttrOperator"]):
     __slots__ = ()
 
     BOX = 0
@@ -285,7 +285,7 @@ class AiShutterTypeEnumPlugOperator(EnumPlugOperator):
     CURVE = 2
 
 
-class AiShutterTypeEnumAttrOperator(EnumAttrOperator):
+class AiShutterTypeEnumAttrOperator(EnumAttrOperator[AiShutterTypeEnumPlugOperator]):
     __slots__ = ()
 
     BOX = 0
@@ -308,7 +308,7 @@ class AiShutterTypeEnumField(
     PLUG_CLS = AiShutterTypeEnumPlugOperator
 
 
-class AiRollingShutterEnumPlugOperator(EnumPlugOperator):
+class AiRollingShutterEnumPlugOperator(EnumPlugOperator["AiRollingShutterEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -318,7 +318,7 @@ class AiRollingShutterEnumPlugOperator(EnumPlugOperator):
     RIGHT = 4
 
 
-class AiRollingShutterEnumAttrOperator(EnumAttrOperator):
+class AiRollingShutterEnumAttrOperator(EnumAttrOperator[AiRollingShutterEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -345,7 +345,7 @@ class AiRollingShutterEnumField(
     PLUG_CLS = AiRollingShutterEnumPlugOperator
 
 
-class AiModeEnumPlugOperator(EnumPlugOperator):
+class AiModeEnumPlugOperator(EnumPlugOperator["AiModeEnumAttrOperator"]):
     __slots__ = ()
 
     SIDE_BY_SIDE = 0
@@ -354,7 +354,7 @@ class AiModeEnumPlugOperator(EnumPlugOperator):
     RIGHT_EYE = 3
 
 
-class AiModeEnumAttrOperator(EnumAttrOperator):
+class AiModeEnumAttrOperator(EnumAttrOperator[AiModeEnumPlugOperator]):
     __slots__ = ()
 
     SIDE_BY_SIDE = 0
@@ -379,7 +379,7 @@ class AiModeEnumField(
     PLUG_CLS = AiModeEnumPlugOperator
 
 
-class AiProjectionEnumPlugOperator(EnumPlugOperator):
+class AiProjectionEnumPlugOperator(EnumPlugOperator["AiProjectionEnumAttrOperator"]):
     __slots__ = ()
 
     LATLONG = 0
@@ -387,7 +387,7 @@ class AiProjectionEnumPlugOperator(EnumPlugOperator):
     CUBEMAP_3X2 = 2
 
 
-class AiProjectionEnumAttrOperator(EnumAttrOperator):
+class AiProjectionEnumAttrOperator(EnumAttrOperator[AiProjectionEnumPlugOperator]):
     __slots__ = ()
 
     LATLONG = 0
@@ -410,7 +410,7 @@ class AiProjectionEnumField(
     PLUG_CLS = AiProjectionEnumPlugOperator
 
 
-class AiTopMergeModeEnumPlugOperator(EnumPlugOperator):
+class AiTopMergeModeEnumPlugOperator(EnumPlugOperator["AiTopMergeModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -418,7 +418,7 @@ class AiTopMergeModeEnumPlugOperator(EnumPlugOperator):
     SHADER = 2
 
 
-class AiTopMergeModeEnumAttrOperator(EnumAttrOperator):
+class AiTopMergeModeEnumAttrOperator(EnumAttrOperator[AiTopMergeModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -441,7 +441,7 @@ class AiTopMergeModeEnumField(
     PLUG_CLS = AiTopMergeModeEnumPlugOperator
 
 
-class AiBottomMergeModeEnumPlugOperator(EnumPlugOperator):
+class AiBottomMergeModeEnumPlugOperator(EnumPlugOperator["AiBottomMergeModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -449,7 +449,7 @@ class AiBottomMergeModeEnumPlugOperator(EnumPlugOperator):
     SHADER = 2
 
 
-class AiBottomMergeModeEnumAttrOperator(EnumAttrOperator):
+class AiBottomMergeModeEnumAttrOperator(EnumAttrOperator[AiBottomMergeModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -472,14 +472,14 @@ class AiBottomMergeModeEnumField(
     PLUG_CLS = AiBottomMergeModeEnumPlugOperator
 
 
-class AiRadialDistortionTypeEnumPlugOperator(EnumPlugOperator):
+class AiRadialDistortionTypeEnumPlugOperator(EnumPlugOperator["AiRadialDistortionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CUBIC = 0
     CUBIC_INVERSE = 1
 
 
-class AiRadialDistortionTypeEnumAttrOperator(EnumAttrOperator):
+class AiRadialDistortionTypeEnumAttrOperator(EnumAttrOperator[AiRadialDistortionTypeEnumPlugOperator]):
     __slots__ = ()
 
     CUBIC = 0
@@ -500,7 +500,7 @@ class AiRadialDistortionTypeEnumField(
     PLUG_CLS = AiRadialDistortionTypeEnumPlugOperator
 
 
-class MotionBlurOverrideEnumPlugOperator(EnumPlugOperator):
+class MotionBlurOverrideEnumPlugOperator(EnumPlugOperator["MotionBlurOverrideEnumAttrOperator"]):
     __slots__ = ()
 
     USE_GLOBAL_SETTINGS = 0
@@ -508,7 +508,7 @@ class MotionBlurOverrideEnumPlugOperator(EnumPlugOperator):
     OFF = 2
 
 
-class MotionBlurOverrideEnumAttrOperator(EnumAttrOperator):
+class MotionBlurOverrideEnumAttrOperator(EnumAttrOperator[MotionBlurOverrideEnumPlugOperator]):
     __slots__ = ()
 
     USE_GLOBAL_SETTINGS = 0

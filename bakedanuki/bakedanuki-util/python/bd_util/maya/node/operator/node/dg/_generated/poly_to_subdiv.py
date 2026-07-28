@@ -12,7 +12,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class UvTreatmentEnumPlugOperator(EnumPlugOperator):
+class UvTreatmentEnumPlugOperator(EnumPlugOperator["UvTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     KEEP_SUBD_UVS = 0
@@ -20,7 +20,7 @@ class UvTreatmentEnumPlugOperator(EnumPlugOperator):
     NO_UVS_ON_SUBD = 2
 
 
-class UvTreatmentEnumAttrOperator(EnumAttrOperator):
+class UvTreatmentEnumAttrOperator(EnumAttrOperator[UvTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     KEEP_SUBD_UVS = 0

@@ -9,7 +9,7 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class VisibilityModeEnumPlugOperator(EnumPlugOperator):
+class VisibilityModeEnumPlugOperator(EnumPlugOperator["VisibilityModeEnumAttrOperator"]):
     __slots__ = ()
 
     NOT_OVERRIDDEN = 0
@@ -17,7 +17,7 @@ class VisibilityModeEnumPlugOperator(EnumPlugOperator):
     SHOW_ON_MOUSE_PROXIMITY = 2
 
 
-class VisibilityModeEnumAttrOperator(EnumAttrOperator):
+class VisibilityModeEnumAttrOperator(EnumAttrOperator[VisibilityModeEnumPlugOperator]):
     __slots__ = ()
 
     NOT_OVERRIDDEN = 0

@@ -14,7 +14,7 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SolidTypeEnumPlugOperator(EnumPlugOperator):
+class SolidTypeEnumPlugOperator(EnumPlugOperator["SolidTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NOTHING = 0
@@ -22,7 +22,7 @@ class SolidTypeEnumPlugOperator(EnumPlugOperator):
     OFFSET = 2
 
 
-class SolidTypeEnumAttrOperator(EnumAttrOperator):
+class SolidTypeEnumAttrOperator(EnumAttrOperator[SolidTypeEnumPlugOperator]):
     __slots__ = ()
 
     NOTHING = 0
@@ -45,14 +45,14 @@ class SolidTypeEnumField(
     PLUG_CLS = SolidTypeEnumPlugOperator
 
 
-class CapTypeEnumPlugOperator(EnumPlugOperator):
+class CapTypeEnumPlugOperator(EnumPlugOperator["CapTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CAP = 0
     STITCH = 1
 
 
-class CapTypeEnumAttrOperator(EnumAttrOperator):
+class CapTypeEnumAttrOperator(EnumAttrOperator[CapTypeEnumPlugOperator]):
     __slots__ = ()
 
     CAP = 0
@@ -73,7 +73,7 @@ class CapTypeEnumField(
     PLUG_CLS = CapTypeEnumPlugOperator
 
 
-class BridgeEnumPlugOperator(EnumPlugOperator):
+class BridgeEnumPlugOperator(EnumPlugOperator["BridgeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +82,7 @@ class BridgeEnumPlugOperator(EnumPlugOperator):
     BOTH = 3
 
 
-class BridgeEnumAttrOperator(EnumAttrOperator):
+class BridgeEnumAttrOperator(EnumAttrOperator[BridgeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

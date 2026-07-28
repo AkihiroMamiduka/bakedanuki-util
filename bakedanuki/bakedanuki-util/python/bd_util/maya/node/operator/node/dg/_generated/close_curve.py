@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class PreserveShapeEnumPlugOperator(EnumPlugOperator):
+class PreserveShapeEnumPlugOperator(EnumPlugOperator["PreserveShapeEnumAttrOperator"]):
     __slots__ = ()
 
     IGNORE = 0
@@ -18,7 +18,7 @@ class PreserveShapeEnumPlugOperator(EnumPlugOperator):
     BLEND = 2
 
 
-class PreserveShapeEnumAttrOperator(EnumAttrOperator):
+class PreserveShapeEnumAttrOperator(EnumAttrOperator[PreserveShapeEnumPlugOperator]):
     __slots__ = ()
 
     IGNORE = 0

@@ -19,7 +19,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AovModeEnumPlugOperator(EnumPlugOperator):
+class AovModeEnumPlugOperator(EnumPlugOperator["AovModeEnumAttrOperator"]):
     __slots__ = ()
 
     DISABLED = 0
@@ -27,7 +27,7 @@ class AovModeEnumPlugOperator(EnumPlugOperator):
     BATCH_ONLY = 2
 
 
-class AovModeEnumAttrOperator(EnumAttrOperator):
+class AovModeEnumAttrOperator(EnumAttrOperator[AovModeEnumPlugOperator]):
     __slots__ = ()
 
     DISABLED = 0
@@ -50,7 +50,7 @@ class AovModeEnumField(
     PLUG_CLS = AovModeEnumPlugOperator
 
 
-class RenderTypeEnumPlugOperator(EnumPlugOperator):
+class RenderTypeEnumPlugOperator(EnumPlugOperator["RenderTypeEnumAttrOperator"]):
     __slots__ = ()
 
     INTERACTIVE = 0
@@ -58,7 +58,7 @@ class RenderTypeEnumPlugOperator(EnumPlugOperator):
     EXPORT_ASS_AND_KICK = 2
 
 
-class RenderTypeEnumAttrOperator(EnumAttrOperator):
+class RenderTypeEnumAttrOperator(EnumAttrOperator[RenderTypeEnumPlugOperator]):
     __slots__ = ()
 
     INTERACTIVE = 0
@@ -81,7 +81,7 @@ class RenderTypeEnumField(
     PLUG_CLS = RenderTypeEnumPlugOperator
 
 
-class BucketScanningEnumPlugOperator(EnumPlugOperator):
+class BucketScanningEnumPlugOperator(EnumPlugOperator["BucketScanningEnumAttrOperator"]):
     __slots__ = ()
 
     TOP = 0
@@ -91,7 +91,7 @@ class BucketScanningEnumPlugOperator(EnumPlugOperator):
     HILBERT = 4
 
 
-class BucketScanningEnumAttrOperator(EnumAttrOperator):
+class BucketScanningEnumAttrOperator(EnumAttrOperator[BucketScanningEnumPlugOperator]):
     __slots__ = ()
 
     TOP = 0
@@ -118,14 +118,14 @@ class BucketScanningEnumField(
     PLUG_CLS = BucketScanningEnumPlugOperator
 
 
-class LightLinkingEnumPlugOperator(EnumPlugOperator):
+class LightLinkingEnumPlugOperator(EnumPlugOperator["LightLinkingEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
     MAYA_LIGHT_LINKS = 1
 
 
-class LightLinkingEnumAttrOperator(EnumAttrOperator):
+class LightLinkingEnumAttrOperator(EnumAttrOperator[LightLinkingEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -146,7 +146,7 @@ class LightLinkingEnumField(
     PLUG_CLS = LightLinkingEnumPlugOperator
 
 
-class ShadowLinkingEnumPlugOperator(EnumPlugOperator):
+class ShadowLinkingEnumPlugOperator(EnumPlugOperator["ShadowLinkingEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -154,7 +154,7 @@ class ShadowLinkingEnumPlugOperator(EnumPlugOperator):
     MAYA_SHADOW_LINKS = 2
 
 
-class ShadowLinkingEnumAttrOperator(EnumAttrOperator):
+class ShadowLinkingEnumAttrOperator(EnumAttrOperator[ShadowLinkingEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -177,7 +177,7 @@ class ShadowLinkingEnumField(
     PLUG_CLS = ShadowLinkingEnumPlugOperator
 
 
-class Range_typeEnumPlugOperator(EnumPlugOperator):
+class Range_typeEnumPlugOperator(EnumPlugOperator["Range_typeEnumAttrOperator"]):
     __slots__ = ()
 
     START_ON_FRAME = 0
@@ -186,7 +186,7 @@ class Range_typeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 3
 
 
-class Range_typeEnumAttrOperator(EnumAttrOperator):
+class Range_typeEnumAttrOperator(EnumAttrOperator[Range_typeEnumPlugOperator]):
     __slots__ = ()
 
     START_ON_FRAME = 0
@@ -211,14 +211,14 @@ class Range_typeEnumField(
     PLUG_CLS = Range_typeEnumPlugOperator
 
 
-class RenderDeviceEnumPlugOperator(EnumPlugOperator):
+class RenderDeviceEnumPlugOperator(EnumPlugOperator["RenderDeviceEnumAttrOperator"]):
     __slots__ = ()
 
     CPU = 0
     GPU = 1
 
 
-class RenderDeviceEnumAttrOperator(EnumAttrOperator):
+class RenderDeviceEnumAttrOperator(EnumAttrOperator[RenderDeviceEnumPlugOperator]):
     __slots__ = ()
 
     CPU = 0
@@ -239,14 +239,14 @@ class RenderDeviceEnumField(
     PLUG_CLS = RenderDeviceEnumPlugOperator
 
 
-class Render_device_fallbackEnumPlugOperator(EnumPlugOperator):
+class Render_device_fallbackEnumPlugOperator(EnumPlugOperator["Render_device_fallbackEnumAttrOperator"]):
     __slots__ = ()
 
     ERROR = 0
     CPU = 1
 
 
-class Render_device_fallbackEnumAttrOperator(EnumAttrOperator):
+class Render_device_fallbackEnumAttrOperator(EnumAttrOperator[Render_device_fallbackEnumPlugOperator]):
     __slots__ = ()
 
     ERROR = 0
@@ -267,7 +267,7 @@ class Render_device_fallbackEnumField(
     PLUG_CLS = Render_device_fallbackEnumPlugOperator
 
 
-class Log_verbosityEnumPlugOperator(EnumPlugOperator):
+class Log_verbosityEnumPlugOperator(EnumPlugOperator["Log_verbosityEnumAttrOperator"]):
     __slots__ = ()
 
     ERRORS = 0
@@ -276,7 +276,7 @@ class Log_verbosityEnumPlugOperator(EnumPlugOperator):
     DEBUG = 3
 
 
-class Log_verbosityEnumAttrOperator(EnumAttrOperator):
+class Log_verbosityEnumAttrOperator(EnumAttrOperator[Log_verbosityEnumPlugOperator]):
     __slots__ = ()
 
     ERRORS = 0
@@ -301,14 +301,14 @@ class Log_verbosityEnumField(
     PLUG_CLS = Log_verbosityEnumPlugOperator
 
 
-class Stats_modeEnumPlugOperator(EnumPlugOperator):
+class Stats_modeEnumPlugOperator(EnumPlugOperator["Stats_modeEnumAttrOperator"]):
     __slots__ = ()
 
     OVERWRITE = 0
     APPEND = 1
 
 
-class Stats_modeEnumAttrOperator(EnumAttrOperator):
+class Stats_modeEnumAttrOperator(EnumAttrOperator[Stats_modeEnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -329,14 +329,14 @@ class Stats_modeEnumField(
     PLUG_CLS = Stats_modeEnumPlugOperator
 
 
-class ExportSeparatorEnumPlugOperator(EnumPlugOperator):
+class ExportSeparatorEnumPlugOperator(EnumPlugOperator["ExportSeparatorEnumAttrOperator"]):
     __slots__ = ()
 
     PIPE = 0
     SLASH = 1
 
 
-class ExportSeparatorEnumAttrOperator(EnumAttrOperator):
+class ExportSeparatorEnumAttrOperator(EnumAttrOperator[ExportSeparatorEnumPlugOperator]):
     __slots__ = ()
 
     PIPE = 0
@@ -357,7 +357,7 @@ class ExportSeparatorEnumField(
     PLUG_CLS = ExportSeparatorEnumPlugOperator
 
 
-class ExportNamespaceEnumPlugOperator(EnumPlugOperator):
+class ExportNamespaceEnumPlugOperator(EnumPlugOperator["ExportNamespaceEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -365,7 +365,7 @@ class ExportNamespaceEnumPlugOperator(EnumPlugOperator):
     ROOT = 2
 
 
-class ExportNamespaceEnumAttrOperator(EnumAttrOperator):
+class ExportNamespaceEnumAttrOperator(EnumAttrOperator[ExportNamespaceEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -388,14 +388,14 @@ class ExportNamespaceEnumField(
     PLUG_CLS = ExportNamespaceEnumPlugOperator
 
 
-class ExportDagNameEnumPlugOperator(EnumPlugOperator):
+class ExportDagNameEnumPlugOperator(EnumPlugOperator["ExportDagNameEnumAttrOperator"]):
     __slots__ = ()
 
     SHAPE = 0
     TRANSFORM = 1
 
 
-class ExportDagNameEnumAttrOperator(EnumAttrOperator):
+class ExportDagNameEnumAttrOperator(EnumAttrOperator[ExportDagNameEnumPlugOperator]):
     __slots__ = ()
 
     SHAPE = 0
@@ -416,7 +416,7 @@ class ExportDagNameEnumField(
     PLUG_CLS = ExportDagNameEnumPlugOperator
 
 
-class StandinDrawOverrideEnumPlugOperator(EnumPlugOperator):
+class StandinDrawOverrideEnumPlugOperator(EnumPlugOperator["StandinDrawOverrideEnumAttrOperator"]):
     __slots__ = ()
 
     USE_LOCAL_SETTINGS = 0
@@ -425,7 +425,7 @@ class StandinDrawOverrideEnumPlugOperator(EnumPlugOperator):
     DISABLE_LOAD = 3
 
 
-class StandinDrawOverrideEnumAttrOperator(EnumAttrOperator):
+class StandinDrawOverrideEnumAttrOperator(EnumAttrOperator[StandinDrawOverrideEnumPlugOperator]):
     __slots__ = ()
 
     USE_LOCAL_SETTINGS = 0
@@ -450,7 +450,7 @@ class StandinDrawOverrideEnumField(
     PLUG_CLS = StandinDrawOverrideEnumPlugOperator
 
 
-class RenderUnitEnumPlugOperator(EnumPlugOperator):
+class RenderUnitEnumPlugOperator(EnumPlugOperator["RenderUnitEnumAttrOperator"]):
     __slots__ = ()
 
     USE_MAYA_UNIT = 0
@@ -465,7 +465,7 @@ class RenderUnitEnumPlugOperator(EnumPlugOperator):
     METER = 9
 
 
-class RenderUnitEnumAttrOperator(EnumAttrOperator):
+class RenderUnitEnumAttrOperator(EnumAttrOperator[RenderUnitEnumPlugOperator]):
     __slots__ = ()
 
     USE_MAYA_UNIT = 0

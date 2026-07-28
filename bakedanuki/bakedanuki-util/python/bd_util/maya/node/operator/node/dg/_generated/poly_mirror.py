@@ -21,7 +21,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS_X = 0
@@ -32,7 +32,7 @@ class DirectionEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     PLUS_X = 0
@@ -61,7 +61,7 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class AxisEnumPlugOperator(EnumPlugOperator):
+class AxisEnumPlugOperator(EnumPlugOperator["AxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -69,7 +69,7 @@ class AxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class AxisEnumAttrOperator(EnumAttrOperator):
+class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -92,14 +92,14 @@ class AxisEnumField(
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class AxisDirectionEnumPlugOperator(EnumPlugOperator):
+class AxisDirectionEnumPlugOperator(EnumPlugOperator["AxisDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class AxisDirectionEnumAttrOperator(EnumAttrOperator):
+class AxisDirectionEnumAttrOperator(EnumAttrOperator[AxisDirectionEnumPlugOperator]):
     __slots__ = ()
 
     PLUS = 0
@@ -120,7 +120,7 @@ class AxisDirectionEnumField(
     PLUG_CLS = AxisDirectionEnumPlugOperator
 
 
-class MirrorAxisEnumPlugOperator(EnumPlugOperator):
+class MirrorAxisEnumPlugOperator(EnumPlugOperator["MirrorAxisEnumAttrOperator"]):
     __slots__ = ()
 
     BOUNDING_BOX = 0
@@ -128,7 +128,7 @@ class MirrorAxisEnumPlugOperator(EnumPlugOperator):
     WORLD = 2
 
 
-class MirrorAxisEnumAttrOperator(EnumAttrOperator):
+class MirrorAxisEnumAttrOperator(EnumAttrOperator[MirrorAxisEnumPlugOperator]):
     __slots__ = ()
 
     BOUNDING_BOX = 0
@@ -151,7 +151,7 @@ class MirrorAxisEnumField(
     PLUG_CLS = MirrorAxisEnumPlugOperator
 
 
-class MergeModeEnumPlugOperator(EnumPlugOperator):
+class MergeModeEnumPlugOperator(EnumPlugOperator["MergeModeEnumAttrOperator"]):
     __slots__ = ()
 
     MERGE_BORDER_VERTICES = 1
@@ -159,7 +159,7 @@ class MergeModeEnumPlugOperator(EnumPlugOperator):
     DO_NOT_MERGE_BORDERS = 3
 
 
-class MergeModeEnumAttrOperator(EnumAttrOperator):
+class MergeModeEnumAttrOperator(EnumAttrOperator[MergeModeEnumPlugOperator]):
     __slots__ = ()
 
     MERGE_BORDER_VERTICES = 1
@@ -182,14 +182,14 @@ class MergeModeEnumField(
     PLUG_CLS = MergeModeEnumPlugOperator
 
 
-class MergeThresholdTypeEnumPlugOperator(EnumPlugOperator):
+class MergeThresholdTypeEnumPlugOperator(EnumPlugOperator["MergeThresholdTypeEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
     CUSTOM = 1
 
 
-class MergeThresholdTypeEnumAttrOperator(EnumAttrOperator):
+class MergeThresholdTypeEnumAttrOperator(EnumAttrOperator[MergeThresholdTypeEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -210,7 +210,7 @@ class MergeThresholdTypeEnumField(
     PLUG_CLS = MergeThresholdTypeEnumPlugOperator
 
 
-class FlipUVsEnumPlugOperator(EnumPlugOperator):
+class FlipUVsEnumPlugOperator(EnumPlugOperator["FlipUVsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -220,7 +220,7 @@ class FlipUVsEnumPlugOperator(EnumPlugOperator):
     WORLD_V = 4
 
 
-class FlipUVsEnumAttrOperator(EnumAttrOperator):
+class FlipUVsEnumAttrOperator(EnumAttrOperator[FlipUVsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

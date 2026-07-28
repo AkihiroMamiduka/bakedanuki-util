@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class ColorProfileTypeEnumPlugOperator(EnumPlugOperator):
+class ColorProfileTypeEnumPlugOperator(EnumPlugOperator["ColorProfileTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -24,7 +24,7 @@ class ColorProfileTypeEnumPlugOperator(EnumPlugOperator):
     CIE_XYZ = 10
 
 
-class ColorProfileTypeEnumAttrOperator(EnumAttrOperator):
+class ColorProfileTypeEnumAttrOperator(EnumAttrOperator[ColorProfileTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR_SRGB = 2

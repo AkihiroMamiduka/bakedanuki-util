@@ -14,14 +14,14 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransitionInTypeEnumPlugOperator(EnumPlugOperator):
+class TransitionInTypeEnumPlugOperator(EnumPlugOperator["TransitionInTypeEnumAttrOperator"]):
     __slots__ = ()
 
     FADE = 0
     DISSOLVE = 1
 
 
-class TransitionInTypeEnumAttrOperator(EnumAttrOperator):
+class TransitionInTypeEnumAttrOperator(EnumAttrOperator[TransitionInTypeEnumPlugOperator]):
     __slots__ = ()
 
     FADE = 0
@@ -42,14 +42,14 @@ class TransitionInTypeEnumField(
     PLUG_CLS = TransitionInTypeEnumPlugOperator
 
 
-class TransitionOutTypeEnumPlugOperator(EnumPlugOperator):
+class TransitionOutTypeEnumPlugOperator(EnumPlugOperator["TransitionOutTypeEnumAttrOperator"]):
     __slots__ = ()
 
     FADE = 0
     DISSOLVE = 1
 
 
-class TransitionOutTypeEnumAttrOperator(EnumAttrOperator):
+class TransitionOutTypeEnumAttrOperator(EnumAttrOperator[TransitionOutTypeEnumPlugOperator]):
     __slots__ = ()
 
     FADE = 0

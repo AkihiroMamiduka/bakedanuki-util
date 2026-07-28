@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class FrameBufferFormatEnumPlugOperator(EnumPlugOperator):
+class FrameBufferFormatEnumPlugOperator(EnumPlugOperator["FrameBufferFormatEnumAttrOperator"]):
     __slots__ = ()
 
     RGBA = 0
@@ -19,7 +19,7 @@ class FrameBufferFormatEnumPlugOperator(EnumPlugOperator):
     _16_MINUS_BIT_FLOAT_PER_CHANNEL = 3
 
 
-class FrameBufferFormatEnumAttrOperator(EnumAttrOperator):
+class FrameBufferFormatEnumAttrOperator(EnumAttrOperator[FrameBufferFormatEnumPlugOperator]):
     __slots__ = ()
 
     RGBA = 0
@@ -44,7 +44,7 @@ class FrameBufferFormatEnumField(
     PLUG_CLS = FrameBufferFormatEnumPlugOperator
 
 
-class NumberOfSamplesEnumPlugOperator(EnumPlugOperator):
+class NumberOfSamplesEnumPlugOperator(EnumPlugOperator["NumberOfSamplesEnumAttrOperator"]):
     __slots__ = ()
 
     _1_SAMPLE = 1
@@ -58,7 +58,7 @@ class NumberOfSamplesEnumPlugOperator(EnumPlugOperator):
     _36_SAMPLES = 36
 
 
-class NumberOfSamplesEnumAttrOperator(EnumAttrOperator):
+class NumberOfSamplesEnumAttrOperator(EnumAttrOperator[NumberOfSamplesEnumPlugOperator]):
     __slots__ = ()
 
     _1_SAMPLE = 1
@@ -93,14 +93,14 @@ class NumberOfSamplesEnumField(
     PLUG_CLS = NumberOfSamplesEnumPlugOperator
 
 
-class TransparencySortingEnumPlugOperator(EnumPlugOperator):
+class TransparencySortingEnumPlugOperator(EnumPlugOperator["TransparencySortingEnumAttrOperator"]):
     __slots__ = ()
 
     PER_OBJECT = 0
     PER_POLYGON = 1
 
 
-class TransparencySortingEnumAttrOperator(EnumAttrOperator):
+class TransparencySortingEnumAttrOperator(EnumAttrOperator[TransparencySortingEnumPlugOperator]):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -121,7 +121,7 @@ class TransparencySortingEnumField(
     PLUG_CLS = TransparencySortingEnumPlugOperator
 
 
-class CullingEnumPlugOperator(EnumPlugOperator):
+class CullingEnumPlugOperator(EnumPlugOperator["CullingEnumAttrOperator"]):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -129,7 +129,7 @@ class CullingEnumPlugOperator(EnumPlugOperator):
     ALL_SINGLE_SIDED = 2
 
 
-class CullingEnumAttrOperator(EnumAttrOperator):
+class CullingEnumAttrOperator(EnumAttrOperator[CullingEnumPlugOperator]):
     __slots__ = ()
 
     PER_OBJECT = 0
@@ -152,14 +152,14 @@ class CullingEnumField(
     PLUG_CLS = CullingEnumPlugOperator
 
 
-class TextureCompressionEnumPlugOperator(EnumPlugOperator):
+class TextureCompressionEnumPlugOperator(EnumPlugOperator["TextureCompressionEnumAttrOperator"]):
     __slots__ = ()
 
     DISABLED = 0
     ENABLED = 1
 
 
-class TextureCompressionEnumAttrOperator(EnumAttrOperator):
+class TextureCompressionEnumAttrOperator(EnumAttrOperator[TextureCompressionEnumPlugOperator]):
     __slots__ = ()
 
     DISABLED = 0
@@ -180,14 +180,14 @@ class TextureCompressionEnumField(
     PLUG_CLS = TextureCompressionEnumPlugOperator
 
 
-class ShadingModelEnumPlugOperator(EnumPlugOperator):
+class ShadingModelEnumPlugOperator(EnumPlugOperator["ShadingModelEnumAttrOperator"]):
     __slots__ = ()
 
     MAYA_SOFTWARE_RENDER_EMULATION = 0
     MAYA_INTERACTIVE_SHADER = 1
 
 
-class ShadingModelEnumAttrOperator(EnumAttrOperator):
+class ShadingModelEnumAttrOperator(EnumAttrOperator[ShadingModelEnumPlugOperator]):
     __slots__ = ()
 
     MAYA_SOFTWARE_RENDER_EMULATION = 0

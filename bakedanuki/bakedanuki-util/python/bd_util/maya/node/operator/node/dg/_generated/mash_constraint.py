@@ -26,7 +26,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -35,7 +35,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -60,14 +60,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -88,7 +88,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class ConnectionMapDirectionEnumPlugOperator(EnumPlugOperator):
+class ConnectionMapDirectionEnumPlugOperator(EnumPlugOperator["ConnectionMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -97,7 +97,7 @@ class ConnectionMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class ConnectionMapDirectionEnumAttrOperator(EnumAttrOperator):
+class ConnectionMapDirectionEnumAttrOperator(EnumAttrOperator[ConnectionMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -122,7 +122,7 @@ class ConnectionMapDirectionEnumField(
     PLUG_CLS = ConnectionMapDirectionEnumPlugOperator
 
 
-class ConstraintLimitPositionXEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitPositionXEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionXEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -130,7 +130,7 @@ class ConstraintLimitPositionXEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitPositionXEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitPositionXEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionXEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -153,7 +153,7 @@ class ConstraintLimitPositionXEnumField(
     PLUG_CLS = ConstraintLimitPositionXEnumPlugOperator
 
 
-class ConstraintLimitPositionYEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitPositionYEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionYEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -161,7 +161,7 @@ class ConstraintLimitPositionYEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitPositionYEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitPositionYEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionYEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -184,7 +184,7 @@ class ConstraintLimitPositionYEnumField(
     PLUG_CLS = ConstraintLimitPositionYEnumPlugOperator
 
 
-class ConstraintLimitPositionZEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitPositionZEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionZEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -192,7 +192,7 @@ class ConstraintLimitPositionZEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitPositionZEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitPositionZEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionZEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -215,7 +215,7 @@ class ConstraintLimitPositionZEnumField(
     PLUG_CLS = ConstraintLimitPositionZEnumPlugOperator
 
 
-class ConstraintLimitRotationXEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitRotationXEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationXEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -223,7 +223,7 @@ class ConstraintLimitRotationXEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitRotationXEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitRotationXEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationXEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -246,7 +246,7 @@ class ConstraintLimitRotationXEnumField(
     PLUG_CLS = ConstraintLimitRotationXEnumPlugOperator
 
 
-class ConstraintLimitRotationYEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitRotationYEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationYEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -254,7 +254,7 @@ class ConstraintLimitRotationYEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitRotationYEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitRotationYEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationYEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -277,7 +277,7 @@ class ConstraintLimitRotationYEnumField(
     PLUG_CLS = ConstraintLimitRotationYEnumPlugOperator
 
 
-class ConstraintLimitRotationZEnumPlugOperator(EnumPlugOperator):
+class ConstraintLimitRotationZEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationZEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 1
@@ -285,7 +285,7 @@ class ConstraintLimitRotationZEnumPlugOperator(EnumPlugOperator):
     LIMITED = 3
 
 
-class ConstraintLimitRotationZEnumAttrOperator(EnumAttrOperator):
+class ConstraintLimitRotationZEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationZEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 1
@@ -308,7 +308,7 @@ class ConstraintLimitRotationZEnumField(
     PLUG_CLS = ConstraintLimitRotationZEnumPlugOperator
 
 
-class ConstraintTypeEnumPlugOperator(EnumPlugOperator):
+class ConstraintTypeEnumPlugOperator(EnumPlugOperator["ConstraintTypeEnumAttrOperator"]):
     __slots__ = ()
 
     GLUE = 1
@@ -317,7 +317,7 @@ class ConstraintTypeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 10
 
 
-class ConstraintTypeEnumAttrOperator(EnumAttrOperator):
+class ConstraintTypeEnumAttrOperator(EnumAttrOperator[ConstraintTypeEnumPlugOperator]):
     __slots__ = ()
 
     GLUE = 1
@@ -342,7 +342,7 @@ class ConstraintTypeEnumField(
     PLUG_CLS = ConstraintTypeEnumPlugOperator
 
 
-class ConstraintModeEnumPlugOperator(EnumPlugOperator):
+class ConstraintModeEnumPlugOperator(EnumPlugOperator["ConstraintModeEnumAttrOperator"]):
     __slots__ = ()
 
     CONNECT_TOUCHING = 1
@@ -352,7 +352,7 @@ class ConstraintModeEnumPlugOperator(EnumPlugOperator):
     CONNECT_TO_INPUT_POINTS = 5
 
 
-class ConstraintModeEnumAttrOperator(EnumAttrOperator):
+class ConstraintModeEnumAttrOperator(EnumAttrOperator[ConstraintModeEnumPlugOperator]):
     __slots__ = ()
 
     CONNECT_TOUCHING = 1

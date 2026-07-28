@@ -18,7 +18,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class Red_InterpEnumPlugOperator(EnumPlugOperator):
+class Red_InterpEnumPlugOperator(EnumPlugOperator["Red_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +27,7 @@ class Red_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Red_InterpEnumAttrOperator(EnumAttrOperator):
+class Red_InterpEnumAttrOperator(EnumAttrOperator[Red_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +52,7 @@ class Red_InterpEnumField(
     PLUG_CLS = Red_InterpEnumPlugOperator
 
 
-class Green_InterpEnumPlugOperator(EnumPlugOperator):
+class Green_InterpEnumPlugOperator(EnumPlugOperator["Green_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -61,7 +61,7 @@ class Green_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Green_InterpEnumAttrOperator(EnumAttrOperator):
+class Green_InterpEnumAttrOperator(EnumAttrOperator[Green_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -86,7 +86,7 @@ class Green_InterpEnumField(
     PLUG_CLS = Green_InterpEnumPlugOperator
 
 
-class Blue_InterpEnumPlugOperator(EnumPlugOperator):
+class Blue_InterpEnumPlugOperator(EnumPlugOperator["Blue_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -95,7 +95,7 @@ class Blue_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Blue_InterpEnumAttrOperator(EnumAttrOperator):
+class Blue_InterpEnumAttrOperator(EnumAttrOperator[Blue_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

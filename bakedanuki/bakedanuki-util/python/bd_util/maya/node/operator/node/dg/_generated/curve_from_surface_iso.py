@@ -11,14 +11,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class IsoparmDirectionEnumPlugOperator(EnumPlugOperator):
+class IsoparmDirectionEnumPlugOperator(EnumPlugOperator["IsoparmDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 0
     V = 1
 
 
-class IsoparmDirectionEnumAttrOperator(EnumAttrOperator):
+class IsoparmDirectionEnumAttrOperator(EnumAttrOperator[IsoparmDirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 0

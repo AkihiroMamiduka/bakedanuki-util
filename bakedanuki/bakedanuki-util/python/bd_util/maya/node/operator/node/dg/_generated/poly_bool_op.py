@@ -12,7 +12,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
+class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"]):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -20,7 +20,7 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator):
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator):
+class MergeUVSetsEnumAttrOperator(EnumAttrOperator[MergeUVSetsEnumPlugOperator]):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -43,7 +43,7 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     UNION = 1
@@ -51,7 +51,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     INTERSECTION = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     UNION = 1
@@ -74,14 +74,14 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class ClassificationEnumPlugOperator(EnumPlugOperator):
+class ClassificationEnumPlugOperator(EnumPlugOperator["ClassificationEnumAttrOperator"]):
     __slots__ = ()
 
     EDGE = 1
     NORMAL = 2
 
 
-class ClassificationEnumAttrOperator(EnumAttrOperator):
+class ClassificationEnumAttrOperator(EnumAttrOperator[ClassificationEnumPlugOperator]):
     __slots__ = ()
 
     EDGE = 1

@@ -12,14 +12,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SelectedEnumPlugOperator(EnumPlugOperator):
+class SelectedEnumPlugOperator(EnumPlugOperator["SelectedEnumAttrOperator"]):
     __slots__ = ()
 
     KEEP = 0
     DISCARD = 1
 
 
-class SelectedEnumAttrOperator(EnumAttrOperator):
+class SelectedEnumAttrOperator(EnumAttrOperator[SelectedEnumPlugOperator]):
     __slots__ = ()
 
     KEEP = 0

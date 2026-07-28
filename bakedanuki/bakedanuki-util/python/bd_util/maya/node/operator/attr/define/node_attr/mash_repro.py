@@ -14,7 +14,7 @@ from ..std.at.scalar.enum import (
 )
 
 
-class DisplayTypeEnumPlugOperator(EnumPlugOperator):
+class DisplayTypeEnumPlugOperator(EnumPlugOperator["DisplayTypeEnumAttrOperator"]):
     __slots__ = ()
 
     MESH = 0
@@ -22,7 +22,7 @@ class DisplayTypeEnumPlugOperator(EnumPlugOperator):
     LOD = 2
 
 
-class DisplayTypeEnumAttrOperator(EnumAttrOperator):
+class DisplayTypeEnumAttrOperator(EnumAttrOperator[DisplayTypeEnumPlugOperator]):
     __slots__ = ()
 
     MESH = 0

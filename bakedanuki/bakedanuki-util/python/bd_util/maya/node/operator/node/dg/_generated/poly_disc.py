@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
+class SubdivisionModeEnumPlugOperator(EnumPlugOperator["SubdivisionModeEnumAttrOperator"]):
     __slots__ = ()
 
     QUADS = 0
@@ -21,7 +21,7 @@ class SubdivisionModeEnumPlugOperator(EnumPlugOperator):
     CIRCLE = 4
 
 
-class SubdivisionModeEnumAttrOperator(EnumAttrOperator):
+class SubdivisionModeEnumAttrOperator(EnumAttrOperator[SubdivisionModeEnumPlugOperator]):
     __slots__ = ()
 
     QUADS = 0

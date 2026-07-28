@@ -18,7 +18,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -27,7 +27,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -52,14 +52,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -80,7 +80,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class SignalTypeEnumPlugOperator(EnumPlugOperator):
+class SignalTypeEnumPlugOperator(EnumPlugOperator["SignalTypeEnumAttrOperator"]):
     __slots__ = ()
 
     _4D_NOISE = 1
@@ -90,7 +90,7 @@ class SignalTypeEnumPlugOperator(EnumPlugOperator):
     CURL_NOISE = 5
 
 
-class SignalTypeEnumAttrOperator(EnumAttrOperator):
+class SignalTypeEnumAttrOperator(EnumAttrOperator[SignalTypeEnumPlugOperator]):
     __slots__ = ()
 
     _4D_NOISE = 1
@@ -117,7 +117,7 @@ class SignalTypeEnumField(
     PLUG_CLS = SignalTypeEnumPlugOperator
 
 
-class TrigonometryModeXEnumPlugOperator(EnumPlugOperator):
+class TrigonometryModeXEnumPlugOperator(EnumPlugOperator["TrigonometryModeXEnumAttrOperator"]):
     __slots__ = ()
 
     SIN = 1
@@ -125,7 +125,7 @@ class TrigonometryModeXEnumPlugOperator(EnumPlugOperator):
     TAN = 3
 
 
-class TrigonometryModeXEnumAttrOperator(EnumAttrOperator):
+class TrigonometryModeXEnumAttrOperator(EnumAttrOperator[TrigonometryModeXEnumPlugOperator]):
     __slots__ = ()
 
     SIN = 1
@@ -148,7 +148,7 @@ class TrigonometryModeXEnumField(
     PLUG_CLS = TrigonometryModeXEnumPlugOperator
 
 
-class TrigonometryModeYEnumPlugOperator(EnumPlugOperator):
+class TrigonometryModeYEnumPlugOperator(EnumPlugOperator["TrigonometryModeYEnumAttrOperator"]):
     __slots__ = ()
 
     SIN = 1
@@ -156,7 +156,7 @@ class TrigonometryModeYEnumPlugOperator(EnumPlugOperator):
     TAN = 3
 
 
-class TrigonometryModeYEnumAttrOperator(EnumAttrOperator):
+class TrigonometryModeYEnumAttrOperator(EnumAttrOperator[TrigonometryModeYEnumPlugOperator]):
     __slots__ = ()
 
     SIN = 1
@@ -179,7 +179,7 @@ class TrigonometryModeYEnumField(
     PLUG_CLS = TrigonometryModeYEnumPlugOperator
 
 
-class TrigonometryModeZEnumPlugOperator(EnumPlugOperator):
+class TrigonometryModeZEnumPlugOperator(EnumPlugOperator["TrigonometryModeZEnumAttrOperator"]):
     __slots__ = ()
 
     SIN = 1
@@ -187,7 +187,7 @@ class TrigonometryModeZEnumPlugOperator(EnumPlugOperator):
     TAN = 3
 
 
-class TrigonometryModeZEnumAttrOperator(EnumAttrOperator):
+class TrigonometryModeZEnumAttrOperator(EnumAttrOperator[TrigonometryModeZEnumPlugOperator]):
     __slots__ = ()
 
     SIN = 1

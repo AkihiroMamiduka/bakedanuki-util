@@ -56,7 +56,7 @@ from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -64,7 +64,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -87,7 +87,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -95,7 +95,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -118,7 +118,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class UseObjectColorEnumPlugOperator(EnumPlugOperator):
+class UseObjectColorEnumPlugOperator(EnumPlugOperator["UseObjectColorEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -126,7 +126,7 @@ class UseObjectColorEnumPlugOperator(EnumPlugOperator):
     RGB = 2
 
 
-class UseObjectColorEnumAttrOperator(EnumAttrOperator):
+class UseObjectColorEnumAttrOperator(EnumAttrOperator[UseObjectColorEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -149,7 +149,7 @@ class UseObjectColorEnumField(
     PLUG_CLS = UseObjectColorEnumPlugOperator
 
 
-class GhostingModeEnumPlugOperator(EnumPlugOperator):
+class GhostingModeEnumPlugOperator(EnumPlugOperator["GhostingModeEnumAttrOperator"]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -160,7 +160,7 @@ class GhostingModeEnumPlugOperator(EnumPlugOperator):
     ALL_KEYFRAMES = 5
 
 
-class GhostingModeEnumAttrOperator(EnumAttrOperator):
+class GhostingModeEnumAttrOperator(EnumAttrOperator[GhostingModeEnumPlugOperator]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -189,7 +189,7 @@ class GhostingModeEnumField(
     PLUG_CLS = GhostingModeEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -200,7 +200,7 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -229,7 +229,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class ShowManipDefaultEnumPlugOperator(EnumPlugOperator):
+class ShowManipDefaultEnumPlugOperator(EnumPlugOperator["ShowManipDefaultEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -242,7 +242,7 @@ class ShowManipDefaultEnumPlugOperator(EnumPlugOperator):
     SPECIFIED = 7
 
 
-class ShowManipDefaultEnumAttrOperator(EnumAttrOperator):
+class ShowManipDefaultEnumAttrOperator(EnumAttrOperator[ShowManipDefaultEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -277,7 +277,7 @@ class ShowManipDefaultEnumField(
     PLUG_CLS = ShowManipDefaultEnumPlugOperator
 
 
-class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
+class RotationInterpolationEnumPlugOperator(EnumPlugOperator["RotationInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 1
@@ -285,7 +285,7 @@ class RotationInterpolationEnumPlugOperator(EnumPlugOperator):
     QUATERNION = 3
 
 
-class RotationInterpolationEnumAttrOperator(EnumAttrOperator):
+class RotationInterpolationEnumAttrOperator(EnumAttrOperator[RotationInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 1

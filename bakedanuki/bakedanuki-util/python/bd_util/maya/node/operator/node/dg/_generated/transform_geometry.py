@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class FreezeNormalsEnumPlugOperator(EnumPlugOperator):
+class FreezeNormalsEnumPlugOperator(EnumPlugOperator["FreezeNormalsEnumAttrOperator"]):
     __slots__ = ()
 
     NEVER = 0
@@ -18,7 +18,7 @@ class FreezeNormalsEnumPlugOperator(EnumPlugOperator):
     NON_MINUS_RIGID_TRANSFORMATIONS_ONLY = 2
 
 
-class FreezeNormalsEnumAttrOperator(EnumAttrOperator):
+class FreezeNormalsEnumAttrOperator(EnumAttrOperator[FreezeNormalsEnumPlugOperator]):
     __slots__ = ()
 
     NEVER = 0

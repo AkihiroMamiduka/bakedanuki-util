@@ -16,14 +16,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator):
+class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator["TransferModeMappingTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POSITION_BASED = 0
     UV_BASED = 1
 
 
-class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator):
+class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator[TransferModeMappingTypeEnumPlugOperator]):
     __slots__ = ()
 
     POSITION_BASED = 0

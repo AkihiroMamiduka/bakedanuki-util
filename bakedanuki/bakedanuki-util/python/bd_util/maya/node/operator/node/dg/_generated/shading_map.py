@@ -19,7 +19,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class MapFunctionUEnumPlugOperator(EnumPlugOperator):
+class MapFunctionUEnumPlugOperator(EnumPlugOperator["MapFunctionUEnumAttrOperator"]):
     __slots__ = ()
 
     HUE = 0
@@ -31,7 +31,7 @@ class MapFunctionUEnumPlugOperator(EnumPlugOperator):
     RGB_AVERAGE = 6
 
 
-class MapFunctionUEnumAttrOperator(EnumAttrOperator):
+class MapFunctionUEnumAttrOperator(EnumAttrOperator[MapFunctionUEnumPlugOperator]):
     __slots__ = ()
 
     HUE = 0
@@ -62,7 +62,7 @@ class MapFunctionUEnumField(
     PLUG_CLS = MapFunctionUEnumPlugOperator
 
 
-class MapFunctionVEnumPlugOperator(EnumPlugOperator):
+class MapFunctionVEnumPlugOperator(EnumPlugOperator["MapFunctionVEnumAttrOperator"]):
     __slots__ = ()
 
     HUE = 0
@@ -74,7 +74,7 @@ class MapFunctionVEnumPlugOperator(EnumPlugOperator):
     RGB_AVERAGE = 6
 
 
-class MapFunctionVEnumAttrOperator(EnumAttrOperator):
+class MapFunctionVEnumAttrOperator(EnumAttrOperator[MapFunctionVEnumPlugOperator]):
     __slots__ = ()
 
     HUE = 0
@@ -105,7 +105,7 @@ class MapFunctionVEnumField(
     PLUG_CLS = MapFunctionVEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -113,7 +113,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -136,7 +136,7 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator):
+class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -145,7 +145,7 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator):
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator):
+class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 0

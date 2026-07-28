@@ -19,7 +19,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -27,7 +27,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -50,7 +50,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -58,7 +58,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -81,7 +81,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class AlphaModeEnumPlugOperator(EnumPlugOperator):
+class AlphaModeEnumPlugOperator(EnumPlugOperator["AlphaModeEnumAttrOperator"]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -90,7 +90,7 @@ class AlphaModeEnumPlugOperator(EnumPlugOperator):
     COVERAGE = 3
 
 
-class AlphaModeEnumAttrOperator(EnumAttrOperator):
+class AlphaModeEnumAttrOperator(EnumAttrOperator[AlphaModeEnumPlugOperator]):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -115,7 +115,7 @@ class AlphaModeEnumField(
     PLUG_CLS = AlphaModeEnumPlugOperator
 
 
-class ColorModeEnumPlugOperator(EnumPlugOperator):
+class ColorModeEnumPlugOperator(EnumPlugOperator["ColorModeEnumAttrOperator"]):
     __slots__ = ()
 
     LIGHT_AND_COLOR = 0
@@ -125,7 +125,7 @@ class ColorModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM_SHADER = 4
 
 
-class ColorModeEnumAttrOperator(EnumAttrOperator):
+class ColorModeEnumAttrOperator(EnumAttrOperator[ColorModeEnumPlugOperator]):
     __slots__ = ()
 
     LIGHT_AND_COLOR = 0
@@ -152,7 +152,7 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class NormalDirectionEnumPlugOperator(EnumPlugOperator):
+class NormalDirectionEnumPlugOperator(EnumPlugOperator["NormalDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -160,7 +160,7 @@ class NormalDirectionEnumPlugOperator(EnumPlugOperator):
     SURFACE_BACK = 2
 
 
-class NormalDirectionEnumAttrOperator(EnumAttrOperator):
+class NormalDirectionEnumAttrOperator(EnumAttrOperator[NormalDirectionEnumPlugOperator]):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -183,7 +183,7 @@ class NormalDirectionEnumField(
     PLUG_CLS = NormalDirectionEnumPlugOperator
 
 
-class SeparationEnumPlugOperator(EnumPlugOperator):
+class SeparationEnumPlugOperator(EnumPlugOperator["SeparationEnumAttrOperator"]):
     __slots__ = ()
 
     SHADINGGROUP_ON_SHAPE = 0
@@ -191,7 +191,7 @@ class SeparationEnumPlugOperator(EnumPlugOperator):
     THIS_WHOLE_SET = 2
 
 
-class SeparationEnumAttrOperator(EnumAttrOperator):
+class SeparationEnumAttrOperator(EnumAttrOperator[SeparationEnumPlugOperator]):
     __slots__ = ()
 
     SHADINGGROUP_ON_SHAPE = 0
@@ -214,7 +214,7 @@ class SeparationEnumField(
     PLUG_CLS = SeparationEnumPlugOperator
 
 
-class FileFormatEnumPlugOperator(EnumPlugOperator):
+class FileFormatEnumPlugOperator(EnumPlugOperator["FileFormatEnumAttrOperator"]):
     __slots__ = ()
 
     TIF = 1
@@ -234,7 +234,7 @@ class FileFormatEnumPlugOperator(EnumPlugOperator):
     MACPAINT = 15
 
 
-class FileFormatEnumAttrOperator(EnumAttrOperator):
+class FileFormatEnumAttrOperator(EnumAttrOperator[FileFormatEnumPlugOperator]):
     __slots__ = ()
 
     TIF = 1
@@ -281,7 +281,7 @@ class FileFormatEnumField(
     PLUG_CLS = FileFormatEnumPlugOperator
 
 
-class BitsPerChannelEnumPlugOperator(EnumPlugOperator):
+class BitsPerChannelEnumPlugOperator(EnumPlugOperator["BitsPerChannelEnumAttrOperator"]):
     __slots__ = ()
 
     _8_BITS = 1
@@ -289,7 +289,7 @@ class BitsPerChannelEnumPlugOperator(EnumPlugOperator):
     _32_BITS = 4
 
 
-class BitsPerChannelEnumAttrOperator(EnumAttrOperator):
+class BitsPerChannelEnumAttrOperator(EnumAttrOperator[BitsPerChannelEnumPlugOperator]):
     __slots__ = ()
 
     _8_BITS = 1
@@ -312,7 +312,7 @@ class BitsPerChannelEnumField(
     PLUG_CLS = BitsPerChannelEnumPlugOperator
 
 
-class UvRangeEnumPlugOperator(EnumPlugOperator):
+class UvRangeEnumPlugOperator(EnumPlugOperator["UvRangeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL_0_TO_1 = 0
@@ -320,7 +320,7 @@ class UvRangeEnumPlugOperator(EnumPlugOperator):
     USER_SPECIFIED = 2
 
 
-class UvRangeEnumAttrOperator(EnumAttrOperator):
+class UvRangeEnumAttrOperator(EnumAttrOperator[UvRangeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL_0_TO_1 = 0
@@ -343,7 +343,7 @@ class UvRangeEnumField(
     PLUG_CLS = UvRangeEnumPlugOperator
 
 
-class BackgroundModeEnumPlugOperator(EnumPlugOperator):
+class BackgroundModeEnumPlugOperator(EnumPlugOperator["BackgroundModeEnumAttrOperator"]):
     __slots__ = ()
 
     SHADER_DEFAULT = 0
@@ -351,7 +351,7 @@ class BackgroundModeEnumPlugOperator(EnumPlugOperator):
     EXTEND_EDGE_COLOR = 2
 
 
-class BackgroundModeEnumAttrOperator(EnumAttrOperator):
+class BackgroundModeEnumAttrOperator(EnumAttrOperator[BackgroundModeEnumPlugOperator]):
     __slots__ = ()
 
     SHADER_DEFAULT = 0

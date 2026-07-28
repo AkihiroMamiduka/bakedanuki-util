@@ -21,14 +21,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class UsePartialResolutionEnumPlugOperator(EnumPlugOperator):
+class UsePartialResolutionEnumPlugOperator(EnumPlugOperator["UsePartialResolutionEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
     PARTIAL = 1
 
 
-class UsePartialResolutionEnumAttrOperator(EnumAttrOperator):
+class UsePartialResolutionEnumAttrOperator(EnumAttrOperator[UsePartialResolutionEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0
@@ -49,7 +49,7 @@ class UsePartialResolutionEnumField(
     PLUG_CLS = UsePartialResolutionEnumPlugOperator
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
+class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -57,7 +57,7 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
     NEGATIVE = 2
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator):
+class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -80,14 +80,14 @@ class AngleInterpolationEnumField(
     PLUG_CLS = AngleInterpolationEnumPlugOperator
 
 
-class FalloffModeEnumPlugOperator(EnumPlugOperator):
+class FalloffModeEnumPlugOperator(EnumPlugOperator["FalloffModeEnumAttrOperator"]):
     __slots__ = ()
 
     VOLUME = 0
     SURFACE = 1
 
 
-class FalloffModeEnumAttrOperator(EnumAttrOperator):
+class FalloffModeEnumAttrOperator(EnumAttrOperator[FalloffModeEnumPlugOperator]):
     __slots__ = ()
 
     VOLUME = 0

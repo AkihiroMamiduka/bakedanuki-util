@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RenderPassesEnumPlugOperator(EnumPlugOperator):
+class RenderPassesEnumPlugOperator(EnumPlugOperator["RenderPassesEnumAttrOperator"]):
     __slots__ = ()
 
     _3 = 3
@@ -25,7 +25,7 @@ class RenderPassesEnumPlugOperator(EnumPlugOperator):
     _36 = 36
 
 
-class RenderPassesEnumAttrOperator(EnumAttrOperator):
+class RenderPassesEnumAttrOperator(EnumAttrOperator[RenderPassesEnumPlugOperator]):
     __slots__ = ()
 
     _3 = 3
@@ -58,7 +58,7 @@ class RenderPassesEnumField(
     PLUG_CLS = RenderPassesEnumPlugOperator
 
 
-class ExtensionEnumPlugOperator(EnumPlugOperator):
+class ExtensionEnumPlugOperator(EnumPlugOperator["ExtensionEnumAttrOperator"]):
     __slots__ = ()
 
     NAME_1 = 0
@@ -69,7 +69,7 @@ class ExtensionEnumPlugOperator(EnumPlugOperator):
     NAME_EXT_0001 = 5
 
 
-class ExtensionEnumAttrOperator(EnumAttrOperator):
+class ExtensionEnumAttrOperator(EnumAttrOperator[ExtensionEnumPlugOperator]):
     __slots__ = ()
 
     NAME_1 = 0
@@ -98,7 +98,7 @@ class ExtensionEnumField(
     PLUG_CLS = ExtensionEnumPlugOperator
 
 
-class ImageFormatEnumPlugOperator(EnumPlugOperator):
+class ImageFormatEnumPlugOperator(EnumPlugOperator["ImageFormatEnumAttrOperator"]):
     __slots__ = ()
 
     GIF = 0
@@ -118,7 +118,7 @@ class ImageFormatEnumPlugOperator(EnumPlugOperator):
     IMF_PLUGIN = 50
 
 
-class ImageFormatEnumAttrOperator(EnumAttrOperator):
+class ImageFormatEnumAttrOperator(EnumAttrOperator[ImageFormatEnumPlugOperator]):
     __slots__ = ()
 
     GIF = 0
@@ -165,7 +165,7 @@ class ImageFormatEnumField(
     PLUG_CLS = ImageFormatEnumPlugOperator
 
 
-class AlphaSourceEnumPlugOperator(EnumPlugOperator):
+class AlphaSourceEnumPlugOperator(EnumPlugOperator["AlphaSourceEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -178,7 +178,7 @@ class AlphaSourceEnumPlugOperator(EnumPlugOperator):
     INVERSE_CLAMP = 7
 
 
-class AlphaSourceEnumAttrOperator(EnumAttrOperator):
+class AlphaSourceEnumAttrOperator(EnumAttrOperator[AlphaSourceEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -211,7 +211,7 @@ class AlphaSourceEnumField(
     PLUG_CLS = AlphaSourceEnumPlugOperator
 
 
-class DrawStyleEnumPlugOperator(EnumPlugOperator):
+class DrawStyleEnumPlugOperator(EnumPlugOperator["DrawStyleEnumAttrOperator"]):
     __slots__ = ()
 
     POINTS = 0
@@ -220,7 +220,7 @@ class DrawStyleEnumPlugOperator(EnumPlugOperator):
     SMOOTH_SHADED = 3
 
 
-class DrawStyleEnumAttrOperator(EnumAttrOperator):
+class DrawStyleEnumAttrOperator(EnumAttrOperator[DrawStyleEnumPlugOperator]):
     __slots__ = ()
 
     POINTS = 0
@@ -245,7 +245,7 @@ class DrawStyleEnumField(
     PLUG_CLS = DrawStyleEnumPlugOperator
 
 
-class LightingModeEnumPlugOperator(EnumPlugOperator):
+class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT_LIGHT = 0
@@ -253,7 +253,7 @@ class LightingModeEnumPlugOperator(EnumPlugOperator):
     SELECTED_LIGHTS = 2
 
 
-class LightingModeEnumAttrOperator(EnumAttrOperator):
+class LightingModeEnumAttrOperator(EnumAttrOperator[LightingModeEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT_LIGHT = 0

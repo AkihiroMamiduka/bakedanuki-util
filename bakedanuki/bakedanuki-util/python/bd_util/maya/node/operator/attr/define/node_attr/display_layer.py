@@ -16,7 +16,7 @@ from ..std.at.scalar.numeric.range.float import FloatField
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class DisplayTypeEnumPlugOperator(EnumPlugOperator):
+class DisplayTypeEnumPlugOperator(EnumPlugOperator["DisplayTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -24,7 +24,7 @@ class DisplayTypeEnumPlugOperator(EnumPlugOperator):
     REFERENCE = 2
 
 
-class DisplayTypeEnumAttrOperator(EnumAttrOperator):
+class DisplayTypeEnumAttrOperator(EnumAttrOperator[DisplayTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -47,14 +47,14 @@ class DisplayTypeEnumField(
     PLUG_CLS = DisplayTypeEnumPlugOperator
 
 
-class LevelOfDetailEnumPlugOperator(EnumPlugOperator):
+class LevelOfDetailEnumPlugOperator(EnumPlugOperator["LevelOfDetailEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class LevelOfDetailEnumAttrOperator(EnumAttrOperator):
+class LevelOfDetailEnumAttrOperator(EnumAttrOperator[LevelOfDetailEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0

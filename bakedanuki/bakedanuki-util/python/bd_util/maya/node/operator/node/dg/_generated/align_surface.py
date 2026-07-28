@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class PositionalContinuityTypeEnumPlugOperator(EnumPlugOperator):
+class PositionalContinuityTypeEnumPlugOperator(EnumPlugOperator["PositionalContinuityTypeEnumAttrOperator"]):
     __slots__ = ()
 
     MOVE_FIRST = 1
@@ -22,7 +22,7 @@ class PositionalContinuityTypeEnumPlugOperator(EnumPlugOperator):
     MODIFY_BOTH = 6
 
 
-class PositionalContinuityTypeEnumAttrOperator(EnumAttrOperator):
+class PositionalContinuityTypeEnumAttrOperator(EnumAttrOperator[PositionalContinuityTypeEnumPlugOperator]):
     __slots__ = ()
 
     MOVE_FIRST = 1
@@ -51,14 +51,14 @@ class PositionalContinuityTypeEnumField(
     PLUG_CLS = PositionalContinuityTypeEnumPlugOperator
 
 
-class TangentContinuityTypeEnumPlugOperator(EnumPlugOperator):
+class TangentContinuityTypeEnumPlugOperator(EnumPlugOperator["TangentContinuityTypeEnumAttrOperator"]):
     __slots__ = ()
 
     FIRST = 1
     SECOND = 2
 
 
-class TangentContinuityTypeEnumAttrOperator(EnumAttrOperator):
+class TangentContinuityTypeEnumAttrOperator(EnumAttrOperator[TangentContinuityTypeEnumPlugOperator]):
     __slots__ = ()
 
     FIRST = 1

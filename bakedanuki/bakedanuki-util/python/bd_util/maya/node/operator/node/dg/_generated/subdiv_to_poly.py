@@ -15,7 +15,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class FormatEnumPlugOperator(EnumPlugOperator):
+class FormatEnumPlugOperator(EnumPlugOperator["FormatEnumAttrOperator"]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -24,7 +24,7 @@ class FormatEnumPlugOperator(EnumPlugOperator):
     VERTICES = 3
 
 
-class FormatEnumAttrOperator(EnumAttrOperator):
+class FormatEnumAttrOperator(EnumAttrOperator[FormatEnumPlugOperator]):
     __slots__ = ()
 
     UNIFORM = 0
@@ -49,7 +49,7 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class PolygonTypeEnumPlugOperator(EnumPlugOperator):
+class PolygonTypeEnumPlugOperator(EnumPlugOperator["PolygonTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -57,7 +57,7 @@ class PolygonTypeEnumPlugOperator(EnumPlugOperator):
     POLYGONS = 2
 
 
-class PolygonTypeEnumAttrOperator(EnumAttrOperator):
+class PolygonTypeEnumAttrOperator(EnumAttrOperator[PolygonTypeEnumPlugOperator]):
     __slots__ = ()
 
     TRIANGLES = 0

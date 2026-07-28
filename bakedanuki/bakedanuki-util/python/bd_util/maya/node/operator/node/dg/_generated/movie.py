@@ -37,7 +37,7 @@ from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleFie
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FilterTypeEnumPlugOperator(EnumPlugOperator):
+class FilterTypeEnumPlugOperator(EnumPlugOperator["FilterTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -48,7 +48,7 @@ class FilterTypeEnumPlugOperator(EnumPlugOperator):
     GAUSSIAN = 5
 
 
-class FilterTypeEnumAttrOperator(EnumAttrOperator):
+class FilterTypeEnumAttrOperator(EnumAttrOperator[FilterTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -77,7 +77,7 @@ class FilterTypeEnumField(
     PLUG_CLS = FilterTypeEnumPlugOperator
 
 
-class UvTilingModeEnumPlugOperator(EnumPlugOperator):
+class UvTilingModeEnumPlugOperator(EnumPlugOperator["UvTilingModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -87,7 +87,7 @@ class UvTilingModeEnumPlugOperator(EnumPlugOperator):
     EXPLICIT_TILES = 4
 
 
-class UvTilingModeEnumAttrOperator(EnumAttrOperator):
+class UvTilingModeEnumAttrOperator(EnumAttrOperator[UvTilingModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -114,7 +114,7 @@ class UvTilingModeEnumField(
     PLUG_CLS = UvTilingModeEnumPlugOperator
 
 
-class UvTileProxyQualityEnumPlugOperator(EnumPlugOperator):
+class UvTileProxyQualityEnumPlugOperator(EnumPlugOperator["UvTileProxyQualityEnumAttrOperator"]):
     __slots__ = ()
 
     DISABLE_PREVIEW = 0
@@ -125,7 +125,7 @@ class UvTileProxyQualityEnumPlugOperator(EnumPlugOperator):
     EXTREME_HIGH_QUALITY_16K = 5
 
 
-class UvTileProxyQualityEnumAttrOperator(EnumAttrOperator):
+class UvTileProxyQualityEnumAttrOperator(EnumAttrOperator[UvTileProxyQualityEnumPlugOperator]):
     __slots__ = ()
 
     DISABLE_PREVIEW = 0
@@ -154,7 +154,7 @@ class UvTileProxyQualityEnumField(
     PLUG_CLS = UvTileProxyQualityEnumPlugOperator
 
 
-class HdrMappingEnumPlugOperator(EnumPlugOperator):
+class HdrMappingEnumPlugOperator(EnumPlugOperator["HdrMappingEnumAttrOperator"]):
     __slots__ = ()
 
     CLAMP = 0
@@ -162,7 +162,7 @@ class HdrMappingEnumPlugOperator(EnumPlugOperator):
     EXPONENTIAL = 2
 
 
-class HdrMappingEnumAttrOperator(EnumAttrOperator):
+class HdrMappingEnumAttrOperator(EnumAttrOperator[HdrMappingEnumPlugOperator]):
     __slots__ = ()
 
     CLAMP = 0
@@ -185,7 +185,7 @@ class HdrMappingEnumField(
     PLUG_CLS = HdrMappingEnumPlugOperator
 
 
-class PtexFilterTypeEnumPlugOperator(EnumPlugOperator):
+class PtexFilterTypeEnumPlugOperator(EnumPlugOperator["PtexFilterTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 0
@@ -198,7 +198,7 @@ class PtexFilterTypeEnumPlugOperator(EnumPlugOperator):
     MITCHELL = 7
 
 
-class PtexFilterTypeEnumAttrOperator(EnumAttrOperator):
+class PtexFilterTypeEnumAttrOperator(EnumAttrOperator[PtexFilterTypeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 0
@@ -231,7 +231,7 @@ class PtexFilterTypeEnumField(
     PLUG_CLS = PtexFilterTypeEnumPlugOperator
 
 
-class AiFilterEnumPlugOperator(EnumPlugOperator):
+class AiFilterEnumPlugOperator(EnumPlugOperator["AiFilterEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -240,7 +240,7 @@ class AiFilterEnumPlugOperator(EnumPlugOperator):
     SMART_BICUBIC = 3
 
 
-class AiFilterEnumAttrOperator(EnumAttrOperator):
+class AiFilterEnumAttrOperator(EnumAttrOperator[AiFilterEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0

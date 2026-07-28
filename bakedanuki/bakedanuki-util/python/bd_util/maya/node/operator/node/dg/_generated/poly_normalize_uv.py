@@ -13,14 +13,14 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalizeTypeEnumPlugOperator(EnumPlugOperator):
+class NormalizeTypeEnumPlugOperator(EnumPlugOperator["NormalizeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SEPARATE = 0
     COLLECTIVE = 1
 
 
-class NormalizeTypeEnumAttrOperator(EnumAttrOperator):
+class NormalizeTypeEnumAttrOperator(EnumAttrOperator[NormalizeTypeEnumPlugOperator]):
     __slots__ = ()
 
     SEPARATE = 0
@@ -41,7 +41,7 @@ class NormalizeTypeEnumField(
     PLUG_CLS = NormalizeTypeEnumPlugOperator
 
 
-class NormalizeDirectionEnumPlugOperator(EnumPlugOperator):
+class NormalizeDirectionEnumPlugOperator(EnumPlugOperator["NormalizeDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 0
@@ -49,7 +49,7 @@ class NormalizeDirectionEnumPlugOperator(EnumPlugOperator):
     V = 2
 
 
-class NormalizeDirectionEnumAttrOperator(EnumAttrOperator):
+class NormalizeDirectionEnumAttrOperator(EnumAttrOperator[NormalizeDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 0

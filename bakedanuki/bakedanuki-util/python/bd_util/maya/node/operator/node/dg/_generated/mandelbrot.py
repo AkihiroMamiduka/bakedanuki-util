@@ -23,7 +23,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class MandelbrotTypeEnumPlugOperator(EnumPlugOperator):
+class MandelbrotTypeEnumPlugOperator(EnumPlugOperator["MandelbrotTypeEnumAttrOperator"]):
     __slots__ = ()
 
     JULIA_SET = 0
@@ -33,7 +33,7 @@ class MandelbrotTypeEnumPlugOperator(EnumPlugOperator):
     BOX_WITH_MANDELBROT_SET = 4
 
 
-class MandelbrotTypeEnumAttrOperator(EnumAttrOperator):
+class MandelbrotTypeEnumAttrOperator(EnumAttrOperator[MandelbrotTypeEnumPlugOperator]):
     __slots__ = ()
 
     JULIA_SET = 0
@@ -60,7 +60,7 @@ class MandelbrotTypeEnumField(
     PLUG_CLS = MandelbrotTypeEnumPlugOperator
 
 
-class MandelbrotShadeMethodEnumPlugOperator(EnumPlugOperator):
+class MandelbrotShadeMethodEnumPlugOperator(EnumPlugOperator["MandelbrotShadeMethodEnumAttrOperator"]):
     __slots__ = ()
 
     CLASSIC = 0
@@ -70,7 +70,7 @@ class MandelbrotShadeMethodEnumPlugOperator(EnumPlugOperator):
     LINES_ONLY = 4
 
 
-class MandelbrotShadeMethodEnumAttrOperator(EnumAttrOperator):
+class MandelbrotShadeMethodEnumAttrOperator(EnumAttrOperator[MandelbrotShadeMethodEnumPlugOperator]):
     __slots__ = ()
 
     CLASSIC = 0
@@ -97,7 +97,7 @@ class MandelbrotShadeMethodEnumField(
     PLUG_CLS = MandelbrotShadeMethodEnumPlugOperator
 
 
-class MandelbrotInsideMethodEnumPlugOperator(EnumPlugOperator):
+class MandelbrotInsideMethodEnumPlugOperator(EnumPlugOperator["MandelbrotInsideMethodEnumAttrOperator"]):
     __slots__ = ()
 
     ZERO = 0
@@ -108,7 +108,7 @@ class MandelbrotInsideMethodEnumPlugOperator(EnumPlugOperator):
     INNER_LINES_ONLY = 5
 
 
-class MandelbrotInsideMethodEnumAttrOperator(EnumAttrOperator):
+class MandelbrotInsideMethodEnumAttrOperator(EnumAttrOperator[MandelbrotInsideMethodEnumPlugOperator]):
     __slots__ = ()
 
     ZERO = 0
@@ -137,7 +137,7 @@ class MandelbrotInsideMethodEnumField(
     PLUG_CLS = MandelbrotInsideMethodEnumPlugOperator
 
 
-class OrbitMappingEnumPlugOperator(EnumPlugOperator):
+class OrbitMappingEnumPlugOperator(EnumPlugOperator["OrbitMappingEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -145,7 +145,7 @@ class OrbitMappingEnumPlugOperator(EnumPlugOperator):
     BACK_TO_FRONT = 2
 
 
-class OrbitMappingEnumAttrOperator(EnumAttrOperator):
+class OrbitMappingEnumAttrOperator(EnumAttrOperator[OrbitMappingEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -168,7 +168,7 @@ class OrbitMappingEnumField(
     PLUG_CLS = OrbitMappingEnumPlugOperator
 
 
-class OrbitMapColoringEnumPlugOperator(EnumPlugOperator):
+class OrbitMapColoringEnumPlugOperator(EnumPlugOperator["OrbitMapColoringEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -176,7 +176,7 @@ class OrbitMapColoringEnumPlugOperator(EnumPlugOperator):
     TINT = 2
 
 
-class OrbitMapColoringEnumAttrOperator(EnumAttrOperator):
+class OrbitMapColoringEnumAttrOperator(EnumAttrOperator[OrbitMapColoringEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

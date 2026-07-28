@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class PreserveShapeEnumPlugOperator(EnumPlugOperator):
+class PreserveShapeEnumPlugOperator(EnumPlugOperator["PreserveShapeEnumAttrOperator"]):
     __slots__ = ()
 
     IGNORE = 0
@@ -18,7 +18,7 @@ class PreserveShapeEnumPlugOperator(EnumPlugOperator):
     BLEND = 2
 
 
-class PreserveShapeEnumAttrOperator(EnumAttrOperator):
+class PreserveShapeEnumAttrOperator(EnumAttrOperator[PreserveShapeEnumPlugOperator]):
     __slots__ = ()
 
     IGNORE = 0
@@ -41,7 +41,7 @@ class PreserveShapeEnumField(
     PLUG_CLS = PreserveShapeEnumPlugOperator
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 0
@@ -49,7 +49,7 @@ class DirectionEnumPlugOperator(EnumPlugOperator):
     U_AMP_V = 2
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 0

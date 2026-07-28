@@ -56,7 +56,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
 )
 
 
-class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator):
+class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -64,7 +64,7 @@ class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator):
     REFERENCE = 2
 
 
-class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator):
+class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -87,14 +87,14 @@ class OverrideDisplayTypeEnumField(
     PLUG_CLS = OverrideDisplayTypeEnumPlugOperator
 
 
-class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator):
+class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator):
+class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0
@@ -115,7 +115,7 @@ class OverrideLevelOfDetailEnumField(
     PLUG_CLS = OverrideLevelOfDetailEnumPlugOperator
 
 
-class RepresentationEnumPlugOperator(EnumPlugOperator):
+class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOperator"]):
     __slots__ = ()
 
     A = 1
@@ -124,7 +124,7 @@ class RepresentationEnumPlugOperator(EnumPlugOperator):
     RGBA = 4
 
 
-class RepresentationEnumAttrOperator(EnumAttrOperator):
+class RepresentationEnumAttrOperator(EnumAttrOperator[RepresentationEnumPlugOperator]):
     __slots__ = ()
 
     A = 1
@@ -149,7 +149,7 @@ class RepresentationEnumField(
     PLUG_CLS = RepresentationEnumPlugOperator
 
 
-class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator):
+class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["CollisionOffsetVelocityIncrement_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +158,7 @@ class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class CollisionOffsetVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator):
+class CollisionOffsetVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[CollisionOffsetVelocityIncrement_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -183,7 +183,7 @@ class CollisionOffsetVelocityIncrement_InterpEnumField(
     PLUG_CLS = CollisionOffsetVelocityIncrement_InterpEnumPlugOperator
 
 
-class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator):
+class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["CollisionDepthVelocityIncrement_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -192,7 +192,7 @@ class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class CollisionDepthVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator):
+class CollisionDepthVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[CollisionDepthVelocityIncrement_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -217,7 +217,7 @@ class CollisionDepthVelocityIncrement_InterpEnumField(
     PLUG_CLS = CollisionDepthVelocityIncrement_InterpEnumPlugOperator
 
 
-class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator):
+class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator["CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -226,7 +226,7 @@ class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator)
     SPLINE = 3
 
 
-class CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator):
+class CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -251,7 +251,7 @@ class CollisionOffsetVelocityMultiplier_InterpEnumField(
     PLUG_CLS = CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator
 
 
-class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator):
+class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator["CollisionDepthVelocityMultiplier_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -260,7 +260,7 @@ class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class CollisionDepthVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator):
+class CollisionDepthVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[CollisionDepthVelocityMultiplier_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

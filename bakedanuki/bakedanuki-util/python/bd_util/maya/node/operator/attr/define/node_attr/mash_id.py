@@ -18,7 +18,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ProbabilityRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ProbabilityRamp_InterpEnumPlugOperator(EnumPlugOperator["ProbabilityRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +27,7 @@ class ProbabilityRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ProbabilityRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ProbabilityRamp_InterpEnumAttrOperator(EnumAttrOperator[ProbabilityRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

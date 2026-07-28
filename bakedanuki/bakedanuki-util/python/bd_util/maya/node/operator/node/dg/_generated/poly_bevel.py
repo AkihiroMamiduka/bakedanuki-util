@@ -14,14 +14,14 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class UvAssignmentEnumPlugOperator(EnumPlugOperator):
+class UvAssignmentEnumPlugOperator(EnumPlugOperator["UvAssignmentEnumAttrOperator"]):
     __slots__ = ()
 
     PLANAR_PROJECT_PER_FACE = 0
     PRESERVE_ORIGINAL_BOUNDARIES = 1
 
 
-class UvAssignmentEnumAttrOperator(EnumAttrOperator):
+class UvAssignmentEnumAttrOperator(EnumAttrOperator[UvAssignmentEnumPlugOperator]):
     __slots__ = ()
 
     PLANAR_PROJECT_PER_FACE = 0

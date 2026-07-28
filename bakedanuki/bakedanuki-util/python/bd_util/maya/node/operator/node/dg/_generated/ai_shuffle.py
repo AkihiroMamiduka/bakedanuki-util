@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ChannelREnumPlugOperator(EnumPlugOperator):
+class ChannelREnumPlugOperator(EnumPlugOperator["ChannelREnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -23,7 +23,7 @@ class ChannelREnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelREnumAttrOperator(EnumAttrOperator):
+class ChannelREnumAttrOperator(EnumAttrOperator[ChannelREnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -48,7 +48,7 @@ class ChannelREnumField(
     PLUG_CLS = ChannelREnumPlugOperator
 
 
-class ChannelGEnumPlugOperator(EnumPlugOperator):
+class ChannelGEnumPlugOperator(EnumPlugOperator["ChannelGEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -57,7 +57,7 @@ class ChannelGEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelGEnumAttrOperator(EnumAttrOperator):
+class ChannelGEnumAttrOperator(EnumAttrOperator[ChannelGEnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -82,7 +82,7 @@ class ChannelGEnumField(
     PLUG_CLS = ChannelGEnumPlugOperator
 
 
-class ChannelBEnumPlugOperator(EnumPlugOperator):
+class ChannelBEnumPlugOperator(EnumPlugOperator["ChannelBEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -91,7 +91,7 @@ class ChannelBEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelBEnumAttrOperator(EnumAttrOperator):
+class ChannelBEnumAttrOperator(EnumAttrOperator[ChannelBEnumPlugOperator]):
     __slots__ = ()
 
     R = 0
@@ -116,7 +116,7 @@ class ChannelBEnumField(
     PLUG_CLS = ChannelBEnumPlugOperator
 
 
-class ChannelAEnumPlugOperator(EnumPlugOperator):
+class ChannelAEnumPlugOperator(EnumPlugOperator["ChannelAEnumAttrOperator"]):
     __slots__ = ()
 
     R = 0
@@ -125,7 +125,7 @@ class ChannelAEnumPlugOperator(EnumPlugOperator):
     A = 3
 
 
-class ChannelAEnumAttrOperator(EnumAttrOperator):
+class ChannelAEnumAttrOperator(EnumAttrOperator[ChannelAEnumPlugOperator]):
     __slots__ = ()
 
     R = 0

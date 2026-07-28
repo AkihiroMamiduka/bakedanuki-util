@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class EdgeAntiAliasingEnumPlugOperator(EnumPlugOperator):
+class EdgeAntiAliasingEnumPlugOperator(EnumPlugOperator["EdgeAntiAliasingEnumAttrOperator"]):
     __slots__ = ()
 
     HIGHEST_QUALITY = 0
@@ -19,7 +19,7 @@ class EdgeAntiAliasingEnumPlugOperator(EnumPlugOperator):
     LOW_QUALITY = 3
 
 
-class EdgeAntiAliasingEnumAttrOperator(EnumAttrOperator):
+class EdgeAntiAliasingEnumAttrOperator(EnumAttrOperator[EdgeAntiAliasingEnumPlugOperator]):
     __slots__ = ()
 
     HIGHEST_QUALITY = 0
@@ -44,7 +44,7 @@ class EdgeAntiAliasingEnumField(
     PLUG_CLS = EdgeAntiAliasingEnumPlugOperator
 
 
-class PixelFilterTypeEnumPlugOperator(EnumPlugOperator):
+class PixelFilterTypeEnumPlugOperator(EnumPlugOperator["PixelFilterTypeEnumAttrOperator"]):
     __slots__ = ()
 
     BOX_FILTER = 0
@@ -54,7 +54,7 @@ class PixelFilterTypeEnumPlugOperator(EnumPlugOperator):
     PLUG_IN_FILTER = 1000
 
 
-class PixelFilterTypeEnumAttrOperator(EnumAttrOperator):
+class PixelFilterTypeEnumAttrOperator(EnumAttrOperator[PixelFilterTypeEnumPlugOperator]):
     __slots__ = ()
 
     BOX_FILTER = 0

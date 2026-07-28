@@ -20,14 +20,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BackgroundEnumPlugOperator(EnumPlugOperator):
+class BackgroundEnumPlugOperator(EnumPlugOperator["BackgroundEnumAttrOperator"]):
     __slots__ = ()
 
     SCENE_BACKGROUND = 0
     BACKGROUND_COLOR = 1
 
 
-class BackgroundEnumAttrOperator(EnumAttrOperator):
+class BackgroundEnumAttrOperator(EnumAttrOperator[BackgroundEnumPlugOperator]):
     __slots__ = ()
 
     SCENE_BACKGROUND = 0

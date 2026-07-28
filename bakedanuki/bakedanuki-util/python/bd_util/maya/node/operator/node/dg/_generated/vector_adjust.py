@@ -20,7 +20,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class AlignmentModeEnumPlugOperator(EnumPlugOperator):
+class AlignmentModeEnumPlugOperator(EnumPlugOperator["AlignmentModeEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 1
@@ -28,7 +28,7 @@ class AlignmentModeEnumPlugOperator(EnumPlugOperator):
     RIGHT = 3
 
 
-class AlignmentModeEnumAttrOperator(EnumAttrOperator):
+class AlignmentModeEnumAttrOperator(EnumAttrOperator[AlignmentModeEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 1

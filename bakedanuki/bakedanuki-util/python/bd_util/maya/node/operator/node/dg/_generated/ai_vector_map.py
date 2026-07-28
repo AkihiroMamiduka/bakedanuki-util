@@ -16,7 +16,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OrderEnumPlugOperator(EnumPlugOperator):
+class OrderEnumPlugOperator(EnumPlugOperator["OrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -27,7 +27,7 @@ class OrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class OrderEnumAttrOperator(EnumAttrOperator):
+class OrderEnumAttrOperator(EnumAttrOperator[OrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

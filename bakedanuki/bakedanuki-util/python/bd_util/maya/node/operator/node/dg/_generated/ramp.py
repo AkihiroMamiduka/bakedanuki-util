@@ -19,7 +19,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     V_RAMP = 0
@@ -33,7 +33,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     TARTAN_RAMP = 8
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     V_RAMP = 0
@@ -68,7 +68,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -80,7 +80,7 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     SPIKE = 6
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(EnumAttrOperator[InterpolationEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

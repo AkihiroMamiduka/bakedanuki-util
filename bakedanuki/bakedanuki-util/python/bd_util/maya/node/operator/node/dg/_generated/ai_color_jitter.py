@@ -14,14 +14,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class FaceModeEnumPlugOperator(EnumPlugOperator):
+class FaceModeEnumPlugOperator(EnumPlugOperator["FaceModeEnumAttrOperator"]):
     __slots__ = ()
 
     FACE_ID = 0
     UNIFORM_ID = 1
 
 
-class FaceModeEnumAttrOperator(EnumAttrOperator):
+class FaceModeEnumAttrOperator(EnumAttrOperator[FaceModeEnumPlugOperator]):
     __slots__ = ()
 
     FACE_ID = 0

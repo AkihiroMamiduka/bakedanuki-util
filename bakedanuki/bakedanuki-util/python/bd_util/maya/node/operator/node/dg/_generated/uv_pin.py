@@ -15,14 +15,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalOverrideEnumPlugOperator(EnumPlugOperator):
+class NormalOverrideEnumPlugOperator(EnumPlugOperator["NormalOverrideEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
     RAIL_CURVE = 1
 
 
-class NormalOverrideEnumAttrOperator(EnumAttrOperator):
+class NormalOverrideEnumAttrOperator(EnumAttrOperator[NormalOverrideEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -43,7 +43,7 @@ class NormalOverrideEnumField(
     PLUG_CLS = NormalOverrideEnumPlugOperator
 
 
-class NormalAxisEnumPlugOperator(EnumPlugOperator):
+class NormalAxisEnumPlugOperator(EnumPlugOperator["NormalAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -54,7 +54,7 @@ class NormalAxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class NormalAxisEnumAttrOperator(EnumAttrOperator):
+class NormalAxisEnumAttrOperator(EnumAttrOperator[NormalAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -83,7 +83,7 @@ class NormalAxisEnumField(
     PLUG_CLS = NormalAxisEnumPlugOperator
 
 
-class TangentAxisEnumPlugOperator(EnumPlugOperator):
+class TangentAxisEnumPlugOperator(EnumPlugOperator["TangentAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -94,7 +94,7 @@ class TangentAxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class TangentAxisEnumAttrOperator(EnumAttrOperator):
+class TangentAxisEnumAttrOperator(EnumAttrOperator[TangentAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -123,7 +123,7 @@ class TangentAxisEnumField(
     PLUG_CLS = TangentAxisEnumPlugOperator
 
 
-class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
+class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator["RelativeSpaceModeEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -131,7 +131,7 @@ class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 2
 
 
-class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator):
+class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator[RelativeSpaceModeEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

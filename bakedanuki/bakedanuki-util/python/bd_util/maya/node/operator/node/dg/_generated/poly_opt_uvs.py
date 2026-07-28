@@ -14,7 +14,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OptimizeAxisEnumPlugOperator(EnumPlugOperator):
+class OptimizeAxisEnumPlugOperator(EnumPlugOperator["OptimizeAxisEnumAttrOperator"]):
     __slots__ = ()
 
     FREE = 0
@@ -22,7 +22,7 @@ class OptimizeAxisEnumPlugOperator(EnumPlugOperator):
     HORIZONTAL = 2
 
 
-class OptimizeAxisEnumAttrOperator(EnumAttrOperator):
+class OptimizeAxisEnumAttrOperator(EnumAttrOperator[OptimizeAxisEnumPlugOperator]):
     __slots__ = ()
 
     FREE = 0

@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SampleTypeEnumPlugOperator(EnumPlugOperator):
+class SampleTypeEnumPlugOperator(EnumPlugOperator["SampleTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ENTIRE_DOMAIN = 1
@@ -23,7 +23,7 @@ class SampleTypeEnumPlugOperator(EnumPlugOperator):
     ADAPTIVELY = 5
 
 
-class SampleTypeEnumAttrOperator(EnumAttrOperator):
+class SampleTypeEnumAttrOperator(EnumAttrOperator[SampleTypeEnumPlugOperator]):
     __slots__ = ()
 
     ENTIRE_DOMAIN = 1

@@ -11,14 +11,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class CoordsysEnumPlugOperator(EnumPlugOperator):
+class CoordsysEnumPlugOperator(EnumPlugOperator["CoordsysEnumAttrOperator"]):
     __slots__ = ()
 
     MUDBOX_XZY = 0
     MAYA_XYZ = 1
 
 
-class CoordsysEnumAttrOperator(EnumAttrOperator):
+class CoordsysEnumAttrOperator(EnumAttrOperator[CoordsysEnumPlugOperator]):
     __slots__ = ()
 
     MUDBOX_XZY = 0

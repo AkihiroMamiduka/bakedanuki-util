@@ -16,7 +16,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -25,7 +25,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -50,14 +50,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -78,7 +78,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class StrengthModeEnumPlugOperator(EnumPlugOperator):
+class StrengthModeEnumPlugOperator(EnumPlugOperator["StrengthModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 1
@@ -86,7 +86,7 @@ class StrengthModeEnumPlugOperator(EnumPlugOperator):
     ANIMATION_TRIGGER = 3
 
 
-class StrengthModeEnumAttrOperator(EnumAttrOperator):
+class StrengthModeEnumAttrOperator(EnumAttrOperator[StrengthModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 1

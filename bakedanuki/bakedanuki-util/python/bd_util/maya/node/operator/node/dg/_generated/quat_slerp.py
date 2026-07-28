@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
+class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     SHORTEST = 0
@@ -21,7 +21,7 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator):
     NEGATIVE = 2
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator):
+class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnumPlugOperator]):
     __slots__ = ()
 
     SHORTEST = 0

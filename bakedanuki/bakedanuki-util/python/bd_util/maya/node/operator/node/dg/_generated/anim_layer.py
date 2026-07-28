@@ -18,7 +18,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -26,7 +26,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -49,7 +49,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -57,7 +57,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -80,14 +80,14 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class RotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class RotationAccumulationModeEnumPlugOperator(EnumPlugOperator["RotationAccumulationModeEnumAttrOperator"]):
     __slots__ = ()
 
     BY_COMPONENT = 0
     BY_LAYER = 1
 
 
-class RotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class RotationAccumulationModeEnumAttrOperator(EnumAttrOperator[RotationAccumulationModeEnumPlugOperator]):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -108,7 +108,7 @@ class RotationAccumulationModeEnumField(
     PLUG_CLS = RotationAccumulationModeEnumPlugOperator
 
 
-class OutRotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class OutRotationAccumulationModeEnumPlugOperator(EnumPlugOperator["OutRotationAccumulationModeEnumAttrOperator"]):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -116,7 +116,7 @@ class OutRotationAccumulationModeEnumPlugOperator(EnumPlugOperator):
     BY_LAYER_BLENDED = 2
 
 
-class OutRotationAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class OutRotationAccumulationModeEnumAttrOperator(EnumAttrOperator[OutRotationAccumulationModeEnumPlugOperator]):
     __slots__ = ()
 
     BY_COMPONENT = 0
@@ -139,14 +139,14 @@ class OutRotationAccumulationModeEnumField(
     PLUG_CLS = OutRotationAccumulationModeEnumPlugOperator
 
 
-class ScaleAccumulationModeEnumPlugOperator(EnumPlugOperator):
+class ScaleAccumulationModeEnumPlugOperator(EnumPlugOperator["ScaleAccumulationModeEnumAttrOperator"]):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class ScaleAccumulationModeEnumAttrOperator(EnumAttrOperator):
+class ScaleAccumulationModeEnumAttrOperator(EnumAttrOperator[ScaleAccumulationModeEnumPlugOperator]):
     __slots__ = ()
 
     ADDITIVE = 0

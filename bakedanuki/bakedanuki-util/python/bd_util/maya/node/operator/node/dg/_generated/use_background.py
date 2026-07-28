@@ -21,14 +21,14 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     SOLID_MATTE = 1
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     SOLID_MATTE = 1

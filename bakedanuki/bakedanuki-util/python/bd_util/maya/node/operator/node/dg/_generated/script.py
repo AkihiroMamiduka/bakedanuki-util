@@ -8,7 +8,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ScriptTypeEnumPlugOperator(EnumPlugOperator):
+class ScriptTypeEnumPlugOperator(EnumPlugOperator["ScriptTypeEnumAttrOperator"]):
     __slots__ = ()
 
     DEMAND = 0
@@ -21,7 +21,7 @@ class ScriptTypeEnumPlugOperator(EnumPlugOperator):
     TIME_CHANGED = 7
 
 
-class ScriptTypeEnumAttrOperator(EnumAttrOperator):
+class ScriptTypeEnumAttrOperator(EnumAttrOperator[ScriptTypeEnumPlugOperator]):
     __slots__ = ()
 
     DEMAND = 0
@@ -54,14 +54,14 @@ class ScriptTypeEnumField(
     PLUG_CLS = ScriptTypeEnumPlugOperator
 
 
-class SourceTypeEnumPlugOperator(EnumPlugOperator):
+class SourceTypeEnumPlugOperator(EnumPlugOperator["SourceTypeEnumAttrOperator"]):
     __slots__ = ()
 
     MEL = 0
     PYTHON = 1
 
 
-class SourceTypeEnumAttrOperator(EnumAttrOperator):
+class SourceTypeEnumAttrOperator(EnumAttrOperator[SourceTypeEnumPlugOperator]):
     __slots__ = ()
 
     MEL = 0
@@ -82,14 +82,14 @@ class SourceTypeEnumField(
     PLUG_CLS = SourceTypeEnumPlugOperator
 
 
-class IgnoreReferenceEditsEnumPlugOperator(EnumPlugOperator):
+class IgnoreReferenceEditsEnumPlugOperator(EnumPlugOperator["IgnoreReferenceEditsEnumAttrOperator"]):
     __slots__ = ()
 
     RECORD_REFERENCE_EDITS = 0
     IGNORE_REFERENCE_EDITS = 1
 
 
-class IgnoreReferenceEditsEnumAttrOperator(EnumAttrOperator):
+class IgnoreReferenceEditsEnumAttrOperator(EnumAttrOperator[IgnoreReferenceEditsEnumPlugOperator]):
     __slots__ = ()
 
     RECORD_REFERENCE_EDITS = 0

@@ -16,7 +16,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransformOrderEnumPlugOperator(EnumPlugOperator):
+class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOperator"]):
     __slots__ = ()
 
     SRT = 0
@@ -27,7 +27,7 @@ class TransformOrderEnumPlugOperator(EnumPlugOperator):
     RTS = 5
 
 
-class TransformOrderEnumAttrOperator(EnumAttrOperator):
+class TransformOrderEnumAttrOperator(EnumAttrOperator[TransformOrderEnumPlugOperator]):
     __slots__ = ()
 
     SRT = 0
@@ -56,7 +56,7 @@ class TransformOrderEnumField(
     PLUG_CLS = TransformOrderEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -67,7 +67,7 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -96,14 +96,14 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     APPEND = 0
     REPLACE = 1
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     APPEND = 0

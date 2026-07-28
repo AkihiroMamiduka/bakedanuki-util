@@ -20,7 +20,7 @@ from ..std.dt.string import DataStringField
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
 
 
-class InputTypeEnumPlugOperator(EnumPlugOperator):
+class InputTypeEnumPlugOperator(EnumPlugOperator["InputTypeEnumAttrOperator"]):
     __slots__ = ()
 
     POLY_OBJECT = 0
@@ -29,7 +29,7 @@ class InputTypeEnumPlugOperator(EnumPlugOperator):
     CURVE_OBJECT = 3
 
 
-class InputTypeEnumAttrOperator(EnumAttrOperator):
+class InputTypeEnumAttrOperator(EnumAttrOperator[InputTypeEnumPlugOperator]):
     __slots__ = ()
 
     POLY_OBJECT = 0

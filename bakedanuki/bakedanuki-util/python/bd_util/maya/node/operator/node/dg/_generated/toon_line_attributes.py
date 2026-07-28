@@ -9,14 +9,14 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ViewUpdateEnumPlugOperator(EnumPlugOperator):
+class ViewUpdateEnumPlugOperator(EnumPlugOperator["ViewUpdateEnumAttrOperator"]):
     __slots__ = ()
 
     ON = 0
     OFF = 2
 
 
-class ViewUpdateEnumAttrOperator(EnumAttrOperator):
+class ViewUpdateEnumAttrOperator(EnumAttrOperator[ViewUpdateEnumPlugOperator]):
     __slots__ = ()
 
     ON = 0

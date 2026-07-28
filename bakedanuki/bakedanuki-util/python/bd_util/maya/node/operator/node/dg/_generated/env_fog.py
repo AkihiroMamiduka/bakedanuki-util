@@ -29,7 +29,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -37,7 +37,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -60,14 +60,14 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class DistanceClipPlanesEnumPlugOperator(EnumPlugOperator):
+class DistanceClipPlanesEnumPlugOperator(EnumPlugOperator["DistanceClipPlanesEnumAttrOperator"]):
     __slots__ = ()
 
     CAMERA_NEAR_SLASH_FAR = 0
     FOG_NEAR_SLASH_FAR = 1
 
 
-class DistanceClipPlanesEnumAttrOperator(EnumAttrOperator):
+class DistanceClipPlanesEnumAttrOperator(EnumAttrOperator[DistanceClipPlanesEnumPlugOperator]):
     __slots__ = ()
 
     CAMERA_NEAR_SLASH_FAR = 0
@@ -88,7 +88,7 @@ class DistanceClipPlanesEnumField(
     PLUG_CLS = DistanceClipPlanesEnumPlugOperator
 
 
-class FogTypeEnumPlugOperator(EnumPlugOperator):
+class FogTypeEnumPlugOperator(EnumPlugOperator["FogTypeEnumAttrOperator"]):
     __slots__ = ()
 
     UNIFORM_FOG = 0
@@ -100,7 +100,7 @@ class FogTypeEnumPlugOperator(EnumPlugOperator):
     WATER_SLASH_SKY = 6
 
 
-class FogTypeEnumAttrOperator(EnumAttrOperator):
+class FogTypeEnumAttrOperator(EnumAttrOperator[FogTypeEnumPlugOperator]):
     __slots__ = ()
 
     UNIFORM_FOG = 0
@@ -131,7 +131,7 @@ class FogTypeEnumField(
     PLUG_CLS = FogTypeEnumPlugOperator
 
 
-class FogAxisEnumPlugOperator(EnumPlugOperator):
+class FogAxisEnumPlugOperator(EnumPlugOperator["FogAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -142,7 +142,7 @@ class FogAxisEnumPlugOperator(EnumPlugOperator):
     MINUS_Z = 5
 
 
-class FogAxisEnumAttrOperator(EnumAttrOperator):
+class FogAxisEnumAttrOperator(EnumAttrOperator[FogAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0

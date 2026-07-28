@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.flt_matrix import FltMatrixField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     POINT = 0
@@ -21,7 +21,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 2
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     POINT = 0

@@ -11,14 +11,14 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     V = 0
     U = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     V = 0

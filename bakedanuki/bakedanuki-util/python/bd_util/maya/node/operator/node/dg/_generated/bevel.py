@@ -12,14 +12,14 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class CornerTypeEnumPlugOperator(EnumPlugOperator):
+class CornerTypeEnumPlugOperator(EnumPlugOperator["CornerTypeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
     CIRCULAR = 2
 
 
-class CornerTypeEnumAttrOperator(EnumAttrOperator):
+class CornerTypeEnumAttrOperator(EnumAttrOperator[CornerTypeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1
@@ -40,7 +40,7 @@ class CornerTypeEnumField(
     PLUG_CLS = CornerTypeEnumPlugOperator
 
 
-class BevelShapeTypeEnumPlugOperator(EnumPlugOperator):
+class BevelShapeTypeEnumPlugOperator(EnumPlugOperator["BevelShapeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     STRAIGHT_CUT = 1
@@ -48,7 +48,7 @@ class BevelShapeTypeEnumPlugOperator(EnumPlugOperator):
     CURVE_IN = 3
 
 
-class BevelShapeTypeEnumAttrOperator(EnumAttrOperator):
+class BevelShapeTypeEnumAttrOperator(EnumAttrOperator[BevelShapeTypeEnumPlugOperator]):
     __slots__ = ()
 
     STRAIGHT_CUT = 1

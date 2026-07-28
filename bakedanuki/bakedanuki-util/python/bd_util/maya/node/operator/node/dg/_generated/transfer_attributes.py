@@ -20,14 +20,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransferPositionsEnumPlugOperator(EnumPlugOperator):
+class TransferPositionsEnumPlugOperator(EnumPlugOperator["TransferPositionsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferPositionsEnumAttrOperator(EnumAttrOperator):
+class TransferPositionsEnumAttrOperator(EnumAttrOperator[TransferPositionsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -48,14 +48,14 @@ class TransferPositionsEnumField(
     PLUG_CLS = TransferPositionsEnumPlugOperator
 
 
-class TransferNormalsEnumPlugOperator(EnumPlugOperator):
+class TransferNormalsEnumPlugOperator(EnumPlugOperator["TransferNormalsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferNormalsEnumAttrOperator(EnumAttrOperator):
+class TransferNormalsEnumAttrOperator(EnumAttrOperator[TransferNormalsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -76,7 +76,7 @@ class TransferNormalsEnumField(
     PLUG_CLS = TransferNormalsEnumPlugOperator
 
 
-class TransferUVsEnumPlugOperator(EnumPlugOperator):
+class TransferUVsEnumPlugOperator(EnumPlugOperator["TransferUVsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +84,7 @@ class TransferUVsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class TransferUVsEnumAttrOperator(EnumAttrOperator):
+class TransferUVsEnumAttrOperator(EnumAttrOperator[TransferUVsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -107,7 +107,7 @@ class TransferUVsEnumField(
     PLUG_CLS = TransferUVsEnumPlugOperator
 
 
-class TransferColorsEnumPlugOperator(EnumPlugOperator):
+class TransferColorsEnumPlugOperator(EnumPlugOperator["TransferColorsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -115,7 +115,7 @@ class TransferColorsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class TransferColorsEnumAttrOperator(EnumAttrOperator):
+class TransferColorsEnumAttrOperator(EnumAttrOperator[TransferColorsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -138,7 +138,7 @@ class TransferColorsEnumField(
     PLUG_CLS = TransferColorsEnumPlugOperator
 
 
-class SampleSpaceEnumPlugOperator(EnumPlugOperator):
+class SampleSpaceEnumPlugOperator(EnumPlugOperator["SampleSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -149,7 +149,7 @@ class SampleSpaceEnumPlugOperator(EnumPlugOperator):
     TOPOLOGY = 5
 
 
-class SampleSpaceEnumAttrOperator(EnumAttrOperator):
+class SampleSpaceEnumAttrOperator(EnumAttrOperator[SampleSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -178,14 +178,14 @@ class SampleSpaceEnumField(
     PLUG_CLS = SampleSpaceEnumPlugOperator
 
 
-class SearchMethodEnumPlugOperator(EnumPlugOperator):
+class SearchMethodEnumPlugOperator(EnumPlugOperator["SearchMethodEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
     CLOSEST_TO_POINT = 3
 
 
-class SearchMethodEnumAttrOperator(EnumAttrOperator):
+class SearchMethodEnumAttrOperator(EnumAttrOperator[SearchMethodEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
@@ -206,7 +206,7 @@ class SearchMethodEnumField(
     PLUG_CLS = SearchMethodEnumPlugOperator
 
 
-class FlipUVsEnumPlugOperator(EnumPlugOperator):
+class FlipUVsEnumPlugOperator(EnumPlugOperator["FlipUVsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -215,7 +215,7 @@ class FlipUVsEnumPlugOperator(EnumPlugOperator):
     BOTH = 3
 
 
-class FlipUVsEnumAttrOperator(EnumAttrOperator):
+class FlipUVsEnumAttrOperator(EnumAttrOperator[FlipUVsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -240,14 +240,14 @@ class FlipUVsEnumField(
     PLUG_CLS = FlipUVsEnumPlugOperator
 
 
-class ColorBordersEnumPlugOperator(EnumPlugOperator):
+class ColorBordersEnumPlugOperator(EnumPlugOperator["ColorBordersEnumAttrOperator"]):
     __slots__ = ()
 
     IGNORE = 0
     PRESERVE = 1
 
 
-class ColorBordersEnumAttrOperator(EnumAttrOperator):
+class ColorBordersEnumAttrOperator(EnumAttrOperator[ColorBordersEnumPlugOperator]):
     __slots__ = ()
 
     IGNORE = 0

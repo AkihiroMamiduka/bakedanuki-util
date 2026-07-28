@@ -18,7 +18,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class SetFrontAxisEnumPlugOperator(EnumPlugOperator):
+class SetFrontAxisEnumPlugOperator(EnumPlugOperator["SetFrontAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -26,7 +26,7 @@ class SetFrontAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class SetFrontAxisEnumAttrOperator(EnumAttrOperator):
+class SetFrontAxisEnumAttrOperator(EnumAttrOperator[SetFrontAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -49,7 +49,7 @@ class SetFrontAxisEnumField(
     PLUG_CLS = SetFrontAxisEnumPlugOperator
 
 
-class SetUpAxisEnumPlugOperator(EnumPlugOperator):
+class SetUpAxisEnumPlugOperator(EnumPlugOperator["SetUpAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -57,7 +57,7 @@ class SetUpAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class SetUpAxisEnumAttrOperator(EnumAttrOperator):
+class SetUpAxisEnumAttrOperator(EnumAttrOperator[SetUpAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0

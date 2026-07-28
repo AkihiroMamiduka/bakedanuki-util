@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AnimatedEnumPlugOperator(EnumPlugOperator):
+class AnimatedEnumPlugOperator(EnumPlugOperator["AnimatedEnumAttrOperator"]):
     __slots__ = ()
 
     NOTANIMATED = 0
@@ -21,7 +21,7 @@ class AnimatedEnumPlugOperator(EnumPlugOperator):
     ANIMATEDNOCALLBACK = 2
 
 
-class AnimatedEnumAttrOperator(EnumAttrOperator):
+class AnimatedEnumAttrOperator(EnumAttrOperator[AnimatedEnumPlugOperator]):
     __slots__ = ()
 
     NOTANIMATED = 0
@@ -44,7 +44,7 @@ class AnimatedEnumField(
     PLUG_CLS = AnimatedEnumPlugOperator
 
 
-class UnitOptionEnumPlugOperator(EnumPlugOperator):
+class UnitOptionEnumPlugOperator(EnumPlugOperator["UnitOptionEnumAttrOperator"]):
     __slots__ = ()
 
     ALL = 0
@@ -52,7 +52,7 @@ class UnitOptionEnumPlugOperator(EnumPlugOperator):
     ANGULARONLY = 2
 
 
-class UnitOptionEnumAttrOperator(EnumAttrOperator):
+class UnitOptionEnumAttrOperator(EnumAttrOperator[UnitOptionEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 0

@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -27,7 +27,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     TIME = 7
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     CUSTOM = 0
@@ -60,7 +60,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class UseImplicitUvsEnumPlugOperator(EnumPlugOperator):
+class UseImplicitUvsEnumPlugOperator(EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -68,7 +68,7 @@ class UseImplicitUvsEnumPlugOperator(EnumPlugOperator):
     CURVES_ONLY = 2
 
 
-class UseImplicitUvsEnumAttrOperator(EnumAttrOperator):
+class UseImplicitUvsEnumAttrOperator(EnumAttrOperator[UseImplicitUvsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

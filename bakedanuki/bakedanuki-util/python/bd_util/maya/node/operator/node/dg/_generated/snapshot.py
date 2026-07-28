@@ -13,7 +13,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.point_array import DataPointArrayField
 
 
-class UpdateEnumPlugOperator(EnumPlugOperator):
+class UpdateEnumPlugOperator(EnumPlugOperator["UpdateEnumAttrOperator"]):
     __slots__ = ()
 
     DEMAND = 0
@@ -21,7 +21,7 @@ class UpdateEnumPlugOperator(EnumPlugOperator):
     ANIMCURVE = 2
 
 
-class UpdateEnumAttrOperator(EnumAttrOperator):
+class UpdateEnumAttrOperator(EnumAttrOperator[UpdateEnumPlugOperator]):
     __slots__ = ()
 
     DEMAND = 0

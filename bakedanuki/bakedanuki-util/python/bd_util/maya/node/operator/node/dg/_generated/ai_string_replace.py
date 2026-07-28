@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OsEnumPlugOperator(EnumPlugOperator):
+class OsEnumPlugOperator(EnumPlugOperator["OsEnumAttrOperator"]):
     __slots__ = ()
 
     ANY = 0
@@ -19,7 +19,7 @@ class OsEnumPlugOperator(EnumPlugOperator):
     MAC = 3
 
 
-class OsEnumAttrOperator(EnumAttrOperator):
+class OsEnumAttrOperator(EnumAttrOperator[OsEnumPlugOperator]):
     __slots__ = ()
 
     ANY = 0

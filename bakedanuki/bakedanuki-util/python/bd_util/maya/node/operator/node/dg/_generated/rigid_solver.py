@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class SolverMethodEnumPlugOperator(EnumPlugOperator):
+class SolverMethodEnumPlugOperator(EnumPlugOperator["SolverMethodEnumAttrOperator"]):
     __slots__ = ()
 
     MIDPOINT = 0
@@ -26,7 +26,7 @@ class SolverMethodEnumPlugOperator(EnumPlugOperator):
     RUNGE_KUTTA_ADAPTIVE = 2
 
 
-class SolverMethodEnumAttrOperator(EnumAttrOperator):
+class SolverMethodEnumAttrOperator(EnumAttrOperator[SolverMethodEnumPlugOperator]):
     __slots__ = ()
 
     MIDPOINT = 0

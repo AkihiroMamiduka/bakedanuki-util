@@ -26,7 +26,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator["CurveRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -35,7 +35,7 @@ class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class CurveRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class CurveRamp_InterpEnumAttrOperator(EnumAttrOperator[CurveRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -60,7 +60,7 @@ class CurveRamp_InterpEnumField(
     PLUG_CLS = CurveRamp_InterpEnumPlugOperator
 
 
-class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator["InflationRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -69,7 +69,7 @@ class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class InflationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class InflationRamp_InterpEnumAttrOperator(EnumAttrOperator[InflationRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -94,7 +94,7 @@ class InflationRamp_InterpEnumField(
     PLUG_CLS = InflationRamp_InterpEnumPlugOperator
 
 
-class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator["BlendRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -103,7 +103,7 @@ class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class BlendRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class BlendRamp_InterpEnumAttrOperator(EnumAttrOperator[BlendRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -128,7 +128,7 @@ class BlendRamp_InterpEnumField(
     PLUG_CLS = BlendRamp_InterpEnumPlugOperator
 
 
-class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator["SmoothingRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -137,7 +137,7 @@ class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class SmoothingRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class SmoothingRamp_InterpEnumAttrOperator(EnumAttrOperator[SmoothingRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

@@ -14,7 +14,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class CycleTypeEnumPlugOperator(EnumPlugOperator):
+class CycleTypeEnumPlugOperator(EnumPlugOperator["CycleTypeEnumAttrOperator"]):
     __slots__ = ()
 
     HOLD = 0
@@ -23,7 +23,7 @@ class CycleTypeEnumPlugOperator(EnumPlugOperator):
     BOUNCE = 3
 
 
-class CycleTypeEnumAttrOperator(EnumAttrOperator):
+class CycleTypeEnumAttrOperator(EnumAttrOperator[CycleTypeEnumPlugOperator]):
     __slots__ = ()
 
     HOLD = 0

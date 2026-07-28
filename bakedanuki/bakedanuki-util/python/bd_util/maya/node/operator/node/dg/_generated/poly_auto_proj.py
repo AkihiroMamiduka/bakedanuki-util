@@ -20,14 +20,14 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OptimizeEnumPlugOperator(EnumPlugOperator):
+class OptimizeEnumPlugOperator(EnumPlugOperator["OptimizeEnumAttrOperator"]):
     __slots__ = ()
 
     LESS_DISTORTION = 0
     FEWER_PIECES = 1
 
 
-class OptimizeEnumAttrOperator(EnumAttrOperator):
+class OptimizeEnumAttrOperator(EnumAttrOperator[OptimizeEnumPlugOperator]):
     __slots__ = ()
 
     LESS_DISTORTION = 0
@@ -48,14 +48,14 @@ class OptimizeEnumField(
     PLUG_CLS = OptimizeEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator):
+class LayoutMethodEnumPlugOperator(EnumPlugOperator["LayoutMethodEnumAttrOperator"]):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator):
+class LayoutMethodEnumAttrOperator(EnumAttrOperator[LayoutMethodEnumPlugOperator]):
     __slots__ = ()
 
     BLOCK_STACKING = 0
@@ -76,7 +76,7 @@ class LayoutMethodEnumField(
     PLUG_CLS = LayoutMethodEnumPlugOperator
 
 
-class LayoutEnumPlugOperator(EnumPlugOperator):
+class LayoutEnumPlugOperator(EnumPlugOperator["LayoutEnumAttrOperator"]):
     __slots__ = ()
 
     OVERLAP = 0
@@ -85,7 +85,7 @@ class LayoutEnumPlugOperator(EnumPlugOperator):
     TILE = 3
 
 
-class LayoutEnumAttrOperator(EnumAttrOperator):
+class LayoutEnumAttrOperator(EnumAttrOperator[LayoutEnumPlugOperator]):
     __slots__ = ()
 
     OVERLAP = 0
@@ -110,7 +110,7 @@ class LayoutEnumField(
     PLUG_CLS = LayoutEnumPlugOperator
 
 
-class ScaleModeEnumPlugOperator(EnumPlugOperator):
+class ScaleModeEnumPlugOperator(EnumPlugOperator["ScaleModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -118,7 +118,7 @@ class ScaleModeEnumPlugOperator(EnumPlugOperator):
     STRETCH_TO_SQUARE = 2
 
 
-class ScaleModeEnumAttrOperator(EnumAttrOperator):
+class ScaleModeEnumAttrOperator(EnumAttrOperator[ScaleModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

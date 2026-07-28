@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ProjectionTypeEnumPlugOperator(EnumPlugOperator):
+class ProjectionTypeEnumPlugOperator(EnumPlugOperator["ProjectionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     PLANAR = 0
@@ -29,7 +29,7 @@ class ProjectionTypeEnumPlugOperator(EnumPlugOperator):
     SHRINK_WRAP = 5
 
 
-class ProjectionTypeEnumAttrOperator(EnumAttrOperator):
+class ProjectionTypeEnumAttrOperator(EnumAttrOperator[ProjectionTypeEnumPlugOperator]):
     __slots__ = ()
 
     PLANAR = 0
@@ -58,7 +58,7 @@ class ProjectionTypeEnumField(
     PLUG_CLS = ProjectionTypeEnumPlugOperator
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -66,7 +66,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     PREF = 2
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

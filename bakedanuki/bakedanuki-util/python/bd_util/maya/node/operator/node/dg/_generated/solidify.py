@@ -18,14 +18,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AttachmentModeEnumPlugOperator(EnumPlugOperator):
+class AttachmentModeEnumPlugOperator(EnumPlugOperator["AttachmentModeEnumAttrOperator"]):
     __slots__ = ()
 
     BORDERS = 0
     FULL = 1
 
 
-class AttachmentModeEnumAttrOperator(EnumAttrOperator):
+class AttachmentModeEnumAttrOperator(EnumAttrOperator[AttachmentModeEnumPlugOperator]):
     __slots__ = ()
 
     BORDERS = 0
@@ -46,7 +46,7 @@ class AttachmentModeEnumField(
     PLUG_CLS = AttachmentModeEnumPlugOperator
 
 
-class ScaleModeEnumPlugOperator(EnumPlugOperator):
+class ScaleModeEnumPlugOperator(EnumPlugOperator["ScaleModeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -54,7 +54,7 @@ class ScaleModeEnumPlugOperator(EnumPlugOperator):
     EDGE_GLOBAL = 2
 
 
-class ScaleModeEnumAttrOperator(EnumAttrOperator):
+class ScaleModeEnumAttrOperator(EnumAttrOperator[ScaleModeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0

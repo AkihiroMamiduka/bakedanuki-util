@@ -16,7 +16,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class SweepProfileTypeEnumPlugOperator(EnumPlugOperator):
+class SweepProfileTypeEnumPlugOperator(EnumPlugOperator["SweepProfileTypeEnumAttrOperator"]):
     __slots__ = ()
 
     REGULAR_POLYGON = 0
@@ -27,7 +27,7 @@ class SweepProfileTypeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 5
 
 
-class SweepProfileTypeEnumAttrOperator(EnumAttrOperator):
+class SweepProfileTypeEnumAttrOperator(EnumAttrOperator[SweepProfileTypeEnumPlugOperator]):
     __slots__ = ()
 
     REGULAR_POLYGON = 0
@@ -56,14 +56,14 @@ class SweepProfileTypeEnumField(
     PLUG_CLS = SweepProfileTypeEnumPlugOperator
 
 
-class ProfilePolyTypeEnumPlugOperator(EnumPlugOperator):
+class ProfilePolyTypeEnumPlugOperator(EnumPlugOperator["ProfilePolyTypeEnumAttrOperator"]):
     __slots__ = ()
 
     CONVEX = 0
     STAR = 1
 
 
-class ProfilePolyTypeEnumAttrOperator(EnumAttrOperator):
+class ProfilePolyTypeEnumAttrOperator(EnumAttrOperator[ProfilePolyTypeEnumPlugOperator]):
     __slots__ = ()
 
     CONVEX = 0
@@ -84,7 +84,7 @@ class ProfilePolyTypeEnumField(
     PLUG_CLS = ProfilePolyTypeEnumPlugOperator
 
 
-class PatternDistributionEnumPlugOperator(EnumPlugOperator):
+class PatternDistributionEnumPlugOperator(EnumPlugOperator["PatternDistributionEnumAttrOperator"]):
     __slots__ = ()
 
     RADIAL = 0
@@ -92,7 +92,7 @@ class PatternDistributionEnumPlugOperator(EnumPlugOperator):
     LINEAR = 2
 
 
-class PatternDistributionEnumAttrOperator(EnumAttrOperator):
+class PatternDistributionEnumAttrOperator(EnumAttrOperator[PatternDistributionEnumPlugOperator]):
     __slots__ = ()
 
     RADIAL = 0
@@ -115,7 +115,7 @@ class PatternDistributionEnumField(
     PLUG_CLS = PatternDistributionEnumPlugOperator
 
 
-class AlignProfileHorizontalEnumPlugOperator(EnumPlugOperator):
+class AlignProfileHorizontalEnumPlugOperator(EnumPlugOperator["AlignProfileHorizontalEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 0
@@ -123,7 +123,7 @@ class AlignProfileHorizontalEnumPlugOperator(EnumPlugOperator):
     RIGHT = 2
 
 
-class AlignProfileHorizontalEnumAttrOperator(EnumAttrOperator):
+class AlignProfileHorizontalEnumAttrOperator(EnumAttrOperator[AlignProfileHorizontalEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 0
@@ -146,7 +146,7 @@ class AlignProfileHorizontalEnumField(
     PLUG_CLS = AlignProfileHorizontalEnumPlugOperator
 
 
-class AlignProfileVerticalEnumPlugOperator(EnumPlugOperator):
+class AlignProfileVerticalEnumPlugOperator(EnumPlugOperator["AlignProfileVerticalEnumAttrOperator"]):
     __slots__ = ()
 
     TOP = 0
@@ -154,7 +154,7 @@ class AlignProfileVerticalEnumPlugOperator(EnumPlugOperator):
     BOTTOM = 2
 
 
-class AlignProfileVerticalEnumAttrOperator(EnumAttrOperator):
+class AlignProfileVerticalEnumAttrOperator(EnumAttrOperator[AlignProfileVerticalEnumPlugOperator]):
     __slots__ = ()
 
     TOP = 0
@@ -177,7 +177,7 @@ class AlignProfileVerticalEnumField(
     PLUG_CLS = AlignProfileVerticalEnumPlugOperator
 
 
-class InterpolationModeEnumPlugOperator(EnumPlugOperator):
+class InterpolationModeEnumPlugOperator(EnumPlugOperator["InterpolationModeEnumAttrOperator"]):
     __slots__ = ()
 
     PRECISION = 0
@@ -186,7 +186,7 @@ class InterpolationModeEnumPlugOperator(EnumPlugOperator):
     DISTANCE = 3
 
 
-class InterpolationModeEnumAttrOperator(EnumAttrOperator):
+class InterpolationModeEnumAttrOperator(EnumAttrOperator[InterpolationModeEnumPlugOperator]):
     __slots__ = ()
 
     PRECISION = 0
@@ -211,7 +211,7 @@ class InterpolationModeEnumField(
     PLUG_CLS = InterpolationModeEnumPlugOperator
 
 
-class CreateUVsEnumPlugOperator(EnumPlugOperator):
+class CreateUVsEnumPlugOperator(EnumPlugOperator["CreateUVsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -219,7 +219,7 @@ class CreateUVsEnumPlugOperator(EnumPlugOperator):
     UNFOLD = 2
 
 
-class CreateUVsEnumAttrOperator(EnumAttrOperator):
+class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

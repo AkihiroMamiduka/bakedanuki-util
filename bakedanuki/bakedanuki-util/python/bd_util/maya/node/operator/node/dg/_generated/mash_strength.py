@@ -23,7 +23,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +32,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +57,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -85,7 +85,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class PosMapDirectionEnumPlugOperator(EnumPlugOperator):
+class PosMapDirectionEnumPlugOperator(EnumPlugOperator["PosMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -94,7 +94,7 @@ class PosMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class PosMapDirectionEnumAttrOperator(EnumAttrOperator):
+class PosMapDirectionEnumAttrOperator(EnumAttrOperator[PosMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -119,7 +119,7 @@ class PosMapDirectionEnumField(
     PLUG_CLS = PosMapDirectionEnumPlugOperator
 
 
-class RotMapDirectionEnumPlugOperator(EnumPlugOperator):
+class RotMapDirectionEnumPlugOperator(EnumPlugOperator["RotMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -128,7 +128,7 @@ class RotMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class RotMapDirectionEnumAttrOperator(EnumAttrOperator):
+class RotMapDirectionEnumAttrOperator(EnumAttrOperator[RotMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -153,7 +153,7 @@ class RotMapDirectionEnumField(
     PLUG_CLS = RotMapDirectionEnumPlugOperator
 
 
-class ScaleMapDirectionEnumPlugOperator(EnumPlugOperator):
+class ScaleMapDirectionEnumPlugOperator(EnumPlugOperator["ScaleMapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -162,7 +162,7 @@ class ScaleMapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class ScaleMapDirectionEnumAttrOperator(EnumAttrOperator):
+class ScaleMapDirectionEnumAttrOperator(EnumAttrOperator[ScaleMapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1

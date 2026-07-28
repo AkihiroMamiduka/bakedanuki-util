@@ -13,14 +13,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SplitTypeEnumPlugOperator(EnumPlugOperator):
+class SplitTypeEnumPlugOperator(EnumPlugOperator["SplitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
     RELATIVE = 1
 
 
-class SplitTypeEnumAttrOperator(EnumAttrOperator):
+class SplitTypeEnumAttrOperator(EnumAttrOperator[SplitTypeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0

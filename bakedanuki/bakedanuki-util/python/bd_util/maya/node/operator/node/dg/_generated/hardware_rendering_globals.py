@@ -20,14 +20,14 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class HoldOutDetailModeEnumPlugOperator(EnumPlugOperator):
+class HoldOutDetailModeEnumPlugOperator(EnumPlugOperator["HoldOutDetailModeEnumAttrOperator"]):
     __slots__ = ()
 
     PER_OBJECT_HOLD_MINUS_OUT = 1
     ALL_OBJECT_HOLD_MINUS_OUT = 2
 
 
-class HoldOutDetailModeEnumAttrOperator(EnumAttrOperator):
+class HoldOutDetailModeEnumAttrOperator(EnumAttrOperator[HoldOutDetailModeEnumPlugOperator]):
     __slots__ = ()
 
     PER_OBJECT_HOLD_MINUS_OUT = 1
@@ -48,7 +48,7 @@ class HoldOutDetailModeEnumField(
     PLUG_CLS = HoldOutDetailModeEnumPlugOperator
 
 
-class VertexAnimationCacheEnumPlugOperator(EnumPlugOperator):
+class VertexAnimationCacheEnumPlugOperator(EnumPlugOperator["VertexAnimationCacheEnumAttrOperator"]):
     __slots__ = ()
 
     DISABLE = 0
@@ -56,7 +56,7 @@ class VertexAnimationCacheEnumPlugOperator(EnumPlugOperator):
     HARDWARE = 2
 
 
-class VertexAnimationCacheEnumAttrOperator(EnumAttrOperator):
+class VertexAnimationCacheEnumAttrOperator(EnumAttrOperator[VertexAnimationCacheEnumPlugOperator]):
     __slots__ = ()
 
     DISABLE = 0
@@ -79,7 +79,7 @@ class VertexAnimationCacheEnumField(
     PLUG_CLS = VertexAnimationCacheEnumPlugOperator
 
 
-class TransparencyAlgorithmEnumPlugOperator(EnumPlugOperator):
+class TransparencyAlgorithmEnumPlugOperator(EnumPlugOperator["TransparencyAlgorithmEnumAttrOperator"]):
     __slots__ = ()
 
     SIMPLE = 0
@@ -89,7 +89,7 @@ class TransparencyAlgorithmEnumPlugOperator(EnumPlugOperator):
     ALPHA_CUT = 5
 
 
-class TransparencyAlgorithmEnumAttrOperator(EnumAttrOperator):
+class TransparencyAlgorithmEnumAttrOperator(EnumAttrOperator[TransparencyAlgorithmEnumPlugOperator]):
     __slots__ = ()
 
     SIMPLE = 0
@@ -116,14 +116,14 @@ class TransparencyAlgorithmEnumField(
     PLUG_CLS = TransparencyAlgorithmEnumPlugOperator
 
 
-class TextureMaxResModeEnumPlugOperator(EnumPlugOperator):
+class TextureMaxResModeEnumPlugOperator(EnumPlugOperator["TextureMaxResModeEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
     CUSTOM = 1
 
 
-class TextureMaxResModeEnumAttrOperator(EnumAttrOperator):
+class TextureMaxResModeEnumAttrOperator(EnumAttrOperator[TextureMaxResModeEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -144,7 +144,7 @@ class TextureMaxResModeEnumField(
     PLUG_CLS = TextureMaxResModeEnumPlugOperator
 
 
-class SsaoSamplesEnumPlugOperator(EnumPlugOperator):
+class SsaoSamplesEnumPlugOperator(EnumPlugOperator["SsaoSamplesEnumAttrOperator"]):
     __slots__ = ()
 
     _8 = 8
@@ -152,7 +152,7 @@ class SsaoSamplesEnumPlugOperator(EnumPlugOperator):
     _32 = 32
 
 
-class SsaoSamplesEnumAttrOperator(EnumAttrOperator):
+class SsaoSamplesEnumAttrOperator(EnumAttrOperator[SsaoSamplesEnumPlugOperator]):
     __slots__ = ()
 
     _8 = 8
@@ -175,7 +175,7 @@ class SsaoSamplesEnumField(
     PLUG_CLS = SsaoSamplesEnumPlugOperator
 
 
-class HwFogFalloffEnumPlugOperator(EnumPlugOperator):
+class HwFogFalloffEnumPlugOperator(EnumPlugOperator["HwFogFalloffEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -183,7 +183,7 @@ class HwFogFalloffEnumPlugOperator(EnumPlugOperator):
     EXPONENTIAL_SQUARED = 2
 
 
-class HwFogFalloffEnumAttrOperator(EnumAttrOperator):
+class HwFogFalloffEnumAttrOperator(EnumAttrOperator[HwFogFalloffEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -206,13 +206,13 @@ class HwFogFalloffEnumField(
     PLUG_CLS = HwFogFalloffEnumPlugOperator
 
 
-class MotionBlurTypeEnumPlugOperator(EnumPlugOperator):
+class MotionBlurTypeEnumPlugOperator(EnumPlugOperator["MotionBlurTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TRANSFORM = 0
 
 
-class MotionBlurTypeEnumAttrOperator(EnumAttrOperator):
+class MotionBlurTypeEnumAttrOperator(EnumAttrOperator[MotionBlurTypeEnumPlugOperator]):
     __slots__ = ()
 
     TRANSFORM = 0
@@ -231,7 +231,7 @@ class MotionBlurTypeEnumField(
     PLUG_CLS = MotionBlurTypeEnumPlugOperator
 
 
-class MotionBlurSampleCountEnumPlugOperator(EnumPlugOperator):
+class MotionBlurSampleCountEnumPlugOperator(EnumPlugOperator["MotionBlurSampleCountEnumAttrOperator"]):
     __slots__ = ()
 
     _4 = 4
@@ -240,7 +240,7 @@ class MotionBlurSampleCountEnumPlugOperator(EnumPlugOperator):
     _32 = 32
 
 
-class MotionBlurSampleCountEnumAttrOperator(EnumAttrOperator):
+class MotionBlurSampleCountEnumAttrOperator(EnumAttrOperator[MotionBlurSampleCountEnumPlugOperator]):
     __slots__ = ()
 
     _4 = 4
@@ -265,7 +265,7 @@ class MotionBlurSampleCountEnumField(
     PLUG_CLS = MotionBlurSampleCountEnumPlugOperator
 
 
-class MultiSampleCountEnumPlugOperator(EnumPlugOperator):
+class MultiSampleCountEnumPlugOperator(EnumPlugOperator["MultiSampleCountEnumAttrOperator"]):
     __slots__ = ()
 
     _1 = 1
@@ -275,7 +275,7 @@ class MultiSampleCountEnumPlugOperator(EnumPlugOperator):
     _16 = 16
 
 
-class MultiSampleCountEnumAttrOperator(EnumAttrOperator):
+class MultiSampleCountEnumAttrOperator(EnumAttrOperator[MultiSampleCountEnumPlugOperator]):
     __slots__ = ()
 
     _1 = 1
@@ -302,13 +302,13 @@ class MultiSampleCountEnumField(
     PLUG_CLS = MultiSampleCountEnumPlugOperator
 
 
-class MultiSampleQualityEnumPlugOperator(EnumPlugOperator):
+class MultiSampleQualityEnumPlugOperator(EnumPlugOperator["MultiSampleQualityEnumAttrOperator"]):
     __slots__ = ()
 
     _0 = 0
 
 
-class MultiSampleQualityEnumAttrOperator(EnumAttrOperator):
+class MultiSampleQualityEnumAttrOperator(EnumAttrOperator[MultiSampleQualityEnumPlugOperator]):
     __slots__ = ()
 
     _0 = 0
@@ -327,7 +327,7 @@ class MultiSampleQualityEnumField(
     PLUG_CLS = MultiSampleQualityEnumPlugOperator
 
 
-class FloatingPointRTFormatEnumPlugOperator(EnumPlugOperator):
+class FloatingPointRTFormatEnumPlugOperator(EnumPlugOperator["FloatingPointRTFormatEnumAttrOperator"]):
     __slots__ = ()
 
     R32G32B32A32_FLOAT = 1
@@ -335,7 +335,7 @@ class FloatingPointRTFormatEnumPlugOperator(EnumPlugOperator):
     R16G16B16A16_FLOAT = 3
 
 
-class FloatingPointRTFormatEnumAttrOperator(EnumAttrOperator):
+class FloatingPointRTFormatEnumAttrOperator(EnumAttrOperator[FloatingPointRTFormatEnumPlugOperator]):
     __slots__ = ()
 
     R32G32B32A32_FLOAT = 1

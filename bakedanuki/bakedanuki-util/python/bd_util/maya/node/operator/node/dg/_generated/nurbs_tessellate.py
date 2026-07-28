@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class FormatEnumPlugOperator(EnumPlugOperator):
+class FormatEnumPlugOperator(EnumPlugOperator["FormatEnumAttrOperator"]):
     __slots__ = ()
 
     COUNT = 0
@@ -22,7 +22,7 @@ class FormatEnumPlugOperator(EnumPlugOperator):
     CVS = 3
 
 
-class FormatEnumAttrOperator(EnumAttrOperator):
+class FormatEnumAttrOperator(EnumAttrOperator[FormatEnumPlugOperator]):
     __slots__ = ()
 
     COUNT = 0
@@ -47,14 +47,14 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class PolygonTypeEnumPlugOperator(EnumPlugOperator):
+class PolygonTypeEnumPlugOperator(EnumPlugOperator["PolygonTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TRIANGLES = 0
     QUADS = 1
 
 
-class PolygonTypeEnumAttrOperator(EnumAttrOperator):
+class PolygonTypeEnumAttrOperator(EnumAttrOperator[PolygonTypeEnumPlugOperator]):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -75,7 +75,7 @@ class PolygonTypeEnumField(
     PLUG_CLS = PolygonTypeEnumPlugOperator
 
 
-class UTypeEnumPlugOperator(EnumPlugOperator):
+class UTypeEnumPlugOperator(EnumPlugOperator["UTypeEnumAttrOperator"]):
     __slots__ = ()
 
     PER_SURF_HASH_OF_ISOPARMS_IN_3D = 1
@@ -83,7 +83,7 @@ class UTypeEnumPlugOperator(EnumPlugOperator):
     PER_SPAN_HASH_OF_ISOPARMS = 3
 
 
-class UTypeEnumAttrOperator(EnumAttrOperator):
+class UTypeEnumAttrOperator(EnumAttrOperator[UTypeEnumPlugOperator]):
     __slots__ = ()
 
     PER_SURF_HASH_OF_ISOPARMS_IN_3D = 1
@@ -106,7 +106,7 @@ class UTypeEnumField(
     PLUG_CLS = UTypeEnumPlugOperator
 
 
-class VTypeEnumPlugOperator(EnumPlugOperator):
+class VTypeEnumPlugOperator(EnumPlugOperator["VTypeEnumAttrOperator"]):
     __slots__ = ()
 
     PER_SURF_HASH_OF_ISOPARMS_IN_3D = 1
@@ -114,7 +114,7 @@ class VTypeEnumPlugOperator(EnumPlugOperator):
     PER_SPAN_HASH_OF_ISOPARMS = 3
 
 
-class VTypeEnumAttrOperator(EnumAttrOperator):
+class VTypeEnumAttrOperator(EnumAttrOperator[VTypeEnumPlugOperator]):
     __slots__ = ()
 
     PER_SURF_HASH_OF_ISOPARMS_IN_3D = 1
@@ -137,7 +137,7 @@ class VTypeEnumField(
     PLUG_CLS = VTypeEnumPlugOperator
 
 
-class CurvatureToleranceEnumPlugOperator(EnumPlugOperator):
+class CurvatureToleranceEnumPlugOperator(EnumPlugOperator["CurvatureToleranceEnumAttrOperator"]):
     __slots__ = ()
 
     HIGHEST_QUALITY = 0
@@ -147,7 +147,7 @@ class CurvatureToleranceEnumPlugOperator(EnumPlugOperator):
     NO_CURVATURE_CHECK = 4
 
 
-class CurvatureToleranceEnumAttrOperator(EnumAttrOperator):
+class CurvatureToleranceEnumAttrOperator(EnumAttrOperator[CurvatureToleranceEnumPlugOperator]):
     __slots__ = ()
 
     HIGHEST_QUALITY = 0

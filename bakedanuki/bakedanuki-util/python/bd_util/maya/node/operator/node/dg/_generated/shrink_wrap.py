@@ -20,7 +20,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
+class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
     __slots__ = ()
 
     LEGACY = 0
@@ -28,7 +28,7 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator):
+class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
     __slots__ = ()
 
     LEGACY = 0
@@ -51,7 +51,7 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
+class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -59,7 +59,7 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator):
+class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +82,7 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class ProjectionEnumPlugOperator(EnumPlugOperator):
+class ProjectionEnumPlugOperator(EnumPlugOperator["ProjectionEnumAttrOperator"]):
     __slots__ = ()
 
     TOWARD_INNER_OBJECT = 0
@@ -92,7 +92,7 @@ class ProjectionEnumPlugOperator(EnumPlugOperator):
     CLOSEST = 4
 
 
-class ProjectionEnumAttrOperator(EnumAttrOperator):
+class ProjectionEnumAttrOperator(EnumAttrOperator[ProjectionEnumPlugOperator]):
     __slots__ = ()
 
     TOWARD_INNER_OBJECT = 0
@@ -119,7 +119,7 @@ class ProjectionEnumField(
     PLUG_CLS = ProjectionEnumPlugOperator
 
 
-class AxisReferenceEnumPlugOperator(EnumPlugOperator):
+class AxisReferenceEnumPlugOperator(EnumPlugOperator["AxisReferenceEnumAttrOperator"]):
     __slots__ = ()
 
     TARGET_LOCAL = 0
@@ -127,7 +127,7 @@ class AxisReferenceEnumPlugOperator(EnumPlugOperator):
     GLOBAL = 3
 
 
-class AxisReferenceEnumAttrOperator(EnumAttrOperator):
+class AxisReferenceEnumAttrOperator(EnumAttrOperator[AxisReferenceEnumPlugOperator]):
     __slots__ = ()
 
     TARGET_LOCAL = 0
@@ -150,7 +150,7 @@ class AxisReferenceEnumField(
     PLUG_CLS = AxisReferenceEnumPlugOperator
 
 
-class ShapePreservationReprojectionEnumPlugOperator(EnumPlugOperator):
+class ShapePreservationReprojectionEnumPlugOperator(EnumPlugOperator["ShapePreservationReprojectionEnumAttrOperator"]):
     __slots__ = ()
 
     NO_REPROJECTION = 0
@@ -158,7 +158,7 @@ class ShapePreservationReprojectionEnumPlugOperator(EnumPlugOperator):
     REPROJECTION_PER_STEP = 2
 
 
-class ShapePreservationReprojectionEnumAttrOperator(EnumAttrOperator):
+class ShapePreservationReprojectionEnumAttrOperator(EnumAttrOperator[ShapePreservationReprojectionEnumPlugOperator]):
     __slots__ = ()
 
     NO_REPROJECTION = 0
@@ -181,14 +181,14 @@ class ShapePreservationReprojectionEnumField(
     PLUG_CLS = ShapePreservationReprojectionEnumPlugOperator
 
 
-class ShapePreservationMethodEnumPlugOperator(EnumPlugOperator):
+class ShapePreservationMethodEnumPlugOperator(EnumPlugOperator["ShapePreservationMethodEnumAttrOperator"]):
     __slots__ = ()
 
     EDGES = 0
     TRIANGLES = 1
 
 
-class ShapePreservationMethodEnumAttrOperator(EnumAttrOperator):
+class ShapePreservationMethodEnumAttrOperator(EnumAttrOperator[ShapePreservationMethodEnumPlugOperator]):
     __slots__ = ()
 
     EDGES = 0

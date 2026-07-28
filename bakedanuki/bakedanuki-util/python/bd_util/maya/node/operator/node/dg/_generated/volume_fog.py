@@ -26,7 +26,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ColorRampInputEnumPlugOperator(EnumPlugOperator):
+class ColorRampInputEnumPlugOperator(EnumPlugOperator["ColorRampInputEnumAttrOperator"]):
     __slots__ = ()
 
     IGNORE = 0
@@ -35,7 +35,7 @@ class ColorRampInputEnumPlugOperator(EnumPlugOperator):
     Y_GRADIENT = 3
 
 
-class ColorRampInputEnumAttrOperator(EnumAttrOperator):
+class ColorRampInputEnumAttrOperator(EnumAttrOperator[ColorRampInputEnumPlugOperator]):
     __slots__ = ()
 
     IGNORE = 0
@@ -60,14 +60,14 @@ class ColorRampInputEnumField(
     PLUG_CLS = ColorRampInputEnumPlugOperator
 
 
-class DensityModeEnumPlugOperator(EnumPlugOperator):
+class DensityModeEnumPlugOperator(EnumPlugOperator["DensityModeEnumAttrOperator"]):
     __slots__ = ()
 
     WORLDSPACE = 0
     OBJECTSPACE = 1
 
 
-class DensityModeEnumAttrOperator(EnumAttrOperator):
+class DensityModeEnumAttrOperator(EnumAttrOperator[DensityModeEnumPlugOperator]):
     __slots__ = ()
 
     WORLDSPACE = 0
@@ -88,7 +88,7 @@ class DensityModeEnumField(
     PLUG_CLS = DensityModeEnumPlugOperator
 
 
-class DropoffShapeEnumPlugOperator(EnumPlugOperator):
+class DropoffShapeEnumPlugOperator(EnumPlugOperator["DropoffShapeEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -98,7 +98,7 @@ class DropoffShapeEnumPlugOperator(EnumPlugOperator):
     LIGHTCONE = 4
 
 
-class DropoffShapeEnumAttrOperator(EnumAttrOperator):
+class DropoffShapeEnumAttrOperator(EnumAttrOperator[DropoffShapeEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -125,14 +125,14 @@ class DropoffShapeEnumField(
     PLUG_CLS = DropoffShapeEnumPlugOperator
 
 
-class DropoffMethodEnumPlugOperator(EnumPlugOperator):
+class DropoffMethodEnumPlugOperator(EnumPlugOperator["DropoffMethodEnumAttrOperator"]):
     __slots__ = ()
 
     SCALE_OPACITY = 0
     SUBTRACT_DENSITY = 1
 
 
-class DropoffMethodEnumAttrOperator(EnumAttrOperator):
+class DropoffMethodEnumAttrOperator(EnumAttrOperator[DropoffMethodEnumPlugOperator]):
     __slots__ = ()
 
     SCALE_OPACITY = 0
@@ -153,7 +153,7 @@ class DropoffMethodEnumField(
     PLUG_CLS = DropoffMethodEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -161,7 +161,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0

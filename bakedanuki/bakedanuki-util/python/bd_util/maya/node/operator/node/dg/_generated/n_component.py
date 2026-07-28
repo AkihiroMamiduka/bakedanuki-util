@@ -14,7 +14,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class ComponentTypeEnumPlugOperator(EnumPlugOperator):
+class ComponentTypeEnumPlugOperator(EnumPlugOperator["ComponentTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -24,7 +24,7 @@ class ComponentTypeEnumPlugOperator(EnumPlugOperator):
     OBJECT = 6
 
 
-class ComponentTypeEnumAttrOperator(EnumAttrOperator):
+class ComponentTypeEnumAttrOperator(EnumAttrOperator[ComponentTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -51,7 +51,7 @@ class ComponentTypeEnumField(
     PLUG_CLS = ComponentTypeEnumPlugOperator
 
 
-class ElementsEnumPlugOperator(EnumPlugOperator):
+class ElementsEnumPlugOperator(EnumPlugOperator["ElementsEnumAttrOperator"]):
     __slots__ = ()
 
     FROM_INDICE_LIST = 0
@@ -59,7 +59,7 @@ class ElementsEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class ElementsEnumAttrOperator(EnumAttrOperator):
+class ElementsEnumAttrOperator(EnumAttrOperator[ElementsEnumPlugOperator]):
     __slots__ = ()
 
     FROM_INDICE_LIST = 0
@@ -82,7 +82,7 @@ class ElementsEnumField(
     PLUG_CLS = ElementsEnumPlugOperator
 
 
-class StrengthMapTypeEnumPlugOperator(EnumPlugOperator):
+class StrengthMapTypeEnumPlugOperator(EnumPlugOperator["StrengthMapTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +90,7 @@ class StrengthMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class StrengthMapTypeEnumAttrOperator(EnumAttrOperator):
+class StrengthMapTypeEnumAttrOperator(EnumAttrOperator[StrengthMapTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -113,7 +113,7 @@ class StrengthMapTypeEnumField(
     PLUG_CLS = StrengthMapTypeEnumPlugOperator
 
 
-class GlueStrengthMapTypeEnumPlugOperator(EnumPlugOperator):
+class GlueStrengthMapTypeEnumPlugOperator(EnumPlugOperator["GlueStrengthMapTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -121,7 +121,7 @@ class GlueStrengthMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class GlueStrengthMapTypeEnumAttrOperator(EnumAttrOperator):
+class GlueStrengthMapTypeEnumAttrOperator(EnumAttrOperator[GlueStrengthMapTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -144,7 +144,7 @@ class GlueStrengthMapTypeEnumField(
     PLUG_CLS = GlueStrengthMapTypeEnumPlugOperator
 
 
-class WeightMapTypeEnumPlugOperator(EnumPlugOperator):
+class WeightMapTypeEnumPlugOperator(EnumPlugOperator["WeightMapTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -152,7 +152,7 @@ class WeightMapTypeEnumPlugOperator(EnumPlugOperator):
     TEXTURE = 2
 
 
-class WeightMapTypeEnumAttrOperator(EnumAttrOperator):
+class WeightMapTypeEnumAttrOperator(EnumAttrOperator[WeightMapTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

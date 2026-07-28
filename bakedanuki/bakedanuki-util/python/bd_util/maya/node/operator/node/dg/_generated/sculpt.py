@@ -18,7 +18,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.at.typed import TypedField
 
 
-class ModeEnumPlugOperator(EnumPlugOperator):
+class ModeEnumPlugOperator(EnumPlugOperator["ModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLIP = 0
@@ -26,7 +26,7 @@ class ModeEnumPlugOperator(EnumPlugOperator):
     STRETCH = 2
 
 
-class ModeEnumAttrOperator(EnumAttrOperator):
+class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     __slots__ = ()
 
     FLIP = 0
@@ -49,14 +49,14 @@ class ModeEnumField(
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class InsideModeEnumPlugOperator(EnumPlugOperator):
+class InsideModeEnumPlugOperator(EnumPlugOperator["InsideModeEnumAttrOperator"]):
     __slots__ = ()
 
     RING = 0
     EVEN = 1
 
 
-class InsideModeEnumAttrOperator(EnumAttrOperator):
+class InsideModeEnumAttrOperator(EnumAttrOperator[InsideModeEnumPlugOperator]):
     __slots__ = ()
 
     RING = 0
@@ -77,14 +77,14 @@ class InsideModeEnumField(
     PLUG_CLS = InsideModeEnumPlugOperator
 
 
-class DropoffTypeEnumPlugOperator(EnumPlugOperator):
+class DropoffTypeEnumPlugOperator(EnumPlugOperator["DropoffTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
     LINEAR = 1
 
 
-class DropoffTypeEnumAttrOperator(EnumAttrOperator):
+class DropoffTypeEnumAttrOperator(EnumAttrOperator[DropoffTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

@@ -16,7 +16,7 @@ from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
+class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -27,7 +27,7 @@ class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class InputRotateOrderEnumAttrOperator(EnumAttrOperator):
+class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

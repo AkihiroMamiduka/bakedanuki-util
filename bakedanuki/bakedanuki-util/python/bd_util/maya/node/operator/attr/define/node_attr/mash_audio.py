@@ -18,7 +18,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator):
+class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator["FrequencyGraph_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +27,7 @@ class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator):
+class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator[FrequencyGraph_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

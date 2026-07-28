@@ -8,7 +8,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class StyleEnumPlugOperator(EnumPlugOperator):
+class StyleEnumPlugOperator(EnumPlugOperator["StyleEnumAttrOperator"]):
     __slots__ = ()
 
     STRAIGHT_OUT = 0
@@ -28,7 +28,7 @@ class StyleEnumPlugOperator(EnumPlugOperator):
     CONVEX_CREASE = 14
 
 
-class StyleEnumAttrOperator(EnumAttrOperator):
+class StyleEnumAttrOperator(EnumAttrOperator[StyleEnumPlugOperator]):
     __slots__ = ()
 
     STRAIGHT_OUT = 0

@@ -28,7 +28,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -37,7 +37,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -62,14 +62,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -90,7 +90,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class OffsetTypeEnumPlugOperator(EnumPlugOperator):
+class OffsetTypeEnumPlugOperator(EnumPlugOperator["OffsetTypeEnumAttrOperator"]):
     __slots__ = ()
 
     OFFSET = 1
@@ -100,7 +100,7 @@ class OffsetTypeEnumPlugOperator(EnumPlugOperator):
     MULTIPLY_BY_TIME = 6
 
 
-class OffsetTypeEnumAttrOperator(EnumAttrOperator):
+class OffsetTypeEnumAttrOperator(EnumAttrOperator[OffsetTypeEnumPlugOperator]):
     __slots__ = ()
 
     OFFSET = 1
@@ -127,7 +127,7 @@ class OffsetTypeEnumField(
     PLUG_CLS = OffsetTypeEnumPlugOperator
 
 
-class ReorderPointsEnumPlugOperator(EnumPlugOperator):
+class ReorderPointsEnumPlugOperator(EnumPlugOperator["ReorderPointsEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 1
@@ -139,7 +139,7 @@ class ReorderPointsEnumPlugOperator(EnumPlugOperator):
     RANDOM = 7
 
 
-class ReorderPointsEnumAttrOperator(EnumAttrOperator):
+class ReorderPointsEnumAttrOperator(EnumAttrOperator[ReorderPointsEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 1
@@ -170,14 +170,14 @@ class ReorderPointsEnumField(
     PLUG_CLS = ReorderPointsEnumPlugOperator
 
 
-class ClosestPointModeEnumPlugOperator(EnumPlugOperator):
+class ClosestPointModeEnumPlugOperator(EnumPlugOperator["ClosestPointModeEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1
     RAY_CAST = 2
 
 
-class ClosestPointModeEnumAttrOperator(EnumAttrOperator):
+class ClosestPointModeEnumAttrOperator(EnumAttrOperator[ClosestPointModeEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1

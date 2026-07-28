@@ -15,14 +15,14 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class VersionEnumPlugOperator(EnumPlugOperator):
+class VersionEnumPlugOperator(EnumPlugOperator["VersionEnumAttrOperator"]):
     __slots__ = ()
 
     MAYA = 0
     SOFTIMAGE = 1
 
 
-class VersionEnumAttrOperator(EnumAttrOperator):
+class VersionEnumAttrOperator(EnumAttrOperator[VersionEnumPlugOperator]):
     __slots__ = ()
 
     MAYA = 0
@@ -43,7 +43,7 @@ class VersionEnumField(
     PLUG_CLS = VersionEnumPlugOperator
 
 
-class TerminationEnumPlugOperator(EnumPlugOperator):
+class TerminationEnumPlugOperator(EnumPlugOperator["TerminationEnumAttrOperator"]):
     __slots__ = ()
 
     PERCENTAGE = 0
@@ -51,7 +51,7 @@ class TerminationEnumPlugOperator(EnumPlugOperator):
     TRIANGLE_COUNT = 2
 
 
-class TerminationEnumAttrOperator(EnumAttrOperator):
+class TerminationEnumAttrOperator(EnumAttrOperator[TerminationEnumPlugOperator]):
     __slots__ = ()
 
     PERCENTAGE = 0
@@ -74,7 +74,7 @@ class TerminationEnumField(
     PLUG_CLS = TerminationEnumPlugOperator
 
 
-class UseVirtualSymmetryEnumPlugOperator(EnumPlugOperator):
+class UseVirtualSymmetryEnumPlugOperator(EnumPlugOperator["UseVirtualSymmetryEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +82,7 @@ class UseVirtualSymmetryEnumPlugOperator(EnumPlugOperator):
     PLANE = 2
 
 
-class UseVirtualSymmetryEnumAttrOperator(EnumAttrOperator):
+class UseVirtualSymmetryEnumAttrOperator(EnumAttrOperator[UseVirtualSymmetryEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

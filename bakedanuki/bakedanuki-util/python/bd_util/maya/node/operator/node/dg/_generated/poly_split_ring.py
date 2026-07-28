@@ -15,7 +15,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SplitTypeEnumPlugOperator(EnumPlugOperator):
+class SplitTypeEnumPlugOperator(EnumPlugOperator["SplitTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSOLUTE = 0
@@ -23,7 +23,7 @@ class SplitTypeEnumPlugOperator(EnumPlugOperator):
     MULTI = 2
 
 
-class SplitTypeEnumAttrOperator(EnumAttrOperator):
+class SplitTypeEnumAttrOperator(EnumAttrOperator[SplitTypeEnumPlugOperator]):
     __slots__ = ()
 
     ABSOLUTE = 0

@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FrameTypeEnumPlugOperator(EnumPlugOperator):
+class FrameTypeEnumPlugOperator(EnumPlugOperator["FrameTypeEnumAttrOperator"]):
     __slots__ = ()
 
     AXIS = 0
@@ -21,7 +21,7 @@ class FrameTypeEnumPlugOperator(EnumPlugOperator):
     LOCATOR = 2
 
 
-class FrameTypeEnumAttrOperator(EnumAttrOperator):
+class FrameTypeEnumAttrOperator(EnumAttrOperator[FrameTypeEnumPlugOperator]):
     __slots__ = ()
 
     AXIS = 0
@@ -44,7 +44,7 @@ class FrameTypeEnumField(
     PLUG_CLS = FrameTypeEnumPlugOperator
 
 
-class ArrowTypeEnumPlugOperator(EnumPlugOperator):
+class ArrowTypeEnumPlugOperator(EnumPlugOperator["ArrowTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +52,7 @@ class ArrowTypeEnumPlugOperator(EnumPlugOperator):
     CONE = 2
 
 
-class ArrowTypeEnumAttrOperator(EnumAttrOperator):
+class ArrowTypeEnumAttrOperator(EnumAttrOperator[ArrowTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

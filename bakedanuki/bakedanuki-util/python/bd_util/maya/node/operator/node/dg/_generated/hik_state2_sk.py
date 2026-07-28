@@ -1284,7 +1284,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class ReferenceROrderEnumPlugOperator(EnumPlugOperator):
+class ReferenceROrderEnumPlugOperator(EnumPlugOperator["ReferenceROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1295,7 +1295,7 @@ class ReferenceROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class ReferenceROrderEnumAttrOperator(EnumAttrOperator):
+class ReferenceROrderEnumAttrOperator(EnumAttrOperator[ReferenceROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1324,7 +1324,7 @@ class ReferenceROrderEnumField(
     PLUG_CLS = ReferenceROrderEnumPlugOperator
 
 
-class HipsROrderEnumPlugOperator(EnumPlugOperator):
+class HipsROrderEnumPlugOperator(EnumPlugOperator["HipsROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1335,7 +1335,7 @@ class HipsROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class HipsROrderEnumAttrOperator(EnumAttrOperator):
+class HipsROrderEnumAttrOperator(EnumAttrOperator[HipsROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1364,7 +1364,7 @@ class HipsROrderEnumField(
     PLUG_CLS = HipsROrderEnumPlugOperator
 
 
-class LeftUpLegROrderEnumPlugOperator(EnumPlugOperator):
+class LeftUpLegROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1375,7 +1375,7 @@ class LeftUpLegROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftUpLegROrderEnumAttrOperator(EnumAttrOperator):
+class LeftUpLegROrderEnumAttrOperator(EnumAttrOperator[LeftUpLegROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1404,7 +1404,7 @@ class LeftUpLegROrderEnumField(
     PLUG_CLS = LeftUpLegROrderEnumPlugOperator
 
 
-class LeftLegROrderEnumPlugOperator(EnumPlugOperator):
+class LeftLegROrderEnumPlugOperator(EnumPlugOperator["LeftLegROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1415,7 +1415,7 @@ class LeftLegROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftLegROrderEnumAttrOperator(EnumAttrOperator):
+class LeftLegROrderEnumAttrOperator(EnumAttrOperator[LeftLegROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1444,7 +1444,7 @@ class LeftLegROrderEnumField(
     PLUG_CLS = LeftLegROrderEnumPlugOperator
 
 
-class LeftFootROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootROrderEnumPlugOperator(EnumPlugOperator["LeftFootROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1455,7 +1455,7 @@ class LeftFootROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootROrderEnumAttrOperator(EnumAttrOperator[LeftFootROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1484,7 +1484,7 @@ class LeftFootROrderEnumField(
     PLUG_CLS = LeftFootROrderEnumPlugOperator
 
 
-class RightUpLegROrderEnumPlugOperator(EnumPlugOperator):
+class RightUpLegROrderEnumPlugOperator(EnumPlugOperator["RightUpLegROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1495,7 +1495,7 @@ class RightUpLegROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightUpLegROrderEnumAttrOperator(EnumAttrOperator):
+class RightUpLegROrderEnumAttrOperator(EnumAttrOperator[RightUpLegROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1524,7 +1524,7 @@ class RightUpLegROrderEnumField(
     PLUG_CLS = RightUpLegROrderEnumPlugOperator
 
 
-class RightLegROrderEnumPlugOperator(EnumPlugOperator):
+class RightLegROrderEnumPlugOperator(EnumPlugOperator["RightLegROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1535,7 +1535,7 @@ class RightLegROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightLegROrderEnumAttrOperator(EnumAttrOperator):
+class RightLegROrderEnumAttrOperator(EnumAttrOperator[RightLegROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1564,7 +1564,7 @@ class RightLegROrderEnumField(
     PLUG_CLS = RightLegROrderEnumPlugOperator
 
 
-class RightFootROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootROrderEnumPlugOperator(EnumPlugOperator["RightFootROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1575,7 +1575,7 @@ class RightFootROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootROrderEnumAttrOperator(EnumAttrOperator[RightFootROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1604,7 +1604,7 @@ class RightFootROrderEnumField(
     PLUG_CLS = RightFootROrderEnumPlugOperator
 
 
-class SpineROrderEnumPlugOperator(EnumPlugOperator):
+class SpineROrderEnumPlugOperator(EnumPlugOperator["SpineROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1615,7 +1615,7 @@ class SpineROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class SpineROrderEnumAttrOperator(EnumAttrOperator):
+class SpineROrderEnumAttrOperator(EnumAttrOperator[SpineROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1644,7 +1644,7 @@ class SpineROrderEnumField(
     PLUG_CLS = SpineROrderEnumPlugOperator
 
 
-class LeftArmROrderEnumPlugOperator(EnumPlugOperator):
+class LeftArmROrderEnumPlugOperator(EnumPlugOperator["LeftArmROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1655,7 +1655,7 @@ class LeftArmROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftArmROrderEnumAttrOperator(EnumAttrOperator):
+class LeftArmROrderEnumAttrOperator(EnumAttrOperator[LeftArmROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1684,7 +1684,7 @@ class LeftArmROrderEnumField(
     PLUG_CLS = LeftArmROrderEnumPlugOperator
 
 
-class LeftForeArmROrderEnumPlugOperator(EnumPlugOperator):
+class LeftForeArmROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1695,7 +1695,7 @@ class LeftForeArmROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftForeArmROrderEnumAttrOperator(EnumAttrOperator):
+class LeftForeArmROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1724,7 +1724,7 @@ class LeftForeArmROrderEnumField(
     PLUG_CLS = LeftForeArmROrderEnumPlugOperator
 
 
-class LeftHandROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandROrderEnumPlugOperator(EnumPlugOperator["LeftHandROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1735,7 +1735,7 @@ class LeftHandROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandROrderEnumAttrOperator(EnumAttrOperator[LeftHandROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1764,7 +1764,7 @@ class LeftHandROrderEnumField(
     PLUG_CLS = LeftHandROrderEnumPlugOperator
 
 
-class RightArmROrderEnumPlugOperator(EnumPlugOperator):
+class RightArmROrderEnumPlugOperator(EnumPlugOperator["RightArmROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1775,7 +1775,7 @@ class RightArmROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightArmROrderEnumAttrOperator(EnumAttrOperator):
+class RightArmROrderEnumAttrOperator(EnumAttrOperator[RightArmROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1804,7 +1804,7 @@ class RightArmROrderEnumField(
     PLUG_CLS = RightArmROrderEnumPlugOperator
 
 
-class RightForeArmROrderEnumPlugOperator(EnumPlugOperator):
+class RightForeArmROrderEnumPlugOperator(EnumPlugOperator["RightForeArmROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1815,7 +1815,7 @@ class RightForeArmROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightForeArmROrderEnumAttrOperator(EnumAttrOperator):
+class RightForeArmROrderEnumAttrOperator(EnumAttrOperator[RightForeArmROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1844,7 +1844,7 @@ class RightForeArmROrderEnumField(
     PLUG_CLS = RightForeArmROrderEnumPlugOperator
 
 
-class RightHandROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandROrderEnumPlugOperator(EnumPlugOperator["RightHandROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1855,7 +1855,7 @@ class RightHandROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandROrderEnumAttrOperator(EnumAttrOperator[RightHandROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1884,7 +1884,7 @@ class RightHandROrderEnumField(
     PLUG_CLS = RightHandROrderEnumPlugOperator
 
 
-class HeadROrderEnumPlugOperator(EnumPlugOperator):
+class HeadROrderEnumPlugOperator(EnumPlugOperator["HeadROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1895,7 +1895,7 @@ class HeadROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class HeadROrderEnumAttrOperator(EnumAttrOperator):
+class HeadROrderEnumAttrOperator(EnumAttrOperator[HeadROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1924,7 +1924,7 @@ class HeadROrderEnumField(
     PLUG_CLS = HeadROrderEnumPlugOperator
 
 
-class LeftToeBaseROrderEnumPlugOperator(EnumPlugOperator):
+class LeftToeBaseROrderEnumPlugOperator(EnumPlugOperator["LeftToeBaseROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1935,7 +1935,7 @@ class LeftToeBaseROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftToeBaseROrderEnumAttrOperator(EnumAttrOperator):
+class LeftToeBaseROrderEnumAttrOperator(EnumAttrOperator[LeftToeBaseROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -1964,7 +1964,7 @@ class LeftToeBaseROrderEnumField(
     PLUG_CLS = LeftToeBaseROrderEnumPlugOperator
 
 
-class RightToeBaseROrderEnumPlugOperator(EnumPlugOperator):
+class RightToeBaseROrderEnumPlugOperator(EnumPlugOperator["RightToeBaseROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -1975,7 +1975,7 @@ class RightToeBaseROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightToeBaseROrderEnumAttrOperator(EnumAttrOperator):
+class RightToeBaseROrderEnumAttrOperator(EnumAttrOperator[RightToeBaseROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2004,7 +2004,7 @@ class RightToeBaseROrderEnumField(
     PLUG_CLS = RightToeBaseROrderEnumPlugOperator
 
 
-class LeftShoulderROrderEnumPlugOperator(EnumPlugOperator):
+class LeftShoulderROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2015,7 +2015,7 @@ class LeftShoulderROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftShoulderROrderEnumAttrOperator(EnumAttrOperator):
+class LeftShoulderROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2044,7 +2044,7 @@ class LeftShoulderROrderEnumField(
     PLUG_CLS = LeftShoulderROrderEnumPlugOperator
 
 
-class RightShoulderROrderEnumPlugOperator(EnumPlugOperator):
+class RightShoulderROrderEnumPlugOperator(EnumPlugOperator["RightShoulderROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2055,7 +2055,7 @@ class RightShoulderROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightShoulderROrderEnumAttrOperator(EnumAttrOperator):
+class RightShoulderROrderEnumAttrOperator(EnumAttrOperator[RightShoulderROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2084,7 +2084,7 @@ class RightShoulderROrderEnumField(
     PLUG_CLS = RightShoulderROrderEnumPlugOperator
 
 
-class NeckROrderEnumPlugOperator(EnumPlugOperator):
+class NeckROrderEnumPlugOperator(EnumPlugOperator["NeckROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2095,7 +2095,7 @@ class NeckROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class NeckROrderEnumAttrOperator(EnumAttrOperator):
+class NeckROrderEnumAttrOperator(EnumAttrOperator[NeckROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2124,7 +2124,7 @@ class NeckROrderEnumField(
     PLUG_CLS = NeckROrderEnumPlugOperator
 
 
-class LeftFingerBaseROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFingerBaseROrderEnumPlugOperator(EnumPlugOperator["LeftFingerBaseROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2135,7 +2135,7 @@ class LeftFingerBaseROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFingerBaseROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFingerBaseROrderEnumAttrOperator(EnumAttrOperator[LeftFingerBaseROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2164,7 +2164,7 @@ class LeftFingerBaseROrderEnumField(
     PLUG_CLS = LeftFingerBaseROrderEnumPlugOperator
 
 
-class RightFingerBaseROrderEnumPlugOperator(EnumPlugOperator):
+class RightFingerBaseROrderEnumPlugOperator(EnumPlugOperator["RightFingerBaseROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2175,7 +2175,7 @@ class RightFingerBaseROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFingerBaseROrderEnumAttrOperator(EnumAttrOperator):
+class RightFingerBaseROrderEnumAttrOperator(EnumAttrOperator[RightFingerBaseROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2204,7 +2204,7 @@ class RightFingerBaseROrderEnumField(
     PLUG_CLS = RightFingerBaseROrderEnumPlugOperator
 
 
-class Spine1ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine1ROrderEnumPlugOperator(EnumPlugOperator["Spine1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2215,7 +2215,7 @@ class Spine1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine1ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine1ROrderEnumAttrOperator(EnumAttrOperator[Spine1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2244,7 +2244,7 @@ class Spine1ROrderEnumField(
     PLUG_CLS = Spine1ROrderEnumPlugOperator
 
 
-class Spine2ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine2ROrderEnumPlugOperator(EnumPlugOperator["Spine2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2255,7 +2255,7 @@ class Spine2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine2ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine2ROrderEnumAttrOperator(EnumAttrOperator[Spine2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2284,7 +2284,7 @@ class Spine2ROrderEnumField(
     PLUG_CLS = Spine2ROrderEnumPlugOperator
 
 
-class Spine3ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine3ROrderEnumPlugOperator(EnumPlugOperator["Spine3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2295,7 +2295,7 @@ class Spine3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine3ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine3ROrderEnumAttrOperator(EnumAttrOperator[Spine3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2324,7 +2324,7 @@ class Spine3ROrderEnumField(
     PLUG_CLS = Spine3ROrderEnumPlugOperator
 
 
-class Spine4ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine4ROrderEnumPlugOperator(EnumPlugOperator["Spine4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2335,7 +2335,7 @@ class Spine4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine4ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine4ROrderEnumAttrOperator(EnumAttrOperator[Spine4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2364,7 +2364,7 @@ class Spine4ROrderEnumField(
     PLUG_CLS = Spine4ROrderEnumPlugOperator
 
 
-class Spine5ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine5ROrderEnumPlugOperator(EnumPlugOperator["Spine5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2375,7 +2375,7 @@ class Spine5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine5ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine5ROrderEnumAttrOperator(EnumAttrOperator[Spine5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2404,7 +2404,7 @@ class Spine5ROrderEnumField(
     PLUG_CLS = Spine5ROrderEnumPlugOperator
 
 
-class Spine6ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine6ROrderEnumPlugOperator(EnumPlugOperator["Spine6ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2415,7 +2415,7 @@ class Spine6ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine6ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine6ROrderEnumAttrOperator(EnumAttrOperator[Spine6ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2444,7 +2444,7 @@ class Spine6ROrderEnumField(
     PLUG_CLS = Spine6ROrderEnumPlugOperator
 
 
-class Spine7ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine7ROrderEnumPlugOperator(EnumPlugOperator["Spine7ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2455,7 +2455,7 @@ class Spine7ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine7ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine7ROrderEnumAttrOperator(EnumAttrOperator[Spine7ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2484,7 +2484,7 @@ class Spine7ROrderEnumField(
     PLUG_CLS = Spine7ROrderEnumPlugOperator
 
 
-class Spine8ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine8ROrderEnumPlugOperator(EnumPlugOperator["Spine8ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2495,7 +2495,7 @@ class Spine8ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine8ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine8ROrderEnumAttrOperator(EnumAttrOperator[Spine8ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2524,7 +2524,7 @@ class Spine8ROrderEnumField(
     PLUG_CLS = Spine8ROrderEnumPlugOperator
 
 
-class Spine9ROrderEnumPlugOperator(EnumPlugOperator):
+class Spine9ROrderEnumPlugOperator(EnumPlugOperator["Spine9ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2535,7 +2535,7 @@ class Spine9ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Spine9ROrderEnumAttrOperator(EnumAttrOperator):
+class Spine9ROrderEnumAttrOperator(EnumAttrOperator[Spine9ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2564,7 +2564,7 @@ class Spine9ROrderEnumField(
     PLUG_CLS = Spine9ROrderEnumPlugOperator
 
 
-class Neck1ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck1ROrderEnumPlugOperator(EnumPlugOperator["Neck1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2575,7 +2575,7 @@ class Neck1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck1ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck1ROrderEnumAttrOperator(EnumAttrOperator[Neck1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2604,7 +2604,7 @@ class Neck1ROrderEnumField(
     PLUG_CLS = Neck1ROrderEnumPlugOperator
 
 
-class Neck2ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck2ROrderEnumPlugOperator(EnumPlugOperator["Neck2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2615,7 +2615,7 @@ class Neck2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck2ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck2ROrderEnumAttrOperator(EnumAttrOperator[Neck2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2644,7 +2644,7 @@ class Neck2ROrderEnumField(
     PLUG_CLS = Neck2ROrderEnumPlugOperator
 
 
-class Neck3ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck3ROrderEnumPlugOperator(EnumPlugOperator["Neck3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2655,7 +2655,7 @@ class Neck3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck3ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck3ROrderEnumAttrOperator(EnumAttrOperator[Neck3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2684,7 +2684,7 @@ class Neck3ROrderEnumField(
     PLUG_CLS = Neck3ROrderEnumPlugOperator
 
 
-class Neck4ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck4ROrderEnumPlugOperator(EnumPlugOperator["Neck4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2695,7 +2695,7 @@ class Neck4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck4ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck4ROrderEnumAttrOperator(EnumAttrOperator[Neck4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2724,7 +2724,7 @@ class Neck4ROrderEnumField(
     PLUG_CLS = Neck4ROrderEnumPlugOperator
 
 
-class Neck5ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck5ROrderEnumPlugOperator(EnumPlugOperator["Neck5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2735,7 +2735,7 @@ class Neck5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck5ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck5ROrderEnumAttrOperator(EnumAttrOperator[Neck5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2764,7 +2764,7 @@ class Neck5ROrderEnumField(
     PLUG_CLS = Neck5ROrderEnumPlugOperator
 
 
-class Neck6ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck6ROrderEnumPlugOperator(EnumPlugOperator["Neck6ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2775,7 +2775,7 @@ class Neck6ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck6ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck6ROrderEnumAttrOperator(EnumAttrOperator[Neck6ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2804,7 +2804,7 @@ class Neck6ROrderEnumField(
     PLUG_CLS = Neck6ROrderEnumPlugOperator
 
 
-class Neck7ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck7ROrderEnumPlugOperator(EnumPlugOperator["Neck7ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2815,7 +2815,7 @@ class Neck7ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck7ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck7ROrderEnumAttrOperator(EnumAttrOperator[Neck7ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2844,7 +2844,7 @@ class Neck7ROrderEnumField(
     PLUG_CLS = Neck7ROrderEnumPlugOperator
 
 
-class Neck8ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck8ROrderEnumPlugOperator(EnumPlugOperator["Neck8ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2855,7 +2855,7 @@ class Neck8ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck8ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck8ROrderEnumAttrOperator(EnumAttrOperator[Neck8ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2884,7 +2884,7 @@ class Neck8ROrderEnumField(
     PLUG_CLS = Neck8ROrderEnumPlugOperator
 
 
-class Neck9ROrderEnumPlugOperator(EnumPlugOperator):
+class Neck9ROrderEnumPlugOperator(EnumPlugOperator["Neck9ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2895,7 +2895,7 @@ class Neck9ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class Neck9ROrderEnumAttrOperator(EnumAttrOperator):
+class Neck9ROrderEnumAttrOperator(EnumAttrOperator[Neck9ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2924,7 +2924,7 @@ class Neck9ROrderEnumField(
     PLUG_CLS = Neck9ROrderEnumPlugOperator
 
 
-class LeftUpLegRollROrderEnumPlugOperator(EnumPlugOperator):
+class LeftUpLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2935,7 +2935,7 @@ class LeftUpLegRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftUpLegRollROrderEnumAttrOperator(EnumAttrOperator):
+class LeftUpLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftUpLegRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -2964,7 +2964,7 @@ class LeftUpLegRollROrderEnumField(
     PLUG_CLS = LeftUpLegRollROrderEnumPlugOperator
 
 
-class LeftLegRollROrderEnumPlugOperator(EnumPlugOperator):
+class LeftLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftLegRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -2975,7 +2975,7 @@ class LeftLegRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftLegRollROrderEnumAttrOperator(EnumAttrOperator):
+class LeftLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftLegRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3004,7 +3004,7 @@ class LeftLegRollROrderEnumField(
     PLUG_CLS = LeftLegRollROrderEnumPlugOperator
 
 
-class RightUpLegRollROrderEnumPlugOperator(EnumPlugOperator):
+class RightUpLegRollROrderEnumPlugOperator(EnumPlugOperator["RightUpLegRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3015,7 +3015,7 @@ class RightUpLegRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightUpLegRollROrderEnumAttrOperator(EnumAttrOperator):
+class RightUpLegRollROrderEnumAttrOperator(EnumAttrOperator[RightUpLegRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3044,7 +3044,7 @@ class RightUpLegRollROrderEnumField(
     PLUG_CLS = RightUpLegRollROrderEnumPlugOperator
 
 
-class RightLegRollROrderEnumPlugOperator(EnumPlugOperator):
+class RightLegRollROrderEnumPlugOperator(EnumPlugOperator["RightLegRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3055,7 +3055,7 @@ class RightLegRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightLegRollROrderEnumAttrOperator(EnumAttrOperator):
+class RightLegRollROrderEnumAttrOperator(EnumAttrOperator[RightLegRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3084,7 +3084,7 @@ class RightLegRollROrderEnumField(
     PLUG_CLS = RightLegRollROrderEnumPlugOperator
 
 
-class LeftArmRollROrderEnumPlugOperator(EnumPlugOperator):
+class LeftArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftArmRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3095,7 +3095,7 @@ class LeftArmRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftArmRollROrderEnumAttrOperator(EnumAttrOperator):
+class LeftArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftArmRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3124,7 +3124,7 @@ class LeftArmRollROrderEnumField(
     PLUG_CLS = LeftArmRollROrderEnumPlugOperator
 
 
-class LeftForeArmRollROrderEnumPlugOperator(EnumPlugOperator):
+class LeftForeArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3135,7 +3135,7 @@ class LeftForeArmRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftForeArmRollROrderEnumAttrOperator(EnumAttrOperator):
+class LeftForeArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3164,7 +3164,7 @@ class LeftForeArmRollROrderEnumField(
     PLUG_CLS = LeftForeArmRollROrderEnumPlugOperator
 
 
-class RightArmRollROrderEnumPlugOperator(EnumPlugOperator):
+class RightArmRollROrderEnumPlugOperator(EnumPlugOperator["RightArmRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3175,7 +3175,7 @@ class RightArmRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightArmRollROrderEnumAttrOperator(EnumAttrOperator):
+class RightArmRollROrderEnumAttrOperator(EnumAttrOperator[RightArmRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3204,7 +3204,7 @@ class RightArmRollROrderEnumField(
     PLUG_CLS = RightArmRollROrderEnumPlugOperator
 
 
-class RightForeArmRollROrderEnumPlugOperator(EnumPlugOperator):
+class RightForeArmRollROrderEnumPlugOperator(EnumPlugOperator["RightForeArmRollROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3215,7 +3215,7 @@ class RightForeArmRollROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightForeArmRollROrderEnumAttrOperator(EnumAttrOperator):
+class RightForeArmRollROrderEnumAttrOperator(EnumAttrOperator[RightForeArmRollROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3244,7 +3244,7 @@ class RightForeArmRollROrderEnumField(
     PLUG_CLS = RightForeArmRollROrderEnumPlugOperator
 
 
-class HipsTranslationROrderEnumPlugOperator(EnumPlugOperator):
+class HipsTranslationROrderEnumPlugOperator(EnumPlugOperator["HipsTranslationROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3255,7 +3255,7 @@ class HipsTranslationROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class HipsTranslationROrderEnumAttrOperator(EnumAttrOperator):
+class HipsTranslationROrderEnumAttrOperator(EnumAttrOperator[HipsTranslationROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3284,7 +3284,7 @@ class HipsTranslationROrderEnumField(
     PLUG_CLS = HipsTranslationROrderEnumPlugOperator
 
 
-class LeftHandThumb1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3295,7 +3295,7 @@ class LeftHandThumb1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandThumb1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3324,7 +3324,7 @@ class LeftHandThumb1ROrderEnumField(
     PLUG_CLS = LeftHandThumb1ROrderEnumPlugOperator
 
 
-class LeftHandThumb2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3335,7 +3335,7 @@ class LeftHandThumb2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandThumb2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3364,7 +3364,7 @@ class LeftHandThumb2ROrderEnumField(
     PLUG_CLS = LeftHandThumb2ROrderEnumPlugOperator
 
 
-class LeftHandThumb3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3375,7 +3375,7 @@ class LeftHandThumb3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandThumb3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3404,7 +3404,7 @@ class LeftHandThumb3ROrderEnumField(
     PLUG_CLS = LeftHandThumb3ROrderEnumPlugOperator
 
 
-class LeftHandThumb4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3415,7 +3415,7 @@ class LeftHandThumb4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandThumb4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3444,7 +3444,7 @@ class LeftHandThumb4ROrderEnumField(
     PLUG_CLS = LeftHandThumb4ROrderEnumPlugOperator
 
 
-class LeftHandIndex1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3455,7 +3455,7 @@ class LeftHandIndex1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandIndex1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3484,7 +3484,7 @@ class LeftHandIndex1ROrderEnumField(
     PLUG_CLS = LeftHandIndex1ROrderEnumPlugOperator
 
 
-class LeftHandIndex2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3495,7 +3495,7 @@ class LeftHandIndex2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandIndex2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3524,7 +3524,7 @@ class LeftHandIndex2ROrderEnumField(
     PLUG_CLS = LeftHandIndex2ROrderEnumPlugOperator
 
 
-class LeftHandIndex3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3535,7 +3535,7 @@ class LeftHandIndex3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandIndex3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3564,7 +3564,7 @@ class LeftHandIndex3ROrderEnumField(
     PLUG_CLS = LeftHandIndex3ROrderEnumPlugOperator
 
 
-class LeftHandIndex4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3575,7 +3575,7 @@ class LeftHandIndex4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandIndex4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3604,7 +3604,7 @@ class LeftHandIndex4ROrderEnumField(
     PLUG_CLS = LeftHandIndex4ROrderEnumPlugOperator
 
 
-class LeftHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3615,7 +3615,7 @@ class LeftHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3644,7 +3644,7 @@ class LeftHandMiddle1ROrderEnumField(
     PLUG_CLS = LeftHandMiddle1ROrderEnumPlugOperator
 
 
-class LeftHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3655,7 +3655,7 @@ class LeftHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3684,7 +3684,7 @@ class LeftHandMiddle2ROrderEnumField(
     PLUG_CLS = LeftHandMiddle2ROrderEnumPlugOperator
 
 
-class LeftHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3695,7 +3695,7 @@ class LeftHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3724,7 +3724,7 @@ class LeftHandMiddle3ROrderEnumField(
     PLUG_CLS = LeftHandMiddle3ROrderEnumPlugOperator
 
 
-class LeftHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3735,7 +3735,7 @@ class LeftHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3764,7 +3764,7 @@ class LeftHandMiddle4ROrderEnumField(
     PLUG_CLS = LeftHandMiddle4ROrderEnumPlugOperator
 
 
-class LeftHandRing1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3775,7 +3775,7 @@ class LeftHandRing1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandRing1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3804,7 +3804,7 @@ class LeftHandRing1ROrderEnumField(
     PLUG_CLS = LeftHandRing1ROrderEnumPlugOperator
 
 
-class LeftHandRing2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3815,7 +3815,7 @@ class LeftHandRing2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandRing2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3844,7 +3844,7 @@ class LeftHandRing2ROrderEnumField(
     PLUG_CLS = LeftHandRing2ROrderEnumPlugOperator
 
 
-class LeftHandRing3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3855,7 +3855,7 @@ class LeftHandRing3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandRing3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3884,7 +3884,7 @@ class LeftHandRing3ROrderEnumField(
     PLUG_CLS = LeftHandRing3ROrderEnumPlugOperator
 
 
-class LeftHandRing4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3895,7 +3895,7 @@ class LeftHandRing4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandRing4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3924,7 +3924,7 @@ class LeftHandRing4ROrderEnumField(
     PLUG_CLS = LeftHandRing4ROrderEnumPlugOperator
 
 
-class LeftHandPinky1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3935,7 +3935,7 @@ class LeftHandPinky1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandPinky1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -3964,7 +3964,7 @@ class LeftHandPinky1ROrderEnumField(
     PLUG_CLS = LeftHandPinky1ROrderEnumPlugOperator
 
 
-class LeftHandPinky2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -3975,7 +3975,7 @@ class LeftHandPinky2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandPinky2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4004,7 +4004,7 @@ class LeftHandPinky2ROrderEnumField(
     PLUG_CLS = LeftHandPinky2ROrderEnumPlugOperator
 
 
-class LeftHandPinky3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4015,7 +4015,7 @@ class LeftHandPinky3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandPinky3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4044,7 +4044,7 @@ class LeftHandPinky3ROrderEnumField(
     PLUG_CLS = LeftHandPinky3ROrderEnumPlugOperator
 
 
-class LeftHandPinky4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4055,7 +4055,7 @@ class LeftHandPinky4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandPinky4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4084,7 +4084,7 @@ class LeftHandPinky4ROrderEnumField(
     PLUG_CLS = LeftHandPinky4ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4095,7 +4095,7 @@ class LeftHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4124,7 +4124,7 @@ class LeftHandExtraFinger1ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger1ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4135,7 +4135,7 @@ class LeftHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4164,7 +4164,7 @@ class LeftHandExtraFinger2ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger2ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4175,7 +4175,7 @@ class LeftHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4204,7 +4204,7 @@ class LeftHandExtraFinger3ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger3ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4215,7 +4215,7 @@ class LeftHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4244,7 +4244,7 @@ class LeftHandExtraFinger4ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger4ROrderEnumPlugOperator
 
 
-class RightHandThumb1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4255,7 +4255,7 @@ class RightHandThumb1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandThumb1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4284,7 +4284,7 @@ class RightHandThumb1ROrderEnumField(
     PLUG_CLS = RightHandThumb1ROrderEnumPlugOperator
 
 
-class RightHandThumb2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4295,7 +4295,7 @@ class RightHandThumb2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandThumb2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4324,7 +4324,7 @@ class RightHandThumb2ROrderEnumField(
     PLUG_CLS = RightHandThumb2ROrderEnumPlugOperator
 
 
-class RightHandThumb3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4335,7 +4335,7 @@ class RightHandThumb3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandThumb3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4364,7 +4364,7 @@ class RightHandThumb3ROrderEnumField(
     PLUG_CLS = RightHandThumb3ROrderEnumPlugOperator
 
 
-class RightHandThumb4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4375,7 +4375,7 @@ class RightHandThumb4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandThumb4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4404,7 +4404,7 @@ class RightHandThumb4ROrderEnumField(
     PLUG_CLS = RightHandThumb4ROrderEnumPlugOperator
 
 
-class RightHandIndex1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4415,7 +4415,7 @@ class RightHandIndex1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandIndex1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4444,7 +4444,7 @@ class RightHandIndex1ROrderEnumField(
     PLUG_CLS = RightHandIndex1ROrderEnumPlugOperator
 
 
-class RightHandIndex2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4455,7 +4455,7 @@ class RightHandIndex2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandIndex2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4484,7 +4484,7 @@ class RightHandIndex2ROrderEnumField(
     PLUG_CLS = RightHandIndex2ROrderEnumPlugOperator
 
 
-class RightHandIndex3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4495,7 +4495,7 @@ class RightHandIndex3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandIndex3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4524,7 +4524,7 @@ class RightHandIndex3ROrderEnumField(
     PLUG_CLS = RightHandIndex3ROrderEnumPlugOperator
 
 
-class RightHandIndex4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4535,7 +4535,7 @@ class RightHandIndex4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandIndex4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4564,7 +4564,7 @@ class RightHandIndex4ROrderEnumField(
     PLUG_CLS = RightHandIndex4ROrderEnumPlugOperator
 
 
-class RightHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4575,7 +4575,7 @@ class RightHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4604,7 +4604,7 @@ class RightHandMiddle1ROrderEnumField(
     PLUG_CLS = RightHandMiddle1ROrderEnumPlugOperator
 
 
-class RightHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4615,7 +4615,7 @@ class RightHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4644,7 +4644,7 @@ class RightHandMiddle2ROrderEnumField(
     PLUG_CLS = RightHandMiddle2ROrderEnumPlugOperator
 
 
-class RightHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4655,7 +4655,7 @@ class RightHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4684,7 +4684,7 @@ class RightHandMiddle3ROrderEnumField(
     PLUG_CLS = RightHandMiddle3ROrderEnumPlugOperator
 
 
-class RightHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4695,7 +4695,7 @@ class RightHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4724,7 +4724,7 @@ class RightHandMiddle4ROrderEnumField(
     PLUG_CLS = RightHandMiddle4ROrderEnumPlugOperator
 
 
-class RightHandRing1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing1ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4735,7 +4735,7 @@ class RightHandRing1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandRing1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing1ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4764,7 +4764,7 @@ class RightHandRing1ROrderEnumField(
     PLUG_CLS = RightHandRing1ROrderEnumPlugOperator
 
 
-class RightHandRing2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing2ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4775,7 +4775,7 @@ class RightHandRing2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandRing2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing2ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4804,7 +4804,7 @@ class RightHandRing2ROrderEnumField(
     PLUG_CLS = RightHandRing2ROrderEnumPlugOperator
 
 
-class RightHandRing3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing3ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4815,7 +4815,7 @@ class RightHandRing3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandRing3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing3ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4844,7 +4844,7 @@ class RightHandRing3ROrderEnumField(
     PLUG_CLS = RightHandRing3ROrderEnumPlugOperator
 
 
-class RightHandRing4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandRing4ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4855,7 +4855,7 @@ class RightHandRing4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandRing4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandRing4ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4884,7 +4884,7 @@ class RightHandRing4ROrderEnumField(
     PLUG_CLS = RightHandRing4ROrderEnumPlugOperator
 
 
-class RightHandPinky1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4895,7 +4895,7 @@ class RightHandPinky1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandPinky1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4924,7 +4924,7 @@ class RightHandPinky1ROrderEnumField(
     PLUG_CLS = RightHandPinky1ROrderEnumPlugOperator
 
 
-class RightHandPinky2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4935,7 +4935,7 @@ class RightHandPinky2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandPinky2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -4964,7 +4964,7 @@ class RightHandPinky2ROrderEnumField(
     PLUG_CLS = RightHandPinky2ROrderEnumPlugOperator
 
 
-class RightHandPinky3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -4975,7 +4975,7 @@ class RightHandPinky3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandPinky3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5004,7 +5004,7 @@ class RightHandPinky3ROrderEnumField(
     PLUG_CLS = RightHandPinky3ROrderEnumPlugOperator
 
 
-class RightHandPinky4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5015,7 +5015,7 @@ class RightHandPinky4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandPinky4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5044,7 +5044,7 @@ class RightHandPinky4ROrderEnumField(
     PLUG_CLS = RightHandPinky4ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5055,7 +5055,7 @@ class RightHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5084,7 +5084,7 @@ class RightHandExtraFinger1ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger1ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5095,7 +5095,7 @@ class RightHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5124,7 +5124,7 @@ class RightHandExtraFinger2ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger2ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5135,7 +5135,7 @@ class RightHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5164,7 +5164,7 @@ class RightHandExtraFinger3ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger3ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5175,7 +5175,7 @@ class RightHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5204,7 +5204,7 @@ class RightHandExtraFinger4ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger4ROrderEnumPlugOperator
 
 
-class LeftFootThumb1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5215,7 +5215,7 @@ class LeftFootThumb1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootThumb1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5244,7 +5244,7 @@ class LeftFootThumb1ROrderEnumField(
     PLUG_CLS = LeftFootThumb1ROrderEnumPlugOperator
 
 
-class LeftFootThumb2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5255,7 +5255,7 @@ class LeftFootThumb2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootThumb2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5284,7 +5284,7 @@ class LeftFootThumb2ROrderEnumField(
     PLUG_CLS = LeftFootThumb2ROrderEnumPlugOperator
 
 
-class LeftFootThumb3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5295,7 +5295,7 @@ class LeftFootThumb3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootThumb3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5324,7 +5324,7 @@ class LeftFootThumb3ROrderEnumField(
     PLUG_CLS = LeftFootThumb3ROrderEnumPlugOperator
 
 
-class LeftFootThumb4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5335,7 +5335,7 @@ class LeftFootThumb4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootThumb4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5364,7 +5364,7 @@ class LeftFootThumb4ROrderEnumField(
     PLUG_CLS = LeftFootThumb4ROrderEnumPlugOperator
 
 
-class LeftFootIndex1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5375,7 +5375,7 @@ class LeftFootIndex1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootIndex1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5404,7 +5404,7 @@ class LeftFootIndex1ROrderEnumField(
     PLUG_CLS = LeftFootIndex1ROrderEnumPlugOperator
 
 
-class LeftFootIndex2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5415,7 +5415,7 @@ class LeftFootIndex2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootIndex2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5444,7 +5444,7 @@ class LeftFootIndex2ROrderEnumField(
     PLUG_CLS = LeftFootIndex2ROrderEnumPlugOperator
 
 
-class LeftFootIndex3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5455,7 +5455,7 @@ class LeftFootIndex3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootIndex3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5484,7 +5484,7 @@ class LeftFootIndex3ROrderEnumField(
     PLUG_CLS = LeftFootIndex3ROrderEnumPlugOperator
 
 
-class LeftFootIndex4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5495,7 +5495,7 @@ class LeftFootIndex4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootIndex4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5524,7 +5524,7 @@ class LeftFootIndex4ROrderEnumField(
     PLUG_CLS = LeftFootIndex4ROrderEnumPlugOperator
 
 
-class LeftFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5535,7 +5535,7 @@ class LeftFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5564,7 +5564,7 @@ class LeftFootMiddle1ROrderEnumField(
     PLUG_CLS = LeftFootMiddle1ROrderEnumPlugOperator
 
 
-class LeftFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5575,7 +5575,7 @@ class LeftFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5604,7 +5604,7 @@ class LeftFootMiddle2ROrderEnumField(
     PLUG_CLS = LeftFootMiddle2ROrderEnumPlugOperator
 
 
-class LeftFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5615,7 +5615,7 @@ class LeftFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5644,7 +5644,7 @@ class LeftFootMiddle3ROrderEnumField(
     PLUG_CLS = LeftFootMiddle3ROrderEnumPlugOperator
 
 
-class LeftFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5655,7 +5655,7 @@ class LeftFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5684,7 +5684,7 @@ class LeftFootMiddle4ROrderEnumField(
     PLUG_CLS = LeftFootMiddle4ROrderEnumPlugOperator
 
 
-class LeftFootRing1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5695,7 +5695,7 @@ class LeftFootRing1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootRing1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5724,7 +5724,7 @@ class LeftFootRing1ROrderEnumField(
     PLUG_CLS = LeftFootRing1ROrderEnumPlugOperator
 
 
-class LeftFootRing2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5735,7 +5735,7 @@ class LeftFootRing2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootRing2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5764,7 +5764,7 @@ class LeftFootRing2ROrderEnumField(
     PLUG_CLS = LeftFootRing2ROrderEnumPlugOperator
 
 
-class LeftFootRing3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5775,7 +5775,7 @@ class LeftFootRing3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootRing3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5804,7 +5804,7 @@ class LeftFootRing3ROrderEnumField(
     PLUG_CLS = LeftFootRing3ROrderEnumPlugOperator
 
 
-class LeftFootRing4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5815,7 +5815,7 @@ class LeftFootRing4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootRing4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5844,7 +5844,7 @@ class LeftFootRing4ROrderEnumField(
     PLUG_CLS = LeftFootRing4ROrderEnumPlugOperator
 
 
-class LeftFootPinky1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5855,7 +5855,7 @@ class LeftFootPinky1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootPinky1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5884,7 +5884,7 @@ class LeftFootPinky1ROrderEnumField(
     PLUG_CLS = LeftFootPinky1ROrderEnumPlugOperator
 
 
-class LeftFootPinky2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5895,7 +5895,7 @@ class LeftFootPinky2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootPinky2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5924,7 +5924,7 @@ class LeftFootPinky2ROrderEnumField(
     PLUG_CLS = LeftFootPinky2ROrderEnumPlugOperator
 
 
-class LeftFootPinky3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5935,7 +5935,7 @@ class LeftFootPinky3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootPinky3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -5964,7 +5964,7 @@ class LeftFootPinky3ROrderEnumField(
     PLUG_CLS = LeftFootPinky3ROrderEnumPlugOperator
 
 
-class LeftFootPinky4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -5975,7 +5975,7 @@ class LeftFootPinky4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootPinky4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6004,7 +6004,7 @@ class LeftFootPinky4ROrderEnumField(
     PLUG_CLS = LeftFootPinky4ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6015,7 +6015,7 @@ class LeftFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6044,7 +6044,7 @@ class LeftFootExtraFinger1ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger1ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6055,7 +6055,7 @@ class LeftFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6084,7 +6084,7 @@ class LeftFootExtraFinger2ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger2ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6095,7 +6095,7 @@ class LeftFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6124,7 +6124,7 @@ class LeftFootExtraFinger3ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger3ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeftFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6135,7 +6135,7 @@ class LeftFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeftFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6164,7 +6164,7 @@ class LeftFootExtraFinger4ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger4ROrderEnumPlugOperator
 
 
-class RightFootThumb1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6175,7 +6175,7 @@ class RightFootThumb1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootThumb1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6204,7 +6204,7 @@ class RightFootThumb1ROrderEnumField(
     PLUG_CLS = RightFootThumb1ROrderEnumPlugOperator
 
 
-class RightFootThumb2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6215,7 +6215,7 @@ class RightFootThumb2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootThumb2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6244,7 +6244,7 @@ class RightFootThumb2ROrderEnumField(
     PLUG_CLS = RightFootThumb2ROrderEnumPlugOperator
 
 
-class RightFootThumb3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6255,7 +6255,7 @@ class RightFootThumb3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootThumb3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6284,7 +6284,7 @@ class RightFootThumb3ROrderEnumField(
     PLUG_CLS = RightFootThumb3ROrderEnumPlugOperator
 
 
-class RightFootThumb4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6295,7 +6295,7 @@ class RightFootThumb4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootThumb4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6324,7 +6324,7 @@ class RightFootThumb4ROrderEnumField(
     PLUG_CLS = RightFootThumb4ROrderEnumPlugOperator
 
 
-class RightFootIndex1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6335,7 +6335,7 @@ class RightFootIndex1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootIndex1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6364,7 +6364,7 @@ class RightFootIndex1ROrderEnumField(
     PLUG_CLS = RightFootIndex1ROrderEnumPlugOperator
 
 
-class RightFootIndex2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6375,7 +6375,7 @@ class RightFootIndex2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootIndex2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6404,7 +6404,7 @@ class RightFootIndex2ROrderEnumField(
     PLUG_CLS = RightFootIndex2ROrderEnumPlugOperator
 
 
-class RightFootIndex3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6415,7 +6415,7 @@ class RightFootIndex3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootIndex3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6444,7 +6444,7 @@ class RightFootIndex3ROrderEnumField(
     PLUG_CLS = RightFootIndex3ROrderEnumPlugOperator
 
 
-class RightFootIndex4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6455,7 +6455,7 @@ class RightFootIndex4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootIndex4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6484,7 +6484,7 @@ class RightFootIndex4ROrderEnumField(
     PLUG_CLS = RightFootIndex4ROrderEnumPlugOperator
 
 
-class RightFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6495,7 +6495,7 @@ class RightFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6524,7 +6524,7 @@ class RightFootMiddle1ROrderEnumField(
     PLUG_CLS = RightFootMiddle1ROrderEnumPlugOperator
 
 
-class RightFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6535,7 +6535,7 @@ class RightFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6564,7 +6564,7 @@ class RightFootMiddle2ROrderEnumField(
     PLUG_CLS = RightFootMiddle2ROrderEnumPlugOperator
 
 
-class RightFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6575,7 +6575,7 @@ class RightFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6604,7 +6604,7 @@ class RightFootMiddle3ROrderEnumField(
     PLUG_CLS = RightFootMiddle3ROrderEnumPlugOperator
 
 
-class RightFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6615,7 +6615,7 @@ class RightFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6644,7 +6644,7 @@ class RightFootMiddle4ROrderEnumField(
     PLUG_CLS = RightFootMiddle4ROrderEnumPlugOperator
 
 
-class RightFootRing1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing1ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6655,7 +6655,7 @@ class RightFootRing1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootRing1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing1ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6684,7 +6684,7 @@ class RightFootRing1ROrderEnumField(
     PLUG_CLS = RightFootRing1ROrderEnumPlugOperator
 
 
-class RightFootRing2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing2ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6695,7 +6695,7 @@ class RightFootRing2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootRing2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing2ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6724,7 +6724,7 @@ class RightFootRing2ROrderEnumField(
     PLUG_CLS = RightFootRing2ROrderEnumPlugOperator
 
 
-class RightFootRing3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing3ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6735,7 +6735,7 @@ class RightFootRing3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootRing3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing3ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6764,7 +6764,7 @@ class RightFootRing3ROrderEnumField(
     PLUG_CLS = RightFootRing3ROrderEnumPlugOperator
 
 
-class RightFootRing4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootRing4ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6775,7 +6775,7 @@ class RightFootRing4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootRing4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootRing4ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6804,7 +6804,7 @@ class RightFootRing4ROrderEnumField(
     PLUG_CLS = RightFootRing4ROrderEnumPlugOperator
 
 
-class RightFootPinky1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6815,7 +6815,7 @@ class RightFootPinky1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootPinky1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6844,7 +6844,7 @@ class RightFootPinky1ROrderEnumField(
     PLUG_CLS = RightFootPinky1ROrderEnumPlugOperator
 
 
-class RightFootPinky2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6855,7 +6855,7 @@ class RightFootPinky2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootPinky2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6884,7 +6884,7 @@ class RightFootPinky2ROrderEnumField(
     PLUG_CLS = RightFootPinky2ROrderEnumPlugOperator
 
 
-class RightFootPinky3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6895,7 +6895,7 @@ class RightFootPinky3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootPinky3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6924,7 +6924,7 @@ class RightFootPinky3ROrderEnumField(
     PLUG_CLS = RightFootPinky3ROrderEnumPlugOperator
 
 
-class RightFootPinky4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6935,7 +6935,7 @@ class RightFootPinky4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootPinky4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -6964,7 +6964,7 @@ class RightFootPinky4ROrderEnumField(
     PLUG_CLS = RightFootPinky4ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -6975,7 +6975,7 @@ class RightFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7004,7 +7004,7 @@ class RightFootExtraFinger1ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger1ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7015,7 +7015,7 @@ class RightFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7044,7 +7044,7 @@ class RightFootExtraFinger2ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger2ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7055,7 +7055,7 @@ class RightFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7084,7 +7084,7 @@ class RightFootExtraFinger3ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger3ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
+class RightFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7095,7 +7095,7 @@ class RightFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator):
+class RightFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7124,7 +7124,7 @@ class RightFootExtraFinger4ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger4ROrderEnumPlugOperator
 
 
-class LeftInHandThumbROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInHandThumbROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7135,7 +7135,7 @@ class LeftInHandThumbROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandThumbROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInHandThumbROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7164,7 +7164,7 @@ class LeftInHandThumbROrderEnumField(
     PLUG_CLS = LeftInHandThumbROrderEnumPlugOperator
 
 
-class LeftInHandIndexROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInHandIndexROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7175,7 +7175,7 @@ class LeftInHandIndexROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandIndexROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInHandIndexROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7204,7 +7204,7 @@ class LeftInHandIndexROrderEnumField(
     PLUG_CLS = LeftInHandIndexROrderEnumPlugOperator
 
 
-class LeftInHandMiddleROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInHandMiddleROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7215,7 +7215,7 @@ class LeftInHandMiddleROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandMiddleROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInHandMiddleROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7244,7 +7244,7 @@ class LeftInHandMiddleROrderEnumField(
     PLUG_CLS = LeftInHandMiddleROrderEnumPlugOperator
 
 
-class LeftInHandRingROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandRingROrderEnumPlugOperator(EnumPlugOperator["LeftInHandRingROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7255,7 +7255,7 @@ class LeftInHandRingROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandRingROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandRingROrderEnumAttrOperator(EnumAttrOperator[LeftInHandRingROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7284,7 +7284,7 @@ class LeftInHandRingROrderEnumField(
     PLUG_CLS = LeftInHandRingROrderEnumPlugOperator
 
 
-class LeftInHandPinkyROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInHandPinkyROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7295,7 +7295,7 @@ class LeftInHandPinkyROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandPinkyROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInHandPinkyROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7324,7 +7324,7 @@ class LeftInHandPinkyROrderEnumField(
     PLUG_CLS = LeftInHandPinkyROrderEnumPlugOperator
 
 
-class LeftInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInHandExtraFingerROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7335,7 +7335,7 @@ class LeftInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInHandExtraFingerROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7364,7 +7364,7 @@ class LeftInHandExtraFingerROrderEnumField(
     PLUG_CLS = LeftInHandExtraFingerROrderEnumPlugOperator
 
 
-class RightInHandThumbROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandThumbROrderEnumPlugOperator(EnumPlugOperator["RightInHandThumbROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7375,7 +7375,7 @@ class RightInHandThumbROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandThumbROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandThumbROrderEnumAttrOperator(EnumAttrOperator[RightInHandThumbROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7404,7 +7404,7 @@ class RightInHandThumbROrderEnumField(
     PLUG_CLS = RightInHandThumbROrderEnumPlugOperator
 
 
-class RightInHandIndexROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandIndexROrderEnumPlugOperator(EnumPlugOperator["RightInHandIndexROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7415,7 +7415,7 @@ class RightInHandIndexROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandIndexROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandIndexROrderEnumAttrOperator(EnumAttrOperator[RightInHandIndexROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7444,7 +7444,7 @@ class RightInHandIndexROrderEnumField(
     PLUG_CLS = RightInHandIndexROrderEnumPlugOperator
 
 
-class RightInHandMiddleROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInHandMiddleROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7455,7 +7455,7 @@ class RightInHandMiddleROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandMiddleROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInHandMiddleROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7484,7 +7484,7 @@ class RightInHandMiddleROrderEnumField(
     PLUG_CLS = RightInHandMiddleROrderEnumPlugOperator
 
 
-class RightInHandRingROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandRingROrderEnumPlugOperator(EnumPlugOperator["RightInHandRingROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7495,7 +7495,7 @@ class RightInHandRingROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandRingROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandRingROrderEnumAttrOperator(EnumAttrOperator[RightInHandRingROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7524,7 +7524,7 @@ class RightInHandRingROrderEnumField(
     PLUG_CLS = RightInHandRingROrderEnumPlugOperator
 
 
-class RightInHandPinkyROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInHandPinkyROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7535,7 +7535,7 @@ class RightInHandPinkyROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandPinkyROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInHandPinkyROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7564,7 +7564,7 @@ class RightInHandPinkyROrderEnumField(
     PLUG_CLS = RightInHandPinkyROrderEnumPlugOperator
 
 
-class RightInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
+class RightInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInHandExtraFingerROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7575,7 +7575,7 @@ class RightInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator):
+class RightInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInHandExtraFingerROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7604,7 +7604,7 @@ class RightInHandExtraFingerROrderEnumField(
     PLUG_CLS = RightInHandExtraFingerROrderEnumPlugOperator
 
 
-class LeftInFootThumbROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInFootThumbROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7615,7 +7615,7 @@ class LeftInFootThumbROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootThumbROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInFootThumbROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7644,7 +7644,7 @@ class LeftInFootThumbROrderEnumField(
     PLUG_CLS = LeftInFootThumbROrderEnumPlugOperator
 
 
-class LeftInFootIndexROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInFootIndexROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7655,7 +7655,7 @@ class LeftInFootIndexROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootIndexROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInFootIndexROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7684,7 +7684,7 @@ class LeftInFootIndexROrderEnumField(
     PLUG_CLS = LeftInFootIndexROrderEnumPlugOperator
 
 
-class LeftInFootMiddleROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInFootMiddleROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7695,7 +7695,7 @@ class LeftInFootMiddleROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootMiddleROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInFootMiddleROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7724,7 +7724,7 @@ class LeftInFootMiddleROrderEnumField(
     PLUG_CLS = LeftInFootMiddleROrderEnumPlugOperator
 
 
-class LeftInFootRingROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootRingROrderEnumPlugOperator(EnumPlugOperator["LeftInFootRingROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7735,7 +7735,7 @@ class LeftInFootRingROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootRingROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootRingROrderEnumAttrOperator(EnumAttrOperator[LeftInFootRingROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7764,7 +7764,7 @@ class LeftInFootRingROrderEnumField(
     PLUG_CLS = LeftInFootRingROrderEnumPlugOperator
 
 
-class LeftInFootPinkyROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInFootPinkyROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7775,7 +7775,7 @@ class LeftInFootPinkyROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootPinkyROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInFootPinkyROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7804,7 +7804,7 @@ class LeftInFootPinkyROrderEnumField(
     PLUG_CLS = LeftInFootPinkyROrderEnumPlugOperator
 
 
-class LeftInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
+class LeftInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInFootExtraFingerROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7815,7 +7815,7 @@ class LeftInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator):
+class LeftInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInFootExtraFingerROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7844,7 +7844,7 @@ class LeftInFootExtraFingerROrderEnumField(
     PLUG_CLS = LeftInFootExtraFingerROrderEnumPlugOperator
 
 
-class RightInFootThumbROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootThumbROrderEnumPlugOperator(EnumPlugOperator["RightInFootThumbROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7855,7 +7855,7 @@ class RightInFootThumbROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootThumbROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootThumbROrderEnumAttrOperator(EnumAttrOperator[RightInFootThumbROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7884,7 +7884,7 @@ class RightInFootThumbROrderEnumField(
     PLUG_CLS = RightInFootThumbROrderEnumPlugOperator
 
 
-class RightInFootIndexROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootIndexROrderEnumPlugOperator(EnumPlugOperator["RightInFootIndexROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7895,7 +7895,7 @@ class RightInFootIndexROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootIndexROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootIndexROrderEnumAttrOperator(EnumAttrOperator[RightInFootIndexROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7924,7 +7924,7 @@ class RightInFootIndexROrderEnumField(
     PLUG_CLS = RightInFootIndexROrderEnumPlugOperator
 
 
-class RightInFootMiddleROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInFootMiddleROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7935,7 +7935,7 @@ class RightInFootMiddleROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootMiddleROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInFootMiddleROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -7964,7 +7964,7 @@ class RightInFootMiddleROrderEnumField(
     PLUG_CLS = RightInFootMiddleROrderEnumPlugOperator
 
 
-class RightInFootRingROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootRingROrderEnumPlugOperator(EnumPlugOperator["RightInFootRingROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -7975,7 +7975,7 @@ class RightInFootRingROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootRingROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootRingROrderEnumAttrOperator(EnumAttrOperator[RightInFootRingROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8004,7 +8004,7 @@ class RightInFootRingROrderEnumField(
     PLUG_CLS = RightInFootRingROrderEnumPlugOperator
 
 
-class RightInFootPinkyROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInFootPinkyROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8015,7 +8015,7 @@ class RightInFootPinkyROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootPinkyROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInFootPinkyROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8044,7 +8044,7 @@ class RightInFootPinkyROrderEnumField(
     PLUG_CLS = RightInFootPinkyROrderEnumPlugOperator
 
 
-class RightInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
+class RightInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInFootExtraFingerROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8055,7 +8055,7 @@ class RightInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator):
+class RightInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInFootExtraFingerROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8084,7 +8084,7 @@ class RightInFootExtraFingerROrderEnumField(
     PLUG_CLS = RightInFootExtraFingerROrderEnumPlugOperator
 
 
-class LeftShoulderExtraROrderEnumPlugOperator(EnumPlugOperator):
+class LeftShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderExtraROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8095,7 +8095,7 @@ class LeftShoulderExtraROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeftShoulderExtraROrderEnumAttrOperator(EnumAttrOperator):
+class LeftShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderExtraROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8124,7 +8124,7 @@ class LeftShoulderExtraROrderEnumField(
     PLUG_CLS = LeftShoulderExtraROrderEnumPlugOperator
 
 
-class RightShoulderExtraROrderEnumPlugOperator(EnumPlugOperator):
+class RightShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["RightShoulderExtraROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8135,7 +8135,7 @@ class RightShoulderExtraROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RightShoulderExtraROrderEnumAttrOperator(EnumAttrOperator):
+class RightShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[RightShoulderExtraROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8164,7 +8164,7 @@ class RightShoulderExtraROrderEnumField(
     PLUG_CLS = RightShoulderExtraROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8175,7 +8175,7 @@ class LeafLeftUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8204,7 +8204,7 @@ class LeafLeftUpLegRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8215,7 +8215,7 @@ class LeafLeftLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftLegRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8244,7 +8244,7 @@ class LeafLeftLegRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll1ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8255,7 +8255,7 @@ class LeafRightUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8284,7 +8284,7 @@ class LeafRightUpLegRoll1ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll1ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8295,7 +8295,7 @@ class LeafRightLegRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightLegRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8324,7 +8324,7 @@ class LeafRightLegRoll1ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8335,7 +8335,7 @@ class LeafLeftArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftArmRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8364,7 +8364,7 @@ class LeafLeftArmRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8375,7 +8375,7 @@ class LeafLeftForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8404,7 +8404,7 @@ class LeafLeftForeArmRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll1ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8415,7 +8415,7 @@ class LeafRightArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightArmRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8444,7 +8444,7 @@ class LeafRightArmRoll1ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll1ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll1ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8455,7 +8455,7 @@ class LeafRightForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll1ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8484,7 +8484,7 @@ class LeafRightForeArmRoll1ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8495,7 +8495,7 @@ class LeafLeftUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8524,7 +8524,7 @@ class LeafLeftUpLegRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8535,7 +8535,7 @@ class LeafLeftLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftLegRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8564,7 +8564,7 @@ class LeafLeftLegRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll2ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8575,7 +8575,7 @@ class LeafRightUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8604,7 +8604,7 @@ class LeafRightUpLegRoll2ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll2ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8615,7 +8615,7 @@ class LeafRightLegRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightLegRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8644,7 +8644,7 @@ class LeafRightLegRoll2ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8655,7 +8655,7 @@ class LeafLeftArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftArmRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8684,7 +8684,7 @@ class LeafLeftArmRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8695,7 +8695,7 @@ class LeafLeftForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8724,7 +8724,7 @@ class LeafLeftForeArmRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll2ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8735,7 +8735,7 @@ class LeafRightArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightArmRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8764,7 +8764,7 @@ class LeafRightArmRoll2ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll2ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll2ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8775,7 +8775,7 @@ class LeafRightForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll2ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8804,7 +8804,7 @@ class LeafRightForeArmRoll2ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8815,7 +8815,7 @@ class LeafLeftUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8844,7 +8844,7 @@ class LeafLeftUpLegRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8855,7 +8855,7 @@ class LeafLeftLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftLegRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8884,7 +8884,7 @@ class LeafLeftLegRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll3ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8895,7 +8895,7 @@ class LeafRightUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8924,7 +8924,7 @@ class LeafRightUpLegRoll3ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll3ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8935,7 +8935,7 @@ class LeafRightLegRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightLegRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -8964,7 +8964,7 @@ class LeafRightLegRoll3ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -8975,7 +8975,7 @@ class LeafLeftArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftArmRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9004,7 +9004,7 @@ class LeafLeftArmRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9015,7 +9015,7 @@ class LeafLeftForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9044,7 +9044,7 @@ class LeafLeftForeArmRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll3ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9055,7 +9055,7 @@ class LeafRightArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightArmRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9084,7 +9084,7 @@ class LeafRightArmRoll3ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll3ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll3ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9095,7 +9095,7 @@ class LeafRightForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll3ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9124,7 +9124,7 @@ class LeafRightForeArmRoll3ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9135,7 +9135,7 @@ class LeafLeftUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9164,7 +9164,7 @@ class LeafLeftUpLegRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9175,7 +9175,7 @@ class LeafLeftLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftLegRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9204,7 +9204,7 @@ class LeafLeftLegRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll4ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9215,7 +9215,7 @@ class LeafRightUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9244,7 +9244,7 @@ class LeafRightUpLegRoll4ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll4ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9255,7 +9255,7 @@ class LeafRightLegRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightLegRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9284,7 +9284,7 @@ class LeafRightLegRoll4ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9295,7 +9295,7 @@ class LeafLeftArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftArmRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9324,7 +9324,7 @@ class LeafLeftArmRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9335,7 +9335,7 @@ class LeafLeftForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9364,7 +9364,7 @@ class LeafLeftForeArmRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll4ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9375,7 +9375,7 @@ class LeafRightArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightArmRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9404,7 +9404,7 @@ class LeafRightArmRoll4ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll4ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll4ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9415,7 +9415,7 @@ class LeafRightForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll4ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9444,7 +9444,7 @@ class LeafRightForeArmRoll4ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9455,7 +9455,7 @@ class LeafLeftUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9484,7 +9484,7 @@ class LeafLeftUpLegRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9495,7 +9495,7 @@ class LeafLeftLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftLegRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9524,7 +9524,7 @@ class LeafLeftLegRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll5ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9535,7 +9535,7 @@ class LeafRightUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9564,7 +9564,7 @@ class LeafRightUpLegRoll5ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll5ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9575,7 +9575,7 @@ class LeafRightLegRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightLegRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9604,7 +9604,7 @@ class LeafRightLegRoll5ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9615,7 +9615,7 @@ class LeafLeftArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftArmRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9644,7 +9644,7 @@ class LeafLeftArmRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafLeftForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9655,7 +9655,7 @@ class LeafLeftForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafLeftForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafLeftForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9684,7 +9684,7 @@ class LeafLeftForeArmRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll5ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9695,7 +9695,7 @@ class LeafRightArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightArmRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -9724,7 +9724,7 @@ class LeafRightArmRoll5ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll5ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
+class LeafRightForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll5ROrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -9735,7 +9735,7 @@ class LeafRightForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class LeafRightForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator):
+class LeafRightForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll5ROrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

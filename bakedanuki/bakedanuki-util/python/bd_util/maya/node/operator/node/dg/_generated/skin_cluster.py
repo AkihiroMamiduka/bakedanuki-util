@@ -25,7 +25,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class SkinningMethodEnumPlugOperator(EnumPlugOperator):
+class SkinningMethodEnumPlugOperator(EnumPlugOperator["SkinningMethodEnumAttrOperator"]):
     __slots__ = ()
 
     CLASSIC_LINEAR = 0
@@ -33,7 +33,7 @@ class SkinningMethodEnumPlugOperator(EnumPlugOperator):
     WEIGHT_BLENDED = 2
 
 
-class SkinningMethodEnumAttrOperator(EnumAttrOperator):
+class SkinningMethodEnumAttrOperator(EnumAttrOperator[SkinningMethodEnumPlugOperator]):
     __slots__ = ()
 
     CLASSIC_LINEAR = 0
@@ -56,7 +56,7 @@ class SkinningMethodEnumField(
     PLUG_CLS = SkinningMethodEnumPlugOperator
 
 
-class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
+class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator["RelativeSpaceModeEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -64,7 +64,7 @@ class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 2
 
 
-class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator):
+class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator[RelativeSpaceModeEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -87,7 +87,7 @@ class RelativeSpaceModeEnumField(
     PLUG_CLS = RelativeSpaceModeEnumPlugOperator
 
 
-class BindMethodEnumPlugOperator(EnumPlugOperator):
+class BindMethodEnumPlugOperator(EnumPlugOperator["BindMethodEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST_DISTANCE = 0
@@ -96,7 +96,7 @@ class BindMethodEnumPlugOperator(EnumPlugOperator):
     GEODESIC_VOXEL = 3
 
 
-class BindMethodEnumAttrOperator(EnumAttrOperator):
+class BindMethodEnumAttrOperator(EnumAttrOperator[BindMethodEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST_DISTANCE = 0
@@ -121,7 +121,7 @@ class BindMethodEnumField(
     PLUG_CLS = BindMethodEnumPlugOperator
 
 
-class NormalizeWeightsEnumPlugOperator(EnumPlugOperator):
+class NormalizeWeightsEnumPlugOperator(EnumPlugOperator["NormalizeWeightsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -129,7 +129,7 @@ class NormalizeWeightsEnumPlugOperator(EnumPlugOperator):
     POST = 2
 
 
-class NormalizeWeightsEnumAttrOperator(EnumAttrOperator):
+class NormalizeWeightsEnumAttrOperator(EnumAttrOperator[NormalizeWeightsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -152,14 +152,14 @@ class NormalizeWeightsEnumField(
     PLUG_CLS = NormalizeWeightsEnumPlugOperator
 
 
-class WeightDistributionEnumPlugOperator(EnumPlugOperator):
+class WeightDistributionEnumPlugOperator(EnumPlugOperator["WeightDistributionEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE = 0
     NEIGHBORS = 1
 
 
-class WeightDistributionEnumAttrOperator(EnumAttrOperator):
+class WeightDistributionEnumAttrOperator(EnumAttrOperator[WeightDistributionEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE = 0

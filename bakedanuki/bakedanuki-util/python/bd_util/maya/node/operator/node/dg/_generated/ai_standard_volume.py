@@ -17,7 +17,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class EmissionModeEnumPlugOperator(EnumPlugOperator):
+class EmissionModeEnumPlugOperator(EnumPlugOperator["EmissionModeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -26,7 +26,7 @@ class EmissionModeEnumPlugOperator(EnumPlugOperator):
     BLACKBODY = 3
 
 
-class EmissionModeEnumAttrOperator(EnumAttrOperator):
+class EmissionModeEnumAttrOperator(EnumAttrOperator[EmissionModeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -51,7 +51,7 @@ class EmissionModeEnumField(
     PLUG_CLS = EmissionModeEnumPlugOperator
 
 
-class EmissionScalingEnumPlugOperator(EnumPlugOperator):
+class EmissionScalingEnumPlugOperator(EnumPlugOperator["EmissionScalingEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -59,7 +59,7 @@ class EmissionScalingEnumPlugOperator(EnumPlugOperator):
     THERMODYNAMIC = 2
 
 
-class EmissionScalingEnumAttrOperator(EnumAttrOperator):
+class EmissionScalingEnumAttrOperator(EnumAttrOperator[EmissionScalingEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +82,7 @@ class EmissionScalingEnumField(
     PLUG_CLS = EmissionScalingEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -90,7 +90,7 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(EnumAttrOperator[InterpolationEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0

@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -19,7 +19,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -42,7 +42,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -50,7 +50,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0

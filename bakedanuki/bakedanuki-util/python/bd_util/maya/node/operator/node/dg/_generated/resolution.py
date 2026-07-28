@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class FieldsEnumPlugOperator(EnumPlugOperator):
+class FieldsEnumPlugOperator(EnumPlugOperator["FieldsEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -20,7 +20,7 @@ class FieldsEnumPlugOperator(EnumPlugOperator):
     BOTH_SEPARATE = 4
 
 
-class FieldsEnumAttrOperator(EnumAttrOperator):
+class FieldsEnumAttrOperator(EnumAttrOperator[FieldsEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -47,14 +47,14 @@ class FieldsEnumField(
     PLUG_CLS = FieldsEnumPlugOperator
 
 
-class ZerothScanlineEnumPlugOperator(EnumPlugOperator):
+class ZerothScanlineEnumPlugOperator(EnumPlugOperator["ZerothScanlineEnumAttrOperator"]):
     __slots__ = ()
 
     AT_TOP = 0
     AT_BOTTOM = 1
 
 
-class ZerothScanlineEnumAttrOperator(EnumAttrOperator):
+class ZerothScanlineEnumAttrOperator(EnumAttrOperator[ZerothScanlineEnumPlugOperator]):
     __slots__ = ()
 
     AT_TOP = 0
@@ -75,7 +75,7 @@ class ZerothScanlineEnumField(
     PLUG_CLS = ZerothScanlineEnumPlugOperator
 
 
-class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator):
+class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator["ImageSizeUnitsEnumAttrOperator"]):
     __slots__ = ()
 
     PIXELS = 0
@@ -86,7 +86,7 @@ class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator):
     PICAS = 5
 
 
-class ImageSizeUnitsEnumAttrOperator(EnumAttrOperator):
+class ImageSizeUnitsEnumAttrOperator(EnumAttrOperator[ImageSizeUnitsEnumPlugOperator]):
     __slots__ = ()
 
     PIXELS = 0
@@ -115,14 +115,14 @@ class ImageSizeUnitsEnumField(
     PLUG_CLS = ImageSizeUnitsEnumPlugOperator
 
 
-class PixelDensityUnitsEnumPlugOperator(EnumPlugOperator):
+class PixelDensityUnitsEnumPlugOperator(EnumPlugOperator["PixelDensityUnitsEnumAttrOperator"]):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0
     PIXELS_SLASH_CM = 1
 
 
-class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator):
+class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator[PixelDensityUnitsEnumPlugOperator]):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0

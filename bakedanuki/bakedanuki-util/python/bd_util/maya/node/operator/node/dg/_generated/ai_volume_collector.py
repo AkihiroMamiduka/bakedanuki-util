@@ -20,14 +20,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ScatteringSourceEnumPlugOperator(EnumPlugOperator):
+class ScatteringSourceEnumPlugOperator(EnumPlugOperator["ScatteringSourceEnumAttrOperator"]):
     __slots__ = ()
 
     PARAMETER = 0
     CHANNEL = 1
 
 
-class ScatteringSourceEnumAttrOperator(EnumAttrOperator):
+class ScatteringSourceEnumAttrOperator(EnumAttrOperator[ScatteringSourceEnumPlugOperator]):
     __slots__ = ()
 
     PARAMETER = 0
@@ -48,7 +48,7 @@ class ScatteringSourceEnumField(
     PLUG_CLS = ScatteringSourceEnumPlugOperator
 
 
-class AttenuationSourceEnumPlugOperator(EnumPlugOperator):
+class AttenuationSourceEnumPlugOperator(EnumPlugOperator["AttenuationSourceEnumAttrOperator"]):
     __slots__ = ()
 
     PARAMETER = 0
@@ -56,7 +56,7 @@ class AttenuationSourceEnumPlugOperator(EnumPlugOperator):
     SCATTERING = 2
 
 
-class AttenuationSourceEnumAttrOperator(EnumAttrOperator):
+class AttenuationSourceEnumAttrOperator(EnumAttrOperator[AttenuationSourceEnumPlugOperator]):
     __slots__ = ()
 
     PARAMETER = 0
@@ -79,14 +79,14 @@ class AttenuationSourceEnumField(
     PLUG_CLS = AttenuationSourceEnumPlugOperator
 
 
-class AttenuationModeEnumPlugOperator(EnumPlugOperator):
+class AttenuationModeEnumPlugOperator(EnumPlugOperator["AttenuationModeEnumAttrOperator"]):
     __slots__ = ()
 
     ABSORPTION = 0
     EXTINCTION = 1
 
 
-class AttenuationModeEnumAttrOperator(EnumAttrOperator):
+class AttenuationModeEnumAttrOperator(EnumAttrOperator[AttenuationModeEnumPlugOperator]):
     __slots__ = ()
 
     ABSORPTION = 0
@@ -107,14 +107,14 @@ class AttenuationModeEnumField(
     PLUG_CLS = AttenuationModeEnumPlugOperator
 
 
-class EmissionSourceEnumPlugOperator(EnumPlugOperator):
+class EmissionSourceEnumPlugOperator(EnumPlugOperator["EmissionSourceEnumAttrOperator"]):
     __slots__ = ()
 
     PARAMETER = 0
     CHANNEL = 1
 
 
-class EmissionSourceEnumAttrOperator(EnumAttrOperator):
+class EmissionSourceEnumAttrOperator(EnumAttrOperator[EmissionSourceEnumPlugOperator]):
     __slots__ = ()
 
     PARAMETER = 0
@@ -135,7 +135,7 @@ class EmissionSourceEnumField(
     PLUG_CLS = EmissionSourceEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -143,7 +143,7 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(EnumAttrOperator[InterpolationEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0

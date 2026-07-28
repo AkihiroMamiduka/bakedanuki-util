@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     A = 0
@@ -48,7 +48,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     XOR = 28
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     A = 0
@@ -123,7 +123,7 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class AlphaOperationEnumPlugOperator(EnumPlugOperator):
+class AlphaOperationEnumPlugOperator(EnumPlugOperator["AlphaOperationEnumAttrOperator"]):
     __slots__ = ()
 
     SAME = 0
@@ -131,7 +131,7 @@ class AlphaOperationEnumPlugOperator(EnumPlugOperator):
     B = 2
 
 
-class AlphaOperationEnumAttrOperator(EnumAttrOperator):
+class AlphaOperationEnumAttrOperator(EnumAttrOperator[AlphaOperationEnumPlugOperator]):
     __slots__ = ()
 
     SAME = 0

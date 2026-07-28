@@ -30,7 +30,7 @@ from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class DrawStyleEnumPlugOperator(EnumPlugOperator):
+class DrawStyleEnumPlugOperator(EnumPlugOperator["DrawStyleEnumAttrOperator"]):
     __slots__ = ()
 
     BONE = 0
@@ -39,7 +39,7 @@ class DrawStyleEnumPlugOperator(EnumPlugOperator):
     JOINT = 3
 
 
-class DrawStyleEnumAttrOperator(EnumAttrOperator):
+class DrawStyleEnumAttrOperator(EnumAttrOperator[DrawStyleEnumPlugOperator]):
     __slots__ = ()
 
     BONE = 0
@@ -64,7 +64,7 @@ class DrawStyleEnumField(
     PLUG_CLS = DrawStyleEnumPlugOperator
 
 
-class SideEnumPlugOperator(EnumPlugOperator):
+class SideEnumPlugOperator(EnumPlugOperator["SideEnumAttrOperator"]):
     __slots__ = ()
 
     CENTER = 0
@@ -73,7 +73,7 @@ class SideEnumPlugOperator(EnumPlugOperator):
     NONE = 3
 
 
-class SideEnumAttrOperator(EnumAttrOperator):
+class SideEnumAttrOperator(EnumAttrOperator[SideEnumPlugOperator]):
     __slots__ = ()
 
     CENTER = 0
@@ -98,7 +98,7 @@ class SideEnumField(
     PLUG_CLS = SideEnumPlugOperator
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -133,7 +133,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     FOOT_THUMB = 29
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

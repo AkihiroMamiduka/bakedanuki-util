@@ -31,7 +31,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
 
 
-class Environment_InterpEnumPlugOperator(EnumPlugOperator):
+class Environment_InterpEnumPlugOperator(EnumPlugOperator["Environment_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -40,7 +40,7 @@ class Environment_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class Environment_InterpEnumAttrOperator(EnumAttrOperator):
+class Environment_InterpEnumAttrOperator(EnumAttrOperator[Environment_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -65,7 +65,7 @@ class Environment_InterpEnumField(
     PLUG_CLS = Environment_InterpEnumPlugOperator
 
 
-class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator):
+class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator["WaveHeight_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -74,7 +74,7 @@ class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator):
+class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator[WaveHeight_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -99,7 +99,7 @@ class WaveHeight_InterpEnumField(
     PLUG_CLS = WaveHeight_InterpEnumPlugOperator
 
 
-class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator):
+class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator["WaveTurbulence_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -108,7 +108,7 @@ class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator):
+class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator[WaveTurbulence_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -133,7 +133,7 @@ class WaveTurbulence_InterpEnumField(
     PLUG_CLS = WaveTurbulence_InterpEnumPlugOperator
 
 
-class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator):
+class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator["WavePeaking_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -142,7 +142,7 @@ class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator):
+class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator[WavePeaking_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

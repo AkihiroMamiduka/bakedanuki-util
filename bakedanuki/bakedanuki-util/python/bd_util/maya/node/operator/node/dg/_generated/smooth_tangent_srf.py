@@ -9,14 +9,14 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DirectionEnumPlugOperator(EnumPlugOperator):
+class DirectionEnumPlugOperator(EnumPlugOperator["DirectionEnumAttrOperator"]):
     __slots__ = ()
 
     V = 0
     U = 1
 
 
-class DirectionEnumAttrOperator(EnumAttrOperator):
+class DirectionEnumAttrOperator(EnumAttrOperator[DirectionEnumPlugOperator]):
     __slots__ = ()
 
     V = 0
@@ -37,14 +37,14 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class SmoothnessEnumPlugOperator(EnumPlugOperator):
+class SmoothnessEnumPlugOperator(EnumPlugOperator["SmoothnessEnumAttrOperator"]):
     __slots__ = ()
 
     TANGENT = 0
     MAXIMUM = 1
 
 
-class SmoothnessEnumAttrOperator(EnumAttrOperator):
+class SmoothnessEnumAttrOperator(EnumAttrOperator[SmoothnessEnumPlugOperator]):
     __slots__ = ()
 
     TANGENT = 0

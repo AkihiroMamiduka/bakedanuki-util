@@ -18,7 +18,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SelfCollisionFlagEnumPlugOperator(EnumPlugOperator):
+class SelfCollisionFlagEnumPlugOperator(EnumPlugOperator["SelfCollisionFlagEnumAttrOperator"]):
     __slots__ = ()
 
     VERTEX = 1
@@ -27,7 +27,7 @@ class SelfCollisionFlagEnumPlugOperator(EnumPlugOperator):
     FULL_SURFACE = 4
 
 
-class SelfCollisionFlagEnumAttrOperator(EnumAttrOperator):
+class SelfCollisionFlagEnumAttrOperator(EnumAttrOperator[SelfCollisionFlagEnumPlugOperator]):
     __slots__ = ()
 
     VERTEX = 1
@@ -52,14 +52,14 @@ class SelfCollisionFlagEnumField(
     PLUG_CLS = SelfCollisionFlagEnumPlugOperator
 
 
-class PressureMethodEnumPlugOperator(EnumPlugOperator):
+class PressureMethodEnumPlugOperator(EnumPlugOperator["PressureMethodEnumAttrOperator"]):
     __slots__ = ()
 
     MANUAL_PRESSURE_SETTING = 0
     VOLUME_TRACKING_MODEL = 1
 
 
-class PressureMethodEnumAttrOperator(EnumAttrOperator):
+class PressureMethodEnumAttrOperator(EnumAttrOperator[PressureMethodEnumPlugOperator]):
     __slots__ = ()
 
     MANUAL_PRESSURE_SETTING = 0

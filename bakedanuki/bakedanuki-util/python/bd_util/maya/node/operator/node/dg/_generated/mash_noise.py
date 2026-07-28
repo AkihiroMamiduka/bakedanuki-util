@@ -19,7 +19,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator):
+class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +28,7 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator):
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator):
+class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +53,14 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator):
+class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator):
+class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 1
@@ -81,7 +81,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class NoiseTypeEnumPlugOperator(EnumPlugOperator):
+class NoiseTypeEnumPlugOperator(EnumPlugOperator["NoiseTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NOISE = 1
@@ -90,7 +90,7 @@ class NoiseTypeEnumPlugOperator(EnumPlugOperator):
     NOISE_LOOPING = 5
 
 
-class NoiseTypeEnumAttrOperator(EnumAttrOperator):
+class NoiseTypeEnumAttrOperator(EnumAttrOperator[NoiseTypeEnumPlugOperator]):
     __slots__ = ()
 
     NOISE = 1

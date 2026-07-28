@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class DegreeEnumPlugOperator(EnumPlugOperator):
+class DegreeEnumPlugOperator(EnumPlugOperator["DegreeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 1
@@ -25,7 +25,7 @@ class DegreeEnumPlugOperator(EnumPlugOperator):
     HEPTIC = 7
 
 
-class DegreeEnumAttrOperator(EnumAttrOperator):
+class DegreeEnumAttrOperator(EnumAttrOperator[DegreeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 1

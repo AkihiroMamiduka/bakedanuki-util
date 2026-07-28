@@ -20,7 +20,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -28,7 +28,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     PREF = 2
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

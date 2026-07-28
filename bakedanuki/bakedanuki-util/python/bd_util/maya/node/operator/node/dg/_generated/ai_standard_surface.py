@@ -37,7 +37,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class SubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
+class SubsurfaceTypeEnumPlugOperator(EnumPlugOperator["SubsurfaceTypeEnumAttrOperator"]):
     __slots__ = ()
 
     DIFFUSION = 0
@@ -45,7 +45,7 @@ class SubsurfaceTypeEnumPlugOperator(EnumPlugOperator):
     RANDOMWALK_V2 = 2
 
 
-class SubsurfaceTypeEnumAttrOperator(EnumAttrOperator):
+class SubsurfaceTypeEnumAttrOperator(EnumAttrOperator[SubsurfaceTypeEnumPlugOperator]):
     __slots__ = ()
 
     DIFFUSION = 0

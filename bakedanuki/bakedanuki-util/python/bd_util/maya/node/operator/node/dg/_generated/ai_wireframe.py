@@ -17,7 +17,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class EdgeTypeEnumPlugOperator(EnumPlugOperator):
+class EdgeTypeEnumPlugOperator(EnumPlugOperator["EdgeTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -25,7 +25,7 @@ class EdgeTypeEnumPlugOperator(EnumPlugOperator):
     PATCHES = 2
 
 
-class EdgeTypeEnumAttrOperator(EnumAttrOperator):
+class EdgeTypeEnumAttrOperator(EnumAttrOperator[EdgeTypeEnumPlugOperator]):
     __slots__ = ()
 
     TRIANGLES = 0

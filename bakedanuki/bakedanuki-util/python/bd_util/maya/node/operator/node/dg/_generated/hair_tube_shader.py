@@ -36,7 +36,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class VrFillObjectEnumPlugOperator(EnumPlugOperator):
+class VrFillObjectEnumPlugOperator(EnumPlugOperator["VrFillObjectEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT_FILL = 0
@@ -50,7 +50,7 @@ class VrFillObjectEnumPlugOperator(EnumPlugOperator):
     NO_FILL = 8
 
 
-class VrFillObjectEnumAttrOperator(EnumAttrOperator):
+class VrFillObjectEnumAttrOperator(EnumAttrOperator[VrFillObjectEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT_FILL = 0
@@ -85,7 +85,7 @@ class VrFillObjectEnumField(
     PLUG_CLS = VrFillObjectEnumPlugOperator
 
 
-class VrEdgeStyleEnumPlugOperator(EnumPlugOperator):
+class VrEdgeStyleEnumPlugOperator(EnumPlugOperator["VrEdgeStyleEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -94,7 +94,7 @@ class VrEdgeStyleEnumPlugOperator(EnumPlugOperator):
     NO_EDGES = 3
 
 
-class VrEdgeStyleEnumAttrOperator(EnumAttrOperator):
+class VrEdgeStyleEnumAttrOperator(EnumAttrOperator[VrEdgeStyleEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -119,7 +119,7 @@ class VrEdgeStyleEnumField(
     PLUG_CLS = VrEdgeStyleEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
+class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -127,7 +127,7 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator):
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator):
+class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -150,14 +150,14 @@ class MatteOpacityModeEnumField(
     PLUG_CLS = MatteOpacityModeEnumPlugOperator
 
 
-class TubeDirectionEnumPlugOperator(EnumPlugOperator):
+class TubeDirectionEnumPlugOperator(EnumPlugOperator["TubeDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U_TANGET = 0
     V_TANGENT = 1
 
 
-class TubeDirectionEnumAttrOperator(EnumAttrOperator):
+class TubeDirectionEnumAttrOperator(EnumAttrOperator[TubeDirectionEnumPlugOperator]):
     __slots__ = ()
 
     U_TANGET = 0

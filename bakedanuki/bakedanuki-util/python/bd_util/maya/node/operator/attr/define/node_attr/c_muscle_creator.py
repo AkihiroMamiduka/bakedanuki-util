@@ -18,13 +18,13 @@ from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class MODELEnumPlugOperator(EnumPlugOperator):
+class MODELEnumPlugOperator(EnumPlugOperator["MODELEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class MODELEnumAttrOperator(EnumAttrOperator):
+class MODELEnumAttrOperator(EnumAttrOperator[MODELEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -43,14 +43,14 @@ class MODELEnumField(
     PLUG_CLS = MODELEnumPlugOperator
 
 
-class UpAxisEnumPlugOperator(EnumPlugOperator):
+class UpAxisEnumPlugOperator(EnumPlugOperator["UpAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
     Z_MINUS_AXIS = 1
 
 
-class UpAxisEnumAttrOperator(EnumAttrOperator):
+class UpAxisEnumAttrOperator(EnumAttrOperator[UpAxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -71,13 +71,13 @@ class UpAxisEnumField(
     PLUG_CLS = UpAxisEnumPlugOperator
 
 
-class SQUASH_STRETCHEnumPlugOperator(EnumPlugOperator):
+class SQUASH_STRETCHEnumPlugOperator(EnumPlugOperator["SQUASH_STRETCHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SQUASH_STRETCHEnumAttrOperator(EnumAttrOperator):
+class SQUASH_STRETCHEnumAttrOperator(EnumAttrOperator[SQUASH_STRETCHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -96,7 +96,7 @@ class SQUASH_STRETCHEnumField(
     PLUG_CLS = SQUASH_STRETCHEnumPlugOperator
 
 
-class BasedOnEnumPlugOperator(EnumPlugOperator):
+class BasedOnEnumPlugOperator(EnumPlugOperator["BasedOnEnumAttrOperator"]):
     __slots__ = ()
 
     LENGTH = 0
@@ -104,7 +104,7 @@ class BasedOnEnumPlugOperator(EnumPlugOperator):
     POSE_OR_LENGTH = 2
 
 
-class BasedOnEnumAttrOperator(EnumAttrOperator):
+class BasedOnEnumAttrOperator(EnumAttrOperator[BasedOnEnumPlugOperator]):
     __slots__ = ()
 
     LENGTH = 0
@@ -127,7 +127,7 @@ class BasedOnEnumField(
     PLUG_CLS = BasedOnEnumPlugOperator
 
 
-class InterpModeEnumPlugOperator(EnumPlugOperator):
+class InterpModeEnumPlugOperator(EnumPlugOperator["InterpModeEnumAttrOperator"]):
     __slots__ = ()
 
     LINEAR = 0
@@ -135,7 +135,7 @@ class InterpModeEnumPlugOperator(EnumPlugOperator):
     ANIMCURVE = 2
 
 
-class InterpModeEnumAttrOperator(EnumAttrOperator):
+class InterpModeEnumAttrOperator(EnumAttrOperator[InterpModeEnumPlugOperator]):
     __slots__ = ()
 
     LINEAR = 0
@@ -158,7 +158,7 @@ class InterpModeEnumField(
     PLUG_CLS = InterpModeEnumPlugOperator
 
 
-class PoseUsesEnumPlugOperator(EnumPlugOperator):
+class PoseUsesEnumPlugOperator(EnumPlugOperator["PoseUsesEnumAttrOperator"]):
     __slots__ = ()
 
     ANGLE = 0
@@ -166,7 +166,7 @@ class PoseUsesEnumPlugOperator(EnumPlugOperator):
     ANGLE_AND_POSITION = 2
 
 
-class PoseUsesEnumAttrOperator(EnumAttrOperator):
+class PoseUsesEnumAttrOperator(EnumAttrOperator[PoseUsesEnumPlugOperator]):
     __slots__ = ()
 
     ANGLE = 0
@@ -189,7 +189,7 @@ class PoseUsesEnumField(
     PLUG_CLS = PoseUsesEnumPlugOperator
 
 
-class PoseReadAxisEnumPlugOperator(EnumPlugOperator):
+class PoseReadAxisEnumPlugOperator(EnumPlugOperator["PoseReadAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -197,7 +197,7 @@ class PoseReadAxisEnumPlugOperator(EnumPlugOperator):
     Z_MINUS_AXIS = 2
 
 
-class PoseReadAxisEnumAttrOperator(EnumAttrOperator):
+class PoseReadAxisEnumAttrOperator(EnumAttrOperator[PoseReadAxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -220,13 +220,13 @@ class PoseReadAxisEnumField(
     PLUG_CLS = PoseReadAxisEnumPlugOperator
 
 
-class JIGGLEEnumPlugOperator(EnumPlugOperator):
+class JIGGLEEnumPlugOperator(EnumPlugOperator["JIGGLEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class JIGGLEEnumAttrOperator(EnumAttrOperator):
+class JIGGLEEnumAttrOperator(EnumAttrOperator[JIGGLEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0

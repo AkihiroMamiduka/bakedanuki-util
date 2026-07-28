@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class OperationEnumPlugOperator(EnumPlugOperator):
+class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
     __slots__ = ()
 
     NO_OPERATION = 0
@@ -21,7 +21,7 @@ class OperationEnumPlugOperator(EnumPlugOperator):
     POWER = 3
 
 
-class OperationEnumAttrOperator(EnumAttrOperator):
+class OperationEnumAttrOperator(EnumAttrOperator[OperationEnumPlugOperator]):
     __slots__ = ()
 
     NO_OPERATION = 0

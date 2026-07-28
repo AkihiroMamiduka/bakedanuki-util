@@ -13,7 +13,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator):
+class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -22,7 +22,7 @@ class CoordSpaceEnumPlugOperator(EnumPlugOperator):
     UV = 3
 
 
-class CoordSpaceEnumAttrOperator(EnumAttrOperator):
+class CoordSpaceEnumAttrOperator(EnumAttrOperator[CoordSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -47,14 +47,14 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class OutputSpaceEnumPlugOperator(EnumPlugOperator):
+class OutputSpaceEnumPlugOperator(EnumPlugOperator["OutputSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
     TANGENT = 1
 
 
-class OutputSpaceEnumAttrOperator(EnumAttrOperator):
+class OutputSpaceEnumAttrOperator(EnumAttrOperator[OutputSpaceEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0

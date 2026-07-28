@@ -19,7 +19,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator["PositionRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +28,7 @@ class PositionRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class PositionRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class PositionRamp_InterpEnumAttrOperator(EnumAttrOperator[PositionRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -53,7 +53,7 @@ class PositionRamp_InterpEnumField(
     PLUG_CLS = PositionRamp_InterpEnumPlugOperator
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -62,7 +62,7 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -87,7 +87,7 @@ class ScaleRamp_InterpEnumField(
     PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
 
 
-class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator["RotationRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -96,7 +96,7 @@ class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator[RotationRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FilterModeEnumPlugOperator(EnumPlugOperator):
+class FilterModeEnumPlugOperator(EnumPlugOperator["FilterModeEnumAttrOperator"]):
     __slots__ = ()
 
     BLEND = 0
@@ -24,7 +24,7 @@ class FilterModeEnumPlugOperator(EnumPlugOperator):
     MIX = 4
 
 
-class FilterModeEnumAttrOperator(EnumAttrOperator):
+class FilterModeEnumAttrOperator(EnumAttrOperator[FilterModeEnumPlugOperator]):
     __slots__ = ()
 
     BLEND = 0
@@ -51,7 +51,7 @@ class FilterModeEnumField(
     PLUG_CLS = FilterModeEnumPlugOperator
 
 
-class SwrapEnumPlugOperator(EnumPlugOperator):
+class SwrapEnumPlugOperator(EnumPlugOperator["SwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -61,7 +61,7 @@ class SwrapEnumPlugOperator(EnumPlugOperator):
     FILE = 4
 
 
-class SwrapEnumAttrOperator(EnumAttrOperator):
+class SwrapEnumAttrOperator(EnumAttrOperator[SwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -88,7 +88,7 @@ class SwrapEnumField(
     PLUG_CLS = SwrapEnumPlugOperator
 
 
-class TwrapEnumPlugOperator(EnumPlugOperator):
+class TwrapEnumPlugOperator(EnumPlugOperator["TwrapEnumAttrOperator"]):
     __slots__ = ()
 
     PERIODIC = 0
@@ -98,7 +98,7 @@ class TwrapEnumPlugOperator(EnumPlugOperator):
     FILE = 4
 
 
-class TwrapEnumAttrOperator(EnumAttrOperator):
+class TwrapEnumAttrOperator(EnumAttrOperator[TwrapEnumPlugOperator]):
     __slots__ = ()
 
     PERIODIC = 0

@@ -11,7 +11,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureEnumPlugOperator(EnumPlugOperator):
+class TextureEnumPlugOperator(EnumPlugOperator["TextureEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -19,7 +19,7 @@ class TextureEnumPlugOperator(EnumPlugOperator):
     UNITIZED = 2
 
 
-class TextureEnumAttrOperator(EnumAttrOperator):
+class TextureEnumAttrOperator(EnumAttrOperator[TextureEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

@@ -12,7 +12,7 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OutputModeEnumPlugOperator(EnumPlugOperator):
+class OutputModeEnumPlugOperator(EnumPlugOperator["OutputModeEnumAttrOperator"]):
     __slots__ = ()
 
     GUI_ONLY = 0
@@ -20,7 +20,7 @@ class OutputModeEnumPlugOperator(EnumPlugOperator):
     GUI_AND_BATCH = 2
 
 
-class OutputModeEnumAttrOperator(EnumAttrOperator):
+class OutputModeEnumAttrOperator(EnumAttrOperator[OutputModeEnumPlugOperator]):
     __slots__ = ()
 
     GUI_ONLY = 0
@@ -43,7 +43,7 @@ class OutputModeEnumField(
     PLUG_CLS = OutputModeEnumPlugOperator
 
 
-class ColorManagementEnumPlugOperator(EnumPlugOperator):
+class ColorManagementEnumPlugOperator(EnumPlugOperator["ColorManagementEnumAttrOperator"]):
     __slots__ = ()
 
     RAW = 0
@@ -51,7 +51,7 @@ class ColorManagementEnumPlugOperator(EnumPlugOperator):
     USE_OUTPUT_TRANSFORM = 2
 
 
-class ColorManagementEnumAttrOperator(EnumAttrOperator):
+class ColorManagementEnumAttrOperator(EnumAttrOperator[ColorManagementEnumPlugOperator]):
     __slots__ = ()
 
     RAW = 0
@@ -74,14 +74,14 @@ class ColorManagementEnumField(
     PLUG_CLS = ColorManagementEnumPlugOperator
 
 
-class PngFormatEnumPlugOperator(EnumPlugOperator):
+class PngFormatEnumPlugOperator(EnumPlugOperator["PngFormatEnumAttrOperator"]):
     __slots__ = ()
 
     INT8 = 0
     INT16 = 1
 
 
-class PngFormatEnumAttrOperator(EnumAttrOperator):
+class PngFormatEnumAttrOperator(EnumAttrOperator[PngFormatEnumPlugOperator]):
     __slots__ = ()
 
     INT8 = 0
@@ -102,7 +102,7 @@ class PngFormatEnumField(
     PLUG_CLS = PngFormatEnumPlugOperator
 
 
-class TiffCompressionEnumPlugOperator(EnumPlugOperator):
+class TiffCompressionEnumPlugOperator(EnumPlugOperator["TiffCompressionEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -112,7 +112,7 @@ class TiffCompressionEnumPlugOperator(EnumPlugOperator):
     PACKBITS = 4
 
 
-class TiffCompressionEnumAttrOperator(EnumAttrOperator):
+class TiffCompressionEnumAttrOperator(EnumAttrOperator[TiffCompressionEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -139,7 +139,7 @@ class TiffCompressionEnumField(
     PLUG_CLS = TiffCompressionEnumPlugOperator
 
 
-class TiffFormatEnumPlugOperator(EnumPlugOperator):
+class TiffFormatEnumPlugOperator(EnumPlugOperator["TiffFormatEnumAttrOperator"]):
     __slots__ = ()
 
     INT8 = 0
@@ -147,7 +147,7 @@ class TiffFormatEnumPlugOperator(EnumPlugOperator):
     FLOAT32 = 2
 
 
-class TiffFormatEnumAttrOperator(EnumAttrOperator):
+class TiffFormatEnumAttrOperator(EnumAttrOperator[TiffFormatEnumPlugOperator]):
     __slots__ = ()
 
     INT8 = 0
@@ -170,7 +170,7 @@ class TiffFormatEnumField(
     PLUG_CLS = TiffFormatEnumPlugOperator
 
 
-class ExrCompressionEnumPlugOperator(EnumPlugOperator):
+class ExrCompressionEnumPlugOperator(EnumPlugOperator["ExrCompressionEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -185,7 +185,7 @@ class ExrCompressionEnumPlugOperator(EnumPlugOperator):
     DWAB = 9
 
 
-class ExrCompressionEnumAttrOperator(EnumAttrOperator):
+class ExrCompressionEnumAttrOperator(EnumAttrOperator[ExrCompressionEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

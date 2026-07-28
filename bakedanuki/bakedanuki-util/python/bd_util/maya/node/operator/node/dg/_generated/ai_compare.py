@@ -10,7 +10,7 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TestEnumPlugOperator(EnumPlugOperator):
+class TestEnumPlugOperator(EnumPlugOperator["TestEnumAttrOperator"]):
     __slots__ = ()
 
     EQUAL_EQUAL = 0
@@ -21,7 +21,7 @@ class TestEnumPlugOperator(EnumPlugOperator):
     GREATER_EQUAL = 5
 
 
-class TestEnumAttrOperator(EnumAttrOperator):
+class TestEnumAttrOperator(EnumAttrOperator[TestEnumPlugOperator]):
     __slots__ = ()
 
     EQUAL_EQUAL = 0

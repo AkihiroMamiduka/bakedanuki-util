@@ -13,7 +13,7 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BlendFuncEnumPlugOperator(EnumPlugOperator):
+class BlendFuncEnumPlugOperator(EnumPlugOperator["BlendFuncEnumAttrOperator"]):
     __slots__ = ()
 
     ALPHABLEND = 0
@@ -26,7 +26,7 @@ class BlendFuncEnumPlugOperator(EnumPlugOperator):
     MULTIPLYRGBA = 7
 
 
-class BlendFuncEnumAttrOperator(EnumAttrOperator):
+class BlendFuncEnumAttrOperator(EnumAttrOperator[BlendFuncEnumPlugOperator]):
     __slots__ = ()
 
     ALPHABLEND = 0

@@ -13,7 +13,7 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class ProfileCurve_InterpEnumPlugOperator(EnumPlugOperator):
+class ProfileCurve_InterpEnumPlugOperator(EnumPlugOperator["ProfileCurve_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +22,7 @@ class ProfileCurve_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ProfileCurve_InterpEnumAttrOperator(EnumAttrOperator):
+class ProfileCurve_InterpEnumAttrOperator(EnumAttrOperator[ProfileCurve_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

@@ -19,7 +19,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +28,7 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

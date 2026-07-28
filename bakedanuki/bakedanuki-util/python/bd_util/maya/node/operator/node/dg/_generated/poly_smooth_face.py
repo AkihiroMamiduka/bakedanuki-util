@@ -13,14 +13,14 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     EXPONENTIAL = 0
     LINEAR = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     EXPONENTIAL = 0
@@ -41,7 +41,7 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class SubdivisionTypeEnumPlugOperator(EnumPlugOperator):
+class SubdivisionTypeEnumPlugOperator(EnumPlugOperator["SubdivisionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -49,7 +49,7 @@ class SubdivisionTypeEnumPlugOperator(EnumPlugOperator):
     OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE = 3
 
 
-class SubdivisionTypeEnumAttrOperator(EnumAttrOperator):
+class SubdivisionTypeEnumAttrOperator(EnumAttrOperator[SubdivisionTypeEnumPlugOperator]):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -72,14 +72,14 @@ class SubdivisionTypeEnumField(
     PLUG_CLS = SubdivisionTypeEnumPlugOperator
 
 
-class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
     SHARP_EDGES = 2
 
 
-class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
@@ -100,7 +100,7 @@ class OsdVertBoundaryEnumField(
     PLUG_CLS = OsdVertBoundaryEnumPlugOperator
 
 
-class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -109,7 +109,7 @@ class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
     MAYA_CATMULL_MINUS_CLARK = 3
 
 
-class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -134,14 +134,14 @@ class OsdFvarBoundaryEnumField(
     PLUG_CLS = OsdFvarBoundaryEnumPlugOperator
 
 
-class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator):
+class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     CHAIKIN = 1
 
 
-class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator):
+class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -162,7 +162,7 @@ class OsdCreaseMethodEnumField(
     PLUG_CLS = OsdCreaseMethodEnumPlugOperator
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
+class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
     __slots__ = ()
 
     LEGACY = 0
@@ -170,7 +170,7 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator):
+class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
     __slots__ = ()
 
     LEGACY = 0
@@ -193,7 +193,7 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
+class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -201,7 +201,7 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator):
+class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

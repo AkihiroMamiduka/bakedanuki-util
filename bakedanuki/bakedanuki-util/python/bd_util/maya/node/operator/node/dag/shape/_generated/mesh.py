@@ -59,7 +59,7 @@ from .....attr.define.std.dt.mesh import DataMeshField
 from .....attr.define.std.dt.string import DataStringField
 
 
-class ViewModeEnumPlugOperator(EnumPlugOperator):
+class ViewModeEnumPlugOperator(EnumPlugOperator["ViewModeEnumAttrOperator"]):
     __slots__ = ()
 
     FLAT = 0
@@ -67,7 +67,7 @@ class ViewModeEnumPlugOperator(EnumPlugOperator):
     GROUP_BY_NODE = 2
 
 
-class ViewModeEnumAttrOperator(EnumAttrOperator):
+class ViewModeEnumAttrOperator(EnumAttrOperator[ViewModeEnumPlugOperator]):
     __slots__ = ()
 
     FLAT = 0
@@ -90,7 +90,7 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator):
+class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -98,7 +98,7 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator):
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator):
+class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -121,7 +121,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class UseObjectColorEnumPlugOperator(EnumPlugOperator):
+class UseObjectColorEnumPlugOperator(EnumPlugOperator["UseObjectColorEnumAttrOperator"]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -129,7 +129,7 @@ class UseObjectColorEnumPlugOperator(EnumPlugOperator):
     RGB = 2
 
 
-class UseObjectColorEnumAttrOperator(EnumAttrOperator):
+class UseObjectColorEnumAttrOperator(EnumAttrOperator[UseObjectColorEnumPlugOperator]):
     __slots__ = ()
 
     DEFAULT = 0
@@ -152,7 +152,7 @@ class UseObjectColorEnumField(
     PLUG_CLS = UseObjectColorEnumPlugOperator
 
 
-class GhostingModeEnumPlugOperator(EnumPlugOperator):
+class GhostingModeEnumPlugOperator(EnumPlugOperator["GhostingModeEnumAttrOperator"]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -163,7 +163,7 @@ class GhostingModeEnumPlugOperator(EnumPlugOperator):
     ALL_KEYFRAMES = 5
 
 
-class GhostingModeEnumAttrOperator(EnumAttrOperator):
+class GhostingModeEnumAttrOperator(EnumAttrOperator[GhostingModeEnumPlugOperator]):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -192,7 +192,7 @@ class GhostingModeEnumField(
     PLUG_CLS = GhostingModeEnumPlugOperator
 
 
-class SmoothDrawTypeEnumPlugOperator(EnumPlugOperator):
+class SmoothDrawTypeEnumPlugOperator(EnumPlugOperator["SmoothDrawTypeEnumAttrOperator"]):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -200,7 +200,7 @@ class SmoothDrawTypeEnumPlugOperator(EnumPlugOperator):
     OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE = 3
 
 
-class SmoothDrawTypeEnumAttrOperator(EnumAttrOperator):
+class SmoothDrawTypeEnumAttrOperator(EnumAttrOperator[SmoothDrawTypeEnumPlugOperator]):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -223,14 +223,14 @@ class SmoothDrawTypeEnumField(
     PLUG_CLS = SmoothDrawTypeEnumPlugOperator
 
 
-class DisplacementTypeEnumPlugOperator(EnumPlugOperator):
+class DisplacementTypeEnumPlugOperator(EnumPlugOperator["DisplacementTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SCALAR = 0
     VECTOR_GLOBAL_SPACE = 1
 
 
-class DisplacementTypeEnumAttrOperator(EnumAttrOperator):
+class DisplacementTypeEnumAttrOperator(EnumAttrOperator[DisplacementTypeEnumPlugOperator]):
     __slots__ = ()
 
     SCALAR = 0
@@ -251,14 +251,14 @@ class DisplacementTypeEnumField(
     PLUG_CLS = DisplacementTypeEnumPlugOperator
 
 
-class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
     SHARP_EDGES = 2
 
 
-class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
@@ -279,7 +279,7 @@ class OsdVertBoundaryEnumField(
     PLUG_CLS = OsdVertBoundaryEnumPlugOperator
 
 
-class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
+class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -288,7 +288,7 @@ class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator):
     MAYA_CATMULL_MINUS_CLARK = 3
 
 
-class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator):
+class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -313,14 +313,14 @@ class OsdFvarBoundaryEnumField(
     PLUG_CLS = OsdFvarBoundaryEnumPlugOperator
 
 
-class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator):
+class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     CHAIKIN = 1
 
 
-class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator):
+class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -341,7 +341,7 @@ class OsdCreaseMethodEnumField(
     PLUG_CLS = OsdCreaseMethodEnumPlugOperator
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
+class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
     __slots__ = ()
 
     LEGACY = 0
@@ -349,7 +349,7 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator):
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator):
+class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
     __slots__ = ()
 
     LEGACY = 0
@@ -372,7 +372,7 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
+class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -380,7 +380,7 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator):
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator):
+class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -403,7 +403,7 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class DisplayEdgesEnumPlugOperator(EnumPlugOperator):
+class DisplayEdgesEnumPlugOperator(EnumPlugOperator["DisplayEdgesEnumAttrOperator"]):
     __slots__ = ()
 
     STANDARD = 0
@@ -412,7 +412,7 @@ class DisplayEdgesEnumPlugOperator(EnumPlugOperator):
     HARD = 3
 
 
-class DisplayEdgesEnumAttrOperator(EnumAttrOperator):
+class DisplayEdgesEnumAttrOperator(EnumAttrOperator[DisplayEdgesEnumPlugOperator]):
     __slots__ = ()
 
     STANDARD = 0
@@ -437,7 +437,7 @@ class DisplayEdgesEnumField(
     PLUG_CLS = DisplayEdgesEnumPlugOperator
 
 
-class BackfaceCullingEnumPlugOperator(EnumPlugOperator):
+class BackfaceCullingEnumPlugOperator(EnumPlugOperator["BackfaceCullingEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -446,7 +446,7 @@ class BackfaceCullingEnumPlugOperator(EnumPlugOperator):
     FULL = 3
 
 
-class BackfaceCullingEnumAttrOperator(EnumAttrOperator):
+class BackfaceCullingEnumAttrOperator(EnumAttrOperator[BackfaceCullingEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -471,7 +471,7 @@ class BackfaceCullingEnumField(
     PLUG_CLS = BackfaceCullingEnumPlugOperator
 
 
-class NormalTypeEnumPlugOperator(EnumPlugOperator):
+class NormalTypeEnumPlugOperator(EnumPlugOperator["NormalTypeEnumAttrOperator"]):
     __slots__ = ()
 
     FACE = 1
@@ -479,7 +479,7 @@ class NormalTypeEnumPlugOperator(EnumPlugOperator):
     VTXFACE = 3
 
 
-class NormalTypeEnumAttrOperator(EnumAttrOperator):
+class NormalTypeEnumAttrOperator(EnumAttrOperator[NormalTypeEnumPlugOperator]):
     __slots__ = ()
 
     FACE = 1
@@ -502,7 +502,7 @@ class NormalTypeEnumField(
     PLUG_CLS = NormalTypeEnumPlugOperator
 
 
-class TangentSpaceEnumPlugOperator(EnumPlugOperator):
+class TangentSpaceEnumPlugOperator(EnumPlugOperator["TangentSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     DETECTWINDINGRIGHTHANDED = 0
@@ -511,7 +511,7 @@ class TangentSpaceEnumPlugOperator(EnumPlugOperator):
     LEFTHANDED = 3
 
 
-class TangentSpaceEnumAttrOperator(EnumAttrOperator):
+class TangentSpaceEnumAttrOperator(EnumAttrOperator[TangentSpaceEnumPlugOperator]):
     __slots__ = ()
 
     DETECTWINDINGRIGHTHANDED = 0
@@ -536,7 +536,7 @@ class TangentSpaceEnumField(
     PLUG_CLS = TangentSpaceEnumPlugOperator
 
 
-class MaterialBlendEnumPlugOperator(EnumPlugOperator):
+class MaterialBlendEnumPlugOperator(EnumPlugOperator["MaterialBlendEnumAttrOperator"]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -548,7 +548,7 @@ class MaterialBlendEnumPlugOperator(EnumPlugOperator):
     MODULATE2X = 6
 
 
-class MaterialBlendEnumAttrOperator(EnumAttrOperator):
+class MaterialBlendEnumAttrOperator(EnumAttrOperator[MaterialBlendEnumPlugOperator]):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -579,7 +579,7 @@ class MaterialBlendEnumField(
     PLUG_CLS = MaterialBlendEnumPlugOperator
 
 
-class DispResolutionEnumPlugOperator(EnumPlugOperator):
+class DispResolutionEnumPlugOperator(EnumPlugOperator["DispResolutionEnumAttrOperator"]):
     __slots__ = ()
 
     _0_BASE = 0
@@ -591,7 +591,7 @@ class DispResolutionEnumPlugOperator(EnumPlugOperator):
     _6_FINEST = 6
 
 
-class DispResolutionEnumAttrOperator(EnumAttrOperator):
+class DispResolutionEnumAttrOperator(EnumAttrOperator[DispResolutionEnumPlugOperator]):
     __slots__ = ()
 
     _0_BASE = 0
@@ -622,7 +622,7 @@ class DispResolutionEnumField(
     PLUG_CLS = DispResolutionEnumPlugOperator
 
 
-class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
+class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator["DisplaySmoothMeshEnumAttrOperator"]):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -630,7 +630,7 @@ class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator):
     SMOOTH_MESH_ONLY = 2
 
 
-class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator):
+class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator[DisplaySmoothMeshEnumPlugOperator]):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -653,7 +653,7 @@ class DisplaySmoothMeshEnumField(
     PLUG_CLS = DisplaySmoothMeshEnumPlugOperator
 
 
-class SmoothMeshSelectionModeEnumPlugOperator(EnumPlugOperator):
+class SmoothMeshSelectionModeEnumPlugOperator(EnumPlugOperator["SmoothMeshSelectionModeEnumAttrOperator"]):
     __slots__ = ()
 
     BASE_CAGE = 0
@@ -661,7 +661,7 @@ class SmoothMeshSelectionModeEnumPlugOperator(EnumPlugOperator):
     BASE_AND_PROJECTED_CAGE = 2
 
 
-class SmoothMeshSelectionModeEnumAttrOperator(EnumAttrOperator):
+class SmoothMeshSelectionModeEnumAttrOperator(EnumAttrOperator[SmoothMeshSelectionModeEnumPlugOperator]):
     __slots__ = ()
 
     BASE_CAGE = 0
@@ -684,7 +684,7 @@ class SmoothMeshSelectionModeEnumField(
     PLUG_CLS = SmoothMeshSelectionModeEnumPlugOperator
 
 
-class QuadSplitEnumPlugOperator(EnumPlugOperator):
+class QuadSplitEnumPlugOperator(EnumPlugOperator["QuadSplitEnumAttrOperator"]):
     __slots__ = ()
 
     LEFT = 0
@@ -692,7 +692,7 @@ class QuadSplitEnumPlugOperator(EnumPlugOperator):
     BEST_SHAPE = 2
 
 
-class QuadSplitEnumAttrOperator(EnumAttrOperator):
+class QuadSplitEnumAttrOperator(EnumAttrOperator[QuadSplitEnumPlugOperator]):
     __slots__ = ()
 
     LEFT = 0
@@ -715,7 +715,7 @@ class QuadSplitEnumField(
     PLUG_CLS = QuadSplitEnumPlugOperator
 
 
-class VertexNormalMethodEnumPlugOperator(EnumPlugOperator):
+class VertexNormalMethodEnumPlugOperator(EnumPlugOperator["VertexNormalMethodEnumAttrOperator"]):
     __slots__ = ()
 
     UNWEIGHTED = 0
@@ -724,7 +724,7 @@ class VertexNormalMethodEnumPlugOperator(EnumPlugOperator):
     ANGLE_AND_AREA_WEIGHTED = 3
 
 
-class VertexNormalMethodEnumAttrOperator(EnumAttrOperator):
+class VertexNormalMethodEnumAttrOperator(EnumAttrOperator[VertexNormalMethodEnumPlugOperator]):
     __slots__ = ()
 
     UNWEIGHTED = 0
@@ -749,7 +749,7 @@ class VertexNormalMethodEnumField(
     PLUG_CLS = VertexNormalMethodEnumPlugOperator
 
 
-class VertexColorSourceEnumPlugOperator(EnumPlugOperator):
+class VertexColorSourceEnumPlugOperator(EnumPlugOperator["VertexColorSourceEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -757,7 +757,7 @@ class VertexColorSourceEnumPlugOperator(EnumPlugOperator):
     INFLUENCE_COLORS = 2
 
 
-class VertexColorSourceEnumAttrOperator(EnumAttrOperator):
+class VertexColorSourceEnumAttrOperator(EnumAttrOperator[VertexColorSourceEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -780,7 +780,7 @@ class VertexColorSourceEnumField(
     PLUG_CLS = VertexColorSourceEnumPlugOperator
 
 
-class AiSubdivTypeEnumPlugOperator(EnumPlugOperator):
+class AiSubdivTypeEnumPlugOperator(EnumPlugOperator["AiSubdivTypeEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -788,7 +788,7 @@ class AiSubdivTypeEnumPlugOperator(EnumPlugOperator):
     LINEAR = 2
 
 
-class AiSubdivTypeEnumAttrOperator(EnumAttrOperator):
+class AiSubdivTypeEnumAttrOperator(EnumAttrOperator[AiSubdivTypeEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0
@@ -811,7 +811,7 @@ class AiSubdivTypeEnumField(
     PLUG_CLS = AiSubdivTypeEnumPlugOperator
 
 
-class AiSubdivAdaptiveMetricEnumPlugOperator(EnumPlugOperator):
+class AiSubdivAdaptiveMetricEnumPlugOperator(EnumPlugOperator["AiSubdivAdaptiveMetricEnumAttrOperator"]):
     __slots__ = ()
 
     AUTO = 0
@@ -819,7 +819,7 @@ class AiSubdivAdaptiveMetricEnumPlugOperator(EnumPlugOperator):
     FLATNESS = 2
 
 
-class AiSubdivAdaptiveMetricEnumAttrOperator(EnumAttrOperator):
+class AiSubdivAdaptiveMetricEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveMetricEnumPlugOperator]):
     __slots__ = ()
 
     AUTO = 0
@@ -842,14 +842,14 @@ class AiSubdivAdaptiveMetricEnumField(
     PLUG_CLS = AiSubdivAdaptiveMetricEnumPlugOperator
 
 
-class AiSubdivAdaptiveSpaceEnumPlugOperator(EnumPlugOperator):
+class AiSubdivAdaptiveSpaceEnumPlugOperator(EnumPlugOperator["AiSubdivAdaptiveSpaceEnumAttrOperator"]):
     __slots__ = ()
 
     RASTER = 0
     OBJECT = 1
 
 
-class AiSubdivAdaptiveSpaceEnumAttrOperator(EnumAttrOperator):
+class AiSubdivAdaptiveSpaceEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveSpaceEnumPlugOperator]):
     __slots__ = ()
 
     RASTER = 0
@@ -870,7 +870,7 @@ class AiSubdivAdaptiveSpaceEnumField(
     PLUG_CLS = AiSubdivAdaptiveSpaceEnumPlugOperator
 
 
-class AiSubdivUvSmoothingEnumPlugOperator(EnumPlugOperator):
+class AiSubdivUvSmoothingEnumPlugOperator(EnumPlugOperator["AiSubdivUvSmoothingEnumAttrOperator"]):
     __slots__ = ()
 
     PIN_CORNERS = 0
@@ -879,7 +879,7 @@ class AiSubdivUvSmoothingEnumPlugOperator(EnumPlugOperator):
     SMOOTH = 3
 
 
-class AiSubdivUvSmoothingEnumAttrOperator(EnumAttrOperator):
+class AiSubdivUvSmoothingEnumAttrOperator(EnumAttrOperator[AiSubdivUvSmoothingEnumPlugOperator]):
     __slots__ = ()
 
     PIN_CORNERS = 0
@@ -904,14 +904,14 @@ class AiSubdivUvSmoothingEnumField(
     PLUG_CLS = AiSubdivUvSmoothingEnumPlugOperator
 
 
-class AiMotionVectorUnitEnumPlugOperator(EnumPlugOperator):
+class AiMotionVectorUnitEnumPlugOperator(EnumPlugOperator["AiMotionVectorUnitEnumAttrOperator"]):
     __slots__ = ()
 
     PER_FRAME = 0
     PER_SECOND = 1
 
 
-class AiMotionVectorUnitEnumAttrOperator(EnumAttrOperator):
+class AiMotionVectorUnitEnumAttrOperator(EnumAttrOperator[AiMotionVectorUnitEnumPlugOperator]):
     __slots__ = ()
 
     PER_FRAME = 0

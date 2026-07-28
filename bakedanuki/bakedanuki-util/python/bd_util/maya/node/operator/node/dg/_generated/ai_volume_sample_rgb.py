@@ -14,7 +14,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator):
+class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOperator"]):
     __slots__ = ()
 
     CLOSEST = 0
@@ -22,7 +22,7 @@ class InterpolationEnumPlugOperator(EnumPlugOperator):
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator):
+class InterpolationEnumAttrOperator(EnumAttrOperator[InterpolationEnumPlugOperator]):
     __slots__ = ()
 
     CLOSEST = 0

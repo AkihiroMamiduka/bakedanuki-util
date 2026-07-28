@@ -28,7 +28,7 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OriginEnumPlugOperator(EnumPlugOperator):
+class OriginEnumPlugOperator(EnumPlugOperator["OriginEnumAttrOperator"]):
     __slots__ = ()
 
     WORLD = 0
@@ -36,7 +36,7 @@ class OriginEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class OriginEnumAttrOperator(EnumAttrOperator):
+class OriginEnumAttrOperator(EnumAttrOperator[OriginEnumPlugOperator]):
     __slots__ = ()
 
     WORLD = 0
@@ -59,7 +59,7 @@ class OriginEnumField(
     PLUG_CLS = OriginEnumPlugOperator
 
 
-class DeformationOrderEnumPlugOperator(EnumPlugOperator):
+class DeformationOrderEnumPlugOperator(EnumPlugOperator["DeformationOrderEnumAttrOperator"]):
     __slots__ = ()
 
     PRE_MINUS_DEFORMATION = 0
@@ -67,7 +67,7 @@ class DeformationOrderEnumPlugOperator(EnumPlugOperator):
     OTHER_DEFORMATION = 2
 
 
-class DeformationOrderEnumAttrOperator(EnumAttrOperator):
+class DeformationOrderEnumAttrOperator(EnumAttrOperator[DeformationOrderEnumPlugOperator]):
     __slots__ = ()
 
     PRE_MINUS_DEFORMATION = 0

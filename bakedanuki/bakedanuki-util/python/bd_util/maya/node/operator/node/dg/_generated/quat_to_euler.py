@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
+class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -22,7 +22,7 @@ class InputRotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class InputRotateOrderEnumAttrOperator(EnumAttrOperator):
+class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0

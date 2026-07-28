@@ -26,7 +26,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class CacheEnumPlugOperator(EnumPlugOperator):
+class CacheEnumPlugOperator(EnumPlugOperator["CacheEnumAttrOperator"]):
     __slots__ = ()
 
     DISABLED = 0
@@ -36,7 +36,7 @@ class CacheEnumPlugOperator(EnumPlugOperator):
     READ_MINUS_NODE = 4
 
 
-class CacheEnumAttrOperator(EnumAttrOperator):
+class CacheEnumAttrOperator(EnumAttrOperator[CacheEnumPlugOperator]):
     __slots__ = ()
 
     DISABLED = 0
@@ -63,13 +63,13 @@ class CacheEnumField(
     PLUG_CLS = CacheEnumPlugOperator
 
 
-class STICKYEnumPlugOperator(EnumPlugOperator):
+class STICKYEnumPlugOperator(EnumPlugOperator["STICKYEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class STICKYEnumAttrOperator(EnumAttrOperator):
+class STICKYEnumAttrOperator(EnumAttrOperator[STICKYEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -88,14 +88,14 @@ class STICKYEnumField(
     PLUG_CLS = STICKYEnumPlugOperator
 
 
-class RelativeStickyEnumPlugOperator(EnumPlugOperator):
+class RelativeStickyEnumPlugOperator(EnumPlugOperator["RelativeStickyEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
     RELATIVE = 1
 
 
-class RelativeStickyEnumAttrOperator(EnumAttrOperator):
+class RelativeStickyEnumAttrOperator(EnumAttrOperator[RelativeStickyEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
@@ -116,13 +116,13 @@ class RelativeStickyEnumField(
     PLUG_CLS = RelativeStickyEnumPlugOperator
 
 
-class SLIDINGEnumPlugOperator(EnumPlugOperator):
+class SLIDINGEnumPlugOperator(EnumPlugOperator["SLIDINGEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SLIDINGEnumAttrOperator(EnumAttrOperator):
+class SLIDINGEnumAttrOperator(EnumAttrOperator[SLIDINGEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -141,7 +141,7 @@ class SLIDINGEnumField(
     PLUG_CLS = SLIDINGEnumPlugOperator
 
 
-class QualityEnumPlugOperator(EnumPlugOperator):
+class QualityEnumPlugOperator(EnumPlugOperator["QualityEnumAttrOperator"]):
     __slots__ = ()
 
     FULL = 0
@@ -149,7 +149,7 @@ class QualityEnumPlugOperator(EnumPlugOperator):
     LOW = 2
 
 
-class QualityEnumAttrOperator(EnumAttrOperator):
+class QualityEnumAttrOperator(EnumAttrOperator[QualityEnumPlugOperator]):
     __slots__ = ()
 
     FULL = 0
@@ -172,13 +172,13 @@ class QualityEnumField(
     PLUG_CLS = QualityEnumPlugOperator
 
 
-class DISPLACEEnumPlugOperator(EnumPlugOperator):
+class DISPLACEEnumPlugOperator(EnumPlugOperator["DISPLACEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class DISPLACEEnumAttrOperator(EnumAttrOperator):
+class DISPLACEEnumAttrOperator(EnumAttrOperator[DISPLACEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -197,13 +197,13 @@ class DISPLACEEnumField(
     PLUG_CLS = DISPLACEEnumPlugOperator
 
 
-class FORCEEnumPlugOperator(EnumPlugOperator):
+class FORCEEnumPlugOperator(EnumPlugOperator["FORCEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class FORCEEnumAttrOperator(EnumAttrOperator):
+class FORCEEnumAttrOperator(EnumAttrOperator[FORCEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -222,13 +222,13 @@ class FORCEEnumField(
     PLUG_CLS = FORCEEnumPlugOperator
 
 
-class JIGGLEEnumPlugOperator(EnumPlugOperator):
+class JIGGLEEnumPlugOperator(EnumPlugOperator["JIGGLEEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class JIGGLEEnumAttrOperator(EnumAttrOperator):
+class JIGGLEEnumAttrOperator(EnumAttrOperator[JIGGLEEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -247,13 +247,13 @@ class JIGGLEEnumField(
     PLUG_CLS = JIGGLEEnumPlugOperator
 
 
-class RELAXEnumPlugOperator(EnumPlugOperator):
+class RELAXEnumPlugOperator(EnumPlugOperator["RELAXEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class RELAXEnumAttrOperator(EnumAttrOperator):
+class RELAXEnumAttrOperator(EnumAttrOperator[RELAXEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -272,7 +272,7 @@ class RELAXEnumField(
     PLUG_CLS = RELAXEnumPlugOperator
 
 
-class RelaxModeEnumPlugOperator(EnumPlugOperator):
+class RelaxModeEnumPlugOperator(EnumPlugOperator["RelaxModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
@@ -280,7 +280,7 @@ class RelaxModeEnumPlugOperator(EnumPlugOperator):
     WRINKLE = 2
 
 
-class RelaxModeEnumAttrOperator(EnumAttrOperator):
+class RelaxModeEnumAttrOperator(EnumAttrOperator[RelaxModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -303,13 +303,13 @@ class RelaxModeEnumField(
     PLUG_CLS = RelaxModeEnumPlugOperator
 
 
-class SMOOTHEnumPlugOperator(EnumPlugOperator):
+class SMOOTHEnumPlugOperator(EnumPlugOperator["SMOOTHEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SMOOTHEnumAttrOperator(EnumAttrOperator):
+class SMOOTHEnumAttrOperator(EnumAttrOperator[SMOOTHEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -328,13 +328,13 @@ class SMOOTHEnumField(
     PLUG_CLS = SMOOTHEnumPlugOperator
 
 
-class COLLISIONEnumPlugOperator(EnumPlugOperator):
+class COLLISIONEnumPlugOperator(EnumPlugOperator["COLLISIONEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class COLLISIONEnumAttrOperator(EnumAttrOperator):
+class COLLISIONEnumAttrOperator(EnumAttrOperator[COLLISIONEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -353,7 +353,7 @@ class COLLISIONEnumField(
     PLUG_CLS = COLLISIONEnumPlugOperator
 
 
-class TypeEnumPlugOperator(EnumPlugOperator):
+class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
     __slots__ = ()
 
     POLY = 0
@@ -361,7 +361,7 @@ class TypeEnumPlugOperator(EnumPlugOperator):
     CAPSULE = 2
 
 
-class TypeEnumAttrOperator(EnumAttrOperator):
+class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     __slots__ = ()
 
     POLY = 0
@@ -384,7 +384,7 @@ class TypeEnumField(
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class CapsuleAxisEnumPlugOperator(EnumPlugOperator):
+class CapsuleAxisEnumPlugOperator(EnumPlugOperator["CapsuleAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -395,7 +395,7 @@ class CapsuleAxisEnumPlugOperator(EnumPlugOperator):
     NEG_Z_MINUS_AXIS = 5
 
 
-class CapsuleAxisEnumAttrOperator(EnumAttrOperator):
+class CapsuleAxisEnumAttrOperator(EnumAttrOperator[CapsuleAxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -424,14 +424,14 @@ class CapsuleAxisEnumField(
     PLUG_CLS = CapsuleAxisEnumPlugOperator
 
 
-class DirTypeEnumPlugOperator(EnumPlugOperator):
+class DirTypeEnumPlugOperator(EnumPlugOperator["DirTypeEnumAttrOperator"]):
     __slots__ = ()
 
     VECTOR = 0
     RADIAL = 1
 
 
-class DirTypeEnumAttrOperator(EnumAttrOperator):
+class DirTypeEnumAttrOperator(EnumAttrOperator[DirTypeEnumPlugOperator]):
     __slots__ = ()
 
     VECTOR = 0
@@ -452,7 +452,7 @@ class DirTypeEnumField(
     PLUG_CLS = DirTypeEnumPlugOperator
 
 
-class DirAxisEnumPlugOperator(EnumPlugOperator):
+class DirAxisEnumPlugOperator(EnumPlugOperator["DirAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -463,7 +463,7 @@ class DirAxisEnumPlugOperator(EnumPlugOperator):
     NEG_Z_MINUS_AXIS = 5
 
 
-class DirAxisEnumAttrOperator(EnumAttrOperator):
+class DirAxisEnumAttrOperator(EnumAttrOperator[DirAxisEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -492,7 +492,7 @@ class DirAxisEnumField(
     PLUG_CLS = DirAxisEnumPlugOperator
 
 
-class ModeDispEnumPlugOperator(EnumPlugOperator):
+class ModeDispEnumPlugOperator(EnumPlugOperator["ModeDispEnumAttrOperator"]):
     __slots__ = ()
 
     PLANAR = 0
@@ -500,7 +500,7 @@ class ModeDispEnumPlugOperator(EnumPlugOperator):
     CURVES = 2
 
 
-class ModeDispEnumAttrOperator(EnumAttrOperator):
+class ModeDispEnumAttrOperator(EnumAttrOperator[ModeDispEnumPlugOperator]):
     __slots__ = ()
 
     PLANAR = 0
@@ -523,14 +523,14 @@ class ModeDispEnumField(
     PLUG_CLS = ModeDispEnumPlugOperator
 
 
-class PushModeEnumPlugOperator(EnumPlugOperator):
+class PushModeEnumPlugOperator(EnumPlugOperator["PushModeEnumAttrOperator"]):
     __slots__ = ()
 
     NORMAL = 0
     GIZMO = 1
 
 
-class PushModeEnumAttrOperator(EnumAttrOperator):
+class PushModeEnumAttrOperator(EnumAttrOperator[PushModeEnumPlugOperator]):
     __slots__ = ()
 
     NORMAL = 0
@@ -551,14 +551,14 @@ class PushModeEnumField(
     PLUG_CLS = PushModeEnumPlugOperator
 
 
-class CombineModeEnumPlugOperator(EnumPlugOperator):
+class CombineModeEnumPlugOperator(EnumPlugOperator["CombineModeEnumAttrOperator"]):
     __slots__ = ()
 
     MAX = 0
     ADD = 1
 
 
-class CombineModeEnumAttrOperator(EnumAttrOperator):
+class CombineModeEnumAttrOperator(EnumAttrOperator[CombineModeEnumPlugOperator]):
     __slots__ = ()
 
     MAX = 0
@@ -579,14 +579,14 @@ class CombineModeEnumField(
     PLUG_CLS = CombineModeEnumPlugOperator
 
 
-class CollideModeSmartEnumPlugOperator(EnumPlugOperator):
+class CollideModeSmartEnumPlugOperator(EnumPlugOperator["CollideModeSmartEnumAttrOperator"]):
     __slots__ = ()
 
     PLANE = 0
     MESH = 1
 
 
-class CollideModeSmartEnumAttrOperator(EnumAttrOperator):
+class CollideModeSmartEnumAttrOperator(EnumAttrOperator[CollideModeSmartEnumPlugOperator]):
     __slots__ = ()
 
     PLANE = 0
@@ -607,7 +607,7 @@ class CollideModeSmartEnumField(
     PLUG_CLS = CollideModeSmartEnumPlugOperator
 
 
-class AxisSmartEnumPlugOperator(EnumPlugOperator):
+class AxisSmartEnumPlugOperator(EnumPlugOperator["AxisSmartEnumAttrOperator"]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -618,7 +618,7 @@ class AxisSmartEnumPlugOperator(EnumPlugOperator):
     NEG_Z_MINUS_AXIS = 5
 
 
-class AxisSmartEnumAttrOperator(EnumAttrOperator):
+class AxisSmartEnumAttrOperator(EnumAttrOperator[AxisSmartEnumPlugOperator]):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -647,13 +647,13 @@ class AxisSmartEnumField(
     PLUG_CLS = AxisSmartEnumPlugOperator
 
 
-class SMOOTH_PREEnumPlugOperator(EnumPlugOperator):
+class SMOOTH_PREEnumPlugOperator(EnumPlugOperator["SMOOTH_PREEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SMOOTH_PREEnumAttrOperator(EnumAttrOperator):
+class SMOOTH_PREEnumAttrOperator(EnumAttrOperator[SMOOTH_PREEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -672,13 +672,13 @@ class SMOOTH_PREEnumField(
     PLUG_CLS = SMOOTH_PREEnumPlugOperator
 
 
-class MOVEMENTEnumPlugOperator(EnumPlugOperator):
+class MOVEMENTEnumPlugOperator(EnumPlugOperator["MOVEMENTEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class MOVEMENTEnumAttrOperator(EnumAttrOperator):
+class MOVEMENTEnumAttrOperator(EnumAttrOperator[MOVEMENTEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -697,13 +697,13 @@ class MOVEMENTEnumField(
     PLUG_CLS = MOVEMENTEnumPlugOperator
 
 
-class COLLISIONSMARTEnumPlugOperator(EnumPlugOperator):
+class COLLISIONSMARTEnumPlugOperator(EnumPlugOperator["COLLISIONSMARTEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class COLLISIONSMARTEnumAttrOperator(EnumAttrOperator):
+class COLLISIONSMARTEnumAttrOperator(EnumAttrOperator[COLLISIONSMARTEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0
@@ -722,13 +722,13 @@ class COLLISIONSMARTEnumField(
     PLUG_CLS = COLLISIONSMARTEnumPlugOperator
 
 
-class SMOOTH_POSTEnumPlugOperator(EnumPlugOperator):
+class SMOOTH_POSTEnumPlugOperator(EnumPlugOperator["SMOOTH_POSTEnumAttrOperator"]):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SMOOTH_POSTEnumAttrOperator(EnumAttrOperator):
+class SMOOTH_POSTEnumAttrOperator(EnumAttrOperator[SMOOTH_POSTEnumPlugOperator]):
     __slots__ = ()
 
     MINUS = 0

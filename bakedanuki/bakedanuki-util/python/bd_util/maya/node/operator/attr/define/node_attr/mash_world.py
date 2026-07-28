@@ -29,7 +29,7 @@ from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base impo
 )
 
 
-class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator):
+class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator["AvoidanceRamp_InterpEnumAttrOperator"]):
     __slots__ = ()
 
     NONE = 0
@@ -38,7 +38,7 @@ class AvoidanceRamp_InterpEnumPlugOperator(EnumPlugOperator):
     SPLINE = 3
 
 
-class AvoidanceRamp_InterpEnumAttrOperator(EnumAttrOperator):
+class AvoidanceRamp_InterpEnumAttrOperator(EnumAttrOperator[AvoidanceRamp_InterpEnumPlugOperator]):
     __slots__ = ()
 
     NONE = 0

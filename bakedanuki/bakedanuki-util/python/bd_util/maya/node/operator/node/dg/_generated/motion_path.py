@@ -21,7 +21,7 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator):
+class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
     __slots__ = ()
 
     XYZ = 0
@@ -32,7 +32,7 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator):
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator):
+class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
     __slots__ = ()
 
     XYZ = 0
@@ -61,7 +61,7 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class FrontAxisEnumPlugOperator(EnumPlugOperator):
+class FrontAxisEnumPlugOperator(EnumPlugOperator["FrontAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -69,7 +69,7 @@ class FrontAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class FrontAxisEnumAttrOperator(EnumAttrOperator):
+class FrontAxisEnumAttrOperator(EnumAttrOperator[FrontAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -92,7 +92,7 @@ class FrontAxisEnumField(
     PLUG_CLS = FrontAxisEnumPlugOperator
 
 
-class UpAxisEnumPlugOperator(EnumPlugOperator):
+class UpAxisEnumPlugOperator(EnumPlugOperator["UpAxisEnumAttrOperator"]):
     __slots__ = ()
 
     X = 0
@@ -100,7 +100,7 @@ class UpAxisEnumPlugOperator(EnumPlugOperator):
     Z = 2
 
 
-class UpAxisEnumAttrOperator(EnumAttrOperator):
+class UpAxisEnumAttrOperator(EnumAttrOperator[UpAxisEnumPlugOperator]):
     __slots__ = ()
 
     X = 0
@@ -123,7 +123,7 @@ class UpAxisEnumField(
     PLUG_CLS = UpAxisEnumPlugOperator
 
 
-class WorldUpTypeEnumPlugOperator(EnumPlugOperator):
+class WorldUpTypeEnumPlugOperator(EnumPlugOperator["WorldUpTypeEnumAttrOperator"]):
     __slots__ = ()
 
     SCENE_UP = 0
@@ -133,7 +133,7 @@ class WorldUpTypeEnumPlugOperator(EnumPlugOperator):
     NORMAL = 4
 
 
-class WorldUpTypeEnumAttrOperator(EnumAttrOperator):
+class WorldUpTypeEnumAttrOperator(EnumAttrOperator[WorldUpTypeEnumPlugOperator]):
     __slots__ = ()
 
     SCENE_UP = 0

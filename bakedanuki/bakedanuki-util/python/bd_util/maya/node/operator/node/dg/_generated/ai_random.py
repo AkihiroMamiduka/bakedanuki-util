@@ -15,7 +15,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class InputTypeEnumPlugOperator(EnumPlugOperator):
+class InputTypeEnumPlugOperator(EnumPlugOperator["InputTypeEnumAttrOperator"]):
     __slots__ = ()
 
     INT = 0
@@ -23,7 +23,7 @@ class InputTypeEnumPlugOperator(EnumPlugOperator):
     COLOR = 2
 
 
-class InputTypeEnumAttrOperator(EnumAttrOperator):
+class InputTypeEnumAttrOperator(EnumAttrOperator[InputTypeEnumPlugOperator]):
     __slots__ = ()
 
     INT = 0

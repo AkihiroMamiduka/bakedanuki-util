@@ -11,7 +11,7 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.string_array import DataStringArrayField
 
 
-class FilterClassEnumPlugOperator(EnumPlugOperator):
+class FilterClassEnumPlugOperator(EnumPlugOperator["FilterClassEnumAttrOperator"]):
     __slots__ = ()
 
     OTHER = 0
@@ -19,7 +19,7 @@ class FilterClassEnumPlugOperator(EnumPlugOperator):
     USER = 2
 
 
-class FilterClassEnumAttrOperator(EnumAttrOperator):
+class FilterClassEnumAttrOperator(EnumAttrOperator[FilterClassEnumPlugOperator]):
     __slots__ = ()
 
     OTHER = 0
@@ -42,7 +42,7 @@ class FilterClassEnumField(
     PLUG_CLS = FilterClassEnumPlugOperator
 
 
-class AttrTypeEnumPlugOperator(EnumPlugOperator):
+class AttrTypeEnumPlugOperator(EnumPlugOperator["AttrTypeEnumAttrOperator"]):
     __slots__ = ()
 
     ALL = 0
@@ -58,7 +58,7 @@ class AttrTypeEnumPlugOperator(EnumPlugOperator):
     WITH_DRIVEN_KEYS = 10
 
 
-class AttrTypeEnumAttrOperator(EnumAttrOperator):
+class AttrTypeEnumAttrOperator(EnumAttrOperator[AttrTypeEnumPlugOperator]):
     __slots__ = ()
 
     ALL = 0

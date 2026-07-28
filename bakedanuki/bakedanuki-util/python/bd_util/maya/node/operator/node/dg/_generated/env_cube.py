@@ -27,14 +27,14 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class LookupTypeEnumPlugOperator(EnumPlugOperator):
+class LookupTypeEnumPlugOperator(EnumPlugOperator["LookupTypeEnumAttrOperator"]):
     __slots__ = ()
 
     REFLECTION = 0
     NORMAL = 1
 
 
-class LookupTypeEnumAttrOperator(EnumAttrOperator):
+class LookupTypeEnumAttrOperator(EnumAttrOperator[LookupTypeEnumPlugOperator]):
     __slots__ = ()
 
     REFLECTION = 0

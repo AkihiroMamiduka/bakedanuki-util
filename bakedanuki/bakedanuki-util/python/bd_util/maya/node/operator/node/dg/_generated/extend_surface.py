@@ -10,14 +10,14 @@ from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearF
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtensionTypeEnumPlugOperator(EnumPlugOperator):
+class ExtensionTypeEnumPlugOperator(EnumPlugOperator["ExtensionTypeEnumAttrOperator"]):
     __slots__ = ()
 
     TANGENT = 0
     EXTRAPOLATE = 2
 
 
-class ExtensionTypeEnumAttrOperator(EnumAttrOperator):
+class ExtensionTypeEnumAttrOperator(EnumAttrOperator[ExtensionTypeEnumPlugOperator]):
     __slots__ = ()
 
     TANGENT = 0
@@ -38,13 +38,13 @@ class ExtensionTypeEnumField(
     PLUG_CLS = ExtensionTypeEnumPlugOperator
 
 
-class ExtendMethodEnumPlugOperator(EnumPlugOperator):
+class ExtendMethodEnumPlugOperator(EnumPlugOperator["ExtendMethodEnumAttrOperator"]):
     __slots__ = ()
 
     DISTANCE = 0
 
 
-class ExtendMethodEnumAttrOperator(EnumAttrOperator):
+class ExtendMethodEnumAttrOperator(EnumAttrOperator[ExtendMethodEnumPlugOperator]):
     __slots__ = ()
 
     DISTANCE = 0
@@ -63,7 +63,7 @@ class ExtendMethodEnumField(
     PLUG_CLS = ExtendMethodEnumPlugOperator
 
 
-class ExtendSideEnumPlugOperator(EnumPlugOperator):
+class ExtendSideEnumPlugOperator(EnumPlugOperator["ExtendSideEnumAttrOperator"]):
     __slots__ = ()
 
     END = 0
@@ -71,7 +71,7 @@ class ExtendSideEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class ExtendSideEnumAttrOperator(EnumAttrOperator):
+class ExtendSideEnumAttrOperator(EnumAttrOperator[ExtendSideEnumPlugOperator]):
     __slots__ = ()
 
     END = 0
@@ -94,7 +94,7 @@ class ExtendSideEnumField(
     PLUG_CLS = ExtendSideEnumPlugOperator
 
 
-class ExtendDirectionEnumPlugOperator(EnumPlugOperator):
+class ExtendDirectionEnumPlugOperator(EnumPlugOperator["ExtendDirectionEnumAttrOperator"]):
     __slots__ = ()
 
     U = 0
@@ -102,7 +102,7 @@ class ExtendDirectionEnumPlugOperator(EnumPlugOperator):
     BOTH = 2
 
 
-class ExtendDirectionEnumAttrOperator(EnumAttrOperator):
+class ExtendDirectionEnumAttrOperator(EnumAttrOperator[ExtendDirectionEnumPlugOperator]):
     __slots__ = ()
 
     U = 0

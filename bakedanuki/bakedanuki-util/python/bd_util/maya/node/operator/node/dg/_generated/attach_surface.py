@@ -10,14 +10,14 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class MethodEnumPlugOperator(EnumPlugOperator):
+class MethodEnumPlugOperator(EnumPlugOperator["MethodEnumAttrOperator"]):
     __slots__ = ()
 
     CONNECT = 0
     BLEND = 1
 
 
-class MethodEnumAttrOperator(EnumAttrOperator):
+class MethodEnumAttrOperator(EnumAttrOperator[MethodEnumPlugOperator]):
     __slots__ = ()
 
     CONNECT = 0

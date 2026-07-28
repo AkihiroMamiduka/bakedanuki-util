@@ -13,7 +13,7 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class NormalOrientationEnumPlugOperator(EnumPlugOperator):
+class NormalOrientationEnumPlugOperator(EnumPlugOperator["NormalOrientationEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -21,7 +21,7 @@ class NormalOrientationEnumPlugOperator(EnumPlugOperator):
     EDGE_LOOP = 2
 
 
-class NormalOrientationEnumAttrOperator(EnumAttrOperator):
+class NormalOrientationEnumAttrOperator(EnumAttrOperator[NormalOrientationEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -44,7 +44,7 @@ class NormalOrientationEnumField(
     PLUG_CLS = NormalOrientationEnumPlugOperator
 
 
-class AlignmentEnumPlugOperator(EnumPlugOperator):
+class AlignmentEnumPlugOperator(EnumPlugOperator["AlignmentEnumAttrOperator"]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -52,7 +52,7 @@ class AlignmentEnumPlugOperator(EnumPlugOperator):
     SURFACE_AVERAGE = 2
 
 
-class AlignmentEnumAttrOperator(EnumAttrOperator):
+class AlignmentEnumAttrOperator(EnumAttrOperator[AlignmentEnumPlugOperator]):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -75,7 +75,7 @@ class AlignmentEnumField(
     PLUG_CLS = AlignmentEnumPlugOperator
 
 
-class SupportingEdgesEnumPlugOperator(EnumPlugOperator):
+class SupportingEdgesEnumPlugOperator(EnumPlugOperator["SupportingEdgesEnumAttrOperator"]):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +84,7 @@ class SupportingEdgesEnumPlugOperator(EnumPlugOperator):
     BOTH_SIDES = 3
 
 
-class SupportingEdgesEnumAttrOperator(EnumAttrOperator):
+class SupportingEdgesEnumAttrOperator(EnumAttrOperator[SupportingEdgesEnumPlugOperator]):
     __slots__ = ()
 
     OFF = 0
