@@ -1266,6 +1266,8 @@ _GENERATED_COMPOUND_CLASS_NAME_COLLISIONS = {
     "CompoundField",
 }
 
+_MAX_GENERATED_LINE_LENGTH = 79
+
 _FIELD_NAME_COLLISIONS = {
     "create",
     "delete",
@@ -1477,7 +1479,17 @@ def _build_enum_class_lines(
     lines.append("")
     lines.append("    NAME_MAP = {")
     for member_name, label, _value in name_values:
-        lines.append(f'        {member_name}: "{label}",')
+        name_map_line = f'        {member_name}: "{label}",'
+        if len(name_map_line) <= _MAX_GENERATED_LINE_LENGTH:
+            lines.append(name_map_line)
+        else:
+            lines.extend(
+                (
+                    f"        {member_name}: (",
+                    f'            "{label}"',
+                    "        ),",
+                )
+            )
     lines.append("    }")
     lines.append("")
     lines.append("")

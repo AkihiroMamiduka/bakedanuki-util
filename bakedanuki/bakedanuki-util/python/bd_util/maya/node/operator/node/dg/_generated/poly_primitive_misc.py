@@ -94,7 +94,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
         NORMALIZATION_OFF: "Normalization Off",
         NORMALIZE_EACH_FACE_SEPARATELY: "Normalize Each Face Separately",
         NORMALIZE_COLLECTIVELY: "Normalize Collectively",
-        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: "Normalize Collectively and Preserve Aspect Ratio",
+        NORMALIZE_COLLECTIVELY_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize Collectively and Preserve Aspect Ratio"
+        ),
     }
 
 

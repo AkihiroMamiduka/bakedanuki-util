@@ -357,6 +357,9 @@ NAME_MAP = {
 }
 ```
 
+`NAME_MAP` の key と label が 79 文字を超える場合は、生成時に label を
+括弧付きの複数行表現へ折り返します。
+
 compound child が enum の場合も、素の `EnumField()` ではなく専用の enum class を `node_attr` ファイル内に生成します。
 これにより、親 compound 経由や node 直下 alias 経由で child enum にアクセスした場合も `NAME_MAP` を保持できます。
 

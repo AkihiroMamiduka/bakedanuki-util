@@ -63,7 +63,9 @@ class SubdivisionTypeEnumAttrOperator(
     NAME_MAP = {
         MAYA_CATMULL_MINUS_CLARK: "Maya Catmull-Clark",
         OPENSUBDIV_CATMULL_MINUS_CLARK: "OpenSubdiv Catmull-Clark",
-        OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE: "OpenSubdiv Catmull-Clark Adaptive",
+        OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE: (
+            "OpenSubdiv Catmull-Clark Adaptive"
+        ),
     }
 
 

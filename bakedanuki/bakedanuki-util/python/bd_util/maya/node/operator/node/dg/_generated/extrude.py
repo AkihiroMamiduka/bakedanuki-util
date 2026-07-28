@@ -79,7 +79,9 @@ class UseComponentPivotEnumAttrOperator(
     NAME_MAP = {
         CLOSEST_ENDPOINT_OF_THE_PATH: "Closest Endpoint of the Path",
         COMPONENT_PIVOT: "Component Pivot",
-        CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE: "Center of the Bounding Box of the Profile",
+        CENTER_OF_THE_BOUNDING_BOX_OF_THE_PROFILE: (
+            "Center of the Bounding Box of the Profile"
+        ),
     }
 
 

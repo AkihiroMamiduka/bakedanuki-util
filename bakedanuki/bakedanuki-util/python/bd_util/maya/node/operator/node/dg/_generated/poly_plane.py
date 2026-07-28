@@ -64,7 +64,9 @@ class CreateUVsEnumAttrOperator(EnumAttrOperator[CreateUVsEnumPlugOperator]):
     NAME_MAP = {
         NONE: "None",
         NORMALIZATION_OFF: "Normalization Off",
-        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: "Normalize and Preserve Aspect Ratio",
+        NORMALIZE_AND_PRESERVE_ASPECT_RATIO: (
+            "Normalize and Preserve Aspect Ratio"
+        ),
     }
 
 

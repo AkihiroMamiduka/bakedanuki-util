@@ -408,7 +408,9 @@ class PeriodInExtEnumAttrOperator(
     UNDERSCORE_IN_EXTENSION = 2
 
     NAME_MAP = {
-        NO_PERIOD_OR_UNDERSCORE_IN_EXTENSION: "No Period or Underscore in Extension",
+        NO_PERIOD_OR_UNDERSCORE_IN_EXTENSION: (
+            "No Period or Underscore in Extension"
+        ),
         PERIOD_IN_EXTENSION: "Period in Extension",
         UNDERSCORE_IN_EXTENSION: "Underscore in Extension",
     }

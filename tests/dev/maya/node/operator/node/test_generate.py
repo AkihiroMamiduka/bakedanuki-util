@@ -819,6 +819,29 @@ def test_generate_suffixes_duplicate_enum_member_names():
     assert '        RGBA_2: "RGBA",' in code
 
 
+def test_generate_wraps_long_enum_name_map_entries():
+    code = generate_node_class_code(
+        "longEnumNode",
+        attr_infos=[
+            _attr(
+                "mode",
+                "md",
+                "enum",
+                enum_name=["Write Shader Result to Beauty Passes"],
+            )
+        ],
+    )
+
+    compile(code, "long_enum_node.py", "exec")
+
+    assert (
+        "        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (\n"
+        '            "Write Shader Result to Beauty Passes"\n'
+        "        ),"
+    ) in code
+    assert all(len(line) <= 79 for line in code.splitlines())
+
+
 def test_generate_resolves_data_type_when_attribute_type_is_missing():
     code = generate_node_class_code(
         "dataTypeOnlyNode",

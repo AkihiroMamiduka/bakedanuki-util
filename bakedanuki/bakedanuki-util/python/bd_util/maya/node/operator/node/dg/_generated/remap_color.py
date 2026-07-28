@@ -40,7 +40,9 @@ class RenderPassModeEnumAttrOperator(
         PASS_THROUGH: "Pass through",
         APPLY_TO_RENDER_PASSES: "Apply to Render Passes",
         NO_CONTRIBUTION: "No Contribution",
-        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: "Write Shader Result to Beauty Passes",
+        WRITE_SHADER_RESULT_TO_BEAUTY_PASSES: (
+            "Write Shader Result to Beauty Passes"
+        ),
     }
 
 
