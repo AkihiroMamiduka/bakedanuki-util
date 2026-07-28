@@ -8,21 +8,15 @@ from ..std.at.compound import (
 from ..std.dt.string import DataStringField
 
 
-class TrackInfoPlugOperator(
-    CompoundPlugOperator["TrackInfoAttrOperator"]
-):
+class TrackInfoPlugOperator(CompoundPlugOperator["TrackInfoAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("title", "t"),
-    )
+    CHILD_ATTR_NAMES = (("title", "t"),)
 
     title = DataStringField()
     t = title
 
 
-class TrackInfoAttrOperator(
-    CompoundAttrOperator[TrackInfoPlugOperator]
-):
+class TrackInfoAttrOperator(CompoundAttrOperator[TrackInfoPlugOperator]):
     __slots__ = ()
 
     title = DataStringField()
@@ -42,9 +36,7 @@ class AudioTrackInfoPlugOperator(
     CompoundPlugOperator["AudioTrackInfoAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("audioTitle", "at"),
-    )
+    CHILD_ATTR_NAMES = (("audioTitle", "at"),)
 
     audioTitle = DataStringField()
     at = audioTitle

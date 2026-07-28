@@ -26,7 +26,9 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class ColorRampInputEnumPlugOperator(EnumPlugOperator["ColorRampInputEnumAttrOperator"]):
+class ColorRampInputEnumPlugOperator(
+    EnumPlugOperator["ColorRampInputEnumAttrOperator"]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -35,7 +37,9 @@ class ColorRampInputEnumPlugOperator(EnumPlugOperator["ColorRampInputEnumAttrOpe
     Y_GRADIENT = 3
 
 
-class ColorRampInputEnumAttrOperator(EnumAttrOperator[ColorRampInputEnumPlugOperator]):
+class ColorRampInputEnumAttrOperator(
+    EnumAttrOperator[ColorRampInputEnumPlugOperator]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -60,14 +64,18 @@ class ColorRampInputEnumField(
     PLUG_CLS = ColorRampInputEnumPlugOperator
 
 
-class DensityModeEnumPlugOperator(EnumPlugOperator["DensityModeEnumAttrOperator"]):
+class DensityModeEnumPlugOperator(
+    EnumPlugOperator["DensityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLDSPACE = 0
     OBJECTSPACE = 1
 
 
-class DensityModeEnumAttrOperator(EnumAttrOperator[DensityModeEnumPlugOperator]):
+class DensityModeEnumAttrOperator(
+    EnumAttrOperator[DensityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLDSPACE = 0
@@ -88,7 +96,9 @@ class DensityModeEnumField(
     PLUG_CLS = DensityModeEnumPlugOperator
 
 
-class DropoffShapeEnumPlugOperator(EnumPlugOperator["DropoffShapeEnumAttrOperator"]):
+class DropoffShapeEnumPlugOperator(
+    EnumPlugOperator["DropoffShapeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -98,7 +108,9 @@ class DropoffShapeEnumPlugOperator(EnumPlugOperator["DropoffShapeEnumAttrOperato
     LIGHTCONE = 4
 
 
-class DropoffShapeEnumAttrOperator(EnumAttrOperator[DropoffShapeEnumPlugOperator]):
+class DropoffShapeEnumAttrOperator(
+    EnumAttrOperator[DropoffShapeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -125,14 +137,18 @@ class DropoffShapeEnumField(
     PLUG_CLS = DropoffShapeEnumPlugOperator
 
 
-class DropoffMethodEnumPlugOperator(EnumPlugOperator["DropoffMethodEnumAttrOperator"]):
+class DropoffMethodEnumPlugOperator(
+    EnumPlugOperator["DropoffMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     SCALE_OPACITY = 0
     SUBTRACT_DENSITY = 1
 
 
-class DropoffMethodEnumAttrOperator(EnumAttrOperator[DropoffMethodEnumPlugOperator]):
+class DropoffMethodEnumAttrOperator(
+    EnumAttrOperator[DropoffMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     SCALE_OPACITY = 0
@@ -153,7 +169,9 @@ class DropoffMethodEnumField(
     PLUG_CLS = DropoffMethodEnumPlugOperator
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -161,7 +179,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAtt
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -176,7 +196,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlug
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -258,7 +280,13 @@ class GeneratedVolumeFog(DG):
     lightIntensityB = FloatField()
     lib = lightIntensityB
 
-    color = ColorField(default_value=(0.8999999761581421, 0.8999999761581421, 0.8999999761581421))
+    color = ColorField(
+        default_value=(
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+        )
+    )
     cl = color
     colorR = color.colorR
     cr = colorR
@@ -300,10 +328,14 @@ class GeneratedVolumeFog(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -312,7 +344,9 @@ class GeneratedVolumeFog(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    density = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    density = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     dns = density
 
     densityMode = DensityModeEnumField(default_value=1)
@@ -321,28 +355,40 @@ class GeneratedVolumeFog(DG):
     dropoffShape = DropoffShapeEnumField(default_value=0)
     dos = dropoffShape
 
-    edgeDropoff = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    edgeDropoff = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     edr = edgeDropoff
 
-    axialDropoff = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    axialDropoff = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     axd = axialDropoff
 
     dropoffMethod = DropoffMethodEnumField(default_value=0)
     drm = dropoffMethod
 
-    dropoffSubtract = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    dropoffSubtract = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     drs = dropoffSubtract
 
     illuminated = BoolField(default_value=False)
     il = illuminated
 
-    lightScatter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    lightScatter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     lsc = lightScatter
 
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
     outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -354,7 +400,9 @@ class GeneratedVolumeFog(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -363,7 +411,9 @@ class GeneratedVolumeFog(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(1.0, 1.0, 1.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(1.0, 1.0, 1.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

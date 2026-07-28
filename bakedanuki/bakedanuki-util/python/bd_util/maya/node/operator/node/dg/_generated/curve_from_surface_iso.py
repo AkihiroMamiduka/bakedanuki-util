@@ -11,14 +11,18 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class IsoparmDirectionEnumPlugOperator(EnumPlugOperator["IsoparmDirectionEnumAttrOperator"]):
+class IsoparmDirectionEnumPlugOperator(
+    EnumPlugOperator["IsoparmDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     U = 0
     V = 1
 
 
-class IsoparmDirectionEnumAttrOperator(EnumAttrOperator[IsoparmDirectionEnumPlugOperator]):
+class IsoparmDirectionEnumAttrOperator(
+    EnumAttrOperator[IsoparmDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     U = 0
@@ -31,7 +35,9 @@ class IsoparmDirectionEnumAttrOperator(EnumAttrOperator[IsoparmDirectionEnumPlug
 
 
 class IsoparmDirectionEnumField(
-    EnumField[IsoparmDirectionEnumAttrOperator, IsoparmDirectionEnumPlugOperator]
+    EnumField[
+        IsoparmDirectionEnumAttrOperator, IsoparmDirectionEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47,10 +53,14 @@ class GeneratedCurveFromSurfaceIso(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    minValue = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    minValue = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     min = minValue
 
-    maxValue = DoubleField(default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxValue = DoubleField(
+        default_value=-1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     max = maxValue
 
     relative = BoolField(default_value=False)

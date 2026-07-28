@@ -102,7 +102,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -215,9 +217,7 @@ class MultiplyField(
     multiplyb = multiplyB
 
 
-class OffsetPlugOperator(
-    Float3CompoundBasePlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(Float3CompoundBasePlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetR", "offsetr"),
@@ -235,9 +235,7 @@ class OffsetPlugOperator(
     offsetb = offsetB
 
 
-class OffsetAttrOperator(
-    Float3CompoundBaseAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(Float3CompoundBaseAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetR = FloatField(default_value=0.0)
@@ -304,7 +302,9 @@ class MissingTextureColorAttrOperator(
 
 
 class MissingTextureColorField(
-    Float3CompoundBaseField[MissingTextureColorAttrOperator, MissingTextureColorPlugOperator]
+    Float3CompoundBaseField[
+        MissingTextureColorAttrOperator, MissingTextureColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

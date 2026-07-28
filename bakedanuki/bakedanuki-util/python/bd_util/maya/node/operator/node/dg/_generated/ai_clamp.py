@@ -34,9 +34,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -57,7 +55,9 @@ class GeneratedAiClamp(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

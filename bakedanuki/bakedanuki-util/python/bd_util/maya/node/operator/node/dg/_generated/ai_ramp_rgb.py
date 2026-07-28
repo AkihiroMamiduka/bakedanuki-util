@@ -52,16 +52,16 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class UseImplicitUvsEnumPlugOperator(EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]):
+class UseImplicitUvsEnumPlugOperator(
+    EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -69,7 +69,9 @@ class UseImplicitUvsEnumPlugOperator(EnumPlugOperator["UseImplicitUvsEnumAttrOpe
     CURVES_ONLY = 2
 
 
-class UseImplicitUvsEnumAttrOperator(EnumAttrOperator[UseImplicitUvsEnumPlugOperator]):
+class UseImplicitUvsEnumAttrOperator(
+    EnumAttrOperator[UseImplicitUvsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -106,7 +108,9 @@ class GeneratedAiRampRgb(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

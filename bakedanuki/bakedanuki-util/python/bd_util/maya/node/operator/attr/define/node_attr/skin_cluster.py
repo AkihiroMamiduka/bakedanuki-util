@@ -27,9 +27,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -47,9 +45,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -62,9 +58,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -75,9 +69,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -93,7 +85,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -154,21 +148,15 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "w"),)
 
     weights = DoubleField(multi=True, default_value=0.0)
     w = weights
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = DoubleField(multi=True, default_value=0.0)
@@ -188,11 +176,11 @@ class PerInfluenceWeightsPlugOperator(
     CompoundPlugOperator["PerInfluenceWeightsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("perInfluenceVertexWeights", "pivw"),
-    )
+    CHILD_ATTR_NAMES = (("perInfluenceVertexWeights", "pivw"),)
 
-    perInfluenceVertexWeights = DoubleField(multi=True, default_value=0.0, writable=False)
+    perInfluenceVertexWeights = DoubleField(
+        multi=True, default_value=0.0, writable=False
+    )
     pivw = perInfluenceVertexWeights
 
 
@@ -201,12 +189,16 @@ class PerInfluenceWeightsAttrOperator(
 ):
     __slots__ = ()
 
-    perInfluenceVertexWeights = DoubleField(multi=True, default_value=0.0, writable=False)
+    perInfluenceVertexWeights = DoubleField(
+        multi=True, default_value=0.0, writable=False
+    )
     pivw = perInfluenceVertexWeights
 
 
 class PerInfluenceWeightsField(
-    CompoundField[PerInfluenceWeightsAttrOperator, PerInfluenceWeightsPlugOperator]
+    CompoundField[
+        PerInfluenceWeightsAttrOperator, PerInfluenceWeightsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -250,7 +242,9 @@ class InfluenceColorAttrOperator(
 
 
 class InfluenceColorField(
-    Float3CompoundBaseField[InfluenceColorAttrOperator, InfluenceColorPlugOperator]
+    Float3CompoundBaseField[
+        InfluenceColorAttrOperator, InfluenceColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

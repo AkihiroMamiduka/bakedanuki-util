@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.custom_rig_default_mapping_node import OffsetField
+from ....attr.define.node_attr.custom_rig_default_mapping_node import (
+    OffsetField,
+)
 from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
@@ -31,9 +33,7 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator

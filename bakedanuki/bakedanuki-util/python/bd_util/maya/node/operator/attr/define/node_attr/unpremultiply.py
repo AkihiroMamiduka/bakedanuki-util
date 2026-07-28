@@ -28,9 +28,7 @@ class InColorPlugOperator(
     cb = inColorB
 
 
-class InColorAttrOperator(
-    Float3CompoundBaseAttrOperator[InColorPlugOperator]
-):
+class InColorAttrOperator(Float3CompoundBaseAttrOperator[InColorPlugOperator]):
     __slots__ = ()
 
     inColorR = FloatField(default_value=1.0)

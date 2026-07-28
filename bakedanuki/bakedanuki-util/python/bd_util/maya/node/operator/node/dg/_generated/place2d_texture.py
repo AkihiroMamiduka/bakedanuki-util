@@ -16,7 +16,9 @@ from ....attr.define.node_attr.place2d_texture import (
     VertexUvTwoField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 
 
 class GeneratedPlace2dTexture(DG):
@@ -68,7 +70,11 @@ class GeneratedPlace2dTexture(DG):
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    coverage = CoverageField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(1.0, 1.0))
+    coverage = CoverageField(
+        default_value=(1.0, 1.0),
+        min_value=(0.0, 0.0),
+        soft_max_value=(1.0, 1.0),
+    )
     c = coverage
     coverageU = coverage.coverageU
     cu = coverageU
@@ -82,7 +88,11 @@ class GeneratedPlace2dTexture(DG):
     translateFrameV = translateFrame.translateFrameV
     tfv = translateFrameV
 
-    rotateFrame = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=359.99999958864004)
+    rotateFrame = DoubleAngleField(
+        default_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=359.99999958864004,
+    )
     rf = rotateFrame
 
     mirrorU = BoolField(default_value=False)
@@ -114,7 +124,11 @@ class GeneratedPlace2dTexture(DG):
     offsetV = offset.offsetV
     ofv = offsetV
 
-    rotateUV = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=359.99999958864004)
+    rotateUV = DoubleAngleField(
+        default_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=359.99999958864004,
+    )
     r = rotateUV
 
     noiseUV = NoiseUVField(default_value=(0.0, 0.0), min_value=(0.0, 0.0))
@@ -134,7 +148,9 @@ class GeneratedPlace2dTexture(DG):
     outV = outUV.outV
     ov = outV
 
-    outUvFilterSize = OutUvFilterSizeField(default_value=(0.0, 0.0), writable=False)
+    outUvFilterSize = OutUvFilterSizeField(
+        default_value=(0.0, 0.0), writable=False
+    )
     ofs = outUvFilterSize
     outUvFilterSizeX = outUvFilterSize.outUvFilterSizeX
     ofsx = outUvFilterSizeX

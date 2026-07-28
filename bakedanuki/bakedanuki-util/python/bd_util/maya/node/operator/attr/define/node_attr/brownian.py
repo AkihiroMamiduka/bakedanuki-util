@@ -521,7 +521,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -548,13 +550,19 @@ class Weight3dPlugOperator(
         ("weight3dZ", "w3z"),
     )
 
-    weight3dX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3x = weight3dX
 
-    weight3dY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3y = weight3dY
 
-    weight3dZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3z = weight3dZ
 
 
@@ -563,13 +571,19 @@ class Weight3dAttrOperator(
 ):
     __slots__ = ()
 
-    weight3dX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3x = weight3dX
 
-    weight3dY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3y = weight3dY
 
-    weight3dZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3z = weight3dZ
 
 
@@ -581,11 +595,17 @@ class Weight3dField(
     ATTR_CLS = Weight3dAttrOperator
     PLUG_CLS = Weight3dPlugOperator
 
-    weight3dX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3x = weight3dX
 
-    weight3dY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3y = weight3dY
 
-    weight3dZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    weight3dZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     w3z = weight3dZ

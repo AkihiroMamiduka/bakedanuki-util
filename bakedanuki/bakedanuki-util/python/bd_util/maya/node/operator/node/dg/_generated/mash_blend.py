@@ -23,7 +23,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -32,7 +34,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -57,14 +61,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -77,7 +85,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -116,14 +127,18 @@ class MergeTypeEnumField(
     PLUG_CLS = MergeTypeEnumPlugOperator
 
 
-class RotationInterpolationEnumPlugOperator(EnumPlugOperator["RotationInterpolationEnumAttrOperator"]):
+class RotationInterpolationEnumPlugOperator(
+    EnumPlugOperator["RotationInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     MATRIX_LERP = 1
     QUATERNION_SLERP = 2
 
 
-class RotationInterpolationEnumAttrOperator(EnumAttrOperator[RotationInterpolationEnumPlugOperator]):
+class RotationInterpolationEnumAttrOperator(
+    EnumAttrOperator[RotationInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     MATRIX_LERP = 1
@@ -136,7 +151,10 @@ class RotationInterpolationEnumAttrOperator(EnumAttrOperator[RotationInterpolati
 
 
 class RotationInterpolationEnumField(
-    EnumField[RotationInterpolationEnumAttrOperator, RotationInterpolationEnumPlugOperator]
+    EnumField[
+        RotationInterpolationEnumAttrOperator,
+        RotationInterpolationEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -164,7 +182,9 @@ class GeneratedMASH_Blend(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 

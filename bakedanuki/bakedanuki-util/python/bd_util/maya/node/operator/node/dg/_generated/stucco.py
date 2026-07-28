@@ -58,13 +58,19 @@ class GeneratedStucco(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -79,7 +85,11 @@ class GeneratedStucco(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -88,7 +98,11 @@ class GeneratedStucco(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -97,13 +111,21 @@ class GeneratedStucco(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -145,7 +167,11 @@ class GeneratedStucco(DG):
     shaker = FloatField(default_value=20.0, min_value=0.0, soft_max_value=20.0)
     sh = shaker
 
-    channel1 = Channel1Field(default_value=(1.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    channel1 = Channel1Field(
+        default_value=(1.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c1 = channel1
     channel1R = channel1.channel1R
     c1r = channel1R
@@ -154,7 +180,11 @@ class GeneratedStucco(DG):
     channel1B = channel1.channel1B
     c1b = channel1B
 
-    channel2 = Channel2Field(default_value=(0.0, 0.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    channel2 = Channel2Field(
+        default_value=(0.0, 0.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c2 = channel2
     channel2R = channel2.channel2R
     c2r = channel2R
@@ -172,10 +202,16 @@ class GeneratedStucco(DG):
     normalCameraZ = normalCamera.normalCameraZ
     nz = normalCameraZ
 
-    normalMelt = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=1.0)
+    normalMelt = FloatField(
+        default_value=0.10000000149011612,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     nm = normalMelt
 
-    normalDepth = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
+    normalDepth = FloatField(
+        default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     nd = normalDepth
 
     outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)

@@ -20,14 +20,18 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransferPositionsEnumPlugOperator(EnumPlugOperator["TransferPositionsEnumAttrOperator"]):
+class TransferPositionsEnumPlugOperator(
+    EnumPlugOperator["TransferPositionsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferPositionsEnumAttrOperator(EnumAttrOperator[TransferPositionsEnumPlugOperator]):
+class TransferPositionsEnumAttrOperator(
+    EnumAttrOperator[TransferPositionsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -40,7 +44,9 @@ class TransferPositionsEnumAttrOperator(EnumAttrOperator[TransferPositionsEnumPl
 
 
 class TransferPositionsEnumField(
-    EnumField[TransferPositionsEnumAttrOperator, TransferPositionsEnumPlugOperator]
+    EnumField[
+        TransferPositionsEnumAttrOperator, TransferPositionsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,14 +54,18 @@ class TransferPositionsEnumField(
     PLUG_CLS = TransferPositionsEnumPlugOperator
 
 
-class TransferNormalsEnumPlugOperator(EnumPlugOperator["TransferNormalsEnumAttrOperator"]):
+class TransferNormalsEnumPlugOperator(
+    EnumPlugOperator["TransferNormalsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class TransferNormalsEnumAttrOperator(EnumAttrOperator[TransferNormalsEnumPlugOperator]):
+class TransferNormalsEnumAttrOperator(
+    EnumAttrOperator[TransferNormalsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -76,7 +86,9 @@ class TransferNormalsEnumField(
     PLUG_CLS = TransferNormalsEnumPlugOperator
 
 
-class TransferUVsEnumPlugOperator(EnumPlugOperator["TransferUVsEnumAttrOperator"]):
+class TransferUVsEnumPlugOperator(
+    EnumPlugOperator["TransferUVsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +96,9 @@ class TransferUVsEnumPlugOperator(EnumPlugOperator["TransferUVsEnumAttrOperator"
     ALL = 2
 
 
-class TransferUVsEnumAttrOperator(EnumAttrOperator[TransferUVsEnumPlugOperator]):
+class TransferUVsEnumAttrOperator(
+    EnumAttrOperator[TransferUVsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -107,7 +121,9 @@ class TransferUVsEnumField(
     PLUG_CLS = TransferUVsEnumPlugOperator
 
 
-class TransferColorsEnumPlugOperator(EnumPlugOperator["TransferColorsEnumAttrOperator"]):
+class TransferColorsEnumPlugOperator(
+    EnumPlugOperator["TransferColorsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -115,7 +131,9 @@ class TransferColorsEnumPlugOperator(EnumPlugOperator["TransferColorsEnumAttrOpe
     ALL = 2
 
 
-class TransferColorsEnumAttrOperator(EnumAttrOperator[TransferColorsEnumPlugOperator]):
+class TransferColorsEnumAttrOperator(
+    EnumAttrOperator[TransferColorsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -138,7 +156,9 @@ class TransferColorsEnumField(
     PLUG_CLS = TransferColorsEnumPlugOperator
 
 
-class SampleSpaceEnumPlugOperator(EnumPlugOperator["SampleSpaceEnumAttrOperator"]):
+class SampleSpaceEnumPlugOperator(
+    EnumPlugOperator["SampleSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -149,7 +169,9 @@ class SampleSpaceEnumPlugOperator(EnumPlugOperator["SampleSpaceEnumAttrOperator"
     TOPOLOGY = 5
 
 
-class SampleSpaceEnumAttrOperator(EnumAttrOperator[SampleSpaceEnumPlugOperator]):
+class SampleSpaceEnumAttrOperator(
+    EnumAttrOperator[SampleSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -178,14 +200,18 @@ class SampleSpaceEnumField(
     PLUG_CLS = SampleSpaceEnumPlugOperator
 
 
-class SearchMethodEnumPlugOperator(EnumPlugOperator["SearchMethodEnumAttrOperator"]):
+class SearchMethodEnumPlugOperator(
+    EnumPlugOperator["SearchMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
     CLOSEST_TO_POINT = 3
 
 
-class SearchMethodEnumAttrOperator(EnumAttrOperator[SearchMethodEnumPlugOperator]):
+class SearchMethodEnumAttrOperator(
+    EnumAttrOperator[SearchMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST_ALONG_NORMAL = 0
@@ -240,14 +266,18 @@ class FlipUVsEnumField(
     PLUG_CLS = FlipUVsEnumPlugOperator
 
 
-class ColorBordersEnumPlugOperator(EnumPlugOperator["ColorBordersEnumAttrOperator"]):
+class ColorBordersEnumPlugOperator(
+    EnumPlugOperator["ColorBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     IGNORE = 0
     PRESERVE = 1
 
 
-class ColorBordersEnumAttrOperator(EnumAttrOperator[ColorBordersEnumPlugOperator]):
+class ColorBordersEnumAttrOperator(
+    EnumAttrOperator[ColorBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -285,13 +315,21 @@ class GeneratedTransferAttributes(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -348,10 +386,14 @@ class GeneratedTransferAttributes(DG):
     searchMethod = SearchMethodEnumField(default_value=3)
     mtd = searchMethod
 
-    searchDistance = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    searchDistance = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     dis = searchDistance
 
-    searchTolerance = DoubleField(default_value=1.3, soft_min_value=1.0, soft_max_value=2.0)
+    searchTolerance = DoubleField(
+        default_value=1.3, soft_min_value=1.0, soft_max_value=2.0
+    )
     tol = searchTolerance
 
     searchScale = SearchScaleField(default_value=(1.0, 1.0, 1.0))

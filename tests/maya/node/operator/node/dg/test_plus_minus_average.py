@@ -5,7 +5,6 @@ import pytest
 
 import bd_util as bdu
 
-
 pytestmark = pytest.mark.maya
 
 
@@ -87,9 +86,7 @@ def test_get_set_long_names(modifier_manager, plus_minus_average_node):
     assert node.input3D[0].input3Dz.get() == pytest.approx(303.0)
     input3d = node.input3D[0].get()
     assert isinstance(input3d, bdu.Float3)
-    assert input3d == pytest.approx(
-        [301.0, 302.0, 303.0]
-    )
+    assert input3d == pytest.approx([301.0, 302.0, 303.0])
 
 
 def test_get_set_short_names(modifier_manager, plus_minus_average_node):

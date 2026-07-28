@@ -44,7 +44,9 @@ class ParticleIncandescenceAttrOperator(
 
 
 class ParticleIncandescenceField(
-    Float3CompoundBaseField[ParticleIncandescenceAttrOperator, ParticleIncandescencePlugOperator]
+    Float3CompoundBaseField[
+        ParticleIncandescenceAttrOperator, ParticleIncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 

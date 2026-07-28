@@ -11,19 +11,29 @@ from .operator.node.dg.ais_env_facade import AISEnvFacade
 from .operator.node.dg.alembic_node import AlembicNode
 from .operator.node.dg.compute_global import ComputeGlobal
 from .operator.node.dg.compute_local import ComputeLocal
-from .operator.node.dg.custom_rig_default_mapping_node import CustomRigDefaultMappingNode
-from .operator.node.dg.custom_rig_retargeter_node import CustomRigRetargeterNode
+from .operator.node.dg.custom_rig_default_mapping_node import (
+    CustomRigDefaultMappingNode,
+)
+from .operator.node.dg.custom_rig_retargeter_node import (
+    CustomRigRetargeterNode,
+)
 from .operator.node.dg.hik_character_node import HIKCharacterNode
-from .operator.node.dg.hik_character_state_client import HIKCharacterStateClient
+from .operator.node.dg.hik_character_state_client import (
+    HIKCharacterStateClient,
+)
 from .operator.node.dg.hik_control_set_node import HIKControlSetNode
 from .operator.node.dg.hik_effector2_state import HIKEffector2State
-from .operator.node.dg.hik_effector_from_character import HIKEffectorFromCharacter
+from .operator.node.dg.hik_effector_from_character import (
+    HIKEffectorFromCharacter,
+)
 from .operator.node.dg.hikfk2_state import HIKFK2State
 from .operator.node.dg.hik_pinning2_state import HIKPinning2State
 from .operator.node.dg.hik_property2_state import HIKProperty2State
 from .operator.node.dg.hik_retargeter_node import HIKRetargeterNode
 from .operator.node.dg.hiksk2_state import HIKSK2State
-from .operator.node.dg.hik_skeleton_generator_node import HIKSkeletonGeneratorNode
+from .operator.node.dg.hik_skeleton_generator_node import (
+    HIKSkeletonGeneratorNode,
+)
 from .operator.node.dg.hik_solver_node import HIKSolverNode
 from .operator.node.dg.hik_state2_effector import HIKState2Effector
 from .operator.node.dg.hik_state2_fk import HIKState2FK
@@ -42,7 +52,9 @@ from .operator.node.dg.mash_deformer import MASH_Deformer
 from .operator.node.dg.mash_delay import MASH_Delay
 from .operator.node.dg.mash_distribute import MASH_Distribute
 from .operator.node.dg.mash_dynamics import MASH_Dynamics
-from .operator.node.dg.mash_dynamics_initial_state import MASH_DynamicsInitialState
+from .operator.node.dg.mash_dynamics_initial_state import (
+    MASH_DynamicsInitialState,
+)
 from .operator.node.dg.mash_explode import MASH_Explode
 from .operator.node.dg.mash_id import MASH_Id
 from .operator.node.dg.mash_influence import MASH_Influence
@@ -79,7 +91,9 @@ from .operator.node.dg.material_x_surface_shader import MaterialXSurfaceShader
 from .operator.node.dg.r_scontainer import RScontainer
 from .operator.node.dg.unfold3_d_optimize import Unfold3DOptimize
 from .operator.node.dg.unfold3_d_unfold import Unfold3DUnfold
-from .operator.node.dg.about_to_set_value_test_node import AboutToSetValueTestNode
+from .operator.node.dg.about_to_set_value_test_node import (
+    AboutToSetValueTestNode,
+)
 from .operator.node.dg.abs_override import AbsOverride
 from .operator.node.dg.abs_unique_override import AbsUniqueOverride
 from .operator.node.dg.absolute import Absolute
@@ -87,7 +101,9 @@ from .operator.node.dg.acos import Acos
 from .operator.node.dg.add_double_linear import AddDoubleLinear
 from .operator.node.dg.add_matrix import AddMatrix
 from .operator.node.dg.adsk_material import AdskMaterial
-from .operator.node.dg.adsk_prepare_render_globals import AdskPrepareRenderGlobals
+from .operator.node.dg.adsk_prepare_render_globals import (
+    AdskPrepareRenderGlobals,
+)
 from .operator.node.dg.ai_aov import AiAOV
 from .operator.node.dg.ai_aov_driver import AiAOVDriver
 from .operator.node.dg.ai_aov_filter import AiAOVFilter
@@ -245,15 +261,31 @@ from .operator.node.dg.angle_between import AngleBetween
 from .operator.node.dg.anim_blend import AnimBlend
 from .operator.node.dg.anim_blend_in_out import AnimBlendInOut
 from .operator.node.dg.anim_blend_node_additive import AnimBlendNodeAdditive
-from .operator.node.dg.anim_blend_node_additive_da import AnimBlendNodeAdditiveDA
-from .operator.node.dg.anim_blend_node_additive_dl import AnimBlendNodeAdditiveDL
+from .operator.node.dg.anim_blend_node_additive_da import (
+    AnimBlendNodeAdditiveDA,
+)
+from .operator.node.dg.anim_blend_node_additive_dl import (
+    AnimBlendNodeAdditiveDL,
+)
 from .operator.node.dg.anim_blend_node_additive_f import AnimBlendNodeAdditiveF
-from .operator.node.dg.anim_blend_node_additive_fa import AnimBlendNodeAdditiveFA
-from .operator.node.dg.anim_blend_node_additive_fl import AnimBlendNodeAdditiveFL
-from .operator.node.dg.anim_blend_node_additive_i16 import AnimBlendNodeAdditiveI16
-from .operator.node.dg.anim_blend_node_additive_i32 import AnimBlendNodeAdditiveI32
-from .operator.node.dg.anim_blend_node_additive_rotation import AnimBlendNodeAdditiveRotation
-from .operator.node.dg.anim_blend_node_additive_scale import AnimBlendNodeAdditiveScale
+from .operator.node.dg.anim_blend_node_additive_fa import (
+    AnimBlendNodeAdditiveFA,
+)
+from .operator.node.dg.anim_blend_node_additive_fl import (
+    AnimBlendNodeAdditiveFL,
+)
+from .operator.node.dg.anim_blend_node_additive_i16 import (
+    AnimBlendNodeAdditiveI16,
+)
+from .operator.node.dg.anim_blend_node_additive_i32 import (
+    AnimBlendNodeAdditiveI32,
+)
+from .operator.node.dg.anim_blend_node_additive_rotation import (
+    AnimBlendNodeAdditiveRotation,
+)
+from .operator.node.dg.anim_blend_node_additive_scale import (
+    AnimBlendNodeAdditiveScale,
+)
 from .operator.node.dg.anim_blend_node_boolean import AnimBlendNodeBoolean
 from .operator.node.dg.anim_blend_node_enum import AnimBlendNodeEnum
 from .operator.node.dg.anim_blend_node_time import AnimBlendNodeTime
@@ -270,8 +302,12 @@ from .operator.node.dg.anim_layer import AnimLayer
 from .operator.node.dg.anisotropic import Anisotropic
 from .operator.node.dg.aov_child_collection import AovChildCollection
 from .operator.node.dg.aov_collection import AovCollection
-from .operator.node.dg.apply_abs2_floats_override import ApplyAbs2FloatsOverride
-from .operator.node.dg.apply_abs3_floats_override import ApplyAbs3FloatsOverride
+from .operator.node.dg.apply_abs2_floats_override import (
+    ApplyAbs2FloatsOverride,
+)
+from .operator.node.dg.apply_abs3_floats_override import (
+    ApplyAbs3FloatsOverride,
+)
 from .operator.node.dg.apply_abs_bool_override import ApplyAbsBoolOverride
 from .operator.node.dg.apply_abs_enum_override import ApplyAbsEnumOverride
 from .operator.node.dg.apply_abs_float_override import ApplyAbsFloatOverride
@@ -280,8 +316,12 @@ from .operator.node.dg.apply_abs_override import ApplyAbsOverride
 from .operator.node.dg.apply_abs_string_override import ApplyAbsStringOverride
 from .operator.node.dg.apply_connection_override import ApplyConnectionOverride
 from .operator.node.dg.apply_override import ApplyOverride
-from .operator.node.dg.apply_rel2_floats_override import ApplyRel2FloatsOverride
-from .operator.node.dg.apply_rel3_floats_override import ApplyRel3FloatsOverride
+from .operator.node.dg.apply_rel2_floats_override import (
+    ApplyRel2FloatsOverride,
+)
+from .operator.node.dg.apply_rel3_floats_override import (
+    ApplyRel3FloatsOverride,
+)
 from .operator.node.dg.apply_rel_float_override import ApplyRelFloatOverride
 from .operator.node.dg.apply_rel_int_override import ApplyRelIntOverride
 from .operator.node.dg.apply_rel_override import ApplyRelOverride
@@ -378,7 +418,9 @@ from .operator.node.dg.component_tag_base import ComponentTagBase
 from .operator.node.dg.compose_matrix import ComposeMatrix
 from .operator.node.dg.condition import Condition
 from .operator.node.dg.connection_override import ConnectionOverride
-from .operator.node.dg.connection_unique_override import ConnectionUniqueOverride
+from .operator.node.dg.connection_unique_override import (
+    ConnectionUniqueOverride,
+)
 from .operator.node.dg.container import Container
 from .operator.node.dg.container_base import ContainerBase
 from .operator.node.dg.contrast import Contrast
@@ -410,7 +452,9 @@ from .operator.node.dg.dag_pose import DagPose
 from .operator.node.dg.data_block_test import DataBlockTest
 from .operator.node.dg.decompose_matrix import DecomposeMatrix
 from .operator.node.dg.default_light_list import DefaultLightList
-from .operator.node.dg.default_render_utility_list import DefaultRenderUtilityList
+from .operator.node.dg.default_render_utility_list import (
+    DefaultRenderUtilityList,
+)
 from .operator.node.dg.default_rendering_list import DefaultRenderingList
 from .operator.node.dg.default_shader_list import DefaultShaderList
 from .operator.node.dg.default_texture_list import DefaultTextureList
@@ -489,7 +533,9 @@ from .operator.node.dg.hair_physical_shader import HairPhysicalShader
 from .operator.node.dg.hair_tube_shader import HairTubeShader
 from .operator.node.dg.harden_point import HardenPoint
 from .operator.node.dg.hardware_render_globals import HardwareRenderGlobals
-from .operator.node.dg.hardware_rendering_globals import HardwareRenderingGlobals
+from .operator.node.dg.hardware_rendering_globals import (
+    HardwareRenderingGlobals,
+)
 from .operator.node.dg.hierarchy_test_node1 import HierarchyTestNode1
 from .operator.node.dg.hierarchy_test_node2 import HierarchyTestNode2
 from .operator.node.dg.hierarchy_test_node3 import HierarchyTestNode3
@@ -540,7 +586,9 @@ from .operator.node.dg.light_linker import LightLinker
 from .operator.node.dg.light_list import LightList
 from .operator.node.dg.lights_child_collection import LightsChildCollection
 from .operator.node.dg.lights_collection import LightsCollection
-from .operator.node.dg.lights_collection_selector import LightsCollectionSelector
+from .operator.node.dg.lights_collection_selector import (
+    LightsCollectionSelector,
+)
 from .operator.node.dg.list_item import ListItem
 from .operator.node.dg.lod_thresholds import LodThresholds
 from .operator.node.dg.loft import Loft
@@ -557,8 +605,12 @@ from .operator.node.dg.make_nurb_sphere import MakeNurbSphere
 from .operator.node.dg.make_nurb_torus import MakeNurbTorus
 from .operator.node.dg.make_nurbs_square import MakeNurbsSquare
 from .operator.node.dg.make_text_curves import MakeTextCurves
-from .operator.node.dg.make_three_point_circular_arc import MakeThreePointCircularArc
-from .operator.node.dg.make_two_point_circular_arc import MakeTwoPointCircularArc
+from .operator.node.dg.make_three_point_circular_arc import (
+    MakeThreePointCircularArc,
+)
+from .operator.node.dg.make_two_point_circular_arc import (
+    MakeTwoPointCircularArc,
+)
 from .operator.node.dg.mandelbrot import Mandelbrot
 from .operator.node.dg.mandelbrot3_d import Mandelbrot3D
 from .operator.node.dg.marble import Marble
@@ -566,13 +618,19 @@ from .operator.node.dg.material_facade import MaterialFacade
 from .operator.node.dg.material_info import MaterialInfo
 from .operator.node.dg.material_override import MaterialOverride
 from .operator.node.dg.material_template import MaterialTemplate
-from .operator.node.dg.material_template_override import MaterialTemplateOverride
+from .operator.node.dg.material_template_override import (
+    MaterialTemplateOverride,
+)
 from .operator.node.dg.material_x_material import MaterialXMaterial
 from .operator.node.dg.max import Max
 from .operator.node.dg.maya_usd_geom_node import MayaUsdGeomNode
 from .operator.node.dg.maya_usd_layer_manager import MayaUsdLayerManager
-from .operator.node.dg.maya_usd_proxy_shape_listener import MayaUsdProxyShapeListener
-from .operator.node.dg.maya_usd_proxy_shape_listener_base import MayaUsdProxyShapeListenerBase
+from .operator.node.dg.maya_usd_proxy_shape_listener import (
+    MayaUsdProxyShapeListener,
+)
+from .operator.node.dg.maya_usd_proxy_shape_listener_base import (
+    MayaUsdProxyShapeListenerBase,
+)
 from .operator.node.dg.membrane import Membrane
 from .operator.node.dag.shape.mesh import Mesh
 from .operator.node.dg.min import Min
@@ -595,8 +653,12 @@ from .operator.node.dg.n_component import NComponent
 from .operator.node.dg.nearest_point_on_curve import NearestPointOnCurve
 from .operator.node.dg.negate import Negate
 from .operator.node.dg.network import Network
-from .operator.node.dg.node_graph_editor_bookmark_info import NodeGraphEditorBookmarkInfo
-from .operator.node.dg.node_graph_editor_bookmarks import NodeGraphEditorBookmarks
+from .operator.node.dg.node_graph_editor_bookmark_info import (
+    NodeGraphEditorBookmarkInfo,
+)
+from .operator.node.dg.node_graph_editor_bookmarks import (
+    NodeGraphEditorBookmarks,
+)
 from .operator.node.dg.noise import Noise
 from .operator.node.dg.non_linear import NonLinear
 from .operator.node.dg.normalize import Normalize
@@ -771,7 +833,9 @@ from .operator.node.dg.proximity_pin import ProximityPin
 from .operator.node.dg.proximity_wrap import ProximityWrap
 from .operator.node.dg.proxy_manager import ProxyManager
 from .operator.node.dg.psd_file_tex import PsdFileTex
-from .operator.node.dg.pxr_usd_point_based_deformer_node import PxrUsdPointBasedDeformerNode
+from .operator.node.dg.pxr_usd_point_based_deformer_node import (
+    PxrUsdPointBasedDeformerNode,
+)
 from .operator.node.dg.pxr_usd_stage_node import PxrUsdStageNode
 from .operator.node.dg.quad_shading_switch import QuadShadingSwitch
 from .operator.node.dg.quat_add import QuatAdd
@@ -803,18 +867,28 @@ from .operator.node.dg.render_layer_manager import RenderLayerManager
 from .operator.node.dg.render_pass import RenderPass
 from .operator.node.dg.render_pass_set import RenderPassSet
 from .operator.node.dg.render_quality import RenderQuality
-from .operator.node.dg.render_settings_child_collection import RenderSettingsChildCollection
-from .operator.node.dg.render_settings_collection import RenderSettingsCollection
+from .operator.node.dg.render_settings_child_collection import (
+    RenderSettingsChildCollection,
+)
+from .operator.node.dg.render_settings_collection import (
+    RenderSettingsCollection,
+)
 from .operator.node.dg.render_setup import RenderSetup
 from .operator.node.dg.render_setup_layer import RenderSetupLayer
 from .operator.node.dg.render_target import RenderTarget
 from .operator.node.dg.rendered_image_source import RenderedImageSource
 from .operator.node.dg.reorder_uv_set import ReorderUVSet
 from .operator.node.dg.resolution import Resolution
-from .operator.node.dg.result_curve_time_to_angular import ResultCurveTimeToAngular
-from .operator.node.dg.result_curve_time_to_linear import ResultCurveTimeToLinear
+from .operator.node.dg.result_curve_time_to_angular import (
+    ResultCurveTimeToAngular,
+)
+from .operator.node.dg.result_curve_time_to_linear import (
+    ResultCurveTimeToLinear,
+)
 from .operator.node.dg.result_curve_time_to_time import ResultCurveTimeToTime
-from .operator.node.dg.result_curve_time_to_unitless import ResultCurveTimeToUnitless
+from .operator.node.dg.result_curve_time_to_unitless import (
+    ResultCurveTimeToUnitless,
+)
 from .operator.node.dg.reverse import Reverse
 from .operator.node.dg.reverse_curve import ReverseCurve
 from .operator.node.dg.reverse_surface import ReverseSurface
@@ -910,7 +984,9 @@ from .operator.node.dg.time_editor import TimeEditor
 from .operator.node.dg.time_editor_anim_source import TimeEditorAnimSource
 from .operator.node.dg.time_editor_clip import TimeEditorClip
 from .operator.node.dg.time_editor_clip_base import TimeEditorClipBase
-from .operator.node.dg.time_editor_clip_evaluator import TimeEditorClipEvaluator
+from .operator.node.dg.time_editor_clip_evaluator import (
+    TimeEditorClipEvaluator,
+)
 from .operator.node.dg.time_editor_interpolator import TimeEditorInterpolator
 from .operator.node.dg.time_editor_tracks import TimeEditorTracks
 from .operator.node.dg.time_function import TimeFunction
@@ -973,5837 +1049,4863 @@ from .operator.node.dg.xgm_se_expr import XgmSeExpr
 from .operator.node.dg.xgm_spline_base import XgmSplineBase
 from .operator.node.dg.xgm_spline_cache import XgmSplineCache
 
-
 class _ExistingNodeAccessor:
     @property
     def modifier_manager(self) -> ModifierManager: ...
-
     def __call__(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     def AISEnvFacade(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AISEnvFacade: ...
-
     def AlembicNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AlembicNode: ...
-
     def ComputeGlobal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComputeGlobal: ...
-
     def ComputeLocal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComputeLocal: ...
-
     def CustomRigDefaultMappingNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CustomRigDefaultMappingNode: ...
-
     def CustomRigRetargeterNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CustomRigRetargeterNode: ...
-
     def HIKCharacterNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKCharacterNode: ...
-
     def HIKCharacterStateClient(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKCharacterStateClient: ...
-
     def HIKControlSetNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKControlSetNode: ...
-
     def HIKEffector2State(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKEffector2State: ...
-
     def HIKEffectorFromCharacter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKEffectorFromCharacter: ...
-
     def HIKFK2State(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKFK2State: ...
-
     def HIKPinning2State(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKPinning2State: ...
-
     def HIKProperty2State(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKProperty2State: ...
-
     def HIKRetargeterNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKRetargeterNode: ...
-
     def HIKSK2State(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKSK2State: ...
-
     def HIKSkeletonGeneratorNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKSkeletonGeneratorNode: ...
-
     def HIKSolverNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKSolverNode: ...
-
     def HIKState2Effector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKState2Effector: ...
-
     def HIKState2FK(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKState2FK: ...
-
     def HIKState2GlobalSK(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKState2GlobalSK: ...
-
     def HIKState2SK(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HIKState2SK: ...
-
     def MASH_Audio(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Audio: ...
-
     def MASH_BaseNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_BaseNode: ...
-
     def MASH_Blend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Blend: ...
-
     def MASH_BlendDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_BlendDeformer: ...
-
     def MASH_Breakout(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Breakout: ...
-
     def MASH_ChannelRandom(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_ChannelRandom: ...
-
     def MASH_Color(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Color: ...
-
     def MASH_Constraint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Constraint: ...
-
     def MASH_Curve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Curve: ...
-
     def MASH_Deformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Deformer: ...
-
     def MASH_Delay(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Delay: ...
-
     def MASH_Distribute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Distribute: ...
-
     def MASH_Dynamics(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Dynamics: ...
-
     def MASH_DynamicsInitialState(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_DynamicsInitialState: ...
-
     def MASH_Explode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Explode: ...
-
     def MASH_Id(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Id: ...
-
     def MASH_Influence(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Influence: ...
-
     def MASH_Inherit(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Inherit: ...
-
     def MASH_InitialState(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_InitialState: ...
-
     def MASH_Jiggle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Jiggle: ...
-
     def MASH_Legacy(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Legacy: ...
-
     def MASH_Maths(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Maths: ...
-
     def MASH_MultiCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_MultiCurve: ...
-
     def MASH_Mute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Mute: ...
-
     def MASH_Noise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Noise: ...
-
     def MASH_Offset(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Offset: ...
-
     def MASH_Orient(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Orient: ...
-
     def MASH_PfxConnect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_PfxConnect: ...
-
     def MASH_Placer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Placer: ...
-
     def MASH_PointToCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_PointToCurve: ...
-
     def MASH_Python(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Python: ...
-
     def MASH_Random(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Random: ...
-
     def MASH_Replicator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Replicator: ...
-
     def MASH_Repro(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Repro: ...
-
     def MASH_ShellDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_ShellDeformer: ...
-
     def MASH_Signal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Signal: ...
-
     def MASH_Spring(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Spring: ...
-
     def MASH_Strength(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Strength: ...
-
     def MASH_Symmetry(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Symmetry: ...
-
     def MASH_Time(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Time: ...
-
     def MASH_Trails(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Trails: ...
-
     def MASH_Transform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Transform: ...
-
     def MASH_Trig(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Trig: ...
-
     def MASH_Visibility(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Visibility: ...
-
     def MASH_Waiter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_Waiter: ...
-
     def MASH_World(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MASH_World: ...
-
     def MaterialXSurfaceShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialXSurfaceShader: ...
-
     def RScontainer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RScontainer: ...
-
     def Unfold3DOptimize(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Unfold3DOptimize: ...
-
     def Unfold3DUnfold(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Unfold3DUnfold: ...
-
     def aboutToSetValueTestNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AboutToSetValueTestNode: ...
-
     def absOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AbsOverride: ...
-
     def absUniqueOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AbsUniqueOverride: ...
-
     def absolute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Absolute: ...
-
     def acos(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Acos: ...
-
     def addDoubleLinear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AddDoubleLinear: ...
-
     def addMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AddMatrix: ...
-
     def adskMaterial(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AdskMaterial: ...
-
     def adskPrepareRenderGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AdskPrepareRenderGlobals: ...
-
     def aiAOV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAOV: ...
-
     def aiAOVDriver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAOVDriver: ...
-
     def aiAOVFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAOVFilter: ...
-
     def aiAbs(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAbs: ...
-
     def aiAdd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAdd: ...
-
     def aiAmbientOcclusion(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAmbientOcclusion: ...
-
     def aiAtan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAtan: ...
-
     def aiAtmosphereVolume(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAtmosphereVolume: ...
-
     def aiAxfShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiAxfShader: ...
-
     def aiBarndoor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiBarndoor: ...
-
     def aiBlackbody(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiBlackbody: ...
-
     def aiBump2d(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiBump2d: ...
-
     def aiBump3d(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiBump3d: ...
-
     def aiCache(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCache: ...
-
     def aiCameraProjection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCameraProjection: ...
-
     def aiCarPaint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCarPaint: ...
-
     def aiCellNoise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCellNoise: ...
-
     def aiCheckerboard(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCheckerboard: ...
-
     def aiClamp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiClamp: ...
-
     def aiClipGeo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiClipGeo: ...
-
     def aiCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCollection: ...
-
     def aiColorConvert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiColorConvert: ...
-
     def aiColorCorrect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiColorCorrect: ...
-
     def aiColorJitter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiColorJitter: ...
-
     def aiColorToFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiColorToFloat: ...
-
     def aiCompare(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCompare: ...
-
     def aiComplement(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiComplement: ...
-
     def aiComplexIor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiComplexIor: ...
-
     def aiComposite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiComposite: ...
-
     def aiCross(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCross: ...
-
     def aiCurvature(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiCurvature: ...
-
     def aiDisable(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiDisable: ...
-
     def aiDistance(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiDistance: ...
-
     def aiDivide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiDivide: ...
-
     def aiDot(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiDot: ...
-
     def aiExp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiExp: ...
-
     def aiFacingRatio(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFacingRatio: ...
-
     def aiFlakes(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFlakes: ...
-
     def aiFlat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFlat: ...
-
     def aiFloatToInt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFloatToInt: ...
-
     def aiFloatToMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFloatToMatrix: ...
-
     def aiFloatToRgba(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFloatToRgba: ...
-
     def aiFog(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFog: ...
-
     def aiFraction(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiFraction: ...
-
     def aiGobo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiGobo: ...
-
     def aiHair(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiHair: ...
-
     def aiImage(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImage: ...
-
     def aiImagerColorCorrect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerColorCorrect: ...
-
     def aiImagerColorCurves(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerColorCurves: ...
-
     def aiImagerDenoiserNoice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserNoice: ...
-
     def aiImagerDenoiserOidn(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserOidn: ...
-
     def aiImagerDenoiserOptix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerDenoiserOptix: ...
-
     def aiImagerExposure(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerExposure: ...
-
     def aiImagerLensEffects(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerLensEffects: ...
-
     def aiImagerLightMixer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerLightMixer: ...
-
     def aiImagerOverlay(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerOverlay: ...
-
     def aiImagerTonemap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerTonemap: ...
-
     def aiImagerWhiteBalance(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiImagerWhiteBalance: ...
-
     def aiIncludeGraph(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiIncludeGraph: ...
-
     def aiIsFinite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiIsFinite: ...
-
     def aiLambert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLambert: ...
-
     def aiLayerFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLayerFloat: ...
-
     def aiLayerRgba(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLayerRgba: ...
-
     def aiLayerShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLayerShader: ...
-
     def aiLength(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLength: ...
-
     def aiLightDecay(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLightDecay: ...
-
     def aiLog(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLog: ...
-
     def aiLookSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiLookSwitch: ...
-
     def aiMaterialXShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMaterialXShader: ...
-
     def aiMaterialx(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMaterialx: ...
-
     def aiMatrixInterpolate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMatrixInterpolate: ...
-
     def aiMatrixMultiplyVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMatrixMultiplyVector: ...
-
     def aiMatrixTransform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMatrixTransform: ...
-
     def aiMatte(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMatte: ...
-
     def aiMax(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMax: ...
-
     def aiMerge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMerge: ...
-
     def aiMin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMin: ...
-
     def aiMixShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMixShader: ...
-
     def aiModulo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiModulo: ...
-
     def aiMotionVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMotionVector: ...
-
     def aiMultiply(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiMultiply: ...
-
     def aiNegate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiNegate: ...
-
     def aiNoise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiNoise: ...
-
     def aiNormalMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiNormalMap: ...
-
     def aiNormalize(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiNormalize: ...
-
     def aiOptions(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiOptions: ...
-
     def aiOslShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiOslShader: ...
-
     def aiPassthrough(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiPassthrough: ...
-
     def aiPhysicalSky(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiPhysicalSky: ...
-
     def aiPow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiPow: ...
-
     def aiRampFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRampFloat: ...
-
     def aiRampRgb(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRampRgb: ...
-
     def aiRandom(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRandom: ...
-
     def aiRange(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRange: ...
-
     def aiRaySwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRaySwitch: ...
-
     def aiReadFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiReadFloat: ...
-
     def aiReadInt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiReadInt: ...
-
     def aiReadRGB(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiReadRGB: ...
-
     def aiReadRGBA(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiReadRGBA: ...
-
     def aiReciprocal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiReciprocal: ...
-
     def aiRgbToVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRgbToVector: ...
-
     def aiRgbaToFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRgbaToFloat: ...
-
     def aiRoundCorners(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiRoundCorners: ...
-
     def aiSetParameter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSetParameter: ...
-
     def aiSetTransform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSetTransform: ...
-
     def aiShadowMatte(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiShadowMatte: ...
-
     def aiShuffle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiShuffle: ...
-
     def aiSign(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSign: ...
-
     def aiSkin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSkin: ...
-
     def aiSky(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSky: ...
-
     def aiSpaceTransform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSpaceTransform: ...
-
     def aiSqrt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSqrt: ...
-
     def aiStandard(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStandard: ...
-
     def aiStandardHair(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStandardHair: ...
-
     def aiStandardSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStandardSurface: ...
-
     def aiStandardVolume(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStandardVolume: ...
-
     def aiStateFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStateFloat: ...
-
     def aiStateInt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStateInt: ...
-
     def aiStateVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStateVector: ...
-
     def aiStringReplace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiStringReplace: ...
-
     def aiSubtract(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSubtract: ...
-
     def aiSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSwitch: ...
-
     def aiSwitchOperator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiSwitchOperator: ...
-
     def aiThinFilm(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiThinFilm: ...
-
     def aiToon(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiToon: ...
-
     def aiTraceSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiTraceSet: ...
-
     def aiTrigo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiTrigo: ...
-
     def aiTriplanar(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiTriplanar: ...
-
     def aiTwoSided(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiTwoSided: ...
-
     def aiUserDataBool(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataBool: ...
-
     def aiUserDataColor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataColor: ...
-
     def aiUserDataFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataFloat: ...
-
     def aiUserDataInt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataInt: ...
-
     def aiUserDataString(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataString: ...
-
     def aiUserDataVec2(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataVec2: ...
-
     def aiUserDataVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUserDataVector: ...
-
     def aiUtility(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUtility: ...
-
     def aiUvProjection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUvProjection: ...
-
     def aiUvTransform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiUvTransform: ...
-
     def aiVectorMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVectorMap: ...
-
     def aiVectorToRgb(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVectorToRgb: ...
-
     def aiVolumeCollector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVolumeCollector: ...
-
     def aiVolumeSampleFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVolumeSampleFloat: ...
-
     def aiVolumeSampleRgb(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiVolumeSampleRgb: ...
-
     def aiWireframe(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWireframe: ...
-
     def aiWriteColor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteColor: ...
-
     def aiWriteFloat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteFloat: ...
-
     def aiWriteInt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteInt: ...
-
     def aiWriteRgba(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteRgba: ...
-
     def aiWriteVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AiWriteVector: ...
-
     def aimMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AimMatrix: ...
-
     def alignCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AlignCurve: ...
-
     def alignSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AlignSurface: ...
-
     def and_(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     def angleBetween(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AngleBetween: ...
-
     def animBlend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlend: ...
-
     def animBlendInOut(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendInOut: ...
-
     def animBlendNodeAdditive(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditive: ...
-
     def animBlendNodeAdditiveDA(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveDA: ...
-
     def animBlendNodeAdditiveDL(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveDL: ...
-
     def animBlendNodeAdditiveF(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveF: ...
-
     def animBlendNodeAdditiveFA(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveFA: ...
-
     def animBlendNodeAdditiveFL(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveFL: ...
-
     def animBlendNodeAdditiveI16(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveI16: ...
-
     def animBlendNodeAdditiveI32(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveI32: ...
-
     def animBlendNodeAdditiveRotation(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveRotation: ...
-
     def animBlendNodeAdditiveScale(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeAdditiveScale: ...
-
     def animBlendNodeBoolean(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeBoolean: ...
-
     def animBlendNodeEnum(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeEnum: ...
-
     def animBlendNodeTime(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimBlendNodeTime: ...
-
     def animClip(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimClip: ...
-
     def animCurveTA(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveTA: ...
-
     def animCurveTL(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveTL: ...
-
     def animCurveTT(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveTT: ...
-
     def animCurveTU(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveTU: ...
-
     def animCurveUA(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveUA: ...
-
     def animCurveUL(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveUL: ...
-
     def animCurveUT(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveUT: ...
-
     def animCurveUU(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimCurveUU: ...
-
     def animLayer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AnimLayer: ...
-
     def anisotropic(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Anisotropic: ...
-
     def aovChildCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AovChildCollection: ...
-
     def aovCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AovCollection: ...
-
     def applyAbs2FloatsOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbs2FloatsOverride: ...
-
     def applyAbs3FloatsOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbs3FloatsOverride: ...
-
     def applyAbsBoolOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsBoolOverride: ...
-
     def applyAbsEnumOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsEnumOverride: ...
-
     def applyAbsFloatOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsFloatOverride: ...
-
     def applyAbsIntOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsIntOverride: ...
-
     def applyAbsOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsOverride: ...
-
     def applyAbsStringOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyAbsStringOverride: ...
-
     def applyConnectionOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyConnectionOverride: ...
-
     def applyOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyOverride: ...
-
     def applyRel2FloatsOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRel2FloatsOverride: ...
-
     def applyRel3FloatsOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRel3FloatsOverride: ...
-
     def applyRelFloatOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRelFloatOverride: ...
-
     def applyRelIntOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRelIntOverride: ...
-
     def applyRelOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ApplyRelOverride: ...
-
     def arnoldAOVChildSelector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ArnoldAOVChildSelector: ...
-
     def arrayMapper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ArrayMapper: ...
-
     def arubaTessellate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ArubaTessellate: ...
-
     def asin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Asin: ...
-
     def atan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Atan: ...
-
     def atan2(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Atan2: ...
-
     def attachCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AttachCurve: ...
-
     def attachSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AttachSurface: ...
-
     def attrHierarchyTest(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AttrHierarchyTest: ...
-
     def audio(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Audio: ...
-
     def average(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Average: ...
-
     def avgCurves(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AvgCurves: ...
-
     def avgNurbsSurfacePoints(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AvgNurbsSurfacePoints: ...
-
     def avgSurfacePoints(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AvgSurfacePoints: ...
-
     def axisAngleToQuat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AxisAngleToQuat: ...
-
     def axisFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> AxisFromMatrix: ...
-
     def basicSelector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
-
     def bevel(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Bevel: ...
-
     def bevelPlus(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BevelPlus: ...
-
     def bezierCurveToNurbs(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BezierCurveToNurbs: ...
-
     def bifrostBoard(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BifrostBoard: ...
-
     def bifrostGeoToMaya(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BifrostGeoToMaya: ...
-
     def blendColorSets(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendColorSets: ...
-
     def blendColors(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendColors: ...
-
     def blendDevice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendDevice: ...
-
     def blendFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendFalloff: ...
-
     def blendMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendMatrix: ...
-
     def blendShape(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendShape: ...
-
     def blendTwoAttr(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendTwoAttr: ...
-
     def blendWeighted(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlendWeighted: ...
-
     def blindDataTemplate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BlindDataTemplate: ...
-
     def blinn(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Blinn: ...
-
     def boneLattice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BoneLattice: ...
-
     def boolean(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Boolean: ...
-
     def boundary(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Boundary: ...
-
     def brownian(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Brownian: ...
-
     def brush(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Brush: ...
-
     def bulge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Bulge: ...
-
     def bump2d(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Bump2d: ...
-
     def bump3d(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Bump3d: ...
-
     def cMuscleCreator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleCreator: ...
-
     def cMuscleMultiCollide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleMultiCollide: ...
-
     def cMuscleRelative(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleRelative: ...
-
     def cMuscleShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleShader: ...
-
     def cMuscleSmartConstraint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleSmartConstraint: ...
-
     def cMuscleSplineDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleSplineDeformer: ...
-
     def cMuscleStretch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleStretch: ...
-
     def cMuscleSystem(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CMuscleSystem: ...
-
     def cacheBlend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CacheBlend: ...
-
     def cacheFile(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CacheFile: ...
-
     def camera(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Camera: ...
-
     def cameraSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CameraSet: ...
-
     def cameraView(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CameraView: ...
-
     def ceil(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Ceil: ...
-
     def channels(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Channels: ...
-
     def character(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Character: ...
-
     def characterMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CharacterMap: ...
-
     def characterOffset(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CharacterOffset: ...
-
     def checker(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Checker: ...
-
     def childNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ChildNode: ...
-
     def choice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Choice: ...
-
     def chooser(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Chooser: ...
-
     def clamp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Clamp: ...
-
     def clampRange(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClampRange: ...
-
     def clipLibrary(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClipLibrary: ...
-
     def clipScheduler(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClipScheduler: ...
-
     def clipToGhostData(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClipToGhostData: ...
-
     def closeCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CloseCurve: ...
-
     def closeSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CloseSurface: ...
-
     def closestPointOnMesh(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClosestPointOnMesh: ...
-
     def closestPointOnSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ClosestPointOnSurface: ...
-
     def cloth(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cloth: ...
-
     def cloud(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cloud: ...
-
     def cluster(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cluster: ...
-
     def collection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Collection: ...
-
     def colorComposite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorComposite: ...
-
     def colorCondition(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorCondition: ...
-
     def colorConstant(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorConstant: ...
-
     def colorCorrect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorCorrect: ...
-
     def colorLogic(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorLogic: ...
-
     def colorManagementGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorManagementGlobals: ...
-
     def colorMask(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorMask: ...
-
     def colorMath(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorMath: ...
-
     def colorProfile(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColorProfile: ...
-
     def columnFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ColumnFromMatrix: ...
-
     def combinationShape(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CombinationShape: ...
-
     def compactPlugArrayTest(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CompactPlugArrayTest: ...
-
     def componentFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComponentFalloff: ...
-
     def componentMatch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComponentMatch: ...
-
     def componentTagBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComponentTagBase: ...
-
     def composeMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ComposeMatrix: ...
-
     def condition(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Condition: ...
-
     def connectionOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ConnectionOverride: ...
-
     def connectionUniqueOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ConnectionUniqueOverride: ...
-
     def container(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Container: ...
-
     def containerBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ContainerBase: ...
-
     def contrast(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Contrast: ...
-
     def controller(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Controller: ...
-
     def copyColorSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CopyColorSet: ...
-
     def copyUVSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CopyUVSet: ...
-
     def cos(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cos: ...
-
     def cpvColor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CpvColor: ...
-
     def crater(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Crater: ...
-
     def creaseSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CreaseSet: ...
-
     def createColorSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CreateColorSet: ...
-
     def createPtexUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CreatePtexUV: ...
-
     def createUVSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CreateUVSet: ...
-
     def crossProduct(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CrossProduct: ...
-
     def cryptomatte(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Cryptomatte: ...
-
     def curveFromMeshCoM(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromMeshCoM: ...
-
     def curveFromMeshEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromMeshEdge: ...
-
     def curveFromSubdivEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromSubdivEdge: ...
-
     def curveFromSubdivFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromSubdivFace: ...
-
     def curveFromSurfaceBnd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceBnd: ...
-
     def curveFromSurfaceCoS(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceCoS: ...
-
     def curveFromSurfaceIso(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveFromSurfaceIso: ...
-
     def curveInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveInfo: ...
-
     def curveIntersect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveIntersect: ...
-
     def curveNormalizerAngle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveNormalizerAngle: ...
-
     def curveNormalizerLinear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveNormalizerLinear: ...
-
     def curveWarp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> CurveWarp: ...
-
     def dagPose(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DagPose: ...
-
     def dataBlockTest(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DataBlockTest: ...
-
     def decomposeMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DecomposeMatrix: ...
-
     def defaultLightList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultLightList: ...
-
     def defaultRenderUtilityList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultRenderUtilityList: ...
-
     def defaultRenderingList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultRenderingList: ...
-
     def defaultShaderList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultShaderList: ...
-
     def defaultTextureList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DefaultTextureList: ...
-
     def deleteColorSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DeleteColorSet: ...
-
     def deleteComponent(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DeleteComponent: ...
-
     def deleteUVSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DeleteUVSet: ...
-
     def deltaMush(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DeltaMush: ...
-
     def detachCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DetachCurve: ...
-
     def detachSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DetachSurface: ...
-
     def determinant(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Determinant: ...
-
     def diskCache(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DiskCache: ...
-
     def displacementShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DisplacementShader: ...
-
     def displayLayer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DisplayLayer: ...
-
     def displayLayerManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DisplayLayerManager: ...
-
     def distanceBetween(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DistanceBetween: ...
-
     def divide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Divide: ...
-
     def dof(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Dof: ...
-
     def dotProduct(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DotProduct: ...
-
     def doubleShadingSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DoubleShadingSwitch: ...
-
     def dpBirailSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DpBirailSrf: ...
-
     def dynController(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DynController: ...
-
     def dynGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> DynGlobals: ...
-
     def editMetadata(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EditMetadata: ...
-
     def editsManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EditsManager: ...
-
     def envBall(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvBall: ...
-
     def envChrome(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvChrome: ...
-
     def envCube(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvCube: ...
-
     def envFacade(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvFacade: ...
-
     def envFog(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvFog: ...
-
     def envSky(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvSky: ...
-
     def envSphere(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EnvSphere: ...
-
     def equal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Equal: ...
-
     def eulerToQuat(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> EulerToQuat: ...
-
     def explodeNurbsShell(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ExplodeNurbsShell: ...
-
     def expression(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Expression: ...
-
     def extendCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ExtendCurve: ...
-
     def extendSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ExtendSurface: ...
-
     def extrude(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Extrude: ...
-
     def facade(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Facade: ...
-
     def falloffEval(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FalloffEval: ...
-
     def ffBlendSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FfBlendSrf: ...
-
     def ffBlendSrfObsolete(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FfBlendSrfObsolete: ...
-
     def ffFilletSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FfFilletSrf: ...
-
     def ffd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Ffd: ...
-
     def file(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> File: ...
-
     def filletCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FilletCurve: ...
-
     def fitBspline(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FitBspline: ...
-
     def floatComposite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatComposite: ...
-
     def floatCondition(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatCondition: ...
-
     def floatConstant(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatConstant: ...
-
     def floatCorrect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatCorrect: ...
-
     def floatLogic(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatLogic: ...
-
     def floatMask(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatMask: ...
-
     def floatMath(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FloatMath: ...
-
     def floor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Floor: ...
-
     def flow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Flow: ...
-
     def fourByFourMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FourByFourMatrix: ...
-
     def fractal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Fractal: ...
-
     def frameCache(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> FrameCache: ...
-
     def gameFbxExporter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GameFbxExporter: ...
-
     def gammaCorrect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GammaCorrect: ...
-
     def geoConnector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GeoConnector: ...
-
     def geomBind(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GeomBind: ...
-
     def geometryFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GeometryFilter: ...
-
     def globalCacheControl(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GlobalCacheControl: ...
-
     def globalStitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GlobalStitch: ...
-
     def granite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Granite: ...
-
     def greasePencilSequence(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GreasePencilSequence: ...
-
     def greaterThan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GreaterThan: ...
-
     def grid(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Grid: ...
-
     def group(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Group: ...
-
     def groupId(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GroupId: ...
-
     def groupParts(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> GroupParts: ...
-
     def guide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Guide: ...
-
     def hairPhysicalShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HairPhysicalShader: ...
-
     def hairTubeShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HairTubeShader: ...
-
     def hardenPoint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HardenPoint: ...
-
     def hardwareRenderGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HardwareRenderGlobals: ...
-
     def hardwareRenderingGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HardwareRenderingGlobals: ...
-
     def hierarchyTestNode1(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode1: ...
-
     def hierarchyTestNode2(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode2: ...
-
     def hierarchyTestNode3(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode3: ...
-
     def hierarchyTestNode4(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HierarchyTestNode4: ...
-
     def hikSolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HikSolver: ...
-
     def historySwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HistorySwitch: ...
-
     def holdMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HoldMatrix: ...
-
     def hsvToRgb(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HsvToRgb: ...
-
     def hwReflectionMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HwReflectionMap: ...
-
     def hwRenderGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HwRenderGlobals: ...
-
     def hyperGraphInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HyperGraphInfo: ...
-
     def hyperLayout(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HyperLayout: ...
-
     def hyperView(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> HyperView: ...
-
     def ik2Bsolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Ik2Bsolver: ...
-
     def ikMCsolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkMCsolver: ...
-
     def ikPASolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkPASolver: ...
-
     def ikRPsolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkRPsolver: ...
-
     def ikSCsolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkSCsolver: ...
-
     def ikSplineSolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkSplineSolver: ...
-
     def ikSpringSolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkSpringSolver: ...
-
     def ikSystem(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IkSystem: ...
-
     def insertKnotCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> InsertKnotCurve: ...
-
     def insertKnotSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> InsertKnotSurface: ...
-
     def intersectSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> IntersectSurface: ...
-
     def inverseLerp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> InverseLerp: ...
-
     def inverseMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> InverseMatrix: ...
-
     def jiggle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Jiggle: ...
-
     def joint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Joint: ...
-
     def jointCluster(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> JointCluster: ...
-
     def jointFfd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> JointFfd: ...
-
     def jointLattice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> JointLattice: ...
-
     def keyingGroup(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> KeyingGroup: ...
-
     def lambert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Lambert: ...
-
     def layeredShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LayeredShader: ...
-
     def layeredTexture(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LayeredTexture: ...
-
     def leastSquaresModifier(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LeastSquaresModifier: ...
-
     def leather(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Leather: ...
-
     def length(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Length: ...
-
     def lerp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Lerp: ...
-
     def lessThan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LessThan: ...
-
     def lightEditor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightEditor: ...
-
     def lightFog(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightFog: ...
-
     def lightGroup(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightGroup: ...
-
     def lightInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightInfo: ...
-
     def lightItem(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightItem: ...
-
     def lightItemBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightItemBase: ...
-
     def lightLinker(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightLinker: ...
-
     def lightList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightList: ...
-
     def lightsChildCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightsChildCollection: ...
-
     def lightsCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightsCollection: ...
-
     def lightsCollectionSelector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LightsCollectionSelector: ...
-
     def listItem(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ListItem: ...
-
     def lodThresholds(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> LodThresholds: ...
-
     def loft(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Loft: ...
-
     def log(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Log: ...
-
     def luminance(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Luminance: ...
-
     def makeGroup(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeGroup: ...
-
     def makeIllustratorCurves(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeIllustratorCurves: ...
-
     def makeNurbCircle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbCircle: ...
-
     def makeNurbCone(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbCone: ...
-
     def makeNurbCube(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbCube: ...
-
     def makeNurbCylinder(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbCylinder: ...
-
     def makeNurbPlane(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbPlane: ...
-
     def makeNurbSphere(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbSphere: ...
-
     def makeNurbTorus(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbTorus: ...
-
     def makeNurbsSquare(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeNurbsSquare: ...
-
     def makeTextCurves(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeTextCurves: ...
-
     def makeThreePointCircularArc(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeThreePointCircularArc: ...
-
     def makeTwoPointCircularArc(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MakeTwoPointCircularArc: ...
-
     def mandelbrot(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mandelbrot: ...
-
     def mandelbrot3D(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mandelbrot3D: ...
-
     def marble(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Marble: ...
-
     def materialFacade(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialFacade: ...
-
     def materialInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialInfo: ...
-
     def materialOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialOverride: ...
-
     def materialTemplate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialTemplate: ...
-
     def materialTemplateOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialTemplateOverride: ...
-
     def materialXMaterial(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MaterialXMaterial: ...
-
     def max(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Max: ...
-
     def mayaUsdGeomNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MayaUsdGeomNode: ...
-
     def mayaUsdLayerManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MayaUsdLayerManager: ...
-
     def mayaUsdProxyShapeListener(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MayaUsdProxyShapeListener: ...
-
     def mayaUsdProxyShapeListenerBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MayaUsdProxyShapeListenerBase: ...
-
     def membrane(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Membrane: ...
-
     def mesh(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mesh: ...
-
     def min(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Min: ...
-
     def modulo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Modulo: ...
-
     def morph(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Morph: ...
-
     def motionPath(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MotionPath: ...
-
     def motionTrail(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MotionTrail: ...
-
     def mountain(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mountain: ...
-
     def movie(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Movie: ...
-
     def mpBirailSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MpBirailSrf: ...
-
     def multDoubleLinear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultDoubleLinear: ...
-
     def multMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultMatrix: ...
-
     def multilisterLight(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultilisterLight: ...
-
     def multiply(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Multiply: ...
-
     def multiplyDivide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultiplyDivide: ...
-
     def multiplyPointByMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultiplyPointByMatrix: ...
-
     def multiplyVectorByMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> MultiplyVectorByMatrix: ...
-
     def mute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Mute: ...
-
     def nComponent(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NComponent: ...
-
     def nearestPointOnCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NearestPointOnCurve: ...
-
     def negate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Negate: ...
-
     def network(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Network: ...
-
     def nodeGraphEditorBookmarkInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeGraphEditorBookmarkInfo: ...
-
     def nodeGraphEditorBookmarks(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeGraphEditorBookmarks: ...
-
     def noise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Noise: ...
-
     def nonLinear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NonLinear: ...
-
     def normalize(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Normalize: ...
-
     def not_(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     def nurbsCurveToBezier(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsCurveToBezier: ...
-
     def nurbsTessellate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsTessellate: ...
-
     def nurbsToSubdiv(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsToSubdiv: ...
-
     def nurbsToSubdivProc(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NurbsToSubdivProc: ...
-
     def objectAttrFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectAttrFilter: ...
-
     def objectBinFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectBinFilter: ...
-
     def objectFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectFilter: ...
-
     def objectGrpToComp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectGrpToComp: ...
-
     def objectMultiFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectMultiFilter: ...
-
     def objectNameFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectNameFilter: ...
-
     def objectRenderFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectRenderFilter: ...
-
     def objectScriptFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectScriptFilter: ...
-
     def objectSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectSet: ...
-
     def objectTypeFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ObjectTypeFilter: ...
-
     def ocean(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Ocean: ...
-
     def oceanShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OceanShader: ...
-
     def offsetCos(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OffsetCos: ...
-
     def offsetCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OffsetCurve: ...
-
     def offsetDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OffsetDeformer: ...
-
     def offsetSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OffsetSurface: ...
-
     def oldBlindDataBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OldBlindDataBase: ...
-
     def oldGeometryConstraint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OldGeometryConstraint: ...
-
     def opticalFX(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> OpticalFX: ...
-
     def or_(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> NodeOperator: ...
-
     def override(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Override: ...
-
     def pairBlend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PairBlend: ...
-
     def parentMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParentMatrix: ...
-
     def particleAgeMapper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleAgeMapper: ...
-
     def particleCloud(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleCloud: ...
-
     def particleColorMapper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleColorMapper: ...
-
     def particleIncandMapper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleIncandMapper: ...
-
     def particleSamplerInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleSamplerInfo: ...
-
     def particleTranspMapper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ParticleTranspMapper: ...
-
     def partition(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Partition: ...
-
     def passContributionMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PassContributionMap: ...
-
     def passMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PassMatrix: ...
-
     def phong(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Phong: ...
-
     def phongE(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PhongE: ...
-
     def pi(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Pi: ...
-
     def pickMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PickMatrix: ...
-
     def place2dTexture(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Place2dTexture: ...
-
     def planarTrimSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PlanarTrimSurface: ...
-
     def plusMinusAverage(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PlusMinusAverage: ...
-
     def pointMatrixMult(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PointMatrixMult: ...
-
     def pointOnCurveInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PointOnCurveInfo: ...
-
     def pointOnSurfaceInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PointOnSurfaceInfo: ...
-
     def polyAppend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyAppend: ...
-
     def polyAppendVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyAppendVertex: ...
-
     def polyAutoProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyAutoProj: ...
-
     def polyAverageVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyAverageVertex: ...
-
     def polyAxis(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyAxis: ...
-
     def polyBevel(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBevel: ...
-
     def polyBevel2(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBevel2: ...
-
     def polyBevel3(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBevel3: ...
-
     def polyBevelCutback(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBevelCutback: ...
-
     def polyBlindData(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBlindData: ...
-
     def polyBoolOp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBoolOp: ...
-
     def polyBoolean(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBoolean: ...
-
     def polyBridgeEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyBridgeEdge: ...
-
     def polyCBoolOp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCBoolOp: ...
-
     def polyChipOff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyChipOff: ...
-
     def polyCircularize(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCircularize: ...
-
     def polyClean(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyClean: ...
-
     def polyCloseBorder(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCloseBorder: ...
-
     def polyCollapseEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCollapseEdge: ...
-
     def polyCollapseF(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCollapseF: ...
-
     def polyColorDel(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyColorDel: ...
-
     def polyColorMod(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyColorMod: ...
-
     def polyColorPerVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyColorPerVertex: ...
-
     def polyCone(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCone: ...
-
     def polyConnectComponents(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyConnectComponents: ...
-
     def polyContourProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyContourProj: ...
-
     def polyCopyUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCopyUV: ...
-
     def polyCrease(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCrease: ...
-
     def polyCreaseEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCreaseEdge: ...
-
     def polyCreateFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCreateFace: ...
-
     def polyCube(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCube: ...
-
     def polyCut(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCut: ...
-
     def polyCylProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCylProj: ...
-
     def polyCylinder(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyCylinder: ...
-
     def polyDelEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyDelEdge: ...
-
     def polyDelFacet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyDelFacet: ...
-
     def polyDelVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyDelVertex: ...
-
     def polyDisc(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyDisc: ...
-
     def polyDuplicateEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyDuplicateEdge: ...
-
     def polyEdgeToCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyEdgeToCurve: ...
-
     def polyEditEdgeFlow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyEditEdgeFlow: ...
-
     def polyExtrudeEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeEdge: ...
-
     def polyExtrudeFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeFace: ...
-
     def polyExtrudeVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyExtrudeVertex: ...
-
     def polyFlipEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyFlipEdge: ...
-
     def polyFlipUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyFlipUV: ...
-
     def polyGear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyGear: ...
-
     def polyHelix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyHelix: ...
-
     def polyHoleFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyHoleFace: ...
-
     def polyLayoutUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyLayoutUV: ...
-
     def polyMapCut(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMapCut: ...
-
     def polyMapDel(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMapDel: ...
-
     def polyMapSew(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMapSew: ...
-
     def polyMapSewMove(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMapSewMove: ...
-
     def polyMergeEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMergeEdge: ...
-
     def polyMergeFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMergeFace: ...
-
     def polyMergeUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMergeUV: ...
-
     def polyMergeVert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMergeVert: ...
-
     def polyMirror(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMirror: ...
-
     def polyMoveEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMoveEdge: ...
-
     def polyMoveFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMoveFace: ...
-
     def polyMoveFacetUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMoveFacetUV: ...
-
     def polyMoveUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMoveUV: ...
-
     def polyMoveVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyMoveVertex: ...
-
     def polyNormal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyNormal: ...
-
     def polyNormalPerVertex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyNormalPerVertex: ...
-
     def polyNormalizeUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyNormalizeUV: ...
-
     def polyOptUvs(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyOptUvs: ...
-
     def polyPassThru(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPassThru: ...
-
     def polyPinUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPinUV: ...
-
     def polyPipe(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPipe: ...
-
     def polyPlanarProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPlanarProj: ...
-
     def polyPlane(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPlane: ...
-
     def polyPlatonic(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPlatonic: ...
-
     def polyPlatonicSolid(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPlatonicSolid: ...
-
     def polyPoke(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPoke: ...
-
     def polyPrimitiveMisc(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPrimitiveMisc: ...
-
     def polyPrism(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPrism: ...
-
     def polyProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyProj: ...
-
     def polyProjectCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyProjectCurve: ...
-
     def polyPyramid(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyPyramid: ...
-
     def polyQuad(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyQuad: ...
-
     def polyReduce(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyReduce: ...
-
     def polyRemesh(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyRemesh: ...
-
     def polyRetopo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyRetopo: ...
-
     def polySeparate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySeparate: ...
-
     def polySewEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySewEdge: ...
-
     def polySmartExtrude(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySmartExtrude: ...
-
     def polySmooth(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySmooth: ...
-
     def polySmoothFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySmoothFace: ...
-
     def polySmoothProxy(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySmoothProxy: ...
-
     def polySoftEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySoftEdge: ...
-
     def polySphProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySphProj: ...
-
     def polySphere(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySphere: ...
-
     def polySpinEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySpinEdge: ...
-
     def polySplit(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySplit: ...
-
     def polySplitEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySplitEdge: ...
-
     def polySplitRing(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySplitRing: ...
-
     def polySplitVert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySplitVert: ...
-
     def polyStraightenUVBorder(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyStraightenUVBorder: ...
-
     def polySubdEdge(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySubdEdge: ...
-
     def polySubdFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySubdFace: ...
-
     def polySuperShape(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolySuperShape: ...
-
     def polyToSubdiv(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyToSubdiv: ...
-
     def polyTorus(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyTorus: ...
-
     def polyTransfer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyTransfer: ...
-
     def polyTriangulate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyTriangulate: ...
-
     def polyTweak(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyTweak: ...
-
     def polyTweakUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyTweakUV: ...
-
     def polyUVRectangle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyUVRectangle: ...
-
     def polyUnite(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyUnite: ...
-
     def polyUnsmooth(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyUnsmooth: ...
-
     def polyWedgeFace(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PolyWedgeFace: ...
-
     def poseInterpolatorManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PoseInterpolatorManager: ...
-
     def postProcessList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PostProcessList: ...
-
     def power(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Power: ...
-
     def precompExport(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PrecompExport: ...
-
     def premultiply(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Premultiply: ...
-
     def projectCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProjectCurve: ...
-
     def projectTangent(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProjectTangent: ...
-
     def projection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Projection: ...
-
     def proximityFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProximityFalloff: ...
-
     def proximityPin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProximityPin: ...
-
     def proximityWrap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProximityWrap: ...
-
     def proxyManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ProxyManager: ...
-
     def psdFileTex(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PsdFileTex: ...
-
     def pxrUsdPointBasedDeformerNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PxrUsdPointBasedDeformerNode: ...
-
     def pxrUsdStageNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> PxrUsdStageNode: ...
-
     def quadShadingSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuadShadingSwitch: ...
-
     def quatAdd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatAdd: ...
-
     def quatConjugate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatConjugate: ...
-
     def quatInvert(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatInvert: ...
-
     def quatNegate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatNegate: ...
-
     def quatNormalize(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatNormalize: ...
-
     def quatProd(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatProd: ...
-
     def quatSlerp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatSlerp: ...
-
     def quatSub(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatSub: ...
-
     def quatToAxisAngle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatToAxisAngle: ...
-
     def quatToEuler(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> QuatToEuler: ...
-
     def ramp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Ramp: ...
-
     def rampShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RampShader: ...
-
     def rbfSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RbfSrf: ...
-
     def rebuildCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RebuildCurve: ...
-
     def rebuildSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RebuildSurface: ...
-
     def record(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Record: ...
-
     def reference(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Reference: ...
-
     def relOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RelOverride: ...
-
     def relUniqueOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RelUniqueOverride: ...
-
     def remapColor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RemapColor: ...
-
     def remapHsv(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RemapHsv: ...
-
     def remapValue(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RemapValue: ...
-
     def renderGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderGlobals: ...
-
     def renderGlobalsList(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderGlobalsList: ...
-
     def renderLayer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderLayer: ...
-
     def renderLayerManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderLayerManager: ...
-
     def renderPass(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderPass: ...
-
     def renderPassSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderPassSet: ...
-
     def renderQuality(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderQuality: ...
-
     def renderSettingsChildCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderSettingsChildCollection: ...
-
     def renderSettingsCollection(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderSettingsCollection: ...
-
     def renderSetup(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderSetup: ...
-
     def renderSetupLayer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderSetupLayer: ...
-
     def renderTarget(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderTarget: ...
-
     def renderedImageSource(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RenderedImageSource: ...
-
     def reorderUVSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ReorderUVSet: ...
-
     def resolution(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Resolution: ...
-
     def resultCurveTimeToAngular(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToAngular: ...
-
     def resultCurveTimeToLinear(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToLinear: ...
-
     def resultCurveTimeToTime(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToTime: ...
-
     def resultCurveTimeToUnitless(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ResultCurveTimeToUnitless: ...
-
     def reverse(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Reverse: ...
-
     def reverseCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ReverseCurve: ...
-
     def reverseSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ReverseSurface: ...
-
     def revolve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Revolve: ...
-
     def rgbToHsv(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RgbToHsv: ...
-
     def rigidSolver(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RigidSolver: ...
-
     def rock(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Rock: ...
-
     def rotateHelper(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RotateHelper: ...
-
     def rotateVector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RotateVector: ...
-
     def rotationFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RotationFromMatrix: ...
-
     def round(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Round: ...
-
     def roundConstantRadius(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RoundConstantRadius: ...
-
     def rowFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> RowFromMatrix: ...
-
     def sampler(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Sampler: ...
-
     def samplerInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SamplerInfo: ...
-
     def scaleFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ScaleFromMatrix: ...
-
     def script(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Script: ...
-
     def sculpt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Sculpt: ...
-
     def selectionListOperator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SelectionListOperator: ...
-
     def selector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Selector: ...
-
     def sequenceManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SequenceManager: ...
-
     def sequencer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Sequencer: ...
-
     def setRange(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SetRange: ...
-
     def shaderGlow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShaderGlow: ...
-
     def shaderOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShaderOverride: ...
-
     def shadingEngine(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShadingEngine: ...
-
     def shadingMap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShadingMap: ...
-
     def shapeEditorManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShapeEditorManager: ...
-
     def shellDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShellDeformer: ...
-
     def shellTessellate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShellTessellate: ...
-
     def shot(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Shot: ...
-
     def shrinkWrap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ShrinkWrap: ...
-
     def simpleSelector(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SimpleSelector: ...
-
     def simpleTestNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SimpleTestNode: ...
-
     def simpleVolumeShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SimpleVolumeShader: ...
-
     def simplexNoise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SimplexNoise: ...
-
     def sin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Sin: ...
-
     def singleShadingSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SingleShadingSwitch: ...
-
     def skinBinding(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SkinBinding: ...
-
     def skinCluster(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SkinCluster: ...
-
     def smoothCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SmoothCurve: ...
-
     def smoothStep(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SmoothStep: ...
-
     def smoothTangentSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SmoothTangentSrf: ...
-
     def snapshot(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Snapshot: ...
-
     def snow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Snow: ...
-
     def softMod(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SoftMod: ...
-
     def solidFractal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SolidFractal: ...
-
     def solidify(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Solidify: ...
-
     def spBirailSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SpBirailSrf: ...
-
     def squareSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SquareSrf: ...
-
     def standardSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StandardSurface: ...
-
     def stencil(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Stencil: ...
-
     def stitchAsNurbsShell(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StitchAsNurbsShell: ...
-
     def stitchSrf(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StitchSrf: ...
-
     def strokeGlobals(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StrokeGlobals: ...
-
     def stucco(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Stucco: ...
-
     def styleCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> StyleCurve: ...
-
     def subCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubCurve: ...
-
     def subSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubSurface: ...
-
     def subdAddTopology(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdAddTopology: ...
-
     def subdAutoProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdAutoProj: ...
-
     def subdBlindData(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdBlindData: ...
-
     def subdCleanTopology(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdCleanTopology: ...
-
     def subdHierBlind(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdHierBlind: ...
-
     def subdLayoutUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdLayoutUV: ...
-
     def subdMapCut(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdMapCut: ...
-
     def subdMapSewMove(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdMapSewMove: ...
-
     def subdPlanarProj(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdPlanarProj: ...
-
     def subdTweak(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdTweak: ...
-
     def subdTweakUV(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdTweakUV: ...
-
     def subdivCollapse(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdivCollapse: ...
-
     def subdivComponentId(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdivComponentId: ...
-
     def subdivReverseFaces(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdivReverseFaces: ...
-
     def subdivToNurbs(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdivToNurbs: ...
-
     def subdivToPoly(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubdivToPoly: ...
-
     def subsetFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SubsetFalloff: ...
-
     def subtract(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Subtract: ...
-
     def sum(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Sum: ...
-
     def surfaceInfo(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SurfaceInfo: ...
-
     def surfaceLuminance(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SurfaceLuminance: ...
-
     def surfaceShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SurfaceShader: ...
-
     def svgToPoly(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SvgToPoly: ...
-
     def sweepMeshCreator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SweepMeshCreator: ...
-
     def sweepProfileConverter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> SweepProfileConverter: ...
-
     def tan(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Tan: ...
-
     def tension(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Tension: ...
-
     def texLattice(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TexLattice: ...
-
     def textureBakeSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TextureBakeSet: ...
-
     def textureDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TextureDeformer: ...
-
     def textureToGeom(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TextureToGeom: ...
-
     def time(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Time: ...
-
     def timeEditor(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditor: ...
-
     def timeEditorAnimSource(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorAnimSource: ...
-
     def timeEditorClip(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorClip: ...
-
     def timeEditorClipBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorClipBase: ...
-
     def timeEditorClipEvaluator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorClipEvaluator: ...
-
     def timeEditorInterpolator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorInterpolator: ...
-
     def timeEditorTracks(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeEditorTracks: ...
-
     def timeFunction(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeFunction: ...
-
     def timeToUnitConversion(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeToUnitConversion: ...
-
     def timeWarp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TimeWarp: ...
-
     def toonLineAttributes(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ToonLineAttributes: ...
-
     def trackInfoManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TrackInfoManager: ...
-
     def transferAttributes(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TransferAttributes: ...
-
     def transferFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TransferFalloff: ...
-
     def transform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Transform: ...
-
     def transformGeometry(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TransformGeometry: ...
-
     def translationFromMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TranslationFromMatrix: ...
-
     def transposeMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TransposeMatrix: ...
-
     def trim(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Trim: ...
-
     def trimWithBoundaries(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TrimWithBoundaries: ...
-
     def tripleShadingSwitch(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TripleShadingSwitch: ...
-
     def truncate(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Truncate: ...
-
     def tweak(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Tweak: ...
-
     def type(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Type: ...
-
     def typeExtrude(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> TypeExtrude: ...
-
     def uniformFalloff(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UniformFalloff: ...
-
     def unitConversion(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UnitConversion: ...
-
     def unitToTimeConversion(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UnitToTimeConversion: ...
-
     def unknown(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Unknown: ...
-
     def unpremultiply(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Unpremultiply: ...
-
     def untrim(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Untrim: ...
-
     def usdPreviewSurface(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UsdPreviewSurface: ...
-
     def useBackground(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UseBackground: ...
-
     def uvChooser(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UvChooser: ...
-
     def uvPin(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> UvPin: ...
-
     def valueOverride(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ValueOverride: ...
-
     def vectorAdjust(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VectorAdjust: ...
-
     def vectorExtrude(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VectorExtrude: ...
-
     def vectorProduct(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VectorProduct: ...
-
     def vertexBakeSet(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VertexBakeSet: ...
-
     def viewColorManager(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> ViewColorManager: ...
-
     def volumeFog(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VolumeFog: ...
-
     def volumeNoise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VolumeNoise: ...
-
     def volumeShader(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> VolumeShader: ...
-
     def water(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Water: ...
-
     def weightGeometryFilter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> WeightGeometryFilter: ...
-
     def wire(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Wire: ...
-
     def wood(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Wood: ...
-
     def wrap(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> Wrap: ...
-
     def wtAddMatrix(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> WtAddMatrix: ...
-
     def xgmCurveToSpline(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmCurveToSpline: ...
-
     def xgmHairMapping(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmHairMapping: ...
-
     def xgmMakeGuide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmMakeGuide: ...
-
     def xgmModifierBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierBase: ...
-
     def xgmModifierClump(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierClump: ...
-
     def xgmModifierCollision(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierCollision: ...
-
     def xgmModifierCut(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierCut: ...
-
     def xgmModifierDisplacement(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierDisplacement: ...
-
     def xgmModifierGuide(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierGuide: ...
-
     def xgmModifierLinearWire(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierLinearWire: ...
-
     def xgmModifierNoise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierNoise: ...
-
     def xgmModifierScale(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierScale: ...
-
     def xgmModifierSculpt(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmModifierSculpt: ...
-
     def xgmSeExpr(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmSeExpr: ...
-
     def xgmSplineBase(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmSplineBase: ...
-
     def xgmSplineCache(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> XgmSplineCache: ...
 
-
 class Nodes:
     def __init__(
         self,
         modifier_manager: ModifierManager | None = None,
     ) -> None: ...
-
     @property
     def modifier_manager(self) -> ModifierManager: ...
-
     @property
     def create(self) -> NodeCreator: ...
-
     @property
     def existing(self) -> _ExistingNodeAccessor: ...

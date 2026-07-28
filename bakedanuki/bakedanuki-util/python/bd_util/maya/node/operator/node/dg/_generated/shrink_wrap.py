@@ -15,12 +15,16 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
+class BoundaryRuleEnumPlugOperator(
+    EnumPlugOperator["BoundaryRuleEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -28,7 +32,9 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperato
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
+class BoundaryRuleEnumAttrOperator(
+    EnumAttrOperator[BoundaryRuleEnumPlugOperator]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -51,7 +57,9 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
+class KeepMapBordersEnumPlugOperator(
+    EnumPlugOperator["KeepMapBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -59,7 +67,9 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOpe
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
+class KeepMapBordersEnumAttrOperator(
+    EnumAttrOperator[KeepMapBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -82,7 +92,9 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class ProjectionEnumPlugOperator(EnumPlugOperator["ProjectionEnumAttrOperator"]):
+class ProjectionEnumPlugOperator(
+    EnumPlugOperator["ProjectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     TOWARD_INNER_OBJECT = 0
@@ -119,7 +131,9 @@ class ProjectionEnumField(
     PLUG_CLS = ProjectionEnumPlugOperator
 
 
-class AxisReferenceEnumPlugOperator(EnumPlugOperator["AxisReferenceEnumAttrOperator"]):
+class AxisReferenceEnumPlugOperator(
+    EnumPlugOperator["AxisReferenceEnumAttrOperator"]
+):
     __slots__ = ()
 
     TARGET_LOCAL = 0
@@ -127,7 +141,9 @@ class AxisReferenceEnumPlugOperator(EnumPlugOperator["AxisReferenceEnumAttrOpera
     GLOBAL = 3
 
 
-class AxisReferenceEnumAttrOperator(EnumAttrOperator[AxisReferenceEnumPlugOperator]):
+class AxisReferenceEnumAttrOperator(
+    EnumAttrOperator[AxisReferenceEnumPlugOperator]
+):
     __slots__ = ()
 
     TARGET_LOCAL = 0
@@ -150,7 +166,9 @@ class AxisReferenceEnumField(
     PLUG_CLS = AxisReferenceEnumPlugOperator
 
 
-class ShapePreservationReprojectionEnumPlugOperator(EnumPlugOperator["ShapePreservationReprojectionEnumAttrOperator"]):
+class ShapePreservationReprojectionEnumPlugOperator(
+    EnumPlugOperator["ShapePreservationReprojectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_REPROJECTION = 0
@@ -158,7 +176,9 @@ class ShapePreservationReprojectionEnumPlugOperator(EnumPlugOperator["ShapePrese
     REPROJECTION_PER_STEP = 2
 
 
-class ShapePreservationReprojectionEnumAttrOperator(EnumAttrOperator[ShapePreservationReprojectionEnumPlugOperator]):
+class ShapePreservationReprojectionEnumAttrOperator(
+    EnumAttrOperator[ShapePreservationReprojectionEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_REPROJECTION = 0
@@ -173,7 +193,10 @@ class ShapePreservationReprojectionEnumAttrOperator(EnumAttrOperator[ShapePreser
 
 
 class ShapePreservationReprojectionEnumField(
-    EnumField[ShapePreservationReprojectionEnumAttrOperator, ShapePreservationReprojectionEnumPlugOperator]
+    EnumField[
+        ShapePreservationReprojectionEnumAttrOperator,
+        ShapePreservationReprojectionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -181,14 +204,18 @@ class ShapePreservationReprojectionEnumField(
     PLUG_CLS = ShapePreservationReprojectionEnumPlugOperator
 
 
-class ShapePreservationMethodEnumPlugOperator(EnumPlugOperator["ShapePreservationMethodEnumAttrOperator"]):
+class ShapePreservationMethodEnumPlugOperator(
+    EnumPlugOperator["ShapePreservationMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     EDGES = 0
     TRIANGLES = 1
 
 
-class ShapePreservationMethodEnumAttrOperator(EnumAttrOperator[ShapePreservationMethodEnumPlugOperator]):
+class ShapePreservationMethodEnumAttrOperator(
+    EnumAttrOperator[ShapePreservationMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     EDGES = 0
@@ -201,7 +228,10 @@ class ShapePreservationMethodEnumAttrOperator(EnumAttrOperator[ShapePreservation
 
 
 class ShapePreservationMethodEnumField(
-    EnumField[ShapePreservationMethodEnumAttrOperator, ShapePreservationMethodEnumPlugOperator]
+    EnumField[
+        ShapePreservationMethodEnumAttrOperator,
+        ShapePreservationMethodEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -226,13 +256,21 @@ class GeneratedShrinkWrap(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -256,10 +294,22 @@ class GeneratedShrinkWrap(DG):
     cachedSmoothTarget = DataMeshField()
     cst = cachedSmoothTarget
 
-    targetSmoothLevel = ShortField(default_value=0, min_value=0, max_value=7, soft_min_value=0, soft_max_value=4)
+    targetSmoothLevel = ShortField(
+        default_value=0,
+        min_value=0,
+        max_value=7,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     tsl = targetSmoothLevel
 
-    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    continuity = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     co = continuity
 
     smoothUVs = BoolField(default_value=True)
@@ -313,35 +363,56 @@ class GeneratedShrinkWrap(DG):
     alongZ = BoolField(default_value=False)
     az = alongZ
 
-    offset = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    offset = DoubleLinearField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     o = offset
 
-    targetInflation = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    targetInflation = DoubleLinearField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ti = targetInflation
 
     cachedInflatedTarget = DataMeshField()
     cit = cachedInflatedTarget
 
-    falloff = DoubleLinearField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    falloff = DoubleLinearField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = falloff
 
-    falloffIterations = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
+    falloffIterations = ShortField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=10
+    )
     fi = falloffIterations
 
     shapePreservationEnable = BoolField(default_value=False)
     spe = shapePreservationEnable
 
-    shapePreservationSteps = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=100)
+    shapePreservationSteps = ShortField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=100
+    )
     sps = shapePreservationSteps
 
-    shapePreservationIterations = ShortField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
+    shapePreservationIterations = ShortField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=10
+    )
     spi = shapePreservationIterations
 
-    shapePreservationReprojection = ShapePreservationReprojectionEnumField(default_value=1)
+    shapePreservationReprojection = ShapePreservationReprojectionEnumField(
+        default_value=1
+    )
     spr = shapePreservationReprojection
 
     shapePreservationMethod = ShapePreservationMethodEnumField(default_value=0)
     spm = shapePreservationMethod
 
-    inputEnvelope = FloatField(multi=True, default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputEnvelope = FloatField(
+        multi=True,
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ien = inputEnvelope

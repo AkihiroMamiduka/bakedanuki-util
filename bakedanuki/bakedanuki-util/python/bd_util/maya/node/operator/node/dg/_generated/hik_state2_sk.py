@@ -1284,7 +1284,9 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.typed import TypedField
 
 
-class ReferenceROrderEnumPlugOperator(EnumPlugOperator["ReferenceROrderEnumAttrOperator"]):
+class ReferenceROrderEnumPlugOperator(
+    EnumPlugOperator["ReferenceROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1295,7 +1297,9 @@ class ReferenceROrderEnumPlugOperator(EnumPlugOperator["ReferenceROrderEnumAttrO
     ZYX = 5
 
 
-class ReferenceROrderEnumAttrOperator(EnumAttrOperator[ReferenceROrderEnumPlugOperator]):
+class ReferenceROrderEnumAttrOperator(
+    EnumAttrOperator[ReferenceROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1324,7 +1328,9 @@ class ReferenceROrderEnumField(
     PLUG_CLS = ReferenceROrderEnumPlugOperator
 
 
-class HipsROrderEnumPlugOperator(EnumPlugOperator["HipsROrderEnumAttrOperator"]):
+class HipsROrderEnumPlugOperator(
+    EnumPlugOperator["HipsROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1364,7 +1370,9 @@ class HipsROrderEnumField(
     PLUG_CLS = HipsROrderEnumPlugOperator
 
 
-class LeftUpLegROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegROrderEnumAttrOperator"]):
+class LeftUpLegROrderEnumPlugOperator(
+    EnumPlugOperator["LeftUpLegROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1375,7 +1383,9 @@ class LeftUpLegROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegROrderEnumAttrO
     ZYX = 5
 
 
-class LeftUpLegROrderEnumAttrOperator(EnumAttrOperator[LeftUpLegROrderEnumPlugOperator]):
+class LeftUpLegROrderEnumAttrOperator(
+    EnumAttrOperator[LeftUpLegROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1404,7 +1414,9 @@ class LeftUpLegROrderEnumField(
     PLUG_CLS = LeftUpLegROrderEnumPlugOperator
 
 
-class LeftLegROrderEnumPlugOperator(EnumPlugOperator["LeftLegROrderEnumAttrOperator"]):
+class LeftLegROrderEnumPlugOperator(
+    EnumPlugOperator["LeftLegROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1415,7 +1427,9 @@ class LeftLegROrderEnumPlugOperator(EnumPlugOperator["LeftLegROrderEnumAttrOpera
     ZYX = 5
 
 
-class LeftLegROrderEnumAttrOperator(EnumAttrOperator[LeftLegROrderEnumPlugOperator]):
+class LeftLegROrderEnumAttrOperator(
+    EnumAttrOperator[LeftLegROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1444,7 +1458,9 @@ class LeftLegROrderEnumField(
     PLUG_CLS = LeftLegROrderEnumPlugOperator
 
 
-class LeftFootROrderEnumPlugOperator(EnumPlugOperator["LeftFootROrderEnumAttrOperator"]):
+class LeftFootROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1455,7 +1471,9 @@ class LeftFootROrderEnumPlugOperator(EnumPlugOperator["LeftFootROrderEnumAttrOpe
     ZYX = 5
 
 
-class LeftFootROrderEnumAttrOperator(EnumAttrOperator[LeftFootROrderEnumPlugOperator]):
+class LeftFootROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1484,7 +1502,9 @@ class LeftFootROrderEnumField(
     PLUG_CLS = LeftFootROrderEnumPlugOperator
 
 
-class RightUpLegROrderEnumPlugOperator(EnumPlugOperator["RightUpLegROrderEnumAttrOperator"]):
+class RightUpLegROrderEnumPlugOperator(
+    EnumPlugOperator["RightUpLegROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1495,7 +1515,9 @@ class RightUpLegROrderEnumPlugOperator(EnumPlugOperator["RightUpLegROrderEnumAtt
     ZYX = 5
 
 
-class RightUpLegROrderEnumAttrOperator(EnumAttrOperator[RightUpLegROrderEnumPlugOperator]):
+class RightUpLegROrderEnumAttrOperator(
+    EnumAttrOperator[RightUpLegROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1516,7 +1538,9 @@ class RightUpLegROrderEnumAttrOperator(EnumAttrOperator[RightUpLegROrderEnumPlug
 
 
 class RightUpLegROrderEnumField(
-    EnumField[RightUpLegROrderEnumAttrOperator, RightUpLegROrderEnumPlugOperator]
+    EnumField[
+        RightUpLegROrderEnumAttrOperator, RightUpLegROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1524,7 +1548,9 @@ class RightUpLegROrderEnumField(
     PLUG_CLS = RightUpLegROrderEnumPlugOperator
 
 
-class RightLegROrderEnumPlugOperator(EnumPlugOperator["RightLegROrderEnumAttrOperator"]):
+class RightLegROrderEnumPlugOperator(
+    EnumPlugOperator["RightLegROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1535,7 +1561,9 @@ class RightLegROrderEnumPlugOperator(EnumPlugOperator["RightLegROrderEnumAttrOpe
     ZYX = 5
 
 
-class RightLegROrderEnumAttrOperator(EnumAttrOperator[RightLegROrderEnumPlugOperator]):
+class RightLegROrderEnumAttrOperator(
+    EnumAttrOperator[RightLegROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1564,7 +1592,9 @@ class RightLegROrderEnumField(
     PLUG_CLS = RightLegROrderEnumPlugOperator
 
 
-class RightFootROrderEnumPlugOperator(EnumPlugOperator["RightFootROrderEnumAttrOperator"]):
+class RightFootROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1575,7 +1605,9 @@ class RightFootROrderEnumPlugOperator(EnumPlugOperator["RightFootROrderEnumAttrO
     ZYX = 5
 
 
-class RightFootROrderEnumAttrOperator(EnumAttrOperator[RightFootROrderEnumPlugOperator]):
+class RightFootROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1604,7 +1636,9 @@ class RightFootROrderEnumField(
     PLUG_CLS = RightFootROrderEnumPlugOperator
 
 
-class SpineROrderEnumPlugOperator(EnumPlugOperator["SpineROrderEnumAttrOperator"]):
+class SpineROrderEnumPlugOperator(
+    EnumPlugOperator["SpineROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1615,7 +1649,9 @@ class SpineROrderEnumPlugOperator(EnumPlugOperator["SpineROrderEnumAttrOperator"
     ZYX = 5
 
 
-class SpineROrderEnumAttrOperator(EnumAttrOperator[SpineROrderEnumPlugOperator]):
+class SpineROrderEnumAttrOperator(
+    EnumAttrOperator[SpineROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1644,7 +1680,9 @@ class SpineROrderEnumField(
     PLUG_CLS = SpineROrderEnumPlugOperator
 
 
-class LeftArmROrderEnumPlugOperator(EnumPlugOperator["LeftArmROrderEnumAttrOperator"]):
+class LeftArmROrderEnumPlugOperator(
+    EnumPlugOperator["LeftArmROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1655,7 +1693,9 @@ class LeftArmROrderEnumPlugOperator(EnumPlugOperator["LeftArmROrderEnumAttrOpera
     ZYX = 5
 
 
-class LeftArmROrderEnumAttrOperator(EnumAttrOperator[LeftArmROrderEnumPlugOperator]):
+class LeftArmROrderEnumAttrOperator(
+    EnumAttrOperator[LeftArmROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1684,7 +1724,9 @@ class LeftArmROrderEnumField(
     PLUG_CLS = LeftArmROrderEnumPlugOperator
 
 
-class LeftForeArmROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmROrderEnumAttrOperator"]):
+class LeftForeArmROrderEnumPlugOperator(
+    EnumPlugOperator["LeftForeArmROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1695,7 +1737,9 @@ class LeftForeArmROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmROrderEnumA
     ZYX = 5
 
 
-class LeftForeArmROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmROrderEnumPlugOperator]):
+class LeftForeArmROrderEnumAttrOperator(
+    EnumAttrOperator[LeftForeArmROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1716,7 +1760,9 @@ class LeftForeArmROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmROrderEnumPl
 
 
 class LeftForeArmROrderEnumField(
-    EnumField[LeftForeArmROrderEnumAttrOperator, LeftForeArmROrderEnumPlugOperator]
+    EnumField[
+        LeftForeArmROrderEnumAttrOperator, LeftForeArmROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1724,7 +1770,9 @@ class LeftForeArmROrderEnumField(
     PLUG_CLS = LeftForeArmROrderEnumPlugOperator
 
 
-class LeftHandROrderEnumPlugOperator(EnumPlugOperator["LeftHandROrderEnumAttrOperator"]):
+class LeftHandROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1735,7 +1783,9 @@ class LeftHandROrderEnumPlugOperator(EnumPlugOperator["LeftHandROrderEnumAttrOpe
     ZYX = 5
 
 
-class LeftHandROrderEnumAttrOperator(EnumAttrOperator[LeftHandROrderEnumPlugOperator]):
+class LeftHandROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1764,7 +1814,9 @@ class LeftHandROrderEnumField(
     PLUG_CLS = LeftHandROrderEnumPlugOperator
 
 
-class RightArmROrderEnumPlugOperator(EnumPlugOperator["RightArmROrderEnumAttrOperator"]):
+class RightArmROrderEnumPlugOperator(
+    EnumPlugOperator["RightArmROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1775,7 +1827,9 @@ class RightArmROrderEnumPlugOperator(EnumPlugOperator["RightArmROrderEnumAttrOpe
     ZYX = 5
 
 
-class RightArmROrderEnumAttrOperator(EnumAttrOperator[RightArmROrderEnumPlugOperator]):
+class RightArmROrderEnumAttrOperator(
+    EnumAttrOperator[RightArmROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1804,7 +1858,9 @@ class RightArmROrderEnumField(
     PLUG_CLS = RightArmROrderEnumPlugOperator
 
 
-class RightForeArmROrderEnumPlugOperator(EnumPlugOperator["RightForeArmROrderEnumAttrOperator"]):
+class RightForeArmROrderEnumPlugOperator(
+    EnumPlugOperator["RightForeArmROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1815,7 +1871,9 @@ class RightForeArmROrderEnumPlugOperator(EnumPlugOperator["RightForeArmROrderEnu
     ZYX = 5
 
 
-class RightForeArmROrderEnumAttrOperator(EnumAttrOperator[RightForeArmROrderEnumPlugOperator]):
+class RightForeArmROrderEnumAttrOperator(
+    EnumAttrOperator[RightForeArmROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1836,7 +1894,9 @@ class RightForeArmROrderEnumAttrOperator(EnumAttrOperator[RightForeArmROrderEnum
 
 
 class RightForeArmROrderEnumField(
-    EnumField[RightForeArmROrderEnumAttrOperator, RightForeArmROrderEnumPlugOperator]
+    EnumField[
+        RightForeArmROrderEnumAttrOperator, RightForeArmROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1844,7 +1904,9 @@ class RightForeArmROrderEnumField(
     PLUG_CLS = RightForeArmROrderEnumPlugOperator
 
 
-class RightHandROrderEnumPlugOperator(EnumPlugOperator["RightHandROrderEnumAttrOperator"]):
+class RightHandROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1855,7 +1917,9 @@ class RightHandROrderEnumPlugOperator(EnumPlugOperator["RightHandROrderEnumAttrO
     ZYX = 5
 
 
-class RightHandROrderEnumAttrOperator(EnumAttrOperator[RightHandROrderEnumPlugOperator]):
+class RightHandROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1884,7 +1948,9 @@ class RightHandROrderEnumField(
     PLUG_CLS = RightHandROrderEnumPlugOperator
 
 
-class HeadROrderEnumPlugOperator(EnumPlugOperator["HeadROrderEnumAttrOperator"]):
+class HeadROrderEnumPlugOperator(
+    EnumPlugOperator["HeadROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1924,7 +1990,9 @@ class HeadROrderEnumField(
     PLUG_CLS = HeadROrderEnumPlugOperator
 
 
-class LeftToeBaseROrderEnumPlugOperator(EnumPlugOperator["LeftToeBaseROrderEnumAttrOperator"]):
+class LeftToeBaseROrderEnumPlugOperator(
+    EnumPlugOperator["LeftToeBaseROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1935,7 +2003,9 @@ class LeftToeBaseROrderEnumPlugOperator(EnumPlugOperator["LeftToeBaseROrderEnumA
     ZYX = 5
 
 
-class LeftToeBaseROrderEnumAttrOperator(EnumAttrOperator[LeftToeBaseROrderEnumPlugOperator]):
+class LeftToeBaseROrderEnumAttrOperator(
+    EnumAttrOperator[LeftToeBaseROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1956,7 +2026,9 @@ class LeftToeBaseROrderEnumAttrOperator(EnumAttrOperator[LeftToeBaseROrderEnumPl
 
 
 class LeftToeBaseROrderEnumField(
-    EnumField[LeftToeBaseROrderEnumAttrOperator, LeftToeBaseROrderEnumPlugOperator]
+    EnumField[
+        LeftToeBaseROrderEnumAttrOperator, LeftToeBaseROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1964,7 +2036,9 @@ class LeftToeBaseROrderEnumField(
     PLUG_CLS = LeftToeBaseROrderEnumPlugOperator
 
 
-class RightToeBaseROrderEnumPlugOperator(EnumPlugOperator["RightToeBaseROrderEnumAttrOperator"]):
+class RightToeBaseROrderEnumPlugOperator(
+    EnumPlugOperator["RightToeBaseROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1975,7 +2049,9 @@ class RightToeBaseROrderEnumPlugOperator(EnumPlugOperator["RightToeBaseROrderEnu
     ZYX = 5
 
 
-class RightToeBaseROrderEnumAttrOperator(EnumAttrOperator[RightToeBaseROrderEnumPlugOperator]):
+class RightToeBaseROrderEnumAttrOperator(
+    EnumAttrOperator[RightToeBaseROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -1996,7 +2072,9 @@ class RightToeBaseROrderEnumAttrOperator(EnumAttrOperator[RightToeBaseROrderEnum
 
 
 class RightToeBaseROrderEnumField(
-    EnumField[RightToeBaseROrderEnumAttrOperator, RightToeBaseROrderEnumPlugOperator]
+    EnumField[
+        RightToeBaseROrderEnumAttrOperator, RightToeBaseROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2004,7 +2082,9 @@ class RightToeBaseROrderEnumField(
     PLUG_CLS = RightToeBaseROrderEnumPlugOperator
 
 
-class LeftShoulderROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderROrderEnumAttrOperator"]):
+class LeftShoulderROrderEnumPlugOperator(
+    EnumPlugOperator["LeftShoulderROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2015,7 +2095,9 @@ class LeftShoulderROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderROrderEnu
     ZYX = 5
 
 
-class LeftShoulderROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderROrderEnumPlugOperator]):
+class LeftShoulderROrderEnumAttrOperator(
+    EnumAttrOperator[LeftShoulderROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2036,7 +2118,9 @@ class LeftShoulderROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderROrderEnum
 
 
 class LeftShoulderROrderEnumField(
-    EnumField[LeftShoulderROrderEnumAttrOperator, LeftShoulderROrderEnumPlugOperator]
+    EnumField[
+        LeftShoulderROrderEnumAttrOperator, LeftShoulderROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2044,7 +2128,9 @@ class LeftShoulderROrderEnumField(
     PLUG_CLS = LeftShoulderROrderEnumPlugOperator
 
 
-class RightShoulderROrderEnumPlugOperator(EnumPlugOperator["RightShoulderROrderEnumAttrOperator"]):
+class RightShoulderROrderEnumPlugOperator(
+    EnumPlugOperator["RightShoulderROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2055,7 +2141,9 @@ class RightShoulderROrderEnumPlugOperator(EnumPlugOperator["RightShoulderROrderE
     ZYX = 5
 
 
-class RightShoulderROrderEnumAttrOperator(EnumAttrOperator[RightShoulderROrderEnumPlugOperator]):
+class RightShoulderROrderEnumAttrOperator(
+    EnumAttrOperator[RightShoulderROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2076,7 +2164,10 @@ class RightShoulderROrderEnumAttrOperator(EnumAttrOperator[RightShoulderROrderEn
 
 
 class RightShoulderROrderEnumField(
-    EnumField[RightShoulderROrderEnumAttrOperator, RightShoulderROrderEnumPlugOperator]
+    EnumField[
+        RightShoulderROrderEnumAttrOperator,
+        RightShoulderROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2084,7 +2175,9 @@ class RightShoulderROrderEnumField(
     PLUG_CLS = RightShoulderROrderEnumPlugOperator
 
 
-class NeckROrderEnumPlugOperator(EnumPlugOperator["NeckROrderEnumAttrOperator"]):
+class NeckROrderEnumPlugOperator(
+    EnumPlugOperator["NeckROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2124,7 +2217,9 @@ class NeckROrderEnumField(
     PLUG_CLS = NeckROrderEnumPlugOperator
 
 
-class LeftFingerBaseROrderEnumPlugOperator(EnumPlugOperator["LeftFingerBaseROrderEnumAttrOperator"]):
+class LeftFingerBaseROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFingerBaseROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2135,7 +2230,9 @@ class LeftFingerBaseROrderEnumPlugOperator(EnumPlugOperator["LeftFingerBaseROrde
     ZYX = 5
 
 
-class LeftFingerBaseROrderEnumAttrOperator(EnumAttrOperator[LeftFingerBaseROrderEnumPlugOperator]):
+class LeftFingerBaseROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFingerBaseROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2156,7 +2253,10 @@ class LeftFingerBaseROrderEnumAttrOperator(EnumAttrOperator[LeftFingerBaseROrder
 
 
 class LeftFingerBaseROrderEnumField(
-    EnumField[LeftFingerBaseROrderEnumAttrOperator, LeftFingerBaseROrderEnumPlugOperator]
+    EnumField[
+        LeftFingerBaseROrderEnumAttrOperator,
+        LeftFingerBaseROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2164,7 +2264,9 @@ class LeftFingerBaseROrderEnumField(
     PLUG_CLS = LeftFingerBaseROrderEnumPlugOperator
 
 
-class RightFingerBaseROrderEnumPlugOperator(EnumPlugOperator["RightFingerBaseROrderEnumAttrOperator"]):
+class RightFingerBaseROrderEnumPlugOperator(
+    EnumPlugOperator["RightFingerBaseROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2175,7 +2277,9 @@ class RightFingerBaseROrderEnumPlugOperator(EnumPlugOperator["RightFingerBaseROr
     ZYX = 5
 
 
-class RightFingerBaseROrderEnumAttrOperator(EnumAttrOperator[RightFingerBaseROrderEnumPlugOperator]):
+class RightFingerBaseROrderEnumAttrOperator(
+    EnumAttrOperator[RightFingerBaseROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2196,7 +2300,10 @@ class RightFingerBaseROrderEnumAttrOperator(EnumAttrOperator[RightFingerBaseROrd
 
 
 class RightFingerBaseROrderEnumField(
-    EnumField[RightFingerBaseROrderEnumAttrOperator, RightFingerBaseROrderEnumPlugOperator]
+    EnumField[
+        RightFingerBaseROrderEnumAttrOperator,
+        RightFingerBaseROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2204,7 +2311,9 @@ class RightFingerBaseROrderEnumField(
     PLUG_CLS = RightFingerBaseROrderEnumPlugOperator
 
 
-class Spine1ROrderEnumPlugOperator(EnumPlugOperator["Spine1ROrderEnumAttrOperator"]):
+class Spine1ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2215,7 +2324,9 @@ class Spine1ROrderEnumPlugOperator(EnumPlugOperator["Spine1ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine1ROrderEnumAttrOperator(EnumAttrOperator[Spine1ROrderEnumPlugOperator]):
+class Spine1ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2244,7 +2355,9 @@ class Spine1ROrderEnumField(
     PLUG_CLS = Spine1ROrderEnumPlugOperator
 
 
-class Spine2ROrderEnumPlugOperator(EnumPlugOperator["Spine2ROrderEnumAttrOperator"]):
+class Spine2ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2255,7 +2368,9 @@ class Spine2ROrderEnumPlugOperator(EnumPlugOperator["Spine2ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine2ROrderEnumAttrOperator(EnumAttrOperator[Spine2ROrderEnumPlugOperator]):
+class Spine2ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2284,7 +2399,9 @@ class Spine2ROrderEnumField(
     PLUG_CLS = Spine2ROrderEnumPlugOperator
 
 
-class Spine3ROrderEnumPlugOperator(EnumPlugOperator["Spine3ROrderEnumAttrOperator"]):
+class Spine3ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2295,7 +2412,9 @@ class Spine3ROrderEnumPlugOperator(EnumPlugOperator["Spine3ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine3ROrderEnumAttrOperator(EnumAttrOperator[Spine3ROrderEnumPlugOperator]):
+class Spine3ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2324,7 +2443,9 @@ class Spine3ROrderEnumField(
     PLUG_CLS = Spine3ROrderEnumPlugOperator
 
 
-class Spine4ROrderEnumPlugOperator(EnumPlugOperator["Spine4ROrderEnumAttrOperator"]):
+class Spine4ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2335,7 +2456,9 @@ class Spine4ROrderEnumPlugOperator(EnumPlugOperator["Spine4ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine4ROrderEnumAttrOperator(EnumAttrOperator[Spine4ROrderEnumPlugOperator]):
+class Spine4ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2364,7 +2487,9 @@ class Spine4ROrderEnumField(
     PLUG_CLS = Spine4ROrderEnumPlugOperator
 
 
-class Spine5ROrderEnumPlugOperator(EnumPlugOperator["Spine5ROrderEnumAttrOperator"]):
+class Spine5ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2375,7 +2500,9 @@ class Spine5ROrderEnumPlugOperator(EnumPlugOperator["Spine5ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine5ROrderEnumAttrOperator(EnumAttrOperator[Spine5ROrderEnumPlugOperator]):
+class Spine5ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2404,7 +2531,9 @@ class Spine5ROrderEnumField(
     PLUG_CLS = Spine5ROrderEnumPlugOperator
 
 
-class Spine6ROrderEnumPlugOperator(EnumPlugOperator["Spine6ROrderEnumAttrOperator"]):
+class Spine6ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine6ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2415,7 +2544,9 @@ class Spine6ROrderEnumPlugOperator(EnumPlugOperator["Spine6ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine6ROrderEnumAttrOperator(EnumAttrOperator[Spine6ROrderEnumPlugOperator]):
+class Spine6ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine6ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2444,7 +2575,9 @@ class Spine6ROrderEnumField(
     PLUG_CLS = Spine6ROrderEnumPlugOperator
 
 
-class Spine7ROrderEnumPlugOperator(EnumPlugOperator["Spine7ROrderEnumAttrOperator"]):
+class Spine7ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine7ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2455,7 +2588,9 @@ class Spine7ROrderEnumPlugOperator(EnumPlugOperator["Spine7ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine7ROrderEnumAttrOperator(EnumAttrOperator[Spine7ROrderEnumPlugOperator]):
+class Spine7ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine7ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2484,7 +2619,9 @@ class Spine7ROrderEnumField(
     PLUG_CLS = Spine7ROrderEnumPlugOperator
 
 
-class Spine8ROrderEnumPlugOperator(EnumPlugOperator["Spine8ROrderEnumAttrOperator"]):
+class Spine8ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine8ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2495,7 +2632,9 @@ class Spine8ROrderEnumPlugOperator(EnumPlugOperator["Spine8ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine8ROrderEnumAttrOperator(EnumAttrOperator[Spine8ROrderEnumPlugOperator]):
+class Spine8ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine8ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2524,7 +2663,9 @@ class Spine8ROrderEnumField(
     PLUG_CLS = Spine8ROrderEnumPlugOperator
 
 
-class Spine9ROrderEnumPlugOperator(EnumPlugOperator["Spine9ROrderEnumAttrOperator"]):
+class Spine9ROrderEnumPlugOperator(
+    EnumPlugOperator["Spine9ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2535,7 +2676,9 @@ class Spine9ROrderEnumPlugOperator(EnumPlugOperator["Spine9ROrderEnumAttrOperato
     ZYX = 5
 
 
-class Spine9ROrderEnumAttrOperator(EnumAttrOperator[Spine9ROrderEnumPlugOperator]):
+class Spine9ROrderEnumAttrOperator(
+    EnumAttrOperator[Spine9ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2564,7 +2707,9 @@ class Spine9ROrderEnumField(
     PLUG_CLS = Spine9ROrderEnumPlugOperator
 
 
-class Neck1ROrderEnumPlugOperator(EnumPlugOperator["Neck1ROrderEnumAttrOperator"]):
+class Neck1ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2575,7 +2720,9 @@ class Neck1ROrderEnumPlugOperator(EnumPlugOperator["Neck1ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck1ROrderEnumAttrOperator(EnumAttrOperator[Neck1ROrderEnumPlugOperator]):
+class Neck1ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2604,7 +2751,9 @@ class Neck1ROrderEnumField(
     PLUG_CLS = Neck1ROrderEnumPlugOperator
 
 
-class Neck2ROrderEnumPlugOperator(EnumPlugOperator["Neck2ROrderEnumAttrOperator"]):
+class Neck2ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2615,7 +2764,9 @@ class Neck2ROrderEnumPlugOperator(EnumPlugOperator["Neck2ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck2ROrderEnumAttrOperator(EnumAttrOperator[Neck2ROrderEnumPlugOperator]):
+class Neck2ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2644,7 +2795,9 @@ class Neck2ROrderEnumField(
     PLUG_CLS = Neck2ROrderEnumPlugOperator
 
 
-class Neck3ROrderEnumPlugOperator(EnumPlugOperator["Neck3ROrderEnumAttrOperator"]):
+class Neck3ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2655,7 +2808,9 @@ class Neck3ROrderEnumPlugOperator(EnumPlugOperator["Neck3ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck3ROrderEnumAttrOperator(EnumAttrOperator[Neck3ROrderEnumPlugOperator]):
+class Neck3ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2684,7 +2839,9 @@ class Neck3ROrderEnumField(
     PLUG_CLS = Neck3ROrderEnumPlugOperator
 
 
-class Neck4ROrderEnumPlugOperator(EnumPlugOperator["Neck4ROrderEnumAttrOperator"]):
+class Neck4ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2695,7 +2852,9 @@ class Neck4ROrderEnumPlugOperator(EnumPlugOperator["Neck4ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck4ROrderEnumAttrOperator(EnumAttrOperator[Neck4ROrderEnumPlugOperator]):
+class Neck4ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2724,7 +2883,9 @@ class Neck4ROrderEnumField(
     PLUG_CLS = Neck4ROrderEnumPlugOperator
 
 
-class Neck5ROrderEnumPlugOperator(EnumPlugOperator["Neck5ROrderEnumAttrOperator"]):
+class Neck5ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2735,7 +2896,9 @@ class Neck5ROrderEnumPlugOperator(EnumPlugOperator["Neck5ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck5ROrderEnumAttrOperator(EnumAttrOperator[Neck5ROrderEnumPlugOperator]):
+class Neck5ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2764,7 +2927,9 @@ class Neck5ROrderEnumField(
     PLUG_CLS = Neck5ROrderEnumPlugOperator
 
 
-class Neck6ROrderEnumPlugOperator(EnumPlugOperator["Neck6ROrderEnumAttrOperator"]):
+class Neck6ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck6ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2775,7 +2940,9 @@ class Neck6ROrderEnumPlugOperator(EnumPlugOperator["Neck6ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck6ROrderEnumAttrOperator(EnumAttrOperator[Neck6ROrderEnumPlugOperator]):
+class Neck6ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck6ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2804,7 +2971,9 @@ class Neck6ROrderEnumField(
     PLUG_CLS = Neck6ROrderEnumPlugOperator
 
 
-class Neck7ROrderEnumPlugOperator(EnumPlugOperator["Neck7ROrderEnumAttrOperator"]):
+class Neck7ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck7ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2815,7 +2984,9 @@ class Neck7ROrderEnumPlugOperator(EnumPlugOperator["Neck7ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck7ROrderEnumAttrOperator(EnumAttrOperator[Neck7ROrderEnumPlugOperator]):
+class Neck7ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck7ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2844,7 +3015,9 @@ class Neck7ROrderEnumField(
     PLUG_CLS = Neck7ROrderEnumPlugOperator
 
 
-class Neck8ROrderEnumPlugOperator(EnumPlugOperator["Neck8ROrderEnumAttrOperator"]):
+class Neck8ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck8ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2855,7 +3028,9 @@ class Neck8ROrderEnumPlugOperator(EnumPlugOperator["Neck8ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck8ROrderEnumAttrOperator(EnumAttrOperator[Neck8ROrderEnumPlugOperator]):
+class Neck8ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck8ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2884,7 +3059,9 @@ class Neck8ROrderEnumField(
     PLUG_CLS = Neck8ROrderEnumPlugOperator
 
 
-class Neck9ROrderEnumPlugOperator(EnumPlugOperator["Neck9ROrderEnumAttrOperator"]):
+class Neck9ROrderEnumPlugOperator(
+    EnumPlugOperator["Neck9ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2895,7 +3072,9 @@ class Neck9ROrderEnumPlugOperator(EnumPlugOperator["Neck9ROrderEnumAttrOperator"
     ZYX = 5
 
 
-class Neck9ROrderEnumAttrOperator(EnumAttrOperator[Neck9ROrderEnumPlugOperator]):
+class Neck9ROrderEnumAttrOperator(
+    EnumAttrOperator[Neck9ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2924,7 +3103,9 @@ class Neck9ROrderEnumField(
     PLUG_CLS = Neck9ROrderEnumPlugOperator
 
 
-class LeftUpLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegRollROrderEnumAttrOperator"]):
+class LeftUpLegRollROrderEnumPlugOperator(
+    EnumPlugOperator["LeftUpLegRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2935,7 +3116,9 @@ class LeftUpLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftUpLegRollROrderE
     ZYX = 5
 
 
-class LeftUpLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftUpLegRollROrderEnumPlugOperator]):
+class LeftUpLegRollROrderEnumAttrOperator(
+    EnumAttrOperator[LeftUpLegRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2956,7 +3139,10 @@ class LeftUpLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftUpLegRollROrderEn
 
 
 class LeftUpLegRollROrderEnumField(
-    EnumField[LeftUpLegRollROrderEnumAttrOperator, LeftUpLegRollROrderEnumPlugOperator]
+    EnumField[
+        LeftUpLegRollROrderEnumAttrOperator,
+        LeftUpLegRollROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2964,7 +3150,9 @@ class LeftUpLegRollROrderEnumField(
     PLUG_CLS = LeftUpLegRollROrderEnumPlugOperator
 
 
-class LeftLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftLegRollROrderEnumAttrOperator"]):
+class LeftLegRollROrderEnumPlugOperator(
+    EnumPlugOperator["LeftLegRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2975,7 +3163,9 @@ class LeftLegRollROrderEnumPlugOperator(EnumPlugOperator["LeftLegRollROrderEnumA
     ZYX = 5
 
 
-class LeftLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftLegRollROrderEnumPlugOperator]):
+class LeftLegRollROrderEnumAttrOperator(
+    EnumAttrOperator[LeftLegRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -2996,7 +3186,9 @@ class LeftLegRollROrderEnumAttrOperator(EnumAttrOperator[LeftLegRollROrderEnumPl
 
 
 class LeftLegRollROrderEnumField(
-    EnumField[LeftLegRollROrderEnumAttrOperator, LeftLegRollROrderEnumPlugOperator]
+    EnumField[
+        LeftLegRollROrderEnumAttrOperator, LeftLegRollROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3004,7 +3196,9 @@ class LeftLegRollROrderEnumField(
     PLUG_CLS = LeftLegRollROrderEnumPlugOperator
 
 
-class RightUpLegRollROrderEnumPlugOperator(EnumPlugOperator["RightUpLegRollROrderEnumAttrOperator"]):
+class RightUpLegRollROrderEnumPlugOperator(
+    EnumPlugOperator["RightUpLegRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3015,7 +3209,9 @@ class RightUpLegRollROrderEnumPlugOperator(EnumPlugOperator["RightUpLegRollROrde
     ZYX = 5
 
 
-class RightUpLegRollROrderEnumAttrOperator(EnumAttrOperator[RightUpLegRollROrderEnumPlugOperator]):
+class RightUpLegRollROrderEnumAttrOperator(
+    EnumAttrOperator[RightUpLegRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3036,7 +3232,10 @@ class RightUpLegRollROrderEnumAttrOperator(EnumAttrOperator[RightUpLegRollROrder
 
 
 class RightUpLegRollROrderEnumField(
-    EnumField[RightUpLegRollROrderEnumAttrOperator, RightUpLegRollROrderEnumPlugOperator]
+    EnumField[
+        RightUpLegRollROrderEnumAttrOperator,
+        RightUpLegRollROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3044,7 +3243,9 @@ class RightUpLegRollROrderEnumField(
     PLUG_CLS = RightUpLegRollROrderEnumPlugOperator
 
 
-class RightLegRollROrderEnumPlugOperator(EnumPlugOperator["RightLegRollROrderEnumAttrOperator"]):
+class RightLegRollROrderEnumPlugOperator(
+    EnumPlugOperator["RightLegRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3055,7 +3256,9 @@ class RightLegRollROrderEnumPlugOperator(EnumPlugOperator["RightLegRollROrderEnu
     ZYX = 5
 
 
-class RightLegRollROrderEnumAttrOperator(EnumAttrOperator[RightLegRollROrderEnumPlugOperator]):
+class RightLegRollROrderEnumAttrOperator(
+    EnumAttrOperator[RightLegRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3076,7 +3279,9 @@ class RightLegRollROrderEnumAttrOperator(EnumAttrOperator[RightLegRollROrderEnum
 
 
 class RightLegRollROrderEnumField(
-    EnumField[RightLegRollROrderEnumAttrOperator, RightLegRollROrderEnumPlugOperator]
+    EnumField[
+        RightLegRollROrderEnumAttrOperator, RightLegRollROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3084,7 +3289,9 @@ class RightLegRollROrderEnumField(
     PLUG_CLS = RightLegRollROrderEnumPlugOperator
 
 
-class LeftArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftArmRollROrderEnumAttrOperator"]):
+class LeftArmRollROrderEnumPlugOperator(
+    EnumPlugOperator["LeftArmRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3095,7 +3302,9 @@ class LeftArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftArmRollROrderEnumA
     ZYX = 5
 
 
-class LeftArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftArmRollROrderEnumPlugOperator]):
+class LeftArmRollROrderEnumAttrOperator(
+    EnumAttrOperator[LeftArmRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3116,7 +3325,9 @@ class LeftArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftArmRollROrderEnumPl
 
 
 class LeftArmRollROrderEnumField(
-    EnumField[LeftArmRollROrderEnumAttrOperator, LeftArmRollROrderEnumPlugOperator]
+    EnumField[
+        LeftArmRollROrderEnumAttrOperator, LeftArmRollROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3124,7 +3335,9 @@ class LeftArmRollROrderEnumField(
     PLUG_CLS = LeftArmRollROrderEnumPlugOperator
 
 
-class LeftForeArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmRollROrderEnumAttrOperator"]):
+class LeftForeArmRollROrderEnumPlugOperator(
+    EnumPlugOperator["LeftForeArmRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3135,7 +3348,9 @@ class LeftForeArmRollROrderEnumPlugOperator(EnumPlugOperator["LeftForeArmRollROr
     ZYX = 5
 
 
-class LeftForeArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmRollROrderEnumPlugOperator]):
+class LeftForeArmRollROrderEnumAttrOperator(
+    EnumAttrOperator[LeftForeArmRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3156,7 +3371,10 @@ class LeftForeArmRollROrderEnumAttrOperator(EnumAttrOperator[LeftForeArmRollROrd
 
 
 class LeftForeArmRollROrderEnumField(
-    EnumField[LeftForeArmRollROrderEnumAttrOperator, LeftForeArmRollROrderEnumPlugOperator]
+    EnumField[
+        LeftForeArmRollROrderEnumAttrOperator,
+        LeftForeArmRollROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3164,7 +3382,9 @@ class LeftForeArmRollROrderEnumField(
     PLUG_CLS = LeftForeArmRollROrderEnumPlugOperator
 
 
-class RightArmRollROrderEnumPlugOperator(EnumPlugOperator["RightArmRollROrderEnumAttrOperator"]):
+class RightArmRollROrderEnumPlugOperator(
+    EnumPlugOperator["RightArmRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3175,7 +3395,9 @@ class RightArmRollROrderEnumPlugOperator(EnumPlugOperator["RightArmRollROrderEnu
     ZYX = 5
 
 
-class RightArmRollROrderEnumAttrOperator(EnumAttrOperator[RightArmRollROrderEnumPlugOperator]):
+class RightArmRollROrderEnumAttrOperator(
+    EnumAttrOperator[RightArmRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3196,7 +3418,9 @@ class RightArmRollROrderEnumAttrOperator(EnumAttrOperator[RightArmRollROrderEnum
 
 
 class RightArmRollROrderEnumField(
-    EnumField[RightArmRollROrderEnumAttrOperator, RightArmRollROrderEnumPlugOperator]
+    EnumField[
+        RightArmRollROrderEnumAttrOperator, RightArmRollROrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3204,7 +3428,9 @@ class RightArmRollROrderEnumField(
     PLUG_CLS = RightArmRollROrderEnumPlugOperator
 
 
-class RightForeArmRollROrderEnumPlugOperator(EnumPlugOperator["RightForeArmRollROrderEnumAttrOperator"]):
+class RightForeArmRollROrderEnumPlugOperator(
+    EnumPlugOperator["RightForeArmRollROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3215,7 +3441,9 @@ class RightForeArmRollROrderEnumPlugOperator(EnumPlugOperator["RightForeArmRollR
     ZYX = 5
 
 
-class RightForeArmRollROrderEnumAttrOperator(EnumAttrOperator[RightForeArmRollROrderEnumPlugOperator]):
+class RightForeArmRollROrderEnumAttrOperator(
+    EnumAttrOperator[RightForeArmRollROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3236,7 +3464,10 @@ class RightForeArmRollROrderEnumAttrOperator(EnumAttrOperator[RightForeArmRollRO
 
 
 class RightForeArmRollROrderEnumField(
-    EnumField[RightForeArmRollROrderEnumAttrOperator, RightForeArmRollROrderEnumPlugOperator]
+    EnumField[
+        RightForeArmRollROrderEnumAttrOperator,
+        RightForeArmRollROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3244,7 +3475,9 @@ class RightForeArmRollROrderEnumField(
     PLUG_CLS = RightForeArmRollROrderEnumPlugOperator
 
 
-class HipsTranslationROrderEnumPlugOperator(EnumPlugOperator["HipsTranslationROrderEnumAttrOperator"]):
+class HipsTranslationROrderEnumPlugOperator(
+    EnumPlugOperator["HipsTranslationROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3255,7 +3488,9 @@ class HipsTranslationROrderEnumPlugOperator(EnumPlugOperator["HipsTranslationROr
     ZYX = 5
 
 
-class HipsTranslationROrderEnumAttrOperator(EnumAttrOperator[HipsTranslationROrderEnumPlugOperator]):
+class HipsTranslationROrderEnumAttrOperator(
+    EnumAttrOperator[HipsTranslationROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3276,7 +3511,10 @@ class HipsTranslationROrderEnumAttrOperator(EnumAttrOperator[HipsTranslationROrd
 
 
 class HipsTranslationROrderEnumField(
-    EnumField[HipsTranslationROrderEnumAttrOperator, HipsTranslationROrderEnumPlugOperator]
+    EnumField[
+        HipsTranslationROrderEnumAttrOperator,
+        HipsTranslationROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3284,7 +3522,9 @@ class HipsTranslationROrderEnumField(
     PLUG_CLS = HipsTranslationROrderEnumPlugOperator
 
 
-class LeftHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb1ROrderEnumAttrOperator"]):
+class LeftHandThumb1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3295,7 +3535,9 @@ class LeftHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb1ROrde
     ZYX = 5
 
 
-class LeftHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb1ROrderEnumPlugOperator]):
+class LeftHandThumb1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3316,7 +3558,10 @@ class LeftHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb1ROrder
 
 
 class LeftHandThumb1ROrderEnumField(
-    EnumField[LeftHandThumb1ROrderEnumAttrOperator, LeftHandThumb1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb1ROrderEnumAttrOperator,
+        LeftHandThumb1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3324,7 +3569,9 @@ class LeftHandThumb1ROrderEnumField(
     PLUG_CLS = LeftHandThumb1ROrderEnumPlugOperator
 
 
-class LeftHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb2ROrderEnumAttrOperator"]):
+class LeftHandThumb2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3335,7 +3582,9 @@ class LeftHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb2ROrde
     ZYX = 5
 
 
-class LeftHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb2ROrderEnumPlugOperator]):
+class LeftHandThumb2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3356,7 +3605,10 @@ class LeftHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb2ROrder
 
 
 class LeftHandThumb2ROrderEnumField(
-    EnumField[LeftHandThumb2ROrderEnumAttrOperator, LeftHandThumb2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb2ROrderEnumAttrOperator,
+        LeftHandThumb2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3364,7 +3616,9 @@ class LeftHandThumb2ROrderEnumField(
     PLUG_CLS = LeftHandThumb2ROrderEnumPlugOperator
 
 
-class LeftHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb3ROrderEnumAttrOperator"]):
+class LeftHandThumb3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3375,7 +3629,9 @@ class LeftHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb3ROrde
     ZYX = 5
 
 
-class LeftHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb3ROrderEnumPlugOperator]):
+class LeftHandThumb3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3396,7 +3652,10 @@ class LeftHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb3ROrder
 
 
 class LeftHandThumb3ROrderEnumField(
-    EnumField[LeftHandThumb3ROrderEnumAttrOperator, LeftHandThumb3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb3ROrderEnumAttrOperator,
+        LeftHandThumb3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3404,7 +3663,9 @@ class LeftHandThumb3ROrderEnumField(
     PLUG_CLS = LeftHandThumb3ROrderEnumPlugOperator
 
 
-class LeftHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb4ROrderEnumAttrOperator"]):
+class LeftHandThumb4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandThumb4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3415,7 +3676,9 @@ class LeftHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandThumb4ROrde
     ZYX = 5
 
 
-class LeftHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb4ROrderEnumPlugOperator]):
+class LeftHandThumb4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandThumb4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3436,7 +3699,10 @@ class LeftHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandThumb4ROrder
 
 
 class LeftHandThumb4ROrderEnumField(
-    EnumField[LeftHandThumb4ROrderEnumAttrOperator, LeftHandThumb4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandThumb4ROrderEnumAttrOperator,
+        LeftHandThumb4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3444,7 +3710,9 @@ class LeftHandThumb4ROrderEnumField(
     PLUG_CLS = LeftHandThumb4ROrderEnumPlugOperator
 
 
-class LeftHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex1ROrderEnumAttrOperator"]):
+class LeftHandIndex1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3455,7 +3723,9 @@ class LeftHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex1ROrde
     ZYX = 5
 
 
-class LeftHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex1ROrderEnumPlugOperator]):
+class LeftHandIndex1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3476,7 +3746,10 @@ class LeftHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex1ROrder
 
 
 class LeftHandIndex1ROrderEnumField(
-    EnumField[LeftHandIndex1ROrderEnumAttrOperator, LeftHandIndex1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex1ROrderEnumAttrOperator,
+        LeftHandIndex1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3484,7 +3757,9 @@ class LeftHandIndex1ROrderEnumField(
     PLUG_CLS = LeftHandIndex1ROrderEnumPlugOperator
 
 
-class LeftHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex2ROrderEnumAttrOperator"]):
+class LeftHandIndex2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3495,7 +3770,9 @@ class LeftHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex2ROrde
     ZYX = 5
 
 
-class LeftHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex2ROrderEnumPlugOperator]):
+class LeftHandIndex2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3516,7 +3793,10 @@ class LeftHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex2ROrder
 
 
 class LeftHandIndex2ROrderEnumField(
-    EnumField[LeftHandIndex2ROrderEnumAttrOperator, LeftHandIndex2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex2ROrderEnumAttrOperator,
+        LeftHandIndex2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3524,7 +3804,9 @@ class LeftHandIndex2ROrderEnumField(
     PLUG_CLS = LeftHandIndex2ROrderEnumPlugOperator
 
 
-class LeftHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex3ROrderEnumAttrOperator"]):
+class LeftHandIndex3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3535,7 +3817,9 @@ class LeftHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex3ROrde
     ZYX = 5
 
 
-class LeftHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex3ROrderEnumPlugOperator]):
+class LeftHandIndex3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3556,7 +3840,10 @@ class LeftHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex3ROrder
 
 
 class LeftHandIndex3ROrderEnumField(
-    EnumField[LeftHandIndex3ROrderEnumAttrOperator, LeftHandIndex3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex3ROrderEnumAttrOperator,
+        LeftHandIndex3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3564,7 +3851,9 @@ class LeftHandIndex3ROrderEnumField(
     PLUG_CLS = LeftHandIndex3ROrderEnumPlugOperator
 
 
-class LeftHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex4ROrderEnumAttrOperator"]):
+class LeftHandIndex4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandIndex4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3575,7 +3864,9 @@ class LeftHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandIndex4ROrde
     ZYX = 5
 
 
-class LeftHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex4ROrderEnumPlugOperator]):
+class LeftHandIndex4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandIndex4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3596,7 +3887,10 @@ class LeftHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandIndex4ROrder
 
 
 class LeftHandIndex4ROrderEnumField(
-    EnumField[LeftHandIndex4ROrderEnumAttrOperator, LeftHandIndex4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandIndex4ROrderEnumAttrOperator,
+        LeftHandIndex4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3604,7 +3898,9 @@ class LeftHandIndex4ROrderEnumField(
     PLUG_CLS = LeftHandIndex4ROrderEnumPlugOperator
 
 
-class LeftHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle1ROrderEnumAttrOperator"]):
+class LeftHandMiddle1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3615,7 +3911,9 @@ class LeftHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle1ROr
     ZYX = 5
 
 
-class LeftHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle1ROrderEnumPlugOperator]):
+class LeftHandMiddle1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3636,7 +3934,10 @@ class LeftHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle1ROrd
 
 
 class LeftHandMiddle1ROrderEnumField(
-    EnumField[LeftHandMiddle1ROrderEnumAttrOperator, LeftHandMiddle1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle1ROrderEnumAttrOperator,
+        LeftHandMiddle1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3644,7 +3945,9 @@ class LeftHandMiddle1ROrderEnumField(
     PLUG_CLS = LeftHandMiddle1ROrderEnumPlugOperator
 
 
-class LeftHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle2ROrderEnumAttrOperator"]):
+class LeftHandMiddle2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3655,7 +3958,9 @@ class LeftHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle2ROr
     ZYX = 5
 
 
-class LeftHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle2ROrderEnumPlugOperator]):
+class LeftHandMiddle2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3676,7 +3981,10 @@ class LeftHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle2ROrd
 
 
 class LeftHandMiddle2ROrderEnumField(
-    EnumField[LeftHandMiddle2ROrderEnumAttrOperator, LeftHandMiddle2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle2ROrderEnumAttrOperator,
+        LeftHandMiddle2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3684,7 +3992,9 @@ class LeftHandMiddle2ROrderEnumField(
     PLUG_CLS = LeftHandMiddle2ROrderEnumPlugOperator
 
 
-class LeftHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle3ROrderEnumAttrOperator"]):
+class LeftHandMiddle3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3695,7 +4005,9 @@ class LeftHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle3ROr
     ZYX = 5
 
 
-class LeftHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle3ROrderEnumPlugOperator]):
+class LeftHandMiddle3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3716,7 +4028,10 @@ class LeftHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle3ROrd
 
 
 class LeftHandMiddle3ROrderEnumField(
-    EnumField[LeftHandMiddle3ROrderEnumAttrOperator, LeftHandMiddle3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle3ROrderEnumAttrOperator,
+        LeftHandMiddle3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3724,7 +4039,9 @@ class LeftHandMiddle3ROrderEnumField(
     PLUG_CLS = LeftHandMiddle3ROrderEnumPlugOperator
 
 
-class LeftHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle4ROrderEnumAttrOperator"]):
+class LeftHandMiddle4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandMiddle4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3735,7 +4052,9 @@ class LeftHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandMiddle4ROr
     ZYX = 5
 
 
-class LeftHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle4ROrderEnumPlugOperator]):
+class LeftHandMiddle4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandMiddle4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3756,7 +4075,10 @@ class LeftHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandMiddle4ROrd
 
 
 class LeftHandMiddle4ROrderEnumField(
-    EnumField[LeftHandMiddle4ROrderEnumAttrOperator, LeftHandMiddle4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandMiddle4ROrderEnumAttrOperator,
+        LeftHandMiddle4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3764,7 +4086,9 @@ class LeftHandMiddle4ROrderEnumField(
     PLUG_CLS = LeftHandMiddle4ROrderEnumPlugOperator
 
 
-class LeftHandRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing1ROrderEnumAttrOperator"]):
+class LeftHandRing1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3775,7 +4099,9 @@ class LeftHandRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing1ROrderE
     ZYX = 5
 
 
-class LeftHandRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing1ROrderEnumPlugOperator]):
+class LeftHandRing1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3796,7 +4122,10 @@ class LeftHandRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing1ROrderEn
 
 
 class LeftHandRing1ROrderEnumField(
-    EnumField[LeftHandRing1ROrderEnumAttrOperator, LeftHandRing1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing1ROrderEnumAttrOperator,
+        LeftHandRing1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3804,7 +4133,9 @@ class LeftHandRing1ROrderEnumField(
     PLUG_CLS = LeftHandRing1ROrderEnumPlugOperator
 
 
-class LeftHandRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing2ROrderEnumAttrOperator"]):
+class LeftHandRing2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3815,7 +4146,9 @@ class LeftHandRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing2ROrderE
     ZYX = 5
 
 
-class LeftHandRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing2ROrderEnumPlugOperator]):
+class LeftHandRing2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3836,7 +4169,10 @@ class LeftHandRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing2ROrderEn
 
 
 class LeftHandRing2ROrderEnumField(
-    EnumField[LeftHandRing2ROrderEnumAttrOperator, LeftHandRing2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing2ROrderEnumAttrOperator,
+        LeftHandRing2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3844,7 +4180,9 @@ class LeftHandRing2ROrderEnumField(
     PLUG_CLS = LeftHandRing2ROrderEnumPlugOperator
 
 
-class LeftHandRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing3ROrderEnumAttrOperator"]):
+class LeftHandRing3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3855,7 +4193,9 @@ class LeftHandRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing3ROrderE
     ZYX = 5
 
 
-class LeftHandRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing3ROrderEnumPlugOperator]):
+class LeftHandRing3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3876,7 +4216,10 @@ class LeftHandRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing3ROrderEn
 
 
 class LeftHandRing3ROrderEnumField(
-    EnumField[LeftHandRing3ROrderEnumAttrOperator, LeftHandRing3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing3ROrderEnumAttrOperator,
+        LeftHandRing3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3884,7 +4227,9 @@ class LeftHandRing3ROrderEnumField(
     PLUG_CLS = LeftHandRing3ROrderEnumPlugOperator
 
 
-class LeftHandRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing4ROrderEnumAttrOperator"]):
+class LeftHandRing4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandRing4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3895,7 +4240,9 @@ class LeftHandRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandRing4ROrderE
     ZYX = 5
 
 
-class LeftHandRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing4ROrderEnumPlugOperator]):
+class LeftHandRing4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandRing4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3916,7 +4263,10 @@ class LeftHandRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandRing4ROrderEn
 
 
 class LeftHandRing4ROrderEnumField(
-    EnumField[LeftHandRing4ROrderEnumAttrOperator, LeftHandRing4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandRing4ROrderEnumAttrOperator,
+        LeftHandRing4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3924,7 +4274,9 @@ class LeftHandRing4ROrderEnumField(
     PLUG_CLS = LeftHandRing4ROrderEnumPlugOperator
 
 
-class LeftHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky1ROrderEnumAttrOperator"]):
+class LeftHandPinky1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3935,7 +4287,9 @@ class LeftHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky1ROrde
     ZYX = 5
 
 
-class LeftHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky1ROrderEnumPlugOperator]):
+class LeftHandPinky1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3956,7 +4310,10 @@ class LeftHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky1ROrder
 
 
 class LeftHandPinky1ROrderEnumField(
-    EnumField[LeftHandPinky1ROrderEnumAttrOperator, LeftHandPinky1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky1ROrderEnumAttrOperator,
+        LeftHandPinky1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3964,7 +4321,9 @@ class LeftHandPinky1ROrderEnumField(
     PLUG_CLS = LeftHandPinky1ROrderEnumPlugOperator
 
 
-class LeftHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky2ROrderEnumAttrOperator"]):
+class LeftHandPinky2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3975,7 +4334,9 @@ class LeftHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky2ROrde
     ZYX = 5
 
 
-class LeftHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky2ROrderEnumPlugOperator]):
+class LeftHandPinky2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -3996,7 +4357,10 @@ class LeftHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky2ROrder
 
 
 class LeftHandPinky2ROrderEnumField(
-    EnumField[LeftHandPinky2ROrderEnumAttrOperator, LeftHandPinky2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky2ROrderEnumAttrOperator,
+        LeftHandPinky2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4004,7 +4368,9 @@ class LeftHandPinky2ROrderEnumField(
     PLUG_CLS = LeftHandPinky2ROrderEnumPlugOperator
 
 
-class LeftHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky3ROrderEnumAttrOperator"]):
+class LeftHandPinky3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4015,7 +4381,9 @@ class LeftHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky3ROrde
     ZYX = 5
 
 
-class LeftHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky3ROrderEnumPlugOperator]):
+class LeftHandPinky3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4036,7 +4404,10 @@ class LeftHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky3ROrder
 
 
 class LeftHandPinky3ROrderEnumField(
-    EnumField[LeftHandPinky3ROrderEnumAttrOperator, LeftHandPinky3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky3ROrderEnumAttrOperator,
+        LeftHandPinky3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4044,7 +4415,9 @@ class LeftHandPinky3ROrderEnumField(
     PLUG_CLS = LeftHandPinky3ROrderEnumPlugOperator
 
 
-class LeftHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky4ROrderEnumAttrOperator"]):
+class LeftHandPinky4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandPinky4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4055,7 +4428,9 @@ class LeftHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandPinky4ROrde
     ZYX = 5
 
 
-class LeftHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky4ROrderEnumPlugOperator]):
+class LeftHandPinky4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandPinky4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4076,7 +4451,10 @@ class LeftHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandPinky4ROrder
 
 
 class LeftHandPinky4ROrderEnumField(
-    EnumField[LeftHandPinky4ROrderEnumAttrOperator, LeftHandPinky4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandPinky4ROrderEnumAttrOperator,
+        LeftHandPinky4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4084,7 +4462,9 @@ class LeftHandPinky4ROrderEnumField(
     PLUG_CLS = LeftHandPinky4ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger1ROrderEnumAttrOperator"]):
+class LeftHandExtraFinger1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4095,7 +4475,9 @@ class LeftHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtra
     ZYX = 5
 
 
-class LeftHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger1ROrderEnumPlugOperator]):
+class LeftHandExtraFinger1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4116,7 +4498,10 @@ class LeftHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraF
 
 
 class LeftHandExtraFinger1ROrderEnumField(
-    EnumField[LeftHandExtraFinger1ROrderEnumAttrOperator, LeftHandExtraFinger1ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger1ROrderEnumAttrOperator,
+        LeftHandExtraFinger1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4124,7 +4509,9 @@ class LeftHandExtraFinger1ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger1ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger2ROrderEnumAttrOperator"]):
+class LeftHandExtraFinger2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4135,7 +4522,9 @@ class LeftHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtra
     ZYX = 5
 
 
-class LeftHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger2ROrderEnumPlugOperator]):
+class LeftHandExtraFinger2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4156,7 +4545,10 @@ class LeftHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraF
 
 
 class LeftHandExtraFinger2ROrderEnumField(
-    EnumField[LeftHandExtraFinger2ROrderEnumAttrOperator, LeftHandExtraFinger2ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger2ROrderEnumAttrOperator,
+        LeftHandExtraFinger2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4164,7 +4556,9 @@ class LeftHandExtraFinger2ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger2ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger3ROrderEnumAttrOperator"]):
+class LeftHandExtraFinger3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4175,7 +4569,9 @@ class LeftHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtra
     ZYX = 5
 
 
-class LeftHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger3ROrderEnumPlugOperator]):
+class LeftHandExtraFinger3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4196,7 +4592,10 @@ class LeftHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraF
 
 
 class LeftHandExtraFinger3ROrderEnumField(
-    EnumField[LeftHandExtraFinger3ROrderEnumAttrOperator, LeftHandExtraFinger3ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger3ROrderEnumAttrOperator,
+        LeftHandExtraFinger3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4204,7 +4603,9 @@ class LeftHandExtraFinger3ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger3ROrderEnumPlugOperator
 
 
-class LeftHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtraFinger4ROrderEnumAttrOperator"]):
+class LeftHandExtraFinger4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftHandExtraFinger4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4215,7 +4616,9 @@ class LeftHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftHandExtra
     ZYX = 5
 
 
-class LeftHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraFinger4ROrderEnumPlugOperator]):
+class LeftHandExtraFinger4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftHandExtraFinger4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4236,7 +4639,10 @@ class LeftHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftHandExtraF
 
 
 class LeftHandExtraFinger4ROrderEnumField(
-    EnumField[LeftHandExtraFinger4ROrderEnumAttrOperator, LeftHandExtraFinger4ROrderEnumPlugOperator]
+    EnumField[
+        LeftHandExtraFinger4ROrderEnumAttrOperator,
+        LeftHandExtraFinger4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4244,7 +4650,9 @@ class LeftHandExtraFinger4ROrderEnumField(
     PLUG_CLS = LeftHandExtraFinger4ROrderEnumPlugOperator
 
 
-class RightHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb1ROrderEnumAttrOperator"]):
+class RightHandThumb1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4255,7 +4663,9 @@ class RightHandThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb1ROr
     ZYX = 5
 
 
-class RightHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb1ROrderEnumPlugOperator]):
+class RightHandThumb1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4276,7 +4686,10 @@ class RightHandThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb1ROrd
 
 
 class RightHandThumb1ROrderEnumField(
-    EnumField[RightHandThumb1ROrderEnumAttrOperator, RightHandThumb1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb1ROrderEnumAttrOperator,
+        RightHandThumb1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4284,7 +4697,9 @@ class RightHandThumb1ROrderEnumField(
     PLUG_CLS = RightHandThumb1ROrderEnumPlugOperator
 
 
-class RightHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb2ROrderEnumAttrOperator"]):
+class RightHandThumb2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4295,7 +4710,9 @@ class RightHandThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb2ROr
     ZYX = 5
 
 
-class RightHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb2ROrderEnumPlugOperator]):
+class RightHandThumb2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4316,7 +4733,10 @@ class RightHandThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb2ROrd
 
 
 class RightHandThumb2ROrderEnumField(
-    EnumField[RightHandThumb2ROrderEnumAttrOperator, RightHandThumb2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb2ROrderEnumAttrOperator,
+        RightHandThumb2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4324,7 +4744,9 @@ class RightHandThumb2ROrderEnumField(
     PLUG_CLS = RightHandThumb2ROrderEnumPlugOperator
 
 
-class RightHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb3ROrderEnumAttrOperator"]):
+class RightHandThumb3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4335,7 +4757,9 @@ class RightHandThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb3ROr
     ZYX = 5
 
 
-class RightHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb3ROrderEnumPlugOperator]):
+class RightHandThumb3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4356,7 +4780,10 @@ class RightHandThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb3ROrd
 
 
 class RightHandThumb3ROrderEnumField(
-    EnumField[RightHandThumb3ROrderEnumAttrOperator, RightHandThumb3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb3ROrderEnumAttrOperator,
+        RightHandThumb3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4364,7 +4791,9 @@ class RightHandThumb3ROrderEnumField(
     PLUG_CLS = RightHandThumb3ROrderEnumPlugOperator
 
 
-class RightHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb4ROrderEnumAttrOperator"]):
+class RightHandThumb4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandThumb4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4375,7 +4804,9 @@ class RightHandThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightHandThumb4ROr
     ZYX = 5
 
 
-class RightHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb4ROrderEnumPlugOperator]):
+class RightHandThumb4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandThumb4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4396,7 +4827,10 @@ class RightHandThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightHandThumb4ROrd
 
 
 class RightHandThumb4ROrderEnumField(
-    EnumField[RightHandThumb4ROrderEnumAttrOperator, RightHandThumb4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandThumb4ROrderEnumAttrOperator,
+        RightHandThumb4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4404,7 +4838,9 @@ class RightHandThumb4ROrderEnumField(
     PLUG_CLS = RightHandThumb4ROrderEnumPlugOperator
 
 
-class RightHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex1ROrderEnumAttrOperator"]):
+class RightHandIndex1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4415,7 +4851,9 @@ class RightHandIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex1ROr
     ZYX = 5
 
 
-class RightHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex1ROrderEnumPlugOperator]):
+class RightHandIndex1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4436,7 +4874,10 @@ class RightHandIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex1ROrd
 
 
 class RightHandIndex1ROrderEnumField(
-    EnumField[RightHandIndex1ROrderEnumAttrOperator, RightHandIndex1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex1ROrderEnumAttrOperator,
+        RightHandIndex1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4444,7 +4885,9 @@ class RightHandIndex1ROrderEnumField(
     PLUG_CLS = RightHandIndex1ROrderEnumPlugOperator
 
 
-class RightHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex2ROrderEnumAttrOperator"]):
+class RightHandIndex2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4455,7 +4898,9 @@ class RightHandIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex2ROr
     ZYX = 5
 
 
-class RightHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex2ROrderEnumPlugOperator]):
+class RightHandIndex2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4476,7 +4921,10 @@ class RightHandIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex2ROrd
 
 
 class RightHandIndex2ROrderEnumField(
-    EnumField[RightHandIndex2ROrderEnumAttrOperator, RightHandIndex2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex2ROrderEnumAttrOperator,
+        RightHandIndex2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4484,7 +4932,9 @@ class RightHandIndex2ROrderEnumField(
     PLUG_CLS = RightHandIndex2ROrderEnumPlugOperator
 
 
-class RightHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex3ROrderEnumAttrOperator"]):
+class RightHandIndex3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4495,7 +4945,9 @@ class RightHandIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex3ROr
     ZYX = 5
 
 
-class RightHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex3ROrderEnumPlugOperator]):
+class RightHandIndex3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4516,7 +4968,10 @@ class RightHandIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex3ROrd
 
 
 class RightHandIndex3ROrderEnumField(
-    EnumField[RightHandIndex3ROrderEnumAttrOperator, RightHandIndex3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex3ROrderEnumAttrOperator,
+        RightHandIndex3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4524,7 +4979,9 @@ class RightHandIndex3ROrderEnumField(
     PLUG_CLS = RightHandIndex3ROrderEnumPlugOperator
 
 
-class RightHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex4ROrderEnumAttrOperator"]):
+class RightHandIndex4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandIndex4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4535,7 +4992,9 @@ class RightHandIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightHandIndex4ROr
     ZYX = 5
 
 
-class RightHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex4ROrderEnumPlugOperator]):
+class RightHandIndex4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandIndex4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4556,7 +5015,10 @@ class RightHandIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightHandIndex4ROrd
 
 
 class RightHandIndex4ROrderEnumField(
-    EnumField[RightHandIndex4ROrderEnumAttrOperator, RightHandIndex4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandIndex4ROrderEnumAttrOperator,
+        RightHandIndex4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4564,7 +5026,9 @@ class RightHandIndex4ROrderEnumField(
     PLUG_CLS = RightHandIndex4ROrderEnumPlugOperator
 
 
-class RightHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle1ROrderEnumAttrOperator"]):
+class RightHandMiddle1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4575,7 +5039,9 @@ class RightHandMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle1R
     ZYX = 5
 
 
-class RightHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle1ROrderEnumPlugOperator]):
+class RightHandMiddle1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4596,7 +5062,10 @@ class RightHandMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle1RO
 
 
 class RightHandMiddle1ROrderEnumField(
-    EnumField[RightHandMiddle1ROrderEnumAttrOperator, RightHandMiddle1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle1ROrderEnumAttrOperator,
+        RightHandMiddle1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4604,7 +5073,9 @@ class RightHandMiddle1ROrderEnumField(
     PLUG_CLS = RightHandMiddle1ROrderEnumPlugOperator
 
 
-class RightHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle2ROrderEnumAttrOperator"]):
+class RightHandMiddle2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4615,7 +5086,9 @@ class RightHandMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle2R
     ZYX = 5
 
 
-class RightHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle2ROrderEnumPlugOperator]):
+class RightHandMiddle2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4636,7 +5109,10 @@ class RightHandMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle2RO
 
 
 class RightHandMiddle2ROrderEnumField(
-    EnumField[RightHandMiddle2ROrderEnumAttrOperator, RightHandMiddle2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle2ROrderEnumAttrOperator,
+        RightHandMiddle2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4644,7 +5120,9 @@ class RightHandMiddle2ROrderEnumField(
     PLUG_CLS = RightHandMiddle2ROrderEnumPlugOperator
 
 
-class RightHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle3ROrderEnumAttrOperator"]):
+class RightHandMiddle3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4655,7 +5133,9 @@ class RightHandMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle3R
     ZYX = 5
 
 
-class RightHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle3ROrderEnumPlugOperator]):
+class RightHandMiddle3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4676,7 +5156,10 @@ class RightHandMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle3RO
 
 
 class RightHandMiddle3ROrderEnumField(
-    EnumField[RightHandMiddle3ROrderEnumAttrOperator, RightHandMiddle3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle3ROrderEnumAttrOperator,
+        RightHandMiddle3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4684,7 +5167,9 @@ class RightHandMiddle3ROrderEnumField(
     PLUG_CLS = RightHandMiddle3ROrderEnumPlugOperator
 
 
-class RightHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle4ROrderEnumAttrOperator"]):
+class RightHandMiddle4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandMiddle4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4695,7 +5180,9 @@ class RightHandMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightHandMiddle4R
     ZYX = 5
 
 
-class RightHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle4ROrderEnumPlugOperator]):
+class RightHandMiddle4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandMiddle4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4716,7 +5203,10 @@ class RightHandMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightHandMiddle4RO
 
 
 class RightHandMiddle4ROrderEnumField(
-    EnumField[RightHandMiddle4ROrderEnumAttrOperator, RightHandMiddle4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandMiddle4ROrderEnumAttrOperator,
+        RightHandMiddle4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4724,7 +5214,9 @@ class RightHandMiddle4ROrderEnumField(
     PLUG_CLS = RightHandMiddle4ROrderEnumPlugOperator
 
 
-class RightHandRing1ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing1ROrderEnumAttrOperator"]):
+class RightHandRing1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4735,7 +5227,9 @@ class RightHandRing1ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing1ROrde
     ZYX = 5
 
 
-class RightHandRing1ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing1ROrderEnumPlugOperator]):
+class RightHandRing1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4756,7 +5250,10 @@ class RightHandRing1ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing1ROrder
 
 
 class RightHandRing1ROrderEnumField(
-    EnumField[RightHandRing1ROrderEnumAttrOperator, RightHandRing1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandRing1ROrderEnumAttrOperator,
+        RightHandRing1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4764,7 +5261,9 @@ class RightHandRing1ROrderEnumField(
     PLUG_CLS = RightHandRing1ROrderEnumPlugOperator
 
 
-class RightHandRing2ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing2ROrderEnumAttrOperator"]):
+class RightHandRing2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4775,7 +5274,9 @@ class RightHandRing2ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing2ROrde
     ZYX = 5
 
 
-class RightHandRing2ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing2ROrderEnumPlugOperator]):
+class RightHandRing2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4796,7 +5297,10 @@ class RightHandRing2ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing2ROrder
 
 
 class RightHandRing2ROrderEnumField(
-    EnumField[RightHandRing2ROrderEnumAttrOperator, RightHandRing2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandRing2ROrderEnumAttrOperator,
+        RightHandRing2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4804,7 +5308,9 @@ class RightHandRing2ROrderEnumField(
     PLUG_CLS = RightHandRing2ROrderEnumPlugOperator
 
 
-class RightHandRing3ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing3ROrderEnumAttrOperator"]):
+class RightHandRing3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4815,7 +5321,9 @@ class RightHandRing3ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing3ROrde
     ZYX = 5
 
 
-class RightHandRing3ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing3ROrderEnumPlugOperator]):
+class RightHandRing3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4836,7 +5344,10 @@ class RightHandRing3ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing3ROrder
 
 
 class RightHandRing3ROrderEnumField(
-    EnumField[RightHandRing3ROrderEnumAttrOperator, RightHandRing3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandRing3ROrderEnumAttrOperator,
+        RightHandRing3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4844,7 +5355,9 @@ class RightHandRing3ROrderEnumField(
     PLUG_CLS = RightHandRing3ROrderEnumPlugOperator
 
 
-class RightHandRing4ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing4ROrderEnumAttrOperator"]):
+class RightHandRing4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandRing4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4855,7 +5368,9 @@ class RightHandRing4ROrderEnumPlugOperator(EnumPlugOperator["RightHandRing4ROrde
     ZYX = 5
 
 
-class RightHandRing4ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing4ROrderEnumPlugOperator]):
+class RightHandRing4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandRing4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4876,7 +5391,10 @@ class RightHandRing4ROrderEnumAttrOperator(EnumAttrOperator[RightHandRing4ROrder
 
 
 class RightHandRing4ROrderEnumField(
-    EnumField[RightHandRing4ROrderEnumAttrOperator, RightHandRing4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandRing4ROrderEnumAttrOperator,
+        RightHandRing4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4884,7 +5402,9 @@ class RightHandRing4ROrderEnumField(
     PLUG_CLS = RightHandRing4ROrderEnumPlugOperator
 
 
-class RightHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky1ROrderEnumAttrOperator"]):
+class RightHandPinky1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4895,7 +5415,9 @@ class RightHandPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky1ROr
     ZYX = 5
 
 
-class RightHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky1ROrderEnumPlugOperator]):
+class RightHandPinky1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4916,7 +5438,10 @@ class RightHandPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky1ROrd
 
 
 class RightHandPinky1ROrderEnumField(
-    EnumField[RightHandPinky1ROrderEnumAttrOperator, RightHandPinky1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky1ROrderEnumAttrOperator,
+        RightHandPinky1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4924,7 +5449,9 @@ class RightHandPinky1ROrderEnumField(
     PLUG_CLS = RightHandPinky1ROrderEnumPlugOperator
 
 
-class RightHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky2ROrderEnumAttrOperator"]):
+class RightHandPinky2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4935,7 +5462,9 @@ class RightHandPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky2ROr
     ZYX = 5
 
 
-class RightHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky2ROrderEnumPlugOperator]):
+class RightHandPinky2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4956,7 +5485,10 @@ class RightHandPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky2ROrd
 
 
 class RightHandPinky2ROrderEnumField(
-    EnumField[RightHandPinky2ROrderEnumAttrOperator, RightHandPinky2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky2ROrderEnumAttrOperator,
+        RightHandPinky2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4964,7 +5496,9 @@ class RightHandPinky2ROrderEnumField(
     PLUG_CLS = RightHandPinky2ROrderEnumPlugOperator
 
 
-class RightHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky3ROrderEnumAttrOperator"]):
+class RightHandPinky3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4975,7 +5509,9 @@ class RightHandPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky3ROr
     ZYX = 5
 
 
-class RightHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky3ROrderEnumPlugOperator]):
+class RightHandPinky3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -4996,7 +5532,10 @@ class RightHandPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky3ROrd
 
 
 class RightHandPinky3ROrderEnumField(
-    EnumField[RightHandPinky3ROrderEnumAttrOperator, RightHandPinky3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky3ROrderEnumAttrOperator,
+        RightHandPinky3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5004,7 +5543,9 @@ class RightHandPinky3ROrderEnumField(
     PLUG_CLS = RightHandPinky3ROrderEnumPlugOperator
 
 
-class RightHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky4ROrderEnumAttrOperator"]):
+class RightHandPinky4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandPinky4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5015,7 +5556,9 @@ class RightHandPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightHandPinky4ROr
     ZYX = 5
 
 
-class RightHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky4ROrderEnumPlugOperator]):
+class RightHandPinky4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandPinky4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5036,7 +5579,10 @@ class RightHandPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightHandPinky4ROrd
 
 
 class RightHandPinky4ROrderEnumField(
-    EnumField[RightHandPinky4ROrderEnumAttrOperator, RightHandPinky4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandPinky4ROrderEnumAttrOperator,
+        RightHandPinky4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5044,7 +5590,9 @@ class RightHandPinky4ROrderEnumField(
     PLUG_CLS = RightHandPinky4ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger1ROrderEnumAttrOperator"]):
+class RightHandExtraFinger1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5055,7 +5603,9 @@ class RightHandExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightHandExt
     ZYX = 5
 
 
-class RightHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger1ROrderEnumPlugOperator]):
+class RightHandExtraFinger1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5076,7 +5626,10 @@ class RightHandExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtr
 
 
 class RightHandExtraFinger1ROrderEnumField(
-    EnumField[RightHandExtraFinger1ROrderEnumAttrOperator, RightHandExtraFinger1ROrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger1ROrderEnumAttrOperator,
+        RightHandExtraFinger1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5084,7 +5637,9 @@ class RightHandExtraFinger1ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger1ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger2ROrderEnumAttrOperator"]):
+class RightHandExtraFinger2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5095,7 +5650,9 @@ class RightHandExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightHandExt
     ZYX = 5
 
 
-class RightHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger2ROrderEnumPlugOperator]):
+class RightHandExtraFinger2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5116,7 +5673,10 @@ class RightHandExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtr
 
 
 class RightHandExtraFinger2ROrderEnumField(
-    EnumField[RightHandExtraFinger2ROrderEnumAttrOperator, RightHandExtraFinger2ROrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger2ROrderEnumAttrOperator,
+        RightHandExtraFinger2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5124,7 +5684,9 @@ class RightHandExtraFinger2ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger2ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger3ROrderEnumAttrOperator"]):
+class RightHandExtraFinger3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5135,7 +5697,9 @@ class RightHandExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightHandExt
     ZYX = 5
 
 
-class RightHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger3ROrderEnumPlugOperator]):
+class RightHandExtraFinger3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5156,7 +5720,10 @@ class RightHandExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtr
 
 
 class RightHandExtraFinger3ROrderEnumField(
-    EnumField[RightHandExtraFinger3ROrderEnumAttrOperator, RightHandExtraFinger3ROrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger3ROrderEnumAttrOperator,
+        RightHandExtraFinger3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5164,7 +5731,9 @@ class RightHandExtraFinger3ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger3ROrderEnumPlugOperator
 
 
-class RightHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightHandExtraFinger4ROrderEnumAttrOperator"]):
+class RightHandExtraFinger4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightHandExtraFinger4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5175,7 +5744,9 @@ class RightHandExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightHandExt
     ZYX = 5
 
 
-class RightHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtraFinger4ROrderEnumPlugOperator]):
+class RightHandExtraFinger4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightHandExtraFinger4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5196,7 +5767,10 @@ class RightHandExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightHandExtr
 
 
 class RightHandExtraFinger4ROrderEnumField(
-    EnumField[RightHandExtraFinger4ROrderEnumAttrOperator, RightHandExtraFinger4ROrderEnumPlugOperator]
+    EnumField[
+        RightHandExtraFinger4ROrderEnumAttrOperator,
+        RightHandExtraFinger4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5204,7 +5778,9 @@ class RightHandExtraFinger4ROrderEnumField(
     PLUG_CLS = RightHandExtraFinger4ROrderEnumPlugOperator
 
 
-class LeftFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb1ROrderEnumAttrOperator"]):
+class LeftFootThumb1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5215,7 +5791,9 @@ class LeftFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb1ROrde
     ZYX = 5
 
 
-class LeftFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb1ROrderEnumPlugOperator]):
+class LeftFootThumb1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5236,7 +5814,10 @@ class LeftFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb1ROrder
 
 
 class LeftFootThumb1ROrderEnumField(
-    EnumField[LeftFootThumb1ROrderEnumAttrOperator, LeftFootThumb1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb1ROrderEnumAttrOperator,
+        LeftFootThumb1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5244,7 +5825,9 @@ class LeftFootThumb1ROrderEnumField(
     PLUG_CLS = LeftFootThumb1ROrderEnumPlugOperator
 
 
-class LeftFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb2ROrderEnumAttrOperator"]):
+class LeftFootThumb2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5255,7 +5838,9 @@ class LeftFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb2ROrde
     ZYX = 5
 
 
-class LeftFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb2ROrderEnumPlugOperator]):
+class LeftFootThumb2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5276,7 +5861,10 @@ class LeftFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb2ROrder
 
 
 class LeftFootThumb2ROrderEnumField(
-    EnumField[LeftFootThumb2ROrderEnumAttrOperator, LeftFootThumb2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb2ROrderEnumAttrOperator,
+        LeftFootThumb2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5284,7 +5872,9 @@ class LeftFootThumb2ROrderEnumField(
     PLUG_CLS = LeftFootThumb2ROrderEnumPlugOperator
 
 
-class LeftFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb3ROrderEnumAttrOperator"]):
+class LeftFootThumb3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5295,7 +5885,9 @@ class LeftFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb3ROrde
     ZYX = 5
 
 
-class LeftFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb3ROrderEnumPlugOperator]):
+class LeftFootThumb3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5316,7 +5908,10 @@ class LeftFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb3ROrder
 
 
 class LeftFootThumb3ROrderEnumField(
-    EnumField[LeftFootThumb3ROrderEnumAttrOperator, LeftFootThumb3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb3ROrderEnumAttrOperator,
+        LeftFootThumb3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5324,7 +5919,9 @@ class LeftFootThumb3ROrderEnumField(
     PLUG_CLS = LeftFootThumb3ROrderEnumPlugOperator
 
 
-class LeftFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb4ROrderEnumAttrOperator"]):
+class LeftFootThumb4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootThumb4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5335,7 +5932,9 @@ class LeftFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootThumb4ROrde
     ZYX = 5
 
 
-class LeftFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb4ROrderEnumPlugOperator]):
+class LeftFootThumb4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootThumb4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5356,7 +5955,10 @@ class LeftFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootThumb4ROrder
 
 
 class LeftFootThumb4ROrderEnumField(
-    EnumField[LeftFootThumb4ROrderEnumAttrOperator, LeftFootThumb4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootThumb4ROrderEnumAttrOperator,
+        LeftFootThumb4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5364,7 +5966,9 @@ class LeftFootThumb4ROrderEnumField(
     PLUG_CLS = LeftFootThumb4ROrderEnumPlugOperator
 
 
-class LeftFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex1ROrderEnumAttrOperator"]):
+class LeftFootIndex1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5375,7 +5979,9 @@ class LeftFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex1ROrde
     ZYX = 5
 
 
-class LeftFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex1ROrderEnumPlugOperator]):
+class LeftFootIndex1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5396,7 +6002,10 @@ class LeftFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex1ROrder
 
 
 class LeftFootIndex1ROrderEnumField(
-    EnumField[LeftFootIndex1ROrderEnumAttrOperator, LeftFootIndex1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex1ROrderEnumAttrOperator,
+        LeftFootIndex1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5404,7 +6013,9 @@ class LeftFootIndex1ROrderEnumField(
     PLUG_CLS = LeftFootIndex1ROrderEnumPlugOperator
 
 
-class LeftFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex2ROrderEnumAttrOperator"]):
+class LeftFootIndex2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5415,7 +6026,9 @@ class LeftFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex2ROrde
     ZYX = 5
 
 
-class LeftFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex2ROrderEnumPlugOperator]):
+class LeftFootIndex2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5436,7 +6049,10 @@ class LeftFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex2ROrder
 
 
 class LeftFootIndex2ROrderEnumField(
-    EnumField[LeftFootIndex2ROrderEnumAttrOperator, LeftFootIndex2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex2ROrderEnumAttrOperator,
+        LeftFootIndex2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5444,7 +6060,9 @@ class LeftFootIndex2ROrderEnumField(
     PLUG_CLS = LeftFootIndex2ROrderEnumPlugOperator
 
 
-class LeftFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex3ROrderEnumAttrOperator"]):
+class LeftFootIndex3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5455,7 +6073,9 @@ class LeftFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex3ROrde
     ZYX = 5
 
 
-class LeftFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex3ROrderEnumPlugOperator]):
+class LeftFootIndex3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5476,7 +6096,10 @@ class LeftFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex3ROrder
 
 
 class LeftFootIndex3ROrderEnumField(
-    EnumField[LeftFootIndex3ROrderEnumAttrOperator, LeftFootIndex3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex3ROrderEnumAttrOperator,
+        LeftFootIndex3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5484,7 +6107,9 @@ class LeftFootIndex3ROrderEnumField(
     PLUG_CLS = LeftFootIndex3ROrderEnumPlugOperator
 
 
-class LeftFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex4ROrderEnumAttrOperator"]):
+class LeftFootIndex4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootIndex4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5495,7 +6120,9 @@ class LeftFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootIndex4ROrde
     ZYX = 5
 
 
-class LeftFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex4ROrderEnumPlugOperator]):
+class LeftFootIndex4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootIndex4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5516,7 +6143,10 @@ class LeftFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootIndex4ROrder
 
 
 class LeftFootIndex4ROrderEnumField(
-    EnumField[LeftFootIndex4ROrderEnumAttrOperator, LeftFootIndex4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootIndex4ROrderEnumAttrOperator,
+        LeftFootIndex4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5524,7 +6154,9 @@ class LeftFootIndex4ROrderEnumField(
     PLUG_CLS = LeftFootIndex4ROrderEnumPlugOperator
 
 
-class LeftFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle1ROrderEnumAttrOperator"]):
+class LeftFootMiddle1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5535,7 +6167,9 @@ class LeftFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle1ROr
     ZYX = 5
 
 
-class LeftFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle1ROrderEnumPlugOperator]):
+class LeftFootMiddle1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5556,7 +6190,10 @@ class LeftFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle1ROrd
 
 
 class LeftFootMiddle1ROrderEnumField(
-    EnumField[LeftFootMiddle1ROrderEnumAttrOperator, LeftFootMiddle1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle1ROrderEnumAttrOperator,
+        LeftFootMiddle1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5564,7 +6201,9 @@ class LeftFootMiddle1ROrderEnumField(
     PLUG_CLS = LeftFootMiddle1ROrderEnumPlugOperator
 
 
-class LeftFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle2ROrderEnumAttrOperator"]):
+class LeftFootMiddle2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5575,7 +6214,9 @@ class LeftFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle2ROr
     ZYX = 5
 
 
-class LeftFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle2ROrderEnumPlugOperator]):
+class LeftFootMiddle2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5596,7 +6237,10 @@ class LeftFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle2ROrd
 
 
 class LeftFootMiddle2ROrderEnumField(
-    EnumField[LeftFootMiddle2ROrderEnumAttrOperator, LeftFootMiddle2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle2ROrderEnumAttrOperator,
+        LeftFootMiddle2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5604,7 +6248,9 @@ class LeftFootMiddle2ROrderEnumField(
     PLUG_CLS = LeftFootMiddle2ROrderEnumPlugOperator
 
 
-class LeftFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle3ROrderEnumAttrOperator"]):
+class LeftFootMiddle3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5615,7 +6261,9 @@ class LeftFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle3ROr
     ZYX = 5
 
 
-class LeftFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle3ROrderEnumPlugOperator]):
+class LeftFootMiddle3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5636,7 +6284,10 @@ class LeftFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle3ROrd
 
 
 class LeftFootMiddle3ROrderEnumField(
-    EnumField[LeftFootMiddle3ROrderEnumAttrOperator, LeftFootMiddle3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle3ROrderEnumAttrOperator,
+        LeftFootMiddle3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5644,7 +6295,9 @@ class LeftFootMiddle3ROrderEnumField(
     PLUG_CLS = LeftFootMiddle3ROrderEnumPlugOperator
 
 
-class LeftFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle4ROrderEnumAttrOperator"]):
+class LeftFootMiddle4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootMiddle4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5655,7 +6308,9 @@ class LeftFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootMiddle4ROr
     ZYX = 5
 
 
-class LeftFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle4ROrderEnumPlugOperator]):
+class LeftFootMiddle4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootMiddle4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5676,7 +6331,10 @@ class LeftFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootMiddle4ROrd
 
 
 class LeftFootMiddle4ROrderEnumField(
-    EnumField[LeftFootMiddle4ROrderEnumAttrOperator, LeftFootMiddle4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootMiddle4ROrderEnumAttrOperator,
+        LeftFootMiddle4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5684,7 +6342,9 @@ class LeftFootMiddle4ROrderEnumField(
     PLUG_CLS = LeftFootMiddle4ROrderEnumPlugOperator
 
 
-class LeftFootRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing1ROrderEnumAttrOperator"]):
+class LeftFootRing1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5695,7 +6355,9 @@ class LeftFootRing1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing1ROrderE
     ZYX = 5
 
 
-class LeftFootRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing1ROrderEnumPlugOperator]):
+class LeftFootRing1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5716,7 +6378,10 @@ class LeftFootRing1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing1ROrderEn
 
 
 class LeftFootRing1ROrderEnumField(
-    EnumField[LeftFootRing1ROrderEnumAttrOperator, LeftFootRing1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing1ROrderEnumAttrOperator,
+        LeftFootRing1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5724,7 +6389,9 @@ class LeftFootRing1ROrderEnumField(
     PLUG_CLS = LeftFootRing1ROrderEnumPlugOperator
 
 
-class LeftFootRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing2ROrderEnumAttrOperator"]):
+class LeftFootRing2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5735,7 +6402,9 @@ class LeftFootRing2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing2ROrderE
     ZYX = 5
 
 
-class LeftFootRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing2ROrderEnumPlugOperator]):
+class LeftFootRing2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5756,7 +6425,10 @@ class LeftFootRing2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing2ROrderEn
 
 
 class LeftFootRing2ROrderEnumField(
-    EnumField[LeftFootRing2ROrderEnumAttrOperator, LeftFootRing2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing2ROrderEnumAttrOperator,
+        LeftFootRing2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5764,7 +6436,9 @@ class LeftFootRing2ROrderEnumField(
     PLUG_CLS = LeftFootRing2ROrderEnumPlugOperator
 
 
-class LeftFootRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing3ROrderEnumAttrOperator"]):
+class LeftFootRing3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5775,7 +6449,9 @@ class LeftFootRing3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing3ROrderE
     ZYX = 5
 
 
-class LeftFootRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing3ROrderEnumPlugOperator]):
+class LeftFootRing3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5796,7 +6472,10 @@ class LeftFootRing3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing3ROrderEn
 
 
 class LeftFootRing3ROrderEnumField(
-    EnumField[LeftFootRing3ROrderEnumAttrOperator, LeftFootRing3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing3ROrderEnumAttrOperator,
+        LeftFootRing3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5804,7 +6483,9 @@ class LeftFootRing3ROrderEnumField(
     PLUG_CLS = LeftFootRing3ROrderEnumPlugOperator
 
 
-class LeftFootRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing4ROrderEnumAttrOperator"]):
+class LeftFootRing4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootRing4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5815,7 +6496,9 @@ class LeftFootRing4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootRing4ROrderE
     ZYX = 5
 
 
-class LeftFootRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing4ROrderEnumPlugOperator]):
+class LeftFootRing4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootRing4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5836,7 +6519,10 @@ class LeftFootRing4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootRing4ROrderEn
 
 
 class LeftFootRing4ROrderEnumField(
-    EnumField[LeftFootRing4ROrderEnumAttrOperator, LeftFootRing4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootRing4ROrderEnumAttrOperator,
+        LeftFootRing4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5844,7 +6530,9 @@ class LeftFootRing4ROrderEnumField(
     PLUG_CLS = LeftFootRing4ROrderEnumPlugOperator
 
 
-class LeftFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky1ROrderEnumAttrOperator"]):
+class LeftFootPinky1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5855,7 +6543,9 @@ class LeftFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky1ROrde
     ZYX = 5
 
 
-class LeftFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky1ROrderEnumPlugOperator]):
+class LeftFootPinky1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5876,7 +6566,10 @@ class LeftFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky1ROrder
 
 
 class LeftFootPinky1ROrderEnumField(
-    EnumField[LeftFootPinky1ROrderEnumAttrOperator, LeftFootPinky1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky1ROrderEnumAttrOperator,
+        LeftFootPinky1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5884,7 +6577,9 @@ class LeftFootPinky1ROrderEnumField(
     PLUG_CLS = LeftFootPinky1ROrderEnumPlugOperator
 
 
-class LeftFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky2ROrderEnumAttrOperator"]):
+class LeftFootPinky2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5895,7 +6590,9 @@ class LeftFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky2ROrde
     ZYX = 5
 
 
-class LeftFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky2ROrderEnumPlugOperator]):
+class LeftFootPinky2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5916,7 +6613,10 @@ class LeftFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky2ROrder
 
 
 class LeftFootPinky2ROrderEnumField(
-    EnumField[LeftFootPinky2ROrderEnumAttrOperator, LeftFootPinky2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky2ROrderEnumAttrOperator,
+        LeftFootPinky2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5924,7 +6624,9 @@ class LeftFootPinky2ROrderEnumField(
     PLUG_CLS = LeftFootPinky2ROrderEnumPlugOperator
 
 
-class LeftFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky3ROrderEnumAttrOperator"]):
+class LeftFootPinky3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5935,7 +6637,9 @@ class LeftFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky3ROrde
     ZYX = 5
 
 
-class LeftFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky3ROrderEnumPlugOperator]):
+class LeftFootPinky3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5956,7 +6660,10 @@ class LeftFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky3ROrder
 
 
 class LeftFootPinky3ROrderEnumField(
-    EnumField[LeftFootPinky3ROrderEnumAttrOperator, LeftFootPinky3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky3ROrderEnumAttrOperator,
+        LeftFootPinky3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5964,7 +6671,9 @@ class LeftFootPinky3ROrderEnumField(
     PLUG_CLS = LeftFootPinky3ROrderEnumPlugOperator
 
 
-class LeftFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky4ROrderEnumAttrOperator"]):
+class LeftFootPinky4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootPinky4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5975,7 +6684,9 @@ class LeftFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootPinky4ROrde
     ZYX = 5
 
 
-class LeftFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky4ROrderEnumPlugOperator]):
+class LeftFootPinky4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootPinky4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -5996,7 +6707,10 @@ class LeftFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootPinky4ROrder
 
 
 class LeftFootPinky4ROrderEnumField(
-    EnumField[LeftFootPinky4ROrderEnumAttrOperator, LeftFootPinky4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootPinky4ROrderEnumAttrOperator,
+        LeftFootPinky4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6004,7 +6718,9 @@ class LeftFootPinky4ROrderEnumField(
     PLUG_CLS = LeftFootPinky4ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger1ROrderEnumAttrOperator"]):
+class LeftFootExtraFinger1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6015,7 +6731,9 @@ class LeftFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtra
     ZYX = 5
 
 
-class LeftFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger1ROrderEnumPlugOperator]):
+class LeftFootExtraFinger1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6036,7 +6754,10 @@ class LeftFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraF
 
 
 class LeftFootExtraFinger1ROrderEnumField(
-    EnumField[LeftFootExtraFinger1ROrderEnumAttrOperator, LeftFootExtraFinger1ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger1ROrderEnumAttrOperator,
+        LeftFootExtraFinger1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6044,7 +6765,9 @@ class LeftFootExtraFinger1ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger1ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger2ROrderEnumAttrOperator"]):
+class LeftFootExtraFinger2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6055,7 +6778,9 @@ class LeftFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtra
     ZYX = 5
 
 
-class LeftFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger2ROrderEnumPlugOperator]):
+class LeftFootExtraFinger2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6076,7 +6801,10 @@ class LeftFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraF
 
 
 class LeftFootExtraFinger2ROrderEnumField(
-    EnumField[LeftFootExtraFinger2ROrderEnumAttrOperator, LeftFootExtraFinger2ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger2ROrderEnumAttrOperator,
+        LeftFootExtraFinger2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6084,7 +6812,9 @@ class LeftFootExtraFinger2ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger2ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger3ROrderEnumAttrOperator"]):
+class LeftFootExtraFinger3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6095,7 +6825,9 @@ class LeftFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtra
     ZYX = 5
 
 
-class LeftFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger3ROrderEnumPlugOperator]):
+class LeftFootExtraFinger3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6116,7 +6848,10 @@ class LeftFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraF
 
 
 class LeftFootExtraFinger3ROrderEnumField(
-    EnumField[LeftFootExtraFinger3ROrderEnumAttrOperator, LeftFootExtraFinger3ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger3ROrderEnumAttrOperator,
+        LeftFootExtraFinger3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6124,7 +6859,9 @@ class LeftFootExtraFinger3ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger3ROrderEnumPlugOperator
 
 
-class LeftFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtraFinger4ROrderEnumAttrOperator"]):
+class LeftFootExtraFinger4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeftFootExtraFinger4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6135,7 +6872,9 @@ class LeftFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["LeftFootExtra
     ZYX = 5
 
 
-class LeftFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraFinger4ROrderEnumPlugOperator]):
+class LeftFootExtraFinger4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeftFootExtraFinger4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6156,7 +6895,10 @@ class LeftFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[LeftFootExtraF
 
 
 class LeftFootExtraFinger4ROrderEnumField(
-    EnumField[LeftFootExtraFinger4ROrderEnumAttrOperator, LeftFootExtraFinger4ROrderEnumPlugOperator]
+    EnumField[
+        LeftFootExtraFinger4ROrderEnumAttrOperator,
+        LeftFootExtraFinger4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6164,7 +6906,9 @@ class LeftFootExtraFinger4ROrderEnumField(
     PLUG_CLS = LeftFootExtraFinger4ROrderEnumPlugOperator
 
 
-class RightFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb1ROrderEnumAttrOperator"]):
+class RightFootThumb1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6175,7 +6919,9 @@ class RightFootThumb1ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb1ROr
     ZYX = 5
 
 
-class RightFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb1ROrderEnumPlugOperator]):
+class RightFootThumb1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6196,7 +6942,10 @@ class RightFootThumb1ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb1ROrd
 
 
 class RightFootThumb1ROrderEnumField(
-    EnumField[RightFootThumb1ROrderEnumAttrOperator, RightFootThumb1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb1ROrderEnumAttrOperator,
+        RightFootThumb1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6204,7 +6953,9 @@ class RightFootThumb1ROrderEnumField(
     PLUG_CLS = RightFootThumb1ROrderEnumPlugOperator
 
 
-class RightFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb2ROrderEnumAttrOperator"]):
+class RightFootThumb2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6215,7 +6966,9 @@ class RightFootThumb2ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb2ROr
     ZYX = 5
 
 
-class RightFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb2ROrderEnumPlugOperator]):
+class RightFootThumb2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6236,7 +6989,10 @@ class RightFootThumb2ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb2ROrd
 
 
 class RightFootThumb2ROrderEnumField(
-    EnumField[RightFootThumb2ROrderEnumAttrOperator, RightFootThumb2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb2ROrderEnumAttrOperator,
+        RightFootThumb2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6244,7 +7000,9 @@ class RightFootThumb2ROrderEnumField(
     PLUG_CLS = RightFootThumb2ROrderEnumPlugOperator
 
 
-class RightFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb3ROrderEnumAttrOperator"]):
+class RightFootThumb3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6255,7 +7013,9 @@ class RightFootThumb3ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb3ROr
     ZYX = 5
 
 
-class RightFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb3ROrderEnumPlugOperator]):
+class RightFootThumb3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6276,7 +7036,10 @@ class RightFootThumb3ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb3ROrd
 
 
 class RightFootThumb3ROrderEnumField(
-    EnumField[RightFootThumb3ROrderEnumAttrOperator, RightFootThumb3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb3ROrderEnumAttrOperator,
+        RightFootThumb3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6284,7 +7047,9 @@ class RightFootThumb3ROrderEnumField(
     PLUG_CLS = RightFootThumb3ROrderEnumPlugOperator
 
 
-class RightFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb4ROrderEnumAttrOperator"]):
+class RightFootThumb4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootThumb4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6295,7 +7060,9 @@ class RightFootThumb4ROrderEnumPlugOperator(EnumPlugOperator["RightFootThumb4ROr
     ZYX = 5
 
 
-class RightFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb4ROrderEnumPlugOperator]):
+class RightFootThumb4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootThumb4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6316,7 +7083,10 @@ class RightFootThumb4ROrderEnumAttrOperator(EnumAttrOperator[RightFootThumb4ROrd
 
 
 class RightFootThumb4ROrderEnumField(
-    EnumField[RightFootThumb4ROrderEnumAttrOperator, RightFootThumb4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootThumb4ROrderEnumAttrOperator,
+        RightFootThumb4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6324,7 +7094,9 @@ class RightFootThumb4ROrderEnumField(
     PLUG_CLS = RightFootThumb4ROrderEnumPlugOperator
 
 
-class RightFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex1ROrderEnumAttrOperator"]):
+class RightFootIndex1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6335,7 +7107,9 @@ class RightFootIndex1ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex1ROr
     ZYX = 5
 
 
-class RightFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex1ROrderEnumPlugOperator]):
+class RightFootIndex1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6356,7 +7130,10 @@ class RightFootIndex1ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex1ROrd
 
 
 class RightFootIndex1ROrderEnumField(
-    EnumField[RightFootIndex1ROrderEnumAttrOperator, RightFootIndex1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex1ROrderEnumAttrOperator,
+        RightFootIndex1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6364,7 +7141,9 @@ class RightFootIndex1ROrderEnumField(
     PLUG_CLS = RightFootIndex1ROrderEnumPlugOperator
 
 
-class RightFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex2ROrderEnumAttrOperator"]):
+class RightFootIndex2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6375,7 +7154,9 @@ class RightFootIndex2ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex2ROr
     ZYX = 5
 
 
-class RightFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex2ROrderEnumPlugOperator]):
+class RightFootIndex2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6396,7 +7177,10 @@ class RightFootIndex2ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex2ROrd
 
 
 class RightFootIndex2ROrderEnumField(
-    EnumField[RightFootIndex2ROrderEnumAttrOperator, RightFootIndex2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex2ROrderEnumAttrOperator,
+        RightFootIndex2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6404,7 +7188,9 @@ class RightFootIndex2ROrderEnumField(
     PLUG_CLS = RightFootIndex2ROrderEnumPlugOperator
 
 
-class RightFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex3ROrderEnumAttrOperator"]):
+class RightFootIndex3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6415,7 +7201,9 @@ class RightFootIndex3ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex3ROr
     ZYX = 5
 
 
-class RightFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex3ROrderEnumPlugOperator]):
+class RightFootIndex3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6436,7 +7224,10 @@ class RightFootIndex3ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex3ROrd
 
 
 class RightFootIndex3ROrderEnumField(
-    EnumField[RightFootIndex3ROrderEnumAttrOperator, RightFootIndex3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex3ROrderEnumAttrOperator,
+        RightFootIndex3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6444,7 +7235,9 @@ class RightFootIndex3ROrderEnumField(
     PLUG_CLS = RightFootIndex3ROrderEnumPlugOperator
 
 
-class RightFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex4ROrderEnumAttrOperator"]):
+class RightFootIndex4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootIndex4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6455,7 +7248,9 @@ class RightFootIndex4ROrderEnumPlugOperator(EnumPlugOperator["RightFootIndex4ROr
     ZYX = 5
 
 
-class RightFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex4ROrderEnumPlugOperator]):
+class RightFootIndex4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootIndex4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6476,7 +7271,10 @@ class RightFootIndex4ROrderEnumAttrOperator(EnumAttrOperator[RightFootIndex4ROrd
 
 
 class RightFootIndex4ROrderEnumField(
-    EnumField[RightFootIndex4ROrderEnumAttrOperator, RightFootIndex4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootIndex4ROrderEnumAttrOperator,
+        RightFootIndex4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6484,7 +7282,9 @@ class RightFootIndex4ROrderEnumField(
     PLUG_CLS = RightFootIndex4ROrderEnumPlugOperator
 
 
-class RightFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle1ROrderEnumAttrOperator"]):
+class RightFootMiddle1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6495,7 +7295,9 @@ class RightFootMiddle1ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle1R
     ZYX = 5
 
 
-class RightFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle1ROrderEnumPlugOperator]):
+class RightFootMiddle1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6516,7 +7318,10 @@ class RightFootMiddle1ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle1RO
 
 
 class RightFootMiddle1ROrderEnumField(
-    EnumField[RightFootMiddle1ROrderEnumAttrOperator, RightFootMiddle1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle1ROrderEnumAttrOperator,
+        RightFootMiddle1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6524,7 +7329,9 @@ class RightFootMiddle1ROrderEnumField(
     PLUG_CLS = RightFootMiddle1ROrderEnumPlugOperator
 
 
-class RightFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle2ROrderEnumAttrOperator"]):
+class RightFootMiddle2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6535,7 +7342,9 @@ class RightFootMiddle2ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle2R
     ZYX = 5
 
 
-class RightFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle2ROrderEnumPlugOperator]):
+class RightFootMiddle2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6556,7 +7365,10 @@ class RightFootMiddle2ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle2RO
 
 
 class RightFootMiddle2ROrderEnumField(
-    EnumField[RightFootMiddle2ROrderEnumAttrOperator, RightFootMiddle2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle2ROrderEnumAttrOperator,
+        RightFootMiddle2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6564,7 +7376,9 @@ class RightFootMiddle2ROrderEnumField(
     PLUG_CLS = RightFootMiddle2ROrderEnumPlugOperator
 
 
-class RightFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle3ROrderEnumAttrOperator"]):
+class RightFootMiddle3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6575,7 +7389,9 @@ class RightFootMiddle3ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle3R
     ZYX = 5
 
 
-class RightFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle3ROrderEnumPlugOperator]):
+class RightFootMiddle3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6596,7 +7412,10 @@ class RightFootMiddle3ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle3RO
 
 
 class RightFootMiddle3ROrderEnumField(
-    EnumField[RightFootMiddle3ROrderEnumAttrOperator, RightFootMiddle3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle3ROrderEnumAttrOperator,
+        RightFootMiddle3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6604,7 +7423,9 @@ class RightFootMiddle3ROrderEnumField(
     PLUG_CLS = RightFootMiddle3ROrderEnumPlugOperator
 
 
-class RightFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle4ROrderEnumAttrOperator"]):
+class RightFootMiddle4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootMiddle4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6615,7 +7436,9 @@ class RightFootMiddle4ROrderEnumPlugOperator(EnumPlugOperator["RightFootMiddle4R
     ZYX = 5
 
 
-class RightFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle4ROrderEnumPlugOperator]):
+class RightFootMiddle4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootMiddle4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6636,7 +7459,10 @@ class RightFootMiddle4ROrderEnumAttrOperator(EnumAttrOperator[RightFootMiddle4RO
 
 
 class RightFootMiddle4ROrderEnumField(
-    EnumField[RightFootMiddle4ROrderEnumAttrOperator, RightFootMiddle4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootMiddle4ROrderEnumAttrOperator,
+        RightFootMiddle4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6644,7 +7470,9 @@ class RightFootMiddle4ROrderEnumField(
     PLUG_CLS = RightFootMiddle4ROrderEnumPlugOperator
 
 
-class RightFootRing1ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing1ROrderEnumAttrOperator"]):
+class RightFootRing1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6655,7 +7483,9 @@ class RightFootRing1ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing1ROrde
     ZYX = 5
 
 
-class RightFootRing1ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing1ROrderEnumPlugOperator]):
+class RightFootRing1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6676,7 +7506,10 @@ class RightFootRing1ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing1ROrder
 
 
 class RightFootRing1ROrderEnumField(
-    EnumField[RightFootRing1ROrderEnumAttrOperator, RightFootRing1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootRing1ROrderEnumAttrOperator,
+        RightFootRing1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6684,7 +7517,9 @@ class RightFootRing1ROrderEnumField(
     PLUG_CLS = RightFootRing1ROrderEnumPlugOperator
 
 
-class RightFootRing2ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing2ROrderEnumAttrOperator"]):
+class RightFootRing2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6695,7 +7530,9 @@ class RightFootRing2ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing2ROrde
     ZYX = 5
 
 
-class RightFootRing2ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing2ROrderEnumPlugOperator]):
+class RightFootRing2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6716,7 +7553,10 @@ class RightFootRing2ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing2ROrder
 
 
 class RightFootRing2ROrderEnumField(
-    EnumField[RightFootRing2ROrderEnumAttrOperator, RightFootRing2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootRing2ROrderEnumAttrOperator,
+        RightFootRing2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6724,7 +7564,9 @@ class RightFootRing2ROrderEnumField(
     PLUG_CLS = RightFootRing2ROrderEnumPlugOperator
 
 
-class RightFootRing3ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing3ROrderEnumAttrOperator"]):
+class RightFootRing3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6735,7 +7577,9 @@ class RightFootRing3ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing3ROrde
     ZYX = 5
 
 
-class RightFootRing3ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing3ROrderEnumPlugOperator]):
+class RightFootRing3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6756,7 +7600,10 @@ class RightFootRing3ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing3ROrder
 
 
 class RightFootRing3ROrderEnumField(
-    EnumField[RightFootRing3ROrderEnumAttrOperator, RightFootRing3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootRing3ROrderEnumAttrOperator,
+        RightFootRing3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6764,7 +7611,9 @@ class RightFootRing3ROrderEnumField(
     PLUG_CLS = RightFootRing3ROrderEnumPlugOperator
 
 
-class RightFootRing4ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing4ROrderEnumAttrOperator"]):
+class RightFootRing4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootRing4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6775,7 +7624,9 @@ class RightFootRing4ROrderEnumPlugOperator(EnumPlugOperator["RightFootRing4ROrde
     ZYX = 5
 
 
-class RightFootRing4ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing4ROrderEnumPlugOperator]):
+class RightFootRing4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootRing4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6796,7 +7647,10 @@ class RightFootRing4ROrderEnumAttrOperator(EnumAttrOperator[RightFootRing4ROrder
 
 
 class RightFootRing4ROrderEnumField(
-    EnumField[RightFootRing4ROrderEnumAttrOperator, RightFootRing4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootRing4ROrderEnumAttrOperator,
+        RightFootRing4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6804,7 +7658,9 @@ class RightFootRing4ROrderEnumField(
     PLUG_CLS = RightFootRing4ROrderEnumPlugOperator
 
 
-class RightFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky1ROrderEnumAttrOperator"]):
+class RightFootPinky1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6815,7 +7671,9 @@ class RightFootPinky1ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky1ROr
     ZYX = 5
 
 
-class RightFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky1ROrderEnumPlugOperator]):
+class RightFootPinky1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6836,7 +7694,10 @@ class RightFootPinky1ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky1ROrd
 
 
 class RightFootPinky1ROrderEnumField(
-    EnumField[RightFootPinky1ROrderEnumAttrOperator, RightFootPinky1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky1ROrderEnumAttrOperator,
+        RightFootPinky1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6844,7 +7705,9 @@ class RightFootPinky1ROrderEnumField(
     PLUG_CLS = RightFootPinky1ROrderEnumPlugOperator
 
 
-class RightFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky2ROrderEnumAttrOperator"]):
+class RightFootPinky2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6855,7 +7718,9 @@ class RightFootPinky2ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky2ROr
     ZYX = 5
 
 
-class RightFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky2ROrderEnumPlugOperator]):
+class RightFootPinky2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6876,7 +7741,10 @@ class RightFootPinky2ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky2ROrd
 
 
 class RightFootPinky2ROrderEnumField(
-    EnumField[RightFootPinky2ROrderEnumAttrOperator, RightFootPinky2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky2ROrderEnumAttrOperator,
+        RightFootPinky2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6884,7 +7752,9 @@ class RightFootPinky2ROrderEnumField(
     PLUG_CLS = RightFootPinky2ROrderEnumPlugOperator
 
 
-class RightFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky3ROrderEnumAttrOperator"]):
+class RightFootPinky3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6895,7 +7765,9 @@ class RightFootPinky3ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky3ROr
     ZYX = 5
 
 
-class RightFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky3ROrderEnumPlugOperator]):
+class RightFootPinky3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6916,7 +7788,10 @@ class RightFootPinky3ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky3ROrd
 
 
 class RightFootPinky3ROrderEnumField(
-    EnumField[RightFootPinky3ROrderEnumAttrOperator, RightFootPinky3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky3ROrderEnumAttrOperator,
+        RightFootPinky3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6924,7 +7799,9 @@ class RightFootPinky3ROrderEnumField(
     PLUG_CLS = RightFootPinky3ROrderEnumPlugOperator
 
 
-class RightFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky4ROrderEnumAttrOperator"]):
+class RightFootPinky4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootPinky4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6935,7 +7812,9 @@ class RightFootPinky4ROrderEnumPlugOperator(EnumPlugOperator["RightFootPinky4ROr
     ZYX = 5
 
 
-class RightFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky4ROrderEnumPlugOperator]):
+class RightFootPinky4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootPinky4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6956,7 +7835,10 @@ class RightFootPinky4ROrderEnumAttrOperator(EnumAttrOperator[RightFootPinky4ROrd
 
 
 class RightFootPinky4ROrderEnumField(
-    EnumField[RightFootPinky4ROrderEnumAttrOperator, RightFootPinky4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootPinky4ROrderEnumAttrOperator,
+        RightFootPinky4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6964,7 +7846,9 @@ class RightFootPinky4ROrderEnumField(
     PLUG_CLS = RightFootPinky4ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger1ROrderEnumAttrOperator"]):
+class RightFootExtraFinger1ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6975,7 +7859,9 @@ class RightFootExtraFinger1ROrderEnumPlugOperator(EnumPlugOperator["RightFootExt
     ZYX = 5
 
 
-class RightFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger1ROrderEnumPlugOperator]):
+class RightFootExtraFinger1ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -6996,7 +7882,10 @@ class RightFootExtraFinger1ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtr
 
 
 class RightFootExtraFinger1ROrderEnumField(
-    EnumField[RightFootExtraFinger1ROrderEnumAttrOperator, RightFootExtraFinger1ROrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger1ROrderEnumAttrOperator,
+        RightFootExtraFinger1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7004,7 +7893,9 @@ class RightFootExtraFinger1ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger1ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger2ROrderEnumAttrOperator"]):
+class RightFootExtraFinger2ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7015,7 +7906,9 @@ class RightFootExtraFinger2ROrderEnumPlugOperator(EnumPlugOperator["RightFootExt
     ZYX = 5
 
 
-class RightFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger2ROrderEnumPlugOperator]):
+class RightFootExtraFinger2ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7036,7 +7929,10 @@ class RightFootExtraFinger2ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtr
 
 
 class RightFootExtraFinger2ROrderEnumField(
-    EnumField[RightFootExtraFinger2ROrderEnumAttrOperator, RightFootExtraFinger2ROrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger2ROrderEnumAttrOperator,
+        RightFootExtraFinger2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7044,7 +7940,9 @@ class RightFootExtraFinger2ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger2ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger3ROrderEnumAttrOperator"]):
+class RightFootExtraFinger3ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7055,7 +7953,9 @@ class RightFootExtraFinger3ROrderEnumPlugOperator(EnumPlugOperator["RightFootExt
     ZYX = 5
 
 
-class RightFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger3ROrderEnumPlugOperator]):
+class RightFootExtraFinger3ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7076,7 +7976,10 @@ class RightFootExtraFinger3ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtr
 
 
 class RightFootExtraFinger3ROrderEnumField(
-    EnumField[RightFootExtraFinger3ROrderEnumAttrOperator, RightFootExtraFinger3ROrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger3ROrderEnumAttrOperator,
+        RightFootExtraFinger3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7084,7 +7987,9 @@ class RightFootExtraFinger3ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger3ROrderEnumPlugOperator
 
 
-class RightFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightFootExtraFinger4ROrderEnumAttrOperator"]):
+class RightFootExtraFinger4ROrderEnumPlugOperator(
+    EnumPlugOperator["RightFootExtraFinger4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7095,7 +8000,9 @@ class RightFootExtraFinger4ROrderEnumPlugOperator(EnumPlugOperator["RightFootExt
     ZYX = 5
 
 
-class RightFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtraFinger4ROrderEnumPlugOperator]):
+class RightFootExtraFinger4ROrderEnumAttrOperator(
+    EnumAttrOperator[RightFootExtraFinger4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7116,7 +8023,10 @@ class RightFootExtraFinger4ROrderEnumAttrOperator(EnumAttrOperator[RightFootExtr
 
 
 class RightFootExtraFinger4ROrderEnumField(
-    EnumField[RightFootExtraFinger4ROrderEnumAttrOperator, RightFootExtraFinger4ROrderEnumPlugOperator]
+    EnumField[
+        RightFootExtraFinger4ROrderEnumAttrOperator,
+        RightFootExtraFinger4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7124,7 +8034,9 @@ class RightFootExtraFinger4ROrderEnumField(
     PLUG_CLS = RightFootExtraFinger4ROrderEnumPlugOperator
 
 
-class LeftInHandThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInHandThumbROrderEnumAttrOperator"]):
+class LeftInHandThumbROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandThumbROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7135,7 +8047,9 @@ class LeftInHandThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInHandThumbROr
     ZYX = 5
 
 
-class LeftInHandThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInHandThumbROrderEnumPlugOperator]):
+class LeftInHandThumbROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandThumbROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7156,7 +8070,10 @@ class LeftInHandThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInHandThumbROrd
 
 
 class LeftInHandThumbROrderEnumField(
-    EnumField[LeftInHandThumbROrderEnumAttrOperator, LeftInHandThumbROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandThumbROrderEnumAttrOperator,
+        LeftInHandThumbROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7164,7 +8081,9 @@ class LeftInHandThumbROrderEnumField(
     PLUG_CLS = LeftInHandThumbROrderEnumPlugOperator
 
 
-class LeftInHandIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInHandIndexROrderEnumAttrOperator"]):
+class LeftInHandIndexROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandIndexROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7175,7 +8094,9 @@ class LeftInHandIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInHandIndexROr
     ZYX = 5
 
 
-class LeftInHandIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInHandIndexROrderEnumPlugOperator]):
+class LeftInHandIndexROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandIndexROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7196,7 +8117,10 @@ class LeftInHandIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInHandIndexROrd
 
 
 class LeftInHandIndexROrderEnumField(
-    EnumField[LeftInHandIndexROrderEnumAttrOperator, LeftInHandIndexROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandIndexROrderEnumAttrOperator,
+        LeftInHandIndexROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7204,7 +8128,9 @@ class LeftInHandIndexROrderEnumField(
     PLUG_CLS = LeftInHandIndexROrderEnumPlugOperator
 
 
-class LeftInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInHandMiddleROrderEnumAttrOperator"]):
+class LeftInHandMiddleROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandMiddleROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7215,7 +8141,9 @@ class LeftInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInHandMiddleR
     ZYX = 5
 
 
-class LeftInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInHandMiddleROrderEnumPlugOperator]):
+class LeftInHandMiddleROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandMiddleROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7236,7 +8164,10 @@ class LeftInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInHandMiddleRO
 
 
 class LeftInHandMiddleROrderEnumField(
-    EnumField[LeftInHandMiddleROrderEnumAttrOperator, LeftInHandMiddleROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandMiddleROrderEnumAttrOperator,
+        LeftInHandMiddleROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7244,7 +8175,9 @@ class LeftInHandMiddleROrderEnumField(
     PLUG_CLS = LeftInHandMiddleROrderEnumPlugOperator
 
 
-class LeftInHandRingROrderEnumPlugOperator(EnumPlugOperator["LeftInHandRingROrderEnumAttrOperator"]):
+class LeftInHandRingROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandRingROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7255,7 +8188,9 @@ class LeftInHandRingROrderEnumPlugOperator(EnumPlugOperator["LeftInHandRingROrde
     ZYX = 5
 
 
-class LeftInHandRingROrderEnumAttrOperator(EnumAttrOperator[LeftInHandRingROrderEnumPlugOperator]):
+class LeftInHandRingROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandRingROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7276,7 +8211,10 @@ class LeftInHandRingROrderEnumAttrOperator(EnumAttrOperator[LeftInHandRingROrder
 
 
 class LeftInHandRingROrderEnumField(
-    EnumField[LeftInHandRingROrderEnumAttrOperator, LeftInHandRingROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandRingROrderEnumAttrOperator,
+        LeftInHandRingROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7284,7 +8222,9 @@ class LeftInHandRingROrderEnumField(
     PLUG_CLS = LeftInHandRingROrderEnumPlugOperator
 
 
-class LeftInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInHandPinkyROrderEnumAttrOperator"]):
+class LeftInHandPinkyROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandPinkyROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7295,7 +8235,9 @@ class LeftInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInHandPinkyROr
     ZYX = 5
 
 
-class LeftInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInHandPinkyROrderEnumPlugOperator]):
+class LeftInHandPinkyROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandPinkyROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7316,7 +8258,10 @@ class LeftInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInHandPinkyROrd
 
 
 class LeftInHandPinkyROrderEnumField(
-    EnumField[LeftInHandPinkyROrderEnumAttrOperator, LeftInHandPinkyROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandPinkyROrderEnumAttrOperator,
+        LeftInHandPinkyROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7324,7 +8269,9 @@ class LeftInHandPinkyROrderEnumField(
     PLUG_CLS = LeftInHandPinkyROrderEnumPlugOperator
 
 
-class LeftInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInHandExtraFingerROrderEnumAttrOperator"]):
+class LeftInHandExtraFingerROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInHandExtraFingerROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7335,7 +8282,9 @@ class LeftInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInHandEx
     ZYX = 5
 
 
-class LeftInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInHandExtraFingerROrderEnumPlugOperator]):
+class LeftInHandExtraFingerROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInHandExtraFingerROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7356,7 +8305,10 @@ class LeftInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInHandExt
 
 
 class LeftInHandExtraFingerROrderEnumField(
-    EnumField[LeftInHandExtraFingerROrderEnumAttrOperator, LeftInHandExtraFingerROrderEnumPlugOperator]
+    EnumField[
+        LeftInHandExtraFingerROrderEnumAttrOperator,
+        LeftInHandExtraFingerROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7364,7 +8316,9 @@ class LeftInHandExtraFingerROrderEnumField(
     PLUG_CLS = LeftInHandExtraFingerROrderEnumPlugOperator
 
 
-class RightInHandThumbROrderEnumPlugOperator(EnumPlugOperator["RightInHandThumbROrderEnumAttrOperator"]):
+class RightInHandThumbROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandThumbROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7375,7 +8329,9 @@ class RightInHandThumbROrderEnumPlugOperator(EnumPlugOperator["RightInHandThumbR
     ZYX = 5
 
 
-class RightInHandThumbROrderEnumAttrOperator(EnumAttrOperator[RightInHandThumbROrderEnumPlugOperator]):
+class RightInHandThumbROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandThumbROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7396,7 +8352,10 @@ class RightInHandThumbROrderEnumAttrOperator(EnumAttrOperator[RightInHandThumbRO
 
 
 class RightInHandThumbROrderEnumField(
-    EnumField[RightInHandThumbROrderEnumAttrOperator, RightInHandThumbROrderEnumPlugOperator]
+    EnumField[
+        RightInHandThumbROrderEnumAttrOperator,
+        RightInHandThumbROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7404,7 +8363,9 @@ class RightInHandThumbROrderEnumField(
     PLUG_CLS = RightInHandThumbROrderEnumPlugOperator
 
 
-class RightInHandIndexROrderEnumPlugOperator(EnumPlugOperator["RightInHandIndexROrderEnumAttrOperator"]):
+class RightInHandIndexROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandIndexROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7415,7 +8376,9 @@ class RightInHandIndexROrderEnumPlugOperator(EnumPlugOperator["RightInHandIndexR
     ZYX = 5
 
 
-class RightInHandIndexROrderEnumAttrOperator(EnumAttrOperator[RightInHandIndexROrderEnumPlugOperator]):
+class RightInHandIndexROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandIndexROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7436,7 +8399,10 @@ class RightInHandIndexROrderEnumAttrOperator(EnumAttrOperator[RightInHandIndexRO
 
 
 class RightInHandIndexROrderEnumField(
-    EnumField[RightInHandIndexROrderEnumAttrOperator, RightInHandIndexROrderEnumPlugOperator]
+    EnumField[
+        RightInHandIndexROrderEnumAttrOperator,
+        RightInHandIndexROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7444,7 +8410,9 @@ class RightInHandIndexROrderEnumField(
     PLUG_CLS = RightInHandIndexROrderEnumPlugOperator
 
 
-class RightInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInHandMiddleROrderEnumAttrOperator"]):
+class RightInHandMiddleROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandMiddleROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7455,7 +8423,9 @@ class RightInHandMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInHandMiddl
     ZYX = 5
 
 
-class RightInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInHandMiddleROrderEnumPlugOperator]):
+class RightInHandMiddleROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandMiddleROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7476,7 +8446,10 @@ class RightInHandMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInHandMiddle
 
 
 class RightInHandMiddleROrderEnumField(
-    EnumField[RightInHandMiddleROrderEnumAttrOperator, RightInHandMiddleROrderEnumPlugOperator]
+    EnumField[
+        RightInHandMiddleROrderEnumAttrOperator,
+        RightInHandMiddleROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7484,7 +8457,9 @@ class RightInHandMiddleROrderEnumField(
     PLUG_CLS = RightInHandMiddleROrderEnumPlugOperator
 
 
-class RightInHandRingROrderEnumPlugOperator(EnumPlugOperator["RightInHandRingROrderEnumAttrOperator"]):
+class RightInHandRingROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandRingROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7495,7 +8470,9 @@ class RightInHandRingROrderEnumPlugOperator(EnumPlugOperator["RightInHandRingROr
     ZYX = 5
 
 
-class RightInHandRingROrderEnumAttrOperator(EnumAttrOperator[RightInHandRingROrderEnumPlugOperator]):
+class RightInHandRingROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandRingROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7516,7 +8493,10 @@ class RightInHandRingROrderEnumAttrOperator(EnumAttrOperator[RightInHandRingROrd
 
 
 class RightInHandRingROrderEnumField(
-    EnumField[RightInHandRingROrderEnumAttrOperator, RightInHandRingROrderEnumPlugOperator]
+    EnumField[
+        RightInHandRingROrderEnumAttrOperator,
+        RightInHandRingROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7524,7 +8504,9 @@ class RightInHandRingROrderEnumField(
     PLUG_CLS = RightInHandRingROrderEnumPlugOperator
 
 
-class RightInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInHandPinkyROrderEnumAttrOperator"]):
+class RightInHandPinkyROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandPinkyROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7535,7 +8517,9 @@ class RightInHandPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInHandPinkyR
     ZYX = 5
 
 
-class RightInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInHandPinkyROrderEnumPlugOperator]):
+class RightInHandPinkyROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandPinkyROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7556,7 +8540,10 @@ class RightInHandPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInHandPinkyRO
 
 
 class RightInHandPinkyROrderEnumField(
-    EnumField[RightInHandPinkyROrderEnumAttrOperator, RightInHandPinkyROrderEnumPlugOperator]
+    EnumField[
+        RightInHandPinkyROrderEnumAttrOperator,
+        RightInHandPinkyROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7564,7 +8551,9 @@ class RightInHandPinkyROrderEnumField(
     PLUG_CLS = RightInHandPinkyROrderEnumPlugOperator
 
 
-class RightInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInHandExtraFingerROrderEnumAttrOperator"]):
+class RightInHandExtraFingerROrderEnumPlugOperator(
+    EnumPlugOperator["RightInHandExtraFingerROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7575,7 +8564,9 @@ class RightInHandExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInHand
     ZYX = 5
 
 
-class RightInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInHandExtraFingerROrderEnumPlugOperator]):
+class RightInHandExtraFingerROrderEnumAttrOperator(
+    EnumAttrOperator[RightInHandExtraFingerROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7596,7 +8587,10 @@ class RightInHandExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInHandE
 
 
 class RightInHandExtraFingerROrderEnumField(
-    EnumField[RightInHandExtraFingerROrderEnumAttrOperator, RightInHandExtraFingerROrderEnumPlugOperator]
+    EnumField[
+        RightInHandExtraFingerROrderEnumAttrOperator,
+        RightInHandExtraFingerROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7604,7 +8598,9 @@ class RightInHandExtraFingerROrderEnumField(
     PLUG_CLS = RightInHandExtraFingerROrderEnumPlugOperator
 
 
-class LeftInFootThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInFootThumbROrderEnumAttrOperator"]):
+class LeftInFootThumbROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootThumbROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7615,7 +8611,9 @@ class LeftInFootThumbROrderEnumPlugOperator(EnumPlugOperator["LeftInFootThumbROr
     ZYX = 5
 
 
-class LeftInFootThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInFootThumbROrderEnumPlugOperator]):
+class LeftInFootThumbROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootThumbROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7636,7 +8634,10 @@ class LeftInFootThumbROrderEnumAttrOperator(EnumAttrOperator[LeftInFootThumbROrd
 
 
 class LeftInFootThumbROrderEnumField(
-    EnumField[LeftInFootThumbROrderEnumAttrOperator, LeftInFootThumbROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootThumbROrderEnumAttrOperator,
+        LeftInFootThumbROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7644,7 +8645,9 @@ class LeftInFootThumbROrderEnumField(
     PLUG_CLS = LeftInFootThumbROrderEnumPlugOperator
 
 
-class LeftInFootIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInFootIndexROrderEnumAttrOperator"]):
+class LeftInFootIndexROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootIndexROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7655,7 +8658,9 @@ class LeftInFootIndexROrderEnumPlugOperator(EnumPlugOperator["LeftInFootIndexROr
     ZYX = 5
 
 
-class LeftInFootIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInFootIndexROrderEnumPlugOperator]):
+class LeftInFootIndexROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootIndexROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7676,7 +8681,10 @@ class LeftInFootIndexROrderEnumAttrOperator(EnumAttrOperator[LeftInFootIndexROrd
 
 
 class LeftInFootIndexROrderEnumField(
-    EnumField[LeftInFootIndexROrderEnumAttrOperator, LeftInFootIndexROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootIndexROrderEnumAttrOperator,
+        LeftInFootIndexROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7684,7 +8692,9 @@ class LeftInFootIndexROrderEnumField(
     PLUG_CLS = LeftInFootIndexROrderEnumPlugOperator
 
 
-class LeftInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInFootMiddleROrderEnumAttrOperator"]):
+class LeftInFootMiddleROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootMiddleROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7695,7 +8705,9 @@ class LeftInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["LeftInFootMiddleR
     ZYX = 5
 
 
-class LeftInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInFootMiddleROrderEnumPlugOperator]):
+class LeftInFootMiddleROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootMiddleROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7716,7 +8728,10 @@ class LeftInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[LeftInFootMiddleRO
 
 
 class LeftInFootMiddleROrderEnumField(
-    EnumField[LeftInFootMiddleROrderEnumAttrOperator, LeftInFootMiddleROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootMiddleROrderEnumAttrOperator,
+        LeftInFootMiddleROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7724,7 +8739,9 @@ class LeftInFootMiddleROrderEnumField(
     PLUG_CLS = LeftInFootMiddleROrderEnumPlugOperator
 
 
-class LeftInFootRingROrderEnumPlugOperator(EnumPlugOperator["LeftInFootRingROrderEnumAttrOperator"]):
+class LeftInFootRingROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootRingROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7735,7 +8752,9 @@ class LeftInFootRingROrderEnumPlugOperator(EnumPlugOperator["LeftInFootRingROrde
     ZYX = 5
 
 
-class LeftInFootRingROrderEnumAttrOperator(EnumAttrOperator[LeftInFootRingROrderEnumPlugOperator]):
+class LeftInFootRingROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootRingROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7756,7 +8775,10 @@ class LeftInFootRingROrderEnumAttrOperator(EnumAttrOperator[LeftInFootRingROrder
 
 
 class LeftInFootRingROrderEnumField(
-    EnumField[LeftInFootRingROrderEnumAttrOperator, LeftInFootRingROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootRingROrderEnumAttrOperator,
+        LeftInFootRingROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7764,7 +8786,9 @@ class LeftInFootRingROrderEnumField(
     PLUG_CLS = LeftInFootRingROrderEnumPlugOperator
 
 
-class LeftInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInFootPinkyROrderEnumAttrOperator"]):
+class LeftInFootPinkyROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootPinkyROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7775,7 +8799,9 @@ class LeftInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["LeftInFootPinkyROr
     ZYX = 5
 
 
-class LeftInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInFootPinkyROrderEnumPlugOperator]):
+class LeftInFootPinkyROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootPinkyROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7796,7 +8822,10 @@ class LeftInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[LeftInFootPinkyROrd
 
 
 class LeftInFootPinkyROrderEnumField(
-    EnumField[LeftInFootPinkyROrderEnumAttrOperator, LeftInFootPinkyROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootPinkyROrderEnumAttrOperator,
+        LeftInFootPinkyROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7804,7 +8833,9 @@ class LeftInFootPinkyROrderEnumField(
     PLUG_CLS = LeftInFootPinkyROrderEnumPlugOperator
 
 
-class LeftInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInFootExtraFingerROrderEnumAttrOperator"]):
+class LeftInFootExtraFingerROrderEnumPlugOperator(
+    EnumPlugOperator["LeftInFootExtraFingerROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7815,7 +8846,9 @@ class LeftInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["LeftInFootEx
     ZYX = 5
 
 
-class LeftInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInFootExtraFingerROrderEnumPlugOperator]):
+class LeftInFootExtraFingerROrderEnumAttrOperator(
+    EnumAttrOperator[LeftInFootExtraFingerROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7836,7 +8869,10 @@ class LeftInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[LeftInFootExt
 
 
 class LeftInFootExtraFingerROrderEnumField(
-    EnumField[LeftInFootExtraFingerROrderEnumAttrOperator, LeftInFootExtraFingerROrderEnumPlugOperator]
+    EnumField[
+        LeftInFootExtraFingerROrderEnumAttrOperator,
+        LeftInFootExtraFingerROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7844,7 +8880,9 @@ class LeftInFootExtraFingerROrderEnumField(
     PLUG_CLS = LeftInFootExtraFingerROrderEnumPlugOperator
 
 
-class RightInFootThumbROrderEnumPlugOperator(EnumPlugOperator["RightInFootThumbROrderEnumAttrOperator"]):
+class RightInFootThumbROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootThumbROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7855,7 +8893,9 @@ class RightInFootThumbROrderEnumPlugOperator(EnumPlugOperator["RightInFootThumbR
     ZYX = 5
 
 
-class RightInFootThumbROrderEnumAttrOperator(EnumAttrOperator[RightInFootThumbROrderEnumPlugOperator]):
+class RightInFootThumbROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootThumbROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7876,7 +8916,10 @@ class RightInFootThumbROrderEnumAttrOperator(EnumAttrOperator[RightInFootThumbRO
 
 
 class RightInFootThumbROrderEnumField(
-    EnumField[RightInFootThumbROrderEnumAttrOperator, RightInFootThumbROrderEnumPlugOperator]
+    EnumField[
+        RightInFootThumbROrderEnumAttrOperator,
+        RightInFootThumbROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7884,7 +8927,9 @@ class RightInFootThumbROrderEnumField(
     PLUG_CLS = RightInFootThumbROrderEnumPlugOperator
 
 
-class RightInFootIndexROrderEnumPlugOperator(EnumPlugOperator["RightInFootIndexROrderEnumAttrOperator"]):
+class RightInFootIndexROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootIndexROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7895,7 +8940,9 @@ class RightInFootIndexROrderEnumPlugOperator(EnumPlugOperator["RightInFootIndexR
     ZYX = 5
 
 
-class RightInFootIndexROrderEnumAttrOperator(EnumAttrOperator[RightInFootIndexROrderEnumPlugOperator]):
+class RightInFootIndexROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootIndexROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7916,7 +8963,10 @@ class RightInFootIndexROrderEnumAttrOperator(EnumAttrOperator[RightInFootIndexRO
 
 
 class RightInFootIndexROrderEnumField(
-    EnumField[RightInFootIndexROrderEnumAttrOperator, RightInFootIndexROrderEnumPlugOperator]
+    EnumField[
+        RightInFootIndexROrderEnumAttrOperator,
+        RightInFootIndexROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7924,7 +8974,9 @@ class RightInFootIndexROrderEnumField(
     PLUG_CLS = RightInFootIndexROrderEnumPlugOperator
 
 
-class RightInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInFootMiddleROrderEnumAttrOperator"]):
+class RightInFootMiddleROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootMiddleROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7935,7 +8987,9 @@ class RightInFootMiddleROrderEnumPlugOperator(EnumPlugOperator["RightInFootMiddl
     ZYX = 5
 
 
-class RightInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInFootMiddleROrderEnumPlugOperator]):
+class RightInFootMiddleROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootMiddleROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7956,7 +9010,10 @@ class RightInFootMiddleROrderEnumAttrOperator(EnumAttrOperator[RightInFootMiddle
 
 
 class RightInFootMiddleROrderEnumField(
-    EnumField[RightInFootMiddleROrderEnumAttrOperator, RightInFootMiddleROrderEnumPlugOperator]
+    EnumField[
+        RightInFootMiddleROrderEnumAttrOperator,
+        RightInFootMiddleROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7964,7 +9021,9 @@ class RightInFootMiddleROrderEnumField(
     PLUG_CLS = RightInFootMiddleROrderEnumPlugOperator
 
 
-class RightInFootRingROrderEnumPlugOperator(EnumPlugOperator["RightInFootRingROrderEnumAttrOperator"]):
+class RightInFootRingROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootRingROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7975,7 +9034,9 @@ class RightInFootRingROrderEnumPlugOperator(EnumPlugOperator["RightInFootRingROr
     ZYX = 5
 
 
-class RightInFootRingROrderEnumAttrOperator(EnumAttrOperator[RightInFootRingROrderEnumPlugOperator]):
+class RightInFootRingROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootRingROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -7996,7 +9057,10 @@ class RightInFootRingROrderEnumAttrOperator(EnumAttrOperator[RightInFootRingROrd
 
 
 class RightInFootRingROrderEnumField(
-    EnumField[RightInFootRingROrderEnumAttrOperator, RightInFootRingROrderEnumPlugOperator]
+    EnumField[
+        RightInFootRingROrderEnumAttrOperator,
+        RightInFootRingROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8004,7 +9068,9 @@ class RightInFootRingROrderEnumField(
     PLUG_CLS = RightInFootRingROrderEnumPlugOperator
 
 
-class RightInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInFootPinkyROrderEnumAttrOperator"]):
+class RightInFootPinkyROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootPinkyROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8015,7 +9081,9 @@ class RightInFootPinkyROrderEnumPlugOperator(EnumPlugOperator["RightInFootPinkyR
     ZYX = 5
 
 
-class RightInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInFootPinkyROrderEnumPlugOperator]):
+class RightInFootPinkyROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootPinkyROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8036,7 +9104,10 @@ class RightInFootPinkyROrderEnumAttrOperator(EnumAttrOperator[RightInFootPinkyRO
 
 
 class RightInFootPinkyROrderEnumField(
-    EnumField[RightInFootPinkyROrderEnumAttrOperator, RightInFootPinkyROrderEnumPlugOperator]
+    EnumField[
+        RightInFootPinkyROrderEnumAttrOperator,
+        RightInFootPinkyROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8044,7 +9115,9 @@ class RightInFootPinkyROrderEnumField(
     PLUG_CLS = RightInFootPinkyROrderEnumPlugOperator
 
 
-class RightInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInFootExtraFingerROrderEnumAttrOperator"]):
+class RightInFootExtraFingerROrderEnumPlugOperator(
+    EnumPlugOperator["RightInFootExtraFingerROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8055,7 +9128,9 @@ class RightInFootExtraFingerROrderEnumPlugOperator(EnumPlugOperator["RightInFoot
     ZYX = 5
 
 
-class RightInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInFootExtraFingerROrderEnumPlugOperator]):
+class RightInFootExtraFingerROrderEnumAttrOperator(
+    EnumAttrOperator[RightInFootExtraFingerROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8076,7 +9151,10 @@ class RightInFootExtraFingerROrderEnumAttrOperator(EnumAttrOperator[RightInFootE
 
 
 class RightInFootExtraFingerROrderEnumField(
-    EnumField[RightInFootExtraFingerROrderEnumAttrOperator, RightInFootExtraFingerROrderEnumPlugOperator]
+    EnumField[
+        RightInFootExtraFingerROrderEnumAttrOperator,
+        RightInFootExtraFingerROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8084,7 +9162,9 @@ class RightInFootExtraFingerROrderEnumField(
     PLUG_CLS = RightInFootExtraFingerROrderEnumPlugOperator
 
 
-class LeftShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderExtraROrderEnumAttrOperator"]):
+class LeftShoulderExtraROrderEnumPlugOperator(
+    EnumPlugOperator["LeftShoulderExtraROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8095,7 +9175,9 @@ class LeftShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["LeftShoulderExtr
     ZYX = 5
 
 
-class LeftShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderExtraROrderEnumPlugOperator]):
+class LeftShoulderExtraROrderEnumAttrOperator(
+    EnumAttrOperator[LeftShoulderExtraROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8116,7 +9198,10 @@ class LeftShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[LeftShoulderExtra
 
 
 class LeftShoulderExtraROrderEnumField(
-    EnumField[LeftShoulderExtraROrderEnumAttrOperator, LeftShoulderExtraROrderEnumPlugOperator]
+    EnumField[
+        LeftShoulderExtraROrderEnumAttrOperator,
+        LeftShoulderExtraROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8124,7 +9209,9 @@ class LeftShoulderExtraROrderEnumField(
     PLUG_CLS = LeftShoulderExtraROrderEnumPlugOperator
 
 
-class RightShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["RightShoulderExtraROrderEnumAttrOperator"]):
+class RightShoulderExtraROrderEnumPlugOperator(
+    EnumPlugOperator["RightShoulderExtraROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8135,7 +9222,9 @@ class RightShoulderExtraROrderEnumPlugOperator(EnumPlugOperator["RightShoulderEx
     ZYX = 5
 
 
-class RightShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[RightShoulderExtraROrderEnumPlugOperator]):
+class RightShoulderExtraROrderEnumAttrOperator(
+    EnumAttrOperator[RightShoulderExtraROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8156,7 +9245,10 @@ class RightShoulderExtraROrderEnumAttrOperator(EnumAttrOperator[RightShoulderExt
 
 
 class RightShoulderExtraROrderEnumField(
-    EnumField[RightShoulderExtraROrderEnumAttrOperator, RightShoulderExtraROrderEnumPlugOperator]
+    EnumField[
+        RightShoulderExtraROrderEnumAttrOperator,
+        RightShoulderExtraROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8164,7 +9256,9 @@ class RightShoulderExtraROrderEnumField(
     PLUG_CLS = RightShoulderExtraROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll1ROrderEnumAttrOperator"]):
+class LeafLeftUpLegRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8175,7 +9269,9 @@ class LeafLeftUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRo
     ZYX = 5
 
 
-class LeafLeftUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll1ROrderEnumPlugOperator]):
+class LeafLeftUpLegRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8196,7 +9292,10 @@ class LeafLeftUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRol
 
 
 class LeafLeftUpLegRoll1ROrderEnumField(
-    EnumField[LeafLeftUpLegRoll1ROrderEnumAttrOperator, LeafLeftUpLegRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll1ROrderEnumAttrOperator,
+        LeafLeftUpLegRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8204,7 +9303,9 @@ class LeafLeftUpLegRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll1ROrderEnumAttrOperator"]):
+class LeafLeftLegRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8215,7 +9316,9 @@ class LeafLeftLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll1R
     ZYX = 5
 
 
-class LeafLeftLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll1ROrderEnumPlugOperator]):
+class LeafLeftLegRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8236,7 +9339,10 @@ class LeafLeftLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll1RO
 
 
 class LeafLeftLegRoll1ROrderEnumField(
-    EnumField[LeafLeftLegRoll1ROrderEnumAttrOperator, LeafLeftLegRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll1ROrderEnumAttrOperator,
+        LeafLeftLegRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8244,7 +9350,9 @@ class LeafLeftLegRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll1ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll1ROrderEnumAttrOperator"]):
+class LeafRightUpLegRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8255,7 +9363,9 @@ class LeafRightUpLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLeg
     ZYX = 5
 
 
-class LeafRightUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll1ROrderEnumPlugOperator]):
+class LeafRightUpLegRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8276,7 +9386,10 @@ class LeafRightUpLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegR
 
 
 class LeafRightUpLegRoll1ROrderEnumField(
-    EnumField[LeafRightUpLegRoll1ROrderEnumAttrOperator, LeafRightUpLegRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll1ROrderEnumAttrOperator,
+        LeafRightUpLegRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8284,7 +9397,9 @@ class LeafRightUpLegRoll1ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll1ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll1ROrderEnumAttrOperator"]):
+class LeafRightLegRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8295,7 +9410,9 @@ class LeafRightLegRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll
     ZYX = 5
 
 
-class LeafRightLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll1ROrderEnumPlugOperator]):
+class LeafRightLegRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8316,7 +9433,10 @@ class LeafRightLegRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll1
 
 
 class LeafRightLegRoll1ROrderEnumField(
-    EnumField[LeafRightLegRoll1ROrderEnumAttrOperator, LeafRightLegRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll1ROrderEnumAttrOperator,
+        LeafRightLegRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8324,7 +9444,9 @@ class LeafRightLegRoll1ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll1ROrderEnumAttrOperator"]):
+class LeafLeftArmRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8335,7 +9457,9 @@ class LeafLeftArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll1R
     ZYX = 5
 
 
-class LeafLeftArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll1ROrderEnumPlugOperator]):
+class LeafLeftArmRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8356,7 +9480,10 @@ class LeafLeftArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll1RO
 
 
 class LeafLeftArmRoll1ROrderEnumField(
-    EnumField[LeafLeftArmRoll1ROrderEnumAttrOperator, LeafLeftArmRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll1ROrderEnumAttrOperator,
+        LeafLeftArmRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8364,7 +9491,9 @@ class LeafLeftArmRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll1ROrderEnumAttrOperator"]):
+class LeafLeftForeArmRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8375,7 +9504,9 @@ class LeafLeftForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeA
     ZYX = 5
 
 
-class LeafLeftForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll1ROrderEnumPlugOperator]):
+class LeafLeftForeArmRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8396,7 +9527,10 @@ class LeafLeftForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeAr
 
 
 class LeafLeftForeArmRoll1ROrderEnumField(
-    EnumField[LeafLeftForeArmRoll1ROrderEnumAttrOperator, LeafLeftForeArmRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll1ROrderEnumAttrOperator,
+        LeafLeftForeArmRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8404,7 +9538,9 @@ class LeafLeftForeArmRoll1ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll1ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll1ROrderEnumAttrOperator"]):
+class LeafRightArmRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8415,7 +9551,9 @@ class LeafRightArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll
     ZYX = 5
 
 
-class LeafRightArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll1ROrderEnumPlugOperator]):
+class LeafRightArmRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8436,7 +9574,10 @@ class LeafRightArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll1
 
 
 class LeafRightArmRoll1ROrderEnumField(
-    EnumField[LeafRightArmRoll1ROrderEnumAttrOperator, LeafRightArmRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll1ROrderEnumAttrOperator,
+        LeafRightArmRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8444,7 +9585,9 @@ class LeafRightArmRoll1ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll1ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll1ROrderEnumAttrOperator"]):
+class LeafRightForeArmRoll1ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll1ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8455,7 +9598,9 @@ class LeafRightForeArmRoll1ROrderEnumPlugOperator(EnumPlugOperator["LeafRightFor
     ZYX = 5
 
 
-class LeafRightForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll1ROrderEnumPlugOperator]):
+class LeafRightForeArmRoll1ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll1ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8476,7 +9621,10 @@ class LeafRightForeArmRoll1ROrderEnumAttrOperator(EnumAttrOperator[LeafRightFore
 
 
 class LeafRightForeArmRoll1ROrderEnumField(
-    EnumField[LeafRightForeArmRoll1ROrderEnumAttrOperator, LeafRightForeArmRoll1ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll1ROrderEnumAttrOperator,
+        LeafRightForeArmRoll1ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8484,7 +9632,9 @@ class LeafRightForeArmRoll1ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll1ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll2ROrderEnumAttrOperator"]):
+class LeafLeftUpLegRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8495,7 +9645,9 @@ class LeafLeftUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRo
     ZYX = 5
 
 
-class LeafLeftUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll2ROrderEnumPlugOperator]):
+class LeafLeftUpLegRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8516,7 +9668,10 @@ class LeafLeftUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRol
 
 
 class LeafLeftUpLegRoll2ROrderEnumField(
-    EnumField[LeafLeftUpLegRoll2ROrderEnumAttrOperator, LeafLeftUpLegRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll2ROrderEnumAttrOperator,
+        LeafLeftUpLegRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8524,7 +9679,9 @@ class LeafLeftUpLegRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll2ROrderEnumAttrOperator"]):
+class LeafLeftLegRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8535,7 +9692,9 @@ class LeafLeftLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll2R
     ZYX = 5
 
 
-class LeafLeftLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll2ROrderEnumPlugOperator]):
+class LeafLeftLegRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8556,7 +9715,10 @@ class LeafLeftLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll2RO
 
 
 class LeafLeftLegRoll2ROrderEnumField(
-    EnumField[LeafLeftLegRoll2ROrderEnumAttrOperator, LeafLeftLegRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll2ROrderEnumAttrOperator,
+        LeafLeftLegRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8564,7 +9726,9 @@ class LeafLeftLegRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll2ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll2ROrderEnumAttrOperator"]):
+class LeafRightUpLegRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8575,7 +9739,9 @@ class LeafRightUpLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLeg
     ZYX = 5
 
 
-class LeafRightUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll2ROrderEnumPlugOperator]):
+class LeafRightUpLegRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8596,7 +9762,10 @@ class LeafRightUpLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegR
 
 
 class LeafRightUpLegRoll2ROrderEnumField(
-    EnumField[LeafRightUpLegRoll2ROrderEnumAttrOperator, LeafRightUpLegRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll2ROrderEnumAttrOperator,
+        LeafRightUpLegRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8604,7 +9773,9 @@ class LeafRightUpLegRoll2ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll2ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll2ROrderEnumAttrOperator"]):
+class LeafRightLegRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8615,7 +9786,9 @@ class LeafRightLegRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll
     ZYX = 5
 
 
-class LeafRightLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll2ROrderEnumPlugOperator]):
+class LeafRightLegRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8636,7 +9809,10 @@ class LeafRightLegRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll2
 
 
 class LeafRightLegRoll2ROrderEnumField(
-    EnumField[LeafRightLegRoll2ROrderEnumAttrOperator, LeafRightLegRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll2ROrderEnumAttrOperator,
+        LeafRightLegRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8644,7 +9820,9 @@ class LeafRightLegRoll2ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll2ROrderEnumAttrOperator"]):
+class LeafLeftArmRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8655,7 +9833,9 @@ class LeafLeftArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll2R
     ZYX = 5
 
 
-class LeafLeftArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll2ROrderEnumPlugOperator]):
+class LeafLeftArmRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8676,7 +9856,10 @@ class LeafLeftArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll2RO
 
 
 class LeafLeftArmRoll2ROrderEnumField(
-    EnumField[LeafLeftArmRoll2ROrderEnumAttrOperator, LeafLeftArmRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll2ROrderEnumAttrOperator,
+        LeafLeftArmRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8684,7 +9867,9 @@ class LeafLeftArmRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll2ROrderEnumAttrOperator"]):
+class LeafLeftForeArmRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8695,7 +9880,9 @@ class LeafLeftForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeA
     ZYX = 5
 
 
-class LeafLeftForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll2ROrderEnumPlugOperator]):
+class LeafLeftForeArmRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8716,7 +9903,10 @@ class LeafLeftForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeAr
 
 
 class LeafLeftForeArmRoll2ROrderEnumField(
-    EnumField[LeafLeftForeArmRoll2ROrderEnumAttrOperator, LeafLeftForeArmRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll2ROrderEnumAttrOperator,
+        LeafLeftForeArmRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8724,7 +9914,9 @@ class LeafLeftForeArmRoll2ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll2ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll2ROrderEnumAttrOperator"]):
+class LeafRightArmRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8735,7 +9927,9 @@ class LeafRightArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll
     ZYX = 5
 
 
-class LeafRightArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll2ROrderEnumPlugOperator]):
+class LeafRightArmRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8756,7 +9950,10 @@ class LeafRightArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll2
 
 
 class LeafRightArmRoll2ROrderEnumField(
-    EnumField[LeafRightArmRoll2ROrderEnumAttrOperator, LeafRightArmRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll2ROrderEnumAttrOperator,
+        LeafRightArmRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8764,7 +9961,9 @@ class LeafRightArmRoll2ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll2ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll2ROrderEnumAttrOperator"]):
+class LeafRightForeArmRoll2ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll2ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8775,7 +9974,9 @@ class LeafRightForeArmRoll2ROrderEnumPlugOperator(EnumPlugOperator["LeafRightFor
     ZYX = 5
 
 
-class LeafRightForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll2ROrderEnumPlugOperator]):
+class LeafRightForeArmRoll2ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll2ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8796,7 +9997,10 @@ class LeafRightForeArmRoll2ROrderEnumAttrOperator(EnumAttrOperator[LeafRightFore
 
 
 class LeafRightForeArmRoll2ROrderEnumField(
-    EnumField[LeafRightForeArmRoll2ROrderEnumAttrOperator, LeafRightForeArmRoll2ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll2ROrderEnumAttrOperator,
+        LeafRightForeArmRoll2ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8804,7 +10008,9 @@ class LeafRightForeArmRoll2ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll2ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll3ROrderEnumAttrOperator"]):
+class LeafLeftUpLegRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8815,7 +10021,9 @@ class LeafLeftUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRo
     ZYX = 5
 
 
-class LeafLeftUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll3ROrderEnumPlugOperator]):
+class LeafLeftUpLegRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8836,7 +10044,10 @@ class LeafLeftUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRol
 
 
 class LeafLeftUpLegRoll3ROrderEnumField(
-    EnumField[LeafLeftUpLegRoll3ROrderEnumAttrOperator, LeafLeftUpLegRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll3ROrderEnumAttrOperator,
+        LeafLeftUpLegRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8844,7 +10055,9 @@ class LeafLeftUpLegRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll3ROrderEnumAttrOperator"]):
+class LeafLeftLegRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8855,7 +10068,9 @@ class LeafLeftLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll3R
     ZYX = 5
 
 
-class LeafLeftLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll3ROrderEnumPlugOperator]):
+class LeafLeftLegRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8876,7 +10091,10 @@ class LeafLeftLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll3RO
 
 
 class LeafLeftLegRoll3ROrderEnumField(
-    EnumField[LeafLeftLegRoll3ROrderEnumAttrOperator, LeafLeftLegRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll3ROrderEnumAttrOperator,
+        LeafLeftLegRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8884,7 +10102,9 @@ class LeafLeftLegRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll3ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll3ROrderEnumAttrOperator"]):
+class LeafRightUpLegRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8895,7 +10115,9 @@ class LeafRightUpLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLeg
     ZYX = 5
 
 
-class LeafRightUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll3ROrderEnumPlugOperator]):
+class LeafRightUpLegRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8916,7 +10138,10 @@ class LeafRightUpLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegR
 
 
 class LeafRightUpLegRoll3ROrderEnumField(
-    EnumField[LeafRightUpLegRoll3ROrderEnumAttrOperator, LeafRightUpLegRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll3ROrderEnumAttrOperator,
+        LeafRightUpLegRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8924,7 +10149,9 @@ class LeafRightUpLegRoll3ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll3ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll3ROrderEnumAttrOperator"]):
+class LeafRightLegRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8935,7 +10162,9 @@ class LeafRightLegRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll
     ZYX = 5
 
 
-class LeafRightLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll3ROrderEnumPlugOperator]):
+class LeafRightLegRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8956,7 +10185,10 @@ class LeafRightLegRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll3
 
 
 class LeafRightLegRoll3ROrderEnumField(
-    EnumField[LeafRightLegRoll3ROrderEnumAttrOperator, LeafRightLegRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll3ROrderEnumAttrOperator,
+        LeafRightLegRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -8964,7 +10196,9 @@ class LeafRightLegRoll3ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll3ROrderEnumAttrOperator"]):
+class LeafLeftArmRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8975,7 +10209,9 @@ class LeafLeftArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll3R
     ZYX = 5
 
 
-class LeafLeftArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll3ROrderEnumPlugOperator]):
+class LeafLeftArmRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -8996,7 +10232,10 @@ class LeafLeftArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll3RO
 
 
 class LeafLeftArmRoll3ROrderEnumField(
-    EnumField[LeafLeftArmRoll3ROrderEnumAttrOperator, LeafLeftArmRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll3ROrderEnumAttrOperator,
+        LeafLeftArmRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9004,7 +10243,9 @@ class LeafLeftArmRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll3ROrderEnumAttrOperator"]):
+class LeafLeftForeArmRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9015,7 +10256,9 @@ class LeafLeftForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeA
     ZYX = 5
 
 
-class LeafLeftForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll3ROrderEnumPlugOperator]):
+class LeafLeftForeArmRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9036,7 +10279,10 @@ class LeafLeftForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeAr
 
 
 class LeafLeftForeArmRoll3ROrderEnumField(
-    EnumField[LeafLeftForeArmRoll3ROrderEnumAttrOperator, LeafLeftForeArmRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll3ROrderEnumAttrOperator,
+        LeafLeftForeArmRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9044,7 +10290,9 @@ class LeafLeftForeArmRoll3ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll3ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll3ROrderEnumAttrOperator"]):
+class LeafRightArmRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9055,7 +10303,9 @@ class LeafRightArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll
     ZYX = 5
 
 
-class LeafRightArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll3ROrderEnumPlugOperator]):
+class LeafRightArmRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9076,7 +10326,10 @@ class LeafRightArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll3
 
 
 class LeafRightArmRoll3ROrderEnumField(
-    EnumField[LeafRightArmRoll3ROrderEnumAttrOperator, LeafRightArmRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll3ROrderEnumAttrOperator,
+        LeafRightArmRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9084,7 +10337,9 @@ class LeafRightArmRoll3ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll3ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll3ROrderEnumAttrOperator"]):
+class LeafRightForeArmRoll3ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll3ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9095,7 +10350,9 @@ class LeafRightForeArmRoll3ROrderEnumPlugOperator(EnumPlugOperator["LeafRightFor
     ZYX = 5
 
 
-class LeafRightForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll3ROrderEnumPlugOperator]):
+class LeafRightForeArmRoll3ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll3ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9116,7 +10373,10 @@ class LeafRightForeArmRoll3ROrderEnumAttrOperator(EnumAttrOperator[LeafRightFore
 
 
 class LeafRightForeArmRoll3ROrderEnumField(
-    EnumField[LeafRightForeArmRoll3ROrderEnumAttrOperator, LeafRightForeArmRoll3ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll3ROrderEnumAttrOperator,
+        LeafRightForeArmRoll3ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9124,7 +10384,9 @@ class LeafRightForeArmRoll3ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll3ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll4ROrderEnumAttrOperator"]):
+class LeafLeftUpLegRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9135,7 +10397,9 @@ class LeafLeftUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRo
     ZYX = 5
 
 
-class LeafLeftUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll4ROrderEnumPlugOperator]):
+class LeafLeftUpLegRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9156,7 +10420,10 @@ class LeafLeftUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRol
 
 
 class LeafLeftUpLegRoll4ROrderEnumField(
-    EnumField[LeafLeftUpLegRoll4ROrderEnumAttrOperator, LeafLeftUpLegRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll4ROrderEnumAttrOperator,
+        LeafLeftUpLegRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9164,7 +10431,9 @@ class LeafLeftUpLegRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll4ROrderEnumAttrOperator"]):
+class LeafLeftLegRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9175,7 +10444,9 @@ class LeafLeftLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll4R
     ZYX = 5
 
 
-class LeafLeftLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll4ROrderEnumPlugOperator]):
+class LeafLeftLegRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9196,7 +10467,10 @@ class LeafLeftLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll4RO
 
 
 class LeafLeftLegRoll4ROrderEnumField(
-    EnumField[LeafLeftLegRoll4ROrderEnumAttrOperator, LeafLeftLegRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll4ROrderEnumAttrOperator,
+        LeafLeftLegRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9204,7 +10478,9 @@ class LeafLeftLegRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll4ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll4ROrderEnumAttrOperator"]):
+class LeafRightUpLegRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9215,7 +10491,9 @@ class LeafRightUpLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLeg
     ZYX = 5
 
 
-class LeafRightUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll4ROrderEnumPlugOperator]):
+class LeafRightUpLegRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9236,7 +10514,10 @@ class LeafRightUpLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegR
 
 
 class LeafRightUpLegRoll4ROrderEnumField(
-    EnumField[LeafRightUpLegRoll4ROrderEnumAttrOperator, LeafRightUpLegRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll4ROrderEnumAttrOperator,
+        LeafRightUpLegRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9244,7 +10525,9 @@ class LeafRightUpLegRoll4ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll4ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll4ROrderEnumAttrOperator"]):
+class LeafRightLegRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9255,7 +10538,9 @@ class LeafRightLegRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll
     ZYX = 5
 
 
-class LeafRightLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll4ROrderEnumPlugOperator]):
+class LeafRightLegRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9276,7 +10561,10 @@ class LeafRightLegRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll4
 
 
 class LeafRightLegRoll4ROrderEnumField(
-    EnumField[LeafRightLegRoll4ROrderEnumAttrOperator, LeafRightLegRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll4ROrderEnumAttrOperator,
+        LeafRightLegRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9284,7 +10572,9 @@ class LeafRightLegRoll4ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll4ROrderEnumAttrOperator"]):
+class LeafLeftArmRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9295,7 +10585,9 @@ class LeafLeftArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll4R
     ZYX = 5
 
 
-class LeafLeftArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll4ROrderEnumPlugOperator]):
+class LeafLeftArmRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9316,7 +10608,10 @@ class LeafLeftArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll4RO
 
 
 class LeafLeftArmRoll4ROrderEnumField(
-    EnumField[LeafLeftArmRoll4ROrderEnumAttrOperator, LeafLeftArmRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll4ROrderEnumAttrOperator,
+        LeafLeftArmRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9324,7 +10619,9 @@ class LeafLeftArmRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll4ROrderEnumAttrOperator"]):
+class LeafLeftForeArmRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9335,7 +10632,9 @@ class LeafLeftForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeA
     ZYX = 5
 
 
-class LeafLeftForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll4ROrderEnumPlugOperator]):
+class LeafLeftForeArmRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9356,7 +10655,10 @@ class LeafLeftForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeAr
 
 
 class LeafLeftForeArmRoll4ROrderEnumField(
-    EnumField[LeafLeftForeArmRoll4ROrderEnumAttrOperator, LeafLeftForeArmRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll4ROrderEnumAttrOperator,
+        LeafLeftForeArmRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9364,7 +10666,9 @@ class LeafLeftForeArmRoll4ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll4ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll4ROrderEnumAttrOperator"]):
+class LeafRightArmRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9375,7 +10679,9 @@ class LeafRightArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll
     ZYX = 5
 
 
-class LeafRightArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll4ROrderEnumPlugOperator]):
+class LeafRightArmRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9396,7 +10702,10 @@ class LeafRightArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll4
 
 
 class LeafRightArmRoll4ROrderEnumField(
-    EnumField[LeafRightArmRoll4ROrderEnumAttrOperator, LeafRightArmRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll4ROrderEnumAttrOperator,
+        LeafRightArmRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9404,7 +10713,9 @@ class LeafRightArmRoll4ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll4ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll4ROrderEnumAttrOperator"]):
+class LeafRightForeArmRoll4ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll4ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9415,7 +10726,9 @@ class LeafRightForeArmRoll4ROrderEnumPlugOperator(EnumPlugOperator["LeafRightFor
     ZYX = 5
 
 
-class LeafRightForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll4ROrderEnumPlugOperator]):
+class LeafRightForeArmRoll4ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll4ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9436,7 +10749,10 @@ class LeafRightForeArmRoll4ROrderEnumAttrOperator(EnumAttrOperator[LeafRightFore
 
 
 class LeafRightForeArmRoll4ROrderEnumField(
-    EnumField[LeafRightForeArmRoll4ROrderEnumAttrOperator, LeafRightForeArmRoll4ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll4ROrderEnumAttrOperator,
+        LeafRightForeArmRoll4ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9444,7 +10760,9 @@ class LeafRightForeArmRoll4ROrderEnumField(
     PLUG_CLS = LeafRightForeArmRoll4ROrderEnumPlugOperator
 
 
-class LeafLeftUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRoll5ROrderEnumAttrOperator"]):
+class LeafLeftUpLegRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftUpLegRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9455,7 +10773,9 @@ class LeafLeftUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftUpLegRo
     ZYX = 5
 
 
-class LeafLeftUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRoll5ROrderEnumPlugOperator]):
+class LeafLeftUpLegRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftUpLegRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9476,7 +10796,10 @@ class LeafLeftUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftUpLegRol
 
 
 class LeafLeftUpLegRoll5ROrderEnumField(
-    EnumField[LeafLeftUpLegRoll5ROrderEnumAttrOperator, LeafLeftUpLegRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftUpLegRoll5ROrderEnumAttrOperator,
+        LeafLeftUpLegRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9484,7 +10807,9 @@ class LeafLeftUpLegRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftUpLegRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll5ROrderEnumAttrOperator"]):
+class LeafLeftLegRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftLegRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9495,7 +10820,9 @@ class LeafLeftLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftLegRoll5R
     ZYX = 5
 
 
-class LeafLeftLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll5ROrderEnumPlugOperator]):
+class LeafLeftLegRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftLegRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9516,7 +10843,10 @@ class LeafLeftLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftLegRoll5RO
 
 
 class LeafLeftLegRoll5ROrderEnumField(
-    EnumField[LeafLeftLegRoll5ROrderEnumAttrOperator, LeafLeftLegRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftLegRoll5ROrderEnumAttrOperator,
+        LeafLeftLegRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9524,7 +10854,9 @@ class LeafLeftLegRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftLegRoll5ROrderEnumPlugOperator
 
 
-class LeafRightUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLegRoll5ROrderEnumAttrOperator"]):
+class LeafRightUpLegRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightUpLegRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9535,7 +10867,9 @@ class LeafRightUpLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightUpLeg
     ZYX = 5
 
 
-class LeafRightUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegRoll5ROrderEnumPlugOperator]):
+class LeafRightUpLegRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightUpLegRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9556,7 +10890,10 @@ class LeafRightUpLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightUpLegR
 
 
 class LeafRightUpLegRoll5ROrderEnumField(
-    EnumField[LeafRightUpLegRoll5ROrderEnumAttrOperator, LeafRightUpLegRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightUpLegRoll5ROrderEnumAttrOperator,
+        LeafRightUpLegRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9564,7 +10901,9 @@ class LeafRightUpLegRoll5ROrderEnumField(
     PLUG_CLS = LeafRightUpLegRoll5ROrderEnumPlugOperator
 
 
-class LeafRightLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll5ROrderEnumAttrOperator"]):
+class LeafRightLegRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightLegRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9575,7 +10914,9 @@ class LeafRightLegRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightLegRoll
     ZYX = 5
 
 
-class LeafRightLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll5ROrderEnumPlugOperator]):
+class LeafRightLegRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightLegRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9596,7 +10937,10 @@ class LeafRightLegRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightLegRoll5
 
 
 class LeafRightLegRoll5ROrderEnumField(
-    EnumField[LeafRightLegRoll5ROrderEnumAttrOperator, LeafRightLegRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightLegRoll5ROrderEnumAttrOperator,
+        LeafRightLegRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9604,7 +10948,9 @@ class LeafRightLegRoll5ROrderEnumField(
     PLUG_CLS = LeafRightLegRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll5ROrderEnumAttrOperator"]):
+class LeafLeftArmRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftArmRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9615,7 +10961,9 @@ class LeafLeftArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftArmRoll5R
     ZYX = 5
 
 
-class LeafLeftArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll5ROrderEnumPlugOperator]):
+class LeafLeftArmRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftArmRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9636,7 +10984,10 @@ class LeafLeftArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftArmRoll5RO
 
 
 class LeafLeftArmRoll5ROrderEnumField(
-    EnumField[LeafLeftArmRoll5ROrderEnumAttrOperator, LeafLeftArmRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftArmRoll5ROrderEnumAttrOperator,
+        LeafLeftArmRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9644,7 +10995,9 @@ class LeafLeftArmRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftArmRoll5ROrderEnumPlugOperator
 
 
-class LeafLeftForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeArmRoll5ROrderEnumAttrOperator"]):
+class LeafLeftForeArmRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafLeftForeArmRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9655,7 +11008,9 @@ class LeafLeftForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafLeftForeA
     ZYX = 5
 
 
-class LeafLeftForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeArmRoll5ROrderEnumPlugOperator]):
+class LeafLeftForeArmRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafLeftForeArmRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9676,7 +11031,10 @@ class LeafLeftForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafLeftForeAr
 
 
 class LeafLeftForeArmRoll5ROrderEnumField(
-    EnumField[LeafLeftForeArmRoll5ROrderEnumAttrOperator, LeafLeftForeArmRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafLeftForeArmRoll5ROrderEnumAttrOperator,
+        LeafLeftForeArmRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9684,7 +11042,9 @@ class LeafLeftForeArmRoll5ROrderEnumField(
     PLUG_CLS = LeafLeftForeArmRoll5ROrderEnumPlugOperator
 
 
-class LeafRightArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll5ROrderEnumAttrOperator"]):
+class LeafRightArmRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightArmRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9695,7 +11055,9 @@ class LeafRightArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightArmRoll
     ZYX = 5
 
 
-class LeafRightArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll5ROrderEnumPlugOperator]):
+class LeafRightArmRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightArmRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9716,7 +11078,10 @@ class LeafRightArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightArmRoll5
 
 
 class LeafRightArmRoll5ROrderEnumField(
-    EnumField[LeafRightArmRoll5ROrderEnumAttrOperator, LeafRightArmRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightArmRoll5ROrderEnumAttrOperator,
+        LeafRightArmRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -9724,7 +11089,9 @@ class LeafRightArmRoll5ROrderEnumField(
     PLUG_CLS = LeafRightArmRoll5ROrderEnumPlugOperator
 
 
-class LeafRightForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightForeArmRoll5ROrderEnumAttrOperator"]):
+class LeafRightForeArmRoll5ROrderEnumPlugOperator(
+    EnumPlugOperator["LeafRightForeArmRoll5ROrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9735,7 +11102,9 @@ class LeafRightForeArmRoll5ROrderEnumPlugOperator(EnumPlugOperator["LeafRightFor
     ZYX = 5
 
 
-class LeafRightForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightForeArmRoll5ROrderEnumPlugOperator]):
+class LeafRightForeArmRoll5ROrderEnumAttrOperator(
+    EnumAttrOperator[LeafRightForeArmRoll5ROrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -9756,7 +11125,10 @@ class LeafRightForeArmRoll5ROrderEnumAttrOperator(EnumAttrOperator[LeafRightFore
 
 
 class LeafRightForeArmRoll5ROrderEnumField(
-    EnumField[LeafRightForeArmRoll5ROrderEnumAttrOperator, LeafRightForeArmRoll5ROrderEnumPlugOperator]
+    EnumField[
+        LeafRightForeArmRoll5ROrderEnumAttrOperator,
+        LeafRightForeArmRoll5ROrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -10560,7 +11932,9 @@ class GeneratedHIKState2SK(DG):
     LeftFingerBasePreRy = LeftFingerBasePreR.LeftFingerBasePreRy
     LeftFingerBasePreRz = LeftFingerBasePreR.LeftFingerBasePreRz
 
-    LeftFingerBasePostR = LeftFingerBasePostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFingerBasePostR = LeftFingerBasePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFingerBasePostRx = LeftFingerBasePostR.LeftFingerBasePostRx
     LeftFingerBasePostRy = LeftFingerBasePostR.LeftFingerBasePostRy
     LeftFingerBasePostRz = LeftFingerBasePostR.LeftFingerBasePostRz
@@ -10591,12 +11965,16 @@ class GeneratedHIKState2SK(DG):
     RightFingerBaseISy = RightFingerBaseIS.RightFingerBaseISy
     RightFingerBaseISz = RightFingerBaseIS.RightFingerBaseISz
 
-    RightFingerBasePreR = RightFingerBasePreRField(default_value=(0.0, 0.0, 0.0))
+    RightFingerBasePreR = RightFingerBasePreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFingerBasePreRx = RightFingerBasePreR.RightFingerBasePreRx
     RightFingerBasePreRy = RightFingerBasePreR.RightFingerBasePreRy
     RightFingerBasePreRz = RightFingerBasePreR.RightFingerBasePreRz
 
-    RightFingerBasePostR = RightFingerBasePostRField(default_value=(0.0, 0.0, 0.0))
+    RightFingerBasePostR = RightFingerBasePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFingerBasePostRx = RightFingerBasePostR.RightFingerBasePostRx
     RightFingerBasePostRy = RightFingerBasePostR.RightFingerBasePostRy
     RightFingerBasePostRz = RightFingerBasePostR.RightFingerBasePostRz
@@ -11352,7 +12730,9 @@ class GeneratedHIKState2SK(DG):
     RightUpLegRollPreRy = RightUpLegRollPreR.RightUpLegRollPreRy
     RightUpLegRollPreRz = RightUpLegRollPreR.RightUpLegRollPreRz
 
-    RightUpLegRollPostR = RightUpLegRollPostRField(default_value=(0.0, 0.0, 0.0))
+    RightUpLegRollPostR = RightUpLegRollPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightUpLegRollPostRx = RightUpLegRollPostR.RightUpLegRollPostRx
     RightUpLegRollPostRy = RightUpLegRollPostR.RightUpLegRollPostRy
     RightUpLegRollPostRz = RightUpLegRollPostR.RightUpLegRollPostRz
@@ -11455,12 +12835,16 @@ class GeneratedHIKState2SK(DG):
     LeftForeArmRollISy = LeftForeArmRollIS.LeftForeArmRollISy
     LeftForeArmRollISz = LeftForeArmRollIS.LeftForeArmRollISz
 
-    LeftForeArmRollPreR = LeftForeArmRollPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmRollPreR = LeftForeArmRollPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmRollPreRx = LeftForeArmRollPreR.LeftForeArmRollPreRx
     LeftForeArmRollPreRy = LeftForeArmRollPreR.LeftForeArmRollPreRy
     LeftForeArmRollPreRz = LeftForeArmRollPreR.LeftForeArmRollPreRz
 
-    LeftForeArmRollPostR = LeftForeArmRollPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftForeArmRollPostR = LeftForeArmRollPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftForeArmRollPostRx = LeftForeArmRollPostR.LeftForeArmRollPostRx
     LeftForeArmRollPostRy = LeftForeArmRollPostR.LeftForeArmRollPostRy
     LeftForeArmRollPostRz = LeftForeArmRollPostR.LeftForeArmRollPostRz
@@ -11527,12 +12911,16 @@ class GeneratedHIKState2SK(DG):
     RightForeArmRollISy = RightForeArmRollIS.RightForeArmRollISy
     RightForeArmRollISz = RightForeArmRollIS.RightForeArmRollISz
 
-    RightForeArmRollPreR = RightForeArmRollPreRField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmRollPreR = RightForeArmRollPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmRollPreRx = RightForeArmRollPreR.RightForeArmRollPreRx
     RightForeArmRollPreRy = RightForeArmRollPreR.RightForeArmRollPreRy
     RightForeArmRollPreRz = RightForeArmRollPreR.RightForeArmRollPreRz
 
-    RightForeArmRollPostR = RightForeArmRollPostRField(default_value=(0.0, 0.0, 0.0))
+    RightForeArmRollPostR = RightForeArmRollPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightForeArmRollPostRx = RightForeArmRollPostR.RightForeArmRollPostRx
     RightForeArmRollPostRy = RightForeArmRollPostR.RightForeArmRollPostRy
     RightForeArmRollPostRz = RightForeArmRollPostR.RightForeArmRollPostRz
@@ -11563,12 +12951,16 @@ class GeneratedHIKState2SK(DG):
     HipsTranslationISy = HipsTranslationIS.HipsTranslationISy
     HipsTranslationISz = HipsTranslationIS.HipsTranslationISz
 
-    HipsTranslationPreR = HipsTranslationPreRField(default_value=(0.0, 0.0, 0.0))
+    HipsTranslationPreR = HipsTranslationPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     HipsTranslationPreRx = HipsTranslationPreR.HipsTranslationPreRx
     HipsTranslationPreRy = HipsTranslationPreR.HipsTranslationPreRy
     HipsTranslationPreRz = HipsTranslationPreR.HipsTranslationPreRz
 
-    HipsTranslationPostR = HipsTranslationPostRField(default_value=(0.0, 0.0, 0.0))
+    HipsTranslationPostR = HipsTranslationPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     HipsTranslationPostRx = HipsTranslationPostR.HipsTranslationPostRx
     HipsTranslationPostRy = HipsTranslationPostR.HipsTranslationPostRy
     HipsTranslationPostRz = HipsTranslationPostR.HipsTranslationPostRz
@@ -11604,7 +12996,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandThumb1PreRy = LeftHandThumb1PreR.LeftHandThumb1PreRy
     LeftHandThumb1PreRz = LeftHandThumb1PreR.LeftHandThumb1PreRz
 
-    LeftHandThumb1PostR = LeftHandThumb1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb1PostR = LeftHandThumb1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb1PostRx = LeftHandThumb1PostR.LeftHandThumb1PostRx
     LeftHandThumb1PostRy = LeftHandThumb1PostR.LeftHandThumb1PostRy
     LeftHandThumb1PostRz = LeftHandThumb1PostR.LeftHandThumb1PostRz
@@ -11640,7 +13034,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandThumb2PreRy = LeftHandThumb2PreR.LeftHandThumb2PreRy
     LeftHandThumb2PreRz = LeftHandThumb2PreR.LeftHandThumb2PreRz
 
-    LeftHandThumb2PostR = LeftHandThumb2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb2PostR = LeftHandThumb2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb2PostRx = LeftHandThumb2PostR.LeftHandThumb2PostRx
     LeftHandThumb2PostRy = LeftHandThumb2PostR.LeftHandThumb2PostRy
     LeftHandThumb2PostRz = LeftHandThumb2PostR.LeftHandThumb2PostRz
@@ -11676,7 +13072,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandThumb3PreRy = LeftHandThumb3PreR.LeftHandThumb3PreRy
     LeftHandThumb3PreRz = LeftHandThumb3PreR.LeftHandThumb3PreRz
 
-    LeftHandThumb3PostR = LeftHandThumb3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb3PostR = LeftHandThumb3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb3PostRx = LeftHandThumb3PostR.LeftHandThumb3PostRx
     LeftHandThumb3PostRy = LeftHandThumb3PostR.LeftHandThumb3PostRy
     LeftHandThumb3PostRz = LeftHandThumb3PostR.LeftHandThumb3PostRz
@@ -11712,7 +13110,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandThumb4PreRy = LeftHandThumb4PreR.LeftHandThumb4PreRy
     LeftHandThumb4PreRz = LeftHandThumb4PreR.LeftHandThumb4PreRz
 
-    LeftHandThumb4PostR = LeftHandThumb4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandThumb4PostR = LeftHandThumb4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandThumb4PostRx = LeftHandThumb4PostR.LeftHandThumb4PostRx
     LeftHandThumb4PostRy = LeftHandThumb4PostR.LeftHandThumb4PostRy
     LeftHandThumb4PostRz = LeftHandThumb4PostR.LeftHandThumb4PostRz
@@ -11748,7 +13148,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandIndex1PreRy = LeftHandIndex1PreR.LeftHandIndex1PreRy
     LeftHandIndex1PreRz = LeftHandIndex1PreR.LeftHandIndex1PreRz
 
-    LeftHandIndex1PostR = LeftHandIndex1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex1PostR = LeftHandIndex1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex1PostRx = LeftHandIndex1PostR.LeftHandIndex1PostRx
     LeftHandIndex1PostRy = LeftHandIndex1PostR.LeftHandIndex1PostRy
     LeftHandIndex1PostRz = LeftHandIndex1PostR.LeftHandIndex1PostRz
@@ -11784,7 +13186,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandIndex2PreRy = LeftHandIndex2PreR.LeftHandIndex2PreRy
     LeftHandIndex2PreRz = LeftHandIndex2PreR.LeftHandIndex2PreRz
 
-    LeftHandIndex2PostR = LeftHandIndex2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex2PostR = LeftHandIndex2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex2PostRx = LeftHandIndex2PostR.LeftHandIndex2PostRx
     LeftHandIndex2PostRy = LeftHandIndex2PostR.LeftHandIndex2PostRy
     LeftHandIndex2PostRz = LeftHandIndex2PostR.LeftHandIndex2PostRz
@@ -11820,7 +13224,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandIndex3PreRy = LeftHandIndex3PreR.LeftHandIndex3PreRy
     LeftHandIndex3PreRz = LeftHandIndex3PreR.LeftHandIndex3PreRz
 
-    LeftHandIndex3PostR = LeftHandIndex3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex3PostR = LeftHandIndex3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex3PostRx = LeftHandIndex3PostR.LeftHandIndex3PostRx
     LeftHandIndex3PostRy = LeftHandIndex3PostR.LeftHandIndex3PostRy
     LeftHandIndex3PostRz = LeftHandIndex3PostR.LeftHandIndex3PostRz
@@ -11856,7 +13262,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandIndex4PreRy = LeftHandIndex4PreR.LeftHandIndex4PreRy
     LeftHandIndex4PreRz = LeftHandIndex4PreR.LeftHandIndex4PreRz
 
-    LeftHandIndex4PostR = LeftHandIndex4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandIndex4PostR = LeftHandIndex4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandIndex4PostRx = LeftHandIndex4PostR.LeftHandIndex4PostRx
     LeftHandIndex4PostRy = LeftHandIndex4PostR.LeftHandIndex4PostRy
     LeftHandIndex4PostRz = LeftHandIndex4PostR.LeftHandIndex4PostRz
@@ -11887,12 +13295,16 @@ class GeneratedHIKState2SK(DG):
     LeftHandMiddle1ISy = LeftHandMiddle1IS.LeftHandMiddle1ISy
     LeftHandMiddle1ISz = LeftHandMiddle1IS.LeftHandMiddle1ISz
 
-    LeftHandMiddle1PreR = LeftHandMiddle1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle1PreR = LeftHandMiddle1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle1PreRx = LeftHandMiddle1PreR.LeftHandMiddle1PreRx
     LeftHandMiddle1PreRy = LeftHandMiddle1PreR.LeftHandMiddle1PreRy
     LeftHandMiddle1PreRz = LeftHandMiddle1PreR.LeftHandMiddle1PreRz
 
-    LeftHandMiddle1PostR = LeftHandMiddle1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle1PostR = LeftHandMiddle1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle1PostRx = LeftHandMiddle1PostR.LeftHandMiddle1PostRx
     LeftHandMiddle1PostRy = LeftHandMiddle1PostR.LeftHandMiddle1PostRy
     LeftHandMiddle1PostRz = LeftHandMiddle1PostR.LeftHandMiddle1PostRz
@@ -11923,12 +13335,16 @@ class GeneratedHIKState2SK(DG):
     LeftHandMiddle2ISy = LeftHandMiddle2IS.LeftHandMiddle2ISy
     LeftHandMiddle2ISz = LeftHandMiddle2IS.LeftHandMiddle2ISz
 
-    LeftHandMiddle2PreR = LeftHandMiddle2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle2PreR = LeftHandMiddle2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle2PreRx = LeftHandMiddle2PreR.LeftHandMiddle2PreRx
     LeftHandMiddle2PreRy = LeftHandMiddle2PreR.LeftHandMiddle2PreRy
     LeftHandMiddle2PreRz = LeftHandMiddle2PreR.LeftHandMiddle2PreRz
 
-    LeftHandMiddle2PostR = LeftHandMiddle2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle2PostR = LeftHandMiddle2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle2PostRx = LeftHandMiddle2PostR.LeftHandMiddle2PostRx
     LeftHandMiddle2PostRy = LeftHandMiddle2PostR.LeftHandMiddle2PostRy
     LeftHandMiddle2PostRz = LeftHandMiddle2PostR.LeftHandMiddle2PostRz
@@ -11959,12 +13375,16 @@ class GeneratedHIKState2SK(DG):
     LeftHandMiddle3ISy = LeftHandMiddle3IS.LeftHandMiddle3ISy
     LeftHandMiddle3ISz = LeftHandMiddle3IS.LeftHandMiddle3ISz
 
-    LeftHandMiddle3PreR = LeftHandMiddle3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle3PreR = LeftHandMiddle3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle3PreRx = LeftHandMiddle3PreR.LeftHandMiddle3PreRx
     LeftHandMiddle3PreRy = LeftHandMiddle3PreR.LeftHandMiddle3PreRy
     LeftHandMiddle3PreRz = LeftHandMiddle3PreR.LeftHandMiddle3PreRz
 
-    LeftHandMiddle3PostR = LeftHandMiddle3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle3PostR = LeftHandMiddle3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle3PostRx = LeftHandMiddle3PostR.LeftHandMiddle3PostRx
     LeftHandMiddle3PostRy = LeftHandMiddle3PostR.LeftHandMiddle3PostRy
     LeftHandMiddle3PostRz = LeftHandMiddle3PostR.LeftHandMiddle3PostRz
@@ -11995,12 +13415,16 @@ class GeneratedHIKState2SK(DG):
     LeftHandMiddle4ISy = LeftHandMiddle4IS.LeftHandMiddle4ISy
     LeftHandMiddle4ISz = LeftHandMiddle4IS.LeftHandMiddle4ISz
 
-    LeftHandMiddle4PreR = LeftHandMiddle4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle4PreR = LeftHandMiddle4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle4PreRx = LeftHandMiddle4PreR.LeftHandMiddle4PreRx
     LeftHandMiddle4PreRy = LeftHandMiddle4PreR.LeftHandMiddle4PreRy
     LeftHandMiddle4PreRz = LeftHandMiddle4PreR.LeftHandMiddle4PreRz
 
-    LeftHandMiddle4PostR = LeftHandMiddle4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandMiddle4PostR = LeftHandMiddle4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandMiddle4PostRx = LeftHandMiddle4PostR.LeftHandMiddle4PostRx
     LeftHandMiddle4PostRy = LeftHandMiddle4PostR.LeftHandMiddle4PostRy
     LeftHandMiddle4PostRz = LeftHandMiddle4PostR.LeftHandMiddle4PostRz
@@ -12180,7 +13604,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandPinky1PreRy = LeftHandPinky1PreR.LeftHandPinky1PreRy
     LeftHandPinky1PreRz = LeftHandPinky1PreR.LeftHandPinky1PreRz
 
-    LeftHandPinky1PostR = LeftHandPinky1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky1PostR = LeftHandPinky1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky1PostRx = LeftHandPinky1PostR.LeftHandPinky1PostRx
     LeftHandPinky1PostRy = LeftHandPinky1PostR.LeftHandPinky1PostRy
     LeftHandPinky1PostRz = LeftHandPinky1PostR.LeftHandPinky1PostRz
@@ -12216,7 +13642,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandPinky2PreRy = LeftHandPinky2PreR.LeftHandPinky2PreRy
     LeftHandPinky2PreRz = LeftHandPinky2PreR.LeftHandPinky2PreRz
 
-    LeftHandPinky2PostR = LeftHandPinky2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky2PostR = LeftHandPinky2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky2PostRx = LeftHandPinky2PostR.LeftHandPinky2PostRx
     LeftHandPinky2PostRy = LeftHandPinky2PostR.LeftHandPinky2PostRy
     LeftHandPinky2PostRz = LeftHandPinky2PostR.LeftHandPinky2PostRz
@@ -12252,7 +13680,9 @@ class GeneratedHIKState2SK(DG):
     LeftHandPinky3PreRy = LeftHandPinky3PreR.LeftHandPinky3PreRy
     LeftHandPinky3PreRz = LeftHandPinky3PreR.LeftHandPinky3PreRz
 
-    LeftHandPinky3PostR = LeftHandPinky3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky3PostR = LeftHandPinky3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky3PostRx = LeftHandPinky3PostR.LeftHandPinky3PostRx
     LeftHandPinky3PostRy = LeftHandPinky3PostR.LeftHandPinky3PostRy
     LeftHandPinky3PostRz = LeftHandPinky3PostR.LeftHandPinky3PostRz
@@ -12288,154 +13718,260 @@ class GeneratedHIKState2SK(DG):
     LeftHandPinky4PreRy = LeftHandPinky4PreR.LeftHandPinky4PreRy
     LeftHandPinky4PreRz = LeftHandPinky4PreR.LeftHandPinky4PreRz
 
-    LeftHandPinky4PostR = LeftHandPinky4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftHandPinky4PostR = LeftHandPinky4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandPinky4PostRx = LeftHandPinky4PostR.LeftHandPinky4PostRx
     LeftHandPinky4PostRy = LeftHandPinky4PostR.LeftHandPinky4PostRy
     LeftHandPinky4PostRz = LeftHandPinky4PostR.LeftHandPinky4PostRz
 
-    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1T = LeftHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Tx = LeftHandExtraFinger1T.LeftHandExtraFinger1Tx
     LeftHandExtraFinger1Ty = LeftHandExtraFinger1T.LeftHandExtraFinger1Ty
     LeftHandExtraFinger1Tz = LeftHandExtraFinger1T.LeftHandExtraFinger1Tz
 
-    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger1R = LeftHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger1Rx = LeftHandExtraFinger1R.LeftHandExtraFinger1Rx
     LeftHandExtraFinger1Ry = LeftHandExtraFinger1R.LeftHandExtraFinger1Ry
     LeftHandExtraFinger1Rz = LeftHandExtraFinger1R.LeftHandExtraFinger1Rz
 
-    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger1S = LeftHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger1Sx = LeftHandExtraFinger1S.LeftHandExtraFinger1Sx
     LeftHandExtraFinger1Sy = LeftHandExtraFinger1S.LeftHandExtraFinger1Sy
     LeftHandExtraFinger1Sz = LeftHandExtraFinger1S.LeftHandExtraFinger1Sz
 
     LeftHandExtraFinger1PGX = MatrixField()
 
-    LeftHandExtraFinger1ROrder = LeftHandExtraFinger1ROrderEnumField(default_value=0)
+    LeftHandExtraFinger1ROrder = LeftHandExtraFinger1ROrderEnumField(
+        default_value=0
+    )
 
     LeftHandExtraFinger1SC = BoolField(default_value=False)
 
-    LeftHandExtraFinger1IS = LeftHandExtraFinger1ISField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger1IS = LeftHandExtraFinger1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger1ISx = LeftHandExtraFinger1IS.LeftHandExtraFinger1ISx
     LeftHandExtraFinger1ISy = LeftHandExtraFinger1IS.LeftHandExtraFinger1ISy
     LeftHandExtraFinger1ISz = LeftHandExtraFinger1IS.LeftHandExtraFinger1ISz
 
-    LeftHandExtraFinger1PreR = LeftHandExtraFinger1PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1PreRx = LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRx
-    LeftHandExtraFinger1PreRy = LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRy
-    LeftHandExtraFinger1PreRz = LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRz
+    LeftHandExtraFinger1PreR = LeftHandExtraFinger1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1PreRx = (
+        LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRx
+    )
+    LeftHandExtraFinger1PreRy = (
+        LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRy
+    )
+    LeftHandExtraFinger1PreRz = (
+        LeftHandExtraFinger1PreR.LeftHandExtraFinger1PreRz
+    )
 
-    LeftHandExtraFinger1PostR = LeftHandExtraFinger1PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger1PostRx = LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRx
-    LeftHandExtraFinger1PostRy = LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRy
-    LeftHandExtraFinger1PostRz = LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRz
+    LeftHandExtraFinger1PostR = LeftHandExtraFinger1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger1PostRx = (
+        LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRx
+    )
+    LeftHandExtraFinger1PostRy = (
+        LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRy
+    )
+    LeftHandExtraFinger1PostRz = (
+        LeftHandExtraFinger1PostR.LeftHandExtraFinger1PostRz
+    )
 
-    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2T = LeftHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Tx = LeftHandExtraFinger2T.LeftHandExtraFinger2Tx
     LeftHandExtraFinger2Ty = LeftHandExtraFinger2T.LeftHandExtraFinger2Ty
     LeftHandExtraFinger2Tz = LeftHandExtraFinger2T.LeftHandExtraFinger2Tz
 
-    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger2R = LeftHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger2Rx = LeftHandExtraFinger2R.LeftHandExtraFinger2Rx
     LeftHandExtraFinger2Ry = LeftHandExtraFinger2R.LeftHandExtraFinger2Ry
     LeftHandExtraFinger2Rz = LeftHandExtraFinger2R.LeftHandExtraFinger2Rz
 
-    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger2S = LeftHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger2Sx = LeftHandExtraFinger2S.LeftHandExtraFinger2Sx
     LeftHandExtraFinger2Sy = LeftHandExtraFinger2S.LeftHandExtraFinger2Sy
     LeftHandExtraFinger2Sz = LeftHandExtraFinger2S.LeftHandExtraFinger2Sz
 
     LeftHandExtraFinger2PGX = MatrixField()
 
-    LeftHandExtraFinger2ROrder = LeftHandExtraFinger2ROrderEnumField(default_value=0)
+    LeftHandExtraFinger2ROrder = LeftHandExtraFinger2ROrderEnumField(
+        default_value=0
+    )
 
     LeftHandExtraFinger2SC = BoolField(default_value=False)
 
-    LeftHandExtraFinger2IS = LeftHandExtraFinger2ISField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger2IS = LeftHandExtraFinger2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger2ISx = LeftHandExtraFinger2IS.LeftHandExtraFinger2ISx
     LeftHandExtraFinger2ISy = LeftHandExtraFinger2IS.LeftHandExtraFinger2ISy
     LeftHandExtraFinger2ISz = LeftHandExtraFinger2IS.LeftHandExtraFinger2ISz
 
-    LeftHandExtraFinger2PreR = LeftHandExtraFinger2PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2PreRx = LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRx
-    LeftHandExtraFinger2PreRy = LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRy
-    LeftHandExtraFinger2PreRz = LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRz
+    LeftHandExtraFinger2PreR = LeftHandExtraFinger2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2PreRx = (
+        LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRx
+    )
+    LeftHandExtraFinger2PreRy = (
+        LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRy
+    )
+    LeftHandExtraFinger2PreRz = (
+        LeftHandExtraFinger2PreR.LeftHandExtraFinger2PreRz
+    )
 
-    LeftHandExtraFinger2PostR = LeftHandExtraFinger2PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger2PostRx = LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRx
-    LeftHandExtraFinger2PostRy = LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRy
-    LeftHandExtraFinger2PostRz = LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRz
+    LeftHandExtraFinger2PostR = LeftHandExtraFinger2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger2PostRx = (
+        LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRx
+    )
+    LeftHandExtraFinger2PostRy = (
+        LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRy
+    )
+    LeftHandExtraFinger2PostRz = (
+        LeftHandExtraFinger2PostR.LeftHandExtraFinger2PostRz
+    )
 
-    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3T = LeftHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Tx = LeftHandExtraFinger3T.LeftHandExtraFinger3Tx
     LeftHandExtraFinger3Ty = LeftHandExtraFinger3T.LeftHandExtraFinger3Ty
     LeftHandExtraFinger3Tz = LeftHandExtraFinger3T.LeftHandExtraFinger3Tz
 
-    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger3R = LeftHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger3Rx = LeftHandExtraFinger3R.LeftHandExtraFinger3Rx
     LeftHandExtraFinger3Ry = LeftHandExtraFinger3R.LeftHandExtraFinger3Ry
     LeftHandExtraFinger3Rz = LeftHandExtraFinger3R.LeftHandExtraFinger3Rz
 
-    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger3S = LeftHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger3Sx = LeftHandExtraFinger3S.LeftHandExtraFinger3Sx
     LeftHandExtraFinger3Sy = LeftHandExtraFinger3S.LeftHandExtraFinger3Sy
     LeftHandExtraFinger3Sz = LeftHandExtraFinger3S.LeftHandExtraFinger3Sz
 
     LeftHandExtraFinger3PGX = MatrixField()
 
-    LeftHandExtraFinger3ROrder = LeftHandExtraFinger3ROrderEnumField(default_value=0)
+    LeftHandExtraFinger3ROrder = LeftHandExtraFinger3ROrderEnumField(
+        default_value=0
+    )
 
     LeftHandExtraFinger3SC = BoolField(default_value=False)
 
-    LeftHandExtraFinger3IS = LeftHandExtraFinger3ISField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger3IS = LeftHandExtraFinger3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger3ISx = LeftHandExtraFinger3IS.LeftHandExtraFinger3ISx
     LeftHandExtraFinger3ISy = LeftHandExtraFinger3IS.LeftHandExtraFinger3ISy
     LeftHandExtraFinger3ISz = LeftHandExtraFinger3IS.LeftHandExtraFinger3ISz
 
-    LeftHandExtraFinger3PreR = LeftHandExtraFinger3PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3PreRx = LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRx
-    LeftHandExtraFinger3PreRy = LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRy
-    LeftHandExtraFinger3PreRz = LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRz
+    LeftHandExtraFinger3PreR = LeftHandExtraFinger3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3PreRx = (
+        LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRx
+    )
+    LeftHandExtraFinger3PreRy = (
+        LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRy
+    )
+    LeftHandExtraFinger3PreRz = (
+        LeftHandExtraFinger3PreR.LeftHandExtraFinger3PreRz
+    )
 
-    LeftHandExtraFinger3PostR = LeftHandExtraFinger3PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger3PostRx = LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRx
-    LeftHandExtraFinger3PostRy = LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRy
-    LeftHandExtraFinger3PostRz = LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRz
+    LeftHandExtraFinger3PostR = LeftHandExtraFinger3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger3PostRx = (
+        LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRx
+    )
+    LeftHandExtraFinger3PostRy = (
+        LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRy
+    )
+    LeftHandExtraFinger3PostRz = (
+        LeftHandExtraFinger3PostR.LeftHandExtraFinger3PostRz
+    )
 
-    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4T = LeftHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Tx = LeftHandExtraFinger4T.LeftHandExtraFinger4Tx
     LeftHandExtraFinger4Ty = LeftHandExtraFinger4T.LeftHandExtraFinger4Ty
     LeftHandExtraFinger4Tz = LeftHandExtraFinger4T.LeftHandExtraFinger4Tz
 
-    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftHandExtraFinger4R = LeftHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftHandExtraFinger4Rx = LeftHandExtraFinger4R.LeftHandExtraFinger4Rx
     LeftHandExtraFinger4Ry = LeftHandExtraFinger4R.LeftHandExtraFinger4Ry
     LeftHandExtraFinger4Rz = LeftHandExtraFinger4R.LeftHandExtraFinger4Rz
 
-    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger4S = LeftHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger4Sx = LeftHandExtraFinger4S.LeftHandExtraFinger4Sx
     LeftHandExtraFinger4Sy = LeftHandExtraFinger4S.LeftHandExtraFinger4Sy
     LeftHandExtraFinger4Sz = LeftHandExtraFinger4S.LeftHandExtraFinger4Sz
 
     LeftHandExtraFinger4PGX = MatrixField()
 
-    LeftHandExtraFinger4ROrder = LeftHandExtraFinger4ROrderEnumField(default_value=0)
+    LeftHandExtraFinger4ROrder = LeftHandExtraFinger4ROrderEnumField(
+        default_value=0
+    )
 
     LeftHandExtraFinger4SC = BoolField(default_value=False)
 
-    LeftHandExtraFinger4IS = LeftHandExtraFinger4ISField(default_value=(1.0, 1.0, 1.0))
+    LeftHandExtraFinger4IS = LeftHandExtraFinger4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftHandExtraFinger4ISx = LeftHandExtraFinger4IS.LeftHandExtraFinger4ISx
     LeftHandExtraFinger4ISy = LeftHandExtraFinger4IS.LeftHandExtraFinger4ISy
     LeftHandExtraFinger4ISz = LeftHandExtraFinger4IS.LeftHandExtraFinger4ISz
 
-    LeftHandExtraFinger4PreR = LeftHandExtraFinger4PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4PreRx = LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRx
-    LeftHandExtraFinger4PreRy = LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRy
-    LeftHandExtraFinger4PreRz = LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRz
+    LeftHandExtraFinger4PreR = LeftHandExtraFinger4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4PreRx = (
+        LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRx
+    )
+    LeftHandExtraFinger4PreRy = (
+        LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRy
+    )
+    LeftHandExtraFinger4PreRz = (
+        LeftHandExtraFinger4PreR.LeftHandExtraFinger4PreRz
+    )
 
-    LeftHandExtraFinger4PostR = LeftHandExtraFinger4PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftHandExtraFinger4PostRx = LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRx
-    LeftHandExtraFinger4PostRy = LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRy
-    LeftHandExtraFinger4PostRz = LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRz
+    LeftHandExtraFinger4PostR = LeftHandExtraFinger4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftHandExtraFinger4PostRx = (
+        LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRx
+    )
+    LeftHandExtraFinger4PostRy = (
+        LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRy
+    )
+    LeftHandExtraFinger4PostRz = (
+        LeftHandExtraFinger4PostR.LeftHandExtraFinger4PostRz
+    )
 
     RightHandThumb1T = RightHandThumb1TField(default_value=(0.0, 0.0, 0.0))
     RightHandThumb1Tx = RightHandThumb1T.RightHandThumb1Tx
@@ -12463,12 +13999,16 @@ class GeneratedHIKState2SK(DG):
     RightHandThumb1ISy = RightHandThumb1IS.RightHandThumb1ISy
     RightHandThumb1ISz = RightHandThumb1IS.RightHandThumb1ISz
 
-    RightHandThumb1PreR = RightHandThumb1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb1PreR = RightHandThumb1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb1PreRx = RightHandThumb1PreR.RightHandThumb1PreRx
     RightHandThumb1PreRy = RightHandThumb1PreR.RightHandThumb1PreRy
     RightHandThumb1PreRz = RightHandThumb1PreR.RightHandThumb1PreRz
 
-    RightHandThumb1PostR = RightHandThumb1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb1PostR = RightHandThumb1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb1PostRx = RightHandThumb1PostR.RightHandThumb1PostRx
     RightHandThumb1PostRy = RightHandThumb1PostR.RightHandThumb1PostRy
     RightHandThumb1PostRz = RightHandThumb1PostR.RightHandThumb1PostRz
@@ -12499,12 +14039,16 @@ class GeneratedHIKState2SK(DG):
     RightHandThumb2ISy = RightHandThumb2IS.RightHandThumb2ISy
     RightHandThumb2ISz = RightHandThumb2IS.RightHandThumb2ISz
 
-    RightHandThumb2PreR = RightHandThumb2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb2PreR = RightHandThumb2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb2PreRx = RightHandThumb2PreR.RightHandThumb2PreRx
     RightHandThumb2PreRy = RightHandThumb2PreR.RightHandThumb2PreRy
     RightHandThumb2PreRz = RightHandThumb2PreR.RightHandThumb2PreRz
 
-    RightHandThumb2PostR = RightHandThumb2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb2PostR = RightHandThumb2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb2PostRx = RightHandThumb2PostR.RightHandThumb2PostRx
     RightHandThumb2PostRy = RightHandThumb2PostR.RightHandThumb2PostRy
     RightHandThumb2PostRz = RightHandThumb2PostR.RightHandThumb2PostRz
@@ -12535,12 +14079,16 @@ class GeneratedHIKState2SK(DG):
     RightHandThumb3ISy = RightHandThumb3IS.RightHandThumb3ISy
     RightHandThumb3ISz = RightHandThumb3IS.RightHandThumb3ISz
 
-    RightHandThumb3PreR = RightHandThumb3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb3PreR = RightHandThumb3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb3PreRx = RightHandThumb3PreR.RightHandThumb3PreRx
     RightHandThumb3PreRy = RightHandThumb3PreR.RightHandThumb3PreRy
     RightHandThumb3PreRz = RightHandThumb3PreR.RightHandThumb3PreRz
 
-    RightHandThumb3PostR = RightHandThumb3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb3PostR = RightHandThumb3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb3PostRx = RightHandThumb3PostR.RightHandThumb3PostRx
     RightHandThumb3PostRy = RightHandThumb3PostR.RightHandThumb3PostRy
     RightHandThumb3PostRz = RightHandThumb3PostR.RightHandThumb3PostRz
@@ -12571,12 +14119,16 @@ class GeneratedHIKState2SK(DG):
     RightHandThumb4ISy = RightHandThumb4IS.RightHandThumb4ISy
     RightHandThumb4ISz = RightHandThumb4IS.RightHandThumb4ISz
 
-    RightHandThumb4PreR = RightHandThumb4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb4PreR = RightHandThumb4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb4PreRx = RightHandThumb4PreR.RightHandThumb4PreRx
     RightHandThumb4PreRy = RightHandThumb4PreR.RightHandThumb4PreRy
     RightHandThumb4PreRz = RightHandThumb4PreR.RightHandThumb4PreRz
 
-    RightHandThumb4PostR = RightHandThumb4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandThumb4PostR = RightHandThumb4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandThumb4PostRx = RightHandThumb4PostR.RightHandThumb4PostRx
     RightHandThumb4PostRy = RightHandThumb4PostR.RightHandThumb4PostRy
     RightHandThumb4PostRz = RightHandThumb4PostR.RightHandThumb4PostRz
@@ -12607,12 +14159,16 @@ class GeneratedHIKState2SK(DG):
     RightHandIndex1ISy = RightHandIndex1IS.RightHandIndex1ISy
     RightHandIndex1ISz = RightHandIndex1IS.RightHandIndex1ISz
 
-    RightHandIndex1PreR = RightHandIndex1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex1PreR = RightHandIndex1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex1PreRx = RightHandIndex1PreR.RightHandIndex1PreRx
     RightHandIndex1PreRy = RightHandIndex1PreR.RightHandIndex1PreRy
     RightHandIndex1PreRz = RightHandIndex1PreR.RightHandIndex1PreRz
 
-    RightHandIndex1PostR = RightHandIndex1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex1PostR = RightHandIndex1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex1PostRx = RightHandIndex1PostR.RightHandIndex1PostRx
     RightHandIndex1PostRy = RightHandIndex1PostR.RightHandIndex1PostRy
     RightHandIndex1PostRz = RightHandIndex1PostR.RightHandIndex1PostRz
@@ -12643,12 +14199,16 @@ class GeneratedHIKState2SK(DG):
     RightHandIndex2ISy = RightHandIndex2IS.RightHandIndex2ISy
     RightHandIndex2ISz = RightHandIndex2IS.RightHandIndex2ISz
 
-    RightHandIndex2PreR = RightHandIndex2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex2PreR = RightHandIndex2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex2PreRx = RightHandIndex2PreR.RightHandIndex2PreRx
     RightHandIndex2PreRy = RightHandIndex2PreR.RightHandIndex2PreRy
     RightHandIndex2PreRz = RightHandIndex2PreR.RightHandIndex2PreRz
 
-    RightHandIndex2PostR = RightHandIndex2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex2PostR = RightHandIndex2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex2PostRx = RightHandIndex2PostR.RightHandIndex2PostRx
     RightHandIndex2PostRy = RightHandIndex2PostR.RightHandIndex2PostRy
     RightHandIndex2PostRz = RightHandIndex2PostR.RightHandIndex2PostRz
@@ -12679,12 +14239,16 @@ class GeneratedHIKState2SK(DG):
     RightHandIndex3ISy = RightHandIndex3IS.RightHandIndex3ISy
     RightHandIndex3ISz = RightHandIndex3IS.RightHandIndex3ISz
 
-    RightHandIndex3PreR = RightHandIndex3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex3PreR = RightHandIndex3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex3PreRx = RightHandIndex3PreR.RightHandIndex3PreRx
     RightHandIndex3PreRy = RightHandIndex3PreR.RightHandIndex3PreRy
     RightHandIndex3PreRz = RightHandIndex3PreR.RightHandIndex3PreRz
 
-    RightHandIndex3PostR = RightHandIndex3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex3PostR = RightHandIndex3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex3PostRx = RightHandIndex3PostR.RightHandIndex3PostRx
     RightHandIndex3PostRy = RightHandIndex3PostR.RightHandIndex3PostRy
     RightHandIndex3PostRz = RightHandIndex3PostR.RightHandIndex3PostRz
@@ -12715,12 +14279,16 @@ class GeneratedHIKState2SK(DG):
     RightHandIndex4ISy = RightHandIndex4IS.RightHandIndex4ISy
     RightHandIndex4ISz = RightHandIndex4IS.RightHandIndex4ISz
 
-    RightHandIndex4PreR = RightHandIndex4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex4PreR = RightHandIndex4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex4PreRx = RightHandIndex4PreR.RightHandIndex4PreRx
     RightHandIndex4PreRy = RightHandIndex4PreR.RightHandIndex4PreRy
     RightHandIndex4PreRz = RightHandIndex4PreR.RightHandIndex4PreRz
 
-    RightHandIndex4PostR = RightHandIndex4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandIndex4PostR = RightHandIndex4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandIndex4PostRx = RightHandIndex4PostR.RightHandIndex4PostRx
     RightHandIndex4PostRy = RightHandIndex4PostR.RightHandIndex4PostRy
     RightHandIndex4PostRz = RightHandIndex4PostR.RightHandIndex4PostRz
@@ -12751,12 +14319,16 @@ class GeneratedHIKState2SK(DG):
     RightHandMiddle1ISy = RightHandMiddle1IS.RightHandMiddle1ISy
     RightHandMiddle1ISz = RightHandMiddle1IS.RightHandMiddle1ISz
 
-    RightHandMiddle1PreR = RightHandMiddle1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle1PreR = RightHandMiddle1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle1PreRx = RightHandMiddle1PreR.RightHandMiddle1PreRx
     RightHandMiddle1PreRy = RightHandMiddle1PreR.RightHandMiddle1PreRy
     RightHandMiddle1PreRz = RightHandMiddle1PreR.RightHandMiddle1PreRz
 
-    RightHandMiddle1PostR = RightHandMiddle1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle1PostR = RightHandMiddle1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle1PostRx = RightHandMiddle1PostR.RightHandMiddle1PostRx
     RightHandMiddle1PostRy = RightHandMiddle1PostR.RightHandMiddle1PostRy
     RightHandMiddle1PostRz = RightHandMiddle1PostR.RightHandMiddle1PostRz
@@ -12787,12 +14359,16 @@ class GeneratedHIKState2SK(DG):
     RightHandMiddle2ISy = RightHandMiddle2IS.RightHandMiddle2ISy
     RightHandMiddle2ISz = RightHandMiddle2IS.RightHandMiddle2ISz
 
-    RightHandMiddle2PreR = RightHandMiddle2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle2PreR = RightHandMiddle2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle2PreRx = RightHandMiddle2PreR.RightHandMiddle2PreRx
     RightHandMiddle2PreRy = RightHandMiddle2PreR.RightHandMiddle2PreRy
     RightHandMiddle2PreRz = RightHandMiddle2PreR.RightHandMiddle2PreRz
 
-    RightHandMiddle2PostR = RightHandMiddle2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle2PostR = RightHandMiddle2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle2PostRx = RightHandMiddle2PostR.RightHandMiddle2PostRx
     RightHandMiddle2PostRy = RightHandMiddle2PostR.RightHandMiddle2PostRy
     RightHandMiddle2PostRz = RightHandMiddle2PostR.RightHandMiddle2PostRz
@@ -12823,12 +14399,16 @@ class GeneratedHIKState2SK(DG):
     RightHandMiddle3ISy = RightHandMiddle3IS.RightHandMiddle3ISy
     RightHandMiddle3ISz = RightHandMiddle3IS.RightHandMiddle3ISz
 
-    RightHandMiddle3PreR = RightHandMiddle3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle3PreR = RightHandMiddle3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle3PreRx = RightHandMiddle3PreR.RightHandMiddle3PreRx
     RightHandMiddle3PreRy = RightHandMiddle3PreR.RightHandMiddle3PreRy
     RightHandMiddle3PreRz = RightHandMiddle3PreR.RightHandMiddle3PreRz
 
-    RightHandMiddle3PostR = RightHandMiddle3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle3PostR = RightHandMiddle3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle3PostRx = RightHandMiddle3PostR.RightHandMiddle3PostRx
     RightHandMiddle3PostRy = RightHandMiddle3PostR.RightHandMiddle3PostRy
     RightHandMiddle3PostRz = RightHandMiddle3PostR.RightHandMiddle3PostRz
@@ -12859,12 +14439,16 @@ class GeneratedHIKState2SK(DG):
     RightHandMiddle4ISy = RightHandMiddle4IS.RightHandMiddle4ISy
     RightHandMiddle4ISz = RightHandMiddle4IS.RightHandMiddle4ISz
 
-    RightHandMiddle4PreR = RightHandMiddle4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle4PreR = RightHandMiddle4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle4PreRx = RightHandMiddle4PreR.RightHandMiddle4PreRx
     RightHandMiddle4PreRy = RightHandMiddle4PreR.RightHandMiddle4PreRy
     RightHandMiddle4PreRz = RightHandMiddle4PreR.RightHandMiddle4PreRz
 
-    RightHandMiddle4PostR = RightHandMiddle4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandMiddle4PostR = RightHandMiddle4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandMiddle4PostRx = RightHandMiddle4PostR.RightHandMiddle4PostRx
     RightHandMiddle4PostRy = RightHandMiddle4PostR.RightHandMiddle4PostRy
     RightHandMiddle4PostRz = RightHandMiddle4PostR.RightHandMiddle4PostRz
@@ -12900,7 +14484,9 @@ class GeneratedHIKState2SK(DG):
     RightHandRing1PreRy = RightHandRing1PreR.RightHandRing1PreRy
     RightHandRing1PreRz = RightHandRing1PreR.RightHandRing1PreRz
 
-    RightHandRing1PostR = RightHandRing1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing1PostR = RightHandRing1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing1PostRx = RightHandRing1PostR.RightHandRing1PostRx
     RightHandRing1PostRy = RightHandRing1PostR.RightHandRing1PostRy
     RightHandRing1PostRz = RightHandRing1PostR.RightHandRing1PostRz
@@ -12936,7 +14522,9 @@ class GeneratedHIKState2SK(DG):
     RightHandRing2PreRy = RightHandRing2PreR.RightHandRing2PreRy
     RightHandRing2PreRz = RightHandRing2PreR.RightHandRing2PreRz
 
-    RightHandRing2PostR = RightHandRing2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing2PostR = RightHandRing2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing2PostRx = RightHandRing2PostR.RightHandRing2PostRx
     RightHandRing2PostRy = RightHandRing2PostR.RightHandRing2PostRy
     RightHandRing2PostRz = RightHandRing2PostR.RightHandRing2PostRz
@@ -12972,7 +14560,9 @@ class GeneratedHIKState2SK(DG):
     RightHandRing3PreRy = RightHandRing3PreR.RightHandRing3PreRy
     RightHandRing3PreRz = RightHandRing3PreR.RightHandRing3PreRz
 
-    RightHandRing3PostR = RightHandRing3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing3PostR = RightHandRing3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing3PostRx = RightHandRing3PostR.RightHandRing3PostRx
     RightHandRing3PostRy = RightHandRing3PostR.RightHandRing3PostRy
     RightHandRing3PostRz = RightHandRing3PostR.RightHandRing3PostRz
@@ -13008,7 +14598,9 @@ class GeneratedHIKState2SK(DG):
     RightHandRing4PreRy = RightHandRing4PreR.RightHandRing4PreRy
     RightHandRing4PreRz = RightHandRing4PreR.RightHandRing4PreRz
 
-    RightHandRing4PostR = RightHandRing4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandRing4PostR = RightHandRing4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandRing4PostRx = RightHandRing4PostR.RightHandRing4PostRx
     RightHandRing4PostRy = RightHandRing4PostR.RightHandRing4PostRy
     RightHandRing4PostRz = RightHandRing4PostR.RightHandRing4PostRz
@@ -13039,12 +14631,16 @@ class GeneratedHIKState2SK(DG):
     RightHandPinky1ISy = RightHandPinky1IS.RightHandPinky1ISy
     RightHandPinky1ISz = RightHandPinky1IS.RightHandPinky1ISz
 
-    RightHandPinky1PreR = RightHandPinky1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky1PreR = RightHandPinky1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky1PreRx = RightHandPinky1PreR.RightHandPinky1PreRx
     RightHandPinky1PreRy = RightHandPinky1PreR.RightHandPinky1PreRy
     RightHandPinky1PreRz = RightHandPinky1PreR.RightHandPinky1PreRz
 
-    RightHandPinky1PostR = RightHandPinky1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky1PostR = RightHandPinky1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky1PostRx = RightHandPinky1PostR.RightHandPinky1PostRx
     RightHandPinky1PostRy = RightHandPinky1PostR.RightHandPinky1PostRy
     RightHandPinky1PostRz = RightHandPinky1PostR.RightHandPinky1PostRz
@@ -13075,12 +14671,16 @@ class GeneratedHIKState2SK(DG):
     RightHandPinky2ISy = RightHandPinky2IS.RightHandPinky2ISy
     RightHandPinky2ISz = RightHandPinky2IS.RightHandPinky2ISz
 
-    RightHandPinky2PreR = RightHandPinky2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky2PreR = RightHandPinky2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky2PreRx = RightHandPinky2PreR.RightHandPinky2PreRx
     RightHandPinky2PreRy = RightHandPinky2PreR.RightHandPinky2PreRy
     RightHandPinky2PreRz = RightHandPinky2PreR.RightHandPinky2PreRz
 
-    RightHandPinky2PostR = RightHandPinky2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky2PostR = RightHandPinky2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky2PostRx = RightHandPinky2PostR.RightHandPinky2PostRx
     RightHandPinky2PostRy = RightHandPinky2PostR.RightHandPinky2PostRy
     RightHandPinky2PostRz = RightHandPinky2PostR.RightHandPinky2PostRz
@@ -13111,12 +14711,16 @@ class GeneratedHIKState2SK(DG):
     RightHandPinky3ISy = RightHandPinky3IS.RightHandPinky3ISy
     RightHandPinky3ISz = RightHandPinky3IS.RightHandPinky3ISz
 
-    RightHandPinky3PreR = RightHandPinky3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky3PreR = RightHandPinky3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky3PreRx = RightHandPinky3PreR.RightHandPinky3PreRx
     RightHandPinky3PreRy = RightHandPinky3PreR.RightHandPinky3PreRy
     RightHandPinky3PreRz = RightHandPinky3PreR.RightHandPinky3PreRz
 
-    RightHandPinky3PostR = RightHandPinky3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky3PostR = RightHandPinky3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky3PostRx = RightHandPinky3PostR.RightHandPinky3PostRx
     RightHandPinky3PostRy = RightHandPinky3PostR.RightHandPinky3PostRy
     RightHandPinky3PostRz = RightHandPinky3PostR.RightHandPinky3PostRz
@@ -13147,159 +14751,267 @@ class GeneratedHIKState2SK(DG):
     RightHandPinky4ISy = RightHandPinky4IS.RightHandPinky4ISy
     RightHandPinky4ISz = RightHandPinky4IS.RightHandPinky4ISz
 
-    RightHandPinky4PreR = RightHandPinky4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky4PreR = RightHandPinky4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky4PreRx = RightHandPinky4PreR.RightHandPinky4PreRx
     RightHandPinky4PreRy = RightHandPinky4PreR.RightHandPinky4PreRy
     RightHandPinky4PreRz = RightHandPinky4PreR.RightHandPinky4PreRz
 
-    RightHandPinky4PostR = RightHandPinky4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightHandPinky4PostR = RightHandPinky4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandPinky4PostRx = RightHandPinky4PostR.RightHandPinky4PostRx
     RightHandPinky4PostRy = RightHandPinky4PostR.RightHandPinky4PostRy
     RightHandPinky4PostRz = RightHandPinky4PostR.RightHandPinky4PostRz
 
-    RightHandExtraFinger1T = RightHandExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1T = RightHandExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Tx = RightHandExtraFinger1T.RightHandExtraFinger1Tx
     RightHandExtraFinger1Ty = RightHandExtraFinger1T.RightHandExtraFinger1Ty
     RightHandExtraFinger1Tz = RightHandExtraFinger1T.RightHandExtraFinger1Tz
 
-    RightHandExtraFinger1R = RightHandExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger1R = RightHandExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger1Rx = RightHandExtraFinger1R.RightHandExtraFinger1Rx
     RightHandExtraFinger1Ry = RightHandExtraFinger1R.RightHandExtraFinger1Ry
     RightHandExtraFinger1Rz = RightHandExtraFinger1R.RightHandExtraFinger1Rz
 
-    RightHandExtraFinger1S = RightHandExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger1S = RightHandExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger1Sx = RightHandExtraFinger1S.RightHandExtraFinger1Sx
     RightHandExtraFinger1Sy = RightHandExtraFinger1S.RightHandExtraFinger1Sy
     RightHandExtraFinger1Sz = RightHandExtraFinger1S.RightHandExtraFinger1Sz
 
     RightHandExtraFinger1PGX = MatrixField()
 
-    RightHandExtraFinger1ROrder = RightHandExtraFinger1ROrderEnumField(default_value=0)
+    RightHandExtraFinger1ROrder = RightHandExtraFinger1ROrderEnumField(
+        default_value=0
+    )
 
     RightHandExtraFinger1SC = BoolField(default_value=False)
 
-    RightHandExtraFinger1IS = RightHandExtraFinger1ISField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger1IS = RightHandExtraFinger1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger1ISx = RightHandExtraFinger1IS.RightHandExtraFinger1ISx
     RightHandExtraFinger1ISy = RightHandExtraFinger1IS.RightHandExtraFinger1ISy
     RightHandExtraFinger1ISz = RightHandExtraFinger1IS.RightHandExtraFinger1ISz
 
-    RightHandExtraFinger1PreR = RightHandExtraFinger1PreRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1PreRx = RightHandExtraFinger1PreR.RightHandExtraFinger1PreRx
-    RightHandExtraFinger1PreRy = RightHandExtraFinger1PreR.RightHandExtraFinger1PreRy
-    RightHandExtraFinger1PreRz = RightHandExtraFinger1PreR.RightHandExtraFinger1PreRz
+    RightHandExtraFinger1PreR = RightHandExtraFinger1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1PreRx = (
+        RightHandExtraFinger1PreR.RightHandExtraFinger1PreRx
+    )
+    RightHandExtraFinger1PreRy = (
+        RightHandExtraFinger1PreR.RightHandExtraFinger1PreRy
+    )
+    RightHandExtraFinger1PreRz = (
+        RightHandExtraFinger1PreR.RightHandExtraFinger1PreRz
+    )
 
-    RightHandExtraFinger1PostR = RightHandExtraFinger1PostRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger1PostRx = RightHandExtraFinger1PostR.RightHandExtraFinger1PostRx
-    RightHandExtraFinger1PostRy = RightHandExtraFinger1PostR.RightHandExtraFinger1PostRy
-    RightHandExtraFinger1PostRz = RightHandExtraFinger1PostR.RightHandExtraFinger1PostRz
+    RightHandExtraFinger1PostR = RightHandExtraFinger1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger1PostRx = (
+        RightHandExtraFinger1PostR.RightHandExtraFinger1PostRx
+    )
+    RightHandExtraFinger1PostRy = (
+        RightHandExtraFinger1PostR.RightHandExtraFinger1PostRy
+    )
+    RightHandExtraFinger1PostRz = (
+        RightHandExtraFinger1PostR.RightHandExtraFinger1PostRz
+    )
 
-    RightHandExtraFinger2T = RightHandExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2T = RightHandExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Tx = RightHandExtraFinger2T.RightHandExtraFinger2Tx
     RightHandExtraFinger2Ty = RightHandExtraFinger2T.RightHandExtraFinger2Ty
     RightHandExtraFinger2Tz = RightHandExtraFinger2T.RightHandExtraFinger2Tz
 
-    RightHandExtraFinger2R = RightHandExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger2R = RightHandExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger2Rx = RightHandExtraFinger2R.RightHandExtraFinger2Rx
     RightHandExtraFinger2Ry = RightHandExtraFinger2R.RightHandExtraFinger2Ry
     RightHandExtraFinger2Rz = RightHandExtraFinger2R.RightHandExtraFinger2Rz
 
-    RightHandExtraFinger2S = RightHandExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger2S = RightHandExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger2Sx = RightHandExtraFinger2S.RightHandExtraFinger2Sx
     RightHandExtraFinger2Sy = RightHandExtraFinger2S.RightHandExtraFinger2Sy
     RightHandExtraFinger2Sz = RightHandExtraFinger2S.RightHandExtraFinger2Sz
 
     RightHandExtraFinger2PGX = MatrixField()
 
-    RightHandExtraFinger2ROrder = RightHandExtraFinger2ROrderEnumField(default_value=0)
+    RightHandExtraFinger2ROrder = RightHandExtraFinger2ROrderEnumField(
+        default_value=0
+    )
 
     RightHandExtraFinger2SC = BoolField(default_value=False)
 
-    RightHandExtraFinger2IS = RightHandExtraFinger2ISField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger2IS = RightHandExtraFinger2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger2ISx = RightHandExtraFinger2IS.RightHandExtraFinger2ISx
     RightHandExtraFinger2ISy = RightHandExtraFinger2IS.RightHandExtraFinger2ISy
     RightHandExtraFinger2ISz = RightHandExtraFinger2IS.RightHandExtraFinger2ISz
 
-    RightHandExtraFinger2PreR = RightHandExtraFinger2PreRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2PreRx = RightHandExtraFinger2PreR.RightHandExtraFinger2PreRx
-    RightHandExtraFinger2PreRy = RightHandExtraFinger2PreR.RightHandExtraFinger2PreRy
-    RightHandExtraFinger2PreRz = RightHandExtraFinger2PreR.RightHandExtraFinger2PreRz
+    RightHandExtraFinger2PreR = RightHandExtraFinger2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2PreRx = (
+        RightHandExtraFinger2PreR.RightHandExtraFinger2PreRx
+    )
+    RightHandExtraFinger2PreRy = (
+        RightHandExtraFinger2PreR.RightHandExtraFinger2PreRy
+    )
+    RightHandExtraFinger2PreRz = (
+        RightHandExtraFinger2PreR.RightHandExtraFinger2PreRz
+    )
 
-    RightHandExtraFinger2PostR = RightHandExtraFinger2PostRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger2PostRx = RightHandExtraFinger2PostR.RightHandExtraFinger2PostRx
-    RightHandExtraFinger2PostRy = RightHandExtraFinger2PostR.RightHandExtraFinger2PostRy
-    RightHandExtraFinger2PostRz = RightHandExtraFinger2PostR.RightHandExtraFinger2PostRz
+    RightHandExtraFinger2PostR = RightHandExtraFinger2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger2PostRx = (
+        RightHandExtraFinger2PostR.RightHandExtraFinger2PostRx
+    )
+    RightHandExtraFinger2PostRy = (
+        RightHandExtraFinger2PostR.RightHandExtraFinger2PostRy
+    )
+    RightHandExtraFinger2PostRz = (
+        RightHandExtraFinger2PostR.RightHandExtraFinger2PostRz
+    )
 
-    RightHandExtraFinger3T = RightHandExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3T = RightHandExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Tx = RightHandExtraFinger3T.RightHandExtraFinger3Tx
     RightHandExtraFinger3Ty = RightHandExtraFinger3T.RightHandExtraFinger3Ty
     RightHandExtraFinger3Tz = RightHandExtraFinger3T.RightHandExtraFinger3Tz
 
-    RightHandExtraFinger3R = RightHandExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger3R = RightHandExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger3Rx = RightHandExtraFinger3R.RightHandExtraFinger3Rx
     RightHandExtraFinger3Ry = RightHandExtraFinger3R.RightHandExtraFinger3Ry
     RightHandExtraFinger3Rz = RightHandExtraFinger3R.RightHandExtraFinger3Rz
 
-    RightHandExtraFinger3S = RightHandExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger3S = RightHandExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger3Sx = RightHandExtraFinger3S.RightHandExtraFinger3Sx
     RightHandExtraFinger3Sy = RightHandExtraFinger3S.RightHandExtraFinger3Sy
     RightHandExtraFinger3Sz = RightHandExtraFinger3S.RightHandExtraFinger3Sz
 
     RightHandExtraFinger3PGX = MatrixField()
 
-    RightHandExtraFinger3ROrder = RightHandExtraFinger3ROrderEnumField(default_value=0)
+    RightHandExtraFinger3ROrder = RightHandExtraFinger3ROrderEnumField(
+        default_value=0
+    )
 
     RightHandExtraFinger3SC = BoolField(default_value=False)
 
-    RightHandExtraFinger3IS = RightHandExtraFinger3ISField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger3IS = RightHandExtraFinger3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger3ISx = RightHandExtraFinger3IS.RightHandExtraFinger3ISx
     RightHandExtraFinger3ISy = RightHandExtraFinger3IS.RightHandExtraFinger3ISy
     RightHandExtraFinger3ISz = RightHandExtraFinger3IS.RightHandExtraFinger3ISz
 
-    RightHandExtraFinger3PreR = RightHandExtraFinger3PreRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3PreRx = RightHandExtraFinger3PreR.RightHandExtraFinger3PreRx
-    RightHandExtraFinger3PreRy = RightHandExtraFinger3PreR.RightHandExtraFinger3PreRy
-    RightHandExtraFinger3PreRz = RightHandExtraFinger3PreR.RightHandExtraFinger3PreRz
+    RightHandExtraFinger3PreR = RightHandExtraFinger3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3PreRx = (
+        RightHandExtraFinger3PreR.RightHandExtraFinger3PreRx
+    )
+    RightHandExtraFinger3PreRy = (
+        RightHandExtraFinger3PreR.RightHandExtraFinger3PreRy
+    )
+    RightHandExtraFinger3PreRz = (
+        RightHandExtraFinger3PreR.RightHandExtraFinger3PreRz
+    )
 
-    RightHandExtraFinger3PostR = RightHandExtraFinger3PostRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger3PostRx = RightHandExtraFinger3PostR.RightHandExtraFinger3PostRx
-    RightHandExtraFinger3PostRy = RightHandExtraFinger3PostR.RightHandExtraFinger3PostRy
-    RightHandExtraFinger3PostRz = RightHandExtraFinger3PostR.RightHandExtraFinger3PostRz
+    RightHandExtraFinger3PostR = RightHandExtraFinger3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger3PostRx = (
+        RightHandExtraFinger3PostR.RightHandExtraFinger3PostRx
+    )
+    RightHandExtraFinger3PostRy = (
+        RightHandExtraFinger3PostR.RightHandExtraFinger3PostRy
+    )
+    RightHandExtraFinger3PostRz = (
+        RightHandExtraFinger3PostR.RightHandExtraFinger3PostRz
+    )
 
-    RightHandExtraFinger4T = RightHandExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4T = RightHandExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Tx = RightHandExtraFinger4T.RightHandExtraFinger4Tx
     RightHandExtraFinger4Ty = RightHandExtraFinger4T.RightHandExtraFinger4Ty
     RightHandExtraFinger4Tz = RightHandExtraFinger4T.RightHandExtraFinger4Tz
 
-    RightHandExtraFinger4R = RightHandExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightHandExtraFinger4R = RightHandExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightHandExtraFinger4Rx = RightHandExtraFinger4R.RightHandExtraFinger4Rx
     RightHandExtraFinger4Ry = RightHandExtraFinger4R.RightHandExtraFinger4Ry
     RightHandExtraFinger4Rz = RightHandExtraFinger4R.RightHandExtraFinger4Rz
 
-    RightHandExtraFinger4S = RightHandExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger4S = RightHandExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger4Sx = RightHandExtraFinger4S.RightHandExtraFinger4Sx
     RightHandExtraFinger4Sy = RightHandExtraFinger4S.RightHandExtraFinger4Sy
     RightHandExtraFinger4Sz = RightHandExtraFinger4S.RightHandExtraFinger4Sz
 
     RightHandExtraFinger4PGX = MatrixField()
 
-    RightHandExtraFinger4ROrder = RightHandExtraFinger4ROrderEnumField(default_value=0)
+    RightHandExtraFinger4ROrder = RightHandExtraFinger4ROrderEnumField(
+        default_value=0
+    )
 
     RightHandExtraFinger4SC = BoolField(default_value=False)
 
-    RightHandExtraFinger4IS = RightHandExtraFinger4ISField(default_value=(1.0, 1.0, 1.0))
+    RightHandExtraFinger4IS = RightHandExtraFinger4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightHandExtraFinger4ISx = RightHandExtraFinger4IS.RightHandExtraFinger4ISx
     RightHandExtraFinger4ISy = RightHandExtraFinger4IS.RightHandExtraFinger4ISy
     RightHandExtraFinger4ISz = RightHandExtraFinger4IS.RightHandExtraFinger4ISz
 
-    RightHandExtraFinger4PreR = RightHandExtraFinger4PreRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4PreRx = RightHandExtraFinger4PreR.RightHandExtraFinger4PreRx
-    RightHandExtraFinger4PreRy = RightHandExtraFinger4PreR.RightHandExtraFinger4PreRy
-    RightHandExtraFinger4PreRz = RightHandExtraFinger4PreR.RightHandExtraFinger4PreRz
+    RightHandExtraFinger4PreR = RightHandExtraFinger4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4PreRx = (
+        RightHandExtraFinger4PreR.RightHandExtraFinger4PreRx
+    )
+    RightHandExtraFinger4PreRy = (
+        RightHandExtraFinger4PreR.RightHandExtraFinger4PreRy
+    )
+    RightHandExtraFinger4PreRz = (
+        RightHandExtraFinger4PreR.RightHandExtraFinger4PreRz
+    )
 
-    RightHandExtraFinger4PostR = RightHandExtraFinger4PostRField(default_value=(0.0, 0.0, 0.0))
-    RightHandExtraFinger4PostRx = RightHandExtraFinger4PostR.RightHandExtraFinger4PostRx
-    RightHandExtraFinger4PostRy = RightHandExtraFinger4PostR.RightHandExtraFinger4PostRy
-    RightHandExtraFinger4PostRz = RightHandExtraFinger4PostR.RightHandExtraFinger4PostRz
+    RightHandExtraFinger4PostR = RightHandExtraFinger4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightHandExtraFinger4PostRx = (
+        RightHandExtraFinger4PostR.RightHandExtraFinger4PostRx
+    )
+    RightHandExtraFinger4PostRy = (
+        RightHandExtraFinger4PostR.RightHandExtraFinger4PostRy
+    )
+    RightHandExtraFinger4PostRz = (
+        RightHandExtraFinger4PostR.RightHandExtraFinger4PostRz
+    )
 
     LeftFootThumb1T = LeftFootThumb1TField(default_value=(0.0, 0.0, 0.0))
     LeftFootThumb1Tx = LeftFootThumb1T.LeftFootThumb1Tx
@@ -13332,7 +15044,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootThumb1PreRy = LeftFootThumb1PreR.LeftFootThumb1PreRy
     LeftFootThumb1PreRz = LeftFootThumb1PreR.LeftFootThumb1PreRz
 
-    LeftFootThumb1PostR = LeftFootThumb1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb1PostR = LeftFootThumb1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb1PostRx = LeftFootThumb1PostR.LeftFootThumb1PostRx
     LeftFootThumb1PostRy = LeftFootThumb1PostR.LeftFootThumb1PostRy
     LeftFootThumb1PostRz = LeftFootThumb1PostR.LeftFootThumb1PostRz
@@ -13368,7 +15082,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootThumb2PreRy = LeftFootThumb2PreR.LeftFootThumb2PreRy
     LeftFootThumb2PreRz = LeftFootThumb2PreR.LeftFootThumb2PreRz
 
-    LeftFootThumb2PostR = LeftFootThumb2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb2PostR = LeftFootThumb2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb2PostRx = LeftFootThumb2PostR.LeftFootThumb2PostRx
     LeftFootThumb2PostRy = LeftFootThumb2PostR.LeftFootThumb2PostRy
     LeftFootThumb2PostRz = LeftFootThumb2PostR.LeftFootThumb2PostRz
@@ -13404,7 +15120,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootThumb3PreRy = LeftFootThumb3PreR.LeftFootThumb3PreRy
     LeftFootThumb3PreRz = LeftFootThumb3PreR.LeftFootThumb3PreRz
 
-    LeftFootThumb3PostR = LeftFootThumb3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb3PostR = LeftFootThumb3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb3PostRx = LeftFootThumb3PostR.LeftFootThumb3PostRx
     LeftFootThumb3PostRy = LeftFootThumb3PostR.LeftFootThumb3PostRy
     LeftFootThumb3PostRz = LeftFootThumb3PostR.LeftFootThumb3PostRz
@@ -13440,7 +15158,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootThumb4PreRy = LeftFootThumb4PreR.LeftFootThumb4PreRy
     LeftFootThumb4PreRz = LeftFootThumb4PreR.LeftFootThumb4PreRz
 
-    LeftFootThumb4PostR = LeftFootThumb4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootThumb4PostR = LeftFootThumb4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootThumb4PostRx = LeftFootThumb4PostR.LeftFootThumb4PostRx
     LeftFootThumb4PostRy = LeftFootThumb4PostR.LeftFootThumb4PostRy
     LeftFootThumb4PostRz = LeftFootThumb4PostR.LeftFootThumb4PostRz
@@ -13476,7 +15196,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootIndex1PreRy = LeftFootIndex1PreR.LeftFootIndex1PreRy
     LeftFootIndex1PreRz = LeftFootIndex1PreR.LeftFootIndex1PreRz
 
-    LeftFootIndex1PostR = LeftFootIndex1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex1PostR = LeftFootIndex1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex1PostRx = LeftFootIndex1PostR.LeftFootIndex1PostRx
     LeftFootIndex1PostRy = LeftFootIndex1PostR.LeftFootIndex1PostRy
     LeftFootIndex1PostRz = LeftFootIndex1PostR.LeftFootIndex1PostRz
@@ -13512,7 +15234,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootIndex2PreRy = LeftFootIndex2PreR.LeftFootIndex2PreRy
     LeftFootIndex2PreRz = LeftFootIndex2PreR.LeftFootIndex2PreRz
 
-    LeftFootIndex2PostR = LeftFootIndex2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex2PostR = LeftFootIndex2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex2PostRx = LeftFootIndex2PostR.LeftFootIndex2PostRx
     LeftFootIndex2PostRy = LeftFootIndex2PostR.LeftFootIndex2PostRy
     LeftFootIndex2PostRz = LeftFootIndex2PostR.LeftFootIndex2PostRz
@@ -13548,7 +15272,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootIndex3PreRy = LeftFootIndex3PreR.LeftFootIndex3PreRy
     LeftFootIndex3PreRz = LeftFootIndex3PreR.LeftFootIndex3PreRz
 
-    LeftFootIndex3PostR = LeftFootIndex3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex3PostR = LeftFootIndex3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex3PostRx = LeftFootIndex3PostR.LeftFootIndex3PostRx
     LeftFootIndex3PostRy = LeftFootIndex3PostR.LeftFootIndex3PostRy
     LeftFootIndex3PostRz = LeftFootIndex3PostR.LeftFootIndex3PostRz
@@ -13584,7 +15310,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootIndex4PreRy = LeftFootIndex4PreR.LeftFootIndex4PreRy
     LeftFootIndex4PreRz = LeftFootIndex4PreR.LeftFootIndex4PreRz
 
-    LeftFootIndex4PostR = LeftFootIndex4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootIndex4PostR = LeftFootIndex4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootIndex4PostRx = LeftFootIndex4PostR.LeftFootIndex4PostRx
     LeftFootIndex4PostRy = LeftFootIndex4PostR.LeftFootIndex4PostRy
     LeftFootIndex4PostRz = LeftFootIndex4PostR.LeftFootIndex4PostRz
@@ -13615,12 +15343,16 @@ class GeneratedHIKState2SK(DG):
     LeftFootMiddle1ISy = LeftFootMiddle1IS.LeftFootMiddle1ISy
     LeftFootMiddle1ISz = LeftFootMiddle1IS.LeftFootMiddle1ISz
 
-    LeftFootMiddle1PreR = LeftFootMiddle1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle1PreR = LeftFootMiddle1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle1PreRx = LeftFootMiddle1PreR.LeftFootMiddle1PreRx
     LeftFootMiddle1PreRy = LeftFootMiddle1PreR.LeftFootMiddle1PreRy
     LeftFootMiddle1PreRz = LeftFootMiddle1PreR.LeftFootMiddle1PreRz
 
-    LeftFootMiddle1PostR = LeftFootMiddle1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle1PostR = LeftFootMiddle1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle1PostRx = LeftFootMiddle1PostR.LeftFootMiddle1PostRx
     LeftFootMiddle1PostRy = LeftFootMiddle1PostR.LeftFootMiddle1PostRy
     LeftFootMiddle1PostRz = LeftFootMiddle1PostR.LeftFootMiddle1PostRz
@@ -13651,12 +15383,16 @@ class GeneratedHIKState2SK(DG):
     LeftFootMiddle2ISy = LeftFootMiddle2IS.LeftFootMiddle2ISy
     LeftFootMiddle2ISz = LeftFootMiddle2IS.LeftFootMiddle2ISz
 
-    LeftFootMiddle2PreR = LeftFootMiddle2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle2PreR = LeftFootMiddle2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle2PreRx = LeftFootMiddle2PreR.LeftFootMiddle2PreRx
     LeftFootMiddle2PreRy = LeftFootMiddle2PreR.LeftFootMiddle2PreRy
     LeftFootMiddle2PreRz = LeftFootMiddle2PreR.LeftFootMiddle2PreRz
 
-    LeftFootMiddle2PostR = LeftFootMiddle2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle2PostR = LeftFootMiddle2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle2PostRx = LeftFootMiddle2PostR.LeftFootMiddle2PostRx
     LeftFootMiddle2PostRy = LeftFootMiddle2PostR.LeftFootMiddle2PostRy
     LeftFootMiddle2PostRz = LeftFootMiddle2PostR.LeftFootMiddle2PostRz
@@ -13687,12 +15423,16 @@ class GeneratedHIKState2SK(DG):
     LeftFootMiddle3ISy = LeftFootMiddle3IS.LeftFootMiddle3ISy
     LeftFootMiddle3ISz = LeftFootMiddle3IS.LeftFootMiddle3ISz
 
-    LeftFootMiddle3PreR = LeftFootMiddle3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle3PreR = LeftFootMiddle3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle3PreRx = LeftFootMiddle3PreR.LeftFootMiddle3PreRx
     LeftFootMiddle3PreRy = LeftFootMiddle3PreR.LeftFootMiddle3PreRy
     LeftFootMiddle3PreRz = LeftFootMiddle3PreR.LeftFootMiddle3PreRz
 
-    LeftFootMiddle3PostR = LeftFootMiddle3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle3PostR = LeftFootMiddle3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle3PostRx = LeftFootMiddle3PostR.LeftFootMiddle3PostRx
     LeftFootMiddle3PostRy = LeftFootMiddle3PostR.LeftFootMiddle3PostRy
     LeftFootMiddle3PostRz = LeftFootMiddle3PostR.LeftFootMiddle3PostRz
@@ -13723,12 +15463,16 @@ class GeneratedHIKState2SK(DG):
     LeftFootMiddle4ISy = LeftFootMiddle4IS.LeftFootMiddle4ISy
     LeftFootMiddle4ISz = LeftFootMiddle4IS.LeftFootMiddle4ISz
 
-    LeftFootMiddle4PreR = LeftFootMiddle4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle4PreR = LeftFootMiddle4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle4PreRx = LeftFootMiddle4PreR.LeftFootMiddle4PreRx
     LeftFootMiddle4PreRy = LeftFootMiddle4PreR.LeftFootMiddle4PreRy
     LeftFootMiddle4PreRz = LeftFootMiddle4PreR.LeftFootMiddle4PreRz
 
-    LeftFootMiddle4PostR = LeftFootMiddle4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootMiddle4PostR = LeftFootMiddle4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootMiddle4PostRx = LeftFootMiddle4PostR.LeftFootMiddle4PostRx
     LeftFootMiddle4PostRy = LeftFootMiddle4PostR.LeftFootMiddle4PostRy
     LeftFootMiddle4PostRz = LeftFootMiddle4PostR.LeftFootMiddle4PostRz
@@ -13908,7 +15652,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootPinky1PreRy = LeftFootPinky1PreR.LeftFootPinky1PreRy
     LeftFootPinky1PreRz = LeftFootPinky1PreR.LeftFootPinky1PreRz
 
-    LeftFootPinky1PostR = LeftFootPinky1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky1PostR = LeftFootPinky1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky1PostRx = LeftFootPinky1PostR.LeftFootPinky1PostRx
     LeftFootPinky1PostRy = LeftFootPinky1PostR.LeftFootPinky1PostRy
     LeftFootPinky1PostRz = LeftFootPinky1PostR.LeftFootPinky1PostRz
@@ -13944,7 +15690,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootPinky2PreRy = LeftFootPinky2PreR.LeftFootPinky2PreRy
     LeftFootPinky2PreRz = LeftFootPinky2PreR.LeftFootPinky2PreRz
 
-    LeftFootPinky2PostR = LeftFootPinky2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky2PostR = LeftFootPinky2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky2PostRx = LeftFootPinky2PostR.LeftFootPinky2PostRx
     LeftFootPinky2PostRy = LeftFootPinky2PostR.LeftFootPinky2PostRy
     LeftFootPinky2PostRz = LeftFootPinky2PostR.LeftFootPinky2PostRz
@@ -13980,7 +15728,9 @@ class GeneratedHIKState2SK(DG):
     LeftFootPinky3PreRy = LeftFootPinky3PreR.LeftFootPinky3PreRy
     LeftFootPinky3PreRz = LeftFootPinky3PreR.LeftFootPinky3PreRz
 
-    LeftFootPinky3PostR = LeftFootPinky3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky3PostR = LeftFootPinky3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky3PostRx = LeftFootPinky3PostR.LeftFootPinky3PostRx
     LeftFootPinky3PostRy = LeftFootPinky3PostR.LeftFootPinky3PostRy
     LeftFootPinky3PostRz = LeftFootPinky3PostR.LeftFootPinky3PostRz
@@ -14016,154 +15766,260 @@ class GeneratedHIKState2SK(DG):
     LeftFootPinky4PreRy = LeftFootPinky4PreR.LeftFootPinky4PreRy
     LeftFootPinky4PreRz = LeftFootPinky4PreR.LeftFootPinky4PreRz
 
-    LeftFootPinky4PostR = LeftFootPinky4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeftFootPinky4PostR = LeftFootPinky4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootPinky4PostRx = LeftFootPinky4PostR.LeftFootPinky4PostRx
     LeftFootPinky4PostRy = LeftFootPinky4PostR.LeftFootPinky4PostRy
     LeftFootPinky4PostRz = LeftFootPinky4PostR.LeftFootPinky4PostRz
 
-    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1T = LeftFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Tx = LeftFootExtraFinger1T.LeftFootExtraFinger1Tx
     LeftFootExtraFinger1Ty = LeftFootExtraFinger1T.LeftFootExtraFinger1Ty
     LeftFootExtraFinger1Tz = LeftFootExtraFinger1T.LeftFootExtraFinger1Tz
 
-    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger1R = LeftFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger1Rx = LeftFootExtraFinger1R.LeftFootExtraFinger1Rx
     LeftFootExtraFinger1Ry = LeftFootExtraFinger1R.LeftFootExtraFinger1Ry
     LeftFootExtraFinger1Rz = LeftFootExtraFinger1R.LeftFootExtraFinger1Rz
 
-    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger1S = LeftFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger1Sx = LeftFootExtraFinger1S.LeftFootExtraFinger1Sx
     LeftFootExtraFinger1Sy = LeftFootExtraFinger1S.LeftFootExtraFinger1Sy
     LeftFootExtraFinger1Sz = LeftFootExtraFinger1S.LeftFootExtraFinger1Sz
 
     LeftFootExtraFinger1PGX = MatrixField()
 
-    LeftFootExtraFinger1ROrder = LeftFootExtraFinger1ROrderEnumField(default_value=0)
+    LeftFootExtraFinger1ROrder = LeftFootExtraFinger1ROrderEnumField(
+        default_value=0
+    )
 
     LeftFootExtraFinger1SC = BoolField(default_value=False)
 
-    LeftFootExtraFinger1IS = LeftFootExtraFinger1ISField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger1IS = LeftFootExtraFinger1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger1ISx = LeftFootExtraFinger1IS.LeftFootExtraFinger1ISx
     LeftFootExtraFinger1ISy = LeftFootExtraFinger1IS.LeftFootExtraFinger1ISy
     LeftFootExtraFinger1ISz = LeftFootExtraFinger1IS.LeftFootExtraFinger1ISz
 
-    LeftFootExtraFinger1PreR = LeftFootExtraFinger1PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1PreRx = LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRx
-    LeftFootExtraFinger1PreRy = LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRy
-    LeftFootExtraFinger1PreRz = LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRz
+    LeftFootExtraFinger1PreR = LeftFootExtraFinger1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1PreRx = (
+        LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRx
+    )
+    LeftFootExtraFinger1PreRy = (
+        LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRy
+    )
+    LeftFootExtraFinger1PreRz = (
+        LeftFootExtraFinger1PreR.LeftFootExtraFinger1PreRz
+    )
 
-    LeftFootExtraFinger1PostR = LeftFootExtraFinger1PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger1PostRx = LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRx
-    LeftFootExtraFinger1PostRy = LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRy
-    LeftFootExtraFinger1PostRz = LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRz
+    LeftFootExtraFinger1PostR = LeftFootExtraFinger1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger1PostRx = (
+        LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRx
+    )
+    LeftFootExtraFinger1PostRy = (
+        LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRy
+    )
+    LeftFootExtraFinger1PostRz = (
+        LeftFootExtraFinger1PostR.LeftFootExtraFinger1PostRz
+    )
 
-    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2T = LeftFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Tx = LeftFootExtraFinger2T.LeftFootExtraFinger2Tx
     LeftFootExtraFinger2Ty = LeftFootExtraFinger2T.LeftFootExtraFinger2Ty
     LeftFootExtraFinger2Tz = LeftFootExtraFinger2T.LeftFootExtraFinger2Tz
 
-    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger2R = LeftFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger2Rx = LeftFootExtraFinger2R.LeftFootExtraFinger2Rx
     LeftFootExtraFinger2Ry = LeftFootExtraFinger2R.LeftFootExtraFinger2Ry
     LeftFootExtraFinger2Rz = LeftFootExtraFinger2R.LeftFootExtraFinger2Rz
 
-    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger2S = LeftFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger2Sx = LeftFootExtraFinger2S.LeftFootExtraFinger2Sx
     LeftFootExtraFinger2Sy = LeftFootExtraFinger2S.LeftFootExtraFinger2Sy
     LeftFootExtraFinger2Sz = LeftFootExtraFinger2S.LeftFootExtraFinger2Sz
 
     LeftFootExtraFinger2PGX = MatrixField()
 
-    LeftFootExtraFinger2ROrder = LeftFootExtraFinger2ROrderEnumField(default_value=0)
+    LeftFootExtraFinger2ROrder = LeftFootExtraFinger2ROrderEnumField(
+        default_value=0
+    )
 
     LeftFootExtraFinger2SC = BoolField(default_value=False)
 
-    LeftFootExtraFinger2IS = LeftFootExtraFinger2ISField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger2IS = LeftFootExtraFinger2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger2ISx = LeftFootExtraFinger2IS.LeftFootExtraFinger2ISx
     LeftFootExtraFinger2ISy = LeftFootExtraFinger2IS.LeftFootExtraFinger2ISy
     LeftFootExtraFinger2ISz = LeftFootExtraFinger2IS.LeftFootExtraFinger2ISz
 
-    LeftFootExtraFinger2PreR = LeftFootExtraFinger2PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2PreRx = LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRx
-    LeftFootExtraFinger2PreRy = LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRy
-    LeftFootExtraFinger2PreRz = LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRz
+    LeftFootExtraFinger2PreR = LeftFootExtraFinger2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2PreRx = (
+        LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRx
+    )
+    LeftFootExtraFinger2PreRy = (
+        LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRy
+    )
+    LeftFootExtraFinger2PreRz = (
+        LeftFootExtraFinger2PreR.LeftFootExtraFinger2PreRz
+    )
 
-    LeftFootExtraFinger2PostR = LeftFootExtraFinger2PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger2PostRx = LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRx
-    LeftFootExtraFinger2PostRy = LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRy
-    LeftFootExtraFinger2PostRz = LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRz
+    LeftFootExtraFinger2PostR = LeftFootExtraFinger2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger2PostRx = (
+        LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRx
+    )
+    LeftFootExtraFinger2PostRy = (
+        LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRy
+    )
+    LeftFootExtraFinger2PostRz = (
+        LeftFootExtraFinger2PostR.LeftFootExtraFinger2PostRz
+    )
 
-    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3T = LeftFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Tx = LeftFootExtraFinger3T.LeftFootExtraFinger3Tx
     LeftFootExtraFinger3Ty = LeftFootExtraFinger3T.LeftFootExtraFinger3Ty
     LeftFootExtraFinger3Tz = LeftFootExtraFinger3T.LeftFootExtraFinger3Tz
 
-    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger3R = LeftFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger3Rx = LeftFootExtraFinger3R.LeftFootExtraFinger3Rx
     LeftFootExtraFinger3Ry = LeftFootExtraFinger3R.LeftFootExtraFinger3Ry
     LeftFootExtraFinger3Rz = LeftFootExtraFinger3R.LeftFootExtraFinger3Rz
 
-    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger3S = LeftFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger3Sx = LeftFootExtraFinger3S.LeftFootExtraFinger3Sx
     LeftFootExtraFinger3Sy = LeftFootExtraFinger3S.LeftFootExtraFinger3Sy
     LeftFootExtraFinger3Sz = LeftFootExtraFinger3S.LeftFootExtraFinger3Sz
 
     LeftFootExtraFinger3PGX = MatrixField()
 
-    LeftFootExtraFinger3ROrder = LeftFootExtraFinger3ROrderEnumField(default_value=0)
+    LeftFootExtraFinger3ROrder = LeftFootExtraFinger3ROrderEnumField(
+        default_value=0
+    )
 
     LeftFootExtraFinger3SC = BoolField(default_value=False)
 
-    LeftFootExtraFinger3IS = LeftFootExtraFinger3ISField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger3IS = LeftFootExtraFinger3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger3ISx = LeftFootExtraFinger3IS.LeftFootExtraFinger3ISx
     LeftFootExtraFinger3ISy = LeftFootExtraFinger3IS.LeftFootExtraFinger3ISy
     LeftFootExtraFinger3ISz = LeftFootExtraFinger3IS.LeftFootExtraFinger3ISz
 
-    LeftFootExtraFinger3PreR = LeftFootExtraFinger3PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3PreRx = LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRx
-    LeftFootExtraFinger3PreRy = LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRy
-    LeftFootExtraFinger3PreRz = LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRz
+    LeftFootExtraFinger3PreR = LeftFootExtraFinger3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3PreRx = (
+        LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRx
+    )
+    LeftFootExtraFinger3PreRy = (
+        LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRy
+    )
+    LeftFootExtraFinger3PreRz = (
+        LeftFootExtraFinger3PreR.LeftFootExtraFinger3PreRz
+    )
 
-    LeftFootExtraFinger3PostR = LeftFootExtraFinger3PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger3PostRx = LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRx
-    LeftFootExtraFinger3PostRy = LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRy
-    LeftFootExtraFinger3PostRz = LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRz
+    LeftFootExtraFinger3PostR = LeftFootExtraFinger3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger3PostRx = (
+        LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRx
+    )
+    LeftFootExtraFinger3PostRy = (
+        LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRy
+    )
+    LeftFootExtraFinger3PostRz = (
+        LeftFootExtraFinger3PostR.LeftFootExtraFinger3PostRz
+    )
 
-    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4T = LeftFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Tx = LeftFootExtraFinger4T.LeftFootExtraFinger4Tx
     LeftFootExtraFinger4Ty = LeftFootExtraFinger4T.LeftFootExtraFinger4Ty
     LeftFootExtraFinger4Tz = LeftFootExtraFinger4T.LeftFootExtraFinger4Tz
 
-    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    LeftFootExtraFinger4R = LeftFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftFootExtraFinger4Rx = LeftFootExtraFinger4R.LeftFootExtraFinger4Rx
     LeftFootExtraFinger4Ry = LeftFootExtraFinger4R.LeftFootExtraFinger4Ry
     LeftFootExtraFinger4Rz = LeftFootExtraFinger4R.LeftFootExtraFinger4Rz
 
-    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger4S = LeftFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger4Sx = LeftFootExtraFinger4S.LeftFootExtraFinger4Sx
     LeftFootExtraFinger4Sy = LeftFootExtraFinger4S.LeftFootExtraFinger4Sy
     LeftFootExtraFinger4Sz = LeftFootExtraFinger4S.LeftFootExtraFinger4Sz
 
     LeftFootExtraFinger4PGX = MatrixField()
 
-    LeftFootExtraFinger4ROrder = LeftFootExtraFinger4ROrderEnumField(default_value=0)
+    LeftFootExtraFinger4ROrder = LeftFootExtraFinger4ROrderEnumField(
+        default_value=0
+    )
 
     LeftFootExtraFinger4SC = BoolField(default_value=False)
 
-    LeftFootExtraFinger4IS = LeftFootExtraFinger4ISField(default_value=(1.0, 1.0, 1.0))
+    LeftFootExtraFinger4IS = LeftFootExtraFinger4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftFootExtraFinger4ISx = LeftFootExtraFinger4IS.LeftFootExtraFinger4ISx
     LeftFootExtraFinger4ISy = LeftFootExtraFinger4IS.LeftFootExtraFinger4ISy
     LeftFootExtraFinger4ISz = LeftFootExtraFinger4IS.LeftFootExtraFinger4ISz
 
-    LeftFootExtraFinger4PreR = LeftFootExtraFinger4PreRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4PreRx = LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRx
-    LeftFootExtraFinger4PreRy = LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRy
-    LeftFootExtraFinger4PreRz = LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRz
+    LeftFootExtraFinger4PreR = LeftFootExtraFinger4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4PreRx = (
+        LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRx
+    )
+    LeftFootExtraFinger4PreRy = (
+        LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRy
+    )
+    LeftFootExtraFinger4PreRz = (
+        LeftFootExtraFinger4PreR.LeftFootExtraFinger4PreRz
+    )
 
-    LeftFootExtraFinger4PostR = LeftFootExtraFinger4PostRField(default_value=(0.0, 0.0, 0.0))
-    LeftFootExtraFinger4PostRx = LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRx
-    LeftFootExtraFinger4PostRy = LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRy
-    LeftFootExtraFinger4PostRz = LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRz
+    LeftFootExtraFinger4PostR = LeftFootExtraFinger4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftFootExtraFinger4PostRx = (
+        LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRx
+    )
+    LeftFootExtraFinger4PostRy = (
+        LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRy
+    )
+    LeftFootExtraFinger4PostRz = (
+        LeftFootExtraFinger4PostR.LeftFootExtraFinger4PostRz
+    )
 
     RightFootThumb1T = RightFootThumb1TField(default_value=(0.0, 0.0, 0.0))
     RightFootThumb1Tx = RightFootThumb1T.RightFootThumb1Tx
@@ -14191,12 +16047,16 @@ class GeneratedHIKState2SK(DG):
     RightFootThumb1ISy = RightFootThumb1IS.RightFootThumb1ISy
     RightFootThumb1ISz = RightFootThumb1IS.RightFootThumb1ISz
 
-    RightFootThumb1PreR = RightFootThumb1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb1PreR = RightFootThumb1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb1PreRx = RightFootThumb1PreR.RightFootThumb1PreRx
     RightFootThumb1PreRy = RightFootThumb1PreR.RightFootThumb1PreRy
     RightFootThumb1PreRz = RightFootThumb1PreR.RightFootThumb1PreRz
 
-    RightFootThumb1PostR = RightFootThumb1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb1PostR = RightFootThumb1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb1PostRx = RightFootThumb1PostR.RightFootThumb1PostRx
     RightFootThumb1PostRy = RightFootThumb1PostR.RightFootThumb1PostRy
     RightFootThumb1PostRz = RightFootThumb1PostR.RightFootThumb1PostRz
@@ -14227,12 +16087,16 @@ class GeneratedHIKState2SK(DG):
     RightFootThumb2ISy = RightFootThumb2IS.RightFootThumb2ISy
     RightFootThumb2ISz = RightFootThumb2IS.RightFootThumb2ISz
 
-    RightFootThumb2PreR = RightFootThumb2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb2PreR = RightFootThumb2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb2PreRx = RightFootThumb2PreR.RightFootThumb2PreRx
     RightFootThumb2PreRy = RightFootThumb2PreR.RightFootThumb2PreRy
     RightFootThumb2PreRz = RightFootThumb2PreR.RightFootThumb2PreRz
 
-    RightFootThumb2PostR = RightFootThumb2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb2PostR = RightFootThumb2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb2PostRx = RightFootThumb2PostR.RightFootThumb2PostRx
     RightFootThumb2PostRy = RightFootThumb2PostR.RightFootThumb2PostRy
     RightFootThumb2PostRz = RightFootThumb2PostR.RightFootThumb2PostRz
@@ -14263,12 +16127,16 @@ class GeneratedHIKState2SK(DG):
     RightFootThumb3ISy = RightFootThumb3IS.RightFootThumb3ISy
     RightFootThumb3ISz = RightFootThumb3IS.RightFootThumb3ISz
 
-    RightFootThumb3PreR = RightFootThumb3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb3PreR = RightFootThumb3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb3PreRx = RightFootThumb3PreR.RightFootThumb3PreRx
     RightFootThumb3PreRy = RightFootThumb3PreR.RightFootThumb3PreRy
     RightFootThumb3PreRz = RightFootThumb3PreR.RightFootThumb3PreRz
 
-    RightFootThumb3PostR = RightFootThumb3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb3PostR = RightFootThumb3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb3PostRx = RightFootThumb3PostR.RightFootThumb3PostRx
     RightFootThumb3PostRy = RightFootThumb3PostR.RightFootThumb3PostRy
     RightFootThumb3PostRz = RightFootThumb3PostR.RightFootThumb3PostRz
@@ -14299,12 +16167,16 @@ class GeneratedHIKState2SK(DG):
     RightFootThumb4ISy = RightFootThumb4IS.RightFootThumb4ISy
     RightFootThumb4ISz = RightFootThumb4IS.RightFootThumb4ISz
 
-    RightFootThumb4PreR = RightFootThumb4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb4PreR = RightFootThumb4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb4PreRx = RightFootThumb4PreR.RightFootThumb4PreRx
     RightFootThumb4PreRy = RightFootThumb4PreR.RightFootThumb4PreRy
     RightFootThumb4PreRz = RightFootThumb4PreR.RightFootThumb4PreRz
 
-    RightFootThumb4PostR = RightFootThumb4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootThumb4PostR = RightFootThumb4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootThumb4PostRx = RightFootThumb4PostR.RightFootThumb4PostRx
     RightFootThumb4PostRy = RightFootThumb4PostR.RightFootThumb4PostRy
     RightFootThumb4PostRz = RightFootThumb4PostR.RightFootThumb4PostRz
@@ -14335,12 +16207,16 @@ class GeneratedHIKState2SK(DG):
     RightFootIndex1ISy = RightFootIndex1IS.RightFootIndex1ISy
     RightFootIndex1ISz = RightFootIndex1IS.RightFootIndex1ISz
 
-    RightFootIndex1PreR = RightFootIndex1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex1PreR = RightFootIndex1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex1PreRx = RightFootIndex1PreR.RightFootIndex1PreRx
     RightFootIndex1PreRy = RightFootIndex1PreR.RightFootIndex1PreRy
     RightFootIndex1PreRz = RightFootIndex1PreR.RightFootIndex1PreRz
 
-    RightFootIndex1PostR = RightFootIndex1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex1PostR = RightFootIndex1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex1PostRx = RightFootIndex1PostR.RightFootIndex1PostRx
     RightFootIndex1PostRy = RightFootIndex1PostR.RightFootIndex1PostRy
     RightFootIndex1PostRz = RightFootIndex1PostR.RightFootIndex1PostRz
@@ -14371,12 +16247,16 @@ class GeneratedHIKState2SK(DG):
     RightFootIndex2ISy = RightFootIndex2IS.RightFootIndex2ISy
     RightFootIndex2ISz = RightFootIndex2IS.RightFootIndex2ISz
 
-    RightFootIndex2PreR = RightFootIndex2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex2PreR = RightFootIndex2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex2PreRx = RightFootIndex2PreR.RightFootIndex2PreRx
     RightFootIndex2PreRy = RightFootIndex2PreR.RightFootIndex2PreRy
     RightFootIndex2PreRz = RightFootIndex2PreR.RightFootIndex2PreRz
 
-    RightFootIndex2PostR = RightFootIndex2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex2PostR = RightFootIndex2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex2PostRx = RightFootIndex2PostR.RightFootIndex2PostRx
     RightFootIndex2PostRy = RightFootIndex2PostR.RightFootIndex2PostRy
     RightFootIndex2PostRz = RightFootIndex2PostR.RightFootIndex2PostRz
@@ -14407,12 +16287,16 @@ class GeneratedHIKState2SK(DG):
     RightFootIndex3ISy = RightFootIndex3IS.RightFootIndex3ISy
     RightFootIndex3ISz = RightFootIndex3IS.RightFootIndex3ISz
 
-    RightFootIndex3PreR = RightFootIndex3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex3PreR = RightFootIndex3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex3PreRx = RightFootIndex3PreR.RightFootIndex3PreRx
     RightFootIndex3PreRy = RightFootIndex3PreR.RightFootIndex3PreRy
     RightFootIndex3PreRz = RightFootIndex3PreR.RightFootIndex3PreRz
 
-    RightFootIndex3PostR = RightFootIndex3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex3PostR = RightFootIndex3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex3PostRx = RightFootIndex3PostR.RightFootIndex3PostRx
     RightFootIndex3PostRy = RightFootIndex3PostR.RightFootIndex3PostRy
     RightFootIndex3PostRz = RightFootIndex3PostR.RightFootIndex3PostRz
@@ -14443,12 +16327,16 @@ class GeneratedHIKState2SK(DG):
     RightFootIndex4ISy = RightFootIndex4IS.RightFootIndex4ISy
     RightFootIndex4ISz = RightFootIndex4IS.RightFootIndex4ISz
 
-    RightFootIndex4PreR = RightFootIndex4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex4PreR = RightFootIndex4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex4PreRx = RightFootIndex4PreR.RightFootIndex4PreRx
     RightFootIndex4PreRy = RightFootIndex4PreR.RightFootIndex4PreRy
     RightFootIndex4PreRz = RightFootIndex4PreR.RightFootIndex4PreRz
 
-    RightFootIndex4PostR = RightFootIndex4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootIndex4PostR = RightFootIndex4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootIndex4PostRx = RightFootIndex4PostR.RightFootIndex4PostRx
     RightFootIndex4PostRy = RightFootIndex4PostR.RightFootIndex4PostRy
     RightFootIndex4PostRz = RightFootIndex4PostR.RightFootIndex4PostRz
@@ -14479,12 +16367,16 @@ class GeneratedHIKState2SK(DG):
     RightFootMiddle1ISy = RightFootMiddle1IS.RightFootMiddle1ISy
     RightFootMiddle1ISz = RightFootMiddle1IS.RightFootMiddle1ISz
 
-    RightFootMiddle1PreR = RightFootMiddle1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle1PreR = RightFootMiddle1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle1PreRx = RightFootMiddle1PreR.RightFootMiddle1PreRx
     RightFootMiddle1PreRy = RightFootMiddle1PreR.RightFootMiddle1PreRy
     RightFootMiddle1PreRz = RightFootMiddle1PreR.RightFootMiddle1PreRz
 
-    RightFootMiddle1PostR = RightFootMiddle1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle1PostR = RightFootMiddle1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle1PostRx = RightFootMiddle1PostR.RightFootMiddle1PostRx
     RightFootMiddle1PostRy = RightFootMiddle1PostR.RightFootMiddle1PostRy
     RightFootMiddle1PostRz = RightFootMiddle1PostR.RightFootMiddle1PostRz
@@ -14515,12 +16407,16 @@ class GeneratedHIKState2SK(DG):
     RightFootMiddle2ISy = RightFootMiddle2IS.RightFootMiddle2ISy
     RightFootMiddle2ISz = RightFootMiddle2IS.RightFootMiddle2ISz
 
-    RightFootMiddle2PreR = RightFootMiddle2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle2PreR = RightFootMiddle2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle2PreRx = RightFootMiddle2PreR.RightFootMiddle2PreRx
     RightFootMiddle2PreRy = RightFootMiddle2PreR.RightFootMiddle2PreRy
     RightFootMiddle2PreRz = RightFootMiddle2PreR.RightFootMiddle2PreRz
 
-    RightFootMiddle2PostR = RightFootMiddle2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle2PostR = RightFootMiddle2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle2PostRx = RightFootMiddle2PostR.RightFootMiddle2PostRx
     RightFootMiddle2PostRy = RightFootMiddle2PostR.RightFootMiddle2PostRy
     RightFootMiddle2PostRz = RightFootMiddle2PostR.RightFootMiddle2PostRz
@@ -14551,12 +16447,16 @@ class GeneratedHIKState2SK(DG):
     RightFootMiddle3ISy = RightFootMiddle3IS.RightFootMiddle3ISy
     RightFootMiddle3ISz = RightFootMiddle3IS.RightFootMiddle3ISz
 
-    RightFootMiddle3PreR = RightFootMiddle3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle3PreR = RightFootMiddle3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle3PreRx = RightFootMiddle3PreR.RightFootMiddle3PreRx
     RightFootMiddle3PreRy = RightFootMiddle3PreR.RightFootMiddle3PreRy
     RightFootMiddle3PreRz = RightFootMiddle3PreR.RightFootMiddle3PreRz
 
-    RightFootMiddle3PostR = RightFootMiddle3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle3PostR = RightFootMiddle3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle3PostRx = RightFootMiddle3PostR.RightFootMiddle3PostRx
     RightFootMiddle3PostRy = RightFootMiddle3PostR.RightFootMiddle3PostRy
     RightFootMiddle3PostRz = RightFootMiddle3PostR.RightFootMiddle3PostRz
@@ -14587,12 +16487,16 @@ class GeneratedHIKState2SK(DG):
     RightFootMiddle4ISy = RightFootMiddle4IS.RightFootMiddle4ISy
     RightFootMiddle4ISz = RightFootMiddle4IS.RightFootMiddle4ISz
 
-    RightFootMiddle4PreR = RightFootMiddle4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle4PreR = RightFootMiddle4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle4PreRx = RightFootMiddle4PreR.RightFootMiddle4PreRx
     RightFootMiddle4PreRy = RightFootMiddle4PreR.RightFootMiddle4PreRy
     RightFootMiddle4PreRz = RightFootMiddle4PreR.RightFootMiddle4PreRz
 
-    RightFootMiddle4PostR = RightFootMiddle4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootMiddle4PostR = RightFootMiddle4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootMiddle4PostRx = RightFootMiddle4PostR.RightFootMiddle4PostRx
     RightFootMiddle4PostRy = RightFootMiddle4PostR.RightFootMiddle4PostRy
     RightFootMiddle4PostRz = RightFootMiddle4PostR.RightFootMiddle4PostRz
@@ -14628,7 +16532,9 @@ class GeneratedHIKState2SK(DG):
     RightFootRing1PreRy = RightFootRing1PreR.RightFootRing1PreRy
     RightFootRing1PreRz = RightFootRing1PreR.RightFootRing1PreRz
 
-    RightFootRing1PostR = RightFootRing1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing1PostR = RightFootRing1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing1PostRx = RightFootRing1PostR.RightFootRing1PostRx
     RightFootRing1PostRy = RightFootRing1PostR.RightFootRing1PostRy
     RightFootRing1PostRz = RightFootRing1PostR.RightFootRing1PostRz
@@ -14664,7 +16570,9 @@ class GeneratedHIKState2SK(DG):
     RightFootRing2PreRy = RightFootRing2PreR.RightFootRing2PreRy
     RightFootRing2PreRz = RightFootRing2PreR.RightFootRing2PreRz
 
-    RightFootRing2PostR = RightFootRing2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing2PostR = RightFootRing2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing2PostRx = RightFootRing2PostR.RightFootRing2PostRx
     RightFootRing2PostRy = RightFootRing2PostR.RightFootRing2PostRy
     RightFootRing2PostRz = RightFootRing2PostR.RightFootRing2PostRz
@@ -14700,7 +16608,9 @@ class GeneratedHIKState2SK(DG):
     RightFootRing3PreRy = RightFootRing3PreR.RightFootRing3PreRy
     RightFootRing3PreRz = RightFootRing3PreR.RightFootRing3PreRz
 
-    RightFootRing3PostR = RightFootRing3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing3PostR = RightFootRing3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing3PostRx = RightFootRing3PostR.RightFootRing3PostRx
     RightFootRing3PostRy = RightFootRing3PostR.RightFootRing3PostRy
     RightFootRing3PostRz = RightFootRing3PostR.RightFootRing3PostRz
@@ -14736,7 +16646,9 @@ class GeneratedHIKState2SK(DG):
     RightFootRing4PreRy = RightFootRing4PreR.RightFootRing4PreRy
     RightFootRing4PreRz = RightFootRing4PreR.RightFootRing4PreRz
 
-    RightFootRing4PostR = RightFootRing4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootRing4PostR = RightFootRing4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootRing4PostRx = RightFootRing4PostR.RightFootRing4PostRx
     RightFootRing4PostRy = RightFootRing4PostR.RightFootRing4PostRy
     RightFootRing4PostRz = RightFootRing4PostR.RightFootRing4PostRz
@@ -14767,12 +16679,16 @@ class GeneratedHIKState2SK(DG):
     RightFootPinky1ISy = RightFootPinky1IS.RightFootPinky1ISy
     RightFootPinky1ISz = RightFootPinky1IS.RightFootPinky1ISz
 
-    RightFootPinky1PreR = RightFootPinky1PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky1PreR = RightFootPinky1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky1PreRx = RightFootPinky1PreR.RightFootPinky1PreRx
     RightFootPinky1PreRy = RightFootPinky1PreR.RightFootPinky1PreRy
     RightFootPinky1PreRz = RightFootPinky1PreR.RightFootPinky1PreRz
 
-    RightFootPinky1PostR = RightFootPinky1PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky1PostR = RightFootPinky1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky1PostRx = RightFootPinky1PostR.RightFootPinky1PostRx
     RightFootPinky1PostRy = RightFootPinky1PostR.RightFootPinky1PostRy
     RightFootPinky1PostRz = RightFootPinky1PostR.RightFootPinky1PostRz
@@ -14803,12 +16719,16 @@ class GeneratedHIKState2SK(DG):
     RightFootPinky2ISy = RightFootPinky2IS.RightFootPinky2ISy
     RightFootPinky2ISz = RightFootPinky2IS.RightFootPinky2ISz
 
-    RightFootPinky2PreR = RightFootPinky2PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky2PreR = RightFootPinky2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky2PreRx = RightFootPinky2PreR.RightFootPinky2PreRx
     RightFootPinky2PreRy = RightFootPinky2PreR.RightFootPinky2PreRy
     RightFootPinky2PreRz = RightFootPinky2PreR.RightFootPinky2PreRz
 
-    RightFootPinky2PostR = RightFootPinky2PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky2PostR = RightFootPinky2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky2PostRx = RightFootPinky2PostR.RightFootPinky2PostRx
     RightFootPinky2PostRy = RightFootPinky2PostR.RightFootPinky2PostRy
     RightFootPinky2PostRz = RightFootPinky2PostR.RightFootPinky2PostRz
@@ -14839,12 +16759,16 @@ class GeneratedHIKState2SK(DG):
     RightFootPinky3ISy = RightFootPinky3IS.RightFootPinky3ISy
     RightFootPinky3ISz = RightFootPinky3IS.RightFootPinky3ISz
 
-    RightFootPinky3PreR = RightFootPinky3PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky3PreR = RightFootPinky3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky3PreRx = RightFootPinky3PreR.RightFootPinky3PreRx
     RightFootPinky3PreRy = RightFootPinky3PreR.RightFootPinky3PreRy
     RightFootPinky3PreRz = RightFootPinky3PreR.RightFootPinky3PreRz
 
-    RightFootPinky3PostR = RightFootPinky3PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky3PostR = RightFootPinky3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky3PostRx = RightFootPinky3PostR.RightFootPinky3PostRx
     RightFootPinky3PostRy = RightFootPinky3PostR.RightFootPinky3PostRy
     RightFootPinky3PostRz = RightFootPinky3PostR.RightFootPinky3PostRz
@@ -14875,159 +16799,267 @@ class GeneratedHIKState2SK(DG):
     RightFootPinky4ISy = RightFootPinky4IS.RightFootPinky4ISy
     RightFootPinky4ISz = RightFootPinky4IS.RightFootPinky4ISz
 
-    RightFootPinky4PreR = RightFootPinky4PreRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky4PreR = RightFootPinky4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky4PreRx = RightFootPinky4PreR.RightFootPinky4PreRx
     RightFootPinky4PreRy = RightFootPinky4PreR.RightFootPinky4PreRy
     RightFootPinky4PreRz = RightFootPinky4PreR.RightFootPinky4PreRz
 
-    RightFootPinky4PostR = RightFootPinky4PostRField(default_value=(0.0, 0.0, 0.0))
+    RightFootPinky4PostR = RightFootPinky4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootPinky4PostRx = RightFootPinky4PostR.RightFootPinky4PostRx
     RightFootPinky4PostRy = RightFootPinky4PostR.RightFootPinky4PostRy
     RightFootPinky4PostRz = RightFootPinky4PostR.RightFootPinky4PostRz
 
-    RightFootExtraFinger1T = RightFootExtraFinger1TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1T = RightFootExtraFinger1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Tx = RightFootExtraFinger1T.RightFootExtraFinger1Tx
     RightFootExtraFinger1Ty = RightFootExtraFinger1T.RightFootExtraFinger1Ty
     RightFootExtraFinger1Tz = RightFootExtraFinger1T.RightFootExtraFinger1Tz
 
-    RightFootExtraFinger1R = RightFootExtraFinger1RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger1R = RightFootExtraFinger1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger1Rx = RightFootExtraFinger1R.RightFootExtraFinger1Rx
     RightFootExtraFinger1Ry = RightFootExtraFinger1R.RightFootExtraFinger1Ry
     RightFootExtraFinger1Rz = RightFootExtraFinger1R.RightFootExtraFinger1Rz
 
-    RightFootExtraFinger1S = RightFootExtraFinger1SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger1S = RightFootExtraFinger1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger1Sx = RightFootExtraFinger1S.RightFootExtraFinger1Sx
     RightFootExtraFinger1Sy = RightFootExtraFinger1S.RightFootExtraFinger1Sy
     RightFootExtraFinger1Sz = RightFootExtraFinger1S.RightFootExtraFinger1Sz
 
     RightFootExtraFinger1PGX = MatrixField()
 
-    RightFootExtraFinger1ROrder = RightFootExtraFinger1ROrderEnumField(default_value=0)
+    RightFootExtraFinger1ROrder = RightFootExtraFinger1ROrderEnumField(
+        default_value=0
+    )
 
     RightFootExtraFinger1SC = BoolField(default_value=False)
 
-    RightFootExtraFinger1IS = RightFootExtraFinger1ISField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger1IS = RightFootExtraFinger1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger1ISx = RightFootExtraFinger1IS.RightFootExtraFinger1ISx
     RightFootExtraFinger1ISy = RightFootExtraFinger1IS.RightFootExtraFinger1ISy
     RightFootExtraFinger1ISz = RightFootExtraFinger1IS.RightFootExtraFinger1ISz
 
-    RightFootExtraFinger1PreR = RightFootExtraFinger1PreRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1PreRx = RightFootExtraFinger1PreR.RightFootExtraFinger1PreRx
-    RightFootExtraFinger1PreRy = RightFootExtraFinger1PreR.RightFootExtraFinger1PreRy
-    RightFootExtraFinger1PreRz = RightFootExtraFinger1PreR.RightFootExtraFinger1PreRz
+    RightFootExtraFinger1PreR = RightFootExtraFinger1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1PreRx = (
+        RightFootExtraFinger1PreR.RightFootExtraFinger1PreRx
+    )
+    RightFootExtraFinger1PreRy = (
+        RightFootExtraFinger1PreR.RightFootExtraFinger1PreRy
+    )
+    RightFootExtraFinger1PreRz = (
+        RightFootExtraFinger1PreR.RightFootExtraFinger1PreRz
+    )
 
-    RightFootExtraFinger1PostR = RightFootExtraFinger1PostRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger1PostRx = RightFootExtraFinger1PostR.RightFootExtraFinger1PostRx
-    RightFootExtraFinger1PostRy = RightFootExtraFinger1PostR.RightFootExtraFinger1PostRy
-    RightFootExtraFinger1PostRz = RightFootExtraFinger1PostR.RightFootExtraFinger1PostRz
+    RightFootExtraFinger1PostR = RightFootExtraFinger1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger1PostRx = (
+        RightFootExtraFinger1PostR.RightFootExtraFinger1PostRx
+    )
+    RightFootExtraFinger1PostRy = (
+        RightFootExtraFinger1PostR.RightFootExtraFinger1PostRy
+    )
+    RightFootExtraFinger1PostRz = (
+        RightFootExtraFinger1PostR.RightFootExtraFinger1PostRz
+    )
 
-    RightFootExtraFinger2T = RightFootExtraFinger2TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2T = RightFootExtraFinger2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Tx = RightFootExtraFinger2T.RightFootExtraFinger2Tx
     RightFootExtraFinger2Ty = RightFootExtraFinger2T.RightFootExtraFinger2Ty
     RightFootExtraFinger2Tz = RightFootExtraFinger2T.RightFootExtraFinger2Tz
 
-    RightFootExtraFinger2R = RightFootExtraFinger2RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger2R = RightFootExtraFinger2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger2Rx = RightFootExtraFinger2R.RightFootExtraFinger2Rx
     RightFootExtraFinger2Ry = RightFootExtraFinger2R.RightFootExtraFinger2Ry
     RightFootExtraFinger2Rz = RightFootExtraFinger2R.RightFootExtraFinger2Rz
 
-    RightFootExtraFinger2S = RightFootExtraFinger2SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger2S = RightFootExtraFinger2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger2Sx = RightFootExtraFinger2S.RightFootExtraFinger2Sx
     RightFootExtraFinger2Sy = RightFootExtraFinger2S.RightFootExtraFinger2Sy
     RightFootExtraFinger2Sz = RightFootExtraFinger2S.RightFootExtraFinger2Sz
 
     RightFootExtraFinger2PGX = MatrixField()
 
-    RightFootExtraFinger2ROrder = RightFootExtraFinger2ROrderEnumField(default_value=0)
+    RightFootExtraFinger2ROrder = RightFootExtraFinger2ROrderEnumField(
+        default_value=0
+    )
 
     RightFootExtraFinger2SC = BoolField(default_value=False)
 
-    RightFootExtraFinger2IS = RightFootExtraFinger2ISField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger2IS = RightFootExtraFinger2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger2ISx = RightFootExtraFinger2IS.RightFootExtraFinger2ISx
     RightFootExtraFinger2ISy = RightFootExtraFinger2IS.RightFootExtraFinger2ISy
     RightFootExtraFinger2ISz = RightFootExtraFinger2IS.RightFootExtraFinger2ISz
 
-    RightFootExtraFinger2PreR = RightFootExtraFinger2PreRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2PreRx = RightFootExtraFinger2PreR.RightFootExtraFinger2PreRx
-    RightFootExtraFinger2PreRy = RightFootExtraFinger2PreR.RightFootExtraFinger2PreRy
-    RightFootExtraFinger2PreRz = RightFootExtraFinger2PreR.RightFootExtraFinger2PreRz
+    RightFootExtraFinger2PreR = RightFootExtraFinger2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2PreRx = (
+        RightFootExtraFinger2PreR.RightFootExtraFinger2PreRx
+    )
+    RightFootExtraFinger2PreRy = (
+        RightFootExtraFinger2PreR.RightFootExtraFinger2PreRy
+    )
+    RightFootExtraFinger2PreRz = (
+        RightFootExtraFinger2PreR.RightFootExtraFinger2PreRz
+    )
 
-    RightFootExtraFinger2PostR = RightFootExtraFinger2PostRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger2PostRx = RightFootExtraFinger2PostR.RightFootExtraFinger2PostRx
-    RightFootExtraFinger2PostRy = RightFootExtraFinger2PostR.RightFootExtraFinger2PostRy
-    RightFootExtraFinger2PostRz = RightFootExtraFinger2PostR.RightFootExtraFinger2PostRz
+    RightFootExtraFinger2PostR = RightFootExtraFinger2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger2PostRx = (
+        RightFootExtraFinger2PostR.RightFootExtraFinger2PostRx
+    )
+    RightFootExtraFinger2PostRy = (
+        RightFootExtraFinger2PostR.RightFootExtraFinger2PostRy
+    )
+    RightFootExtraFinger2PostRz = (
+        RightFootExtraFinger2PostR.RightFootExtraFinger2PostRz
+    )
 
-    RightFootExtraFinger3T = RightFootExtraFinger3TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3T = RightFootExtraFinger3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Tx = RightFootExtraFinger3T.RightFootExtraFinger3Tx
     RightFootExtraFinger3Ty = RightFootExtraFinger3T.RightFootExtraFinger3Ty
     RightFootExtraFinger3Tz = RightFootExtraFinger3T.RightFootExtraFinger3Tz
 
-    RightFootExtraFinger3R = RightFootExtraFinger3RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger3R = RightFootExtraFinger3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger3Rx = RightFootExtraFinger3R.RightFootExtraFinger3Rx
     RightFootExtraFinger3Ry = RightFootExtraFinger3R.RightFootExtraFinger3Ry
     RightFootExtraFinger3Rz = RightFootExtraFinger3R.RightFootExtraFinger3Rz
 
-    RightFootExtraFinger3S = RightFootExtraFinger3SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger3S = RightFootExtraFinger3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger3Sx = RightFootExtraFinger3S.RightFootExtraFinger3Sx
     RightFootExtraFinger3Sy = RightFootExtraFinger3S.RightFootExtraFinger3Sy
     RightFootExtraFinger3Sz = RightFootExtraFinger3S.RightFootExtraFinger3Sz
 
     RightFootExtraFinger3PGX = MatrixField()
 
-    RightFootExtraFinger3ROrder = RightFootExtraFinger3ROrderEnumField(default_value=0)
+    RightFootExtraFinger3ROrder = RightFootExtraFinger3ROrderEnumField(
+        default_value=0
+    )
 
     RightFootExtraFinger3SC = BoolField(default_value=False)
 
-    RightFootExtraFinger3IS = RightFootExtraFinger3ISField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger3IS = RightFootExtraFinger3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger3ISx = RightFootExtraFinger3IS.RightFootExtraFinger3ISx
     RightFootExtraFinger3ISy = RightFootExtraFinger3IS.RightFootExtraFinger3ISy
     RightFootExtraFinger3ISz = RightFootExtraFinger3IS.RightFootExtraFinger3ISz
 
-    RightFootExtraFinger3PreR = RightFootExtraFinger3PreRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3PreRx = RightFootExtraFinger3PreR.RightFootExtraFinger3PreRx
-    RightFootExtraFinger3PreRy = RightFootExtraFinger3PreR.RightFootExtraFinger3PreRy
-    RightFootExtraFinger3PreRz = RightFootExtraFinger3PreR.RightFootExtraFinger3PreRz
+    RightFootExtraFinger3PreR = RightFootExtraFinger3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3PreRx = (
+        RightFootExtraFinger3PreR.RightFootExtraFinger3PreRx
+    )
+    RightFootExtraFinger3PreRy = (
+        RightFootExtraFinger3PreR.RightFootExtraFinger3PreRy
+    )
+    RightFootExtraFinger3PreRz = (
+        RightFootExtraFinger3PreR.RightFootExtraFinger3PreRz
+    )
 
-    RightFootExtraFinger3PostR = RightFootExtraFinger3PostRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger3PostRx = RightFootExtraFinger3PostR.RightFootExtraFinger3PostRx
-    RightFootExtraFinger3PostRy = RightFootExtraFinger3PostR.RightFootExtraFinger3PostRy
-    RightFootExtraFinger3PostRz = RightFootExtraFinger3PostR.RightFootExtraFinger3PostRz
+    RightFootExtraFinger3PostR = RightFootExtraFinger3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger3PostRx = (
+        RightFootExtraFinger3PostR.RightFootExtraFinger3PostRx
+    )
+    RightFootExtraFinger3PostRy = (
+        RightFootExtraFinger3PostR.RightFootExtraFinger3PostRy
+    )
+    RightFootExtraFinger3PostRz = (
+        RightFootExtraFinger3PostR.RightFootExtraFinger3PostRz
+    )
 
-    RightFootExtraFinger4T = RightFootExtraFinger4TField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4T = RightFootExtraFinger4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Tx = RightFootExtraFinger4T.RightFootExtraFinger4Tx
     RightFootExtraFinger4Ty = RightFootExtraFinger4T.RightFootExtraFinger4Ty
     RightFootExtraFinger4Tz = RightFootExtraFinger4T.RightFootExtraFinger4Tz
 
-    RightFootExtraFinger4R = RightFootExtraFinger4RField(default_value=(0.0, 0.0, 0.0))
+    RightFootExtraFinger4R = RightFootExtraFinger4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightFootExtraFinger4Rx = RightFootExtraFinger4R.RightFootExtraFinger4Rx
     RightFootExtraFinger4Ry = RightFootExtraFinger4R.RightFootExtraFinger4Ry
     RightFootExtraFinger4Rz = RightFootExtraFinger4R.RightFootExtraFinger4Rz
 
-    RightFootExtraFinger4S = RightFootExtraFinger4SField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger4S = RightFootExtraFinger4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger4Sx = RightFootExtraFinger4S.RightFootExtraFinger4Sx
     RightFootExtraFinger4Sy = RightFootExtraFinger4S.RightFootExtraFinger4Sy
     RightFootExtraFinger4Sz = RightFootExtraFinger4S.RightFootExtraFinger4Sz
 
     RightFootExtraFinger4PGX = MatrixField()
 
-    RightFootExtraFinger4ROrder = RightFootExtraFinger4ROrderEnumField(default_value=0)
+    RightFootExtraFinger4ROrder = RightFootExtraFinger4ROrderEnumField(
+        default_value=0
+    )
 
     RightFootExtraFinger4SC = BoolField(default_value=False)
 
-    RightFootExtraFinger4IS = RightFootExtraFinger4ISField(default_value=(1.0, 1.0, 1.0))
+    RightFootExtraFinger4IS = RightFootExtraFinger4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightFootExtraFinger4ISx = RightFootExtraFinger4IS.RightFootExtraFinger4ISx
     RightFootExtraFinger4ISy = RightFootExtraFinger4IS.RightFootExtraFinger4ISy
     RightFootExtraFinger4ISz = RightFootExtraFinger4IS.RightFootExtraFinger4ISz
 
-    RightFootExtraFinger4PreR = RightFootExtraFinger4PreRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4PreRx = RightFootExtraFinger4PreR.RightFootExtraFinger4PreRx
-    RightFootExtraFinger4PreRy = RightFootExtraFinger4PreR.RightFootExtraFinger4PreRy
-    RightFootExtraFinger4PreRz = RightFootExtraFinger4PreR.RightFootExtraFinger4PreRz
+    RightFootExtraFinger4PreR = RightFootExtraFinger4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4PreRx = (
+        RightFootExtraFinger4PreR.RightFootExtraFinger4PreRx
+    )
+    RightFootExtraFinger4PreRy = (
+        RightFootExtraFinger4PreR.RightFootExtraFinger4PreRy
+    )
+    RightFootExtraFinger4PreRz = (
+        RightFootExtraFinger4PreR.RightFootExtraFinger4PreRz
+    )
 
-    RightFootExtraFinger4PostR = RightFootExtraFinger4PostRField(default_value=(0.0, 0.0, 0.0))
-    RightFootExtraFinger4PostRx = RightFootExtraFinger4PostR.RightFootExtraFinger4PostRx
-    RightFootExtraFinger4PostRy = RightFootExtraFinger4PostR.RightFootExtraFinger4PostRy
-    RightFootExtraFinger4PostRz = RightFootExtraFinger4PostR.RightFootExtraFinger4PostRz
+    RightFootExtraFinger4PostR = RightFootExtraFinger4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightFootExtraFinger4PostRx = (
+        RightFootExtraFinger4PostR.RightFootExtraFinger4PostRx
+    )
+    RightFootExtraFinger4PostRy = (
+        RightFootExtraFinger4PostR.RightFootExtraFinger4PostRy
+    )
+    RightFootExtraFinger4PostRz = (
+        RightFootExtraFinger4PostR.RightFootExtraFinger4PostRz
+    )
 
     LeftInHandThumbT = LeftInHandThumbTField(default_value=(0.0, 0.0, 0.0))
     LeftInHandThumbTx = LeftInHandThumbT.LeftInHandThumbTx
@@ -15055,12 +17087,16 @@ class GeneratedHIKState2SK(DG):
     LeftInHandThumbISy = LeftInHandThumbIS.LeftInHandThumbISy
     LeftInHandThumbISz = LeftInHandThumbIS.LeftInHandThumbISz
 
-    LeftInHandThumbPreR = LeftInHandThumbPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandThumbPreR = LeftInHandThumbPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandThumbPreRx = LeftInHandThumbPreR.LeftInHandThumbPreRx
     LeftInHandThumbPreRy = LeftInHandThumbPreR.LeftInHandThumbPreRy
     LeftInHandThumbPreRz = LeftInHandThumbPreR.LeftInHandThumbPreRz
 
-    LeftInHandThumbPostR = LeftInHandThumbPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandThumbPostR = LeftInHandThumbPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandThumbPostRx = LeftInHandThumbPostR.LeftInHandThumbPostRx
     LeftInHandThumbPostRy = LeftInHandThumbPostR.LeftInHandThumbPostRy
     LeftInHandThumbPostRz = LeftInHandThumbPostR.LeftInHandThumbPostRz
@@ -15091,12 +17127,16 @@ class GeneratedHIKState2SK(DG):
     LeftInHandIndexISy = LeftInHandIndexIS.LeftInHandIndexISy
     LeftInHandIndexISz = LeftInHandIndexIS.LeftInHandIndexISz
 
-    LeftInHandIndexPreR = LeftInHandIndexPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandIndexPreR = LeftInHandIndexPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandIndexPreRx = LeftInHandIndexPreR.LeftInHandIndexPreRx
     LeftInHandIndexPreRy = LeftInHandIndexPreR.LeftInHandIndexPreRy
     LeftInHandIndexPreRz = LeftInHandIndexPreR.LeftInHandIndexPreRz
 
-    LeftInHandIndexPostR = LeftInHandIndexPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandIndexPostR = LeftInHandIndexPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandIndexPostRx = LeftInHandIndexPostR.LeftInHandIndexPostRx
     LeftInHandIndexPostRy = LeftInHandIndexPostR.LeftInHandIndexPostRy
     LeftInHandIndexPostRz = LeftInHandIndexPostR.LeftInHandIndexPostRz
@@ -15127,12 +17167,16 @@ class GeneratedHIKState2SK(DG):
     LeftInHandMiddleISy = LeftInHandMiddleIS.LeftInHandMiddleISy
     LeftInHandMiddleISz = LeftInHandMiddleIS.LeftInHandMiddleISz
 
-    LeftInHandMiddlePreR = LeftInHandMiddlePreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandMiddlePreR = LeftInHandMiddlePreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandMiddlePreRx = LeftInHandMiddlePreR.LeftInHandMiddlePreRx
     LeftInHandMiddlePreRy = LeftInHandMiddlePreR.LeftInHandMiddlePreRy
     LeftInHandMiddlePreRz = LeftInHandMiddlePreR.LeftInHandMiddlePreRz
 
-    LeftInHandMiddlePostR = LeftInHandMiddlePostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandMiddlePostR = LeftInHandMiddlePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandMiddlePostRx = LeftInHandMiddlePostR.LeftInHandMiddlePostRx
     LeftInHandMiddlePostRy = LeftInHandMiddlePostR.LeftInHandMiddlePostRy
     LeftInHandMiddlePostRz = LeftInHandMiddlePostR.LeftInHandMiddlePostRz
@@ -15168,7 +17212,9 @@ class GeneratedHIKState2SK(DG):
     LeftInHandRingPreRy = LeftInHandRingPreR.LeftInHandRingPreRy
     LeftInHandRingPreRz = LeftInHandRingPreR.LeftInHandRingPreRz
 
-    LeftInHandRingPostR = LeftInHandRingPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandRingPostR = LeftInHandRingPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandRingPostRx = LeftInHandRingPostR.LeftInHandRingPostRx
     LeftInHandRingPostRy = LeftInHandRingPostR.LeftInHandRingPostRy
     LeftInHandRingPostRz = LeftInHandRingPostR.LeftInHandRingPostRz
@@ -15199,51 +17245,81 @@ class GeneratedHIKState2SK(DG):
     LeftInHandPinkyISy = LeftInHandPinkyIS.LeftInHandPinkyISy
     LeftInHandPinkyISz = LeftInHandPinkyIS.LeftInHandPinkyISz
 
-    LeftInHandPinkyPreR = LeftInHandPinkyPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandPinkyPreR = LeftInHandPinkyPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandPinkyPreRx = LeftInHandPinkyPreR.LeftInHandPinkyPreRx
     LeftInHandPinkyPreRy = LeftInHandPinkyPreR.LeftInHandPinkyPreRy
     LeftInHandPinkyPreRz = LeftInHandPinkyPreR.LeftInHandPinkyPreRz
 
-    LeftInHandPinkyPostR = LeftInHandPinkyPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandPinkyPostR = LeftInHandPinkyPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandPinkyPostRx = LeftInHandPinkyPostR.LeftInHandPinkyPostRx
     LeftInHandPinkyPostRy = LeftInHandPinkyPostR.LeftInHandPinkyPostRy
     LeftInHandPinkyPostRz = LeftInHandPinkyPostR.LeftInHandPinkyPostRz
 
-    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerT = LeftInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerTx = LeftInHandExtraFingerT.LeftInHandExtraFingerTx
     LeftInHandExtraFingerTy = LeftInHandExtraFingerT.LeftInHandExtraFingerTy
     LeftInHandExtraFingerTz = LeftInHandExtraFingerT.LeftInHandExtraFingerTz
 
-    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInHandExtraFingerR = LeftInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInHandExtraFingerRx = LeftInHandExtraFingerR.LeftInHandExtraFingerRx
     LeftInHandExtraFingerRy = LeftInHandExtraFingerR.LeftInHandExtraFingerRy
     LeftInHandExtraFingerRz = LeftInHandExtraFingerR.LeftInHandExtraFingerRz
 
-    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInHandExtraFingerS = LeftInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInHandExtraFingerSx = LeftInHandExtraFingerS.LeftInHandExtraFingerSx
     LeftInHandExtraFingerSy = LeftInHandExtraFingerS.LeftInHandExtraFingerSy
     LeftInHandExtraFingerSz = LeftInHandExtraFingerS.LeftInHandExtraFingerSz
 
     LeftInHandExtraFingerPGX = MatrixField()
 
-    LeftInHandExtraFingerROrder = LeftInHandExtraFingerROrderEnumField(default_value=0)
+    LeftInHandExtraFingerROrder = LeftInHandExtraFingerROrderEnumField(
+        default_value=0
+    )
 
     LeftInHandExtraFingerSC = BoolField(default_value=False)
 
-    LeftInHandExtraFingerIS = LeftInHandExtraFingerISField(default_value=(1.0, 1.0, 1.0))
+    LeftInHandExtraFingerIS = LeftInHandExtraFingerISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInHandExtraFingerISx = LeftInHandExtraFingerIS.LeftInHandExtraFingerISx
     LeftInHandExtraFingerISy = LeftInHandExtraFingerIS.LeftInHandExtraFingerISy
     LeftInHandExtraFingerISz = LeftInHandExtraFingerIS.LeftInHandExtraFingerISz
 
-    LeftInHandExtraFingerPreR = LeftInHandExtraFingerPreRField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerPreRx = LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRx
-    LeftInHandExtraFingerPreRy = LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRy
-    LeftInHandExtraFingerPreRz = LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRz
+    LeftInHandExtraFingerPreR = LeftInHandExtraFingerPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerPreRx = (
+        LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRx
+    )
+    LeftInHandExtraFingerPreRy = (
+        LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRy
+    )
+    LeftInHandExtraFingerPreRz = (
+        LeftInHandExtraFingerPreR.LeftInHandExtraFingerPreRz
+    )
 
-    LeftInHandExtraFingerPostR = LeftInHandExtraFingerPostRField(default_value=(0.0, 0.0, 0.0))
-    LeftInHandExtraFingerPostRx = LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRx
-    LeftInHandExtraFingerPostRy = LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRy
-    LeftInHandExtraFingerPostRz = LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRz
+    LeftInHandExtraFingerPostR = LeftInHandExtraFingerPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInHandExtraFingerPostRx = (
+        LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRx
+    )
+    LeftInHandExtraFingerPostRy = (
+        LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRy
+    )
+    LeftInHandExtraFingerPostRz = (
+        LeftInHandExtraFingerPostR.LeftInHandExtraFingerPostRz
+    )
 
     RightInHandThumbT = RightInHandThumbTField(default_value=(0.0, 0.0, 0.0))
     RightInHandThumbTx = RightInHandThumbT.RightInHandThumbTx
@@ -15271,12 +17347,16 @@ class GeneratedHIKState2SK(DG):
     RightInHandThumbISy = RightInHandThumbIS.RightInHandThumbISy
     RightInHandThumbISz = RightInHandThumbIS.RightInHandThumbISz
 
-    RightInHandThumbPreR = RightInHandThumbPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandThumbPreR = RightInHandThumbPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandThumbPreRx = RightInHandThumbPreR.RightInHandThumbPreRx
     RightInHandThumbPreRy = RightInHandThumbPreR.RightInHandThumbPreRy
     RightInHandThumbPreRz = RightInHandThumbPreR.RightInHandThumbPreRz
 
-    RightInHandThumbPostR = RightInHandThumbPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandThumbPostR = RightInHandThumbPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandThumbPostRx = RightInHandThumbPostR.RightInHandThumbPostRx
     RightInHandThumbPostRy = RightInHandThumbPostR.RightInHandThumbPostRy
     RightInHandThumbPostRz = RightInHandThumbPostR.RightInHandThumbPostRz
@@ -15307,12 +17387,16 @@ class GeneratedHIKState2SK(DG):
     RightInHandIndexISy = RightInHandIndexIS.RightInHandIndexISy
     RightInHandIndexISz = RightInHandIndexIS.RightInHandIndexISz
 
-    RightInHandIndexPreR = RightInHandIndexPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandIndexPreR = RightInHandIndexPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandIndexPreRx = RightInHandIndexPreR.RightInHandIndexPreRx
     RightInHandIndexPreRy = RightInHandIndexPreR.RightInHandIndexPreRy
     RightInHandIndexPreRz = RightInHandIndexPreR.RightInHandIndexPreRz
 
-    RightInHandIndexPostR = RightInHandIndexPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandIndexPostR = RightInHandIndexPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandIndexPostRx = RightInHandIndexPostR.RightInHandIndexPostRx
     RightInHandIndexPostRy = RightInHandIndexPostR.RightInHandIndexPostRy
     RightInHandIndexPostRz = RightInHandIndexPostR.RightInHandIndexPostRz
@@ -15338,17 +17422,23 @@ class GeneratedHIKState2SK(DG):
 
     RightInHandMiddleSC = BoolField(default_value=False)
 
-    RightInHandMiddleIS = RightInHandMiddleISField(default_value=(1.0, 1.0, 1.0))
+    RightInHandMiddleIS = RightInHandMiddleISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInHandMiddleISx = RightInHandMiddleIS.RightInHandMiddleISx
     RightInHandMiddleISy = RightInHandMiddleIS.RightInHandMiddleISy
     RightInHandMiddleISz = RightInHandMiddleIS.RightInHandMiddleISz
 
-    RightInHandMiddlePreR = RightInHandMiddlePreRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandMiddlePreR = RightInHandMiddlePreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandMiddlePreRx = RightInHandMiddlePreR.RightInHandMiddlePreRx
     RightInHandMiddlePreRy = RightInHandMiddlePreR.RightInHandMiddlePreRy
     RightInHandMiddlePreRz = RightInHandMiddlePreR.RightInHandMiddlePreRz
 
-    RightInHandMiddlePostR = RightInHandMiddlePostRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandMiddlePostR = RightInHandMiddlePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandMiddlePostRx = RightInHandMiddlePostR.RightInHandMiddlePostRx
     RightInHandMiddlePostRy = RightInHandMiddlePostR.RightInHandMiddlePostRy
     RightInHandMiddlePostRz = RightInHandMiddlePostR.RightInHandMiddlePostRz
@@ -15379,12 +17469,16 @@ class GeneratedHIKState2SK(DG):
     RightInHandRingISy = RightInHandRingIS.RightInHandRingISy
     RightInHandRingISz = RightInHandRingIS.RightInHandRingISz
 
-    RightInHandRingPreR = RightInHandRingPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandRingPreR = RightInHandRingPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandRingPreRx = RightInHandRingPreR.RightInHandRingPreRx
     RightInHandRingPreRy = RightInHandRingPreR.RightInHandRingPreRy
     RightInHandRingPreRz = RightInHandRingPreR.RightInHandRingPreRz
 
-    RightInHandRingPostR = RightInHandRingPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandRingPostR = RightInHandRingPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandRingPostRx = RightInHandRingPostR.RightInHandRingPostRx
     RightInHandRingPostRy = RightInHandRingPostR.RightInHandRingPostRy
     RightInHandRingPostRz = RightInHandRingPostR.RightInHandRingPostRz
@@ -15415,51 +17509,87 @@ class GeneratedHIKState2SK(DG):
     RightInHandPinkyISy = RightInHandPinkyIS.RightInHandPinkyISy
     RightInHandPinkyISz = RightInHandPinkyIS.RightInHandPinkyISz
 
-    RightInHandPinkyPreR = RightInHandPinkyPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandPinkyPreR = RightInHandPinkyPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandPinkyPreRx = RightInHandPinkyPreR.RightInHandPinkyPreRx
     RightInHandPinkyPreRy = RightInHandPinkyPreR.RightInHandPinkyPreRy
     RightInHandPinkyPreRz = RightInHandPinkyPreR.RightInHandPinkyPreRz
 
-    RightInHandPinkyPostR = RightInHandPinkyPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandPinkyPostR = RightInHandPinkyPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandPinkyPostRx = RightInHandPinkyPostR.RightInHandPinkyPostRx
     RightInHandPinkyPostRy = RightInHandPinkyPostR.RightInHandPinkyPostRy
     RightInHandPinkyPostRz = RightInHandPinkyPostR.RightInHandPinkyPostRz
 
-    RightInHandExtraFingerT = RightInHandExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerT = RightInHandExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerTx = RightInHandExtraFingerT.RightInHandExtraFingerTx
     RightInHandExtraFingerTy = RightInHandExtraFingerT.RightInHandExtraFingerTy
     RightInHandExtraFingerTz = RightInHandExtraFingerT.RightInHandExtraFingerTz
 
-    RightInHandExtraFingerR = RightInHandExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInHandExtraFingerR = RightInHandExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInHandExtraFingerRx = RightInHandExtraFingerR.RightInHandExtraFingerRx
     RightInHandExtraFingerRy = RightInHandExtraFingerR.RightInHandExtraFingerRy
     RightInHandExtraFingerRz = RightInHandExtraFingerR.RightInHandExtraFingerRz
 
-    RightInHandExtraFingerS = RightInHandExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInHandExtraFingerS = RightInHandExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInHandExtraFingerSx = RightInHandExtraFingerS.RightInHandExtraFingerSx
     RightInHandExtraFingerSy = RightInHandExtraFingerS.RightInHandExtraFingerSy
     RightInHandExtraFingerSz = RightInHandExtraFingerS.RightInHandExtraFingerSz
 
     RightInHandExtraFingerPGX = MatrixField()
 
-    RightInHandExtraFingerROrder = RightInHandExtraFingerROrderEnumField(default_value=0)
+    RightInHandExtraFingerROrder = RightInHandExtraFingerROrderEnumField(
+        default_value=0
+    )
 
     RightInHandExtraFingerSC = BoolField(default_value=False)
 
-    RightInHandExtraFingerIS = RightInHandExtraFingerISField(default_value=(1.0, 1.0, 1.0))
-    RightInHandExtraFingerISx = RightInHandExtraFingerIS.RightInHandExtraFingerISx
-    RightInHandExtraFingerISy = RightInHandExtraFingerIS.RightInHandExtraFingerISy
-    RightInHandExtraFingerISz = RightInHandExtraFingerIS.RightInHandExtraFingerISz
+    RightInHandExtraFingerIS = RightInHandExtraFingerISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
+    RightInHandExtraFingerISx = (
+        RightInHandExtraFingerIS.RightInHandExtraFingerISx
+    )
+    RightInHandExtraFingerISy = (
+        RightInHandExtraFingerIS.RightInHandExtraFingerISy
+    )
+    RightInHandExtraFingerISz = (
+        RightInHandExtraFingerIS.RightInHandExtraFingerISz
+    )
 
-    RightInHandExtraFingerPreR = RightInHandExtraFingerPreRField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerPreRx = RightInHandExtraFingerPreR.RightInHandExtraFingerPreRx
-    RightInHandExtraFingerPreRy = RightInHandExtraFingerPreR.RightInHandExtraFingerPreRy
-    RightInHandExtraFingerPreRz = RightInHandExtraFingerPreR.RightInHandExtraFingerPreRz
+    RightInHandExtraFingerPreR = RightInHandExtraFingerPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerPreRx = (
+        RightInHandExtraFingerPreR.RightInHandExtraFingerPreRx
+    )
+    RightInHandExtraFingerPreRy = (
+        RightInHandExtraFingerPreR.RightInHandExtraFingerPreRy
+    )
+    RightInHandExtraFingerPreRz = (
+        RightInHandExtraFingerPreR.RightInHandExtraFingerPreRz
+    )
 
-    RightInHandExtraFingerPostR = RightInHandExtraFingerPostRField(default_value=(0.0, 0.0, 0.0))
-    RightInHandExtraFingerPostRx = RightInHandExtraFingerPostR.RightInHandExtraFingerPostRx
-    RightInHandExtraFingerPostRy = RightInHandExtraFingerPostR.RightInHandExtraFingerPostRy
-    RightInHandExtraFingerPostRz = RightInHandExtraFingerPostR.RightInHandExtraFingerPostRz
+    RightInHandExtraFingerPostR = RightInHandExtraFingerPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInHandExtraFingerPostRx = (
+        RightInHandExtraFingerPostR.RightInHandExtraFingerPostRx
+    )
+    RightInHandExtraFingerPostRy = (
+        RightInHandExtraFingerPostR.RightInHandExtraFingerPostRy
+    )
+    RightInHandExtraFingerPostRz = (
+        RightInHandExtraFingerPostR.RightInHandExtraFingerPostRz
+    )
 
     LeftInFootThumbT = LeftInFootThumbTField(default_value=(0.0, 0.0, 0.0))
     LeftInFootThumbTx = LeftInFootThumbT.LeftInFootThumbTx
@@ -15487,12 +17617,16 @@ class GeneratedHIKState2SK(DG):
     LeftInFootThumbISy = LeftInFootThumbIS.LeftInFootThumbISy
     LeftInFootThumbISz = LeftInFootThumbIS.LeftInFootThumbISz
 
-    LeftInFootThumbPreR = LeftInFootThumbPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootThumbPreR = LeftInFootThumbPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootThumbPreRx = LeftInFootThumbPreR.LeftInFootThumbPreRx
     LeftInFootThumbPreRy = LeftInFootThumbPreR.LeftInFootThumbPreRy
     LeftInFootThumbPreRz = LeftInFootThumbPreR.LeftInFootThumbPreRz
 
-    LeftInFootThumbPostR = LeftInFootThumbPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootThumbPostR = LeftInFootThumbPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootThumbPostRx = LeftInFootThumbPostR.LeftInFootThumbPostRx
     LeftInFootThumbPostRy = LeftInFootThumbPostR.LeftInFootThumbPostRy
     LeftInFootThumbPostRz = LeftInFootThumbPostR.LeftInFootThumbPostRz
@@ -15523,12 +17657,16 @@ class GeneratedHIKState2SK(DG):
     LeftInFootIndexISy = LeftInFootIndexIS.LeftInFootIndexISy
     LeftInFootIndexISz = LeftInFootIndexIS.LeftInFootIndexISz
 
-    LeftInFootIndexPreR = LeftInFootIndexPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootIndexPreR = LeftInFootIndexPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootIndexPreRx = LeftInFootIndexPreR.LeftInFootIndexPreRx
     LeftInFootIndexPreRy = LeftInFootIndexPreR.LeftInFootIndexPreRy
     LeftInFootIndexPreRz = LeftInFootIndexPreR.LeftInFootIndexPreRz
 
-    LeftInFootIndexPostR = LeftInFootIndexPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootIndexPostR = LeftInFootIndexPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootIndexPostRx = LeftInFootIndexPostR.LeftInFootIndexPostRx
     LeftInFootIndexPostRy = LeftInFootIndexPostR.LeftInFootIndexPostRy
     LeftInFootIndexPostRz = LeftInFootIndexPostR.LeftInFootIndexPostRz
@@ -15559,12 +17697,16 @@ class GeneratedHIKState2SK(DG):
     LeftInFootMiddleISy = LeftInFootMiddleIS.LeftInFootMiddleISy
     LeftInFootMiddleISz = LeftInFootMiddleIS.LeftInFootMiddleISz
 
-    LeftInFootMiddlePreR = LeftInFootMiddlePreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootMiddlePreR = LeftInFootMiddlePreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootMiddlePreRx = LeftInFootMiddlePreR.LeftInFootMiddlePreRx
     LeftInFootMiddlePreRy = LeftInFootMiddlePreR.LeftInFootMiddlePreRy
     LeftInFootMiddlePreRz = LeftInFootMiddlePreR.LeftInFootMiddlePreRz
 
-    LeftInFootMiddlePostR = LeftInFootMiddlePostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootMiddlePostR = LeftInFootMiddlePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootMiddlePostRx = LeftInFootMiddlePostR.LeftInFootMiddlePostRx
     LeftInFootMiddlePostRy = LeftInFootMiddlePostR.LeftInFootMiddlePostRy
     LeftInFootMiddlePostRz = LeftInFootMiddlePostR.LeftInFootMiddlePostRz
@@ -15600,7 +17742,9 @@ class GeneratedHIKState2SK(DG):
     LeftInFootRingPreRy = LeftInFootRingPreR.LeftInFootRingPreRy
     LeftInFootRingPreRz = LeftInFootRingPreR.LeftInFootRingPreRz
 
-    LeftInFootRingPostR = LeftInFootRingPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootRingPostR = LeftInFootRingPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootRingPostRx = LeftInFootRingPostR.LeftInFootRingPostRx
     LeftInFootRingPostRy = LeftInFootRingPostR.LeftInFootRingPostRy
     LeftInFootRingPostRz = LeftInFootRingPostR.LeftInFootRingPostRz
@@ -15631,51 +17775,81 @@ class GeneratedHIKState2SK(DG):
     LeftInFootPinkyISy = LeftInFootPinkyIS.LeftInFootPinkyISy
     LeftInFootPinkyISz = LeftInFootPinkyIS.LeftInFootPinkyISz
 
-    LeftInFootPinkyPreR = LeftInFootPinkyPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootPinkyPreR = LeftInFootPinkyPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootPinkyPreRx = LeftInFootPinkyPreR.LeftInFootPinkyPreRx
     LeftInFootPinkyPreRy = LeftInFootPinkyPreR.LeftInFootPinkyPreRy
     LeftInFootPinkyPreRz = LeftInFootPinkyPreR.LeftInFootPinkyPreRz
 
-    LeftInFootPinkyPostR = LeftInFootPinkyPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootPinkyPostR = LeftInFootPinkyPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootPinkyPostRx = LeftInFootPinkyPostR.LeftInFootPinkyPostRx
     LeftInFootPinkyPostRy = LeftInFootPinkyPostR.LeftInFootPinkyPostRy
     LeftInFootPinkyPostRz = LeftInFootPinkyPostR.LeftInFootPinkyPostRz
 
-    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerT = LeftInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerTx = LeftInFootExtraFingerT.LeftInFootExtraFingerTx
     LeftInFootExtraFingerTy = LeftInFootExtraFingerT.LeftInFootExtraFingerTy
     LeftInFootExtraFingerTz = LeftInFootExtraFingerT.LeftInFootExtraFingerTz
 
-    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    LeftInFootExtraFingerR = LeftInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftInFootExtraFingerRx = LeftInFootExtraFingerR.LeftInFootExtraFingerRx
     LeftInFootExtraFingerRy = LeftInFootExtraFingerR.LeftInFootExtraFingerRy
     LeftInFootExtraFingerRz = LeftInFootExtraFingerR.LeftInFootExtraFingerRz
 
-    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    LeftInFootExtraFingerS = LeftInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInFootExtraFingerSx = LeftInFootExtraFingerS.LeftInFootExtraFingerSx
     LeftInFootExtraFingerSy = LeftInFootExtraFingerS.LeftInFootExtraFingerSy
     LeftInFootExtraFingerSz = LeftInFootExtraFingerS.LeftInFootExtraFingerSz
 
     LeftInFootExtraFingerPGX = MatrixField()
 
-    LeftInFootExtraFingerROrder = LeftInFootExtraFingerROrderEnumField(default_value=0)
+    LeftInFootExtraFingerROrder = LeftInFootExtraFingerROrderEnumField(
+        default_value=0
+    )
 
     LeftInFootExtraFingerSC = BoolField(default_value=False)
 
-    LeftInFootExtraFingerIS = LeftInFootExtraFingerISField(default_value=(1.0, 1.0, 1.0))
+    LeftInFootExtraFingerIS = LeftInFootExtraFingerISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftInFootExtraFingerISx = LeftInFootExtraFingerIS.LeftInFootExtraFingerISx
     LeftInFootExtraFingerISy = LeftInFootExtraFingerIS.LeftInFootExtraFingerISy
     LeftInFootExtraFingerISz = LeftInFootExtraFingerIS.LeftInFootExtraFingerISz
 
-    LeftInFootExtraFingerPreR = LeftInFootExtraFingerPreRField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerPreRx = LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRx
-    LeftInFootExtraFingerPreRy = LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRy
-    LeftInFootExtraFingerPreRz = LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRz
+    LeftInFootExtraFingerPreR = LeftInFootExtraFingerPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerPreRx = (
+        LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRx
+    )
+    LeftInFootExtraFingerPreRy = (
+        LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRy
+    )
+    LeftInFootExtraFingerPreRz = (
+        LeftInFootExtraFingerPreR.LeftInFootExtraFingerPreRz
+    )
 
-    LeftInFootExtraFingerPostR = LeftInFootExtraFingerPostRField(default_value=(0.0, 0.0, 0.0))
-    LeftInFootExtraFingerPostRx = LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRx
-    LeftInFootExtraFingerPostRy = LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRy
-    LeftInFootExtraFingerPostRz = LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRz
+    LeftInFootExtraFingerPostR = LeftInFootExtraFingerPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeftInFootExtraFingerPostRx = (
+        LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRx
+    )
+    LeftInFootExtraFingerPostRy = (
+        LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRy
+    )
+    LeftInFootExtraFingerPostRz = (
+        LeftInFootExtraFingerPostR.LeftInFootExtraFingerPostRz
+    )
 
     RightInFootThumbT = RightInFootThumbTField(default_value=(0.0, 0.0, 0.0))
     RightInFootThumbTx = RightInFootThumbT.RightInFootThumbTx
@@ -15703,12 +17877,16 @@ class GeneratedHIKState2SK(DG):
     RightInFootThumbISy = RightInFootThumbIS.RightInFootThumbISy
     RightInFootThumbISz = RightInFootThumbIS.RightInFootThumbISz
 
-    RightInFootThumbPreR = RightInFootThumbPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootThumbPreR = RightInFootThumbPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootThumbPreRx = RightInFootThumbPreR.RightInFootThumbPreRx
     RightInFootThumbPreRy = RightInFootThumbPreR.RightInFootThumbPreRy
     RightInFootThumbPreRz = RightInFootThumbPreR.RightInFootThumbPreRz
 
-    RightInFootThumbPostR = RightInFootThumbPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootThumbPostR = RightInFootThumbPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootThumbPostRx = RightInFootThumbPostR.RightInFootThumbPostRx
     RightInFootThumbPostRy = RightInFootThumbPostR.RightInFootThumbPostRy
     RightInFootThumbPostRz = RightInFootThumbPostR.RightInFootThumbPostRz
@@ -15739,12 +17917,16 @@ class GeneratedHIKState2SK(DG):
     RightInFootIndexISy = RightInFootIndexIS.RightInFootIndexISy
     RightInFootIndexISz = RightInFootIndexIS.RightInFootIndexISz
 
-    RightInFootIndexPreR = RightInFootIndexPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootIndexPreR = RightInFootIndexPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootIndexPreRx = RightInFootIndexPreR.RightInFootIndexPreRx
     RightInFootIndexPreRy = RightInFootIndexPreR.RightInFootIndexPreRy
     RightInFootIndexPreRz = RightInFootIndexPreR.RightInFootIndexPreRz
 
-    RightInFootIndexPostR = RightInFootIndexPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootIndexPostR = RightInFootIndexPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootIndexPostRx = RightInFootIndexPostR.RightInFootIndexPostRx
     RightInFootIndexPostRy = RightInFootIndexPostR.RightInFootIndexPostRy
     RightInFootIndexPostRz = RightInFootIndexPostR.RightInFootIndexPostRz
@@ -15770,17 +17952,23 @@ class GeneratedHIKState2SK(DG):
 
     RightInFootMiddleSC = BoolField(default_value=False)
 
-    RightInFootMiddleIS = RightInFootMiddleISField(default_value=(1.0, 1.0, 1.0))
+    RightInFootMiddleIS = RightInFootMiddleISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInFootMiddleISx = RightInFootMiddleIS.RightInFootMiddleISx
     RightInFootMiddleISy = RightInFootMiddleIS.RightInFootMiddleISy
     RightInFootMiddleISz = RightInFootMiddleIS.RightInFootMiddleISz
 
-    RightInFootMiddlePreR = RightInFootMiddlePreRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootMiddlePreR = RightInFootMiddlePreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootMiddlePreRx = RightInFootMiddlePreR.RightInFootMiddlePreRx
     RightInFootMiddlePreRy = RightInFootMiddlePreR.RightInFootMiddlePreRy
     RightInFootMiddlePreRz = RightInFootMiddlePreR.RightInFootMiddlePreRz
 
-    RightInFootMiddlePostR = RightInFootMiddlePostRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootMiddlePostR = RightInFootMiddlePostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootMiddlePostRx = RightInFootMiddlePostR.RightInFootMiddlePostRx
     RightInFootMiddlePostRy = RightInFootMiddlePostR.RightInFootMiddlePostRy
     RightInFootMiddlePostRz = RightInFootMiddlePostR.RightInFootMiddlePostRz
@@ -15811,12 +17999,16 @@ class GeneratedHIKState2SK(DG):
     RightInFootRingISy = RightInFootRingIS.RightInFootRingISy
     RightInFootRingISz = RightInFootRingIS.RightInFootRingISz
 
-    RightInFootRingPreR = RightInFootRingPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootRingPreR = RightInFootRingPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootRingPreRx = RightInFootRingPreR.RightInFootRingPreRx
     RightInFootRingPreRy = RightInFootRingPreR.RightInFootRingPreRy
     RightInFootRingPreRz = RightInFootRingPreR.RightInFootRingPreRz
 
-    RightInFootRingPostR = RightInFootRingPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootRingPostR = RightInFootRingPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootRingPostRx = RightInFootRingPostR.RightInFootRingPostRx
     RightInFootRingPostRy = RightInFootRingPostR.RightInFootRingPostRy
     RightInFootRingPostRz = RightInFootRingPostR.RightInFootRingPostRz
@@ -15847,51 +18039,87 @@ class GeneratedHIKState2SK(DG):
     RightInFootPinkyISy = RightInFootPinkyIS.RightInFootPinkyISy
     RightInFootPinkyISz = RightInFootPinkyIS.RightInFootPinkyISz
 
-    RightInFootPinkyPreR = RightInFootPinkyPreRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootPinkyPreR = RightInFootPinkyPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootPinkyPreRx = RightInFootPinkyPreR.RightInFootPinkyPreRx
     RightInFootPinkyPreRy = RightInFootPinkyPreR.RightInFootPinkyPreRy
     RightInFootPinkyPreRz = RightInFootPinkyPreR.RightInFootPinkyPreRz
 
-    RightInFootPinkyPostR = RightInFootPinkyPostRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootPinkyPostR = RightInFootPinkyPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootPinkyPostRx = RightInFootPinkyPostR.RightInFootPinkyPostRx
     RightInFootPinkyPostRy = RightInFootPinkyPostR.RightInFootPinkyPostRy
     RightInFootPinkyPostRz = RightInFootPinkyPostR.RightInFootPinkyPostRz
 
-    RightInFootExtraFingerT = RightInFootExtraFingerTField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerT = RightInFootExtraFingerTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerTx = RightInFootExtraFingerT.RightInFootExtraFingerTx
     RightInFootExtraFingerTy = RightInFootExtraFingerT.RightInFootExtraFingerTy
     RightInFootExtraFingerTz = RightInFootExtraFingerT.RightInFootExtraFingerTz
 
-    RightInFootExtraFingerR = RightInFootExtraFingerRField(default_value=(0.0, 0.0, 0.0))
+    RightInFootExtraFingerR = RightInFootExtraFingerRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightInFootExtraFingerRx = RightInFootExtraFingerR.RightInFootExtraFingerRx
     RightInFootExtraFingerRy = RightInFootExtraFingerR.RightInFootExtraFingerRy
     RightInFootExtraFingerRz = RightInFootExtraFingerR.RightInFootExtraFingerRz
 
-    RightInFootExtraFingerS = RightInFootExtraFingerSField(default_value=(1.0, 1.0, 1.0))
+    RightInFootExtraFingerS = RightInFootExtraFingerSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightInFootExtraFingerSx = RightInFootExtraFingerS.RightInFootExtraFingerSx
     RightInFootExtraFingerSy = RightInFootExtraFingerS.RightInFootExtraFingerSy
     RightInFootExtraFingerSz = RightInFootExtraFingerS.RightInFootExtraFingerSz
 
     RightInFootExtraFingerPGX = MatrixField()
 
-    RightInFootExtraFingerROrder = RightInFootExtraFingerROrderEnumField(default_value=0)
+    RightInFootExtraFingerROrder = RightInFootExtraFingerROrderEnumField(
+        default_value=0
+    )
 
     RightInFootExtraFingerSC = BoolField(default_value=False)
 
-    RightInFootExtraFingerIS = RightInFootExtraFingerISField(default_value=(1.0, 1.0, 1.0))
-    RightInFootExtraFingerISx = RightInFootExtraFingerIS.RightInFootExtraFingerISx
-    RightInFootExtraFingerISy = RightInFootExtraFingerIS.RightInFootExtraFingerISy
-    RightInFootExtraFingerISz = RightInFootExtraFingerIS.RightInFootExtraFingerISz
+    RightInFootExtraFingerIS = RightInFootExtraFingerISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
+    RightInFootExtraFingerISx = (
+        RightInFootExtraFingerIS.RightInFootExtraFingerISx
+    )
+    RightInFootExtraFingerISy = (
+        RightInFootExtraFingerIS.RightInFootExtraFingerISy
+    )
+    RightInFootExtraFingerISz = (
+        RightInFootExtraFingerIS.RightInFootExtraFingerISz
+    )
 
-    RightInFootExtraFingerPreR = RightInFootExtraFingerPreRField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerPreRx = RightInFootExtraFingerPreR.RightInFootExtraFingerPreRx
-    RightInFootExtraFingerPreRy = RightInFootExtraFingerPreR.RightInFootExtraFingerPreRy
-    RightInFootExtraFingerPreRz = RightInFootExtraFingerPreR.RightInFootExtraFingerPreRz
+    RightInFootExtraFingerPreR = RightInFootExtraFingerPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerPreRx = (
+        RightInFootExtraFingerPreR.RightInFootExtraFingerPreRx
+    )
+    RightInFootExtraFingerPreRy = (
+        RightInFootExtraFingerPreR.RightInFootExtraFingerPreRy
+    )
+    RightInFootExtraFingerPreRz = (
+        RightInFootExtraFingerPreR.RightInFootExtraFingerPreRz
+    )
 
-    RightInFootExtraFingerPostR = RightInFootExtraFingerPostRField(default_value=(0.0, 0.0, 0.0))
-    RightInFootExtraFingerPostRx = RightInFootExtraFingerPostR.RightInFootExtraFingerPostRx
-    RightInFootExtraFingerPostRy = RightInFootExtraFingerPostR.RightInFootExtraFingerPostRy
-    RightInFootExtraFingerPostRz = RightInFootExtraFingerPostR.RightInFootExtraFingerPostRz
+    RightInFootExtraFingerPostR = RightInFootExtraFingerPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    RightInFootExtraFingerPostRx = (
+        RightInFootExtraFingerPostR.RightInFootExtraFingerPostRx
+    )
+    RightInFootExtraFingerPostRy = (
+        RightInFootExtraFingerPostR.RightInFootExtraFingerPostRy
+    )
+    RightInFootExtraFingerPostRz = (
+        RightInFootExtraFingerPostR.RightInFootExtraFingerPostRz
+    )
 
     LeftShoulderExtraT = LeftShoulderExtraTField(default_value=(0.0, 0.0, 0.0))
     LeftShoulderExtraTx = LeftShoulderExtraT.LeftShoulderExtraTx
@@ -15914,89 +18142,123 @@ class GeneratedHIKState2SK(DG):
 
     LeftShoulderExtraSC = BoolField(default_value=False)
 
-    LeftShoulderExtraIS = LeftShoulderExtraISField(default_value=(1.0, 1.0, 1.0))
+    LeftShoulderExtraIS = LeftShoulderExtraISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeftShoulderExtraISx = LeftShoulderExtraIS.LeftShoulderExtraISx
     LeftShoulderExtraISy = LeftShoulderExtraIS.LeftShoulderExtraISy
     LeftShoulderExtraISz = LeftShoulderExtraIS.LeftShoulderExtraISz
 
-    LeftShoulderExtraPreR = LeftShoulderExtraPreRField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderExtraPreR = LeftShoulderExtraPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderExtraPreRx = LeftShoulderExtraPreR.LeftShoulderExtraPreRx
     LeftShoulderExtraPreRy = LeftShoulderExtraPreR.LeftShoulderExtraPreRy
     LeftShoulderExtraPreRz = LeftShoulderExtraPreR.LeftShoulderExtraPreRz
 
-    LeftShoulderExtraPostR = LeftShoulderExtraPostRField(default_value=(0.0, 0.0, 0.0))
+    LeftShoulderExtraPostR = LeftShoulderExtraPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeftShoulderExtraPostRx = LeftShoulderExtraPostR.LeftShoulderExtraPostRx
     LeftShoulderExtraPostRy = LeftShoulderExtraPostR.LeftShoulderExtraPostRy
     LeftShoulderExtraPostRz = LeftShoulderExtraPostR.LeftShoulderExtraPostRz
 
-    RightShoulderExtraT = RightShoulderExtraTField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraT = RightShoulderExtraTField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraTx = RightShoulderExtraT.RightShoulderExtraTx
     RightShoulderExtraTy = RightShoulderExtraT.RightShoulderExtraTy
     RightShoulderExtraTz = RightShoulderExtraT.RightShoulderExtraTz
 
-    RightShoulderExtraR = RightShoulderExtraRField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraR = RightShoulderExtraRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraRx = RightShoulderExtraR.RightShoulderExtraRx
     RightShoulderExtraRy = RightShoulderExtraR.RightShoulderExtraRy
     RightShoulderExtraRz = RightShoulderExtraR.RightShoulderExtraRz
 
-    RightShoulderExtraS = RightShoulderExtraSField(default_value=(1.0, 1.0, 1.0))
+    RightShoulderExtraS = RightShoulderExtraSField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightShoulderExtraSx = RightShoulderExtraS.RightShoulderExtraSx
     RightShoulderExtraSy = RightShoulderExtraS.RightShoulderExtraSy
     RightShoulderExtraSz = RightShoulderExtraS.RightShoulderExtraSz
 
     RightShoulderExtraPGX = MatrixField()
 
-    RightShoulderExtraROrder = RightShoulderExtraROrderEnumField(default_value=0)
+    RightShoulderExtraROrder = RightShoulderExtraROrderEnumField(
+        default_value=0
+    )
 
     RightShoulderExtraSC = BoolField(default_value=False)
 
-    RightShoulderExtraIS = RightShoulderExtraISField(default_value=(1.0, 1.0, 1.0))
+    RightShoulderExtraIS = RightShoulderExtraISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     RightShoulderExtraISx = RightShoulderExtraIS.RightShoulderExtraISx
     RightShoulderExtraISy = RightShoulderExtraIS.RightShoulderExtraISy
     RightShoulderExtraISz = RightShoulderExtraIS.RightShoulderExtraISz
 
-    RightShoulderExtraPreR = RightShoulderExtraPreRField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraPreR = RightShoulderExtraPreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraPreRx = RightShoulderExtraPreR.RightShoulderExtraPreRx
     RightShoulderExtraPreRy = RightShoulderExtraPreR.RightShoulderExtraPreRy
     RightShoulderExtraPreRz = RightShoulderExtraPreR.RightShoulderExtraPreRz
 
-    RightShoulderExtraPostR = RightShoulderExtraPostRField(default_value=(0.0, 0.0, 0.0))
+    RightShoulderExtraPostR = RightShoulderExtraPostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     RightShoulderExtraPostRx = RightShoulderExtraPostR.RightShoulderExtraPostRx
     RightShoulderExtraPostRy = RightShoulderExtraPostR.RightShoulderExtraPostRy
     RightShoulderExtraPostRz = RightShoulderExtraPostR.RightShoulderExtraPostRz
 
-    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1T = LeafLeftUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Tx = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tx
     LeafLeftUpLegRoll1Ty = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Ty
     LeafLeftUpLegRoll1Tz = LeafLeftUpLegRoll1T.LeafLeftUpLegRoll1Tz
 
-    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1R = LeafLeftUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1Rx = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rx
     LeafLeftUpLegRoll1Ry = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Ry
     LeafLeftUpLegRoll1Rz = LeafLeftUpLegRoll1R.LeafLeftUpLegRoll1Rz
 
-    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll1S = LeafLeftUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll1Sx = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sx
     LeafLeftUpLegRoll1Sy = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sy
     LeafLeftUpLegRoll1Sz = LeafLeftUpLegRoll1S.LeafLeftUpLegRoll1Sz
 
     LeafLeftUpLegRoll1PGX = MatrixField()
 
-    LeafLeftUpLegRoll1ROrder = LeafLeftUpLegRoll1ROrderEnumField(default_value=0)
+    LeafLeftUpLegRoll1ROrder = LeafLeftUpLegRoll1ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftUpLegRoll1SC = BoolField(default_value=False)
 
-    LeafLeftUpLegRoll1IS = LeafLeftUpLegRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll1IS = LeafLeftUpLegRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll1ISx = LeafLeftUpLegRoll1IS.LeafLeftUpLegRoll1ISx
     LeafLeftUpLegRoll1ISy = LeafLeftUpLegRoll1IS.LeafLeftUpLegRoll1ISy
     LeafLeftUpLegRoll1ISz = LeafLeftUpLegRoll1IS.LeafLeftUpLegRoll1ISz
 
-    LeafLeftUpLegRoll1PreR = LeafLeftUpLegRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1PreR = LeafLeftUpLegRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1PreRx = LeafLeftUpLegRoll1PreR.LeafLeftUpLegRoll1PreRx
     LeafLeftUpLegRoll1PreRy = LeafLeftUpLegRoll1PreR.LeafLeftUpLegRoll1PreRy
     LeafLeftUpLegRoll1PreRz = LeafLeftUpLegRoll1PreR.LeafLeftUpLegRoll1PreRz
 
-    LeafLeftUpLegRoll1PostR = LeafLeftUpLegRoll1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll1PostR = LeafLeftUpLegRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll1PostRx = LeafLeftUpLegRoll1PostR.LeafLeftUpLegRoll1PostRx
     LeafLeftUpLegRoll1PostRy = LeafLeftUpLegRoll1PostR.LeafLeftUpLegRoll1PostRy
     LeafLeftUpLegRoll1PostRz = LeafLeftUpLegRoll1PostR.LeafLeftUpLegRoll1PostRz
@@ -16027,51 +18289,75 @@ class GeneratedHIKState2SK(DG):
     LeafLeftLegRoll1ISy = LeafLeftLegRoll1IS.LeafLeftLegRoll1ISy
     LeafLeftLegRoll1ISz = LeafLeftLegRoll1IS.LeafLeftLegRoll1ISz
 
-    LeafLeftLegRoll1PreR = LeafLeftLegRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll1PreR = LeafLeftLegRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll1PreRx = LeafLeftLegRoll1PreR.LeafLeftLegRoll1PreRx
     LeafLeftLegRoll1PreRy = LeafLeftLegRoll1PreR.LeafLeftLegRoll1PreRy
     LeafLeftLegRoll1PreRz = LeafLeftLegRoll1PreR.LeafLeftLegRoll1PreRz
 
-    LeafLeftLegRoll1PostR = LeafLeftLegRoll1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll1PostR = LeafLeftLegRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll1PostRx = LeafLeftLegRoll1PostR.LeafLeftLegRoll1PostRx
     LeafLeftLegRoll1PostRy = LeafLeftLegRoll1PostR.LeafLeftLegRoll1PostRy
     LeafLeftLegRoll1PostRz = LeafLeftLegRoll1PostR.LeafLeftLegRoll1PostRz
 
-    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1T = LeafRightUpLegRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Tx = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tx
     LeafRightUpLegRoll1Ty = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Ty
     LeafRightUpLegRoll1Tz = LeafRightUpLegRoll1T.LeafRightUpLegRoll1Tz
 
-    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1R = LeafRightUpLegRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1Rx = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rx
     LeafRightUpLegRoll1Ry = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Ry
     LeafRightUpLegRoll1Rz = LeafRightUpLegRoll1R.LeafRightUpLegRoll1Rz
 
-    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll1S = LeafRightUpLegRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll1Sx = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sx
     LeafRightUpLegRoll1Sy = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sy
     LeafRightUpLegRoll1Sz = LeafRightUpLegRoll1S.LeafRightUpLegRoll1Sz
 
     LeafRightUpLegRoll1PGX = MatrixField()
 
-    LeafRightUpLegRoll1ROrder = LeafRightUpLegRoll1ROrderEnumField(default_value=0)
+    LeafRightUpLegRoll1ROrder = LeafRightUpLegRoll1ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightUpLegRoll1SC = BoolField(default_value=False)
 
-    LeafRightUpLegRoll1IS = LeafRightUpLegRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll1IS = LeafRightUpLegRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll1ISx = LeafRightUpLegRoll1IS.LeafRightUpLegRoll1ISx
     LeafRightUpLegRoll1ISy = LeafRightUpLegRoll1IS.LeafRightUpLegRoll1ISy
     LeafRightUpLegRoll1ISz = LeafRightUpLegRoll1IS.LeafRightUpLegRoll1ISz
 
-    LeafRightUpLegRoll1PreR = LeafRightUpLegRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll1PreR = LeafRightUpLegRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll1PreRx = LeafRightUpLegRoll1PreR.LeafRightUpLegRoll1PreRx
     LeafRightUpLegRoll1PreRy = LeafRightUpLegRoll1PreR.LeafRightUpLegRoll1PreRy
     LeafRightUpLegRoll1PreRz = LeafRightUpLegRoll1PreR.LeafRightUpLegRoll1PreRz
 
-    LeafRightUpLegRoll1PostR = LeafRightUpLegRoll1PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll1PostRx = LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRx
-    LeafRightUpLegRoll1PostRy = LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRy
-    LeafRightUpLegRoll1PostRz = LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRz
+    LeafRightUpLegRoll1PostR = LeafRightUpLegRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll1PostRx = (
+        LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRx
+    )
+    LeafRightUpLegRoll1PostRy = (
+        LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRy
+    )
+    LeafRightUpLegRoll1PostRz = (
+        LeafRightUpLegRoll1PostR.LeafRightUpLegRoll1PostRz
+    )
 
     LeafRightLegRoll1T = LeafRightLegRoll1TField(default_value=(0.0, 0.0, 0.0))
     LeafRightLegRoll1Tx = LeafRightLegRoll1T.LeafRightLegRoll1Tx
@@ -16094,17 +18380,23 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightLegRoll1SC = BoolField(default_value=False)
 
-    LeafRightLegRoll1IS = LeafRightLegRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightLegRoll1IS = LeafRightLegRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightLegRoll1ISx = LeafRightLegRoll1IS.LeafRightLegRoll1ISx
     LeafRightLegRoll1ISy = LeafRightLegRoll1IS.LeafRightLegRoll1ISy
     LeafRightLegRoll1ISz = LeafRightLegRoll1IS.LeafRightLegRoll1ISz
 
-    LeafRightLegRoll1PreR = LeafRightLegRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll1PreR = LeafRightLegRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll1PreRx = LeafRightLegRoll1PreR.LeafRightLegRoll1PreRx
     LeafRightLegRoll1PreRy = LeafRightLegRoll1PreR.LeafRightLegRoll1PreRy
     LeafRightLegRoll1PreRz = LeafRightLegRoll1PreR.LeafRightLegRoll1PreRz
 
-    LeafRightLegRoll1PostR = LeafRightLegRoll1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll1PostR = LeafRightLegRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll1PostRx = LeafRightLegRoll1PostR.LeafRightLegRoll1PostRx
     LeafRightLegRoll1PostRy = LeafRightLegRoll1PostR.LeafRightLegRoll1PostRy
     LeafRightLegRoll1PostRz = LeafRightLegRoll1PostR.LeafRightLegRoll1PostRz
@@ -16135,51 +18427,81 @@ class GeneratedHIKState2SK(DG):
     LeafLeftArmRoll1ISy = LeafLeftArmRoll1IS.LeafLeftArmRoll1ISy
     LeafLeftArmRoll1ISz = LeafLeftArmRoll1IS.LeafLeftArmRoll1ISz
 
-    LeafLeftArmRoll1PreR = LeafLeftArmRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll1PreR = LeafLeftArmRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll1PreRx = LeafLeftArmRoll1PreR.LeafLeftArmRoll1PreRx
     LeafLeftArmRoll1PreRy = LeafLeftArmRoll1PreR.LeafLeftArmRoll1PreRy
     LeafLeftArmRoll1PreRz = LeafLeftArmRoll1PreR.LeafLeftArmRoll1PreRz
 
-    LeafLeftArmRoll1PostR = LeafLeftArmRoll1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll1PostR = LeafLeftArmRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll1PostRx = LeafLeftArmRoll1PostR.LeafLeftArmRoll1PostRx
     LeafLeftArmRoll1PostRy = LeafLeftArmRoll1PostR.LeafLeftArmRoll1PostRy
     LeafLeftArmRoll1PostRz = LeafLeftArmRoll1PostR.LeafLeftArmRoll1PostRz
 
-    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1T = LeafLeftForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Tx = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tx
     LeafLeftForeArmRoll1Ty = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Ty
     LeafLeftForeArmRoll1Tz = LeafLeftForeArmRoll1T.LeafLeftForeArmRoll1Tz
 
-    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll1R = LeafLeftForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll1Rx = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rx
     LeafLeftForeArmRoll1Ry = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Ry
     LeafLeftForeArmRoll1Rz = LeafLeftForeArmRoll1R.LeafLeftForeArmRoll1Rz
 
-    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll1S = LeafLeftForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll1Sx = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sx
     LeafLeftForeArmRoll1Sy = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sy
     LeafLeftForeArmRoll1Sz = LeafLeftForeArmRoll1S.LeafLeftForeArmRoll1Sz
 
     LeafLeftForeArmRoll1PGX = MatrixField()
 
-    LeafLeftForeArmRoll1ROrder = LeafLeftForeArmRoll1ROrderEnumField(default_value=0)
+    LeafLeftForeArmRoll1ROrder = LeafLeftForeArmRoll1ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftForeArmRoll1SC = BoolField(default_value=False)
 
-    LeafLeftForeArmRoll1IS = LeafLeftForeArmRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll1IS = LeafLeftForeArmRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll1ISx = LeafLeftForeArmRoll1IS.LeafLeftForeArmRoll1ISx
     LeafLeftForeArmRoll1ISy = LeafLeftForeArmRoll1IS.LeafLeftForeArmRoll1ISy
     LeafLeftForeArmRoll1ISz = LeafLeftForeArmRoll1IS.LeafLeftForeArmRoll1ISz
 
-    LeafLeftForeArmRoll1PreR = LeafLeftForeArmRoll1PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1PreRx = LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRx
-    LeafLeftForeArmRoll1PreRy = LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRy
-    LeafLeftForeArmRoll1PreRz = LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRz
+    LeafLeftForeArmRoll1PreR = LeafLeftForeArmRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1PreRx = (
+        LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRx
+    )
+    LeafLeftForeArmRoll1PreRy = (
+        LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRy
+    )
+    LeafLeftForeArmRoll1PreRz = (
+        LeafLeftForeArmRoll1PreR.LeafLeftForeArmRoll1PreRz
+    )
 
-    LeafLeftForeArmRoll1PostR = LeafLeftForeArmRoll1PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll1PostRx = LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRx
-    LeafLeftForeArmRoll1PostRy = LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRy
-    LeafLeftForeArmRoll1PostRz = LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRz
+    LeafLeftForeArmRoll1PostR = LeafLeftForeArmRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll1PostRx = (
+        LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRx
+    )
+    LeafLeftForeArmRoll1PostRy = (
+        LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRy
+    )
+    LeafLeftForeArmRoll1PostRz = (
+        LeafLeftForeArmRoll1PostR.LeafLeftForeArmRoll1PostRz
+    )
 
     LeafRightArmRoll1T = LeafRightArmRoll1TField(default_value=(0.0, 0.0, 0.0))
     LeafRightArmRoll1Tx = LeafRightArmRoll1T.LeafRightArmRoll1Tx
@@ -16202,89 +18524,135 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightArmRoll1SC = BoolField(default_value=False)
 
-    LeafRightArmRoll1IS = LeafRightArmRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightArmRoll1IS = LeafRightArmRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightArmRoll1ISx = LeafRightArmRoll1IS.LeafRightArmRoll1ISx
     LeafRightArmRoll1ISy = LeafRightArmRoll1IS.LeafRightArmRoll1ISy
     LeafRightArmRoll1ISz = LeafRightArmRoll1IS.LeafRightArmRoll1ISz
 
-    LeafRightArmRoll1PreR = LeafRightArmRoll1PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll1PreR = LeafRightArmRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll1PreRx = LeafRightArmRoll1PreR.LeafRightArmRoll1PreRx
     LeafRightArmRoll1PreRy = LeafRightArmRoll1PreR.LeafRightArmRoll1PreRy
     LeafRightArmRoll1PreRz = LeafRightArmRoll1PreR.LeafRightArmRoll1PreRz
 
-    LeafRightArmRoll1PostR = LeafRightArmRoll1PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll1PostR = LeafRightArmRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll1PostRx = LeafRightArmRoll1PostR.LeafRightArmRoll1PostRx
     LeafRightArmRoll1PostRy = LeafRightArmRoll1PostR.LeafRightArmRoll1PostRy
     LeafRightArmRoll1PostRz = LeafRightArmRoll1PostR.LeafRightArmRoll1PostRz
 
-    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1T = LeafRightForeArmRoll1TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Tx = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tx
     LeafRightForeArmRoll1Ty = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Ty
     LeafRightForeArmRoll1Tz = LeafRightForeArmRoll1T.LeafRightForeArmRoll1Tz
 
-    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll1R = LeafRightForeArmRoll1RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll1Rx = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rx
     LeafRightForeArmRoll1Ry = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Ry
     LeafRightForeArmRoll1Rz = LeafRightForeArmRoll1R.LeafRightForeArmRoll1Rz
 
-    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll1S = LeafRightForeArmRoll1SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll1Sx = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sx
     LeafRightForeArmRoll1Sy = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sy
     LeafRightForeArmRoll1Sz = LeafRightForeArmRoll1S.LeafRightForeArmRoll1Sz
 
     LeafRightForeArmRoll1PGX = MatrixField()
 
-    LeafRightForeArmRoll1ROrder = LeafRightForeArmRoll1ROrderEnumField(default_value=0)
+    LeafRightForeArmRoll1ROrder = LeafRightForeArmRoll1ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightForeArmRoll1SC = BoolField(default_value=False)
 
-    LeafRightForeArmRoll1IS = LeafRightForeArmRoll1ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll1IS = LeafRightForeArmRoll1ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll1ISx = LeafRightForeArmRoll1IS.LeafRightForeArmRoll1ISx
     LeafRightForeArmRoll1ISy = LeafRightForeArmRoll1IS.LeafRightForeArmRoll1ISy
     LeafRightForeArmRoll1ISz = LeafRightForeArmRoll1IS.LeafRightForeArmRoll1ISz
 
-    LeafRightForeArmRoll1PreR = LeafRightForeArmRoll1PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1PreRx = LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRx
-    LeafRightForeArmRoll1PreRy = LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRy
-    LeafRightForeArmRoll1PreRz = LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRz
+    LeafRightForeArmRoll1PreR = LeafRightForeArmRoll1PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1PreRx = (
+        LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRx
+    )
+    LeafRightForeArmRoll1PreRy = (
+        LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRy
+    )
+    LeafRightForeArmRoll1PreRz = (
+        LeafRightForeArmRoll1PreR.LeafRightForeArmRoll1PreRz
+    )
 
-    LeafRightForeArmRoll1PostR = LeafRightForeArmRoll1PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll1PostRx = LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRx
-    LeafRightForeArmRoll1PostRy = LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRy
-    LeafRightForeArmRoll1PostRz = LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRz
+    LeafRightForeArmRoll1PostR = LeafRightForeArmRoll1PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll1PostRx = (
+        LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRx
+    )
+    LeafRightForeArmRoll1PostRy = (
+        LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRy
+    )
+    LeafRightForeArmRoll1PostRz = (
+        LeafRightForeArmRoll1PostR.LeafRightForeArmRoll1PostRz
+    )
 
-    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2T = LeafLeftUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Tx = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tx
     LeafLeftUpLegRoll2Ty = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Ty
     LeafLeftUpLegRoll2Tz = LeafLeftUpLegRoll2T.LeafLeftUpLegRoll2Tz
 
-    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2R = LeafLeftUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2Rx = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rx
     LeafLeftUpLegRoll2Ry = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Ry
     LeafLeftUpLegRoll2Rz = LeafLeftUpLegRoll2R.LeafLeftUpLegRoll2Rz
 
-    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll2S = LeafLeftUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll2Sx = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sx
     LeafLeftUpLegRoll2Sy = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sy
     LeafLeftUpLegRoll2Sz = LeafLeftUpLegRoll2S.LeafLeftUpLegRoll2Sz
 
     LeafLeftUpLegRoll2PGX = MatrixField()
 
-    LeafLeftUpLegRoll2ROrder = LeafLeftUpLegRoll2ROrderEnumField(default_value=0)
+    LeafLeftUpLegRoll2ROrder = LeafLeftUpLegRoll2ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftUpLegRoll2SC = BoolField(default_value=False)
 
-    LeafLeftUpLegRoll2IS = LeafLeftUpLegRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll2IS = LeafLeftUpLegRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll2ISx = LeafLeftUpLegRoll2IS.LeafLeftUpLegRoll2ISx
     LeafLeftUpLegRoll2ISy = LeafLeftUpLegRoll2IS.LeafLeftUpLegRoll2ISy
     LeafLeftUpLegRoll2ISz = LeafLeftUpLegRoll2IS.LeafLeftUpLegRoll2ISz
 
-    LeafLeftUpLegRoll2PreR = LeafLeftUpLegRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2PreR = LeafLeftUpLegRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2PreRx = LeafLeftUpLegRoll2PreR.LeafLeftUpLegRoll2PreRx
     LeafLeftUpLegRoll2PreRy = LeafLeftUpLegRoll2PreR.LeafLeftUpLegRoll2PreRy
     LeafLeftUpLegRoll2PreRz = LeafLeftUpLegRoll2PreR.LeafLeftUpLegRoll2PreRz
 
-    LeafLeftUpLegRoll2PostR = LeafLeftUpLegRoll2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll2PostR = LeafLeftUpLegRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll2PostRx = LeafLeftUpLegRoll2PostR.LeafLeftUpLegRoll2PostRx
     LeafLeftUpLegRoll2PostRy = LeafLeftUpLegRoll2PostR.LeafLeftUpLegRoll2PostRy
     LeafLeftUpLegRoll2PostRz = LeafLeftUpLegRoll2PostR.LeafLeftUpLegRoll2PostRz
@@ -16315,51 +18683,75 @@ class GeneratedHIKState2SK(DG):
     LeafLeftLegRoll2ISy = LeafLeftLegRoll2IS.LeafLeftLegRoll2ISy
     LeafLeftLegRoll2ISz = LeafLeftLegRoll2IS.LeafLeftLegRoll2ISz
 
-    LeafLeftLegRoll2PreR = LeafLeftLegRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll2PreR = LeafLeftLegRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll2PreRx = LeafLeftLegRoll2PreR.LeafLeftLegRoll2PreRx
     LeafLeftLegRoll2PreRy = LeafLeftLegRoll2PreR.LeafLeftLegRoll2PreRy
     LeafLeftLegRoll2PreRz = LeafLeftLegRoll2PreR.LeafLeftLegRoll2PreRz
 
-    LeafLeftLegRoll2PostR = LeafLeftLegRoll2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll2PostR = LeafLeftLegRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll2PostRx = LeafLeftLegRoll2PostR.LeafLeftLegRoll2PostRx
     LeafLeftLegRoll2PostRy = LeafLeftLegRoll2PostR.LeafLeftLegRoll2PostRy
     LeafLeftLegRoll2PostRz = LeafLeftLegRoll2PostR.LeafLeftLegRoll2PostRz
 
-    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2T = LeafRightUpLegRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Tx = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tx
     LeafRightUpLegRoll2Ty = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Ty
     LeafRightUpLegRoll2Tz = LeafRightUpLegRoll2T.LeafRightUpLegRoll2Tz
 
-    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2R = LeafRightUpLegRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2Rx = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rx
     LeafRightUpLegRoll2Ry = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Ry
     LeafRightUpLegRoll2Rz = LeafRightUpLegRoll2R.LeafRightUpLegRoll2Rz
 
-    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll2S = LeafRightUpLegRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll2Sx = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sx
     LeafRightUpLegRoll2Sy = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sy
     LeafRightUpLegRoll2Sz = LeafRightUpLegRoll2S.LeafRightUpLegRoll2Sz
 
     LeafRightUpLegRoll2PGX = MatrixField()
 
-    LeafRightUpLegRoll2ROrder = LeafRightUpLegRoll2ROrderEnumField(default_value=0)
+    LeafRightUpLegRoll2ROrder = LeafRightUpLegRoll2ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightUpLegRoll2SC = BoolField(default_value=False)
 
-    LeafRightUpLegRoll2IS = LeafRightUpLegRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll2IS = LeafRightUpLegRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll2ISx = LeafRightUpLegRoll2IS.LeafRightUpLegRoll2ISx
     LeafRightUpLegRoll2ISy = LeafRightUpLegRoll2IS.LeafRightUpLegRoll2ISy
     LeafRightUpLegRoll2ISz = LeafRightUpLegRoll2IS.LeafRightUpLegRoll2ISz
 
-    LeafRightUpLegRoll2PreR = LeafRightUpLegRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll2PreR = LeafRightUpLegRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll2PreRx = LeafRightUpLegRoll2PreR.LeafRightUpLegRoll2PreRx
     LeafRightUpLegRoll2PreRy = LeafRightUpLegRoll2PreR.LeafRightUpLegRoll2PreRy
     LeafRightUpLegRoll2PreRz = LeafRightUpLegRoll2PreR.LeafRightUpLegRoll2PreRz
 
-    LeafRightUpLegRoll2PostR = LeafRightUpLegRoll2PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll2PostRx = LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRx
-    LeafRightUpLegRoll2PostRy = LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRy
-    LeafRightUpLegRoll2PostRz = LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRz
+    LeafRightUpLegRoll2PostR = LeafRightUpLegRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll2PostRx = (
+        LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRx
+    )
+    LeafRightUpLegRoll2PostRy = (
+        LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRy
+    )
+    LeafRightUpLegRoll2PostRz = (
+        LeafRightUpLegRoll2PostR.LeafRightUpLegRoll2PostRz
+    )
 
     LeafRightLegRoll2T = LeafRightLegRoll2TField(default_value=(0.0, 0.0, 0.0))
     LeafRightLegRoll2Tx = LeafRightLegRoll2T.LeafRightLegRoll2Tx
@@ -16382,17 +18774,23 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightLegRoll2SC = BoolField(default_value=False)
 
-    LeafRightLegRoll2IS = LeafRightLegRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightLegRoll2IS = LeafRightLegRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightLegRoll2ISx = LeafRightLegRoll2IS.LeafRightLegRoll2ISx
     LeafRightLegRoll2ISy = LeafRightLegRoll2IS.LeafRightLegRoll2ISy
     LeafRightLegRoll2ISz = LeafRightLegRoll2IS.LeafRightLegRoll2ISz
 
-    LeafRightLegRoll2PreR = LeafRightLegRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll2PreR = LeafRightLegRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll2PreRx = LeafRightLegRoll2PreR.LeafRightLegRoll2PreRx
     LeafRightLegRoll2PreRy = LeafRightLegRoll2PreR.LeafRightLegRoll2PreRy
     LeafRightLegRoll2PreRz = LeafRightLegRoll2PreR.LeafRightLegRoll2PreRz
 
-    LeafRightLegRoll2PostR = LeafRightLegRoll2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll2PostR = LeafRightLegRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll2PostRx = LeafRightLegRoll2PostR.LeafRightLegRoll2PostRx
     LeafRightLegRoll2PostRy = LeafRightLegRoll2PostR.LeafRightLegRoll2PostRy
     LeafRightLegRoll2PostRz = LeafRightLegRoll2PostR.LeafRightLegRoll2PostRz
@@ -16423,51 +18821,81 @@ class GeneratedHIKState2SK(DG):
     LeafLeftArmRoll2ISy = LeafLeftArmRoll2IS.LeafLeftArmRoll2ISy
     LeafLeftArmRoll2ISz = LeafLeftArmRoll2IS.LeafLeftArmRoll2ISz
 
-    LeafLeftArmRoll2PreR = LeafLeftArmRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll2PreR = LeafLeftArmRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll2PreRx = LeafLeftArmRoll2PreR.LeafLeftArmRoll2PreRx
     LeafLeftArmRoll2PreRy = LeafLeftArmRoll2PreR.LeafLeftArmRoll2PreRy
     LeafLeftArmRoll2PreRz = LeafLeftArmRoll2PreR.LeafLeftArmRoll2PreRz
 
-    LeafLeftArmRoll2PostR = LeafLeftArmRoll2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll2PostR = LeafLeftArmRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll2PostRx = LeafLeftArmRoll2PostR.LeafLeftArmRoll2PostRx
     LeafLeftArmRoll2PostRy = LeafLeftArmRoll2PostR.LeafLeftArmRoll2PostRy
     LeafLeftArmRoll2PostRz = LeafLeftArmRoll2PostR.LeafLeftArmRoll2PostRz
 
-    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2T = LeafLeftForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Tx = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tx
     LeafLeftForeArmRoll2Ty = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Ty
     LeafLeftForeArmRoll2Tz = LeafLeftForeArmRoll2T.LeafLeftForeArmRoll2Tz
 
-    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll2R = LeafLeftForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll2Rx = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rx
     LeafLeftForeArmRoll2Ry = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Ry
     LeafLeftForeArmRoll2Rz = LeafLeftForeArmRoll2R.LeafLeftForeArmRoll2Rz
 
-    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll2S = LeafLeftForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll2Sx = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sx
     LeafLeftForeArmRoll2Sy = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sy
     LeafLeftForeArmRoll2Sz = LeafLeftForeArmRoll2S.LeafLeftForeArmRoll2Sz
 
     LeafLeftForeArmRoll2PGX = MatrixField()
 
-    LeafLeftForeArmRoll2ROrder = LeafLeftForeArmRoll2ROrderEnumField(default_value=0)
+    LeafLeftForeArmRoll2ROrder = LeafLeftForeArmRoll2ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftForeArmRoll2SC = BoolField(default_value=False)
 
-    LeafLeftForeArmRoll2IS = LeafLeftForeArmRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll2IS = LeafLeftForeArmRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll2ISx = LeafLeftForeArmRoll2IS.LeafLeftForeArmRoll2ISx
     LeafLeftForeArmRoll2ISy = LeafLeftForeArmRoll2IS.LeafLeftForeArmRoll2ISy
     LeafLeftForeArmRoll2ISz = LeafLeftForeArmRoll2IS.LeafLeftForeArmRoll2ISz
 
-    LeafLeftForeArmRoll2PreR = LeafLeftForeArmRoll2PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2PreRx = LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRx
-    LeafLeftForeArmRoll2PreRy = LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRy
-    LeafLeftForeArmRoll2PreRz = LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRz
+    LeafLeftForeArmRoll2PreR = LeafLeftForeArmRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2PreRx = (
+        LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRx
+    )
+    LeafLeftForeArmRoll2PreRy = (
+        LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRy
+    )
+    LeafLeftForeArmRoll2PreRz = (
+        LeafLeftForeArmRoll2PreR.LeafLeftForeArmRoll2PreRz
+    )
 
-    LeafLeftForeArmRoll2PostR = LeafLeftForeArmRoll2PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll2PostRx = LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRx
-    LeafLeftForeArmRoll2PostRy = LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRy
-    LeafLeftForeArmRoll2PostRz = LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRz
+    LeafLeftForeArmRoll2PostR = LeafLeftForeArmRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll2PostRx = (
+        LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRx
+    )
+    LeafLeftForeArmRoll2PostRy = (
+        LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRy
+    )
+    LeafLeftForeArmRoll2PostRz = (
+        LeafLeftForeArmRoll2PostR.LeafLeftForeArmRoll2PostRz
+    )
 
     LeafRightArmRoll2T = LeafRightArmRoll2TField(default_value=(0.0, 0.0, 0.0))
     LeafRightArmRoll2Tx = LeafRightArmRoll2T.LeafRightArmRoll2Tx
@@ -16490,89 +18918,135 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightArmRoll2SC = BoolField(default_value=False)
 
-    LeafRightArmRoll2IS = LeafRightArmRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightArmRoll2IS = LeafRightArmRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightArmRoll2ISx = LeafRightArmRoll2IS.LeafRightArmRoll2ISx
     LeafRightArmRoll2ISy = LeafRightArmRoll2IS.LeafRightArmRoll2ISy
     LeafRightArmRoll2ISz = LeafRightArmRoll2IS.LeafRightArmRoll2ISz
 
-    LeafRightArmRoll2PreR = LeafRightArmRoll2PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll2PreR = LeafRightArmRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll2PreRx = LeafRightArmRoll2PreR.LeafRightArmRoll2PreRx
     LeafRightArmRoll2PreRy = LeafRightArmRoll2PreR.LeafRightArmRoll2PreRy
     LeafRightArmRoll2PreRz = LeafRightArmRoll2PreR.LeafRightArmRoll2PreRz
 
-    LeafRightArmRoll2PostR = LeafRightArmRoll2PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll2PostR = LeafRightArmRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll2PostRx = LeafRightArmRoll2PostR.LeafRightArmRoll2PostRx
     LeafRightArmRoll2PostRy = LeafRightArmRoll2PostR.LeafRightArmRoll2PostRy
     LeafRightArmRoll2PostRz = LeafRightArmRoll2PostR.LeafRightArmRoll2PostRz
 
-    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2T = LeafRightForeArmRoll2TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Tx = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tx
     LeafRightForeArmRoll2Ty = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Ty
     LeafRightForeArmRoll2Tz = LeafRightForeArmRoll2T.LeafRightForeArmRoll2Tz
 
-    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll2R = LeafRightForeArmRoll2RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll2Rx = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rx
     LeafRightForeArmRoll2Ry = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Ry
     LeafRightForeArmRoll2Rz = LeafRightForeArmRoll2R.LeafRightForeArmRoll2Rz
 
-    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll2S = LeafRightForeArmRoll2SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll2Sx = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sx
     LeafRightForeArmRoll2Sy = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sy
     LeafRightForeArmRoll2Sz = LeafRightForeArmRoll2S.LeafRightForeArmRoll2Sz
 
     LeafRightForeArmRoll2PGX = MatrixField()
 
-    LeafRightForeArmRoll2ROrder = LeafRightForeArmRoll2ROrderEnumField(default_value=0)
+    LeafRightForeArmRoll2ROrder = LeafRightForeArmRoll2ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightForeArmRoll2SC = BoolField(default_value=False)
 
-    LeafRightForeArmRoll2IS = LeafRightForeArmRoll2ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll2IS = LeafRightForeArmRoll2ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll2ISx = LeafRightForeArmRoll2IS.LeafRightForeArmRoll2ISx
     LeafRightForeArmRoll2ISy = LeafRightForeArmRoll2IS.LeafRightForeArmRoll2ISy
     LeafRightForeArmRoll2ISz = LeafRightForeArmRoll2IS.LeafRightForeArmRoll2ISz
 
-    LeafRightForeArmRoll2PreR = LeafRightForeArmRoll2PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2PreRx = LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRx
-    LeafRightForeArmRoll2PreRy = LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRy
-    LeafRightForeArmRoll2PreRz = LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRz
+    LeafRightForeArmRoll2PreR = LeafRightForeArmRoll2PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2PreRx = (
+        LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRx
+    )
+    LeafRightForeArmRoll2PreRy = (
+        LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRy
+    )
+    LeafRightForeArmRoll2PreRz = (
+        LeafRightForeArmRoll2PreR.LeafRightForeArmRoll2PreRz
+    )
 
-    LeafRightForeArmRoll2PostR = LeafRightForeArmRoll2PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll2PostRx = LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRx
-    LeafRightForeArmRoll2PostRy = LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRy
-    LeafRightForeArmRoll2PostRz = LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRz
+    LeafRightForeArmRoll2PostR = LeafRightForeArmRoll2PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll2PostRx = (
+        LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRx
+    )
+    LeafRightForeArmRoll2PostRy = (
+        LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRy
+    )
+    LeafRightForeArmRoll2PostRz = (
+        LeafRightForeArmRoll2PostR.LeafRightForeArmRoll2PostRz
+    )
 
-    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3T = LeafLeftUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Tx = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tx
     LeafLeftUpLegRoll3Ty = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Ty
     LeafLeftUpLegRoll3Tz = LeafLeftUpLegRoll3T.LeafLeftUpLegRoll3Tz
 
-    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3R = LeafLeftUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3Rx = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rx
     LeafLeftUpLegRoll3Ry = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Ry
     LeafLeftUpLegRoll3Rz = LeafLeftUpLegRoll3R.LeafLeftUpLegRoll3Rz
 
-    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll3S = LeafLeftUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll3Sx = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sx
     LeafLeftUpLegRoll3Sy = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sy
     LeafLeftUpLegRoll3Sz = LeafLeftUpLegRoll3S.LeafLeftUpLegRoll3Sz
 
     LeafLeftUpLegRoll3PGX = MatrixField()
 
-    LeafLeftUpLegRoll3ROrder = LeafLeftUpLegRoll3ROrderEnumField(default_value=0)
+    LeafLeftUpLegRoll3ROrder = LeafLeftUpLegRoll3ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftUpLegRoll3SC = BoolField(default_value=False)
 
-    LeafLeftUpLegRoll3IS = LeafLeftUpLegRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll3IS = LeafLeftUpLegRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll3ISx = LeafLeftUpLegRoll3IS.LeafLeftUpLegRoll3ISx
     LeafLeftUpLegRoll3ISy = LeafLeftUpLegRoll3IS.LeafLeftUpLegRoll3ISy
     LeafLeftUpLegRoll3ISz = LeafLeftUpLegRoll3IS.LeafLeftUpLegRoll3ISz
 
-    LeafLeftUpLegRoll3PreR = LeafLeftUpLegRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3PreR = LeafLeftUpLegRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3PreRx = LeafLeftUpLegRoll3PreR.LeafLeftUpLegRoll3PreRx
     LeafLeftUpLegRoll3PreRy = LeafLeftUpLegRoll3PreR.LeafLeftUpLegRoll3PreRy
     LeafLeftUpLegRoll3PreRz = LeafLeftUpLegRoll3PreR.LeafLeftUpLegRoll3PreRz
 
-    LeafLeftUpLegRoll3PostR = LeafLeftUpLegRoll3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll3PostR = LeafLeftUpLegRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll3PostRx = LeafLeftUpLegRoll3PostR.LeafLeftUpLegRoll3PostRx
     LeafLeftUpLegRoll3PostRy = LeafLeftUpLegRoll3PostR.LeafLeftUpLegRoll3PostRy
     LeafLeftUpLegRoll3PostRz = LeafLeftUpLegRoll3PostR.LeafLeftUpLegRoll3PostRz
@@ -16603,51 +19077,75 @@ class GeneratedHIKState2SK(DG):
     LeafLeftLegRoll3ISy = LeafLeftLegRoll3IS.LeafLeftLegRoll3ISy
     LeafLeftLegRoll3ISz = LeafLeftLegRoll3IS.LeafLeftLegRoll3ISz
 
-    LeafLeftLegRoll3PreR = LeafLeftLegRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll3PreR = LeafLeftLegRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll3PreRx = LeafLeftLegRoll3PreR.LeafLeftLegRoll3PreRx
     LeafLeftLegRoll3PreRy = LeafLeftLegRoll3PreR.LeafLeftLegRoll3PreRy
     LeafLeftLegRoll3PreRz = LeafLeftLegRoll3PreR.LeafLeftLegRoll3PreRz
 
-    LeafLeftLegRoll3PostR = LeafLeftLegRoll3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll3PostR = LeafLeftLegRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll3PostRx = LeafLeftLegRoll3PostR.LeafLeftLegRoll3PostRx
     LeafLeftLegRoll3PostRy = LeafLeftLegRoll3PostR.LeafLeftLegRoll3PostRy
     LeafLeftLegRoll3PostRz = LeafLeftLegRoll3PostR.LeafLeftLegRoll3PostRz
 
-    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3T = LeafRightUpLegRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Tx = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tx
     LeafRightUpLegRoll3Ty = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Ty
     LeafRightUpLegRoll3Tz = LeafRightUpLegRoll3T.LeafRightUpLegRoll3Tz
 
-    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3R = LeafRightUpLegRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3Rx = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rx
     LeafRightUpLegRoll3Ry = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Ry
     LeafRightUpLegRoll3Rz = LeafRightUpLegRoll3R.LeafRightUpLegRoll3Rz
 
-    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll3S = LeafRightUpLegRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll3Sx = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sx
     LeafRightUpLegRoll3Sy = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sy
     LeafRightUpLegRoll3Sz = LeafRightUpLegRoll3S.LeafRightUpLegRoll3Sz
 
     LeafRightUpLegRoll3PGX = MatrixField()
 
-    LeafRightUpLegRoll3ROrder = LeafRightUpLegRoll3ROrderEnumField(default_value=0)
+    LeafRightUpLegRoll3ROrder = LeafRightUpLegRoll3ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightUpLegRoll3SC = BoolField(default_value=False)
 
-    LeafRightUpLegRoll3IS = LeafRightUpLegRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll3IS = LeafRightUpLegRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll3ISx = LeafRightUpLegRoll3IS.LeafRightUpLegRoll3ISx
     LeafRightUpLegRoll3ISy = LeafRightUpLegRoll3IS.LeafRightUpLegRoll3ISy
     LeafRightUpLegRoll3ISz = LeafRightUpLegRoll3IS.LeafRightUpLegRoll3ISz
 
-    LeafRightUpLegRoll3PreR = LeafRightUpLegRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll3PreR = LeafRightUpLegRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll3PreRx = LeafRightUpLegRoll3PreR.LeafRightUpLegRoll3PreRx
     LeafRightUpLegRoll3PreRy = LeafRightUpLegRoll3PreR.LeafRightUpLegRoll3PreRy
     LeafRightUpLegRoll3PreRz = LeafRightUpLegRoll3PreR.LeafRightUpLegRoll3PreRz
 
-    LeafRightUpLegRoll3PostR = LeafRightUpLegRoll3PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll3PostRx = LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRx
-    LeafRightUpLegRoll3PostRy = LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRy
-    LeafRightUpLegRoll3PostRz = LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRz
+    LeafRightUpLegRoll3PostR = LeafRightUpLegRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll3PostRx = (
+        LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRx
+    )
+    LeafRightUpLegRoll3PostRy = (
+        LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRy
+    )
+    LeafRightUpLegRoll3PostRz = (
+        LeafRightUpLegRoll3PostR.LeafRightUpLegRoll3PostRz
+    )
 
     LeafRightLegRoll3T = LeafRightLegRoll3TField(default_value=(0.0, 0.0, 0.0))
     LeafRightLegRoll3Tx = LeafRightLegRoll3T.LeafRightLegRoll3Tx
@@ -16670,17 +19168,23 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightLegRoll3SC = BoolField(default_value=False)
 
-    LeafRightLegRoll3IS = LeafRightLegRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightLegRoll3IS = LeafRightLegRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightLegRoll3ISx = LeafRightLegRoll3IS.LeafRightLegRoll3ISx
     LeafRightLegRoll3ISy = LeafRightLegRoll3IS.LeafRightLegRoll3ISy
     LeafRightLegRoll3ISz = LeafRightLegRoll3IS.LeafRightLegRoll3ISz
 
-    LeafRightLegRoll3PreR = LeafRightLegRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll3PreR = LeafRightLegRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll3PreRx = LeafRightLegRoll3PreR.LeafRightLegRoll3PreRx
     LeafRightLegRoll3PreRy = LeafRightLegRoll3PreR.LeafRightLegRoll3PreRy
     LeafRightLegRoll3PreRz = LeafRightLegRoll3PreR.LeafRightLegRoll3PreRz
 
-    LeafRightLegRoll3PostR = LeafRightLegRoll3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll3PostR = LeafRightLegRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll3PostRx = LeafRightLegRoll3PostR.LeafRightLegRoll3PostRx
     LeafRightLegRoll3PostRy = LeafRightLegRoll3PostR.LeafRightLegRoll3PostRy
     LeafRightLegRoll3PostRz = LeafRightLegRoll3PostR.LeafRightLegRoll3PostRz
@@ -16711,51 +19215,81 @@ class GeneratedHIKState2SK(DG):
     LeafLeftArmRoll3ISy = LeafLeftArmRoll3IS.LeafLeftArmRoll3ISy
     LeafLeftArmRoll3ISz = LeafLeftArmRoll3IS.LeafLeftArmRoll3ISz
 
-    LeafLeftArmRoll3PreR = LeafLeftArmRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll3PreR = LeafLeftArmRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll3PreRx = LeafLeftArmRoll3PreR.LeafLeftArmRoll3PreRx
     LeafLeftArmRoll3PreRy = LeafLeftArmRoll3PreR.LeafLeftArmRoll3PreRy
     LeafLeftArmRoll3PreRz = LeafLeftArmRoll3PreR.LeafLeftArmRoll3PreRz
 
-    LeafLeftArmRoll3PostR = LeafLeftArmRoll3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll3PostR = LeafLeftArmRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll3PostRx = LeafLeftArmRoll3PostR.LeafLeftArmRoll3PostRx
     LeafLeftArmRoll3PostRy = LeafLeftArmRoll3PostR.LeafLeftArmRoll3PostRy
     LeafLeftArmRoll3PostRz = LeafLeftArmRoll3PostR.LeafLeftArmRoll3PostRz
 
-    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3T = LeafLeftForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Tx = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tx
     LeafLeftForeArmRoll3Ty = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Ty
     LeafLeftForeArmRoll3Tz = LeafLeftForeArmRoll3T.LeafLeftForeArmRoll3Tz
 
-    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll3R = LeafLeftForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll3Rx = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rx
     LeafLeftForeArmRoll3Ry = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Ry
     LeafLeftForeArmRoll3Rz = LeafLeftForeArmRoll3R.LeafLeftForeArmRoll3Rz
 
-    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll3S = LeafLeftForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll3Sx = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sx
     LeafLeftForeArmRoll3Sy = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sy
     LeafLeftForeArmRoll3Sz = LeafLeftForeArmRoll3S.LeafLeftForeArmRoll3Sz
 
     LeafLeftForeArmRoll3PGX = MatrixField()
 
-    LeafLeftForeArmRoll3ROrder = LeafLeftForeArmRoll3ROrderEnumField(default_value=0)
+    LeafLeftForeArmRoll3ROrder = LeafLeftForeArmRoll3ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftForeArmRoll3SC = BoolField(default_value=False)
 
-    LeafLeftForeArmRoll3IS = LeafLeftForeArmRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll3IS = LeafLeftForeArmRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll3ISx = LeafLeftForeArmRoll3IS.LeafLeftForeArmRoll3ISx
     LeafLeftForeArmRoll3ISy = LeafLeftForeArmRoll3IS.LeafLeftForeArmRoll3ISy
     LeafLeftForeArmRoll3ISz = LeafLeftForeArmRoll3IS.LeafLeftForeArmRoll3ISz
 
-    LeafLeftForeArmRoll3PreR = LeafLeftForeArmRoll3PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3PreRx = LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRx
-    LeafLeftForeArmRoll3PreRy = LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRy
-    LeafLeftForeArmRoll3PreRz = LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRz
+    LeafLeftForeArmRoll3PreR = LeafLeftForeArmRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3PreRx = (
+        LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRx
+    )
+    LeafLeftForeArmRoll3PreRy = (
+        LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRy
+    )
+    LeafLeftForeArmRoll3PreRz = (
+        LeafLeftForeArmRoll3PreR.LeafLeftForeArmRoll3PreRz
+    )
 
-    LeafLeftForeArmRoll3PostR = LeafLeftForeArmRoll3PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll3PostRx = LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRx
-    LeafLeftForeArmRoll3PostRy = LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRy
-    LeafLeftForeArmRoll3PostRz = LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRz
+    LeafLeftForeArmRoll3PostR = LeafLeftForeArmRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll3PostRx = (
+        LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRx
+    )
+    LeafLeftForeArmRoll3PostRy = (
+        LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRy
+    )
+    LeafLeftForeArmRoll3PostRz = (
+        LeafLeftForeArmRoll3PostR.LeafLeftForeArmRoll3PostRz
+    )
 
     LeafRightArmRoll3T = LeafRightArmRoll3TField(default_value=(0.0, 0.0, 0.0))
     LeafRightArmRoll3Tx = LeafRightArmRoll3T.LeafRightArmRoll3Tx
@@ -16778,89 +19312,135 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightArmRoll3SC = BoolField(default_value=False)
 
-    LeafRightArmRoll3IS = LeafRightArmRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightArmRoll3IS = LeafRightArmRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightArmRoll3ISx = LeafRightArmRoll3IS.LeafRightArmRoll3ISx
     LeafRightArmRoll3ISy = LeafRightArmRoll3IS.LeafRightArmRoll3ISy
     LeafRightArmRoll3ISz = LeafRightArmRoll3IS.LeafRightArmRoll3ISz
 
-    LeafRightArmRoll3PreR = LeafRightArmRoll3PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll3PreR = LeafRightArmRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll3PreRx = LeafRightArmRoll3PreR.LeafRightArmRoll3PreRx
     LeafRightArmRoll3PreRy = LeafRightArmRoll3PreR.LeafRightArmRoll3PreRy
     LeafRightArmRoll3PreRz = LeafRightArmRoll3PreR.LeafRightArmRoll3PreRz
 
-    LeafRightArmRoll3PostR = LeafRightArmRoll3PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll3PostR = LeafRightArmRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll3PostRx = LeafRightArmRoll3PostR.LeafRightArmRoll3PostRx
     LeafRightArmRoll3PostRy = LeafRightArmRoll3PostR.LeafRightArmRoll3PostRy
     LeafRightArmRoll3PostRz = LeafRightArmRoll3PostR.LeafRightArmRoll3PostRz
 
-    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3T = LeafRightForeArmRoll3TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Tx = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tx
     LeafRightForeArmRoll3Ty = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Ty
     LeafRightForeArmRoll3Tz = LeafRightForeArmRoll3T.LeafRightForeArmRoll3Tz
 
-    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll3R = LeafRightForeArmRoll3RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll3Rx = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rx
     LeafRightForeArmRoll3Ry = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Ry
     LeafRightForeArmRoll3Rz = LeafRightForeArmRoll3R.LeafRightForeArmRoll3Rz
 
-    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll3S = LeafRightForeArmRoll3SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll3Sx = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sx
     LeafRightForeArmRoll3Sy = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sy
     LeafRightForeArmRoll3Sz = LeafRightForeArmRoll3S.LeafRightForeArmRoll3Sz
 
     LeafRightForeArmRoll3PGX = MatrixField()
 
-    LeafRightForeArmRoll3ROrder = LeafRightForeArmRoll3ROrderEnumField(default_value=0)
+    LeafRightForeArmRoll3ROrder = LeafRightForeArmRoll3ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightForeArmRoll3SC = BoolField(default_value=False)
 
-    LeafRightForeArmRoll3IS = LeafRightForeArmRoll3ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll3IS = LeafRightForeArmRoll3ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll3ISx = LeafRightForeArmRoll3IS.LeafRightForeArmRoll3ISx
     LeafRightForeArmRoll3ISy = LeafRightForeArmRoll3IS.LeafRightForeArmRoll3ISy
     LeafRightForeArmRoll3ISz = LeafRightForeArmRoll3IS.LeafRightForeArmRoll3ISz
 
-    LeafRightForeArmRoll3PreR = LeafRightForeArmRoll3PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3PreRx = LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRx
-    LeafRightForeArmRoll3PreRy = LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRy
-    LeafRightForeArmRoll3PreRz = LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRz
+    LeafRightForeArmRoll3PreR = LeafRightForeArmRoll3PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3PreRx = (
+        LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRx
+    )
+    LeafRightForeArmRoll3PreRy = (
+        LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRy
+    )
+    LeafRightForeArmRoll3PreRz = (
+        LeafRightForeArmRoll3PreR.LeafRightForeArmRoll3PreRz
+    )
 
-    LeafRightForeArmRoll3PostR = LeafRightForeArmRoll3PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll3PostRx = LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRx
-    LeafRightForeArmRoll3PostRy = LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRy
-    LeafRightForeArmRoll3PostRz = LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRz
+    LeafRightForeArmRoll3PostR = LeafRightForeArmRoll3PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll3PostRx = (
+        LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRx
+    )
+    LeafRightForeArmRoll3PostRy = (
+        LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRy
+    )
+    LeafRightForeArmRoll3PostRz = (
+        LeafRightForeArmRoll3PostR.LeafRightForeArmRoll3PostRz
+    )
 
-    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4T = LeafLeftUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Tx = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tx
     LeafLeftUpLegRoll4Ty = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Ty
     LeafLeftUpLegRoll4Tz = LeafLeftUpLegRoll4T.LeafLeftUpLegRoll4Tz
 
-    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4R = LeafLeftUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4Rx = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rx
     LeafLeftUpLegRoll4Ry = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Ry
     LeafLeftUpLegRoll4Rz = LeafLeftUpLegRoll4R.LeafLeftUpLegRoll4Rz
 
-    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll4S = LeafLeftUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll4Sx = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sx
     LeafLeftUpLegRoll4Sy = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sy
     LeafLeftUpLegRoll4Sz = LeafLeftUpLegRoll4S.LeafLeftUpLegRoll4Sz
 
     LeafLeftUpLegRoll4PGX = MatrixField()
 
-    LeafLeftUpLegRoll4ROrder = LeafLeftUpLegRoll4ROrderEnumField(default_value=0)
+    LeafLeftUpLegRoll4ROrder = LeafLeftUpLegRoll4ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftUpLegRoll4SC = BoolField(default_value=False)
 
-    LeafLeftUpLegRoll4IS = LeafLeftUpLegRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll4IS = LeafLeftUpLegRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll4ISx = LeafLeftUpLegRoll4IS.LeafLeftUpLegRoll4ISx
     LeafLeftUpLegRoll4ISy = LeafLeftUpLegRoll4IS.LeafLeftUpLegRoll4ISy
     LeafLeftUpLegRoll4ISz = LeafLeftUpLegRoll4IS.LeafLeftUpLegRoll4ISz
 
-    LeafLeftUpLegRoll4PreR = LeafLeftUpLegRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4PreR = LeafLeftUpLegRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4PreRx = LeafLeftUpLegRoll4PreR.LeafLeftUpLegRoll4PreRx
     LeafLeftUpLegRoll4PreRy = LeafLeftUpLegRoll4PreR.LeafLeftUpLegRoll4PreRy
     LeafLeftUpLegRoll4PreRz = LeafLeftUpLegRoll4PreR.LeafLeftUpLegRoll4PreRz
 
-    LeafLeftUpLegRoll4PostR = LeafLeftUpLegRoll4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll4PostR = LeafLeftUpLegRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll4PostRx = LeafLeftUpLegRoll4PostR.LeafLeftUpLegRoll4PostRx
     LeafLeftUpLegRoll4PostRy = LeafLeftUpLegRoll4PostR.LeafLeftUpLegRoll4PostRy
     LeafLeftUpLegRoll4PostRz = LeafLeftUpLegRoll4PostR.LeafLeftUpLegRoll4PostRz
@@ -16891,51 +19471,75 @@ class GeneratedHIKState2SK(DG):
     LeafLeftLegRoll4ISy = LeafLeftLegRoll4IS.LeafLeftLegRoll4ISy
     LeafLeftLegRoll4ISz = LeafLeftLegRoll4IS.LeafLeftLegRoll4ISz
 
-    LeafLeftLegRoll4PreR = LeafLeftLegRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll4PreR = LeafLeftLegRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll4PreRx = LeafLeftLegRoll4PreR.LeafLeftLegRoll4PreRx
     LeafLeftLegRoll4PreRy = LeafLeftLegRoll4PreR.LeafLeftLegRoll4PreRy
     LeafLeftLegRoll4PreRz = LeafLeftLegRoll4PreR.LeafLeftLegRoll4PreRz
 
-    LeafLeftLegRoll4PostR = LeafLeftLegRoll4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll4PostR = LeafLeftLegRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll4PostRx = LeafLeftLegRoll4PostR.LeafLeftLegRoll4PostRx
     LeafLeftLegRoll4PostRy = LeafLeftLegRoll4PostR.LeafLeftLegRoll4PostRy
     LeafLeftLegRoll4PostRz = LeafLeftLegRoll4PostR.LeafLeftLegRoll4PostRz
 
-    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4T = LeafRightUpLegRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Tx = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tx
     LeafRightUpLegRoll4Ty = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Ty
     LeafRightUpLegRoll4Tz = LeafRightUpLegRoll4T.LeafRightUpLegRoll4Tz
 
-    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4R = LeafRightUpLegRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4Rx = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rx
     LeafRightUpLegRoll4Ry = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Ry
     LeafRightUpLegRoll4Rz = LeafRightUpLegRoll4R.LeafRightUpLegRoll4Rz
 
-    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll4S = LeafRightUpLegRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll4Sx = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sx
     LeafRightUpLegRoll4Sy = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sy
     LeafRightUpLegRoll4Sz = LeafRightUpLegRoll4S.LeafRightUpLegRoll4Sz
 
     LeafRightUpLegRoll4PGX = MatrixField()
 
-    LeafRightUpLegRoll4ROrder = LeafRightUpLegRoll4ROrderEnumField(default_value=0)
+    LeafRightUpLegRoll4ROrder = LeafRightUpLegRoll4ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightUpLegRoll4SC = BoolField(default_value=False)
 
-    LeafRightUpLegRoll4IS = LeafRightUpLegRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll4IS = LeafRightUpLegRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll4ISx = LeafRightUpLegRoll4IS.LeafRightUpLegRoll4ISx
     LeafRightUpLegRoll4ISy = LeafRightUpLegRoll4IS.LeafRightUpLegRoll4ISy
     LeafRightUpLegRoll4ISz = LeafRightUpLegRoll4IS.LeafRightUpLegRoll4ISz
 
-    LeafRightUpLegRoll4PreR = LeafRightUpLegRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll4PreR = LeafRightUpLegRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll4PreRx = LeafRightUpLegRoll4PreR.LeafRightUpLegRoll4PreRx
     LeafRightUpLegRoll4PreRy = LeafRightUpLegRoll4PreR.LeafRightUpLegRoll4PreRy
     LeafRightUpLegRoll4PreRz = LeafRightUpLegRoll4PreR.LeafRightUpLegRoll4PreRz
 
-    LeafRightUpLegRoll4PostR = LeafRightUpLegRoll4PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll4PostRx = LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRx
-    LeafRightUpLegRoll4PostRy = LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRy
-    LeafRightUpLegRoll4PostRz = LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRz
+    LeafRightUpLegRoll4PostR = LeafRightUpLegRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll4PostRx = (
+        LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRx
+    )
+    LeafRightUpLegRoll4PostRy = (
+        LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRy
+    )
+    LeafRightUpLegRoll4PostRz = (
+        LeafRightUpLegRoll4PostR.LeafRightUpLegRoll4PostRz
+    )
 
     LeafRightLegRoll4T = LeafRightLegRoll4TField(default_value=(0.0, 0.0, 0.0))
     LeafRightLegRoll4Tx = LeafRightLegRoll4T.LeafRightLegRoll4Tx
@@ -16958,17 +19562,23 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightLegRoll4SC = BoolField(default_value=False)
 
-    LeafRightLegRoll4IS = LeafRightLegRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightLegRoll4IS = LeafRightLegRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightLegRoll4ISx = LeafRightLegRoll4IS.LeafRightLegRoll4ISx
     LeafRightLegRoll4ISy = LeafRightLegRoll4IS.LeafRightLegRoll4ISy
     LeafRightLegRoll4ISz = LeafRightLegRoll4IS.LeafRightLegRoll4ISz
 
-    LeafRightLegRoll4PreR = LeafRightLegRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll4PreR = LeafRightLegRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll4PreRx = LeafRightLegRoll4PreR.LeafRightLegRoll4PreRx
     LeafRightLegRoll4PreRy = LeafRightLegRoll4PreR.LeafRightLegRoll4PreRy
     LeafRightLegRoll4PreRz = LeafRightLegRoll4PreR.LeafRightLegRoll4PreRz
 
-    LeafRightLegRoll4PostR = LeafRightLegRoll4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll4PostR = LeafRightLegRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll4PostRx = LeafRightLegRoll4PostR.LeafRightLegRoll4PostRx
     LeafRightLegRoll4PostRy = LeafRightLegRoll4PostR.LeafRightLegRoll4PostRy
     LeafRightLegRoll4PostRz = LeafRightLegRoll4PostR.LeafRightLegRoll4PostRz
@@ -16999,51 +19609,81 @@ class GeneratedHIKState2SK(DG):
     LeafLeftArmRoll4ISy = LeafLeftArmRoll4IS.LeafLeftArmRoll4ISy
     LeafLeftArmRoll4ISz = LeafLeftArmRoll4IS.LeafLeftArmRoll4ISz
 
-    LeafLeftArmRoll4PreR = LeafLeftArmRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll4PreR = LeafLeftArmRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll4PreRx = LeafLeftArmRoll4PreR.LeafLeftArmRoll4PreRx
     LeafLeftArmRoll4PreRy = LeafLeftArmRoll4PreR.LeafLeftArmRoll4PreRy
     LeafLeftArmRoll4PreRz = LeafLeftArmRoll4PreR.LeafLeftArmRoll4PreRz
 
-    LeafLeftArmRoll4PostR = LeafLeftArmRoll4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll4PostR = LeafLeftArmRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll4PostRx = LeafLeftArmRoll4PostR.LeafLeftArmRoll4PostRx
     LeafLeftArmRoll4PostRy = LeafLeftArmRoll4PostR.LeafLeftArmRoll4PostRy
     LeafLeftArmRoll4PostRz = LeafLeftArmRoll4PostR.LeafLeftArmRoll4PostRz
 
-    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4T = LeafLeftForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Tx = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tx
     LeafLeftForeArmRoll4Ty = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Ty
     LeafLeftForeArmRoll4Tz = LeafLeftForeArmRoll4T.LeafLeftForeArmRoll4Tz
 
-    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll4R = LeafLeftForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll4Rx = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rx
     LeafLeftForeArmRoll4Ry = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Ry
     LeafLeftForeArmRoll4Rz = LeafLeftForeArmRoll4R.LeafLeftForeArmRoll4Rz
 
-    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll4S = LeafLeftForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll4Sx = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sx
     LeafLeftForeArmRoll4Sy = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sy
     LeafLeftForeArmRoll4Sz = LeafLeftForeArmRoll4S.LeafLeftForeArmRoll4Sz
 
     LeafLeftForeArmRoll4PGX = MatrixField()
 
-    LeafLeftForeArmRoll4ROrder = LeafLeftForeArmRoll4ROrderEnumField(default_value=0)
+    LeafLeftForeArmRoll4ROrder = LeafLeftForeArmRoll4ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftForeArmRoll4SC = BoolField(default_value=False)
 
-    LeafLeftForeArmRoll4IS = LeafLeftForeArmRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll4IS = LeafLeftForeArmRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll4ISx = LeafLeftForeArmRoll4IS.LeafLeftForeArmRoll4ISx
     LeafLeftForeArmRoll4ISy = LeafLeftForeArmRoll4IS.LeafLeftForeArmRoll4ISy
     LeafLeftForeArmRoll4ISz = LeafLeftForeArmRoll4IS.LeafLeftForeArmRoll4ISz
 
-    LeafLeftForeArmRoll4PreR = LeafLeftForeArmRoll4PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4PreRx = LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRx
-    LeafLeftForeArmRoll4PreRy = LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRy
-    LeafLeftForeArmRoll4PreRz = LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRz
+    LeafLeftForeArmRoll4PreR = LeafLeftForeArmRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4PreRx = (
+        LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRx
+    )
+    LeafLeftForeArmRoll4PreRy = (
+        LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRy
+    )
+    LeafLeftForeArmRoll4PreRz = (
+        LeafLeftForeArmRoll4PreR.LeafLeftForeArmRoll4PreRz
+    )
 
-    LeafLeftForeArmRoll4PostR = LeafLeftForeArmRoll4PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll4PostRx = LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRx
-    LeafLeftForeArmRoll4PostRy = LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRy
-    LeafLeftForeArmRoll4PostRz = LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRz
+    LeafLeftForeArmRoll4PostR = LeafLeftForeArmRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll4PostRx = (
+        LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRx
+    )
+    LeafLeftForeArmRoll4PostRy = (
+        LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRy
+    )
+    LeafLeftForeArmRoll4PostRz = (
+        LeafLeftForeArmRoll4PostR.LeafLeftForeArmRoll4PostRz
+    )
 
     LeafRightArmRoll4T = LeafRightArmRoll4TField(default_value=(0.0, 0.0, 0.0))
     LeafRightArmRoll4Tx = LeafRightArmRoll4T.LeafRightArmRoll4Tx
@@ -17066,89 +19706,135 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightArmRoll4SC = BoolField(default_value=False)
 
-    LeafRightArmRoll4IS = LeafRightArmRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightArmRoll4IS = LeafRightArmRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightArmRoll4ISx = LeafRightArmRoll4IS.LeafRightArmRoll4ISx
     LeafRightArmRoll4ISy = LeafRightArmRoll4IS.LeafRightArmRoll4ISy
     LeafRightArmRoll4ISz = LeafRightArmRoll4IS.LeafRightArmRoll4ISz
 
-    LeafRightArmRoll4PreR = LeafRightArmRoll4PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll4PreR = LeafRightArmRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll4PreRx = LeafRightArmRoll4PreR.LeafRightArmRoll4PreRx
     LeafRightArmRoll4PreRy = LeafRightArmRoll4PreR.LeafRightArmRoll4PreRy
     LeafRightArmRoll4PreRz = LeafRightArmRoll4PreR.LeafRightArmRoll4PreRz
 
-    LeafRightArmRoll4PostR = LeafRightArmRoll4PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll4PostR = LeafRightArmRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll4PostRx = LeafRightArmRoll4PostR.LeafRightArmRoll4PostRx
     LeafRightArmRoll4PostRy = LeafRightArmRoll4PostR.LeafRightArmRoll4PostRy
     LeafRightArmRoll4PostRz = LeafRightArmRoll4PostR.LeafRightArmRoll4PostRz
 
-    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4T = LeafRightForeArmRoll4TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Tx = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tx
     LeafRightForeArmRoll4Ty = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Ty
     LeafRightForeArmRoll4Tz = LeafRightForeArmRoll4T.LeafRightForeArmRoll4Tz
 
-    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll4R = LeafRightForeArmRoll4RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll4Rx = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rx
     LeafRightForeArmRoll4Ry = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Ry
     LeafRightForeArmRoll4Rz = LeafRightForeArmRoll4R.LeafRightForeArmRoll4Rz
 
-    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll4S = LeafRightForeArmRoll4SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll4Sx = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sx
     LeafRightForeArmRoll4Sy = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sy
     LeafRightForeArmRoll4Sz = LeafRightForeArmRoll4S.LeafRightForeArmRoll4Sz
 
     LeafRightForeArmRoll4PGX = MatrixField()
 
-    LeafRightForeArmRoll4ROrder = LeafRightForeArmRoll4ROrderEnumField(default_value=0)
+    LeafRightForeArmRoll4ROrder = LeafRightForeArmRoll4ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightForeArmRoll4SC = BoolField(default_value=False)
 
-    LeafRightForeArmRoll4IS = LeafRightForeArmRoll4ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll4IS = LeafRightForeArmRoll4ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll4ISx = LeafRightForeArmRoll4IS.LeafRightForeArmRoll4ISx
     LeafRightForeArmRoll4ISy = LeafRightForeArmRoll4IS.LeafRightForeArmRoll4ISy
     LeafRightForeArmRoll4ISz = LeafRightForeArmRoll4IS.LeafRightForeArmRoll4ISz
 
-    LeafRightForeArmRoll4PreR = LeafRightForeArmRoll4PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4PreRx = LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRx
-    LeafRightForeArmRoll4PreRy = LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRy
-    LeafRightForeArmRoll4PreRz = LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRz
+    LeafRightForeArmRoll4PreR = LeafRightForeArmRoll4PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4PreRx = (
+        LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRx
+    )
+    LeafRightForeArmRoll4PreRy = (
+        LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRy
+    )
+    LeafRightForeArmRoll4PreRz = (
+        LeafRightForeArmRoll4PreR.LeafRightForeArmRoll4PreRz
+    )
 
-    LeafRightForeArmRoll4PostR = LeafRightForeArmRoll4PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll4PostRx = LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRx
-    LeafRightForeArmRoll4PostRy = LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRy
-    LeafRightForeArmRoll4PostRz = LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRz
+    LeafRightForeArmRoll4PostR = LeafRightForeArmRoll4PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll4PostRx = (
+        LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRx
+    )
+    LeafRightForeArmRoll4PostRy = (
+        LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRy
+    )
+    LeafRightForeArmRoll4PostRz = (
+        LeafRightForeArmRoll4PostR.LeafRightForeArmRoll4PostRz
+    )
 
-    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5T = LeafLeftUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Tx = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tx
     LeafLeftUpLegRoll5Ty = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Ty
     LeafLeftUpLegRoll5Tz = LeafLeftUpLegRoll5T.LeafLeftUpLegRoll5Tz
 
-    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5R = LeafLeftUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5Rx = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rx
     LeafLeftUpLegRoll5Ry = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Ry
     LeafLeftUpLegRoll5Rz = LeafLeftUpLegRoll5R.LeafLeftUpLegRoll5Rz
 
-    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll5S = LeafLeftUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll5Sx = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sx
     LeafLeftUpLegRoll5Sy = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sy
     LeafLeftUpLegRoll5Sz = LeafLeftUpLegRoll5S.LeafLeftUpLegRoll5Sz
 
     LeafLeftUpLegRoll5PGX = MatrixField()
 
-    LeafLeftUpLegRoll5ROrder = LeafLeftUpLegRoll5ROrderEnumField(default_value=0)
+    LeafLeftUpLegRoll5ROrder = LeafLeftUpLegRoll5ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftUpLegRoll5SC = BoolField(default_value=False)
 
-    LeafLeftUpLegRoll5IS = LeafLeftUpLegRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftUpLegRoll5IS = LeafLeftUpLegRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftUpLegRoll5ISx = LeafLeftUpLegRoll5IS.LeafLeftUpLegRoll5ISx
     LeafLeftUpLegRoll5ISy = LeafLeftUpLegRoll5IS.LeafLeftUpLegRoll5ISy
     LeafLeftUpLegRoll5ISz = LeafLeftUpLegRoll5IS.LeafLeftUpLegRoll5ISz
 
-    LeafLeftUpLegRoll5PreR = LeafLeftUpLegRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5PreR = LeafLeftUpLegRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5PreRx = LeafLeftUpLegRoll5PreR.LeafLeftUpLegRoll5PreRx
     LeafLeftUpLegRoll5PreRy = LeafLeftUpLegRoll5PreR.LeafLeftUpLegRoll5PreRy
     LeafLeftUpLegRoll5PreRz = LeafLeftUpLegRoll5PreR.LeafLeftUpLegRoll5PreRz
 
-    LeafLeftUpLegRoll5PostR = LeafLeftUpLegRoll5PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftUpLegRoll5PostR = LeafLeftUpLegRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftUpLegRoll5PostRx = LeafLeftUpLegRoll5PostR.LeafLeftUpLegRoll5PostRx
     LeafLeftUpLegRoll5PostRy = LeafLeftUpLegRoll5PostR.LeafLeftUpLegRoll5PostRy
     LeafLeftUpLegRoll5PostRz = LeafLeftUpLegRoll5PostR.LeafLeftUpLegRoll5PostRz
@@ -17179,51 +19865,75 @@ class GeneratedHIKState2SK(DG):
     LeafLeftLegRoll5ISy = LeafLeftLegRoll5IS.LeafLeftLegRoll5ISy
     LeafLeftLegRoll5ISz = LeafLeftLegRoll5IS.LeafLeftLegRoll5ISz
 
-    LeafLeftLegRoll5PreR = LeafLeftLegRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll5PreR = LeafLeftLegRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll5PreRx = LeafLeftLegRoll5PreR.LeafLeftLegRoll5PreRx
     LeafLeftLegRoll5PreRy = LeafLeftLegRoll5PreR.LeafLeftLegRoll5PreRy
     LeafLeftLegRoll5PreRz = LeafLeftLegRoll5PreR.LeafLeftLegRoll5PreRz
 
-    LeafLeftLegRoll5PostR = LeafLeftLegRoll5PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftLegRoll5PostR = LeafLeftLegRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftLegRoll5PostRx = LeafLeftLegRoll5PostR.LeafLeftLegRoll5PostRx
     LeafLeftLegRoll5PostRy = LeafLeftLegRoll5PostR.LeafLeftLegRoll5PostRy
     LeafLeftLegRoll5PostRz = LeafLeftLegRoll5PostR.LeafLeftLegRoll5PostRz
 
-    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5T = LeafRightUpLegRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Tx = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tx
     LeafRightUpLegRoll5Ty = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Ty
     LeafRightUpLegRoll5Tz = LeafRightUpLegRoll5T.LeafRightUpLegRoll5Tz
 
-    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5R = LeafRightUpLegRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5Rx = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rx
     LeafRightUpLegRoll5Ry = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Ry
     LeafRightUpLegRoll5Rz = LeafRightUpLegRoll5R.LeafRightUpLegRoll5Rz
 
-    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll5S = LeafRightUpLegRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll5Sx = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sx
     LeafRightUpLegRoll5Sy = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sy
     LeafRightUpLegRoll5Sz = LeafRightUpLegRoll5S.LeafRightUpLegRoll5Sz
 
     LeafRightUpLegRoll5PGX = MatrixField()
 
-    LeafRightUpLegRoll5ROrder = LeafRightUpLegRoll5ROrderEnumField(default_value=0)
+    LeafRightUpLegRoll5ROrder = LeafRightUpLegRoll5ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightUpLegRoll5SC = BoolField(default_value=False)
 
-    LeafRightUpLegRoll5IS = LeafRightUpLegRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightUpLegRoll5IS = LeafRightUpLegRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightUpLegRoll5ISx = LeafRightUpLegRoll5IS.LeafRightUpLegRoll5ISx
     LeafRightUpLegRoll5ISy = LeafRightUpLegRoll5IS.LeafRightUpLegRoll5ISy
     LeafRightUpLegRoll5ISz = LeafRightUpLegRoll5IS.LeafRightUpLegRoll5ISz
 
-    LeafRightUpLegRoll5PreR = LeafRightUpLegRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightUpLegRoll5PreR = LeafRightUpLegRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightUpLegRoll5PreRx = LeafRightUpLegRoll5PreR.LeafRightUpLegRoll5PreRx
     LeafRightUpLegRoll5PreRy = LeafRightUpLegRoll5PreR.LeafRightUpLegRoll5PreRy
     LeafRightUpLegRoll5PreRz = LeafRightUpLegRoll5PreR.LeafRightUpLegRoll5PreRz
 
-    LeafRightUpLegRoll5PostR = LeafRightUpLegRoll5PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightUpLegRoll5PostRx = LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRx
-    LeafRightUpLegRoll5PostRy = LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRy
-    LeafRightUpLegRoll5PostRz = LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRz
+    LeafRightUpLegRoll5PostR = LeafRightUpLegRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightUpLegRoll5PostRx = (
+        LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRx
+    )
+    LeafRightUpLegRoll5PostRy = (
+        LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRy
+    )
+    LeafRightUpLegRoll5PostRz = (
+        LeafRightUpLegRoll5PostR.LeafRightUpLegRoll5PostRz
+    )
 
     LeafRightLegRoll5T = LeafRightLegRoll5TField(default_value=(0.0, 0.0, 0.0))
     LeafRightLegRoll5Tx = LeafRightLegRoll5T.LeafRightLegRoll5Tx
@@ -17246,17 +19956,23 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightLegRoll5SC = BoolField(default_value=False)
 
-    LeafRightLegRoll5IS = LeafRightLegRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightLegRoll5IS = LeafRightLegRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightLegRoll5ISx = LeafRightLegRoll5IS.LeafRightLegRoll5ISx
     LeafRightLegRoll5ISy = LeafRightLegRoll5IS.LeafRightLegRoll5ISy
     LeafRightLegRoll5ISz = LeafRightLegRoll5IS.LeafRightLegRoll5ISz
 
-    LeafRightLegRoll5PreR = LeafRightLegRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll5PreR = LeafRightLegRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll5PreRx = LeafRightLegRoll5PreR.LeafRightLegRoll5PreRx
     LeafRightLegRoll5PreRy = LeafRightLegRoll5PreR.LeafRightLegRoll5PreRy
     LeafRightLegRoll5PreRz = LeafRightLegRoll5PreR.LeafRightLegRoll5PreRz
 
-    LeafRightLegRoll5PostR = LeafRightLegRoll5PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightLegRoll5PostR = LeafRightLegRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightLegRoll5PostRx = LeafRightLegRoll5PostR.LeafRightLegRoll5PostRx
     LeafRightLegRoll5PostRy = LeafRightLegRoll5PostR.LeafRightLegRoll5PostRy
     LeafRightLegRoll5PostRz = LeafRightLegRoll5PostR.LeafRightLegRoll5PostRz
@@ -17287,51 +20003,81 @@ class GeneratedHIKState2SK(DG):
     LeafLeftArmRoll5ISy = LeafLeftArmRoll5IS.LeafLeftArmRoll5ISy
     LeafLeftArmRoll5ISz = LeafLeftArmRoll5IS.LeafLeftArmRoll5ISz
 
-    LeafLeftArmRoll5PreR = LeafLeftArmRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll5PreR = LeafLeftArmRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll5PreRx = LeafLeftArmRoll5PreR.LeafLeftArmRoll5PreRx
     LeafLeftArmRoll5PreRy = LeafLeftArmRoll5PreR.LeafLeftArmRoll5PreRy
     LeafLeftArmRoll5PreRz = LeafLeftArmRoll5PreR.LeafLeftArmRoll5PreRz
 
-    LeafLeftArmRoll5PostR = LeafLeftArmRoll5PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftArmRoll5PostR = LeafLeftArmRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftArmRoll5PostRx = LeafLeftArmRoll5PostR.LeafLeftArmRoll5PostRx
     LeafLeftArmRoll5PostRy = LeafLeftArmRoll5PostR.LeafLeftArmRoll5PostRy
     LeafLeftArmRoll5PostRz = LeafLeftArmRoll5PostR.LeafLeftArmRoll5PostRz
 
-    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5T = LeafLeftForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Tx = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tx
     LeafLeftForeArmRoll5Ty = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Ty
     LeafLeftForeArmRoll5Tz = LeafLeftForeArmRoll5T.LeafLeftForeArmRoll5Tz
 
-    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafLeftForeArmRoll5R = LeafLeftForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafLeftForeArmRoll5Rx = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rx
     LeafLeftForeArmRoll5Ry = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Ry
     LeafLeftForeArmRoll5Rz = LeafLeftForeArmRoll5R.LeafLeftForeArmRoll5Rz
 
-    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll5S = LeafLeftForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll5Sx = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sx
     LeafLeftForeArmRoll5Sy = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sy
     LeafLeftForeArmRoll5Sz = LeafLeftForeArmRoll5S.LeafLeftForeArmRoll5Sz
 
     LeafLeftForeArmRoll5PGX = MatrixField()
 
-    LeafLeftForeArmRoll5ROrder = LeafLeftForeArmRoll5ROrderEnumField(default_value=0)
+    LeafLeftForeArmRoll5ROrder = LeafLeftForeArmRoll5ROrderEnumField(
+        default_value=0
+    )
 
     LeafLeftForeArmRoll5SC = BoolField(default_value=False)
 
-    LeafLeftForeArmRoll5IS = LeafLeftForeArmRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafLeftForeArmRoll5IS = LeafLeftForeArmRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafLeftForeArmRoll5ISx = LeafLeftForeArmRoll5IS.LeafLeftForeArmRoll5ISx
     LeafLeftForeArmRoll5ISy = LeafLeftForeArmRoll5IS.LeafLeftForeArmRoll5ISy
     LeafLeftForeArmRoll5ISz = LeafLeftForeArmRoll5IS.LeafLeftForeArmRoll5ISz
 
-    LeafLeftForeArmRoll5PreR = LeafLeftForeArmRoll5PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5PreRx = LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRx
-    LeafLeftForeArmRoll5PreRy = LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRy
-    LeafLeftForeArmRoll5PreRz = LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRz
+    LeafLeftForeArmRoll5PreR = LeafLeftForeArmRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5PreRx = (
+        LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRx
+    )
+    LeafLeftForeArmRoll5PreRy = (
+        LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRy
+    )
+    LeafLeftForeArmRoll5PreRz = (
+        LeafLeftForeArmRoll5PreR.LeafLeftForeArmRoll5PreRz
+    )
 
-    LeafLeftForeArmRoll5PostR = LeafLeftForeArmRoll5PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafLeftForeArmRoll5PostRx = LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRx
-    LeafLeftForeArmRoll5PostRy = LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRy
-    LeafLeftForeArmRoll5PostRz = LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRz
+    LeafLeftForeArmRoll5PostR = LeafLeftForeArmRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafLeftForeArmRoll5PostRx = (
+        LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRx
+    )
+    LeafLeftForeArmRoll5PostRy = (
+        LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRy
+    )
+    LeafLeftForeArmRoll5PostRz = (
+        LeafLeftForeArmRoll5PostR.LeafLeftForeArmRoll5PostRz
+    )
 
     LeafRightArmRoll5T = LeafRightArmRoll5TField(default_value=(0.0, 0.0, 0.0))
     LeafRightArmRoll5Tx = LeafRightArmRoll5T.LeafRightArmRoll5Tx
@@ -17354,53 +20100,85 @@ class GeneratedHIKState2SK(DG):
 
     LeafRightArmRoll5SC = BoolField(default_value=False)
 
-    LeafRightArmRoll5IS = LeafRightArmRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightArmRoll5IS = LeafRightArmRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightArmRoll5ISx = LeafRightArmRoll5IS.LeafRightArmRoll5ISx
     LeafRightArmRoll5ISy = LeafRightArmRoll5IS.LeafRightArmRoll5ISy
     LeafRightArmRoll5ISz = LeafRightArmRoll5IS.LeafRightArmRoll5ISz
 
-    LeafRightArmRoll5PreR = LeafRightArmRoll5PreRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll5PreR = LeafRightArmRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll5PreRx = LeafRightArmRoll5PreR.LeafRightArmRoll5PreRx
     LeafRightArmRoll5PreRy = LeafRightArmRoll5PreR.LeafRightArmRoll5PreRy
     LeafRightArmRoll5PreRz = LeafRightArmRoll5PreR.LeafRightArmRoll5PreRz
 
-    LeafRightArmRoll5PostR = LeafRightArmRoll5PostRField(default_value=(0.0, 0.0, 0.0))
+    LeafRightArmRoll5PostR = LeafRightArmRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightArmRoll5PostRx = LeafRightArmRoll5PostR.LeafRightArmRoll5PostRx
     LeafRightArmRoll5PostRy = LeafRightArmRoll5PostR.LeafRightArmRoll5PostRy
     LeafRightArmRoll5PostRz = LeafRightArmRoll5PostR.LeafRightArmRoll5PostRz
 
-    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5T = LeafRightForeArmRoll5TField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Tx = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tx
     LeafRightForeArmRoll5Ty = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Ty
     LeafRightForeArmRoll5Tz = LeafRightForeArmRoll5T.LeafRightForeArmRoll5Tz
 
-    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(default_value=(0.0, 0.0, 0.0))
+    LeafRightForeArmRoll5R = LeafRightForeArmRoll5RField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     LeafRightForeArmRoll5Rx = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rx
     LeafRightForeArmRoll5Ry = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Ry
     LeafRightForeArmRoll5Rz = LeafRightForeArmRoll5R.LeafRightForeArmRoll5Rz
 
-    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll5S = LeafRightForeArmRoll5SField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll5Sx = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sx
     LeafRightForeArmRoll5Sy = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sy
     LeafRightForeArmRoll5Sz = LeafRightForeArmRoll5S.LeafRightForeArmRoll5Sz
 
     LeafRightForeArmRoll5PGX = MatrixField()
 
-    LeafRightForeArmRoll5ROrder = LeafRightForeArmRoll5ROrderEnumField(default_value=0)
+    LeafRightForeArmRoll5ROrder = LeafRightForeArmRoll5ROrderEnumField(
+        default_value=0
+    )
 
     LeafRightForeArmRoll5SC = BoolField(default_value=False)
 
-    LeafRightForeArmRoll5IS = LeafRightForeArmRoll5ISField(default_value=(1.0, 1.0, 1.0))
+    LeafRightForeArmRoll5IS = LeafRightForeArmRoll5ISField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     LeafRightForeArmRoll5ISx = LeafRightForeArmRoll5IS.LeafRightForeArmRoll5ISx
     LeafRightForeArmRoll5ISy = LeafRightForeArmRoll5IS.LeafRightForeArmRoll5ISy
     LeafRightForeArmRoll5ISz = LeafRightForeArmRoll5IS.LeafRightForeArmRoll5ISz
 
-    LeafRightForeArmRoll5PreR = LeafRightForeArmRoll5PreRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5PreRx = LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRx
-    LeafRightForeArmRoll5PreRy = LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRy
-    LeafRightForeArmRoll5PreRz = LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRz
+    LeafRightForeArmRoll5PreR = LeafRightForeArmRoll5PreRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5PreRx = (
+        LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRx
+    )
+    LeafRightForeArmRoll5PreRy = (
+        LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRy
+    )
+    LeafRightForeArmRoll5PreRz = (
+        LeafRightForeArmRoll5PreR.LeafRightForeArmRoll5PreRz
+    )
 
-    LeafRightForeArmRoll5PostR = LeafRightForeArmRoll5PostRField(default_value=(0.0, 0.0, 0.0))
-    LeafRightForeArmRoll5PostRx = LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRx
-    LeafRightForeArmRoll5PostRy = LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRy
-    LeafRightForeArmRoll5PostRz = LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRz
+    LeafRightForeArmRoll5PostR = LeafRightForeArmRoll5PostRField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    LeafRightForeArmRoll5PostRx = (
+        LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRx
+    )
+    LeafRightForeArmRoll5PostRy = (
+        LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRy
+    )
+    LeafRightForeArmRoll5PostRz = (
+        LeafRightForeArmRoll5PostR.LeafRightForeArmRoll5PostRz
+    )

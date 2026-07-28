@@ -11,7 +11,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class PositionalContinuityTypeEnumPlugOperator(EnumPlugOperator["PositionalContinuityTypeEnumAttrOperator"]):
+class PositionalContinuityTypeEnumPlugOperator(
+    EnumPlugOperator["PositionalContinuityTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MOVE_FIRST = 1
@@ -22,7 +24,9 @@ class PositionalContinuityTypeEnumPlugOperator(EnumPlugOperator["PositionalConti
     MODIFY_BOTH = 6
 
 
-class PositionalContinuityTypeEnumAttrOperator(EnumAttrOperator[PositionalContinuityTypeEnumPlugOperator]):
+class PositionalContinuityTypeEnumAttrOperator(
+    EnumAttrOperator[PositionalContinuityTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MOVE_FIRST = 1
@@ -43,7 +47,10 @@ class PositionalContinuityTypeEnumAttrOperator(EnumAttrOperator[PositionalContin
 
 
 class PositionalContinuityTypeEnumField(
-    EnumField[PositionalContinuityTypeEnumAttrOperator, PositionalContinuityTypeEnumPlugOperator]
+    EnumField[
+        PositionalContinuityTypeEnumAttrOperator,
+        PositionalContinuityTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51,14 +58,18 @@ class PositionalContinuityTypeEnumField(
     PLUG_CLS = PositionalContinuityTypeEnumPlugOperator
 
 
-class TangentContinuityTypeEnumPlugOperator(EnumPlugOperator["TangentContinuityTypeEnumAttrOperator"]):
+class TangentContinuityTypeEnumPlugOperator(
+    EnumPlugOperator["TangentContinuityTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FIRST = 1
     SECOND = 2
 
 
-class TangentContinuityTypeEnumAttrOperator(EnumAttrOperator[TangentContinuityTypeEnumPlugOperator]):
+class TangentContinuityTypeEnumAttrOperator(
+    EnumAttrOperator[TangentContinuityTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FIRST = 1
@@ -71,7 +82,10 @@ class TangentContinuityTypeEnumAttrOperator(EnumAttrOperator[TangentContinuityTy
 
 
 class TangentContinuityTypeEnumField(
-    EnumField[TangentContinuityTypeEnumAttrOperator, TangentContinuityTypeEnumPlugOperator]
+    EnumField[
+        TangentContinuityTypeEnumAttrOperator,
+        TangentContinuityTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -96,25 +110,37 @@ class GeneratedAlignSurface(DG):
     outputSurface2 = DataNurbsSurfaceField(writable=False)
     os2 = outputSurface2
 
-    tangentScale1 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
+    tangentScale1 = DoubleField(
+        default_value=1.0, min_value=-100.0, max_value=100.0
+    )
     ts1 = tangentScale1
 
-    tangentScale2 = DoubleField(default_value=1.0, min_value=-100.0, max_value=100.0)
+    tangentScale2 = DoubleField(
+        default_value=1.0, min_value=-100.0, max_value=100.0
+    )
     ts2 = tangentScale2
 
-    curvatureScale1 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
+    curvatureScale1 = DoubleField(
+        default_value=0.0, min_value=-100.0, max_value=100.0
+    )
     cs1 = curvatureScale1
 
-    curvatureScale2 = DoubleField(default_value=0.0, min_value=-100.0, max_value=100.0)
+    curvatureScale2 = DoubleField(
+        default_value=0.0, min_value=-100.0, max_value=100.0
+    )
     cs2 = curvatureScale2
 
-    positionalContinuityType = PositionalContinuityTypeEnumField(default_value=1)
+    positionalContinuityType = PositionalContinuityTypeEnumField(
+        default_value=1
+    )
     pct = positionalContinuityType
 
     tangentContinuityType = TangentContinuityTypeEnumField(default_value=1)
     tct = tangentContinuityType
 
-    joinParameter = FloatField(default_value=123456.0, min_value=-123456.0, max_value=123456.0)
+    joinParameter = FloatField(
+        default_value=123456.0, min_value=-123456.0, max_value=123456.0
+    )
     jnp = joinParameter
 
     twist = BoolField(default_value=False)

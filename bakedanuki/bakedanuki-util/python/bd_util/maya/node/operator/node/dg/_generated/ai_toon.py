@@ -33,7 +33,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalTypeEnumPlugOperator(EnumPlugOperator["NormalTypeEnumAttrOperator"]):
+class NormalTypeEnumPlugOperator(
+    EnumPlugOperator["NormalTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHADING_NORMAL = 0
@@ -109,7 +111,9 @@ class GeneratedAiToon(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -166,7 +170,9 @@ class GeneratedAiToon(DG):
     edgeOpacity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     edge_opacity = edgeOpacity
 
-    edgeWidthScale = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    edgeWidthScale = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     edge_width_scale = edgeWidthScale
 
     silhouetteColor = SilhouetteColorField(default_value=(0.0, 0.0, 0.0))
@@ -187,10 +193,14 @@ class GeneratedAiToon(DG):
     silhouetteTonemapB = silhouetteTonemap.silhouetteTonemapB
     silhouette_tonemapb = silhouetteTonemapB
 
-    silhouetteOpacity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    silhouetteOpacity = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     silhouette_opacity = silhouetteOpacity
 
-    silhouetteWidthScale = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    silhouetteWidthScale = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     silhouette_width_scale = silhouetteWidthScale
 
     priority = LongField(default_value=0)
@@ -209,16 +219,22 @@ class GeneratedAiToon(DG):
     shaderDifference = BoolField(default_value=True)
     shader_difference = shaderDifference
 
-    uvThreshold = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    uvThreshold = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     uv_threshold = uvThreshold
 
-    angleThreshold = FloatField(default_value=180.0, min_value=0.0, max_value=180.0)
+    angleThreshold = FloatField(
+        default_value=180.0, min_value=0.0, max_value=180.0
+    )
     angle_threshold = angleThreshold
 
     normalType = NormalTypeEnumField(default_value=0)
     normal_type = normalType
 
-    base = FloatField(default_value=0.800000011920929, min_value=0.0, max_value=1.0)
+    base = FloatField(
+        default_value=0.800000011920929, min_value=0.0, max_value=1.0
+    )
 
     baseColor = BaseColorField(default_value=(1.0, 1.0, 1.0))
     base_color = baseColor
@@ -249,13 +265,19 @@ class GeneratedAiToon(DG):
     specularColorB = specularColor.specularColorB
     specular_colorb = specularColorB
 
-    specularRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    specularRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     specular_roughness = specularRoughness
 
-    specularAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    specularAnisotropy = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     specular_anisotropy = specularAnisotropy
 
-    specularRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    specularRotation = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     specular_rotation = specularRotation
 
     specularTonemap = SpecularTonemapField(default_value=(1.0, 1.0, 1.0))
@@ -316,13 +338,19 @@ class GeneratedAiToon(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     transmission_colorb = transmissionColorB
 
-    transmissionRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    transmissionRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     transmission_roughness = transmissionRoughness
 
-    transmissionAnisotropy = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    transmissionAnisotropy = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     transmission_anisotropy = transmissionAnisotropy
 
-    transmissionRotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    transmissionRotation = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     transmission_rotation = transmissionRotation
 
     sheen = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -336,7 +364,9 @@ class GeneratedAiToon(DG):
     sheenColorB = sheenColor.sheenColorB
     sheen_colorb = sheenColorB
 
-    sheenRoughness = FloatField(default_value=0.30000001192092896, min_value=0.0, max_value=1.0)
+    sheenRoughness = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, max_value=1.0
+    )
     sheen_roughness = sheenRoughness
 
     emission = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
@@ -350,7 +380,9 @@ class GeneratedAiToon(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    IOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0)
+    IOR = FloatField(
+        default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0
+    )
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX
@@ -368,10 +400,14 @@ class GeneratedAiToon(DG):
     tangentZ = tangent.tangentZ
     tangentz = tangentZ
 
-    indirectDiffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    indirectDiffuse = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     indirect_diffuse = indirectDiffuse
 
-    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    indirectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     indirect_specular = indirectSpecular
 
     bumpMode = BumpModeEnumField(default_value=0)

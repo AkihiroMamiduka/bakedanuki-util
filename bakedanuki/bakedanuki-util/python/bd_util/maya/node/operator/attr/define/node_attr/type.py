@@ -29,7 +29,9 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._
 )
 
 
-class ManipulatorModeEnumPlugOperator(EnumPlugOperator["ManipulatorModeEnumAttrOperator"]):
+class ManipulatorModeEnumPlugOperator(
+    EnumPlugOperator["ManipulatorModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -37,7 +39,9 @@ class ManipulatorModeEnumPlugOperator(EnumPlugOperator["ManipulatorModeEnumAttrO
     LINE = 2
 
 
-class ManipulatorModeEnumAttrOperator(EnumAttrOperator[ManipulatorModeEnumPlugOperator]):
+class ManipulatorModeEnumAttrOperator(
+    EnumAttrOperator[ManipulatorModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -60,9 +64,7 @@ class ManipulatorModeEnumField(
     PLUG_CLS = ManipulatorModeEnumPlugOperator
 
 
-class GroupingPlugOperator(
-    CompoundPlugOperator["GroupingAttrOperator"]
-):
+class GroupingPlugOperator(CompoundPlugOperator["GroupingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("solidsPerCharacter", "solidsPerCharacter"),
@@ -77,9 +79,7 @@ class GroupingPlugOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingAttrOperator(
-    CompoundAttrOperator[GroupingPlugOperator]
-):
+class GroupingAttrOperator(CompoundAttrOperator[GroupingPlugOperator]):
     __slots__ = ()
 
     solidsPerCharacter = DataDoubleArrayField()
@@ -89,9 +89,7 @@ class GroupingAttrOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingField(
-    CompoundField[GroupingAttrOperator, GroupingPlugOperator]
-):
+class GroupingField(CompoundField[GroupingAttrOperator, GroupingPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GroupingAttrOperator
@@ -194,7 +192,9 @@ class ManipulatorTransformsAttrOperator(
 
 
 class ManipulatorTransformsField(
-    CompoundField[ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator]
+    CompoundField[
+        ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +262,9 @@ class PositionAdjustAttrOperator(
 
 
 class PositionAdjustField(
-    Double3CompoundBaseField[PositionAdjustAttrOperator, PositionAdjustPlugOperator]
+    Double3CompoundBaseField[
+        PositionAdjustAttrOperator, PositionAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -306,7 +308,9 @@ class RotationAdjustAttrOperator(
 
 
 class RotationAdjustField(
-    Double3CompoundBaseField[RotationAdjustAttrOperator, RotationAdjustPlugOperator]
+    Double3CompoundBaseField[
+        RotationAdjustAttrOperator, RotationAdjustPlugOperator
+    ]
 ):
     __slots__ = ()
 

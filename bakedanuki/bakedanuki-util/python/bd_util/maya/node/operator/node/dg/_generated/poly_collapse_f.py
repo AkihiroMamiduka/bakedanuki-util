@@ -45,5 +45,7 @@ class GeneratedPolyCollapseF(DG):
     useAreaThreshold = BoolField(default_value=False)
     uat = useAreaThreshold
 
-    areaThreshold = DoubleField(default_value=0.1, min_value=0.0, soft_max_value=1.0)
+    areaThreshold = DoubleField(
+        default_value=0.1, min_value=0.0, soft_max_value=1.0
+    )
     at = areaThreshold

@@ -23,7 +23,9 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class LocalCenterEnumPlugOperator(EnumPlugOperator["LocalCenterEnumAttrOperator"]):
+class LocalCenterEnumPlugOperator(
+    EnumPlugOperator["LocalCenterEnumAttrOperator"]
+):
     __slots__ = ()
 
     MIDDLE = 0
@@ -31,7 +33,9 @@ class LocalCenterEnumPlugOperator(EnumPlugOperator["LocalCenterEnumAttrOperator"
     END = 2
 
 
-class LocalCenterEnumAttrOperator(EnumAttrOperator[LocalCenterEnumPlugOperator]):
+class LocalCenterEnumAttrOperator(
+    EnumAttrOperator[LocalCenterEnumPlugOperator]
+):
     __slots__ = ()
 
     MIDDLE = 0
@@ -134,7 +138,9 @@ class GeneratedPolyMoveEdge(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    random = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ran = random
 
     randomSeed = LongField(default_value=0)

@@ -96,7 +96,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

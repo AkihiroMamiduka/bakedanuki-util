@@ -45,9 +45,7 @@ class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator
@@ -157,9 +155,7 @@ class ConstrainDataField(
     bisadj = biasAdjust
 
 
-class OutDataPlugOperator(
-    CompoundPlugOperator["OutDataAttrOperator"]
-):
+class OutDataPlugOperator(CompoundPlugOperator["OutDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outTranslate", "ot"),
@@ -177,9 +173,7 @@ class OutDataPlugOperator(
     otrg = outTrigger
 
 
-class OutDataAttrOperator(
-    CompoundAttrOperator[OutDataPlugOperator]
-):
+class OutDataAttrOperator(CompoundAttrOperator[OutDataPlugOperator]):
     __slots__ = ()
 
     outTranslate = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -192,9 +186,7 @@ class OutDataAttrOperator(
     otrg = outTrigger
 
 
-class OutDataField(
-    CompoundField[OutDataAttrOperator, OutDataPlugOperator]
-):
+class OutDataField(CompoundField[OutDataAttrOperator, OutDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutDataAttrOperator

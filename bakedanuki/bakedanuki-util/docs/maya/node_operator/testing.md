@@ -23,6 +23,37 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 & "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pytest tests
 ```
 
+## Black format
+
+BlackはMaya実行環境とは分離した`.venv-format`へインストールします。
+初回セットアップでは`requirements-format.txt`に固定したバージョンを使用します。
+
+```powershell
+.\scripts\setup-format.cmd
+```
+
+`bakedanuki`と`tests`以下のPythonコードを一括整形します。
+
+```powershell
+.\scripts\format.cmd
+```
+
+ファイルを変更せずに整形状態だけ確認する場合は`-Check`を指定します。
+実際の差分も確認する場合は`-Diff`を追加します。
+
+```powershell
+.\scripts\format.cmd -Check
+.\scripts\format.cmd -Check -Diff
+```
+
+設定はリポジトリ直下の`pyproject.toml`に置き、Python 3.11を対象にします。
+VS CodeのBlack Formatterも`.venv-format`と同じ設定を使用します。
+外部由来のMaya API stubを置く`typings`は一括整形の対象外です。
+
+Generatorは生成コードを直接Blackへ依存させません。
+ノードを再生成した場合は、生成処理の後に`format.cmd`を実行してから
+差分確認とテストを行ってください。
+
 ## Pyright 型・補完 contract
 
 `tests/typecheck/node_operator_contract.py` は、公開 API を利用したときに

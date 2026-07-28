@@ -8,7 +8,9 @@ from ..std.at.light_data import (
 )
 from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class LightDataArrayPlugOperator(
@@ -90,9 +92,7 @@ class LightDataArrayField(
     PLUG_CLS = LightDataArrayPlugOperator
 
 
-class LightDataPlugOperator(
-    LightDataPlugOperator["LightDataAttrOperator"]
-):
+class LightDataPlugOperator(LightDataPlugOperator["LightDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("lightDirectionOut", "ldo"),
@@ -105,10 +105,14 @@ class LightDataPlugOperator(
         ("lightBlindDataOut", "lbdo"),
     )
 
-    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightDirectionOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightIntensityOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     lw = lightIntensityOut
 
     lightAmbientOut = BoolField(default_value=False, writable=False)
@@ -130,15 +134,17 @@ class LightDataPlugOperator(
     lbdo = lightBlindDataOut
 
 
-class LightDataAttrOperator(
-    LightDataAttrOperator[LightDataPlugOperator]
-):
+class LightDataAttrOperator(LightDataAttrOperator[LightDataPlugOperator]):
     __slots__ = ()
 
-    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightDirectionOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightIntensityOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     lw = lightIntensityOut
 
     lightAmbientOut = BoolField(default_value=False, writable=False)
@@ -168,10 +174,14 @@ class LightDataField(
     ATTR_CLS = LightDataAttrOperator
     PLUG_CLS = LightDataPlugOperator
 
-    lightDirectionOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightDirectionOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ldo = lightDirectionOut
 
-    lightIntensityOut = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightIntensityOut = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     lw = lightIntensityOut
 
     lightAmbientOut = BoolField(default_value=False, writable=False)

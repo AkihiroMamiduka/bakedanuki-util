@@ -28,9 +28,7 @@ class InColorPlugOperator(
     cb = inColorB
 
 
-class InColorAttrOperator(
-    Float3CompoundBaseAttrOperator[InColorPlugOperator]
-):
+class InColorAttrOperator(Float3CompoundBaseAttrOperator[InColorPlugOperator]):
     __slots__ = ()
 
     inColorR = FloatField(default_value=0.30000001192092896)
@@ -81,9 +79,7 @@ class ColGainPlugOperator(
     ccgb = colGainB
 
 
-class ColGainAttrOperator(
-    Float3CompoundBaseAttrOperator[ColGainPlugOperator]
-):
+class ColGainAttrOperator(Float3CompoundBaseAttrOperator[ColGainPlugOperator]):
     __slots__ = ()
 
     colGainR = FloatField(default_value=1.0)

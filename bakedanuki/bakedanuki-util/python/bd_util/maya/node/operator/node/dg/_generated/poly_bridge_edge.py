@@ -9,7 +9,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -75,14 +77,18 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class SourceDirectionEnumPlugOperator(EnumPlugOperator["SourceDirectionEnumAttrOperator"]):
+class SourceDirectionEnumPlugOperator(
+    EnumPlugOperator["SourceDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class SourceDirectionEnumAttrOperator(EnumAttrOperator[SourceDirectionEnumPlugOperator]):
+class SourceDirectionEnumAttrOperator(
+    EnumAttrOperator[SourceDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS = 0
@@ -103,14 +109,18 @@ class SourceDirectionEnumField(
     PLUG_CLS = SourceDirectionEnumPlugOperator
 
 
-class TargetDirectionEnumPlugOperator(EnumPlugOperator["TargetDirectionEnumAttrOperator"]):
+class TargetDirectionEnumPlugOperator(
+    EnumPlugOperator["TargetDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class TargetDirectionEnumAttrOperator(EnumAttrOperator[TargetDirectionEnumPlugOperator]):
+class TargetDirectionEnumAttrOperator(
+    EnumAttrOperator[TargetDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS = 0
@@ -178,10 +188,14 @@ class GeneratedPolyBridgeEdge(DG):
     inputProfile = DataNurbsCurveField()
     ipc = inputProfile
 
-    twist = DoubleAngleField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    twist = DoubleAngleField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
     twt = twist
 
-    taper = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=15.0)
+    taper = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=15.0
+    )
     tp = taper
 
     taperCurve = TaperCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -202,7 +216,11 @@ class GeneratedPolyBridgeEdge(DG):
     curveType = CurveTypeEnumField(default_value=0)
     ctp = curveType
 
-    smoothingAngle = DoubleAngleField(default_value=29.999999999999996, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=29.999999999999996,
+        soft_min_value=0.0,
+        soft_max_value=180.0,
+    )
     sma = smoothingAngle
 
     reverse = BoolField(default_value=False)

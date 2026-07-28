@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class OffsetPlugOperator(
-    CompoundPlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(CompoundPlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetX", "ox"),
@@ -28,9 +26,7 @@ class OffsetPlugOperator(
     oz = offsetZ
 
 
-class OffsetAttrOperator(
-    CompoundAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(CompoundAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetX = FloatField(default_value=0.0)
@@ -43,9 +39,7 @@ class OffsetAttrOperator(
     oz = offsetZ
 
 
-class OffsetField(
-    CompoundField[OffsetAttrOperator, OffsetPlugOperator]
-):
+class OffsetField(CompoundField[OffsetAttrOperator, OffsetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OffsetAttrOperator

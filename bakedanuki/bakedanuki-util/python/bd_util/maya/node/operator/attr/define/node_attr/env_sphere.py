@@ -135,9 +135,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -400,7 +398,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -417,9 +417,7 @@ class RefPointCameraField(
     rcz = refPointCameraZ
 
 
-class ImagePlugOperator(
-    Float3CompoundBasePlugOperator["ImageAttrOperator"]
-):
+class ImagePlugOperator(Float3CompoundBasePlugOperator["ImageAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("imageR", "sor"),
@@ -437,9 +435,7 @@ class ImagePlugOperator(
     sob = imageB
 
 
-class ImageAttrOperator(
-    Float3CompoundBaseAttrOperator[ImagePlugOperator]
-):
+class ImageAttrOperator(Float3CompoundBaseAttrOperator[ImagePlugOperator]):
     __slots__ = ()
 
     imageR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
@@ -486,9 +482,7 @@ class ShearUVPlugOperator(
     sv = shearV
 
 
-class ShearUVAttrOperator(
-    Float2CompoundBaseAttrOperator[ShearUVPlugOperator]
-):
+class ShearUVAttrOperator(Float2CompoundBaseAttrOperator[ShearUVPlugOperator]):
     __slots__ = ()
 
     shearU = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0)

@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -150,7 +152,9 @@ class ProjectionColorAttrOperator(
 
 
 class ProjectionColorField(
-    Float3CompoundBaseField[ProjectionColorAttrOperator, ProjectionColorPlugOperator]
+    Float3CompoundBaseField[
+        ProjectionColorAttrOperator, ProjectionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +207,9 @@ class OffscreenColorAttrOperator(
 
 
 class OffscreenColorField(
-    Float3CompoundBaseField[OffscreenColorAttrOperator, OffscreenColorPlugOperator]
+    Float3CompoundBaseField[
+        OffscreenColorAttrOperator, OffscreenColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +226,7 @@ class OffscreenColorField(
     offscreen_colorb = offscreenColorB
 
 
-class PPlugOperator(
-    Float3CompoundBasePlugOperator["PAttrOperator"]
-):
+class PPlugOperator(Float3CompoundBasePlugOperator["PAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PX", "Px"),
@@ -240,9 +244,7 @@ class PPlugOperator(
     Pz = PZ
 
 
-class PAttrOperator(
-    Float3CompoundBaseAttrOperator[PPlugOperator]
-):
+class PAttrOperator(Float3CompoundBaseAttrOperator[PPlugOperator]):
     __slots__ = ()
 
     PX = FloatField(default_value=0.0)
@@ -255,9 +257,7 @@ class PAttrOperator(
     Pz = PZ
 
 
-class PField(
-    Float3CompoundBaseField[PAttrOperator, PPlugOperator]
-):
+class PField(Float3CompoundBaseField[PAttrOperator, PPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PAttrOperator

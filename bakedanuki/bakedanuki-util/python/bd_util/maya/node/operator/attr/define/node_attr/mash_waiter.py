@@ -97,7 +97,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -184,9 +186,7 @@ class TranslateInPPField(
     inVisPP = inVisibilityPP
 
 
-class CacheInPPPlugOperator(
-    CompoundPlugOperator["CacheInPPAttrOperator"]
-):
+class CacheInPPPlugOperator(CompoundPlugOperator["CacheInPPAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("cacheInArrayPP", "cacheInArrayPP"),
@@ -207,9 +207,7 @@ class CacheInPPPlugOperator(
     cacheVisibilityPP = DataVectorArrayField()
 
 
-class CacheInPPAttrOperator(
-    CompoundAttrOperator[CacheInPPPlugOperator]
-):
+class CacheInPPAttrOperator(CompoundAttrOperator[CacheInPPPlugOperator]):
     __slots__ = ()
 
     cacheInArrayPP = DataVectorArrayField()

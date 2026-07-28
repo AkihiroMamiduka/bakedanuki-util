@@ -18,7 +18,13 @@ class GeneratedColorCorrect(DG):
 
     NODE_TYPE = "colorCorrect"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR
@@ -36,7 +42,9 @@ class GeneratedColorCorrect(DG):
     premultiplyResult = BoolField(default_value=False)
     pr = premultiplyResult
 
-    hueShift = FloatField(default_value=0.0, min_value=0.0, soft_max_value=360.0)
+    hueShift = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=360.0
+    )
     hs = hueShift
 
     satGain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
@@ -93,13 +101,19 @@ class GeneratedColorCorrect(DG):
     colClampMaxB = colClampMax.colClampMaxB
     ccmxb = colClampMaxB
 
-    alphaGain = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    alphaGain = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     aag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    alphaOffset = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     ao = alphaOffset
 
-    alphaGamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    alphaGamma = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     agg = alphaGamma
 
     alphaClamp = BoolField(default_value=False)

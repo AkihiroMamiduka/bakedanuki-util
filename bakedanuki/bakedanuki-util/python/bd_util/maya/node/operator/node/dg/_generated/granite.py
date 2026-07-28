@@ -58,13 +58,19 @@ class GeneratedGranite(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -79,7 +85,11 @@ class GeneratedGranite(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -88,7 +98,11 @@ class GeneratedGranite(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -97,13 +111,21 @@ class GeneratedGranite(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -142,7 +164,11 @@ class GeneratedGranite(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    color1 = Color1Field(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color1 = Color1Field(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c1 = color1
     color1R = color1.color1R
     c1r = color1R
@@ -151,7 +177,15 @@ class GeneratedGranite(DG):
     color1B = color1.color1B
     c1b = color1B
 
-    color2 = Color2Field(default_value=(0.5490000247955322, 0.7839999794960022, 0.3919999897480011), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color2 = Color2Field(
+        default_value=(
+            0.5490000247955322,
+            0.7839999794960022,
+            0.3919999897480011,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c2 = color2
     color2R = color2.color2R
     c2r = color2R
@@ -160,7 +194,15 @@ class GeneratedGranite(DG):
     color2B = color2.color2B
     c2b = color2B
 
-    color3 = Color3Field(default_value=(0.6269999742507935, 0.8240000009536743, 0.8230000138282776), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color3 = Color3Field(
+        default_value=(
+            0.6269999742507935,
+            0.8240000009536743,
+            0.8230000138282776,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c3 = color3
     color3R = color3.color3R
     c3r = color3R
@@ -169,7 +211,15 @@ class GeneratedGranite(DG):
     color3B = color3.color3B
     c3b = color3B
 
-    fillerColor = FillerColorField(default_value=(0.5879999995231628, 0.2939999997615814, 0.19599999487400055), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    fillerColor = FillerColorField(
+        default_value=(
+            0.5879999995231628,
+            0.2939999997615814,
+            0.19599999487400055,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -178,7 +228,9 @@ class GeneratedGranite(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    cellSize = FloatField(default_value=0.15000000596046448, min_value=0.0, soft_max_value=1.0)
+    cellSize = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, soft_max_value=1.0
+    )
     cs = cellSize
 
     density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
@@ -187,13 +239,19 @@ class GeneratedGranite(DG):
     mixRatio = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     mr = mixRatio
 
-    spottyness = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0)
+    spottyness = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0
+    )
     s = spottyness
 
-    randomness = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    randomness = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     ra = randomness
 
-    threshold = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    threshold = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     th = threshold
 
     creases = BoolField(default_value=True)

@@ -15,7 +15,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalModeEnumPlugOperator(EnumPlugOperator["NormalModeEnumAttrOperator"]):
+class NormalModeEnumPlugOperator(
+    EnumPlugOperator["NormalModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -46,14 +48,18 @@ class NormalModeEnumField(
     PLUG_CLS = NormalModeEnumPlugOperator
 
 
-class LevelOfDetailEnumPlugOperator(EnumPlugOperator["LevelOfDetailEnumAttrOperator"]):
+class LevelOfDetailEnumPlugOperator(
+    EnumPlugOperator["LevelOfDetailEnumAttrOperator"]
+):
     __slots__ = ()
 
     GEOMETRY = 0
     BOUNDINGBOX = 1
 
 
-class LevelOfDetailEnumAttrOperator(EnumAttrOperator[LevelOfDetailEnumPlugOperator]):
+class LevelOfDetailEnumAttrOperator(
+    EnumAttrOperator[LevelOfDetailEnumPlugOperator]
+):
     __slots__ = ()
 
     GEOMETRY = 0
@@ -74,7 +80,9 @@ class LevelOfDetailEnumField(
     PLUG_CLS = LevelOfDetailEnumPlugOperator
 
 
-class RotationOrderEnumPlugOperator(EnumPlugOperator["RotationOrderEnumAttrOperator"]):
+class RotationOrderEnumPlugOperator(
+    EnumPlugOperator["RotationOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -85,7 +93,9 @@ class RotationOrderEnumPlugOperator(EnumPlugOperator["RotationOrderEnumAttrOpera
     ZYX = 5
 
 
-class RotationOrderEnumAttrOperator(EnumAttrOperator[RotationOrderEnumPlugOperator]):
+class RotationOrderEnumAttrOperator(
+    EnumAttrOperator[RotationOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -114,14 +124,18 @@ class RotationOrderEnumField(
     PLUG_CLS = RotationOrderEnumPlugOperator
 
 
-class MotionBlurInstanceModeEnumPlugOperator(EnumPlugOperator["MotionBlurInstanceModeEnumAttrOperator"]):
+class MotionBlurInstanceModeEnumPlugOperator(
+    EnumPlugOperator["MotionBlurInstanceModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MOTION_BLUR_COMPATIBLE = 0
     CHANGING_TOPOLOGY = 1
 
 
-class MotionBlurInstanceModeEnumAttrOperator(EnumAttrOperator[MotionBlurInstanceModeEnumPlugOperator]):
+class MotionBlurInstanceModeEnumAttrOperator(
+    EnumAttrOperator[MotionBlurInstanceModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MOTION_BLUR_COMPATIBLE = 0
@@ -134,7 +148,10 @@ class MotionBlurInstanceModeEnumAttrOperator(EnumAttrOperator[MotionBlurInstance
 
 
 class MotionBlurInstanceModeEnumField(
-    EnumField[MotionBlurInstanceModeEnumAttrOperator, MotionBlurInstanceModeEnumPlugOperator]
+    EnumField[
+        MotionBlurInstanceModeEnumAttrOperator,
+        MotionBlurInstanceModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 

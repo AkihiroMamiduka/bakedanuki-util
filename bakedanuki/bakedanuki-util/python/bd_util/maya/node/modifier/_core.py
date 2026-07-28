@@ -7,7 +7,6 @@ from typing import Literal
 # maya
 from maya.api import OpenMaya as om
 
-
 ModifierKind = Literal["dg", "dag"]
 
 
@@ -42,9 +41,7 @@ class ModifierManager:
     def __init__(self):
         self._dg_mod = om.MDGModifier()
         self._dag_mod = om.MDagModifier()
-        self._pending_dag_parents: dict[
-            om.MObjectHandle, om.MObject
-        ] = {}
+        self._pending_dag_parents: dict[om.MObjectHandle, om.MObject] = {}
         self._done_stack: list[_ExecutedModifier] = []
         self._redo_stack: list[_ExecutedModifier] = []
 

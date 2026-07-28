@@ -23,7 +23,9 @@ class GeneratedAiRange(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -40,25 +42,49 @@ class GeneratedAiRange(DG):
     inputB = input.inputB
     inputb = inputB
 
-    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    inputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     input_min = inputMin
 
-    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    inputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     input_max = inputMax
 
-    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    outputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     output_min = outputMin
 
-    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    outputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     output_max = outputMax
 
     smoothstep = BoolField(default_value=False)
 
-    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    contrast = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    contrastPivot = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    contrastPivot = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     contrast_pivot = contrastPivot
 
-    bias = FloatField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    bias = FloatField(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
 
-    gain = FloatField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    gain = FloatField(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )

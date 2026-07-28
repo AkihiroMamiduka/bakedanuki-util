@@ -16,7 +16,9 @@ class GeneratedMakeIllustratorCurves(DG):
     illustratorFilename = DataStringField()
     ifn = illustratorFilename
 
-    scaleFactor = FloatField(default_value=1.0, min_value=0.0010000000474974513)
+    scaleFactor = FloatField(
+        default_value=1.0, min_value=0.0010000000474974513
+    )
     sf = scaleFactor
 
     reload = BoolField(default_value=False)
@@ -28,8 +30,15 @@ class GeneratedMakeIllustratorCurves(DG):
     count = LongField(multi=True, default_value=0, writable=False)
     c = count
 
-    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
+    position = PositionField(
+        multi=True, default_value=(0.0, 0.0, 0.0), writable=False
+    )
     p = position
 
-    tolerance = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_min_value=0.0, soft_max_value=0.10000000149011612)
+    tolerance = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=0.10000000149011612,
+    )
     tl = tolerance

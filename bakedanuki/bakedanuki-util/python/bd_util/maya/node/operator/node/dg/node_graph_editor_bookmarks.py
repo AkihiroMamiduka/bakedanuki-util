@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.node_graph_editor_bookmarks import GeneratedNodeGraphEditorBookmarks
+from ._generated.node_graph_editor_bookmarks import (
+    GeneratedNodeGraphEditorBookmarks,
+)
 
 
 class NodeGraphEditorBookmarks(GeneratedNodeGraphEditorBookmarks):

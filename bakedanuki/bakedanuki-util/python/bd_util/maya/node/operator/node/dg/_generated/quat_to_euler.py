@@ -11,7 +11,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAttrOperator"]):
+class InputRotateOrderEnumPlugOperator(
+    EnumPlugOperator["InputRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -22,7 +24,9 @@ class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAtt
     ZYX = 5
 
 
-class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlugOperator]):
+class InputRotateOrderEnumAttrOperator(
+    EnumAttrOperator[InputRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -43,7 +47,9 @@ class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlug
 
 
 class InputRotateOrderEnumField(
-    EnumField[InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator]
+    EnumField[
+        InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -70,7 +76,9 @@ class GeneratedQuatToEuler(DG):
     inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     iro = inputRotateOrder
 
-    outputRotate = OutputRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outputRotate = OutputRotateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ort = outputRotate
     outputRotateX = outputRotate.outputRotateX
     orx = outputRotateX

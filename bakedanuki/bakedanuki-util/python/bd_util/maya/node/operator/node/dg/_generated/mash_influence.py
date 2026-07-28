@@ -25,7 +25,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -79,7 +87,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -107,7 +118,9 @@ class GeneratedMASH_Influence(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -159,9 +172,13 @@ class GeneratedMASH_Influence(DG):
 
     falloffInfo = TypedField()
 
-    guideInputs = GuideInputsField(multi=True, default_value=(1.0, 1.0, 1.0), readable=False)
+    guideInputs = GuideInputsField(
+        multi=True, default_value=(1.0, 1.0, 1.0), readable=False
+    )
 
-    guideScale = GuideScaleField(multi=True, default_value=(1.0, 1.0, 1.0), readable=False)
+    guideScale = GuideScaleField(
+        multi=True, default_value=(1.0, 1.0, 1.0), readable=False
+    )
 
     guideMatrices = MatrixField(multi=True)
 
@@ -183,7 +200,9 @@ class GeneratedMASH_Influence(DG):
 
     overwriteScale = BoolField(default_value=True)
 
-    influenceRadius = DoubleField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
+    influenceRadius = DoubleField(
+        default_value=20.0, min_value=0.0, soft_max_value=100.0
+    )
 
     influenceMode = BoolField(default_value=True)
 
@@ -198,4 +217,6 @@ class GeneratedMASH_Influence(DG):
     translateZ = BoolField(default_value=False)
     trz = translateZ
 
-    falloffPower = DoubleField(default_value=5.0, soft_min_value=1.0, soft_max_value=10.0)
+    falloffPower = DoubleField(
+        default_value=5.0, soft_min_value=1.0, soft_max_value=10.0
+    )

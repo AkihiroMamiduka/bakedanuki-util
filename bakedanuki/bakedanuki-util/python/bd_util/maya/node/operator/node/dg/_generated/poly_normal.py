@@ -11,7 +11,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class NormalModeEnumPlugOperator(EnumPlugOperator["NormalModeEnumAttrOperator"]):
+class NormalModeEnumPlugOperator(
+    EnumPlugOperator["NormalModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     REVERSE = 0

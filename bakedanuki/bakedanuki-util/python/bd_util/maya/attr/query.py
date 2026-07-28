@@ -390,10 +390,7 @@ def print_attribute_infos(node_type, valid_value=True):
             print("          shortName:", attr_info.short_name)
         if valid_value and attr_info.path_name:
             print("           pathName:", attr_info.path_name)
-        if (
-            valid_value
-            and attr_info.enforcing_unique_name is not None
-        ):
+        if valid_value and attr_info.enforcing_unique_name is not None:
             print(
                 "enforcingUniqueName:",
                 attr_info.enforcing_unique_name,

@@ -16,7 +16,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class UvCoordPlugOperator(
@@ -35,9 +37,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -329,7 +329,11 @@ class ColorEntryListPlugOperator(
     position = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ep = position
 
-    color = Float3Field(default_value=(1.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color = Float3Field(
+        default_value=(1.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ec = color
 
 
@@ -341,7 +345,11 @@ class ColorEntryListAttrOperator(
     position = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ep = position
 
-    color = Float3Field(default_value=(1.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    color = Float3Field(
+        default_value=(1.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ec = color
 
 

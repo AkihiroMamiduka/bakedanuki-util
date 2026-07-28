@@ -16,7 +16,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
@@ -52,7 +54,9 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class PointSpaceEnumPlugOperator(EnumPlugOperator["PointSpaceEnumAttrOperator"]):
+class PointSpaceEnumPlugOperator(
+    EnumPlugOperator["PointSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -83,7 +87,9 @@ class PointSpaceEnumField(
     PLUG_CLS = PointSpaceEnumPlugOperator
 
 
-class VectorSpaceEnumPlugOperator(EnumPlugOperator["VectorSpaceEnumAttrOperator"]):
+class VectorSpaceEnumPlugOperator(
+    EnumPlugOperator["VectorSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OBJECT = 0
@@ -91,7 +97,9 @@ class VectorSpaceEnumPlugOperator(EnumPlugOperator["VectorSpaceEnumAttrOperator"
     TANGENT = 2
 
 
-class VectorSpaceEnumAttrOperator(EnumAttrOperator[VectorSpaceEnumPlugOperator]):
+class VectorSpaceEnumAttrOperator(
+    EnumAttrOperator[VectorSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     OBJECT = 0
@@ -131,13 +139,21 @@ class GeneratedTextureDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -164,10 +180,14 @@ class GeneratedTextureDeformer(DG):
     textureB = texture.textureB
     tb = textureB
 
-    strength = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    strength = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     s = strength
 
-    offset = DoubleLinearField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    offset = DoubleLinearField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     o = offset
 
     vectorStrength = VectorStrengthField(default_value=(1.0, 1.0, 1.0))

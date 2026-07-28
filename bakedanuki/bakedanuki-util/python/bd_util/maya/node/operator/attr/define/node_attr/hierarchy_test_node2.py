@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class N1compoundPlugOperator(
-    CompoundPlugOperator["N1compoundAttrOperator"]
-):
+class N1compoundPlugOperator(CompoundPlugOperator["N1compoundAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("n1level1M", "n1m1"),
@@ -28,9 +26,7 @@ class N1compoundPlugOperator(
     n1c1 = n1level1C
 
 
-class N1compoundAttrOperator(
-    CompoundAttrOperator[N1compoundPlugOperator]
-):
+class N1compoundAttrOperator(CompoundAttrOperator[N1compoundPlugOperator]):
     __slots__ = ()
 
     n1level1M = FloatField(multi=True, default_value=0.0)
@@ -61,9 +57,7 @@ class N1compoundField(
     n1c1 = n1level1C
 
 
-class N2compoundPlugOperator(
-    CompoundPlugOperator["N2compoundAttrOperator"]
-):
+class N2compoundPlugOperator(CompoundPlugOperator["N2compoundAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("n2level1M", "n2m1"),
@@ -81,9 +75,7 @@ class N2compoundPlugOperator(
     n2c1 = n2level1C
 
 
-class N2compoundAttrOperator(
-    CompoundAttrOperator[N2compoundPlugOperator]
-):
+class N2compoundAttrOperator(CompoundAttrOperator[N2compoundPlugOperator]):
     __slots__ = ()
 
     n2level1M = FloatField(multi=True, default_value=0.0)

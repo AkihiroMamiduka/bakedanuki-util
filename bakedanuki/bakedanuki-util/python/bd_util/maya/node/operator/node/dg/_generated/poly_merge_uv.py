@@ -56,5 +56,7 @@ class GeneratedPolyMergeUV(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    distance = FloatField(default_value=10000.0, min_value=0.0, soft_max_value=1.0)
+    distance = FloatField(
+        default_value=10000.0, min_value=0.0, soft_max_value=1.0
+    )
     d = distance

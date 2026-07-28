@@ -18,7 +18,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -27,7 +29,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -52,14 +56,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -72,7 +80,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -80,7 +91,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class SignalTypeEnumPlugOperator(EnumPlugOperator["SignalTypeEnumAttrOperator"]):
+class SignalTypeEnumPlugOperator(
+    EnumPlugOperator["SignalTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     _4D_NOISE = 1
@@ -117,7 +130,9 @@ class SignalTypeEnumField(
     PLUG_CLS = SignalTypeEnumPlugOperator
 
 
-class TrigonometryModeXEnumPlugOperator(EnumPlugOperator["TrigonometryModeXEnumAttrOperator"]):
+class TrigonometryModeXEnumPlugOperator(
+    EnumPlugOperator["TrigonometryModeXEnumAttrOperator"]
+):
     __slots__ = ()
 
     SIN = 1
@@ -125,7 +140,9 @@ class TrigonometryModeXEnumPlugOperator(EnumPlugOperator["TrigonometryModeXEnumA
     TAN = 3
 
 
-class TrigonometryModeXEnumAttrOperator(EnumAttrOperator[TrigonometryModeXEnumPlugOperator]):
+class TrigonometryModeXEnumAttrOperator(
+    EnumAttrOperator[TrigonometryModeXEnumPlugOperator]
+):
     __slots__ = ()
 
     SIN = 1
@@ -140,7 +157,9 @@ class TrigonometryModeXEnumAttrOperator(EnumAttrOperator[TrigonometryModeXEnumPl
 
 
 class TrigonometryModeXEnumField(
-    EnumField[TrigonometryModeXEnumAttrOperator, TrigonometryModeXEnumPlugOperator]
+    EnumField[
+        TrigonometryModeXEnumAttrOperator, TrigonometryModeXEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -148,7 +167,9 @@ class TrigonometryModeXEnumField(
     PLUG_CLS = TrigonometryModeXEnumPlugOperator
 
 
-class TrigonometryModeYEnumPlugOperator(EnumPlugOperator["TrigonometryModeYEnumAttrOperator"]):
+class TrigonometryModeYEnumPlugOperator(
+    EnumPlugOperator["TrigonometryModeYEnumAttrOperator"]
+):
     __slots__ = ()
 
     SIN = 1
@@ -156,7 +177,9 @@ class TrigonometryModeYEnumPlugOperator(EnumPlugOperator["TrigonometryModeYEnumA
     TAN = 3
 
 
-class TrigonometryModeYEnumAttrOperator(EnumAttrOperator[TrigonometryModeYEnumPlugOperator]):
+class TrigonometryModeYEnumAttrOperator(
+    EnumAttrOperator[TrigonometryModeYEnumPlugOperator]
+):
     __slots__ = ()
 
     SIN = 1
@@ -171,7 +194,9 @@ class TrigonometryModeYEnumAttrOperator(EnumAttrOperator[TrigonometryModeYEnumPl
 
 
 class TrigonometryModeYEnumField(
-    EnumField[TrigonometryModeYEnumAttrOperator, TrigonometryModeYEnumPlugOperator]
+    EnumField[
+        TrigonometryModeYEnumAttrOperator, TrigonometryModeYEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -179,7 +204,9 @@ class TrigonometryModeYEnumField(
     PLUG_CLS = TrigonometryModeYEnumPlugOperator
 
 
-class TrigonometryModeZEnumPlugOperator(EnumPlugOperator["TrigonometryModeZEnumAttrOperator"]):
+class TrigonometryModeZEnumPlugOperator(
+    EnumPlugOperator["TrigonometryModeZEnumAttrOperator"]
+):
     __slots__ = ()
 
     SIN = 1
@@ -187,7 +214,9 @@ class TrigonometryModeZEnumPlugOperator(EnumPlugOperator["TrigonometryModeZEnumA
     TAN = 3
 
 
-class TrigonometryModeZEnumAttrOperator(EnumAttrOperator[TrigonometryModeZEnumPlugOperator]):
+class TrigonometryModeZEnumAttrOperator(
+    EnumAttrOperator[TrigonometryModeZEnumPlugOperator]
+):
     __slots__ = ()
 
     SIN = 1
@@ -202,7 +231,9 @@ class TrigonometryModeZEnumAttrOperator(EnumAttrOperator[TrigonometryModeZEnumPl
 
 
 class TrigonometryModeZEnumField(
-    EnumField[TrigonometryModeZEnumAttrOperator, TrigonometryModeZEnumPlugOperator]
+    EnumField[
+        TrigonometryModeZEnumAttrOperator, TrigonometryModeZEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -230,7 +261,9 @@ class GeneratedMASH_Signal(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -260,30 +293,50 @@ class GeneratedMASH_Signal(DG):
 
     enable = BoolField(default_value=True)
 
-    signalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    signalScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    advection = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0)
+    advection = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0
+    )
 
-    signalScaleMultiplier = SignalScaleMultiplierField(default_value=(1.0, 1.0, 1.0))
+    signalScaleMultiplier = SignalScaleMultiplierField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     signalScaleMultiplier0 = signalScaleMultiplier.signalScaleMultiplier0
     signalScaleMultiplier1 = signalScaleMultiplier.signalScaleMultiplier1
     signalScaleMultiplier2 = signalScaleMultiplier.signalScaleMultiplier2
 
     noiseOctaves = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    noisePersistance = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    noisePersistance = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    positionX = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionY = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
+    positionY = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    positionZ = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    positionZ = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    rotationX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationX = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationY = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationY = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
-    rotationZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    rotationZ = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
 
     scaleX = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
@@ -291,11 +344,15 @@ class GeneratedMASH_Signal(DG):
 
     scaleZ = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    timeScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    timeScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
     enableStep = BoolField(default_value=True)
 
-    stepAmount = FloatField(default_value=150.0, min_value=0.0, soft_max_value=200.0)
+    stepAmount = FloatField(
+        default_value=150.0, min_value=0.0, soft_max_value=200.0
+    )
 
     loopFrames = LongField(default_value=120, min_value=2, soft_max_value=250)
 

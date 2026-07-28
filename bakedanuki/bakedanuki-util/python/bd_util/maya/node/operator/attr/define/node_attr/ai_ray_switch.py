@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +224,7 @@ class HardwareColorField(
     hwcb = hardwareColorB
 
 
-class CameraPlugOperator(
-    Float3CompoundBasePlugOperator["CameraAttrOperator"]
-):
+class CameraPlugOperator(Float3CompoundBasePlugOperator["CameraAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("cameraR", "camerar"),
@@ -240,9 +242,7 @@ class CameraPlugOperator(
     camerab = cameraB
 
 
-class CameraAttrOperator(
-    Float3CompoundBaseAttrOperator[CameraPlugOperator]
-):
+class CameraAttrOperator(Float3CompoundBaseAttrOperator[CameraPlugOperator]):
     __slots__ = ()
 
     cameraR = FloatField(default_value=0.0)
@@ -273,9 +273,7 @@ class CameraField(
     camerab = cameraB
 
 
-class ShadowPlugOperator(
-    Float3CompoundBasePlugOperator["ShadowAttrOperator"]
-):
+class ShadowPlugOperator(Float3CompoundBasePlugOperator["ShadowAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("shadowR", "shadowr"),
@@ -293,9 +291,7 @@ class ShadowPlugOperator(
     shadowb = shadowB
 
 
-class ShadowAttrOperator(
-    Float3CompoundBaseAttrOperator[ShadowPlugOperator]
-):
+class ShadowAttrOperator(Float3CompoundBaseAttrOperator[ShadowPlugOperator]):
     __slots__ = ()
 
     shadowR = FloatField(default_value=0.0)
@@ -362,7 +358,9 @@ class DiffuseReflectionAttrOperator(
 
 
 class DiffuseReflectionField(
-    Float3CompoundBaseField[DiffuseReflectionAttrOperator, DiffuseReflectionPlugOperator]
+    Float3CompoundBaseField[
+        DiffuseReflectionAttrOperator, DiffuseReflectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +413,9 @@ class DiffuseTransmissionAttrOperator(
 
 
 class DiffuseTransmissionField(
-    Float3CompoundBaseField[DiffuseTransmissionAttrOperator, DiffuseTransmissionPlugOperator]
+    Float3CompoundBaseField[
+        DiffuseTransmissionAttrOperator, DiffuseTransmissionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -468,7 +468,9 @@ class SpecularReflectionAttrOperator(
 
 
 class SpecularReflectionField(
-    Float3CompoundBaseField[SpecularReflectionAttrOperator, SpecularReflectionPlugOperator]
+    Float3CompoundBaseField[
+        SpecularReflectionAttrOperator, SpecularReflectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -521,7 +523,9 @@ class SpecularTransmissionAttrOperator(
 
 
 class SpecularTransmissionField(
-    Float3CompoundBaseField[SpecularTransmissionAttrOperator, SpecularTransmissionPlugOperator]
+    Float3CompoundBaseField[
+        SpecularTransmissionAttrOperator, SpecularTransmissionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -538,9 +542,7 @@ class SpecularTransmissionField(
     specular_transmissionb = specularTransmissionB
 
 
-class VolumePlugOperator(
-    Float3CompoundBasePlugOperator["VolumeAttrOperator"]
-):
+class VolumePlugOperator(Float3CompoundBasePlugOperator["VolumeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("volumeR", "volumer"),
@@ -558,9 +560,7 @@ class VolumePlugOperator(
     volumeb = volumeB
 
 
-class VolumeAttrOperator(
-    Float3CompoundBaseAttrOperator[VolumePlugOperator]
-):
+class VolumeAttrOperator(Float3CompoundBaseAttrOperator[VolumePlugOperator]):
     __slots__ = ()
 
     volumeR = FloatField(default_value=0.0)

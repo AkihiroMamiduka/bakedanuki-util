@@ -24,7 +24,9 @@ class GeneratedAiCheckerboard(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -49,24 +51,36 @@ class GeneratedAiCheckerboard(DG):
     color2B = color2.color2B
     color2b = color2B
 
-    uFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    uFrequency = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     u_frequency = uFrequency
 
-    vFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    vFrequency = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     v_frequency = vFrequency
 
-    uOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    uOffset = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     u_offset = uOffset
 
-    vOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    vOffset = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     v_offset = vOffset
 
     contrast = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    filterStrength = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    filterStrength = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     filter_strength = filterStrength
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     filter_offset = filterOffset
 
     uvset = DataStringField()

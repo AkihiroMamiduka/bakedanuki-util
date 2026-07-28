@@ -13,7 +13,9 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator["TaperCurve_InterpEnumAttrOperator"]):
+class TaperCurve_InterpEnumPlugOperator(
+    EnumPlugOperator["TaperCurve_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator["TaperCurve_InterpEnumA
     SPLINE = 3
 
 
-class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator[TaperCurve_InterpEnumPlugOperator]):
+class TaperCurve_InterpEnumAttrOperator(
+    EnumAttrOperator[TaperCurve_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -39,7 +43,9 @@ class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator[TaperCurve_InterpEnumPl
 
 
 class TaperCurve_InterpEnumField(
-    EnumField[TaperCurve_InterpEnumAttrOperator, TaperCurve_InterpEnumPlugOperator]
+    EnumField[
+        TaperCurve_InterpEnumAttrOperator, TaperCurve_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47,9 +53,7 @@ class TaperCurve_InterpEnumField(
     PLUG_CLS = TaperCurve_InterpEnumPlugOperator
 
 
-class TaperCurvePlugOperator(
-    CompoundPlugOperator["TaperCurveAttrOperator"]
-):
+class TaperCurvePlugOperator(CompoundPlugOperator["TaperCurveAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("taperCurve_Position", "cp"),
@@ -67,9 +71,7 @@ class TaperCurvePlugOperator(
     ci = taperCurve_Interp
 
 
-class TaperCurveAttrOperator(
-    CompoundAttrOperator[TaperCurvePlugOperator]
-):
+class TaperCurveAttrOperator(CompoundAttrOperator[TaperCurvePlugOperator]):
     __slots__ = ()
 
     taperCurve_Position = FloatField(default_value=0.0)

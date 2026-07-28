@@ -53,7 +53,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -61,7 +63,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -149,7 +153,9 @@ class GeneratedMASH_Waiter(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -252,13 +258,19 @@ class GeneratedMASH_Waiter(DG):
     useSetMembers = BoolField(default_value=False)
     useSM = useSetMembers
 
-    batchRenderMultiplier = LongField(default_value=1, min_value=1, soft_max_value=10)
+    batchRenderMultiplier = LongField(
+        default_value=1, min_value=1, soft_max_value=10
+    )
 
     pointCount = LongField(default_value=0, readable=False, writable=False)
 
-    showPercent = FloatField(default_value=100.0, min_value=0.0, max_value=100.0)
+    showPercent = FloatField(
+        default_value=100.0, min_value=0.0, max_value=100.0
+    )
 
-    numberOfOutputs = LongField(default_value=1, min_value=1, soft_max_value=100)
+    numberOfOutputs = LongField(
+        default_value=1, min_value=1, soft_max_value=100
+    )
     numO = numberOfOutputs
 
     ribArchives = DataStringField()
@@ -267,7 +279,13 @@ class GeneratedMASH_Waiter(DG):
 
     emptyInstancer = BoolField(default_value=False)
 
-    labelColor = LabelColorField(default_value=(0.9450980424880981, 0.3529411852359772, 0.35686275362968445))
+    labelColor = LabelColorField(
+        default_value=(
+            0.9450980424880981,
+            0.3529411852359772,
+            0.35686275362968445,
+        )
+    )
     labelColorR = labelColor.labelColorR
     labelColorr = labelColorR
     labelColorG = labelColor.labelColorG

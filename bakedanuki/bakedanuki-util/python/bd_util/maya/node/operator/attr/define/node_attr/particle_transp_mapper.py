@@ -44,7 +44,9 @@ class ParticleTransparencyAttrOperator(
 
 
 class ParticleTransparencyField(
-    Float3CompoundBaseField[ParticleTransparencyAttrOperator, ParticleTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        ParticleTransparencyAttrOperator, ParticleTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 

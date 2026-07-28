@@ -29,9 +29,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -364,9 +362,7 @@ class GapColorField(
     gcb = gapColorB
 
 
-class UColorPlugOperator(
-    Float3CompoundBasePlugOperator["UColorAttrOperator"]
-):
+class UColorPlugOperator(Float3CompoundBasePlugOperator["UColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("uColorR", "ucr"),
@@ -384,9 +380,7 @@ class UColorPlugOperator(
     ucb = uColorB
 
 
-class UColorAttrOperator(
-    Float3CompoundBaseAttrOperator[UColorPlugOperator]
-):
+class UColorAttrOperator(Float3CompoundBaseAttrOperator[UColorPlugOperator]):
     __slots__ = ()
 
     uColorR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -417,9 +411,7 @@ class UColorField(
     ucb = uColorB
 
 
-class VColorPlugOperator(
-    Float3CompoundBasePlugOperator["VColorAttrOperator"]
-):
+class VColorPlugOperator(Float3CompoundBasePlugOperator["VColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("vColorR", "vcr"),
@@ -437,9 +429,7 @@ class VColorPlugOperator(
     vcb = vColorB
 
 
-class VColorAttrOperator(
-    Float3CompoundBaseAttrOperator[VColorPlugOperator]
-):
+class VColorAttrOperator(Float3CompoundBaseAttrOperator[VColorPlugOperator]):
     __slots__ = ()
 
     vColorR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)

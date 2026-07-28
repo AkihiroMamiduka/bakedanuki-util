@@ -23,7 +23,9 @@ class GeneratedMakeTextCurves(DG):
     outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve
 
-    position = PositionField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
+    position = PositionField(
+        multi=True, default_value=(0.0, 0.0, 0.0), writable=False
+    )
     p = position
 
     count = LongField(multi=True, default_value=0, writable=False)

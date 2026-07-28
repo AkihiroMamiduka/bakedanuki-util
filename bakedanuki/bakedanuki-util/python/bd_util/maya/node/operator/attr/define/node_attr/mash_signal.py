@@ -28,9 +28,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -91,7 +89,9 @@ class SignalScaleMultiplierAttrOperator(
 
 
 class SignalScaleMultiplierField(
-    Float3CompoundBaseField[SignalScaleMultiplierAttrOperator, SignalScaleMultiplierPlugOperator]
+    Float3CompoundBaseField[
+        SignalScaleMultiplierAttrOperator, SignalScaleMultiplierPlugOperator
+    ]
 ):
     __slots__ = ()
 

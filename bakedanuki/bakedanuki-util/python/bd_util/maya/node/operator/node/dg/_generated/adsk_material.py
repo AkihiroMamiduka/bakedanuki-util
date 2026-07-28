@@ -15,7 +15,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -23,7 +25,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAtt
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -38,7 +42,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlug
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57,16 +63,22 @@ class GeneratedAdskMaterial(DG):
     assetLibrary = DataStringField()
     al = assetLibrary
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -84,7 +96,9 @@ class GeneratedAdskMaterial(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -93,7 +107,9 @@ class GeneratedAdskMaterial(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR

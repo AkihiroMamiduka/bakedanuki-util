@@ -34,9 +34,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -257,7 +255,9 @@ class RotationAmountAttrOperator(
 
 
 class RotationAmountField(
-    Float3CompoundBaseField[RotationAmountAttrOperator, RotationAmountPlugOperator]
+    Float3CompoundBaseField[
+        RotationAmountAttrOperator, RotationAmountPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -301,7 +301,9 @@ class PositionAmountAttrOperator(
 
 
 class PositionAmountField(
-    Float3CompoundBaseField[PositionAmountAttrOperator, PositionAmountPlugOperator]
+    Float3CompoundBaseField[
+        PositionAmountAttrOperator, PositionAmountPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -351,7 +353,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 

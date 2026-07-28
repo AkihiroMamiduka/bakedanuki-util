@@ -43,7 +43,9 @@ from .....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from .....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from .....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from .....attr.define.std.at.compound import CompoundField
 from .....attr.define.std.at.message import MessageField
 from .....attr.define.std.at.scalar.numeric.bool import BoolField
@@ -53,7 +55,9 @@ from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.typed import TypedField
-from .....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from .....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from .....attr.define.std.dt.matrix import DataMatrixField
 from .....attr.define.std.dt.mesh import DataMeshField
 from .....attr.define.std.dt.string import DataStringField
@@ -90,7 +94,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -98,7 +104,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -121,7 +129,9 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class UseObjectColorEnumPlugOperator(EnumPlugOperator["UseObjectColorEnumAttrOperator"]):
+class UseObjectColorEnumPlugOperator(
+    EnumPlugOperator["UseObjectColorEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -129,7 +139,9 @@ class UseObjectColorEnumPlugOperator(EnumPlugOperator["UseObjectColorEnumAttrOpe
     RGB = 2
 
 
-class UseObjectColorEnumAttrOperator(EnumAttrOperator[UseObjectColorEnumPlugOperator]):
+class UseObjectColorEnumAttrOperator(
+    EnumAttrOperator[UseObjectColorEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -152,7 +164,9 @@ class UseObjectColorEnumField(
     PLUG_CLS = UseObjectColorEnumPlugOperator
 
 
-class GhostingModeEnumPlugOperator(EnumPlugOperator["GhostingModeEnumAttrOperator"]):
+class GhostingModeEnumPlugOperator(
+    EnumPlugOperator["GhostingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -163,7 +177,9 @@ class GhostingModeEnumPlugOperator(EnumPlugOperator["GhostingModeEnumAttrOperato
     ALL_KEYFRAMES = 5
 
 
-class GhostingModeEnumAttrOperator(EnumAttrOperator[GhostingModeEnumPlugOperator]):
+class GhostingModeEnumAttrOperator(
+    EnumAttrOperator[GhostingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PRE_AND_POST_FRAMES = 0
@@ -192,7 +208,9 @@ class GhostingModeEnumField(
     PLUG_CLS = GhostingModeEnumPlugOperator
 
 
-class SmoothDrawTypeEnumPlugOperator(EnumPlugOperator["SmoothDrawTypeEnumAttrOperator"]):
+class SmoothDrawTypeEnumPlugOperator(
+    EnumPlugOperator["SmoothDrawTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -200,7 +218,9 @@ class SmoothDrawTypeEnumPlugOperator(EnumPlugOperator["SmoothDrawTypeEnumAttrOpe
     OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE = 3
 
 
-class SmoothDrawTypeEnumAttrOperator(EnumAttrOperator[SmoothDrawTypeEnumPlugOperator]):
+class SmoothDrawTypeEnumAttrOperator(
+    EnumAttrOperator[SmoothDrawTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -223,14 +243,18 @@ class SmoothDrawTypeEnumField(
     PLUG_CLS = SmoothDrawTypeEnumPlugOperator
 
 
-class DisplacementTypeEnumPlugOperator(EnumPlugOperator["DisplacementTypeEnumAttrOperator"]):
+class DisplacementTypeEnumPlugOperator(
+    EnumPlugOperator["DisplacementTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SCALAR = 0
     VECTOR_GLOBAL_SPACE = 1
 
 
-class DisplacementTypeEnumAttrOperator(EnumAttrOperator[DisplacementTypeEnumPlugOperator]):
+class DisplacementTypeEnumAttrOperator(
+    EnumAttrOperator[DisplacementTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     SCALAR = 0
@@ -243,7 +267,9 @@ class DisplacementTypeEnumAttrOperator(EnumAttrOperator[DisplacementTypeEnumPlug
 
 
 class DisplacementTypeEnumField(
-    EnumField[DisplacementTypeEnumAttrOperator, DisplacementTypeEnumPlugOperator]
+    EnumField[
+        DisplacementTypeEnumAttrOperator, DisplacementTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -251,14 +277,18 @@ class DisplacementTypeEnumField(
     PLUG_CLS = DisplacementTypeEnumPlugOperator
 
 
-class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]):
+class OsdVertBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
     SHARP_EDGES = 2
 
 
-class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]):
+class OsdVertBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
@@ -279,7 +309,9 @@ class OsdVertBoundaryEnumField(
     PLUG_CLS = OsdVertBoundaryEnumPlugOperator
 
 
-class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]):
+class OsdFvarBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -288,7 +320,9 @@ class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrO
     MAYA_CATMULL_MINUS_CLARK = 3
 
 
-class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]):
+class OsdFvarBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -313,14 +347,18 @@ class OsdFvarBoundaryEnumField(
     PLUG_CLS = OsdFvarBoundaryEnumPlugOperator
 
 
-class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]):
+class OsdCreaseMethodEnumPlugOperator(
+    EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
     CHAIKIN = 1
 
 
-class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]):
+class OsdCreaseMethodEnumAttrOperator(
+    EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -341,7 +379,9 @@ class OsdCreaseMethodEnumField(
     PLUG_CLS = OsdCreaseMethodEnumPlugOperator
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
+class BoundaryRuleEnumPlugOperator(
+    EnumPlugOperator["BoundaryRuleEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -349,7 +389,9 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperato
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
+class BoundaryRuleEnumAttrOperator(
+    EnumAttrOperator[BoundaryRuleEnumPlugOperator]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -372,7 +414,9 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
+class KeepMapBordersEnumPlugOperator(
+    EnumPlugOperator["KeepMapBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -380,7 +424,9 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOpe
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
+class KeepMapBordersEnumAttrOperator(
+    EnumAttrOperator[KeepMapBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -403,7 +449,9 @@ class KeepMapBordersEnumField(
     PLUG_CLS = KeepMapBordersEnumPlugOperator
 
 
-class DisplayEdgesEnumPlugOperator(EnumPlugOperator["DisplayEdgesEnumAttrOperator"]):
+class DisplayEdgesEnumPlugOperator(
+    EnumPlugOperator["DisplayEdgesEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -412,7 +460,9 @@ class DisplayEdgesEnumPlugOperator(EnumPlugOperator["DisplayEdgesEnumAttrOperato
     HARD = 3
 
 
-class DisplayEdgesEnumAttrOperator(EnumAttrOperator[DisplayEdgesEnumPlugOperator]):
+class DisplayEdgesEnumAttrOperator(
+    EnumAttrOperator[DisplayEdgesEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -437,7 +487,9 @@ class DisplayEdgesEnumField(
     PLUG_CLS = DisplayEdgesEnumPlugOperator
 
 
-class BackfaceCullingEnumPlugOperator(EnumPlugOperator["BackfaceCullingEnumAttrOperator"]):
+class BackfaceCullingEnumPlugOperator(
+    EnumPlugOperator["BackfaceCullingEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -446,7 +498,9 @@ class BackfaceCullingEnumPlugOperator(EnumPlugOperator["BackfaceCullingEnumAttrO
     FULL = 3
 
 
-class BackfaceCullingEnumAttrOperator(EnumAttrOperator[BackfaceCullingEnumPlugOperator]):
+class BackfaceCullingEnumAttrOperator(
+    EnumAttrOperator[BackfaceCullingEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -471,7 +525,9 @@ class BackfaceCullingEnumField(
     PLUG_CLS = BackfaceCullingEnumPlugOperator
 
 
-class NormalTypeEnumPlugOperator(EnumPlugOperator["NormalTypeEnumAttrOperator"]):
+class NormalTypeEnumPlugOperator(
+    EnumPlugOperator["NormalTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FACE = 1
@@ -502,7 +558,9 @@ class NormalTypeEnumField(
     PLUG_CLS = NormalTypeEnumPlugOperator
 
 
-class TangentSpaceEnumPlugOperator(EnumPlugOperator["TangentSpaceEnumAttrOperator"]):
+class TangentSpaceEnumPlugOperator(
+    EnumPlugOperator["TangentSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     DETECTWINDINGRIGHTHANDED = 0
@@ -511,7 +569,9 @@ class TangentSpaceEnumPlugOperator(EnumPlugOperator["TangentSpaceEnumAttrOperato
     LEFTHANDED = 3
 
 
-class TangentSpaceEnumAttrOperator(EnumAttrOperator[TangentSpaceEnumPlugOperator]):
+class TangentSpaceEnumAttrOperator(
+    EnumAttrOperator[TangentSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     DETECTWINDINGRIGHTHANDED = 0
@@ -536,7 +596,9 @@ class TangentSpaceEnumField(
     PLUG_CLS = TangentSpaceEnumPlugOperator
 
 
-class MaterialBlendEnumPlugOperator(EnumPlugOperator["MaterialBlendEnumAttrOperator"]):
+class MaterialBlendEnumPlugOperator(
+    EnumPlugOperator["MaterialBlendEnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -548,7 +610,9 @@ class MaterialBlendEnumPlugOperator(EnumPlugOperator["MaterialBlendEnumAttrOpera
     MODULATE2X = 6
 
 
-class MaterialBlendEnumAttrOperator(EnumAttrOperator[MaterialBlendEnumPlugOperator]):
+class MaterialBlendEnumAttrOperator(
+    EnumAttrOperator[MaterialBlendEnumPlugOperator]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -579,7 +643,9 @@ class MaterialBlendEnumField(
     PLUG_CLS = MaterialBlendEnumPlugOperator
 
 
-class DispResolutionEnumPlugOperator(EnumPlugOperator["DispResolutionEnumAttrOperator"]):
+class DispResolutionEnumPlugOperator(
+    EnumPlugOperator["DispResolutionEnumAttrOperator"]
+):
     __slots__ = ()
 
     _0_BASE = 0
@@ -591,7 +657,9 @@ class DispResolutionEnumPlugOperator(EnumPlugOperator["DispResolutionEnumAttrOpe
     _6_FINEST = 6
 
 
-class DispResolutionEnumAttrOperator(EnumAttrOperator[DispResolutionEnumPlugOperator]):
+class DispResolutionEnumAttrOperator(
+    EnumAttrOperator[DispResolutionEnumPlugOperator]
+):
     __slots__ = ()
 
     _0_BASE = 0
@@ -622,7 +690,9 @@ class DispResolutionEnumField(
     PLUG_CLS = DispResolutionEnumPlugOperator
 
 
-class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator["DisplaySmoothMeshEnumAttrOperator"]):
+class DisplaySmoothMeshEnumPlugOperator(
+    EnumPlugOperator["DisplaySmoothMeshEnumAttrOperator"]
+):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -630,7 +700,9 @@ class DisplaySmoothMeshEnumPlugOperator(EnumPlugOperator["DisplaySmoothMeshEnumA
     SMOOTH_MESH_ONLY = 2
 
 
-class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator[DisplaySmoothMeshEnumPlugOperator]):
+class DisplaySmoothMeshEnumAttrOperator(
+    EnumAttrOperator[DisplaySmoothMeshEnumPlugOperator]
+):
     __slots__ = ()
 
     BASE_MESH_ONLY = 0
@@ -645,7 +717,9 @@ class DisplaySmoothMeshEnumAttrOperator(EnumAttrOperator[DisplaySmoothMeshEnumPl
 
 
 class DisplaySmoothMeshEnumField(
-    EnumField[DisplaySmoothMeshEnumAttrOperator, DisplaySmoothMeshEnumPlugOperator]
+    EnumField[
+        DisplaySmoothMeshEnumAttrOperator, DisplaySmoothMeshEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -653,7 +727,9 @@ class DisplaySmoothMeshEnumField(
     PLUG_CLS = DisplaySmoothMeshEnumPlugOperator
 
 
-class SmoothMeshSelectionModeEnumPlugOperator(EnumPlugOperator["SmoothMeshSelectionModeEnumAttrOperator"]):
+class SmoothMeshSelectionModeEnumPlugOperator(
+    EnumPlugOperator["SmoothMeshSelectionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BASE_CAGE = 0
@@ -661,7 +737,9 @@ class SmoothMeshSelectionModeEnumPlugOperator(EnumPlugOperator["SmoothMeshSelect
     BASE_AND_PROJECTED_CAGE = 2
 
 
-class SmoothMeshSelectionModeEnumAttrOperator(EnumAttrOperator[SmoothMeshSelectionModeEnumPlugOperator]):
+class SmoothMeshSelectionModeEnumAttrOperator(
+    EnumAttrOperator[SmoothMeshSelectionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BASE_CAGE = 0
@@ -676,7 +754,10 @@ class SmoothMeshSelectionModeEnumAttrOperator(EnumAttrOperator[SmoothMeshSelecti
 
 
 class SmoothMeshSelectionModeEnumField(
-    EnumField[SmoothMeshSelectionModeEnumAttrOperator, SmoothMeshSelectionModeEnumPlugOperator]
+    EnumField[
+        SmoothMeshSelectionModeEnumAttrOperator,
+        SmoothMeshSelectionModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -715,7 +796,9 @@ class QuadSplitEnumField(
     PLUG_CLS = QuadSplitEnumPlugOperator
 
 
-class VertexNormalMethodEnumPlugOperator(EnumPlugOperator["VertexNormalMethodEnumAttrOperator"]):
+class VertexNormalMethodEnumPlugOperator(
+    EnumPlugOperator["VertexNormalMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     UNWEIGHTED = 0
@@ -724,7 +807,9 @@ class VertexNormalMethodEnumPlugOperator(EnumPlugOperator["VertexNormalMethodEnu
     ANGLE_AND_AREA_WEIGHTED = 3
 
 
-class VertexNormalMethodEnumAttrOperator(EnumAttrOperator[VertexNormalMethodEnumPlugOperator]):
+class VertexNormalMethodEnumAttrOperator(
+    EnumAttrOperator[VertexNormalMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     UNWEIGHTED = 0
@@ -741,7 +826,9 @@ class VertexNormalMethodEnumAttrOperator(EnumAttrOperator[VertexNormalMethodEnum
 
 
 class VertexNormalMethodEnumField(
-    EnumField[VertexNormalMethodEnumAttrOperator, VertexNormalMethodEnumPlugOperator]
+    EnumField[
+        VertexNormalMethodEnumAttrOperator, VertexNormalMethodEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -749,7 +836,9 @@ class VertexNormalMethodEnumField(
     PLUG_CLS = VertexNormalMethodEnumPlugOperator
 
 
-class VertexColorSourceEnumPlugOperator(EnumPlugOperator["VertexColorSourceEnumAttrOperator"]):
+class VertexColorSourceEnumPlugOperator(
+    EnumPlugOperator["VertexColorSourceEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -757,7 +846,9 @@ class VertexColorSourceEnumPlugOperator(EnumPlugOperator["VertexColorSourceEnumA
     INFLUENCE_COLORS = 2
 
 
-class VertexColorSourceEnumAttrOperator(EnumAttrOperator[VertexColorSourceEnumPlugOperator]):
+class VertexColorSourceEnumAttrOperator(
+    EnumAttrOperator[VertexColorSourceEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -772,7 +863,9 @@ class VertexColorSourceEnumAttrOperator(EnumAttrOperator[VertexColorSourceEnumPl
 
 
 class VertexColorSourceEnumField(
-    EnumField[VertexColorSourceEnumAttrOperator, VertexColorSourceEnumPlugOperator]
+    EnumField[
+        VertexColorSourceEnumAttrOperator, VertexColorSourceEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -780,7 +873,9 @@ class VertexColorSourceEnumField(
     PLUG_CLS = VertexColorSourceEnumPlugOperator
 
 
-class AiSubdivTypeEnumPlugOperator(EnumPlugOperator["AiSubdivTypeEnumAttrOperator"]):
+class AiSubdivTypeEnumPlugOperator(
+    EnumPlugOperator["AiSubdivTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -788,7 +883,9 @@ class AiSubdivTypeEnumPlugOperator(EnumPlugOperator["AiSubdivTypeEnumAttrOperato
     LINEAR = 2
 
 
-class AiSubdivTypeEnumAttrOperator(EnumAttrOperator[AiSubdivTypeEnumPlugOperator]):
+class AiSubdivTypeEnumAttrOperator(
+    EnumAttrOperator[AiSubdivTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -811,7 +908,9 @@ class AiSubdivTypeEnumField(
     PLUG_CLS = AiSubdivTypeEnumPlugOperator
 
 
-class AiSubdivAdaptiveMetricEnumPlugOperator(EnumPlugOperator["AiSubdivAdaptiveMetricEnumAttrOperator"]):
+class AiSubdivAdaptiveMetricEnumPlugOperator(
+    EnumPlugOperator["AiSubdivAdaptiveMetricEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -819,7 +918,9 @@ class AiSubdivAdaptiveMetricEnumPlugOperator(EnumPlugOperator["AiSubdivAdaptiveM
     FLATNESS = 2
 
 
-class AiSubdivAdaptiveMetricEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveMetricEnumPlugOperator]):
+class AiSubdivAdaptiveMetricEnumAttrOperator(
+    EnumAttrOperator[AiSubdivAdaptiveMetricEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -834,7 +935,10 @@ class AiSubdivAdaptiveMetricEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveMe
 
 
 class AiSubdivAdaptiveMetricEnumField(
-    EnumField[AiSubdivAdaptiveMetricEnumAttrOperator, AiSubdivAdaptiveMetricEnumPlugOperator]
+    EnumField[
+        AiSubdivAdaptiveMetricEnumAttrOperator,
+        AiSubdivAdaptiveMetricEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -842,14 +946,18 @@ class AiSubdivAdaptiveMetricEnumField(
     PLUG_CLS = AiSubdivAdaptiveMetricEnumPlugOperator
 
 
-class AiSubdivAdaptiveSpaceEnumPlugOperator(EnumPlugOperator["AiSubdivAdaptiveSpaceEnumAttrOperator"]):
+class AiSubdivAdaptiveSpaceEnumPlugOperator(
+    EnumPlugOperator["AiSubdivAdaptiveSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     RASTER = 0
     OBJECT = 1
 
 
-class AiSubdivAdaptiveSpaceEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveSpaceEnumPlugOperator]):
+class AiSubdivAdaptiveSpaceEnumAttrOperator(
+    EnumAttrOperator[AiSubdivAdaptiveSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     RASTER = 0
@@ -862,7 +970,10 @@ class AiSubdivAdaptiveSpaceEnumAttrOperator(EnumAttrOperator[AiSubdivAdaptiveSpa
 
 
 class AiSubdivAdaptiveSpaceEnumField(
-    EnumField[AiSubdivAdaptiveSpaceEnumAttrOperator, AiSubdivAdaptiveSpaceEnumPlugOperator]
+    EnumField[
+        AiSubdivAdaptiveSpaceEnumAttrOperator,
+        AiSubdivAdaptiveSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -870,7 +981,9 @@ class AiSubdivAdaptiveSpaceEnumField(
     PLUG_CLS = AiSubdivAdaptiveSpaceEnumPlugOperator
 
 
-class AiSubdivUvSmoothingEnumPlugOperator(EnumPlugOperator["AiSubdivUvSmoothingEnumAttrOperator"]):
+class AiSubdivUvSmoothingEnumPlugOperator(
+    EnumPlugOperator["AiSubdivUvSmoothingEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIN_CORNERS = 0
@@ -879,7 +992,9 @@ class AiSubdivUvSmoothingEnumPlugOperator(EnumPlugOperator["AiSubdivUvSmoothingE
     SMOOTH = 3
 
 
-class AiSubdivUvSmoothingEnumAttrOperator(EnumAttrOperator[AiSubdivUvSmoothingEnumPlugOperator]):
+class AiSubdivUvSmoothingEnumAttrOperator(
+    EnumAttrOperator[AiSubdivUvSmoothingEnumPlugOperator]
+):
     __slots__ = ()
 
     PIN_CORNERS = 0
@@ -896,7 +1011,10 @@ class AiSubdivUvSmoothingEnumAttrOperator(EnumAttrOperator[AiSubdivUvSmoothingEn
 
 
 class AiSubdivUvSmoothingEnumField(
-    EnumField[AiSubdivUvSmoothingEnumAttrOperator, AiSubdivUvSmoothingEnumPlugOperator]
+    EnumField[
+        AiSubdivUvSmoothingEnumAttrOperator,
+        AiSubdivUvSmoothingEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -904,14 +1022,18 @@ class AiSubdivUvSmoothingEnumField(
     PLUG_CLS = AiSubdivUvSmoothingEnumPlugOperator
 
 
-class AiMotionVectorUnitEnumPlugOperator(EnumPlugOperator["AiMotionVectorUnitEnumAttrOperator"]):
+class AiMotionVectorUnitEnumPlugOperator(
+    EnumPlugOperator["AiMotionVectorUnitEnumAttrOperator"]
+):
     __slots__ = ()
 
     PER_FRAME = 0
     PER_SECOND = 1
 
 
-class AiMotionVectorUnitEnumAttrOperator(EnumAttrOperator[AiMotionVectorUnitEnumPlugOperator]):
+class AiMotionVectorUnitEnumAttrOperator(
+    EnumAttrOperator[AiMotionVectorUnitEnumPlugOperator]
+):
     __slots__ = ()
 
     PER_FRAME = 0
@@ -924,7 +1046,9 @@ class AiMotionVectorUnitEnumAttrOperator(EnumAttrOperator[AiMotionVectorUnitEnum
 
 
 class AiMotionVectorUnitEnumField(
-    EnumField[AiMotionVectorUnitEnumAttrOperator, AiMotionVectorUnitEnumPlugOperator]
+    EnumField[
+        AiMotionVectorUnitEnumAttrOperator, AiMotionVectorUnitEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1105,7 +1229,9 @@ class GeneratedMesh(Shape):
     layerOverrideColor = renderInfo.layerOverrideColor
     lovc = layerOverrideColor
 
-    renderLayerInfo = RenderLayerInfoField(multi=True, default_value=(0.0, 1.0, 0.0))
+    renderLayerInfo = RenderLayerInfoField(
+        multi=True, default_value=(0.0, 1.0, 0.0)
+    )
     rlio = renderLayerInfo
 
     ghosting = BoolField(default_value=False)
@@ -1126,14 +1252,22 @@ class GeneratedMesh(Shape):
     ghostFrames = TypedField()
     gf = ghostFrames
 
-    ghostOpacityRange = GhostOpacityRangeField(default_value=(0.15000000596046448, 0.5), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    ghostOpacityRange = GhostOpacityRangeField(
+        default_value=(0.15000000596046448, 0.5),
+        min_value=(0.0, 0.0),
+        max_value=(1.0, 1.0),
+    )
     golr = ghostOpacityRange
     ghostFarOpacity = ghostOpacityRange.ghostFarOpacity
     gfro = ghostFarOpacity
     ghostNearOpacity = ghostOpacityRange.ghostNearOpacity
     gnro = ghostNearOpacity
 
-    ghostColorPre = GhostColorPreField(default_value=(0.44699999690055847, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    ghostColorPre = GhostColorPreField(
+        default_value=(0.44699999690055847, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gcp = ghostColorPre
     ghostColorPreR = ghostColorPre.ghostColorPreR
     grr = ghostColorPreR
@@ -1142,7 +1276,15 @@ class GeneratedMesh(Shape):
     ghostColorPreB = ghostColorPre.ghostColorPreB
     gpb = ghostColorPreB
 
-    ghostColorPost = GhostColorPostField(default_value=(0.878000020980835, 0.6779999732971191, 0.6629999876022339), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    ghostColorPost = GhostColorPostField(
+        default_value=(
+            0.878000020980835,
+            0.6779999732971191,
+            0.6629999876022339,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gac = ghostColorPost
     ghostColorPostR = ghostColorPost.ghostColorPostR
     gar = ghostColorPostR
@@ -1181,7 +1323,9 @@ class GeneratedMesh(Shape):
     visibleFraction = FloatField(default_value=1.0)
     vf = visibleFraction
 
-    hardwareFogMultiplier = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    hardwareFogMultiplier = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     hfm = hardwareFogMultiplier
 
     motionBlur = BoolField(default_value=True)
@@ -1205,13 +1349,17 @@ class GeneratedMesh(Shape):
     maxVisibilitySamplesOverride = BoolField(default_value=False)
     vbo = maxVisibilitySamplesOverride
 
-    maxVisibilitySamples = LongField(default_value=1, min_value=1, max_value=32, soft_max_value=20)
+    maxVisibilitySamples = LongField(
+        default_value=1, min_value=1, max_value=32, soft_max_value=20
+    )
     mvs = maxVisibilitySamples
 
     geometryAntialiasingOverride = BoolField(default_value=False)
     gao = geometryAntialiasingOverride
 
-    antialiasingLevel = LongField(default_value=1, min_value=1, max_value=5, soft_max_value=5)
+    antialiasingLevel = LongField(
+        default_value=1, min_value=1, max_value=5, soft_max_value=5
+    )
     gal = antialiasingLevel
 
     shadingSamplesOverride = BoolField(default_value=False)
@@ -1220,7 +1368,9 @@ class GeneratedMesh(Shape):
     shadingSamples = LongField(default_value=1, min_value=1, max_value=32)
     ssa = shadingSamples
 
-    maxShadingSamples = LongField(default_value=1, min_value=1, max_value=32, soft_max_value=20)
+    maxShadingSamples = LongField(
+        default_value=1, min_value=1, max_value=32, soft_max_value=20
+    )
     msa = maxShadingSamples
 
     volumeSamplesOverride = BoolField(default_value=False)
@@ -1259,7 +1409,9 @@ class GeneratedMesh(Shape):
     relativeTweak = BoolField(default_value=True)
     rtw = relativeTweak
 
-    controlPoints = ControlPointsField(multi=True, default_value=(0.0, 0.0, 0.0))
+    controlPoints = ControlPointsField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cp = controlPoints
 
     weights = DoubleField(multi=True, default_value=1.0)
@@ -1314,7 +1466,9 @@ class GeneratedMesh(Shape):
     smoothShading = BoolField(default_value=True)
     smo = smoothShading
 
-    boundingBoxScale = BoundingBoxScaleField(default_value=(1.5, 1.5, 1.5), min_value=(1.0, 1.0, 1.0))
+    boundingBoxScale = BoundingBoxScaleField(
+        default_value=(1.5, 1.5, 1.5), min_value=(1.0, 1.0, 1.0)
+    )
     bbs = boundingBoxScale
     boundingBoxScaleX = boundingBoxScale.boundingBoxScaleX
     bscx = boundingBoxScaleX
@@ -1326,31 +1480,45 @@ class GeneratedMesh(Shape):
     featureDisplacement = BoolField(default_value=True)
     fbda = featureDisplacement
 
-    initialSampleRate = LongField(default_value=6, min_value=0, soft_max_value=100)
+    initialSampleRate = LongField(
+        default_value=6, min_value=0, soft_max_value=100
+    )
     dsr = initialSampleRate
 
-    extraSampleRate = LongField(default_value=5, min_value=0, soft_max_value=50)
+    extraSampleRate = LongField(
+        default_value=5, min_value=0, soft_max_value=50
+    )
     xsr = extraSampleRate
 
     textureThreshold = LongField(default_value=0, min_value=0, max_value=100)
     fth = textureThreshold
 
-    normalThreshold = FloatField(default_value=30.0, min_value=0.0, max_value=180.0)
+    normalThreshold = FloatField(
+        default_value=30.0, min_value=0.0, max_value=180.0
+    )
     nat = normalThreshold
 
     displayHWEnvironment = BoolField(default_value=False)
     dhe = displayHWEnvironment
 
-    collisionOffsetVelocityIncrement = CollisionOffsetVelocityIncrementField(multi=True, default_value=(0.0, 0.0, 0.0))
+    collisionOffsetVelocityIncrement = CollisionOffsetVelocityIncrementField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     covi = collisionOffsetVelocityIncrement
 
-    collisionDepthVelocityIncrement = CollisionDepthVelocityIncrementField(multi=True, default_value=(0.0, 0.0, 0.0))
+    collisionDepthVelocityIncrement = CollisionDepthVelocityIncrementField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cdvi = collisionDepthVelocityIncrement
 
-    collisionOffsetVelocityMultiplier = CollisionOffsetVelocityMultiplierField(multi=True, default_value=(0.0, 0.0, 0.0))
+    collisionOffsetVelocityMultiplier = CollisionOffsetVelocityMultiplierField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     covm = collisionOffsetVelocityMultiplier
 
-    collisionDepthVelocityMultiplier = CollisionDepthVelocityMultiplierField(multi=True, default_value=(0.0, 0.0, 0.0))
+    collisionDepthVelocityMultiplier = CollisionDepthVelocityMultiplierField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cdvm = collisionDepthVelocityMultiplier
 
     inMesh = DataMeshField()
@@ -1377,7 +1545,13 @@ class GeneratedMesh(Shape):
     smoothWarn = BoolField(default_value=True)
     sw = smoothWarn
 
-    smoothLevel = ShortField(default_value=2, min_value=0, max_value=15, soft_min_value=0, soft_max_value=4)
+    smoothLevel = ShortField(
+        default_value=2,
+        min_value=0,
+        max_value=15,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     lev = smoothLevel
 
     smoothDrawType = SmoothDrawTypeEnumField(default_value=2)
@@ -1428,7 +1602,13 @@ class GeneratedMesh(Shape):
     osdIndependentUVChannels = BoolField(default_value=True)
     iuv = osdIndependentUVChannels
 
-    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    continuity = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     co = continuity
 
     smoothUVs = BoolField(default_value=True)
@@ -1464,7 +1644,9 @@ class GeneratedMesh(Shape):
     useSmoothPreviewForRender = BoolField(default_value=True)
     uspr = useSmoothPreviewForRender
 
-    renderSmoothLevel = ShortField(default_value=2, min_value=0, max_value=7, soft_max_value=4)
+    renderSmoothLevel = ShortField(
+        default_value=2, min_value=0, max_value=7, soft_max_value=4
+    )
     rsl = renderSmoothLevel
 
     useMaxEdgeLength = BoolField(default_value=False)
@@ -1521,7 +1703,14 @@ class GeneratedMesh(Shape):
     colors = ColorsField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     clr = colors
 
-    normals = NormalsField(multi=True, default_value=(1.0000000200408773e+20, 1.0000000200408773e+20, 1.0000000200408773e+20))
+    normals = NormalsField(
+        multi=True,
+        default_value=(
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+            1.0000000200408773e20,
+        ),
+    )
     n = normals
 
     face = TypedField(multi=True)
@@ -1672,10 +1861,14 @@ class GeneratedMesh(Shape):
     tangentSpace = TangentSpaceEnumField(default_value=0)
     tgsp = tangentSpace
 
-    tangentSmoothingAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=180.0)
+    tangentSmoothingAngle = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     tsa = tangentSmoothingAngle
 
-    tangentNormalThreshold = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=180.0)
+    tangentNormalThreshold = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     tnt = tangentNormalThreshold
 
     allowTopologyMod = BoolField(default_value=True)
@@ -1792,16 +1985,24 @@ class GeneratedMesh(Shape):
     aiToonId = DataStringField(category="arnold")
     ai_toon_id = aiToonId
 
-    aiVisibleInDiffuseReflection = BoolField(default_value=True, category="arnold")
+    aiVisibleInDiffuseReflection = BoolField(
+        default_value=True, category="arnold"
+    )
     ai_vidr = aiVisibleInDiffuseReflection
 
-    aiVisibleInSpecularReflection = BoolField(default_value=True, category="arnold")
+    aiVisibleInSpecularReflection = BoolField(
+        default_value=True, category="arnold"
+    )
     ai_visr = aiVisibleInSpecularReflection
 
-    aiVisibleInDiffuseTransmission = BoolField(default_value=True, category="arnold")
+    aiVisibleInDiffuseTransmission = BoolField(
+        default_value=True, category="arnold"
+    )
     ai_vidt = aiVisibleInDiffuseTransmission
 
-    aiVisibleInSpecularTransmission = BoolField(default_value=True, category="arnold")
+    aiVisibleInSpecularTransmission = BoolField(
+        default_value=True, category="arnold"
+    )
     ai_vist = aiVisibleInSpecularTransmission
 
     aiVisibleInVolume = BoolField(default_value=True, category="arnold")
@@ -1810,19 +2011,37 @@ class GeneratedMesh(Shape):
     aiSubdivType = AiSubdivTypeEnumField(default_value=0, category="arnold")
     ai_subdiv_type = aiSubdivType
 
-    aiSubdivIterations = ByteField(default_value=1, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10, category="arnold")
+    aiSubdivIterations = ByteField(
+        default_value=1,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=10,
+        category="arnold",
+    )
     ai_subdiv_iterations = aiSubdivIterations
 
-    aiSubdivAdaptiveMetric = AiSubdivAdaptiveMetricEnumField(default_value=0, category="arnold")
+    aiSubdivAdaptiveMetric = AiSubdivAdaptiveMetricEnumField(
+        default_value=0, category="arnold"
+    )
     ai_subdiv_adaptive_metric = aiSubdivAdaptiveMetric
 
-    aiSubdivPixelError = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0, category="arnold")
+    aiSubdivPixelError = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_max_value=10.0,
+        category="arnold",
+    )
     ai_subdiv_adaptive_error = aiSubdivPixelError
 
-    aiSubdivAdaptiveSpace = AiSubdivAdaptiveSpaceEnumField(default_value=0, category="arnold")
+    aiSubdivAdaptiveSpace = AiSubdivAdaptiveSpaceEnumField(
+        default_value=0, category="arnold"
+    )
     ai_subdiv_adaptive_space = aiSubdivAdaptiveSpace
 
-    aiSubdivUvSmoothing = AiSubdivUvSmoothingEnumField(default_value=0, category="arnold")
+    aiSubdivUvSmoothing = AiSubdivUvSmoothingEnumField(
+        default_value=0, category="arnold"
+    )
     ai_subdiv_uv_smoothing = aiSubdivUvSmoothing
 
     aiSubdivSmoothDerivs = BoolField(default_value=False, category="arnold")
@@ -1843,7 +2062,9 @@ class GeneratedMesh(Shape):
     aiDispAutobump = BoolField(default_value=False, category="arnold")
     ai_disp_autobump = aiDispAutobump
 
-    aiAutobumpVisibility = ByteField(default_value=1, min_value=0, max_value=255, category="arnold")
+    aiAutobumpVisibility = ByteField(
+        default_value=1, min_value=0, max_value=255, category="arnold"
+    )
     ai_autobump_visibility = aiAutobumpVisibility
 
     aiExportTangents = BoolField(default_value=False, category="arnold")
@@ -1861,19 +2082,30 @@ class GeneratedMesh(Shape):
     aiExportRefTangents = BoolField(default_value=False, category="arnold")
     ai_exprtan = aiExportRefTangents
 
-    aiStepSize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiStepSize = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_step_size = aiStepSize
 
-    aiVolumePadding = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiVolumePadding = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_volume_padding = aiVolumePadding
 
     aiMotionVectorSource = DataStringField(category="arnold")
     ai_motion_vector_source = aiMotionVectorSource
 
-    aiMotionVectorUnit = AiMotionVectorUnitEnumField(default_value=0, category="arnold")
+    aiMotionVectorUnit = AiMotionVectorUnitEnumField(
+        default_value=0, category="arnold"
+    )
     ai_motion_vector_unit = aiMotionVectorUnit
 
-    aiMotionVectorScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0, category="arnold")
+    aiMotionVectorScale = FloatField(
+        default_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=2.0,
+        category="arnold",
+    )
     ai_motion_vector_scale = aiMotionVectorScale
 
     dso = DataStringField(category="arnold")
@@ -1904,7 +2136,9 @@ class GeneratedMesh(Shape):
     aiNamespace = DataStringField(category="arnold")
     ai_namespace = aiNamespace
 
-    aiOverrideReceiveShadows = BoolField(default_value=False, category="arnold")
+    aiOverrideReceiveShadows = BoolField(
+        default_value=False, category="arnold"
+    )
     ai_override_receive_shadows = aiOverrideReceiveShadows
 
     aiOverrideDoubleSided = BoolField(default_value=False, category="arnold")
@@ -1922,10 +2156,22 @@ class GeneratedMesh(Shape):
     aiCastShadows = BoolField(default_value=True, category="arnold")
     ai_cast_shadows = aiCastShadows
 
-    aiShadowDensity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiShadowDensity = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        category="arnold",
+    )
     ai_shadow_density = aiShadowDensity
 
-    aiExposure = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0, category="arnold")
+    aiExposure = FloatField(
+        default_value=0.0,
+        soft_min_value=-5.0,
+        soft_max_value=5.0,
+        category="arnold",
+    )
     ai_exposure = aiExposure
 
     aiSamples = LongField(default_value=1, category="arnold")
@@ -1937,19 +2183,29 @@ class GeneratedMesh(Shape):
     aiFilters = MessageField(multi=True, category="arnold")
     ai_filters = aiFilters
 
-    aiDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiDiffuse = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_diffuse = aiDiffuse
 
-    aiSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiSpecular = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_specular = aiSpecular
 
-    aiSss = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiSss = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_sss = aiSss
 
-    aiIndirect = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiIndirect = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_indirect = aiIndirect
 
-    aiVolume = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold")
+    aiVolume = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0, category="arnold"
+    )
     ai_volume = aiVolume
 
     aiMaxBounces = LongField(default_value=999, category="arnold")
@@ -1964,10 +2220,18 @@ class GeneratedMesh(Shape):
     aiUseColorTemperature = BoolField(default_value=False, category="arnold")
     ai_use_color_temperature = aiUseColorTemperature
 
-    aiColorTemperature = FloatField(default_value=6500.0, min_value=0.0, soft_min_value=1000.0, soft_max_value=15000.0, category="arnold")
+    aiColorTemperature = FloatField(
+        default_value=6500.0,
+        min_value=0.0,
+        soft_min_value=1000.0,
+        soft_max_value=15000.0,
+        category="arnold",
+    )
     ai_color_temperature = aiColorTemperature
 
-    aiShadowColor = AiShadowColorField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiShadowColor = AiShadowColorField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_shadow_color = aiShadowColor
     aiShadowColorR = aiShadowColor.aiShadowColorR
     ai_shadow_colorr = aiShadowColorR

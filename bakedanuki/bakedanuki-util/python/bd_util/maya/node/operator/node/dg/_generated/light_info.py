@@ -33,7 +33,9 @@ class GeneratedLightInfo(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    lightPosition = LightPositionField(default_value=(0.0, 0.0, 0.0), writable=False)
+    lightPosition = LightPositionField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     lp = lightPosition
     lightPositionX = lightPosition.lightPositionX
     lpx = lightPositionX
@@ -42,7 +44,9 @@ class GeneratedLightInfo(DG):
     lightPositionZ = lightPosition.lightPositionZ
     lpz = lightPositionZ
 
-    lightDirection = LightDirectionField(default_value=(0.0, 0.0, 1.0), writable=False)
+    lightDirection = LightDirectionField(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     ld = lightDirection
     lightDirectionX = lightDirection.lightDirectionX
     ldx = lightDirectionX
@@ -51,5 +55,7 @@ class GeneratedLightInfo(DG):
     lightDirectionZ = lightDirection.lightDirectionZ
     ldz = lightDirectionZ
 
-    sampleDistance = FloatField(default_value=0.0010000000474974513, writable=False)
+    sampleDistance = FloatField(
+        default_value=0.0010000000474974513, writable=False
+    )
     sd = sampleDistance

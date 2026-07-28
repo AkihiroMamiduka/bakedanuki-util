@@ -28,7 +28,9 @@ class GeneratedAiDistance(DG):
 
     out_distance = FloatField(default_value=0.0, writable=False)
 
-    out_direction = Out_directionField(default_value=(0.0, 0.0, 0.0), writable=False)
+    out_direction = Out_directionField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     out_directionX = out_direction.out_directionX
     out_directionx = out_directionX
     out_directionY = out_direction.out_directionY
@@ -38,7 +40,12 @@ class GeneratedAiDistance(DG):
 
     samples = LongField(default_value=16, min_value=1)
 
-    distance = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    distance = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
 
     nearColor = NearColorField(default_value=(0.0, 0.0, 0.0))
     near_color = nearColor

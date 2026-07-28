@@ -15,13 +15,19 @@ from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -32,7 +38,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -123,7 +131,9 @@ class UpAxisEnumField(
     PLUG_CLS = UpAxisEnumPlugOperator
 
 
-class WorldUpTypeEnumPlugOperator(EnumPlugOperator["WorldUpTypeEnumAttrOperator"]):
+class WorldUpTypeEnumPlugOperator(
+    EnumPlugOperator["WorldUpTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SCENE_UP = 0
@@ -133,7 +143,9 @@ class WorldUpTypeEnumPlugOperator(EnumPlugOperator["WorldUpTypeEnumAttrOperator"
     NORMAL = 4
 
 
-class WorldUpTypeEnumAttrOperator(EnumAttrOperator[WorldUpTypeEnumPlugOperator]):
+class WorldUpTypeEnumAttrOperator(
+    EnumAttrOperator[WorldUpTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     SCENE_UP = 0
@@ -177,7 +189,9 @@ class GeneratedMotionPath(DG):
     sideTwist = DoubleAngleField(default_value=0.0)
     st = sideTwist
 
-    allCoordinates = AllCoordinatesField(default_value=(0.0, 0.0, 0.0), writable=False)
+    allCoordinates = AllCoordinatesField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ac = allCoordinates
     xCoordinate = allCoordinates.xCoordinate
     xc = xCoordinate

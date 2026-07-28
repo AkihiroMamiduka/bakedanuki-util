@@ -29,9 +29,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -311,9 +309,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class ImagePlugOperator(
-    Float3CompoundBasePlugOperator["ImageAttrOperator"]
-):
+class ImagePlugOperator(Float3CompoundBasePlugOperator["ImageAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("imageR", "imr"),
@@ -331,9 +327,7 @@ class ImagePlugOperator(
     imb = imageB
 
 
-class ImageAttrOperator(
-    Float3CompoundBaseAttrOperator[ImagePlugOperator]
-):
+class ImageAttrOperator(Float3CompoundBaseAttrOperator[ImagePlugOperator]):
     __slots__ = ()
 
     imageR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

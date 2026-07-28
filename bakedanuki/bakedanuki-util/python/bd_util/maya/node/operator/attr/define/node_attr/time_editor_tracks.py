@@ -15,7 +15,9 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class TypeEnumPlugOperator(EnumPlugOperator["TypeEnumAttrOperator"]):
@@ -37,16 +39,16 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class CrossfadeModeEnumPlugOperator(EnumPlugOperator["CrossfadeModeEnumAttrOperator"]):
+class CrossfadeModeEnumPlugOperator(
+    EnumPlugOperator["CrossfadeModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -56,7 +58,9 @@ class CrossfadeModeEnumPlugOperator(EnumPlugOperator["CrossfadeModeEnumAttrOpera
     CUSTOM = 4
 
 
-class CrossfadeModeEnumAttrOperator(EnumAttrOperator[CrossfadeModeEnumPlugOperator]):
+class CrossfadeModeEnumAttrOperator(
+    EnumAttrOperator[CrossfadeModeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -83,9 +87,7 @@ class CrossfadeModeEnumField(
     PLUG_CLS = CrossfadeModeEnumPlugOperator
 
 
-class TrackPlugOperator(
-    CompoundPlugOperator["TrackAttrOperator"]
-):
+class TrackPlugOperator(CompoundPlugOperator["TrackAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("index", "idx"),
@@ -127,13 +129,17 @@ class TrackPlugOperator(
     useTrackColor = BoolField(default_value=False)
     utc = useTrackColor
 
-    trackColor = Float3Field(default_value=(0.21960000693798065, 0.21960000693798065, 0.21960000693798065))
+    trackColor = Float3Field(
+        default_value=(
+            0.21960000693798065,
+            0.21960000693798065,
+            0.21960000693798065,
+        )
+    )
     tc = trackColor
 
 
-class TrackAttrOperator(
-    CompoundAttrOperator[TrackPlugOperator]
-):
+class TrackAttrOperator(CompoundAttrOperator[TrackPlugOperator]):
     __slots__ = ()
 
     index = LongField(default_value=0)
@@ -163,22 +169,24 @@ class TrackAttrOperator(
     useTrackColor = BoolField(default_value=False)
     utc = useTrackColor
 
-    trackColor = Float3Field(default_value=(0.21960000693798065, 0.21960000693798065, 0.21960000693798065))
+    trackColor = Float3Field(
+        default_value=(
+            0.21960000693798065,
+            0.21960000693798065,
+            0.21960000693798065,
+        )
+    )
     tc = trackColor
 
 
-class TrackField(
-    CompoundField[TrackAttrOperator, TrackPlugOperator]
-):
+class TrackField(CompoundField[TrackAttrOperator, TrackPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TrackAttrOperator
     PLUG_CLS = TrackPlugOperator
 
 
-class CrossfadePlugOperator(
-    CompoundPlugOperator["CrossfadeAttrOperator"]
-):
+class CrossfadePlugOperator(CompoundPlugOperator["CrossfadeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("crossfadeClipId1", "cid1"),
@@ -200,9 +208,7 @@ class CrossfadePlugOperator(
     cc = crossfadeCurve
 
 
-class CrossfadeAttrOperator(
-    CompoundAttrOperator[CrossfadePlugOperator]
-):
+class CrossfadeAttrOperator(CompoundAttrOperator[CrossfadePlugOperator]):
     __slots__ = ()
 
     crossfadeClipId1 = MessageField(readable=False)

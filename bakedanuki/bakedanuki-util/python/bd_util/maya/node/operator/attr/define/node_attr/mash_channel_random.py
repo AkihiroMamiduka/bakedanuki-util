@@ -28,9 +28,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -135,7 +133,9 @@ class VarianceVectorMinAttrOperator(
 
 
 class VarianceVectorMinField(
-    Float3CompoundBaseField[VarianceVectorMinAttrOperator, VarianceVectorMinPlugOperator]
+    Float3CompoundBaseField[
+        VarianceVectorMinAttrOperator, VarianceVectorMinPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -179,7 +179,9 @@ class VarianceVectorMaxAttrOperator(
 
 
 class VarianceVectorMaxField(
-    Float3CompoundBaseField[VarianceVectorMaxAttrOperator, VarianceVectorMaxPlugOperator]
+    Float3CompoundBaseField[
+        VarianceVectorMaxAttrOperator, VarianceVectorMaxPlugOperator
+    ]
 ):
     __slots__ = ()
 

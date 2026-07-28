@@ -82,9 +82,7 @@ class OutSizePlugOperator(
     osy = outSizeY
 
 
-class OutSizeAttrOperator(
-    Float2CompoundBaseAttrOperator[OutSizePlugOperator]
-):
+class OutSizeAttrOperator(Float2CompoundBaseAttrOperator[OutSizePlugOperator]):
     __slots__ = ()
 
     outSizeX = FloatField(default_value=0.0, writable=False)
@@ -145,7 +143,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 

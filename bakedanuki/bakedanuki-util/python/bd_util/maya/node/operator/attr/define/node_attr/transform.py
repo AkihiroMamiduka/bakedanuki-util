@@ -25,7 +25,9 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compou
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base import (
     QuatCompoundBaseAttrOperator,
     QuatCompoundBasePlugOperator,
@@ -41,7 +43,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
@@ -54,7 +58,9 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]):
+class OverrideDisplayTypeEnumPlugOperator(
+    EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -62,7 +68,9 @@ class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeE
     REFERENCE = 2
 
 
-class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]):
+class OverrideDisplayTypeEnumAttrOperator(
+    EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -77,7 +85,10 @@ class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEn
 
 
 class OverrideDisplayTypeEnumField(
-    EnumField[OverrideDisplayTypeEnumAttrOperator, OverrideDisplayTypeEnumPlugOperator]
+    EnumField[
+        OverrideDisplayTypeEnumAttrOperator,
+        OverrideDisplayTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -85,14 +96,18 @@ class OverrideDisplayTypeEnumField(
     PLUG_CLS = OverrideDisplayTypeEnumPlugOperator
 
 
-class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]):
+class OverrideLevelOfDetailEnumPlugOperator(
+    EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]):
+class OverrideLevelOfDetailEnumAttrOperator(
+    EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]
+):
     __slots__ = ()
 
     FULL = 0
@@ -105,7 +120,10 @@ class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDeta
 
 
 class OverrideLevelOfDetailEnumField(
-    EnumField[OverrideLevelOfDetailEnumAttrOperator, OverrideLevelOfDetailEnumPlugOperator]
+    EnumField[
+        OverrideLevelOfDetailEnumAttrOperator,
+        OverrideLevelOfDetailEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -157,9 +175,7 @@ class PublishedNodeInfoField(
     PLUG_CLS = PublishedNodeInfoPlugOperator
 
 
-class BoundingBoxPlugOperator(
-    CompoundPlugOperator["BoundingBoxAttrOperator"]
-):
+class BoundingBoxPlugOperator(CompoundPlugOperator["BoundingBoxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("boundingBoxMin", "bbmn"),
@@ -167,28 +183,38 @@ class BoundingBoxPlugOperator(
         ("boundingBoxSize", "bbsi"),
     )
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
-class BoundingBoxAttrOperator(
-    CompoundAttrOperator[BoundingBoxPlugOperator]
-):
+class BoundingBoxAttrOperator(CompoundAttrOperator[BoundingBoxPlugOperator]):
     __slots__ = ()
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
@@ -200,13 +226,19 @@ class BoundingBoxField(
     ATTR_CLS = BoundingBoxAttrOperator
     PLUG_CLS = BoundingBoxPlugOperator
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
@@ -267,9 +299,7 @@ class InstObjGroupsPlugOperator(
     CompoundPlugOperator["InstObjGroupsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("objectGroups", "og"),
-    )
+    CHILD_ATTR_NAMES = (("objectGroups", "og"),)
 
     objectGroups = CompoundField(multi=True)
     og = objectGroups
@@ -329,7 +359,9 @@ class ObjectColorRGBAttrOperator(
 
 
 class ObjectColorRGBField(
-    Float3CompoundBaseField[ObjectColorRGBAttrOperator, ObjectColorRGBPlugOperator]
+    Float3CompoundBaseField[
+        ObjectColorRGBAttrOperator, ObjectColorRGBPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -451,13 +483,13 @@ class DrawOverridePlugOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class DrawOverrideAttrOperator(
-    CompoundAttrOperator[DrawOverridePlugOperator]
-):
+class DrawOverrideAttrOperator(CompoundAttrOperator[DrawOverridePlugOperator]):
     __slots__ = ()
 
     overrideDisplayType = OverrideDisplayTypeEnumField(default_value=0)
@@ -493,7 +525,9 @@ class DrawOverrideAttrOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
@@ -538,13 +572,13 @@ class DrawOverrideField(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class RenderInfoPlugOperator(
-    CompoundPlugOperator["RenderInfoAttrOperator"]
-):
+class RenderInfoPlugOperator(CompoundPlugOperator["RenderInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("identification", "rlid"),
@@ -562,9 +596,7 @@ class RenderInfoPlugOperator(
     lovc = layerOverrideColor
 
 
-class RenderInfoAttrOperator(
-    CompoundAttrOperator[RenderInfoPlugOperator]
-):
+class RenderInfoAttrOperator(CompoundAttrOperator[RenderInfoPlugOperator]):
     __slots__ = ()
 
     identification = ShortField(default_value=0)
@@ -701,10 +733,14 @@ class GhostOpacityRangePlugOperator(
         ("ghostNearOpacity", "gnro"),
     )
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
@@ -713,25 +749,35 @@ class GhostOpacityRangeAttrOperator(
 ):
     __slots__ = ()
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
 class GhostOpacityRangeField(
-    Float2CompoundBaseField[GhostOpacityRangeAttrOperator, GhostOpacityRangePlugOperator]
+    Float2CompoundBaseField[
+        GhostOpacityRangeAttrOperator, GhostOpacityRangePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostOpacityRangeAttrOperator
     PLUG_CLS = GhostOpacityRangePlugOperator
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
@@ -745,13 +791,19 @@ class GhostColorPrePlugOperator(
         ("ghostColorPreB", "gpb"),
     )
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
@@ -760,31 +812,45 @@ class GhostColorPreAttrOperator(
 ):
     __slots__ = ()
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
 class GhostColorPreField(
-    Float3CompoundBaseField[GhostColorPreAttrOperator, GhostColorPrePlugOperator]
+    Float3CompoundBaseField[
+        GhostColorPreAttrOperator, GhostColorPrePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostColorPreAttrOperator
     PLUG_CLS = GhostColorPrePlugOperator
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
@@ -798,13 +864,19 @@ class GhostColorPostPlugOperator(
         ("ghostColorPostB", "gab"),
     )
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
@@ -813,31 +885,45 @@ class GhostColorPostAttrOperator(
 ):
     __slots__ = ()
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
 class GhostColorPostField(
-    Float3CompoundBaseField[GhostColorPostAttrOperator, GhostColorPostPlugOperator]
+    Float3CompoundBaseField[
+        GhostColorPostAttrOperator, GhostColorPostPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostColorPostAttrOperator
     PLUG_CLS = GhostColorPostPlugOperator
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
@@ -877,7 +963,9 @@ class OutlinerColorAttrOperator(
 
 
 class OutlinerColorField(
-    Float3CompoundBaseField[OutlinerColorAttrOperator, OutlinerColorPlugOperator]
+    Float3CompoundBaseField[
+        OutlinerColorAttrOperator, OutlinerColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -930,7 +1018,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1000,9 +1090,7 @@ class RotateField(
     rz = rotateZ
 
 
-class ScalePlugOperator(
-    Double3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -1020,9 +1108,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=1.0)
@@ -1053,9 +1139,7 @@ class ScaleField(
     sz = scaleZ
 
 
-class ShearPlugOperator(
-    Double3CompoundBasePlugOperator["ShearAttrOperator"]
-):
+class ShearPlugOperator(Double3CompoundBasePlugOperator["ShearAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("shearXY", "shxy"),
@@ -1073,9 +1157,7 @@ class ShearPlugOperator(
     shyz = shearYZ
 
 
-class ShearAttrOperator(
-    Double3CompoundBaseAttrOperator[ShearPlugOperator]
-):
+class ShearAttrOperator(Double3CompoundBaseAttrOperator[ShearPlugOperator]):
     __slots__ = ()
 
     shearXY = DoubleField(default_value=0.0)
@@ -1142,7 +1224,9 @@ class RotatePivotAttrOperator(
 
 
 class RotatePivotField(
-    DoubleLinear3CompoundBaseField[RotatePivotAttrOperator, RotatePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        RotatePivotAttrOperator, RotatePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1195,7 +1279,9 @@ class RotatePivotTranslateAttrOperator(
 
 
 class RotatePivotTranslateField(
-    DoubleLinear3CompoundBaseField[RotatePivotTranslateAttrOperator, RotatePivotTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        RotatePivotTranslateAttrOperator, RotatePivotTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1248,7 +1334,9 @@ class ScalePivotAttrOperator(
 
 
 class ScalePivotField(
-    DoubleLinear3CompoundBaseField[ScalePivotAttrOperator, ScalePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ScalePivotAttrOperator, ScalePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1301,7 +1389,9 @@ class ScalePivotTranslateAttrOperator(
 
 
 class ScalePivotTranslateField(
-    DoubleLinear3CompoundBaseField[ScalePivotTranslateAttrOperator, ScalePivotTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ScalePivotTranslateAttrOperator, ScalePivotTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1354,7 +1444,9 @@ class RotateAxisAttrOperator(
 
 
 class RotateAxisField(
-    DoubleAngle3CompoundBaseField[RotateAxisAttrOperator, RotateAxisPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        RotateAxisAttrOperator, RotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1381,13 +1473,19 @@ class TransMinusRotatePivotPlugOperator(
         ("transMinusRotatePivotZ", "tmrz"),
     )
 
-    transMinusRotatePivotX = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotX = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrx = transMinusRotatePivotX
 
-    transMinusRotatePivotY = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotY = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmry = transMinusRotatePivotY
 
-    transMinusRotatePivotZ = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotZ = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrz = transMinusRotatePivotZ
 
 
@@ -1396,31 +1494,45 @@ class TransMinusRotatePivotAttrOperator(
 ):
     __slots__ = ()
 
-    transMinusRotatePivotX = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotX = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrx = transMinusRotatePivotX
 
-    transMinusRotatePivotY = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotY = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmry = transMinusRotatePivotY
 
-    transMinusRotatePivotZ = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotZ = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrz = transMinusRotatePivotZ
 
 
 class TransMinusRotatePivotField(
-    DoubleLinear3CompoundBaseField[TransMinusRotatePivotAttrOperator, TransMinusRotatePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TransMinusRotatePivotAttrOperator, TransMinusRotatePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = TransMinusRotatePivotAttrOperator
     PLUG_CLS = TransMinusRotatePivotPlugOperator
 
-    transMinusRotatePivotX = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotX = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrx = transMinusRotatePivotX
 
-    transMinusRotatePivotY = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotY = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmry = transMinusRotatePivotY
 
-    transMinusRotatePivotZ = DoubleLinearField(default_value=0.0, writable=False)
+    transMinusRotatePivotZ = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     tmrz = transMinusRotatePivotZ
 
 
@@ -1460,7 +1572,9 @@ class MinTransLimitAttrOperator(
 
 
 class MinTransLimitField(
-    DoubleLinear3CompoundBaseField[MinTransLimitAttrOperator, MinTransLimitPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        MinTransLimitAttrOperator, MinTransLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1513,7 +1627,9 @@ class MaxTransLimitAttrOperator(
 
 
 class MaxTransLimitField(
-    DoubleLinear3CompoundBaseField[MaxTransLimitAttrOperator, MaxTransLimitPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        MaxTransLimitAttrOperator, MaxTransLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1566,7 +1682,9 @@ class MinTransLimitEnableAttrOperator(
 
 
 class MinTransLimitEnableField(
-    CompoundField[MinTransLimitEnableAttrOperator, MinTransLimitEnablePlugOperator]
+    CompoundField[
+        MinTransLimitEnableAttrOperator, MinTransLimitEnablePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1619,7 +1737,9 @@ class MaxTransLimitEnableAttrOperator(
 
 
 class MaxTransLimitEnableField(
-    CompoundField[MaxTransLimitEnableAttrOperator, MaxTransLimitEnablePlugOperator]
+    CompoundField[
+        MaxTransLimitEnableAttrOperator, MaxTransLimitEnablePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1672,7 +1792,9 @@ class MinRotLimitAttrOperator(
 
 
 class MinRotLimitField(
-    DoubleAngle3CompoundBaseField[MinRotLimitAttrOperator, MinRotLimitPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        MinRotLimitAttrOperator, MinRotLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1725,7 +1847,9 @@ class MaxRotLimitAttrOperator(
 
 
 class MaxRotLimitField(
-    DoubleAngle3CompoundBaseField[MaxRotLimitAttrOperator, MaxRotLimitPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        MaxRotLimitAttrOperator, MaxRotLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1884,7 +2008,9 @@ class MinScaleLimitAttrOperator(
 
 
 class MinScaleLimitField(
-    Double3CompoundBaseField[MinScaleLimitAttrOperator, MinScaleLimitPlugOperator]
+    Double3CompoundBaseField[
+        MinScaleLimitAttrOperator, MinScaleLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1937,7 +2063,9 @@ class MaxScaleLimitAttrOperator(
 
 
 class MaxScaleLimitField(
-    Double3CompoundBaseField[MaxScaleLimitAttrOperator, MaxScaleLimitPlugOperator]
+    Double3CompoundBaseField[
+        MaxScaleLimitAttrOperator, MaxScaleLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1990,7 +2118,9 @@ class MinScaleLimitEnableAttrOperator(
 
 
 class MinScaleLimitEnableField(
-    CompoundField[MinScaleLimitEnableAttrOperator, MinScaleLimitEnablePlugOperator]
+    CompoundField[
+        MinScaleLimitEnableAttrOperator, MinScaleLimitEnablePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2043,7 +2173,9 @@ class MaxScaleLimitEnableAttrOperator(
 
 
 class MaxScaleLimitEnableField(
-    CompoundField[MaxScaleLimitEnableAttrOperator, MaxScaleLimitEnablePlugOperator]
+    CompoundField[
+        MaxScaleLimitEnableAttrOperator, MaxScaleLimitEnablePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2096,7 +2228,9 @@ class SelectHandleAttrOperator(
 
 
 class SelectHandleField(
-    DoubleLinear3CompoundBaseField[SelectHandleAttrOperator, SelectHandlePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        SelectHandleAttrOperator, SelectHandlePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2156,7 +2290,9 @@ class RotateQuaternionAttrOperator(
 
 
 class RotateQuaternionField(
-    QuatCompoundBaseField[RotateQuaternionAttrOperator, RotateQuaternionPlugOperator]
+    QuatCompoundBaseField[
+        RotateQuaternionAttrOperator, RotateQuaternionPlugOperator
+    ]
 ):
     __slots__ = ()
 

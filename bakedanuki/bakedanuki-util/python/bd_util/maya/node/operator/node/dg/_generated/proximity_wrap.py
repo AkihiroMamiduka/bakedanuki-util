@@ -60,14 +60,18 @@ class WrapModeEnumField(
     PLUG_CLS = WrapModeEnumPlugOperator
 
 
-class CoordinateFramesEnumPlugOperator(EnumPlugOperator["CoordinateFramesEnumAttrOperator"]):
+class CoordinateFramesEnumPlugOperator(
+    EnumPlugOperator["CoordinateFramesEnumAttrOperator"]
+):
     __slots__ = ()
 
     DRIVER = 0
     SNAP = 1
 
 
-class CoordinateFramesEnumAttrOperator(EnumAttrOperator[CoordinateFramesEnumPlugOperator]):
+class CoordinateFramesEnumAttrOperator(
+    EnumAttrOperator[CoordinateFramesEnumPlugOperator]
+):
     __slots__ = ()
 
     DRIVER = 0
@@ -80,7 +84,9 @@ class CoordinateFramesEnumAttrOperator(EnumAttrOperator[CoordinateFramesEnumPlug
 
 
 class CoordinateFramesEnumField(
-    EnumField[CoordinateFramesEnumAttrOperator, CoordinateFramesEnumPlugOperator]
+    EnumField[
+        CoordinateFramesEnumAttrOperator, CoordinateFramesEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -105,13 +111,21 @@ class GeneratedProximityWrap(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -141,13 +155,22 @@ class GeneratedProximityWrap(DG):
     maxDrivers = LongField(default_value=10, min_value=1, max_value=20)
     maxd = maxDrivers
 
-    falloffScale = DoubleField(default_value=1.0, min_value=0.01, soft_min_value=0.01, soft_max_value=10.0)
+    falloffScale = DoubleField(
+        default_value=1.0,
+        min_value=0.01,
+        soft_min_value=0.01,
+        soft_max_value=10.0,
+    )
     sfo = falloffScale
 
-    dropoffRateScale = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    dropoffRateScale = DoubleField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     sdpo = dropoffRateScale
 
-    scaleCompensation = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    scaleCompensation = DoubleField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     scp = scaleCompensation
 
     wrapMode = WrapModeEnumField(default_value=1)
@@ -177,8 +200,12 @@ class GeneratedProximityWrap(DG):
     bindTagsFilter = DataStringField()
     btf = bindTagsFilter
 
-    perDriverWeightsList = PerDriverWeightsListField(multi=True, writable=False)
+    perDriverWeightsList = PerDriverWeightsListField(
+        multi=True, writable=False
+    )
     pdwl = perDriverWeightsList
 
-    perVertexWeightsList = PerVertexWeightsListField(multi=True, writable=False)
+    perVertexWeightsList = PerVertexWeightsListField(
+        multi=True, writable=False
+    )
     pvwl = perVertexWeightsList

@@ -82,9 +82,7 @@ class OutSizePlugOperator(
     osy = outSizeY
 
 
-class OutSizeAttrOperator(
-    Float2CompoundBaseAttrOperator[OutSizePlugOperator]
-):
+class OutSizeAttrOperator(Float2CompoundBaseAttrOperator[OutSizePlugOperator]):
     __slots__ = ()
 
     outSizeX = FloatField(default_value=0.0, writable=False)
@@ -145,7 +143,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -162,9 +162,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -182,9 +180,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.0)

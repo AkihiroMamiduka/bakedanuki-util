@@ -35,9 +35,7 @@ def test_run_benchmarks_records_each_successful_repeat():
     assert [record.repeat_index for record in records] == [1, 2]
     assert all(record.status == "ok" for record in records)
     assert all(record.elapsed_seconds is not None for record in records)
-    assert all(
-        record.operations_per_second is not None for record in records
-    )
+    assert all(record.operations_per_second is not None for record in records)
     assert all(record.execution_mode == "immediate" for record in records)
 
 

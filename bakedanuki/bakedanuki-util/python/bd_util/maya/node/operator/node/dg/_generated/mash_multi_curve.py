@@ -18,7 +18,9 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class OffsetTypeEnumPlugOperator(EnumPlugOperator["OffsetTypeEnumAttrOperator"]):
+class OffsetTypeEnumPlugOperator(
+    EnumPlugOperator["OffsetTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     JOIN_THE_DOTS = 1
@@ -115,9 +117,13 @@ class GeneratedMASH_MultiCurve(DG):
 
     numberOfCurves = LongField(default_value=1, min_value=0, soft_max_value=50)
 
-    maxCurveLength = LongField(default_value=100, min_value=0, soft_max_value=100)
+    maxCurveLength = LongField(
+        default_value=100, min_value=0, soft_max_value=100
+    )
 
-    maxLengthVariance = LongField(default_value=0, min_value=0, soft_max_value=100)
+    maxLengthVariance = LongField(
+        default_value=0, min_value=0, soft_max_value=100
+    )
 
     curveDegree = LongField(default_value=1, min_value=1, max_value=7)
 

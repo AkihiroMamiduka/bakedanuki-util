@@ -25,7 +25,9 @@ class GeneratedAiRoundCorners(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -36,7 +38,9 @@ class GeneratedAiRoundCorners(DG):
 
     samples = LongField(default_value=6, min_value=0, soft_max_value=20)
 
-    radius = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=10.0)
+    radius = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=10.0
+    )
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalCamera = normal

@@ -18,4 +18,6 @@ class GeneratedAiImagerExposure(DG):
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    exposure = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    exposure = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )

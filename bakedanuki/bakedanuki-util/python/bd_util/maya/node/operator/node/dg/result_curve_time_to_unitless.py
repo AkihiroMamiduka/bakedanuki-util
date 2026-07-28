@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.result_curve_time_to_unitless import GeneratedResultCurveTimeToUnitless
+from ._generated.result_curve_time_to_unitless import (
+    GeneratedResultCurveTimeToUnitless,
+)
 
 
 class ResultCurveTimeToUnitless(GeneratedResultCurveTimeToUnitless):

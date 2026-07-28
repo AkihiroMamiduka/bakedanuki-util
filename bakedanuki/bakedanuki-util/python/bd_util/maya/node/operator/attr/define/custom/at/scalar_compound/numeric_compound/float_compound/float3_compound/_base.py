@@ -14,9 +14,7 @@ A = TypeVar("A", bound="Float3CompoundBaseAttrOperator")
 P = TypeVar("P", bound="Float3CompoundBasePlugOperator")
 
 
-class Float3CompoundBasePlugOperator(
-    FloatCompoundBasePlugOperator[A, Float3]
-):
+class Float3CompoundBasePlugOperator(FloatCompoundBasePlugOperator[A, Float3]):
     __slots__ = ()
 
     VALUE_TYPE = Float3

@@ -66,7 +66,9 @@ class GeneratedAiSky(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -83,7 +85,9 @@ class GeneratedAiSky(DG):
     colorB = color.colorB
     colorb = colorB
 
-    intensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    intensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
     visibility = ByteField(default_value=255, min_value=0, max_value=255)
 

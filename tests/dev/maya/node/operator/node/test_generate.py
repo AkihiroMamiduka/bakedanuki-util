@@ -7,7 +7,9 @@ from bd_util._dev.maya.node.operator.node.generate import (
     generate_node_class_file,
 )
 from bd_util.maya.attr.query import AttrInfo
-from bd_util.maya.node.operator.attr.define.std.dt.string import DataStringField
+from bd_util.maya.node.operator.attr.define.std.dt.string import (
+    DataStringField,
+)
 
 
 def test_scalar_attribute_type_map_uses_scalar_package_hierarchy():
@@ -245,7 +247,9 @@ def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
         _attr(".pnts.px", ".pt.x", "double", parent=".pnts"),
         _attr(".pnts.py", ".pt.y", "double", parent=".pnts"),
         _attr(".pnts.pz", ".pt.z", "double", parent=".pnts"),
-        _attr("weightList", "wl", "compound", multi=True, number_of_children=1),
+        _attr(
+            "weightList", "wl", "compound", multi=True, number_of_children=1
+        ),
         _attr("weightList.weights", "wl.w", "float", parent="weightList"),
     ]
 
@@ -335,9 +339,15 @@ def _transform_like_attr_infos() -> list[AttrInfo]:
     return [
         _attr("message", "msg", "message"),
         _attr("translate", "t", "double3", number_of_children=3),
-        _attr("translate.translateX", "tx", "doubleLinear", parent="translate"),
-        _attr("translate.translateY", "ty", "doubleLinear", parent="translate"),
-        _attr("translate.translateZ", "tz", "doubleLinear", parent="translate"),
+        _attr(
+            "translate.translateX", "tx", "doubleLinear", parent="translate"
+        ),
+        _attr(
+            "translate.translateY", "ty", "doubleLinear", parent="translate"
+        ),
+        _attr(
+            "translate.translateZ", "tz", "doubleLinear", parent="translate"
+        ),
     ]
 
 
@@ -563,7 +573,7 @@ def test_generate_plus_minus_average_node_class_code():
     assert "Output2DField" in code
     assert "Output3DField" in code
     assert (
-        'class OperationEnumPlugOperator('
+        "class OperationEnumPlugOperator("
         'EnumPlugOperator["OperationEnumAttrOperator"]):'
     ) in code
     assert (
@@ -594,10 +604,11 @@ def test_generate_transform_node_class_code():
     compile(code, "joint.py", "exec")
 
     assert "from .._core import Transform" in code
-    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
     assert (
-        "from .....attr.define.std.at.scalar.numeric.bool "
-        "import BoolField"
+        "from .....attr.define.node_attr.joint import JointOrientField" in code
+    )
+    assert (
+        "from .....attr.define.std.at.scalar.numeric.bool " "import BoolField"
     ) in code
     assert "class GeneratedJoint(Transform):" in code
     assert 'NODE_TYPE = "joint"' in code
@@ -622,7 +633,10 @@ def test_generate_transform_base_node_class_code():
     compile(code, "transform.py", "exec")
 
     assert "from ..._core import DAG" in code
-    assert "from .....attr.define.node_attr.transform import TranslateField" in code
+    assert (
+        "from .....attr.define.node_attr.transform import TranslateField"
+        in code
+    )
     assert "class GeneratedTransform(DAG):" in code
     assert 'NODE_TYPE = "transform"' in code
     assert "translate = TranslateField()" in code
@@ -738,12 +752,13 @@ def test_generate_field_init_args_include_attribute_metadata():
     )
     assert "output = DoubleField(default_value=0.0, writable=False)" in code
     assert "hidden = BoolField(default_value=False, readable=False)" in code
-    assert "count = LongField(default_value=3, min_value=0, max_value=10)" in code
+    assert (
+        "count = LongField(default_value=3, min_value=0, max_value=10)" in code
+    )
     assert "mode = ModeEnumField(default_value=2)" in code
     assert (
         "vector = Float3Field(default_value=(1.0, 2.0, 3.0), "
-        "min_value=(-1.0, -2.0, -3.0))"
-        in code
+        "min_value=(-1.0, -2.0, -3.0))" in code
     )
     assert (
         "indices = Long3Field(default_value=(1, 2, 3), min_value=(0, 0, 0))"
@@ -752,8 +767,7 @@ def test_generate_field_init_args_include_attribute_metadata():
     assert 'notANumber = FloatField(default_value=float("nan"))' in code
     assert (
         'infiniteRange = Float2Field(default_value=(-float("inf"), '
-        'float("inf")))'
-        in code
+        'float("inf")))' in code
     )
     assert "readable=True" not in code
     assert "writable=True" not in code
@@ -801,7 +815,7 @@ def test_generate_compound_child_enum_uses_generated_enum_field():
     compile(code, "compound_enum_node_attr.py", "exec")
 
     assert (
-        'class Primary_primaryModeEnumPlugOperator('
+        "class Primary_primaryModeEnumPlugOperator("
         'EnumPlugOperator["Primary_primaryModeEnumAttrOperator"]):'
     ) in code
     assert (
@@ -1170,7 +1184,9 @@ def test_generate_node_class_file_outputs_transform_node_path(tmp_path):
     compile(public_code, "joint_public.py", "exec")
     compile(node_attr_code, "joint_node_attr.py", "exec")
     assert "from .._core import Transform" in code
-    assert "from .....attr.define.node_attr.joint import JointOrientField" in code
+    assert (
+        "from .....attr.define.node_attr.joint import JointOrientField" in code
+    )
     assert "class Joint(GeneratedJoint):" in public_code
     assert "translate = TranslateField()" not in code
     assert "class TranslateField(" not in node_attr_code
@@ -1211,7 +1227,9 @@ def test_generate_node_class_file_outputs_transform_base_path(tmp_path):
     )
 
     assert output_path.exists()
-    assert core_path.read_text(encoding="utf-8") == "# manual transform class\n"
+    assert (
+        core_path.read_text(encoding="utf-8") == "# manual transform class\n"
+    )
 
     code = output_path.read_text(encoding="utf-8")
 

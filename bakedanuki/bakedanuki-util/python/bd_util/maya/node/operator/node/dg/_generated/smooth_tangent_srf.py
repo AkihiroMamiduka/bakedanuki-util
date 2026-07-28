@@ -37,7 +37,9 @@ class DirectionEnumField(
     PLUG_CLS = DirectionEnumPlugOperator
 
 
-class SmoothnessEnumPlugOperator(EnumPlugOperator["SmoothnessEnumAttrOperator"]):
+class SmoothnessEnumPlugOperator(
+    EnumPlugOperator["SmoothnessEnumAttrOperator"]
+):
     __slots__ = ()
 
     TANGENT = 0
@@ -73,7 +75,9 @@ class GeneratedSmoothTangentSrf(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    parameter = DoubleField(multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     p = parameter
 
     direction = DirectionEnumField(default_value=1)

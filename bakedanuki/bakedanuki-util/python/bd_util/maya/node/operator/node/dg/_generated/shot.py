@@ -14,14 +14,18 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransitionInTypeEnumPlugOperator(EnumPlugOperator["TransitionInTypeEnumAttrOperator"]):
+class TransitionInTypeEnumPlugOperator(
+    EnumPlugOperator["TransitionInTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FADE = 0
     DISSOLVE = 1
 
 
-class TransitionInTypeEnumAttrOperator(EnumAttrOperator[TransitionInTypeEnumPlugOperator]):
+class TransitionInTypeEnumAttrOperator(
+    EnumAttrOperator[TransitionInTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FADE = 0
@@ -34,7 +38,9 @@ class TransitionInTypeEnumAttrOperator(EnumAttrOperator[TransitionInTypeEnumPlug
 
 
 class TransitionInTypeEnumField(
-    EnumField[TransitionInTypeEnumAttrOperator, TransitionInTypeEnumPlugOperator]
+    EnumField[
+        TransitionInTypeEnumAttrOperator, TransitionInTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -42,14 +48,18 @@ class TransitionInTypeEnumField(
     PLUG_CLS = TransitionInTypeEnumPlugOperator
 
 
-class TransitionOutTypeEnumPlugOperator(EnumPlugOperator["TransitionOutTypeEnumAttrOperator"]):
+class TransitionOutTypeEnumPlugOperator(
+    EnumPlugOperator["TransitionOutTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FADE = 0
     DISSOLVE = 1
 
 
-class TransitionOutTypeEnumAttrOperator(EnumAttrOperator[TransitionOutTypeEnumPlugOperator]):
+class TransitionOutTypeEnumAttrOperator(
+    EnumAttrOperator[TransitionOutTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     FADE = 0
@@ -62,7 +72,9 @@ class TransitionOutTypeEnumAttrOperator(EnumAttrOperator[TransitionOutTypeEnumPl
 
 
 class TransitionOutTypeEnumField(
-    EnumField[TransitionOutTypeEnumAttrOperator, TransitionOutTypeEnumPlugOperator]
+    EnumField[
+        TransitionOutTypeEnumAttrOperator, TransitionOutTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 

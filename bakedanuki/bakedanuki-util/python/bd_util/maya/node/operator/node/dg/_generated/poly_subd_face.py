@@ -30,16 +30,16 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class SubdMethodEnumPlugOperator(EnumPlugOperator["SubdMethodEnumAttrOperator"]):
+class SubdMethodEnumPlugOperator(
+    EnumPlugOperator["SubdMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     EXPONENTIAL = 0
@@ -102,13 +102,19 @@ class GeneratedPolySubdFace(DG):
     useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    divisions = LongField(default_value=1, min_value=0, max_value=8, soft_max_value=4)
+    divisions = LongField(
+        default_value=1, min_value=0, max_value=8, soft_max_value=4
+    )
     dv = divisions
 
-    divisionsU = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
+    divisionsU = LongField(
+        default_value=1, min_value=1, max_value=250, soft_max_value=8
+    )
     duv = divisionsU
 
-    divisionsV = LongField(default_value=1, min_value=1, max_value=250, soft_max_value=8)
+    divisionsV = LongField(
+        default_value=1, min_value=1, max_value=250, soft_max_value=8
+    )
     dvv = divisionsV
 
     mode = ModeEnumField(default_value=0)

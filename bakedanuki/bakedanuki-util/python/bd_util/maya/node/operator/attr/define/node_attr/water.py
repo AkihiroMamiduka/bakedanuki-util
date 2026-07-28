@@ -29,9 +29,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -311,9 +309,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class WindUVPlugOperator(
-    Float2CompoundBasePlugOperator["WindUVAttrOperator"]
-):
+class WindUVPlugOperator(Float2CompoundBasePlugOperator["WindUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("windU", "wiu"),
@@ -327,9 +323,7 @@ class WindUVPlugOperator(
     wiv = windV
 
 
-class WindUVAttrOperator(
-    Float2CompoundBaseAttrOperator[WindUVPlugOperator]
-):
+class WindUVAttrOperator(Float2CompoundBaseAttrOperator[WindUVPlugOperator]):
     __slots__ = ()
 
     windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
@@ -397,9 +391,7 @@ class RippleOriginField(
     rcv = rippleOriginV
 
 
-class BoxMinPlugOperator(
-    Float2CompoundBasePlugOperator["BoxMinAttrOperator"]
-):
+class BoxMinPlugOperator(Float2CompoundBasePlugOperator["BoxMinAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("boxMinU", "bu1"),
@@ -413,9 +405,7 @@ class BoxMinPlugOperator(
     bv1 = boxMinV
 
 
-class BoxMinAttrOperator(
-    Float2CompoundBaseAttrOperator[BoxMinPlugOperator]
-):
+class BoxMinAttrOperator(Float2CompoundBaseAttrOperator[BoxMinPlugOperator]):
     __slots__ = ()
 
     boxMinU = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
@@ -440,9 +430,7 @@ class BoxMinField(
     bv1 = boxMinV
 
 
-class BoxMaxPlugOperator(
-    Float2CompoundBasePlugOperator["BoxMaxAttrOperator"]
-):
+class BoxMaxPlugOperator(Float2CompoundBasePlugOperator["BoxMaxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("boxMaxU", "bu2"),
@@ -456,9 +444,7 @@ class BoxMaxPlugOperator(
     bv2 = boxMaxV
 
 
-class BoxMaxAttrOperator(
-    Float2CompoundBaseAttrOperator[BoxMaxPlugOperator]
-):
+class BoxMaxAttrOperator(Float2CompoundBaseAttrOperator[BoxMaxPlugOperator]):
     __slots__ = ()
 
     boxMaxU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)

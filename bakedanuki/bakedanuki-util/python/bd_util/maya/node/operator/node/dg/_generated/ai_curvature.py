@@ -60,7 +60,9 @@ class GeneratedAiCurvature(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -71,17 +73,43 @@ class GeneratedAiCurvature(DG):
 
     output = OutputEnumField(default_value=0)
 
-    samples = LongField(default_value=3, min_value=0, soft_min_value=1, soft_max_value=10)
+    samples = LongField(
+        default_value=3, min_value=0, soft_min_value=1, soft_max_value=10
+    )
 
-    radius = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=5.0)
+    radius = FloatField(
+        default_value=0.10000000149011612,
+        soft_min_value=0.0,
+        soft_max_value=5.0,
+    )
 
-    spread = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    spread = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
 
-    threshold = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    threshold = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
 
-    bias = FloatField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    bias = FloatField(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
 
-    multiply = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    multiply = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     traceSet = DataStringField()
     trace_set = traceSet

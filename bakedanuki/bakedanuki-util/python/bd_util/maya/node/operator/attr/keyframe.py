@@ -361,7 +361,9 @@ class KeyframeManager:
             and end_frame is not None
             and start_frame > end_frame
         ):
-            raise ValueError("start_frame must be less than or equal to end_frame.")
+            raise ValueError(
+                "start_frame must be less than or equal to end_frame."
+            )
 
         indices = [
             i

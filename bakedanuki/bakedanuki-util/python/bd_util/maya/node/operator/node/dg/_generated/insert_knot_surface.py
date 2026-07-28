@@ -47,10 +47,18 @@ class GeneratedInsertKnotSurface(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    parameter = DoubleField(multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     p = parameter
 
-    numberOfKnots = LongField(multi=True, default_value=1, min_value=0, soft_min_value=0, soft_max_value=3)
+    numberOfKnots = LongField(
+        multi=True,
+        default_value=1,
+        min_value=0,
+        soft_min_value=0,
+        soft_max_value=3,
+    )
     nk = numberOfKnots
 
     addKnots = BoolField(default_value=True)

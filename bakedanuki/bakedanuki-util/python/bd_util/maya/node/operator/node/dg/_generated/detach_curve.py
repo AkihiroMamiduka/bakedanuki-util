@@ -16,7 +16,12 @@ class GeneratedDetachCurve(DG):
     outputCurve = DataNurbsCurveField(multi=True, writable=False)
     oc = outputCurve
 
-    parameter = DoubleField(multi=True, default_value=0.0, soft_min_value=0.0, soft_max_value=1000.0)
+    parameter = DoubleField(
+        multi=True,
+        default_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1000.0,
+    )
     p = parameter
 
     keep = BoolField(multi=True, default_value=True)

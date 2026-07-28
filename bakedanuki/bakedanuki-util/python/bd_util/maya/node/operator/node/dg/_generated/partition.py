@@ -43,7 +43,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -51,7 +53,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -74,7 +78,9 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class PartitionTypeEnumPlugOperator(EnumPlugOperator["PartitionTypeEnumAttrOperator"]):
+class PartitionTypeEnumPlugOperator(
+    EnumPlugOperator["PartitionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     REGULAR = 0
@@ -82,7 +88,9 @@ class PartitionTypeEnumPlugOperator(EnumPlugOperator["PartitionTypeEnumAttrOpera
     LAYER = 2
 
 
-class PartitionTypeEnumAttrOperator(EnumAttrOperator[PartitionTypeEnumPlugOperator]):
+class PartitionTypeEnumAttrOperator(
+    EnumAttrOperator[PartitionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     REGULAR = 0

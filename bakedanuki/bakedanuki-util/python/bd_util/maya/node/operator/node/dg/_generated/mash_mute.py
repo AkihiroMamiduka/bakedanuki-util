@@ -25,7 +25,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -79,7 +87,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -107,7 +118,9 @@ class GeneratedMASH_Mute(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -165,7 +178,9 @@ class GeneratedMASH_Mute(DG):
 
     noiseEnvelope = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    noiseEnvelopeScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    noiseEnvelopeScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
     EnvelopeX = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     envX = EnvelopeX
@@ -194,7 +209,9 @@ class GeneratedMASH_Mute(DG):
     StepEnvelopeZ = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     StEnvZ = StepEnvelopeZ
 
-    lifespan = FloatField(default_value=1.0, min_value=0.01, soft_max_value=10.0)
+    lifespan = FloatField(
+        default_value=1.0, min_value=0.01, soft_max_value=10.0
+    )
 
     falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))
     fallObj = falloffObject
@@ -245,9 +262,13 @@ class GeneratedMASH_Mute(DG):
 
     enableZ = BoolField(default_value=True)
 
-    maxVelocity = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
+    maxVelocity = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    velocityStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    velocityStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     velocityRamp = VelocityRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 

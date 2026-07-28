@@ -44,7 +44,9 @@ class ComputeNodeColorAttrOperator(
 
 
 class ComputeNodeColorField(
-    Double3CompoundBaseField[ComputeNodeColorAttrOperator, ComputeNodeColorPlugOperator]
+    Double3CompoundBaseField[
+        ComputeNodeColorAttrOperator, ComputeNodeColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

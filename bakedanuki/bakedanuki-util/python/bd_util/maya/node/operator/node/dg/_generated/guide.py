@@ -7,12 +7,18 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.matrix import MatrixField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class JointGuideAxisEnumPlugOperator(EnumPlugOperator["JointGuideAxisEnumAttrOperator"]):
+class JointGuideAxisEnumPlugOperator(
+    EnumPlugOperator["JointGuideAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -23,7 +29,9 @@ class JointGuideAxisEnumPlugOperator(EnumPlugOperator["JointGuideAxisEnumAttrOpe
     NONE = 5
 
 
-class JointGuideAxisEnumAttrOperator(EnumAttrOperator[JointGuideAxisEnumPlugOperator]):
+class JointGuideAxisEnumAttrOperator(
+    EnumAttrOperator[JointGuideAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0

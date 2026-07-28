@@ -13,7 +13,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class PointCameraPlugOperator(
@@ -69,9 +71,7 @@ class PointCameraField(
     pz = pointCameraZ
 
 
-class LightDataPlugOperator(
-    LightDataPlugOperator["LightDataAttrOperator"]
-):
+class LightDataPlugOperator(LightDataPlugOperator["LightDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("lightDirection", "ld"),
@@ -109,9 +109,7 @@ class LightDataPlugOperator(
     lbd = lightBlindData
 
 
-class LightDataAttrOperator(
-    LightDataAttrOperator[LightDataPlugOperator]
-):
+class LightDataAttrOperator(LightDataAttrOperator[LightDataPlugOperator]):
     __slots__ = ()
 
     lightDirection = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)

@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -64,7 +66,9 @@ class GeneratedPolyCone(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -82,19 +86,29 @@ class GeneratedPolyCone(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     r = radius
 
-    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    subdivisionsAxis = LongField(default_value=20, min_value=3, soft_max_value=50)
+    subdivisionsAxis = LongField(
+        default_value=20, min_value=3, soft_max_value=50
+    )
     sa = subdivisionsAxis
 
-    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
-    subdivisionsCap = LongField(default_value=0, min_value=0, soft_max_value=50)
+    subdivisionsCap = LongField(
+        default_value=0, min_value=0, soft_max_value=50
+    )
     sc = subdivisionsCap
 
     texture = BoolField(default_value=True)

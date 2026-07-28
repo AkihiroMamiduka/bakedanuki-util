@@ -73,13 +73,17 @@ class GeneratedAttachSurface(DG):
     twist = BoolField(default_value=False)
     tw = twist
 
-    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendBias = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bb = blendBias
 
     blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0
+    )
     p = parameter
 
     keepMultipleKnots = BoolField(default_value=True)

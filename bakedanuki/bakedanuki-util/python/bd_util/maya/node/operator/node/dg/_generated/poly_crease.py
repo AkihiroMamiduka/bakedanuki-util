@@ -88,13 +88,17 @@ class GeneratedPolyCrease(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    crease = FloatField(multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0)
+    crease = FloatField(
+        multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0
+    )
     cr = crease
 
     inputVertexComponents = TypedField()
     ivc = inputVertexComponents
 
-    creaseVertex = FloatField(multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0)
+    creaseVertex = FloatField(
+        multi=True, default_value=-1.0, min_value=0.0, soft_max_value=10.0
+    )
     crv = creaseVertex
 
     operation = OperationEnumField(default_value=0)

@@ -59,13 +59,19 @@ class GeneratedMarble(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -80,7 +86,11 @@ class GeneratedMarble(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +99,11 @@ class GeneratedMarble(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +112,21 @@ class GeneratedMarble(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -125,7 +147,9 @@ class GeneratedMarble(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -155,7 +179,11 @@ class GeneratedMarble(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    fillerColor = FillerColorField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    fillerColor = FillerColorField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -164,7 +192,11 @@ class GeneratedMarble(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    veinColor = VeinColorField(default_value=(0.2980000078678131, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    veinColor = VeinColorField(
+        default_value=(0.2980000078678131, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     vc = veinColor
     veinColorR = veinColor.veinColorR
     vcr = veinColorR
@@ -173,16 +205,24 @@ class GeneratedMarble(DG):
     veinColorB = veinColor.veinColorB
     vcb = veinColorB
 
-    veinWidth = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    veinWidth = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
     vw = veinWidth
 
-    diffusion = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    diffusion = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     di = diffusion
 
-    contrast = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    contrast = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     c = contrast
 
-    ripples = RipplesField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0))
+    ripples = RipplesField(
+        default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0)
+    )
     r = ripples
     ripplesX = ripples.ripplesX
     rx = ripplesX
@@ -198,8 +238,12 @@ class GeneratedMarble(DG):
     depthMax = depth.depthMax
     dmx = depthMax
 
-    amplitude = FloatField(default_value=1.5, min_value=0.0, soft_max_value=1.5)
+    amplitude = FloatField(
+        default_value=1.5, min_value=0.0, soft_max_value=1.5
+    )
     a = amplitude
 
-    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, max_value=1.0)
+    ratio = FloatField(
+        default_value=0.7070000171661377, min_value=0.0, max_value=1.0
+    )
     ra = ratio

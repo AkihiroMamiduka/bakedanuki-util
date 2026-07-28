@@ -12,12 +12,12 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compou
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 
 
-class PntsPlugOperator(
-    Double3CompoundBasePlugOperator["PntsAttrOperator"]
-):
+class PntsPlugOperator(Double3CompoundBasePlugOperator["PntsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("px", ".pt.x"),
@@ -32,9 +32,7 @@ class PntsPlugOperator(
     pz = DoubleField(default_value=1.0)
 
 
-class PntsAttrOperator(
-    Double3CompoundBaseAttrOperator[PntsPlugOperator]
-):
+class PntsAttrOperator(Double3CompoundBaseAttrOperator[PntsPlugOperator]):
     __slots__ = ()
 
     px = DoubleField(default_value=1.0)
@@ -44,18 +42,14 @@ class PntsAttrOperator(
     pz = DoubleField(default_value=1.0)
 
 
-class PntsField(
-    Double3CompoundBaseField[PntsAttrOperator, PntsPlugOperator]
-):
+class PntsField(Double3CompoundBaseField[PntsAttrOperator, PntsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PntsAttrOperator
     PLUG_CLS = PntsPlugOperator
 
 
-class KitAPlugOperator(
-    CompoundPlugOperator["KitAAttrOperator"]
-):
+class KitAPlugOperator(CompoundPlugOperator["KitAAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("envelope", "ka.env"),
@@ -67,9 +61,7 @@ class KitAPlugOperator(
     pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
-class KitAAttrOperator(
-    CompoundAttrOperator[KitAPlugOperator]
-):
+class KitAAttrOperator(CompoundAttrOperator[KitAPlugOperator]):
     __slots__ = ()
 
     envelope = FloatField(default_value=0.0)
@@ -77,9 +69,7 @@ class KitAAttrOperator(
     pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
-class KitAField(
-    CompoundField[KitAAttrOperator, KitAPlugOperator]
-):
+class KitAField(CompoundField[KitAAttrOperator, KitAPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = KitAAttrOperator
@@ -90,9 +80,7 @@ class KitAField(
     pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
-class KitBPlugOperator(
-    CompoundPlugOperator["KitBAttrOperator"]
-):
+class KitBPlugOperator(CompoundPlugOperator["KitBAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("envelope", "kb.env"),
@@ -104,9 +92,7 @@ class KitBPlugOperator(
     pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
-class KitBAttrOperator(
-    CompoundAttrOperator[KitBPlugOperator]
-):
+class KitBAttrOperator(CompoundAttrOperator[KitBPlugOperator]):
     __slots__ = ()
 
     envelope = FloatField(default_value=0.0)
@@ -114,9 +100,7 @@ class KitBAttrOperator(
     pnts = Double3Field(multi=True, default_value=(1.0, 1.0, 1.0))
 
 
-class KitBField(
-    CompoundField[KitBAttrOperator, KitBPlugOperator]
-):
+class KitBField(CompoundField[KitBAttrOperator, KitBPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = KitBAttrOperator

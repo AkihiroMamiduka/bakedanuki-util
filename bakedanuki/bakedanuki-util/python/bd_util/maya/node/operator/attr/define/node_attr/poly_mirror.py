@@ -103,7 +103,9 @@ class ScalePivotAttrOperator(
 
 
 class ScalePivotField(
-    DoubleLinear3CompoundBaseField[ScalePivotAttrOperator, ScalePivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ScalePivotAttrOperator, ScalePivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -156,7 +158,9 @@ class MirrorPlaneCenterAttrOperator(
 
 
 class MirrorPlaneCenterField(
-    DoubleLinear3CompoundBaseField[MirrorPlaneCenterAttrOperator, MirrorPlaneCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        MirrorPlaneCenterAttrOperator, MirrorPlaneCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -209,7 +213,9 @@ class MirrorPlaneRotateAttrOperator(
 
 
 class MirrorPlaneRotateField(
-    DoubleAngle3CompoundBaseField[MirrorPlaneRotateAttrOperator, MirrorPlaneRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        MirrorPlaneRotateAttrOperator, MirrorPlaneRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

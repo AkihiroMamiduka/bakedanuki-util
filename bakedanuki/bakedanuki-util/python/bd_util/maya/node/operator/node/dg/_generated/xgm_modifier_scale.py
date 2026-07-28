@@ -22,5 +22,9 @@ class GeneratedXgmModifierScale(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.10000000149011612, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0,
+        soft_min_value=0.10000000149011612,
+        soft_max_value=10.0,
+    )
     s = scale

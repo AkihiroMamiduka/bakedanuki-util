@@ -256,7 +256,9 @@ class DirectionVectorAttrOperator(
 
 
 class DirectionVectorField(
-    DoubleLinear3CompoundBaseField[DirectionVectorAttrOperator, DirectionVectorPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        DirectionVectorAttrOperator, DirectionVectorPlugOperator
+    ]
 ):
     __slots__ = ()
 

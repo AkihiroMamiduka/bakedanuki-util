@@ -23,7 +23,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator["WaveHeight_InterpEnumAttrOperator"]):
+class WaveHeight_InterpEnumPlugOperator(
+    EnumPlugOperator["WaveHeight_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -32,7 +34,9 @@ class WaveHeight_InterpEnumPlugOperator(EnumPlugOperator["WaveHeight_InterpEnumA
     SPLINE = 3
 
 
-class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator[WaveHeight_InterpEnumPlugOperator]):
+class WaveHeight_InterpEnumAttrOperator(
+    EnumAttrOperator[WaveHeight_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -49,7 +53,9 @@ class WaveHeight_InterpEnumAttrOperator(EnumAttrOperator[WaveHeight_InterpEnumPl
 
 
 class WaveHeight_InterpEnumField(
-    EnumField[WaveHeight_InterpEnumAttrOperator, WaveHeight_InterpEnumPlugOperator]
+    EnumField[
+        WaveHeight_InterpEnumAttrOperator, WaveHeight_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57,7 +63,9 @@ class WaveHeight_InterpEnumField(
     PLUG_CLS = WaveHeight_InterpEnumPlugOperator
 
 
-class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator["WaveTurbulence_InterpEnumAttrOperator"]):
+class WaveTurbulence_InterpEnumPlugOperator(
+    EnumPlugOperator["WaveTurbulence_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -66,7 +74,9 @@ class WaveTurbulence_InterpEnumPlugOperator(EnumPlugOperator["WaveTurbulence_Int
     SPLINE = 3
 
 
-class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator[WaveTurbulence_InterpEnumPlugOperator]):
+class WaveTurbulence_InterpEnumAttrOperator(
+    EnumAttrOperator[WaveTurbulence_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -83,7 +93,10 @@ class WaveTurbulence_InterpEnumAttrOperator(EnumAttrOperator[WaveTurbulence_Inte
 
 
 class WaveTurbulence_InterpEnumField(
-    EnumField[WaveTurbulence_InterpEnumAttrOperator, WaveTurbulence_InterpEnumPlugOperator]
+    EnumField[
+        WaveTurbulence_InterpEnumAttrOperator,
+        WaveTurbulence_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -91,7 +104,9 @@ class WaveTurbulence_InterpEnumField(
     PLUG_CLS = WaveTurbulence_InterpEnumPlugOperator
 
 
-class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator["WavePeaking_InterpEnumAttrOperator"]):
+class WavePeaking_InterpEnumPlugOperator(
+    EnumPlugOperator["WavePeaking_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -100,7 +115,9 @@ class WavePeaking_InterpEnumPlugOperator(EnumPlugOperator["WavePeaking_InterpEnu
     SPLINE = 3
 
 
-class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator[WavePeaking_InterpEnumPlugOperator]):
+class WavePeaking_InterpEnumAttrOperator(
+    EnumAttrOperator[WavePeaking_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -117,7 +134,9 @@ class WavePeaking_InterpEnumAttrOperator(EnumAttrOperator[WavePeaking_InterpEnum
 
 
 class WavePeaking_InterpEnumField(
-    EnumField[WavePeaking_InterpEnumAttrOperator, WavePeaking_InterpEnumPlugOperator]
+    EnumField[
+        WavePeaking_InterpEnumAttrOperator, WavePeaking_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -141,9 +160,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -423,9 +440,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class WindUVPlugOperator(
-    Float2CompoundBasePlugOperator["WindUVAttrOperator"]
-):
+class WindUVPlugOperator(Float2CompoundBasePlugOperator["WindUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("windU", "wiu"),
@@ -439,9 +454,7 @@ class WindUVPlugOperator(
     wiv = windV
 
 
-class WindUVAttrOperator(
-    Float2CompoundBaseAttrOperator[WindUVPlugOperator]
-):
+class WindUVAttrOperator(Float2CompoundBaseAttrOperator[WindUVPlugOperator]):
     __slots__ = ()
 
     windU = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
@@ -466,9 +479,7 @@ class WindUVField(
     wiv = windV
 
 
-class WaveHeightPlugOperator(
-    CompoundPlugOperator["WaveHeightAttrOperator"]
-):
+class WaveHeightPlugOperator(CompoundPlugOperator["WaveHeightAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("waveHeight_Position", "whp"),
@@ -486,9 +497,7 @@ class WaveHeightPlugOperator(
     whi = waveHeight_Interp
 
 
-class WaveHeightAttrOperator(
-    CompoundAttrOperator[WaveHeightPlugOperator]
-):
+class WaveHeightAttrOperator(CompoundAttrOperator[WaveHeightPlugOperator]):
     __slots__ = ()
 
     waveHeight_Position = FloatField(default_value=0.0)
@@ -554,9 +563,7 @@ class WaveTurbulenceField(
     PLUG_CLS = WaveTurbulencePlugOperator
 
 
-class WavePeakingPlugOperator(
-    CompoundPlugOperator["WavePeakingAttrOperator"]
-):
+class WavePeakingPlugOperator(CompoundPlugOperator["WavePeakingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("wavePeaking_Position", "wpp"),
@@ -574,9 +581,7 @@ class WavePeakingPlugOperator(
     wpi = wavePeaking_Interp
 
 
-class WavePeakingAttrOperator(
-    CompoundAttrOperator[WavePeakingPlugOperator]
-):
+class WavePeakingAttrOperator(CompoundAttrOperator[WavePeakingPlugOperator]):
     __slots__ = ()
 
     wavePeaking_Position = FloatField(default_value=0.0)

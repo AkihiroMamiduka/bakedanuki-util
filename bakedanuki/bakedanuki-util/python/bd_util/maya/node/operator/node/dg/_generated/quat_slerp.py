@@ -13,7 +13,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnumAttrOperator"]):
+class AngleInterpolationEnumPlugOperator(
+    EnumPlugOperator["AngleInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHORTEST = 0
@@ -21,7 +23,9 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnu
     NEGATIVE = 2
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnumPlugOperator]):
+class AngleInterpolationEnumAttrOperator(
+    EnumAttrOperator[AngleInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     SHORTEST = 0
@@ -36,7 +40,9 @@ class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnum
 
 
 class AngleInterpolationEnumField(
-    EnumField[AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator]
+    EnumField[
+        AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -77,7 +83,9 @@ class GeneratedQuatSlerp(DG):
     input2QuatW = input2Quat.input2QuatW
     i2w = input2QuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

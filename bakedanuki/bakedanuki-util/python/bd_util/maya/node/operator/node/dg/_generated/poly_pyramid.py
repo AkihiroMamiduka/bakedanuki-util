@@ -8,12 +8,16 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NumberOfSidesEnumPlugOperator(EnumPlugOperator["NumberOfSidesEnumAttrOperator"]):
+class NumberOfSidesEnumPlugOperator(
+    EnumPlugOperator["NumberOfSidesEnumAttrOperator"]
+):
     __slots__ = ()
 
     _3 = 3
@@ -21,7 +25,9 @@ class NumberOfSidesEnumPlugOperator(EnumPlugOperator["NumberOfSidesEnumAttrOpera
     _5 = 5
 
 
-class NumberOfSidesEnumAttrOperator(EnumAttrOperator[NumberOfSidesEnumPlugOperator]):
+class NumberOfSidesEnumAttrOperator(
+    EnumAttrOperator[NumberOfSidesEnumPlugOperator]
+):
     __slots__ = ()
 
     _3 = 3
@@ -95,7 +101,9 @@ class GeneratedPolyPyramid(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -113,16 +121,22 @@ class GeneratedPolyPyramid(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    sideLength = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    sideLength = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     w = sideLength
 
     numberOfSides = NumberOfSidesEnumField(default_value=4)
     ns = numberOfSides
 
-    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
-    subdivisionsCaps = LongField(default_value=0, min_value=0, soft_max_value=50)
+    subdivisionsCaps = LongField(
+        default_value=0, min_value=0, soft_max_value=50
+    )
     sc = subdivisionsCaps
 
     texture = BoolField(default_value=True)

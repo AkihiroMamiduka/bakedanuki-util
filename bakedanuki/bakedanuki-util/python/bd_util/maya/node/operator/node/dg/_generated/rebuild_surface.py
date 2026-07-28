@@ -7,11 +7,15 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"]):
+class RebuildTypeEnumPlugOperator(
+    EnumPlugOperator["RebuildTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -24,7 +28,9 @@ class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"
     BEZIER = 7
 
 
-class RebuildTypeEnumAttrOperator(EnumAttrOperator[RebuildTypeEnumPlugOperator]):
+class RebuildTypeEnumAttrOperator(
+    EnumAttrOperator[RebuildTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -227,7 +233,9 @@ class KeepRangeEnumField(
     PLUG_CLS = KeepRangeEnumPlugOperator
 
 
-class FitRebuildEnumPlugOperator(EnumPlugOperator["FitRebuildEnumAttrOperator"]):
+class FitRebuildEnumPlugOperator(
+    EnumPlugOperator["FitRebuildEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONVERT_CLASSIC = 0
@@ -290,7 +298,9 @@ class GeneratedRebuildSurface(DG):
     degreeV = DegreeVEnumField(default_value=3)
     dv = degreeV
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance
 
     endKnots = EndKnotsEnumField(default_value=0)

@@ -13,7 +13,9 @@ class GeneratedDynGlobals(DG):
     overSamples = LongField(default_value=1, min_value=1)
     os = overSamples
 
-    internalOverSamples = LongField(default_value=0, min_value=1, writable=False)
+    internalOverSamples = LongField(
+        default_value=0, min_value=1, writable=False
+    )
     ios = internalOverSamples
 
     useParticleDiskCache = BoolField(default_value=False)

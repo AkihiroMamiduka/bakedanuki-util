@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.anim_blend_node_additive_dl import GeneratedAnimBlendNodeAdditiveDL
+from ._generated.anim_blend_node_additive_dl import (
+    GeneratedAnimBlendNodeAdditiveDL,
+)
 
 
 class AnimBlendNodeAdditiveDL(GeneratedAnimBlendNodeAdditiveDL):

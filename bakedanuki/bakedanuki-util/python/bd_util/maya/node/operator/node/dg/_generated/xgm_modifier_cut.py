@@ -7,7 +7,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 
 
@@ -59,13 +61,17 @@ class GeneratedXgmModifierCut(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    amount = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    amount = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
     a = amount
 
     percentage = FloatField(default_value=10.0, min_value=0.0, max_value=100.0)
     pt = percentage
 
-    minRemainLength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
+    minRemainLength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=10.0
+    )
     mrl = minRemainLength
 
     redistributingCV = BoolField(default_value=True)

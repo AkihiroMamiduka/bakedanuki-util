@@ -11,9 +11,7 @@ from ..std.at.typed import TypedField
 from ..std.dt.double_array import DataDoubleArrayField
 
 
-class GroupingPlugOperator(
-    CompoundPlugOperator["GroupingAttrOperator"]
-):
+class GroupingPlugOperator(CompoundPlugOperator["GroupingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("solidsPerCharacter", "solidsPerCharacter"),
@@ -28,9 +26,7 @@ class GroupingPlugOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingAttrOperator(
-    CompoundAttrOperator[GroupingPlugOperator]
-):
+class GroupingAttrOperator(CompoundAttrOperator[GroupingPlugOperator]):
     __slots__ = ()
 
     solidsPerCharacter = DataDoubleArrayField()
@@ -40,9 +36,7 @@ class GroupingAttrOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingField(
-    CompoundField[GroupingAttrOperator, GroupingPlugOperator]
-):
+class GroupingField(CompoundField[GroupingAttrOperator, GroupingPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GroupingAttrOperator
@@ -55,9 +49,7 @@ class GroupingField(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupIdsPlugOperator(
-    CompoundPlugOperator["GroupIdsAttrOperator"]
-):
+class GroupIdsPlugOperator(CompoundPlugOperator["GroupIdsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("capGroupId", "capGroupId"),
@@ -75,9 +67,7 @@ class GroupIdsPlugOperator(
     charGroupId = LongField(multi=True, default_value=0, readable=False)
 
 
-class GroupIdsAttrOperator(
-    CompoundAttrOperator[GroupIdsPlugOperator]
-):
+class GroupIdsAttrOperator(CompoundAttrOperator[GroupIdsPlugOperator]):
     __slots__ = ()
 
     capGroupId = LongField(default_value=1)
@@ -89,9 +79,7 @@ class GroupIdsAttrOperator(
     charGroupId = LongField(multi=True, default_value=0, readable=False)
 
 
-class GroupIdsField(
-    CompoundField[GroupIdsAttrOperator, GroupIdsPlugOperator]
-):
+class GroupIdsField(CompoundField[GroupIdsAttrOperator, GroupIdsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GroupIdsAttrOperator
@@ -240,9 +228,7 @@ class ExtrudeCurvePlugOperator(
     extrudeCurvev = extrudeCurve_Value
 
 
-class ExtrudeCurveAttrOperator(
-    CompoundAttrOperator[ExtrudeCurvePlugOperator]
-):
+class ExtrudeCurveAttrOperator(CompoundAttrOperator[ExtrudeCurvePlugOperator]):
     __slots__ = ()
 
     extrudeCurve_Position = FloatField(default_value=0.0)

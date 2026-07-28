@@ -48,7 +48,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -56,7 +58,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -144,7 +148,9 @@ class GeneratedKeyingGroup(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))

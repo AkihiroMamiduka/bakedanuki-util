@@ -106,14 +106,22 @@ class GeneratedBlendColorSets(DG):
     blendFunc = BlendFuncEnumField(default_value=0)
     bfn = blendFunc
 
-    blendWeightA = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightA = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwa = blendWeightA
 
-    blendWeightB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightB = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwb = blendWeightB
 
-    blendWeightC = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightC = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwc = blendWeightC
 
-    blendWeightD = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendWeightD = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bwd = blendWeightD

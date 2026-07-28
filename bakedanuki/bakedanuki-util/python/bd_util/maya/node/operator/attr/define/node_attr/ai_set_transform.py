@@ -61,9 +61,7 @@ class TranslateField(
     translatez = translateZ
 
 
-class RotatePlugOperator(
-    Float3CompoundBasePlugOperator["RotateAttrOperator"]
-):
+class RotatePlugOperator(Float3CompoundBasePlugOperator["RotateAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rotateX", "rotatex"),
@@ -81,9 +79,7 @@ class RotatePlugOperator(
     rotatez = rotateZ
 
 
-class RotateAttrOperator(
-    Float3CompoundBaseAttrOperator[RotatePlugOperator]
-):
+class RotateAttrOperator(Float3CompoundBaseAttrOperator[RotatePlugOperator]):
     __slots__ = ()
 
     rotateX = FloatField(default_value=0.0)
@@ -114,9 +110,7 @@ class RotateField(
     rotatez = rotateZ
 
 
-class ScalePlugOperator(
-    Float3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Float3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "scalex"),
@@ -134,9 +128,7 @@ class ScalePlugOperator(
     scalez = scaleZ
 
 
-class ScaleAttrOperator(
-    Float3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Float3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = FloatField(default_value=1.0)

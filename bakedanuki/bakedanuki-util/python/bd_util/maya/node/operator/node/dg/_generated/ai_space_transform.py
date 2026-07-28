@@ -38,9 +38,7 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
@@ -75,9 +73,7 @@ class From_EnumAttrOperator(EnumAttrOperator[From_EnumPlugOperator]):
     }
 
 
-class From_EnumField(
-    EnumField[From_EnumAttrOperator, From_EnumPlugOperator]
-):
+class From_EnumField(EnumField[From_EnumAttrOperator, From_EnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = From_EnumAttrOperator
@@ -112,9 +108,7 @@ class ToEnumAttrOperator(EnumAttrOperator[ToEnumPlugOperator]):
     }
 
 
-class ToEnumField(
-    EnumField[ToEnumAttrOperator, ToEnumPlugOperator]
-):
+class ToEnumField(EnumField[ToEnumAttrOperator, ToEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ToEnumAttrOperator
@@ -135,7 +129,9 @@ class GeneratedAiSpaceTransform(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -154,7 +150,9 @@ class GeneratedAiSpaceTransform(DG):
 
     type = TypeEnumField(default_value=0)
 
-    from_ = From_EnumField(default_value=0, long_name="from", short_name="from")
+    from_ = From_EnumField(
+        default_value=0, long_name="from", short_name="from"
+    )
 
     to = ToEnumField(default_value=0)
 
@@ -176,4 +174,6 @@ class GeneratedAiSpaceTransform(DG):
 
     normalize = BoolField(default_value=False)
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )

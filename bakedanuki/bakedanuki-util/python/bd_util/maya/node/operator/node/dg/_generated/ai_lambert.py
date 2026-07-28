@@ -29,7 +29,9 @@ class GeneratedAiLambert(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -56,7 +58,9 @@ class GeneratedAiLambert(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    Kd = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
+    Kd = FloatField(
+        default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0
+    )
 
     KdColor = KdColorField(default_value=(1.0, 1.0, 1.0))
     Kd_color = KdColor

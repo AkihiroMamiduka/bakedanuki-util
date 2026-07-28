@@ -7,8 +7,12 @@ import pytest
 def test_node_creator_uses_passed_modifier_manager(new_scene, maya_cmds):
     from bd_util.maya.node.creator import NodeCreator
     from bd_util.maya.node.modifier import ModifierManager
-    from bd_util.maya.node.operator.node.dg.multiply_divide import MultiplyDivide
-    from bd_util.maya.node.operator.node.dg.plus_minus_average import PlusMinusAverage
+    from bd_util.maya.node.operator.node.dg.multiply_divide import (
+        MultiplyDivide,
+    )
+    from bd_util.maya.node.operator.node.dg.plus_minus_average import (
+        PlusMinusAverage,
+    )
 
     modifier_manager = ModifierManager()
     node_creator = NodeCreator(modifier_manager=modifier_manager)
@@ -57,7 +61,9 @@ def test_node_creator_creates_modifier_manager(new_scene, maya_cmds):
     assert maya_cmds.objExists("auto_manager_pma")
 
 
-def test_node_creator_create_accepts_snake_and_maya_node_type(new_scene, maya_cmds):
+def test_node_creator_create_accepts_snake_and_maya_node_type(
+    new_scene, maya_cmds
+):
     from bd_util.maya.node.creator import NodeCreator
 
     node_creator = NodeCreator()
@@ -87,9 +93,9 @@ def test_node_creator_caches_creator_and_node_class(new_scene):
 
     assert node_creator.plusMinusAverage is creator
     assert node_creator.__dict__["plusMinusAverage"] is creator
-    assert node_creator.node_class("plus_minus_average") is node_creator.node_class(
-        "plusMinusAverage"
-    )
+    assert node_creator.node_class(
+        "plus_minus_average"
+    ) is node_creator.node_class("plusMinusAverage")
 
 
 def test_node_creator_available_node_names_for_completion(new_scene):

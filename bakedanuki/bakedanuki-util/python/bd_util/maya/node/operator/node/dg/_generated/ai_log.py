@@ -22,7 +22,9 @@ class GeneratedAiLog(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -39,7 +41,13 @@ class GeneratedAiLog(DG):
     inputB = input.inputB
     inputb = inputB
 
-    base = BaseField(default_value=(2.7182817459106445, 2.7182817459106445, 2.7182817459106445))
+    base = BaseField(
+        default_value=(
+            2.7182817459106445,
+            2.7182817459106445,
+            2.7182817459106445,
+        )
+    )
     baseR = base.baseR
     baser = baseR
     baseG = base.baseG

@@ -5,24 +5,20 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import Float2Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
+    Float2Field,
+)
 
 
-class CachedUVsPlugOperator(
-    CompoundPlugOperator["CachedUVsAttrOperator"]
-):
+class CachedUVsPlugOperator(CompoundPlugOperator["CachedUVsAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("uvPoints", "uvp"),
-    )
+    CHILD_ATTR_NAMES = (("uvPoints", "uvp"),)
 
     uvPoints = Float2Field(multi=True, default_value=(0.0, 0.0))
     uvp = uvPoints
 
 
-class CachedUVsAttrOperator(
-    CompoundAttrOperator[CachedUVsPlugOperator]
-):
+class CachedUVsAttrOperator(CompoundAttrOperator[CachedUVsPlugOperator]):
     __slots__ = ()
 
     uvPoints = Float2Field(multi=True, default_value=(0.0, 0.0))

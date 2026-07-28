@@ -8,11 +8,15 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class ConnectBreaksEnumPlugOperator(EnumPlugOperator["ConnectBreaksEnumAttrOperator"]):
+class ConnectBreaksEnumPlugOperator(
+    EnumPlugOperator["ConnectBreaksEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -20,7 +24,9 @@ class ConnectBreaksEnumPlugOperator(EnumPlugOperator["ConnectBreaksEnumAttrOpera
     LINEAR = 2
 
 
-class ConnectBreaksEnumAttrOperator(EnumAttrOperator[ConnectBreaksEnumPlugOperator]):
+class ConnectBreaksEnumAttrOperator(
+    EnumAttrOperator[ConnectBreaksEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -57,16 +63,27 @@ class GeneratedOffsetCos(DG):
     connectBreaks = ConnectBreaksEnumField(default_value=2)
     cb = connectBreaks
 
-    distance = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    distance = DoubleLinearField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     d = distance
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.001, soft_max_value=0.5)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=0.0001,
+        soft_min_value=0.001,
+        soft_max_value=0.5,
+    )
     tol = tolerance
 
-    subdivisionDensity = LongField(default_value=5, min_value=0, max_value=100, soft_max_value=10)
+    subdivisionDensity = LongField(
+        default_value=5, min_value=0, max_value=100, soft_max_value=10
+    )
     sd = subdivisionDensity
 
-    checkPoints = ShortField(default_value=3, min_value=1, max_value=100, soft_max_value=10)
+    checkPoints = ShortField(
+        default_value=3, min_value=1, max_value=100, soft_max_value=10
+    )
     cp = checkPoints
 
     stitch = BoolField(default_value=True)

@@ -28,9 +28,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -91,7 +89,9 @@ class AmplitudeColourAttrOperator(
 
 
 class AmplitudeColourField(
-    Float3CompoundBaseField[AmplitudeColourAttrOperator, AmplitudeColourPlugOperator]
+    Float3CompoundBaseField[
+        AmplitudeColourAttrOperator, AmplitudeColourPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -24,7 +24,11 @@ class GeneratedXgmModifierCollision(DG):
     mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    collisionDistance = FloatField(default_value=0.009999999776482582, min_value=0.0010000000474974513, max_value=10.0)
+    collisionDistance = FloatField(
+        default_value=0.009999999776482582,
+        min_value=0.0010000000474974513,
+        max_value=10.0,
+    )
     cd = collisionDistance
 
     meshSampling = LongField(default_value=5, min_value=3, max_value=20)

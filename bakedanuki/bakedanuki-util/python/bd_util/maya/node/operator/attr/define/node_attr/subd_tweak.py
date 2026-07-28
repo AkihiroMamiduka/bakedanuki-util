@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compou
 )
 
 
-class TweakPlugOperator(
-    Double3CompoundBasePlugOperator["TweakAttrOperator"]
-):
+class TweakPlugOperator(Double3CompoundBasePlugOperator["TweakAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("tweakX", "tx"),
@@ -28,9 +26,7 @@ class TweakPlugOperator(
     tz = tweakZ
 
 
-class TweakAttrOperator(
-    Double3CompoundBaseAttrOperator[TweakPlugOperator]
-):
+class TweakAttrOperator(Double3CompoundBaseAttrOperator[TweakPlugOperator]):
     __slots__ = ()
 
     tweakX = DoubleField(default_value=0.0)

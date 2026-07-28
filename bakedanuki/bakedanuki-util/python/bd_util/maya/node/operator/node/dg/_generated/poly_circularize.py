@@ -13,7 +13,9 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class NormalOrientationEnumPlugOperator(EnumPlugOperator["NormalOrientationEnumAttrOperator"]):
+class NormalOrientationEnumPlugOperator(
+    EnumPlugOperator["NormalOrientationEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -21,7 +23,9 @@ class NormalOrientationEnumPlugOperator(EnumPlugOperator["NormalOrientationEnumA
     EDGE_LOOP = 2
 
 
-class NormalOrientationEnumAttrOperator(EnumAttrOperator[NormalOrientationEnumPlugOperator]):
+class NormalOrientationEnumAttrOperator(
+    EnumAttrOperator[NormalOrientationEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -36,7 +40,9 @@ class NormalOrientationEnumAttrOperator(EnumAttrOperator[NormalOrientationEnumPl
 
 
 class NormalOrientationEnumField(
-    EnumField[NormalOrientationEnumAttrOperator, NormalOrientationEnumPlugOperator]
+    EnumField[
+        NormalOrientationEnumAttrOperator, NormalOrientationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -75,7 +81,9 @@ class AlignmentEnumField(
     PLUG_CLS = AlignmentEnumPlugOperator
 
 
-class SupportingEdgesEnumPlugOperator(EnumPlugOperator["SupportingEdgesEnumAttrOperator"]):
+class SupportingEdgesEnumPlugOperator(
+    EnumPlugOperator["SupportingEdgesEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +92,9 @@ class SupportingEdgesEnumPlugOperator(EnumPlugOperator["SupportingEdgesEnumAttrO
     BOTH_SIDES = 3
 
 
-class SupportingEdgesEnumAttrOperator(EnumAttrOperator[SupportingEdgesEnumPlugOperator]):
+class SupportingEdgesEnumAttrOperator(
+    EnumAttrOperator[SupportingEdgesEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -168,7 +178,9 @@ class GeneratedPolyCircularize(DG):
     radialOffset = FloatField(default_value=0.0)
     ro = radialOffset
 
-    smoothingAngle = FloatField(default_value=30.0, min_value=0.0, max_value=180.0)
+    smoothingAngle = FloatField(
+        default_value=30.0, min_value=0.0, max_value=180.0
+    )
     sa = smoothingAngle
 
     divisions = LongField(default_value=0, min_value=0)

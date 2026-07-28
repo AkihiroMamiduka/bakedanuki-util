@@ -26,7 +26,9 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._
 )
 
 
-class RenderModeEnumPlugOperator(EnumPlugOperator["RenderModeEnumAttrOperator"]):
+class RenderModeEnumPlugOperator(
+    EnumPlugOperator["RenderModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WIRE = 0
@@ -69,7 +71,9 @@ class RenderModeEnumField(
     PLUG_CLS = RenderModeEnumPlugOperator
 
 
-class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperator"]):
+class LightingModeEnumPlugOperator(
+    EnumPlugOperator["LightingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -79,7 +83,9 @@ class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperato
     FULL_AMBIENT = 4
 
 
-class LightingModeEnumAttrOperator(EnumAttrOperator[LightingModeEnumPlugOperator]):
+class LightingModeEnumAttrOperator(
+    EnumAttrOperator[LightingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT = 0
@@ -163,7 +169,9 @@ class BatchRenderControlsAttrOperator(
 
 
 class BatchRenderControlsField(
-    CompoundField[BatchRenderControlsAttrOperator, BatchRenderControlsPlugOperator]
+    CompoundField[
+        BatchRenderControlsAttrOperator, BatchRenderControlsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -278,7 +286,9 @@ class MotionBlurFadeTintAttrOperator(
 
 
 class MotionBlurFadeTintField(
-    Float3CompoundBaseField[MotionBlurFadeTintAttrOperator, MotionBlurFadeTintPlugOperator]
+    Float3CompoundBaseField[
+        MotionBlurFadeTintAttrOperator, MotionBlurFadeTintPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -304,10 +314,14 @@ class MotionBlurMultiframeChartSizePlugOperator(
         ("motionBlurMultiframeChartSizeY", "mbcsy"),
     )
 
-    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeX = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeY = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsy = motionBlurMultiframeChartSizeY
 
 
@@ -316,25 +330,36 @@ class MotionBlurMultiframeChartSizeAttrOperator(
 ):
     __slots__ = ()
 
-    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeX = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeY = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsy = motionBlurMultiframeChartSizeY
 
 
 class MotionBlurMultiframeChartSizeField(
-    Long2CompoundBaseField[MotionBlurMultiframeChartSizeAttrOperator, MotionBlurMultiframeChartSizePlugOperator]
+    Long2CompoundBaseField[
+        MotionBlurMultiframeChartSizeAttrOperator,
+        MotionBlurMultiframeChartSizePlugOperator,
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = MotionBlurMultiframeChartSizeAttrOperator
     PLUG_CLS = MotionBlurMultiframeChartSizePlugOperator
 
-    motionBlurMultiframeChartSizeX = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeX = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsx = motionBlurMultiframeChartSizeX
 
-    motionBlurMultiframeChartSizeY = LongField(default_value=256, min_value=1, max_value=4096)
+    motionBlurMultiframeChartSizeY = LongField(
+        default_value=256, min_value=1, max_value=4096
+    )
     mbcsy = motionBlurMultiframeChartSizeY
 
 
@@ -347,10 +372,14 @@ class MotionBlurAtlasSizePlugOperator(
         ("motionBlurAtlasSizeY", "mbasy"),
     )
 
-    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
+    motionBlurAtlasSizeX = LongField(
+        default_value=8, min_value=1, max_value=32
+    )
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
+    motionBlurAtlasSizeY = LongField(
+        default_value=4, min_value=1, max_value=32
+    )
     mbasy = motionBlurAtlasSizeY
 
 
@@ -359,25 +388,35 @@ class MotionBlurAtlasSizeAttrOperator(
 ):
     __slots__ = ()
 
-    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
+    motionBlurAtlasSizeX = LongField(
+        default_value=8, min_value=1, max_value=32
+    )
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
+    motionBlurAtlasSizeY = LongField(
+        default_value=4, min_value=1, max_value=32
+    )
     mbasy = motionBlurAtlasSizeY
 
 
 class MotionBlurAtlasSizeField(
-    Long2CompoundBaseField[MotionBlurAtlasSizeAttrOperator, MotionBlurAtlasSizePlugOperator]
+    Long2CompoundBaseField[
+        MotionBlurAtlasSizeAttrOperator, MotionBlurAtlasSizePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = MotionBlurAtlasSizeAttrOperator
     PLUG_CLS = MotionBlurAtlasSizePlugOperator
 
-    motionBlurAtlasSizeX = LongField(default_value=8, min_value=1, max_value=32)
+    motionBlurAtlasSizeX = LongField(
+        default_value=8, min_value=1, max_value=32
+    )
     mbasx = motionBlurAtlasSizeX
 
-    motionBlurAtlasSizeY = LongField(default_value=4, min_value=1, max_value=32)
+    motionBlurAtlasSizeY = LongField(
+        default_value=4, min_value=1, max_value=32
+    )
     mbasy = motionBlurAtlasSizeY
 
 
@@ -417,7 +456,9 @@ class QuadDrawOverrideColorAttrOperator(
 
 
 class QuadDrawOverrideColorField(
-    Float3CompoundBaseField[QuadDrawOverrideColorAttrOperator, QuadDrawOverrideColorPlugOperator]
+    Float3CompoundBaseField[
+        QuadDrawOverrideColorAttrOperator, QuadDrawOverrideColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -470,7 +511,9 @@ class CustomUVBorderColorAttrOperator(
 
 
 class CustomUVBorderColorField(
-    Float3CompoundBaseField[CustomUVBorderColorAttrOperator, CustomUVBorderColorPlugOperator]
+    Float3CompoundBaseField[
+        CustomUVBorderColorAttrOperator, CustomUVBorderColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

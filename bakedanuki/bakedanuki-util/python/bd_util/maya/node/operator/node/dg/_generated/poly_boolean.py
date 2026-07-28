@@ -8,14 +8,18 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"]):
+class MergeUVSetsEnumPlugOperator(
+    EnumPlugOperator["MergeUVSetsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -23,7 +27,9 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator[MergeUVSetsEnumPlugOperator]):
+class MergeUVSetsEnumAttrOperator(
+    EnumAttrOperator[MergeUVSetsEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -46,7 +52,9 @@ class MergeUVSetsEnumField(
     PLUG_CLS = MergeUVSetsEnumPlugOperator
 
 
-class NewInputOperationEnumPlugOperator(EnumPlugOperator["NewInputOperationEnumAttrOperator"]):
+class NewInputOperationEnumPlugOperator(
+    EnumPlugOperator["NewInputOperationEnumAttrOperator"]
+):
     __slots__ = ()
 
     UNION = 1
@@ -59,7 +67,9 @@ class NewInputOperationEnumPlugOperator(EnumPlugOperator["NewInputOperationEnumA
     SPLIT_EDGE = 8
 
 
-class NewInputOperationEnumAttrOperator(EnumAttrOperator[NewInputOperationEnumPlugOperator]):
+class NewInputOperationEnumAttrOperator(
+    EnumAttrOperator[NewInputOperationEnumPlugOperator]
+):
     __slots__ = ()
 
     UNION = 1
@@ -84,7 +94,9 @@ class NewInputOperationEnumAttrOperator(EnumAttrOperator[NewInputOperationEnumPl
 
 
 class NewInputOperationEnumField(
-    EnumField[NewInputOperationEnumAttrOperator, NewInputOperationEnumPlugOperator]
+    EnumField[
+        NewInputOperationEnumAttrOperator, NewInputOperationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -92,7 +104,9 @@ class NewInputOperationEnumField(
     PLUG_CLS = NewInputOperationEnumPlugOperator
 
 
-class NewInputDisplayEnumPlugOperator(EnumPlugOperator["NewInputDisplayEnumAttrOperator"]):
+class NewInputDisplayEnumPlugOperator(
+    EnumPlugOperator["NewInputDisplayEnumAttrOperator"]
+):
     __slots__ = ()
 
     WIREFRAME = 0
@@ -102,7 +116,9 @@ class NewInputDisplayEnumPlugOperator(EnumPlugOperator["NewInputDisplayEnumAttrO
     HIDDEN = 4
 
 
-class NewInputDisplayEnumAttrOperator(EnumAttrOperator[NewInputDisplayEnumPlugOperator]):
+class NewInputDisplayEnumAttrOperator(
+    EnumAttrOperator[NewInputDisplayEnumPlugOperator]
+):
     __slots__ = ()
 
     WIREFRAME = 0
@@ -129,7 +145,9 @@ class NewInputDisplayEnumField(
     PLUG_CLS = NewInputDisplayEnumPlugOperator
 
 
-class ClassificationEnumPlugOperator(EnumPlugOperator["ClassificationEnumAttrOperator"]):
+class ClassificationEnumPlugOperator(
+    EnumPlugOperator["ClassificationEnumAttrOperator"]
+):
     __slots__ = ()
 
     EDGE = 1
@@ -137,7 +155,9 @@ class ClassificationEnumPlugOperator(EnumPlugOperator["ClassificationEnumAttrOpe
     AUTO = 3
 
 
-class ClassificationEnumAttrOperator(EnumAttrOperator[ClassificationEnumPlugOperator]):
+class ClassificationEnumAttrOperator(
+    EnumAttrOperator[ClassificationEnumPlugOperator]
+):
     __slots__ = ()
 
     EDGE = 1
@@ -160,14 +180,18 @@ class ClassificationEnumField(
     PLUG_CLS = ClassificationEnumPlugOperator
 
 
-class GeometryModeEnumPlugOperator(EnumPlugOperator["GeometryModeEnumAttrOperator"]):
+class GeometryModeEnumPlugOperator(
+    EnumPlugOperator["GeometryModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MESH = 0
     OPENVDB = 1
 
 
-class GeometryModeEnumAttrOperator(EnumAttrOperator[GeometryModeEnumPlugOperator]):
+class GeometryModeEnumAttrOperator(
+    EnumAttrOperator[GeometryModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MESH = 0
@@ -265,7 +289,9 @@ class GeneratedPolyBoolean(DG):
     useThresholds = BoolField(default_value=False)
     uth = useThresholds
 
-    vertexDistanceThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
+    vertexDistanceThreshold = DoubleLinearField(
+        default_value=0.001, min_value=0.0, soft_max_value=1.0
+    )
     vdt = vertexDistanceThreshold
 
     maya2025 = BoolField(default_value=True)

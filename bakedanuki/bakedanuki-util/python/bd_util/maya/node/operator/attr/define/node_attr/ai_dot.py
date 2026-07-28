@@ -44,7 +44,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61,9 +63,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class Input1PlugOperator(
-    Float3CompoundBasePlugOperator["Input1AttrOperator"]
-):
+class Input1PlugOperator(Float3CompoundBasePlugOperator["Input1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input1X", "input1x"),
@@ -81,9 +81,7 @@ class Input1PlugOperator(
     input1z = input1Z
 
 
-class Input1AttrOperator(
-    Float3CompoundBaseAttrOperator[Input1PlugOperator]
-):
+class Input1AttrOperator(Float3CompoundBaseAttrOperator[Input1PlugOperator]):
     __slots__ = ()
 
     input1X = FloatField(default_value=1.0)
@@ -114,9 +112,7 @@ class Input1Field(
     input1z = input1Z
 
 
-class Input2PlugOperator(
-    Float3CompoundBasePlugOperator["Input2AttrOperator"]
-):
+class Input2PlugOperator(Float3CompoundBasePlugOperator["Input2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input2X", "input2x"),
@@ -134,9 +130,7 @@ class Input2PlugOperator(
     input2z = input2Z
 
 
-class Input2AttrOperator(
-    Float3CompoundBaseAttrOperator[Input2PlugOperator]
-):
+class Input2AttrOperator(Float3CompoundBaseAttrOperator[Input2PlugOperator]):
     __slots__ = ()
 
     input2X = FloatField(default_value=1.0)

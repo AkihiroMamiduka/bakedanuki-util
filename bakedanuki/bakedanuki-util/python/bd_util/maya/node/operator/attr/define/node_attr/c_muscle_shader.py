@@ -48,9 +48,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -85,14 +83,18 @@ class PushModeEnumField(
     PLUG_CLS = PushModeEnumPlugOperator
 
 
-class CombineModeEnumPlugOperator(EnumPlugOperator["CombineModeEnumAttrOperator"]):
+class CombineModeEnumPlugOperator(
+    EnumPlugOperator["CombineModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAX = 0
     ADD = 1
 
 
-class CombineModeEnumAttrOperator(EnumAttrOperator[CombineModeEnumPlugOperator]):
+class CombineModeEnumAttrOperator(
+    EnumAttrOperator[CombineModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MAX = 0
@@ -182,9 +184,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -324,7 +324,9 @@ class VertexUvThreeAttrOperator(
 
 
 class VertexUvThreeField(
-    Float2CompoundBaseField[VertexUvThreeAttrOperator, VertexUvThreePlugOperator]
+    Float2CompoundBaseField[
+        VertexUvThreeAttrOperator, VertexUvThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -338,9 +340,7 @@ class VertexUvThreeField(
     t3v = vertexUvThreeV
 
 
-class ImagePlugOperator(
-    Float3CompoundBasePlugOperator["ImageAttrOperator"]
-):
+class ImagePlugOperator(Float3CompoundBasePlugOperator["ImageAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("imageR", "ir"),
@@ -358,9 +358,7 @@ class ImagePlugOperator(
     ib = imageB
 
 
-class ImageAttrOperator(
-    Float3CompoundBaseAttrOperator[ImagePlugOperator]
-):
+class ImageAttrOperator(Float3CompoundBaseAttrOperator[ImagePlugOperator]):
     __slots__ = ()
 
     imageR = FloatField(default_value=0.0)
@@ -391,9 +389,7 @@ class ImageField(
     ib = imageB
 
 
-class DispDataPlugOperator(
-    CompoundPlugOperator["DispDataAttrOperator"]
-):
+class DispDataPlugOperator(CompoundPlugOperator["DispDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("muscleMatrix", "mm"),
@@ -439,9 +435,7 @@ class DispDataPlugOperator(
     sha = shader
 
 
-class DispDataAttrOperator(
-    CompoundAttrOperator[DispDataPlugOperator]
-):
+class DispDataAttrOperator(CompoundAttrOperator[DispDataPlugOperator]):
     __slots__ = ()
 
     muscleMatrix = MatrixField()
@@ -475,9 +469,7 @@ class DispDataAttrOperator(
     sha = shader
 
 
-class DispDataField(
-    CompoundField[DispDataAttrOperator, DispDataPlugOperator]
-):
+class DispDataField(CompoundField[DispDataAttrOperator, DispDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DispDataAttrOperator

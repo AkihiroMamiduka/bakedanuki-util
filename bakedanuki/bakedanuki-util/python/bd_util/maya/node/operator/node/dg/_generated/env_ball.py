@@ -31,7 +31,9 @@ class GeneratedEnvBall(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -96,7 +98,11 @@ class GeneratedEnvBall(DG):
     pointCameraZ = pointCamera.pointCameraZ
     pz = pointCameraZ
 
-    image = ImageField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    image = ImageField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     so = image
     imageR = image.imageR
     sor = imageR
@@ -105,13 +111,21 @@ class GeneratedEnvBall(DG):
     imageB = image.imageB
     sob = imageB
 
-    inclination = FloatField(default_value=0.0, min_value=0.0, max_value=3.141592653589793)
+    inclination = FloatField(
+        default_value=0.0, min_value=0.0, max_value=3.141592653589793
+    )
     i = inclination
 
-    elevation = FloatField(default_value=0.0, min_value=-1.5707963267948966, max_value=1.5707963267948966)
+    elevation = FloatField(
+        default_value=0.0,
+        min_value=-1.5707963267948966,
+        max_value=1.5707963267948966,
+    )
     e = elevation
 
-    skyRadius = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)
+    skyRadius = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=20.0
+    )
     sr = skyRadius
 
     bottom = FloatField(default_value=0.0, min_value=0.0, soft_max_value=20.0)

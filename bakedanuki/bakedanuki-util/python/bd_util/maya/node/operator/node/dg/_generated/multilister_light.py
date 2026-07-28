@@ -15,7 +15,9 @@ class GeneratedMultilisterLight(DG):
     inLightIntensity = FloatField(default_value=1.0, readable=False)
     ili = inLightIntensity
 
-    pointCamera = PointCameraField(default_value=(1.0, 1.0, 1.0), readable=False)
+    pointCamera = PointCameraField(
+        default_value=(1.0, 1.0, 1.0), readable=False
+    )
     p = pointCamera
     pointCameraX = pointCamera.pointCameraX
     px = pointCameraX

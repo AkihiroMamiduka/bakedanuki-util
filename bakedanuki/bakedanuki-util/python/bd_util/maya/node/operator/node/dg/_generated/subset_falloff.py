@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -32,9 +34,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -64,7 +64,12 @@ class GeneratedSubsetFalloff(DG):
     ramp = RampField(multi=True, default_value=(0.0, 0.0, 0.0))
     rmp = ramp
 
-    scale = DoubleLinearField(default_value=1.0, min_value=0.01, soft_min_value=0.0, soft_max_value=25.0)
+    scale = DoubleLinearField(
+        default_value=1.0,
+        min_value=0.01,
+        soft_min_value=0.0,
+        soft_max_value=25.0,
+    )
     scl = scale
 
     useOriginalGeometry = BoolField(default_value=True)

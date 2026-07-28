@@ -24,9 +24,7 @@ class UvTweakPlugOperator(
     tv = uvTweakV
 
 
-class UvTweakAttrOperator(
-    Float2CompoundBaseAttrOperator[UvTweakPlugOperator]
-):
+class UvTweakAttrOperator(Float2CompoundBaseAttrOperator[UvTweakPlugOperator]):
     __slots__ = ()
 
     uvTweakU = FloatField(default_value=0.0)

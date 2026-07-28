@@ -75,7 +75,11 @@ class GeneratedPolyCut(DG):
     cutPlaneRotateZ = cutPlaneRotate.cutPlaneRotateZ
     rz = cutPlaneRotateZ
 
-    cutPlaneSize = CutPlaneSizeField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
+    cutPlaneSize = CutPlaneSizeField(
+        default_value=(1.0, 1.0),
+        min_value=(0.0, 0.0),
+        soft_max_value=(2.0, 2.0),
+    )
     ps = cutPlaneSize
     cutPlaneWidth = cutPlaneSize.cutPlaneWidth
     pw = cutPlaneWidth

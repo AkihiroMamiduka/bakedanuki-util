@@ -17,10 +17,20 @@ class GeneratedFfBlendSrfObsolete(DG):
     rightCurve = DataNurbsCurveField(multi=True)
     rc = rightCurve
 
-    positionTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
+    positionTolerance = DoubleField(
+        default_value=0.1,
+        min_value=1e-05,
+        soft_min_value=0.0001,
+        soft_max_value=0.1,
+    )
     pt = positionTolerance
 
-    tangentTolerance = DoubleField(default_value=0.1, min_value=1e-05, soft_min_value=0.0001, soft_max_value=0.1)
+    tangentTolerance = DoubleField(
+        default_value=0.1,
+        min_value=1e-05,
+        soft_min_value=0.0001,
+        soft_max_value=0.1,
+    )
     tt = tangentTolerance
 
     flipLeft = BoolField(default_value=False)
@@ -38,10 +48,22 @@ class GeneratedFfBlendSrfObsolete(DG):
     rightRail = DataNurbsCurveField()
     rr = rightRail
 
-    leftParameter = DoubleField(default_value=123456.0, min_value=-123456.0, max_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0)
+    leftParameter = DoubleField(
+        default_value=123456.0,
+        min_value=-123456.0,
+        max_value=123456.0,
+        soft_min_value=-1.0,
+        soft_max_value=1.0,
+    )
     lp = leftParameter
 
-    rightParameter = DoubleField(default_value=123456.0, min_value=-123456.0, max_value=123456.0, soft_min_value=-1.0, soft_max_value=1.0)
+    rightParameter = DoubleField(
+        default_value=123456.0,
+        min_value=-123456.0,
+        max_value=123456.0,
+        soft_min_value=-1.0,
+        soft_max_value=1.0,
+    )
     rp = rightParameter
 
     outputSurface = DataNurbsSurfaceField(writable=False)

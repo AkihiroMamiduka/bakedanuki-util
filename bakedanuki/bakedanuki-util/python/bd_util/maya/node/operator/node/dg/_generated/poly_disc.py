@@ -7,11 +7,15 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SubdivisionModeEnumPlugOperator(EnumPlugOperator["SubdivisionModeEnumAttrOperator"]):
+class SubdivisionModeEnumPlugOperator(
+    EnumPlugOperator["SubdivisionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     QUADS = 0
@@ -21,7 +25,9 @@ class SubdivisionModeEnumPlugOperator(EnumPlugOperator["SubdivisionModeEnumAttrO
     CIRCLE = 4
 
 
-class SubdivisionModeEnumAttrOperator(EnumAttrOperator[SubdivisionModeEnumPlugOperator]):
+class SubdivisionModeEnumAttrOperator(
+    EnumAttrOperator[SubdivisionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     QUADS = 0
@@ -61,6 +67,10 @@ class GeneratedPolyDisc(DG):
 
     subdivisions = LongField(default_value=3, min_value=0, soft_max_value=6)
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.001, soft_max_value=100.0
+    )
 
-    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )

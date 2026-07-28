@@ -29,14 +29,22 @@ class GeneratedAiImagerColorCurves(DG):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    rampRGB = RampRGBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampRGB = RampRGBField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampRGB = rampRGB
 
-    rampR = RampRField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampR = RampRField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampR = rampR
 
-    rampG = RampGField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampG = RampGField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampG = rampG
 
-    rampB = RampBField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    rampB = RampBField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRampB = rampB

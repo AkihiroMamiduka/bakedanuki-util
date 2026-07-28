@@ -59,13 +59,19 @@ class GeneratedCrater(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -80,7 +86,11 @@ class GeneratedCrater(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -89,7 +99,11 @@ class GeneratedCrater(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -98,13 +112,21 @@ class GeneratedCrater(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -155,7 +177,11 @@ class GeneratedCrater(DG):
     shaker = FloatField(default_value=1.5, min_value=0.0, soft_max_value=20.0)
     sh = shaker
 
-    channel1 = Channel1Field(default_value=(1.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    channel1 = Channel1Field(
+        default_value=(1.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c1 = channel1
     channel1R = channel1.channel1R
     c1r = channel1R
@@ -164,7 +190,11 @@ class GeneratedCrater(DG):
     channel1B = channel1.channel1B
     c1b = channel1B
 
-    channel2 = Channel2Field(default_value=(0.0, 1.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    channel2 = Channel2Field(
+        default_value=(0.0, 1.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c2 = channel2
     channel2R = channel2.channel2R
     c2r = channel2R
@@ -173,7 +203,11 @@ class GeneratedCrater(DG):
     channel2B = channel2.channel2B
     c2b = channel2B
 
-    channel3 = Channel3Field(default_value=(0.0, 0.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    channel3 = Channel3Field(
+        default_value=(0.0, 0.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     c3 = channel3
     channel3R = channel3.channel3R
     c3r = channel3R
@@ -188,19 +222,27 @@ class GeneratedCrater(DG):
     balance = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     ba = balance
 
-    frequency = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
+    frequency = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=10.0
+    )
     fr = frequency
 
-    normDepth = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=10.0)
+    normDepth = FloatField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     nd = normDepth
 
     normMelt = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     nm = normMelt
 
-    normBalance = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    normBalance = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     nb = normBalance
 
-    normFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    normFrequency = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     nf = normFrequency
 
     outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)

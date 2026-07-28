@@ -25,7 +25,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class FalloffAffectsEnumPlugOperator(EnumPlugOperator["FalloffAffectsEnumAttrOperator"]):
+class FalloffAffectsEnumPlugOperator(
+    EnumPlugOperator["FalloffAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
     BLEND_ONLY = 2
 
 
-class FalloffAffectsEnumAttrOperator(EnumAttrOperator[FalloffAffectsEnumPlugOperator]):
+class FalloffAffectsEnumAttrOperator(
+    EnumAttrOperator[FalloffAffectsEnumPlugOperator]
+):
     __slots__ = ()
 
     ALL = 1
@@ -87,7 +95,9 @@ class FalloffAffectsEnumField(
     PLUG_CLS = FalloffAffectsEnumPlugOperator
 
 
-class MapAffectsEnumPlugOperator(EnumPlugOperator["MapAffectsEnumAttrOperator"]):
+class MapAffectsEnumPlugOperator(
+    EnumPlugOperator["MapAffectsEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 1
@@ -132,13 +142,21 @@ class GeneratedMASH_BlendDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -158,21 +176,29 @@ class GeneratedMASH_BlendDeformer(DG):
 
     blendMesh = DataMeshField()
 
-    smoothingIterations = LongField(default_value=0, min_value=0, max_value=100, soft_max_value=50)
+    smoothingIterations = LongField(
+        default_value=0, min_value=0, max_value=100, soft_max_value=50
+    )
 
     guideCurve = DataNurbsCurveField()
 
-    inflate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    inflate = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     blendValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     curveRamp = CurveRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    inflationRamp = InflationRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    inflationRamp = InflationRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
     blendRamp = BlendRampField(multi=True, default_value=(0.0, 0.0, 1.0))
 
-    smoothingRamp = SmoothingRampField(multi=True, default_value=(0.0, 0.0, 1.0))
+    smoothingRamp = SmoothingRampField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
 
     mColour = MColourField(default_value=(1.0, 1.0, 1.0))
     mc = mColour
@@ -196,9 +222,13 @@ class GeneratedMASH_BlendDeformer(DG):
     StepEnvelope = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
     StEnv = StepEnvelope
 
-    bilateralOne = FloatField(default_value=0.75, min_value=0.01, soft_max_value=1.0)
+    bilateralOne = FloatField(
+        default_value=0.75, min_value=0.01, soft_max_value=1.0
+    )
 
-    bilateralTwo = FloatField(default_value=0.10000000149011612, min_value=0.01, soft_max_value=1.0)
+    bilateralTwo = FloatField(
+        default_value=0.10000000149011612, min_value=0.01, soft_max_value=1.0
+    )
 
     falloffAffects = FalloffAffectsEnumField(default_value=1)
 

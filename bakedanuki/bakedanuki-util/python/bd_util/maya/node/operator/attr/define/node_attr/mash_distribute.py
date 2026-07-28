@@ -19,7 +19,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]):
+class ScaleRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["ScaleRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -28,7 +30,9 @@ class ScaleRamp_InterpEnumPlugOperator(EnumPlugOperator["ScaleRamp_InterpEnumAtt
     SPLINE = 3
 
 
-class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]):
+class ScaleRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[ScaleRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -45,7 +49,9 @@ class ScaleRamp_InterpEnumAttrOperator(EnumAttrOperator[ScaleRamp_InterpEnumPlug
 
 
 class ScaleRamp_InterpEnumField(
-    EnumField[ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator]
+    EnumField[
+        ScaleRamp_InterpEnumAttrOperator, ScaleRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53,7 +59,9 @@ class ScaleRamp_InterpEnumField(
     PLUG_CLS = ScaleRamp_InterpEnumPlugOperator
 
 
-class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator["RotationRamp_InterpEnumAttrOperator"]):
+class RotationRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["RotationRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -62,7 +70,9 @@ class RotationRamp_InterpEnumPlugOperator(EnumPlugOperator["RotationRamp_InterpE
     SPLINE = 3
 
 
-class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator[RotationRamp_InterpEnumPlugOperator]):
+class RotationRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[RotationRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -79,7 +89,10 @@ class RotationRamp_InterpEnumAttrOperator(EnumAttrOperator[RotationRamp_InterpEn
 
 
 class RotationRamp_InterpEnumField(
-    EnumField[RotationRamp_InterpEnumAttrOperator, RotationRamp_InterpEnumPlugOperator]
+    EnumField[
+        RotationRamp_InterpEnumAttrOperator,
+        RotationRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +100,9 @@ class RotationRamp_InterpEnumField(
     PLUG_CLS = RotationRamp_InterpEnumPlugOperator
 
 
-class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator["BiasRamp_InterpEnumAttrOperator"]):
+class BiasRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["BiasRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -96,7 +111,9 @@ class BiasRamp_InterpEnumPlugOperator(EnumPlugOperator["BiasRamp_InterpEnumAttrO
     SPLINE = 3
 
 
-class BiasRamp_InterpEnumAttrOperator(EnumAttrOperator[BiasRamp_InterpEnumPlugOperator]):
+class BiasRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[BiasRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -121,7 +138,9 @@ class BiasRamp_InterpEnumField(
     PLUG_CLS = BiasRamp_InterpEnumPlugOperator
 
 
-class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator["BiasRampX_InterpEnumAttrOperator"]):
+class BiasRampX_InterpEnumPlugOperator(
+    EnumPlugOperator["BiasRampX_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -130,7 +149,9 @@ class BiasRampX_InterpEnumPlugOperator(EnumPlugOperator["BiasRampX_InterpEnumAtt
     SPLINE = 3
 
 
-class BiasRampX_InterpEnumAttrOperator(EnumAttrOperator[BiasRampX_InterpEnumPlugOperator]):
+class BiasRampX_InterpEnumAttrOperator(
+    EnumAttrOperator[BiasRampX_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -147,7 +168,9 @@ class BiasRampX_InterpEnumAttrOperator(EnumAttrOperator[BiasRampX_InterpEnumPlug
 
 
 class BiasRampX_InterpEnumField(
-    EnumField[BiasRampX_InterpEnumAttrOperator, BiasRampX_InterpEnumPlugOperator]
+    EnumField[
+        BiasRampX_InterpEnumAttrOperator, BiasRampX_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -155,7 +178,9 @@ class BiasRampX_InterpEnumField(
     PLUG_CLS = BiasRampX_InterpEnumPlugOperator
 
 
-class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator["BiasRampY_InterpEnumAttrOperator"]):
+class BiasRampY_InterpEnumPlugOperator(
+    EnumPlugOperator["BiasRampY_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -164,7 +189,9 @@ class BiasRampY_InterpEnumPlugOperator(EnumPlugOperator["BiasRampY_InterpEnumAtt
     SPLINE = 3
 
 
-class BiasRampY_InterpEnumAttrOperator(EnumAttrOperator[BiasRampY_InterpEnumPlugOperator]):
+class BiasRampY_InterpEnumAttrOperator(
+    EnumAttrOperator[BiasRampY_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -181,7 +208,9 @@ class BiasRampY_InterpEnumAttrOperator(EnumAttrOperator[BiasRampY_InterpEnumPlug
 
 
 class BiasRampY_InterpEnumField(
-    EnumField[BiasRampY_InterpEnumAttrOperator, BiasRampY_InterpEnumPlugOperator]
+    EnumField[
+        BiasRampY_InterpEnumAttrOperator, BiasRampY_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -189,7 +218,9 @@ class BiasRampY_InterpEnumField(
     PLUG_CLS = BiasRampY_InterpEnumPlugOperator
 
 
-class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator["BiasRampZ_InterpEnumAttrOperator"]):
+class BiasRampZ_InterpEnumPlugOperator(
+    EnumPlugOperator["BiasRampZ_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -198,7 +229,9 @@ class BiasRampZ_InterpEnumPlugOperator(EnumPlugOperator["BiasRampZ_InterpEnumAtt
     SPLINE = 3
 
 
-class BiasRampZ_InterpEnumAttrOperator(EnumAttrOperator[BiasRampZ_InterpEnumPlugOperator]):
+class BiasRampZ_InterpEnumAttrOperator(
+    EnumAttrOperator[BiasRampZ_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -215,7 +248,9 @@ class BiasRampZ_InterpEnumAttrOperator(EnumAttrOperator[BiasRampZ_InterpEnumPlug
 
 
 class BiasRampZ_InterpEnumField(
-    EnumField[BiasRampZ_InterpEnumAttrOperator, BiasRampZ_InterpEnumPlugOperator]
+    EnumField[
+        BiasRampZ_InterpEnumAttrOperator, BiasRampZ_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -243,9 +278,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -563,7 +596,9 @@ class ForwardVectorAttrOperator(
 
 
 class ForwardVectorField(
-    Float3CompoundBaseField[ForwardVectorAttrOperator, ForwardVectorPlugOperator]
+    Float3CompoundBaseField[
+        ForwardVectorAttrOperator, ForwardVectorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -613,7 +648,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -630,9 +667,7 @@ class FalloffObjectField(
     fallObjz = falloffObjectZ
 
 
-class ScaleRampPlugOperator(
-    CompoundPlugOperator["ScaleRampAttrOperator"]
-):
+class ScaleRampPlugOperator(CompoundPlugOperator["ScaleRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleRamp_Position", "scaleRampp"),
@@ -650,9 +685,7 @@ class ScaleRampPlugOperator(
     scaleRampi = scaleRamp_Interp
 
 
-class ScaleRampAttrOperator(
-    CompoundAttrOperator[ScaleRampPlugOperator]
-):
+class ScaleRampAttrOperator(CompoundAttrOperator[ScaleRampPlugOperator]):
     __slots__ = ()
 
     scaleRamp_Position = FloatField(default_value=0.0)
@@ -694,9 +727,7 @@ class RotationRampPlugOperator(
     rotationRampi = rotationRamp_Interp
 
 
-class RotationRampAttrOperator(
-    CompoundAttrOperator[RotationRampPlugOperator]
-):
+class RotationRampAttrOperator(CompoundAttrOperator[RotationRampPlugOperator]):
     __slots__ = ()
 
     rotationRamp_Position = FloatField(default_value=0.0)
@@ -718,9 +749,7 @@ class RotationRampField(
     PLUG_CLS = RotationRampPlugOperator
 
 
-class BiasRampPlugOperator(
-    CompoundPlugOperator["BiasRampAttrOperator"]
-):
+class BiasRampPlugOperator(CompoundPlugOperator["BiasRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("biasRamp_Position", "bRmpp"),
@@ -738,9 +767,7 @@ class BiasRampPlugOperator(
     bRmpi = biasRamp_Interp
 
 
-class BiasRampAttrOperator(
-    CompoundAttrOperator[BiasRampPlugOperator]
-):
+class BiasRampAttrOperator(CompoundAttrOperator[BiasRampPlugOperator]):
     __slots__ = ()
 
     biasRamp_Position = FloatField(default_value=0.0)
@@ -753,18 +780,14 @@ class BiasRampAttrOperator(
     bRmpi = biasRamp_Interp
 
 
-class BiasRampField(
-    CompoundField[BiasRampAttrOperator, BiasRampPlugOperator]
-):
+class BiasRampField(CompoundField[BiasRampAttrOperator, BiasRampPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BiasRampAttrOperator
     PLUG_CLS = BiasRampPlugOperator
 
 
-class BiasRampXPlugOperator(
-    CompoundPlugOperator["BiasRampXAttrOperator"]
-):
+class BiasRampXPlugOperator(CompoundPlugOperator["BiasRampXAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("biasRampX_Position", "bRmpXp"),
@@ -782,9 +805,7 @@ class BiasRampXPlugOperator(
     bRmpXi = biasRampX_Interp
 
 
-class BiasRampXAttrOperator(
-    CompoundAttrOperator[BiasRampXPlugOperator]
-):
+class BiasRampXAttrOperator(CompoundAttrOperator[BiasRampXPlugOperator]):
     __slots__ = ()
 
     biasRampX_Position = FloatField(default_value=0.0)
@@ -806,9 +827,7 @@ class BiasRampXField(
     PLUG_CLS = BiasRampXPlugOperator
 
 
-class BiasRampYPlugOperator(
-    CompoundPlugOperator["BiasRampYAttrOperator"]
-):
+class BiasRampYPlugOperator(CompoundPlugOperator["BiasRampYAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("biasRampY_Position", "bRmpYp"),
@@ -826,9 +845,7 @@ class BiasRampYPlugOperator(
     bRmpYi = biasRampY_Interp
 
 
-class BiasRampYAttrOperator(
-    CompoundAttrOperator[BiasRampYPlugOperator]
-):
+class BiasRampYAttrOperator(CompoundAttrOperator[BiasRampYPlugOperator]):
     __slots__ = ()
 
     biasRampY_Position = FloatField(default_value=0.0)
@@ -850,9 +867,7 @@ class BiasRampYField(
     PLUG_CLS = BiasRampYPlugOperator
 
 
-class BiasRampZPlugOperator(
-    CompoundPlugOperator["BiasRampZAttrOperator"]
-):
+class BiasRampZPlugOperator(CompoundPlugOperator["BiasRampZAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("biasRampZ_Position", "bRmpZp"),
@@ -870,9 +885,7 @@ class BiasRampZPlugOperator(
     bRmpZi = biasRampZ_Interp
 
 
-class BiasRampZAttrOperator(
-    CompoundAttrOperator[BiasRampZPlugOperator]
-):
+class BiasRampZAttrOperator(CompoundAttrOperator[BiasRampZPlugOperator]):
     __slots__ = ()
 
     biasRampZ_Position = FloatField(default_value=0.0)

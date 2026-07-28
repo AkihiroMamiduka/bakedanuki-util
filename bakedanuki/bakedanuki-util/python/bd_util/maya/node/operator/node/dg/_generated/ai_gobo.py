@@ -14,7 +14,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class FilterModeEnumPlugOperator(EnumPlugOperator["FilterModeEnumAttrOperator"]):
+class FilterModeEnumPlugOperator(
+    EnumPlugOperator["FilterModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND = 0
@@ -79,9 +81,7 @@ class SwrapEnumAttrOperator(EnumAttrOperator[SwrapEnumPlugOperator]):
     }
 
 
-class SwrapEnumField(
-    EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]
-):
+class SwrapEnumField(EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SwrapEnumAttrOperator
@@ -116,9 +116,7 @@ class TwrapEnumAttrOperator(EnumAttrOperator[TwrapEnumPlugOperator]):
     }
 
 
-class TwrapEnumField(
-    EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]
-):
+class TwrapEnumField(EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TwrapEnumAttrOperator
@@ -139,7 +137,9 @@ class GeneratedAiGobo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -156,7 +156,9 @@ class GeneratedAiGobo(DG):
     slidemapB = slidemap.slidemapB
     slidemapb = slidemapB
 
-    rotate = FloatField(multi=True, default_value=0.0, min_value=0.0, max_value=360.0)
+    rotate = FloatField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=360.0
+    )
 
     offset = OffsetField(default_value=(0.0, 0.0))
     offsetX = offset.offsetX
@@ -173,6 +175,10 @@ class GeneratedAiGobo(DG):
 
     twrap = TwrapEnumField(default_value=2)
 
-    sscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)
+    sscale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1000.0
+    )
 
-    tscale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1000.0)
+    tscale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1000.0
+    )

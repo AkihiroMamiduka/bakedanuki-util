@@ -114,13 +114,21 @@ class GeneratedCMuscleStretch(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -159,7 +167,9 @@ class GeneratedCMuscleStretch(DG):
     SCALING = SCALINGEnumField(default_value=0)
     SCL = SCALING
 
-    manualSquish = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    manualSquish = DoubleField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     mans = manualSquish
 
     maxStretch = DoubleField(default_value=2.0, min_value=1.0)
@@ -195,22 +205,34 @@ class GeneratedCMuscleStretch(DG):
     WEIGHTING = WEIGHTINGEnumField(default_value=0)
     WTNG = WEIGHTING
 
-    innerFalloffStart = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffStart = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ifs = innerFalloffStart
 
-    innerFalloffMid = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffMid = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ifm = innerFalloffMid
 
-    innerFalloffEnd = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    innerFalloffEnd = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     ife = innerFalloffEnd
 
-    outerFalloffStart = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffStart = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofs = outerFalloffStart
 
-    outerFalloffMid = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffMid = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofm = outerFalloffMid
 
-    outerFalloffEnd = DoubleField(default_value=0.9, min_value=0.0, max_value=1.0)
+    outerFalloffEnd = DoubleField(
+        default_value=0.9, min_value=0.0, max_value=1.0
+    )
     ofe = outerFalloffEnd
 
     weightStart = DoubleField(default_value=1.0, min_value=0.0)
@@ -258,10 +280,14 @@ class GeneratedCMuscleStretch(DG):
     restEnd = LongField(default_value=24, min_value=0)
     re = restEnd
 
-    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnSquash = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnStretch = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpst = dampenOnStretch
 
     forceStart = ForceStartField(multi=True, default_value=(0.0, 0.0, 0.0))

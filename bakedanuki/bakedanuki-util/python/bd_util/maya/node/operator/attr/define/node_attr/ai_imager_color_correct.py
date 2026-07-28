@@ -203,7 +203,9 @@ class ShadowsOffsetAttrOperator(
 
 
 class ShadowsOffsetField(
-    Float3CompoundBaseField[ShadowsOffsetAttrOperator, ShadowsOffsetPlugOperator]
+    Float3CompoundBaseField[
+        ShadowsOffsetAttrOperator, ShadowsOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +311,9 @@ class MidtonesOffsetAttrOperator(
 
 
 class MidtonesOffsetField(
-    Float3CompoundBaseField[MidtonesOffsetAttrOperator, MidtonesOffsetPlugOperator]
+    Float3CompoundBaseField[
+        MidtonesOffsetAttrOperator, MidtonesOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -362,7 +366,9 @@ class HighlightsGainAttrOperator(
 
 
 class HighlightsGainField(
-    Float3CompoundBaseField[HighlightsGainAttrOperator, HighlightsGainPlugOperator]
+    Float3CompoundBaseField[
+        HighlightsGainAttrOperator, HighlightsGainPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +421,9 @@ class HighlightsOffsetAttrOperator(
 
 
 class HighlightsOffsetField(
-    Float3CompoundBaseField[HighlightsOffsetAttrOperator, HighlightsOffsetPlugOperator]
+    Float3CompoundBaseField[
+        HighlightsOffsetAttrOperator, HighlightsOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 

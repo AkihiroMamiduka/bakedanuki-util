@@ -21,14 +21,18 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SOLID_MATTE = 1
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     SOLID_MATTE = 1
@@ -41,7 +45,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlug
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -72,7 +78,9 @@ class GeneratedUseBackground(DG):
     rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
+    rayDirection = RayDirectionField(
+        default_value=(0.0, 0.0, 1.0), readable=False
+    )
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -90,7 +98,9 @@ class GeneratedUseBackground(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -141,7 +151,9 @@ class GeneratedUseBackground(DG):
     shadowMask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     sm = shadowMask
 
-    reflectionLimit = ShortField(default_value=2, min_value=0, soft_max_value=10)
+    reflectionLimit = ShortField(
+        default_value=2, min_value=0, soft_max_value=10
+    )
     fll = reflectionLimit
 
     specularColor = SpecularColorField(default_value=(0.5, 0.5, 0.5))
@@ -153,16 +165,22 @@ class GeneratedUseBackground(DG):
     specularColorB = specularColor.specularColorB
     sb = specularColorB
 
-    reflectivity = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    reflectivity = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     rfl = reflectivity
 
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR

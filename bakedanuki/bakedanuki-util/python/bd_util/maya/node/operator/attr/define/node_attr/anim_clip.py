@@ -44,7 +44,9 @@ class WorldStartPositionAttrOperator(
 
 
 class WorldStartPositionField(
-    CompoundField[WorldStartPositionAttrOperator, WorldStartPositionPlugOperator]
+    CompoundField[
+        WorldStartPositionAttrOperator, WorldStartPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class LocalStartPositionAttrOperator(
 
 
 class LocalStartPositionField(
-    CompoundField[LocalStartPositionAttrOperator, LocalStartPositionPlugOperator]
+    CompoundField[
+        LocalStartPositionAttrOperator, LocalStartPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

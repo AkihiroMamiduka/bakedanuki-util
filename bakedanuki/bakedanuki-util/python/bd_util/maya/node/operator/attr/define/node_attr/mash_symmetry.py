@@ -34,9 +34,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -213,7 +211,9 @@ class CentreOfSymmetryAttrOperator(
 
 
 class CentreOfSymmetryField(
-    Float3CompoundBaseField[CentreOfSymmetryAttrOperator, CentreOfSymmetryPlugOperator]
+    Float3CompoundBaseField[
+        CentreOfSymmetryAttrOperator, CentreOfSymmetryPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -257,7 +257,9 @@ class ReflectionVectorAttrOperator(
 
 
 class ReflectionVectorField(
-    Float3CompoundBaseField[ReflectionVectorAttrOperator, ReflectionVectorPlugOperator]
+    Float3CompoundBaseField[
+        ReflectionVectorAttrOperator, ReflectionVectorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -301,7 +303,9 @@ class OffsetPositionAttrOperator(
 
 
 class OffsetPositionField(
-    Float3CompoundBaseField[OffsetPositionAttrOperator, OffsetPositionPlugOperator]
+    Float3CompoundBaseField[
+        OffsetPositionAttrOperator, OffsetPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -351,7 +355,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 

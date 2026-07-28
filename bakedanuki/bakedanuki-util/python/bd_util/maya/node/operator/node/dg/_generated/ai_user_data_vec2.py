@@ -20,7 +20,9 @@ class GeneratedAiUserDataVec2(DG):
     outValueY = outValue.outValueY
     outy = outValueY
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

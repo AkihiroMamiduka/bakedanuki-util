@@ -29,7 +29,9 @@ from ....attr.define.std.dt.string_array import DataStringArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class AlignmentModeEnumPlugOperator(EnumPlugOperator["AlignmentModeEnumAttrOperator"]):
+class AlignmentModeEnumPlugOperator(
+    EnumPlugOperator["AlignmentModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEFT = 1
@@ -37,7 +39,9 @@ class AlignmentModeEnumPlugOperator(EnumPlugOperator["AlignmentModeEnumAttrOpera
     RIGHT = 3
 
 
-class AlignmentModeEnumAttrOperator(EnumAttrOperator[AlignmentModeEnumPlugOperator]):
+class AlignmentModeEnumAttrOperator(
+    EnumAttrOperator[AlignmentModeEnumPlugOperator]
+):
     __slots__ = ()
 
     LEFT = 1
@@ -100,7 +104,9 @@ class GeneratorEnumField(
     PLUG_CLS = GeneratorEnumPlugOperator
 
 
-class RandomizerModeEnumPlugOperator(EnumPlugOperator["RandomizerModeEnumAttrOperator"]):
+class RandomizerModeEnumPlugOperator(
+    EnumPlugOperator["RandomizerModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALPHANUMERIC = 0
@@ -109,7 +115,9 @@ class RandomizerModeEnumPlugOperator(EnumPlugOperator["RandomizerModeEnumAttrOpe
     INPUT_TEXT = 3
 
 
-class RandomizerModeEnumAttrOperator(EnumAttrOperator[RandomizerModeEnumPlugOperator]):
+class RandomizerModeEnumAttrOperator(
+    EnumAttrOperator[RandomizerModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ALPHANUMERIC = 0
@@ -178,11 +186,19 @@ class GeneratedType(DG):
 
     manipulatorTransforms = ManipulatorTransformsField()
     manipulatorPositionsPP = manipulatorTransforms.manipulatorPositionsPP
-    manipulatorWordPositionsPP = manipulatorTransforms.manipulatorWordPositionsPP
-    manipulatorLinePositionsPP = manipulatorTransforms.manipulatorLinePositionsPP
+    manipulatorWordPositionsPP = (
+        manipulatorTransforms.manipulatorWordPositionsPP
+    )
+    manipulatorLinePositionsPP = (
+        manipulatorTransforms.manipulatorLinePositionsPP
+    )
     manipulatorRotationsPP = manipulatorTransforms.manipulatorRotationsPP
-    manipulatorWordRotationsPP = manipulatorTransforms.manipulatorWordRotationsPP
-    manipulatorLineRotationsPP = manipulatorTransforms.manipulatorLineRotationsPP
+    manipulatorWordRotationsPP = (
+        manipulatorTransforms.manipulatorWordRotationsPP
+    )
+    manipulatorLineRotationsPP = (
+        manipulatorTransforms.manipulatorLineRotationsPP
+    )
     manipulatorScalesPP = manipulatorTransforms.manipulatorScalesPP
     manipulatorWordScalesPP = manipulatorTransforms.manipulatorWordScalesPP
     manipulatorLineScalesPP = manipulatorTransforms.manipulatorLineScalesPP
@@ -193,17 +209,29 @@ class GeneratedType(DG):
     alignmentAdjustments = manipulatorTransforms.alignmentAdjustments
     manipulatorMode = manipulatorTransforms.manipulatorMode
 
-    fontSize = FloatField(default_value=20.0, soft_min_value=0.1, soft_max_value=100.0)
+    fontSize = FloatField(
+        default_value=20.0, soft_min_value=0.1, soft_max_value=100.0
+    )
 
-    kerningScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    kerningScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    spaceWidthScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    spaceWidthScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    tracking = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    tracking = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
-    leadingScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    leadingScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    curveResolution = LongField(default_value=4, min_value=1, max_value=100, soft_max_value=10)
+    curveResolution = LongField(
+        default_value=4, min_value=1, max_value=100, soft_max_value=10
+    )
 
     alignmentMode = AlignmentModeEnumField(default_value=1)
 
@@ -224,13 +252,20 @@ class GeneratedType(DG):
 
     enableDistanceFilter = BoolField(default_value=False)
 
-    pointDistanceFilter = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=5.0)
+    pointDistanceFilter = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, soft_max_value=5.0
+    )
 
     setParity = BoolField(default_value=False)
 
     removeColinear = BoolField(default_value=False)
 
-    colinearAngle = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=40.0, soft_max_value=5.0)
+    colinearAngle = FloatField(
+        default_value=0.20000000298023224,
+        min_value=0.0,
+        max_value=40.0,
+        soft_max_value=5.0,
+    )
 
     animationPosition = AnimationPositionField(default_value=(0.0, 0.0, 0.0))
     animationPositionX = animationPosition.animationPositionX
@@ -253,9 +288,16 @@ class GeneratedType(DG):
 
     preTLDecompose = BoolField(default_value=False)
 
-    maxDivisions = LongField(default_value=20, min_value=1, max_value=100, soft_max_value=30)
+    maxDivisions = LongField(
+        default_value=20, min_value=1, max_value=100, soft_max_value=30
+    )
 
-    maxEdgeLength = FloatField(default_value=5.0, min_value=0.01, soft_min_value=0.1, soft_max_value=15.0)
+    maxEdgeLength = FloatField(
+        default_value=5.0,
+        min_value=0.01,
+        soft_min_value=0.1,
+        soft_max_value=15.0,
+    )
 
     vectorMessages = VectorMessagesField()
     typeMessages = vectorMessages

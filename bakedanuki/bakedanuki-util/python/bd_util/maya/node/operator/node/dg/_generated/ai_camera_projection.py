@@ -18,7 +18,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -66,7 +68,9 @@ class GeneratedAiCameraProjection(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -75,7 +79,9 @@ class GeneratedAiCameraProjection(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    projectionColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    projectionColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     projection_colora = projectionColorA
 
     projectionColor = ProjectionColorField(default_value=(1.0, 1.0, 1.0))
@@ -87,7 +93,9 @@ class GeneratedAiCameraProjection(DG):
     projectionColorB = projectionColor.projectionColorB
     projection_colorb = projectionColorB
 
-    offscreenColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    offscreenColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     offscreen_colora = offscreenColorA
 
     offscreenColor = OffscreenColorField(default_value=(0.0, 0.0, 0.0))
@@ -99,11 +107,17 @@ class GeneratedAiCameraProjection(DG):
     offscreenColorB = offscreenColor.offscreenColorB
     offscreen_colorb = offscreenColorB
 
-    mask = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
+    mask = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0, soft_max_value=1.0
+    )
 
     camera = MessageField()
 
-    aspectRatio = FloatField(default_value=1.3329999446868896, min_value=9.999999747378752e-05, soft_max_value=3.0)
+    aspectRatio = FloatField(
+        default_value=1.3329999446868896,
+        min_value=9.999999747378752e-05,
+        soft_max_value=3.0,
+    )
     aspect_ratio = aspectRatio
 
     frontFacing = BoolField(default_value=True)

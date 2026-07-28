@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.result_curve_time_to_angular import GeneratedResultCurveTimeToAngular
+from ._generated.result_curve_time_to_angular import (
+    GeneratedResultCurveTimeToAngular,
+)
 
 
 class ResultCurveTimeToAngular(GeneratedResultCurveTimeToAngular):

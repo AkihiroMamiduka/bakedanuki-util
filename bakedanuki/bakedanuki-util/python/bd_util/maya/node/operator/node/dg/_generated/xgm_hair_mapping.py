@@ -66,7 +66,9 @@ class GeneratedXgmHairMapping(DG):
     outV = outUV.outV
     ov = outV
 
-    outUvFilterSize = OutUvFilterSizeField(default_value=(0.0, 0.0), writable=False)
+    outUvFilterSize = OutUvFilterSizeField(
+        default_value=(0.0, 0.0), writable=False
+    )
     ofs = outUvFilterSize
     outUvFilterSizeX = outUvFilterSize.outUvFilterSizeX
     ofsx = outUvFilterSizeX

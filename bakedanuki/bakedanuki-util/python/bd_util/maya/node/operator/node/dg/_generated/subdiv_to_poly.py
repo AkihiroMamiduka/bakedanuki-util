@@ -49,7 +49,9 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class PolygonTypeEnumPlugOperator(EnumPlugOperator["PolygonTypeEnumAttrOperator"]):
+class PolygonTypeEnumPlugOperator(
+    EnumPlugOperator["PolygonTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -57,7 +59,9 @@ class PolygonTypeEnumPlugOperator(EnumPlugOperator["PolygonTypeEnumAttrOperator"
     POLYGONS = 2
 
 
-class PolygonTypeEnumAttrOperator(EnumAttrOperator[PolygonTypeEnumPlugOperator]):
+class PolygonTypeEnumAttrOperator(
+    EnumAttrOperator[PolygonTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -100,10 +104,22 @@ class GeneratedSubdivToPoly(DG):
     extractPointPosition = BoolField(default_value=False)
     epp = extractPointPosition
 
-    sampleCount = LongField(default_value=1, min_value=1, max_value=20, soft_min_value=1, soft_max_value=12)
+    sampleCount = LongField(
+        default_value=1,
+        min_value=1,
+        max_value=20,
+        soft_min_value=1,
+        soft_max_value=12,
+    )
     sc = sampleCount
 
-    depth = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
+    depth = LongField(
+        default_value=0,
+        min_value=0,
+        max_value=12,
+        soft_min_value=0,
+        soft_max_value=12,
+    )
     d = depth
 
     maxPolys = LongField(default_value=0, min_value=0)
@@ -118,7 +134,13 @@ class GeneratedSubdivToPoly(DG):
     shareUVs = BoolField(default_value=False)
     suv = shareUVs
 
-    level = LongField(default_value=0, min_value=0, max_value=12, soft_min_value=0, soft_max_value=12)
+    level = LongField(
+        default_value=0,
+        min_value=0,
+        max_value=12,
+        soft_min_value=0,
+        soft_max_value=12,
+    )
     l = level
 
     convertComp = BoolField(default_value=False)

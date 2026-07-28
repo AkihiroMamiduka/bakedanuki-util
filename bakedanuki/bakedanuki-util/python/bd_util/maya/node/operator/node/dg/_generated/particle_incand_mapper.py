@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.particle_incand_mapper import ParticleIncandescenceField
+from ....attr.define.node_attr.particle_incand_mapper import (
+    ParticleIncandescenceField,
+)
 
 
 class GeneratedParticleIncandMapper(DG):
@@ -8,7 +10,9 @@ class GeneratedParticleIncandMapper(DG):
 
     NODE_TYPE = "particleIncandMapper"
 
-    particleIncandescence = ParticleIncandescenceField(default_value=(0.0, 0.0, 0.0))
+    particleIncandescence = ParticleIncandescenceField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     pi = particleIncandescence
     particleIncandescenceR = particleIncandescence.particleIncandescenceR
     pir = particleIncandescenceR

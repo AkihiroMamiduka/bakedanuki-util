@@ -14,7 +14,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class DisplacementModeEnumPlugOperator(EnumPlugOperator["DisplacementModeEnumAttrOperator"]):
+class DisplacementModeEnumPlugOperator(
+    EnumPlugOperator["DisplacementModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -23,7 +25,9 @@ class DisplacementModeEnumPlugOperator(EnumPlugOperator["DisplacementModeEnumAtt
     VECTOR_WORLD_SPACE = 3
 
 
-class DisplacementModeEnumAttrOperator(EnumAttrOperator[DisplacementModeEnumPlugOperator]):
+class DisplacementModeEnumAttrOperator(
+    EnumAttrOperator[DisplacementModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -40,7 +44,9 @@ class DisplacementModeEnumAttrOperator(EnumAttrOperator[DisplacementModeEnumPlug
 
 
 class DisplacementModeEnumField(
-    EnumField[DisplacementModeEnumAttrOperator, DisplacementModeEnumPlugOperator]
+    EnumField[
+        DisplacementModeEnumAttrOperator, DisplacementModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,14 +54,18 @@ class DisplacementModeEnumField(
     PLUG_CLS = DisplacementModeEnumPlugOperator
 
 
-class VectorEncodingEnumPlugOperator(EnumPlugOperator["VectorEncodingEnumAttrOperator"]):
+class VectorEncodingEnumPlugOperator(
+    EnumPlugOperator["VectorEncodingEnumAttrOperator"]
+):
     __slots__ = ()
 
     FLOATING_MINUS_POINT_ABSOLUTE = 0
     SIGNED_ENCODING = 1
 
 
-class VectorEncodingEnumAttrOperator(EnumAttrOperator[VectorEncodingEnumPlugOperator]):
+class VectorEncodingEnumAttrOperator(
+    EnumAttrOperator[VectorEncodingEnumPlugOperator]
+):
     __slots__ = ()
 
     FLOATING_MINUS_POINT_ABSOLUTE = 0
@@ -76,7 +86,9 @@ class VectorEncodingEnumField(
     PLUG_CLS = VectorEncodingEnumPlugOperator
 
 
-class VectorSpaceEnumPlugOperator(EnumPlugOperator["VectorSpaceEnumAttrOperator"]):
+class VectorSpaceEnumPlugOperator(
+    EnumPlugOperator["VectorSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -84,7 +96,9 @@ class VectorSpaceEnumPlugOperator(EnumPlugOperator["VectorSpaceEnumAttrOperator"
     TANGENT = 2
 
 
-class VectorSpaceEnumAttrOperator(EnumAttrOperator[VectorSpaceEnumPlugOperator]):
+class VectorSpaceEnumAttrOperator(
+    EnumAttrOperator[VectorSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0

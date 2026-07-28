@@ -27,14 +27,18 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class SpecularDistributionEnumPlugOperator(EnumPlugOperator["SpecularDistributionEnumAttrOperator"]):
+class SpecularDistributionEnumPlugOperator(
+    EnumPlugOperator["SpecularDistributionEnumAttrOperator"]
+):
     __slots__ = ()
 
     BECKMANN = 0
     GGX = 1
 
 
-class SpecularDistributionEnumAttrOperator(EnumAttrOperator[SpecularDistributionEnumPlugOperator]):
+class SpecularDistributionEnumAttrOperator(
+    EnumAttrOperator[SpecularDistributionEnumPlugOperator]
+):
     __slots__ = ()
 
     BECKMANN = 0
@@ -47,7 +51,10 @@ class SpecularDistributionEnumAttrOperator(EnumAttrOperator[SpecularDistribution
 
 
 class SpecularDistributionEnumField(
-    EnumField[SpecularDistributionEnumAttrOperator, SpecularDistributionEnumPlugOperator]
+    EnumField[
+        SpecularDistributionEnumAttrOperator,
+        SpecularDistributionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,7 +79,9 @@ class GeneratedAiStandard(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -105,7 +114,9 @@ class GeneratedAiStandard(DG):
     aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ai_matte_color_a = aiMatteColorA
 
-    Kd = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
+    Kd = FloatField(
+        default_value=0.699999988079071, min_value=0.0, max_value=1.0
+    )
 
     KdColor = KdColorField(default_value=(1.0, 1.0, 1.0))
     Kd_color = KdColor
@@ -116,7 +127,9 @@ class GeneratedAiStandard(DG):
     KdColorB = KdColor.KdColorB
     Kd_colorb = KdColorB
 
-    diffuseRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    diffuseRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     diffuse_roughness = diffuseRoughness
 
     Ks = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -130,13 +143,19 @@ class GeneratedAiStandard(DG):
     KsColorB = KsColor.KsColorB
     Ks_colorb = KsColorB
 
-    specularRoughness = FloatField(default_value=0.4669046998023987, min_value=0.0, max_value=1.0)
+    specularRoughness = FloatField(
+        default_value=0.4669046998023987, min_value=0.0, max_value=1.0
+    )
     specular_roughness = specularRoughness
 
-    specularAnisotropy = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    specularAnisotropy = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     specular_anisotropy = specularAnisotropy
 
-    specularRotation = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    specularRotation = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     specular_rotation = specularRotation
 
     specularDistribution = SpecularDistributionEnumField(default_value=1)
@@ -153,7 +172,9 @@ class GeneratedAiStandard(DG):
     KrColorB = KrColor.KrColorB
     Kr_colorb = KrColorB
 
-    reflectionExitColor = ReflectionExitColorField(default_value=(0.0, 0.0, 0.0))
+    reflectionExitColor = ReflectionExitColorField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     reflection_exit_color = reflectionExitColor
     reflectionExitColorR = reflectionExitColor.reflectionExitColorR
     reflection_exit_colorr = reflectionExitColorR
@@ -184,10 +205,14 @@ class GeneratedAiStandard(DG):
     transmittanceB = transmittance.transmittanceB
     transmittanceb = transmittanceB
 
-    refractionRoughness = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    refractionRoughness = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     refraction_roughness = refractionRoughness
 
-    refractionExitColor = RefractionExitColorField(default_value=(0.0, 0.0, 0.0))
+    refractionExitColor = RefractionExitColorField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     refraction_exit_color = refractionExitColor
     refractionExitColorR = refractionExitColor.refractionExitColorR
     refraction_exit_colorr = refractionExitColorR
@@ -201,7 +226,9 @@ class GeneratedAiStandard(DG):
 
     IOR = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
 
-    dispersionAbbe = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    dispersionAbbe = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
     dispersion_abbe = dispersionAbbe
 
     Kb = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -232,16 +259,24 @@ class GeneratedAiStandard(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    directSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    directSpecular = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     direct_specular = directSpecular
 
-    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    indirectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     indirect_specular = indirectSpecular
 
-    directDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    directDiffuse = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     direct_diffuse = directDiffuse
 
-    indirectDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    indirectDiffuse = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     indirect_diffuse = indirectDiffuse
 
     enableGlossyCaustics = BoolField(default_value=False)
@@ -267,7 +302,13 @@ class GeneratedAiStandard(DG):
     KsssColorB = KsssColor.KsssColorB
     Ksss_colorb = KsssColorB
 
-    sssRadius = SssRadiusField(default_value=(0.10000000149011612, 0.10000000149011612, 0.10000000149011612))
+    sssRadius = SssRadiusField(
+        default_value=(
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+        )
+    )
     sss_radius = sssRadius
     sssRadiusR = sssRadius.sssRadiusR
     sss_radiusr = sssRadiusR
@@ -276,7 +317,9 @@ class GeneratedAiStandard(DG):
     sssRadiusB = sssRadius.sssRadiusB
     sss_radiusb = sssRadiusB
 
-    bounceFactor = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
+    bounceFactor = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=4.0
+    )
     bounce_factor = bounceFactor
 
     opacity = OpacityField(default_value=(1.0, 1.0, 1.0))

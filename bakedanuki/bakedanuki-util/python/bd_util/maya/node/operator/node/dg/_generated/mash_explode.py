@@ -19,7 +19,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -28,7 +30,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -53,14 +57,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -73,7 +81,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -101,7 +112,9 @@ class GeneratedMASH_Explode(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -132,9 +145,15 @@ class GeneratedMASH_Explode(DG):
     inputMesh = DataMeshField()
     inMesh = inputMesh
 
-    threshold = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=4.0)
+    threshold = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=4.0
+    )
 
-    pivotPoints = PivotPointsField(default_value=(0.5, 0.5, 0.5), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    pivotPoints = PivotPointsField(
+        default_value=(0.5, 0.5, 0.5),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     pivotX = pivotPoints.pivotX
     pivotY = pivotPoints.pivotY
     pivotZ = pivotPoints.pivotZ

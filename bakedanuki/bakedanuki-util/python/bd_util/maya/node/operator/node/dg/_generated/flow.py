@@ -13,12 +13,16 @@ from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class SetFrontAxisEnumPlugOperator(EnumPlugOperator["SetFrontAxisEnumAttrOperator"]):
+class SetFrontAxisEnumPlugOperator(
+    EnumPlugOperator["SetFrontAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 0
@@ -26,7 +30,9 @@ class SetFrontAxisEnumPlugOperator(EnumPlugOperator["SetFrontAxisEnumAttrOperato
     Z = 2
 
 
-class SetFrontAxisEnumAttrOperator(EnumAttrOperator[SetFrontAxisEnumPlugOperator]):
+class SetFrontAxisEnumAttrOperator(
+    EnumAttrOperator[SetFrontAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 0
@@ -130,7 +136,9 @@ class GeneratedFlow(DG):
     zCoord = allCoords.zCoord
     zc = zCoord
 
-    center = CenterField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
+    center = CenterField(
+        multi=True, default_value=(0.0, 0.0, 0.0), readable=False
+    )
     ctr = center
 
     objectWorldMatrix = DataMatrixField(multi=True, readable=False)

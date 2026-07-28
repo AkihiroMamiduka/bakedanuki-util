@@ -16,10 +16,14 @@ class GeneratedAvgCurves(DG):
     inputCurve2 = DataNurbsCurveField()
     ic2 = inputCurve2
 
-    weight1 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    weight1 = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     w1 = weight1
 
-    weight2 = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    weight2 = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     w2 = weight2
 
     automaticWeight = BoolField(default_value=True)

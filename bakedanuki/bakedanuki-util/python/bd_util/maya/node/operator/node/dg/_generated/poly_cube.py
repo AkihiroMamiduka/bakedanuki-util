@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -98,7 +100,9 @@ class GeneratedPolyCube(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -116,22 +120,34 @@ class GeneratedPolyCube(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    width = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     w = width
 
-    height = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    depth = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    depth = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     d = depth
 
-    subdivisionsWidth = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsWidth = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sw = subdivisionsWidth
 
-    subdivisionsHeight = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsHeight = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sh = subdivisionsHeight
 
-    subdivisionsDepth = LongField(default_value=1, min_value=1, soft_max_value=50)
+    subdivisionsDepth = LongField(
+        default_value=1, min_value=1, soft_max_value=50
+    )
     sd = subdivisionsDepth
 
     texture = TextureEnumField(default_value=1)

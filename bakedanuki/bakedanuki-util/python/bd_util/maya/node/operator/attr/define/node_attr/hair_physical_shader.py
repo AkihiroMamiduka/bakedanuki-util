@@ -256,7 +256,9 @@ class IncandescenceAttrOperator(
 
 
 class IncandescenceField(
-    Float3CompoundBaseField[IncandescenceAttrOperator, IncandescencePlugOperator]
+    Float3CompoundBaseField[
+        IncandescenceAttrOperator, IncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -273,9 +275,7 @@ class IncandescenceField(
     incandb = incandescenceB
 
 
-class ColorRPlugOperator(
-    Float3CompoundBasePlugOperator["ColorRAttrOperator"]
-):
+class ColorRPlugOperator(Float3CompoundBasePlugOperator["ColorRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorRR", "cRr"),
@@ -293,9 +293,7 @@ class ColorRPlugOperator(
     cRb = colorRB
 
 
-class ColorRAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorRPlugOperator]
-):
+class ColorRAttrOperator(Float3CompoundBaseAttrOperator[ColorRPlugOperator]):
     __slots__ = ()
 
     colorRR = FloatField(default_value=1.0)
@@ -346,9 +344,7 @@ class ColorTTPlugOperator(
     cTTb = colorTTB
 
 
-class ColorTTAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorTTPlugOperator]
-):
+class ColorTTAttrOperator(Float3CompoundBaseAttrOperator[ColorTTPlugOperator]):
     __slots__ = ()
 
     colorTTR = FloatField(default_value=1.0)
@@ -432,9 +428,7 @@ class ColorTRTField(
     cTRTb = colorTRTB
 
 
-class ColorGPlugOperator(
-    Float3CompoundBasePlugOperator["ColorGAttrOperator"]
-):
+class ColorGPlugOperator(Float3CompoundBasePlugOperator["ColorGAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorGR", "cGr"),
@@ -452,9 +446,7 @@ class ColorGPlugOperator(
     cGb = colorGB
 
 
-class ColorGAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorGPlugOperator]
-):
+class ColorGAttrOperator(Float3CompoundBaseAttrOperator[ColorGPlugOperator]):
     __slots__ = ()
 
     colorGR = FloatField(default_value=0.7250000238418579)
@@ -538,9 +530,7 @@ class OutColorField(
     ocb = outColorB
 
 
-class ColorDPlugOperator(
-    Float3CompoundBasePlugOperator["ColorDAttrOperator"]
-):
+class ColorDPlugOperator(Float3CompoundBasePlugOperator["ColorDAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorDR", "cDr"),
@@ -558,9 +548,7 @@ class ColorDPlugOperator(
     cDb = colorDB
 
 
-class ColorDAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorDPlugOperator]
-):
+class ColorDAttrOperator(Float3CompoundBaseAttrOperator[ColorDPlugOperator]):
     __slots__ = ()
 
     colorDR = FloatField(default_value=0.2070000022649765)

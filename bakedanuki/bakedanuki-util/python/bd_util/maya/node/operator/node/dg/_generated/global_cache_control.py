@@ -8,14 +8,18 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class EnableStatusEnumPlugOperator(EnumPlugOperator["EnableStatusEnumAttrOperator"]):
+class EnableStatusEnumPlugOperator(
+    EnumPlugOperator["EnableStatusEnumAttrOperator"]
+):
     __slots__ = ()
 
     ENABLE_ALL = 0
     DISABLE_ALL = 1
 
 
-class EnableStatusEnumAttrOperator(EnumAttrOperator[EnableStatusEnumPlugOperator]):
+class EnableStatusEnumAttrOperator(
+    EnumAttrOperator[EnableStatusEnumPlugOperator]
+):
     __slots__ = ()
 
     ENABLE_ALL = 0

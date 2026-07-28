@@ -89,9 +89,7 @@ class OutSizePlugOperator(
     osy = outSizeY
 
 
-class OutSizeAttrOperator(
-    Float2CompoundBaseAttrOperator[OutSizePlugOperator]
-):
+class OutSizeAttrOperator(Float2CompoundBaseAttrOperator[OutSizePlugOperator]):
     __slots__ = ()
 
     outSizeX = FloatField(default_value=0.0, writable=False)
@@ -152,7 +150,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -169,9 +169,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class BackupPlugOperator(
-    CompoundPlugOperator["BackupAttrOperator"]
-):
+class BackupPlugOperator(CompoundPlugOperator["BackupAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("backupAttributes", "ba"),
@@ -185,9 +183,7 @@ class BackupPlugOperator(
     bd = backupData
 
 
-class BackupAttrOperator(
-    CompoundAttrOperator[BackupPlugOperator]
-):
+class BackupAttrOperator(CompoundAttrOperator[BackupPlugOperator]):
     __slots__ = ()
 
     backupAttributes = DataStringField(readable=False, writable=False)
@@ -197,9 +193,7 @@ class BackupAttrOperator(
     bd = backupData
 
 
-class BackupField(
-    CompoundField[BackupAttrOperator, BackupPlugOperator]
-):
+class BackupField(CompoundField[BackupAttrOperator, BackupPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BackupAttrOperator

@@ -6,7 +6,9 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
@@ -56,5 +58,7 @@ class GeneratedPlanarTrimSurface(DG):
     outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance

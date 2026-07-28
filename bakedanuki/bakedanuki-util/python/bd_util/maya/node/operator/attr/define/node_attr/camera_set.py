@@ -10,9 +10,7 @@ from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.long import LongField
 
 
-class CameraLayerPlugOperator(
-    CompoundPlugOperator["CameraLayerAttrOperator"]
-):
+class CameraLayerPlugOperator(CompoundPlugOperator["CameraLayerAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("camera", "cam"),
@@ -38,9 +36,7 @@ class CameraLayerPlugOperator(
     cld = clearDepth
 
 
-class CameraLayerAttrOperator(
-    CompoundAttrOperator[CameraLayerPlugOperator]
-):
+class CameraLayerAttrOperator(CompoundAttrOperator[CameraLayerPlugOperator]):
     __slots__ = ()
 
     camera = MessageField()

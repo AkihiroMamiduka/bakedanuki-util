@@ -33,7 +33,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -42,7 +44,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -67,14 +71,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -87,7 +95,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -178,7 +189,9 @@ class MeshTypeEnumField(
     PLUG_CLS = MeshTypeEnumPlugOperator
 
 
-class EdgeAlignmentEnumPlugOperator(EnumPlugOperator["EdgeAlignmentEnumAttrOperator"]):
+class EdgeAlignmentEnumPlugOperator(
+    EnumPlugOperator["EdgeAlignmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     CENTRE = 1
@@ -186,7 +199,9 @@ class EdgeAlignmentEnumPlugOperator(EnumPlugOperator["EdgeAlignmentEnumAttrOpera
     END = 3
 
 
-class EdgeAlignmentEnumAttrOperator(EnumAttrOperator[EdgeAlignmentEnumPlugOperator]):
+class EdgeAlignmentEnumAttrOperator(
+    EnumAttrOperator[EdgeAlignmentEnumPlugOperator]
+):
     __slots__ = ()
 
     CENTRE = 1
@@ -274,7 +289,9 @@ class PfxModeEnumField(
     PLUG_CLS = PfxModeEnumPlugOperator
 
 
-class VolumeShapeEnumPlugOperator(EnumPlugOperator["VolumeShapeEnumAttrOperator"]):
+class VolumeShapeEnumPlugOperator(
+    EnumPlugOperator["VolumeShapeEnumAttrOperator"]
+):
     __slots__ = ()
 
     POINT = 1
@@ -282,7 +299,9 @@ class VolumeShapeEnumPlugOperator(EnumPlugOperator["VolumeShapeEnumAttrOperator"
     SPHERE = 3
 
 
-class VolumeShapeEnumAttrOperator(EnumAttrOperator[VolumeShapeEnumPlugOperator]):
+class VolumeShapeEnumAttrOperator(
+    EnumAttrOperator[VolumeShapeEnumPlugOperator]
+):
     __slots__ = ()
 
     POINT = 1
@@ -305,7 +324,9 @@ class VolumeShapeEnumField(
     PLUG_CLS = VolumeShapeEnumPlugOperator
 
 
-class ArrangementEnumPlugOperator(EnumPlugOperator["ArrangementEnumAttrOperator"]):
+class ArrangementEnumPlugOperator(
+    EnumPlugOperator["ArrangementEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 1
@@ -319,7 +340,9 @@ class ArrangementEnumPlugOperator(EnumPlugOperator["ArrangementEnumAttrOperator"
     VOLUME = 9
 
 
-class ArrangementEnumAttrOperator(EnumAttrOperator[ArrangementEnumPlugOperator]):
+class ArrangementEnumAttrOperator(
+    EnumAttrOperator[ArrangementEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 1
@@ -374,7 +397,9 @@ class GeneratedMASH_Distribute(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -438,7 +463,9 @@ class GeneratedMASH_Distribute(DG):
     inIterations = LongField(default_value=0)
     inIter = inIterations
 
-    batchRenderMultiplier = LongField(default_value=1, min_value=1, soft_max_value=100)
+    batchRenderMultiplier = LongField(
+        default_value=1, min_value=1, soft_max_value=100
+    )
 
     enable = BoolField(default_value=True)
     en = enable
@@ -520,37 +547,63 @@ class GeneratedMASH_Distribute(DG):
     biasRampZ = BiasRampZField(multi=True, default_value=(0.0, 0.0, 1.0))
     bRmpZ = biasRampZ
 
-    animationTime = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    animationTime = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=100.0
+    )
 
     seed = LongField(default_value=1, min_value=1, soft_max_value=100)
     see = seed
 
-    amplitudeX = FloatField(default_value=20.0, soft_min_value=0.0, soft_max_value=60.0)
+    amplitudeX = FloatField(
+        default_value=20.0, soft_min_value=0.0, soft_max_value=60.0
+    )
     ampX = amplitudeX
 
-    amplitudeY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=60.0)
+    amplitudeY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=60.0
+    )
     ampY = amplitudeY
 
-    amplitudeZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=60.0)
+    amplitudeZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=60.0
+    )
     ampZ = amplitudeZ
 
-    scaleX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    scaleX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    scaleY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    scaleY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    scaleZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    scaleZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    rotateX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotateX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
-    rotateY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotateY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
-    rotateZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotateZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
-    voxPatternOffsetX = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    voxPatternOffsetX = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    voxPatternOffsetY = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    voxPatternOffsetY = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    voxPatternOffsetZ = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    voxPatternOffsetZ = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     areaBasedScatter = BoolField(default_value=False)
 
@@ -560,25 +613,43 @@ class GeneratedMASH_Distribute(DG):
 
     floodMesh = BoolField(default_value=False)
 
-    faceScaleMultiplier = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    faceScaleMultiplier = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     offset = LongField(default_value=0, min_value=0, soft_max_value=30)
 
-    gridAmplitudeX = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
+    gridAmplitudeX = FloatField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=30.0
+    )
 
-    gridAmplitudeY = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
+    gridAmplitudeY = FloatField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=30.0
+    )
 
-    gridAmplitudeZ = FloatField(default_value=5.0, soft_min_value=0.0, soft_max_value=30.0)
+    gridAmplitudeZ = FloatField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=30.0
+    )
 
-    sphericalAngleX = FloatField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
+    sphericalAngleX = FloatField(
+        default_value=360.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
-    sphericalAngleY = FloatField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
+    sphericalAngleY = FloatField(
+        default_value=360.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
-    radialRadius = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=20.0)
+    radialRadius = FloatField(
+        default_value=10.0, soft_min_value=0.0, soft_max_value=20.0
+    )
 
-    radialAngle = FloatField(default_value=360.0, soft_min_value=-360.0, soft_max_value=360.0)
+    radialAngle = FloatField(
+        default_value=360.0, soft_min_value=-360.0, soft_max_value=360.0
+    )
 
-    distanceAlongNormal = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    distanceAlongNormal = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
 
     inputMesh = DataMeshField()
     inM = inputMesh
@@ -594,7 +665,9 @@ class GeneratedMASH_Distribute(DG):
     gridz = LongField(default_value=3, min_value=1, soft_max_value=25)
     grz = gridz
 
-    noiseFrequency = FloatField(default_value=1.0, min_value=0.0, soft_max_value=3.0)
+    noiseFrequency = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=3.0
+    )
     noFre = noiseFrequency
 
     modelAxis = ModelAxisEnumField(default_value=1)
@@ -613,11 +686,20 @@ class GeneratedMASH_Distribute(DG):
 
     zeroScale = BoolField(default_value=False)
 
-    voxelDensity = FloatField(default_value=1.5, min_value=0.1, soft_min_value=0.2, soft_max_value=3.0)
+    voxelDensity = FloatField(
+        default_value=1.5,
+        min_value=0.1,
+        soft_min_value=0.2,
+        soft_max_value=3.0,
+    )
 
     maxVoxels = LongField(default_value=100000)
 
-    voxelBorder = FloatField(default_value=0.0010000000474974513, min_value=0.001, soft_max_value=1.0)
+    voxelBorder = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=0.001,
+        soft_max_value=1.0,
+    )
 
     inPaintEffects = DataMeshField(multi=True)
 
@@ -633,9 +715,13 @@ class GeneratedMASH_Distribute(DG):
 
     useUpVector = BoolField(default_value=False)
 
-    volumeSize = FloatField(default_value=5.0, min_value=0.0, soft_max_value=20.0)
+    volumeSize = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=20.0
+    )
 
-    sphericalBias = FloatField(default_value=0.5, min_value=0.0, soft_max_value=2.0)
+    sphericalBias = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=2.0
+    )
 
     volumeShape = VolumeShapeEnumField(default_value=2)
 

@@ -22,7 +22,9 @@ class GeneratedAiMotionVector(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -33,9 +35,15 @@ class GeneratedAiMotionVector(DG):
 
     raw = BoolField(default_value=False)
 
-    time0 = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    time0 = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    time1 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    time1 = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    maxDisplace = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    maxDisplace = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     max_displace = maxDisplace

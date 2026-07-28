@@ -18,14 +18,18 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AttachmentModeEnumPlugOperator(EnumPlugOperator["AttachmentModeEnumAttrOperator"]):
+class AttachmentModeEnumPlugOperator(
+    EnumPlugOperator["AttachmentModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BORDERS = 0
     FULL = 1
 
 
-class AttachmentModeEnumAttrOperator(EnumAttrOperator[AttachmentModeEnumPlugOperator]):
+class AttachmentModeEnumAttrOperator(
+    EnumAttrOperator[AttachmentModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BORDERS = 0
@@ -94,13 +98,21 @@ class GeneratedSolidify(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -133,10 +145,14 @@ class GeneratedSolidify(DG):
     islands = DataStringField()
     isl = islands
 
-    normalScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    normalScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     nsc = normalScale
 
-    tangentPlaneScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    tangentPlaneScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     tsc = tangentPlaneScale
 
     scaleMode = ScaleModeEnumField(default_value=0)

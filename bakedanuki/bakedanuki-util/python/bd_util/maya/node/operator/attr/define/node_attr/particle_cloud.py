@@ -13,7 +13,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class OutParticleEmissionPlugOperator(
@@ -52,7 +54,9 @@ class OutParticleEmissionAttrOperator(
 
 
 class OutParticleEmissionField(
-    Float3CompoundBaseField[OutParticleEmissionAttrOperator, OutParticleEmissionPlugOperator]
+    Float3CompoundBaseField[
+        OutParticleEmissionAttrOperator, OutParticleEmissionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -211,7 +215,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -228,9 +234,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -248,9 +252,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.0)
@@ -370,7 +372,9 @@ class IncandescenceAttrOperator(
 
 
 class IncandescenceField(
-    Float3CompoundBaseField[IncandescenceAttrOperator, IncandescencePlugOperator]
+    Float3CompoundBaseField[
+        IncandescenceAttrOperator, IncandescencePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -423,7 +427,9 @@ class ParticleEmissionAttrOperator(
 
 
 class ParticleEmissionField(
-    Float3CompoundBaseField[ParticleEmissionAttrOperator, ParticleEmissionPlugOperator]
+    Float3CompoundBaseField[
+        ParticleEmissionAttrOperator, ParticleEmissionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -460,9 +466,7 @@ class BlobMapPlugOperator(
     mb = blobMapB
 
 
-class BlobMapAttrOperator(
-    Float3CompoundBaseAttrOperator[BlobMapPlugOperator]
-):
+class BlobMapAttrOperator(Float3CompoundBaseAttrOperator[BlobMapPlugOperator]):
     __slots__ = ()
 
     blobMapR = FloatField(default_value=1.0)

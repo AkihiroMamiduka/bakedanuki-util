@@ -25,7 +25,9 @@ class GeneratedAiBlackbody(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -34,8 +36,12 @@ class GeneratedAiBlackbody(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    temperature = FloatField(default_value=6500.0, min_value=0.0, soft_max_value=20000.0)
+    temperature = FloatField(
+        default_value=6500.0, min_value=0.0, soft_max_value=20000.0
+    )
 
     normalize = BoolField(default_value=False)
 
-    intensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    intensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )

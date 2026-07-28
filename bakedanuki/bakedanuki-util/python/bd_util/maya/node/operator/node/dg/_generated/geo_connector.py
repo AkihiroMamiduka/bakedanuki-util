@@ -68,7 +68,9 @@ class GeneratedGeoConnector(DG):
     inputForce = DataVectorArrayField(multi=True)
     ifc = inputForce
 
-    ownerCentroid = OwnerCentroidField(default_value=(0.0, 0.0, 0.0), writable=False)
+    ownerCentroid = OwnerCentroidField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ocd = ownerCentroid
     ownerCentroidX = ownerCentroid.ownerCentroidX
     ocx = ownerCentroidX
@@ -77,7 +79,9 @@ class GeneratedGeoConnector(DG):
     ownerCentroidZ = ownerCentroid.ownerCentroidZ
     ocz = ownerCentroidZ
 
-    ownerCentroidLocal = OwnerCentroidLocalField(default_value=(0.0, 0.0, 0.0), writable=False)
+    ownerCentroidLocal = OwnerCentroidLocalField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ocl = ownerCentroidLocal
     ownerCentroidLocalX = ownerCentroidLocal.ownerCentroidLocalX
     olcx = ownerCentroidLocalX
@@ -98,10 +102,14 @@ class GeneratedGeoConnector(DG):
     componentVelocities = DataVectorArrayField(multi=True, writable=False)
     cpv = componentVelocities
 
-    componentCentroid = ComponentCentroidField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
+    componentCentroid = ComponentCentroidField(
+        multi=True, default_value=(0.0, 0.0, 0.0), writable=False
+    )
     cpc = componentCentroid
 
-    componentCentroidLocal = ComponentCentroidLocalField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
+    componentCentroidLocal = ComponentCentroidLocalField(
+        multi=True, default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ccl = componentCentroidLocal
 
     sweptGeometry = TypedField(writable=False)
@@ -122,17 +130,25 @@ class GeneratedGeoConnector(DG):
     geometryModified = LongField(default_value=0, writable=False)
     gmd = geometryModified
 
-    tessellationFactor = LongField(default_value=200, min_value=1, soft_min_value=1, soft_max_value=1000)
+    tessellationFactor = LongField(
+        default_value=200, min_value=1, soft_min_value=1, soft_max_value=1000
+    )
     tf = tessellationFactor
 
     uvSetName = DataStringField()
     guv = uvSetName
 
-    resilience = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    resilience = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     res = resilience
 
-    friction = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    friction = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fri = friction
 
-    offset = DoubleField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    offset = DoubleField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     off = offset

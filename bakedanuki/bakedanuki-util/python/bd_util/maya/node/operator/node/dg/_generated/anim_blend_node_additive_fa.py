@@ -6,18 +6,24 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
-from ....attr.define.std.at.scalar.unit.range.float_angle import FloatAngleField
+from ....attr.define.std.at.scalar.unit.range.float_angle import (
+    FloatAngleField,
+)
 from ....attr.define.std.dt.string import DataStringField
 
 
-class InterpolateModeEnumPlugOperator(EnumPlugOperator["InterpolateModeEnumAttrOperator"]):
+class InterpolateModeEnumPlugOperator(
+    EnumPlugOperator["InterpolateModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class InterpolateModeEnumAttrOperator(EnumAttrOperator[InterpolateModeEnumPlugOperator]):
+class InterpolateModeEnumAttrOperator(
+    EnumAttrOperator[InterpolateModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ADDITIVE = 0

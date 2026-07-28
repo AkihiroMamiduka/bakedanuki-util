@@ -23,9 +23,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -43,9 +41,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -58,9 +54,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -71,9 +65,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -89,7 +81,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -150,20 +144,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -267,7 +255,10 @@ class ChildJointClusterXformsAttrOperator(
 
 
 class ChildJointClusterXformsField(
-    CompoundField[ChildJointClusterXformsAttrOperator, ChildJointClusterXformsPlugOperator]
+    CompoundField[
+        ChildJointClusterXformsAttrOperator,
+        ChildJointClusterXformsPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -311,7 +302,9 @@ class JointMidplaneAxisAttrOperator(
 
 
 class JointMidplaneAxisField(
-    DoubleLinear3CompoundBaseField[JointMidplaneAxisAttrOperator, JointMidplaneAxisPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        JointMidplaneAxisAttrOperator, JointMidplaneAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -364,7 +357,9 @@ class NextJointClusterXformsAttrOperator(
 
 
 class NextJointClusterXformsField(
-    CompoundField[NextJointClusterXformsAttrOperator, NextJointClusterXformsPlugOperator]
+    CompoundField[
+        NextJointClusterXformsAttrOperator, NextJointClusterXformsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -417,7 +412,9 @@ class NextJointMidplaneAxisAttrOperator(
 
 
 class NextJointMidplaneAxisField(
-    DoubleLinear3CompoundBaseField[NextJointMidplaneAxisAttrOperator, NextJointMidplaneAxisPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        NextJointMidplaneAxisAttrOperator, NextJointMidplaneAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -470,7 +467,9 @@ class ChildJointMidplaneAxisAttrOperator(
 
 
 class ChildJointMidplaneAxisField(
-    DoubleLinear3CompoundBaseField[ChildJointMidplaneAxisAttrOperator, ChildJointMidplaneAxisPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ChildJointMidplaneAxisAttrOperator, ChildJointMidplaneAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -482,17 +481,13 @@ class DistanceListPlugOperator(
     CompoundPlugOperator["DistanceListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("distances", "cd"),
-    )
+    CHILD_ATTR_NAMES = (("distances", "cd"),)
 
     distances = FloatField(multi=True, default_value=0.0)
     cd = distances
 
 
-class DistanceListAttrOperator(
-    CompoundAttrOperator[DistanceListPlugOperator]
-):
+class DistanceListAttrOperator(CompoundAttrOperator[DistanceListPlugOperator]):
     __slots__ = ()
 
     distances = FloatField(multi=True, default_value=0.0)

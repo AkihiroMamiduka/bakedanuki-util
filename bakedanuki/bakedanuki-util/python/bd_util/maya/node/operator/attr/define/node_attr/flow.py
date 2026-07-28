@@ -44,7 +44,9 @@ class AllCoordsAttrOperator(
 
 
 class AllCoordsField(
-    DoubleLinear3CompoundBaseField[AllCoordsAttrOperator, AllCoordsPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        AllCoordsAttrOperator, AllCoordsPlugOperator
+    ]
 ):
     __slots__ = ()
 

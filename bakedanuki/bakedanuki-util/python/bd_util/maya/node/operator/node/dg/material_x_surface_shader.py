@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.material_x_surface_shader import GeneratedMaterialXSurfaceShader
+from ._generated.material_x_surface_shader import (
+    GeneratedMaterialXSurfaceShader,
+)
 
 
 class MaterialXSurfaceShader(GeneratedMaterialXSurfaceShader):

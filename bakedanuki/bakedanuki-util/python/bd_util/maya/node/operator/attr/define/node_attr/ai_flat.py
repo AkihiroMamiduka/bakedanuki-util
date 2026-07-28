@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +224,7 @@ class HardwareColorField(
     hwcb = hardwareColorB
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "colorr"),
@@ -240,9 +242,7 @@ class ColorPlugOperator(
     colorb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=1.0)

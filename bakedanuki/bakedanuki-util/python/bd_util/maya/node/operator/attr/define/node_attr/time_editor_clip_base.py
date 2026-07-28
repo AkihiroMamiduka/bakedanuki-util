@@ -18,7 +18,9 @@ from ..std.at.scalar.unit.time import TimeField
 from ..std.at.typed import TypedField
 from ..std.dt.matrix import DataMatrixField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
 class ClipTypeEnumPlugOperator(EnumPlugOperator["ClipTypeEnumAttrOperator"]):
@@ -49,14 +51,18 @@ class ClipTypeEnumField(
     PLUG_CLS = ClipTypeEnumPlugOperator
 
 
-class TimeWarpTypeEnumPlugOperator(EnumPlugOperator["TimeWarpTypeEnumAttrOperator"]):
+class TimeWarpTypeEnumPlugOperator(
+    EnumPlugOperator["TimeWarpTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TIME_WARP = 0
     SPEED_CURVE = 1
 
 
-class TimeWarpTypeEnumAttrOperator(EnumAttrOperator[TimeWarpTypeEnumPlugOperator]):
+class TimeWarpTypeEnumAttrOperator(
+    EnumAttrOperator[TimeWarpTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TIME_WARP = 0
@@ -77,7 +83,9 @@ class TimeWarpTypeEnumField(
     PLUG_CLS = TimeWarpTypeEnumPlugOperator
 
 
-class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator["ClipLoopBeforeModeEnumAttrOperator"]):
+class ClipLoopBeforeModeEnumPlugOperator(
+    EnumPlugOperator["ClipLoopBeforeModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LOOP = 0
@@ -85,7 +93,9 @@ class ClipLoopBeforeModeEnumPlugOperator(EnumPlugOperator["ClipLoopBeforeModeEnu
     HOLD = 2
 
 
-class ClipLoopBeforeModeEnumAttrOperator(EnumAttrOperator[ClipLoopBeforeModeEnumPlugOperator]):
+class ClipLoopBeforeModeEnumAttrOperator(
+    EnumAttrOperator[ClipLoopBeforeModeEnumPlugOperator]
+):
     __slots__ = ()
 
     LOOP = 0
@@ -100,7 +110,9 @@ class ClipLoopBeforeModeEnumAttrOperator(EnumAttrOperator[ClipLoopBeforeModeEnum
 
 
 class ClipLoopBeforeModeEnumField(
-    EnumField[ClipLoopBeforeModeEnumAttrOperator, ClipLoopBeforeModeEnumPlugOperator]
+    EnumField[
+        ClipLoopBeforeModeEnumAttrOperator, ClipLoopBeforeModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -108,7 +120,9 @@ class ClipLoopBeforeModeEnumField(
     PLUG_CLS = ClipLoopBeforeModeEnumPlugOperator
 
 
-class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator["ClipLoopAfterModeEnumAttrOperator"]):
+class ClipLoopAfterModeEnumPlugOperator(
+    EnumPlugOperator["ClipLoopAfterModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LOOP = 0
@@ -116,7 +130,9 @@ class ClipLoopAfterModeEnumPlugOperator(EnumPlugOperator["ClipLoopAfterModeEnumA
     HOLD = 2
 
 
-class ClipLoopAfterModeEnumAttrOperator(EnumAttrOperator[ClipLoopAfterModeEnumPlugOperator]):
+class ClipLoopAfterModeEnumAttrOperator(
+    EnumAttrOperator[ClipLoopAfterModeEnumPlugOperator]
+):
     __slots__ = ()
 
     LOOP = 0
@@ -131,7 +147,9 @@ class ClipLoopAfterModeEnumAttrOperator(EnumAttrOperator[ClipLoopAfterModeEnumPl
 
 
 class ClipLoopAfterModeEnumField(
-    EnumField[ClipLoopAfterModeEnumAttrOperator, ClipLoopAfterModeEnumPlugOperator]
+    EnumField[
+        ClipLoopAfterModeEnumAttrOperator, ClipLoopAfterModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -139,14 +157,18 @@ class ClipLoopAfterModeEnumField(
     PLUG_CLS = ClipLoopAfterModeEnumPlugOperator
 
 
-class ClipBlendModeEnumPlugOperator(EnumPlugOperator["ClipBlendModeEnumAttrOperator"]):
+class ClipBlendModeEnumPlugOperator(
+    EnumPlugOperator["ClipBlendModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
     ADDITIVE = 1
 
 
-class ClipBlendModeEnumAttrOperator(EnumAttrOperator[ClipBlendModeEnumPlugOperator]):
+class ClipBlendModeEnumAttrOperator(
+    EnumAttrOperator[ClipBlendModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -167,9 +189,7 @@ class ClipBlendModeEnumField(
     PLUG_CLS = ClipBlendModeEnumPlugOperator
 
 
-class ClipPlugOperator(
-    CompoundPlugOperator["ClipAttrOperator"]
-):
+class ClipPlugOperator(CompoundPlugOperator["ClipAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("clipid", "cid"),
@@ -258,7 +278,14 @@ class ClipPlugOperator(
     useClipColor = BoolField(default_value=False)
     ucc = useClipColor
 
-    clipColor = Float3Field(default_value=(0.5839999914169312, 0.4350000023841858, 0.09799999743700027), min_value=(0.0, 0.0, 0.0))
+    clipColor = Float3Field(
+        default_value=(
+            0.5839999914169312,
+            0.4350000023841858,
+            0.09799999743700027,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+    )
     cc = clipColor
 
     curveStart = TimeField(default_value=0.0)
@@ -271,9 +298,7 @@ class ClipPlugOperator(
     cpt = parentTime
 
 
-class ClipAttrOperator(
-    CompoundAttrOperator[ClipPlugOperator]
-):
+class ClipAttrOperator(CompoundAttrOperator[ClipPlugOperator]):
     __slots__ = ()
 
     clipid = LongField(default_value=0, min_value=0)
@@ -336,7 +361,14 @@ class ClipAttrOperator(
     useClipColor = BoolField(default_value=False)
     ucc = useClipColor
 
-    clipColor = Float3Field(default_value=(0.5839999914169312, 0.4350000023841858, 0.09799999743700027), min_value=(0.0, 0.0, 0.0))
+    clipColor = Float3Field(
+        default_value=(
+            0.5839999914169312,
+            0.4350000023841858,
+            0.09799999743700027,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+    )
     cc = clipColor
 
     curveStart = TimeField(default_value=0.0)
@@ -349,18 +381,14 @@ class ClipAttrOperator(
     cpt = parentTime
 
 
-class ClipField(
-    CompoundField[ClipAttrOperator, ClipPlugOperator]
-):
+class ClipField(CompoundField[ClipAttrOperator, ClipPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ClipAttrOperator
     PLUG_CLS = ClipPlugOperator
 
 
-class OffsetPlugOperator(
-    CompoundPlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(CompoundPlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetMode", "ofm"),
@@ -394,9 +422,7 @@ class OffsetPlugOperator(
     mob = matchObj
 
 
-class OffsetAttrOperator(
-    CompoundAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(CompoundAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetMode = LongField(default_value=0)
@@ -421,9 +447,7 @@ class OffsetAttrOperator(
     mob = matchObj
 
 
-class OffsetField(
-    CompoundField[OffsetAttrOperator, OffsetPlugOperator]
-):
+class OffsetField(CompoundField[OffsetAttrOperator, OffsetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OffsetAttrOperator

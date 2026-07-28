@@ -9,7 +9,9 @@ from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TextureFilterEnumPlugOperator(EnumPlugOperator["TextureFilterEnumAttrOperator"]):
+class TextureFilterEnumPlugOperator(
+    EnumPlugOperator["TextureFilterEnumAttrOperator"]
+):
     __slots__ = ()
 
     GLOBAL_SETTINGS = 1
@@ -21,7 +23,9 @@ class TextureFilterEnumPlugOperator(EnumPlugOperator["TextureFilterEnumAttrOpera
     MIPMAP_TRILINEAR = 7
 
 
-class TextureFilterEnumAttrOperator(EnumAttrOperator[TextureFilterEnumPlugOperator]):
+class TextureFilterEnumAttrOperator(
+    EnumAttrOperator[TextureFilterEnumPlugOperator]
+):
     __slots__ = ()
 
     GLOBAL_SETTINGS = 1

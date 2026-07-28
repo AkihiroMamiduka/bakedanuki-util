@@ -68,14 +68,18 @@ class LayoutEnumField(
     PLUG_CLS = LayoutEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator["LayoutMethodEnumAttrOperator"]):
+class LayoutMethodEnumPlugOperator(
+    EnumPlugOperator["LayoutMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator[LayoutMethodEnumPlugOperator]):
+class LayoutMethodEnumAttrOperator(
+    EnumAttrOperator[LayoutMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
@@ -118,9 +122,7 @@ class ScaleEnumAttrOperator(EnumAttrOperator[ScaleEnumPlugOperator]):
     }
 
 
-class ScaleEnumField(
-    EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]
-):
+class ScaleEnumField(EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ScaleEnumAttrOperator
@@ -168,7 +170,9 @@ class GeneratedSubdAutoProj(DG):
     layoutMethod = LayoutMethodEnumField(default_value=0)
     lm = layoutMethod
 
-    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
+    percentageSpace = FloatField(
+        default_value=0.0, min_value=0.0, max_value=5.0
+    )
     ps = percentageSpace
 
     scale = ScaleEnumField(default_value=1)

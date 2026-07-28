@@ -8,13 +8,17 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class StitchCornersEnumPlugOperator(EnumPlugOperator["StitchCornersEnumAttrOperator"]):
+class StitchCornersEnumPlugOperator(
+    EnumPlugOperator["StitchCornersEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -22,7 +26,9 @@ class StitchCornersEnumPlugOperator(EnumPlugOperator["StitchCornersEnumAttrOpera
     CLOSEST_KNOT = 2
 
 
-class StitchCornersEnumAttrOperator(EnumAttrOperator[StitchCornersEnumPlugOperator]):
+class StitchCornersEnumAttrOperator(
+    EnumAttrOperator[StitchCornersEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -45,7 +51,9 @@ class StitchCornersEnumField(
     PLUG_CLS = StitchCornersEnumPlugOperator
 
 
-class StitchEdgesEnumPlugOperator(EnumPlugOperator["StitchEdgesEnumAttrOperator"]):
+class StitchEdgesEnumPlugOperator(
+    EnumPlugOperator["StitchEdgesEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -53,7 +61,9 @@ class StitchEdgesEnumPlugOperator(EnumPlugOperator["StitchEdgesEnumAttrOperator"
     MATCH_PARAMETERS = 2
 
 
-class StitchEdgesEnumAttrOperator(EnumAttrOperator[StitchEdgesEnumPlugOperator]):
+class StitchEdgesEnumAttrOperator(
+    EnumAttrOperator[StitchEdgesEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -76,7 +86,9 @@ class StitchEdgesEnumField(
     PLUG_CLS = StitchEdgesEnumPlugOperator
 
 
-class StitchSmoothnessEnumPlugOperator(EnumPlugOperator["StitchSmoothnessEnumAttrOperator"]):
+class StitchSmoothnessEnumPlugOperator(
+    EnumPlugOperator["StitchSmoothnessEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -84,7 +96,9 @@ class StitchSmoothnessEnumPlugOperator(EnumPlugOperator["StitchSmoothnessEnumAtt
     NORMAL = 2
 
 
-class StitchSmoothnessEnumAttrOperator(EnumAttrOperator[StitchSmoothnessEnumPlugOperator]):
+class StitchSmoothnessEnumAttrOperator(
+    EnumAttrOperator[StitchSmoothnessEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -99,7 +113,9 @@ class StitchSmoothnessEnumAttrOperator(EnumAttrOperator[StitchSmoothnessEnumPlug
 
 
 class StitchSmoothnessEnumField(
-    EnumField[StitchSmoothnessEnumAttrOperator, StitchSmoothnessEnumPlugOperator]
+    EnumField[
+        StitchSmoothnessEnumAttrOperator, StitchSmoothnessEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -127,13 +143,25 @@ class GeneratedGlobalStitch(DG):
     stitchPartialEdges = BoolField(default_value=False)
     spe = stitchPartialEdges
 
-    maxSeparation = DoubleLinearField(default_value=0.1, min_value=0.0001, soft_min_value=0.001, soft_max_value=1.0)
+    maxSeparation = DoubleLinearField(
+        default_value=0.1,
+        min_value=0.0001,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     ms = maxSeparation
 
-    sampling = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
+    sampling = LongField(
+        default_value=1, min_value=1, max_value=100, soft_max_value=10
+    )
     sam = sampling
 
-    modificationResistance = DoubleField(default_value=0.1, min_value=0.001, max_value=1000.0, soft_max_value=1.0)
+    modificationResistance = DoubleField(
+        default_value=0.1,
+        min_value=0.001,
+        max_value=1000.0,
+        soft_max_value=1.0,
+    )
     mr = modificationResistance
 
     lockSurface = BoolField(multi=True, default_value=False)

@@ -4,7 +4,9 @@ from ....attr.define.node_attr.dot_product import (
     Input1Field,
     Input2Field,
 )
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 
 
 class GeneratedDotProduct(DG):

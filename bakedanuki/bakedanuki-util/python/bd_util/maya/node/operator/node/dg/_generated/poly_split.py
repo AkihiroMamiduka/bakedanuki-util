@@ -7,8 +7,12 @@ from ....attr.define.node_attr.poly_split import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
@@ -51,16 +55,22 @@ class GeneratedPolySplit(DG):
     vertices = VerticesField(multi=True, default_value=(0.0, 0.0, 0.0))
     v = vertices
 
-    edge = FloatField(multi=True, default_value=0.0, min_value=0.0, max_value=1.0)
+    edge = FloatField(
+        multi=True, default_value=0.0, min_value=0.0, max_value=1.0
+    )
     e = edge
 
     desc = LongField(multi=True, default_value=0)
     d = desc
 
-    subdivision = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
+    subdivision = LongField(
+        default_value=1, min_value=1, max_value=100, soft_max_value=10
+    )
     s = subdivision
 
-    smoothingAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     sma = smoothingAngle
 
     maya70 = BoolField(default_value=True)
@@ -84,7 +94,9 @@ class GeneratedPolySplit(DG):
     detachEdges = BoolField(default_value=False)
     de = detachEdges
 
-    projectedCurveTolerance = FloatField(default_value=9.999999747378752e-05, min_value=0.0)
+    projectedCurveTolerance = FloatField(
+        default_value=9.999999747378752e-05, min_value=0.0
+    )
     pct = projectedCurveTolerance
 
     clean2Verts = BoolField(default_value=False)
@@ -93,5 +105,7 @@ class GeneratedPolySplit(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

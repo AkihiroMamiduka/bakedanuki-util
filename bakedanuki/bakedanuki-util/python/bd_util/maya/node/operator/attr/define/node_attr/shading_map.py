@@ -29,9 +29,7 @@ class UvCoordPlugOperator(
     vv = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -56,9 +54,7 @@ class UvCoordField(
     vv = vCoord
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "cr"),
@@ -76,9 +72,7 @@ class ColorPlugOperator(
     cb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.5)
@@ -145,7 +139,9 @@ class ShadingMapColorAttrOperator(
 
 
 class ShadingMapColorField(
-    Float3CompoundBaseField[ShadingMapColorAttrOperator, ShadingMapColorPlugOperator]
+    Float3CompoundBaseField[
+        ShadingMapColorAttrOperator, ShadingMapColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -357,7 +353,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -463,7 +461,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 

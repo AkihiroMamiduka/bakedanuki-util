@@ -33,9 +33,7 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     }
 
 
-class ShapeEnumField(
-    EnumField[ShapeEnumAttrOperator, ShapeEnumPlugOperator]
-):
+class ShapeEnumField(EnumField[ShapeEnumAttrOperator, ShapeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ShapeEnumAttrOperator
@@ -80,35 +78,61 @@ class GeneratedPolySuperShape(DG):
 
     output = DataMeshField(writable=False)
 
-    radius = FloatField(default_value=1.0, min_value=0.001, soft_max_value=100.0)
+    radius = FloatField(
+        default_value=1.0, min_value=0.001, soft_max_value=100.0
+    )
 
-    heightBaseline = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
 
     shape = ShapeEnumField(default_value=0)
 
     uvMode = UvModeEnumField(default_value=2)
 
-    ellipse0 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    ellipse0 = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    ellipse1 = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    ellipse1 = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    harmonics0 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    harmonics0 = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
 
-    harmonics1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    harmonics1 = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    harmonics2 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    harmonics2 = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
 
-    harmonics3 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    harmonics3 = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    harmonics4 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    harmonics4 = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
 
-    harmonics5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    harmonics5 = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    harmonics6 = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    harmonics6 = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
 
-    harmonics7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    harmonics7 = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    ultra0 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
+    ultra0 = FloatField(
+        default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0
+    )
 
     ultra1 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
@@ -116,7 +140,9 @@ class GeneratedPolySuperShape(DG):
 
     ultra3 = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ultra4 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
+    ultra4 = FloatField(
+        default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0
+    )
 
     ultra5 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
@@ -124,7 +150,9 @@ class GeneratedPolySuperShape(DG):
 
     ultra7 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
-    ultra8 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
+    ultra8 = FloatField(
+        default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0
+    )
 
     ultra9 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
@@ -132,7 +160,9 @@ class GeneratedPolySuperShape(DG):
 
     ultra11 = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
-    ultra12 = FloatField(default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0)
+    ultra12 = FloatField(
+        default_value=0.0, soft_min_value=-30.0, soft_max_value=30.0
+    )
 
     ultra13 = FloatField(default_value=1.0, min_value=0.0, soft_max_value=4.0)
 
@@ -144,20 +174,36 @@ class GeneratedPolySuperShape(DG):
 
     ultraMirror = BoolField(default_value=False)
 
-    horizontalDivisions = LongField(default_value=16, min_value=1, soft_max_value=40)
+    horizontalDivisions = LongField(
+        default_value=16, min_value=1, soft_max_value=40
+    )
 
-    verticalDivisions = LongField(default_value=16, min_value=1, soft_max_value=40)
+    verticalDivisions = LongField(
+        default_value=16, min_value=1, soft_max_value=40
+    )
 
     mergeVertices = BoolField(default_value=True)
 
-    horizontalRevolutions = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
+    horizontalRevolutions = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=20.0
+    )
 
-    verticalRevolutions = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
+    verticalRevolutions = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=20.0
+    )
 
-    verticalOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    verticalOffset = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    internalRadius = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    internalRadius = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    xOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    xOffset = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    zOffset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    zOffset = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )

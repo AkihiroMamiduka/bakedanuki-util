@@ -56,14 +56,20 @@ class GeneratedPolyStraightenUVBorder(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    curvature = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    curvature = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     c = curvature
 
-    preserveLength = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    preserveLength = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     pl = preserveLength
 
     blendOriginal = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     bo = blendOriginal
 
-    gapTolerance = LongField(default_value=5, min_value=0, soft_min_value=0, soft_max_value=10)
+    gapTolerance = LongField(
+        default_value=5, min_value=0, soft_min_value=0, soft_max_value=10
+    )
     gt = gapTolerance

@@ -12,8 +12,12 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
@@ -72,13 +76,19 @@ class GeneratedMakeNurbSphere(DG):
     outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    radius = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    radius = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     r = radius
 
-    startSweep = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    startSweep = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ssw = startSweep
 
-    endSweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
+    endSweep = DoubleAngleField(
+        default_value=360.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     esw = endSweep
 
     useTolerance = BoolField(default_value=False)
@@ -87,16 +97,24 @@ class GeneratedMakeNurbSphere(DG):
     degree = DegreeEnumField(default_value=3)
     d = degree
 
-    sections = LongField(default_value=8, min_value=1, max_value=1000, soft_max_value=100)
+    sections = LongField(
+        default_value=8, min_value=1, max_value=1000, soft_max_value=100
+    )
     s = sections
 
-    spans = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
+    spans = LongField(
+        default_value=1, min_value=1, max_value=1000, soft_max_value=100
+    )
     nsp = spans
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance
 
-    heightRatio = DoubleField(default_value=2.0, soft_min_value=0.1, soft_max_value=10.0)
+    heightRatio = DoubleField(
+        default_value=2.0, soft_min_value=0.1, soft_max_value=10.0
+    )
     hr = heightRatio
 
     topCapCurve = DataNurbsCurveField(writable=False)
@@ -105,5 +123,7 @@ class GeneratedMakeNurbSphere(DG):
     bottomCapCurve = DataNurbsCurveField(writable=False)
     bcc = bottomCapCurve
 
-    absoluteSweepDifference = DoubleAngleField(default_value=0.0, writable=False)
+    absoluteSweepDifference = DoubleAngleField(
+        default_value=0.0, writable=False
+    )
     asd = absoluteSweepDifference

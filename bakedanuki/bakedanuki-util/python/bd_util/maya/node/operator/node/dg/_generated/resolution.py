@@ -47,14 +47,18 @@ class FieldsEnumField(
     PLUG_CLS = FieldsEnumPlugOperator
 
 
-class ZerothScanlineEnumPlugOperator(EnumPlugOperator["ZerothScanlineEnumAttrOperator"]):
+class ZerothScanlineEnumPlugOperator(
+    EnumPlugOperator["ZerothScanlineEnumAttrOperator"]
+):
     __slots__ = ()
 
     AT_TOP = 0
     AT_BOTTOM = 1
 
 
-class ZerothScanlineEnumAttrOperator(EnumAttrOperator[ZerothScanlineEnumPlugOperator]):
+class ZerothScanlineEnumAttrOperator(
+    EnumAttrOperator[ZerothScanlineEnumPlugOperator]
+):
     __slots__ = ()
 
     AT_TOP = 0
@@ -75,7 +79,9 @@ class ZerothScanlineEnumField(
     PLUG_CLS = ZerothScanlineEnumPlugOperator
 
 
-class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator["ImageSizeUnitsEnumAttrOperator"]):
+class ImageSizeUnitsEnumPlugOperator(
+    EnumPlugOperator["ImageSizeUnitsEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIXELS = 0
@@ -86,7 +92,9 @@ class ImageSizeUnitsEnumPlugOperator(EnumPlugOperator["ImageSizeUnitsEnumAttrOpe
     PICAS = 5
 
 
-class ImageSizeUnitsEnumAttrOperator(EnumAttrOperator[ImageSizeUnitsEnumPlugOperator]):
+class ImageSizeUnitsEnumAttrOperator(
+    EnumAttrOperator[ImageSizeUnitsEnumPlugOperator]
+):
     __slots__ = ()
 
     PIXELS = 0
@@ -115,14 +123,18 @@ class ImageSizeUnitsEnumField(
     PLUG_CLS = ImageSizeUnitsEnumPlugOperator
 
 
-class PixelDensityUnitsEnumPlugOperator(EnumPlugOperator["PixelDensityUnitsEnumAttrOperator"]):
+class PixelDensityUnitsEnumPlugOperator(
+    EnumPlugOperator["PixelDensityUnitsEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0
     PIXELS_SLASH_CM = 1
 
 
-class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator[PixelDensityUnitsEnumPlugOperator]):
+class PixelDensityUnitsEnumAttrOperator(
+    EnumAttrOperator[PixelDensityUnitsEnumPlugOperator]
+):
     __slots__ = ()
 
     PIXELS_SLASH_INCH = 0
@@ -135,7 +147,9 @@ class PixelDensityUnitsEnumAttrOperator(EnumAttrOperator[PixelDensityUnitsEnumPl
 
 
 class PixelDensityUnitsEnumField(
-    EnumField[PixelDensityUnitsEnumAttrOperator, PixelDensityUnitsEnumPlugOperator]
+    EnumField[
+        PixelDensityUnitsEnumAttrOperator, PixelDensityUnitsEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -148,10 +162,14 @@ class GeneratedResolution(DG):
 
     NODE_TYPE = "resolution"
 
-    width = LongField(default_value=960, min_value=2, soft_min_value=128, soft_max_value=8192)
+    width = LongField(
+        default_value=960, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     w = width
 
-    height = LongField(default_value=540, min_value=2, soft_min_value=128, soft_max_value=8192)
+    height = LongField(
+        default_value=540, min_value=2, soft_min_value=128, soft_max_value=8192
+    )
     h = height
 
     pixelAspect = FloatField(default_value=0.0)
@@ -160,7 +178,9 @@ class GeneratedResolution(DG):
     aspectLock = BoolField(default_value=False)
     al = aspectLock
 
-    deviceAspectRatio = FloatField(default_value=1.7777776718139648, min_value=0.0, soft_max_value=10.0)
+    deviceAspectRatio = FloatField(
+        default_value=1.7777776718139648, min_value=0.0, soft_max_value=10.0
+    )
     dar = deviceAspectRatio
 
     lockDeviceAspectRatio = BoolField(default_value=False)

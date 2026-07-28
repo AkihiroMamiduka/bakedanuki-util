@@ -54,9 +54,7 @@ class CacheEnumAttrOperator(EnumAttrOperator[CacheEnumPlugOperator]):
     }
 
 
-class CacheEnumField(
-    EnumField[CacheEnumAttrOperator, CacheEnumPlugOperator]
-):
+class CacheEnumField(EnumField[CacheEnumAttrOperator, CacheEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = CacheEnumAttrOperator
@@ -88,14 +86,18 @@ class STICKYEnumField(
     PLUG_CLS = STICKYEnumPlugOperator
 
 
-class RelativeStickyEnumPlugOperator(EnumPlugOperator["RelativeStickyEnumAttrOperator"]):
+class RelativeStickyEnumPlugOperator(
+    EnumPlugOperator["RelativeStickyEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     RELATIVE = 1
 
 
-class RelativeStickyEnumAttrOperator(EnumAttrOperator[RelativeStickyEnumPlugOperator]):
+class RelativeStickyEnumAttrOperator(
+    EnumAttrOperator[RelativeStickyEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -213,9 +215,7 @@ class FORCEEnumAttrOperator(EnumAttrOperator[FORCEEnumPlugOperator]):
     }
 
 
-class FORCEEnumField(
-    EnumField[FORCEEnumAttrOperator, FORCEEnumPlugOperator]
-):
+class FORCEEnumField(EnumField[FORCEEnumAttrOperator, FORCEEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = FORCEEnumAttrOperator
@@ -263,9 +263,7 @@ class RELAXEnumAttrOperator(EnumAttrOperator[RELAXEnumPlugOperator]):
     }
 
 
-class RELAXEnumField(
-    EnumField[RELAXEnumAttrOperator, RELAXEnumPlugOperator]
-):
+class RELAXEnumField(EnumField[RELAXEnumAttrOperator, RELAXEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RELAXEnumAttrOperator
@@ -375,16 +373,16 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class CapsuleAxisEnumPlugOperator(EnumPlugOperator["CapsuleAxisEnumAttrOperator"]):
+class CapsuleAxisEnumPlugOperator(
+    EnumPlugOperator["CapsuleAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -395,7 +393,9 @@ class CapsuleAxisEnumPlugOperator(EnumPlugOperator["CapsuleAxisEnumAttrOperator"
     NEG_Z_MINUS_AXIS = 5
 
 
-class CapsuleAxisEnumAttrOperator(EnumAttrOperator[CapsuleAxisEnumPlugOperator]):
+class CapsuleAxisEnumAttrOperator(
+    EnumAttrOperator[CapsuleAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -551,14 +551,18 @@ class PushModeEnumField(
     PLUG_CLS = PushModeEnumPlugOperator
 
 
-class CombineModeEnumPlugOperator(EnumPlugOperator["CombineModeEnumAttrOperator"]):
+class CombineModeEnumPlugOperator(
+    EnumPlugOperator["CombineModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAX = 0
     ADD = 1
 
 
-class CombineModeEnumAttrOperator(EnumAttrOperator[CombineModeEnumPlugOperator]):
+class CombineModeEnumAttrOperator(
+    EnumAttrOperator[CombineModeEnumPlugOperator]
+):
     __slots__ = ()
 
     MAX = 0
@@ -579,14 +583,18 @@ class CombineModeEnumField(
     PLUG_CLS = CombineModeEnumPlugOperator
 
 
-class CollideModeSmartEnumPlugOperator(EnumPlugOperator["CollideModeSmartEnumAttrOperator"]):
+class CollideModeSmartEnumPlugOperator(
+    EnumPlugOperator["CollideModeSmartEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLANE = 0
     MESH = 1
 
 
-class CollideModeSmartEnumAttrOperator(EnumAttrOperator[CollideModeSmartEnumPlugOperator]):
+class CollideModeSmartEnumAttrOperator(
+    EnumAttrOperator[CollideModeSmartEnumPlugOperator]
+):
     __slots__ = ()
 
     PLANE = 0
@@ -599,7 +607,9 @@ class CollideModeSmartEnumAttrOperator(EnumAttrOperator[CollideModeSmartEnumPlug
 
 
 class CollideModeSmartEnumField(
-    EnumField[CollideModeSmartEnumAttrOperator, CollideModeSmartEnumPlugOperator]
+    EnumField[
+        CollideModeSmartEnumAttrOperator, CollideModeSmartEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -647,7 +657,9 @@ class AxisSmartEnumField(
     PLUG_CLS = AxisSmartEnumPlugOperator
 
 
-class SMOOTH_PREEnumPlugOperator(EnumPlugOperator["SMOOTH_PREEnumAttrOperator"]):
+class SMOOTH_PREEnumPlugOperator(
+    EnumPlugOperator["SMOOTH_PREEnumAttrOperator"]
+):
     __slots__ = ()
 
     MINUS = 0
@@ -697,13 +709,17 @@ class MOVEMENTEnumField(
     PLUG_CLS = MOVEMENTEnumPlugOperator
 
 
-class COLLISIONSMARTEnumPlugOperator(EnumPlugOperator["COLLISIONSMARTEnumAttrOperator"]):
+class COLLISIONSMARTEnumPlugOperator(
+    EnumPlugOperator["COLLISIONSMARTEnumAttrOperator"]
+):
     __slots__ = ()
 
     MINUS = 0
 
 
-class COLLISIONSMARTEnumAttrOperator(EnumAttrOperator[COLLISIONSMARTEnumPlugOperator]):
+class COLLISIONSMARTEnumAttrOperator(
+    EnumAttrOperator[COLLISIONSMARTEnumPlugOperator]
+):
     __slots__ = ()
 
     MINUS = 0
@@ -722,13 +738,17 @@ class COLLISIONSMARTEnumField(
     PLUG_CLS = COLLISIONSMARTEnumPlugOperator
 
 
-class SMOOTH_POSTEnumPlugOperator(EnumPlugOperator["SMOOTH_POSTEnumAttrOperator"]):
+class SMOOTH_POSTEnumPlugOperator(
+    EnumPlugOperator["SMOOTH_POSTEnumAttrOperator"]
+):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SMOOTH_POSTEnumAttrOperator(EnumAttrOperator[SMOOTH_POSTEnumPlugOperator]):
+class SMOOTH_POSTEnumAttrOperator(
+    EnumAttrOperator[SMOOTH_POSTEnumPlugOperator]
+):
     __slots__ = ()
 
     MINUS = 0
@@ -747,9 +767,7 @@ class SMOOTH_POSTEnumField(
     PLUG_CLS = SMOOTH_POSTEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -767,9 +785,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -782,9 +798,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -795,9 +809,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -813,7 +825,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -874,20 +888,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -902,9 +910,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class UserDataPlugOperator(
-    CompoundPlugOperator["UserDataAttrOperator"]
-):
+class UserDataPlugOperator(CompoundPlugOperator["UserDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inTime", "it"),
@@ -1134,7 +1140,9 @@ class UserDataPlugOperator(
     relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rstr = relaxStrength
 
     wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
@@ -1146,7 +1154,9 @@ class UserDataPlugOperator(
     relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxFriction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rfrc = relaxFriction
 
     SMOOTH = SMOOTHEnumField(default_value=0)
@@ -1161,7 +1171,9 @@ class UserDataPlugOperator(
     smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sstr = smoothStrength
 
     smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
@@ -1197,22 +1209,26 @@ class UserDataPlugOperator(
     selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    selfRelaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     slfrxstr = selfRelaxStrength
 
     selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    selfSmoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    selfSmoothHold = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     slfhld = selfSmoothHold
 
 
-class UserDataAttrOperator(
-    CompoundAttrOperator[UserDataPlugOperator]
-):
+class UserDataAttrOperator(CompoundAttrOperator[UserDataPlugOperator]):
     __slots__ = ()
 
     inTime = DoubleField(default_value=0.0)
@@ -1365,7 +1381,9 @@ class UserDataAttrOperator(
     relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rstr = relaxStrength
 
     wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
@@ -1377,7 +1395,9 @@ class UserDataAttrOperator(
     relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxFriction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rfrc = relaxFriction
 
     SMOOTH = SMOOTHEnumField(default_value=0)
@@ -1392,7 +1412,9 @@ class UserDataAttrOperator(
     smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sstr = smoothStrength
 
     smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
@@ -1428,22 +1450,26 @@ class UserDataAttrOperator(
     selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    selfRelaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     slfrxstr = selfRelaxStrength
 
     selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    selfSmoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    selfSmoothHold = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     slfhld = selfSmoothHold
 
 
-class UserDataField(
-    CompoundField[UserDataAttrOperator, UserDataPlugOperator]
-):
+class UserDataField(CompoundField[UserDataAttrOperator, UserDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UserDataAttrOperator
@@ -1599,7 +1625,9 @@ class UserDataField(
     relaxIterations = LongField(default_value=8, min_value=1)
     ritr = relaxIterations
 
-    relaxStrength = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rstr = relaxStrength
 
     wrinkleStrength = DoubleField(default_value=1.0, min_value=0.0)
@@ -1611,7 +1639,9 @@ class UserDataField(
     relaxExpand = DoubleField(default_value=0.0, min_value=0.0)
     rexp = relaxExpand
 
-    relaxFriction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxFriction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rfrc = relaxFriction
 
     SMOOTH = SMOOTHEnumField(default_value=0)
@@ -1626,7 +1656,9 @@ class UserDataField(
     smoothIterations = LongField(default_value=5, min_value=1)
     sitr = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sstr = smoothStrength
 
     smoothCompress = DoubleField(default_value=0.0, min_value=0.0)
@@ -1662,22 +1694,26 @@ class UserDataField(
     selfRelaxIterations = LongField(default_value=12, min_value=1)
     slfrxi = selfRelaxIterations
 
-    selfRelaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    selfRelaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     slfrxstr = selfRelaxStrength
 
     selfSmoothIterations = LongField(default_value=5, min_value=1)
     slfsmi = selfSmoothIterations
 
-    selfSmoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    selfSmoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     slfsmstr = selfSmoothStrength
 
-    selfSmoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    selfSmoothHold = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     slfhld = selfSmoothHold
 
 
-class MuscleDataPlugOperator(
-    CompoundPlugOperator["MuscleDataAttrOperator"]
-):
+class MuscleDataPlugOperator(CompoundPlugOperator["MuscleDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("worldMatrixStart", "wms"),
@@ -1763,9 +1799,7 @@ class MuscleDataPlugOperator(
     uscmus = userScaleMus
 
 
-class MuscleDataAttrOperator(
-    CompoundAttrOperator[MuscleDataPlugOperator]
-):
+class MuscleDataAttrOperator(CompoundAttrOperator[MuscleDataPlugOperator]):
     __slots__ = ()
 
     worldMatrixStart = MatrixField()
@@ -1838,9 +1872,7 @@ class MuscleDataField(
     PLUG_CLS = MuscleDataPlugOperator
 
 
-class DirDataPlugOperator(
-    CompoundPlugOperator["DirDataAttrOperator"]
-):
+class DirDataPlugOperator(CompoundPlugOperator["DirDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("worldMatrixDir", "wmd"),
@@ -1878,9 +1910,7 @@ class DirDataPlugOperator(
     lkdi = lockDirWt
 
 
-class DirDataAttrOperator(
-    CompoundAttrOperator[DirDataPlugOperator]
-):
+class DirDataAttrOperator(CompoundAttrOperator[DirDataPlugOperator]):
     __slots__ = ()
 
     worldMatrixDir = MatrixField()
@@ -1908,18 +1938,14 @@ class DirDataAttrOperator(
     lkdi = lockDirWt
 
 
-class DirDataField(
-    CompoundField[DirDataAttrOperator, DirDataPlugOperator]
-):
+class DirDataField(CompoundField[DirDataAttrOperator, DirDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DirDataAttrOperator
     PLUG_CLS = DirDataPlugOperator
 
 
-class DispDataPlugOperator(
-    CompoundPlugOperator["DispDataAttrOperator"]
-):
+class DispDataPlugOperator(CompoundPlugOperator["DispDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("worldMatrixDisp", "wmdsp"),
@@ -1965,9 +1991,7 @@ class DispDataPlugOperator(
     sha = shader
 
 
-class DispDataAttrOperator(
-    CompoundAttrOperator[DispDataPlugOperator]
-):
+class DispDataAttrOperator(CompoundAttrOperator[DispDataPlugOperator]):
     __slots__ = ()
 
     worldMatrixDisp = MatrixField()
@@ -2001,9 +2025,7 @@ class DispDataAttrOperator(
     sha = shader
 
 
-class DispDataField(
-    CompoundField[DispDataAttrOperator, DispDataPlugOperator]
-):
+class DispDataField(CompoundField[DispDataAttrOperator, DispDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DispDataAttrOperator
@@ -2102,16 +2124,22 @@ class SmartCollideDataPlugOperator(
     triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    angleMinSmart = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
+    angleMinSmart = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=180.0
+    )
     angminsmrt = angleMinSmart
 
-    angleMaxSmart = DoubleField(default_value=90.0, min_value=0.0, max_value=180.0)
+    angleMaxSmart = DoubleField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     angmaxsmrt = angleMaxSmart
 
     biasSmart = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bissmrt = biasSmart
 
-    biasAdjustSmart = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
+    biasAdjustSmart = DoubleField(
+        default_value=0.0, min_value=-2.0, max_value=2.0
+    )
     bisadjsmrt = biasAdjustSmart
 
     userScaleSmarr = DoubleField(default_value=1.0)
@@ -2126,10 +2154,14 @@ class SmartCollideDataPlugOperator(
     smrtSmoothIterationsPre = LongField(default_value=5, min_value=0)
     smrtsmipre = smrtSmoothIterationsPre
 
-    smrtSmoothStrengthPre = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smrtSmoothStrengthPre = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smrtsmstrpre = smrtSmoothStrengthPre
 
-    smrtSmoothHoldPre = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smrtSmoothHoldPre = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     smrthldpre = smrtSmoothHoldPre
 
     MOVEMENT = MOVEMENTEnumField(default_value=0)
@@ -2228,10 +2260,14 @@ class SmartCollideDataPlugOperator(
     smrtSmoothIterationsPost = LongField(default_value=5, min_value=0)
     smrtsmipst = smrtSmoothIterationsPost
 
-    smrtSmoothStrengthPost = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smrtSmoothStrengthPost = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smrtsmstrpst = smrtSmoothStrengthPost
 
-    smrtSmoothHoldPost = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smrtSmoothHoldPost = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     smrthldpst = smrtSmoothHoldPost
 
     lockSmartWt = BoolField(default_value=False)
@@ -2273,16 +2309,22 @@ class SmartCollideDataAttrOperator(
     triggerMin = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
     trgmin = triggerMin
 
-    angleMinSmart = DoubleField(default_value=0.0, min_value=0.0, max_value=180.0)
+    angleMinSmart = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=180.0
+    )
     angminsmrt = angleMinSmart
 
-    angleMaxSmart = DoubleField(default_value=90.0, min_value=0.0, max_value=180.0)
+    angleMaxSmart = DoubleField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     angmaxsmrt = angleMaxSmart
 
     biasSmart = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     bissmrt = biasSmart
 
-    biasAdjustSmart = DoubleField(default_value=0.0, min_value=-2.0, max_value=2.0)
+    biasAdjustSmart = DoubleField(
+        default_value=0.0, min_value=-2.0, max_value=2.0
+    )
     bisadjsmrt = biasAdjustSmart
 
     userScaleSmarr = DoubleField(default_value=1.0)
@@ -2297,10 +2339,14 @@ class SmartCollideDataAttrOperator(
     smrtSmoothIterationsPre = LongField(default_value=5, min_value=0)
     smrtsmipre = smrtSmoothIterationsPre
 
-    smrtSmoothStrengthPre = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smrtSmoothStrengthPre = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smrtsmstrpre = smrtSmoothStrengthPre
 
-    smrtSmoothHoldPre = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smrtSmoothHoldPre = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     smrthldpre = smrtSmoothHoldPre
 
     MOVEMENT = MOVEMENTEnumField(default_value=0)
@@ -2399,10 +2445,14 @@ class SmartCollideDataAttrOperator(
     smrtSmoothIterationsPost = LongField(default_value=5, min_value=0)
     smrtsmipst = smrtSmoothIterationsPost
 
-    smrtSmoothStrengthPost = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smrtSmoothStrengthPost = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smrtsmstrpst = smrtSmoothStrengthPost
 
-    smrtSmoothHoldPost = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    smrtSmoothHoldPost = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     smrthldpst = smrtSmoothHoldPost
 
     lockSmartWt = BoolField(default_value=False)
@@ -2462,9 +2512,7 @@ class SelfCollideDataField(
     PLUG_CLS = SelfCollideDataPlugOperator
 
 
-class RelaxDataPlugOperator(
-    CompoundPlugOperator["RelaxDataAttrOperator"]
-):
+class RelaxDataPlugOperator(CompoundPlugOperator["RelaxDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("numStretch", "nstr"),
@@ -2506,9 +2554,7 @@ class RelaxDataPlugOperator(
     reltri = relaxTri
 
 
-class RelaxDataAttrOperator(
-    CompoundAttrOperator[RelaxDataPlugOperator]
-):
+class RelaxDataAttrOperator(CompoundAttrOperator[RelaxDataPlugOperator]):
     __slots__ = ()
 
     numStretch = LongField(default_value=0, min_value=0)
@@ -2619,9 +2665,7 @@ class RelativePointField(
     PLUG_CLS = RelativePointPlugOperator
 
 
-class SmoothDataPlugOperator(
-    CompoundPlugOperator["SmoothDataAttrOperator"]
-):
+class SmoothDataPlugOperator(CompoundPlugOperator["SmoothDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("smoothEntry", "smte"),
@@ -2635,9 +2679,7 @@ class SmoothDataPlugOperator(
     ptpe = ptToPtEntry
 
 
-class SmoothDataAttrOperator(
-    CompoundAttrOperator[SmoothDataPlugOperator]
-):
+class SmoothDataAttrOperator(CompoundAttrOperator[SmoothDataPlugOperator]):
     __slots__ = ()
 
     smoothEntry = CompoundField(multi=True, default_value=-1.0)
@@ -2662,21 +2704,15 @@ class SmoothDataField(
     ptpe = ptToPtEntry
 
 
-class JiggleFramePlugOperator(
-    CompoundPlugOperator["JiggleFrameAttrOperator"]
-):
+class JiggleFramePlugOperator(CompoundPlugOperator["JiggleFrameAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("force", "frc"),
-    )
+    CHILD_ATTR_NAMES = (("force", "frc"),)
 
     force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
-class JiggleFrameAttrOperator(
-    CompoundAttrOperator[JiggleFramePlugOperator]
-):
+class JiggleFrameAttrOperator(CompoundAttrOperator[JiggleFramePlugOperator]):
     __slots__ = ()
 
     force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -2692,21 +2728,15 @@ class JiggleFrameField(
     PLUG_CLS = JiggleFramePlugOperator
 
 
-class CacheFramePlugOperator(
-    CompoundPlugOperator["CacheFrameAttrOperator"]
-):
+class CacheFramePlugOperator(CompoundPlugOperator["CacheFrameAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("cachePos", "cpos"),
-    )
+    CHILD_ATTR_NAMES = (("cachePos", "cpos"),)
 
     cachePos = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     cpos = cachePos
 
 
-class CacheFrameAttrOperator(
-    CompoundAttrOperator[CacheFramePlugOperator]
-):
+class CacheFrameAttrOperator(CompoundAttrOperator[CacheFramePlugOperator]):
     __slots__ = ()
 
     cachePos = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -2726,9 +2756,7 @@ class WeightListMusPlugOperator(
     CompoundPlugOperator["WeightListMusAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsMus", "wtm"),
-    )
+    CHILD_ATTR_NAMES = (("weightsMus", "wtm"),)
 
     weightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtm = weightsMus
@@ -2756,11 +2784,11 @@ class StickyWeightListMusPlugOperator(
     CompoundPlugOperator["StickyWeightListMusAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("stickyWeightsMus", "stkwtm"),
-    )
+    CHILD_ATTR_NAMES = (("stickyWeightsMus", "stkwtm"),)
 
-    stickyWeightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMus = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtm = stickyWeightsMus
 
 
@@ -2769,12 +2797,16 @@ class StickyWeightListMusAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMus = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMus = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtm = stickyWeightsMus
 
 
 class StickyWeightListMusField(
-    CompoundField[StickyWeightListMusAttrOperator, StickyWeightListMusPlugOperator]
+    CompoundField[
+        StickyWeightListMusAttrOperator, StickyWeightListMusPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2786,11 +2818,11 @@ class StickyWeightListMusBPlugOperator(
     CompoundPlugOperator["StickyWeightListMusBAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("stickyWeightsMusB", "stkwtmb"),
-    )
+    CHILD_ATTR_NAMES = (("stickyWeightsMusB", "stkwtmb"),)
 
-    stickyWeightsMusB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMusB = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtmb = stickyWeightsMusB
 
 
@@ -2799,12 +2831,16 @@ class StickyWeightListMusBAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMusB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMusB = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtmb = stickyWeightsMusB
 
 
 class StickyWeightListMusBField(
-    CompoundField[StickyWeightListMusBAttrOperator, StickyWeightListMusBPlugOperator]
+    CompoundField[
+        StickyWeightListMusBAttrOperator, StickyWeightListMusBPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2816,11 +2852,11 @@ class StickyWeightListMusCPlugOperator(
     CompoundPlugOperator["StickyWeightListMusCAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("stickyWeightsMusC", "stkwtmc"),
-    )
+    CHILD_ATTR_NAMES = (("stickyWeightsMusC", "stkwtmc"),)
 
-    stickyWeightsMusC = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMusC = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtmc = stickyWeightsMusC
 
 
@@ -2829,12 +2865,16 @@ class StickyWeightListMusCAttrOperator(
 ):
     __slots__ = ()
 
-    stickyWeightsMusC = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    stickyWeightsMusC = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     stkwtmc = stickyWeightsMusC
 
 
 class StickyWeightListMusCField(
-    CompoundField[StickyWeightListMusCAttrOperator, StickyWeightListMusCPlugOperator]
+    CompoundField[
+        StickyWeightListMusCAttrOperator, StickyWeightListMusCPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2842,21 +2882,15 @@ class StickyWeightListMusCField(
     PLUG_CLS = StickyWeightListMusCPlugOperator
 
 
-class StickyListPlugOperator(
-    CompoundPlugOperator["StickyListAttrOperator"]
-):
+class StickyListPlugOperator(CompoundPlugOperator["StickyListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("stickyData", "stkData"),
-    )
+    CHILD_ATTR_NAMES = (("stickyData", "stkData"),)
 
     stickyData = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
     stkData = stickyData
 
 
-class StickyListAttrOperator(
-    CompoundAttrOperator[StickyListPlugOperator]
-):
+class StickyListAttrOperator(CompoundAttrOperator[StickyListPlugOperator]):
     __slots__ = ()
 
     stickyData = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
@@ -2876,9 +2910,7 @@ class WeightListDirPlugOperator(
     CompoundPlugOperator["WeightListDirAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsDir", "wtd"),
-    )
+    CHILD_ATTR_NAMES = (("weightsDir", "wtd"),)
 
     weightsDir = DoubleField(multi=True, default_value=0.0, min_value=0.0)
     wtd = weightsDir
@@ -2906,11 +2938,11 @@ class WeightListSmartRegionAPlugOperator(
     CompoundPlugOperator["WeightListSmartRegionAAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartRegionA", "wtsmrtrega"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartRegionA", "wtsmrtrega"),)
 
-    weightsSmartRegionA = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartRegionA = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtrega = weightsSmartRegionA
 
 
@@ -2919,12 +2951,16 @@ class WeightListSmartRegionAAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartRegionA = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartRegionA = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtrega = weightsSmartRegionA
 
 
 class WeightListSmartRegionAField(
-    CompoundField[WeightListSmartRegionAAttrOperator, WeightListSmartRegionAPlugOperator]
+    CompoundField[
+        WeightListSmartRegionAAttrOperator, WeightListSmartRegionAPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2936,11 +2972,11 @@ class WeightListSmartRegionBPlugOperator(
     CompoundPlugOperator["WeightListSmartRegionBAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartRegionB", "wtsmrtregb"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartRegionB", "wtsmrtregb"),)
 
-    weightsSmartRegionB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartRegionB = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtregb = weightsSmartRegionB
 
 
@@ -2949,12 +2985,16 @@ class WeightListSmartRegionBAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartRegionB = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartRegionB = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtregb = weightsSmartRegionB
 
 
 class WeightListSmartRegionBField(
-    CompoundField[WeightListSmartRegionBAttrOperator, WeightListSmartRegionBPlugOperator]
+    CompoundField[
+        WeightListSmartRegionBAttrOperator, WeightListSmartRegionBPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2966,11 +3006,11 @@ class WeightListSmartBulkPlugOperator(
     CompoundPlugOperator["WeightListSmartBulkAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartBulk", "wtsmrtblk"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartBulk", "wtsmrtblk"),)
 
-    weightsSmartBulk = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulk = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblk = weightsSmartBulk
 
 
@@ -2979,12 +3019,16 @@ class WeightListSmartBulkAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulk = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulk = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblk = weightsSmartBulk
 
 
 class WeightListSmartBulkField(
-    CompoundField[WeightListSmartBulkAttrOperator, WeightListSmartBulkPlugOperator]
+    CompoundField[
+        WeightListSmartBulkAttrOperator, WeightListSmartBulkPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2996,11 +3040,11 @@ class WeightListSmartBulkAngularPlugOperator(
     CompoundPlugOperator["WeightListSmartBulkAngularAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartBulkAngular", "wtsmrtblkang"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartBulkAngular", "wtsmrtblkang"),)
 
-    weightsSmartBulkAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulkAngular = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblkang = weightsSmartBulkAngular
 
 
@@ -3009,12 +3053,17 @@ class WeightListSmartBulkAngularAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulkAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulkAngular = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblkang = weightsSmartBulkAngular
 
 
 class WeightListSmartBulkAngularField(
-    CompoundField[WeightListSmartBulkAngularAttrOperator, WeightListSmartBulkAngularPlugOperator]
+    CompoundField[
+        WeightListSmartBulkAngularAttrOperator,
+        WeightListSmartBulkAngularPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3026,11 +3075,11 @@ class WeightListSmartBulkWidenPlugOperator(
     CompoundPlugOperator["WeightListSmartBulkWidenAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartBulkWiden", "wtsmrtblkwid"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartBulkWiden", "wtsmrtblkwid"),)
 
-    weightsSmartBulkWiden = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulkWiden = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblkwid = weightsSmartBulkWiden
 
 
@@ -3039,12 +3088,17 @@ class WeightListSmartBulkWidenAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartBulkWiden = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartBulkWiden = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtblkwid = weightsSmartBulkWiden
 
 
 class WeightListSmartBulkWidenField(
-    CompoundField[WeightListSmartBulkWidenAttrOperator, WeightListSmartBulkWidenPlugOperator]
+    CompoundField[
+        WeightListSmartBulkWidenAttrOperator,
+        WeightListSmartBulkWidenPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3056,11 +3110,11 @@ class WeightListSmartSlidePlugOperator(
     CompoundPlugOperator["WeightListSmartSlideAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartSlide", "wtsmrtsld"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartSlide", "wtsmrtsld"),)
 
-    weightsSmartSlide = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSlide = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsld = weightsSmartSlide
 
 
@@ -3069,12 +3123,16 @@ class WeightListSmartSlideAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSlide = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSlide = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsld = weightsSmartSlide
 
 
 class WeightListSmartSlideField(
-    CompoundField[WeightListSmartSlideAttrOperator, WeightListSmartSlidePlugOperator]
+    CompoundField[
+        WeightListSmartSlideAttrOperator, WeightListSmartSlidePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3086,11 +3144,11 @@ class WeightListSmartSlideAngularPlugOperator(
     CompoundPlugOperator["WeightListSmartSlideAngularAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartSlideAngular", "wtsmrtsldang"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartSlideAngular", "wtsmrtsldang"),)
 
-    weightsSmartSlideAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSlideAngular = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsldang = weightsSmartSlideAngular
 
 
@@ -3099,12 +3157,17 @@ class WeightListSmartSlideAngularAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSlideAngular = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSlideAngular = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsldang = weightsSmartSlideAngular
 
 
 class WeightListSmartSlideAngularField(
-    CompoundField[WeightListSmartSlideAngularAttrOperator, WeightListSmartSlideAngularPlugOperator]
+    CompoundField[
+        WeightListSmartSlideAngularAttrOperator,
+        WeightListSmartSlideAngularPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -3116,11 +3179,11 @@ class WeightListSmartSmoothPlugOperator(
     CompoundPlugOperator["WeightListSmartSmoothAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartSmooth", "wtsmrtsmth"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartSmooth", "wtsmrtsmth"),)
 
-    weightsSmartSmooth = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSmooth = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsmth = weightsSmartSmooth
 
 
@@ -3129,12 +3192,16 @@ class WeightListSmartSmoothAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartSmooth = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartSmooth = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtsmth = weightsSmartSmooth
 
 
 class WeightListSmartSmoothField(
-    CompoundField[WeightListSmartSmoothAttrOperator, WeightListSmartSmoothPlugOperator]
+    CompoundField[
+        WeightListSmartSmoothAttrOperator, WeightListSmartSmoothPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3146,11 +3213,11 @@ class WeightListSmartWrinklePlugOperator(
     CompoundPlugOperator["WeightListSmartWrinkleAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartWrinkle", "wtsmrtwrk"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartWrinkle", "wtsmrtwrk"),)
 
-    weightsSmartWrinkle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartWrinkle = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtwrk = weightsSmartWrinkle
 
 
@@ -3159,12 +3226,16 @@ class WeightListSmartWrinkleAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartWrinkle = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartWrinkle = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtwrk = weightsSmartWrinkle
 
 
 class WeightListSmartWrinkleField(
-    CompoundField[WeightListSmartWrinkleAttrOperator, WeightListSmartWrinklePlugOperator]
+    CompoundField[
+        WeightListSmartWrinkleAttrOperator, WeightListSmartWrinklePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3176,11 +3247,11 @@ class WeightListSmartFlattenPlugOperator(
     CompoundPlugOperator["WeightListSmartFlattenAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartFlatten", "wtsmrtflt"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartFlatten", "wtsmrtflt"),)
 
-    weightsSmartFlatten = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartFlatten = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtflt = weightsSmartFlatten
 
 
@@ -3189,12 +3260,16 @@ class WeightListSmartFlattenAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartFlatten = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartFlatten = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtflt = weightsSmartFlatten
 
 
 class WeightListSmartFlattenField(
-    CompoundField[WeightListSmartFlattenAttrOperator, WeightListSmartFlattenPlugOperator]
+    CompoundField[
+        WeightListSmartFlattenAttrOperator, WeightListSmartFlattenPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3206,11 +3281,11 @@ class WeightListSmartVolumizePlugOperator(
     CompoundPlugOperator["WeightListSmartVolumizeAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weightsSmartVolumize", "wtsmrtvol"),
-    )
+    CHILD_ATTR_NAMES = (("weightsSmartVolumize", "wtsmrtvol"),)
 
-    weightsSmartVolumize = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartVolumize = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtvol = weightsSmartVolumize
 
 
@@ -3219,12 +3294,17 @@ class WeightListSmartVolumizeAttrOperator(
 ):
     __slots__ = ()
 
-    weightsSmartVolumize = DoubleField(multi=True, default_value=0.0, min_value=0.0)
+    weightsSmartVolumize = DoubleField(
+        multi=True, default_value=0.0, min_value=0.0
+    )
     wtsmrtvol = weightsSmartVolumize
 
 
 class WeightListSmartVolumizeField(
-    CompoundField[WeightListSmartVolumizeAttrOperator, WeightListSmartVolumizePlugOperator]
+    CompoundField[
+        WeightListSmartVolumizeAttrOperator,
+        WeightListSmartVolumizePlugOperator,
+    ]
 ):
     __slots__ = ()
 

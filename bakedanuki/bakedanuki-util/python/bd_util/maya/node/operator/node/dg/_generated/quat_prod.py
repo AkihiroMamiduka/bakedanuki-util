@@ -35,7 +35,9 @@ class GeneratedQuatProd(DG):
     input2QuatW = input2Quat.input2QuatW
     i2w = input2QuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

@@ -14,9 +14,7 @@ from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base impo
 )
 
 
-class UpPlugOperator(
-    Double3CompoundBasePlugOperator["UpAttrOperator"]
-):
+class UpPlugOperator(Double3CompoundBasePlugOperator["UpAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("upX", "ux"),
@@ -34,9 +32,7 @@ class UpPlugOperator(
     uz = upZ
 
 
-class UpAttrOperator(
-    Double3CompoundBaseAttrOperator[UpPlugOperator]
-):
+class UpAttrOperator(Double3CompoundBaseAttrOperator[UpPlugOperator]):
     __slots__ = ()
 
     upX = DoubleField(default_value=0.0)
@@ -49,9 +45,7 @@ class UpAttrOperator(
     uz = upZ
 
 
-class UpField(
-    Double3CompoundBaseField[UpAttrOperator, UpPlugOperator]
-):
+class UpField(Double3CompoundBaseField[UpAttrOperator, UpPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UpAttrOperator

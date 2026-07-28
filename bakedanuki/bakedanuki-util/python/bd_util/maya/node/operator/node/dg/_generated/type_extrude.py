@@ -39,16 +39,16 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class BevelStyleEnumPlugOperator(EnumPlugOperator["BevelStyleEnumAttrOperator"]):
+class BevelStyleEnumPlugOperator(
+    EnumPlugOperator["BevelStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     OUTER = 1
@@ -93,13 +93,19 @@ class GeneratedTypeExtrude(DG):
     enableExtrusion = BoolField(default_value=True)
     enEx = enableExtrusion
 
-    extrudeDivisions = LongField(default_value=4, min_value=1, soft_min_value=1, soft_max_value=10)
+    extrudeDivisions = LongField(
+        default_value=4, min_value=1, soft_min_value=1, soft_max_value=10
+    )
     exdv = extrudeDivisions
 
-    extrudeDistance = FloatField(default_value=2.5, soft_min_value=0.1, soft_max_value=10.0)
+    extrudeDistance = FloatField(
+        default_value=2.5, soft_min_value=0.1, soft_max_value=10.0
+    )
     exds = extrudeDistance
 
-    extrudeOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    extrudeOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     exof = extrudeOffset
 
     extrudeCurve = ExtrudeCurveField(multi=True, default_value=(0.0, 0.0))
@@ -111,16 +117,26 @@ class GeneratedTypeExtrude(DG):
     gridSize = LongField(default_value=100)
     gs = gridSize
 
-    bevelOffset = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
+    bevelOffset = FloatField(
+        default_value=0.25, soft_min_value=0.0, soft_max_value=1.0
+    )
     bof = bevelOffset
 
-    frontBevelCurve = FrontBevelCurveField(multi=True, default_value=(0.0, 0.0))
+    frontBevelCurve = FrontBevelCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     fbc = frontBevelCurve
 
-    bevelDivisions = LongField(default_value=6, min_value=1, soft_min_value=1, soft_max_value=20)
+    bevelDivisions = LongField(
+        default_value=6, min_value=1, soft_min_value=1, soft_max_value=20
+    )
     bdv = bevelDivisions
 
-    bevelDistance = FloatField(default_value=0.3499999940395355, soft_min_value=-1.0, soft_max_value=1.0)
+    bevelDistance = FloatField(
+        default_value=0.3499999940395355,
+        soft_min_value=-1.0,
+        soft_max_value=1.0,
+    )
     bds = bevelDistance
 
     capGroupId = LongField(default_value=-1)
@@ -138,16 +154,24 @@ class GeneratedTypeExtrude(DG):
     enableBackBevel = BoolField(default_value=False)
     ebb = enableBackBevel
 
-    backBevelOffset = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
+    backBevelOffset = FloatField(
+        default_value=0.25, soft_min_value=0.0, soft_max_value=1.0
+    )
     bbof = backBevelOffset
 
     backBevelCurve = BackBevelCurveField(multi=True, default_value=(0.0, 0.0))
     bbc = backBevelCurve
 
-    backBevelDivisions = LongField(default_value=6, min_value=1, soft_min_value=1, soft_max_value=20)
+    backBevelDivisions = LongField(
+        default_value=6, min_value=1, soft_min_value=1, soft_max_value=20
+    )
     bbdv = backBevelDivisions
 
-    backBevelDistance = FloatField(default_value=0.3499999940395355, soft_min_value=-1.0, soft_max_value=1.0)
+    backBevelDistance = FloatField(
+        default_value=0.3499999940395355,
+        soft_min_value=-1.0,
+        soft_max_value=1.0,
+    )
     bbds = backBevelDistance
 
     rearBevelUsesFront = BoolField(default_value=False)
@@ -181,12 +205,20 @@ class GeneratedTypeExtrude(DG):
 
     enableOuterBevel = BoolField(default_value=False)
 
-    outerBevelCurve = OuterBevelCurveField(multi=True, default_value=(0.0, 0.0))
+    outerBevelCurve = OuterBevelCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
     obc = outerBevelCurve
 
-    outerBevelDistance = FloatField(default_value=0.30000001192092896, soft_min_value=0.01, soft_max_value=1.0)
+    outerBevelDistance = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
 
-    outerBevelDivisions = LongField(default_value=4, min_value=1, soft_max_value=10)
+    outerBevelDivisions = LongField(
+        default_value=4, min_value=1, soft_max_value=10
+    )
 
     bevelStyle = BevelStyleEnumField(default_value=1)
 

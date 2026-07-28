@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +419,9 @@ class SilhouetteColorAttrOperator(
 
 
 class SilhouetteColorField(
-    Float3CompoundBaseField[SilhouetteColorAttrOperator, SilhouetteColorPlugOperator]
+    Float3CompoundBaseField[
+        SilhouetteColorAttrOperator, SilhouetteColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -468,7 +474,9 @@ class SilhouetteTonemapAttrOperator(
 
 
 class SilhouetteTonemapField(
-    Float3CompoundBaseField[SilhouetteTonemapAttrOperator, SilhouetteTonemapPlugOperator]
+    Float3CompoundBaseField[
+        SilhouetteTonemapAttrOperator, SilhouetteTonemapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -627,7 +635,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -680,7 +690,9 @@ class SpecularTonemapAttrOperator(
 
 
 class SpecularTonemapField(
-    Float3CompoundBaseField[SpecularTonemapAttrOperator, SpecularTonemapPlugOperator]
+    Float3CompoundBaseField[
+        SpecularTonemapAttrOperator, SpecularTonemapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -733,7 +745,9 @@ class HighlightColorAttrOperator(
 
 
 class HighlightColorField(
-    Float3CompoundBaseField[HighlightColorAttrOperator, HighlightColorPlugOperator]
+    Float3CompoundBaseField[
+        HighlightColorAttrOperator, HighlightColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -786,7 +800,9 @@ class RimLightColorAttrOperator(
 
 
 class RimLightColorField(
-    Float3CompoundBaseField[RimLightColorAttrOperator, RimLightColorPlugOperator]
+    Float3CompoundBaseField[
+        RimLightColorAttrOperator, RimLightColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -839,7 +855,9 @@ class TransmissionColorAttrOperator(
 
 
 class TransmissionColorField(
-    Float3CompoundBaseField[TransmissionColorAttrOperator, TransmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        TransmissionColorAttrOperator, TransmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -945,7 +963,9 @@ class EmissionColorAttrOperator(
 
 
 class EmissionColorField(
-    Float3CompoundBaseField[EmissionColorAttrOperator, EmissionColorPlugOperator]
+    Float3CompoundBaseField[
+        EmissionColorAttrOperator, EmissionColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -962,9 +982,7 @@ class EmissionColorField(
     emission_colorb = emissionColorB
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalx"),
@@ -982,9 +1000,7 @@ class NormalPlugOperator(
     normalz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)
@@ -1035,9 +1051,7 @@ class TangentPlugOperator(
     tangentz = tangentZ
 
 
-class TangentAttrOperator(
-    Float3CompoundBaseAttrOperator[TangentPlugOperator]
-):
+class TangentAttrOperator(Float3CompoundBaseAttrOperator[TangentPlugOperator]):
     __slots__ = ()
 
     tangentX = FloatField(default_value=0.0)

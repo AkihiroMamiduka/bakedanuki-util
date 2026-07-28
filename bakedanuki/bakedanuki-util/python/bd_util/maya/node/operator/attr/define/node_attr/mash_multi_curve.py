@@ -44,7 +44,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class PointLocationAttrOperator(
 
 
 class PointLocationField(
-    Float3CompoundBaseField[PointLocationAttrOperator, PointLocationPlugOperator]
+    Float3CompoundBaseField[
+        PointLocationAttrOperator, PointLocationPlugOperator
+    ]
 ):
     __slots__ = ()
 

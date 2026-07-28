@@ -10,7 +10,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOperator"]):
+class RepresentationEnumPlugOperator(
+    EnumPlugOperator["RepresentationEnumAttrOperator"]
+):
     __slots__ = ()
 
     A = 1
@@ -19,7 +21,9 @@ class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOpe
     RGBA = 4
 
 
-class RepresentationEnumAttrOperator(EnumAttrOperator[RepresentationEnumPlugOperator]):
+class RepresentationEnumAttrOperator(
+    EnumAttrOperator[RepresentationEnumPlugOperator]
+):
     __slots__ = ()
 
     A = 1

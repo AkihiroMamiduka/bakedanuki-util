@@ -12,7 +12,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import Float2Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
+    Float2Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
@@ -36,9 +38,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -384,7 +384,10 @@ class BaseExplicitUvTilePositionAttrOperator(
 
 
 class BaseExplicitUvTilePositionField(
-    Float2CompoundBaseField[BaseExplicitUvTilePositionAttrOperator, BaseExplicitUvTilePositionPlugOperator]
+    Float2CompoundBaseField[
+        BaseExplicitUvTilePositionAttrOperator,
+        BaseExplicitUvTilePositionPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -450,10 +453,14 @@ class TranslateFramePlugOperator(
         ("translateFrameV", "tfv"),
     )
 
-    translateFrameU = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameU = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfu = translateFrameU
 
-    translateFrameV = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameV = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfv = translateFrameV
 
 
@@ -462,25 +469,35 @@ class TranslateFrameAttrOperator(
 ):
     __slots__ = ()
 
-    translateFrameU = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameU = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfu = translateFrameU
 
-    translateFrameV = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameV = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfv = translateFrameV
 
 
 class TranslateFrameField(
-    Float2CompoundBaseField[TranslateFrameAttrOperator, TranslateFramePlugOperator]
+    Float2CompoundBaseField[
+        TranslateFrameAttrOperator, TranslateFramePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = TranslateFrameAttrOperator
     PLUG_CLS = TranslateFramePlugOperator
 
-    translateFrameU = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameU = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfu = translateFrameU
 
-    translateFrameV = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translateFrameV = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tfv = translateFrameV
 
 
@@ -527,9 +544,7 @@ class RepeatUVField(
     rev = repeatV
 
 
-class OffsetPlugOperator(
-    Float2CompoundBasePlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(Float2CompoundBasePlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetU", "ofu"),
@@ -543,9 +558,7 @@ class OffsetPlugOperator(
     ofv = offsetV
 
 
-class OffsetAttrOperator(
-    Float2CompoundBaseAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(Float2CompoundBaseAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetU = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -586,9 +599,7 @@ class NoiseUVPlugOperator(
     nv = noiseV
 
 
-class NoiseUVAttrOperator(
-    Float2CompoundBaseAttrOperator[NoiseUVPlugOperator]
-):
+class NoiseUVAttrOperator(Float2CompoundBaseAttrOperator[NoiseUVPlugOperator]):
     __slots__ = ()
 
     noiseU = FloatField(default_value=0.0, min_value=0.0)
@@ -649,7 +660,9 @@ class VertexCameraOneAttrOperator(
 
 
 class VertexCameraOneField(
-    Float3CompoundBaseField[VertexCameraOneAttrOperator, VertexCameraOnePlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraOneAttrOperator, VertexCameraOnePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -702,7 +715,9 @@ class VertexCameraTwoAttrOperator(
 
 
 class VertexCameraTwoField(
-    Float3CompoundBaseField[VertexCameraTwoAttrOperator, VertexCameraTwoPlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraTwoAttrOperator, VertexCameraTwoPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -755,7 +770,9 @@ class VertexCameraThreeAttrOperator(
 
 
 class VertexCameraThreeField(
-    Float3CompoundBaseField[VertexCameraThreeAttrOperator, VertexCameraThreePlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraThreeAttrOperator, VertexCameraThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -887,7 +904,9 @@ class VertexUvThreeAttrOperator(
 
 
 class VertexUvThreeField(
-    Float2CompoundBaseField[VertexUvThreeAttrOperator, VertexUvThreePlugOperator]
+    Float2CompoundBaseField[
+        VertexUvThreeAttrOperator, VertexUvThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -960,9 +979,7 @@ class OutSizePlugOperator(
     osy = outSizeY
 
 
-class OutSizeAttrOperator(
-    Float2CompoundBaseAttrOperator[OutSizePlugOperator]
-):
+class OutSizeAttrOperator(Float2CompoundBaseAttrOperator[OutSizePlugOperator]):
     __slots__ = ()
 
     outSizeX = FloatField(default_value=0.0, writable=False)
@@ -1023,7 +1040,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 

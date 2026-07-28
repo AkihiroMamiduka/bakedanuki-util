@@ -65,14 +65,22 @@ class GeneratedPolyColorMod(DG):
     alphaScale = AlphaScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
     a = alphaScale
 
-    intensityScale = IntensityScaleField(multi=True, default_value=(0.0, 0.0, 0.0))
+    intensityScale = IntensityScaleField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     n = intensityScale
 
-    huev = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    huev = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
     h = huev
 
-    satv = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    satv = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     s = satv
 
-    value = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    value = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     v = value

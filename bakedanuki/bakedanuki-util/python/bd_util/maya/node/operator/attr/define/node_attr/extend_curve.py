@@ -44,7 +44,9 @@ class InputPointAttrOperator(
 
 
 class InputPointField(
-    DoubleLinear3CompoundBaseField[InputPointAttrOperator, InputPointPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InputPointAttrOperator, InputPointPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -62,7 +62,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -132,9 +134,7 @@ class RotateField(
     rz = rotateZ
 
 
-class ScalePlugOperator(
-    Double3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -152,9 +152,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=1.0)

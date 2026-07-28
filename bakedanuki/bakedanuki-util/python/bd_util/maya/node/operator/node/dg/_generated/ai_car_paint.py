@@ -26,7 +26,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class FlakeCoordSpaceEnumPlugOperator(EnumPlugOperator["FlakeCoordSpaceEnumAttrOperator"]):
+class FlakeCoordSpaceEnumPlugOperator(
+    EnumPlugOperator["FlakeCoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -35,7 +37,9 @@ class FlakeCoordSpaceEnumPlugOperator(EnumPlugOperator["FlakeCoordSpaceEnumAttrO
     UV = 3
 
 
-class FlakeCoordSpaceEnumAttrOperator(EnumAttrOperator[FlakeCoordSpaceEnumPlugOperator]):
+class FlakeCoordSpaceEnumAttrOperator(
+    EnumAttrOperator[FlakeCoordSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -77,7 +81,9 @@ class GeneratedAiCarPaint(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -104,7 +110,9 @@ class GeneratedAiCarPaint(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    base = FloatField(default_value=0.800000011920929, min_value=0.0, max_value=1.0)
+    base = FloatField(
+        default_value=0.800000011920929, min_value=0.0, max_value=1.0
+    )
 
     baseColor = BaseColorField(default_value=(1.0, 0.0, 0.0))
     base_color = baseColor
@@ -138,7 +146,9 @@ class GeneratedAiCarPaint(DG):
     specularFlipFlopB = specularFlipFlop.specularFlipFlopB
     specular_flip_flopb = specularFlipFlopB
 
-    specularLightFacing = SpecularLightFacingField(default_value=(1.0, 1.0, 1.0))
+    specularLightFacing = SpecularLightFacingField(
+        default_value=(1.0, 1.0, 1.0)
+    )
     specular_light_facing = specularLightFacing
     specularLightFacingR = specularLightFacing.specularLightFacingR
     specular_light_facingr = specularLightFacingR
@@ -147,13 +157,19 @@ class GeneratedAiCarPaint(DG):
     specularLightFacingB = specularLightFacing.specularLightFacingB
     specular_light_facingb = specularLightFacingB
 
-    specularFalloff = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    specularFalloff = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     specular_falloff = specularFalloff
 
-    specularRoughness = FloatField(default_value=0.05000000074505806, min_value=0.0, max_value=1.0)
+    specularRoughness = FloatField(
+        default_value=0.05000000074505806, min_value=0.0, max_value=1.0
+    )
     specular_roughness = specularRoughness
 
-    specularIOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0)
+    specularIOR = FloatField(
+        default_value=1.5199999809265137, min_value=0.0, soft_max_value=3.0
+    )
     specular_IOR = specularIOR
 
     transmissionColor = TransmissionColorField(default_value=(1.0, 1.0, 1.0))
@@ -195,13 +211,21 @@ class GeneratedAiCarPaint(DG):
     flakeFalloff = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     flake_falloff = flakeFalloff
 
-    flakeRoughness = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    flakeRoughness = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     flake_roughness = flakeRoughness
 
-    flakeIOR = FloatField(default_value=100.0, min_value=0.0, soft_max_value=100.0)
+    flakeIOR = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=100.0
+    )
     flake_IOR = flakeIOR
 
-    flakeScale = FloatField(default_value=0.0010000000474974513, min_value=9.999999974752427e-07, soft_max_value=100.0)
+    flakeScale = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=9.999999974752427e-07,
+        soft_max_value=100.0,
+    )
     flake_scale = flakeScale
 
     flakeDensity = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -210,7 +234,9 @@ class GeneratedAiCarPaint(DG):
     flakeLayers = LongField(default_value=1, min_value=1, soft_max_value=4)
     flake_layers = flakeLayers
 
-    flakeNormalRandomize = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    flakeNormalRandomize = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     flake_normal_randomize = flakeNormalRandomize
 
     flakeCoordSpace = FlakeCoordSpaceEnumField(default_value=2)

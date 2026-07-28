@@ -18,7 +18,9 @@ from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class SelfCollisionFlagEnumPlugOperator(EnumPlugOperator["SelfCollisionFlagEnumAttrOperator"]):
+class SelfCollisionFlagEnumPlugOperator(
+    EnumPlugOperator["SelfCollisionFlagEnumAttrOperator"]
+):
     __slots__ = ()
 
     VERTEX = 1
@@ -27,7 +29,9 @@ class SelfCollisionFlagEnumPlugOperator(EnumPlugOperator["SelfCollisionFlagEnumA
     FULL_SURFACE = 4
 
 
-class SelfCollisionFlagEnumAttrOperator(EnumAttrOperator[SelfCollisionFlagEnumPlugOperator]):
+class SelfCollisionFlagEnumAttrOperator(
+    EnumAttrOperator[SelfCollisionFlagEnumPlugOperator]
+):
     __slots__ = ()
 
     VERTEX = 1
@@ -44,7 +48,9 @@ class SelfCollisionFlagEnumAttrOperator(EnumAttrOperator[SelfCollisionFlagEnumPl
 
 
 class SelfCollisionFlagEnumField(
-    EnumField[SelfCollisionFlagEnumAttrOperator, SelfCollisionFlagEnumPlugOperator]
+    EnumField[
+        SelfCollisionFlagEnumAttrOperator, SelfCollisionFlagEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52,14 +58,18 @@ class SelfCollisionFlagEnumField(
     PLUG_CLS = SelfCollisionFlagEnumPlugOperator
 
 
-class PressureMethodEnumPlugOperator(EnumPlugOperator["PressureMethodEnumAttrOperator"]):
+class PressureMethodEnumPlugOperator(
+    EnumPlugOperator["PressureMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     MANUAL_PRESSURE_SETTING = 0
     VOLUME_TRACKING_MODEL = 1
 
 
-class PressureMethodEnumAttrOperator(EnumAttrOperator[PressureMethodEnumPlugOperator]):
+class PressureMethodEnumAttrOperator(
+    EnumAttrOperator[PressureMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     MANUAL_PRESSURE_SETTING = 0
@@ -103,7 +113,11 @@ class GeneratedMembrane(DG):
     enable = BoolField(default_value=True)
     enb = enable
 
-    gravity = FloatField(default_value=9.800000190734863, soft_min_value=0.0, soft_max_value=100.0)
+    gravity = FloatField(
+        default_value=9.800000190734863,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     grty = gravity
 
     gravityDirection = GravityDirectionField(default_value=(0.0, -1.0, 0.0))
@@ -115,7 +129,9 @@ class GeneratedMembrane(DG):
     gravityDirectionZ = gravityDirection.gravityDirectionZ
     grdz = gravityDirectionZ
 
-    windSpeed = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=50.0)
+    windSpeed = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=50.0
+    )
     wisp = windSpeed
 
     windDirection = WindDirectionField(default_value=(1.0, 0.0, 0.0))
@@ -127,16 +143,26 @@ class GeneratedMembrane(DG):
     windDirectionZ = windDirection.windDirectionZ
     widz = windDirectionZ
 
-    turbulence = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    turbulence = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     trb = turbulence
 
-    turbulenceTime = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    turbulenceTime = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     trt = turbulenceTime
 
-    turbulenceFrequency = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    turbulenceFrequency = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     tf = turbulenceFrequency
 
-    turbulenceOffset = TurbulenceOffsetField(default_value=(0.0, 0.0, 0.0), soft_min_value=(-10.0, -10.0, -10.0), soft_max_value=(10.0, 10.0, 10.0))
+    turbulenceOffset = TurbulenceOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(-10.0, -10.0, -10.0),
+        soft_max_value=(10.0, 10.0, 10.0),
+    )
     to = turbulenceOffset
     turbulenceOffsetX = turbulenceOffset.turbulenceOffsetX
     tox = turbulenceOffsetX
@@ -145,13 +171,23 @@ class GeneratedMembrane(DG):
     turbulenceOffsetZ = turbulenceOffset.turbulenceOffsetZ
     toz = turbulenceOffsetZ
 
-    lift = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    lift = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     lft = lift
 
-    drag = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=2.0)
+    drag = FloatField(
+        default_value=0.05000000074505806,
+        soft_min_value=0.0,
+        soft_max_value=2.0,
+    )
     drg = drag
 
-    tangentialDrag = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    tangentialDrag = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     tdrg = tangentialDrag
 
     steps = LongField(default_value=1, soft_min_value=1, soft_max_value=20)
@@ -160,22 +196,36 @@ class GeneratedMembrane(DG):
     subSteps = LongField(default_value=3, soft_min_value=1, soft_max_value=20)
     sstp = subSteps
 
-    stepSize = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    stepSize = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     stsz = stepSize
 
-    spaceScale = FloatField(default_value=1.0, soft_min_value=0.01, soft_max_value=10.0)
+    spaceScale = FloatField(
+        default_value=1.0, soft_min_value=0.01, soft_max_value=10.0
+    )
     spsc = spaceScale
 
-    thickness = FloatField(default_value=0.05000000074505806, soft_min_value=0.0, soft_max_value=1.0)
+    thickness = FloatField(
+        default_value=0.05000000074505806,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     thss = thickness
 
-    friction = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=1.0)
+    friction = FloatField(
+        default_value=0.10000000149011612,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     fron = friction
 
     selfCollisionFlag = SelfCollisionFlagEnumField(default_value=3)
     scfl = selfCollisionFlag
 
-    restLengthScale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    restLengthScale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     rlsc = restLengthScale
 
     collide = BoolField(default_value=True)
@@ -184,37 +234,59 @@ class GeneratedMembrane(DG):
     selfCollide = BoolField(default_value=False)
     scld = selfCollide
 
-    selfCollideWidthScale = FloatField(default_value=1.0, soft_min_value=0.001, soft_max_value=2.0)
+    selfCollideWidthScale = FloatField(
+        default_value=1.0, soft_min_value=0.001, soft_max_value=2.0
+    )
     scws = selfCollideWidthScale
 
-    pushOut = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    pushOut = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     pou = pushOut
 
-    pushOutRadius = FloatField(default_value=2.0, min_value=0.0, soft_max_value=100.0)
+    pushOutRadius = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=100.0
+    )
     por = pushOutRadius
 
-    stretchResistance = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=200.0)
+    stretchResistance = FloatField(
+        default_value=10.0, soft_min_value=0.0, soft_max_value=200.0
+    )
     stch = stretchResistance
 
-    compressionResistance = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=200.0)
+    compressionResistance = FloatField(
+        default_value=10.0, soft_min_value=0.0, soft_max_value=200.0
+    )
     comr = compressionResistance
 
-    bendResistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=200.0)
+    bendResistance = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=200.0
+    )
     bnd = bendResistance
 
-    bendAngleDropoff = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    bendAngleDropoff = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bnad = bendAngleDropoff
 
-    shearResistance = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=200.0)
+    shearResistance = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=200.0
+    )
     shr = shearResistance
 
-    bendAngleScale = FloatField(default_value=1.0, soft_min_value=-2.0, soft_max_value=2.0)
+    bendAngleScale = FloatField(
+        default_value=1.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
     basc = bendAngleScale
 
-    rigidity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    rigidity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     rity = rigidity
 
-    pressure = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    pressure = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     pres = pressure
 
     pressureMethod = PressureMethodEnumField(default_value=0)

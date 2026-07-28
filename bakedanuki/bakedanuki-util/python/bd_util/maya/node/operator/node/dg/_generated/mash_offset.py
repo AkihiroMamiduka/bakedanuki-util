@@ -28,7 +28,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -37,7 +39,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -62,14 +66,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -82,7 +90,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -90,7 +101,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class OffsetTypeEnumPlugOperator(EnumPlugOperator["OffsetTypeEnumAttrOperator"]):
+class OffsetTypeEnumPlugOperator(
+    EnumPlugOperator["OffsetTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFFSET = 1
@@ -127,7 +140,9 @@ class OffsetTypeEnumField(
     PLUG_CLS = OffsetTypeEnumPlugOperator
 
 
-class ReorderPointsEnumPlugOperator(EnumPlugOperator["ReorderPointsEnumAttrOperator"]):
+class ReorderPointsEnumPlugOperator(
+    EnumPlugOperator["ReorderPointsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 1
@@ -139,7 +154,9 @@ class ReorderPointsEnumPlugOperator(EnumPlugOperator["ReorderPointsEnumAttrOpera
     RANDOM = 7
 
 
-class ReorderPointsEnumAttrOperator(EnumAttrOperator[ReorderPointsEnumPlugOperator]):
+class ReorderPointsEnumAttrOperator(
+    EnumAttrOperator[ReorderPointsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 1
@@ -170,14 +187,18 @@ class ReorderPointsEnumField(
     PLUG_CLS = ReorderPointsEnumPlugOperator
 
 
-class ClosestPointModeEnumPlugOperator(EnumPlugOperator["ClosestPointModeEnumAttrOperator"]):
+class ClosestPointModeEnumPlugOperator(
+    EnumPlugOperator["ClosestPointModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1
     RAY_CAST = 2
 
 
-class ClosestPointModeEnumAttrOperator(EnumAttrOperator[ClosestPointModeEnumPlugOperator]):
+class ClosestPointModeEnumAttrOperator(
+    EnumAttrOperator[ClosestPointModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST_POINT_ON_MESH = 1
@@ -190,7 +211,9 @@ class ClosestPointModeEnumAttrOperator(EnumAttrOperator[ClosestPointModeEnumPlug
 
 
 class ClosestPointModeEnumField(
-    EnumField[ClosestPointModeEnumAttrOperator, ClosestPointModeEnumPlugOperator]
+    EnumField[
+        ClosestPointModeEnumAttrOperator, ClosestPointModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -218,7 +241,9 @@ class GeneratedMASH_Offset(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -270,7 +295,9 @@ class GeneratedMASH_Offset(DG):
 
     holdValue = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    startFrame = LongField(default_value=0, soft_min_value=0, soft_max_value=100)
+    startFrame = LongField(
+        default_value=0, soft_min_value=0, soft_max_value=100
+    )
 
     useTime = BoolField(default_value=True)
 
@@ -332,7 +359,9 @@ class GeneratedMASH_Offset(DG):
 
     reversePointOrder = BoolField(default_value=False)
 
-    reorderDistancePoint = ReorderDistancePointField(default_value=(0.0, 0.0, 0.0))
+    reorderDistancePoint = ReorderDistancePointField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     reorderDistancePointX = reorderDistancePoint.reorderDistancePointX
     reorderDistancePointx = reorderDistancePointX
     reorderDistancePointY = reorderDistancePoint.reorderDistancePointY

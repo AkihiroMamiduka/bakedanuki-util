@@ -17,7 +17,9 @@ from ..std.at.typed import TypedField
 from ..std.dt.mesh import DataMeshField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 
 
 class InputTypeEnumPlugOperator(EnumPlugOperator["InputTypeEnumAttrOperator"]):
@@ -78,7 +80,9 @@ class InObjectArrayPlugOperator(
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
+    curvePrecision = FloatField(
+        default_value=80.0, min_value=0.0, max_value=100.0
+    )
 
     curveOptimize = BoolField(default_value=True)
 
@@ -98,7 +102,9 @@ class InObjectArrayAttrOperator(
 
     worldMatrix = MatrixField()
 
-    curvePrecision = FloatField(default_value=80.0, min_value=0.0, max_value=100.0)
+    curvePrecision = FloatField(
+        default_value=80.0, min_value=0.0, max_value=100.0
+    )
 
     curveOptimize = BoolField(default_value=True)
 
@@ -137,7 +143,10 @@ class CachedLocalZCompoundArrayAttrOperator(
 
 
 class CachedLocalZCompoundArrayField(
-    CompoundField[CachedLocalZCompoundArrayAttrOperator, CachedLocalZCompoundArrayPlugOperator]
+    CompoundField[
+        CachedLocalZCompoundArrayAttrOperator,
+        CachedLocalZCompoundArrayPlugOperator,
+    ]
 ):
     __slots__ = ()
 

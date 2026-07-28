@@ -9,11 +9,15 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class ConnectBreaksEnumPlugOperator(EnumPlugOperator["ConnectBreaksEnumAttrOperator"]):
+class ConnectBreaksEnumPlugOperator(
+    EnumPlugOperator["ConnectBreaksEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -21,7 +25,9 @@ class ConnectBreaksEnumPlugOperator(EnumPlugOperator["ConnectBreaksEnumAttrOpera
     LINEAR = 2
 
 
-class ConnectBreaksEnumAttrOperator(EnumAttrOperator[ConnectBreaksEnumPlugOperator]):
+class ConnectBreaksEnumAttrOperator(
+    EnumAttrOperator[ConnectBreaksEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -64,16 +70,27 @@ class GeneratedOffsetCurve(DG):
     cutLoop = BoolField(default_value=False)
     cl = cutLoop
 
-    cutRadius = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=0.1)
+    cutRadius = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=0.1
+    )
     cr = cutRadius
 
-    distance = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    distance = DoubleLinearField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     d = distance
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.001, soft_max_value=0.5)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=0.0001,
+        soft_min_value=0.001,
+        soft_max_value=0.5,
+    )
     tol = tolerance
 
-    subdivisionDensity = LongField(default_value=5, min_value=0, max_value=100, soft_max_value=10)
+    subdivisionDensity = LongField(
+        default_value=5, min_value=0, max_value=100, soft_max_value=10
+    )
     sd = subdivisionDensity
 
     useGivenNormal = BoolField(default_value=True)

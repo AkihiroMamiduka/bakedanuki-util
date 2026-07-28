@@ -25,9 +25,7 @@ V = TypeVar("V", bound=ScalarCompoundValue[float])
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
 
-class DoubleCompoundBasePlugOperator(
-    NumericCompoundBasePlugOperator[A, V]
-):
+class DoubleCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A, V]):
     __slots__ = ()
 
     CHILD_M_ATTR_TYPE: int = om.MFnNumericData.kDouble

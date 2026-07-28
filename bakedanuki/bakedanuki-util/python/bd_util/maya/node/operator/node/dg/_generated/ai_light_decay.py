@@ -14,7 +14,9 @@ class GeneratedAiLightDecay(DG):
     outValue = MessageField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -29,14 +31,22 @@ class GeneratedAiLightDecay(DG):
     useFarAtten = BoolField(default_value=False)
     use_far_atten = useFarAtten
 
-    nearStart = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
+    nearStart = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1000.0
+    )
     near_start = nearStart
 
-    nearEnd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
+    nearEnd = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1000.0
+    )
     near_end = nearEnd
 
-    farStart = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
+    farStart = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1000.0
+    )
     far_start = farStart
 
-    farEnd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1000.0)
+    farEnd = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1000.0
+    )
     far_end = farEnd

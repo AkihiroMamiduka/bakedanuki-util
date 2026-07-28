@@ -75,23 +75,39 @@ class GeneratedAiStandardHair(DG):
 
     melanin = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
-    melaninRedness = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    melaninRedness = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     melanin_redness = melaninRedness
 
-    melaninRandomize = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    melaninRandomize = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     melanin_randomize = melaninRandomize
 
-    roughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    roughness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
 
-    roughnessAzimuthal = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    roughnessAzimuthal = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     roughness_azimuthal = roughnessAzimuthal
 
     roughnessAnisotropic = BoolField(default_value=False)
     roughness_anisotropic = roughnessAnisotropic
 
-    ior = FloatField(default_value=1.5499999523162842, min_value=0.0, soft_max_value=5.0)
+    ior = FloatField(
+        default_value=1.5499999523162842, min_value=0.0, soft_max_value=5.0
+    )
 
-    shift = FloatField(default_value=3.0, min_value=-90.0, max_value=90.0, soft_min_value=0.0, soft_max_value=20.0)
+    shift = FloatField(
+        default_value=3.0,
+        min_value=-90.0,
+        max_value=90.0,
+        soft_min_value=0.0,
+        soft_max_value=20.0,
+    )
 
     specularTint = SpecularTintField(default_value=(1.0, 1.0, 1.0))
     specular_tint = specularTint
@@ -150,10 +166,14 @@ class GeneratedAiStandardHair(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    indirectDiffuse = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    indirectDiffuse = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     indirect_diffuse = indirectDiffuse
 
-    indirectSpecular = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    indirectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     indirect_specular = indirectSpecular
 
     extraDepth = LongField(default_value=16, min_value=0, max_value=64)
@@ -256,7 +276,9 @@ class GeneratedAiStandardHair(DG):
     aiEnableMatte = BoolField(default_value=False, category="arnold")
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiMatteColor = AiMatteColorField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -265,5 +287,7 @@ class GeneratedAiStandardHair(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiMatteColorA = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_matte_color_a = aiMatteColorA

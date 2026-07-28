@@ -42,7 +42,9 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class OperatorClassEnumPlugOperator(EnumPlugOperator["OperatorClassEnumAttrOperator"]):
+class OperatorClassEnumPlugOperator(
+    EnumPlugOperator["OperatorClassEnumAttrOperator"]
+):
     __slots__ = ()
 
     OTHER = 0
@@ -50,7 +52,9 @@ class OperatorClassEnumPlugOperator(EnumPlugOperator["OperatorClassEnumAttrOpera
     USER = 2
 
 
-class OperatorClassEnumAttrOperator(EnumAttrOperator[OperatorClassEnumPlugOperator]):
+class OperatorClassEnumAttrOperator(
+    EnumAttrOperator[OperatorClassEnumPlugOperator]
+):
     __slots__ = ()
 
     OTHER = 0

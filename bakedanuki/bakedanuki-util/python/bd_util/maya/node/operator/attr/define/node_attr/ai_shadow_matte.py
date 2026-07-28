@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +313,9 @@ class BackgroundColorAttrOperator(
 
 
 class BackgroundColorField(
-    Float3CompoundBaseField[BackgroundColorAttrOperator, BackgroundColorPlugOperator]
+    Float3CompoundBaseField[
+        BackgroundColorAttrOperator, BackgroundColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +421,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

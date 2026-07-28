@@ -135,9 +135,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -400,7 +398,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -427,13 +427,19 @@ class SunBrightnessPlugOperator(
         ("sunBrightnessB", "sub"),
     )
 
-    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sub = sunBrightnessB
 
 
@@ -442,31 +448,45 @@ class SunBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sub = sunBrightnessB
 
 
 class SunBrightnessField(
-    Float3CompoundBaseField[SunBrightnessAttrOperator, SunBrightnessPlugOperator]
+    Float3CompoundBaseField[
+        SunBrightnessAttrOperator, SunBrightnessPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = SunBrightnessAttrOperator
     PLUG_CLS = SunBrightnessPlugOperator
 
-    sunBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sur = sunBrightnessR
 
-    sunBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sug = sunBrightnessG
 
-    sunBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    sunBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     sub = sunBrightnessB
 
 
@@ -480,13 +500,19 @@ class HaloBrightnessPlugOperator(
         ("haloBrightnessB", "hbb"),
     )
 
-    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbb = haloBrightnessB
 
 
@@ -495,31 +521,45 @@ class HaloBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbb = haloBrightnessB
 
 
 class HaloBrightnessField(
-    Float3CompoundBaseField[HaloBrightnessAttrOperator, HaloBrightnessPlugOperator]
+    Float3CompoundBaseField[
+        HaloBrightnessAttrOperator, HaloBrightnessPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = HaloBrightnessAttrOperator
     PLUG_CLS = HaloBrightnessPlugOperator
 
-    haloBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbr = haloBrightnessR
 
-    haloBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbg = haloBrightnessG
 
-    haloBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    haloBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     hbb = haloBrightnessB
 
 
@@ -533,13 +573,19 @@ class SkyBrightnessPlugOperator(
         ("skyBrightnessB", "skb"),
     )
 
-    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skb = skyBrightnessB
 
 
@@ -548,31 +594,45 @@ class SkyBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skb = skyBrightnessB
 
 
 class SkyBrightnessField(
-    Float3CompoundBaseField[SkyBrightnessAttrOperator, SkyBrightnessPlugOperator]
+    Float3CompoundBaseField[
+        SkyBrightnessAttrOperator, SkyBrightnessPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = SkyBrightnessAttrOperator
     PLUG_CLS = SkyBrightnessPlugOperator
 
-    skyBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skr = skyBrightnessR
 
-    skyBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skg = skyBrightnessG
 
-    skyBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    skyBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     skb = skyBrightnessB
 
 
@@ -586,13 +646,19 @@ class FloorColorPlugOperator(
         ("floorColorB", "fcb"),
     )
 
-    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 
@@ -601,13 +667,19 @@ class FloorColorAttrOperator(
 ):
     __slots__ = ()
 
-    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 
@@ -619,13 +691,19 @@ class FloorColorField(
     ATTR_CLS = FloorColorAttrOperator
     PLUG_CLS = FloorColorPlugOperator
 
-    floorColorR = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.4000000059604645, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.4000000059604645, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 
@@ -639,13 +717,19 @@ class CloudBrightnessPlugOperator(
         ("cloudBrightnessB", "cbb"),
     )
 
-    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbb = cloudBrightnessB
 
 
@@ -654,31 +738,45 @@ class CloudBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbb = cloudBrightnessB
 
 
 class CloudBrightnessField(
-    Float3CompoundBaseField[CloudBrightnessAttrOperator, CloudBrightnessPlugOperator]
+    Float3CompoundBaseField[
+        CloudBrightnessAttrOperator, CloudBrightnessPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = CloudBrightnessAttrOperator
     PLUG_CLS = CloudBrightnessPlugOperator
 
-    cloudBrightnessR = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessR = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbr = cloudBrightnessR
 
-    cloudBrightnessG = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessG = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbg = cloudBrightnessG
 
-    cloudBrightnessB = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cloudBrightnessB = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     cbb = cloudBrightnessB
 
 
@@ -692,13 +790,19 @@ class SunsetBrightnessPlugOperator(
         ("sunsetBrightnessB", "ssb"),
     )
 
-    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessR = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssb = sunsetBrightnessB
 
 
@@ -707,29 +811,43 @@ class SunsetBrightnessAttrOperator(
 ):
     __slots__ = ()
 
-    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessR = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssb = sunsetBrightnessB
 
 
 class SunsetBrightnessField(
-    Float3CompoundBaseField[SunsetBrightnessAttrOperator, SunsetBrightnessPlugOperator]
+    Float3CompoundBaseField[
+        SunsetBrightnessAttrOperator, SunsetBrightnessPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = SunsetBrightnessAttrOperator
     PLUG_CLS = SunsetBrightnessPlugOperator
 
-    sunsetBrightnessR = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessR = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssr = sunsetBrightnessR
 
-    sunsetBrightnessG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssg = sunsetBrightnessG
 
-    sunsetBrightnessB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    sunsetBrightnessB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ssb = sunsetBrightnessB

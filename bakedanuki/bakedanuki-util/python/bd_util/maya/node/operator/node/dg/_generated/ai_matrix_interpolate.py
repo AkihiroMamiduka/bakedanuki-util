@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.ai_matrix_interpolate import OutTransparencyField
+from ....attr.define.node_attr.ai_matrix_interpolate import (
+    OutTransparencyField,
+)
 from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
@@ -29,9 +31,7 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
@@ -46,7 +46,9 @@ class GeneratedAiMatrixInterpolate(DG):
     outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

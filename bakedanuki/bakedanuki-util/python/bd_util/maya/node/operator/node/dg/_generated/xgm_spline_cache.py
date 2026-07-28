@@ -90,13 +90,20 @@ class GeneratedXgmSplineCache(DG):
     cycleType = CycleTypeEnumField(default_value=0)
     ct = cycleType
 
-    width = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    width = FloatField(
+        default_value=0.10000000149011612,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     w = width
 
     widthTaper = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
     wdt = widthTaper
 
-    widthTaperStart = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    widthTaperStart = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     wdts = widthTaperStart
 
     widthRamp = WidthRampField(multi=True, default_value=(0.0, 0.0, 1.0))

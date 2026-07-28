@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.result_curve_time_to_time import GeneratedResultCurveTimeToTime
+from ._generated.result_curve_time_to_time import (
+    GeneratedResultCurveTimeToTime,
+)
 
 
 class ResultCurveTimeToTime(GeneratedResultCurveTimeToTime):

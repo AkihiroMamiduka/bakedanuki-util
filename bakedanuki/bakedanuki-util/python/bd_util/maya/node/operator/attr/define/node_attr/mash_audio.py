@@ -18,7 +18,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator["FrequencyGraph_InterpEnumAttrOperator"]):
+class FrequencyGraph_InterpEnumPlugOperator(
+    EnumPlugOperator["FrequencyGraph_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,9 @@ class FrequencyGraph_InterpEnumPlugOperator(EnumPlugOperator["FrequencyGraph_Int
     SPLINE = 3
 
 
-class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator[FrequencyGraph_InterpEnumPlugOperator]):
+class FrequencyGraph_InterpEnumAttrOperator(
+    EnumAttrOperator[FrequencyGraph_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +48,10 @@ class FrequencyGraph_InterpEnumAttrOperator(EnumAttrOperator[FrequencyGraph_Inte
 
 
 class FrequencyGraph_InterpEnumField(
-    EnumField[FrequencyGraph_InterpEnumAttrOperator, FrequencyGraph_InterpEnumPlugOperator]
+    EnumField[
+        FrequencyGraph_InterpEnumAttrOperator,
+        FrequencyGraph_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,9 +79,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -141,7 +146,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -29,9 +29,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -171,7 +169,9 @@ class VertexUvThreeAttrOperator(
 
 
 class VertexUvThreeField(
-    Float2CompoundBaseField[VertexUvThreeAttrOperator, VertexUvThreePlugOperator]
+    Float2CompoundBaseField[
+        VertexUvThreeAttrOperator, VertexUvThreePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -221,7 +221,9 @@ class VertexCameraOneAttrOperator(
 
 
 class VertexCameraOneField(
-    Float3CompoundBaseField[VertexCameraOneAttrOperator, VertexCameraOnePlugOperator]
+    Float3CompoundBaseField[
+        VertexCameraOneAttrOperator, VertexCameraOnePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -290,10 +292,14 @@ class CoveragePlugOperator(
         ("coverageV", "cv"),
     )
 
-    coverageU = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageU = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cu = coverageU
 
-    coverageV = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageV = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cv = coverageV
 
 
@@ -302,10 +308,14 @@ class CoverageAttrOperator(
 ):
     __slots__ = ()
 
-    coverageU = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageU = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cu = coverageU
 
-    coverageV = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageV = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cv = coverageV
 
 
@@ -317,10 +327,14 @@ class CoverageField(
     ATTR_CLS = CoverageAttrOperator
     PLUG_CLS = CoveragePlugOperator
 
-    coverageU = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageU = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cu = coverageU
 
-    coverageV = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    coverageV = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     cv = coverageV
 
 
@@ -353,7 +367,9 @@ class TranslateFrameAttrOperator(
 
 
 class TranslateFrameField(
-    Float2CompoundBaseField[TranslateFrameAttrOperator, TranslateFramePlugOperator]
+    Float2CompoundBaseField[
+        TranslateFrameAttrOperator, TranslateFramePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -410,9 +426,7 @@ class RepeatUVField(
     rev = repeatV
 
 
-class OffsetPlugOperator(
-    Float2CompoundBasePlugOperator["OffsetAttrOperator"]
-):
+class OffsetPlugOperator(Float2CompoundBasePlugOperator["OffsetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("offsetU", "ofu"),
@@ -426,9 +440,7 @@ class OffsetPlugOperator(
     ofv = offsetV
 
 
-class OffsetAttrOperator(
-    Float2CompoundBaseAttrOperator[OffsetPlugOperator]
-):
+class OffsetAttrOperator(Float2CompoundBaseAttrOperator[OffsetPlugOperator]):
     __slots__ = ()
 
     offsetU = FloatField(default_value=0.0)
@@ -469,9 +481,7 @@ class NoiseUVPlugOperator(
     nv = noiseV
 
 
-class NoiseUVAttrOperator(
-    Float2CompoundBaseAttrOperator[NoiseUVPlugOperator]
-):
+class NoiseUVAttrOperator(Float2CompoundBaseAttrOperator[NoiseUVPlugOperator]):
     __slots__ = ()
 
     noiseU = FloatField(default_value=0.0, min_value=0.0)
@@ -496,9 +506,7 @@ class NoiseUVField(
     nv = noiseV
 
 
-class OutUVPlugOperator(
-    Float2CompoundBasePlugOperator["OutUVAttrOperator"]
-):
+class OutUVPlugOperator(Float2CompoundBasePlugOperator["OutUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outU", "ou"),
@@ -512,9 +520,7 @@ class OutUVPlugOperator(
     ov = outV
 
 
-class OutUVAttrOperator(
-    Float2CompoundBaseAttrOperator[OutUVPlugOperator]
-):
+class OutUVAttrOperator(Float2CompoundBaseAttrOperator[OutUVPlugOperator]):
     __slots__ = ()
 
     outU = FloatField(default_value=0.0, writable=False)
@@ -568,7 +574,9 @@ class OutUvFilterSizeAttrOperator(
 
 
 class OutUvFilterSizeField(
-    Float2CompoundBaseField[OutUvFilterSizeAttrOperator, OutUvFilterSizePlugOperator]
+    Float2CompoundBaseField[
+        OutUvFilterSizeAttrOperator, OutUvFilterSizePlugOperator
+    ]
 ):
     __slots__ = ()
 

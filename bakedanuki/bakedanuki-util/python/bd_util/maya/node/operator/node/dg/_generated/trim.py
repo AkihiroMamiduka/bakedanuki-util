@@ -7,7 +7,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
@@ -63,7 +65,9 @@ class GeneratedTrim(DG):
     shrink = BoolField(default_value=False)
     sh = shrink
 
-    tolerance = DoubleLinearField(default_value=0.001, soft_min_value=0.0001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.001, soft_min_value=0.0001, soft_max_value=1.0
+    )
     tol = tolerance
 
     usedCurves = BoolField(multi=True, default_value=False, writable=False)

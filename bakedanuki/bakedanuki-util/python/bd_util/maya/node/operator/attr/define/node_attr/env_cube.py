@@ -135,9 +135,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -364,9 +362,7 @@ class PointWorldField(
     pwz = pointWorldZ
 
 
-class LeftPlugOperator(
-    Float3CompoundBasePlugOperator["LeftAttrOperator"]
-):
+class LeftPlugOperator(Float3CompoundBasePlugOperator["LeftAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("leftR", "ler"),
@@ -384,9 +380,7 @@ class LeftPlugOperator(
     leb = leftB
 
 
-class LeftAttrOperator(
-    Float3CompoundBaseAttrOperator[LeftPlugOperator]
-):
+class LeftAttrOperator(Float3CompoundBaseAttrOperator[LeftPlugOperator]):
     __slots__ = ()
 
     leftR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -399,9 +393,7 @@ class LeftAttrOperator(
     leb = leftB
 
 
-class LeftField(
-    Float3CompoundBaseField[LeftAttrOperator, LeftPlugOperator]
-):
+class LeftField(Float3CompoundBaseField[LeftAttrOperator, LeftPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftAttrOperator
@@ -417,9 +409,7 @@ class LeftField(
     leb = leftB
 
 
-class RightPlugOperator(
-    Float3CompoundBasePlugOperator["RightAttrOperator"]
-):
+class RightPlugOperator(Float3CompoundBasePlugOperator["RightAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("rightR", "rir"),
@@ -437,9 +427,7 @@ class RightPlugOperator(
     rib = rightB
 
 
-class RightAttrOperator(
-    Float3CompoundBaseAttrOperator[RightPlugOperator]
-):
+class RightAttrOperator(Float3CompoundBaseAttrOperator[RightPlugOperator]):
     __slots__ = ()
 
     rightR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -470,9 +458,7 @@ class RightField(
     rib = rightB
 
 
-class TopPlugOperator(
-    Float3CompoundBasePlugOperator["TopAttrOperator"]
-):
+class TopPlugOperator(Float3CompoundBasePlugOperator["TopAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("topR", "tor"),
@@ -490,9 +476,7 @@ class TopPlugOperator(
     tob = topB
 
 
-class TopAttrOperator(
-    Float3CompoundBaseAttrOperator[TopPlugOperator]
-):
+class TopAttrOperator(Float3CompoundBaseAttrOperator[TopPlugOperator]):
     __slots__ = ()
 
     topR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -505,9 +489,7 @@ class TopAttrOperator(
     tob = topB
 
 
-class TopField(
-    Float3CompoundBaseField[TopAttrOperator, TopPlugOperator]
-):
+class TopField(Float3CompoundBaseField[TopAttrOperator, TopPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TopAttrOperator
@@ -523,9 +505,7 @@ class TopField(
     tob = topB
 
 
-class BottomPlugOperator(
-    Float3CompoundBasePlugOperator["BottomAttrOperator"]
-):
+class BottomPlugOperator(Float3CompoundBasePlugOperator["BottomAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("bottomR", "bor"),
@@ -543,9 +523,7 @@ class BottomPlugOperator(
     bob = bottomB
 
 
-class BottomAttrOperator(
-    Float3CompoundBaseAttrOperator[BottomPlugOperator]
-):
+class BottomAttrOperator(Float3CompoundBaseAttrOperator[BottomPlugOperator]):
     __slots__ = ()
 
     bottomR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -576,9 +554,7 @@ class BottomField(
     bob = bottomB
 
 
-class FrontPlugOperator(
-    Float3CompoundBasePlugOperator["FrontAttrOperator"]
-):
+class FrontPlugOperator(Float3CompoundBasePlugOperator["FrontAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("frontR", "frr"),
@@ -596,9 +572,7 @@ class FrontPlugOperator(
     frb = frontB
 
 
-class FrontAttrOperator(
-    Float3CompoundBaseAttrOperator[FrontPlugOperator]
-):
+class FrontAttrOperator(Float3CompoundBaseAttrOperator[FrontPlugOperator]):
     __slots__ = ()
 
     frontR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -629,9 +603,7 @@ class FrontField(
     frb = frontB
 
 
-class BackPlugOperator(
-    Float3CompoundBasePlugOperator["BackAttrOperator"]
-):
+class BackPlugOperator(Float3CompoundBasePlugOperator["BackAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("backR", "bar"),
@@ -649,9 +621,7 @@ class BackPlugOperator(
     bab = backB
 
 
-class BackAttrOperator(
-    Float3CompoundBaseAttrOperator[BackPlugOperator]
-):
+class BackAttrOperator(Float3CompoundBaseAttrOperator[BackPlugOperator]):
     __slots__ = ()
 
     backR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -664,9 +634,7 @@ class BackAttrOperator(
     bab = backB
 
 
-class BackField(
-    Float3CompoundBaseField[BackAttrOperator, BackPlugOperator]
-):
+class BackField(Float3CompoundBaseField[BackAttrOperator, BackPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BackAttrOperator

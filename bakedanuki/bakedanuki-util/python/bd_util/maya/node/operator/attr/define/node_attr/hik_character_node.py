@@ -10,9 +10,7 @@ from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 
 
-class ReferenceTPlugOperator(
-    CompoundPlugOperator["ReferenceTAttrOperator"]
-):
+class ReferenceTPlugOperator(CompoundPlugOperator["ReferenceTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceTx", "ReferenceTx"),
@@ -27,9 +25,7 @@ class ReferenceTPlugOperator(
     ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
-class ReferenceTAttrOperator(
-    CompoundAttrOperator[ReferenceTPlugOperator]
-):
+class ReferenceTAttrOperator(CompoundAttrOperator[ReferenceTPlugOperator]):
     __slots__ = ()
 
     ReferenceTx = DoubleLinearField(default_value=0.0)
@@ -54,9 +50,7 @@ class ReferenceTField(
     ReferenceTz = DoubleLinearField(default_value=0.0)
 
 
-class ReferenceRPlugOperator(
-    CompoundPlugOperator["ReferenceRAttrOperator"]
-):
+class ReferenceRPlugOperator(CompoundPlugOperator["ReferenceRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceRx", "ReferenceRx"),
@@ -71,9 +65,7 @@ class ReferenceRPlugOperator(
     ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
-class ReferenceRAttrOperator(
-    CompoundAttrOperator[ReferenceRPlugOperator]
-):
+class ReferenceRAttrOperator(CompoundAttrOperator[ReferenceRPlugOperator]):
     __slots__ = ()
 
     ReferenceRx = DoubleAngleField(default_value=0.0)
@@ -98,9 +90,7 @@ class ReferenceRField(
     ReferenceRz = DoubleAngleField(default_value=0.0)
 
 
-class ReferenceSPlugOperator(
-    CompoundPlugOperator["ReferenceSAttrOperator"]
-):
+class ReferenceSPlugOperator(CompoundPlugOperator["ReferenceSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ReferenceSx", "ReferenceSx"),
@@ -115,9 +105,7 @@ class ReferenceSPlugOperator(
     ReferenceSz = DoubleField(default_value=1.0)
 
 
-class ReferenceSAttrOperator(
-    CompoundAttrOperator[ReferenceSPlugOperator]
-):
+class ReferenceSAttrOperator(CompoundAttrOperator[ReferenceSPlugOperator]):
     __slots__ = ()
 
     ReferenceSx = DoubleField(default_value=1.0)
@@ -172,7 +160,9 @@ class ReferenceRotateAxisAttrOperator(
 
 
 class ReferenceRotateAxisField(
-    CompoundField[ReferenceRotateAxisAttrOperator, ReferenceRotateAxisPlugOperator]
+    CompoundField[
+        ReferenceRotateAxisAttrOperator, ReferenceRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -216,7 +206,9 @@ class ReferenceJointOrientAttrOperator(
 
 
 class ReferenceJointOrientField(
-    CompoundField[ReferenceJointOrientAttrOperator, ReferenceJointOrientPlugOperator]
+    CompoundField[
+        ReferenceJointOrientAttrOperator, ReferenceJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -260,7 +252,9 @@ class ReferenceMinRLimitAttrOperator(
 
 
 class ReferenceMinRLimitField(
-    CompoundField[ReferenceMinRLimitAttrOperator, ReferenceMinRLimitPlugOperator]
+    CompoundField[
+        ReferenceMinRLimitAttrOperator, ReferenceMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -304,7 +298,9 @@ class ReferenceMaxRLimitAttrOperator(
 
 
 class ReferenceMaxRLimitField(
-    CompoundField[ReferenceMaxRLimitAttrOperator, ReferenceMaxRLimitPlugOperator]
+    CompoundField[
+        ReferenceMaxRLimitAttrOperator, ReferenceMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -318,9 +314,7 @@ class ReferenceMaxRLimitField(
     ReferenceMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class HipsTPlugOperator(
-    CompoundPlugOperator["HipsTAttrOperator"]
-):
+class HipsTPlugOperator(CompoundPlugOperator["HipsTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsTx", "HipsTx"),
@@ -335,9 +329,7 @@ class HipsTPlugOperator(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsTAttrOperator(
-    CompoundAttrOperator[HipsTPlugOperator]
-):
+class HipsTAttrOperator(CompoundAttrOperator[HipsTPlugOperator]):
     __slots__ = ()
 
     HipsTx = DoubleLinearField(default_value=0.0)
@@ -347,9 +339,7 @@ class HipsTAttrOperator(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsTField(
-    CompoundField[HipsTAttrOperator, HipsTPlugOperator]
-):
+class HipsTField(CompoundField[HipsTAttrOperator, HipsTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsTAttrOperator
@@ -362,9 +352,7 @@ class HipsTField(
     HipsTz = DoubleLinearField(default_value=0.0)
 
 
-class HipsRPlugOperator(
-    CompoundPlugOperator["HipsRAttrOperator"]
-):
+class HipsRPlugOperator(CompoundPlugOperator["HipsRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsRx", "HipsRx"),
@@ -379,9 +367,7 @@ class HipsRPlugOperator(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsRAttrOperator(
-    CompoundAttrOperator[HipsRPlugOperator]
-):
+class HipsRAttrOperator(CompoundAttrOperator[HipsRPlugOperator]):
     __slots__ = ()
 
     HipsRx = DoubleAngleField(default_value=0.0)
@@ -391,9 +377,7 @@ class HipsRAttrOperator(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsRField(
-    CompoundField[HipsRAttrOperator, HipsRPlugOperator]
-):
+class HipsRField(CompoundField[HipsRAttrOperator, HipsRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsRAttrOperator
@@ -406,9 +390,7 @@ class HipsRField(
     HipsRz = DoubleAngleField(default_value=0.0)
 
 
-class HipsSPlugOperator(
-    CompoundPlugOperator["HipsSAttrOperator"]
-):
+class HipsSPlugOperator(CompoundPlugOperator["HipsSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HipsSx", "HipsSx"),
@@ -423,9 +405,7 @@ class HipsSPlugOperator(
     HipsSz = DoubleField(default_value=1.0)
 
 
-class HipsSAttrOperator(
-    CompoundAttrOperator[HipsSPlugOperator]
-):
+class HipsSAttrOperator(CompoundAttrOperator[HipsSPlugOperator]):
     __slots__ = ()
 
     HipsSx = DoubleField(default_value=1.0)
@@ -435,9 +415,7 @@ class HipsSAttrOperator(
     HipsSz = DoubleField(default_value=1.0)
 
 
-class HipsSField(
-    CompoundField[HipsSAttrOperator, HipsSPlugOperator]
-):
+class HipsSField(CompoundField[HipsSAttrOperator, HipsSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HipsSAttrOperator
@@ -626,9 +604,7 @@ class HipsMaxRLimitField(
     HipsMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegTPlugOperator(
-    CompoundPlugOperator["LeftUpLegTAttrOperator"]
-):
+class LeftUpLegTPlugOperator(CompoundPlugOperator["LeftUpLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegTx", "LeftUpLegTx"),
@@ -643,9 +619,7 @@ class LeftUpLegTPlugOperator(
     LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftUpLegTAttrOperator(
-    CompoundAttrOperator[LeftUpLegTPlugOperator]
-):
+class LeftUpLegTAttrOperator(CompoundAttrOperator[LeftUpLegTPlugOperator]):
     __slots__ = ()
 
     LeftUpLegTx = DoubleLinearField(default_value=0.0)
@@ -670,9 +644,7 @@ class LeftUpLegTField(
     LeftUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftUpLegRPlugOperator(
-    CompoundPlugOperator["LeftUpLegRAttrOperator"]
-):
+class LeftUpLegRPlugOperator(CompoundPlugOperator["LeftUpLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegRx", "LeftUpLegRx"),
@@ -687,9 +659,7 @@ class LeftUpLegRPlugOperator(
     LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegRAttrOperator(
-    CompoundAttrOperator[LeftUpLegRPlugOperator]
-):
+class LeftUpLegRAttrOperator(CompoundAttrOperator[LeftUpLegRPlugOperator]):
     __slots__ = ()
 
     LeftUpLegRx = DoubleAngleField(default_value=0.0)
@@ -714,9 +684,7 @@ class LeftUpLegRField(
     LeftUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftUpLegSPlugOperator(
-    CompoundPlugOperator["LeftUpLegSAttrOperator"]
-):
+class LeftUpLegSPlugOperator(CompoundPlugOperator["LeftUpLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftUpLegSx", "LeftUpLegSx"),
@@ -731,9 +699,7 @@ class LeftUpLegSPlugOperator(
     LeftUpLegSz = DoubleField(default_value=1.0)
 
 
-class LeftUpLegSAttrOperator(
-    CompoundAttrOperator[LeftUpLegSPlugOperator]
-):
+class LeftUpLegSAttrOperator(CompoundAttrOperator[LeftUpLegSPlugOperator]):
     __slots__ = ()
 
     LeftUpLegSx = DoubleField(default_value=1.0)
@@ -788,7 +754,9 @@ class LeftUpLegRotateAxisAttrOperator(
 
 
 class LeftUpLegRotateAxisField(
-    CompoundField[LeftUpLegRotateAxisAttrOperator, LeftUpLegRotateAxisPlugOperator]
+    CompoundField[
+        LeftUpLegRotateAxisAttrOperator, LeftUpLegRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -832,7 +800,9 @@ class LeftUpLegJointOrientAttrOperator(
 
 
 class LeftUpLegJointOrientField(
-    CompoundField[LeftUpLegJointOrientAttrOperator, LeftUpLegJointOrientPlugOperator]
+    CompoundField[
+        LeftUpLegJointOrientAttrOperator, LeftUpLegJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -876,7 +846,9 @@ class LeftUpLegMinRLimitAttrOperator(
 
 
 class LeftUpLegMinRLimitField(
-    CompoundField[LeftUpLegMinRLimitAttrOperator, LeftUpLegMinRLimitPlugOperator]
+    CompoundField[
+        LeftUpLegMinRLimitAttrOperator, LeftUpLegMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -920,7 +892,9 @@ class LeftUpLegMaxRLimitAttrOperator(
 
 
 class LeftUpLegMaxRLimitField(
-    CompoundField[LeftUpLegMaxRLimitAttrOperator, LeftUpLegMaxRLimitPlugOperator]
+    CompoundField[
+        LeftUpLegMaxRLimitAttrOperator, LeftUpLegMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -934,9 +908,7 @@ class LeftUpLegMaxRLimitField(
     LeftUpLegMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegTPlugOperator(
-    CompoundPlugOperator["LeftLegTAttrOperator"]
-):
+class LeftLegTPlugOperator(CompoundPlugOperator["LeftLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegTx", "LeftLegTx"),
@@ -951,9 +923,7 @@ class LeftLegTPlugOperator(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegTAttrOperator(
-    CompoundAttrOperator[LeftLegTPlugOperator]
-):
+class LeftLegTAttrOperator(CompoundAttrOperator[LeftLegTPlugOperator]):
     __slots__ = ()
 
     LeftLegTx = DoubleLinearField(default_value=0.0)
@@ -963,9 +933,7 @@ class LeftLegTAttrOperator(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegTField(
-    CompoundField[LeftLegTAttrOperator, LeftLegTPlugOperator]
-):
+class LeftLegTField(CompoundField[LeftLegTAttrOperator, LeftLegTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegTAttrOperator
@@ -978,9 +946,7 @@ class LeftLegTField(
     LeftLegTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegRPlugOperator(
-    CompoundPlugOperator["LeftLegRAttrOperator"]
-):
+class LeftLegRPlugOperator(CompoundPlugOperator["LeftLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegRx", "LeftLegRx"),
@@ -995,9 +961,7 @@ class LeftLegRPlugOperator(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRAttrOperator(
-    CompoundAttrOperator[LeftLegRPlugOperator]
-):
+class LeftLegRAttrOperator(CompoundAttrOperator[LeftLegRPlugOperator]):
     __slots__ = ()
 
     LeftLegRx = DoubleAngleField(default_value=0.0)
@@ -1007,9 +971,7 @@ class LeftLegRAttrOperator(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRField(
-    CompoundField[LeftLegRAttrOperator, LeftLegRPlugOperator]
-):
+class LeftLegRField(CompoundField[LeftLegRAttrOperator, LeftLegRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegRAttrOperator
@@ -1022,9 +984,7 @@ class LeftLegRField(
     LeftLegRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegSPlugOperator(
-    CompoundPlugOperator["LeftLegSAttrOperator"]
-):
+class LeftLegSPlugOperator(CompoundPlugOperator["LeftLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftLegSx", "LeftLegSx"),
@@ -1039,9 +999,7 @@ class LeftLegSPlugOperator(
     LeftLegSz = DoubleField(default_value=1.0)
 
 
-class LeftLegSAttrOperator(
-    CompoundAttrOperator[LeftLegSPlugOperator]
-):
+class LeftLegSAttrOperator(CompoundAttrOperator[LeftLegSPlugOperator]):
     __slots__ = ()
 
     LeftLegSx = DoubleField(default_value=1.0)
@@ -1051,9 +1009,7 @@ class LeftLegSAttrOperator(
     LeftLegSz = DoubleField(default_value=1.0)
 
 
-class LeftLegSField(
-    CompoundField[LeftLegSAttrOperator, LeftLegSPlugOperator]
-):
+class LeftLegSField(CompoundField[LeftLegSAttrOperator, LeftLegSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftLegSAttrOperator
@@ -1140,7 +1096,9 @@ class LeftLegJointOrientAttrOperator(
 
 
 class LeftLegJointOrientField(
-    CompoundField[LeftLegJointOrientAttrOperator, LeftLegJointOrientPlugOperator]
+    CompoundField[
+        LeftLegJointOrientAttrOperator, LeftLegJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1242,9 +1200,7 @@ class LeftLegMaxRLimitField(
     LeftLegMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootTPlugOperator(
-    CompoundPlugOperator["LeftFootTAttrOperator"]
-):
+class LeftFootTPlugOperator(CompoundPlugOperator["LeftFootTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootTx", "LeftFootTx"),
@@ -1259,9 +1215,7 @@ class LeftFootTPlugOperator(
     LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftFootTAttrOperator(
-    CompoundAttrOperator[LeftFootTPlugOperator]
-):
+class LeftFootTAttrOperator(CompoundAttrOperator[LeftFootTPlugOperator]):
     __slots__ = ()
 
     LeftFootTx = DoubleLinearField(default_value=0.0)
@@ -1286,9 +1240,7 @@ class LeftFootTField(
     LeftFootTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftFootRPlugOperator(
-    CompoundPlugOperator["LeftFootRAttrOperator"]
-):
+class LeftFootRPlugOperator(CompoundPlugOperator["LeftFootRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootRx", "LeftFootRx"),
@@ -1303,9 +1255,7 @@ class LeftFootRPlugOperator(
     LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootRAttrOperator(
-    CompoundAttrOperator[LeftFootRPlugOperator]
-):
+class LeftFootRAttrOperator(CompoundAttrOperator[LeftFootRPlugOperator]):
     __slots__ = ()
 
     LeftFootRx = DoubleAngleField(default_value=0.0)
@@ -1330,9 +1280,7 @@ class LeftFootRField(
     LeftFootRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftFootSPlugOperator(
-    CompoundPlugOperator["LeftFootSAttrOperator"]
-):
+class LeftFootSPlugOperator(CompoundPlugOperator["LeftFootSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftFootSx", "LeftFootSx"),
@@ -1347,9 +1295,7 @@ class LeftFootSPlugOperator(
     LeftFootSz = DoubleField(default_value=1.0)
 
 
-class LeftFootSAttrOperator(
-    CompoundAttrOperator[LeftFootSPlugOperator]
-):
+class LeftFootSAttrOperator(CompoundAttrOperator[LeftFootSPlugOperator]):
     __slots__ = ()
 
     LeftFootSx = DoubleField(default_value=1.0)
@@ -1404,7 +1350,9 @@ class LeftFootRotateAxisAttrOperator(
 
 
 class LeftFootRotateAxisField(
-    CompoundField[LeftFootRotateAxisAttrOperator, LeftFootRotateAxisPlugOperator]
+    CompoundField[
+        LeftFootRotateAxisAttrOperator, LeftFootRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1448,7 +1396,9 @@ class LeftFootJointOrientAttrOperator(
 
 
 class LeftFootJointOrientField(
-    CompoundField[LeftFootJointOrientAttrOperator, LeftFootJointOrientPlugOperator]
+    CompoundField[
+        LeftFootJointOrientAttrOperator, LeftFootJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1550,9 +1500,7 @@ class LeftFootMaxRLimitField(
     LeftFootMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegTPlugOperator(
-    CompoundPlugOperator["RightUpLegTAttrOperator"]
-):
+class RightUpLegTPlugOperator(CompoundPlugOperator["RightUpLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegTx", "RightUpLegTx"),
@@ -1567,9 +1515,7 @@ class RightUpLegTPlugOperator(
     RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightUpLegTAttrOperator(
-    CompoundAttrOperator[RightUpLegTPlugOperator]
-):
+class RightUpLegTAttrOperator(CompoundAttrOperator[RightUpLegTPlugOperator]):
     __slots__ = ()
 
     RightUpLegTx = DoubleLinearField(default_value=0.0)
@@ -1594,9 +1540,7 @@ class RightUpLegTField(
     RightUpLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightUpLegRPlugOperator(
-    CompoundPlugOperator["RightUpLegRAttrOperator"]
-):
+class RightUpLegRPlugOperator(CompoundPlugOperator["RightUpLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegRx", "RightUpLegRx"),
@@ -1611,9 +1555,7 @@ class RightUpLegRPlugOperator(
     RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegRAttrOperator(
-    CompoundAttrOperator[RightUpLegRPlugOperator]
-):
+class RightUpLegRAttrOperator(CompoundAttrOperator[RightUpLegRPlugOperator]):
     __slots__ = ()
 
     RightUpLegRx = DoubleAngleField(default_value=0.0)
@@ -1638,9 +1580,7 @@ class RightUpLegRField(
     RightUpLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightUpLegSPlugOperator(
-    CompoundPlugOperator["RightUpLegSAttrOperator"]
-):
+class RightUpLegSPlugOperator(CompoundPlugOperator["RightUpLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightUpLegSx", "RightUpLegSx"),
@@ -1655,9 +1595,7 @@ class RightUpLegSPlugOperator(
     RightUpLegSz = DoubleField(default_value=1.0)
 
 
-class RightUpLegSAttrOperator(
-    CompoundAttrOperator[RightUpLegSPlugOperator]
-):
+class RightUpLegSAttrOperator(CompoundAttrOperator[RightUpLegSPlugOperator]):
     __slots__ = ()
 
     RightUpLegSx = DoubleField(default_value=1.0)
@@ -1712,7 +1650,9 @@ class RightUpLegRotateAxisAttrOperator(
 
 
 class RightUpLegRotateAxisField(
-    CompoundField[RightUpLegRotateAxisAttrOperator, RightUpLegRotateAxisPlugOperator]
+    CompoundField[
+        RightUpLegRotateAxisAttrOperator, RightUpLegRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1756,7 +1696,9 @@ class RightUpLegJointOrientAttrOperator(
 
 
 class RightUpLegJointOrientField(
-    CompoundField[RightUpLegJointOrientAttrOperator, RightUpLegJointOrientPlugOperator]
+    CompoundField[
+        RightUpLegJointOrientAttrOperator, RightUpLegJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1800,7 +1742,9 @@ class RightUpLegMinRLimitAttrOperator(
 
 
 class RightUpLegMinRLimitField(
-    CompoundField[RightUpLegMinRLimitAttrOperator, RightUpLegMinRLimitPlugOperator]
+    CompoundField[
+        RightUpLegMinRLimitAttrOperator, RightUpLegMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1844,7 +1788,9 @@ class RightUpLegMaxRLimitAttrOperator(
 
 
 class RightUpLegMaxRLimitField(
-    CompoundField[RightUpLegMaxRLimitAttrOperator, RightUpLegMaxRLimitPlugOperator]
+    CompoundField[
+        RightUpLegMaxRLimitAttrOperator, RightUpLegMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1858,9 +1804,7 @@ class RightUpLegMaxRLimitField(
     RightUpLegMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegTPlugOperator(
-    CompoundPlugOperator["RightLegTAttrOperator"]
-):
+class RightLegTPlugOperator(CompoundPlugOperator["RightLegTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegTx", "RightLegTx"),
@@ -1875,9 +1819,7 @@ class RightLegTPlugOperator(
     RightLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightLegTAttrOperator(
-    CompoundAttrOperator[RightLegTPlugOperator]
-):
+class RightLegTAttrOperator(CompoundAttrOperator[RightLegTPlugOperator]):
     __slots__ = ()
 
     RightLegTx = DoubleLinearField(default_value=0.0)
@@ -1902,9 +1844,7 @@ class RightLegTField(
     RightLegTz = DoubleLinearField(default_value=0.0)
 
 
-class RightLegRPlugOperator(
-    CompoundPlugOperator["RightLegRAttrOperator"]
-):
+class RightLegRPlugOperator(CompoundPlugOperator["RightLegRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegRx", "RightLegRx"),
@@ -1919,9 +1859,7 @@ class RightLegRPlugOperator(
     RightLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegRAttrOperator(
-    CompoundAttrOperator[RightLegRPlugOperator]
-):
+class RightLegRAttrOperator(CompoundAttrOperator[RightLegRPlugOperator]):
     __slots__ = ()
 
     RightLegRx = DoubleAngleField(default_value=0.0)
@@ -1946,9 +1884,7 @@ class RightLegRField(
     RightLegRz = DoubleAngleField(default_value=0.0)
 
 
-class RightLegSPlugOperator(
-    CompoundPlugOperator["RightLegSAttrOperator"]
-):
+class RightLegSPlugOperator(CompoundPlugOperator["RightLegSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightLegSx", "RightLegSx"),
@@ -1963,9 +1899,7 @@ class RightLegSPlugOperator(
     RightLegSz = DoubleField(default_value=1.0)
 
 
-class RightLegSAttrOperator(
-    CompoundAttrOperator[RightLegSPlugOperator]
-):
+class RightLegSAttrOperator(CompoundAttrOperator[RightLegSPlugOperator]):
     __slots__ = ()
 
     RightLegSx = DoubleField(default_value=1.0)
@@ -2020,7 +1954,9 @@ class RightLegRotateAxisAttrOperator(
 
 
 class RightLegRotateAxisField(
-    CompoundField[RightLegRotateAxisAttrOperator, RightLegRotateAxisPlugOperator]
+    CompoundField[
+        RightLegRotateAxisAttrOperator, RightLegRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2064,7 +2000,9 @@ class RightLegJointOrientAttrOperator(
 
 
 class RightLegJointOrientField(
-    CompoundField[RightLegJointOrientAttrOperator, RightLegJointOrientPlugOperator]
+    CompoundField[
+        RightLegJointOrientAttrOperator, RightLegJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2166,9 +2104,7 @@ class RightLegMaxRLimitField(
     RightLegMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootTPlugOperator(
-    CompoundPlugOperator["RightFootTAttrOperator"]
-):
+class RightFootTPlugOperator(CompoundPlugOperator["RightFootTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootTx", "RightFootTx"),
@@ -2183,9 +2119,7 @@ class RightFootTPlugOperator(
     RightFootTz = DoubleLinearField(default_value=0.0)
 
 
-class RightFootTAttrOperator(
-    CompoundAttrOperator[RightFootTPlugOperator]
-):
+class RightFootTAttrOperator(CompoundAttrOperator[RightFootTPlugOperator]):
     __slots__ = ()
 
     RightFootTx = DoubleLinearField(default_value=0.0)
@@ -2210,9 +2144,7 @@ class RightFootTField(
     RightFootTz = DoubleLinearField(default_value=0.0)
 
 
-class RightFootRPlugOperator(
-    CompoundPlugOperator["RightFootRAttrOperator"]
-):
+class RightFootRPlugOperator(CompoundPlugOperator["RightFootRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootRx", "RightFootRx"),
@@ -2227,9 +2159,7 @@ class RightFootRPlugOperator(
     RightFootRz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootRAttrOperator(
-    CompoundAttrOperator[RightFootRPlugOperator]
-):
+class RightFootRAttrOperator(CompoundAttrOperator[RightFootRPlugOperator]):
     __slots__ = ()
 
     RightFootRx = DoubleAngleField(default_value=0.0)
@@ -2254,9 +2184,7 @@ class RightFootRField(
     RightFootRz = DoubleAngleField(default_value=0.0)
 
 
-class RightFootSPlugOperator(
-    CompoundPlugOperator["RightFootSAttrOperator"]
-):
+class RightFootSPlugOperator(CompoundPlugOperator["RightFootSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightFootSx", "RightFootSx"),
@@ -2271,9 +2199,7 @@ class RightFootSPlugOperator(
     RightFootSz = DoubleField(default_value=1.0)
 
 
-class RightFootSAttrOperator(
-    CompoundAttrOperator[RightFootSPlugOperator]
-):
+class RightFootSAttrOperator(CompoundAttrOperator[RightFootSPlugOperator]):
     __slots__ = ()
 
     RightFootSx = DoubleField(default_value=1.0)
@@ -2328,7 +2254,9 @@ class RightFootRotateAxisAttrOperator(
 
 
 class RightFootRotateAxisField(
-    CompoundField[RightFootRotateAxisAttrOperator, RightFootRotateAxisPlugOperator]
+    CompoundField[
+        RightFootRotateAxisAttrOperator, RightFootRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2372,7 +2300,9 @@ class RightFootJointOrientAttrOperator(
 
 
 class RightFootJointOrientField(
-    CompoundField[RightFootJointOrientAttrOperator, RightFootJointOrientPlugOperator]
+    CompoundField[
+        RightFootJointOrientAttrOperator, RightFootJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2416,7 +2346,9 @@ class RightFootMinRLimitAttrOperator(
 
 
 class RightFootMinRLimitField(
-    CompoundField[RightFootMinRLimitAttrOperator, RightFootMinRLimitPlugOperator]
+    CompoundField[
+        RightFootMinRLimitAttrOperator, RightFootMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2460,7 +2392,9 @@ class RightFootMaxRLimitAttrOperator(
 
 
 class RightFootMaxRLimitField(
-    CompoundField[RightFootMaxRLimitAttrOperator, RightFootMaxRLimitPlugOperator]
+    CompoundField[
+        RightFootMaxRLimitAttrOperator, RightFootMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -2474,9 +2408,7 @@ class RightFootMaxRLimitField(
     RightFootMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class SpineTPlugOperator(
-    CompoundPlugOperator["SpineTAttrOperator"]
-):
+class SpineTPlugOperator(CompoundPlugOperator["SpineTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineTx", "SpineTx"),
@@ -2491,9 +2423,7 @@ class SpineTPlugOperator(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineTAttrOperator(
-    CompoundAttrOperator[SpineTPlugOperator]
-):
+class SpineTAttrOperator(CompoundAttrOperator[SpineTPlugOperator]):
     __slots__ = ()
 
     SpineTx = DoubleLinearField(default_value=0.0)
@@ -2503,9 +2433,7 @@ class SpineTAttrOperator(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineTField(
-    CompoundField[SpineTAttrOperator, SpineTPlugOperator]
-):
+class SpineTField(CompoundField[SpineTAttrOperator, SpineTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineTAttrOperator
@@ -2518,9 +2446,7 @@ class SpineTField(
     SpineTz = DoubleLinearField(default_value=0.0)
 
 
-class SpineRPlugOperator(
-    CompoundPlugOperator["SpineRAttrOperator"]
-):
+class SpineRPlugOperator(CompoundPlugOperator["SpineRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineRx", "SpineRx"),
@@ -2535,9 +2461,7 @@ class SpineRPlugOperator(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineRAttrOperator(
-    CompoundAttrOperator[SpineRPlugOperator]
-):
+class SpineRAttrOperator(CompoundAttrOperator[SpineRPlugOperator]):
     __slots__ = ()
 
     SpineRx = DoubleAngleField(default_value=0.0)
@@ -2547,9 +2471,7 @@ class SpineRAttrOperator(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineRField(
-    CompoundField[SpineRAttrOperator, SpineRPlugOperator]
-):
+class SpineRField(CompoundField[SpineRAttrOperator, SpineRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineRAttrOperator
@@ -2562,9 +2484,7 @@ class SpineRField(
     SpineRz = DoubleAngleField(default_value=0.0)
 
 
-class SpineSPlugOperator(
-    CompoundPlugOperator["SpineSAttrOperator"]
-):
+class SpineSPlugOperator(CompoundPlugOperator["SpineSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("SpineSx", "SpineSx"),
@@ -2579,9 +2499,7 @@ class SpineSPlugOperator(
     SpineSz = DoubleField(default_value=1.0)
 
 
-class SpineSAttrOperator(
-    CompoundAttrOperator[SpineSPlugOperator]
-):
+class SpineSAttrOperator(CompoundAttrOperator[SpineSPlugOperator]):
     __slots__ = ()
 
     SpineSx = DoubleField(default_value=1.0)
@@ -2591,9 +2509,7 @@ class SpineSAttrOperator(
     SpineSz = DoubleField(default_value=1.0)
 
 
-class SpineSField(
-    CompoundField[SpineSAttrOperator, SpineSPlugOperator]
-):
+class SpineSField(CompoundField[SpineSAttrOperator, SpineSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SpineSAttrOperator
@@ -2782,9 +2698,7 @@ class SpineMaxRLimitField(
     SpineMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmTPlugOperator(
-    CompoundPlugOperator["LeftArmTAttrOperator"]
-):
+class LeftArmTPlugOperator(CompoundPlugOperator["LeftArmTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmTx", "LeftArmTx"),
@@ -2799,9 +2713,7 @@ class LeftArmTPlugOperator(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmTAttrOperator(
-    CompoundAttrOperator[LeftArmTPlugOperator]
-):
+class LeftArmTAttrOperator(CompoundAttrOperator[LeftArmTPlugOperator]):
     __slots__ = ()
 
     LeftArmTx = DoubleLinearField(default_value=0.0)
@@ -2811,9 +2723,7 @@ class LeftArmTAttrOperator(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmTField(
-    CompoundField[LeftArmTAttrOperator, LeftArmTPlugOperator]
-):
+class LeftArmTField(CompoundField[LeftArmTAttrOperator, LeftArmTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmTAttrOperator
@@ -2826,9 +2736,7 @@ class LeftArmTField(
     LeftArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmRPlugOperator(
-    CompoundPlugOperator["LeftArmRAttrOperator"]
-):
+class LeftArmRPlugOperator(CompoundPlugOperator["LeftArmRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmRx", "LeftArmRx"),
@@ -2843,9 +2751,7 @@ class LeftArmRPlugOperator(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRAttrOperator(
-    CompoundAttrOperator[LeftArmRPlugOperator]
-):
+class LeftArmRAttrOperator(CompoundAttrOperator[LeftArmRPlugOperator]):
     __slots__ = ()
 
     LeftArmRx = DoubleAngleField(default_value=0.0)
@@ -2855,9 +2761,7 @@ class LeftArmRAttrOperator(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRField(
-    CompoundField[LeftArmRAttrOperator, LeftArmRPlugOperator]
-):
+class LeftArmRField(CompoundField[LeftArmRAttrOperator, LeftArmRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmRAttrOperator
@@ -2870,9 +2774,7 @@ class LeftArmRField(
     LeftArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmSPlugOperator(
-    CompoundPlugOperator["LeftArmSAttrOperator"]
-):
+class LeftArmSPlugOperator(CompoundPlugOperator["LeftArmSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftArmSx", "LeftArmSx"),
@@ -2887,9 +2789,7 @@ class LeftArmSPlugOperator(
     LeftArmSz = DoubleField(default_value=1.0)
 
 
-class LeftArmSAttrOperator(
-    CompoundAttrOperator[LeftArmSPlugOperator]
-):
+class LeftArmSAttrOperator(CompoundAttrOperator[LeftArmSPlugOperator]):
     __slots__ = ()
 
     LeftArmSx = DoubleField(default_value=1.0)
@@ -2899,9 +2799,7 @@ class LeftArmSAttrOperator(
     LeftArmSz = DoubleField(default_value=1.0)
 
 
-class LeftArmSField(
-    CompoundField[LeftArmSAttrOperator, LeftArmSPlugOperator]
-):
+class LeftArmSField(CompoundField[LeftArmSAttrOperator, LeftArmSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LeftArmSAttrOperator
@@ -2988,7 +2886,9 @@ class LeftArmJointOrientAttrOperator(
 
 
 class LeftArmJointOrientField(
-    CompoundField[LeftArmJointOrientAttrOperator, LeftArmJointOrientPlugOperator]
+    CompoundField[
+        LeftArmJointOrientAttrOperator, LeftArmJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3107,9 +3007,7 @@ class LeftForeArmTPlugOperator(
     LeftForeArmTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftForeArmTAttrOperator(
-    CompoundAttrOperator[LeftForeArmTPlugOperator]
-):
+class LeftForeArmTAttrOperator(CompoundAttrOperator[LeftForeArmTPlugOperator]):
     __slots__ = ()
 
     LeftForeArmTx = DoubleLinearField(default_value=0.0)
@@ -3151,9 +3049,7 @@ class LeftForeArmRPlugOperator(
     LeftForeArmRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftForeArmRAttrOperator(
-    CompoundAttrOperator[LeftForeArmRPlugOperator]
-):
+class LeftForeArmRAttrOperator(CompoundAttrOperator[LeftForeArmRPlugOperator]):
     __slots__ = ()
 
     LeftForeArmRx = DoubleAngleField(default_value=0.0)
@@ -3195,9 +3091,7 @@ class LeftForeArmSPlugOperator(
     LeftForeArmSz = DoubleField(default_value=1.0)
 
 
-class LeftForeArmSAttrOperator(
-    CompoundAttrOperator[LeftForeArmSPlugOperator]
-):
+class LeftForeArmSAttrOperator(CompoundAttrOperator[LeftForeArmSPlugOperator]):
     __slots__ = ()
 
     LeftForeArmSx = DoubleField(default_value=1.0)
@@ -3252,7 +3146,9 @@ class LeftForeArmRotateAxisAttrOperator(
 
 
 class LeftForeArmRotateAxisField(
-    CompoundField[LeftForeArmRotateAxisAttrOperator, LeftForeArmRotateAxisPlugOperator]
+    CompoundField[
+        LeftForeArmRotateAxisAttrOperator, LeftForeArmRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3296,7 +3192,9 @@ class LeftForeArmJointOrientAttrOperator(
 
 
 class LeftForeArmJointOrientField(
-    CompoundField[LeftForeArmJointOrientAttrOperator, LeftForeArmJointOrientPlugOperator]
+    CompoundField[
+        LeftForeArmJointOrientAttrOperator, LeftForeArmJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3340,7 +3238,9 @@ class LeftForeArmMinRLimitAttrOperator(
 
 
 class LeftForeArmMinRLimitField(
-    CompoundField[LeftForeArmMinRLimitAttrOperator, LeftForeArmMinRLimitPlugOperator]
+    CompoundField[
+        LeftForeArmMinRLimitAttrOperator, LeftForeArmMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3384,7 +3284,9 @@ class LeftForeArmMaxRLimitAttrOperator(
 
 
 class LeftForeArmMaxRLimitField(
-    CompoundField[LeftForeArmMaxRLimitAttrOperator, LeftForeArmMaxRLimitPlugOperator]
+    CompoundField[
+        LeftForeArmMaxRLimitAttrOperator, LeftForeArmMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3398,9 +3300,7 @@ class LeftForeArmMaxRLimitField(
     LeftForeArmMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandTPlugOperator(
-    CompoundPlugOperator["LeftHandTAttrOperator"]
-):
+class LeftHandTPlugOperator(CompoundPlugOperator["LeftHandTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandTx", "LeftHandTx"),
@@ -3415,9 +3315,7 @@ class LeftHandTPlugOperator(
     LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftHandTAttrOperator(
-    CompoundAttrOperator[LeftHandTPlugOperator]
-):
+class LeftHandTAttrOperator(CompoundAttrOperator[LeftHandTPlugOperator]):
     __slots__ = ()
 
     LeftHandTx = DoubleLinearField(default_value=0.0)
@@ -3442,9 +3340,7 @@ class LeftHandTField(
     LeftHandTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftHandRPlugOperator(
-    CompoundPlugOperator["LeftHandRAttrOperator"]
-):
+class LeftHandRPlugOperator(CompoundPlugOperator["LeftHandRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandRx", "LeftHandRx"),
@@ -3459,9 +3355,7 @@ class LeftHandRPlugOperator(
     LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandRAttrOperator(
-    CompoundAttrOperator[LeftHandRPlugOperator]
-):
+class LeftHandRAttrOperator(CompoundAttrOperator[LeftHandRPlugOperator]):
     __slots__ = ()
 
     LeftHandRx = DoubleAngleField(default_value=0.0)
@@ -3486,9 +3380,7 @@ class LeftHandRField(
     LeftHandRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftHandSPlugOperator(
-    CompoundPlugOperator["LeftHandSAttrOperator"]
-):
+class LeftHandSPlugOperator(CompoundPlugOperator["LeftHandSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("LeftHandSx", "LeftHandSx"),
@@ -3503,9 +3395,7 @@ class LeftHandSPlugOperator(
     LeftHandSz = DoubleField(default_value=1.0)
 
 
-class LeftHandSAttrOperator(
-    CompoundAttrOperator[LeftHandSPlugOperator]
-):
+class LeftHandSAttrOperator(CompoundAttrOperator[LeftHandSPlugOperator]):
     __slots__ = ()
 
     LeftHandSx = DoubleField(default_value=1.0)
@@ -3560,7 +3450,9 @@ class LeftHandRotateAxisAttrOperator(
 
 
 class LeftHandRotateAxisField(
-    CompoundField[LeftHandRotateAxisAttrOperator, LeftHandRotateAxisPlugOperator]
+    CompoundField[
+        LeftHandRotateAxisAttrOperator, LeftHandRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3604,7 +3496,9 @@ class LeftHandJointOrientAttrOperator(
 
 
 class LeftHandJointOrientField(
-    CompoundField[LeftHandJointOrientAttrOperator, LeftHandJointOrientPlugOperator]
+    CompoundField[
+        LeftHandJointOrientAttrOperator, LeftHandJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3706,9 +3600,7 @@ class LeftHandMaxRLimitField(
     LeftHandMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmTPlugOperator(
-    CompoundPlugOperator["RightArmTAttrOperator"]
-):
+class RightArmTPlugOperator(CompoundPlugOperator["RightArmTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmTx", "RightArmTx"),
@@ -3723,9 +3615,7 @@ class RightArmTPlugOperator(
     RightArmTz = DoubleLinearField(default_value=0.0)
 
 
-class RightArmTAttrOperator(
-    CompoundAttrOperator[RightArmTPlugOperator]
-):
+class RightArmTAttrOperator(CompoundAttrOperator[RightArmTPlugOperator]):
     __slots__ = ()
 
     RightArmTx = DoubleLinearField(default_value=0.0)
@@ -3750,9 +3640,7 @@ class RightArmTField(
     RightArmTz = DoubleLinearField(default_value=0.0)
 
 
-class RightArmRPlugOperator(
-    CompoundPlugOperator["RightArmRAttrOperator"]
-):
+class RightArmRPlugOperator(CompoundPlugOperator["RightArmRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmRx", "RightArmRx"),
@@ -3767,9 +3655,7 @@ class RightArmRPlugOperator(
     RightArmRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmRAttrOperator(
-    CompoundAttrOperator[RightArmRPlugOperator]
-):
+class RightArmRAttrOperator(CompoundAttrOperator[RightArmRPlugOperator]):
     __slots__ = ()
 
     RightArmRx = DoubleAngleField(default_value=0.0)
@@ -3794,9 +3680,7 @@ class RightArmRField(
     RightArmRz = DoubleAngleField(default_value=0.0)
 
 
-class RightArmSPlugOperator(
-    CompoundPlugOperator["RightArmSAttrOperator"]
-):
+class RightArmSPlugOperator(CompoundPlugOperator["RightArmSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightArmSx", "RightArmSx"),
@@ -3811,9 +3695,7 @@ class RightArmSPlugOperator(
     RightArmSz = DoubleField(default_value=1.0)
 
 
-class RightArmSAttrOperator(
-    CompoundAttrOperator[RightArmSPlugOperator]
-):
+class RightArmSAttrOperator(CompoundAttrOperator[RightArmSPlugOperator]):
     __slots__ = ()
 
     RightArmSx = DoubleField(default_value=1.0)
@@ -3868,7 +3750,9 @@ class RightArmRotateAxisAttrOperator(
 
 
 class RightArmRotateAxisField(
-    CompoundField[RightArmRotateAxisAttrOperator, RightArmRotateAxisPlugOperator]
+    CompoundField[
+        RightArmRotateAxisAttrOperator, RightArmRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -3912,7 +3796,9 @@ class RightArmJointOrientAttrOperator(
 
 
 class RightArmJointOrientField(
-    CompoundField[RightArmJointOrientAttrOperator, RightArmJointOrientPlugOperator]
+    CompoundField[
+        RightArmJointOrientAttrOperator, RightArmJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4176,7 +4062,9 @@ class RightForeArmRotateAxisAttrOperator(
 
 
 class RightForeArmRotateAxisField(
-    CompoundField[RightForeArmRotateAxisAttrOperator, RightForeArmRotateAxisPlugOperator]
+    CompoundField[
+        RightForeArmRotateAxisAttrOperator, RightForeArmRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4220,7 +4108,10 @@ class RightForeArmJointOrientAttrOperator(
 
 
 class RightForeArmJointOrientField(
-    CompoundField[RightForeArmJointOrientAttrOperator, RightForeArmJointOrientPlugOperator]
+    CompoundField[
+        RightForeArmJointOrientAttrOperator,
+        RightForeArmJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -4264,7 +4155,9 @@ class RightForeArmMinRLimitAttrOperator(
 
 
 class RightForeArmMinRLimitField(
-    CompoundField[RightForeArmMinRLimitAttrOperator, RightForeArmMinRLimitPlugOperator]
+    CompoundField[
+        RightForeArmMinRLimitAttrOperator, RightForeArmMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4308,7 +4201,9 @@ class RightForeArmMaxRLimitAttrOperator(
 
 
 class RightForeArmMaxRLimitField(
-    CompoundField[RightForeArmMaxRLimitAttrOperator, RightForeArmMaxRLimitPlugOperator]
+    CompoundField[
+        RightForeArmMaxRLimitAttrOperator, RightForeArmMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4322,9 +4217,7 @@ class RightForeArmMaxRLimitField(
     RightForeArmMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandTPlugOperator(
-    CompoundPlugOperator["RightHandTAttrOperator"]
-):
+class RightHandTPlugOperator(CompoundPlugOperator["RightHandTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandTx", "RightHandTx"),
@@ -4339,9 +4232,7 @@ class RightHandTPlugOperator(
     RightHandTz = DoubleLinearField(default_value=0.0)
 
 
-class RightHandTAttrOperator(
-    CompoundAttrOperator[RightHandTPlugOperator]
-):
+class RightHandTAttrOperator(CompoundAttrOperator[RightHandTPlugOperator]):
     __slots__ = ()
 
     RightHandTx = DoubleLinearField(default_value=0.0)
@@ -4366,9 +4257,7 @@ class RightHandTField(
     RightHandTz = DoubleLinearField(default_value=0.0)
 
 
-class RightHandRPlugOperator(
-    CompoundPlugOperator["RightHandRAttrOperator"]
-):
+class RightHandRPlugOperator(CompoundPlugOperator["RightHandRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandRx", "RightHandRx"),
@@ -4383,9 +4272,7 @@ class RightHandRPlugOperator(
     RightHandRz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandRAttrOperator(
-    CompoundAttrOperator[RightHandRPlugOperator]
-):
+class RightHandRAttrOperator(CompoundAttrOperator[RightHandRPlugOperator]):
     __slots__ = ()
 
     RightHandRx = DoubleAngleField(default_value=0.0)
@@ -4410,9 +4297,7 @@ class RightHandRField(
     RightHandRz = DoubleAngleField(default_value=0.0)
 
 
-class RightHandSPlugOperator(
-    CompoundPlugOperator["RightHandSAttrOperator"]
-):
+class RightHandSPlugOperator(CompoundPlugOperator["RightHandSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RightHandSx", "RightHandSx"),
@@ -4427,9 +4312,7 @@ class RightHandSPlugOperator(
     RightHandSz = DoubleField(default_value=1.0)
 
 
-class RightHandSAttrOperator(
-    CompoundAttrOperator[RightHandSPlugOperator]
-):
+class RightHandSAttrOperator(CompoundAttrOperator[RightHandSPlugOperator]):
     __slots__ = ()
 
     RightHandSx = DoubleField(default_value=1.0)
@@ -4484,7 +4367,9 @@ class RightHandRotateAxisAttrOperator(
 
 
 class RightHandRotateAxisField(
-    CompoundField[RightHandRotateAxisAttrOperator, RightHandRotateAxisPlugOperator]
+    CompoundField[
+        RightHandRotateAxisAttrOperator, RightHandRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4528,7 +4413,9 @@ class RightHandJointOrientAttrOperator(
 
 
 class RightHandJointOrientField(
-    CompoundField[RightHandJointOrientAttrOperator, RightHandJointOrientPlugOperator]
+    CompoundField[
+        RightHandJointOrientAttrOperator, RightHandJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4572,7 +4459,9 @@ class RightHandMinRLimitAttrOperator(
 
 
 class RightHandMinRLimitField(
-    CompoundField[RightHandMinRLimitAttrOperator, RightHandMinRLimitPlugOperator]
+    CompoundField[
+        RightHandMinRLimitAttrOperator, RightHandMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4616,7 +4505,9 @@ class RightHandMaxRLimitAttrOperator(
 
 
 class RightHandMaxRLimitField(
-    CompoundField[RightHandMaxRLimitAttrOperator, RightHandMaxRLimitPlugOperator]
+    CompoundField[
+        RightHandMaxRLimitAttrOperator, RightHandMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -4630,9 +4521,7 @@ class RightHandMaxRLimitField(
     RightHandMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class HeadTPlugOperator(
-    CompoundPlugOperator["HeadTAttrOperator"]
-):
+class HeadTPlugOperator(CompoundPlugOperator["HeadTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadTx", "HeadTx"),
@@ -4647,9 +4536,7 @@ class HeadTPlugOperator(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadTAttrOperator(
-    CompoundAttrOperator[HeadTPlugOperator]
-):
+class HeadTAttrOperator(CompoundAttrOperator[HeadTPlugOperator]):
     __slots__ = ()
 
     HeadTx = DoubleLinearField(default_value=0.0)
@@ -4659,9 +4546,7 @@ class HeadTAttrOperator(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadTField(
-    CompoundField[HeadTAttrOperator, HeadTPlugOperator]
-):
+class HeadTField(CompoundField[HeadTAttrOperator, HeadTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadTAttrOperator
@@ -4674,9 +4559,7 @@ class HeadTField(
     HeadTz = DoubleLinearField(default_value=0.0)
 
 
-class HeadRPlugOperator(
-    CompoundPlugOperator["HeadRAttrOperator"]
-):
+class HeadRPlugOperator(CompoundPlugOperator["HeadRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadRx", "HeadRx"),
@@ -4691,9 +4574,7 @@ class HeadRPlugOperator(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadRAttrOperator(
-    CompoundAttrOperator[HeadRPlugOperator]
-):
+class HeadRAttrOperator(CompoundAttrOperator[HeadRPlugOperator]):
     __slots__ = ()
 
     HeadRx = DoubleAngleField(default_value=0.0)
@@ -4703,9 +4584,7 @@ class HeadRAttrOperator(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadRField(
-    CompoundField[HeadRAttrOperator, HeadRPlugOperator]
-):
+class HeadRField(CompoundField[HeadRAttrOperator, HeadRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadRAttrOperator
@@ -4718,9 +4597,7 @@ class HeadRField(
     HeadRz = DoubleAngleField(default_value=0.0)
 
 
-class HeadSPlugOperator(
-    CompoundPlugOperator["HeadSAttrOperator"]
-):
+class HeadSPlugOperator(CompoundPlugOperator["HeadSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("HeadSx", "HeadSx"),
@@ -4735,9 +4612,7 @@ class HeadSPlugOperator(
     HeadSz = DoubleField(default_value=1.0)
 
 
-class HeadSAttrOperator(
-    CompoundAttrOperator[HeadSPlugOperator]
-):
+class HeadSAttrOperator(CompoundAttrOperator[HeadSPlugOperator]):
     __slots__ = ()
 
     HeadSx = DoubleField(default_value=1.0)
@@ -4747,9 +4622,7 @@ class HeadSAttrOperator(
     HeadSz = DoubleField(default_value=1.0)
 
 
-class HeadSField(
-    CompoundField[HeadSAttrOperator, HeadSPlugOperator]
-):
+class HeadSField(CompoundField[HeadSAttrOperator, HeadSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = HeadSAttrOperator
@@ -4955,9 +4828,7 @@ class LeftToeBaseTPlugOperator(
     LeftToeBaseTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftToeBaseTAttrOperator(
-    CompoundAttrOperator[LeftToeBaseTPlugOperator]
-):
+class LeftToeBaseTAttrOperator(CompoundAttrOperator[LeftToeBaseTPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseTx = DoubleLinearField(default_value=0.0)
@@ -4999,9 +4870,7 @@ class LeftToeBaseRPlugOperator(
     LeftToeBaseRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftToeBaseRAttrOperator(
-    CompoundAttrOperator[LeftToeBaseRPlugOperator]
-):
+class LeftToeBaseRAttrOperator(CompoundAttrOperator[LeftToeBaseRPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseRx = DoubleAngleField(default_value=0.0)
@@ -5043,9 +4912,7 @@ class LeftToeBaseSPlugOperator(
     LeftToeBaseSz = DoubleField(default_value=1.0)
 
 
-class LeftToeBaseSAttrOperator(
-    CompoundAttrOperator[LeftToeBaseSPlugOperator]
-):
+class LeftToeBaseSAttrOperator(CompoundAttrOperator[LeftToeBaseSPlugOperator]):
     __slots__ = ()
 
     LeftToeBaseSx = DoubleField(default_value=1.0)
@@ -5100,7 +4967,9 @@ class LeftToeBaseRotateAxisAttrOperator(
 
 
 class LeftToeBaseRotateAxisField(
-    CompoundField[LeftToeBaseRotateAxisAttrOperator, LeftToeBaseRotateAxisPlugOperator]
+    CompoundField[
+        LeftToeBaseRotateAxisAttrOperator, LeftToeBaseRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5144,7 +5013,9 @@ class LeftToeBaseJointOrientAttrOperator(
 
 
 class LeftToeBaseJointOrientField(
-    CompoundField[LeftToeBaseJointOrientAttrOperator, LeftToeBaseJointOrientPlugOperator]
+    CompoundField[
+        LeftToeBaseJointOrientAttrOperator, LeftToeBaseJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5188,7 +5059,9 @@ class LeftToeBaseMinRLimitAttrOperator(
 
 
 class LeftToeBaseMinRLimitField(
-    CompoundField[LeftToeBaseMinRLimitAttrOperator, LeftToeBaseMinRLimitPlugOperator]
+    CompoundField[
+        LeftToeBaseMinRLimitAttrOperator, LeftToeBaseMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5232,7 +5105,9 @@ class LeftToeBaseMaxRLimitAttrOperator(
 
 
 class LeftToeBaseMaxRLimitField(
-    CompoundField[LeftToeBaseMaxRLimitAttrOperator, LeftToeBaseMaxRLimitPlugOperator]
+    CompoundField[
+        LeftToeBaseMaxRLimitAttrOperator, LeftToeBaseMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5408,7 +5283,9 @@ class RightToeBaseRotateAxisAttrOperator(
 
 
 class RightToeBaseRotateAxisField(
-    CompoundField[RightToeBaseRotateAxisAttrOperator, RightToeBaseRotateAxisPlugOperator]
+    CompoundField[
+        RightToeBaseRotateAxisAttrOperator, RightToeBaseRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5452,7 +5329,10 @@ class RightToeBaseJointOrientAttrOperator(
 
 
 class RightToeBaseJointOrientField(
-    CompoundField[RightToeBaseJointOrientAttrOperator, RightToeBaseJointOrientPlugOperator]
+    CompoundField[
+        RightToeBaseJointOrientAttrOperator,
+        RightToeBaseJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5496,7 +5376,9 @@ class RightToeBaseMinRLimitAttrOperator(
 
 
 class RightToeBaseMinRLimitField(
-    CompoundField[RightToeBaseMinRLimitAttrOperator, RightToeBaseMinRLimitPlugOperator]
+    CompoundField[
+        RightToeBaseMinRLimitAttrOperator, RightToeBaseMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5540,7 +5422,9 @@ class RightToeBaseMaxRLimitAttrOperator(
 
 
 class RightToeBaseMaxRLimitField(
-    CompoundField[RightToeBaseMaxRLimitAttrOperator, RightToeBaseMaxRLimitPlugOperator]
+    CompoundField[
+        RightToeBaseMaxRLimitAttrOperator, RightToeBaseMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5716,7 +5600,9 @@ class LeftShoulderRotateAxisAttrOperator(
 
 
 class LeftShoulderRotateAxisField(
-    CompoundField[LeftShoulderRotateAxisAttrOperator, LeftShoulderRotateAxisPlugOperator]
+    CompoundField[
+        LeftShoulderRotateAxisAttrOperator, LeftShoulderRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5760,7 +5646,10 @@ class LeftShoulderJointOrientAttrOperator(
 
 
 class LeftShoulderJointOrientField(
-    CompoundField[LeftShoulderJointOrientAttrOperator, LeftShoulderJointOrientPlugOperator]
+    CompoundField[
+        LeftShoulderJointOrientAttrOperator,
+        LeftShoulderJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -5804,7 +5693,9 @@ class LeftShoulderMinRLimitAttrOperator(
 
 
 class LeftShoulderMinRLimitField(
-    CompoundField[LeftShoulderMinRLimitAttrOperator, LeftShoulderMinRLimitPlugOperator]
+    CompoundField[
+        LeftShoulderMinRLimitAttrOperator, LeftShoulderMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -5848,7 +5739,9 @@ class LeftShoulderMaxRLimitAttrOperator(
 
 
 class LeftShoulderMaxRLimitField(
-    CompoundField[LeftShoulderMaxRLimitAttrOperator, LeftShoulderMaxRLimitPlugOperator]
+    CompoundField[
+        LeftShoulderMaxRLimitAttrOperator, LeftShoulderMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6024,7 +5917,10 @@ class RightShoulderRotateAxisAttrOperator(
 
 
 class RightShoulderRotateAxisField(
-    CompoundField[RightShoulderRotateAxisAttrOperator, RightShoulderRotateAxisPlugOperator]
+    CompoundField[
+        RightShoulderRotateAxisAttrOperator,
+        RightShoulderRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6068,7 +5964,10 @@ class RightShoulderJointOrientAttrOperator(
 
 
 class RightShoulderJointOrientField(
-    CompoundField[RightShoulderJointOrientAttrOperator, RightShoulderJointOrientPlugOperator]
+    CompoundField[
+        RightShoulderJointOrientAttrOperator,
+        RightShoulderJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6112,7 +6011,9 @@ class RightShoulderMinRLimitAttrOperator(
 
 
 class RightShoulderMinRLimitField(
-    CompoundField[RightShoulderMinRLimitAttrOperator, RightShoulderMinRLimitPlugOperator]
+    CompoundField[
+        RightShoulderMinRLimitAttrOperator, RightShoulderMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6156,7 +6057,9 @@ class RightShoulderMaxRLimitAttrOperator(
 
 
 class RightShoulderMaxRLimitField(
-    CompoundField[RightShoulderMaxRLimitAttrOperator, RightShoulderMaxRLimitPlugOperator]
+    CompoundField[
+        RightShoulderMaxRLimitAttrOperator, RightShoulderMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -6170,9 +6073,7 @@ class RightShoulderMaxRLimitField(
     RightShoulderMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class NeckTPlugOperator(
-    CompoundPlugOperator["NeckTAttrOperator"]
-):
+class NeckTPlugOperator(CompoundPlugOperator["NeckTAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckTx", "NeckTx"),
@@ -6187,9 +6088,7 @@ class NeckTPlugOperator(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckTAttrOperator(
-    CompoundAttrOperator[NeckTPlugOperator]
-):
+class NeckTAttrOperator(CompoundAttrOperator[NeckTPlugOperator]):
     __slots__ = ()
 
     NeckTx = DoubleLinearField(default_value=0.0)
@@ -6199,9 +6098,7 @@ class NeckTAttrOperator(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckTField(
-    CompoundField[NeckTAttrOperator, NeckTPlugOperator]
-):
+class NeckTField(CompoundField[NeckTAttrOperator, NeckTPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckTAttrOperator
@@ -6214,9 +6111,7 @@ class NeckTField(
     NeckTz = DoubleLinearField(default_value=0.0)
 
 
-class NeckRPlugOperator(
-    CompoundPlugOperator["NeckRAttrOperator"]
-):
+class NeckRPlugOperator(CompoundPlugOperator["NeckRAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckRx", "NeckRx"),
@@ -6231,9 +6126,7 @@ class NeckRPlugOperator(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckRAttrOperator(
-    CompoundAttrOperator[NeckRPlugOperator]
-):
+class NeckRAttrOperator(CompoundAttrOperator[NeckRPlugOperator]):
     __slots__ = ()
 
     NeckRx = DoubleAngleField(default_value=0.0)
@@ -6243,9 +6136,7 @@ class NeckRAttrOperator(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckRField(
-    CompoundField[NeckRAttrOperator, NeckRPlugOperator]
-):
+class NeckRField(CompoundField[NeckRAttrOperator, NeckRPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckRAttrOperator
@@ -6258,9 +6149,7 @@ class NeckRField(
     NeckRz = DoubleAngleField(default_value=0.0)
 
 
-class NeckSPlugOperator(
-    CompoundPlugOperator["NeckSAttrOperator"]
-):
+class NeckSPlugOperator(CompoundPlugOperator["NeckSAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NeckSx", "NeckSx"),
@@ -6275,9 +6164,7 @@ class NeckSPlugOperator(
     NeckSz = DoubleField(default_value=1.0)
 
 
-class NeckSAttrOperator(
-    CompoundAttrOperator[NeckSPlugOperator]
-):
+class NeckSAttrOperator(CompoundAttrOperator[NeckSPlugOperator]):
     __slots__ = ()
 
     NeckSx = DoubleField(default_value=1.0)
@@ -6287,9 +6174,7 @@ class NeckSAttrOperator(
     NeckSz = DoubleField(default_value=1.0)
 
 
-class NeckSField(
-    CompoundField[NeckSAttrOperator, NeckSPlugOperator]
-):
+class NeckSField(CompoundField[NeckSAttrOperator, NeckSPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NeckSAttrOperator
@@ -6640,7 +6525,10 @@ class LeftFingerBaseRotateAxisAttrOperator(
 
 
 class LeftFingerBaseRotateAxisField(
-    CompoundField[LeftFingerBaseRotateAxisAttrOperator, LeftFingerBaseRotateAxisPlugOperator]
+    CompoundField[
+        LeftFingerBaseRotateAxisAttrOperator,
+        LeftFingerBaseRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6684,7 +6572,10 @@ class LeftFingerBaseJointOrientAttrOperator(
 
 
 class LeftFingerBaseJointOrientField(
-    CompoundField[LeftFingerBaseJointOrientAttrOperator, LeftFingerBaseJointOrientPlugOperator]
+    CompoundField[
+        LeftFingerBaseJointOrientAttrOperator,
+        LeftFingerBaseJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6728,7 +6619,10 @@ class LeftFingerBaseMinRLimitAttrOperator(
 
 
 class LeftFingerBaseMinRLimitField(
-    CompoundField[LeftFingerBaseMinRLimitAttrOperator, LeftFingerBaseMinRLimitPlugOperator]
+    CompoundField[
+        LeftFingerBaseMinRLimitAttrOperator,
+        LeftFingerBaseMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6772,7 +6666,10 @@ class LeftFingerBaseMaxRLimitAttrOperator(
 
 
 class LeftFingerBaseMaxRLimitField(
-    CompoundField[LeftFingerBaseMaxRLimitAttrOperator, LeftFingerBaseMaxRLimitPlugOperator]
+    CompoundField[
+        LeftFingerBaseMaxRLimitAttrOperator,
+        LeftFingerBaseMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6948,7 +6845,10 @@ class RightFingerBaseRotateAxisAttrOperator(
 
 
 class RightFingerBaseRotateAxisField(
-    CompoundField[RightFingerBaseRotateAxisAttrOperator, RightFingerBaseRotateAxisPlugOperator]
+    CompoundField[
+        RightFingerBaseRotateAxisAttrOperator,
+        RightFingerBaseRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -6992,7 +6892,10 @@ class RightFingerBaseJointOrientAttrOperator(
 
 
 class RightFingerBaseJointOrientField(
-    CompoundField[RightFingerBaseJointOrientAttrOperator, RightFingerBaseJointOrientPlugOperator]
+    CompoundField[
+        RightFingerBaseJointOrientAttrOperator,
+        RightFingerBaseJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7036,7 +6939,10 @@ class RightFingerBaseMinRLimitAttrOperator(
 
 
 class RightFingerBaseMinRLimitField(
-    CompoundField[RightFingerBaseMinRLimitAttrOperator, RightFingerBaseMinRLimitPlugOperator]
+    CompoundField[
+        RightFingerBaseMinRLimitAttrOperator,
+        RightFingerBaseMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7080,7 +6986,10 @@ class RightFingerBaseMaxRLimitAttrOperator(
 
 
 class RightFingerBaseMaxRLimitField(
-    CompoundField[RightFingerBaseMaxRLimitAttrOperator, RightFingerBaseMaxRLimitPlugOperator]
+    CompoundField[
+        RightFingerBaseMaxRLimitAttrOperator,
+        RightFingerBaseMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -7094,9 +7003,7 @@ class RightFingerBaseMaxRLimitField(
     RightFingerBaseMaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1TPlugOperator(
-    CompoundPlugOperator["Spine1TAttrOperator"]
-):
+class Spine1TPlugOperator(CompoundPlugOperator["Spine1TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Tx", "Spine1Tx"),
@@ -7111,9 +7018,7 @@ class Spine1TPlugOperator(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1TAttrOperator(
-    CompoundAttrOperator[Spine1TPlugOperator]
-):
+class Spine1TAttrOperator(CompoundAttrOperator[Spine1TPlugOperator]):
     __slots__ = ()
 
     Spine1Tx = DoubleLinearField(default_value=0.0)
@@ -7123,9 +7028,7 @@ class Spine1TAttrOperator(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1TField(
-    CompoundField[Spine1TAttrOperator, Spine1TPlugOperator]
-):
+class Spine1TField(CompoundField[Spine1TAttrOperator, Spine1TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1TAttrOperator
@@ -7138,9 +7041,7 @@ class Spine1TField(
     Spine1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine1RPlugOperator(
-    CompoundPlugOperator["Spine1RAttrOperator"]
-):
+class Spine1RPlugOperator(CompoundPlugOperator["Spine1RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Rx", "Spine1Rx"),
@@ -7155,9 +7056,7 @@ class Spine1RPlugOperator(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1RAttrOperator(
-    CompoundAttrOperator[Spine1RPlugOperator]
-):
+class Spine1RAttrOperator(CompoundAttrOperator[Spine1RPlugOperator]):
     __slots__ = ()
 
     Spine1Rx = DoubleAngleField(default_value=0.0)
@@ -7167,9 +7066,7 @@ class Spine1RAttrOperator(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1RField(
-    CompoundField[Spine1RAttrOperator, Spine1RPlugOperator]
-):
+class Spine1RField(CompoundField[Spine1RAttrOperator, Spine1RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1RAttrOperator
@@ -7182,9 +7079,7 @@ class Spine1RField(
     Spine1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine1SPlugOperator(
-    CompoundPlugOperator["Spine1SAttrOperator"]
-):
+class Spine1SPlugOperator(CompoundPlugOperator["Spine1SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine1Sx", "Spine1Sx"),
@@ -7199,9 +7094,7 @@ class Spine1SPlugOperator(
     Spine1Sz = DoubleField(default_value=1.0)
 
 
-class Spine1SAttrOperator(
-    CompoundAttrOperator[Spine1SPlugOperator]
-):
+class Spine1SAttrOperator(CompoundAttrOperator[Spine1SPlugOperator]):
     __slots__ = ()
 
     Spine1Sx = DoubleField(default_value=1.0)
@@ -7211,9 +7104,7 @@ class Spine1SAttrOperator(
     Spine1Sz = DoubleField(default_value=1.0)
 
 
-class Spine1SField(
-    CompoundField[Spine1SAttrOperator, Spine1SPlugOperator]
-):
+class Spine1SField(CompoundField[Spine1SAttrOperator, Spine1SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine1SAttrOperator
@@ -7402,9 +7293,7 @@ class Spine1MaxRLimitField(
     Spine1MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2TPlugOperator(
-    CompoundPlugOperator["Spine2TAttrOperator"]
-):
+class Spine2TPlugOperator(CompoundPlugOperator["Spine2TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Tx", "Spine2Tx"),
@@ -7419,9 +7308,7 @@ class Spine2TPlugOperator(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2TAttrOperator(
-    CompoundAttrOperator[Spine2TPlugOperator]
-):
+class Spine2TAttrOperator(CompoundAttrOperator[Spine2TPlugOperator]):
     __slots__ = ()
 
     Spine2Tx = DoubleLinearField(default_value=0.0)
@@ -7431,9 +7318,7 @@ class Spine2TAttrOperator(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2TField(
-    CompoundField[Spine2TAttrOperator, Spine2TPlugOperator]
-):
+class Spine2TField(CompoundField[Spine2TAttrOperator, Spine2TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2TAttrOperator
@@ -7446,9 +7331,7 @@ class Spine2TField(
     Spine2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine2RPlugOperator(
-    CompoundPlugOperator["Spine2RAttrOperator"]
-):
+class Spine2RPlugOperator(CompoundPlugOperator["Spine2RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Rx", "Spine2Rx"),
@@ -7463,9 +7346,7 @@ class Spine2RPlugOperator(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2RAttrOperator(
-    CompoundAttrOperator[Spine2RPlugOperator]
-):
+class Spine2RAttrOperator(CompoundAttrOperator[Spine2RPlugOperator]):
     __slots__ = ()
 
     Spine2Rx = DoubleAngleField(default_value=0.0)
@@ -7475,9 +7356,7 @@ class Spine2RAttrOperator(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2RField(
-    CompoundField[Spine2RAttrOperator, Spine2RPlugOperator]
-):
+class Spine2RField(CompoundField[Spine2RAttrOperator, Spine2RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2RAttrOperator
@@ -7490,9 +7369,7 @@ class Spine2RField(
     Spine2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine2SPlugOperator(
-    CompoundPlugOperator["Spine2SAttrOperator"]
-):
+class Spine2SPlugOperator(CompoundPlugOperator["Spine2SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine2Sx", "Spine2Sx"),
@@ -7507,9 +7384,7 @@ class Spine2SPlugOperator(
     Spine2Sz = DoubleField(default_value=1.0)
 
 
-class Spine2SAttrOperator(
-    CompoundAttrOperator[Spine2SPlugOperator]
-):
+class Spine2SAttrOperator(CompoundAttrOperator[Spine2SPlugOperator]):
     __slots__ = ()
 
     Spine2Sx = DoubleField(default_value=1.0)
@@ -7519,9 +7394,7 @@ class Spine2SAttrOperator(
     Spine2Sz = DoubleField(default_value=1.0)
 
 
-class Spine2SField(
-    CompoundField[Spine2SAttrOperator, Spine2SPlugOperator]
-):
+class Spine2SField(CompoundField[Spine2SAttrOperator, Spine2SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine2SAttrOperator
@@ -7710,9 +7583,7 @@ class Spine2MaxRLimitField(
     Spine2MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3TPlugOperator(
-    CompoundPlugOperator["Spine3TAttrOperator"]
-):
+class Spine3TPlugOperator(CompoundPlugOperator["Spine3TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Tx", "Spine3Tx"),
@@ -7727,9 +7598,7 @@ class Spine3TPlugOperator(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3TAttrOperator(
-    CompoundAttrOperator[Spine3TPlugOperator]
-):
+class Spine3TAttrOperator(CompoundAttrOperator[Spine3TPlugOperator]):
     __slots__ = ()
 
     Spine3Tx = DoubleLinearField(default_value=0.0)
@@ -7739,9 +7608,7 @@ class Spine3TAttrOperator(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3TField(
-    CompoundField[Spine3TAttrOperator, Spine3TPlugOperator]
-):
+class Spine3TField(CompoundField[Spine3TAttrOperator, Spine3TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3TAttrOperator
@@ -7754,9 +7621,7 @@ class Spine3TField(
     Spine3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine3RPlugOperator(
-    CompoundPlugOperator["Spine3RAttrOperator"]
-):
+class Spine3RPlugOperator(CompoundPlugOperator["Spine3RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Rx", "Spine3Rx"),
@@ -7771,9 +7636,7 @@ class Spine3RPlugOperator(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3RAttrOperator(
-    CompoundAttrOperator[Spine3RPlugOperator]
-):
+class Spine3RAttrOperator(CompoundAttrOperator[Spine3RPlugOperator]):
     __slots__ = ()
 
     Spine3Rx = DoubleAngleField(default_value=0.0)
@@ -7783,9 +7646,7 @@ class Spine3RAttrOperator(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3RField(
-    CompoundField[Spine3RAttrOperator, Spine3RPlugOperator]
-):
+class Spine3RField(CompoundField[Spine3RAttrOperator, Spine3RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3RAttrOperator
@@ -7798,9 +7659,7 @@ class Spine3RField(
     Spine3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine3SPlugOperator(
-    CompoundPlugOperator["Spine3SAttrOperator"]
-):
+class Spine3SPlugOperator(CompoundPlugOperator["Spine3SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine3Sx", "Spine3Sx"),
@@ -7815,9 +7674,7 @@ class Spine3SPlugOperator(
     Spine3Sz = DoubleField(default_value=1.0)
 
 
-class Spine3SAttrOperator(
-    CompoundAttrOperator[Spine3SPlugOperator]
-):
+class Spine3SAttrOperator(CompoundAttrOperator[Spine3SPlugOperator]):
     __slots__ = ()
 
     Spine3Sx = DoubleField(default_value=1.0)
@@ -7827,9 +7684,7 @@ class Spine3SAttrOperator(
     Spine3Sz = DoubleField(default_value=1.0)
 
 
-class Spine3SField(
-    CompoundField[Spine3SAttrOperator, Spine3SPlugOperator]
-):
+class Spine3SField(CompoundField[Spine3SAttrOperator, Spine3SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine3SAttrOperator
@@ -8018,9 +7873,7 @@ class Spine3MaxRLimitField(
     Spine3MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4TPlugOperator(
-    CompoundPlugOperator["Spine4TAttrOperator"]
-):
+class Spine4TPlugOperator(CompoundPlugOperator["Spine4TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Tx", "Spine4Tx"),
@@ -8035,9 +7888,7 @@ class Spine4TPlugOperator(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4TAttrOperator(
-    CompoundAttrOperator[Spine4TPlugOperator]
-):
+class Spine4TAttrOperator(CompoundAttrOperator[Spine4TPlugOperator]):
     __slots__ = ()
 
     Spine4Tx = DoubleLinearField(default_value=0.0)
@@ -8047,9 +7898,7 @@ class Spine4TAttrOperator(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4TField(
-    CompoundField[Spine4TAttrOperator, Spine4TPlugOperator]
-):
+class Spine4TField(CompoundField[Spine4TAttrOperator, Spine4TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4TAttrOperator
@@ -8062,9 +7911,7 @@ class Spine4TField(
     Spine4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine4RPlugOperator(
-    CompoundPlugOperator["Spine4RAttrOperator"]
-):
+class Spine4RPlugOperator(CompoundPlugOperator["Spine4RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Rx", "Spine4Rx"),
@@ -8079,9 +7926,7 @@ class Spine4RPlugOperator(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4RAttrOperator(
-    CompoundAttrOperator[Spine4RPlugOperator]
-):
+class Spine4RAttrOperator(CompoundAttrOperator[Spine4RPlugOperator]):
     __slots__ = ()
 
     Spine4Rx = DoubleAngleField(default_value=0.0)
@@ -8091,9 +7936,7 @@ class Spine4RAttrOperator(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4RField(
-    CompoundField[Spine4RAttrOperator, Spine4RPlugOperator]
-):
+class Spine4RField(CompoundField[Spine4RAttrOperator, Spine4RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4RAttrOperator
@@ -8106,9 +7949,7 @@ class Spine4RField(
     Spine4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine4SPlugOperator(
-    CompoundPlugOperator["Spine4SAttrOperator"]
-):
+class Spine4SPlugOperator(CompoundPlugOperator["Spine4SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine4Sx", "Spine4Sx"),
@@ -8123,9 +7964,7 @@ class Spine4SPlugOperator(
     Spine4Sz = DoubleField(default_value=1.0)
 
 
-class Spine4SAttrOperator(
-    CompoundAttrOperator[Spine4SPlugOperator]
-):
+class Spine4SAttrOperator(CompoundAttrOperator[Spine4SPlugOperator]):
     __slots__ = ()
 
     Spine4Sx = DoubleField(default_value=1.0)
@@ -8135,9 +7974,7 @@ class Spine4SAttrOperator(
     Spine4Sz = DoubleField(default_value=1.0)
 
 
-class Spine4SField(
-    CompoundField[Spine4SAttrOperator, Spine4SPlugOperator]
-):
+class Spine4SField(CompoundField[Spine4SAttrOperator, Spine4SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine4SAttrOperator
@@ -8326,9 +8163,7 @@ class Spine4MaxRLimitField(
     Spine4MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5TPlugOperator(
-    CompoundPlugOperator["Spine5TAttrOperator"]
-):
+class Spine5TPlugOperator(CompoundPlugOperator["Spine5TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Tx", "Spine5Tx"),
@@ -8343,9 +8178,7 @@ class Spine5TPlugOperator(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5TAttrOperator(
-    CompoundAttrOperator[Spine5TPlugOperator]
-):
+class Spine5TAttrOperator(CompoundAttrOperator[Spine5TPlugOperator]):
     __slots__ = ()
 
     Spine5Tx = DoubleLinearField(default_value=0.0)
@@ -8355,9 +8188,7 @@ class Spine5TAttrOperator(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5TField(
-    CompoundField[Spine5TAttrOperator, Spine5TPlugOperator]
-):
+class Spine5TField(CompoundField[Spine5TAttrOperator, Spine5TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5TAttrOperator
@@ -8370,9 +8201,7 @@ class Spine5TField(
     Spine5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine5RPlugOperator(
-    CompoundPlugOperator["Spine5RAttrOperator"]
-):
+class Spine5RPlugOperator(CompoundPlugOperator["Spine5RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Rx", "Spine5Rx"),
@@ -8387,9 +8216,7 @@ class Spine5RPlugOperator(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5RAttrOperator(
-    CompoundAttrOperator[Spine5RPlugOperator]
-):
+class Spine5RAttrOperator(CompoundAttrOperator[Spine5RPlugOperator]):
     __slots__ = ()
 
     Spine5Rx = DoubleAngleField(default_value=0.0)
@@ -8399,9 +8226,7 @@ class Spine5RAttrOperator(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5RField(
-    CompoundField[Spine5RAttrOperator, Spine5RPlugOperator]
-):
+class Spine5RField(CompoundField[Spine5RAttrOperator, Spine5RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5RAttrOperator
@@ -8414,9 +8239,7 @@ class Spine5RField(
     Spine5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine5SPlugOperator(
-    CompoundPlugOperator["Spine5SAttrOperator"]
-):
+class Spine5SPlugOperator(CompoundPlugOperator["Spine5SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine5Sx", "Spine5Sx"),
@@ -8431,9 +8254,7 @@ class Spine5SPlugOperator(
     Spine5Sz = DoubleField(default_value=1.0)
 
 
-class Spine5SAttrOperator(
-    CompoundAttrOperator[Spine5SPlugOperator]
-):
+class Spine5SAttrOperator(CompoundAttrOperator[Spine5SPlugOperator]):
     __slots__ = ()
 
     Spine5Sx = DoubleField(default_value=1.0)
@@ -8443,9 +8264,7 @@ class Spine5SAttrOperator(
     Spine5Sz = DoubleField(default_value=1.0)
 
 
-class Spine5SField(
-    CompoundField[Spine5SAttrOperator, Spine5SPlugOperator]
-):
+class Spine5SField(CompoundField[Spine5SAttrOperator, Spine5SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine5SAttrOperator
@@ -8634,9 +8453,7 @@ class Spine5MaxRLimitField(
     Spine5MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6TPlugOperator(
-    CompoundPlugOperator["Spine6TAttrOperator"]
-):
+class Spine6TPlugOperator(CompoundPlugOperator["Spine6TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Tx", "Spine6Tx"),
@@ -8651,9 +8468,7 @@ class Spine6TPlugOperator(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6TAttrOperator(
-    CompoundAttrOperator[Spine6TPlugOperator]
-):
+class Spine6TAttrOperator(CompoundAttrOperator[Spine6TPlugOperator]):
     __slots__ = ()
 
     Spine6Tx = DoubleLinearField(default_value=0.0)
@@ -8663,9 +8478,7 @@ class Spine6TAttrOperator(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6TField(
-    CompoundField[Spine6TAttrOperator, Spine6TPlugOperator]
-):
+class Spine6TField(CompoundField[Spine6TAttrOperator, Spine6TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6TAttrOperator
@@ -8678,9 +8491,7 @@ class Spine6TField(
     Spine6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine6RPlugOperator(
-    CompoundPlugOperator["Spine6RAttrOperator"]
-):
+class Spine6RPlugOperator(CompoundPlugOperator["Spine6RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Rx", "Spine6Rx"),
@@ -8695,9 +8506,7 @@ class Spine6RPlugOperator(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6RAttrOperator(
-    CompoundAttrOperator[Spine6RPlugOperator]
-):
+class Spine6RAttrOperator(CompoundAttrOperator[Spine6RPlugOperator]):
     __slots__ = ()
 
     Spine6Rx = DoubleAngleField(default_value=0.0)
@@ -8707,9 +8516,7 @@ class Spine6RAttrOperator(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6RField(
-    CompoundField[Spine6RAttrOperator, Spine6RPlugOperator]
-):
+class Spine6RField(CompoundField[Spine6RAttrOperator, Spine6RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6RAttrOperator
@@ -8722,9 +8529,7 @@ class Spine6RField(
     Spine6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine6SPlugOperator(
-    CompoundPlugOperator["Spine6SAttrOperator"]
-):
+class Spine6SPlugOperator(CompoundPlugOperator["Spine6SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine6Sx", "Spine6Sx"),
@@ -8739,9 +8544,7 @@ class Spine6SPlugOperator(
     Spine6Sz = DoubleField(default_value=1.0)
 
 
-class Spine6SAttrOperator(
-    CompoundAttrOperator[Spine6SPlugOperator]
-):
+class Spine6SAttrOperator(CompoundAttrOperator[Spine6SPlugOperator]):
     __slots__ = ()
 
     Spine6Sx = DoubleField(default_value=1.0)
@@ -8751,9 +8554,7 @@ class Spine6SAttrOperator(
     Spine6Sz = DoubleField(default_value=1.0)
 
 
-class Spine6SField(
-    CompoundField[Spine6SAttrOperator, Spine6SPlugOperator]
-):
+class Spine6SField(CompoundField[Spine6SAttrOperator, Spine6SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine6SAttrOperator
@@ -8942,9 +8743,7 @@ class Spine6MaxRLimitField(
     Spine6MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7TPlugOperator(
-    CompoundPlugOperator["Spine7TAttrOperator"]
-):
+class Spine7TPlugOperator(CompoundPlugOperator["Spine7TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Tx", "Spine7Tx"),
@@ -8959,9 +8758,7 @@ class Spine7TPlugOperator(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7TAttrOperator(
-    CompoundAttrOperator[Spine7TPlugOperator]
-):
+class Spine7TAttrOperator(CompoundAttrOperator[Spine7TPlugOperator]):
     __slots__ = ()
 
     Spine7Tx = DoubleLinearField(default_value=0.0)
@@ -8971,9 +8768,7 @@ class Spine7TAttrOperator(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7TField(
-    CompoundField[Spine7TAttrOperator, Spine7TPlugOperator]
-):
+class Spine7TField(CompoundField[Spine7TAttrOperator, Spine7TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7TAttrOperator
@@ -8986,9 +8781,7 @@ class Spine7TField(
     Spine7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine7RPlugOperator(
-    CompoundPlugOperator["Spine7RAttrOperator"]
-):
+class Spine7RPlugOperator(CompoundPlugOperator["Spine7RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Rx", "Spine7Rx"),
@@ -9003,9 +8796,7 @@ class Spine7RPlugOperator(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7RAttrOperator(
-    CompoundAttrOperator[Spine7RPlugOperator]
-):
+class Spine7RAttrOperator(CompoundAttrOperator[Spine7RPlugOperator]):
     __slots__ = ()
 
     Spine7Rx = DoubleAngleField(default_value=0.0)
@@ -9015,9 +8806,7 @@ class Spine7RAttrOperator(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7RField(
-    CompoundField[Spine7RAttrOperator, Spine7RPlugOperator]
-):
+class Spine7RField(CompoundField[Spine7RAttrOperator, Spine7RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7RAttrOperator
@@ -9030,9 +8819,7 @@ class Spine7RField(
     Spine7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine7SPlugOperator(
-    CompoundPlugOperator["Spine7SAttrOperator"]
-):
+class Spine7SPlugOperator(CompoundPlugOperator["Spine7SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine7Sx", "Spine7Sx"),
@@ -9047,9 +8834,7 @@ class Spine7SPlugOperator(
     Spine7Sz = DoubleField(default_value=1.0)
 
 
-class Spine7SAttrOperator(
-    CompoundAttrOperator[Spine7SPlugOperator]
-):
+class Spine7SAttrOperator(CompoundAttrOperator[Spine7SPlugOperator]):
     __slots__ = ()
 
     Spine7Sx = DoubleField(default_value=1.0)
@@ -9059,9 +8844,7 @@ class Spine7SAttrOperator(
     Spine7Sz = DoubleField(default_value=1.0)
 
 
-class Spine7SField(
-    CompoundField[Spine7SAttrOperator, Spine7SPlugOperator]
-):
+class Spine7SField(CompoundField[Spine7SAttrOperator, Spine7SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine7SAttrOperator
@@ -9250,9 +9033,7 @@ class Spine7MaxRLimitField(
     Spine7MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8TPlugOperator(
-    CompoundPlugOperator["Spine8TAttrOperator"]
-):
+class Spine8TPlugOperator(CompoundPlugOperator["Spine8TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Tx", "Spine8Tx"),
@@ -9267,9 +9048,7 @@ class Spine8TPlugOperator(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8TAttrOperator(
-    CompoundAttrOperator[Spine8TPlugOperator]
-):
+class Spine8TAttrOperator(CompoundAttrOperator[Spine8TPlugOperator]):
     __slots__ = ()
 
     Spine8Tx = DoubleLinearField(default_value=0.0)
@@ -9279,9 +9058,7 @@ class Spine8TAttrOperator(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8TField(
-    CompoundField[Spine8TAttrOperator, Spine8TPlugOperator]
-):
+class Spine8TField(CompoundField[Spine8TAttrOperator, Spine8TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8TAttrOperator
@@ -9294,9 +9071,7 @@ class Spine8TField(
     Spine8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine8RPlugOperator(
-    CompoundPlugOperator["Spine8RAttrOperator"]
-):
+class Spine8RPlugOperator(CompoundPlugOperator["Spine8RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Rx", "Spine8Rx"),
@@ -9311,9 +9086,7 @@ class Spine8RPlugOperator(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8RAttrOperator(
-    CompoundAttrOperator[Spine8RPlugOperator]
-):
+class Spine8RAttrOperator(CompoundAttrOperator[Spine8RPlugOperator]):
     __slots__ = ()
 
     Spine8Rx = DoubleAngleField(default_value=0.0)
@@ -9323,9 +9096,7 @@ class Spine8RAttrOperator(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8RField(
-    CompoundField[Spine8RAttrOperator, Spine8RPlugOperator]
-):
+class Spine8RField(CompoundField[Spine8RAttrOperator, Spine8RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8RAttrOperator
@@ -9338,9 +9109,7 @@ class Spine8RField(
     Spine8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine8SPlugOperator(
-    CompoundPlugOperator["Spine8SAttrOperator"]
-):
+class Spine8SPlugOperator(CompoundPlugOperator["Spine8SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine8Sx", "Spine8Sx"),
@@ -9355,9 +9124,7 @@ class Spine8SPlugOperator(
     Spine8Sz = DoubleField(default_value=1.0)
 
 
-class Spine8SAttrOperator(
-    CompoundAttrOperator[Spine8SPlugOperator]
-):
+class Spine8SAttrOperator(CompoundAttrOperator[Spine8SPlugOperator]):
     __slots__ = ()
 
     Spine8Sx = DoubleField(default_value=1.0)
@@ -9367,9 +9134,7 @@ class Spine8SAttrOperator(
     Spine8Sz = DoubleField(default_value=1.0)
 
 
-class Spine8SField(
-    CompoundField[Spine8SAttrOperator, Spine8SPlugOperator]
-):
+class Spine8SField(CompoundField[Spine8SAttrOperator, Spine8SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine8SAttrOperator
@@ -9558,9 +9323,7 @@ class Spine8MaxRLimitField(
     Spine8MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9TPlugOperator(
-    CompoundPlugOperator["Spine9TAttrOperator"]
-):
+class Spine9TPlugOperator(CompoundPlugOperator["Spine9TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Tx", "Spine9Tx"),
@@ -9575,9 +9338,7 @@ class Spine9TPlugOperator(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9TAttrOperator(
-    CompoundAttrOperator[Spine9TPlugOperator]
-):
+class Spine9TAttrOperator(CompoundAttrOperator[Spine9TPlugOperator]):
     __slots__ = ()
 
     Spine9Tx = DoubleLinearField(default_value=0.0)
@@ -9587,9 +9348,7 @@ class Spine9TAttrOperator(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9TField(
-    CompoundField[Spine9TAttrOperator, Spine9TPlugOperator]
-):
+class Spine9TField(CompoundField[Spine9TAttrOperator, Spine9TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9TAttrOperator
@@ -9602,9 +9361,7 @@ class Spine9TField(
     Spine9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Spine9RPlugOperator(
-    CompoundPlugOperator["Spine9RAttrOperator"]
-):
+class Spine9RPlugOperator(CompoundPlugOperator["Spine9RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Rx", "Spine9Rx"),
@@ -9619,9 +9376,7 @@ class Spine9RPlugOperator(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9RAttrOperator(
-    CompoundAttrOperator[Spine9RPlugOperator]
-):
+class Spine9RAttrOperator(CompoundAttrOperator[Spine9RPlugOperator]):
     __slots__ = ()
 
     Spine9Rx = DoubleAngleField(default_value=0.0)
@@ -9631,9 +9386,7 @@ class Spine9RAttrOperator(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9RField(
-    CompoundField[Spine9RAttrOperator, Spine9RPlugOperator]
-):
+class Spine9RField(CompoundField[Spine9RAttrOperator, Spine9RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9RAttrOperator
@@ -9646,9 +9399,7 @@ class Spine9RField(
     Spine9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Spine9SPlugOperator(
-    CompoundPlugOperator["Spine9SAttrOperator"]
-):
+class Spine9SPlugOperator(CompoundPlugOperator["Spine9SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Spine9Sx", "Spine9Sx"),
@@ -9663,9 +9414,7 @@ class Spine9SPlugOperator(
     Spine9Sz = DoubleField(default_value=1.0)
 
 
-class Spine9SAttrOperator(
-    CompoundAttrOperator[Spine9SPlugOperator]
-):
+class Spine9SAttrOperator(CompoundAttrOperator[Spine9SPlugOperator]):
     __slots__ = ()
 
     Spine9Sx = DoubleField(default_value=1.0)
@@ -9675,9 +9424,7 @@ class Spine9SAttrOperator(
     Spine9Sz = DoubleField(default_value=1.0)
 
 
-class Spine9SField(
-    CompoundField[Spine9SAttrOperator, Spine9SPlugOperator]
-):
+class Spine9SField(CompoundField[Spine9SAttrOperator, Spine9SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Spine9SAttrOperator
@@ -9866,9 +9613,7 @@ class Spine9MaxRLimitField(
     Spine9MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1TPlugOperator(
-    CompoundPlugOperator["Neck1TAttrOperator"]
-):
+class Neck1TPlugOperator(CompoundPlugOperator["Neck1TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Tx", "Neck1Tx"),
@@ -9883,9 +9628,7 @@ class Neck1TPlugOperator(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1TAttrOperator(
-    CompoundAttrOperator[Neck1TPlugOperator]
-):
+class Neck1TAttrOperator(CompoundAttrOperator[Neck1TPlugOperator]):
     __slots__ = ()
 
     Neck1Tx = DoubleLinearField(default_value=0.0)
@@ -9895,9 +9638,7 @@ class Neck1TAttrOperator(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1TField(
-    CompoundField[Neck1TAttrOperator, Neck1TPlugOperator]
-):
+class Neck1TField(CompoundField[Neck1TAttrOperator, Neck1TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1TAttrOperator
@@ -9910,9 +9651,7 @@ class Neck1TField(
     Neck1Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck1RPlugOperator(
-    CompoundPlugOperator["Neck1RAttrOperator"]
-):
+class Neck1RPlugOperator(CompoundPlugOperator["Neck1RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Rx", "Neck1Rx"),
@@ -9927,9 +9666,7 @@ class Neck1RPlugOperator(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1RAttrOperator(
-    CompoundAttrOperator[Neck1RPlugOperator]
-):
+class Neck1RAttrOperator(CompoundAttrOperator[Neck1RPlugOperator]):
     __slots__ = ()
 
     Neck1Rx = DoubleAngleField(default_value=0.0)
@@ -9939,9 +9676,7 @@ class Neck1RAttrOperator(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1RField(
-    CompoundField[Neck1RAttrOperator, Neck1RPlugOperator]
-):
+class Neck1RField(CompoundField[Neck1RAttrOperator, Neck1RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1RAttrOperator
@@ -9954,9 +9689,7 @@ class Neck1RField(
     Neck1Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck1SPlugOperator(
-    CompoundPlugOperator["Neck1SAttrOperator"]
-):
+class Neck1SPlugOperator(CompoundPlugOperator["Neck1SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck1Sx", "Neck1Sx"),
@@ -9971,9 +9704,7 @@ class Neck1SPlugOperator(
     Neck1Sz = DoubleField(default_value=1.0)
 
 
-class Neck1SAttrOperator(
-    CompoundAttrOperator[Neck1SPlugOperator]
-):
+class Neck1SAttrOperator(CompoundAttrOperator[Neck1SPlugOperator]):
     __slots__ = ()
 
     Neck1Sx = DoubleField(default_value=1.0)
@@ -9983,9 +9714,7 @@ class Neck1SAttrOperator(
     Neck1Sz = DoubleField(default_value=1.0)
 
 
-class Neck1SField(
-    CompoundField[Neck1SAttrOperator, Neck1SPlugOperator]
-):
+class Neck1SField(CompoundField[Neck1SAttrOperator, Neck1SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck1SAttrOperator
@@ -10174,9 +9903,7 @@ class Neck1MaxRLimitField(
     Neck1MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2TPlugOperator(
-    CompoundPlugOperator["Neck2TAttrOperator"]
-):
+class Neck2TPlugOperator(CompoundPlugOperator["Neck2TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Tx", "Neck2Tx"),
@@ -10191,9 +9918,7 @@ class Neck2TPlugOperator(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2TAttrOperator(
-    CompoundAttrOperator[Neck2TPlugOperator]
-):
+class Neck2TAttrOperator(CompoundAttrOperator[Neck2TPlugOperator]):
     __slots__ = ()
 
     Neck2Tx = DoubleLinearField(default_value=0.0)
@@ -10203,9 +9928,7 @@ class Neck2TAttrOperator(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2TField(
-    CompoundField[Neck2TAttrOperator, Neck2TPlugOperator]
-):
+class Neck2TField(CompoundField[Neck2TAttrOperator, Neck2TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2TAttrOperator
@@ -10218,9 +9941,7 @@ class Neck2TField(
     Neck2Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck2RPlugOperator(
-    CompoundPlugOperator["Neck2RAttrOperator"]
-):
+class Neck2RPlugOperator(CompoundPlugOperator["Neck2RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Rx", "Neck2Rx"),
@@ -10235,9 +9956,7 @@ class Neck2RPlugOperator(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2RAttrOperator(
-    CompoundAttrOperator[Neck2RPlugOperator]
-):
+class Neck2RAttrOperator(CompoundAttrOperator[Neck2RPlugOperator]):
     __slots__ = ()
 
     Neck2Rx = DoubleAngleField(default_value=0.0)
@@ -10247,9 +9966,7 @@ class Neck2RAttrOperator(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2RField(
-    CompoundField[Neck2RAttrOperator, Neck2RPlugOperator]
-):
+class Neck2RField(CompoundField[Neck2RAttrOperator, Neck2RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2RAttrOperator
@@ -10262,9 +9979,7 @@ class Neck2RField(
     Neck2Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck2SPlugOperator(
-    CompoundPlugOperator["Neck2SAttrOperator"]
-):
+class Neck2SPlugOperator(CompoundPlugOperator["Neck2SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck2Sx", "Neck2Sx"),
@@ -10279,9 +9994,7 @@ class Neck2SPlugOperator(
     Neck2Sz = DoubleField(default_value=1.0)
 
 
-class Neck2SAttrOperator(
-    CompoundAttrOperator[Neck2SPlugOperator]
-):
+class Neck2SAttrOperator(CompoundAttrOperator[Neck2SPlugOperator]):
     __slots__ = ()
 
     Neck2Sx = DoubleField(default_value=1.0)
@@ -10291,9 +10004,7 @@ class Neck2SAttrOperator(
     Neck2Sz = DoubleField(default_value=1.0)
 
 
-class Neck2SField(
-    CompoundField[Neck2SAttrOperator, Neck2SPlugOperator]
-):
+class Neck2SField(CompoundField[Neck2SAttrOperator, Neck2SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck2SAttrOperator
@@ -10482,9 +10193,7 @@ class Neck2MaxRLimitField(
     Neck2MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3TPlugOperator(
-    CompoundPlugOperator["Neck3TAttrOperator"]
-):
+class Neck3TPlugOperator(CompoundPlugOperator["Neck3TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Tx", "Neck3Tx"),
@@ -10499,9 +10208,7 @@ class Neck3TPlugOperator(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3TAttrOperator(
-    CompoundAttrOperator[Neck3TPlugOperator]
-):
+class Neck3TAttrOperator(CompoundAttrOperator[Neck3TPlugOperator]):
     __slots__ = ()
 
     Neck3Tx = DoubleLinearField(default_value=0.0)
@@ -10511,9 +10218,7 @@ class Neck3TAttrOperator(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3TField(
-    CompoundField[Neck3TAttrOperator, Neck3TPlugOperator]
-):
+class Neck3TField(CompoundField[Neck3TAttrOperator, Neck3TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3TAttrOperator
@@ -10526,9 +10231,7 @@ class Neck3TField(
     Neck3Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck3RPlugOperator(
-    CompoundPlugOperator["Neck3RAttrOperator"]
-):
+class Neck3RPlugOperator(CompoundPlugOperator["Neck3RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Rx", "Neck3Rx"),
@@ -10543,9 +10246,7 @@ class Neck3RPlugOperator(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3RAttrOperator(
-    CompoundAttrOperator[Neck3RPlugOperator]
-):
+class Neck3RAttrOperator(CompoundAttrOperator[Neck3RPlugOperator]):
     __slots__ = ()
 
     Neck3Rx = DoubleAngleField(default_value=0.0)
@@ -10555,9 +10256,7 @@ class Neck3RAttrOperator(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3RField(
-    CompoundField[Neck3RAttrOperator, Neck3RPlugOperator]
-):
+class Neck3RField(CompoundField[Neck3RAttrOperator, Neck3RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3RAttrOperator
@@ -10570,9 +10269,7 @@ class Neck3RField(
     Neck3Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck3SPlugOperator(
-    CompoundPlugOperator["Neck3SAttrOperator"]
-):
+class Neck3SPlugOperator(CompoundPlugOperator["Neck3SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck3Sx", "Neck3Sx"),
@@ -10587,9 +10284,7 @@ class Neck3SPlugOperator(
     Neck3Sz = DoubleField(default_value=1.0)
 
 
-class Neck3SAttrOperator(
-    CompoundAttrOperator[Neck3SPlugOperator]
-):
+class Neck3SAttrOperator(CompoundAttrOperator[Neck3SPlugOperator]):
     __slots__ = ()
 
     Neck3Sx = DoubleField(default_value=1.0)
@@ -10599,9 +10294,7 @@ class Neck3SAttrOperator(
     Neck3Sz = DoubleField(default_value=1.0)
 
 
-class Neck3SField(
-    CompoundField[Neck3SAttrOperator, Neck3SPlugOperator]
-):
+class Neck3SField(CompoundField[Neck3SAttrOperator, Neck3SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck3SAttrOperator
@@ -10790,9 +10483,7 @@ class Neck3MaxRLimitField(
     Neck3MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4TPlugOperator(
-    CompoundPlugOperator["Neck4TAttrOperator"]
-):
+class Neck4TPlugOperator(CompoundPlugOperator["Neck4TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Tx", "Neck4Tx"),
@@ -10807,9 +10498,7 @@ class Neck4TPlugOperator(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4TAttrOperator(
-    CompoundAttrOperator[Neck4TPlugOperator]
-):
+class Neck4TAttrOperator(CompoundAttrOperator[Neck4TPlugOperator]):
     __slots__ = ()
 
     Neck4Tx = DoubleLinearField(default_value=0.0)
@@ -10819,9 +10508,7 @@ class Neck4TAttrOperator(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4TField(
-    CompoundField[Neck4TAttrOperator, Neck4TPlugOperator]
-):
+class Neck4TField(CompoundField[Neck4TAttrOperator, Neck4TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4TAttrOperator
@@ -10834,9 +10521,7 @@ class Neck4TField(
     Neck4Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck4RPlugOperator(
-    CompoundPlugOperator["Neck4RAttrOperator"]
-):
+class Neck4RPlugOperator(CompoundPlugOperator["Neck4RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Rx", "Neck4Rx"),
@@ -10851,9 +10536,7 @@ class Neck4RPlugOperator(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4RAttrOperator(
-    CompoundAttrOperator[Neck4RPlugOperator]
-):
+class Neck4RAttrOperator(CompoundAttrOperator[Neck4RPlugOperator]):
     __slots__ = ()
 
     Neck4Rx = DoubleAngleField(default_value=0.0)
@@ -10863,9 +10546,7 @@ class Neck4RAttrOperator(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4RField(
-    CompoundField[Neck4RAttrOperator, Neck4RPlugOperator]
-):
+class Neck4RField(CompoundField[Neck4RAttrOperator, Neck4RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4RAttrOperator
@@ -10878,9 +10559,7 @@ class Neck4RField(
     Neck4Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck4SPlugOperator(
-    CompoundPlugOperator["Neck4SAttrOperator"]
-):
+class Neck4SPlugOperator(CompoundPlugOperator["Neck4SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck4Sx", "Neck4Sx"),
@@ -10895,9 +10574,7 @@ class Neck4SPlugOperator(
     Neck4Sz = DoubleField(default_value=1.0)
 
 
-class Neck4SAttrOperator(
-    CompoundAttrOperator[Neck4SPlugOperator]
-):
+class Neck4SAttrOperator(CompoundAttrOperator[Neck4SPlugOperator]):
     __slots__ = ()
 
     Neck4Sx = DoubleField(default_value=1.0)
@@ -10907,9 +10584,7 @@ class Neck4SAttrOperator(
     Neck4Sz = DoubleField(default_value=1.0)
 
 
-class Neck4SField(
-    CompoundField[Neck4SAttrOperator, Neck4SPlugOperator]
-):
+class Neck4SField(CompoundField[Neck4SAttrOperator, Neck4SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck4SAttrOperator
@@ -11098,9 +10773,7 @@ class Neck4MaxRLimitField(
     Neck4MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5TPlugOperator(
-    CompoundPlugOperator["Neck5TAttrOperator"]
-):
+class Neck5TPlugOperator(CompoundPlugOperator["Neck5TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Tx", "Neck5Tx"),
@@ -11115,9 +10788,7 @@ class Neck5TPlugOperator(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5TAttrOperator(
-    CompoundAttrOperator[Neck5TPlugOperator]
-):
+class Neck5TAttrOperator(CompoundAttrOperator[Neck5TPlugOperator]):
     __slots__ = ()
 
     Neck5Tx = DoubleLinearField(default_value=0.0)
@@ -11127,9 +10798,7 @@ class Neck5TAttrOperator(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5TField(
-    CompoundField[Neck5TAttrOperator, Neck5TPlugOperator]
-):
+class Neck5TField(CompoundField[Neck5TAttrOperator, Neck5TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5TAttrOperator
@@ -11142,9 +10811,7 @@ class Neck5TField(
     Neck5Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck5RPlugOperator(
-    CompoundPlugOperator["Neck5RAttrOperator"]
-):
+class Neck5RPlugOperator(CompoundPlugOperator["Neck5RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Rx", "Neck5Rx"),
@@ -11159,9 +10826,7 @@ class Neck5RPlugOperator(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5RAttrOperator(
-    CompoundAttrOperator[Neck5RPlugOperator]
-):
+class Neck5RAttrOperator(CompoundAttrOperator[Neck5RPlugOperator]):
     __slots__ = ()
 
     Neck5Rx = DoubleAngleField(default_value=0.0)
@@ -11171,9 +10836,7 @@ class Neck5RAttrOperator(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5RField(
-    CompoundField[Neck5RAttrOperator, Neck5RPlugOperator]
-):
+class Neck5RField(CompoundField[Neck5RAttrOperator, Neck5RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5RAttrOperator
@@ -11186,9 +10849,7 @@ class Neck5RField(
     Neck5Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck5SPlugOperator(
-    CompoundPlugOperator["Neck5SAttrOperator"]
-):
+class Neck5SPlugOperator(CompoundPlugOperator["Neck5SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck5Sx", "Neck5Sx"),
@@ -11203,9 +10864,7 @@ class Neck5SPlugOperator(
     Neck5Sz = DoubleField(default_value=1.0)
 
 
-class Neck5SAttrOperator(
-    CompoundAttrOperator[Neck5SPlugOperator]
-):
+class Neck5SAttrOperator(CompoundAttrOperator[Neck5SPlugOperator]):
     __slots__ = ()
 
     Neck5Sx = DoubleField(default_value=1.0)
@@ -11215,9 +10874,7 @@ class Neck5SAttrOperator(
     Neck5Sz = DoubleField(default_value=1.0)
 
 
-class Neck5SField(
-    CompoundField[Neck5SAttrOperator, Neck5SPlugOperator]
-):
+class Neck5SField(CompoundField[Neck5SAttrOperator, Neck5SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck5SAttrOperator
@@ -11406,9 +11063,7 @@ class Neck5MaxRLimitField(
     Neck5MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6TPlugOperator(
-    CompoundPlugOperator["Neck6TAttrOperator"]
-):
+class Neck6TPlugOperator(CompoundPlugOperator["Neck6TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Tx", "Neck6Tx"),
@@ -11423,9 +11078,7 @@ class Neck6TPlugOperator(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6TAttrOperator(
-    CompoundAttrOperator[Neck6TPlugOperator]
-):
+class Neck6TAttrOperator(CompoundAttrOperator[Neck6TPlugOperator]):
     __slots__ = ()
 
     Neck6Tx = DoubleLinearField(default_value=0.0)
@@ -11435,9 +11088,7 @@ class Neck6TAttrOperator(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6TField(
-    CompoundField[Neck6TAttrOperator, Neck6TPlugOperator]
-):
+class Neck6TField(CompoundField[Neck6TAttrOperator, Neck6TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6TAttrOperator
@@ -11450,9 +11101,7 @@ class Neck6TField(
     Neck6Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck6RPlugOperator(
-    CompoundPlugOperator["Neck6RAttrOperator"]
-):
+class Neck6RPlugOperator(CompoundPlugOperator["Neck6RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Rx", "Neck6Rx"),
@@ -11467,9 +11116,7 @@ class Neck6RPlugOperator(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6RAttrOperator(
-    CompoundAttrOperator[Neck6RPlugOperator]
-):
+class Neck6RAttrOperator(CompoundAttrOperator[Neck6RPlugOperator]):
     __slots__ = ()
 
     Neck6Rx = DoubleAngleField(default_value=0.0)
@@ -11479,9 +11126,7 @@ class Neck6RAttrOperator(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6RField(
-    CompoundField[Neck6RAttrOperator, Neck6RPlugOperator]
-):
+class Neck6RField(CompoundField[Neck6RAttrOperator, Neck6RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6RAttrOperator
@@ -11494,9 +11139,7 @@ class Neck6RField(
     Neck6Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck6SPlugOperator(
-    CompoundPlugOperator["Neck6SAttrOperator"]
-):
+class Neck6SPlugOperator(CompoundPlugOperator["Neck6SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck6Sx", "Neck6Sx"),
@@ -11511,9 +11154,7 @@ class Neck6SPlugOperator(
     Neck6Sz = DoubleField(default_value=1.0)
 
 
-class Neck6SAttrOperator(
-    CompoundAttrOperator[Neck6SPlugOperator]
-):
+class Neck6SAttrOperator(CompoundAttrOperator[Neck6SPlugOperator]):
     __slots__ = ()
 
     Neck6Sx = DoubleField(default_value=1.0)
@@ -11523,9 +11164,7 @@ class Neck6SAttrOperator(
     Neck6Sz = DoubleField(default_value=1.0)
 
 
-class Neck6SField(
-    CompoundField[Neck6SAttrOperator, Neck6SPlugOperator]
-):
+class Neck6SField(CompoundField[Neck6SAttrOperator, Neck6SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck6SAttrOperator
@@ -11714,9 +11353,7 @@ class Neck6MaxRLimitField(
     Neck6MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7TPlugOperator(
-    CompoundPlugOperator["Neck7TAttrOperator"]
-):
+class Neck7TPlugOperator(CompoundPlugOperator["Neck7TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Tx", "Neck7Tx"),
@@ -11731,9 +11368,7 @@ class Neck7TPlugOperator(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7TAttrOperator(
-    CompoundAttrOperator[Neck7TPlugOperator]
-):
+class Neck7TAttrOperator(CompoundAttrOperator[Neck7TPlugOperator]):
     __slots__ = ()
 
     Neck7Tx = DoubleLinearField(default_value=0.0)
@@ -11743,9 +11378,7 @@ class Neck7TAttrOperator(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7TField(
-    CompoundField[Neck7TAttrOperator, Neck7TPlugOperator]
-):
+class Neck7TField(CompoundField[Neck7TAttrOperator, Neck7TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7TAttrOperator
@@ -11758,9 +11391,7 @@ class Neck7TField(
     Neck7Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck7RPlugOperator(
-    CompoundPlugOperator["Neck7RAttrOperator"]
-):
+class Neck7RPlugOperator(CompoundPlugOperator["Neck7RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Rx", "Neck7Rx"),
@@ -11775,9 +11406,7 @@ class Neck7RPlugOperator(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7RAttrOperator(
-    CompoundAttrOperator[Neck7RPlugOperator]
-):
+class Neck7RAttrOperator(CompoundAttrOperator[Neck7RPlugOperator]):
     __slots__ = ()
 
     Neck7Rx = DoubleAngleField(default_value=0.0)
@@ -11787,9 +11416,7 @@ class Neck7RAttrOperator(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7RField(
-    CompoundField[Neck7RAttrOperator, Neck7RPlugOperator]
-):
+class Neck7RField(CompoundField[Neck7RAttrOperator, Neck7RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7RAttrOperator
@@ -11802,9 +11429,7 @@ class Neck7RField(
     Neck7Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck7SPlugOperator(
-    CompoundPlugOperator["Neck7SAttrOperator"]
-):
+class Neck7SPlugOperator(CompoundPlugOperator["Neck7SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck7Sx", "Neck7Sx"),
@@ -11819,9 +11444,7 @@ class Neck7SPlugOperator(
     Neck7Sz = DoubleField(default_value=1.0)
 
 
-class Neck7SAttrOperator(
-    CompoundAttrOperator[Neck7SPlugOperator]
-):
+class Neck7SAttrOperator(CompoundAttrOperator[Neck7SPlugOperator]):
     __slots__ = ()
 
     Neck7Sx = DoubleField(default_value=1.0)
@@ -11831,9 +11454,7 @@ class Neck7SAttrOperator(
     Neck7Sz = DoubleField(default_value=1.0)
 
 
-class Neck7SField(
-    CompoundField[Neck7SAttrOperator, Neck7SPlugOperator]
-):
+class Neck7SField(CompoundField[Neck7SAttrOperator, Neck7SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck7SAttrOperator
@@ -12022,9 +11643,7 @@ class Neck7MaxRLimitField(
     Neck7MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8TPlugOperator(
-    CompoundPlugOperator["Neck8TAttrOperator"]
-):
+class Neck8TPlugOperator(CompoundPlugOperator["Neck8TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Tx", "Neck8Tx"),
@@ -12039,9 +11658,7 @@ class Neck8TPlugOperator(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8TAttrOperator(
-    CompoundAttrOperator[Neck8TPlugOperator]
-):
+class Neck8TAttrOperator(CompoundAttrOperator[Neck8TPlugOperator]):
     __slots__ = ()
 
     Neck8Tx = DoubleLinearField(default_value=0.0)
@@ -12051,9 +11668,7 @@ class Neck8TAttrOperator(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8TField(
-    CompoundField[Neck8TAttrOperator, Neck8TPlugOperator]
-):
+class Neck8TField(CompoundField[Neck8TAttrOperator, Neck8TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8TAttrOperator
@@ -12066,9 +11681,7 @@ class Neck8TField(
     Neck8Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck8RPlugOperator(
-    CompoundPlugOperator["Neck8RAttrOperator"]
-):
+class Neck8RPlugOperator(CompoundPlugOperator["Neck8RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Rx", "Neck8Rx"),
@@ -12083,9 +11696,7 @@ class Neck8RPlugOperator(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8RAttrOperator(
-    CompoundAttrOperator[Neck8RPlugOperator]
-):
+class Neck8RAttrOperator(CompoundAttrOperator[Neck8RPlugOperator]):
     __slots__ = ()
 
     Neck8Rx = DoubleAngleField(default_value=0.0)
@@ -12095,9 +11706,7 @@ class Neck8RAttrOperator(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8RField(
-    CompoundField[Neck8RAttrOperator, Neck8RPlugOperator]
-):
+class Neck8RField(CompoundField[Neck8RAttrOperator, Neck8RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8RAttrOperator
@@ -12110,9 +11719,7 @@ class Neck8RField(
     Neck8Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck8SPlugOperator(
-    CompoundPlugOperator["Neck8SAttrOperator"]
-):
+class Neck8SPlugOperator(CompoundPlugOperator["Neck8SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck8Sx", "Neck8Sx"),
@@ -12127,9 +11734,7 @@ class Neck8SPlugOperator(
     Neck8Sz = DoubleField(default_value=1.0)
 
 
-class Neck8SAttrOperator(
-    CompoundAttrOperator[Neck8SPlugOperator]
-):
+class Neck8SAttrOperator(CompoundAttrOperator[Neck8SPlugOperator]):
     __slots__ = ()
 
     Neck8Sx = DoubleField(default_value=1.0)
@@ -12139,9 +11744,7 @@ class Neck8SAttrOperator(
     Neck8Sz = DoubleField(default_value=1.0)
 
 
-class Neck8SField(
-    CompoundField[Neck8SAttrOperator, Neck8SPlugOperator]
-):
+class Neck8SField(CompoundField[Neck8SAttrOperator, Neck8SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck8SAttrOperator
@@ -12330,9 +11933,7 @@ class Neck8MaxRLimitField(
     Neck8MaxRLimitz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9TPlugOperator(
-    CompoundPlugOperator["Neck9TAttrOperator"]
-):
+class Neck9TPlugOperator(CompoundPlugOperator["Neck9TAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Tx", "Neck9Tx"),
@@ -12347,9 +11948,7 @@ class Neck9TPlugOperator(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9TAttrOperator(
-    CompoundAttrOperator[Neck9TPlugOperator]
-):
+class Neck9TAttrOperator(CompoundAttrOperator[Neck9TPlugOperator]):
     __slots__ = ()
 
     Neck9Tx = DoubleLinearField(default_value=0.0)
@@ -12359,9 +11958,7 @@ class Neck9TAttrOperator(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9TField(
-    CompoundField[Neck9TAttrOperator, Neck9TPlugOperator]
-):
+class Neck9TField(CompoundField[Neck9TAttrOperator, Neck9TPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9TAttrOperator
@@ -12374,9 +11971,7 @@ class Neck9TField(
     Neck9Tz = DoubleLinearField(default_value=0.0)
 
 
-class Neck9RPlugOperator(
-    CompoundPlugOperator["Neck9RAttrOperator"]
-):
+class Neck9RPlugOperator(CompoundPlugOperator["Neck9RAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Rx", "Neck9Rx"),
@@ -12391,9 +11986,7 @@ class Neck9RPlugOperator(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9RAttrOperator(
-    CompoundAttrOperator[Neck9RPlugOperator]
-):
+class Neck9RAttrOperator(CompoundAttrOperator[Neck9RPlugOperator]):
     __slots__ = ()
 
     Neck9Rx = DoubleAngleField(default_value=0.0)
@@ -12403,9 +11996,7 @@ class Neck9RAttrOperator(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9RField(
-    CompoundField[Neck9RAttrOperator, Neck9RPlugOperator]
-):
+class Neck9RField(CompoundField[Neck9RAttrOperator, Neck9RPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9RAttrOperator
@@ -12418,9 +12009,7 @@ class Neck9RField(
     Neck9Rz = DoubleAngleField(default_value=0.0)
 
 
-class Neck9SPlugOperator(
-    CompoundPlugOperator["Neck9SAttrOperator"]
-):
+class Neck9SPlugOperator(CompoundPlugOperator["Neck9SAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("Neck9Sx", "Neck9Sx"),
@@ -12435,9 +12024,7 @@ class Neck9SPlugOperator(
     Neck9Sz = DoubleField(default_value=1.0)
 
 
-class Neck9SAttrOperator(
-    CompoundAttrOperator[Neck9SPlugOperator]
-):
+class Neck9SAttrOperator(CompoundAttrOperator[Neck9SPlugOperator]):
     __slots__ = ()
 
     Neck9Sx = DoubleField(default_value=1.0)
@@ -12447,9 +12034,7 @@ class Neck9SAttrOperator(
     Neck9Sz = DoubleField(default_value=1.0)
 
 
-class Neck9SField(
-    CompoundField[Neck9SAttrOperator, Neck9SPlugOperator]
-):
+class Neck9SField(CompoundField[Neck9SAttrOperator, Neck9SPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Neck9SAttrOperator
@@ -12800,7 +12385,10 @@ class LeftUpLegRollRotateAxisAttrOperator(
 
 
 class LeftUpLegRollRotateAxisField(
-    CompoundField[LeftUpLegRollRotateAxisAttrOperator, LeftUpLegRollRotateAxisPlugOperator]
+    CompoundField[
+        LeftUpLegRollRotateAxisAttrOperator,
+        LeftUpLegRollRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -12844,7 +12432,10 @@ class LeftUpLegRollJointOrientAttrOperator(
 
 
 class LeftUpLegRollJointOrientField(
-    CompoundField[LeftUpLegRollJointOrientAttrOperator, LeftUpLegRollJointOrientPlugOperator]
+    CompoundField[
+        LeftUpLegRollJointOrientAttrOperator,
+        LeftUpLegRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -12888,7 +12479,9 @@ class LeftUpLegRollMinRLimitAttrOperator(
 
 
 class LeftUpLegRollMinRLimitField(
-    CompoundField[LeftUpLegRollMinRLimitAttrOperator, LeftUpLegRollMinRLimitPlugOperator]
+    CompoundField[
+        LeftUpLegRollMinRLimitAttrOperator, LeftUpLegRollMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12932,7 +12525,9 @@ class LeftUpLegRollMaxRLimitAttrOperator(
 
 
 class LeftUpLegRollMaxRLimitField(
-    CompoundField[LeftUpLegRollMaxRLimitAttrOperator, LeftUpLegRollMaxRLimitPlugOperator]
+    CompoundField[
+        LeftUpLegRollMaxRLimitAttrOperator, LeftUpLegRollMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -12963,9 +12558,7 @@ class LeftLegRollTPlugOperator(
     LeftLegRollTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftLegRollTAttrOperator(
-    CompoundAttrOperator[LeftLegRollTPlugOperator]
-):
+class LeftLegRollTAttrOperator(CompoundAttrOperator[LeftLegRollTPlugOperator]):
     __slots__ = ()
 
     LeftLegRollTx = DoubleLinearField(default_value=0.0)
@@ -13007,9 +12600,7 @@ class LeftLegRollRPlugOperator(
     LeftLegRollRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftLegRollRAttrOperator(
-    CompoundAttrOperator[LeftLegRollRPlugOperator]
-):
+class LeftLegRollRAttrOperator(CompoundAttrOperator[LeftLegRollRPlugOperator]):
     __slots__ = ()
 
     LeftLegRollRx = DoubleAngleField(default_value=0.0)
@@ -13051,9 +12642,7 @@ class LeftLegRollSPlugOperator(
     LeftLegRollSz = DoubleField(default_value=1.0)
 
 
-class LeftLegRollSAttrOperator(
-    CompoundAttrOperator[LeftLegRollSPlugOperator]
-):
+class LeftLegRollSAttrOperator(CompoundAttrOperator[LeftLegRollSPlugOperator]):
     __slots__ = ()
 
     LeftLegRollSx = DoubleField(default_value=1.0)
@@ -13108,7 +12697,9 @@ class LeftLegRollRotateAxisAttrOperator(
 
 
 class LeftLegRollRotateAxisField(
-    CompoundField[LeftLegRollRotateAxisAttrOperator, LeftLegRollRotateAxisPlugOperator]
+    CompoundField[
+        LeftLegRollRotateAxisAttrOperator, LeftLegRollRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13152,7 +12743,9 @@ class LeftLegRollJointOrientAttrOperator(
 
 
 class LeftLegRollJointOrientField(
-    CompoundField[LeftLegRollJointOrientAttrOperator, LeftLegRollJointOrientPlugOperator]
+    CompoundField[
+        LeftLegRollJointOrientAttrOperator, LeftLegRollJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13196,7 +12789,9 @@ class LeftLegRollMinRLimitAttrOperator(
 
 
 class LeftLegRollMinRLimitField(
-    CompoundField[LeftLegRollMinRLimitAttrOperator, LeftLegRollMinRLimitPlugOperator]
+    CompoundField[
+        LeftLegRollMinRLimitAttrOperator, LeftLegRollMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13240,7 +12835,9 @@ class LeftLegRollMaxRLimitAttrOperator(
 
 
 class LeftLegRollMaxRLimitField(
-    CompoundField[LeftLegRollMaxRLimitAttrOperator, LeftLegRollMaxRLimitPlugOperator]
+    CompoundField[
+        LeftLegRollMaxRLimitAttrOperator, LeftLegRollMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13416,7 +13013,10 @@ class RightUpLegRollRotateAxisAttrOperator(
 
 
 class RightUpLegRollRotateAxisField(
-    CompoundField[RightUpLegRollRotateAxisAttrOperator, RightUpLegRollRotateAxisPlugOperator]
+    CompoundField[
+        RightUpLegRollRotateAxisAttrOperator,
+        RightUpLegRollRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -13460,7 +13060,10 @@ class RightUpLegRollJointOrientAttrOperator(
 
 
 class RightUpLegRollJointOrientField(
-    CompoundField[RightUpLegRollJointOrientAttrOperator, RightUpLegRollJointOrientPlugOperator]
+    CompoundField[
+        RightUpLegRollJointOrientAttrOperator,
+        RightUpLegRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -13504,7 +13107,10 @@ class RightUpLegRollMinRLimitAttrOperator(
 
 
 class RightUpLegRollMinRLimitField(
-    CompoundField[RightUpLegRollMinRLimitAttrOperator, RightUpLegRollMinRLimitPlugOperator]
+    CompoundField[
+        RightUpLegRollMinRLimitAttrOperator,
+        RightUpLegRollMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -13548,7 +13154,10 @@ class RightUpLegRollMaxRLimitAttrOperator(
 
 
 class RightUpLegRollMaxRLimitField(
-    CompoundField[RightUpLegRollMaxRLimitAttrOperator, RightUpLegRollMaxRLimitPlugOperator]
+    CompoundField[
+        RightUpLegRollMaxRLimitAttrOperator,
+        RightUpLegRollMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -13724,7 +13333,9 @@ class RightLegRollRotateAxisAttrOperator(
 
 
 class RightLegRollRotateAxisField(
-    CompoundField[RightLegRollRotateAxisAttrOperator, RightLegRollRotateAxisPlugOperator]
+    CompoundField[
+        RightLegRollRotateAxisAttrOperator, RightLegRollRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13768,7 +13379,10 @@ class RightLegRollJointOrientAttrOperator(
 
 
 class RightLegRollJointOrientField(
-    CompoundField[RightLegRollJointOrientAttrOperator, RightLegRollJointOrientPlugOperator]
+    CompoundField[
+        RightLegRollJointOrientAttrOperator,
+        RightLegRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -13812,7 +13426,9 @@ class RightLegRollMinRLimitAttrOperator(
 
 
 class RightLegRollMinRLimitField(
-    CompoundField[RightLegRollMinRLimitAttrOperator, RightLegRollMinRLimitPlugOperator]
+    CompoundField[
+        RightLegRollMinRLimitAttrOperator, RightLegRollMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13856,7 +13472,9 @@ class RightLegRollMaxRLimitAttrOperator(
 
 
 class RightLegRollMaxRLimitField(
-    CompoundField[RightLegRollMaxRLimitAttrOperator, RightLegRollMaxRLimitPlugOperator]
+    CompoundField[
+        RightLegRollMaxRLimitAttrOperator, RightLegRollMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -13887,9 +13505,7 @@ class LeftArmRollTPlugOperator(
     LeftArmRollTz = DoubleLinearField(default_value=0.0)
 
 
-class LeftArmRollTAttrOperator(
-    CompoundAttrOperator[LeftArmRollTPlugOperator]
-):
+class LeftArmRollTAttrOperator(CompoundAttrOperator[LeftArmRollTPlugOperator]):
     __slots__ = ()
 
     LeftArmRollTx = DoubleLinearField(default_value=0.0)
@@ -13931,9 +13547,7 @@ class LeftArmRollRPlugOperator(
     LeftArmRollRz = DoubleAngleField(default_value=0.0)
 
 
-class LeftArmRollRAttrOperator(
-    CompoundAttrOperator[LeftArmRollRPlugOperator]
-):
+class LeftArmRollRAttrOperator(CompoundAttrOperator[LeftArmRollRPlugOperator]):
     __slots__ = ()
 
     LeftArmRollRx = DoubleAngleField(default_value=0.0)
@@ -13975,9 +13589,7 @@ class LeftArmRollSPlugOperator(
     LeftArmRollSz = DoubleField(default_value=1.0)
 
 
-class LeftArmRollSAttrOperator(
-    CompoundAttrOperator[LeftArmRollSPlugOperator]
-):
+class LeftArmRollSAttrOperator(CompoundAttrOperator[LeftArmRollSPlugOperator]):
     __slots__ = ()
 
     LeftArmRollSx = DoubleField(default_value=1.0)
@@ -14032,7 +13644,9 @@ class LeftArmRollRotateAxisAttrOperator(
 
 
 class LeftArmRollRotateAxisField(
-    CompoundField[LeftArmRollRotateAxisAttrOperator, LeftArmRollRotateAxisPlugOperator]
+    CompoundField[
+        LeftArmRollRotateAxisAttrOperator, LeftArmRollRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14076,7 +13690,9 @@ class LeftArmRollJointOrientAttrOperator(
 
 
 class LeftArmRollJointOrientField(
-    CompoundField[LeftArmRollJointOrientAttrOperator, LeftArmRollJointOrientPlugOperator]
+    CompoundField[
+        LeftArmRollJointOrientAttrOperator, LeftArmRollJointOrientPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14120,7 +13736,9 @@ class LeftArmRollMinRLimitAttrOperator(
 
 
 class LeftArmRollMinRLimitField(
-    CompoundField[LeftArmRollMinRLimitAttrOperator, LeftArmRollMinRLimitPlugOperator]
+    CompoundField[
+        LeftArmRollMinRLimitAttrOperator, LeftArmRollMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14164,7 +13782,9 @@ class LeftArmRollMaxRLimitAttrOperator(
 
 
 class LeftArmRollMaxRLimitField(
-    CompoundField[LeftArmRollMaxRLimitAttrOperator, LeftArmRollMaxRLimitPlugOperator]
+    CompoundField[
+        LeftArmRollMaxRLimitAttrOperator, LeftArmRollMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14340,7 +13960,10 @@ class LeftForeArmRollRotateAxisAttrOperator(
 
 
 class LeftForeArmRollRotateAxisField(
-    CompoundField[LeftForeArmRollRotateAxisAttrOperator, LeftForeArmRollRotateAxisPlugOperator]
+    CompoundField[
+        LeftForeArmRollRotateAxisAttrOperator,
+        LeftForeArmRollRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -14384,7 +14007,10 @@ class LeftForeArmRollJointOrientAttrOperator(
 
 
 class LeftForeArmRollJointOrientField(
-    CompoundField[LeftForeArmRollJointOrientAttrOperator, LeftForeArmRollJointOrientPlugOperator]
+    CompoundField[
+        LeftForeArmRollJointOrientAttrOperator,
+        LeftForeArmRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -14428,7 +14054,10 @@ class LeftForeArmRollMinRLimitAttrOperator(
 
 
 class LeftForeArmRollMinRLimitField(
-    CompoundField[LeftForeArmRollMinRLimitAttrOperator, LeftForeArmRollMinRLimitPlugOperator]
+    CompoundField[
+        LeftForeArmRollMinRLimitAttrOperator,
+        LeftForeArmRollMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -14472,7 +14101,10 @@ class LeftForeArmRollMaxRLimitAttrOperator(
 
 
 class LeftForeArmRollMaxRLimitField(
-    CompoundField[LeftForeArmRollMaxRLimitAttrOperator, LeftForeArmRollMaxRLimitPlugOperator]
+    CompoundField[
+        LeftForeArmRollMaxRLimitAttrOperator,
+        LeftForeArmRollMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -14648,7 +14280,9 @@ class RightArmRollRotateAxisAttrOperator(
 
 
 class RightArmRollRotateAxisField(
-    CompoundField[RightArmRollRotateAxisAttrOperator, RightArmRollRotateAxisPlugOperator]
+    CompoundField[
+        RightArmRollRotateAxisAttrOperator, RightArmRollRotateAxisPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14692,7 +14326,10 @@ class RightArmRollJointOrientAttrOperator(
 
 
 class RightArmRollJointOrientField(
-    CompoundField[RightArmRollJointOrientAttrOperator, RightArmRollJointOrientPlugOperator]
+    CompoundField[
+        RightArmRollJointOrientAttrOperator,
+        RightArmRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -14736,7 +14373,9 @@ class RightArmRollMinRLimitAttrOperator(
 
 
 class RightArmRollMinRLimitField(
-    CompoundField[RightArmRollMinRLimitAttrOperator, RightArmRollMinRLimitPlugOperator]
+    CompoundField[
+        RightArmRollMinRLimitAttrOperator, RightArmRollMinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14780,7 +14419,9 @@ class RightArmRollMaxRLimitAttrOperator(
 
 
 class RightArmRollMaxRLimitField(
-    CompoundField[RightArmRollMaxRLimitAttrOperator, RightArmRollMaxRLimitPlugOperator]
+    CompoundField[
+        RightArmRollMaxRLimitAttrOperator, RightArmRollMaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -14956,7 +14597,10 @@ class RightForeArmRollRotateAxisAttrOperator(
 
 
 class RightForeArmRollRotateAxisField(
-    CompoundField[RightForeArmRollRotateAxisAttrOperator, RightForeArmRollRotateAxisPlugOperator]
+    CompoundField[
+        RightForeArmRollRotateAxisAttrOperator,
+        RightForeArmRollRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15000,7 +14644,10 @@ class RightForeArmRollJointOrientAttrOperator(
 
 
 class RightForeArmRollJointOrientField(
-    CompoundField[RightForeArmRollJointOrientAttrOperator, RightForeArmRollJointOrientPlugOperator]
+    CompoundField[
+        RightForeArmRollJointOrientAttrOperator,
+        RightForeArmRollJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15044,7 +14691,10 @@ class RightForeArmRollMinRLimitAttrOperator(
 
 
 class RightForeArmRollMinRLimitField(
-    CompoundField[RightForeArmRollMinRLimitAttrOperator, RightForeArmRollMinRLimitPlugOperator]
+    CompoundField[
+        RightForeArmRollMinRLimitAttrOperator,
+        RightForeArmRollMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15088,7 +14738,10 @@ class RightForeArmRollMaxRLimitAttrOperator(
 
 
 class RightForeArmRollMaxRLimitField(
-    CompoundField[RightForeArmRollMaxRLimitAttrOperator, RightForeArmRollMaxRLimitPlugOperator]
+    CompoundField[
+        RightForeArmRollMaxRLimitAttrOperator,
+        RightForeArmRollMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15264,7 +14917,10 @@ class HipsTranslationRotateAxisAttrOperator(
 
 
 class HipsTranslationRotateAxisField(
-    CompoundField[HipsTranslationRotateAxisAttrOperator, HipsTranslationRotateAxisPlugOperator]
+    CompoundField[
+        HipsTranslationRotateAxisAttrOperator,
+        HipsTranslationRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15308,7 +14964,10 @@ class HipsTranslationJointOrientAttrOperator(
 
 
 class HipsTranslationJointOrientField(
-    CompoundField[HipsTranslationJointOrientAttrOperator, HipsTranslationJointOrientPlugOperator]
+    CompoundField[
+        HipsTranslationJointOrientAttrOperator,
+        HipsTranslationJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15352,7 +15011,10 @@ class HipsTranslationMinRLimitAttrOperator(
 
 
 class HipsTranslationMinRLimitField(
-    CompoundField[HipsTranslationMinRLimitAttrOperator, HipsTranslationMinRLimitPlugOperator]
+    CompoundField[
+        HipsTranslationMinRLimitAttrOperator,
+        HipsTranslationMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15396,7 +15058,10 @@ class HipsTranslationMaxRLimitAttrOperator(
 
 
 class HipsTranslationMaxRLimitField(
-    CompoundField[HipsTranslationMaxRLimitAttrOperator, HipsTranslationMaxRLimitPlugOperator]
+    CompoundField[
+        HipsTranslationMaxRLimitAttrOperator,
+        HipsTranslationMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15572,7 +15237,10 @@ class LeftHandThumb1RotateAxisAttrOperator(
 
 
 class LeftHandThumb1RotateAxisField(
-    CompoundField[LeftHandThumb1RotateAxisAttrOperator, LeftHandThumb1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandThumb1RotateAxisAttrOperator,
+        LeftHandThumb1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15616,7 +15284,10 @@ class LeftHandThumb1JointOrientAttrOperator(
 
 
 class LeftHandThumb1JointOrientField(
-    CompoundField[LeftHandThumb1JointOrientAttrOperator, LeftHandThumb1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandThumb1JointOrientAttrOperator,
+        LeftHandThumb1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15660,7 +15331,10 @@ class LeftHandThumb1MinRLimitAttrOperator(
 
 
 class LeftHandThumb1MinRLimitField(
-    CompoundField[LeftHandThumb1MinRLimitAttrOperator, LeftHandThumb1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb1MinRLimitAttrOperator,
+        LeftHandThumb1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15704,7 +15378,10 @@ class LeftHandThumb1MaxRLimitAttrOperator(
 
 
 class LeftHandThumb1MaxRLimitField(
-    CompoundField[LeftHandThumb1MaxRLimitAttrOperator, LeftHandThumb1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb1MaxRLimitAttrOperator,
+        LeftHandThumb1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15880,7 +15557,10 @@ class LeftHandThumb2RotateAxisAttrOperator(
 
 
 class LeftHandThumb2RotateAxisField(
-    CompoundField[LeftHandThumb2RotateAxisAttrOperator, LeftHandThumb2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandThumb2RotateAxisAttrOperator,
+        LeftHandThumb2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15924,7 +15604,10 @@ class LeftHandThumb2JointOrientAttrOperator(
 
 
 class LeftHandThumb2JointOrientField(
-    CompoundField[LeftHandThumb2JointOrientAttrOperator, LeftHandThumb2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandThumb2JointOrientAttrOperator,
+        LeftHandThumb2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -15968,7 +15651,10 @@ class LeftHandThumb2MinRLimitAttrOperator(
 
 
 class LeftHandThumb2MinRLimitField(
-    CompoundField[LeftHandThumb2MinRLimitAttrOperator, LeftHandThumb2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb2MinRLimitAttrOperator,
+        LeftHandThumb2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16012,7 +15698,10 @@ class LeftHandThumb2MaxRLimitAttrOperator(
 
 
 class LeftHandThumb2MaxRLimitField(
-    CompoundField[LeftHandThumb2MaxRLimitAttrOperator, LeftHandThumb2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb2MaxRLimitAttrOperator,
+        LeftHandThumb2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16188,7 +15877,10 @@ class LeftHandThumb3RotateAxisAttrOperator(
 
 
 class LeftHandThumb3RotateAxisField(
-    CompoundField[LeftHandThumb3RotateAxisAttrOperator, LeftHandThumb3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandThumb3RotateAxisAttrOperator,
+        LeftHandThumb3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16232,7 +15924,10 @@ class LeftHandThumb3JointOrientAttrOperator(
 
 
 class LeftHandThumb3JointOrientField(
-    CompoundField[LeftHandThumb3JointOrientAttrOperator, LeftHandThumb3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandThumb3JointOrientAttrOperator,
+        LeftHandThumb3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16276,7 +15971,10 @@ class LeftHandThumb3MinRLimitAttrOperator(
 
 
 class LeftHandThumb3MinRLimitField(
-    CompoundField[LeftHandThumb3MinRLimitAttrOperator, LeftHandThumb3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb3MinRLimitAttrOperator,
+        LeftHandThumb3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16320,7 +16018,10 @@ class LeftHandThumb3MaxRLimitAttrOperator(
 
 
 class LeftHandThumb3MaxRLimitField(
-    CompoundField[LeftHandThumb3MaxRLimitAttrOperator, LeftHandThumb3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb3MaxRLimitAttrOperator,
+        LeftHandThumb3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16496,7 +16197,10 @@ class LeftHandThumb4RotateAxisAttrOperator(
 
 
 class LeftHandThumb4RotateAxisField(
-    CompoundField[LeftHandThumb4RotateAxisAttrOperator, LeftHandThumb4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandThumb4RotateAxisAttrOperator,
+        LeftHandThumb4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16540,7 +16244,10 @@ class LeftHandThumb4JointOrientAttrOperator(
 
 
 class LeftHandThumb4JointOrientField(
-    CompoundField[LeftHandThumb4JointOrientAttrOperator, LeftHandThumb4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandThumb4JointOrientAttrOperator,
+        LeftHandThumb4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16584,7 +16291,10 @@ class LeftHandThumb4MinRLimitAttrOperator(
 
 
 class LeftHandThumb4MinRLimitField(
-    CompoundField[LeftHandThumb4MinRLimitAttrOperator, LeftHandThumb4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb4MinRLimitAttrOperator,
+        LeftHandThumb4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16628,7 +16338,10 @@ class LeftHandThumb4MaxRLimitAttrOperator(
 
 
 class LeftHandThumb4MaxRLimitField(
-    CompoundField[LeftHandThumb4MaxRLimitAttrOperator, LeftHandThumb4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandThumb4MaxRLimitAttrOperator,
+        LeftHandThumb4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16804,7 +16517,10 @@ class LeftHandIndex1RotateAxisAttrOperator(
 
 
 class LeftHandIndex1RotateAxisField(
-    CompoundField[LeftHandIndex1RotateAxisAttrOperator, LeftHandIndex1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandIndex1RotateAxisAttrOperator,
+        LeftHandIndex1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16848,7 +16564,10 @@ class LeftHandIndex1JointOrientAttrOperator(
 
 
 class LeftHandIndex1JointOrientField(
-    CompoundField[LeftHandIndex1JointOrientAttrOperator, LeftHandIndex1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandIndex1JointOrientAttrOperator,
+        LeftHandIndex1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16892,7 +16611,10 @@ class LeftHandIndex1MinRLimitAttrOperator(
 
 
 class LeftHandIndex1MinRLimitField(
-    CompoundField[LeftHandIndex1MinRLimitAttrOperator, LeftHandIndex1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex1MinRLimitAttrOperator,
+        LeftHandIndex1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -16936,7 +16658,10 @@ class LeftHandIndex1MaxRLimitAttrOperator(
 
 
 class LeftHandIndex1MaxRLimitField(
-    CompoundField[LeftHandIndex1MaxRLimitAttrOperator, LeftHandIndex1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex1MaxRLimitAttrOperator,
+        LeftHandIndex1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17112,7 +16837,10 @@ class LeftHandIndex2RotateAxisAttrOperator(
 
 
 class LeftHandIndex2RotateAxisField(
-    CompoundField[LeftHandIndex2RotateAxisAttrOperator, LeftHandIndex2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandIndex2RotateAxisAttrOperator,
+        LeftHandIndex2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17156,7 +16884,10 @@ class LeftHandIndex2JointOrientAttrOperator(
 
 
 class LeftHandIndex2JointOrientField(
-    CompoundField[LeftHandIndex2JointOrientAttrOperator, LeftHandIndex2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandIndex2JointOrientAttrOperator,
+        LeftHandIndex2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17200,7 +16931,10 @@ class LeftHandIndex2MinRLimitAttrOperator(
 
 
 class LeftHandIndex2MinRLimitField(
-    CompoundField[LeftHandIndex2MinRLimitAttrOperator, LeftHandIndex2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex2MinRLimitAttrOperator,
+        LeftHandIndex2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17244,7 +16978,10 @@ class LeftHandIndex2MaxRLimitAttrOperator(
 
 
 class LeftHandIndex2MaxRLimitField(
-    CompoundField[LeftHandIndex2MaxRLimitAttrOperator, LeftHandIndex2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex2MaxRLimitAttrOperator,
+        LeftHandIndex2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17420,7 +17157,10 @@ class LeftHandIndex3RotateAxisAttrOperator(
 
 
 class LeftHandIndex3RotateAxisField(
-    CompoundField[LeftHandIndex3RotateAxisAttrOperator, LeftHandIndex3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandIndex3RotateAxisAttrOperator,
+        LeftHandIndex3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17464,7 +17204,10 @@ class LeftHandIndex3JointOrientAttrOperator(
 
 
 class LeftHandIndex3JointOrientField(
-    CompoundField[LeftHandIndex3JointOrientAttrOperator, LeftHandIndex3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandIndex3JointOrientAttrOperator,
+        LeftHandIndex3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17508,7 +17251,10 @@ class LeftHandIndex3MinRLimitAttrOperator(
 
 
 class LeftHandIndex3MinRLimitField(
-    CompoundField[LeftHandIndex3MinRLimitAttrOperator, LeftHandIndex3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex3MinRLimitAttrOperator,
+        LeftHandIndex3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17552,7 +17298,10 @@ class LeftHandIndex3MaxRLimitAttrOperator(
 
 
 class LeftHandIndex3MaxRLimitField(
-    CompoundField[LeftHandIndex3MaxRLimitAttrOperator, LeftHandIndex3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex3MaxRLimitAttrOperator,
+        LeftHandIndex3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17728,7 +17477,10 @@ class LeftHandIndex4RotateAxisAttrOperator(
 
 
 class LeftHandIndex4RotateAxisField(
-    CompoundField[LeftHandIndex4RotateAxisAttrOperator, LeftHandIndex4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandIndex4RotateAxisAttrOperator,
+        LeftHandIndex4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17772,7 +17524,10 @@ class LeftHandIndex4JointOrientAttrOperator(
 
 
 class LeftHandIndex4JointOrientField(
-    CompoundField[LeftHandIndex4JointOrientAttrOperator, LeftHandIndex4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandIndex4JointOrientAttrOperator,
+        LeftHandIndex4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17816,7 +17571,10 @@ class LeftHandIndex4MinRLimitAttrOperator(
 
 
 class LeftHandIndex4MinRLimitField(
-    CompoundField[LeftHandIndex4MinRLimitAttrOperator, LeftHandIndex4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex4MinRLimitAttrOperator,
+        LeftHandIndex4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -17860,7 +17618,10 @@ class LeftHandIndex4MaxRLimitAttrOperator(
 
 
 class LeftHandIndex4MaxRLimitField(
-    CompoundField[LeftHandIndex4MaxRLimitAttrOperator, LeftHandIndex4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandIndex4MaxRLimitAttrOperator,
+        LeftHandIndex4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18036,7 +17797,10 @@ class LeftHandMiddle1RotateAxisAttrOperator(
 
 
 class LeftHandMiddle1RotateAxisField(
-    CompoundField[LeftHandMiddle1RotateAxisAttrOperator, LeftHandMiddle1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandMiddle1RotateAxisAttrOperator,
+        LeftHandMiddle1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18080,7 +17844,10 @@ class LeftHandMiddle1JointOrientAttrOperator(
 
 
 class LeftHandMiddle1JointOrientField(
-    CompoundField[LeftHandMiddle1JointOrientAttrOperator, LeftHandMiddle1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandMiddle1JointOrientAttrOperator,
+        LeftHandMiddle1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18124,7 +17891,10 @@ class LeftHandMiddle1MinRLimitAttrOperator(
 
 
 class LeftHandMiddle1MinRLimitField(
-    CompoundField[LeftHandMiddle1MinRLimitAttrOperator, LeftHandMiddle1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle1MinRLimitAttrOperator,
+        LeftHandMiddle1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18168,7 +17938,10 @@ class LeftHandMiddle1MaxRLimitAttrOperator(
 
 
 class LeftHandMiddle1MaxRLimitField(
-    CompoundField[LeftHandMiddle1MaxRLimitAttrOperator, LeftHandMiddle1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle1MaxRLimitAttrOperator,
+        LeftHandMiddle1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18344,7 +18117,10 @@ class LeftHandMiddle2RotateAxisAttrOperator(
 
 
 class LeftHandMiddle2RotateAxisField(
-    CompoundField[LeftHandMiddle2RotateAxisAttrOperator, LeftHandMiddle2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandMiddle2RotateAxisAttrOperator,
+        LeftHandMiddle2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18388,7 +18164,10 @@ class LeftHandMiddle2JointOrientAttrOperator(
 
 
 class LeftHandMiddle2JointOrientField(
-    CompoundField[LeftHandMiddle2JointOrientAttrOperator, LeftHandMiddle2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandMiddle2JointOrientAttrOperator,
+        LeftHandMiddle2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18432,7 +18211,10 @@ class LeftHandMiddle2MinRLimitAttrOperator(
 
 
 class LeftHandMiddle2MinRLimitField(
-    CompoundField[LeftHandMiddle2MinRLimitAttrOperator, LeftHandMiddle2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle2MinRLimitAttrOperator,
+        LeftHandMiddle2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18476,7 +18258,10 @@ class LeftHandMiddle2MaxRLimitAttrOperator(
 
 
 class LeftHandMiddle2MaxRLimitField(
-    CompoundField[LeftHandMiddle2MaxRLimitAttrOperator, LeftHandMiddle2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle2MaxRLimitAttrOperator,
+        LeftHandMiddle2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18652,7 +18437,10 @@ class LeftHandMiddle3RotateAxisAttrOperator(
 
 
 class LeftHandMiddle3RotateAxisField(
-    CompoundField[LeftHandMiddle3RotateAxisAttrOperator, LeftHandMiddle3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandMiddle3RotateAxisAttrOperator,
+        LeftHandMiddle3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18696,7 +18484,10 @@ class LeftHandMiddle3JointOrientAttrOperator(
 
 
 class LeftHandMiddle3JointOrientField(
-    CompoundField[LeftHandMiddle3JointOrientAttrOperator, LeftHandMiddle3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandMiddle3JointOrientAttrOperator,
+        LeftHandMiddle3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18740,7 +18531,10 @@ class LeftHandMiddle3MinRLimitAttrOperator(
 
 
 class LeftHandMiddle3MinRLimitField(
-    CompoundField[LeftHandMiddle3MinRLimitAttrOperator, LeftHandMiddle3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle3MinRLimitAttrOperator,
+        LeftHandMiddle3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18784,7 +18578,10 @@ class LeftHandMiddle3MaxRLimitAttrOperator(
 
 
 class LeftHandMiddle3MaxRLimitField(
-    CompoundField[LeftHandMiddle3MaxRLimitAttrOperator, LeftHandMiddle3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle3MaxRLimitAttrOperator,
+        LeftHandMiddle3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -18960,7 +18757,10 @@ class LeftHandMiddle4RotateAxisAttrOperator(
 
 
 class LeftHandMiddle4RotateAxisField(
-    CompoundField[LeftHandMiddle4RotateAxisAttrOperator, LeftHandMiddle4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandMiddle4RotateAxisAttrOperator,
+        LeftHandMiddle4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19004,7 +18804,10 @@ class LeftHandMiddle4JointOrientAttrOperator(
 
 
 class LeftHandMiddle4JointOrientField(
-    CompoundField[LeftHandMiddle4JointOrientAttrOperator, LeftHandMiddle4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandMiddle4JointOrientAttrOperator,
+        LeftHandMiddle4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19048,7 +18851,10 @@ class LeftHandMiddle4MinRLimitAttrOperator(
 
 
 class LeftHandMiddle4MinRLimitField(
-    CompoundField[LeftHandMiddle4MinRLimitAttrOperator, LeftHandMiddle4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle4MinRLimitAttrOperator,
+        LeftHandMiddle4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19092,7 +18898,10 @@ class LeftHandMiddle4MaxRLimitAttrOperator(
 
 
 class LeftHandMiddle4MaxRLimitField(
-    CompoundField[LeftHandMiddle4MaxRLimitAttrOperator, LeftHandMiddle4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandMiddle4MaxRLimitAttrOperator,
+        LeftHandMiddle4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19268,7 +19077,10 @@ class LeftHandRing1RotateAxisAttrOperator(
 
 
 class LeftHandRing1RotateAxisField(
-    CompoundField[LeftHandRing1RotateAxisAttrOperator, LeftHandRing1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandRing1RotateAxisAttrOperator,
+        LeftHandRing1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19312,7 +19124,10 @@ class LeftHandRing1JointOrientAttrOperator(
 
 
 class LeftHandRing1JointOrientField(
-    CompoundField[LeftHandRing1JointOrientAttrOperator, LeftHandRing1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandRing1JointOrientAttrOperator,
+        LeftHandRing1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19356,7 +19171,9 @@ class LeftHandRing1MinRLimitAttrOperator(
 
 
 class LeftHandRing1MinRLimitField(
-    CompoundField[LeftHandRing1MinRLimitAttrOperator, LeftHandRing1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing1MinRLimitAttrOperator, LeftHandRing1MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19400,7 +19217,9 @@ class LeftHandRing1MaxRLimitAttrOperator(
 
 
 class LeftHandRing1MaxRLimitField(
-    CompoundField[LeftHandRing1MaxRLimitAttrOperator, LeftHandRing1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing1MaxRLimitAttrOperator, LeftHandRing1MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19576,7 +19395,10 @@ class LeftHandRing2RotateAxisAttrOperator(
 
 
 class LeftHandRing2RotateAxisField(
-    CompoundField[LeftHandRing2RotateAxisAttrOperator, LeftHandRing2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandRing2RotateAxisAttrOperator,
+        LeftHandRing2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19620,7 +19442,10 @@ class LeftHandRing2JointOrientAttrOperator(
 
 
 class LeftHandRing2JointOrientField(
-    CompoundField[LeftHandRing2JointOrientAttrOperator, LeftHandRing2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandRing2JointOrientAttrOperator,
+        LeftHandRing2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19664,7 +19489,9 @@ class LeftHandRing2MinRLimitAttrOperator(
 
 
 class LeftHandRing2MinRLimitField(
-    CompoundField[LeftHandRing2MinRLimitAttrOperator, LeftHandRing2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing2MinRLimitAttrOperator, LeftHandRing2MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19708,7 +19535,9 @@ class LeftHandRing2MaxRLimitAttrOperator(
 
 
 class LeftHandRing2MaxRLimitField(
-    CompoundField[LeftHandRing2MaxRLimitAttrOperator, LeftHandRing2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing2MaxRLimitAttrOperator, LeftHandRing2MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -19884,7 +19713,10 @@ class LeftHandRing3RotateAxisAttrOperator(
 
 
 class LeftHandRing3RotateAxisField(
-    CompoundField[LeftHandRing3RotateAxisAttrOperator, LeftHandRing3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandRing3RotateAxisAttrOperator,
+        LeftHandRing3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19928,7 +19760,10 @@ class LeftHandRing3JointOrientAttrOperator(
 
 
 class LeftHandRing3JointOrientField(
-    CompoundField[LeftHandRing3JointOrientAttrOperator, LeftHandRing3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandRing3JointOrientAttrOperator,
+        LeftHandRing3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -19972,7 +19807,9 @@ class LeftHandRing3MinRLimitAttrOperator(
 
 
 class LeftHandRing3MinRLimitField(
-    CompoundField[LeftHandRing3MinRLimitAttrOperator, LeftHandRing3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing3MinRLimitAttrOperator, LeftHandRing3MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20016,7 +19853,9 @@ class LeftHandRing3MaxRLimitAttrOperator(
 
 
 class LeftHandRing3MaxRLimitField(
-    CompoundField[LeftHandRing3MaxRLimitAttrOperator, LeftHandRing3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing3MaxRLimitAttrOperator, LeftHandRing3MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20192,7 +20031,10 @@ class LeftHandRing4RotateAxisAttrOperator(
 
 
 class LeftHandRing4RotateAxisField(
-    CompoundField[LeftHandRing4RotateAxisAttrOperator, LeftHandRing4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandRing4RotateAxisAttrOperator,
+        LeftHandRing4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20236,7 +20078,10 @@ class LeftHandRing4JointOrientAttrOperator(
 
 
 class LeftHandRing4JointOrientField(
-    CompoundField[LeftHandRing4JointOrientAttrOperator, LeftHandRing4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandRing4JointOrientAttrOperator,
+        LeftHandRing4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20280,7 +20125,9 @@ class LeftHandRing4MinRLimitAttrOperator(
 
 
 class LeftHandRing4MinRLimitField(
-    CompoundField[LeftHandRing4MinRLimitAttrOperator, LeftHandRing4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing4MinRLimitAttrOperator, LeftHandRing4MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20324,7 +20171,9 @@ class LeftHandRing4MaxRLimitAttrOperator(
 
 
 class LeftHandRing4MaxRLimitField(
-    CompoundField[LeftHandRing4MaxRLimitAttrOperator, LeftHandRing4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandRing4MaxRLimitAttrOperator, LeftHandRing4MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -20500,7 +20349,10 @@ class LeftHandPinky1RotateAxisAttrOperator(
 
 
 class LeftHandPinky1RotateAxisField(
-    CompoundField[LeftHandPinky1RotateAxisAttrOperator, LeftHandPinky1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandPinky1RotateAxisAttrOperator,
+        LeftHandPinky1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20544,7 +20396,10 @@ class LeftHandPinky1JointOrientAttrOperator(
 
 
 class LeftHandPinky1JointOrientField(
-    CompoundField[LeftHandPinky1JointOrientAttrOperator, LeftHandPinky1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandPinky1JointOrientAttrOperator,
+        LeftHandPinky1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20588,7 +20443,10 @@ class LeftHandPinky1MinRLimitAttrOperator(
 
 
 class LeftHandPinky1MinRLimitField(
-    CompoundField[LeftHandPinky1MinRLimitAttrOperator, LeftHandPinky1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky1MinRLimitAttrOperator,
+        LeftHandPinky1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20632,7 +20490,10 @@ class LeftHandPinky1MaxRLimitAttrOperator(
 
 
 class LeftHandPinky1MaxRLimitField(
-    CompoundField[LeftHandPinky1MaxRLimitAttrOperator, LeftHandPinky1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky1MaxRLimitAttrOperator,
+        LeftHandPinky1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20808,7 +20669,10 @@ class LeftHandPinky2RotateAxisAttrOperator(
 
 
 class LeftHandPinky2RotateAxisField(
-    CompoundField[LeftHandPinky2RotateAxisAttrOperator, LeftHandPinky2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandPinky2RotateAxisAttrOperator,
+        LeftHandPinky2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20852,7 +20716,10 @@ class LeftHandPinky2JointOrientAttrOperator(
 
 
 class LeftHandPinky2JointOrientField(
-    CompoundField[LeftHandPinky2JointOrientAttrOperator, LeftHandPinky2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandPinky2JointOrientAttrOperator,
+        LeftHandPinky2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20896,7 +20763,10 @@ class LeftHandPinky2MinRLimitAttrOperator(
 
 
 class LeftHandPinky2MinRLimitField(
-    CompoundField[LeftHandPinky2MinRLimitAttrOperator, LeftHandPinky2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky2MinRLimitAttrOperator,
+        LeftHandPinky2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -20940,7 +20810,10 @@ class LeftHandPinky2MaxRLimitAttrOperator(
 
 
 class LeftHandPinky2MaxRLimitField(
-    CompoundField[LeftHandPinky2MaxRLimitAttrOperator, LeftHandPinky2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky2MaxRLimitAttrOperator,
+        LeftHandPinky2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21116,7 +20989,10 @@ class LeftHandPinky3RotateAxisAttrOperator(
 
 
 class LeftHandPinky3RotateAxisField(
-    CompoundField[LeftHandPinky3RotateAxisAttrOperator, LeftHandPinky3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandPinky3RotateAxisAttrOperator,
+        LeftHandPinky3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21160,7 +21036,10 @@ class LeftHandPinky3JointOrientAttrOperator(
 
 
 class LeftHandPinky3JointOrientField(
-    CompoundField[LeftHandPinky3JointOrientAttrOperator, LeftHandPinky3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandPinky3JointOrientAttrOperator,
+        LeftHandPinky3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21204,7 +21083,10 @@ class LeftHandPinky3MinRLimitAttrOperator(
 
 
 class LeftHandPinky3MinRLimitField(
-    CompoundField[LeftHandPinky3MinRLimitAttrOperator, LeftHandPinky3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky3MinRLimitAttrOperator,
+        LeftHandPinky3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21248,7 +21130,10 @@ class LeftHandPinky3MaxRLimitAttrOperator(
 
 
 class LeftHandPinky3MaxRLimitField(
-    CompoundField[LeftHandPinky3MaxRLimitAttrOperator, LeftHandPinky3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky3MaxRLimitAttrOperator,
+        LeftHandPinky3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21424,7 +21309,10 @@ class LeftHandPinky4RotateAxisAttrOperator(
 
 
 class LeftHandPinky4RotateAxisField(
-    CompoundField[LeftHandPinky4RotateAxisAttrOperator, LeftHandPinky4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandPinky4RotateAxisAttrOperator,
+        LeftHandPinky4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21468,7 +21356,10 @@ class LeftHandPinky4JointOrientAttrOperator(
 
 
 class LeftHandPinky4JointOrientField(
-    CompoundField[LeftHandPinky4JointOrientAttrOperator, LeftHandPinky4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandPinky4JointOrientAttrOperator,
+        LeftHandPinky4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21512,7 +21403,10 @@ class LeftHandPinky4MinRLimitAttrOperator(
 
 
 class LeftHandPinky4MinRLimitField(
-    CompoundField[LeftHandPinky4MinRLimitAttrOperator, LeftHandPinky4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky4MinRLimitAttrOperator,
+        LeftHandPinky4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21556,7 +21450,10 @@ class LeftHandPinky4MaxRLimitAttrOperator(
 
 
 class LeftHandPinky4MaxRLimitField(
-    CompoundField[LeftHandPinky4MaxRLimitAttrOperator, LeftHandPinky4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandPinky4MaxRLimitAttrOperator,
+        LeftHandPinky4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21600,7 +21497,9 @@ class LeftHandExtraFinger1TAttrOperator(
 
 
 class LeftHandExtraFinger1TField(
-    CompoundField[LeftHandExtraFinger1TAttrOperator, LeftHandExtraFinger1TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1TAttrOperator, LeftHandExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21644,7 +21543,9 @@ class LeftHandExtraFinger1RAttrOperator(
 
 
 class LeftHandExtraFinger1RField(
-    CompoundField[LeftHandExtraFinger1RAttrOperator, LeftHandExtraFinger1RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1RAttrOperator, LeftHandExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21688,7 +21589,9 @@ class LeftHandExtraFinger1SAttrOperator(
 
 
 class LeftHandExtraFinger1SField(
-    CompoundField[LeftHandExtraFinger1SAttrOperator, LeftHandExtraFinger1SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1SAttrOperator, LeftHandExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21732,7 +21635,10 @@ class LeftHandExtraFinger1RotateAxisAttrOperator(
 
 
 class LeftHandExtraFinger1RotateAxisField(
-    CompoundField[LeftHandExtraFinger1RotateAxisAttrOperator, LeftHandExtraFinger1RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1RotateAxisAttrOperator,
+        LeftHandExtraFinger1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21751,9 +21657,18 @@ class LeftHandExtraFinger1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftHandExtraFinger1JointOrientx", "LeftHandExtraFinger1JointOrientx"),
-        ("LeftHandExtraFinger1JointOrienty", "LeftHandExtraFinger1JointOrienty"),
-        ("LeftHandExtraFinger1JointOrientz", "LeftHandExtraFinger1JointOrientz"),
+        (
+            "LeftHandExtraFinger1JointOrientx",
+            "LeftHandExtraFinger1JointOrientx",
+        ),
+        (
+            "LeftHandExtraFinger1JointOrienty",
+            "LeftHandExtraFinger1JointOrienty",
+        ),
+        (
+            "LeftHandExtraFinger1JointOrientz",
+            "LeftHandExtraFinger1JointOrientz",
+        ),
     )
 
     LeftHandExtraFinger1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -21776,7 +21691,10 @@ class LeftHandExtraFinger1JointOrientAttrOperator(
 
 
 class LeftHandExtraFinger1JointOrientField(
-    CompoundField[LeftHandExtraFinger1JointOrientAttrOperator, LeftHandExtraFinger1JointOrientPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1JointOrientAttrOperator,
+        LeftHandExtraFinger1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21820,7 +21738,10 @@ class LeftHandExtraFinger1MinRLimitAttrOperator(
 
 
 class LeftHandExtraFinger1MinRLimitField(
-    CompoundField[LeftHandExtraFinger1MinRLimitAttrOperator, LeftHandExtraFinger1MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1MinRLimitAttrOperator,
+        LeftHandExtraFinger1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21864,7 +21785,10 @@ class LeftHandExtraFinger1MaxRLimitAttrOperator(
 
 
 class LeftHandExtraFinger1MaxRLimitField(
-    CompoundField[LeftHandExtraFinger1MaxRLimitAttrOperator, LeftHandExtraFinger1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger1MaxRLimitAttrOperator,
+        LeftHandExtraFinger1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -21908,7 +21832,9 @@ class LeftHandExtraFinger2TAttrOperator(
 
 
 class LeftHandExtraFinger2TField(
-    CompoundField[LeftHandExtraFinger2TAttrOperator, LeftHandExtraFinger2TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2TAttrOperator, LeftHandExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21952,7 +21878,9 @@ class LeftHandExtraFinger2RAttrOperator(
 
 
 class LeftHandExtraFinger2RField(
-    CompoundField[LeftHandExtraFinger2RAttrOperator, LeftHandExtraFinger2RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2RAttrOperator, LeftHandExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -21996,7 +21924,9 @@ class LeftHandExtraFinger2SAttrOperator(
 
 
 class LeftHandExtraFinger2SField(
-    CompoundField[LeftHandExtraFinger2SAttrOperator, LeftHandExtraFinger2SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2SAttrOperator, LeftHandExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22040,7 +21970,10 @@ class LeftHandExtraFinger2RotateAxisAttrOperator(
 
 
 class LeftHandExtraFinger2RotateAxisField(
-    CompoundField[LeftHandExtraFinger2RotateAxisAttrOperator, LeftHandExtraFinger2RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2RotateAxisAttrOperator,
+        LeftHandExtraFinger2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22059,9 +21992,18 @@ class LeftHandExtraFinger2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftHandExtraFinger2JointOrientx", "LeftHandExtraFinger2JointOrientx"),
-        ("LeftHandExtraFinger2JointOrienty", "LeftHandExtraFinger2JointOrienty"),
-        ("LeftHandExtraFinger2JointOrientz", "LeftHandExtraFinger2JointOrientz"),
+        (
+            "LeftHandExtraFinger2JointOrientx",
+            "LeftHandExtraFinger2JointOrientx",
+        ),
+        (
+            "LeftHandExtraFinger2JointOrienty",
+            "LeftHandExtraFinger2JointOrienty",
+        ),
+        (
+            "LeftHandExtraFinger2JointOrientz",
+            "LeftHandExtraFinger2JointOrientz",
+        ),
     )
 
     LeftHandExtraFinger2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -22084,7 +22026,10 @@ class LeftHandExtraFinger2JointOrientAttrOperator(
 
 
 class LeftHandExtraFinger2JointOrientField(
-    CompoundField[LeftHandExtraFinger2JointOrientAttrOperator, LeftHandExtraFinger2JointOrientPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2JointOrientAttrOperator,
+        LeftHandExtraFinger2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22128,7 +22073,10 @@ class LeftHandExtraFinger2MinRLimitAttrOperator(
 
 
 class LeftHandExtraFinger2MinRLimitField(
-    CompoundField[LeftHandExtraFinger2MinRLimitAttrOperator, LeftHandExtraFinger2MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2MinRLimitAttrOperator,
+        LeftHandExtraFinger2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22172,7 +22120,10 @@ class LeftHandExtraFinger2MaxRLimitAttrOperator(
 
 
 class LeftHandExtraFinger2MaxRLimitField(
-    CompoundField[LeftHandExtraFinger2MaxRLimitAttrOperator, LeftHandExtraFinger2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger2MaxRLimitAttrOperator,
+        LeftHandExtraFinger2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22216,7 +22167,9 @@ class LeftHandExtraFinger3TAttrOperator(
 
 
 class LeftHandExtraFinger3TField(
-    CompoundField[LeftHandExtraFinger3TAttrOperator, LeftHandExtraFinger3TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3TAttrOperator, LeftHandExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22260,7 +22213,9 @@ class LeftHandExtraFinger3RAttrOperator(
 
 
 class LeftHandExtraFinger3RField(
-    CompoundField[LeftHandExtraFinger3RAttrOperator, LeftHandExtraFinger3RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3RAttrOperator, LeftHandExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22304,7 +22259,9 @@ class LeftHandExtraFinger3SAttrOperator(
 
 
 class LeftHandExtraFinger3SField(
-    CompoundField[LeftHandExtraFinger3SAttrOperator, LeftHandExtraFinger3SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3SAttrOperator, LeftHandExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22348,7 +22305,10 @@ class LeftHandExtraFinger3RotateAxisAttrOperator(
 
 
 class LeftHandExtraFinger3RotateAxisField(
-    CompoundField[LeftHandExtraFinger3RotateAxisAttrOperator, LeftHandExtraFinger3RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3RotateAxisAttrOperator,
+        LeftHandExtraFinger3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22367,9 +22327,18 @@ class LeftHandExtraFinger3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftHandExtraFinger3JointOrientx", "LeftHandExtraFinger3JointOrientx"),
-        ("LeftHandExtraFinger3JointOrienty", "LeftHandExtraFinger3JointOrienty"),
-        ("LeftHandExtraFinger3JointOrientz", "LeftHandExtraFinger3JointOrientz"),
+        (
+            "LeftHandExtraFinger3JointOrientx",
+            "LeftHandExtraFinger3JointOrientx",
+        ),
+        (
+            "LeftHandExtraFinger3JointOrienty",
+            "LeftHandExtraFinger3JointOrienty",
+        ),
+        (
+            "LeftHandExtraFinger3JointOrientz",
+            "LeftHandExtraFinger3JointOrientz",
+        ),
     )
 
     LeftHandExtraFinger3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -22392,7 +22361,10 @@ class LeftHandExtraFinger3JointOrientAttrOperator(
 
 
 class LeftHandExtraFinger3JointOrientField(
-    CompoundField[LeftHandExtraFinger3JointOrientAttrOperator, LeftHandExtraFinger3JointOrientPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3JointOrientAttrOperator,
+        LeftHandExtraFinger3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22436,7 +22408,10 @@ class LeftHandExtraFinger3MinRLimitAttrOperator(
 
 
 class LeftHandExtraFinger3MinRLimitField(
-    CompoundField[LeftHandExtraFinger3MinRLimitAttrOperator, LeftHandExtraFinger3MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3MinRLimitAttrOperator,
+        LeftHandExtraFinger3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22480,7 +22455,10 @@ class LeftHandExtraFinger3MaxRLimitAttrOperator(
 
 
 class LeftHandExtraFinger3MaxRLimitField(
-    CompoundField[LeftHandExtraFinger3MaxRLimitAttrOperator, LeftHandExtraFinger3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger3MaxRLimitAttrOperator,
+        LeftHandExtraFinger3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22524,7 +22502,9 @@ class LeftHandExtraFinger4TAttrOperator(
 
 
 class LeftHandExtraFinger4TField(
-    CompoundField[LeftHandExtraFinger4TAttrOperator, LeftHandExtraFinger4TPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4TAttrOperator, LeftHandExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22568,7 +22548,9 @@ class LeftHandExtraFinger4RAttrOperator(
 
 
 class LeftHandExtraFinger4RField(
-    CompoundField[LeftHandExtraFinger4RAttrOperator, LeftHandExtraFinger4RPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4RAttrOperator, LeftHandExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22612,7 +22594,9 @@ class LeftHandExtraFinger4SAttrOperator(
 
 
 class LeftHandExtraFinger4SField(
-    CompoundField[LeftHandExtraFinger4SAttrOperator, LeftHandExtraFinger4SPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4SAttrOperator, LeftHandExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -22656,7 +22640,10 @@ class LeftHandExtraFinger4RotateAxisAttrOperator(
 
 
 class LeftHandExtraFinger4RotateAxisField(
-    CompoundField[LeftHandExtraFinger4RotateAxisAttrOperator, LeftHandExtraFinger4RotateAxisPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4RotateAxisAttrOperator,
+        LeftHandExtraFinger4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22675,9 +22662,18 @@ class LeftHandExtraFinger4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftHandExtraFinger4JointOrientx", "LeftHandExtraFinger4JointOrientx"),
-        ("LeftHandExtraFinger4JointOrienty", "LeftHandExtraFinger4JointOrienty"),
-        ("LeftHandExtraFinger4JointOrientz", "LeftHandExtraFinger4JointOrientz"),
+        (
+            "LeftHandExtraFinger4JointOrientx",
+            "LeftHandExtraFinger4JointOrientx",
+        ),
+        (
+            "LeftHandExtraFinger4JointOrienty",
+            "LeftHandExtraFinger4JointOrienty",
+        ),
+        (
+            "LeftHandExtraFinger4JointOrientz",
+            "LeftHandExtraFinger4JointOrientz",
+        ),
     )
 
     LeftHandExtraFinger4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -22700,7 +22696,10 @@ class LeftHandExtraFinger4JointOrientAttrOperator(
 
 
 class LeftHandExtraFinger4JointOrientField(
-    CompoundField[LeftHandExtraFinger4JointOrientAttrOperator, LeftHandExtraFinger4JointOrientPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4JointOrientAttrOperator,
+        LeftHandExtraFinger4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22744,7 +22743,10 @@ class LeftHandExtraFinger4MinRLimitAttrOperator(
 
 
 class LeftHandExtraFinger4MinRLimitField(
-    CompoundField[LeftHandExtraFinger4MinRLimitAttrOperator, LeftHandExtraFinger4MinRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4MinRLimitAttrOperator,
+        LeftHandExtraFinger4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22788,7 +22790,10 @@ class LeftHandExtraFinger4MaxRLimitAttrOperator(
 
 
 class LeftHandExtraFinger4MaxRLimitField(
-    CompoundField[LeftHandExtraFinger4MaxRLimitAttrOperator, LeftHandExtraFinger4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftHandExtraFinger4MaxRLimitAttrOperator,
+        LeftHandExtraFinger4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -22964,7 +22969,10 @@ class RightHandThumb1RotateAxisAttrOperator(
 
 
 class RightHandThumb1RotateAxisField(
-    CompoundField[RightHandThumb1RotateAxisAttrOperator, RightHandThumb1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandThumb1RotateAxisAttrOperator,
+        RightHandThumb1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23008,7 +23016,10 @@ class RightHandThumb1JointOrientAttrOperator(
 
 
 class RightHandThumb1JointOrientField(
-    CompoundField[RightHandThumb1JointOrientAttrOperator, RightHandThumb1JointOrientPlugOperator]
+    CompoundField[
+        RightHandThumb1JointOrientAttrOperator,
+        RightHandThumb1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23052,7 +23063,10 @@ class RightHandThumb1MinRLimitAttrOperator(
 
 
 class RightHandThumb1MinRLimitField(
-    CompoundField[RightHandThumb1MinRLimitAttrOperator, RightHandThumb1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb1MinRLimitAttrOperator,
+        RightHandThumb1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23096,7 +23110,10 @@ class RightHandThumb1MaxRLimitAttrOperator(
 
 
 class RightHandThumb1MaxRLimitField(
-    CompoundField[RightHandThumb1MaxRLimitAttrOperator, RightHandThumb1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb1MaxRLimitAttrOperator,
+        RightHandThumb1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23272,7 +23289,10 @@ class RightHandThumb2RotateAxisAttrOperator(
 
 
 class RightHandThumb2RotateAxisField(
-    CompoundField[RightHandThumb2RotateAxisAttrOperator, RightHandThumb2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandThumb2RotateAxisAttrOperator,
+        RightHandThumb2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23316,7 +23336,10 @@ class RightHandThumb2JointOrientAttrOperator(
 
 
 class RightHandThumb2JointOrientField(
-    CompoundField[RightHandThumb2JointOrientAttrOperator, RightHandThumb2JointOrientPlugOperator]
+    CompoundField[
+        RightHandThumb2JointOrientAttrOperator,
+        RightHandThumb2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23360,7 +23383,10 @@ class RightHandThumb2MinRLimitAttrOperator(
 
 
 class RightHandThumb2MinRLimitField(
-    CompoundField[RightHandThumb2MinRLimitAttrOperator, RightHandThumb2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb2MinRLimitAttrOperator,
+        RightHandThumb2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23404,7 +23430,10 @@ class RightHandThumb2MaxRLimitAttrOperator(
 
 
 class RightHandThumb2MaxRLimitField(
-    CompoundField[RightHandThumb2MaxRLimitAttrOperator, RightHandThumb2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb2MaxRLimitAttrOperator,
+        RightHandThumb2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23580,7 +23609,10 @@ class RightHandThumb3RotateAxisAttrOperator(
 
 
 class RightHandThumb3RotateAxisField(
-    CompoundField[RightHandThumb3RotateAxisAttrOperator, RightHandThumb3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandThumb3RotateAxisAttrOperator,
+        RightHandThumb3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23624,7 +23656,10 @@ class RightHandThumb3JointOrientAttrOperator(
 
 
 class RightHandThumb3JointOrientField(
-    CompoundField[RightHandThumb3JointOrientAttrOperator, RightHandThumb3JointOrientPlugOperator]
+    CompoundField[
+        RightHandThumb3JointOrientAttrOperator,
+        RightHandThumb3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23668,7 +23703,10 @@ class RightHandThumb3MinRLimitAttrOperator(
 
 
 class RightHandThumb3MinRLimitField(
-    CompoundField[RightHandThumb3MinRLimitAttrOperator, RightHandThumb3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb3MinRLimitAttrOperator,
+        RightHandThumb3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23712,7 +23750,10 @@ class RightHandThumb3MaxRLimitAttrOperator(
 
 
 class RightHandThumb3MaxRLimitField(
-    CompoundField[RightHandThumb3MaxRLimitAttrOperator, RightHandThumb3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb3MaxRLimitAttrOperator,
+        RightHandThumb3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23888,7 +23929,10 @@ class RightHandThumb4RotateAxisAttrOperator(
 
 
 class RightHandThumb4RotateAxisField(
-    CompoundField[RightHandThumb4RotateAxisAttrOperator, RightHandThumb4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandThumb4RotateAxisAttrOperator,
+        RightHandThumb4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23932,7 +23976,10 @@ class RightHandThumb4JointOrientAttrOperator(
 
 
 class RightHandThumb4JointOrientField(
-    CompoundField[RightHandThumb4JointOrientAttrOperator, RightHandThumb4JointOrientPlugOperator]
+    CompoundField[
+        RightHandThumb4JointOrientAttrOperator,
+        RightHandThumb4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -23976,7 +24023,10 @@ class RightHandThumb4MinRLimitAttrOperator(
 
 
 class RightHandThumb4MinRLimitField(
-    CompoundField[RightHandThumb4MinRLimitAttrOperator, RightHandThumb4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb4MinRLimitAttrOperator,
+        RightHandThumb4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24020,7 +24070,10 @@ class RightHandThumb4MaxRLimitAttrOperator(
 
 
 class RightHandThumb4MaxRLimitField(
-    CompoundField[RightHandThumb4MaxRLimitAttrOperator, RightHandThumb4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandThumb4MaxRLimitAttrOperator,
+        RightHandThumb4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24196,7 +24249,10 @@ class RightHandIndex1RotateAxisAttrOperator(
 
 
 class RightHandIndex1RotateAxisField(
-    CompoundField[RightHandIndex1RotateAxisAttrOperator, RightHandIndex1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandIndex1RotateAxisAttrOperator,
+        RightHandIndex1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24240,7 +24296,10 @@ class RightHandIndex1JointOrientAttrOperator(
 
 
 class RightHandIndex1JointOrientField(
-    CompoundField[RightHandIndex1JointOrientAttrOperator, RightHandIndex1JointOrientPlugOperator]
+    CompoundField[
+        RightHandIndex1JointOrientAttrOperator,
+        RightHandIndex1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24284,7 +24343,10 @@ class RightHandIndex1MinRLimitAttrOperator(
 
 
 class RightHandIndex1MinRLimitField(
-    CompoundField[RightHandIndex1MinRLimitAttrOperator, RightHandIndex1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex1MinRLimitAttrOperator,
+        RightHandIndex1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24328,7 +24390,10 @@ class RightHandIndex1MaxRLimitAttrOperator(
 
 
 class RightHandIndex1MaxRLimitField(
-    CompoundField[RightHandIndex1MaxRLimitAttrOperator, RightHandIndex1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex1MaxRLimitAttrOperator,
+        RightHandIndex1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24504,7 +24569,10 @@ class RightHandIndex2RotateAxisAttrOperator(
 
 
 class RightHandIndex2RotateAxisField(
-    CompoundField[RightHandIndex2RotateAxisAttrOperator, RightHandIndex2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandIndex2RotateAxisAttrOperator,
+        RightHandIndex2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24548,7 +24616,10 @@ class RightHandIndex2JointOrientAttrOperator(
 
 
 class RightHandIndex2JointOrientField(
-    CompoundField[RightHandIndex2JointOrientAttrOperator, RightHandIndex2JointOrientPlugOperator]
+    CompoundField[
+        RightHandIndex2JointOrientAttrOperator,
+        RightHandIndex2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24592,7 +24663,10 @@ class RightHandIndex2MinRLimitAttrOperator(
 
 
 class RightHandIndex2MinRLimitField(
-    CompoundField[RightHandIndex2MinRLimitAttrOperator, RightHandIndex2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex2MinRLimitAttrOperator,
+        RightHandIndex2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24636,7 +24710,10 @@ class RightHandIndex2MaxRLimitAttrOperator(
 
 
 class RightHandIndex2MaxRLimitField(
-    CompoundField[RightHandIndex2MaxRLimitAttrOperator, RightHandIndex2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex2MaxRLimitAttrOperator,
+        RightHandIndex2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24812,7 +24889,10 @@ class RightHandIndex3RotateAxisAttrOperator(
 
 
 class RightHandIndex3RotateAxisField(
-    CompoundField[RightHandIndex3RotateAxisAttrOperator, RightHandIndex3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandIndex3RotateAxisAttrOperator,
+        RightHandIndex3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24856,7 +24936,10 @@ class RightHandIndex3JointOrientAttrOperator(
 
 
 class RightHandIndex3JointOrientField(
-    CompoundField[RightHandIndex3JointOrientAttrOperator, RightHandIndex3JointOrientPlugOperator]
+    CompoundField[
+        RightHandIndex3JointOrientAttrOperator,
+        RightHandIndex3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24900,7 +24983,10 @@ class RightHandIndex3MinRLimitAttrOperator(
 
 
 class RightHandIndex3MinRLimitField(
-    CompoundField[RightHandIndex3MinRLimitAttrOperator, RightHandIndex3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex3MinRLimitAttrOperator,
+        RightHandIndex3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -24944,7 +25030,10 @@ class RightHandIndex3MaxRLimitAttrOperator(
 
 
 class RightHandIndex3MaxRLimitField(
-    CompoundField[RightHandIndex3MaxRLimitAttrOperator, RightHandIndex3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex3MaxRLimitAttrOperator,
+        RightHandIndex3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25120,7 +25209,10 @@ class RightHandIndex4RotateAxisAttrOperator(
 
 
 class RightHandIndex4RotateAxisField(
-    CompoundField[RightHandIndex4RotateAxisAttrOperator, RightHandIndex4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandIndex4RotateAxisAttrOperator,
+        RightHandIndex4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25164,7 +25256,10 @@ class RightHandIndex4JointOrientAttrOperator(
 
 
 class RightHandIndex4JointOrientField(
-    CompoundField[RightHandIndex4JointOrientAttrOperator, RightHandIndex4JointOrientPlugOperator]
+    CompoundField[
+        RightHandIndex4JointOrientAttrOperator,
+        RightHandIndex4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25208,7 +25303,10 @@ class RightHandIndex4MinRLimitAttrOperator(
 
 
 class RightHandIndex4MinRLimitField(
-    CompoundField[RightHandIndex4MinRLimitAttrOperator, RightHandIndex4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex4MinRLimitAttrOperator,
+        RightHandIndex4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25252,7 +25350,10 @@ class RightHandIndex4MaxRLimitAttrOperator(
 
 
 class RightHandIndex4MaxRLimitField(
-    CompoundField[RightHandIndex4MaxRLimitAttrOperator, RightHandIndex4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandIndex4MaxRLimitAttrOperator,
+        RightHandIndex4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25428,7 +25529,10 @@ class RightHandMiddle1RotateAxisAttrOperator(
 
 
 class RightHandMiddle1RotateAxisField(
-    CompoundField[RightHandMiddle1RotateAxisAttrOperator, RightHandMiddle1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandMiddle1RotateAxisAttrOperator,
+        RightHandMiddle1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25472,7 +25576,10 @@ class RightHandMiddle1JointOrientAttrOperator(
 
 
 class RightHandMiddle1JointOrientField(
-    CompoundField[RightHandMiddle1JointOrientAttrOperator, RightHandMiddle1JointOrientPlugOperator]
+    CompoundField[
+        RightHandMiddle1JointOrientAttrOperator,
+        RightHandMiddle1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25516,7 +25623,10 @@ class RightHandMiddle1MinRLimitAttrOperator(
 
 
 class RightHandMiddle1MinRLimitField(
-    CompoundField[RightHandMiddle1MinRLimitAttrOperator, RightHandMiddle1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle1MinRLimitAttrOperator,
+        RightHandMiddle1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25560,7 +25670,10 @@ class RightHandMiddle1MaxRLimitAttrOperator(
 
 
 class RightHandMiddle1MaxRLimitField(
-    CompoundField[RightHandMiddle1MaxRLimitAttrOperator, RightHandMiddle1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle1MaxRLimitAttrOperator,
+        RightHandMiddle1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25736,7 +25849,10 @@ class RightHandMiddle2RotateAxisAttrOperator(
 
 
 class RightHandMiddle2RotateAxisField(
-    CompoundField[RightHandMiddle2RotateAxisAttrOperator, RightHandMiddle2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandMiddle2RotateAxisAttrOperator,
+        RightHandMiddle2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25780,7 +25896,10 @@ class RightHandMiddle2JointOrientAttrOperator(
 
 
 class RightHandMiddle2JointOrientField(
-    CompoundField[RightHandMiddle2JointOrientAttrOperator, RightHandMiddle2JointOrientPlugOperator]
+    CompoundField[
+        RightHandMiddle2JointOrientAttrOperator,
+        RightHandMiddle2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25824,7 +25943,10 @@ class RightHandMiddle2MinRLimitAttrOperator(
 
 
 class RightHandMiddle2MinRLimitField(
-    CompoundField[RightHandMiddle2MinRLimitAttrOperator, RightHandMiddle2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle2MinRLimitAttrOperator,
+        RightHandMiddle2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -25868,7 +25990,10 @@ class RightHandMiddle2MaxRLimitAttrOperator(
 
 
 class RightHandMiddle2MaxRLimitField(
-    CompoundField[RightHandMiddle2MaxRLimitAttrOperator, RightHandMiddle2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle2MaxRLimitAttrOperator,
+        RightHandMiddle2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26044,7 +26169,10 @@ class RightHandMiddle3RotateAxisAttrOperator(
 
 
 class RightHandMiddle3RotateAxisField(
-    CompoundField[RightHandMiddle3RotateAxisAttrOperator, RightHandMiddle3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandMiddle3RotateAxisAttrOperator,
+        RightHandMiddle3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26088,7 +26216,10 @@ class RightHandMiddle3JointOrientAttrOperator(
 
 
 class RightHandMiddle3JointOrientField(
-    CompoundField[RightHandMiddle3JointOrientAttrOperator, RightHandMiddle3JointOrientPlugOperator]
+    CompoundField[
+        RightHandMiddle3JointOrientAttrOperator,
+        RightHandMiddle3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26132,7 +26263,10 @@ class RightHandMiddle3MinRLimitAttrOperator(
 
 
 class RightHandMiddle3MinRLimitField(
-    CompoundField[RightHandMiddle3MinRLimitAttrOperator, RightHandMiddle3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle3MinRLimitAttrOperator,
+        RightHandMiddle3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26176,7 +26310,10 @@ class RightHandMiddle3MaxRLimitAttrOperator(
 
 
 class RightHandMiddle3MaxRLimitField(
-    CompoundField[RightHandMiddle3MaxRLimitAttrOperator, RightHandMiddle3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle3MaxRLimitAttrOperator,
+        RightHandMiddle3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26352,7 +26489,10 @@ class RightHandMiddle4RotateAxisAttrOperator(
 
 
 class RightHandMiddle4RotateAxisField(
-    CompoundField[RightHandMiddle4RotateAxisAttrOperator, RightHandMiddle4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandMiddle4RotateAxisAttrOperator,
+        RightHandMiddle4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26396,7 +26536,10 @@ class RightHandMiddle4JointOrientAttrOperator(
 
 
 class RightHandMiddle4JointOrientField(
-    CompoundField[RightHandMiddle4JointOrientAttrOperator, RightHandMiddle4JointOrientPlugOperator]
+    CompoundField[
+        RightHandMiddle4JointOrientAttrOperator,
+        RightHandMiddle4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26440,7 +26583,10 @@ class RightHandMiddle4MinRLimitAttrOperator(
 
 
 class RightHandMiddle4MinRLimitField(
-    CompoundField[RightHandMiddle4MinRLimitAttrOperator, RightHandMiddle4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle4MinRLimitAttrOperator,
+        RightHandMiddle4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26484,7 +26630,10 @@ class RightHandMiddle4MaxRLimitAttrOperator(
 
 
 class RightHandMiddle4MaxRLimitField(
-    CompoundField[RightHandMiddle4MaxRLimitAttrOperator, RightHandMiddle4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandMiddle4MaxRLimitAttrOperator,
+        RightHandMiddle4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26660,7 +26809,10 @@ class RightHandRing1RotateAxisAttrOperator(
 
 
 class RightHandRing1RotateAxisField(
-    CompoundField[RightHandRing1RotateAxisAttrOperator, RightHandRing1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandRing1RotateAxisAttrOperator,
+        RightHandRing1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26704,7 +26856,10 @@ class RightHandRing1JointOrientAttrOperator(
 
 
 class RightHandRing1JointOrientField(
-    CompoundField[RightHandRing1JointOrientAttrOperator, RightHandRing1JointOrientPlugOperator]
+    CompoundField[
+        RightHandRing1JointOrientAttrOperator,
+        RightHandRing1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26748,7 +26903,10 @@ class RightHandRing1MinRLimitAttrOperator(
 
 
 class RightHandRing1MinRLimitField(
-    CompoundField[RightHandRing1MinRLimitAttrOperator, RightHandRing1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandRing1MinRLimitAttrOperator,
+        RightHandRing1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26792,7 +26950,10 @@ class RightHandRing1MaxRLimitAttrOperator(
 
 
 class RightHandRing1MaxRLimitField(
-    CompoundField[RightHandRing1MaxRLimitAttrOperator, RightHandRing1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandRing1MaxRLimitAttrOperator,
+        RightHandRing1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -26968,7 +27129,10 @@ class RightHandRing2RotateAxisAttrOperator(
 
 
 class RightHandRing2RotateAxisField(
-    CompoundField[RightHandRing2RotateAxisAttrOperator, RightHandRing2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandRing2RotateAxisAttrOperator,
+        RightHandRing2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27012,7 +27176,10 @@ class RightHandRing2JointOrientAttrOperator(
 
 
 class RightHandRing2JointOrientField(
-    CompoundField[RightHandRing2JointOrientAttrOperator, RightHandRing2JointOrientPlugOperator]
+    CompoundField[
+        RightHandRing2JointOrientAttrOperator,
+        RightHandRing2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27056,7 +27223,10 @@ class RightHandRing2MinRLimitAttrOperator(
 
 
 class RightHandRing2MinRLimitField(
-    CompoundField[RightHandRing2MinRLimitAttrOperator, RightHandRing2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandRing2MinRLimitAttrOperator,
+        RightHandRing2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27100,7 +27270,10 @@ class RightHandRing2MaxRLimitAttrOperator(
 
 
 class RightHandRing2MaxRLimitField(
-    CompoundField[RightHandRing2MaxRLimitAttrOperator, RightHandRing2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandRing2MaxRLimitAttrOperator,
+        RightHandRing2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27276,7 +27449,10 @@ class RightHandRing3RotateAxisAttrOperator(
 
 
 class RightHandRing3RotateAxisField(
-    CompoundField[RightHandRing3RotateAxisAttrOperator, RightHandRing3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandRing3RotateAxisAttrOperator,
+        RightHandRing3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27320,7 +27496,10 @@ class RightHandRing3JointOrientAttrOperator(
 
 
 class RightHandRing3JointOrientField(
-    CompoundField[RightHandRing3JointOrientAttrOperator, RightHandRing3JointOrientPlugOperator]
+    CompoundField[
+        RightHandRing3JointOrientAttrOperator,
+        RightHandRing3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27364,7 +27543,10 @@ class RightHandRing3MinRLimitAttrOperator(
 
 
 class RightHandRing3MinRLimitField(
-    CompoundField[RightHandRing3MinRLimitAttrOperator, RightHandRing3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandRing3MinRLimitAttrOperator,
+        RightHandRing3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27408,7 +27590,10 @@ class RightHandRing3MaxRLimitAttrOperator(
 
 
 class RightHandRing3MaxRLimitField(
-    CompoundField[RightHandRing3MaxRLimitAttrOperator, RightHandRing3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandRing3MaxRLimitAttrOperator,
+        RightHandRing3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27584,7 +27769,10 @@ class RightHandRing4RotateAxisAttrOperator(
 
 
 class RightHandRing4RotateAxisField(
-    CompoundField[RightHandRing4RotateAxisAttrOperator, RightHandRing4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandRing4RotateAxisAttrOperator,
+        RightHandRing4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27628,7 +27816,10 @@ class RightHandRing4JointOrientAttrOperator(
 
 
 class RightHandRing4JointOrientField(
-    CompoundField[RightHandRing4JointOrientAttrOperator, RightHandRing4JointOrientPlugOperator]
+    CompoundField[
+        RightHandRing4JointOrientAttrOperator,
+        RightHandRing4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27672,7 +27863,10 @@ class RightHandRing4MinRLimitAttrOperator(
 
 
 class RightHandRing4MinRLimitField(
-    CompoundField[RightHandRing4MinRLimitAttrOperator, RightHandRing4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandRing4MinRLimitAttrOperator,
+        RightHandRing4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27716,7 +27910,10 @@ class RightHandRing4MaxRLimitAttrOperator(
 
 
 class RightHandRing4MaxRLimitField(
-    CompoundField[RightHandRing4MaxRLimitAttrOperator, RightHandRing4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandRing4MaxRLimitAttrOperator,
+        RightHandRing4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27892,7 +28089,10 @@ class RightHandPinky1RotateAxisAttrOperator(
 
 
 class RightHandPinky1RotateAxisField(
-    CompoundField[RightHandPinky1RotateAxisAttrOperator, RightHandPinky1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandPinky1RotateAxisAttrOperator,
+        RightHandPinky1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27936,7 +28136,10 @@ class RightHandPinky1JointOrientAttrOperator(
 
 
 class RightHandPinky1JointOrientField(
-    CompoundField[RightHandPinky1JointOrientAttrOperator, RightHandPinky1JointOrientPlugOperator]
+    CompoundField[
+        RightHandPinky1JointOrientAttrOperator,
+        RightHandPinky1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -27980,7 +28183,10 @@ class RightHandPinky1MinRLimitAttrOperator(
 
 
 class RightHandPinky1MinRLimitField(
-    CompoundField[RightHandPinky1MinRLimitAttrOperator, RightHandPinky1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky1MinRLimitAttrOperator,
+        RightHandPinky1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28024,7 +28230,10 @@ class RightHandPinky1MaxRLimitAttrOperator(
 
 
 class RightHandPinky1MaxRLimitField(
-    CompoundField[RightHandPinky1MaxRLimitAttrOperator, RightHandPinky1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky1MaxRLimitAttrOperator,
+        RightHandPinky1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28200,7 +28409,10 @@ class RightHandPinky2RotateAxisAttrOperator(
 
 
 class RightHandPinky2RotateAxisField(
-    CompoundField[RightHandPinky2RotateAxisAttrOperator, RightHandPinky2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandPinky2RotateAxisAttrOperator,
+        RightHandPinky2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28244,7 +28456,10 @@ class RightHandPinky2JointOrientAttrOperator(
 
 
 class RightHandPinky2JointOrientField(
-    CompoundField[RightHandPinky2JointOrientAttrOperator, RightHandPinky2JointOrientPlugOperator]
+    CompoundField[
+        RightHandPinky2JointOrientAttrOperator,
+        RightHandPinky2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28288,7 +28503,10 @@ class RightHandPinky2MinRLimitAttrOperator(
 
 
 class RightHandPinky2MinRLimitField(
-    CompoundField[RightHandPinky2MinRLimitAttrOperator, RightHandPinky2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky2MinRLimitAttrOperator,
+        RightHandPinky2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28332,7 +28550,10 @@ class RightHandPinky2MaxRLimitAttrOperator(
 
 
 class RightHandPinky2MaxRLimitField(
-    CompoundField[RightHandPinky2MaxRLimitAttrOperator, RightHandPinky2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky2MaxRLimitAttrOperator,
+        RightHandPinky2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28508,7 +28729,10 @@ class RightHandPinky3RotateAxisAttrOperator(
 
 
 class RightHandPinky3RotateAxisField(
-    CompoundField[RightHandPinky3RotateAxisAttrOperator, RightHandPinky3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandPinky3RotateAxisAttrOperator,
+        RightHandPinky3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28552,7 +28776,10 @@ class RightHandPinky3JointOrientAttrOperator(
 
 
 class RightHandPinky3JointOrientField(
-    CompoundField[RightHandPinky3JointOrientAttrOperator, RightHandPinky3JointOrientPlugOperator]
+    CompoundField[
+        RightHandPinky3JointOrientAttrOperator,
+        RightHandPinky3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28596,7 +28823,10 @@ class RightHandPinky3MinRLimitAttrOperator(
 
 
 class RightHandPinky3MinRLimitField(
-    CompoundField[RightHandPinky3MinRLimitAttrOperator, RightHandPinky3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky3MinRLimitAttrOperator,
+        RightHandPinky3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28640,7 +28870,10 @@ class RightHandPinky3MaxRLimitAttrOperator(
 
 
 class RightHandPinky3MaxRLimitField(
-    CompoundField[RightHandPinky3MaxRLimitAttrOperator, RightHandPinky3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky3MaxRLimitAttrOperator,
+        RightHandPinky3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28816,7 +29049,10 @@ class RightHandPinky4RotateAxisAttrOperator(
 
 
 class RightHandPinky4RotateAxisField(
-    CompoundField[RightHandPinky4RotateAxisAttrOperator, RightHandPinky4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandPinky4RotateAxisAttrOperator,
+        RightHandPinky4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28860,7 +29096,10 @@ class RightHandPinky4JointOrientAttrOperator(
 
 
 class RightHandPinky4JointOrientField(
-    CompoundField[RightHandPinky4JointOrientAttrOperator, RightHandPinky4JointOrientPlugOperator]
+    CompoundField[
+        RightHandPinky4JointOrientAttrOperator,
+        RightHandPinky4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28904,7 +29143,10 @@ class RightHandPinky4MinRLimitAttrOperator(
 
 
 class RightHandPinky4MinRLimitField(
-    CompoundField[RightHandPinky4MinRLimitAttrOperator, RightHandPinky4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky4MinRLimitAttrOperator,
+        RightHandPinky4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28948,7 +29190,10 @@ class RightHandPinky4MaxRLimitAttrOperator(
 
 
 class RightHandPinky4MaxRLimitField(
-    CompoundField[RightHandPinky4MaxRLimitAttrOperator, RightHandPinky4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandPinky4MaxRLimitAttrOperator,
+        RightHandPinky4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -28992,7 +29237,9 @@ class RightHandExtraFinger1TAttrOperator(
 
 
 class RightHandExtraFinger1TField(
-    CompoundField[RightHandExtraFinger1TAttrOperator, RightHandExtraFinger1TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1TAttrOperator, RightHandExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29036,7 +29283,9 @@ class RightHandExtraFinger1RAttrOperator(
 
 
 class RightHandExtraFinger1RField(
-    CompoundField[RightHandExtraFinger1RAttrOperator, RightHandExtraFinger1RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1RAttrOperator, RightHandExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29080,7 +29329,9 @@ class RightHandExtraFinger1SAttrOperator(
 
 
 class RightHandExtraFinger1SField(
-    CompoundField[RightHandExtraFinger1SAttrOperator, RightHandExtraFinger1SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1SAttrOperator, RightHandExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29099,9 +29350,18 @@ class RightHandExtraFinger1RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger1RotateAxisx", "RightHandExtraFinger1RotateAxisx"),
-        ("RightHandExtraFinger1RotateAxisy", "RightHandExtraFinger1RotateAxisy"),
-        ("RightHandExtraFinger1RotateAxisz", "RightHandExtraFinger1RotateAxisz"),
+        (
+            "RightHandExtraFinger1RotateAxisx",
+            "RightHandExtraFinger1RotateAxisx",
+        ),
+        (
+            "RightHandExtraFinger1RotateAxisy",
+            "RightHandExtraFinger1RotateAxisy",
+        ),
+        (
+            "RightHandExtraFinger1RotateAxisz",
+            "RightHandExtraFinger1RotateAxisz",
+        ),
     )
 
     RightHandExtraFinger1RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -29124,7 +29384,10 @@ class RightHandExtraFinger1RotateAxisAttrOperator(
 
 
 class RightHandExtraFinger1RotateAxisField(
-    CompoundField[RightHandExtraFinger1RotateAxisAttrOperator, RightHandExtraFinger1RotateAxisPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1RotateAxisAttrOperator,
+        RightHandExtraFinger1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29143,9 +29406,18 @@ class RightHandExtraFinger1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger1JointOrientx", "RightHandExtraFinger1JointOrientx"),
-        ("RightHandExtraFinger1JointOrienty", "RightHandExtraFinger1JointOrienty"),
-        ("RightHandExtraFinger1JointOrientz", "RightHandExtraFinger1JointOrientz"),
+        (
+            "RightHandExtraFinger1JointOrientx",
+            "RightHandExtraFinger1JointOrientx",
+        ),
+        (
+            "RightHandExtraFinger1JointOrienty",
+            "RightHandExtraFinger1JointOrienty",
+        ),
+        (
+            "RightHandExtraFinger1JointOrientz",
+            "RightHandExtraFinger1JointOrientz",
+        ),
     )
 
     RightHandExtraFinger1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -29168,7 +29440,10 @@ class RightHandExtraFinger1JointOrientAttrOperator(
 
 
 class RightHandExtraFinger1JointOrientField(
-    CompoundField[RightHandExtraFinger1JointOrientAttrOperator, RightHandExtraFinger1JointOrientPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1JointOrientAttrOperator,
+        RightHandExtraFinger1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29212,7 +29487,10 @@ class RightHandExtraFinger1MinRLimitAttrOperator(
 
 
 class RightHandExtraFinger1MinRLimitField(
-    CompoundField[RightHandExtraFinger1MinRLimitAttrOperator, RightHandExtraFinger1MinRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1MinRLimitAttrOperator,
+        RightHandExtraFinger1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29256,7 +29534,10 @@ class RightHandExtraFinger1MaxRLimitAttrOperator(
 
 
 class RightHandExtraFinger1MaxRLimitField(
-    CompoundField[RightHandExtraFinger1MaxRLimitAttrOperator, RightHandExtraFinger1MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger1MaxRLimitAttrOperator,
+        RightHandExtraFinger1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29300,7 +29581,9 @@ class RightHandExtraFinger2TAttrOperator(
 
 
 class RightHandExtraFinger2TField(
-    CompoundField[RightHandExtraFinger2TAttrOperator, RightHandExtraFinger2TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2TAttrOperator, RightHandExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29344,7 +29627,9 @@ class RightHandExtraFinger2RAttrOperator(
 
 
 class RightHandExtraFinger2RField(
-    CompoundField[RightHandExtraFinger2RAttrOperator, RightHandExtraFinger2RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2RAttrOperator, RightHandExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29388,7 +29673,9 @@ class RightHandExtraFinger2SAttrOperator(
 
 
 class RightHandExtraFinger2SField(
-    CompoundField[RightHandExtraFinger2SAttrOperator, RightHandExtraFinger2SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2SAttrOperator, RightHandExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29407,9 +29694,18 @@ class RightHandExtraFinger2RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger2RotateAxisx", "RightHandExtraFinger2RotateAxisx"),
-        ("RightHandExtraFinger2RotateAxisy", "RightHandExtraFinger2RotateAxisy"),
-        ("RightHandExtraFinger2RotateAxisz", "RightHandExtraFinger2RotateAxisz"),
+        (
+            "RightHandExtraFinger2RotateAxisx",
+            "RightHandExtraFinger2RotateAxisx",
+        ),
+        (
+            "RightHandExtraFinger2RotateAxisy",
+            "RightHandExtraFinger2RotateAxisy",
+        ),
+        (
+            "RightHandExtraFinger2RotateAxisz",
+            "RightHandExtraFinger2RotateAxisz",
+        ),
     )
 
     RightHandExtraFinger2RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -29432,7 +29728,10 @@ class RightHandExtraFinger2RotateAxisAttrOperator(
 
 
 class RightHandExtraFinger2RotateAxisField(
-    CompoundField[RightHandExtraFinger2RotateAxisAttrOperator, RightHandExtraFinger2RotateAxisPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2RotateAxisAttrOperator,
+        RightHandExtraFinger2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29451,9 +29750,18 @@ class RightHandExtraFinger2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger2JointOrientx", "RightHandExtraFinger2JointOrientx"),
-        ("RightHandExtraFinger2JointOrienty", "RightHandExtraFinger2JointOrienty"),
-        ("RightHandExtraFinger2JointOrientz", "RightHandExtraFinger2JointOrientz"),
+        (
+            "RightHandExtraFinger2JointOrientx",
+            "RightHandExtraFinger2JointOrientx",
+        ),
+        (
+            "RightHandExtraFinger2JointOrienty",
+            "RightHandExtraFinger2JointOrienty",
+        ),
+        (
+            "RightHandExtraFinger2JointOrientz",
+            "RightHandExtraFinger2JointOrientz",
+        ),
     )
 
     RightHandExtraFinger2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -29476,7 +29784,10 @@ class RightHandExtraFinger2JointOrientAttrOperator(
 
 
 class RightHandExtraFinger2JointOrientField(
-    CompoundField[RightHandExtraFinger2JointOrientAttrOperator, RightHandExtraFinger2JointOrientPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2JointOrientAttrOperator,
+        RightHandExtraFinger2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29520,7 +29831,10 @@ class RightHandExtraFinger2MinRLimitAttrOperator(
 
 
 class RightHandExtraFinger2MinRLimitField(
-    CompoundField[RightHandExtraFinger2MinRLimitAttrOperator, RightHandExtraFinger2MinRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2MinRLimitAttrOperator,
+        RightHandExtraFinger2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29564,7 +29878,10 @@ class RightHandExtraFinger2MaxRLimitAttrOperator(
 
 
 class RightHandExtraFinger2MaxRLimitField(
-    CompoundField[RightHandExtraFinger2MaxRLimitAttrOperator, RightHandExtraFinger2MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger2MaxRLimitAttrOperator,
+        RightHandExtraFinger2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29608,7 +29925,9 @@ class RightHandExtraFinger3TAttrOperator(
 
 
 class RightHandExtraFinger3TField(
-    CompoundField[RightHandExtraFinger3TAttrOperator, RightHandExtraFinger3TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3TAttrOperator, RightHandExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29652,7 +29971,9 @@ class RightHandExtraFinger3RAttrOperator(
 
 
 class RightHandExtraFinger3RField(
-    CompoundField[RightHandExtraFinger3RAttrOperator, RightHandExtraFinger3RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3RAttrOperator, RightHandExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29696,7 +30017,9 @@ class RightHandExtraFinger3SAttrOperator(
 
 
 class RightHandExtraFinger3SField(
-    CompoundField[RightHandExtraFinger3SAttrOperator, RightHandExtraFinger3SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3SAttrOperator, RightHandExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29715,9 +30038,18 @@ class RightHandExtraFinger3RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger3RotateAxisx", "RightHandExtraFinger3RotateAxisx"),
-        ("RightHandExtraFinger3RotateAxisy", "RightHandExtraFinger3RotateAxisy"),
-        ("RightHandExtraFinger3RotateAxisz", "RightHandExtraFinger3RotateAxisz"),
+        (
+            "RightHandExtraFinger3RotateAxisx",
+            "RightHandExtraFinger3RotateAxisx",
+        ),
+        (
+            "RightHandExtraFinger3RotateAxisy",
+            "RightHandExtraFinger3RotateAxisy",
+        ),
+        (
+            "RightHandExtraFinger3RotateAxisz",
+            "RightHandExtraFinger3RotateAxisz",
+        ),
     )
 
     RightHandExtraFinger3RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -29740,7 +30072,10 @@ class RightHandExtraFinger3RotateAxisAttrOperator(
 
 
 class RightHandExtraFinger3RotateAxisField(
-    CompoundField[RightHandExtraFinger3RotateAxisAttrOperator, RightHandExtraFinger3RotateAxisPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3RotateAxisAttrOperator,
+        RightHandExtraFinger3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29759,9 +30094,18 @@ class RightHandExtraFinger3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger3JointOrientx", "RightHandExtraFinger3JointOrientx"),
-        ("RightHandExtraFinger3JointOrienty", "RightHandExtraFinger3JointOrienty"),
-        ("RightHandExtraFinger3JointOrientz", "RightHandExtraFinger3JointOrientz"),
+        (
+            "RightHandExtraFinger3JointOrientx",
+            "RightHandExtraFinger3JointOrientx",
+        ),
+        (
+            "RightHandExtraFinger3JointOrienty",
+            "RightHandExtraFinger3JointOrienty",
+        ),
+        (
+            "RightHandExtraFinger3JointOrientz",
+            "RightHandExtraFinger3JointOrientz",
+        ),
     )
 
     RightHandExtraFinger3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -29784,7 +30128,10 @@ class RightHandExtraFinger3JointOrientAttrOperator(
 
 
 class RightHandExtraFinger3JointOrientField(
-    CompoundField[RightHandExtraFinger3JointOrientAttrOperator, RightHandExtraFinger3JointOrientPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3JointOrientAttrOperator,
+        RightHandExtraFinger3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29828,7 +30175,10 @@ class RightHandExtraFinger3MinRLimitAttrOperator(
 
 
 class RightHandExtraFinger3MinRLimitField(
-    CompoundField[RightHandExtraFinger3MinRLimitAttrOperator, RightHandExtraFinger3MinRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3MinRLimitAttrOperator,
+        RightHandExtraFinger3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29872,7 +30222,10 @@ class RightHandExtraFinger3MaxRLimitAttrOperator(
 
 
 class RightHandExtraFinger3MaxRLimitField(
-    CompoundField[RightHandExtraFinger3MaxRLimitAttrOperator, RightHandExtraFinger3MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger3MaxRLimitAttrOperator,
+        RightHandExtraFinger3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -29916,7 +30269,9 @@ class RightHandExtraFinger4TAttrOperator(
 
 
 class RightHandExtraFinger4TField(
-    CompoundField[RightHandExtraFinger4TAttrOperator, RightHandExtraFinger4TPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4TAttrOperator, RightHandExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -29960,7 +30315,9 @@ class RightHandExtraFinger4RAttrOperator(
 
 
 class RightHandExtraFinger4RField(
-    CompoundField[RightHandExtraFinger4RAttrOperator, RightHandExtraFinger4RPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4RAttrOperator, RightHandExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30004,7 +30361,9 @@ class RightHandExtraFinger4SAttrOperator(
 
 
 class RightHandExtraFinger4SField(
-    CompoundField[RightHandExtraFinger4SAttrOperator, RightHandExtraFinger4SPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4SAttrOperator, RightHandExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -30023,9 +30382,18 @@ class RightHandExtraFinger4RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger4RotateAxisx", "RightHandExtraFinger4RotateAxisx"),
-        ("RightHandExtraFinger4RotateAxisy", "RightHandExtraFinger4RotateAxisy"),
-        ("RightHandExtraFinger4RotateAxisz", "RightHandExtraFinger4RotateAxisz"),
+        (
+            "RightHandExtraFinger4RotateAxisx",
+            "RightHandExtraFinger4RotateAxisx",
+        ),
+        (
+            "RightHandExtraFinger4RotateAxisy",
+            "RightHandExtraFinger4RotateAxisy",
+        ),
+        (
+            "RightHandExtraFinger4RotateAxisz",
+            "RightHandExtraFinger4RotateAxisz",
+        ),
     )
 
     RightHandExtraFinger4RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -30048,7 +30416,10 @@ class RightHandExtraFinger4RotateAxisAttrOperator(
 
 
 class RightHandExtraFinger4RotateAxisField(
-    CompoundField[RightHandExtraFinger4RotateAxisAttrOperator, RightHandExtraFinger4RotateAxisPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4RotateAxisAttrOperator,
+        RightHandExtraFinger4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30067,9 +30438,18 @@ class RightHandExtraFinger4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightHandExtraFinger4JointOrientx", "RightHandExtraFinger4JointOrientx"),
-        ("RightHandExtraFinger4JointOrienty", "RightHandExtraFinger4JointOrienty"),
-        ("RightHandExtraFinger4JointOrientz", "RightHandExtraFinger4JointOrientz"),
+        (
+            "RightHandExtraFinger4JointOrientx",
+            "RightHandExtraFinger4JointOrientx",
+        ),
+        (
+            "RightHandExtraFinger4JointOrienty",
+            "RightHandExtraFinger4JointOrienty",
+        ),
+        (
+            "RightHandExtraFinger4JointOrientz",
+            "RightHandExtraFinger4JointOrientz",
+        ),
     )
 
     RightHandExtraFinger4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -30092,7 +30472,10 @@ class RightHandExtraFinger4JointOrientAttrOperator(
 
 
 class RightHandExtraFinger4JointOrientField(
-    CompoundField[RightHandExtraFinger4JointOrientAttrOperator, RightHandExtraFinger4JointOrientPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4JointOrientAttrOperator,
+        RightHandExtraFinger4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30136,7 +30519,10 @@ class RightHandExtraFinger4MinRLimitAttrOperator(
 
 
 class RightHandExtraFinger4MinRLimitField(
-    CompoundField[RightHandExtraFinger4MinRLimitAttrOperator, RightHandExtraFinger4MinRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4MinRLimitAttrOperator,
+        RightHandExtraFinger4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30180,7 +30566,10 @@ class RightHandExtraFinger4MaxRLimitAttrOperator(
 
 
 class RightHandExtraFinger4MaxRLimitField(
-    CompoundField[RightHandExtraFinger4MaxRLimitAttrOperator, RightHandExtraFinger4MaxRLimitPlugOperator]
+    CompoundField[
+        RightHandExtraFinger4MaxRLimitAttrOperator,
+        RightHandExtraFinger4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30356,7 +30745,10 @@ class LeftFootThumb1RotateAxisAttrOperator(
 
 
 class LeftFootThumb1RotateAxisField(
-    CompoundField[LeftFootThumb1RotateAxisAttrOperator, LeftFootThumb1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootThumb1RotateAxisAttrOperator,
+        LeftFootThumb1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30400,7 +30792,10 @@ class LeftFootThumb1JointOrientAttrOperator(
 
 
 class LeftFootThumb1JointOrientField(
-    CompoundField[LeftFootThumb1JointOrientAttrOperator, LeftFootThumb1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootThumb1JointOrientAttrOperator,
+        LeftFootThumb1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30444,7 +30839,10 @@ class LeftFootThumb1MinRLimitAttrOperator(
 
 
 class LeftFootThumb1MinRLimitField(
-    CompoundField[LeftFootThumb1MinRLimitAttrOperator, LeftFootThumb1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb1MinRLimitAttrOperator,
+        LeftFootThumb1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30488,7 +30886,10 @@ class LeftFootThumb1MaxRLimitAttrOperator(
 
 
 class LeftFootThumb1MaxRLimitField(
-    CompoundField[LeftFootThumb1MaxRLimitAttrOperator, LeftFootThumb1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb1MaxRLimitAttrOperator,
+        LeftFootThumb1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30664,7 +31065,10 @@ class LeftFootThumb2RotateAxisAttrOperator(
 
 
 class LeftFootThumb2RotateAxisField(
-    CompoundField[LeftFootThumb2RotateAxisAttrOperator, LeftFootThumb2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootThumb2RotateAxisAttrOperator,
+        LeftFootThumb2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30708,7 +31112,10 @@ class LeftFootThumb2JointOrientAttrOperator(
 
 
 class LeftFootThumb2JointOrientField(
-    CompoundField[LeftFootThumb2JointOrientAttrOperator, LeftFootThumb2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootThumb2JointOrientAttrOperator,
+        LeftFootThumb2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30752,7 +31159,10 @@ class LeftFootThumb2MinRLimitAttrOperator(
 
 
 class LeftFootThumb2MinRLimitField(
-    CompoundField[LeftFootThumb2MinRLimitAttrOperator, LeftFootThumb2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb2MinRLimitAttrOperator,
+        LeftFootThumb2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30796,7 +31206,10 @@ class LeftFootThumb2MaxRLimitAttrOperator(
 
 
 class LeftFootThumb2MaxRLimitField(
-    CompoundField[LeftFootThumb2MaxRLimitAttrOperator, LeftFootThumb2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb2MaxRLimitAttrOperator,
+        LeftFootThumb2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -30972,7 +31385,10 @@ class LeftFootThumb3RotateAxisAttrOperator(
 
 
 class LeftFootThumb3RotateAxisField(
-    CompoundField[LeftFootThumb3RotateAxisAttrOperator, LeftFootThumb3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootThumb3RotateAxisAttrOperator,
+        LeftFootThumb3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31016,7 +31432,10 @@ class LeftFootThumb3JointOrientAttrOperator(
 
 
 class LeftFootThumb3JointOrientField(
-    CompoundField[LeftFootThumb3JointOrientAttrOperator, LeftFootThumb3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootThumb3JointOrientAttrOperator,
+        LeftFootThumb3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31060,7 +31479,10 @@ class LeftFootThumb3MinRLimitAttrOperator(
 
 
 class LeftFootThumb3MinRLimitField(
-    CompoundField[LeftFootThumb3MinRLimitAttrOperator, LeftFootThumb3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb3MinRLimitAttrOperator,
+        LeftFootThumb3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31104,7 +31526,10 @@ class LeftFootThumb3MaxRLimitAttrOperator(
 
 
 class LeftFootThumb3MaxRLimitField(
-    CompoundField[LeftFootThumb3MaxRLimitAttrOperator, LeftFootThumb3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb3MaxRLimitAttrOperator,
+        LeftFootThumb3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31280,7 +31705,10 @@ class LeftFootThumb4RotateAxisAttrOperator(
 
 
 class LeftFootThumb4RotateAxisField(
-    CompoundField[LeftFootThumb4RotateAxisAttrOperator, LeftFootThumb4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootThumb4RotateAxisAttrOperator,
+        LeftFootThumb4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31324,7 +31752,10 @@ class LeftFootThumb4JointOrientAttrOperator(
 
 
 class LeftFootThumb4JointOrientField(
-    CompoundField[LeftFootThumb4JointOrientAttrOperator, LeftFootThumb4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootThumb4JointOrientAttrOperator,
+        LeftFootThumb4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31368,7 +31799,10 @@ class LeftFootThumb4MinRLimitAttrOperator(
 
 
 class LeftFootThumb4MinRLimitField(
-    CompoundField[LeftFootThumb4MinRLimitAttrOperator, LeftFootThumb4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb4MinRLimitAttrOperator,
+        LeftFootThumb4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31412,7 +31846,10 @@ class LeftFootThumb4MaxRLimitAttrOperator(
 
 
 class LeftFootThumb4MaxRLimitField(
-    CompoundField[LeftFootThumb4MaxRLimitAttrOperator, LeftFootThumb4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootThumb4MaxRLimitAttrOperator,
+        LeftFootThumb4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31588,7 +32025,10 @@ class LeftFootIndex1RotateAxisAttrOperator(
 
 
 class LeftFootIndex1RotateAxisField(
-    CompoundField[LeftFootIndex1RotateAxisAttrOperator, LeftFootIndex1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootIndex1RotateAxisAttrOperator,
+        LeftFootIndex1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31632,7 +32072,10 @@ class LeftFootIndex1JointOrientAttrOperator(
 
 
 class LeftFootIndex1JointOrientField(
-    CompoundField[LeftFootIndex1JointOrientAttrOperator, LeftFootIndex1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootIndex1JointOrientAttrOperator,
+        LeftFootIndex1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31676,7 +32119,10 @@ class LeftFootIndex1MinRLimitAttrOperator(
 
 
 class LeftFootIndex1MinRLimitField(
-    CompoundField[LeftFootIndex1MinRLimitAttrOperator, LeftFootIndex1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex1MinRLimitAttrOperator,
+        LeftFootIndex1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31720,7 +32166,10 @@ class LeftFootIndex1MaxRLimitAttrOperator(
 
 
 class LeftFootIndex1MaxRLimitField(
-    CompoundField[LeftFootIndex1MaxRLimitAttrOperator, LeftFootIndex1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex1MaxRLimitAttrOperator,
+        LeftFootIndex1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31896,7 +32345,10 @@ class LeftFootIndex2RotateAxisAttrOperator(
 
 
 class LeftFootIndex2RotateAxisField(
-    CompoundField[LeftFootIndex2RotateAxisAttrOperator, LeftFootIndex2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootIndex2RotateAxisAttrOperator,
+        LeftFootIndex2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31940,7 +32392,10 @@ class LeftFootIndex2JointOrientAttrOperator(
 
 
 class LeftFootIndex2JointOrientField(
-    CompoundField[LeftFootIndex2JointOrientAttrOperator, LeftFootIndex2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootIndex2JointOrientAttrOperator,
+        LeftFootIndex2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -31984,7 +32439,10 @@ class LeftFootIndex2MinRLimitAttrOperator(
 
 
 class LeftFootIndex2MinRLimitField(
-    CompoundField[LeftFootIndex2MinRLimitAttrOperator, LeftFootIndex2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex2MinRLimitAttrOperator,
+        LeftFootIndex2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32028,7 +32486,10 @@ class LeftFootIndex2MaxRLimitAttrOperator(
 
 
 class LeftFootIndex2MaxRLimitField(
-    CompoundField[LeftFootIndex2MaxRLimitAttrOperator, LeftFootIndex2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex2MaxRLimitAttrOperator,
+        LeftFootIndex2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32204,7 +32665,10 @@ class LeftFootIndex3RotateAxisAttrOperator(
 
 
 class LeftFootIndex3RotateAxisField(
-    CompoundField[LeftFootIndex3RotateAxisAttrOperator, LeftFootIndex3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootIndex3RotateAxisAttrOperator,
+        LeftFootIndex3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32248,7 +32712,10 @@ class LeftFootIndex3JointOrientAttrOperator(
 
 
 class LeftFootIndex3JointOrientField(
-    CompoundField[LeftFootIndex3JointOrientAttrOperator, LeftFootIndex3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootIndex3JointOrientAttrOperator,
+        LeftFootIndex3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32292,7 +32759,10 @@ class LeftFootIndex3MinRLimitAttrOperator(
 
 
 class LeftFootIndex3MinRLimitField(
-    CompoundField[LeftFootIndex3MinRLimitAttrOperator, LeftFootIndex3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex3MinRLimitAttrOperator,
+        LeftFootIndex3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32336,7 +32806,10 @@ class LeftFootIndex3MaxRLimitAttrOperator(
 
 
 class LeftFootIndex3MaxRLimitField(
-    CompoundField[LeftFootIndex3MaxRLimitAttrOperator, LeftFootIndex3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex3MaxRLimitAttrOperator,
+        LeftFootIndex3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32512,7 +32985,10 @@ class LeftFootIndex4RotateAxisAttrOperator(
 
 
 class LeftFootIndex4RotateAxisField(
-    CompoundField[LeftFootIndex4RotateAxisAttrOperator, LeftFootIndex4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootIndex4RotateAxisAttrOperator,
+        LeftFootIndex4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32556,7 +33032,10 @@ class LeftFootIndex4JointOrientAttrOperator(
 
 
 class LeftFootIndex4JointOrientField(
-    CompoundField[LeftFootIndex4JointOrientAttrOperator, LeftFootIndex4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootIndex4JointOrientAttrOperator,
+        LeftFootIndex4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32600,7 +33079,10 @@ class LeftFootIndex4MinRLimitAttrOperator(
 
 
 class LeftFootIndex4MinRLimitField(
-    CompoundField[LeftFootIndex4MinRLimitAttrOperator, LeftFootIndex4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex4MinRLimitAttrOperator,
+        LeftFootIndex4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32644,7 +33126,10 @@ class LeftFootIndex4MaxRLimitAttrOperator(
 
 
 class LeftFootIndex4MaxRLimitField(
-    CompoundField[LeftFootIndex4MaxRLimitAttrOperator, LeftFootIndex4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootIndex4MaxRLimitAttrOperator,
+        LeftFootIndex4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32820,7 +33305,10 @@ class LeftFootMiddle1RotateAxisAttrOperator(
 
 
 class LeftFootMiddle1RotateAxisField(
-    CompoundField[LeftFootMiddle1RotateAxisAttrOperator, LeftFootMiddle1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootMiddle1RotateAxisAttrOperator,
+        LeftFootMiddle1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32864,7 +33352,10 @@ class LeftFootMiddle1JointOrientAttrOperator(
 
 
 class LeftFootMiddle1JointOrientField(
-    CompoundField[LeftFootMiddle1JointOrientAttrOperator, LeftFootMiddle1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootMiddle1JointOrientAttrOperator,
+        LeftFootMiddle1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32908,7 +33399,10 @@ class LeftFootMiddle1MinRLimitAttrOperator(
 
 
 class LeftFootMiddle1MinRLimitField(
-    CompoundField[LeftFootMiddle1MinRLimitAttrOperator, LeftFootMiddle1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle1MinRLimitAttrOperator,
+        LeftFootMiddle1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -32952,7 +33446,10 @@ class LeftFootMiddle1MaxRLimitAttrOperator(
 
 
 class LeftFootMiddle1MaxRLimitField(
-    CompoundField[LeftFootMiddle1MaxRLimitAttrOperator, LeftFootMiddle1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle1MaxRLimitAttrOperator,
+        LeftFootMiddle1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33128,7 +33625,10 @@ class LeftFootMiddle2RotateAxisAttrOperator(
 
 
 class LeftFootMiddle2RotateAxisField(
-    CompoundField[LeftFootMiddle2RotateAxisAttrOperator, LeftFootMiddle2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootMiddle2RotateAxisAttrOperator,
+        LeftFootMiddle2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33172,7 +33672,10 @@ class LeftFootMiddle2JointOrientAttrOperator(
 
 
 class LeftFootMiddle2JointOrientField(
-    CompoundField[LeftFootMiddle2JointOrientAttrOperator, LeftFootMiddle2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootMiddle2JointOrientAttrOperator,
+        LeftFootMiddle2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33216,7 +33719,10 @@ class LeftFootMiddle2MinRLimitAttrOperator(
 
 
 class LeftFootMiddle2MinRLimitField(
-    CompoundField[LeftFootMiddle2MinRLimitAttrOperator, LeftFootMiddle2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle2MinRLimitAttrOperator,
+        LeftFootMiddle2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33260,7 +33766,10 @@ class LeftFootMiddle2MaxRLimitAttrOperator(
 
 
 class LeftFootMiddle2MaxRLimitField(
-    CompoundField[LeftFootMiddle2MaxRLimitAttrOperator, LeftFootMiddle2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle2MaxRLimitAttrOperator,
+        LeftFootMiddle2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33436,7 +33945,10 @@ class LeftFootMiddle3RotateAxisAttrOperator(
 
 
 class LeftFootMiddle3RotateAxisField(
-    CompoundField[LeftFootMiddle3RotateAxisAttrOperator, LeftFootMiddle3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootMiddle3RotateAxisAttrOperator,
+        LeftFootMiddle3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33480,7 +33992,10 @@ class LeftFootMiddle3JointOrientAttrOperator(
 
 
 class LeftFootMiddle3JointOrientField(
-    CompoundField[LeftFootMiddle3JointOrientAttrOperator, LeftFootMiddle3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootMiddle3JointOrientAttrOperator,
+        LeftFootMiddle3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33524,7 +34039,10 @@ class LeftFootMiddle3MinRLimitAttrOperator(
 
 
 class LeftFootMiddle3MinRLimitField(
-    CompoundField[LeftFootMiddle3MinRLimitAttrOperator, LeftFootMiddle3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle3MinRLimitAttrOperator,
+        LeftFootMiddle3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33568,7 +34086,10 @@ class LeftFootMiddle3MaxRLimitAttrOperator(
 
 
 class LeftFootMiddle3MaxRLimitField(
-    CompoundField[LeftFootMiddle3MaxRLimitAttrOperator, LeftFootMiddle3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle3MaxRLimitAttrOperator,
+        LeftFootMiddle3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33744,7 +34265,10 @@ class LeftFootMiddle4RotateAxisAttrOperator(
 
 
 class LeftFootMiddle4RotateAxisField(
-    CompoundField[LeftFootMiddle4RotateAxisAttrOperator, LeftFootMiddle4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootMiddle4RotateAxisAttrOperator,
+        LeftFootMiddle4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33788,7 +34312,10 @@ class LeftFootMiddle4JointOrientAttrOperator(
 
 
 class LeftFootMiddle4JointOrientField(
-    CompoundField[LeftFootMiddle4JointOrientAttrOperator, LeftFootMiddle4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootMiddle4JointOrientAttrOperator,
+        LeftFootMiddle4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33832,7 +34359,10 @@ class LeftFootMiddle4MinRLimitAttrOperator(
 
 
 class LeftFootMiddle4MinRLimitField(
-    CompoundField[LeftFootMiddle4MinRLimitAttrOperator, LeftFootMiddle4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle4MinRLimitAttrOperator,
+        LeftFootMiddle4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -33876,7 +34406,10 @@ class LeftFootMiddle4MaxRLimitAttrOperator(
 
 
 class LeftFootMiddle4MaxRLimitField(
-    CompoundField[LeftFootMiddle4MaxRLimitAttrOperator, LeftFootMiddle4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootMiddle4MaxRLimitAttrOperator,
+        LeftFootMiddle4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34052,7 +34585,10 @@ class LeftFootRing1RotateAxisAttrOperator(
 
 
 class LeftFootRing1RotateAxisField(
-    CompoundField[LeftFootRing1RotateAxisAttrOperator, LeftFootRing1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootRing1RotateAxisAttrOperator,
+        LeftFootRing1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34096,7 +34632,10 @@ class LeftFootRing1JointOrientAttrOperator(
 
 
 class LeftFootRing1JointOrientField(
-    CompoundField[LeftFootRing1JointOrientAttrOperator, LeftFootRing1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootRing1JointOrientAttrOperator,
+        LeftFootRing1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34140,7 +34679,9 @@ class LeftFootRing1MinRLimitAttrOperator(
 
 
 class LeftFootRing1MinRLimitField(
-    CompoundField[LeftFootRing1MinRLimitAttrOperator, LeftFootRing1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing1MinRLimitAttrOperator, LeftFootRing1MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34184,7 +34725,9 @@ class LeftFootRing1MaxRLimitAttrOperator(
 
 
 class LeftFootRing1MaxRLimitField(
-    CompoundField[LeftFootRing1MaxRLimitAttrOperator, LeftFootRing1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing1MaxRLimitAttrOperator, LeftFootRing1MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34360,7 +34903,10 @@ class LeftFootRing2RotateAxisAttrOperator(
 
 
 class LeftFootRing2RotateAxisField(
-    CompoundField[LeftFootRing2RotateAxisAttrOperator, LeftFootRing2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootRing2RotateAxisAttrOperator,
+        LeftFootRing2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34404,7 +34950,10 @@ class LeftFootRing2JointOrientAttrOperator(
 
 
 class LeftFootRing2JointOrientField(
-    CompoundField[LeftFootRing2JointOrientAttrOperator, LeftFootRing2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootRing2JointOrientAttrOperator,
+        LeftFootRing2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34448,7 +34997,9 @@ class LeftFootRing2MinRLimitAttrOperator(
 
 
 class LeftFootRing2MinRLimitField(
-    CompoundField[LeftFootRing2MinRLimitAttrOperator, LeftFootRing2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing2MinRLimitAttrOperator, LeftFootRing2MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34492,7 +35043,9 @@ class LeftFootRing2MaxRLimitAttrOperator(
 
 
 class LeftFootRing2MaxRLimitField(
-    CompoundField[LeftFootRing2MaxRLimitAttrOperator, LeftFootRing2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing2MaxRLimitAttrOperator, LeftFootRing2MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34668,7 +35221,10 @@ class LeftFootRing3RotateAxisAttrOperator(
 
 
 class LeftFootRing3RotateAxisField(
-    CompoundField[LeftFootRing3RotateAxisAttrOperator, LeftFootRing3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootRing3RotateAxisAttrOperator,
+        LeftFootRing3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34712,7 +35268,10 @@ class LeftFootRing3JointOrientAttrOperator(
 
 
 class LeftFootRing3JointOrientField(
-    CompoundField[LeftFootRing3JointOrientAttrOperator, LeftFootRing3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootRing3JointOrientAttrOperator,
+        LeftFootRing3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -34756,7 +35315,9 @@ class LeftFootRing3MinRLimitAttrOperator(
 
 
 class LeftFootRing3MinRLimitField(
-    CompoundField[LeftFootRing3MinRLimitAttrOperator, LeftFootRing3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing3MinRLimitAttrOperator, LeftFootRing3MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34800,7 +35361,9 @@ class LeftFootRing3MaxRLimitAttrOperator(
 
 
 class LeftFootRing3MaxRLimitField(
-    CompoundField[LeftFootRing3MaxRLimitAttrOperator, LeftFootRing3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing3MaxRLimitAttrOperator, LeftFootRing3MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -34976,7 +35539,10 @@ class LeftFootRing4RotateAxisAttrOperator(
 
 
 class LeftFootRing4RotateAxisField(
-    CompoundField[LeftFootRing4RotateAxisAttrOperator, LeftFootRing4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootRing4RotateAxisAttrOperator,
+        LeftFootRing4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35020,7 +35586,10 @@ class LeftFootRing4JointOrientAttrOperator(
 
 
 class LeftFootRing4JointOrientField(
-    CompoundField[LeftFootRing4JointOrientAttrOperator, LeftFootRing4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootRing4JointOrientAttrOperator,
+        LeftFootRing4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35064,7 +35633,9 @@ class LeftFootRing4MinRLimitAttrOperator(
 
 
 class LeftFootRing4MinRLimitField(
-    CompoundField[LeftFootRing4MinRLimitAttrOperator, LeftFootRing4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing4MinRLimitAttrOperator, LeftFootRing4MinRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35108,7 +35679,9 @@ class LeftFootRing4MaxRLimitAttrOperator(
 
 
 class LeftFootRing4MaxRLimitField(
-    CompoundField[LeftFootRing4MaxRLimitAttrOperator, LeftFootRing4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootRing4MaxRLimitAttrOperator, LeftFootRing4MaxRLimitPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -35284,7 +35857,10 @@ class LeftFootPinky1RotateAxisAttrOperator(
 
 
 class LeftFootPinky1RotateAxisField(
-    CompoundField[LeftFootPinky1RotateAxisAttrOperator, LeftFootPinky1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootPinky1RotateAxisAttrOperator,
+        LeftFootPinky1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35328,7 +35904,10 @@ class LeftFootPinky1JointOrientAttrOperator(
 
 
 class LeftFootPinky1JointOrientField(
-    CompoundField[LeftFootPinky1JointOrientAttrOperator, LeftFootPinky1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootPinky1JointOrientAttrOperator,
+        LeftFootPinky1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35372,7 +35951,10 @@ class LeftFootPinky1MinRLimitAttrOperator(
 
 
 class LeftFootPinky1MinRLimitField(
-    CompoundField[LeftFootPinky1MinRLimitAttrOperator, LeftFootPinky1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky1MinRLimitAttrOperator,
+        LeftFootPinky1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35416,7 +35998,10 @@ class LeftFootPinky1MaxRLimitAttrOperator(
 
 
 class LeftFootPinky1MaxRLimitField(
-    CompoundField[LeftFootPinky1MaxRLimitAttrOperator, LeftFootPinky1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky1MaxRLimitAttrOperator,
+        LeftFootPinky1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35592,7 +36177,10 @@ class LeftFootPinky2RotateAxisAttrOperator(
 
 
 class LeftFootPinky2RotateAxisField(
-    CompoundField[LeftFootPinky2RotateAxisAttrOperator, LeftFootPinky2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootPinky2RotateAxisAttrOperator,
+        LeftFootPinky2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35636,7 +36224,10 @@ class LeftFootPinky2JointOrientAttrOperator(
 
 
 class LeftFootPinky2JointOrientField(
-    CompoundField[LeftFootPinky2JointOrientAttrOperator, LeftFootPinky2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootPinky2JointOrientAttrOperator,
+        LeftFootPinky2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35680,7 +36271,10 @@ class LeftFootPinky2MinRLimitAttrOperator(
 
 
 class LeftFootPinky2MinRLimitField(
-    CompoundField[LeftFootPinky2MinRLimitAttrOperator, LeftFootPinky2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky2MinRLimitAttrOperator,
+        LeftFootPinky2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35724,7 +36318,10 @@ class LeftFootPinky2MaxRLimitAttrOperator(
 
 
 class LeftFootPinky2MaxRLimitField(
-    CompoundField[LeftFootPinky2MaxRLimitAttrOperator, LeftFootPinky2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky2MaxRLimitAttrOperator,
+        LeftFootPinky2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35900,7 +36497,10 @@ class LeftFootPinky3RotateAxisAttrOperator(
 
 
 class LeftFootPinky3RotateAxisField(
-    CompoundField[LeftFootPinky3RotateAxisAttrOperator, LeftFootPinky3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootPinky3RotateAxisAttrOperator,
+        LeftFootPinky3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35944,7 +36544,10 @@ class LeftFootPinky3JointOrientAttrOperator(
 
 
 class LeftFootPinky3JointOrientField(
-    CompoundField[LeftFootPinky3JointOrientAttrOperator, LeftFootPinky3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootPinky3JointOrientAttrOperator,
+        LeftFootPinky3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -35988,7 +36591,10 @@ class LeftFootPinky3MinRLimitAttrOperator(
 
 
 class LeftFootPinky3MinRLimitField(
-    CompoundField[LeftFootPinky3MinRLimitAttrOperator, LeftFootPinky3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky3MinRLimitAttrOperator,
+        LeftFootPinky3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36032,7 +36638,10 @@ class LeftFootPinky3MaxRLimitAttrOperator(
 
 
 class LeftFootPinky3MaxRLimitField(
-    CompoundField[LeftFootPinky3MaxRLimitAttrOperator, LeftFootPinky3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky3MaxRLimitAttrOperator,
+        LeftFootPinky3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36208,7 +36817,10 @@ class LeftFootPinky4RotateAxisAttrOperator(
 
 
 class LeftFootPinky4RotateAxisField(
-    CompoundField[LeftFootPinky4RotateAxisAttrOperator, LeftFootPinky4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootPinky4RotateAxisAttrOperator,
+        LeftFootPinky4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36252,7 +36864,10 @@ class LeftFootPinky4JointOrientAttrOperator(
 
 
 class LeftFootPinky4JointOrientField(
-    CompoundField[LeftFootPinky4JointOrientAttrOperator, LeftFootPinky4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootPinky4JointOrientAttrOperator,
+        LeftFootPinky4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36296,7 +36911,10 @@ class LeftFootPinky4MinRLimitAttrOperator(
 
 
 class LeftFootPinky4MinRLimitField(
-    CompoundField[LeftFootPinky4MinRLimitAttrOperator, LeftFootPinky4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky4MinRLimitAttrOperator,
+        LeftFootPinky4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36340,7 +36958,10 @@ class LeftFootPinky4MaxRLimitAttrOperator(
 
 
 class LeftFootPinky4MaxRLimitField(
-    CompoundField[LeftFootPinky4MaxRLimitAttrOperator, LeftFootPinky4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootPinky4MaxRLimitAttrOperator,
+        LeftFootPinky4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36384,7 +37005,9 @@ class LeftFootExtraFinger1TAttrOperator(
 
 
 class LeftFootExtraFinger1TField(
-    CompoundField[LeftFootExtraFinger1TAttrOperator, LeftFootExtraFinger1TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1TAttrOperator, LeftFootExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36428,7 +37051,9 @@ class LeftFootExtraFinger1RAttrOperator(
 
 
 class LeftFootExtraFinger1RField(
-    CompoundField[LeftFootExtraFinger1RAttrOperator, LeftFootExtraFinger1RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1RAttrOperator, LeftFootExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36472,7 +37097,9 @@ class LeftFootExtraFinger1SAttrOperator(
 
 
 class LeftFootExtraFinger1SField(
-    CompoundField[LeftFootExtraFinger1SAttrOperator, LeftFootExtraFinger1SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1SAttrOperator, LeftFootExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36516,7 +37143,10 @@ class LeftFootExtraFinger1RotateAxisAttrOperator(
 
 
 class LeftFootExtraFinger1RotateAxisField(
-    CompoundField[LeftFootExtraFinger1RotateAxisAttrOperator, LeftFootExtraFinger1RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1RotateAxisAttrOperator,
+        LeftFootExtraFinger1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36535,9 +37165,18 @@ class LeftFootExtraFinger1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftFootExtraFinger1JointOrientx", "LeftFootExtraFinger1JointOrientx"),
-        ("LeftFootExtraFinger1JointOrienty", "LeftFootExtraFinger1JointOrienty"),
-        ("LeftFootExtraFinger1JointOrientz", "LeftFootExtraFinger1JointOrientz"),
+        (
+            "LeftFootExtraFinger1JointOrientx",
+            "LeftFootExtraFinger1JointOrientx",
+        ),
+        (
+            "LeftFootExtraFinger1JointOrienty",
+            "LeftFootExtraFinger1JointOrienty",
+        ),
+        (
+            "LeftFootExtraFinger1JointOrientz",
+            "LeftFootExtraFinger1JointOrientz",
+        ),
     )
 
     LeftFootExtraFinger1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -36560,7 +37199,10 @@ class LeftFootExtraFinger1JointOrientAttrOperator(
 
 
 class LeftFootExtraFinger1JointOrientField(
-    CompoundField[LeftFootExtraFinger1JointOrientAttrOperator, LeftFootExtraFinger1JointOrientPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1JointOrientAttrOperator,
+        LeftFootExtraFinger1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36604,7 +37246,10 @@ class LeftFootExtraFinger1MinRLimitAttrOperator(
 
 
 class LeftFootExtraFinger1MinRLimitField(
-    CompoundField[LeftFootExtraFinger1MinRLimitAttrOperator, LeftFootExtraFinger1MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1MinRLimitAttrOperator,
+        LeftFootExtraFinger1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36648,7 +37293,10 @@ class LeftFootExtraFinger1MaxRLimitAttrOperator(
 
 
 class LeftFootExtraFinger1MaxRLimitField(
-    CompoundField[LeftFootExtraFinger1MaxRLimitAttrOperator, LeftFootExtraFinger1MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger1MaxRLimitAttrOperator,
+        LeftFootExtraFinger1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36692,7 +37340,9 @@ class LeftFootExtraFinger2TAttrOperator(
 
 
 class LeftFootExtraFinger2TField(
-    CompoundField[LeftFootExtraFinger2TAttrOperator, LeftFootExtraFinger2TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2TAttrOperator, LeftFootExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36736,7 +37386,9 @@ class LeftFootExtraFinger2RAttrOperator(
 
 
 class LeftFootExtraFinger2RField(
-    CompoundField[LeftFootExtraFinger2RAttrOperator, LeftFootExtraFinger2RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2RAttrOperator, LeftFootExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36780,7 +37432,9 @@ class LeftFootExtraFinger2SAttrOperator(
 
 
 class LeftFootExtraFinger2SField(
-    CompoundField[LeftFootExtraFinger2SAttrOperator, LeftFootExtraFinger2SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2SAttrOperator, LeftFootExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -36824,7 +37478,10 @@ class LeftFootExtraFinger2RotateAxisAttrOperator(
 
 
 class LeftFootExtraFinger2RotateAxisField(
-    CompoundField[LeftFootExtraFinger2RotateAxisAttrOperator, LeftFootExtraFinger2RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2RotateAxisAttrOperator,
+        LeftFootExtraFinger2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36843,9 +37500,18 @@ class LeftFootExtraFinger2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftFootExtraFinger2JointOrientx", "LeftFootExtraFinger2JointOrientx"),
-        ("LeftFootExtraFinger2JointOrienty", "LeftFootExtraFinger2JointOrienty"),
-        ("LeftFootExtraFinger2JointOrientz", "LeftFootExtraFinger2JointOrientz"),
+        (
+            "LeftFootExtraFinger2JointOrientx",
+            "LeftFootExtraFinger2JointOrientx",
+        ),
+        (
+            "LeftFootExtraFinger2JointOrienty",
+            "LeftFootExtraFinger2JointOrienty",
+        ),
+        (
+            "LeftFootExtraFinger2JointOrientz",
+            "LeftFootExtraFinger2JointOrientz",
+        ),
     )
 
     LeftFootExtraFinger2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -36868,7 +37534,10 @@ class LeftFootExtraFinger2JointOrientAttrOperator(
 
 
 class LeftFootExtraFinger2JointOrientField(
-    CompoundField[LeftFootExtraFinger2JointOrientAttrOperator, LeftFootExtraFinger2JointOrientPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2JointOrientAttrOperator,
+        LeftFootExtraFinger2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36912,7 +37581,10 @@ class LeftFootExtraFinger2MinRLimitAttrOperator(
 
 
 class LeftFootExtraFinger2MinRLimitField(
-    CompoundField[LeftFootExtraFinger2MinRLimitAttrOperator, LeftFootExtraFinger2MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2MinRLimitAttrOperator,
+        LeftFootExtraFinger2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -36956,7 +37628,10 @@ class LeftFootExtraFinger2MaxRLimitAttrOperator(
 
 
 class LeftFootExtraFinger2MaxRLimitField(
-    CompoundField[LeftFootExtraFinger2MaxRLimitAttrOperator, LeftFootExtraFinger2MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger2MaxRLimitAttrOperator,
+        LeftFootExtraFinger2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37000,7 +37675,9 @@ class LeftFootExtraFinger3TAttrOperator(
 
 
 class LeftFootExtraFinger3TField(
-    CompoundField[LeftFootExtraFinger3TAttrOperator, LeftFootExtraFinger3TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3TAttrOperator, LeftFootExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37044,7 +37721,9 @@ class LeftFootExtraFinger3RAttrOperator(
 
 
 class LeftFootExtraFinger3RField(
-    CompoundField[LeftFootExtraFinger3RAttrOperator, LeftFootExtraFinger3RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3RAttrOperator, LeftFootExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37088,7 +37767,9 @@ class LeftFootExtraFinger3SAttrOperator(
 
 
 class LeftFootExtraFinger3SField(
-    CompoundField[LeftFootExtraFinger3SAttrOperator, LeftFootExtraFinger3SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3SAttrOperator, LeftFootExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37132,7 +37813,10 @@ class LeftFootExtraFinger3RotateAxisAttrOperator(
 
 
 class LeftFootExtraFinger3RotateAxisField(
-    CompoundField[LeftFootExtraFinger3RotateAxisAttrOperator, LeftFootExtraFinger3RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3RotateAxisAttrOperator,
+        LeftFootExtraFinger3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37151,9 +37835,18 @@ class LeftFootExtraFinger3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftFootExtraFinger3JointOrientx", "LeftFootExtraFinger3JointOrientx"),
-        ("LeftFootExtraFinger3JointOrienty", "LeftFootExtraFinger3JointOrienty"),
-        ("LeftFootExtraFinger3JointOrientz", "LeftFootExtraFinger3JointOrientz"),
+        (
+            "LeftFootExtraFinger3JointOrientx",
+            "LeftFootExtraFinger3JointOrientx",
+        ),
+        (
+            "LeftFootExtraFinger3JointOrienty",
+            "LeftFootExtraFinger3JointOrienty",
+        ),
+        (
+            "LeftFootExtraFinger3JointOrientz",
+            "LeftFootExtraFinger3JointOrientz",
+        ),
     )
 
     LeftFootExtraFinger3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -37176,7 +37869,10 @@ class LeftFootExtraFinger3JointOrientAttrOperator(
 
 
 class LeftFootExtraFinger3JointOrientField(
-    CompoundField[LeftFootExtraFinger3JointOrientAttrOperator, LeftFootExtraFinger3JointOrientPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3JointOrientAttrOperator,
+        LeftFootExtraFinger3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37220,7 +37916,10 @@ class LeftFootExtraFinger3MinRLimitAttrOperator(
 
 
 class LeftFootExtraFinger3MinRLimitField(
-    CompoundField[LeftFootExtraFinger3MinRLimitAttrOperator, LeftFootExtraFinger3MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3MinRLimitAttrOperator,
+        LeftFootExtraFinger3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37264,7 +37963,10 @@ class LeftFootExtraFinger3MaxRLimitAttrOperator(
 
 
 class LeftFootExtraFinger3MaxRLimitField(
-    CompoundField[LeftFootExtraFinger3MaxRLimitAttrOperator, LeftFootExtraFinger3MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger3MaxRLimitAttrOperator,
+        LeftFootExtraFinger3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37308,7 +38010,9 @@ class LeftFootExtraFinger4TAttrOperator(
 
 
 class LeftFootExtraFinger4TField(
-    CompoundField[LeftFootExtraFinger4TAttrOperator, LeftFootExtraFinger4TPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4TAttrOperator, LeftFootExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37352,7 +38056,9 @@ class LeftFootExtraFinger4RAttrOperator(
 
 
 class LeftFootExtraFinger4RField(
-    CompoundField[LeftFootExtraFinger4RAttrOperator, LeftFootExtraFinger4RPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4RAttrOperator, LeftFootExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37396,7 +38102,9 @@ class LeftFootExtraFinger4SAttrOperator(
 
 
 class LeftFootExtraFinger4SField(
-    CompoundField[LeftFootExtraFinger4SAttrOperator, LeftFootExtraFinger4SPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4SAttrOperator, LeftFootExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -37440,7 +38148,10 @@ class LeftFootExtraFinger4RotateAxisAttrOperator(
 
 
 class LeftFootExtraFinger4RotateAxisField(
-    CompoundField[LeftFootExtraFinger4RotateAxisAttrOperator, LeftFootExtraFinger4RotateAxisPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4RotateAxisAttrOperator,
+        LeftFootExtraFinger4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37459,9 +38170,18 @@ class LeftFootExtraFinger4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftFootExtraFinger4JointOrientx", "LeftFootExtraFinger4JointOrientx"),
-        ("LeftFootExtraFinger4JointOrienty", "LeftFootExtraFinger4JointOrienty"),
-        ("LeftFootExtraFinger4JointOrientz", "LeftFootExtraFinger4JointOrientz"),
+        (
+            "LeftFootExtraFinger4JointOrientx",
+            "LeftFootExtraFinger4JointOrientx",
+        ),
+        (
+            "LeftFootExtraFinger4JointOrienty",
+            "LeftFootExtraFinger4JointOrienty",
+        ),
+        (
+            "LeftFootExtraFinger4JointOrientz",
+            "LeftFootExtraFinger4JointOrientz",
+        ),
     )
 
     LeftFootExtraFinger4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -37484,7 +38204,10 @@ class LeftFootExtraFinger4JointOrientAttrOperator(
 
 
 class LeftFootExtraFinger4JointOrientField(
-    CompoundField[LeftFootExtraFinger4JointOrientAttrOperator, LeftFootExtraFinger4JointOrientPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4JointOrientAttrOperator,
+        LeftFootExtraFinger4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37528,7 +38251,10 @@ class LeftFootExtraFinger4MinRLimitAttrOperator(
 
 
 class LeftFootExtraFinger4MinRLimitField(
-    CompoundField[LeftFootExtraFinger4MinRLimitAttrOperator, LeftFootExtraFinger4MinRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4MinRLimitAttrOperator,
+        LeftFootExtraFinger4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37572,7 +38298,10 @@ class LeftFootExtraFinger4MaxRLimitAttrOperator(
 
 
 class LeftFootExtraFinger4MaxRLimitField(
-    CompoundField[LeftFootExtraFinger4MaxRLimitAttrOperator, LeftFootExtraFinger4MaxRLimitPlugOperator]
+    CompoundField[
+        LeftFootExtraFinger4MaxRLimitAttrOperator,
+        LeftFootExtraFinger4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37748,7 +38477,10 @@ class RightFootThumb1RotateAxisAttrOperator(
 
 
 class RightFootThumb1RotateAxisField(
-    CompoundField[RightFootThumb1RotateAxisAttrOperator, RightFootThumb1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootThumb1RotateAxisAttrOperator,
+        RightFootThumb1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37792,7 +38524,10 @@ class RightFootThumb1JointOrientAttrOperator(
 
 
 class RightFootThumb1JointOrientField(
-    CompoundField[RightFootThumb1JointOrientAttrOperator, RightFootThumb1JointOrientPlugOperator]
+    CompoundField[
+        RightFootThumb1JointOrientAttrOperator,
+        RightFootThumb1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37836,7 +38571,10 @@ class RightFootThumb1MinRLimitAttrOperator(
 
 
 class RightFootThumb1MinRLimitField(
-    CompoundField[RightFootThumb1MinRLimitAttrOperator, RightFootThumb1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb1MinRLimitAttrOperator,
+        RightFootThumb1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -37880,7 +38618,10 @@ class RightFootThumb1MaxRLimitAttrOperator(
 
 
 class RightFootThumb1MaxRLimitField(
-    CompoundField[RightFootThumb1MaxRLimitAttrOperator, RightFootThumb1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb1MaxRLimitAttrOperator,
+        RightFootThumb1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38056,7 +38797,10 @@ class RightFootThumb2RotateAxisAttrOperator(
 
 
 class RightFootThumb2RotateAxisField(
-    CompoundField[RightFootThumb2RotateAxisAttrOperator, RightFootThumb2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootThumb2RotateAxisAttrOperator,
+        RightFootThumb2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38100,7 +38844,10 @@ class RightFootThumb2JointOrientAttrOperator(
 
 
 class RightFootThumb2JointOrientField(
-    CompoundField[RightFootThumb2JointOrientAttrOperator, RightFootThumb2JointOrientPlugOperator]
+    CompoundField[
+        RightFootThumb2JointOrientAttrOperator,
+        RightFootThumb2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38144,7 +38891,10 @@ class RightFootThumb2MinRLimitAttrOperator(
 
 
 class RightFootThumb2MinRLimitField(
-    CompoundField[RightFootThumb2MinRLimitAttrOperator, RightFootThumb2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb2MinRLimitAttrOperator,
+        RightFootThumb2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38188,7 +38938,10 @@ class RightFootThumb2MaxRLimitAttrOperator(
 
 
 class RightFootThumb2MaxRLimitField(
-    CompoundField[RightFootThumb2MaxRLimitAttrOperator, RightFootThumb2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb2MaxRLimitAttrOperator,
+        RightFootThumb2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38364,7 +39117,10 @@ class RightFootThumb3RotateAxisAttrOperator(
 
 
 class RightFootThumb3RotateAxisField(
-    CompoundField[RightFootThumb3RotateAxisAttrOperator, RightFootThumb3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootThumb3RotateAxisAttrOperator,
+        RightFootThumb3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38408,7 +39164,10 @@ class RightFootThumb3JointOrientAttrOperator(
 
 
 class RightFootThumb3JointOrientField(
-    CompoundField[RightFootThumb3JointOrientAttrOperator, RightFootThumb3JointOrientPlugOperator]
+    CompoundField[
+        RightFootThumb3JointOrientAttrOperator,
+        RightFootThumb3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38452,7 +39211,10 @@ class RightFootThumb3MinRLimitAttrOperator(
 
 
 class RightFootThumb3MinRLimitField(
-    CompoundField[RightFootThumb3MinRLimitAttrOperator, RightFootThumb3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb3MinRLimitAttrOperator,
+        RightFootThumb3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38496,7 +39258,10 @@ class RightFootThumb3MaxRLimitAttrOperator(
 
 
 class RightFootThumb3MaxRLimitField(
-    CompoundField[RightFootThumb3MaxRLimitAttrOperator, RightFootThumb3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb3MaxRLimitAttrOperator,
+        RightFootThumb3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38672,7 +39437,10 @@ class RightFootThumb4RotateAxisAttrOperator(
 
 
 class RightFootThumb4RotateAxisField(
-    CompoundField[RightFootThumb4RotateAxisAttrOperator, RightFootThumb4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootThumb4RotateAxisAttrOperator,
+        RightFootThumb4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38716,7 +39484,10 @@ class RightFootThumb4JointOrientAttrOperator(
 
 
 class RightFootThumb4JointOrientField(
-    CompoundField[RightFootThumb4JointOrientAttrOperator, RightFootThumb4JointOrientPlugOperator]
+    CompoundField[
+        RightFootThumb4JointOrientAttrOperator,
+        RightFootThumb4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38760,7 +39531,10 @@ class RightFootThumb4MinRLimitAttrOperator(
 
 
 class RightFootThumb4MinRLimitField(
-    CompoundField[RightFootThumb4MinRLimitAttrOperator, RightFootThumb4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb4MinRLimitAttrOperator,
+        RightFootThumb4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38804,7 +39578,10 @@ class RightFootThumb4MaxRLimitAttrOperator(
 
 
 class RightFootThumb4MaxRLimitField(
-    CompoundField[RightFootThumb4MaxRLimitAttrOperator, RightFootThumb4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootThumb4MaxRLimitAttrOperator,
+        RightFootThumb4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -38980,7 +39757,10 @@ class RightFootIndex1RotateAxisAttrOperator(
 
 
 class RightFootIndex1RotateAxisField(
-    CompoundField[RightFootIndex1RotateAxisAttrOperator, RightFootIndex1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootIndex1RotateAxisAttrOperator,
+        RightFootIndex1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39024,7 +39804,10 @@ class RightFootIndex1JointOrientAttrOperator(
 
 
 class RightFootIndex1JointOrientField(
-    CompoundField[RightFootIndex1JointOrientAttrOperator, RightFootIndex1JointOrientPlugOperator]
+    CompoundField[
+        RightFootIndex1JointOrientAttrOperator,
+        RightFootIndex1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39068,7 +39851,10 @@ class RightFootIndex1MinRLimitAttrOperator(
 
 
 class RightFootIndex1MinRLimitField(
-    CompoundField[RightFootIndex1MinRLimitAttrOperator, RightFootIndex1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex1MinRLimitAttrOperator,
+        RightFootIndex1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39112,7 +39898,10 @@ class RightFootIndex1MaxRLimitAttrOperator(
 
 
 class RightFootIndex1MaxRLimitField(
-    CompoundField[RightFootIndex1MaxRLimitAttrOperator, RightFootIndex1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex1MaxRLimitAttrOperator,
+        RightFootIndex1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39288,7 +40077,10 @@ class RightFootIndex2RotateAxisAttrOperator(
 
 
 class RightFootIndex2RotateAxisField(
-    CompoundField[RightFootIndex2RotateAxisAttrOperator, RightFootIndex2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootIndex2RotateAxisAttrOperator,
+        RightFootIndex2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39332,7 +40124,10 @@ class RightFootIndex2JointOrientAttrOperator(
 
 
 class RightFootIndex2JointOrientField(
-    CompoundField[RightFootIndex2JointOrientAttrOperator, RightFootIndex2JointOrientPlugOperator]
+    CompoundField[
+        RightFootIndex2JointOrientAttrOperator,
+        RightFootIndex2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39376,7 +40171,10 @@ class RightFootIndex2MinRLimitAttrOperator(
 
 
 class RightFootIndex2MinRLimitField(
-    CompoundField[RightFootIndex2MinRLimitAttrOperator, RightFootIndex2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex2MinRLimitAttrOperator,
+        RightFootIndex2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39420,7 +40218,10 @@ class RightFootIndex2MaxRLimitAttrOperator(
 
 
 class RightFootIndex2MaxRLimitField(
-    CompoundField[RightFootIndex2MaxRLimitAttrOperator, RightFootIndex2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex2MaxRLimitAttrOperator,
+        RightFootIndex2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39596,7 +40397,10 @@ class RightFootIndex3RotateAxisAttrOperator(
 
 
 class RightFootIndex3RotateAxisField(
-    CompoundField[RightFootIndex3RotateAxisAttrOperator, RightFootIndex3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootIndex3RotateAxisAttrOperator,
+        RightFootIndex3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39640,7 +40444,10 @@ class RightFootIndex3JointOrientAttrOperator(
 
 
 class RightFootIndex3JointOrientField(
-    CompoundField[RightFootIndex3JointOrientAttrOperator, RightFootIndex3JointOrientPlugOperator]
+    CompoundField[
+        RightFootIndex3JointOrientAttrOperator,
+        RightFootIndex3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39684,7 +40491,10 @@ class RightFootIndex3MinRLimitAttrOperator(
 
 
 class RightFootIndex3MinRLimitField(
-    CompoundField[RightFootIndex3MinRLimitAttrOperator, RightFootIndex3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex3MinRLimitAttrOperator,
+        RightFootIndex3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39728,7 +40538,10 @@ class RightFootIndex3MaxRLimitAttrOperator(
 
 
 class RightFootIndex3MaxRLimitField(
-    CompoundField[RightFootIndex3MaxRLimitAttrOperator, RightFootIndex3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex3MaxRLimitAttrOperator,
+        RightFootIndex3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39904,7 +40717,10 @@ class RightFootIndex4RotateAxisAttrOperator(
 
 
 class RightFootIndex4RotateAxisField(
-    CompoundField[RightFootIndex4RotateAxisAttrOperator, RightFootIndex4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootIndex4RotateAxisAttrOperator,
+        RightFootIndex4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39948,7 +40764,10 @@ class RightFootIndex4JointOrientAttrOperator(
 
 
 class RightFootIndex4JointOrientField(
-    CompoundField[RightFootIndex4JointOrientAttrOperator, RightFootIndex4JointOrientPlugOperator]
+    CompoundField[
+        RightFootIndex4JointOrientAttrOperator,
+        RightFootIndex4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -39992,7 +40811,10 @@ class RightFootIndex4MinRLimitAttrOperator(
 
 
 class RightFootIndex4MinRLimitField(
-    CompoundField[RightFootIndex4MinRLimitAttrOperator, RightFootIndex4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex4MinRLimitAttrOperator,
+        RightFootIndex4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40036,7 +40858,10 @@ class RightFootIndex4MaxRLimitAttrOperator(
 
 
 class RightFootIndex4MaxRLimitField(
-    CompoundField[RightFootIndex4MaxRLimitAttrOperator, RightFootIndex4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootIndex4MaxRLimitAttrOperator,
+        RightFootIndex4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40212,7 +41037,10 @@ class RightFootMiddle1RotateAxisAttrOperator(
 
 
 class RightFootMiddle1RotateAxisField(
-    CompoundField[RightFootMiddle1RotateAxisAttrOperator, RightFootMiddle1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootMiddle1RotateAxisAttrOperator,
+        RightFootMiddle1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40256,7 +41084,10 @@ class RightFootMiddle1JointOrientAttrOperator(
 
 
 class RightFootMiddle1JointOrientField(
-    CompoundField[RightFootMiddle1JointOrientAttrOperator, RightFootMiddle1JointOrientPlugOperator]
+    CompoundField[
+        RightFootMiddle1JointOrientAttrOperator,
+        RightFootMiddle1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40300,7 +41131,10 @@ class RightFootMiddle1MinRLimitAttrOperator(
 
 
 class RightFootMiddle1MinRLimitField(
-    CompoundField[RightFootMiddle1MinRLimitAttrOperator, RightFootMiddle1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle1MinRLimitAttrOperator,
+        RightFootMiddle1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40344,7 +41178,10 @@ class RightFootMiddle1MaxRLimitAttrOperator(
 
 
 class RightFootMiddle1MaxRLimitField(
-    CompoundField[RightFootMiddle1MaxRLimitAttrOperator, RightFootMiddle1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle1MaxRLimitAttrOperator,
+        RightFootMiddle1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40520,7 +41357,10 @@ class RightFootMiddle2RotateAxisAttrOperator(
 
 
 class RightFootMiddle2RotateAxisField(
-    CompoundField[RightFootMiddle2RotateAxisAttrOperator, RightFootMiddle2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootMiddle2RotateAxisAttrOperator,
+        RightFootMiddle2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40564,7 +41404,10 @@ class RightFootMiddle2JointOrientAttrOperator(
 
 
 class RightFootMiddle2JointOrientField(
-    CompoundField[RightFootMiddle2JointOrientAttrOperator, RightFootMiddle2JointOrientPlugOperator]
+    CompoundField[
+        RightFootMiddle2JointOrientAttrOperator,
+        RightFootMiddle2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40608,7 +41451,10 @@ class RightFootMiddle2MinRLimitAttrOperator(
 
 
 class RightFootMiddle2MinRLimitField(
-    CompoundField[RightFootMiddle2MinRLimitAttrOperator, RightFootMiddle2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle2MinRLimitAttrOperator,
+        RightFootMiddle2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40652,7 +41498,10 @@ class RightFootMiddle2MaxRLimitAttrOperator(
 
 
 class RightFootMiddle2MaxRLimitField(
-    CompoundField[RightFootMiddle2MaxRLimitAttrOperator, RightFootMiddle2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle2MaxRLimitAttrOperator,
+        RightFootMiddle2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40828,7 +41677,10 @@ class RightFootMiddle3RotateAxisAttrOperator(
 
 
 class RightFootMiddle3RotateAxisField(
-    CompoundField[RightFootMiddle3RotateAxisAttrOperator, RightFootMiddle3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootMiddle3RotateAxisAttrOperator,
+        RightFootMiddle3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40872,7 +41724,10 @@ class RightFootMiddle3JointOrientAttrOperator(
 
 
 class RightFootMiddle3JointOrientField(
-    CompoundField[RightFootMiddle3JointOrientAttrOperator, RightFootMiddle3JointOrientPlugOperator]
+    CompoundField[
+        RightFootMiddle3JointOrientAttrOperator,
+        RightFootMiddle3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40916,7 +41771,10 @@ class RightFootMiddle3MinRLimitAttrOperator(
 
 
 class RightFootMiddle3MinRLimitField(
-    CompoundField[RightFootMiddle3MinRLimitAttrOperator, RightFootMiddle3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle3MinRLimitAttrOperator,
+        RightFootMiddle3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -40960,7 +41818,10 @@ class RightFootMiddle3MaxRLimitAttrOperator(
 
 
 class RightFootMiddle3MaxRLimitField(
-    CompoundField[RightFootMiddle3MaxRLimitAttrOperator, RightFootMiddle3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle3MaxRLimitAttrOperator,
+        RightFootMiddle3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41136,7 +41997,10 @@ class RightFootMiddle4RotateAxisAttrOperator(
 
 
 class RightFootMiddle4RotateAxisField(
-    CompoundField[RightFootMiddle4RotateAxisAttrOperator, RightFootMiddle4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootMiddle4RotateAxisAttrOperator,
+        RightFootMiddle4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41180,7 +42044,10 @@ class RightFootMiddle4JointOrientAttrOperator(
 
 
 class RightFootMiddle4JointOrientField(
-    CompoundField[RightFootMiddle4JointOrientAttrOperator, RightFootMiddle4JointOrientPlugOperator]
+    CompoundField[
+        RightFootMiddle4JointOrientAttrOperator,
+        RightFootMiddle4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41224,7 +42091,10 @@ class RightFootMiddle4MinRLimitAttrOperator(
 
 
 class RightFootMiddle4MinRLimitField(
-    CompoundField[RightFootMiddle4MinRLimitAttrOperator, RightFootMiddle4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle4MinRLimitAttrOperator,
+        RightFootMiddle4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41268,7 +42138,10 @@ class RightFootMiddle4MaxRLimitAttrOperator(
 
 
 class RightFootMiddle4MaxRLimitField(
-    CompoundField[RightFootMiddle4MaxRLimitAttrOperator, RightFootMiddle4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootMiddle4MaxRLimitAttrOperator,
+        RightFootMiddle4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41444,7 +42317,10 @@ class RightFootRing1RotateAxisAttrOperator(
 
 
 class RightFootRing1RotateAxisField(
-    CompoundField[RightFootRing1RotateAxisAttrOperator, RightFootRing1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootRing1RotateAxisAttrOperator,
+        RightFootRing1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41488,7 +42364,10 @@ class RightFootRing1JointOrientAttrOperator(
 
 
 class RightFootRing1JointOrientField(
-    CompoundField[RightFootRing1JointOrientAttrOperator, RightFootRing1JointOrientPlugOperator]
+    CompoundField[
+        RightFootRing1JointOrientAttrOperator,
+        RightFootRing1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41532,7 +42411,10 @@ class RightFootRing1MinRLimitAttrOperator(
 
 
 class RightFootRing1MinRLimitField(
-    CompoundField[RightFootRing1MinRLimitAttrOperator, RightFootRing1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootRing1MinRLimitAttrOperator,
+        RightFootRing1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41576,7 +42458,10 @@ class RightFootRing1MaxRLimitAttrOperator(
 
 
 class RightFootRing1MaxRLimitField(
-    CompoundField[RightFootRing1MaxRLimitAttrOperator, RightFootRing1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootRing1MaxRLimitAttrOperator,
+        RightFootRing1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41752,7 +42637,10 @@ class RightFootRing2RotateAxisAttrOperator(
 
 
 class RightFootRing2RotateAxisField(
-    CompoundField[RightFootRing2RotateAxisAttrOperator, RightFootRing2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootRing2RotateAxisAttrOperator,
+        RightFootRing2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41796,7 +42684,10 @@ class RightFootRing2JointOrientAttrOperator(
 
 
 class RightFootRing2JointOrientField(
-    CompoundField[RightFootRing2JointOrientAttrOperator, RightFootRing2JointOrientPlugOperator]
+    CompoundField[
+        RightFootRing2JointOrientAttrOperator,
+        RightFootRing2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41840,7 +42731,10 @@ class RightFootRing2MinRLimitAttrOperator(
 
 
 class RightFootRing2MinRLimitField(
-    CompoundField[RightFootRing2MinRLimitAttrOperator, RightFootRing2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootRing2MinRLimitAttrOperator,
+        RightFootRing2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -41884,7 +42778,10 @@ class RightFootRing2MaxRLimitAttrOperator(
 
 
 class RightFootRing2MaxRLimitField(
-    CompoundField[RightFootRing2MaxRLimitAttrOperator, RightFootRing2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootRing2MaxRLimitAttrOperator,
+        RightFootRing2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42060,7 +42957,10 @@ class RightFootRing3RotateAxisAttrOperator(
 
 
 class RightFootRing3RotateAxisField(
-    CompoundField[RightFootRing3RotateAxisAttrOperator, RightFootRing3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootRing3RotateAxisAttrOperator,
+        RightFootRing3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42104,7 +43004,10 @@ class RightFootRing3JointOrientAttrOperator(
 
 
 class RightFootRing3JointOrientField(
-    CompoundField[RightFootRing3JointOrientAttrOperator, RightFootRing3JointOrientPlugOperator]
+    CompoundField[
+        RightFootRing3JointOrientAttrOperator,
+        RightFootRing3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42148,7 +43051,10 @@ class RightFootRing3MinRLimitAttrOperator(
 
 
 class RightFootRing3MinRLimitField(
-    CompoundField[RightFootRing3MinRLimitAttrOperator, RightFootRing3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootRing3MinRLimitAttrOperator,
+        RightFootRing3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42192,7 +43098,10 @@ class RightFootRing3MaxRLimitAttrOperator(
 
 
 class RightFootRing3MaxRLimitField(
-    CompoundField[RightFootRing3MaxRLimitAttrOperator, RightFootRing3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootRing3MaxRLimitAttrOperator,
+        RightFootRing3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42368,7 +43277,10 @@ class RightFootRing4RotateAxisAttrOperator(
 
 
 class RightFootRing4RotateAxisField(
-    CompoundField[RightFootRing4RotateAxisAttrOperator, RightFootRing4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootRing4RotateAxisAttrOperator,
+        RightFootRing4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42412,7 +43324,10 @@ class RightFootRing4JointOrientAttrOperator(
 
 
 class RightFootRing4JointOrientField(
-    CompoundField[RightFootRing4JointOrientAttrOperator, RightFootRing4JointOrientPlugOperator]
+    CompoundField[
+        RightFootRing4JointOrientAttrOperator,
+        RightFootRing4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42456,7 +43371,10 @@ class RightFootRing4MinRLimitAttrOperator(
 
 
 class RightFootRing4MinRLimitField(
-    CompoundField[RightFootRing4MinRLimitAttrOperator, RightFootRing4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootRing4MinRLimitAttrOperator,
+        RightFootRing4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42500,7 +43418,10 @@ class RightFootRing4MaxRLimitAttrOperator(
 
 
 class RightFootRing4MaxRLimitField(
-    CompoundField[RightFootRing4MaxRLimitAttrOperator, RightFootRing4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootRing4MaxRLimitAttrOperator,
+        RightFootRing4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42676,7 +43597,10 @@ class RightFootPinky1RotateAxisAttrOperator(
 
 
 class RightFootPinky1RotateAxisField(
-    CompoundField[RightFootPinky1RotateAxisAttrOperator, RightFootPinky1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootPinky1RotateAxisAttrOperator,
+        RightFootPinky1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42720,7 +43644,10 @@ class RightFootPinky1JointOrientAttrOperator(
 
 
 class RightFootPinky1JointOrientField(
-    CompoundField[RightFootPinky1JointOrientAttrOperator, RightFootPinky1JointOrientPlugOperator]
+    CompoundField[
+        RightFootPinky1JointOrientAttrOperator,
+        RightFootPinky1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42764,7 +43691,10 @@ class RightFootPinky1MinRLimitAttrOperator(
 
 
 class RightFootPinky1MinRLimitField(
-    CompoundField[RightFootPinky1MinRLimitAttrOperator, RightFootPinky1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky1MinRLimitAttrOperator,
+        RightFootPinky1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42808,7 +43738,10 @@ class RightFootPinky1MaxRLimitAttrOperator(
 
 
 class RightFootPinky1MaxRLimitField(
-    CompoundField[RightFootPinky1MaxRLimitAttrOperator, RightFootPinky1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky1MaxRLimitAttrOperator,
+        RightFootPinky1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -42984,7 +43917,10 @@ class RightFootPinky2RotateAxisAttrOperator(
 
 
 class RightFootPinky2RotateAxisField(
-    CompoundField[RightFootPinky2RotateAxisAttrOperator, RightFootPinky2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootPinky2RotateAxisAttrOperator,
+        RightFootPinky2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43028,7 +43964,10 @@ class RightFootPinky2JointOrientAttrOperator(
 
 
 class RightFootPinky2JointOrientField(
-    CompoundField[RightFootPinky2JointOrientAttrOperator, RightFootPinky2JointOrientPlugOperator]
+    CompoundField[
+        RightFootPinky2JointOrientAttrOperator,
+        RightFootPinky2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43072,7 +44011,10 @@ class RightFootPinky2MinRLimitAttrOperator(
 
 
 class RightFootPinky2MinRLimitField(
-    CompoundField[RightFootPinky2MinRLimitAttrOperator, RightFootPinky2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky2MinRLimitAttrOperator,
+        RightFootPinky2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43116,7 +44058,10 @@ class RightFootPinky2MaxRLimitAttrOperator(
 
 
 class RightFootPinky2MaxRLimitField(
-    CompoundField[RightFootPinky2MaxRLimitAttrOperator, RightFootPinky2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky2MaxRLimitAttrOperator,
+        RightFootPinky2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43292,7 +44237,10 @@ class RightFootPinky3RotateAxisAttrOperator(
 
 
 class RightFootPinky3RotateAxisField(
-    CompoundField[RightFootPinky3RotateAxisAttrOperator, RightFootPinky3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootPinky3RotateAxisAttrOperator,
+        RightFootPinky3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43336,7 +44284,10 @@ class RightFootPinky3JointOrientAttrOperator(
 
 
 class RightFootPinky3JointOrientField(
-    CompoundField[RightFootPinky3JointOrientAttrOperator, RightFootPinky3JointOrientPlugOperator]
+    CompoundField[
+        RightFootPinky3JointOrientAttrOperator,
+        RightFootPinky3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43380,7 +44331,10 @@ class RightFootPinky3MinRLimitAttrOperator(
 
 
 class RightFootPinky3MinRLimitField(
-    CompoundField[RightFootPinky3MinRLimitAttrOperator, RightFootPinky3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky3MinRLimitAttrOperator,
+        RightFootPinky3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43424,7 +44378,10 @@ class RightFootPinky3MaxRLimitAttrOperator(
 
 
 class RightFootPinky3MaxRLimitField(
-    CompoundField[RightFootPinky3MaxRLimitAttrOperator, RightFootPinky3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky3MaxRLimitAttrOperator,
+        RightFootPinky3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43600,7 +44557,10 @@ class RightFootPinky4RotateAxisAttrOperator(
 
 
 class RightFootPinky4RotateAxisField(
-    CompoundField[RightFootPinky4RotateAxisAttrOperator, RightFootPinky4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootPinky4RotateAxisAttrOperator,
+        RightFootPinky4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43644,7 +44604,10 @@ class RightFootPinky4JointOrientAttrOperator(
 
 
 class RightFootPinky4JointOrientField(
-    CompoundField[RightFootPinky4JointOrientAttrOperator, RightFootPinky4JointOrientPlugOperator]
+    CompoundField[
+        RightFootPinky4JointOrientAttrOperator,
+        RightFootPinky4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43688,7 +44651,10 @@ class RightFootPinky4MinRLimitAttrOperator(
 
 
 class RightFootPinky4MinRLimitField(
-    CompoundField[RightFootPinky4MinRLimitAttrOperator, RightFootPinky4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky4MinRLimitAttrOperator,
+        RightFootPinky4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43732,7 +44698,10 @@ class RightFootPinky4MaxRLimitAttrOperator(
 
 
 class RightFootPinky4MaxRLimitField(
-    CompoundField[RightFootPinky4MaxRLimitAttrOperator, RightFootPinky4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootPinky4MaxRLimitAttrOperator,
+        RightFootPinky4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43776,7 +44745,9 @@ class RightFootExtraFinger1TAttrOperator(
 
 
 class RightFootExtraFinger1TField(
-    CompoundField[RightFootExtraFinger1TAttrOperator, RightFootExtraFinger1TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1TAttrOperator, RightFootExtraFinger1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43820,7 +44791,9 @@ class RightFootExtraFinger1RAttrOperator(
 
 
 class RightFootExtraFinger1RField(
-    CompoundField[RightFootExtraFinger1RAttrOperator, RightFootExtraFinger1RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1RAttrOperator, RightFootExtraFinger1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43864,7 +44837,9 @@ class RightFootExtraFinger1SAttrOperator(
 
 
 class RightFootExtraFinger1SField(
-    CompoundField[RightFootExtraFinger1SAttrOperator, RightFootExtraFinger1SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1SAttrOperator, RightFootExtraFinger1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43883,9 +44858,18 @@ class RightFootExtraFinger1RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger1RotateAxisx", "RightFootExtraFinger1RotateAxisx"),
-        ("RightFootExtraFinger1RotateAxisy", "RightFootExtraFinger1RotateAxisy"),
-        ("RightFootExtraFinger1RotateAxisz", "RightFootExtraFinger1RotateAxisz"),
+        (
+            "RightFootExtraFinger1RotateAxisx",
+            "RightFootExtraFinger1RotateAxisx",
+        ),
+        (
+            "RightFootExtraFinger1RotateAxisy",
+            "RightFootExtraFinger1RotateAxisy",
+        ),
+        (
+            "RightFootExtraFinger1RotateAxisz",
+            "RightFootExtraFinger1RotateAxisz",
+        ),
     )
 
     RightFootExtraFinger1RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -43908,7 +44892,10 @@ class RightFootExtraFinger1RotateAxisAttrOperator(
 
 
 class RightFootExtraFinger1RotateAxisField(
-    CompoundField[RightFootExtraFinger1RotateAxisAttrOperator, RightFootExtraFinger1RotateAxisPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1RotateAxisAttrOperator,
+        RightFootExtraFinger1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43927,9 +44914,18 @@ class RightFootExtraFinger1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger1JointOrientx", "RightFootExtraFinger1JointOrientx"),
-        ("RightFootExtraFinger1JointOrienty", "RightFootExtraFinger1JointOrienty"),
-        ("RightFootExtraFinger1JointOrientz", "RightFootExtraFinger1JointOrientz"),
+        (
+            "RightFootExtraFinger1JointOrientx",
+            "RightFootExtraFinger1JointOrientx",
+        ),
+        (
+            "RightFootExtraFinger1JointOrienty",
+            "RightFootExtraFinger1JointOrienty",
+        ),
+        (
+            "RightFootExtraFinger1JointOrientz",
+            "RightFootExtraFinger1JointOrientz",
+        ),
     )
 
     RightFootExtraFinger1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -43952,7 +44948,10 @@ class RightFootExtraFinger1JointOrientAttrOperator(
 
 
 class RightFootExtraFinger1JointOrientField(
-    CompoundField[RightFootExtraFinger1JointOrientAttrOperator, RightFootExtraFinger1JointOrientPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1JointOrientAttrOperator,
+        RightFootExtraFinger1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -43996,7 +44995,10 @@ class RightFootExtraFinger1MinRLimitAttrOperator(
 
 
 class RightFootExtraFinger1MinRLimitField(
-    CompoundField[RightFootExtraFinger1MinRLimitAttrOperator, RightFootExtraFinger1MinRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1MinRLimitAttrOperator,
+        RightFootExtraFinger1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44040,7 +45042,10 @@ class RightFootExtraFinger1MaxRLimitAttrOperator(
 
 
 class RightFootExtraFinger1MaxRLimitField(
-    CompoundField[RightFootExtraFinger1MaxRLimitAttrOperator, RightFootExtraFinger1MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger1MaxRLimitAttrOperator,
+        RightFootExtraFinger1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44084,7 +45089,9 @@ class RightFootExtraFinger2TAttrOperator(
 
 
 class RightFootExtraFinger2TField(
-    CompoundField[RightFootExtraFinger2TAttrOperator, RightFootExtraFinger2TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2TAttrOperator, RightFootExtraFinger2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44128,7 +45135,9 @@ class RightFootExtraFinger2RAttrOperator(
 
 
 class RightFootExtraFinger2RField(
-    CompoundField[RightFootExtraFinger2RAttrOperator, RightFootExtraFinger2RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2RAttrOperator, RightFootExtraFinger2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44172,7 +45181,9 @@ class RightFootExtraFinger2SAttrOperator(
 
 
 class RightFootExtraFinger2SField(
-    CompoundField[RightFootExtraFinger2SAttrOperator, RightFootExtraFinger2SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2SAttrOperator, RightFootExtraFinger2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44191,9 +45202,18 @@ class RightFootExtraFinger2RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger2RotateAxisx", "RightFootExtraFinger2RotateAxisx"),
-        ("RightFootExtraFinger2RotateAxisy", "RightFootExtraFinger2RotateAxisy"),
-        ("RightFootExtraFinger2RotateAxisz", "RightFootExtraFinger2RotateAxisz"),
+        (
+            "RightFootExtraFinger2RotateAxisx",
+            "RightFootExtraFinger2RotateAxisx",
+        ),
+        (
+            "RightFootExtraFinger2RotateAxisy",
+            "RightFootExtraFinger2RotateAxisy",
+        ),
+        (
+            "RightFootExtraFinger2RotateAxisz",
+            "RightFootExtraFinger2RotateAxisz",
+        ),
     )
 
     RightFootExtraFinger2RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -44216,7 +45236,10 @@ class RightFootExtraFinger2RotateAxisAttrOperator(
 
 
 class RightFootExtraFinger2RotateAxisField(
-    CompoundField[RightFootExtraFinger2RotateAxisAttrOperator, RightFootExtraFinger2RotateAxisPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2RotateAxisAttrOperator,
+        RightFootExtraFinger2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44235,9 +45258,18 @@ class RightFootExtraFinger2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger2JointOrientx", "RightFootExtraFinger2JointOrientx"),
-        ("RightFootExtraFinger2JointOrienty", "RightFootExtraFinger2JointOrienty"),
-        ("RightFootExtraFinger2JointOrientz", "RightFootExtraFinger2JointOrientz"),
+        (
+            "RightFootExtraFinger2JointOrientx",
+            "RightFootExtraFinger2JointOrientx",
+        ),
+        (
+            "RightFootExtraFinger2JointOrienty",
+            "RightFootExtraFinger2JointOrienty",
+        ),
+        (
+            "RightFootExtraFinger2JointOrientz",
+            "RightFootExtraFinger2JointOrientz",
+        ),
     )
 
     RightFootExtraFinger2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -44260,7 +45292,10 @@ class RightFootExtraFinger2JointOrientAttrOperator(
 
 
 class RightFootExtraFinger2JointOrientField(
-    CompoundField[RightFootExtraFinger2JointOrientAttrOperator, RightFootExtraFinger2JointOrientPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2JointOrientAttrOperator,
+        RightFootExtraFinger2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44304,7 +45339,10 @@ class RightFootExtraFinger2MinRLimitAttrOperator(
 
 
 class RightFootExtraFinger2MinRLimitField(
-    CompoundField[RightFootExtraFinger2MinRLimitAttrOperator, RightFootExtraFinger2MinRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2MinRLimitAttrOperator,
+        RightFootExtraFinger2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44348,7 +45386,10 @@ class RightFootExtraFinger2MaxRLimitAttrOperator(
 
 
 class RightFootExtraFinger2MaxRLimitField(
-    CompoundField[RightFootExtraFinger2MaxRLimitAttrOperator, RightFootExtraFinger2MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger2MaxRLimitAttrOperator,
+        RightFootExtraFinger2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44392,7 +45433,9 @@ class RightFootExtraFinger3TAttrOperator(
 
 
 class RightFootExtraFinger3TField(
-    CompoundField[RightFootExtraFinger3TAttrOperator, RightFootExtraFinger3TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3TAttrOperator, RightFootExtraFinger3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44436,7 +45479,9 @@ class RightFootExtraFinger3RAttrOperator(
 
 
 class RightFootExtraFinger3RField(
-    CompoundField[RightFootExtraFinger3RAttrOperator, RightFootExtraFinger3RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3RAttrOperator, RightFootExtraFinger3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44480,7 +45525,9 @@ class RightFootExtraFinger3SAttrOperator(
 
 
 class RightFootExtraFinger3SField(
-    CompoundField[RightFootExtraFinger3SAttrOperator, RightFootExtraFinger3SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3SAttrOperator, RightFootExtraFinger3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44499,9 +45546,18 @@ class RightFootExtraFinger3RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger3RotateAxisx", "RightFootExtraFinger3RotateAxisx"),
-        ("RightFootExtraFinger3RotateAxisy", "RightFootExtraFinger3RotateAxisy"),
-        ("RightFootExtraFinger3RotateAxisz", "RightFootExtraFinger3RotateAxisz"),
+        (
+            "RightFootExtraFinger3RotateAxisx",
+            "RightFootExtraFinger3RotateAxisx",
+        ),
+        (
+            "RightFootExtraFinger3RotateAxisy",
+            "RightFootExtraFinger3RotateAxisy",
+        ),
+        (
+            "RightFootExtraFinger3RotateAxisz",
+            "RightFootExtraFinger3RotateAxisz",
+        ),
     )
 
     RightFootExtraFinger3RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -44524,7 +45580,10 @@ class RightFootExtraFinger3RotateAxisAttrOperator(
 
 
 class RightFootExtraFinger3RotateAxisField(
-    CompoundField[RightFootExtraFinger3RotateAxisAttrOperator, RightFootExtraFinger3RotateAxisPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3RotateAxisAttrOperator,
+        RightFootExtraFinger3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44543,9 +45602,18 @@ class RightFootExtraFinger3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger3JointOrientx", "RightFootExtraFinger3JointOrientx"),
-        ("RightFootExtraFinger3JointOrienty", "RightFootExtraFinger3JointOrienty"),
-        ("RightFootExtraFinger3JointOrientz", "RightFootExtraFinger3JointOrientz"),
+        (
+            "RightFootExtraFinger3JointOrientx",
+            "RightFootExtraFinger3JointOrientx",
+        ),
+        (
+            "RightFootExtraFinger3JointOrienty",
+            "RightFootExtraFinger3JointOrienty",
+        ),
+        (
+            "RightFootExtraFinger3JointOrientz",
+            "RightFootExtraFinger3JointOrientz",
+        ),
     )
 
     RightFootExtraFinger3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -44568,7 +45636,10 @@ class RightFootExtraFinger3JointOrientAttrOperator(
 
 
 class RightFootExtraFinger3JointOrientField(
-    CompoundField[RightFootExtraFinger3JointOrientAttrOperator, RightFootExtraFinger3JointOrientPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3JointOrientAttrOperator,
+        RightFootExtraFinger3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44612,7 +45683,10 @@ class RightFootExtraFinger3MinRLimitAttrOperator(
 
 
 class RightFootExtraFinger3MinRLimitField(
-    CompoundField[RightFootExtraFinger3MinRLimitAttrOperator, RightFootExtraFinger3MinRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3MinRLimitAttrOperator,
+        RightFootExtraFinger3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44656,7 +45730,10 @@ class RightFootExtraFinger3MaxRLimitAttrOperator(
 
 
 class RightFootExtraFinger3MaxRLimitField(
-    CompoundField[RightFootExtraFinger3MaxRLimitAttrOperator, RightFootExtraFinger3MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger3MaxRLimitAttrOperator,
+        RightFootExtraFinger3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44700,7 +45777,9 @@ class RightFootExtraFinger4TAttrOperator(
 
 
 class RightFootExtraFinger4TField(
-    CompoundField[RightFootExtraFinger4TAttrOperator, RightFootExtraFinger4TPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4TAttrOperator, RightFootExtraFinger4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44744,7 +45823,9 @@ class RightFootExtraFinger4RAttrOperator(
 
 
 class RightFootExtraFinger4RField(
-    CompoundField[RightFootExtraFinger4RAttrOperator, RightFootExtraFinger4RPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4RAttrOperator, RightFootExtraFinger4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44788,7 +45869,9 @@ class RightFootExtraFinger4SAttrOperator(
 
 
 class RightFootExtraFinger4SField(
-    CompoundField[RightFootExtraFinger4SAttrOperator, RightFootExtraFinger4SPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4SAttrOperator, RightFootExtraFinger4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -44807,9 +45890,18 @@ class RightFootExtraFinger4RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger4RotateAxisx", "RightFootExtraFinger4RotateAxisx"),
-        ("RightFootExtraFinger4RotateAxisy", "RightFootExtraFinger4RotateAxisy"),
-        ("RightFootExtraFinger4RotateAxisz", "RightFootExtraFinger4RotateAxisz"),
+        (
+            "RightFootExtraFinger4RotateAxisx",
+            "RightFootExtraFinger4RotateAxisx",
+        ),
+        (
+            "RightFootExtraFinger4RotateAxisy",
+            "RightFootExtraFinger4RotateAxisy",
+        ),
+        (
+            "RightFootExtraFinger4RotateAxisz",
+            "RightFootExtraFinger4RotateAxisz",
+        ),
     )
 
     RightFootExtraFinger4RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -44832,7 +45924,10 @@ class RightFootExtraFinger4RotateAxisAttrOperator(
 
 
 class RightFootExtraFinger4RotateAxisField(
-    CompoundField[RightFootExtraFinger4RotateAxisAttrOperator, RightFootExtraFinger4RotateAxisPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4RotateAxisAttrOperator,
+        RightFootExtraFinger4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44851,9 +45946,18 @@ class RightFootExtraFinger4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightFootExtraFinger4JointOrientx", "RightFootExtraFinger4JointOrientx"),
-        ("RightFootExtraFinger4JointOrienty", "RightFootExtraFinger4JointOrienty"),
-        ("RightFootExtraFinger4JointOrientz", "RightFootExtraFinger4JointOrientz"),
+        (
+            "RightFootExtraFinger4JointOrientx",
+            "RightFootExtraFinger4JointOrientx",
+        ),
+        (
+            "RightFootExtraFinger4JointOrienty",
+            "RightFootExtraFinger4JointOrienty",
+        ),
+        (
+            "RightFootExtraFinger4JointOrientz",
+            "RightFootExtraFinger4JointOrientz",
+        ),
     )
 
     RightFootExtraFinger4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -44876,7 +45980,10 @@ class RightFootExtraFinger4JointOrientAttrOperator(
 
 
 class RightFootExtraFinger4JointOrientField(
-    CompoundField[RightFootExtraFinger4JointOrientAttrOperator, RightFootExtraFinger4JointOrientPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4JointOrientAttrOperator,
+        RightFootExtraFinger4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44920,7 +46027,10 @@ class RightFootExtraFinger4MinRLimitAttrOperator(
 
 
 class RightFootExtraFinger4MinRLimitField(
-    CompoundField[RightFootExtraFinger4MinRLimitAttrOperator, RightFootExtraFinger4MinRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4MinRLimitAttrOperator,
+        RightFootExtraFinger4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -44964,7 +46074,10 @@ class RightFootExtraFinger4MaxRLimitAttrOperator(
 
 
 class RightFootExtraFinger4MaxRLimitField(
-    CompoundField[RightFootExtraFinger4MaxRLimitAttrOperator, RightFootExtraFinger4MaxRLimitPlugOperator]
+    CompoundField[
+        RightFootExtraFinger4MaxRLimitAttrOperator,
+        RightFootExtraFinger4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45140,7 +46253,10 @@ class LeftInHandThumbRotateAxisAttrOperator(
 
 
 class LeftInHandThumbRotateAxisField(
-    CompoundField[LeftInHandThumbRotateAxisAttrOperator, LeftInHandThumbRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandThumbRotateAxisAttrOperator,
+        LeftInHandThumbRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45184,7 +46300,10 @@ class LeftInHandThumbJointOrientAttrOperator(
 
 
 class LeftInHandThumbJointOrientField(
-    CompoundField[LeftInHandThumbJointOrientAttrOperator, LeftInHandThumbJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandThumbJointOrientAttrOperator,
+        LeftInHandThumbJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45228,7 +46347,10 @@ class LeftInHandThumbMinRLimitAttrOperator(
 
 
 class LeftInHandThumbMinRLimitField(
-    CompoundField[LeftInHandThumbMinRLimitAttrOperator, LeftInHandThumbMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandThumbMinRLimitAttrOperator,
+        LeftInHandThumbMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45272,7 +46394,10 @@ class LeftInHandThumbMaxRLimitAttrOperator(
 
 
 class LeftInHandThumbMaxRLimitField(
-    CompoundField[LeftInHandThumbMaxRLimitAttrOperator, LeftInHandThumbMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandThumbMaxRLimitAttrOperator,
+        LeftInHandThumbMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45448,7 +46573,10 @@ class LeftInHandIndexRotateAxisAttrOperator(
 
 
 class LeftInHandIndexRotateAxisField(
-    CompoundField[LeftInHandIndexRotateAxisAttrOperator, LeftInHandIndexRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandIndexRotateAxisAttrOperator,
+        LeftInHandIndexRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45492,7 +46620,10 @@ class LeftInHandIndexJointOrientAttrOperator(
 
 
 class LeftInHandIndexJointOrientField(
-    CompoundField[LeftInHandIndexJointOrientAttrOperator, LeftInHandIndexJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandIndexJointOrientAttrOperator,
+        LeftInHandIndexJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45536,7 +46667,10 @@ class LeftInHandIndexMinRLimitAttrOperator(
 
 
 class LeftInHandIndexMinRLimitField(
-    CompoundField[LeftInHandIndexMinRLimitAttrOperator, LeftInHandIndexMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandIndexMinRLimitAttrOperator,
+        LeftInHandIndexMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45580,7 +46714,10 @@ class LeftInHandIndexMaxRLimitAttrOperator(
 
 
 class LeftInHandIndexMaxRLimitField(
-    CompoundField[LeftInHandIndexMaxRLimitAttrOperator, LeftInHandIndexMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandIndexMaxRLimitAttrOperator,
+        LeftInHandIndexMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45756,7 +46893,10 @@ class LeftInHandMiddleRotateAxisAttrOperator(
 
 
 class LeftInHandMiddleRotateAxisField(
-    CompoundField[LeftInHandMiddleRotateAxisAttrOperator, LeftInHandMiddleRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandMiddleRotateAxisAttrOperator,
+        LeftInHandMiddleRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45800,7 +46940,10 @@ class LeftInHandMiddleJointOrientAttrOperator(
 
 
 class LeftInHandMiddleJointOrientField(
-    CompoundField[LeftInHandMiddleJointOrientAttrOperator, LeftInHandMiddleJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandMiddleJointOrientAttrOperator,
+        LeftInHandMiddleJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45844,7 +46987,10 @@ class LeftInHandMiddleMinRLimitAttrOperator(
 
 
 class LeftInHandMiddleMinRLimitField(
-    CompoundField[LeftInHandMiddleMinRLimitAttrOperator, LeftInHandMiddleMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandMiddleMinRLimitAttrOperator,
+        LeftInHandMiddleMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -45888,7 +47034,10 @@ class LeftInHandMiddleMaxRLimitAttrOperator(
 
 
 class LeftInHandMiddleMaxRLimitField(
-    CompoundField[LeftInHandMiddleMaxRLimitAttrOperator, LeftInHandMiddleMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandMiddleMaxRLimitAttrOperator,
+        LeftInHandMiddleMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46064,7 +47213,10 @@ class LeftInHandRingRotateAxisAttrOperator(
 
 
 class LeftInHandRingRotateAxisField(
-    CompoundField[LeftInHandRingRotateAxisAttrOperator, LeftInHandRingRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandRingRotateAxisAttrOperator,
+        LeftInHandRingRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46108,7 +47260,10 @@ class LeftInHandRingJointOrientAttrOperator(
 
 
 class LeftInHandRingJointOrientField(
-    CompoundField[LeftInHandRingJointOrientAttrOperator, LeftInHandRingJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandRingJointOrientAttrOperator,
+        LeftInHandRingJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46152,7 +47307,10 @@ class LeftInHandRingMinRLimitAttrOperator(
 
 
 class LeftInHandRingMinRLimitField(
-    CompoundField[LeftInHandRingMinRLimitAttrOperator, LeftInHandRingMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandRingMinRLimitAttrOperator,
+        LeftInHandRingMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46196,7 +47354,10 @@ class LeftInHandRingMaxRLimitAttrOperator(
 
 
 class LeftInHandRingMaxRLimitField(
-    CompoundField[LeftInHandRingMaxRLimitAttrOperator, LeftInHandRingMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandRingMaxRLimitAttrOperator,
+        LeftInHandRingMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46372,7 +47533,10 @@ class LeftInHandPinkyRotateAxisAttrOperator(
 
 
 class LeftInHandPinkyRotateAxisField(
-    CompoundField[LeftInHandPinkyRotateAxisAttrOperator, LeftInHandPinkyRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandPinkyRotateAxisAttrOperator,
+        LeftInHandPinkyRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46416,7 +47580,10 @@ class LeftInHandPinkyJointOrientAttrOperator(
 
 
 class LeftInHandPinkyJointOrientField(
-    CompoundField[LeftInHandPinkyJointOrientAttrOperator, LeftInHandPinkyJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandPinkyJointOrientAttrOperator,
+        LeftInHandPinkyJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46460,7 +47627,10 @@ class LeftInHandPinkyMinRLimitAttrOperator(
 
 
 class LeftInHandPinkyMinRLimitField(
-    CompoundField[LeftInHandPinkyMinRLimitAttrOperator, LeftInHandPinkyMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandPinkyMinRLimitAttrOperator,
+        LeftInHandPinkyMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46504,7 +47674,10 @@ class LeftInHandPinkyMaxRLimitAttrOperator(
 
 
 class LeftInHandPinkyMaxRLimitField(
-    CompoundField[LeftInHandPinkyMaxRLimitAttrOperator, LeftInHandPinkyMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandPinkyMaxRLimitAttrOperator,
+        LeftInHandPinkyMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46548,7 +47721,9 @@ class LeftInHandExtraFingerTAttrOperator(
 
 
 class LeftInHandExtraFingerTField(
-    CompoundField[LeftInHandExtraFingerTAttrOperator, LeftInHandExtraFingerTPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerTAttrOperator, LeftInHandExtraFingerTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46592,7 +47767,9 @@ class LeftInHandExtraFingerRAttrOperator(
 
 
 class LeftInHandExtraFingerRField(
-    CompoundField[LeftInHandExtraFingerRAttrOperator, LeftInHandExtraFingerRPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerRAttrOperator, LeftInHandExtraFingerRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46636,7 +47813,9 @@ class LeftInHandExtraFingerSAttrOperator(
 
 
 class LeftInHandExtraFingerSField(
-    CompoundField[LeftInHandExtraFingerSAttrOperator, LeftInHandExtraFingerSPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerSAttrOperator, LeftInHandExtraFingerSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46655,9 +47834,18 @@ class LeftInHandExtraFingerRotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftInHandExtraFingerRotateAxisx", "LeftInHandExtraFingerRotateAxisx"),
-        ("LeftInHandExtraFingerRotateAxisy", "LeftInHandExtraFingerRotateAxisy"),
-        ("LeftInHandExtraFingerRotateAxisz", "LeftInHandExtraFingerRotateAxisz"),
+        (
+            "LeftInHandExtraFingerRotateAxisx",
+            "LeftInHandExtraFingerRotateAxisx",
+        ),
+        (
+            "LeftInHandExtraFingerRotateAxisy",
+            "LeftInHandExtraFingerRotateAxisy",
+        ),
+        (
+            "LeftInHandExtraFingerRotateAxisz",
+            "LeftInHandExtraFingerRotateAxisz",
+        ),
     )
 
     LeftInHandExtraFingerRotateAxisx = DoubleAngleField(default_value=0.0)
@@ -46680,7 +47868,10 @@ class LeftInHandExtraFingerRotateAxisAttrOperator(
 
 
 class LeftInHandExtraFingerRotateAxisField(
-    CompoundField[LeftInHandExtraFingerRotateAxisAttrOperator, LeftInHandExtraFingerRotateAxisPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerRotateAxisAttrOperator,
+        LeftInHandExtraFingerRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46699,9 +47890,18 @@ class LeftInHandExtraFingerJointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftInHandExtraFingerJointOrientx", "LeftInHandExtraFingerJointOrientx"),
-        ("LeftInHandExtraFingerJointOrienty", "LeftInHandExtraFingerJointOrienty"),
-        ("LeftInHandExtraFingerJointOrientz", "LeftInHandExtraFingerJointOrientz"),
+        (
+            "LeftInHandExtraFingerJointOrientx",
+            "LeftInHandExtraFingerJointOrientx",
+        ),
+        (
+            "LeftInHandExtraFingerJointOrienty",
+            "LeftInHandExtraFingerJointOrienty",
+        ),
+        (
+            "LeftInHandExtraFingerJointOrientz",
+            "LeftInHandExtraFingerJointOrientz",
+        ),
     )
 
     LeftInHandExtraFingerJointOrientx = DoubleAngleField(default_value=0.0)
@@ -46724,7 +47924,10 @@ class LeftInHandExtraFingerJointOrientAttrOperator(
 
 
 class LeftInHandExtraFingerJointOrientField(
-    CompoundField[LeftInHandExtraFingerJointOrientAttrOperator, LeftInHandExtraFingerJointOrientPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerJointOrientAttrOperator,
+        LeftInHandExtraFingerJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46768,7 +47971,10 @@ class LeftInHandExtraFingerMinRLimitAttrOperator(
 
 
 class LeftInHandExtraFingerMinRLimitField(
-    CompoundField[LeftInHandExtraFingerMinRLimitAttrOperator, LeftInHandExtraFingerMinRLimitPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerMinRLimitAttrOperator,
+        LeftInHandExtraFingerMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46812,7 +48018,10 @@ class LeftInHandExtraFingerMaxRLimitAttrOperator(
 
 
 class LeftInHandExtraFingerMaxRLimitField(
-    CompoundField[LeftInHandExtraFingerMaxRLimitAttrOperator, LeftInHandExtraFingerMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInHandExtraFingerMaxRLimitAttrOperator,
+        LeftInHandExtraFingerMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -46988,7 +48197,10 @@ class RightInHandThumbRotateAxisAttrOperator(
 
 
 class RightInHandThumbRotateAxisField(
-    CompoundField[RightInHandThumbRotateAxisAttrOperator, RightInHandThumbRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandThumbRotateAxisAttrOperator,
+        RightInHandThumbRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47032,7 +48244,10 @@ class RightInHandThumbJointOrientAttrOperator(
 
 
 class RightInHandThumbJointOrientField(
-    CompoundField[RightInHandThumbJointOrientAttrOperator, RightInHandThumbJointOrientPlugOperator]
+    CompoundField[
+        RightInHandThumbJointOrientAttrOperator,
+        RightInHandThumbJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47076,7 +48291,10 @@ class RightInHandThumbMinRLimitAttrOperator(
 
 
 class RightInHandThumbMinRLimitField(
-    CompoundField[RightInHandThumbMinRLimitAttrOperator, RightInHandThumbMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandThumbMinRLimitAttrOperator,
+        RightInHandThumbMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47120,7 +48338,10 @@ class RightInHandThumbMaxRLimitAttrOperator(
 
 
 class RightInHandThumbMaxRLimitField(
-    CompoundField[RightInHandThumbMaxRLimitAttrOperator, RightInHandThumbMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandThumbMaxRLimitAttrOperator,
+        RightInHandThumbMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47296,7 +48517,10 @@ class RightInHandIndexRotateAxisAttrOperator(
 
 
 class RightInHandIndexRotateAxisField(
-    CompoundField[RightInHandIndexRotateAxisAttrOperator, RightInHandIndexRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandIndexRotateAxisAttrOperator,
+        RightInHandIndexRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47340,7 +48564,10 @@ class RightInHandIndexJointOrientAttrOperator(
 
 
 class RightInHandIndexJointOrientField(
-    CompoundField[RightInHandIndexJointOrientAttrOperator, RightInHandIndexJointOrientPlugOperator]
+    CompoundField[
+        RightInHandIndexJointOrientAttrOperator,
+        RightInHandIndexJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47384,7 +48611,10 @@ class RightInHandIndexMinRLimitAttrOperator(
 
 
 class RightInHandIndexMinRLimitField(
-    CompoundField[RightInHandIndexMinRLimitAttrOperator, RightInHandIndexMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandIndexMinRLimitAttrOperator,
+        RightInHandIndexMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47428,7 +48658,10 @@ class RightInHandIndexMaxRLimitAttrOperator(
 
 
 class RightInHandIndexMaxRLimitField(
-    CompoundField[RightInHandIndexMaxRLimitAttrOperator, RightInHandIndexMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandIndexMaxRLimitAttrOperator,
+        RightInHandIndexMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47472,7 +48705,9 @@ class RightInHandMiddleTAttrOperator(
 
 
 class RightInHandMiddleTField(
-    CompoundField[RightInHandMiddleTAttrOperator, RightInHandMiddleTPlugOperator]
+    CompoundField[
+        RightInHandMiddleTAttrOperator, RightInHandMiddleTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47516,7 +48751,9 @@ class RightInHandMiddleRAttrOperator(
 
 
 class RightInHandMiddleRField(
-    CompoundField[RightInHandMiddleRAttrOperator, RightInHandMiddleRPlugOperator]
+    CompoundField[
+        RightInHandMiddleRAttrOperator, RightInHandMiddleRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47560,7 +48797,9 @@ class RightInHandMiddleSAttrOperator(
 
 
 class RightInHandMiddleSField(
-    CompoundField[RightInHandMiddleSAttrOperator, RightInHandMiddleSPlugOperator]
+    CompoundField[
+        RightInHandMiddleSAttrOperator, RightInHandMiddleSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -47604,7 +48843,10 @@ class RightInHandMiddleRotateAxisAttrOperator(
 
 
 class RightInHandMiddleRotateAxisField(
-    CompoundField[RightInHandMiddleRotateAxisAttrOperator, RightInHandMiddleRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandMiddleRotateAxisAttrOperator,
+        RightInHandMiddleRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47648,7 +48890,10 @@ class RightInHandMiddleJointOrientAttrOperator(
 
 
 class RightInHandMiddleJointOrientField(
-    CompoundField[RightInHandMiddleJointOrientAttrOperator, RightInHandMiddleJointOrientPlugOperator]
+    CompoundField[
+        RightInHandMiddleJointOrientAttrOperator,
+        RightInHandMiddleJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47692,7 +48937,10 @@ class RightInHandMiddleMinRLimitAttrOperator(
 
 
 class RightInHandMiddleMinRLimitField(
-    CompoundField[RightInHandMiddleMinRLimitAttrOperator, RightInHandMiddleMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandMiddleMinRLimitAttrOperator,
+        RightInHandMiddleMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47736,7 +48984,10 @@ class RightInHandMiddleMaxRLimitAttrOperator(
 
 
 class RightInHandMiddleMaxRLimitField(
-    CompoundField[RightInHandMiddleMaxRLimitAttrOperator, RightInHandMiddleMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandMiddleMaxRLimitAttrOperator,
+        RightInHandMiddleMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47912,7 +49163,10 @@ class RightInHandRingRotateAxisAttrOperator(
 
 
 class RightInHandRingRotateAxisField(
-    CompoundField[RightInHandRingRotateAxisAttrOperator, RightInHandRingRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandRingRotateAxisAttrOperator,
+        RightInHandRingRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -47956,7 +49210,10 @@ class RightInHandRingJointOrientAttrOperator(
 
 
 class RightInHandRingJointOrientField(
-    CompoundField[RightInHandRingJointOrientAttrOperator, RightInHandRingJointOrientPlugOperator]
+    CompoundField[
+        RightInHandRingJointOrientAttrOperator,
+        RightInHandRingJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48000,7 +49257,10 @@ class RightInHandRingMinRLimitAttrOperator(
 
 
 class RightInHandRingMinRLimitField(
-    CompoundField[RightInHandRingMinRLimitAttrOperator, RightInHandRingMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandRingMinRLimitAttrOperator,
+        RightInHandRingMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48044,7 +49304,10 @@ class RightInHandRingMaxRLimitAttrOperator(
 
 
 class RightInHandRingMaxRLimitField(
-    CompoundField[RightInHandRingMaxRLimitAttrOperator, RightInHandRingMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandRingMaxRLimitAttrOperator,
+        RightInHandRingMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48220,7 +49483,10 @@ class RightInHandPinkyRotateAxisAttrOperator(
 
 
 class RightInHandPinkyRotateAxisField(
-    CompoundField[RightInHandPinkyRotateAxisAttrOperator, RightInHandPinkyRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandPinkyRotateAxisAttrOperator,
+        RightInHandPinkyRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48264,7 +49530,10 @@ class RightInHandPinkyJointOrientAttrOperator(
 
 
 class RightInHandPinkyJointOrientField(
-    CompoundField[RightInHandPinkyJointOrientAttrOperator, RightInHandPinkyJointOrientPlugOperator]
+    CompoundField[
+        RightInHandPinkyJointOrientAttrOperator,
+        RightInHandPinkyJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48308,7 +49577,10 @@ class RightInHandPinkyMinRLimitAttrOperator(
 
 
 class RightInHandPinkyMinRLimitField(
-    CompoundField[RightInHandPinkyMinRLimitAttrOperator, RightInHandPinkyMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandPinkyMinRLimitAttrOperator,
+        RightInHandPinkyMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48352,7 +49624,10 @@ class RightInHandPinkyMaxRLimitAttrOperator(
 
 
 class RightInHandPinkyMaxRLimitField(
-    CompoundField[RightInHandPinkyMaxRLimitAttrOperator, RightInHandPinkyMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandPinkyMaxRLimitAttrOperator,
+        RightInHandPinkyMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48396,7 +49671,10 @@ class RightInHandExtraFingerTAttrOperator(
 
 
 class RightInHandExtraFingerTField(
-    CompoundField[RightInHandExtraFingerTAttrOperator, RightInHandExtraFingerTPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerTAttrOperator,
+        RightInHandExtraFingerTPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48440,7 +49718,10 @@ class RightInHandExtraFingerRAttrOperator(
 
 
 class RightInHandExtraFingerRField(
-    CompoundField[RightInHandExtraFingerRAttrOperator, RightInHandExtraFingerRPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerRAttrOperator,
+        RightInHandExtraFingerRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48484,7 +49765,10 @@ class RightInHandExtraFingerSAttrOperator(
 
 
 class RightInHandExtraFingerSField(
-    CompoundField[RightInHandExtraFingerSAttrOperator, RightInHandExtraFingerSPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerSAttrOperator,
+        RightInHandExtraFingerSPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48503,9 +49787,18 @@ class RightInHandExtraFingerRotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInHandExtraFingerRotateAxisx", "RightInHandExtraFingerRotateAxisx"),
-        ("RightInHandExtraFingerRotateAxisy", "RightInHandExtraFingerRotateAxisy"),
-        ("RightInHandExtraFingerRotateAxisz", "RightInHandExtraFingerRotateAxisz"),
+        (
+            "RightInHandExtraFingerRotateAxisx",
+            "RightInHandExtraFingerRotateAxisx",
+        ),
+        (
+            "RightInHandExtraFingerRotateAxisy",
+            "RightInHandExtraFingerRotateAxisy",
+        ),
+        (
+            "RightInHandExtraFingerRotateAxisz",
+            "RightInHandExtraFingerRotateAxisz",
+        ),
     )
 
     RightInHandExtraFingerRotateAxisx = DoubleAngleField(default_value=0.0)
@@ -48528,7 +49821,10 @@ class RightInHandExtraFingerRotateAxisAttrOperator(
 
 
 class RightInHandExtraFingerRotateAxisField(
-    CompoundField[RightInHandExtraFingerRotateAxisAttrOperator, RightInHandExtraFingerRotateAxisPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerRotateAxisAttrOperator,
+        RightInHandExtraFingerRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48547,9 +49843,18 @@ class RightInHandExtraFingerJointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInHandExtraFingerJointOrientx", "RightInHandExtraFingerJointOrientx"),
-        ("RightInHandExtraFingerJointOrienty", "RightInHandExtraFingerJointOrienty"),
-        ("RightInHandExtraFingerJointOrientz", "RightInHandExtraFingerJointOrientz"),
+        (
+            "RightInHandExtraFingerJointOrientx",
+            "RightInHandExtraFingerJointOrientx",
+        ),
+        (
+            "RightInHandExtraFingerJointOrienty",
+            "RightInHandExtraFingerJointOrienty",
+        ),
+        (
+            "RightInHandExtraFingerJointOrientz",
+            "RightInHandExtraFingerJointOrientz",
+        ),
     )
 
     RightInHandExtraFingerJointOrientx = DoubleAngleField(default_value=0.0)
@@ -48572,7 +49877,10 @@ class RightInHandExtraFingerJointOrientAttrOperator(
 
 
 class RightInHandExtraFingerJointOrientField(
-    CompoundField[RightInHandExtraFingerJointOrientAttrOperator, RightInHandExtraFingerJointOrientPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerJointOrientAttrOperator,
+        RightInHandExtraFingerJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48591,9 +49899,18 @@ class RightInHandExtraFingerMinRLimitPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInHandExtraFingerMinRLimitx", "RightInHandExtraFingerMinRLimitx"),
-        ("RightInHandExtraFingerMinRLimity", "RightInHandExtraFingerMinRLimity"),
-        ("RightInHandExtraFingerMinRLimitz", "RightInHandExtraFingerMinRLimitz"),
+        (
+            "RightInHandExtraFingerMinRLimitx",
+            "RightInHandExtraFingerMinRLimitx",
+        ),
+        (
+            "RightInHandExtraFingerMinRLimity",
+            "RightInHandExtraFingerMinRLimity",
+        ),
+        (
+            "RightInHandExtraFingerMinRLimitz",
+            "RightInHandExtraFingerMinRLimitz",
+        ),
     )
 
     RightInHandExtraFingerMinRLimitx = DoubleAngleField(default_value=0.0)
@@ -48616,7 +49933,10 @@ class RightInHandExtraFingerMinRLimitAttrOperator(
 
 
 class RightInHandExtraFingerMinRLimitField(
-    CompoundField[RightInHandExtraFingerMinRLimitAttrOperator, RightInHandExtraFingerMinRLimitPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerMinRLimitAttrOperator,
+        RightInHandExtraFingerMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48635,9 +49955,18 @@ class RightInHandExtraFingerMaxRLimitPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInHandExtraFingerMaxRLimitx", "RightInHandExtraFingerMaxRLimitx"),
-        ("RightInHandExtraFingerMaxRLimity", "RightInHandExtraFingerMaxRLimity"),
-        ("RightInHandExtraFingerMaxRLimitz", "RightInHandExtraFingerMaxRLimitz"),
+        (
+            "RightInHandExtraFingerMaxRLimitx",
+            "RightInHandExtraFingerMaxRLimitx",
+        ),
+        (
+            "RightInHandExtraFingerMaxRLimity",
+            "RightInHandExtraFingerMaxRLimity",
+        ),
+        (
+            "RightInHandExtraFingerMaxRLimitz",
+            "RightInHandExtraFingerMaxRLimitz",
+        ),
     )
 
     RightInHandExtraFingerMaxRLimitx = DoubleAngleField(default_value=0.0)
@@ -48660,7 +49989,10 @@ class RightInHandExtraFingerMaxRLimitAttrOperator(
 
 
 class RightInHandExtraFingerMaxRLimitField(
-    CompoundField[RightInHandExtraFingerMaxRLimitAttrOperator, RightInHandExtraFingerMaxRLimitPlugOperator]
+    CompoundField[
+        RightInHandExtraFingerMaxRLimitAttrOperator,
+        RightInHandExtraFingerMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48836,7 +50168,10 @@ class LeftInFootThumbRotateAxisAttrOperator(
 
 
 class LeftInFootThumbRotateAxisField(
-    CompoundField[LeftInFootThumbRotateAxisAttrOperator, LeftInFootThumbRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootThumbRotateAxisAttrOperator,
+        LeftInFootThumbRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48880,7 +50215,10 @@ class LeftInFootThumbJointOrientAttrOperator(
 
 
 class LeftInFootThumbJointOrientField(
-    CompoundField[LeftInFootThumbJointOrientAttrOperator, LeftInFootThumbJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootThumbJointOrientAttrOperator,
+        LeftInFootThumbJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48924,7 +50262,10 @@ class LeftInFootThumbMinRLimitAttrOperator(
 
 
 class LeftInFootThumbMinRLimitField(
-    CompoundField[LeftInFootThumbMinRLimitAttrOperator, LeftInFootThumbMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootThumbMinRLimitAttrOperator,
+        LeftInFootThumbMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -48968,7 +50309,10 @@ class LeftInFootThumbMaxRLimitAttrOperator(
 
 
 class LeftInFootThumbMaxRLimitField(
-    CompoundField[LeftInFootThumbMaxRLimitAttrOperator, LeftInFootThumbMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootThumbMaxRLimitAttrOperator,
+        LeftInFootThumbMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49144,7 +50488,10 @@ class LeftInFootIndexRotateAxisAttrOperator(
 
 
 class LeftInFootIndexRotateAxisField(
-    CompoundField[LeftInFootIndexRotateAxisAttrOperator, LeftInFootIndexRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootIndexRotateAxisAttrOperator,
+        LeftInFootIndexRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49188,7 +50535,10 @@ class LeftInFootIndexJointOrientAttrOperator(
 
 
 class LeftInFootIndexJointOrientField(
-    CompoundField[LeftInFootIndexJointOrientAttrOperator, LeftInFootIndexJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootIndexJointOrientAttrOperator,
+        LeftInFootIndexJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49232,7 +50582,10 @@ class LeftInFootIndexMinRLimitAttrOperator(
 
 
 class LeftInFootIndexMinRLimitField(
-    CompoundField[LeftInFootIndexMinRLimitAttrOperator, LeftInFootIndexMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootIndexMinRLimitAttrOperator,
+        LeftInFootIndexMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49276,7 +50629,10 @@ class LeftInFootIndexMaxRLimitAttrOperator(
 
 
 class LeftInFootIndexMaxRLimitField(
-    CompoundField[LeftInFootIndexMaxRLimitAttrOperator, LeftInFootIndexMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootIndexMaxRLimitAttrOperator,
+        LeftInFootIndexMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49452,7 +50808,10 @@ class LeftInFootMiddleRotateAxisAttrOperator(
 
 
 class LeftInFootMiddleRotateAxisField(
-    CompoundField[LeftInFootMiddleRotateAxisAttrOperator, LeftInFootMiddleRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootMiddleRotateAxisAttrOperator,
+        LeftInFootMiddleRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49496,7 +50855,10 @@ class LeftInFootMiddleJointOrientAttrOperator(
 
 
 class LeftInFootMiddleJointOrientField(
-    CompoundField[LeftInFootMiddleJointOrientAttrOperator, LeftInFootMiddleJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootMiddleJointOrientAttrOperator,
+        LeftInFootMiddleJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49540,7 +50902,10 @@ class LeftInFootMiddleMinRLimitAttrOperator(
 
 
 class LeftInFootMiddleMinRLimitField(
-    CompoundField[LeftInFootMiddleMinRLimitAttrOperator, LeftInFootMiddleMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootMiddleMinRLimitAttrOperator,
+        LeftInFootMiddleMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49584,7 +50949,10 @@ class LeftInFootMiddleMaxRLimitAttrOperator(
 
 
 class LeftInFootMiddleMaxRLimitField(
-    CompoundField[LeftInFootMiddleMaxRLimitAttrOperator, LeftInFootMiddleMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootMiddleMaxRLimitAttrOperator,
+        LeftInFootMiddleMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49760,7 +51128,10 @@ class LeftInFootRingRotateAxisAttrOperator(
 
 
 class LeftInFootRingRotateAxisField(
-    CompoundField[LeftInFootRingRotateAxisAttrOperator, LeftInFootRingRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootRingRotateAxisAttrOperator,
+        LeftInFootRingRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49804,7 +51175,10 @@ class LeftInFootRingJointOrientAttrOperator(
 
 
 class LeftInFootRingJointOrientField(
-    CompoundField[LeftInFootRingJointOrientAttrOperator, LeftInFootRingJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootRingJointOrientAttrOperator,
+        LeftInFootRingJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49848,7 +51222,10 @@ class LeftInFootRingMinRLimitAttrOperator(
 
 
 class LeftInFootRingMinRLimitField(
-    CompoundField[LeftInFootRingMinRLimitAttrOperator, LeftInFootRingMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootRingMinRLimitAttrOperator,
+        LeftInFootRingMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49892,7 +51269,10 @@ class LeftInFootRingMaxRLimitAttrOperator(
 
 
 class LeftInFootRingMaxRLimitField(
-    CompoundField[LeftInFootRingMaxRLimitAttrOperator, LeftInFootRingMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootRingMaxRLimitAttrOperator,
+        LeftInFootRingMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50068,7 +51448,10 @@ class LeftInFootPinkyRotateAxisAttrOperator(
 
 
 class LeftInFootPinkyRotateAxisField(
-    CompoundField[LeftInFootPinkyRotateAxisAttrOperator, LeftInFootPinkyRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootPinkyRotateAxisAttrOperator,
+        LeftInFootPinkyRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50112,7 +51495,10 @@ class LeftInFootPinkyJointOrientAttrOperator(
 
 
 class LeftInFootPinkyJointOrientField(
-    CompoundField[LeftInFootPinkyJointOrientAttrOperator, LeftInFootPinkyJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootPinkyJointOrientAttrOperator,
+        LeftInFootPinkyJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50156,7 +51542,10 @@ class LeftInFootPinkyMinRLimitAttrOperator(
 
 
 class LeftInFootPinkyMinRLimitField(
-    CompoundField[LeftInFootPinkyMinRLimitAttrOperator, LeftInFootPinkyMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootPinkyMinRLimitAttrOperator,
+        LeftInFootPinkyMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50200,7 +51589,10 @@ class LeftInFootPinkyMaxRLimitAttrOperator(
 
 
 class LeftInFootPinkyMaxRLimitField(
-    CompoundField[LeftInFootPinkyMaxRLimitAttrOperator, LeftInFootPinkyMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootPinkyMaxRLimitAttrOperator,
+        LeftInFootPinkyMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50244,7 +51636,9 @@ class LeftInFootExtraFingerTAttrOperator(
 
 
 class LeftInFootExtraFingerTField(
-    CompoundField[LeftInFootExtraFingerTAttrOperator, LeftInFootExtraFingerTPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerTAttrOperator, LeftInFootExtraFingerTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50288,7 +51682,9 @@ class LeftInFootExtraFingerRAttrOperator(
 
 
 class LeftInFootExtraFingerRField(
-    CompoundField[LeftInFootExtraFingerRAttrOperator, LeftInFootExtraFingerRPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerRAttrOperator, LeftInFootExtraFingerRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50332,7 +51728,9 @@ class LeftInFootExtraFingerSAttrOperator(
 
 
 class LeftInFootExtraFingerSField(
-    CompoundField[LeftInFootExtraFingerSAttrOperator, LeftInFootExtraFingerSPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerSAttrOperator, LeftInFootExtraFingerSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -50351,9 +51749,18 @@ class LeftInFootExtraFingerRotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftInFootExtraFingerRotateAxisx", "LeftInFootExtraFingerRotateAxisx"),
-        ("LeftInFootExtraFingerRotateAxisy", "LeftInFootExtraFingerRotateAxisy"),
-        ("LeftInFootExtraFingerRotateAxisz", "LeftInFootExtraFingerRotateAxisz"),
+        (
+            "LeftInFootExtraFingerRotateAxisx",
+            "LeftInFootExtraFingerRotateAxisx",
+        ),
+        (
+            "LeftInFootExtraFingerRotateAxisy",
+            "LeftInFootExtraFingerRotateAxisy",
+        ),
+        (
+            "LeftInFootExtraFingerRotateAxisz",
+            "LeftInFootExtraFingerRotateAxisz",
+        ),
     )
 
     LeftInFootExtraFingerRotateAxisx = DoubleAngleField(default_value=0.0)
@@ -50376,7 +51783,10 @@ class LeftInFootExtraFingerRotateAxisAttrOperator(
 
 
 class LeftInFootExtraFingerRotateAxisField(
-    CompoundField[LeftInFootExtraFingerRotateAxisAttrOperator, LeftInFootExtraFingerRotateAxisPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerRotateAxisAttrOperator,
+        LeftInFootExtraFingerRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50395,9 +51805,18 @@ class LeftInFootExtraFingerJointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeftInFootExtraFingerJointOrientx", "LeftInFootExtraFingerJointOrientx"),
-        ("LeftInFootExtraFingerJointOrienty", "LeftInFootExtraFingerJointOrienty"),
-        ("LeftInFootExtraFingerJointOrientz", "LeftInFootExtraFingerJointOrientz"),
+        (
+            "LeftInFootExtraFingerJointOrientx",
+            "LeftInFootExtraFingerJointOrientx",
+        ),
+        (
+            "LeftInFootExtraFingerJointOrienty",
+            "LeftInFootExtraFingerJointOrienty",
+        ),
+        (
+            "LeftInFootExtraFingerJointOrientz",
+            "LeftInFootExtraFingerJointOrientz",
+        ),
     )
 
     LeftInFootExtraFingerJointOrientx = DoubleAngleField(default_value=0.0)
@@ -50420,7 +51839,10 @@ class LeftInFootExtraFingerJointOrientAttrOperator(
 
 
 class LeftInFootExtraFingerJointOrientField(
-    CompoundField[LeftInFootExtraFingerJointOrientAttrOperator, LeftInFootExtraFingerJointOrientPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerJointOrientAttrOperator,
+        LeftInFootExtraFingerJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50464,7 +51886,10 @@ class LeftInFootExtraFingerMinRLimitAttrOperator(
 
 
 class LeftInFootExtraFingerMinRLimitField(
-    CompoundField[LeftInFootExtraFingerMinRLimitAttrOperator, LeftInFootExtraFingerMinRLimitPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerMinRLimitAttrOperator,
+        LeftInFootExtraFingerMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50508,7 +51933,10 @@ class LeftInFootExtraFingerMaxRLimitAttrOperator(
 
 
 class LeftInFootExtraFingerMaxRLimitField(
-    CompoundField[LeftInFootExtraFingerMaxRLimitAttrOperator, LeftInFootExtraFingerMaxRLimitPlugOperator]
+    CompoundField[
+        LeftInFootExtraFingerMaxRLimitAttrOperator,
+        LeftInFootExtraFingerMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50684,7 +52112,10 @@ class RightInFootThumbRotateAxisAttrOperator(
 
 
 class RightInFootThumbRotateAxisField(
-    CompoundField[RightInFootThumbRotateAxisAttrOperator, RightInFootThumbRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootThumbRotateAxisAttrOperator,
+        RightInFootThumbRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50728,7 +52159,10 @@ class RightInFootThumbJointOrientAttrOperator(
 
 
 class RightInFootThumbJointOrientField(
-    CompoundField[RightInFootThumbJointOrientAttrOperator, RightInFootThumbJointOrientPlugOperator]
+    CompoundField[
+        RightInFootThumbJointOrientAttrOperator,
+        RightInFootThumbJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50772,7 +52206,10 @@ class RightInFootThumbMinRLimitAttrOperator(
 
 
 class RightInFootThumbMinRLimitField(
-    CompoundField[RightInFootThumbMinRLimitAttrOperator, RightInFootThumbMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootThumbMinRLimitAttrOperator,
+        RightInFootThumbMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50816,7 +52253,10 @@ class RightInFootThumbMaxRLimitAttrOperator(
 
 
 class RightInFootThumbMaxRLimitField(
-    CompoundField[RightInFootThumbMaxRLimitAttrOperator, RightInFootThumbMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootThumbMaxRLimitAttrOperator,
+        RightInFootThumbMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -50992,7 +52432,10 @@ class RightInFootIndexRotateAxisAttrOperator(
 
 
 class RightInFootIndexRotateAxisField(
-    CompoundField[RightInFootIndexRotateAxisAttrOperator, RightInFootIndexRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootIndexRotateAxisAttrOperator,
+        RightInFootIndexRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51036,7 +52479,10 @@ class RightInFootIndexJointOrientAttrOperator(
 
 
 class RightInFootIndexJointOrientField(
-    CompoundField[RightInFootIndexJointOrientAttrOperator, RightInFootIndexJointOrientPlugOperator]
+    CompoundField[
+        RightInFootIndexJointOrientAttrOperator,
+        RightInFootIndexJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51080,7 +52526,10 @@ class RightInFootIndexMinRLimitAttrOperator(
 
 
 class RightInFootIndexMinRLimitField(
-    CompoundField[RightInFootIndexMinRLimitAttrOperator, RightInFootIndexMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootIndexMinRLimitAttrOperator,
+        RightInFootIndexMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51124,7 +52573,10 @@ class RightInFootIndexMaxRLimitAttrOperator(
 
 
 class RightInFootIndexMaxRLimitField(
-    CompoundField[RightInFootIndexMaxRLimitAttrOperator, RightInFootIndexMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootIndexMaxRLimitAttrOperator,
+        RightInFootIndexMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51168,7 +52620,9 @@ class RightInFootMiddleTAttrOperator(
 
 
 class RightInFootMiddleTField(
-    CompoundField[RightInFootMiddleTAttrOperator, RightInFootMiddleTPlugOperator]
+    CompoundField[
+        RightInFootMiddleTAttrOperator, RightInFootMiddleTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51212,7 +52666,9 @@ class RightInFootMiddleRAttrOperator(
 
 
 class RightInFootMiddleRField(
-    CompoundField[RightInFootMiddleRAttrOperator, RightInFootMiddleRPlugOperator]
+    CompoundField[
+        RightInFootMiddleRAttrOperator, RightInFootMiddleRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51256,7 +52712,9 @@ class RightInFootMiddleSAttrOperator(
 
 
 class RightInFootMiddleSField(
-    CompoundField[RightInFootMiddleSAttrOperator, RightInFootMiddleSPlugOperator]
+    CompoundField[
+        RightInFootMiddleSAttrOperator, RightInFootMiddleSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -51300,7 +52758,10 @@ class RightInFootMiddleRotateAxisAttrOperator(
 
 
 class RightInFootMiddleRotateAxisField(
-    CompoundField[RightInFootMiddleRotateAxisAttrOperator, RightInFootMiddleRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootMiddleRotateAxisAttrOperator,
+        RightInFootMiddleRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51344,7 +52805,10 @@ class RightInFootMiddleJointOrientAttrOperator(
 
 
 class RightInFootMiddleJointOrientField(
-    CompoundField[RightInFootMiddleJointOrientAttrOperator, RightInFootMiddleJointOrientPlugOperator]
+    CompoundField[
+        RightInFootMiddleJointOrientAttrOperator,
+        RightInFootMiddleJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51388,7 +52852,10 @@ class RightInFootMiddleMinRLimitAttrOperator(
 
 
 class RightInFootMiddleMinRLimitField(
-    CompoundField[RightInFootMiddleMinRLimitAttrOperator, RightInFootMiddleMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootMiddleMinRLimitAttrOperator,
+        RightInFootMiddleMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51432,7 +52899,10 @@ class RightInFootMiddleMaxRLimitAttrOperator(
 
 
 class RightInFootMiddleMaxRLimitField(
-    CompoundField[RightInFootMiddleMaxRLimitAttrOperator, RightInFootMiddleMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootMiddleMaxRLimitAttrOperator,
+        RightInFootMiddleMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51608,7 +53078,10 @@ class RightInFootRingRotateAxisAttrOperator(
 
 
 class RightInFootRingRotateAxisField(
-    CompoundField[RightInFootRingRotateAxisAttrOperator, RightInFootRingRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootRingRotateAxisAttrOperator,
+        RightInFootRingRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51652,7 +53125,10 @@ class RightInFootRingJointOrientAttrOperator(
 
 
 class RightInFootRingJointOrientField(
-    CompoundField[RightInFootRingJointOrientAttrOperator, RightInFootRingJointOrientPlugOperator]
+    CompoundField[
+        RightInFootRingJointOrientAttrOperator,
+        RightInFootRingJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51696,7 +53172,10 @@ class RightInFootRingMinRLimitAttrOperator(
 
 
 class RightInFootRingMinRLimitField(
-    CompoundField[RightInFootRingMinRLimitAttrOperator, RightInFootRingMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootRingMinRLimitAttrOperator,
+        RightInFootRingMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51740,7 +53219,10 @@ class RightInFootRingMaxRLimitAttrOperator(
 
 
 class RightInFootRingMaxRLimitField(
-    CompoundField[RightInFootRingMaxRLimitAttrOperator, RightInFootRingMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootRingMaxRLimitAttrOperator,
+        RightInFootRingMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51916,7 +53398,10 @@ class RightInFootPinkyRotateAxisAttrOperator(
 
 
 class RightInFootPinkyRotateAxisField(
-    CompoundField[RightInFootPinkyRotateAxisAttrOperator, RightInFootPinkyRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootPinkyRotateAxisAttrOperator,
+        RightInFootPinkyRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -51960,7 +53445,10 @@ class RightInFootPinkyJointOrientAttrOperator(
 
 
 class RightInFootPinkyJointOrientField(
-    CompoundField[RightInFootPinkyJointOrientAttrOperator, RightInFootPinkyJointOrientPlugOperator]
+    CompoundField[
+        RightInFootPinkyJointOrientAttrOperator,
+        RightInFootPinkyJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52004,7 +53492,10 @@ class RightInFootPinkyMinRLimitAttrOperator(
 
 
 class RightInFootPinkyMinRLimitField(
-    CompoundField[RightInFootPinkyMinRLimitAttrOperator, RightInFootPinkyMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootPinkyMinRLimitAttrOperator,
+        RightInFootPinkyMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52048,7 +53539,10 @@ class RightInFootPinkyMaxRLimitAttrOperator(
 
 
 class RightInFootPinkyMaxRLimitField(
-    CompoundField[RightInFootPinkyMaxRLimitAttrOperator, RightInFootPinkyMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootPinkyMaxRLimitAttrOperator,
+        RightInFootPinkyMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52092,7 +53586,10 @@ class RightInFootExtraFingerTAttrOperator(
 
 
 class RightInFootExtraFingerTField(
-    CompoundField[RightInFootExtraFingerTAttrOperator, RightInFootExtraFingerTPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerTAttrOperator,
+        RightInFootExtraFingerTPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52136,7 +53633,10 @@ class RightInFootExtraFingerRAttrOperator(
 
 
 class RightInFootExtraFingerRField(
-    CompoundField[RightInFootExtraFingerRAttrOperator, RightInFootExtraFingerRPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerRAttrOperator,
+        RightInFootExtraFingerRPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52180,7 +53680,10 @@ class RightInFootExtraFingerSAttrOperator(
 
 
 class RightInFootExtraFingerSField(
-    CompoundField[RightInFootExtraFingerSAttrOperator, RightInFootExtraFingerSPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerSAttrOperator,
+        RightInFootExtraFingerSPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52199,9 +53702,18 @@ class RightInFootExtraFingerRotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInFootExtraFingerRotateAxisx", "RightInFootExtraFingerRotateAxisx"),
-        ("RightInFootExtraFingerRotateAxisy", "RightInFootExtraFingerRotateAxisy"),
-        ("RightInFootExtraFingerRotateAxisz", "RightInFootExtraFingerRotateAxisz"),
+        (
+            "RightInFootExtraFingerRotateAxisx",
+            "RightInFootExtraFingerRotateAxisx",
+        ),
+        (
+            "RightInFootExtraFingerRotateAxisy",
+            "RightInFootExtraFingerRotateAxisy",
+        ),
+        (
+            "RightInFootExtraFingerRotateAxisz",
+            "RightInFootExtraFingerRotateAxisz",
+        ),
     )
 
     RightInFootExtraFingerRotateAxisx = DoubleAngleField(default_value=0.0)
@@ -52224,7 +53736,10 @@ class RightInFootExtraFingerRotateAxisAttrOperator(
 
 
 class RightInFootExtraFingerRotateAxisField(
-    CompoundField[RightInFootExtraFingerRotateAxisAttrOperator, RightInFootExtraFingerRotateAxisPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerRotateAxisAttrOperator,
+        RightInFootExtraFingerRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52243,9 +53758,18 @@ class RightInFootExtraFingerJointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInFootExtraFingerJointOrientx", "RightInFootExtraFingerJointOrientx"),
-        ("RightInFootExtraFingerJointOrienty", "RightInFootExtraFingerJointOrienty"),
-        ("RightInFootExtraFingerJointOrientz", "RightInFootExtraFingerJointOrientz"),
+        (
+            "RightInFootExtraFingerJointOrientx",
+            "RightInFootExtraFingerJointOrientx",
+        ),
+        (
+            "RightInFootExtraFingerJointOrienty",
+            "RightInFootExtraFingerJointOrienty",
+        ),
+        (
+            "RightInFootExtraFingerJointOrientz",
+            "RightInFootExtraFingerJointOrientz",
+        ),
     )
 
     RightInFootExtraFingerJointOrientx = DoubleAngleField(default_value=0.0)
@@ -52268,7 +53792,10 @@ class RightInFootExtraFingerJointOrientAttrOperator(
 
 
 class RightInFootExtraFingerJointOrientField(
-    CompoundField[RightInFootExtraFingerJointOrientAttrOperator, RightInFootExtraFingerJointOrientPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerJointOrientAttrOperator,
+        RightInFootExtraFingerJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52287,9 +53814,18 @@ class RightInFootExtraFingerMinRLimitPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInFootExtraFingerMinRLimitx", "RightInFootExtraFingerMinRLimitx"),
-        ("RightInFootExtraFingerMinRLimity", "RightInFootExtraFingerMinRLimity"),
-        ("RightInFootExtraFingerMinRLimitz", "RightInFootExtraFingerMinRLimitz"),
+        (
+            "RightInFootExtraFingerMinRLimitx",
+            "RightInFootExtraFingerMinRLimitx",
+        ),
+        (
+            "RightInFootExtraFingerMinRLimity",
+            "RightInFootExtraFingerMinRLimity",
+        ),
+        (
+            "RightInFootExtraFingerMinRLimitz",
+            "RightInFootExtraFingerMinRLimitz",
+        ),
     )
 
     RightInFootExtraFingerMinRLimitx = DoubleAngleField(default_value=0.0)
@@ -52312,7 +53848,10 @@ class RightInFootExtraFingerMinRLimitAttrOperator(
 
 
 class RightInFootExtraFingerMinRLimitField(
-    CompoundField[RightInFootExtraFingerMinRLimitAttrOperator, RightInFootExtraFingerMinRLimitPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerMinRLimitAttrOperator,
+        RightInFootExtraFingerMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52331,9 +53870,18 @@ class RightInFootExtraFingerMaxRLimitPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("RightInFootExtraFingerMaxRLimitx", "RightInFootExtraFingerMaxRLimitx"),
-        ("RightInFootExtraFingerMaxRLimity", "RightInFootExtraFingerMaxRLimity"),
-        ("RightInFootExtraFingerMaxRLimitz", "RightInFootExtraFingerMaxRLimitz"),
+        (
+            "RightInFootExtraFingerMaxRLimitx",
+            "RightInFootExtraFingerMaxRLimitx",
+        ),
+        (
+            "RightInFootExtraFingerMaxRLimity",
+            "RightInFootExtraFingerMaxRLimity",
+        ),
+        (
+            "RightInFootExtraFingerMaxRLimitz",
+            "RightInFootExtraFingerMaxRLimitz",
+        ),
     )
 
     RightInFootExtraFingerMaxRLimitx = DoubleAngleField(default_value=0.0)
@@ -52356,7 +53904,10 @@ class RightInFootExtraFingerMaxRLimitAttrOperator(
 
 
 class RightInFootExtraFingerMaxRLimitField(
-    CompoundField[RightInFootExtraFingerMaxRLimitAttrOperator, RightInFootExtraFingerMaxRLimitPlugOperator]
+    CompoundField[
+        RightInFootExtraFingerMaxRLimitAttrOperator,
+        RightInFootExtraFingerMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52400,7 +53951,9 @@ class LeftShoulderExtraTAttrOperator(
 
 
 class LeftShoulderExtraTField(
-    CompoundField[LeftShoulderExtraTAttrOperator, LeftShoulderExtraTPlugOperator]
+    CompoundField[
+        LeftShoulderExtraTAttrOperator, LeftShoulderExtraTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52444,7 +53997,9 @@ class LeftShoulderExtraRAttrOperator(
 
 
 class LeftShoulderExtraRField(
-    CompoundField[LeftShoulderExtraRAttrOperator, LeftShoulderExtraRPlugOperator]
+    CompoundField[
+        LeftShoulderExtraRAttrOperator, LeftShoulderExtraRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52488,7 +54043,9 @@ class LeftShoulderExtraSAttrOperator(
 
 
 class LeftShoulderExtraSField(
-    CompoundField[LeftShoulderExtraSAttrOperator, LeftShoulderExtraSPlugOperator]
+    CompoundField[
+        LeftShoulderExtraSAttrOperator, LeftShoulderExtraSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52532,7 +54089,10 @@ class LeftShoulderExtraRotateAxisAttrOperator(
 
 
 class LeftShoulderExtraRotateAxisField(
-    CompoundField[LeftShoulderExtraRotateAxisAttrOperator, LeftShoulderExtraRotateAxisPlugOperator]
+    CompoundField[
+        LeftShoulderExtraRotateAxisAttrOperator,
+        LeftShoulderExtraRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52576,7 +54136,10 @@ class LeftShoulderExtraJointOrientAttrOperator(
 
 
 class LeftShoulderExtraJointOrientField(
-    CompoundField[LeftShoulderExtraJointOrientAttrOperator, LeftShoulderExtraJointOrientPlugOperator]
+    CompoundField[
+        LeftShoulderExtraJointOrientAttrOperator,
+        LeftShoulderExtraJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52620,7 +54183,10 @@ class LeftShoulderExtraMinRLimitAttrOperator(
 
 
 class LeftShoulderExtraMinRLimitField(
-    CompoundField[LeftShoulderExtraMinRLimitAttrOperator, LeftShoulderExtraMinRLimitPlugOperator]
+    CompoundField[
+        LeftShoulderExtraMinRLimitAttrOperator,
+        LeftShoulderExtraMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52664,7 +54230,10 @@ class LeftShoulderExtraMaxRLimitAttrOperator(
 
 
 class LeftShoulderExtraMaxRLimitField(
-    CompoundField[LeftShoulderExtraMaxRLimitAttrOperator, LeftShoulderExtraMaxRLimitPlugOperator]
+    CompoundField[
+        LeftShoulderExtraMaxRLimitAttrOperator,
+        LeftShoulderExtraMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52708,7 +54277,9 @@ class RightShoulderExtraTAttrOperator(
 
 
 class RightShoulderExtraTField(
-    CompoundField[RightShoulderExtraTAttrOperator, RightShoulderExtraTPlugOperator]
+    CompoundField[
+        RightShoulderExtraTAttrOperator, RightShoulderExtraTPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52752,7 +54323,9 @@ class RightShoulderExtraRAttrOperator(
 
 
 class RightShoulderExtraRField(
-    CompoundField[RightShoulderExtraRAttrOperator, RightShoulderExtraRPlugOperator]
+    CompoundField[
+        RightShoulderExtraRAttrOperator, RightShoulderExtraRPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52796,7 +54369,9 @@ class RightShoulderExtraSAttrOperator(
 
 
 class RightShoulderExtraSField(
-    CompoundField[RightShoulderExtraSAttrOperator, RightShoulderExtraSPlugOperator]
+    CompoundField[
+        RightShoulderExtraSAttrOperator, RightShoulderExtraSPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -52840,7 +54415,10 @@ class RightShoulderExtraRotateAxisAttrOperator(
 
 
 class RightShoulderExtraRotateAxisField(
-    CompoundField[RightShoulderExtraRotateAxisAttrOperator, RightShoulderExtraRotateAxisPlugOperator]
+    CompoundField[
+        RightShoulderExtraRotateAxisAttrOperator,
+        RightShoulderExtraRotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52884,7 +54462,10 @@ class RightShoulderExtraJointOrientAttrOperator(
 
 
 class RightShoulderExtraJointOrientField(
-    CompoundField[RightShoulderExtraJointOrientAttrOperator, RightShoulderExtraJointOrientPlugOperator]
+    CompoundField[
+        RightShoulderExtraJointOrientAttrOperator,
+        RightShoulderExtraJointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52928,7 +54509,10 @@ class RightShoulderExtraMinRLimitAttrOperator(
 
 
 class RightShoulderExtraMinRLimitField(
-    CompoundField[RightShoulderExtraMinRLimitAttrOperator, RightShoulderExtraMinRLimitPlugOperator]
+    CompoundField[
+        RightShoulderExtraMinRLimitAttrOperator,
+        RightShoulderExtraMinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -52972,7 +54556,10 @@ class RightShoulderExtraMaxRLimitAttrOperator(
 
 
 class RightShoulderExtraMaxRLimitField(
-    CompoundField[RightShoulderExtraMaxRLimitAttrOperator, RightShoulderExtraMaxRLimitPlugOperator]
+    CompoundField[
+        RightShoulderExtraMaxRLimitAttrOperator,
+        RightShoulderExtraMaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53016,7 +54603,9 @@ class LeafLeftUpLegRoll1TAttrOperator(
 
 
 class LeafLeftUpLegRoll1TField(
-    CompoundField[LeafLeftUpLegRoll1TAttrOperator, LeafLeftUpLegRoll1TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1TAttrOperator, LeafLeftUpLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53060,7 +54649,9 @@ class LeafLeftUpLegRoll1RAttrOperator(
 
 
 class LeafLeftUpLegRoll1RField(
-    CompoundField[LeafLeftUpLegRoll1RAttrOperator, LeafLeftUpLegRoll1RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1RAttrOperator, LeafLeftUpLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53104,7 +54695,9 @@ class LeafLeftUpLegRoll1SAttrOperator(
 
 
 class LeafLeftUpLegRoll1SField(
-    CompoundField[LeafLeftUpLegRoll1SAttrOperator, LeafLeftUpLegRoll1SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1SAttrOperator, LeafLeftUpLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53148,7 +54741,10 @@ class LeafLeftUpLegRoll1RotateAxisAttrOperator(
 
 
 class LeafLeftUpLegRoll1RotateAxisField(
-    CompoundField[LeafLeftUpLegRoll1RotateAxisAttrOperator, LeafLeftUpLegRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1RotateAxisAttrOperator,
+        LeafLeftUpLegRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53192,7 +54788,10 @@ class LeafLeftUpLegRoll1JointOrientAttrOperator(
 
 
 class LeafLeftUpLegRoll1JointOrientField(
-    CompoundField[LeafLeftUpLegRoll1JointOrientAttrOperator, LeafLeftUpLegRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1JointOrientAttrOperator,
+        LeafLeftUpLegRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53236,7 +54835,10 @@ class LeafLeftUpLegRoll1MinRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll1MinRLimitField(
-    CompoundField[LeafLeftUpLegRoll1MinRLimitAttrOperator, LeafLeftUpLegRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1MinRLimitAttrOperator,
+        LeafLeftUpLegRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53280,7 +54882,10 @@ class LeafLeftUpLegRoll1MaxRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll1MaxRLimitField(
-    CompoundField[LeafLeftUpLegRoll1MaxRLimitAttrOperator, LeafLeftUpLegRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll1MaxRLimitAttrOperator,
+        LeafLeftUpLegRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53456,7 +55061,10 @@ class LeafLeftLegRoll1RotateAxisAttrOperator(
 
 
 class LeafLeftLegRoll1RotateAxisField(
-    CompoundField[LeafLeftLegRoll1RotateAxisAttrOperator, LeafLeftLegRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1RotateAxisAttrOperator,
+        LeafLeftLegRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53500,7 +55108,10 @@ class LeafLeftLegRoll1JointOrientAttrOperator(
 
 
 class LeafLeftLegRoll1JointOrientField(
-    CompoundField[LeafLeftLegRoll1JointOrientAttrOperator, LeafLeftLegRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1JointOrientAttrOperator,
+        LeafLeftLegRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53544,7 +55155,10 @@ class LeafLeftLegRoll1MinRLimitAttrOperator(
 
 
 class LeafLeftLegRoll1MinRLimitField(
-    CompoundField[LeafLeftLegRoll1MinRLimitAttrOperator, LeafLeftLegRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1MinRLimitAttrOperator,
+        LeafLeftLegRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53588,7 +55202,10 @@ class LeafLeftLegRoll1MaxRLimitAttrOperator(
 
 
 class LeafLeftLegRoll1MaxRLimitField(
-    CompoundField[LeafLeftLegRoll1MaxRLimitAttrOperator, LeafLeftLegRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll1MaxRLimitAttrOperator,
+        LeafLeftLegRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53632,7 +55249,9 @@ class LeafRightUpLegRoll1TAttrOperator(
 
 
 class LeafRightUpLegRoll1TField(
-    CompoundField[LeafRightUpLegRoll1TAttrOperator, LeafRightUpLegRoll1TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1TAttrOperator, LeafRightUpLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53676,7 +55295,9 @@ class LeafRightUpLegRoll1RAttrOperator(
 
 
 class LeafRightUpLegRoll1RField(
-    CompoundField[LeafRightUpLegRoll1RAttrOperator, LeafRightUpLegRoll1RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1RAttrOperator, LeafRightUpLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53720,7 +55341,9 @@ class LeafRightUpLegRoll1SAttrOperator(
 
 
 class LeafRightUpLegRoll1SField(
-    CompoundField[LeafRightUpLegRoll1SAttrOperator, LeafRightUpLegRoll1SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1SAttrOperator, LeafRightUpLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53764,7 +55387,10 @@ class LeafRightUpLegRoll1RotateAxisAttrOperator(
 
 
 class LeafRightUpLegRoll1RotateAxisField(
-    CompoundField[LeafRightUpLegRoll1RotateAxisAttrOperator, LeafRightUpLegRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1RotateAxisAttrOperator,
+        LeafRightUpLegRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53808,7 +55434,10 @@ class LeafRightUpLegRoll1JointOrientAttrOperator(
 
 
 class LeafRightUpLegRoll1JointOrientField(
-    CompoundField[LeafRightUpLegRoll1JointOrientAttrOperator, LeafRightUpLegRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1JointOrientAttrOperator,
+        LeafRightUpLegRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53852,7 +55481,10 @@ class LeafRightUpLegRoll1MinRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll1MinRLimitField(
-    CompoundField[LeafRightUpLegRoll1MinRLimitAttrOperator, LeafRightUpLegRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1MinRLimitAttrOperator,
+        LeafRightUpLegRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53896,7 +55528,10 @@ class LeafRightUpLegRoll1MaxRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll1MaxRLimitField(
-    CompoundField[LeafRightUpLegRoll1MaxRLimitAttrOperator, LeafRightUpLegRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll1MaxRLimitAttrOperator,
+        LeafRightUpLegRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -53940,7 +55575,9 @@ class LeafRightLegRoll1TAttrOperator(
 
 
 class LeafRightLegRoll1TField(
-    CompoundField[LeafRightLegRoll1TAttrOperator, LeafRightLegRoll1TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1TAttrOperator, LeafRightLegRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -53984,7 +55621,9 @@ class LeafRightLegRoll1RAttrOperator(
 
 
 class LeafRightLegRoll1RField(
-    CompoundField[LeafRightLegRoll1RAttrOperator, LeafRightLegRoll1RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1RAttrOperator, LeafRightLegRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54028,7 +55667,9 @@ class LeafRightLegRoll1SAttrOperator(
 
 
 class LeafRightLegRoll1SField(
-    CompoundField[LeafRightLegRoll1SAttrOperator, LeafRightLegRoll1SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1SAttrOperator, LeafRightLegRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54072,7 +55713,10 @@ class LeafRightLegRoll1RotateAxisAttrOperator(
 
 
 class LeafRightLegRoll1RotateAxisField(
-    CompoundField[LeafRightLegRoll1RotateAxisAttrOperator, LeafRightLegRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1RotateAxisAttrOperator,
+        LeafRightLegRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54116,7 +55760,10 @@ class LeafRightLegRoll1JointOrientAttrOperator(
 
 
 class LeafRightLegRoll1JointOrientField(
-    CompoundField[LeafRightLegRoll1JointOrientAttrOperator, LeafRightLegRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1JointOrientAttrOperator,
+        LeafRightLegRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54160,7 +55807,10 @@ class LeafRightLegRoll1MinRLimitAttrOperator(
 
 
 class LeafRightLegRoll1MinRLimitField(
-    CompoundField[LeafRightLegRoll1MinRLimitAttrOperator, LeafRightLegRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1MinRLimitAttrOperator,
+        LeafRightLegRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54204,7 +55854,10 @@ class LeafRightLegRoll1MaxRLimitAttrOperator(
 
 
 class LeafRightLegRoll1MaxRLimitField(
-    CompoundField[LeafRightLegRoll1MaxRLimitAttrOperator, LeafRightLegRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll1MaxRLimitAttrOperator,
+        LeafRightLegRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54380,7 +56033,10 @@ class LeafLeftArmRoll1RotateAxisAttrOperator(
 
 
 class LeafLeftArmRoll1RotateAxisField(
-    CompoundField[LeafLeftArmRoll1RotateAxisAttrOperator, LeafLeftArmRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1RotateAxisAttrOperator,
+        LeafLeftArmRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54424,7 +56080,10 @@ class LeafLeftArmRoll1JointOrientAttrOperator(
 
 
 class LeafLeftArmRoll1JointOrientField(
-    CompoundField[LeafLeftArmRoll1JointOrientAttrOperator, LeafLeftArmRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1JointOrientAttrOperator,
+        LeafLeftArmRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54468,7 +56127,10 @@ class LeafLeftArmRoll1MinRLimitAttrOperator(
 
 
 class LeafLeftArmRoll1MinRLimitField(
-    CompoundField[LeafLeftArmRoll1MinRLimitAttrOperator, LeafLeftArmRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1MinRLimitAttrOperator,
+        LeafLeftArmRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54512,7 +56174,10 @@ class LeafLeftArmRoll1MaxRLimitAttrOperator(
 
 
 class LeafLeftArmRoll1MaxRLimitField(
-    CompoundField[LeafLeftArmRoll1MaxRLimitAttrOperator, LeafLeftArmRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll1MaxRLimitAttrOperator,
+        LeafLeftArmRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54556,7 +56221,9 @@ class LeafLeftForeArmRoll1TAttrOperator(
 
 
 class LeafLeftForeArmRoll1TField(
-    CompoundField[LeafLeftForeArmRoll1TAttrOperator, LeafLeftForeArmRoll1TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1TAttrOperator, LeafLeftForeArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54600,7 +56267,9 @@ class LeafLeftForeArmRoll1RAttrOperator(
 
 
 class LeafLeftForeArmRoll1RField(
-    CompoundField[LeafLeftForeArmRoll1RAttrOperator, LeafLeftForeArmRoll1RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1RAttrOperator, LeafLeftForeArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54644,7 +56313,9 @@ class LeafLeftForeArmRoll1SAttrOperator(
 
 
 class LeafLeftForeArmRoll1SField(
-    CompoundField[LeafLeftForeArmRoll1SAttrOperator, LeafLeftForeArmRoll1SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1SAttrOperator, LeafLeftForeArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54688,7 +56359,10 @@ class LeafLeftForeArmRoll1RotateAxisAttrOperator(
 
 
 class LeafLeftForeArmRoll1RotateAxisField(
-    CompoundField[LeafLeftForeArmRoll1RotateAxisAttrOperator, LeafLeftForeArmRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1RotateAxisAttrOperator,
+        LeafLeftForeArmRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54707,9 +56381,18 @@ class LeafLeftForeArmRoll1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafLeftForeArmRoll1JointOrientx", "LeafLeftForeArmRoll1JointOrientx"),
-        ("LeafLeftForeArmRoll1JointOrienty", "LeafLeftForeArmRoll1JointOrienty"),
-        ("LeafLeftForeArmRoll1JointOrientz", "LeafLeftForeArmRoll1JointOrientz"),
+        (
+            "LeafLeftForeArmRoll1JointOrientx",
+            "LeafLeftForeArmRoll1JointOrientx",
+        ),
+        (
+            "LeafLeftForeArmRoll1JointOrienty",
+            "LeafLeftForeArmRoll1JointOrienty",
+        ),
+        (
+            "LeafLeftForeArmRoll1JointOrientz",
+            "LeafLeftForeArmRoll1JointOrientz",
+        ),
     )
 
     LeafLeftForeArmRoll1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -54732,7 +56415,10 @@ class LeafLeftForeArmRoll1JointOrientAttrOperator(
 
 
 class LeafLeftForeArmRoll1JointOrientField(
-    CompoundField[LeafLeftForeArmRoll1JointOrientAttrOperator, LeafLeftForeArmRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1JointOrientAttrOperator,
+        LeafLeftForeArmRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54776,7 +56462,10 @@ class LeafLeftForeArmRoll1MinRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll1MinRLimitField(
-    CompoundField[LeafLeftForeArmRoll1MinRLimitAttrOperator, LeafLeftForeArmRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1MinRLimitAttrOperator,
+        LeafLeftForeArmRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54820,7 +56509,10 @@ class LeafLeftForeArmRoll1MaxRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll1MaxRLimitField(
-    CompoundField[LeafLeftForeArmRoll1MaxRLimitAttrOperator, LeafLeftForeArmRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll1MaxRLimitAttrOperator,
+        LeafLeftForeArmRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -54864,7 +56556,9 @@ class LeafRightArmRoll1TAttrOperator(
 
 
 class LeafRightArmRoll1TField(
-    CompoundField[LeafRightArmRoll1TAttrOperator, LeafRightArmRoll1TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1TAttrOperator, LeafRightArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54908,7 +56602,9 @@ class LeafRightArmRoll1RAttrOperator(
 
 
 class LeafRightArmRoll1RField(
-    CompoundField[LeafRightArmRoll1RAttrOperator, LeafRightArmRoll1RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1RAttrOperator, LeafRightArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54952,7 +56648,9 @@ class LeafRightArmRoll1SAttrOperator(
 
 
 class LeafRightArmRoll1SField(
-    CompoundField[LeafRightArmRoll1SAttrOperator, LeafRightArmRoll1SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1SAttrOperator, LeafRightArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -54996,7 +56694,10 @@ class LeafRightArmRoll1RotateAxisAttrOperator(
 
 
 class LeafRightArmRoll1RotateAxisField(
-    CompoundField[LeafRightArmRoll1RotateAxisAttrOperator, LeafRightArmRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1RotateAxisAttrOperator,
+        LeafRightArmRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55040,7 +56741,10 @@ class LeafRightArmRoll1JointOrientAttrOperator(
 
 
 class LeafRightArmRoll1JointOrientField(
-    CompoundField[LeafRightArmRoll1JointOrientAttrOperator, LeafRightArmRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1JointOrientAttrOperator,
+        LeafRightArmRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55084,7 +56788,10 @@ class LeafRightArmRoll1MinRLimitAttrOperator(
 
 
 class LeafRightArmRoll1MinRLimitField(
-    CompoundField[LeafRightArmRoll1MinRLimitAttrOperator, LeafRightArmRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1MinRLimitAttrOperator,
+        LeafRightArmRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55128,7 +56835,10 @@ class LeafRightArmRoll1MaxRLimitAttrOperator(
 
 
 class LeafRightArmRoll1MaxRLimitField(
-    CompoundField[LeafRightArmRoll1MaxRLimitAttrOperator, LeafRightArmRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll1MaxRLimitAttrOperator,
+        LeafRightArmRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55172,7 +56882,9 @@ class LeafRightForeArmRoll1TAttrOperator(
 
 
 class LeafRightForeArmRoll1TField(
-    CompoundField[LeafRightForeArmRoll1TAttrOperator, LeafRightForeArmRoll1TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1TAttrOperator, LeafRightForeArmRoll1TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55216,7 +56928,9 @@ class LeafRightForeArmRoll1RAttrOperator(
 
 
 class LeafRightForeArmRoll1RField(
-    CompoundField[LeafRightForeArmRoll1RAttrOperator, LeafRightForeArmRoll1RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1RAttrOperator, LeafRightForeArmRoll1RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55260,7 +56974,9 @@ class LeafRightForeArmRoll1SAttrOperator(
 
 
 class LeafRightForeArmRoll1SField(
-    CompoundField[LeafRightForeArmRoll1SAttrOperator, LeafRightForeArmRoll1SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1SAttrOperator, LeafRightForeArmRoll1SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55279,9 +56995,18 @@ class LeafRightForeArmRoll1RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll1RotateAxisx", "LeafRightForeArmRoll1RotateAxisx"),
-        ("LeafRightForeArmRoll1RotateAxisy", "LeafRightForeArmRoll1RotateAxisy"),
-        ("LeafRightForeArmRoll1RotateAxisz", "LeafRightForeArmRoll1RotateAxisz"),
+        (
+            "LeafRightForeArmRoll1RotateAxisx",
+            "LeafRightForeArmRoll1RotateAxisx",
+        ),
+        (
+            "LeafRightForeArmRoll1RotateAxisy",
+            "LeafRightForeArmRoll1RotateAxisy",
+        ),
+        (
+            "LeafRightForeArmRoll1RotateAxisz",
+            "LeafRightForeArmRoll1RotateAxisz",
+        ),
     )
 
     LeafRightForeArmRoll1RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -55304,7 +57029,10 @@ class LeafRightForeArmRoll1RotateAxisAttrOperator(
 
 
 class LeafRightForeArmRoll1RotateAxisField(
-    CompoundField[LeafRightForeArmRoll1RotateAxisAttrOperator, LeafRightForeArmRoll1RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1RotateAxisAttrOperator,
+        LeafRightForeArmRoll1RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55323,9 +57051,18 @@ class LeafRightForeArmRoll1JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll1JointOrientx", "LeafRightForeArmRoll1JointOrientx"),
-        ("LeafRightForeArmRoll1JointOrienty", "LeafRightForeArmRoll1JointOrienty"),
-        ("LeafRightForeArmRoll1JointOrientz", "LeafRightForeArmRoll1JointOrientz"),
+        (
+            "LeafRightForeArmRoll1JointOrientx",
+            "LeafRightForeArmRoll1JointOrientx",
+        ),
+        (
+            "LeafRightForeArmRoll1JointOrienty",
+            "LeafRightForeArmRoll1JointOrienty",
+        ),
+        (
+            "LeafRightForeArmRoll1JointOrientz",
+            "LeafRightForeArmRoll1JointOrientz",
+        ),
     )
 
     LeafRightForeArmRoll1JointOrientx = DoubleAngleField(default_value=0.0)
@@ -55348,7 +57085,10 @@ class LeafRightForeArmRoll1JointOrientAttrOperator(
 
 
 class LeafRightForeArmRoll1JointOrientField(
-    CompoundField[LeafRightForeArmRoll1JointOrientAttrOperator, LeafRightForeArmRoll1JointOrientPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1JointOrientAttrOperator,
+        LeafRightForeArmRoll1JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55392,7 +57132,10 @@ class LeafRightForeArmRoll1MinRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll1MinRLimitField(
-    CompoundField[LeafRightForeArmRoll1MinRLimitAttrOperator, LeafRightForeArmRoll1MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1MinRLimitAttrOperator,
+        LeafRightForeArmRoll1MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55436,7 +57179,10 @@ class LeafRightForeArmRoll1MaxRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll1MaxRLimitField(
-    CompoundField[LeafRightForeArmRoll1MaxRLimitAttrOperator, LeafRightForeArmRoll1MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll1MaxRLimitAttrOperator,
+        LeafRightForeArmRoll1MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55480,7 +57226,9 @@ class LeafLeftUpLegRoll2TAttrOperator(
 
 
 class LeafLeftUpLegRoll2TField(
-    CompoundField[LeafLeftUpLegRoll2TAttrOperator, LeafLeftUpLegRoll2TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2TAttrOperator, LeafLeftUpLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55524,7 +57272,9 @@ class LeafLeftUpLegRoll2RAttrOperator(
 
 
 class LeafLeftUpLegRoll2RField(
-    CompoundField[LeafLeftUpLegRoll2RAttrOperator, LeafLeftUpLegRoll2RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2RAttrOperator, LeafLeftUpLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55568,7 +57318,9 @@ class LeafLeftUpLegRoll2SAttrOperator(
 
 
 class LeafLeftUpLegRoll2SField(
-    CompoundField[LeafLeftUpLegRoll2SAttrOperator, LeafLeftUpLegRoll2SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2SAttrOperator, LeafLeftUpLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -55612,7 +57364,10 @@ class LeafLeftUpLegRoll2RotateAxisAttrOperator(
 
 
 class LeafLeftUpLegRoll2RotateAxisField(
-    CompoundField[LeafLeftUpLegRoll2RotateAxisAttrOperator, LeafLeftUpLegRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2RotateAxisAttrOperator,
+        LeafLeftUpLegRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55656,7 +57411,10 @@ class LeafLeftUpLegRoll2JointOrientAttrOperator(
 
 
 class LeafLeftUpLegRoll2JointOrientField(
-    CompoundField[LeafLeftUpLegRoll2JointOrientAttrOperator, LeafLeftUpLegRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2JointOrientAttrOperator,
+        LeafLeftUpLegRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55700,7 +57458,10 @@ class LeafLeftUpLegRoll2MinRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll2MinRLimitField(
-    CompoundField[LeafLeftUpLegRoll2MinRLimitAttrOperator, LeafLeftUpLegRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2MinRLimitAttrOperator,
+        LeafLeftUpLegRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55744,7 +57505,10 @@ class LeafLeftUpLegRoll2MaxRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll2MaxRLimitField(
-    CompoundField[LeafLeftUpLegRoll2MaxRLimitAttrOperator, LeafLeftUpLegRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll2MaxRLimitAttrOperator,
+        LeafLeftUpLegRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55920,7 +57684,10 @@ class LeafLeftLegRoll2RotateAxisAttrOperator(
 
 
 class LeafLeftLegRoll2RotateAxisField(
-    CompoundField[LeafLeftLegRoll2RotateAxisAttrOperator, LeafLeftLegRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2RotateAxisAttrOperator,
+        LeafLeftLegRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -55964,7 +57731,10 @@ class LeafLeftLegRoll2JointOrientAttrOperator(
 
 
 class LeafLeftLegRoll2JointOrientField(
-    CompoundField[LeafLeftLegRoll2JointOrientAttrOperator, LeafLeftLegRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2JointOrientAttrOperator,
+        LeafLeftLegRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56008,7 +57778,10 @@ class LeafLeftLegRoll2MinRLimitAttrOperator(
 
 
 class LeafLeftLegRoll2MinRLimitField(
-    CompoundField[LeafLeftLegRoll2MinRLimitAttrOperator, LeafLeftLegRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2MinRLimitAttrOperator,
+        LeafLeftLegRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56052,7 +57825,10 @@ class LeafLeftLegRoll2MaxRLimitAttrOperator(
 
 
 class LeafLeftLegRoll2MaxRLimitField(
-    CompoundField[LeafLeftLegRoll2MaxRLimitAttrOperator, LeafLeftLegRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll2MaxRLimitAttrOperator,
+        LeafLeftLegRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56096,7 +57872,9 @@ class LeafRightUpLegRoll2TAttrOperator(
 
 
 class LeafRightUpLegRoll2TField(
-    CompoundField[LeafRightUpLegRoll2TAttrOperator, LeafRightUpLegRoll2TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2TAttrOperator, LeafRightUpLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56140,7 +57918,9 @@ class LeafRightUpLegRoll2RAttrOperator(
 
 
 class LeafRightUpLegRoll2RField(
-    CompoundField[LeafRightUpLegRoll2RAttrOperator, LeafRightUpLegRoll2RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2RAttrOperator, LeafRightUpLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56184,7 +57964,9 @@ class LeafRightUpLegRoll2SAttrOperator(
 
 
 class LeafRightUpLegRoll2SField(
-    CompoundField[LeafRightUpLegRoll2SAttrOperator, LeafRightUpLegRoll2SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2SAttrOperator, LeafRightUpLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56228,7 +58010,10 @@ class LeafRightUpLegRoll2RotateAxisAttrOperator(
 
 
 class LeafRightUpLegRoll2RotateAxisField(
-    CompoundField[LeafRightUpLegRoll2RotateAxisAttrOperator, LeafRightUpLegRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2RotateAxisAttrOperator,
+        LeafRightUpLegRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56272,7 +58057,10 @@ class LeafRightUpLegRoll2JointOrientAttrOperator(
 
 
 class LeafRightUpLegRoll2JointOrientField(
-    CompoundField[LeafRightUpLegRoll2JointOrientAttrOperator, LeafRightUpLegRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2JointOrientAttrOperator,
+        LeafRightUpLegRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56316,7 +58104,10 @@ class LeafRightUpLegRoll2MinRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll2MinRLimitField(
-    CompoundField[LeafRightUpLegRoll2MinRLimitAttrOperator, LeafRightUpLegRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2MinRLimitAttrOperator,
+        LeafRightUpLegRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56360,7 +58151,10 @@ class LeafRightUpLegRoll2MaxRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll2MaxRLimitField(
-    CompoundField[LeafRightUpLegRoll2MaxRLimitAttrOperator, LeafRightUpLegRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll2MaxRLimitAttrOperator,
+        LeafRightUpLegRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56404,7 +58198,9 @@ class LeafRightLegRoll2TAttrOperator(
 
 
 class LeafRightLegRoll2TField(
-    CompoundField[LeafRightLegRoll2TAttrOperator, LeafRightLegRoll2TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2TAttrOperator, LeafRightLegRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56448,7 +58244,9 @@ class LeafRightLegRoll2RAttrOperator(
 
 
 class LeafRightLegRoll2RField(
-    CompoundField[LeafRightLegRoll2RAttrOperator, LeafRightLegRoll2RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2RAttrOperator, LeafRightLegRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56492,7 +58290,9 @@ class LeafRightLegRoll2SAttrOperator(
 
 
 class LeafRightLegRoll2SField(
-    CompoundField[LeafRightLegRoll2SAttrOperator, LeafRightLegRoll2SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2SAttrOperator, LeafRightLegRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56536,7 +58336,10 @@ class LeafRightLegRoll2RotateAxisAttrOperator(
 
 
 class LeafRightLegRoll2RotateAxisField(
-    CompoundField[LeafRightLegRoll2RotateAxisAttrOperator, LeafRightLegRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2RotateAxisAttrOperator,
+        LeafRightLegRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56580,7 +58383,10 @@ class LeafRightLegRoll2JointOrientAttrOperator(
 
 
 class LeafRightLegRoll2JointOrientField(
-    CompoundField[LeafRightLegRoll2JointOrientAttrOperator, LeafRightLegRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2JointOrientAttrOperator,
+        LeafRightLegRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56624,7 +58430,10 @@ class LeafRightLegRoll2MinRLimitAttrOperator(
 
 
 class LeafRightLegRoll2MinRLimitField(
-    CompoundField[LeafRightLegRoll2MinRLimitAttrOperator, LeafRightLegRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2MinRLimitAttrOperator,
+        LeafRightLegRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56668,7 +58477,10 @@ class LeafRightLegRoll2MaxRLimitAttrOperator(
 
 
 class LeafRightLegRoll2MaxRLimitField(
-    CompoundField[LeafRightLegRoll2MaxRLimitAttrOperator, LeafRightLegRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll2MaxRLimitAttrOperator,
+        LeafRightLegRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56844,7 +58656,10 @@ class LeafLeftArmRoll2RotateAxisAttrOperator(
 
 
 class LeafLeftArmRoll2RotateAxisField(
-    CompoundField[LeafLeftArmRoll2RotateAxisAttrOperator, LeafLeftArmRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2RotateAxisAttrOperator,
+        LeafLeftArmRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56888,7 +58703,10 @@ class LeafLeftArmRoll2JointOrientAttrOperator(
 
 
 class LeafLeftArmRoll2JointOrientField(
-    CompoundField[LeafLeftArmRoll2JointOrientAttrOperator, LeafLeftArmRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2JointOrientAttrOperator,
+        LeafLeftArmRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56932,7 +58750,10 @@ class LeafLeftArmRoll2MinRLimitAttrOperator(
 
 
 class LeafLeftArmRoll2MinRLimitField(
-    CompoundField[LeafLeftArmRoll2MinRLimitAttrOperator, LeafLeftArmRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2MinRLimitAttrOperator,
+        LeafLeftArmRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -56976,7 +58797,10 @@ class LeafLeftArmRoll2MaxRLimitAttrOperator(
 
 
 class LeafLeftArmRoll2MaxRLimitField(
-    CompoundField[LeafLeftArmRoll2MaxRLimitAttrOperator, LeafLeftArmRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll2MaxRLimitAttrOperator,
+        LeafLeftArmRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57020,7 +58844,9 @@ class LeafLeftForeArmRoll2TAttrOperator(
 
 
 class LeafLeftForeArmRoll2TField(
-    CompoundField[LeafLeftForeArmRoll2TAttrOperator, LeafLeftForeArmRoll2TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2TAttrOperator, LeafLeftForeArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57064,7 +58890,9 @@ class LeafLeftForeArmRoll2RAttrOperator(
 
 
 class LeafLeftForeArmRoll2RField(
-    CompoundField[LeafLeftForeArmRoll2RAttrOperator, LeafLeftForeArmRoll2RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2RAttrOperator, LeafLeftForeArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57108,7 +58936,9 @@ class LeafLeftForeArmRoll2SAttrOperator(
 
 
 class LeafLeftForeArmRoll2SField(
-    CompoundField[LeafLeftForeArmRoll2SAttrOperator, LeafLeftForeArmRoll2SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2SAttrOperator, LeafLeftForeArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57152,7 +58982,10 @@ class LeafLeftForeArmRoll2RotateAxisAttrOperator(
 
 
 class LeafLeftForeArmRoll2RotateAxisField(
-    CompoundField[LeafLeftForeArmRoll2RotateAxisAttrOperator, LeafLeftForeArmRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2RotateAxisAttrOperator,
+        LeafLeftForeArmRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57171,9 +59004,18 @@ class LeafLeftForeArmRoll2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafLeftForeArmRoll2JointOrientx", "LeafLeftForeArmRoll2JointOrientx"),
-        ("LeafLeftForeArmRoll2JointOrienty", "LeafLeftForeArmRoll2JointOrienty"),
-        ("LeafLeftForeArmRoll2JointOrientz", "LeafLeftForeArmRoll2JointOrientz"),
+        (
+            "LeafLeftForeArmRoll2JointOrientx",
+            "LeafLeftForeArmRoll2JointOrientx",
+        ),
+        (
+            "LeafLeftForeArmRoll2JointOrienty",
+            "LeafLeftForeArmRoll2JointOrienty",
+        ),
+        (
+            "LeafLeftForeArmRoll2JointOrientz",
+            "LeafLeftForeArmRoll2JointOrientz",
+        ),
     )
 
     LeafLeftForeArmRoll2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -57196,7 +59038,10 @@ class LeafLeftForeArmRoll2JointOrientAttrOperator(
 
 
 class LeafLeftForeArmRoll2JointOrientField(
-    CompoundField[LeafLeftForeArmRoll2JointOrientAttrOperator, LeafLeftForeArmRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2JointOrientAttrOperator,
+        LeafLeftForeArmRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57240,7 +59085,10 @@ class LeafLeftForeArmRoll2MinRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll2MinRLimitField(
-    CompoundField[LeafLeftForeArmRoll2MinRLimitAttrOperator, LeafLeftForeArmRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2MinRLimitAttrOperator,
+        LeafLeftForeArmRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57284,7 +59132,10 @@ class LeafLeftForeArmRoll2MaxRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll2MaxRLimitField(
-    CompoundField[LeafLeftForeArmRoll2MaxRLimitAttrOperator, LeafLeftForeArmRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll2MaxRLimitAttrOperator,
+        LeafLeftForeArmRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57328,7 +59179,9 @@ class LeafRightArmRoll2TAttrOperator(
 
 
 class LeafRightArmRoll2TField(
-    CompoundField[LeafRightArmRoll2TAttrOperator, LeafRightArmRoll2TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2TAttrOperator, LeafRightArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57372,7 +59225,9 @@ class LeafRightArmRoll2RAttrOperator(
 
 
 class LeafRightArmRoll2RField(
-    CompoundField[LeafRightArmRoll2RAttrOperator, LeafRightArmRoll2RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2RAttrOperator, LeafRightArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57416,7 +59271,9 @@ class LeafRightArmRoll2SAttrOperator(
 
 
 class LeafRightArmRoll2SField(
-    CompoundField[LeafRightArmRoll2SAttrOperator, LeafRightArmRoll2SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2SAttrOperator, LeafRightArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57460,7 +59317,10 @@ class LeafRightArmRoll2RotateAxisAttrOperator(
 
 
 class LeafRightArmRoll2RotateAxisField(
-    CompoundField[LeafRightArmRoll2RotateAxisAttrOperator, LeafRightArmRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2RotateAxisAttrOperator,
+        LeafRightArmRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57504,7 +59364,10 @@ class LeafRightArmRoll2JointOrientAttrOperator(
 
 
 class LeafRightArmRoll2JointOrientField(
-    CompoundField[LeafRightArmRoll2JointOrientAttrOperator, LeafRightArmRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2JointOrientAttrOperator,
+        LeafRightArmRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57548,7 +59411,10 @@ class LeafRightArmRoll2MinRLimitAttrOperator(
 
 
 class LeafRightArmRoll2MinRLimitField(
-    CompoundField[LeafRightArmRoll2MinRLimitAttrOperator, LeafRightArmRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2MinRLimitAttrOperator,
+        LeafRightArmRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57592,7 +59458,10 @@ class LeafRightArmRoll2MaxRLimitAttrOperator(
 
 
 class LeafRightArmRoll2MaxRLimitField(
-    CompoundField[LeafRightArmRoll2MaxRLimitAttrOperator, LeafRightArmRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll2MaxRLimitAttrOperator,
+        LeafRightArmRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57636,7 +59505,9 @@ class LeafRightForeArmRoll2TAttrOperator(
 
 
 class LeafRightForeArmRoll2TField(
-    CompoundField[LeafRightForeArmRoll2TAttrOperator, LeafRightForeArmRoll2TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2TAttrOperator, LeafRightForeArmRoll2TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57680,7 +59551,9 @@ class LeafRightForeArmRoll2RAttrOperator(
 
 
 class LeafRightForeArmRoll2RField(
-    CompoundField[LeafRightForeArmRoll2RAttrOperator, LeafRightForeArmRoll2RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2RAttrOperator, LeafRightForeArmRoll2RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57724,7 +59597,9 @@ class LeafRightForeArmRoll2SAttrOperator(
 
 
 class LeafRightForeArmRoll2SField(
-    CompoundField[LeafRightForeArmRoll2SAttrOperator, LeafRightForeArmRoll2SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2SAttrOperator, LeafRightForeArmRoll2SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57743,9 +59618,18 @@ class LeafRightForeArmRoll2RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll2RotateAxisx", "LeafRightForeArmRoll2RotateAxisx"),
-        ("LeafRightForeArmRoll2RotateAxisy", "LeafRightForeArmRoll2RotateAxisy"),
-        ("LeafRightForeArmRoll2RotateAxisz", "LeafRightForeArmRoll2RotateAxisz"),
+        (
+            "LeafRightForeArmRoll2RotateAxisx",
+            "LeafRightForeArmRoll2RotateAxisx",
+        ),
+        (
+            "LeafRightForeArmRoll2RotateAxisy",
+            "LeafRightForeArmRoll2RotateAxisy",
+        ),
+        (
+            "LeafRightForeArmRoll2RotateAxisz",
+            "LeafRightForeArmRoll2RotateAxisz",
+        ),
     )
 
     LeafRightForeArmRoll2RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -57768,7 +59652,10 @@ class LeafRightForeArmRoll2RotateAxisAttrOperator(
 
 
 class LeafRightForeArmRoll2RotateAxisField(
-    CompoundField[LeafRightForeArmRoll2RotateAxisAttrOperator, LeafRightForeArmRoll2RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2RotateAxisAttrOperator,
+        LeafRightForeArmRoll2RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57787,9 +59674,18 @@ class LeafRightForeArmRoll2JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll2JointOrientx", "LeafRightForeArmRoll2JointOrientx"),
-        ("LeafRightForeArmRoll2JointOrienty", "LeafRightForeArmRoll2JointOrienty"),
-        ("LeafRightForeArmRoll2JointOrientz", "LeafRightForeArmRoll2JointOrientz"),
+        (
+            "LeafRightForeArmRoll2JointOrientx",
+            "LeafRightForeArmRoll2JointOrientx",
+        ),
+        (
+            "LeafRightForeArmRoll2JointOrienty",
+            "LeafRightForeArmRoll2JointOrienty",
+        ),
+        (
+            "LeafRightForeArmRoll2JointOrientz",
+            "LeafRightForeArmRoll2JointOrientz",
+        ),
     )
 
     LeafRightForeArmRoll2JointOrientx = DoubleAngleField(default_value=0.0)
@@ -57812,7 +59708,10 @@ class LeafRightForeArmRoll2JointOrientAttrOperator(
 
 
 class LeafRightForeArmRoll2JointOrientField(
-    CompoundField[LeafRightForeArmRoll2JointOrientAttrOperator, LeafRightForeArmRoll2JointOrientPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2JointOrientAttrOperator,
+        LeafRightForeArmRoll2JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57856,7 +59755,10 @@ class LeafRightForeArmRoll2MinRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll2MinRLimitField(
-    CompoundField[LeafRightForeArmRoll2MinRLimitAttrOperator, LeafRightForeArmRoll2MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2MinRLimitAttrOperator,
+        LeafRightForeArmRoll2MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57900,7 +59802,10 @@ class LeafRightForeArmRoll2MaxRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll2MaxRLimitField(
-    CompoundField[LeafRightForeArmRoll2MaxRLimitAttrOperator, LeafRightForeArmRoll2MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll2MaxRLimitAttrOperator,
+        LeafRightForeArmRoll2MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -57944,7 +59849,9 @@ class LeafLeftUpLegRoll3TAttrOperator(
 
 
 class LeafLeftUpLegRoll3TField(
-    CompoundField[LeafLeftUpLegRoll3TAttrOperator, LeafLeftUpLegRoll3TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3TAttrOperator, LeafLeftUpLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -57988,7 +59895,9 @@ class LeafLeftUpLegRoll3RAttrOperator(
 
 
 class LeafLeftUpLegRoll3RField(
-    CompoundField[LeafLeftUpLegRoll3RAttrOperator, LeafLeftUpLegRoll3RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3RAttrOperator, LeafLeftUpLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58032,7 +59941,9 @@ class LeafLeftUpLegRoll3SAttrOperator(
 
 
 class LeafLeftUpLegRoll3SField(
-    CompoundField[LeafLeftUpLegRoll3SAttrOperator, LeafLeftUpLegRoll3SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3SAttrOperator, LeafLeftUpLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58076,7 +59987,10 @@ class LeafLeftUpLegRoll3RotateAxisAttrOperator(
 
 
 class LeafLeftUpLegRoll3RotateAxisField(
-    CompoundField[LeafLeftUpLegRoll3RotateAxisAttrOperator, LeafLeftUpLegRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3RotateAxisAttrOperator,
+        LeafLeftUpLegRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58120,7 +60034,10 @@ class LeafLeftUpLegRoll3JointOrientAttrOperator(
 
 
 class LeafLeftUpLegRoll3JointOrientField(
-    CompoundField[LeafLeftUpLegRoll3JointOrientAttrOperator, LeafLeftUpLegRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3JointOrientAttrOperator,
+        LeafLeftUpLegRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58164,7 +60081,10 @@ class LeafLeftUpLegRoll3MinRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll3MinRLimitField(
-    CompoundField[LeafLeftUpLegRoll3MinRLimitAttrOperator, LeafLeftUpLegRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3MinRLimitAttrOperator,
+        LeafLeftUpLegRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58208,7 +60128,10 @@ class LeafLeftUpLegRoll3MaxRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll3MaxRLimitField(
-    CompoundField[LeafLeftUpLegRoll3MaxRLimitAttrOperator, LeafLeftUpLegRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll3MaxRLimitAttrOperator,
+        LeafLeftUpLegRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58384,7 +60307,10 @@ class LeafLeftLegRoll3RotateAxisAttrOperator(
 
 
 class LeafLeftLegRoll3RotateAxisField(
-    CompoundField[LeafLeftLegRoll3RotateAxisAttrOperator, LeafLeftLegRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3RotateAxisAttrOperator,
+        LeafLeftLegRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58428,7 +60354,10 @@ class LeafLeftLegRoll3JointOrientAttrOperator(
 
 
 class LeafLeftLegRoll3JointOrientField(
-    CompoundField[LeafLeftLegRoll3JointOrientAttrOperator, LeafLeftLegRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3JointOrientAttrOperator,
+        LeafLeftLegRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58472,7 +60401,10 @@ class LeafLeftLegRoll3MinRLimitAttrOperator(
 
 
 class LeafLeftLegRoll3MinRLimitField(
-    CompoundField[LeafLeftLegRoll3MinRLimitAttrOperator, LeafLeftLegRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3MinRLimitAttrOperator,
+        LeafLeftLegRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58516,7 +60448,10 @@ class LeafLeftLegRoll3MaxRLimitAttrOperator(
 
 
 class LeafLeftLegRoll3MaxRLimitField(
-    CompoundField[LeafLeftLegRoll3MaxRLimitAttrOperator, LeafLeftLegRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll3MaxRLimitAttrOperator,
+        LeafLeftLegRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58560,7 +60495,9 @@ class LeafRightUpLegRoll3TAttrOperator(
 
 
 class LeafRightUpLegRoll3TField(
-    CompoundField[LeafRightUpLegRoll3TAttrOperator, LeafRightUpLegRoll3TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3TAttrOperator, LeafRightUpLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58604,7 +60541,9 @@ class LeafRightUpLegRoll3RAttrOperator(
 
 
 class LeafRightUpLegRoll3RField(
-    CompoundField[LeafRightUpLegRoll3RAttrOperator, LeafRightUpLegRoll3RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3RAttrOperator, LeafRightUpLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58648,7 +60587,9 @@ class LeafRightUpLegRoll3SAttrOperator(
 
 
 class LeafRightUpLegRoll3SField(
-    CompoundField[LeafRightUpLegRoll3SAttrOperator, LeafRightUpLegRoll3SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3SAttrOperator, LeafRightUpLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58692,7 +60633,10 @@ class LeafRightUpLegRoll3RotateAxisAttrOperator(
 
 
 class LeafRightUpLegRoll3RotateAxisField(
-    CompoundField[LeafRightUpLegRoll3RotateAxisAttrOperator, LeafRightUpLegRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3RotateAxisAttrOperator,
+        LeafRightUpLegRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58736,7 +60680,10 @@ class LeafRightUpLegRoll3JointOrientAttrOperator(
 
 
 class LeafRightUpLegRoll3JointOrientField(
-    CompoundField[LeafRightUpLegRoll3JointOrientAttrOperator, LeafRightUpLegRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3JointOrientAttrOperator,
+        LeafRightUpLegRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58780,7 +60727,10 @@ class LeafRightUpLegRoll3MinRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll3MinRLimitField(
-    CompoundField[LeafRightUpLegRoll3MinRLimitAttrOperator, LeafRightUpLegRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3MinRLimitAttrOperator,
+        LeafRightUpLegRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58824,7 +60774,10 @@ class LeafRightUpLegRoll3MaxRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll3MaxRLimitField(
-    CompoundField[LeafRightUpLegRoll3MaxRLimitAttrOperator, LeafRightUpLegRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll3MaxRLimitAttrOperator,
+        LeafRightUpLegRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -58868,7 +60821,9 @@ class LeafRightLegRoll3TAttrOperator(
 
 
 class LeafRightLegRoll3TField(
-    CompoundField[LeafRightLegRoll3TAttrOperator, LeafRightLegRoll3TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3TAttrOperator, LeafRightLegRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58912,7 +60867,9 @@ class LeafRightLegRoll3RAttrOperator(
 
 
 class LeafRightLegRoll3RField(
-    CompoundField[LeafRightLegRoll3RAttrOperator, LeafRightLegRoll3RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3RAttrOperator, LeafRightLegRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -58956,7 +60913,9 @@ class LeafRightLegRoll3SAttrOperator(
 
 
 class LeafRightLegRoll3SField(
-    CompoundField[LeafRightLegRoll3SAttrOperator, LeafRightLegRoll3SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3SAttrOperator, LeafRightLegRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59000,7 +60959,10 @@ class LeafRightLegRoll3RotateAxisAttrOperator(
 
 
 class LeafRightLegRoll3RotateAxisField(
-    CompoundField[LeafRightLegRoll3RotateAxisAttrOperator, LeafRightLegRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3RotateAxisAttrOperator,
+        LeafRightLegRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59044,7 +61006,10 @@ class LeafRightLegRoll3JointOrientAttrOperator(
 
 
 class LeafRightLegRoll3JointOrientField(
-    CompoundField[LeafRightLegRoll3JointOrientAttrOperator, LeafRightLegRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3JointOrientAttrOperator,
+        LeafRightLegRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59088,7 +61053,10 @@ class LeafRightLegRoll3MinRLimitAttrOperator(
 
 
 class LeafRightLegRoll3MinRLimitField(
-    CompoundField[LeafRightLegRoll3MinRLimitAttrOperator, LeafRightLegRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3MinRLimitAttrOperator,
+        LeafRightLegRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59132,7 +61100,10 @@ class LeafRightLegRoll3MaxRLimitAttrOperator(
 
 
 class LeafRightLegRoll3MaxRLimitField(
-    CompoundField[LeafRightLegRoll3MaxRLimitAttrOperator, LeafRightLegRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll3MaxRLimitAttrOperator,
+        LeafRightLegRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59308,7 +61279,10 @@ class LeafLeftArmRoll3RotateAxisAttrOperator(
 
 
 class LeafLeftArmRoll3RotateAxisField(
-    CompoundField[LeafLeftArmRoll3RotateAxisAttrOperator, LeafLeftArmRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3RotateAxisAttrOperator,
+        LeafLeftArmRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59352,7 +61326,10 @@ class LeafLeftArmRoll3JointOrientAttrOperator(
 
 
 class LeafLeftArmRoll3JointOrientField(
-    CompoundField[LeafLeftArmRoll3JointOrientAttrOperator, LeafLeftArmRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3JointOrientAttrOperator,
+        LeafLeftArmRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59396,7 +61373,10 @@ class LeafLeftArmRoll3MinRLimitAttrOperator(
 
 
 class LeafLeftArmRoll3MinRLimitField(
-    CompoundField[LeafLeftArmRoll3MinRLimitAttrOperator, LeafLeftArmRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3MinRLimitAttrOperator,
+        LeafLeftArmRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59440,7 +61420,10 @@ class LeafLeftArmRoll3MaxRLimitAttrOperator(
 
 
 class LeafLeftArmRoll3MaxRLimitField(
-    CompoundField[LeafLeftArmRoll3MaxRLimitAttrOperator, LeafLeftArmRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll3MaxRLimitAttrOperator,
+        LeafLeftArmRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59484,7 +61467,9 @@ class LeafLeftForeArmRoll3TAttrOperator(
 
 
 class LeafLeftForeArmRoll3TField(
-    CompoundField[LeafLeftForeArmRoll3TAttrOperator, LeafLeftForeArmRoll3TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3TAttrOperator, LeafLeftForeArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59528,7 +61513,9 @@ class LeafLeftForeArmRoll3RAttrOperator(
 
 
 class LeafLeftForeArmRoll3RField(
-    CompoundField[LeafLeftForeArmRoll3RAttrOperator, LeafLeftForeArmRoll3RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3RAttrOperator, LeafLeftForeArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59572,7 +61559,9 @@ class LeafLeftForeArmRoll3SAttrOperator(
 
 
 class LeafLeftForeArmRoll3SField(
-    CompoundField[LeafLeftForeArmRoll3SAttrOperator, LeafLeftForeArmRoll3SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3SAttrOperator, LeafLeftForeArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59616,7 +61605,10 @@ class LeafLeftForeArmRoll3RotateAxisAttrOperator(
 
 
 class LeafLeftForeArmRoll3RotateAxisField(
-    CompoundField[LeafLeftForeArmRoll3RotateAxisAttrOperator, LeafLeftForeArmRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3RotateAxisAttrOperator,
+        LeafLeftForeArmRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59635,9 +61627,18 @@ class LeafLeftForeArmRoll3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafLeftForeArmRoll3JointOrientx", "LeafLeftForeArmRoll3JointOrientx"),
-        ("LeafLeftForeArmRoll3JointOrienty", "LeafLeftForeArmRoll3JointOrienty"),
-        ("LeafLeftForeArmRoll3JointOrientz", "LeafLeftForeArmRoll3JointOrientz"),
+        (
+            "LeafLeftForeArmRoll3JointOrientx",
+            "LeafLeftForeArmRoll3JointOrientx",
+        ),
+        (
+            "LeafLeftForeArmRoll3JointOrienty",
+            "LeafLeftForeArmRoll3JointOrienty",
+        ),
+        (
+            "LeafLeftForeArmRoll3JointOrientz",
+            "LeafLeftForeArmRoll3JointOrientz",
+        ),
     )
 
     LeafLeftForeArmRoll3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -59660,7 +61661,10 @@ class LeafLeftForeArmRoll3JointOrientAttrOperator(
 
 
 class LeafLeftForeArmRoll3JointOrientField(
-    CompoundField[LeafLeftForeArmRoll3JointOrientAttrOperator, LeafLeftForeArmRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3JointOrientAttrOperator,
+        LeafLeftForeArmRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59704,7 +61708,10 @@ class LeafLeftForeArmRoll3MinRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll3MinRLimitField(
-    CompoundField[LeafLeftForeArmRoll3MinRLimitAttrOperator, LeafLeftForeArmRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3MinRLimitAttrOperator,
+        LeafLeftForeArmRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59748,7 +61755,10 @@ class LeafLeftForeArmRoll3MaxRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll3MaxRLimitField(
-    CompoundField[LeafLeftForeArmRoll3MaxRLimitAttrOperator, LeafLeftForeArmRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll3MaxRLimitAttrOperator,
+        LeafLeftForeArmRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59792,7 +61802,9 @@ class LeafRightArmRoll3TAttrOperator(
 
 
 class LeafRightArmRoll3TField(
-    CompoundField[LeafRightArmRoll3TAttrOperator, LeafRightArmRoll3TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3TAttrOperator, LeafRightArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59836,7 +61848,9 @@ class LeafRightArmRoll3RAttrOperator(
 
 
 class LeafRightArmRoll3RField(
-    CompoundField[LeafRightArmRoll3RAttrOperator, LeafRightArmRoll3RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3RAttrOperator, LeafRightArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59880,7 +61894,9 @@ class LeafRightArmRoll3SAttrOperator(
 
 
 class LeafRightArmRoll3SField(
-    CompoundField[LeafRightArmRoll3SAttrOperator, LeafRightArmRoll3SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3SAttrOperator, LeafRightArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -59924,7 +61940,10 @@ class LeafRightArmRoll3RotateAxisAttrOperator(
 
 
 class LeafRightArmRoll3RotateAxisField(
-    CompoundField[LeafRightArmRoll3RotateAxisAttrOperator, LeafRightArmRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3RotateAxisAttrOperator,
+        LeafRightArmRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59968,7 +61987,10 @@ class LeafRightArmRoll3JointOrientAttrOperator(
 
 
 class LeafRightArmRoll3JointOrientField(
-    CompoundField[LeafRightArmRoll3JointOrientAttrOperator, LeafRightArmRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3JointOrientAttrOperator,
+        LeafRightArmRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60012,7 +62034,10 @@ class LeafRightArmRoll3MinRLimitAttrOperator(
 
 
 class LeafRightArmRoll3MinRLimitField(
-    CompoundField[LeafRightArmRoll3MinRLimitAttrOperator, LeafRightArmRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3MinRLimitAttrOperator,
+        LeafRightArmRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60056,7 +62081,10 @@ class LeafRightArmRoll3MaxRLimitAttrOperator(
 
 
 class LeafRightArmRoll3MaxRLimitField(
-    CompoundField[LeafRightArmRoll3MaxRLimitAttrOperator, LeafRightArmRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll3MaxRLimitAttrOperator,
+        LeafRightArmRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60100,7 +62128,9 @@ class LeafRightForeArmRoll3TAttrOperator(
 
 
 class LeafRightForeArmRoll3TField(
-    CompoundField[LeafRightForeArmRoll3TAttrOperator, LeafRightForeArmRoll3TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3TAttrOperator, LeafRightForeArmRoll3TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60144,7 +62174,9 @@ class LeafRightForeArmRoll3RAttrOperator(
 
 
 class LeafRightForeArmRoll3RField(
-    CompoundField[LeafRightForeArmRoll3RAttrOperator, LeafRightForeArmRoll3RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3RAttrOperator, LeafRightForeArmRoll3RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60188,7 +62220,9 @@ class LeafRightForeArmRoll3SAttrOperator(
 
 
 class LeafRightForeArmRoll3SField(
-    CompoundField[LeafRightForeArmRoll3SAttrOperator, LeafRightForeArmRoll3SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3SAttrOperator, LeafRightForeArmRoll3SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60207,9 +62241,18 @@ class LeafRightForeArmRoll3RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll3RotateAxisx", "LeafRightForeArmRoll3RotateAxisx"),
-        ("LeafRightForeArmRoll3RotateAxisy", "LeafRightForeArmRoll3RotateAxisy"),
-        ("LeafRightForeArmRoll3RotateAxisz", "LeafRightForeArmRoll3RotateAxisz"),
+        (
+            "LeafRightForeArmRoll3RotateAxisx",
+            "LeafRightForeArmRoll3RotateAxisx",
+        ),
+        (
+            "LeafRightForeArmRoll3RotateAxisy",
+            "LeafRightForeArmRoll3RotateAxisy",
+        ),
+        (
+            "LeafRightForeArmRoll3RotateAxisz",
+            "LeafRightForeArmRoll3RotateAxisz",
+        ),
     )
 
     LeafRightForeArmRoll3RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -60232,7 +62275,10 @@ class LeafRightForeArmRoll3RotateAxisAttrOperator(
 
 
 class LeafRightForeArmRoll3RotateAxisField(
-    CompoundField[LeafRightForeArmRoll3RotateAxisAttrOperator, LeafRightForeArmRoll3RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3RotateAxisAttrOperator,
+        LeafRightForeArmRoll3RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60251,9 +62297,18 @@ class LeafRightForeArmRoll3JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll3JointOrientx", "LeafRightForeArmRoll3JointOrientx"),
-        ("LeafRightForeArmRoll3JointOrienty", "LeafRightForeArmRoll3JointOrienty"),
-        ("LeafRightForeArmRoll3JointOrientz", "LeafRightForeArmRoll3JointOrientz"),
+        (
+            "LeafRightForeArmRoll3JointOrientx",
+            "LeafRightForeArmRoll3JointOrientx",
+        ),
+        (
+            "LeafRightForeArmRoll3JointOrienty",
+            "LeafRightForeArmRoll3JointOrienty",
+        ),
+        (
+            "LeafRightForeArmRoll3JointOrientz",
+            "LeafRightForeArmRoll3JointOrientz",
+        ),
     )
 
     LeafRightForeArmRoll3JointOrientx = DoubleAngleField(default_value=0.0)
@@ -60276,7 +62331,10 @@ class LeafRightForeArmRoll3JointOrientAttrOperator(
 
 
 class LeafRightForeArmRoll3JointOrientField(
-    CompoundField[LeafRightForeArmRoll3JointOrientAttrOperator, LeafRightForeArmRoll3JointOrientPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3JointOrientAttrOperator,
+        LeafRightForeArmRoll3JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60320,7 +62378,10 @@ class LeafRightForeArmRoll3MinRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll3MinRLimitField(
-    CompoundField[LeafRightForeArmRoll3MinRLimitAttrOperator, LeafRightForeArmRoll3MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3MinRLimitAttrOperator,
+        LeafRightForeArmRoll3MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60364,7 +62425,10 @@ class LeafRightForeArmRoll3MaxRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll3MaxRLimitField(
-    CompoundField[LeafRightForeArmRoll3MaxRLimitAttrOperator, LeafRightForeArmRoll3MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll3MaxRLimitAttrOperator,
+        LeafRightForeArmRoll3MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60408,7 +62472,9 @@ class LeafLeftUpLegRoll4TAttrOperator(
 
 
 class LeafLeftUpLegRoll4TField(
-    CompoundField[LeafLeftUpLegRoll4TAttrOperator, LeafLeftUpLegRoll4TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4TAttrOperator, LeafLeftUpLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60452,7 +62518,9 @@ class LeafLeftUpLegRoll4RAttrOperator(
 
 
 class LeafLeftUpLegRoll4RField(
-    CompoundField[LeafLeftUpLegRoll4RAttrOperator, LeafLeftUpLegRoll4RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4RAttrOperator, LeafLeftUpLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60496,7 +62564,9 @@ class LeafLeftUpLegRoll4SAttrOperator(
 
 
 class LeafLeftUpLegRoll4SField(
-    CompoundField[LeafLeftUpLegRoll4SAttrOperator, LeafLeftUpLegRoll4SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4SAttrOperator, LeafLeftUpLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60540,7 +62610,10 @@ class LeafLeftUpLegRoll4RotateAxisAttrOperator(
 
 
 class LeafLeftUpLegRoll4RotateAxisField(
-    CompoundField[LeafLeftUpLegRoll4RotateAxisAttrOperator, LeafLeftUpLegRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4RotateAxisAttrOperator,
+        LeafLeftUpLegRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60584,7 +62657,10 @@ class LeafLeftUpLegRoll4JointOrientAttrOperator(
 
 
 class LeafLeftUpLegRoll4JointOrientField(
-    CompoundField[LeafLeftUpLegRoll4JointOrientAttrOperator, LeafLeftUpLegRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4JointOrientAttrOperator,
+        LeafLeftUpLegRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60628,7 +62704,10 @@ class LeafLeftUpLegRoll4MinRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll4MinRLimitField(
-    CompoundField[LeafLeftUpLegRoll4MinRLimitAttrOperator, LeafLeftUpLegRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4MinRLimitAttrOperator,
+        LeafLeftUpLegRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60672,7 +62751,10 @@ class LeafLeftUpLegRoll4MaxRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll4MaxRLimitField(
-    CompoundField[LeafLeftUpLegRoll4MaxRLimitAttrOperator, LeafLeftUpLegRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll4MaxRLimitAttrOperator,
+        LeafLeftUpLegRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60848,7 +62930,10 @@ class LeafLeftLegRoll4RotateAxisAttrOperator(
 
 
 class LeafLeftLegRoll4RotateAxisField(
-    CompoundField[LeafLeftLegRoll4RotateAxisAttrOperator, LeafLeftLegRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4RotateAxisAttrOperator,
+        LeafLeftLegRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60892,7 +62977,10 @@ class LeafLeftLegRoll4JointOrientAttrOperator(
 
 
 class LeafLeftLegRoll4JointOrientField(
-    CompoundField[LeafLeftLegRoll4JointOrientAttrOperator, LeafLeftLegRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4JointOrientAttrOperator,
+        LeafLeftLegRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60936,7 +63024,10 @@ class LeafLeftLegRoll4MinRLimitAttrOperator(
 
 
 class LeafLeftLegRoll4MinRLimitField(
-    CompoundField[LeafLeftLegRoll4MinRLimitAttrOperator, LeafLeftLegRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4MinRLimitAttrOperator,
+        LeafLeftLegRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -60980,7 +63071,10 @@ class LeafLeftLegRoll4MaxRLimitAttrOperator(
 
 
 class LeafLeftLegRoll4MaxRLimitField(
-    CompoundField[LeafLeftLegRoll4MaxRLimitAttrOperator, LeafLeftLegRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll4MaxRLimitAttrOperator,
+        LeafLeftLegRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61024,7 +63118,9 @@ class LeafRightUpLegRoll4TAttrOperator(
 
 
 class LeafRightUpLegRoll4TField(
-    CompoundField[LeafRightUpLegRoll4TAttrOperator, LeafRightUpLegRoll4TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4TAttrOperator, LeafRightUpLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61068,7 +63164,9 @@ class LeafRightUpLegRoll4RAttrOperator(
 
 
 class LeafRightUpLegRoll4RField(
-    CompoundField[LeafRightUpLegRoll4RAttrOperator, LeafRightUpLegRoll4RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4RAttrOperator, LeafRightUpLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61112,7 +63210,9 @@ class LeafRightUpLegRoll4SAttrOperator(
 
 
 class LeafRightUpLegRoll4SField(
-    CompoundField[LeafRightUpLegRoll4SAttrOperator, LeafRightUpLegRoll4SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4SAttrOperator, LeafRightUpLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61156,7 +63256,10 @@ class LeafRightUpLegRoll4RotateAxisAttrOperator(
 
 
 class LeafRightUpLegRoll4RotateAxisField(
-    CompoundField[LeafRightUpLegRoll4RotateAxisAttrOperator, LeafRightUpLegRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4RotateAxisAttrOperator,
+        LeafRightUpLegRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61200,7 +63303,10 @@ class LeafRightUpLegRoll4JointOrientAttrOperator(
 
 
 class LeafRightUpLegRoll4JointOrientField(
-    CompoundField[LeafRightUpLegRoll4JointOrientAttrOperator, LeafRightUpLegRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4JointOrientAttrOperator,
+        LeafRightUpLegRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61244,7 +63350,10 @@ class LeafRightUpLegRoll4MinRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll4MinRLimitField(
-    CompoundField[LeafRightUpLegRoll4MinRLimitAttrOperator, LeafRightUpLegRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4MinRLimitAttrOperator,
+        LeafRightUpLegRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61288,7 +63397,10 @@ class LeafRightUpLegRoll4MaxRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll4MaxRLimitField(
-    CompoundField[LeafRightUpLegRoll4MaxRLimitAttrOperator, LeafRightUpLegRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll4MaxRLimitAttrOperator,
+        LeafRightUpLegRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61332,7 +63444,9 @@ class LeafRightLegRoll4TAttrOperator(
 
 
 class LeafRightLegRoll4TField(
-    CompoundField[LeafRightLegRoll4TAttrOperator, LeafRightLegRoll4TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4TAttrOperator, LeafRightLegRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61376,7 +63490,9 @@ class LeafRightLegRoll4RAttrOperator(
 
 
 class LeafRightLegRoll4RField(
-    CompoundField[LeafRightLegRoll4RAttrOperator, LeafRightLegRoll4RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4RAttrOperator, LeafRightLegRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61420,7 +63536,9 @@ class LeafRightLegRoll4SAttrOperator(
 
 
 class LeafRightLegRoll4SField(
-    CompoundField[LeafRightLegRoll4SAttrOperator, LeafRightLegRoll4SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4SAttrOperator, LeafRightLegRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61464,7 +63582,10 @@ class LeafRightLegRoll4RotateAxisAttrOperator(
 
 
 class LeafRightLegRoll4RotateAxisField(
-    CompoundField[LeafRightLegRoll4RotateAxisAttrOperator, LeafRightLegRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4RotateAxisAttrOperator,
+        LeafRightLegRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61508,7 +63629,10 @@ class LeafRightLegRoll4JointOrientAttrOperator(
 
 
 class LeafRightLegRoll4JointOrientField(
-    CompoundField[LeafRightLegRoll4JointOrientAttrOperator, LeafRightLegRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4JointOrientAttrOperator,
+        LeafRightLegRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61552,7 +63676,10 @@ class LeafRightLegRoll4MinRLimitAttrOperator(
 
 
 class LeafRightLegRoll4MinRLimitField(
-    CompoundField[LeafRightLegRoll4MinRLimitAttrOperator, LeafRightLegRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4MinRLimitAttrOperator,
+        LeafRightLegRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61596,7 +63723,10 @@ class LeafRightLegRoll4MaxRLimitAttrOperator(
 
 
 class LeafRightLegRoll4MaxRLimitField(
-    CompoundField[LeafRightLegRoll4MaxRLimitAttrOperator, LeafRightLegRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll4MaxRLimitAttrOperator,
+        LeafRightLegRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61772,7 +63902,10 @@ class LeafLeftArmRoll4RotateAxisAttrOperator(
 
 
 class LeafLeftArmRoll4RotateAxisField(
-    CompoundField[LeafLeftArmRoll4RotateAxisAttrOperator, LeafLeftArmRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4RotateAxisAttrOperator,
+        LeafLeftArmRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61816,7 +63949,10 @@ class LeafLeftArmRoll4JointOrientAttrOperator(
 
 
 class LeafLeftArmRoll4JointOrientField(
-    CompoundField[LeafLeftArmRoll4JointOrientAttrOperator, LeafLeftArmRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4JointOrientAttrOperator,
+        LeafLeftArmRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61860,7 +63996,10 @@ class LeafLeftArmRoll4MinRLimitAttrOperator(
 
 
 class LeafLeftArmRoll4MinRLimitField(
-    CompoundField[LeafLeftArmRoll4MinRLimitAttrOperator, LeafLeftArmRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4MinRLimitAttrOperator,
+        LeafLeftArmRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61904,7 +64043,10 @@ class LeafLeftArmRoll4MaxRLimitAttrOperator(
 
 
 class LeafLeftArmRoll4MaxRLimitField(
-    CompoundField[LeafLeftArmRoll4MaxRLimitAttrOperator, LeafLeftArmRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll4MaxRLimitAttrOperator,
+        LeafLeftArmRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -61948,7 +64090,9 @@ class LeafLeftForeArmRoll4TAttrOperator(
 
 
 class LeafLeftForeArmRoll4TField(
-    CompoundField[LeafLeftForeArmRoll4TAttrOperator, LeafLeftForeArmRoll4TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4TAttrOperator, LeafLeftForeArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -61992,7 +64136,9 @@ class LeafLeftForeArmRoll4RAttrOperator(
 
 
 class LeafLeftForeArmRoll4RField(
-    CompoundField[LeafLeftForeArmRoll4RAttrOperator, LeafLeftForeArmRoll4RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4RAttrOperator, LeafLeftForeArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62036,7 +64182,9 @@ class LeafLeftForeArmRoll4SAttrOperator(
 
 
 class LeafLeftForeArmRoll4SField(
-    CompoundField[LeafLeftForeArmRoll4SAttrOperator, LeafLeftForeArmRoll4SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4SAttrOperator, LeafLeftForeArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62080,7 +64228,10 @@ class LeafLeftForeArmRoll4RotateAxisAttrOperator(
 
 
 class LeafLeftForeArmRoll4RotateAxisField(
-    CompoundField[LeafLeftForeArmRoll4RotateAxisAttrOperator, LeafLeftForeArmRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4RotateAxisAttrOperator,
+        LeafLeftForeArmRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62099,9 +64250,18 @@ class LeafLeftForeArmRoll4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafLeftForeArmRoll4JointOrientx", "LeafLeftForeArmRoll4JointOrientx"),
-        ("LeafLeftForeArmRoll4JointOrienty", "LeafLeftForeArmRoll4JointOrienty"),
-        ("LeafLeftForeArmRoll4JointOrientz", "LeafLeftForeArmRoll4JointOrientz"),
+        (
+            "LeafLeftForeArmRoll4JointOrientx",
+            "LeafLeftForeArmRoll4JointOrientx",
+        ),
+        (
+            "LeafLeftForeArmRoll4JointOrienty",
+            "LeafLeftForeArmRoll4JointOrienty",
+        ),
+        (
+            "LeafLeftForeArmRoll4JointOrientz",
+            "LeafLeftForeArmRoll4JointOrientz",
+        ),
     )
 
     LeafLeftForeArmRoll4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -62124,7 +64284,10 @@ class LeafLeftForeArmRoll4JointOrientAttrOperator(
 
 
 class LeafLeftForeArmRoll4JointOrientField(
-    CompoundField[LeafLeftForeArmRoll4JointOrientAttrOperator, LeafLeftForeArmRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4JointOrientAttrOperator,
+        LeafLeftForeArmRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62168,7 +64331,10 @@ class LeafLeftForeArmRoll4MinRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll4MinRLimitField(
-    CompoundField[LeafLeftForeArmRoll4MinRLimitAttrOperator, LeafLeftForeArmRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4MinRLimitAttrOperator,
+        LeafLeftForeArmRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62212,7 +64378,10 @@ class LeafLeftForeArmRoll4MaxRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll4MaxRLimitField(
-    CompoundField[LeafLeftForeArmRoll4MaxRLimitAttrOperator, LeafLeftForeArmRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll4MaxRLimitAttrOperator,
+        LeafLeftForeArmRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62256,7 +64425,9 @@ class LeafRightArmRoll4TAttrOperator(
 
 
 class LeafRightArmRoll4TField(
-    CompoundField[LeafRightArmRoll4TAttrOperator, LeafRightArmRoll4TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4TAttrOperator, LeafRightArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62300,7 +64471,9 @@ class LeafRightArmRoll4RAttrOperator(
 
 
 class LeafRightArmRoll4RField(
-    CompoundField[LeafRightArmRoll4RAttrOperator, LeafRightArmRoll4RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4RAttrOperator, LeafRightArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62344,7 +64517,9 @@ class LeafRightArmRoll4SAttrOperator(
 
 
 class LeafRightArmRoll4SField(
-    CompoundField[LeafRightArmRoll4SAttrOperator, LeafRightArmRoll4SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4SAttrOperator, LeafRightArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62388,7 +64563,10 @@ class LeafRightArmRoll4RotateAxisAttrOperator(
 
 
 class LeafRightArmRoll4RotateAxisField(
-    CompoundField[LeafRightArmRoll4RotateAxisAttrOperator, LeafRightArmRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4RotateAxisAttrOperator,
+        LeafRightArmRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62432,7 +64610,10 @@ class LeafRightArmRoll4JointOrientAttrOperator(
 
 
 class LeafRightArmRoll4JointOrientField(
-    CompoundField[LeafRightArmRoll4JointOrientAttrOperator, LeafRightArmRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4JointOrientAttrOperator,
+        LeafRightArmRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62476,7 +64657,10 @@ class LeafRightArmRoll4MinRLimitAttrOperator(
 
 
 class LeafRightArmRoll4MinRLimitField(
-    CompoundField[LeafRightArmRoll4MinRLimitAttrOperator, LeafRightArmRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4MinRLimitAttrOperator,
+        LeafRightArmRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62520,7 +64704,10 @@ class LeafRightArmRoll4MaxRLimitAttrOperator(
 
 
 class LeafRightArmRoll4MaxRLimitField(
-    CompoundField[LeafRightArmRoll4MaxRLimitAttrOperator, LeafRightArmRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll4MaxRLimitAttrOperator,
+        LeafRightArmRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62564,7 +64751,9 @@ class LeafRightForeArmRoll4TAttrOperator(
 
 
 class LeafRightForeArmRoll4TField(
-    CompoundField[LeafRightForeArmRoll4TAttrOperator, LeafRightForeArmRoll4TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4TAttrOperator, LeafRightForeArmRoll4TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62608,7 +64797,9 @@ class LeafRightForeArmRoll4RAttrOperator(
 
 
 class LeafRightForeArmRoll4RField(
-    CompoundField[LeafRightForeArmRoll4RAttrOperator, LeafRightForeArmRoll4RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4RAttrOperator, LeafRightForeArmRoll4RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62652,7 +64843,9 @@ class LeafRightForeArmRoll4SAttrOperator(
 
 
 class LeafRightForeArmRoll4SField(
-    CompoundField[LeafRightForeArmRoll4SAttrOperator, LeafRightForeArmRoll4SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4SAttrOperator, LeafRightForeArmRoll4SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62671,9 +64864,18 @@ class LeafRightForeArmRoll4RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll4RotateAxisx", "LeafRightForeArmRoll4RotateAxisx"),
-        ("LeafRightForeArmRoll4RotateAxisy", "LeafRightForeArmRoll4RotateAxisy"),
-        ("LeafRightForeArmRoll4RotateAxisz", "LeafRightForeArmRoll4RotateAxisz"),
+        (
+            "LeafRightForeArmRoll4RotateAxisx",
+            "LeafRightForeArmRoll4RotateAxisx",
+        ),
+        (
+            "LeafRightForeArmRoll4RotateAxisy",
+            "LeafRightForeArmRoll4RotateAxisy",
+        ),
+        (
+            "LeafRightForeArmRoll4RotateAxisz",
+            "LeafRightForeArmRoll4RotateAxisz",
+        ),
     )
 
     LeafRightForeArmRoll4RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -62696,7 +64898,10 @@ class LeafRightForeArmRoll4RotateAxisAttrOperator(
 
 
 class LeafRightForeArmRoll4RotateAxisField(
-    CompoundField[LeafRightForeArmRoll4RotateAxisAttrOperator, LeafRightForeArmRoll4RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4RotateAxisAttrOperator,
+        LeafRightForeArmRoll4RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62715,9 +64920,18 @@ class LeafRightForeArmRoll4JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll4JointOrientx", "LeafRightForeArmRoll4JointOrientx"),
-        ("LeafRightForeArmRoll4JointOrienty", "LeafRightForeArmRoll4JointOrienty"),
-        ("LeafRightForeArmRoll4JointOrientz", "LeafRightForeArmRoll4JointOrientz"),
+        (
+            "LeafRightForeArmRoll4JointOrientx",
+            "LeafRightForeArmRoll4JointOrientx",
+        ),
+        (
+            "LeafRightForeArmRoll4JointOrienty",
+            "LeafRightForeArmRoll4JointOrienty",
+        ),
+        (
+            "LeafRightForeArmRoll4JointOrientz",
+            "LeafRightForeArmRoll4JointOrientz",
+        ),
     )
 
     LeafRightForeArmRoll4JointOrientx = DoubleAngleField(default_value=0.0)
@@ -62740,7 +64954,10 @@ class LeafRightForeArmRoll4JointOrientAttrOperator(
 
 
 class LeafRightForeArmRoll4JointOrientField(
-    CompoundField[LeafRightForeArmRoll4JointOrientAttrOperator, LeafRightForeArmRoll4JointOrientPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4JointOrientAttrOperator,
+        LeafRightForeArmRoll4JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62784,7 +65001,10 @@ class LeafRightForeArmRoll4MinRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll4MinRLimitField(
-    CompoundField[LeafRightForeArmRoll4MinRLimitAttrOperator, LeafRightForeArmRoll4MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4MinRLimitAttrOperator,
+        LeafRightForeArmRoll4MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62828,7 +65048,10 @@ class LeafRightForeArmRoll4MaxRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll4MaxRLimitField(
-    CompoundField[LeafRightForeArmRoll4MaxRLimitAttrOperator, LeafRightForeArmRoll4MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll4MaxRLimitAttrOperator,
+        LeafRightForeArmRoll4MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -62872,7 +65095,9 @@ class LeafLeftUpLegRoll5TAttrOperator(
 
 
 class LeafLeftUpLegRoll5TField(
-    CompoundField[LeafLeftUpLegRoll5TAttrOperator, LeafLeftUpLegRoll5TPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5TAttrOperator, LeafLeftUpLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62916,7 +65141,9 @@ class LeafLeftUpLegRoll5RAttrOperator(
 
 
 class LeafLeftUpLegRoll5RField(
-    CompoundField[LeafLeftUpLegRoll5RAttrOperator, LeafLeftUpLegRoll5RPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5RAttrOperator, LeafLeftUpLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -62960,7 +65187,9 @@ class LeafLeftUpLegRoll5SAttrOperator(
 
 
 class LeafLeftUpLegRoll5SField(
-    CompoundField[LeafLeftUpLegRoll5SAttrOperator, LeafLeftUpLegRoll5SPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5SAttrOperator, LeafLeftUpLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63004,7 +65233,10 @@ class LeafLeftUpLegRoll5RotateAxisAttrOperator(
 
 
 class LeafLeftUpLegRoll5RotateAxisField(
-    CompoundField[LeafLeftUpLegRoll5RotateAxisAttrOperator, LeafLeftUpLegRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5RotateAxisAttrOperator,
+        LeafLeftUpLegRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63048,7 +65280,10 @@ class LeafLeftUpLegRoll5JointOrientAttrOperator(
 
 
 class LeafLeftUpLegRoll5JointOrientField(
-    CompoundField[LeafLeftUpLegRoll5JointOrientAttrOperator, LeafLeftUpLegRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5JointOrientAttrOperator,
+        LeafLeftUpLegRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63092,7 +65327,10 @@ class LeafLeftUpLegRoll5MinRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll5MinRLimitField(
-    CompoundField[LeafLeftUpLegRoll5MinRLimitAttrOperator, LeafLeftUpLegRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5MinRLimitAttrOperator,
+        LeafLeftUpLegRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63136,7 +65374,10 @@ class LeafLeftUpLegRoll5MaxRLimitAttrOperator(
 
 
 class LeafLeftUpLegRoll5MaxRLimitField(
-    CompoundField[LeafLeftUpLegRoll5MaxRLimitAttrOperator, LeafLeftUpLegRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftUpLegRoll5MaxRLimitAttrOperator,
+        LeafLeftUpLegRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63312,7 +65553,10 @@ class LeafLeftLegRoll5RotateAxisAttrOperator(
 
 
 class LeafLeftLegRoll5RotateAxisField(
-    CompoundField[LeafLeftLegRoll5RotateAxisAttrOperator, LeafLeftLegRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5RotateAxisAttrOperator,
+        LeafLeftLegRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63356,7 +65600,10 @@ class LeafLeftLegRoll5JointOrientAttrOperator(
 
 
 class LeafLeftLegRoll5JointOrientField(
-    CompoundField[LeafLeftLegRoll5JointOrientAttrOperator, LeafLeftLegRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5JointOrientAttrOperator,
+        LeafLeftLegRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63400,7 +65647,10 @@ class LeafLeftLegRoll5MinRLimitAttrOperator(
 
 
 class LeafLeftLegRoll5MinRLimitField(
-    CompoundField[LeafLeftLegRoll5MinRLimitAttrOperator, LeafLeftLegRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5MinRLimitAttrOperator,
+        LeafLeftLegRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63444,7 +65694,10 @@ class LeafLeftLegRoll5MaxRLimitAttrOperator(
 
 
 class LeafLeftLegRoll5MaxRLimitField(
-    CompoundField[LeafLeftLegRoll5MaxRLimitAttrOperator, LeafLeftLegRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftLegRoll5MaxRLimitAttrOperator,
+        LeafLeftLegRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63488,7 +65741,9 @@ class LeafRightUpLegRoll5TAttrOperator(
 
 
 class LeafRightUpLegRoll5TField(
-    CompoundField[LeafRightUpLegRoll5TAttrOperator, LeafRightUpLegRoll5TPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5TAttrOperator, LeafRightUpLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63532,7 +65787,9 @@ class LeafRightUpLegRoll5RAttrOperator(
 
 
 class LeafRightUpLegRoll5RField(
-    CompoundField[LeafRightUpLegRoll5RAttrOperator, LeafRightUpLegRoll5RPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5RAttrOperator, LeafRightUpLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63576,7 +65833,9 @@ class LeafRightUpLegRoll5SAttrOperator(
 
 
 class LeafRightUpLegRoll5SField(
-    CompoundField[LeafRightUpLegRoll5SAttrOperator, LeafRightUpLegRoll5SPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5SAttrOperator, LeafRightUpLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63620,7 +65879,10 @@ class LeafRightUpLegRoll5RotateAxisAttrOperator(
 
 
 class LeafRightUpLegRoll5RotateAxisField(
-    CompoundField[LeafRightUpLegRoll5RotateAxisAttrOperator, LeafRightUpLegRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5RotateAxisAttrOperator,
+        LeafRightUpLegRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63664,7 +65926,10 @@ class LeafRightUpLegRoll5JointOrientAttrOperator(
 
 
 class LeafRightUpLegRoll5JointOrientField(
-    CompoundField[LeafRightUpLegRoll5JointOrientAttrOperator, LeafRightUpLegRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5JointOrientAttrOperator,
+        LeafRightUpLegRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63708,7 +65973,10 @@ class LeafRightUpLegRoll5MinRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll5MinRLimitField(
-    CompoundField[LeafRightUpLegRoll5MinRLimitAttrOperator, LeafRightUpLegRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5MinRLimitAttrOperator,
+        LeafRightUpLegRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63752,7 +66020,10 @@ class LeafRightUpLegRoll5MaxRLimitAttrOperator(
 
 
 class LeafRightUpLegRoll5MaxRLimitField(
-    CompoundField[LeafRightUpLegRoll5MaxRLimitAttrOperator, LeafRightUpLegRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightUpLegRoll5MaxRLimitAttrOperator,
+        LeafRightUpLegRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63796,7 +66067,9 @@ class LeafRightLegRoll5TAttrOperator(
 
 
 class LeafRightLegRoll5TField(
-    CompoundField[LeafRightLegRoll5TAttrOperator, LeafRightLegRoll5TPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5TAttrOperator, LeafRightLegRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63840,7 +66113,9 @@ class LeafRightLegRoll5RAttrOperator(
 
 
 class LeafRightLegRoll5RField(
-    CompoundField[LeafRightLegRoll5RAttrOperator, LeafRightLegRoll5RPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5RAttrOperator, LeafRightLegRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63884,7 +66159,9 @@ class LeafRightLegRoll5SAttrOperator(
 
 
 class LeafRightLegRoll5SField(
-    CompoundField[LeafRightLegRoll5SAttrOperator, LeafRightLegRoll5SPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5SAttrOperator, LeafRightLegRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -63928,7 +66205,10 @@ class LeafRightLegRoll5RotateAxisAttrOperator(
 
 
 class LeafRightLegRoll5RotateAxisField(
-    CompoundField[LeafRightLegRoll5RotateAxisAttrOperator, LeafRightLegRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5RotateAxisAttrOperator,
+        LeafRightLegRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -63972,7 +66252,10 @@ class LeafRightLegRoll5JointOrientAttrOperator(
 
 
 class LeafRightLegRoll5JointOrientField(
-    CompoundField[LeafRightLegRoll5JointOrientAttrOperator, LeafRightLegRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5JointOrientAttrOperator,
+        LeafRightLegRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64016,7 +66299,10 @@ class LeafRightLegRoll5MinRLimitAttrOperator(
 
 
 class LeafRightLegRoll5MinRLimitField(
-    CompoundField[LeafRightLegRoll5MinRLimitAttrOperator, LeafRightLegRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5MinRLimitAttrOperator,
+        LeafRightLegRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64060,7 +66346,10 @@ class LeafRightLegRoll5MaxRLimitAttrOperator(
 
 
 class LeafRightLegRoll5MaxRLimitField(
-    CompoundField[LeafRightLegRoll5MaxRLimitAttrOperator, LeafRightLegRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightLegRoll5MaxRLimitAttrOperator,
+        LeafRightLegRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64236,7 +66525,10 @@ class LeafLeftArmRoll5RotateAxisAttrOperator(
 
 
 class LeafLeftArmRoll5RotateAxisField(
-    CompoundField[LeafLeftArmRoll5RotateAxisAttrOperator, LeafLeftArmRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5RotateAxisAttrOperator,
+        LeafLeftArmRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64280,7 +66572,10 @@ class LeafLeftArmRoll5JointOrientAttrOperator(
 
 
 class LeafLeftArmRoll5JointOrientField(
-    CompoundField[LeafLeftArmRoll5JointOrientAttrOperator, LeafLeftArmRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5JointOrientAttrOperator,
+        LeafLeftArmRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64324,7 +66619,10 @@ class LeafLeftArmRoll5MinRLimitAttrOperator(
 
 
 class LeafLeftArmRoll5MinRLimitField(
-    CompoundField[LeafLeftArmRoll5MinRLimitAttrOperator, LeafLeftArmRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5MinRLimitAttrOperator,
+        LeafLeftArmRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64368,7 +66666,10 @@ class LeafLeftArmRoll5MaxRLimitAttrOperator(
 
 
 class LeafLeftArmRoll5MaxRLimitField(
-    CompoundField[LeafLeftArmRoll5MaxRLimitAttrOperator, LeafLeftArmRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftArmRoll5MaxRLimitAttrOperator,
+        LeafLeftArmRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64412,7 +66713,9 @@ class LeafLeftForeArmRoll5TAttrOperator(
 
 
 class LeafLeftForeArmRoll5TField(
-    CompoundField[LeafLeftForeArmRoll5TAttrOperator, LeafLeftForeArmRoll5TPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5TAttrOperator, LeafLeftForeArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64456,7 +66759,9 @@ class LeafLeftForeArmRoll5RAttrOperator(
 
 
 class LeafLeftForeArmRoll5RField(
-    CompoundField[LeafLeftForeArmRoll5RAttrOperator, LeafLeftForeArmRoll5RPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5RAttrOperator, LeafLeftForeArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64500,7 +66805,9 @@ class LeafLeftForeArmRoll5SAttrOperator(
 
 
 class LeafLeftForeArmRoll5SField(
-    CompoundField[LeafLeftForeArmRoll5SAttrOperator, LeafLeftForeArmRoll5SPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5SAttrOperator, LeafLeftForeArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64544,7 +66851,10 @@ class LeafLeftForeArmRoll5RotateAxisAttrOperator(
 
 
 class LeafLeftForeArmRoll5RotateAxisField(
-    CompoundField[LeafLeftForeArmRoll5RotateAxisAttrOperator, LeafLeftForeArmRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5RotateAxisAttrOperator,
+        LeafLeftForeArmRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64563,9 +66873,18 @@ class LeafLeftForeArmRoll5JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafLeftForeArmRoll5JointOrientx", "LeafLeftForeArmRoll5JointOrientx"),
-        ("LeafLeftForeArmRoll5JointOrienty", "LeafLeftForeArmRoll5JointOrienty"),
-        ("LeafLeftForeArmRoll5JointOrientz", "LeafLeftForeArmRoll5JointOrientz"),
+        (
+            "LeafLeftForeArmRoll5JointOrientx",
+            "LeafLeftForeArmRoll5JointOrientx",
+        ),
+        (
+            "LeafLeftForeArmRoll5JointOrienty",
+            "LeafLeftForeArmRoll5JointOrienty",
+        ),
+        (
+            "LeafLeftForeArmRoll5JointOrientz",
+            "LeafLeftForeArmRoll5JointOrientz",
+        ),
     )
 
     LeafLeftForeArmRoll5JointOrientx = DoubleAngleField(default_value=0.0)
@@ -64588,7 +66907,10 @@ class LeafLeftForeArmRoll5JointOrientAttrOperator(
 
 
 class LeafLeftForeArmRoll5JointOrientField(
-    CompoundField[LeafLeftForeArmRoll5JointOrientAttrOperator, LeafLeftForeArmRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5JointOrientAttrOperator,
+        LeafLeftForeArmRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64632,7 +66954,10 @@ class LeafLeftForeArmRoll5MinRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll5MinRLimitField(
-    CompoundField[LeafLeftForeArmRoll5MinRLimitAttrOperator, LeafLeftForeArmRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5MinRLimitAttrOperator,
+        LeafLeftForeArmRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64676,7 +67001,10 @@ class LeafLeftForeArmRoll5MaxRLimitAttrOperator(
 
 
 class LeafLeftForeArmRoll5MaxRLimitField(
-    CompoundField[LeafLeftForeArmRoll5MaxRLimitAttrOperator, LeafLeftForeArmRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafLeftForeArmRoll5MaxRLimitAttrOperator,
+        LeafLeftForeArmRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64720,7 +67048,9 @@ class LeafRightArmRoll5TAttrOperator(
 
 
 class LeafRightArmRoll5TField(
-    CompoundField[LeafRightArmRoll5TAttrOperator, LeafRightArmRoll5TPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5TAttrOperator, LeafRightArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64764,7 +67094,9 @@ class LeafRightArmRoll5RAttrOperator(
 
 
 class LeafRightArmRoll5RField(
-    CompoundField[LeafRightArmRoll5RAttrOperator, LeafRightArmRoll5RPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5RAttrOperator, LeafRightArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64808,7 +67140,9 @@ class LeafRightArmRoll5SAttrOperator(
 
 
 class LeafRightArmRoll5SField(
-    CompoundField[LeafRightArmRoll5SAttrOperator, LeafRightArmRoll5SPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5SAttrOperator, LeafRightArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -64852,7 +67186,10 @@ class LeafRightArmRoll5RotateAxisAttrOperator(
 
 
 class LeafRightArmRoll5RotateAxisField(
-    CompoundField[LeafRightArmRoll5RotateAxisAttrOperator, LeafRightArmRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5RotateAxisAttrOperator,
+        LeafRightArmRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64896,7 +67233,10 @@ class LeafRightArmRoll5JointOrientAttrOperator(
 
 
 class LeafRightArmRoll5JointOrientField(
-    CompoundField[LeafRightArmRoll5JointOrientAttrOperator, LeafRightArmRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5JointOrientAttrOperator,
+        LeafRightArmRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64940,7 +67280,10 @@ class LeafRightArmRoll5MinRLimitAttrOperator(
 
 
 class LeafRightArmRoll5MinRLimitField(
-    CompoundField[LeafRightArmRoll5MinRLimitAttrOperator, LeafRightArmRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5MinRLimitAttrOperator,
+        LeafRightArmRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -64984,7 +67327,10 @@ class LeafRightArmRoll5MaxRLimitAttrOperator(
 
 
 class LeafRightArmRoll5MaxRLimitField(
-    CompoundField[LeafRightArmRoll5MaxRLimitAttrOperator, LeafRightArmRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightArmRoll5MaxRLimitAttrOperator,
+        LeafRightArmRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -65028,7 +67374,9 @@ class LeafRightForeArmRoll5TAttrOperator(
 
 
 class LeafRightForeArmRoll5TField(
-    CompoundField[LeafRightForeArmRoll5TAttrOperator, LeafRightForeArmRoll5TPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5TAttrOperator, LeafRightForeArmRoll5TPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -65072,7 +67420,9 @@ class LeafRightForeArmRoll5RAttrOperator(
 
 
 class LeafRightForeArmRoll5RField(
-    CompoundField[LeafRightForeArmRoll5RAttrOperator, LeafRightForeArmRoll5RPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5RAttrOperator, LeafRightForeArmRoll5RPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -65116,7 +67466,9 @@ class LeafRightForeArmRoll5SAttrOperator(
 
 
 class LeafRightForeArmRoll5SField(
-    CompoundField[LeafRightForeArmRoll5SAttrOperator, LeafRightForeArmRoll5SPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5SAttrOperator, LeafRightForeArmRoll5SPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -65135,9 +67487,18 @@ class LeafRightForeArmRoll5RotateAxisPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll5RotateAxisx", "LeafRightForeArmRoll5RotateAxisx"),
-        ("LeafRightForeArmRoll5RotateAxisy", "LeafRightForeArmRoll5RotateAxisy"),
-        ("LeafRightForeArmRoll5RotateAxisz", "LeafRightForeArmRoll5RotateAxisz"),
+        (
+            "LeafRightForeArmRoll5RotateAxisx",
+            "LeafRightForeArmRoll5RotateAxisx",
+        ),
+        (
+            "LeafRightForeArmRoll5RotateAxisy",
+            "LeafRightForeArmRoll5RotateAxisy",
+        ),
+        (
+            "LeafRightForeArmRoll5RotateAxisz",
+            "LeafRightForeArmRoll5RotateAxisz",
+        ),
     )
 
     LeafRightForeArmRoll5RotateAxisx = DoubleAngleField(default_value=0.0)
@@ -65160,7 +67521,10 @@ class LeafRightForeArmRoll5RotateAxisAttrOperator(
 
 
 class LeafRightForeArmRoll5RotateAxisField(
-    CompoundField[LeafRightForeArmRoll5RotateAxisAttrOperator, LeafRightForeArmRoll5RotateAxisPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5RotateAxisAttrOperator,
+        LeafRightForeArmRoll5RotateAxisPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -65179,9 +67543,18 @@ class LeafRightForeArmRoll5JointOrientPlugOperator(
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("LeafRightForeArmRoll5JointOrientx", "LeafRightForeArmRoll5JointOrientx"),
-        ("LeafRightForeArmRoll5JointOrienty", "LeafRightForeArmRoll5JointOrienty"),
-        ("LeafRightForeArmRoll5JointOrientz", "LeafRightForeArmRoll5JointOrientz"),
+        (
+            "LeafRightForeArmRoll5JointOrientx",
+            "LeafRightForeArmRoll5JointOrientx",
+        ),
+        (
+            "LeafRightForeArmRoll5JointOrienty",
+            "LeafRightForeArmRoll5JointOrienty",
+        ),
+        (
+            "LeafRightForeArmRoll5JointOrientz",
+            "LeafRightForeArmRoll5JointOrientz",
+        ),
     )
 
     LeafRightForeArmRoll5JointOrientx = DoubleAngleField(default_value=0.0)
@@ -65204,7 +67577,10 @@ class LeafRightForeArmRoll5JointOrientAttrOperator(
 
 
 class LeafRightForeArmRoll5JointOrientField(
-    CompoundField[LeafRightForeArmRoll5JointOrientAttrOperator, LeafRightForeArmRoll5JointOrientPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5JointOrientAttrOperator,
+        LeafRightForeArmRoll5JointOrientPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -65248,7 +67624,10 @@ class LeafRightForeArmRoll5MinRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll5MinRLimitField(
-    CompoundField[LeafRightForeArmRoll5MinRLimitAttrOperator, LeafRightForeArmRoll5MinRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5MinRLimitAttrOperator,
+        LeafRightForeArmRoll5MinRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -65292,7 +67671,10 @@ class LeafRightForeArmRoll5MaxRLimitAttrOperator(
 
 
 class LeafRightForeArmRoll5MaxRLimitField(
-    CompoundField[LeafRightForeArmRoll5MaxRLimitAttrOperator, LeafRightForeArmRoll5MaxRLimitPlugOperator]
+    CompoundField[
+        LeafRightForeArmRoll5MaxRLimitAttrOperator,
+        LeafRightForeArmRoll5MaxRLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 

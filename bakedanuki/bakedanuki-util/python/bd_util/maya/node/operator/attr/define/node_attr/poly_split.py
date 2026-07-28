@@ -57,21 +57,15 @@ class VerticesField(
     PLUG_CLS = VerticesPlugOperator
 
 
-class SplitPointsPlugOperator(
-    CompoundPlugOperator["SplitPointsAttrOperator"]
-):
+class SplitPointsPlugOperator(CompoundPlugOperator["SplitPointsAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("splitPoint", "sp"),
-    )
+    CHILD_ATTR_NAMES = (("splitPoint", "sp"),)
 
     splitPoint = CompoundField(multi=True)
     sp = splitPoint
 
 
-class SplitPointsAttrOperator(
-    CompoundAttrOperator[SplitPointsPlugOperator]
-):
+class SplitPointsAttrOperator(CompoundAttrOperator[SplitPointsPlugOperator]):
     __slots__ = ()
 
     splitPoint = CompoundField(multi=True)

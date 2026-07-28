@@ -203,7 +203,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -362,7 +364,9 @@ class TangentUCameraAttrOperator(
 
 
 class TangentUCameraField(
-    Float3CompoundBaseField[TangentUCameraAttrOperator, TangentUCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentUCameraAttrOperator, TangentUCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -415,7 +419,9 @@ class TangentVCameraAttrOperator(
 
 
 class TangentVCameraField(
-    Float3CompoundBaseField[TangentVCameraAttrOperator, TangentVCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentVCameraAttrOperator, TangentVCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 

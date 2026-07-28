@@ -9,9 +9,7 @@ from ..std.at.message import MessageField
 from ..std.dt.string import DataStringField
 
 
-class LooksPlugOperator(
-    CompoundPlugOperator["LooksAttrOperator"]
-):
+class LooksPlugOperator(CompoundPlugOperator["LooksAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("variantName", "name"),
@@ -25,9 +23,7 @@ class LooksPlugOperator(
     ipts = inputs
 
 
-class LooksAttrOperator(
-    CompoundAttrOperator[LooksPlugOperator]
-):
+class LooksAttrOperator(CompoundAttrOperator[LooksPlugOperator]):
     __slots__ = ()
 
     variantName = DataStringField()
@@ -37,9 +33,7 @@ class LooksAttrOperator(
     ipts = inputs
 
 
-class LooksField(
-    CompoundField[LooksAttrOperator, LooksPlugOperator]
-):
+class LooksField(CompoundField[LooksAttrOperator, LooksPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LooksAttrOperator

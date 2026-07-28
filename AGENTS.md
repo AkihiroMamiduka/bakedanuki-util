@@ -75,7 +75,8 @@ Get-Content -Raw -Encoding UTF8 README.md
 
 ## Python Path And pytest
 
-このリポジトリには現時点で `pyproject.toml` や `setup.py` はありません。
+このリポジトリには package build 用の `setup.py` はありません。
+`pyproject.toml` は Black の共通設定として使用します。
 
 テストは `mayapy` で実行してください。通常の Python では Maya API が import できません。
 
@@ -105,6 +106,30 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 
 `swig/python detected a memory leak ...` のような表示がテスト終了後に出ることがあります。pytest の終了コードが成功であれば、通常は非失敗ログとして扱ってください。
 
+## Formatting
+
+Pythonコードは`requirements-format.txt`に固定したBlackを使います。
+Maya実行環境とは分離した`.venv-format`を初回だけ作成してください。
+
+```powershell
+.\scripts\setup-format.cmd
+```
+
+一括整形と整形確認です。
+
+```powershell
+.\scripts\format.cmd
+.\scripts\format.cmd -Check
+.\scripts\format.cmd -Check -Diff
+```
+
+対象は`bakedanuki`と`tests`以下です。
+外部由来のMaya API stubを置く`typings`は対象外です。
+
+ノード生成器はBlackを直接importしません。
+DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を実行してから
+差分確認とテストを行ってください。
+
 ## Verification Policy
 
 変更内容に応じて検証範囲を選んでください。
@@ -117,6 +142,8 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
   - targeted pytest に加えて、原則として full pytest を実行してください。
 - DG ノード生成、node attr 解決、共通 import に関わる変更
   - full pytest に加えて、必要に応じて DG モジュールの import sweep を検討してください。
+- Pythonコードを変更した場合
+  - 原則として`.\scripts\format.cmd -Check`で整形状態を確認してください。
 
 全体テストです。
 

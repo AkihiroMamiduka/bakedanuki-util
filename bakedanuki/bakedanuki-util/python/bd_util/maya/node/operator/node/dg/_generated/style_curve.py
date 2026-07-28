@@ -66,9 +66,7 @@ class StyleEnumAttrOperator(EnumAttrOperator[StyleEnumPlugOperator]):
     }
 
 
-class StyleEnumField(
-    EnumField[StyleEnumAttrOperator, StyleEnumPlugOperator]
-):
+class StyleEnumField(EnumField[StyleEnumAttrOperator, StyleEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = StyleEnumAttrOperator

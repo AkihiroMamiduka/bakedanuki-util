@@ -8,7 +8,6 @@ from bd_util.maya.attr.query import (
     get_attribute_infos,
 )
 
-
 pytestmark = pytest.mark.maya
 
 

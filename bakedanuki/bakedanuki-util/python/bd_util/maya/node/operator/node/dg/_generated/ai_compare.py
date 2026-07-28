@@ -41,9 +41,7 @@ class TestEnumAttrOperator(EnumAttrOperator[TestEnumPlugOperator]):
     }
 
 
-class TestEnumField(
-    EnumField[TestEnumAttrOperator, TestEnumPlugOperator]
-):
+class TestEnumField(EnumField[TestEnumAttrOperator, TestEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TestEnumAttrOperator
@@ -58,7 +56,9 @@ class GeneratedAiCompare(DG):
     outValue = BoolField(default_value=False, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

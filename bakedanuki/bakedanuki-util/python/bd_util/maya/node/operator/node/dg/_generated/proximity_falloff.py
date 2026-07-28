@@ -12,14 +12,18 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class VertexSpaceEnumPlugOperator(EnumPlugOperator["VertexSpaceEnumAttrOperator"]):
+class VertexSpaceEnumPlugOperator(
+    EnumPlugOperator["VertexSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OBJECT_SPACE = 0
     WORLD_SPACE = 1
 
 
-class VertexSpaceEnumAttrOperator(EnumAttrOperator[VertexSpaceEnumPlugOperator]):
+class VertexSpaceEnumAttrOperator(
+    EnumAttrOperator[VertexSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     OBJECT_SPACE = 0

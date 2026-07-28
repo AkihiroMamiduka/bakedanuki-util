@@ -9,9 +9,7 @@ from ._base import (
 from .......std.at.scalar.numeric.range.short import ShortField
 
 
-class Short3PlugOperator(
-    Short3CompoundBasePlugOperator["Short3AttrOperator"]
-):
+class Short3PlugOperator(Short3CompoundBasePlugOperator["Short3AttrOperator"]):
     __slots__ = ()
 
     x = ShortField()
@@ -19,9 +17,7 @@ class Short3PlugOperator(
     z = ShortField()
 
 
-class Short3AttrOperator(
-    Short3CompoundBaseAttrOperator[Short3PlugOperator]
-):
+class Short3AttrOperator(Short3CompoundBaseAttrOperator[Short3PlugOperator]):
     __slots__ = ()
 
 

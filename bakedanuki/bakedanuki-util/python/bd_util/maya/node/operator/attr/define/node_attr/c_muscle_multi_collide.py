@@ -18,9 +18,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -38,9 +36,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -53,9 +49,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -66,9 +60,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -84,7 +76,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -145,20 +139,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -173,30 +161,22 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class GeoDataPlugOperator(
-    CompoundPlugOperator["GeoDataAttrOperator"]
-):
+class GeoDataPlugOperator(CompoundPlugOperator["GeoDataAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("worldMatrixGeo", "wmg"),
-    )
+    CHILD_ATTR_NAMES = (("worldMatrixGeo", "wmg"),)
 
     worldMatrixGeo = MatrixField()
     wmg = worldMatrixGeo
 
 
-class GeoDataAttrOperator(
-    CompoundAttrOperator[GeoDataPlugOperator]
-):
+class GeoDataAttrOperator(CompoundAttrOperator[GeoDataPlugOperator]):
     __slots__ = ()
 
     worldMatrixGeo = MatrixField()
     wmg = worldMatrixGeo
 
 
-class GeoDataField(
-    CompoundField[GeoDataAttrOperator, GeoDataPlugOperator]
-):
+class GeoDataField(CompoundField[GeoDataAttrOperator, GeoDataPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GeoDataAttrOperator
@@ -234,13 +214,17 @@ class CollisionDataPlugOperator(
     relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rxstr = relaxStrength
 
     smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smstr = smoothStrength
 
     smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
@@ -267,13 +251,17 @@ class CollisionDataAttrOperator(
     relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rxstr = relaxStrength
 
     smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smstr = smoothStrength
 
     smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
@@ -303,13 +291,17 @@ class CollisionDataField(
     relaxIterations = LongField(default_value=12, min_value=1)
     rxi = relaxIterations
 
-    relaxStrength = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    relaxStrength = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rxstr = relaxStrength
 
     smoothIterations = LongField(default_value=5, min_value=1)
     smi = smoothIterations
 
-    smoothStrength = DoubleField(default_value=0.3, min_value=0.0, max_value=1.0)
+    smoothStrength = DoubleField(
+        default_value=0.3, min_value=0.0, max_value=1.0
+    )
     smstr = smoothStrength
 
     smoothHold = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)

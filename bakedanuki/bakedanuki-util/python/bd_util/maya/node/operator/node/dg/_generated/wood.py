@@ -61,13 +61,19 @@ class GeneratedWood(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -82,7 +88,11 @@ class GeneratedWood(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -91,7 +101,11 @@ class GeneratedWood(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -100,13 +114,21 @@ class GeneratedWood(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -127,7 +149,9 @@ class GeneratedWood(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -157,7 +181,15 @@ class GeneratedWood(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    fillerColor = FillerColorField(default_value=(0.8240000009536743, 0.6269999742507935, 0.47099998593330383), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    fillerColor = FillerColorField(
+        default_value=(
+            0.8240000009536743,
+            0.6269999742507935,
+            0.47099998593330383,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     fc = fillerColor
     fillerColorR = fillerColor.fillerColorR
     fcr = fillerColorR
@@ -166,7 +198,15 @@ class GeneratedWood(DG):
     fillerColorB = fillerColor.fillerColorB
     fcb = fillerColorB
 
-    veinColor = VeinColorField(default_value=(0.15700000524520874, 0.07800000160932541, 0.039000000804662704), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    veinColor = VeinColorField(
+        default_value=(
+            0.15700000524520874,
+            0.07800000160932541,
+            0.039000000804662704,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     vc = veinColor
     veinColorR = veinColor.veinColorR
     vcr = veinColorR
@@ -175,10 +215,14 @@ class GeneratedWood(DG):
     veinColorB = veinColor.veinColorB
     vcb = veinColorB
 
-    veinSpread = FloatField(default_value=0.25, min_value=0.0, soft_max_value=3.0)
+    veinSpread = FloatField(
+        default_value=0.25, min_value=0.0, soft_max_value=3.0
+    )
     v = veinSpread
 
-    layerSize = FloatField(default_value=0.05000000074505806, min_value=0.005, soft_max_value=0.5)
+    layerSize = FloatField(
+        default_value=0.05000000074505806, min_value=0.005, soft_max_value=0.5
+    )
     ls = layerSize
 
     randomness = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
@@ -187,7 +231,11 @@ class GeneratedWood(DG):
     age = FloatField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
     a = age
 
-    grainColor = GrainColorField(default_value=(0.11800000071525574, 0.039000000804662704, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    grainColor = GrainColorField(
+        default_value=(0.11800000071525574, 0.039000000804662704, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     gc = grainColor
     grainColorR = grainColor.grainColorR
     gcr = grainColorR
@@ -199,10 +247,14 @@ class GeneratedWood(DG):
     grainContrast = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     gx = grainContrast
 
-    grainSpacing = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=0.1)
+    grainSpacing = FloatField(
+        default_value=0.009999999776482582, min_value=0.0, soft_max_value=0.1
+    )
     gs = grainSpacing
 
-    center = CenterField(default_value=(0.5, -0.5), min_value=(-1.0, -1.0), max_value=(2.0, 2.0))
+    center = CenterField(
+        default_value=(0.5, -0.5), min_value=(-1.0, -1.0), max_value=(2.0, 2.0)
+    )
     c = center
     centerU = center.centerU
     cu = centerU
@@ -215,7 +267,9 @@ class GeneratedWood(DG):
     amplitudeY = FloatField(default_value=0.0)
     ay = amplitudeY
 
-    ratio = FloatField(default_value=0.3499999940395355, min_value=0.0, max_value=1.0)
+    ratio = FloatField(
+        default_value=0.3499999940395355, min_value=0.0, max_value=1.0
+    )
     ra = ratio
 
     ripples = RipplesField(default_value=(1.0, 1.0, 1.0))

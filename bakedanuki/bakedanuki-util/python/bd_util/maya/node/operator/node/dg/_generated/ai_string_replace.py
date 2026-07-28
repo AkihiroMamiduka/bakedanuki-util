@@ -35,9 +35,7 @@ class OsEnumAttrOperator(EnumAttrOperator[OsEnumPlugOperator]):
     }
 
 
-class OsEnumField(
-    EnumField[OsEnumAttrOperator, OsEnumPlugOperator]
-):
+class OsEnumField(EnumField[OsEnumAttrOperator, OsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OsEnumAttrOperator

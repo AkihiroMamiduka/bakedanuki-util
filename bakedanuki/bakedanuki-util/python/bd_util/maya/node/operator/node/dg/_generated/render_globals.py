@@ -14,7 +14,9 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ImageFormatEnumPlugOperator(EnumPlugOperator["ImageFormatEnumAttrOperator"]):
+class ImageFormatEnumPlugOperator(
+    EnumPlugOperator["ImageFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     GIF = 0
@@ -51,7 +53,9 @@ class ImageFormatEnumPlugOperator(EnumPlugOperator["ImageFormatEnumAttrOperator"
     SWIFT3DIMPORTER_SWFT = 63
 
 
-class ImageFormatEnumAttrOperator(EnumAttrOperator[ImageFormatEnumPlugOperator]):
+class ImageFormatEnumAttrOperator(
+    EnumAttrOperator[ImageFormatEnumPlugOperator]
+):
     __slots__ = ()
 
     GIF = 0
@@ -169,14 +173,18 @@ class BitDepthEnumField(
     PLUG_CLS = BitDepthEnumPlugOperator
 
 
-class TiffCompressionEnumPlugOperator(EnumPlugOperator["TiffCompressionEnumAttrOperator"]):
+class TiffCompressionEnumPlugOperator(
+    EnumPlugOperator["TiffCompressionEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
     LZW = 1
 
 
-class TiffCompressionEnumAttrOperator(EnumAttrOperator[TiffCompressionEnumPlugOperator]):
+class TiffCompressionEnumAttrOperator(
+    EnumAttrOperator[TiffCompressionEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -197,7 +205,9 @@ class TiffCompressionEnumField(
     PLUG_CLS = TiffCompressionEnumPlugOperator
 
 
-class ExrCompressionEnumPlugOperator(EnumPlugOperator["ExrCompressionEnumAttrOperator"]):
+class ExrCompressionEnumPlugOperator(
+    EnumPlugOperator["ExrCompressionEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -209,7 +219,9 @@ class ExrCompressionEnumPlugOperator(EnumPlugOperator["ExrCompressionEnumAttrOpe
     B44 = 6
 
 
-class ExrCompressionEnumAttrOperator(EnumAttrOperator[ExrCompressionEnumPlugOperator]):
+class ExrCompressionEnumAttrOperator(
+    EnumAttrOperator[ExrCompressionEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -240,14 +252,18 @@ class ExrCompressionEnumField(
     PLUG_CLS = ExrCompressionEnumPlugOperator
 
 
-class ExrPixelTypeEnumPlugOperator(EnumPlugOperator["ExrPixelTypeEnumAttrOperator"]):
+class ExrPixelTypeEnumPlugOperator(
+    EnumPlugOperator["ExrPixelTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     _32BIT_FLOAT = 0
     _16BIT_HALF = 1
 
 
-class ExrPixelTypeEnumAttrOperator(EnumAttrOperator[ExrPixelTypeEnumPlugOperator]):
+class ExrPixelTypeEnumAttrOperator(
+    EnumAttrOperator[ExrPixelTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     _32BIT_FLOAT = 0
@@ -268,14 +284,18 @@ class ExrPixelTypeEnumField(
     PLUG_CLS = ExrPixelTypeEnumPlugOperator
 
 
-class AnimationRangeEnumPlugOperator(EnumPlugOperator["AnimationRangeEnumAttrOperator"]):
+class AnimationRangeEnumPlugOperator(
+    EnumPlugOperator["AnimationRangeEnumAttrOperator"]
+):
     __slots__ = ()
 
     RENDER_SETTINGS = 0
     START_SLASH_END = 1
 
 
-class AnimationRangeEnumAttrOperator(EnumAttrOperator[AnimationRangeEnumPlugOperator]):
+class AnimationRangeEnumAttrOperator(
+    EnumAttrOperator[AnimationRangeEnumPlugOperator]
+):
     __slots__ = ()
 
     RENDER_SETTINGS = 0
@@ -296,7 +316,9 @@ class AnimationRangeEnumField(
     PLUG_CLS = AnimationRangeEnumPlugOperator
 
 
-class FieldExtControlEnumPlugOperator(EnumPlugOperator["FieldExtControlEnumAttrOperator"]):
+class FieldExtControlEnumPlugOperator(
+    EnumPlugOperator["FieldExtControlEnumAttrOperator"]
+):
     __slots__ = ()
 
     O_AND_E = 0
@@ -304,7 +326,9 @@ class FieldExtControlEnumPlugOperator(EnumPlugOperator["FieldExtControlEnumAttrO
     USER_INPUT = 2
 
 
-class FieldExtControlEnumAttrOperator(EnumAttrOperator[FieldExtControlEnumPlugOperator]):
+class FieldExtControlEnumAttrOperator(
+    EnumAttrOperator[FieldExtControlEnumPlugOperator]
+):
     __slots__ = ()
 
     O_AND_E = 0
@@ -327,7 +351,9 @@ class FieldExtControlEnumField(
     PLUG_CLS = FieldExtControlEnumPlugOperator
 
 
-class OutFormatControlEnumPlugOperator(EnumPlugOperator["OutFormatControlEnumAttrOperator"]):
+class OutFormatControlEnumPlugOperator(
+    EnumPlugOperator["OutFormatControlEnumAttrOperator"]
+):
     __slots__ = ()
 
     AS_OUTPUT_FORMAT = 0
@@ -335,7 +361,9 @@ class OutFormatControlEnumPlugOperator(EnumPlugOperator["OutFormatControlEnumAtt
     USER_INPUT = 2
 
 
-class OutFormatControlEnumAttrOperator(EnumAttrOperator[OutFormatControlEnumPlugOperator]):
+class OutFormatControlEnumAttrOperator(
+    EnumAttrOperator[OutFormatControlEnumPlugOperator]
+):
     __slots__ = ()
 
     AS_OUTPUT_FORMAT = 0
@@ -350,7 +378,9 @@ class OutFormatControlEnumAttrOperator(EnumAttrOperator[OutFormatControlEnumPlug
 
 
 class OutFormatControlEnumField(
-    EnumField[OutFormatControlEnumAttrOperator, OutFormatControlEnumPlugOperator]
+    EnumField[
+        OutFormatControlEnumAttrOperator, OutFormatControlEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -358,7 +388,9 @@ class OutFormatControlEnumField(
     PLUG_CLS = OutFormatControlEnumPlugOperator
 
 
-class PeriodInExtEnumPlugOperator(EnumPlugOperator["PeriodInExtEnumAttrOperator"]):
+class PeriodInExtEnumPlugOperator(
+    EnumPlugOperator["PeriodInExtEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_PERIOD_OR_UNDERSCORE_IN_EXTENSION = 0
@@ -366,7 +398,9 @@ class PeriodInExtEnumPlugOperator(EnumPlugOperator["PeriodInExtEnumAttrOperator"
     UNDERSCORE_IN_EXTENSION = 2
 
 
-class PeriodInExtEnumAttrOperator(EnumAttrOperator[PeriodInExtEnumPlugOperator]):
+class PeriodInExtEnumAttrOperator(
+    EnumAttrOperator[PeriodInExtEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_PERIOD_OR_UNDERSCORE_IN_EXTENSION = 0
@@ -389,14 +423,18 @@ class PeriodInExtEnumField(
     PLUG_CLS = PeriodInExtEnumPlugOperator
 
 
-class MultiCamNamingModeEnumPlugOperator(EnumPlugOperator["MultiCamNamingModeEnumAttrOperator"]):
+class MultiCamNamingModeEnumPlugOperator(
+    EnumPlugOperator["MultiCamNamingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
     CUSTOM = 1
 
 
-class MultiCamNamingModeEnumAttrOperator(EnumAttrOperator[MultiCamNamingModeEnumPlugOperator]):
+class MultiCamNamingModeEnumAttrOperator(
+    EnumAttrOperator[MultiCamNamingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -409,7 +447,9 @@ class MultiCamNamingModeEnumAttrOperator(EnumAttrOperator[MultiCamNamingModeEnum
 
 
 class MultiCamNamingModeEnumField(
-    EnumField[MultiCamNamingModeEnumAttrOperator, MultiCamNamingModeEnumPlugOperator]
+    EnumField[
+        MultiCamNamingModeEnumAttrOperator, MultiCamNamingModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -417,14 +457,18 @@ class MultiCamNamingModeEnumField(
     PLUG_CLS = MultiCamNamingModeEnumPlugOperator
 
 
-class MotionBlurTypeEnumPlugOperator(EnumPlugOperator["MotionBlurTypeEnumAttrOperator"]):
+class MotionBlurTypeEnumPlugOperator(
+    EnumPlugOperator["MotionBlurTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MOTION_BLUR_2D = 0
     MOTION_BLUR_3D = 1
 
 
-class MotionBlurTypeEnumAttrOperator(EnumAttrOperator[MotionBlurTypeEnumPlugOperator]):
+class MotionBlurTypeEnumAttrOperator(
+    EnumAttrOperator[MotionBlurTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MOTION_BLUR_2D = 0
@@ -445,7 +489,9 @@ class MotionBlurTypeEnumField(
     PLUG_CLS = MotionBlurTypeEnumPlugOperator
 
 
-class RenderedOutputEnumPlugOperator(EnumPlugOperator["RenderedOutputEnumAttrOperator"]):
+class RenderedOutputEnumPlugOperator(
+    EnumPlugOperator["RenderedOutputEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL_RENDERABLE = 0
@@ -453,7 +499,9 @@ class RenderedOutputEnumPlugOperator(EnumPlugOperator["RenderedOutputEnumAttrOpe
     OMIT_RENDER_TARGETS = 2
 
 
-class RenderedOutputEnumAttrOperator(EnumAttrOperator[RenderedOutputEnumPlugOperator]):
+class RenderedOutputEnumAttrOperator(
+    EnumAttrOperator[RenderedOutputEnumPlugOperator]
+):
     __slots__ = ()
 
     ALL_RENDERABLE = 0
@@ -637,7 +685,9 @@ class GeneratedRenderGlobals(DG):
     composite = BoolField(default_value=False)
     comp = composite
 
-    compositeThreshold = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    compositeThreshold = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     cth = compositeThreshold
 
     shadowsObeyLightLinking = BoolField(default_value=True)
@@ -646,31 +696,55 @@ class GeneratedRenderGlobals(DG):
     shadowsObeyShadowLinking = BoolField(default_value=False)
     sosl = shadowsObeyShadowLinking
 
-    recursionDepth = LongField(default_value=2, min_value=0, max_value=10, soft_min_value=1, soft_max_value=3)
+    recursionDepth = LongField(
+        default_value=2,
+        min_value=0,
+        max_value=10,
+        soft_min_value=1,
+        soft_max_value=3,
+    )
     rd = recursionDepth
 
     leafPrimitives = LongField(default_value=200, min_value=50, max_value=5000)
     lp = leafPrimitives
 
-    subdivisionPower = FloatField(default_value=0.25, min_value=0.01, max_value=1.0)
+    subdivisionPower = FloatField(
+        default_value=0.25, min_value=0.01, max_value=1.0
+    )
     sp = subdivisionPower
 
-    subdivisionHashSize = LongField(default_value=5, min_value=1, max_value=100)
+    subdivisionHashSize = LongField(
+        default_value=5, min_value=1, max_value=100
+    )
     shs = subdivisionHashSize
 
     logRenderPerformance = BoolField(default_value=False)
     lpr = logRenderPerformance
 
-    geometryVector = LongField(default_value=20, min_value=1, max_value=500, soft_min_value=10, soft_max_value=100)
+    geometryVector = LongField(
+        default_value=20,
+        min_value=1,
+        max_value=500,
+        soft_min_value=10,
+        soft_max_value=100,
+    )
     gv = geometryVector
 
-    shadingVector = LongField(default_value=60, min_value=1, max_value=500, soft_min_value=10, soft_max_value=100)
+    shadingVector = LongField(
+        default_value=60,
+        min_value=1,
+        max_value=500,
+        soft_min_value=10,
+        soft_max_value=100,
+    )
     sv = shadingVector
 
     maximumMemory = LongField(default_value=48, min_value=1, max_value=2048)
     mm = maximumMemory
 
-    numCpusToUse = LongField(default_value=0, min_value=0, soft_min_value=1, soft_max_value=8)
+    numCpusToUse = LongField(
+        default_value=0, min_value=0, soft_min_value=1, soft_max_value=8
+    )
     npu = numCpusToUse
 
     interruptFrequency = LongField(default_value=1, min_value=-1)
@@ -715,7 +789,13 @@ class GeneratedRenderGlobals(DG):
     applyFogInPost = BoolField(default_value=False)
     afp = applyFogInPost
 
-    postFogBlur = LongField(default_value=1, min_value=0, max_value=1000, soft_min_value=0, soft_max_value=10)
+    postFogBlur = LongField(
+        default_value=1,
+        min_value=0,
+        max_value=1000,
+        soft_min_value=0,
+        soft_max_value=10,
+    )
     pfb = postFogBlur
 
     preMel = DataStringField()
@@ -745,10 +825,22 @@ class GeneratedRenderGlobals(DG):
     createIprFile = BoolField(default_value=False)
     cif = createIprFile
 
-    blurLength = FloatField(default_value=1.0, min_value=0.0, max_value=100.0, soft_min_value=0.0, soft_max_value=30.0)
+    blurLength = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=100.0,
+        soft_min_value=0.0,
+        soft_max_value=30.0,
+    )
     bll = blurLength
 
-    blurSharpness = FloatField(default_value=1.0, min_value=0.0, max_value=100.0, soft_min_value=0.0, soft_max_value=15.0)
+    blurSharpness = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=100.0,
+        soft_min_value=0.0,
+        soft_max_value=15.0,
+    )
     bls = blurSharpness
 
     smoothValue = LongField(default_value=2, min_value=0)

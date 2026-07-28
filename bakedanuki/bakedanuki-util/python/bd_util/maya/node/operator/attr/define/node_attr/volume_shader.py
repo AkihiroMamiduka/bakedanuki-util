@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -150,7 +152,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 

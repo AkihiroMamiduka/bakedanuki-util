@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ValuePlugOperator(
-    Float3CompoundBasePlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(Float3CompoundBasePlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("valueR", "vr"),
@@ -28,9 +26,7 @@ class ValuePlugOperator(
     vb = valueB
 
 
-class ValueAttrOperator(
-    Float3CompoundBaseAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(Float3CompoundBaseAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     valueR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

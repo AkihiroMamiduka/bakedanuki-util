@@ -49,7 +49,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -57,7 +59,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -145,7 +149,9 @@ class GeneratedCreaseSet(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -196,5 +202,7 @@ class GeneratedCreaseSet(DG):
     aiOverride = BoolField(default_value=True, category="arnold")
     ai_override = aiOverride
 
-    creaseLevel = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=5.0)
+    creaseLevel = DoubleField(
+        default_value=0.0, min_value=0.0, soft_max_value=5.0
+    )
     crlv = creaseLevel

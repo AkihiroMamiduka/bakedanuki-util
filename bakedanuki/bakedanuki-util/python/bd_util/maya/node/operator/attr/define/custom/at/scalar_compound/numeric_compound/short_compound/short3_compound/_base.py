@@ -14,9 +14,7 @@ A = TypeVar("A", bound="Short3CompoundBaseAttrOperator")
 P = TypeVar("P", bound="Short3CompoundBasePlugOperator")
 
 
-class Short3CompoundBasePlugOperator(
-    ShortCompoundBasePlugOperator[A, Short3]
-):
+class Short3CompoundBasePlugOperator(ShortCompoundBasePlugOperator[A, Short3]):
     __slots__ = ()
 
     VALUE_TYPE = Short3

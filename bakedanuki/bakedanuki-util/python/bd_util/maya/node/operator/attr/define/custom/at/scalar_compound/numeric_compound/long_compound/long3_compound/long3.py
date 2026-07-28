@@ -21,9 +21,7 @@ class Long3AttrOperator(Long3CompoundBaseAttrOperator[Long3PlugOperator]):
     __slots__ = ()
 
 
-class Long3Field(
-    Long3CompoundBaseField[Long3AttrOperator, Long3PlugOperator]
-):
+class Long3Field(Long3CompoundBaseField[Long3AttrOperator, Long3PlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = Long3AttrOperator

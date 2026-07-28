@@ -14,7 +14,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OptimizeAxisEnumPlugOperator(EnumPlugOperator["OptimizeAxisEnumAttrOperator"]):
+class OptimizeAxisEnumPlugOperator(
+    EnumPlugOperator["OptimizeAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 0
@@ -22,7 +24,9 @@ class OptimizeAxisEnumPlugOperator(EnumPlugOperator["OptimizeAxisEnumAttrOperato
     HORIZONTAL = 2
 
 
-class OptimizeAxisEnumAttrOperator(EnumAttrOperator[OptimizeAxisEnumPlugOperator]):
+class OptimizeAxisEnumAttrOperator(
+    EnumAttrOperator[OptimizeAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 0
@@ -95,10 +99,17 @@ class GeneratedPolyOptUvs(DG):
     iterations = LongField(default_value=100, min_value=0, soft_max_value=1000)
     i = iterations
 
-    stoppingThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0, max_value=10.0, soft_max_value=1.0)
+    stoppingThreshold = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=0.0,
+        max_value=10.0,
+        soft_max_value=1.0,
+    )
     ss = stoppingThreshold
 
-    areaWeight = FloatField(default_value=1.0, min_value=0.0, max_value=10.0, soft_max_value=1.0)
+    areaWeight = FloatField(
+        default_value=1.0, min_value=0.0, max_value=10.0, soft_max_value=1.0
+    )
     aw = areaWeight
 
     useScale = BoolField(default_value=False)
@@ -122,5 +133,7 @@ class GeneratedPolyOptUvs(DG):
     globalBlend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     gb = globalBlend
 
-    globalMethodBlend = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    globalMethodBlend = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gmb = globalMethodBlend

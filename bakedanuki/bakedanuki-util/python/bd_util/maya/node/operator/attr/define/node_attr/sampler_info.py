@@ -241,9 +241,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -357,7 +355,9 @@ class TangentUCameraAttrOperator(
 
 
 class TangentUCameraField(
-    Float3CompoundBaseField[TangentUCameraAttrOperator, TangentUCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentUCameraAttrOperator, TangentUCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -410,7 +410,9 @@ class TangentVCameraAttrOperator(
 
 
 class TangentVCameraField(
-    Float3CompoundBaseField[TangentVCameraAttrOperator, TangentVCameraPlugOperator]
+    Float3CompoundBaseField[
+        TangentVCameraAttrOperator, TangentVCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 

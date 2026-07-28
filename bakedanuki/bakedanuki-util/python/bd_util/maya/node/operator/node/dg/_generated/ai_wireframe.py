@@ -62,7 +62,9 @@ class GeneratedAiWireframe(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -89,7 +91,9 @@ class GeneratedAiWireframe(DG):
     hardwareColorB = hardwareColor.hardwareColorB
     hwcb = hardwareColorB
 
-    lineWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    lineWidth = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     line_width = lineWidth
 
     fillColor = FillColorField(default_value=(1.0, 1.0, 1.0))

@@ -13,21 +13,15 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class CurvePointsPlugOperator(
-    CompoundPlugOperator["CurvePointsAttrOperator"]
-):
+class CurvePointsPlugOperator(CompoundPlugOperator["CurvePointsAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("projectedPoint", "pp"),
-    )
+    CHILD_ATTR_NAMES = (("projectedPoint", "pp"),)
 
     projectedPoint = CompoundField(multi=True)
     pp = projectedPoint
 
 
-class CurvePointsAttrOperator(
-    CompoundAttrOperator[CurvePointsPlugOperator]
-):
+class CurvePointsAttrOperator(CompoundAttrOperator[CurvePointsPlugOperator]):
     __slots__ = ()
 
     projectedPoint = CompoundField(multi=True)
@@ -79,7 +73,9 @@ class DirectionAttrOperator(
 
 
 class DirectionField(
-    DoubleLinear3CompoundBaseField[DirectionAttrOperator, DirectionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        DirectionAttrOperator, DirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

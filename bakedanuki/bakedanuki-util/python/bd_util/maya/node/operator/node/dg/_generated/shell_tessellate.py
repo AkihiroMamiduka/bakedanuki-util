@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
@@ -47,14 +49,18 @@ class FormatEnumField(
     PLUG_CLS = FormatEnumPlugOperator
 
 
-class PolygonTypeEnumPlugOperator(EnumPlugOperator["PolygonTypeEnumAttrOperator"]):
+class PolygonTypeEnumPlugOperator(
+    EnumPlugOperator["PolygonTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRIANGLES = 0
     QUADS = 1
 
 
-class PolygonTypeEnumAttrOperator(EnumAttrOperator[PolygonTypeEnumPlugOperator]):
+class PolygonTypeEnumAttrOperator(
+    EnumAttrOperator[PolygonTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TRIANGLES = 0
@@ -97,9 +103,7 @@ class UTypeEnumAttrOperator(EnumAttrOperator[UTypeEnumPlugOperator]):
     }
 
 
-class UTypeEnumField(
-    EnumField[UTypeEnumAttrOperator, UTypeEnumPlugOperator]
-):
+class UTypeEnumField(EnumField[UTypeEnumAttrOperator, UTypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UTypeEnumAttrOperator
@@ -128,9 +132,7 @@ class VTypeEnumAttrOperator(EnumAttrOperator[VTypeEnumPlugOperator]):
     }
 
 
-class VTypeEnumField(
-    EnumField[VTypeEnumAttrOperator, VTypeEnumPlugOperator]
-):
+class VTypeEnumField(EnumField[VTypeEnumAttrOperator, VTypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = VTypeEnumAttrOperator
@@ -148,22 +150,44 @@ class GeneratedShellTessellate(DG):
     polygonType = PolygonTypeEnumField(default_value=0)
     pt = polygonType
 
-    polygonCount = LongField(default_value=200, min_value=1, soft_max_value=1000)
+    polygonCount = LongField(
+        default_value=200, min_value=1, soft_max_value=1000
+    )
     pc = polygonCount
 
-    chordHeightRatio = DoubleField(default_value=0.983, min_value=0.01, max_value=0.999, soft_min_value=0.9)
+    chordHeightRatio = DoubleField(
+        default_value=0.983,
+        min_value=0.01,
+        max_value=0.999,
+        soft_min_value=0.9,
+    )
     chr = chordHeightRatio
 
     pre70ChordHeightRatio = BoolField(default_value=False)
     pchr = pre70ChordHeightRatio
 
-    fractionalTolerance = DoubleField(default_value=0.01, min_value=1e-06, soft_min_value=0.001, soft_max_value=1.0)
+    fractionalTolerance = DoubleField(
+        default_value=0.01,
+        min_value=1e-06,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     ft = fractionalTolerance
 
-    minEdgeLength = DoubleLinearField(default_value=0.001, min_value=0.0001, soft_min_value=0.0001, soft_max_value=1.0)
+    minEdgeLength = DoubleLinearField(
+        default_value=0.001,
+        min_value=0.0001,
+        soft_min_value=0.0001,
+        soft_max_value=1.0,
+    )
     mel = minEdgeLength
 
-    delta = DoubleLinearField(default_value=0.1, min_value=0.0001, soft_min_value=0.01, soft_max_value=1.0)
+    delta = DoubleLinearField(
+        default_value=0.1,
+        min_value=0.0001,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
     d = delta
 
     uType = UTypeEnumField(default_value=3)
@@ -184,7 +208,12 @@ class GeneratedShellTessellate(DG):
     useChordHeightRatio = BoolField(default_value=True)
     ucr = useChordHeightRatio
 
-    chordHeight = DoubleLinearField(default_value=0.1, min_value=0.01, soft_min_value=0.05, soft_max_value=0.2)
+    chordHeight = DoubleLinearField(
+        default_value=0.1,
+        min_value=0.01,
+        soft_min_value=0.05,
+        soft_max_value=0.2,
+    )
     cht = chordHeight
 
     edgeSwap = BoolField(default_value=False)

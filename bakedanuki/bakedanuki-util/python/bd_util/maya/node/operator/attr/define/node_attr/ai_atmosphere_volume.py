@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class RgbAttenuationAttrOperator(
 
 
 class RgbAttenuationField(
-    Float3CompoundBaseField[RgbAttenuationAttrOperator, RgbAttenuationPlugOperator]
+    Float3CompoundBaseField[
+        RgbAttenuationAttrOperator, RgbAttenuationPlugOperator
+    ]
 ):
     __slots__ = ()
 

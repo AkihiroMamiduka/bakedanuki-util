@@ -44,7 +44,9 @@ class InitDirectionAttrOperator(
 
 
 class InitDirectionField(
-    Float3CompoundBaseField[InitDirectionAttrOperator, InitDirectionPlugOperator]
+    Float3CompoundBaseField[
+        InitDirectionAttrOperator, InitDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

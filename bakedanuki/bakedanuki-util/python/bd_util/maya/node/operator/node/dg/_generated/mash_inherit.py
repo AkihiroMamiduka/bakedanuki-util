@@ -79,7 +79,9 @@ class GeneratedMASH_Inherit(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    force = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    force = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
     for_ = force
 
     forceVar = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

@@ -10,7 +10,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TypeFilterEnumPlugOperator(EnumPlugOperator["TypeFilterEnumAttrOperator"]):
+class TypeFilterEnumPlugOperator(
+    EnumPlugOperator["TypeFilterEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 0

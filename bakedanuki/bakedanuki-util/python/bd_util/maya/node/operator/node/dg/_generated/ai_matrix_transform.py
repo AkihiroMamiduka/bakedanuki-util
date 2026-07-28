@@ -17,7 +17,9 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOperator"]):
+class TransformOrderEnumPlugOperator(
+    EnumPlugOperator["TransformOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     SRT = 0
@@ -28,7 +30,9 @@ class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOpe
     TRS = 5
 
 
-class TransformOrderEnumAttrOperator(EnumAttrOperator[TransformOrderEnumPlugOperator]):
+class TransformOrderEnumAttrOperator(
+    EnumAttrOperator[TransformOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     SRT = 0
@@ -57,14 +61,18 @@ class TransformOrderEnumField(
     PLUG_CLS = TransformOrderEnumPlugOperator
 
 
-class RotationTypeEnumPlugOperator(EnumPlugOperator["RotationTypeEnumAttrOperator"]):
+class RotationTypeEnumPlugOperator(
+    EnumPlugOperator["RotationTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     EULER = 0
     AXIS = 1
 
 
-class RotationTypeEnumAttrOperator(EnumAttrOperator[RotationTypeEnumPlugOperator]):
+class RotationTypeEnumAttrOperator(
+    EnumAttrOperator[RotationTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     EULER = 0
@@ -104,16 +112,16 @@ class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     }
 
 
-class UnitsEnumField(
-    EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]
-):
+class UnitsEnumField(EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitsEnumAttrOperator
     PLUG_CLS = UnitsEnumPlugOperator
 
 
-class RotationOrderEnumPlugOperator(EnumPlugOperator["RotationOrderEnumAttrOperator"]):
+class RotationOrderEnumPlugOperator(
+    EnumPlugOperator["RotationOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -124,7 +132,9 @@ class RotationOrderEnumPlugOperator(EnumPlugOperator["RotationOrderEnumAttrOpera
     ZYX = 5
 
 
-class RotationOrderEnumAttrOperator(EnumAttrOperator[RotationOrderEnumPlugOperator]):
+class RotationOrderEnumAttrOperator(
+    EnumAttrOperator[RotationOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -161,7 +171,9 @@ class GeneratedAiMatrixTransform(DG):
     outValue = FltMatrixField(writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -197,7 +209,9 @@ class GeneratedAiMatrixTransform(DG):
     axisZ = axis.axisZ
     axisz = axisZ
 
-    angle = FloatField(default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0)
+    angle = FloatField(
+        default_value=0.0, soft_min_value=-180.0, soft_max_value=180.0
+    )
 
     translate = TranslateField(default_value=(0.0, 0.0, 0.0))
     translateX = translate.translateX

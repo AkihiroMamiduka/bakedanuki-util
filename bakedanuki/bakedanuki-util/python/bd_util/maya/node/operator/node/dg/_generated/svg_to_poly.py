@@ -85,19 +85,30 @@ class GeneratedSvgToPoly(DG):
 
     svgMode = SvgModeEnumField(default_value=1)
 
-    curveResolution = LongField(default_value=4, min_value=1, max_value=100, soft_max_value=10)
+    curveResolution = LongField(
+        default_value=4, min_value=1, max_value=100, soft_max_value=10
+    )
 
     enableDistanceFilter = BoolField(default_value=True)
 
-    pointDistanceFilter = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=5.0)
+    pointDistanceFilter = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, soft_max_value=5.0
+    )
 
     removeColinear = BoolField(default_value=False)
 
     displayVertexColours = BoolField(default_value=True)
 
-    colinearAngle = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=40.0, soft_max_value=5.0)
+    colinearAngle = FloatField(
+        default_value=0.20000000298023224,
+        min_value=0.0,
+        max_value=40.0,
+        soft_max_value=5.0,
+    )
 
-    zOffset = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_max_value=5.0)
+    zOffset = FloatField(
+        default_value=0.0010000000474974513, min_value=0.0, soft_max_value=5.0
+    )
 
     vectorMessages = VectorMessagesField()
     svgMessages = vectorMessages
@@ -126,8 +137,15 @@ class GeneratedSvgToPoly(DG):
 
     deformableType = BoolField(default_value=False)
 
-    maxDivisions = LongField(default_value=20, min_value=1, max_value=100, soft_max_value=30)
+    maxDivisions = LongField(
+        default_value=20, min_value=1, max_value=100, soft_max_value=30
+    )
 
-    maxEdgeLength = FloatField(default_value=5.0, min_value=0.01, soft_min_value=0.1, soft_max_value=15.0)
+    maxEdgeLength = FloatField(
+        default_value=5.0,
+        min_value=0.01,
+        soft_min_value=0.1,
+        soft_max_value=15.0,
+    )
 
     useArtboard = BoolField(default_value=False)

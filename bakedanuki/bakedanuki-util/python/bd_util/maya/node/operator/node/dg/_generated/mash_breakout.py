@@ -3,7 +3,9 @@ from .._core import DG
 from ....attr.define.node_attr.mash_breakout import OutputsField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
 
 

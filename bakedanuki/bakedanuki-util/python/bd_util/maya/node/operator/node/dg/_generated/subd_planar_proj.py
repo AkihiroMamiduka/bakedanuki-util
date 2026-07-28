@@ -9,8 +9,12 @@ from ....attr.define.node_attr.subd_planar_proj import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
@@ -66,7 +70,11 @@ class GeneratedSubdPlanarProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    projectionScale = ProjectionScaleField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
+    projectionScale = ProjectionScaleField(
+        default_value=(1.0, 1.0),
+        min_value=(0.0, 0.0),
+        soft_max_value=(2.0, 2.0),
+    )
     ps = projectionScale
     projectionWidth = projectionScale.projectionWidth
     pw = projectionWidth
@@ -80,7 +88,9 @@ class GeneratedSubdPlanarProj(DG):
     imageScaleV = imageScale.imageScaleV
     isv = imageScaleV
 
-    rotationAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotationAngle = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ra = rotationAngle
 
     radius = DoubleLinearField(default_value=10.0)

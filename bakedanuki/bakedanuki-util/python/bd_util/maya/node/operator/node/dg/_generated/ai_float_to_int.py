@@ -35,9 +35,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -52,7 +50,9 @@ class GeneratedAiFloatToInt(DG):
     outValue = LongField(default_value=0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -61,6 +61,8 @@ class GeneratedAiFloatToInt(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    input = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    input = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     mode = ModeEnumField(default_value=0)

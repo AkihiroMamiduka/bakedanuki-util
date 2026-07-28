@@ -7,12 +7,16 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtensionTypeEnumPlugOperator(EnumPlugOperator["ExtensionTypeEnumAttrOperator"]):
+class ExtensionTypeEnumPlugOperator(
+    EnumPlugOperator["ExtensionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -20,7 +24,9 @@ class ExtensionTypeEnumPlugOperator(EnumPlugOperator["ExtensionTypeEnumAttrOpera
     EXTRAPOLATE = 2
 
 
-class ExtensionTypeEnumAttrOperator(EnumAttrOperator[ExtensionTypeEnumPlugOperator]):
+class ExtensionTypeEnumAttrOperator(
+    EnumAttrOperator[ExtensionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -43,14 +49,18 @@ class ExtensionTypeEnumField(
     PLUG_CLS = ExtensionTypeEnumPlugOperator
 
 
-class ExtendMethodEnumPlugOperator(EnumPlugOperator["ExtendMethodEnumAttrOperator"]):
+class ExtendMethodEnumPlugOperator(
+    EnumPlugOperator["ExtendMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISTANCE = 0
     POINT = 2
 
 
-class ExtendMethodEnumAttrOperator(EnumAttrOperator[ExtendMethodEnumPlugOperator]):
+class ExtendMethodEnumAttrOperator(
+    EnumAttrOperator[ExtendMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -93,9 +103,7 @@ class StartEnumAttrOperator(EnumAttrOperator[StartEnumPlugOperator]):
     }
 
 
-class StartEnumField(
-    EnumField[StartEnumAttrOperator, StartEnumPlugOperator]
-):
+class StartEnumField(EnumField[StartEnumAttrOperator, StartEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = StartEnumAttrOperator
@@ -140,7 +148,12 @@ class GeneratedExtendCurve(DG):
     join = BoolField(default_value=True)
     jn = join
 
-    distance = DoubleLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=20.0)
+    distance = DoubleLinearField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=20.0,
+    )
     d = distance
 
     removeMultipleKnots = BoolField(default_value=False)

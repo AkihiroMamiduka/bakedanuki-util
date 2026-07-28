@@ -59,10 +59,14 @@ class GeneratedPlusMinusAverage(DG):
     input1D = FloatField(multi=True, default_value=0.0, readable=False)
     i1 = input1D
 
-    input2D = Input2DField(multi=True, default_value=(0.0, 0.0), readable=False)
+    input2D = Input2DField(
+        multi=True, default_value=(0.0, 0.0), readable=False
+    )
     i2 = input2D
 
-    input3D = Input3DField(multi=True, default_value=(0.0, 0.0, 0.0), readable=False)
+    input3D = Input3DField(
+        multi=True, default_value=(0.0, 0.0, 0.0), readable=False
+    )
     i3 = input3D
 
     output1D = FloatField(default_value=0.0, writable=False)

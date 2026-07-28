@@ -20,7 +20,9 @@ from ....attr.define.std.at.flt_matrix import FltMatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.char import CharField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 
 
 class GeneratedEnvSky(DG):
@@ -37,7 +39,9 @@ class GeneratedEnvSky(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -111,10 +115,16 @@ class GeneratedEnvSky(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    totalBrightness = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    totalBrightness = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     tb = totalBrightness
 
-    sunBrightness = SunBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    sunBrightness = SunBrightnessField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     su = sunBrightness
     sunBrightnessR = sunBrightness.sunBrightnessR
     sur = sunBrightnessR
@@ -123,7 +133,11 @@ class GeneratedEnvSky(DG):
     sunBrightnessB = sunBrightness.sunBrightnessB
     sub = sunBrightnessB
 
-    haloBrightness = HaloBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    haloBrightness = HaloBrightnessField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     hb = haloBrightness
     haloBrightnessR = haloBrightness.haloBrightnessR
     hbr = haloBrightnessR
@@ -132,19 +146,29 @@ class GeneratedEnvSky(DG):
     haloBrightnessB = haloBrightness.haloBrightnessB
     hbb = haloBrightnessB
 
-    elevation = DoubleAngleField(default_value=45.0, min_value=-90.0, max_value=90.0, soft_min_value=0.0)
+    elevation = DoubleAngleField(
+        default_value=45.0, min_value=-90.0, max_value=90.0, soft_min_value=0.0
+    )
     e = elevation
 
-    azimuth = DoubleAngleField(default_value=145.0, min_value=0.0, max_value=360.0)
+    azimuth = DoubleAngleField(
+        default_value=145.0, min_value=0.0, max_value=360.0
+    )
     az = azimuth
 
-    size = FloatField(default_value=0.531000018119812, min_value=0.0, soft_max_value=20.0)
+    size = FloatField(
+        default_value=0.531000018119812, min_value=0.0, soft_max_value=20.0
+    )
     sz = size
 
     blur = FloatField(default_value=1.0, min_value=0.0, soft_max_value=20.0)
     b = blur
 
-    skyBrightness = SkyBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    skyBrightness = SkyBrightnessField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     sk = skyBrightness
     skyBrightnessR = skyBrightness.skyBrightnessR
     skr = skyBrightnessR
@@ -159,16 +183,28 @@ class GeneratedEnvSky(DG):
     dustDensity = FloatField(default_value=0.0, min_value=0.0, max_value=3.0)
     dd = dustDensity
 
-    skyThickness = FloatField(default_value=1000.0, min_value=100.0, max_value=10000.0)
+    skyThickness = FloatField(
+        default_value=1000.0, min_value=100.0, max_value=10000.0
+    )
     st = skyThickness
 
-    skyRadius = FloatField(default_value=50.0, min_value=0.01, soft_max_value=300.0)
+    skyRadius = FloatField(
+        default_value=50.0, min_value=0.01, soft_max_value=300.0
+    )
     sr = skyRadius
 
     hasFloor = BoolField(default_value=True)
     hf = hasFloor
 
-    floorColor = FloorColorField(default_value=(0.4000000059604645, 0.4000000059604645, 0.4000000059604645), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    floorColor = FloorColorField(
+        default_value=(
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     fc = floorColor
     floorColorR = floorColor.floorColorR
     fcr = floorColorR
@@ -177,7 +213,9 @@ class GeneratedEnvSky(DG):
     floorColorB = floorColor.floorColorB
     fcb = floorColorB
 
-    floorAltitude = FloatField(default_value=-10.0, min_value=-100.0, max_value=100.0)
+    floorAltitude = FloatField(
+        default_value=-10.0, min_value=-100.0, max_value=100.0
+    )
     fa = floorAltitude
 
     useTexture = BoolField(default_value=False)
@@ -186,7 +224,11 @@ class GeneratedEnvSky(DG):
     cloudTexture = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ct = cloudTexture
 
-    cloudBrightness = CloudBrightnessField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    cloudBrightness = CloudBrightnessField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     cb = cloudBrightness
     cloudBrightnessR = cloudBrightness.cloudBrightnessR
     cbr = cloudBrightnessR
@@ -195,7 +237,11 @@ class GeneratedEnvSky(DG):
     cloudBrightnessB = cloudBrightness.cloudBrightnessB
     cbb = cloudBrightnessB
 
-    sunsetBrightness = SunsetBrightnessField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    sunsetBrightness = SunsetBrightnessField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ss = sunsetBrightness
     sunsetBrightnessR = sunsetBrightness.sunsetBrightnessR
     ssr = sunsetBrightnessR
@@ -213,7 +259,9 @@ class GeneratedEnvSky(DG):
     power = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     po = power
 
-    altitude = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    altitude = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     a = altitude
 
     haloSize = FloatField(default_value=20.0, min_value=0.0, max_value=50.0)

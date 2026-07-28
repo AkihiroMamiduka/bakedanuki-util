@@ -468,7 +468,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 

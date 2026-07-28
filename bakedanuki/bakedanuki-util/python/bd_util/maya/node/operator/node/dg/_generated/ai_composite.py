@@ -123,7 +123,9 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class AlphaOperationEnumPlugOperator(EnumPlugOperator["AlphaOperationEnumAttrOperator"]):
+class AlphaOperationEnumPlugOperator(
+    EnumPlugOperator["AlphaOperationEnumAttrOperator"]
+):
     __slots__ = ()
 
     SAME = 0
@@ -131,7 +133,9 @@ class AlphaOperationEnumPlugOperator(EnumPlugOperator["AlphaOperationEnumAttrOpe
     B = 2
 
 
-class AlphaOperationEnumAttrOperator(EnumAttrOperator[AlphaOperationEnumPlugOperator]):
+class AlphaOperationEnumAttrOperator(
+    EnumAttrOperator[AlphaOperationEnumPlugOperator]
+):
     __slots__ = ()
 
     SAME = 0
@@ -171,7 +175,9 @@ class GeneratedAiComposite(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

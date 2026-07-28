@@ -61,7 +61,9 @@ class ProjectionCenterAttrOperator(
 
 
 class ProjectionCenterField(
-    DoubleLinear3CompoundBaseField[ProjectionCenterAttrOperator, ProjectionCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ProjectionCenterAttrOperator, ProjectionCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -183,10 +185,14 @@ class ProjectionScalePlugOperator(
         ("projectionVerticalSweep", "pvs"),
     )
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 
@@ -195,25 +201,35 @@ class ProjectionScaleAttrOperator(
 ):
     __slots__ = ()
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 
 class ProjectionScaleField(
-    DoubleLinear2CompoundBaseField[ProjectionScaleAttrOperator, ProjectionScalePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ProjectionScaleAttrOperator, ProjectionScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = ProjectionScaleAttrOperator
     PLUG_CLS = ProjectionScalePlugOperator
 
-    projectionHorizontalSweep = DoubleLinearField(default_value=180.0, min_value=0.0, max_value=360.0)
+    projectionHorizontalSweep = DoubleLinearField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
     phs = projectionHorizontalSweep
 
-    projectionVerticalSweep = DoubleLinearField(default_value=90.0, min_value=0.0, max_value=180.0)
+    projectionVerticalSweep = DoubleLinearField(
+        default_value=90.0, min_value=0.0, max_value=180.0
+    )
     pvs = projectionVerticalSweep
 
 

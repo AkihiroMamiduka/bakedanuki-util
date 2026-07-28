@@ -22,9 +22,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -42,9 +40,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -57,9 +53,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -70,9 +64,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -88,7 +80,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -185,7 +179,9 @@ class StartPositionAttrOperator(
 
 
 class StartPositionField(
-    FloatLinear3CompoundBaseField[StartPositionAttrOperator, StartPositionPlugOperator]
+    FloatLinear3CompoundBaseField[
+        StartPositionAttrOperator, StartPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

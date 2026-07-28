@@ -28,7 +28,9 @@ class GeneratedAiColorCorrect(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -51,10 +53,14 @@ class GeneratedAiColorCorrect(DG):
     alphaIsLuminance = BoolField(default_value=False)
     alpha_is_luminance = alphaIsLuminance
 
-    alphaMultiply = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    alphaMultiply = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     alpha_multiply = alphaMultiply
 
-    alphaAdd = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    alphaAdd = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     alpha_add = alphaAdd
 
     invert = BoolField(default_value=False)
@@ -62,19 +68,39 @@ class GeneratedAiColorCorrect(DG):
     invertAlpha = BoolField(default_value=False)
     invert_alpha = invertAlpha
 
-    gamma = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    gamma = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
 
-    hueShift = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    hueShift = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     hue_shift = hueShift
 
-    saturation = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    saturation = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
 
-    contrast = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    contrast = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    contrastPivot = FloatField(default_value=0.18000000715255737, soft_min_value=0.0, soft_max_value=1.0)
+    contrastPivot = FloatField(
+        default_value=0.18000000715255737,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     contrast_pivot = contrastPivot
 
-    exposure = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    exposure = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
 
     multiply = MultiplyField(default_value=(1.0, 1.0, 1.0))
     multiplyR = multiply.multiplyR

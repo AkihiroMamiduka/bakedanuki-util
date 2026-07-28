@@ -20,14 +20,18 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ScatteringSourceEnumPlugOperator(EnumPlugOperator["ScatteringSourceEnumAttrOperator"]):
+class ScatteringSourceEnumPlugOperator(
+    EnumPlugOperator["ScatteringSourceEnumAttrOperator"]
+):
     __slots__ = ()
 
     PARAMETER = 0
     CHANNEL = 1
 
 
-class ScatteringSourceEnumAttrOperator(EnumAttrOperator[ScatteringSourceEnumPlugOperator]):
+class ScatteringSourceEnumAttrOperator(
+    EnumAttrOperator[ScatteringSourceEnumPlugOperator]
+):
     __slots__ = ()
 
     PARAMETER = 0
@@ -40,7 +44,9 @@ class ScatteringSourceEnumAttrOperator(EnumAttrOperator[ScatteringSourceEnumPlug
 
 
 class ScatteringSourceEnumField(
-    EnumField[ScatteringSourceEnumAttrOperator, ScatteringSourceEnumPlugOperator]
+    EnumField[
+        ScatteringSourceEnumAttrOperator, ScatteringSourceEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -48,7 +54,9 @@ class ScatteringSourceEnumField(
     PLUG_CLS = ScatteringSourceEnumPlugOperator
 
 
-class AttenuationSourceEnumPlugOperator(EnumPlugOperator["AttenuationSourceEnumAttrOperator"]):
+class AttenuationSourceEnumPlugOperator(
+    EnumPlugOperator["AttenuationSourceEnumAttrOperator"]
+):
     __slots__ = ()
 
     PARAMETER = 0
@@ -56,7 +64,9 @@ class AttenuationSourceEnumPlugOperator(EnumPlugOperator["AttenuationSourceEnumA
     SCATTERING = 2
 
 
-class AttenuationSourceEnumAttrOperator(EnumAttrOperator[AttenuationSourceEnumPlugOperator]):
+class AttenuationSourceEnumAttrOperator(
+    EnumAttrOperator[AttenuationSourceEnumPlugOperator]
+):
     __slots__ = ()
 
     PARAMETER = 0
@@ -71,7 +81,9 @@ class AttenuationSourceEnumAttrOperator(EnumAttrOperator[AttenuationSourceEnumPl
 
 
 class AttenuationSourceEnumField(
-    EnumField[AttenuationSourceEnumAttrOperator, AttenuationSourceEnumPlugOperator]
+    EnumField[
+        AttenuationSourceEnumAttrOperator, AttenuationSourceEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -79,14 +91,18 @@ class AttenuationSourceEnumField(
     PLUG_CLS = AttenuationSourceEnumPlugOperator
 
 
-class AttenuationModeEnumPlugOperator(EnumPlugOperator["AttenuationModeEnumAttrOperator"]):
+class AttenuationModeEnumPlugOperator(
+    EnumPlugOperator["AttenuationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ABSORPTION = 0
     EXTINCTION = 1
 
 
-class AttenuationModeEnumAttrOperator(EnumAttrOperator[AttenuationModeEnumPlugOperator]):
+class AttenuationModeEnumAttrOperator(
+    EnumAttrOperator[AttenuationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ABSORPTION = 0
@@ -107,14 +123,18 @@ class AttenuationModeEnumField(
     PLUG_CLS = AttenuationModeEnumPlugOperator
 
 
-class EmissionSourceEnumPlugOperator(EnumPlugOperator["EmissionSourceEnumAttrOperator"]):
+class EmissionSourceEnumPlugOperator(
+    EnumPlugOperator["EmissionSourceEnumAttrOperator"]
+):
     __slots__ = ()
 
     PARAMETER = 0
     CHANNEL = 1
 
 
-class EmissionSourceEnumAttrOperator(EnumAttrOperator[EmissionSourceEnumPlugOperator]):
+class EmissionSourceEnumAttrOperator(
+    EnumAttrOperator[EmissionSourceEnumPlugOperator]
+):
     __slots__ = ()
 
     PARAMETER = 0
@@ -135,7 +155,9 @@ class EmissionSourceEnumField(
     PLUG_CLS = EmissionSourceEnumPlugOperator
 
 
-class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOperator"]):
+class InterpolationEnumPlugOperator(
+    EnumPlugOperator["InterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -143,7 +165,9 @@ class InterpolationEnumPlugOperator(EnumPlugOperator["InterpolationEnumAttrOpera
     TRICUBIC = 2
 
 
-class InterpolationEnumAttrOperator(EnumAttrOperator[InterpolationEnumPlugOperator]):
+class InterpolationEnumAttrOperator(
+    EnumAttrOperator[InterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -183,7 +207,9 @@ class GeneratedAiVolumeCollector(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -215,7 +241,9 @@ class GeneratedAiVolumeCollector(DG):
     scatteringColorB = scatteringColor.scatteringColorB
     scattering_colorb = scatteringColorB
 
-    scatteringIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    scatteringIntensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     scattering_intensity = scatteringIntensity
 
     anisotropy = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
@@ -243,7 +271,9 @@ class GeneratedAiVolumeCollector(DG):
     attenuationColorB = attenuationColor.attenuationColorB
     attenuation_colorb = attenuationColorB
 
-    attenuationIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    attenuationIntensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     attenuation_intensity = attenuationIntensity
 
     attenuationMode = AttenuationModeEnumField(default_value=0)
@@ -272,7 +302,9 @@ class GeneratedAiVolumeCollector(DG):
     emissionColorB = emissionColor.emissionColorB
     emission_colorb = emissionColorB
 
-    emissionIntensity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    emissionIntensity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     emission_intensity = emissionIntensity
 
     positionOffset = PositionOffsetField(default_value=(0.0, 0.0, 0.0))

@@ -9,14 +9,20 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class SweepProfileTypeEnumPlugOperator(EnumPlugOperator["SweepProfileTypeEnumAttrOperator"]):
+class SweepProfileTypeEnumPlugOperator(
+    EnumPlugOperator["SweepProfileTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     REGULAR_POLYGON = 0
@@ -27,7 +33,9 @@ class SweepProfileTypeEnumPlugOperator(EnumPlugOperator["SweepProfileTypeEnumAtt
     CUSTOM = 5
 
 
-class SweepProfileTypeEnumAttrOperator(EnumAttrOperator[SweepProfileTypeEnumPlugOperator]):
+class SweepProfileTypeEnumAttrOperator(
+    EnumAttrOperator[SweepProfileTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     REGULAR_POLYGON = 0
@@ -48,7 +56,9 @@ class SweepProfileTypeEnumAttrOperator(EnumAttrOperator[SweepProfileTypeEnumPlug
 
 
 class SweepProfileTypeEnumField(
-    EnumField[SweepProfileTypeEnumAttrOperator, SweepProfileTypeEnumPlugOperator]
+    EnumField[
+        SweepProfileTypeEnumAttrOperator, SweepProfileTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -56,14 +66,18 @@ class SweepProfileTypeEnumField(
     PLUG_CLS = SweepProfileTypeEnumPlugOperator
 
 
-class ProfilePolyTypeEnumPlugOperator(EnumPlugOperator["ProfilePolyTypeEnumAttrOperator"]):
+class ProfilePolyTypeEnumPlugOperator(
+    EnumPlugOperator["ProfilePolyTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONVEX = 0
     STAR = 1
 
 
-class ProfilePolyTypeEnumAttrOperator(EnumAttrOperator[ProfilePolyTypeEnumPlugOperator]):
+class ProfilePolyTypeEnumAttrOperator(
+    EnumAttrOperator[ProfilePolyTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     CONVEX = 0
@@ -84,7 +98,9 @@ class ProfilePolyTypeEnumField(
     PLUG_CLS = ProfilePolyTypeEnumPlugOperator
 
 
-class PatternDistributionEnumPlugOperator(EnumPlugOperator["PatternDistributionEnumAttrOperator"]):
+class PatternDistributionEnumPlugOperator(
+    EnumPlugOperator["PatternDistributionEnumAttrOperator"]
+):
     __slots__ = ()
 
     RADIAL = 0
@@ -92,7 +108,9 @@ class PatternDistributionEnumPlugOperator(EnumPlugOperator["PatternDistributionE
     LINEAR = 2
 
 
-class PatternDistributionEnumAttrOperator(EnumAttrOperator[PatternDistributionEnumPlugOperator]):
+class PatternDistributionEnumAttrOperator(
+    EnumAttrOperator[PatternDistributionEnumPlugOperator]
+):
     __slots__ = ()
 
     RADIAL = 0
@@ -107,7 +125,10 @@ class PatternDistributionEnumAttrOperator(EnumAttrOperator[PatternDistributionEn
 
 
 class PatternDistributionEnumField(
-    EnumField[PatternDistributionEnumAttrOperator, PatternDistributionEnumPlugOperator]
+    EnumField[
+        PatternDistributionEnumAttrOperator,
+        PatternDistributionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -115,7 +136,9 @@ class PatternDistributionEnumField(
     PLUG_CLS = PatternDistributionEnumPlugOperator
 
 
-class AlignProfileHorizontalEnumPlugOperator(EnumPlugOperator["AlignProfileHorizontalEnumAttrOperator"]):
+class AlignProfileHorizontalEnumPlugOperator(
+    EnumPlugOperator["AlignProfileHorizontalEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEFT = 0
@@ -123,7 +146,9 @@ class AlignProfileHorizontalEnumPlugOperator(EnumPlugOperator["AlignProfileHoriz
     RIGHT = 2
 
 
-class AlignProfileHorizontalEnumAttrOperator(EnumAttrOperator[AlignProfileHorizontalEnumPlugOperator]):
+class AlignProfileHorizontalEnumAttrOperator(
+    EnumAttrOperator[AlignProfileHorizontalEnumPlugOperator]
+):
     __slots__ = ()
 
     LEFT = 0
@@ -138,7 +163,10 @@ class AlignProfileHorizontalEnumAttrOperator(EnumAttrOperator[AlignProfileHorizo
 
 
 class AlignProfileHorizontalEnumField(
-    EnumField[AlignProfileHorizontalEnumAttrOperator, AlignProfileHorizontalEnumPlugOperator]
+    EnumField[
+        AlignProfileHorizontalEnumAttrOperator,
+        AlignProfileHorizontalEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -146,7 +174,9 @@ class AlignProfileHorizontalEnumField(
     PLUG_CLS = AlignProfileHorizontalEnumPlugOperator
 
 
-class AlignProfileVerticalEnumPlugOperator(EnumPlugOperator["AlignProfileVerticalEnumAttrOperator"]):
+class AlignProfileVerticalEnumPlugOperator(
+    EnumPlugOperator["AlignProfileVerticalEnumAttrOperator"]
+):
     __slots__ = ()
 
     TOP = 0
@@ -154,7 +184,9 @@ class AlignProfileVerticalEnumPlugOperator(EnumPlugOperator["AlignProfileVertica
     BOTTOM = 2
 
 
-class AlignProfileVerticalEnumAttrOperator(EnumAttrOperator[AlignProfileVerticalEnumPlugOperator]):
+class AlignProfileVerticalEnumAttrOperator(
+    EnumAttrOperator[AlignProfileVerticalEnumPlugOperator]
+):
     __slots__ = ()
 
     TOP = 0
@@ -169,7 +201,10 @@ class AlignProfileVerticalEnumAttrOperator(EnumAttrOperator[AlignProfileVertical
 
 
 class AlignProfileVerticalEnumField(
-    EnumField[AlignProfileVerticalEnumAttrOperator, AlignProfileVerticalEnumPlugOperator]
+    EnumField[
+        AlignProfileVerticalEnumAttrOperator,
+        AlignProfileVerticalEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -177,7 +212,9 @@ class AlignProfileVerticalEnumField(
     PLUG_CLS = AlignProfileVerticalEnumPlugOperator
 
 
-class InterpolationModeEnumPlugOperator(EnumPlugOperator["InterpolationModeEnumAttrOperator"]):
+class InterpolationModeEnumPlugOperator(
+    EnumPlugOperator["InterpolationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PRECISION = 0
@@ -186,7 +223,9 @@ class InterpolationModeEnumPlugOperator(EnumPlugOperator["InterpolationModeEnumA
     DISTANCE = 3
 
 
-class InterpolationModeEnumAttrOperator(EnumAttrOperator[InterpolationModeEnumPlugOperator]):
+class InterpolationModeEnumAttrOperator(
+    EnumAttrOperator[InterpolationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PRECISION = 0
@@ -203,7 +242,9 @@ class InterpolationModeEnumAttrOperator(EnumAttrOperator[InterpolationModeEnumPl
 
 
 class InterpolationModeEnumField(
-    EnumField[InterpolationModeEnumAttrOperator, InterpolationModeEnumPlugOperator]
+    EnumField[
+        InterpolationModeEnumAttrOperator, InterpolationModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -251,51 +292,87 @@ class GeneratedSweepMeshCreator(DG):
 
     customSweepProfileData = TypedField(readable=False)
 
-    profileArcAngle = DoubleAngleField(default_value=180.0, min_value=0.0, max_value=360.0)
+    profileArcAngle = DoubleAngleField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
 
-    profileArcSegments = LongField(default_value=4, min_value=1, soft_max_value=40)
+    profileArcSegments = LongField(
+        default_value=4, min_value=1, soft_max_value=40
+    )
 
     profilePolyType = ProfilePolyTypeEnumField(default_value=0)
 
-    profilePolySides = LongField(default_value=8, min_value=3, soft_max_value=20)
+    profilePolySides = LongField(
+        default_value=8, min_value=3, soft_max_value=20
+    )
 
-    profilePolyInnerRadius = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    profilePolyInnerRadius = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    profileRectWidth = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=2.0)
+    profileRectWidth = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    profileRectHeight = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=2.0)
+    profileRectHeight = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    profileRectCornerRadius = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    profileRectCornerRadius = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
 
-    profileRectCornerSegments = LongField(default_value=2, min_value=1, soft_max_value=5)
+    profileRectCornerSegments = LongField(
+        default_value=2, min_value=1, soft_max_value=5
+    )
 
-    profileRectCornerDepth = FloatField(default_value=1.0, min_value=-1.0, max_value=1.0)
+    profileRectCornerDepth = FloatField(
+        default_value=1.0, min_value=-1.0, max_value=1.0
+    )
 
-    profileWaveAmplitude = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=0.5)
+    profileWaveAmplitude = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=0.5
+    )
 
-    profileWaveCycles = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    profileWaveCycles = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
 
-    profileWaveOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    profileWaveOffset = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
 
-    profileWaveSegments = LongField(default_value=6, min_value=1, soft_max_value=40)
+    profileWaveSegments = LongField(
+        default_value=6, min_value=1, soft_max_value=40
+    )
 
     patternEnable = BoolField(default_value=False)
 
     patternDistribution = PatternDistributionEnumField(default_value=0)
 
-    patternNumberOfElements = LongField(default_value=5, min_value=0, soft_max_value=10)
+    patternNumberOfElements = LongField(
+        default_value=5, min_value=0, soft_max_value=10
+    )
 
     patternScaleElementsUniform = BoolField(default_value=True)
 
-    patternScaleElementsX = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    patternScaleElementsX = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
 
-    patternScaleElementsY = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    patternScaleElementsY = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
 
     patternAutomaticOrientation = BoolField(default_value=True)
 
-    patternRotateElements = DoubleAngleField(default_value=0.0, min_value=-360.0, max_value=360.0)
+    patternRotateElements = DoubleAngleField(
+        default_value=0.0, min_value=-360.0, max_value=360.0
+    )
 
-    patternCoverage = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    patternCoverage = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
     alignProfileEnable = BoolField(default_value=False)
 
@@ -307,17 +384,29 @@ class GeneratedSweepMeshCreator(DG):
 
     scaleProfileUniform = BoolField(default_value=True)
 
-    scaleProfileX = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    scaleProfileX = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    scaleProfileY = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    scaleProfileY = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
 
-    rotateProfile = DoubleAngleField(default_value=0.0, min_value=-360.0, max_value=360.0)
+    rotateProfile = DoubleAngleField(
+        default_value=0.0, min_value=-360.0, max_value=360.0
+    )
 
-    translateProfileX = DoubleLinearField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    translateProfileX = DoubleLinearField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
-    translateProfileY = DoubleLinearField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    translateProfileY = DoubleLinearField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
-    twist = FloatField(default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0)
+    twist = FloatField(
+        default_value=0.0, soft_min_value=-2.0, soft_max_value=2.0
+    )
 
     taper = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
 
@@ -325,17 +414,28 @@ class GeneratedSweepMeshCreator(DG):
 
     interpolationMode = InterpolationModeEnumField(default_value=0)
 
-    interpolationPrecision = FloatField(default_value=75.0, min_value=0.0, max_value=100.0)
+    interpolationPrecision = FloatField(
+        default_value=75.0, min_value=0.0, max_value=100.0
+    )
 
-    interpolationSteps = LongField(default_value=20, min_value=1, soft_max_value=50)
+    interpolationSteps = LongField(
+        default_value=20, min_value=1, soft_max_value=50
+    )
 
-    interpolationDistance = DoubleLinearField(default_value=0.0, min_value=0.01, soft_min_value=0.5, soft_max_value=10.0)
+    interpolationDistance = DoubleLinearField(
+        default_value=0.0,
+        min_value=0.01,
+        soft_min_value=0.5,
+        soft_max_value=10.0,
+    )
 
     interpolationOptimize = BoolField(default_value=False)
 
     normalsReverse = BoolField(default_value=False)
 
-    normalsSmoothing = DoubleAngleField(default_value=59.99999999999999, min_value=0.0, max_value=180.0)
+    normalsSmoothing = DoubleAngleField(
+        default_value=59.99999999999999, min_value=0.0, max_value=180.0
+    )
 
     createUVs = CreateUVsEnumField(default_value=2)
 

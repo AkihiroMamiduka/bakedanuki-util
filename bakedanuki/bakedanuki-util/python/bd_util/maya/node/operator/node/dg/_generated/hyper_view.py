@@ -16,7 +16,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class BuildDirectionEnumPlugOperator(EnumPlugOperator["BuildDirectionEnumAttrOperator"]):
+class BuildDirectionEnumPlugOperator(
+    EnumPlugOperator["BuildDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UPSTREAM = 0
@@ -24,7 +26,9 @@ class BuildDirectionEnumPlugOperator(EnumPlugOperator["BuildDirectionEnumAttrOpe
     ALL = 2
 
 
-class BuildDirectionEnumAttrOperator(EnumAttrOperator[BuildDirectionEnumPlugOperator]):
+class BuildDirectionEnumAttrOperator(
+    EnumAttrOperator[BuildDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UPSTREAM = 0

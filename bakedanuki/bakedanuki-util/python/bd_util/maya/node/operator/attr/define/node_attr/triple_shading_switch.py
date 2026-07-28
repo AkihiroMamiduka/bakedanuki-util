@@ -12,12 +12,12 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inTriple", "it"),
@@ -31,9 +31,7 @@ class InputPlugOperator(
     is_ = inShape
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inTriple = Float3Field(default_value=(0.0, 0.0, 0.0))
@@ -43,9 +41,7 @@ class InputAttrOperator(
     is_ = inShape
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -72,9 +68,7 @@ class DefaultPlugOperator(
     dc3 = defComp3
 
 
-class DefaultAttrOperator(
-    Float3CompoundBaseAttrOperator[DefaultPlugOperator]
-):
+class DefaultAttrOperator(Float3CompoundBaseAttrOperator[DefaultPlugOperator]):
     __slots__ = ()
 
     defComp1 = FloatField(default_value=0.800000011920929)
@@ -105,9 +99,7 @@ class DefaultField(
     dc3 = defComp3
 
 
-class OutputPlugOperator(
-    Float3CompoundBasePlugOperator["OutputAttrOperator"]
-):
+class OutputPlugOperator(Float3CompoundBasePlugOperator["OutputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outComp1", "oc1"),
@@ -125,9 +117,7 @@ class OutputPlugOperator(
     oc3 = outComp3
 
 
-class OutputAttrOperator(
-    Float3CompoundBaseAttrOperator[OutputPlugOperator]
-):
+class OutputAttrOperator(Float3CompoundBaseAttrOperator[OutputPlugOperator]):
     __slots__ = ()
 
     outComp1 = FloatField(default_value=0.0, writable=False)

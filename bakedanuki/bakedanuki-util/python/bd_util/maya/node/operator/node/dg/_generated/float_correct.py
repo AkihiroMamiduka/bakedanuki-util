@@ -18,7 +18,9 @@ class GeneratedFloatCorrect(DG):
     offset = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     o = offset
 
-    gammaScale = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)
+    gammaScale = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=5.0
+    )
     gg = gammaScale
 
     clampOutput = BoolField(default_value=False)

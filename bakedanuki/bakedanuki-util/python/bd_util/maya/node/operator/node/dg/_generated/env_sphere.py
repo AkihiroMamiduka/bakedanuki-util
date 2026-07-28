@@ -33,7 +33,9 @@ class GeneratedEnvSphere(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     normalCamera = NormalCameraField(default_value=(0.0, 0.0, 1.0))
@@ -107,7 +109,11 @@ class GeneratedEnvSphere(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    image = ImageField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    image = ImageField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     so = image
     imageR = image.imageR
     sor = imageR
@@ -116,7 +122,11 @@ class GeneratedEnvSphere(DG):
     imageB = image.imageB
     sob = imageB
 
-    shearUV = ShearUVField(default_value=(0.0, 0.0), min_value=(-10.0, -10.0), max_value=(10.0, 10.0))
+    shearUV = ShearUVField(
+        default_value=(0.0, 0.0),
+        min_value=(-10.0, -10.0),
+        max_value=(10.0, 10.0),
+    )
     suv = shearUV
     shearU = shearUV.shearU
     su = shearU

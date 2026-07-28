@@ -25,7 +25,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,14 +63,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -79,7 +87,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -87,7 +98,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class OrientModeEnumPlugOperator(EnumPlugOperator["OrientModeEnumAttrOperator"]):
+class OrientModeEnumPlugOperator(
+    EnumPlugOperator["OrientModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     VELOCITY = 1
@@ -118,7 +131,9 @@ class OrientModeEnumField(
     PLUG_CLS = OrientModeEnumPlugOperator
 
 
-class UpVectorMenuEnumPlugOperator(EnumPlugOperator["UpVectorMenuEnumAttrOperator"]):
+class UpVectorMenuEnumPlugOperator(
+    EnumPlugOperator["UpVectorMenuEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 1
@@ -126,7 +141,9 @@ class UpVectorMenuEnumPlugOperator(EnumPlugOperator["UpVectorMenuEnumAttrOperato
     Z = 3
 
 
-class UpVectorMenuEnumAttrOperator(EnumAttrOperator[UpVectorMenuEnumPlugOperator]):
+class UpVectorMenuEnumAttrOperator(
+    EnumAttrOperator[UpVectorMenuEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 1
@@ -169,7 +186,9 @@ class GeneratedMASH_Orient(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -253,13 +272,21 @@ class GeneratedMASH_Orient(DG):
     falloffMessage = MessageField()
     fmsg = falloffMessage
 
-    bankingStrength = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    bankingStrength = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
 
-    rotationXStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    rotationXStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    rotationYStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    rotationYStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    rotationZStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    rotationZStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     inRotationPP = DataVectorArrayField()
     inRot = inRotationPP

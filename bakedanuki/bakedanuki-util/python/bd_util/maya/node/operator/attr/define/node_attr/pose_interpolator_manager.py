@@ -46,7 +46,10 @@ class PoseInterpolatorDirectoryAttrOperator(
 
 
 class PoseInterpolatorDirectoryField(
-    CompoundField[PoseInterpolatorDirectoryAttrOperator, PoseInterpolatorDirectoryPlugOperator]
+    CompoundField[
+        PoseInterpolatorDirectoryAttrOperator,
+        PoseInterpolatorDirectoryPlugOperator,
+    ]
 ):
     __slots__ = ()
 

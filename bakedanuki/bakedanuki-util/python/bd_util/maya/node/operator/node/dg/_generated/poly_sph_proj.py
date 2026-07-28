@@ -9,8 +9,12 @@ from ....attr.define.node_attr.poly_sph_proj import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -86,7 +90,11 @@ class GeneratedPolySphProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    projectionScale = ProjectionScaleField(default_value=(180.0, 90.0), min_value=(0.0, 0.0), max_value=(360.0, 180.0))
+    projectionScale = ProjectionScaleField(
+        default_value=(180.0, 90.0),
+        min_value=(0.0, 0.0),
+        max_value=(360.0, 180.0),
+    )
     ps = projectionScale
     projectionHorizontalSweep = projectionScale.projectionHorizontalSweep
     phs = projectionHorizontalSweep
@@ -106,7 +114,9 @@ class GeneratedPolySphProj(DG):
     radius = DoubleLinearField(default_value=10.0)
     r = radius
 
-    rotationAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotationAngle = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ra = rotationAngle
 
     seamCorrect = BoolField(default_value=False)

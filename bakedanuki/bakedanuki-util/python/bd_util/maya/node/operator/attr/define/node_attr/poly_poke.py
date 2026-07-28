@@ -44,7 +44,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class LocalTranslateAttrOperator(
 
 
 class LocalTranslateField(
-    DoubleLinear3CompoundBaseField[LocalTranslateAttrOperator, LocalTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalTranslateAttrOperator, LocalTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 

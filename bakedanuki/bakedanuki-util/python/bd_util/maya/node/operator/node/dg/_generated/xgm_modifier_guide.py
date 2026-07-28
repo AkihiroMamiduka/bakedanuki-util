@@ -29,13 +29,19 @@ class GeneratedXgmModifierGuide(DG):
     mask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    magnitude = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    magnitude = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
+    magnitudeScale = MagnitudeScaleField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
     ms = magnitudeScale
 
-    blend = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    blend = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     bl = blend
 
     useRegionMap = BoolField(default_value=False)

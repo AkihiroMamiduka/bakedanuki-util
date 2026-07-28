@@ -94,12 +94,12 @@ def scalar_base_contract(
     plug: InputRotateOrderEnumPlugOperator,
     field: InputRotateOrderEnumField,
 ) -> None:
-    scalar_attr: ScalarBaseAttrOperator[
-        InputRotateOrderEnumPlugOperator
-    ] = attr
-    scalar_plug: ScalarBasePlugOperator[
-        InputRotateOrderEnumAttrOperator
-    ] = plug
+    scalar_attr: ScalarBaseAttrOperator[InputRotateOrderEnumPlugOperator] = (
+        attr
+    )
+    scalar_plug: ScalarBasePlugOperator[InputRotateOrderEnumAttrOperator] = (
+        plug
+    )
     scalar_field: ScalarBaseField[
         InputRotateOrderEnumAttrOperator,
         InputRotateOrderEnumPlugOperator,
@@ -141,9 +141,17 @@ def invalid_usage_contract(
     nodes: bdu.Nodes,
     compose: ComposeMatrix,
 ) -> None:
-    nodes.create.composeMatrix(unknown_option=True)  # pyright: ignore[reportCallIssue]
+    nodes.create.composeMatrix(
+        unknown_option=True
+    )  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
-    compose.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
-    compose.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
-    nodes.create.wtAddMatrix().wtMatrix[len]  # pyright: ignore[reportArgumentType]
+    compose.outputMatrix.set(
+        "not a matrix"
+    )  # pyright: ignore[reportArgumentType]
+    compose.inputTranslate.set(
+        "not a vector"
+    )  # pyright: ignore[reportArgumentType]
+    nodes.create.wtAddMatrix().wtMatrix[
+        len
+    ]  # pyright: ignore[reportArgumentType]
     compose.does_not_exist  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]

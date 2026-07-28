@@ -13,7 +13,9 @@ class GeneratedSurfaceInfo(DG):
     inputSurface = DataNurbsSurfaceField()
     is_ = inputSurface
 
-    controlPoints = ControlPointsField(multi=True, default_value=(0.0, 0.0, 0.0), writable=False)
+    controlPoints = ControlPointsField(
+        multi=True, default_value=(0.0, 0.0, 0.0), writable=False
+    )
     cp = controlPoints
 
     weights = DoubleField(multi=True, default_value=1.0, writable=False)

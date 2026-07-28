@@ -89,9 +89,7 @@ class SideEnumAttrOperator(EnumAttrOperator[SideEnumPlugOperator]):
     }
 
 
-class SideEnumField(
-    EnumField[SideEnumAttrOperator, SideEnumPlugOperator]
-):
+class SideEnumField(EnumField[SideEnumAttrOperator, SideEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SideEnumAttrOperator
@@ -201,9 +199,7 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
@@ -281,7 +277,9 @@ class GeneratedJoint(Transform):
     minRotateDampRangeZ = minRotateDampRange.minRotateDampRangeZ
     ndz = minRotateDampRangeZ
 
-    minRotateDampStrength = MinRotateDampStrengthField(default_value=(0.0, 0.0, 0.0))
+    minRotateDampStrength = MinRotateDampStrengthField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     nst = minRotateDampStrength
     minRotateDampStrengthX = minRotateDampStrength.minRotateDampStrengthX
     nstx = minRotateDampStrengthX
@@ -299,7 +297,9 @@ class GeneratedJoint(Transform):
     maxRotateDampRangeZ = maxRotateDampRange.maxRotateDampRangeZ
     xdz = maxRotateDampRangeZ
 
-    maxRotateDampStrength = MaxRotateDampStrengthField(default_value=(0.0, 0.0, 0.0))
+    maxRotateDampStrength = MaxRotateDampStrengthField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     xst = maxRotateDampStrength
     maxRotateDampStrengthX = maxRotateDampStrength.maxRotateDampStrengthX
     xstx = maxRotateDampStrengthX

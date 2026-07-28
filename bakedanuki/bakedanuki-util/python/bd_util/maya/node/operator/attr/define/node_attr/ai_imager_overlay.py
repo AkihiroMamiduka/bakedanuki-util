@@ -97,7 +97,9 @@ class BackgroundColorAttrOperator(
 
 
 class BackgroundColorField(
-    Float3CompoundBaseField[BackgroundColorAttrOperator, BackgroundColorPlugOperator]
+    Float3CompoundBaseField[
+        BackgroundColorAttrOperator, BackgroundColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

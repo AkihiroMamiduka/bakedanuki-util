@@ -132,7 +132,9 @@ class CvPositionAttrOperator(
 
 
 class CvPositionField(
-    DoubleLinear3CompoundBaseField[CvPositionAttrOperator, CvPositionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CvPositionAttrOperator, CvPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -55,9 +55,7 @@ class TranslateInPPPlugOperator(
     CompoundPlugOperator["TranslateInPPAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("positionInPP", "positionInPP"),
-    )
+    CHILD_ATTR_NAMES = (("positionInPP", "positionInPP"),)
 
     positionInPP = DataVectorArrayField()
 
@@ -235,7 +233,9 @@ class ConnectionPointAttrOperator(
 
 
 class ConnectionPointField(
-    Float3CompoundBaseField[ConnectionPointAttrOperator, ConnectionPointPlugOperator]
+    Float3CompoundBaseField[
+        ConnectionPointAttrOperator, ConnectionPointPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
 
-class DisplayLevelEnumPlugOperator(EnumPlugOperator["DisplayLevelEnumAttrOperator"]):
+class DisplayLevelEnumPlugOperator(
+    EnumPlugOperator["DisplayLevelEnumAttrOperator"]
+):
     __slots__ = ()
 
     USELOD = 0
@@ -16,7 +18,9 @@ class DisplayLevelEnumPlugOperator(EnumPlugOperator["DisplayLevelEnumAttrOperato
     HIDE = 2
 
 
-class DisplayLevelEnumAttrOperator(EnumAttrOperator[DisplayLevelEnumPlugOperator]):
+class DisplayLevelEnumAttrOperator(
+    EnumAttrOperator[DisplayLevelEnumPlugOperator]
+):
     __slots__ = ()
 
     USELOD = 0

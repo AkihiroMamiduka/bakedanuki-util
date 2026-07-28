@@ -84,9 +84,7 @@ class KeyTimeValuePlugOperator(
     kv = keyValue
 
 
-class KeyTimeValueAttrOperator(
-    CompoundAttrOperator[KeyTimeValuePlugOperator]
-):
+class KeyTimeValueAttrOperator(CompoundAttrOperator[KeyTimeValuePlugOperator]):
     __slots__ = ()
 
     keyTime = DoubleField(default_value=0.0)

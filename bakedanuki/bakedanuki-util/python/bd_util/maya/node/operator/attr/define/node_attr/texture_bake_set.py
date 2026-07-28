@@ -96,7 +96,9 @@ class ChannelSetColorAttrOperator(
 
 
 class ChannelSetColorField(
-    Float3CompoundBaseField[ChannelSetColorAttrOperator, ChannelSetColorPlugOperator]
+    Float3CompoundBaseField[
+        ChannelSetColorAttrOperator, ChannelSetColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -123,13 +125,19 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "bgb"),
     )
 
-    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgb = backgroundColorB
 
 
@@ -138,29 +146,43 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgb = backgroundColorB
 
 
 class BackgroundColorField(
-    Float3CompoundBaseField[BackgroundColorAttrOperator, BackgroundColorPlugOperator]
+    Float3CompoundBaseField[
+        BackgroundColorAttrOperator, BackgroundColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     bgb = backgroundColorB

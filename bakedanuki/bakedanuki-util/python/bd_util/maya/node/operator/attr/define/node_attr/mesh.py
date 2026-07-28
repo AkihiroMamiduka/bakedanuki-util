@@ -26,19 +26,25 @@ from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compou
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import Float2Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
+    Float2Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
@@ -56,7 +62,9 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
 )
 
 
-class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]):
+class OverrideDisplayTypeEnumPlugOperator(
+    EnumPlugOperator["OverrideDisplayTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -64,7 +72,9 @@ class OverrideDisplayTypeEnumPlugOperator(EnumPlugOperator["OverrideDisplayTypeE
     REFERENCE = 2
 
 
-class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]):
+class OverrideDisplayTypeEnumAttrOperator(
+    EnumAttrOperator[OverrideDisplayTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -79,7 +89,10 @@ class OverrideDisplayTypeEnumAttrOperator(EnumAttrOperator[OverrideDisplayTypeEn
 
 
 class OverrideDisplayTypeEnumField(
-    EnumField[OverrideDisplayTypeEnumAttrOperator, OverrideDisplayTypeEnumPlugOperator]
+    EnumField[
+        OverrideDisplayTypeEnumAttrOperator,
+        OverrideDisplayTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -87,14 +100,18 @@ class OverrideDisplayTypeEnumField(
     PLUG_CLS = OverrideDisplayTypeEnumPlugOperator
 
 
-class OverrideLevelOfDetailEnumPlugOperator(EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]):
+class OverrideLevelOfDetailEnumPlugOperator(
+    EnumPlugOperator["OverrideLevelOfDetailEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]):
+class OverrideLevelOfDetailEnumAttrOperator(
+    EnumAttrOperator[OverrideLevelOfDetailEnumPlugOperator]
+):
     __slots__ = ()
 
     FULL = 0
@@ -107,7 +124,10 @@ class OverrideLevelOfDetailEnumAttrOperator(EnumAttrOperator[OverrideLevelOfDeta
 
 
 class OverrideLevelOfDetailEnumField(
-    EnumField[OverrideLevelOfDetailEnumAttrOperator, OverrideLevelOfDetailEnumPlugOperator]
+    EnumField[
+        OverrideLevelOfDetailEnumAttrOperator,
+        OverrideLevelOfDetailEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -115,7 +135,9 @@ class OverrideLevelOfDetailEnumField(
     PLUG_CLS = OverrideLevelOfDetailEnumPlugOperator
 
 
-class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOperator"]):
+class RepresentationEnumPlugOperator(
+    EnumPlugOperator["RepresentationEnumAttrOperator"]
+):
     __slots__ = ()
 
     A = 1
@@ -124,7 +146,9 @@ class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOpe
     RGBA = 4
 
 
-class RepresentationEnumAttrOperator(EnumAttrOperator[RepresentationEnumPlugOperator]):
+class RepresentationEnumAttrOperator(
+    EnumAttrOperator[RepresentationEnumPlugOperator]
+):
     __slots__ = ()
 
     A = 1
@@ -149,7 +173,9 @@ class RepresentationEnumField(
     PLUG_CLS = RepresentationEnumPlugOperator
 
 
-class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["CollisionOffsetVelocityIncrement_InterpEnumAttrOperator"]):
+class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(
+    EnumPlugOperator["CollisionOffsetVelocityIncrement_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +184,9 @@ class CollisionOffsetVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["
     SPLINE = 3
 
 
-class CollisionOffsetVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[CollisionOffsetVelocityIncrement_InterpEnumPlugOperator]):
+class CollisionOffsetVelocityIncrement_InterpEnumAttrOperator(
+    EnumAttrOperator[CollisionOffsetVelocityIncrement_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -175,7 +203,10 @@ class CollisionOffsetVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[C
 
 
 class CollisionOffsetVelocityIncrement_InterpEnumField(
-    EnumField[CollisionOffsetVelocityIncrement_InterpEnumAttrOperator, CollisionOffsetVelocityIncrement_InterpEnumPlugOperator]
+    EnumField[
+        CollisionOffsetVelocityIncrement_InterpEnumAttrOperator,
+        CollisionOffsetVelocityIncrement_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -183,7 +214,9 @@ class CollisionOffsetVelocityIncrement_InterpEnumField(
     PLUG_CLS = CollisionOffsetVelocityIncrement_InterpEnumPlugOperator
 
 
-class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["CollisionDepthVelocityIncrement_InterpEnumAttrOperator"]):
+class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(
+    EnumPlugOperator["CollisionDepthVelocityIncrement_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -192,7 +225,9 @@ class CollisionDepthVelocityIncrement_InterpEnumPlugOperator(EnumPlugOperator["C
     SPLINE = 3
 
 
-class CollisionDepthVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[CollisionDepthVelocityIncrement_InterpEnumPlugOperator]):
+class CollisionDepthVelocityIncrement_InterpEnumAttrOperator(
+    EnumAttrOperator[CollisionDepthVelocityIncrement_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -209,7 +244,10 @@ class CollisionDepthVelocityIncrement_InterpEnumAttrOperator(EnumAttrOperator[Co
 
 
 class CollisionDepthVelocityIncrement_InterpEnumField(
-    EnumField[CollisionDepthVelocityIncrement_InterpEnumAttrOperator, CollisionDepthVelocityIncrement_InterpEnumPlugOperator]
+    EnumField[
+        CollisionDepthVelocityIncrement_InterpEnumAttrOperator,
+        CollisionDepthVelocityIncrement_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -217,7 +255,11 @@ class CollisionDepthVelocityIncrement_InterpEnumField(
     PLUG_CLS = CollisionDepthVelocityIncrement_InterpEnumPlugOperator
 
 
-class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator["CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator"]):
+class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(
+    EnumPlugOperator[
+        "CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator"
+    ]
+):
     __slots__ = ()
 
     NONE = 0
@@ -226,7 +268,9 @@ class CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator[
     SPLINE = 3
 
 
-class CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator]):
+class CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator(
+    EnumAttrOperator[CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -243,7 +287,10 @@ class CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[
 
 
 class CollisionOffsetVelocityMultiplier_InterpEnumField(
-    EnumField[CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator, CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator]
+    EnumField[
+        CollisionOffsetVelocityMultiplier_InterpEnumAttrOperator,
+        CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -251,7 +298,9 @@ class CollisionOffsetVelocityMultiplier_InterpEnumField(
     PLUG_CLS = CollisionOffsetVelocityMultiplier_InterpEnumPlugOperator
 
 
-class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator["CollisionDepthVelocityMultiplier_InterpEnumAttrOperator"]):
+class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(
+    EnumPlugOperator["CollisionDepthVelocityMultiplier_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -260,7 +309,9 @@ class CollisionDepthVelocityMultiplier_InterpEnumPlugOperator(EnumPlugOperator["
     SPLINE = 3
 
 
-class CollisionDepthVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[CollisionDepthVelocityMultiplier_InterpEnumPlugOperator]):
+class CollisionDepthVelocityMultiplier_InterpEnumAttrOperator(
+    EnumAttrOperator[CollisionDepthVelocityMultiplier_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -277,7 +328,10 @@ class CollisionDepthVelocityMultiplier_InterpEnumAttrOperator(EnumAttrOperator[C
 
 
 class CollisionDepthVelocityMultiplier_InterpEnumField(
-    EnumField[CollisionDepthVelocityMultiplier_InterpEnumAttrOperator, CollisionDepthVelocityMultiplier_InterpEnumPlugOperator]
+    EnumField[
+        CollisionDepthVelocityMultiplier_InterpEnumAttrOperator,
+        CollisionDepthVelocityMultiplier_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -329,9 +383,7 @@ class PublishedNodeInfoField(
     PLUG_CLS = PublishedNodeInfoPlugOperator
 
 
-class BoundingBoxPlugOperator(
-    CompoundPlugOperator["BoundingBoxAttrOperator"]
-):
+class BoundingBoxPlugOperator(CompoundPlugOperator["BoundingBoxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("boundingBoxMin", "bbmn"),
@@ -339,28 +391,38 @@ class BoundingBoxPlugOperator(
         ("boundingBoxSize", "bbsi"),
     )
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
-class BoundingBoxAttrOperator(
-    CompoundAttrOperator[BoundingBoxPlugOperator]
-):
+class BoundingBoxAttrOperator(CompoundAttrOperator[BoundingBoxPlugOperator]):
     __slots__ = ()
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
@@ -372,13 +434,19 @@ class BoundingBoxField(
     ATTR_CLS = BoundingBoxAttrOperator
     PLUG_CLS = BoundingBoxPlugOperator
 
-    boundingBoxMin = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMin = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmn = boundingBoxMin
 
-    boundingBoxMax = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxMax = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbmx = boundingBoxMax
 
-    boundingBoxSize = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    boundingBoxSize = Double3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     bbsi = boundingBoxSize
 
 
@@ -439,9 +507,7 @@ class InstObjGroupsPlugOperator(
     CompoundPlugOperator["InstObjGroupsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("objectGroups", "og"),
-    )
+    CHILD_ATTR_NAMES = (("objectGroups", "og"),)
 
     objectGroups = CompoundField(multi=True)
     og = objectGroups
@@ -501,7 +567,9 @@ class ObjectColorRGBAttrOperator(
 
 
 class ObjectColorRGBField(
-    Float3CompoundBaseField[ObjectColorRGBAttrOperator, ObjectColorRGBPlugOperator]
+    Float3CompoundBaseField[
+        ObjectColorRGBAttrOperator, ObjectColorRGBPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -623,13 +691,13 @@ class DrawOverridePlugOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class DrawOverrideAttrOperator(
-    CompoundAttrOperator[DrawOverridePlugOperator]
-):
+class DrawOverrideAttrOperator(CompoundAttrOperator[DrawOverridePlugOperator]):
     __slots__ = ()
 
     overrideDisplayType = OverrideDisplayTypeEnumField(default_value=0)
@@ -665,7 +733,9 @@ class DrawOverrideAttrOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
@@ -710,13 +780,13 @@ class DrawOverrideField(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class RenderInfoPlugOperator(
-    CompoundPlugOperator["RenderInfoAttrOperator"]
-):
+class RenderInfoPlugOperator(CompoundPlugOperator["RenderInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("identification", "rlid"),
@@ -734,9 +804,7 @@ class RenderInfoPlugOperator(
     lovc = layerOverrideColor
 
 
-class RenderInfoAttrOperator(
-    CompoundAttrOperator[RenderInfoPlugOperator]
-):
+class RenderInfoAttrOperator(CompoundAttrOperator[RenderInfoPlugOperator]):
     __slots__ = ()
 
     identification = ShortField(default_value=0)
@@ -873,10 +941,14 @@ class GhostOpacityRangePlugOperator(
         ("ghostNearOpacity", "gnro"),
     )
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
@@ -885,25 +957,35 @@ class GhostOpacityRangeAttrOperator(
 ):
     __slots__ = ()
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
 class GhostOpacityRangeField(
-    Float2CompoundBaseField[GhostOpacityRangeAttrOperator, GhostOpacityRangePlugOperator]
+    Float2CompoundBaseField[
+        GhostOpacityRangeAttrOperator, GhostOpacityRangePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostOpacityRangeAttrOperator
     PLUG_CLS = GhostOpacityRangePlugOperator
 
-    ghostFarOpacity = FloatField(default_value=0.15000000596046448, min_value=0.0, max_value=1.0)
+    ghostFarOpacity = FloatField(
+        default_value=0.15000000596046448, min_value=0.0, max_value=1.0
+    )
     gfro = ghostFarOpacity
 
-    ghostNearOpacity = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    ghostNearOpacity = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     gnro = ghostNearOpacity
 
 
@@ -917,13 +999,19 @@ class GhostColorPrePlugOperator(
         ("ghostColorPreB", "gpb"),
     )
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
@@ -932,31 +1020,45 @@ class GhostColorPreAttrOperator(
 ):
     __slots__ = ()
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
 class GhostColorPreField(
-    Float3CompoundBaseField[GhostColorPreAttrOperator, GhostColorPrePlugOperator]
+    Float3CompoundBaseField[
+        GhostColorPreAttrOperator, GhostColorPrePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostColorPreAttrOperator
     PLUG_CLS = GhostColorPrePlugOperator
 
-    ghostColorPreR = FloatField(default_value=0.44699999690055847, min_value=0.0, max_value=1.0)
+    ghostColorPreR = FloatField(
+        default_value=0.44699999690055847, min_value=0.0, max_value=1.0
+    )
     grr = ghostColorPreR
 
-    ghostColorPreG = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreG = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpg = ghostColorPreG
 
-    ghostColorPreB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ghostColorPreB = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     gpb = ghostColorPreB
 
 
@@ -970,13 +1072,19 @@ class GhostColorPostPlugOperator(
         ("ghostColorPostB", "gab"),
     )
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
@@ -985,31 +1093,45 @@ class GhostColorPostAttrOperator(
 ):
     __slots__ = ()
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
 class GhostColorPostField(
-    Float3CompoundBaseField[GhostColorPostAttrOperator, GhostColorPostPlugOperator]
+    Float3CompoundBaseField[
+        GhostColorPostAttrOperator, GhostColorPostPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = GhostColorPostAttrOperator
     PLUG_CLS = GhostColorPostPlugOperator
 
-    ghostColorPostR = FloatField(default_value=0.878000020980835, min_value=0.0, max_value=1.0)
+    ghostColorPostR = FloatField(
+        default_value=0.878000020980835, min_value=0.0, max_value=1.0
+    )
     gar = ghostColorPostR
 
-    ghostColorPostG = FloatField(default_value=0.6779999732971191, min_value=0.0, max_value=1.0)
+    ghostColorPostG = FloatField(
+        default_value=0.6779999732971191, min_value=0.0, max_value=1.0
+    )
     gag = ghostColorPostG
 
-    ghostColorPostB = FloatField(default_value=0.6629999876022339, min_value=0.0, max_value=1.0)
+    ghostColorPostB = FloatField(
+        default_value=0.6629999876022339, min_value=0.0, max_value=1.0
+    )
     gab = ghostColorPostB
 
 
@@ -1049,7 +1171,9 @@ class OutlinerColorAttrOperator(
 
 
 class OutlinerColorField(
-    Float3CompoundBaseField[OutlinerColorAttrOperator, OutlinerColorPlugOperator]
+    Float3CompoundBaseField[
+        OutlinerColorAttrOperator, OutlinerColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1070,9 +1194,7 @@ class CompInstObjGroupsPlugOperator(
     CompoundPlugOperator["CompInstObjGroupsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("compObjectGroups", "cog"),
-    )
+    CHILD_ATTR_NAMES = (("compObjectGroups", "cog"),)
 
     compObjectGroups = CompoundField(multi=True)
     cog = compObjectGroups
@@ -1169,7 +1291,9 @@ class ControlPointsAttrOperator(
 
 
 class ControlPointsField(
-    DoubleLinear3CompoundBaseField[ControlPointsAttrOperator, ControlPointsPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ControlPointsAttrOperator, ControlPointsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1220,9 +1344,7 @@ class UvPivotField(
     pvy = uvPivotY
 
 
-class UvSetPlugOperator(
-    CompoundPlugOperator["UvSetAttrOperator"]
-):
+class UvSetPlugOperator(CompoundPlugOperator["UvSetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("uvSetName", "uvsn"),
@@ -1240,9 +1362,7 @@ class UvSetPlugOperator(
     uvtw = uvSetTweakLocation
 
 
-class UvSetAttrOperator(
-    CompoundAttrOperator[UvSetPlugOperator]
-):
+class UvSetAttrOperator(CompoundAttrOperator[UvSetPlugOperator]):
     __slots__ = ()
 
     uvSetName = DataStringField()
@@ -1255,18 +1375,14 @@ class UvSetAttrOperator(
     uvtw = uvSetTweakLocation
 
 
-class UvSetField(
-    CompoundField[UvSetAttrOperator, UvSetPlugOperator]
-):
+class UvSetField(CompoundField[UvSetAttrOperator, UvSetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UvSetAttrOperator
     PLUG_CLS = UvSetPlugOperator
 
 
-class ColorSetPlugOperator(
-    CompoundPlugOperator["ColorSetAttrOperator"]
-):
+class ColorSetPlugOperator(CompoundPlugOperator["ColorSetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorName", "clsn"),
@@ -1284,13 +1400,13 @@ class ColorSetPlugOperator(
     representation = RepresentationEnumField(default_value=4)
     rprt = representation
 
-    colorSetPoints = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
+    colorSetPoints = CompoundField(
+        multi=True, default_value=(0.0, 0.0, 0.0, 0.0)
+    )
     clsp = colorSetPoints
 
 
-class ColorSetAttrOperator(
-    CompoundAttrOperator[ColorSetPlugOperator]
-):
+class ColorSetAttrOperator(CompoundAttrOperator[ColorSetPlugOperator]):
     __slots__ = ()
 
     colorName = DataStringField()
@@ -1302,13 +1418,13 @@ class ColorSetAttrOperator(
     representation = RepresentationEnumField(default_value=4)
     rprt = representation
 
-    colorSetPoints = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0, 0.0))
+    colorSetPoints = CompoundField(
+        multi=True, default_value=(0.0, 0.0, 0.0, 0.0)
+    )
     clsp = colorSetPoints
 
 
-class ColorSetField(
-    CompoundField[ColorSetAttrOperator, ColorSetPlugOperator]
-):
+class ColorSetField(CompoundField[ColorSetAttrOperator, ColorSetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ColorSetAttrOperator
@@ -1351,7 +1467,9 @@ class BoundingBoxScaleAttrOperator(
 
 
 class BoundingBoxScaleField(
-    Float3CompoundBaseField[BoundingBoxScaleAttrOperator, BoundingBoxScalePlugOperator]
+    Float3CompoundBaseField[
+        BoundingBoxScaleAttrOperator, BoundingBoxScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1384,7 +1502,9 @@ class CollisionOffsetVelocityIncrementPlugOperator(
     collisionOffsetVelocityIncrement_FloatValue = FloatField(default_value=0.0)
     covifv = collisionOffsetVelocityIncrement_FloatValue
 
-    collisionOffsetVelocityIncrement_Interp = CollisionOffsetVelocityIncrement_InterpEnumField(default_value=0)
+    collisionOffsetVelocityIncrement_Interp = (
+        CollisionOffsetVelocityIncrement_InterpEnumField(default_value=0)
+    )
     covii = collisionOffsetVelocityIncrement_Interp
 
 
@@ -1399,12 +1519,17 @@ class CollisionOffsetVelocityIncrementAttrOperator(
     collisionOffsetVelocityIncrement_FloatValue = FloatField(default_value=0.0)
     covifv = collisionOffsetVelocityIncrement_FloatValue
 
-    collisionOffsetVelocityIncrement_Interp = CollisionOffsetVelocityIncrement_InterpEnumField(default_value=0)
+    collisionOffsetVelocityIncrement_Interp = (
+        CollisionOffsetVelocityIncrement_InterpEnumField(default_value=0)
+    )
     covii = collisionOffsetVelocityIncrement_Interp
 
 
 class CollisionOffsetVelocityIncrementField(
-    CompoundField[CollisionOffsetVelocityIncrementAttrOperator, CollisionOffsetVelocityIncrementPlugOperator]
+    CompoundField[
+        CollisionOffsetVelocityIncrementAttrOperator,
+        CollisionOffsetVelocityIncrementPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1428,7 +1553,9 @@ class CollisionDepthVelocityIncrementPlugOperator(
     collisionDepthVelocityIncrement_FloatValue = FloatField(default_value=0.0)
     cdvifv = collisionDepthVelocityIncrement_FloatValue
 
-    collisionDepthVelocityIncrement_Interp = CollisionDepthVelocityIncrement_InterpEnumField(default_value=0)
+    collisionDepthVelocityIncrement_Interp = (
+        CollisionDepthVelocityIncrement_InterpEnumField(default_value=0)
+    )
     cdvii = collisionDepthVelocityIncrement_Interp
 
 
@@ -1443,12 +1570,17 @@ class CollisionDepthVelocityIncrementAttrOperator(
     collisionDepthVelocityIncrement_FloatValue = FloatField(default_value=0.0)
     cdvifv = collisionDepthVelocityIncrement_FloatValue
 
-    collisionDepthVelocityIncrement_Interp = CollisionDepthVelocityIncrement_InterpEnumField(default_value=0)
+    collisionDepthVelocityIncrement_Interp = (
+        CollisionDepthVelocityIncrement_InterpEnumField(default_value=0)
+    )
     cdvii = collisionDepthVelocityIncrement_Interp
 
 
 class CollisionDepthVelocityIncrementField(
-    CompoundField[CollisionDepthVelocityIncrementAttrOperator, CollisionDepthVelocityIncrementPlugOperator]
+    CompoundField[
+        CollisionDepthVelocityIncrementAttrOperator,
+        CollisionDepthVelocityIncrementPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1469,10 +1601,14 @@ class CollisionOffsetVelocityMultiplierPlugOperator(
     collisionOffsetVelocityMultiplier_Position = FloatField(default_value=0.0)
     covmp = collisionOffsetVelocityMultiplier_Position
 
-    collisionOffsetVelocityMultiplier_FloatValue = FloatField(default_value=0.0)
+    collisionOffsetVelocityMultiplier_FloatValue = FloatField(
+        default_value=0.0
+    )
     covmfv = collisionOffsetVelocityMultiplier_FloatValue
 
-    collisionOffsetVelocityMultiplier_Interp = CollisionOffsetVelocityMultiplier_InterpEnumField(default_value=0)
+    collisionOffsetVelocityMultiplier_Interp = (
+        CollisionOffsetVelocityMultiplier_InterpEnumField(default_value=0)
+    )
     covmi = collisionOffsetVelocityMultiplier_Interp
 
 
@@ -1484,15 +1620,22 @@ class CollisionOffsetVelocityMultiplierAttrOperator(
     collisionOffsetVelocityMultiplier_Position = FloatField(default_value=0.0)
     covmp = collisionOffsetVelocityMultiplier_Position
 
-    collisionOffsetVelocityMultiplier_FloatValue = FloatField(default_value=0.0)
+    collisionOffsetVelocityMultiplier_FloatValue = FloatField(
+        default_value=0.0
+    )
     covmfv = collisionOffsetVelocityMultiplier_FloatValue
 
-    collisionOffsetVelocityMultiplier_Interp = CollisionOffsetVelocityMultiplier_InterpEnumField(default_value=0)
+    collisionOffsetVelocityMultiplier_Interp = (
+        CollisionOffsetVelocityMultiplier_InterpEnumField(default_value=0)
+    )
     covmi = collisionOffsetVelocityMultiplier_Interp
 
 
 class CollisionOffsetVelocityMultiplierField(
-    CompoundField[CollisionOffsetVelocityMultiplierAttrOperator, CollisionOffsetVelocityMultiplierPlugOperator]
+    CompoundField[
+        CollisionOffsetVelocityMultiplierAttrOperator,
+        CollisionOffsetVelocityMultiplierPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1516,7 +1659,9 @@ class CollisionDepthVelocityMultiplierPlugOperator(
     collisionDepthVelocityMultiplier_FloatValue = FloatField(default_value=0.0)
     cdvmfv = collisionDepthVelocityMultiplier_FloatValue
 
-    collisionDepthVelocityMultiplier_Interp = CollisionDepthVelocityMultiplier_InterpEnumField(default_value=0)
+    collisionDepthVelocityMultiplier_Interp = (
+        CollisionDepthVelocityMultiplier_InterpEnumField(default_value=0)
+    )
     cdvmi = collisionDepthVelocityMultiplier_Interp
 
 
@@ -1531,12 +1676,17 @@ class CollisionDepthVelocityMultiplierAttrOperator(
     collisionDepthVelocityMultiplier_FloatValue = FloatField(default_value=0.0)
     cdvmfv = collisionDepthVelocityMultiplier_FloatValue
 
-    collisionDepthVelocityMultiplier_Interp = CollisionDepthVelocityMultiplier_InterpEnumField(default_value=0)
+    collisionDepthVelocityMultiplier_Interp = (
+        CollisionDepthVelocityMultiplier_InterpEnumField(default_value=0)
+    )
     cdvmi = collisionDepthVelocityMultiplier_Interp
 
 
 class CollisionDepthVelocityMultiplierField(
-    CompoundField[CollisionDepthVelocityMultiplierAttrOperator, CollisionDepthVelocityMultiplierPlugOperator]
+    CompoundField[
+        CollisionDepthVelocityMultiplierAttrOperator,
+        CollisionDepthVelocityMultiplierPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1617,9 +1767,7 @@ class PntsPlugOperator(
     pz = pntz
 
 
-class PntsAttrOperator(
-    FloatLinear3CompoundBaseAttrOperator[PntsPlugOperator]
-):
+class PntsAttrOperator(FloatLinear3CompoundBaseAttrOperator[PntsPlugOperator]):
     __slots__ = ()
 
     pntx = FloatLinearField(default_value=0.0)
@@ -1641,9 +1789,7 @@ class PntsField(
     PLUG_CLS = PntsPlugOperator
 
 
-class VrtsPlugOperator(
-    Float3CompoundBasePlugOperator["VrtsAttrOperator"]
-):
+class VrtsPlugOperator(Float3CompoundBasePlugOperator["VrtsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("vrtx", "vx"),
@@ -1661,9 +1807,7 @@ class VrtsPlugOperator(
     vz = vrtz
 
 
-class VrtsAttrOperator(
-    Float3CompoundBaseAttrOperator[VrtsPlugOperator]
-):
+class VrtsAttrOperator(Float3CompoundBaseAttrOperator[VrtsPlugOperator]):
     __slots__ = ()
 
     vrtx = FloatField(default_value=0.0)
@@ -1676,18 +1820,14 @@ class VrtsAttrOperator(
     vz = vrtz
 
 
-class VrtsField(
-    Float3CompoundBaseField[VrtsAttrOperator, VrtsPlugOperator]
-):
+class VrtsField(Float3CompoundBaseField[VrtsAttrOperator, VrtsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = VrtsAttrOperator
     PLUG_CLS = VrtsPlugOperator
 
 
-class EdgePlugOperator(
-    Long3CompoundBasePlugOperator["EdgeAttrOperator"]
-):
+class EdgePlugOperator(Long3CompoundBasePlugOperator["EdgeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("edg1", "e1"),
@@ -1705,9 +1845,7 @@ class EdgePlugOperator(
     eh = edgh
 
 
-class EdgeAttrOperator(
-    Long3CompoundBaseAttrOperator[EdgePlugOperator]
-):
+class EdgeAttrOperator(Long3CompoundBaseAttrOperator[EdgePlugOperator]):
     __slots__ = ()
 
     edg1 = LongField(default_value=0)
@@ -1720,18 +1858,14 @@ class EdgeAttrOperator(
     eh = edgh
 
 
-class EdgeField(
-    Long3CompoundBaseField[EdgeAttrOperator, EdgePlugOperator]
-):
+class EdgeField(Long3CompoundBaseField[EdgeAttrOperator, EdgePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = EdgeAttrOperator
     PLUG_CLS = EdgePlugOperator
 
 
-class UvptPlugOperator(
-    Float2CompoundBasePlugOperator["UvptAttrOperator"]
-):
+class UvptPlugOperator(Float2CompoundBasePlugOperator["UvptAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("uvpx", "ux"),
@@ -1745,9 +1879,7 @@ class UvptPlugOperator(
     uy = uvpy
 
 
-class UvptAttrOperator(
-    Float2CompoundBaseAttrOperator[UvptPlugOperator]
-):
+class UvptAttrOperator(Float2CompoundBaseAttrOperator[UvptPlugOperator]):
     __slots__ = ()
 
     uvpx = FloatField(default_value=0.0)
@@ -1757,18 +1889,14 @@ class UvptAttrOperator(
     uy = uvpy
 
 
-class UvptField(
-    Float2CompoundBaseField[UvptAttrOperator, UvptPlugOperator]
-):
+class UvptField(Float2CompoundBaseField[UvptAttrOperator, UvptPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UvptAttrOperator
     PLUG_CLS = UvptPlugOperator
 
 
-class ColorsPlugOperator(
-    CompoundPlugOperator["ColorsAttrOperator"]
-):
+class ColorsPlugOperator(CompoundPlugOperator["ColorsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "clrr"),
@@ -1790,9 +1918,7 @@ class ColorsPlugOperator(
     clra = colorA
 
 
-class ColorsAttrOperator(
-    CompoundAttrOperator[ColorsPlugOperator]
-):
+class ColorsAttrOperator(CompoundAttrOperator[ColorsPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.0)
@@ -1808,9 +1934,7 @@ class ColorsAttrOperator(
     clra = colorA
 
 
-class ColorsField(
-    CompoundField[ColorsAttrOperator, ColorsPlugOperator]
-):
+class ColorsField(CompoundField[ColorsAttrOperator, ColorsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ColorsAttrOperator
@@ -1827,28 +1951,26 @@ class NormalsPlugOperator(
         ("normalz", "nz"),
     )
 
-    normalx = FloatField(default_value=1.0000000200408773e+20)
+    normalx = FloatField(default_value=1.0000000200408773e20)
     nx = normalx
 
-    normaly = FloatField(default_value=1.0000000200408773e+20)
+    normaly = FloatField(default_value=1.0000000200408773e20)
     ny = normaly
 
-    normalz = FloatField(default_value=1.0000000200408773e+20)
+    normalz = FloatField(default_value=1.0000000200408773e20)
     nz = normalz
 
 
-class NormalsAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalsPlugOperator]
-):
+class NormalsAttrOperator(Float3CompoundBaseAttrOperator[NormalsPlugOperator]):
     __slots__ = ()
 
-    normalx = FloatField(default_value=1.0000000200408773e+20)
+    normalx = FloatField(default_value=1.0000000200408773e20)
     nx = normalx
 
-    normaly = FloatField(default_value=1.0000000200408773e+20)
+    normaly = FloatField(default_value=1.0000000200408773e20)
     ny = normaly
 
-    normalz = FloatField(default_value=1.0000000200408773e+20)
+    normalz = FloatField(default_value=1.0000000200408773e20)
     nz = normalz
 
 
@@ -1865,9 +1987,7 @@ class ColorPerVertexPlugOperator(
     CompoundPlugOperator["ColorPerVertexAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexColor", "vclr"),
-    )
+    CHILD_ATTR_NAMES = (("vertexColor", "vclr"),)
 
     vertexColor = CompoundField(multi=True)
     vclr = vertexColor
@@ -1898,9 +2018,7 @@ class NormalPerVertexPlugOperator(
     CompoundPlugOperator["NormalPerVertexAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertexNormal", "vn"),
-    )
+    CHILD_ATTR_NAMES = (("vertexNormal", "vn"),)
 
     vertexNormal = CompoundField(multi=True)
     vn = vertexNormal
@@ -1963,7 +2081,9 @@ class AiShadowColorAttrOperator(
 
 
 class AiShadowColorField(
-    Float3CompoundBaseField[AiShadowColorAttrOperator, AiShadowColorPlugOperator]
+    Float3CompoundBaseField[
+        AiShadowColorAttrOperator, AiShadowColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1980,9 +2100,7 @@ class AiShadowColorField(
     ai_shadow_colorb = aiShadowColorB
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorRed", "scr"),
@@ -2000,9 +2118,7 @@ class ColorPlugOperator(
     scb = colorBlue
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorRed = FloatField(default_value=1.0)

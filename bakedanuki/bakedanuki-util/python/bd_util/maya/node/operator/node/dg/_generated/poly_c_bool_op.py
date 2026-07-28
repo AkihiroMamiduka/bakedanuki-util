@@ -7,14 +7,18 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"]):
+class MergeUVSetsEnumPlugOperator(
+    EnumPlugOperator["MergeUVSetsEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -22,7 +26,9 @@ class MergeUVSetsEnumPlugOperator(EnumPlugOperator["MergeUVSetsEnumAttrOperator"
     MERGE_BY_UV_LINKS = 2
 
 
-class MergeUVSetsEnumAttrOperator(EnumAttrOperator[MergeUVSetsEnumPlugOperator]):
+class MergeUVSetsEnumAttrOperator(
+    EnumAttrOperator[MergeUVSetsEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_MERGE = 0
@@ -76,14 +82,18 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class ClassificationEnumPlugOperator(EnumPlugOperator["ClassificationEnumAttrOperator"]):
+class ClassificationEnumPlugOperator(
+    EnumPlugOperator["ClassificationEnumAttrOperator"]
+):
     __slots__ = ()
 
     EDGE = 1
     NORMAL = 2
 
 
-class ClassificationEnumAttrOperator(EnumAttrOperator[ClassificationEnumPlugOperator]):
+class ClassificationEnumAttrOperator(
+    EnumAttrOperator[ClassificationEnumPlugOperator]
+):
     __slots__ = ()
 
     EDGE = 1
@@ -139,10 +149,14 @@ class GeneratedPolyCBoolOp(DG):
     useThresholds = BoolField(default_value=False)
     uth = useThresholds
 
-    vertexDistanceThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
+    vertexDistanceThreshold = DoubleLinearField(
+        default_value=0.001, min_value=0.0, soft_max_value=1.0
+    )
     vdt = vertexDistanceThreshold
 
-    faceAreaThreshold = DoubleLinearField(default_value=0.0001, min_value=0.0, soft_max_value=1.0)
+    faceAreaThreshold = DoubleLinearField(
+        default_value=0.0001, min_value=0.0, soft_max_value=1.0
+    )
     fat = faceAreaThreshold
 
     preserveColor = BoolField(default_value=False)

@@ -44,7 +44,9 @@ class GeneratedRenderLayer(DG):
     fileHasAlpha = BoolField(default_value=False, writable=False)
     fha = fileHasAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -53,7 +55,9 @@ class GeneratedRenderLayer(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    global_ = BoolField(default_value=False, long_name="global", short_name="g")
+    global_ = BoolField(
+        default_value=False, long_name="global", short_name="g"
+    )
     g = global_
 
     renderInfo = RenderInfoField(default_value=(0.0, 1.0, 0.0))
@@ -71,7 +75,11 @@ class GeneratedRenderLayer(DG):
     layerChildren = ShortField(multi=True, default_value=0, readable=False)
     rlc = layerChildren
 
-    renderPassInfo = RenderPassInfoField(default_value=(1.0, 0.0, 0.0, 0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
+    renderPassInfo = RenderPassInfoField(
+        default_value=(1.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+    )
     rp = renderPassInfo
     beauty = renderPassInfo.beauty
     b = beauty

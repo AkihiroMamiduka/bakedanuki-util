@@ -55,7 +55,9 @@ class ProjectionCenterAttrOperator(
 
 
 class ProjectionCenterField(
-    DoubleLinear3CompoundBaseField[ProjectionCenterAttrOperator, ProjectionCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ProjectionCenterAttrOperator, ProjectionCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -101,7 +103,9 @@ class ImageCenterAttrOperator(
 
 
 class ImageCenterField(
-    DoubleLinear2CompoundBaseField[ImageCenterAttrOperator, ImageCenterPlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ImageCenterAttrOperator, ImageCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -197,7 +201,9 @@ class ProjectionScaleAttrOperator(
 
 
 class ProjectionScaleField(
-    DoubleLinear2CompoundBaseField[ProjectionScaleAttrOperator, ProjectionScalePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ProjectionScaleAttrOperator, ProjectionScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -240,7 +246,9 @@ class ImageScaleAttrOperator(
 
 
 class ImageScaleField(
-    DoubleLinear2CompoundBaseField[ImageScaleAttrOperator, ImageScalePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ImageScaleAttrOperator, ImageScalePlugOperator
+    ]
 ):
     __slots__ = ()
 

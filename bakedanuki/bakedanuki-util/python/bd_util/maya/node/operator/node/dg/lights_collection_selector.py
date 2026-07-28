@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.lights_collection_selector import GeneratedLightsCollectionSelector
+from ._generated.lights_collection_selector import (
+    GeneratedLightsCollectionSelector,
+)
 
 
 class LightsCollectionSelector(GeneratedLightsCollectionSelector):

@@ -48,14 +48,18 @@ class OptimizeEnumField(
     PLUG_CLS = OptimizeEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator["LayoutMethodEnumAttrOperator"]):
+class LayoutMethodEnumPlugOperator(
+    EnumPlugOperator["LayoutMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator[LayoutMethodEnumPlugOperator]):
+class LayoutMethodEnumAttrOperator(
+    EnumAttrOperator[LayoutMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
@@ -239,7 +243,9 @@ class GeneratedPolyAutoProj(DG):
     layout = LayoutEnumField(default_value=2)
     l = layout
 
-    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
+    percentageSpace = FloatField(
+        default_value=0.0, min_value=0.0, max_value=5.0
+    )
     ps = percentageSpace
 
     scaleMode = ScaleModeEnumField(default_value=1)

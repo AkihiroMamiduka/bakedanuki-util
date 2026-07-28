@@ -8,7 +8,9 @@ from ..std.at.compound import (
 from ..std.at.generic import GenericField
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
@@ -16,9 +18,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputTrans", "it"),
@@ -44,9 +44,7 @@ class InputPlugOperator(
     w = weight
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputTrans = Double3Field(default_value=(0.0, 0.0, 0.0))
@@ -65,9 +63,7 @@ class InputAttrOperator(
     w = weight
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -110,7 +106,9 @@ class ObjectRotPivotAttrOperator(
 
 
 class ObjectRotPivotField(
-    DoubleLinear3CompoundBaseField[ObjectRotPivotAttrOperator, ObjectRotPivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ObjectRotPivotAttrOperator, ObjectRotPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -163,7 +161,9 @@ class ObjectRotTransAttrOperator(
 
 
 class ObjectRotTransField(
-    DoubleLinear3CompoundBaseField[ObjectRotTransAttrOperator, ObjectRotTransPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ObjectRotTransAttrOperator, ObjectRotTransPlugOperator
+    ]
 ):
     __slots__ = ()
 

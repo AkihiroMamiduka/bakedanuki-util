@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.apply_connection_override import GeneratedApplyConnectionOverride
+from ._generated.apply_connection_override import (
+    GeneratedApplyConnectionOverride,
+)
 
 
 class ApplyConnectionOverride(GeneratedApplyConnectionOverride):

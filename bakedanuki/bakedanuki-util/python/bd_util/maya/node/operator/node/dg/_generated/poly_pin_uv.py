@@ -92,7 +92,9 @@ class GeneratedPolyPinUV(DG):
     uvSetName = DataStringField()
     uvs = uvSetName
 
-    pin = FloatField(multi=True, default_value=-1.0, min_value=0.0, max_value=1.0)
+    pin = FloatField(
+        multi=True, default_value=-1.0, min_value=0.0, max_value=1.0
+    )
     pn = pin
 
     operation = OperationEnumField(default_value=0)

@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -134,9 +136,7 @@ class DefaultPlugOperator(
     defaultValueb = defaultB
 
 
-class DefaultAttrOperator(
-    Float3CompoundBaseAttrOperator[DefaultPlugOperator]
-):
+class DefaultAttrOperator(Float3CompoundBaseAttrOperator[DefaultPlugOperator]):
     __slots__ = ()
 
     defaultR = FloatField(default_value=0.0)

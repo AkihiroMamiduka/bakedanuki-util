@@ -38,7 +38,9 @@ class DomainEnumField(
     PLUG_CLS = DomainEnumPlugOperator
 
 
-class FilterWeightsEnumPlugOperator(EnumPlugOperator["FilterWeightsEnumAttrOperator"]):
+class FilterWeightsEnumPlugOperator(
+    EnumPlugOperator["FilterWeightsEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -50,7 +52,9 @@ class FilterWeightsEnumPlugOperator(EnumPlugOperator["FilterWeightsEnumAttrOpera
     TRIANGLE = 6
 
 
-class FilterWeightsEnumAttrOperator(EnumAttrOperator[FilterWeightsEnumPlugOperator]):
+class FilterWeightsEnumAttrOperator(
+    EnumAttrOperator[FilterWeightsEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -81,7 +85,9 @@ class FilterWeightsEnumField(
     PLUG_CLS = FilterWeightsEnumPlugOperator
 
 
-class AiFilterWeightsEnumPlugOperator(EnumPlugOperator["AiFilterWeightsEnumAttrOperator"]):
+class AiFilterWeightsEnumPlugOperator(
+    EnumPlugOperator["AiFilterWeightsEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -93,7 +99,9 @@ class AiFilterWeightsEnumPlugOperator(EnumPlugOperator["AiFilterWeightsEnumAttrO
     TRIANGLE = 6
 
 
-class AiFilterWeightsEnumAttrOperator(EnumAttrOperator[AiFilterWeightsEnumPlugOperator]):
+class AiFilterWeightsEnumAttrOperator(
+    EnumAttrOperator[AiFilterWeightsEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACKMAN_HARRIS = 0
@@ -152,5 +160,7 @@ class GeneratedAiAOVFilter(DG):
     aiWidth = FloatField(default_value=2.0, category="arnold")
     ai_width = aiWidth
 
-    aiFilterWeights = AiFilterWeightsEnumField(default_value=1, category="arnold")
+    aiFilterWeights = AiFilterWeightsEnumField(
+        default_value=1, category="arnold"
+    )
     ai_filter_weights = aiFilterWeights

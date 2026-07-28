@@ -7,9 +7,7 @@ from ..std.at.compound import (
 )
 
 
-class AttrAAPlugOperator(
-    CompoundPlugOperator["AttrAAAttrOperator"]
-):
+class AttrAAPlugOperator(CompoundPlugOperator["AttrAAAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("attrAD", "ad"),
@@ -27,9 +25,7 @@ class AttrAAPlugOperator(
     aj = attrAJ
 
 
-class AttrAAAttrOperator(
-    CompoundAttrOperator[AttrAAPlugOperator]
-):
+class AttrAAAttrOperator(CompoundAttrOperator[AttrAAPlugOperator]):
     __slots__ = ()
 
     attrAD = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -42,9 +38,7 @@ class AttrAAAttrOperator(
     aj = attrAJ
 
 
-class AttrAAField(
-    CompoundField[AttrAAAttrOperator, AttrAAPlugOperator]
-):
+class AttrAAField(CompoundField[AttrAAAttrOperator, AttrAAPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AttrAAAttrOperator
@@ -60,9 +54,7 @@ class AttrAAField(
     aj = attrAJ
 
 
-class AttrABPlugOperator(
-    CompoundPlugOperator["AttrABAttrOperator"]
-):
+class AttrABPlugOperator(CompoundPlugOperator["AttrABAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("attrAE", "ae"),
@@ -80,9 +72,7 @@ class AttrABPlugOperator(
     ak = attrAK
 
 
-class AttrABAttrOperator(
-    CompoundAttrOperator[AttrABPlugOperator]
-):
+class AttrABAttrOperator(CompoundAttrOperator[AttrABPlugOperator]):
     __slots__ = ()
 
     attrAE = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -95,9 +85,7 @@ class AttrABAttrOperator(
     ak = attrAK
 
 
-class AttrABField(
-    CompoundField[AttrABAttrOperator, AttrABPlugOperator]
-):
+class AttrABField(CompoundField[AttrABAttrOperator, AttrABPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AttrABAttrOperator
@@ -113,9 +101,7 @@ class AttrABField(
     ak = attrAK
 
 
-class AttrACPlugOperator(
-    CompoundPlugOperator["AttrACAttrOperator"]
-):
+class AttrACPlugOperator(CompoundPlugOperator["AttrACAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("attrAF", "af"),
@@ -133,9 +119,7 @@ class AttrACPlugOperator(
     al = attrAL
 
 
-class AttrACAttrOperator(
-    CompoundAttrOperator[AttrACPlugOperator]
-):
+class AttrACAttrOperator(CompoundAttrOperator[AttrACPlugOperator]):
     __slots__ = ()
 
     attrAF = CompoundField(default_value=(0.0, 0.0, 0.0))
@@ -148,9 +132,7 @@ class AttrACAttrOperator(
     al = attrAL
 
 
-class AttrACField(
-    CompoundField[AttrACAttrOperator, AttrACPlugOperator]
-):
+class AttrACField(CompoundField[AttrACAttrOperator, AttrACPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AttrACAttrOperator

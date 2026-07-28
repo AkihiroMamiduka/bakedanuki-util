@@ -28,9 +28,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -91,7 +89,9 @@ class PositionStrengthAttrOperator(
 
 
 class PositionStrengthField(
-    Float3CompoundBaseField[PositionStrengthAttrOperator, PositionStrengthPlugOperator]
+    Float3CompoundBaseField[
+        PositionStrengthAttrOperator, PositionStrengthPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -135,7 +135,9 @@ class RotationStrengthAttrOperator(
 
 
 class RotationStrengthField(
-    Float3CompoundBaseField[RotationStrengthAttrOperator, RotationStrengthPlugOperator]
+    Float3CompoundBaseField[
+        RotationStrengthAttrOperator, RotationStrengthPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -179,7 +181,9 @@ class ScaleStrengthAttrOperator(
 
 
 class ScaleStrengthField(
-    Float3CompoundBaseField[ScaleStrengthAttrOperator, ScaleStrengthPlugOperator]
+    Float3CompoundBaseField[
+        ScaleStrengthAttrOperator, ScaleStrengthPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -229,7 +233,9 @@ class PositionStrengthMapAttrOperator(
 
 
 class PositionStrengthMapField(
-    Float3CompoundBaseField[PositionStrengthMapAttrOperator, PositionStrengthMapPlugOperator]
+    Float3CompoundBaseField[
+        PositionStrengthMapAttrOperator, PositionStrengthMapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -282,7 +288,9 @@ class RotationStrengthMapAttrOperator(
 
 
 class RotationStrengthMapField(
-    Float3CompoundBaseField[RotationStrengthMapAttrOperator, RotationStrengthMapPlugOperator]
+    Float3CompoundBaseField[
+        RotationStrengthMapAttrOperator, RotationStrengthMapPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -335,7 +343,9 @@ class ScaleStrengthMapAttrOperator(
 
 
 class ScaleStrengthMapField(
-    Float3CompoundBaseField[ScaleStrengthMapAttrOperator, ScaleStrengthMapPlugOperator]
+    Float3CompoundBaseField[
+        ScaleStrengthMapAttrOperator, ScaleStrengthMapPlugOperator
+    ]
 ):
     __slots__ = ()
 

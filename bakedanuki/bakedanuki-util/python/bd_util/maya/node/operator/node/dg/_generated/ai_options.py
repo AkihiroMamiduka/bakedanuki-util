@@ -50,7 +50,9 @@ class AovModeEnumField(
     PLUG_CLS = AovModeEnumPlugOperator
 
 
-class RenderTypeEnumPlugOperator(EnumPlugOperator["RenderTypeEnumAttrOperator"]):
+class RenderTypeEnumPlugOperator(
+    EnumPlugOperator["RenderTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     INTERACTIVE = 0
@@ -81,7 +83,9 @@ class RenderTypeEnumField(
     PLUG_CLS = RenderTypeEnumPlugOperator
 
 
-class BucketScanningEnumPlugOperator(EnumPlugOperator["BucketScanningEnumAttrOperator"]):
+class BucketScanningEnumPlugOperator(
+    EnumPlugOperator["BucketScanningEnumAttrOperator"]
+):
     __slots__ = ()
 
     TOP = 0
@@ -91,7 +95,9 @@ class BucketScanningEnumPlugOperator(EnumPlugOperator["BucketScanningEnumAttrOpe
     HILBERT = 4
 
 
-class BucketScanningEnumAttrOperator(EnumAttrOperator[BucketScanningEnumPlugOperator]):
+class BucketScanningEnumAttrOperator(
+    EnumAttrOperator[BucketScanningEnumPlugOperator]
+):
     __slots__ = ()
 
     TOP = 0
@@ -118,14 +124,18 @@ class BucketScanningEnumField(
     PLUG_CLS = BucketScanningEnumPlugOperator
 
 
-class LightLinkingEnumPlugOperator(EnumPlugOperator["LightLinkingEnumAttrOperator"]):
+class LightLinkingEnumPlugOperator(
+    EnumPlugOperator["LightLinkingEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
     MAYA_LIGHT_LINKS = 1
 
 
-class LightLinkingEnumAttrOperator(EnumAttrOperator[LightLinkingEnumPlugOperator]):
+class LightLinkingEnumAttrOperator(
+    EnumAttrOperator[LightLinkingEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -146,7 +156,9 @@ class LightLinkingEnumField(
     PLUG_CLS = LightLinkingEnumPlugOperator
 
 
-class ShadowLinkingEnumPlugOperator(EnumPlugOperator["ShadowLinkingEnumAttrOperator"]):
+class ShadowLinkingEnumPlugOperator(
+    EnumPlugOperator["ShadowLinkingEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -154,7 +166,9 @@ class ShadowLinkingEnumPlugOperator(EnumPlugOperator["ShadowLinkingEnumAttrOpera
     MAYA_SHADOW_LINKS = 2
 
 
-class ShadowLinkingEnumAttrOperator(EnumAttrOperator[ShadowLinkingEnumPlugOperator]):
+class ShadowLinkingEnumAttrOperator(
+    EnumAttrOperator[ShadowLinkingEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -177,7 +191,9 @@ class ShadowLinkingEnumField(
     PLUG_CLS = ShadowLinkingEnumPlugOperator
 
 
-class Range_typeEnumPlugOperator(EnumPlugOperator["Range_typeEnumAttrOperator"]):
+class Range_typeEnumPlugOperator(
+    EnumPlugOperator["Range_typeEnumAttrOperator"]
+):
     __slots__ = ()
 
     START_ON_FRAME = 0
@@ -211,14 +227,18 @@ class Range_typeEnumField(
     PLUG_CLS = Range_typeEnumPlugOperator
 
 
-class RenderDeviceEnumPlugOperator(EnumPlugOperator["RenderDeviceEnumAttrOperator"]):
+class RenderDeviceEnumPlugOperator(
+    EnumPlugOperator["RenderDeviceEnumAttrOperator"]
+):
     __slots__ = ()
 
     CPU = 0
     GPU = 1
 
 
-class RenderDeviceEnumAttrOperator(EnumAttrOperator[RenderDeviceEnumPlugOperator]):
+class RenderDeviceEnumAttrOperator(
+    EnumAttrOperator[RenderDeviceEnumPlugOperator]
+):
     __slots__ = ()
 
     CPU = 0
@@ -239,14 +259,18 @@ class RenderDeviceEnumField(
     PLUG_CLS = RenderDeviceEnumPlugOperator
 
 
-class Render_device_fallbackEnumPlugOperator(EnumPlugOperator["Render_device_fallbackEnumAttrOperator"]):
+class Render_device_fallbackEnumPlugOperator(
+    EnumPlugOperator["Render_device_fallbackEnumAttrOperator"]
+):
     __slots__ = ()
 
     ERROR = 0
     CPU = 1
 
 
-class Render_device_fallbackEnumAttrOperator(EnumAttrOperator[Render_device_fallbackEnumPlugOperator]):
+class Render_device_fallbackEnumAttrOperator(
+    EnumAttrOperator[Render_device_fallbackEnumPlugOperator]
+):
     __slots__ = ()
 
     ERROR = 0
@@ -259,7 +283,10 @@ class Render_device_fallbackEnumAttrOperator(EnumAttrOperator[Render_device_fall
 
 
 class Render_device_fallbackEnumField(
-    EnumField[Render_device_fallbackEnumAttrOperator, Render_device_fallbackEnumPlugOperator]
+    EnumField[
+        Render_device_fallbackEnumAttrOperator,
+        Render_device_fallbackEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -267,7 +294,9 @@ class Render_device_fallbackEnumField(
     PLUG_CLS = Render_device_fallbackEnumPlugOperator
 
 
-class Log_verbosityEnumPlugOperator(EnumPlugOperator["Log_verbosityEnumAttrOperator"]):
+class Log_verbosityEnumPlugOperator(
+    EnumPlugOperator["Log_verbosityEnumAttrOperator"]
+):
     __slots__ = ()
 
     ERRORS = 0
@@ -276,7 +305,9 @@ class Log_verbosityEnumPlugOperator(EnumPlugOperator["Log_verbosityEnumAttrOpera
     DEBUG = 3
 
 
-class Log_verbosityEnumAttrOperator(EnumAttrOperator[Log_verbosityEnumPlugOperator]):
+class Log_verbosityEnumAttrOperator(
+    EnumAttrOperator[Log_verbosityEnumPlugOperator]
+):
     __slots__ = ()
 
     ERRORS = 0
@@ -301,7 +332,9 @@ class Log_verbosityEnumField(
     PLUG_CLS = Log_verbosityEnumPlugOperator
 
 
-class Stats_modeEnumPlugOperator(EnumPlugOperator["Stats_modeEnumAttrOperator"]):
+class Stats_modeEnumPlugOperator(
+    EnumPlugOperator["Stats_modeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OVERWRITE = 0
@@ -329,14 +362,18 @@ class Stats_modeEnumField(
     PLUG_CLS = Stats_modeEnumPlugOperator
 
 
-class ExportSeparatorEnumPlugOperator(EnumPlugOperator["ExportSeparatorEnumAttrOperator"]):
+class ExportSeparatorEnumPlugOperator(
+    EnumPlugOperator["ExportSeparatorEnumAttrOperator"]
+):
     __slots__ = ()
 
     PIPE = 0
     SLASH = 1
 
 
-class ExportSeparatorEnumAttrOperator(EnumAttrOperator[ExportSeparatorEnumPlugOperator]):
+class ExportSeparatorEnumAttrOperator(
+    EnumAttrOperator[ExportSeparatorEnumPlugOperator]
+):
     __slots__ = ()
 
     PIPE = 0
@@ -357,7 +394,9 @@ class ExportSeparatorEnumField(
     PLUG_CLS = ExportSeparatorEnumPlugOperator
 
 
-class ExportNamespaceEnumPlugOperator(EnumPlugOperator["ExportNamespaceEnumAttrOperator"]):
+class ExportNamespaceEnumPlugOperator(
+    EnumPlugOperator["ExportNamespaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -365,7 +404,9 @@ class ExportNamespaceEnumPlugOperator(EnumPlugOperator["ExportNamespaceEnumAttrO
     ROOT = 2
 
 
-class ExportNamespaceEnumAttrOperator(EnumAttrOperator[ExportNamespaceEnumPlugOperator]):
+class ExportNamespaceEnumAttrOperator(
+    EnumAttrOperator[ExportNamespaceEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -388,14 +429,18 @@ class ExportNamespaceEnumField(
     PLUG_CLS = ExportNamespaceEnumPlugOperator
 
 
-class ExportDagNameEnumPlugOperator(EnumPlugOperator["ExportDagNameEnumAttrOperator"]):
+class ExportDagNameEnumPlugOperator(
+    EnumPlugOperator["ExportDagNameEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHAPE = 0
     TRANSFORM = 1
 
 
-class ExportDagNameEnumAttrOperator(EnumAttrOperator[ExportDagNameEnumPlugOperator]):
+class ExportDagNameEnumAttrOperator(
+    EnumAttrOperator[ExportDagNameEnumPlugOperator]
+):
     __slots__ = ()
 
     SHAPE = 0
@@ -416,7 +461,9 @@ class ExportDagNameEnumField(
     PLUG_CLS = ExportDagNameEnumPlugOperator
 
 
-class StandinDrawOverrideEnumPlugOperator(EnumPlugOperator["StandinDrawOverrideEnumAttrOperator"]):
+class StandinDrawOverrideEnumPlugOperator(
+    EnumPlugOperator["StandinDrawOverrideEnumAttrOperator"]
+):
     __slots__ = ()
 
     USE_LOCAL_SETTINGS = 0
@@ -425,7 +472,9 @@ class StandinDrawOverrideEnumPlugOperator(EnumPlugOperator["StandinDrawOverrideE
     DISABLE_LOAD = 3
 
 
-class StandinDrawOverrideEnumAttrOperator(EnumAttrOperator[StandinDrawOverrideEnumPlugOperator]):
+class StandinDrawOverrideEnumAttrOperator(
+    EnumAttrOperator[StandinDrawOverrideEnumPlugOperator]
+):
     __slots__ = ()
 
     USE_LOCAL_SETTINGS = 0
@@ -442,7 +491,10 @@ class StandinDrawOverrideEnumAttrOperator(EnumAttrOperator[StandinDrawOverrideEn
 
 
 class StandinDrawOverrideEnumField(
-    EnumField[StandinDrawOverrideEnumAttrOperator, StandinDrawOverrideEnumPlugOperator]
+    EnumField[
+        StandinDrawOverrideEnumAttrOperator,
+        StandinDrawOverrideEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -450,7 +502,9 @@ class StandinDrawOverrideEnumField(
     PLUG_CLS = StandinDrawOverrideEnumPlugOperator
 
 
-class RenderUnitEnumPlugOperator(EnumPlugOperator["RenderUnitEnumAttrOperator"]):
+class RenderUnitEnumPlugOperator(
+    EnumPlugOperator["RenderUnitEnumAttrOperator"]
+):
     __slots__ = ()
 
     USE_MAYA_UNIT = 0
@@ -537,19 +591,29 @@ class GeneratedAiOptions(DG):
     progressive_rendering = BoolField(default_value=True)
     prog = progressive_rendering
 
-    progressive_initial_level = LongField(default_value=-3, min_value=-10, max_value=100, soft_min_value=-3, soft_max_value=10)
+    progressive_initial_level = LongField(
+        default_value=-3,
+        min_value=-10,
+        max_value=100,
+        soft_min_value=-3,
+        soft_max_value=10,
+    )
     progil = progressive_initial_level
 
     threads_autodetect = BoolField(default_value=True)
     thr_auto = threads_autodetect
 
-    threads = LongField(default_value=1, min_value=-1024, max_value=1024, soft_min_value=1)
+    threads = LongField(
+        default_value=1, min_value=-1024, max_value=1024, soft_min_value=1
+    )
     thrds = threads
 
     bucketScanning = BucketScanningEnumField(default_value=3)
     bktsc = bucketScanning
 
-    bucketSize = LongField(default_value=64, min_value=16, soft_min_value=16, soft_max_value=256)
+    bucketSize = LongField(
+        default_value=64, min_value=16, soft_min_value=16, soft_max_value=256
+    )
     bucket_size = bucketSize
 
     clear_before_render = BoolField(default_value=True)
@@ -564,7 +628,9 @@ class GeneratedAiOptions(DG):
     abortOnError = BoolField(default_value=True)
     abort_on_error = abortOnError
 
-    errorColorBadTexture = ErrorColorBadTextureField(default_value=(1.0, 0.0, 0.0))
+    errorColorBadTexture = ErrorColorBadTextureField(
+        default_value=(1.0, 0.0, 0.0)
+    )
     error_color_bad_texture = errorColorBadTexture
     errorColorBadTextureR = errorColorBadTexture.errorColorBadTextureR
     error_color_bad_texturer = errorColorBadTextureR
@@ -591,31 +657,71 @@ class GeneratedAiOptions(DG):
     plugins_path = DataStringField()
     ppath = plugins_path
 
-    AASamples = LongField(default_value=3, min_value=-10, max_value=1020, soft_min_value=1, soft_max_value=50)
+    AASamples = LongField(
+        default_value=3,
+        min_value=-10,
+        max_value=1020,
+        soft_min_value=1,
+        soft_max_value=50,
+    )
     AA_samples = AASamples
 
-    GIDiffuseSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
+    GIDiffuseSamples = LongField(
+        default_value=2,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=10,
+    )
     GI_diffuse_samples = GIDiffuseSamples
 
-    GISpecularSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
+    GISpecularSamples = LongField(
+        default_value=2,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=10,
+    )
     GI_specular_samples = GISpecularSamples
 
-    GITransmissionSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
+    GITransmissionSamples = LongField(
+        default_value=2,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=10,
+    )
     GI_transmission_samples = GITransmissionSamples
 
-    GISssSamples = LongField(default_value=2, min_value=0, max_value=100, soft_min_value=0, soft_max_value=10)
+    GISssSamples = LongField(
+        default_value=2,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=10,
+    )
     GI_sss_samples = GISssSamples
 
-    GIVolumeSamples = LongField(default_value=2, min_value=0, soft_max_value=10)
+    GIVolumeSamples = LongField(
+        default_value=2, min_value=0, soft_max_value=10
+    )
     GI_volume_samples = GIVolumeSamples
 
     enableAdaptiveSampling = BoolField(default_value=False)
     enable_adaptive_sampling = enableAdaptiveSampling
 
-    AASamplesMax = LongField(default_value=20, min_value=0, max_value=1020, soft_min_value=1, soft_max_value=100)
+    AASamplesMax = LongField(
+        default_value=20,
+        min_value=0,
+        max_value=1020,
+        soft_min_value=1,
+        soft_max_value=100,
+    )
     AA_samples_max = AASamplesMax
 
-    AAAdaptiveThreshold = FloatField(default_value=0.014999999664723873, min_value=0.0, soft_max_value=1.0)
+    AAAdaptiveThreshold = FloatField(
+        default_value=0.014999999664723873, min_value=0.0, soft_max_value=1.0
+    )
     AA_adaptive_threshold = AAAdaptiveThreshold
 
     enableProgressiveRender = BoolField(default_value=False)
@@ -639,10 +745,19 @@ class GeneratedAiOptions(DG):
     use_sample_clamp_AOVs = BoolField(default_value=False)
     usesmpclampaovs = use_sample_clamp_AOVs
 
-    AASampleClamp = FloatField(default_value=10.0, soft_min_value=0.0010000000474974513, soft_max_value=100.0)
+    AASampleClamp = FloatField(
+        default_value=10.0,
+        soft_min_value=0.0010000000474974513,
+        soft_max_value=100.0,
+    )
     AA_sample_clamp = AASampleClamp
 
-    indirectSampleClamp = FloatField(default_value=10.0, min_value=0.0, soft_min_value=0.0010000000474974513, soft_max_value=100.0)
+    indirectSampleClamp = FloatField(
+        default_value=10.0,
+        min_value=0.0,
+        soft_min_value=0.0010000000474974513,
+        soft_max_value=100.0,
+    )
     indirect_sample_clamp = indirectSampleClamp
 
     lock_sampling_noise = BoolField(default_value=False)
@@ -651,7 +766,9 @@ class GeneratedAiOptions(DG):
     sssUseAutobump = BoolField(default_value=False)
     sss_use_autobump = sssUseAutobump
 
-    indirectSpecularBlur = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    indirectSpecularBlur = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     indirect_specular_blur = indirectSpecularBlur
 
     dielectricPriorities = BoolField(default_value=True)
@@ -663,22 +780,54 @@ class GeneratedAiOptions(DG):
     filterType = DataStringField()
     fltr = filterType
 
-    GIDiffuseDepth = LongField(default_value=1, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
+    GIDiffuseDepth = LongField(
+        default_value=1,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=16,
+    )
     GI_diffuse_depth = GIDiffuseDepth
 
-    GISpecularDepth = LongField(default_value=1, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
+    GISpecularDepth = LongField(
+        default_value=1,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=16,
+    )
     GI_specular_depth = GISpecularDepth
 
-    GITransmissionDepth = LongField(default_value=8, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
+    GITransmissionDepth = LongField(
+        default_value=8,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=16,
+    )
     GI_transmission_depth = GITransmissionDepth
 
-    GIVolumeDepth = LongField(default_value=0, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
+    GIVolumeDepth = LongField(
+        default_value=0,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=16,
+    )
     GI_volume_depth = GIVolumeDepth
 
-    GITotalDepth = LongField(default_value=10, min_value=0, max_value=100, soft_min_value=0, soft_max_value=16)
+    GITotalDepth = LongField(
+        default_value=10,
+        min_value=0,
+        max_value=100,
+        soft_min_value=0,
+        soft_max_value=16,
+    )
     GI_total_depth = GITotalDepth
 
-    autoTransparencyDepth = LongField(default_value=10, min_value=0, soft_min_value=0, soft_max_value=16)
+    autoTransparencyDepth = LongField(
+        default_value=10, min_value=0, soft_min_value=0, soft_max_value=16
+    )
     auto_transparency_depth = autoTransparencyDepth
 
     lightLinking = LightLinkingEnumField(default_value=1)
@@ -690,10 +839,16 @@ class GeneratedAiOptions(DG):
     globalLightSamplesEnabled = BoolField(default_value=False)
     lsen = globalLightSamplesEnabled
 
-    lightSamples = LongField(default_value=4, min_value=0, max_value=16, soft_max_value=10)
+    lightSamples = LongField(
+        default_value=4, min_value=0, max_value=16, soft_max_value=10
+    )
     light_samples = lightSamples
 
-    lowLightThreshold = FloatField(default_value=0.0010000000474974513, min_value=0.0, soft_max_value=0.10000000149011612)
+    lowLightThreshold = FloatField(
+        default_value=0.0010000000474974513,
+        min_value=0.0,
+        soft_max_value=0.10000000149011612,
+    )
     low_light_threshold = lowLightThreshold
 
     motion_blur_enable = BoolField(default_value=False)
@@ -720,16 +875,27 @@ class GeneratedAiOptions(DG):
     range_type = Range_typeEnumField(default_value=1)
     rgtp = range_type
 
-    motion_frames = FloatField(default_value=0.5, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    motion_frames = FloatField(
+        default_value=0.5,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     motf = motion_frames
 
-    motion_start = FloatField(default_value=-0.25, soft_min_value=-1.0, soft_max_value=0.0)
+    motion_start = FloatField(
+        default_value=-0.25, soft_min_value=-1.0, soft_max_value=0.0
+    )
     motstart = motion_start
 
-    motion_end = FloatField(default_value=0.25, soft_min_value=0.0, soft_max_value=1.0)
+    motion_end = FloatField(
+        default_value=0.25, soft_min_value=0.0, soft_max_value=1.0
+    )
     motend = motion_end
 
-    maxSubdivisions = ByteField(default_value=255, min_value=0, max_value=255, soft_max_value=10)
+    maxSubdivisions = ByteField(
+        default_value=255, min_value=0, max_value=255, soft_max_value=10
+    )
     max_subdivisions = maxSubdivisions
 
     subdivFrustumCulling = BoolField(default_value=False)
@@ -741,7 +907,9 @@ class GeneratedAiOptions(DG):
     subdivDicingCamera = MessageField()
     subdiv_dicing_camera = subdivDicingCamera
 
-    textureAutotile = LongField(default_value=0, min_value=0, soft_min_value=16, soft_max_value=64)
+    textureAutotile = LongField(
+        default_value=0, min_value=0, soft_min_value=16, soft_max_value=64
+    )
     texture_autotile = textureAutotile
 
     textureMaxMemoryMB = FloatField(default_value=4096.0, min_value=1024.0)
@@ -844,7 +1012,9 @@ class GeneratedAiOptions(DG):
     output_ass_compressed = BoolField(default_value=False)
     oasc = output_ass_compressed
 
-    output_ass_mask = LongField(default_value=65535, min_value=0, max_value=65535)
+    output_ass_mask = LongField(
+        default_value=65535, min_value=0, max_value=65535
+    )
     oamask = output_ass_mask
 
     log_to_file = BoolField(default_value=False)
@@ -856,7 +1026,9 @@ class GeneratedAiOptions(DG):
     log_filename = DataStringField()
     logf = log_filename
 
-    log_max_warnings = LongField(default_value=5, min_value=0, soft_max_value=100)
+    log_max_warnings = LongField(
+        default_value=5, min_value=0, soft_max_value=100
+    )
     logw = log_max_warnings
 
     log_verbosity = Log_verbosityEnumField(default_value=1)
@@ -984,7 +1156,12 @@ class GeneratedAiOptions(DG):
     renderUnit = RenderUnitEnumField(default_value=0)
     render_unit = renderUnit
 
-    sceneScale = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.01, soft_max_value=5.0)
+    sceneScale = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.01,
+        soft_max_value=5.0,
+    )
     scene_scale = sceneScale
 
     offsetOrigin = BoolField(default_value=False)

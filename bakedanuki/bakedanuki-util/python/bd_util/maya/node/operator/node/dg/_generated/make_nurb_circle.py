@@ -12,8 +12,12 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
@@ -77,10 +81,14 @@ class GeneratedMakeNurbCircle(DG):
     centerZ = center.centerZ
     cz = centerZ
 
-    radius = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    radius = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     r = radius
 
-    sweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
+    sweep = DoubleAngleField(
+        default_value=360.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     sw = sweep
 
     useTolerance = BoolField(default_value=False)
@@ -92,7 +100,12 @@ class GeneratedMakeNurbCircle(DG):
     sections = LongField(default_value=8, min_value=1, soft_max_value=100)
     s = sections
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=1e-05,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     tol = tolerance
 
     fixCenter = BoolField(default_value=True)

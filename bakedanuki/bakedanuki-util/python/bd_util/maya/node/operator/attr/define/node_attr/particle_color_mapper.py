@@ -44,7 +44,9 @@ class ParticleColorAttrOperator(
 
 
 class ParticleColorField(
-    Float3CompoundBaseField[ParticleColorAttrOperator, ParticleColorPlugOperator]
+    Float3CompoundBaseField[
+        ParticleColorAttrOperator, ParticleColorPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -14,7 +14,6 @@ from ._core import (
     UnsupportedScenario,
 )
 
-
 _BATCHED_MODES = {
     "scalar_set": "batched",
     "create_nodes": "batched",
@@ -255,9 +254,7 @@ class NodeOperatorAdapter(BaseBenchmarkAdapter):
         modifier.do_it_dg()
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 
@@ -275,9 +272,7 @@ class NodeOperatorAdapter(BaseBenchmarkAdapter):
         modifier.do_it_dg()
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 
@@ -410,9 +405,7 @@ class CymelAdapter(BaseBenchmarkAdapter):
             previous = node
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 
@@ -427,9 +420,7 @@ class CymelAdapter(BaseBenchmarkAdapter):
             last_destination = decompose.inputMatrix
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 
@@ -566,9 +557,7 @@ class AlOmxAdapter(BaseBenchmarkAdapter):
         modifier.doIt()
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 
@@ -588,9 +577,7 @@ class AlOmxAdapter(BaseBenchmarkAdapter):
         modifier.doIt()
         return OperationResult(
             last_destination=(
-                str(last_destination)
-                if last_destination is not None
-                else None
+                str(last_destination) if last_destination is not None else None
             )
         )
 

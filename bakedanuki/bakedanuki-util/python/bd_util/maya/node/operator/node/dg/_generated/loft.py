@@ -68,7 +68,9 @@ class GeneratedLoft(DG):
     reverseSurfaceNormals = BoolField(default_value=False)
     rsn = reverseSurfaceNormals
 
-    sectionSpans = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=10)
+    sectionSpans = LongField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=10
+    )
     ss = sectionSpans
 
     createCusp = BoolField(multi=True, default_value=False)

@@ -97,7 +97,9 @@ class Out_directionAttrOperator(
 
 
 class Out_directionField(
-    Float3CompoundBaseField[Out_directionAttrOperator, Out_directionPlugOperator]
+    Float3CompoundBaseField[
+        Out_directionAttrOperator, Out_directionPlugOperator
+    ]
 ):
     __slots__ = ()
 

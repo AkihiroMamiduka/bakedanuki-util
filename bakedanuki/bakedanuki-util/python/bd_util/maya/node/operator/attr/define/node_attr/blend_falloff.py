@@ -51,18 +51,14 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class TargetPlugOperator(
-    CompoundPlugOperator["TargetAttrOperator"]
-):
+class TargetPlugOperator(CompoundPlugOperator["TargetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("mode", "mod"),
@@ -80,9 +76,7 @@ class TargetPlugOperator(
     whf = weightFunction
 
 
-class TargetAttrOperator(
-    CompoundAttrOperator[TargetPlugOperator]
-):
+class TargetAttrOperator(CompoundAttrOperator[TargetPlugOperator]):
     __slots__ = ()
 
     mode = ModeEnumField(default_value=1)
@@ -95,9 +89,7 @@ class TargetAttrOperator(
     whf = weightFunction
 
 
-class TargetField(
-    CompoundField[TargetAttrOperator, TargetPlugOperator]
-):
+class TargetField(CompoundField[TargetAttrOperator, TargetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TargetAttrOperator

@@ -10,7 +10,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class OutputTypeEnumPlugOperator(EnumPlugOperator["OutputTypeEnumAttrOperator"]):
+class OutputTypeEnumPlugOperator(
+    EnumPlugOperator["OutputTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NURBS = 0

@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class OutPlugOperator(
-    Float3CompoundBasePlugOperator["OutAttrOperator"]
-):
+class OutPlugOperator(Float3CompoundBasePlugOperator["OutAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("out0", "o0"),
@@ -28,9 +26,7 @@ class OutPlugOperator(
     o2 = out2
 
 
-class OutAttrOperator(
-    Float3CompoundBaseAttrOperator[OutPlugOperator]
-):
+class OutAttrOperator(Float3CompoundBaseAttrOperator[OutPlugOperator]):
     __slots__ = ()
 
     out0 = FloatField(default_value=0.0, writable=False)
@@ -43,9 +39,7 @@ class OutAttrOperator(
     o2 = out2
 
 
-class OutField(
-    Float3CompoundBaseField[OutAttrOperator, OutPlugOperator]
-):
+class OutField(Float3CompoundBaseField[OutAttrOperator, OutPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutAttrOperator
@@ -114,9 +108,7 @@ class OriginalField(
     ori2 = original2
 
 
-class ValuePlugOperator(
-    Float3CompoundBasePlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(Float3CompoundBasePlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("value0", "val0"),
@@ -134,9 +126,7 @@ class ValuePlugOperator(
     val2 = value2
 
 
-class ValueAttrOperator(
-    Float3CompoundBaseAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(Float3CompoundBaseAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     value0 = FloatField(default_value=0.0, readable=False)

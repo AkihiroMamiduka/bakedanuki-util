@@ -13,11 +13,11 @@ class PerFunctionWeightsPlugOperator(
     CompoundPlugOperator["PerFunctionWeightsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("perFunctionVertexWeights", "pfvw"),
-    )
+    CHILD_ATTR_NAMES = (("perFunctionVertexWeights", "pfvw"),)
 
-    perFunctionVertexWeights = FloatField(multi=True, default_value=0.0, writable=False)
+    perFunctionVertexWeights = FloatField(
+        multi=True, default_value=0.0, writable=False
+    )
     pfvw = perFunctionVertexWeights
 
 
@@ -26,12 +26,16 @@ class PerFunctionWeightsAttrOperator(
 ):
     __slots__ = ()
 
-    perFunctionVertexWeights = FloatField(multi=True, default_value=0.0, writable=False)
+    perFunctionVertexWeights = FloatField(
+        multi=True, default_value=0.0, writable=False
+    )
     pfvw = perFunctionVertexWeights
 
 
 class PerFunctionWeightsField(
-    CompoundField[PerFunctionWeightsAttrOperator, PerFunctionWeightsPlugOperator]
+    CompoundField[
+        PerFunctionWeightsAttrOperator, PerFunctionWeightsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -43,11 +47,11 @@ class PerVertexWeightsPlugOperator(
     CompoundPlugOperator["PerVertexWeightsAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("perVertexFalloffWeights", "pvfw"),
-    )
+    CHILD_ATTR_NAMES = (("perVertexFalloffWeights", "pvfw"),)
 
-    perVertexFalloffWeights = DoubleField(multi=True, default_value=0.0, writable=False)
+    perVertexFalloffWeights = DoubleField(
+        multi=True, default_value=0.0, writable=False
+    )
     pvfw = perVertexFalloffWeights
 
 
@@ -56,7 +60,9 @@ class PerVertexWeightsAttrOperator(
 ):
     __slots__ = ()
 
-    perVertexFalloffWeights = DoubleField(multi=True, default_value=0.0, writable=False)
+    perVertexFalloffWeights = DoubleField(
+        multi=True, default_value=0.0, writable=False
+    )
     pvfw = perVertexFalloffWeights
 
 

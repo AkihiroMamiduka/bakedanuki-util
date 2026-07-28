@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.mesh import DataMeshField
 
@@ -79,16 +81,22 @@ class GeneratedPolyDuplicateEdge(DG):
     offset = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
     of = offset
 
-    startVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    startVertexOffset = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     svo = startVertexOffset
 
-    endVertexOffset = FloatField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    endVertexOffset = FloatField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     evo = endVertexOffset
 
     deleteEdge = BoolField(default_value=True)
     de = deleteEdge
 
-    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=180.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     sma = smoothingAngle
 
     splitType = SplitTypeEnumField(default_value=1)
@@ -97,5 +105,7 @@ class GeneratedPolyDuplicateEdge(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

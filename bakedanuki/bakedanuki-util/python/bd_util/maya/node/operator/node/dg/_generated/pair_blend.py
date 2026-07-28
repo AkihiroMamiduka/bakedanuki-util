@@ -16,14 +16,18 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 
 
-class CurrentDriverEnumPlugOperator(EnumPlugOperator["CurrentDriverEnumAttrOperator"]):
+class CurrentDriverEnumPlugOperator(
+    EnumPlugOperator["CurrentDriverEnumAttrOperator"]
+):
     __slots__ = ()
 
     INPUT_1 = 1
     INPUT_2 = 2
 
 
-class CurrentDriverEnumAttrOperator(EnumAttrOperator[CurrentDriverEnumPlugOperator]):
+class CurrentDriverEnumAttrOperator(
+    EnumAttrOperator[CurrentDriverEnumPlugOperator]
+):
     __slots__ = ()
 
     INPUT_1 = 1
@@ -44,7 +48,9 @@ class CurrentDriverEnumField(
     PLUG_CLS = CurrentDriverEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -55,7 +61,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -84,7 +92,9 @@ class RotateOrderEnumField(
     PLUG_CLS = RotateOrderEnumPlugOperator
 
 
-class TranslateXModeEnumPlugOperator(EnumPlugOperator["TranslateXModeEnumAttrOperator"]):
+class TranslateXModeEnumPlugOperator(
+    EnumPlugOperator["TranslateXModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -92,7 +102,9 @@ class TranslateXModeEnumPlugOperator(EnumPlugOperator["TranslateXModeEnumAttrOpe
     INPUT_2_ONLY = 2
 
 
-class TranslateXModeEnumAttrOperator(EnumAttrOperator[TranslateXModeEnumPlugOperator]):
+class TranslateXModeEnumAttrOperator(
+    EnumAttrOperator[TranslateXModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -115,7 +127,9 @@ class TranslateXModeEnumField(
     PLUG_CLS = TranslateXModeEnumPlugOperator
 
 
-class TranslateYModeEnumPlugOperator(EnumPlugOperator["TranslateYModeEnumAttrOperator"]):
+class TranslateYModeEnumPlugOperator(
+    EnumPlugOperator["TranslateYModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -123,7 +137,9 @@ class TranslateYModeEnumPlugOperator(EnumPlugOperator["TranslateYModeEnumAttrOpe
     INPUT_2_ONLY = 2
 
 
-class TranslateYModeEnumAttrOperator(EnumAttrOperator[TranslateYModeEnumPlugOperator]):
+class TranslateYModeEnumAttrOperator(
+    EnumAttrOperator[TranslateYModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -146,7 +162,9 @@ class TranslateYModeEnumField(
     PLUG_CLS = TranslateYModeEnumPlugOperator
 
 
-class TranslateZModeEnumPlugOperator(EnumPlugOperator["TranslateZModeEnumAttrOperator"]):
+class TranslateZModeEnumPlugOperator(
+    EnumPlugOperator["TranslateZModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -154,7 +172,9 @@ class TranslateZModeEnumPlugOperator(EnumPlugOperator["TranslateZModeEnumAttrOpe
     INPUT_2_ONLY = 2
 
 
-class TranslateZModeEnumAttrOperator(EnumAttrOperator[TranslateZModeEnumPlugOperator]):
+class TranslateZModeEnumAttrOperator(
+    EnumAttrOperator[TranslateZModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -177,7 +197,9 @@ class TranslateZModeEnumField(
     PLUG_CLS = TranslateZModeEnumPlugOperator
 
 
-class RotateModeEnumPlugOperator(EnumPlugOperator["RotateModeEnumAttrOperator"]):
+class RotateModeEnumPlugOperator(
+    EnumPlugOperator["RotateModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLEND_INPUTS = 0
@@ -208,14 +230,18 @@ class RotateModeEnumField(
     PLUG_CLS = RotateModeEnumPlugOperator
 
 
-class RotInterpolationEnumPlugOperator(EnumPlugOperator["RotInterpolationEnumAttrOperator"]):
+class RotInterpolationEnumPlugOperator(
+    EnumPlugOperator["RotInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     EULER_ANGLES = 0
     QUATERNIONS = 1
 
 
-class RotInterpolationEnumAttrOperator(EnumAttrOperator[RotInterpolationEnumPlugOperator]):
+class RotInterpolationEnumAttrOperator(
+    EnumAttrOperator[RotInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     EULER_ANGLES = 0
@@ -228,7 +254,9 @@ class RotInterpolationEnumAttrOperator(EnumAttrOperator[RotInterpolationEnumPlug
 
 
 class RotInterpolationEnumField(
-    EnumField[RotInterpolationEnumAttrOperator, RotInterpolationEnumPlugOperator]
+    EnumField[
+        RotInterpolationEnumAttrOperator, RotInterpolationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -280,7 +308,9 @@ class GeneratedPairBlend(DG):
     inRotateZ2 = inRotate2.inRotateZ2
     irz2 = inRotateZ2
 
-    weight = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    weight = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     w = weight
 
     rotateOrder = RotateOrderEnumField(default_value=0)
@@ -301,7 +331,9 @@ class GeneratedPairBlend(DG):
     rotInterpolation = RotInterpolationEnumField(default_value=0)
     ri = rotInterpolation
 
-    outTranslate = OutTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTranslate = OutTranslateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTranslate
     outTranslateX = outTranslate.outTranslateX
     otx = outTranslateX

@@ -44,7 +44,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class PositionOffsetAttrOperator(
 
 
 class PositionOffsetField(
-    Float3CompoundBaseField[PositionOffsetAttrOperator, PositionOffsetPlugOperator]
+    Float3CompoundBaseField[
+        PositionOffsetAttrOperator, PositionOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 

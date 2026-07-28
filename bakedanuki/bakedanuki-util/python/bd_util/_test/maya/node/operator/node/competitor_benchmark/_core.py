@@ -13,7 +13,6 @@ from typing import Any, Iterable, Sequence
 
 from maya import cmds
 
-
 SCALAR_VALUE = 1.25
 
 
@@ -302,9 +301,7 @@ def run_benchmarks(
                         count,
                         repeat_index=None,
                         status="unavailable",
-                        note=(
-                            f"{type(load_error).__name__}: {load_error}"
-                        ),
+                        note=(f"{type(load_error).__name__}: {load_error}"),
                     )
                 )
                 continue
@@ -441,10 +438,7 @@ def main(
             _find_repo_root()
             / "benchmark_results"
             / "competitor"
-            / (
-                "competitor_benchmark_"
-                f"{datetime.now():%Y%m%d_%H%M%S}.csv"
-            )
+            / ("competitor_benchmark_" f"{datetime.now():%Y%m%d_%H%M%S}.csv")
         )
     path = write_csv(records, output_path)
     print_summary(records)

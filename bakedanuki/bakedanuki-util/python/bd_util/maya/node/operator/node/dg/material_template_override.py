@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.material_template_override import GeneratedMaterialTemplateOverride
+from ._generated.material_template_override import (
+    GeneratedMaterialTemplateOverride,
+)
 
 
 class MaterialTemplateOverride(GeneratedMaterialTemplateOverride):

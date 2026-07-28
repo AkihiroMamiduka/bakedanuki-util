@@ -44,7 +44,9 @@ class LocalPositionAttrOperator(
 
 
 class LocalPositionField(
-    DoubleLinear3CompoundBaseField[LocalPositionAttrOperator, LocalPositionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalPositionAttrOperator, LocalPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

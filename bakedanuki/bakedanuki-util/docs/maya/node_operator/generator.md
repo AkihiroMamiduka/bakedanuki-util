@@ -475,6 +475,20 @@ import maya.cmds as cmds
 cmds.loadPlugin("mtoa", quiet=True)
 ```
 
+生成結果には、Maya実行環境と分離した共通のBlack設定を適用します。
+正式な出力先へ生成した後は、リポジトリ直下で次を実行してください。
+
+```powershell
+.\scripts\format.cmd
+```
+
+これにより、生成器自体をBlackへ依存させず、手書きコードと生成コードに
+同じformatを適用できます。整形後の状態は次で確認します。
+
+```powershell
+.\scripts\format.cmd -Check
+```
+
 ## 検証
 
 Generator まわりの pytest は次にあります。
@@ -524,6 +538,8 @@ IDE から具体的な戻り値型を追えるように、次のスクリプト�
 
 新しい NodeOperator class を追加または再生成した場合は、両方のstubも再生成してください。
 差分を発生させず、現在のstubが最新か確認する場合は `--check` を指定します。
+`--check`はBlackによる折り返しなどのformat差分を無視し、Python ASTとして
+生成内容が一致しているかを確認します。
 
 公開基底クラスの `Shape` は、具体的な Maya node type ではありません。
 そのため `Shape` クラス自体は継承用に維持しますが、実ノードを型別に包めない

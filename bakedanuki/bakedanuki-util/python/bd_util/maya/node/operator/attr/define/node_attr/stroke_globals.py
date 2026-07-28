@@ -44,7 +44,9 @@ class LightDirectionAttrOperator(
 
 
 class LightDirectionField(
-    Double3CompoundBaseField[LightDirectionAttrOperator, LightDirectionPlugOperator]
+    Double3CompoundBaseField[
+        LightDirectionAttrOperator, LightDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

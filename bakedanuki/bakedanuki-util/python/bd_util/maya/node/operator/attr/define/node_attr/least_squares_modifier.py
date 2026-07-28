@@ -6,7 +6,9 @@ from ..std.at.compound import (
     CompoundField,
 )
 from ..std.at.scalar.numeric.range.double import DoubleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 
 
 class PointConstraintPlugOperator(
@@ -19,10 +21,14 @@ class PointConstraintPlugOperator(
         ("pointWeight", "pw"),
     )
 
-    pointPositionXYZ = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
+    pointPositionXYZ = Double3Field(
+        default_value=(-100000.0, -100000.0, -100000.0)
+    )
     xyz = pointPositionXYZ
 
-    pointConstraintUVW = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
+    pointConstraintUVW = Double3Field(
+        default_value=(-100000.0, -100000.0, -100000.0)
+    )
     puv = pointConstraintUVW
 
     pointWeight = DoubleField(default_value=1.0)
@@ -34,10 +40,14 @@ class PointConstraintAttrOperator(
 ):
     __slots__ = ()
 
-    pointPositionXYZ = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
+    pointPositionXYZ = Double3Field(
+        default_value=(-100000.0, -100000.0, -100000.0)
+    )
     xyz = pointPositionXYZ
 
-    pointConstraintUVW = Double3Field(default_value=(-100000.0, -100000.0, -100000.0))
+    pointConstraintUVW = Double3Field(
+        default_value=(-100000.0, -100000.0, -100000.0)
+    )
     puv = pointConstraintUVW
 
     pointWeight = DoubleField(default_value=1.0)

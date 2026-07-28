@@ -26,7 +26,9 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator["CurveRamp_InterpEnumAttrOperator"]):
+class CurveRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["CurveRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -35,7 +37,9 @@ class CurveRamp_InterpEnumPlugOperator(EnumPlugOperator["CurveRamp_InterpEnumAtt
     SPLINE = 3
 
 
-class CurveRamp_InterpEnumAttrOperator(EnumAttrOperator[CurveRamp_InterpEnumPlugOperator]):
+class CurveRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[CurveRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -52,7 +56,9 @@ class CurveRamp_InterpEnumAttrOperator(EnumAttrOperator[CurveRamp_InterpEnumPlug
 
 
 class CurveRamp_InterpEnumField(
-    EnumField[CurveRamp_InterpEnumAttrOperator, CurveRamp_InterpEnumPlugOperator]
+    EnumField[
+        CurveRamp_InterpEnumAttrOperator, CurveRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -60,7 +66,9 @@ class CurveRamp_InterpEnumField(
     PLUG_CLS = CurveRamp_InterpEnumPlugOperator
 
 
-class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator["InflationRamp_InterpEnumAttrOperator"]):
+class InflationRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["InflationRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -69,7 +77,9 @@ class InflationRamp_InterpEnumPlugOperator(EnumPlugOperator["InflationRamp_Inter
     SPLINE = 3
 
 
-class InflationRamp_InterpEnumAttrOperator(EnumAttrOperator[InflationRamp_InterpEnumPlugOperator]):
+class InflationRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[InflationRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -86,7 +96,10 @@ class InflationRamp_InterpEnumAttrOperator(EnumAttrOperator[InflationRamp_Interp
 
 
 class InflationRamp_InterpEnumField(
-    EnumField[InflationRamp_InterpEnumAttrOperator, InflationRamp_InterpEnumPlugOperator]
+    EnumField[
+        InflationRamp_InterpEnumAttrOperator,
+        InflationRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -94,7 +107,9 @@ class InflationRamp_InterpEnumField(
     PLUG_CLS = InflationRamp_InterpEnumPlugOperator
 
 
-class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator["BlendRamp_InterpEnumAttrOperator"]):
+class BlendRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["BlendRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -103,7 +118,9 @@ class BlendRamp_InterpEnumPlugOperator(EnumPlugOperator["BlendRamp_InterpEnumAtt
     SPLINE = 3
 
 
-class BlendRamp_InterpEnumAttrOperator(EnumAttrOperator[BlendRamp_InterpEnumPlugOperator]):
+class BlendRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[BlendRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -120,7 +137,9 @@ class BlendRamp_InterpEnumAttrOperator(EnumAttrOperator[BlendRamp_InterpEnumPlug
 
 
 class BlendRamp_InterpEnumField(
-    EnumField[BlendRamp_InterpEnumAttrOperator, BlendRamp_InterpEnumPlugOperator]
+    EnumField[
+        BlendRamp_InterpEnumAttrOperator, BlendRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -128,7 +147,9 @@ class BlendRamp_InterpEnumField(
     PLUG_CLS = BlendRamp_InterpEnumPlugOperator
 
 
-class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator["SmoothingRamp_InterpEnumAttrOperator"]):
+class SmoothingRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["SmoothingRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -137,7 +158,9 @@ class SmoothingRamp_InterpEnumPlugOperator(EnumPlugOperator["SmoothingRamp_Inter
     SPLINE = 3
 
 
-class SmoothingRamp_InterpEnumAttrOperator(EnumAttrOperator[SmoothingRamp_InterpEnumPlugOperator]):
+class SmoothingRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[SmoothingRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -154,7 +177,10 @@ class SmoothingRamp_InterpEnumAttrOperator(EnumAttrOperator[SmoothingRamp_Interp
 
 
 class SmoothingRamp_InterpEnumField(
-    EnumField[SmoothingRamp_InterpEnumAttrOperator, SmoothingRamp_InterpEnumPlugOperator]
+    EnumField[
+        SmoothingRamp_InterpEnumAttrOperator,
+        SmoothingRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -162,9 +188,7 @@ class SmoothingRamp_InterpEnumField(
     PLUG_CLS = SmoothingRamp_InterpEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -182,9 +206,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -197,9 +219,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -210,9 +230,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -228,7 +246,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -289,20 +309,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -317,9 +331,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class CurveRampPlugOperator(
-    CompoundPlugOperator["CurveRampAttrOperator"]
-):
+class CurveRampPlugOperator(CompoundPlugOperator["CurveRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("curveRamp_Position", "curveRampp"),
@@ -337,9 +349,7 @@ class CurveRampPlugOperator(
     curveRampi = curveRamp_Interp
 
 
-class CurveRampAttrOperator(
-    CompoundAttrOperator[CurveRampPlugOperator]
-):
+class CurveRampAttrOperator(CompoundAttrOperator[CurveRampPlugOperator]):
     __slots__ = ()
 
     curveRamp_Position = FloatField(default_value=0.0)
@@ -405,9 +415,7 @@ class InflationRampField(
     PLUG_CLS = InflationRampPlugOperator
 
 
-class BlendRampPlugOperator(
-    CompoundPlugOperator["BlendRampAttrOperator"]
-):
+class BlendRampPlugOperator(CompoundPlugOperator["BlendRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("blendRamp_Position", "blendRampp"),
@@ -425,9 +433,7 @@ class BlendRampPlugOperator(
     blendRampi = blendRamp_Interp
 
 
-class BlendRampAttrOperator(
-    CompoundAttrOperator[BlendRampPlugOperator]
-):
+class BlendRampAttrOperator(CompoundAttrOperator[BlendRampPlugOperator]):
     __slots__ = ()
 
     blendRamp_Position = FloatField(default_value=0.0)
@@ -513,9 +519,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)

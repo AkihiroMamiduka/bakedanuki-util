@@ -20,9 +20,19 @@ class GeneratedAiImagerLensEffects(DG):
     layerSelection = DataStringField()
     layer_selection = layerSelection
 
-    vignetting = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    vignetting = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
 
-    bloomThreshold = FloatField(default_value=0.8999999761581421, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    bloomThreshold = FloatField(
+        default_value=0.8999999761581421,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     bloom_threshold = bloomThreshold
 
     bloomTint = BloomTintField(default_value=(1.0, 1.0, 1.0))
@@ -34,8 +44,15 @@ class GeneratedAiImagerLensEffects(DG):
     bloomTintB = bloomTint.bloomTintB
     bloom_tintb = bloomTintB
 
-    bloomRadius = LongField(default_value=4, min_value=1, soft_min_value=1, soft_max_value=12)
+    bloomRadius = LongField(
+        default_value=4, min_value=1, soft_min_value=1, soft_max_value=12
+    )
     bloom_radius = bloomRadius
 
-    bloomStrength = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    bloomStrength = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     bloom_strength = bloomStrength

@@ -24,7 +24,9 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class DriverWrapModeEnumPlugOperator(EnumPlugOperator["DriverWrapModeEnumAttrOperator"]):
+class DriverWrapModeEnumPlugOperator(
+    EnumPlugOperator["DriverWrapModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFFSET = 0
@@ -35,7 +37,9 @@ class DriverWrapModeEnumPlugOperator(EnumPlugOperator["DriverWrapModeEnumAttrOpe
     GLOBAL = 100
 
 
-class DriverWrapModeEnumAttrOperator(EnumAttrOperator[DriverWrapModeEnumPlugOperator]):
+class DriverWrapModeEnumAttrOperator(
+    EnumAttrOperator[DriverWrapModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFFSET = 0
@@ -64,7 +68,9 @@ class DriverWrapModeEnumField(
     PLUG_CLS = DriverWrapModeEnumPlugOperator
 
 
-class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator["FalloffRamp_InterpEnumAttrOperator"]):
+class FalloffRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["FalloffRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -73,7 +79,9 @@ class FalloffRamp_InterpEnumPlugOperator(EnumPlugOperator["FalloffRamp_InterpEnu
     SPLINE = 3
 
 
-class FalloffRamp_InterpEnumAttrOperator(EnumAttrOperator[FalloffRamp_InterpEnumPlugOperator]):
+class FalloffRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[FalloffRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +98,9 @@ class FalloffRamp_InterpEnumAttrOperator(EnumAttrOperator[FalloffRamp_InterpEnum
 
 
 class FalloffRamp_InterpEnumField(
-    EnumField[FalloffRamp_InterpEnumAttrOperator, FalloffRamp_InterpEnumPlugOperator]
+    EnumField[
+        FalloffRamp_InterpEnumAttrOperator, FalloffRamp_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -98,9 +108,7 @@ class FalloffRamp_InterpEnumField(
     PLUG_CLS = FalloffRamp_InterpEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -118,9 +126,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -133,9 +139,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -146,9 +150,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -164,7 +166,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -225,20 +229,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -253,9 +251,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class DriversPlugOperator(
-    CompoundPlugOperator["DriversAttrOperator"]
-):
+class DriversPlugOperator(CompoundPlugOperator["DriversAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("driverBindGeometry", "orgdrv"),
@@ -295,28 +291,49 @@ class DriversPlugOperator(
     driverClusterMatrix = MatrixField()
     dcurcls = driverClusterMatrix
 
-    driverFalloffStart = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    driverFalloffStart = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dfos = driverFalloffStart
 
-    driverFalloffEnd = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    driverFalloffEnd = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dfoe = driverFalloffEnd
 
-    driverDropoffRate = DoubleField(default_value=4.0, min_value=0.0, soft_max_value=10.0)
+    driverDropoffRate = DoubleField(
+        default_value=4.0, min_value=0.0, soft_max_value=10.0
+    )
     ddpo = driverDropoffRate
 
-    driverFalloffRamp = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
+    driverFalloffRamp = CompoundField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     dfrmp = driverFalloffRamp
 
     driverOverrideFalloffRamp = BoolField(default_value=False)
     dofrmp = driverOverrideFalloffRamp
 
-    driverStrength = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    driverStrength = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=2.0,
+    )
     dstrn = driverStrength
 
     driverUseTransformAsDeformation = BoolField(default_value=True)
     dxad = driverUseTransformAsDeformation
 
-    driverScaleCompensation = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    driverScaleCompensation = DoubleField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     dscp = driverScaleCompensation
 
     driverSmoothNormals = LongField(default_value=0, min_value=0, max_value=20)
@@ -328,7 +345,9 @@ class DriversPlugOperator(
     driverSpanSamples = LongField(default_value=2, min_value=1, max_value=10)
     dspns = driverSpanSamples
 
-    driverSmoothInfluences = LongField(default_value=0, min_value=0, max_value=20)
+    driverSmoothInfluences = LongField(
+        default_value=0, min_value=0, max_value=20
+    )
     dsinf = driverSmoothInfluences
 
     driverOverrideSmoothInfluences = BoolField(default_value=False)
@@ -341,9 +360,7 @@ class DriversPlugOperator(
     dwmd = driverWrapMode
 
 
-class DriversAttrOperator(
-    CompoundAttrOperator[DriversPlugOperator]
-):
+class DriversAttrOperator(CompoundAttrOperator[DriversPlugOperator]):
     __slots__ = ()
 
     driverBindGeometry = TypedField()
@@ -361,28 +378,49 @@ class DriversAttrOperator(
     driverClusterMatrix = MatrixField()
     dcurcls = driverClusterMatrix
 
-    driverFalloffStart = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    driverFalloffStart = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dfos = driverFalloffStart
 
-    driverFalloffEnd = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    driverFalloffEnd = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dfoe = driverFalloffEnd
 
-    driverDropoffRate = DoubleField(default_value=4.0, min_value=0.0, soft_max_value=10.0)
+    driverDropoffRate = DoubleField(
+        default_value=4.0, min_value=0.0, soft_max_value=10.0
+    )
     ddpo = driverDropoffRate
 
-    driverFalloffRamp = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
+    driverFalloffRamp = CompoundField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     dfrmp = driverFalloffRamp
 
     driverOverrideFalloffRamp = BoolField(default_value=False)
     dofrmp = driverOverrideFalloffRamp
 
-    driverStrength = DoubleField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    driverStrength = DoubleField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=2.0,
+    )
     dstrn = driverStrength
 
     driverUseTransformAsDeformation = BoolField(default_value=True)
     dxad = driverUseTransformAsDeformation
 
-    driverScaleCompensation = DoubleField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    driverScaleCompensation = DoubleField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     dscp = driverScaleCompensation
 
     driverSmoothNormals = LongField(default_value=0, min_value=0, max_value=20)
@@ -394,7 +432,9 @@ class DriversAttrOperator(
     driverSpanSamples = LongField(default_value=2, min_value=1, max_value=10)
     dspns = driverSpanSamples
 
-    driverSmoothInfluences = LongField(default_value=0, min_value=0, max_value=20)
+    driverSmoothInfluences = LongField(
+        default_value=0, min_value=0, max_value=20
+    )
     dsinf = driverSmoothInfluences
 
     driverOverrideSmoothInfluences = BoolField(default_value=False)
@@ -407,18 +447,14 @@ class DriversAttrOperator(
     dwmd = driverWrapMode
 
 
-class DriversField(
-    CompoundField[DriversAttrOperator, DriversPlugOperator]
-):
+class DriversField(CompoundField[DriversAttrOperator, DriversPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DriversAttrOperator
     PLUG_CLS = DriversPlugOperator
 
 
-class FalloffRampPlugOperator(
-    CompoundPlugOperator["FalloffRampAttrOperator"]
-):
+class FalloffRampPlugOperator(CompoundPlugOperator["FalloffRampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("falloffRamp_Position", "frmpp"),
@@ -436,9 +472,7 @@ class FalloffRampPlugOperator(
     frmpi = falloffRamp_Interp
 
 
-class FalloffRampAttrOperator(
-    CompoundAttrOperator[FalloffRampPlugOperator]
-):
+class FalloffRampAttrOperator(CompoundAttrOperator[FalloffRampPlugOperator]):
     __slots__ = ()
 
     falloffRamp_Position = FloatField(default_value=0.0)
@@ -464,11 +498,11 @@ class PerDriverWeightsListPlugOperator(
     CompoundPlugOperator["PerDriverWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("perDriverWeights", "pdw"),
-    )
+    CHILD_ATTR_NAMES = (("perDriverWeights", "pdw"),)
 
-    perDriverWeights = CompoundField(multi=True, default_value=0.0, writable=False)
+    perDriverWeights = CompoundField(
+        multi=True, default_value=0.0, writable=False
+    )
     pdw = perDriverWeights
 
 
@@ -477,12 +511,16 @@ class PerDriverWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    perDriverWeights = CompoundField(multi=True, default_value=0.0, writable=False)
+    perDriverWeights = CompoundField(
+        multi=True, default_value=0.0, writable=False
+    )
     pdw = perDriverWeights
 
 
 class PerDriverWeightsListField(
-    CompoundField[PerDriverWeightsListAttrOperator, PerDriverWeightsListPlugOperator]
+    CompoundField[
+        PerDriverWeightsListAttrOperator, PerDriverWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -494,11 +532,11 @@ class PerVertexWeightsListPlugOperator(
     CompoundPlugOperator["PerVertexWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("perVertexWeights", "pvw"),
-    )
+    CHILD_ATTR_NAMES = (("perVertexWeights", "pvw"),)
 
-    perVertexWeights = CompoundField(multi=True, default_value=0.0, writable=False)
+    perVertexWeights = CompoundField(
+        multi=True, default_value=0.0, writable=False
+    )
     pvw = perVertexWeights
 
 
@@ -507,12 +545,16 @@ class PerVertexWeightsListAttrOperator(
 ):
     __slots__ = ()
 
-    perVertexWeights = CompoundField(multi=True, default_value=0.0, writable=False)
+    perVertexWeights = CompoundField(
+        multi=True, default_value=0.0, writable=False
+    )
     pvw = perVertexWeights
 
 
 class PerVertexWeightsListField(
-    CompoundField[PerVertexWeightsListAttrOperator, PerVertexWeightsListPlugOperator]
+    CompoundField[
+        PerVertexWeightsListAttrOperator, PerVertexWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 

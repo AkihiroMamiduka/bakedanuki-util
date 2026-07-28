@@ -5,7 +5,9 @@ from ....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
@@ -48,7 +50,12 @@ class GeneratedFitBspline(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    tolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.1,
+        min_value=1e-05,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     tol = tolerance
 
     outputCurve = DataNurbsCurveField(writable=False)

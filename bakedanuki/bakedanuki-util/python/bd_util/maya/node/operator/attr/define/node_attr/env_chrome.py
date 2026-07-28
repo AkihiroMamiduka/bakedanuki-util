@@ -135,9 +135,7 @@ class UvCoordPlugOperator(
     v = vCoord
 
 
-class UvCoordAttrOperator(
-    Float2CompoundBaseAttrOperator[UvCoordPlugOperator]
-):
+class UvCoordAttrOperator(Float2CompoundBaseAttrOperator[UvCoordPlugOperator]):
     __slots__ = ()
 
     uCoord = FloatField(default_value=0.0)
@@ -374,10 +372,14 @@ class SkyColorPlugOperator(
         ("skyColorB", "scb"),
     )
 
-    skyColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scr = skyColorR
 
-    skyColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scg = skyColorG
 
     skyColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -389,10 +391,14 @@ class SkyColorAttrOperator(
 ):
     __slots__ = ()
 
-    skyColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scr = skyColorR
 
-    skyColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scg = skyColorG
 
     skyColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -407,10 +413,14 @@ class SkyColorField(
     ATTR_CLS = SkyColorAttrOperator
     PLUG_CLS = SkyColorPlugOperator
 
-    skyColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scr = skyColorR
 
-    skyColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    skyColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     scg = skyColorG
 
     skyColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -427,10 +437,14 @@ class ZenithColorPlugOperator(
         ("zenithColorB", "zcb"),
     )
 
-    zenithColorR = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorR = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcr = zenithColorR
 
-    zenithColorG = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorG = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcg = zenithColorG
 
     zenithColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -442,10 +456,14 @@ class ZenithColorAttrOperator(
 ):
     __slots__ = ()
 
-    zenithColorR = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorR = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcr = zenithColorR
 
-    zenithColorG = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorG = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcg = zenithColorG
 
     zenithColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -460,10 +478,14 @@ class ZenithColorField(
     ATTR_CLS = ZenithColorAttrOperator
     PLUG_CLS = ZenithColorPlugOperator
 
-    zenithColorR = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorR = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcr = zenithColorR
 
-    zenithColorG = FloatField(default_value=0.3919999897480011, min_value=0.0, max_value=1.0)
+    zenithColorG = FloatField(
+        default_value=0.3919999897480011, min_value=0.0, max_value=1.0
+    )
     zcg = zenithColorG
 
     zenithColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -480,10 +502,14 @@ class LightColorPlugOperator(
         ("lightColorB", "lcb"),
     )
 
-    lightColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcr = lightColorR
 
-    lightColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcg = lightColorG
 
     lightColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -495,10 +521,14 @@ class LightColorAttrOperator(
 ):
     __slots__ = ()
 
-    lightColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcr = lightColorR
 
-    lightColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcg = lightColorG
 
     lightColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -513,10 +543,14 @@ class LightColorField(
     ATTR_CLS = LightColorAttrOperator
     PLUG_CLS = LightColorPlugOperator
 
-    lightColorR = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorR = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcr = lightColorR
 
-    lightColorG = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    lightColorG = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     lcg = lightColorG
 
     lightColorB = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
@@ -533,13 +567,19 @@ class FloorColorPlugOperator(
         ("floorColorB", "fcb"),
     )
 
-    floorColorR = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 
@@ -548,13 +588,19 @@ class FloorColorAttrOperator(
 ):
     __slots__ = ()
 
-    floorColorR = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 
@@ -566,13 +612,19 @@ class FloorColorField(
     ATTR_CLS = FloorColorAttrOperator
     PLUG_CLS = FloorColorPlugOperator
 
-    floorColorR = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorR = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcr = floorColorR
 
-    floorColorG = FloatField(default_value=0.5879999995231628, min_value=0.0, max_value=1.0)
+    floorColorG = FloatField(
+        default_value=0.5879999995231628, min_value=0.0, max_value=1.0
+    )
     fcg = floorColorG
 
-    floorColorB = FloatField(default_value=0.7839999794960022, min_value=0.0, max_value=1.0)
+    floorColorB = FloatField(
+        default_value=0.7839999794960022, min_value=0.0, max_value=1.0
+    )
     fcb = floorColorB
 
 

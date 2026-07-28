@@ -50,5 +50,7 @@ class GeneratedSurfaceShader(DG):
     outGlowColorB = outGlowColor.outGlowColorB
     ogb = outGlowColorB
 
-    materialAlphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    materialAlphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     maga = materialAlphaGain

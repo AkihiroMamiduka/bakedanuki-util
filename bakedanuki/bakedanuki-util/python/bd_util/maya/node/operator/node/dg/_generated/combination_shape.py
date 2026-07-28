@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class CombinationMethodEnumPlugOperator(EnumPlugOperator["CombinationMethodEnumAttrOperator"]):
+class CombinationMethodEnumPlugOperator(
+    EnumPlugOperator["CombinationMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     MULTIPLICATION = 0
@@ -16,7 +18,9 @@ class CombinationMethodEnumPlugOperator(EnumPlugOperator["CombinationMethodEnumA
     SMOOTH = 2
 
 
-class CombinationMethodEnumAttrOperator(EnumAttrOperator[CombinationMethodEnumPlugOperator]):
+class CombinationMethodEnumAttrOperator(
+    EnumAttrOperator[CombinationMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     MULTIPLICATION = 0
@@ -31,7 +35,9 @@ class CombinationMethodEnumAttrOperator(EnumAttrOperator[CombinationMethodEnumPl
 
 
 class CombinationMethodEnumField(
-    EnumField[CombinationMethodEnumAttrOperator, CombinationMethodEnumPlugOperator]
+    EnumField[
+        CombinationMethodEnumAttrOperator, CombinationMethodEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 

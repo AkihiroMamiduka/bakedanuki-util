@@ -63,7 +63,9 @@ class PatternEnumField(
     PLUG_CLS = PatternEnumPlugOperator
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -111,7 +113,9 @@ class GeneratedAiCellNoise(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -128,9 +132,16 @@ class GeneratedAiCellNoise(DG):
 
     randomness = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    lacunarity = FloatField(default_value=1.9199999570846558, min_value=9.999999747378752e-05, soft_min_value=1.0, soft_max_value=5.0)
+    lacunarity = FloatField(
+        default_value=1.9199999570846558,
+        min_value=9.999999747378752e-05,
+        soft_min_value=1.0,
+        soft_max_value=5.0,
+    )
 
-    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    amplitude = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     scale = ScaleField(default_value=(1.0, 1.0, 1.0))
     scaleX = scale.scaleX

@@ -13,7 +13,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -22,7 +24,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOpe
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -52,7 +56,11 @@ class GeneratedContrast(DG):
 
     NODE_TYPE = "contrast"
 
-    value = ValueField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    value = ValueField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     v = value
     valueX = value.valueX
     vx = valueX
@@ -61,7 +69,11 @@ class GeneratedContrast(DG):
     valueZ = value.valueZ
     vz = valueZ
 
-    contrast = ContrastField(default_value=(2.0, 2.0, 2.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
+    contrast = ContrastField(
+        default_value=(2.0, 2.0, 2.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(5.0, 5.0, 5.0),
+    )
     c = contrast
     contrastX = contrast.contrastX
     cx = contrastX
@@ -70,7 +82,11 @@ class GeneratedContrast(DG):
     contrastZ = contrast.contrastZ
     cz = contrastZ
 
-    bias = BiasField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    bias = BiasField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     b = bias
     biasX = bias.biasX
     bx = biasX

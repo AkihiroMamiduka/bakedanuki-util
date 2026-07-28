@@ -123,7 +123,9 @@ class ViewRectHighAttrOperator(
 
 
 class ViewRectHighField(
-    Double2CompoundBaseField[ViewRectHighAttrOperator, ViewRectHighPlugOperator]
+    Double2CompoundBaseField[
+        ViewRectHighAttrOperator, ViewRectHighPlugOperator
+    ]
 ):
     __slots__ = ()
 

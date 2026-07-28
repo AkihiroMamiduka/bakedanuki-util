@@ -13,10 +13,14 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.byte import ByteField
 from ..std.at.scalar.numeric.range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
-class DisplayTypeEnumPlugOperator(EnumPlugOperator["DisplayTypeEnumAttrOperator"]):
+class DisplayTypeEnumPlugOperator(
+    EnumPlugOperator["DisplayTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -24,7 +28,9 @@ class DisplayTypeEnumPlugOperator(EnumPlugOperator["DisplayTypeEnumAttrOperator"
     REFERENCE = 2
 
 
-class DisplayTypeEnumAttrOperator(EnumAttrOperator[DisplayTypeEnumPlugOperator]):
+class DisplayTypeEnumAttrOperator(
+    EnumAttrOperator[DisplayTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -47,14 +53,18 @@ class DisplayTypeEnumField(
     PLUG_CLS = DisplayTypeEnumPlugOperator
 
 
-class LevelOfDetailEnumPlugOperator(EnumPlugOperator["LevelOfDetailEnumAttrOperator"]):
+class LevelOfDetailEnumPlugOperator(
+    EnumPlugOperator["LevelOfDetailEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL = 0
     BOUNDING_BOX = 1
 
 
-class LevelOfDetailEnumAttrOperator(EnumAttrOperator[LevelOfDetailEnumPlugOperator]):
+class LevelOfDetailEnumAttrOperator(
+    EnumAttrOperator[LevelOfDetailEnumPlugOperator]
+):
     __slots__ = ()
 
     FULL = 0
@@ -75,9 +85,7 @@ class LevelOfDetailEnumField(
     PLUG_CLS = LevelOfDetailEnumPlugOperator
 
 
-class DrawInfoPlugOperator(
-    CompoundPlugOperator["DrawInfoAttrOperator"]
-):
+class DrawInfoPlugOperator(CompoundPlugOperator["DrawInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("displayType", "dt"),
@@ -127,13 +135,13 @@ class DrawInfoPlugOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class DrawInfoAttrOperator(
-    CompoundAttrOperator[DrawInfoPlugOperator]
-):
+class DrawInfoAttrOperator(CompoundAttrOperator[DrawInfoPlugOperator]):
     __slots__ = ()
 
     displayType = DisplayTypeEnumField(default_value=0)
@@ -169,13 +177,13 @@ class DrawInfoAttrOperator(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA
 
 
-class DrawInfoField(
-    CompoundField[DrawInfoAttrOperator, DrawInfoPlugOperator]
-):
+class DrawInfoField(CompoundField[DrawInfoAttrOperator, DrawInfoPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DrawInfoAttrOperator
@@ -214,5 +222,7 @@ class DrawInfoField(
     overrideColorRGB = Float3Field(default_value=(0.0, 0.0, 0.0))
     ovrgb = overrideColorRGB
 
-    overrideColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    overrideColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ovca = overrideColorA

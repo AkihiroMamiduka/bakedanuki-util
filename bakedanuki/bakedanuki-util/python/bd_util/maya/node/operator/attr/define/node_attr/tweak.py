@@ -9,8 +9,12 @@ from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
@@ -18,9 +22,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -38,9 +40,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -53,9 +53,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -66,9 +64,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -84,7 +80,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -145,60 +143,44 @@ class FunctionField(
     f3 = fchild3
 
 
-class PlistPlugOperator(
-    CompoundPlugOperator["PlistAttrOperator"]
-):
+class PlistPlugOperator(CompoundPlugOperator["PlistAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("controlPoints", "cp"),
-    )
+    CHILD_ATTR_NAMES = (("controlPoints", "cp"),)
 
     controlPoints = Double3Field(multi=True, default_value=(0.0, 0.0, 0.0))
     cp = controlPoints
 
 
-class PlistAttrOperator(
-    CompoundAttrOperator[PlistPlugOperator]
-):
+class PlistAttrOperator(CompoundAttrOperator[PlistPlugOperator]):
     __slots__ = ()
 
     controlPoints = Double3Field(multi=True, default_value=(0.0, 0.0, 0.0))
     cp = controlPoints
 
 
-class PlistField(
-    CompoundField[PlistAttrOperator, PlistPlugOperator]
-):
+class PlistField(CompoundField[PlistAttrOperator, PlistPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PlistAttrOperator
     PLUG_CLS = PlistPlugOperator
 
 
-class VlistPlugOperator(
-    CompoundPlugOperator["VlistAttrOperator"]
-):
+class VlistPlugOperator(CompoundPlugOperator["VlistAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("vertex", "vt"),
-    )
+    CHILD_ATTR_NAMES = (("vertex", "vt"),)
 
     vertex = Float3Field(multi=True, default_value=(0.0, 0.0, 0.0))
     vt = vertex
 
 
-class VlistAttrOperator(
-    CompoundAttrOperator[VlistPlugOperator]
-):
+class VlistAttrOperator(CompoundAttrOperator[VlistPlugOperator]):
     __slots__ = ()
 
     vertex = Float3Field(multi=True, default_value=(0.0, 0.0, 0.0))
     vt = vertex
 
 
-class VlistField(
-    CompoundField[VlistAttrOperator, VlistPlugOperator]
-):
+class VlistField(CompoundField[VlistAttrOperator, VlistPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = VlistAttrOperator

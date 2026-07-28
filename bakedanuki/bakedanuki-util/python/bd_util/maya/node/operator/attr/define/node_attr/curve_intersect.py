@@ -44,7 +44,9 @@ class DirectionAttrOperator(
 
 
 class DirectionField(
-    DoubleLinear3CompoundBaseField[DirectionAttrOperator, DirectionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        DirectionAttrOperator, DirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

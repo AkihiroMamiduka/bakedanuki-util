@@ -9,7 +9,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -18,7 +20,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOpe
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -48,7 +52,11 @@ class GeneratedLuminance(DG):
 
     NODE_TYPE = "luminance"
 
-    value = ValueField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    value = ValueField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     v = value
     valueR = value.valueR
     vr = valueR

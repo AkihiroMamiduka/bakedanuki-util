@@ -51,16 +51,16 @@ class TypeEnumAttrOperator(EnumAttrOperator[TypeEnumPlugOperator]):
     }
 
 
-class TypeEnumField(
-    EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]
-):
+class TypeEnumField(EnumField[TypeEnumAttrOperator, TypeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TypeEnumAttrOperator
     PLUG_CLS = TypeEnumPlugOperator
 
 
-class UseImplicitUvsEnumPlugOperator(EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]):
+class UseImplicitUvsEnumPlugOperator(
+    EnumPlugOperator["UseImplicitUvsEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -68,7 +68,9 @@ class UseImplicitUvsEnumPlugOperator(EnumPlugOperator["UseImplicitUvsEnumAttrOpe
     CURVES_ONLY = 2
 
 
-class UseImplicitUvsEnumAttrOperator(EnumAttrOperator[UseImplicitUvsEnumPlugOperator]):
+class UseImplicitUvsEnumAttrOperator(
+    EnumAttrOperator[UseImplicitUvsEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -99,7 +101,9 @@ class GeneratedAiRampFloat(DG):
     outValue = FloatField(default_value=0.0, writable=False)
     out = outValue
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -123,5 +127,7 @@ class GeneratedAiRampFloat(DG):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    ramp = RampField(multi=True, default_value=(0.0, 0.0, 1.0), category="arnold")
+    ramp = RampField(
+        multi=True, default_value=(0.0, 0.0, 1.0), category="arnold"
+    )
     aiRamp = ramp

@@ -10,7 +10,9 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SweepStyleEnumPlugOperator(EnumPlugOperator["SweepStyleEnumAttrOperator"]):
+class SweepStyleEnumPlugOperator(
+    EnumPlugOperator["SweepStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     NATURAL = 0
@@ -38,14 +40,18 @@ class SweepStyleEnumField(
     PLUG_CLS = SweepStyleEnumPlugOperator
 
 
-class TransformModeEnumPlugOperator(EnumPlugOperator["TransformModeEnumAttrOperator"]):
+class TransformModeEnumPlugOperator(
+    EnumPlugOperator["TransformModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0
     PROPORTIONAL = 1
 
 
-class TransformModeEnumAttrOperator(EnumAttrOperator[TransformModeEnumPlugOperator]):
+class TransformModeEnumAttrOperator(
+    EnumAttrOperator[TransformModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0

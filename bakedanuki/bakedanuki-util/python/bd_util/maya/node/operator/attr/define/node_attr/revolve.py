@@ -209,7 +209,9 @@ class CompPivotAttrOperator(
 
 
 class CompPivotField(
-    DoubleLinear3CompoundBaseField[CompPivotAttrOperator, CompPivotPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompPivotAttrOperator, CompPivotPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +264,9 @@ class CompAnchorAttrOperator(
 
 
 class CompAnchorField(
-    DoubleLinear3CompoundBaseField[CompAnchorAttrOperator, CompAnchorPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompAnchorAttrOperator, CompAnchorPlugOperator
+    ]
 ):
     __slots__ = ()
 

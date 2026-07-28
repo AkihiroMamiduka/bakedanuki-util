@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ValuePlugOperator(
-    Float3CompoundBasePlugOperator["ValueAttrOperator"]
-):
+class ValuePlugOperator(Float3CompoundBasePlugOperator["ValueAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("valueX", "vx"),
@@ -28,9 +26,7 @@ class ValuePlugOperator(
     vz = valueZ
 
 
-class ValueAttrOperator(
-    Float3CompoundBaseAttrOperator[ValuePlugOperator]
-):
+class ValueAttrOperator(Float3CompoundBaseAttrOperator[ValuePlugOperator]):
     __slots__ = ()
 
     valueX = FloatField(default_value=0.0)
@@ -61,9 +57,7 @@ class ValueField(
     vz = valueZ
 
 
-class GammaPlugOperator(
-    Float3CompoundBasePlugOperator["GammaAttrOperator"]
-):
+class GammaPlugOperator(Float3CompoundBasePlugOperator["GammaAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("gammaX", "gx"),
@@ -71,28 +65,38 @@ class GammaPlugOperator(
         ("gammaZ", "gz"),
     )
 
-    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gx = gammaX
 
-    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gy = gammaY
 
-    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gz = gammaZ
 
 
-class GammaAttrOperator(
-    Float3CompoundBaseAttrOperator[GammaPlugOperator]
-):
+class GammaAttrOperator(Float3CompoundBaseAttrOperator[GammaPlugOperator]):
     __slots__ = ()
 
-    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gx = gammaX
 
-    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gy = gammaY
 
-    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gz = gammaZ
 
 
@@ -104,13 +108,19 @@ class GammaField(
     ATTR_CLS = GammaAttrOperator
     PLUG_CLS = GammaPlugOperator
 
-    gammaX = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaX = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gx = gammaX
 
-    gammaY = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaY = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gy = gammaY
 
-    gammaZ = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    gammaZ = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     gz = gammaZ
 
 

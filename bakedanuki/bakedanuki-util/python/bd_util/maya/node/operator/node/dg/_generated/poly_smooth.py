@@ -42,5 +42,7 @@ class GeneratedPolySmooth(DG):
     useInputComp = BoolField(default_value=True)
     uic = useInputComp
 
-    smoothness = ShortField(default_value=1, min_value=0, max_value=4, soft_max_value=4)
+    smoothness = ShortField(
+        default_value=1, min_value=0, max_value=4, soft_max_value=4
+    )
     sm = smoothness

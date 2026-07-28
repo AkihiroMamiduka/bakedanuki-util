@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.xgm_modifier_linear_wire import MagnitudeScaleField
+from ....attr.define.node_attr.xgm_modifier_linear_wire import (
+    MagnitudeScaleField,
+)
 from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
@@ -11,14 +13,18 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.typed import TypedField
 
 
-class TransferModeMappingTypeEnumPlugOperator(EnumPlugOperator["TransferModeMappingTypeEnumAttrOperator"]):
+class TransferModeMappingTypeEnumPlugOperator(
+    EnumPlugOperator["TransferModeMappingTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     POSITION_BASED = 0
     UV_BASED = 1
 
 
-class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator[TransferModeMappingTypeEnumPlugOperator]):
+class TransferModeMappingTypeEnumAttrOperator(
+    EnumAttrOperator[TransferModeMappingTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     POSITION_BASED = 0
@@ -31,7 +37,10 @@ class TransferModeMappingTypeEnumAttrOperator(EnumAttrOperator[TransferModeMappi
 
 
 class TransferModeMappingTypeEnumField(
-    EnumField[TransferModeMappingTypeEnumAttrOperator, TransferModeMappingTypeEnumPlugOperator]
+    EnumField[
+        TransferModeMappingTypeEnumAttrOperator,
+        TransferModeMappingTypeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -59,16 +68,24 @@ class GeneratedXgmModifierLinearWire(DG):
     mask = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
     mk = mask
 
-    magnitude = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    magnitude = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     mg = magnitude
 
-    magnitudeScale = MagnitudeScaleField(multi=True, default_value=(0.0, 0.0, 1.0))
+    magnitudeScale = MagnitudeScaleField(
+        multi=True, default_value=(0.0, 0.0, 1.0)
+    )
     ms = magnitudeScale
 
-    smoothness = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    smoothness = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     s = smoothness
 
-    breakage = DoubleField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    breakage = DoubleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     b = breakage
 
     refWire = TypedField()

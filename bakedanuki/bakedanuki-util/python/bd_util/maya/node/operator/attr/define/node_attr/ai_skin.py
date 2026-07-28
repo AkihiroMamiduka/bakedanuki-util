@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -150,7 +152,9 @@ class ShallowScatterColorAttrOperator(
 
 
 class ShallowScatterColorField(
-    Float3CompoundBaseField[ShallowScatterColorAttrOperator, ShallowScatterColorPlugOperator]
+    Float3CompoundBaseField[
+        ShallowScatterColorAttrOperator, ShallowScatterColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +207,9 @@ class MidScatterColorAttrOperator(
 
 
 class MidScatterColorField(
-    Float3CompoundBaseField[MidScatterColorAttrOperator, MidScatterColorPlugOperator]
+    Float3CompoundBaseField[
+        MidScatterColorAttrOperator, MidScatterColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -256,7 +262,9 @@ class DeepScatterColorAttrOperator(
 
 
 class DeepScatterColorField(
-    Float3CompoundBaseField[DeepScatterColorAttrOperator, DeepScatterColorPlugOperator]
+    Float3CompoundBaseField[
+        DeepScatterColorAttrOperator, DeepScatterColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +317,9 @@ class SpecularColorAttrOperator(
 
 
 class SpecularColorField(
-    Float3CompoundBaseField[SpecularColorAttrOperator, SpecularColorPlugOperator]
+    Float3CompoundBaseField[
+        SpecularColorAttrOperator, SpecularColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -432,9 +442,7 @@ class OpacityColorField(
     opacity_colorb = opacityColorB
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalx"),
@@ -452,9 +460,7 @@ class NormalPlugOperator(
     normalz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)

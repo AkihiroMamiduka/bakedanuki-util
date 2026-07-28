@@ -44,7 +44,9 @@ class AnimatedEnumField(
     PLUG_CLS = AnimatedEnumPlugOperator
 
 
-class UnitOptionEnumPlugOperator(EnumPlugOperator["UnitOptionEnumAttrOperator"]):
+class UnitOptionEnumPlugOperator(
+    EnumPlugOperator["UnitOptionEnumAttrOperator"]
+):
     __slots__ = ()
 
     ALL = 0

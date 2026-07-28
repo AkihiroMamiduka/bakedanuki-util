@@ -22,7 +22,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class FrontCapModeEnumPlugOperator(EnumPlugOperator["FrontCapModeEnumAttrOperator"]):
+class FrontCapModeEnumPlugOperator(
+    EnumPlugOperator["FrontCapModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -30,7 +32,9 @@ class FrontCapModeEnumPlugOperator(EnumPlugOperator["FrontCapModeEnumAttrOperato
     BEVEL_CAP = 3
 
 
-class FrontCapModeEnumAttrOperator(EnumAttrOperator[FrontCapModeEnumPlugOperator]):
+class FrontCapModeEnumAttrOperator(
+    EnumAttrOperator[FrontCapModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -53,7 +57,9 @@ class FrontCapModeEnumField(
     PLUG_CLS = FrontCapModeEnumPlugOperator
 
 
-class RearCapModeEnumPlugOperator(EnumPlugOperator["RearCapModeEnumAttrOperator"]):
+class RearCapModeEnumPlugOperator(
+    EnumPlugOperator["RearCapModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 1
@@ -61,7 +67,9 @@ class RearCapModeEnumPlugOperator(EnumPlugOperator["RearCapModeEnumAttrOperator"
     BEVEL_CAP = 3
 
 
-class RearCapModeEnumAttrOperator(EnumAttrOperator[RearCapModeEnumPlugOperator]):
+class RearCapModeEnumAttrOperator(
+    EnumAttrOperator[RearCapModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 1
@@ -84,7 +92,9 @@ class RearCapModeEnumField(
     PLUG_CLS = RearCapModeEnumPlugOperator
 
 
-class TrailsModeEnumPlugOperator(EnumPlugOperator["TrailsModeEnumAttrOperator"]):
+class TrailsModeEnumPlugOperator(
+    EnumPlugOperator["TrailsModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TRAILS = 1
@@ -151,17 +161,25 @@ class GeneratedMASH_Trails(DG):
 
     trailCount = LongField(default_value=1, min_value=1, soft_max_value=10)
 
-    searchRadius = FloatField(default_value=150.0, min_value=0.0, soft_max_value=50.0)
+    searchRadius = FloatField(
+        default_value=150.0, min_value=0.0, soft_max_value=50.0
+    )
 
-    bevelCapDistance = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=5.0)
+    bevelCapDistance = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=5.0
+    )
 
-    bevelCapDivisions = LongField(default_value=6, min_value=3, soft_max_value=10)
+    bevelCapDivisions = LongField(
+        default_value=6, min_value=3, soft_max_value=10
+    )
 
     randomLength = LongField(default_value=0, min_value=0, soft_max_value=100)
 
     curveSamples = LongField(default_value=6, min_value=2, soft_max_value=12)
 
-    trailWidth = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    trailWidth = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
 
     autoUpVector = BoolField(default_value=False)
 
@@ -186,7 +204,9 @@ class GeneratedMASH_Trails(DG):
 
     trailsMode = TrailsModeEnumField(default_value=1)
 
-    trailTaperCurve = TrailTaperCurveField(multi=True, default_value=(0.0, 0.0))
+    trailTaperCurve = TrailTaperCurveField(
+        multi=True, default_value=(0.0, 0.0)
+    )
 
     bevelCapCurve = BevelCapCurveField(multi=True, default_value=(0.0, 0.0))
 

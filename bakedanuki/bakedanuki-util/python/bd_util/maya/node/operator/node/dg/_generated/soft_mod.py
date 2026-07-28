@@ -16,19 +16,25 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class UsePartialResolutionEnumPlugOperator(EnumPlugOperator["UsePartialResolutionEnumAttrOperator"]):
+class UsePartialResolutionEnumPlugOperator(
+    EnumPlugOperator["UsePartialResolutionEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL = 0
     PARTIAL = 1
 
 
-class UsePartialResolutionEnumAttrOperator(EnumAttrOperator[UsePartialResolutionEnumPlugOperator]):
+class UsePartialResolutionEnumAttrOperator(
+    EnumAttrOperator[UsePartialResolutionEnumPlugOperator]
+):
     __slots__ = ()
 
     FULL = 0
@@ -41,7 +47,10 @@ class UsePartialResolutionEnumAttrOperator(EnumAttrOperator[UsePartialResolution
 
 
 class UsePartialResolutionEnumField(
-    EnumField[UsePartialResolutionEnumAttrOperator, UsePartialResolutionEnumPlugOperator]
+    EnumField[
+        UsePartialResolutionEnumAttrOperator,
+        UsePartialResolutionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -49,7 +58,9 @@ class UsePartialResolutionEnumField(
     PLUG_CLS = UsePartialResolutionEnumPlugOperator
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnumAttrOperator"]):
+class AngleInterpolationEnumPlugOperator(
+    EnumPlugOperator["AngleInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -57,7 +68,9 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnu
     NEGATIVE = 2
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnumPlugOperator]):
+class AngleInterpolationEnumAttrOperator(
+    EnumAttrOperator[AngleInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -72,7 +85,9 @@ class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnum
 
 
 class AngleInterpolationEnumField(
-    EnumField[AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator]
+    EnumField[
+        AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -80,14 +95,18 @@ class AngleInterpolationEnumField(
     PLUG_CLS = AngleInterpolationEnumPlugOperator
 
 
-class FalloffModeEnumPlugOperator(EnumPlugOperator["FalloffModeEnumAttrOperator"]):
+class FalloffModeEnumPlugOperator(
+    EnumPlugOperator["FalloffModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     VOLUME = 0
     SURFACE = 1
 
 
-class FalloffModeEnumAttrOperator(EnumAttrOperator[FalloffModeEnumPlugOperator]):
+class FalloffModeEnumAttrOperator(
+    EnumAttrOperator[FalloffModeEnumPlugOperator]
+):
     __slots__ = ()
 
     VOLUME = 0
@@ -125,13 +144,21 @@ class GeneratedSoftMod(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -149,7 +176,9 @@ class GeneratedSoftMod(DG):
     weightList = WeightListField(multi=True, default_value=1.0)
     wl = weightList
 
-    percentResolution = FloatField(default_value=5.0, min_value=0.0, max_value=10.0)
+    percentResolution = FloatField(
+        default_value=5.0, min_value=0.0, max_value=10.0
+    )
     ptr = percentResolution
 
     usePartialResolution = UsePartialResolutionEnumField(default_value=0)
@@ -182,7 +211,9 @@ class GeneratedSoftMod(DG):
     falloffCurve = FalloffCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     fc = falloffCurve
 
-    falloffRadius = DoubleLinearField(default_value=5.0, soft_min_value=0.0, soft_max_value=25.0)
+    falloffRadius = DoubleLinearField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=25.0
+    )
     fr = falloffRadius
 
     falloffCenter = FalloffCenterField(default_value=(0.0, 0.0, 0.0))

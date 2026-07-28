@@ -16,7 +16,9 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOperator"]):
+class TransformOrderEnumPlugOperator(
+    EnumPlugOperator["TransformOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     SRT = 0
@@ -27,7 +29,9 @@ class TransformOrderEnumPlugOperator(EnumPlugOperator["TransformOrderEnumAttrOpe
     RTS = 5
 
 
-class TransformOrderEnumAttrOperator(EnumAttrOperator[TransformOrderEnumPlugOperator]):
+class TransformOrderEnumAttrOperator(
+    EnumAttrOperator[TransformOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     SRT = 0
@@ -56,7 +60,9 @@ class TransformOrderEnumField(
     PLUG_CLS = TransformOrderEnumPlugOperator
 
 
-class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"]):
+class RotateOrderEnumPlugOperator(
+    EnumPlugOperator["RotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -67,7 +73,9 @@ class RotateOrderEnumPlugOperator(EnumPlugOperator["RotateOrderEnumAttrOperator"
     ZYX = 5
 
 
-class RotateOrderEnumAttrOperator(EnumAttrOperator[RotateOrderEnumPlugOperator]):
+class RotateOrderEnumAttrOperator(
+    EnumAttrOperator[RotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -115,9 +123,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator

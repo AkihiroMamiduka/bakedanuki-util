@@ -40,9 +40,7 @@ class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator

@@ -55,7 +55,9 @@ class CutPlaneCenterAttrOperator(
 
 
 class CutPlaneCenterField(
-    DoubleLinear3CompoundBaseField[CutPlaneCenterAttrOperator, CutPlaneCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CutPlaneCenterAttrOperator, CutPlaneCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -108,7 +110,9 @@ class CutPlaneRotateAttrOperator(
 
 
 class CutPlaneRotateField(
-    DoubleAngle3CompoundBaseField[CutPlaneRotateAttrOperator, CutPlaneRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        CutPlaneRotateAttrOperator, CutPlaneRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -134,10 +138,14 @@ class CutPlaneSizePlugOperator(
         ("cutPlaneHeight", "ph"),
     )
 
-    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = cutPlaneHeight
 
 
@@ -146,25 +154,35 @@ class CutPlaneSizeAttrOperator(
 ):
     __slots__ = ()
 
-    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = cutPlaneHeight
 
 
 class CutPlaneSizeField(
-    DoubleLinear2CompoundBaseField[CutPlaneSizeAttrOperator, CutPlaneSizePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        CutPlaneSizeAttrOperator, CutPlaneSizePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = CutPlaneSizeAttrOperator
     PLUG_CLS = CutPlaneSizePlugOperator
 
-    cutPlaneWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = cutPlaneWidth
 
-    cutPlaneHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    cutPlaneHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = cutPlaneHeight
 
 
@@ -204,7 +222,9 @@ class ExtractOffsetAttrOperator(
 
 
 class ExtractOffsetField(
-    DoubleLinear3CompoundBaseField[ExtractOffsetAttrOperator, ExtractOffsetPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ExtractOffsetAttrOperator, ExtractOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 

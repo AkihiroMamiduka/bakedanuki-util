@@ -11,14 +11,18 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class NormalOverrideEnumPlugOperator(EnumPlugOperator["NormalOverrideEnumAttrOperator"]):
+class NormalOverrideEnumPlugOperator(
+    EnumPlugOperator["NormalOverrideEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
     RAIL_CURVE = 1
 
 
-class NormalOverrideEnumAttrOperator(EnumAttrOperator[NormalOverrideEnumPlugOperator]):
+class NormalOverrideEnumAttrOperator(
+    EnumAttrOperator[NormalOverrideEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -67,7 +71,9 @@ class CoordModeEnumField(
     PLUG_CLS = CoordModeEnumPlugOperator
 
 
-class NormalAxisEnumPlugOperator(EnumPlugOperator["NormalAxisEnumAttrOperator"]):
+class NormalAxisEnumPlugOperator(
+    EnumPlugOperator["NormalAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 0
@@ -107,7 +113,9 @@ class NormalAxisEnumField(
     PLUG_CLS = NormalAxisEnumPlugOperator
 
 
-class TangentAxisEnumPlugOperator(EnumPlugOperator["TangentAxisEnumAttrOperator"]):
+class TangentAxisEnumPlugOperator(
+    EnumPlugOperator["TangentAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X = 0
@@ -119,7 +127,9 @@ class TangentAxisEnumPlugOperator(EnumPlugOperator["TangentAxisEnumAttrOperator"
     NONE = 6
 
 
-class TangentAxisEnumAttrOperator(EnumAttrOperator[TangentAxisEnumPlugOperator]):
+class TangentAxisEnumAttrOperator(
+    EnumAttrOperator[TangentAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X = 0
@@ -150,7 +160,9 @@ class TangentAxisEnumField(
     PLUG_CLS = TangentAxisEnumPlugOperator
 
 
-class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator["RelativeSpaceModeEnumAttrOperator"]):
+class RelativeSpaceModeEnumPlugOperator(
+    EnumPlugOperator["RelativeSpaceModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -158,7 +170,9 @@ class RelativeSpaceModeEnumPlugOperator(EnumPlugOperator["RelativeSpaceModeEnumA
     CUSTOM = 2
 
 
-class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator[RelativeSpaceModeEnumPlugOperator]):
+class RelativeSpaceModeEnumAttrOperator(
+    EnumAttrOperator[RelativeSpaceModeEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -173,7 +187,9 @@ class RelativeSpaceModeEnumAttrOperator(EnumAttrOperator[RelativeSpaceModeEnumPl
 
 
 class RelativeSpaceModeEnumField(
-    EnumField[RelativeSpaceModeEnumAttrOperator, RelativeSpaceModeEnumPlugOperator]
+    EnumField[
+        RelativeSpaceModeEnumAttrOperator, RelativeSpaceModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -201,7 +217,13 @@ class GeneratedProximityPin(DG):
     originalRailCurve = TypedField()
     orlcrv = originalRailCurve
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=3.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=3.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     inputMatrix = MatrixField(multi=True)
@@ -210,10 +232,14 @@ class GeneratedProximityPin(DG):
     coordMode = CoordModeEnumField(default_value=0)
     crdm = coordMode
 
-    offsetTranslation = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    offsetTranslation = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     ostr = offsetTranslation
 
-    offsetOrientation = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    offsetOrientation = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     osor = offsetOrientation
 
     uvSetName = DataStringField()

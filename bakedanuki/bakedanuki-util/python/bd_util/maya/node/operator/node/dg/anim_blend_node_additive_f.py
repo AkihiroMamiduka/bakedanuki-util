@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.anim_blend_node_additive_f import GeneratedAnimBlendNodeAdditiveF
+from ._generated.anim_blend_node_additive_f import (
+    GeneratedAnimBlendNodeAdditiveF,
+)
 
 
 class AnimBlendNodeAdditiveF(GeneratedAnimBlendNodeAdditiveF):

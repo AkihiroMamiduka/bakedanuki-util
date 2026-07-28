@@ -14,7 +14,13 @@ class GeneratedColorMask(DG):
 
     NODE_TYPE = "colorMask"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     ic = inColor
     inColorR = inColor.inColorR
     icr = inColorR
@@ -38,7 +44,9 @@ class GeneratedColorMask(DG):
     maskB = mask.maskB
     mb = maskB
 
-    maskAlpha = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    maskAlpha = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     ma = maskAlpha
 
     maskAlphaIsLuminance = BoolField(default_value=True)

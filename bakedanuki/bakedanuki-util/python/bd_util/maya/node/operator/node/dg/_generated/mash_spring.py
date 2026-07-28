@@ -22,7 +22,9 @@ from ....attr.define.std.dt.string import DataStringField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -31,7 +33,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -56,14 +60,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -76,7 +84,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -104,7 +115,9 @@ class GeneratedMASH_Spring(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -176,18 +189,28 @@ class GeneratedMASH_Spring(DG):
 
     spring = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    maxVelocity = FloatField(default_value=20.0, min_value=0.0, soft_max_value=40.0)
+    maxVelocity = FloatField(
+        default_value=20.0, min_value=0.0, soft_max_value=40.0
+    )
 
-    stiffness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    stiffness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     stiff = stiffness
 
-    stiffnessVariance = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=0.3)
+    stiffnessVariance = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=0.3
+    )
     stiffVar = stiffnessVariance
 
-    dampingVariance = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=0.3)
+    dampingVariance = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=0.3
+    )
     dampVar = dampingVariance
 
-    damping = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    damping = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
     damp = damping
 
     falloffObject = FalloffObjectField(default_value=(0.0, 0.0, 0.0))

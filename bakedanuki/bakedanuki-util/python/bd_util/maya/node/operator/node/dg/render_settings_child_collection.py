@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.render_settings_child_collection import GeneratedRenderSettingsChildCollection
+from ._generated.render_settings_child_collection import (
+    GeneratedRenderSettingsChildCollection,
+)
 
 
 class RenderSettingsChildCollection(GeneratedRenderSettingsChildCollection):

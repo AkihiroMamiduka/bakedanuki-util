@@ -87,7 +87,9 @@ class OutputTranslateAttrOperator(
 
 
 class OutputTranslateField(
-    DoubleLinear3CompoundBaseField[OutputTranslateAttrOperator, OutputTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OutputTranslateAttrOperator, OutputTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 

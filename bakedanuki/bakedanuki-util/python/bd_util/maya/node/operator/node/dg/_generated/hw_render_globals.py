@@ -12,7 +12,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RenderPassesEnumPlugOperator(EnumPlugOperator["RenderPassesEnumAttrOperator"]):
+class RenderPassesEnumPlugOperator(
+    EnumPlugOperator["RenderPassesEnumAttrOperator"]
+):
     __slots__ = ()
 
     _3 = 3
@@ -25,7 +27,9 @@ class RenderPassesEnumPlugOperator(EnumPlugOperator["RenderPassesEnumAttrOperato
     _36 = 36
 
 
-class RenderPassesEnumAttrOperator(EnumAttrOperator[RenderPassesEnumPlugOperator]):
+class RenderPassesEnumAttrOperator(
+    EnumAttrOperator[RenderPassesEnumPlugOperator]
+):
     __slots__ = ()
 
     _3 = 3
@@ -98,7 +102,9 @@ class ExtensionEnumField(
     PLUG_CLS = ExtensionEnumPlugOperator
 
 
-class ImageFormatEnumPlugOperator(EnumPlugOperator["ImageFormatEnumAttrOperator"]):
+class ImageFormatEnumPlugOperator(
+    EnumPlugOperator["ImageFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     GIF = 0
@@ -118,7 +124,9 @@ class ImageFormatEnumPlugOperator(EnumPlugOperator["ImageFormatEnumAttrOperator"
     IMF_PLUGIN = 50
 
 
-class ImageFormatEnumAttrOperator(EnumAttrOperator[ImageFormatEnumPlugOperator]):
+class ImageFormatEnumAttrOperator(
+    EnumAttrOperator[ImageFormatEnumPlugOperator]
+):
     __slots__ = ()
 
     GIF = 0
@@ -165,7 +173,9 @@ class ImageFormatEnumField(
     PLUG_CLS = ImageFormatEnumPlugOperator
 
 
-class AlphaSourceEnumPlugOperator(EnumPlugOperator["AlphaSourceEnumAttrOperator"]):
+class AlphaSourceEnumPlugOperator(
+    EnumPlugOperator["AlphaSourceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -178,7 +188,9 @@ class AlphaSourceEnumPlugOperator(EnumPlugOperator["AlphaSourceEnumAttrOperator"
     INVERSE_CLAMP = 7
 
 
-class AlphaSourceEnumAttrOperator(EnumAttrOperator[AlphaSourceEnumPlugOperator]):
+class AlphaSourceEnumAttrOperator(
+    EnumAttrOperator[AlphaSourceEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -245,7 +257,9 @@ class DrawStyleEnumField(
     PLUG_CLS = DrawStyleEnumPlugOperator
 
 
-class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperator"]):
+class LightingModeEnumPlugOperator(
+    EnumPlugOperator["LightingModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEFAULT_LIGHT = 0
@@ -253,7 +267,9 @@ class LightingModeEnumPlugOperator(EnumPlugOperator["LightingModeEnumAttrOperato
     SELECTED_LIGHTS = 2
 
 
-class LightingModeEnumAttrOperator(EnumAttrOperator[LightingModeEnumPlugOperator]):
+class LightingModeEnumAttrOperator(
+    EnumAttrOperator[LightingModeEnumPlugOperator]
+):
     __slots__ = ()
 
     DEFAULT_LIGHT = 0
@@ -290,7 +306,11 @@ class GeneratedHwRenderGlobals(DG):
     collisionIcons = BoolField(default_value=False)
     coi = collisionIcons
 
-    backgroundColor = BackgroundColorField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    backgroundColor = BackgroundColorField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     bc = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     bcr = backgroundColorR

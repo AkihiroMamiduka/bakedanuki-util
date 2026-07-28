@@ -44,7 +44,9 @@ class GravityDirectionAttrOperator(
 
 
 class GravityDirectionField(
-    Float3CompoundBaseField[GravityDirectionAttrOperator, GravityDirectionPlugOperator]
+    Float3CompoundBaseField[
+        GravityDirectionAttrOperator, GravityDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class WindDirectionAttrOperator(
 
 
 class WindDirectionField(
-    Float3CompoundBaseField[WindDirectionAttrOperator, WindDirectionPlugOperator]
+    Float3CompoundBaseField[
+        WindDirectionAttrOperator, WindDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -124,13 +128,19 @@ class TurbulenceOffsetPlugOperator(
         ("turbulenceOffsetZ", "toz"),
     )
 
-    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetX = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetY = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetZ = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toz = turbulenceOffsetZ
 
 
@@ -139,29 +149,43 @@ class TurbulenceOffsetAttrOperator(
 ):
     __slots__ = ()
 
-    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetX = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetY = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetZ = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toz = turbulenceOffsetZ
 
 
 class TurbulenceOffsetField(
-    Float3CompoundBaseField[TurbulenceOffsetAttrOperator, TurbulenceOffsetPlugOperator]
+    Float3CompoundBaseField[
+        TurbulenceOffsetAttrOperator, TurbulenceOffsetPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = TurbulenceOffsetAttrOperator
     PLUG_CLS = TurbulenceOffsetPlugOperator
 
-    turbulenceOffsetX = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetX = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     tox = turbulenceOffsetX
 
-    turbulenceOffsetY = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetY = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toy = turbulenceOffsetY
 
-    turbulenceOffsetZ = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    turbulenceOffsetZ = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     toz = turbulenceOffsetZ

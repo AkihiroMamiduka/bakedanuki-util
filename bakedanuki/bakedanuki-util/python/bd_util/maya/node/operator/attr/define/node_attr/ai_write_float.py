@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class BeautyPlugOperator(
-    Float3CompoundBasePlugOperator["BeautyAttrOperator"]
-):
+class BeautyPlugOperator(Float3CompoundBasePlugOperator["BeautyAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("beautyR", "passthroughr"),
@@ -134,9 +134,7 @@ class BeautyPlugOperator(
     passthroughb = beautyB
 
 
-class BeautyAttrOperator(
-    Float3CompoundBaseAttrOperator[BeautyPlugOperator]
-):
+class BeautyAttrOperator(Float3CompoundBaseAttrOperator[BeautyPlugOperator]):
     __slots__ = ()
 
     beautyR = FloatField(default_value=0.0)

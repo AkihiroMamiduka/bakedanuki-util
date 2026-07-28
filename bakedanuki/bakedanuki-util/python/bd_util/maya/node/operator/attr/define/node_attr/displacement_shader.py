@@ -44,7 +44,9 @@ class VectorDisplacementAttrOperator(
 
 
 class VectorDisplacementField(
-    Float3CompoundBaseField[VectorDisplacementAttrOperator, VectorDisplacementPlugOperator]
+    Float3CompoundBaseField[
+        VectorDisplacementAttrOperator, VectorDisplacementPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -81,9 +83,7 @@ class TangentPlugOperator(
     tz = tangentZ
 
 
-class TangentAttrOperator(
-    Float3CompoundBaseAttrOperator[TangentPlugOperator]
-):
+class TangentAttrOperator(Float3CompoundBaseAttrOperator[TangentPlugOperator]):
     __slots__ = ()
 
     tangentX = FloatField(default_value=0.0)

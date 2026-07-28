@@ -61,7 +61,9 @@ class BlendShapeDirectoryAttrOperator(
 
 
 class BlendShapeDirectoryField(
-    CompoundField[BlendShapeDirectoryAttrOperator, BlendShapeDirectoryPlugOperator]
+    CompoundField[
+        BlendShapeDirectoryAttrOperator, BlendShapeDirectoryPlugOperator
+    ]
 ):
     __slots__ = ()
 

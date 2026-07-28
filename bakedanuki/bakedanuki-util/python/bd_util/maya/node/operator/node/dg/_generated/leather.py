@@ -56,13 +56,19 @@ class GeneratedLeather(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -77,7 +83,11 @@ class GeneratedLeather(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -86,7 +96,11 @@ class GeneratedLeather(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -95,13 +109,21 @@ class GeneratedLeather(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -140,7 +162,15 @@ class GeneratedLeather(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    cellColor = CellColorField(default_value=(0.37299999594688416, 0.15700000524520874, 0.05900000035762787), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    cellColor = CellColorField(
+        default_value=(
+            0.37299999594688416,
+            0.15700000524520874,
+            0.05900000035762787,
+        ),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     ce = cellColor
     cellColorR = cellColor.cellColorR
     cer = cellColorR
@@ -149,7 +179,11 @@ class GeneratedLeather(DG):
     cellColorB = cellColor.cellColorB
     ceb = cellColorB
 
-    creaseColor = CreaseColorField(default_value=(0.23499999940395355, 0.11800000071525574, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    creaseColor = CreaseColorField(
+        default_value=(0.23499999940395355, 0.11800000071525574, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     cr = creaseColor
     creaseColorR = creaseColor.creaseColorR
     crr = creaseColorR
@@ -164,13 +198,19 @@ class GeneratedLeather(DG):
     density = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
     d = density
 
-    spottyness = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0)
+    spottyness = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=1.0
+    )
     s = spottyness
 
-    randomness = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    randomness = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     r = randomness
 
-    threshold = FloatField(default_value=0.8299999833106995, min_value=0.0, soft_max_value=1.0)
+    threshold = FloatField(
+        default_value=0.8299999833106995, min_value=0.0, soft_max_value=1.0
+    )
     th = threshold
 
     creases = BoolField(default_value=True)

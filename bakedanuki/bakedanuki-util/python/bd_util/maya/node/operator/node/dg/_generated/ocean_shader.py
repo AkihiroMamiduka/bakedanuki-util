@@ -39,7 +39,9 @@ from ....attr.define.std.at.scalar.numeric.range.short import ShortField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]):
+class MatteOpacityModeEnumPlugOperator(
+    EnumPlugOperator["MatteOpacityModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -47,7 +49,9 @@ class MatteOpacityModeEnumPlugOperator(EnumPlugOperator["MatteOpacityModeEnumAtt
     OPACITY_GAIN = 2
 
 
-class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlugOperator]):
+class MatteOpacityModeEnumAttrOperator(
+    EnumAttrOperator[MatteOpacityModeEnumPlugOperator]
+):
     __slots__ = ()
 
     BLACK_HOLE = 0
@@ -62,7 +66,9 @@ class MatteOpacityModeEnumAttrOperator(EnumAttrOperator[MatteOpacityModeEnumPlug
 
 
 class MatteOpacityModeEnumField(
-    EnumField[MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator]
+    EnumField[
+        MatteOpacityModeEnumAttrOperator, MatteOpacityModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -90,10 +96,14 @@ class GeneratedOceanShader(DG):
     rayInstance = LongField(default_value=0, readable=False)
     ryi = rayInstance
 
-    refractionLimit = ShortField(default_value=6, min_value=0, soft_max_value=10)
+    refractionLimit = ShortField(
+        default_value=6, min_value=0, soft_max_value=10
+    )
     rdl = refractionLimit
 
-    refractiveIndex = FloatField(default_value=1.2999999523162842, min_value=0.01, soft_max_value=3.0)
+    refractiveIndex = FloatField(
+        default_value=1.2999999523162842, min_value=0.01, soft_max_value=3.0
+    )
     rfi = refractiveIndex
 
     mediumRefractiveIndex = FloatField(default_value=1.0, readable=False)
@@ -102,10 +112,16 @@ class GeneratedOceanShader(DG):
     refractions = BoolField(default_value=False)
     rfc = refractions
 
-    diffuse = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    diffuse = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dc = diffuse
 
-    rayDirection = RayDirectionField(default_value=(0.0, 0.0, 1.0), readable=False)
+    rayDirection = RayDirectionField(
+        default_value=(0.0, 0.0, 1.0), readable=False
+    )
     rad = rayDirection
     rayDirectionX = rayDirection.rayDirectionX
     rdx = rayDirectionX
@@ -114,7 +130,9 @@ class GeneratedOceanShader(DG):
     rayDirectionZ = rayDirection.rayDirectionZ
     rdz = rayDirectionZ
 
-    waterColor = WaterColorField(default_value=(0.0, 0.36000001430511475, 0.4000000059604645))
+    waterColor = WaterColorField(
+        default_value=(0.0, 0.36000001430511475, 0.4000000059604645)
+    )
     wc = waterColor
     waterColorR = waterColor.waterColorR
     wcr = waterColorR
@@ -150,34 +168,58 @@ class GeneratedOceanShader(DG):
     incandescenceB = incandescence.incandescenceB
     ib = incandescenceB
 
-    translucence = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    translucence = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     tc = translucence
 
-    translucenceFocus = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    translucenceFocus = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     tcf = translucenceFocus
 
-    translucenceDepth = FloatField(default_value=10.0, soft_min_value=0.0, soft_max_value=20.0)
+    translucenceDepth = FloatField(
+        default_value=10.0, soft_min_value=0.0, soft_max_value=20.0
+    )
     trsd = translucenceDepth
 
-    opacityDepth = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=5.0)
+    opacityDepth = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=5.0
+    )
     opad = opacityDepth
 
-    glowIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gi = glowIntensity
 
-    specularGlow = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    specularGlow = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     spg = specularGlow
 
-    shadowAttenuation = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    shadowAttenuation = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     fakc = shadowAttenuation
 
-    eccentricity = FloatField(default_value=0.029999999329447746, soft_min_value=0.0, soft_max_value=1.0)
+    eccentricity = FloatField(
+        default_value=0.029999999329447746,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ec = eccentricity
 
-    specularity = FloatField(default_value=0.699999988079071, soft_min_value=0.0, soft_max_value=1.0)
+    specularity = FloatField(
+        default_value=0.699999988079071, soft_min_value=0.0, soft_max_value=1.0
+    )
     spl = specularity
 
-    reflectionLimit = ShortField(default_value=1, min_value=0, soft_max_value=10)
+    reflectionLimit = ShortField(
+        default_value=1, min_value=0, soft_max_value=10
+    )
     fll = reflectionLimit
 
     specularColor = SpecularColorField(default_value=(1.0, 1.0, 1.0))
@@ -189,7 +231,9 @@ class GeneratedOceanShader(DG):
     specularColorB = specularColor.specularColorB
     sb = specularColorB
 
-    reflectivity = FloatField(default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0)
+    reflectivity = FloatField(
+        default_value=0.699999988079071, min_value=0.0, soft_max_value=1.0
+    )
     rfl = reflectivity
 
     environment = EnvironmentField(multi=True)
@@ -213,7 +257,9 @@ class GeneratedOceanShader(DG):
     reflectedColorB = reflectedColor.reflectedColorB
     rb = reflectedColorB
 
-    triangleNormalCamera = TriangleNormalCameraField(default_value=(0.0, 1.0, 0.0))
+    triangleNormalCamera = TriangleNormalCameraField(
+        default_value=(0.0, 1.0, 0.0)
+    )
     tnc = triangleNormalCamera
     triangleNormalCameraX = triangleNormalCamera.triangleNormalCameraX
     tnx = triangleNormalCameraX
@@ -222,7 +268,9 @@ class GeneratedOceanShader(DG):
     triangleNormalCameraZ = triangleNormalCamera.triangleNormalCameraZ
     tnz = triangleNormalCameraZ
 
-    reflectionSpecularity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    reflectionSpecularity = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     rsp = reflectionSpecularity
 
     outColor = OutColorField(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -234,7 +282,9 @@ class GeneratedOceanShader(DG):
     outColorB = outColor.outColorB
     ocb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -243,7 +293,9 @@ class GeneratedOceanShader(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    outGlowColor = OutGlowColorField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outGlowColor = OutGlowColorField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ogc = outGlowColor
     outGlowColorR = outGlowColor.outGlowColorR
     ogr = outGlowColorR
@@ -309,10 +361,14 @@ class GeneratedOceanShader(DG):
     matteOpacityMode = MatteOpacityModeEnumField(default_value=2)
     mom = matteOpacityMode
 
-    matteOpacity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    matteOpacity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     mog = matteOpacity
 
-    outMatteOpacity = OutMatteOpacityField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outMatteOpacity = OutMatteOpacityField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     omo = outMatteOpacity
     outMatteOpacityR = outMatteOpacity.outMatteOpacityR
     omor = outMatteOpacityR
@@ -324,44 +380,73 @@ class GeneratedOceanShader(DG):
     time = TimeField(default_value=0.0)
     ti = time
 
-    scale = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.01, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.01,
+        soft_max_value=10.0,
+    )
     scl = scale
 
-    windUV = WindUVField(default_value=(1.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0))
+    windUV = WindUVField(
+        default_value=(1.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0)
+    )
     wi = windUV
     windU = windUV.windU
     wiu = windU
     windV = windUV.windV
     wiv = windV
 
-    observerSpeed = FloatField(default_value=0.0, min_value=0.0, soft_max_value=2.0)
+    observerSpeed = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=2.0
+    )
     os = observerSpeed
 
-    waveDirSpread = FloatField(default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0)
+    waveDirSpread = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, soft_max_value=1.0
+    )
     wd = waveDirSpread
 
-    numFrequencies = FloatField(default_value=3.0, min_value=0.0, soft_max_value=10.0)
+    numFrequencies = FloatField(
+        default_value=3.0, min_value=0.0, soft_max_value=10.0
+    )
     nf = numFrequencies
 
-    waveLengthMin = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_min_value=0.001, soft_max_value=10.0)
+    waveLengthMin = FloatField(
+        default_value=0.30000001192092896,
+        min_value=0.0,
+        soft_min_value=0.001,
+        soft_max_value=10.0,
+    )
     wlm = waveLengthMin
 
-    waveLengthMax = FloatField(default_value=4.0, min_value=0.0, soft_min_value=0.001, soft_max_value=10.0)
+    waveLengthMax = FloatField(
+        default_value=4.0,
+        min_value=0.0,
+        soft_min_value=0.001,
+        soft_max_value=10.0,
+    )
     wlx = waveLengthMax
 
     waveHeight = WaveHeightField(multi=True, default_value=(0.0, 0.0, 0.0))
     wh = waveHeight
 
-    waveTurbulence = WaveTurbulenceField(multi=True, default_value=(0.0, 0.0, 0.0))
+    waveTurbulence = WaveTurbulenceField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     wtb = waveTurbulence
 
     wavePeaking = WavePeakingField(multi=True, default_value=(0.0, 0.0, 0.0))
     wp = wavePeaking
 
-    waveHeightOffset = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    waveHeightOffset = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     who = waveHeightOffset
 
-    troughShadowing = FloatField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    troughShadowing = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     tsh = troughShadowing
 
     foamColor = FoamColorField(default_value=(1.0, 1.0, 1.0))
@@ -373,13 +458,21 @@ class GeneratedOceanShader(DG):
     foamColorB = foamColor.foamColorB
     fcb = foamColorB
 
-    foamEmission = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    foamEmission = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fme = foamEmission
 
-    foamThreshold = FloatField(default_value=0.5099999904632568, soft_min_value=0.0, soft_max_value=1.0)
+    foamThreshold = FloatField(
+        default_value=0.5099999904632568,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     fmt = foamThreshold
 
-    foamOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    foamOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fmo = foamOffset
 
     outFoam = FloatField(default_value=0.0, writable=False)
@@ -388,13 +481,19 @@ class GeneratedOceanShader(DG):
     displacement = FloatField(default_value=0.0)
     d = displacement
 
-    bumpBlur = FloatField(default_value=0.10000000149011612, min_value=1e-05, soft_max_value=1.0)
+    bumpBlur = FloatField(
+        default_value=0.10000000149011612, min_value=1e-05, soft_max_value=1.0
+    )
     bbl = bumpBlur
 
-    horizonFilter = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    horizonFilter = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     hft = horizonFilter
 
-    waveSpeed = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    waveSpeed = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     wvs = waveSpeed
 
     refPointCamera = RefPointCameraField(default_value=(0.0, 0.0, 0.0))

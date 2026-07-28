@@ -14,9 +14,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class IdMappingPlugOperator(
-    CompoundPlugOperator["IdMappingAttrOperator"]
-):
+class IdMappingPlugOperator(CompoundPlugOperator["IdMappingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("sortedId", "sid"),
@@ -30,9 +28,7 @@ class IdMappingPlugOperator(
     idix = idIndex
 
 
-class IdMappingAttrOperator(
-    CompoundAttrOperator[IdMappingPlugOperator]
-):
+class IdMappingAttrOperator(CompoundAttrOperator[IdMappingPlugOperator]):
     __slots__ = ()
 
     sortedId = TypedField(writable=False)
@@ -93,7 +89,9 @@ class OwnerCentroidAttrOperator(
 
 
 class OwnerCentroidField(
-    DoubleLinear3CompoundBaseField[OwnerCentroidAttrOperator, OwnerCentroidPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OwnerCentroidAttrOperator, OwnerCentroidPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -146,7 +144,9 @@ class OwnerCentroidLocalAttrOperator(
 
 
 class OwnerCentroidLocalField(
-    DoubleLinear3CompoundBaseField[OwnerCentroidLocalAttrOperator, OwnerCentroidLocalPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OwnerCentroidLocalAttrOperator, OwnerCentroidLocalPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -199,7 +199,9 @@ class ComponentCentroidAttrOperator(
 
 
 class ComponentCentroidField(
-    DoubleLinear3CompoundBaseField[ComponentCentroidAttrOperator, ComponentCentroidPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ComponentCentroidAttrOperator, ComponentCentroidPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -217,13 +219,19 @@ class ComponentCentroidLocalPlugOperator(
         ("componentCentroidLocalZ", "clcz"),
     )
 
-    componentCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalX = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     cclx = componentCentroidLocalX
 
-    componentCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalY = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     clcy = componentCentroidLocalY
 
-    componentCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalZ = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     clcz = componentCentroidLocalZ
 
 
@@ -232,18 +240,26 @@ class ComponentCentroidLocalAttrOperator(
 ):
     __slots__ = ()
 
-    componentCentroidLocalX = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalX = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     cclx = componentCentroidLocalX
 
-    componentCentroidLocalY = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalY = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     clcy = componentCentroidLocalY
 
-    componentCentroidLocalZ = DoubleLinearField(default_value=0.0, writable=False)
+    componentCentroidLocalZ = DoubleLinearField(
+        default_value=0.0, writable=False
+    )
     clcz = componentCentroidLocalZ
 
 
 class ComponentCentroidLocalField(
-    DoubleLinear3CompoundBaseField[ComponentCentroidLocalAttrOperator, ComponentCentroidLocalPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ComponentCentroidLocalAttrOperator, ComponentCentroidLocalPlugOperator
+    ]
 ):
     __slots__ = ()
 

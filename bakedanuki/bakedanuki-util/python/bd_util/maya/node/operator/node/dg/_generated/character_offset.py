@@ -21,7 +21,9 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class RootRotateOrderEnumPlugOperator(EnumPlugOperator["RootRotateOrderEnumAttrOperator"]):
+class RootRotateOrderEnumPlugOperator(
+    EnumPlugOperator["RootRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -32,7 +34,9 @@ class RootRotateOrderEnumPlugOperator(EnumPlugOperator["RootRotateOrderEnumAttrO
     ZYX = 5
 
 
-class RootRotateOrderEnumAttrOperator(EnumAttrOperator[RootRotateOrderEnumPlugOperator]):
+class RootRotateOrderEnumAttrOperator(
+    EnumAttrOperator[RootRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -61,7 +65,9 @@ class RootRotateOrderEnumField(
     PLUG_CLS = RootRotateOrderEnumPlugOperator
 
 
-class OffsetRootRotateOrderEnumPlugOperator(EnumPlugOperator["OffsetRootRotateOrderEnumAttrOperator"]):
+class OffsetRootRotateOrderEnumPlugOperator(
+    EnumPlugOperator["OffsetRootRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -72,7 +78,9 @@ class OffsetRootRotateOrderEnumPlugOperator(EnumPlugOperator["OffsetRootRotateOr
     ZYX = 5
 
 
-class OffsetRootRotateOrderEnumAttrOperator(EnumAttrOperator[OffsetRootRotateOrderEnumPlugOperator]):
+class OffsetRootRotateOrderEnumAttrOperator(
+    EnumAttrOperator[OffsetRootRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -93,7 +101,10 @@ class OffsetRootRotateOrderEnumAttrOperator(EnumAttrOperator[OffsetRootRotateOrd
 
 
 class OffsetRootRotateOrderEnumField(
-    EnumField[OffsetRootRotateOrderEnumAttrOperator, OffsetRootRotateOrderEnumPlugOperator]
+    EnumField[
+        OffsetRootRotateOrderEnumAttrOperator,
+        OffsetRootRotateOrderEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -148,7 +159,9 @@ class GeneratedCharacterOffset(DG):
     enable = BoolField(default_value=True)
     nabl = enable
 
-    offsetRootTranslate = OffsetRootTranslateField(default_value=(0.0, 0.0, 0.0))
+    offsetRootTranslate = OffsetRootTranslateField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     rtf = offsetRootTranslate
     offsetRootTranslateX = offsetRootTranslate.offsetRootTranslateX
     rtfx = offsetRootTranslateX
@@ -157,13 +170,21 @@ class GeneratedCharacterOffset(DG):
     offsetRootTranslateZ = offsetRootTranslate.offsetRootTranslateZ
     rtfz = offsetRootTranslateZ
 
-    initialOffsetRootTranslate = InitialOffsetRootTranslateField(default_value=(0.0, 0.0, 0.0))
+    initialOffsetRootTranslate = InitialOffsetRootTranslateField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     itf = initialOffsetRootTranslate
-    initialOffsetRootTranslateX = initialOffsetRootTranslate.initialOffsetRootTranslateX
+    initialOffsetRootTranslateX = (
+        initialOffsetRootTranslate.initialOffsetRootTranslateX
+    )
     itfx = initialOffsetRootTranslateX
-    initialOffsetRootTranslateY = initialOffsetRootTranslate.initialOffsetRootTranslateY
+    initialOffsetRootTranslateY = (
+        initialOffsetRootTranslate.initialOffsetRootTranslateY
+    )
     itfy = initialOffsetRootTranslateY
-    initialOffsetRootTranslateZ = initialOffsetRootTranslate.initialOffsetRootTranslateZ
+    initialOffsetRootTranslateZ = (
+        initialOffsetRootTranslate.initialOffsetRootTranslateZ
+    )
     itfz = initialOffsetRootTranslateZ
 
     rotateControlScale = RotateControlScaleField(default_value=(1.0, 1.0, 1.0))
@@ -190,7 +211,9 @@ class GeneratedCharacterOffset(DG):
     offsetRootRotateOrder = OffsetRootRotateOrderEnumField(default_value=0)
     rfor = offsetRootRotateOrder
 
-    offsetRootRotatePivot = OffsetRootRotatePivotField(default_value=(0.0, 0.0, 0.0))
+    offsetRootRotatePivot = OffsetRootRotatePivotField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     rpf = offsetRootRotatePivot
     offsetRootRotatePivotX = offsetRootRotatePivot.offsetRootRotatePivotX
     rppfx = offsetRootRotatePivotX
@@ -199,7 +222,9 @@ class GeneratedCharacterOffset(DG):
     offsetRootRotatePivotZ = offsetRootRotatePivot.offsetRootRotatePivotZ
     rppfz = offsetRootRotatePivotZ
 
-    outRootTranslate = OutRootTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outRootTranslate = OutRootTranslateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     rto = outRootTranslate
     outRootTranslateX = outRootTranslate.outRootTranslateX
     rtox = outRootTranslateX
@@ -208,7 +233,9 @@ class GeneratedCharacterOffset(DG):
     outRootTranslateZ = outRootTranslate.outRootTranslateZ
     rtoz = outRootTranslateZ
 
-    outRootRotate = OutRootRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outRootRotate = OutRootRotateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     rro = outRootRotate
     outRootRotateX = outRootRotate.outRootRotateX
     rrox = outRootRotateX

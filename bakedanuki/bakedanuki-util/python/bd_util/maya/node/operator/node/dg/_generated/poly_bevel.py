@@ -8,20 +8,26 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
 
 
-class UvAssignmentEnumPlugOperator(EnumPlugOperator["UvAssignmentEnumAttrOperator"]):
+class UvAssignmentEnumPlugOperator(
+    EnumPlugOperator["UvAssignmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLANAR_PROJECT_PER_FACE = 0
     PRESERVE_ORIGINAL_BOUNDARIES = 1
 
 
-class UvAssignmentEnumAttrOperator(EnumAttrOperator[UvAssignmentEnumPlugOperator]):
+class UvAssignmentEnumAttrOperator(
+    EnumAttrOperator[UvAssignmentEnumPlugOperator]
+):
     __slots__ = ()
 
     PLANAR_PROJECT_PER_FACE = 0
@@ -89,13 +95,22 @@ class GeneratedPolyBevel(DG):
     offsetAsFraction = BoolField(default_value=False)
     oaf = offsetAsFraction
 
-    offset = DoubleLinearField(default_value=0.2, min_value=0.0, soft_max_value=5.0)
+    offset = DoubleLinearField(
+        default_value=0.2, min_value=0.0, soft_max_value=5.0
+    )
     o = offset
 
-    fraction = DoubleField(default_value=0.5, min_value=0.0, soft_max_value=1.0)
+    fraction = DoubleField(
+        default_value=0.5, min_value=0.0, soft_max_value=1.0
+    )
     f = fraction
 
-    roundness = DoubleField(default_value=0.5, min_value=-1.0, soft_min_value=-0.5, soft_max_value=0.5)
+    roundness = DoubleField(
+        default_value=0.5,
+        min_value=-1.0,
+        soft_min_value=-0.5,
+        soft_max_value=0.5,
+    )
     r = roundness
 
     segments = LongField(default_value=1, min_value=1, soft_max_value=12)
@@ -104,7 +119,9 @@ class GeneratedPolyBevel(DG):
     autoFit = BoolField(default_value=True)
     af = autoFit
 
-    angleTolerance = DoubleField(default_value=20.0, min_value=0.0, soft_max_value=180.0)
+    angleTolerance = DoubleField(
+        default_value=20.0, min_value=0.0, soft_max_value=180.0
+    )
     at = angleTolerance
 
     fillNgons = BoolField(default_value=False)
@@ -116,13 +133,19 @@ class GeneratedPolyBevel(DG):
     mergeVertices = BoolField(default_value=False)
     mv = mergeVertices
 
-    mergeVertexTolerance = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    mergeVertexTolerance = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     mvt = mergeVertexTolerance
 
-    smoothingAngle = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
     sa = smoothingAngle
 
-    miteringAngle = DoubleField(default_value=0.0, min_value=0.0, soft_max_value=180.0)
+    miteringAngle = DoubleField(
+        default_value=0.0, min_value=0.0, soft_max_value=180.0
+    )
     ma = miteringAngle
 
     maya2015 = BoolField(default_value=True)

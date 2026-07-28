@@ -13,7 +13,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -22,7 +24,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOpe
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -52,7 +56,11 @@ class GeneratedClamp(DG):
 
     NODE_TYPE = "clamp"
 
-    min = MinField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    min = MinField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     mn = min
     minR = min.minR
     mnr = minR
@@ -61,7 +69,11 @@ class GeneratedClamp(DG):
     minB = min.minB
     mnb = minB
 
-    max = MaxField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    max = MaxField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     mx = max
     maxR = max.maxR
     mxr = maxR
@@ -70,7 +82,11 @@ class GeneratedClamp(DG):
     maxB = max.maxB
     mxb = maxB
 
-    input = InputField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(5.0, 5.0, 5.0))
+    input = InputField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(5.0, 5.0, 5.0),
+    )
     ip = input
     inputR = input.inputR
     ipr = inputR

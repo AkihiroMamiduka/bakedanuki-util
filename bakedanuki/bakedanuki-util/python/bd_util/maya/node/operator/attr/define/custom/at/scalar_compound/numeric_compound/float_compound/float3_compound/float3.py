@@ -9,9 +9,7 @@ from ._base import (
 from .......std.at.scalar.numeric.range.float import FloatField
 
 
-class Float3PlugOperator(
-    Float3CompoundBasePlugOperator["Float3AttrOperator"]
-):
+class Float3PlugOperator(Float3CompoundBasePlugOperator["Float3AttrOperator"]):
     __slots__ = ()
 
     x = FloatField()

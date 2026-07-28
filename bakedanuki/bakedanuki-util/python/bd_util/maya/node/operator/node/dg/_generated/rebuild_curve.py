@@ -7,11 +7,15 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"]):
+class RebuildTypeEnumPlugOperator(
+    EnumPlugOperator["RebuildTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -23,7 +27,9 @@ class RebuildTypeEnumPlugOperator(EnumPlugOperator["RebuildTypeEnumAttrOperator"
     CLEAN = 6
 
 
-class RebuildTypeEnumAttrOperator(EnumAttrOperator[RebuildTypeEnumPlugOperator]):
+class RebuildTypeEnumAttrOperator(
+    EnumAttrOperator[RebuildTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     UNIFORM = 0
@@ -173,7 +179,9 @@ class GeneratedRebuildCurve(DG):
     degree = DegreeEnumField(default_value=3)
     d = degree
 
-    tolerance = DoubleLinearField(default_value=0.01, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01, soft_min_value=0.001, soft_max_value=1.0
+    )
     tol = tolerance
 
     endKnots = EndKnotsEnumField(default_value=0)
@@ -197,5 +205,7 @@ class GeneratedRebuildCurve(DG):
     smartSurfaceCurveRebuild = BoolField(default_value=False)
     scr = smartSurfaceCurveRebuild
 
-    smooth = DoubleLinearField(default_value=-3.0, min_value=-3.0, soft_max_value=5.0)
+    smooth = DoubleLinearField(
+        default_value=-3.0, min_value=-3.0, soft_max_value=5.0
+    )
     sm = smooth

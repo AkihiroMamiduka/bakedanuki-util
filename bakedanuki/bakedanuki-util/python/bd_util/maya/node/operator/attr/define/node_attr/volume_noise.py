@@ -468,7 +468,9 @@ class RefPointCameraAttrOperator(
 
 
 class RefPointCameraField(
-    Float3CompoundBaseField[RefPointCameraAttrOperator, RefPointCameraPlugOperator]
+    Float3CompoundBaseField[
+        RefPointCameraAttrOperator, RefPointCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -485,9 +487,7 @@ class RefPointCameraField(
     rcz = refPointCameraZ
 
 
-class ScalePlugOperator(
-    Float3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Float3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -505,9 +505,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Float3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Float3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = FloatField(default_value=1.0, min_value=0.0)
@@ -538,9 +536,7 @@ class ScaleField(
     sz = scaleZ
 
 
-class OriginPlugOperator(
-    Float3CompoundBasePlugOperator["OriginAttrOperator"]
-):
+class OriginPlugOperator(Float3CompoundBasePlugOperator["OriginAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("originX", "orx"),
@@ -558,9 +554,7 @@ class OriginPlugOperator(
     orz = originZ
 
 
-class OriginAttrOperator(
-    Float3CompoundBaseAttrOperator[OriginPlugOperator]
-):
+class OriginAttrOperator(Float3CompoundBaseAttrOperator[OriginPlugOperator]):
     __slots__ = ()
 
     originX = FloatField(default_value=0.0)
@@ -627,7 +621,9 @@ class ImplodeCenterAttrOperator(
 
 
 class ImplodeCenterField(
-    Float3CompoundBaseField[ImplodeCenterAttrOperator, ImplodeCenterPlugOperator]
+    Float3CompoundBaseField[
+        ImplodeCenterAttrOperator, ImplodeCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 

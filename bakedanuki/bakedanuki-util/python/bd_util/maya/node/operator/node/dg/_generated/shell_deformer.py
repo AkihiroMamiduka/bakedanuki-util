@@ -25,7 +25,9 @@ from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class AnimationModeEnumPlugOperator(EnumPlugOperator["AnimationModeEnumAttrOperator"]):
+class AnimationModeEnumPlugOperator(
+    EnumPlugOperator["AnimationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CHARACTER = 1
@@ -33,7 +35,9 @@ class AnimationModeEnumPlugOperator(EnumPlugOperator["AnimationModeEnumAttrOpera
     LINE = 3
 
 
-class AnimationModeEnumAttrOperator(EnumAttrOperator[AnimationModeEnumPlugOperator]):
+class AnimationModeEnumAttrOperator(
+    EnumAttrOperator[AnimationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CHARACTER = 1
@@ -73,13 +77,21 @@ class GeneratedShellDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -141,11 +153,17 @@ class GeneratedShellDeformer(DG):
 
     enablePivotDisplay = BoolField(default_value=False)
 
-    xPivotLocation = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    xPivotLocation = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    yPivotLocation = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    yPivotLocation = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    zPivotLocation = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    zPivotLocation = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     localXRotationPivot = BoolField(default_value=True)
 
@@ -161,7 +179,9 @@ class GeneratedShellDeformer(DG):
 
     randomSeed = LongField(default_value=0, min_value=0, soft_max_value=100)
 
-    offsetFrames = FloatField(default_value=50.0, soft_min_value=-100.0, soft_max_value=100.0)
+    offsetFrames = FloatField(
+        default_value=50.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
 
     animationMode = AnimationModeEnumField(default_value=1)
 

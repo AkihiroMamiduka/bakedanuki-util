@@ -104,16 +104,16 @@ class ScaleEnumAttrOperator(EnumAttrOperator[ScaleEnumPlugOperator]):
     }
 
 
-class ScaleEnumField(
-    EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]
-):
+class ScaleEnumField(EnumField[ScaleEnumAttrOperator, ScaleEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ScaleEnumAttrOperator
     PLUG_CLS = ScaleEnumPlugOperator
 
 
-class RotateForBestFitEnumPlugOperator(EnumPlugOperator["RotateForBestFitEnumAttrOperator"]):
+class RotateForBestFitEnumPlugOperator(
+    EnumPlugOperator["RotateForBestFitEnumAttrOperator"]
+):
     __slots__ = ()
 
     NO_ROTATION = 0
@@ -122,7 +122,9 @@ class RotateForBestFitEnumPlugOperator(EnumPlugOperator["RotateForBestFitEnumAtt
     BEST_BOUNDING_BOX_AREA = 3
 
 
-class RotateForBestFitEnumAttrOperator(EnumAttrOperator[RotateForBestFitEnumPlugOperator]):
+class RotateForBestFitEnumAttrOperator(
+    EnumAttrOperator[RotateForBestFitEnumPlugOperator]
+):
     __slots__ = ()
 
     NO_ROTATION = 0
@@ -139,7 +141,9 @@ class RotateForBestFitEnumAttrOperator(EnumAttrOperator[RotateForBestFitEnumPlug
 
 
 class RotateForBestFitEnumField(
-    EnumField[RotateForBestFitEnumAttrOperator, RotateForBestFitEnumPlugOperator]
+    EnumField[
+        RotateForBestFitEnumAttrOperator, RotateForBestFitEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -147,14 +151,18 @@ class RotateForBestFitEnumField(
     PLUG_CLS = RotateForBestFitEnumPlugOperator
 
 
-class LayoutMethodEnumPlugOperator(EnumPlugOperator["LayoutMethodEnumAttrOperator"]):
+class LayoutMethodEnumPlugOperator(
+    EnumPlugOperator["LayoutMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
     SHAPE_STACKING = 1
 
 
-class LayoutMethodEnumAttrOperator(EnumAttrOperator[LayoutMethodEnumPlugOperator]):
+class LayoutMethodEnumAttrOperator(
+    EnumAttrOperator[LayoutMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     BLOCK_STACKING = 0
@@ -237,7 +245,9 @@ class GeneratedPolyLayoutUV(DG):
     gridV = LongField(default_value=1)
     gv = gridV
 
-    percentageSpace = FloatField(default_value=0.0, min_value=0.0, max_value=5.0)
+    percentageSpace = FloatField(
+        default_value=0.0, min_value=0.0, max_value=5.0
+    )
     ps = percentageSpace
 
     scale = ScaleEnumField(default_value=1)

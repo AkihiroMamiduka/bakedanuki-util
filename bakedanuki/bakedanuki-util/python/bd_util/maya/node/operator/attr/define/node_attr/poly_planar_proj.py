@@ -61,7 +61,9 @@ class ProjectionCenterAttrOperator(
 
 
 class ProjectionCenterField(
-    DoubleLinear3CompoundBaseField[ProjectionCenterAttrOperator, ProjectionCenterPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ProjectionCenterAttrOperator, ProjectionCenterPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -183,10 +185,14 @@ class ProjectionScalePlugOperator(
         ("projectionHeight", "ph"),
     )
 
-    projectionWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = projectionWidth
 
-    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = projectionHeight
 
 
@@ -195,25 +201,35 @@ class ProjectionScaleAttrOperator(
 ):
     __slots__ = ()
 
-    projectionWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = projectionWidth
 
-    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = projectionHeight
 
 
 class ProjectionScaleField(
-    DoubleLinear2CompoundBaseField[ProjectionScaleAttrOperator, ProjectionScalePlugOperator]
+    DoubleLinear2CompoundBaseField[
+        ProjectionScaleAttrOperator, ProjectionScalePlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = ProjectionScaleAttrOperator
     PLUG_CLS = ProjectionScalePlugOperator
 
-    projectionWidth = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionWidth = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     pw = projectionWidth
 
-    projectionHeight = DoubleLinearField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    projectionHeight = DoubleLinearField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     ph = projectionHeight
 
 

@@ -14,7 +14,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 
 
@@ -40,16 +42,16 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class InsideModeEnumPlugOperator(EnumPlugOperator["InsideModeEnumAttrOperator"]):
+class InsideModeEnumPlugOperator(
+    EnumPlugOperator["InsideModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     RING = 0
@@ -77,14 +79,18 @@ class InsideModeEnumField(
     PLUG_CLS = InsideModeEnumPlugOperator
 
 
-class DropoffTypeEnumPlugOperator(EnumPlugOperator["DropoffTypeEnumAttrOperator"]):
+class DropoffTypeEnumPlugOperator(
+    EnumPlugOperator["DropoffTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
     LINEAR = 1
 
 
-class DropoffTypeEnumAttrOperator(EnumAttrOperator[DropoffTypeEnumPlugOperator]):
+class DropoffTypeEnumAttrOperator(
+    EnumAttrOperator[DropoffTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -122,13 +128,21 @@ class GeneratedSculpt(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -155,10 +169,14 @@ class GeneratedSculpt(DG):
     insideMode = InsideModeEnumField(default_value=1)
     im = insideMode
 
-    maximumDisplacement = DoubleLinearField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    maximumDisplacement = DoubleLinearField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     md = maximumDisplacement
 
-    dropoffDistance = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    dropoffDistance = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     dd = dropoffDistance
 
     dropoffType = DropoffTypeEnumField(default_value=1)

@@ -34,16 +34,16 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
     PLUG_CLS = ModeEnumPlugOperator
 
 
-class IlluminantEnumPlugOperator(EnumPlugOperator["IlluminantEnumAttrOperator"]):
+class IlluminantEnumPlugOperator(
+    EnumPlugOperator["IlluminantEnumAttrOperator"]
+):
     __slots__ = ()
 
     DAYLIGHT = 0
@@ -187,7 +187,9 @@ class GeneratedAiImagerWhiteBalance(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    temperature = FloatField(default_value=6500.0, min_value=0.0, soft_max_value=15000.0)
+    temperature = FloatField(
+        default_value=6500.0, min_value=0.0, soft_max_value=15000.0
+    )
 
     illuminant = IlluminantEnumField(default_value=0)
 

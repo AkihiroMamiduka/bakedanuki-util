@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+/.venv-format/
 
 # Local benchmark measurements
 /benchmark_results/

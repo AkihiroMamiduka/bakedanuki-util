@@ -25,7 +25,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -34,7 +36,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -59,7 +63,9 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class ComponentTypeEnumPlugOperator(EnumPlugOperator["ComponentTypeEnumAttrOperator"]):
+class ComponentTypeEnumPlugOperator(
+    EnumPlugOperator["ComponentTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     VERTEX = 1
@@ -67,7 +73,9 @@ class ComponentTypeEnumPlugOperator(EnumPlugOperator["ComponentTypeEnumAttrOpera
     VERTEX_NORMAL = 3
 
 
-class ComponentTypeEnumAttrOperator(EnumAttrOperator[ComponentTypeEnumPlugOperator]):
+class ComponentTypeEnumAttrOperator(
+    EnumAttrOperator[ComponentTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     VERTEX = 1
@@ -107,13 +115,21 @@ class GeneratedMASH_Deformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)

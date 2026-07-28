@@ -41,7 +41,9 @@ class MethodEnumField(
     PLUG_CLS = MethodEnumPlugOperator
 
 
-class SubdivisionTypeEnumPlugOperator(EnumPlugOperator["SubdivisionTypeEnumAttrOperator"]):
+class SubdivisionTypeEnumPlugOperator(
+    EnumPlugOperator["SubdivisionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -49,7 +51,9 @@ class SubdivisionTypeEnumPlugOperator(EnumPlugOperator["SubdivisionTypeEnumAttrO
     OPENSUBDIV_CATMULL_MINUS_CLARK_ADAPTIVE = 3
 
 
-class SubdivisionTypeEnumAttrOperator(EnumAttrOperator[SubdivisionTypeEnumPlugOperator]):
+class SubdivisionTypeEnumAttrOperator(
+    EnumAttrOperator[SubdivisionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     MAYA_CATMULL_MINUS_CLARK = 0
@@ -72,14 +76,18 @@ class SubdivisionTypeEnumField(
     PLUG_CLS = SubdivisionTypeEnumPlugOperator
 
 
-class OsdVertBoundaryEnumPlugOperator(EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]):
+class OsdVertBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdVertBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
     SHARP_EDGES = 2
 
 
-class OsdVertBoundaryEnumAttrOperator(EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]):
+class OsdVertBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdVertBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     SHARP_EDGES_AND_CORNERS = 1
@@ -100,7 +108,9 @@ class OsdVertBoundaryEnumField(
     PLUG_CLS = OsdVertBoundaryEnumPlugOperator
 
 
-class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]):
+class OsdFvarBoundaryEnumPlugOperator(
+    EnumPlugOperator["OsdFvarBoundaryEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -109,7 +119,9 @@ class OsdFvarBoundaryEnumPlugOperator(EnumPlugOperator["OsdFvarBoundaryEnumAttrO
     MAYA_CATMULL_MINUS_CLARK = 3
 
 
-class OsdFvarBoundaryEnumAttrOperator(EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]):
+class OsdFvarBoundaryEnumAttrOperator(
+    EnumAttrOperator[OsdFvarBoundaryEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -134,14 +146,18 @@ class OsdFvarBoundaryEnumField(
     PLUG_CLS = OsdFvarBoundaryEnumPlugOperator
 
 
-class OsdCreaseMethodEnumPlugOperator(EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]):
+class OsdCreaseMethodEnumPlugOperator(
+    EnumPlugOperator["OsdCreaseMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
     CHAIKIN = 1
 
 
-class OsdCreaseMethodEnumAttrOperator(EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]):
+class OsdCreaseMethodEnumAttrOperator(
+    EnumAttrOperator[OsdCreaseMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -162,7 +178,9 @@ class OsdCreaseMethodEnumField(
     PLUG_CLS = OsdCreaseMethodEnumPlugOperator
 
 
-class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperator"]):
+class BoundaryRuleEnumPlugOperator(
+    EnumPlugOperator["BoundaryRuleEnumAttrOperator"]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -170,7 +188,9 @@ class BoundaryRuleEnumPlugOperator(EnumPlugOperator["BoundaryRuleEnumAttrOperato
     CREASE_EDGES = 2
 
 
-class BoundaryRuleEnumAttrOperator(EnumAttrOperator[BoundaryRuleEnumPlugOperator]):
+class BoundaryRuleEnumAttrOperator(
+    EnumAttrOperator[BoundaryRuleEnumPlugOperator]
+):
     __slots__ = ()
 
     LEGACY = 0
@@ -193,7 +213,9 @@ class BoundaryRuleEnumField(
     PLUG_CLS = BoundaryRuleEnumPlugOperator
 
 
-class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOperator"]):
+class KeepMapBordersEnumPlugOperator(
+    EnumPlugOperator["KeepMapBordersEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -201,7 +223,9 @@ class KeepMapBordersEnumPlugOperator(EnumPlugOperator["KeepMapBordersEnumAttrOpe
     ALL = 2
 
 
-class KeepMapBordersEnumAttrOperator(EnumAttrOperator[KeepMapBordersEnumPlugOperator]):
+class KeepMapBordersEnumAttrOperator(
+    EnumAttrOperator[KeepMapBordersEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -289,10 +313,22 @@ class GeneratedPolySmoothProxy(DG):
     osdIndependentUVChannels = BoolField(default_value=True)
     iuv = osdIndependentUVChannels
 
-    exponentialLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
+    exponentialLevel = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=8,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     el = exponentialLevel
 
-    continuity = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    continuity = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     c = continuity
 
     smoothUVs = BoolField(default_value=False)
@@ -313,19 +349,43 @@ class GeneratedPolySmoothProxy(DG):
     keepMapBorders = KeepMapBordersEnumField(default_value=1)
     kmb = keepMapBorders
 
-    linearLevel = ShortField(default_value=1, min_value=0, max_value=8, soft_min_value=0, soft_max_value=4)
+    linearLevel = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=8,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     ll = linearLevel
 
-    divisionsPerEdge = LongField(default_value=1, min_value=0, max_value=10, soft_min_value=0, soft_max_value=4)
+    divisionsPerEdge = LongField(
+        default_value=1,
+        min_value=0,
+        max_value=10,
+        soft_min_value=0,
+        soft_max_value=4,
+    )
     dpe = divisionsPerEdge
 
     degree = LongField(default_value=3)
     deg = degree
 
-    pushStrength = FloatField(default_value=0.0, min_value=-1.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    pushStrength = FloatField(
+        default_value=0.0,
+        min_value=-1.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ps = pushStrength
 
-    roundness = FloatField(default_value=0.0, min_value=-10.0, max_value=10.0, soft_min_value=-2.0, soft_max_value=2.0)
+    roundness = FloatField(
+        default_value=0.0,
+        min_value=-10.0,
+        max_value=10.0,
+        soft_min_value=-2.0,
+        soft_max_value=2.0,
+    )
     ro = roundness
 
     multiEdgeCrease = BoolField(default_value=True)

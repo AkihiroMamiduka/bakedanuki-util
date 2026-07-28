@@ -22,7 +22,9 @@ class GeneratedAiImagerDenoiserNoice(DG):
     patchRadius = LongField(default_value=3, min_value=0, soft_max_value=6)
     patch_radius = patchRadius
 
-    searchRadius = LongField(default_value=9, min_value=0, soft_min_value=6, soft_max_value=21)
+    searchRadius = LongField(
+        default_value=9, min_value=0, soft_min_value=6, soft_max_value=21
+    )
     search_radius = searchRadius
 
     variance = FloatField(default_value=0.25, min_value=0.0, max_value=1.0)

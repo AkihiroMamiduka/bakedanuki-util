@@ -6,18 +6,24 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ExtensionTypeEnumPlugOperator(EnumPlugOperator["ExtensionTypeEnumAttrOperator"]):
+class ExtensionTypeEnumPlugOperator(
+    EnumPlugOperator["ExtensionTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     TANGENT = 0
     EXTRAPOLATE = 2
 
 
-class ExtensionTypeEnumAttrOperator(EnumAttrOperator[ExtensionTypeEnumPlugOperator]):
+class ExtensionTypeEnumAttrOperator(
+    EnumAttrOperator[ExtensionTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     TANGENT = 0
@@ -38,13 +44,17 @@ class ExtensionTypeEnumField(
     PLUG_CLS = ExtensionTypeEnumPlugOperator
 
 
-class ExtendMethodEnumPlugOperator(EnumPlugOperator["ExtendMethodEnumAttrOperator"]):
+class ExtendMethodEnumPlugOperator(
+    EnumPlugOperator["ExtendMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     DISTANCE = 0
 
 
-class ExtendMethodEnumAttrOperator(EnumAttrOperator[ExtendMethodEnumPlugOperator]):
+class ExtendMethodEnumAttrOperator(
+    EnumAttrOperator[ExtendMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     DISTANCE = 0
@@ -63,7 +73,9 @@ class ExtendMethodEnumField(
     PLUG_CLS = ExtendMethodEnumPlugOperator
 
 
-class ExtendSideEnumPlugOperator(EnumPlugOperator["ExtendSideEnumAttrOperator"]):
+class ExtendSideEnumPlugOperator(
+    EnumPlugOperator["ExtendSideEnumAttrOperator"]
+):
     __slots__ = ()
 
     END = 0
@@ -94,7 +106,9 @@ class ExtendSideEnumField(
     PLUG_CLS = ExtendSideEnumPlugOperator
 
 
-class ExtendDirectionEnumPlugOperator(EnumPlugOperator["ExtendDirectionEnumAttrOperator"]):
+class ExtendDirectionEnumPlugOperator(
+    EnumPlugOperator["ExtendDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     U = 0
@@ -102,7 +116,9 @@ class ExtendDirectionEnumPlugOperator(EnumPlugOperator["ExtendDirectionEnumAttrO
     BOTH = 2
 
 
-class ExtendDirectionEnumAttrOperator(EnumAttrOperator[ExtendDirectionEnumPlugOperator]):
+class ExtendDirectionEnumAttrOperator(
+    EnumAttrOperator[ExtendDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     U = 0
@@ -151,7 +167,12 @@ class GeneratedExtendSurface(DG):
     join = BoolField(default_value=True)
     jn = join
 
-    distance = DoubleLinearField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    distance = DoubleLinearField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=10.0,
+    )
     d = distance
 
     outputSurface = DataNurbsSurfaceField(writable=False)

@@ -30,9 +30,7 @@ class UvTweakPlugOperator(
     tv = uvTweakV
 
 
-class UvTweakAttrOperator(
-    Float2CompoundBaseAttrOperator[UvTweakPlugOperator]
-):
+class UvTweakAttrOperator(Float2CompoundBaseAttrOperator[UvTweakPlugOperator]):
     __slots__ = ()
 
     uvTweakU = FloatField(default_value=0.0)
@@ -51,9 +49,7 @@ class UvTweakField(
     PLUG_CLS = UvTweakPlugOperator
 
 
-class NewUVPlugOperator(
-    CompoundPlugOperator["NewUVAttrOperator"]
-):
+class NewUVPlugOperator(CompoundPlugOperator["NewUVAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("faceId", "fid"),
@@ -75,9 +71,7 @@ class NewUVPlugOperator(
     nv = newVValue
 
 
-class NewUVAttrOperator(
-    CompoundAttrOperator[NewUVPlugOperator]
-):
+class NewUVAttrOperator(CompoundAttrOperator[NewUVPlugOperator]):
     __slots__ = ()
 
     faceId = LongField(default_value=-1)
@@ -93,9 +87,7 @@ class NewUVAttrOperator(
     nv = newVValue
 
 
-class NewUVField(
-    CompoundField[NewUVAttrOperator, NewUVPlugOperator]
-):
+class NewUVField(CompoundField[NewUVAttrOperator, NewUVPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NewUVAttrOperator

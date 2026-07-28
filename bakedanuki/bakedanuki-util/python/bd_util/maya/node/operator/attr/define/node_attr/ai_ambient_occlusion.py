@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -203,7 +205,9 @@ class HardwareColorAttrOperator(
 
 
 class HardwareColorField(
-    Float3CompoundBaseField[HardwareColorAttrOperator, HardwareColorPlugOperator]
+    Float3CompoundBaseField[
+        HardwareColorAttrOperator, HardwareColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -220,9 +224,7 @@ class HardwareColorField(
     hwcb = hardwareColorB
 
 
-class BlackPlugOperator(
-    Float3CompoundBasePlugOperator["BlackAttrOperator"]
-):
+class BlackPlugOperator(Float3CompoundBasePlugOperator["BlackAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("blackR", "blackr"),
@@ -240,9 +242,7 @@ class BlackPlugOperator(
     blackb = blackB
 
 
-class BlackAttrOperator(
-    Float3CompoundBaseAttrOperator[BlackPlugOperator]
-):
+class BlackAttrOperator(Float3CompoundBaseAttrOperator[BlackPlugOperator]):
     __slots__ = ()
 
     blackR = FloatField(default_value=0.0)
@@ -273,9 +273,7 @@ class BlackField(
     blackb = blackB
 
 
-class WhitePlugOperator(
-    Float3CompoundBasePlugOperator["WhiteAttrOperator"]
-):
+class WhitePlugOperator(Float3CompoundBasePlugOperator["WhiteAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("whiteR", "whiter"),
@@ -293,9 +291,7 @@ class WhitePlugOperator(
     whiteb = whiteB
 
 
-class WhiteAttrOperator(
-    Float3CompoundBaseAttrOperator[WhitePlugOperator]
-):
+class WhiteAttrOperator(Float3CompoundBaseAttrOperator[WhitePlugOperator]):
     __slots__ = ()
 
     whiteR = FloatField(default_value=1.0)
@@ -326,9 +322,7 @@ class WhiteField(
     whiteb = whiteB
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalx"),
@@ -346,9 +340,7 @@ class NormalPlugOperator(
     normalz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)

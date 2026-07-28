@@ -23,10 +23,14 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
 )
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
-class Color_InterpEnumPlugOperator(EnumPlugOperator["Color_InterpEnumAttrOperator"]):
+class Color_InterpEnumPlugOperator(
+    EnumPlugOperator["Color_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -35,7 +39,9 @@ class Color_InterpEnumPlugOperator(EnumPlugOperator["Color_InterpEnumAttrOperato
     SPLINE = 3
 
 
-class Color_InterpEnumAttrOperator(EnumAttrOperator[Color_InterpEnumPlugOperator]):
+class Color_InterpEnumAttrOperator(
+    EnumAttrOperator[Color_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -60,7 +66,9 @@ class Color_InterpEnumField(
     PLUG_CLS = Color_InterpEnumPlugOperator
 
 
-class Transparency_InterpEnumPlugOperator(EnumPlugOperator["Transparency_InterpEnumAttrOperator"]):
+class Transparency_InterpEnumPlugOperator(
+    EnumPlugOperator["Transparency_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -69,7 +77,9 @@ class Transparency_InterpEnumPlugOperator(EnumPlugOperator["Transparency_InterpE
     SPLINE = 3
 
 
-class Transparency_InterpEnumAttrOperator(EnumAttrOperator[Transparency_InterpEnumPlugOperator]):
+class Transparency_InterpEnumAttrOperator(
+    EnumAttrOperator[Transparency_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -86,7 +96,10 @@ class Transparency_InterpEnumAttrOperator(EnumAttrOperator[Transparency_InterpEn
 
 
 class Transparency_InterpEnumField(
-    EnumField[Transparency_InterpEnumAttrOperator, Transparency_InterpEnumPlugOperator]
+    EnumField[
+        Transparency_InterpEnumAttrOperator,
+        Transparency_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -94,7 +107,9 @@ class Transparency_InterpEnumField(
     PLUG_CLS = Transparency_InterpEnumPlugOperator
 
 
-class Incandescence_InterpEnumPlugOperator(EnumPlugOperator["Incandescence_InterpEnumAttrOperator"]):
+class Incandescence_InterpEnumPlugOperator(
+    EnumPlugOperator["Incandescence_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -103,7 +118,9 @@ class Incandescence_InterpEnumPlugOperator(EnumPlugOperator["Incandescence_Inter
     SPLINE = 3
 
 
-class Incandescence_InterpEnumAttrOperator(EnumAttrOperator[Incandescence_InterpEnumPlugOperator]):
+class Incandescence_InterpEnumAttrOperator(
+    EnumAttrOperator[Incandescence_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -120,7 +137,10 @@ class Incandescence_InterpEnumAttrOperator(EnumAttrOperator[Incandescence_Interp
 
 
 class Incandescence_InterpEnumField(
-    EnumField[Incandescence_InterpEnumAttrOperator, Incandescence_InterpEnumPlugOperator]
+    EnumField[
+        Incandescence_InterpEnumAttrOperator,
+        Incandescence_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -128,7 +148,9 @@ class Incandescence_InterpEnumField(
     PLUG_CLS = Incandescence_InterpEnumPlugOperator
 
 
-class SpecularRollOff_InterpEnumPlugOperator(EnumPlugOperator["SpecularRollOff_InterpEnumAttrOperator"]):
+class SpecularRollOff_InterpEnumPlugOperator(
+    EnumPlugOperator["SpecularRollOff_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -137,7 +159,9 @@ class SpecularRollOff_InterpEnumPlugOperator(EnumPlugOperator["SpecularRollOff_I
     SPLINE = 3
 
 
-class SpecularRollOff_InterpEnumAttrOperator(EnumAttrOperator[SpecularRollOff_InterpEnumPlugOperator]):
+class SpecularRollOff_InterpEnumAttrOperator(
+    EnumAttrOperator[SpecularRollOff_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -154,7 +178,10 @@ class SpecularRollOff_InterpEnumAttrOperator(EnumAttrOperator[SpecularRollOff_In
 
 
 class SpecularRollOff_InterpEnumField(
-    EnumField[SpecularRollOff_InterpEnumAttrOperator, SpecularRollOff_InterpEnumPlugOperator]
+    EnumField[
+        SpecularRollOff_InterpEnumAttrOperator,
+        SpecularRollOff_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -162,7 +189,9 @@ class SpecularRollOff_InterpEnumField(
     PLUG_CLS = SpecularRollOff_InterpEnumPlugOperator
 
 
-class SpecularColor_InterpEnumPlugOperator(EnumPlugOperator["SpecularColor_InterpEnumAttrOperator"]):
+class SpecularColor_InterpEnumPlugOperator(
+    EnumPlugOperator["SpecularColor_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -171,7 +200,9 @@ class SpecularColor_InterpEnumPlugOperator(EnumPlugOperator["SpecularColor_Inter
     SPLINE = 3
 
 
-class SpecularColor_InterpEnumAttrOperator(EnumAttrOperator[SpecularColor_InterpEnumPlugOperator]):
+class SpecularColor_InterpEnumAttrOperator(
+    EnumAttrOperator[SpecularColor_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -188,7 +219,10 @@ class SpecularColor_InterpEnumAttrOperator(EnumAttrOperator[SpecularColor_Interp
 
 
 class SpecularColor_InterpEnumField(
-    EnumField[SpecularColor_InterpEnumAttrOperator, SpecularColor_InterpEnumPlugOperator]
+    EnumField[
+        SpecularColor_InterpEnumAttrOperator,
+        SpecularColor_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -196,7 +230,9 @@ class SpecularColor_InterpEnumField(
     PLUG_CLS = SpecularColor_InterpEnumPlugOperator
 
 
-class Reflectivity_InterpEnumPlugOperator(EnumPlugOperator["Reflectivity_InterpEnumAttrOperator"]):
+class Reflectivity_InterpEnumPlugOperator(
+    EnumPlugOperator["Reflectivity_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -205,7 +241,9 @@ class Reflectivity_InterpEnumPlugOperator(EnumPlugOperator["Reflectivity_InterpE
     SPLINE = 3
 
 
-class Reflectivity_InterpEnumAttrOperator(EnumAttrOperator[Reflectivity_InterpEnumPlugOperator]):
+class Reflectivity_InterpEnumAttrOperator(
+    EnumAttrOperator[Reflectivity_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -222,7 +260,10 @@ class Reflectivity_InterpEnumAttrOperator(EnumAttrOperator[Reflectivity_InterpEn
 
 
 class Reflectivity_InterpEnumField(
-    EnumField[Reflectivity_InterpEnumAttrOperator, Reflectivity_InterpEnumPlugOperator]
+    EnumField[
+        Reflectivity_InterpEnumAttrOperator,
+        Reflectivity_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -230,7 +271,9 @@ class Reflectivity_InterpEnumField(
     PLUG_CLS = Reflectivity_InterpEnumPlugOperator
 
 
-class Environment_InterpEnumPlugOperator(EnumPlugOperator["Environment_InterpEnumAttrOperator"]):
+class Environment_InterpEnumPlugOperator(
+    EnumPlugOperator["Environment_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -239,7 +282,9 @@ class Environment_InterpEnumPlugOperator(EnumPlugOperator["Environment_InterpEnu
     SPLINE = 3
 
 
-class Environment_InterpEnumAttrOperator(EnumAttrOperator[Environment_InterpEnumPlugOperator]):
+class Environment_InterpEnumAttrOperator(
+    EnumAttrOperator[Environment_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -256,7 +301,9 @@ class Environment_InterpEnumAttrOperator(EnumAttrOperator[Environment_InterpEnum
 
 
 class Environment_InterpEnumField(
-    EnumField[Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator]
+    EnumField[
+        Environment_InterpEnumAttrOperator, Environment_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -317,9 +364,7 @@ class RayDirectionField(
     rdz = rayDirectionZ
 
 
-class ColorPlugOperator(
-    CompoundPlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(CompoundPlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color_Position", "clrp"),
@@ -337,9 +382,7 @@ class ColorPlugOperator(
     clri = color_Interp
 
 
-class ColorAttrOperator(
-    CompoundAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(CompoundAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     color_Position = FloatField(default_value=0.0)
@@ -352,9 +395,7 @@ class ColorAttrOperator(
     clri = color_Interp
 
 
-class ColorField(
-    CompoundField[ColorAttrOperator, ColorPlugOperator]
-):
+class ColorField(CompoundField[ColorAttrOperator, ColorPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ColorAttrOperator
@@ -434,9 +475,7 @@ class TransparencyPlugOperator(
     iti = transparency_Interp
 
 
-class TransparencyAttrOperator(
-    CompoundAttrOperator[TransparencyPlugOperator]
-):
+class TransparencyAttrOperator(CompoundAttrOperator[TransparencyPlugOperator]):
     __slots__ = ()
 
     transparency_Position = FloatField(default_value=0.0)
@@ -663,9 +702,7 @@ class ReflectivityPlugOperator(
     rfli = reflectivity_Interp
 
 
-class ReflectivityAttrOperator(
-    CompoundAttrOperator[ReflectivityPlugOperator]
-):
+class ReflectivityAttrOperator(CompoundAttrOperator[ReflectivityPlugOperator]):
     __slots__ = ()
 
     reflectivity_Position = FloatField(default_value=0.0)
@@ -687,9 +724,7 @@ class ReflectivityField(
     PLUG_CLS = ReflectivityPlugOperator
 
 
-class EnvironmentPlugOperator(
-    CompoundPlugOperator["EnvironmentAttrOperator"]
-):
+class EnvironmentPlugOperator(CompoundPlugOperator["EnvironmentAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("environment_Position", "envp"),
@@ -707,9 +742,7 @@ class EnvironmentPlugOperator(
     envi = environment_Interp
 
 
-class EnvironmentAttrOperator(
-    CompoundAttrOperator[EnvironmentPlugOperator]
-):
+class EnvironmentAttrOperator(CompoundAttrOperator[EnvironmentPlugOperator]):
     __slots__ = ()
 
     environment_Position = FloatField(default_value=0.0)
@@ -767,7 +800,9 @@ class ReflectedColorAttrOperator(
 
 
 class ReflectedColorField(
-    Float3CompoundBaseField[ReflectedColorAttrOperator, ReflectedColorPlugOperator]
+    Float3CompoundBaseField[
+        ReflectedColorAttrOperator, ReflectedColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -820,7 +855,9 @@ class TriangleNormalCameraAttrOperator(
 
 
 class TriangleNormalCameraField(
-    Float3CompoundBaseField[TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator]
+    Float3CompoundBaseField[
+        TriangleNormalCameraAttrOperator, TriangleNormalCameraPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -926,7 +963,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1217,7 +1256,9 @@ class OutMatteOpacityAttrOperator(
 
 
 class OutMatteOpacityField(
-    Float3CompoundBaseField[OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator]
+    Float3CompoundBaseField[
+        OutMatteOpacityAttrOperator, OutMatteOpacityPlugOperator
+    ]
 ):
     __slots__ = ()
 

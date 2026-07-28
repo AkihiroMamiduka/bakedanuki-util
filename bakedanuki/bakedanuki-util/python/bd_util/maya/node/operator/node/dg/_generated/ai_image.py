@@ -85,9 +85,7 @@ class SwrapEnumAttrOperator(EnumAttrOperator[SwrapEnumPlugOperator]):
     }
 
 
-class SwrapEnumField(
-    EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]
-):
+class SwrapEnumField(EnumField[SwrapEnumAttrOperator, SwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = SwrapEnumAttrOperator
@@ -125,9 +123,7 @@ class TwrapEnumAttrOperator(EnumAttrOperator[TwrapEnumPlugOperator]):
     }
 
 
-class TwrapEnumField(
-    EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]
-):
+class TwrapEnumField(EnumField[TwrapEnumAttrOperator, TwrapEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TwrapEnumAttrOperator
@@ -151,7 +147,9 @@ class GeneratedAiImage(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -222,10 +220,14 @@ class GeneratedAiImage(DG):
     ignoreMissingTextures = BoolField(default_value=False)
     ignore_missing_textures = ignoreMissingTextures
 
-    missingTextureColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    missingTextureColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     missing_texture_colora = missingTextureColorA
 
-    missingTextureColor = MissingTextureColorField(default_value=(0.0, 0.0, 0.0))
+    missingTextureColor = MissingTextureColorField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     missing_texture_color = missingTextureColor
     missingTextureColorR = missingTextureColor.missingTextureColorR
     missing_texture_colorr = missingTextureColorR
@@ -240,7 +242,9 @@ class GeneratedAiImage(DG):
     autoTx = BoolField(default_value=True, category="arnold")
     autotx = autoTx
 
-    colorManagementConfigFileEnabled = BoolField(default_value=False, category="arnold")
+    colorManagementConfigFileEnabled = BoolField(
+        default_value=False, category="arnold"
+    )
     cmcf = colorManagementConfigFileEnabled
 
     colorManagementConfigFilePath = DataStringField(category="arnold")
@@ -259,5 +263,7 @@ class GeneratedAiImage(DG):
 
     frame = FloatField(default_value=0.0, category="arnold")
 
-    ignoreColorSpaceFileRules = BoolField(default_value=False, category="arnold")
+    ignoreColorSpaceFileRules = BoolField(
+        default_value=False, category="arnold"
+    )
     ifr = ignoreColorSpaceFileRules

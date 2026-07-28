@@ -7,13 +7,15 @@ from ..std.at.compound import (
 )
 from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.numeric.range.long import LongField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
+from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 
 
-class OutputsPlugOperator(
-    CompoundPlugOperator["OutputsAttrOperator"]
-):
+class OutputsPlugOperator(CompoundPlugOperator["OutputsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("translate", "translate"),
@@ -45,16 +47,16 @@ class OutputsPlugOperator(
 
     velocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    angularVelocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    angularVelocityVector = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
 
     velocity = FloatField(default_value=0.0)
 
     angularVelocity = FloatField(default_value=0.0, writable=False)
 
 
-class OutputsAttrOperator(
-    CompoundAttrOperator[OutputsPlugOperator]
-):
+class OutputsAttrOperator(CompoundAttrOperator[OutputsPlugOperator]):
     __slots__ = ()
 
     translate = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -73,16 +75,16 @@ class OutputsAttrOperator(
 
     velocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
 
-    angularVelocityVector = Float3Field(default_value=(0.0, 0.0, 0.0), writable=False)
+    angularVelocityVector = Float3Field(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
 
     velocity = FloatField(default_value=0.0)
 
     angularVelocity = FloatField(default_value=0.0, writable=False)
 
 
-class OutputsField(
-    CompoundField[OutputsAttrOperator, OutputsPlugOperator]
-):
+class OutputsField(CompoundField[OutputsAttrOperator, OutputsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OutputsAttrOperator

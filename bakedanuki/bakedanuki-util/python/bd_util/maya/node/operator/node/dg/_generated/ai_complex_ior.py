@@ -92,9 +92,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -115,7 +113,9 @@ class GeneratedAiComplexIor(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -128,7 +128,13 @@ class GeneratedAiComplexIor(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    reflectivity = ReflectivityField(default_value=(0.9259520173072815, 0.7208870053291321, 0.5041540265083313))
+    reflectivity = ReflectivityField(
+        default_value=(
+            0.9259520173072815,
+            0.7208870053291321,
+            0.5041540265083313,
+        )
+    )
     reflectivityR = reflectivity.reflectivityR
     reflectivityr = reflectivityR
     reflectivityG = reflectivity.reflectivityG
@@ -136,7 +142,13 @@ class GeneratedAiComplexIor(DG):
     reflectivityB = reflectivity.reflectivityB
     reflectivityb = reflectivityB
 
-    edgetint = EdgetintField(default_value=(0.995523989200592, 0.957414984703064, 0.8227760195732117))
+    edgetint = EdgetintField(
+        default_value=(
+            0.995523989200592,
+            0.957414984703064,
+            0.8227760195732117,
+        )
+    )
     edgetintR = edgetint.edgetintR
     edgetintr = edgetintR
     edgetintG = edgetint.edgetintG
@@ -144,7 +156,13 @@ class GeneratedAiComplexIor(DG):
     edgetintB = edgetint.edgetintB
     edgetintb = edgetintB
 
-    n = NField(default_value=(0.27105000615119934, 0.6769300103187561, 1.3164000511169434))
+    n = NField(
+        default_value=(
+            0.27105000615119934,
+            0.6769300103187561,
+            1.3164000511169434,
+        )
+    )
     nX = n.nX
     nx = nX
     nY = n.nY
@@ -152,7 +170,13 @@ class GeneratedAiComplexIor(DG):
     nZ = n.nZ
     nz = nZ
 
-    k = KField(default_value=(3.6092000007629395, 2.6247000694274902, 2.292099952697754))
+    k = KField(
+        default_value=(
+            3.6092000007629395,
+            2.6247000694274902,
+            2.292099952697754,
+        )
+    )
     kX = k.kX
     kx = kX
     kY = k.kY

@@ -113,7 +113,9 @@ class OutputRotateAttrOperator(
 
 
 class OutputRotateField(
-    DoubleAngle3CompoundBaseField[OutputRotateAttrOperator, OutputRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        OutputRotateAttrOperator, OutputRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

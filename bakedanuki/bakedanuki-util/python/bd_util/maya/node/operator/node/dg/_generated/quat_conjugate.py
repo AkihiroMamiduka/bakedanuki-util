@@ -22,7 +22,9 @@ class GeneratedQuatConjugate(DG):
     inputQuatW = inputQuat.inputQuatW
     iqw = inputQuatW
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

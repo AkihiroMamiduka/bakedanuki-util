@@ -11,7 +11,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
@@ -78,16 +80,24 @@ class GeneratedMakeNurbPlane(DG):
     outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    width = DoubleLinearField(default_value=1.0, soft_min_value=0.0, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=100.0
+    )
     w = width
 
-    lengthRatio = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    lengthRatio = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     lr = lengthRatio
 
-    patchesU = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
+    patchesU = LongField(
+        default_value=1, min_value=1, max_value=1000, soft_max_value=100
+    )
     u = patchesU
 
-    patchesV = LongField(default_value=1, min_value=1, max_value=1000, soft_max_value=100)
+    patchesV = LongField(
+        default_value=1, min_value=1, max_value=1000, soft_max_value=100
+    )
     v = patchesV
 
     degree = DegreeEnumField(default_value=3)

@@ -50,7 +50,9 @@ class InTranslate1AttrOperator(
 
 
 class InTranslate1Field(
-    DoubleLinear3CompoundBaseField[InTranslate1AttrOperator, InTranslate1PlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InTranslate1AttrOperator, InTranslate1PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -156,7 +158,9 @@ class InTranslate2AttrOperator(
 
 
 class InTranslate2Field(
-    DoubleLinear3CompoundBaseField[InTranslate2AttrOperator, InTranslate2PlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InTranslate2AttrOperator, InTranslate2PlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -262,7 +266,9 @@ class OutTranslateAttrOperator(
 
 
 class OutTranslateField(
-    DoubleLinear3CompoundBaseField[OutTranslateAttrOperator, OutTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OutTranslateAttrOperator, OutTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -88,7 +88,9 @@ class ViewRectHighAttrOperator(
 
 
 class ViewRectHighField(
-    Double2CompoundBaseField[ViewRectHighAttrOperator, ViewRectHighPlugOperator]
+    Double2CompoundBaseField[
+        ViewRectHighAttrOperator, ViewRectHighPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -102,9 +104,7 @@ class ViewRectHighField(
     yh = viewYH
 
 
-class NodeInfoPlugOperator(
-    CompoundPlugOperator["NodeInfoAttrOperator"]
-):
+class NodeInfoPlugOperator(CompoundPlugOperator["NodeInfoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("positionX", "x"),
@@ -126,9 +126,7 @@ class NodeInfoPlugOperator(
     dn = dependNode
 
 
-class NodeInfoAttrOperator(
-    CompoundAttrOperator[NodeInfoPlugOperator]
-):
+class NodeInfoAttrOperator(CompoundAttrOperator[NodeInfoPlugOperator]):
     __slots__ = ()
 
     positionX = FloatField(default_value=0.0)
@@ -144,9 +142,7 @@ class NodeInfoAttrOperator(
     dn = dependNode
 
 
-class NodeInfoField(
-    CompoundField[NodeInfoAttrOperator, NodeInfoPlugOperator]
-):
+class NodeInfoField(CompoundField[NodeInfoAttrOperator, NodeInfoPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NodeInfoAttrOperator

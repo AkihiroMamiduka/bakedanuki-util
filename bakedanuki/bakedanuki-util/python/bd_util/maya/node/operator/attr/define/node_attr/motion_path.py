@@ -56,7 +56,9 @@ class AllCoordinatesAttrOperator(
 
 
 class AllCoordinatesField(
-    DoubleLinear3CompoundBaseField[AllCoordinatesAttrOperator, AllCoordinatesPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        AllCoordinatesAttrOperator, AllCoordinatesPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -162,7 +164,9 @@ class WorldUpVectorAttrOperator(
 
 
 class WorldUpVectorField(
-    Double3CompoundBaseField[WorldUpVectorAttrOperator, WorldUpVectorPlugOperator]
+    Double3CompoundBaseField[
+        WorldUpVectorAttrOperator, WorldUpVectorPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -12,7 +12,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class OutputModeEnumPlugOperator(EnumPlugOperator["OutputModeEnumAttrOperator"]):
+class OutputModeEnumPlugOperator(
+    EnumPlugOperator["OutputModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     GUI_ONLY = 0
@@ -43,7 +45,9 @@ class OutputModeEnumField(
     PLUG_CLS = OutputModeEnumPlugOperator
 
 
-class ColorManagementEnumPlugOperator(EnumPlugOperator["ColorManagementEnumAttrOperator"]):
+class ColorManagementEnumPlugOperator(
+    EnumPlugOperator["ColorManagementEnumAttrOperator"]
+):
     __slots__ = ()
 
     RAW = 0
@@ -51,7 +55,9 @@ class ColorManagementEnumPlugOperator(EnumPlugOperator["ColorManagementEnumAttrO
     USE_OUTPUT_TRANSFORM = 2
 
 
-class ColorManagementEnumAttrOperator(EnumAttrOperator[ColorManagementEnumPlugOperator]):
+class ColorManagementEnumAttrOperator(
+    EnumAttrOperator[ColorManagementEnumPlugOperator]
+):
     __slots__ = ()
 
     RAW = 0
@@ -102,7 +108,9 @@ class PngFormatEnumField(
     PLUG_CLS = PngFormatEnumPlugOperator
 
 
-class TiffCompressionEnumPlugOperator(EnumPlugOperator["TiffCompressionEnumAttrOperator"]):
+class TiffCompressionEnumPlugOperator(
+    EnumPlugOperator["TiffCompressionEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -112,7 +120,9 @@ class TiffCompressionEnumPlugOperator(EnumPlugOperator["TiffCompressionEnumAttrO
     PACKBITS = 4
 
 
-class TiffCompressionEnumAttrOperator(EnumAttrOperator[TiffCompressionEnumPlugOperator]):
+class TiffCompressionEnumAttrOperator(
+    EnumAttrOperator[TiffCompressionEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -139,7 +149,9 @@ class TiffCompressionEnumField(
     PLUG_CLS = TiffCompressionEnumPlugOperator
 
 
-class TiffFormatEnumPlugOperator(EnumPlugOperator["TiffFormatEnumAttrOperator"]):
+class TiffFormatEnumPlugOperator(
+    EnumPlugOperator["TiffFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     INT8 = 0
@@ -170,7 +182,9 @@ class TiffFormatEnumField(
     PLUG_CLS = TiffFormatEnumPlugOperator
 
 
-class ExrCompressionEnumPlugOperator(EnumPlugOperator["ExrCompressionEnumAttrOperator"]):
+class ExrCompressionEnumPlugOperator(
+    EnumPlugOperator["ExrCompressionEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -185,7 +199,9 @@ class ExrCompressionEnumPlugOperator(EnumPlugOperator["ExrCompressionEnumAttrOpe
     DWAB = 9
 
 
-class ExrCompressionEnumAttrOperator(EnumAttrOperator[ExrCompressionEnumPlugOperator]):
+class ExrCompressionEnumAttrOperator(
+    EnumAttrOperator[ExrCompressionEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -245,7 +261,9 @@ class GeneratedAiAOVDriver(DG):
     aiUserOptions = DataStringField(category="arnold")
     ai_user_options = aiUserOptions
 
-    quality = LongField(default_value=100, min_value=0, max_value=100, category="arnold")
+    quality = LongField(
+        default_value=100, min_value=0, max_value=100, category="arnold"
+    )
 
     outputPadded = BoolField(default_value=False, category="arnold")
     output_padded = outputPadded
@@ -261,7 +279,9 @@ class GeneratedAiAOVDriver(DG):
     pngSkipAlpha = BoolField(default_value=True, category="arnold")
     png_skip_alpha = pngSkipAlpha
 
-    tiffCompression = TiffCompressionEnumField(default_value=1, category="arnold")
+    tiffCompression = TiffCompressionEnumField(
+        default_value=1, category="arnold"
+    )
     tiff_compression = tiffCompression
 
     tiffFormat = TiffFormatEnumField(default_value=0, category="arnold")
@@ -287,10 +307,14 @@ class GeneratedAiAOVDriver(DG):
     useRGBOpacity = BoolField(default_value=False, category="arnold")
     use_RGB_opacity = useRGBOpacity
 
-    alphaTolerance = FloatField(default_value=0.009999999776482582, category="arnold")
+    alphaTolerance = FloatField(
+        default_value=0.009999999776482582, category="arnold"
+    )
     alpha_tolerance = alphaTolerance
 
-    depthTolerance = FloatField(default_value=0.009999999776482582, category="arnold")
+    depthTolerance = FloatField(
+        default_value=0.009999999776482582, category="arnold"
+    )
     depth_tolerance = depthTolerance
 
     alphaHalfPrecision = BoolField(default_value=False, category="arnold")
@@ -302,16 +326,22 @@ class GeneratedAiAOVDriver(DG):
     layerTolerance = FloatField(multi=True, category="arnold")
     layer_tolerance = layerTolerance
 
-    layerEnableFiltering = BoolField(multi=True, default_value=True, category="arnold")
+    layerEnableFiltering = BoolField(
+        multi=True, default_value=True, category="arnold"
+    )
     layer_enable_filtering = layerEnableFiltering
 
-    layerHalfPrecision = BoolField(multi=True, default_value=False, category="arnold")
+    layerHalfPrecision = BoolField(
+        multi=True, default_value=False, category="arnold"
+    )
     layer_half_precision = layerHalfPrecision
 
     customAttributes = DataStringField(multi=True, category="arnold")
     custom_attributes = customAttributes
 
-    exrCompression = ExrCompressionEnumField(default_value=3, category="arnold")
+    exrCompression = ExrCompressionEnumField(
+        default_value=3, category="arnold"
+    )
     exr_compression = exrCompression
 
     halfPrecision = BoolField(default_value=False, category="arnold")

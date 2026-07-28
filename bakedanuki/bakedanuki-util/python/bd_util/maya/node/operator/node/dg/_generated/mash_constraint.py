@@ -26,7 +26,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperator"]):
+class MapDirectionEnumPlugOperator(
+    EnumPlugOperator["MapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -35,7 +37,9 @@ class MapDirectionEnumPlugOperator(EnumPlugOperator["MapDirectionEnumAttrOperato
     Z = 4
 
 
-class MapDirectionEnumAttrOperator(EnumAttrOperator[MapDirectionEnumPlugOperator]):
+class MapDirectionEnumAttrOperator(
+    EnumAttrOperator[MapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -60,14 +64,18 @@ class MapDirectionEnumField(
     PLUG_CLS = MapDirectionEnumPlugOperator
 
 
-class TransformationSpaceEnumPlugOperator(EnumPlugOperator["TransformationSpaceEnumAttrOperator"]):
+class TransformationSpaceEnumPlugOperator(
+    EnumPlugOperator["TransformationSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 1
     LOCAL = 2
 
 
-class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEnumPlugOperator]):
+class TransformationSpaceEnumAttrOperator(
+    EnumAttrOperator[TransformationSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 1
@@ -80,7 +88,10 @@ class TransformationSpaceEnumAttrOperator(EnumAttrOperator[TransformationSpaceEn
 
 
 class TransformationSpaceEnumField(
-    EnumField[TransformationSpaceEnumAttrOperator, TransformationSpaceEnumPlugOperator]
+    EnumField[
+        TransformationSpaceEnumAttrOperator,
+        TransformationSpaceEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -88,7 +99,9 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class ConnectionMapDirectionEnumPlugOperator(EnumPlugOperator["ConnectionMapDirectionEnumAttrOperator"]):
+class ConnectionMapDirectionEnumPlugOperator(
+    EnumPlugOperator["ConnectionMapDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     UV = 1
@@ -97,7 +110,9 @@ class ConnectionMapDirectionEnumPlugOperator(EnumPlugOperator["ConnectionMapDire
     Z = 4
 
 
-class ConnectionMapDirectionEnumAttrOperator(EnumAttrOperator[ConnectionMapDirectionEnumPlugOperator]):
+class ConnectionMapDirectionEnumAttrOperator(
+    EnumAttrOperator[ConnectionMapDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     UV = 1
@@ -114,7 +129,10 @@ class ConnectionMapDirectionEnumAttrOperator(EnumAttrOperator[ConnectionMapDirec
 
 
 class ConnectionMapDirectionEnumField(
-    EnumField[ConnectionMapDirectionEnumAttrOperator, ConnectionMapDirectionEnumPlugOperator]
+    EnumField[
+        ConnectionMapDirectionEnumAttrOperator,
+        ConnectionMapDirectionEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -122,7 +140,9 @@ class ConnectionMapDirectionEnumField(
     PLUG_CLS = ConnectionMapDirectionEnumPlugOperator
 
 
-class ConstraintLimitPositionXEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionXEnumAttrOperator"]):
+class ConstraintLimitPositionXEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitPositionXEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -130,7 +150,9 @@ class ConstraintLimitPositionXEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitPositionXEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionXEnumPlugOperator]):
+class ConstraintLimitPositionXEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitPositionXEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -145,7 +167,10 @@ class ConstraintLimitPositionXEnumAttrOperator(EnumAttrOperator[ConstraintLimitP
 
 
 class ConstraintLimitPositionXEnumField(
-    EnumField[ConstraintLimitPositionXEnumAttrOperator, ConstraintLimitPositionXEnumPlugOperator]
+    EnumField[
+        ConstraintLimitPositionXEnumAttrOperator,
+        ConstraintLimitPositionXEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -153,7 +178,9 @@ class ConstraintLimitPositionXEnumField(
     PLUG_CLS = ConstraintLimitPositionXEnumPlugOperator
 
 
-class ConstraintLimitPositionYEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionYEnumAttrOperator"]):
+class ConstraintLimitPositionYEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitPositionYEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -161,7 +188,9 @@ class ConstraintLimitPositionYEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitPositionYEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionYEnumPlugOperator]):
+class ConstraintLimitPositionYEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitPositionYEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -176,7 +205,10 @@ class ConstraintLimitPositionYEnumAttrOperator(EnumAttrOperator[ConstraintLimitP
 
 
 class ConstraintLimitPositionYEnumField(
-    EnumField[ConstraintLimitPositionYEnumAttrOperator, ConstraintLimitPositionYEnumPlugOperator]
+    EnumField[
+        ConstraintLimitPositionYEnumAttrOperator,
+        ConstraintLimitPositionYEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -184,7 +216,9 @@ class ConstraintLimitPositionYEnumField(
     PLUG_CLS = ConstraintLimitPositionYEnumPlugOperator
 
 
-class ConstraintLimitPositionZEnumPlugOperator(EnumPlugOperator["ConstraintLimitPositionZEnumAttrOperator"]):
+class ConstraintLimitPositionZEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitPositionZEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -192,7 +226,9 @@ class ConstraintLimitPositionZEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitPositionZEnumAttrOperator(EnumAttrOperator[ConstraintLimitPositionZEnumPlugOperator]):
+class ConstraintLimitPositionZEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitPositionZEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -207,7 +243,10 @@ class ConstraintLimitPositionZEnumAttrOperator(EnumAttrOperator[ConstraintLimitP
 
 
 class ConstraintLimitPositionZEnumField(
-    EnumField[ConstraintLimitPositionZEnumAttrOperator, ConstraintLimitPositionZEnumPlugOperator]
+    EnumField[
+        ConstraintLimitPositionZEnumAttrOperator,
+        ConstraintLimitPositionZEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -215,7 +254,9 @@ class ConstraintLimitPositionZEnumField(
     PLUG_CLS = ConstraintLimitPositionZEnumPlugOperator
 
 
-class ConstraintLimitRotationXEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationXEnumAttrOperator"]):
+class ConstraintLimitRotationXEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitRotationXEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -223,7 +264,9 @@ class ConstraintLimitRotationXEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitRotationXEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationXEnumPlugOperator]):
+class ConstraintLimitRotationXEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitRotationXEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -238,7 +281,10 @@ class ConstraintLimitRotationXEnumAttrOperator(EnumAttrOperator[ConstraintLimitR
 
 
 class ConstraintLimitRotationXEnumField(
-    EnumField[ConstraintLimitRotationXEnumAttrOperator, ConstraintLimitRotationXEnumPlugOperator]
+    EnumField[
+        ConstraintLimitRotationXEnumAttrOperator,
+        ConstraintLimitRotationXEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -246,7 +292,9 @@ class ConstraintLimitRotationXEnumField(
     PLUG_CLS = ConstraintLimitRotationXEnumPlugOperator
 
 
-class ConstraintLimitRotationYEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationYEnumAttrOperator"]):
+class ConstraintLimitRotationYEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitRotationYEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -254,7 +302,9 @@ class ConstraintLimitRotationYEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitRotationYEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationYEnumPlugOperator]):
+class ConstraintLimitRotationYEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitRotationYEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -269,7 +319,10 @@ class ConstraintLimitRotationYEnumAttrOperator(EnumAttrOperator[ConstraintLimitR
 
 
 class ConstraintLimitRotationYEnumField(
-    EnumField[ConstraintLimitRotationYEnumAttrOperator, ConstraintLimitRotationYEnumPlugOperator]
+    EnumField[
+        ConstraintLimitRotationYEnumAttrOperator,
+        ConstraintLimitRotationYEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -277,7 +330,9 @@ class ConstraintLimitRotationYEnumField(
     PLUG_CLS = ConstraintLimitRotationYEnumPlugOperator
 
 
-class ConstraintLimitRotationZEnumPlugOperator(EnumPlugOperator["ConstraintLimitRotationZEnumAttrOperator"]):
+class ConstraintLimitRotationZEnumPlugOperator(
+    EnumPlugOperator["ConstraintLimitRotationZEnumAttrOperator"]
+):
     __slots__ = ()
 
     FREE = 1
@@ -285,7 +340,9 @@ class ConstraintLimitRotationZEnumPlugOperator(EnumPlugOperator["ConstraintLimit
     LIMITED = 3
 
 
-class ConstraintLimitRotationZEnumAttrOperator(EnumAttrOperator[ConstraintLimitRotationZEnumPlugOperator]):
+class ConstraintLimitRotationZEnumAttrOperator(
+    EnumAttrOperator[ConstraintLimitRotationZEnumPlugOperator]
+):
     __slots__ = ()
 
     FREE = 1
@@ -300,7 +357,10 @@ class ConstraintLimitRotationZEnumAttrOperator(EnumAttrOperator[ConstraintLimitR
 
 
 class ConstraintLimitRotationZEnumField(
-    EnumField[ConstraintLimitRotationZEnumAttrOperator, ConstraintLimitRotationZEnumPlugOperator]
+    EnumField[
+        ConstraintLimitRotationZEnumAttrOperator,
+        ConstraintLimitRotationZEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -308,7 +368,9 @@ class ConstraintLimitRotationZEnumField(
     PLUG_CLS = ConstraintLimitRotationZEnumPlugOperator
 
 
-class ConstraintTypeEnumPlugOperator(EnumPlugOperator["ConstraintTypeEnumAttrOperator"]):
+class ConstraintTypeEnumPlugOperator(
+    EnumPlugOperator["ConstraintTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     GLUE = 1
@@ -317,7 +379,9 @@ class ConstraintTypeEnumPlugOperator(EnumPlugOperator["ConstraintTypeEnumAttrOpe
     CUSTOM = 10
 
 
-class ConstraintTypeEnumAttrOperator(EnumAttrOperator[ConstraintTypeEnumPlugOperator]):
+class ConstraintTypeEnumAttrOperator(
+    EnumAttrOperator[ConstraintTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     GLUE = 1
@@ -342,7 +406,9 @@ class ConstraintTypeEnumField(
     PLUG_CLS = ConstraintTypeEnumPlugOperator
 
 
-class ConstraintModeEnumPlugOperator(EnumPlugOperator["ConstraintModeEnumAttrOperator"]):
+class ConstraintModeEnumPlugOperator(
+    EnumPlugOperator["ConstraintModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CONNECT_TOUCHING = 1
@@ -352,7 +418,9 @@ class ConstraintModeEnumPlugOperator(EnumPlugOperator["ConstraintModeEnumAttrOpe
     CONNECT_TO_INPUT_POINTS = 5
 
 
-class ConstraintModeEnumAttrOperator(EnumAttrOperator[ConstraintModeEnumPlugOperator]):
+class ConstraintModeEnumAttrOperator(
+    EnumAttrOperator[ConstraintModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CONNECT_TOUCHING = 1
@@ -399,7 +467,9 @@ class GeneratedMASH_Constraint(DG):
 
     mapDirection = MapDirectionEnumField(default_value=2)
 
-    Envelope = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    Envelope = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     randEnvelope = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
@@ -434,7 +504,9 @@ class GeneratedMASH_Constraint(DG):
 
     connectionMapDirection = ConnectionMapDirectionEnumField(default_value=2)
 
-    connectionColorThreshold = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
+    connectionColorThreshold = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, max_value=1.0
+    )
 
     dynamicsPP = TypedField(multi=True)
 
@@ -446,21 +518,37 @@ class GeneratedMASH_Constraint(DG):
 
     constraintMaxCount = LongField(default_value=5)
 
-    constraintDistance = FloatField(default_value=5.0, min_value=0.0, soft_max_value=10.0)
+    constraintDistance = FloatField(
+        default_value=5.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    constraintThreshold = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
+    constraintThreshold = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=10.0
+    )
 
-    constrainSpringPositiontStiffness = FloatField(default_value=20.0, min_value=0.0, soft_max_value=200.0)
+    constrainSpringPositiontStiffness = FloatField(
+        default_value=20.0, min_value=0.0, soft_max_value=200.0
+    )
 
-    constraintSpringPositionDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=200.0)
+    constraintSpringPositionDamping = FloatField(
+        default_value=0.009999999776482582, min_value=0.0, soft_max_value=200.0
+    )
 
-    constrainSpringAngularStiffness = FloatField(default_value=20.0, min_value=0.0, soft_max_value=100.0)
+    constrainSpringAngularStiffness = FloatField(
+        default_value=20.0, min_value=0.0, soft_max_value=100.0
+    )
 
-    constraintSpringAngularDamping = FloatField(default_value=0.009999999776482582, min_value=0.0, soft_max_value=100.0)
+    constraintSpringAngularDamping = FloatField(
+        default_value=0.009999999776482582, min_value=0.0, soft_max_value=100.0
+    )
 
-    springRestLength = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    springRestLength = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
-    springRange = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
+    springRange = FloatField(
+        default_value=2.0, soft_min_value=0.0, soft_max_value=10.0
+    )
 
     linearSpringEnabledX = BoolField(default_value=False)
 
@@ -476,7 +564,9 @@ class GeneratedMASH_Constraint(DG):
 
     linearMotorEnabled = BoolField(default_value=False)
 
-    linearMotorTargetSpeed = LinearMotorTargetSpeedField(default_value=(0.0, 0.0, 0.0))
+    linearMotorTargetSpeed = LinearMotorTargetSpeedField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     linearMotorTargetSpeedX = linearMotorTargetSpeed.linearMotorTargetSpeedX
     linearMotorTargetSpeedx = linearMotorTargetSpeedX
     linearMotorTargetSpeedY = linearMotorTargetSpeed.linearMotorTargetSpeedY
@@ -484,7 +574,9 @@ class GeneratedMASH_Constraint(DG):
     linearMotorTargetSpeedZ = linearMotorTargetSpeed.linearMotorTargetSpeedZ
     linearMotorTargetSpeedz = linearMotorTargetSpeedZ
 
-    linearMotorMaxForce = LinearMotorMaxForceField(default_value=(10.0, 10.0, 10.0))
+    linearMotorMaxForce = LinearMotorMaxForceField(
+        default_value=(10.0, 10.0, 10.0)
+    )
     linearMotorMaxForceX = linearMotorMaxForce.linearMotorMaxForceX
     linearMotorMaxForcex = linearMotorMaxForceX
     linearMotorMaxForceY = linearMotorMaxForce.linearMotorMaxForceY
@@ -494,7 +586,9 @@ class GeneratedMASH_Constraint(DG):
 
     angularMotorEnabled = BoolField(default_value=False)
 
-    angularMotorTargetSpeed = AngularMotorTargetSpeedField(default_value=(0.0, 0.0, 0.0))
+    angularMotorTargetSpeed = AngularMotorTargetSpeedField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     angularMotorTargetSpeedX = angularMotorTargetSpeed.angularMotorTargetSpeedX
     angularMotorTargetSpeedx = angularMotorTargetSpeedX
     angularMotorTargetSpeedY = angularMotorTargetSpeed.angularMotorTargetSpeedY
@@ -502,7 +596,9 @@ class GeneratedMASH_Constraint(DG):
     angularMotorTargetSpeedZ = angularMotorTargetSpeed.angularMotorTargetSpeedZ
     angularMotorTargetSpeedz = angularMotorTargetSpeedZ
 
-    angularMotorMaxForce = AngularMotorMaxForceField(default_value=(10.0, 10.0, 10.0))
+    angularMotorMaxForce = AngularMotorMaxForceField(
+        default_value=(10.0, 10.0, 10.0)
+    )
     angularMotorMaxForceX = angularMotorMaxForce.angularMotorMaxForceX
     angularMotorMaxForcex = angularMotorMaxForceX
     angularMotorMaxForceY = angularMotorMaxForce.angularMotorMaxForceY
@@ -510,49 +606,93 @@ class GeneratedMASH_Constraint(DG):
     angularMotorMaxForceZ = angularMotorMaxForce.angularMotorMaxForceZ
     angularMotorMaxForcez = angularMotorMaxForceZ
 
-    constraintMinimumPositionLimit = ConstraintMinimumPositionLimitField(default_value=(0.0, 0.0, 0.0))
-    constraintMinimumPositionLimitX = constraintMinimumPositionLimit.constraintMinimumPositionLimitX
+    constraintMinimumPositionLimit = ConstraintMinimumPositionLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    constraintMinimumPositionLimitX = (
+        constraintMinimumPositionLimit.constraintMinimumPositionLimitX
+    )
     constraintMinimumPositionLimitx = constraintMinimumPositionLimitX
-    constraintMinimumPositionLimitY = constraintMinimumPositionLimit.constraintMinimumPositionLimitY
+    constraintMinimumPositionLimitY = (
+        constraintMinimumPositionLimit.constraintMinimumPositionLimitY
+    )
     constraintMinimumPositionLimity = constraintMinimumPositionLimitY
-    constraintMinimumPositionLimitZ = constraintMinimumPositionLimit.constraintMinimumPositionLimitZ
+    constraintMinimumPositionLimitZ = (
+        constraintMinimumPositionLimit.constraintMinimumPositionLimitZ
+    )
     constraintMinimumPositionLimitz = constraintMinimumPositionLimitZ
 
-    constraintMaximumPositionLimit = ConstraintMaximumPositionLimitField(default_value=(0.0, 0.0, 0.0))
-    constraintMaximumPositionLimitX = constraintMaximumPositionLimit.constraintMaximumPositionLimitX
+    constraintMaximumPositionLimit = ConstraintMaximumPositionLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    constraintMaximumPositionLimitX = (
+        constraintMaximumPositionLimit.constraintMaximumPositionLimitX
+    )
     constraintMaximumPositionLimitx = constraintMaximumPositionLimitX
-    constraintMaximumPositionLimitY = constraintMaximumPositionLimit.constraintMaximumPositionLimitY
+    constraintMaximumPositionLimitY = (
+        constraintMaximumPositionLimit.constraintMaximumPositionLimitY
+    )
     constraintMaximumPositionLimity = constraintMaximumPositionLimitY
-    constraintMaximumPositionLimitZ = constraintMaximumPositionLimit.constraintMaximumPositionLimitZ
+    constraintMaximumPositionLimitZ = (
+        constraintMaximumPositionLimit.constraintMaximumPositionLimitZ
+    )
     constraintMaximumPositionLimitz = constraintMaximumPositionLimitZ
 
-    constraintMinimumRotationLimit = ConstraintMinimumRotationLimitField(default_value=(0.0, 0.0, 0.0))
-    constraintMinimumRotationLimitX = constraintMinimumRotationLimit.constraintMinimumRotationLimitX
+    constraintMinimumRotationLimit = ConstraintMinimumRotationLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    constraintMinimumRotationLimitX = (
+        constraintMinimumRotationLimit.constraintMinimumRotationLimitX
+    )
     constraintMinimumRotationLimitx = constraintMinimumRotationLimitX
-    constraintMinimumRotationLimitY = constraintMinimumRotationLimit.constraintMinimumRotationLimitY
+    constraintMinimumRotationLimitY = (
+        constraintMinimumRotationLimit.constraintMinimumRotationLimitY
+    )
     constraintMinimumRotationLimity = constraintMinimumRotationLimitY
-    constraintMinimumRotationLimitZ = constraintMinimumRotationLimit.constraintMinimumRotationLimitZ
+    constraintMinimumRotationLimitZ = (
+        constraintMinimumRotationLimit.constraintMinimumRotationLimitZ
+    )
     constraintMinimumRotationLimitz = constraintMinimumRotationLimitZ
 
-    constraintMaximumRotationLimit = ConstraintMaximumRotationLimitField(default_value=(0.0, 0.0, 0.0))
-    constraintMaximumRotationLimitX = constraintMaximumRotationLimit.constraintMaximumRotationLimitX
+    constraintMaximumRotationLimit = ConstraintMaximumRotationLimitField(
+        default_value=(0.0, 0.0, 0.0)
+    )
+    constraintMaximumRotationLimitX = (
+        constraintMaximumRotationLimit.constraintMaximumRotationLimitX
+    )
     constraintMaximumRotationLimitx = constraintMaximumRotationLimitX
-    constraintMaximumRotationLimitY = constraintMaximumRotationLimit.constraintMaximumRotationLimitY
+    constraintMaximumRotationLimitY = (
+        constraintMaximumRotationLimit.constraintMaximumRotationLimitY
+    )
     constraintMaximumRotationLimity = constraintMaximumRotationLimitY
-    constraintMaximumRotationLimitZ = constraintMaximumRotationLimit.constraintMaximumRotationLimitZ
+    constraintMaximumRotationLimitZ = (
+        constraintMaximumRotationLimit.constraintMaximumRotationLimitZ
+    )
     constraintMaximumRotationLimitz = constraintMaximumRotationLimitZ
 
-    constraintLimitPositionX = ConstraintLimitPositionXEnumField(default_value=2)
+    constraintLimitPositionX = ConstraintLimitPositionXEnumField(
+        default_value=2
+    )
 
-    constraintLimitPositionY = ConstraintLimitPositionYEnumField(default_value=2)
+    constraintLimitPositionY = ConstraintLimitPositionYEnumField(
+        default_value=2
+    )
 
-    constraintLimitPositionZ = ConstraintLimitPositionZEnumField(default_value=2)
+    constraintLimitPositionZ = ConstraintLimitPositionZEnumField(
+        default_value=2
+    )
 
-    constraintLimitRotationX = ConstraintLimitRotationXEnumField(default_value=1)
+    constraintLimitRotationX = ConstraintLimitRotationXEnumField(
+        default_value=1
+    )
 
-    constraintLimitRotationY = ConstraintLimitRotationYEnumField(default_value=1)
+    constraintLimitRotationY = ConstraintLimitRotationYEnumField(
+        default_value=1
+    )
 
-    constraintLimitRotationZ = ConstraintLimitRotationZEnumField(default_value=1)
+    constraintLimitRotationZ = ConstraintLimitRotationZEnumField(
+        default_value=1
+    )
 
     constraintType = ConstraintTypeEnumField(default_value=1)
 

@@ -111,7 +111,9 @@ class ImagePositionAttrOperator(
 
 
 class ImagePositionField(
-    Double2CompoundBaseField[ImagePositionAttrOperator, ImagePositionPlugOperator]
+    Double2CompoundBaseField[
+        ImagePositionAttrOperator, ImagePositionPlugOperator
+    ]
 ):
     __slots__ = ()
 

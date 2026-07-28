@@ -21,14 +21,30 @@ class GeneratedAiImagerDenoiserOptix(DG):
     outputSuffix = DataStringField()
     output_suffix = outputSuffix
 
-    blend = FloatField(default_value=1.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
 
     clamp = BoolField(default_value=False)
 
-    clampMin = FloatField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    clampMin = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     clamp_min = clampMin
 
-    clampMax = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    clampMax = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     clamp_max = clampMax
 
     useFeatureAovs = BoolField(default_value=True)

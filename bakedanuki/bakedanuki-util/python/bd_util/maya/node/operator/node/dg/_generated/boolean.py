@@ -5,7 +5,9 @@ from ....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 
 
@@ -54,7 +56,12 @@ class GeneratedBoolean(DG):
     operation = OperationEnumField(default_value=0)
     op = operation
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=0.0001, soft_min_value=0.01, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=0.0001,
+        soft_min_value=0.01,
+        soft_max_value=1.0,
+    )
     tlb = tolerance
 
     outputShell = TypedField(writable=False)

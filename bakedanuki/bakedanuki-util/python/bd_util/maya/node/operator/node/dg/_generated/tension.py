@@ -30,13 +30,21 @@ class GeneratedTension(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -60,16 +68,24 @@ class GeneratedTension(DG):
     smoothingStep = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
     ss = smoothingStep
 
-    inwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    inwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     iwc = inwardConstraint
 
-    outwardConstraint = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    outwardConstraint = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     owc = outwardConstraint
 
-    squashConstraint = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    squashConstraint = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     sqc = squashConstraint
 
-    stretchConstraint = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    stretchConstraint = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     stc = stretchConstraint
 
     relative = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)

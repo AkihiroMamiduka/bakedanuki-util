@@ -25,7 +25,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 
 
-class MandelbrotTypeEnumPlugOperator(EnumPlugOperator["MandelbrotTypeEnumAttrOperator"]):
+class MandelbrotTypeEnumPlugOperator(
+    EnumPlugOperator["MandelbrotTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     JULIA_SET = 0
@@ -35,7 +37,9 @@ class MandelbrotTypeEnumPlugOperator(EnumPlugOperator["MandelbrotTypeEnumAttrOpe
     BOX_WITH_MANDELBROT_SET = 4
 
 
-class MandelbrotTypeEnumAttrOperator(EnumAttrOperator[MandelbrotTypeEnumPlugOperator]):
+class MandelbrotTypeEnumAttrOperator(
+    EnumAttrOperator[MandelbrotTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     JULIA_SET = 0
@@ -62,7 +66,9 @@ class MandelbrotTypeEnumField(
     PLUG_CLS = MandelbrotTypeEnumPlugOperator
 
 
-class MandelbrotShadeMethodEnumPlugOperator(EnumPlugOperator["MandelbrotShadeMethodEnumAttrOperator"]):
+class MandelbrotShadeMethodEnumPlugOperator(
+    EnumPlugOperator["MandelbrotShadeMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLASSIC = 0
@@ -72,7 +78,9 @@ class MandelbrotShadeMethodEnumPlugOperator(EnumPlugOperator["MandelbrotShadeMet
     LINES_ONLY = 4
 
 
-class MandelbrotShadeMethodEnumAttrOperator(EnumAttrOperator[MandelbrotShadeMethodEnumPlugOperator]):
+class MandelbrotShadeMethodEnumAttrOperator(
+    EnumAttrOperator[MandelbrotShadeMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     CLASSIC = 0
@@ -91,7 +99,10 @@ class MandelbrotShadeMethodEnumAttrOperator(EnumAttrOperator[MandelbrotShadeMeth
 
 
 class MandelbrotShadeMethodEnumField(
-    EnumField[MandelbrotShadeMethodEnumAttrOperator, MandelbrotShadeMethodEnumPlugOperator]
+    EnumField[
+        MandelbrotShadeMethodEnumAttrOperator,
+        MandelbrotShadeMethodEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -99,7 +110,9 @@ class MandelbrotShadeMethodEnumField(
     PLUG_CLS = MandelbrotShadeMethodEnumPlugOperator
 
 
-class MandelbrotInsideMethodEnumPlugOperator(EnumPlugOperator["MandelbrotInsideMethodEnumAttrOperator"]):
+class MandelbrotInsideMethodEnumPlugOperator(
+    EnumPlugOperator["MandelbrotInsideMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     ZERO = 0
@@ -110,7 +123,9 @@ class MandelbrotInsideMethodEnumPlugOperator(EnumPlugOperator["MandelbrotInsideM
     INNER_LINES_ONLY = 5
 
 
-class MandelbrotInsideMethodEnumAttrOperator(EnumAttrOperator[MandelbrotInsideMethodEnumPlugOperator]):
+class MandelbrotInsideMethodEnumAttrOperator(
+    EnumAttrOperator[MandelbrotInsideMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     ZERO = 0
@@ -131,7 +146,10 @@ class MandelbrotInsideMethodEnumAttrOperator(EnumAttrOperator[MandelbrotInsideMe
 
 
 class MandelbrotInsideMethodEnumField(
-    EnumField[MandelbrotInsideMethodEnumAttrOperator, MandelbrotInsideMethodEnumPlugOperator]
+    EnumField[
+        MandelbrotInsideMethodEnumAttrOperator,
+        MandelbrotInsideMethodEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -177,13 +195,19 @@ class GeneratedMandelbrot3D(DG):
     matrixEyeToWorld = FltMatrixField()
     e2w = matrixEyeToWorld
 
-    filter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
-    blend = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = blend
 
     local = BoolField(default_value=False)
@@ -198,7 +222,11 @@ class GeneratedMandelbrot3D(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -207,7 +235,11 @@ class GeneratedMandelbrot3D(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -216,13 +248,21 @@ class GeneratedMandelbrot3D(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -243,7 +283,9 @@ class GeneratedMandelbrot3D(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     oa = outAlpha
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     refPointObj = RefPointObjField(default_value=(0.0, 0.0, 0.0))
@@ -264,16 +306,24 @@ class GeneratedMandelbrot3D(DG):
     refPointCameraZ = refPointCamera.refPointCameraZ
     rcz = refPointCameraZ
 
-    centerX = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    centerX = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     cnx = centerX
 
-    centerY = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    centerY = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     cny = centerY
 
-    centerZ = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    centerZ = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     cnz = centerZ
 
-    zoomFactor = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    zoomFactor = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     zfc = zoomFactor
 
     value = ValueField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -294,76 +344,120 @@ class GeneratedMandelbrot3D(DG):
     depth = LongField(default_value=20, min_value=1, soft_max_value=500)
     dm = depth
 
-    amplitude = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    amplitude = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     a = amplitude
 
-    shift = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    shift = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     shi = shift
 
-    focus = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    focus = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     foc = focus
 
-    escapeRadius = FloatField(default_value=2.0, soft_min_value=0.0, soft_max_value=10.0)
+    escapeRadius = FloatField(
+        default_value=2.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     esr = escapeRadius
 
-    lobes = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    lobes = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     lbs = lobes
 
     wrapAmplitude = BoolField(default_value=True)
     wra = wrapAmplitude
 
-    leafEffect = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    leafEffect = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     lef = leafEffect
 
-    checker = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    checker = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     chk = checker
 
     lineBlending = BoolField(default_value=False)
     lbl = lineBlending
 
-    lineFocus = FloatField(default_value=0.5, max_value=1.0, soft_min_value=0.0)
+    lineFocus = FloatField(
+        default_value=0.5, max_value=1.0, soft_min_value=0.0
+    )
     lfc = lineFocus
 
-    points = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    points = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     pts = points
 
-    stalksU = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    stalksU = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     stku = stalksU
 
-    stalksV = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    stalksV = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     stkv = stalksV
 
-    circles = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    circles = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     cir = circles
 
-    circleRadius = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    circleRadius = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     ccr = circleRadius
 
-    circleSizeRatio = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    circleSizeRatio = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     csr = circleSizeRatio
 
-    lineOffsetU = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    lineOffsetU = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     lou = lineOffsetU
 
-    lineOffsetV = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    lineOffsetV = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     lov = lineOffsetV
 
-    lineOffsetRatio = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    lineOffsetRatio = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     lor = lineOffsetRatio
 
-    juliaU = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    juliaU = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jlu = juliaU
 
-    juliaV = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    juliaV = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jlv = juliaV
 
-    boxRadius = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    boxRadius = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     bxr = boxRadius
 
-    boxMinRadius = FloatField(default_value=0.5, min_value=0.0, soft_max_value=2.0)
+    boxMinRadius = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=2.0
+    )
     bxm = boxMinRadius
 
-    boxRatio = FloatField(default_value=-3.0, soft_min_value=-4.0, soft_max_value=4.0)
+    boxRatio = FloatField(
+        default_value=-3.0, soft_min_value=-4.0, soft_max_value=4.0
+    )
     brt = boxRatio
 
     mandelbrotType = MandelbrotTypeEnumField(default_value=1)
@@ -375,7 +469,9 @@ class GeneratedMandelbrot3D(DG):
     mandelbrotInsideMethod = MandelbrotInsideMethodEnumField(default_value=2)
     mim = mandelbrotInsideMethod
 
-    implode = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    implode = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     imp = implode
 
     implodeCenter = ImplodeCenterField(default_value=(0.0, 0.0, 0.0))

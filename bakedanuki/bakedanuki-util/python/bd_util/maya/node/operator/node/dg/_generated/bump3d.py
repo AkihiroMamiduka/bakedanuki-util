@@ -65,7 +65,9 @@ class GeneratedBump3d(DG):
     rayOriginZ = rayOrigin.rayOriginZ
     roz = rayOriginZ
 
-    xPixelAngle = FloatField(default_value=0.002053000032901764, readable=False)
+    xPixelAngle = FloatField(
+        default_value=0.002053000032901764, readable=False
+    )
     xpa = xPixelAngle
 
     infoBits = LongField(default_value=0)
@@ -98,16 +100,24 @@ class GeneratedBump3d(DG):
     tangentVz = tangentVCamera.tangentVz
     tvz = tangentVz
 
-    bumpDepth = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
+    bumpDepth = FloatField(
+        default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     bd = bumpDepth
 
-    bumpFilter = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpFilter = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bf = bumpFilter
 
-    bumpFilterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpFilterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bfo = bumpFilterOffset
 
-    bumpValue = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    bumpValue = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     bv = bumpValue
 
     outNormal = OutNormalField(default_value=(0.0, 0.0, 1.0), writable=False)

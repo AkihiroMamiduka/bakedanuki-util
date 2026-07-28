@@ -81,9 +81,7 @@ class UnitsEnumAttrOperator(EnumAttrOperator[UnitsEnumPlugOperator]):
     }
 
 
-class UnitsEnumField(
-    EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]
-):
+class UnitsEnumField(EnumField[UnitsEnumAttrOperator, UnitsEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitsEnumAttrOperator
@@ -104,7 +102,9 @@ class GeneratedAiTrigo(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -125,6 +125,10 @@ class GeneratedAiTrigo(DG):
 
     units = UnitsEnumField(default_value=0)
 
-    frequency = FloatField(default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0)
+    frequency = FloatField(
+        default_value=1.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
 
-    phase = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
+    phase = FloatField(
+        default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0
+    )

@@ -60,7 +60,9 @@ class GeneratedAiRandom(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -72,10 +74,14 @@ class GeneratedAiRandom(DG):
     inputType = InputTypeEnumField(default_value=0)
     input_type = inputType
 
-    inputInt = LongField(default_value=0, soft_min_value=-100, soft_max_value=100)
+    inputInt = LongField(
+        default_value=0, soft_min_value=-100, soft_max_value=100
+    )
     input_int = inputInt
 
-    inputFloat = FloatField(default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0)
+    inputFloat = FloatField(
+        default_value=0.0, soft_min_value=-100.0, soft_max_value=100.0
+    )
     input_float = inputFloat
 
     inputColor = InputColorField(default_value=(0.0, 0.0, 0.0))

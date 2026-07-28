@@ -48,16 +48,16 @@ class UnitEnumAttrOperator(EnumAttrOperator[UnitEnumPlugOperator]):
     }
 
 
-class UnitEnumField(
-    EnumField[UnitEnumAttrOperator, UnitEnumPlugOperator]
-):
+class UnitEnumField(EnumField[UnitEnumAttrOperator, UnitEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = UnitEnumAttrOperator
     PLUG_CLS = UnitEnumPlugOperator
 
 
-class WrapFrameUEnumPlugOperator(EnumPlugOperator["WrapFrameUEnumAttrOperator"]):
+class WrapFrameUEnumPlugOperator(
+    EnumPlugOperator["WrapFrameUEnumAttrOperator"]
+):
     __slots__ = ()
 
     PERIODIC = 0
@@ -94,7 +94,9 @@ class WrapFrameUEnumField(
     PLUG_CLS = WrapFrameUEnumPlugOperator
 
 
-class WrapFrameVEnumPlugOperator(EnumPlugOperator["WrapFrameVEnumAttrOperator"]):
+class WrapFrameVEnumPlugOperator(
+    EnumPlugOperator["WrapFrameVEnumAttrOperator"]
+):
     __slots__ = ()
 
     PERIODIC = 0
@@ -148,7 +150,9 @@ class GeneratedAiUvTransform(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -200,7 +204,9 @@ class GeneratedAiUvTransform(DG):
     translateFrameY = translateFrame.translateFrameY
     translate_framey = translateFrameY
 
-    rotateFrame = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotateFrame = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     rotate_frame = rotateFrame
 
     pivotFrame = PivotFrameField(default_value=(0.5, 0.5))
@@ -216,7 +222,9 @@ class GeneratedAiUvTransform(DG):
     wrapFrameV = WrapFrameVEnumField(default_value=0)
     wrap_frame_v = wrapFrameV
 
-    wrapFrameColorA = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    wrapFrameColorA = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     wrap_frame_colora = wrapFrameColorA
 
     wrapFrameColor = WrapFrameColorField(default_value=(0.0, 0.0, 0.0))
@@ -240,7 +248,9 @@ class GeneratedAiUvTransform(DG):
     offsetY = offset.offsetY
     offsety = offsetY
 
-    rotate = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotate = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
 
     pivot = PivotField(default_value=(0.5, 0.5))
     pivotX = pivot.pivotX

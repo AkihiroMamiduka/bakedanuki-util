@@ -12,17 +12,13 @@ class ClipEvalListPlugOperator(
     CompoundPlugOperator["ClipEvalListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("clipEval", "cev"),
-    )
+    CHILD_ATTR_NAMES = (("clipEval", "cev"),)
 
     clipEval = CompoundField(multi=True)
     cev = clipEval
 
 
-class ClipEvalListAttrOperator(
-    CompoundAttrOperator[ClipEvalListPlugOperator]
-):
+class ClipEvalListAttrOperator(CompoundAttrOperator[ClipEvalListPlugOperator]):
     __slots__ = ()
 
     clipEval = CompoundField(multi=True)

@@ -37,7 +37,9 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.float3._base impo
 )
 
 
-class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator["TaperCurve_InterpEnumAttrOperator"]):
+class TaperCurve_InterpEnumPlugOperator(
+    EnumPlugOperator["TaperCurve_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -46,7 +48,9 @@ class TaperCurve_InterpEnumPlugOperator(EnumPlugOperator["TaperCurve_InterpEnumA
     SPLINE = 3
 
 
-class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator[TaperCurve_InterpEnumPlugOperator]):
+class TaperCurve_InterpEnumAttrOperator(
+    EnumAttrOperator[TaperCurve_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -63,7 +67,9 @@ class TaperCurve_InterpEnumAttrOperator(EnumAttrOperator[TaperCurve_InterpEnumPl
 
 
 class TaperCurve_InterpEnumField(
-    EnumField[TaperCurve_InterpEnumAttrOperator, TaperCurve_InterpEnumPlugOperator]
+    EnumField[
+        TaperCurve_InterpEnumAttrOperator, TaperCurve_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -107,7 +113,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -177,9 +185,7 @@ class RotateField(
     rz = rotateZ
 
 
-class ScalePlugOperator(
-    Double3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -197,9 +203,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=1.0)
@@ -319,7 +323,9 @@ class LocalTranslateAttrOperator(
 
 
 class LocalTranslateField(
-    DoubleLinear3CompoundBaseField[LocalTranslateAttrOperator, LocalTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalTranslateAttrOperator, LocalTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -372,7 +378,9 @@ class LocalDirectionAttrOperator(
 
 
 class LocalDirectionField(
-    DoubleLinear3CompoundBaseField[LocalDirectionAttrOperator, LocalDirectionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        LocalDirectionAttrOperator, LocalDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -425,7 +433,9 @@ class LocalRotateAttrOperator(
 
 
 class LocalRotateField(
-    DoubleAngle3CompoundBaseField[LocalRotateAttrOperator, LocalRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        LocalRotateAttrOperator, LocalRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -601,9 +611,7 @@ class MagnetField(
     mz = magnZ
 
 
-class TaperCurvePlugOperator(
-    CompoundPlugOperator["TaperCurveAttrOperator"]
-):
+class TaperCurvePlugOperator(CompoundPlugOperator["TaperCurveAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("taperCurve_Position", "cp"),
@@ -621,9 +629,7 @@ class TaperCurvePlugOperator(
     ci = taperCurve_Interp
 
 
-class TaperCurveAttrOperator(
-    CompoundAttrOperator[TaperCurvePlugOperator]
-):
+class TaperCurveAttrOperator(CompoundAttrOperator[TaperCurvePlugOperator]):
     __slots__ = ()
 
     taperCurve_Position = FloatField(default_value=0.0)
@@ -681,7 +687,9 @@ class CompBoundingBoxMinAttrOperator(
 
 
 class CompBoundingBoxMinField(
-    DoubleLinear3CompoundBaseField[CompBoundingBoxMinAttrOperator, CompBoundingBoxMinPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompBoundingBoxMinAttrOperator, CompBoundingBoxMinPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -734,7 +742,9 @@ class CompBoundingBoxMaxAttrOperator(
 
 
 class CompBoundingBoxMaxField(
-    DoubleLinear3CompoundBaseField[CompBoundingBoxMaxAttrOperator, CompBoundingBoxMaxPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompBoundingBoxMaxAttrOperator, CompBoundingBoxMaxPlugOperator
+    ]
 ):
     __slots__ = ()
 

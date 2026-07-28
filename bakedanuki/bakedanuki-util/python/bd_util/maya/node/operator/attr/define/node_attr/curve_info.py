@@ -44,7 +44,9 @@ class ControlPointsAttrOperator(
 
 
 class ControlPointsField(
-    DoubleLinear3CompoundBaseField[ControlPointsAttrOperator, ControlPointsPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ControlPointsAttrOperator, ControlPointsPlugOperator
+    ]
 ):
     __slots__ = ()
 

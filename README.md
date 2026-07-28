@@ -69,6 +69,28 @@ Maya API の型スタブは `typings/maya` に同梱しています。
 Pyright の型・補完 contract と pytest の実行方法は、
 [testing.md](bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md) を参照してください。
 
+### Formatting
+
+PythonコードはBlack 26.5.1で整形します。初回だけformat専用環境を作成してください。
+この環境はMaya実行用のPython interpreterとは分離されています。
+
+```powershell
+.\scripts\setup-format.cmd
+```
+
+リポジトリのPythonコードを一括整形する場合と、差分を発生させず確認する場合は
+次のコマンドを使用します。
+
+```powershell
+.\scripts\format.cmd
+.\scripts\format.cmd -Check
+.\scripts\format.cmd -Check -Diff
+```
+
+VS CodeのBlack Formatterも同じformat専用環境と`pyproject.toml`を参照します。
+Generatorを実行した後は、生成差分を確認する前に`format.cmd`を実行してください。
+外部由来のMaya API stubを置く`typings`は一括整形の対象外です。
+
 ## Repository Entry Points
 
 このリポジトリでは、開発リポジトリとしての入口と、配布用 `bakedanuki` フォルダとしての入口を分けています。

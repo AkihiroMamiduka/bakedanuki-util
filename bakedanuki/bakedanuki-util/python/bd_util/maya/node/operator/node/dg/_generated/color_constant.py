@@ -12,7 +12,13 @@ class GeneratedColorConstant(DG):
 
     NODE_TYPE = "colorConstant"
 
-    inColor = InColorField(default_value=(0.30000001192092896, 0.30000001192092896, 0.30000001192092896))
+    inColor = InColorField(
+        default_value=(
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+        )
+    )
     c = inColor
     inColorR = inColor.inColorR
     cr = inColorR

@@ -18,7 +18,9 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 
 
-class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnumAttrOperator"]):
+class AngleInterpolationEnumPlugOperator(
+    EnumPlugOperator["AngleInterpolationEnumAttrOperator"]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -27,7 +29,9 @@ class AngleInterpolationEnumPlugOperator(EnumPlugOperator["AngleInterpolationEnu
     SHORTEST = 3
 
 
-class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnumPlugOperator]):
+class AngleInterpolationEnumAttrOperator(
+    EnumAttrOperator[AngleInterpolationEnumPlugOperator]
+):
     __slots__ = ()
 
     CLOSEST = 0
@@ -44,7 +48,9 @@ class AngleInterpolationEnumAttrOperator(EnumAttrOperator[AngleInterpolationEnum
 
 
 class AngleInterpolationEnumField(
-    EnumField[AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator]
+    EnumField[
+        AngleInterpolationEnumAttrOperator, AngleInterpolationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -69,13 +75,21 @@ class GeneratedCluster(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)

@@ -9,14 +9,18 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class AccumulationModeEnumPlugOperator(EnumPlugOperator["AccumulationModeEnumAttrOperator"]):
+class AccumulationModeEnumPlugOperator(
+    EnumPlugOperator["AccumulationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     ADDITIVE = 0
     MULTIPLY = 1
 
 
-class AccumulationModeEnumAttrOperator(EnumAttrOperator[AccumulationModeEnumPlugOperator]):
+class AccumulationModeEnumAttrOperator(
+    EnumAttrOperator[AccumulationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     ADDITIVE = 0
@@ -29,7 +33,9 @@ class AccumulationModeEnumAttrOperator(EnumAttrOperator[AccumulationModeEnumPlug
 
 
 class AccumulationModeEnumField(
-    EnumField[AccumulationModeEnumAttrOperator, AccumulationModeEnumPlugOperator]
+    EnumField[
+        AccumulationModeEnumAttrOperator, AccumulationModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 

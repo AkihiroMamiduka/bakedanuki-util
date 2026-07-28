@@ -27,7 +27,9 @@ class GeneratedAiAtmosphereVolume(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -38,9 +40,15 @@ class GeneratedAiAtmosphereVolume(DG):
 
     density = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    samples = LongField(default_value=5, min_value=1, max_value=100, soft_max_value=64)
+    samples = LongField(
+        default_value=5, min_value=1, max_value=100, soft_max_value=64
+    )
 
-    eccentricity = FloatField(default_value=0.0, min_value=-0.8999999761581421, max_value=0.8999999761581421)
+    eccentricity = FloatField(
+        default_value=0.0,
+        min_value=-0.8999999761581421,
+        max_value=0.8999999761581421,
+    )
 
     attenuation = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
 
@@ -50,7 +58,9 @@ class GeneratedAiAtmosphereVolume(DG):
     affectDiffuse = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     affect_diffuse = affectDiffuse
 
-    affectSpecular = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    affectSpecular = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     affect_specular = affectSpecular
 
     rgbDensity = RgbDensityField(default_value=(1.0, 1.0, 1.0))

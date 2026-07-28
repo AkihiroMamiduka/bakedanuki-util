@@ -15,7 +15,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.matrix import MatrixField
 
 
-class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAttrOperator"]):
+class InputRotateOrderEnumPlugOperator(
+    EnumPlugOperator["InputRotateOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -26,7 +28,9 @@ class InputRotateOrderEnumPlugOperator(EnumPlugOperator["InputRotateOrderEnumAtt
     ZYX = 5
 
 
-class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlugOperator]):
+class InputRotateOrderEnumAttrOperator(
+    EnumAttrOperator[InputRotateOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     XYZ = 0
@@ -47,7 +51,9 @@ class InputRotateOrderEnumAttrOperator(EnumAttrOperator[InputRotateOrderEnumPlug
 
 
 class InputRotateOrderEnumField(
-    EnumField[InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator]
+    EnumField[
+        InputRotateOrderEnumAttrOperator, InputRotateOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -66,7 +72,9 @@ class GeneratedDecomposeMatrix(DG):
     inputRotateOrder = InputRotateOrderEnumField(default_value=0)
     ro = inputRotateOrder
 
-    outputTranslate = OutputTranslateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outputTranslate = OutputTranslateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outputTranslate
     outputTranslateX = outputTranslate.outputTranslateX
     otx = outputTranslateX
@@ -75,7 +83,9 @@ class GeneratedDecomposeMatrix(DG):
     outputTranslateZ = outputTranslate.outputTranslateZ
     otz = outputTranslateZ
 
-    outputRotate = OutputRotateField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outputRotate = OutputRotateField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     or_ = outputRotate
     outputRotateX = outputRotate.outputRotateX
     orx = outputRotateX
@@ -84,7 +94,9 @@ class GeneratedDecomposeMatrix(DG):
     outputRotateZ = outputRotate.outputRotateZ
     orz = outputRotateZ
 
-    outputScale = OutputScaleField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outputScale = OutputScaleField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     os = outputScale
     outputScaleX = outputScale.outputScaleX
     osx = outputScaleX
@@ -93,7 +105,9 @@ class GeneratedDecomposeMatrix(DG):
     outputScaleZ = outputScale.outputScaleZ
     osz = outputScaleZ
 
-    outputShear = OutputShearField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outputShear = OutputShearField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     osh = outputShear
     outputShearX = outputShear.outputShearX
     oshx = outputShearX
@@ -102,7 +116,9 @@ class GeneratedDecomposeMatrix(DG):
     outputShearZ = outputShear.outputShearZ
     oshz = outputShearZ
 
-    outputQuat = OutputQuatField(default_value=(0.0, 0.0, 0.0, 0.0), writable=False)
+    outputQuat = OutputQuatField(
+        default_value=(0.0, 0.0, 0.0, 0.0), writable=False
+    )
     oq = outputQuat
     outputQuatX = outputQuat.outputQuatX
     oqx = outputQuatX

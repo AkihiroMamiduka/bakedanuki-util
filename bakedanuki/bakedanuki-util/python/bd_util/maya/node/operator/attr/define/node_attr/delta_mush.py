@@ -25,9 +25,7 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -45,9 +43,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -60,9 +56,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -73,9 +67,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -91,7 +83,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -152,20 +146,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -180,9 +168,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class ScalePlugOperator(
-    Double3CompoundBasePlugOperator["ScaleAttrOperator"]
-):
+class ScalePlugOperator(Double3CompoundBasePlugOperator["ScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("scaleX", "sx"),
@@ -200,9 +186,7 @@ class ScalePlugOperator(
     sz = scaleZ
 
 
-class ScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[ScalePlugOperator]
-):
+class ScaleAttrOperator(Double3CompoundBaseAttrOperator[ScalePlugOperator]):
     __slots__ = ()
 
     scaleX = DoubleField(default_value=1.0)
@@ -233,9 +217,7 @@ class ScaleField(
     sz = scaleZ
 
 
-class CachePlugOperator(
-    CompoundPlugOperator["CacheAttrOperator"]
-):
+class CachePlugOperator(CompoundPlugOperator["CacheAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("cacheSmoothingAlgorithm", "csa"),
@@ -256,7 +238,9 @@ class CachePlugOperator(
     cachePinBorderVertices = BoolField(default_value=True)
     cpbv = cachePinBorderVertices
 
-    cacheSmoothingStep = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cacheSmoothingStep = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     css = cacheSmoothingStep
 
     cacheBindPositions = TypedField()
@@ -269,9 +253,7 @@ class CachePlugOperator(
     cfrm = cacheFrames
 
 
-class CacheAttrOperator(
-    CompoundAttrOperator[CachePlugOperator]
-):
+class CacheAttrOperator(CompoundAttrOperator[CachePlugOperator]):
     __slots__ = ()
 
     cacheSmoothingAlgorithm = ShortField(default_value=0)
@@ -283,7 +265,9 @@ class CacheAttrOperator(
     cachePinBorderVertices = BoolField(default_value=True)
     cpbv = cachePinBorderVertices
 
-    cacheSmoothingStep = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    cacheSmoothingStep = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     css = cacheSmoothingStep
 
     cacheBindPositions = TypedField()
@@ -296,9 +280,7 @@ class CacheAttrOperator(
     cfrm = cacheFrames
 
 
-class CacheField(
-    CompoundField[CacheAttrOperator, CachePlugOperator]
-):
+class CacheField(CompoundField[CacheAttrOperator, CachePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = CacheAttrOperator

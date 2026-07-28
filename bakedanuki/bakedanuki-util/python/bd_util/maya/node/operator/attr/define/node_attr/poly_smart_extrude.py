@@ -56,7 +56,9 @@ class CompBoundingBoxMinAttrOperator(
 
 
 class CompBoundingBoxMinField(
-    DoubleLinear3CompoundBaseField[CompBoundingBoxMinAttrOperator, CompBoundingBoxMinPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompBoundingBoxMinAttrOperator, CompBoundingBoxMinPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -109,7 +111,9 @@ class CompBoundingBoxMaxAttrOperator(
 
 
 class CompBoundingBoxMaxField(
-    DoubleLinear3CompoundBaseField[CompBoundingBoxMaxAttrOperator, CompBoundingBoxMaxPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        CompBoundingBoxMaxAttrOperator, CompBoundingBoxMaxPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -162,7 +166,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -268,7 +274,9 @@ class PivotOrientationAttrOperator(
 
 
 class PivotOrientationField(
-    DoubleAngle3CompoundBaseField[PivotOrientationAttrOperator, PivotOrientationPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        PivotOrientationAttrOperator, PivotOrientationPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -321,7 +329,9 @@ class CompPivotOrientationAttrOperator(
 
 
 class CompPivotOrientationField(
-    DoubleAngle3CompoundBaseField[CompPivotOrientationAttrOperator, CompPivotOrientationPlugOperator]
+    DoubleAngle3CompoundBaseField[
+        CompPivotOrientationAttrOperator, CompPivotOrientationPlugOperator
+    ]
 ):
     __slots__ = ()
 

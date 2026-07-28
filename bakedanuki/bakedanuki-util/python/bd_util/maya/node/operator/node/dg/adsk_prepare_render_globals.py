@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.adsk_prepare_render_globals import GeneratedAdskPrepareRenderGlobals
+from ._generated.adsk_prepare_render_globals import (
+    GeneratedAdskPrepareRenderGlobals,
+)
 
 
 class AdskPrepareRenderGlobals(GeneratedAdskPrepareRenderGlobals):

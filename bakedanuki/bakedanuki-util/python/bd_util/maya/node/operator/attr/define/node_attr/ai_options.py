@@ -44,7 +44,9 @@ class ErrorColorBadTextureAttrOperator(
 
 
 class ErrorColorBadTextureField(
-    Float3CompoundBaseField[ErrorColorBadTextureAttrOperator, ErrorColorBadTexturePlugOperator]
+    Float3CompoundBaseField[
+        ErrorColorBadTextureAttrOperator, ErrorColorBadTexturePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -97,7 +99,9 @@ class ErrorColorBadPixelAttrOperator(
 
 
 class ErrorColorBadPixelField(
-    Float3CompoundBaseField[ErrorColorBadPixelAttrOperator, ErrorColorBadPixelPlugOperator]
+    Float3CompoundBaseField[
+        ErrorColorBadPixelAttrOperator, ErrorColorBadPixelPlugOperator
+    ]
 ):
     __slots__ = ()
 

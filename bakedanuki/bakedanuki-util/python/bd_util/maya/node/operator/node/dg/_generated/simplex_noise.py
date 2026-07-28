@@ -37,25 +37,37 @@ class GeneratedSimplexNoise(DG):
     threshold = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     tr = threshold
 
-    ratio = FloatField(default_value=0.7070000171661377, min_value=0.0, soft_max_value=1.0)
+    ratio = FloatField(
+        default_value=0.7070000171661377, min_value=0.0, soft_max_value=1.0
+    )
     ra = ratio
 
     octaves = ShortField(default_value=3, min_value=1, soft_max_value=10)
     ov = octaves
 
-    frequency = FloatField(default_value=2.0, min_value=0.0, soft_max_value=10.0)
+    frequency = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=10.0
+    )
     fq = frequency
 
-    frequencyRatio = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    frequencyRatio = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     fr = frequencyRatio
 
-    distortionU = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    distortionU = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     ud = distortionU
 
-    distortionV = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    distortionV = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     vd = distortionV
 
-    distortionRatio = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    distortionRatio = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     dr = distortionRatio
 
     gamma = FloatField(default_value=1.0, min_value=0.0, soft_max_value=5.0)

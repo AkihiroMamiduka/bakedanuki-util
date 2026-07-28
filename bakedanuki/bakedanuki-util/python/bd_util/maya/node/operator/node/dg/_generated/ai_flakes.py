@@ -13,7 +13,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -47,14 +49,18 @@ class CoordSpaceEnumField(
     PLUG_CLS = CoordSpaceEnumPlugOperator
 
 
-class OutputSpaceEnumPlugOperator(EnumPlugOperator["OutputSpaceEnumAttrOperator"]):
+class OutputSpaceEnumPlugOperator(
+    EnumPlugOperator["OutputSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
     TANGENT = 1
 
 
-class OutputSpaceEnumAttrOperator(EnumAttrOperator[OutputSpaceEnumPlugOperator]):
+class OutputSpaceEnumAttrOperator(
+    EnumAttrOperator[OutputSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -92,7 +98,9 @@ class GeneratedAiFlakes(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -101,7 +109,9 @@ class GeneratedAiFlakes(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    scale = FloatField(default_value=0.10000000149011612, min_value=0.0, soft_max_value=100.0)
+    scale = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, soft_max_value=100.0
+    )
 
     density = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
 
@@ -109,9 +119,13 @@ class GeneratedAiFlakes(DG):
 
     depth = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
 
-    IOR = FloatField(default_value=1.5199999809265137, min_value=0.0, soft_max_value=10.0)
+    IOR = FloatField(
+        default_value=1.5199999809265137, min_value=0.0, soft_max_value=10.0
+    )
 
-    normalRandomize = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    normalRandomize = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     normal_randomize = normalRandomize
 
     coordSpace = CoordSpaceEnumField(default_value=2)

@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -95,28 +97,56 @@ class GeneratedPolyContourProj(DG):
     method = MethodEnumField(default_value=0)
     m = method
 
-    smoothness0 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    smoothness0 = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     s0 = smoothness0
 
-    smoothness1 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    smoothness1 = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     s1 = smoothness1
 
-    smoothness2 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    smoothness2 = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     s2 = smoothness2
 
-    smoothness3 = DoubleField(default_value=0.0, min_value=0.0, soft_min_value=0.0, soft_max_value=100.0)
+    smoothness3 = DoubleField(
+        default_value=0.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=100.0,
+    )
     s3 = smoothness3
 
-    offset0 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    offset0 = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     o0 = offset0
 
-    offset1 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    offset1 = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     o1 = offset1
 
-    offset2 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    offset2 = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     o2 = offset2
 
-    offset3 = DoubleLinearField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    offset3 = DoubleLinearField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     o3 = offset3
 
     userDefinedCorners = BoolField(default_value=False)

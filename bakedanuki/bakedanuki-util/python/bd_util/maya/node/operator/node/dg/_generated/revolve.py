@@ -15,8 +15,12 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
@@ -49,7 +53,9 @@ class DegreeEnumField(
     PLUG_CLS = DegreeEnumPlugOperator
 
 
-class ComputePivotAndAxisEnumPlugOperator(EnumPlugOperator["ComputePivotAndAxisEnumAttrOperator"]):
+class ComputePivotAndAxisEnumPlugOperator(
+    EnumPlugOperator["ComputePivotAndAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     SUPPLIED = 0
@@ -57,7 +63,9 @@ class ComputePivotAndAxisEnumPlugOperator(EnumPlugOperator["ComputePivotAndAxisE
     BOTH = 2
 
 
-class ComputePivotAndAxisEnumAttrOperator(EnumAttrOperator[ComputePivotAndAxisEnumPlugOperator]):
+class ComputePivotAndAxisEnumAttrOperator(
+    EnumAttrOperator[ComputePivotAndAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     SUPPLIED = 0
@@ -72,7 +80,10 @@ class ComputePivotAndAxisEnumAttrOperator(EnumAttrOperator[ComputePivotAndAxisEn
 
 
 class ComputePivotAndAxisEnumField(
-    EnumField[ComputePivotAndAxisEnumAttrOperator, ComputePivotAndAxisEnumPlugOperator]
+    EnumField[
+        ComputePivotAndAxisEnumAttrOperator,
+        ComputePivotAndAxisEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -80,7 +91,9 @@ class ComputePivotAndAxisEnumField(
     PLUG_CLS = ComputePivotAndAxisEnumPlugOperator
 
 
-class AxisChoiceEnumPlugOperator(EnumPlugOperator["AxisChoiceEnumAttrOperator"]):
+class AxisChoiceEnumPlugOperator(
+    EnumPlugOperator["AxisChoiceEnumAttrOperator"]
+):
     __slots__ = ()
 
     LONGER = 0
@@ -111,7 +124,9 @@ class AxisChoiceEnumField(
     PLUG_CLS = AxisChoiceEnumPlugOperator
 
 
-class CompAxisChoiceEnumPlugOperator(EnumPlugOperator["CompAxisChoiceEnumAttrOperator"]):
+class CompAxisChoiceEnumPlugOperator(
+    EnumPlugOperator["CompAxisChoiceEnumAttrOperator"]
+):
     __slots__ = ()
 
     LONGER = 0
@@ -119,7 +134,9 @@ class CompAxisChoiceEnumPlugOperator(EnumPlugOperator["CompAxisChoiceEnumAttrOpe
     SECOND = 2
 
 
-class CompAxisChoiceEnumAttrOperator(EnumAttrOperator[CompAxisChoiceEnumPlugOperator]):
+class CompAxisChoiceEnumAttrOperator(
+    EnumAttrOperator[CompAxisChoiceEnumPlugOperator]
+):
     __slots__ = ()
 
     LONGER = 0
@@ -150,10 +167,14 @@ class GeneratedRevolve(DG):
     inputCurve = DataNurbsCurveField()
     ic = inputCurve
 
-    startSweep = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    startSweep = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ssw = startSweep
 
-    endSweep = DoubleAngleField(default_value=360.0, soft_min_value=0.0, soft_max_value=360.0)
+    endSweep = DoubleAngleField(
+        default_value=360.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     esw = endSweep
 
     useTolerance = BoolField(default_value=False)
@@ -165,7 +186,12 @@ class GeneratedRevolve(DG):
     sections = LongField(default_value=8, min_value=1, soft_max_value=100)
     s = sections
 
-    tolerance = DoubleLinearField(default_value=0.01, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
+    tolerance = DoubleLinearField(
+        default_value=0.01,
+        min_value=1e-05,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     tol = tolerance
 
     axis = AxisField(default_value=(1.0, 0.0, 0.0))

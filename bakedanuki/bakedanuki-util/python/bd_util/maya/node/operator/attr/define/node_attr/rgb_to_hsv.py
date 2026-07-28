@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class InRgbPlugOperator(
-    Float3CompoundBasePlugOperator["InRgbAttrOperator"]
-):
+class InRgbPlugOperator(Float3CompoundBasePlugOperator["InRgbAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inRgbR", "ir"),
@@ -28,9 +26,7 @@ class InRgbPlugOperator(
     ib = inRgbB
 
 
-class InRgbAttrOperator(
-    Float3CompoundBaseAttrOperator[InRgbPlugOperator]
-):
+class InRgbAttrOperator(Float3CompoundBaseAttrOperator[InRgbPlugOperator]):
     __slots__ = ()
 
     inRgbR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
@@ -61,9 +57,7 @@ class InRgbField(
     ib = inRgbB
 
 
-class OutHsvPlugOperator(
-    Float3CompoundBasePlugOperator["OutHsvAttrOperator"]
-):
+class OutHsvPlugOperator(Float3CompoundBasePlugOperator["OutHsvAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outHsvH", "oh"),
@@ -81,9 +75,7 @@ class OutHsvPlugOperator(
     ov = outHsvV
 
 
-class OutHsvAttrOperator(
-    Float3CompoundBaseAttrOperator[OutHsvPlugOperator]
-):
+class OutHsvAttrOperator(Float3CompoundBaseAttrOperator[OutHsvPlugOperator]):
     __slots__ = ()
 
     outHsvH = FloatField(default_value=0.0, writable=False)

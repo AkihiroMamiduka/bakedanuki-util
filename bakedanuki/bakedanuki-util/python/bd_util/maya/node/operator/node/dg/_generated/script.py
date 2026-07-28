@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ScriptTypeEnumPlugOperator(EnumPlugOperator["ScriptTypeEnumAttrOperator"]):
+class ScriptTypeEnumPlugOperator(
+    EnumPlugOperator["ScriptTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     DEMAND = 0
@@ -54,7 +56,9 @@ class ScriptTypeEnumField(
     PLUG_CLS = ScriptTypeEnumPlugOperator
 
 
-class SourceTypeEnumPlugOperator(EnumPlugOperator["SourceTypeEnumAttrOperator"]):
+class SourceTypeEnumPlugOperator(
+    EnumPlugOperator["SourceTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     MEL = 0
@@ -82,14 +86,18 @@ class SourceTypeEnumField(
     PLUG_CLS = SourceTypeEnumPlugOperator
 
 
-class IgnoreReferenceEditsEnumPlugOperator(EnumPlugOperator["IgnoreReferenceEditsEnumAttrOperator"]):
+class IgnoreReferenceEditsEnumPlugOperator(
+    EnumPlugOperator["IgnoreReferenceEditsEnumAttrOperator"]
+):
     __slots__ = ()
 
     RECORD_REFERENCE_EDITS = 0
     IGNORE_REFERENCE_EDITS = 1
 
 
-class IgnoreReferenceEditsEnumAttrOperator(EnumAttrOperator[IgnoreReferenceEditsEnumPlugOperator]):
+class IgnoreReferenceEditsEnumAttrOperator(
+    EnumAttrOperator[IgnoreReferenceEditsEnumPlugOperator]
+):
     __slots__ = ()
 
     RECORD_REFERENCE_EDITS = 0
@@ -102,7 +110,10 @@ class IgnoreReferenceEditsEnumAttrOperator(EnumAttrOperator[IgnoreReferenceEdits
 
 
 class IgnoreReferenceEditsEnumField(
-    EnumField[IgnoreReferenceEditsEnumAttrOperator, IgnoreReferenceEditsEnumPlugOperator]
+    EnumField[
+        IgnoreReferenceEditsEnumAttrOperator,
+        IgnoreReferenceEditsEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 

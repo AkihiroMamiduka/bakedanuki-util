@@ -20,7 +20,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class CoordSpaceEnumPlugOperator(EnumPlugOperator["CoordSpaceEnumAttrOperator"]):
+class CoordSpaceEnumPlugOperator(
+    EnumPlugOperator["CoordSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD = 0
@@ -65,7 +67,9 @@ class GeneratedAiTriplanar(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -130,14 +134,24 @@ class GeneratedAiTriplanar(DG):
     prefName = DataStringField()
     pref_name = prefName
 
-    blend = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
+    blend = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0
+    )
 
     cell = BoolField(default_value=False)
 
-    cellRotate = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    cellRotate = FloatField(
+        default_value=0.0,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     cell_rotate = cellRotate
 
-    cellBlend = FloatField(default_value=0.10000000149011612, min_value=0.0, max_value=1.0)
+    cellBlend = FloatField(
+        default_value=0.10000000149011612, min_value=0.0, max_value=1.0
+    )
     cell_blend = cellBlend
 
     inputPerAxis = BoolField(default_value=False)

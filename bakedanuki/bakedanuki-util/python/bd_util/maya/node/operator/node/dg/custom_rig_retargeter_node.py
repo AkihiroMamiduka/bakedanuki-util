@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.custom_rig_retargeter_node import GeneratedCustomRigRetargeterNode
+from ._generated.custom_rig_retargeter_node import (
+    GeneratedCustomRigRetargeterNode,
+)
 
 
 class CustomRigRetargeterNode(GeneratedCustomRigRetargeterNode):

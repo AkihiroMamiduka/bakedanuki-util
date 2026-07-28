@@ -18,7 +18,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.unit.time import TimeField
 
 
-class SolverMethodEnumPlugOperator(EnumPlugOperator["SolverMethodEnumAttrOperator"]):
+class SolverMethodEnumPlugOperator(
+    EnumPlugOperator["SolverMethodEnumAttrOperator"]
+):
     __slots__ = ()
 
     MIDPOINT = 0
@@ -26,7 +28,9 @@ class SolverMethodEnumPlugOperator(EnumPlugOperator["SolverMethodEnumAttrOperato
     RUNGE_KUTTA_ADAPTIVE = 2
 
 
-class SolverMethodEnumAttrOperator(EnumAttrOperator[SolverMethodEnumPlugOperator]):
+class SolverMethodEnumAttrOperator(
+    EnumAttrOperator[SolverMethodEnumPlugOperator]
+):
     __slots__ = ()
 
     MIDPOINT = 0
@@ -75,10 +79,14 @@ class GeneratedRigidSolver(DG):
     rotate = RotateField(multi=True, default_value=(0.0, 0.0, 0.0))
     r = rotate
 
-    constraintTranslate = ConstraintTranslateField(multi=True, default_value=(0.0, 0.0, 0.0))
+    constraintTranslate = ConstraintTranslateField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     ctr = constraintTranslate
 
-    constraintRotate = ConstraintRotateField(multi=True, default_value=(0.0, 0.0, 0.0))
+    constraintRotate = ConstraintRotateField(
+        multi=True, default_value=(0.0, 0.0, 0.0)
+    )
     cr = constraintRotate
 
     collisionTolerance = DoubleField(default_value=0.02)

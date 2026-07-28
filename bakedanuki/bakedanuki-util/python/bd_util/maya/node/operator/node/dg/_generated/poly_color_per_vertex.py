@@ -6,7 +6,9 @@ from ....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from ....attr.define.std.at.compound import CompoundField
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
@@ -16,7 +18,9 @@ from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOperator"]):
+class RepresentationEnumPlugOperator(
+    EnumPlugOperator["RepresentationEnumAttrOperator"]
+):
     __slots__ = ()
 
     A = 1
@@ -25,7 +29,9 @@ class RepresentationEnumPlugOperator(EnumPlugOperator["RepresentationEnumAttrOpe
     RGBA = 4
 
 
-class RepresentationEnumAttrOperator(EnumAttrOperator[RepresentationEnumPlugOperator]):
+class RepresentationEnumAttrOperator(
+    EnumAttrOperator[RepresentationEnumPlugOperator]
+):
     __slots__ = ()
 
     A = 1

@@ -10,7 +10,9 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class PreserveShapeEnumPlugOperator(EnumPlugOperator["PreserveShapeEnumAttrOperator"]):
+class PreserveShapeEnumPlugOperator(
+    EnumPlugOperator["PreserveShapeEnumAttrOperator"]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -18,7 +20,9 @@ class PreserveShapeEnumPlugOperator(EnumPlugOperator["PreserveShapeEnumAttrOpera
     BLEND = 2
 
 
-class PreserveShapeEnumAttrOperator(EnumAttrOperator[PreserveShapeEnumPlugOperator]):
+class PreserveShapeEnumAttrOperator(
+    EnumAttrOperator[PreserveShapeEnumPlugOperator]
+):
     __slots__ = ()
 
     IGNORE = 0
@@ -83,13 +87,17 @@ class GeneratedCloseSurface(DG):
     preserveShape = PreserveShapeEnumField(default_value=1)
     ps = preserveShape
 
-    blendBias = DoubleField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    blendBias = DoubleField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     bb = blendBias
 
     blendKnotInsertion = BoolField(default_value=False)
     bki = blendKnotInsertion
 
-    parameter = DoubleField(default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0)
+    parameter = DoubleField(
+        default_value=0.1, soft_min_value=-1.0, soft_max_value=1.0
+    )
     p = parameter
 
     direction = DirectionEnumField(default_value=0)

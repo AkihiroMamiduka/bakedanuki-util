@@ -10,9 +10,7 @@ from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.double import DoubleField
 
 
-class TargetPlugOperator(
-    CompoundPlugOperator["TargetAttrOperator"]
-):
+class TargetPlugOperator(CompoundPlugOperator["TargetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("enableTarget", "umt"),
@@ -34,9 +32,7 @@ class TargetPlugOperator(
     ofm = offsetMatrix
 
 
-class TargetAttrOperator(
-    CompoundAttrOperator[TargetPlugOperator]
-):
+class TargetAttrOperator(CompoundAttrOperator[TargetPlugOperator]):
     __slots__ = ()
 
     enableTarget = BoolField(default_value=True)
@@ -52,9 +48,7 @@ class TargetAttrOperator(
     ofm = offsetMatrix
 
 
-class TargetField(
-    CompoundField[TargetAttrOperator, TargetPlugOperator]
-):
+class TargetField(CompoundField[TargetAttrOperator, TargetPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = TargetAttrOperator

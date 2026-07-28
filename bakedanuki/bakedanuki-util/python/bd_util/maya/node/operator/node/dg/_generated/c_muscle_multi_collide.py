@@ -32,13 +32,21 @@ class GeneratedCMuscleMultiCollide(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -59,7 +67,10 @@ class GeneratedCMuscleMultiCollide(DG):
     geoData = GeoDataField(multi=True)
     gdata = geoData
 
-    collisionData = CollisionDataField(default_value=(0.001, 1.0, 0.0, 5.0, 12.0, 0.0, 5.0, 0.3, 0.5), min_value=(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0))
+    collisionData = CollisionDataField(
+        default_value=(0.001, 1.0, 0.0, 5.0, 12.0, 0.0, 5.0, 0.3, 0.5),
+        min_value=(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0),
+    )
     clldata = collisionData
     tolerance = collisionData.tolerance
     tol = tolerance

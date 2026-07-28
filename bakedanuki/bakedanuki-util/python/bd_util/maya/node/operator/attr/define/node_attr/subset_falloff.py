@@ -13,7 +13,9 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class Ramp_InterpEnumPlugOperator(EnumPlugOperator["Ramp_InterpEnumAttrOperator"]):
+class Ramp_InterpEnumPlugOperator(
+    EnumPlugOperator["Ramp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class Ramp_InterpEnumPlugOperator(EnumPlugOperator["Ramp_InterpEnumAttrOperator"
     SPLINE = 3
 
 
-class Ramp_InterpEnumAttrOperator(EnumAttrOperator[Ramp_InterpEnumPlugOperator]):
+class Ramp_InterpEnumAttrOperator(
+    EnumAttrOperator[Ramp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -47,9 +51,7 @@ class Ramp_InterpEnumField(
     PLUG_CLS = Ramp_InterpEnumPlugOperator
 
 
-class RampPlugOperator(
-    CompoundPlugOperator["RampAttrOperator"]
-):
+class RampPlugOperator(CompoundPlugOperator["RampAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ramp_Position", "rmpp"),
@@ -67,9 +69,7 @@ class RampPlugOperator(
     rmpi = ramp_Interp
 
 
-class RampAttrOperator(
-    CompoundAttrOperator[RampPlugOperator]
-):
+class RampAttrOperator(CompoundAttrOperator[RampPlugOperator]):
     __slots__ = ()
 
     ramp_Position = FloatField(default_value=0.0)
@@ -82,9 +82,7 @@ class RampAttrOperator(
     rmpi = ramp_Interp
 
 
-class RampField(
-    CompoundField[RampAttrOperator, RampPlugOperator]
-):
+class RampField(CompoundField[RampAttrOperator, RampPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RampAttrOperator

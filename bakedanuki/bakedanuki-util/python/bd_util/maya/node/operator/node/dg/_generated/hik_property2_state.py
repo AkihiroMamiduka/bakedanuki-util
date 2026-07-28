@@ -11,14 +11,18 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class ForceActorSpaceEnumPlugOperator(EnumPlugOperator["ForceActorSpaceEnumAttrOperator"]):
+class ForceActorSpaceEnumPlugOperator(
+    EnumPlugOperator["ForceActorSpaceEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ForceActorSpaceEnumAttrOperator(EnumAttrOperator[ForceActorSpaceEnumPlugOperator]):
+class ForceActorSpaceEnumAttrOperator(
+    EnumAttrOperator[ForceActorSpaceEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -39,7 +43,9 @@ class ForceActorSpaceEnumField(
     PLUG_CLS = ForceActorSpaceEnumPlugOperator
 
 
-class ScaleCompensationModeEnumPlugOperator(EnumPlugOperator["ScaleCompensationModeEnumAttrOperator"]):
+class ScaleCompensationModeEnumPlugOperator(
+    EnumPlugOperator["ScaleCompensationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -47,7 +53,9 @@ class ScaleCompensationModeEnumPlugOperator(EnumPlugOperator["ScaleCompensationM
     USER = 2
 
 
-class ScaleCompensationModeEnumAttrOperator(EnumAttrOperator[ScaleCompensationModeEnumPlugOperator]):
+class ScaleCompensationModeEnumAttrOperator(
+    EnumAttrOperator[ScaleCompensationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -62,7 +70,10 @@ class ScaleCompensationModeEnumAttrOperator(EnumAttrOperator[ScaleCompensationMo
 
 
 class ScaleCompensationModeEnumField(
-    EnumField[ScaleCompensationModeEnumAttrOperator, ScaleCompensationModeEnumPlugOperator]
+    EnumField[
+        ScaleCompensationModeEnumAttrOperator,
+        ScaleCompensationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -70,14 +81,18 @@ class ScaleCompensationModeEnumField(
     PLUG_CLS = ScaleCompensationModeEnumPlugOperator
 
 
-class MassCenterCompensationModeEnumPlugOperator(EnumPlugOperator["MassCenterCompensationModeEnumAttrOperator"]):
+class MassCenterCompensationModeEnumPlugOperator(
+    EnumPlugOperator["MassCenterCompensationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class MassCenterCompensationModeEnumAttrOperator(EnumAttrOperator[MassCenterCompensationModeEnumPlugOperator]):
+class MassCenterCompensationModeEnumAttrOperator(
+    EnumAttrOperator[MassCenterCompensationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -90,7 +105,10 @@ class MassCenterCompensationModeEnumAttrOperator(EnumAttrOperator[MassCenterComp
 
 
 class MassCenterCompensationModeEnumField(
-    EnumField[MassCenterCompensationModeEnumAttrOperator, MassCenterCompensationModeEnumPlugOperator]
+    EnumField[
+        MassCenterCompensationModeEnumAttrOperator,
+        MassCenterCompensationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -98,7 +116,9 @@ class MassCenterCompensationModeEnumField(
     PLUG_CLS = MassCenterCompensationModeEnumPlugOperator
 
 
-class AnkleHeightCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleHeightCompensationModeEnumAttrOperator"]):
+class AnkleHeightCompensationModeEnumPlugOperator(
+    EnumPlugOperator["AnkleHeightCompensationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -106,7 +126,9 @@ class AnkleHeightCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleHeightC
     USER = 2
 
 
-class AnkleHeightCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleHeightCompensationModeEnumPlugOperator]):
+class AnkleHeightCompensationModeEnumAttrOperator(
+    EnumAttrOperator[AnkleHeightCompensationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -121,7 +143,10 @@ class AnkleHeightCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleHeightCo
 
 
 class AnkleHeightCompensationModeEnumField(
-    EnumField[AnkleHeightCompensationModeEnumAttrOperator, AnkleHeightCompensationModeEnumPlugOperator]
+    EnumField[
+        AnkleHeightCompensationModeEnumAttrOperator,
+        AnkleHeightCompensationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -129,7 +154,9 @@ class AnkleHeightCompensationModeEnumField(
     PLUG_CLS = AnkleHeightCompensationModeEnumPlugOperator
 
 
-class AnkleProximityCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleProximityCompensationModeEnumAttrOperator"]):
+class AnkleProximityCompensationModeEnumPlugOperator(
+    EnumPlugOperator["AnkleProximityCompensationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -137,7 +164,9 @@ class AnkleProximityCompensationModeEnumPlugOperator(EnumPlugOperator["AnkleProx
     USER = 2
 
 
-class AnkleProximityCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleProximityCompensationModeEnumPlugOperator]):
+class AnkleProximityCompensationModeEnumAttrOperator(
+    EnumAttrOperator[AnkleProximityCompensationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -152,7 +181,10 @@ class AnkleProximityCompensationModeEnumAttrOperator(EnumAttrOperator[AnkleProxi
 
 
 class AnkleProximityCompensationModeEnumField(
-    EnumField[AnkleProximityCompensationModeEnumAttrOperator, AnkleProximityCompensationModeEnumPlugOperator]
+    EnumField[
+        AnkleProximityCompensationModeEnumAttrOperator,
+        AnkleProximityCompensationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -160,7 +192,9 @@ class AnkleProximityCompensationModeEnumField(
     PLUG_CLS = AnkleProximityCompensationModeEnumPlugOperator
 
 
-class HipsHeightCompensationModeEnumPlugOperator(EnumPlugOperator["HipsHeightCompensationModeEnumAttrOperator"]):
+class HipsHeightCompensationModeEnumPlugOperator(
+    EnumPlugOperator["HipsHeightCompensationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
@@ -168,7 +202,9 @@ class HipsHeightCompensationModeEnumPlugOperator(EnumPlugOperator["HipsHeightCom
     USER = 2
 
 
-class HipsHeightCompensationModeEnumAttrOperator(EnumAttrOperator[HipsHeightCompensationModeEnumPlugOperator]):
+class HipsHeightCompensationModeEnumAttrOperator(
+    EnumAttrOperator[HipsHeightCompensationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -183,7 +219,10 @@ class HipsHeightCompensationModeEnumAttrOperator(EnumAttrOperator[HipsHeightComp
 
 
 class HipsHeightCompensationModeEnumField(
-    EnumField[HipsHeightCompensationModeEnumAttrOperator, HipsHeightCompensationModeEnumPlugOperator]
+    EnumField[
+        HipsHeightCompensationModeEnumAttrOperator,
+        HipsHeightCompensationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -191,14 +230,18 @@ class HipsHeightCompensationModeEnumField(
     PLUG_CLS = HipsHeightCompensationModeEnumPlugOperator
 
 
-class FloorContactEnumPlugOperator(EnumPlugOperator["FloorContactEnumAttrOperator"]):
+class FloorContactEnumPlugOperator(
+    EnumPlugOperator["FloorContactEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FloorContactEnumAttrOperator(EnumAttrOperator[FloorContactEnumPlugOperator]):
+class FloorContactEnumAttrOperator(
+    EnumAttrOperator[FloorContactEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -219,14 +262,18 @@ class FloorContactEnumField(
     PLUG_CLS = FloorContactEnumPlugOperator
 
 
-class HandFloorContactEnumPlugOperator(EnumPlugOperator["HandFloorContactEnumAttrOperator"]):
+class HandFloorContactEnumPlugOperator(
+    EnumPlugOperator["HandFloorContactEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class HandFloorContactEnumAttrOperator(EnumAttrOperator[HandFloorContactEnumPlugOperator]):
+class HandFloorContactEnumAttrOperator(
+    EnumAttrOperator[HandFloorContactEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -239,7 +286,9 @@ class HandFloorContactEnumAttrOperator(EnumAttrOperator[HandFloorContactEnumPlug
 
 
 class HandFloorContactEnumField(
-    EnumField[HandFloorContactEnumAttrOperator, HandFloorContactEnumPlugOperator]
+    EnumField[
+        HandFloorContactEnumAttrOperator, HandFloorContactEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -247,7 +296,9 @@ class HandFloorContactEnumField(
     PLUG_CLS = HandFloorContactEnumPlugOperator
 
 
-class HandContactTypeEnumPlugOperator(EnumPlugOperator["HandContactTypeEnumAttrOperator"]):
+class HandContactTypeEnumPlugOperator(
+    EnumPlugOperator["HandContactTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -256,7 +307,9 @@ class HandContactTypeEnumPlugOperator(EnumPlugOperator["HandContactTypeEnumAttrO
     HOOF = 3
 
 
-class HandContactTypeEnumAttrOperator(EnumAttrOperator[HandContactTypeEnumPlugOperator]):
+class HandContactTypeEnumAttrOperator(
+    EnumAttrOperator[HandContactTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -281,14 +334,18 @@ class HandContactTypeEnumField(
     PLUG_CLS = HandContactTypeEnumPlugOperator
 
 
-class HandFingerContactEnumPlugOperator(EnumPlugOperator["HandFingerContactEnumAttrOperator"]):
+class HandFingerContactEnumPlugOperator(
+    EnumPlugOperator["HandFingerContactEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class HandFingerContactEnumAttrOperator(EnumAttrOperator[HandFingerContactEnumPlugOperator]):
+class HandFingerContactEnumAttrOperator(
+    EnumAttrOperator[HandFingerContactEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -301,7 +358,9 @@ class HandFingerContactEnumAttrOperator(EnumAttrOperator[HandFingerContactEnumPl
 
 
 class HandFingerContactEnumField(
-    EnumField[HandFingerContactEnumAttrOperator, HandFingerContactEnumPlugOperator]
+    EnumField[
+        HandFingerContactEnumAttrOperator, HandFingerContactEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -309,7 +368,9 @@ class HandFingerContactEnumField(
     PLUG_CLS = HandFingerContactEnumPlugOperator
 
 
-class HandFingerContactModeEnumPlugOperator(EnumPlugOperator["HandFingerContactModeEnumAttrOperator"]):
+class HandFingerContactModeEnumPlugOperator(
+    EnumPlugOperator["HandFingerContactModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     STICKY = 0
@@ -317,7 +378,9 @@ class HandFingerContactModeEnumPlugOperator(EnumPlugOperator["HandFingerContactM
     STICKY_AMP_SPREAD = 2
 
 
-class HandFingerContactModeEnumAttrOperator(EnumAttrOperator[HandFingerContactModeEnumPlugOperator]):
+class HandFingerContactModeEnumAttrOperator(
+    EnumAttrOperator[HandFingerContactModeEnumPlugOperator]
+):
     __slots__ = ()
 
     STICKY = 0
@@ -332,7 +395,10 @@ class HandFingerContactModeEnumAttrOperator(EnumAttrOperator[HandFingerContactMo
 
 
 class HandFingerContactModeEnumField(
-    EnumField[HandFingerContactModeEnumAttrOperator, HandFingerContactModeEnumPlugOperator]
+    EnumField[
+        HandFingerContactModeEnumAttrOperator,
+        HandFingerContactModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -340,7 +406,9 @@ class HandFingerContactModeEnumField(
     PLUG_CLS = HandFingerContactModeEnumPlugOperator
 
 
-class FootContactTypeEnumPlugOperator(EnumPlugOperator["FootContactTypeEnumAttrOperator"]):
+class FootContactTypeEnumPlugOperator(
+    EnumPlugOperator["FootContactTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -349,7 +417,9 @@ class FootContactTypeEnumPlugOperator(EnumPlugOperator["FootContactTypeEnumAttrO
     HOOF = 3
 
 
-class FootContactTypeEnumAttrOperator(EnumAttrOperator[FootContactTypeEnumPlugOperator]):
+class FootContactTypeEnumAttrOperator(
+    EnumAttrOperator[FootContactTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     NORMAL = 0
@@ -374,14 +444,18 @@ class FootContactTypeEnumField(
     PLUG_CLS = FootContactTypeEnumPlugOperator
 
 
-class FootFingerContactEnumPlugOperator(EnumPlugOperator["FootFingerContactEnumAttrOperator"]):
+class FootFingerContactEnumPlugOperator(
+    EnumPlugOperator["FootFingerContactEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FootFingerContactEnumAttrOperator(EnumAttrOperator[FootFingerContactEnumPlugOperator]):
+class FootFingerContactEnumAttrOperator(
+    EnumAttrOperator[FootFingerContactEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -394,7 +468,9 @@ class FootFingerContactEnumAttrOperator(EnumAttrOperator[FootFingerContactEnumPl
 
 
 class FootFingerContactEnumField(
-    EnumField[FootFingerContactEnumAttrOperator, FootFingerContactEnumPlugOperator]
+    EnumField[
+        FootFingerContactEnumAttrOperator, FootFingerContactEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -402,7 +478,9 @@ class FootFingerContactEnumField(
     PLUG_CLS = FootFingerContactEnumPlugOperator
 
 
-class FootFingerContactModeEnumPlugOperator(EnumPlugOperator["FootFingerContactModeEnumAttrOperator"]):
+class FootFingerContactModeEnumPlugOperator(
+    EnumPlugOperator["FootFingerContactModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     STICKY = 0
@@ -410,7 +488,9 @@ class FootFingerContactModeEnumPlugOperator(EnumPlugOperator["FootFingerContactM
     STICKY_AMP_SPREAD = 2
 
 
-class FootFingerContactModeEnumAttrOperator(EnumAttrOperator[FootFingerContactModeEnumPlugOperator]):
+class FootFingerContactModeEnumAttrOperator(
+    EnumAttrOperator[FootFingerContactModeEnumPlugOperator]
+):
     __slots__ = ()
 
     STICKY = 0
@@ -425,7 +505,10 @@ class FootFingerContactModeEnumAttrOperator(EnumAttrOperator[FootFingerContactMo
 
 
 class FootFingerContactModeEnumField(
-    EnumField[FootFingerContactModeEnumAttrOperator, FootFingerContactModeEnumPlugOperator]
+    EnumField[
+        FootFingerContactModeEnumAttrOperator,
+        FootFingerContactModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -433,14 +516,18 @@ class FootFingerContactModeEnumField(
     PLUG_CLS = FootFingerContactModeEnumPlugOperator
 
 
-class LeftUpLegRollModeEnumPlugOperator(EnumPlugOperator["LeftUpLegRollModeEnumAttrOperator"]):
+class LeftUpLegRollModeEnumPlugOperator(
+    EnumPlugOperator["LeftUpLegRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftUpLegRollModeEnumAttrOperator(EnumAttrOperator[LeftUpLegRollModeEnumPlugOperator]):
+class LeftUpLegRollModeEnumAttrOperator(
+    EnumAttrOperator[LeftUpLegRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -453,7 +540,9 @@ class LeftUpLegRollModeEnumAttrOperator(EnumAttrOperator[LeftUpLegRollModeEnumPl
 
 
 class LeftUpLegRollModeEnumField(
-    EnumField[LeftUpLegRollModeEnumAttrOperator, LeftUpLegRollModeEnumPlugOperator]
+    EnumField[
+        LeftUpLegRollModeEnumAttrOperator, LeftUpLegRollModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -461,14 +550,18 @@ class LeftUpLegRollModeEnumField(
     PLUG_CLS = LeftUpLegRollModeEnumPlugOperator
 
 
-class LeftLegRollModeEnumPlugOperator(EnumPlugOperator["LeftLegRollModeEnumAttrOperator"]):
+class LeftLegRollModeEnumPlugOperator(
+    EnumPlugOperator["LeftLegRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftLegRollModeEnumAttrOperator(EnumAttrOperator[LeftLegRollModeEnumPlugOperator]):
+class LeftLegRollModeEnumAttrOperator(
+    EnumAttrOperator[LeftLegRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -489,14 +582,18 @@ class LeftLegRollModeEnumField(
     PLUG_CLS = LeftLegRollModeEnumPlugOperator
 
 
-class RightUpLegRollModeEnumPlugOperator(EnumPlugOperator["RightUpLegRollModeEnumAttrOperator"]):
+class RightUpLegRollModeEnumPlugOperator(
+    EnumPlugOperator["RightUpLegRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightUpLegRollModeEnumAttrOperator(EnumAttrOperator[RightUpLegRollModeEnumPlugOperator]):
+class RightUpLegRollModeEnumAttrOperator(
+    EnumAttrOperator[RightUpLegRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -509,7 +606,9 @@ class RightUpLegRollModeEnumAttrOperator(EnumAttrOperator[RightUpLegRollModeEnum
 
 
 class RightUpLegRollModeEnumField(
-    EnumField[RightUpLegRollModeEnumAttrOperator, RightUpLegRollModeEnumPlugOperator]
+    EnumField[
+        RightUpLegRollModeEnumAttrOperator, RightUpLegRollModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -517,14 +616,18 @@ class RightUpLegRollModeEnumField(
     PLUG_CLS = RightUpLegRollModeEnumPlugOperator
 
 
-class RightLegRollModeEnumPlugOperator(EnumPlugOperator["RightLegRollModeEnumAttrOperator"]):
+class RightLegRollModeEnumPlugOperator(
+    EnumPlugOperator["RightLegRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightLegRollModeEnumAttrOperator(EnumAttrOperator[RightLegRollModeEnumPlugOperator]):
+class RightLegRollModeEnumAttrOperator(
+    EnumAttrOperator[RightLegRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -537,7 +640,9 @@ class RightLegRollModeEnumAttrOperator(EnumAttrOperator[RightLegRollModeEnumPlug
 
 
 class RightLegRollModeEnumField(
-    EnumField[RightLegRollModeEnumAttrOperator, RightLegRollModeEnumPlugOperator]
+    EnumField[
+        RightLegRollModeEnumAttrOperator, RightLegRollModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -545,14 +650,18 @@ class RightLegRollModeEnumField(
     PLUG_CLS = RightLegRollModeEnumPlugOperator
 
 
-class LeftArmRollModeEnumPlugOperator(EnumPlugOperator["LeftArmRollModeEnumAttrOperator"]):
+class LeftArmRollModeEnumPlugOperator(
+    EnumPlugOperator["LeftArmRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftArmRollModeEnumAttrOperator(EnumAttrOperator[LeftArmRollModeEnumPlugOperator]):
+class LeftArmRollModeEnumAttrOperator(
+    EnumAttrOperator[LeftArmRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -573,14 +682,18 @@ class LeftArmRollModeEnumField(
     PLUG_CLS = LeftArmRollModeEnumPlugOperator
 
 
-class LeftForeArmRollModeEnumPlugOperator(EnumPlugOperator["LeftForeArmRollModeEnumAttrOperator"]):
+class LeftForeArmRollModeEnumPlugOperator(
+    EnumPlugOperator["LeftForeArmRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftForeArmRollModeEnumAttrOperator(EnumAttrOperator[LeftForeArmRollModeEnumPlugOperator]):
+class LeftForeArmRollModeEnumAttrOperator(
+    EnumAttrOperator[LeftForeArmRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -593,7 +706,10 @@ class LeftForeArmRollModeEnumAttrOperator(EnumAttrOperator[LeftForeArmRollModeEn
 
 
 class LeftForeArmRollModeEnumField(
-    EnumField[LeftForeArmRollModeEnumAttrOperator, LeftForeArmRollModeEnumPlugOperator]
+    EnumField[
+        LeftForeArmRollModeEnumAttrOperator,
+        LeftForeArmRollModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -601,14 +717,18 @@ class LeftForeArmRollModeEnumField(
     PLUG_CLS = LeftForeArmRollModeEnumPlugOperator
 
 
-class RightArmRollModeEnumPlugOperator(EnumPlugOperator["RightArmRollModeEnumAttrOperator"]):
+class RightArmRollModeEnumPlugOperator(
+    EnumPlugOperator["RightArmRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightArmRollModeEnumAttrOperator(EnumAttrOperator[RightArmRollModeEnumPlugOperator]):
+class RightArmRollModeEnumAttrOperator(
+    EnumAttrOperator[RightArmRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -621,7 +741,9 @@ class RightArmRollModeEnumAttrOperator(EnumAttrOperator[RightArmRollModeEnumPlug
 
 
 class RightArmRollModeEnumField(
-    EnumField[RightArmRollModeEnumAttrOperator, RightArmRollModeEnumPlugOperator]
+    EnumField[
+        RightArmRollModeEnumAttrOperator, RightArmRollModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -629,14 +751,18 @@ class RightArmRollModeEnumField(
     PLUG_CLS = RightArmRollModeEnumPlugOperator
 
 
-class RightForeArmRollModeEnumPlugOperator(EnumPlugOperator["RightForeArmRollModeEnumAttrOperator"]):
+class RightForeArmRollModeEnumPlugOperator(
+    EnumPlugOperator["RightForeArmRollModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightForeArmRollModeEnumAttrOperator(EnumAttrOperator[RightForeArmRollModeEnumPlugOperator]):
+class RightForeArmRollModeEnumAttrOperator(
+    EnumAttrOperator[RightForeArmRollModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -649,7 +775,10 @@ class RightForeArmRollModeEnumAttrOperator(EnumAttrOperator[RightForeArmRollMode
 
 
 class RightForeArmRollModeEnumField(
-    EnumField[RightForeArmRollModeEnumAttrOperator, RightForeArmRollModeEnumPlugOperator]
+    EnumField[
+        RightForeArmRollModeEnumAttrOperator,
+        RightForeArmRollModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -685,14 +814,18 @@ class MirrorEnumField(
     PLUG_CLS = MirrorEnumPlugOperator
 
 
-class LeftKneeKillPitchEnumPlugOperator(EnumPlugOperator["LeftKneeKillPitchEnumAttrOperator"]):
+class LeftKneeKillPitchEnumPlugOperator(
+    EnumPlugOperator["LeftKneeKillPitchEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftKneeKillPitchEnumAttrOperator(EnumAttrOperator[LeftKneeKillPitchEnumPlugOperator]):
+class LeftKneeKillPitchEnumAttrOperator(
+    EnumAttrOperator[LeftKneeKillPitchEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -705,7 +838,9 @@ class LeftKneeKillPitchEnumAttrOperator(EnumAttrOperator[LeftKneeKillPitchEnumPl
 
 
 class LeftKneeKillPitchEnumField(
-    EnumField[LeftKneeKillPitchEnumAttrOperator, LeftKneeKillPitchEnumPlugOperator]
+    EnumField[
+        LeftKneeKillPitchEnumAttrOperator, LeftKneeKillPitchEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -713,14 +848,18 @@ class LeftKneeKillPitchEnumField(
     PLUG_CLS = LeftKneeKillPitchEnumPlugOperator
 
 
-class RightKneeKillPitchEnumPlugOperator(EnumPlugOperator["RightKneeKillPitchEnumAttrOperator"]):
+class RightKneeKillPitchEnumPlugOperator(
+    EnumPlugOperator["RightKneeKillPitchEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightKneeKillPitchEnumAttrOperator(EnumAttrOperator[RightKneeKillPitchEnumPlugOperator]):
+class RightKneeKillPitchEnumAttrOperator(
+    EnumAttrOperator[RightKneeKillPitchEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -733,7 +872,9 @@ class RightKneeKillPitchEnumAttrOperator(EnumAttrOperator[RightKneeKillPitchEnum
 
 
 class RightKneeKillPitchEnumField(
-    EnumField[RightKneeKillPitchEnumAttrOperator, RightKneeKillPitchEnumPlugOperator]
+    EnumField[
+        RightKneeKillPitchEnumAttrOperator, RightKneeKillPitchEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -741,14 +882,18 @@ class RightKneeKillPitchEnumField(
     PLUG_CLS = RightKneeKillPitchEnumPlugOperator
 
 
-class LeftElbowKillPitchEnumPlugOperator(EnumPlugOperator["LeftElbowKillPitchEnumAttrOperator"]):
+class LeftElbowKillPitchEnumPlugOperator(
+    EnumPlugOperator["LeftElbowKillPitchEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftElbowKillPitchEnumAttrOperator(EnumAttrOperator[LeftElbowKillPitchEnumPlugOperator]):
+class LeftElbowKillPitchEnumAttrOperator(
+    EnumAttrOperator[LeftElbowKillPitchEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -761,7 +906,9 @@ class LeftElbowKillPitchEnumAttrOperator(EnumAttrOperator[LeftElbowKillPitchEnum
 
 
 class LeftElbowKillPitchEnumField(
-    EnumField[LeftElbowKillPitchEnumAttrOperator, LeftElbowKillPitchEnumPlugOperator]
+    EnumField[
+        LeftElbowKillPitchEnumAttrOperator, LeftElbowKillPitchEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -769,14 +916,18 @@ class LeftElbowKillPitchEnumField(
     PLUG_CLS = LeftElbowKillPitchEnumPlugOperator
 
 
-class RightElbowKillPitchEnumPlugOperator(EnumPlugOperator["RightElbowKillPitchEnumAttrOperator"]):
+class RightElbowKillPitchEnumPlugOperator(
+    EnumPlugOperator["RightElbowKillPitchEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightElbowKillPitchEnumAttrOperator(EnumAttrOperator[RightElbowKillPitchEnumPlugOperator]):
+class RightElbowKillPitchEnumAttrOperator(
+    EnumAttrOperator[RightElbowKillPitchEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -789,7 +940,10 @@ class RightElbowKillPitchEnumAttrOperator(EnumAttrOperator[RightElbowKillPitchEn
 
 
 class RightElbowKillPitchEnumField(
-    EnumField[RightElbowKillPitchEnumAttrOperator, RightElbowKillPitchEnumPlugOperator]
+    EnumField[
+        RightElbowKillPitchEnumAttrOperator,
+        RightElbowKillPitchEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -797,14 +951,18 @@ class RightElbowKillPitchEnumField(
     PLUG_CLS = RightElbowKillPitchEnumPlugOperator
 
 
-class AutomaticToesEnumPlugOperator(EnumPlugOperator["AutomaticToesEnumAttrOperator"]):
+class AutomaticToesEnumPlugOperator(
+    EnumPlugOperator["AutomaticToesEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class AutomaticToesEnumAttrOperator(EnumAttrOperator[AutomaticToesEnumPlugOperator]):
+class AutomaticToesEnumAttrOperator(
+    EnumAttrOperator[AutomaticToesEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -825,7 +983,9 @@ class AutomaticToesEnumField(
     PLUG_CLS = AutomaticToesEnumPlugOperator
 
 
-class FloorPivotEnumPlugOperator(EnumPlugOperator["FloorPivotEnumAttrOperator"]):
+class FloorPivotEnumPlugOperator(
+    EnumPlugOperator["FloorPivotEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -884,14 +1044,18 @@ class PostureEnumField(
     PLUG_CLS = PostureEnumPlugOperator
 
 
-class AutomaticFingersEnumPlugOperator(EnumPlugOperator["AutomaticFingersEnumAttrOperator"]):
+class AutomaticFingersEnumPlugOperator(
+    EnumPlugOperator["AutomaticFingersEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class AutomaticFingersEnumAttrOperator(EnumAttrOperator[AutomaticFingersEnumPlugOperator]):
+class AutomaticFingersEnumAttrOperator(
+    EnumAttrOperator[AutomaticFingersEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -904,7 +1068,9 @@ class AutomaticFingersEnumAttrOperator(EnumAttrOperator[AutomaticFingersEnumPlug
 
 
 class AutomaticFingersEnumField(
-    EnumField[AutomaticFingersEnumAttrOperator, AutomaticFingersEnumPlugOperator]
+    EnumField[
+        AutomaticFingersEnumAttrOperator, AutomaticFingersEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -912,7 +1078,9 @@ class AutomaticFingersEnumField(
     PLUG_CLS = AutomaticFingersEnumPlugOperator
 
 
-class HandFloorPivotEnumPlugOperator(EnumPlugOperator["HandFloorPivotEnumAttrOperator"]):
+class HandFloorPivotEnumPlugOperator(
+    EnumPlugOperator["HandFloorPivotEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -920,7 +1088,9 @@ class HandFloorPivotEnumPlugOperator(EnumPlugOperator["HandFloorPivotEnumAttrOpe
     FINGERS = 2
 
 
-class HandFloorPivotEnumAttrOperator(EnumAttrOperator[HandFloorPivotEnumPlugOperator]):
+class HandFloorPivotEnumAttrOperator(
+    EnumAttrOperator[HandFloorPivotEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -943,7 +1113,9 @@ class HandFloorPivotEnumField(
     PLUG_CLS = HandFloorPivotEnumPlugOperator
 
 
-class HipsTranslationModeEnumPlugOperator(EnumPlugOperator["HipsTranslationModeEnumAttrOperator"]):
+class HipsTranslationModeEnumPlugOperator(
+    EnumPlugOperator["HipsTranslationModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     WORLD_RIGID = 0
@@ -951,7 +1123,9 @@ class HipsTranslationModeEnumPlugOperator(EnumPlugOperator["HipsTranslationModeE
     TRAJECTORY = 2
 
 
-class HipsTranslationModeEnumAttrOperator(EnumAttrOperator[HipsTranslationModeEnumPlugOperator]):
+class HipsTranslationModeEnumAttrOperator(
+    EnumAttrOperator[HipsTranslationModeEnumPlugOperator]
+):
     __slots__ = ()
 
     WORLD_RIGID = 0
@@ -966,7 +1140,10 @@ class HipsTranslationModeEnumAttrOperator(EnumAttrOperator[HipsTranslationModeEn
 
 
 class HipsTranslationModeEnumField(
-    EnumField[HipsTranslationModeEnumAttrOperator, HipsTranslationModeEnumPlugOperator]
+    EnumField[
+        HipsTranslationModeEnumAttrOperator,
+        HipsTranslationModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -974,14 +1151,18 @@ class HipsTranslationModeEnumField(
     PLUG_CLS = HipsTranslationModeEnumPlugOperator
 
 
-class FingerSolvingEnumPlugOperator(EnumPlugOperator["FingerSolvingEnumAttrOperator"]):
+class FingerSolvingEnumPlugOperator(
+    EnumPlugOperator["FingerSolvingEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FingerSolvingEnumAttrOperator(EnumAttrOperator[FingerSolvingEnumPlugOperator]):
+class FingerSolvingEnumAttrOperator(
+    EnumAttrOperator[FingerSolvingEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1002,14 +1183,18 @@ class FingerSolvingEnumField(
     PLUG_CLS = FingerSolvingEnumPlugOperator
 
 
-class RollExtractionModeEnumPlugOperator(EnumPlugOperator["RollExtractionModeEnumAttrOperator"]):
+class RollExtractionModeEnumPlugOperator(
+    EnumPlugOperator["RollExtractionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     RELATIVE = 0
     ABSOLUTE = 1
 
 
-class RollExtractionModeEnumAttrOperator(EnumAttrOperator[RollExtractionModeEnumPlugOperator]):
+class RollExtractionModeEnumAttrOperator(
+    EnumAttrOperator[RollExtractionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     RELATIVE = 0
@@ -1022,7 +1207,9 @@ class RollExtractionModeEnumAttrOperator(EnumAttrOperator[RollExtractionModeEnum
 
 
 class RollExtractionModeEnumField(
-    EnumField[RollExtractionModeEnumAttrOperator, RollExtractionModeEnumPlugOperator]
+    EnumField[
+        RollExtractionModeEnumAttrOperator, RollExtractionModeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1030,14 +1217,18 @@ class RollExtractionModeEnumField(
     PLUG_CLS = RollExtractionModeEnumPlugOperator
 
 
-class FingerPropagationEnumPlugOperator(EnumPlugOperator["FingerPropagationEnumAttrOperator"]):
+class FingerPropagationEnumPlugOperator(
+    EnumPlugOperator["FingerPropagationEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class FingerPropagationEnumAttrOperator(EnumAttrOperator[FingerPropagationEnumPlugOperator]):
+class FingerPropagationEnumAttrOperator(
+    EnumAttrOperator[FingerPropagationEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1050,7 +1241,9 @@ class FingerPropagationEnumAttrOperator(EnumAttrOperator[FingerPropagationEnumPl
 
 
 class FingerPropagationEnumField(
-    EnumField[FingerPropagationEnumAttrOperator, FingerPropagationEnumPlugOperator]
+    EnumField[
+        FingerPropagationEnumAttrOperator, FingerPropagationEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -1058,14 +1251,18 @@ class FingerPropagationEnumField(
     PLUG_CLS = FingerPropagationEnumPlugOperator
 
 
-class SnSSmoothReachEnumPlugOperator(EnumPlugOperator["SnSSmoothReachEnumAttrOperator"]):
+class SnSSmoothReachEnumPlugOperator(
+    EnumPlugOperator["SnSSmoothReachEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class SnSSmoothReachEnumAttrOperator(EnumAttrOperator[SnSSmoothReachEnumPlugOperator]):
+class SnSSmoothReachEnumAttrOperator(
+    EnumAttrOperator[SnSSmoothReachEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1105,9 +1302,7 @@ class LockXEnumAttrOperator(EnumAttrOperator[LockXEnumPlugOperator]):
     }
 
 
-class LockXEnumField(
-    EnumField[LockXEnumAttrOperator, LockXEnumPlugOperator]
-):
+class LockXEnumField(EnumField[LockXEnumAttrOperator, LockXEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LockXEnumAttrOperator
@@ -1133,9 +1328,7 @@ class LockYEnumAttrOperator(EnumAttrOperator[LockYEnumPlugOperator]):
     }
 
 
-class LockYEnumField(
-    EnumField[LockYEnumAttrOperator, LockYEnumPlugOperator]
-):
+class LockYEnumField(EnumField[LockYEnumAttrOperator, LockYEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LockYEnumAttrOperator
@@ -1161,23 +1354,25 @@ class LockZEnumAttrOperator(EnumAttrOperator[LockZEnumPlugOperator]):
     }
 
 
-class LockZEnumField(
-    EnumField[LockZEnumAttrOperator, LockZEnumPlugOperator]
-):
+class LockZEnumField(EnumField[LockZEnumAttrOperator, LockZEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = LockZEnumAttrOperator
     PLUG_CLS = LockZEnumPlugOperator
 
 
-class ParamRealisticArmSolvingEnumPlugOperator(EnumPlugOperator["ParamRealisticArmSolvingEnumAttrOperator"]):
+class ParamRealisticArmSolvingEnumPlugOperator(
+    EnumPlugOperator["ParamRealisticArmSolvingEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamRealisticArmSolvingEnumAttrOperator(EnumAttrOperator[ParamRealisticArmSolvingEnumPlugOperator]):
+class ParamRealisticArmSolvingEnumAttrOperator(
+    EnumAttrOperator[ParamRealisticArmSolvingEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1190,7 +1385,10 @@ class ParamRealisticArmSolvingEnumAttrOperator(EnumAttrOperator[ParamRealisticAr
 
 
 class ParamRealisticArmSolvingEnumField(
-    EnumField[ParamRealisticArmSolvingEnumAttrOperator, ParamRealisticArmSolvingEnumPlugOperator]
+    EnumField[
+        ParamRealisticArmSolvingEnumAttrOperator,
+        ParamRealisticArmSolvingEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1198,14 +1396,18 @@ class ParamRealisticArmSolvingEnumField(
     PLUG_CLS = ParamRealisticArmSolvingEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll1ModeEnumAttrOperator"]):
+class ParamLeafLeftUpLegRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftUpLegRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll1ModeEnumPlugOperator]):
+class ParamLeafLeftUpLegRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftUpLegRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1218,7 +1420,10 @@ class ParamLeafLeftUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeft
 
 
 class ParamLeafLeftUpLegRoll1ModeEnumField(
-    EnumField[ParamLeafLeftUpLegRoll1ModeEnumAttrOperator, ParamLeafLeftUpLegRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftUpLegRoll1ModeEnumAttrOperator,
+        ParamLeafLeftUpLegRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1226,14 +1431,18 @@ class ParamLeafLeftUpLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll1ModeEnumAttrOperator"]):
+class ParamLeafLeftLegRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftLegRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll1ModeEnumPlugOperator]):
+class ParamLeafLeftLegRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftLegRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1246,7 +1455,10 @@ class ParamLeafLeftLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLe
 
 
 class ParamLeafLeftLegRoll1ModeEnumField(
-    EnumField[ParamLeafLeftLegRoll1ModeEnumAttrOperator, ParamLeafLeftLegRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftLegRoll1ModeEnumAttrOperator,
+        ParamLeafLeftLegRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1254,14 +1466,18 @@ class ParamLeafLeftLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll1ModeEnumAttrOperator"]):
+class ParamLeafRightUpLegRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightUpLegRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll1ModeEnumPlugOperator]):
+class ParamLeafRightUpLegRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightUpLegRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1274,7 +1490,10 @@ class ParamLeafRightUpLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRig
 
 
 class ParamLeafRightUpLegRoll1ModeEnumField(
-    EnumField[ParamLeafRightUpLegRoll1ModeEnumAttrOperator, ParamLeafRightUpLegRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightUpLegRoll1ModeEnumAttrOperator,
+        ParamLeafRightUpLegRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1282,14 +1501,18 @@ class ParamLeafRightUpLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll1ModeEnumAttrOperator"]):
+class ParamLeafRightLegRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightLegRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll1ModeEnumPlugOperator]):
+class ParamLeafRightLegRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightLegRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1302,7 +1525,10 @@ class ParamLeafRightLegRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightLegRoll1ModeEnumField(
-    EnumField[ParamLeafRightLegRoll1ModeEnumAttrOperator, ParamLeafRightLegRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightLegRoll1ModeEnumAttrOperator,
+        ParamLeafRightLegRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1310,14 +1536,18 @@ class ParamLeafRightLegRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll1ModeEnumAttrOperator"]):
+class ParamLeafLeftArmRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftArmRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll1ModeEnumPlugOperator]):
+class ParamLeafLeftArmRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftArmRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1330,7 +1560,10 @@ class ParamLeafLeftArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftAr
 
 
 class ParamLeafLeftArmRoll1ModeEnumField(
-    EnumField[ParamLeafLeftArmRoll1ModeEnumAttrOperator, ParamLeafLeftArmRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftArmRoll1ModeEnumAttrOperator,
+        ParamLeafLeftArmRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1338,14 +1571,18 @@ class ParamLeafLeftArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll1ModeEnumAttrOperator"]):
+class ParamLeafLeftForeArmRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftForeArmRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll1ModeEnumPlugOperator]):
+class ParamLeafLeftForeArmRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftForeArmRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1358,7 +1595,10 @@ class ParamLeafLeftForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLe
 
 
 class ParamLeafLeftForeArmRoll1ModeEnumField(
-    EnumField[ParamLeafLeftForeArmRoll1ModeEnumAttrOperator, ParamLeafLeftForeArmRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftForeArmRoll1ModeEnumAttrOperator,
+        ParamLeafLeftForeArmRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1366,14 +1606,18 @@ class ParamLeafLeftForeArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll1ModeEnumAttrOperator"]):
+class ParamLeafRightArmRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightArmRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll1ModeEnumPlugOperator]):
+class ParamLeafRightArmRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightArmRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1386,7 +1630,10 @@ class ParamLeafRightArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightArmRoll1ModeEnumField(
-    EnumField[ParamLeafRightArmRoll1ModeEnumAttrOperator, ParamLeafRightArmRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightArmRoll1ModeEnumAttrOperator,
+        ParamLeafRightArmRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1394,14 +1641,18 @@ class ParamLeafRightArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll1ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll1ModeEnumAttrOperator"]):
+class ParamLeafRightForeArmRoll1ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightForeArmRoll1ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll1ModeEnumPlugOperator]):
+class ParamLeafRightForeArmRoll1ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightForeArmRoll1ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1414,7 +1665,10 @@ class ParamLeafRightForeArmRoll1ModeEnumAttrOperator(EnumAttrOperator[ParamLeafR
 
 
 class ParamLeafRightForeArmRoll1ModeEnumField(
-    EnumField[ParamLeafRightForeArmRoll1ModeEnumAttrOperator, ParamLeafRightForeArmRoll1ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightForeArmRoll1ModeEnumAttrOperator,
+        ParamLeafRightForeArmRoll1ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1422,14 +1676,18 @@ class ParamLeafRightForeArmRoll1ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll1ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll2ModeEnumAttrOperator"]):
+class ParamLeafLeftUpLegRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftUpLegRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll2ModeEnumPlugOperator]):
+class ParamLeafLeftUpLegRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftUpLegRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1442,7 +1700,10 @@ class ParamLeafLeftUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeft
 
 
 class ParamLeafLeftUpLegRoll2ModeEnumField(
-    EnumField[ParamLeafLeftUpLegRoll2ModeEnumAttrOperator, ParamLeafLeftUpLegRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftUpLegRoll2ModeEnumAttrOperator,
+        ParamLeafLeftUpLegRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1450,14 +1711,18 @@ class ParamLeafLeftUpLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll2ModeEnumAttrOperator"]):
+class ParamLeafLeftLegRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftLegRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll2ModeEnumPlugOperator]):
+class ParamLeafLeftLegRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftLegRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1470,7 +1735,10 @@ class ParamLeafLeftLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLe
 
 
 class ParamLeafLeftLegRoll2ModeEnumField(
-    EnumField[ParamLeafLeftLegRoll2ModeEnumAttrOperator, ParamLeafLeftLegRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftLegRoll2ModeEnumAttrOperator,
+        ParamLeafLeftLegRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1478,14 +1746,18 @@ class ParamLeafLeftLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll2ModeEnumAttrOperator"]):
+class ParamLeafRightUpLegRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightUpLegRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll2ModeEnumPlugOperator]):
+class ParamLeafRightUpLegRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightUpLegRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1498,7 +1770,10 @@ class ParamLeafRightUpLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRig
 
 
 class ParamLeafRightUpLegRoll2ModeEnumField(
-    EnumField[ParamLeafRightUpLegRoll2ModeEnumAttrOperator, ParamLeafRightUpLegRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightUpLegRoll2ModeEnumAttrOperator,
+        ParamLeafRightUpLegRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1506,14 +1781,18 @@ class ParamLeafRightUpLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll2ModeEnumAttrOperator"]):
+class ParamLeafRightLegRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightLegRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll2ModeEnumPlugOperator]):
+class ParamLeafRightLegRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightLegRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1526,7 +1805,10 @@ class ParamLeafRightLegRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightLegRoll2ModeEnumField(
-    EnumField[ParamLeafRightLegRoll2ModeEnumAttrOperator, ParamLeafRightLegRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightLegRoll2ModeEnumAttrOperator,
+        ParamLeafRightLegRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1534,14 +1816,18 @@ class ParamLeafRightLegRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll2ModeEnumAttrOperator"]):
+class ParamLeafLeftArmRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftArmRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll2ModeEnumPlugOperator]):
+class ParamLeafLeftArmRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftArmRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1554,7 +1840,10 @@ class ParamLeafLeftArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftAr
 
 
 class ParamLeafLeftArmRoll2ModeEnumField(
-    EnumField[ParamLeafLeftArmRoll2ModeEnumAttrOperator, ParamLeafLeftArmRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftArmRoll2ModeEnumAttrOperator,
+        ParamLeafLeftArmRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1562,14 +1851,18 @@ class ParamLeafLeftArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll2ModeEnumAttrOperator"]):
+class ParamLeafLeftForeArmRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftForeArmRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll2ModeEnumPlugOperator]):
+class ParamLeafLeftForeArmRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftForeArmRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1582,7 +1875,10 @@ class ParamLeafLeftForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLe
 
 
 class ParamLeafLeftForeArmRoll2ModeEnumField(
-    EnumField[ParamLeafLeftForeArmRoll2ModeEnumAttrOperator, ParamLeafLeftForeArmRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftForeArmRoll2ModeEnumAttrOperator,
+        ParamLeafLeftForeArmRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1590,14 +1886,18 @@ class ParamLeafLeftForeArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll2ModeEnumAttrOperator"]):
+class ParamLeafRightArmRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightArmRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll2ModeEnumPlugOperator]):
+class ParamLeafRightArmRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightArmRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1610,7 +1910,10 @@ class ParamLeafRightArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightArmRoll2ModeEnumField(
-    EnumField[ParamLeafRightArmRoll2ModeEnumAttrOperator, ParamLeafRightArmRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightArmRoll2ModeEnumAttrOperator,
+        ParamLeafRightArmRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1618,14 +1921,18 @@ class ParamLeafRightArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll2ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll2ModeEnumAttrOperator"]):
+class ParamLeafRightForeArmRoll2ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightForeArmRoll2ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll2ModeEnumPlugOperator]):
+class ParamLeafRightForeArmRoll2ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightForeArmRoll2ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1638,7 +1945,10 @@ class ParamLeafRightForeArmRoll2ModeEnumAttrOperator(EnumAttrOperator[ParamLeafR
 
 
 class ParamLeafRightForeArmRoll2ModeEnumField(
-    EnumField[ParamLeafRightForeArmRoll2ModeEnumAttrOperator, ParamLeafRightForeArmRoll2ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightForeArmRoll2ModeEnumAttrOperator,
+        ParamLeafRightForeArmRoll2ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1646,14 +1956,18 @@ class ParamLeafRightForeArmRoll2ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll2ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll3ModeEnumAttrOperator"]):
+class ParamLeafLeftUpLegRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftUpLegRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll3ModeEnumPlugOperator]):
+class ParamLeafLeftUpLegRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftUpLegRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1666,7 +1980,10 @@ class ParamLeafLeftUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeft
 
 
 class ParamLeafLeftUpLegRoll3ModeEnumField(
-    EnumField[ParamLeafLeftUpLegRoll3ModeEnumAttrOperator, ParamLeafLeftUpLegRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftUpLegRoll3ModeEnumAttrOperator,
+        ParamLeafLeftUpLegRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1674,14 +1991,18 @@ class ParamLeafLeftUpLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll3ModeEnumAttrOperator"]):
+class ParamLeafLeftLegRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftLegRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll3ModeEnumPlugOperator]):
+class ParamLeafLeftLegRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftLegRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1694,7 +2015,10 @@ class ParamLeafLeftLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLe
 
 
 class ParamLeafLeftLegRoll3ModeEnumField(
-    EnumField[ParamLeafLeftLegRoll3ModeEnumAttrOperator, ParamLeafLeftLegRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftLegRoll3ModeEnumAttrOperator,
+        ParamLeafLeftLegRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1702,14 +2026,18 @@ class ParamLeafLeftLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll3ModeEnumAttrOperator"]):
+class ParamLeafRightUpLegRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightUpLegRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll3ModeEnumPlugOperator]):
+class ParamLeafRightUpLegRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightUpLegRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1722,7 +2050,10 @@ class ParamLeafRightUpLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRig
 
 
 class ParamLeafRightUpLegRoll3ModeEnumField(
-    EnumField[ParamLeafRightUpLegRoll3ModeEnumAttrOperator, ParamLeafRightUpLegRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightUpLegRoll3ModeEnumAttrOperator,
+        ParamLeafRightUpLegRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1730,14 +2061,18 @@ class ParamLeafRightUpLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll3ModeEnumAttrOperator"]):
+class ParamLeafRightLegRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightLegRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll3ModeEnumPlugOperator]):
+class ParamLeafRightLegRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightLegRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1750,7 +2085,10 @@ class ParamLeafRightLegRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightLegRoll3ModeEnumField(
-    EnumField[ParamLeafRightLegRoll3ModeEnumAttrOperator, ParamLeafRightLegRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightLegRoll3ModeEnumAttrOperator,
+        ParamLeafRightLegRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1758,14 +2096,18 @@ class ParamLeafRightLegRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll3ModeEnumAttrOperator"]):
+class ParamLeafLeftArmRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftArmRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll3ModeEnumPlugOperator]):
+class ParamLeafLeftArmRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftArmRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1778,7 +2120,10 @@ class ParamLeafLeftArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftAr
 
 
 class ParamLeafLeftArmRoll3ModeEnumField(
-    EnumField[ParamLeafLeftArmRoll3ModeEnumAttrOperator, ParamLeafLeftArmRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftArmRoll3ModeEnumAttrOperator,
+        ParamLeafLeftArmRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1786,14 +2131,18 @@ class ParamLeafLeftArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll3ModeEnumAttrOperator"]):
+class ParamLeafLeftForeArmRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftForeArmRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll3ModeEnumPlugOperator]):
+class ParamLeafLeftForeArmRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftForeArmRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1806,7 +2155,10 @@ class ParamLeafLeftForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLe
 
 
 class ParamLeafLeftForeArmRoll3ModeEnumField(
-    EnumField[ParamLeafLeftForeArmRoll3ModeEnumAttrOperator, ParamLeafLeftForeArmRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftForeArmRoll3ModeEnumAttrOperator,
+        ParamLeafLeftForeArmRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1814,14 +2166,18 @@ class ParamLeafLeftForeArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll3ModeEnumAttrOperator"]):
+class ParamLeafRightArmRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightArmRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll3ModeEnumPlugOperator]):
+class ParamLeafRightArmRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightArmRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1834,7 +2190,10 @@ class ParamLeafRightArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightArmRoll3ModeEnumField(
-    EnumField[ParamLeafRightArmRoll3ModeEnumAttrOperator, ParamLeafRightArmRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightArmRoll3ModeEnumAttrOperator,
+        ParamLeafRightArmRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1842,14 +2201,18 @@ class ParamLeafRightArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll3ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll3ModeEnumAttrOperator"]):
+class ParamLeafRightForeArmRoll3ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightForeArmRoll3ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll3ModeEnumPlugOperator]):
+class ParamLeafRightForeArmRoll3ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightForeArmRoll3ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1862,7 +2225,10 @@ class ParamLeafRightForeArmRoll3ModeEnumAttrOperator(EnumAttrOperator[ParamLeafR
 
 
 class ParamLeafRightForeArmRoll3ModeEnumField(
-    EnumField[ParamLeafRightForeArmRoll3ModeEnumAttrOperator, ParamLeafRightForeArmRoll3ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightForeArmRoll3ModeEnumAttrOperator,
+        ParamLeafRightForeArmRoll3ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1870,14 +2236,18 @@ class ParamLeafRightForeArmRoll3ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll3ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll4ModeEnumAttrOperator"]):
+class ParamLeafLeftUpLegRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftUpLegRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll4ModeEnumPlugOperator]):
+class ParamLeafLeftUpLegRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftUpLegRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1890,7 +2260,10 @@ class ParamLeafLeftUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeft
 
 
 class ParamLeafLeftUpLegRoll4ModeEnumField(
-    EnumField[ParamLeafLeftUpLegRoll4ModeEnumAttrOperator, ParamLeafLeftUpLegRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftUpLegRoll4ModeEnumAttrOperator,
+        ParamLeafLeftUpLegRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1898,14 +2271,18 @@ class ParamLeafLeftUpLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll4ModeEnumAttrOperator"]):
+class ParamLeafLeftLegRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftLegRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll4ModeEnumPlugOperator]):
+class ParamLeafLeftLegRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftLegRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1918,7 +2295,10 @@ class ParamLeafLeftLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLe
 
 
 class ParamLeafLeftLegRoll4ModeEnumField(
-    EnumField[ParamLeafLeftLegRoll4ModeEnumAttrOperator, ParamLeafLeftLegRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftLegRoll4ModeEnumAttrOperator,
+        ParamLeafLeftLegRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1926,14 +2306,18 @@ class ParamLeafLeftLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll4ModeEnumAttrOperator"]):
+class ParamLeafRightUpLegRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightUpLegRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll4ModeEnumPlugOperator]):
+class ParamLeafRightUpLegRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightUpLegRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1946,7 +2330,10 @@ class ParamLeafRightUpLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRig
 
 
 class ParamLeafRightUpLegRoll4ModeEnumField(
-    EnumField[ParamLeafRightUpLegRoll4ModeEnumAttrOperator, ParamLeafRightUpLegRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightUpLegRoll4ModeEnumAttrOperator,
+        ParamLeafRightUpLegRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1954,14 +2341,18 @@ class ParamLeafRightUpLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll4ModeEnumAttrOperator"]):
+class ParamLeafRightLegRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightLegRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll4ModeEnumPlugOperator]):
+class ParamLeafRightLegRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightLegRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -1974,7 +2365,10 @@ class ParamLeafRightLegRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightLegRoll4ModeEnumField(
-    EnumField[ParamLeafRightLegRoll4ModeEnumAttrOperator, ParamLeafRightLegRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightLegRoll4ModeEnumAttrOperator,
+        ParamLeafRightLegRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -1982,14 +2376,18 @@ class ParamLeafRightLegRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll4ModeEnumAttrOperator"]):
+class ParamLeafLeftArmRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftArmRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll4ModeEnumPlugOperator]):
+class ParamLeafLeftArmRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftArmRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2002,7 +2400,10 @@ class ParamLeafLeftArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftAr
 
 
 class ParamLeafLeftArmRoll4ModeEnumField(
-    EnumField[ParamLeafLeftArmRoll4ModeEnumAttrOperator, ParamLeafLeftArmRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftArmRoll4ModeEnumAttrOperator,
+        ParamLeafLeftArmRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2010,14 +2411,18 @@ class ParamLeafLeftArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll4ModeEnumAttrOperator"]):
+class ParamLeafLeftForeArmRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftForeArmRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll4ModeEnumPlugOperator]):
+class ParamLeafLeftForeArmRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftForeArmRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2030,7 +2435,10 @@ class ParamLeafLeftForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLe
 
 
 class ParamLeafLeftForeArmRoll4ModeEnumField(
-    EnumField[ParamLeafLeftForeArmRoll4ModeEnumAttrOperator, ParamLeafLeftForeArmRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftForeArmRoll4ModeEnumAttrOperator,
+        ParamLeafLeftForeArmRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2038,14 +2446,18 @@ class ParamLeafLeftForeArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll4ModeEnumAttrOperator"]):
+class ParamLeafRightArmRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightArmRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll4ModeEnumPlugOperator]):
+class ParamLeafRightArmRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightArmRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2058,7 +2470,10 @@ class ParamLeafRightArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightArmRoll4ModeEnumField(
-    EnumField[ParamLeafRightArmRoll4ModeEnumAttrOperator, ParamLeafRightArmRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightArmRoll4ModeEnumAttrOperator,
+        ParamLeafRightArmRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2066,14 +2481,18 @@ class ParamLeafRightArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll4ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll4ModeEnumAttrOperator"]):
+class ParamLeafRightForeArmRoll4ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightForeArmRoll4ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll4ModeEnumPlugOperator]):
+class ParamLeafRightForeArmRoll4ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightForeArmRoll4ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2086,7 +2505,10 @@ class ParamLeafRightForeArmRoll4ModeEnumAttrOperator(EnumAttrOperator[ParamLeafR
 
 
 class ParamLeafRightForeArmRoll4ModeEnumField(
-    EnumField[ParamLeafRightForeArmRoll4ModeEnumAttrOperator, ParamLeafRightForeArmRoll4ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightForeArmRoll4ModeEnumAttrOperator,
+        ParamLeafRightForeArmRoll4ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2094,14 +2516,18 @@ class ParamLeafRightForeArmRoll4ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll4ModeEnumPlugOperator
 
 
-class ParamLeafLeftUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftUpLegRoll5ModeEnumAttrOperator"]):
+class ParamLeafLeftUpLegRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftUpLegRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftUpLegRoll5ModeEnumPlugOperator]):
+class ParamLeafLeftUpLegRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftUpLegRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2114,7 +2540,10 @@ class ParamLeafLeftUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeft
 
 
 class ParamLeafLeftUpLegRoll5ModeEnumField(
-    EnumField[ParamLeafLeftUpLegRoll5ModeEnumAttrOperator, ParamLeafLeftUpLegRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftUpLegRoll5ModeEnumAttrOperator,
+        ParamLeafLeftUpLegRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2122,14 +2551,18 @@ class ParamLeafLeftUpLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftUpLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftLegRoll5ModeEnumAttrOperator"]):
+class ParamLeafLeftLegRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftLegRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLegRoll5ModeEnumPlugOperator]):
+class ParamLeafLeftLegRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftLegRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2142,7 +2575,10 @@ class ParamLeafLeftLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftLe
 
 
 class ParamLeafLeftLegRoll5ModeEnumField(
-    EnumField[ParamLeafLeftLegRoll5ModeEnumAttrOperator, ParamLeafLeftLegRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftLegRoll5ModeEnumAttrOperator,
+        ParamLeafLeftLegRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2150,14 +2586,18 @@ class ParamLeafLeftLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightUpLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightUpLegRoll5ModeEnumAttrOperator"]):
+class ParamLeafRightUpLegRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightUpLegRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightUpLegRoll5ModeEnumPlugOperator]):
+class ParamLeafRightUpLegRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightUpLegRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2170,7 +2610,10 @@ class ParamLeafRightUpLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRig
 
 
 class ParamLeafRightUpLegRoll5ModeEnumField(
-    EnumField[ParamLeafRightUpLegRoll5ModeEnumAttrOperator, ParamLeafRightUpLegRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightUpLegRoll5ModeEnumAttrOperator,
+        ParamLeafRightUpLegRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2178,14 +2621,18 @@ class ParamLeafRightUpLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightUpLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightLegRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightLegRoll5ModeEnumAttrOperator"]):
+class ParamLeafRightLegRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightLegRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightLegRoll5ModeEnumPlugOperator]):
+class ParamLeafRightLegRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightLegRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2198,7 +2645,10 @@ class ParamLeafRightLegRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightLegRoll5ModeEnumField(
-    EnumField[ParamLeafRightLegRoll5ModeEnumAttrOperator, ParamLeafRightLegRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightLegRoll5ModeEnumAttrOperator,
+        ParamLeafRightLegRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2206,14 +2656,18 @@ class ParamLeafRightLegRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightLegRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftArmRoll5ModeEnumAttrOperator"]):
+class ParamLeafLeftArmRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftArmRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftArmRoll5ModeEnumPlugOperator]):
+class ParamLeafLeftArmRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftArmRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2226,7 +2680,10 @@ class ParamLeafLeftArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftAr
 
 
 class ParamLeafLeftArmRoll5ModeEnumField(
-    EnumField[ParamLeafLeftArmRoll5ModeEnumAttrOperator, ParamLeafLeftArmRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftArmRoll5ModeEnumAttrOperator,
+        ParamLeafLeftArmRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2234,14 +2691,18 @@ class ParamLeafLeftArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafLeftForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafLeftForeArmRoll5ModeEnumAttrOperator"]):
+class ParamLeafLeftForeArmRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafLeftForeArmRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafLeftForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLeftForeArmRoll5ModeEnumPlugOperator]):
+class ParamLeafLeftForeArmRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafLeftForeArmRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2254,7 +2715,10 @@ class ParamLeafLeftForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafLe
 
 
 class ParamLeafLeftForeArmRoll5ModeEnumField(
-    EnumField[ParamLeafLeftForeArmRoll5ModeEnumAttrOperator, ParamLeafLeftForeArmRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafLeftForeArmRoll5ModeEnumAttrOperator,
+        ParamLeafLeftForeArmRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2262,14 +2726,18 @@ class ParamLeafLeftForeArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafLeftForeArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightArmRoll5ModeEnumAttrOperator"]):
+class ParamLeafRightArmRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightArmRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightArmRoll5ModeEnumPlugOperator]):
+class ParamLeafRightArmRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightArmRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2282,7 +2750,10 @@ class ParamLeafRightArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRight
 
 
 class ParamLeafRightArmRoll5ModeEnumField(
-    EnumField[ParamLeafRightArmRoll5ModeEnumAttrOperator, ParamLeafRightArmRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightArmRoll5ModeEnumAttrOperator,
+        ParamLeafRightArmRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2290,14 +2761,18 @@ class ParamLeafRightArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightArmRoll5ModeEnumPlugOperator
 
 
-class ParamLeafRightForeArmRoll5ModeEnumPlugOperator(EnumPlugOperator["ParamLeafRightForeArmRoll5ModeEnumAttrOperator"]):
+class ParamLeafRightForeArmRoll5ModeEnumPlugOperator(
+    EnumPlugOperator["ParamLeafRightForeArmRoll5ModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class ParamLeafRightForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafRightForeArmRoll5ModeEnumPlugOperator]):
+class ParamLeafRightForeArmRoll5ModeEnumAttrOperator(
+    EnumAttrOperator[ParamLeafRightForeArmRoll5ModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2310,7 +2785,10 @@ class ParamLeafRightForeArmRoll5ModeEnumAttrOperator(EnumAttrOperator[ParamLeafR
 
 
 class ParamLeafRightForeArmRoll5ModeEnumField(
-    EnumField[ParamLeafRightForeArmRoll5ModeEnumAttrOperator, ParamLeafRightForeArmRoll5ModeEnumPlugOperator]
+    EnumField[
+        ParamLeafRightForeArmRoll5ModeEnumAttrOperator,
+        ParamLeafRightForeArmRoll5ModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2318,14 +2796,18 @@ class ParamLeafRightForeArmRoll5ModeEnumField(
     PLUG_CLS = ParamLeafRightForeArmRoll5ModeEnumPlugOperator
 
 
-class LeftLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["LeftLegFullRollExtractionModeEnumAttrOperator"]):
+class LeftLegFullRollExtractionModeEnumPlugOperator(
+    EnumPlugOperator["LeftLegFullRollExtractionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftLegFullRollExtractionModeEnumPlugOperator]):
+class LeftLegFullRollExtractionModeEnumAttrOperator(
+    EnumAttrOperator[LeftLegFullRollExtractionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2338,7 +2820,10 @@ class LeftLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftLegFull
 
 
 class LeftLegFullRollExtractionModeEnumField(
-    EnumField[LeftLegFullRollExtractionModeEnumAttrOperator, LeftLegFullRollExtractionModeEnumPlugOperator]
+    EnumField[
+        LeftLegFullRollExtractionModeEnumAttrOperator,
+        LeftLegFullRollExtractionModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2346,14 +2831,18 @@ class LeftLegFullRollExtractionModeEnumField(
     PLUG_CLS = LeftLegFullRollExtractionModeEnumPlugOperator
 
 
-class RightLegFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["RightLegFullRollExtractionModeEnumAttrOperator"]):
+class RightLegFullRollExtractionModeEnumPlugOperator(
+    EnumPlugOperator["RightLegFullRollExtractionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightLegFullRollExtractionModeEnumPlugOperator]):
+class RightLegFullRollExtractionModeEnumAttrOperator(
+    EnumAttrOperator[RightLegFullRollExtractionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2366,7 +2855,10 @@ class RightLegFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightLegFu
 
 
 class RightLegFullRollExtractionModeEnumField(
-    EnumField[RightLegFullRollExtractionModeEnumAttrOperator, RightLegFullRollExtractionModeEnumPlugOperator]
+    EnumField[
+        RightLegFullRollExtractionModeEnumAttrOperator,
+        RightLegFullRollExtractionModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2374,14 +2866,18 @@ class RightLegFullRollExtractionModeEnumField(
     PLUG_CLS = RightLegFullRollExtractionModeEnumPlugOperator
 
 
-class LeftArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["LeftArmFullRollExtractionModeEnumAttrOperator"]):
+class LeftArmFullRollExtractionModeEnumPlugOperator(
+    EnumPlugOperator["LeftArmFullRollExtractionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class LeftArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftArmFullRollExtractionModeEnumPlugOperator]):
+class LeftArmFullRollExtractionModeEnumAttrOperator(
+    EnumAttrOperator[LeftArmFullRollExtractionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2394,7 +2890,10 @@ class LeftArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[LeftArmFull
 
 
 class LeftArmFullRollExtractionModeEnumField(
-    EnumField[LeftArmFullRollExtractionModeEnumAttrOperator, LeftArmFullRollExtractionModeEnumPlugOperator]
+    EnumField[
+        LeftArmFullRollExtractionModeEnumAttrOperator,
+        LeftArmFullRollExtractionModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2402,14 +2901,18 @@ class LeftArmFullRollExtractionModeEnumField(
     PLUG_CLS = LeftArmFullRollExtractionModeEnumPlugOperator
 
 
-class RightArmFullRollExtractionModeEnumPlugOperator(EnumPlugOperator["RightArmFullRollExtractionModeEnumAttrOperator"]):
+class RightArmFullRollExtractionModeEnumPlugOperator(
+    EnumPlugOperator["RightArmFullRollExtractionModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     OFF = 0
     ON = 1
 
 
-class RightArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightArmFullRollExtractionModeEnumPlugOperator]):
+class RightArmFullRollExtractionModeEnumAttrOperator(
+    EnumAttrOperator[RightArmFullRollExtractionModeEnumPlugOperator]
+):
     __slots__ = ()
 
     OFF = 0
@@ -2422,7 +2925,10 @@ class RightArmFullRollExtractionModeEnumAttrOperator(EnumAttrOperator[RightArmFu
 
 
 class RightArmFullRollExtractionModeEnumField(
-    EnumField[RightArmFullRollExtractionModeEnumAttrOperator, RightArmFullRollExtractionModeEnumPlugOperator]
+    EnumField[
+        RightArmFullRollExtractionModeEnumAttrOperator,
+        RightArmFullRollExtractionModeEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -2452,16 +2958,22 @@ class GeneratedHIKProperty2State(DG):
     rightKneeRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     rkr = rightKneeRoll
 
-    leftShoulderRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    leftShoulderRoll = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lsr = leftShoulderRoll
 
     leftElbowRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     ler = leftElbowRoll
 
-    rightShoulderRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    rightShoulderRoll = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rsr = rightShoulderRoll
 
-    rightElbowRoll = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    rightElbowRoll = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     rer = rightElbowRoll
 
     ForceActorSpace = ForceActorSpaceEnumField(default_value=0)
@@ -2470,119 +2982,227 @@ class GeneratedHIKProperty2State(DG):
 
     ScaleCompensation = DoubleField(default_value=100.0)
 
-    MassCenterCompensationMode = MassCenterCompensationModeEnumField(default_value=1)
+    MassCenterCompensationMode = MassCenterCompensationModeEnumField(
+        default_value=1
+    )
 
-    MassCenterCompensation = DoubleField(default_value=80.0, min_value=0.0, max_value=120.0)
+    MassCenterCompensation = DoubleField(
+        default_value=80.0, min_value=0.0, max_value=120.0
+    )
 
-    AnkleHeightCompensationMode = AnkleHeightCompensationModeEnumField(default_value=1)
+    AnkleHeightCompensationMode = AnkleHeightCompensationModeEnumField(
+        default_value=1
+    )
 
     AnkleHeightCompensation = DoubleField(default_value=0.0)
 
-    AnkleProximityCompensationMode = AnkleProximityCompensationModeEnumField(default_value=1)
+    AnkleProximityCompensationMode = AnkleProximityCompensationModeEnumField(
+        default_value=1
+    )
 
     AnkleProximityCompensation = DoubleField(default_value=0.0)
 
-    HipsHeightCompensationMode = HipsHeightCompensationModeEnumField(default_value=1)
+    HipsHeightCompensationMode = HipsHeightCompensationModeEnumField(
+        default_value=1
+    )
 
     HipsHeightCompensation = DoubleField(default_value=0.0)
 
-    ReachActorLeftAnkle = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftAnkle = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightAnkle = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ReachActorRightAnkle = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorChest = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorChest = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftWrist = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightWrist = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftKnee = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightKnee = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorHead = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftElbow = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightElbow = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftAnkleRotationRotation = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftAnkleRotationRotation = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightAnkleRotation = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    ReachActorRightAnkleRotation = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorHeadRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorHeadRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftWristRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftWristRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightWristRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightWristRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFingerBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFingerBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftToesBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftToesBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightToesBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightToesBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFingerBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFingerBaseRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFingerBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFingerBaseRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftToesBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftToesBaseRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightToesBaseRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightToesBaseRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorChestRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorChestRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLowerChestRotation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLowerChestRotation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandThumb = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandIndex = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandMiddle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandRing = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandPinky = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftHandExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftHandExtraFinger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandThumb = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandIndex = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandMiddle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandRing = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandPinky = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightHandExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightHandExtraFinger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootThumb = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootIndex = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootMiddle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootRing = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootPinky = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorLeftFootExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftFootExtraFinger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootThumb = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootThumb = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootIndex = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootIndex = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootMiddle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootMiddle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootRing = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootRing = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootPinky = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootPinky = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightFootExtraFinger = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightFootExtraFinger = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     FloorContact = FloorContactEnumField(default_value=0)
 
@@ -2626,35 +3246,51 @@ class GeneratedHIKProperty2State(DG):
 
     LeftUpLegRollMode = LeftUpLegRollModeEnumField(default_value=0)
 
-    LeftUpLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    LeftUpLegRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     LeftLegRollMode = LeftLegRollModeEnumField(default_value=0)
 
-    LeftLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    LeftLegRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     RightUpLegRollMode = RightUpLegRollModeEnumField(default_value=0)
 
-    RightUpLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    RightUpLegRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     RightLegRollMode = RightLegRollModeEnumField(default_value=0)
 
-    RightLegRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    RightLegRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     LeftArmRollMode = LeftArmRollModeEnumField(default_value=0)
 
-    LeftArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    LeftArmRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     LeftForeArmRollMode = LeftForeArmRollModeEnumField(default_value=0)
 
-    LeftForeArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    LeftForeArmRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     RightArmRollMode = RightArmRollModeEnumField(default_value=0)
 
-    RightArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    RightArmRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     RightForeArmRollMode = RightForeArmRollModeEnumField(default_value=0)
 
-    RightForeArmRoll = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    RightForeArmRoll = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     Mirror = MirrorEnumField(default_value=0)
 
@@ -2666,59 +3302,111 @@ class GeneratedHIKProperty2State(DG):
 
     RightElbowKillPitch = RightElbowKillPitchEnumField(default_value=0)
 
-    CtrlPullLeftFoot = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftFoot = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightFoot = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightFoot = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullLeftHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftHand = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightHand = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
     CtrlPullHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    CtrlPullLeftToeBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftToeBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullLeftKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftKnee = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightToeBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightToeBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightKnee = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightKnee = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullLeftFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftFingerBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullLeftElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullLeftElbow = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightFingerBase = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightFingerBase = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlPullRightElbow = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlPullRightElbow = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlChestPullLeftHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlChestPullLeftHand = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlChestPullRightHand = DoubleField(default_value=1.0, min_value=0.0, max_value=1.0)
+    CtrlChestPullRightHand = DoubleField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistHipsPosition = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlResistHipsPosition = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlEnforceGravity = DoubleField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    CtrlEnforceGravity = DoubleField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistHipsOrientation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlResistHipsOrientation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistChestPosition = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlResistChestPosition = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistChestOrientation = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    CtrlResistChestOrientation = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistLeftCollar = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistLeftCollar = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistRightCollar = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistRightCollar = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistLeftKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistRightKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistLeftElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistRightElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    ParamCtrlSpineStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamCtrlSpineStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     HipsTOffsetX = DoubleField(default_value=0.0)
 
@@ -2742,39 +3430,67 @@ class GeneratedHIKProperty2State(DG):
 
     HandFloorPivot = HandFloorPivotEnumField(default_value=0)
 
-    ParamCtrlNeckStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamCtrlNeckStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     HipsTranslationMode = HipsTranslationModeEnumField(default_value=0)
 
     FingerSolving = FingerSolvingEnumField(default_value=1)
 
-    ParamFootContactStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamFootContactStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistMaximumExtensionLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistMaximumExtensionLeftKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistMaximumExtensionRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistMaximumExtensionRightKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistMaximumExtensionLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistMaximumExtensionLeftElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistMaximumExtensionRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistMaximumExtensionRightElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistCompressionFactorLeftKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistCompressionFactorLeftKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistCompressionFactorRightKnee = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistCompressionFactorRightKnee = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistCompressionFactorLeftElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistCompressionFactorLeftElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    CtrlResistCompressionFactorRightElbow = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    CtrlResistCompressionFactorRightElbow = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    ParamHandFingerContactRollStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamHandFingerContactRollStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ParamFootFingerContactRollStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamFootFingerContactRollStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ParamHandContactStiffness = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamHandContactStiffness = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     RollExtractionMode = RollExtractionModeEnumField(default_value=0)
 
-    PullIterationCount = DoubleField(default_value=10.0, min_value=0.0, max_value=30.0)
+    PullIterationCount = DoubleField(
+        default_value=10.0, min_value=0.0, max_value=30.0
+    )
 
     LeftHandThumbTip = DoubleField(default_value=0.5)
 
@@ -2824,73 +3540,135 @@ class GeneratedHIKProperty2State(DG):
 
     RightFootExtraFingerTip = DoubleField(default_value=0.5)
 
-    ShoulderCorrection = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ShoulderCorrection = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    LeftLegMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
+    LeftLegMaxExtensionAngle = DoubleField(
+        default_value=180.0, min_value=0.0, max_value=180.0
+    )
 
-    RightLegMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
+    RightLegMaxExtensionAngle = DoubleField(
+        default_value=180.0, min_value=0.0, max_value=180.0
+    )
 
-    LeftArmMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
+    LeftArmMaxExtensionAngle = DoubleField(
+        default_value=180.0, min_value=0.0, max_value=180.0
+    )
 
-    RightArmMaxExtensionAngle = DoubleField(default_value=180.0, min_value=0.0, max_value=180.0)
+    RightArmMaxExtensionAngle = DoubleField(
+        default_value=180.0, min_value=0.0, max_value=180.0
+    )
 
-    ExtraCollarRatio = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ExtraCollarRatio = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    CollarStiffnessX = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    CollarStiffnessX = DoubleField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
 
-    CollarStiffnessY = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    CollarStiffnessY = DoubleField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
 
-    CollarStiffnessZ = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    CollarStiffnessZ = DoubleField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
 
-    ReachActorLeftShoulder = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorLeftShoulder = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    ReachActorRightShoulder = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ReachActorRightShoulder = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     FingerPropagation = FingerPropagationEnumField(default_value=0)
 
-    RealisticLeftKneeSolving = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RealisticLeftKneeSolving = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    RealisticRightKneeSolving = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RealisticRightKneeSolving = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSScaleArmsAndLegs = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSScaleArmsAndLegs = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSReachLeftWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSReachLeftWrist = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSReachRightWrist = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSReachRightWrist = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSReachLeftAnkle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSReachLeftAnkle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSReachRightAnkle = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSReachRightAnkle = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSScaleSpine = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSScaleSpine = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSScaleSpineChildren = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSScaleSpineChildren = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    SnSReachChestEnd = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    SnSReachChestEnd = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     SnSScaleNeck = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
     SnSReachHead = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
 
-    LeftUpLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    LeftUpLegRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    LeftLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    LeftLegRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    RightUpLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RightUpLegRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    RightLegRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RightLegRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    LeftArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    LeftArmRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    LeftForeArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    LeftForeArmRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    RightArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RightArmRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    RightForeArmRollEx = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    RightForeArmRollEx = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
-    TopSpineCorrection = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
+    TopSpineCorrection = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
 
-    LowerSpineCorrection = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    LowerSpineCorrection = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
 
     SnSSmoothReach = SnSSmoothReachEnumField(default_value=0)
 
@@ -2900,182 +3678,362 @@ class GeneratedHIKProperty2State(DG):
 
     LockZ = LockZEnumField(default_value=0)
 
-    ParamRealisticArmSolving = ParamRealisticArmSolvingEnumField(default_value=0)
-
-    ParamLeafLeftUpLegRoll1Mode = ParamLeafLeftUpLegRoll1ModeEnumField(default_value=1)
-
-    ParamLeafLeftUpLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftLegRoll1Mode = ParamLeafLeftLegRoll1ModeEnumField(default_value=1)
-
-    ParamLeafLeftLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightUpLegRoll1Mode = ParamLeafRightUpLegRoll1ModeEnumField(default_value=1)
-
-    ParamLeafRightUpLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightLegRoll1Mode = ParamLeafRightLegRoll1ModeEnumField(default_value=1)
-
-    ParamLeafRightLegRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftArmRoll1Mode = ParamLeafLeftArmRoll1ModeEnumField(default_value=1)
-
-    ParamLeafLeftArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftForeArmRoll1Mode = ParamLeafLeftForeArmRoll1ModeEnumField(default_value=1)
-
-    ParamLeafLeftForeArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightArmRoll1Mode = ParamLeafRightArmRoll1ModeEnumField(default_value=1)
-
-    ParamLeafRightArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightForeArmRoll1Mode = ParamLeafRightForeArmRoll1ModeEnumField(default_value=1)
-
-    ParamLeafRightForeArmRoll1 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftUpLegRoll2Mode = ParamLeafLeftUpLegRoll2ModeEnumField(default_value=1)
-
-    ParamLeafLeftUpLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftLegRoll2Mode = ParamLeafLeftLegRoll2ModeEnumField(default_value=1)
-
-    ParamLeafLeftLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightUpLegRoll2Mode = ParamLeafRightUpLegRoll2ModeEnumField(default_value=1)
-
-    ParamLeafRightUpLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightLegRoll2Mode = ParamLeafRightLegRoll2ModeEnumField(default_value=1)
-
-    ParamLeafRightLegRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftArmRoll2Mode = ParamLeafLeftArmRoll2ModeEnumField(default_value=1)
-
-    ParamLeafLeftArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftForeArmRoll2Mode = ParamLeafLeftForeArmRoll2ModeEnumField(default_value=1)
-
-    ParamLeafLeftForeArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightArmRoll2Mode = ParamLeafRightArmRoll2ModeEnumField(default_value=1)
-
-    ParamLeafRightArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightForeArmRoll2Mode = ParamLeafRightForeArmRoll2ModeEnumField(default_value=1)
-
-    ParamLeafRightForeArmRoll2 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftUpLegRoll3Mode = ParamLeafLeftUpLegRoll3ModeEnumField(default_value=1)
-
-    ParamLeafLeftUpLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftLegRoll3Mode = ParamLeafLeftLegRoll3ModeEnumField(default_value=1)
-
-    ParamLeafLeftLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightUpLegRoll3Mode = ParamLeafRightUpLegRoll3ModeEnumField(default_value=1)
-
-    ParamLeafRightUpLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightLegRoll3Mode = ParamLeafRightLegRoll3ModeEnumField(default_value=1)
-
-    ParamLeafRightLegRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftArmRoll3Mode = ParamLeafLeftArmRoll3ModeEnumField(default_value=1)
-
-    ParamLeafLeftArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftForeArmRoll3Mode = ParamLeafLeftForeArmRoll3ModeEnumField(default_value=1)
-
-    ParamLeafLeftForeArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightArmRoll3Mode = ParamLeafRightArmRoll3ModeEnumField(default_value=1)
-
-    ParamLeafRightArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightForeArmRoll3Mode = ParamLeafRightForeArmRoll3ModeEnumField(default_value=1)
-
-    ParamLeafRightForeArmRoll3 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftUpLegRoll4Mode = ParamLeafLeftUpLegRoll4ModeEnumField(default_value=1)
-
-    ParamLeafLeftUpLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftLegRoll4Mode = ParamLeafLeftLegRoll4ModeEnumField(default_value=1)
-
-    ParamLeafLeftLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightUpLegRoll4Mode = ParamLeafRightUpLegRoll4ModeEnumField(default_value=1)
-
-    ParamLeafRightUpLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightLegRoll4Mode = ParamLeafRightLegRoll4ModeEnumField(default_value=1)
-
-    ParamLeafRightLegRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftArmRoll4Mode = ParamLeafLeftArmRoll4ModeEnumField(default_value=1)
-
-    ParamLeafLeftArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftForeArmRoll4Mode = ParamLeafLeftForeArmRoll4ModeEnumField(default_value=1)
-
-    ParamLeafLeftForeArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightArmRoll4Mode = ParamLeafRightArmRoll4ModeEnumField(default_value=1)
-
-    ParamLeafRightArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightForeArmRoll4Mode = ParamLeafRightForeArmRoll4ModeEnumField(default_value=1)
-
-    ParamLeafRightForeArmRoll4 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftUpLegRoll5Mode = ParamLeafLeftUpLegRoll5ModeEnumField(default_value=1)
-
-    ParamLeafLeftUpLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftLegRoll5Mode = ParamLeafLeftLegRoll5ModeEnumField(default_value=1)
-
-    ParamLeafLeftLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightUpLegRoll5Mode = ParamLeafRightUpLegRoll5ModeEnumField(default_value=1)
-
-    ParamLeafRightUpLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightLegRoll5Mode = ParamLeafRightLegRoll5ModeEnumField(default_value=1)
-
-    ParamLeafRightLegRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftArmRoll5Mode = ParamLeafLeftArmRoll5ModeEnumField(default_value=1)
-
-    ParamLeafLeftArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafLeftForeArmRoll5Mode = ParamLeafLeftForeArmRoll5ModeEnumField(default_value=1)
-
-    ParamLeafLeftForeArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightArmRoll5Mode = ParamLeafRightArmRoll5ModeEnumField(default_value=1)
-
-    ParamLeafRightArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    ParamLeafRightForeArmRoll5Mode = ParamLeafRightForeArmRoll5ModeEnumField(default_value=1)
-
-    ParamLeafRightForeArmRoll5 = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0)
-
-    LeftLegFullRollExtractionMode = LeftLegFullRollExtractionModeEnumField(default_value=1)
-
-    LeftLegFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
-
-    RightLegFullRollExtractionMode = RightLegFullRollExtractionModeEnumField(default_value=1)
-
-    RightLegFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
-
-    LeftArmFullRollExtractionMode = LeftArmFullRollExtractionModeEnumField(default_value=1)
-
-    LeftArmFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
-
-    RightArmFullRollExtractionMode = RightArmFullRollExtractionModeEnumField(default_value=1)
-
-    RightArmFullRollExtraction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
-
-    NeckMotionReduction = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    ParamRealisticArmSolving = ParamRealisticArmSolvingEnumField(
+        default_value=0
+    )
+
+    ParamLeafLeftUpLegRoll1Mode = ParamLeafLeftUpLegRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftUpLegRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftLegRoll1Mode = ParamLeafLeftLegRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftLegRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightUpLegRoll1Mode = ParamLeafRightUpLegRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightUpLegRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightLegRoll1Mode = ParamLeafRightLegRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightLegRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftArmRoll1Mode = ParamLeafLeftArmRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftArmRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftForeArmRoll1Mode = ParamLeafLeftForeArmRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftForeArmRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightArmRoll1Mode = ParamLeafRightArmRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightArmRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightForeArmRoll1Mode = ParamLeafRightForeArmRoll1ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightForeArmRoll1 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftUpLegRoll2Mode = ParamLeafLeftUpLegRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftUpLegRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftLegRoll2Mode = ParamLeafLeftLegRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftLegRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightUpLegRoll2Mode = ParamLeafRightUpLegRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightUpLegRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightLegRoll2Mode = ParamLeafRightLegRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightLegRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftArmRoll2Mode = ParamLeafLeftArmRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftArmRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftForeArmRoll2Mode = ParamLeafLeftForeArmRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftForeArmRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightArmRoll2Mode = ParamLeafRightArmRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightArmRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightForeArmRoll2Mode = ParamLeafRightForeArmRoll2ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightForeArmRoll2 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftUpLegRoll3Mode = ParamLeafLeftUpLegRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftUpLegRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftLegRoll3Mode = ParamLeafLeftLegRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftLegRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightUpLegRoll3Mode = ParamLeafRightUpLegRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightUpLegRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightLegRoll3Mode = ParamLeafRightLegRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightLegRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftArmRoll3Mode = ParamLeafLeftArmRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftArmRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftForeArmRoll3Mode = ParamLeafLeftForeArmRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftForeArmRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightArmRoll3Mode = ParamLeafRightArmRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightArmRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightForeArmRoll3Mode = ParamLeafRightForeArmRoll3ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightForeArmRoll3 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftUpLegRoll4Mode = ParamLeafLeftUpLegRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftUpLegRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftLegRoll4Mode = ParamLeafLeftLegRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftLegRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightUpLegRoll4Mode = ParamLeafRightUpLegRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightUpLegRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightLegRoll4Mode = ParamLeafRightLegRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightLegRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftArmRoll4Mode = ParamLeafLeftArmRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftArmRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftForeArmRoll4Mode = ParamLeafLeftForeArmRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftForeArmRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightArmRoll4Mode = ParamLeafRightArmRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightArmRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightForeArmRoll4Mode = ParamLeafRightForeArmRoll4ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightForeArmRoll4 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftUpLegRoll5Mode = ParamLeafLeftUpLegRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftUpLegRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftLegRoll5Mode = ParamLeafLeftLegRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftLegRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightUpLegRoll5Mode = ParamLeafRightUpLegRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightUpLegRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightLegRoll5Mode = ParamLeafRightLegRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightLegRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftArmRoll5Mode = ParamLeafLeftArmRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftArmRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafLeftForeArmRoll5Mode = ParamLeafLeftForeArmRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafLeftForeArmRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightArmRoll5Mode = ParamLeafRightArmRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightArmRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    ParamLeafRightForeArmRoll5Mode = ParamLeafRightForeArmRoll5ModeEnumField(
+        default_value=1
+    )
+
+    ParamLeafRightForeArmRoll5 = DoubleField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
+
+    LeftLegFullRollExtractionMode = LeftLegFullRollExtractionModeEnumField(
+        default_value=1
+    )
+
+    LeftLegFullRollExtraction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+
+    RightLegFullRollExtractionMode = RightLegFullRollExtractionModeEnumField(
+        default_value=1
+    )
+
+    RightLegFullRollExtraction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+
+    LeftArmFullRollExtractionMode = LeftArmFullRollExtractionModeEnumField(
+        default_value=1
+    )
+
+    LeftArmFullRollExtraction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+
+    RightArmFullRollExtractionMode = RightArmFullRollExtractionModeEnumField(
+        default_value=1
+    )
+
+    RightArmFullRollExtraction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
+
+    NeckMotionReduction = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )

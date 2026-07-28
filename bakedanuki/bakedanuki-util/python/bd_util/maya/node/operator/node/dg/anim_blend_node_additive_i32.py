@@ -1,5 +1,7 @@
 # coding: utf-8
-from ._generated.anim_blend_node_additive_i32 import GeneratedAnimBlendNodeAdditiveI32
+from ._generated.anim_blend_node_additive_i32 import (
+    GeneratedAnimBlendNodeAdditiveI32,
+)
 
 
 class AnimBlendNodeAdditiveI32(GeneratedAnimBlendNodeAdditiveI32):

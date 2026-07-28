@@ -56,7 +56,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -64,7 +66,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -152,7 +156,9 @@ class GeneratedShadingEngine(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -312,7 +318,9 @@ class GeneratedShadingEngine(DG):
     aiCustomAOVs = AiCustomAOVsField(multi=True, category="arnold")
     aovs = aiCustomAOVs
 
-    aiSurfaceShader = AiSurfaceShaderField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiSurfaceShader = AiSurfaceShaderField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_surface_shader = aiSurfaceShader
     aiSurfaceShaderR = aiSurfaceShader.aiSurfaceShaderR
     ai_surface_shaderr = aiSurfaceShaderR
@@ -321,7 +329,9 @@ class GeneratedShadingEngine(DG):
     aiSurfaceShaderB = aiSurfaceShader.aiSurfaceShaderB
     ai_surface_shaderb = aiSurfaceShaderB
 
-    aiVolumeShader = AiVolumeShaderField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiVolumeShader = AiVolumeShaderField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_volume_shader = aiVolumeShader
     aiVolumeShaderR = aiVolumeShader.aiVolumeShaderR
     ai_volume_shaderr = aiVolumeShaderR

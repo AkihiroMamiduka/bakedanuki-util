@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -240,9 +242,7 @@ class SunTintPlugOperator(
     sun_tintb = sunTintB
 
 
-class SunTintAttrOperator(
-    Float3CompoundBaseAttrOperator[SunTintPlugOperator]
-):
+class SunTintAttrOperator(Float3CompoundBaseAttrOperator[SunTintPlugOperator]):
     __slots__ = ()
 
     sunTintR = FloatField(default_value=1.0)
@@ -293,9 +293,7 @@ class SkyTintPlugOperator(
     sky_tintb = skyTintB
 
 
-class SkyTintAttrOperator(
-    Float3CompoundBaseAttrOperator[SkyTintPlugOperator]
-):
+class SkyTintAttrOperator(Float3CompoundBaseAttrOperator[SkyTintPlugOperator]):
     __slots__ = ()
 
     skyTintR = FloatField(default_value=1.0)
@@ -326,9 +324,7 @@ class SkyTintField(
     sky_tintb = skyTintB
 
 
-class XPlugOperator(
-    Float3CompoundBasePlugOperator["XAttrOperator"]
-):
+class XPlugOperator(Float3CompoundBasePlugOperator["XAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("XX", "Xx"),
@@ -346,9 +342,7 @@ class XPlugOperator(
     Xz = XZ
 
 
-class XAttrOperator(
-    Float3CompoundBaseAttrOperator[XPlugOperator]
-):
+class XAttrOperator(Float3CompoundBaseAttrOperator[XPlugOperator]):
     __slots__ = ()
 
     XX = FloatField(default_value=1.0)
@@ -361,9 +355,7 @@ class XAttrOperator(
     Xz = XZ
 
 
-class XField(
-    Float3CompoundBaseField[XAttrOperator, XPlugOperator]
-):
+class XField(Float3CompoundBaseField[XAttrOperator, XPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = XAttrOperator
@@ -379,9 +371,7 @@ class XField(
     Xz = XZ
 
 
-class YPlugOperator(
-    Float3CompoundBasePlugOperator["YAttrOperator"]
-):
+class YPlugOperator(Float3CompoundBasePlugOperator["YAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("YX", "Yx"),
@@ -399,9 +389,7 @@ class YPlugOperator(
     Yz = YZ
 
 
-class YAttrOperator(
-    Float3CompoundBaseAttrOperator[YPlugOperator]
-):
+class YAttrOperator(Float3CompoundBaseAttrOperator[YPlugOperator]):
     __slots__ = ()
 
     YX = FloatField(default_value=0.0)
@@ -414,9 +402,7 @@ class YAttrOperator(
     Yz = YZ
 
 
-class YField(
-    Float3CompoundBaseField[YAttrOperator, YPlugOperator]
-):
+class YField(Float3CompoundBaseField[YAttrOperator, YPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = YAttrOperator
@@ -432,9 +418,7 @@ class YField(
     Yz = YZ
 
 
-class ZPlugOperator(
-    Float3CompoundBasePlugOperator["ZAttrOperator"]
-):
+class ZPlugOperator(Float3CompoundBasePlugOperator["ZAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("ZX", "Zx"),
@@ -452,9 +436,7 @@ class ZPlugOperator(
     Zz = ZZ
 
 
-class ZAttrOperator(
-    Float3CompoundBaseAttrOperator[ZPlugOperator]
-):
+class ZAttrOperator(Float3CompoundBaseAttrOperator[ZPlugOperator]):
     __slots__ = ()
 
     ZX = FloatField(default_value=0.0)
@@ -467,9 +449,7 @@ class ZAttrOperator(
     Zz = ZZ
 
 
-class ZField(
-    Float3CompoundBaseField[ZAttrOperator, ZPlugOperator]
-):
+class ZField(Float3CompoundBaseField[ZAttrOperator, ZPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ZAttrOperator

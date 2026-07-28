@@ -9,7 +9,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -102,7 +104,9 @@ class GeneratedPolySplitRing(DG):
     rootEdge = LongField(default_value=-1)
     re = rootEdge
 
-    smoothingAngle = DoubleAngleField(default_value=180.0, soft_min_value=0.0, soft_max_value=180.0)
+    smoothingAngle = DoubleAngleField(
+        default_value=180.0, soft_min_value=0.0, soft_max_value=180.0
+    )
     sma = smoothingAngle
 
     splitType = SplitTypeEnumField(default_value=1)
@@ -117,10 +121,14 @@ class GeneratedPolySplitRing(DG):
     profileCurve = ProfileCurveField(multi=True, default_value=(0.0, 0.0, 0.0))
     p = profileCurve
 
-    profileCurveInputOffset = FloatField(default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0)
+    profileCurveInputOffset = FloatField(
+        default_value=0.0, soft_min_value=-20.0, soft_max_value=20.0
+    )
     pio = profileCurveInputOffset
 
-    profileCurveInputScale = FloatField(default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0)
+    profileCurveInputScale = FloatField(
+        default_value=1.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     pis = profileCurveInputScale
 
     useFaceNormalsAtEnds = BoolField(default_value=True)
@@ -135,5 +143,7 @@ class GeneratedPolySplitRing(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

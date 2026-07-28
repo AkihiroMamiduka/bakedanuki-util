@@ -7,12 +7,16 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class ContinuityType1EnumPlugOperator(EnumPlugOperator["ContinuityType1EnumAttrOperator"]):
+class ContinuityType1EnumPlugOperator(
+    EnumPlugOperator["ContinuityType1EnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -20,7 +24,9 @@ class ContinuityType1EnumPlugOperator(EnumPlugOperator["ContinuityType1EnumAttrO
     IMPLIED_TANGENT = 3
 
 
-class ContinuityType1EnumAttrOperator(EnumAttrOperator[ContinuityType1EnumPlugOperator]):
+class ContinuityType1EnumAttrOperator(
+    EnumAttrOperator[ContinuityType1EnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -43,7 +49,9 @@ class ContinuityType1EnumField(
     PLUG_CLS = ContinuityType1EnumPlugOperator
 
 
-class ContinuityType2EnumPlugOperator(EnumPlugOperator["ContinuityType2EnumAttrOperator"]):
+class ContinuityType2EnumPlugOperator(
+    EnumPlugOperator["ContinuityType2EnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -51,7 +59,9 @@ class ContinuityType2EnumPlugOperator(EnumPlugOperator["ContinuityType2EnumAttrO
     IMPLIED_TANGENT = 3
 
 
-class ContinuityType2EnumAttrOperator(EnumAttrOperator[ContinuityType2EnumPlugOperator]):
+class ContinuityType2EnumAttrOperator(
+    EnumAttrOperator[ContinuityType2EnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -74,7 +84,9 @@ class ContinuityType2EnumField(
     PLUG_CLS = ContinuityType2EnumPlugOperator
 
 
-class ContinuityType3EnumPlugOperator(EnumPlugOperator["ContinuityType3EnumAttrOperator"]):
+class ContinuityType3EnumPlugOperator(
+    EnumPlugOperator["ContinuityType3EnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -82,7 +94,9 @@ class ContinuityType3EnumPlugOperator(EnumPlugOperator["ContinuityType3EnumAttrO
     IMPLIED_TANGENT = 3
 
 
-class ContinuityType3EnumAttrOperator(EnumAttrOperator[ContinuityType3EnumPlugOperator]):
+class ContinuityType3EnumAttrOperator(
+    EnumAttrOperator[ContinuityType3EnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -105,7 +119,9 @@ class ContinuityType3EnumField(
     PLUG_CLS = ContinuityType3EnumPlugOperator
 
 
-class ContinuityType4EnumPlugOperator(EnumPlugOperator["ContinuityType4EnumAttrOperator"]):
+class ContinuityType4EnumPlugOperator(
+    EnumPlugOperator["ContinuityType4EnumAttrOperator"]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -113,7 +129,9 @@ class ContinuityType4EnumPlugOperator(EnumPlugOperator["ContinuityType4EnumAttrO
     IMPLIED_TANGENT = 3
 
 
-class ContinuityType4EnumAttrOperator(EnumAttrOperator[ContinuityType4EnumPlugOperator]):
+class ContinuityType4EnumAttrOperator(
+    EnumAttrOperator[ContinuityType4EnumPlugOperator]
+):
     __slots__ = ()
 
     FIXED_BOUNDARY = 1
@@ -153,13 +171,20 @@ class GeneratedSquareSrf(DG):
     inputCurve4 = DataNurbsCurveField()
     ic4 = inputCurve4
 
-    endPointTolerance = DoubleLinearField(default_value=0.1, min_value=1e-05, soft_min_value=0.001, soft_max_value=1.0)
+    endPointTolerance = DoubleLinearField(
+        default_value=0.1,
+        min_value=1e-05,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     ept = endPointTolerance
 
     outputSurface = DataNurbsSurfaceField(writable=False)
     os = outputSurface
 
-    curveFitCheckpoints = LongField(default_value=5, min_value=1, max_value=100)
+    curveFitCheckpoints = LongField(
+        default_value=5, min_value=1, max_value=100
+    )
     cfc = curveFitCheckpoints
 
     continuityType1 = ContinuityType1EnumField(default_value=2)

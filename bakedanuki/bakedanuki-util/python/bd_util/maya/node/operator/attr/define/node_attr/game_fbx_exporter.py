@@ -11,9 +11,7 @@ from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.string import DataStringField
 
 
-class AnimClipsPlugOperator(
-    CompoundPlugOperator["AnimClipsAttrOperator"]
-):
+class AnimClipsPlugOperator(CompoundPlugOperator["AnimClipsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("animClipName", "acn"),
@@ -43,9 +41,7 @@ class AnimClipsPlugOperator(
     asn = animClipSrcNode
 
 
-class AnimClipsAttrOperator(
-    CompoundAttrOperator[AnimClipsPlugOperator]
-):
+class AnimClipsAttrOperator(CompoundAttrOperator[AnimClipsPlugOperator]):
     __slots__ = ()
 
     animClipName = DataStringField()

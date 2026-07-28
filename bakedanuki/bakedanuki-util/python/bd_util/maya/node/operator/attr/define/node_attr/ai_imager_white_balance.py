@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class CustomPlugOperator(
-    Float3CompoundBasePlugOperator["CustomAttrOperator"]
-):
+class CustomPlugOperator(Float3CompoundBasePlugOperator["CustomAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("customR", "customr"),
@@ -28,9 +26,7 @@ class CustomPlugOperator(
     customb = customB
 
 
-class CustomAttrOperator(
-    Float3CompoundBaseAttrOperator[CustomPlugOperator]
-):
+class CustomAttrOperator(Float3CompoundBaseAttrOperator[CustomPlugOperator]):
     __slots__ = ()
 
     customR = FloatField(default_value=1.0)

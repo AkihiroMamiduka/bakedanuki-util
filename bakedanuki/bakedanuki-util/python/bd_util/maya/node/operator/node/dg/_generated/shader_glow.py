@@ -105,7 +105,9 @@ class GeneratedShaderGlow(DG):
     haloType = HaloTypeEnumField(default_value=1)
     ht = haloType
 
-    glowIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    glowIntensity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     gi = glowIntensity
 
     glowColor = GlowColorField(default_value=(1.0, 1.0, 1.0))
@@ -117,31 +119,51 @@ class GeneratedShaderGlow(DG):
     glowColorB = glowColor.glowColorB
     gb = glowColorB
 
-    glowSpread = FloatField(default_value=0.05000000074505806, soft_min_value=0.001, soft_max_value=1.0)
+    glowSpread = FloatField(
+        default_value=0.05000000074505806,
+        soft_min_value=0.001,
+        soft_max_value=1.0,
+    )
     gs = glowSpread
 
-    glowEccentricity = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=1.0)
+    glowEccentricity = FloatField(
+        default_value=0.10000000149011612,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     gecc = glowEccentricity
 
-    glowRadialNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=4.0)
+    glowRadialNoise = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=4.0
+    )
     gn = glowRadialNoise
 
-    glowStarLevel = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=4.0)
+    glowStarLevel = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=4.0
+    )
     gv = glowStarLevel
 
-    glowOpacity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowOpacity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     go = glowOpacity
 
-    glowRingIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    glowRingIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     gri = glowRingIntensity
 
-    glowRingFrequency = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    glowRingFrequency = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     grf = glowRingFrequency
 
     glowFilterWidth = LongField(default_value=1)
     gfw = glowFilterWidth
 
-    haloIntensity = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    haloIntensity = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     hi = haloIntensity
 
     haloColor = HaloColorField(default_value=(1.0, 1.0, 1.0))
@@ -153,25 +175,43 @@ class GeneratedShaderGlow(DG):
     haloColorB = haloColor.haloColorB
     hb = haloColorB
 
-    haloSpread = FloatField(default_value=0.30000001192092896, soft_min_value=0.0, soft_max_value=1.0)
+    haloSpread = FloatField(
+        default_value=0.30000001192092896,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     hs = haloSpread
 
-    haloEccentricity = FloatField(default_value=0.10000000149011612, soft_min_value=0.0, soft_max_value=1.0)
+    haloEccentricity = FloatField(
+        default_value=0.10000000149011612,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     hecc = haloEccentricity
 
-    haloRadialNoise = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=4.0)
+    haloRadialNoise = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=4.0
+    )
     hn = haloRadialNoise
 
-    haloStarLevel = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=4.0)
+    haloStarLevel = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=4.0
+    )
     hv = haloStarLevel
 
-    haloOpacity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    haloOpacity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ho = haloOpacity
 
-    haloRingIntensity = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    haloRingIntensity = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     hri = haloRingIntensity
 
-    haloRingFrequency = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    haloRingFrequency = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     hrf = haloRingFrequency
 
     haloFilterWidth = LongField(default_value=1)
@@ -183,13 +223,19 @@ class GeneratedShaderGlow(DG):
     threshold = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
     th = threshold
 
-    radialFrequency = FloatField(default_value=0.5, soft_min_value=0.0, soft_max_value=1.0)
+    radialFrequency = FloatField(
+        default_value=0.5, soft_min_value=0.0, soft_max_value=1.0
+    )
     rf = radialFrequency
 
-    starPoints = FloatField(default_value=4.0, soft_min_value=0.0, soft_max_value=10.0)
+    starPoints = FloatField(
+        default_value=4.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     sp = starPoints
 
-    rotation = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotation = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ra = rotation
 
     autoExposure = BoolField(default_value=True)

@@ -7,7 +7,9 @@ from ..std.at.compound import (
 )
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
@@ -51,7 +53,9 @@ class InPositionAttrOperator(
 
 
 class InPositionField(
-    DoubleLinear3CompoundBaseField[InPositionAttrOperator, InPositionPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InPositionAttrOperator, InPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -68,9 +72,7 @@ class InPositionField(
     ipz = inPositionZ
 
 
-class ResultPlugOperator(
-    CompoundPlugOperator["ResultAttrOperator"]
-):
+class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("position", "p"),
@@ -88,9 +90,7 @@ class ResultPlugOperator(
     v = parameterV
 
 
-class ResultAttrOperator(
-    CompoundAttrOperator[ResultPlugOperator]
-):
+class ResultAttrOperator(CompoundAttrOperator[ResultPlugOperator]):
     __slots__ = ()
 
     position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -103,9 +103,7 @@ class ResultAttrOperator(
     v = parameterV
 
 
-class ResultField(
-    CompoundField[ResultAttrOperator, ResultPlugOperator]
-):
+class ResultField(CompoundField[ResultAttrOperator, ResultPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ResultAttrOperator

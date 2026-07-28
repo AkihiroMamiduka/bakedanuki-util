@@ -33,9 +33,7 @@ class ModeEnumAttrOperator(EnumAttrOperator[ModeEnumPlugOperator]):
     }
 
 
-class ModeEnumField(
-    EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]
-):
+class ModeEnumField(EnumField[ModeEnumAttrOperator, ModeEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ModeEnumAttrOperator
@@ -56,25 +54,39 @@ class GeneratedAiImagerTonemap(DG):
 
     mode = ModeEnumField(default_value=0)
 
-    filmicToeStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicToeStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_toe_strength = filmicToeStrength
 
-    filmicToeLength = FloatField(default_value=0.5, min_value=0.0, max_value=1.0)
+    filmicToeLength = FloatField(
+        default_value=0.5, min_value=0.0, max_value=1.0
+    )
     filmic_toe_length = filmicToeLength
 
-    filmicShoulderStrength = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicShoulderStrength = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_shoulder_strength = filmicShoulderStrength
 
-    filmicShoulderLength = FloatField(default_value=0.5, min_value=0.0, soft_max_value=3.0)
+    filmicShoulderLength = FloatField(
+        default_value=0.5, min_value=0.0, soft_max_value=3.0
+    )
     filmic_shoulder_length = filmicShoulderLength
 
-    filmicShoulderAngle = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    filmicShoulderAngle = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     filmic_shoulder_angle = filmicShoulderAngle
 
-    reinhardHighlights = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
+    reinhardHighlights = FloatField(
+        default_value=1.0, min_value=0.0, max_value=1.0
+    )
     reinhard_highlights = reinhardHighlights
 
-    reinhardShadows = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    reinhardShadows = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     reinhard_shadows = reinhardShadows
 
     lutFilename = DataStringField()

@@ -18,7 +18,9 @@ from ....attr.define.std.at.scalar.unit.time import TimeField
 from ....attr.define.std.at.typed import TypedField
 
 
-class WeightStyleEnumPlugOperator(EnumPlugOperator["WeightStyleEnumAttrOperator"]):
+class WeightStyleEnumPlugOperator(
+    EnumPlugOperator["WeightStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     FROM_START = 0
@@ -26,7 +28,9 @@ class WeightStyleEnumPlugOperator(EnumPlugOperator["WeightStyleEnumAttrOperator"
     ABSOLUTE_FROM_ZERO = 2
 
 
-class WeightStyleEnumAttrOperator(EnumAttrOperator[WeightStyleEnumPlugOperator]):
+class WeightStyleEnumAttrOperator(
+    EnumAttrOperator[WeightStyleEnumPlugOperator]
+):
     __slots__ = ()
 
     FROM_START = 0

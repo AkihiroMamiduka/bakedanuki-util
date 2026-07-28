@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.xgm_modifier_displacement import VectorDisplacementField
+from ....attr.define.node_attr.xgm_modifier_displacement import (
+    VectorDisplacementField,
+)
 from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
@@ -68,16 +70,24 @@ class GeneratedXgmModifierDisplacement(DG):
     coordsys = CoordsysEnumField(default_value=1)
     cds = coordsys
 
-    scale = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    scale = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     scl = scale
 
-    base = FloatField(default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0)
+    base = FloatField(
+        default_value=0.0, soft_min_value=-1.0, soft_max_value=1.0
+    )
     bs = base
 
-    offset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    offset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     os = offset
 
-    bump = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=10.0)
+    bump = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     bp = bump
 
     tweak = TypedField()

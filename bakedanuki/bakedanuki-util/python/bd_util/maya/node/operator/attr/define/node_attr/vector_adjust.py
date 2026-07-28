@@ -23,7 +23,9 @@ from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._
 )
 
 
-class ManipulatorModeEnumPlugOperator(EnumPlugOperator["ManipulatorModeEnumAttrOperator"]):
+class ManipulatorModeEnumPlugOperator(
+    EnumPlugOperator["ManipulatorModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -31,7 +33,9 @@ class ManipulatorModeEnumPlugOperator(EnumPlugOperator["ManipulatorModeEnumAttrO
     LINE = 2
 
 
-class ManipulatorModeEnumAttrOperator(EnumAttrOperator[ManipulatorModeEnumPlugOperator]):
+class ManipulatorModeEnumAttrOperator(
+    EnumAttrOperator[ManipulatorModeEnumPlugOperator]
+):
     __slots__ = ()
 
     CHARACTER = 0
@@ -54,9 +58,7 @@ class ManipulatorModeEnumField(
     PLUG_CLS = ManipulatorModeEnumPlugOperator
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -74,9 +76,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -89,9 +89,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -102,9 +100,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -120,7 +116,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -181,20 +179,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -299,7 +291,9 @@ class ManipulatorTransformsAttrOperator(
 
 
 class ManipulatorTransformsField(
-    CompoundField[ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator]
+    CompoundField[
+        ManipulatorTransformsAttrOperator, ManipulatorTransformsPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -337,9 +331,7 @@ class ManipulatorTransformsField(
     manipulatorMode = ManipulatorModeEnumField(default_value=1)
 
 
-class GroupingPlugOperator(
-    CompoundPlugOperator["GroupingAttrOperator"]
-):
+class GroupingPlugOperator(CompoundPlugOperator["GroupingAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("solidsPerCharacter", "solidsPerCharacter"),
@@ -354,9 +346,7 @@ class GroupingPlugOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingAttrOperator(
-    CompoundAttrOperator[GroupingPlugOperator]
-):
+class GroupingAttrOperator(CompoundAttrOperator[GroupingPlugOperator]):
     __slots__ = ()
 
     solidsPerCharacter = DataDoubleArrayField()
@@ -366,9 +356,7 @@ class GroupingAttrOperator(
     solidsPerLine = DataDoubleArrayField()
 
 
-class GroupingField(
-    CompoundField[GroupingAttrOperator, GroupingPlugOperator]
-):
+class GroupingField(CompoundField[GroupingAttrOperator, GroupingPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = GroupingAttrOperator

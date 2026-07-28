@@ -10,8 +10,12 @@ from ....attr.define.node_attr.poly_planar_proj import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.scalar.numeric.range.short import ShortField
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -87,7 +91,11 @@ class GeneratedPolyPlanarProj(DG):
     rotateZ = rotate.rotateZ
     rz = rotateZ
 
-    projectionScale = ProjectionScaleField(default_value=(1.0, 1.0), min_value=(0.0, 0.0), soft_max_value=(2.0, 2.0))
+    projectionScale = ProjectionScaleField(
+        default_value=(1.0, 1.0),
+        min_value=(0.0, 0.0),
+        soft_max_value=(2.0, 2.0),
+    )
     ps = projectionScale
     projectionWidth = projectionScale.projectionWidth
     pw = projectionWidth
@@ -104,7 +112,9 @@ class GeneratedPolyPlanarProj(DG):
     imageScaleV = imageScale.imageScaleV
     isv = imageScaleV
 
-    rotationAngle = DoubleAngleField(default_value=0.0, soft_min_value=0.0, soft_max_value=360.0)
+    rotationAngle = DoubleAngleField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=360.0
+    )
     ra = rotationAngle
 
     radius = DoubleLinearField(default_value=10.0)

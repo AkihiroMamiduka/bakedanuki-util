@@ -47,9 +47,7 @@ class OrderEnumAttrOperator(EnumAttrOperator[OrderEnumPlugOperator]):
     }
 
 
-class OrderEnumField(
-    EnumField[OrderEnumAttrOperator, OrderEnumPlugOperator]
-):
+class OrderEnumField(EnumField[OrderEnumAttrOperator, OrderEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = OrderEnumAttrOperator
@@ -70,7 +68,9 @@ class GeneratedAiVectorMap(DG):
     outValueZ = outValue.outValueZ
     outz = outValueZ
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR

@@ -34,9 +34,7 @@ class MODELEnumAttrOperator(EnumAttrOperator[MODELEnumPlugOperator]):
     }
 
 
-class MODELEnumField(
-    EnumField[MODELEnumAttrOperator, MODELEnumPlugOperator]
-):
+class MODELEnumField(EnumField[MODELEnumAttrOperator, MODELEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = MODELEnumAttrOperator
@@ -71,13 +69,17 @@ class UpAxisEnumField(
     PLUG_CLS = UpAxisEnumPlugOperator
 
 
-class SQUASH_STRETCHEnumPlugOperator(EnumPlugOperator["SQUASH_STRETCHEnumAttrOperator"]):
+class SQUASH_STRETCHEnumPlugOperator(
+    EnumPlugOperator["SQUASH_STRETCHEnumAttrOperator"]
+):
     __slots__ = ()
 
     MINUS = 0
 
 
-class SQUASH_STRETCHEnumAttrOperator(EnumAttrOperator[SQUASH_STRETCHEnumPlugOperator]):
+class SQUASH_STRETCHEnumAttrOperator(
+    EnumAttrOperator[SQUASH_STRETCHEnumPlugOperator]
+):
     __slots__ = ()
 
     MINUS = 0
@@ -127,7 +129,9 @@ class BasedOnEnumField(
     PLUG_CLS = BasedOnEnumPlugOperator
 
 
-class InterpModeEnumPlugOperator(EnumPlugOperator["InterpModeEnumAttrOperator"]):
+class InterpModeEnumPlugOperator(
+    EnumPlugOperator["InterpModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR = 0
@@ -189,7 +193,9 @@ class PoseUsesEnumField(
     PLUG_CLS = PoseUsesEnumPlugOperator
 
 
-class PoseReadAxisEnumPlugOperator(EnumPlugOperator["PoseReadAxisEnumAttrOperator"]):
+class PoseReadAxisEnumPlugOperator(
+    EnumPlugOperator["PoseReadAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -197,7 +203,9 @@ class PoseReadAxisEnumPlugOperator(EnumPlugOperator["PoseReadAxisEnumAttrOperato
     Z_MINUS_AXIS = 2
 
 
-class PoseReadAxisEnumAttrOperator(EnumAttrOperator[PoseReadAxisEnumPlugOperator]):
+class PoseReadAxisEnumAttrOperator(
+    EnumAttrOperator[PoseReadAxisEnumPlugOperator]
+):
     __slots__ = ()
 
     X_MINUS_AXIS = 0
@@ -245,9 +253,7 @@ class JIGGLEEnumField(
     PLUG_CLS = JIGGLEEnumPlugOperator
 
 
-class NurbsDataPlugOperator(
-    CompoundPlugOperator["NurbsDataAttrOperator"]
-):
+class NurbsDataPlugOperator(CompoundPlugOperator["NurbsDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("startPointA", "spa"),
@@ -398,19 +404,27 @@ class NurbsDataPlugOperator(
     autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnSquash = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnStretch = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpst = dampenOnStretch
 
     manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoSquash = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoStretch = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatst = linearAutoStretch
 
     userScale = DoubleField(default_value=1.0)
@@ -441,9 +455,7 @@ class NurbsDataPlugOperator(
     rf = resetFrame
 
 
-class NurbsDataAttrOperator(
-    CompoundAttrOperator[NurbsDataPlugOperator]
-):
+class NurbsDataAttrOperator(CompoundAttrOperator[NurbsDataPlugOperator]):
     __slots__ = ()
 
     startPointA = MatrixField()
@@ -545,19 +557,27 @@ class NurbsDataAttrOperator(
     autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnSquash = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnStretch = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpst = dampenOnStretch
 
     manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoSquash = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoStretch = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatst = linearAutoStretch
 
     userScale = DoubleField(default_value=1.0)
@@ -695,19 +715,27 @@ class NurbsDataField(
     autoWiden = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
     awid = autoWiden
 
-    dampenOnSquash = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnSquash = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpsq = dampenOnSquash
 
-    dampenOnStretch = DoubleField(default_value=0.75, min_value=0.0, max_value=1.0)
+    dampenOnStretch = DoubleField(
+        default_value=0.75, min_value=0.0, max_value=1.0
+    )
     dmpst = dampenOnStretch
 
     manualSqSt = DoubleField(default_value=0.0, min_value=-1.0, max_value=1.0)
     msqst = manualSqSt
 
-    linearAutoSquash = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoSquash = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatsq = linearAutoSquash
 
-    linearAutoStretch = DoubleField(default_value=0.0, min_value=0.0, max_value=1.0)
+    linearAutoStretch = DoubleField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     lnatst = linearAutoStretch
 
     userScale = DoubleField(default_value=1.0)
@@ -738,21 +766,15 @@ class NurbsDataField(
     rf = resetFrame
 
 
-class JiggleFramePlugOperator(
-    CompoundPlugOperator["JiggleFrameAttrOperator"]
-):
+class JiggleFramePlugOperator(CompoundPlugOperator["JiggleFrameAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("force", "frc"),
-    )
+    CHILD_ATTR_NAMES = (("force", "frc"),)
 
     force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
     frc = force
 
 
-class JiggleFrameAttrOperator(
-    CompoundAttrOperator[JiggleFramePlugOperator]
-):
+class JiggleFrameAttrOperator(CompoundAttrOperator[JiggleFramePlugOperator]):
     __slots__ = ()
 
     force = CompoundField(multi=True, default_value=(0.0, 0.0, 0.0))
@@ -768,9 +790,7 @@ class JiggleFrameField(
     PLUG_CLS = JiggleFramePlugOperator
 
 
-class PoseStatePlugOperator(
-    CompoundPlugOperator["PoseStateAttrOperator"]
-):
+class PoseStatePlugOperator(CompoundPlugOperator["PoseStateAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("poseDefault", "pd"),
@@ -800,9 +820,7 @@ class PoseStatePlugOperator(
     psts = poseStretchStored
 
 
-class PoseStateAttrOperator(
-    CompoundAttrOperator[PoseStatePlugOperator]
-):
+class PoseStateAttrOperator(CompoundAttrOperator[PoseStatePlugOperator]):
     __slots__ = ()
 
     poseDefault = MatrixField()
@@ -851,9 +869,7 @@ class PoseStateField(
     psts = poseStretchStored
 
 
-class ControlDataPlugOperator(
-    CompoundPlugOperator["ControlDataAttrOperator"]
-):
+class ControlDataPlugOperator(CompoundPlugOperator["ControlDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("insertMatrix", "imat"),
@@ -883,13 +899,19 @@ class ControlDataPlugOperator(
     rest = DoubleField(default_value=24.0, min_value=1.0)
     rst = rest
 
-    jiggleX = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleX = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigx = jiggleX
 
-    jiggleY = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleY = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigy = jiggleY
 
-    jiggleZ = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleZ = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigz = jiggleZ
 
     jiggleImpact = DoubleField(default_value=0.0)
@@ -911,9 +933,7 @@ class ControlDataPlugOperator(
     crvst = curveSt
 
 
-class ControlDataAttrOperator(
-    CompoundAttrOperator[ControlDataPlugOperator]
-):
+class ControlDataAttrOperator(CompoundAttrOperator[ControlDataPlugOperator]):
     __slots__ = ()
 
     insertMatrix = MatrixField()
@@ -928,13 +948,19 @@ class ControlDataAttrOperator(
     rest = DoubleField(default_value=24.0, min_value=1.0)
     rst = rest
 
-    jiggleX = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleX = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigx = jiggleX
 
-    jiggleY = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleY = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigy = jiggleY
 
-    jiggleZ = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    jiggleZ = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     jigz = jiggleZ
 
     jiggleImpact = DoubleField(default_value=0.0)
@@ -965,9 +991,7 @@ class ControlDataField(
     PLUG_CLS = ControlDataPlugOperator
 
 
-class LinearDataPlugOperator(
-    CompoundPlugOperator["LinearDataAttrOperator"]
-):
+class LinearDataPlugOperator(CompoundPlugOperator["LinearDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("linearMatrix", "lmat"),
@@ -981,9 +1005,7 @@ class LinearDataPlugOperator(
     uval = uValue
 
 
-class LinearDataAttrOperator(
-    CompoundAttrOperator[LinearDataPlugOperator]
-):
+class LinearDataAttrOperator(CompoundAttrOperator[LinearDataPlugOperator]):
     __slots__ = ()
 
     linearMatrix = MatrixField()
@@ -1002,9 +1024,7 @@ class LinearDataField(
     PLUG_CLS = LinearDataPlugOperator
 
 
-class AttachDataPlugOperator(
-    CompoundPlugOperator["AttachDataAttrOperator"]
-):
+class AttachDataPlugOperator(CompoundPlugOperator["AttachDataAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("attachMatrix", "amat"),
@@ -1026,9 +1046,7 @@ class AttachDataPlugOperator(
     grvmul = gravityMult
 
 
-class AttachDataAttrOperator(
-    CompoundAttrOperator[AttachDataPlugOperator]
-):
+class AttachDataAttrOperator(CompoundAttrOperator[AttachDataPlugOperator]):
     __slots__ = ()
 
     attachMatrix = MatrixField()
@@ -1127,9 +1145,7 @@ class OutAttachDataField(
     PLUG_CLS = OutAttachDataPlugOperator
 
 
-class OutDrivenPlugOperator(
-    CompoundPlugOperator["OutDrivenAttrOperator"]
-):
+class OutDrivenPlugOperator(CompoundPlugOperator["OutDrivenAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outDrivenSquash", "odsq"),
@@ -1143,9 +1159,7 @@ class OutDrivenPlugOperator(
     odst = outDrivenStretch
 
 
-class OutDrivenAttrOperator(
-    CompoundAttrOperator[OutDrivenPlugOperator]
-):
+class OutDrivenAttrOperator(CompoundAttrOperator[OutDrivenPlugOperator]):
     __slots__ = ()
 
     outDrivenSquash = DoubleField(default_value=0.0)

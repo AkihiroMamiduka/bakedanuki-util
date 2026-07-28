@@ -130,10 +130,18 @@ class GeneratedAiImagerOverlay(DG):
     fontColorB = fontColor.fontColorB
     font_colorb = fontColorB
 
-    backgroundOpacity = FloatField(default_value=0.699999988079071, min_value=0.0, max_value=1.0)
+    backgroundOpacity = FloatField(
+        default_value=0.699999988079071, min_value=0.0, max_value=1.0
+    )
     background_opacity = backgroundOpacity
 
-    backgroundColor = BackgroundColorField(default_value=(0.05000000074505806, 0.05000000074505806, 0.05000000074505806))
+    backgroundColor = BackgroundColorField(
+        default_value=(
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+        )
+    )
     background_color = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     background_colorr = backgroundColorR

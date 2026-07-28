@@ -4,7 +4,9 @@ from ....attr.define.node_attr.quat_to_axis_angle import (
     InputQuatField,
     OutputAxisField,
 )
-from ....attr.define.std.at.scalar.unit.range.double_angle import DoubleAngleField
+from ....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 
 
 class GeneratedQuatToAxisAngle(DG):

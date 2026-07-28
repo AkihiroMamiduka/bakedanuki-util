@@ -24,9 +24,7 @@ from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base imp
 )
 
 
-class InputPlugOperator(
-    CompoundPlugOperator["InputAttrOperator"]
-):
+class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputGeometry", "ig"),
@@ -44,9 +42,7 @@ class InputPlugOperator(
     gtg = componentTagExpression
 
 
-class InputAttrOperator(
-    CompoundAttrOperator[InputPlugOperator]
-):
+class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
     inputGeometry = TypedField()
@@ -59,9 +55,7 @@ class InputAttrOperator(
     gtg = componentTagExpression
 
 
-class InputField(
-    CompoundField[InputAttrOperator, InputPlugOperator]
-):
+class InputField(CompoundField[InputAttrOperator, InputPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = InputAttrOperator
@@ -72,9 +66,7 @@ class EnvelopeWeightsListPlugOperator(
     CompoundPlugOperator["EnvelopeWeightsListAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("envelopeWeights", "owt"),
-    )
+    CHILD_ATTR_NAMES = (("envelopeWeights", "owt"),)
 
     envelopeWeights = FloatField(multi=True, default_value=1.0, writable=False)
     owt = envelopeWeights
@@ -90,7 +82,9 @@ class EnvelopeWeightsListAttrOperator(
 
 
 class EnvelopeWeightsListField(
-    CompoundField[EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator]
+    CompoundField[
+        EnvelopeWeightsListAttrOperator, EnvelopeWeightsListPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -151,20 +145,14 @@ class FunctionField(
     f3 = fchild3
 
 
-class WeightListPlugOperator(
-    CompoundPlugOperator["WeightListAttrOperator"]
-):
+class WeightListPlugOperator(CompoundPlugOperator["WeightListAttrOperator"]):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wl.w"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wl.w"),)
 
     weights = FloatField(multi=True, default_value=1.0)
 
 
-class WeightListAttrOperator(
-    CompoundAttrOperator[WeightListPlugOperator]
-):
+class WeightListAttrOperator(CompoundAttrOperator[WeightListPlugOperator]):
     __slots__ = ()
 
     weights = FloatField(multi=True, default_value=1.0)
@@ -179,9 +167,7 @@ class WeightListField(
     PLUG_CLS = WeightListPlugOperator
 
 
-class InputTargetPlugOperator(
-    CompoundPlugOperator["InputTargetAttrOperator"]
-):
+class InputTargetPlugOperator(CompoundPlugOperator["InputTargetAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("inputTargetGroup", "itg"),
@@ -227,9 +213,7 @@ class InputTargetPlugOperator(
     dmxm = deformMatrixModified
 
 
-class InputTargetAttrOperator(
-    CompoundAttrOperator[InputTargetPlugOperator]
-):
+class InputTargetAttrOperator(CompoundAttrOperator[InputTargetPlugOperator]):
     __slots__ = ()
 
     inputTargetGroup = CompoundField(multi=True)
@@ -308,7 +292,9 @@ class BaseOriginAttrOperator(
 
 
 class BaseOriginField(
-    DoubleLinear3CompoundBaseField[BaseOriginAttrOperator, BaseOriginPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        BaseOriginAttrOperator, BaseOriginPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -361,7 +347,9 @@ class TargetOriginAttrOperator(
 
 
 class TargetOriginField(
-    DoubleLinear3CompoundBaseField[TargetOriginAttrOperator, TargetOriginPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TargetOriginAttrOperator, TargetOriginPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -414,7 +402,9 @@ class OffsetDeformerAttrOperator(
 
 
 class OffsetDeformerField(
-    DoubleLinear3CompoundBaseField[OffsetDeformerAttrOperator, OffsetDeformerPlugOperator]
+    DoubleLinear3CompoundBaseField[
+        OffsetDeformerAttrOperator, OffsetDeformerPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -459,7 +449,13 @@ class TargetDirectoryPlugOperator(
     directoryParentVisibility = BoolField(default_value=True)
     dpvs = directoryParentVisibility
 
-    directoryWeight = FloatField(default_value=1.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0)
+    directoryWeight = FloatField(
+        default_value=1.0,
+        min_value=-10.0,
+        max_value=10.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dwgh = directoryWeight
 
 
@@ -483,7 +479,13 @@ class TargetDirectoryAttrOperator(
     directoryParentVisibility = BoolField(default_value=True)
     dpvs = directoryParentVisibility
 
-    directoryWeight = FloatField(default_value=1.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0)
+    directoryWeight = FloatField(
+        default_value=1.0,
+        min_value=-10.0,
+        max_value=10.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     dwgh = directoryWeight
 
 
@@ -500,9 +502,7 @@ class InbetweenInfoGroupPlugOperator(
     CompoundPlugOperator["InbetweenInfoGroupAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("inbetweenInfo", "ibi"),
-    )
+    CHILD_ATTR_NAMES = (("inbetweenInfo", "ibi"),)
 
     inbetweenInfo = CompoundField(multi=True)
     ibi = inbetweenInfo
@@ -518,7 +518,9 @@ class InbetweenInfoGroupAttrOperator(
 
 
 class InbetweenInfoGroupField(
-    CompoundField[InbetweenInfoGroupAttrOperator, InbetweenInfoGroupPlugOperator]
+    CompoundField[
+        InbetweenInfoGroupAttrOperator, InbetweenInfoGroupPlugOperator
+    ]
 ):
     __slots__ = ()
 

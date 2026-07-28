@@ -5,12 +5,12 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
+from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
 
 
-class ResultPlugOperator(
-    CompoundPlugOperator["ResultAttrOperator"]
-):
+class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("position", "p"),
@@ -28,25 +28,29 @@ class ResultPlugOperator(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentU = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntu = normalizedTangentU
 
     tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentV = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntv = normalizedTangentV
 
 
-class ResultAttrOperator(
-    CompoundAttrOperator[ResultPlugOperator]
-):
+class ResultAttrOperator(CompoundAttrOperator[ResultPlugOperator]):
     __slots__ = ()
 
     position = Double3Field(default_value=(0.0, 0.0, 0.0), writable=False)
@@ -55,25 +59,29 @@ class ResultAttrOperator(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentU = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntu = normalizedTangentU
 
     tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentV = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntv = normalizedTangentV
 
 
-class ResultField(
-    CompoundField[ResultAttrOperator, ResultPlugOperator]
-):
+class ResultField(CompoundField[ResultAttrOperator, ResultPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = ResultAttrOperator
@@ -85,17 +93,23 @@ class ResultField(
     normal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
     n = normal
 
-    normalizedNormal = Double3Field(default_value=(0.0, 0.0, 1.0), writable=False)
+    normalizedNormal = Double3Field(
+        default_value=(0.0, 0.0, 1.0), writable=False
+    )
     nn = normalizedNormal
 
     tangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tu = tangentU
 
-    normalizedTangentU = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentU = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntu = normalizedTangentU
 
     tangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
     tv = tangentV
 
-    normalizedTangentV = Double3Field(default_value=(1.0, 0.0, 0.0), writable=False)
+    normalizedTangentV = Double3Field(
+        default_value=(1.0, 0.0, 0.0), writable=False
+    )
     ntv = normalizedTangentV

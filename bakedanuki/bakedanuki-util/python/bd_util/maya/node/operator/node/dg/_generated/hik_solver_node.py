@@ -10,7 +10,9 @@ from ....attr.define.std.at.scalar.numeric.range.long import LongField
 from ....attr.define.std.at.typed import TypedField
 
 
-class SolverModeEnumPlugOperator(EnumPlugOperator["SolverModeEnumAttrOperator"]):
+class SolverModeEnumPlugOperator(
+    EnumPlugOperator["SolverModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     FULL_BODY = 0

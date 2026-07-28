@@ -17,12 +17,18 @@ from ....attr.define.std.at.scalar.enum import (
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import Double3Field
-from ....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import Float3Field
+from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+    Double3Field,
+)
+from ....attr.define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
+    Float3Field,
+)
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.double_array import DataDoubleArrayField
 from ....attr.define.std.dt.string import DataStringField
@@ -59,7 +65,9 @@ class OriginEnumField(
     PLUG_CLS = OriginEnumPlugOperator
 
 
-class DeformationOrderEnumPlugOperator(EnumPlugOperator["DeformationOrderEnumAttrOperator"]):
+class DeformationOrderEnumPlugOperator(
+    EnumPlugOperator["DeformationOrderEnumAttrOperator"]
+):
     __slots__ = ()
 
     PRE_MINUS_DEFORMATION = 0
@@ -67,7 +75,9 @@ class DeformationOrderEnumPlugOperator(EnumPlugOperator["DeformationOrderEnumAtt
     OTHER_DEFORMATION = 2
 
 
-class DeformationOrderEnumAttrOperator(EnumAttrOperator[DeformationOrderEnumPlugOperator]):
+class DeformationOrderEnumAttrOperator(
+    EnumAttrOperator[DeformationOrderEnumPlugOperator]
+):
     __slots__ = ()
 
     PRE_MINUS_DEFORMATION = 0
@@ -82,7 +92,9 @@ class DeformationOrderEnumAttrOperator(EnumAttrOperator[DeformationOrderEnumPlug
 
 
 class DeformationOrderEnumField(
-    EnumField[DeformationOrderEnumAttrOperator, DeformationOrderEnumPlugOperator]
+    EnumField[
+        DeformationOrderEnumAttrOperator, DeformationOrderEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -107,13 +119,21 @@ class GeneratedBlendShape(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -134,7 +154,16 @@ class GeneratedBlendShape(DG):
     topologyCheck = BoolField(default_value=True)
     tc = topologyCheck
 
-    weight = FloatField(multi=True, default_value=0.0, min_value=-10.0, max_value=10.0, soft_min_value=0.0, soft_max_value=1.0, long_name=".weight", short_name=".w")
+    weight = FloatField(
+        multi=True,
+        default_value=0.0,
+        min_value=-10.0,
+        max_value=10.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+        long_name=".weight",
+        short_name=".w",
+    )
 
     icon = DataStringField(multi=True, readable=False)
     icn = icon

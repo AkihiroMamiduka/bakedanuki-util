@@ -9,14 +9,18 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.typed import TypedField
 
 
-class RotateInterpEnumPlugOperator(EnumPlugOperator["RotateInterpEnumAttrOperator"]):
+class RotateInterpEnumPlugOperator(
+    EnumPlugOperator["RotateInterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     QUATERNION = 0
     EULER = 1
 
 
-class RotateInterpEnumAttrOperator(EnumAttrOperator[RotateInterpEnumPlugOperator]):
+class RotateInterpEnumAttrOperator(
+    EnumAttrOperator[RotateInterpEnumPlugOperator]
+):
     __slots__ = ()
 
     QUATERNION = 0

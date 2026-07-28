@@ -10,7 +10,9 @@ from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class RenderDeviceEnumPlugOperator(EnumPlugOperator["RenderDeviceEnumAttrOperator"]):
+class RenderDeviceEnumPlugOperator(
+    EnumPlugOperator["RenderDeviceEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTO = 0
@@ -18,7 +20,9 @@ class RenderDeviceEnumPlugOperator(EnumPlugOperator["RenderDeviceEnumAttrOperato
     GPU = 2
 
 
-class RenderDeviceEnumAttrOperator(EnumAttrOperator[RenderDeviceEnumPlugOperator]):
+class RenderDeviceEnumAttrOperator(
+    EnumAttrOperator[RenderDeviceEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTO = 0

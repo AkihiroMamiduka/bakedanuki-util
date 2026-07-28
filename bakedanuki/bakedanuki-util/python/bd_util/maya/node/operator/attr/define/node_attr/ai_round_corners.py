@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class NormalPlugOperator(
-    Float3CompoundBasePlugOperator["NormalAttrOperator"]
-):
+class NormalPlugOperator(Float3CompoundBasePlugOperator["NormalAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("normalX", "normalCamerax"),
@@ -134,9 +134,7 @@ class NormalPlugOperator(
     normalCameraz = normalZ
 
 
-class NormalAttrOperator(
-    Float3CompoundBaseAttrOperator[NormalPlugOperator]
-):
+class NormalAttrOperator(Float3CompoundBaseAttrOperator[NormalPlugOperator]):
     __slots__ = ()
 
     normalX = FloatField(default_value=0.0)

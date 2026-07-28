@@ -7,7 +7,9 @@ from ....attr.define.std.at.scalar.enum import (
     EnumField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -122,7 +124,9 @@ class GeneratedPolyPrimitiveMisc(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -140,10 +144,14 @@ class GeneratedPolyPrimitiveMisc(DG):
     componentTagSuffix = DataStringField()
     sfx = componentTagSuffix
 
-    radius = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     r = radius
 
-    sideLength = DoubleLinearField(default_value=0.0, min_value=0.01, soft_max_value=100.0)
+    sideLength = DoubleLinearField(
+        default_value=0.0, min_value=0.01, soft_max_value=100.0
+    )
     l = sideLength
 
     polyType = PolyTypeEnumField(default_value=0)

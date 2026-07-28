@@ -52,5 +52,11 @@ class GeneratedPolyUnsmooth(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    divisionLevels = ShortField(default_value=1, min_value=0, max_value=15, soft_min_value=1, soft_max_value=4)
+    divisionLevels = ShortField(
+        default_value=1,
+        min_value=0,
+        max_value=15,
+        soft_min_value=1,
+        soft_max_value=4,
+    )
     dlv = divisionLevels

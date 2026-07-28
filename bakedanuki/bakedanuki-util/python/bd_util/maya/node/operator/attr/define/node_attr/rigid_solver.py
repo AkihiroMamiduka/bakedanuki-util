@@ -36,9 +36,7 @@ class GeneralForcePlugOperator(
     itr = inputTorque
 
 
-class GeneralForceAttrOperator(
-    CompoundAttrOperator[GeneralForcePlugOperator]
-):
+class GeneralForceAttrOperator(CompoundAttrOperator[GeneralForcePlugOperator]):
     __slots__ = ()
 
     inputForce = DataVectorArrayField()
@@ -93,7 +91,9 @@ class TranslateAttrOperator(
 
 
 class TranslateField(
-    DoubleLinear3CompoundBaseField[TranslateAttrOperator, TranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        TranslateAttrOperator, TranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -181,7 +181,9 @@ class ConstraintTranslateAttrOperator(
 
 
 class ConstraintTranslateField(
-    DoubleLinear3CompoundBaseField[ConstraintTranslateAttrOperator, ConstraintTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        ConstraintTranslateAttrOperator, ConstraintTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -225,7 +227,9 @@ class ConstraintRotateAttrOperator(
 
 
 class ConstraintRotateField(
-    DoubleAngle3CompoundBaseField[ConstraintRotateAttrOperator, ConstraintRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        ConstraintRotateAttrOperator, ConstraintRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -13,9 +13,7 @@ from ..std.at.scalar.unit.time import TimeField
 from ..std.dt.string import DataStringField
 
 
-class AttributePlugOperator(
-    CompoundPlugOperator["AttributeAttrOperator"]
-):
+class AttributePlugOperator(CompoundPlugOperator["AttributeAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("input", "ai"),
@@ -41,9 +39,7 @@ class AttributePlugOperator(
     src = source
 
 
-class AttributeAttrOperator(
-    CompoundAttrOperator[AttributePlugOperator]
-):
+class AttributeAttrOperator(CompoundAttrOperator[AttributePlugOperator]):
     __slots__ = ()
 
     input = GenericField(readable=False)

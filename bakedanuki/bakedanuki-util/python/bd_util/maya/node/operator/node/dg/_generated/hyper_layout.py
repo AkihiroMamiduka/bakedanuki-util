@@ -27,7 +27,9 @@ class GeneratedHyperLayout(DG):
     imagePositionY = imagePosition.imagePositionY
     ipy = imagePositionY
 
-    imageScale = FloatField(default_value=1.0, soft_min_value=0.1, soft_max_value=10.0)
+    imageScale = FloatField(
+        default_value=1.0, soft_min_value=0.1, soft_max_value=10.0
+    )
     ims = imageScale
 
     allNodesFreeform = BoolField(default_value=False)

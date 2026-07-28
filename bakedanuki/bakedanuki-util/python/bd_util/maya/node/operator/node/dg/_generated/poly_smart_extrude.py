@@ -107,7 +107,9 @@ class GeneratedPolySmartExtrude(DG):
     pivotOrientationZ = pivotOrientation.pivotOrientationZ
     poz = pivotOrientationZ
 
-    compPivotOrientation = CompPivotOrientationField(default_value=(0.0, 0.0, 0.0))
+    compPivotOrientation = CompPivotOrientationField(
+        default_value=(0.0, 0.0, 0.0)
+    )
     cpr = compPivotOrientation
     compPivotOrientationX = compPivotOrientation.compPivotOrientationX
     cpx = compPivotOrientationX

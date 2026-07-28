@@ -13,9 +13,16 @@ class GeneratedHierarchyTestNode4(DG):
 
     NODE_TYPE = "hierarchyTestNode4"
 
-    envelope = FloatField(default_value=0.0, long_name=".envelope", short_name=".en")
+    envelope = FloatField(
+        default_value=0.0, long_name=".envelope", short_name=".en"
+    )
 
-    pnts = PntsField(multi=True, default_value=(1.0, 1.0, 1.0), long_name=".pnts", short_name=".pt")
+    pnts = PntsField(
+        multi=True,
+        default_value=(1.0, 1.0, 1.0),
+        long_name=".pnts",
+        short_name=".pt",
+    )
 
     kitA = KitAField()
     ka = kitA

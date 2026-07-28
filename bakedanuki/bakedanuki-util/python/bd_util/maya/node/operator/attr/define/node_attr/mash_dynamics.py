@@ -38,7 +38,9 @@ class InitialVelocityAttrOperator(
 
 
 class InitialVelocityField(
-    Float3CompoundBaseField[InitialVelocityAttrOperator, InitialVelocityPlugOperator]
+    Float3CompoundBaseField[
+        InitialVelocityAttrOperator, InitialVelocityPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -82,7 +84,10 @@ class InitialRotationalVelocityAttrOperator(
 
 
 class InitialRotationalVelocityField(
-    Float3CompoundBaseField[InitialRotationalVelocityAttrOperator, InitialRotationalVelocityPlugOperator]
+    Float3CompoundBaseField[
+        InitialRotationalVelocityAttrOperator,
+        InitialRotationalVelocityPlugOperator,
+    ]
 ):
     __slots__ = ()
 

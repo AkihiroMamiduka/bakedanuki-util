@@ -52,11 +52,15 @@ class GeneratedPolyExtrudeVertex(DG):
     manipMatrix = DataMatrixField()
     mp = manipMatrix
 
-    length = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0)
+    length = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=10.0
+    )
     l = length
 
     width = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     w = width
 
-    divisions = LongField(default_value=1, min_value=1, soft_min_value=1, soft_max_value=25)
+    divisions = LongField(
+        default_value=1, min_value=1, soft_min_value=1, soft_max_value=25
+    )
     d = divisions

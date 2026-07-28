@@ -25,9 +25,7 @@ class ExtrudeCurvePlugOperator(
     excv = extrudeCurve_Value
 
 
-class ExtrudeCurveAttrOperator(
-    CompoundAttrOperator[ExtrudeCurvePlugOperator]
-):
+class ExtrudeCurveAttrOperator(CompoundAttrOperator[ExtrudeCurvePlugOperator]):
     __slots__ = ()
 
     extrudeCurve_Position = FloatField(default_value=0.0)

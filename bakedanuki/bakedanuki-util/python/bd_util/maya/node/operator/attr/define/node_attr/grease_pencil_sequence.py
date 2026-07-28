@@ -17,9 +17,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ColorPlugOperator(
-    Float3CompoundBasePlugOperator["ColorAttrOperator"]
-):
+class ColorPlugOperator(Float3CompoundBasePlugOperator["ColorAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("colorR", "clr"),
@@ -37,9 +35,7 @@ class ColorPlugOperator(
     clb = colorB
 
 
-class ColorAttrOperator(
-    Float3CompoundBaseAttrOperator[ColorPlugOperator]
-):
+class ColorAttrOperator(Float3CompoundBaseAttrOperator[ColorPlugOperator]):
     __slots__ = ()
 
     colorR = FloatField(default_value=0.5609999895095825)
@@ -70,9 +66,7 @@ class ColorField(
     clb = colorB
 
 
-class FramePlugOperator(
-    CompoundPlugOperator["FrameAttrOperator"]
-):
+class FramePlugOperator(CompoundPlugOperator["FrameAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("frameTime", "ftv"),
@@ -98,9 +92,7 @@ class FramePlugOperator(
     fen = frameEnable
 
 
-class FrameAttrOperator(
-    CompoundAttrOperator[FramePlugOperator]
-):
+class FrameAttrOperator(CompoundAttrOperator[FramePlugOperator]):
     __slots__ = ()
 
     frameTime = TimeField(default_value=0.0)
@@ -119,9 +111,7 @@ class FrameAttrOperator(
     fen = frameEnable
 
 
-class FrameField(
-    CompoundField[FrameAttrOperator, FramePlugOperator]
-):
+class FrameField(CompoundField[FrameAttrOperator, FramePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = FrameAttrOperator

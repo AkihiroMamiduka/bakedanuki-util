@@ -11,7 +11,9 @@ from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
 
-class SweepStyleEnumPlugOperator(EnumPlugOperator["SweepStyleEnumAttrOperator"]):
+class SweepStyleEnumPlugOperator(
+    EnumPlugOperator["SweepStyleEnumAttrOperator"]
+):
     __slots__ = ()
 
     NATURAL = 0
@@ -39,14 +41,18 @@ class SweepStyleEnumField(
     PLUG_CLS = SweepStyleEnumPlugOperator
 
 
-class TransformModeEnumPlugOperator(EnumPlugOperator["TransformModeEnumAttrOperator"]):
+class TransformModeEnumPlugOperator(
+    EnumPlugOperator["TransformModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0
     PROPORTIONAL = 1
 
 
-class TransformModeEnumAttrOperator(EnumAttrOperator[TransformModeEnumPlugOperator]):
+class TransformModeEnumAttrOperator(
+    EnumAttrOperator[TransformModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NON_PROPORTIONAL = 0
@@ -96,7 +102,13 @@ class GeneratedDpBirailSrf(DG):
     inputProfile2 = DataNurbsCurveField()
     ip2 = inputProfile2
 
-    blendFactor = DoubleField(default_value=0.5, min_value=0.0, max_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    blendFactor = DoubleField(
+        default_value=0.5,
+        min_value=0.0,
+        max_value=1.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     bl = blendFactor
 
     tangentContinuityProfile1 = BoolField(default_value=False)

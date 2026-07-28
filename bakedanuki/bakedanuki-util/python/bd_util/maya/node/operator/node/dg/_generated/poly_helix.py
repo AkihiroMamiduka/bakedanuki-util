@@ -9,7 +9,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -124,7 +126,9 @@ class GeneratedPolyHelix(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -145,25 +149,37 @@ class GeneratedPolyHelix(DG):
     coils = DoubleField(default_value=3.0, min_value=0.5, soft_max_value=20.0)
     c = coils
 
-    height = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    height = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     h = height
 
-    width = DoubleLinearField(default_value=2.0, min_value=0.01, soft_max_value=100.0)
+    width = DoubleLinearField(
+        default_value=2.0, min_value=0.01, soft_max_value=100.0
+    )
     w = width
 
-    radius = DoubleLinearField(default_value=0.4, min_value=0.01, soft_max_value=20.0)
+    radius = DoubleLinearField(
+        default_value=0.4, min_value=0.01, soft_max_value=20.0
+    )
     r = radius
 
     direction = DirectionEnumField(default_value=1)
     d = direction
 
-    subdivisionsAxis = LongField(default_value=8, min_value=3, max_value=1001, soft_max_value=100)
+    subdivisionsAxis = LongField(
+        default_value=8, min_value=3, max_value=1001, soft_max_value=100
+    )
     sa = subdivisionsAxis
 
-    subdivisionsCoil = LongField(default_value=50, min_value=2, max_value=10001, soft_max_value=1000)
+    subdivisionsCoil = LongField(
+        default_value=50, min_value=2, max_value=10001, soft_max_value=1000
+    )
     sco = subdivisionsCoil
 
-    subdivisionsCaps = LongField(default_value=0, min_value=0, max_value=1001, soft_max_value=50)
+    subdivisionsCaps = LongField(
+        default_value=0, min_value=0, max_value=1001, soft_max_value=50
+    )
     sc = subdivisionsCaps
 
     texture = TextureEnumField(default_value=2)

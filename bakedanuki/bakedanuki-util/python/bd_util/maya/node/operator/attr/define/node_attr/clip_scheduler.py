@@ -9,9 +9,7 @@ from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 
 
-class BlendListPlugOperator(
-    CompoundPlugOperator["BlendListAttrOperator"]
-):
+class BlendListPlugOperator(CompoundPlugOperator["BlendListAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("blendList_Hidden", "blh"),
@@ -33,9 +31,7 @@ class BlendListPlugOperator(
     blo = blendList_Outmap
 
 
-class BlendListAttrOperator(
-    CompoundAttrOperator[BlendListPlugOperator]
-):
+class BlendListAttrOperator(CompoundAttrOperator[BlendListPlugOperator]):
     __slots__ = ()
 
     blendList_Hidden = TypedField()
@@ -60,9 +56,7 @@ class BlendListField(
     PLUG_CLS = BlendListPlugOperator
 
 
-class BlendClipsPlugOperator(
-    CompoundPlugOperator["BlendClipsAttrOperator"]
-):
+class BlendClipsPlugOperator(CompoundPlugOperator["BlendClipsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("firstClip", "fcl"),
@@ -76,9 +70,7 @@ class BlendClipsPlugOperator(
     scl = secondClip
 
 
-class BlendClipsAttrOperator(
-    CompoundAttrOperator[BlendClipsPlugOperator]
-):
+class BlendClipsAttrOperator(CompoundAttrOperator[BlendClipsPlugOperator]):
     __slots__ = ()
 
     firstClip = LongField(default_value=0)
@@ -121,9 +113,7 @@ class ClipFunctionPlugOperator(
     cfo = clipFunction_Outmap
 
 
-class ClipFunctionAttrOperator(
-    CompoundAttrOperator[ClipFunctionPlugOperator]
-):
+class ClipFunctionAttrOperator(CompoundAttrOperator[ClipFunctionPlugOperator]):
     __slots__ = ()
 
     clipFunction_Hidden = TypedField()

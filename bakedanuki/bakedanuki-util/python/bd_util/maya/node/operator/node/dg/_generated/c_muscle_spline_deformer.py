@@ -33,13 +33,21 @@ class GeneratedCMuscleSplineDeformer(DG):
     originalGeometry = TypedField(multi=True)
     orggeom = originalGeometry
 
-    envelopeWeightsList = EnvelopeWeightsListField(multi=True, default_value=1.0, writable=False)
+    envelopeWeightsList = EnvelopeWeightsListField(
+        multi=True, default_value=1.0, writable=False
+    )
     ocw = envelopeWeightsList
 
     blockGPU = BoolField(default_value=False)
     bgp = blockGPU
 
-    envelope = FloatField(default_value=1.0, min_value=-2.0, max_value=2.0, soft_min_value=0.0, soft_max_value=1.0)
+    envelope = FloatField(
+        default_value=1.0,
+        min_value=-2.0,
+        max_value=2.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     en = envelope
 
     function = FunctionField(default_value=(0, 0, 0), readable=False)
@@ -138,7 +146,37 @@ class GeneratedCMuscleSplineDeformer(DG):
     uWts = DoubleField(multi=True, default_value=0.0)
     uwt = uWts
 
-    squashData = SquashDataField(default_value=(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-05, 0.0, 1.0, 0.0, 0.0, 0.5, 0.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0))
+    squashData = SquashDataField(
+        default_value=(
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1e-05,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.5,
+            0.0,
+            1.0,
+            1.0,
+            2.0,
+            2.0,
+            1.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            0.5,
+            0.5,
+            1.0,
+            1.0,
+        )
+    )
     sdata = squashData
     STATE = squashData.STATE
     STA = STATE

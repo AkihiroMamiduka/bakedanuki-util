@@ -50,7 +50,9 @@ class ViewModeEnumField(
     PLUG_CLS = ViewModeEnumPlugOperator
 
 
-class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"]):
+class UiTreatmentEnumPlugOperator(
+    EnumPlugOperator["UiTreatmentEnumAttrOperator"]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -58,7 +60,9 @@ class UiTreatmentEnumPlugOperator(EnumPlugOperator["UiTreatmentEnumAttrOperator"
     CUSTOM = 1000
 
 
-class UiTreatmentEnumAttrOperator(EnumAttrOperator[UiTreatmentEnumPlugOperator]):
+class UiTreatmentEnumAttrOperator(
+    EnumAttrOperator[UiTreatmentEnumPlugOperator]
+):
     __slots__ = ()
 
     STANDARD = 0
@@ -152,7 +156,9 @@ class ColorModeEnumField(
     PLUG_CLS = ColorModeEnumPlugOperator
 
 
-class NormalDirectionEnumPlugOperator(EnumPlugOperator["NormalDirectionEnumAttrOperator"]):
+class NormalDirectionEnumPlugOperator(
+    EnumPlugOperator["NormalDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -160,7 +166,9 @@ class NormalDirectionEnumPlugOperator(EnumPlugOperator["NormalDirectionEnumAttrO
     SURFACE_BACK = 2
 
 
-class NormalDirectionEnumAttrOperator(EnumAttrOperator[NormalDirectionEnumPlugOperator]):
+class NormalDirectionEnumAttrOperator(
+    EnumAttrOperator[NormalDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     FACE_CAMERA = 0
@@ -183,7 +191,9 @@ class NormalDirectionEnumField(
     PLUG_CLS = NormalDirectionEnumPlugOperator
 
 
-class SeparationEnumPlugOperator(EnumPlugOperator["SeparationEnumAttrOperator"]):
+class SeparationEnumPlugOperator(
+    EnumPlugOperator["SeparationEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHADINGGROUP_ON_SHAPE = 0
@@ -214,7 +224,9 @@ class SeparationEnumField(
     PLUG_CLS = SeparationEnumPlugOperator
 
 
-class FileFormatEnumPlugOperator(EnumPlugOperator["FileFormatEnumAttrOperator"]):
+class FileFormatEnumPlugOperator(
+    EnumPlugOperator["FileFormatEnumAttrOperator"]
+):
     __slots__ = ()
 
     TIF = 1
@@ -281,7 +293,9 @@ class FileFormatEnumField(
     PLUG_CLS = FileFormatEnumPlugOperator
 
 
-class BitsPerChannelEnumPlugOperator(EnumPlugOperator["BitsPerChannelEnumAttrOperator"]):
+class BitsPerChannelEnumPlugOperator(
+    EnumPlugOperator["BitsPerChannelEnumAttrOperator"]
+):
     __slots__ = ()
 
     _8_BITS = 1
@@ -289,7 +303,9 @@ class BitsPerChannelEnumPlugOperator(EnumPlugOperator["BitsPerChannelEnumAttrOpe
     _32_BITS = 4
 
 
-class BitsPerChannelEnumAttrOperator(EnumAttrOperator[BitsPerChannelEnumPlugOperator]):
+class BitsPerChannelEnumAttrOperator(
+    EnumAttrOperator[BitsPerChannelEnumPlugOperator]
+):
     __slots__ = ()
 
     _8_BITS = 1
@@ -343,7 +359,9 @@ class UvRangeEnumField(
     PLUG_CLS = UvRangeEnumPlugOperator
 
 
-class BackgroundModeEnumPlugOperator(EnumPlugOperator["BackgroundModeEnumAttrOperator"]):
+class BackgroundModeEnumPlugOperator(
+    EnumPlugOperator["BackgroundModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     SHADER_DEFAULT = 0
@@ -351,7 +369,9 @@ class BackgroundModeEnumPlugOperator(EnumPlugOperator["BackgroundModeEnumAttrOpe
     EXTEND_EDGE_COLOR = 2
 
 
-class BackgroundModeEnumAttrOperator(EnumAttrOperator[BackgroundModeEnumPlugOperator]):
+class BackgroundModeEnumAttrOperator(
+    EnumAttrOperator[BackgroundModeEnumPlugOperator]
+):
     __slots__ = ()
 
     SHADER_DEFAULT = 0
@@ -439,7 +459,9 @@ class GeneratedTextureBakeSet(DG):
     dnSetMembers = TypedField(multi=True, readable=False)
     dnsm = dnSetMembers
 
-    memberWireframeColor = ShortField(default_value=-1, min_value=-1, max_value=23)
+    memberWireframeColor = ShortField(
+        default_value=-1, min_value=-1, max_value=23
+    )
     mwc = memberWireframeColor
 
     channelSetColor = ChannelSetColorField(default_value=(0.5, 0.5, 0.5))
@@ -496,7 +518,9 @@ class GeneratedTextureBakeSet(DG):
     alphaMode = AlphaModeEnumField(default_value=1)
     mode = alphaMode
 
-    occlusionRays = LongField(default_value=64, min_value=0, soft_max_value=256)
+    occlusionRays = LongField(
+        default_value=64, min_value=0, soft_max_value=256
+    )
     mor = occlusionRays
 
     occlusionFalloff = FloatField(default_value=0.0, min_value=0.0)
@@ -520,10 +544,22 @@ class GeneratedTextureBakeSet(DG):
     prefix = DataStringField()
     pre = prefix
 
-    xResolution = LongField(default_value=512, min_value=1, max_value=16384, soft_min_value=128, soft_max_value=1024)
+    xResolution = LongField(
+        default_value=512,
+        min_value=1,
+        max_value=16384,
+        soft_min_value=128,
+        soft_max_value=1024,
+    )
     xres = xResolution
 
-    yResolution = LongField(default_value=512, min_value=1, max_value=16384, soft_min_value=128, soft_max_value=1024)
+    yResolution = LongField(
+        default_value=512,
+        min_value=1,
+        max_value=16384,
+        soft_min_value=128,
+        soft_max_value=1024,
+    )
     yres = yResolution
 
     fileFormat = FileFormatEnumField(default_value=1)
@@ -541,22 +577,50 @@ class GeneratedTextureBakeSet(DG):
     uvRange = UvRangeEnumField(default_value=0)
     range = uvRange
 
-    uMin = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
+    uMin = FloatField(
+        default_value=1.0,
+        min_value=-10000.0,
+        max_value=10000.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     ul = uMin
 
-    uMax = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
+    uMax = FloatField(
+        default_value=1.0,
+        min_value=-10000.0,
+        max_value=10000.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     uh = uMax
 
-    vMin = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
+    vMin = FloatField(
+        default_value=1.0,
+        min_value=-10000.0,
+        max_value=10000.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     vl = vMin
 
-    vMax = FloatField(default_value=1.0, min_value=-10000.0, max_value=10000.0, soft_min_value=0.0, soft_max_value=1.0)
+    vMax = FloatField(
+        default_value=1.0,
+        min_value=-10000.0,
+        max_value=10000.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     vh = vMax
 
     backgroundMode = BackgroundModeEnumField(default_value=0)
     bmode = backgroundMode
 
-    backgroundColor = BackgroundColorField(default_value=(0.0, 0.0, 0.0), soft_min_value=(0.0, 0.0, 0.0), soft_max_value=(1.0, 1.0, 1.0))
+    backgroundColor = BackgroundColorField(
+        default_value=(0.0, 0.0, 0.0),
+        soft_min_value=(0.0, 0.0, 0.0),
+        soft_max_value=(1.0, 1.0, 1.0),
+    )
     bgc = backgroundColor
     backgroundColorR = backgroundColor.backgroundColorR
     bgr = backgroundColorR
@@ -565,16 +629,26 @@ class GeneratedTextureBakeSet(DG):
     backgroundColorB = backgroundColor.backgroundColorB
     bgb = backgroundColorB
 
-    fillTextureSeams = FloatField(default_value=1.0, min_value=0.0, max_value=32.0, soft_min_value=0.0, soft_max_value=3.0)
+    fillTextureSeams = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        max_value=32.0,
+        soft_min_value=0.0,
+        soft_max_value=3.0,
+    )
     fillseams = fillTextureSeams
 
     fillScale = FloatField(default_value=1.0, min_value=1.0, max_value=5.0)
     fillscale = fillScale
 
-    finalGatherQuality = FloatField(default_value=1.0, min_value=0.0, soft_max_value=2.0)
+    finalGatherQuality = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=2.0
+    )
     fgq = finalGatherQuality
 
-    finalGatherReflect = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    finalGatherReflect = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     fgr = finalGatherReflect
 
     bakeToOneMap = BoolField(default_value=False)

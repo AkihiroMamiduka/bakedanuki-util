@@ -96,7 +96,9 @@ class GeneratedPolyMoveVertex(DG):
     pivotZ = pivot.pivotZ
     pvz = pivotZ
 
-    random = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    random = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     ran = random
 
     randomSeed = LongField(default_value=0)

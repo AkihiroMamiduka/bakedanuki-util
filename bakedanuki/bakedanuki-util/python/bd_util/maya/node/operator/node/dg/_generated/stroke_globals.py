@@ -10,10 +10,14 @@ class GeneratedStrokeGlobals(DG):
 
     NODE_TYPE = "strokeGlobals"
 
-    sceneScale = DoubleField(default_value=5.0, soft_min_value=0.0, soft_max_value=100.0)
+    sceneScale = DoubleField(
+        default_value=5.0, soft_min_value=0.0, soft_max_value=100.0
+    )
     pss = sceneScale
 
-    canvasScale = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=10.0)
+    canvasScale = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=10.0
+    )
     pcs = canvasScale
 
     wrapH = BoolField(default_value=False)

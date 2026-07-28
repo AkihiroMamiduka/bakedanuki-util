@@ -29,7 +29,9 @@ class GeneratedTripleShadingSwitch(DG):
     inComp3 = FloatField()
     ic3 = inComp3
 
-    default = DefaultField(default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929))
+    default = DefaultField(
+        default_value=(0.800000011920929, 0.800000011920929, 0.800000011920929)
+    )
     def_ = default
     defComp1 = default.defComp1
     dc1 = defComp1

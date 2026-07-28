@@ -56,7 +56,9 @@ class GeneratedPolyCreateFace(DG):
     loop = LongField(multi=True, default_value=0)
     l = loop
 
-    subdivision = LongField(default_value=1, min_value=1, max_value=100, soft_max_value=10)
+    subdivision = LongField(
+        default_value=1, min_value=1, max_value=100, soft_max_value=10
+    )
     s = subdivision
 
     texture = TextureEnumField(default_value=0)

@@ -28,9 +28,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -91,7 +89,9 @@ class ConnectionColourAttrOperator(
 
 
 class ConnectionColourField(
-    Float3CompoundBaseField[ConnectionColourAttrOperator, ConnectionColourPlugOperator]
+    Float3CompoundBaseField[
+        ConnectionColourAttrOperator, ConnectionColourPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -141,7 +141,9 @@ class LinearMotorTargetSpeedAttrOperator(
 
 
 class LinearMotorTargetSpeedField(
-    Float3CompoundBaseField[LinearMotorTargetSpeedAttrOperator, LinearMotorTargetSpeedPlugOperator]
+    Float3CompoundBaseField[
+        LinearMotorTargetSpeedAttrOperator, LinearMotorTargetSpeedPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -194,7 +196,9 @@ class LinearMotorMaxForceAttrOperator(
 
 
 class LinearMotorMaxForceField(
-    Float3CompoundBaseField[LinearMotorMaxForceAttrOperator, LinearMotorMaxForcePlugOperator]
+    Float3CompoundBaseField[
+        LinearMotorMaxForceAttrOperator, LinearMotorMaxForcePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -247,7 +251,10 @@ class AngularMotorTargetSpeedAttrOperator(
 
 
 class AngularMotorTargetSpeedField(
-    Float3CompoundBaseField[AngularMotorTargetSpeedAttrOperator, AngularMotorTargetSpeedPlugOperator]
+    Float3CompoundBaseField[
+        AngularMotorTargetSpeedAttrOperator,
+        AngularMotorTargetSpeedPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -300,7 +307,9 @@ class AngularMotorMaxForceAttrOperator(
 
 
 class AngularMotorMaxForceField(
-    Float3CompoundBaseField[AngularMotorMaxForceAttrOperator, AngularMotorMaxForcePlugOperator]
+    Float3CompoundBaseField[
+        AngularMotorMaxForceAttrOperator, AngularMotorMaxForcePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -318,7 +327,9 @@ class AngularMotorMaxForceField(
 
 
 class ConstraintMinimumPositionLimitPlugOperator(
-    Float3CompoundBasePlugOperator["ConstraintMinimumPositionLimitAttrOperator"]
+    Float3CompoundBasePlugOperator[
+        "ConstraintMinimumPositionLimitAttrOperator"
+    ]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -353,7 +364,10 @@ class ConstraintMinimumPositionLimitAttrOperator(
 
 
 class ConstraintMinimumPositionLimitField(
-    Float3CompoundBaseField[ConstraintMinimumPositionLimitAttrOperator, ConstraintMinimumPositionLimitPlugOperator]
+    Float3CompoundBaseField[
+        ConstraintMinimumPositionLimitAttrOperator,
+        ConstraintMinimumPositionLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -371,7 +385,9 @@ class ConstraintMinimumPositionLimitField(
 
 
 class ConstraintMaximumPositionLimitPlugOperator(
-    Float3CompoundBasePlugOperator["ConstraintMaximumPositionLimitAttrOperator"]
+    Float3CompoundBasePlugOperator[
+        "ConstraintMaximumPositionLimitAttrOperator"
+    ]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -406,7 +422,10 @@ class ConstraintMaximumPositionLimitAttrOperator(
 
 
 class ConstraintMaximumPositionLimitField(
-    Float3CompoundBaseField[ConstraintMaximumPositionLimitAttrOperator, ConstraintMaximumPositionLimitPlugOperator]
+    Float3CompoundBaseField[
+        ConstraintMaximumPositionLimitAttrOperator,
+        ConstraintMaximumPositionLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -424,7 +443,9 @@ class ConstraintMaximumPositionLimitField(
 
 
 class ConstraintMinimumRotationLimitPlugOperator(
-    Float3CompoundBasePlugOperator["ConstraintMinimumRotationLimitAttrOperator"]
+    Float3CompoundBasePlugOperator[
+        "ConstraintMinimumRotationLimitAttrOperator"
+    ]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -459,7 +480,10 @@ class ConstraintMinimumRotationLimitAttrOperator(
 
 
 class ConstraintMinimumRotationLimitField(
-    Float3CompoundBaseField[ConstraintMinimumRotationLimitAttrOperator, ConstraintMinimumRotationLimitPlugOperator]
+    Float3CompoundBaseField[
+        ConstraintMinimumRotationLimitAttrOperator,
+        ConstraintMinimumRotationLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -477,7 +501,9 @@ class ConstraintMinimumRotationLimitField(
 
 
 class ConstraintMaximumRotationLimitPlugOperator(
-    Float3CompoundBasePlugOperator["ConstraintMaximumRotationLimitAttrOperator"]
+    Float3CompoundBasePlugOperator[
+        "ConstraintMaximumRotationLimitAttrOperator"
+    ]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
@@ -512,7 +538,10 @@ class ConstraintMaximumRotationLimitAttrOperator(
 
 
 class ConstraintMaximumRotationLimitField(
-    Float3CompoundBaseField[ConstraintMaximumRotationLimitAttrOperator, ConstraintMaximumRotationLimitPlugOperator]
+    Float3CompoundBaseField[
+        ConstraintMaximumRotationLimitAttrOperator,
+        ConstraintMaximumRotationLimitPlugOperator,
+    ]
 ):
     __slots__ = ()
 

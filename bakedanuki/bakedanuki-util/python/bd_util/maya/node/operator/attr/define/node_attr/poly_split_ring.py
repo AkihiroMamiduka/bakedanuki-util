@@ -13,7 +13,9 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class ProfileCurve_InterpEnumPlugOperator(EnumPlugOperator["ProfileCurve_InterpEnumAttrOperator"]):
+class ProfileCurve_InterpEnumPlugOperator(
+    EnumPlugOperator["ProfileCurve_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class ProfileCurve_InterpEnumPlugOperator(EnumPlugOperator["ProfileCurve_InterpE
     SPLINE = 3
 
 
-class ProfileCurve_InterpEnumAttrOperator(EnumAttrOperator[ProfileCurve_InterpEnumPlugOperator]):
+class ProfileCurve_InterpEnumAttrOperator(
+    EnumAttrOperator[ProfileCurve_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -39,7 +43,10 @@ class ProfileCurve_InterpEnumAttrOperator(EnumAttrOperator[ProfileCurve_InterpEn
 
 
 class ProfileCurve_InterpEnumField(
-    EnumField[ProfileCurve_InterpEnumAttrOperator, ProfileCurve_InterpEnumPlugOperator]
+    EnumField[
+        ProfileCurve_InterpEnumAttrOperator,
+        ProfileCurve_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -67,9 +74,7 @@ class ProfileCurvePlugOperator(
     pi = profileCurve_Interp
 
 
-class ProfileCurveAttrOperator(
-    CompoundAttrOperator[ProfileCurvePlugOperator]
-):
+class ProfileCurveAttrOperator(CompoundAttrOperator[ProfileCurvePlugOperator]):
     __slots__ = ()
 
     profileCurve_Position = FloatField(default_value=0.0)

@@ -150,7 +150,9 @@ class ShadeModeEnumField(
     PLUG_CLS = ShadeModeEnumPlugOperator
 
 
-class OverlayModeEnumPlugOperator(EnumPlugOperator["OverlayModeEnumAttrOperator"]):
+class OverlayModeEnumPlugOperator(
+    EnumPlugOperator["OverlayModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +160,9 @@ class OverlayModeEnumPlugOperator(EnumPlugOperator["OverlayModeEnumAttrOperator"
     POLYWIRE = 2
 
 
-class OverlayModeEnumAttrOperator(EnumAttrOperator[OverlayModeEnumPlugOperator]):
+class OverlayModeEnumAttrOperator(
+    EnumAttrOperator[OverlayModeEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -195,7 +199,9 @@ class GeneratedAiUtility(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -239,10 +245,14 @@ class GeneratedAiUtility(DG):
     colorB = color.colorB
     colorb = colorB
 
-    aoDistance = FloatField(default_value=100.0, min_value=0.0, soft_max_value=200.0)
+    aoDistance = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=200.0
+    )
     ao_distance = aoDistance
 
-    roughness = FloatField(default_value=0.20000000298023224, min_value=0.0, max_value=1.0)
+    roughness = FloatField(
+        default_value=0.20000000298023224, min_value=0.0, max_value=1.0
+    )
 
     normal = NormalField(default_value=(0.0, 0.0, 0.0))
     normalX = normal.normalX

@@ -1453,9 +1453,7 @@ def _build_enum_class_lines(
     lines.append("")
     lines.append("")
 
-    lines.append(
-        f"class {attr_cls_name}(EnumAttrOperator[{plug_cls_name}]):"
-    )
+    lines.append(f"class {attr_cls_name}(EnumAttrOperator[{plug_cls_name}]):")
     lines.append("    __slots__ = ()")
     lines.append("")
     for member_name, _label, value in name_values:

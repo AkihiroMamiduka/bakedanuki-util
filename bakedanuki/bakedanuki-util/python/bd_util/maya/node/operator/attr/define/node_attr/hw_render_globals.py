@@ -18,13 +18,19 @@ class BackgroundColorPlugOperator(
         ("backgroundColorB", "bcb"),
     )
 
-    backgroundColorR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcb = backgroundColorB
 
 
@@ -33,29 +39,43 @@ class BackgroundColorAttrOperator(
 ):
     __slots__ = ()
 
-    backgroundColorR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcb = backgroundColorB
 
 
 class BackgroundColorField(
-    Float3CompoundBaseField[BackgroundColorAttrOperator, BackgroundColorPlugOperator]
+    Float3CompoundBaseField[
+        BackgroundColorAttrOperator, BackgroundColorPlugOperator
+    ]
 ):
     __slots__ = ()
 
     ATTR_CLS = BackgroundColorAttrOperator
     PLUG_CLS = BackgroundColorPlugOperator
 
-    backgroundColorR = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorR = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcr = backgroundColorR
 
-    backgroundColorG = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorG = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcg = backgroundColorG
 
-    backgroundColorB = FloatField(default_value=0.0, min_value=0.0, max_value=1.0)
+    backgroundColorB = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0
+    )
     bcb = backgroundColorB

@@ -97,7 +97,9 @@ class LightPositionAttrOperator(
 
 
 class LightPositionField(
-    Float3CompoundBaseField[LightPositionAttrOperator, LightPositionPlugOperator]
+    Float3CompoundBaseField[
+        LightPositionAttrOperator, LightPositionPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -150,7 +152,9 @@ class LightDirectionAttrOperator(
 
 
 class LightDirectionField(
-    Float3CompoundBaseField[LightDirectionAttrOperator, LightDirectionPlugOperator]
+    Float3CompoundBaseField[
+        LightDirectionAttrOperator, LightDirectionPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -51,17 +51,13 @@ class WeightLayersPlugOperator(
     CompoundPlugOperator["WeightLayersAttrOperator"]
 ):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("weights", "wht"),
-    )
+    CHILD_ATTR_NAMES = (("weights", "wht"),)
 
     weights = DoubleField(multi=True, default_value=1.0)
     wht = weights
 
 
-class WeightLayersAttrOperator(
-    CompoundAttrOperator[WeightLayersPlugOperator]
-):
+class WeightLayersAttrOperator(CompoundAttrOperator[WeightLayersPlugOperator]):
     __slots__ = ()
 
     weights = DoubleField(multi=True, default_value=1.0)

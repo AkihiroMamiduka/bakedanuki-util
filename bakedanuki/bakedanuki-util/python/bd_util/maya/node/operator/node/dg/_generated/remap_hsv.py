@@ -15,7 +15,9 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 
 
-class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOperator"]):
+class RenderPassModeEnumPlugOperator(
+    EnumPlugOperator["RenderPassModeEnumAttrOperator"]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -24,7 +26,9 @@ class RenderPassModeEnumPlugOperator(EnumPlugOperator["RenderPassModeEnumAttrOpe
     WRITE_SHADER_RESULT_TO_BEAUTY_PASSES = 3
 
 
-class RenderPassModeEnumAttrOperator(EnumAttrOperator[RenderPassModeEnumPlugOperator]):
+class RenderPassModeEnumAttrOperator(
+    EnumAttrOperator[RenderPassModeEnumPlugOperator]
+):
     __slots__ = ()
 
     PASS_THROUGH = 0
@@ -63,16 +67,24 @@ class GeneratedRemapHsv(DG):
     colorB = color.colorB
     cb = colorB
 
-    inputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imn = inputMin
 
-    inputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    inputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     imx = inputMax
 
-    outputMin = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMin = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omn = outputMin
 
-    outputMax = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    outputMax = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     omx = outputMax
 
     hue = HueField(multi=True, default_value=(0.0, 0.0, 0.0))

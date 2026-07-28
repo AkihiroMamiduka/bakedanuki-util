@@ -8,7 +8,9 @@ from ....attr.define.node_attr.stitch_srf import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 from ....attr.define.std.dt.nurbs_surface import DataNurbsSurfaceField
 
@@ -39,7 +41,12 @@ class GeneratedStitchSrf(DG):
     toggleTolerance = BoolField(multi=True, default_value=False)
     tt = toggleTolerance
 
-    tolerance = DoubleLinearField(multi=True, default_value=0.1, soft_min_value=0.0001, soft_max_value=0.1)
+    tolerance = DoubleLinearField(
+        multi=True,
+        default_value=0.1,
+        soft_min_value=0.0001,
+        soft_max_value=0.1,
+    )
     tol = tolerance
 
     stepCount = LongField(multi=True, default_value=20, min_value=6)
@@ -72,7 +79,9 @@ class GeneratedStitchSrf(DG):
     cvPosition = CvPositionField(multi=True, default_value=(-1.0, -1.0, -1.0))
     cv = cvPosition
 
-    bias = DoubleField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    bias = DoubleField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     b = bias
 
     fixBoundary = BoolField(default_value=False)

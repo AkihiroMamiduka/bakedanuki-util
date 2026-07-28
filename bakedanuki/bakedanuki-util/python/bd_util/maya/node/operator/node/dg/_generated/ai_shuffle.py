@@ -167,7 +167,9 @@ class GeneratedAiShuffle(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -184,7 +186,9 @@ class GeneratedAiShuffle(DG):
     colorB = color.colorB
     colorb = colorB
 
-    alpha = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    alpha = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
     channelR = ChannelREnumField(default_value=0)
     channel_r = channelR

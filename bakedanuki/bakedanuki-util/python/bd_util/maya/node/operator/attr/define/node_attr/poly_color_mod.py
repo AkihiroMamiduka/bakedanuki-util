@@ -13,7 +13,9 @@ from ..std.at.scalar.enum import (
 from ..std.at.scalar.numeric.range.float import FloatField
 
 
-class RedScale_InterpEnumPlugOperator(EnumPlugOperator["RedScale_InterpEnumAttrOperator"]):
+class RedScale_InterpEnumPlugOperator(
+    EnumPlugOperator["RedScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -22,7 +24,9 @@ class RedScale_InterpEnumPlugOperator(EnumPlugOperator["RedScale_InterpEnumAttrO
     SPLINE = 3
 
 
-class RedScale_InterpEnumAttrOperator(EnumAttrOperator[RedScale_InterpEnumPlugOperator]):
+class RedScale_InterpEnumAttrOperator(
+    EnumAttrOperator[RedScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -47,7 +51,9 @@ class RedScale_InterpEnumField(
     PLUG_CLS = RedScale_InterpEnumPlugOperator
 
 
-class GreenScale_InterpEnumPlugOperator(EnumPlugOperator["GreenScale_InterpEnumAttrOperator"]):
+class GreenScale_InterpEnumPlugOperator(
+    EnumPlugOperator["GreenScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -56,7 +62,9 @@ class GreenScale_InterpEnumPlugOperator(EnumPlugOperator["GreenScale_InterpEnumA
     SPLINE = 3
 
 
-class GreenScale_InterpEnumAttrOperator(EnumAttrOperator[GreenScale_InterpEnumPlugOperator]):
+class GreenScale_InterpEnumAttrOperator(
+    EnumAttrOperator[GreenScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -73,7 +81,9 @@ class GreenScale_InterpEnumAttrOperator(EnumAttrOperator[GreenScale_InterpEnumPl
 
 
 class GreenScale_InterpEnumField(
-    EnumField[GreenScale_InterpEnumAttrOperator, GreenScale_InterpEnumPlugOperator]
+    EnumField[
+        GreenScale_InterpEnumAttrOperator, GreenScale_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -81,7 +91,9 @@ class GreenScale_InterpEnumField(
     PLUG_CLS = GreenScale_InterpEnumPlugOperator
 
 
-class BlueScale_InterpEnumPlugOperator(EnumPlugOperator["BlueScale_InterpEnumAttrOperator"]):
+class BlueScale_InterpEnumPlugOperator(
+    EnumPlugOperator["BlueScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -90,7 +102,9 @@ class BlueScale_InterpEnumPlugOperator(EnumPlugOperator["BlueScale_InterpEnumAtt
     SPLINE = 3
 
 
-class BlueScale_InterpEnumAttrOperator(EnumAttrOperator[BlueScale_InterpEnumPlugOperator]):
+class BlueScale_InterpEnumAttrOperator(
+    EnumAttrOperator[BlueScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -107,7 +121,9 @@ class BlueScale_InterpEnumAttrOperator(EnumAttrOperator[BlueScale_InterpEnumPlug
 
 
 class BlueScale_InterpEnumField(
-    EnumField[BlueScale_InterpEnumAttrOperator, BlueScale_InterpEnumPlugOperator]
+    EnumField[
+        BlueScale_InterpEnumAttrOperator, BlueScale_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -115,7 +131,9 @@ class BlueScale_InterpEnumField(
     PLUG_CLS = BlueScale_InterpEnumPlugOperator
 
 
-class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator["AlphaScale_InterpEnumAttrOperator"]):
+class AlphaScale_InterpEnumPlugOperator(
+    EnumPlugOperator["AlphaScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -124,7 +142,9 @@ class AlphaScale_InterpEnumPlugOperator(EnumPlugOperator["AlphaScale_InterpEnumA
     SPLINE = 3
 
 
-class AlphaScale_InterpEnumAttrOperator(EnumAttrOperator[AlphaScale_InterpEnumPlugOperator]):
+class AlphaScale_InterpEnumAttrOperator(
+    EnumAttrOperator[AlphaScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -141,7 +161,9 @@ class AlphaScale_InterpEnumAttrOperator(EnumAttrOperator[AlphaScale_InterpEnumPl
 
 
 class AlphaScale_InterpEnumField(
-    EnumField[AlphaScale_InterpEnumAttrOperator, AlphaScale_InterpEnumPlugOperator]
+    EnumField[
+        AlphaScale_InterpEnumAttrOperator, AlphaScale_InterpEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -149,7 +171,9 @@ class AlphaScale_InterpEnumField(
     PLUG_CLS = AlphaScale_InterpEnumPlugOperator
 
 
-class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator["IntensityScale_InterpEnumAttrOperator"]):
+class IntensityScale_InterpEnumPlugOperator(
+    EnumPlugOperator["IntensityScale_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -158,7 +182,9 @@ class IntensityScale_InterpEnumPlugOperator(EnumPlugOperator["IntensityScale_Int
     SPLINE = 3
 
 
-class IntensityScale_InterpEnumAttrOperator(EnumAttrOperator[IntensityScale_InterpEnumPlugOperator]):
+class IntensityScale_InterpEnumAttrOperator(
+    EnumAttrOperator[IntensityScale_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -175,7 +201,10 @@ class IntensityScale_InterpEnumAttrOperator(EnumAttrOperator[IntensityScale_Inte
 
 
 class IntensityScale_InterpEnumField(
-    EnumField[IntensityScale_InterpEnumAttrOperator, IntensityScale_InterpEnumPlugOperator]
+    EnumField[
+        IntensityScale_InterpEnumAttrOperator,
+        IntensityScale_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -183,9 +212,7 @@ class IntensityScale_InterpEnumField(
     PLUG_CLS = IntensityScale_InterpEnumPlugOperator
 
 
-class RedScalePlugOperator(
-    CompoundPlugOperator["RedScaleAttrOperator"]
-):
+class RedScalePlugOperator(CompoundPlugOperator["RedScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("redScale_Position", "rp"),
@@ -203,9 +230,7 @@ class RedScalePlugOperator(
     ri = redScale_Interp
 
 
-class RedScaleAttrOperator(
-    CompoundAttrOperator[RedScalePlugOperator]
-):
+class RedScaleAttrOperator(CompoundAttrOperator[RedScalePlugOperator]):
     __slots__ = ()
 
     redScale_Position = FloatField(default_value=0.0)
@@ -218,18 +243,14 @@ class RedScaleAttrOperator(
     ri = redScale_Interp
 
 
-class RedScaleField(
-    CompoundField[RedScaleAttrOperator, RedScalePlugOperator]
-):
+class RedScaleField(CompoundField[RedScaleAttrOperator, RedScalePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RedScaleAttrOperator
     PLUG_CLS = RedScalePlugOperator
 
 
-class GreenScalePlugOperator(
-    CompoundPlugOperator["GreenScaleAttrOperator"]
-):
+class GreenScalePlugOperator(CompoundPlugOperator["GreenScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("greenScale_Position", "gp"),
@@ -247,9 +268,7 @@ class GreenScalePlugOperator(
     gi = greenScale_Interp
 
 
-class GreenScaleAttrOperator(
-    CompoundAttrOperator[GreenScalePlugOperator]
-):
+class GreenScaleAttrOperator(CompoundAttrOperator[GreenScalePlugOperator]):
     __slots__ = ()
 
     greenScale_Position = FloatField(default_value=0.0)
@@ -271,9 +290,7 @@ class GreenScaleField(
     PLUG_CLS = GreenScalePlugOperator
 
 
-class BlueScalePlugOperator(
-    CompoundPlugOperator["BlueScaleAttrOperator"]
-):
+class BlueScalePlugOperator(CompoundPlugOperator["BlueScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("blueScale_Position", "bp"),
@@ -291,9 +308,7 @@ class BlueScalePlugOperator(
     bi = blueScale_Interp
 
 
-class BlueScaleAttrOperator(
-    CompoundAttrOperator[BlueScalePlugOperator]
-):
+class BlueScaleAttrOperator(CompoundAttrOperator[BlueScalePlugOperator]):
     __slots__ = ()
 
     blueScale_Position = FloatField(default_value=0.0)
@@ -315,9 +330,7 @@ class BlueScaleField(
     PLUG_CLS = BlueScalePlugOperator
 
 
-class AlphaScalePlugOperator(
-    CompoundPlugOperator["AlphaScaleAttrOperator"]
-):
+class AlphaScalePlugOperator(CompoundPlugOperator["AlphaScaleAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("alphaScale_Position", "ap"),
@@ -335,9 +348,7 @@ class AlphaScalePlugOperator(
     ai = alphaScale_Interp
 
 
-class AlphaScaleAttrOperator(
-    CompoundAttrOperator[AlphaScalePlugOperator]
-):
+class AlphaScaleAttrOperator(CompoundAttrOperator[AlphaScalePlugOperator]):
     __slots__ = ()
 
     alphaScale_Position = FloatField(default_value=0.0)

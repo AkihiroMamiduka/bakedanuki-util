@@ -61,7 +61,9 @@ class InputTranslateAttrOperator(
 
 
 class InputTranslateField(
-    DoubleLinear3CompoundBaseField[InputTranslateAttrOperator, InputTranslatePlugOperator]
+    DoubleLinear3CompoundBaseField[
+        InputTranslateAttrOperator, InputTranslatePlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,7 +116,9 @@ class InputRotateAttrOperator(
 
 
 class InputRotateField(
-    DoubleAngle3CompoundBaseField[InputRotateAttrOperator, InputRotatePlugOperator]
+    DoubleAngle3CompoundBaseField[
+        InputRotateAttrOperator, InputRotatePlugOperator
+    ]
 ):
     __slots__ = ()
 

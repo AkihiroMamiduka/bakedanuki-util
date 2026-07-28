@@ -8,7 +8,9 @@ from ....attr.define.std.at.scalar.enum import (
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
 from ....attr.define.std.dt.mesh import DataMeshField
 from ....attr.define.std.dt.string import DataStringField
 
@@ -92,7 +94,9 @@ class GeneratedPolyAxis(DG):
     axisZ = axis.axisZ
     axz = axisZ
 
-    heightBaseline = DoubleLinearField(default_value=0.0, min_value=-1.0, max_value=1.0)
+    heightBaseline = DoubleLinearField(
+        default_value=0.0, min_value=-1.0, max_value=1.0
+    )
     hbl = heightBaseline
 
     paramWarn = BoolField(default_value=True)
@@ -113,25 +117,37 @@ class GeneratedPolyAxis(DG):
     frameType = FrameTypeEnumField(default_value=0)
     ftp = frameType
 
-    scale = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    scale = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     sca = scale
 
-    radius = DoubleLinearField(default_value=0.05, min_value=0.001, soft_max_value=100.0)
+    radius = DoubleLinearField(
+        default_value=0.05, min_value=0.001, soft_max_value=100.0
+    )
     r = radius
 
-    lengthX = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthX = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     lx = lengthX
 
-    lengthY = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthY = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     ly = lengthY
 
-    lengthZ = DoubleLinearField(default_value=1.0, min_value=0.01, soft_max_value=100.0)
+    lengthZ = DoubleLinearField(
+        default_value=1.0, min_value=0.01, soft_max_value=100.0
+    )
     lz = lengthZ
 
     arrowType = ArrowTypeEnumField(default_value=1)
     arw = arrowType
 
-    subdivisionsAxis = LongField(default_value=10, min_value=3, soft_max_value=50)
+    subdivisionsAxis = LongField(
+        default_value=10, min_value=3, soft_max_value=50
+    )
     sa = subdivisionsAxis
 
     rightHanded = BoolField(default_value=True)

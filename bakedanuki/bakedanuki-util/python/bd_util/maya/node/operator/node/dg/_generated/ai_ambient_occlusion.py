@@ -29,7 +29,9 @@ class GeneratedAiAmbientOcclusion(DG):
     outColorB = outColor.outColorB
     outb = outColorB
 
-    outTransparency = OutTransparencyField(default_value=(0.5, 0.5, 0.5), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.5, 0.5, 0.5), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -60,13 +62,19 @@ class GeneratedAiAmbientOcclusion(DG):
 
     spread = FloatField(default_value=1.0, min_value=0.0, max_value=1.0)
 
-    nearClip = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    nearClip = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
     near_clip = nearClip
 
-    farClip = FloatField(default_value=100.0, min_value=0.0, soft_max_value=2000.0)
+    farClip = FloatField(
+        default_value=100.0, min_value=0.0, soft_max_value=2000.0
+    )
     far_clip = farClip
 
-    falloff = FloatField(default_value=0.0, min_value=0.0, soft_max_value=100.0)
+    falloff = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=100.0
+    )
 
     black = BlackField(default_value=(0.0, 0.0, 0.0))
     blackR = black.blackR

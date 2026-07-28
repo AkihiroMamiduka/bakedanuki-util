@@ -61,9 +61,7 @@ class OutValueField(
     outz = outValueZ
 
 
-class RoPlugOperator(
-    Float3CompoundBasePlugOperator["RoAttrOperator"]
-):
+class RoPlugOperator(Float3CompoundBasePlugOperator["RoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RoX", "Rox"),
@@ -81,9 +79,7 @@ class RoPlugOperator(
     Roz = RoZ
 
 
-class RoAttrOperator(
-    Float3CompoundBaseAttrOperator[RoPlugOperator]
-):
+class RoAttrOperator(Float3CompoundBaseAttrOperator[RoPlugOperator]):
     __slots__ = ()
 
     RoX = FloatField(default_value=0.0, writable=False)
@@ -96,9 +92,7 @@ class RoAttrOperator(
     Roz = RoZ
 
 
-class RoField(
-    Float3CompoundBaseField[RoAttrOperator, RoPlugOperator]
-):
+class RoField(Float3CompoundBaseField[RoAttrOperator, RoPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RoAttrOperator
@@ -114,9 +108,7 @@ class RoField(
     Roz = RoZ
 
 
-class RdPlugOperator(
-    Float3CompoundBasePlugOperator["RdAttrOperator"]
-):
+class RdPlugOperator(Float3CompoundBasePlugOperator["RdAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("RdX", "Rdx"),
@@ -134,9 +126,7 @@ class RdPlugOperator(
     Rdz = RdZ
 
 
-class RdAttrOperator(
-    Float3CompoundBaseAttrOperator[RdPlugOperator]
-):
+class RdAttrOperator(Float3CompoundBaseAttrOperator[RdPlugOperator]):
     __slots__ = ()
 
     RdX = FloatField(default_value=0.0, writable=False)
@@ -149,9 +139,7 @@ class RdAttrOperator(
     Rdz = RdZ
 
 
-class RdField(
-    Float3CompoundBaseField[RdAttrOperator, RdPlugOperator]
-):
+class RdField(Float3CompoundBaseField[RdAttrOperator, RdPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = RdAttrOperator
@@ -167,9 +155,7 @@ class RdField(
     Rdz = RdZ
 
 
-class PoPlugOperator(
-    Float3CompoundBasePlugOperator["PoAttrOperator"]
-):
+class PoPlugOperator(Float3CompoundBasePlugOperator["PoAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PoX", "Pox"),
@@ -187,9 +173,7 @@ class PoPlugOperator(
     Poz = PoZ
 
 
-class PoAttrOperator(
-    Float3CompoundBaseAttrOperator[PoPlugOperator]
-):
+class PoAttrOperator(Float3CompoundBaseAttrOperator[PoPlugOperator]):
     __slots__ = ()
 
     PoX = FloatField(default_value=0.0, writable=False)
@@ -202,9 +186,7 @@ class PoAttrOperator(
     Poz = PoZ
 
 
-class PoField(
-    Float3CompoundBaseField[PoAttrOperator, PoPlugOperator]
-):
+class PoField(Float3CompoundBaseField[PoAttrOperator, PoPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PoAttrOperator
@@ -220,9 +202,7 @@ class PoField(
     Poz = PoZ
 
 
-class PPlugOperator(
-    Float3CompoundBasePlugOperator["PAttrOperator"]
-):
+class PPlugOperator(Float3CompoundBasePlugOperator["PAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("PX", "Px"),
@@ -240,9 +220,7 @@ class PPlugOperator(
     Pz = PZ
 
 
-class PAttrOperator(
-    Float3CompoundBaseAttrOperator[PPlugOperator]
-):
+class PAttrOperator(Float3CompoundBaseAttrOperator[PPlugOperator]):
     __slots__ = ()
 
     PX = FloatField(default_value=0.0, writable=False)
@@ -255,9 +233,7 @@ class PAttrOperator(
     Pz = PZ
 
 
-class PField(
-    Float3CompoundBaseField[PAttrOperator, PPlugOperator]
-):
+class PField(Float3CompoundBaseField[PAttrOperator, PPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = PAttrOperator
@@ -273,9 +249,7 @@ class PField(
     Pz = PZ
 
 
-class DPdxPlugOperator(
-    Float3CompoundBasePlugOperator["DPdxAttrOperator"]
-):
+class DPdxPlugOperator(Float3CompoundBasePlugOperator["DPdxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dPdxX", "dPdxx"),
@@ -293,9 +267,7 @@ class DPdxPlugOperator(
     dPdxz = dPdxZ
 
 
-class DPdxAttrOperator(
-    Float3CompoundBaseAttrOperator[DPdxPlugOperator]
-):
+class DPdxAttrOperator(Float3CompoundBaseAttrOperator[DPdxPlugOperator]):
     __slots__ = ()
 
     dPdxX = FloatField(default_value=0.0, writable=False)
@@ -308,9 +280,7 @@ class DPdxAttrOperator(
     dPdxz = dPdxZ
 
 
-class DPdxField(
-    Float3CompoundBaseField[DPdxAttrOperator, DPdxPlugOperator]
-):
+class DPdxField(Float3CompoundBaseField[DPdxAttrOperator, DPdxPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DPdxAttrOperator
@@ -326,9 +296,7 @@ class DPdxField(
     dPdxz = dPdxZ
 
 
-class DPdyPlugOperator(
-    Float3CompoundBasePlugOperator["DPdyAttrOperator"]
-):
+class DPdyPlugOperator(Float3CompoundBasePlugOperator["DPdyAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dPdyX", "dPdyx"),
@@ -346,9 +314,7 @@ class DPdyPlugOperator(
     dPdyz = dPdyZ
 
 
-class DPdyAttrOperator(
-    Float3CompoundBaseAttrOperator[DPdyPlugOperator]
-):
+class DPdyAttrOperator(Float3CompoundBaseAttrOperator[DPdyPlugOperator]):
     __slots__ = ()
 
     dPdyX = FloatField(default_value=0.0, writable=False)
@@ -361,9 +327,7 @@ class DPdyAttrOperator(
     dPdyz = dPdyZ
 
 
-class DPdyField(
-    Float3CompoundBaseField[DPdyAttrOperator, DPdyPlugOperator]
-):
+class DPdyField(Float3CompoundBaseField[DPdyAttrOperator, DPdyPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DPdyAttrOperator
@@ -379,9 +343,7 @@ class DPdyField(
     dPdyz = dPdyZ
 
 
-class NPlugOperator(
-    Float3CompoundBasePlugOperator["NAttrOperator"]
-):
+class NPlugOperator(Float3CompoundBasePlugOperator["NAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NX", "Nx"),
@@ -399,9 +361,7 @@ class NPlugOperator(
     Nz = NZ
 
 
-class NAttrOperator(
-    Float3CompoundBaseAttrOperator[NPlugOperator]
-):
+class NAttrOperator(Float3CompoundBaseAttrOperator[NPlugOperator]):
     __slots__ = ()
 
     NX = FloatField(default_value=0.0, writable=False)
@@ -414,9 +374,7 @@ class NAttrOperator(
     Nz = NZ
 
 
-class NField(
-    Float3CompoundBaseField[NAttrOperator, NPlugOperator]
-):
+class NField(Float3CompoundBaseField[NAttrOperator, NPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NAttrOperator
@@ -432,9 +390,7 @@ class NField(
     Nz = NZ
 
 
-class NfPlugOperator(
-    Float3CompoundBasePlugOperator["NfAttrOperator"]
-):
+class NfPlugOperator(Float3CompoundBasePlugOperator["NfAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NfX", "Nfx"),
@@ -452,9 +408,7 @@ class NfPlugOperator(
     Nfz = NfZ
 
 
-class NfAttrOperator(
-    Float3CompoundBaseAttrOperator[NfPlugOperator]
-):
+class NfAttrOperator(Float3CompoundBaseAttrOperator[NfPlugOperator]):
     __slots__ = ()
 
     NfX = FloatField(default_value=0.0, writable=False)
@@ -467,9 +421,7 @@ class NfAttrOperator(
     Nfz = NfZ
 
 
-class NfField(
-    Float3CompoundBaseField[NfAttrOperator, NfPlugOperator]
-):
+class NfField(Float3CompoundBaseField[NfAttrOperator, NfPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NfAttrOperator
@@ -485,9 +437,7 @@ class NfField(
     Nfz = NfZ
 
 
-class NgPlugOperator(
-    Float3CompoundBasePlugOperator["NgAttrOperator"]
-):
+class NgPlugOperator(Float3CompoundBasePlugOperator["NgAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NgX", "Ngx"),
@@ -505,9 +455,7 @@ class NgPlugOperator(
     Ngz = NgZ
 
 
-class NgAttrOperator(
-    Float3CompoundBaseAttrOperator[NgPlugOperator]
-):
+class NgAttrOperator(Float3CompoundBaseAttrOperator[NgPlugOperator]):
     __slots__ = ()
 
     NgX = FloatField(default_value=0.0, writable=False)
@@ -520,9 +468,7 @@ class NgAttrOperator(
     Ngz = NgZ
 
 
-class NgField(
-    Float3CompoundBaseField[NgAttrOperator, NgPlugOperator]
-):
+class NgField(Float3CompoundBaseField[NgAttrOperator, NgPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NgAttrOperator
@@ -538,9 +484,7 @@ class NgField(
     Ngz = NgZ
 
 
-class NgfPlugOperator(
-    Float3CompoundBasePlugOperator["NgfAttrOperator"]
-):
+class NgfPlugOperator(Float3CompoundBasePlugOperator["NgfAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NgfX", "Ngfx"),
@@ -558,9 +502,7 @@ class NgfPlugOperator(
     Ngfz = NgfZ
 
 
-class NgfAttrOperator(
-    Float3CompoundBaseAttrOperator[NgfPlugOperator]
-):
+class NgfAttrOperator(Float3CompoundBaseAttrOperator[NgfPlugOperator]):
     __slots__ = ()
 
     NgfX = FloatField(default_value=0.0, writable=False)
@@ -573,9 +515,7 @@ class NgfAttrOperator(
     Ngfz = NgfZ
 
 
-class NgfField(
-    Float3CompoundBaseField[NgfAttrOperator, NgfPlugOperator]
-):
+class NgfField(Float3CompoundBaseField[NgfAttrOperator, NgfPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NgfAttrOperator
@@ -591,9 +531,7 @@ class NgfField(
     Ngfz = NgfZ
 
 
-class NsPlugOperator(
-    Float3CompoundBasePlugOperator["NsAttrOperator"]
-):
+class NsPlugOperator(Float3CompoundBasePlugOperator["NsAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("NsX", "Nsx"),
@@ -611,9 +549,7 @@ class NsPlugOperator(
     Nsz = NsZ
 
 
-class NsAttrOperator(
-    Float3CompoundBaseAttrOperator[NsPlugOperator]
-):
+class NsAttrOperator(Float3CompoundBaseAttrOperator[NsPlugOperator]):
     __slots__ = ()
 
     NsX = FloatField(default_value=0.0, writable=False)
@@ -626,9 +562,7 @@ class NsAttrOperator(
     Nsz = NsZ
 
 
-class NsField(
-    Float3CompoundBaseField[NsAttrOperator, NsPlugOperator]
-):
+class NsField(Float3CompoundBaseField[NsAttrOperator, NsPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = NsAttrOperator
@@ -644,9 +578,7 @@ class NsField(
     Nsz = NsZ
 
 
-class DPduPlugOperator(
-    Float3CompoundBasePlugOperator["DPduAttrOperator"]
-):
+class DPduPlugOperator(Float3CompoundBasePlugOperator["DPduAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dPduX", "dPdux"),
@@ -664,9 +596,7 @@ class DPduPlugOperator(
     dPduz = dPduZ
 
 
-class DPduAttrOperator(
-    Float3CompoundBaseAttrOperator[DPduPlugOperator]
-):
+class DPduAttrOperator(Float3CompoundBaseAttrOperator[DPduPlugOperator]):
     __slots__ = ()
 
     dPduX = FloatField(default_value=0.0, writable=False)
@@ -679,9 +609,7 @@ class DPduAttrOperator(
     dPduz = dPduZ
 
 
-class DPduField(
-    Float3CompoundBaseField[DPduAttrOperator, DPduPlugOperator]
-):
+class DPduField(Float3CompoundBaseField[DPduAttrOperator, DPduPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DPduAttrOperator
@@ -697,9 +625,7 @@ class DPduField(
     dPduz = dPduZ
 
 
-class DPdvPlugOperator(
-    Float3CompoundBasePlugOperator["DPdvAttrOperator"]
-):
+class DPdvPlugOperator(Float3CompoundBasePlugOperator["DPdvAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dPdvX", "dPdvx"),
@@ -717,9 +643,7 @@ class DPdvPlugOperator(
     dPdvz = dPdvZ
 
 
-class DPdvAttrOperator(
-    Float3CompoundBaseAttrOperator[DPdvPlugOperator]
-):
+class DPdvAttrOperator(Float3CompoundBaseAttrOperator[DPdvPlugOperator]):
     __slots__ = ()
 
     dPdvX = FloatField(default_value=0.0, writable=False)
@@ -732,9 +656,7 @@ class DPdvAttrOperator(
     dPdvz = dPdvZ
 
 
-class DPdvField(
-    Float3CompoundBaseField[DPdvAttrOperator, DPdvPlugOperator]
-):
+class DPdvField(Float3CompoundBaseField[DPdvAttrOperator, DPdvPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DPdvAttrOperator
@@ -750,9 +672,7 @@ class DPdvField(
     dPdvz = dPdvZ
 
 
-class DDdxPlugOperator(
-    Float3CompoundBasePlugOperator["DDdxAttrOperator"]
-):
+class DDdxPlugOperator(Float3CompoundBasePlugOperator["DDdxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dDdxX", "dDdxx"),
@@ -770,9 +690,7 @@ class DDdxPlugOperator(
     dDdxz = dDdxZ
 
 
-class DDdxAttrOperator(
-    Float3CompoundBaseAttrOperator[DDdxPlugOperator]
-):
+class DDdxAttrOperator(Float3CompoundBaseAttrOperator[DDdxPlugOperator]):
     __slots__ = ()
 
     dDdxX = FloatField(default_value=0.0, writable=False)
@@ -785,9 +703,7 @@ class DDdxAttrOperator(
     dDdxz = dDdxZ
 
 
-class DDdxField(
-    Float3CompoundBaseField[DDdxAttrOperator, DDdxPlugOperator]
-):
+class DDdxField(Float3CompoundBaseField[DDdxAttrOperator, DDdxPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DDdxAttrOperator
@@ -803,9 +719,7 @@ class DDdxField(
     dDdxz = dDdxZ
 
 
-class DDdyPlugOperator(
-    Float3CompoundBasePlugOperator["DDdyAttrOperator"]
-):
+class DDdyPlugOperator(Float3CompoundBasePlugOperator["DDdyAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dDdyX", "dDdyx"),
@@ -823,9 +737,7 @@ class DDdyPlugOperator(
     dDdyz = dDdyZ
 
 
-class DDdyAttrOperator(
-    Float3CompoundBaseAttrOperator[DDdyPlugOperator]
-):
+class DDdyAttrOperator(Float3CompoundBaseAttrOperator[DDdyPlugOperator]):
     __slots__ = ()
 
     dDdyX = FloatField(default_value=0.0, writable=False)
@@ -838,9 +750,7 @@ class DDdyAttrOperator(
     dDdyz = dDdyZ
 
 
-class DDdyField(
-    Float3CompoundBaseField[DDdyAttrOperator, DDdyPlugOperator]
-):
+class DDdyField(Float3CompoundBaseField[DDdyAttrOperator, DDdyPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DDdyAttrOperator
@@ -856,9 +766,7 @@ class DDdyField(
     dDdyz = dDdyZ
 
 
-class DNdxPlugOperator(
-    Float3CompoundBasePlugOperator["DNdxAttrOperator"]
-):
+class DNdxPlugOperator(Float3CompoundBasePlugOperator["DNdxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dNdxX", "dNdxx"),
@@ -876,9 +784,7 @@ class DNdxPlugOperator(
     dNdxz = dNdxZ
 
 
-class DNdxAttrOperator(
-    Float3CompoundBaseAttrOperator[DNdxPlugOperator]
-):
+class DNdxAttrOperator(Float3CompoundBaseAttrOperator[DNdxPlugOperator]):
     __slots__ = ()
 
     dNdxX = FloatField(default_value=0.0, writable=False)
@@ -891,9 +797,7 @@ class DNdxAttrOperator(
     dNdxz = dNdxZ
 
 
-class DNdxField(
-    Float3CompoundBaseField[DNdxAttrOperator, DNdxPlugOperator]
-):
+class DNdxField(Float3CompoundBaseField[DNdxAttrOperator, DNdxPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DNdxAttrOperator
@@ -909,9 +813,7 @@ class DNdxField(
     dNdxz = dNdxZ
 
 
-class DNdyPlugOperator(
-    Float3CompoundBasePlugOperator["DNdyAttrOperator"]
-):
+class DNdyPlugOperator(Float3CompoundBasePlugOperator["DNdyAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("dNdyX", "dNdyx"),
@@ -929,9 +831,7 @@ class DNdyPlugOperator(
     dNdyz = dNdyZ
 
 
-class DNdyAttrOperator(
-    Float3CompoundBaseAttrOperator[DNdyPlugOperator]
-):
+class DNdyAttrOperator(Float3CompoundBaseAttrOperator[DNdyPlugOperator]):
     __slots__ = ()
 
     dNdyX = FloatField(default_value=0.0, writable=False)
@@ -944,9 +844,7 @@ class DNdyAttrOperator(
     dNdyz = dNdyZ
 
 
-class DNdyField(
-    Float3CompoundBaseField[DNdyAttrOperator, DNdyPlugOperator]
-):
+class DNdyField(Float3CompoundBaseField[DNdyAttrOperator, DNdyPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = DNdyAttrOperator

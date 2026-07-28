@@ -22,7 +22,9 @@ class GeneratedDagPose(DG):
     parents = MessageField(multi=True)
     p = parents
 
-    global_ = BoolField(multi=True, default_value=False, long_name="global", short_name="g")
+    global_ = BoolField(
+        multi=True, default_value=False, long_name="global", short_name="g"
+    )
     g = global_
 
     world = MessageField(writable=False)

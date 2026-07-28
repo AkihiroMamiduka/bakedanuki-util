@@ -97,7 +97,9 @@ class OutTransparencyAttrOperator(
 
 
 class OutTransparencyField(
-    Float3CompoundBaseField[OutTransparencyAttrOperator, OutTransparencyPlugOperator]
+    Float3CompoundBaseField[
+        OutTransparencyAttrOperator, OutTransparencyPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -114,9 +116,7 @@ class OutTransparencyField(
     otb = outTransparencyB
 
 
-class BasePlugOperator(
-    Float3CompoundBasePlugOperator["BaseAttrOperator"]
-):
+class BasePlugOperator(Float3CompoundBasePlugOperator["BaseAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("baseR", "baser"),
@@ -134,9 +134,7 @@ class BasePlugOperator(
     baseb = baseB
 
 
-class BaseAttrOperator(
-    Float3CompoundBaseAttrOperator[BasePlugOperator]
-):
+class BaseAttrOperator(Float3CompoundBaseAttrOperator[BasePlugOperator]):
     __slots__ = ()
 
     baseR = FloatField(default_value=2.7182817459106445)
@@ -149,9 +147,7 @@ class BaseAttrOperator(
     baseb = baseB
 
 
-class BaseField(
-    Float3CompoundBaseField[BaseAttrOperator, BasePlugOperator]
-):
+class BaseField(Float3CompoundBaseField[BaseAttrOperator, BasePlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = BaseAttrOperator

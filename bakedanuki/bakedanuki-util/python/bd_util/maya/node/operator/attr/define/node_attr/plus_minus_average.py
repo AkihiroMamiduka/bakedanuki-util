@@ -29,9 +29,7 @@ class Input2DPlugOperator(
     i2y = input2Dy
 
 
-class Input2DAttrOperator(
-    Float2CompoundBaseAttrOperator[Input2DPlugOperator]
-):
+class Input2DAttrOperator(Float2CompoundBaseAttrOperator[Input2DPlugOperator]):
     __slots__ = ()
 
     input2Dx = FloatField(default_value=0.0, readable=False)
@@ -70,9 +68,7 @@ class Input3DPlugOperator(
     i3z = input3Dz
 
 
-class Input3DAttrOperator(
-    Float3CompoundBaseAttrOperator[Input3DPlugOperator]
-):
+class Input3DAttrOperator(Float3CompoundBaseAttrOperator[Input3DPlugOperator]):
     __slots__ = ()
 
     input3Dx = FloatField(default_value=0.0, readable=False)

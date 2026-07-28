@@ -44,7 +44,9 @@ class VectorDisplacementAttrOperator(
 
 
 class VectorDisplacementField(
-    Float3CompoundBaseField[VectorDisplacementAttrOperator, VectorDisplacementPlugOperator]
+    Float3CompoundBaseField[
+        VectorDisplacementAttrOperator, VectorDisplacementPlugOperator
+    ]
 ):
     __slots__ = ()
 

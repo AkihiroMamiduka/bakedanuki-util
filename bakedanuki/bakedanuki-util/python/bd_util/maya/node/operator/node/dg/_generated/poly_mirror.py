@@ -14,8 +14,12 @@ from ....attr.define.std.at.scalar.enum import (
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
-from ....attr.define.std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ....attr.define.std.at.scalar.unit.range.float_linear import FloatLinearField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.define.std.at.scalar.unit.range.float_linear import (
+    FloatLinearField,
+)
 from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.matrix import DataMatrixField
 from ....attr.define.std.dt.mesh import DataMeshField
@@ -83,23 +87,25 @@ class AxisEnumAttrOperator(EnumAttrOperator[AxisEnumPlugOperator]):
     }
 
 
-class AxisEnumField(
-    EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]
-):
+class AxisEnumField(EnumField[AxisEnumAttrOperator, AxisEnumPlugOperator]):
     __slots__ = ()
 
     ATTR_CLS = AxisEnumAttrOperator
     PLUG_CLS = AxisEnumPlugOperator
 
 
-class AxisDirectionEnumPlugOperator(EnumPlugOperator["AxisDirectionEnumAttrOperator"]):
+class AxisDirectionEnumPlugOperator(
+    EnumPlugOperator["AxisDirectionEnumAttrOperator"]
+):
     __slots__ = ()
 
     PLUS = 0
     MINUS = 1
 
 
-class AxisDirectionEnumAttrOperator(EnumAttrOperator[AxisDirectionEnumPlugOperator]):
+class AxisDirectionEnumAttrOperator(
+    EnumAttrOperator[AxisDirectionEnumPlugOperator]
+):
     __slots__ = ()
 
     PLUS = 0
@@ -120,7 +126,9 @@ class AxisDirectionEnumField(
     PLUG_CLS = AxisDirectionEnumPlugOperator
 
 
-class MirrorAxisEnumPlugOperator(EnumPlugOperator["MirrorAxisEnumAttrOperator"]):
+class MirrorAxisEnumPlugOperator(
+    EnumPlugOperator["MirrorAxisEnumAttrOperator"]
+):
     __slots__ = ()
 
     BOUNDING_BOX = 0
@@ -182,14 +190,18 @@ class MergeModeEnumField(
     PLUG_CLS = MergeModeEnumPlugOperator
 
 
-class MergeThresholdTypeEnumPlugOperator(EnumPlugOperator["MergeThresholdTypeEnumAttrOperator"]):
+class MergeThresholdTypeEnumPlugOperator(
+    EnumPlugOperator["MergeThresholdTypeEnumAttrOperator"]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
     CUSTOM = 1
 
 
-class MergeThresholdTypeEnumAttrOperator(EnumAttrOperator[MergeThresholdTypeEnumPlugOperator]):
+class MergeThresholdTypeEnumAttrOperator(
+    EnumAttrOperator[MergeThresholdTypeEnumPlugOperator]
+):
     __slots__ = ()
 
     AUTOMATIC = 0
@@ -202,7 +214,9 @@ class MergeThresholdTypeEnumAttrOperator(EnumAttrOperator[MergeThresholdTypeEnum
 
 
 class MergeThresholdTypeEnumField(
-    EnumField[MergeThresholdTypeEnumAttrOperator, MergeThresholdTypeEnumPlugOperator]
+    EnumField[
+        MergeThresholdTypeEnumAttrOperator, MergeThresholdTypeEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -324,7 +338,9 @@ class GeneratedPolyMirror(DG):
     mergeThresholdType = MergeThresholdTypeEnumField(default_value=0)
     mtt = mergeThresholdType
 
-    mergeThreshold = DoubleLinearField(default_value=0.001, min_value=0.0, soft_max_value=1.0)
+    mergeThreshold = DoubleLinearField(
+        default_value=0.001, min_value=0.0, soft_max_value=1.0
+    )
     mt = mergeThreshold
 
     smoothingAngle = FloatField(default_value=30.0, min_value=0.0)

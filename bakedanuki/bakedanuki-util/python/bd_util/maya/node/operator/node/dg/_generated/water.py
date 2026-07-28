@@ -36,10 +36,17 @@ class GeneratedWater(DG):
     uvFilterSizeY = uvFilterSize.uvFilterSizeY
     fsy = uvFilterSizeY
 
-    filter = FloatField(default_value=1.0, min_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filter = FloatField(
+        default_value=1.0,
+        min_value=0.0,
+        soft_min_value=0.0,
+        soft_max_value=1.0,
+    )
     f = filter
 
-    filterOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    filterOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     fo = filterOffset
 
     invert = BoolField(default_value=False)
@@ -48,7 +55,11 @@ class GeneratedWater(DG):
     alphaIsLuminance = BoolField(default_value=False)
     ail = alphaIsLuminance
 
-    colorGain = ColorGainField(default_value=(1.0, 1.0, 1.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorGain = ColorGainField(
+        default_value=(1.0, 1.0, 1.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     cg = colorGain
     colorGainR = colorGain.colorGainR
     cgr = colorGainR
@@ -57,7 +68,11 @@ class GeneratedWater(DG):
     colorGainB = colorGain.colorGainB
     cgb = colorGainB
 
-    colorOffset = ColorOffsetField(default_value=(0.0, 0.0, 0.0), min_value=(0.0, 0.0, 0.0), max_value=(2.0, 2.0, 2.0))
+    colorOffset = ColorOffsetField(
+        default_value=(0.0, 0.0, 0.0),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(2.0, 2.0, 2.0),
+    )
     co = colorOffset
     colorOffsetR = colorOffset.colorOffsetR
     cor = colorOffsetR
@@ -66,13 +81,21 @@ class GeneratedWater(DG):
     colorOffsetB = colorOffset.colorOffsetB
     cob = colorOffsetB
 
-    alphaGain = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaGain = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ag = alphaGain
 
-    alphaOffset = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=2.0)
+    alphaOffset = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=2.0
+    )
     ao = alphaOffset
 
-    defaultColor = DefaultColorField(default_value=(0.5, 0.5, 0.5), min_value=(0.0, 0.0, 0.0), max_value=(1.0, 1.0, 1.0))
+    defaultColor = DefaultColorField(
+        default_value=(0.5, 0.5, 0.5),
+        min_value=(0.0, 0.0, 0.0),
+        max_value=(1.0, 1.0, 1.0),
+    )
     dc = defaultColor
     defaultColorR = defaultColor.defaultColorR
     dcr = defaultColorR
@@ -99,70 +122,104 @@ class GeneratedWater(DG):
     waveTime = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
     wt = waveTime
 
-    waveVelocity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
+    waveVelocity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=1.0
+    )
     wv = waveVelocity
 
-    waveAmplitude = FloatField(default_value=0.05000000074505806, min_value=0.0, soft_max_value=1.0)
+    waveAmplitude = FloatField(
+        default_value=0.05000000074505806, min_value=0.0, soft_max_value=1.0
+    )
     wa = waveAmplitude
 
-    waveFrequency = FloatField(default_value=4.0, min_value=0.0, soft_max_value=20.0)
+    waveFrequency = FloatField(
+        default_value=4.0, min_value=0.0, soft_max_value=20.0
+    )
     wf = waveFrequency
 
-    subWaveFrequency = FloatField(default_value=0.125, min_value=0.0, soft_max_value=1.0)
+    subWaveFrequency = FloatField(
+        default_value=0.125, min_value=0.0, soft_max_value=1.0
+    )
     swf = subWaveFrequency
 
-    smoothness = FloatField(default_value=2.0, min_value=0.0, soft_max_value=5.0)
+    smoothness = FloatField(
+        default_value=2.0, min_value=0.0, soft_max_value=5.0
+    )
     s = smoothness
 
-    windUV = WindUVField(default_value=(1.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0))
+    windUV = WindUVField(
+        default_value=(1.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0)
+    )
     wi = windUV
     windU = windUV.windU
     wiu = windU
     windV = windUV.windV
     wiv = windV
 
-    rippleTime = FloatField(default_value=0.0, min_value=0.0, soft_max_value=1.0)
+    rippleTime = FloatField(
+        default_value=0.0, min_value=0.0, soft_max_value=1.0
+    )
     rt = rippleTime
 
-    rippleFrequency = FloatField(default_value=25.0, min_value=0.0, soft_max_value=25.0)
+    rippleFrequency = FloatField(
+        default_value=25.0, min_value=0.0, soft_max_value=25.0
+    )
     rf = rippleFrequency
 
-    rippleAmplitude = FloatField(default_value=0.05000000074505806, min_value=0.0, soft_max_value=1.0)
+    rippleAmplitude = FloatField(
+        default_value=0.05000000074505806, min_value=0.0, soft_max_value=1.0
+    )
     ra = rippleAmplitude
 
-    dropSize = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0)
+    dropSize = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0
+    )
     ds = dropSize
 
-    rippleOrigin = RippleOriginField(default_value=(0.5, 0.5), min_value=(0.0, 0.0), max_value=(1.0, 1.0))
+    rippleOrigin = RippleOriginField(
+        default_value=(0.5, 0.5), min_value=(0.0, 0.0), max_value=(1.0, 1.0)
+    )
     rc = rippleOrigin
     rippleOriginU = rippleOrigin.rippleOriginU
     rcu = rippleOriginU
     rippleOriginV = rippleOrigin.rippleOriginV
     rcv = rippleOriginV
 
-    groupVelocity = FloatField(default_value=1.0, min_value=0.0, soft_max_value=10.0)
+    groupVelocity = FloatField(
+        default_value=1.0, min_value=0.0, soft_max_value=10.0
+    )
     gv = groupVelocity
 
-    phaseVelocity = FloatField(default_value=2.5, min_value=0.0, soft_max_value=10.0)
+    phaseVelocity = FloatField(
+        default_value=2.5, min_value=0.0, soft_max_value=10.0
+    )
     pv = phaseVelocity
 
-    spreadStart = FloatField(default_value=0.004999999888241291, min_value=0.0, soft_max_value=1.0)
+    spreadStart = FloatField(
+        default_value=0.004999999888241291, min_value=0.0, soft_max_value=1.0
+    )
     ss = spreadStart
 
-    spreadRate = FloatField(default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0)
+    spreadRate = FloatField(
+        default_value=0.30000001192092896, min_value=0.0, soft_max_value=1.0
+    )
     sr = spreadRate
 
     reflectionBox = BoolField(default_value=False)
     rb = reflectionBox
 
-    boxMin = BoxMinField(default_value=(0.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0))
+    boxMin = BoxMinField(
+        default_value=(0.0, 0.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0)
+    )
     bmn = boxMin
     boxMinU = boxMin.boxMinU
     bu1 = boxMinU
     boxMinV = boxMin.boxMinV
     bv1 = boxMinV
 
-    boxMax = BoxMaxField(default_value=(1.0, 1.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0))
+    boxMax = BoxMaxField(
+        default_value=(1.0, 1.0), min_value=(-1.0, -1.0), max_value=(1.0, 1.0)
+    )
     bmx = boxMax
     boxMaxU = boxMax.boxMaxU
     bu2 = boxMaxU

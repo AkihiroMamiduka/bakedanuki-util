@@ -8,9 +8,7 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class Color1PlugOperator(
-    Float3CompoundBasePlugOperator["Color1AttrOperator"]
-):
+class Color1PlugOperator(Float3CompoundBasePlugOperator["Color1AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color1R", "c1r"),
@@ -18,28 +16,38 @@ class Color1PlugOperator(
         ("color1B", "c1b"),
     )
 
-    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1R = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1r = color1R
 
-    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1g = color1G
 
-    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1B = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1b = color1B
 
 
-class Color1AttrOperator(
-    Float3CompoundBaseAttrOperator[Color1PlugOperator]
-):
+class Color1AttrOperator(Float3CompoundBaseAttrOperator[Color1PlugOperator]):
     __slots__ = ()
 
-    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1R = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1r = color1R
 
-    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1g = color1G
 
-    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1B = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1b = color1B
 
 
@@ -51,19 +59,23 @@ class Color1Field(
     ATTR_CLS = Color1AttrOperator
     PLUG_CLS = Color1PlugOperator
 
-    color1R = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1R = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1r = color1R
 
-    color1G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1g = color1G
 
-    color1B = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color1B = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c1b = color1B
 
 
-class Color2PlugOperator(
-    Float3CompoundBasePlugOperator["Color2AttrOperator"]
-):
+class Color2PlugOperator(Float3CompoundBasePlugOperator["Color2AttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("color2R", "c2r"),
@@ -71,28 +83,38 @@ class Color2PlugOperator(
         ("color2B", "c2b"),
     )
 
-    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2R = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2r = color2R
 
-    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2g = color2G
 
-    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2B = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2b = color2B
 
 
-class Color2AttrOperator(
-    Float3CompoundBaseAttrOperator[Color2PlugOperator]
-):
+class Color2AttrOperator(Float3CompoundBaseAttrOperator[Color2PlugOperator]):
     __slots__ = ()
 
-    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2R = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2r = color2R
 
-    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2g = color2G
 
-    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2B = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2b = color2B
 
 
@@ -104,19 +126,23 @@ class Color2Field(
     ATTR_CLS = Color2AttrOperator
     PLUG_CLS = Color2PlugOperator
 
-    color2R = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2R = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2r = color2R
 
-    color2G = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2G = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2g = color2G
 
-    color2B = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    color2B = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     c2b = color2B
 
 
-class OutputPlugOperator(
-    Float3CompoundBasePlugOperator["OutputAttrOperator"]
-):
+class OutputPlugOperator(Float3CompoundBasePlugOperator["OutputAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
         ("outputR", "opr"),
@@ -134,9 +160,7 @@ class OutputPlugOperator(
     opb = outputB
 
 
-class OutputAttrOperator(
-    Float3CompoundBaseAttrOperator[OutputPlugOperator]
-):
+class OutputAttrOperator(Float3CompoundBaseAttrOperator[OutputPlugOperator]):
     __slots__ = ()
 
     outputR = FloatField(default_value=0.0, writable=False)

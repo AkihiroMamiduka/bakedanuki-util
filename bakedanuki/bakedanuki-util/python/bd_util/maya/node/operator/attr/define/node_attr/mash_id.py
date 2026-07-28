@@ -18,7 +18,9 @@ from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound
 )
 
 
-class ProbabilityRamp_InterpEnumPlugOperator(EnumPlugOperator["ProbabilityRamp_InterpEnumAttrOperator"]):
+class ProbabilityRamp_InterpEnumPlugOperator(
+    EnumPlugOperator["ProbabilityRamp_InterpEnumAttrOperator"]
+):
     __slots__ = ()
 
     NONE = 0
@@ -27,7 +29,9 @@ class ProbabilityRamp_InterpEnumPlugOperator(EnumPlugOperator["ProbabilityRamp_I
     SPLINE = 3
 
 
-class ProbabilityRamp_InterpEnumAttrOperator(EnumAttrOperator[ProbabilityRamp_InterpEnumPlugOperator]):
+class ProbabilityRamp_InterpEnumAttrOperator(
+    EnumAttrOperator[ProbabilityRamp_InterpEnumPlugOperator]
+):
     __slots__ = ()
 
     NONE = 0
@@ -44,7 +48,10 @@ class ProbabilityRamp_InterpEnumAttrOperator(EnumAttrOperator[ProbabilityRamp_In
 
 
 class ProbabilityRamp_InterpEnumField(
-    EnumField[ProbabilityRamp_InterpEnumAttrOperator, ProbabilityRamp_InterpEnumPlugOperator]
+    EnumField[
+        ProbabilityRamp_InterpEnumAttrOperator,
+        ProbabilityRamp_InterpEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -72,9 +79,7 @@ class MColourPlugOperator(
     mcb = mColourB
 
 
-class MColourAttrOperator(
-    Float3CompoundBaseAttrOperator[MColourPlugOperator]
-):
+class MColourAttrOperator(Float3CompoundBaseAttrOperator[MColourPlugOperator]):
     __slots__ = ()
 
     mColourR = FloatField(default_value=1.0)
@@ -141,7 +146,9 @@ class FalloffObjectAttrOperator(
 
 
 class FalloffObjectField(
-    Float3CompoundBaseField[FalloffObjectAttrOperator, FalloffObjectPlugOperator]
+    Float3CompoundBaseField[
+        FalloffObjectAttrOperator, FalloffObjectPlugOperator
+    ]
 ):
     __slots__ = ()
 

@@ -45,5 +45,7 @@ class GeneratedPolyConnectComponents(DG):
     insertWithEdgeFlow = BoolField(default_value=False)
     ief = insertWithEdgeFlow
 
-    adjustEdgeFlow = FloatField(default_value=1.0, soft_min_value=0.0, soft_max_value=1.0)
+    adjustEdgeFlow = FloatField(
+        default_value=1.0, soft_min_value=0.0, soft_max_value=1.0
+    )
     aef = adjustEdgeFlow

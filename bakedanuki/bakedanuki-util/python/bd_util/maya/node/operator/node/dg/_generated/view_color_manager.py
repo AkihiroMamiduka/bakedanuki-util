@@ -9,7 +9,9 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.dt.string import DataStringField
 
 
-class ImageColorProfileEnumPlugOperator(EnumPlugOperator["ImageColorProfileEnumAttrOperator"]):
+class ImageColorProfileEnumPlugOperator(
+    EnumPlugOperator["ImageColorProfileEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -19,7 +21,9 @@ class ImageColorProfileEnumPlugOperator(EnumPlugOperator["ImageColorProfileEnumA
     CIE_XYZ = 10
 
 
-class ImageColorProfileEnumAttrOperator(EnumAttrOperator[ImageColorProfileEnumPlugOperator]):
+class ImageColorProfileEnumAttrOperator(
+    EnumAttrOperator[ImageColorProfileEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -38,7 +42,9 @@ class ImageColorProfileEnumAttrOperator(EnumAttrOperator[ImageColorProfileEnumPl
 
 
 class ImageColorProfileEnumField(
-    EnumField[ImageColorProfileEnumAttrOperator, ImageColorProfileEnumPlugOperator]
+    EnumField[
+        ImageColorProfileEnumAttrOperator, ImageColorProfileEnumPlugOperator
+    ]
 ):
     __slots__ = ()
 
@@ -46,7 +52,9 @@ class ImageColorProfileEnumField(
     PLUG_CLS = ImageColorProfileEnumPlugOperator
 
 
-class DisplayColorProfileEnumPlugOperator(EnumPlugOperator["DisplayColorProfileEnumAttrOperator"]):
+class DisplayColorProfileEnumPlugOperator(
+    EnumPlugOperator["DisplayColorProfileEnumAttrOperator"]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -57,7 +65,9 @@ class DisplayColorProfileEnumPlugOperator(EnumPlugOperator["DisplayColorProfileE
     CINEON_LOG = 15
 
 
-class DisplayColorProfileEnumAttrOperator(EnumAttrOperator[DisplayColorProfileEnumPlugOperator]):
+class DisplayColorProfileEnumAttrOperator(
+    EnumAttrOperator[DisplayColorProfileEnumPlugOperator]
+):
     __slots__ = ()
 
     LINEAR_SRGB = 2
@@ -78,7 +88,10 @@ class DisplayColorProfileEnumAttrOperator(EnumAttrOperator[DisplayColorProfileEn
 
 
 class DisplayColorProfileEnumField(
-    EnumField[DisplayColorProfileEnumAttrOperator, DisplayColorProfileEnumPlugOperator]
+    EnumField[
+        DisplayColorProfileEnumAttrOperator,
+        DisplayColorProfileEnumPlugOperator,
+    ]
 ):
     __slots__ = ()
 
@@ -97,10 +110,14 @@ class GeneratedViewColorManager(DG):
     displayColorProfile = DisplayColorProfileEnumField(default_value=3)
     dp = displayColorProfile
 
-    exposure = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
+    exposure = FloatField(
+        default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     exp = exposure
 
-    contrast = FloatField(default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0)
+    contrast = FloatField(
+        default_value=0.0, soft_min_value=-5.0, soft_max_value=5.0
+    )
     c = contrast
 
     contrastPivot = FloatField(default_value=0.18000000715255737)

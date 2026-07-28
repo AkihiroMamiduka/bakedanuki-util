@@ -33,7 +33,9 @@ class GeneratedAiHair(DG):
     outAlpha = FloatField(default_value=0.0, writable=False)
     outa = outAlpha
 
-    outTransparency = OutTransparencyField(default_value=(0.0, 0.0, 0.0), writable=False)
+    outTransparency = OutTransparencyField(
+        default_value=(0.0, 0.0, 0.0), writable=False
+    )
     ot = outTransparency
     outTransparencyR = outTransparency.outTransparencyR
     otr = outTransparencyR
@@ -42,7 +44,13 @@ class GeneratedAiHair(DG):
     outTransparencyB = outTransparency.outTransparencyB
     otb = outTransparencyB
 
-    rootcolor = RootcolorField(default_value=(0.10000000149011612, 0.10000000149011612, 0.10000000149011612))
+    rootcolor = RootcolorField(
+        default_value=(
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+        )
+    )
     rootcolorR = rootcolor.rootcolorR
     rootcolorr = rootcolorR
     rootcolorG = rootcolor.rootcolorG
@@ -66,7 +74,9 @@ class GeneratedAiHair(DG):
     opacityB = opacity.opacityB
     opacityb = opacityB
 
-    ambdiff = FloatField(default_value=0.6000000238418579, min_value=0.0, max_value=1.0)
+    ambdiff = FloatField(
+        default_value=0.6000000238418579, min_value=0.0, max_value=1.0
+    )
 
     spec = FloatField(default_value=1.0, min_value=0.0, soft_max_value=1.0)
 
@@ -79,15 +89,21 @@ class GeneratedAiHair(DG):
     specColorB = specColor.specColorB
     spec_colorb = specColorB
 
-    specShift = FloatField(default_value=0.0, soft_min_value=-10.0, soft_max_value=0.0)
+    specShift = FloatField(
+        default_value=0.0, soft_min_value=-10.0, soft_max_value=0.0
+    )
     spec_shift = specShift
 
     specGloss = FloatField(default_value=10.0)
     spec_gloss = specGloss
 
-    spec2 = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0)
+    spec2 = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, soft_max_value=1.0
+    )
 
-    spec2Color = Spec2ColorField(default_value=(1.0, 0.4000000059604645, 0.10000000149011612))
+    spec2Color = Spec2ColorField(
+        default_value=(1.0, 0.4000000059604645, 0.10000000149011612)
+    )
     spec2_color = spec2Color
     spec2ColorR = spec2Color.spec2ColorR
     spec2_colorr = spec2ColorR
@@ -96,15 +112,21 @@ class GeneratedAiHair(DG):
     spec2ColorB = spec2Color.spec2ColorB
     spec2_colorb = spec2ColorB
 
-    spec2Shift = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=15.0)
+    spec2Shift = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=15.0
+    )
     spec2_shift = spec2Shift
 
     spec2Gloss = FloatField(default_value=7.0)
     spec2_gloss = spec2Gloss
 
-    transmission = FloatField(default_value=0.0, soft_min_value=0.0, soft_max_value=1.0)
+    transmission = FloatField(
+        default_value=0.0, soft_min_value=0.0, soft_max_value=1.0
+    )
 
-    transmissionColor = TransmissionColorField(default_value=(1.0, 0.4000000059604645, 0.10000000149011612))
+    transmissionColor = TransmissionColorField(
+        default_value=(1.0, 0.4000000059604645, 0.10000000149011612)
+    )
     transmission_color = transmissionColor
     transmissionColorR = transmissionColor.transmissionColorR
     transmission_colorr = transmissionColorR
@@ -113,7 +135,9 @@ class GeneratedAiHair(DG):
     transmissionColorB = transmissionColor.transmissionColorB
     transmission_colorb = transmissionColorB
 
-    transmissionSpread = FloatField(default_value=1.0, soft_min_value=0.5, soft_max_value=5.0)
+    transmissionSpread = FloatField(
+        default_value=1.0, soft_min_value=0.5, soft_max_value=5.0
+    )
     transmission_spread = transmissionSpread
 
     kdInd = FloatField(default_value=0.0, min_value=0.0, soft_max_value=10.0)
@@ -125,7 +149,9 @@ class GeneratedAiHair(DG):
     aiEnableMatte = BoolField(default_value=False, category="arnold")
     ai_enable_matte = aiEnableMatte
 
-    aiMatteColor = AiMatteColorField(default_value=(0.0, 0.0, 0.0), category="arnold")
+    aiMatteColor = AiMatteColorField(
+        default_value=(0.0, 0.0, 0.0), category="arnold"
+    )
     ai_matte_color = aiMatteColor
     aiMatteColorR = aiMatteColor.aiMatteColorR
     ai_matte_colorr = aiMatteColorR
@@ -134,5 +160,7 @@ class GeneratedAiHair(DG):
     aiMatteColorB = aiMatteColor.aiMatteColorB
     ai_matte_colorb = aiMatteColorB
 
-    aiMatteColorA = FloatField(default_value=0.0, min_value=0.0, max_value=1.0, category="arnold")
+    aiMatteColorA = FloatField(
+        default_value=0.0, min_value=0.0, max_value=1.0, category="arnold"
+    )
     ai_matte_color_a = aiMatteColorA

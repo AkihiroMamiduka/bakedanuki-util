@@ -1,6 +1,8 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.time_editor_interpolator import LayerAttributeField
+from ....attr.define.node_attr.time_editor_interpolator import (
+    LayerAttributeField,
+)
 from ....attr.define.std.at.generic import GenericField
 from ....attr.define.std.at.message import MessageField
 from ....attr.define.std.at.typed import TypedField
