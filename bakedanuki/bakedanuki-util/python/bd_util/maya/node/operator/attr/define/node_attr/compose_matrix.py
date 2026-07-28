@@ -3,25 +3,19 @@
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
-    Double3CompoundBaseAttrOperator,
-    Double3CompoundBasePlugOperator,
-    Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base import (
-    QuatCompoundBaseAttrOperator,
-    QuatCompoundBasePlugOperator,
-    QuatCompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
-    DoubleAngle3CompoundBaseAttrOperator,
-    DoubleAngle3CompoundBasePlugOperator,
-    DoubleAngle3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
+from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    DoubleAngle3CompoundBaseAttrOperator,
+    DoubleAngle3CompoundBasePlugOperator,
+    DoubleAngle3CompoundBaseField,
+    Double3CompoundBaseAttrOperator,
+    Double3CompoundBasePlugOperator,
+    Double3CompoundBaseField,
+    QuatCompoundBaseAttrOperator,
+    QuatCompoundBasePlugOperator,
+    QuatCompoundBaseField,
 )
 
 

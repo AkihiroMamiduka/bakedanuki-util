@@ -12,17 +12,13 @@ from ..std.at.scalar.enum import (
 )
 from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..custom import (
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,

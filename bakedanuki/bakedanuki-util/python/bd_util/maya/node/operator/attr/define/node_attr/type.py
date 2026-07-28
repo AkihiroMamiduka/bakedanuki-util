@@ -17,12 +17,10 @@ from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.dt.double_array import DataDoubleArrayField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base import (
     Long2CompoundBaseAttrOperator,
     Long2CompoundBasePlugOperator,
     Long2CompoundBaseField,

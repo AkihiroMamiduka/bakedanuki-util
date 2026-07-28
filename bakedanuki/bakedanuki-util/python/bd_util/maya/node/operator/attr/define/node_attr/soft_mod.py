@@ -16,12 +16,10 @@ from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..std.at.typed import TypedField
 from ..std.dt.matrix import DataMatrixField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
+from ..custom import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,

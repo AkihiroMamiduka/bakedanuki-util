@@ -8,9 +8,7 @@ from ..std.at.compound import (
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.numeric.range.long import LongField
 from ..std.dt.nurbs_surface import DataNurbsSurfaceField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
-    Double3Field,
-)
+from ..custom import Double3Field
 
 
 class SurfacePointPlugOperator(

@@ -2,12 +2,10 @@
 
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_angle import DoubleAngleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base import (
+from ..custom import (
     Double3CompoundBaseAttrOperator,
     Double3CompoundBasePlugOperator,
     Double3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.unit_compound.angle_compound.double3._base import (
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,

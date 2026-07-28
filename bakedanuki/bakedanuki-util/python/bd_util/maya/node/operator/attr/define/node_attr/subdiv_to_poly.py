@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from ..std.at.scalar.numeric.range.long import LongField
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base import (
+from ..custom import (
     Long2CompoundBaseAttrOperator,
     Long2CompoundBasePlugOperator,
     Long2CompoundBaseField,

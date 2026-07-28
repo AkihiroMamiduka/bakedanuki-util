@@ -96,6 +96,27 @@ bd_util/maya/node/operator/node/dag/shape/_core.py
 `node_attr` 側のファイルは、compound attribute 用の専用 class が必要な場合に出力されます。
 単純な scalar / typed / enum attribute だけで構成できる場合は、node class 側だけで完結します。
 
+custom attribute の生成コードは、深い実装 module を直接参照せず、
+`attr.define.custom` の再エクスポートを import します。
+
+```python
+from ..custom import (
+    Float3CompoundBaseAttrOperator,
+    Float3CompoundBasePlugOperator,
+    Float3CompoundBaseField,
+    Float3Field,
+)
+```
+
+node class から custom Field を直接使う場合も、同じ公開面を参照します。
+
+```python
+from ....attr.define.custom import Float3Field
+```
+
+これにより、生成物の import を短く保ち、custom 以下の実装階層を変更しても
+生成コードへ影響が広がりにくくします。
+
 ## node kind
 
 `generate_node_class_code()` / `generate_node_class_file()` は `node_kind` を受け取ります。

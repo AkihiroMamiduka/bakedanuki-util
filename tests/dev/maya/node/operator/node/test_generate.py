@@ -2,6 +2,8 @@
 from bd_util._dev.maya.node.operator.node.generate import (
     _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
     _AT_TYPE_MAP,
+    _QUAT_COMPOUND_AT_BASE,
+    _SCALAR_COMPOUND_AT_BASE,
     generate_node_attr_code,
     generate_node_class_code,
     generate_node_class_file,
@@ -33,6 +35,29 @@ def test_scalar_attribute_type_map_uses_scalar_package_hierarchy():
 
     for attribute_type, expected_module in expected_modules.items():
         assert _AT_TYPE_MAP[attribute_type][1] == expected_module
+
+
+def test_custom_attribute_type_maps_use_export_facade():
+    custom_attribute_types = {
+        "double2",
+        "double3",
+        "double4",
+        "float2",
+        "float3",
+        "long2",
+        "long3",
+        "short2",
+        "short3",
+    }
+
+    for attribute_type in custom_attribute_types:
+        assert _AT_TYPE_MAP[attribute_type][1] == "define.custom"
+
+    assert all(
+        module_path == "custom"
+        for *_, module_path in _SCALAR_COMPOUND_AT_BASE.values()
+    )
+    assert _QUAT_COMPOUND_AT_BASE[-1] == "custom"
 
 
 def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
@@ -419,6 +444,8 @@ def test_generate_plus_minus_average_node_attr_code():
     assert code is not None
     compile(code, "plus_minus_average_node_attr.py", "exec")
 
+    assert "from ..custom import (" in code
+    assert "custom.at.scalar_compound" not in code
     assert "Float2CompoundBaseField" in code
     assert "Float3CompoundBaseField" in code
     assert "class Input2DPlugOperator(" in code
@@ -745,6 +772,9 @@ def test_generate_field_init_args_include_attribute_metadata():
 
     compile(code, "metadata_node.py", "exec")
 
+    assert "from ....attr.define.custom import Float3Field" in code
+    assert "from ....attr.define.custom import Long3Field" in code
+    assert "define.custom.at.scalar_compound" not in code
     assert (
         "input = FloatField(default_value=0.5, min_value=0.0, "
         'max_value=1.0, soft_min_value=0.25, soft_max_value=0.75, category="bdMetadata")'

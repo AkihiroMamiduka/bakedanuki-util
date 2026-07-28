@@ -10,7 +10,7 @@ from ..std.at.scalar.numeric.bool import BoolField
 from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.dt.string import DataStringField
 from ..std.dt.vector_array import DataVectorArrayField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,

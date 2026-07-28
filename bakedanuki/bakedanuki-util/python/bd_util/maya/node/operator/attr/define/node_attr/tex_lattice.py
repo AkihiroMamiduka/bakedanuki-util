@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from ..std.at.scalar.numeric.range.double import DoubleField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base import (
+from ..custom import (
     Double2CompoundBaseAttrOperator,
     Double2CompoundBasePlugOperator,
     Double2CompoundBaseField,

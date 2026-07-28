@@ -17,7 +17,7 @@ from ..std.at.typed import TypedField
 from ..std.dt.mesh import DataMeshField
 from ..std.dt.nurbs_curve import DataNurbsCurveField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+from ..custom import (
     Double3Field,
 )
 

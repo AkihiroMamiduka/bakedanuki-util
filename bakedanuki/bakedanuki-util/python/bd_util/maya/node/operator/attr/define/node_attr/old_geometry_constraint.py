@@ -8,10 +8,8 @@ from ..std.at.compound import (
 from ..std.at.generic import GenericField
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
+from ..custom import (
     Double3Field,
-)
-from ..custom.at.scalar_compound.unit_compound.linear_compound.double3._base import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,

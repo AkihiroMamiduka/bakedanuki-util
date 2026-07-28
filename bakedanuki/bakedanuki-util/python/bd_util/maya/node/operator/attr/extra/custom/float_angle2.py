@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.unit_compound.angle_compound.float2.float_angle2 import (
+from ...define.custom import (
     FloatAngle2Field,
 )
 

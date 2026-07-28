@@ -71,15 +71,15 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "double": ("DoubleField", "define.std.at.scalar.numeric.range.double"),
     "double2": (
         "Double2Field",
-        "define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2",
+        "define.custom",
     ),
     "double3": (
         "Double3Field",
-        "define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3",
+        "define.custom",
     ),
     "double4": (
         "Double4Field",
-        "define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4",
+        "define.custom",
     ),
     "doubleAngle": (
         "DoubleAngleField",
@@ -93,11 +93,11 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "float": ("FloatField", "define.std.at.scalar.numeric.range.float"),
     "float2": (
         "Float2Field",
-        "define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2",
+        "define.custom",
     ),
     "float3": (
         "Float3Field",
-        "define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3",
+        "define.custom",
     ),
     "floatAngle": (
         "FloatAngleField",
@@ -113,11 +113,11 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "long": ("LongField", "define.std.at.scalar.numeric.range.long"),
     "long2": (
         "Long2Field",
-        "define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2",
+        "define.custom",
     ),
     "long3": (
         "Long3Field",
-        "define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3",
+        "define.custom",
     ),
     "long long int": (
         "LongLongIntField",
@@ -134,11 +134,11 @@ _AT_TYPE_MAP: dict[str, tuple[str, str]] = {
     "short": ("ShortField", "define.std.at.scalar.numeric.range.short"),
     "short2": (
         "Short2Field",
-        "define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2",
+        "define.custom",
     ),
     "short3": (
         "Short3Field",
-        "define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3",
+        "define.custom",
     ),
     "spectrum": ("SpectrumField", "define.std.at.spectrum"),
     "time": ("TimeField", "define.std.at.scalar.unit.time"),
@@ -383,7 +383,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Double2CompoundBasePlugOperator",
         "Double2CompoundBaseAttrOperator",
         "Double2CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.double_compound.double2_compound._base",
+        "custom",
     ),
     (
         "double3",
@@ -393,7 +393,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Double3CompoundBasePlugOperator",
         "Double3CompoundBaseAttrOperator",
         "Double3CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.double_compound.double3_compound._base",
+        "custom",
     ),
     (
         "double4",
@@ -403,7 +403,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Double4CompoundBasePlugOperator",
         "Double4CompoundBaseAttrOperator",
         "Double4CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.double_compound.double4_compound._base",
+        "custom",
     ),
     (
         "float2",
@@ -413,7 +413,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Float2CompoundBasePlugOperator",
         "Float2CompoundBaseAttrOperator",
         "Float2CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base",
+        "custom",
     ),
     (
         "float3",
@@ -423,7 +423,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Float3CompoundBasePlugOperator",
         "Float3CompoundBaseAttrOperator",
         "Float3CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base",
+        "custom",
     ),
     (
         "long2",
@@ -433,7 +433,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Long2CompoundBasePlugOperator",
         "Long2CompoundBaseAttrOperator",
         "Long2CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.long_compound.long2_compound._base",
+        "custom",
     ),
     (
         "long3",
@@ -443,7 +443,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Long3CompoundBasePlugOperator",
         "Long3CompoundBaseAttrOperator",
         "Long3CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base",
+        "custom",
     ),
     (
         "short2",
@@ -453,7 +453,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Short2CompoundBasePlugOperator",
         "Short2CompoundBaseAttrOperator",
         "Short2CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.short_compound.short2_compound._base",
+        "custom",
     ),
     (
         "short3",
@@ -463,7 +463,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "Short3CompoundBasePlugOperator",
         "Short3CompoundBaseAttrOperator",
         "Short3CompoundBaseField",
-        "custom.at.scalar_compound.numeric_compound.short_compound.short3_compound._base",
+        "custom",
     ),
     (
         "double2",
@@ -473,7 +473,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "DoubleAngle2CompoundBasePlugOperator",
         "DoubleAngle2CompoundBaseAttrOperator",
         "DoubleAngle2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.double2._base",
+        "custom",
     ),
     (
         "double3",
@@ -483,7 +483,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "DoubleAngle3CompoundBasePlugOperator",
         "DoubleAngle3CompoundBaseAttrOperator",
         "DoubleAngle3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.double3._base",
+        "custom",
     ),
     (
         "double2",
@@ -493,7 +493,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "DoubleLinear2CompoundBasePlugOperator",
         "DoubleLinear2CompoundBaseAttrOperator",
         "DoubleLinear2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.double2._base",
+        "custom",
     ),
     (
         "double3",
@@ -503,7 +503,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "DoubleLinear3CompoundBasePlugOperator",
         "DoubleLinear3CompoundBaseAttrOperator",
         "DoubleLinear3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.double3._base",
+        "custom",
     ),
     (
         "float2",
@@ -513,7 +513,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatAngle2CompoundBasePlugOperator",
         "FloatAngle2CompoundBaseAttrOperator",
         "FloatAngle2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.float2._base",
+        "custom",
     ),
     (
         "float3",
@@ -523,7 +523,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatAngle3CompoundBasePlugOperator",
         "FloatAngle3CompoundBaseAttrOperator",
         "FloatAngle3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.float3._base",
+        "custom",
     ),
     (
         "float2",
@@ -533,7 +533,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatAngle2CompoundBasePlugOperator",
         "FloatAngle2CompoundBaseAttrOperator",
         "FloatAngle2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.float2._base",
+        "custom",
     ),
     (
         "float3",
@@ -543,7 +543,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatAngle3CompoundBasePlugOperator",
         "FloatAngle3CompoundBaseAttrOperator",
         "FloatAngle3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.angle_compound.float3._base",
+        "custom",
     ),
     (
         "float2",
@@ -553,7 +553,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatLinear2CompoundBasePlugOperator",
         "FloatLinear2CompoundBaseAttrOperator",
         "FloatLinear2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.float2._base",
+        "custom",
     ),
     (
         "float3",
@@ -563,7 +563,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatLinear3CompoundBasePlugOperator",
         "FloatLinear3CompoundBaseAttrOperator",
         "FloatLinear3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.float3._base",
+        "custom",
     ),
     (
         "float2",
@@ -573,7 +573,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatLinear2CompoundBasePlugOperator",
         "FloatLinear2CompoundBaseAttrOperator",
         "FloatLinear2CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.float2._base",
+        "custom",
     ),
     (
         "float3",
@@ -583,7 +583,7 @@ _SCALAR_COMPOUND_AT_BASE: dict[
         "FloatLinear3CompoundBasePlugOperator",
         "FloatLinear3CompoundBaseAttrOperator",
         "FloatLinear3CompoundBaseField",
-        "custom.at.scalar_compound.unit_compound.linear_compound.float3._base",
+        "custom",
     ),
 }
 
@@ -591,7 +591,7 @@ _QUAT_COMPOUND_AT_BASE: tuple[str, str, str, str] = (
     "QuatCompoundBasePlugOperator",
     "QuatCompoundBaseAttrOperator",
     "QuatCompoundBaseField",
-    "custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound._base",
+    "custom",
 )
 
 
@@ -867,9 +867,25 @@ def _resolve_attr_class(attr_info: AttrInfo) -> tuple[str, str] | None:
 
 def _node_attr_module_path(module_path: str) -> str:
     """node_attr 生成ファイルから import できるモジュールパスへ変換する。"""
+    if module_path == "custom" or module_path.startswith("custom."):
+        return "custom"
+
     prefix = "define."
     if module_path.startswith(prefix):
-        return module_path[len(prefix) :]
+        module_path = module_path[len(prefix) :]
+
+    if module_path == "custom" or module_path.startswith("custom."):
+        return "custom"
+
+    return module_path
+
+
+def _node_module_attr_path(module_path: str) -> str:
+    """node 生成ファイル向けに custom attribute の import 窓口を統一する。"""
+    if module_path == "define.custom" or module_path.startswith(
+        "define.custom."
+    ):
+        return "define.custom"
     return module_path
 
 
@@ -1542,6 +1558,7 @@ def generate_node_attr_code(
     module_imports: dict[str, list[str]] = {}
 
     def _add_import(cls_name: str, mod_path: str) -> None:
+        mod_path = _node_attr_module_path(mod_path)
         cls_names = module_imports.setdefault(mod_path, [])
         if cls_name not in cls_names:
             cls_names.append(cls_name)
@@ -1602,13 +1619,9 @@ def generate_node_attr_code(
                     _add_import("EnumPlugOperator", "std.at.scalar.enum")
                     _add_import("EnumField", "std.at.scalar.enum")
                 else:
-                    _add_import(
-                        child_cls_name, _node_attr_module_path(child_module)
-                    )
+                    _add_import(child_cls_name, child_module)
             else:
-                _add_import(
-                    child_cls_name, _node_attr_module_path(child_module)
-                )
+                _add_import(child_cls_name, child_module)
 
             safe_child_name = _safe_field_name(child_name)
             init_args = _field_init_args(
@@ -1964,7 +1977,10 @@ def generate_node_class_code(
         )
     for cls_name, mod_path in sorted(imports.items(), key=lambda kv: kv[1]):
         import_lines.extend(
-            _build_import_lines(f"{attr_import_prefix}.{mod_path}", [cls_name])
+            _build_import_lines(
+                f"{attr_import_prefix}.{_node_module_attr_path(mod_path)}",
+                [cls_name],
+            )
         )
 
     # コード全体を組み立てる

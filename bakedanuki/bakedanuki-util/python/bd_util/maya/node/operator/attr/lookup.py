@@ -7,6 +7,26 @@ import maya.cmds as cmds
 
 from ....attr.query import get_attribute_info
 from ._core import AttrOperator
+from .define.custom import (
+    Double2AttrOperator as NumericDouble2AttrOperator,
+    Double3AttrOperator as NumericDouble3AttrOperator,
+    Double4AttrOperator as NumericDouble4AttrOperator,
+    DoubleAngle2AttrOperator,
+    DoubleAngle3AttrOperator,
+    DoubleLinear2AttrOperator,
+    DoubleLinear3AttrOperator,
+    Float2AttrOperator as NumericFloat2AttrOperator,
+    Float3AttrOperator as NumericFloat3AttrOperator,
+    FloatAngle2AttrOperator,
+    FloatAngle3AttrOperator,
+    FloatLinear2AttrOperator,
+    FloatLinear3AttrOperator,
+    Long2AttrOperator,
+    Long3AttrOperator,
+    Quat4AttrOperator,
+    Short2AttrOperator,
+    Short3AttrOperator,
+)
 from .define.std.at.scalar.numeric.bool import BoolAttrOperator
 from .define.std.at.scalar.numeric.range.byte import ByteAttrOperator
 from .define.std.at.scalar.numeric.range.char import CharAttrOperator
@@ -22,64 +42,10 @@ from .define.std.at.scalar.enum import EnumAttrOperator
 from .define.std.at.scalar.numeric.range.float import FloatAttrOperator
 from .define.std.at.flt_matrix import FltMatrixAttrOperator
 from .define.std.at.scalar.numeric.range.long import LongAttrOperator
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double2_compound.double2 import (
-    Double2AttrOperator as NumericDouble2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
-    Double3AttrOperator as NumericDouble3AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import (
-    Double4AttrOperator as NumericDouble4AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound.quat import (
-    Quat4AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
-    Float2AttrOperator as NumericFloat2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.float_compound.float3_compound.float3 import (
-    Float3AttrOperator as NumericFloat3AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.long_compound.long2_compound.long2 import (
-    Long2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3 import (
-    Long3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.double2.double_angle2 import (
-    DoubleAngle2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.double3.double_angle3 import (
-    DoubleAngle3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.float2.float_angle2 import (
-    FloatAngle2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.angle_compound.float3.float_angle3 import (
-    FloatAngle3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.double2.double_linear2 import (
-    DoubleLinear2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.double3.double_linear3 import (
-    DoubleLinear3AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.float2.float_linear2 import (
-    FloatLinear2AttrOperator,
-)
-from .define.custom.at.scalar_compound.unit_compound.linear_compound.float3.float_linear3 import (
-    FloatLinear3AttrOperator,
-)
 from .define.std.at.matrix import MatrixAttrOperator
 from .define.std.at.message import MessageAttrOperator
 from .define.std.at.reflectance import ReflectanceAttrOperator
 from .define.std.at.scalar.numeric.range.short import ShortAttrOperator
-from .define.custom.at.scalar_compound.numeric_compound.short_compound.short2_compound.short2 import (
-    Short2AttrOperator,
-)
-from .define.custom.at.scalar_compound.numeric_compound.short_compound.short3_compound.short3 import (
-    Short3AttrOperator,
-)
 from .define.std.at.spectrum import SpectrumAttrOperator
 from .define.std.at.scalar.unit.time import TimeAttrOperator
 from .define.std.at.typed import TypedAttrOperator

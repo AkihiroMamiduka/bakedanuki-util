@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.long_compound.long3_compound.long3 import (
+from ...define.custom import (
     Long3Field,
 )
 

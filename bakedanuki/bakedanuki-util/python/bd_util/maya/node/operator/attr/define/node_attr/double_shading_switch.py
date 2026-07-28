@@ -7,13 +7,11 @@ from ..std.at.compound import (
 )
 from ..std.at.message import MessageField
 from ..std.at.scalar.numeric.range.float import FloatField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound._base import (
+from ..custom import (
+    Float2Field,
     Float2CompoundBaseAttrOperator,
     Float2CompoundBasePlugOperator,
     Float2CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float2_compound.float2 import (
-    Float2Field,
 )
 
 

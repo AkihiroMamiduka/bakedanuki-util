@@ -14,12 +14,10 @@ from ..std.at.scalar.numeric.range.float import FloatField
 from ..std.at.scalar.numeric.range.long import LongField
 from ..std.at.typed import TypedField
 from ..std.dt.string import DataStringField
-from ..custom.at.scalar_compound.numeric_compound.float_compound.float3_compound._base import (
+from ..custom import (
     Float3CompoundBaseAttrOperator,
     Float3CompoundBasePlugOperator,
     Float3CompoundBaseField,
-)
-from ..custom.at.scalar_compound.numeric_compound.long_compound.long3_compound._base import (
     Long3CompoundBaseAttrOperator,
     Long3CompoundBasePlugOperator,
     Long3CompoundBaseField,

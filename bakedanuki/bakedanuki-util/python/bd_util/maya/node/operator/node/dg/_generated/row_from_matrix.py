@@ -1,8 +1,6 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.double4 import (
-    Double4Field,
-)
+from ....attr.define.custom import Double4Field
 from ....attr.define.std.at.matrix import MatrixField
 from ....attr.define.std.at.scalar.numeric.range.long import LongField
 

@@ -5,9 +5,7 @@ from ..std.at.compound import (
     CompoundPlugOperator,
     CompoundField,
 )
-from ..custom.at.scalar_compound.numeric_compound.double_compound.double3_compound.double3 import (
-    Double3Field,
-)
+from ..custom import Double3Field
 
 
 class ResultPlugOperator(CompoundPlugOperator["ResultAttrOperator"]):

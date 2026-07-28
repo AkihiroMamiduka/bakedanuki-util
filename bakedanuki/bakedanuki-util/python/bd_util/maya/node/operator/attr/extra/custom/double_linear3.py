@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.unit_compound.linear_compound.double3.double_linear3 import (
+from ...define.custom import (
     DoubleLinear3Field,
 )
 

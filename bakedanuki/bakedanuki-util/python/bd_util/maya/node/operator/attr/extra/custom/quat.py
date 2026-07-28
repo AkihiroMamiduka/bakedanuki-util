@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # self
-from ...define.custom.at.scalar_compound.numeric_compound.double_compound.double4_compound.quat_compound.quat import (
+from ...define.custom import (
     Quat4Field,
 )
 
