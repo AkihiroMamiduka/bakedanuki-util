@@ -175,7 +175,7 @@ class PlugOperator(Generic[A], ABC):
         )
         if indexed_from_parent:
             plug = self.parent_oprt_plug.plug.elementByLogicalIndex(self.index)
-        #   親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
+        # 親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
         elif self.parent_oprt_plug is not None:
             parent_plug = self.parent_oprt_plug.plug
             plug = None
