@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -11,9 +11,9 @@ from ._base import (
     ScalarBaseField,
 )
 
-A = TypeVar("A", bound="EnumAttrOperator")
+A = TypeVar("A", bound="EnumAttrOperator[Any]")
 
-P = TypeVar("P", bound="EnumPlugOperator")
+P = TypeVar("P", bound="EnumPlugOperator[Any]")
 
 
 def _name_map_or_raise(

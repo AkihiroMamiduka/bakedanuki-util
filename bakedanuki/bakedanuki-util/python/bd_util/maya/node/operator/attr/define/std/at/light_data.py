@@ -1,12 +1,12 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="AttrOperator[Any]")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="PlugOperator[Any]")
 
 
 class LightDataPlugOperator(PlugOperator[A]):

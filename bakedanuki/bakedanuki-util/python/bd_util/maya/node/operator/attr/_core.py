@@ -23,9 +23,9 @@ class AccessMeta(type):
         return getattr(cls, key)
 
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="AttrOperator[Any]")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="PlugOperator[Any]")
 
 _NextValue = TypeVar("_NextValue")
 _NextDefault = TypeVar("_NextDefault")

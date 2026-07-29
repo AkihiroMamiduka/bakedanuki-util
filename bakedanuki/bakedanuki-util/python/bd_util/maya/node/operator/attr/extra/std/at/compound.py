@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from typing import TypeVar, Type, cast, get_args, get_origin
+from typing import Any, TypeVar, Type, cast, get_args, get_origin
 
 # self
 from ....define.std.at.compound import (
@@ -9,7 +9,7 @@ from ....define.std.at.compound import (
     CompoundField,
 )
 
-P = TypeVar("P", bound="CompoundPlugOperator")
+P = TypeVar("P", bound="CompoundPlugOperator[Any]")
 
 
 class ExtraCompoundField(CompoundField[CompoundAttrOperator[P], P]):

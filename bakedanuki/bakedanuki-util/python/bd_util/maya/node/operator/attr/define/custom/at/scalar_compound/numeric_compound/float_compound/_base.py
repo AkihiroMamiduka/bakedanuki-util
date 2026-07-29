@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -15,9 +15,9 @@ from .._base import (
     NumericCompoundBaseField,
 )
 
-A = TypeVar("A", bound="FloatCompoundBaseAttrOperator")
+A = TypeVar("A", bound="FloatCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="FloatCompoundBasePlugOperator")
+P = TypeVar("P", bound="FloatCompoundBasePlugOperator[Any, Any]")
 
 V = TypeVar("V", bound=ScalarCompoundValue[float])
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 from collections.abc import Sequence
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ............value import Quat
@@ -11,9 +11,9 @@ from .._base import (
     Double4CompoundBaseField,
 )
 
-A = TypeVar("A", bound="QuatCompoundBaseAttrOperator")
+A = TypeVar("A", bound="QuatCompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="QuatCompoundBasePlugOperator")
+P = TypeVar("P", bound="QuatCompoundBasePlugOperator[Any]")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)

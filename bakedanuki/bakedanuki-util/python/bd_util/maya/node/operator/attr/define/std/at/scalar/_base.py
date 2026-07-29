@@ -1,13 +1,13 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ....._core import AttrOperator, PlugOperator, AttributeField
 from .....keyframe import KeyframeManager
 
-A = TypeVar("A", bound="ScalarBaseAttrOperator")
+A = TypeVar("A", bound="ScalarBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="ScalarBasePlugOperator")
+P = TypeVar("P", bound="ScalarBasePlugOperator[Any]")
 
 
 class ScalarBasePlugOperator(PlugOperator[A]):

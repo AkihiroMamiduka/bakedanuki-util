@@ -8,9 +8,9 @@ from ........py.error import UnsupportedOperationError
 # maya
 from maya.api import OpenMaya as om
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="AttrOperator[Any]")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="PlugOperator[Any]")
 
 
 class CompoundPlugOperator(PlugOperator[A]):

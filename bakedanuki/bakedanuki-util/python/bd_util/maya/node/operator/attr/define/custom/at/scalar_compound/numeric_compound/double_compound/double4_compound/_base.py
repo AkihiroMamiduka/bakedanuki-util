@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...........value import Double4
@@ -10,9 +10,9 @@ from .._base import (
     DoubleCompoundBaseField,
 )
 
-A = TypeVar("A", bound="Double4CompoundBaseAttrOperator")
+A = TypeVar("A", bound="Double4CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="Double4CompoundBasePlugOperator")
+P = TypeVar("P", bound="Double4CompoundBasePlugOperator[Any]")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)

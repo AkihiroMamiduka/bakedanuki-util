@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -9,9 +9,9 @@ from maya.api import OpenMaya as om
 from ...._core import AttrOperator, PlugOperator, AttributeField
 from ........py.error import UnsupportedOperationError
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="AttrOperator[Any]")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="PlugOperator[Any]")
 
 
 class DataTypePlugOperator(PlugOperator[A]):

@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...........value import DoubleLinear3
@@ -9,9 +9,9 @@ from .._base import (
     LinearCompoundBaseField,
 )
 
-A = TypeVar("A", bound="DoubleLinear3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="DoubleLinear3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="DoubleLinear3CompoundBasePlugOperator")
+P = TypeVar("P", bound="DoubleLinear3CompoundBasePlugOperator[Any]")
 
 
 class DoubleLinear3CompoundBasePlugOperator(

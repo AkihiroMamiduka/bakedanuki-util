@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...........value import DoubleAngle3
@@ -9,9 +9,9 @@ from .._base import (
     AngleCompoundBaseField,
 )
 
-A = TypeVar("A", bound="DoubleAngle3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="DoubleAngle3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="DoubleAngle3CompoundBasePlugOperator")
+P = TypeVar("P", bound="DoubleAngle3CompoundBasePlugOperator[Any]")
 
 
 class DoubleAngle3CompoundBasePlugOperator(

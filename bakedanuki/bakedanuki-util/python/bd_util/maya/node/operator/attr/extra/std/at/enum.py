@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from typing import TypeVar, Type, cast, get_args, get_origin
+from typing import Any, TypeVar, Type, cast, get_args, get_origin
 
 # self
 from ....define.std.at.scalar.enum import (
@@ -9,9 +9,9 @@ from ....define.std.at.scalar.enum import (
     EnumField,
 )
 
-A = TypeVar("A", bound="EnumAttrOperator")
+A = TypeVar("A", bound="EnumAttrOperator[Any]")
 
-P = TypeVar("P", bound="EnumPlugOperator")
+P = TypeVar("P", bound="EnumPlugOperator[Any]")
 
 
 class ExtraEnumField(EnumField[EnumAttrOperator[P], P]):

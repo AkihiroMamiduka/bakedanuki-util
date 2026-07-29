@@ -1,6 +1,6 @@
 # coding: utf-8
 from collections.abc import Sequence
-from typing import Generic, TypeVar, Type, cast
+from typing import Any, Generic, TypeVar, Type, cast
 
 # maya
 from maya.api import OpenMaya as om
@@ -12,9 +12,9 @@ from ........value.scalar_compound.scalar_compound_value import (
 from ......... import logger as u_logger
 from ....._core import AttrOperator, PlugOperator, AttributeField
 
-A = TypeVar("A", bound="AttrOperator")
+A = TypeVar("A", bound="AttrOperator[Any]")
 
-P = TypeVar("P", bound="PlugOperator")
+P = TypeVar("P", bound="PlugOperator[Any]")
 
 V = TypeVar("V", bound=ScalarCompoundValue[int | float])
 

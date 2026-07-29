@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...........value import Long2
@@ -9,9 +9,9 @@ from .._base import (
     LongCompoundBaseField,
 )
 
-A = TypeVar("A", bound="Long2CompoundBaseAttrOperator")
+A = TypeVar("A", bound="Long2CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="Long2CompoundBasePlugOperator")
+P = TypeVar("P", bound="Long2CompoundBasePlugOperator[Any]")
 
 
 class Long2CompoundBasePlugOperator(LongCompoundBasePlugOperator[A, Long2]):

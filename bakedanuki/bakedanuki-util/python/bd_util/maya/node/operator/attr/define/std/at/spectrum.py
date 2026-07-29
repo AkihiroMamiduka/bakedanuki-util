@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ...custom import (
@@ -8,9 +8,9 @@ from ...custom import (
     Float3CompoundBaseField,
 )
 
-A = TypeVar("A", bound="Float3CompoundBaseAttrOperator")
+A = TypeVar("A", bound="Float3CompoundBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="Float3CompoundBasePlugOperator")
+P = TypeVar("P", bound="Float3CompoundBasePlugOperator[Any]")
 
 
 class SpectrumPlugOperator(

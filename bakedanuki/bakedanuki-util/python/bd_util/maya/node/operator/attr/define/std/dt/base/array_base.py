@@ -1,13 +1,13 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from .._core import DataTypeAttrOperator, DataTypePlugOperator, DataTypeField
 
-A = TypeVar("A", bound="DataTypeAttrOperator")
+A = TypeVar("A", bound="DataTypeAttrOperator[Any]")
 
-P = TypeVar("P", bound="DataTypePlugOperator")
+P = TypeVar("P", bound="DataTypePlugOperator[Any]")
 
 
 class DataArrayBasePlugOperator(DataTypePlugOperator[A]):

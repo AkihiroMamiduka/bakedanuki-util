@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast
 
 # self
 from ........... import logger as u_logger
@@ -9,9 +9,9 @@ from .._base import (
     UnitBaseField,
 )
 
-A = TypeVar("A", bound="UnitBaseAttrOperator")
+A = TypeVar("A", bound="UnitBaseAttrOperator[Any]")
 
-P = TypeVar("P", bound="UnitBasePlugOperator")
+P = TypeVar("P", bound="UnitBasePlugOperator[Any]")
 
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
