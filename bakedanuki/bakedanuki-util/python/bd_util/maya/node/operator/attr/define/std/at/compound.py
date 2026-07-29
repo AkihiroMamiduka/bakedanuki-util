@@ -16,7 +16,7 @@ P = TypeVar("P", bound="PlugOperator[Any]")
 class CompoundPlugOperator(PlugOperator[A]):
     __slots__ = ()
 
-    CHILD_FIELDS: tuple[AttributeField, ...] = ()
+    CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -75,7 +75,7 @@ class CompoundPlugOperator(PlugOperator[A]):
 
     def _create_child_attr(
         self,
-        child_field: AttributeField,
+        child_field: AttributeField[Any, Any],
     ) -> om.MObject:
         child_attr = self._create_child_attr_operator(child_field)
         attr_type = child_attr.ATTR_TYPE
@@ -112,8 +112,8 @@ class CompoundPlugOperator(PlugOperator[A]):
 
     def _create_child_attr_operator(
         self,
-        child_field: AttributeField,
-    ) -> AttrOperator:
+        child_field: AttributeField[Any, Any],
+    ) -> AttrOperator[Any]:
         parent_attr_path = self._attr_path
         attr_path = f"{parent_attr_path}.{child_field.long_name}"
         return child_field.ATTR_CLS(
@@ -178,7 +178,7 @@ _MATRIX_ATTR_TYPES = {
 
 def _apply_mfn_attr_options(
     fn_attr: om.MFnAttribute,
-    attr: AttrOperator,
+    attr: AttrOperator[Any],
 ) -> None:
     if attr.multi:
         fn_attr.array = True
@@ -195,7 +195,7 @@ def _apply_mfn_attr_options(
 
 def _apply_numeric_range_options(
     fn_attr: Any,
-    attr: AttrOperator,
+    attr: AttrOperator[Any],
 ) -> None:
     if attr.min_value is not None:
         fn_attr.setMin(attr.min_value)
@@ -207,7 +207,7 @@ def _apply_numeric_range_options(
         fn_attr.setSoftMax(attr.soft_max_value)
 
 
-def _create_numeric_attr(attr: AttrOperator) -> om.MObject:
+def _create_numeric_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnNumericAttribute()
     attr_obj = fn_attr.create(
         attr.long_name,
@@ -220,7 +220,7 @@ def _create_numeric_attr(attr: AttrOperator) -> om.MObject:
     return attr_obj
 
 
-def _create_unit_attr(attr: AttrOperator) -> om.MObject:
+def _create_unit_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnUnitAttribute()
     attr_obj = fn_attr.create(
         attr.long_name,
@@ -233,7 +233,7 @@ def _create_unit_attr(attr: AttrOperator) -> om.MObject:
     return attr_obj
 
 
-def _create_matrix_attr(attr: AttrOperator) -> om.MObject:
+def _create_matrix_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnMatrixAttribute()
     attr_obj = fn_attr.create(
         attr.long_name,
@@ -244,7 +244,9 @@ def _create_matrix_attr(attr: AttrOperator) -> om.MObject:
     return attr_obj
 
 
-def _is_scalar_compound_field(child_field: AttributeField) -> bool:
+def _is_scalar_compound_field(
+    child_field: AttributeField[Any, Any],
+) -> bool:
     plug_cls = child_field.PLUG_CLS
     return (
         getattr(plug_cls, "CHILD_M_FN", None) is not None
@@ -255,9 +257,9 @@ def _is_scalar_compound_field(child_field: AttributeField) -> bool:
 
 
 def _create_scalar_compound_attr(
-    child_field: AttributeField,
-    attr: AttrOperator,
-    parent_plug: CompoundPlugOperator,
+    child_field: AttributeField[Any, Any],
+    attr: AttrOperator[Any],
+    parent_plug: CompoundPlugOperator[Any],
 ) -> om.MObject:
     scalar_plug = child_field.PLUG_CLS(
         node=parent_plug._node,
@@ -296,8 +298,8 @@ def _create_scalar_compound_attr(
 
 def _apply_scalar_compound_child_limits(
     child_fn: Any,
-    scalar_plug: PlugOperator,
-    attr: AttrOperator,
+    scalar_plug: PlugOperator[Any],
+    attr: AttrOperator[Any],
     index: int,
 ) -> None:
     limit_items = (
@@ -313,8 +315,8 @@ def _apply_scalar_compound_child_limits(
 
 
 def _create_enum_attr(
-    child_field: AttributeField,
-    attr: AttrOperator,
+    child_field: AttributeField[Any, Any],
+    attr: AttrOperator[Any],
 ) -> om.MObject:
     fn_attr = om.MFnEnumAttribute()
     default_value = attr.default_value
@@ -340,7 +342,7 @@ def _create_enum_attr(
     return attr_obj
 
 
-def _create_message_attr(attr: AttrOperator) -> om.MObject:
+def _create_message_attr(attr: AttrOperator[Any]) -> om.MObject:
     fn_attr = om.MFnMessageAttribute()
     attr_obj = fn_attr.create(
         attr.long_name,
@@ -351,9 +353,9 @@ def _create_message_attr(attr: AttrOperator) -> om.MObject:
 
 
 def _create_compound_attr(
-    child_field: AttributeField,
-    attr: AttrOperator,
-    parent_plug: CompoundPlugOperator,
+    child_field: AttributeField[Any, Any],
+    attr: AttrOperator[Any],
+    parent_plug: CompoundPlugOperator[Any],
 ) -> om.MObject:
     child_fields = getattr(child_field.PLUG_CLS, "CHILD_FIELDS", ())
     if not child_fields:
@@ -382,8 +384,8 @@ class _NestedCompoundAttrParent:
 
     def __init__(
         self,
-        parent_plug: CompoundPlugOperator,
-        oprt_attr: AttrOperator,
+        parent_plug: CompoundPlugOperator[Any],
+        oprt_attr: AttrOperator[Any],
     ):
         self.parent_plug = parent_plug
         self._oprt_attr = oprt_attr
@@ -394,14 +396,14 @@ class _NestedCompoundAttrParent:
 
     def _create_child_attr(
         self,
-        child_field: AttributeField,
+        child_field: AttributeField[Any, Any],
     ) -> om.MObject:
         return CompoundPlugOperator._create_child_attr(self, child_field)
 
     def _create_child_attr_operator(
         self,
-        child_field: AttributeField,
-    ) -> AttrOperator:
+        child_field: AttributeField[Any, Any],
+    ) -> AttrOperator[Any]:
         return CompoundPlugOperator._create_child_attr_operator(
             self,
             child_field,

@@ -27,6 +27,11 @@ A = TypeVar("A", bound="AttrOperator[Any]")
 
 P = TypeVar("P", bound="PlugOperator[Any]")
 
+_ConnectionTarget = TypeVar(
+    "_ConnectionTarget",
+    bound="PlugOperator[Any] | str | list[str]",
+)
+
 _NextValue = TypeVar("_NextValue")
 _NextDefault = TypeVar("_NextDefault")
 
@@ -97,7 +102,7 @@ class PlugOperator(Generic[A], ABC):
         parent_attr_path: str,
         multi: bool = False,
         index: int = None,
-        parent_oprt_plug: PlugOperator | None = None,
+        parent_oprt_plug: PlugOperator[Any] | None = None,
     ):
         # args ----------------------------------------------------------------
         # multi
@@ -112,7 +117,7 @@ class PlugOperator(Generic[A], ABC):
         self._parent_attr_path: str = parent_attr_path
         self._child_index: int | None = oprt_attr.child_index
         # plug
-        self.parent_oprt_plug: PlugOperator | None = parent_oprt_plug
+        self.parent_oprt_plug: PlugOperator[Any] | None = parent_oprt_plug
         # args ----------------------------------------------------------------
 
         # attr
@@ -121,7 +126,7 @@ class PlugOperator(Generic[A], ABC):
         self._m_plug: om.MPlug | None = None
         # array plug
         self._array_m_plug: om.MPlug | None = None
-        self._indexed_plug_cache: dict[int, PlugOperator] | None = None
+        self._indexed_plug_cache: dict[int, Self] | None = None
         self._next_index: int | None = None
         self._keyframe_manager: KeyframeManager | None = None
 
@@ -487,7 +492,7 @@ class PlugOperator(Generic[A], ABC):
 
     # connect
     def _normalize_to_plug(
-        self, obj: PlugOperator | str | list[str]
+        self, obj: PlugOperator[Any] | str | list[str]
     ) -> om.MPlug:
         """
         渡されたオブジェクトから、 MPlug に変換し返す
@@ -521,7 +526,7 @@ class PlugOperator(Generic[A], ABC):
 
         raise TypeError(f"Unsupported connection type: {type(obj)}")
 
-    def connect(self, other: PlugOperator | str | list[str]):
+    def connect(self, other: PlugOperator[Any] | str | list[str]):
         """
         self から other へ connect()
 
@@ -560,7 +565,10 @@ class PlugOperator(Generic[A], ABC):
             plug = self.plug
         return plug.elementByLogicalIndex(self._get_next_index())
 
-    def connect_next_index(self, other: PlugOperator | str | list[str]):
+    def connect_next_index(
+        self,
+        other: PlugOperator[Any] | str | list[str],
+    ):
         """
         マルチアトリビュートの最終インデックスの次へ接続する。
 
@@ -588,7 +596,7 @@ class PlugOperator(Generic[A], ABC):
         """
         self._next_index = None
 
-    def disconnect(self, other: PlugOperator | str | list[str]):
+    def disconnect(self, other: PlugOperator[Any] | str | list[str]):
         """
         self から other へ disconnect()
 
@@ -603,8 +611,9 @@ class PlugOperator(Generic[A], ABC):
         self._node._dg_mod.disconnect(src, dst)
 
     def __gt__(
-        self, other: PlugOperator | str | list[str]
-    ) -> PlugOperator | str | list[str]:
+        self,
+        other: _ConnectionTarget,
+    ) -> _ConnectionTarget:
         """
         self > other 演算子オーバーライド：接続
             .connect() の糖衣構文
@@ -620,7 +629,10 @@ class PlugOperator(Generic[A], ABC):
         self.connect(other)
         return other
 
-    def __lt__(self, other: PlugOperator | str | list[str]) -> Self:
+    def __lt__(
+        self,
+        other: PlugOperator[Any] | str | list[str],
+    ) -> Self:
         """
         other > self 演算子のオーバーライド：接続
 
@@ -638,7 +650,10 @@ class PlugOperator(Generic[A], ABC):
         self._node._dg_mod.connect(src, dst)
         return self
 
-    def __or__(self, other: PlugOperator | str | list[str]):
+    def __or__(
+        self,
+        other: _ConnectionTarget,
+    ) -> _ConnectionTarget:
         """
         self | other 演算子オーバーライド：切断
 
@@ -651,7 +666,10 @@ class PlugOperator(Generic[A], ABC):
         self.disconnect(other)
         return other
 
-    def __ror__(self, other: PlugOperator | str | list[str]):
+    def __ror__(
+        self,
+        other: PlugOperator[Any] | str | list[str],
+    ) -> Self:
         """
         other | self 演算子のオーバーライド：切断
 
