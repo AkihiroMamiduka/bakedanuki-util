@@ -54,27 +54,6 @@ class _NextIndexSentinel(Protocol):
     ) -> _NextValue | _NextDefault: ...
 
 
-class BaseAccess:
-
-    def __init__(
-        self,
-        name: str,
-        owner=None,
-        instance=None,
-        parent=None,
-    ):
-        self.name = name
-        self.owner = owner
-        self.instance = instance
-        self.parent = parent
-
-    def __getitem__(self, key: str):
-        return getattr(self, key)
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__}: {self.name}>"
-
-
 class PlugOperator(Generic[A], ABC):
     __slots__ = (
         "_node",
