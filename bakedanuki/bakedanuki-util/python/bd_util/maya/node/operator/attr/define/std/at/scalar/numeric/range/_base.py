@@ -21,16 +21,16 @@ class NumericRangeBasePlugOperator(NumericBasePlugOperator[A]):
     __slots__ = ()
 
     # set
-    def set_min(self, value):
+    def set_min(self, value: int | float):
         self._fn_attr.setMin(value)
 
-    def set_max(self, value):
+    def set_max(self, value: int | float):
         self._fn_attr.setMax(value)
 
-    def set_soft_min(self, value):
+    def set_soft_min(self, value: int | float):
         self._fn_attr.setSoftMin(value)
 
-    def set_soft_max(self, value):
+    def set_soft_max(self, value: int | float):
         self._fn_attr.setSoftMax(value)
 
     # add
