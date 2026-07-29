@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Any, Protocol, Self, TYPE_CHECKING
+from typing import Any, ClassVar, Protocol, Self, TYPE_CHECKING
 
 # maya
 import maya.cmds as cmds
@@ -62,8 +62,8 @@ class NodeClass(ImmutableDescriptor):
     def __get__(
         self,
         instance: object | None,
-        owner: type,
-    ) -> om.MNodeClass:
+        owner: type[NodeOperator],
+    ) -> om.MNodeClass | None:
         """
         属性アクセスメソッド
         ノードクラスを返す
@@ -73,16 +73,17 @@ class NodeClass(ImmutableDescriptor):
             owner (type): 親クラス
 
         Returns:
-            om.MNodeClass: ノードクラス
+            om.MNodeClass | None: ノードクラス。
+                NODE_TYPE が未定義の場合は None。
         """
-        node_class = None
-        if owner.NODE_TYPE is not None:
-            node_class = om.MNodeClass(owner.NODE_TYPE)
-        return node_class
+        node_type = owner.NODE_TYPE
+        if node_type is None:
+            return None
+        return om.MNodeClass(node_type)
 
 
 class NodeOperator(metaclass=ImmutableDescriptorMeta):
-    NODE_TYPE = None
+    NODE_TYPE: ClassVar[str | None] = None
     node_class = NodeClass()
     is_instance = IsInstance()
     _attributes_map_by_long_name: dict[str, AttrOperator[Any]] = {}
