@@ -21,8 +21,8 @@ from ....... import logger as u_logger
 from ...... import str as test_str
 from .......maya.node.modifier import ModifierManager
 from .......maya.node.operator.node.dag.transform._core import Transform
-from .......maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
-    DoubleField,
+from .......maya.node.operator.attr.define.std.at.scalar.numeric import (
+    double as double_attr,
 )
 from .......maya.node.operator.attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
@@ -67,7 +67,7 @@ class MyEnumField(EnumField[MyEnumAttr, MyEnumPlug]):
 
 class MyNode(Transform):
     # extra=True: init 引数で各種情報を保持する
-    myDouble = DoubleField(
+    myDouble = double_attr.DoubleField(
         extra=True,
         default_value=1.0,
         min_value=0.0,
@@ -82,7 +82,7 @@ class MyNode(Transform):
     )
     me = myEnum
 
-    myReadOnly = DoubleField(
+    myReadOnly = double_attr.DoubleField(
         extra=True,
         readable=True,
         writable=False,
@@ -92,7 +92,7 @@ class MyNode(Transform):
     ms = myString
 
     # extra=False: Maya ノード既存アトリビュート (translateX) へのアクセス用
-    translateX = DoubleField()
+    translateX = double_attr.DoubleField()
     tx = translateX
 
 

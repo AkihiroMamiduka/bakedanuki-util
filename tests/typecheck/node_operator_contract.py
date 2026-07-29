@@ -21,8 +21,8 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
     ScalarBasePlugOperator,
     ScalarBaseField,
 )
-from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
-    DoubleLinearPlugOperator,
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
+    double_linear,
 )
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
@@ -61,7 +61,7 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(compose.inputTranslate, InputTranslatePlugOperator)
     assert_type(
         compose.inputTranslate.inputTranslateX,
-        DoubleLinearPlugOperator,
+        double_linear.DoubleLinearPlugOperator,
     )
     assert_type(compose.inputTranslate.inputTranslateX.get(), float)
     assert_type(compose.inputTranslate.get(), bdu.DoubleLinear3)

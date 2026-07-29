@@ -6,12 +6,10 @@ import csv
 import pytest
 
 from bd_util._test.maya.node.operator.node.competitor_benchmark import (
+    _adapters,
     BenchmarkScenario,
     run_benchmarks,
     write_csv,
-)
-from bd_util._test.maya.node.operator.node.competitor_benchmark._adapters import (
-    CmdsAdapter,
 )
 
 pytestmark = pytest.mark.maya
@@ -24,7 +22,7 @@ def test_run_benchmarks_records_each_successful_repeat():
     )
 
     records = run_benchmarks(
-        [CmdsAdapter()],
+        [_adapters.CmdsAdapter()],
         [scenario],
         count=2,
         repeat_count=2,
@@ -43,7 +41,7 @@ def test_run_benchmarks_records_unsupported_scenario_once():
     scenario = BenchmarkScenario("wrap_existing", "test scenario")
 
     records = run_benchmarks(
-        [CmdsAdapter()],
+        [_adapters.CmdsAdapter()],
         [scenario],
         count=2,
         repeat_count=3,
@@ -59,7 +57,7 @@ def test_run_benchmarks_records_unsupported_scenario_once():
 def test_write_csv_preserves_measurement_metadata(tmp_path):
     scenario = BenchmarkScenario("create_nodes", "test scenario")
     records = run_benchmarks(
-        [CmdsAdapter()],
+        [_adapters.CmdsAdapter()],
         [scenario],
         count=1,
         repeat_count=1,
@@ -96,7 +94,7 @@ def test_run_benchmarks_rejects_invalid_counts(keyword, value):
 
     with pytest.raises(ValueError):
         run_benchmarks(
-            [CmdsAdapter()],
+            [_adapters.CmdsAdapter()],
             [],
             **arguments,
         )
