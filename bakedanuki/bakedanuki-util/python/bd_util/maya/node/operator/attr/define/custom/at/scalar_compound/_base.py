@@ -31,7 +31,7 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
     CHILD_M_ATTR_TYPE: int = None
     VALUE_TYPE: type[V]
     _SUFFIXES: tuple[str, ...] = ()
-    CHILD_FIELDS: tuple[AttributeField, ...] = ()
+    CHILD_FIELDS: tuple[AttributeField[Any, Any], ...] = ()
     CHILD_ATTR_NAMES: tuple[tuple[str, str], ...] = ()
 
     def __init_subclass__(cls, **kwargs):

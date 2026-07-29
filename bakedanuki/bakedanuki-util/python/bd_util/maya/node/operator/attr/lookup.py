@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import annotations
 
-from typing import Type
+from typing import Any, Type
 
 import maya.cmds as cmds
 
@@ -72,7 +72,7 @@ from .define.std.dt.string import DataStringAttrOperator
 from .define.std.dt.string_array import DataStringArrayAttrOperator
 from .define.std.dt.vector_array import DataVectorArrayAttrOperator
 
-_AT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
+_AT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
     cls.ATTR_TYPE: cls
     for cls in [
         BoolAttrOperator,
@@ -105,7 +105,7 @@ _FLOATING_POINT_COMPOUND_ATTR_TYPES = frozenset(
 )
 
 _FLOATING_POINT_COMPOUND_CLASS_MAP: dict[
-    tuple[str, str, int], Type[AttrOperator]
+    tuple[str, str, int], Type[AttrOperator[Any]]
 ] = {
     ("double2", "double", 2): NumericDouble2AttrOperator,
     ("double2", "doubleLinear", 2): DoubleLinear2AttrOperator,
@@ -136,7 +136,7 @@ def _get_attr_long_name(node: str, attr: str) -> str:
 
 def _lookup_floating_point_compound_attr_cls(
     node: str, attr: str, attribute_type: str
-) -> Type[AttrOperator]:
+) -> Type[AttrOperator[Any]]:
     child_attrs = cmds.attributeQuery(attr, node=node, listChildren=True) or []
     if not child_attrs:
         raise TypeError(
@@ -176,7 +176,7 @@ def _lookup_floating_point_compound_attr_cls(
     return attr_cls
 
 
-_DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
+_DT_CLASS_MAP: dict[str, Type[AttrOperator[Any]]] = {
     cls.DATA_TYPE: cls
     for cls in [
         DataDouble2AttrOperator,
@@ -205,7 +205,7 @@ _DT_CLASS_MAP: dict[str, Type[AttrOperator]] = {
 }
 
 
-def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator] | None:
+def lookup_attr_cls(node: str, attr: str) -> Type[AttrOperator[Any]] | None:
     """
     ノード名とアトリビュート名から、対応する Attr クラスを返す。
 

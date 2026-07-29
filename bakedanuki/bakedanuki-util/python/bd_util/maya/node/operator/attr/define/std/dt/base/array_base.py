@@ -14,10 +14,10 @@ class DataArrayBasePlugOperator(DataTypePlugOperator[A]):
     __slots__ = ()
 
     # get
-    def _get_array_data(self, fn_data_cls) -> list:
+    def _get_array_data(self, fn_data_cls) -> list[Any]:
         return fn_data_cls(self.plug.asMObject()).array()
 
-    def _get_array_values(self, fn_data_cls) -> list:
+    def _get_array_values(self, fn_data_cls) -> list[Any]:
         return list(self._get_array_data(fn_data_cls))
 
     # set

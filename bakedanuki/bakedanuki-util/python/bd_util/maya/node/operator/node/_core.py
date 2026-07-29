@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Protocol, Self
+from typing import Any, Protocol, Self, TYPE_CHECKING
 
 # maya
 import maya.cmds as cmds
@@ -11,6 +11,9 @@ from ..... import logger as u_logger
 from .....py.descriptor.immutable import ImmutableDescriptor
 from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
 from ...modifier import ModifierManager
+
+if TYPE_CHECKING:
+    from ..attr._core import AttributeField, AttrOperator, PlugOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
@@ -82,8 +85,8 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     NODE_TYPE = None
     node_class = NodeClass()
     is_instance = IsInstance()
-    _attributes_map_by_long_name: dict = {}
-    _attributes_map_by_short_name: dict = {}
+    _attributes_map_by_long_name: dict[str, AttrOperator[Any]] = {}
+    _attributes_map_by_short_name: dict[str, AttrOperator[Any]] = {}
     _extra_attributes: tuple[_ExtraAttributeField, ...] = ()
 
     __slots__ = (
@@ -116,7 +119,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         seen_ids = set()
         for klass in cls.__mro__:
             for v in vars(klass).values():
-                v: AttributeField
+                v: AttributeField[Any, Any]
                 obj_id = id(v)
 
                 # 既に登録されているか、AttributeField でない場合はスキップ
@@ -245,7 +248,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         for field in self._extra_attributes:
             plug = getattr(self, field.name)
-            plug: PlugOperator
+            plug: PlugOperator[Any]
             if not plug.exists():
                 if plug._REQUIRED_CMDS_ADD_ATTR:
                     plug.cmds_add_attr()

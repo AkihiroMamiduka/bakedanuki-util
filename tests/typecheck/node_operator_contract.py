@@ -142,8 +142,8 @@ def invalid_usage_contract(
     c: ComposeMatrix,
 ) -> None:
     nodes.create.composeMatrix(
-        unknown_option=True
-    )  # pyright: ignore[reportCallIssue]
+        unknown_option=True  # pyright: ignore[reportCallIssue]
+    )
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
     c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
     c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
