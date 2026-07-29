@@ -101,14 +101,14 @@ class PlugOperator(Generic[A], ABC):
         oprt_attr: A,
         parent_attr_path: str,
         multi: bool = False,
-        index: int = None,
+        index: int | None = None,
         parent_oprt_plug: PlugOperator[Any] | None = None,
     ):
         # args ----------------------------------------------------------------
         # multi
         self.multi: bool = multi
         # index
-        self.index: int = index
+        self.index: int | None = index
         # node
         self._node: NodeOperator = node
         # attr
