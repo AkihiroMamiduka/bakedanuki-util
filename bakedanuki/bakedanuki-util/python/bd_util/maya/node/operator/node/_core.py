@@ -197,34 +197,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             TypeError: key が str 以外の型の場合
             ValueError: キーの書式が不正な場合
         """
-        # from ..attr._core import (
-        #     _make_dynamic_plug,
-        #     _parse_attr_segment,
-        # )  # 循環インポート回避のため遅延インポート
-
-        # if not isinstance(key, str):
-        #     raise TypeError(
-        #         f"キーの型は str でなければなりません: {type(key)}"
-        #     )
-
-        # segments = key.split(".")
-        # if any(s == "" for s in segments):
-        #     raise ValueError(
-        #         f"アトリビュートキーに空セグメントが含まれています: '{key}'"
-        #     )
-
-        # # 最初のセグメントを処理する（名前 + オプションのインデックス）
-        # attr_name, index = _parse_attr_segment(segments[0])
-
-        # plug = _make_dynamic_plug(self, attr_name, "")
-        # if index is not None:
-        #     plug = plug[index]
-
-        # # 残りのセグメントを順に処理する
-        # for segment in segments[1:]:
-        #     plug = plug[segment]
-
-        # return plug
         return getattr(self, key)
 
     def __class_getitem__(cls, key: str):
@@ -242,10 +214,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         """
         extra=True の Attr で、対象ノードに存在しないものを addAttr() する。
         """
-        from ..attr._core import (
-            PlugOperator,
-        )  # 循環インポート回避のため遅延インポート
-
         for field in self._extra_attributes:
             plug = getattr(self, field.name)
             plug: PlugOperator[Any]
@@ -273,12 +241,6 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
 
         # ノード作成
         m_obj = modifier_manager.dg_mod.createNode(cls.NODE_TYPE)
-
-        # # チャンネルボックスでのINPUTS OUTPUTSから表示を消す
-        # fn_node = om.MFnDependencyNode(m_obj)
-        # attr_obj = fn_node.attribute("isHistoricallyInteresting")
-        # plug = om.MPlug(m_obj, attr_obj)
-        # dg_mod.newPlugValueBool(plug, False)
 
         # インスタンス生成
         return cls(
