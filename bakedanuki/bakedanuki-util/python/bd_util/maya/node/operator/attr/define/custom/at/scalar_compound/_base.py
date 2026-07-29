@@ -64,7 +64,10 @@ class ScalarCompoundBasePlugOperator(PlugOperator[A], Generic[A, V]):
         child_attr_names = tuple(getattr(cls, "CHILD_ATTR_NAMES", ()))
         if child_attr_names and len(child_attr_names) != len(cls._SUFFIXES):
             raise ValueError(
-                "{}.CHILD_ATTR_NAMES must match child field count: {} != {}".format(
+                (
+                    "{}.CHILD_ATTR_NAMES must match child field count: "
+                    "{} != {}"
+                ).format(
                     cls.__name__,
                     len(child_attr_names),
                     len(cls._SUFFIXES),

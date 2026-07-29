@@ -777,8 +777,9 @@ def test_generate_field_init_args_include_attribute_metadata():
     assert "define.custom.at.scalar_compound" not in code
     assert (
         "input = FloatField(default_value=0.5, min_value=0.0, "
-        'max_value=1.0, soft_min_value=0.25, soft_max_value=0.75, category="bdMetadata")'
-        in code
+        "max_value=1.0, soft_min_value=0.25, "
+        "soft_max_value=0.75, "
+        'category="bdMetadata")' in code
     )
     assert "output = DoubleField(default_value=0.0, writable=False)" in code
     assert "hidden = BoolField(default_value=False, readable=False)" in code

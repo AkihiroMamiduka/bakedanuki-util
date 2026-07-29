@@ -10,7 +10,9 @@ Python ファイルを生成するモジュール。
 使用例::
 
     # Maya Python Script Editor で実行
-    from bd_util._dev.maya.node.operator.node.generate import generate_node_class_file
+    from bd_util._dev.maya.node.operator.node.generate import (
+        generate_node_class_file,
+    )
 
     generate_node_class_file(
         node_type="multiplyDivide",
@@ -926,7 +928,7 @@ def _is_quat_like_compound(
     parent_info: AttrInfo,
     children: list[AttrInfo],
 ) -> bool:
-    """Return True for Maya quat attrs reported as compound + four double children."""
+    """Return whether Maya reports a four-double compound as a quat."""
     return (
         parent_info.attribute_type in {"compound", "double4"}
         and "quat" in _attr_long_name(parent_info).lower()
@@ -1806,7 +1808,8 @@ def generate_node_class_code(
     # attr_infos が空の場合は警告を出して空のクラスコードを返す
     if not attr_infos:
         logger.warning(
-            f"No attribute infos found for node type '{node_type}'. Generating empty class."
+            f"No attribute infos found for node type '{node_type}'. "
+            "Generating empty class."
         )
         attr_infos = []
 
@@ -1917,7 +1920,8 @@ def generate_node_class_code(
                     )
                     safe_child_name = _safe_field_name(child_name)
                     attr_lines.append(
-                        f"    {safe_child_name} = {safe_long_name}.{safe_child_name}"
+                        f"    {safe_child_name} = "
+                        f"{safe_long_name}.{safe_child_name}"
                     )
                     child_short = child_info.short_name
                     if _should_emit_short_alias(child_short, child_name):
@@ -1933,7 +1937,10 @@ def generate_node_class_code(
         resolved = _resolve_attr_class(attr_info)
         if resolved is None:
             attr_lines.append(
-                f"    # TODO: {long_name} (attributeType={attr_info.attribute_type}, dataType={attr_info.data_type}) は未対応のため手動で追加してください"
+                f"    # TODO: {long_name} "
+                f"(attributeType={attr_info.attribute_type}, "
+                f"dataType={attr_info.data_type}) "
+                "は未対応のため手動で追加してください"
             )
             attr_lines.append("")
             continue
@@ -2033,8 +2040,9 @@ def generate_node_class_file(
 
     ``src_dir`` に ``bd_util`` パッケージの親ディレクトリを指定するだけで、出力先パスを自動で構築する。
 
-    compound 型アトリビュート (compound, double2/3/4, float2/3, lightData, long2/3, short2/3) が存在する場合は、
-    node_attr ファイルも同時に生成する。
+    compound 型アトリビュート
+    (compound, double2/3/4, float2/3, lightData, long2/3, short2/3)
+    が存在する場合は、node_attr ファイルも同時に生成する。
 
     生成 class の出力先::
 
@@ -2113,7 +2121,8 @@ def generate_node_class_file(
     )
     if not code:
         logger.warning(
-            f"Generated code for node type '{node_type}' is empty. Skipping file generation."
+            f"Generated code for node type '{node_type}' is empty. "
+            "Skipping file generation."
         )
         return
     generated_package_path = pathlib.Path(src_dir).joinpath(

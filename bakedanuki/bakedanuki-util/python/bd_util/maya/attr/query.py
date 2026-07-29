@@ -341,7 +341,8 @@ def get_attribute_infos(
         _post_process(node)
         if mode_error_skip:
             logger.warning(
-                f"Failed to query created node '{node}' for node type '{node_type}'. Skipping."
+                f"Failed to query created node '{node}' for node type "
+                f"'{node_type}'. Skipping."
             )
             return []
         else:

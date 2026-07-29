@@ -139,19 +139,15 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
 
 def invalid_usage_contract(
     nodes: bdu.Nodes,
-    compose: ComposeMatrix,
+    c: ComposeMatrix,
 ) -> None:
     nodes.create.composeMatrix(
         unknown_option=True
     )  # pyright: ignore[reportCallIssue]
     nodes.existing.decomposeMatrix(123)  # pyright: ignore[reportArgumentType]
-    compose.outputMatrix.set(
-        "not a matrix"
-    )  # pyright: ignore[reportArgumentType]
-    compose.inputTranslate.set(
-        "not a vector"
-    )  # pyright: ignore[reportArgumentType]
+    c.outputMatrix.set("not a matrix")  # pyright: ignore[reportArgumentType]
+    c.inputTranslate.set("not a vector")  # pyright: ignore[reportArgumentType]
     nodes.create.wtAddMatrix().wtMatrix[
         len
     ]  # pyright: ignore[reportArgumentType]
-    compose.does_not_exist  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
+    c.x  # pyright: ignore[reportAttributeAccessIssue, reportUnknownMemberType]
