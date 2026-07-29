@@ -14,7 +14,7 @@ class ImmutableDescriptorMeta(type):
     変更不可能な descriptor
     """
 
-    def __setattr__(cls, name: str, value: Any):
+    def __setattr__(cls, name: str, value: Any) -> None:
         """
         属性へのセット
         ImmutableDescriptor 型への変更は、禁止する
@@ -36,7 +36,7 @@ class ImmutableDescriptorMeta(type):
 
         super().__setattr__(name, value)
 
-    def __delattr__(cls, name: str):
+    def __delattr__(cls, name: str) -> None:
         """
         属性削除
         ImmutableDescriptor 型の削除は、禁止する

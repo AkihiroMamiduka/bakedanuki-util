@@ -2,7 +2,17 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
-from typing import TypeVar, Type, Generic, Self, Any, Protocol, overload
+from typing import (
+    TypeVar,
+    Type,
+    Generic,
+    Self,
+    Any,
+    cast,
+    ClassVar,
+    Protocol,
+    overload,
+)
 
 # maya
 from maya import cmds
@@ -851,18 +861,22 @@ class AttrOperator(Generic[P]):
         "child_index",
     )
     # type
-    ATTR_TYPE: str = None
-    DATA_TYPE: str = None
+    ATTR_TYPE: ClassVar[str | None] = None
+    DATA_TYPE: ClassVar[str | None] = None
     # name
     name: str
-    long_name: str | None
     # attr
     _attr_path: str
 
     def __init__(
         self,
         node_cls: Type[NodeOperator] | None = None,
-        oprt_parent: str | None = None,
+        oprt_parent: (
+            AttrOperator[Any]
+            | PlugOperator[Any]
+            | AttributeField[Any, Any]
+            | None
+        ) = None,
         name: str = "",
         long_name: str = "",
         short_name: str = "",
@@ -881,7 +895,7 @@ class AttrOperator(Generic[P]):
         writable: bool | None = None,
         category: str | None = None,
         child_index: int | None = None,
-    ):
+    ) -> None:
         # node
         self.node_cls: Type[NodeOperator] | None = node_cls
         # name
@@ -893,7 +907,12 @@ class AttrOperator(Generic[P]):
         self._attr_path: str = attr_path
         self._parent_attr_path: str = parent_attr_path
         #   parent
-        self.oprt_parent: str | None = oprt_parent
+        self.oprt_parent: (
+            AttrOperator[Any]
+            | PlugOperator[Any]
+            | AttributeField[Any, Any]
+            | None
+        ) = oprt_parent
         #   multi
         self.multi: bool = multi
         #   extra attr flag
@@ -911,7 +930,7 @@ class AttrOperator(Generic[P]):
         self.category: str | None = category
         self.child_index: int | None = child_index
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
         if cls.ATTR_TYPE is None:
             raise NotImplementedError(
@@ -938,7 +957,12 @@ class AttrOperator(Generic[P]):
         Returns:
             str: アトリビュートの型
         """
-        return self.ATTR_TYPE
+        attr_type = self.ATTR_TYPE
+        if attr_type is None:
+            raise TypeError(
+                f"{self.__class__.__name__} の ATTR_TYPE が未定義です。"
+            )
+        return attr_type
 
     @property
     def is_data_type(self) -> bool:
@@ -974,8 +998,8 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         "_child_index",
     )
 
-    ATTR_CLS: type[A]
-    PLUG_CLS: type[P]
+    ATTR_CLS: type[A] | None = None
+    PLUG_CLS: type[P] | None = None
 
     def __init__(
         self,
@@ -993,9 +1017,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         readable: bool | None = None,
         writable: bool | None = None,
         category: str | None = None,
-    ):
+    ) -> None:
         # parent
-        self.oprt_parent: A | P | None = None
+        self.oprt_parent: A | P | AttributeField[Any, Any] | None = None
 
         # name
         self.long_name = None
@@ -1027,7 +1051,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         self._category: str | None = category
         self._child_index: int | None = None
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
         if cls.ATTR_CLS is None:
             raise NotImplementedError(
@@ -1039,12 +1063,12 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             )
 
     # __set_name__
-    def _on_set_name(self, owner: Any, name: str):
+    def _on_set_name(self, owner: type[Any], name: str) -> None:
         """
         __set_name__ 内で、実行されるメソッド
 
         Args:
-            owner (Any): 親のクラス
+            owner (type[Any]): 親のクラス
             name (str): セットされている変数名
         """
         if self._child_index is None:
@@ -1069,23 +1093,24 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 object.__setattr__(self, "_parent_attr_path", parent_attr_path)
                 self._set_attr_path(parent_attr_path)
 
-    def _find_child_index(self, owner: Any) -> int | None:
+    def _find_child_index(self, owner: type[Any]) -> int | None:
         """
         owner 内での AttributeField の定義順を返す。
 
         同じ Field を short name として別名定義している場合は、
         最初に現れた名前だけを数える。
         """
-        seen_ids = set()
+        seen_ids: set[int] = set()
         index = 0
         for value in vars(owner).values():
             if not isinstance(value, AttributeField):
                 continue
+            field = cast(AttributeField[Any, Any], value)
 
-            obj_id = id(value)
+            obj_id = id(field)
             if obj_id in seen_ids:
                 continue
-            if value is self:
+            if field is self:
                 return index
 
             seen_ids.add(obj_id)
@@ -1095,43 +1120,36 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
 
     # __get__
     @overload
-    def __get__(self, instance: None, owner: type) -> A: ...
+    def __get__(self, instance: None, owner: type[Any]) -> A: ...
 
     @overload
     def __get__(
         self,
         instance: AttrOperator[Any],
-        owner: type,
+        owner: type[Any],
     ) -> A: ...
 
     @overload
     def __get__(
         self,
         instance: PlugOperator[Any],
-        owner: type,
+        owner: type[Any],
     ) -> P: ...
 
     @overload
     def __get__(
         self,
         instance: AttributeField[Any, Any],
-        owner: type,
+        owner: type[Any],
     ) -> Self: ...
 
     @overload
-    def __get__(self, instance: NodeOperator, owner: type) -> P: ...
+    def __get__(self, instance: NodeOperator, owner: type[Any]) -> P: ...
 
     def __get__(
         self,
-        instance: (
-            object
-            | NodeOperator
-            | AttrOperator[Any]
-            | PlugOperator[Any]
-            | AttributeField[Any, Any]
-            | None
-        ),
-        owner: type,
+        instance: object | None,
+        owner: type[Any],
     ) -> A | P | Self:
         """
         属性アクセスされた際に実行されるメソッド
@@ -1146,6 +1164,21 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         Returns:
             A | P: AttrOperator or PlugOperator
         """
+        attr_cls = self.ATTR_CLS
+        plug_cls = self.PLUG_CLS
+        if attr_cls is None or plug_cls is None:
+            raise TypeError(
+                f"{self.__class__.__name__} の ATTR_CLS または "
+                "PLUG_CLS が未定義です。"
+            )
+
+        long_name = self.long_name
+        short_name = self.short_name
+        if long_name is None or short_name is None:
+            raise RuntimeError(
+                f"{self.__class__.__name__} はクラス属性として初期化されていません。"
+            )
+
         if isinstance(instance, NodeOperator):
             attr_path = self._attr_path
             plug_cache = instance._plug_cache
@@ -1155,16 +1188,17 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             else:
                 cached_plug = plug_cache.get(attr_path)
                 if cached_plug is not None:
-                    return cached_plug
+                    return cast(P, cached_plug)
 
-            oprt_attr = owner._attributes_map_by_long_name.get(self.long_name)
+            node_owner = cast(type[NodeOperator], owner)
+            oprt_attr = node_owner._attributes_map_by_long_name.get(long_name)
             if oprt_attr is None:
-                oprt_attr = self.ATTR_CLS(
-                    node_cls=owner,
+                oprt_attr = attr_cls(
+                    node_cls=node_owner,
                     oprt_parent=self.oprt_parent,
                     name=self.name,
-                    long_name=self.long_name,
-                    short_name=self.short_name,
+                    long_name=long_name,
+                    short_name=short_name,
                     attr_path=attr_path,
                     parent_attr_path=self._parent_attr_path,
                     multi=self.multi,
@@ -1182,7 +1216,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                     child_index=self._child_index,
                 )
 
-            plug = self.PLUG_CLS(
+            plug = plug_cls(
                 node=instance,
                 oprt_attr=oprt_attr,
                 parent_attr_path=self._parent_attr_path,
@@ -1192,14 +1226,14 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             return plug
 
         if isinstance(instance, PlugOperator):
+            instance = cast(PlugOperator[Any], instance)
             name = self.name
-            long_name = self.long_name
-            short_name = self.short_name
             parent_attr_path = instance._attr_path
             child_long_name = getattr(instance, "child_long_name", None)
-            if child_long_name is not None:
+            child_short_name = getattr(instance, "child_short_name", None)
+            if child_long_name is not None and child_short_name is not None:
                 long_name = child_long_name(name, self._child_index)
-                short_name = instance.child_short_name(name, self._child_index)
+                short_name = child_short_name(name, self._child_index)
             attr_path = self._attr_path
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{long_name}"
@@ -1212,9 +1246,9 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             else:
                 cached_plug = plug_cache.get(attr_path)
                 if cached_plug is not None:
-                    return cached_plug
+                    return cast(P, cached_plug)
 
-            oprt_attr = self.ATTR_CLS(
+            oprt_attr = attr_cls(
                 node_cls=instance._oprt_attr.node_cls,
                 oprt_parent=instance,
                 name=name,
@@ -1236,7 +1270,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 category=self._category,
                 child_index=self._child_index,
             )
-            plug = self.PLUG_CLS(
+            plug = plug_cls(
                 node=node,
                 oprt_attr=oprt_attr,
                 parent_attr_path=parent_attr_path,
@@ -1257,6 +1291,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             node_cls = owner
         #   親が Attr
         elif isinstance(instance, AttrOperator):
+            instance = cast(AttrOperator[Any], instance)
             oprt_parent = instance
             parent_attr_path = instance._attr_path
             if parent_attr_path:
@@ -1264,6 +1299,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             node_cls = instance.node_cls
         #   親が Field
         elif isinstance(instance, AttributeField):
+            instance = cast(AttributeField[Any, Any], instance)
             # class 定義時の alias 構築だけは Field 自体へ反映する
             object.__setattr__(self, "oprt_parent", instance)
             object.__setattr__(self, "_parent_attr_path", instance._attr_path)
@@ -1275,12 +1311,12 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             )
 
         #   AttrOperator を生成
-        oprt_attr = self.ATTR_CLS(
+        oprt_attr = attr_cls(
             node_cls=node_cls,
             oprt_parent=oprt_parent,
             name=self.name,
-            long_name=self.long_name,
-            short_name=self.short_name,
+            long_name=long_name,
+            short_name=short_name,
             attr_path=attr_path,
             parent_attr_path=parent_attr_path,
             multi=self.multi,

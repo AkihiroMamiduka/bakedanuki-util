@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Any, ClassVar, Protocol, Self, TYPE_CHECKING
+from typing import Any, cast, ClassVar, Protocol, Self, TYPE_CHECKING
 
 # maya
 import maya.cmds as cmds
@@ -34,7 +34,7 @@ class IsInstance(ImmutableDescriptor):
     def __get__(
         self,
         instance: object | None,
-        owner: type,
+        owner: type[NodeOperator],
     ) -> bool:
         """
         属性アクセスメソッド
@@ -42,7 +42,7 @@ class IsInstance(ImmutableDescriptor):
 
         Args:
             instance (object | None): インスタンス
-            owner (type): 親クラス
+            owner (type[NodeOperator]): 親クラス
 
         Returns:
             bool: 親がインスタンスかどうかの真偽値
@@ -70,7 +70,7 @@ class NodeClass(ImmutableDescriptor):
 
         Args:
             instance (object | None): インスタンス
-            owner (type): 親クラス
+            owner (type[NodeOperator]): 親クラス
 
         Returns:
             om.MNodeClass | None: ノードクラス。
@@ -98,13 +98,13 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         "_plug_cache",
     )
 
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
 
         cls._init_set_extra_attrs()
 
     @classmethod
-    def _init_set_extra_attrs(cls):
+    def _init_set_extra_attrs(cls) -> None:
         """
         クラス階層からすべての extra=True 属性記述子を収集する。
         オブジェクトの同一性に基づいて重複を排除し、
@@ -114,31 +114,31 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             AttributeField,
         )  # 循環インポート回避のため遅延インポート
 
-        attributes_by_long_name = {}
-        attributes_by_short_name = {}
-        extra_attrs = []
-        seen_ids = set()
+        attributes_by_long_name: dict[str, AttrOperator[Any]] = {}
+        attributes_by_short_name: dict[str, AttrOperator[Any]] = {}
+        extra_attrs: list[_ExtraAttributeField] = []
+        seen_ids: set[int] = set()
         for klass in cls.__mro__:
-            for v in vars(klass).values():
-                v: AttributeField[Any, Any]
-                obj_id = id(v)
-
-                # 既に登録されているか、AttributeField でない場合はスキップ
-                if obj_id in seen_ids or not isinstance(v, AttributeField):
+            for value in vars(klass).values():
+                if not isinstance(value, AttributeField):
+                    continue
+                field = cast(AttributeField[Any, Any], value)
+                obj_id = id(field)
+                if obj_id in seen_ids:
                     continue
 
                 # 初回なので登録
                 seen_ids.add(obj_id)
 
                 # class access で AttrOperator を取得してマップを構築する
-                oprt_attr = v.__get__(None, cls)
+                oprt_attr = field.__get__(None, cls)
                 attributes_by_long_name[oprt_attr.long_name] = oprt_attr
                 attributes_by_short_name[oprt_attr.short_name] = oprt_attr
 
                 # extra=True のものは field を保持して、
                 # instance access 時に PlugOperator へ解決する
-                if getattr(v, "extra", False):
-                    extra_attrs.append(v)
+                if field.extra:
+                    extra_attrs.append(field)
 
         cls._attributes_map_by_long_name = attributes_by_long_name
         cls._attributes_map_by_short_name = attributes_by_short_name
@@ -172,7 +172,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             self._dg_mod.renameNode(self.m_obj, name)
 
         # plug_cache
-        self._plug_cache = None
+        self._plug_cache: dict[str, PlugOperator[Any]] | None = None
 
         # auto_add_attr
         if auto_add_attr and self._extra_attributes:

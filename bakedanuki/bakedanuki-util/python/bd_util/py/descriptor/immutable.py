@@ -10,16 +10,16 @@ logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 class ImmutableDescriptor:
     __slots__ = ("_name", "_owner", "_locked")
 
-    def __init__(self):
+    def __init__(self) -> None:
         object.__setattr__(self, "_locked", False)
 
-    def __set_name__(self, owner, name: str):
+    def __set_name__(self, owner: type[Any], name: str) -> None:
         """
         class 定義時に 1 回だけ呼ばれる
         親クラスでセットされた、クラス変数名を受け取る仕組み
 
         Args:
-            owner (any): 親クラス
+            owner (type[Any]): 親クラス
             name (str): 親クラスでセットされた、クラス変数名
         """
         # 変数に格納
@@ -32,17 +32,17 @@ class ImmutableDescriptor:
         # lock
         object.__setattr__(self, "_locked", True)
 
-    def _on_set_name(self, owner: Any, name: str):
+    def _on_set_name(self, owner: type[Any], name: str) -> None:
         """
         __set_name__ 内での、子クラスの追加処理
 
         Args:
-            owner (Any): 親クラス
+            owner (type[Any]): 親クラス
             name (str): 親クラスでセットされた、クラス変数名
         """
         pass
 
-    def __set__(self, instance: Any, value: Any):
+    def __set__(self, instance: Any, value: Any) -> None:
         """
         代入処理
         このクラスへは、代入を禁止する
@@ -63,13 +63,13 @@ class ImmutableDescriptor:
             )
         )
 
-    def __setattr__(self, key: Any, value: Any):
+    def __setattr__(self, key: str, value: Any) -> None:
         """
         代入処理
         このクラスへは、代入を禁止する
 
         Args:
-            key (Any): 属性名
+            key (str): 属性名
             value (Any): 値
 
         Raises:
