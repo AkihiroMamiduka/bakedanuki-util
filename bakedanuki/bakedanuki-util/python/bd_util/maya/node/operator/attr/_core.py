@@ -168,16 +168,19 @@ class PlugOperator(Generic[A], ABC):
 
         # plug を取得する
         #   __getitem__() が作成した index plug は、親 multi plug から直接取得する
-        indexed_from_parent = (
-            self.parent_oprt_plug is not None
-            and self.index is not None
-            and self._oprt_attr is self.parent_oprt_plug._oprt_attr
-        )
-        if indexed_from_parent:
-            plug = self.parent_oprt_plug.plug.elementByLogicalIndex(self.index)
+        parent_oprt_plug = self.parent_oprt_plug
+        index = self.index
+        indexed_from_parent = False
+        if (
+            parent_oprt_plug is not None
+            and index is not None
+            and self._oprt_attr is parent_oprt_plug._oprt_attr
+        ):
+            plug = parent_oprt_plug.plug.elementByLogicalIndex(index)
+            indexed_from_parent = True
         # 親アトリビュートがあり、index がない場合は、親の plug から自身の plug を探す
-        elif self.parent_oprt_plug is not None:
-            parent_plug = self.parent_oprt_plug.plug
+        elif parent_oprt_plug is not None:
+            parent_plug = parent_oprt_plug.plug
             plug = None
             if self._child_index is not None:
                 try:
@@ -198,8 +201,8 @@ class PlugOperator(Generic[A], ABC):
             plug = self._node.fn_node.findPlug(self.long_name, False)
 
         # index があれば、elementByLogicalIndex で plug を置き換える
-        if self.index is not None and not indexed_from_parent:
-            plug = plug.elementByLogicalIndex(self.index)
+        if index is not None and not indexed_from_parent:
+            plug = plug.elementByLogicalIndex(index)
 
         # plug をキャッシュする
         self._m_plug = plug
@@ -948,12 +951,6 @@ class AttrOperator(Generic[P]):
         return self.DATA_TYPE is not None
 
 
-class AccessType:
-    field = 0
-    attr = 1
-    plug = 2
-
-
 class AttributeField(ImmutableDescriptor, Generic[A, P]):
     __slots__ = (
         "oprt_parent",
@@ -1249,45 +1246,17 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             plug_cache[attr_path] = plug
             return plug
 
-        access_type: int | None = None
-        node_cls: type[NodeOperator] | None = None
-        node: NodeOperator | None = None
         oprt_parent = self.oprt_parent
         parent_attr_path = self._parent_attr_path
         attr_path = self._attr_path
-        parent_oprt_plug = None
-        name = self.name
-        long_name = self.long_name
-        short_name = self.short_name
 
-        # node, attr_path を解決する
+        # node class, attr_path を解決する
         #   class アクセス(Attr)
         if instance is None:
             # 親が Node(Attr)
-            access_type = AccessType.attr
             node_cls = owner
-        #   親が Node(Plug)
-        elif isinstance(instance, NodeOperator):
-            access_type = AccessType.plug
-            node_cls = owner
-            node = instance
-        #   親が Plug
-        elif isinstance(instance, PlugOperator):
-            access_type = AccessType.plug
-            oprt_parent = instance
-            parent_attr_path = instance._attr_path
-            child_long_name = getattr(instance, "child_long_name", None)
-            if child_long_name is not None:
-                long_name = child_long_name(name, self._child_index)
-                short_name = instance.child_short_name(name, self._child_index)
-            if parent_attr_path:
-                attr_path = f"{parent_attr_path}.{long_name}"
-                parent_oprt_plug = instance
-            node_cls = instance._oprt_attr.node_cls
-            node = instance._node
         #   親が Attr
         elif isinstance(instance, AttrOperator):
-            access_type = AccessType.attr
             oprt_parent = instance
             parent_attr_path = instance._attr_path
             if parent_attr_path:
@@ -1295,36 +1264,23 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             node_cls = instance.node_cls
         #   親が Field
         elif isinstance(instance, AttributeField):
-            access_type = AccessType.field
             # class 定義時の alias 構築だけは Field 自体へ反映する
             object.__setattr__(self, "oprt_parent", instance)
             object.__setattr__(self, "_parent_attr_path", instance._attr_path)
             self._set_attr_path(self._parent_attr_path)
+            return self
         else:
             raise TypeError(
                 f"Unsupported attribute access type: {type(instance)}"
             )
 
-        # 戻り値
-        #   class 定義時ののアクセス(Field)
-        if access_type == AccessType.field:
-            return self
-        #   Node が instance へのアクセス(Plug)（キャッシュ済）
-        plug_cache_key = None
-        if access_type == AccessType.plug:
-            plug_cache_key = (self.name, attr_path)
-            plug_cache = node._plug_cache
-            if plug_cache is not None:
-                cached_plug = plug_cache.get(plug_cache_key)
-                if cached_plug is not None:
-                    return cached_plug
         #   AttrOperator を生成
         oprt_attr = self.ATTR_CLS(
             node_cls=node_cls,
             oprt_parent=oprt_parent,
-            name=name,
-            long_name=long_name,
-            short_name=short_name,
+            name=self.name,
+            long_name=self.long_name,
+            short_name=self.short_name,
             attr_path=attr_path,
             parent_attr_path=parent_attr_path,
             multi=self.multi,
@@ -1341,25 +1297,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             category=self._category,
             child_index=self._child_index,
         )
-        #   Node が instance へのアクセス(Plug)（キャッシュ無：新規）
-        if access_type == AccessType.plug:
-            # Plug を生成してキャッシュする
-            plug = self.PLUG_CLS(
-                node=node,
-                oprt_attr=oprt_attr,
-                parent_attr_path=parent_attr_path,
-                multi=self.multi,
-                parent_oprt_plug=parent_oprt_plug,
-            )
-            plug_cache = node._plug_cache
-            if plug_cache is None:
-                plug_cache = {}
-                node._plug_cache = plug_cache
-            plug_cache[plug_cache_key] = plug
-            return plug
-        #   Node が class へのアクセス(Attr)
-        elif access_type == AccessType.attr:
-            return oprt_attr
+        return oprt_attr
 
     # attr_path
     def _set_attr_path(self, parent_attr_path: str):
