@@ -13,7 +13,7 @@ from .....py.metaclass.immutable_descriptor import ImmutableDescriptorMeta
 from ...modifier import ModifierManager
 
 if TYPE_CHECKING:
-    from ..attr._core import AttributeField, AttrOperator, PlugOperator
+    from ..attr._core import AttrOperator, PlugOperator
 
 logger = u_logger.get_logger(__name__, level=u_logger.DEBUG)
 
