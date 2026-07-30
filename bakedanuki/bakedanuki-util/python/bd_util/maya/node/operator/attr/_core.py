@@ -311,17 +311,6 @@ class PlugOperator(Generic[A], ABC):
         """
         self.set_direct(value)
 
-    # enum
-    @property
-    def enum_name(self) -> str | None:
-        """
-        列挙型アトリビュートの列挙名をゲットする
-
-        Returns:
-            str | None: 列挙型アトリビュートの列挙名。列挙型でない場合は None。
-        """
-        return self._oprt_attr.enum_full_name
-
     # [] アクセス
     def __getitem__(
         self,
