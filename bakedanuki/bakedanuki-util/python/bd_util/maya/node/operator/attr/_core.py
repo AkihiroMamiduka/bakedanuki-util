@@ -251,10 +251,12 @@ class PlugOperator(Generic[A], ABC):
 
         # index がある場合は、array_plug を返す
         #   キャッシュがなければ、Maya に問い合わせる
-        if self._array_m_plug is None:
-            self._array_m_plug = self.plug.array()
+        array_plug = self._array_m_plug
+        if array_plug is None:
+            array_plug = self.plug.array()
+            self._array_m_plug = array_plug
         #   キャッシュを返す
-        return self._array_m_plug
+        return array_plug
 
     # type
     @property
@@ -265,7 +267,7 @@ class PlugOperator(Generic[A], ABC):
         Returns:
             str: アトリビュートの型
         """
-        return self._oprt_attr.ATTR_TYPE
+        return self._oprt_attr.type
 
     # value
     @property
