@@ -783,7 +783,7 @@ class PlugOperator(Generic[A], ABC):
             fn_attr.addToCategory(category)
 
     def _cmds_add_attr_option_kwargs(self) -> dict[str, Any]:
-        kwargs = {}
+        kwargs: dict[str, Any] = {}
         if self.multi:
             kwargs["multi"] = True
 
@@ -809,7 +809,7 @@ class PlugOperator(Generic[A], ABC):
         """
         pass
 
-    def cmds_add_attr(self, **kwargs):
+    def cmds_add_attr(self, **kwargs: Any) -> None:
         """
         cmds.addAttr() によるアトリビュートの追加
 
@@ -833,8 +833,7 @@ class PlugOperator(Generic[A], ABC):
             kwargs["dataType"] = self._oprt_attr.DATA_TYPE
         #   longName/shortName
         kwargs["longName"] = self._oprt_attr.long_name
-        if self._oprt_attr.short_name is not None:
-            kwargs["shortName"] = self._oprt_attr.short_name
+        kwargs["shortName"] = self._oprt_attr.short_name
         for key, value in self._cmds_add_attr_option_kwargs().items():
             kwargs.setdefault(key, value)
 
