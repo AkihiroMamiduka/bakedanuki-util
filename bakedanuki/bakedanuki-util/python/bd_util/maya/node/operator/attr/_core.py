@@ -545,20 +545,16 @@ class PlugOperator(Generic[A], ABC):
         self._node.modifier_manager.dg_mod.connect(src, dst)
 
     def _get_next_index(self) -> int:
-        result = 0
-        # キャッシュがあればそれを返す
-        if self._next_index is not None:
-            result = self._next_index
+        result = self._next_index
         # キャッシュがなければ Maya に問い合わせる
-        else:
+        if result is None:
+            result = 0
             indices = self.plug.getExistingArrayAttributeIndices()
             if indices:
                 result = max(indices) + 1
-            # キャッシュする
-            self._next_index = result
 
-        # インクリメントする
-        self._next_index += 1
+        # 次回の index をキャッシュする
+        self._next_index = result + 1
 
         # 戻り値
         return result
