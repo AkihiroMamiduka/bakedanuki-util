@@ -177,7 +177,7 @@ class DAG(NodeOperator):
             raise ValueError("a DAG node cannot be parented to its descendant")
 
     @property
-    def _cmd_access_name(self) -> str:
+    def cmd_access_name(self) -> str:
         return self.full_path
 
     def _get_instance_transform_matrix(

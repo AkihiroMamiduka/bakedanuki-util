@@ -26,7 +26,7 @@ class LongLongIntPlugOperator(
 
     # set
     def set(self, value: int):
-        self._node._dg_mod.newPlugValueInt64(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueInt64(self.plug, value)
 
     def set_min(self, value: int):
         raise UnsupportedOperationError(

@@ -207,6 +207,27 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
     def modifier_manager(self) -> ModifierManager:
         return self._modifier_manager
 
+    @classmethod
+    def get_attr_operator(cls, long_name: str) -> AttrOperator[Any] | None:
+        return cls._attributes_map_by_long_name.get(long_name)
+
+    def get_cached_plug(self, attr_path: str) -> PlugOperator[Any] | None:
+        plug_cache = self._plug_cache
+        if plug_cache is None:
+            return None
+        return plug_cache.get(attr_path)
+
+    def cache_plug(
+        self,
+        attr_path: str,
+        plug: PlugOperator[Any],
+    ) -> None:
+        plug_cache = self._plug_cache
+        if plug_cache is None:
+            plug_cache = {}
+            self._plug_cache = plug_cache
+        plug_cache[attr_path] = plug
+
     @property
     def _dg_mod(self) -> om.MDGModifier:
         return self._modifier_manager.dg_mod
@@ -219,7 +240,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
             plug = getattr(self, field.name)
             plug: PlugOperator[Any]
             if not plug.exists():
-                if plug._REQUIRED_CMDS_ADD_ATTR:
+                if plug.requires_cmds_add_attr:
                     plug.cmds_add_attr()
                 else:
                     plug.add_attr()
@@ -320,7 +341,7 @@ class NodeOperator(metaclass=ImmutableDescriptorMeta):
         return self.name
 
     @property
-    def _cmd_access_name(self) -> str:
+    def cmd_access_name(self) -> str:
         """
         maya コマンドへアクセスする用のノード名を返す。
         dg ノード : name をそのまま返す

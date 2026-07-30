@@ -1,5 +1,5 @@
 # coding: utf-8
-from typing import Any, TypeVar, Type, cast
+from typing import Any, TypeVar, Type, cast, Protocol
 
 # self
 from ...._core import AttrOperator, PlugOperator, AttributeField
@@ -11,6 +11,18 @@ from maya.api import OpenMaya as om
 A = TypeVar("A", bound="AttrOperator[Any]")
 
 P = TypeVar("P", bound="PlugOperator[Any]")
+
+
+class _CompoundAttrParent(Protocol):
+
+    @property
+    def node(self) -> Any: ...
+
+    @property
+    def oprt_attr(self) -> AttrOperator[Any]: ...
+
+    @property
+    def attr_path(self) -> str: ...
 
 
 class CompoundPlugOperator(PlugOperator[A]):
@@ -68,76 +80,10 @@ class CompoundPlugOperator(PlugOperator[A]):
         )
 
         for child_field in child_fields:
-            fn_attr.addChild(self._create_child_attr(child_field))
+            fn_attr.addChild(_create_child_attr(self, child_field))
 
         self._apply_mfn_attr_options(fn_attr)
         self._node.fn_node.addAttribute(attr_obj)
-
-    def _create_child_attr(
-        self,
-        child_field: AttributeField[Any, Any],
-    ) -> om.MObject:
-        child_attr = self._create_child_attr_operator(child_field)
-        attr_type = child_attr.ATTR_TYPE
-
-        if attr_type in _NUMERIC_ATTR_TYPES:
-            return _create_numeric_attr(child_attr)
-
-        if attr_type in _UNIT_ATTR_TYPES:
-            return _create_unit_attr(child_attr)
-
-        if attr_type in _MATRIX_ATTR_TYPES:
-            return _create_matrix_attr(child_attr)
-
-        if _is_scalar_compound_field(child_field):
-            return _create_scalar_compound_attr(child_field, child_attr, self)
-
-        if attr_type == "enum":
-            return _create_enum_attr(child_field, child_attr)
-
-        if attr_type == "message":
-            return _create_message_attr(child_attr)
-
-        if attr_type == "compound":
-            return _create_compound_attr(child_field, child_attr, self)
-
-        raise UnsupportedOperationError(
-            "{} child '{}' attribute type '{}' is not supported by "
-            "OpenMaya compound add_attr().".format(
-                type(self).__name__,
-                child_attr.long_name,
-                attr_type,
-            )
-        )
-
-    def _create_child_attr_operator(
-        self,
-        child_field: AttributeField[Any, Any],
-    ) -> AttrOperator[Any]:
-        parent_attr_path = self._attr_path
-        attr_path = f"{parent_attr_path}.{child_field.long_name}"
-        return child_field.ATTR_CLS(
-            node_cls=self._oprt_attr.node_cls,
-            oprt_parent=self,
-            name=child_field.name,
-            long_name=child_field.long_name,
-            short_name=child_field.short_name,
-            attr_path=attr_path,
-            parent_attr_path=parent_attr_path,
-            multi=child_field.multi,
-            extra=False,
-            default_value=child_field._default_value,
-            min_value=child_field._min_value,
-            max_value=child_field._max_value,
-            soft_min_value=child_field._soft_min_value,
-            soft_max_value=child_field._soft_max_value,
-            enum_name=child_field._enum_name,
-            number_of_children=child_field._number_of_children,
-            readable=child_field._readable,
-            writable=child_field._writable,
-            category=child_field._category,
-            child_index=child_field._child_index,
-        )
 
 
 class CompoundAttrOperator(AttrOperator[P]):
@@ -174,6 +120,87 @@ _MATRIX_ATTR_TYPES = {
     "matrix": om.MFnMatrixAttribute.kDouble,
     "fltMatrix": om.MFnMatrixAttribute.kFloat,
 }
+
+
+def _create_child_attr(
+    parent: _CompoundAttrParent,
+    child_field: AttributeField[Any, Any],
+) -> om.MObject:
+    child_attr = _create_child_attr_operator(parent, child_field)
+    attr_type = child_attr.ATTR_TYPE
+
+    if attr_type in _NUMERIC_ATTR_TYPES:
+        return _create_numeric_attr(child_attr)
+
+    if attr_type in _UNIT_ATTR_TYPES:
+        return _create_unit_attr(child_attr)
+
+    if attr_type in _MATRIX_ATTR_TYPES:
+        return _create_matrix_attr(child_attr)
+
+    if _is_scalar_compound_field(child_field):
+        return _create_scalar_compound_attr(child_field, child_attr, parent)
+
+    if attr_type == "enum":
+        return _create_enum_attr(child_field, child_attr)
+
+    if attr_type == "message":
+        return _create_message_attr(child_attr)
+
+    if attr_type == "compound":
+        return _create_compound_attr(child_field, child_attr, parent)
+
+    raise UnsupportedOperationError(
+        "{} child '{}' attribute type '{}' is not supported by "
+        "OpenMaya compound add_attr().".format(
+            type(parent).__name__,
+            child_attr.long_name,
+            attr_type,
+        )
+    )
+
+
+def _create_child_attr_operator(
+    parent: _CompoundAttrParent,
+    child_field: AttributeField[Any, Any],
+) -> AttrOperator[Any]:
+    attr_cls = child_field.ATTR_CLS
+    if attr_cls is None:
+        raise TypeError(
+            f"{type(child_field).__name__}.ATTR_CLS is not defined."
+        )
+
+    long_name = child_field.long_name
+    short_name = child_field.short_name
+    if long_name is None or short_name is None:
+        raise RuntimeError(
+            f"{type(child_field).__name__} is not initialized as a class attribute."
+        )
+
+    parent_attr_path = parent.attr_path
+    attr_path = f"{parent_attr_path}.{long_name}"
+    return attr_cls(
+        node_cls=parent.oprt_attr.node_cls,
+        oprt_parent=parent,
+        name=child_field.name,
+        long_name=long_name,
+        short_name=short_name,
+        attr_path=attr_path,
+        parent_attr_path=parent_attr_path,
+        multi=child_field.multi,
+        extra=False,
+        default_value=child_field.default_value,
+        min_value=child_field.min_value,
+        max_value=child_field.max_value,
+        soft_min_value=child_field.soft_min_value,
+        soft_max_value=child_field.soft_max_value,
+        enum_name=child_field.enum_name,
+        number_of_children=child_field.number_of_children,
+        readable=child_field.readable,
+        writable=child_field.writable,
+        category=child_field.category,
+        child_index=child_field.child_index,
+    )
 
 
 def _apply_mfn_attr_options(
@@ -259,14 +286,13 @@ def _is_scalar_compound_field(
 def _create_scalar_compound_attr(
     child_field: AttributeField[Any, Any],
     attr: AttrOperator[Any],
-    parent_plug: CompoundPlugOperator[Any],
+    parent: _CompoundAttrParent,
 ) -> om.MObject:
     scalar_plug = child_field.PLUG_CLS(
-        node=parent_plug._node,
+        node=parent.node,
         oprt_attr=attr,
-        parent_attr_path=parent_plug._attr_path,
+        parent_attr_path=parent.attr_path,
         multi=attr.multi,
-        parent_oprt_plug=parent_plug,
     )
 
     children_attrs = []
@@ -355,7 +381,7 @@ def _create_message_attr(attr: AttrOperator[Any]) -> om.MObject:
 def _create_compound_attr(
     child_field: AttributeField[Any, Any],
     attr: AttrOperator[Any],
-    parent_plug: CompoundPlugOperator[Any],
+    parent: _CompoundAttrParent,
 ) -> om.MObject:
     child_fields = getattr(child_field.PLUG_CLS, "CHILD_FIELDS", ())
     if not child_fields:
@@ -371,40 +397,29 @@ def _create_compound_attr(
     _apply_mfn_attr_options(fn_attr, attr)
 
     nested_parent = _NestedCompoundAttrParent(
-        parent_plug=parent_plug,
+        parent=parent,
         oprt_attr=attr,
     )
     for nested_child_field in child_fields:
-        fn_attr.addChild(nested_parent._create_child_attr(nested_child_field))
+        fn_attr.addChild(_create_child_attr(nested_parent, nested_child_field))
     return attr_obj
 
 
 class _NestedCompoundAttrParent:
-    __slots__ = ("parent_plug", "_oprt_attr")
+    __slots__ = ("parent", "oprt_attr")
 
     def __init__(
         self,
-        parent_plug: CompoundPlugOperator[Any],
+        parent: _CompoundAttrParent,
         oprt_attr: AttrOperator[Any],
-    ):
-        self.parent_plug = parent_plug
-        self._oprt_attr = oprt_attr
+    ) -> None:
+        self.parent = parent
+        self.oprt_attr = oprt_attr
 
     @property
-    def _attr_path(self) -> str:
-        return self._oprt_attr._attr_path
+    def node(self) -> Any:
+        return self.parent.node
 
-    def _create_child_attr(
-        self,
-        child_field: AttributeField[Any, Any],
-    ) -> om.MObject:
-        return CompoundPlugOperator._create_child_attr(self, child_field)
-
-    def _create_child_attr_operator(
-        self,
-        child_field: AttributeField[Any, Any],
-    ) -> AttrOperator[Any]:
-        return CompoundPlugOperator._create_child_attr_operator(
-            self,
-            child_field,
-        )
+    @property
+    def attr_path(self) -> str:
+        return self.oprt_attr.attr_path

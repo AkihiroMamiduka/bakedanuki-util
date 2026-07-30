@@ -42,7 +42,7 @@ class AngleCompoundBasePlugOperator(UnitCompoundBasePlugOperator[A, V]):
 
     # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
-        self._node._dg_mod.newPlugValueMAngle(
+        self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             child_plug, om.MAngle(value, om.MAngle.kDegrees)
         )
 

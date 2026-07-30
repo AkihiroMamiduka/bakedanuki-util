@@ -26,7 +26,7 @@ class BoolPlugOperator(NumericBasePlugOperator["BoolAttrOperator"]):
 
     # set
     def set(self, value: bool):
-        self._node._dg_mod.newPlugValueBool(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueBool(self.plug, value)
 
     # add
     def add_attr(self):

@@ -33,7 +33,7 @@ class DoubleAnglePlugOperator(
 
     # set
     def set(self, value: float):
-        self._node._dg_mod.newPlugValueMAngle(
+        self._node.modifier_manager.dg_mod.newPlugValueMAngle(
             self.plug, _float_to_angle(value)
         )
 

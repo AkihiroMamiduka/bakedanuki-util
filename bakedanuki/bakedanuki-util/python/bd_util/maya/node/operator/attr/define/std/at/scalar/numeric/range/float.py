@@ -23,7 +23,7 @@ class FloatPlugOperator(NumericRangeBasePlugOperator["FloatAttrOperator"]):
 
     # set
     def set(self, value: float):
-        self._node._dg_mod.newPlugValueFloat(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueFloat(self.plug, value)
 
     # add
     def add_attr(self):

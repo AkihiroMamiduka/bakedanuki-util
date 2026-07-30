@@ -119,6 +119,18 @@ class PlugOperator(Generic[A], ABC):
         self._next_index: int | None = None
         self._keyframe_manager: KeyframeManager | None = None
 
+    @property
+    def node(self) -> NodeOperator:
+        return self._node
+
+    @property
+    def oprt_attr(self) -> A:
+        return self._oprt_attr
+
+    @property
+    def requires_cmds_add_attr(self) -> bool:
+        return self._REQUIRED_CMDS_ADD_ATTR
+
     # name
     @property
     def name(self) -> str:
@@ -351,7 +363,7 @@ class PlugOperator(Generic[A], ABC):
             plug: Self = type(self)(
                 node=self._node,
                 oprt_attr=self._oprt_attr,
-                parent_attr_path=self._oprt_attr._attr_path,
+                parent_attr_path=self._attr_path,
                 multi=self._oprt_attr.multi,
                 index=key,
                 parent_oprt_plug=self,
@@ -397,6 +409,10 @@ class PlugOperator(Generic[A], ABC):
 
         # attr_path を生成する
         return f"{self._parent_attr_path}.{self.name}"
+
+    @property
+    def attr_path(self) -> str:
+        return self._attr_path
 
     # str
     def __str__(self) -> str:
@@ -521,7 +537,7 @@ class PlugOperator(Generic[A], ABC):
             src = self.plug
         dst = self._normalize_to_plug(other)
 
-        self._node._dg_mod.connect(src, dst)
+        self._node.modifier_manager.dg_mod.connect(src, dst)
 
     def _get_next_index(self) -> int:
         result = 0
@@ -567,7 +583,7 @@ class PlugOperator(Generic[A], ABC):
         src = self._normalize_to_plug(other)
         dst = self._get_next_plug()
 
-        self._node._dg_mod.connect(src, dst)
+        self._node.modifier_manager.dg_mod.connect(src, dst)
 
     def refresh_next_index(self):
         """
@@ -591,7 +607,7 @@ class PlugOperator(Generic[A], ABC):
             src = self.plug
         dst = self._normalize_to_plug(other)
 
-        self._node._dg_mod.disconnect(src, dst)
+        self._node.modifier_manager.dg_mod.disconnect(src, dst)
 
     def __gt__(
         self,
@@ -630,7 +646,7 @@ class PlugOperator(Generic[A], ABC):
             dst = self.plug
         src = self._normalize_to_plug(other)
 
-        self._node._dg_mod.connect(src, dst)
+        self._node.modifier_manager.dg_mod.connect(src, dst)
         return self
 
     def __or__(
@@ -667,7 +683,7 @@ class PlugOperator(Generic[A], ABC):
         if dst is None:
             dst = self.plug
 
-        self._node._dg_mod.disconnect(src, dst)
+        self._node.modifier_manager.dg_mod.disconnect(src, dst)
 
         # 切断後、キャッシュをリセットする
         if self._oprt_attr.multi:
@@ -823,7 +839,7 @@ class PlugOperator(Generic[A], ABC):
 
         # add
         cmds.addAttr(
-            self._node._cmd_access_name,
+            self._node.cmd_access_name,
             **kwargs,
         )
 
@@ -964,6 +980,10 @@ class AttrOperator(Generic[P]):
             bool: データタイプのアトリビュートかどうか
         """
         return self.DATA_TYPE is not None
+
+    @property
+    def attr_path(self) -> str:
+        return self._attr_path
 
 
 class AttributeField(ImmutableDescriptor, Generic[A, P]):
@@ -1172,17 +1192,12 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
 
         if isinstance(instance, NodeOperator):
             attr_path = self._attr_path
-            plug_cache = instance._plug_cache
-            if plug_cache is None:
-                plug_cache = {}
-                instance._plug_cache = plug_cache
-            else:
-                cached_plug = plug_cache.get(attr_path)
-                if cached_plug is not None:
-                    return cast(P, cached_plug)
+            cached_plug = instance.get_cached_plug(attr_path)
+            if cached_plug is not None:
+                return cast(P, cached_plug)
 
             node_owner = cast(type[NodeOperator], owner)
-            oprt_attr = node_owner._attributes_map_by_long_name.get(long_name)
+            oprt_attr = node_owner.get_attr_operator(long_name)
             if oprt_attr is None:
                 oprt_attr = attr_cls(
                     node_cls=node_owner,
@@ -1213,13 +1228,13 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 parent_attr_path=self._parent_attr_path,
                 multi=self.multi,
             )
-            plug_cache[attr_path] = plug
+            instance.cache_plug(attr_path, plug)
             return plug
 
         if isinstance(instance, PlugOperator):
             instance = cast(PlugOperator[Any], instance)
             name = self.name
-            parent_attr_path = instance._attr_path
+            parent_attr_path = instance.attr_path
             child_long_name = getattr(instance, "child_long_name", None)
             child_short_name = getattr(instance, "child_short_name", None)
             if child_long_name is not None and child_short_name is not None:
@@ -1229,18 +1244,13 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{long_name}"
 
-            node = instance._node
-            plug_cache = node._plug_cache
-            if plug_cache is None:
-                plug_cache = {}
-                node._plug_cache = plug_cache
-            else:
-                cached_plug = plug_cache.get(attr_path)
-                if cached_plug is not None:
-                    return cast(P, cached_plug)
+            node = instance.node
+            cached_plug = node.get_cached_plug(attr_path)
+            if cached_plug is not None:
+                return cast(P, cached_plug)
 
             oprt_attr = attr_cls(
-                node_cls=instance._oprt_attr.node_cls,
+                node_cls=instance.oprt_attr.node_cls,
                 oprt_parent=instance,
                 name=name,
                 long_name=long_name,
@@ -1268,7 +1278,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
                 multi=self.multi,
                 parent_oprt_plug=instance,
             )
-            plug_cache[attr_path] = plug
+            node.cache_plug(attr_path, plug)
             return plug
 
         oprt_parent = self.oprt_parent
@@ -1284,7 +1294,7 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         elif isinstance(instance, AttrOperator):
             instance = cast(AttrOperator[Any], instance)
             oprt_parent = instance
-            parent_attr_path = instance._attr_path
+            parent_attr_path = instance.attr_path
             if parent_attr_path:
                 attr_path = f"{parent_attr_path}.{self.name}"
             node_cls = instance.node_cls
@@ -1350,3 +1360,51 @@ class AttributeField(ImmutableDescriptor, Generic[A, P]):
         if self._short_name is None:
             object.__setattr__(self, "_short_name", self.long_name)
         return self._short_name
+
+    @property
+    def attr_path(self) -> str:
+        return self._attr_path
+
+    @property
+    def default_value(self) -> Any:
+        return self._default_value
+
+    @property
+    def min_value(self) -> Any:
+        return self._min_value
+
+    @property
+    def max_value(self) -> Any:
+        return self._max_value
+
+    @property
+    def soft_min_value(self) -> Any:
+        return self._soft_min_value
+
+    @property
+    def soft_max_value(self) -> Any:
+        return self._soft_max_value
+
+    @property
+    def enum_name(self) -> str | None:
+        return self._enum_name
+
+    @property
+    def number_of_children(self) -> int | None:
+        return self._number_of_children
+
+    @property
+    def readable(self) -> bool | None:
+        return self._readable
+
+    @property
+    def writable(self) -> bool | None:
+        return self._writable
+
+    @property
+    def category(self) -> str | None:
+        return self._category
+
+    @property
+    def child_index(self) -> int | None:
+        return self._child_index

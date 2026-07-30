@@ -25,7 +25,7 @@ class FloatAnglePlugOperator(
 
     # set
     def set(self, value: float):
-        self._node._dg_mod.newPlugValueMAngle(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueMAngle(self.plug, value)
 
     def _to_anim_curve_value(self, value: float) -> float:
         return om.MAngle(value, om.MAngle.kDegrees).asRadians()

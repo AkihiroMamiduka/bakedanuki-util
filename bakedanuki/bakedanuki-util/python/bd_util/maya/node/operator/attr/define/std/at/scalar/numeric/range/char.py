@@ -23,7 +23,7 @@ class CharPlugOperator(NumericRangeBasePlugOperator["CharAttrOperator"]):
 
     # set
     def set(self, value: str):
-        self._node._dg_mod.newPlugValueChar(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueChar(self.plug, value)
 
     # add
     def add_attr(self):

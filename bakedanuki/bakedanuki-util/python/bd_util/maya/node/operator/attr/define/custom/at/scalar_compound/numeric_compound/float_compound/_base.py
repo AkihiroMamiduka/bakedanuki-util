@@ -36,7 +36,7 @@ class FloatCompoundBasePlugOperator(NumericCompoundBasePlugOperator[A, V]):
 
     # set
     def _set_child_value(self, child_plug: om.MPlug, value: float) -> None:
-        self._node._dg_mod.newPlugValueFloat(child_plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueFloat(child_plug, value)
 
     def _set_child_value_direct(
         self,

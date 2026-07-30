@@ -23,7 +23,7 @@ class LongPlugOperator(NumericRangeBasePlugOperator["LongAttrOperator"]):
 
     # set
     def set(self, value: int):
-        self._node._dg_mod.newPlugValueInt(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueInt(self.plug, value)
 
     # add
     def add_attr(self):

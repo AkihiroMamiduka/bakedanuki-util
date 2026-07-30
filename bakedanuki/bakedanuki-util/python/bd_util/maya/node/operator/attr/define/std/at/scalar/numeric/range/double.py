@@ -23,7 +23,7 @@ class DoublePlugOperator(NumericRangeBasePlugOperator["DoubleAttrOperator"]):
 
     # set
     def set(self, value: float):
-        self._node._dg_mod.newPlugValueDouble(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueDouble(self.plug, value)
 
     # add
     def add_attr(self):

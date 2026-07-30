@@ -23,7 +23,7 @@ class DataStringPlugOperator(DataTypePlugOperator["DataStringAttrOperator"]):
 
     # set
     def set(self, value: str):
-        self._node._dg_mod.newPlugValueString(self.plug, value)
+        self._node.modifier_manager.dg_mod.newPlugValueString(self.plug, value)
 
     def set_direct(self, value: str):
         """
