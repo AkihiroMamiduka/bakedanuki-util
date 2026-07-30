@@ -702,7 +702,7 @@ class PlugOperator(Generic[A], ABC):
             str | None: 接続元ノード名。接続がなければ None。
         """
         result = cmds.listConnections(
-            self.plug,
+            self.plug_name,
             source=True,
             destination=False,
             plugs=False,
@@ -720,7 +720,7 @@ class PlugOperator(Generic[A], ABC):
             str | None: 接続元の plug 文字列。接続がなければ None。
         """
         result = cmds.listConnections(
-            self.plug,
+            self.plug_name,
             source=True,
             destination=False,
             plugs=True,
@@ -738,7 +738,7 @@ class PlugOperator(Generic[A], ABC):
             list[str]: 接続先ノード名のリスト。接続がなければ空リスト。
         """
         result = cmds.listConnections(
-            self.plug,
+            self.plug_name,
             source=False,
             destination=True,
             plugs=False,
@@ -754,7 +754,7 @@ class PlugOperator(Generic[A], ABC):
             list[str]: 接続先の plug 文字列のリスト。接続がなければ空リスト。
         """
         result = cmds.listConnections(
-            self.plug,
+            self.plug_name,
             source=False,
             destination=True,
             plugs=True,
