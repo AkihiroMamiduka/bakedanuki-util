@@ -37,9 +37,11 @@ A = TypeVar("A", bound="AttrOperator[Any]")
 
 P = TypeVar("P", bound="PlugOperator[Any]")
 
+_PlugPath = list[str] | tuple[str, ...]
+
 _ConnectionTarget = TypeVar(
     "_ConnectionTarget",
-    bound="PlugOperator[Any] | str | list[str]",
+    bound="PlugOperator[Any] | str | _PlugPath",
 )
 
 _NextValue = TypeVar("_NextValue")
@@ -436,12 +438,13 @@ class PlugOperator(Generic[A], ABC):
         plug = sel.getPlug(0)
         return plug
 
-    def _get_plug_from_strs(self, plug_str_list: list[str]) -> om.MPlug:
+    def _get_plug_from_strs(self, plug_str_list: _PlugPath) -> om.MPlug:
         """
-        ["node", "attr"] 形式の文字列リストを MPlug に変換する
+        ["node", "attr"] 形式の文字列シーケンスを MPlug に変換する
 
         Args:
-            plug_str_list (list[str]): ["node", "attr"] 形式の文字列リスト
+            plug_str_list (list[str] | tuple[str, ...]):
+                ["node", "attr"] 形式の文字列シーケンス
 
         Returns:
             om.MPlug: 変換された MPlug インスタンス
@@ -490,20 +493,19 @@ class PlugOperator(Generic[A], ABC):
         return self._keyframe_manager
 
     # connect
-    def _normalize_to_plug(
-        self, obj: PlugOperator[Any] | str | list[str]
-    ) -> om.MPlug:
+    def _normalize_to_plug(self, obj: object) -> om.MPlug:
         """
         渡されたオブジェクトから、 MPlug に変換し返す
 
         Args:
-            obj (Plug | str | list[str]): 対象のオブジェクト
+            obj (Plug | str | list[str] | tuple[str, ...]): 対象のオブジェクト
 
         Raises:
-            ValueError: listで渡す際に、["node"]のようにアトリビュートが含まれていないとエラー
+            ValueError: list/tupleで渡す際に、["node"]のように
+                        アトリビュートが含まれていないとエラー
                         （誤）["node"]
                         （正）["node", "attr"...]
-            TypeError: Plug | str | list[str] 以外が渡されればエラー
+            TypeError: 対応型以外、または文字列以外を含むlist/tupleでエラー
 
         Returns:
             om.MPlug: MPlug インスタンス
@@ -519,18 +521,21 @@ class PlugOperator(Generic[A], ABC):
             return self._get_plug_from_str(obj)
         # list or tuple(["node", "attr"...])
         elif isinstance(obj, (list, tuple)):
-            if len(obj) < 2:
+            path_parts = cast(list[object] | tuple[object, ...], obj)
+            if len(path_parts) < 2:
                 raise ValueError("List/Tuple must be ['node', 'attr'...]")
-            return self._get_plug_from_strs(obj)
+            if not all(isinstance(part, str) for part in path_parts):
+                raise TypeError("List/Tuple items must all be strings")
+            return self._get_plug_from_strs(cast(_PlugPath, path_parts))
 
         raise TypeError(f"Unsupported connection type: {type(obj)}")
 
-    def connect(self, other: PlugOperator[Any] | str | list[str]):
+    def connect(self, other: PlugOperator[Any] | str | _PlugPath):
         """
         self から other へ connect()
 
         Args:
-            other (Plug | str | list[str]): 対象のオブジェクト
+            other (Plug | str | list[str] | tuple[str, ...]): 対象
         """
         src = self._m_plug
         if src is None:
@@ -566,7 +571,7 @@ class PlugOperator(Generic[A], ABC):
 
     def connect_next_index(
         self,
-        other: PlugOperator[Any] | str | list[str],
+        other: PlugOperator[Any] | str | _PlugPath,
     ):
         """
         マルチアトリビュートの最終インデックスの次へ接続する。
@@ -578,7 +583,7 @@ class PlugOperator(Generic[A], ABC):
         :meth:`refresh_next_index` を呼び出してキャッシュを更新すること。
 
         Args:
-            other (Plug | str | list[str]): 接続元のオブジェクト
+            other (Plug | str | list[str] | tuple[str, ...]): 接続元
         """
         src = self._normalize_to_plug(other)
         dst = self._get_next_plug()
@@ -595,12 +600,12 @@ class PlugOperator(Generic[A], ABC):
         """
         self._next_index = None
 
-    def disconnect(self, other: PlugOperator[Any] | str | list[str]):
+    def disconnect(self, other: PlugOperator[Any] | str | _PlugPath):
         """
         self から other へ disconnect()
 
         Args:
-            other (Plug | str | list[str]): 対象のオブジェクト
+            other (Plug | str | list[str] | tuple[str, ...]): 対象
         """
         src = self._m_plug
         if src is None:
@@ -620,23 +625,23 @@ class PlugOperator(Generic[A], ABC):
             さらに詰めるなら Plug をローカル変数に保持して再利用するのが良いと思います。
 
         Args:
-            other (Plug | str | list[str]): 接続先の対象
+            other (Plug | str | list[str] | tuple[str, ...]): 接続先
 
         Returns:
-            (Plug | str | list[str]): other をそのまま返す
+            (Plug | str | list[str] | tuple[str, ...]): other
         """
         self.connect(other)
         return other
 
     def __lt__(
         self,
-        other: PlugOperator[Any] | str | list[str],
+        other: PlugOperator[Any] | str | _PlugPath,
     ) -> Self:
         """
         other > self 演算子のオーバーライド：接続
 
         Args:
-            other (Plug | str | list[str]): 切断元の対象
+            other (Plug | str | list[str] | tuple[str, ...]): 接続元
 
         Returns:
             Self: self をそのまま返す
@@ -657,23 +662,23 @@ class PlugOperator(Generic[A], ABC):
         self | other 演算子オーバーライド：切断
 
         Args:
-            other (Plug | str | list[str]): 接続先の対象
+            other (Plug | str | list[str] | tuple[str, ...]): 切断先
 
         Returns:
-            (Plug | str | list[str]): other をそのまま返す
+            (Plug | str | list[str] | tuple[str, ...]): other
         """
         self.disconnect(other)
         return other
 
     def __ror__(
         self,
-        other: PlugOperator[Any] | str | list[str],
+        other: PlugOperator[Any] | str | _PlugPath,
     ) -> Self:
         """
         other | self 演算子のオーバーライド：切断
 
         Args:
-            other (Plug | str | list[str]): 切断元の対象
+            other (Plug | str | list[str] | tuple[str, ...]): 切断元
 
         Returns:
             Self: self をそのまま返す
