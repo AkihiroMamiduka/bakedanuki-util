@@ -69,6 +69,19 @@ Maya API の型スタブは `typings/maya` に同梱しています。
 Pyright の型・補完 contract と pytest の実行方法は、
 [testing.md](bakedanuki/bakedanuki-util/docs/maya/node_operator/testing.md) を参照してください。
 
+### Maya C++ Plug-ins
+
+C++ source は配布用 `bakedanuki` フォルダへ含めず、リポジトリ直下の
+`native/maya` で管理します。Maya 2025 向けの build と test は次のコマンドです。
+
+```powershell
+.\scripts\build-native-maya2025.cmd
+.\scripts\test-native-maya2025.cmd
+```
+
+必要な toolchain、成果物の配置、node ID の管理方針は
+[native/maya/README.md](native/maya/README.md) を参照してください。
+
 ### Formatting
 
 PythonコードはBlack 26.5.1で整形します。初回だけformat専用環境を作成してください。
@@ -124,6 +137,9 @@ bakedanuki/
     README.md
     LICENSE
     docs/
+    plug-ins/
+      maya2025/
+        bdUtilNodes.mll
     python/
       bd_util/
 ```

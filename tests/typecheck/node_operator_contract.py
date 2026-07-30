@@ -4,6 +4,12 @@ import bd_util as bdu
 from maya.api import OpenMaya as om
 
 from bd_util.maya.node.operator.attr import KeyframeManager
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_mult import (
+    InputAttrOperator,
+    InputPlugOperator,
+    OutputAttrOperator,
+    OutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.compose_matrix import (
     InputTranslateAttrOperator,
     InputTranslatePlugOperator,
@@ -33,6 +39,7 @@ from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
     InputRotateOrderEnumPlugOperator,
     InputRotateOrderEnumField,
 )
+from bd_util.maya.node.operator.node.dg.bd_double3_mult import BdDouble3Mult
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
     DecomposeMatrix,
@@ -41,6 +48,16 @@ from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 
 def node_accessor_contract(nodes: bdu.Nodes) -> None:
+    mult = nodes.create.bdDouble3Mult(name="mult")
+    assert_type(mult, BdDouble3Mult)
+    assert_type(mult.input, InputPlugOperator)
+    assert_type(mult.input[next], InputPlugOperator)
+    assert_type(mult.output, OutputPlugOperator)
+    assert_type(mult.output.get(), bdu.Double3)
+
+    existing_mult = nodes.existing.bdDouble3Mult("existing_mult")
+    assert_type(existing_mult, BdDouble3Mult)
+
     compose = nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
 
@@ -89,6 +106,15 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(compose.inputRotateOrder.XYZ, Literal[0])
     assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
+
+
+def bd_double3_mult_descriptor_contract(mult: BdDouble3Mult) -> None:
+    assert_type(BdDouble3Mult.input, InputAttrOperator)
+    assert_type(mult.input, InputPlugOperator)
+    assert_type(mult.input[0].inputX.get(), float)
+    assert_type(BdDouble3Mult.output, OutputAttrOperator)
+    assert_type(mult.output, OutputPlugOperator)
+    assert_type(mult.output.get(), bdu.Double3)
 
 
 def scalar_base_contract(

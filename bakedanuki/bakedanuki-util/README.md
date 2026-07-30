@@ -106,6 +106,29 @@ decompose = nodes.create.decomposeMatrix(name="decompose")
 
 Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `or_()`, `not_()` のように末尾 `_` を付けます。
 
+### Native Plug-in Node
+
+Maya の Plug-in Manager で `bdUtilNodes.mll` をロードすると、
+`bdDouble3Mult` を `Nodes` から使用できます。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+mult = nodes.create.bdDouble3Mult(name="mult")
+mult.input[0].set((2.0, 3.0, 4.0))
+mult.input[3].set((5.0, 6.0, 7.0))
+
+mod.do_it_dg()
+
+print(mult.output.get().as_tuple())  # (10.0, 18.0, 28.0)
+```
+
+`input` は `double3` の multi attribute です。既存要素を成分ごとに乗算し、
+要素がない場合は `(1.0, 1.0, 1.0)` を返します。
+
 ### Wrap Existing Nodes
 
 ```python

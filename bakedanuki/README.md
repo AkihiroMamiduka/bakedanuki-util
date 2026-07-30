@@ -22,6 +22,10 @@ bakedanuki/
     README.md
     LICENSE
     docs/
+    plug-ins/
+      maya2025/
+      maya2026/
+      maya2027/
     python/
 
   bakedanuki-rig/
@@ -41,7 +45,8 @@ bakedanuki/
 
 Maya には `bakedanuki/modules` だけを `MAYA_MODULE_PATH` として追加します。
 
-各 `.mod` ファイルが、それぞれのパッケージフォルダ内にある `python`、`plugins` などを Maya へ追加します。
+各 `.mod` ファイルが、それぞれのパッケージフォルダ内にある `python`、
+Maya version 別の `plug-ins` などを Maya へ追加します。
 
 ## Setup With installer.py
 
