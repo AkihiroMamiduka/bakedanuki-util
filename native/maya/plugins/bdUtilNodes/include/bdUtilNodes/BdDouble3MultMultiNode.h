@@ -6,7 +6,7 @@
 #include <maya/MString.h>
 #include <maya/MTypeId.h>
 
-class BdDouble3MultNode final : public MPxNode {
+class BdDouble3MultMultiNode final : public MPxNode {
 public:
     static void* creator();
     static MStatus initialize();
@@ -21,15 +21,10 @@ public:
     static const MString typeName;
     static const MTypeId typeId;
 
-    static MObject input1;
-    static MObject input1X;
-    static MObject input1Y;
-    static MObject input1Z;
-
-    static MObject input2;
-    static MObject input2X;
-    static MObject input2Y;
-    static MObject input2Z;
+    static MObject input;
+    static MObject inputX;
+    static MObject inputY;
+    static MObject inputZ;
 
     static MObject output;
     static MObject outputX;

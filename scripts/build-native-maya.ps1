@@ -4,7 +4,9 @@ param(
     [string]$MayaVersion = "2025",
 
     [ValidateSet("Debug", "Release")]
-    [string]$Configuration = "Release"
+    [string]$Configuration = "Release",
+
+    [switch]$SkipStage
 )
 
 $ErrorActionPreference = "Stop"
@@ -124,6 +126,11 @@ if ($Configuration -ne "Release") {
     Write-Host (
         "Debug builds remain under build/ and are not staged for distribution."
     )
+    return
+}
+
+if ($SkipStage) {
+    Write-Host "Staging skipped."
     return
 }
 

@@ -2,86 +2,25 @@
 
 #include <array>
 
-#include <maya/MArrayDataHandle.h>
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>
 #include <maya/MFnNumericAttribute.h>
-#include <maya/MFnNumericData.h>
 #include <maya/MPlug.h>
 
-namespace {
-
-MStatus createDouble3Attribute(
-    MFnNumericAttribute& attributeFn,
-    MObject& parent,
-    MObject& childX,
-    MObject& childY,
-    MObject& childZ,
-    const char* parentLongName,
-    const char* parentShortName,
-    const char* childXLongName,
-    const char* childXShortName,
-    const char* childYLongName,
-    const char* childYShortName,
-    const char* childZLongName,
-    const char* childZShortName,
-    double defaultValue
-) {
-    MStatus status;
-
-    childX = attributeFn.create(
-        childXLongName,
-        childXShortName,
-        MFnNumericData::kDouble,
-        defaultValue,
-        &status
-    );
-    if (!status) {
-        return status;
-    }
-
-    childY = attributeFn.create(
-        childYLongName,
-        childYShortName,
-        MFnNumericData::kDouble,
-        defaultValue,
-        &status
-    );
-    if (!status) {
-        return status;
-    }
-
-    childZ = attributeFn.create(
-        childZLongName,
-        childZShortName,
-        MFnNumericData::kDouble,
-        defaultValue,
-        &status
-    );
-    if (!status) {
-        return status;
-    }
-
-    parent = attributeFn.create(
-        parentLongName,
-        parentShortName,
-        childX,
-        childY,
-        childZ,
-        &status
-    );
-    return status;
-}
-
-}  // namespace
+#include "bdUtilNodes/Double3Attribute.h"
 
 const MString BdDouble3MultNode::typeName("bdDouble3Mult");
-const MTypeId BdDouble3MultNode::typeId(0x0007F001);
+const MTypeId BdDouble3MultNode::typeId(0x0007F002);
 
-MObject BdDouble3MultNode::input;
-MObject BdDouble3MultNode::inputX;
-MObject BdDouble3MultNode::inputY;
-MObject BdDouble3MultNode::inputZ;
+MObject BdDouble3MultNode::input1;
+MObject BdDouble3MultNode::input1X;
+MObject BdDouble3MultNode::input1Y;
+MObject BdDouble3MultNode::input1Z;
+
+MObject BdDouble3MultNode::input2;
+MObject BdDouble3MultNode::input2X;
+MObject BdDouble3MultNode::input2Y;
+MObject BdDouble3MultNode::input2Z;
 
 MObject BdDouble3MultNode::output;
 MObject BdDouble3MultNode::outputX;
@@ -95,39 +34,67 @@ void* BdDouble3MultNode::creator() {
 MStatus BdDouble3MultNode::initialize() {
     MFnNumericAttribute attributeFn;
 
-    MStatus status = createDouble3Attribute(
+    MStatus status = bd_util_nodes::createDouble3Attribute(
         attributeFn,
-        input,
-        inputX,
-        inputY,
-        inputZ,
-        "input",
-        "i",
-        "inputX",
-        "ix",
-        "inputY",
-        "iy",
-        "inputZ",
-        "iz",
+        input1,
+        input1X,
+        input1Y,
+        input1Z,
+        "input1",
+        "i1",
+        "input1X",
+        "i1x",
+        "input1Y",
+        "i1y",
+        "input1Z",
+        "i1z",
         1.0
     );
     if (!status) {
         return status;
     }
 
-    attributeFn.setArray(true);
-    attributeFn.setUsesArrayDataBuilder(true);
     attributeFn.setReadable(true);
     attributeFn.setWritable(true);
     attributeFn.setStorable(true);
     attributeFn.setKeyable(true);
 
-    status = addAttribute(input);
+    status = addAttribute(input1);
     if (!status) {
         return status;
     }
 
-    status = createDouble3Attribute(
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        input2,
+        input2X,
+        input2Y,
+        input2Z,
+        "input2",
+        "i2",
+        "input2X",
+        "i2x",
+        "input2Y",
+        "i2y",
+        "input2Z",
+        "i2z",
+        1.0
+    );
+    if (!status) {
+        return status;
+    }
+
+    attributeFn.setReadable(true);
+    attributeFn.setWritable(true);
+    attributeFn.setStorable(true);
+    attributeFn.setKeyable(true);
+
+    status = addAttribute(input2);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
         attributeFn,
         output,
         outputX,
@@ -157,11 +124,15 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    const std::array<MObject, 4> inputs = {
-        input,
-        inputX,
-        inputY,
-        inputZ,
+    const std::array<MObject, 8> inputs = {
+        input1,
+        input1X,
+        input1Y,
+        input1Z,
+        input2,
+        input2X,
+        input2Y,
+        input2Z,
     };
     const std::array<MObject, 4> outputs = {
         output,
@@ -197,42 +168,29 @@ MStatus BdDouble3MultNode::compute(
     }
 
     MStatus status;
-    MArrayDataHandle inputArray = dataBlock.inputArrayValue(input, &status);
+    MDataHandle input1Value = dataBlock.inputValue(input1, &status);
     if (!status) {
         return status;
     }
 
-    std::array<double, 3> product = {1.0, 1.0, 1.0};
-    const unsigned int elementCount = inputArray.elementCount(&status);
+    MDataHandle input2Value = dataBlock.inputValue(input2, &status);
     if (!status) {
         return status;
     }
 
-    for (unsigned int index = 0; index < elementCount; ++index) {
-        MDataHandle inputValue = inputArray.inputValue(&status);
-        if (!status) {
-            return status;
-        }
-
-        const double3& value = inputValue.asDouble3();
-        product[0] *= value[0];
-        product[1] *= value[1];
-        product[2] *= value[2];
-
-        if (index + 1 < elementCount) {
-            status = inputArray.next();
-            if (!status) {
-                return status;
-            }
-        }
-    }
+    const double3& value1 = input1Value.asDouble3();
+    const double3& value2 = input2Value.asDouble3();
 
     MDataHandle outputValue = dataBlock.outputValue(output, &status);
     if (!status) {
         return status;
     }
 
-    outputValue.set3Double(product[0], product[1], product[2]);
+    outputValue.set3Double(
+        value1[0] * value2[0],
+        value1[1] * value2[1],
+        value1[2] * value2[2]
+    );
     outputValue.setClean();
     return dataBlock.setClean(plug);
 }

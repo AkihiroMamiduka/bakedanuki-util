@@ -109,7 +109,8 @@ Python キーワードと衝突する `and`, `or`, `not` などは、`and_()`, `
 ### Native Plug-in Node
 
 Maya の Plug-in Manager で `bdUtilNodes.mll` をロードすると、
-`bdDouble3Mult` を `Nodes` から使用できます。
+固定2入力の `bdDouble3Mult` と、可変長入力の `bdDouble3MultMulti` を
+`Nodes` から使用できます。
 
 ```python
 import bd_util as bdu
@@ -118,16 +119,26 @@ mod = bdu.ModifierManager()
 nodes = bdu.Nodes(modifier_manager=mod)
 
 mult = nodes.create.bdDouble3Mult(name="mult")
-mult.input[0].set((2.0, 3.0, 4.0))
-mult.input[3].set((5.0, 6.0, 7.0))
+mult.input1.set((2.0, 3.0, 4.0))
+mult.input2.set((5.0, 6.0, 7.0))
 
 mod.do_it_dg()
 
 print(mult.output.get().as_tuple())  # (10.0, 18.0, 28.0)
 ```
 
-`input` は `double3` の multi attribute です。既存要素を成分ごとに乗算し、
-要素がない場合は `(1.0, 1.0, 1.0)` を返します。
+`bdDouble3Mult` の `input1` と `input2` は `double3` です。2入力を成分ごとに
+乗算します。
+
+任意個の `double3` を乗算する場合は `bdDouble3MultMulti` の multi attribute
+`input` を使用します。既存要素を成分ごとに乗算し、要素がない場合は
+`(1.0, 1.0, 1.0)` を返します。
+
+```python
+multi = nodes.create.bdDouble3MultMulti(name="multi")
+multi.input[0].set((2.0, 3.0, 4.0))
+multi.input[3].set((5.0, 6.0, 7.0))
+```
 
 ### Wrap Existing Nodes
 

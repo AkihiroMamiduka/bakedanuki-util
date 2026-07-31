@@ -31,6 +31,13 @@ Windows はロード中の `.mll` を上書きできません。
 成功すると `Release` build の `bdUtilNodes.mll` が
 `bakedanuki/bakedanuki-util/plug-ins/maya2025` へコピーされます。
 
+Mayaで既存バイナリをロードしたままコンパイルだけ行う場合は、配布先へのコピーを
+省略します。
+
+```powershell
+.\scripts\build-native-maya2025.cmd -SkipStage
+```
+
 デバッガを使用する場合は Debug build を生成します。
 
 ```powershell
@@ -55,8 +62,8 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 ```
 
 テストは staged plug-in を Maya 2025 の `mayapy` へロードし、
-`bdDouble3Mult` の空入力、sparse 配列、ノード接続、scene の保存と再読込、
-NodeOperator API を確認します。
+固定2入力の `bdDouble3Mult`、可変長入力の `bdDouble3MultMulti`、空入力、
+sparse 配列、ノード接続、scene の保存と再読込、NodeOperator API を確認します。
 
 ## Node Implementation Rules
 

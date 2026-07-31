@@ -343,6 +343,7 @@ from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_double3_mult import BdDouble3Mult
+from .operator.node.dg.bd_double3_mult_multi import BdDouble3MultMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2543,6 +2544,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDouble3Mult: ...
+    def bdDouble3MultMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3MultMulti: ...
     def bevel(
         self,
         node: str | om.MObject,

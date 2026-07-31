@@ -3,6 +3,7 @@
 #include <maya/MStatus.h>
 
 #include "bdUtilNodes/BdDouble3MultNode.h"
+#include "bdUtilNodes/BdDouble3MultMultiNode.h"
 
 MStatus initializePlugin(MObject pluginObject) {
     MStatus status;
@@ -19,6 +20,18 @@ MStatus initializePlugin(MObject pluginObject) {
     }
 
     status = plugin.registerNode(
+        BdDouble3MultMultiNode::typeName,
+        BdDouble3MultMultiNode::typeId,
+        BdDouble3MultMultiNode::creator,
+        BdDouble3MultMultiNode::initialize,
+        MPxNode::kDependNode
+    );
+    if (!status) {
+        status.perror("Failed to register bdDouble3MultMulti");
+        return status;
+    }
+
+    status = plugin.registerNode(
         BdDouble3MultNode::typeName,
         BdDouble3MultNode::typeId,
         BdDouble3MultNode::creator,
@@ -27,6 +40,14 @@ MStatus initializePlugin(MObject pluginObject) {
     );
     if (!status) {
         status.perror("Failed to register bdDouble3Mult");
+        const MStatus cleanupStatus = plugin.deregisterNode(
+            BdDouble3MultMultiNode::typeId
+        );
+        if (!cleanupStatus) {
+            cleanupStatus.perror(
+                "Failed to roll back bdDouble3MultMulti registration"
+            );
+        }
     }
     return status;
 }
@@ -42,6 +63,12 @@ MStatus uninitializePlugin(MObject pluginObject) {
     status = plugin.deregisterNode(BdDouble3MultNode::typeId);
     if (!status) {
         status.perror("Failed to deregister bdDouble3Mult");
+        return status;
+    }
+
+    status = plugin.deregisterNode(BdDouble3MultMultiNode::typeId);
+    if (!status) {
+        status.perror("Failed to deregister bdDouble3MultMulti");
     }
     return status;
 }
