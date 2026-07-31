@@ -131,6 +131,55 @@ def test_fixed_child_inputs_dirty_and_update_output(
     assert node.output.get().as_tuple() == pytest.approx((10.0, 18.0, 28.0))
 
 
+@pytest.mark.parametrize(
+    ("node_type", "input_values"),
+    [
+        (
+            "bdDouble3Mult",
+            (
+                ("input1", (2.0, 3.0, 4.0)),
+                ("input2", (5.0, 6.0, 7.0)),
+            ),
+        ),
+        (
+            "bdDouble3MultMulti",
+            (
+                ("input[2]", (2.0, 3.0, 4.0)),
+                ("input[7]", (5.0, 6.0, 7.0)),
+            ),
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    ("output_child", "expected"),
+    [
+        ("outputX", 10.0),
+        ("outputY", 18.0),
+        ("outputZ", 28.0),
+    ],
+)
+def test_output_children_can_be_requested_directly(
+    maya_cmds,
+    node_type,
+    input_values,
+    output_child,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    node = maya_cmds.createNode(node_type)
+    for input_name, value in input_values:
+        maya_cmds.setAttr(
+            f"{node}.{input_name}",
+            *value,
+            type="double3",
+        )
+
+    assert maya_cmds.getAttr(f"{node}.{output_child}") == pytest.approx(
+        expected
+    )
+
+
 def test_multi_empty_input_returns_multiplicative_identity(
     modifier_manager,
     maya_cmds,
@@ -159,6 +208,103 @@ def test_multi_multiplies_existing_sparse_elements_component_wise(
     assert node.input[0].inputX.get() == pytest.approx(2.0)
     assert node.input[3].iz.get() == pytest.approx(2.0)
     assert node.output.get().as_tuple() == pytest.approx((-1.0, 30.0, 8.0))
+
+
+@pytest.mark.parametrize("evaluation_mode", ["off", "serial", "parallel"])
+def test_dirty_updates_match_in_all_evaluation_modes(
+    maya_cmds,
+    evaluation_mode,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
+    try:
+        maya_cmds.evaluationManager(mode=evaluation_mode)
+
+        fixed = maya_cmds.createNode("bdDouble3Mult")
+        maya_cmds.setAttr(
+            f"{fixed}.input1",
+            2.0,
+            3.0,
+            4.0,
+            type="double3",
+        )
+        maya_cmds.setAttr(
+            f"{fixed}.input2",
+            5.0,
+            6.0,
+            7.0,
+            type="double3",
+        )
+        assert maya_cmds.getAttr(f"{fixed}.output")[0] == pytest.approx(
+            (10.0, 18.0, 28.0)
+        )
+
+        maya_cmds.setAttr(f"{fixed}.input1X", 8.0)
+        assert maya_cmds.getAttr(f"{fixed}.output")[0] == pytest.approx(
+            (40.0, 18.0, 28.0)
+        )
+
+        multi = maya_cmds.createNode("bdDouble3MultMulti")
+        maya_cmds.setAttr(
+            f"{multi}.input[2]",
+            2.0,
+            3.0,
+            4.0,
+            type="double3",
+        )
+        maya_cmds.setAttr(
+            f"{multi}.input[9]",
+            5.0,
+            6.0,
+            7.0,
+            type="double3",
+        )
+        assert maya_cmds.getAttr(f"{multi}.output")[0] == pytest.approx(
+            (10.0, 18.0, 28.0)
+        )
+
+        maya_cmds.setAttr(f"{multi}.input[2].inputY", 10.0)
+        assert maya_cmds.getAttr(f"{multi}.output")[0] == pytest.approx(
+            (10.0, 60.0, 28.0)
+        )
+
+        maya_cmds.removeMultiInstance(f"{multi}.input[2]", b=True)
+        assert maya_cmds.getAttr(f"{multi}.output")[0] == pytest.approx(
+            (5.0, 6.0, 7.0)
+        )
+    finally:
+        maya_cmds.evaluationManager(mode=previous_mode)
+
+
+def test_child_input_dependencies_cover_the_output_compound(
+    maya_cmds,
+    maya_om,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    for node_type, input_children in (
+        ("bdDouble3Mult", ("input1X", "input1Y", "input1Z")),
+        ("bdDouble3MultMulti", ("inputX", "inputY", "inputZ")),
+    ):
+        node = maya_cmds.createNode(node_type)
+        selection = maya_om.MSelectionList()
+        selection.add(node)
+        node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
+
+        for input_child in input_children:
+            affected = node_fn.getAffectedAttributes(
+                node_fn.attribute(input_child)
+            )
+            affected_names = {
+                maya_om.MFnAttribute(attribute).name for attribute in affected
+            }
+            assert affected_names == {
+                "output",
+                "outputX",
+                "outputY",
+                "outputZ",
+            }
 
 
 def test_fixed_output_participates_in_multi_product(

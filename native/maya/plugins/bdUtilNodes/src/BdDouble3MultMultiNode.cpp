@@ -50,12 +50,15 @@ MStatus BdDouble3MultMultiNode::initialize() {
         return status;
     }
 
-    attributeFn.setArray(true);
-    attributeFn.setUsesArrayDataBuilder(true);
-    attributeFn.setReadable(true);
-    attributeFn.setWritable(true);
-    attributeFn.setStorable(true);
-    attributeFn.setKeyable(true);
+    status = attributeFn.setArray(true);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::configureInputDouble3Attribute(attributeFn);
+    if (!status) {
+        return status;
+    }
 
     status = addAttribute(input);
     if (!status) {
@@ -82,10 +85,10 @@ MStatus BdDouble3MultMultiNode::initialize() {
         return status;
     }
 
-    attributeFn.setReadable(true);
-    attributeFn.setWritable(false);
-    attributeFn.setStorable(false);
-    attributeFn.setKeyable(false);
+    status = bd_util_nodes::configureOutputDouble3Attribute(attributeFn);
+    if (!status) {
+        return status;
+    }
 
     status = addAttribute(output);
     if (!status) {
@@ -98,19 +101,10 @@ MStatus BdDouble3MultMultiNode::initialize() {
         inputY,
         inputZ,
     };
-    const std::array<MObject, 4> outputs = {
-        output,
-        outputX,
-        outputY,
-        outputZ,
-    };
-
     for (const MObject& inputAttribute : inputs) {
-        for (const MObject& outputAttribute : outputs) {
-            status = attributeAffects(inputAttribute, outputAttribute);
-            if (!status) {
-                return status;
-            }
+        status = attributeAffects(inputAttribute, output);
+        if (!status) {
+            return status;
         }
     }
 

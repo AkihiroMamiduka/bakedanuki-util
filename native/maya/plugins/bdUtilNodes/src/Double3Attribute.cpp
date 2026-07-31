@@ -68,4 +68,46 @@ MStatus createDouble3Attribute(
     return status;
 }
 
+MStatus configureInputDouble3Attribute(
+    MFnNumericAttribute& attributeFn
+) {
+    MStatus status = attributeFn.setReadable(true);
+    if (!status) {
+        return status;
+    }
+
+    status = attributeFn.setWritable(true);
+    if (!status) {
+        return status;
+    }
+
+    status = attributeFn.setStorable(true);
+    if (!status) {
+        return status;
+    }
+
+    return attributeFn.setKeyable(true);
+}
+
+MStatus configureOutputDouble3Attribute(
+    MFnNumericAttribute& attributeFn
+) {
+    MStatus status = attributeFn.setReadable(true);
+    if (!status) {
+        return status;
+    }
+
+    status = attributeFn.setWritable(false);
+    if (!status) {
+        return status;
+    }
+
+    status = attributeFn.setStorable(false);
+    if (!status) {
+        return status;
+    }
+
+    return attributeFn.setKeyable(false);
+}
+
 }  // namespace bd_util_nodes

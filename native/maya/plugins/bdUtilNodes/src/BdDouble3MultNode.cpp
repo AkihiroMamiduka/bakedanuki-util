@@ -54,10 +54,10 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    attributeFn.setReadable(true);
-    attributeFn.setWritable(true);
-    attributeFn.setStorable(true);
-    attributeFn.setKeyable(true);
+    status = bd_util_nodes::configureInputDouble3Attribute(attributeFn);
+    if (!status) {
+        return status;
+    }
 
     status = addAttribute(input1);
     if (!status) {
@@ -84,10 +84,10 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    attributeFn.setReadable(true);
-    attributeFn.setWritable(true);
-    attributeFn.setStorable(true);
-    attributeFn.setKeyable(true);
+    status = bd_util_nodes::configureInputDouble3Attribute(attributeFn);
+    if (!status) {
+        return status;
+    }
 
     status = addAttribute(input2);
     if (!status) {
@@ -114,17 +114,17 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    attributeFn.setReadable(true);
-    attributeFn.setWritable(false);
-    attributeFn.setStorable(false);
-    attributeFn.setKeyable(false);
+    status = bd_util_nodes::configureOutputDouble3Attribute(attributeFn);
+    if (!status) {
+        return status;
+    }
 
     status = addAttribute(output);
     if (!status) {
         return status;
     }
 
-    const std::array<MObject, 8> inputs = {
+    const std::array<MObject, 8> inputAttributes = {
         input1,
         input1X,
         input1Y,
@@ -134,19 +134,11 @@ MStatus BdDouble3MultNode::initialize() {
         input2Y,
         input2Z,
     };
-    const std::array<MObject, 4> outputs = {
-        output,
-        outputX,
-        outputY,
-        outputZ,
-    };
 
-    for (const MObject& inputAttribute : inputs) {
-        for (const MObject& outputAttribute : outputs) {
-            status = attributeAffects(inputAttribute, outputAttribute);
-            if (!status) {
-                return status;
-            }
+    for (const MObject& inputAttribute : inputAttributes) {
+        status = attributeAffects(inputAttribute, output);
+        if (!status) {
+            return status;
         }
     }
 

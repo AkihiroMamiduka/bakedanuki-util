@@ -44,8 +44,8 @@ if (!status) {
 ### Compound の方針
 
 `double3` のような compound は、親と子のどちらも直接編集・接続・要求されます。
-`bdUtilNodes` では挙動を明示するため、入力の親・子と出力の親・子を列挙し、必要な
-組み合わせをすべて登録します。
+`bdDouble3Mult` 系 node は、入力の親・子を列挙し、それぞれから output 親への関係を
+登録します。
 
 ```cpp
 const std::array<MObject, 4> inputs = {
@@ -54,29 +54,23 @@ const std::array<MObject, 4> inputs = {
     inputY,
     inputZ,
 };
-const std::array<MObject, 4> outputs = {
-    output,
-    outputX,
-    outputY,
-    outputZ,
-};
 
 for (const MObject& inputAttribute : inputs) {
-    for (const MObject& outputAttribute : outputs) {
-        status = attributeAffects(inputAttribute, outputAttribute);
-        if (!status) {
-            return status;
-        }
+    status = attributeAffects(inputAttribute, output);
+    if (!status) {
+        return status;
     }
 }
 ```
 
-現在の乗算 node は、どの入力成分が変わっても output compound 全体を一度計算するため、
-全組み合わせが仕様と一致します。
+Maya 2025 では output compound 親への affects は X / Y / Z の子にも展開されます。
+逆に `inputX -> outputX` だけを登録しても、affected attributes は output 親と全子に
+展開されます。そのため、親・子の全組み合わせを登録する必要はありませんが、output
+compound の dirty を XYZ ごとに分離する最適化にもなりません。
 
-出力成分が完全に独立し、計算コストが高い node では、たとえば `inputX -> outputX`
-だけを宣言して成分別に計算する設計も可能です。ただし、親 plug の変更・接続時にも
-正しく dirty になることをテストしてから依存範囲を狭めます。
+compound の親変更、各 child の直接変更、parent / child connection、各 output child の
+直接要求を Maya 上でテストすることが前提です。XYZ ごとに独立した dirty branch が必要な
+場合は、compound ではなく独立した scalar output を API として設計する必要があります。
 
 ### 過不足の影響
 

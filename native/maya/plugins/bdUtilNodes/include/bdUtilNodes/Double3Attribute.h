@@ -24,4 +24,12 @@ MStatus createDouble3Attribute(
     double defaultValue
 );
 
+MStatus configureInputDouble3Attribute(
+    MFnNumericAttribute& attributeFn
+);
+
+MStatus configureOutputDouble3Attribute(
+    MFnNumericAttribute& attributeFn
+);
+
 }  // namespace bd_util_nodes
