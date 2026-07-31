@@ -9,6 +9,16 @@ bakedanuki/bakedanuki-util/
   plug-ins/maya2025/bdUtilNodes.mll  staged runtime binary
 ```
 
+## Development Guide
+
+C++ node の設計・実装・検証については
+[Maya C++ Plug-in Development Guide](docs/README.md) を参照してください。
+
+- [Dependency Node Basics](docs/node-basics.md)
+- [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)
+- [Evaluation And Parallelism](docs/evaluation.md)
+- [Testing And Debugging](docs/testing-debugging.md)
+
 ## Requirements
 
 - Autodesk Maya 2025
@@ -71,7 +81,10 @@ sparse 配列、ノード接続、scene の保存と再読込、NodeOperator API
 - node registration と deregistration は逆順で管理します。
 - `compute()` は data block の入力だけを読み、出力だけを書き換えます。
 - multi attribute は logical index の連続性を仮定せず、既存要素を走査します。
-- 純粋な計算ノードは `kParallel` を明示し、共有 mutable state を持ちません。
+- 純粋かつ thread-safe な計算ノードは `kParallel` を明示し、共有 mutable state を
+  持ちません。
+- background evaluation では、normal context の global state や単一 member cache に
+  依存しません。
 - 新しい node type を追加するときは [NODE_IDS.md](NODE_IDS.md) へ
   `MTypeId` を先に登録します。
 - production scene へ保存した `MTypeId`、attribute の long name / short name は
