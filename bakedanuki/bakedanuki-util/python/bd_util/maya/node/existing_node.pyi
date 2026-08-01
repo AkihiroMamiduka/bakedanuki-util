@@ -343,12 +343,16 @@ from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_double3_add import BdDouble3Add
 from .operator.node.dg.bd_double3_add_multi import BdDouble3AddMulti
+from .operator.node.dg.bd_double3_div import BdDouble3Div
+from .operator.node.dg.bd_double3_div_multi import BdDouble3DivMulti
 from .operator.node.dg.bd_double3_mult import BdDouble3Mult
 from .operator.node.dg.bd_double3_mult_multi import BdDouble3MultMulti
 from .operator.node.dg.bd_double3_sub import BdDouble3Sub
 from .operator.node.dg.bd_double3_sub_multi import BdDouble3SubMulti
 from .operator.node.dg.bd_double_add import BdDoubleAdd
 from .operator.node.dg.bd_double_add_multi import BdDoubleAddMulti
+from .operator.node.dg.bd_double_div import BdDoubleDiv
+from .operator.node.dg.bd_double_div_multi import BdDoubleDivMulti
 from .operator.node.dg.bd_double_mult import BdDoubleMult
 from .operator.node.dg.bd_double_mult_multi import BdDoubleMultMulti
 from .operator.node.dg.bd_double_sub import BdDoubleSub
@@ -2856,6 +2860,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDouble3AddMulti: ...
     @staticmethod
+    def bdDouble3Div(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3Div: ...
+    @staticmethod
+    def bdDouble3DivMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3DivMulti: ...
+    @staticmethod
     def bdDouble3Mult(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2891,6 +2907,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDoubleAddMulti: ...
+    @staticmethod
+    def bdDoubleDiv(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleDiv: ...
+    @staticmethod
+    def bdDoubleDivMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleDivMulti: ...
     @staticmethod
     def bdDoubleMult(
         node: str | om.MObject,

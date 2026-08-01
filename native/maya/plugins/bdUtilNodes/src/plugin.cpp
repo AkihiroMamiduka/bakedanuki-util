@@ -6,12 +6,16 @@
 
 #include "bdUtilNodes/BdDouble3AddNode.h"
 #include "bdUtilNodes/BdDouble3AddMultiNode.h"
+#include "bdUtilNodes/BdDouble3DivNode.h"
+#include "bdUtilNodes/BdDouble3DivMultiNode.h"
 #include "bdUtilNodes/BdDouble3MultNode.h"
 #include "bdUtilNodes/BdDouble3MultMultiNode.h"
 #include "bdUtilNodes/BdDouble3SubNode.h"
 #include "bdUtilNodes/BdDouble3SubMultiNode.h"
 #include "bdUtilNodes/BdDoubleAddNode.h"
 #include "bdUtilNodes/BdDoubleAddMultiNode.h"
+#include "bdUtilNodes/BdDoubleDivNode.h"
+#include "bdUtilNodes/BdDoubleDivMultiNode.h"
 #include "bdUtilNodes/BdDoubleMultNode.h"
 #include "bdUtilNodes/BdDoubleMultMultiNode.h"
 #include "bdUtilNodes/BdDoubleSubNode.h"
@@ -26,8 +30,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 12>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 12> registrations = {{
+const std::array<NodeRegistration, 16>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 16> registrations = {{
         {
             BdDouble3MultMultiNode::typeName,
             BdDouble3MultMultiNode::typeId,
@@ -99,6 +103,30 @@ const std::array<NodeRegistration, 12>& nodeRegistrations() {
             BdDoubleSubNode::typeId,
             BdDoubleSubNode::creator,
             BdDoubleSubNode::initialize,
+        },
+        {
+            BdDouble3DivMultiNode::typeName,
+            BdDouble3DivMultiNode::typeId,
+            BdDouble3DivMultiNode::creator,
+            BdDouble3DivMultiNode::initialize,
+        },
+        {
+            BdDouble3DivNode::typeName,
+            BdDouble3DivNode::typeId,
+            BdDouble3DivNode::creator,
+            BdDouble3DivNode::initialize,
+        },
+        {
+            BdDoubleDivMultiNode::typeName,
+            BdDoubleDivMultiNode::typeId,
+            BdDoubleDivMultiNode::creator,
+            BdDoubleDivMultiNode::initialize,
+        },
+        {
+            BdDoubleDivNode::typeName,
+            BdDoubleDivNode::typeId,
+            BdDoubleDivNode::creator,
+            BdDoubleDivNode::initialize,
         },
     }};
     return registrations;

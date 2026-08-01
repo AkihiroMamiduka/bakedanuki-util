@@ -13,6 +13,10 @@ add_library(
     src/BdDoubleSubMultiNode.cpp
     src/BdDouble3SubNode.cpp
     src/BdDouble3SubMultiNode.cpp
+    src/BdDoubleDivNode.cpp
+    src/BdDoubleDivMultiNode.cpp
+    src/BdDouble3DivNode.cpp
+    src/BdDouble3DivMultiNode.cpp
     src/Double3Attribute.cpp
     src/NumericAttribute.cpp
     src/plugin.cpp
