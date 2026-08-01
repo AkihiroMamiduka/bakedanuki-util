@@ -35,6 +35,10 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar._base import (
     ScalarBasePlugOperator,
     ScalarBaseField,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.double import (
+    DoubleAttrOperator,
+    DoublePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
     double_linear,
 )
@@ -50,6 +54,10 @@ from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
 from bd_util.maya.node.operator.node.dg.bd_double3_mult import BdDouble3Mult
 from bd_util.maya.node.operator.node.dg.bd_double3_mult_multi import (
     BdDouble3MultMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_double_mult import BdDoubleMult
+from bd_util.maya.node.operator.node.dg.bd_double_mult_multi import (
+    BdDoubleMultMulti,
 )
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
@@ -77,6 +85,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_fixed, BdDouble3Mult)
     existing_multi = nodes.existing.bdDouble3MultMulti("existing_multi")
     assert_type(existing_multi, BdDouble3MultMulti)
+
+    double_fixed = nodes.create.bdDoubleMult(name="double_fixed")
+    assert_type(double_fixed, BdDoubleMult)
+    assert_type(double_fixed.input1, DoublePlugOperator)
+    assert_type(double_fixed.input2, DoublePlugOperator)
+    assert_type(double_fixed.output, DoublePlugOperator)
+    assert_type(double_fixed.output.get(), float)
+
+    double_multi = nodes.create.bdDoubleMultMulti(name="double_multi")
+    assert_type(double_multi, BdDoubleMultMulti)
+    assert_type(double_multi.input, DoublePlugOperator)
+    assert_type(double_multi.input[next], DoublePlugOperator)
+    assert_type(double_multi.output, DoublePlugOperator)
+    assert_type(double_multi.output.get(), float)
+
+    existing_double_fixed = nodes.existing.bdDoubleMult(
+        "existing_double_fixed"
+    )
+    assert_type(existing_double_fixed, BdDoubleMult)
+    existing_double_multi = nodes.existing.bdDoubleMultMulti(
+        "existing_double_multi"
+    )
+    assert_type(existing_double_multi, BdDoubleMultMulti)
 
     compose = nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
@@ -149,6 +180,27 @@ def bd_double3_mult_multi_descriptor_contract(
     assert_type(BdDouble3MultMulti.output, MultiOutputAttrOperator)
     assert_type(multi.output, MultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
+
+
+def bd_double_mult_descriptor_contract(
+    fixed: BdDoubleMult,
+    multi: BdDoubleMultMulti,
+) -> None:
+    assert_type(BdDoubleMult.input1, DoubleAttrOperator)
+    assert_type(fixed.input1, DoublePlugOperator)
+    assert_type(fixed.input1.get(), float)
+    assert_type(BdDoubleMult.input2, DoubleAttrOperator)
+    assert_type(fixed.input2, DoublePlugOperator)
+    assert_type(BdDoubleMult.output, DoubleAttrOperator)
+    assert_type(fixed.output, DoublePlugOperator)
+    assert_type(fixed.output.get(), float)
+
+    assert_type(BdDoubleMultMulti.input, DoubleAttrOperator)
+    assert_type(multi.input, DoublePlugOperator)
+    assert_type(multi.input[0].get(), float)
+    assert_type(BdDoubleMultMulti.output, DoubleAttrOperator)
+    assert_type(multi.output, DoublePlugOperator)
+    assert_type(multi.output.get(), float)
 
 
 def scalar_base_contract(

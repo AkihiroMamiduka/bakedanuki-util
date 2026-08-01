@@ -1,9 +1,54 @@
+#include <array>
+
 #include <maya/MFnPlugin.h>
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
 #include "bdUtilNodes/BdDouble3MultNode.h"
 #include "bdUtilNodes/BdDouble3MultMultiNode.h"
+#include "bdUtilNodes/BdDoubleMultNode.h"
+#include "bdUtilNodes/BdDoubleMultMultiNode.h"
+
+namespace {
+
+struct NodeRegistration {
+    const MString& typeName;
+    const MTypeId& typeId;
+    MCreatorFunction creator;
+    MInitializeFunction initialize;
+};
+
+const std::array<NodeRegistration, 4>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 4> registrations = {{
+        {
+            BdDouble3MultMultiNode::typeName,
+            BdDouble3MultMultiNode::typeId,
+            BdDouble3MultMultiNode::creator,
+            BdDouble3MultMultiNode::initialize,
+        },
+        {
+            BdDouble3MultNode::typeName,
+            BdDouble3MultNode::typeId,
+            BdDouble3MultNode::creator,
+            BdDouble3MultNode::initialize,
+        },
+        {
+            BdDoubleMultMultiNode::typeName,
+            BdDoubleMultMultiNode::typeId,
+            BdDoubleMultMultiNode::creator,
+            BdDoubleMultMultiNode::initialize,
+        },
+        {
+            BdDoubleMultNode::typeName,
+            BdDoubleMultNode::typeId,
+            BdDoubleMultNode::creator,
+            BdDoubleMultNode::initialize,
+        },
+    }};
+    return registrations;
+}
+
+}  // namespace
 
 MStatus initializePlugin(MObject pluginObject) {
     MStatus status;
@@ -19,37 +64,41 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
-    status = plugin.registerNode(
-        BdDouble3MultMultiNode::typeName,
-        BdDouble3MultMultiNode::typeId,
-        BdDouble3MultMultiNode::creator,
-        BdDouble3MultMultiNode::initialize,
-        MPxNode::kDependNode
-    );
-    if (!status) {
-        status.perror("Failed to register bdDouble3MultMulti");
+    const auto& registrations = nodeRegistrations();
+    std::size_t registeredCount = 0;
+    for (const NodeRegistration& registration : registrations) {
+        status = plugin.registerNode(
+            registration.typeName,
+            registration.typeId,
+            registration.creator,
+            registration.initialize,
+            MPxNode::kDependNode
+        );
+        if (status) {
+            ++registeredCount;
+            continue;
+        }
+
+        MString message("Failed to register ");
+        message += registration.typeName;
+        status.perror(message);
+
+        for (std::size_t index = registeredCount; index > 0; --index) {
+            const NodeRegistration& registered = registrations[index - 1];
+            const MStatus cleanupStatus = plugin.deregisterNode(
+                registered.typeId
+            );
+            if (!cleanupStatus) {
+                MString cleanupMessage("Failed to roll back ");
+                cleanupMessage += registered.typeName;
+                cleanupMessage += " registration";
+                cleanupStatus.perror(cleanupMessage);
+            }
+        }
         return status;
     }
 
-    status = plugin.registerNode(
-        BdDouble3MultNode::typeName,
-        BdDouble3MultNode::typeId,
-        BdDouble3MultNode::creator,
-        BdDouble3MultNode::initialize,
-        MPxNode::kDependNode
-    );
-    if (!status) {
-        status.perror("Failed to register bdDouble3Mult");
-        const MStatus cleanupStatus = plugin.deregisterNode(
-            BdDouble3MultMultiNode::typeId
-        );
-        if (!cleanupStatus) {
-            cleanupStatus.perror(
-                "Failed to roll back bdDouble3MultMulti registration"
-            );
-        }
-    }
-    return status;
+    return MS::kSuccess;
 }
 
 MStatus uninitializePlugin(MObject pluginObject) {
@@ -60,15 +109,17 @@ MStatus uninitializePlugin(MObject pluginObject) {
         return status;
     }
 
-    status = plugin.deregisterNode(BdDouble3MultNode::typeId);
-    if (!status) {
-        status.perror("Failed to deregister bdDouble3Mult");
-        return status;
+    const auto& registrations = nodeRegistrations();
+    for (std::size_t index = registrations.size(); index > 0; --index) {
+        const NodeRegistration& registration = registrations[index - 1];
+        status = plugin.deregisterNode(registration.typeId);
+        if (!status) {
+            MString message("Failed to deregister ");
+            message += registration.typeName;
+            status.perror(message);
+            return status;
+        }
     }
 
-    status = plugin.deregisterNode(BdDouble3MultMultiNode::typeId);
-    if (!status) {
-        status.perror("Failed to deregister bdDouble3MultMulti");
-    }
-    return status;
+    return MS::kSuccess;
 }

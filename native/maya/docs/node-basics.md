@@ -196,7 +196,8 @@ for (unsigned int physicalIndex = 0; physicalIndex < count; ++physicalIndex) {
 
 全要素の積のように index 自体が不要な処理では、logical index を読まず `next()` で
 既存要素だけを走査します。空配列の結果は演算の単位元から決めます。
-`bdDouble3MultMulti` では `(1.0, 1.0, 1.0)` です。
+`bdDouble3MultMulti` では `(1.0, 1.0, 1.0)`、`bdDoubleMultMulti` では
+`1.0` です。
 
 array output を構築・変更する node では `MArrayDataBuilder` を使い、必要な element
 だけを追加した後で array handle へ戻します。入力 array の走査と、出力 array の構築を

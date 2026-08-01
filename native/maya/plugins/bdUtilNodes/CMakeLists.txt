@@ -1,9 +1,12 @@
 add_library(
     bdUtilNodes
     SHARED
+    src/BdDoubleMultNode.cpp
+    src/BdDoubleMultMultiNode.cpp
     src/BdDouble3MultNode.cpp
     src/BdDouble3MultMultiNode.cpp
     src/Double3Attribute.cpp
+    src/NumericAttribute.cpp
     src/plugin.cpp
 )
 

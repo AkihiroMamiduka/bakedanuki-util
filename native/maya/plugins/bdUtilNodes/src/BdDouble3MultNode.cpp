@@ -8,6 +8,7 @@
 #include <maya/MPlug.h>
 
 #include "bdUtilNodes/Double3Attribute.h"
+#include "bdUtilNodes/NumericAttribute.h"
 
 const MString BdDouble3MultNode::typeName("bdDouble3Mult");
 const MTypeId BdDouble3MultNode::typeId(0x0007F002);
@@ -54,7 +55,7 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::configureInputDouble3Attribute(attributeFn);
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
     if (!status) {
         return status;
     }
@@ -84,7 +85,7 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::configureInputDouble3Attribute(attributeFn);
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
     if (!status) {
         return status;
     }
@@ -114,7 +115,7 @@ MStatus BdDouble3MultNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::configureOutputDouble3Attribute(attributeFn);
+    status = bd_util_nodes::configureOutputNumericAttribute(attributeFn);
     if (!status) {
         return status;
     }

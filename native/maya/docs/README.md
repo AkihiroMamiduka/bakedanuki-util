@@ -32,8 +32,14 @@
   - 固定2入力の compound attribute と `compute()`
 - [BdDouble3MultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3MultMultiNode.cpp)
   - sparse な multi attribute の走査
+- [BdDoubleMultNode.cpp](../plugins/bdUtilNodes/src/BdDoubleMultNode.cpp)
+  - 固定2入力の scalar attribute と `compute()`
+- [BdDoubleMultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleMultMultiNode.cpp)
+  - scalar の sparse multi attribute と単位元
 - [test_bd_double3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_mult.py)
-  - plug-in load、計算、接続、scene round-trip、NodeOperator のテスト
+  - double3 ノードの計算、dirty、接続、scene round-trip のテスト
+- [test_bd_double_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double_mult.py)
+  - double ノードの計算、dirty、接続、scene round-trip のテスト
 
 ## Core Principles
 
