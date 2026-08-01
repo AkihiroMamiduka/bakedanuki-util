@@ -239,7 +239,7 @@ double乗算では `bdMultDoublePair` と `bdMultDoubleMulti`、double3乗算で
 | 論理AND | 必要に応じて2種類 | `true` | 全入力がtrueかを返す |
 | 論理OR | 必要に応じて2種類 | `false` | いずれかの入力がtrueかを返す |
 | 最小・最大 | 個別検討 | 型と用途ごとに決定 | 無限値や未定義状態を含めて決める |
-| 累乗 | 原則個別検討 | 自然な単位元なし | 結合順序で結果が変わる |
+| 累乗 | 個別仕様で2種類 | `1`（明示仕様） | logical index昇順の左畳み込み、負指数のみ底を補正 |
 | 平均 | 個別検討 | 自然な結果なし | 空入力と除数0の仕様が必要 |
 | 行列・Quaternion乗算 | 個別検討 | identity | 入力順序を永続APIとして定義する |
 | normalize、clamp、lerp | 通常は固定仕様 | 該当なし | 多入力への拡張が自然ではない |
@@ -278,6 +278,32 @@ if (std::abs(divisor) < 1.0e-9) {
 `bdDivDoubleMulti`と`bdDivDouble3Multi`も存在する要素をlogical index昇順に並べ、
 最小indexの値から左畳み込みします。1要素ならその値、空配列なら明示仕様の`1`または
 `(1, 1, 1)`を返します。
+
+### Safe Power Policy
+
+`bdPowDoublePair`、`bdPowDouble3Pair`とその配列版は、`input1`を底、`input2`を指数として
+累乗します。double3ではXYZ成分ごとに独立して計算します。固定2入力版の入力と出力の
+defaultはすべて`1`です。
+
+指数が負の場合、累乗は底を分母に持つ除算を含みます。その場合だけ底へ
+`safeDivisor()`を適用し、絶対値が`1e-9`未満なら符号を維持した`1e-9`へ置換します。
+指数がzero以上の場合は、`0 ^ n = 0`という有効な結果を変えないため補正しません。
+
+```cpp
+if (exponent < 0.0) {
+    base = safeDivisor(base);
+}
+result = std::pow(base, exponent);
+```
+
+`0 ^ 0`は`std::pow()`に従って`1`とします。負の底と非整数指数は`NaN`、表現範囲を
+超える結果は`inf`、underflowは`0`とし、追加のclampやwarningは行いません。
+
+`bdPowDoubleMulti`と`bdPowDouble3Multi`は存在する要素をlogical index昇順に並べ、
+最小indexを底として左畳み込みします。index `2`、`9`、`20`が存在する場合は
+`(input[2] ^ input[9]) ^ input[20]`です。1要素ならその値、空配列なら明示仕様の`1`
+または`(1, 1, 1)`を返します。各段階で指数が負の場合、その時点の計算結果である底へ
+同じepsilon補正を適用します。
 
 浮動小数点の加算と乗算は、数学上の結合法則と完全には一致しません。固定チェーンと
 配列版で演算順序が変わる場合は、ごく小さな丸め差を許容したテストにします。厳密な

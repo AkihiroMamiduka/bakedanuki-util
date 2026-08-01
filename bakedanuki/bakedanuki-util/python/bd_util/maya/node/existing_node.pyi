@@ -353,6 +353,10 @@ from .operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
 from .operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from .operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
 from .operator.node.dg.bd_mult_double_pair import BdMultDoublePair
+from .operator.node.dg.bd_pow_double3_multi import BdPowDouble3Multi
+from .operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
+from .operator.node.dg.bd_pow_double_multi import BdPowDoubleMulti
+from .operator.node.dg.bd_pow_double_pair import BdPowDoublePair
 from .operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
 from .operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
 from .operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
@@ -2919,6 +2923,30 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdMultDoublePair: ...
+    @staticmethod
+    def bdPowDouble3Multi(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdPowDouble3Multi: ...
+    @staticmethod
+    def bdPowDouble3Pair(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdPowDouble3Pair: ...
+    @staticmethod
+    def bdPowDoubleMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdPowDoubleMulti: ...
+    @staticmethod
+    def bdPowDoublePair(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdPowDoublePair: ...
     @staticmethod
     def bdSubDouble3Multi(
         node: str | om.MObject,

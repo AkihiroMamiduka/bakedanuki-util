@@ -10,6 +10,8 @@
 #include "bdUtilNodes/BdDivDouble3MultiNode.h"
 #include "bdUtilNodes/BdMultDouble3PairNode.h"
 #include "bdUtilNodes/BdMultDouble3MultiNode.h"
+#include "bdUtilNodes/BdPowDouble3PairNode.h"
+#include "bdUtilNodes/BdPowDouble3MultiNode.h"
 #include "bdUtilNodes/BdSubDouble3PairNode.h"
 #include "bdUtilNodes/BdSubDouble3MultiNode.h"
 #include "bdUtilNodes/BdAddDoublePairNode.h"
@@ -18,6 +20,8 @@
 #include "bdUtilNodes/BdDivDoubleMultiNode.h"
 #include "bdUtilNodes/BdMultDoublePairNode.h"
 #include "bdUtilNodes/BdMultDoubleMultiNode.h"
+#include "bdUtilNodes/BdPowDoublePairNode.h"
+#include "bdUtilNodes/BdPowDoubleMultiNode.h"
 #include "bdUtilNodes/BdSubDoublePairNode.h"
 #include "bdUtilNodes/BdSubDoubleMultiNode.h"
 
@@ -30,8 +34,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 16>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 16> registrations = {{
+const std::array<NodeRegistration, 20>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 20> registrations = {{
         {
             BdMultDouble3MultiNode::typeName,
             BdMultDouble3MultiNode::typeId,
@@ -127,6 +131,30 @@ const std::array<NodeRegistration, 16>& nodeRegistrations() {
             BdDivDoublePairNode::typeId,
             BdDivDoublePairNode::creator,
             BdDivDoublePairNode::initialize,
+        },
+        {
+            BdPowDouble3MultiNode::typeName,
+            BdPowDouble3MultiNode::typeId,
+            BdPowDouble3MultiNode::creator,
+            BdPowDouble3MultiNode::initialize,
+        },
+        {
+            BdPowDouble3PairNode::typeName,
+            BdPowDouble3PairNode::typeId,
+            BdPowDouble3PairNode::creator,
+            BdPowDouble3PairNode::initialize,
+        },
+        {
+            BdPowDoubleMultiNode::typeName,
+            BdPowDoubleMultiNode::typeId,
+            BdPowDoubleMultiNode::creator,
+            BdPowDoubleMultiNode::initialize,
+        },
+        {
+            BdPowDoublePairNode::typeName,
+            BdPowDoublePairNode::typeId,
+            BdPowDoublePairNode::creator,
+            BdPowDoublePairNode::initialize,
         },
     }};
     return registrations;

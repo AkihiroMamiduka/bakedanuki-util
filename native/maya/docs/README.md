@@ -64,6 +64,16 @@
   - 固定2入力の scalar 安全除算
 - [BdDivDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdDivDoubleMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列安全除算
+- [SafePower.h](../plugins/bdUtilNodes/include/bdUtilNodes/SafePower.h)
+  - 負指数の場合だけ底へ安全除算のepsilonを適用する累乗
+- [BdPowDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdPowDouble3PairNode.cpp)
+  - 固定2入力の component-wise double3 累乗
+- [BdPowDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdPowDouble3MultiNode.cpp)
+  - logical index 順で左畳み込みする double3 配列累乗
+- [BdPowDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdPowDoublePairNode.cpp)
+  - 固定2入力の scalar 累乗
+- [BdPowDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdPowDoubleMultiNode.cpp)
+  - logical index 順で左畳み込みする scalar 配列累乗
 - [test_bd_mult_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double3.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_mult_double.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double.py)
@@ -80,6 +90,10 @@
   - double3 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
 - [test_bd_div_double.py](../../../tests/maya/node/operator/node/dg/test_bd_div_double.py)
   - double 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
+- [test_bd_pow_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_pow_double3.py)
+  - double3 累乗ノードのepsilon、順序、dirty、scene round-trip のテスト
+- [test_bd_pow_double.py](../../../tests/maya/node/operator/node/dg/test_bd_pow_double.py)
+  - double 累乗ノードのepsilon、定義域、順序、dirty、scene round-trip のテスト
 
 ## Core Principles
 

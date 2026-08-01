@@ -46,6 +46,20 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_mult_double3_multi impo
     OutputAttrOperator as MultiOutputAttrOperator,
     OutputPlugOperator as MultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_pow_double3_pair import (
+    Input1AttrOperator as PowInput1AttrOperator,
+    Input1PlugOperator as PowInput1PlugOperator,
+    Input2AttrOperator as PowInput2AttrOperator,
+    Input2PlugOperator as PowInput2PlugOperator,
+    OutputAttrOperator as PowOutputAttrOperator,
+    OutputPlugOperator as PowOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_pow_double3_multi import (
+    InputAttrOperator as PowMultiInputAttrOperator,
+    InputPlugOperator as PowMultiInputPlugOperator,
+    OutputAttrOperator as PowMultiOutputAttrOperator,
+    OutputPlugOperator as PowMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_sub_double3_pair import (
     Input1AttrOperator as SubInput1AttrOperator,
     Input1PlugOperator as SubInput1PlugOperator,
@@ -111,6 +125,12 @@ from bd_util.maya.node.operator.node.dg.bd_mult_double3_pair import (
 from bd_util.maya.node.operator.node.dg.bd_mult_double3_multi import (
     BdMultDouble3Multi,
 )
+from bd_util.maya.node.operator.node.dg.bd_pow_double3_pair import (
+    BdPowDouble3Pair,
+)
+from bd_util.maya.node.operator.node.dg.bd_pow_double3_multi import (
+    BdPowDouble3Multi,
+)
 from bd_util.maya.node.operator.node.dg.bd_sub_double3_pair import (
     BdSubDouble3Pair,
 )
@@ -122,6 +142,12 @@ from bd_util.maya.node.operator.node.dg.bd_mult_double_pair import (
 )
 from bd_util.maya.node.operator.node.dg.bd_mult_double_multi import (
     BdMultDoubleMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_pow_double_pair import (
+    BdPowDoublePair,
+)
+from bd_util.maya.node.operator.node.dg.bd_pow_double_multi import (
+    BdPowDoubleMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_add_double_pair import (
     BdAddDoublePair,
@@ -186,6 +212,25 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_div_fixed, BdDivDouble3Pair)
     existing_div_multi = nodes.existing.bdDivDouble3Multi("existing_div_multi")
     assert_type(existing_div_multi, BdDivDouble3Multi)
+
+    pow_fixed = nodes.create.bdPowDouble3Pair(name="pow_fixed")
+    assert_type(pow_fixed, BdPowDouble3Pair)
+    assert_type(pow_fixed.input1, PowInput1PlugOperator)
+    assert_type(pow_fixed.input2, PowInput2PlugOperator)
+    assert_type(pow_fixed.output, PowOutputPlugOperator)
+    assert_type(pow_fixed.output.get(), bdu.Double3)
+
+    pow_multi = nodes.create.bdPowDouble3Multi(name="pow_multi")
+    assert_type(pow_multi, BdPowDouble3Multi)
+    assert_type(pow_multi.input, PowMultiInputPlugOperator)
+    assert_type(pow_multi.input[next], PowMultiInputPlugOperator)
+    assert_type(pow_multi.output, PowMultiOutputPlugOperator)
+    assert_type(pow_multi.output.get(), bdu.Double3)
+
+    existing_pow_fixed = nodes.existing.bdPowDouble3Pair("existing_pow_fixed")
+    assert_type(existing_pow_fixed, BdPowDouble3Pair)
+    existing_pow_multi = nodes.existing.bdPowDouble3Multi("existing_pow_multi")
+    assert_type(existing_pow_multi, BdPowDouble3Multi)
 
     sub_fixed = nodes.create.bdSubDouble3Pair(name="sub_fixed")
     assert_type(sub_fixed, BdSubDouble3Pair)
@@ -293,6 +338,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         "existing_double_div_multi"
     )
     assert_type(existing_double_div_multi, BdDivDoubleMulti)
+
+    double_pow_fixed = nodes.create.bdPowDoublePair(name="double_pow_fixed")
+    assert_type(double_pow_fixed, BdPowDoublePair)
+    assert_type(double_pow_fixed.input1, DoublePlugOperator)
+    assert_type(double_pow_fixed.input2, DoublePlugOperator)
+    assert_type(double_pow_fixed.output, DoublePlugOperator)
+    assert_type(double_pow_fixed.output.get(), float)
+
+    double_pow_multi = nodes.create.bdPowDoubleMulti(name="double_pow_multi")
+    assert_type(double_pow_multi, BdPowDoubleMulti)
+    assert_type(double_pow_multi.input, DoublePlugOperator)
+    assert_type(double_pow_multi.input[next], DoublePlugOperator)
+    assert_type(double_pow_multi.output, DoublePlugOperator)
+    assert_type(double_pow_multi.output.get(), float)
+
+    existing_double_pow_fixed = nodes.existing.bdPowDoublePair(
+        "existing_double_pow_fixed"
+    )
+    assert_type(existing_double_pow_fixed, BdPowDoublePair)
+    existing_double_pow_multi = nodes.existing.bdPowDoubleMulti(
+        "existing_double_pow_multi"
+    )
+    assert_type(existing_double_pow_multi, BdPowDoubleMulti)
 
     double_sub_fixed = nodes.create.bdSubDoublePair(name="double_sub_fixed")
     assert_type(double_sub_fixed, BdSubDoublePair)
@@ -445,6 +513,47 @@ def bd_div_double_pair_descriptor_contract(
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
     assert_type(BdDivDoubleMulti.output, DoubleAttrOperator)
+    assert_type(multi.output, DoublePlugOperator)
+    assert_type(multi.output.get(), float)
+
+
+def bd_pow_double3_pair_descriptor_contract(
+    fixed: BdPowDouble3Pair,
+    multi: BdPowDouble3Multi,
+) -> None:
+    assert_type(BdPowDouble3Pair.input1, PowInput1AttrOperator)
+    assert_type(fixed.input1, PowInput1PlugOperator)
+    assert_type(fixed.input1.input1X.get(), float)
+    assert_type(BdPowDouble3Pair.input2, PowInput2AttrOperator)
+    assert_type(fixed.input2, PowInput2PlugOperator)
+    assert_type(BdPowDouble3Pair.output, PowOutputAttrOperator)
+    assert_type(fixed.output, PowOutputPlugOperator)
+    assert_type(fixed.output.get(), bdu.Double3)
+
+    assert_type(BdPowDouble3Multi.input, PowMultiInputAttrOperator)
+    assert_type(multi.input, PowMultiInputPlugOperator)
+    assert_type(multi.input[0].inputX.get(), float)
+    assert_type(BdPowDouble3Multi.output, PowMultiOutputAttrOperator)
+    assert_type(multi.output, PowMultiOutputPlugOperator)
+    assert_type(multi.output.get(), bdu.Double3)
+
+
+def bd_pow_double_pair_descriptor_contract(
+    fixed: BdPowDoublePair,
+    multi: BdPowDoubleMulti,
+) -> None:
+    assert_type(BdPowDoublePair.input1, DoubleAttrOperator)
+    assert_type(fixed.input1, DoublePlugOperator)
+    assert_type(BdPowDoublePair.input2, DoubleAttrOperator)
+    assert_type(fixed.input2, DoublePlugOperator)
+    assert_type(BdPowDoublePair.output, DoubleAttrOperator)
+    assert_type(fixed.output, DoublePlugOperator)
+    assert_type(fixed.output.get(), float)
+
+    assert_type(BdPowDoubleMulti.input, DoubleAttrOperator)
+    assert_type(multi.input, DoublePlugOperator)
+    assert_type(multi.input[0].get(), float)
+    assert_type(BdPowDoubleMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 

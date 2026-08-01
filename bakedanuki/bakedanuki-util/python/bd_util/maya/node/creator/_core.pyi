@@ -271,6 +271,8 @@ from ..operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
 from ..operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
 from ..operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from ..operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
+from ..operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
+from ..operator.node.dg.bd_pow_double3_multi import BdPowDouble3Multi
 from ..operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
 from ..operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
 from ..operator.node.dg.bd_add_double_pair import BdAddDoublePair
@@ -279,6 +281,8 @@ from ..operator.node.dg.bd_div_double_pair import BdDivDoublePair
 from ..operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
 from ..operator.node.dg.bd_mult_double_pair import BdMultDoublePair
 from ..operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
+from ..operator.node.dg.bd_pow_double_pair import BdPowDoublePair
+from ..operator.node.dg.bd_pow_double_multi import BdPowDoubleMulti
 from ..operator.node.dg.bd_sub_double_pair import BdSubDoublePair
 from ..operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
 from ..operator.node.dg.bevel import Bevel
@@ -2247,6 +2251,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdMultDouble3Multi: ...
+    def bdPowDouble3Pair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdPowDouble3Pair: ...
+    def bdPowDouble3Multi(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdPowDouble3Multi: ...
     def bdSubDouble3Pair(
         self,
         name: str | None = None,
@@ -2287,6 +2301,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdMultDoubleMulti: ...
+    def bdPowDoublePair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdPowDoublePair: ...
+    def bdPowDoubleMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdPowDoubleMulti: ...
     def bdSubDoublePair(
         self,
         name: str | None = None,
