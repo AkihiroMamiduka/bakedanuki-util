@@ -341,22 +341,22 @@ from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
-from .operator.node.dg.bd_double3_add import BdDouble3Add
-from .operator.node.dg.bd_double3_add_multi import BdDouble3AddMulti
-from .operator.node.dg.bd_double3_div import BdDouble3Div
-from .operator.node.dg.bd_double3_div_multi import BdDouble3DivMulti
-from .operator.node.dg.bd_double3_mult import BdDouble3Mult
-from .operator.node.dg.bd_double3_mult_multi import BdDouble3MultMulti
-from .operator.node.dg.bd_double3_sub import BdDouble3Sub
-from .operator.node.dg.bd_double3_sub_multi import BdDouble3SubMulti
-from .operator.node.dg.bd_double_add import BdDoubleAdd
-from .operator.node.dg.bd_double_add_multi import BdDoubleAddMulti
-from .operator.node.dg.bd_double_div import BdDoubleDiv
-from .operator.node.dg.bd_double_div_multi import BdDoubleDivMulti
-from .operator.node.dg.bd_double_mult import BdDoubleMult
-from .operator.node.dg.bd_double_mult_multi import BdDoubleMultMulti
-from .operator.node.dg.bd_double_sub import BdDoubleSub
-from .operator.node.dg.bd_double_sub_multi import BdDoubleSubMulti
+from .operator.node.dg.bd_add_double3_multi import BdAddDouble3Multi
+from .operator.node.dg.bd_add_double3_pair import BdAddDouble3Pair
+from .operator.node.dg.bd_add_double_multi import BdAddDoubleMulti
+from .operator.node.dg.bd_add_double_pair import BdAddDoublePair
+from .operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
+from .operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
+from .operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
+from .operator.node.dg.bd_div_double_pair import BdDivDoublePair
+from .operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
+from .operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
+from .operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
+from .operator.node.dg.bd_mult_double_pair import BdMultDoublePair
+from .operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
+from .operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
+from .operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
+from .operator.node.dg.bd_sub_double_pair import BdSubDoublePair
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2848,101 +2848,101 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
     @staticmethod
-    def bdDouble3Add(
+    def bdAddDouble3Multi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3Add: ...
+    ) -> BdAddDouble3Multi: ...
     @staticmethod
-    def bdDouble3AddMulti(
+    def bdAddDouble3Pair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3AddMulti: ...
+    ) -> BdAddDouble3Pair: ...
     @staticmethod
-    def bdDouble3Div(
+    def bdAddDoubleMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3Div: ...
+    ) -> BdAddDoubleMulti: ...
     @staticmethod
-    def bdDouble3DivMulti(
+    def bdAddDoublePair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3DivMulti: ...
+    ) -> BdAddDoublePair: ...
     @staticmethod
-    def bdDouble3Mult(
+    def bdDivDouble3Multi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3Mult: ...
+    ) -> BdDivDouble3Multi: ...
     @staticmethod
-    def bdDouble3MultMulti(
+    def bdDivDouble3Pair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3MultMulti: ...
+    ) -> BdDivDouble3Pair: ...
     @staticmethod
-    def bdDouble3Sub(
+    def bdDivDoubleMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3Sub: ...
+    ) -> BdDivDoubleMulti: ...
     @staticmethod
-    def bdDouble3SubMulti(
+    def bdDivDoublePair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3SubMulti: ...
+    ) -> BdDivDoublePair: ...
     @staticmethod
-    def bdDoubleAdd(
+    def bdMultDouble3Multi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleAdd: ...
+    ) -> BdMultDouble3Multi: ...
     @staticmethod
-    def bdDoubleAddMulti(
+    def bdMultDouble3Pair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleAddMulti: ...
+    ) -> BdMultDouble3Pair: ...
     @staticmethod
-    def bdDoubleDiv(
+    def bdMultDoubleMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleDiv: ...
+    ) -> BdMultDoubleMulti: ...
     @staticmethod
-    def bdDoubleDivMulti(
+    def bdMultDoublePair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleDivMulti: ...
+    ) -> BdMultDoublePair: ...
     @staticmethod
-    def bdDoubleMult(
+    def bdSubDouble3Multi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleMult: ...
+    ) -> BdSubDouble3Multi: ...
     @staticmethod
-    def bdDoubleMultMulti(
+    def bdSubDouble3Pair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleMultMulti: ...
+    ) -> BdSubDouble3Pair: ...
     @staticmethod
-    def bdDoubleSub(
+    def bdSubDoubleMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleSub: ...
+    ) -> BdSubDoubleMulti: ...
     @staticmethod
-    def bdDoubleSubMulti(
+    def bdSubDoublePair(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleSubMulti: ...
+    ) -> BdSubDoublePair: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,

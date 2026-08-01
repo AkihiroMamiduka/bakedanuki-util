@@ -1,22 +1,22 @@
 add_library(
     bdUtilNodes
     SHARED
-    src/BdDoubleAddNode.cpp
-    src/BdDoubleAddMultiNode.cpp
-    src/BdDouble3AddNode.cpp
-    src/BdDouble3AddMultiNode.cpp
-    src/BdDoubleMultNode.cpp
-    src/BdDoubleMultMultiNode.cpp
-    src/BdDouble3MultNode.cpp
-    src/BdDouble3MultMultiNode.cpp
-    src/BdDoubleSubNode.cpp
-    src/BdDoubleSubMultiNode.cpp
-    src/BdDouble3SubNode.cpp
-    src/BdDouble3SubMultiNode.cpp
-    src/BdDoubleDivNode.cpp
-    src/BdDoubleDivMultiNode.cpp
-    src/BdDouble3DivNode.cpp
-    src/BdDouble3DivMultiNode.cpp
+    src/BdAddDoublePairNode.cpp
+    src/BdAddDoubleMultiNode.cpp
+    src/BdAddDouble3PairNode.cpp
+    src/BdAddDouble3MultiNode.cpp
+    src/BdMultDoublePairNode.cpp
+    src/BdMultDoubleMultiNode.cpp
+    src/BdMultDouble3PairNode.cpp
+    src/BdMultDouble3MultiNode.cpp
+    src/BdSubDoublePairNode.cpp
+    src/BdSubDoubleMultiNode.cpp
+    src/BdSubDouble3PairNode.cpp
+    src/BdSubDouble3MultiNode.cpp
+    src/BdDivDoublePairNode.cpp
+    src/BdDivDoubleMultiNode.cpp
+    src/BdDivDouble3PairNode.cpp
+    src/BdDivDouble3MultiNode.cpp
     src/Double3Attribute.cpp
     src/NumericAttribute.cpp
     src/plugin.cpp

@@ -21,7 +21,7 @@
    - `MTypeId` の割り当てと運用
 6. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-7. [bdDouble Multiplication Benchmark](bd-double-mult-benchmark.md)
+7. [bdDouble Multiplication Benchmark](bd-mult-double-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -30,55 +30,55 @@
 
 - [plugin.cpp](../plugins/bdUtilNodes/src/plugin.cpp)
   - node の登録、登録失敗時の rollback、逆順での登録解除
-- [BdDouble3MultNode.cpp](../plugins/bdUtilNodes/src/BdDouble3MultNode.cpp)
+- [BdMultDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdMultDouble3PairNode.cpp)
   - 固定2入力の compound attribute と `compute()`
-- [BdDouble3MultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3MultMultiNode.cpp)
+- [BdMultDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdMultDouble3MultiNode.cpp)
   - sparse な multi attribute の走査
-- [BdDoubleMultNode.cpp](../plugins/bdUtilNodes/src/BdDoubleMultNode.cpp)
+- [BdMultDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdMultDoublePairNode.cpp)
   - 固定2入力の scalar attribute と `compute()`
-- [BdDoubleMultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleMultMultiNode.cpp)
+- [BdMultDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdMultDoubleMultiNode.cpp)
   - scalar の sparse multi attribute と単位元
-- [BdDouble3AddNode.cpp](../plugins/bdUtilNodes/src/BdDouble3AddNode.cpp)
+- [BdAddDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdAddDouble3PairNode.cpp)
   - 固定2入力の double3 加算と compound dirty
-- [BdDouble3AddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3AddMultiNode.cpp)
+- [BdAddDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdAddDouble3MultiNode.cpp)
   - double3 加算の sparse multi attribute と加法単位元
-- [BdDoubleAddNode.cpp](../plugins/bdUtilNodes/src/BdDoubleAddNode.cpp)
+- [BdAddDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdAddDoublePairNode.cpp)
   - 固定2入力の scalar 加算
-- [BdDoubleAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleAddMultiNode.cpp)
+- [BdAddDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdAddDoubleMultiNode.cpp)
   - scalar 加算の sparse multi attribute と加法単位元
-- [BdDouble3SubNode.cpp](../plugins/bdUtilNodes/src/BdDouble3SubNode.cpp)
+- [BdSubDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdSubDouble3PairNode.cpp)
   - 固定2入力の double3 減算と compound dirty
-- [BdDouble3SubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3SubMultiNode.cpp)
+- [BdSubDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdSubDouble3MultiNode.cpp)
   - logical index 順で畳み込む double3 配列減算
-- [BdDoubleSubNode.cpp](../plugins/bdUtilNodes/src/BdDoubleSubNode.cpp)
+- [BdSubDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdSubDoublePairNode.cpp)
   - 固定2入力の scalar 減算
-- [BdDoubleSubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleSubMultiNode.cpp)
+- [BdSubDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdSubDoubleMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列減算
 - [SafeDivision.h](../plugins/bdUtilNodes/include/bdUtilNodes/SafeDivision.h)
   - 全演算ノードで共有する除数epsilonと安全除算
-- [BdDouble3DivNode.cpp](../plugins/bdUtilNodes/src/BdDouble3DivNode.cpp)
+- [BdDivDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdDivDouble3PairNode.cpp)
   - 固定2入力の component-wise double3 安全除算
-- [BdDouble3DivMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3DivMultiNode.cpp)
+- [BdDivDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdDivDouble3MultiNode.cpp)
   - logical index 順で畳み込む double3 配列安全除算
-- [BdDoubleDivNode.cpp](../plugins/bdUtilNodes/src/BdDoubleDivNode.cpp)
+- [BdDivDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdDivDoublePairNode.cpp)
   - 固定2入力の scalar 安全除算
-- [BdDoubleDivMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleDivMultiNode.cpp)
+- [BdDivDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdDivDoubleMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列安全除算
-- [test_bd_double3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_mult.py)
+- [test_bd_mult_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double3.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_double_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double_mult.py)
+- [test_bd_mult_double.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double.py)
   - double ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_double3_add.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_add.py)
+- [test_bd_add_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_add_double3.py)
   - double3 加算ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_double_add.py](../../../tests/maya/node/operator/node/dg/test_bd_double_add.py)
+- [test_bd_add_double.py](../../../tests/maya/node/operator/node/dg/test_bd_add_double.py)
   - double 加算ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_double3_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_sub.py)
+- [test_bd_sub_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_sub_double3.py)
   - double3 減算ノードの順序、dirty、接続、scene round-trip のテスト
-- [test_bd_double_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_double_sub.py)
+- [test_bd_sub_double.py](../../../tests/maya/node/operator/node/dg/test_bd_sub_double.py)
   - double 減算ノードの順序、dirty、接続、scene round-trip のテスト
-- [test_bd_double3_div.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_div.py)
+- [test_bd_div_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_div_double3.py)
   - double3 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
-- [test_bd_double_div.py](../../../tests/maya/node/operator/node/dg/test_bd_double_div.py)
+- [test_bd_div_double.py](../../../tests/maya/node/operator/node/dg/test_bd_div_double.py)
   - double 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
 
 ## Core Principles

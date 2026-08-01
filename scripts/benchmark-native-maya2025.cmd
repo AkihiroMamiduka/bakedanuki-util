@@ -16,7 +16,7 @@ if not exist "%PLUGIN%" (
 )
 
 pushd "%REPO_ROOT%"
-"%MAYAPY%" -m bd_util._test.maya.node.operator.node.bd_double_mult_benchmark ^
+"%MAYAPY%" -m bd_util._test.maya.node.operator.node.bd_mult_double_benchmark ^
     --plugin-path "%PLUGIN%" %*
 set "EXIT_CODE=%ERRORLEVEL%"
 popd

@@ -44,7 +44,7 @@ if (!status) {
 ### Compound の方針
 
 `double3` のような compound は、親と子のどちらも直接編集・接続・要求されます。
-`bdDouble3Mult` 系 node は、入力の親・子を列挙し、それぞれから output 親への関係を
+`bdMultDouble3Pair` 系 node は、入力の親・子を列挙し、それぞれから output 親への関係を
 登録します。
 
 ```cpp
@@ -158,7 +158,7 @@ mutex で共有状態を保護すれば crash は防げる場合があります�
 され、lock 順による問題も増えます。算術 node では共有状態自体を持たない設計を優先
 します。
 
-`bdDouble3Mult` と `bdDouble3MultMulti` は data block 内だけで計算し、共有 mutable
+`bdMultDouble3Pair` と `bdMultDouble3Multi` は data block 内だけで計算し、共有 mutable
 state を持たないため `kParallel` です。
 
 ## Evaluation Callbacks

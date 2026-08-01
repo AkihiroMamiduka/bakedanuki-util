@@ -196,8 +196,8 @@ for (unsigned int physicalIndex = 0; physicalIndex < count; ++physicalIndex) {
 
 全要素の積のように index 自体が不要な処理では、logical index を読まず `next()` で
 既存要素だけを走査します。空配列の結果は演算の単位元から決めます。
-`bdDouble3MultMulti` では `(1.0, 1.0, 1.0)`、`bdDoubleMultMulti` では
-`1.0` です。加算の `bdDouble3AddMulti` と `bdDoubleAddMulti` では、それぞれ
+`bdMultDouble3Multi` では `(1.0, 1.0, 1.0)`、`bdMultDoubleMulti` では
+`1.0` です。加算の `bdAddDouble3Multi` と `bdAddDoubleMulti` では、それぞれ
 `(0.0, 0.0, 0.0)` と `0.0` です。
 
 array output を構築・変更する node では `MArrayDataBuilder` を使い、必要な element
@@ -211,13 +211,13 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 
 | Variant | Type name | Input attributes | Primary use |
 | --- | --- | --- | --- |
-| 固定2入力版 | `bd<Type><Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
-| 配列入力版 | `bd<Type><Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
+| 固定2入力版 | `bd<Operation><Type>Pair` | `input1`、`input2` | 2値だけの演算、明確なAPI |
+| 配列入力版 | `bd<Operation><Type>Multi` | `input[]` | 3値以上の集約、node数の削減 |
 
-double乗算では `bdDoubleMult` と `bdDoubleMultMulti`、double3乗算では
-`bdDouble3Mult` と `bdDouble3MultMulti` を使います。加算も同様に、doubleでは
-`bdDoubleAdd` と `bdDoubleAddMulti`、double3では `bdDouble3Add` と
-`bdDouble3AddMulti` を使います。出力名はどちらも `output` とし、固定版と配列版で
+double乗算では `bdMultDoublePair` と `bdMultDoubleMulti`、double3乗算では
+`bdMultDouble3Pair` と `bdMultDouble3Multi` を使います。加算も同様に、doubleでは
+`bdAddDoublePair` と `bdAddDoubleMulti`、double3では `bdAddDouble3Pair` と
+`bdAddDouble3Multi` を使います。出力名はどちらも `output` とし、固定版と配列版で
 演算結果の型を揃えます。
 
 この方針を適用する演算は、次の条件を満たすものです。
@@ -249,14 +249,14 @@ API上で入力順を区別しない積や和では、既存elementのphysical i
 暗黙に使いません。logical index順などの規則を明文化し、sparse indexを含むsceneで
 テストします。
 
-`bdDoubleSubMulti` と `bdDouble3SubMulti` は、存在する要素をlogical indexの昇順に
+`bdSubDoubleMulti` と `bdSubDouble3Multi` は、存在する要素をlogical indexの昇順に
 並べ、最小indexの値から残りを順に減算します。例えばindex `2`、`7`、`20`が存在する
 場合は `input[2] - input[7] - input[20]` です。1要素ならその値、空配列なら明示仕様の
 `0` または `(0, 0, 0)` を返します。
 
 ### Safe Division Policy
 
-`bdDoubleDiv`、`bdDouble3Div`とその配列版は、除数の絶対値が`1e-9`未満の場合、
+`bdDivDoublePair`、`bdDivDouble3Pair`とその配列版は、除数の絶対値が`1e-9`未満の場合、
 符号を維持した`1e-9`へ置換してから除算します。判定は各除算、double3では各成分へ
 独立に適用します。配列版の最初の既存要素は分子なので置換せず、2要素目以降だけを
 安全な除数として扱います。
@@ -275,7 +275,7 @@ if (std::abs(divisor) < 1.0e-9) {
 ならないようにします。`compute()`からwarningは出さず、同じ規則を除算を含む今後の
 演算nodeでも共通利用します。
 
-`bdDoubleDivMulti`と`bdDouble3DivMulti`も存在する要素をlogical index昇順に並べ、
+`bdDivDoubleMulti`と`bdDivDouble3Multi`も存在する要素をlogical index昇順に並べ、
 最小indexの値から左畳み込みします。1要素ならその値、空配列なら明示仕様の`1`または
 `(1, 1, 1)`を返します。
 
@@ -287,7 +287,7 @@ if (std::abs(divisor) < 1.0e-9) {
 変更しない入力群は先に集約し、最終nodeからは1入力として扱います。固定チェーンの
 末尾1入力だけが変化するなどdirty範囲を限定できる特殊な構造は、scene全体の計測結果を
 根拠に個別判断します。実測条件と境界値は
-[bdDouble Multiplication Benchmark](bd-double-mult-benchmark.md) を参照してください。
+[bdDouble Multiplication Benchmark](bd-mult-double-benchmark.md) を参照してください。
 
 この規約は、すべての演算に固定版と配列版の両方を必須とするものではありません。
 node type、`MTypeId`、wrapper、テスト、文書という保守対象が増えるため、意味が曖昧な
