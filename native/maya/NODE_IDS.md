@@ -12,6 +12,10 @@
 | `bdDouble3Add` | `0x0007F006` | Internal development |
 | `bdDoubleAddMulti` | `0x0007F007` | Internal development |
 | `bdDoubleAdd` | `0x0007F008` | Internal development |
+| `bdDouble3SubMulti` | `0x0007F009` | Internal development |
+| `bdDouble3Sub` | `0x0007F00A` | Internal development |
+| `bdDoubleSubMulti` | `0x0007F00B` | Internal development |
+| `bdDoubleSub` | `0x0007F00C` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

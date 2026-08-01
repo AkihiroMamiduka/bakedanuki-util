@@ -9,6 +9,10 @@ add_library(
     src/BdDoubleMultMultiNode.cpp
     src/BdDouble3MultNode.cpp
     src/BdDouble3MultMultiNode.cpp
+    src/BdDoubleSubNode.cpp
+    src/BdDoubleSubMultiNode.cpp
+    src/BdDouble3SubNode.cpp
+    src/BdDouble3SubMultiNode.cpp
     src/Double3Attribute.cpp
     src/NumericAttribute.cpp
     src/plugin.cpp

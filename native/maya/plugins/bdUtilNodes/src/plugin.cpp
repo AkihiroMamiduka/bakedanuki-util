@@ -8,10 +8,14 @@
 #include "bdUtilNodes/BdDouble3AddMultiNode.h"
 #include "bdUtilNodes/BdDouble3MultNode.h"
 #include "bdUtilNodes/BdDouble3MultMultiNode.h"
+#include "bdUtilNodes/BdDouble3SubNode.h"
+#include "bdUtilNodes/BdDouble3SubMultiNode.h"
 #include "bdUtilNodes/BdDoubleAddNode.h"
 #include "bdUtilNodes/BdDoubleAddMultiNode.h"
 #include "bdUtilNodes/BdDoubleMultNode.h"
 #include "bdUtilNodes/BdDoubleMultMultiNode.h"
+#include "bdUtilNodes/BdDoubleSubNode.h"
+#include "bdUtilNodes/BdDoubleSubMultiNode.h"
 
 namespace {
 
@@ -22,8 +26,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 8>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 8> registrations = {{
+const std::array<NodeRegistration, 12>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 12> registrations = {{
         {
             BdDouble3MultMultiNode::typeName,
             BdDouble3MultMultiNode::typeId,
@@ -71,6 +75,30 @@ const std::array<NodeRegistration, 8>& nodeRegistrations() {
             BdDoubleAddNode::typeId,
             BdDoubleAddNode::creator,
             BdDoubleAddNode::initialize,
+        },
+        {
+            BdDouble3SubMultiNode::typeName,
+            BdDouble3SubMultiNode::typeId,
+            BdDouble3SubMultiNode::creator,
+            BdDouble3SubMultiNode::initialize,
+        },
+        {
+            BdDouble3SubNode::typeName,
+            BdDouble3SubNode::typeId,
+            BdDouble3SubNode::creator,
+            BdDouble3SubNode::initialize,
+        },
+        {
+            BdDoubleSubMultiNode::typeName,
+            BdDoubleSubMultiNode::typeId,
+            BdDoubleSubMultiNode::creator,
+            BdDoubleSubMultiNode::initialize,
+        },
+        {
+            BdDoubleSubNode::typeName,
+            BdDoubleSubNode::typeId,
+            BdDoubleSubNode::creator,
+            BdDoubleSubNode::initialize,
         },
     }};
     return registrations;

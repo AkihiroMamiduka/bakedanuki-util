@@ -46,6 +46,14 @@
   - 固定2入力の scalar 加算
 - [BdDoubleAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleAddMultiNode.cpp)
   - scalar 加算の sparse multi attribute と加法単位元
+- [BdDouble3SubNode.cpp](../plugins/bdUtilNodes/src/BdDouble3SubNode.cpp)
+  - 固定2入力の double3 減算と compound dirty
+- [BdDouble3SubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3SubMultiNode.cpp)
+  - logical index 順で畳み込む double3 配列減算
+- [BdDoubleSubNode.cpp](../plugins/bdUtilNodes/src/BdDoubleSubNode.cpp)
+  - 固定2入力の scalar 減算
+- [BdDoubleSubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleSubMultiNode.cpp)
+  - logical index 順で畳み込む scalar 配列減算
 - [test_bd_double3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_double_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double_mult.py)
@@ -54,6 +62,10 @@
   - double3 加算ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_double_add.py](../../../tests/maya/node/operator/node/dg/test_bd_double_add.py)
   - double 加算ノードの計算、dirty、接続、scene round-trip のテスト
+- [test_bd_double3_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_sub.py)
+  - double3 減算ノードの順序、dirty、接続、scene round-trip のテスト
+- [test_bd_double_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_double_sub.py)
+  - double 減算ノードの順序、dirty、接続、scene round-trip のテスト
 
 ## Core Principles
 

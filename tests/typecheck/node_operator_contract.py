@@ -32,6 +32,20 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_mult_multi impo
     OutputAttrOperator as MultiOutputAttrOperator,
     OutputPlugOperator as MultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_sub import (
+    Input1AttrOperator as SubInput1AttrOperator,
+    Input1PlugOperator as SubInput1PlugOperator,
+    Input2AttrOperator as SubInput2AttrOperator,
+    Input2PlugOperator as SubInput2PlugOperator,
+    OutputAttrOperator as SubOutputAttrOperator,
+    OutputPlugOperator as SubOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_sub_multi import (
+    InputAttrOperator as SubMultiInputAttrOperator,
+    InputPlugOperator as SubMultiInputPlugOperator,
+    OutputAttrOperator as SubMultiOutputAttrOperator,
+    OutputPlugOperator as SubMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.compose_matrix import (
     InputTranslateAttrOperator,
     InputTranslatePlugOperator,
@@ -73,6 +87,10 @@ from bd_util.maya.node.operator.node.dg.bd_double3_mult import BdDouble3Mult
 from bd_util.maya.node.operator.node.dg.bd_double3_mult_multi import (
     BdDouble3MultMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_double3_sub import BdDouble3Sub
+from bd_util.maya.node.operator.node.dg.bd_double3_sub_multi import (
+    BdDouble3SubMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_double_mult import BdDoubleMult
 from bd_util.maya.node.operator.node.dg.bd_double_mult_multi import (
     BdDoubleMultMulti,
@@ -80,6 +98,10 @@ from bd_util.maya.node.operator.node.dg.bd_double_mult_multi import (
 from bd_util.maya.node.operator.node.dg.bd_double_add import BdDoubleAdd
 from bd_util.maya.node.operator.node.dg.bd_double_add_multi import (
     BdDoubleAddMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_double_sub import BdDoubleSub
+from bd_util.maya.node.operator.node.dg.bd_double_sub_multi import (
+    BdDoubleSubMulti,
 )
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
@@ -107,6 +129,25 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_add_fixed, BdDouble3Add)
     existing_add_multi = nodes.existing.bdDouble3AddMulti("existing_add_multi")
     assert_type(existing_add_multi, BdDouble3AddMulti)
+
+    sub_fixed = nodes.create.bdDouble3Sub(name="sub_fixed")
+    assert_type(sub_fixed, BdDouble3Sub)
+    assert_type(sub_fixed.input1, SubInput1PlugOperator)
+    assert_type(sub_fixed.input2, SubInput2PlugOperator)
+    assert_type(sub_fixed.output, SubOutputPlugOperator)
+    assert_type(sub_fixed.output.get(), bdu.Double3)
+
+    sub_multi = nodes.create.bdDouble3SubMulti(name="sub_multi")
+    assert_type(sub_multi, BdDouble3SubMulti)
+    assert_type(sub_multi.input, SubMultiInputPlugOperator)
+    assert_type(sub_multi.input[next], SubMultiInputPlugOperator)
+    assert_type(sub_multi.output, SubMultiOutputPlugOperator)
+    assert_type(sub_multi.output.get(), bdu.Double3)
+
+    existing_sub_fixed = nodes.existing.bdDouble3Sub("existing_sub_fixed")
+    assert_type(existing_sub_fixed, BdDouble3Sub)
+    existing_sub_multi = nodes.existing.bdDouble3SubMulti("existing_sub_multi")
+    assert_type(existing_sub_multi, BdDouble3SubMulti)
 
     fixed = nodes.create.bdDouble3Mult(name="fixed")
     assert_type(fixed, BdDouble3Mult)
@@ -172,6 +213,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         "existing_double_add_multi"
     )
     assert_type(existing_double_add_multi, BdDoubleAddMulti)
+
+    double_sub_fixed = nodes.create.bdDoubleSub(name="double_sub_fixed")
+    assert_type(double_sub_fixed, BdDoubleSub)
+    assert_type(double_sub_fixed.input1, DoublePlugOperator)
+    assert_type(double_sub_fixed.input2, DoublePlugOperator)
+    assert_type(double_sub_fixed.output, DoublePlugOperator)
+    assert_type(double_sub_fixed.output.get(), float)
+
+    double_sub_multi = nodes.create.bdDoubleSubMulti(name="double_sub_multi")
+    assert_type(double_sub_multi, BdDoubleSubMulti)
+    assert_type(double_sub_multi.input, DoublePlugOperator)
+    assert_type(double_sub_multi.input[next], DoublePlugOperator)
+    assert_type(double_sub_multi.output, DoublePlugOperator)
+    assert_type(double_sub_multi.output.get(), float)
+
+    existing_double_sub_fixed = nodes.existing.bdDoubleSub(
+        "existing_double_sub_fixed"
+    )
+    assert_type(existing_double_sub_fixed, BdDoubleSub)
+    existing_double_sub_multi = nodes.existing.bdDoubleSubMulti(
+        "existing_double_sub_multi"
+    )
+    assert_type(existing_double_sub_multi, BdDoubleSubMulti)
 
     compose = nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
@@ -260,6 +324,47 @@ def bd_double_add_descriptor_contract(
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
     assert_type(BdDoubleAddMulti.output, DoubleAttrOperator)
+    assert_type(multi.output, DoublePlugOperator)
+    assert_type(multi.output.get(), float)
+
+
+def bd_double3_sub_descriptor_contract(
+    fixed: BdDouble3Sub,
+    multi: BdDouble3SubMulti,
+) -> None:
+    assert_type(BdDouble3Sub.input1, SubInput1AttrOperator)
+    assert_type(fixed.input1, SubInput1PlugOperator)
+    assert_type(fixed.input1.input1X.get(), float)
+    assert_type(BdDouble3Sub.input2, SubInput2AttrOperator)
+    assert_type(fixed.input2, SubInput2PlugOperator)
+    assert_type(BdDouble3Sub.output, SubOutputAttrOperator)
+    assert_type(fixed.output, SubOutputPlugOperator)
+    assert_type(fixed.output.get(), bdu.Double3)
+
+    assert_type(BdDouble3SubMulti.input, SubMultiInputAttrOperator)
+    assert_type(multi.input, SubMultiInputPlugOperator)
+    assert_type(multi.input[0].inputX.get(), float)
+    assert_type(BdDouble3SubMulti.output, SubMultiOutputAttrOperator)
+    assert_type(multi.output, SubMultiOutputPlugOperator)
+    assert_type(multi.output.get(), bdu.Double3)
+
+
+def bd_double_sub_descriptor_contract(
+    fixed: BdDoubleSub,
+    multi: BdDoubleSubMulti,
+) -> None:
+    assert_type(BdDoubleSub.input1, DoubleAttrOperator)
+    assert_type(fixed.input1, DoublePlugOperator)
+    assert_type(BdDoubleSub.input2, DoubleAttrOperator)
+    assert_type(fixed.input2, DoublePlugOperator)
+    assert_type(BdDoubleSub.output, DoubleAttrOperator)
+    assert_type(fixed.output, DoublePlugOperator)
+    assert_type(fixed.output.get(), float)
+
+    assert_type(BdDoubleSubMulti.input, DoubleAttrOperator)
+    assert_type(multi.input, DoublePlugOperator)
+    assert_type(multi.input[0].get(), float)
+    assert_type(BdDoubleSubMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 

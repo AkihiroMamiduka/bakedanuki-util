@@ -345,10 +345,14 @@ from .operator.node.dg.bd_double3_add import BdDouble3Add
 from .operator.node.dg.bd_double3_add_multi import BdDouble3AddMulti
 from .operator.node.dg.bd_double3_mult import BdDouble3Mult
 from .operator.node.dg.bd_double3_mult_multi import BdDouble3MultMulti
+from .operator.node.dg.bd_double3_sub import BdDouble3Sub
+from .operator.node.dg.bd_double3_sub_multi import BdDouble3SubMulti
 from .operator.node.dg.bd_double_add import BdDoubleAdd
 from .operator.node.dg.bd_double_add_multi import BdDoubleAddMulti
 from .operator.node.dg.bd_double_mult import BdDoubleMult
 from .operator.node.dg.bd_double_mult_multi import BdDoubleMultMulti
+from .operator.node.dg.bd_double_sub import BdDoubleSub
+from .operator.node.dg.bd_double_sub_multi import BdDoubleSubMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2864,6 +2868,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDouble3MultMulti: ...
     @staticmethod
+    def bdDouble3Sub(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3Sub: ...
+    @staticmethod
+    def bdDouble3SubMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3SubMulti: ...
+    @staticmethod
     def bdDoubleAdd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2887,6 +2903,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDoubleMultMulti: ...
+    @staticmethod
+    def bdDoubleSub(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleSub: ...
+    @staticmethod
+    def bdDoubleSubMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleSubMulti: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,
