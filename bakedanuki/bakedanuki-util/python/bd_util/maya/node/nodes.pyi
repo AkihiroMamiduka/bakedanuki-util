@@ -342,8 +342,12 @@ from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
+from .operator.node.dg.bd_double3_add import BdDouble3Add
+from .operator.node.dg.bd_double3_add_multi import BdDouble3AddMulti
 from .operator.node.dg.bd_double3_mult import BdDouble3Mult
 from .operator.node.dg.bd_double3_mult_multi import BdDouble3MultMulti
+from .operator.node.dg.bd_double_add import BdDoubleAdd
+from .operator.node.dg.bd_double_add_multi import BdDoubleAddMulti
 from .operator.node.dg.bd_double_mult import BdDoubleMult
 from .operator.node.dg.bd_double_mult_multi import BdDoubleMultMulti
 from .operator.node.dg.bevel import Bevel
@@ -2541,6 +2545,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
+    def bdDouble3Add(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3Add: ...
+    def bdDouble3AddMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3AddMulti: ...
     def bdDouble3Mult(
         self,
         node: str | om.MObject,
@@ -2551,6 +2565,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDouble3MultMulti: ...
+    def bdDoubleAdd(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleAdd: ...
+    def bdDoubleAddMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleAddMulti: ...
     def bdDoubleMult(
         self,
         node: str | om.MObject,

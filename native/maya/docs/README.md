@@ -38,10 +38,22 @@
   - 固定2入力の scalar attribute と `compute()`
 - [BdDoubleMultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleMultMultiNode.cpp)
   - scalar の sparse multi attribute と単位元
+- [BdDouble3AddNode.cpp](../plugins/bdUtilNodes/src/BdDouble3AddNode.cpp)
+  - 固定2入力の double3 加算と compound dirty
+- [BdDouble3AddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDouble3AddMultiNode.cpp)
+  - double3 加算の sparse multi attribute と加法単位元
+- [BdDoubleAddNode.cpp](../plugins/bdUtilNodes/src/BdDoubleAddNode.cpp)
+  - 固定2入力の scalar 加算
+- [BdDoubleAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDoubleAddMultiNode.cpp)
+  - scalar 加算の sparse multi attribute と加法単位元
 - [test_bd_double3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_double_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_double_mult.py)
   - double ノードの計算、dirty、接続、scene round-trip のテスト
+- [test_bd_double3_add.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_add.py)
+  - double3 加算ノードの計算、dirty、接続、scene round-trip のテスト
+- [test_bd_double_add.py](../../../tests/maya/node/operator/node/dg/test_bd_double_add.py)
+  - double 加算ノードの計算、dirty、接続、scene round-trip のテスト
 
 ## Core Principles
 

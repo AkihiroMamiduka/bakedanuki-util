@@ -72,9 +72,10 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 ```
 
 テストは staged plug-in を Maya 2025 の `mayapy` へロードし、double3 版と double
-版それぞれの固定2入力ノード、可変長入力ノード、空入力、sparse 配列、element
-削除、compound child の直接要求、compound dirty、DG / Serial / Parallel、
-ノード接続、scene の保存と再読込、NodeOperator API を確認します。
+版それぞれの乗算・加算について、固定2入力ノード、可変長入力ノード、空入力、
+sparse 配列、element 削除、compound child の直接要求、compound dirty、
+DG / Serial / Parallel、ノード接続、scene の保存と再読込、NodeOperator API を
+確認します。
 
 ## Node Implementation Rules
 

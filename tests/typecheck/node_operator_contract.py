@@ -4,6 +4,20 @@ import bd_util as bdu
 from maya.api import OpenMaya as om
 
 from bd_util.maya.node.operator.attr import KeyframeManager
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_add import (
+    Input1AttrOperator as AddInput1AttrOperator,
+    Input1PlugOperator as AddInput1PlugOperator,
+    Input2AttrOperator as AddInput2AttrOperator,
+    Input2PlugOperator as AddInput2PlugOperator,
+    OutputAttrOperator as AddOutputAttrOperator,
+    OutputPlugOperator as AddOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_add_multi import (
+    InputAttrOperator as AddMultiInputAttrOperator,
+    InputPlugOperator as AddMultiInputPlugOperator,
+    OutputAttrOperator as AddMultiOutputAttrOperator,
+    OutputPlugOperator as AddMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_mult import (
     Input1AttrOperator,
     Input1PlugOperator,
@@ -51,6 +65,10 @@ from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
     InputRotateOrderEnumPlugOperator,
     InputRotateOrderEnumField,
 )
+from bd_util.maya.node.operator.node.dg.bd_double3_add import BdDouble3Add
+from bd_util.maya.node.operator.node.dg.bd_double3_add_multi import (
+    BdDouble3AddMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_double3_mult import BdDouble3Mult
 from bd_util.maya.node.operator.node.dg.bd_double3_mult_multi import (
     BdDouble3MultMulti,
@@ -58,6 +76,10 @@ from bd_util.maya.node.operator.node.dg.bd_double3_mult_multi import (
 from bd_util.maya.node.operator.node.dg.bd_double_mult import BdDoubleMult
 from bd_util.maya.node.operator.node.dg.bd_double_mult_multi import (
     BdDoubleMultMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_double_add import BdDoubleAdd
+from bd_util.maya.node.operator.node.dg.bd_double_add_multi import (
+    BdDoubleAddMulti,
 )
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
@@ -67,6 +89,25 @@ from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 
 def node_accessor_contract(nodes: bdu.Nodes) -> None:
+    add_fixed = nodes.create.bdDouble3Add(name="add_fixed")
+    assert_type(add_fixed, BdDouble3Add)
+    assert_type(add_fixed.input1, AddInput1PlugOperator)
+    assert_type(add_fixed.input2, AddInput2PlugOperator)
+    assert_type(add_fixed.output, AddOutputPlugOperator)
+    assert_type(add_fixed.output.get(), bdu.Double3)
+
+    add_multi = nodes.create.bdDouble3AddMulti(name="add_multi")
+    assert_type(add_multi, BdDouble3AddMulti)
+    assert_type(add_multi.input, AddMultiInputPlugOperator)
+    assert_type(add_multi.input[next], AddMultiInputPlugOperator)
+    assert_type(add_multi.output, AddMultiOutputPlugOperator)
+    assert_type(add_multi.output.get(), bdu.Double3)
+
+    existing_add_fixed = nodes.existing.bdDouble3Add("existing_add_fixed")
+    assert_type(existing_add_fixed, BdDouble3Add)
+    existing_add_multi = nodes.existing.bdDouble3AddMulti("existing_add_multi")
+    assert_type(existing_add_multi, BdDouble3AddMulti)
+
     fixed = nodes.create.bdDouble3Mult(name="fixed")
     assert_type(fixed, BdDouble3Mult)
     assert_type(fixed.input1, Input1PlugOperator)
@@ -108,6 +149,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         "existing_double_multi"
     )
     assert_type(existing_double_multi, BdDoubleMultMulti)
+
+    double_add_fixed = nodes.create.bdDoubleAdd(name="double_add_fixed")
+    assert_type(double_add_fixed, BdDoubleAdd)
+    assert_type(double_add_fixed.input1, DoublePlugOperator)
+    assert_type(double_add_fixed.input2, DoublePlugOperator)
+    assert_type(double_add_fixed.output, DoublePlugOperator)
+    assert_type(double_add_fixed.output.get(), float)
+
+    double_add_multi = nodes.create.bdDoubleAddMulti(name="double_add_multi")
+    assert_type(double_add_multi, BdDoubleAddMulti)
+    assert_type(double_add_multi.input, DoublePlugOperator)
+    assert_type(double_add_multi.input[next], DoublePlugOperator)
+    assert_type(double_add_multi.output, DoublePlugOperator)
+    assert_type(double_add_multi.output.get(), float)
+
+    existing_double_add_fixed = nodes.existing.bdDoubleAdd(
+        "existing_double_add_fixed"
+    )
+    assert_type(existing_double_add_fixed, BdDoubleAdd)
+    existing_double_add_multi = nodes.existing.bdDoubleAddMulti(
+        "existing_double_add_multi"
+    )
+    assert_type(existing_double_add_multi, BdDoubleAddMulti)
 
     compose = nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
@@ -157,6 +221,47 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     )
     assert_type(compose.inputRotateOrder.XYZ, Literal[0])
     assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
+
+
+def bd_double3_add_descriptor_contract(
+    fixed: BdDouble3Add,
+    multi: BdDouble3AddMulti,
+) -> None:
+    assert_type(BdDouble3Add.input1, AddInput1AttrOperator)
+    assert_type(fixed.input1, AddInput1PlugOperator)
+    assert_type(fixed.input1.input1X.get(), float)
+    assert_type(BdDouble3Add.input2, AddInput2AttrOperator)
+    assert_type(fixed.input2, AddInput2PlugOperator)
+    assert_type(BdDouble3Add.output, AddOutputAttrOperator)
+    assert_type(fixed.output, AddOutputPlugOperator)
+    assert_type(fixed.output.get(), bdu.Double3)
+
+    assert_type(BdDouble3AddMulti.input, AddMultiInputAttrOperator)
+    assert_type(multi.input, AddMultiInputPlugOperator)
+    assert_type(multi.input[0].inputX.get(), float)
+    assert_type(BdDouble3AddMulti.output, AddMultiOutputAttrOperator)
+    assert_type(multi.output, AddMultiOutputPlugOperator)
+    assert_type(multi.output.get(), bdu.Double3)
+
+
+def bd_double_add_descriptor_contract(
+    fixed: BdDoubleAdd,
+    multi: BdDoubleAddMulti,
+) -> None:
+    assert_type(BdDoubleAdd.input1, DoubleAttrOperator)
+    assert_type(fixed.input1, DoublePlugOperator)
+    assert_type(BdDoubleAdd.input2, DoubleAttrOperator)
+    assert_type(fixed.input2, DoublePlugOperator)
+    assert_type(BdDoubleAdd.output, DoubleAttrOperator)
+    assert_type(fixed.output, DoublePlugOperator)
+    assert_type(fixed.output.get(), float)
+
+    assert_type(BdDoubleAddMulti.input, DoubleAttrOperator)
+    assert_type(multi.input, DoublePlugOperator)
+    assert_type(multi.input[0].get(), float)
+    assert_type(BdDoubleAddMulti.output, DoubleAttrOperator)
+    assert_type(multi.output, DoublePlugOperator)
+    assert_type(multi.output.get(), float)
 
 
 def bd_double3_mult_descriptor_contract(fixed: BdDouble3Mult) -> None:

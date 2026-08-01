@@ -4,8 +4,12 @@
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
+#include "bdUtilNodes/BdDouble3AddNode.h"
+#include "bdUtilNodes/BdDouble3AddMultiNode.h"
 #include "bdUtilNodes/BdDouble3MultNode.h"
 #include "bdUtilNodes/BdDouble3MultMultiNode.h"
+#include "bdUtilNodes/BdDoubleAddNode.h"
+#include "bdUtilNodes/BdDoubleAddMultiNode.h"
 #include "bdUtilNodes/BdDoubleMultNode.h"
 #include "bdUtilNodes/BdDoubleMultMultiNode.h"
 
@@ -18,8 +22,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 4>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 4> registrations = {{
+const std::array<NodeRegistration, 8>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 8> registrations = {{
         {
             BdDouble3MultMultiNode::typeName,
             BdDouble3MultMultiNode::typeId,
@@ -43,6 +47,30 @@ const std::array<NodeRegistration, 4>& nodeRegistrations() {
             BdDoubleMultNode::typeId,
             BdDoubleMultNode::creator,
             BdDoubleMultNode::initialize,
+        },
+        {
+            BdDouble3AddMultiNode::typeName,
+            BdDouble3AddMultiNode::typeId,
+            BdDouble3AddMultiNode::creator,
+            BdDouble3AddMultiNode::initialize,
+        },
+        {
+            BdDouble3AddNode::typeName,
+            BdDouble3AddNode::typeId,
+            BdDouble3AddNode::creator,
+            BdDouble3AddNode::initialize,
+        },
+        {
+            BdDoubleAddMultiNode::typeName,
+            BdDoubleAddMultiNode::typeId,
+            BdDoubleAddMultiNode::creator,
+            BdDoubleAddMultiNode::initialize,
+        },
+        {
+            BdDoubleAddNode::typeName,
+            BdDoubleAddNode::typeId,
+            BdDoubleAddNode::creator,
+            BdDoubleAddNode::initialize,
         },
     }};
     return registrations;

@@ -197,7 +197,8 @@ for (unsigned int physicalIndex = 0; physicalIndex < count; ++physicalIndex) {
 全要素の積のように index 自体が不要な処理では、logical index を読まず `next()` で
 既存要素だけを走査します。空配列の結果は演算の単位元から決めます。
 `bdDouble3MultMulti` では `(1.0, 1.0, 1.0)`、`bdDoubleMultMulti` では
-`1.0` です。
+`1.0` です。加算の `bdDouble3AddMulti` と `bdDoubleAddMulti` では、それぞれ
+`(0.0, 0.0, 0.0)` と `0.0` です。
 
 array output を構築・変更する node では `MArrayDataBuilder` を使い、必要な element
 だけを追加した後で array handle へ戻します。入力 array の走査と、出力 array の構築を
@@ -213,9 +214,11 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 | 固定2入力版 | `bd<Type><Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
 | 配列入力版 | `bd<Type><Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
 
-例えばdouble乗算では `bdDoubleMult` と `bdDoubleMultMulti`、double3乗算では
-`bdDouble3Mult` と `bdDouble3MultMulti` を使います。出力名はどちらも `output` とし、
-固定版と配列版で演算結果の型を揃えます。
+double乗算では `bdDoubleMult` と `bdDoubleMultMulti`、double3乗算では
+`bdDouble3Mult` と `bdDouble3MultMulti` を使います。加算も同様に、doubleでは
+`bdDoubleAdd` と `bdDoubleAddMulti`、double3では `bdDouble3Add` と
+`bdDouble3AddMulti` を使います。出力名はどちらも `output` とし、固定版と配列版で
+演算結果の型を揃えます。
 
 この方針を適用する演算は、次の条件を満たすものです。
 
