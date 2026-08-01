@@ -204,6 +204,26 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 だけを追加した後で array handle へ戻します。入力 array の走査と、出力 array の構築を
 混同しないようにします。
 
+## Stored Value Nodes
+
+`bdDoubleValue`と`bdDouble3Value`は計算結果ではなく、sceneに保存する値そのものを
+`value` plugとして公開します。double3版は`valueX`、`valueY`、`valueZ`の子plugを
+持ちます。defaultはdoubleが`0`、double3が`(0, 0, 0)`です。
+
+`value`は既存のinput attributeと同様にreadable、writable、storable、keyableです。
+そのため直接値を設定して接続元にできるだけでなく、別plugから接続を受けながら同じ
+plugを接続元にする中継も可能です。incoming connectionがある場合は定数ではなく、
+接続された値を渡すvalue nodeとして扱います。
+
+```text
+source.output -> value.value -> target.input
+```
+
+ノード内で別のoutputへ値をコピーしないため、`compute()`、`attributeAffects()`、
+`schedulingType()`は実装しません。`value`の直接変更、keyframe、incoming connectionの
+更新によるdownstream dirty伝搬とscene保存はMayaのplug機構へ任せます。node memberへの
+値cacheも持ちません。
+
 ## Arithmetic Node Family Policy
 
 加算、乗算など、複数入力を自然に畳み込める演算では、原則として固定2入力版と

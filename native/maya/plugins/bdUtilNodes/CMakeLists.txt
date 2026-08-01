@@ -21,6 +21,8 @@ add_library(
     src/BdPowDoubleMultiNode.cpp
     src/BdPowDouble3PairNode.cpp
     src/BdPowDouble3MultiNode.cpp
+    src/BdDoubleValueNode.cpp
+    src/BdDouble3ValueNode.cpp
     src/Double3Attribute.cpp
     src/NumericAttribute.cpp
     src/plugin.cpp

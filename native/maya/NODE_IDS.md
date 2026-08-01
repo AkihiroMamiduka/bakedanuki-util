@@ -24,6 +24,8 @@
 | `bdPowDouble3Pair` | `0x0007F012` | Internal development |
 | `bdPowDoubleMulti` | `0x0007F013` | Internal development |
 | `bdPowDoublePair` | `0x0007F014` | Internal development |
+| `bdDoubleValue` | `0x0007F015` | Internal development |
+| `bdDouble3Value` | `0x0007F016` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

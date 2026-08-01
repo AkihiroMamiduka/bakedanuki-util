@@ -269,6 +269,7 @@ from ..operator.node.dg.bd_add_double3_pair import BdAddDouble3Pair
 from ..operator.node.dg.bd_add_double3_multi import BdAddDouble3Multi
 from ..operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
 from ..operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
+from ..operator.node.dg.bd_double3_value import BdDouble3Value
 from ..operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from ..operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
 from ..operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
@@ -279,6 +280,7 @@ from ..operator.node.dg.bd_add_double_pair import BdAddDoublePair
 from ..operator.node.dg.bd_add_double_multi import BdAddDoubleMulti
 from ..operator.node.dg.bd_div_double_pair import BdDivDoublePair
 from ..operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
+from ..operator.node.dg.bd_double_value import BdDoubleValue
 from ..operator.node.dg.bd_mult_double_pair import BdMultDoublePair
 from ..operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
 from ..operator.node.dg.bd_pow_double_pair import BdPowDoublePair
@@ -2241,6 +2243,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDivDouble3Multi: ...
+    def bdDouble3Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDouble3Value: ...
     def bdMultDouble3Pair(
         self,
         name: str | None = None,
@@ -2291,6 +2298,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDivDoubleMulti: ...
+    def bdDoubleValue(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDoubleValue: ...
     def bdMultDoublePair(
         self,
         name: str | None = None,

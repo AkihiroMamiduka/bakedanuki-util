@@ -350,6 +350,8 @@ from .operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
 from .operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
 from .operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
 from .operator.node.dg.bd_div_double_pair import BdDivDoublePair
+from .operator.node.dg.bd_double3_value import BdDouble3Value
+from .operator.node.dg.bd_double_value import BdDoubleValue
 from .operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
 from .operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from .operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
@@ -2597,6 +2599,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDivDoublePair: ...
+    def bdDouble3Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDouble3Value: ...
+    def bdDoubleValue(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDoubleValue: ...
     def bdMultDouble3Multi(
         self,
         node: str | om.MObject,

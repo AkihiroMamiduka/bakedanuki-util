@@ -74,6 +74,10 @@
   - 固定2入力の scalar 累乗
 - [BdPowDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdPowDoubleMultiNode.cpp)
   - logical index 順で左畳み込みする scalar 配列累乗
+- [BdDoubleValueNode.cpp](../plugins/bdUtilNodes/src/BdDoubleValueNode.cpp)
+  - 計算を持たず、保存・編集・双方向接続できる scalar value
+- [BdDouble3ValueNode.cpp](../plugins/bdUtilNodes/src/BdDouble3ValueNode.cpp)
+  - 計算を持たず、親子plugを保存・編集・双方向接続できる double3 value
 - [test_bd_mult_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double3.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_mult_double.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double.py)
@@ -94,6 +98,10 @@
   - double3 累乗ノードのepsilon、順序、dirty、scene round-trip のテスト
 - [test_bd_pow_double.py](../../../tests/maya/node/operator/node/dg/test_bd_pow_double.py)
   - double 累乗ノードのepsilon、定義域、順序、dirty、scene round-trip のテスト
+- [test_bd_double3_value.py](../../../tests/maya/node/operator/node/dg/test_bd_double3_value.py)
+  - double3 valueの親子plug、双方向接続、dirty、scene round-tripのテスト
+- [test_bd_double_value.py](../../../tests/maya/node/operator/node/dg/test_bd_double_value.py)
+  - double valueの保存、双方向接続、keyframe、dirty、scene round-tripのテスト
 
 ## Core Principles
 

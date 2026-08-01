@@ -18,6 +18,8 @@
 #include "bdUtilNodes/BdAddDoubleMultiNode.h"
 #include "bdUtilNodes/BdDivDoublePairNode.h"
 #include "bdUtilNodes/BdDivDoubleMultiNode.h"
+#include "bdUtilNodes/BdDouble3ValueNode.h"
+#include "bdUtilNodes/BdDoubleValueNode.h"
 #include "bdUtilNodes/BdMultDoublePairNode.h"
 #include "bdUtilNodes/BdMultDoubleMultiNode.h"
 #include "bdUtilNodes/BdPowDoublePairNode.h"
@@ -34,8 +36,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 20>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 20> registrations = {{
+const std::array<NodeRegistration, 22>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 22> registrations = {{
         {
             BdMultDouble3MultiNode::typeName,
             BdMultDouble3MultiNode::typeId,
@@ -155,6 +157,18 @@ const std::array<NodeRegistration, 20>& nodeRegistrations() {
             BdPowDoublePairNode::typeId,
             BdPowDoublePairNode::creator,
             BdPowDoublePairNode::initialize,
+        },
+        {
+            BdDoubleValueNode::typeName,
+            BdDoubleValueNode::typeId,
+            BdDoubleValueNode::creator,
+            BdDoubleValueNode::initialize,
+        },
+        {
+            BdDouble3ValueNode::typeName,
+            BdDouble3ValueNode::typeId,
+            BdDouble3ValueNode::creator,
+            BdDouble3ValueNode::initialize,
         },
     }};
     return registrations;

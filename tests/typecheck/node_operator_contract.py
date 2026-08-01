@@ -32,6 +32,10 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_div_double3_multi impor
     OutputAttrOperator as DivMultiOutputAttrOperator,
     OutputPlugOperator as DivMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_value import (
+    ValueAttrOperator as Double3ValueAttrOperator,
+    ValuePlugOperator as Double3ValuePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_mult_double3_pair import (
     Input1AttrOperator,
     Input1PlugOperator,
@@ -119,6 +123,7 @@ from bd_util.maya.node.operator.node.dg.bd_div_double3_pair import (
 from bd_util.maya.node.operator.node.dg.bd_div_double3_multi import (
     BdDivDouble3Multi,
 )
+from bd_util.maya.node.operator.node.dg.bd_double3_value import BdDouble3Value
 from bd_util.maya.node.operator.node.dg.bd_mult_double3_pair import (
     BdMultDouble3Pair,
 )
@@ -161,6 +166,7 @@ from bd_util.maya.node.operator.node.dg.bd_div_double_pair import (
 from bd_util.maya.node.operator.node.dg.bd_div_double_multi import (
     BdDivDoubleMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_double_value import BdDoubleValue
 from bd_util.maya.node.operator.node.dg.bd_sub_double_pair import (
     BdSubDoublePair,
 )
@@ -212,6 +218,16 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_div_fixed, BdDivDouble3Pair)
     existing_div_multi = nodes.existing.bdDivDouble3Multi("existing_div_multi")
     assert_type(existing_div_multi, BdDivDouble3Multi)
+
+    double3_value = nodes.create.bdDouble3Value(name="double3_value")
+    assert_type(double3_value, BdDouble3Value)
+    assert_type(double3_value.value, Double3ValuePlugOperator)
+    assert_type(double3_value.value.valueX.get(), float)
+    assert_type(double3_value.value.get(), bdu.Double3)
+    existing_double3_value = nodes.existing.bdDouble3Value(
+        "existing_double3_value"
+    )
+    assert_type(existing_double3_value, BdDouble3Value)
 
     pow_fixed = nodes.create.bdPowDouble3Pair(name="pow_fixed")
     assert_type(pow_fixed, BdPowDouble3Pair)
@@ -338,6 +354,15 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         "existing_double_div_multi"
     )
     assert_type(existing_double_div_multi, BdDivDoubleMulti)
+
+    double_value = nodes.create.bdDoubleValue(name="double_value")
+    assert_type(double_value, BdDoubleValue)
+    assert_type(double_value.value, DoublePlugOperator)
+    assert_type(double_value.value.get(), float)
+    existing_double_value = nodes.existing.bdDoubleValue(
+        "existing_double_value"
+    )
+    assert_type(existing_double_value, BdDoubleValue)
 
     double_pow_fixed = nodes.create.bdPowDoublePair(name="double_pow_fixed")
     assert_type(double_pow_fixed, BdPowDoublePair)
@@ -515,6 +540,19 @@ def bd_div_double_pair_descriptor_contract(
     assert_type(BdDivDoubleMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
+
+
+def bd_double3_value_descriptor_contract(node: BdDouble3Value) -> None:
+    assert_type(BdDouble3Value.value, Double3ValueAttrOperator)
+    assert_type(node.value, Double3ValuePlugOperator)
+    assert_type(node.value.valueX.get(), float)
+    assert_type(node.value.get(), bdu.Double3)
+
+
+def bd_double_value_descriptor_contract(node: BdDoubleValue) -> None:
+    assert_type(BdDoubleValue.value, DoubleAttrOperator)
+    assert_type(node.value, DoublePlugOperator)
+    assert_type(node.value.get(), float)
 
 
 def bd_pow_double3_pair_descriptor_contract(
