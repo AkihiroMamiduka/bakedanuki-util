@@ -8,20 +8,22 @@
 1. [Node Basics](node-basics.md)
    - node のライフサイクル、attribute 定義、`compute()`、multi attribute、
      演算node familyの設計方針、plug-in 登録
-2. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+2. [Native Node Roadmap](node-roadmap.md)
+   - `double` / `double3` 演算ノードの優先実装候補、family構成、実装前の検討事項
+3. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-3. [Evaluation And Parallelism](evaluation.md)
+4. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-4. [Testing And Debugging](testing-debugging.md)
+5. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-5. [Node ID Registry](../NODE_IDS.md)
+6. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-6. [Build Guide](../README.md)
+7. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-7. [bdDbl Multiplication Benchmark](bd-dbl-mult-benchmark.md)
+8. [bdDbl Multiplication Benchmark](bd-dbl-mult-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
