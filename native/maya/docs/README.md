@@ -7,7 +7,7 @@
 
 1. [Node Basics](node-basics.md)
    - node のライフサイクル、attribute 定義、`compute()`、multi attribute、
-     plug-in 登録
+     演算node familyの設計方針、plug-in 登録
 2. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
@@ -21,6 +21,8 @@
    - `MTypeId` の割り当てと運用
 6. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
+7. [bdDouble Multiplication Benchmark](bd-double-mult-benchmark.md)
+   - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
 

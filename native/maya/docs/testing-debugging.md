@@ -240,6 +240,16 @@ tool の表示は原因そのものではなく Maya が認識している graph
 graph で評価します。作成時間と計算時間を別々に記録し、API の使いやすさを犠牲にする
 価値がある差かを判断します。
 
+`bdDoubleMult` のチェーンと `bdDoubleMultMulti` の再実行可能なベンチマークは次で
+実行します。
+
+```powershell
+.\scripts\benchmark-native-maya2025.cmd
+```
+
+測定条件、境界値、dirty位置による違いは
+[bdDouble Multiplication Benchmark](bd-double-mult-benchmark.md) に記録します。
+
 Maya Profiler を使うときは、node 自体の時間だけでなく、evaluation 回数と dirty 範囲も
 確認します。1回の `compute()` を数 ns 改善するより、不要な再評価を1回なくす方が
 効果的な場合があります。

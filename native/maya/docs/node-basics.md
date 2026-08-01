@@ -203,6 +203,61 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 だけを追加した後で array handle へ戻します。入力 array の走査と、出力 array の構築を
 混同しないようにします。
 
+## Arithmetic Node Family Policy
+
+加算、乗算など、複数入力を自然に畳み込める演算では、原則として固定2入力版と
+配列入力版を1組で検討します。
+
+| Variant | Type name | Input attributes | Primary use |
+| --- | --- | --- | --- |
+| 固定2入力版 | `bd<Type><Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
+| 配列入力版 | `bd<Type><Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
+
+例えばdouble乗算では `bdDoubleMult` と `bdDoubleMultMulti`、double3乗算では
+`bdDouble3Mult` と `bdDouble3MultMulti` を使います。出力名はどちらも `output` とし、
+固定版と配列版で演算結果の型を揃えます。
+
+この方針を適用する演算は、次の条件を満たすものです。
+
+- 3入力以上へ拡張する利用場面がある。
+- 入力列をfoldする演算として意味を明確に定義できる。
+- 空配列の結果となる単位元、または明示的な空入力仕様を定義できる。
+- 配列版によるnode数と中間plugの削減に実用上の価値がある。
+- Maya標準nodeで十分に代替できないか、package固有nodeを持つ理由がある。
+
+代表的な判断は次の通りです。
+
+| Operation | Pair policy | Empty multi | Notes |
+| --- | --- | --- | --- |
+| 加算 | 原則2種類を作る | `0` | scalar、component-wiseとも自然 |
+| 乗算 | 原則2種類を作る | `1` | scalar、component-wiseとも自然 |
+| 論理AND | 必要に応じて2種類 | `true` | 全入力がtrueかを返す |
+| 論理OR | 必要に応じて2種類 | `false` | いずれかの入力がtrueかを返す |
+| 最小・最大 | 個別検討 | 型と用途ごとに決定 | 無限値や未定義状態を含めて決める |
+| 減算・除算・累乗 | 原則個別検討 | 自然な単位元なし | 結合順序で結果が変わる |
+| 平均 | 個別検討 | 自然な結果なし | 空入力と除数0の仕様が必要 |
+| 行列・Quaternion乗算 | 個別検討 | identity | 入力順序を永続APIとして定義する |
+| normalize、clamp、lerp | 通常は固定仕様 | 該当なし | 多入力への拡張が自然ではない |
+
+API上で入力順を区別しない積や和では、既存elementのphysical iterationを利用できます。
+非可換演算や結合順序をAPIに含める演算では、physical storage orderを演算順序として
+暗黙に使いません。logical index順などの規則を明文化し、sparse indexを含むsceneで
+テストします。
+
+浮動小数点の加算と乗算は、数学上の結合法則と完全には一致しません。固定チェーンと
+配列版で演算順序が変わる場合は、ごく小さな丸め差を許容したテストにします。厳密な
+再現順序が必要なnodeでは、fold順序を仕様として固定します。
+
+性能上の標準選択は、集約後のeffective inputが2個なら固定版、3個以上なら配列版です。
+変更しない入力群は先に集約し、最終nodeからは1入力として扱います。固定チェーンの
+末尾1入力だけが変化するなどdirty範囲を限定できる特殊な構造は、scene全体の計測結果を
+根拠に個別判断します。実測条件と境界値は
+[bdDouble Multiplication Benchmark](bd-double-mult-benchmark.md) を参照してください。
+
+この規約は、すべての演算に固定版と配列版の両方を必須とするものではありません。
+node type、`MTypeId`、wrapper、テスト、文書という保守対象が増えるため、意味が曖昧な
+配列版は追加せず、演算ごとにAPIを検討します。
+
 ## Plug-in Registration
 
 `MFnPlugin.h` は version string を object file へ埋め込むため、通常は
@@ -231,9 +286,12 @@ node を含む scene では、その node type を提供する plug-in をアン
 - [ ] node class、source、header を追加した。
 - [ ] `typeName` と `MTypeId` を [Node ID Registry](../NODE_IDS.md) に登録した。
 - [ ] input / output の flag と default 値を決めた。
+- [ ] 演算nodeでは、固定2入力版と配列版を1組にする意味があるか判断した。
+- [ ] 配列版では空入力の結果と、必要ならfold順序を仕様化した。
 - [ ] compound の親・子を含めて dirty 依存関係を列挙した。
 - [ ] `compute()` が対象 plug だけを処理し、`MStatus` を確認している。
 - [ ] multi attribute で logical index の連続性を仮定していない。
+- [ ] 順序依存のmulti演算でphysical storage orderを暗黙の演算順序にしていない。
 - [ ] thread safety を確認して `schedulingType()` を選んだ。
 - [ ] `plugin.cpp` と CMake source list へ追加した。
 - [ ] 登録失敗時の rollback と逆順の登録解除を実装した。
