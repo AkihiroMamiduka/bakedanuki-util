@@ -270,23 +270,27 @@ from ..operator.node.dg.bd_add_double3_multi import BdAddDouble3Multi
 from ..operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
 from ..operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
 from ..operator.node.dg.bd_double3_value import BdDouble3Value
+from ..operator.node.dg.bd_lerp_double3_pair import BdLerpDouble3Pair
 from ..operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from ..operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
 from ..operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
 from ..operator.node.dg.bd_pow_double3_multi import BdPowDouble3Multi
 from ..operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
 from ..operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
+from ..operator.node.dg.bd_wt_add_double3_multi import BdWtAddDouble3Multi
 from ..operator.node.dg.bd_add_double_pair import BdAddDoublePair
 from ..operator.node.dg.bd_add_double_multi import BdAddDoubleMulti
 from ..operator.node.dg.bd_div_double_pair import BdDivDoublePair
 from ..operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
 from ..operator.node.dg.bd_double_value import BdDoubleValue
+from ..operator.node.dg.bd_lerp_double_pair import BdLerpDoublePair
 from ..operator.node.dg.bd_mult_double_pair import BdMultDoublePair
 from ..operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
 from ..operator.node.dg.bd_pow_double_pair import BdPowDoublePair
 from ..operator.node.dg.bd_pow_double_multi import BdPowDoubleMulti
 from ..operator.node.dg.bd_sub_double_pair import BdSubDoublePair
 from ..operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
+from ..operator.node.dg.bd_wt_add_double_multi import BdWtAddDoubleMulti
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
 from ..operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2248,6 +2252,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDouble3Value: ...
+    def bdLerpDouble3Pair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdLerpDouble3Pair: ...
     def bdMultDouble3Pair(
         self,
         name: str | None = None,
@@ -2278,6 +2287,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdSubDouble3Multi: ...
+    def bdWtAddDouble3Multi(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdWtAddDouble3Multi: ...
     def bdAddDoublePair(
         self,
         name: str | None = None,
@@ -2303,6 +2317,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDoubleValue: ...
+    def bdLerpDoublePair(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdLerpDoublePair: ...
     def bdMultDoublePair(
         self,
         name: str | None = None,
@@ -2333,6 +2352,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdSubDoubleMulti: ...
+    def bdWtAddDoubleMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdWtAddDoubleMulti: ...
     def bevel(
         self,
         name: str | None = None,

@@ -261,6 +261,8 @@ double乗算では `bdMultDoublePair` と `bdMultDoubleMulti`、double3乗算で
 | 最小・最大 | 個別検討 | 型と用途ごとに決定 | 無限値や未定義状態を含めて決める |
 | 累乗 | 個別仕様で2種類 | `1`（明示仕様） | logical index昇順の左畳み込み、負指数のみ底を補正 |
 | 平均 | 個別検討 | 自然な結果なし | 空入力と除数0の仕様が必要 |
+| 線形補間 | Pairのみ | 該当なし | 2値間を補間し、weightを`0`から`1`へclamp |
+| 加重和 | Multiのみ | `0` | value/weightのcompound配列、正規化なし |
 | 行列・Quaternion乗算 | 個別検討 | identity | 入力順序を永続APIとして定義する |
 | normalize、clamp、lerp | 通常は固定仕様 | 該当なし | 多入力への拡張が自然ではない |
 
@@ -324,6 +326,47 @@ result = std::pow(base, exponent);
 `(input[2] ^ input[9]) ^ input[20]`です。1要素ならその値、空配列なら明示仕様の`1`
 または`(1, 1, 1)`を返します。各段階で指数が負の場合、その時点の計算結果である底へ
 同じepsilon補正を適用します。
+
+### Lerp Policy
+
+`bdLerpDoublePair`と`bdLerpDouble3Pair`は、`input1`から`input2`への線形補間を行います。
+double3版も`weight`はscalar doubleで、XYZへ同じweightを適用します。
+
+```text
+output = input1 * (1 - weight) + input2 * weight
+```
+
+`weight`のdefaultは`0`、hard minimumは`0`、hard maximumは`1`です。Mayaのattributeに
+設定したhard min/maxはChannel Boxなどからの直接入力を制限しますが、incoming
+connectionからは範囲外の値を受け取れます。そのため`compute()`でもweightを`0`から
+`1`へclampし、`0`では厳密に`input1`、`1`では厳密に`input2`を返します。
+
+範囲外weightによる外挿はこのnodeの責務に含めません。多入力への自然な拡張もないため、
+Lerpには`Multi`版を作りません。
+
+### Weighted Add Policy
+
+`bdWtAddDoubleMulti`と`bdWtAddDouble3Multi`は、valueとweightの積を全要素について加算する
+正規化なしの加重和です。double3版ではscalar doubleのweightをXYZすべてへ適用します。
+
+```text
+output = sum(input[i].value * input[i].weight)
+```
+
+valueとweightのlogical indexが食い違わないよう、入力は2本の独立した配列ではなく
+compound multi attributeとして公開します。
+
+```text
+input[0].value
+input[0].weight
+input[1].value
+input[1].weight
+```
+
+valueとweightのdefaultは`0`です。空配列の結果もdoubleでは`0`、double3では
+`(0, 0, 0)`です。weightは負数および`1`を超える値を許可し、合計を`1`へ正規化しません。
+加算順序に意味はないため、他の加算Multi nodeと同様に既存elementだけをphysical
+iterationで走査します。
 
 浮動小数点の加算と乗算は、数学上の結合法則と完全には一致しません。固定チェーンと
 配列版で演算順序が変わる場合は、ごく小さな丸め差を許容したテストにします。厳密な

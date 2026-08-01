@@ -43,6 +43,10 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_sub_double.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_pow_double3.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_pow_double.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_lerp_double3.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_lerp_double.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_wt_add_double3.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_wt_add_double.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double3_value.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_value.py") `
     (Join-Path $repoRoot "tests\dev\maya\node\operator\node\test_generate_existing_node_stub.py")

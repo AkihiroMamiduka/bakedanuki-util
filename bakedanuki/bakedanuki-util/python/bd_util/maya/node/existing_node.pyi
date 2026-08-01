@@ -351,6 +351,8 @@ from .operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
 from .operator.node.dg.bd_div_double_pair import BdDivDoublePair
 from .operator.node.dg.bd_double3_value import BdDouble3Value
 from .operator.node.dg.bd_double_value import BdDoubleValue
+from .operator.node.dg.bd_lerp_double3_pair import BdLerpDouble3Pair
+from .operator.node.dg.bd_lerp_double_pair import BdLerpDoublePair
 from .operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
 from .operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
 from .operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
@@ -363,6 +365,8 @@ from .operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
 from .operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
 from .operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
 from .operator.node.dg.bd_sub_double_pair import BdSubDoublePair
+from .operator.node.dg.bd_wt_add_double3_multi import BdWtAddDouble3Multi
+from .operator.node.dg.bd_wt_add_double_multi import BdWtAddDoubleMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2914,6 +2918,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDoubleValue: ...
     @staticmethod
+    def bdLerpDouble3Pair(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdLerpDouble3Pair: ...
+    @staticmethod
+    def bdLerpDoublePair(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdLerpDoublePair: ...
+    @staticmethod
     def bdMultDouble3Multi(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2985,6 +3001,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdSubDoublePair: ...
+    @staticmethod
+    def bdWtAddDouble3Multi(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdWtAddDouble3Multi: ...
+    @staticmethod
+    def bdWtAddDoubleMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdWtAddDoubleMulti: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,

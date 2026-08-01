@@ -77,6 +77,16 @@
 - [BdDoubleValueNode.cpp](../plugins/bdUtilNodes/src/BdDoubleValueNode.cpp)
   - 計算を持たず、保存・編集・双方向接続できる scalar value
 - [BdDouble3ValueNode.cpp](../plugins/bdUtilNodes/src/BdDouble3ValueNode.cpp)
+
+- [Lerp.h](../plugins/bdUtilNodes/include/bdUtilNodes/Lerp.h)
+
+- [BdLerpDouble3PairNode.cpp](../plugins/bdUtilNodes/src/BdLerpDouble3PairNode.cpp)
+
+- [BdLerpDoublePairNode.cpp](../plugins/bdUtilNodes/src/BdLerpDoublePairNode.cpp)
+
+- [BdWtAddDouble3MultiNode.cpp](../plugins/bdUtilNodes/src/BdWtAddDouble3MultiNode.cpp)
+
+- [BdWtAddDoubleMultiNode.cpp](../plugins/bdUtilNodes/src/BdWtAddDoubleMultiNode.cpp)
   - 計算を持たず、親子plugを保存・編集・双方向接続できる double3 value
 - [test_bd_mult_double3.py](../../../tests/maya/node/operator/node/dg/test_bd_mult_double3.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト

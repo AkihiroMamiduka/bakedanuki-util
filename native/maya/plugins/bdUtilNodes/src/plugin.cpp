@@ -8,6 +8,8 @@
 #include "bdUtilNodes/BdAddDouble3MultiNode.h"
 #include "bdUtilNodes/BdDivDouble3PairNode.h"
 #include "bdUtilNodes/BdDivDouble3MultiNode.h"
+#include "bdUtilNodes/BdLerpDouble3PairNode.h"
+#include "bdUtilNodes/BdLerpDoublePairNode.h"
 #include "bdUtilNodes/BdMultDouble3PairNode.h"
 #include "bdUtilNodes/BdMultDouble3MultiNode.h"
 #include "bdUtilNodes/BdPowDouble3PairNode.h"
@@ -26,6 +28,8 @@
 #include "bdUtilNodes/BdPowDoubleMultiNode.h"
 #include "bdUtilNodes/BdSubDoublePairNode.h"
 #include "bdUtilNodes/BdSubDoubleMultiNode.h"
+#include "bdUtilNodes/BdWtAddDouble3MultiNode.h"
+#include "bdUtilNodes/BdWtAddDoubleMultiNode.h"
 
 namespace {
 
@@ -36,8 +40,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 22>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 22> registrations = {{
+const std::array<NodeRegistration, 26>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 26> registrations = {{
         {
             BdMultDouble3MultiNode::typeName,
             BdMultDouble3MultiNode::typeId,
@@ -157,6 +161,30 @@ const std::array<NodeRegistration, 22>& nodeRegistrations() {
             BdPowDoublePairNode::typeId,
             BdPowDoublePairNode::creator,
             BdPowDoublePairNode::initialize,
+        },
+        {
+            BdLerpDouble3PairNode::typeName,
+            BdLerpDouble3PairNode::typeId,
+            BdLerpDouble3PairNode::creator,
+            BdLerpDouble3PairNode::initialize,
+        },
+        {
+            BdLerpDoublePairNode::typeName,
+            BdLerpDoublePairNode::typeId,
+            BdLerpDoublePairNode::creator,
+            BdLerpDoublePairNode::initialize,
+        },
+        {
+            BdWtAddDouble3MultiNode::typeName,
+            BdWtAddDouble3MultiNode::typeId,
+            BdWtAddDouble3MultiNode::creator,
+            BdWtAddDouble3MultiNode::initialize,
+        },
+        {
+            BdWtAddDoubleMultiNode::typeName,
+            BdWtAddDoubleMultiNode::typeId,
+            BdWtAddDoubleMultiNode::creator,
+            BdWtAddDoubleMultiNode::initialize,
         },
         {
             BdDoubleValueNode::typeName,
