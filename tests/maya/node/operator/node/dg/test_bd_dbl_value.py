@@ -40,22 +40,22 @@ def test_class_attribute_access_and_default(modifier_manager, maya_cmds):
         BdDblValue,
     )
 
-    assert BdDblValue.NODE_TYPE == "bdDblValue"
+    assert BdDblValue.NODE_TYPE == "bdDbl_Value"
     assert BdDblValue.value.long_name == "value"
     assert BdDblValue.v.short_name == "v"
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblValue()
+    node = nodes.create.bdDbl_Value()
     modifier_manager.do_it_dg()
 
-    assert node.name == "bdDblValue1"
+    assert node.name == "bdDbl_Value1"
     assert node.value.get() == pytest.approx(0.0)
 
 
 def test_value_is_readable_writable_storable_and_keyable(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    node = maya_cmds.createNode("bdDblValue")
+    node = maya_cmds.createNode("bdDbl_Value")
     for flag in ("readable", "writable", "storable", "keyable"):
         assert maya_cmds.attributeQuery(
             "value",
@@ -74,9 +74,9 @@ def test_value_can_be_destination_and_source_in_the_same_network(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    source = nodes.create.bdDblValue(name="source")
-    relay = nodes.create.bdDblValue(name="relay")
-    mult = nodes.create.bdDblMult(name="mult")
+    source = nodes.create.bdDbl_Value(name="source")
+    relay = nodes.create.bdDbl_Value(name="relay")
+    mult = nodes.create.bdDbl_Mult(name="mult")
     source.value.set(3.0)
     source.value.connect(relay.value)
     relay.value.connect(mult.input1)
@@ -103,8 +103,8 @@ def test_downstream_dirty_updates_match_in_all_evaluation_modes(
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
 
-        value = maya_cmds.createNode("bdDblValue")
-        mult = maya_cmds.createNode("bdDblMult")
+        value = maya_cmds.createNode("bdDbl_Value")
+        mult = maya_cmds.createNode("bdDbl_Mult")
         maya_cmds.connectAttr(f"{value}.value", f"{mult}.input1")
         maya_cmds.setAttr(f"{mult}.input2", 2.0)
 
@@ -120,8 +120,8 @@ def test_downstream_dirty_updates_match_in_all_evaluation_modes(
 def test_value_can_drive_animation(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
-    value = maya_cmds.createNode("bdDblValue")
-    mult = maya_cmds.createNode("bdDblMult")
+    value = maya_cmds.createNode("bdDbl_Value")
+    mult = maya_cmds.createNode("bdDbl_Mult")
     maya_cmds.connectAttr(f"{value}.value", f"{mult}.input1")
     maya_cmds.setAttr(f"{mult}.input2", 3.0)
     maya_cmds.setKeyframe(value, attribute="value", time=1.0, value=2.0)
@@ -146,11 +146,11 @@ def test_existing_accessor_and_scene_round_trip(
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblValue(name="value")
+    node = nodes.create.bdDbl_Value(name="value")
     node.value.set(7.5)
     modifier_manager.do_it_dg()
 
-    assert isinstance(nodes.existing.bdDblValue(node.name), BdDblValue)
+    assert isinstance(nodes.existing.bdDbl_Value(node.name), BdDblValue)
 
     selection = maya_om.MSelectionList()
     selection.add(node.name)
@@ -164,6 +164,6 @@ def test_existing_accessor_and_scene_round_trip(
     maya_cmds.file(str(scene_path), open=True, force=True)
 
     existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDblValue(
+    assert existing_nodes.existing.bdDbl_Value(
         "value"
     ).value.get() == pytest.approx(7.5)

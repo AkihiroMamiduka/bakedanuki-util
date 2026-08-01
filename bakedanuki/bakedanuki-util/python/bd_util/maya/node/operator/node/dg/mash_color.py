@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_color import GeneratedMASH_Color
+from ._generated.mash_color import GeneratedMASHColor
 
 
-class MASH_Color(GeneratedMASH_Color):
+class MASHColor(GeneratedMASHColor):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Color"

@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_signal import GeneratedMASH_Signal
+from ._generated.mash_signal import GeneratedMASHSignal
 
 
-class MASH_Signal(GeneratedMASH_Signal):
+class MASHSignal(GeneratedMASHSignal):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Signal"

@@ -9,7 +9,7 @@ from ....attr.define.std.at.scalar.unit.range.double_angle import (
 from ....attr.define.std.at.typed import TypedField
 
 
-class GeneratedMASH_Breakout(DG):
+class GeneratedMASHBreakout(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Breakout"

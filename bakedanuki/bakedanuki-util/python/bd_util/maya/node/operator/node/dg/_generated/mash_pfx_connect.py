@@ -88,7 +88,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class GeneratedMASH_PfxConnect(DG):
+class GeneratedMASHPfxConnect(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_PfxConnect"

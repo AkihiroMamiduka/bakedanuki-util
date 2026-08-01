@@ -51,7 +51,7 @@ class OffsetTypeEnumField(
     PLUG_CLS = OffsetTypeEnumPlugOperator
 
 
-class GeneratedMASH_MultiCurve(DG):
+class GeneratedMASHMultiCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_MultiCurve"

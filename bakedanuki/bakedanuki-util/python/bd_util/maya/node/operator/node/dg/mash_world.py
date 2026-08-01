@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_world import GeneratedMASH_World
+from ._generated.mash_world import GeneratedMASHWorld
 
 
-class MASH_World(GeneratedMASH_World):
+class MASHWorld(GeneratedMASHWorld):
     __slots__ = ()
 
     NODE_TYPE = "MASH_World"

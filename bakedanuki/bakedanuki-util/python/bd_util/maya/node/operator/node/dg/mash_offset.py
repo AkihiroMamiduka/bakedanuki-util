@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_offset import GeneratedMASH_Offset
+from ._generated.mash_offset import GeneratedMASHOffset
 
 
-class MASH_Offset(GeneratedMASH_Offset):
+class MASHOffset(GeneratedMASHOffset):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Offset"

@@ -246,7 +246,7 @@ class ConstraintChannelNameEnumField(
     PLUG_CLS = ConstraintChannelNameEnumPlugOperator
 
 
-class GeneratedMASH_ChannelRandom(DG):
+class GeneratedMASHChannelRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_ChannelRandom"

@@ -383,14 +383,14 @@ def _create_fixed_chain(
     factor_plugs: Sequence[str],
     plugin_nodes: list[str],
 ) -> str:
-    node = cmds.createNode("bdDblMult")
+    node = cmds.createNode("bdDbl_Mult")
     plugin_nodes.append(node)
     cmds.connectAttr(factor_plugs[0], f"{node}.input1")
     cmds.connectAttr(factor_plugs[1], f"{node}.input2")
     output_plug = f"{node}.output"
 
     for factor_plug in factor_plugs[2:]:
-        node = cmds.createNode("bdDblMult")
+        node = cmds.createNode("bdDbl_Mult")
         plugin_nodes.append(node)
         cmds.connectAttr(output_plug, f"{node}.input1")
         cmds.connectAttr(factor_plug, f"{node}.input2")
@@ -402,7 +402,7 @@ def _create_multi_node(
     factor_plugs: Sequence[str],
     plugin_nodes: list[str],
 ) -> str:
-    node = cmds.createNode("bdDblMultMulti")
+    node = cmds.createNode("bdDbl_MultMulti")
     plugin_nodes.append(node)
     for input_index, factor_plug in enumerate(factor_plugs):
         cmds.connectAttr(factor_plug, f"{node}.input[{input_index}]")

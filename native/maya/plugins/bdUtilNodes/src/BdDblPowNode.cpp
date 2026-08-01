@@ -8,7 +8,7 @@
 #include "bdUtilNodes/NumericAttribute.h"
 #include "bdUtilNodes/SafePower.h"
 
-const MString BdDblPowNode::typeName("bdDblPow");
+const MString BdDblPowNode::typeName("bdDbl_Pow");
 const MTypeId BdDblPowNode::typeId(0x0007F014);
 
 MObject BdDblPowNode::input1;

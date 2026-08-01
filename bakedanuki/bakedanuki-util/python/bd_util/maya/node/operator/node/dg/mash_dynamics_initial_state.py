@@ -1,10 +1,10 @@
 # coding: utf-8
 from ._generated.mash_dynamics_initial_state import (
-    GeneratedMASH_DynamicsInitialState,
+    GeneratedMASHDynamicsInitialState,
 )
 
 
-class MASH_DynamicsInitialState(GeneratedMASH_DynamicsInitialState):
+class MASHDynamicsInitialState(GeneratedMASHDynamicsInitialState):
     __slots__ = ()
 
     NODE_TYPE = "MASH_DynamicsInitialState"

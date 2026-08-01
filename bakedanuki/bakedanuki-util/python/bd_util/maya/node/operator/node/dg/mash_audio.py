@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_audio import GeneratedMASH_Audio
+from ._generated.mash_audio import GeneratedMASHAudio
 
 
-class MASH_Audio(GeneratedMASH_Audio):
+class MASHAudio(GeneratedMASHAudio):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Audio"

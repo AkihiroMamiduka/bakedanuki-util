@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 class GeneratedBdDblLerp(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdDblLerp"
+    NODE_TYPE = "bdDbl_Lerp"
 
     input1 = DoubleField(default_value=0.0)
     i1 = input1

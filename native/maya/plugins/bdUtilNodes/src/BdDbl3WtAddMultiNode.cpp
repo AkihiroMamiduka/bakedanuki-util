@@ -12,7 +12,7 @@
 #include "bdUtilNodes/Double3Attribute.h"
 #include "bdUtilNodes/NumericAttribute.h"
 
-const MString BdDbl3WtAddMultiNode::typeName("bdDbl3WtAddMulti");
+const MString BdDbl3WtAddMultiNode::typeName("bdDbl3_WtAddMulti");
 const MTypeId BdDbl3WtAddMultiNode::typeId(0x0007F019);
 
 MObject BdDbl3WtAddMultiNode::input;

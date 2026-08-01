@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_transform import GeneratedMASH_Transform
+from ._generated.mash_transform import GeneratedMASHTransform
 
 
-class MASH_Transform(GeneratedMASH_Transform):
+class MASHTransform(GeneratedMASHTransform):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Transform"

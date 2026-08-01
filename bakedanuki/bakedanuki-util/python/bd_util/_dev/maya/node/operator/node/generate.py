@@ -603,11 +603,15 @@ _QUAT_COMPOUND_AT_BASE: tuple[str, str, str, str] = (
 
 
 def _node_type_to_class_name(node_type: str) -> str:
-    """ノードタイプ名 (camelCase) をクラス名 (PascalCase) へ変換する。
+    """ノードタイプ名をクラス名 (PascalCase) へ変換する。
 
     例: ``addDoubleLinear`` → ``AddDoubleLinear``
+        ``MASH_Audio`` → ``MASHAudio``
+        ``bdDbl_Add`` → ``BdDblAdd``
     """
-    return node_type[0].upper() + node_type[1:]
+    return "".join(
+        part[0].upper() + part[1:] for part in node_type.split("_") if part
+    )
 
 
 def _node_kind_class_name(node_type: str, node_kind: str) -> str:
@@ -639,6 +643,64 @@ def _node_type_to_file_name(node_type: str) -> str:
     例: ``multiplyDivide`` → ``multiply_divide.py``
     """
     return f"{_camel_to_snake(node_type)}.py"
+
+
+def _validate_node_type_name_collisions(node_types: tuple[str, ...]) -> None:
+    """Reject node types that collapse to the same Python symbol or module."""
+    converters = {
+        "class": _node_type_to_class_name,
+        "module": _camel_to_snake,
+    }
+    collisions: list[str] = []
+
+    for name_kind, converter in converters.items():
+        mapped_names: dict[str, set[str]] = {}
+        for node_type in node_types:
+            mapped_names.setdefault(converter(node_type), set()).add(node_type)
+
+        collisions.extend(
+            "{} {!r}: {}".format(
+                name_kind,
+                mapped_name,
+                ", ".join(repr(name) for name in sorted(source_names)),
+            )
+            for mapped_name, source_names in sorted(mapped_names.items())
+            if len(source_names) > 1
+        )
+
+    if collisions:
+        raise ValueError(
+            "Node type name conversion collision: " + "; ".join(collisions)
+        )
+
+
+_NODE_TYPE_ASSIGNMENT_PATTERN = re.compile(
+    r"^\s*NODE_TYPE\s*=\s*[\"']([^\"']+)[\"']",
+    re.MULTILINE,
+)
+
+
+def _validate_existing_node_output(
+    path: pathlib.Path,
+    node_type: str,
+) -> None:
+    """Prevent a normalized file name from overwriting another node type."""
+    if not path.is_file():
+        return
+
+    match = _NODE_TYPE_ASSIGNMENT_PATTERN.search(
+        path.read_text(encoding="utf-8")
+    )
+    if match is None or match.group(1) == node_type:
+        return
+
+    raise ValueError(
+        "Node type module name collision at {}: {!r} and {!r}".format(
+            path,
+            match.group(1),
+            node_type,
+        )
+    )
 
 
 def _resolve_node_kind(node_type: str, node_kind: str) -> str:
@@ -2101,6 +2163,25 @@ def generate_node_class_file(
         _attr_long_names(inherited_attr_infos),
     )
 
+    generated_package_path = pathlib.Path(src_dir).joinpath(
+        *_generated_package_parts(resolved_node_kind)
+    )
+    output_path = generated_package_path.joinpath(
+        _node_type_to_file_name(node_type)
+    )
+    public_output_path = (
+        pathlib.Path(src_dir)
+        .joinpath(*_node_kind_output_rel_parts(resolved_node_kind))
+        .joinpath(
+            _node_kind_public_output_file_name(
+                node_type,
+                resolved_node_kind,
+            )
+        )
+    )
+    _validate_existing_node_output(output_path, node_type)
+    _validate_existing_node_output(public_output_path, node_type)
+
     # node_attr ファイルを生成 (compound アトリビュートがある場合のみ)
     node_attr_code = generate_node_attr_code(node_type, attr_infos=attr_infos)
     if node_attr_code:
@@ -2125,9 +2206,6 @@ def generate_node_class_file(
             "Skipping file generation."
         )
         return
-    generated_package_path = pathlib.Path(src_dir).joinpath(
-        *_generated_package_parts(resolved_node_kind)
-    )
     generated_package_path.mkdir(parents=True, exist_ok=True)
     generated_package_init_path = generated_package_path / "__init__.py"
     if not generated_package_init_path.exists():
@@ -2136,21 +2214,8 @@ def generate_node_class_file(
             encoding="utf-8",
         )
 
-    output_path = generated_package_path.joinpath(
-        _node_type_to_file_name(node_type)
-    )
     output_path.write_text(code, encoding="utf-8")
 
-    public_output_path = (
-        pathlib.Path(src_dir)
-        .joinpath(*_node_kind_output_rel_parts(resolved_node_kind))
-        .joinpath(
-            _node_kind_public_output_file_name(
-                node_type,
-                resolved_node_kind,
-            )
-        )
-    )
     if not public_output_path.exists():
         public_output_path.parent.mkdir(parents=True, exist_ok=True)
         public_output_path.write_text(
@@ -2170,7 +2235,10 @@ def generate_specific_node_class_file_core(
     include_skipped: bool = False,
     node_kind: str = _NODE_KIND_DG,
 ) -> None:
-    for node_type in func_get_node_types():
+    node_types = tuple(func_get_node_types())
+    _validate_node_type_name_collisions(node_types)
+
+    for node_type in node_types:
         generate_node_class_file(
             node_type,
             src_dir,

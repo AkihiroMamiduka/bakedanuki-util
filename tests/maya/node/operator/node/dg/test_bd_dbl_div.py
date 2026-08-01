@@ -43,7 +43,7 @@ def test_class_attribute_access(maya_cmds):
         BdDblDivMulti,
     )
 
-    assert BdDblDiv.NODE_TYPE == "bdDblDiv"
+    assert BdDblDiv.NODE_TYPE == "bdDbl_Div"
     assert BdDblDiv.input1.long_name == "input1"
     assert BdDblDiv.i1.short_name == "i1"
     assert BdDblDiv.input2.long_name == "input2"
@@ -51,7 +51,7 @@ def test_class_attribute_access(maya_cmds):
     assert BdDblDiv.output.long_name == "output"
     assert BdDblDiv.o.short_name == "o"
 
-    assert BdDblDivMulti.NODE_TYPE == "bdDblDivMulti"
+    assert BdDblDivMulti.NODE_TYPE == "bdDbl_DivMulti"
     assert BdDblDivMulti.input.long_name == "input"
     assert BdDblDivMulti.i.short_name == "i"
     assert BdDblDivMulti.output.long_name == "output"
@@ -62,12 +62,12 @@ def test_defaults_and_fixed_division(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblDiv()
-    multi = nodes.create.bdDblDivMulti()
+    fixed = nodes.create.bdDbl_Div()
+    multi = nodes.create.bdDbl_DivMulti()
     modifier_manager.do_it_dg()
 
-    assert fixed.name == "bdDblDiv1"
-    assert multi.name == "bdDblDivMulti1"
+    assert fixed.name == "bdDbl_Div1"
+    assert multi.name == "bdDbl_DivMulti1"
     assert fixed.input1.get() == pytest.approx(1.0)
     assert fixed.input2.get() == pytest.approx(1.0)
     assert fixed.output.get() == pytest.approx(1.0)
@@ -99,7 +99,7 @@ def test_fixed_clamps_small_divisors_with_sign(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    node = maya_cmds.createNode("bdDblDiv")
+    node = maya_cmds.createNode("bdDbl_Div")
     maya_cmds.setAttr(f"{node}.input1", numerator)
     maya_cmds.setAttr(f"{node}.input2", divisor)
     assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
@@ -112,7 +112,7 @@ def test_multi_uses_logical_index_order_and_defined_edge_cases(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblDivMulti(name="div")
+    node = nodes.create.bdDbl_DivMulti(name="div")
     node.input[20].set(2.0)
     node.input[2].set(120.0)
     node.input[9].set(3.0)
@@ -134,7 +134,7 @@ def test_multi_clamps_only_divisor_elements(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblDivMulti(name="div")
+    node = nodes.create.bdDbl_DivMulti(name="div")
     node.input[2].set(1.0)
     node.input[9].set(0.0)
     node.input[20].set(-5.0e-10)
@@ -157,7 +157,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
 
-        fixed = maya_cmds.createNode("bdDblDiv")
+        fixed = maya_cmds.createNode("bdDbl_Div")
         maya_cmds.setAttr(f"{fixed}.input1", 10.0)
         maya_cmds.setAttr(f"{fixed}.input2", 2.0)
         assert maya_cmds.getAttr(f"{fixed}.output") == pytest.approx(5.0)
@@ -165,7 +165,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.setAttr(f"{fixed}.input2", 0.0)
         assert maya_cmds.getAttr(f"{fixed}.output") == pytest.approx(1.0e10)
 
-        multi = maya_cmds.createNode("bdDblDivMulti")
+        multi = maya_cmds.createNode("bdDbl_DivMulti")
         maya_cmds.setAttr(f"{multi}.input[20]", 2.0)
         maya_cmds.setAttr(f"{multi}.input[2]", 120.0)
         maya_cmds.setAttr(f"{multi}.input[9]", 3.0)
@@ -191,8 +191,8 @@ def test_connection_and_existing_node_accessors(
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblDiv(name="fixed")
-    multi = nodes.create.bdDblDivMulti(name="multi")
+    fixed = nodes.create.bdDbl_Div(name="fixed")
+    multi = nodes.create.bdDbl_DivMulti(name="multi")
     fixed.input1.set(12.0)
     fixed.input2.set(3.0)
     fixed.output.connect(multi.input[2])
@@ -200,9 +200,9 @@ def test_connection_and_existing_node_accessors(
     modifier_manager.do_it_dg()
 
     assert multi.output.get() == pytest.approx(2.0)
-    assert isinstance(nodes.existing.bdDblDiv(fixed.name), BdDblDiv)
+    assert isinstance(nodes.existing.bdDbl_Div(fixed.name), BdDblDiv)
     assert isinstance(
-        nodes.existing.bdDblDivMulti(multi.name),
+        nodes.existing.bdDbl_DivMulti(multi.name),
         BdDblDivMulti,
     )
 
@@ -216,8 +216,8 @@ def test_both_nodes_survive_scene_save_and_reload(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblDiv(name="fixed")
-    multi = nodes.create.bdDblDivMulti(name="multi")
+    fixed = nodes.create.bdDbl_Div(name="fixed")
+    multi = nodes.create.bdDbl_DivMulti(name="multi")
     fixed.input1.set(12.0)
     fixed.input2.set(3.0)
     multi.input[20].set(2.0)
@@ -240,9 +240,9 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(str(scene_path), open=True, force=True)
 
     existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDblDiv(
+    assert existing_nodes.existing.bdDbl_Div(
         "fixed"
     ).output.get() == pytest.approx(4.0)
-    assert existing_nodes.existing.bdDblDivMulti(
+    assert existing_nodes.existing.bdDbl_DivMulti(
         "multi"
     ).output.get() == pytest.approx(20.0)

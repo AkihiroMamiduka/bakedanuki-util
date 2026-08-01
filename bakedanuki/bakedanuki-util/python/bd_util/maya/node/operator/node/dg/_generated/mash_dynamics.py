@@ -167,7 +167,7 @@ class CollisionShapeEnumField(
     PLUG_CLS = CollisionShapeEnumPlugOperator
 
 
-class GeneratedMASH_Dynamics(DG):
+class GeneratedMASHDynamics(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Dynamics"

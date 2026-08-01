@@ -120,7 +120,7 @@ class MapAffectsEnumField(
     PLUG_CLS = MapAffectsEnumPlugOperator
 
 
-class GeneratedMASH_Jiggle(DG):
+class GeneratedMASHJiggle(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Jiggle"

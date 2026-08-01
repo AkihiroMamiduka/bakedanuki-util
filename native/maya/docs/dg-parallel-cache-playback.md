@@ -240,7 +240,7 @@ if (
 }
 ```
 
-`bdDbl3Mult` 系 node は既にこの形です。テストでも parent output と各 child output を
+`bdDbl3_Mult` 系 node は既にこの形です。テストでも parent output と各 child output を
 個別に要求します。
 
 ## `setDependentsDirty()` Under EM
@@ -266,7 +266,7 @@ if (
 - callback が worker thread から呼ばれる前提で実装する。
 - state が evaluation context ごとに独立していることを保証する。
 
-現在の `bdDbl3Mult` 系 node は内部 cache を持たないため、この複雑さはありません。
+現在の `bdDbl3_Mult` 系 node は内部 cache を持たないため、この複雑さはありません。
 
 ## Cached Playback
 
@@ -446,7 +446,7 @@ Serial と Parallel の比較で thread safety の問題を分離できます。
 
 ## Application To Current Nodes
 
-| Concern | `bdDbl3Mult` / `bdDbl3MultMulti` |
+| Concern | `bdDbl3_Mult` / `bdDbl3_MultMulti` |
 | --- | --- |
 | Function model | input double3 だけから output double3 を決める |
 | Dependency | static `attributeAffects()` で明示 |

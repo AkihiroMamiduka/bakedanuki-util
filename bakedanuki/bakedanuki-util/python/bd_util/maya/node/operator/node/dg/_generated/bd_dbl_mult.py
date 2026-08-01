@@ -6,7 +6,7 @@ from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
 class GeneratedBdDblMult(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdDblMult"
+    NODE_TYPE = "bdDbl_Mult"
 
     input1 = DoubleField(default_value=1.0)
     i1 = input1

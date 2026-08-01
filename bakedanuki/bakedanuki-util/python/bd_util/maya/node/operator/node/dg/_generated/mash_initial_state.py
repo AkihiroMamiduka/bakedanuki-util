@@ -10,7 +10,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.vector_array import DataVectorArrayField
 
 
-class GeneratedMASH_InitialState(DG):
+class GeneratedMASHInitialState(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_InitialState"

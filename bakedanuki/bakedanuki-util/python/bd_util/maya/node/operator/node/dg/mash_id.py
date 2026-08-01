@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_id import GeneratedMASH_Id
+from ._generated.mash_id import GeneratedMASHId
 
 
-class MASH_Id(GeneratedMASH_Id):
+class MASHId(GeneratedMASHId):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Id"

@@ -134,7 +134,7 @@ class TrailsModeEnumField(
     PLUG_CLS = TrailsModeEnumPlugOperator
 
 
-class GeneratedMASH_Trails(DG):
+class GeneratedMASHTrails(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Trails"

@@ -125,7 +125,7 @@ class MapAffectsEnumField(
     PLUG_CLS = MapAffectsEnumPlugOperator
 
 
-class GeneratedMASH_BlendDeformer(DG):
+class GeneratedMASHBlendDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_BlendDeformer"

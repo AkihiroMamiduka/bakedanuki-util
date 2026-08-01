@@ -11,7 +11,7 @@
 #include "bdUtilNodes/Lerp.h"
 #include "bdUtilNodes/NumericAttribute.h"
 
-const MString BdDbl3LerpNode::typeName("bdDbl3Lerp");
+const MString BdDbl3LerpNode::typeName("bdDbl3_Lerp");
 const MTypeId BdDbl3LerpNode::typeId(0x0007F017);
 
 MObject BdDbl3LerpNode::input1;

@@ -5,4 +5,4 @@ from ._generated.bd_dbl_value import GeneratedBdDblValue
 class BdDblValue(GeneratedBdDblValue):
     __slots__ = ()
 
-    NODE_TYPE = "bdDblValue"
+    NODE_TYPE = "bdDbl_Value"

@@ -7,7 +7,7 @@
 
 #include "bdUtilNodes/NumericAttribute.h"
 
-const MString BdDblSubNode::typeName("bdDblSub");
+const MString BdDblSubNode::typeName("bdDbl_Sub");
 const MTypeId BdDblSubNode::typeId(0x0007F00C);
 
 MObject BdDblSubNode::input1;

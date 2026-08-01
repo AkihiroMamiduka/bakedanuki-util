@@ -278,7 +278,7 @@ class BrushTypeEnumField(
     PLUG_CLS = BrushTypeEnumPlugOperator
 
 
-class GeneratedMASH_Placer(DG):
+class GeneratedMASHPlacer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Placer"

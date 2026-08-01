@@ -32,6 +32,24 @@ def test_shape_stub_excludes_abstract_base_class():
     assert all(definition.node_type != "shape" for definition in definitions)
 
 
+def test_underscore_node_type_uses_pascal_case_class_and_exact_method_name():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    definitions = stub_generator.collect_node_definitions(python_root)
+    mash_audio = next(
+        definition
+        for definition in definitions
+        if definition.node_type == "MASH_Audio"
+    )
+
+    assert mash_audio.class_name == "MASHAudio"
+    assert mash_audio.method_name == "MASH_Audio"
+
+
 def test_existing_node_stub_matches_generated_code():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (

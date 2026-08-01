@@ -5,4 +5,4 @@ from ._generated.bd_dbl_pow import GeneratedBdDblPow
 class BdDblPow(GeneratedBdDblPow):
     __slots__ = ()
 
-    NODE_TYPE = "bdDblPow"
+    NODE_TYPE = "bdDbl_Pow"

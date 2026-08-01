@@ -375,7 +375,7 @@ class IdMapDirectionEnumField(
     PLUG_CLS = IdMapDirectionEnumPlugOperator
 
 
-class GeneratedMASH_World(DG):
+class GeneratedMASHWorld(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_World"

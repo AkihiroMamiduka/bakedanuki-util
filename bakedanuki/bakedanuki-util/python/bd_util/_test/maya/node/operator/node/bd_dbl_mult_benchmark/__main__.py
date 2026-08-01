@@ -10,7 +10,7 @@ from ._core import DEFAULT_INPUT_COUNTS, DIRTY_PATTERNS, EVALUATION_MODES, main
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description=("Benchmark bdDblMult chains against bdDblMultMulti."),
+        description=("Benchmark bdDbl_Mult chains against bdDbl_MultMulti."),
     )
     parser.add_argument("--plugin-path", required=True)
     parser.add_argument(

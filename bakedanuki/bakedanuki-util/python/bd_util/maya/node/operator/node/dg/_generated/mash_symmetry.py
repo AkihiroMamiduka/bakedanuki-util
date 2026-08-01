@@ -168,7 +168,7 @@ class PlacementModeEnumField(
     PLUG_CLS = PlacementModeEnumPlugOperator
 
 
-class GeneratedMASH_Symmetry(DG):
+class GeneratedMASHSymmetry(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Symmetry"

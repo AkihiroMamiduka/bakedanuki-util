@@ -8,7 +8,7 @@
 #include "bdUtilNodes/NumericAttribute.h"
 #include "bdUtilNodes/SafeDivision.h"
 
-const MString BdDblDivNode::typeName("bdDblDiv");
+const MString BdDblDivNode::typeName("bdDbl_Div");
 const MTypeId BdDblDivNode::typeId(0x0007F010);
 
 MObject BdDblDivNode::input1;

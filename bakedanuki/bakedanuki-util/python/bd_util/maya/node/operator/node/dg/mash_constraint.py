@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_constraint import GeneratedMASH_Constraint
+from ._generated.mash_constraint import GeneratedMASHConstraint
 
 
-class MASH_Constraint(GeneratedMASH_Constraint):
+class MASHConstraint(GeneratedMASHConstraint):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Constraint"

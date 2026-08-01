@@ -40,7 +40,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
         BdDbl3Lerp,
     )
 
-    assert BdDbl3Lerp.NODE_TYPE == "bdDbl3Lerp"
+    assert BdDbl3Lerp.NODE_TYPE == "bdDbl3_Lerp"
     assert BdDbl3Lerp.input1.long_name == "input1"
     assert BdDbl3Lerp.i1x.short_name == "i1x"
     assert BdDbl3Lerp.input2.long_name == "input2"
@@ -50,7 +50,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDbl3Lerp.oy.short_name == "oy"
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3Lerp()
+    node = nodes.create.bdDbl3_Lerp()
     modifier_manager.do_it_dg()
 
     assert node.input1.get().as_tuple() == pytest.approx((0.0, 0.0, 0.0))
@@ -68,7 +68,7 @@ def test_interpolates_components_with_one_weight(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3Lerp(name="lerp")
+    node = nodes.create.bdDbl3_Lerp(name="lerp")
     node.input1.set((0.0, 10.0, -10.0))
     node.input2.set((20.0, -10.0, 30.0))
     node.weight.set(0.25)
@@ -88,7 +88,7 @@ def test_connected_weight_is_clamped(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    node = maya_cmds.createNode("bdDbl3Lerp")
+    node = maya_cmds.createNode("bdDbl3_Lerp")
     source = maya_cmds.createNode("network")
     maya_cmds.addAttr(source, longName="weight", attributeType="double")
     maya_cmds.setAttr(f"{node}.input1", 1.0, 2.0, 3.0, type="double3")
@@ -109,7 +109,7 @@ def test_child_dirty_updates_match_in_all_evaluation_modes(
     previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
-        node = maya_cmds.createNode("bdDbl3Lerp")
+        node = maya_cmds.createNode("bdDbl3_Lerp")
         maya_cmds.setAttr(f"{node}.input1", 0.0, 0.0, 0.0, type="double3")
         maya_cmds.setAttr(f"{node}.input2", 4.0, 8.0, 12.0, type="double3")
         maya_cmds.setAttr(f"{node}.weight", 0.5)

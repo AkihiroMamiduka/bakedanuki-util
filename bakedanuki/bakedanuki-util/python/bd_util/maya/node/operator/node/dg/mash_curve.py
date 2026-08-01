@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_curve import GeneratedMASH_Curve
+from ._generated.mash_curve import GeneratedMASHCurve
 
 
-class MASH_Curve(GeneratedMASH_Curve):
+class MASHCurve(GeneratedMASHCurve):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Curve"

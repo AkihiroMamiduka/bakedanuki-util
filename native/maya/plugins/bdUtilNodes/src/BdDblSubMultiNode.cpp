@@ -20,7 +20,7 @@ struct IndexedDouble {
 
 }  // namespace
 
-const MString BdDblSubMultiNode::typeName("bdDblSubMulti");
+const MString BdDblSubMultiNode::typeName("bdDbl_SubMulti");
 const MTypeId BdDblSubMultiNode::typeId(0x0007F00B);
 
 MObject BdDblSubMultiNode::input;

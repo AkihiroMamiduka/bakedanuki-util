@@ -196,8 +196,8 @@ for (unsigned int physicalIndex = 0; physicalIndex < count; ++physicalIndex) {
 
 全要素の積のように index 自体が不要な処理では、logical index を読まず `next()` で
 既存要素だけを走査します。空配列の結果は演算の単位元から決めます。
-`bdDbl3MultMulti` では `(1.0, 1.0, 1.0)`、`bdDblMultMulti` では
-`1.0` です。加算の `bdDbl3AddMulti` と `bdDblAddMulti` では、それぞれ
+`bdDbl3_MultMulti` では `(1.0, 1.0, 1.0)`、`bdDbl_MultMulti` では
+`1.0` です。加算の `bdDbl3_AddMulti` と `bdDbl_AddMulti` では、それぞれ
 `(0.0, 0.0, 0.0)` と `0.0` です。
 
 array output を構築・変更する node では `MArrayDataBuilder` を使い、必要な element
@@ -206,7 +206,7 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 
 ## Stored Value Nodes
 
-`bdDblValue`と`bdDbl3Value`は計算結果ではなく、sceneに保存する値そのものを
+`bdDbl_Value`と`bdDbl3_Value`は計算結果ではなく、sceneに保存する値そのものを
 `value` plugとして公開します。double3版は`valueX`、`valueY`、`valueZ`の子plugを
 持ちます。defaultはdoubleが`0`、double3が`(0, 0, 0)`です。
 
@@ -229,7 +229,7 @@ source.output -> value.value -> target.input
 `bdUtilNodes`の数値node typeは、次の順序で命名します。
 
 ```text
-bd<TypeCode><Operation><Variant>
+bd<TypeCode>_<Operation><Variant>
 ```
 
 現行のtype codeは次のとおりです。Mayaの`double`と`double3`を短く保ちつつ、
@@ -242,19 +242,35 @@ bd<TypeCode><Operation><Variant>
 
 固定入力版、単項演算、value nodeなど、その演算の基本形にはvariant suffixを付けません。
 配列入力版だけ`Multi`を付けます。固定2入力版に`Pair`は付けません。
+type code直後の`_`は、Node Editorで`bdDbl_`または`bdDbl3_`まで入力したときに、
+対象のattribute型だけを候補へ絞り込むための区切りです。operationとvariantの間には
+追加の`_`を入れません。
 
 ```text
-bdDblAdd
-bdDblAddMulti
-bdDbl3Add
-bdDbl3AddMulti
-bdDbl3Lerp
-bdDbl3Value
+bdDbl_Add
+bdDbl_AddMulti
+bdDbl3_Add
+bdDbl3_AddMulti
+bdDbl3_Lerp
+bdDbl3_Value
 ```
 
 node type名はNode Editorの入力候補だけでなく、Python API、Profiler、エラー、scene
 fileにも現れます。未使用の型に対する1文字略号を先に予約せず、新しい型を追加するときに
 意味が衝突しないtype codeを個別に決めます。
+
+Python側では、Maya node type、class、moduleを次のように変換します。
+
+| Surface | Example |
+| --- | --- |
+| Maya node type | `bdDbl3_AddMulti` |
+| Python class | `BdDbl3AddMulti` |
+| Generated class | `GeneratedBdDbl3AddMulti` |
+| Python module | `bd_dbl3_add_multi.py` |
+| `NodeCreator` method | `nodes.create.bdDbl3_AddMulti()` |
+
+Maya node typeの`_`はPython class名ではPascalCaseの単語境界として除去します。
+module名はsnake_caseへ正規化し、Creator methodはMaya node typeをそのまま公開します。
 
 ## Arithmetic Node Family Policy
 
@@ -263,13 +279,13 @@ fileにも現れます。未使用の型に対する1文字略号を先に予約
 
 | Variant | Type name | Input attributes | Primary use |
 | --- | --- | --- | --- |
-| 固定2入力版 | `bd<TypeCode><Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
-| 配列入力版 | `bd<TypeCode><Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
+| 固定2入力版 | `bd<TypeCode>_<Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
+| 配列入力版 | `bd<TypeCode>_<Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
 
-double乗算では `bdDblMult` と `bdDblMultMulti`、double3乗算では
-`bdDbl3Mult` と `bdDbl3MultMulti` を使います。加算も同様に、doubleでは
-`bdDblAdd` と `bdDblAddMulti`、double3では `bdDbl3Add` と
-`bdDbl3AddMulti` を使います。出力名はどちらも `output` とし、固定版と配列版で
+double乗算では `bdDbl_Mult` と `bdDbl_MultMulti`、double3乗算では
+`bdDbl3_Mult` と `bdDbl3_MultMulti` を使います。加算も同様に、doubleでは
+`bdDbl_Add` と `bdDbl_AddMulti`、double3では `bdDbl3_Add` と
+`bdDbl3_AddMulti` を使います。出力名はどちらも `output` とし、固定版と配列版で
 演算結果の型を揃えます。
 
 この方針を適用する演算は、次の条件を満たすものです。
@@ -303,14 +319,14 @@ API上で入力順を区別しない積や和では、既存elementのphysical i
 暗黙に使いません。logical index順などの規則を明文化し、sparse indexを含むsceneで
 テストします。
 
-`bdDblSubMulti` と `bdDbl3SubMulti` は、存在する要素をlogical indexの昇順に
+`bdDbl_SubMulti` と `bdDbl3_SubMulti` は、存在する要素をlogical indexの昇順に
 並べ、最小indexの値から残りを順に減算します。例えばindex `2`、`7`、`20`が存在する
 場合は `input[2] - input[7] - input[20]` です。1要素ならその値、空配列なら明示仕様の
 `0` または `(0, 0, 0)` を返します。
 
 ### Safe Division Policy
 
-`bdDblDiv`、`bdDbl3Div`とその配列版は、除数の絶対値が`1e-9`未満の場合、
+`bdDbl_Div`、`bdDbl3_Div`とその配列版は、除数の絶対値が`1e-9`未満の場合、
 符号を維持した`1e-9`へ置換してから除算します。判定は各除算、double3では各成分へ
 独立に適用します。配列版の最初の既存要素は分子なので置換せず、2要素目以降だけを
 安全な除数として扱います。
@@ -329,13 +345,13 @@ if (std::abs(divisor) < 1.0e-9) {
 ならないようにします。`compute()`からwarningは出さず、同じ規則を除算を含む今後の
 演算nodeでも共通利用します。
 
-`bdDblDivMulti`と`bdDbl3DivMulti`も存在する要素をlogical index昇順に並べ、
+`bdDbl_DivMulti`と`bdDbl3_DivMulti`も存在する要素をlogical index昇順に並べ、
 最小indexの値から左畳み込みします。1要素ならその値、空配列なら明示仕様の`1`または
 `(1, 1, 1)`を返します。
 
 ### Safe Power Policy
 
-`bdDblPow`、`bdDbl3Pow`とその配列版は、`input1`を底、`input2`を指数として
+`bdDbl_Pow`、`bdDbl3_Pow`とその配列版は、`input1`を底、`input2`を指数として
 累乗します。double3ではXYZ成分ごとに独立して計算します。固定2入力版の入力と出力の
 defaultはすべて`1`です。
 
@@ -353,7 +369,7 @@ result = std::pow(base, exponent);
 `0 ^ 0`は`std::pow()`に従って`1`とします。負の底と非整数指数は`NaN`、表現範囲を
 超える結果は`inf`、underflowは`0`とし、追加のclampやwarningは行いません。
 
-`bdDblPowMulti`と`bdDbl3PowMulti`は存在する要素をlogical index昇順に並べ、
+`bdDbl_PowMulti`と`bdDbl3_PowMulti`は存在する要素をlogical index昇順に並べ、
 最小indexを底として左畳み込みします。index `2`、`9`、`20`が存在する場合は
 `(input[2] ^ input[9]) ^ input[20]`です。1要素ならその値、空配列なら明示仕様の`1`
 または`(1, 1, 1)`を返します。各段階で指数が負の場合、その時点の計算結果である底へ
@@ -361,7 +377,7 @@ result = std::pow(base, exponent);
 
 ### Lerp Policy
 
-`bdDblLerp`と`bdDbl3Lerp`は、`input1`から`input2`への線形補間を行います。
+`bdDbl_Lerp`と`bdDbl3_Lerp`は、`input1`から`input2`への線形補間を行います。
 double3版も`weight`はscalar doubleで、XYZへ同じweightを適用します。
 
 ```text
@@ -378,7 +394,7 @@ Lerpには`Multi`版を作りません。
 
 ### Weighted Add Policy
 
-`bdDblWtAddMulti`と`bdDbl3WtAddMulti`は、valueとweightの積を全要素について加算する
+`bdDbl_WtAddMulti`と`bdDbl3_WtAddMulti`は、valueとweightの積を全要素について加算する
 正規化なしの加重和です。double3版ではscalar doubleのweightをXYZすべてへ適用します。
 
 ```text

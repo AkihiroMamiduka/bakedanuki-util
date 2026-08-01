@@ -87,7 +87,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class GeneratedMASH_DynamicsInitialState(DG):
+class GeneratedMASHDynamicsInitialState(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_DynamicsInitialState"

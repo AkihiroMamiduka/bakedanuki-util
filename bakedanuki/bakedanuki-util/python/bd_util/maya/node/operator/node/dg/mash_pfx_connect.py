@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_pfx_connect import GeneratedMASH_PfxConnect
+from ._generated.mash_pfx_connect import GeneratedMASHPfxConnect
 
 
-class MASH_PfxConnect(GeneratedMASH_PfxConnect):
+class MASHPfxConnect(GeneratedMASHPfxConnect):
     __slots__ = ()
 
     NODE_TYPE = "MASH_PfxConnect"

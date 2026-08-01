@@ -21,7 +21,7 @@ struct IndexedDouble {
 
 }  // namespace
 
-const MString BdDblPowMultiNode::typeName("bdDblPowMulti");
+const MString BdDblPowMultiNode::typeName("bdDbl_PowMulti");
 const MTypeId BdDblPowMultiNode::typeId(0x0007F013);
 
 MObject BdDblPowMultiNode::input;

@@ -11,7 +11,7 @@ from ....attr.define.std.at.scalar.numeric.range.float import FloatField
 from ....attr.define.std.at.typed import TypedField
 
 
-class GeneratedMASH_ShellDeformer(DG):
+class GeneratedMASHShellDeformer(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_ShellDeformer"

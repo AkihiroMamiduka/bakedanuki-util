@@ -10,7 +10,7 @@
 #include "bdUtilNodes/Double3Attribute.h"
 #include "bdUtilNodes/NumericAttribute.h"
 
-const MString BdDbl3AddNode::typeName("bdDbl3Add");
+const MString BdDbl3AddNode::typeName("bdDbl3_Add");
 const MTypeId BdDbl3AddNode::typeId(0x0007F006);
 
 MObject BdDbl3AddNode::input1;

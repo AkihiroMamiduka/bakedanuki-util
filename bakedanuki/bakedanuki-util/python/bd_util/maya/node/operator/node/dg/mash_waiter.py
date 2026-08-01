@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_waiter import GeneratedMASH_Waiter
+from ._generated.mash_waiter import GeneratedMASHWaiter
 
 
-class MASH_Waiter(GeneratedMASH_Waiter):
+class MASHWaiter(GeneratedMASHWaiter):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Waiter"

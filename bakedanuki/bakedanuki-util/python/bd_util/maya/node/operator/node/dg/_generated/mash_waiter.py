@@ -88,7 +88,7 @@ class UiTreatmentEnumField(
     PLUG_CLS = UiTreatmentEnumPlugOperator
 
 
-class GeneratedMASH_Waiter(DG):
+class GeneratedMASHWaiter(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Waiter"

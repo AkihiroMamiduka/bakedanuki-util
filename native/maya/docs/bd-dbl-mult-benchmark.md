@@ -1,6 +1,6 @@
 # bdDbl Multiplication Benchmark
 
-`bdDblMult` の左結合チェーンと `bdDblMultMulti` の境界を確認するための
+`bdDbl_Mult` の左結合チェーンと `bdDbl_MultMulti` の境界を確認するための
 Maya 2025 実測結果です。
 
 ## Conclusion
@@ -9,8 +9,8 @@ Maya 2025 実測結果です。
 
 | Effective inputs | Node |
 | --- | --- |
-| 2 | `bdDblMult` |
-| 3以上 | `bdDblMultMulti` |
+| 2 | `bdDbl_Mult` |
+| 3以上 | `bdDbl_MultMulti` |
 
 全入力が毎フレーム変化する条件では、2入力は固定版が有利または実質同等、3入力から
 配列版が明確に有利でした。入力数が増えるほど差は拡大します。
@@ -43,7 +43,7 @@ Maya 2025 実測結果です。
 ## Method
 
 - 固定版は `((a * b) * c) ...` の左結合チェーンです。
-- 配列版は全factorを1個の `bdDblMultMulti` へ接続します。
+- 配列版は全factorを1個の `bdDbl_MultMulti` へ接続します。
 - 同じanimCurve入力を各ネットワークへfan-outします。
 - 全ネットワークの出力を共通の `plusMinusAverage` へ接続し、最終transformから
   毎フレーム結果を要求します。

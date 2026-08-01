@@ -294,7 +294,7 @@ class VolumeModeEnumField(
     PLUG_CLS = VolumeModeEnumPlugOperator
 
 
-class GeneratedMASH_Audio(DG):
+class GeneratedMASHAudio(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Audio"

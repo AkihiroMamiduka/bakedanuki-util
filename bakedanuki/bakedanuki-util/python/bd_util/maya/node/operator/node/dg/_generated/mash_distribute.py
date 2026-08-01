@@ -377,7 +377,7 @@ class ArrangementEnumField(
     PLUG_CLS = ArrangementEnumPlugOperator
 
 
-class GeneratedMASH_Distribute(DG):
+class GeneratedMASHDistribute(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Distribute"

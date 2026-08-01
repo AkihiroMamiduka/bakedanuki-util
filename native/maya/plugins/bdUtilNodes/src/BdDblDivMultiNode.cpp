@@ -21,7 +21,7 @@ struct IndexedDouble {
 
 }  // namespace
 
-const MString BdDblDivMultiNode::typeName("bdDblDivMulti");
+const MString BdDblDivMultiNode::typeName("bdDbl_DivMulti");
 const MTypeId BdDblDivMultiNode::typeId(0x0007F00F);
 
 MObject BdDblDivMultiNode::input;

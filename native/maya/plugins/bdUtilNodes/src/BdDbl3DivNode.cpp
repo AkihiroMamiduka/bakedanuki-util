@@ -11,7 +11,7 @@
 #include "bdUtilNodes/NumericAttribute.h"
 #include "bdUtilNodes/SafeDivision.h"
 
-const MString BdDbl3DivNode::typeName("bdDbl3Div");
+const MString BdDbl3DivNode::typeName("bdDbl3_Div");
 const MTypeId BdDbl3DivNode::typeId(0x0007F00E);
 
 MObject BdDbl3DivNode::input1;

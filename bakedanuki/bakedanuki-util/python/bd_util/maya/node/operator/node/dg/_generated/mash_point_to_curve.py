@@ -6,7 +6,7 @@ from ....attr.define.std.at.typed import TypedField
 from ....attr.define.std.dt.nurbs_curve import DataNurbsCurveField
 
 
-class GeneratedMASH_PointToCurve(DG):
+class GeneratedMASHPointToCurve(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_PointToCurve"

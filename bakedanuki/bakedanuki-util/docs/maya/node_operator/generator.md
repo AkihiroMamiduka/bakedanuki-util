@@ -84,6 +84,26 @@ class ComposeMatrix(GeneratedComposeMatrix):
     NODE_TYPE = "composeMatrix"
 ```
 
+### 名前変換
+
+Maya node type、Python class、module pathは別の名前として扱います。
+node type内の`_`はclass名ではPascalCaseの単語境界として除去し、module名では
+snake_caseの区切りとして維持します。
+
+| Maya node type | Python class | Generated class | Module |
+| --- | --- | --- | --- |
+| `bdDbl_Add` | `BdDblAdd` | `GeneratedBdDblAdd` | `bd_dbl_add.py` |
+| `MASH_Audio` | `MASHAudio` | `GeneratedMASHAudio` | `mash_audio.py` |
+| `multiplyDivide` | `MultiplyDivide` | `GeneratedMultiplyDivide` | `multiply_divide.py` |
+
+`NodeCreator`と`ExistingNode`のmethod名は、Maya node typeをそのまま使用します。
+そのため、`nodes.create.bdDbl_Add()`や`nodes.create.MASH_Audio()`として補完されます。
+
+異なるnode typeが同じPython class名またはmodule名へ変換される場合、Generatorは
+ファイルを書き出す前に`ValueError`を送出します。個別生成でも、正規化後の出力先が
+別node typeの既存ファイルと衝突する場合は上書きしません。実際に衝突するnode typeが
+追加された時点で、個別の名前overrideを検討します。
+
 `transform` / `shape` 本体の公開 class は、それぞれ既存の `_core.py` に維持します。
 
 ```text

@@ -5,4 +5,4 @@ from ._generated.bd_dbl_mult import GeneratedBdDblMult
 class BdDblMult(GeneratedBdDblMult):
     __slots__ = ()
 
-    NODE_TYPE = "bdDblMult"
+    NODE_TYPE = "bdDbl_Mult"

@@ -10,7 +10,7 @@ from ....attr.define.node_attr.bd_dbl3_mult import (
 class GeneratedBdDbl3Mult(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdDbl3Mult"
+    NODE_TYPE = "bdDbl3_Mult"
 
     input1 = Input1Field(default_value=(1.0, 1.0, 1.0))
     i1 = input1

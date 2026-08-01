@@ -40,13 +40,13 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
         BdDbl3WtAddMulti,
     )
 
-    assert BdDbl3WtAddMulti.NODE_TYPE == "bdDbl3WtAddMulti"
+    assert BdDbl3WtAddMulti.NODE_TYPE == "bdDbl3_WtAddMulti"
     assert BdDbl3WtAddMulti.input.long_name == "input"
     assert BdDbl3WtAddMulti.output.long_name == "output"
     assert BdDbl3WtAddMulti.oz.short_name == "oz"
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3WtAddMulti()
+    node = nodes.create.bdDbl3_WtAddMulti()
     modifier_manager.do_it_dg()
 
     assert node.output.get().as_tuple() == pytest.approx((0.0, 0.0, 0.0))
@@ -68,7 +68,7 @@ def test_sums_sparse_weighted_vectors_without_normalizing(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3WtAddMulti(name="weighted")
+    node = nodes.create.bdDbl3_WtAddMulti(name="weighted")
     node.input[2].value.set((2.0, 4.0, 6.0))
     node.input[2].weight.set(0.5)
     node.input[9].value.set((1.0, -2.0, 3.0))
@@ -90,7 +90,7 @@ def test_one_scalar_weight_applies_to_all_components(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDbl3WtAddMulti()
+    node = nodes.create.bdDbl3_WtAddMulti()
     node.input[4].value.set((1.0, 2.0, 3.0))
     node.input[4].weight.set(3.0)
     modifier_manager.do_it_dg()
@@ -108,7 +108,7 @@ def test_nested_child_dirty_updates_match_in_all_evaluation_modes(
     previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
-        node = maya_cmds.createNode("bdDbl3WtAddMulti")
+        node = maya_cmds.createNode("bdDbl3_WtAddMulti")
         maya_cmds.setAttr(
             f"{node}.input[2].value",
             2.0,

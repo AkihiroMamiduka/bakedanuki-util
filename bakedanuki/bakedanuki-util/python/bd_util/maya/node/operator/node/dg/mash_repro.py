@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_repro import GeneratedMASH_Repro
+from ._generated.mash_repro import GeneratedMASHRepro
 
 
-class MASH_Repro(GeneratedMASH_Repro):
+class MASHRepro(GeneratedMASHRepro):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Repro"

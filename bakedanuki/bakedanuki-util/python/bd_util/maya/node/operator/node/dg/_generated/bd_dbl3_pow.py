@@ -10,7 +10,7 @@ from ....attr.define.node_attr.bd_dbl3_pow import (
 class GeneratedBdDbl3Pow(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdDbl3Pow"
+    NODE_TYPE = "bdDbl3_Pow"
 
     input1 = Input1Field(default_value=(1.0, 1.0, 1.0))
     i1 = input1

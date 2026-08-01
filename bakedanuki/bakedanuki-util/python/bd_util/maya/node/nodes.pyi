@@ -39,54 +39,54 @@ from .operator.node.dg.hik_state2_effector import HIKState2Effector
 from .operator.node.dg.hik_state2_fk import HIKState2FK
 from .operator.node.dg.hik_state2_global_sk import HIKState2GlobalSK
 from .operator.node.dg.hik_state2_sk import HIKState2SK
-from .operator.node.dg.mash_audio import MASH_Audio
-from .operator.node.dg.mash_base_node import MASH_BaseNode
-from .operator.node.dg.mash_blend import MASH_Blend
-from .operator.node.dg.mash_blend_deformer import MASH_BlendDeformer
-from .operator.node.dg.mash_breakout import MASH_Breakout
-from .operator.node.dg.mash_channel_random import MASH_ChannelRandom
-from .operator.node.dg.mash_color import MASH_Color
-from .operator.node.dg.mash_constraint import MASH_Constraint
-from .operator.node.dg.mash_curve import MASH_Curve
-from .operator.node.dg.mash_deformer import MASH_Deformer
-from .operator.node.dg.mash_delay import MASH_Delay
-from .operator.node.dg.mash_distribute import MASH_Distribute
-from .operator.node.dg.mash_dynamics import MASH_Dynamics
+from .operator.node.dg.mash_audio import MASHAudio
+from .operator.node.dg.mash_base_node import MASHBaseNode
+from .operator.node.dg.mash_blend import MASHBlend
+from .operator.node.dg.mash_blend_deformer import MASHBlendDeformer
+from .operator.node.dg.mash_breakout import MASHBreakout
+from .operator.node.dg.mash_channel_random import MASHChannelRandom
+from .operator.node.dg.mash_color import MASHColor
+from .operator.node.dg.mash_constraint import MASHConstraint
+from .operator.node.dg.mash_curve import MASHCurve
+from .operator.node.dg.mash_deformer import MASHDeformer
+from .operator.node.dg.mash_delay import MASHDelay
+from .operator.node.dg.mash_distribute import MASHDistribute
+from .operator.node.dg.mash_dynamics import MASHDynamics
 from .operator.node.dg.mash_dynamics_initial_state import (
-    MASH_DynamicsInitialState,
+    MASHDynamicsInitialState,
 )
-from .operator.node.dg.mash_explode import MASH_Explode
-from .operator.node.dg.mash_id import MASH_Id
-from .operator.node.dg.mash_influence import MASH_Influence
-from .operator.node.dg.mash_inherit import MASH_Inherit
-from .operator.node.dg.mash_initial_state import MASH_InitialState
-from .operator.node.dg.mash_jiggle import MASH_Jiggle
-from .operator.node.dg.mash_legacy import MASH_Legacy
-from .operator.node.dg.mash_maths import MASH_Maths
-from .operator.node.dg.mash_multi_curve import MASH_MultiCurve
-from .operator.node.dg.mash_mute import MASH_Mute
-from .operator.node.dg.mash_noise import MASH_Noise
-from .operator.node.dg.mash_offset import MASH_Offset
-from .operator.node.dg.mash_orient import MASH_Orient
-from .operator.node.dg.mash_pfx_connect import MASH_PfxConnect
-from .operator.node.dg.mash_placer import MASH_Placer
-from .operator.node.dg.mash_point_to_curve import MASH_PointToCurve
-from .operator.node.dg.mash_python import MASH_Python
-from .operator.node.dg.mash_random import MASH_Random
-from .operator.node.dg.mash_replicator import MASH_Replicator
-from .operator.node.dg.mash_repro import MASH_Repro
-from .operator.node.dg.mash_shell_deformer import MASH_ShellDeformer
-from .operator.node.dg.mash_signal import MASH_Signal
-from .operator.node.dg.mash_spring import MASH_Spring
-from .operator.node.dg.mash_strength import MASH_Strength
-from .operator.node.dg.mash_symmetry import MASH_Symmetry
-from .operator.node.dg.mash_time import MASH_Time
-from .operator.node.dg.mash_trails import MASH_Trails
-from .operator.node.dg.mash_transform import MASH_Transform
-from .operator.node.dg.mash_trig import MASH_Trig
-from .operator.node.dg.mash_visibility import MASH_Visibility
-from .operator.node.dg.mash_waiter import MASH_Waiter
-from .operator.node.dg.mash_world import MASH_World
+from .operator.node.dg.mash_explode import MASHExplode
+from .operator.node.dg.mash_id import MASHId
+from .operator.node.dg.mash_influence import MASHInfluence
+from .operator.node.dg.mash_inherit import MASHInherit
+from .operator.node.dg.mash_initial_state import MASHInitialState
+from .operator.node.dg.mash_jiggle import MASHJiggle
+from .operator.node.dg.mash_legacy import MASHLegacy
+from .operator.node.dg.mash_maths import MASHMaths
+from .operator.node.dg.mash_multi_curve import MASHMultiCurve
+from .operator.node.dg.mash_mute import MASHMute
+from .operator.node.dg.mash_noise import MASHNoise
+from .operator.node.dg.mash_offset import MASHOffset
+from .operator.node.dg.mash_orient import MASHOrient
+from .operator.node.dg.mash_pfx_connect import MASHPfxConnect
+from .operator.node.dg.mash_placer import MASHPlacer
+from .operator.node.dg.mash_point_to_curve import MASHPointToCurve
+from .operator.node.dg.mash_python import MASHPython
+from .operator.node.dg.mash_random import MASHRandom
+from .operator.node.dg.mash_replicator import MASHReplicator
+from .operator.node.dg.mash_repro import MASHRepro
+from .operator.node.dg.mash_shell_deformer import MASHShellDeformer
+from .operator.node.dg.mash_signal import MASHSignal
+from .operator.node.dg.mash_spring import MASHSpring
+from .operator.node.dg.mash_strength import MASHStrength
+from .operator.node.dg.mash_symmetry import MASHSymmetry
+from .operator.node.dg.mash_time import MASHTime
+from .operator.node.dg.mash_trails import MASHTrails
+from .operator.node.dg.mash_transform import MASHTransform
+from .operator.node.dg.mash_trig import MASHTrig
+from .operator.node.dg.mash_visibility import MASHVisibility
+from .operator.node.dg.mash_waiter import MASHWaiter
+from .operator.node.dg.mash_world import MASHWorld
 from .operator.node.dg.material_x_surface_shader import MaterialXSurfaceShader
 from .operator.node.dg.r_scontainer import RScontainer
 from .operator.node.dg.unfold3_d_optimize import Unfold3DOptimize
@@ -1197,232 +1197,232 @@ class _ExistingNodeAccessor:
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Audio: ...
+    ) -> MASHAudio: ...
     def MASH_BaseNode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_BaseNode: ...
+    ) -> MASHBaseNode: ...
     def MASH_Blend(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Blend: ...
+    ) -> MASHBlend: ...
     def MASH_BlendDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_BlendDeformer: ...
+    ) -> MASHBlendDeformer: ...
     def MASH_Breakout(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Breakout: ...
+    ) -> MASHBreakout: ...
     def MASH_ChannelRandom(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_ChannelRandom: ...
+    ) -> MASHChannelRandom: ...
     def MASH_Color(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Color: ...
+    ) -> MASHColor: ...
     def MASH_Constraint(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Constraint: ...
+    ) -> MASHConstraint: ...
     def MASH_Curve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Curve: ...
+    ) -> MASHCurve: ...
     def MASH_Deformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Deformer: ...
+    ) -> MASHDeformer: ...
     def MASH_Delay(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Delay: ...
+    ) -> MASHDelay: ...
     def MASH_Distribute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Distribute: ...
+    ) -> MASHDistribute: ...
     def MASH_Dynamics(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Dynamics: ...
+    ) -> MASHDynamics: ...
     def MASH_DynamicsInitialState(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_DynamicsInitialState: ...
+    ) -> MASHDynamicsInitialState: ...
     def MASH_Explode(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Explode: ...
+    ) -> MASHExplode: ...
     def MASH_Id(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Id: ...
+    ) -> MASHId: ...
     def MASH_Influence(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Influence: ...
+    ) -> MASHInfluence: ...
     def MASH_Inherit(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Inherit: ...
+    ) -> MASHInherit: ...
     def MASH_InitialState(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_InitialState: ...
+    ) -> MASHInitialState: ...
     def MASH_Jiggle(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Jiggle: ...
+    ) -> MASHJiggle: ...
     def MASH_Legacy(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Legacy: ...
+    ) -> MASHLegacy: ...
     def MASH_Maths(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Maths: ...
+    ) -> MASHMaths: ...
     def MASH_MultiCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_MultiCurve: ...
+    ) -> MASHMultiCurve: ...
     def MASH_Mute(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Mute: ...
+    ) -> MASHMute: ...
     def MASH_Noise(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Noise: ...
+    ) -> MASHNoise: ...
     def MASH_Offset(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Offset: ...
+    ) -> MASHOffset: ...
     def MASH_Orient(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Orient: ...
+    ) -> MASHOrient: ...
     def MASH_PfxConnect(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_PfxConnect: ...
+    ) -> MASHPfxConnect: ...
     def MASH_Placer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Placer: ...
+    ) -> MASHPlacer: ...
     def MASH_PointToCurve(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_PointToCurve: ...
+    ) -> MASHPointToCurve: ...
     def MASH_Python(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Python: ...
+    ) -> MASHPython: ...
     def MASH_Random(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Random: ...
+    ) -> MASHRandom: ...
     def MASH_Replicator(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Replicator: ...
+    ) -> MASHReplicator: ...
     def MASH_Repro(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Repro: ...
+    ) -> MASHRepro: ...
     def MASH_ShellDeformer(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_ShellDeformer: ...
+    ) -> MASHShellDeformer: ...
     def MASH_Signal(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Signal: ...
+    ) -> MASHSignal: ...
     def MASH_Spring(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Spring: ...
+    ) -> MASHSpring: ...
     def MASH_Strength(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Strength: ...
+    ) -> MASHStrength: ...
     def MASH_Symmetry(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Symmetry: ...
+    ) -> MASHSymmetry: ...
     def MASH_Time(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Time: ...
+    ) -> MASHTime: ...
     def MASH_Trails(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Trails: ...
+    ) -> MASHTrails: ...
     def MASH_Transform(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Transform: ...
+    ) -> MASHTransform: ...
     def MASH_Trig(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Trig: ...
+    ) -> MASHTrig: ...
     def MASH_Visibility(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Visibility: ...
+    ) -> MASHVisibility: ...
     def MASH_Waiter(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_Waiter: ...
+    ) -> MASHWaiter: ...
     def MASH_World(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
-    ) -> MASH_World: ...
+    ) -> MASHWorld: ...
     def MaterialXSurfaceShader(
         self,
         node: str | om.MObject,
@@ -2563,132 +2563,132 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
-    def bdDbl3Add(
+    def bdDbl3_Add(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Add: ...
-    def bdDbl3AddMulti(
+    def bdDbl3_AddMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3AddMulti: ...
-    def bdDbl3Div(
+    def bdDbl3_Div(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Div: ...
-    def bdDbl3DivMulti(
+    def bdDbl3_DivMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3DivMulti: ...
-    def bdDbl3Lerp(
+    def bdDbl3_Lerp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Lerp: ...
-    def bdDbl3Mult(
+    def bdDbl3_Mult(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Mult: ...
-    def bdDbl3MultMulti(
+    def bdDbl3_MultMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3MultMulti: ...
-    def bdDbl3Pow(
+    def bdDbl3_Pow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Pow: ...
-    def bdDbl3PowMulti(
+    def bdDbl3_PowMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3PowMulti: ...
-    def bdDbl3Sub(
+    def bdDbl3_Sub(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Sub: ...
-    def bdDbl3SubMulti(
+    def bdDbl3_SubMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3SubMulti: ...
-    def bdDbl3Value(
+    def bdDbl3_Value(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Value: ...
-    def bdDbl3WtAddMulti(
+    def bdDbl3_WtAddMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3WtAddMulti: ...
-    def bdDblAdd(
+    def bdDbl_Add(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblAdd: ...
-    def bdDblAddMulti(
+    def bdDbl_AddMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblAddMulti: ...
-    def bdDblDiv(
+    def bdDbl_Div(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblDiv: ...
-    def bdDblDivMulti(
+    def bdDbl_DivMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblDivMulti: ...
-    def bdDblLerp(
+    def bdDbl_Lerp(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblLerp: ...
-    def bdDblMult(
+    def bdDbl_Mult(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblMult: ...
-    def bdDblMultMulti(
+    def bdDbl_MultMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblMultMulti: ...
-    def bdDblPow(
+    def bdDbl_Pow(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblPow: ...
-    def bdDblPowMulti(
+    def bdDbl_PowMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblPowMulti: ...
-    def bdDblSub(
+    def bdDbl_Sub(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblSub: ...
-    def bdDblSubMulti(
+    def bdDbl_SubMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblSubMulti: ...
-    def bdDblValue(
+    def bdDbl_Value(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblValue: ...
-    def bdDblWtAddMulti(
+    def bdDbl_WtAddMulti(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,

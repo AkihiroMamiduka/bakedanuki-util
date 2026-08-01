@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_strength import GeneratedMASH_Strength
+from ._generated.mash_strength import GeneratedMASHStrength
 
 
-class MASH_Strength(GeneratedMASH_Strength):
+class MASHStrength(GeneratedMASHStrength):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Strength"

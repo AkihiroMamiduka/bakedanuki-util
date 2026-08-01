@@ -1,12 +1,17 @@
 # coding: utf-8
+import pytest
+
 from bd_util._dev.maya.node.operator.node.generate import (
     _ARNOLD_UNRELIABLE_DEFAULT_ATTRS,
     _AT_TYPE_MAP,
     _QUAT_COMPOUND_AT_BASE,
     _SCALAR_COMPOUND_AT_BASE,
+    _node_type_to_class_name,
+    _node_type_to_file_name,
     generate_node_attr_code,
     generate_node_class_code,
     generate_node_class_file,
+    generate_specific_node_class_file_core,
 )
 from bd_util.maya.attr.query import AttrInfo
 from bd_util.maya.node.operator.attr.define.std.dt.string import (
@@ -96,6 +101,59 @@ def test_arnold_unreliable_default_attrs_are_narrowly_scoped():
         ),
         "aiWriteInt": frozenset({"beautyA"}),
     }
+
+
+@pytest.mark.parametrize(
+    ("node_type", "class_name", "file_name"),
+    [
+        ("addDoubleLinear", "AddDoubleLinear", "add_double_linear.py"),
+        ("MASH_Audio", "MASHAudio", "mash_audio.py"),
+        ("bdDbl_Add", "BdDblAdd", "bd_dbl_add.py"),
+    ],
+)
+def test_node_type_python_name_conversion(
+    node_type,
+    class_name,
+    file_name,
+):
+    assert _node_type_to_class_name(node_type) == class_name
+    assert _node_type_to_file_name(node_type) == file_name
+
+
+def test_generate_node_class_code_removes_type_separator_from_class_name():
+    code = generate_node_class_code(
+        "bdDbl_Add",
+        attr_infos=[_attr("input1", "i1", "double")],
+    )
+
+    compile(code, "bd_dbl_add.py", "exec")
+    assert "class GeneratedBdDblAdd(DG):" in code
+    assert 'NODE_TYPE = "bdDbl_Add"' in code
+
+
+def test_generate_specific_node_classes_rejects_name_conversion_collision(
+    tmp_path,
+):
+    with pytest.raises(ValueError, match="name conversion collision"):
+        generate_specific_node_class_file_core(
+            tmp_path,
+            lambda: ("MASH_Audio", "MASHAudio"),
+        )
+
+
+def test_generate_node_class_file_rejects_existing_module_collision(tmp_path):
+    generate_node_class_file(
+        "MASH_Audio",
+        tmp_path,
+        attr_infos=[_attr("input", "in", "float")],
+    )
+
+    with pytest.raises(ValueError, match="module name collision"):
+        generate_node_class_file(
+            "MASHAudio",
+            tmp_path,
+            attr_infos=[_attr("input", "in", "float")],
+        )
 
 
 def _attr(

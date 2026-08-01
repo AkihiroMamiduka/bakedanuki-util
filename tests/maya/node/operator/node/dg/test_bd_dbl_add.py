@@ -43,7 +43,7 @@ def test_class_attribute_access(maya_cmds):
         BdDblAddMulti,
     )
 
-    assert BdDblAdd.NODE_TYPE == "bdDblAdd"
+    assert BdDblAdd.NODE_TYPE == "bdDbl_Add"
     assert BdDblAdd.input1.long_name == "input1"
     assert BdDblAdd.i1.short_name == "i1"
     assert BdDblAdd.input2.long_name == "input2"
@@ -51,7 +51,7 @@ def test_class_attribute_access(maya_cmds):
     assert BdDblAdd.output.long_name == "output"
     assert BdDblAdd.o.short_name == "o"
 
-    assert BdDblAddMulti.NODE_TYPE == "bdDblAddMulti"
+    assert BdDblAddMulti.NODE_TYPE == "bdDbl_AddMulti"
     assert BdDblAddMulti.input.long_name == "input"
     assert BdDblAddMulti.i.short_name == "i"
     assert BdDblAddMulti.output.long_name == "output"
@@ -62,12 +62,12 @@ def test_defaults_return_additive_identity(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblAdd()
-    multi = nodes.create.bdDblAddMulti()
+    fixed = nodes.create.bdDbl_Add()
+    multi = nodes.create.bdDbl_AddMulti()
     modifier_manager.do_it_dg()
 
-    assert fixed.name == "bdDblAdd1"
-    assert multi.name == "bdDblAddMulti1"
+    assert fixed.name == "bdDbl_Add1"
+    assert multi.name == "bdDbl_AddMulti1"
     assert fixed.input1.get() == pytest.approx(0.0)
     assert fixed.input2.get() == pytest.approx(0.0)
     assert fixed.output.get() == pytest.approx(0.0)
@@ -78,7 +78,7 @@ def test_fixed_adds_two_inputs(modifier_manager, maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblAdd(name="add")
+    node = nodes.create.bdDbl_Add(name="add")
     node.input1.set(-2.5)
     node.input2.set(4.0)
     modifier_manager.do_it_dg()
@@ -93,7 +93,7 @@ def test_multi_adds_sparse_elements_and_updates_after_removal(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblAddMulti(name="add")
+    node = nodes.create.bdDbl_AddMulti(name="add")
     node.input[2].set(2.0)
     node.input[9].set(-3.0)
     node.input[20].set(0.5)
@@ -116,7 +116,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
 
-        fixed = maya_cmds.createNode("bdDblAdd")
+        fixed = maya_cmds.createNode("bdDbl_Add")
         maya_cmds.setAttr(f"{fixed}.input1", 2.0)
         maya_cmds.setAttr(f"{fixed}.input2", 5.0)
         assert maya_cmds.getAttr(f"{fixed}.output") == pytest.approx(7.0)
@@ -124,7 +124,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.setAttr(f"{fixed}.input1", -4.0)
         assert maya_cmds.getAttr(f"{fixed}.output") == pytest.approx(1.0)
 
-        multi = maya_cmds.createNode("bdDblAddMulti")
+        multi = maya_cmds.createNode("bdDbl_AddMulti")
         maya_cmds.setAttr(f"{multi}.input[2]", 3.0)
         maya_cmds.setAttr(f"{multi}.input[9]", 7.0)
         assert maya_cmds.getAttr(f"{multi}.output") == pytest.approx(10.0)
@@ -142,8 +142,8 @@ def test_fixed_output_participates_in_multi_sum(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblAdd(name="fixed")
-    multi = nodes.create.bdDblAddMulti(name="multi")
+    fixed = nodes.create.bdDbl_Add(name="fixed")
+    multi = nodes.create.bdDbl_AddMulti(name="multi")
     fixed.input1.set(2.0)
     fixed.input2.set(5.0)
     fixed.output.connect(multi.input[2])
@@ -167,13 +167,13 @@ def test_existing_node_accessors_return_specific_wrappers(
     )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblAdd(name="fixed")
-    multi = nodes.create.bdDblAddMulti(name="multi")
+    fixed = nodes.create.bdDbl_Add(name="fixed")
+    multi = nodes.create.bdDbl_AddMulti(name="multi")
     modifier_manager.do_it_dg()
 
-    assert isinstance(nodes.existing.bdDblAdd(fixed.name), BdDblAdd)
+    assert isinstance(nodes.existing.bdDbl_Add(fixed.name), BdDblAdd)
     assert isinstance(
-        nodes.existing.bdDblAddMulti(multi.name),
+        nodes.existing.bdDbl_AddMulti(multi.name),
         BdDblAddMulti,
     )
 
@@ -187,8 +187,8 @@ def test_both_nodes_survive_scene_save_and_reload(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    fixed = nodes.create.bdDblAdd(name="fixed")
-    multi = nodes.create.bdDblAddMulti(name="multi")
+    fixed = nodes.create.bdDbl_Add(name="fixed")
+    multi = nodes.create.bdDbl_AddMulti(name="multi")
     fixed.input1.set(2.0)
     fixed.input2.set(5.0)
     multi.input[0].set(2.0)
@@ -210,9 +210,9 @@ def test_both_nodes_survive_scene_save_and_reload(
     maya_cmds.file(str(scene_path), open=True, force=True)
 
     existing_nodes = bdu.Nodes(modifier_manager=bdu.ModifierManager())
-    assert existing_nodes.existing.bdDblAdd(
+    assert existing_nodes.existing.bdDbl_Add(
         "fixed"
     ).output.get() == pytest.approx(7.0)
-    assert existing_nodes.existing.bdDblAddMulti(
+    assert existing_nodes.existing.bdDbl_AddMulti(
         "multi"
     ).output.get() == pytest.approx(7.0)

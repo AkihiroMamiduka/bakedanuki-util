@@ -1,8 +1,8 @@
 # coding: utf-8
-from ._generated.mash_breakout import GeneratedMASH_Breakout
+from ._generated.mash_breakout import GeneratedMASHBreakout
 
 
-class MASH_Breakout(GeneratedMASH_Breakout):
+class MASHBreakout(GeneratedMASHBreakout):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Breakout"

@@ -40,7 +40,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
         BdDblLerp,
     )
 
-    assert BdDblLerp.NODE_TYPE == "bdDblLerp"
+    assert BdDblLerp.NODE_TYPE == "bdDbl_Lerp"
     assert BdDblLerp.input1.long_name == "input1"
     assert BdDblLerp.i2.short_name == "i2"
     assert BdDblLerp.weight.long_name == "weight"
@@ -48,7 +48,7 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDblLerp.output.long_name == "output"
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblLerp()
+    node = nodes.create.bdDbl_Lerp()
     modifier_manager.do_it_dg()
 
     assert node.input1.get() == pytest.approx(0.0)
@@ -81,7 +81,7 @@ def test_interpolates_between_inputs(
     _load_bd_util_nodes(maya_cmds)
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblLerp(name="lerp")
+    node = nodes.create.bdDbl_Lerp(name="lerp")
     node.input1.set(10.0)
     node.input2.set(20.0)
     node.weight.set(weight)
@@ -101,7 +101,7 @@ def test_connected_weight_is_clamped(
 ):
     _load_bd_util_nodes(maya_cmds)
 
-    node = maya_cmds.createNode("bdDblLerp")
+    node = maya_cmds.createNode("bdDbl_Lerp")
     source = maya_cmds.createNode("network")
     maya_cmds.addAttr(source, longName="weight", attributeType="double")
     maya_cmds.setAttr(f"{node}.input1", 10.0)
@@ -123,7 +123,7 @@ def test_dirty_updates_match_in_all_evaluation_modes(
     previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
     try:
         maya_cmds.evaluationManager(mode=evaluation_mode)
-        node = maya_cmds.createNode("bdDblLerp")
+        node = maya_cmds.createNode("bdDbl_Lerp")
         maya_cmds.setAttr(f"{node}.input1", 4.0)
         maya_cmds.setAttr(f"{node}.input2", 12.0)
         maya_cmds.setAttr(f"{node}.weight", 0.25)

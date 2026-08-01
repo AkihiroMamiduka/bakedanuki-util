@@ -212,7 +212,7 @@ class ScaleMapDirectionEnumField(
     PLUG_CLS = ScaleMapDirectionEnumPlugOperator
 
 
-class GeneratedMASH_Strength(DG):
+class GeneratedMASHStrength(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Strength"

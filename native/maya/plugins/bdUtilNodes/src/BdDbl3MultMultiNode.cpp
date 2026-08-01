@@ -11,7 +11,7 @@
 #include "bdUtilNodes/Double3Attribute.h"
 #include "bdUtilNodes/NumericAttribute.h"
 
-const MString BdDbl3MultMultiNode::typeName("bdDbl3MultMulti");
+const MString BdDbl3MultMultiNode::typeName("bdDbl3_MultMulti");
 const MTypeId BdDbl3MultMultiNode::typeId(0x0007F001);
 
 MObject BdDbl3MultMultiNode::input;

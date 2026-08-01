@@ -92,7 +92,7 @@ class TransformationSpaceEnumField(
     PLUG_CLS = TransformationSpaceEnumPlugOperator
 
 
-class GeneratedMASH_Random(DG):
+class GeneratedMASHRandom(DG):
     __slots__ = ()
 
     NODE_TYPE = "MASH_Random"
