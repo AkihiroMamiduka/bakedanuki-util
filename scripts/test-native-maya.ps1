@@ -33,22 +33,22 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 
 & $mayapy -m pytest `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_add_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_div_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_mult_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_sub_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_add_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_div_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_mult_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_sub_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_pow_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_pow_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_lerp_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_lerp_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_wt_add_double3.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_wt_add_double.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double3_value.py") `
-    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_value.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_add.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_div.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_mult.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_sub.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_add.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_div.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_mult.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_sub.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_pow.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_pow.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_lerp.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_lerp.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_wt_add.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_wt_add.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_value.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_value.py") `
     (Join-Path $repoRoot "tests\dev\maya\node\operator\node\test_generate_existing_node_stub.py")
 if ($LASTEXITCODE -ne 0) {
     throw "Native Maya tests failed with exit code $LASTEXITCODE."

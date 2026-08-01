@@ -341,32 +341,32 @@ from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
-from .operator.node.dg.bd_add_double3_multi import BdAddDouble3Multi
-from .operator.node.dg.bd_add_double3_pair import BdAddDouble3Pair
-from .operator.node.dg.bd_add_double_multi import BdAddDoubleMulti
-from .operator.node.dg.bd_add_double_pair import BdAddDoublePair
-from .operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
-from .operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
-from .operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
-from .operator.node.dg.bd_div_double_pair import BdDivDoublePair
-from .operator.node.dg.bd_double3_value import BdDouble3Value
-from .operator.node.dg.bd_double_value import BdDoubleValue
-from .operator.node.dg.bd_lerp_double3_pair import BdLerpDouble3Pair
-from .operator.node.dg.bd_lerp_double_pair import BdLerpDoublePair
-from .operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
-from .operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
-from .operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
-from .operator.node.dg.bd_mult_double_pair import BdMultDoublePair
-from .operator.node.dg.bd_pow_double3_multi import BdPowDouble3Multi
-from .operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
-from .operator.node.dg.bd_pow_double_multi import BdPowDoubleMulti
-from .operator.node.dg.bd_pow_double_pair import BdPowDoublePair
-from .operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
-from .operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
-from .operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
-from .operator.node.dg.bd_sub_double_pair import BdSubDoublePair
-from .operator.node.dg.bd_wt_add_double3_multi import BdWtAddDouble3Multi
-from .operator.node.dg.bd_wt_add_double_multi import BdWtAddDoubleMulti
+from .operator.node.dg.bd_dbl3_add import BdDbl3Add
+from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from .operator.node.dg.bd_dbl3_div import BdDbl3Div
+from .operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
+from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from .operator.node.dg.bd_dbl3_mult import BdDbl3Mult
+from .operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
+from .operator.node.dg.bd_dbl3_pow import BdDbl3Pow
+from .operator.node.dg.bd_dbl3_pow_multi import BdDbl3PowMulti
+from .operator.node.dg.bd_dbl3_sub import BdDbl3Sub
+from .operator.node.dg.bd_dbl3_sub_multi import BdDbl3SubMulti
+from .operator.node.dg.bd_dbl3_value import BdDbl3Value
+from .operator.node.dg.bd_dbl3_wt_add_multi import BdDbl3WtAddMulti
+from .operator.node.dg.bd_dbl_add import BdDblAdd
+from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from .operator.node.dg.bd_dbl_div import BdDblDiv
+from .operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
+from .operator.node.dg.bd_dbl_lerp import BdDblLerp
+from .operator.node.dg.bd_dbl_mult import BdDblMult
+from .operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
+from .operator.node.dg.bd_dbl_pow import BdDblPow
+from .operator.node.dg.bd_dbl_pow_multi import BdDblPowMulti
+from .operator.node.dg.bd_dbl_sub import BdDblSub
+from .operator.node.dg.bd_dbl_sub_multi import BdDblSubMulti
+from .operator.node.dg.bd_dbl_value import BdDblValue
+from .operator.node.dg.bd_dbl_wt_add_multi import BdDblWtAddMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2858,161 +2858,161 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
     @staticmethod
-    def bdAddDouble3Multi(
+    def bdDbl3Add(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdAddDouble3Multi: ...
+    ) -> BdDbl3Add: ...
     @staticmethod
-    def bdAddDouble3Pair(
+    def bdDbl3AddMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdAddDouble3Pair: ...
+    ) -> BdDbl3AddMulti: ...
     @staticmethod
-    def bdAddDoubleMulti(
+    def bdDbl3Div(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdAddDoubleMulti: ...
+    ) -> BdDbl3Div: ...
     @staticmethod
-    def bdAddDoublePair(
+    def bdDbl3DivMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdAddDoublePair: ...
+    ) -> BdDbl3DivMulti: ...
     @staticmethod
-    def bdDivDouble3Multi(
+    def bdDbl3Lerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDivDouble3Multi: ...
+    ) -> BdDbl3Lerp: ...
     @staticmethod
-    def bdDivDouble3Pair(
+    def bdDbl3Mult(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDivDouble3Pair: ...
+    ) -> BdDbl3Mult: ...
     @staticmethod
-    def bdDivDoubleMulti(
+    def bdDbl3MultMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDivDoubleMulti: ...
+    ) -> BdDbl3MultMulti: ...
     @staticmethod
-    def bdDivDoublePair(
+    def bdDbl3Pow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDivDoublePair: ...
+    ) -> BdDbl3Pow: ...
     @staticmethod
-    def bdDouble3Value(
+    def bdDbl3PowMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDouble3Value: ...
+    ) -> BdDbl3PowMulti: ...
     @staticmethod
-    def bdDoubleValue(
+    def bdDbl3Sub(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDoubleValue: ...
+    ) -> BdDbl3Sub: ...
     @staticmethod
-    def bdLerpDouble3Pair(
+    def bdDbl3SubMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdLerpDouble3Pair: ...
+    ) -> BdDbl3SubMulti: ...
     @staticmethod
-    def bdLerpDoublePair(
+    def bdDbl3Value(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdLerpDoublePair: ...
+    ) -> BdDbl3Value: ...
     @staticmethod
-    def bdMultDouble3Multi(
+    def bdDbl3WtAddMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdMultDouble3Multi: ...
+    ) -> BdDbl3WtAddMulti: ...
     @staticmethod
-    def bdMultDouble3Pair(
+    def bdDblAdd(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdMultDouble3Pair: ...
+    ) -> BdDblAdd: ...
     @staticmethod
-    def bdMultDoubleMulti(
+    def bdDblAddMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdMultDoubleMulti: ...
+    ) -> BdDblAddMulti: ...
     @staticmethod
-    def bdMultDoublePair(
+    def bdDblDiv(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdMultDoublePair: ...
+    ) -> BdDblDiv: ...
     @staticmethod
-    def bdPowDouble3Multi(
+    def bdDblDivMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdPowDouble3Multi: ...
+    ) -> BdDblDivMulti: ...
     @staticmethod
-    def bdPowDouble3Pair(
+    def bdDblLerp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdPowDouble3Pair: ...
+    ) -> BdDblLerp: ...
     @staticmethod
-    def bdPowDoubleMulti(
+    def bdDblMult(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdPowDoubleMulti: ...
+    ) -> BdDblMult: ...
     @staticmethod
-    def bdPowDoublePair(
+    def bdDblMultMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdPowDoublePair: ...
+    ) -> BdDblMultMulti: ...
     @staticmethod
-    def bdSubDouble3Multi(
+    def bdDblPow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdSubDouble3Multi: ...
+    ) -> BdDblPow: ...
     @staticmethod
-    def bdSubDouble3Pair(
+    def bdDblPowMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdSubDouble3Pair: ...
+    ) -> BdDblPowMulti: ...
     @staticmethod
-    def bdSubDoubleMulti(
+    def bdDblSub(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdSubDoubleMulti: ...
+    ) -> BdDblSub: ...
     @staticmethod
-    def bdSubDoublePair(
+    def bdDblSubMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdSubDoublePair: ...
+    ) -> BdDblSubMulti: ...
     @staticmethod
-    def bdWtAddDouble3Multi(
+    def bdDblValue(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdWtAddDouble3Multi: ...
+    ) -> BdDblValue: ...
     @staticmethod
-    def bdWtAddDoubleMulti(
+    def bdDblWtAddMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdWtAddDoubleMulti: ...
+    ) -> BdDblWtAddMulti: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,

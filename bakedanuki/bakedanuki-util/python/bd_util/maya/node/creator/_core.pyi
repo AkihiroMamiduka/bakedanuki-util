@@ -265,32 +265,32 @@ from ..operator.node.dg.avg_surface_points import AvgSurfacePoints
 from ..operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from ..operator.node.dg.axis_from_matrix import AxisFromMatrix
 from ..operator.node.dg.basic_selector import BasicSelector
-from ..operator.node.dg.bd_add_double3_pair import BdAddDouble3Pair
-from ..operator.node.dg.bd_add_double3_multi import BdAddDouble3Multi
-from ..operator.node.dg.bd_div_double3_pair import BdDivDouble3Pair
-from ..operator.node.dg.bd_div_double3_multi import BdDivDouble3Multi
-from ..operator.node.dg.bd_double3_value import BdDouble3Value
-from ..operator.node.dg.bd_lerp_double3_pair import BdLerpDouble3Pair
-from ..operator.node.dg.bd_mult_double3_pair import BdMultDouble3Pair
-from ..operator.node.dg.bd_mult_double3_multi import BdMultDouble3Multi
-from ..operator.node.dg.bd_pow_double3_pair import BdPowDouble3Pair
-from ..operator.node.dg.bd_pow_double3_multi import BdPowDouble3Multi
-from ..operator.node.dg.bd_sub_double3_pair import BdSubDouble3Pair
-from ..operator.node.dg.bd_sub_double3_multi import BdSubDouble3Multi
-from ..operator.node.dg.bd_wt_add_double3_multi import BdWtAddDouble3Multi
-from ..operator.node.dg.bd_add_double_pair import BdAddDoublePair
-from ..operator.node.dg.bd_add_double_multi import BdAddDoubleMulti
-from ..operator.node.dg.bd_div_double_pair import BdDivDoublePair
-from ..operator.node.dg.bd_div_double_multi import BdDivDoubleMulti
-from ..operator.node.dg.bd_double_value import BdDoubleValue
-from ..operator.node.dg.bd_lerp_double_pair import BdLerpDoublePair
-from ..operator.node.dg.bd_mult_double_pair import BdMultDoublePair
-from ..operator.node.dg.bd_mult_double_multi import BdMultDoubleMulti
-from ..operator.node.dg.bd_pow_double_pair import BdPowDoublePair
-from ..operator.node.dg.bd_pow_double_multi import BdPowDoubleMulti
-from ..operator.node.dg.bd_sub_double_pair import BdSubDoublePair
-from ..operator.node.dg.bd_sub_double_multi import BdSubDoubleMulti
-from ..operator.node.dg.bd_wt_add_double_multi import BdWtAddDoubleMulti
+from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
+from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from ..operator.node.dg.bd_dbl3_div import BdDbl3Div
+from ..operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
+from ..operator.node.dg.bd_dbl3_value import BdDbl3Value
+from ..operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from ..operator.node.dg.bd_dbl3_mult import BdDbl3Mult
+from ..operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
+from ..operator.node.dg.bd_dbl3_pow import BdDbl3Pow
+from ..operator.node.dg.bd_dbl3_pow_multi import BdDbl3PowMulti
+from ..operator.node.dg.bd_dbl3_sub import BdDbl3Sub
+from ..operator.node.dg.bd_dbl3_sub_multi import BdDbl3SubMulti
+from ..operator.node.dg.bd_dbl3_wt_add_multi import BdDbl3WtAddMulti
+from ..operator.node.dg.bd_dbl_add import BdDblAdd
+from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from ..operator.node.dg.bd_dbl_div import BdDblDiv
+from ..operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
+from ..operator.node.dg.bd_dbl_value import BdDblValue
+from ..operator.node.dg.bd_dbl_lerp import BdDblLerp
+from ..operator.node.dg.bd_dbl_mult import BdDblMult
+from ..operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
+from ..operator.node.dg.bd_dbl_pow import BdDblPow
+from ..operator.node.dg.bd_dbl_pow_multi import BdDblPowMulti
+from ..operator.node.dg.bd_dbl_sub import BdDblSub
+from ..operator.node.dg.bd_dbl_sub_multi import BdDblSubMulti
+from ..operator.node.dg.bd_dbl_wt_add_multi import BdDblWtAddMulti
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
 from ..operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2227,136 +2227,136 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BasicSelector: ...
-    def bdAddDouble3Pair(
+    def bdDbl3Add(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdAddDouble3Pair: ...
-    def bdAddDouble3Multi(
+    ) -> BdDbl3Add: ...
+    def bdDbl3AddMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdAddDouble3Multi: ...
-    def bdDivDouble3Pair(
+    ) -> BdDbl3AddMulti: ...
+    def bdDbl3Div(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDivDouble3Pair: ...
-    def bdDivDouble3Multi(
+    ) -> BdDbl3Div: ...
+    def bdDbl3DivMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDivDouble3Multi: ...
-    def bdDouble3Value(
+    ) -> BdDbl3DivMulti: ...
+    def bdDbl3Value(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDouble3Value: ...
-    def bdLerpDouble3Pair(
+    ) -> BdDbl3Value: ...
+    def bdDbl3Lerp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdLerpDouble3Pair: ...
-    def bdMultDouble3Pair(
+    ) -> BdDbl3Lerp: ...
+    def bdDbl3Mult(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdMultDouble3Pair: ...
-    def bdMultDouble3Multi(
+    ) -> BdDbl3Mult: ...
+    def bdDbl3MultMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdMultDouble3Multi: ...
-    def bdPowDouble3Pair(
+    ) -> BdDbl3MultMulti: ...
+    def bdDbl3Pow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdPowDouble3Pair: ...
-    def bdPowDouble3Multi(
+    ) -> BdDbl3Pow: ...
+    def bdDbl3PowMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdPowDouble3Multi: ...
-    def bdSubDouble3Pair(
+    ) -> BdDbl3PowMulti: ...
+    def bdDbl3Sub(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdSubDouble3Pair: ...
-    def bdSubDouble3Multi(
+    ) -> BdDbl3Sub: ...
+    def bdDbl3SubMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdSubDouble3Multi: ...
-    def bdWtAddDouble3Multi(
+    ) -> BdDbl3SubMulti: ...
+    def bdDbl3WtAddMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdWtAddDouble3Multi: ...
-    def bdAddDoublePair(
+    ) -> BdDbl3WtAddMulti: ...
+    def bdDblAdd(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdAddDoublePair: ...
-    def bdAddDoubleMulti(
+    ) -> BdDblAdd: ...
+    def bdDblAddMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdAddDoubleMulti: ...
-    def bdDivDoublePair(
+    ) -> BdDblAddMulti: ...
+    def bdDblDiv(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDivDoublePair: ...
-    def bdDivDoubleMulti(
+    ) -> BdDblDiv: ...
+    def bdDblDivMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDivDoubleMulti: ...
-    def bdDoubleValue(
+    ) -> BdDblDivMulti: ...
+    def bdDblValue(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDoubleValue: ...
-    def bdLerpDoublePair(
+    ) -> BdDblValue: ...
+    def bdDblLerp(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdLerpDoublePair: ...
-    def bdMultDoublePair(
+    ) -> BdDblLerp: ...
+    def bdDblMult(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdMultDoublePair: ...
-    def bdMultDoubleMulti(
+    ) -> BdDblMult: ...
+    def bdDblMultMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdMultDoubleMulti: ...
-    def bdPowDoublePair(
+    ) -> BdDblMultMulti: ...
+    def bdDblPow(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdPowDoublePair: ...
-    def bdPowDoubleMulti(
+    ) -> BdDblPow: ...
+    def bdDblPowMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdPowDoubleMulti: ...
-    def bdSubDoublePair(
+    ) -> BdDblPowMulti: ...
+    def bdDblSub(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdSubDoublePair: ...
-    def bdSubDoubleMulti(
+    ) -> BdDblSub: ...
+    def bdDblSubMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdSubDoubleMulti: ...
-    def bdWtAddDoubleMulti(
+    ) -> BdDblSubMulti: ...
+    def bdDblWtAddMulti(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdWtAddDoubleMulti: ...
+    ) -> BdDblWtAddMulti: ...
     def bevel(
         self,
         name: str | None = None,

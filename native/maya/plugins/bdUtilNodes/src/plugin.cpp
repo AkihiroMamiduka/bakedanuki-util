@@ -4,32 +4,32 @@
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
-#include "bdUtilNodes/BdAddDouble3PairNode.h"
-#include "bdUtilNodes/BdAddDouble3MultiNode.h"
-#include "bdUtilNodes/BdDivDouble3PairNode.h"
-#include "bdUtilNodes/BdDivDouble3MultiNode.h"
-#include "bdUtilNodes/BdLerpDouble3PairNode.h"
-#include "bdUtilNodes/BdLerpDoublePairNode.h"
-#include "bdUtilNodes/BdMultDouble3PairNode.h"
-#include "bdUtilNodes/BdMultDouble3MultiNode.h"
-#include "bdUtilNodes/BdPowDouble3PairNode.h"
-#include "bdUtilNodes/BdPowDouble3MultiNode.h"
-#include "bdUtilNodes/BdSubDouble3PairNode.h"
-#include "bdUtilNodes/BdSubDouble3MultiNode.h"
-#include "bdUtilNodes/BdAddDoublePairNode.h"
-#include "bdUtilNodes/BdAddDoubleMultiNode.h"
-#include "bdUtilNodes/BdDivDoublePairNode.h"
-#include "bdUtilNodes/BdDivDoubleMultiNode.h"
-#include "bdUtilNodes/BdDouble3ValueNode.h"
-#include "bdUtilNodes/BdDoubleValueNode.h"
-#include "bdUtilNodes/BdMultDoublePairNode.h"
-#include "bdUtilNodes/BdMultDoubleMultiNode.h"
-#include "bdUtilNodes/BdPowDoublePairNode.h"
-#include "bdUtilNodes/BdPowDoubleMultiNode.h"
-#include "bdUtilNodes/BdSubDoublePairNode.h"
-#include "bdUtilNodes/BdSubDoubleMultiNode.h"
-#include "bdUtilNodes/BdWtAddDouble3MultiNode.h"
-#include "bdUtilNodes/BdWtAddDoubleMultiNode.h"
+#include "bdUtilNodes/BdDbl3AddNode.h"
+#include "bdUtilNodes/BdDbl3AddMultiNode.h"
+#include "bdUtilNodes/BdDbl3DivNode.h"
+#include "bdUtilNodes/BdDbl3DivMultiNode.h"
+#include "bdUtilNodes/BdDbl3LerpNode.h"
+#include "bdUtilNodes/BdDblLerpNode.h"
+#include "bdUtilNodes/BdDbl3MultNode.h"
+#include "bdUtilNodes/BdDbl3MultMultiNode.h"
+#include "bdUtilNodes/BdDbl3PowNode.h"
+#include "bdUtilNodes/BdDbl3PowMultiNode.h"
+#include "bdUtilNodes/BdDbl3SubNode.h"
+#include "bdUtilNodes/BdDbl3SubMultiNode.h"
+#include "bdUtilNodes/BdDblAddNode.h"
+#include "bdUtilNodes/BdDblAddMultiNode.h"
+#include "bdUtilNodes/BdDblDivNode.h"
+#include "bdUtilNodes/BdDblDivMultiNode.h"
+#include "bdUtilNodes/BdDbl3ValueNode.h"
+#include "bdUtilNodes/BdDblValueNode.h"
+#include "bdUtilNodes/BdDblMultNode.h"
+#include "bdUtilNodes/BdDblMultMultiNode.h"
+#include "bdUtilNodes/BdDblPowNode.h"
+#include "bdUtilNodes/BdDblPowMultiNode.h"
+#include "bdUtilNodes/BdDblSubNode.h"
+#include "bdUtilNodes/BdDblSubMultiNode.h"
+#include "bdUtilNodes/BdDbl3WtAddMultiNode.h"
+#include "bdUtilNodes/BdDblWtAddMultiNode.h"
 
 namespace {
 
@@ -43,160 +43,160 @@ struct NodeRegistration {
 const std::array<NodeRegistration, 26>& nodeRegistrations() {
     static const std::array<NodeRegistration, 26> registrations = {{
         {
-            BdMultDouble3MultiNode::typeName,
-            BdMultDouble3MultiNode::typeId,
-            BdMultDouble3MultiNode::creator,
-            BdMultDouble3MultiNode::initialize,
+            BdDbl3MultMultiNode::typeName,
+            BdDbl3MultMultiNode::typeId,
+            BdDbl3MultMultiNode::creator,
+            BdDbl3MultMultiNode::initialize,
         },
         {
-            BdMultDouble3PairNode::typeName,
-            BdMultDouble3PairNode::typeId,
-            BdMultDouble3PairNode::creator,
-            BdMultDouble3PairNode::initialize,
+            BdDbl3MultNode::typeName,
+            BdDbl3MultNode::typeId,
+            BdDbl3MultNode::creator,
+            BdDbl3MultNode::initialize,
         },
         {
-            BdMultDoubleMultiNode::typeName,
-            BdMultDoubleMultiNode::typeId,
-            BdMultDoubleMultiNode::creator,
-            BdMultDoubleMultiNode::initialize,
+            BdDblMultMultiNode::typeName,
+            BdDblMultMultiNode::typeId,
+            BdDblMultMultiNode::creator,
+            BdDblMultMultiNode::initialize,
         },
         {
-            BdMultDoublePairNode::typeName,
-            BdMultDoublePairNode::typeId,
-            BdMultDoublePairNode::creator,
-            BdMultDoublePairNode::initialize,
+            BdDblMultNode::typeName,
+            BdDblMultNode::typeId,
+            BdDblMultNode::creator,
+            BdDblMultNode::initialize,
         },
         {
-            BdAddDouble3MultiNode::typeName,
-            BdAddDouble3MultiNode::typeId,
-            BdAddDouble3MultiNode::creator,
-            BdAddDouble3MultiNode::initialize,
+            BdDbl3AddMultiNode::typeName,
+            BdDbl3AddMultiNode::typeId,
+            BdDbl3AddMultiNode::creator,
+            BdDbl3AddMultiNode::initialize,
         },
         {
-            BdAddDouble3PairNode::typeName,
-            BdAddDouble3PairNode::typeId,
-            BdAddDouble3PairNode::creator,
-            BdAddDouble3PairNode::initialize,
+            BdDbl3AddNode::typeName,
+            BdDbl3AddNode::typeId,
+            BdDbl3AddNode::creator,
+            BdDbl3AddNode::initialize,
         },
         {
-            BdAddDoubleMultiNode::typeName,
-            BdAddDoubleMultiNode::typeId,
-            BdAddDoubleMultiNode::creator,
-            BdAddDoubleMultiNode::initialize,
+            BdDblAddMultiNode::typeName,
+            BdDblAddMultiNode::typeId,
+            BdDblAddMultiNode::creator,
+            BdDblAddMultiNode::initialize,
         },
         {
-            BdAddDoublePairNode::typeName,
-            BdAddDoublePairNode::typeId,
-            BdAddDoublePairNode::creator,
-            BdAddDoublePairNode::initialize,
+            BdDblAddNode::typeName,
+            BdDblAddNode::typeId,
+            BdDblAddNode::creator,
+            BdDblAddNode::initialize,
         },
         {
-            BdSubDouble3MultiNode::typeName,
-            BdSubDouble3MultiNode::typeId,
-            BdSubDouble3MultiNode::creator,
-            BdSubDouble3MultiNode::initialize,
+            BdDbl3SubMultiNode::typeName,
+            BdDbl3SubMultiNode::typeId,
+            BdDbl3SubMultiNode::creator,
+            BdDbl3SubMultiNode::initialize,
         },
         {
-            BdSubDouble3PairNode::typeName,
-            BdSubDouble3PairNode::typeId,
-            BdSubDouble3PairNode::creator,
-            BdSubDouble3PairNode::initialize,
+            BdDbl3SubNode::typeName,
+            BdDbl3SubNode::typeId,
+            BdDbl3SubNode::creator,
+            BdDbl3SubNode::initialize,
         },
         {
-            BdSubDoubleMultiNode::typeName,
-            BdSubDoubleMultiNode::typeId,
-            BdSubDoubleMultiNode::creator,
-            BdSubDoubleMultiNode::initialize,
+            BdDblSubMultiNode::typeName,
+            BdDblSubMultiNode::typeId,
+            BdDblSubMultiNode::creator,
+            BdDblSubMultiNode::initialize,
         },
         {
-            BdSubDoublePairNode::typeName,
-            BdSubDoublePairNode::typeId,
-            BdSubDoublePairNode::creator,
-            BdSubDoublePairNode::initialize,
+            BdDblSubNode::typeName,
+            BdDblSubNode::typeId,
+            BdDblSubNode::creator,
+            BdDblSubNode::initialize,
         },
         {
-            BdDivDouble3MultiNode::typeName,
-            BdDivDouble3MultiNode::typeId,
-            BdDivDouble3MultiNode::creator,
-            BdDivDouble3MultiNode::initialize,
+            BdDbl3DivMultiNode::typeName,
+            BdDbl3DivMultiNode::typeId,
+            BdDbl3DivMultiNode::creator,
+            BdDbl3DivMultiNode::initialize,
         },
         {
-            BdDivDouble3PairNode::typeName,
-            BdDivDouble3PairNode::typeId,
-            BdDivDouble3PairNode::creator,
-            BdDivDouble3PairNode::initialize,
+            BdDbl3DivNode::typeName,
+            BdDbl3DivNode::typeId,
+            BdDbl3DivNode::creator,
+            BdDbl3DivNode::initialize,
         },
         {
-            BdDivDoubleMultiNode::typeName,
-            BdDivDoubleMultiNode::typeId,
-            BdDivDoubleMultiNode::creator,
-            BdDivDoubleMultiNode::initialize,
+            BdDblDivMultiNode::typeName,
+            BdDblDivMultiNode::typeId,
+            BdDblDivMultiNode::creator,
+            BdDblDivMultiNode::initialize,
         },
         {
-            BdDivDoublePairNode::typeName,
-            BdDivDoublePairNode::typeId,
-            BdDivDoublePairNode::creator,
-            BdDivDoublePairNode::initialize,
+            BdDblDivNode::typeName,
+            BdDblDivNode::typeId,
+            BdDblDivNode::creator,
+            BdDblDivNode::initialize,
         },
         {
-            BdPowDouble3MultiNode::typeName,
-            BdPowDouble3MultiNode::typeId,
-            BdPowDouble3MultiNode::creator,
-            BdPowDouble3MultiNode::initialize,
+            BdDbl3PowMultiNode::typeName,
+            BdDbl3PowMultiNode::typeId,
+            BdDbl3PowMultiNode::creator,
+            BdDbl3PowMultiNode::initialize,
         },
         {
-            BdPowDouble3PairNode::typeName,
-            BdPowDouble3PairNode::typeId,
-            BdPowDouble3PairNode::creator,
-            BdPowDouble3PairNode::initialize,
+            BdDbl3PowNode::typeName,
+            BdDbl3PowNode::typeId,
+            BdDbl3PowNode::creator,
+            BdDbl3PowNode::initialize,
         },
         {
-            BdPowDoubleMultiNode::typeName,
-            BdPowDoubleMultiNode::typeId,
-            BdPowDoubleMultiNode::creator,
-            BdPowDoubleMultiNode::initialize,
+            BdDblPowMultiNode::typeName,
+            BdDblPowMultiNode::typeId,
+            BdDblPowMultiNode::creator,
+            BdDblPowMultiNode::initialize,
         },
         {
-            BdPowDoublePairNode::typeName,
-            BdPowDoublePairNode::typeId,
-            BdPowDoublePairNode::creator,
-            BdPowDoublePairNode::initialize,
+            BdDblPowNode::typeName,
+            BdDblPowNode::typeId,
+            BdDblPowNode::creator,
+            BdDblPowNode::initialize,
         },
         {
-            BdLerpDouble3PairNode::typeName,
-            BdLerpDouble3PairNode::typeId,
-            BdLerpDouble3PairNode::creator,
-            BdLerpDouble3PairNode::initialize,
+            BdDbl3LerpNode::typeName,
+            BdDbl3LerpNode::typeId,
+            BdDbl3LerpNode::creator,
+            BdDbl3LerpNode::initialize,
         },
         {
-            BdLerpDoublePairNode::typeName,
-            BdLerpDoublePairNode::typeId,
-            BdLerpDoublePairNode::creator,
-            BdLerpDoublePairNode::initialize,
+            BdDblLerpNode::typeName,
+            BdDblLerpNode::typeId,
+            BdDblLerpNode::creator,
+            BdDblLerpNode::initialize,
         },
         {
-            BdWtAddDouble3MultiNode::typeName,
-            BdWtAddDouble3MultiNode::typeId,
-            BdWtAddDouble3MultiNode::creator,
-            BdWtAddDouble3MultiNode::initialize,
+            BdDbl3WtAddMultiNode::typeName,
+            BdDbl3WtAddMultiNode::typeId,
+            BdDbl3WtAddMultiNode::creator,
+            BdDbl3WtAddMultiNode::initialize,
         },
         {
-            BdWtAddDoubleMultiNode::typeName,
-            BdWtAddDoubleMultiNode::typeId,
-            BdWtAddDoubleMultiNode::creator,
-            BdWtAddDoubleMultiNode::initialize,
+            BdDblWtAddMultiNode::typeName,
+            BdDblWtAddMultiNode::typeId,
+            BdDblWtAddMultiNode::creator,
+            BdDblWtAddMultiNode::initialize,
         },
         {
-            BdDoubleValueNode::typeName,
-            BdDoubleValueNode::typeId,
-            BdDoubleValueNode::creator,
-            BdDoubleValueNode::initialize,
+            BdDblValueNode::typeName,
+            BdDblValueNode::typeId,
+            BdDblValueNode::creator,
+            BdDblValueNode::initialize,
         },
         {
-            BdDouble3ValueNode::typeName,
-            BdDouble3ValueNode::typeId,
-            BdDouble3ValueNode::creator,
-            BdDouble3ValueNode::initialize,
+            BdDbl3ValueNode::typeName,
+            BdDbl3ValueNode::typeId,
+            BdDbl3ValueNode::creator,
+            BdDbl3ValueNode::initialize,
         },
     }};
     return registrations;

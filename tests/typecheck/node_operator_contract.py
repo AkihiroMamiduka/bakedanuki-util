@@ -4,7 +4,7 @@ import bd_util as bdu
 from maya.api import OpenMaya as om
 
 from bd_util.maya.node.operator.attr import KeyframeManager
-from bd_util.maya.node.operator.attr.define.node_attr.bd_add_double3_pair import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add import (
     Input1AttrOperator as AddInput1AttrOperator,
     Input1PlugOperator as AddInput1PlugOperator,
     Input2AttrOperator as AddInput2AttrOperator,
@@ -12,13 +12,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_add_double3_pair import
     OutputAttrOperator as AddOutputAttrOperator,
     OutputPlugOperator as AddOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_add_double3_multi import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add_multi import (
     InputAttrOperator as AddMultiInputAttrOperator,
     InputPlugOperator as AddMultiInputPlugOperator,
     OutputAttrOperator as AddMultiOutputAttrOperator,
     OutputPlugOperator as AddMultiOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_div_double3_pair import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_div import (
     Input1AttrOperator as DivInput1AttrOperator,
     Input1PlugOperator as DivInput1PlugOperator,
     Input2AttrOperator as DivInput2AttrOperator,
@@ -26,17 +26,17 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_div_double3_pair import
     OutputAttrOperator as DivOutputAttrOperator,
     OutputPlugOperator as DivOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_div_double3_multi import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_div_multi import (
     InputAttrOperator as DivMultiInputAttrOperator,
     InputPlugOperator as DivMultiInputPlugOperator,
     OutputAttrOperator as DivMultiOutputAttrOperator,
     OutputPlugOperator as DivMultiOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_double3_value import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_value import (
     ValueAttrOperator as Double3ValueAttrOperator,
     ValuePlugOperator as Double3ValuePlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_mult_double3_pair import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_mult import (
     Input1AttrOperator,
     Input1PlugOperator,
     Input2AttrOperator,
@@ -44,13 +44,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_mult_double3_pair impor
     OutputAttrOperator as FixedOutputAttrOperator,
     OutputPlugOperator as FixedOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_mult_double3_multi import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_mult_multi import (
     InputAttrOperator as MultiInputAttrOperator,
     InputPlugOperator as MultiInputPlugOperator,
     OutputAttrOperator as MultiOutputAttrOperator,
     OutputPlugOperator as MultiOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_pow_double3_pair import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_pow import (
     Input1AttrOperator as PowInput1AttrOperator,
     Input1PlugOperator as PowInput1PlugOperator,
     Input2AttrOperator as PowInput2AttrOperator,
@@ -58,13 +58,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_pow_double3_pair import
     OutputAttrOperator as PowOutputAttrOperator,
     OutputPlugOperator as PowOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_pow_double3_multi import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_pow_multi import (
     InputAttrOperator as PowMultiInputAttrOperator,
     InputPlugOperator as PowMultiInputPlugOperator,
     OutputAttrOperator as PowMultiOutputAttrOperator,
     OutputPlugOperator as PowMultiOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_sub_double3_pair import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_sub import (
     Input1AttrOperator as SubInput1AttrOperator,
     Input1PlugOperator as SubInput1PlugOperator,
     Input2AttrOperator as SubInput2AttrOperator,
@@ -72,7 +72,7 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_sub_double3_pair import
     OutputAttrOperator as SubOutputAttrOperator,
     OutputPlugOperator as SubOutputPlugOperator,
 )
-from bd_util.maya.node.operator.attr.define.node_attr.bd_sub_double3_multi import (
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_sub_multi import (
     InputAttrOperator as SubMultiInputAttrOperator,
     InputPlugOperator as SubMultiInputPlugOperator,
     OutputAttrOperator as SubMultiOutputAttrOperator,
@@ -111,67 +111,67 @@ from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
     InputRotateOrderEnumPlugOperator,
     InputRotateOrderEnumField,
 )
-from bd_util.maya.node.operator.node.dg.bd_add_double3_pair import (
-    BdAddDouble3Pair,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_add import (
+    BdDbl3Add,
 )
-from bd_util.maya.node.operator.node.dg.bd_add_double3_multi import (
-    BdAddDouble3Multi,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_add_multi import (
+    BdDbl3AddMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_div_double3_pair import (
-    BdDivDouble3Pair,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_div import (
+    BdDbl3Div,
 )
-from bd_util.maya.node.operator.node.dg.bd_div_double3_multi import (
-    BdDivDouble3Multi,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_div_multi import (
+    BdDbl3DivMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_double3_value import BdDouble3Value
-from bd_util.maya.node.operator.node.dg.bd_mult_double3_pair import (
-    BdMultDouble3Pair,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_value import BdDbl3Value
+from bd_util.maya.node.operator.node.dg.bd_dbl3_mult import (
+    BdDbl3Mult,
 )
-from bd_util.maya.node.operator.node.dg.bd_mult_double3_multi import (
-    BdMultDouble3Multi,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_mult_multi import (
+    BdDbl3MultMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_pow_double3_pair import (
-    BdPowDouble3Pair,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_pow import (
+    BdDbl3Pow,
 )
-from bd_util.maya.node.operator.node.dg.bd_pow_double3_multi import (
-    BdPowDouble3Multi,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_pow_multi import (
+    BdDbl3PowMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_sub_double3_pair import (
-    BdSubDouble3Pair,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_sub import (
+    BdDbl3Sub,
 )
-from bd_util.maya.node.operator.node.dg.bd_sub_double3_multi import (
-    BdSubDouble3Multi,
+from bd_util.maya.node.operator.node.dg.bd_dbl3_sub_multi import (
+    BdDbl3SubMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_mult_double_pair import (
-    BdMultDoublePair,
+from bd_util.maya.node.operator.node.dg.bd_dbl_mult import (
+    BdDblMult,
 )
-from bd_util.maya.node.operator.node.dg.bd_mult_double_multi import (
-    BdMultDoubleMulti,
+from bd_util.maya.node.operator.node.dg.bd_dbl_mult_multi import (
+    BdDblMultMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_pow_double_pair import (
-    BdPowDoublePair,
+from bd_util.maya.node.operator.node.dg.bd_dbl_pow import (
+    BdDblPow,
 )
-from bd_util.maya.node.operator.node.dg.bd_pow_double_multi import (
-    BdPowDoubleMulti,
+from bd_util.maya.node.operator.node.dg.bd_dbl_pow_multi import (
+    BdDblPowMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_add_double_pair import (
-    BdAddDoublePair,
+from bd_util.maya.node.operator.node.dg.bd_dbl_add import (
+    BdDblAdd,
 )
-from bd_util.maya.node.operator.node.dg.bd_add_double_multi import (
-    BdAddDoubleMulti,
+from bd_util.maya.node.operator.node.dg.bd_dbl_add_multi import (
+    BdDblAddMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_div_double_pair import (
-    BdDivDoublePair,
+from bd_util.maya.node.operator.node.dg.bd_dbl_div import (
+    BdDblDiv,
 )
-from bd_util.maya.node.operator.node.dg.bd_div_double_multi import (
-    BdDivDoubleMulti,
+from bd_util.maya.node.operator.node.dg.bd_dbl_div_multi import (
+    BdDblDivMulti,
 )
-from bd_util.maya.node.operator.node.dg.bd_double_value import BdDoubleValue
-from bd_util.maya.node.operator.node.dg.bd_sub_double_pair import (
-    BdSubDoublePair,
+from bd_util.maya.node.operator.node.dg.bd_dbl_value import BdDblValue
+from bd_util.maya.node.operator.node.dg.bd_dbl_sub import (
+    BdDblSub,
 )
-from bd_util.maya.node.operator.node.dg.bd_sub_double_multi import (
-    BdSubDoubleMulti,
+from bd_util.maya.node.operator.node.dg.bd_dbl_sub_multi import (
+    BdDblSubMulti,
 )
 from bd_util.maya.node.operator.node.dg.compose_matrix import ComposeMatrix
 from bd_util.maya.node.operator.node.dg.decompose_matrix import (
@@ -181,234 +181,230 @@ from bd_util.maya.node.operator.node.dg.wt_add_matrix import WtAddMatrix
 
 
 def node_accessor_contract(nodes: bdu.Nodes) -> None:
-    add_fixed = nodes.create.bdAddDouble3Pair(name="add_fixed")
-    assert_type(add_fixed, BdAddDouble3Pair)
+    add_fixed = nodes.create.bdDbl3Add(name="add_fixed")
+    assert_type(add_fixed, BdDbl3Add)
     assert_type(add_fixed.input1, AddInput1PlugOperator)
     assert_type(add_fixed.input2, AddInput2PlugOperator)
     assert_type(add_fixed.output, AddOutputPlugOperator)
     assert_type(add_fixed.output.get(), bdu.Double3)
 
-    add_multi = nodes.create.bdAddDouble3Multi(name="add_multi")
-    assert_type(add_multi, BdAddDouble3Multi)
+    add_multi = nodes.create.bdDbl3AddMulti(name="add_multi")
+    assert_type(add_multi, BdDbl3AddMulti)
     assert_type(add_multi.input, AddMultiInputPlugOperator)
     assert_type(add_multi.input[next], AddMultiInputPlugOperator)
     assert_type(add_multi.output, AddMultiOutputPlugOperator)
     assert_type(add_multi.output.get(), bdu.Double3)
 
-    existing_add_fixed = nodes.existing.bdAddDouble3Pair("existing_add_fixed")
-    assert_type(existing_add_fixed, BdAddDouble3Pair)
-    existing_add_multi = nodes.existing.bdAddDouble3Multi("existing_add_multi")
-    assert_type(existing_add_multi, BdAddDouble3Multi)
+    existing_add_fixed = nodes.existing.bdDbl3Add("existing_add_fixed")
+    assert_type(existing_add_fixed, BdDbl3Add)
+    existing_add_multi = nodes.existing.bdDbl3AddMulti("existing_add_multi")
+    assert_type(existing_add_multi, BdDbl3AddMulti)
 
-    div_fixed = nodes.create.bdDivDouble3Pair(name="div_fixed")
-    assert_type(div_fixed, BdDivDouble3Pair)
+    div_fixed = nodes.create.bdDbl3Div(name="div_fixed")
+    assert_type(div_fixed, BdDbl3Div)
     assert_type(div_fixed.input1, DivInput1PlugOperator)
     assert_type(div_fixed.input2, DivInput2PlugOperator)
     assert_type(div_fixed.output, DivOutputPlugOperator)
     assert_type(div_fixed.output.get(), bdu.Double3)
 
-    div_multi = nodes.create.bdDivDouble3Multi(name="div_multi")
-    assert_type(div_multi, BdDivDouble3Multi)
+    div_multi = nodes.create.bdDbl3DivMulti(name="div_multi")
+    assert_type(div_multi, BdDbl3DivMulti)
     assert_type(div_multi.input, DivMultiInputPlugOperator)
     assert_type(div_multi.input[next], DivMultiInputPlugOperator)
     assert_type(div_multi.output, DivMultiOutputPlugOperator)
     assert_type(div_multi.output.get(), bdu.Double3)
 
-    existing_div_fixed = nodes.existing.bdDivDouble3Pair("existing_div_fixed")
-    assert_type(existing_div_fixed, BdDivDouble3Pair)
-    existing_div_multi = nodes.existing.bdDivDouble3Multi("existing_div_multi")
-    assert_type(existing_div_multi, BdDivDouble3Multi)
+    existing_div_fixed = nodes.existing.bdDbl3Div("existing_div_fixed")
+    assert_type(existing_div_fixed, BdDbl3Div)
+    existing_div_multi = nodes.existing.bdDbl3DivMulti("existing_div_multi")
+    assert_type(existing_div_multi, BdDbl3DivMulti)
 
-    double3_value = nodes.create.bdDouble3Value(name="double3_value")
-    assert_type(double3_value, BdDouble3Value)
+    double3_value = nodes.create.bdDbl3Value(name="double3_value")
+    assert_type(double3_value, BdDbl3Value)
     assert_type(double3_value.value, Double3ValuePlugOperator)
     assert_type(double3_value.value.valueX.get(), float)
     assert_type(double3_value.value.get(), bdu.Double3)
-    existing_double3_value = nodes.existing.bdDouble3Value(
+    existing_double3_value = nodes.existing.bdDbl3Value(
         "existing_double3_value"
     )
-    assert_type(existing_double3_value, BdDouble3Value)
+    assert_type(existing_double3_value, BdDbl3Value)
 
-    pow_fixed = nodes.create.bdPowDouble3Pair(name="pow_fixed")
-    assert_type(pow_fixed, BdPowDouble3Pair)
+    pow_fixed = nodes.create.bdDbl3Pow(name="pow_fixed")
+    assert_type(pow_fixed, BdDbl3Pow)
     assert_type(pow_fixed.input1, PowInput1PlugOperator)
     assert_type(pow_fixed.input2, PowInput2PlugOperator)
     assert_type(pow_fixed.output, PowOutputPlugOperator)
     assert_type(pow_fixed.output.get(), bdu.Double3)
 
-    pow_multi = nodes.create.bdPowDouble3Multi(name="pow_multi")
-    assert_type(pow_multi, BdPowDouble3Multi)
+    pow_multi = nodes.create.bdDbl3PowMulti(name="pow_multi")
+    assert_type(pow_multi, BdDbl3PowMulti)
     assert_type(pow_multi.input, PowMultiInputPlugOperator)
     assert_type(pow_multi.input[next], PowMultiInputPlugOperator)
     assert_type(pow_multi.output, PowMultiOutputPlugOperator)
     assert_type(pow_multi.output.get(), bdu.Double3)
 
-    existing_pow_fixed = nodes.existing.bdPowDouble3Pair("existing_pow_fixed")
-    assert_type(existing_pow_fixed, BdPowDouble3Pair)
-    existing_pow_multi = nodes.existing.bdPowDouble3Multi("existing_pow_multi")
-    assert_type(existing_pow_multi, BdPowDouble3Multi)
+    existing_pow_fixed = nodes.existing.bdDbl3Pow("existing_pow_fixed")
+    assert_type(existing_pow_fixed, BdDbl3Pow)
+    existing_pow_multi = nodes.existing.bdDbl3PowMulti("existing_pow_multi")
+    assert_type(existing_pow_multi, BdDbl3PowMulti)
 
-    sub_fixed = nodes.create.bdSubDouble3Pair(name="sub_fixed")
-    assert_type(sub_fixed, BdSubDouble3Pair)
+    sub_fixed = nodes.create.bdDbl3Sub(name="sub_fixed")
+    assert_type(sub_fixed, BdDbl3Sub)
     assert_type(sub_fixed.input1, SubInput1PlugOperator)
     assert_type(sub_fixed.input2, SubInput2PlugOperator)
     assert_type(sub_fixed.output, SubOutputPlugOperator)
     assert_type(sub_fixed.output.get(), bdu.Double3)
 
-    sub_multi = nodes.create.bdSubDouble3Multi(name="sub_multi")
-    assert_type(sub_multi, BdSubDouble3Multi)
+    sub_multi = nodes.create.bdDbl3SubMulti(name="sub_multi")
+    assert_type(sub_multi, BdDbl3SubMulti)
     assert_type(sub_multi.input, SubMultiInputPlugOperator)
     assert_type(sub_multi.input[next], SubMultiInputPlugOperator)
     assert_type(sub_multi.output, SubMultiOutputPlugOperator)
     assert_type(sub_multi.output.get(), bdu.Double3)
 
-    existing_sub_fixed = nodes.existing.bdSubDouble3Pair("existing_sub_fixed")
-    assert_type(existing_sub_fixed, BdSubDouble3Pair)
-    existing_sub_multi = nodes.existing.bdSubDouble3Multi("existing_sub_multi")
-    assert_type(existing_sub_multi, BdSubDouble3Multi)
+    existing_sub_fixed = nodes.existing.bdDbl3Sub("existing_sub_fixed")
+    assert_type(existing_sub_fixed, BdDbl3Sub)
+    existing_sub_multi = nodes.existing.bdDbl3SubMulti("existing_sub_multi")
+    assert_type(existing_sub_multi, BdDbl3SubMulti)
 
-    fixed = nodes.create.bdMultDouble3Pair(name="fixed")
-    assert_type(fixed, BdMultDouble3Pair)
+    fixed = nodes.create.bdDbl3Mult(name="fixed")
+    assert_type(fixed, BdDbl3Mult)
     assert_type(fixed.input1, Input1PlugOperator)
     assert_type(fixed.input2, Input2PlugOperator)
     assert_type(fixed.output, FixedOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    multi = nodes.create.bdMultDouble3Multi(name="multi")
-    assert_type(multi, BdMultDouble3Multi)
+    multi = nodes.create.bdDbl3MultMulti(name="multi")
+    assert_type(multi, BdDbl3MultMulti)
     assert_type(multi.input, MultiInputPlugOperator)
     assert_type(multi.input[next], MultiInputPlugOperator)
     assert_type(multi.output, MultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
-    existing_fixed = nodes.existing.bdMultDouble3Pair("existing_fixed")
-    assert_type(existing_fixed, BdMultDouble3Pair)
-    existing_multi = nodes.existing.bdMultDouble3Multi("existing_multi")
-    assert_type(existing_multi, BdMultDouble3Multi)
+    existing_fixed = nodes.existing.bdDbl3Mult("existing_fixed")
+    assert_type(existing_fixed, BdDbl3Mult)
+    existing_multi = nodes.existing.bdDbl3MultMulti("existing_multi")
+    assert_type(existing_multi, BdDbl3MultMulti)
 
-    double_fixed = nodes.create.bdMultDoublePair(name="double_fixed")
-    assert_type(double_fixed, BdMultDoublePair)
+    double_fixed = nodes.create.bdDblMult(name="double_fixed")
+    assert_type(double_fixed, BdDblMult)
     assert_type(double_fixed.input1, DoublePlugOperator)
     assert_type(double_fixed.input2, DoublePlugOperator)
     assert_type(double_fixed.output, DoublePlugOperator)
     assert_type(double_fixed.output.get(), float)
 
-    double_multi = nodes.create.bdMultDoubleMulti(name="double_multi")
-    assert_type(double_multi, BdMultDoubleMulti)
+    double_multi = nodes.create.bdDblMultMulti(name="double_multi")
+    assert_type(double_multi, BdDblMultMulti)
     assert_type(double_multi.input, DoublePlugOperator)
     assert_type(double_multi.input[next], DoublePlugOperator)
     assert_type(double_multi.output, DoublePlugOperator)
     assert_type(double_multi.output.get(), float)
 
-    existing_double_fixed = nodes.existing.bdMultDoublePair(
-        "existing_double_fixed"
-    )
-    assert_type(existing_double_fixed, BdMultDoublePair)
-    existing_double_multi = nodes.existing.bdMultDoubleMulti(
+    existing_double_fixed = nodes.existing.bdDblMult("existing_double_fixed")
+    assert_type(existing_double_fixed, BdDblMult)
+    existing_double_multi = nodes.existing.bdDblMultMulti(
         "existing_double_multi"
     )
-    assert_type(existing_double_multi, BdMultDoubleMulti)
+    assert_type(existing_double_multi, BdDblMultMulti)
 
-    double_add_fixed = nodes.create.bdAddDoublePair(name="double_add_fixed")
-    assert_type(double_add_fixed, BdAddDoublePair)
+    double_add_fixed = nodes.create.bdDblAdd(name="double_add_fixed")
+    assert_type(double_add_fixed, BdDblAdd)
     assert_type(double_add_fixed.input1, DoublePlugOperator)
     assert_type(double_add_fixed.input2, DoublePlugOperator)
     assert_type(double_add_fixed.output, DoublePlugOperator)
     assert_type(double_add_fixed.output.get(), float)
 
-    double_add_multi = nodes.create.bdAddDoubleMulti(name="double_add_multi")
-    assert_type(double_add_multi, BdAddDoubleMulti)
+    double_add_multi = nodes.create.bdDblAddMulti(name="double_add_multi")
+    assert_type(double_add_multi, BdDblAddMulti)
     assert_type(double_add_multi.input, DoublePlugOperator)
     assert_type(double_add_multi.input[next], DoublePlugOperator)
     assert_type(double_add_multi.output, DoublePlugOperator)
     assert_type(double_add_multi.output.get(), float)
 
-    existing_double_add_fixed = nodes.existing.bdAddDoublePair(
+    existing_double_add_fixed = nodes.existing.bdDblAdd(
         "existing_double_add_fixed"
     )
-    assert_type(existing_double_add_fixed, BdAddDoublePair)
-    existing_double_add_multi = nodes.existing.bdAddDoubleMulti(
+    assert_type(existing_double_add_fixed, BdDblAdd)
+    existing_double_add_multi = nodes.existing.bdDblAddMulti(
         "existing_double_add_multi"
     )
-    assert_type(existing_double_add_multi, BdAddDoubleMulti)
+    assert_type(existing_double_add_multi, BdDblAddMulti)
 
-    double_div_fixed = nodes.create.bdDivDoublePair(name="double_div_fixed")
-    assert_type(double_div_fixed, BdDivDoublePair)
+    double_div_fixed = nodes.create.bdDblDiv(name="double_div_fixed")
+    assert_type(double_div_fixed, BdDblDiv)
     assert_type(double_div_fixed.input1, DoublePlugOperator)
     assert_type(double_div_fixed.input2, DoublePlugOperator)
     assert_type(double_div_fixed.output, DoublePlugOperator)
     assert_type(double_div_fixed.output.get(), float)
 
-    double_div_multi = nodes.create.bdDivDoubleMulti(name="double_div_multi")
-    assert_type(double_div_multi, BdDivDoubleMulti)
+    double_div_multi = nodes.create.bdDblDivMulti(name="double_div_multi")
+    assert_type(double_div_multi, BdDblDivMulti)
     assert_type(double_div_multi.input, DoublePlugOperator)
     assert_type(double_div_multi.input[next], DoublePlugOperator)
     assert_type(double_div_multi.output, DoublePlugOperator)
     assert_type(double_div_multi.output.get(), float)
 
-    existing_double_div_fixed = nodes.existing.bdDivDoublePair(
+    existing_double_div_fixed = nodes.existing.bdDblDiv(
         "existing_double_div_fixed"
     )
-    assert_type(existing_double_div_fixed, BdDivDoublePair)
-    existing_double_div_multi = nodes.existing.bdDivDoubleMulti(
+    assert_type(existing_double_div_fixed, BdDblDiv)
+    existing_double_div_multi = nodes.existing.bdDblDivMulti(
         "existing_double_div_multi"
     )
-    assert_type(existing_double_div_multi, BdDivDoubleMulti)
+    assert_type(existing_double_div_multi, BdDblDivMulti)
 
-    double_value = nodes.create.bdDoubleValue(name="double_value")
-    assert_type(double_value, BdDoubleValue)
+    double_value = nodes.create.bdDblValue(name="double_value")
+    assert_type(double_value, BdDblValue)
     assert_type(double_value.value, DoublePlugOperator)
     assert_type(double_value.value.get(), float)
-    existing_double_value = nodes.existing.bdDoubleValue(
-        "existing_double_value"
-    )
-    assert_type(existing_double_value, BdDoubleValue)
+    existing_double_value = nodes.existing.bdDblValue("existing_double_value")
+    assert_type(existing_double_value, BdDblValue)
 
-    double_pow_fixed = nodes.create.bdPowDoublePair(name="double_pow_fixed")
-    assert_type(double_pow_fixed, BdPowDoublePair)
+    double_pow_fixed = nodes.create.bdDblPow(name="double_pow_fixed")
+    assert_type(double_pow_fixed, BdDblPow)
     assert_type(double_pow_fixed.input1, DoublePlugOperator)
     assert_type(double_pow_fixed.input2, DoublePlugOperator)
     assert_type(double_pow_fixed.output, DoublePlugOperator)
     assert_type(double_pow_fixed.output.get(), float)
 
-    double_pow_multi = nodes.create.bdPowDoubleMulti(name="double_pow_multi")
-    assert_type(double_pow_multi, BdPowDoubleMulti)
+    double_pow_multi = nodes.create.bdDblPowMulti(name="double_pow_multi")
+    assert_type(double_pow_multi, BdDblPowMulti)
     assert_type(double_pow_multi.input, DoublePlugOperator)
     assert_type(double_pow_multi.input[next], DoublePlugOperator)
     assert_type(double_pow_multi.output, DoublePlugOperator)
     assert_type(double_pow_multi.output.get(), float)
 
-    existing_double_pow_fixed = nodes.existing.bdPowDoublePair(
+    existing_double_pow_fixed = nodes.existing.bdDblPow(
         "existing_double_pow_fixed"
     )
-    assert_type(existing_double_pow_fixed, BdPowDoublePair)
-    existing_double_pow_multi = nodes.existing.bdPowDoubleMulti(
+    assert_type(existing_double_pow_fixed, BdDblPow)
+    existing_double_pow_multi = nodes.existing.bdDblPowMulti(
         "existing_double_pow_multi"
     )
-    assert_type(existing_double_pow_multi, BdPowDoubleMulti)
+    assert_type(existing_double_pow_multi, BdDblPowMulti)
 
-    double_sub_fixed = nodes.create.bdSubDoublePair(name="double_sub_fixed")
-    assert_type(double_sub_fixed, BdSubDoublePair)
+    double_sub_fixed = nodes.create.bdDblSub(name="double_sub_fixed")
+    assert_type(double_sub_fixed, BdDblSub)
     assert_type(double_sub_fixed.input1, DoublePlugOperator)
     assert_type(double_sub_fixed.input2, DoublePlugOperator)
     assert_type(double_sub_fixed.output, DoublePlugOperator)
     assert_type(double_sub_fixed.output.get(), float)
 
-    double_sub_multi = nodes.create.bdSubDoubleMulti(name="double_sub_multi")
-    assert_type(double_sub_multi, BdSubDoubleMulti)
+    double_sub_multi = nodes.create.bdDblSubMulti(name="double_sub_multi")
+    assert_type(double_sub_multi, BdDblSubMulti)
     assert_type(double_sub_multi.input, DoublePlugOperator)
     assert_type(double_sub_multi.input[next], DoublePlugOperator)
     assert_type(double_sub_multi.output, DoublePlugOperator)
     assert_type(double_sub_multi.output.get(), float)
 
-    existing_double_sub_fixed = nodes.existing.bdSubDoublePair(
+    existing_double_sub_fixed = nodes.existing.bdDblSub(
         "existing_double_sub_fixed"
     )
-    assert_type(existing_double_sub_fixed, BdSubDoublePair)
-    existing_double_sub_multi = nodes.existing.bdSubDoubleMulti(
+    assert_type(existing_double_sub_fixed, BdDblSub)
+    existing_double_sub_multi = nodes.existing.bdDblSubMulti(
         "existing_double_sub_multi"
     )
-    assert_type(existing_double_sub_multi, BdSubDoubleMulti)
+    assert_type(existing_double_sub_multi, BdDblSubMulti)
 
     compose = nodes.create.composeMatrix(name="compose")
     assert_type(compose, ComposeMatrix)
@@ -460,223 +456,223 @@ def descriptor_contract(compose: ComposeMatrix) -> None:
     assert_type(compose.inputRotateOrder.keyframe, KeyframeManager)
 
 
-def bd_add_double3_pair_descriptor_contract(
-    fixed: BdAddDouble3Pair,
-    multi: BdAddDouble3Multi,
+def bd_dbl3_add_descriptor_contract(
+    fixed: BdDbl3Add,
+    multi: BdDbl3AddMulti,
 ) -> None:
-    assert_type(BdAddDouble3Pair.input1, AddInput1AttrOperator)
+    assert_type(BdDbl3Add.input1, AddInput1AttrOperator)
     assert_type(fixed.input1, AddInput1PlugOperator)
     assert_type(fixed.input1.input1X.get(), float)
-    assert_type(BdAddDouble3Pair.input2, AddInput2AttrOperator)
+    assert_type(BdDbl3Add.input2, AddInput2AttrOperator)
     assert_type(fixed.input2, AddInput2PlugOperator)
-    assert_type(BdAddDouble3Pair.output, AddOutputAttrOperator)
+    assert_type(BdDbl3Add.output, AddOutputAttrOperator)
     assert_type(fixed.output, AddOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    assert_type(BdAddDouble3Multi.input, AddMultiInputAttrOperator)
+    assert_type(BdDbl3AddMulti.input, AddMultiInputAttrOperator)
     assert_type(multi.input, AddMultiInputPlugOperator)
     assert_type(multi.input[0].inputX.get(), float)
-    assert_type(BdAddDouble3Multi.output, AddMultiOutputAttrOperator)
+    assert_type(BdDbl3AddMulti.output, AddMultiOutputAttrOperator)
     assert_type(multi.output, AddMultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
 
-def bd_add_double_pair_descriptor_contract(
-    fixed: BdAddDoublePair,
-    multi: BdAddDoubleMulti,
+def bd_dbl_add_descriptor_contract(
+    fixed: BdDblAdd,
+    multi: BdDblAddMulti,
 ) -> None:
-    assert_type(BdAddDoublePair.input1, DoubleAttrOperator)
+    assert_type(BdDblAdd.input1, DoubleAttrOperator)
     assert_type(fixed.input1, DoublePlugOperator)
-    assert_type(BdAddDoublePair.input2, DoubleAttrOperator)
+    assert_type(BdDblAdd.input2, DoubleAttrOperator)
     assert_type(fixed.input2, DoublePlugOperator)
-    assert_type(BdAddDoublePair.output, DoubleAttrOperator)
+    assert_type(BdDblAdd.output, DoubleAttrOperator)
     assert_type(fixed.output, DoublePlugOperator)
     assert_type(fixed.output.get(), float)
 
-    assert_type(BdAddDoubleMulti.input, DoubleAttrOperator)
+    assert_type(BdDblAddMulti.input, DoubleAttrOperator)
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
-    assert_type(BdAddDoubleMulti.output, DoubleAttrOperator)
+    assert_type(BdDblAddMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 
 
-def bd_div_double3_pair_descriptor_contract(
-    fixed: BdDivDouble3Pair,
-    multi: BdDivDouble3Multi,
+def bd_dbl3_div_descriptor_contract(
+    fixed: BdDbl3Div,
+    multi: BdDbl3DivMulti,
 ) -> None:
-    assert_type(BdDivDouble3Pair.input1, DivInput1AttrOperator)
+    assert_type(BdDbl3Div.input1, DivInput1AttrOperator)
     assert_type(fixed.input1, DivInput1PlugOperator)
     assert_type(fixed.input1.input1X.get(), float)
-    assert_type(BdDivDouble3Pair.input2, DivInput2AttrOperator)
+    assert_type(BdDbl3Div.input2, DivInput2AttrOperator)
     assert_type(fixed.input2, DivInput2PlugOperator)
-    assert_type(BdDivDouble3Pair.output, DivOutputAttrOperator)
+    assert_type(BdDbl3Div.output, DivOutputAttrOperator)
     assert_type(fixed.output, DivOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    assert_type(BdDivDouble3Multi.input, DivMultiInputAttrOperator)
+    assert_type(BdDbl3DivMulti.input, DivMultiInputAttrOperator)
     assert_type(multi.input, DivMultiInputPlugOperator)
     assert_type(multi.input[0].inputX.get(), float)
-    assert_type(BdDivDouble3Multi.output, DivMultiOutputAttrOperator)
+    assert_type(BdDbl3DivMulti.output, DivMultiOutputAttrOperator)
     assert_type(multi.output, DivMultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
 
-def bd_div_double_pair_descriptor_contract(
-    fixed: BdDivDoublePair,
-    multi: BdDivDoubleMulti,
+def bd_dbl_div_descriptor_contract(
+    fixed: BdDblDiv,
+    multi: BdDblDivMulti,
 ) -> None:
-    assert_type(BdDivDoublePair.input1, DoubleAttrOperator)
+    assert_type(BdDblDiv.input1, DoubleAttrOperator)
     assert_type(fixed.input1, DoublePlugOperator)
-    assert_type(BdDivDoublePair.input2, DoubleAttrOperator)
+    assert_type(BdDblDiv.input2, DoubleAttrOperator)
     assert_type(fixed.input2, DoublePlugOperator)
-    assert_type(BdDivDoublePair.output, DoubleAttrOperator)
+    assert_type(BdDblDiv.output, DoubleAttrOperator)
     assert_type(fixed.output, DoublePlugOperator)
     assert_type(fixed.output.get(), float)
 
-    assert_type(BdDivDoubleMulti.input, DoubleAttrOperator)
+    assert_type(BdDblDivMulti.input, DoubleAttrOperator)
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
-    assert_type(BdDivDoubleMulti.output, DoubleAttrOperator)
+    assert_type(BdDblDivMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 
 
-def bd_double3_value_descriptor_contract(node: BdDouble3Value) -> None:
-    assert_type(BdDouble3Value.value, Double3ValueAttrOperator)
+def bd_dbl3_value_descriptor_contract(node: BdDbl3Value) -> None:
+    assert_type(BdDbl3Value.value, Double3ValueAttrOperator)
     assert_type(node.value, Double3ValuePlugOperator)
     assert_type(node.value.valueX.get(), float)
     assert_type(node.value.get(), bdu.Double3)
 
 
-def bd_double_value_descriptor_contract(node: BdDoubleValue) -> None:
-    assert_type(BdDoubleValue.value, DoubleAttrOperator)
+def bd_dbl_value_descriptor_contract(node: BdDblValue) -> None:
+    assert_type(BdDblValue.value, DoubleAttrOperator)
     assert_type(node.value, DoublePlugOperator)
     assert_type(node.value.get(), float)
 
 
-def bd_pow_double3_pair_descriptor_contract(
-    fixed: BdPowDouble3Pair,
-    multi: BdPowDouble3Multi,
+def bd_dbl3_pow_descriptor_contract(
+    fixed: BdDbl3Pow,
+    multi: BdDbl3PowMulti,
 ) -> None:
-    assert_type(BdPowDouble3Pair.input1, PowInput1AttrOperator)
+    assert_type(BdDbl3Pow.input1, PowInput1AttrOperator)
     assert_type(fixed.input1, PowInput1PlugOperator)
     assert_type(fixed.input1.input1X.get(), float)
-    assert_type(BdPowDouble3Pair.input2, PowInput2AttrOperator)
+    assert_type(BdDbl3Pow.input2, PowInput2AttrOperator)
     assert_type(fixed.input2, PowInput2PlugOperator)
-    assert_type(BdPowDouble3Pair.output, PowOutputAttrOperator)
+    assert_type(BdDbl3Pow.output, PowOutputAttrOperator)
     assert_type(fixed.output, PowOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    assert_type(BdPowDouble3Multi.input, PowMultiInputAttrOperator)
+    assert_type(BdDbl3PowMulti.input, PowMultiInputAttrOperator)
     assert_type(multi.input, PowMultiInputPlugOperator)
     assert_type(multi.input[0].inputX.get(), float)
-    assert_type(BdPowDouble3Multi.output, PowMultiOutputAttrOperator)
+    assert_type(BdDbl3PowMulti.output, PowMultiOutputAttrOperator)
     assert_type(multi.output, PowMultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
 
-def bd_pow_double_pair_descriptor_contract(
-    fixed: BdPowDoublePair,
-    multi: BdPowDoubleMulti,
+def bd_dbl_pow_descriptor_contract(
+    fixed: BdDblPow,
+    multi: BdDblPowMulti,
 ) -> None:
-    assert_type(BdPowDoublePair.input1, DoubleAttrOperator)
+    assert_type(BdDblPow.input1, DoubleAttrOperator)
     assert_type(fixed.input1, DoublePlugOperator)
-    assert_type(BdPowDoublePair.input2, DoubleAttrOperator)
+    assert_type(BdDblPow.input2, DoubleAttrOperator)
     assert_type(fixed.input2, DoublePlugOperator)
-    assert_type(BdPowDoublePair.output, DoubleAttrOperator)
+    assert_type(BdDblPow.output, DoubleAttrOperator)
     assert_type(fixed.output, DoublePlugOperator)
     assert_type(fixed.output.get(), float)
 
-    assert_type(BdPowDoubleMulti.input, DoubleAttrOperator)
+    assert_type(BdDblPowMulti.input, DoubleAttrOperator)
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
-    assert_type(BdPowDoubleMulti.output, DoubleAttrOperator)
+    assert_type(BdDblPowMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 
 
-def bd_sub_double3_pair_descriptor_contract(
-    fixed: BdSubDouble3Pair,
-    multi: BdSubDouble3Multi,
+def bd_dbl3_sub_descriptor_contract(
+    fixed: BdDbl3Sub,
+    multi: BdDbl3SubMulti,
 ) -> None:
-    assert_type(BdSubDouble3Pair.input1, SubInput1AttrOperator)
+    assert_type(BdDbl3Sub.input1, SubInput1AttrOperator)
     assert_type(fixed.input1, SubInput1PlugOperator)
     assert_type(fixed.input1.input1X.get(), float)
-    assert_type(BdSubDouble3Pair.input2, SubInput2AttrOperator)
+    assert_type(BdDbl3Sub.input2, SubInput2AttrOperator)
     assert_type(fixed.input2, SubInput2PlugOperator)
-    assert_type(BdSubDouble3Pair.output, SubOutputAttrOperator)
+    assert_type(BdDbl3Sub.output, SubOutputAttrOperator)
     assert_type(fixed.output, SubOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
-    assert_type(BdSubDouble3Multi.input, SubMultiInputAttrOperator)
+    assert_type(BdDbl3SubMulti.input, SubMultiInputAttrOperator)
     assert_type(multi.input, SubMultiInputPlugOperator)
     assert_type(multi.input[0].inputX.get(), float)
-    assert_type(BdSubDouble3Multi.output, SubMultiOutputAttrOperator)
+    assert_type(BdDbl3SubMulti.output, SubMultiOutputAttrOperator)
     assert_type(multi.output, SubMultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
 
-def bd_sub_double_pair_descriptor_contract(
-    fixed: BdSubDoublePair,
-    multi: BdSubDoubleMulti,
+def bd_dbl_sub_descriptor_contract(
+    fixed: BdDblSub,
+    multi: BdDblSubMulti,
 ) -> None:
-    assert_type(BdSubDoublePair.input1, DoubleAttrOperator)
+    assert_type(BdDblSub.input1, DoubleAttrOperator)
     assert_type(fixed.input1, DoublePlugOperator)
-    assert_type(BdSubDoublePair.input2, DoubleAttrOperator)
+    assert_type(BdDblSub.input2, DoubleAttrOperator)
     assert_type(fixed.input2, DoublePlugOperator)
-    assert_type(BdSubDoublePair.output, DoubleAttrOperator)
+    assert_type(BdDblSub.output, DoubleAttrOperator)
     assert_type(fixed.output, DoublePlugOperator)
     assert_type(fixed.output.get(), float)
 
-    assert_type(BdSubDoubleMulti.input, DoubleAttrOperator)
+    assert_type(BdDblSubMulti.input, DoubleAttrOperator)
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
-    assert_type(BdSubDoubleMulti.output, DoubleAttrOperator)
+    assert_type(BdDblSubMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 
 
-def bd_mult_double3_pair_descriptor_contract(fixed: BdMultDouble3Pair) -> None:
-    assert_type(BdMultDouble3Pair.input1, Input1AttrOperator)
+def bd_dbl3_mult_descriptor_contract(fixed: BdDbl3Mult) -> None:
+    assert_type(BdDbl3Mult.input1, Input1AttrOperator)
     assert_type(fixed.input1, Input1PlugOperator)
     assert_type(fixed.input1.input1X.get(), float)
-    assert_type(BdMultDouble3Pair.input2, Input2AttrOperator)
+    assert_type(BdDbl3Mult.input2, Input2AttrOperator)
     assert_type(fixed.input2, Input2PlugOperator)
     assert_type(fixed.input2.input2Z.get(), float)
-    assert_type(BdMultDouble3Pair.output, FixedOutputAttrOperator)
+    assert_type(BdDbl3Mult.output, FixedOutputAttrOperator)
     assert_type(fixed.output, FixedOutputPlugOperator)
     assert_type(fixed.output.get(), bdu.Double3)
 
 
-def bd_mult_double3_multi_descriptor_contract(
-    multi: BdMultDouble3Multi,
+def bd_dbl3_mult_multi_descriptor_contract(
+    multi: BdDbl3MultMulti,
 ) -> None:
-    assert_type(BdMultDouble3Multi.input, MultiInputAttrOperator)
+    assert_type(BdDbl3MultMulti.input, MultiInputAttrOperator)
     assert_type(multi.input, MultiInputPlugOperator)
     assert_type(multi.input[0].inputX.get(), float)
-    assert_type(BdMultDouble3Multi.output, MultiOutputAttrOperator)
+    assert_type(BdDbl3MultMulti.output, MultiOutputAttrOperator)
     assert_type(multi.output, MultiOutputPlugOperator)
     assert_type(multi.output.get(), bdu.Double3)
 
 
-def bd_mult_double_pair_descriptor_contract(
-    fixed: BdMultDoublePair,
-    multi: BdMultDoubleMulti,
+def bd_dbl_mult_descriptor_contract(
+    fixed: BdDblMult,
+    multi: BdDblMultMulti,
 ) -> None:
-    assert_type(BdMultDoublePair.input1, DoubleAttrOperator)
+    assert_type(BdDblMult.input1, DoubleAttrOperator)
     assert_type(fixed.input1, DoublePlugOperator)
     assert_type(fixed.input1.get(), float)
-    assert_type(BdMultDoublePair.input2, DoubleAttrOperator)
+    assert_type(BdDblMult.input2, DoubleAttrOperator)
     assert_type(fixed.input2, DoublePlugOperator)
-    assert_type(BdMultDoublePair.output, DoubleAttrOperator)
+    assert_type(BdDblMult.output, DoubleAttrOperator)
     assert_type(fixed.output, DoublePlugOperator)
     assert_type(fixed.output.get(), float)
 
-    assert_type(BdMultDoubleMulti.input, DoubleAttrOperator)
+    assert_type(BdDblMultMulti.input, DoubleAttrOperator)
     assert_type(multi.input, DoublePlugOperator)
     assert_type(multi.input[0].get(), float)
-    assert_type(BdMultDoubleMulti.output, DoubleAttrOperator)
+    assert_type(BdDblMultMulti.output, DoubleAttrOperator)
     assert_type(multi.output, DoublePlugOperator)
     assert_type(multi.output.get(), float)
 
