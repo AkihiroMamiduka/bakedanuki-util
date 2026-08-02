@@ -57,110 +57,98 @@ class InputField(
     iz = inputZ
 
 
-class MinimumPlugOperator(
-    Double3CompoundBasePlugOperator["MinimumAttrOperator"]
-):
+class MinPlugOperator(Double3CompoundBasePlugOperator["MinAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("minimumX", "minx"),
-        ("minimumY", "miny"),
-        ("minimumZ", "minz"),
+        ("minX", "mnx"),
+        ("minY", "mny"),
+        ("minZ", "mnz"),
     )
 
-    minimumX = DoubleField(default_value=0.0)
-    minx = minimumX
+    minX = DoubleField(default_value=0.0)
+    mnx = minX
 
-    minimumY = DoubleField(default_value=0.0)
-    miny = minimumY
+    minY = DoubleField(default_value=0.0)
+    mny = minY
 
-    minimumZ = DoubleField(default_value=0.0)
-    minz = minimumZ
+    minZ = DoubleField(default_value=0.0)
+    mnz = minZ
 
 
-class MinimumAttrOperator(
-    Double3CompoundBaseAttrOperator[MinimumPlugOperator]
-):
+class MinAttrOperator(Double3CompoundBaseAttrOperator[MinPlugOperator]):
     __slots__ = ()
 
-    minimumX = DoubleField(default_value=0.0)
-    minx = minimumX
+    minX = DoubleField(default_value=0.0)
+    mnx = minX
 
-    minimumY = DoubleField(default_value=0.0)
-    miny = minimumY
+    minY = DoubleField(default_value=0.0)
+    mny = minY
 
-    minimumZ = DoubleField(default_value=0.0)
-    minz = minimumZ
+    minZ = DoubleField(default_value=0.0)
+    mnz = minZ
 
 
-class MinimumField(
-    Double3CompoundBaseField[MinimumAttrOperator, MinimumPlugOperator]
-):
+class MinField(Double3CompoundBaseField[MinAttrOperator, MinPlugOperator]):
     __slots__ = ()
 
-    ATTR_CLS = MinimumAttrOperator
-    PLUG_CLS = MinimumPlugOperator
+    ATTR_CLS = MinAttrOperator
+    PLUG_CLS = MinPlugOperator
 
-    minimumX = DoubleField(default_value=0.0)
-    minx = minimumX
+    minX = DoubleField(default_value=0.0)
+    mnx = minX
 
-    minimumY = DoubleField(default_value=0.0)
-    miny = minimumY
+    minY = DoubleField(default_value=0.0)
+    mny = minY
 
-    minimumZ = DoubleField(default_value=0.0)
-    minz = minimumZ
+    minZ = DoubleField(default_value=0.0)
+    mnz = minZ
 
 
-class MaximumPlugOperator(
-    Double3CompoundBasePlugOperator["MaximumAttrOperator"]
-):
+class MaxPlugOperator(Double3CompoundBasePlugOperator["MaxAttrOperator"]):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("maximumX", "maxx"),
-        ("maximumY", "maxy"),
-        ("maximumZ", "maxz"),
+        ("maxX", "mxx"),
+        ("maxY", "mxy"),
+        ("maxZ", "mxz"),
     )
 
-    maximumX = DoubleField(default_value=1.0)
-    maxx = maximumX
+    maxX = DoubleField(default_value=1.0)
+    mxx = maxX
 
-    maximumY = DoubleField(default_value=1.0)
-    maxy = maximumY
+    maxY = DoubleField(default_value=1.0)
+    mxy = maxY
 
-    maximumZ = DoubleField(default_value=1.0)
-    maxz = maximumZ
+    maxZ = DoubleField(default_value=1.0)
+    mxz = maxZ
 
 
-class MaximumAttrOperator(
-    Double3CompoundBaseAttrOperator[MaximumPlugOperator]
-):
+class MaxAttrOperator(Double3CompoundBaseAttrOperator[MaxPlugOperator]):
     __slots__ = ()
 
-    maximumX = DoubleField(default_value=1.0)
-    maxx = maximumX
+    maxX = DoubleField(default_value=1.0)
+    mxx = maxX
 
-    maximumY = DoubleField(default_value=1.0)
-    maxy = maximumY
+    maxY = DoubleField(default_value=1.0)
+    mxy = maxY
 
-    maximumZ = DoubleField(default_value=1.0)
-    maxz = maximumZ
+    maxZ = DoubleField(default_value=1.0)
+    mxz = maxZ
 
 
-class MaximumField(
-    Double3CompoundBaseField[MaximumAttrOperator, MaximumPlugOperator]
-):
+class MaxField(Double3CompoundBaseField[MaxAttrOperator, MaxPlugOperator]):
     __slots__ = ()
 
-    ATTR_CLS = MaximumAttrOperator
-    PLUG_CLS = MaximumPlugOperator
+    ATTR_CLS = MaxAttrOperator
+    PLUG_CLS = MaxPlugOperator
 
-    maximumX = DoubleField(default_value=1.0)
-    maxx = maximumX
+    maxX = DoubleField(default_value=1.0)
+    mxx = maxX
 
-    maximumY = DoubleField(default_value=1.0)
-    maxy = maximumY
+    maxY = DoubleField(default_value=1.0)
+    mxy = maxY
 
-    maximumZ = DoubleField(default_value=1.0)
-    maxz = maximumZ
+    maxZ = DoubleField(default_value=1.0)
+    mxz = maxZ
 
 
 class OutputPlugOperator(

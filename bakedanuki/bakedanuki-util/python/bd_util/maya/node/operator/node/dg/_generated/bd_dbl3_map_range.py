@@ -1,12 +1,12 @@
 # coding: utf-8
 from .._core import DG
 from ....attr.define.node_attr.bd_dbl3_map_range import (
+    DstMaxField,
+    DstMinField,
     InputField,
     OutputField,
-    SourceMaximumField,
-    SourceMinimumField,
-    TargetMaximumField,
-    TargetMinimumField,
+    SrcMaxField,
+    SrcMinField,
 )
 from ....attr.define.std.at.scalar.numeric.bool import BoolField
 
@@ -25,41 +25,41 @@ class GeneratedBdDbl3MapRange(DG):
     inputZ = input.inputZ
     iz = inputZ
 
-    sourceMinimum = SourceMinimumField(default_value=(0.0, 0.0, 0.0))
-    smin = sourceMinimum
-    sourceMinimumX = sourceMinimum.sourceMinimumX
-    sminx = sourceMinimumX
-    sourceMinimumY = sourceMinimum.sourceMinimumY
-    sminy = sourceMinimumY
-    sourceMinimumZ = sourceMinimum.sourceMinimumZ
-    sminz = sourceMinimumZ
+    srcMin = SrcMinField(default_value=(0.0, 0.0, 0.0))
+    smin = srcMin
+    srcMinX = srcMin.srcMinX
+    sminx = srcMinX
+    srcMinY = srcMin.srcMinY
+    sminy = srcMinY
+    srcMinZ = srcMin.srcMinZ
+    sminz = srcMinZ
 
-    sourceMaximum = SourceMaximumField(default_value=(1.0, 1.0, 1.0))
-    smax = sourceMaximum
-    sourceMaximumX = sourceMaximum.sourceMaximumX
-    smaxx = sourceMaximumX
-    sourceMaximumY = sourceMaximum.sourceMaximumY
-    smaxy = sourceMaximumY
-    sourceMaximumZ = sourceMaximum.sourceMaximumZ
-    smaxz = sourceMaximumZ
+    srcMax = SrcMaxField(default_value=(1.0, 1.0, 1.0))
+    smax = srcMax
+    srcMaxX = srcMax.srcMaxX
+    smaxx = srcMaxX
+    srcMaxY = srcMax.srcMaxY
+    smaxy = srcMaxY
+    srcMaxZ = srcMax.srcMaxZ
+    smaxz = srcMaxZ
 
-    targetMinimum = TargetMinimumField(default_value=(0.0, 0.0, 0.0))
-    tmin = targetMinimum
-    targetMinimumX = targetMinimum.targetMinimumX
-    tminx = targetMinimumX
-    targetMinimumY = targetMinimum.targetMinimumY
-    tminy = targetMinimumY
-    targetMinimumZ = targetMinimum.targetMinimumZ
-    tminz = targetMinimumZ
+    dstMin = DstMinField(default_value=(0.0, 0.0, 0.0))
+    dmin = dstMin
+    dstMinX = dstMin.dstMinX
+    dminx = dstMinX
+    dstMinY = dstMin.dstMinY
+    dminy = dstMinY
+    dstMinZ = dstMin.dstMinZ
+    dminz = dstMinZ
 
-    targetMaximum = TargetMaximumField(default_value=(1.0, 1.0, 1.0))
-    tmax = targetMaximum
-    targetMaximumX = targetMaximum.targetMaximumX
-    tmaxx = targetMaximumX
-    targetMaximumY = targetMaximum.targetMaximumY
-    tmaxy = targetMaximumY
-    targetMaximumZ = targetMaximum.targetMaximumZ
-    tmaxz = targetMaximumZ
+    dstMax = DstMaxField(default_value=(1.0, 1.0, 1.0))
+    dmax = dstMax
+    dstMaxX = dstMax.dstMaxX
+    dmaxx = dstMaxX
+    dstMaxY = dstMax.dstMaxY
+    dmaxy = dstMaxY
+    dstMaxZ = dstMax.dstMaxZ
+    dmaxz = dstMaxZ
 
     clamp = BoolField(default_value=True)
     c = clamp

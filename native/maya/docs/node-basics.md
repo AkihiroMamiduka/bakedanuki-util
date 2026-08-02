@@ -63,9 +63,10 @@ public:
 `MTypeId` は scene 内で node type を識別します。新しい ID は実装前に
 [Node ID Registry](../NODE_IDS.md) へ登録してください。
 
-開発初期の現在は API を変更できますが、production scene で使い始めた後は
-`typeName`、`MTypeId`、attribute の long name / short name を永続 API として
-扱います。
+v1.0.0未満では将来の設計と使いやすさを優先し、`typeName`、`MTypeId`、attributeの
+long name / short nameを含めて、必要な破壊的変更を積極的に行います。旧仕様との互換
+layerや段階的なdeprecationは原則として設けません。永続APIとしての安定した互換性は
+v1.0.0以降を対象とします。
 
 ## Attribute Definition
 
@@ -410,27 +411,29 @@ Lerpには`Multi`版を作りません。
 
 ### Clamp Policy
 
-`bdDbl_Clamp`と`bdDbl3_Clamp`は、`input`を`minimum`と`maximum`の間へ制限します。
-double3版ではXYZ成分ごとに独立して計算し、`inputX` / `minimumX` / `maximumX` /
+`bdDbl_Clamp`と`bdDbl3_Clamp`は、`input`を`min`と`max`の間へ制限します。
+double3版ではXYZ成分ごとに独立して計算し、`inputX` / `minX` / `maxX` /
 `outputX`のような子attributeを持ちます。多入力へ拡張する演算ではないため、`Multi`版は
 作りません。
+`min` / `max`のshort nameは`mn` / `mx`、double3の子attributeは
+`mnx` / `mny` / `mnz`と`mxx` / `mxy` / `mxz`です。
 
-`input`と`minimum`のdefaultは`0`、`maximum`のdefaultは`1`、`output`のdefaultは`0`です。
+`input`と`min`のdefaultは`0`、`max`のdefaultは`1`、`output`のdefaultは`0`です。
 double3版では、それぞれ`(0, 0, 0)`、`(0, 0, 0)`、`(1, 1, 1)`、`(0, 0, 0)`です。
 入力attributeにhard min/maxは設定せず、接続値と直接設定値のどちらにも任意のdoubleを
 受け付けます。
 
-`minimum`が`maximum`を超えた場合はエラーや一方への固定とせず、成分ごとに上下限を
+`min`が`max`を超えた場合はエラーや一方への固定とせず、成分ごとに上下限を
 正規化してからclampします。
 
 ```text
-lower = Min(minimum, maximum)
-upper = Max(minimum, maximum)
+lower = Min(min, max)
+upper = Max(min, max)
 output = Min(Max(input, lower), upper)
 ```
 
-この比較にはMinimum / Maximumと同じ共有実装を使います。`input`、`minimum`、
-`maximum`のいずれかが`NaN`なら該当成分の結果も`NaN`です。`+inf`と`-inf`は通常の
+この比較にはMinimum / Maximumと同じ共有実装を使います。`input`、`min`、
+`max`のいずれかが`NaN`なら該当成分の結果も`NaN`です。`+inf`と`-inf`は通常の
 大小関係で処理し、符号付きzeroも共有比較規則に従って決定します。
 
 ### Map Range Policy
@@ -438,29 +441,32 @@ output = Min(Max(input, lower), upper)
 `bdDbl_MapRange`と`bdDbl3_MapRange`は、Source範囲内の位置をTarget範囲へ変換します。
 double3版ではXYZ成分ごとに独立して計算し、`clamp`だけは全成分で共有するscalar boolです。
 多入力へ自然に拡張する演算ではないため、`Multi`版は作りません。
+`srcMin` / `srcMax` / `dstMin` / `dstMax`のshort nameは
+`smin` / `smax` / `dmin` / `dmax`で、double3の子attributeでは末尾に`x` / `y` / `z`を
+付けます。
 
 ```text
-parameter = (input - sourceMinimum)
-    / (sourceMaximum - sourceMinimum)
+parameter = (input - srcMin)
+    / (srcMax - srcMin)
 
 if clamp:
     parameter = Clamp(parameter, 0, 1)
 
-output = targetMinimum
-    + parameter * (targetMaximum - targetMinimum)
+output = dstMin
+    + parameter * (dstMax - dstMin)
 ```
 
-`input`、`sourceMinimum`、`targetMinimum`、`output`のdefaultは`0`、
-`sourceMaximum`と`targetMaximum`のdefaultは`1`、`clamp`のdefaultは`true`です。
+`input`、`srcMin`、`dstMin`、`output`のdefaultは`0`、
+`srcMax`と`dstMax`のdefaultは`1`、`clamp`のdefaultは`true`です。
 double3の数値attributeは同じ値をXYZへ適用します。数値入力にhard min/maxは設定しません。
 
 SourceとTargetのMinimum / Maximumは大小比較用の境界ではなく、対応する方向付き端点です。
 そのため逆転していても正規化しません。例えばSourceが`10`から`0`なら、`input=10`が
-`targetMinimum`、`input=0`が`targetMaximum`へ対応します。Targetが逆転している場合も
+`dstMin`、`input=0`が`dstMax`へ対応します。Targetが逆転している場合も
 同じように方向を維持します。`clamp=false`では範囲外のparameterを許可して外挿します。
 
-`sourceMinimum == sourceMaximum`の場合はゼロ除算を行わず、該当成分の
-`targetMinimum`を返します。`-0.0`と`+0.0`も同じSource幅0として扱います。
+`srcMin == srcMax`の場合はゼロ除算を行わず、該当成分の
+`dstMin`を返します。`-0.0`と`+0.0`も同じSource幅0として扱います。
 
 5つの数値入力のいずれかが`NaN`なら、該当成分も`NaN`です。有限Source範囲と
 `input=+inf` / `-inf`の組み合わせは、`clamp=true`なら対応するTarget端点へ制限し、

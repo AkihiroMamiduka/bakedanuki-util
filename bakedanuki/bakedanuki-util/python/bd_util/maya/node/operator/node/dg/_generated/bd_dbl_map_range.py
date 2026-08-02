@@ -12,17 +12,17 @@ class GeneratedBdDblMapRange(DG):
     input = DoubleField(default_value=0.0)
     i = input
 
-    sourceMinimum = DoubleField(default_value=0.0)
-    smin = sourceMinimum
+    srcMin = DoubleField(default_value=0.0)
+    smin = srcMin
 
-    sourceMaximum = DoubleField(default_value=1.0)
-    smax = sourceMaximum
+    srcMax = DoubleField(default_value=1.0)
+    smax = srcMax
 
-    targetMinimum = DoubleField(default_value=0.0)
-    tmin = targetMinimum
+    dstMin = DoubleField(default_value=0.0)
+    dmin = dstMin
 
-    targetMaximum = DoubleField(default_value=1.0)
-    tmax = targetMaximum
+    dstMax = DoubleField(default_value=1.0)
+    dmax = dstMax
 
     clamp = BoolField(default_value=True)
     c = clamp

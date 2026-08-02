@@ -77,14 +77,14 @@ MStatus BdDbl3ClampNode::initialize() {
         minimumX,
         minimumY,
         minimumZ,
-        "minimum",
         "min",
-        "minimumX",
-        "minx",
-        "minimumY",
-        "miny",
-        "minimumZ",
-        "minz",
+        "mn",
+        "minX",
+        "mnx",
+        "minY",
+        "mny",
+        "minZ",
+        "mnz",
         0.0
     );
     if (!status) {
@@ -107,14 +107,14 @@ MStatus BdDbl3ClampNode::initialize() {
         maximumX,
         maximumY,
         maximumZ,
-        "maximum",
         "max",
-        "maximumX",
-        "maxx",
-        "maximumY",
-        "maxy",
-        "maximumZ",
-        "maxz",
+        "mx",
+        "maxX",
+        "mxx",
+        "maxY",
+        "mxy",
+        "maxZ",
+        "mxz",
         1.0
     );
     if (!status) {

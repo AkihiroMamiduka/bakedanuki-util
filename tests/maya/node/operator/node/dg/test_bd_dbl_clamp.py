@@ -42,10 +42,10 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDblClamp.NODE_TYPE == "bdDbl_Clamp"
     assert BdDblClamp.input.long_name == "input"
     assert BdDblClamp.i.short_name == "i"
-    assert BdDblClamp.minimum.long_name == "minimum"
-    assert BdDblClamp.min.short_name == "min"
-    assert BdDblClamp.maximum.long_name == "maximum"
-    assert BdDblClamp.max.short_name == "max"
+    assert BdDblClamp.min.long_name == "min"
+    assert BdDblClamp.mn.short_name == "mn"
+    assert BdDblClamp.max.long_name == "max"
+    assert BdDblClamp.mx.short_name == "mx"
     assert BdDblClamp.output.long_name == "output"
     assert BdDblClamp.o.short_name == "o"
 
@@ -54,10 +54,10 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     modifier_manager.do_it_dg()
 
     assert node.input.get() == pytest.approx(0.0)
-    assert node.minimum.get() == pytest.approx(0.0)
-    assert node.maximum.get() == pytest.approx(1.0)
+    assert node.min.get() == pytest.approx(0.0)
+    assert node.max.get() == pytest.approx(1.0)
     assert node.output.get() == pytest.approx(0.0)
-    for attribute_name in ("input", "minimum", "maximum"):
+    for attribute_name in ("input", "min", "max"):
         assert not maya_cmds.attributeQuery(
             attribute_name,
             node=node.name,
@@ -97,19 +97,19 @@ def test_clamps_with_normalized_bounds(
 
     node = maya_cmds.createNode("bdDbl_Clamp")
     maya_cmds.setAttr(f"{node}.input", input_value)
-    maya_cmds.setAttr(f"{node}.minimum", minimum)
-    maya_cmds.setAttr(f"{node}.maximum", maximum)
+    maya_cmds.setAttr(f"{node}.min", minimum)
+    maya_cmds.setAttr(f"{node}.max", maximum)
     assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
 
 
-@pytest.mark.parametrize("nan_attribute", ("input", "minimum", "maximum"))
+@pytest.mark.parametrize("nan_attribute", ("input", "min", "max"))
 def test_nan_propagates_from_each_input(maya_cmds, nan_attribute):
     _load_bd_util_nodes(maya_cmds)
 
     node = maya_cmds.createNode("bdDbl_Clamp")
     maya_cmds.setAttr(f"{node}.input", 0.5)
-    maya_cmds.setAttr(f"{node}.minimum", 0.0)
-    maya_cmds.setAttr(f"{node}.maximum", 1.0)
+    maya_cmds.setAttr(f"{node}.min", 0.0)
+    maya_cmds.setAttr(f"{node}.max", 1.0)
     maya_cmds.setAttr(f"{node}.{nan_attribute}", float("nan"))
     assert math.isnan(maya_cmds.getAttr(f"{node}.output"))
 
@@ -134,8 +134,8 @@ def test_infinity_uses_normal_ordering(
 
     node = maya_cmds.createNode("bdDbl_Clamp")
     maya_cmds.setAttr(f"{node}.input", input_value)
-    maya_cmds.setAttr(f"{node}.minimum", minimum)
-    maya_cmds.setAttr(f"{node}.maximum", maximum)
+    maya_cmds.setAttr(f"{node}.min", minimum)
+    maya_cmds.setAttr(f"{node}.max", maximum)
     assert maya_cmds.getAttr(f"{node}.output") == expected
 
 
@@ -152,8 +152,8 @@ def test_signed_zero_is_selected_deterministically(
 
     node = maya_cmds.createNode("bdDbl_Clamp")
     maya_cmds.setAttr(f"{node}.input", input_value)
-    maya_cmds.setAttr(f"{node}.minimum", -0.0)
-    maya_cmds.setAttr(f"{node}.maximum", 0.0)
+    maya_cmds.setAttr(f"{node}.min", -0.0)
+    maya_cmds.setAttr(f"{node}.max", 0.0)
     output = maya_cmds.getAttr(f"{node}.output")
     assert output == 0.0
     assert math.copysign(1.0, output) == expected_sign
@@ -171,14 +171,14 @@ def test_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.evaluationManager(mode=evaluation_mode)
         node = maya_cmds.createNode("bdDbl_Clamp")
         maya_cmds.setAttr(f"{node}.input", 15.0)
-        maya_cmds.setAttr(f"{node}.minimum", 0.0)
-        maya_cmds.setAttr(f"{node}.maximum", 10.0)
+        maya_cmds.setAttr(f"{node}.min", 0.0)
+        maya_cmds.setAttr(f"{node}.max", 10.0)
         assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(10.0)
 
-        maya_cmds.setAttr(f"{node}.maximum", 20.0)
+        maya_cmds.setAttr(f"{node}.max", 20.0)
         assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(15.0)
 
-        maya_cmds.setAttr(f"{node}.minimum", 18.0)
+        maya_cmds.setAttr(f"{node}.min", 18.0)
         assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(18.0)
     finally:
         maya_cmds.evaluationManager(mode=previous_mode)
@@ -195,11 +195,11 @@ def test_connections_existing_accessor_and_scene_round_trip(
     source = nodes.create.bdDbl_Clamp(name="source_clamp")
     target = nodes.create.bdDbl_Clamp(name="target_clamp")
     source.input.set(15.0)
-    source.minimum.set(0.0)
-    source.maximum.set(10.0)
+    source.min.set(0.0)
+    source.max.set(10.0)
     source.output.connect(target.input)
-    target.minimum.set(2.0)
-    target.maximum.set(8.0)
+    target.min.set(2.0)
+    target.max.set(8.0)
     modifier_manager.do_it_dg()
 
     assert target.output.get() == pytest.approx(8.0)

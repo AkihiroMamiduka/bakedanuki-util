@@ -27,10 +27,10 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add_multi import (
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_clamp import (
     InputAttrOperator as ClampInputAttrOperator,
     InputPlugOperator as ClampInputPlugOperator,
-    MaximumAttrOperator as ClampMaximumAttrOperator,
-    MaximumPlugOperator as ClampMaximumPlugOperator,
-    MinimumAttrOperator as ClampMinimumAttrOperator,
-    MinimumPlugOperator as ClampMinimumPlugOperator,
+    MaxAttrOperator as ClampMaxAttrOperator,
+    MaxPlugOperator as ClampMaxPlugOperator,
+    MinAttrOperator as ClampMinAttrOperator,
+    MinPlugOperator as ClampMinPlugOperator,
     OutputAttrOperator as ClampOutputAttrOperator,
     OutputPlugOperator as ClampOutputPlugOperator,
 )
@@ -39,14 +39,14 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_map_range import (
     InputPlugOperator as MapRangeInputPlugOperator,
     OutputAttrOperator as MapRangeOutputAttrOperator,
     OutputPlugOperator as MapRangeOutputPlugOperator,
-    SourceMaximumAttrOperator as MapRangeSourceMaximumAttrOperator,
-    SourceMaximumPlugOperator as MapRangeSourceMaximumPlugOperator,
-    SourceMinimumAttrOperator as MapRangeSourceMinimumAttrOperator,
-    SourceMinimumPlugOperator as MapRangeSourceMinimumPlugOperator,
-    TargetMaximumAttrOperator as MapRangeTargetMaximumAttrOperator,
-    TargetMaximumPlugOperator as MapRangeTargetMaximumPlugOperator,
-    TargetMinimumAttrOperator as MapRangeTargetMinimumAttrOperator,
-    TargetMinimumPlugOperator as MapRangeTargetMinimumPlugOperator,
+    DstMaxAttrOperator as MapRangeDstMaxAttrOperator,
+    DstMaxPlugOperator as MapRangeDstMaxPlugOperator,
+    DstMinAttrOperator as MapRangeDstMinAttrOperator,
+    DstMinPlugOperator as MapRangeDstMinPlugOperator,
+    SrcMaxAttrOperator as MapRangeSrcMaxAttrOperator,
+    SrcMaxPlugOperator as MapRangeSrcMaxPlugOperator,
+    SrcMinAttrOperator as MapRangeSrcMinAttrOperator,
+    SrcMinPlugOperator as MapRangeSrcMinPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_div import (
     Input1AttrOperator as DivInput1AttrOperator,
@@ -278,8 +278,8 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     clamp = nodes.create.bdDbl3_Clamp(name="clamp")
     assert_type(clamp, BdDbl3Clamp)
     assert_type(clamp.input, ClampInputPlugOperator)
-    assert_type(clamp.minimum, ClampMinimumPlugOperator)
-    assert_type(clamp.maximum, ClampMaximumPlugOperator)
+    assert_type(clamp.min, ClampMinPlugOperator)
+    assert_type(clamp.max, ClampMaxPlugOperator)
     assert_type(clamp.output, ClampOutputPlugOperator)
     assert_type(clamp.output.get(), bdu.Double3)
     assert_type(nodes.existing.bdDbl3_Clamp("existing_clamp"), BdDbl3Clamp)
@@ -287,10 +287,10 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     map_range = nodes.create.bdDbl3_MapRange(name="map_range")
     assert_type(map_range, BdDbl3MapRange)
     assert_type(map_range.input, MapRangeInputPlugOperator)
-    assert_type(map_range.sourceMinimum, MapRangeSourceMinimumPlugOperator)
-    assert_type(map_range.sourceMaximum, MapRangeSourceMaximumPlugOperator)
-    assert_type(map_range.targetMinimum, MapRangeTargetMinimumPlugOperator)
-    assert_type(map_range.targetMaximum, MapRangeTargetMaximumPlugOperator)
+    assert_type(map_range.srcMin, MapRangeSrcMinPlugOperator)
+    assert_type(map_range.srcMax, MapRangeSrcMaxPlugOperator)
+    assert_type(map_range.dstMin, MapRangeDstMinPlugOperator)
+    assert_type(map_range.dstMax, MapRangeDstMaxPlugOperator)
     assert_type(map_range.clamp, BoolPlugOperator)
     assert_type(map_range.output, MapRangeOutputPlugOperator)
     assert_type(map_range.output.get(), bdu.Double3)
@@ -482,8 +482,8 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     double_clamp = nodes.create.bdDbl_Clamp(name="double_clamp")
     assert_type(double_clamp, BdDblClamp)
     assert_type(double_clamp.input, DoublePlugOperator)
-    assert_type(double_clamp.minimum, DoublePlugOperator)
-    assert_type(double_clamp.maximum, DoublePlugOperator)
+    assert_type(double_clamp.min, DoublePlugOperator)
+    assert_type(double_clamp.max, DoublePlugOperator)
     assert_type(double_clamp.output, DoublePlugOperator)
     assert_type(double_clamp.output.get(), float)
     assert_type(
@@ -494,10 +494,10 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     double_map_range = nodes.create.bdDbl_MapRange(name="double_map_range")
     assert_type(double_map_range, BdDblMapRange)
     assert_type(double_map_range.input, DoublePlugOperator)
-    assert_type(double_map_range.sourceMinimum, DoublePlugOperator)
-    assert_type(double_map_range.sourceMaximum, DoublePlugOperator)
-    assert_type(double_map_range.targetMinimum, DoublePlugOperator)
-    assert_type(double_map_range.targetMaximum, DoublePlugOperator)
+    assert_type(double_map_range.srcMin, DoublePlugOperator)
+    assert_type(double_map_range.srcMax, DoublePlugOperator)
+    assert_type(double_map_range.dstMin, DoublePlugOperator)
+    assert_type(double_map_range.dstMax, DoublePlugOperator)
     assert_type(double_map_range.clamp, BoolPlugOperator)
     assert_type(double_map_range.output, DoublePlugOperator)
     assert_type(double_map_range.output.get(), float)
@@ -734,10 +734,10 @@ def bd_dbl3_clamp_descriptor_contract(node: BdDbl3Clamp) -> None:
     assert_type(BdDbl3Clamp.input, ClampInputAttrOperator)
     assert_type(node.input, ClampInputPlugOperator)
     assert_type(node.input.inputX.get(), float)
-    assert_type(BdDbl3Clamp.minimum, ClampMinimumAttrOperator)
-    assert_type(node.minimum, ClampMinimumPlugOperator)
-    assert_type(BdDbl3Clamp.maximum, ClampMaximumAttrOperator)
-    assert_type(node.maximum, ClampMaximumPlugOperator)
+    assert_type(BdDbl3Clamp.min, ClampMinAttrOperator)
+    assert_type(node.min, ClampMinPlugOperator)
+    assert_type(BdDbl3Clamp.max, ClampMaxAttrOperator)
+    assert_type(node.max, ClampMaxPlugOperator)
     assert_type(BdDbl3Clamp.output, ClampOutputAttrOperator)
     assert_type(node.output, ClampOutputPlugOperator)
     assert_type(node.output.get(), bdu.Double3)
@@ -746,10 +746,10 @@ def bd_dbl3_clamp_descriptor_contract(node: BdDbl3Clamp) -> None:
 def bd_dbl_clamp_descriptor_contract(node: BdDblClamp) -> None:
     assert_type(BdDblClamp.input, DoubleAttrOperator)
     assert_type(node.input, DoublePlugOperator)
-    assert_type(BdDblClamp.minimum, DoubleAttrOperator)
-    assert_type(node.minimum, DoublePlugOperator)
-    assert_type(BdDblClamp.maximum, DoubleAttrOperator)
-    assert_type(node.maximum, DoublePlugOperator)
+    assert_type(BdDblClamp.min, DoubleAttrOperator)
+    assert_type(node.min, DoublePlugOperator)
+    assert_type(BdDblClamp.max, DoubleAttrOperator)
+    assert_type(node.max, DoublePlugOperator)
     assert_type(BdDblClamp.output, DoubleAttrOperator)
     assert_type(node.output, DoublePlugOperator)
     assert_type(node.output.get(), float)
@@ -760,25 +760,25 @@ def bd_dbl3_map_range_descriptor_contract(node: BdDbl3MapRange) -> None:
     assert_type(node.input, MapRangeInputPlugOperator)
     assert_type(node.input.inputX.get(), float)
     assert_type(
-        BdDbl3MapRange.sourceMinimum,
-        MapRangeSourceMinimumAttrOperator,
+        BdDbl3MapRange.srcMin,
+        MapRangeSrcMinAttrOperator,
     )
-    assert_type(node.sourceMinimum, MapRangeSourceMinimumPlugOperator)
+    assert_type(node.srcMin, MapRangeSrcMinPlugOperator)
     assert_type(
-        BdDbl3MapRange.sourceMaximum,
-        MapRangeSourceMaximumAttrOperator,
+        BdDbl3MapRange.srcMax,
+        MapRangeSrcMaxAttrOperator,
     )
-    assert_type(node.sourceMaximum, MapRangeSourceMaximumPlugOperator)
+    assert_type(node.srcMax, MapRangeSrcMaxPlugOperator)
     assert_type(
-        BdDbl3MapRange.targetMinimum,
-        MapRangeTargetMinimumAttrOperator,
+        BdDbl3MapRange.dstMin,
+        MapRangeDstMinAttrOperator,
     )
-    assert_type(node.targetMinimum, MapRangeTargetMinimumPlugOperator)
+    assert_type(node.dstMin, MapRangeDstMinPlugOperator)
     assert_type(
-        BdDbl3MapRange.targetMaximum,
-        MapRangeTargetMaximumAttrOperator,
+        BdDbl3MapRange.dstMax,
+        MapRangeDstMaxAttrOperator,
     )
-    assert_type(node.targetMaximum, MapRangeTargetMaximumPlugOperator)
+    assert_type(node.dstMax, MapRangeDstMaxPlugOperator)
     assert_type(BdDbl3MapRange.clamp, BoolAttrOperator)
     assert_type(node.clamp, BoolPlugOperator)
     assert_type(BdDbl3MapRange.output, MapRangeOutputAttrOperator)
@@ -789,14 +789,14 @@ def bd_dbl3_map_range_descriptor_contract(node: BdDbl3MapRange) -> None:
 def bd_dbl_map_range_descriptor_contract(node: BdDblMapRange) -> None:
     assert_type(BdDblMapRange.input, DoubleAttrOperator)
     assert_type(node.input, DoublePlugOperator)
-    assert_type(BdDblMapRange.sourceMinimum, DoubleAttrOperator)
-    assert_type(node.sourceMinimum, DoublePlugOperator)
-    assert_type(BdDblMapRange.sourceMaximum, DoubleAttrOperator)
-    assert_type(node.sourceMaximum, DoublePlugOperator)
-    assert_type(BdDblMapRange.targetMinimum, DoubleAttrOperator)
-    assert_type(node.targetMinimum, DoublePlugOperator)
-    assert_type(BdDblMapRange.targetMaximum, DoubleAttrOperator)
-    assert_type(node.targetMaximum, DoublePlugOperator)
+    assert_type(BdDblMapRange.srcMin, DoubleAttrOperator)
+    assert_type(node.srcMin, DoublePlugOperator)
+    assert_type(BdDblMapRange.srcMax, DoubleAttrOperator)
+    assert_type(node.srcMax, DoublePlugOperator)
+    assert_type(BdDblMapRange.dstMin, DoubleAttrOperator)
+    assert_type(node.dstMin, DoublePlugOperator)
+    assert_type(BdDblMapRange.dstMax, DoubleAttrOperator)
+    assert_type(node.dstMax, DoublePlugOperator)
     assert_type(BdDblMapRange.clamp, BoolAttrOperator)
     assert_type(node.clamp, BoolPlugOperator)
     assert_type(BdDblMapRange.output, DoubleAttrOperator)

@@ -50,7 +50,7 @@ MStatus BdDblMapRangeNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         sourceMinimum,
-        "sourceMinimum",
+        "srcMin",
         "smin",
         0.0
     );
@@ -69,7 +69,7 @@ MStatus BdDblMapRangeNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         sourceMaximum,
-        "sourceMaximum",
+        "srcMax",
         "smax",
         1.0
     );
@@ -88,8 +88,8 @@ MStatus BdDblMapRangeNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         targetMinimum,
-        "targetMinimum",
-        "tmin",
+        "dstMin",
+        "dmin",
         0.0
     );
     if (!status) {
@@ -107,8 +107,8 @@ MStatus BdDblMapRangeNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         targetMaximum,
-        "targetMaximum",
-        "tmax",
+        "dstMax",
+        "dmax",
         1.0
     );
     if (!status) {

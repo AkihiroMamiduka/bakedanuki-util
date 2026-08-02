@@ -57,224 +57,208 @@ class InputField(
     iz = inputZ
 
 
-class SourceMinimumPlugOperator(
-    Double3CompoundBasePlugOperator["SourceMinimumAttrOperator"]
+class SrcMinPlugOperator(
+    Double3CompoundBasePlugOperator["SrcMinAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("sourceMinimumX", "sminx"),
-        ("sourceMinimumY", "sminy"),
-        ("sourceMinimumZ", "sminz"),
+        ("srcMinX", "sminx"),
+        ("srcMinY", "sminy"),
+        ("srcMinZ", "sminz"),
     )
 
-    sourceMinimumX = DoubleField(default_value=0.0)
-    sminx = sourceMinimumX
+    srcMinX = DoubleField(default_value=0.0)
+    sminx = srcMinX
 
-    sourceMinimumY = DoubleField(default_value=0.0)
-    sminy = sourceMinimumY
+    srcMinY = DoubleField(default_value=0.0)
+    sminy = srcMinY
 
-    sourceMinimumZ = DoubleField(default_value=0.0)
-    sminz = sourceMinimumZ
+    srcMinZ = DoubleField(default_value=0.0)
+    sminz = srcMinZ
 
 
-class SourceMinimumAttrOperator(
-    Double3CompoundBaseAttrOperator[SourceMinimumPlugOperator]
+class SrcMinAttrOperator(Double3CompoundBaseAttrOperator[SrcMinPlugOperator]):
+    __slots__ = ()
+
+    srcMinX = DoubleField(default_value=0.0)
+    sminx = srcMinX
+
+    srcMinY = DoubleField(default_value=0.0)
+    sminy = srcMinY
+
+    srcMinZ = DoubleField(default_value=0.0)
+    sminz = srcMinZ
+
+
+class SrcMinField(
+    Double3CompoundBaseField[SrcMinAttrOperator, SrcMinPlugOperator]
 ):
     __slots__ = ()
 
-    sourceMinimumX = DoubleField(default_value=0.0)
-    sminx = sourceMinimumX
+    ATTR_CLS = SrcMinAttrOperator
+    PLUG_CLS = SrcMinPlugOperator
 
-    sourceMinimumY = DoubleField(default_value=0.0)
-    sminy = sourceMinimumY
+    srcMinX = DoubleField(default_value=0.0)
+    sminx = srcMinX
 
-    sourceMinimumZ = DoubleField(default_value=0.0)
-    sminz = sourceMinimumZ
+    srcMinY = DoubleField(default_value=0.0)
+    sminy = srcMinY
 
-
-class SourceMinimumField(
-    Double3CompoundBaseField[
-        SourceMinimumAttrOperator, SourceMinimumPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = SourceMinimumAttrOperator
-    PLUG_CLS = SourceMinimumPlugOperator
-
-    sourceMinimumX = DoubleField(default_value=0.0)
-    sminx = sourceMinimumX
-
-    sourceMinimumY = DoubleField(default_value=0.0)
-    sminy = sourceMinimumY
-
-    sourceMinimumZ = DoubleField(default_value=0.0)
-    sminz = sourceMinimumZ
+    srcMinZ = DoubleField(default_value=0.0)
+    sminz = srcMinZ
 
 
-class SourceMaximumPlugOperator(
-    Double3CompoundBasePlugOperator["SourceMaximumAttrOperator"]
+class SrcMaxPlugOperator(
+    Double3CompoundBasePlugOperator["SrcMaxAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("sourceMaximumX", "smaxx"),
-        ("sourceMaximumY", "smaxy"),
-        ("sourceMaximumZ", "smaxz"),
+        ("srcMaxX", "smaxx"),
+        ("srcMaxY", "smaxy"),
+        ("srcMaxZ", "smaxz"),
     )
 
-    sourceMaximumX = DoubleField(default_value=1.0)
-    smaxx = sourceMaximumX
+    srcMaxX = DoubleField(default_value=1.0)
+    smaxx = srcMaxX
 
-    sourceMaximumY = DoubleField(default_value=1.0)
-    smaxy = sourceMaximumY
+    srcMaxY = DoubleField(default_value=1.0)
+    smaxy = srcMaxY
 
-    sourceMaximumZ = DoubleField(default_value=1.0)
-    smaxz = sourceMaximumZ
+    srcMaxZ = DoubleField(default_value=1.0)
+    smaxz = srcMaxZ
 
 
-class SourceMaximumAttrOperator(
-    Double3CompoundBaseAttrOperator[SourceMaximumPlugOperator]
+class SrcMaxAttrOperator(Double3CompoundBaseAttrOperator[SrcMaxPlugOperator]):
+    __slots__ = ()
+
+    srcMaxX = DoubleField(default_value=1.0)
+    smaxx = srcMaxX
+
+    srcMaxY = DoubleField(default_value=1.0)
+    smaxy = srcMaxY
+
+    srcMaxZ = DoubleField(default_value=1.0)
+    smaxz = srcMaxZ
+
+
+class SrcMaxField(
+    Double3CompoundBaseField[SrcMaxAttrOperator, SrcMaxPlugOperator]
 ):
     __slots__ = ()
 
-    sourceMaximumX = DoubleField(default_value=1.0)
-    smaxx = sourceMaximumX
+    ATTR_CLS = SrcMaxAttrOperator
+    PLUG_CLS = SrcMaxPlugOperator
 
-    sourceMaximumY = DoubleField(default_value=1.0)
-    smaxy = sourceMaximumY
+    srcMaxX = DoubleField(default_value=1.0)
+    smaxx = srcMaxX
 
-    sourceMaximumZ = DoubleField(default_value=1.0)
-    smaxz = sourceMaximumZ
+    srcMaxY = DoubleField(default_value=1.0)
+    smaxy = srcMaxY
 
-
-class SourceMaximumField(
-    Double3CompoundBaseField[
-        SourceMaximumAttrOperator, SourceMaximumPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = SourceMaximumAttrOperator
-    PLUG_CLS = SourceMaximumPlugOperator
-
-    sourceMaximumX = DoubleField(default_value=1.0)
-    smaxx = sourceMaximumX
-
-    sourceMaximumY = DoubleField(default_value=1.0)
-    smaxy = sourceMaximumY
-
-    sourceMaximumZ = DoubleField(default_value=1.0)
-    smaxz = sourceMaximumZ
+    srcMaxZ = DoubleField(default_value=1.0)
+    smaxz = srcMaxZ
 
 
-class TargetMinimumPlugOperator(
-    Double3CompoundBasePlugOperator["TargetMinimumAttrOperator"]
+class DstMinPlugOperator(
+    Double3CompoundBasePlugOperator["DstMinAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("targetMinimumX", "tminx"),
-        ("targetMinimumY", "tminy"),
-        ("targetMinimumZ", "tminz"),
+        ("dstMinX", "dminx"),
+        ("dstMinY", "dminy"),
+        ("dstMinZ", "dminz"),
     )
 
-    targetMinimumX = DoubleField(default_value=0.0)
-    tminx = targetMinimumX
+    dstMinX = DoubleField(default_value=0.0)
+    dminx = dstMinX
 
-    targetMinimumY = DoubleField(default_value=0.0)
-    tminy = targetMinimumY
+    dstMinY = DoubleField(default_value=0.0)
+    dminy = dstMinY
 
-    targetMinimumZ = DoubleField(default_value=0.0)
-    tminz = targetMinimumZ
+    dstMinZ = DoubleField(default_value=0.0)
+    dminz = dstMinZ
 
 
-class TargetMinimumAttrOperator(
-    Double3CompoundBaseAttrOperator[TargetMinimumPlugOperator]
+class DstMinAttrOperator(Double3CompoundBaseAttrOperator[DstMinPlugOperator]):
+    __slots__ = ()
+
+    dstMinX = DoubleField(default_value=0.0)
+    dminx = dstMinX
+
+    dstMinY = DoubleField(default_value=0.0)
+    dminy = dstMinY
+
+    dstMinZ = DoubleField(default_value=0.0)
+    dminz = dstMinZ
+
+
+class DstMinField(
+    Double3CompoundBaseField[DstMinAttrOperator, DstMinPlugOperator]
 ):
     __slots__ = ()
 
-    targetMinimumX = DoubleField(default_value=0.0)
-    tminx = targetMinimumX
+    ATTR_CLS = DstMinAttrOperator
+    PLUG_CLS = DstMinPlugOperator
 
-    targetMinimumY = DoubleField(default_value=0.0)
-    tminy = targetMinimumY
+    dstMinX = DoubleField(default_value=0.0)
+    dminx = dstMinX
 
-    targetMinimumZ = DoubleField(default_value=0.0)
-    tminz = targetMinimumZ
+    dstMinY = DoubleField(default_value=0.0)
+    dminy = dstMinY
 
-
-class TargetMinimumField(
-    Double3CompoundBaseField[
-        TargetMinimumAttrOperator, TargetMinimumPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = TargetMinimumAttrOperator
-    PLUG_CLS = TargetMinimumPlugOperator
-
-    targetMinimumX = DoubleField(default_value=0.0)
-    tminx = targetMinimumX
-
-    targetMinimumY = DoubleField(default_value=0.0)
-    tminy = targetMinimumY
-
-    targetMinimumZ = DoubleField(default_value=0.0)
-    tminz = targetMinimumZ
+    dstMinZ = DoubleField(default_value=0.0)
+    dminz = dstMinZ
 
 
-class TargetMaximumPlugOperator(
-    Double3CompoundBasePlugOperator["TargetMaximumAttrOperator"]
+class DstMaxPlugOperator(
+    Double3CompoundBasePlugOperator["DstMaxAttrOperator"]
 ):
     __slots__ = ()
     CHILD_ATTR_NAMES = (
-        ("targetMaximumX", "tmaxx"),
-        ("targetMaximumY", "tmaxy"),
-        ("targetMaximumZ", "tmaxz"),
+        ("dstMaxX", "dmaxx"),
+        ("dstMaxY", "dmaxy"),
+        ("dstMaxZ", "dmaxz"),
     )
 
-    targetMaximumX = DoubleField(default_value=1.0)
-    tmaxx = targetMaximumX
+    dstMaxX = DoubleField(default_value=1.0)
+    dmaxx = dstMaxX
 
-    targetMaximumY = DoubleField(default_value=1.0)
-    tmaxy = targetMaximumY
+    dstMaxY = DoubleField(default_value=1.0)
+    dmaxy = dstMaxY
 
-    targetMaximumZ = DoubleField(default_value=1.0)
-    tmaxz = targetMaximumZ
+    dstMaxZ = DoubleField(default_value=1.0)
+    dmaxz = dstMaxZ
 
 
-class TargetMaximumAttrOperator(
-    Double3CompoundBaseAttrOperator[TargetMaximumPlugOperator]
+class DstMaxAttrOperator(Double3CompoundBaseAttrOperator[DstMaxPlugOperator]):
+    __slots__ = ()
+
+    dstMaxX = DoubleField(default_value=1.0)
+    dmaxx = dstMaxX
+
+    dstMaxY = DoubleField(default_value=1.0)
+    dmaxy = dstMaxY
+
+    dstMaxZ = DoubleField(default_value=1.0)
+    dmaxz = dstMaxZ
+
+
+class DstMaxField(
+    Double3CompoundBaseField[DstMaxAttrOperator, DstMaxPlugOperator]
 ):
     __slots__ = ()
 
-    targetMaximumX = DoubleField(default_value=1.0)
-    tmaxx = targetMaximumX
+    ATTR_CLS = DstMaxAttrOperator
+    PLUG_CLS = DstMaxPlugOperator
 
-    targetMaximumY = DoubleField(default_value=1.0)
-    tmaxy = targetMaximumY
+    dstMaxX = DoubleField(default_value=1.0)
+    dmaxx = dstMaxX
 
-    targetMaximumZ = DoubleField(default_value=1.0)
-    tmaxz = targetMaximumZ
+    dstMaxY = DoubleField(default_value=1.0)
+    dmaxy = dstMaxY
 
-
-class TargetMaximumField(
-    Double3CompoundBaseField[
-        TargetMaximumAttrOperator, TargetMaximumPlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = TargetMaximumAttrOperator
-    PLUG_CLS = TargetMaximumPlugOperator
-
-    targetMaximumX = DoubleField(default_value=1.0)
-    tmaxx = targetMaximumX
-
-    targetMaximumY = DoubleField(default_value=1.0)
-    tmaxy = targetMaximumY
-
-    targetMaximumZ = DoubleField(default_value=1.0)
-    tmaxz = targetMaximumZ
+    dstMaxZ = DoubleField(default_value=1.0)
+    dmaxz = dstMaxZ
 
 
 class OutputPlugOperator(

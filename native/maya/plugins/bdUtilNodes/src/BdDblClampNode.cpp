@@ -49,8 +49,8 @@ MStatus BdDblClampNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         minimum,
-        "minimum",
         "min",
+        "mn",
         0.0
     );
     if (!status) {
@@ -70,8 +70,8 @@ MStatus BdDblClampNode::initialize() {
     status = bd_util_nodes::createDoubleAttribute(
         attributeFn,
         maximum,
-        "maximum",
         "max",
+        "mx",
         1.0
     );
     if (!status) {

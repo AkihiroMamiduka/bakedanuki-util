@@ -42,10 +42,10 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     assert BdDbl3Clamp.NODE_TYPE == "bdDbl3_Clamp"
     assert BdDbl3Clamp.input.long_name == "input"
     assert BdDbl3Clamp.ix.short_name == "ix"
-    assert BdDbl3Clamp.minimum.long_name == "minimum"
-    assert BdDbl3Clamp.miny.short_name == "miny"
-    assert BdDbl3Clamp.maximum.long_name == "maximum"
-    assert BdDbl3Clamp.maxz.short_name == "maxz"
+    assert BdDbl3Clamp.min.long_name == "min"
+    assert BdDbl3Clamp.mny.short_name == "mny"
+    assert BdDbl3Clamp.max.long_name == "max"
+    assert BdDbl3Clamp.mxz.short_name == "mxz"
     assert BdDbl3Clamp.output.long_name == "output"
     assert BdDbl3Clamp.ox.short_name == "ox"
 
@@ -56,10 +56,10 @@ def test_attributes_defaults_and_type_id(modifier_manager, maya_cmds, maya_om):
     zero = (0.0, 0.0, 0.0)
     one = (1.0, 1.0, 1.0)
     assert node.input.get().as_tuple() == pytest.approx(zero)
-    assert node.minimum.get().as_tuple() == pytest.approx(zero)
-    assert node.maximum.get().as_tuple() == pytest.approx(one)
+    assert node.min.get().as_tuple() == pytest.approx(zero)
+    assert node.max.get().as_tuple() == pytest.approx(one)
     assert node.output.get().as_tuple() == pytest.approx(zero)
-    for attribute_name in ("inputX", "minimumY", "maximumZ"):
+    for attribute_name in ("inputX", "minY", "maxZ"):
         assert not maya_cmds.attributeQuery(
             attribute_name,
             node=node.name,
@@ -82,8 +82,8 @@ def test_clamps_component_wise_with_normalized_bounds(maya_cmds):
 
     node = maya_cmds.createNode("bdDbl3_Clamp")
     maya_cmds.setAttr(f"{node}.input", -5.0, 5.0, 15.0, type="double3")
-    maya_cmds.setAttr(f"{node}.minimum", 0.0, 10.0, 20.0, type="double3")
-    maya_cmds.setAttr(f"{node}.maximum", 10.0, 0.0, 10.0, type="double3")
+    maya_cmds.setAttr(f"{node}.min", 0.0, 10.0, 20.0, type="double3")
+    maya_cmds.setAttr(f"{node}.max", 10.0, 0.0, 10.0, type="double3")
     assert maya_cmds.getAttr(f"{node}.output")[0] == pytest.approx(
         (0.0, 5.0, 15.0)
     )
@@ -91,15 +91,15 @@ def test_clamps_component_wise_with_normalized_bounds(maya_cmds):
 
 @pytest.mark.parametrize(
     ("nan_attribute", "component"),
-    (("inputX", 0), ("minimumY", 1), ("maximumZ", 2)),
+    (("inputX", 0), ("minY", 1), ("maxZ", 2)),
 )
 def test_nan_propagates_per_component(maya_cmds, nan_attribute, component):
     _load_bd_util_nodes(maya_cmds)
 
     node = maya_cmds.createNode("bdDbl3_Clamp")
     maya_cmds.setAttr(f"{node}.input", 0.5, 0.5, 0.5, type="double3")
-    maya_cmds.setAttr(f"{node}.minimum", 0.0, 0.0, 0.0, type="double3")
-    maya_cmds.setAttr(f"{node}.maximum", 1.0, 1.0, 1.0, type="double3")
+    maya_cmds.setAttr(f"{node}.min", 0.0, 0.0, 0.0, type="double3")
+    maya_cmds.setAttr(f"{node}.max", 1.0, 1.0, 1.0, type="double3")
     maya_cmds.setAttr(f"{node}.{nan_attribute}", float("nan"))
     output = maya_cmds.getAttr(f"{node}.output")[0]
     assert math.isnan(output[component])
@@ -120,14 +120,14 @@ def test_infinity_uses_component_wise_normal_ordering(maya_cmds):
         type="double3",
     )
     maya_cmds.setAttr(
-        f"{node}.minimum",
+        f"{node}.min",
         float("-inf"),
         -5.0,
         -5.0,
         type="double3",
     )
     maya_cmds.setAttr(
-        f"{node}.maximum",
+        f"{node}.max",
         float("inf"),
         5.0,
         5.0,
@@ -145,8 +145,8 @@ def test_signed_zero_is_selected_per_component(maya_cmds):
 
     node = maya_cmds.createNode("bdDbl3_Clamp")
     maya_cmds.setAttr(f"{node}.input", -1.0, 1.0, 0.0, type="double3")
-    maya_cmds.setAttr(f"{node}.minimum", -0.0, -0.0, -1.0, type="double3")
-    maya_cmds.setAttr(f"{node}.maximum", 0.0, 0.0, 1.0, type="double3")
+    maya_cmds.setAttr(f"{node}.min", -0.0, -0.0, -1.0, type="double3")
+    maya_cmds.setAttr(f"{node}.max", 0.0, 0.0, 1.0, type="double3")
     output = maya_cmds.getAttr(f"{node}.output")[0]
     assert output == (0.0, 0.0, 0.0)
     assert math.copysign(1.0, output[0]) == -1.0
@@ -165,8 +165,8 @@ def test_child_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.evaluationManager(mode=evaluation_mode)
         node = maya_cmds.createNode("bdDbl3_Clamp")
         maya_cmds.setAttr(f"{node}.input", -5.0, 5.0, 15.0, type="double3")
-        maya_cmds.setAttr(f"{node}.minimum", 0.0, 0.0, 0.0, type="double3")
-        maya_cmds.setAttr(f"{node}.maximum", 10.0, 10.0, 10.0, type="double3")
+        maya_cmds.setAttr(f"{node}.min", 0.0, 0.0, 0.0, type="double3")
+        maya_cmds.setAttr(f"{node}.max", 10.0, 10.0, 10.0, type="double3")
         assert maya_cmds.getAttr(f"{node}.output")[0] == pytest.approx(
             (0.0, 5.0, 10.0)
         )
@@ -174,10 +174,10 @@ def test_child_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.setAttr(f"{node}.inputX", 7.0)
         assert maya_cmds.getAttr(f"{node}.outputX") == pytest.approx(7.0)
 
-        maya_cmds.setAttr(f"{node}.minimumY", 8.0)
+        maya_cmds.setAttr(f"{node}.minY", 8.0)
         assert maya_cmds.getAttr(f"{node}.outputY") == pytest.approx(8.0)
 
-        maya_cmds.setAttr(f"{node}.maximumZ", 20.0)
+        maya_cmds.setAttr(f"{node}.maxZ", 20.0)
         assert maya_cmds.getAttr(f"{node}.outputZ") == pytest.approx(15.0)
     finally:
         maya_cmds.evaluationManager(mode=previous_mode)
@@ -196,14 +196,14 @@ def test_child_dependencies_cover_output_compound(maya_cmds, maya_om):
         "inputX",
         "inputY",
         "inputZ",
-        "minimum",
-        "minimumX",
-        "minimumY",
-        "minimumZ",
-        "maximum",
-        "maximumX",
-        "maximumY",
-        "maximumZ",
+        "min",
+        "minX",
+        "minY",
+        "minZ",
+        "max",
+        "maxX",
+        "maxY",
+        "maxZ",
     ):
         affected = node_fn.getAffectedAttributes(
             node_fn.attribute(input_attribute)
@@ -225,11 +225,11 @@ def test_connections_existing_accessor_and_scene_round_trip(
     source = nodes.create.bdDbl3_Clamp(name="source_clamp3")
     target = nodes.create.bdDbl3_Clamp(name="target_clamp3")
     source.input.set((-5.0, 5.0, 15.0))
-    source.minimum.set((0.0, 0.0, 0.0))
-    source.maximum.set((10.0, 10.0, 10.0))
+    source.min.set((0.0, 0.0, 0.0))
+    source.max.set((10.0, 10.0, 10.0))
     source.output.connect(target.input)
-    target.minimum.set((2.0, 2.0, 2.0))
-    target.maximum.set((8.0, 8.0, 8.0))
+    target.min.set((2.0, 2.0, 2.0))
+    target.max.set((8.0, 8.0, 8.0))
     modifier_manager.do_it_dg()
 
     expected = (2.0, 5.0, 8.0)

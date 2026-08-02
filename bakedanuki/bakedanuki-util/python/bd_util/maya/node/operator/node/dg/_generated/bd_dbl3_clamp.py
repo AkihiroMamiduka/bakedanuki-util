@@ -2,8 +2,8 @@
 from .._core import DG
 from ....attr.define.node_attr.bd_dbl3_clamp import (
     InputField,
-    MaximumField,
-    MinimumField,
+    MaxField,
+    MinField,
     OutputField,
 )
 
@@ -22,23 +22,23 @@ class GeneratedBdDbl3Clamp(DG):
     inputZ = input.inputZ
     iz = inputZ
 
-    minimum = MinimumField(default_value=(0.0, 0.0, 0.0))
-    min = minimum
-    minimumX = minimum.minimumX
-    minx = minimumX
-    minimumY = minimum.minimumY
-    miny = minimumY
-    minimumZ = minimum.minimumZ
-    minz = minimumZ
+    min = MinField(default_value=(0.0, 0.0, 0.0))
+    mn = min
+    minX = min.minX
+    mnx = minX
+    minY = min.minY
+    mny = minY
+    minZ = min.minZ
+    mnz = minZ
 
-    maximum = MaximumField(default_value=(1.0, 1.0, 1.0))
-    max = maximum
-    maximumX = maximum.maximumX
-    maxx = maximumX
-    maximumY = maximum.maximumY
-    maxy = maximumY
-    maximumZ = maximum.maximumZ
-    maxz = maximumZ
+    max = MaxField(default_value=(1.0, 1.0, 1.0))
+    mx = max
+    maxX = max.maxX
+    mxx = maxX
+    maxY = max.maxY
+    mxy = maxY
+    maxZ = max.maxZ
+    mxz = maxZ
 
     output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output

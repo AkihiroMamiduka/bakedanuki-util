@@ -11,11 +11,11 @@ class GeneratedBdDblClamp(DG):
     input = DoubleField(default_value=0.0)
     i = input
 
-    minimum = DoubleField(default_value=0.0)
-    min = minimum
+    min = DoubleField(default_value=0.0)
+    mn = min
 
-    maximum = DoubleField(default_value=1.0)
-    max = maximum
+    max = DoubleField(default_value=1.0)
+    mx = max
 
     output = DoubleField(default_value=0.0, writable=False)
     o = output
