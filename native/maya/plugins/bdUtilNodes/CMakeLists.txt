@@ -33,6 +33,12 @@ add_library(
     src/BdDblMaxMultiNode.cpp
     src/BdDbl3MaxNode.cpp
     src/BdDbl3MaxMultiNode.cpp
+    src/BdDblClampNode.cpp
+    src/BdDbl3ClampNode.cpp
+    src/BdDblMapRangeNode.cpp
+    src/BdDbl3MapRangeNode.cpp
+    src/BdDblAbsNode.cpp
+    src/BdDbl3AbsNode.cpp
     src/BdDblValueNode.cpp
     src/BdDbl3ValueNode.cpp
     src/Double3Attribute.cpp

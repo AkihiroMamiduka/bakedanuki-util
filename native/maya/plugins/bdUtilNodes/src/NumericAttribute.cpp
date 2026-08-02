@@ -24,6 +24,24 @@ MStatus createDoubleAttribute(
     return status;
 }
 
+MStatus createBooleanAttribute(
+    MFnNumericAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName,
+    bool defaultValue
+) {
+    MStatus status;
+    attribute = attributeFn.create(
+        longName,
+        shortName,
+        MFnNumericData::kBoolean,
+        defaultValue,
+        &status
+    );
+    return status;
+}
+
 MStatus configureInputNumericAttribute(
     MFnNumericAttribute& attributeFn
 ) {

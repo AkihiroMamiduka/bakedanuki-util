@@ -4,16 +4,20 @@
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
+#include "bdUtilNodes/BdDbl3AbsNode.h"
 #include "bdUtilNodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/BdDbl3AddMultiNode.h"
+#include "bdUtilNodes/BdDbl3ClampNode.h"
 #include "bdUtilNodes/BdDbl3DivNode.h"
 #include "bdUtilNodes/BdDbl3DivMultiNode.h"
 #include "bdUtilNodes/BdDbl3LerpNode.h"
+#include "bdUtilNodes/BdDbl3MapRangeNode.h"
 #include "bdUtilNodes/BdDbl3MaxNode.h"
 #include "bdUtilNodes/BdDbl3MaxMultiNode.h"
 #include "bdUtilNodes/BdDbl3MinNode.h"
 #include "bdUtilNodes/BdDbl3MinMultiNode.h"
 #include "bdUtilNodes/BdDblLerpNode.h"
+#include "bdUtilNodes/BdDblMapRangeNode.h"
 #include "bdUtilNodes/BdDblMaxNode.h"
 #include "bdUtilNodes/BdDblMaxMultiNode.h"
 #include "bdUtilNodes/BdDblMinNode.h"
@@ -24,8 +28,10 @@
 #include "bdUtilNodes/BdDbl3PowMultiNode.h"
 #include "bdUtilNodes/BdDbl3SubNode.h"
 #include "bdUtilNodes/BdDbl3SubMultiNode.h"
+#include "bdUtilNodes/BdDblAbsNode.h"
 #include "bdUtilNodes/BdDblAddNode.h"
 #include "bdUtilNodes/BdDblAddMultiNode.h"
+#include "bdUtilNodes/BdDblClampNode.h"
 #include "bdUtilNodes/BdDblDivNode.h"
 #include "bdUtilNodes/BdDblDivMultiNode.h"
 #include "bdUtilNodes/BdDbl3ValueNode.h"
@@ -48,8 +54,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 34>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 34> registrations = {{
+const std::array<NodeRegistration, 40>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 40> registrations = {{
         {
             BdDbl3MultMultiNode::typeName,
             BdDbl3MultMultiNode::typeId,
@@ -241,6 +247,42 @@ const std::array<NodeRegistration, 34>& nodeRegistrations() {
             BdDblMaxNode::typeId,
             BdDblMaxNode::creator,
             BdDblMaxNode::initialize,
+        },
+        {
+            BdDbl3ClampNode::typeName,
+            BdDbl3ClampNode::typeId,
+            BdDbl3ClampNode::creator,
+            BdDbl3ClampNode::initialize,
+        },
+        {
+            BdDblClampNode::typeName,
+            BdDblClampNode::typeId,
+            BdDblClampNode::creator,
+            BdDblClampNode::initialize,
+        },
+        {
+            BdDbl3MapRangeNode::typeName,
+            BdDbl3MapRangeNode::typeId,
+            BdDbl3MapRangeNode::creator,
+            BdDbl3MapRangeNode::initialize,
+        },
+        {
+            BdDblMapRangeNode::typeName,
+            BdDblMapRangeNode::typeId,
+            BdDblMapRangeNode::creator,
+            BdDblMapRangeNode::initialize,
+        },
+        {
+            BdDbl3AbsNode::typeName,
+            BdDbl3AbsNode::typeId,
+            BdDbl3AbsNode::creator,
+            BdDbl3AbsNode::initialize,
+        },
+        {
+            BdDblAbsNode::typeName,
+            BdDblAbsNode::typeId,
+            BdDblAbsNode::creator,
+            BdDblAbsNode::initialize,
         },
         {
             BdDblValueNode::typeName,

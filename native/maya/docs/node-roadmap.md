@@ -15,9 +15,9 @@ Python 側の API・生成器に関する計画は、既存の
 | ---: | --- | --- | --- | --- | --- |
 | 1 | Minimum | `bdDbl_Min`, `bdDbl_MinMulti`, `bdDbl3_Min`, `bdDbl3_MinMulti` | 固定2入力 / 配列 | 複数値から最小値を選択 | 実装済み |
 | 2 | Maximum | `bdDbl_Max`, `bdDbl_MaxMulti`, `bdDbl3_Max`, `bdDbl3_MaxMulti` | 固定2入力 / 配列 | 複数値から最大値を選択 | 実装済み |
-| 3 | Clamp | `bdDbl_Clamp`, `bdDbl3_Clamp` | 単一入力 | 値を下限と上限の範囲へ制限 | 未実装 |
-| 4 | Map Range | `bdDbl_MapRange`, `bdDbl3_MapRange` | 単一入力 | ある数値範囲から別の数値範囲へ変換 | 未実装 |
-| 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 未実装 |
+| 3 | Clamp | `bdDbl_Clamp`, `bdDbl3_Clamp` | 単一入力 | 値を下限と上限の範囲へ制限 | 実装済み |
+| 4 | Map Range | `bdDbl_MapRange`, `bdDbl3_MapRange` | 単一入力 | ある数値範囲から別の数値範囲へ変換 | 実装済み |
+| 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 実装済み |
 | 6 | Negate | `bdDbl_Neg`, `bdDbl3_Neg` | 単項 | 符号を反転 | 未実装 |
 | 7 | Sign | `bdDbl_Sign`, `bdDbl3_Sign` | 単項 | 値の符号を出力 | 未実装 |
 | 8 | Average | `bdDbl_AvgMulti`, `bdDbl3_AvgMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
@@ -36,9 +36,6 @@ Python 側の API・生成器に関する計画は、既存の
 
 ## Decisions Before Implementation
 
-- Clamp: attribute 名と初期値、および下限が上限を超えた場合の挙動を決める。
-- Map Range: 出力範囲で clamp するか外挿を許可するか、変換元の範囲幅が 0 の場合の
-  挙動、attribute 名と初期値を決める。
 - Sign: 0 と非有限値に対する出力を決める。
 - Average: 空の `Multi` 入力に対する出力値を決める。
 - Weighted Average: weight の合計が 0 の場合の出力を決める。

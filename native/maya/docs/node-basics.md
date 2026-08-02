@@ -408,6 +408,83 @@ connectionからは範囲外の値を受け取れます。そのため`compute()
 範囲外weightによる外挿はこのnodeの責務に含めません。多入力への自然な拡張もないため、
 Lerpには`Multi`版を作りません。
 
+### Clamp Policy
+
+`bdDbl_Clamp`と`bdDbl3_Clamp`は、`input`を`minimum`と`maximum`の間へ制限します。
+double3版ではXYZ成分ごとに独立して計算し、`inputX` / `minimumX` / `maximumX` /
+`outputX`のような子attributeを持ちます。多入力へ拡張する演算ではないため、`Multi`版は
+作りません。
+
+`input`と`minimum`のdefaultは`0`、`maximum`のdefaultは`1`、`output`のdefaultは`0`です。
+double3版では、それぞれ`(0, 0, 0)`、`(0, 0, 0)`、`(1, 1, 1)`、`(0, 0, 0)`です。
+入力attributeにhard min/maxは設定せず、接続値と直接設定値のどちらにも任意のdoubleを
+受け付けます。
+
+`minimum`が`maximum`を超えた場合はエラーや一方への固定とせず、成分ごとに上下限を
+正規化してからclampします。
+
+```text
+lower = Min(minimum, maximum)
+upper = Max(minimum, maximum)
+output = Min(Max(input, lower), upper)
+```
+
+この比較にはMinimum / Maximumと同じ共有実装を使います。`input`、`minimum`、
+`maximum`のいずれかが`NaN`なら該当成分の結果も`NaN`です。`+inf`と`-inf`は通常の
+大小関係で処理し、符号付きzeroも共有比較規則に従って決定します。
+
+### Map Range Policy
+
+`bdDbl_MapRange`と`bdDbl3_MapRange`は、Source範囲内の位置をTarget範囲へ変換します。
+double3版ではXYZ成分ごとに独立して計算し、`clamp`だけは全成分で共有するscalar boolです。
+多入力へ自然に拡張する演算ではないため、`Multi`版は作りません。
+
+```text
+parameter = (input - sourceMinimum)
+    / (sourceMaximum - sourceMinimum)
+
+if clamp:
+    parameter = Clamp(parameter, 0, 1)
+
+output = targetMinimum
+    + parameter * (targetMaximum - targetMinimum)
+```
+
+`input`、`sourceMinimum`、`targetMinimum`、`output`のdefaultは`0`、
+`sourceMaximum`と`targetMaximum`のdefaultは`1`、`clamp`のdefaultは`true`です。
+double3の数値attributeは同じ値をXYZへ適用します。数値入力にhard min/maxは設定しません。
+
+SourceとTargetのMinimum / Maximumは大小比較用の境界ではなく、対応する方向付き端点です。
+そのため逆転していても正規化しません。例えばSourceが`10`から`0`なら、`input=10`が
+`targetMinimum`、`input=0`が`targetMaximum`へ対応します。Targetが逆転している場合も
+同じように方向を維持します。`clamp=false`では範囲外のparameterを許可して外挿します。
+
+`sourceMinimum == sourceMaximum`の場合はゼロ除算を行わず、該当成分の
+`targetMinimum`を返します。`-0.0`と`+0.0`も同じSource幅0として扱います。
+
+5つの数値入力のいずれかが`NaN`なら、該当成分も`NaN`です。有限Source範囲と
+`input=+inf` / `-inf`の組み合わせは、`clamp=true`なら対応するTarget端点へ制限し、
+`clamp=false`ならIEEE演算に従って外挿します。parameterが厳密に`0`または`1`なら
+Target端点を直接返し、無限大や符号付きzeroを不要な補間演算で失わないようにします。
+SourceやTargetに無限大を含む不定演算は`NaN`のまま伝播します。
+
+### Absolute Policy
+
+`bdDbl_Abs`と`bdDbl3_Abs`は、`input`の絶対値を`output`へ返します。double3版は
+XYZ成分ごとに独立して計算します。単項演算なので`Multi`版は作りません。
+
+```text
+output = abs(input)
+```
+
+`input`と`output`のdefaultはdoubleが`0`、double3が`(0, 0, 0)`です。負数を入力する
+演算なのでinputにhard min/maxは設定しません。outputも計算専用attributeであり、
+結果の非負性はhard minimumではなく計算そのもので保証します。
+
+共有実装ではdouble用の`std::fabs()`を使います。正数はそのまま、負数は正の値、
+`-0.0`は`+0.0`、`+inf`と`-inf`は`+inf`、`NaN`は`NaN`を返します。NaNをzeroへ
+置き換えたり、無限大を有限値へclampしたり、warningを出したりはしません。
+
 ### Weighted Add Policy
 
 `bdDbl_WtAddMulti`と`bdDbl3_WtAddMulti`は、valueとweightの積を全要素について加算する

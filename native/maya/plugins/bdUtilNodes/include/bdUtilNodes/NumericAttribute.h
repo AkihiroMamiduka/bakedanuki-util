@@ -15,6 +15,14 @@ MStatus createDoubleAttribute(
     double defaultValue
 );
 
+MStatus createBooleanAttribute(
+    MFnNumericAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName,
+    bool defaultValue
+);
+
 MStatus configureInputNumericAttribute(
     MFnNumericAttribute& attributeFn
 );

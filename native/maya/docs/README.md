@@ -100,6 +100,24 @@
   - component-wiseなdouble3最大値と、空入力を明示したsparse配列版
 - [BdDblMaxNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxNode.cpp) / [BdDblMaxMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxMultiNode.cpp)
   - scalar最大値の固定2入力版と配列版
+- [Clamp.h](../plugins/bdUtilNodes/include/bdUtilNodes/Clamp.h)
+  - 逆転した上下限を正規化し、Minimum / Maximumの比較規則を再利用するclamp
+- [BdDbl3ClampNode.cpp](../plugins/bdUtilNodes/src/BdDbl3ClampNode.cpp)
+  - component-wiseなdouble3 clampとcompound dirty
+- [BdDblClampNode.cpp](../plugins/bdUtilNodes/src/BdDblClampNode.cpp)
+  - scalar clamp
+- [MapRange.h](../plugins/bdUtilNodes/include/bdUtilNodes/MapRange.h)
+  - 方向付きSource / Target範囲、Clamp切替、Source幅0を扱う共有変換
+- [BdDbl3MapRangeNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MapRangeNode.cpp)
+  - component-wiseなdouble3 Map Rangeとcompound dirty
+- [BdDblMapRangeNode.cpp](../plugins/bdUtilNodes/src/BdDblMapRangeNode.cpp)
+  - scalar Map Range
+- [Absolute.h](../plugins/bdUtilNodes/include/bdUtilNodes/Absolute.h)
+  - `std::fabs()`によるscalar / component-wise Absoluteの共有実装
+- [BdDbl3AbsNode.cpp](../plugins/bdUtilNodes/src/BdDbl3AbsNode.cpp)
+  - component-wiseなdouble3 Absoluteとcompound dirty
+- [BdDblAbsNode.cpp](../plugins/bdUtilNodes/src/BdDblAbsNode.cpp)
+  - scalar Absolute
 - [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_mult.py)
@@ -136,6 +154,18 @@
   - double3最小値・最大値の境界値、compound dirty、接続、scene round-tripのテスト
 - [test_bd_dbl_min_max.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_min_max.py)
   - scalar最小値・最大値の境界値、sparse配列、接続、scene round-tripのテスト
+- [test_bd_dbl3_clamp.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_clamp.py)
+  - double3 clampの逆転境界、非有限値、compound dirty、接続、scene round-tripのテスト
+- [test_bd_dbl_clamp.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_clamp.py)
+  - scalar clampの逆転境界、非有限値、評価モード、接続、scene round-tripのテスト
+- [test_bd_dbl3_map_range.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_map_range.py)
+  - double3 Map Rangeの方向、Source幅0、compound dirty、接続、scene round-tripのテスト
+- [test_bd_dbl_map_range.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_map_range.py)
+  - scalar Map RangeのClamp切替、外挿、非有限値、評価モード、scene round-tripのテスト
+- [test_bd_dbl3_abs.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_abs.py)
+  - double3 Absoluteの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
+- [test_bd_dbl_abs.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_abs.py)
+  - scalar Absoluteの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 
 ## Core Principles
 

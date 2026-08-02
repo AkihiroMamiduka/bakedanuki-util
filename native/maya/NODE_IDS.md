@@ -38,6 +38,12 @@
 | `bdDbl3_Max` | `0x0007F020` | Internal development |
 | `bdDbl_MaxMulti` | `0x0007F021` | Internal development |
 | `bdDbl_Max` | `0x0007F022` | Internal development |
+| `bdDbl3_Clamp` | `0x0007F023` | Internal development |
+| `bdDbl_Clamp` | `0x0007F024` | Internal development |
+| `bdDbl3_MapRange` | `0x0007F025` | Internal development |
+| `bdDbl_MapRange` | `0x0007F026` | Internal development |
+| `bdDbl3_Abs` | `0x0007F027` | Internal development |
+| `bdDbl_Abs` | `0x0007F028` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

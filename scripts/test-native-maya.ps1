@@ -45,6 +45,12 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_pow.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_lerp.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_lerp.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_clamp.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_clamp.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_map_range.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_map_range.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_abs.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_abs.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_min_max.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl_min_max.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_wt_add.py") `

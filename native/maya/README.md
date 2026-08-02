@@ -72,9 +72,9 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 ```
 
 テストは staged plug-in を Maya 2025 の `mayapy` へロードし、double3 版と double
-版それぞれの乗算・加算・減算・安全除算・最小値・最大値について、固定2入力ノード、
+版それぞれの乗算・加算・減算・安全除算・最小値・最大値・Clamp・Map Range・Absoluteについて、固定入力ノード、
 可変長入力ノード、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、
-符号付きゼロ、element 削除、compound child の直接要求、compound dirty、DG / Serial /
+符号付きゼロ、逆転した上下限、方向付き範囲、Source幅0、外挿、絶対値、element 削除、compound child の直接要求、compound dirty、DG / Serial /
 Parallel、ノード接続、scene の保存と再読込、NodeOperator API を確認します。
 
 ## Node Implementation Rules

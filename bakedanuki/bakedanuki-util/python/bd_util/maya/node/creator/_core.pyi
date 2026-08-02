@@ -265,12 +265,15 @@ from ..operator.node.dg.avg_surface_points import AvgSurfacePoints
 from ..operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from ..operator.node.dg.axis_from_matrix import AxisFromMatrix
 from ..operator.node.dg.basic_selector import BasicSelector
+from ..operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
 from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from ..operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
 from ..operator.node.dg.bd_dbl3_div import BdDbl3Div
 from ..operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
 from ..operator.node.dg.bd_dbl3_value import BdDbl3Value
 from ..operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from ..operator.node.dg.bd_dbl3_map_range import BdDbl3MapRange
 from ..operator.node.dg.bd_dbl3_max import BdDbl3Max
 from ..operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
 from ..operator.node.dg.bd_dbl3_min import BdDbl3Min
@@ -282,12 +285,15 @@ from ..operator.node.dg.bd_dbl3_pow_multi import BdDbl3PowMulti
 from ..operator.node.dg.bd_dbl3_sub import BdDbl3Sub
 from ..operator.node.dg.bd_dbl3_sub_multi import BdDbl3SubMulti
 from ..operator.node.dg.bd_dbl3_wt_add_multi import BdDbl3WtAddMulti
+from ..operator.node.dg.bd_dbl_abs import BdDblAbs
 from ..operator.node.dg.bd_dbl_add import BdDblAdd
 from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from ..operator.node.dg.bd_dbl_clamp import BdDblClamp
 from ..operator.node.dg.bd_dbl_div import BdDblDiv
 from ..operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
 from ..operator.node.dg.bd_dbl_value import BdDblValue
 from ..operator.node.dg.bd_dbl_lerp import BdDblLerp
+from ..operator.node.dg.bd_dbl_map_range import BdDblMapRange
 from ..operator.node.dg.bd_dbl_max import BdDblMax
 from ..operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
 from ..operator.node.dg.bd_dbl_min import BdDblMin
@@ -2235,6 +2241,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BasicSelector: ...
+    def bdDbl3_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Abs: ...
     def bdDbl3_Add(
         self,
         name: str | None = None,
@@ -2245,6 +2256,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3AddMulti: ...
+    def bdDbl3_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Clamp: ...
     def bdDbl3_Div(
         self,
         name: str | None = None,
@@ -2265,6 +2281,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3Lerp: ...
+    def bdDbl3_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MapRange: ...
     def bdDbl3_Max(
         self,
         name: str | None = None,
@@ -2320,6 +2341,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3WtAddMulti: ...
+    def bdDbl_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAbs: ...
     def bdDbl_Add(
         self,
         name: str | None = None,
@@ -2330,6 +2356,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblAddMulti: ...
+    def bdDbl_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblClamp: ...
     def bdDbl_Div(
         self,
         name: str | None = None,
@@ -2350,6 +2381,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblLerp: ...
+    def bdDbl_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMapRange: ...
     def bdDbl_Max(
         self,
         name: str | None = None,
