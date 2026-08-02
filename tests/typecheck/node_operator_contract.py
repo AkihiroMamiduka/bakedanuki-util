@@ -32,6 +32,24 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_div_multi import (
     OutputAttrOperator as DivMultiOutputAttrOperator,
     OutputPlugOperator as DivMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_max import (
+    Input1PlugOperator as MaxInput1PlugOperator,
+    Input2PlugOperator as MaxInput2PlugOperator,
+    OutputPlugOperator as MaxOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_max_multi import (
+    InputPlugOperator as MaxMultiInputPlugOperator,
+    OutputPlugOperator as MaxMultiOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_min import (
+    Input1PlugOperator as MinInput1PlugOperator,
+    Input2PlugOperator as MinInput2PlugOperator,
+    OutputPlugOperator as MinOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_min_multi import (
+    InputPlugOperator as MinMultiInputPlugOperator,
+    OutputPlugOperator as MinMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_value import (
     ValueAttrOperator as Double3ValueAttrOperator,
     ValuePlugOperator as Double3ValuePlugOperator,
@@ -123,6 +141,10 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_div import (
 from bd_util.maya.node.operator.node.dg.bd_dbl3_div_multi import (
     BdDbl3DivMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_dbl3_max import BdDbl3Max
+from bd_util.maya.node.operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
+from bd_util.maya.node.operator.node.dg.bd_dbl3_min import BdDbl3Min
+from bd_util.maya.node.operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
 from bd_util.maya.node.operator.node.dg.bd_dbl3_value import BdDbl3Value
 from bd_util.maya.node.operator.node.dg.bd_dbl3_mult import (
     BdDbl3Mult,
@@ -166,6 +188,10 @@ from bd_util.maya.node.operator.node.dg.bd_dbl_div import (
 from bd_util.maya.node.operator.node.dg.bd_dbl_div_multi import (
     BdDblDivMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_dbl_max import BdDblMax
+from bd_util.maya.node.operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
+from bd_util.maya.node.operator.node.dg.bd_dbl_min import BdDblMin
+from bd_util.maya.node.operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
 from bd_util.maya.node.operator.node.dg.bd_dbl_value import BdDblValue
 from bd_util.maya.node.operator.node.dg.bd_dbl_sub import (
     BdDblSub,
@@ -199,6 +225,46 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_add_fixed, BdDbl3Add)
     existing_add_multi = nodes.existing.bdDbl3_AddMulti("existing_add_multi")
     assert_type(existing_add_multi, BdDbl3AddMulti)
+
+    min_fixed = nodes.create.bdDbl3_Min(name="min_fixed")
+    assert_type(min_fixed, BdDbl3Min)
+    assert_type(min_fixed.input1, MinInput1PlugOperator)
+    assert_type(min_fixed.input2, MinInput2PlugOperator)
+    assert_type(min_fixed.output, MinOutputPlugOperator)
+    assert_type(min_fixed.output.get(), bdu.Double3)
+
+    min_multi = nodes.create.bdDbl3_MinMulti(name="min_multi")
+    assert_type(min_multi, BdDbl3MinMulti)
+    assert_type(min_multi.input, MinMultiInputPlugOperator)
+    assert_type(min_multi.input[next], MinMultiInputPlugOperator)
+    assert_type(min_multi.output, MinMultiOutputPlugOperator)
+    assert_type(min_multi.output.get(), bdu.Double3)
+
+    assert_type(nodes.existing.bdDbl3_Min("existing_min"), BdDbl3Min)
+    assert_type(
+        nodes.existing.bdDbl3_MinMulti("existing_min_multi"),
+        BdDbl3MinMulti,
+    )
+
+    max_fixed = nodes.create.bdDbl3_Max(name="max_fixed")
+    assert_type(max_fixed, BdDbl3Max)
+    assert_type(max_fixed.input1, MaxInput1PlugOperator)
+    assert_type(max_fixed.input2, MaxInput2PlugOperator)
+    assert_type(max_fixed.output, MaxOutputPlugOperator)
+    assert_type(max_fixed.output.get(), bdu.Double3)
+
+    max_multi = nodes.create.bdDbl3_MaxMulti(name="max_multi")
+    assert_type(max_multi, BdDbl3MaxMulti)
+    assert_type(max_multi.input, MaxMultiInputPlugOperator)
+    assert_type(max_multi.input[next], MaxMultiInputPlugOperator)
+    assert_type(max_multi.output, MaxMultiOutputPlugOperator)
+    assert_type(max_multi.output.get(), bdu.Double3)
+
+    assert_type(nodes.existing.bdDbl3_Max("existing_max"), BdDbl3Max)
+    assert_type(
+        nodes.existing.bdDbl3_MaxMulti("existing_max_multi"),
+        BdDbl3MaxMulti,
+    )
 
     div_fixed = nodes.create.bdDbl3_Div(name="div_fixed")
     assert_type(div_fixed, BdDbl3Div)
@@ -329,6 +395,46 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         "existing_double_add_multi"
     )
     assert_type(existing_double_add_multi, BdDblAddMulti)
+
+    double_min_fixed = nodes.create.bdDbl_Min(name="double_min_fixed")
+    assert_type(double_min_fixed, BdDblMin)
+    assert_type(double_min_fixed.input1, DoublePlugOperator)
+    assert_type(double_min_fixed.input2, DoublePlugOperator)
+    assert_type(double_min_fixed.output, DoublePlugOperator)
+    assert_type(double_min_fixed.output.get(), float)
+
+    double_min_multi = nodes.create.bdDbl_MinMulti(name="double_min_multi")
+    assert_type(double_min_multi, BdDblMinMulti)
+    assert_type(double_min_multi.input, DoublePlugOperator)
+    assert_type(double_min_multi.input[next], DoublePlugOperator)
+    assert_type(double_min_multi.output, DoublePlugOperator)
+    assert_type(double_min_multi.output.get(), float)
+
+    assert_type(nodes.existing.bdDbl_Min("existing_double_min"), BdDblMin)
+    assert_type(
+        nodes.existing.bdDbl_MinMulti("existing_double_min_multi"),
+        BdDblMinMulti,
+    )
+
+    double_max_fixed = nodes.create.bdDbl_Max(name="double_max_fixed")
+    assert_type(double_max_fixed, BdDblMax)
+    assert_type(double_max_fixed.input1, DoublePlugOperator)
+    assert_type(double_max_fixed.input2, DoublePlugOperator)
+    assert_type(double_max_fixed.output, DoublePlugOperator)
+    assert_type(double_max_fixed.output.get(), float)
+
+    double_max_multi = nodes.create.bdDbl_MaxMulti(name="double_max_multi")
+    assert_type(double_max_multi, BdDblMaxMulti)
+    assert_type(double_max_multi.input, DoublePlugOperator)
+    assert_type(double_max_multi.input[next], DoublePlugOperator)
+    assert_type(double_max_multi.output, DoublePlugOperator)
+    assert_type(double_max_multi.output.get(), float)
+
+    assert_type(nodes.existing.bdDbl_Max("existing_double_max"), BdDblMax)
+    assert_type(
+        nodes.existing.bdDbl_MaxMulti("existing_double_max_multi"),
+        BdDblMaxMulti,
+    )
 
     double_div_fixed = nodes.create.bdDbl_Div(name="double_div_fixed")
     assert_type(double_div_fixed, BdDblDiv)

@@ -346,6 +346,10 @@ from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
 from .operator.node.dg.bd_dbl3_div import BdDbl3Div
 from .operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
 from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from .operator.node.dg.bd_dbl3_max import BdDbl3Max
+from .operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
+from .operator.node.dg.bd_dbl3_min import BdDbl3Min
+from .operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
 from .operator.node.dg.bd_dbl3_mult import BdDbl3Mult
 from .operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
 from .operator.node.dg.bd_dbl3_pow import BdDbl3Pow
@@ -359,6 +363,10 @@ from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
 from .operator.node.dg.bd_dbl_div import BdDblDiv
 from .operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
 from .operator.node.dg.bd_dbl_lerp import BdDblLerp
+from .operator.node.dg.bd_dbl_max import BdDblMax
+from .operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
+from .operator.node.dg.bd_dbl_min import BdDblMin
+from .operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
 from .operator.node.dg.bd_dbl_mult import BdDblMult
 from .operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
 from .operator.node.dg.bd_dbl_pow import BdDblPow
@@ -2888,6 +2896,30 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3Lerp: ...
     @staticmethod
+    def bdDbl3_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Max: ...
+    @staticmethod
+    def bdDbl3_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MaxMulti: ...
+    @staticmethod
+    def bdDbl3_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Min: ...
+    @staticmethod
+    def bdDbl3_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3MinMulti: ...
+    @staticmethod
     def bdDbl3_Mult(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2965,6 +2997,30 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblLerp: ...
+    @staticmethod
+    def bdDbl_Max(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMax: ...
+    @staticmethod
+    def bdDbl_MaxMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMaxMulti: ...
+    @staticmethod
+    def bdDbl_Min(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMin: ...
+    @staticmethod
+    def bdDbl_MinMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblMinMulti: ...
     @staticmethod
     def bdDbl_Mult(
         node: str | om.MObject,

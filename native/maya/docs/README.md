@@ -90,6 +90,16 @@
   - value/weight compound配列によるdouble3加重和
 - [BdDblWtAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblWtAddMultiNode.cpp)
   - value/weight compound配列によるscalar加重和
+- [MinMax.h](../plugins/bdUtilNodes/include/bdUtilNodes/MinMax.h)
+  - NaN伝播、無限値、符号付きゼロを含む最小値・最大値の共有比較規則
+- [BdDbl3MinNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MinNode.cpp) / [BdDbl3MinMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MinMultiNode.cpp)
+  - component-wiseなdouble3最小値と、空入力を明示したsparse配列版
+- [BdDblMinNode.cpp](../plugins/bdUtilNodes/src/BdDblMinNode.cpp) / [BdDblMinMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMinMultiNode.cpp)
+  - scalar最小値の固定2入力版と配列版
+- [BdDbl3MaxNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MaxNode.cpp) / [BdDbl3MaxMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MaxMultiNode.cpp)
+  - component-wiseなdouble3最大値と、空入力を明示したsparse配列版
+- [BdDblMaxNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxNode.cpp) / [BdDblMaxMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxMultiNode.cpp)
+  - scalar最大値の固定2入力版と配列版
 - [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_mult.py)
@@ -122,6 +132,10 @@
   - double3加重和、compound配列、dirtyのテスト
 - [test_bd_dbl_wt_add.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_wt_add.py)
   - scalar加重和、compound配列、dirtyのテスト
+- [test_bd_dbl3_min_max.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_min_max.py)
+  - double3最小値・最大値の境界値、compound dirty、接続、scene round-tripのテスト
+- [test_bd_dbl_min_max.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_min_max.py)
+  - scalar最小値・最大値の境界値、sparse配列、接続、scene round-tripのテスト
 
 ## Core Principles
 

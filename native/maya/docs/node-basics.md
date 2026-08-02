@@ -306,7 +306,7 @@ double乗算では `bdDbl_Mult` と `bdDbl_MultMulti`、double3乗算では
 | 除算 | 個別仕様で2種類 | `1`（明示仕様） | logical index昇順、安全な除数下限 |
 | 論理AND | 必要に応じて2種類 | `true` | 全入力がtrueかを返す |
 | 論理OR | 必要に応じて2種類 | `false` | いずれかの入力がtrueかを返す |
-| 最小・最大 | 個別検討 | 型と用途ごとに決定 | 無限値や未定義状態を含めて決める |
+| 最小・最大 | 原則2種類を作る | `0`（明示仕様） | 非空配列は最初の実在要素から畳み込む |
 | 累乗 | 個別仕様で2種類 | `1`（明示仕様） | logical index昇順の左畳み込み、負指数のみ底を補正 |
 | 平均 | 個別検討 | 自然な結果なし | 空入力と除数0の仕様が必要 |
 | 線形補間 | 固定版のみ | 該当なし | 2値間を補間し、weightを`0`から`1`へclamp |
@@ -374,6 +374,22 @@ result = std::pow(base, exponent);
 `(input[2] ^ input[9]) ^ input[20]`です。1要素ならその値、空配列なら明示仕様の`1`
 または`(1, 1, 1)`を返します。各段階で指数が負の場合、その時点の計算結果である底へ
 同じepsilon補正を適用します。
+
+### Minimum And Maximum Policy
+
+`bdDbl_Min` / `bdDbl_Max`と`bdDbl3_Min` / `bdDbl3_Max`は、`input1`と
+`input2`の最小値または最大値を返します。double3版ではXYZ成分ごとに独立して比較します。
+配列版の`bdDbl_MinMulti` / `bdDbl_MaxMulti`と`bdDbl3_MinMulti` /
+`bdDbl3_MaxMulti`は、sparseな`input[]`の実在elementだけを走査します。
+
+空配列はdoubleでは`0`、double3では`(0, 0, 0)`を返します。非空配列では`0`を
+比較対象に追加せず、最初の実在elementを初期値として残りを畳み込みます。そのため、
+正数だけのMinimumや負数だけのMaximumも`0`へ偏りません。1要素ならその値を返します。
+
+いずれかの比較値が`NaN`なら、その成分の結果も`NaN`にします。`+inf`と`-inf`は通常の
+大小関係で比較します。`+0.0`と`-0.0`を比較した場合は、Minimumが`-0.0`、Maximumが
+`+0.0`を返します。この規則は固定版と配列版で共通です。比較順に意味はないため、
+配列版はlogical indexをsortせずphysical iterationで処理します。
 
 ### Lerp Policy
 

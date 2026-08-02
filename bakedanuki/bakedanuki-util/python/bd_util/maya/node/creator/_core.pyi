@@ -271,6 +271,10 @@ from ..operator.node.dg.bd_dbl3_div import BdDbl3Div
 from ..operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
 from ..operator.node.dg.bd_dbl3_value import BdDbl3Value
 from ..operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
+from ..operator.node.dg.bd_dbl3_max import BdDbl3Max
+from ..operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
+from ..operator.node.dg.bd_dbl3_min import BdDbl3Min
+from ..operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
 from ..operator.node.dg.bd_dbl3_mult import BdDbl3Mult
 from ..operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
 from ..operator.node.dg.bd_dbl3_pow import BdDbl3Pow
@@ -284,6 +288,10 @@ from ..operator.node.dg.bd_dbl_div import BdDblDiv
 from ..operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
 from ..operator.node.dg.bd_dbl_value import BdDblValue
 from ..operator.node.dg.bd_dbl_lerp import BdDblLerp
+from ..operator.node.dg.bd_dbl_max import BdDblMax
+from ..operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
+from ..operator.node.dg.bd_dbl_min import BdDblMin
+from ..operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
 from ..operator.node.dg.bd_dbl_mult import BdDblMult
 from ..operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
 from ..operator.node.dg.bd_dbl_pow import BdDblPow
@@ -2257,6 +2265,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3Lerp: ...
+    def bdDbl3_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Max: ...
+    def bdDbl3_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MaxMulti: ...
+    def bdDbl3_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Min: ...
+    def bdDbl3_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3MinMulti: ...
     def bdDbl3_Mult(
         self,
         name: str | None = None,
@@ -2322,6 +2350,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblLerp: ...
+    def bdDbl_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMax: ...
+    def bdDbl_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMaxMulti: ...
+    def bdDbl_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMin: ...
+    def bdDbl_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblMinMulti: ...
     def bdDbl_Mult(
         self,
         name: str | None = None,

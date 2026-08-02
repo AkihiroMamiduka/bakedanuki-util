@@ -30,6 +30,14 @@
 | `bdDbl_Lerp` | `0x0007F018` | Internal development |
 | `bdDbl3_WtAddMulti` | `0x0007F019` | Internal development |
 | `bdDbl_WtAddMulti` | `0x0007F01A` | Internal development |
+| `bdDbl3_MinMulti` | `0x0007F01B` | Internal development |
+| `bdDbl3_Min` | `0x0007F01C` | Internal development |
+| `bdDbl_MinMulti` | `0x0007F01D` | Internal development |
+| `bdDbl_Min` | `0x0007F01E` | Internal development |
+| `bdDbl3_MaxMulti` | `0x0007F01F` | Internal development |
+| `bdDbl3_Max` | `0x0007F020` | Internal development |
+| `bdDbl_MaxMulti` | `0x0007F021` | Internal development |
+| `bdDbl_Max` | `0x0007F022` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

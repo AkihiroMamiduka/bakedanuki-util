@@ -9,7 +9,15 @@
 #include "bdUtilNodes/BdDbl3DivNode.h"
 #include "bdUtilNodes/BdDbl3DivMultiNode.h"
 #include "bdUtilNodes/BdDbl3LerpNode.h"
+#include "bdUtilNodes/BdDbl3MaxNode.h"
+#include "bdUtilNodes/BdDbl3MaxMultiNode.h"
+#include "bdUtilNodes/BdDbl3MinNode.h"
+#include "bdUtilNodes/BdDbl3MinMultiNode.h"
 #include "bdUtilNodes/BdDblLerpNode.h"
+#include "bdUtilNodes/BdDblMaxNode.h"
+#include "bdUtilNodes/BdDblMaxMultiNode.h"
+#include "bdUtilNodes/BdDblMinNode.h"
+#include "bdUtilNodes/BdDblMinMultiNode.h"
 #include "bdUtilNodes/BdDbl3MultNode.h"
 #include "bdUtilNodes/BdDbl3MultMultiNode.h"
 #include "bdUtilNodes/BdDbl3PowNode.h"
@@ -40,8 +48,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 26>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 26> registrations = {{
+const std::array<NodeRegistration, 34>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 34> registrations = {{
         {
             BdDbl3MultMultiNode::typeName,
             BdDbl3MultMultiNode::typeId,
@@ -185,6 +193,54 @@ const std::array<NodeRegistration, 26>& nodeRegistrations() {
             BdDblWtAddMultiNode::typeId,
             BdDblWtAddMultiNode::creator,
             BdDblWtAddMultiNode::initialize,
+        },
+        {
+            BdDbl3MinMultiNode::typeName,
+            BdDbl3MinMultiNode::typeId,
+            BdDbl3MinMultiNode::creator,
+            BdDbl3MinMultiNode::initialize,
+        },
+        {
+            BdDbl3MinNode::typeName,
+            BdDbl3MinNode::typeId,
+            BdDbl3MinNode::creator,
+            BdDbl3MinNode::initialize,
+        },
+        {
+            BdDblMinMultiNode::typeName,
+            BdDblMinMultiNode::typeId,
+            BdDblMinMultiNode::creator,
+            BdDblMinMultiNode::initialize,
+        },
+        {
+            BdDblMinNode::typeName,
+            BdDblMinNode::typeId,
+            BdDblMinNode::creator,
+            BdDblMinNode::initialize,
+        },
+        {
+            BdDbl3MaxMultiNode::typeName,
+            BdDbl3MaxMultiNode::typeId,
+            BdDbl3MaxMultiNode::creator,
+            BdDbl3MaxMultiNode::initialize,
+        },
+        {
+            BdDbl3MaxNode::typeName,
+            BdDbl3MaxNode::typeId,
+            BdDbl3MaxNode::creator,
+            BdDbl3MaxNode::initialize,
+        },
+        {
+            BdDblMaxMultiNode::typeName,
+            BdDblMaxMultiNode::typeId,
+            BdDblMaxMultiNode::creator,
+            BdDblMaxMultiNode::initialize,
+        },
+        {
+            BdDblMaxNode::typeName,
+            BdDblMaxNode::typeId,
+            BdDblMaxNode::creator,
+            BdDblMaxNode::initialize,
         },
         {
             BdDblValueNode::typeName,
