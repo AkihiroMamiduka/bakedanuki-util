@@ -508,6 +508,22 @@ output = abs(input)
 `-0.0`は`+0.0`、`+inf`と`-inf`は`+inf`、`NaN`は`NaN`を返します。NaNをzeroへ
 置き換えたり、無限大を有限値へclampしたり、warningを出したりはしません。
 
+### Negate Policy
+
+`bdDbl_Neg`と`bdDbl3_Neg`は、`input`の符号を反転して`output`へ返します。
+double3版はXYZ成分ごとに独立して計算します。単項演算なので`Multi`版は作りません。
+
+```text
+output = -input
+```
+
+`input`と`output`のdefaultはdoubleが`0`、double3が`(0, 0, 0)`です。正負の任意の
+値を入力するため、inputにhard min/maxは設定しません。共有実装ではdoubleの単項
+マイナスをそのまま使います。
+
+`+0.0`は`-0.0`、`-0.0`は`+0.0`、`+inf`は`-inf`、`-inf`は`+inf`を返し、
+`NaN`は`NaN`のまま伝播します。値のclamp、epsilon補正、warningは行いません。
+
 ### Weighted Add Policy
 
 `bdDbl_WtAddMulti`と`bdDbl3_WtAddMulti`は、valueとweightの積を全要素について加算する

@@ -10,6 +10,12 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_abs import (
     OutputAttrOperator as AbsOutputAttrOperator,
     OutputPlugOperator as AbsOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_neg import (
+    InputAttrOperator as NegInputAttrOperator,
+    InputPlugOperator as NegInputPlugOperator,
+    OutputAttrOperator as NegOutputAttrOperator,
+    OutputPlugOperator as NegOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add import (
     Input1AttrOperator as AddInput1AttrOperator,
     Input1PlugOperator as AddInput1PlugOperator,
@@ -184,6 +190,7 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_max import BdDbl3Max
 from bd_util.maya.node.operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
 from bd_util.maya.node.operator.node.dg.bd_dbl3_min import BdDbl3Min
 from bd_util.maya.node.operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
+from bd_util.maya.node.operator.node.dg.bd_dbl3_neg import BdDbl3Neg
 from bd_util.maya.node.operator.node.dg.bd_dbl3_value import BdDbl3Value
 from bd_util.maya.node.operator.node.dg.bd_dbl3_mult import (
     BdDbl3Mult,
@@ -234,6 +241,7 @@ from bd_util.maya.node.operator.node.dg.bd_dbl_max import BdDblMax
 from bd_util.maya.node.operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
 from bd_util.maya.node.operator.node.dg.bd_dbl_min import BdDblMin
 from bd_util.maya.node.operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
+from bd_util.maya.node.operator.node.dg.bd_dbl_neg import BdDblNeg
 from bd_util.maya.node.operator.node.dg.bd_dbl_value import BdDblValue
 from bd_util.maya.node.operator.node.dg.bd_dbl_sub import (
     BdDblSub,
@@ -255,6 +263,13 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(absolute.output, AbsOutputPlugOperator)
     assert_type(absolute.output.get(), bdu.Double3)
     assert_type(nodes.existing.bdDbl3_Abs("existing_absolute"), BdDbl3Abs)
+
+    negate = nodes.create.bdDbl3_Neg(name="negate")
+    assert_type(negate, BdDbl3Neg)
+    assert_type(negate.input, NegInputPlugOperator)
+    assert_type(negate.output, NegOutputPlugOperator)
+    assert_type(negate.output.get(), bdu.Double3)
+    assert_type(nodes.existing.bdDbl3_Neg("existing_negate"), BdDbl3Neg)
 
     add_fixed = nodes.create.bdDbl3_Add(name="add_fixed")
     assert_type(add_fixed, BdDbl3Add)
@@ -433,6 +448,16 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdDbl_Abs("existing_double_absolute"),
         BdDblAbs,
+    )
+
+    double_negate = nodes.create.bdDbl_Neg(name="double_negate")
+    assert_type(double_negate, BdDblNeg)
+    assert_type(double_negate.input, DoublePlugOperator)
+    assert_type(double_negate.output, DoublePlugOperator)
+    assert_type(double_negate.output.get(), float)
+    assert_type(
+        nodes.existing.bdDbl_Neg("existing_double_negate"),
+        BdDblNeg,
     )
 
     double_fixed = nodes.create.bdDbl_Mult(name="double_fixed")
@@ -706,6 +731,23 @@ def bd_dbl_abs_descriptor_contract(node: BdDblAbs) -> None:
     assert_type(BdDblAbs.input, DoubleAttrOperator)
     assert_type(node.input, DoublePlugOperator)
     assert_type(BdDblAbs.output, DoubleAttrOperator)
+    assert_type(node.output, DoublePlugOperator)
+    assert_type(node.output.get(), float)
+
+
+def bd_dbl3_neg_descriptor_contract(node: BdDbl3Neg) -> None:
+    assert_type(BdDbl3Neg.input, NegInputAttrOperator)
+    assert_type(node.input, NegInputPlugOperator)
+    assert_type(node.input.inputX.get(), float)
+    assert_type(BdDbl3Neg.output, NegOutputAttrOperator)
+    assert_type(node.output, NegOutputPlugOperator)
+    assert_type(node.output.get(), bdu.Double3)
+
+
+def bd_dbl_neg_descriptor_contract(node: BdDblNeg) -> None:
+    assert_type(BdDblNeg.input, DoubleAttrOperator)
+    assert_type(node.input, DoublePlugOperator)
+    assert_type(BdDblNeg.output, DoubleAttrOperator)
     assert_type(node.output, DoublePlugOperator)
     assert_type(node.output.get(), float)
 

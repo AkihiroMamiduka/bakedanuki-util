@@ -118,6 +118,12 @@
   - component-wiseなdouble3 Absoluteとcompound dirty
 - [BdDblAbsNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAbsNode.cpp)
   - scalar Absolute
+- [Negate.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Negate.h)
+  - 単項マイナスによるscalar / component-wise Negateの共有実装
+- [BdDbl3NegNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3NegNode.cpp)
+  - component-wiseなdouble3 Negateとcompound dirty
+- [BdDblNegNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblNegNode.cpp)
+  - scalar Negate
 - [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_mult.py)
@@ -166,6 +172,10 @@
   - double3 Absoluteの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
 - [test_bd_dbl_abs.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_abs.py)
   - scalar Absoluteの正負値、非有限値、評価モード、接続、scene round-tripのテスト
+- [test_bd_dbl3_neg.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_neg.py)
+  - double3 Negateの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
+- [test_bd_dbl_neg.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_neg.py)
+  - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 
 ## Core Principles
 

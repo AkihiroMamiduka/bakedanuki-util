@@ -18,7 +18,7 @@ Python 側の API・生成器に関する計画は、既存の
 | 3 | Clamp | `bdDbl_Clamp`, `bdDbl3_Clamp` | 単一入力 | 値を下限と上限の範囲へ制限 | 実装済み |
 | 4 | Map Range | `bdDbl_MapRange`, `bdDbl3_MapRange` | 単一入力 | ある数値範囲から別の数値範囲へ変換 | 実装済み |
 | 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 実装済み |
-| 6 | Negate | `bdDbl_Neg`, `bdDbl3_Neg` | 単項 | 符号を反転 | 未実装 |
+| 6 | Negate | `bdDbl_Neg`, `bdDbl3_Neg` | 単項 | 符号を反転 | 実装済み |
 | 7 | Sign | `bdDbl_Sign`, `bdDbl3_Sign` | 単項 | 値の符号を出力 | 未実装 |
 | 8 | Average | `bdDbl_AvgMulti`, `bdDbl3_AvgMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
 | 9 | Weighted Average | `bdDbl_WtAvgMulti`, `bdDbl3_WtAvgMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |

@@ -39,6 +39,8 @@ add_library(
     src/nodes/BdDbl3MapRangeNode.cpp
     src/nodes/BdDblAbsNode.cpp
     src/nodes/BdDbl3AbsNode.cpp
+    src/nodes/BdDblNegNode.cpp
+    src/nodes/BdDbl3NegNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
     src/attributes/Double3Attribute.cpp

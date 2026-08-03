@@ -16,6 +16,7 @@
 #include "bdUtilNodes/nodes/BdDbl3MaxMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MinNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MinMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3NegNode.h"
 #include "bdUtilNodes/nodes/BdDblLerpNode.h"
 #include "bdUtilNodes/nodes/BdDblMapRangeNode.h"
 #include "bdUtilNodes/nodes/BdDblMaxNode.h"
@@ -38,6 +39,7 @@
 #include "bdUtilNodes/nodes/BdDblValueNode.h"
 #include "bdUtilNodes/nodes/BdDblMultNode.h"
 #include "bdUtilNodes/nodes/BdDblMultMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblNegNode.h"
 #include "bdUtilNodes/nodes/BdDblPowNode.h"
 #include "bdUtilNodes/nodes/BdDblPowMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblSubNode.h"
@@ -54,8 +56,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 40>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 40> registrations = {{
+const std::array<NodeRegistration, 42>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 42> registrations = {{
         {
             BdDbl3MultMultiNode::typeName,
             BdDbl3MultMultiNode::typeId,
@@ -283,6 +285,18 @@ const std::array<NodeRegistration, 40>& nodeRegistrations() {
             BdDblAbsNode::typeId,
             BdDblAbsNode::creator,
             BdDblAbsNode::initialize,
+        },
+        {
+            BdDbl3NegNode::typeName,
+            BdDbl3NegNode::typeId,
+            BdDbl3NegNode::creator,
+            BdDbl3NegNode::initialize,
+        },
+        {
+            BdDblNegNode::typeName,
+            BdDblNegNode::typeId,
+            BdDblNegNode::creator,
+            BdDblNegNode::initialize,
         },
         {
             BdDblValueNode::typeName,

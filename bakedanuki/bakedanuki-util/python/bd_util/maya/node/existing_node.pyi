@@ -355,6 +355,7 @@ from .operator.node.dg.bd_dbl3_min import BdDbl3Min
 from .operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
 from .operator.node.dg.bd_dbl3_mult import BdDbl3Mult
 from .operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
+from .operator.node.dg.bd_dbl3_neg import BdDbl3Neg
 from .operator.node.dg.bd_dbl3_pow import BdDbl3Pow
 from .operator.node.dg.bd_dbl3_pow_multi import BdDbl3PowMulti
 from .operator.node.dg.bd_dbl3_sub import BdDbl3Sub
@@ -375,6 +376,7 @@ from .operator.node.dg.bd_dbl_min import BdDblMin
 from .operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
 from .operator.node.dg.bd_dbl_mult import BdDblMult
 from .operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
+from .operator.node.dg.bd_dbl_neg import BdDblNeg
 from .operator.node.dg.bd_dbl_pow import BdDblPow
 from .operator.node.dg.bd_dbl_pow_multi import BdDblPowMulti
 from .operator.node.dg.bd_dbl_sub import BdDblSub
@@ -2956,6 +2958,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3MultMulti: ...
     @staticmethod
+    def bdDbl3_Neg(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Neg: ...
+    @staticmethod
     def bdDbl3_Pow(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3075,6 +3083,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblMultMulti: ...
+    @staticmethod
+    def bdDbl_Neg(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblNeg: ...
     @staticmethod
     def bdDbl_Pow(
         node: str | om.MObject,
