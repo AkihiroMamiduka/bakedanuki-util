@@ -36,10 +36,27 @@ static attribute の定義は constructor ではなく `initialize()` に置き�
 
 ```text
 plugins/bdUtilNodes/
-  include/bdUtilNodes/BdExampleNode.h
-  src/BdExampleNode.cpp
-  src/plugin.cpp
+  include/bdUtilNodes/
+    nodes/
+      BdExampleNode.h
+    attributes/
+      NumericAttribute.h
+      Double3Attribute.h
+    math/
+      SafeDivision.h
+  src/
+    nodes/
+      BdExampleNode.cpp
+    attributes/
+      NumericAttribute.cpp
+      Double3Attribute.cpp
+    plugin.cpp
 ```
+
+`nodes`には`MPxNode`派生class、`attributes`には複数nodeで共有するMaya
+attributeの作成・設定処理、`math`にはMaya APIに依存しない数値処理を置きます。
+node固有のstaticな`MObject`宣言はnode classの一部として`nodes`に残します。
+plug-inのentry pointである`plugin.cpp`は`src`直下に置きます。
 
 node class は、少なくとも次の static member を持ちます。
 

@@ -1,0 +1,371 @@
+#include "bdUtilNodes/nodes/BdDbl3MapRangeNode.h"
+
+#include <array>
+
+#include <maya/MDataBlock.h>
+#include <maya/MDataHandle.h>
+#include <maya/MFnNumericAttribute.h>
+#include <maya/MPlug.h>
+
+#include "bdUtilNodes/attributes/Double3Attribute.h"
+#include "bdUtilNodes/math/MapRange.h"
+#include "bdUtilNodes/attributes/NumericAttribute.h"
+
+const MString BdDbl3MapRangeNode::typeName("bdDbl3_MapRange");
+const MTypeId BdDbl3MapRangeNode::typeId(0x0007F025);
+
+MObject BdDbl3MapRangeNode::input;
+MObject BdDbl3MapRangeNode::inputX;
+MObject BdDbl3MapRangeNode::inputY;
+MObject BdDbl3MapRangeNode::inputZ;
+
+MObject BdDbl3MapRangeNode::sourceMinimum;
+MObject BdDbl3MapRangeNode::sourceMinimumX;
+MObject BdDbl3MapRangeNode::sourceMinimumY;
+MObject BdDbl3MapRangeNode::sourceMinimumZ;
+
+MObject BdDbl3MapRangeNode::sourceMaximum;
+MObject BdDbl3MapRangeNode::sourceMaximumX;
+MObject BdDbl3MapRangeNode::sourceMaximumY;
+MObject BdDbl3MapRangeNode::sourceMaximumZ;
+
+MObject BdDbl3MapRangeNode::targetMinimum;
+MObject BdDbl3MapRangeNode::targetMinimumX;
+MObject BdDbl3MapRangeNode::targetMinimumY;
+MObject BdDbl3MapRangeNode::targetMinimumZ;
+
+MObject BdDbl3MapRangeNode::targetMaximum;
+MObject BdDbl3MapRangeNode::targetMaximumX;
+MObject BdDbl3MapRangeNode::targetMaximumY;
+MObject BdDbl3MapRangeNode::targetMaximumZ;
+
+MObject BdDbl3MapRangeNode::clamp;
+
+MObject BdDbl3MapRangeNode::output;
+MObject BdDbl3MapRangeNode::outputX;
+MObject BdDbl3MapRangeNode::outputY;
+MObject BdDbl3MapRangeNode::outputZ;
+
+void* BdDbl3MapRangeNode::creator() {
+    return new BdDbl3MapRangeNode();
+}
+
+MStatus BdDbl3MapRangeNode::initialize() {
+    MFnNumericAttribute attributeFn;
+
+    MStatus status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        input,
+        inputX,
+        inputY,
+        inputZ,
+        "input",
+        "i",
+        "inputX",
+        "ix",
+        "inputY",
+        "iy",
+        "inputZ",
+        "iz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(input);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        sourceMinimum,
+        sourceMinimumX,
+        sourceMinimumY,
+        sourceMinimumZ,
+        "srcMin",
+        "smin",
+        "srcMinX",
+        "sminx",
+        "srcMinY",
+        "sminy",
+        "srcMinZ",
+        "sminz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(sourceMinimum);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        sourceMaximum,
+        sourceMaximumX,
+        sourceMaximumY,
+        sourceMaximumZ,
+        "srcMax",
+        "smax",
+        "srcMaxX",
+        "smaxx",
+        "srcMaxY",
+        "smaxy",
+        "srcMaxZ",
+        "smaxz",
+        1.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(sourceMaximum);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        targetMinimum,
+        targetMinimumX,
+        targetMinimumY,
+        targetMinimumZ,
+        "dstMin",
+        "dmin",
+        "dstMinX",
+        "dminx",
+        "dstMinY",
+        "dminy",
+        "dstMinZ",
+        "dminz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(targetMinimum);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        targetMaximum,
+        targetMaximumX,
+        targetMaximumY,
+        targetMaximumZ,
+        "dstMax",
+        "dmax",
+        "dstMaxX",
+        "dmaxx",
+        "dstMaxY",
+        "dmaxy",
+        "dstMaxZ",
+        "dmaxz",
+        1.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(targetMaximum);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        attributeFn,
+        clamp,
+        "clamp",
+        "c",
+        true
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureInputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(clamp);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDouble3Attribute(
+        attributeFn,
+        output,
+        outputX,
+        outputY,
+        outputZ,
+        "output",
+        "o",
+        "outputX",
+        "ox",
+        "outputY",
+        "oy",
+        "outputZ",
+        "oz",
+        0.0
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureOutputNumericAttribute(attributeFn);
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(output);
+    if (!status) {
+        return status;
+    }
+
+    const std::array<MObject, 21> inputAttributes = {
+        input,
+        inputX,
+        inputY,
+        inputZ,
+        sourceMinimum,
+        sourceMinimumX,
+        sourceMinimumY,
+        sourceMinimumZ,
+        sourceMaximum,
+        sourceMaximumX,
+        sourceMaximumY,
+        sourceMaximumZ,
+        targetMinimum,
+        targetMinimumX,
+        targetMinimumY,
+        targetMinimumZ,
+        targetMaximum,
+        targetMaximumX,
+        targetMaximumY,
+        targetMaximumZ,
+        clamp,
+    };
+    for (const MObject& inputAttribute : inputAttributes) {
+        status = attributeAffects(inputAttribute, output);
+        if (!status) {
+            return status;
+        }
+    }
+
+    return MS::kSuccess;
+}
+
+MStatus BdDbl3MapRangeNode::compute(
+    const MPlug& plug,
+    MDataBlock& dataBlock
+) {
+    const MObject requestedAttribute = plug.attribute();
+    if (
+        requestedAttribute != output
+        && requestedAttribute != outputX
+        && requestedAttribute != outputY
+        && requestedAttribute != outputZ
+    ) {
+        return MS::kUnknownParameter;
+    }
+
+    MStatus status;
+    MDataHandle inputValue = dataBlock.inputValue(input, &status);
+    if (!status) {
+        return status;
+    }
+    MDataHandle sourceMinimumValue = dataBlock.inputValue(
+        sourceMinimum,
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    MDataHandle sourceMaximumValue = dataBlock.inputValue(
+        sourceMaximum,
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    MDataHandle targetMinimumValue = dataBlock.inputValue(
+        targetMinimum,
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    MDataHandle targetMaximumValue = dataBlock.inputValue(
+        targetMaximum,
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    MDataHandle clampValue = dataBlock.inputValue(clamp, &status);
+    if (!status) {
+        return status;
+    }
+
+    const double3& inputComponents = inputValue.asDouble3();
+    const double3& sourceMinimumComponents = sourceMinimumValue.asDouble3();
+    const double3& sourceMaximumComponents = sourceMaximumValue.asDouble3();
+    const double3& targetMinimumComponents = targetMinimumValue.asDouble3();
+    const double3& targetMaximumComponents = targetMaximumValue.asDouble3();
+    const bool shouldClamp = clampValue.asBool();
+
+    MDataHandle outputValue = dataBlock.outputValue(output, &status);
+    if (!status) {
+        return status;
+    }
+    outputValue.set3Double(
+        bd_util_nodes::mapRange(
+            inputComponents[0],
+            sourceMinimumComponents[0],
+            sourceMaximumComponents[0],
+            targetMinimumComponents[0],
+            targetMaximumComponents[0],
+            shouldClamp
+        ),
+        bd_util_nodes::mapRange(
+            inputComponents[1],
+            sourceMinimumComponents[1],
+            sourceMaximumComponents[1],
+            targetMinimumComponents[1],
+            targetMaximumComponents[1],
+            shouldClamp
+        ),
+        bd_util_nodes::mapRange(
+            inputComponents[2],
+            sourceMinimumComponents[2],
+            sourceMaximumComponents[2],
+            targetMinimumComponents[2],
+            targetMaximumComponents[2],
+            shouldClamp
+        )
+    );
+    outputValue.setClean();
+    return dataBlock.setClean(plug);
+}
+
+MPxNode::SchedulingType BdDbl3MapRangeNode::schedulingType() const {
+    return MPxNode::kParallel;
+}

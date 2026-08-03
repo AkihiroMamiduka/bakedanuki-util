@@ -32,91 +32,91 @@
 
 - [plugin.cpp](../plugins/bdUtilNodes/src/plugin.cpp)
   - node の登録、登録失敗時の rollback、逆順での登録解除
-- [BdDbl3MultNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MultNode.cpp)
+- [BdDbl3MultNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultNode.cpp)
   - 固定2入力の compound attribute と `compute()`
-- [BdDbl3MultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MultMultiNode.cpp)
+- [BdDbl3MultMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultMultiNode.cpp)
   - sparse な multi attribute の走査
-- [BdDblMultNode.cpp](../plugins/bdUtilNodes/src/BdDblMultNode.cpp)
+- [BdDblMultNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultNode.cpp)
   - 固定2入力の scalar attribute と `compute()`
-- [BdDblMultMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMultMultiNode.cpp)
+- [BdDblMultMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultMultiNode.cpp)
   - scalar の sparse multi attribute と単位元
-- [BdDbl3AddNode.cpp](../plugins/bdUtilNodes/src/BdDbl3AddNode.cpp)
+- [BdDbl3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AddNode.cpp)
   - 固定2入力の double3 加算と compound dirty
-- [BdDbl3AddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3AddMultiNode.cpp)
+- [BdDbl3AddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AddMultiNode.cpp)
   - double3 加算の sparse multi attribute と加法単位元
-- [BdDblAddNode.cpp](../plugins/bdUtilNodes/src/BdDblAddNode.cpp)
+- [BdDblAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAddNode.cpp)
   - 固定2入力の scalar 加算
-- [BdDblAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblAddMultiNode.cpp)
+- [BdDblAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAddMultiNode.cpp)
   - scalar 加算の sparse multi attribute と加法単位元
-- [BdDbl3SubNode.cpp](../plugins/bdUtilNodes/src/BdDbl3SubNode.cpp)
+- [BdDbl3SubNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubNode.cpp)
   - 固定2入力の double3 減算と compound dirty
-- [BdDbl3SubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3SubMultiNode.cpp)
+- [BdDbl3SubMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubMultiNode.cpp)
   - logical index 順で畳み込む double3 配列減算
-- [BdDblSubNode.cpp](../plugins/bdUtilNodes/src/BdDblSubNode.cpp)
+- [BdDblSubNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubNode.cpp)
   - 固定2入力の scalar 減算
-- [BdDblSubMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblSubMultiNode.cpp)
+- [BdDblSubMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列減算
-- [SafeDivision.h](../plugins/bdUtilNodes/include/bdUtilNodes/SafeDivision.h)
+- [SafeDivision.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/SafeDivision.h)
   - 全演算ノードで共有する除数epsilonと安全除算
-- [BdDbl3DivNode.cpp](../plugins/bdUtilNodes/src/BdDbl3DivNode.cpp)
+- [BdDbl3DivNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivNode.cpp)
   - 固定2入力の component-wise double3 安全除算
-- [BdDbl3DivMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3DivMultiNode.cpp)
+- [BdDbl3DivMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivMultiNode.cpp)
   - logical index 順で畳み込む double3 配列安全除算
-- [BdDblDivNode.cpp](../plugins/bdUtilNodes/src/BdDblDivNode.cpp)
+- [BdDblDivNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivNode.cpp)
   - 固定2入力の scalar 安全除算
-- [BdDblDivMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblDivMultiNode.cpp)
+- [BdDblDivMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列安全除算
-- [SafePower.h](../plugins/bdUtilNodes/include/bdUtilNodes/SafePower.h)
+- [SafePower.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/SafePower.h)
   - 負指数の場合だけ底へ安全除算のepsilonを適用する累乗
-- [BdDbl3PowNode.cpp](../plugins/bdUtilNodes/src/BdDbl3PowNode.cpp)
+- [BdDbl3PowNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowNode.cpp)
   - 固定2入力の component-wise double3 累乗
-- [BdDbl3PowMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3PowMultiNode.cpp)
+- [BdDbl3PowMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowMultiNode.cpp)
   - logical index 順で左畳み込みする double3 配列累乗
-- [BdDblPowNode.cpp](../plugins/bdUtilNodes/src/BdDblPowNode.cpp)
+- [BdDblPowNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowNode.cpp)
   - 固定2入力の scalar 累乗
-- [BdDblPowMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblPowMultiNode.cpp)
+- [BdDblPowMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowMultiNode.cpp)
   - logical index 順で左畳み込みする scalar 配列累乗
-- [BdDblValueNode.cpp](../plugins/bdUtilNodes/src/BdDblValueNode.cpp)
+- [BdDblValueNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblValueNode.cpp)
   - 計算を持たず、保存・編集・双方向接続できる scalar value
-- [BdDbl3ValueNode.cpp](../plugins/bdUtilNodes/src/BdDbl3ValueNode.cpp)
+- [BdDbl3ValueNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3ValueNode.cpp)
   - 計算を持たず、親子plugを保存・編集・双方向接続できる double3 value
-- [Lerp.h](../plugins/bdUtilNodes/include/bdUtilNodes/Lerp.h)
+- [Lerp.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Lerp.h)
   - `0`から`1`へclampした線形補間の共有実装
-- [BdDbl3LerpNode.cpp](../plugins/bdUtilNodes/src/BdDbl3LerpNode.cpp)
+- [BdDbl3LerpNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3LerpNode.cpp)
   - scalar weightによるcomponent-wise double3線形補間
-- [BdDblLerpNode.cpp](../plugins/bdUtilNodes/src/BdDblLerpNode.cpp)
+- [BdDblLerpNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLerpNode.cpp)
   - scalarの線形補間
-- [BdDbl3WtAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3WtAddMultiNode.cpp)
+- [BdDbl3WtAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3WtAddMultiNode.cpp)
   - value/weight compound配列によるdouble3加重和
-- [BdDblWtAddMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblWtAddMultiNode.cpp)
+- [BdDblWtAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblWtAddMultiNode.cpp)
   - value/weight compound配列によるscalar加重和
-- [MinMax.h](../plugins/bdUtilNodes/include/bdUtilNodes/MinMax.h)
+- [MinMax.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/MinMax.h)
   - NaN伝播、無限値、符号付きゼロを含む最小値・最大値の共有比較規則
-- [BdDbl3MinNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MinNode.cpp) / [BdDbl3MinMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MinMultiNode.cpp)
+- [BdDbl3MinNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MinNode.cpp) / [BdDbl3MinMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MinMultiNode.cpp)
   - component-wiseなdouble3最小値と、空入力を明示したsparse配列版
-- [BdDblMinNode.cpp](../plugins/bdUtilNodes/src/BdDblMinNode.cpp) / [BdDblMinMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMinMultiNode.cpp)
+- [BdDblMinNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMinNode.cpp) / [BdDblMinMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMinMultiNode.cpp)
   - scalar最小値の固定2入力版と配列版
-- [BdDbl3MaxNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MaxNode.cpp) / [BdDbl3MaxMultiNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MaxMultiNode.cpp)
+- [BdDbl3MaxNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MaxNode.cpp) / [BdDbl3MaxMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MaxMultiNode.cpp)
   - component-wiseなdouble3最大値と、空入力を明示したsparse配列版
-- [BdDblMaxNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxNode.cpp) / [BdDblMaxMultiNode.cpp](../plugins/bdUtilNodes/src/BdDblMaxMultiNode.cpp)
+- [BdDblMaxNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMaxNode.cpp) / [BdDblMaxMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMaxMultiNode.cpp)
   - scalar最大値の固定2入力版と配列版
-- [Clamp.h](../plugins/bdUtilNodes/include/bdUtilNodes/Clamp.h)
+- [Clamp.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Clamp.h)
   - 逆転した上下限を正規化し、Minimum / Maximumの比較規則を再利用するclamp
-- [BdDbl3ClampNode.cpp](../plugins/bdUtilNodes/src/BdDbl3ClampNode.cpp)
+- [BdDbl3ClampNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3ClampNode.cpp)
   - component-wiseなdouble3 clampとcompound dirty
-- [BdDblClampNode.cpp](../plugins/bdUtilNodes/src/BdDblClampNode.cpp)
+- [BdDblClampNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblClampNode.cpp)
   - scalar clamp
-- [MapRange.h](../plugins/bdUtilNodes/include/bdUtilNodes/MapRange.h)
+- [MapRange.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/MapRange.h)
   - 方向付きSource / Target範囲、Clamp切替、Source幅0を扱う共有変換
-- [BdDbl3MapRangeNode.cpp](../plugins/bdUtilNodes/src/BdDbl3MapRangeNode.cpp)
+- [BdDbl3MapRangeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MapRangeNode.cpp)
   - component-wiseなdouble3 Map Rangeとcompound dirty
-- [BdDblMapRangeNode.cpp](../plugins/bdUtilNodes/src/BdDblMapRangeNode.cpp)
+- [BdDblMapRangeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMapRangeNode.cpp)
   - scalar Map Range
-- [Absolute.h](../plugins/bdUtilNodes/include/bdUtilNodes/Absolute.h)
+- [Absolute.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Absolute.h)
   - `std::fabs()`によるscalar / component-wise Absoluteの共有実装
-- [BdDbl3AbsNode.cpp](../plugins/bdUtilNodes/src/BdDbl3AbsNode.cpp)
+- [BdDbl3AbsNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AbsNode.cpp)
   - component-wiseなdouble3 Absoluteとcompound dirty
-- [BdDblAbsNode.cpp](../plugins/bdUtilNodes/src/BdDblAbsNode.cpp)
+- [BdDblAbsNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAbsNode.cpp)
   - scalar Absolute
 - [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
