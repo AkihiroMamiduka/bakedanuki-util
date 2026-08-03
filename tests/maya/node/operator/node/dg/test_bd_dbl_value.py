@@ -76,7 +76,7 @@ def test_value_can_be_destination_and_source_in_the_same_network(
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
     source = nodes.create.bdDbl_Value(name="source")
     relay = nodes.create.bdDbl_Value(name="relay")
-    mult = nodes.create.bdDbl_Mult(name="mult")
+    mult = nodes.create.bdDbl_Multiply(name="mult")
     source.value.set(3.0)
     source.value.connect(relay.value)
     relay.value.connect(mult.input1)
@@ -104,7 +104,7 @@ def test_downstream_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.evaluationManager(mode=evaluation_mode)
 
         value = maya_cmds.createNode("bdDbl_Value")
-        mult = maya_cmds.createNode("bdDbl_Mult")
+        mult = maya_cmds.createNode("bdDbl_Multiply")
         maya_cmds.connectAttr(f"{value}.value", f"{mult}.input1")
         maya_cmds.setAttr(f"{mult}.input2", 2.0)
 
@@ -121,7 +121,7 @@ def test_value_can_drive_animation(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
     value = maya_cmds.createNode("bdDbl_Value")
-    mult = maya_cmds.createNode("bdDbl_Mult")
+    mult = maya_cmds.createNode("bdDbl_Multiply")
     maya_cmds.connectAttr(f"{value}.value", f"{mult}.input1")
     maya_cmds.setAttr(f"{mult}.input2", 3.0)
     maya_cmds.setKeyframe(value, attribute="value", time=1.0, value=2.0)

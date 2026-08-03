@@ -23,7 +23,7 @@
    - `MTypeId` の割り当てと運用
 7. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-8. [bdDbl Multiplication Benchmark](bd-dbl-mult-benchmark.md)
+8. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -32,13 +32,13 @@
 
 - [plugin.cpp](../plugins/bdUtilNodes/src/plugin.cpp)
   - node の登録、登録失敗時の rollback、逆順での登録解除
-- [BdDbl3MultNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultNode.cpp)
+- [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
   - 固定2入力の compound attribute と `compute()`
-- [BdDbl3MultMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultMultiNode.cpp)
+- [BdDbl3MultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyMultiNode.cpp)
   - sparse な multi attribute の走査
-- [BdDblMultNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultNode.cpp)
+- [BdDblMultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultiplyNode.cpp)
   - 固定2入力の scalar attribute と `compute()`
-- [BdDblMultMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultMultiNode.cpp)
+- [BdDblMultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblMultiplyMultiNode.cpp)
   - scalar の sparse multi attribute と単位元
 - [BdDbl3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AddNode.cpp)
   - 固定2入力の double3 加算と compound dirty
@@ -48,33 +48,33 @@
   - 固定2入力の scalar 加算
 - [BdDblAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAddMultiNode.cpp)
   - scalar 加算の sparse multi attribute と加法単位元
-- [BdDbl3SubNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubNode.cpp)
+- [BdDbl3SubtractNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubtractNode.cpp)
   - 固定2入力の double3 減算と compound dirty
-- [BdDbl3SubMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubMultiNode.cpp)
+- [BdDbl3SubtractMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3SubtractMultiNode.cpp)
   - logical index 順で畳み込む double3 配列減算
-- [BdDblSubNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubNode.cpp)
+- [BdDblSubtractNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubtractNode.cpp)
   - 固定2入力の scalar 減算
-- [BdDblSubMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubMultiNode.cpp)
+- [BdDblSubtractMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblSubtractMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列減算
 - [SafeDivision.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/SafeDivision.h)
   - 全演算ノードで共有する除数epsilonと安全除算
-- [BdDbl3DivNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivNode.cpp)
+- [BdDbl3DivideNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivideNode.cpp)
   - 固定2入力の component-wise double3 安全除算
-- [BdDbl3DivMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivMultiNode.cpp)
+- [BdDbl3DivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3DivideMultiNode.cpp)
   - logical index 順で畳み込む double3 配列安全除算
-- [BdDblDivNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivNode.cpp)
+- [BdDblDivideNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivideNode.cpp)
   - 固定2入力の scalar 安全除算
-- [BdDblDivMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivMultiNode.cpp)
+- [BdDblDivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblDivideMultiNode.cpp)
   - logical index 順で畳み込む scalar 配列安全除算
 - [SafePower.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/SafePower.h)
   - 負指数の場合だけ底へ安全除算のepsilonを適用する累乗
-- [BdDbl3PowNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowNode.cpp)
+- [BdDbl3PowerNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowerNode.cpp)
   - 固定2入力の component-wise double3 累乗
-- [BdDbl3PowMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowMultiNode.cpp)
+- [BdDbl3PowerMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3PowerMultiNode.cpp)
   - logical index 順で左畳み込みする double3 配列累乗
-- [BdDblPowNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowNode.cpp)
+- [BdDblPowerNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowerNode.cpp)
   - 固定2入力の scalar 累乗
-- [BdDblPowMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowMultiNode.cpp)
+- [BdDblPowerMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblPowerMultiNode.cpp)
   - logical index 順で左畳み込みする scalar 配列累乗
 - [BdDblValueNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblValueNode.cpp)
   - 計算を持たず、保存・編集・双方向接続できる scalar value
@@ -86,9 +86,9 @@
   - scalar weightによるcomponent-wise double3線形補間
 - [BdDblLerpNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLerpNode.cpp)
   - scalarの線形補間
-- [BdDbl3WtAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3WtAddMultiNode.cpp)
+- [BdDbl3WeightedSumMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3WeightedSumMultiNode.cpp)
   - value/weight compound配列によるdouble3加重和
-- [BdDblWtAddMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblWtAddMultiNode.cpp)
+- [BdDblWeightedSumMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblWeightedSumMultiNode.cpp)
   - value/weight compound配列によるscalar加重和
 - [MinMax.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/MinMax.h)
   - NaN伝播、無限値、符号付きゼロを含む最小値・最大値の共有比較規則
@@ -120,29 +120,29 @@
   - scalar Absolute
 - [Negate.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Negate.h)
   - 単項マイナスによるscalar / component-wise Negateの共有実装
-- [BdDbl3NegNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3NegNode.cpp)
+- [BdDbl3NegateNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3NegateNode.cpp)
   - component-wiseなdouble3 Negateとcompound dirty
-- [BdDblNegNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblNegNode.cpp)
+- [BdDblNegateNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblNegateNode.cpp)
   - scalar Negate
-- [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
+- [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_dbl_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_mult.py)
+- [test_bd_dbl_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_multiply.py)
   - double ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl3_add.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_add.py)
   - double3 加算ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_add.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_add.py)
   - double 加算ノードの計算、dirty、接続、scene round-trip のテスト
-- [test_bd_dbl3_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_sub.py)
+- [test_bd_dbl3_subtract.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_subtract.py)
   - double3 減算ノードの順序、dirty、接続、scene round-trip のテスト
-- [test_bd_dbl_sub.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_sub.py)
+- [test_bd_dbl_subtract.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_subtract.py)
   - double 減算ノードの順序、dirty、接続、scene round-trip のテスト
-- [test_bd_dbl3_div.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_div.py)
+- [test_bd_dbl3_divide.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_divide.py)
   - double3 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
-- [test_bd_dbl_div.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_div.py)
+- [test_bd_dbl_divide.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_divide.py)
   - double 安全除算ノードのepsilon、順序、dirty、scene round-trip のテスト
-- [test_bd_dbl3_pow.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_pow.py)
+- [test_bd_dbl3_power.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_power.py)
   - double3 累乗ノードのepsilon、順序、dirty、scene round-trip のテスト
-- [test_bd_dbl_pow.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_pow.py)
+- [test_bd_dbl_power.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_power.py)
   - double 累乗ノードのepsilon、定義域、順序、dirty、scene round-trip のテスト
 - [test_bd_dbl3_value.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_value.py)
   - double3 valueの親子plug、双方向接続、dirty、scene round-tripのテスト
@@ -152,9 +152,9 @@
   - double3線形補間、接続値clamp、dirtyのテスト
 - [test_bd_dbl_lerp.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_lerp.py)
   - scalar線形補間、接続値clamp、dirtyのテスト
-- [test_bd_dbl3_wt_add.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_wt_add.py)
+- [test_bd_dbl3_weighted_sum.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_weighted_sum.py)
   - double3加重和、compound配列、dirtyのテスト
-- [test_bd_dbl_wt_add.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_wt_add.py)
+- [test_bd_dbl_weighted_sum.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_weighted_sum.py)
   - scalar加重和、compound配列、dirtyのテスト
 - [test_bd_dbl3_min_max.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_min_max.py)
   - double3最小値・最大値の境界値、compound dirty、接続、scene round-tripのテスト
@@ -172,9 +172,9 @@
   - double3 Absoluteの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
 - [test_bd_dbl_abs.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_abs.py)
   - scalar Absoluteの正負値、非有限値、評価モード、接続、scene round-tripのテスト
-- [test_bd_dbl3_neg.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_neg.py)
+- [test_bd_dbl3_negate.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_negate.py)
   - double3 Negateの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
-- [test_bd_dbl_neg.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_neg.py)
+- [test_bd_dbl_negate.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_negate.py)
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 
 ## Core Principles

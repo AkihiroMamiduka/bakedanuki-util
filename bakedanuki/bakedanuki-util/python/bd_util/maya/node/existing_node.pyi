@@ -345,44 +345,44 @@ from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
 from .operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
-from .operator.node.dg.bd_dbl3_div import BdDbl3Div
-from .operator.node.dg.bd_dbl3_div_multi import BdDbl3DivMulti
+from .operator.node.dg.bd_dbl3_divide import BdDbl3Divide
+from .operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
 from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
 from .operator.node.dg.bd_dbl3_map_range import BdDbl3MapRange
 from .operator.node.dg.bd_dbl3_max import BdDbl3Max
 from .operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
 from .operator.node.dg.bd_dbl3_min import BdDbl3Min
 from .operator.node.dg.bd_dbl3_min_multi import BdDbl3MinMulti
-from .operator.node.dg.bd_dbl3_mult import BdDbl3Mult
-from .operator.node.dg.bd_dbl3_mult_multi import BdDbl3MultMulti
-from .operator.node.dg.bd_dbl3_neg import BdDbl3Neg
-from .operator.node.dg.bd_dbl3_pow import BdDbl3Pow
-from .operator.node.dg.bd_dbl3_pow_multi import BdDbl3PowMulti
-from .operator.node.dg.bd_dbl3_sub import BdDbl3Sub
-from .operator.node.dg.bd_dbl3_sub_multi import BdDbl3SubMulti
+from .operator.node.dg.bd_dbl3_multiply import BdDbl3Multiply
+from .operator.node.dg.bd_dbl3_multiply_multi import BdDbl3MultiplyMulti
+from .operator.node.dg.bd_dbl3_negate import BdDbl3Negate
+from .operator.node.dg.bd_dbl3_power import BdDbl3Power
+from .operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
+from .operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
+from .operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
 from .operator.node.dg.bd_dbl3_value import BdDbl3Value
-from .operator.node.dg.bd_dbl3_wt_add_multi import BdDbl3WtAddMulti
+from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
 from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
 from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
 from .operator.node.dg.bd_dbl_clamp import BdDblClamp
-from .operator.node.dg.bd_dbl_div import BdDblDiv
-from .operator.node.dg.bd_dbl_div_multi import BdDblDivMulti
+from .operator.node.dg.bd_dbl_divide import BdDblDivide
+from .operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
 from .operator.node.dg.bd_dbl_lerp import BdDblLerp
 from .operator.node.dg.bd_dbl_map_range import BdDblMapRange
 from .operator.node.dg.bd_dbl_max import BdDblMax
 from .operator.node.dg.bd_dbl_max_multi import BdDblMaxMulti
 from .operator.node.dg.bd_dbl_min import BdDblMin
 from .operator.node.dg.bd_dbl_min_multi import BdDblMinMulti
-from .operator.node.dg.bd_dbl_mult import BdDblMult
-from .operator.node.dg.bd_dbl_mult_multi import BdDblMultMulti
-from .operator.node.dg.bd_dbl_neg import BdDblNeg
-from .operator.node.dg.bd_dbl_pow import BdDblPow
-from .operator.node.dg.bd_dbl_pow_multi import BdDblPowMulti
-from .operator.node.dg.bd_dbl_sub import BdDblSub
-from .operator.node.dg.bd_dbl_sub_multi import BdDblSubMulti
+from .operator.node.dg.bd_dbl_multiply import BdDblMultiply
+from .operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
+from .operator.node.dg.bd_dbl_negate import BdDblNegate
+from .operator.node.dg.bd_dbl_power import BdDblPower
+from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
+from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from .operator.node.dg.bd_dbl_value import BdDblValue
-from .operator.node.dg.bd_dbl_wt_add_multi import BdDblWtAddMulti
+from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -2898,17 +2898,17 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3Clamp: ...
     @staticmethod
-    def bdDbl3_Div(
+    def bdDbl3_Divide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3Div: ...
+    ) -> BdDbl3Divide: ...
     @staticmethod
-    def bdDbl3_DivMulti(
+    def bdDbl3_DivideMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3DivMulti: ...
+    ) -> BdDbl3DivideMulti: ...
     @staticmethod
     def bdDbl3_Lerp(
         node: str | om.MObject,
@@ -2946,47 +2946,47 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3MinMulti: ...
     @staticmethod
-    def bdDbl3_Mult(
+    def bdDbl3_Multiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3Mult: ...
+    ) -> BdDbl3Multiply: ...
     @staticmethod
-    def bdDbl3_MultMulti(
+    def bdDbl3_MultiplyMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3MultMulti: ...
+    ) -> BdDbl3MultiplyMulti: ...
     @staticmethod
-    def bdDbl3_Neg(
+    def bdDbl3_Negate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3Neg: ...
+    ) -> BdDbl3Negate: ...
     @staticmethod
-    def bdDbl3_Pow(
+    def bdDbl3_Power(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3Pow: ...
+    ) -> BdDbl3Power: ...
     @staticmethod
-    def bdDbl3_PowMulti(
+    def bdDbl3_PowerMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3PowMulti: ...
+    ) -> BdDbl3PowerMulti: ...
     @staticmethod
-    def bdDbl3_Sub(
+    def bdDbl3_Subtract(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3Sub: ...
+    ) -> BdDbl3Subtract: ...
     @staticmethod
-    def bdDbl3_SubMulti(
+    def bdDbl3_SubtractMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3SubMulti: ...
+    ) -> BdDbl3SubtractMulti: ...
     @staticmethod
     def bdDbl3_Value(
         node: str | om.MObject,
@@ -2994,11 +2994,11 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3Value: ...
     @staticmethod
-    def bdDbl3_WtAddMulti(
+    def bdDbl3_WeightedSumMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDbl3WtAddMulti: ...
+    ) -> BdDbl3WeightedSumMulti: ...
     @staticmethod
     def bdDbl_Abs(
         node: str | om.MObject,
@@ -3024,17 +3024,17 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblClamp: ...
     @staticmethod
-    def bdDbl_Div(
+    def bdDbl_Divide(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblDiv: ...
+    ) -> BdDblDivide: ...
     @staticmethod
-    def bdDbl_DivMulti(
+    def bdDbl_DivideMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblDivMulti: ...
+    ) -> BdDblDivideMulti: ...
     @staticmethod
     def bdDbl_Lerp(
         node: str | om.MObject,
@@ -3072,47 +3072,47 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblMinMulti: ...
     @staticmethod
-    def bdDbl_Mult(
+    def bdDbl_Multiply(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblMult: ...
+    ) -> BdDblMultiply: ...
     @staticmethod
-    def bdDbl_MultMulti(
+    def bdDbl_MultiplyMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblMultMulti: ...
+    ) -> BdDblMultiplyMulti: ...
     @staticmethod
-    def bdDbl_Neg(
+    def bdDbl_Negate(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblNeg: ...
+    ) -> BdDblNegate: ...
     @staticmethod
-    def bdDbl_Pow(
+    def bdDbl_Power(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblPow: ...
+    ) -> BdDblPower: ...
     @staticmethod
-    def bdDbl_PowMulti(
+    def bdDbl_PowerMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblPowMulti: ...
+    ) -> BdDblPowerMulti: ...
     @staticmethod
-    def bdDbl_Sub(
+    def bdDbl_Subtract(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblSub: ...
+    ) -> BdDblSubtract: ...
     @staticmethod
-    def bdDbl_SubMulti(
+    def bdDbl_SubtractMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblSubMulti: ...
+    ) -> BdDblSubtractMulti: ...
     @staticmethod
     def bdDbl_Value(
         node: str | om.MObject,
@@ -3120,11 +3120,11 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblValue: ...
     @staticmethod
-    def bdDbl_WtAddMulti(
+    def bdDbl_WeightedSumMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
-    ) -> BdDblWtAddMulti: ...
+    ) -> BdDblWeightedSumMulti: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,

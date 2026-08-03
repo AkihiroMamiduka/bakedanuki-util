@@ -5,26 +5,26 @@ add_library(
     src/nodes/BdDblAddMultiNode.cpp
     src/nodes/BdDbl3AddNode.cpp
     src/nodes/BdDbl3AddMultiNode.cpp
-    src/nodes/BdDblMultNode.cpp
-    src/nodes/BdDblMultMultiNode.cpp
-    src/nodes/BdDbl3MultNode.cpp
-    src/nodes/BdDbl3MultMultiNode.cpp
-    src/nodes/BdDblSubNode.cpp
-    src/nodes/BdDblSubMultiNode.cpp
-    src/nodes/BdDbl3SubNode.cpp
-    src/nodes/BdDbl3SubMultiNode.cpp
-    src/nodes/BdDblDivNode.cpp
-    src/nodes/BdDblDivMultiNode.cpp
-    src/nodes/BdDbl3DivNode.cpp
-    src/nodes/BdDbl3DivMultiNode.cpp
-    src/nodes/BdDblPowNode.cpp
-    src/nodes/BdDblPowMultiNode.cpp
-    src/nodes/BdDbl3PowNode.cpp
-    src/nodes/BdDbl3PowMultiNode.cpp
+    src/nodes/BdDblMultiplyNode.cpp
+    src/nodes/BdDblMultiplyMultiNode.cpp
+    src/nodes/BdDbl3MultiplyNode.cpp
+    src/nodes/BdDbl3MultiplyMultiNode.cpp
+    src/nodes/BdDblSubtractNode.cpp
+    src/nodes/BdDblSubtractMultiNode.cpp
+    src/nodes/BdDbl3SubtractNode.cpp
+    src/nodes/BdDbl3SubtractMultiNode.cpp
+    src/nodes/BdDblDivideNode.cpp
+    src/nodes/BdDblDivideMultiNode.cpp
+    src/nodes/BdDbl3DivideNode.cpp
+    src/nodes/BdDbl3DivideMultiNode.cpp
+    src/nodes/BdDblPowerNode.cpp
+    src/nodes/BdDblPowerMultiNode.cpp
+    src/nodes/BdDbl3PowerNode.cpp
+    src/nodes/BdDbl3PowerMultiNode.cpp
     src/nodes/BdDblLerpNode.cpp
     src/nodes/BdDbl3LerpNode.cpp
-    src/nodes/BdDblWtAddMultiNode.cpp
-    src/nodes/BdDbl3WtAddMultiNode.cpp
+    src/nodes/BdDblWeightedSumMultiNode.cpp
+    src/nodes/BdDbl3WeightedSumMultiNode.cpp
     src/nodes/BdDblMinNode.cpp
     src/nodes/BdDblMinMultiNode.cpp
     src/nodes/BdDbl3MinNode.cpp
@@ -39,8 +39,8 @@ add_library(
     src/nodes/BdDbl3MapRangeNode.cpp
     src/nodes/BdDblAbsNode.cpp
     src/nodes/BdDbl3AbsNode.cpp
-    src/nodes/BdDblNegNode.cpp
-    src/nodes/BdDbl3NegNode.cpp
+    src/nodes/BdDblNegateNode.cpp
+    src/nodes/BdDbl3NegateNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
     src/attributes/Double3Attribute.cpp

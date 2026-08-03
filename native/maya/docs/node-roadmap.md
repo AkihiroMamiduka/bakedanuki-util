@@ -18,10 +18,10 @@ Python 側の API・生成器に関する計画は、既存の
 | 3 | Clamp | `bdDbl_Clamp`, `bdDbl3_Clamp` | 単一入力 | 値を下限と上限の範囲へ制限 | 実装済み |
 | 4 | Map Range | `bdDbl_MapRange`, `bdDbl3_MapRange` | 単一入力 | ある数値範囲から別の数値範囲へ変換 | 実装済み |
 | 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 実装済み |
-| 6 | Negate | `bdDbl_Neg`, `bdDbl3_Neg` | 単項 | 符号を反転 | 実装済み |
+| 6 | Negate | `bdDbl_Negate`, `bdDbl3_Negate` | 単項 | 符号を反転 | 実装済み |
 | 7 | Sign | `bdDbl_Sign`, `bdDbl3_Sign` | 単項 | 値の符号を出力 | 未実装 |
-| 8 | Average | `bdDbl_AvgMulti`, `bdDbl3_AvgMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
-| 9 | Weighted Average | `bdDbl_WtAvgMulti`, `bdDbl3_WtAvgMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |
+| 8 | Average | `bdDbl_AverageMulti`, `bdDbl3_AverageMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
+| 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |
 
 ## Family Policy
 
@@ -31,7 +31,7 @@ Python 側の API・生成器に関する計画は、既存の
 - Clamp / Map Range のように役割の異なるパラメーターを持つ演算と、単項演算には
   固定2入力版や `Multi` 版を機械的に追加しない。
 - Average は入力数を必要とするため `Multi` 版のみとする。
-- Weighted Average は既存の Weighted Add と同様に value / weight の compound
+- Weighted Average は既存の Weighted Sum と同様に value / weight の compound
   配列を使用する方向で検討する。
 
 ## Decisions Before Implementation

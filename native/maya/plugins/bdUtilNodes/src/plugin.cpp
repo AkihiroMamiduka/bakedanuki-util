@@ -8,44 +8,44 @@
 #include "bdUtilNodes/nodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ClampNode.h"
-#include "bdUtilNodes/nodes/BdDbl3DivNode.h"
-#include "bdUtilNodes/nodes/BdDbl3DivMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3DivideNode.h"
+#include "bdUtilNodes/nodes/BdDbl3DivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3LerpNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MapRangeNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MaxNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MaxMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MinNode.h"
 #include "bdUtilNodes/nodes/BdDbl3MinMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3NegNode.h"
+#include "bdUtilNodes/nodes/BdDbl3NegateNode.h"
 #include "bdUtilNodes/nodes/BdDblLerpNode.h"
 #include "bdUtilNodes/nodes/BdDblMapRangeNode.h"
 #include "bdUtilNodes/nodes/BdDblMaxNode.h"
 #include "bdUtilNodes/nodes/BdDblMaxMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblMinNode.h"
 #include "bdUtilNodes/nodes/BdDblMinMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3MultNode.h"
-#include "bdUtilNodes/nodes/BdDbl3MultMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3PowNode.h"
-#include "bdUtilNodes/nodes/BdDbl3PowMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3SubNode.h"
-#include "bdUtilNodes/nodes/BdDbl3SubMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3MultiplyNode.h"
+#include "bdUtilNodes/nodes/BdDbl3MultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3PowerNode.h"
+#include "bdUtilNodes/nodes/BdDbl3PowerMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3SubtractNode.h"
+#include "bdUtilNodes/nodes/BdDbl3SubtractMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAbsNode.h"
 #include "bdUtilNodes/nodes/BdDblAddNode.h"
 #include "bdUtilNodes/nodes/BdDblAddMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblClampNode.h"
-#include "bdUtilNodes/nodes/BdDblDivNode.h"
-#include "bdUtilNodes/nodes/BdDblDivMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblDivideNode.h"
+#include "bdUtilNodes/nodes/BdDblDivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ValueNode.h"
 #include "bdUtilNodes/nodes/BdDblValueNode.h"
-#include "bdUtilNodes/nodes/BdDblMultNode.h"
-#include "bdUtilNodes/nodes/BdDblMultMultiNode.h"
-#include "bdUtilNodes/nodes/BdDblNegNode.h"
-#include "bdUtilNodes/nodes/BdDblPowNode.h"
-#include "bdUtilNodes/nodes/BdDblPowMultiNode.h"
-#include "bdUtilNodes/nodes/BdDblSubNode.h"
-#include "bdUtilNodes/nodes/BdDblSubMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3WtAddMultiNode.h"
-#include "bdUtilNodes/nodes/BdDblWtAddMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblMultiplyNode.h"
+#include "bdUtilNodes/nodes/BdDblMultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblNegateNode.h"
+#include "bdUtilNodes/nodes/BdDblPowerNode.h"
+#include "bdUtilNodes/nodes/BdDblPowerMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblSubtractNode.h"
+#include "bdUtilNodes/nodes/BdDblSubtractMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3WeightedSumMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblWeightedSumMultiNode.h"
 
 namespace {
 
@@ -59,28 +59,28 @@ struct NodeRegistration {
 const std::array<NodeRegistration, 42>& nodeRegistrations() {
     static const std::array<NodeRegistration, 42> registrations = {{
         {
-            BdDbl3MultMultiNode::typeName,
-            BdDbl3MultMultiNode::typeId,
-            BdDbl3MultMultiNode::creator,
-            BdDbl3MultMultiNode::initialize,
+            BdDbl3MultiplyMultiNode::typeName,
+            BdDbl3MultiplyMultiNode::typeId,
+            BdDbl3MultiplyMultiNode::creator,
+            BdDbl3MultiplyMultiNode::initialize,
         },
         {
-            BdDbl3MultNode::typeName,
-            BdDbl3MultNode::typeId,
-            BdDbl3MultNode::creator,
-            BdDbl3MultNode::initialize,
+            BdDbl3MultiplyNode::typeName,
+            BdDbl3MultiplyNode::typeId,
+            BdDbl3MultiplyNode::creator,
+            BdDbl3MultiplyNode::initialize,
         },
         {
-            BdDblMultMultiNode::typeName,
-            BdDblMultMultiNode::typeId,
-            BdDblMultMultiNode::creator,
-            BdDblMultMultiNode::initialize,
+            BdDblMultiplyMultiNode::typeName,
+            BdDblMultiplyMultiNode::typeId,
+            BdDblMultiplyMultiNode::creator,
+            BdDblMultiplyMultiNode::initialize,
         },
         {
-            BdDblMultNode::typeName,
-            BdDblMultNode::typeId,
-            BdDblMultNode::creator,
-            BdDblMultNode::initialize,
+            BdDblMultiplyNode::typeName,
+            BdDblMultiplyNode::typeId,
+            BdDblMultiplyNode::creator,
+            BdDblMultiplyNode::initialize,
         },
         {
             BdDbl3AddMultiNode::typeName,
@@ -107,76 +107,76 @@ const std::array<NodeRegistration, 42>& nodeRegistrations() {
             BdDblAddNode::initialize,
         },
         {
-            BdDbl3SubMultiNode::typeName,
-            BdDbl3SubMultiNode::typeId,
-            BdDbl3SubMultiNode::creator,
-            BdDbl3SubMultiNode::initialize,
+            BdDbl3SubtractMultiNode::typeName,
+            BdDbl3SubtractMultiNode::typeId,
+            BdDbl3SubtractMultiNode::creator,
+            BdDbl3SubtractMultiNode::initialize,
         },
         {
-            BdDbl3SubNode::typeName,
-            BdDbl3SubNode::typeId,
-            BdDbl3SubNode::creator,
-            BdDbl3SubNode::initialize,
+            BdDbl3SubtractNode::typeName,
+            BdDbl3SubtractNode::typeId,
+            BdDbl3SubtractNode::creator,
+            BdDbl3SubtractNode::initialize,
         },
         {
-            BdDblSubMultiNode::typeName,
-            BdDblSubMultiNode::typeId,
-            BdDblSubMultiNode::creator,
-            BdDblSubMultiNode::initialize,
+            BdDblSubtractMultiNode::typeName,
+            BdDblSubtractMultiNode::typeId,
+            BdDblSubtractMultiNode::creator,
+            BdDblSubtractMultiNode::initialize,
         },
         {
-            BdDblSubNode::typeName,
-            BdDblSubNode::typeId,
-            BdDblSubNode::creator,
-            BdDblSubNode::initialize,
+            BdDblSubtractNode::typeName,
+            BdDblSubtractNode::typeId,
+            BdDblSubtractNode::creator,
+            BdDblSubtractNode::initialize,
         },
         {
-            BdDbl3DivMultiNode::typeName,
-            BdDbl3DivMultiNode::typeId,
-            BdDbl3DivMultiNode::creator,
-            BdDbl3DivMultiNode::initialize,
+            BdDbl3DivideMultiNode::typeName,
+            BdDbl3DivideMultiNode::typeId,
+            BdDbl3DivideMultiNode::creator,
+            BdDbl3DivideMultiNode::initialize,
         },
         {
-            BdDbl3DivNode::typeName,
-            BdDbl3DivNode::typeId,
-            BdDbl3DivNode::creator,
-            BdDbl3DivNode::initialize,
+            BdDbl3DivideNode::typeName,
+            BdDbl3DivideNode::typeId,
+            BdDbl3DivideNode::creator,
+            BdDbl3DivideNode::initialize,
         },
         {
-            BdDblDivMultiNode::typeName,
-            BdDblDivMultiNode::typeId,
-            BdDblDivMultiNode::creator,
-            BdDblDivMultiNode::initialize,
+            BdDblDivideMultiNode::typeName,
+            BdDblDivideMultiNode::typeId,
+            BdDblDivideMultiNode::creator,
+            BdDblDivideMultiNode::initialize,
         },
         {
-            BdDblDivNode::typeName,
-            BdDblDivNode::typeId,
-            BdDblDivNode::creator,
-            BdDblDivNode::initialize,
+            BdDblDivideNode::typeName,
+            BdDblDivideNode::typeId,
+            BdDblDivideNode::creator,
+            BdDblDivideNode::initialize,
         },
         {
-            BdDbl3PowMultiNode::typeName,
-            BdDbl3PowMultiNode::typeId,
-            BdDbl3PowMultiNode::creator,
-            BdDbl3PowMultiNode::initialize,
+            BdDbl3PowerMultiNode::typeName,
+            BdDbl3PowerMultiNode::typeId,
+            BdDbl3PowerMultiNode::creator,
+            BdDbl3PowerMultiNode::initialize,
         },
         {
-            BdDbl3PowNode::typeName,
-            BdDbl3PowNode::typeId,
-            BdDbl3PowNode::creator,
-            BdDbl3PowNode::initialize,
+            BdDbl3PowerNode::typeName,
+            BdDbl3PowerNode::typeId,
+            BdDbl3PowerNode::creator,
+            BdDbl3PowerNode::initialize,
         },
         {
-            BdDblPowMultiNode::typeName,
-            BdDblPowMultiNode::typeId,
-            BdDblPowMultiNode::creator,
-            BdDblPowMultiNode::initialize,
+            BdDblPowerMultiNode::typeName,
+            BdDblPowerMultiNode::typeId,
+            BdDblPowerMultiNode::creator,
+            BdDblPowerMultiNode::initialize,
         },
         {
-            BdDblPowNode::typeName,
-            BdDblPowNode::typeId,
-            BdDblPowNode::creator,
-            BdDblPowNode::initialize,
+            BdDblPowerNode::typeName,
+            BdDblPowerNode::typeId,
+            BdDblPowerNode::creator,
+            BdDblPowerNode::initialize,
         },
         {
             BdDbl3LerpNode::typeName,
@@ -191,16 +191,16 @@ const std::array<NodeRegistration, 42>& nodeRegistrations() {
             BdDblLerpNode::initialize,
         },
         {
-            BdDbl3WtAddMultiNode::typeName,
-            BdDbl3WtAddMultiNode::typeId,
-            BdDbl3WtAddMultiNode::creator,
-            BdDbl3WtAddMultiNode::initialize,
+            BdDbl3WeightedSumMultiNode::typeName,
+            BdDbl3WeightedSumMultiNode::typeId,
+            BdDbl3WeightedSumMultiNode::creator,
+            BdDbl3WeightedSumMultiNode::initialize,
         },
         {
-            BdDblWtAddMultiNode::typeName,
-            BdDblWtAddMultiNode::typeId,
-            BdDblWtAddMultiNode::creator,
-            BdDblWtAddMultiNode::initialize,
+            BdDblWeightedSumMultiNode::typeName,
+            BdDblWeightedSumMultiNode::typeId,
+            BdDblWeightedSumMultiNode::creator,
+            BdDblWeightedSumMultiNode::initialize,
         },
         {
             BdDbl3MinMultiNode::typeName,
@@ -287,16 +287,16 @@ const std::array<NodeRegistration, 42>& nodeRegistrations() {
             BdDblAbsNode::initialize,
         },
         {
-            BdDbl3NegNode::typeName,
-            BdDbl3NegNode::typeId,
-            BdDbl3NegNode::creator,
-            BdDbl3NegNode::initialize,
+            BdDbl3NegateNode::typeName,
+            BdDbl3NegateNode::typeId,
+            BdDbl3NegateNode::creator,
+            BdDbl3NegateNode::initialize,
         },
         {
-            BdDblNegNode::typeName,
-            BdDblNegNode::typeId,
-            BdDblNegNode::creator,
-            BdDblNegNode::initialize,
+            BdDblNegateNode::typeName,
+            BdDblNegateNode::typeId,
+            BdDblNegateNode::creator,
+            BdDblNegateNode::initialize,
         },
         {
             BdDblValueNode::typeName,

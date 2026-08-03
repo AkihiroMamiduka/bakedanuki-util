@@ -214,7 +214,7 @@ for (unsigned int physicalIndex = 0; physicalIndex < count; ++physicalIndex) {
 
 全要素の積のように index 自体が不要な処理では、logical index を読まず `next()` で
 既存要素だけを走査します。空配列の結果は演算の単位元から決めます。
-`bdDbl3_MultMulti` では `(1.0, 1.0, 1.0)`、`bdDbl_MultMulti` では
+`bdDbl3_MultiplyMulti` では `(1.0, 1.0, 1.0)`、`bdDbl_MultiplyMulti` では
 `1.0` です。加算の `bdDbl3_AddMulti` と `bdDbl_AddMulti` では、それぞれ
 `(0.0, 0.0, 0.0)` と `0.0` です。
 
@@ -264,6 +264,11 @@ type code直後の`_`は、Node Editorで`bdDbl_`または`bdDbl3_`まで入力�
 対象のattribute型だけを候補へ絞り込むための区切りです。operationとvariantの間には
 追加の`_`を入れません。
 
+operationは`Subtract`、`Multiply`、`Divide`、`Power`、`Negate`、
+`WeightedSum`のように、原則として意味がそのまま伝わる英単語を使います。
+数学・CG分野で一般的な`Min`、`Max`、`Abs`、`Lerp`は短い表記を維持します。
+`Multi`は配列入力版を示すvariantであり、`Multiply`の省略形としては使いません。
+
 ```text
 bdDbl_Add
 bdDbl_AddMulti
@@ -300,8 +305,8 @@ module名はsnake_caseへ正規化し、Creator methodはMaya node typeをその
 | 固定2入力版 | `bd<TypeCode>_<Operation>` | `input1`、`input2` | 2値だけの演算、明確なAPI |
 | 配列入力版 | `bd<TypeCode>_<Operation>Multi` | `input[]` | 3値以上の集約、node数の削減 |
 
-double乗算では `bdDbl_Mult` と `bdDbl_MultMulti`、double3乗算では
-`bdDbl3_Mult` と `bdDbl3_MultMulti` を使います。加算も同様に、doubleでは
+double乗算では `bdDbl_Multiply` と `bdDbl_MultiplyMulti`、double3乗算では
+`bdDbl3_Multiply` と `bdDbl3_MultiplyMulti` を使います。加算も同様に、doubleでは
 `bdDbl_Add` と `bdDbl_AddMulti`、double3では `bdDbl3_Add` と
 `bdDbl3_AddMulti` を使います。出力名はどちらも `output` とし、固定版と配列版で
 演算結果の型を揃えます。
@@ -337,14 +342,14 @@ API上で入力順を区別しない積や和では、既存elementのphysical i
 暗黙に使いません。logical index順などの規則を明文化し、sparse indexを含むsceneで
 テストします。
 
-`bdDbl_SubMulti` と `bdDbl3_SubMulti` は、存在する要素をlogical indexの昇順に
+`bdDbl_SubtractMulti` と `bdDbl3_SubtractMulti` は、存在する要素をlogical indexの昇順に
 並べ、最小indexの値から残りを順に減算します。例えばindex `2`、`7`、`20`が存在する
 場合は `input[2] - input[7] - input[20]` です。1要素ならその値、空配列なら明示仕様の
 `0` または `(0, 0, 0)` を返します。
 
 ### Safe Division Policy
 
-`bdDbl_Div`、`bdDbl3_Div`とその配列版は、除数の絶対値が`1e-9`未満の場合、
+`bdDbl_Divide`、`bdDbl3_Divide`とその配列版は、除数の絶対値が`1e-9`未満の場合、
 符号を維持した`1e-9`へ置換してから除算します。判定は各除算、double3では各成分へ
 独立に適用します。配列版の最初の既存要素は分子なので置換せず、2要素目以降だけを
 安全な除数として扱います。
@@ -363,13 +368,13 @@ if (std::abs(divisor) < 1.0e-9) {
 ならないようにします。`compute()`からwarningは出さず、同じ規則を除算を含む今後の
 演算nodeでも共通利用します。
 
-`bdDbl_DivMulti`と`bdDbl3_DivMulti`も存在する要素をlogical index昇順に並べ、
+`bdDbl_DivideMulti`と`bdDbl3_DivideMulti`も存在する要素をlogical index昇順に並べ、
 最小indexの値から左畳み込みします。1要素ならその値、空配列なら明示仕様の`1`または
 `(1, 1, 1)`を返します。
 
 ### Safe Power Policy
 
-`bdDbl_Pow`、`bdDbl3_Pow`とその配列版は、`input1`を底、`input2`を指数として
+`bdDbl_Power`、`bdDbl3_Power`とその配列版は、`input1`を底、`input2`を指数として
 累乗します。double3ではXYZ成分ごとに独立して計算します。固定2入力版の入力と出力の
 defaultはすべて`1`です。
 
@@ -387,7 +392,7 @@ result = std::pow(base, exponent);
 `0 ^ 0`は`std::pow()`に従って`1`とします。負の底と非整数指数は`NaN`、表現範囲を
 超える結果は`inf`、underflowは`0`とし、追加のclampやwarningは行いません。
 
-`bdDbl_PowMulti`と`bdDbl3_PowMulti`は存在する要素をlogical index昇順に並べ、
+`bdDbl_PowerMulti`と`bdDbl3_PowerMulti`は存在する要素をlogical index昇順に並べ、
 最小indexを底として左畳み込みします。index `2`、`9`、`20`が存在する場合は
 `(input[2] ^ input[9]) ^ input[20]`です。1要素ならその値、空配列なら明示仕様の`1`
 または`(1, 1, 1)`を返します。各段階で指数が負の場合、その時点の計算結果である底へ
@@ -510,7 +515,7 @@ output = abs(input)
 
 ### Negate Policy
 
-`bdDbl_Neg`と`bdDbl3_Neg`は、`input`の符号を反転して`output`へ返します。
+`bdDbl_Negate`と`bdDbl3_Negate`は、`input`の符号を反転して`output`へ返します。
 double3版はXYZ成分ごとに独立して計算します。単項演算なので`Multi`版は作りません。
 
 ```text
@@ -524,10 +529,11 @@ output = -input
 `+0.0`は`-0.0`、`-0.0`は`+0.0`、`+inf`は`-inf`、`-inf`は`+inf`を返し、
 `NaN`は`NaN`のまま伝播します。値のclamp、epsilon補正、warningは行いません。
 
-### Weighted Add Policy
+### Weighted Sum Policy
 
-`bdDbl_WtAddMulti`と`bdDbl3_WtAddMulti`は、valueとweightの積を全要素について加算する
-正規化なしの加重和です。double3版ではscalar doubleのweightをXYZすべてへ適用します。
+`bdDbl_WeightedSumMulti`と`bdDbl3_WeightedSumMulti`は、valueとweightの積を
+全要素について加算する正規化なしの加重和です。double3版ではscalar doubleのweightを
+XYZすべてへ適用します。
 
 ```text
 output = sum(input[i].value * input[i].weight)
@@ -556,7 +562,7 @@ iterationで走査します。
 変更しない入力群は先に集約し、最終nodeからは1入力として扱います。固定チェーンの
 末尾1入力だけが変化するなどdirty範囲を限定できる特殊な構造は、scene全体の計測結果を
 根拠に個別判断します。実測条件と境界値は
-[bdDbl Multiplication Benchmark](bd-dbl-mult-benchmark.md) を参照してください。
+[bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md) を参照してください。
 
 この規約は、すべての演算に固定版と配列版の両方を必須とするものではありません。
 node type、`MTypeId`、wrapper、テスト、文書という保守対象が増えるため、意味が曖昧な

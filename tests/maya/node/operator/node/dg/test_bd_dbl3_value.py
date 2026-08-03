@@ -90,7 +90,7 @@ def test_value_can_be_destination_and_source_in_the_same_network(
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
     source = nodes.create.bdDbl3_Value(name="source")
     relay = nodes.create.bdDbl3_Value(name="relay")
-    mult = nodes.create.bdDbl3_Mult(name="mult")
+    mult = nodes.create.bdDbl3_Multiply(name="mult")
     source.value.set((2.0, 3.0, 4.0))
     source.value.connect(relay.value)
     relay.value.connect(mult.input1)
@@ -111,7 +111,7 @@ def test_child_value_can_drive_scalar_plug(modifier_manager, maya_cmds):
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
     value = nodes.create.bdDbl3_Value(name="value")
-    mult = nodes.create.bdDbl_Mult(name="mult")
+    mult = nodes.create.bdDbl_Multiply(name="mult")
     value.value.set((2.0, 3.0, 4.0))
     value.value.valueY.connect(mult.input1)
     mult.input2.set(5.0)
@@ -132,7 +132,7 @@ def test_downstream_dirty_updates_match_in_all_evaluation_modes(
         maya_cmds.evaluationManager(mode=evaluation_mode)
 
         value = maya_cmds.createNode("bdDbl3_Value")
-        mult = maya_cmds.createNode("bdDbl3_Mult")
+        mult = maya_cmds.createNode("bdDbl3_Multiply")
         maya_cmds.connectAttr(f"{value}.value", f"{mult}.input1")
         maya_cmds.setAttr(f"{mult}.input2", 2.0, 3.0, 4.0, type="double3")
 

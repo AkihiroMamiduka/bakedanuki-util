@@ -45,7 +45,7 @@ native node の標準テストは Maya 2025 の `mayapy` で実行します。
 
 関連テストは次にあります。
 
-- [test_bd_dbl3_mult.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_mult.py)
+- [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
 
 新しい node では、少なくとも次を自動化します。
 
@@ -141,7 +141,7 @@ Evaluation Toolkit または `cmds.cacheEvaluator(query=True, cachingPoints=True
 compound node では、親だけでなく各 child を個別に変更します。
 
 ```python
-node = cmds.createNode("bdDbl3_Mult")
+node = cmds.createNode("bdDbl3_Multiply")
 cmds.setAttr(f"{node}.input1", 2.0, 3.0, 4.0, type="double3")
 cmds.setAttr(f"{node}.input2", 5.0, 6.0, 7.0, type="double3")
 
@@ -171,7 +171,7 @@ assert cmds.getAttr(f"{node}.outputX") == 40.0
 multi attribute では連続 index だけのテストでは不十分です。
 
 ```python
-node = cmds.createNode("bdDbl3_MultMulti")
+node = cmds.createNode("bdDbl3_MultiplyMulti")
 cmds.setAttr(f"{node}.input[0]", 2.0, 3.0, 4.0, type="double3")
 cmds.setAttr(f"{node}.input[10]", 5.0, 6.0, 7.0, type="double3")
 
@@ -240,7 +240,7 @@ tool の表示は原因そのものではなく Maya が認識している graph
 graph で評価します。作成時間と計算時間を別々に記録し、API の使いやすさを犠牲にする
 価値がある差かを判断します。
 
-`bdDbl_Mult` のチェーンと `bdDbl_MultMulti` の再実行可能なベンチマークは次で
+`bdDbl_Multiply` のチェーンと `bdDbl_MultiplyMulti` の再実行可能なベンチマークは次で
 実行します。
 
 ```powershell
@@ -248,7 +248,7 @@ graph で評価します。作成時間と計算時間を別々に記録し、AP
 ```
 
 測定条件、境界値、dirty位置による違いは
-[bdDbl Multiplication Benchmark](bd-dbl-mult-benchmark.md) に記録します。
+[bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md) に記録します。
 
 Maya Profiler を使うときは、node 自体の時間だけでなく、evaluation 回数と dirty 範囲も
 確認します。1回の `compute()` を数 ns 改善するより、不要な再評価を1回なくす方が
