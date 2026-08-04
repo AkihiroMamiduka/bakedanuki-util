@@ -12,20 +12,22 @@
    - `double` / `double3` 演算ノードの優先実装候補、family構成、実装前の検討事項
 3. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、比較演算、最初の一致、境界値の仕様
-4. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+4. [Average Nodes](average.md)
+   - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
+5. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-5. [Evaluation And Parallelism](evaluation.md)
+6. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-6. [Testing And Debugging](testing-debugging.md)
+7. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-7. [Node ID Registry](../NODE_IDS.md)
+8. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-8. [Build Guide](../README.md)
+9. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-9. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+10. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -134,6 +136,14 @@
   - scalar条件からdouble3を選択するsparse case配列
 - [BdDblConditionMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblConditionMultiNode.cpp)
   - scalar条件とscalar値のsparse case配列
+- [Average Nodes](average.md)
+  - 固定2入力 / 配列、空入力、logical index順、単純合計方式の共通仕様
+- [Average.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Average.h)
+  - 固定2入力版で共有する算術平均
+- [BdDbl3AverageNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AverageNode.cpp) / [BdDbl3AverageMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3AverageMultiNode.cpp)
+  - component-wiseなdouble3平均の固定2入力版とsparse配列版
+- [BdDblAverageNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAverageNode.cpp) / [BdDblAverageMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAverageMultiNode.cpp)
+  - scalar平均の固定2入力版とsparse配列版
 - [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_multiply.py)
@@ -188,6 +198,8 @@
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 - [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)
   - 4つのCondition nodeの比較、case順序、境界値、dirty、接続、scene round-tripのテスト
+- [test_bd_average.py](../../../tests/maya/node/operator/node/dg/test_bd_average.py)
+  - 4つのAverage nodeの固定入力、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
 
 ## Core Principles
 

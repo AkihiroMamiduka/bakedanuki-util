@@ -268,6 +268,8 @@ from ..operator.node.dg.basic_selector import BasicSelector
 from ..operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
 from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from ..operator.node.dg.bd_dbl3_average import BdDbl3Average
+from ..operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
 from ..operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
 from ..operator.node.dg.bd_dbl3_condition import BdDbl3Condition
 from ..operator.node.dg.bd_dbl3_condition_multi import BdDbl3ConditionMulti
@@ -293,6 +295,8 @@ from ..operator.node.dg.bd_dbl3_weighted_sum_multi import (
 from ..operator.node.dg.bd_dbl_abs import BdDblAbs
 from ..operator.node.dg.bd_dbl_add import BdDblAdd
 from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from ..operator.node.dg.bd_dbl_average import BdDblAverage
+from ..operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
 from ..operator.node.dg.bd_dbl_clamp import BdDblClamp
 from ..operator.node.dg.bd_dbl_condition import BdDblCondition
 from ..operator.node.dg.bd_dbl_condition_multi import BdDblConditionMulti
@@ -2264,6 +2268,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3AddMulti: ...
+    def bdDbl3_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3Average: ...
+    def bdDbl3_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3AverageMulti: ...
     def bdDbl3_Clamp(
         self,
         name: str | None = None,
@@ -2379,6 +2393,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblAddMulti: ...
+    def bdDbl_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAverage: ...
+    def bdDbl_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAverageMulti: ...
     def bdDbl_Clamp(
         self,
         name: str | None = None,

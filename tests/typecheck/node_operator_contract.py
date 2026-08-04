@@ -30,6 +30,20 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add_multi import (
     OutputAttrOperator as AddMultiOutputAttrOperator,
     OutputPlugOperator as AddMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_average import (
+    Input1AttrOperator as AverageInput1AttrOperator,
+    Input1PlugOperator as AverageInput1PlugOperator,
+    Input2AttrOperator as AverageInput2AttrOperator,
+    Input2PlugOperator as AverageInput2PlugOperator,
+    OutputAttrOperator as AverageOutputAttrOperator,
+    OutputPlugOperator as AverageOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_average_multi import (
+    InputAttrOperator as AverageMultiInputAttrOperator,
+    InputPlugOperator as AverageMultiInputPlugOperator,
+    OutputAttrOperator as AverageMultiOutputAttrOperator,
+    OutputPlugOperator as AverageMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_clamp import (
     InputAttrOperator as ClampInputAttrOperator,
     InputPlugOperator as ClampInputPlugOperator,
@@ -200,6 +214,10 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_add import (
 from bd_util.maya.node.operator.node.dg.bd_dbl3_add_multi import (
     BdDbl3AddMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_dbl3_average import BdDbl3Average
+from bd_util.maya.node.operator.node.dg.bd_dbl3_average_multi import (
+    BdDbl3AverageMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
 from bd_util.maya.node.operator.node.dg.bd_dbl3_condition import (
     BdDbl3Condition,
@@ -258,6 +276,10 @@ from bd_util.maya.node.operator.node.dg.bd_dbl_add import (
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_add_multi import (
     BdDblAddMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_average import BdDblAverage
+from bd_util.maya.node.operator.node.dg.bd_dbl_average_multi import (
+    BdDblAverageMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_clamp import BdDblClamp
 from bd_util.maya.node.operator.node.dg.bd_dbl_condition import BdDblCondition
@@ -1187,6 +1209,59 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdDbl3_ConditionMulti("existing_vector_multi"),
         BdDbl3ConditionMulti,
+    )
+
+
+def average_contract(nodes: bdu.Nodes) -> None:
+    scalar = nodes.create.bdDbl_Average(name="scalar_average")
+    assert_type(scalar, BdDblAverage)
+    assert_type(scalar.input1, DoublePlugOperator)
+    assert_type(scalar.input2, DoublePlugOperator)
+    assert_type(scalar.output, DoublePlugOperator)
+    assert_type(
+        nodes.existing.bdDbl_Average("existing_scalar_average"),
+        BdDblAverage,
+    )
+
+    scalar_multi = nodes.create.bdDbl_AverageMulti(name="scalar_average_multi")
+    assert_type(scalar_multi, BdDblAverageMulti)
+    assert_type(scalar_multi.input, DoublePlugOperator)
+    assert_type(scalar_multi.input[0], DoublePlugOperator)
+    assert_type(scalar_multi.input[next], DoublePlugOperator)
+    assert_type(scalar_multi.output, DoublePlugOperator)
+    assert_type(
+        nodes.existing.bdDbl_AverageMulti("existing_scalar_average_multi"),
+        BdDblAverageMulti,
+    )
+
+    vector = nodes.create.bdDbl3_Average(name="vector_average")
+    assert_type(vector, BdDbl3Average)
+    assert_type(BdDbl3Average.input1, AverageInput1AttrOperator)
+    assert_type(vector.input1, AverageInput1PlugOperator)
+    assert_type(BdDbl3Average.input2, AverageInput2AttrOperator)
+    assert_type(vector.input2, AverageInput2PlugOperator)
+    assert_type(BdDbl3Average.output, AverageOutputAttrOperator)
+    assert_type(vector.output, AverageOutputPlugOperator)
+    assert_type(vector.output.get(), bdu.Double3)
+    assert_type(
+        nodes.existing.bdDbl3_Average("existing_vector_average"),
+        BdDbl3Average,
+    )
+
+    vector_multi = nodes.create.bdDbl3_AverageMulti(
+        name="vector_average_multi"
+    )
+    assert_type(vector_multi, BdDbl3AverageMulti)
+    assert_type(BdDbl3AverageMulti.input, AverageMultiInputAttrOperator)
+    assert_type(vector_multi.input, AverageMultiInputPlugOperator)
+    assert_type(vector_multi.input[0], AverageMultiInputPlugOperator)
+    assert_type(vector_multi.input[next], AverageMultiInputPlugOperator)
+    assert_type(BdDbl3AverageMulti.output, AverageMultiOutputAttrOperator)
+    assert_type(vector_multi.output, AverageMultiOutputPlugOperator)
+    assert_type(vector_multi.output.get(), bdu.Double3)
+    assert_type(
+        nodes.existing.bdDbl3_AverageMulti("existing_vector_average_multi"),
+        BdDbl3AverageMulti,
     )
 
 

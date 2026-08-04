@@ -20,7 +20,7 @@ Python 側の API・生成器に関する計画は、既存の
 | 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 実装済み |
 | 6 | Negate | `bdDbl_Negate`, `bdDbl3_Negate` | 単項 | 符号を反転 | 実装済み |
 | 7 | Condition | `bdDbl_Condition`, `bdDbl_ConditionMulti`, `bdDbl3_Condition`, `bdDbl3_ConditionMulti` | 単一条件 / 条件配列 | 比較結果に応じた値を選択 | 実装済み |
-| 8 | Average | `bdDbl_AverageMulti`, `bdDbl3_AverageMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
+| 8 | Average | `bdDbl_Average`, `bdDbl_AverageMulti`, `bdDbl3_Average`, `bdDbl3_AverageMulti` | 固定2入力 / 配列 | 入力値の算術平均を出力 | 実装済み |
 | 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |
 
 ## Family Policy
@@ -30,7 +30,8 @@ Python 側の API・生成器に関する計画は、既存の
   `Multi` 版を用意する。
 - Clamp / Map Range のように役割の異なるパラメーターを持つ演算と、単項演算には
   固定2入力版や `Multi` 版を機械的に追加しない。
-- Average は入力数を必要とするため `Multi` 版のみとする。
+- Average は2値の平均を直接扱える固定2入力版と、任意個の入力を扱う `Multi` 版を
+  用意する。詳細は [Average Nodes](average.md) を参照する。
 - Weighted Average は既存の Weighted Sum と同様に value / weight の compound
   配列を使用する方向で検討する。
 - Condition は scalar の `input` と `compare` を比較し、`double` または
@@ -44,7 +45,6 @@ Python 側の API・生成器に関する計画は、既存の
 
 ## Decisions Before Implementation
 
-- Average: 空の `Multi` 入力に対する出力値を決める。
 - Weighted Average: weight の合計が 0 の場合の出力を決める。
 
 ## Definition Of Done

@@ -45,6 +45,10 @@ add_library(
     src/nodes/BdDblConditionMultiNode.cpp
     src/nodes/BdDbl3ConditionNode.cpp
     src/nodes/BdDbl3ConditionMultiNode.cpp
+    src/nodes/BdDblAverageNode.cpp
+    src/nodes/BdDblAverageMultiNode.cpp
+    src/nodes/BdDbl3AverageNode.cpp
+    src/nodes/BdDbl3AverageMultiNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
     src/attributes/ComparisonAttribute.cpp

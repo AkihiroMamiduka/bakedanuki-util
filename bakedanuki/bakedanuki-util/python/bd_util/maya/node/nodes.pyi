@@ -345,6 +345,8 @@ from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
+from .operator.node.dg.bd_dbl3_average import BdDbl3Average
+from .operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
 from .operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
 from .operator.node.dg.bd_dbl3_condition import BdDbl3Condition
 from .operator.node.dg.bd_dbl3_condition_multi import BdDbl3ConditionMulti
@@ -368,6 +370,8 @@ from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
 from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
 from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
+from .operator.node.dg.bd_dbl_average import BdDblAverage
+from .operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
 from .operator.node.dg.bd_dbl_clamp import BdDblClamp
 from .operator.node.dg.bd_dbl_condition import BdDblCondition
 from .operator.node.dg.bd_dbl_condition_multi import BdDblConditionMulti
@@ -2598,6 +2602,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3AddMulti: ...
+    def bdDbl3_Average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Average: ...
+    def bdDbl3_AverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3AverageMulti: ...
     def bdDbl3_Clamp(
         self,
         node: str | om.MObject,
@@ -2713,6 +2727,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblAddMulti: ...
+    def bdDbl_Average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAverage: ...
+    def bdDbl_AverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAverageMulti: ...
     def bdDbl_Clamp(
         self,
         node: str | om.MObject,

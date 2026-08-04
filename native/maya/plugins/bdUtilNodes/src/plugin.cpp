@@ -7,6 +7,8 @@
 #include "bdUtilNodes/nodes/BdDbl3AbsNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3AverageMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3AverageNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ClampNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ConditionMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ConditionNode.h"
@@ -34,6 +36,8 @@
 #include "bdUtilNodes/nodes/BdDblAbsNode.h"
 #include "bdUtilNodes/nodes/BdDblAddNode.h"
 #include "bdUtilNodes/nodes/BdDblAddMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAverageMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAverageNode.h"
 #include "bdUtilNodes/nodes/BdDblClampNode.h"
 #include "bdUtilNodes/nodes/BdDblConditionMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblConditionNode.h"
@@ -60,8 +64,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 46>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 46> registrations = {{
+const std::array<NodeRegistration, 50>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 50> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -325,6 +329,30 @@ const std::array<NodeRegistration, 46>& nodeRegistrations() {
             BdDblConditionNode::typeId,
             BdDblConditionNode::creator,
             BdDblConditionNode::initialize,
+        },
+        {
+            BdDbl3AverageMultiNode::typeName,
+            BdDbl3AverageMultiNode::typeId,
+            BdDbl3AverageMultiNode::creator,
+            BdDbl3AverageMultiNode::initialize,
+        },
+        {
+            BdDbl3AverageNode::typeName,
+            BdDbl3AverageNode::typeId,
+            BdDbl3AverageNode::creator,
+            BdDbl3AverageNode::initialize,
+        },
+        {
+            BdDblAverageMultiNode::typeName,
+            BdDblAverageMultiNode::typeId,
+            BdDblAverageMultiNode::creator,
+            BdDblAverageMultiNode::initialize,
+        },
+        {
+            BdDblAverageNode::typeName,
+            BdDblAverageNode::typeId,
+            BdDblAverageNode::creator,
+            BdDblAverageNode::initialize,
         },
         {
             BdDblValueNode::typeName,

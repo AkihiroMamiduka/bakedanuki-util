@@ -50,6 +50,10 @@
 | `bdDbl3_Condition` | `0x0007F02C` | Internal development |
 | `bdDbl_ConditionMulti` | `0x0007F02D` | Internal development |
 | `bdDbl_Condition` | `0x0007F02E` | Internal development |
+| `bdDbl3_AverageMulti` | `0x0007F02F` | Internal development |
+| `bdDbl3_Average` | `0x0007F030` | Internal development |
+| `bdDbl_AverageMulti` | `0x0007F031` | Internal development |
+| `bdDbl_Average` | `0x0007F032` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。
