@@ -365,6 +365,9 @@ from .operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
 from .operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
 from .operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
 from .operator.node.dg.bd_dbl3_value import BdDbl3Value
+from .operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
 from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
 from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
@@ -390,6 +393,9 @@ from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
 from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from .operator.node.dg.bd_dbl_value import BdDblValue
+from .operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
+)
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
@@ -3026,6 +3032,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDbl3Value: ...
     @staticmethod
+    def bdDbl3_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3WeightedAverageMulti: ...
+    @staticmethod
     def bdDbl3_WeightedSumMulti(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3175,6 +3187,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblValue: ...
+    @staticmethod
+    def bdDbl_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblWeightedAverageMulti: ...
     @staticmethod
     def bdDbl_WeightedSumMulti(
         node: str | om.MObject,

@@ -49,6 +49,8 @@ add_library(
     src/nodes/BdDblAverageMultiNode.cpp
     src/nodes/BdDbl3AverageNode.cpp
     src/nodes/BdDbl3AverageMultiNode.cpp
+    src/nodes/BdDblWeightedAverageMultiNode.cpp
+    src/nodes/BdDbl3WeightedAverageMultiNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
     src/attributes/ComparisonAttribute.cpp

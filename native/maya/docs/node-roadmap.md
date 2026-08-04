@@ -21,7 +21,7 @@ Python 側の API・生成器に関する計画は、既存の
 | 6 | Negate | `bdDbl_Negate`, `bdDbl3_Negate` | 単項 | 符号を反転 | 実装済み |
 | 7 | Condition | `bdDbl_Condition`, `bdDbl_ConditionMulti`, `bdDbl3_Condition`, `bdDbl3_ConditionMulti` | 単一条件 / 条件配列 | 比較結果に応じた値を選択 | 実装済み |
 | 8 | Average | `bdDbl_Average`, `bdDbl_AverageMulti`, `bdDbl3_Average`, `bdDbl3_AverageMulti` | 固定2入力 / 配列 | 入力値の算術平均を出力 | 実装済み |
-| 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |
+| 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 実装済み |
 
 ## Family Policy
 
@@ -32,8 +32,8 @@ Python 側の API・生成器に関する計画は、既存の
   固定2入力版や `Multi` 版を機械的に追加しない。
 - Average は2値の平均を直接扱える固定2入力版と、任意個の入力を扱う `Multi` 版を
   用意する。詳細は [Average Nodes](average.md) を参照する。
-- Weighted Average は既存の Weighted Sum と同様に value / weight の compound
-  配列を使用する方向で検討する。
+- Weighted Average は既存の Weighted Sum と同じ value / weight の compound配列を
+  使用する。詳細は [Weighted Average Nodes](weighted-average.md) を参照する。
 - Condition は scalar の `input` と `compare` を比較し、`double` または
   `double3` の値を選択する。`Multi` 版は `case[]` を logical index 順に評価し、
   最初に一致した値を出力する。詳細は [Condition Nodes](condition.md) を参照する。
@@ -42,10 +42,6 @@ Python 側の API・生成器に関する計画は、既存の
 
 - Sign は `-1 / 0 / 1` の出力後に追加の分岐が必要になりやすく、現時点のリグ用途では
   Condition の方が直接的なため実装対象から外す。
-
-## Decisions Before Implementation
-
-- Weighted Average: weight の合計が 0 の場合の出力を決める。
 
 ## Definition Of Done
 

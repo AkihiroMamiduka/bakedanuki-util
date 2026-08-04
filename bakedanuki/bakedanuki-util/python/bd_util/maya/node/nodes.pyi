@@ -366,6 +366,9 @@ from .operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
 from .operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
 from .operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
 from .operator.node.dg.bd_dbl3_value import BdDbl3Value
+from .operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
 from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
 from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
@@ -391,6 +394,9 @@ from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
 from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from .operator.node.dg.bd_dbl_value import BdDblValue
+from .operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
+)
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
@@ -2707,6 +2713,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Value: ...
+    def bdDbl3_WeightedAverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3WeightedAverageMulti: ...
     def bdDbl3_WeightedSumMulti(
         self,
         node: str | om.MObject,
@@ -2832,6 +2843,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblValue: ...
+    def bdDbl_WeightedAverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblWeightedAverageMulti: ...
     def bdDbl_WeightedSumMulti(
         self,
         node: str | om.MObject,

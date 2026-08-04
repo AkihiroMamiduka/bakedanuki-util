@@ -14,20 +14,22 @@
    - 単一条件、`case[]`、比較演算、最初の一致、境界値の仕様
 4. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-5. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+5. [Weighted Average Nodes](weighted-average.md)
+   - value / weight配列、weight合計0、負のweight、zero weightの仕様
+6. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-6. [Evaluation And Parallelism](evaluation.md)
+7. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-7. [Testing And Debugging](testing-debugging.md)
+8. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-8. [Node ID Registry](../NODE_IDS.md)
+9. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-9. [Build Guide](../README.md)
+10. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-10. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+11. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -144,6 +146,14 @@
   - component-wiseなdouble3平均の固定2入力版とsparse配列版
 - [BdDblAverageNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAverageNode.cpp) / [BdDblAverageMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAverageMultiNode.cpp)
   - scalar平均の固定2入力版とsparse配列版
+- [Weighted Average Nodes](weighted-average.md)
+  - value / weight配列、exact zero判定、負のweight、zero weightの共通仕様
+- [WeightedAverage.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/WeightedAverage.h)
+  - weighted sumをweight合計で正規化し、合計0をzeroへ変換する共有実装
+- [BdDbl3WeightedAverageMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3WeightedAverageMultiNode.cpp)
+  - scalar weightを使うcomponent-wiseなdouble3加重平均
+- [BdDblWeightedAverageMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblWeightedAverageMultiNode.cpp)
+  - scalarのsparse配列加重平均
 - [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_multiply.py)
@@ -200,6 +210,8 @@
   - 4つのCondition nodeの比較、case順序、境界値、dirty、接続、scene round-tripのテスト
 - [test_bd_average.py](../../../tests/maya/node/operator/node/dg/test_bd_average.py)
   - 4つのAverage nodeの固定入力、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
+- [test_bd_weighted_average.py](../../../tests/maya/node/operator/node/dg/test_bd_weighted_average.py)
+  - 2つのWeighted Average nodeの正規化、weight境界、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
 
 ## Core Principles
 

@@ -54,6 +54,8 @@
 | `bdDbl3_Average` | `0x0007F030` | Internal development |
 | `bdDbl_AverageMulti` | `0x0007F031` | Internal development |
 | `bdDbl_Average` | `0x0007F032` | Internal development |
+| `bdDbl3_WeightedAverageMulti` | `0x0007F033` | Internal development |
+| `bdDbl_WeightedAverageMulti` | `0x0007F034` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

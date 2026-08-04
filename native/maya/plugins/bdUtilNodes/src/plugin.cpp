@@ -33,6 +33,7 @@
 #include "bdUtilNodes/nodes/BdDbl3PowerMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3SubtractNode.h"
 #include "bdUtilNodes/nodes/BdDbl3SubtractMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3WeightedAverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAbsNode.h"
 #include "bdUtilNodes/nodes/BdDblAddNode.h"
 #include "bdUtilNodes/nodes/BdDblAddMultiNode.h"
@@ -52,6 +53,7 @@
 #include "bdUtilNodes/nodes/BdDblPowerMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblSubtractNode.h"
 #include "bdUtilNodes/nodes/BdDblSubtractMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblWeightedAverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3WeightedSumMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblWeightedSumMultiNode.h"
 
@@ -64,8 +66,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 50>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 50> registrations = {{
+const std::array<NodeRegistration, 52>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 52> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -353,6 +355,18 @@ const std::array<NodeRegistration, 50>& nodeRegistrations() {
             BdDblAverageNode::typeId,
             BdDblAverageNode::creator,
             BdDblAverageNode::initialize,
+        },
+        {
+            BdDbl3WeightedAverageMultiNode::typeName,
+            BdDbl3WeightedAverageMultiNode::typeId,
+            BdDbl3WeightedAverageMultiNode::creator,
+            BdDbl3WeightedAverageMultiNode::initialize,
+        },
+        {
+            BdDblWeightedAverageMultiNode::typeName,
+            BdDblWeightedAverageMultiNode::typeId,
+            BdDblWeightedAverageMultiNode::creator,
+            BdDblWeightedAverageMultiNode::initialize,
         },
         {
             BdDblValueNode::typeName,

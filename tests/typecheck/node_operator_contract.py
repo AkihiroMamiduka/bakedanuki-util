@@ -44,6 +44,16 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_average_multi impo
     OutputAttrOperator as AverageMultiOutputAttrOperator,
     OutputPlugOperator as AverageMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_weighted_average_multi import (
+    InputAttrOperator as Dbl3WeightedAverageInputAttrOperator,
+    InputPlugOperator as Dbl3WeightedAverageInputPlugOperator,
+    OutputAttrOperator as WeightedAverageOutputAttrOperator,
+    OutputPlugOperator as WeightedAverageOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_weighted_average_multi import (
+    InputAttrOperator as DblWeightedAverageInputAttrOperator,
+    InputPlugOperator as DblWeightedAverageInputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_clamp import (
     InputAttrOperator as ClampInputAttrOperator,
     InputPlugOperator as ClampInputPlugOperator,
@@ -218,6 +228,9 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_average import BdDbl3Average
 from bd_util.maya.node.operator.node.dg.bd_dbl3_average_multi import (
     BdDbl3AverageMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
 from bd_util.maya.node.operator.node.dg.bd_dbl3_condition import (
     BdDbl3Condition,
@@ -280,6 +293,9 @@ from bd_util.maya.node.operator.node.dg.bd_dbl_add_multi import (
 from bd_util.maya.node.operator.node.dg.bd_dbl_average import BdDblAverage
 from bd_util.maya.node.operator.node.dg.bd_dbl_average_multi import (
     BdDblAverageMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_clamp import BdDblClamp
 from bd_util.maya.node.operator.node.dg.bd_dbl_condition import BdDblCondition
@@ -1262,6 +1278,56 @@ def average_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdDbl3_AverageMulti("existing_vector_average_multi"),
         BdDbl3AverageMulti,
+    )
+
+
+def weighted_average_contract(nodes: bdu.Nodes) -> None:
+    scalar = nodes.create.bdDbl_WeightedAverageMulti(
+        name="scalar_weighted_average"
+    )
+    assert_type(scalar, BdDblWeightedAverageMulti)
+    assert_type(
+        BdDblWeightedAverageMulti.input,
+        DblWeightedAverageInputAttrOperator,
+    )
+    assert_type(scalar.input, DblWeightedAverageInputPlugOperator)
+    assert_type(scalar.input[0], DblWeightedAverageInputPlugOperator)
+    assert_type(scalar.input[next], DblWeightedAverageInputPlugOperator)
+    assert_type(scalar.input[next].value, DoublePlugOperator)
+    assert_type(scalar.input[next].weight, DoublePlugOperator)
+    assert_type(scalar.output, DoublePlugOperator)
+    assert_type(
+        nodes.existing.bdDbl_WeightedAverageMulti(
+            "existing_scalar_weighted_average"
+        ),
+        BdDblWeightedAverageMulti,
+    )
+
+    vector = nodes.create.bdDbl3_WeightedAverageMulti(
+        name="vector_weighted_average"
+    )
+    assert_type(vector, BdDbl3WeightedAverageMulti)
+    assert_type(
+        BdDbl3WeightedAverageMulti.input,
+        Dbl3WeightedAverageInputAttrOperator,
+    )
+    assert_type(vector.input, Dbl3WeightedAverageInputPlugOperator)
+    assert_type(vector.input[0], Dbl3WeightedAverageInputPlugOperator)
+    assert_type(vector.input[next], Dbl3WeightedAverageInputPlugOperator)
+    assert_type(vector.input[next].value, Double3PlugOperator)
+    assert_type(vector.input[next].value.x, DoublePlugOperator)
+    assert_type(vector.input[next].weight, DoublePlugOperator)
+    assert_type(
+        BdDbl3WeightedAverageMulti.output,
+        WeightedAverageOutputAttrOperator,
+    )
+    assert_type(vector.output, WeightedAverageOutputPlugOperator)
+    assert_type(vector.output.get(), bdu.Double3)
+    assert_type(
+        nodes.existing.bdDbl3_WeightedAverageMulti(
+            "existing_vector_weighted_average"
+        ),
+        BdDbl3WeightedAverageMulti,
     )
 
 

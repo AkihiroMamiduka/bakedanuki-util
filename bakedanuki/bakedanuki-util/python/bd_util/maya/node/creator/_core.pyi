@@ -289,6 +289,9 @@ from ..operator.node.dg.bd_dbl3_power import BdDbl3Power
 from ..operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
 from ..operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
 from ..operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
+from ..operator.node.dg.bd_dbl3_weighted_average_multi import (
+    BdDbl3WeightedAverageMulti,
+)
 from ..operator.node.dg.bd_dbl3_weighted_sum_multi import (
     BdDbl3WeightedSumMulti,
 )
@@ -316,6 +319,9 @@ from ..operator.node.dg.bd_dbl_power import BdDblPower
 from ..operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
 from ..operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from ..operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
+from ..operator.node.dg.bd_dbl_weighted_average_multi import (
+    BdDblWeightedAverageMulti,
+)
 from ..operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
@@ -2373,6 +2379,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3SubtractMulti: ...
+    def bdDbl3_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3WeightedAverageMulti: ...
     def bdDbl3_WeightedSumMulti(
         self,
         name: str | None = None,
@@ -2498,6 +2509,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblSubtractMulti: ...
+    def bdDbl_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblWeightedAverageMulti: ...
     def bdDbl_WeightedSumMulti(
         self,
         name: str | None = None,
