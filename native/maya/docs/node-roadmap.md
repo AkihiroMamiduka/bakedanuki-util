@@ -9,6 +9,9 @@ Python 側の API・生成器に関する計画は、既存の
 記載します。node type と基本仕様は実装候補であり、未確定事項を検討してから
 確定します。
 
+`doubleLinear` / `doubleLinear3`への展開は
+[Double Linear Node Expansion](double-linear-nodes.md)で管理します。
+
 ## Implementation Order
 
 | 順序 | 演算 | 予定 node type | 形式 | 主な用途 | 状態 |
@@ -22,6 +25,22 @@ Python 側の API・生成器に関する計画は、既存の
 | 7 | Condition | `bdDbl_Condition`, `bdDbl_ConditionMulti`, `bdDbl3_Condition`, `bdDbl3_ConditionMulti` | 単一条件 / 条件配列 | 比較結果に応じた値を選択 | 実装済み |
 | 8 | Average | `bdDbl_Average`, `bdDbl_AverageMulti`, `bdDbl3_Average`, `bdDbl3_AverageMulti` | 固定2入力 / 配列 | 入力値の算術平均を出力 | 実装済み |
 | 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 実装済み |
+
+## Double Linear Expansion
+
+`doubleLinear`のtype codeは`DblL`、`doubleLinear`を3つ持つcompoundのtype codeは
+`DblL3`とします。`doubleLinear3`はMayaのatomic type名ではなく、親`double3`と
+3つの`doubleLinear` childからなる構造のプロジェクト内呼称です。
+
+| Phase | Scope | Status |
+| ---: | --- | --- |
+| 1 | Value、Add、Subtract、Average、Min / Maxなど、距離を保つ18種 | 設計確定、未実装 |
+| 2 | scalar `double`で条件を評価し、linear値を選択するCondition 2種 | 設計確定、未実装 |
+| 3 | linear valueとdimensionless factorを扱うMultiply / Divide | attribute仕様を検討中 |
+| 4 | Power / PowerMulti | 具体的用途が得られるまで保留 |
+
+実装対象、attribute型、default、unit固有のテスト条件は
+[Double Linear Node Expansion](double-linear-nodes.md)を参照してください。
 
 ## Family Policy
 

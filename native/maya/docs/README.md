@@ -10,26 +10,29 @@
      演算node familyの設計方針、plug-in 登録
 2. [Native Node Roadmap](node-roadmap.md)
    - `double` / `double3` 演算ノードの優先実装候補、family構成、実装前の検討事項
-3. [Condition Nodes](condition.md)
+3. [Double Linear Node Expansion](double-linear-nodes.md)
+   - `doubleLinear` / `doubleLinear3` familyの命名、展開可否、mixed-type演算、
+     実装順と検証条件
+4. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、比較演算、最初の一致、境界値の仕様
-4. [Average Nodes](average.md)
+5. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-5. [Weighted Average Nodes](weighted-average.md)
+6. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-6. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+7. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-7. [Evaluation And Parallelism](evaluation.md)
+8. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-8. [Testing And Debugging](testing-debugging.md)
+9. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-9. [Node ID Registry](../NODE_IDS.md)
+10. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-10. [Build Guide](../README.md)
+11. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-11. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+12. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation

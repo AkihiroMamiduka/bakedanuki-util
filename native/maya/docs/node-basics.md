@@ -250,19 +250,25 @@ source.output -> value.value -> target.input
 bd<TypeCode>_<Operation><Variant>
 ```
 
-現行のtype codeは次のとおりです。Mayaの`double`と`double3`を短く保ちつつ、
-1文字だけの略号より読みやすい`Dbl`と`Dbl3`を使います。
+現行および実装予定のtype codeは次のとおりです。Mayaのattribute型を短く保ちつつ、
+1文字だけの略号より読みやすい表記を使います。
 
-| Maya type | Type code |
-| --- | --- |
-| `double` | `Dbl` |
-| `double3` | `Dbl3` |
+| Attribute structure | Type code | Status |
+| --- | --- | --- |
+| `double` | `Dbl` | 実装済み |
+| `double3` | `Dbl3` | 実装済み |
+| `doubleLinear` | `DblL` | 実装予定 |
+| 親`double3`、子`doubleLinear` x 3 | `DblL3` | 実装予定 |
+
+`doubleLinear3`はMayaの独立したatomic type名ではなく、最後の行のcompoundを指す
+プロジェクト内の呼称です。linear unit nodeの展開方針は
+[Double Linear Node Expansion](double-linear-nodes.md)を参照してください。
 
 固定入力版、単項演算、value nodeなど、その演算の基本形にはvariant suffixを付けません。
 配列入力版だけ`Multi`を付けます。固定2入力版に`Pair`は付けません。
-type code直後の`_`は、Node Editorで`bdDbl_`または`bdDbl3_`まで入力したときに、
-対象のattribute型だけを候補へ絞り込むための区切りです。operationとvariantの間には
-追加の`_`を入れません。
+type code直後の`_`は、Node Editorで`bdDbl_`、`bdDbl3_`、`bdDblL_`、
+`bdDblL3_`まで入力したときに、対象のattribute型だけを候補へ絞り込むための
+区切りです。operationとvariantの間には追加の`_`を入れません。
 
 operationは`Subtract`、`Multiply`、`Divide`、`Power`、`Negate`、
 `WeightedSum`のように、原則として意味がそのまま伝わる英単語を使います。
