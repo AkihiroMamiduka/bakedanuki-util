@@ -53,9 +53,47 @@ add_library(
     src/nodes/BdDbl3WeightedAverageMultiNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
+    src/nodes/BdDblLValueNode.cpp
+    src/nodes/BdDblL3ValueNode.cpp
+    src/nodes/BdDblLAddNode.cpp
+    src/nodes/BdDblLAddMultiNode.cpp
+    src/nodes/BdDblL3AddNode.cpp
+    src/nodes/BdDblL3AddMultiNode.cpp
+    src/nodes/BdDblLSubtractNode.cpp
+    src/nodes/BdDblLSubtractMultiNode.cpp
+    src/nodes/BdDblL3SubtractNode.cpp
+    src/nodes/BdDblL3SubtractMultiNode.cpp
+    src/nodes/BdDblLAverageNode.cpp
+    src/nodes/BdDblLAverageMultiNode.cpp
+    src/nodes/BdDblL3AverageNode.cpp
+    src/nodes/BdDblL3AverageMultiNode.cpp
+    src/nodes/BdDblLMinNode.cpp
+    src/nodes/BdDblLMinMultiNode.cpp
+    src/nodes/BdDblL3MinNode.cpp
+    src/nodes/BdDblL3MinMultiNode.cpp
+    src/nodes/BdDblLMaxNode.cpp
+    src/nodes/BdDblLMaxMultiNode.cpp
+    src/nodes/BdDblL3MaxNode.cpp
+    src/nodes/BdDblL3MaxMultiNode.cpp
+    src/nodes/BdDblLClampNode.cpp
+    src/nodes/BdDblL3ClampNode.cpp
+    src/nodes/BdDblLAbsNode.cpp
+    src/nodes/BdDblL3AbsNode.cpp
+    src/nodes/BdDblLNegateNode.cpp
+    src/nodes/BdDblL3NegateNode.cpp
+    src/nodes/BdDblLLerpNode.cpp
+    src/nodes/BdDblL3LerpNode.cpp
+    src/nodes/BdDblLMapRangeNode.cpp
+    src/nodes/BdDblL3MapRangeNode.cpp
+    src/nodes/BdDblLWeightedSumMultiNode.cpp
+    src/nodes/BdDblL3WeightedSumMultiNode.cpp
+    src/nodes/BdDblLWeightedAverageMultiNode.cpp
+    src/nodes/BdDblL3WeightedAverageMultiNode.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
+    src/attributes/DoubleLinear3Attribute.cpp
     src/attributes/NumericAttribute.cpp
+    src/attributes/UnitAttribute.cpp
     src/plugin.cpp
 )
 

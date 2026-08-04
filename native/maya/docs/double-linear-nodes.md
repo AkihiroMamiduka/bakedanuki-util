@@ -3,9 +3,8 @@
 `bdUtilNodes`の`double` / `double3`数値演算node familyを、Mayaのlinear unit
 attributeへ展開するための設計方針です。
 
-この文書は実装前の仕様です。命名、attribute構造、初回実装対象は確定しています。
-Multiply / Divideの`Multi`版とPower familyは、ここに記載した未確定事項を解決してから
-node仕様を確定します。
+距離を保つ18種の`DblL` / `DblL3` nodeは実装済みです。Condition、Multiply、
+Divide、Power familyは、ここに記載した方針と未確定事項に従って今後実装します。
 
 ## Goals
 
@@ -88,15 +87,15 @@ bdDblL3_WeightedAverageMulti
 
 | Decision | Variants per type code | New node types | Status |
 | --- | ---: | ---: | --- |
-| 距離を保つため、そのまま展開する | 18 | 36 | 設計確定 |
+| 距離を保つため、そのまま展開する | 18 | 36 | 実装済み |
 | 選択値だけをlinear化するCondition | 2 | 4 | 設計確定 |
 | 型構成または演算意味を再設計する | 6 | 12 | 未確定または保留 |
 
 ## Directly Expandable Nodes
 
-次の18種は、入力された距離を加減、選択、補間、集約し、距離を出力します。
-既存の数値仕様とsparse array仕様を維持したまま、値を持つattributeを
-`doubleLinear` / `doubleLinear3`へ置き換えます。
+次の18種は実装済みです。入力された距離を加減、選択、補間、集約し、距離を
+出力します。既存の数値仕様とsparse array仕様を維持したまま、値を持つattributeを
+`doubleLinear` / `doubleLinear3`へ置き換えています。
 
 | Operation | Variants | Linear attributes | Attributes kept non-linear | Notes |
 | --- | --- | --- | --- | --- |
@@ -233,10 +232,11 @@ dimensionless値として定義します。
 - default、min / max、soft min / soft maxを`MDistance`として指定できるようにする。
 - compoundの親と子の`MObject`をすべて保持し、dirty伝搬と子plug要求を明示する。
 
-scalarの計算では、距離であることを明示するため`MDataHandle::asDistance()`と
-`setMDistance()`の利用を基本候補にします。compoundには`MDistance3`がないため、
-親の`asDouble3()` / `set3Double()`で内部centimeter値を扱う方法と、子handleを
-`MDistance`として扱う方法を、実装時にMaya上で比較します。
+実装済みnodeは、scalarで`MDataHandle::asDouble()` / `setDouble()`、compoundで
+`asDouble3()` / `set3Double()`を使用し、Mayaのinternal centimeter値を既存math
+helperへ渡します。centimeter / meterの表示単位切替テストにより、内部距離と出力が
+変化しないことを確認しています。plugを距離として検証する場合は
+`MPlug::asMDistance()`を使用します。
 
 math helperはMaya APIに依存しない`double`計算を維持できます。ただし、helperへ渡す値が
 internal centimeterなのかdimensionlessなのかを、nodeごとのattribute仕様で明示します。
@@ -276,8 +276,11 @@ NodeOperatorのattribute解決には、親`double3`、子`doubleLinear`、子数
 ## Implementation Order
 
 1. scalar / compoundのlinear unit attribute helperと、最小のValue nodeを実装する。
+   - 完了
 2. Add、Subtract、Average、Min / Maxなど、距離を保つ基本演算を実装する。
+   - 完了
 3. Clamp、Abs、Negate、Lerp、Map Range、weight系を実装する。
+   - 完了
 4. `Condition` / `ConditionMulti`を、scalar `double`比較とlinear選択値で実装する。
 5. Multiply / Divideの固定入力版について、mixed-type attribute仕様とdefaultを確定する。
 6. 実用性を確認してからMultiply / Divideの`Multi`版を判断する。
@@ -311,11 +314,10 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 | Scalar type code | `DblL` |
 | Three-component type code | `DblL3` |
 | `doubleLinear3`の意味 | 親`double3`、子`doubleLinear` x 3のcompound |
-| 初回展開 | 距離を保つ18種 |
+| 初回展開 | 距離を保つ18種を実装済み |
 | Condition比較型 | scalar `double`を維持 |
 | Condition選択値 / 出力 | `doubleLinear` / `doubleLinear3` |
 | Multiply固定版 | linear valueとdimensionless factorのmixed-typeを優先検討 |
 | Divide固定版 | linear valueをdimensionless divisorで割る仕様を優先検討 |
 | Multiply / Divide Multi | attribute構造を確定するまで未実装 |
 | Power family | 具体的用途が得られるまで保留 |
-

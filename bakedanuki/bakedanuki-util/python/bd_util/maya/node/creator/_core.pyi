@@ -1112,6 +1112,51 @@ from ..operator.node.dg.xgm_se_expr import XgmSeExpr
 from ..operator.node.dg.xgm_spline_base import XgmSplineBase
 from ..operator.node.dg.xgm_spline_cache import XgmSplineCache
 
+from ..operator.node.dg.bd_dbl_l_abs import BdDblLAbs
+from ..operator.node.dg.bd_dbl_l_add import BdDblLAdd
+from ..operator.node.dg.bd_dbl_l_add_multi import BdDblLAddMulti
+from ..operator.node.dg.bd_dbl_l_average import BdDblLAverage
+from ..operator.node.dg.bd_dbl_l_average_multi import BdDblLAverageMulti
+from ..operator.node.dg.bd_dbl_l_clamp import BdDblLClamp
+from ..operator.node.dg.bd_dbl_l_lerp import BdDblLLerp
+from ..operator.node.dg.bd_dbl_l_map_range import BdDblLMapRange
+from ..operator.node.dg.bd_dbl_l_max import BdDblLMax
+from ..operator.node.dg.bd_dbl_l_max_multi import BdDblLMaxMulti
+from ..operator.node.dg.bd_dbl_l_min import BdDblLMin
+from ..operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
+from ..operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from ..operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
+from ..operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
+from ..operator.node.dg.bd_dbl_l_value import BdDblLValue
+from ..operator.node.dg.bd_dbl_l_weighted_average_multi import (
+    BdDblLWeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_l_weighted_sum_multi import (
+    BdDblLWeightedSumMulti,
+)
+from ..operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
+from ..operator.node.dg.bd_dbl_l3_add import BdDblL3Add
+from ..operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
+from ..operator.node.dg.bd_dbl_l3_average import BdDblL3Average
+from ..operator.node.dg.bd_dbl_l3_average_multi import BdDblL3AverageMulti
+from ..operator.node.dg.bd_dbl_l3_clamp import BdDblL3Clamp
+from ..operator.node.dg.bd_dbl_l3_lerp import BdDblL3Lerp
+from ..operator.node.dg.bd_dbl_l3_map_range import BdDblL3MapRange
+from ..operator.node.dg.bd_dbl_l3_max import BdDblL3Max
+from ..operator.node.dg.bd_dbl_l3_max_multi import BdDblL3MaxMulti
+from ..operator.node.dg.bd_dbl_l3_min import BdDblL3Min
+from ..operator.node.dg.bd_dbl_l3_min_multi import BdDblL3MinMulti
+from ..operator.node.dg.bd_dbl_l3_negate import BdDblL3Negate
+from ..operator.node.dg.bd_dbl_l3_subtract import BdDblL3Subtract
+from ..operator.node.dg.bd_dbl_l3_subtract_multi import BdDblL3SubtractMulti
+from ..operator.node.dg.bd_dbl_l3_value import BdDblL3Value
+from ..operator.node.dg.bd_dbl_l3_weighted_average_multi import (
+    BdDblL3WeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
+    BdDblL3WeightedSumMulti,
+)
+
 class NodeCreator:
     def __init__(
         self, modifier_manager: ModifierManager | None = None
@@ -2389,6 +2434,186 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3WeightedSumMulti: ...
+    def bdDblL_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAbs: ...
+    def bdDblL_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAdd: ...
+    def bdDblL_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAddMulti: ...
+    def bdDblL_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAverage: ...
+    def bdDblL_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLAverageMulti: ...
+    def bdDblL_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLClamp: ...
+    def bdDblL_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLLerp: ...
+    def bdDblL_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMapRange: ...
+    def bdDblL_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMax: ...
+    def bdDblL_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMaxMulti: ...
+    def bdDblL_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMin: ...
+    def bdDblL_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMinMulti: ...
+    def bdDblL_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLNegate: ...
+    def bdDblL_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLSubtract: ...
+    def bdDblL_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLSubtractMulti: ...
+    def bdDblL_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLValue: ...
+    def bdDblL_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLWeightedAverageMulti: ...
+    def bdDblL_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLWeightedSumMulti: ...
+    def bdDblL3_Abs(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Abs: ...
+    def bdDblL3_Add(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Add: ...
+    def bdDblL3_AddMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3AddMulti: ...
+    def bdDblL3_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Average: ...
+    def bdDblL3_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3AverageMulti: ...
+    def bdDblL3_Clamp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Clamp: ...
+    def bdDblL3_Lerp(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Lerp: ...
+    def bdDblL3_MapRange(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MapRange: ...
+    def bdDblL3_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Max: ...
+    def bdDblL3_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MaxMulti: ...
+    def bdDblL3_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Min: ...
+    def bdDblL3_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MinMulti: ...
+    def bdDblL3_Negate(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Negate: ...
+    def bdDblL3_Subtract(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Subtract: ...
+    def bdDblL3_SubtractMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3SubtractMulti: ...
+    def bdDblL3_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Value: ...
+    def bdDblL3_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3WeightedAverageMulti: ...
+    def bdDblL3_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3WeightedSumMulti: ...
     def bdDbl_Abs(
         self,
         name: str | None = None,

@@ -257,8 +257,8 @@ bd<TypeCode>_<Operation><Variant>
 | --- | --- | --- |
 | `double` | `Dbl` | 実装済み |
 | `double3` | `Dbl3` | 実装済み |
-| `doubleLinear` | `DblL` | 実装予定 |
-| 親`double3`、子`doubleLinear` x 3 | `DblL3` | 実装予定 |
+| `doubleLinear` | `DblL` | 距離を保つ18種を実装済み |
+| 親`double3`、子`doubleLinear` x 3 | `DblL3` | 距離を保つ18種を実装済み |
 
 `doubleLinear3`はMayaの独立したatomic type名ではなく、最後の行のcompoundを指す
 プロジェクト内の呼称です。linear unit nodeの展開方針は

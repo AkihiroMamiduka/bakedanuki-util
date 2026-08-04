@@ -370,6 +370,50 @@ from .operator.node.dg.bd_dbl3_weighted_average_multi import (
     BdDbl3WeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
+from .operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
+from .operator.node.dg.bd_dbl_l3_add import BdDblL3Add
+from .operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
+from .operator.node.dg.bd_dbl_l3_average import BdDblL3Average
+from .operator.node.dg.bd_dbl_l3_average_multi import BdDblL3AverageMulti
+from .operator.node.dg.bd_dbl_l3_clamp import BdDblL3Clamp
+from .operator.node.dg.bd_dbl_l3_lerp import BdDblL3Lerp
+from .operator.node.dg.bd_dbl_l3_map_range import BdDblL3MapRange
+from .operator.node.dg.bd_dbl_l3_max import BdDblL3Max
+from .operator.node.dg.bd_dbl_l3_max_multi import BdDblL3MaxMulti
+from .operator.node.dg.bd_dbl_l3_min import BdDblL3Min
+from .operator.node.dg.bd_dbl_l3_min_multi import BdDblL3MinMulti
+from .operator.node.dg.bd_dbl_l3_negate import BdDblL3Negate
+from .operator.node.dg.bd_dbl_l3_subtract import BdDblL3Subtract
+from .operator.node.dg.bd_dbl_l3_subtract_multi import BdDblL3SubtractMulti
+from .operator.node.dg.bd_dbl_l3_value import BdDblL3Value
+from .operator.node.dg.bd_dbl_l3_weighted_average_multi import (
+    BdDblL3WeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_l3_weighted_sum_multi import (
+    BdDblL3WeightedSumMulti,
+)
+from .operator.node.dg.bd_dbl_l_abs import BdDblLAbs
+from .operator.node.dg.bd_dbl_l_add import BdDblLAdd
+from .operator.node.dg.bd_dbl_l_add_multi import BdDblLAddMulti
+from .operator.node.dg.bd_dbl_l_average import BdDblLAverage
+from .operator.node.dg.bd_dbl_l_average_multi import BdDblLAverageMulti
+from .operator.node.dg.bd_dbl_l_clamp import BdDblLClamp
+from .operator.node.dg.bd_dbl_l_lerp import BdDblLLerp
+from .operator.node.dg.bd_dbl_l_map_range import BdDblLMapRange
+from .operator.node.dg.bd_dbl_l_max import BdDblLMax
+from .operator.node.dg.bd_dbl_l_max_multi import BdDblLMaxMulti
+from .operator.node.dg.bd_dbl_l_min import BdDblLMin
+from .operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
+from .operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from .operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
+from .operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
+from .operator.node.dg.bd_dbl_l_value import BdDblLValue
+from .operator.node.dg.bd_dbl_l_weighted_average_multi import (
+    BdDblLWeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_l_weighted_sum_multi import (
+    BdDblLWeightedSumMulti,
+)
 from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
 from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
@@ -2723,6 +2767,186 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3WeightedSumMulti: ...
+    def bdDblL3_Abs(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Abs: ...
+    def bdDblL3_Add(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Add: ...
+    def bdDblL3_AddMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3AddMulti: ...
+    def bdDblL3_Average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Average: ...
+    def bdDblL3_AverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3AverageMulti: ...
+    def bdDblL3_Clamp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Clamp: ...
+    def bdDblL3_Lerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Lerp: ...
+    def bdDblL3_MapRange(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MapRange: ...
+    def bdDblL3_Max(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Max: ...
+    def bdDblL3_MaxMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MaxMulti: ...
+    def bdDblL3_Min(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Min: ...
+    def bdDblL3_MinMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3MinMulti: ...
+    def bdDblL3_Negate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Negate: ...
+    def bdDblL3_Subtract(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Subtract: ...
+    def bdDblL3_SubtractMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3SubtractMulti: ...
+    def bdDblL3_Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3Value: ...
+    def bdDblL3_WeightedAverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3WeightedAverageMulti: ...
+    def bdDblL3_WeightedSumMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblL3WeightedSumMulti: ...
+    def bdDblL_Abs(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAbs: ...
+    def bdDblL_Add(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAdd: ...
+    def bdDblL_AddMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAddMulti: ...
+    def bdDblL_Average(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAverage: ...
+    def bdDblL_AverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLAverageMulti: ...
+    def bdDblL_Clamp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLClamp: ...
+    def bdDblL_Lerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLLerp: ...
+    def bdDblL_MapRange(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMapRange: ...
+    def bdDblL_Max(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMax: ...
+    def bdDblL_MaxMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMaxMulti: ...
+    def bdDblL_Min(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMin: ...
+    def bdDblL_MinMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLMinMulti: ...
+    def bdDblL_Negate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLNegate: ...
+    def bdDblL_Subtract(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLSubtract: ...
+    def bdDblL_SubtractMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLSubtractMulti: ...
+    def bdDblL_Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLValue: ...
+    def bdDblL_WeightedAverageMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLWeightedAverageMulti: ...
+    def bdDblL_WeightedSumMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblLWeightedSumMulti: ...
     def bdDbl_Abs(
         self,
         node: str | om.MObject,

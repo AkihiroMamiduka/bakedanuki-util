@@ -34,7 +34,7 @@ Python 側の API・生成器に関する計画は、既存の
 
 | Phase | Scope | Status |
 | ---: | --- | --- |
-| 1 | Value、Add、Subtract、Average、Min / Maxなど、距離を保つ18種 | 設計確定、未実装 |
+| 1 | Value、Add、Subtract、Average、Min / Maxなど、距離を保つ18種 | 実装済み |
 | 2 | scalar `double`で条件を評価し、linear値を選択するCondition 2種 | 設計確定、未実装 |
 | 3 | linear valueとdimensionless factorを扱うMultiply / Divide | attribute仕様を検討中 |
 | 4 | Power / PowerMulti | 具体的用途が得られるまで保留 |

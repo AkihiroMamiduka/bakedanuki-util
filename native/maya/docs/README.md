@@ -41,6 +41,14 @@
 
 - [plugin.cpp](../plugins/bdUtilNodes/src/plugin.cpp)
   - node の登録、登録失敗時の rollback、逆順での登録解除
+- [UnitAttribute.cpp](../plugins/bdUtilNodes/src/attributes/UnitAttribute.cpp)
+  - scalar `doubleLinear` attributeの作成とinput / output flag
+- [DoubleLinear3Attribute.cpp](../plugins/bdUtilNodes/src/attributes/DoubleLinear3Attribute.cpp)
+  - `doubleLinear` childを3つ持つnumeric compoundの作成
+- [BdDblLAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLAddNode.cpp) / [BdDblL3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3AddNode.cpp)
+  - scalar / component-wise linear unit加算の基本実装
+- [test_bd_double_linear.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear.py)
+  - 36 node typeの登録、演算、単位切替、translate接続、scene round-tripのテスト
 - [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
   - 固定2入力の compound attribute と `compute()`
 - [BdDbl3MultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyMultiNode.cpp)
