@@ -346,6 +346,8 @@ from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
 from .operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
+from .operator.node.dg.bd_dbl3_condition import BdDbl3Condition
+from .operator.node.dg.bd_dbl3_condition_multi import BdDbl3ConditionMulti
 from .operator.node.dg.bd_dbl3_divide import BdDbl3Divide
 from .operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
 from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
@@ -367,6 +369,8 @@ from .operator.node.dg.bd_dbl_abs import BdDblAbs
 from .operator.node.dg.bd_dbl_add import BdDblAdd
 from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
 from .operator.node.dg.bd_dbl_clamp import BdDblClamp
+from .operator.node.dg.bd_dbl_condition import BdDblCondition
+from .operator.node.dg.bd_dbl_condition_multi import BdDblConditionMulti
 from .operator.node.dg.bd_dbl_divide import BdDblDivide
 from .operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
 from .operator.node.dg.bd_dbl_lerp import BdDblLerp
@@ -2599,6 +2603,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3Clamp: ...
+    def bdDbl3_Condition(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3Condition: ...
+    def bdDbl3_ConditionMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3ConditionMulti: ...
     def bdDbl3_Divide(
         self,
         node: str | om.MObject,
@@ -2704,6 +2718,16 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblClamp: ...
+    def bdDbl_Condition(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblCondition: ...
+    def bdDbl_ConditionMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblConditionMulti: ...
     def bdDbl_Divide(
         self,
         node: str | om.MObject,

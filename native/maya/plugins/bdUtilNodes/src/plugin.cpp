@@ -8,6 +8,8 @@
 #include "bdUtilNodes/nodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ClampNode.h"
+#include "bdUtilNodes/nodes/BdDbl3ConditionMultiNode.h"
+#include "bdUtilNodes/nodes/BdDbl3ConditionNode.h"
 #include "bdUtilNodes/nodes/BdDbl3DivideNode.h"
 #include "bdUtilNodes/nodes/BdDbl3DivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3LerpNode.h"
@@ -33,6 +35,8 @@
 #include "bdUtilNodes/nodes/BdDblAddNode.h"
 #include "bdUtilNodes/nodes/BdDblAddMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblClampNode.h"
+#include "bdUtilNodes/nodes/BdDblConditionMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblConditionNode.h"
 #include "bdUtilNodes/nodes/BdDblDivideNode.h"
 #include "bdUtilNodes/nodes/BdDblDivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ValueNode.h"
@@ -56,8 +60,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 42>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 42> registrations = {{
+const std::array<NodeRegistration, 46>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 46> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -297,6 +301,30 @@ const std::array<NodeRegistration, 42>& nodeRegistrations() {
             BdDblNegateNode::typeId,
             BdDblNegateNode::creator,
             BdDblNegateNode::initialize,
+        },
+        {
+            BdDbl3ConditionMultiNode::typeName,
+            BdDbl3ConditionMultiNode::typeId,
+            BdDbl3ConditionMultiNode::creator,
+            BdDbl3ConditionMultiNode::initialize,
+        },
+        {
+            BdDbl3ConditionNode::typeName,
+            BdDbl3ConditionNode::typeId,
+            BdDbl3ConditionNode::creator,
+            BdDbl3ConditionNode::initialize,
+        },
+        {
+            BdDblConditionMultiNode::typeName,
+            BdDblConditionMultiNode::typeId,
+            BdDblConditionMultiNode::creator,
+            BdDblConditionMultiNode::initialize,
+        },
+        {
+            BdDblConditionNode::typeName,
+            BdDblConditionNode::typeId,
+            BdDblConditionNode::creator,
+            BdDblConditionNode::initialize,
         },
         {
             BdDblValueNode::typeName,

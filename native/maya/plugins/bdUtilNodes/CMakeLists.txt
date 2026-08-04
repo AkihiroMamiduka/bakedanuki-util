@@ -41,8 +41,13 @@ add_library(
     src/nodes/BdDbl3AbsNode.cpp
     src/nodes/BdDblNegateNode.cpp
     src/nodes/BdDbl3NegateNode.cpp
+    src/nodes/BdDblConditionNode.cpp
+    src/nodes/BdDblConditionMultiNode.cpp
+    src/nodes/BdDbl3ConditionNode.cpp
+    src/nodes/BdDbl3ConditionMultiNode.cpp
     src/nodes/BdDblValueNode.cpp
     src/nodes/BdDbl3ValueNode.cpp
+    src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
     src/attributes/NumericAttribute.cpp
     src/plugin.cpp

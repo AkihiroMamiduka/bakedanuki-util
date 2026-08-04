@@ -46,6 +46,10 @@
 | `bdDbl_Abs` | `0x0007F028` | Internal development |
 | `bdDbl3_Negate` | `0x0007F029` | Internal development |
 | `bdDbl_Negate` | `0x0007F02A` | Internal development |
+| `bdDbl3_ConditionMulti` | `0x0007F02B` | Internal development |
+| `bdDbl3_Condition` | `0x0007F02C` | Internal development |
+| `bdDbl_ConditionMulti` | `0x0007F02D` | Internal development |
+| `bdDbl_Condition` | `0x0007F02E` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

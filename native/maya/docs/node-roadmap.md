@@ -19,7 +19,7 @@ Python 側の API・生成器に関する計画は、既存の
 | 4 | Map Range | `bdDbl_MapRange`, `bdDbl3_MapRange` | 単一入力 | ある数値範囲から別の数値範囲へ変換 | 実装済み |
 | 5 | Absolute | `bdDbl_Abs`, `bdDbl3_Abs` | 単項 | 絶対値を出力 | 実装済み |
 | 6 | Negate | `bdDbl_Negate`, `bdDbl3_Negate` | 単項 | 符号を反転 | 実装済み |
-| 7 | Sign | `bdDbl_Sign`, `bdDbl3_Sign` | 単項 | 値の符号を出力 | 未実装 |
+| 7 | Condition | `bdDbl_Condition`, `bdDbl_ConditionMulti`, `bdDbl3_Condition`, `bdDbl3_ConditionMulti` | 単一条件 / 条件配列 | 比較結果に応じた値を選択 | 実装済み |
 | 8 | Average | `bdDbl_AverageMulti`, `bdDbl3_AverageMulti` | 配列 | 入力値の算術平均を出力 | 未実装 |
 | 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 未実装 |
 
@@ -33,10 +33,17 @@ Python 側の API・生成器に関する計画は、既存の
 - Average は入力数を必要とするため `Multi` 版のみとする。
 - Weighted Average は既存の Weighted Sum と同様に value / weight の compound
   配列を使用する方向で検討する。
+- Condition は scalar の `input` と `compare` を比較し、`double` または
+  `double3` の値を選択する。`Multi` 版は `case[]` を logical index 順に評価し、
+  最初に一致した値を出力する。詳細は [Condition Nodes](condition.md) を参照する。
+
+## Removed From Priority A
+
+- Sign は `-1 / 0 / 1` の出力後に追加の分岐が必要になりやすく、現時点のリグ用途では
+  Condition の方が直接的なため実装対象から外す。
 
 ## Decisions Before Implementation
 
-- Sign: 0 と非有限値に対する出力を決める。
 - Average: 空の `Multi` 入力に対する出力値を決める。
 - Weighted Average: weight の合計が 0 の場合の出力を決める。
 

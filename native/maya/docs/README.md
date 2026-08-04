@@ -10,20 +10,22 @@
      演算node familyの設計方針、plug-in 登録
 2. [Native Node Roadmap](node-roadmap.md)
    - `double` / `double3` 演算ノードの優先実装候補、family構成、実装前の検討事項
-3. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+3. [Condition Nodes](condition.md)
+   - 単一条件、`case[]`、比較演算、最初の一致、境界値の仕様
+4. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-4. [Evaluation And Parallelism](evaluation.md)
+5. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-5. [Testing And Debugging](testing-debugging.md)
+6. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-6. [Node ID Registry](../NODE_IDS.md)
+7. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-7. [Build Guide](../README.md)
+8. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-8. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+9. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -124,6 +126,14 @@
   - component-wiseなdouble3 Negateとcompound dirty
 - [BdDblNegateNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblNegateNode.cpp)
   - scalar Negate
+- [Condition Nodes](condition.md)
+  - scalar比較、値選択、logical index順の`case[]`、境界値の共通仕様
+- [Comparison.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Comparison.h)
+  - 4つのCondition nodeで共有する6種類の比較演算
+- [BdDbl3ConditionMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3ConditionMultiNode.cpp)
+  - scalar条件からdouble3を選択するsparse case配列
+- [BdDblConditionMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblConditionMultiNode.cpp)
+  - scalar条件とscalar値のsparse case配列
 - [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
   - double3 ノードの計算、dirty、接続、scene round-trip のテスト
 - [test_bd_dbl_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_multiply.py)
@@ -176,6 +186,8 @@
   - double3 Negateの非有限値、符号付きzero、compound dirty、scene round-tripのテスト
 - [test_bd_dbl_negate.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_negate.py)
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
+- [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)
+  - 4つのCondition nodeの比較、case順序、境界値、dirty、接続、scene round-tripのテスト
 
 ## Core Principles
 

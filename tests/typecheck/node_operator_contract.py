@@ -40,6 +40,26 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_clamp import (
     OutputAttrOperator as ClampOutputAttrOperator,
     OutputPlugOperator as ClampOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_condition import (
+    FalseValueAttrOperator as ConditionFalseValueAttrOperator,
+    FalseValuePlugOperator as ConditionFalseValuePlugOperator,
+    OutputAttrOperator as ConditionOutputAttrOperator,
+    OutputPlugOperator as ConditionOutputPlugOperator,
+    TrueValueAttrOperator as ConditionTrueValueAttrOperator,
+    TrueValuePlugOperator as ConditionTrueValuePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_condition_multi import (
+    CaseAttrOperator as Dbl3ConditionCaseAttrOperator,
+    CasePlugOperator as Dbl3ConditionCasePlugOperator,
+    ElseValueAttrOperator as ConditionElseValueAttrOperator,
+    ElseValuePlugOperator as ConditionElseValuePlugOperator,
+    OutputAttrOperator as ConditionMultiOutputAttrOperator,
+    OutputPlugOperator as ConditionMultiOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_condition_multi import (
+    CaseAttrOperator as DblConditionCaseAttrOperator,
+    CasePlugOperator as DblConditionCasePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_map_range import (
     InputAttrOperator as MapRangeInputAttrOperator,
     InputPlugOperator as MapRangeInputPlugOperator,
@@ -163,6 +183,10 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.custom import (
+    Double3AttrOperator,
+    Double3PlugOperator,
+)
 from bd_util.maya.node.operator.node._core import NodeOperator
 from bd_util.maya.node.operator.node.dg._generated.compose_matrix import (
     InputRotateOrderEnumAttrOperator,
@@ -177,6 +201,12 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_add_multi import (
     BdDbl3AddMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
+from bd_util.maya.node.operator.node.dg.bd_dbl3_condition import (
+    BdDbl3Condition,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl3_condition_multi import (
+    BdDbl3ConditionMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl3_map_range import (
     BdDbl3MapRange,
 )
@@ -230,6 +260,14 @@ from bd_util.maya.node.operator.node.dg.bd_dbl_add_multi import (
     BdDblAddMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_clamp import BdDblClamp
+from bd_util.maya.node.operator.node.dg.bd_dbl_condition import BdDblCondition
+from bd_util.maya.node.operator.node.dg.bd_dbl_condition_multi import (
+    BdDblConditionMulti,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_dbl_condition import (
+    OperationEnumAttrOperator as ConditionOperationAttrOperator,
+    OperationEnumPlugOperator as ConditionOperationPlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl_map_range import BdDblMapRange
 from bd_util.maya.node.operator.node.dg.bd_dbl_divide import (
     BdDblDivide,
@@ -1079,6 +1117,76 @@ def multi_compound_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         wt_add_matrix.wtMatrix[next].matrixIn.get(),
         om.MMatrix | None,
+    )
+
+
+def condition_contract(nodes: bdu.Nodes) -> None:
+    scalar = nodes.create.bdDbl_Condition(name="scalar_condition")
+    assert_type(scalar, BdDblCondition)
+    assert_type(scalar.input, DoublePlugOperator)
+    assert_type(scalar.operation, ConditionOperationPlugOperator)
+    assert_type(scalar.compare, DoublePlugOperator)
+    assert_type(scalar.trueValue, DoublePlugOperator)
+    assert_type(scalar.falseValue, DoublePlugOperator)
+    assert_type(scalar.output, DoublePlugOperator)
+    assert_type(
+        nodes.existing.bdDbl_Condition("existing_scalar_condition"),
+        BdDblCondition,
+    )
+    assert_type(BdDblCondition.operation, ConditionOperationAttrOperator)
+
+    scalar_multi = nodes.create.bdDbl_ConditionMulti(
+        name="scalar_condition_multi"
+    )
+    assert_type(scalar_multi, BdDblConditionMulti)
+    assert_type(BdDblConditionMulti.case, DblConditionCaseAttrOperator)
+    assert_type(scalar_multi.case, DblConditionCasePlugOperator)
+    assert_type(scalar_multi.case[0], DblConditionCasePlugOperator)
+    assert_type(scalar_multi.case[next], DblConditionCasePlugOperator)
+    assert_type(scalar_multi.case[0].compare, DoublePlugOperator)
+    assert_type(scalar_multi.case[0].value, DoublePlugOperator)
+    assert_type(scalar_multi.elseValue, DoublePlugOperator)
+    assert_type(
+        nodes.existing.bdDbl_ConditionMulti("existing_scalar_multi"),
+        BdDblConditionMulti,
+    )
+
+    vector = nodes.create.bdDbl3_Condition(name="vector_condition")
+    assert_type(vector, BdDbl3Condition)
+    assert_type(BdDbl3Condition.trueValue, ConditionTrueValueAttrOperator)
+    assert_type(vector.trueValue, ConditionTrueValuePlugOperator)
+    assert_type(BdDbl3Condition.falseValue, ConditionFalseValueAttrOperator)
+    assert_type(vector.falseValue, ConditionFalseValuePlugOperator)
+    assert_type(BdDbl3Condition.output, ConditionOutputAttrOperator)
+    assert_type(vector.output, ConditionOutputPlugOperator)
+    assert_type(
+        nodes.existing.bdDbl3_Condition("existing_vector_condition"),
+        BdDbl3Condition,
+    )
+
+    vector_multi = nodes.create.bdDbl3_ConditionMulti(
+        name="vector_condition_multi"
+    )
+    assert_type(vector_multi, BdDbl3ConditionMulti)
+    assert_type(BdDbl3ConditionMulti.case, Dbl3ConditionCaseAttrOperator)
+    assert_type(vector_multi.case, Dbl3ConditionCasePlugOperator)
+    assert_type(vector_multi.case[0], Dbl3ConditionCasePlugOperator)
+    assert_type(vector_multi.case[0].value, Double3PlugOperator)
+    assert_type(vector_multi.case[0].value.x, DoublePlugOperator)
+    assert_type(BdDbl3ConditionMulti.case.value, Double3AttrOperator)
+    assert_type(
+        BdDbl3ConditionMulti.elseValue,
+        ConditionElseValueAttrOperator,
+    )
+    assert_type(vector_multi.elseValue, ConditionElseValuePlugOperator)
+    assert_type(
+        BdDbl3ConditionMulti.output,
+        ConditionMultiOutputAttrOperator,
+    )
+    assert_type(vector_multi.output, ConditionMultiOutputPlugOperator)
+    assert_type(
+        nodes.existing.bdDbl3_ConditionMulti("existing_vector_multi"),
+        BdDbl3ConditionMulti,
     )
 
 
