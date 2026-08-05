@@ -14,7 +14,7 @@
    - `doubleLinear` / `doubleLinear3` familyの命名、展開可否、mixed-type演算、
      実装順と検証条件
 4. [Condition Nodes](condition.md)
-   - 単一条件、`case[]`、比較演算、最初の一致、境界値の仕様
+   - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 5. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
 6. [Weighted Average Nodes](weighted-average.md)
@@ -47,6 +47,10 @@
   - `doubleLinear` childを3つ持つnumeric compoundの作成
 - [BdDblLAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLAddNode.cpp) / [BdDblL3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3AddNode.cpp)
   - scalar / component-wise linear unit加算の基本実装
+- [TypedAnyAttribute.cpp](../plugins/bdUtilNodes/src/attributes/TypedAnyAttribute.cpp)
+  - Mayaの`choice` nodeと同じtyped-any payload / output attributeの作成
+- [BdAnyConditionDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLNode.cpp) / [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
+  - scalar `doubleLinear`比較とtyped-any値選択の実装
 - [test_bd_double_linear.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear.py)
   - 36 node typeの登録、演算、単位切替、translate接続、scene round-tripのテスト
 - [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
@@ -142,13 +146,15 @@
 - [BdDblNegateNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblNegateNode.cpp)
   - scalar Negate
 - [Condition Nodes](condition.md)
-  - scalar比較、値選択、logical index順の`case[]`、境界値の共通仕様
+  - 型付きscalar比較、typed-any値選択、logical index順の`case[]` / `extra[]`の共通仕様
 - [Comparison.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Comparison.h)
   - 4つのCondition nodeで共有する6種類の比較演算
-- [BdDbl3ConditionMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3ConditionMultiNode.cpp)
-  - scalar条件からdouble3を選択するsparse case配列
-- [BdDblConditionMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblConditionMultiNode.cpp)
-  - scalar条件とscalar値のsparse case配列
+- [Logic.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Logic.h) / [ConditionExtra.h](../plugins/bdUtilNodes/include/bdUtilNodes/nodes/ConditionExtra.h)
+  - `And` / `Or`の論理結合とsparse `extra[]`のlogical index順評価
+- [BdAnyConditionDblMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblMultiNode.cpp)
+  - scalar `double`条件、nested `case[].extra[]`、typed-any値のsparse case配列
+- [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
+  - scalar `doubleLinear`条件、nested `case[].extra[]`、typed-any値のsparse case配列
 - [Average Nodes](average.md)
   - 固定2入力 / 配列、空入力、logical index順、単純合計方式の共通仕様
 - [Average.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Average.h)
@@ -218,7 +224,7 @@
 - [test_bd_dbl_negate.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_negate.py)
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 - [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)
-  - 4つのCondition nodeの比較、case順序、境界値、dirty、接続、scene round-tripのテスト
+  - 4つのCondition nodeの比較、typed-any payload、case / extra順序、nested multi、dirty、接続、scene round-tripのテスト
 - [test_bd_average.py](../../../tests/maya/node/operator/node/dg/test_bd_average.py)
   - 4つのAverage nodeの固定入力、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
 - [test_bd_weighted_average.py](../../../tests/maya/node/operator/node/dg/test_bd_weighted_average.py)

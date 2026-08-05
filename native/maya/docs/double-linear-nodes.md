@@ -3,8 +3,9 @@
 `bdUtilNodes`の`double` / `double3`数値演算node familyを、Mayaのlinear unit
 attributeへ展開するための設計方針です。
 
-距離を保つ18種の`DblL` / `DblL3` nodeは実装済みです。Condition、Multiply、
-Divide、Power familyは、ここに記載した方針と未確定事項に従って今後実装します。
+距離を保つ18種の`DblL` / `DblL3` nodeと、scalar `doubleLinear`を比較する
+typed-any Condition 2種は実装済みです。Multiply、Divide、Power familyは、
+ここに記載した方針と未確定事項に従って今後実装します。
 
 ## Goals
 
@@ -78,22 +79,32 @@ bdDblL3_WeightedAverageMulti
 `DblL3`はMayaの正式な型名ではなく、このplug-inのtype codeです。node仕様では、
 必ず「親`double3`、子`doubleLinear`」という実体も併記します。
 
+Conditionは出力型ではなく比較型をnode type名で表すため、この命名規則の例外です。
+typed-any payloadを表す`Any`を先に置き、比較型をoperation名の後ろに置きます。
+
+```text
+bdAny_Condition<ComparisonType><Variant>
+```
+
+例: `bdAny_ConditionDblL`、`bdAny_ConditionDblLMulti`
+
 ## Existing Family Inventory
 
-既存実装には、`double` 26種と、それに対応する`double3` 26種があります。
-同じ26種を`DblL` / `DblL3`の両方へ展開すると、新規node typeは合計52種です。
+Conditionを出力型ごとのfamilyから分離したため、`double` / `double3`から
+`DblL` / `DblL3`へ機械的に展開する候補は、各24種です。Conditionは比較型ごとに
+typed-any値を扱う独立familyとして数えます。
 
 展開判断は次の3段階に分けます。
 
 | Decision | Variants per type code | New node types | Status |
 | --- | ---: | ---: | --- |
 | 距離を保つため、そのまま展開する | 18 | 36 | 実装済み |
-| 選択値だけをlinear化するCondition | 2 | 4 | 設計確定 |
+| scalar `doubleLinear`比較のtyped-any Condition | - | 2 | 実装済み |
 | 型構成または演算意味を再設計する | 6 | 12 | 未確定または保留 |
 
 ## Directly Expandable Nodes
 
-次の18種は実装済みです。入力された距離を加減、選択、補間、集約し、距離を
+次の18種は実装済みです。入力された距離を加減、補間、集約し、距離を
 出力します。既存の数値仕様とsparse array仕様を維持したまま、値を持つattributeを
 `doubleLinear` / `doubleLinear3`へ置き換えています。
 
@@ -128,34 +139,42 @@ Map Rangeも実用性があります。ただし、これは`DblL` familyの単�
 
 ## Condition Nodes
 
-`Condition` / `ConditionMulti`では、node type codeを選択値と出力の型として扱います。
-比較する値は既存の`bdDbl3_Condition`と同じscalar `double`のまま維持します。
+`bdAny_ConditionDblL` / `bdAny_ConditionDblLMulti`は実装済みです。
+node type名の`DblL`は選択値や出力ではなく、比較型を表します。`input`と`compare`は
+scalar `doubleLinear`、選択候補と出力はMayaの`choice` nodeと同じ考え方の
+typed-any attributeです。
 
 ### Single Condition
 
 | Attribute | Type |
 | --- | --- |
-| `input` | `double` |
+| `input` | `doubleLinear` |
 | `operation` | enum |
-| `compare` | `double` |
-| `trueValue` | `doubleLinear` / `doubleLinear3` |
-| `falseValue` | `doubleLinear` / `doubleLinear3` |
-| `output` | `doubleLinear` / `doubleLinear3` |
+| `compare` | `doubleLinear` |
+| `extra[].logic` | enum (`And` / `Or`) |
+| `extra[].comparison` | enum |
+| `extra[].compareValue` | `doubleLinear` |
+| `trueValue` | typed-any |
+| `falseValue` | typed-any |
+| `output` | typed-any |
 
 ### Multiple Conditions
 
 | Attribute | Type |
 | --- | --- |
-| `input` | `double` |
+| `input` | `doubleLinear` |
 | `case[].operation` | enum |
-| `case[].compare` | `double` |
-| `case[].value` | `doubleLinear` / `doubleLinear3` |
-| `elseValue` | `doubleLinear` / `doubleLinear3` |
-| `output` | `doubleLinear` / `doubleLinear3` |
+| `case[].compare` | `doubleLinear` |
+| `case[].extra[].logic` | enum (`And` / `Or`) |
+| `case[].extra[].comparison` | enum |
+| `case[].extra[].compareValue` | `doubleLinear` |
+| `case[].value` | typed-any |
+| `elseValue` | typed-any |
+| `output` | typed-any |
 
-この方針により、任意のscalar driverから距離を選択でき、`Dbl3`版と同じAPI構造を
-維持できます。距離そのものを表示単位付きのthresholdと比較する要件が生じた場合は、
-比較側も`doubleLinear`にした別仕様が必要かを改めて検討します。
+1つのnodeへ接続するすべての選択候補と出力先は、同じMayaデータ型へ統一します。
+`TypedPlugOperator`は接続専用として扱い、payloadの値をNodeOperatorの`.get()` /
+`.set()`で操作しません。詳細は[Condition Nodes](condition.md)を参照してください。
 
 ## Nodes Requiring Redesign
 
@@ -281,7 +300,9 @@ NodeOperatorのattribute解決には、親`double3`、子`doubleLinear`、子数
    - 完了
 3. Clamp、Abs、Negate、Lerp、Map Range、weight系を実装する。
    - 完了
-4. `Condition` / `ConditionMulti`を、scalar `double`比較とlinear選択値で実装する。
+4. scalar `doubleLinear`比較とtyped-any選択値を持つ`bdAny_ConditionDblL` /
+   `bdAny_ConditionDblLMulti`を実装する。
+   - 完了
 5. Multiply / Divideの固定入力版について、mixed-type attribute仕様とdefaultを確定する。
 6. 実用性を確認してからMultiply / Divideの`Multi`版を判断する。
 7. Power familyは具体的な用途が提示されるまで保留する。
@@ -315,8 +336,9 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 | Three-component type code | `DblL3` |
 | `doubleLinear3`の意味 | 親`double3`、子`doubleLinear` x 3のcompound |
 | 初回展開 | 距離を保つ18種を実装済み |
-| Condition比較型 | scalar `double`を維持 |
-| Condition選択値 / 出力 | `doubleLinear` / `doubleLinear3` |
+| Condition比較型 | scalar `doubleLinear` |
+| Condition選択値 / 出力 | typed-any。同じnode内では接続型を統一する |
+| Condition展開 | `bdAny_ConditionDblL` / `bdAny_ConditionDblLMulti`を実装済み |
 | Multiply固定版 | linear valueとdimensionless factorのmixed-typeを優先検討 |
 | Divide固定版 | linear valueをdimensionless divisorで割る仕様を優先検討 |
 | Multiply / Divide Multi | attribute構造を確定するまで未実装 |

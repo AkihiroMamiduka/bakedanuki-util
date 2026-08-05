@@ -8,11 +8,65 @@ from ..std.at.compound import (
 from ..std.at.scalar.numeric.range.double import DoubleField
 from ..std.at.scalar.unit.range.double_linear import DoubleLinearField
 from ..custom import (
-    Double3Field,
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
 )
+
+
+class Input_valuePlugOperator(
+    DoubleLinear3CompoundBasePlugOperator["Input_valueAttrOperator"]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("valueX", "vx"),
+        ("valueY", "vy"),
+        ("valueZ", "vz"),
+    )
+
+    valueX = DoubleLinearField()
+    vx = valueX
+
+    valueY = DoubleLinearField()
+    vy = valueY
+
+    valueZ = DoubleLinearField()
+    vz = valueZ
+
+
+class Input_valueAttrOperator(
+    DoubleLinear3CompoundBaseAttrOperator[Input_valuePlugOperator]
+):
+    __slots__ = ()
+
+    valueX = DoubleLinearField()
+    vx = valueX
+
+    valueY = DoubleLinearField()
+    vy = valueY
+
+    valueZ = DoubleLinearField()
+    vz = valueZ
+
+
+class Input_valueField(
+    DoubleLinear3CompoundBaseField[
+        Input_valueAttrOperator, Input_valuePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Input_valueAttrOperator
+    PLUG_CLS = Input_valuePlugOperator
+
+    valueX = DoubleLinearField()
+    vx = valueX
+
+    valueY = DoubleLinearField()
+    vy = valueY
+
+    valueZ = DoubleLinearField()
+    vz = valueZ
 
 
 class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
@@ -22,7 +76,7 @@ class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
         ("weight", "w"),
     )
 
-    value = Double3Field(default_value=(0.0, 0.0, 0.0))
+    value = Input_valueField(default_value=(0.0, 0.0, 0.0))
     v = value
 
     weight = DoubleField(default_value=0.0)
@@ -32,7 +86,7 @@ class InputPlugOperator(CompoundPlugOperator["InputAttrOperator"]):
 class InputAttrOperator(CompoundAttrOperator[InputPlugOperator]):
     __slots__ = ()
 
-    value = Double3Field(default_value=(0.0, 0.0, 0.0))
+    value = Input_valueField(default_value=(0.0, 0.0, 0.0))
     v = value
 
     weight = DoubleField(default_value=0.0)

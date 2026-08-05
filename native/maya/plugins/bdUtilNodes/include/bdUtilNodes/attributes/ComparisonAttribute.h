@@ -14,4 +14,11 @@ MStatus createComparisonOperationAttribute(
     const char* shortName
 );
 
+MStatus createLogicOperationAttribute(
+    MFnEnumAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName
+);
+
 }  // namespace bd_util_nodes

@@ -4,14 +4,16 @@
 #include <maya/MObject.h>
 #include <maya/MStatus.h>
 
+#include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
+#include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
+#include "bdUtilNodes/nodes/BdAnyConditionDblNode.h"
+#include "bdUtilNodes/nodes/BdAnyConditionDblMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AbsNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AverageNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ClampNode.h"
-#include "bdUtilNodes/nodes/BdDbl3ConditionMultiNode.h"
-#include "bdUtilNodes/nodes/BdDbl3ConditionNode.h"
 #include "bdUtilNodes/nodes/BdDbl3DivideNode.h"
 #include "bdUtilNodes/nodes/BdDbl3DivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3LerpNode.h"
@@ -40,8 +42,6 @@
 #include "bdUtilNodes/nodes/BdDblAverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAverageNode.h"
 #include "bdUtilNodes/nodes/BdDblClampNode.h"
-#include "bdUtilNodes/nodes/BdDblConditionMultiNode.h"
-#include "bdUtilNodes/nodes/BdDblConditionNode.h"
 #include "bdUtilNodes/nodes/BdDblDivideNode.h"
 #include "bdUtilNodes/nodes/BdDblDivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDbl3ValueNode.h"
@@ -346,28 +346,16 @@ const std::array<NodeRegistration, 88>& nodeRegistrations() {
             BdDblNegateNode::initialize,
         },
         {
-            BdDbl3ConditionMultiNode::typeName,
-            BdDbl3ConditionMultiNode::typeId,
-            BdDbl3ConditionMultiNode::creator,
-            BdDbl3ConditionMultiNode::initialize,
+            BdAnyConditionDblNode::typeName,
+            BdAnyConditionDblNode::typeId,
+            BdAnyConditionDblNode::creator,
+            BdAnyConditionDblNode::initialize,
         },
         {
-            BdDbl3ConditionNode::typeName,
-            BdDbl3ConditionNode::typeId,
-            BdDbl3ConditionNode::creator,
-            BdDbl3ConditionNode::initialize,
-        },
-        {
-            BdDblConditionMultiNode::typeName,
-            BdDblConditionMultiNode::typeId,
-            BdDblConditionMultiNode::creator,
-            BdDblConditionMultiNode::initialize,
-        },
-        {
-            BdDblConditionNode::typeName,
-            BdDblConditionNode::typeId,
-            BdDblConditionNode::creator,
-            BdDblConditionNode::initialize,
+            BdAnyConditionDblMultiNode::typeName,
+            BdAnyConditionDblMultiNode::typeId,
+            BdAnyConditionDblMultiNode::creator,
+            BdAnyConditionDblMultiNode::initialize,
         },
         {
             BdDbl3AverageMultiNode::typeName,
@@ -632,6 +620,18 @@ const std::array<NodeRegistration, 88>& nodeRegistrations() {
             BdDblL3WeightedAverageMultiNode::typeId,
             BdDblL3WeightedAverageMultiNode::creator,
             BdDblL3WeightedAverageMultiNode::initialize,
+        },
+        {
+            BdAnyConditionDblLNode::typeName,
+            BdAnyConditionDblLNode::typeId,
+            BdAnyConditionDblLNode::creator,
+            BdAnyConditionDblLNode::initialize,
+        },
+        {
+            BdAnyConditionDblLMultiNode::typeName,
+            BdAnyConditionDblLMultiNode::typeId,
+            BdAnyConditionDblLMultiNode::creator,
+            BdAnyConditionDblLMultiNode::initialize,
         },
     }};
     return registrations;

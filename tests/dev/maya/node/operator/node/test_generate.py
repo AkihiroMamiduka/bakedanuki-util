@@ -418,6 +418,113 @@ def _compound_enum_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _nested_double_linear3_compound_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "case",
+            "cs",
+            "compound",
+            multi=True,
+            number_of_children=3,
+        ),
+        _attr(
+            "case.operation",
+            "op",
+            "enum",
+            parent="case",
+            path_name="operation",
+            enum_name=["Equal:Not Equal"],
+        ),
+        _attr(
+            "case.compare",
+            "cmp",
+            "double",
+            parent="case",
+            path_name="compare",
+        ),
+        _attr(
+            "case.value",
+            "v",
+            "double3",
+            parent="case",
+            path_name="value",
+            number_of_children=3,
+        ),
+        _attr(
+            "case.valueX",
+            "vx",
+            "doubleLinear",
+            parent="value",
+            path_name="valueX",
+        ),
+        _attr(
+            "case.valueY",
+            "vy",
+            "doubleLinear",
+            parent="value",
+            path_name="valueY",
+        ),
+        _attr(
+            "case.valueZ",
+            "vz",
+            "doubleLinear",
+            parent="value",
+            path_name="valueZ",
+        ),
+    ]
+
+
+def _nested_multi_compound_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr(
+            "case",
+            "cs",
+            "compound",
+            multi=True,
+            number_of_children=2,
+        ),
+        _attr(
+            "case.extra",
+            "ex",
+            "compound",
+            parent="case",
+            path_name="extra",
+            multi=True,
+            number_of_children=3,
+        ),
+        _attr(
+            "case.extra.logic",
+            "lgc",
+            "enum",
+            parent="extra",
+            path_name="logic",
+            enum_name=["And:Or"],
+        ),
+        _attr(
+            "case.extra.comparison",
+            "cpr",
+            "enum",
+            parent="extra",
+            path_name="comparison",
+            enum_name=["Equal:Not Equal"],
+        ),
+        _attr(
+            "case.extra.compareValue",
+            "cv",
+            "double",
+            parent="extra",
+            path_name="compareValue",
+        ),
+        _attr(
+            "case.value",
+            "v",
+            "typed",
+            parent="case",
+            path_name="value",
+        ),
+    ]
+
+
 def _transform_like_attr_infos() -> list[AttrInfo]:
     return [
         _attr("message", "msg", "message"),
@@ -938,6 +1045,83 @@ def test_generate_compound_child_enum_uses_generated_enum_field():
     assert "NAME_MAP = {" in code
     assert "primaryMode = Primary_primaryModeEnumField()" in code
     assert "primaryMode = EnumField()" not in code
+
+
+def test_generate_nested_double_linear3_compound_preserves_child_type():
+    attr_infos = _nested_double_linear3_compound_attr_infos()
+
+    node_attr_code = generate_node_attr_code(
+        "nestedLinearCondition",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "nested_linear_condition_node_attr.py", "exec")
+
+    assert "class Case_valuePlugOperator(" in node_attr_code
+    assert "DoubleLinear3CompoundBasePlugOperator" in node_attr_code
+    assert "valueX = DoubleLinearField" in node_attr_code
+    assert "value = Case_valueField" in node_attr_code
+    assert "value = Double3Field" not in node_attr_code
+
+    node_code = generate_node_class_code(
+        "nestedLinearCondition",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "nested_linear_condition.py", "exec")
+
+    assert "case = CaseField(multi=True)" in node_code
+    assert "valueX = DoubleLinearField" not in node_code
+
+
+def test_generate_typed_value_child_preserves_descriptor_type():
+    code = generate_node_attr_code(
+        "typedValueCondition",
+        attr_infos=[
+            _attr(
+                "case",
+                "cs",
+                "compound",
+                multi=True,
+                number_of_children=1,
+            ),
+            _attr(
+                "case.value",
+                "v",
+                "typed",
+                parent="case",
+                path_name="value",
+            ),
+        ],
+    )
+
+    assert code is not None
+    compile(code, "typed_value_condition_node_attr.py", "exec")
+    assert code.count("value: TypedField = TypedField()") == 2
+
+
+def test_generate_nested_multi_compound_preserves_indexable_hierarchy():
+    attr_infos = _nested_multi_compound_attr_infos()
+
+    node_attr_code = generate_node_attr_code(
+        "nestedMultiCondition",
+        attr_infos=attr_infos,
+    )
+    assert node_attr_code is not None
+    compile(node_attr_code, "nested_multi_condition_node_attr.py", "exec")
+
+    assert "class Case_extraPlugOperator(" in node_attr_code
+    assert "class Case_extraField(" in node_attr_code
+    assert (
+        "extra: Case_extraField = Case_extraField(multi=True" in node_attr_code
+    )
+    assert "value: TypedField = TypedField()" in node_attr_code
+
+    node_code = generate_node_class_code(
+        "nestedMultiCondition",
+        attr_infos=attr_infos,
+    )
+    compile(node_code, "nested_multi_condition.py", "exec")
+    assert "case = CaseField(multi=True)" in node_code
 
 
 def test_generate_skips_deprecated_and_numeric_short_aliases():

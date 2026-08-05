@@ -44,6 +44,13 @@ def get_attr_path_name(node, attr) -> str | None:
     return path_name()
 
 
+def get_attr_parent_names(node, attr) -> list[str] | None:
+    parent = get_mfn_attribute(node, attr).parent
+    if parent.isNull():
+        return None
+    return [om.MFnAttribute(parent).name]
+
+
 def get_attr_enforcing_unique_name(node, attr) -> bool | None:
     return getattr(get_mfn_attribute(node, attr), "enforcingUniqueName", None)
 
@@ -276,6 +283,8 @@ def get_attribute_info(node: str, attr: str) -> AttrInfo:
 
     # parent
     parent = safe_query(cmds.attributeQuery, attr, node=node, listParent=True)
+    if not parent:
+        parent = safe_query(get_attr_parent_names, node, attr)
 
     # readable / writable
     readable = safe_query(cmds.attributeQuery, attr, node=node, readable=True)

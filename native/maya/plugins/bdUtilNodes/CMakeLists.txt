@@ -41,10 +41,8 @@ add_library(
     src/nodes/BdDbl3AbsNode.cpp
     src/nodes/BdDblNegateNode.cpp
     src/nodes/BdDbl3NegateNode.cpp
-    src/nodes/BdDblConditionNode.cpp
-    src/nodes/BdDblConditionMultiNode.cpp
-    src/nodes/BdDbl3ConditionNode.cpp
-    src/nodes/BdDbl3ConditionMultiNode.cpp
+    src/nodes/BdAnyConditionDblNode.cpp
+    src/nodes/BdAnyConditionDblMultiNode.cpp
     src/nodes/BdDblAverageNode.cpp
     src/nodes/BdDblAverageMultiNode.cpp
     src/nodes/BdDbl3AverageNode.cpp
@@ -89,10 +87,13 @@ add_library(
     src/nodes/BdDblL3WeightedSumMultiNode.cpp
     src/nodes/BdDblLWeightedAverageMultiNode.cpp
     src/nodes/BdDblL3WeightedAverageMultiNode.cpp
+    src/nodes/BdAnyConditionDblLNode.cpp
+    src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
     src/attributes/DoubleLinear3Attribute.cpp
     src/attributes/NumericAttribute.cpp
+    src/attributes/TypedAnyAttribute.cpp
     src/attributes/UnitAttribute.cpp
     src/plugin.cpp
 )

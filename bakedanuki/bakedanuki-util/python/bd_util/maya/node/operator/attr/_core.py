@@ -854,7 +854,7 @@ class AttrOperator(Generic[P]):
         "_parent_attr_path",
         "oprt_parent",
         "multi",
-        "extra",
+        "_extra",
         "default_value",
         "min_value",
         "max_value",
@@ -923,7 +923,7 @@ class AttrOperator(Generic[P]):
         #   multi
         self.multi: bool = multi
         #   extra attr flag
-        self.extra: bool = extra
+        self._extra: bool = extra
         # extra attr info
         self.default_value: Any = default_value
         self.min_value: Any = min_value
@@ -984,6 +984,14 @@ class AttrOperator(Generic[P]):
     @property
     def attr_path(self) -> str:
         return self._attr_path
+
+    @property
+    def extra(self) -> bool:
+        return self._extra
+
+    @extra.setter
+    def extra(self, value: bool) -> None:
+        self._extra = value
 
 
 class AttributeField(ImmutableDescriptor, Generic[A, P]):

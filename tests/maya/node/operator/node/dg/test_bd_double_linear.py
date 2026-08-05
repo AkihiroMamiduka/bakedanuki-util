@@ -484,6 +484,7 @@ def test_scalar_and_compound_survive_scene_round_trip(
     scalar.input2.set(3.0)
     compound.input1.set((1.0, 2.0, 3.0))
     compound.input2.set((4.0, 5.0, 6.0))
+
     modifier_manager.do_it_dg()
 
     scene_path = tmp_path / "bd_double_linear.ma"

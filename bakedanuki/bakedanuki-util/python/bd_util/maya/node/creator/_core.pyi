@@ -265,14 +265,20 @@ from ..operator.node.dg.avg_surface_points import AvgSurfacePoints
 from ..operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from ..operator.node.dg.axis_from_matrix import AxisFromMatrix
 from ..operator.node.dg.basic_selector import BasicSelector
+from ..operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from ..operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
+from ..operator.node.dg.bd_any_condition_dbl_l_multi import (
+    BdAnyConditionDblLMulti,
+)
+from ..operator.node.dg.bd_any_condition_dbl_multi import (
+    BdAnyConditionDblMulti,
+)
 from ..operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
 from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
 from ..operator.node.dg.bd_dbl3_average import BdDbl3Average
 from ..operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
 from ..operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
-from ..operator.node.dg.bd_dbl3_condition import BdDbl3Condition
-from ..operator.node.dg.bd_dbl3_condition_multi import BdDbl3ConditionMulti
 from ..operator.node.dg.bd_dbl3_divide import BdDbl3Divide
 from ..operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
 from ..operator.node.dg.bd_dbl3_value import BdDbl3Value
@@ -301,8 +307,6 @@ from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
 from ..operator.node.dg.bd_dbl_average import BdDblAverage
 from ..operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
 from ..operator.node.dg.bd_dbl_clamp import BdDblClamp
-from ..operator.node.dg.bd_dbl_condition import BdDblCondition
-from ..operator.node.dg.bd_dbl_condition_multi import BdDblConditionMulti
 from ..operator.node.dg.bd_dbl_divide import BdDblDivide
 from ..operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
 from ..operator.node.dg.bd_dbl_value import BdDblValue
@@ -2304,6 +2308,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BasicSelector: ...
+    def bdAny_ConditionDbl(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDbl: ...
+    def bdAny_ConditionDblL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblL: ...
+    def bdAny_ConditionDblLMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblLMulti: ...
+    def bdAny_ConditionDblMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblMulti: ...
     def bdDbl3_Abs(
         self,
         name: str | None = None,
@@ -2334,16 +2358,6 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3Clamp: ...
-    def bdDbl3_Condition(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDbl3Condition: ...
-    def bdDbl3_ConditionMulti(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDbl3ConditionMulti: ...
     def bdDbl3_Divide(
         self,
         name: str | None = None,
@@ -2644,16 +2658,6 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblClamp: ...
-    def bdDbl_Condition(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDblCondition: ...
-    def bdDbl_ConditionMulti(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-    ) -> BdDblConditionMulti: ...
     def bdDbl_Divide(
         self,
         name: str | None = None,

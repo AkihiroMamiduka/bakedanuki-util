@@ -264,6 +264,9 @@ bd<TypeCode>_<Operation><Variant>
 プロジェクト内の呼称です。linear unit nodeの展開方針は
 [Double Linear Node Expansion](double-linear-nodes.md)を参照してください。
 
+typed-any値を選択するConditionはこの出力型基準の規則から分離し、
+`bdAny_ConditionDbl`のように比較型をoperation名の後ろで表します。
+
 固定入力版、単項演算、value nodeなど、その演算の基本形にはvariant suffixを付けません。
 配列入力版だけ`Multi`を付けます。固定2入力版に`Pair`は付けません。
 type code直後の`_`は、Node Editorで`bdDbl_`、`bdDbl3_`、`bdDblL_`、

@@ -341,14 +341,18 @@ from .operator.node.dg.avg_surface_points import AvgSurfacePoints
 from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
+from .operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from .operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
+from .operator.node.dg.bd_any_condition_dbl_l_multi import (
+    BdAnyConditionDblLMulti,
+)
+from .operator.node.dg.bd_any_condition_dbl_multi import BdAnyConditionDblMulti
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
 from .operator.node.dg.bd_dbl3_average import BdDbl3Average
 from .operator.node.dg.bd_dbl3_average_multi import BdDbl3AverageMulti
 from .operator.node.dg.bd_dbl3_clamp import BdDbl3Clamp
-from .operator.node.dg.bd_dbl3_condition import BdDbl3Condition
-from .operator.node.dg.bd_dbl3_condition_multi import BdDbl3ConditionMulti
 from .operator.node.dg.bd_dbl3_divide import BdDbl3Divide
 from .operator.node.dg.bd_dbl3_divide_multi import BdDbl3DivideMulti
 from .operator.node.dg.bd_dbl3_lerp import BdDbl3Lerp
@@ -419,8 +423,6 @@ from .operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
 from .operator.node.dg.bd_dbl_average import BdDblAverage
 from .operator.node.dg.bd_dbl_average_multi import BdDblAverageMulti
 from .operator.node.dg.bd_dbl_clamp import BdDblClamp
-from .operator.node.dg.bd_dbl_condition import BdDblCondition
-from .operator.node.dg.bd_dbl_condition_multi import BdDblConditionMulti
 from .operator.node.dg.bd_dbl_divide import BdDblDivide
 from .operator.node.dg.bd_dbl_divide_multi import BdDblDivideMulti
 from .operator.node.dg.bd_dbl_lerp import BdDblLerp
@@ -2932,6 +2934,30 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BasicSelector: ...
     @staticmethod
+    def bdAny_ConditionDbl(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDbl: ...
+    @staticmethod
+    def bdAny_ConditionDblL(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblL: ...
+    @staticmethod
+    def bdAny_ConditionDblLMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblLMulti: ...
+    @staticmethod
+    def bdAny_ConditionDblMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblMulti: ...
+    @staticmethod
     def bdDbl3_Abs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2967,18 +2993,6 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDbl3Clamp: ...
-    @staticmethod
-    def bdDbl3_Condition(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdDbl3Condition: ...
-    @staticmethod
-    def bdDbl3_ConditionMulti(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdDbl3ConditionMulti: ...
     @staticmethod
     def bdDbl3_Divide(
         node: str | om.MObject,
@@ -3339,18 +3353,6 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblClamp: ...
-    @staticmethod
-    def bdDbl_Condition(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdDblCondition: ...
-    @staticmethod
-    def bdDbl_ConditionMulti(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdDblConditionMulti: ...
     @staticmethod
     def bdDbl_Divide(
         node: str | om.MObject,

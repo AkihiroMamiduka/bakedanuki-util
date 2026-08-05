@@ -1,21 +1,13 @@
 # coding: utf-8
-
-from typing import TYPE_CHECKING
-
-from ..std.at.compound import (
-    CompoundAttrOperator,
-    CompoundPlugOperator,
-    CompoundField,
-)
-from ..std.at.scalar.enum import (
+from .._core import DG
+from ....attr.define.node_attr.bd_any_condition_dbl import ExtraField
+from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ..std.at.scalar.numeric.range.double import (
-    DoubleField,
-    DoublePlugOperator,
-)
+from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.typed import TypedField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
@@ -58,13 +50,13 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class CasePlugOperator(CompoundPlugOperator["CaseAttrOperator"]):
+class GeneratedBdAnyConditionDbl(DG):
     __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("operation", "op"),
-        ("compare", "cmp"),
-        ("value", "v"),
-    )
+
+    NODE_TYPE = "bdAny_ConditionDbl"
+
+    input = DoubleField(default_value=0.0)
+    i = input
 
     operation = OperationEnumField(default_value=0)
     op = operation
@@ -72,29 +64,14 @@ class CasePlugOperator(CompoundPlugOperator["CaseAttrOperator"]):
     compare = DoubleField(default_value=0.0)
     cmp = compare
 
-    if TYPE_CHECKING:
-        value: DoublePlugOperator
-        v: DoublePlugOperator
-    else:
-        value = DoubleField(default_value=0.0)
-        v = value
+    extra = ExtraField(multi=True, default_value=(0.0, 0.0, 0.0))
+    ex = extra
 
+    trueValue = TypedField()
+    tv = trueValue
 
-class CaseAttrOperator(CompoundAttrOperator[CasePlugOperator]):
-    __slots__ = ()
+    falseValue = TypedField()
+    fv = falseValue
 
-    operation = OperationEnumField(default_value=0)
-    op = operation
-
-    compare = DoubleField(default_value=0.0)
-    cmp = compare
-
-    value = DoubleField(default_value=0.0)
-    v = value
-
-
-class CaseField(CompoundField[CaseAttrOperator, CasePlugOperator]):
-    __slots__ = ()
-
-    ATTR_CLS = CaseAttrOperator
-    PLUG_CLS = CasePlugOperator
+    output = TypedField(writable=False)
+    o = output

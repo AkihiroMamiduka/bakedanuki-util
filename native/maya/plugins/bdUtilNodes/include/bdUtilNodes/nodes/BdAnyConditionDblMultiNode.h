@@ -6,7 +6,7 @@
 #include <maya/MString.h>
 #include <maya/MTypeId.h>
 
-class BdDbl3ConditionMultiNode final : public MPxNode {
+class BdAnyConditionDblMultiNode final : public MPxNode {
 public:
     static void* creator();
     static MStatus initialize();
@@ -22,19 +22,11 @@ public:
     static MObject caseArray;
     static MObject operation;
     static MObject compare;
-
+    static MObject extra;
+    static MObject logic;
+    static MObject comparison;
+    static MObject compareValue;
     static MObject value;
-    static MObject valueX;
-    static MObject valueY;
-    static MObject valueZ;
-
     static MObject elseValue;
-    static MObject elseValueX;
-    static MObject elseValueY;
-    static MObject elseValueZ;
-
     static MObject output;
-    static MObject outputX;
-    static MObject outputY;
-    static MObject outputZ;
 };

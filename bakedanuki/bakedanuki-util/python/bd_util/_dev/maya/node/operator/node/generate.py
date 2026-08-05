@@ -972,6 +972,54 @@ def _attr_parent_name(attr_info: AttrInfo) -> str | None:
     return attr_info.parent[0]
 
 
+def _normalize_attr_hierarchy(attr_infos: list[AttrInfo]) -> list[AttrInfo]:
+    """Return copies whose path names preserve nested compound parents."""
+    infos_by_name: dict[str, AttrInfo] = {}
+    for info in attr_infos:
+        for name in {
+            info.long_name,
+            info.long_name.rsplit(".", 1)[-1],
+            info.path_name,
+            info.path_name.rsplit(".", 1)[-1] if info.path_name else None,
+        }:
+            if name:
+                infos_by_name.setdefault(name, info)
+
+    resolved_paths: dict[int, str] = {}
+
+    def _resolve_path(info: AttrInfo, resolving: set[int]) -> str:
+        info_id = id(info)
+        if info_id in resolved_paths:
+            return resolved_paths[info_id]
+
+        original_path = info.path_name or info.long_name
+        if not info.parent or info_id in resolving:
+            resolved_paths[info_id] = original_path
+            return original_path
+
+        parent_name = info.parent[0]
+        parent_info = infos_by_name.get(parent_name)
+        if parent_info is None:
+            parent_info = infos_by_name.get(parent_name.rsplit(".", 1)[-1])
+        if parent_info is None or parent_info is info:
+            resolved_paths[info_id] = original_path
+            return original_path
+
+        parent_path = _resolve_path(parent_info, resolving | {info_id})
+        if original_path.startswith(f"{parent_path}."):
+            resolved_path = original_path
+        else:
+            local_name = original_path.rsplit(".", 1)[-1]
+            resolved_path = f"{parent_path}.{local_name}"
+        resolved_paths[info_id] = resolved_path
+        return resolved_path
+
+    return [
+        dataclasses.replace(info, path_name=_resolve_path(info, set()))
+        for info in attr_infos
+    ]
+
+
 def _uniform_child_attr_type(children: list[AttrInfo]) -> str | None:
     """Return child attributeType when all children share the same type."""
     if not children:
@@ -1603,6 +1651,7 @@ def generate_node_attr_code(
 
     attr_infos = _omit_unreliable_default_values(node_type, attr_infos)
     attr_infos = _filter_supported_attr_infos(attr_infos)
+    attr_infos = _normalize_attr_hierarchy(attr_infos)
 
     # 子アトリビュートを親ごとにグループ化
     compound_children_map: dict[str, list[AttrInfo]] = {}
@@ -1617,14 +1666,17 @@ def generate_node_attr_code(
         info
         for info in attr_infos
         if (
-            info.parent is None
-            and compound_children_map.get(_attr_long_name(info))
+            compound_children_map.get(_attr_long_name(info))
             and _resolve_compound_base(
                 info,
                 compound_children_map.get(_attr_long_name(info), []),
             )
         )
     ]
+    compound_parents.sort(
+        key=lambda info: _attr_long_name(info).count("."),
+        reverse=True,
+    )
 
     if not compound_parents:
         return None
@@ -1644,6 +1696,13 @@ def generate_node_attr_code(
 
     # 各 compound アトリビュートのクラスブロックを生成
     class_blocks: list[list[str]] = []
+
+    compound_field_classes = {
+        _attr_long_name(info): _long_name_to_compound_class_names(
+            _attr_long_name(info)
+        )[2]
+        for info in compound_parents
+    }
 
     for parent_info in compound_parents:
         parent_long = _attr_long_name(parent_info)
@@ -1674,15 +1733,19 @@ def generate_node_attr_code(
             )
             child_short = child_info.short_name
 
-            child_resolved = _resolve_attr_class(child_info)
-            if child_resolved is None:
-                child_body_lines.append(
-                    f"    # TODO: {child_name}"
-                    f" (attributeType={child_info.attribute_type}) は未対応"
-                )
-                continue
+            child_cls_name = compound_field_classes.get(
+                _attr_long_name(child_info)
+            )
+            if child_cls_name is None:
+                child_resolved = _resolve_attr_class(child_info)
+                if child_resolved is None:
+                    child_body_lines.append(
+                        f"    # TODO: {child_name}"
+                        f" (attributeType={child_info.attribute_type}) は未対応"
+                    )
+                    continue
+                child_cls_name, child_module = child_resolved
 
-            child_cls_name, child_module = child_resolved
             if child_info.attribute_type == "enum":
                 entries = _parse_enum_entries(child_info.enum_name)
                 if entries:
@@ -1696,7 +1759,7 @@ def generate_node_attr_code(
                     _add_import("EnumField", "std.at.scalar.enum")
                 else:
                     _add_import(child_cls_name, child_module)
-            else:
+            elif _attr_long_name(child_info) not in compound_field_classes:
                 _add_import(child_cls_name, child_module)
 
             safe_child_name = _safe_field_name(child_name)
@@ -1706,8 +1769,15 @@ def generate_node_attr_code(
                 child_name,
                 child_short,
             )
+            field_declaration = safe_child_name
+            if safe_child_name == "extra" or (
+                safe_child_name == "value" and child_cls_name == "TypedField"
+            ):
+                # Keep the descriptor visible to Pyright when a compound child
+                # shadows an operator property with a different return type.
+                field_declaration = f"{safe_child_name}: {child_cls_name}"
             child_body_lines.append(
-                f"    {safe_child_name} = {child_cls_name}({init_args})"
+                f"    {field_declaration} = {child_cls_name}({init_args})"
             )
             if _should_emit_short_alias(child_short, child_name):
                 safe_child_short = _safe_field_name(child_short)
@@ -1862,6 +1932,7 @@ def generate_node_class_code(
     inherited_long_names = _attr_long_names(inherited_attr_infos)
 
     attr_infos = _filter_supported_attr_infos(attr_infos)
+    attr_infos = _normalize_attr_hierarchy(attr_infos)
     attr_infos = _filter_inherited_attr_infos(
         attr_infos,
         inherited_long_names,

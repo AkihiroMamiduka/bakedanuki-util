@@ -1,16 +1,15 @@
 # coding: utf-8
 from .._core import DG
-from ....attr.define.node_attr.bd_dbl3_condition import (
-    FalseValueField,
-    OutputField,
-    TrueValueField,
-)
+from ....attr.define.node_attr.bd_any_condition_dbl_l import ExtraField
 from ....attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
     EnumField,
 )
-from ....attr.define.std.at.scalar.numeric.range.double import DoubleField
+from ....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+from ....attr.define.std.at.typed import TypedField
 
 
 class OperationEnumPlugOperator(EnumPlugOperator["OperationEnumAttrOperator"]):
@@ -53,43 +52,28 @@ class OperationEnumField(
     PLUG_CLS = OperationEnumPlugOperator
 
 
-class GeneratedBdDbl3Condition(DG):
+class GeneratedBdAnyConditionDblL(DG):
     __slots__ = ()
 
-    NODE_TYPE = "bdDbl3_Condition"
+    NODE_TYPE = "bdAny_ConditionDblL"
 
-    input = DoubleField(default_value=0.0)
+    input = DoubleLinearField(default_value=0.0)
     i = input
 
     operation = OperationEnumField(default_value=0)
     op = operation
 
-    compare = DoubleField(default_value=0.0)
+    compare = DoubleLinearField(default_value=0.0)
     cmp = compare
 
-    trueValue = TrueValueField(default_value=(0.0, 0.0, 0.0))
+    extra = ExtraField(multi=True, default_value=(0.0, 0.0, 0.0))
+    ex = extra
+
+    trueValue = TypedField()
     tv = trueValue
-    trueValueX = trueValue.trueValueX
-    tvx = trueValueX
-    trueValueY = trueValue.trueValueY
-    tvy = trueValueY
-    trueValueZ = trueValue.trueValueZ
-    tvz = trueValueZ
 
-    falseValue = FalseValueField(default_value=(0.0, 0.0, 0.0))
+    falseValue = TypedField()
     fv = falseValue
-    falseValueX = falseValue.falseValueX
-    fvx = falseValueX
-    falseValueY = falseValue.falseValueY
-    fvy = falseValueY
-    falseValueZ = falseValue.falseValueZ
-    fvz = falseValueZ
 
-    output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
+    output = TypedField(writable=False)
     o = output
-    outputX = output.outputX
-    ox = outputX
-    outputY = output.outputY
-    oy = outputY
-    outputZ = output.outputZ
-    oz = outputZ

@@ -4,9 +4,6 @@ from ....attr.define.node_attr.bd_dbl_l3_weighted_average_multi import (
     InputField,
     OutputField,
 )
-from ....attr.define.std.at.scalar.unit.range.double_linear import (
-    DoubleLinearField,
-)
 
 
 class GeneratedBdDblL3WeightedAverageMulti(DG):
@@ -16,15 +13,6 @@ class GeneratedBdDblL3WeightedAverageMulti(DG):
 
     input = InputField(multi=True)
     i = input
-
-    valueX = DoubleLinearField()
-    vx = valueX
-
-    valueY = DoubleLinearField()
-    vy = valueY
-
-    valueZ = DoubleLinearField()
-    vz = valueZ
 
     output = OutputField(default_value=(0.0, 0.0, 0.0), writable=False)
     o = output
