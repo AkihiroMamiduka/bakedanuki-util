@@ -273,6 +273,18 @@ from ..operator.node.dg.bd_any_condition_dbl_l_multi import (
 from ..operator.node.dg.bd_any_condition_dbl_multi import (
     BdAnyConditionDblMulti,
 )
+from ..operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
+)
 from ..operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from ..operator.node.dg.bd_dbl3_add import BdDbl3Add
 from ..operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
@@ -2328,6 +2340,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdAnyConditionDblMulti: ...
+    def bdConditionDblCase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblCaseCompose: ...
+    def bdConditionDblExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblExtraCompose: ...
+    def bdConditionDblLCase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblLCaseCompose: ...
+    def bdConditionDblLExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblLExtraCompose: ...
     def bdDbl3_Abs(
         self,
         name: str | None = None,

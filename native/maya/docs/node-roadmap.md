@@ -25,6 +25,7 @@ Python 側の API・生成器に関する計画は、既存の
 | 7 | Condition | `bdAny_ConditionDbl`, `bdAny_ConditionDblMulti`, `bdAny_ConditionDblL`, `bdAny_ConditionDblLMulti` | 単一条件 / 条件配列 | 型付きscalar比較でtyped-any値を選択 | 実装済み |
 | 8 | Average | `bdDbl_Average`, `bdDbl_AverageMulti`, `bdDbl3_Average`, `bdDbl3_AverageMulti` | 固定2入力 / 配列 | 入力値の算術平均を出力 | 実装済み |
 | 9 | Weighted Average | `bdDbl_WeightedAverageMulti`, `bdDbl3_WeightedAverageMulti` | value / weight 配列 | 入力値の加重平均を出力 | 実装済み |
+| 10 | Condition Compose | `bdConditionDblExtra_Compose`, `bdConditionDblLExtra_Compose`, `bdConditionDblCase_Compose`, `bdConditionDblLCase_Compose` | 1 node = 1 element | `extra[index]` / `case[index]`用compoundを構築 | 実装済み |
 
 ## Double Linear Expansion
 

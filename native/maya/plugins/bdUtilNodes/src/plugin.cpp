@@ -8,6 +8,10 @@
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblMultiNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblCaseComposeNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblExtraComposeNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblLCaseComposeNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblLExtraComposeNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AbsNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddNode.h"
 #include "bdUtilNodes/nodes/BdDbl3AddMultiNode.h"
@@ -103,8 +107,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 88>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 88> registrations = {{
+const std::array<NodeRegistration, 92>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 92> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -632,6 +636,30 @@ const std::array<NodeRegistration, 88>& nodeRegistrations() {
             BdAnyConditionDblLMultiNode::typeId,
             BdAnyConditionDblLMultiNode::creator,
             BdAnyConditionDblLMultiNode::initialize,
+        },
+        {
+            BdConditionDblExtraComposeNode::typeName,
+            BdConditionDblExtraComposeNode::typeId,
+            BdConditionDblExtraComposeNode::creator,
+            BdConditionDblExtraComposeNode::initialize,
+        },
+        {
+            BdConditionDblLExtraComposeNode::typeName,
+            BdConditionDblLExtraComposeNode::typeId,
+            BdConditionDblLExtraComposeNode::creator,
+            BdConditionDblLExtraComposeNode::initialize,
+        },
+        {
+            BdConditionDblCaseComposeNode::typeName,
+            BdConditionDblCaseComposeNode::typeId,
+            BdConditionDblCaseComposeNode::creator,
+            BdConditionDblCaseComposeNode::initialize,
+        },
+        {
+            BdConditionDblLCaseComposeNode::typeName,
+            BdConditionDblLCaseComposeNode::typeId,
+            BdConditionDblLCaseComposeNode::creator,
+            BdConditionDblLCaseComposeNode::initialize,
         },
     }};
     return registrations;

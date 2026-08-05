@@ -92,6 +92,28 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_any_condition_dbl_l imp
     Extra_comparisonEnumPlugOperator as AnyConditionDblLSingleExtraComparisonPlugOperator,
     Extra_logicEnumPlugOperator as AnyConditionDblLSingleExtraLogicPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_condition_dbl_case_compose import (
+    ExtraAttrOperator as ConditionDblCaseComposeExtraAttrOperator,
+    ExtraPlugOperator as ConditionDblCaseComposeExtraPlugOperator,
+    OutputAttrOperator as ConditionDblCaseComposeOutputAttrOperator,
+    OutputPlugOperator as ConditionDblCaseComposeOutputPlugOperator,
+    Output_outputExtraPlugOperator as ConditionDblCaseComposeOutputExtraPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_condition_dbl_extra_compose import (
+    OutputAttrOperator as ConditionDblExtraComposeOutputAttrOperator,
+    OutputPlugOperator as ConditionDblExtraComposeOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_condition_dbl_l_case_compose import (
+    ExtraAttrOperator as ConditionDblLCaseComposeExtraAttrOperator,
+    ExtraPlugOperator as ConditionDblLCaseComposeExtraPlugOperator,
+    OutputAttrOperator as ConditionDblLCaseComposeOutputAttrOperator,
+    OutputPlugOperator as ConditionDblLCaseComposeOutputPlugOperator,
+    Output_outputExtraPlugOperator as ConditionDblLCaseComposeOutputExtraPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_condition_dbl_l_extra_compose import (
+    OutputAttrOperator as ConditionDblLExtraComposeOutputAttrOperator,
+    OutputPlugOperator as ConditionDblLExtraComposeOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_map_range import (
     InputAttrOperator as MapRangeInputAttrOperator,
     InputPlugOperator as MapRangeInputPlugOperator,
@@ -314,6 +336,18 @@ from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_l_multi import (
 )
 from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_multi import (
     BdAnyConditionDblMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from bd_util.maya.node.operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from bd_util.maya.node.operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from bd_util.maya.node.operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
 )
 from bd_util.maya.node.operator.node.dg._generated.bd_any_condition_dbl import (
     OperationEnumAttrOperator as AnyConditionDblOperationAttrOperator,
@@ -1328,6 +1362,139 @@ def condition_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdAny_ConditionDblLMulti("existing_linear_multi"),
         BdAnyConditionDblLMulti,
+    )
+
+
+def condition_compose_contract(nodes: bdu.Nodes) -> None:
+    double_extra = nodes.create.bdConditionDblExtra_Compose(
+        name="double_extra_compose"
+    )
+    assert_type(double_extra, BdConditionDblExtraCompose)
+    assert_type(double_extra.compareValue, DoublePlugOperator)
+    assert_type(
+        BdConditionDblExtraCompose.output,
+        ConditionDblExtraComposeOutputAttrOperator,
+    )
+    assert_type(
+        double_extra.output,
+        ConditionDblExtraComposeOutputPlugOperator,
+    )
+    assert_type(
+        double_extra.output.outputCompareValue,
+        DoublePlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdConditionDblExtra_Compose(
+            "existing_double_extra_compose"
+        ),
+        BdConditionDblExtraCompose,
+    )
+
+    double_case = nodes.create.bdConditionDblCase_Compose(
+        name="double_case_compose"
+    )
+    assert_type(double_case, BdConditionDblCaseCompose)
+    assert_type(double_case.compare, DoublePlugOperator)
+    assert_type(
+        BdConditionDblCaseCompose.extra,
+        ConditionDblCaseComposeExtraAttrOperator,
+    )
+    assert_type(
+        double_case.extra,
+        ConditionDblCaseComposeExtraPlugOperator,
+    )
+    assert_type(
+        double_case.extra[next],
+        ConditionDblCaseComposeExtraPlugOperator,
+    )
+    assert_type(double_case.extra[next].compareValue, DoublePlugOperator)
+    assert_type(double_case.value, TypedPlugOperator)
+    assert_type(
+        BdConditionDblCaseCompose.output,
+        ConditionDblCaseComposeOutputAttrOperator,
+    )
+    assert_type(
+        double_case.output,
+        ConditionDblCaseComposeOutputPlugOperator,
+    )
+    assert_type(
+        double_case.output.outputExtra[next],
+        ConditionDblCaseComposeOutputExtraPlugOperator,
+    )
+    assert_type(double_case.output.outputValue, TypedPlugOperator)
+    assert_type(
+        nodes.existing.bdConditionDblCase_Compose(
+            "existing_double_case_compose"
+        ),
+        BdConditionDblCaseCompose,
+    )
+
+    linear_extra = nodes.create.bdConditionDblLExtra_Compose(
+        name="linear_extra_compose"
+    )
+    assert_type(linear_extra, BdConditionDblLExtraCompose)
+    assert_type(
+        linear_extra.compareValue,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        BdConditionDblLExtraCompose.output,
+        ConditionDblLExtraComposeOutputAttrOperator,
+    )
+    assert_type(
+        linear_extra.output,
+        ConditionDblLExtraComposeOutputPlugOperator,
+    )
+    assert_type(
+        linear_extra.output.outputCompareValue,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdConditionDblLExtra_Compose(
+            "existing_linear_extra_compose"
+        ),
+        BdConditionDblLExtraCompose,
+    )
+
+    linear_case = nodes.create.bdConditionDblLCase_Compose(
+        name="linear_case_compose"
+    )
+    assert_type(linear_case, BdConditionDblLCaseCompose)
+    assert_type(
+        linear_case.compare,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        BdConditionDblLCaseCompose.extra,
+        ConditionDblLCaseComposeExtraAttrOperator,
+    )
+    assert_type(
+        linear_case.extra,
+        ConditionDblLCaseComposeExtraPlugOperator,
+    )
+    assert_type(
+        linear_case.extra[next].compareValue,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(linear_case.value, TypedPlugOperator)
+    assert_type(
+        BdConditionDblLCaseCompose.output,
+        ConditionDblLCaseComposeOutputAttrOperator,
+    )
+    assert_type(
+        linear_case.output,
+        ConditionDblLCaseComposeOutputPlugOperator,
+    )
+    assert_type(
+        linear_case.output.outputExtra[next],
+        ConditionDblLCaseComposeOutputExtraPlugOperator,
+    )
+    assert_type(linear_case.output.outputValue, TypedPlugOperator)
+    assert_type(
+        nodes.existing.bdConditionDblLCase_Compose(
+            "existing_linear_case_compose"
+        ),
+        BdConditionDblLCaseCompose,
     )
 
 

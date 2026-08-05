@@ -155,6 +155,10 @@
   - scalar `double`条件、nested `case[].extra[]`、typed-any値のsparse case配列
 - [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
   - scalar `doubleLinear`条件、nested `case[].extra[]`、typed-any値のsparse case配列
+- [BdConditionDblExtraComposeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdConditionDblExtraComposeNode.cpp) / [BdConditionDblLExtraComposeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdConditionDblLExtraComposeNode.cpp)
+  - `extra[index]`へ親plug接続する1要素分のcompound出力
+- [BdConditionDblCaseComposeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdConditionDblCaseComposeNode.cpp) / [BdConditionDblLCaseComposeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdConditionDblLCaseComposeNode.cpp)
+  - nested `extra[]`とtyped-any valueを含む`case[index]`用compound出力
 - [Average Nodes](average.md)
   - 固定2入力 / 配列、空入力、logical index順、単純合計方式の共通仕様
 - [Average.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Average.h)
@@ -225,6 +229,8 @@
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 - [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)
   - 4つのCondition nodeの比較、typed-any payload、case / extra順序、nested multi、dirty、接続、scene round-tripのテスト
+- [test_bd_condition_compose.py](../../../tests/maya/node/operator/node/dg/test_bd_condition_compose.py)
+  - 4つのCompose nodeの親compound接続、sparse extra、typed-any payload、dirty、型、scene round-tripのテスト
 - [test_bd_average.py](../../../tests/maya/node/operator/node/dg/test_bd_average.py)
   - 4つのAverage nodeの固定入力、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
 - [test_bd_weighted_average.py](../../../tests/maya/node/operator/node/dg/test_bd_weighted_average.py)

@@ -89,6 +89,10 @@ add_library(
     src/nodes/BdDblL3WeightedAverageMultiNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
+    src/nodes/BdConditionDblExtraComposeNode.cpp
+    src/nodes/BdConditionDblLExtraComposeNode.cpp
+    src/nodes/BdConditionDblCaseComposeNode.cpp
+    src/nodes/BdConditionDblLCaseComposeNode.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
     src/attributes/DoubleLinear3Attribute.cpp

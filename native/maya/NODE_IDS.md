@@ -92,6 +92,10 @@
 | `bdDblL3_WeightedAverageMulti` | `0x0007F058` | Internal development |
 | `bdAny_ConditionDblL` | `0x0007F059` | Internal development |
 | `bdAny_ConditionDblLMulti` | `0x0007F05A` | Internal development |
+| `bdConditionDblExtra_Compose` | `0x0007F05B` | Internal development |
+| `bdConditionDblLExtra_Compose` | `0x0007F05C` | Internal development |
+| `bdConditionDblCase_Compose` | `0x0007F05D` | Internal development |
+| `bdConditionDblLCase_Compose` | `0x0007F05E` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

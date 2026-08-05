@@ -348,6 +348,18 @@ from .operator.node.dg.bd_any_condition_dbl_l_multi import (
     BdAnyConditionDblLMulti,
 )
 from .operator.node.dg.bd_any_condition_dbl_multi import BdAnyConditionDblMulti
+from .operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
@@ -2659,6 +2671,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdAnyConditionDblMulti: ...
+    def bdConditionDblCase_Compose(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblCaseCompose: ...
+    def bdConditionDblExtra_Compose(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblExtraCompose: ...
+    def bdConditionDblLCase_Compose(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLCaseCompose: ...
+    def bdConditionDblLExtra_Compose(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLExtraCompose: ...
     def bdDbl3_Abs(
         self,
         node: str | om.MObject,

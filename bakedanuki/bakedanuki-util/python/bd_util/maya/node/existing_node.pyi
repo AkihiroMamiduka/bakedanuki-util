@@ -347,6 +347,18 @@ from .operator.node.dg.bd_any_condition_dbl_l_multi import (
     BdAnyConditionDblLMulti,
 )
 from .operator.node.dg.bd_any_condition_dbl_multi import BdAnyConditionDblMulti
+from .operator.node.dg.bd_condition_dbl_case_compose import (
+    BdConditionDblCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_extra_compose import (
+    BdConditionDblExtraCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_case_compose import (
+    BdConditionDblLCaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
+    BdConditionDblLExtraCompose,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
@@ -2957,6 +2969,30 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdAnyConditionDblMulti: ...
+    @staticmethod
+    def bdConditionDblCase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblCaseCompose: ...
+    @staticmethod
+    def bdConditionDblExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblExtraCompose: ...
+    @staticmethod
+    def bdConditionDblLCase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLCaseCompose: ...
+    @staticmethod
+    def bdConditionDblLExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblLExtraCompose: ...
     @staticmethod
     def bdDbl3_Abs(
         node: str | om.MObject,

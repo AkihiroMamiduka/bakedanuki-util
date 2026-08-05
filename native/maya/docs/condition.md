@@ -95,6 +95,89 @@ for extra_condition in extras_in_logical_index_order:
 `input < 10 and input > 0`です。`extra[]`が空の場合は、追加前と同じ基本条件だけを
 評価します。
 
+## Compose Nodes
+
+Conditionのcompound elementを1つのnodeで設定し、親plugを1本接続するためのnodeです。
+役割はExtraとCaseの2種類で、比較値のunit attributeを維持するため`double`版と
+`doubleLinear`版を分けます。
+
+| Node type | 出力するelement | 比較型 |
+| --- | --- | --- |
+| `bdConditionDblExtra_Compose` | `extra[index]` | `double` |
+| `bdConditionDblLExtra_Compose` | `extra[index]` | `doubleLinear` |
+| `bdConditionDblCase_Compose` | `case[index]` | `double` |
+| `bdConditionDblLCase_Compose` | `case[index]` | `doubleLinear` |
+
+1つのCompose nodeは1つのarray elementを担当します。配列全体は保持せず、必要な数だけ
+nodeを作成して任意のlogical indexへ接続します。
+
+```text
+Extra Compose.output -> Single Condition.extra[index]
+Extra Compose.output -> Case Compose.extra[index]
+Case Compose.output  -> Multi Condition.case[index]
+```
+
+### Extra Compose
+
+| Attribute | Short | 型 | Default | 用途 |
+| --- | --- | --- | --- | --- |
+| `logic` | `lgc` | enum | And | 直前までの結果との結合方法 |
+| `comparison` | `cpr` | enum | Equal | 比較演算 |
+| `compareValue` | `cv` | `double` / `doubleLinear` | `0` | 比較対象値 |
+| `output` | `o` | compound | - | `extra[index]`へ接続する読み取り専用出力 |
+
+`output`の子は`outputLogic`、`outputComparison`、`outputCompareValue`です。
+入力attributeとのnode内の名前衝突を避けるため出力子には`output` prefixを付けますが、
+通常は子を個別接続せず親の`output`を使用します。
+
+### Case Compose
+
+| Attribute | Short | 型 | Default | 用途 |
+| --- | --- | --- | --- | --- |
+| `operation` | `op` | enum | Equal | caseの基本比較演算 |
+| `compare` | `cmp` | `double` / `doubleLinear` | `0` | caseの基本比較対象値 |
+| `extra[]` | `ex[]` | compound multi | empty | Extra Composeの`output`を受け取る追加条件 |
+| `value` | `v` | typed-any | null | case成立時の接続値 |
+| `output` | `o` | compound | - | `case[index]`へ接続する読み取り専用出力 |
+
+`output`の子は`outputOperation`、`outputCompare`、`outputExtra[]`、`outputValue`です。
+入力側の`extra[]`はlogical indexを維持して`outputExtra[]`へコピーされます。
+`value`と`outputValue`はtyped-anyなのでNodeOperatorでは接続専用です。固定値を使う場合は
+必要な型のValue nodeを`value`へ接続します。payloadを直接設定できる型固定版が必要に
+なった場合は、必要な型だけを別nodeとして設計します。
+
+入力と出力は別attributeです。これにより、Extra ComposeからCase Compose、さらに
+Conditionへ接続を重ねても、nested `extra[]`とtyped-any payloadのdirty更新が伝播します。
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+extra = nodes.create.bdConditionDblLExtra_Compose(name="extra")
+case = nodes.create.bdConditionDblLCase_Compose(name="case_compose")
+condition = nodes.create.bdAny_ConditionDblLMulti(name="condition")
+case_value = nodes.create.bdDblL_Value(name="case_value")
+else_value = nodes.create.bdDblL_Value(name="else_value")
+
+extra.logic.set(extra.logic.AND)
+extra.comparison.set(extra.comparison.LESS_THAN)
+extra.compareValue.set(10.0)
+case.operation.set(case.operation.GREATER_THAN)
+case.compare.set(3.0)
+case_value.value.set(12.0)
+else_value.value.set(-12.0)
+condition.input.set(5.0)
+
+extra.output > case.extra[next]
+case_value.value > case.value
+case.output > condition.case[next]
+else_value.value > condition.elseValue
+
+mod.do_it_dg()
+```
+
 ## Single Condition
 
 | Attribute | Short | 型 | Default | 用途 |

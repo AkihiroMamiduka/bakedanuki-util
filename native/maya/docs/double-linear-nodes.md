@@ -176,6 +176,14 @@ typed-any attributeです。
 `TypedPlugOperator`は接続専用として扱い、payloadの値をNodeOperatorの`.get()` /
 `.set()`で操作しません。詳細は[Condition Nodes](condition.md)を参照してください。
 
+### Compose Nodes
+
+`bdConditionDblLExtra_Compose`と`bdConditionDblLCase_Compose`は、Conditionの
+`extra[index]` / `case[index]`と同じcompound構造を出力します。`compareValue`と
+`compare`は`doubleLinear`を維持し、親compound plugを1本接続するだけで設定を渡せます。
+Case Composeの`value`はtyped-anyの接続専用です。詳しいattribute構成と接続例は
+[Condition Nodes](condition.md#compose-nodes)を参照してください。
+
 ## Nodes Requiring Redesign
 
 ### Multiply
