@@ -14,9 +14,9 @@
    - 完了した`doubleLinear` / `doubleLinear3`関連51 nodeの命名、演算仕様、
      完了境界、検証条件、`doubleAngle`開発への引継ぎ事項
 4. [Double Angle Nodes](double-angle-nodes.md)
-   - 連続角度として扱うscalar `doubleAngle`演算18 node、単位、3軸orientationとの境界
+   - 連続角度と明示的周期演算を扱う`doubleAngle`関連30 node、単位、3軸orientationとの境界
 5. [Double Angle Node Roadmap](double-angle-roadmap.md)
-   - Average系、周期角度演算、Ratio、Conditionの実装順と採用・保留・対象外判断
+   - 完了したAverage系、周期角度演算、Ratio、Conditionと、保留・対象外判断
 6. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 7. [Average Nodes](average.md)
@@ -48,9 +48,15 @@
 - [UnitAttribute.cpp](../plugins/bdUtilNodes/src/attributes/UnitAttribute.cpp)
   - scalar `doubleLinear` / `doubleAngle` attributeの作成とinput / output flag
 - [Double Angle Nodes](double-angle-nodes.md)
-  - scalar `doubleAngle`を連続角度として扱う18 nodeの仕様とorientation境界
+  - scalar `doubleAngle`を連続角度と明示的周期演算として扱う30 nodeの仕様とorientation境界
 - [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)
-  - angle型、連続値、表示単位、`rotateX`接続、評価mode、scene round-tripのテスト
+  - angle型、連続値、周期境界、表示単位、`rotateX`接続、評価mode、scene round-tripのテスト
+- [Angle.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Angle.h)
+  - 半開区間Wrapと`[-π, π)`の最短角度差を共有するangle固有math helper
+- [BdDblAWrapNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAWrapNode.cpp) / [BdDblAShortestDeltaNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblAShortestDeltaNode.cpp) / [BdDblALerpShortestNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblALerpShortestNode.cpp)
+  - 明示的な周期正規化、最短角度差、連続出力の最短経路補間
+- [BdDblRatioDblANode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblRatioDblANode.cpp)
+  - 360度defaultのbaseでangle同士のdimensionless比率を出力
 - [DoubleLinear3Attribute.cpp](../plugins/bdUtilNodes/src/attributes/DoubleLinear3Attribute.cpp)
   - `doubleLinear` childを3つ持つnumeric compoundの作成
 - [BdDblLAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLAddNode.cpp) / [BdDblL3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3AddNode.cpp)
@@ -170,7 +176,7 @@
 - [Condition Nodes](condition.md)
   - 型付きscalar比較、typed-any値選択、logical index順の`case[]` / `extra[]`の共通仕様
 - [Comparison.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Comparison.h)
-  - 4つのCondition nodeで共有する6種類の比較演算
+  - 6つのCondition nodeで共有する6種類の比較演算
 - [Logic.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Logic.h) / [ConditionExtra.h](../plugins/bdUtilNodes/include/bdUtilNodes/nodes/ConditionExtra.h)
   - `And` / `Or`の論理結合とsparse `extra[]`のlogical index順評価
 - [BdAnyConditionDblMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblMultiNode.cpp)
@@ -250,9 +256,9 @@
 - [test_bd_dbl_negate.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl_negate.py)
   - scalar Negateの正負値、非有限値、評価モード、接続、scene round-tripのテスト
 - [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py)
-  - 4つのCondition nodeの比較、typed-any payload、case / extra順序、nested multi、dirty、接続、scene round-tripのテスト
+  - 6つのCondition nodeの比較、typed-any payload、case / extra順序、nested multi、dirty、接続、scene round-tripのテスト
 - [test_bd_condition_compose.py](../../../tests/maya/node/operator/node/dg/test_bd_condition_compose.py)
-  - 4つのCompose nodeの親compound接続、sparse extra、typed-any payload、dirty、型、scene round-tripのテスト
+  - 6つのCompose nodeの親compound接続、sparse extra、typed-any payload、dirty、型、scene round-tripのテスト
 - [test_bd_average.py](../../../tests/maya/node/operator/node/dg/test_bd_average.py)
   - 4つのAverage nodeの固定入力、sparse配列、logical index順、非有限値、dirty、接続、scene round-tripのテスト
 - [test_bd_weighted_average.py](../../../tests/maya/node/operator/node/dg/test_bd_weighted_average.py)

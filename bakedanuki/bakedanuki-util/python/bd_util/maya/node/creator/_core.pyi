@@ -266,6 +266,10 @@ from ..operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from ..operator.node.dg.axis_from_matrix import AxisFromMatrix
 from ..operator.node.dg.basic_selector import BasicSelector
 from ..operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from ..operator.node.dg.bd_any_condition_dbl_a import BdAnyConditionDblA
+from ..operator.node.dg.bd_any_condition_dbl_a_multi import (
+    BdAnyConditionDblAMulti,
+)
 from ..operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
 from ..operator.node.dg.bd_any_condition_dbl_l_multi import (
     BdAnyConditionDblLMulti,
@@ -275,6 +279,12 @@ from ..operator.node.dg.bd_any_condition_dbl_multi import (
 )
 from ..operator.node.dg.bd_condition_dbl_case_compose import (
     BdConditionDblCaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_a_case_compose import (
+    BdConditionDblACaseCompose,
+)
+from ..operator.node.dg.bd_condition_dbl_a_extra_compose import (
+    BdConditionDblAExtraCompose,
 )
 from ..operator.node.dg.bd_condition_dbl_extra_compose import (
     BdConditionDblExtraCompose,
@@ -317,10 +327,13 @@ from ..operator.node.dg.bd_dbl3_weighted_sum_multi import (
 from ..operator.node.dg.bd_dbl_a_abs import BdDblAAbs
 from ..operator.node.dg.bd_dbl_a_add import BdDblAAdd
 from ..operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from ..operator.node.dg.bd_dbl_a_average import BdDblAAverage
+from ..operator.node.dg.bd_dbl_a_average_multi import BdDblAAverageMulti
 from ..operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
 from ..operator.node.dg.bd_dbl_a_divide import BdDblADivide
 from ..operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
 from ..operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from ..operator.node.dg.bd_dbl_a_lerp_shortest import BdDblALerpShortest
 from ..operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
 from ..operator.node.dg.bd_dbl_a_max import BdDblAMax
 from ..operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
@@ -329,9 +342,17 @@ from ..operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
 from ..operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
 from ..operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
 from ..operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from ..operator.node.dg.bd_dbl_a_shortest_delta import BdDblAShortestDelta
 from ..operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
 from ..operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
 from ..operator.node.dg.bd_dbl_a_value import BdDblAValue
+from ..operator.node.dg.bd_dbl_a_weighted_average_multi import (
+    BdDblAWeightedAverageMulti,
+)
+from ..operator.node.dg.bd_dbl_a_weighted_sum_multi import (
+    BdDblAWeightedSumMulti,
+)
+from ..operator.node.dg.bd_dbl_a_wrap import BdDblAWrap
 from ..operator.node.dg.bd_dbl_abs import BdDblAbs
 from ..operator.node.dg.bd_dbl_add import BdDblAdd
 from ..operator.node.dg.bd_dbl_add_multi import BdDblAddMulti
@@ -353,6 +374,7 @@ from ..operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
 from ..operator.node.dg.bd_dbl_power import BdDblPower
 from ..operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
 from ..operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
+from ..operator.node.dg.bd_dbl_ratio_dbl_a import BdDblRatioDblA
 from ..operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from ..operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from ..operator.node.dg.bd_dbl_weighted_average_multi import (
@@ -2356,6 +2378,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdAnyConditionDbl: ...
+    def bdAny_ConditionDblA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblA: ...
+    def bdAny_ConditionDblAMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdAnyConditionDblAMulti: ...
     def bdAny_ConditionDblL(
         self,
         name: str | None = None,
@@ -2376,6 +2408,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdConditionDblCaseCompose: ...
+    def bdConditionDblACase_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblACaseCompose: ...
+    def bdConditionDblAExtra_Compose(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdConditionDblAExtraCompose: ...
     def bdConditionDblExtra_Compose(
         self,
         name: str | None = None,
@@ -2756,6 +2798,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblAAddMulti: ...
+    def bdDblA_Average(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAverage: ...
+    def bdDblA_AverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAAverageMulti: ...
     def bdDblA_Clamp(
         self,
         name: str | None = None,
@@ -2776,6 +2828,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblALerp: ...
+    def bdDblA_LerpShortest(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblALerpShortest: ...
     def bdDblA_MapRange(
         self,
         name: str | None = None,
@@ -2816,6 +2873,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblANegate: ...
+    def bdDblA_ShortestDelta(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAShortestDelta: ...
     def bdDblA_Subtract(
         self,
         name: str | None = None,
@@ -2831,6 +2893,21 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblAValue: ...
+    def bdDblA_WeightedAverageMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWeightedAverageMulti: ...
+    def bdDblA_WeightedSumMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWeightedSumMulti: ...
+    def bdDblA_Wrap(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAWrap: ...
     def bdDbl_Abs(
         self,
         name: str | None = None,
@@ -2936,6 +3013,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblRatioDblL: ...
+    def bdDbl_RatioDblA(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblRatioDblA: ...
     def bdDbl_Subtract(
         self,
         name: str | None = None,

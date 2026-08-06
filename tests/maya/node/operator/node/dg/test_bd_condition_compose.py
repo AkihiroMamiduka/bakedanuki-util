@@ -16,6 +16,8 @@ NODE_TYPE_IDS = {
     "bdConditionDblLExtra_Compose": 0x0007F05C,
     "bdConditionDblCase_Compose": 0x0007F05D,
     "bdConditionDblLCase_Compose": 0x0007F05E,
+    "bdConditionDblAExtra_Compose": 0x0007F086,
+    "bdConditionDblACase_Compose": 0x0007F087,
 }
 
 
@@ -75,8 +77,11 @@ def test_type_ids_and_public_attribute_structure(
         == NODE_TYPE_IDS[node_type]
     )
 
-    linear = "DblL" in node_type
-    comparison_type = "doubleLinear" if linear else "double"
+    comparison_type = (
+        "doubleLinear"
+        if "DblL" in node_type
+        else "doubleAngle" if "DblA" in node_type else "double"
+    )
     assert maya_cmds.getAttr(f"{node}.output", type=True) == "TdataCompound"
     assert not maya_cmds.attributeQuery("output", node=node, writable=True)
 
@@ -136,6 +141,7 @@ def test_type_ids_and_public_attribute_structure(
     (
         ("bdConditionDblExtra_Compose", "bdAny_ConditionDbl"),
         ("bdConditionDblLExtra_Compose", "bdAny_ConditionDblL"),
+        ("bdConditionDblAExtra_Compose", "bdAny_ConditionDblA"),
     ),
 )
 def test_extra_compose_connects_one_output_to_one_extra_element(
@@ -179,6 +185,11 @@ def test_extra_compose_connects_one_output_to_one_extra_element(
             "bdConditionDblLExtra_Compose",
             "bdConditionDblLCase_Compose",
             "bdAny_ConditionDblLMulti",
+        ),
+        (
+            "bdConditionDblAExtra_Compose",
+            "bdConditionDblACase_Compose",
+            "bdAny_ConditionDblAMulti",
         ),
     ),
 )
@@ -366,3 +377,28 @@ def test_node_operator_connections_and_scene_round_trip(
     assert reloaded.existing.bdDbl_Value(
         "result"
     ).value.get() == pytest.approx(12.0)
+
+
+def test_angle_condition_node_operator_accessors(
+    modifier_manager,
+    maya_cmds,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    node_types = (
+        "bdAny_ConditionDblA",
+        "bdAny_ConditionDblAMulti",
+        "bdConditionDblAExtra_Compose",
+        "bdConditionDblACase_Compose",
+    )
+    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    created = [
+        getattr(nodes.create, node_type)(name=f"angle_condition_{index}")
+        for index, node_type in enumerate(node_types)
+    ]
+    modifier_manager.do_it_dg()
+
+    for node_type, node in zip(node_types, created):
+        assert node.NODE_TYPE == node_type
+        existing = getattr(nodes.existing, node_type)(node.name)
+        assert existing.NODE_TYPE == node_type

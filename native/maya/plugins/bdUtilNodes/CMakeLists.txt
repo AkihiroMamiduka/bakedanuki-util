@@ -116,6 +116,18 @@ add_library(
     src/nodes/BdDblAMinMultiNode.cpp
     src/nodes/BdDblAMaxNode.cpp
     src/nodes/BdDblAMaxMultiNode.cpp
+    src/nodes/BdDblAAverageNode.cpp
+    src/nodes/BdDblAAverageMultiNode.cpp
+    src/nodes/BdDblAWeightedSumMultiNode.cpp
+    src/nodes/BdDblAWeightedAverageMultiNode.cpp
+    src/nodes/BdDblAWrapNode.cpp
+    src/nodes/BdDblAShortestDeltaNode.cpp
+    src/nodes/BdDblALerpShortestNode.cpp
+    src/nodes/BdDblRatioDblANode.cpp
+    src/nodes/BdAnyConditionDblANode.cpp
+    src/nodes/BdAnyConditionDblAMultiNode.cpp
+    src/nodes/BdConditionDblAExtraComposeNode.cpp
+    src/nodes/BdConditionDblACaseComposeNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/nodes/BdConditionDblExtraComposeNode.cpp

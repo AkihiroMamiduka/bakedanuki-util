@@ -540,9 +540,10 @@ output = -input
 
 ### Weighted Sum Policy
 
-`bdDbl_WeightedSumMulti`と`bdDbl3_WeightedSumMulti`は、valueとweightの積を
-全要素について加算する正規化なしの加重和です。double3版ではscalar doubleのweightを
-XYZすべてへ適用します。
+`bdDbl_WeightedSumMulti`、`bdDbl3_WeightedSumMulti`、
+`bdDblA_WeightedSumMulti`は、valueとweightの積を全要素について加算する正規化なしの
+加重和です。double3版ではscalar doubleのweightをXYZすべてへ適用し、doubleAngle版は
+連続角度を維持します。
 
 ```text
 output = sum(input[i].value * input[i].weight)
@@ -558,8 +559,9 @@ input[1].value
 input[1].weight
 ```
 
-valueとweightのdefaultは`0`です。空配列の結果もdoubleでは`0`、double3では
-`(0, 0, 0)`です。weightは負数および`1`を超える値を許可し、合計を`1`へ正規化しません。
+valueとweightのdefaultは`0`です。空配列の結果もdouble / doubleAngleでは`0`、
+double3では`(0, 0, 0)`です。weightは負数および`1`を超える値を許可し、合計を`1`へ
+正規化しません。
 加算順序に意味はないため、他の加算Multi nodeと同様に既存elementだけをphysical
 iterationで走査します。
 

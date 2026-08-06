@@ -125,6 +125,18 @@
 | `bdDblA_MinMulti` | `0x0007F079` | Internal development |
 | `bdDblA_Max` | `0x0007F07A` | Internal development |
 | `bdDblA_MaxMulti` | `0x0007F07B` | Internal development |
+| `bdDblA_Average` | `0x0007F07C` | Internal development |
+| `bdDblA_AverageMulti` | `0x0007F07D` | Internal development |
+| `bdDblA_WeightedSumMulti` | `0x0007F07E` | Internal development |
+| `bdDblA_WeightedAverageMulti` | `0x0007F07F` | Internal development |
+| `bdDblA_Wrap` | `0x0007F080` | Internal development |
+| `bdDblA_ShortestDelta` | `0x0007F081` | Internal development |
+| `bdDblA_LerpShortest` | `0x0007F082` | Internal development |
+| `bdDbl_RatioDblA` | `0x0007F083` | Internal development |
+| `bdAny_ConditionDblA` | `0x0007F084` | Internal development |
+| `bdAny_ConditionDblAMulti` | `0x0007F085` | Internal development |
+| `bdConditionDblAExtra_Compose` | `0x0007F086` | Internal development |
+| `bdConditionDblACase_Compose` | `0x0007F087` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

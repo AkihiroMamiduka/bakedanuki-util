@@ -1,11 +1,11 @@
 # Double Angle Node Roadmap
 
-scalar `doubleAngle` node familyの次期実装計画です。実装済みnodeの現行仕様は
+scalar `doubleAngle` node familyの実装順、採用判断、完了境界の記録です。現行仕様は
 [Double Angle Nodes](double-angle-nodes.md)を参照してください。
 
 ## Baseline
 
-`bdDblA` familyは1軸のangle channelを対象とし、実装済みの通常演算18 nodeは
+`bdDblA` familyは1軸のangle channelを対象とし、実装済みの通常演算22 nodeは
 正規化されていない連続角度として計算します。`370 deg`、`720 deg`、`-450 deg`を
 暗黙にwrapしません。
 
@@ -27,10 +27,10 @@ scalar `doubleAngle` node familyの次期実装計画です。実装済みnode�
 
 | Phase | Scope | Node count | Status |
 | ---: | --- | ---: | --- |
-| 1 | scalar通常演算のparity完成 | 4 | 方針確定・未実装 |
-| 2 | angle固有の周期演算 | 3 | 方針確定・未実装 |
-| 3 | angle同士のdimensionless比率 | 1 | 方針確定・未実装 |
-| 4 | angle比較のConditionとCompose | 4 | 方針確定・未実装 |
+| 1 | scalar通常演算のparity完成 | 4 | 実装済み |
+| 2 | angle固有の周期演算 | 3 | 実装済み |
+| 3 | angle同士のdimensionless比率 | 1 | 実装済み |
+| 4 | angle比較のConditionとCompose | 4 | 実装済み |
 
 ## Phase 1: Scalar Parity
 
@@ -66,8 +66,9 @@ scalar `doubleAngle` node familyの次期実装計画です。実装済みnode�
 -181 deg ->  179 deg
 ```
 
-`max <= min`と非有限値の扱いは、実装開始時に既存math helperの方針と合わせて確定し、
-境界テストへ明記します。
+`NaN`を含む場合は`NaN`を出力します。`max <= min`では`min`を出力します。有効な順序の
+範囲で`input`、境界、または範囲幅が非有限になる場合は`NaN`を出力します。この規則は
+`Angle.h`へ集約し、境界テストで固定します。
 
 ### `bdDblA_ShortestDelta`
 
@@ -170,3 +171,6 @@ Circular Averageが必要です。反対方向同士で平均方向が定まら�
 各phaseは、C++ node、attribute、dirty伝搬、plug-in登録、`MTypeId`、NodeOperator生成、
 型補完、Maya上の計算・境界・表示単位・評価mode・scene round-tripテスト、関連仕様書の
 更新まで完了した時点で実装済みとします。
+
+上記4 phaseはすべてこの完了条件を満たしています。今後の追加候補はDeferred Candidatesに
+記載した実利用の確認を前提とし、現在の未完了項目としては扱いません。

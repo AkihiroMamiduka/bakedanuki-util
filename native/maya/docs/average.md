@@ -1,7 +1,8 @@
 # Average Nodes
 
-`Average` family は `double` / `double3` の算術平均を出力します。2値を直接扱う
-固定2入力版と、0個以上の値を扱う `Multi` 版を用意します。
+`Average` family は `double` / `double3` / `doubleLinear` / `doubleLinear3` /
+`doubleAngle` の算術平均を出力します。2値を直接扱う固定2入力版と、0個以上の値を扱う
+`Multi` 版を用意します。
 
 ## Node Types
 
@@ -11,16 +12,23 @@
 | `bdDbl_AverageMulti` | 0以上 | `double` |
 | `bdDbl3_Average` | 2 | `double3` |
 | `bdDbl3_AverageMulti` | 0以上 | `double3` |
+| `bdDblL_Average` | 2 | `doubleLinear` |
+| `bdDblL_AverageMulti` | 0以上 | `doubleLinear` |
+| `bdDblL3_Average` | 2 | `doubleLinear3` |
+| `bdDblL3_AverageMulti` | 0以上 | `doubleLinear3` |
+| `bdDblA_Average` | 2 | `doubleAngle` |
+| `bdDblA_AverageMulti` | 0以上 | `doubleAngle` |
 
-`double3` 版は XYZ の各成分を独立して平均します。
+`double3` 版は XYZ の各成分を独立して平均します。`doubleAngle`版は入力を連続角度として
+扱い、暗黙にwrapしません。例えば`350 deg`と`10 deg`の平均は`180 deg`です。
 
 ## Fixed Two Inputs
 
 | Attribute | Short | 型 | Default | 用途 |
 | --- | --- | --- | --- | --- |
-| `input1` | `i1` | `double` / `double3` | zero | 1つ目の入力値 |
-| `input2` | `i2` | `double` / `double3` | zero | 2つ目の入力値 |
-| `output` | `o` | `double` / `double3` | zero | 算術平均 |
+| `input1` | `i1` | familyのvalue型 | zero | 1つ目の入力値 |
+| `input2` | `i2` | familyのvalue型 | zero | 2つ目の入力値 |
+| `output` | `o` | 入力と同じ | zero | 算術平均 |
 
 計算は単純合計方式です。
 
@@ -32,8 +40,8 @@ output = (input1 + input2) / 2
 
 | Attribute | Short | 型 | Default | 用途 |
 | --- | --- | --- | --- | --- |
-| `input[]` | `i[]` | `double` / `double3` multi | empty | 平均する入力値 |
-| `output` | `o` | `double` / `double3` | zero | 算術平均 |
+| `input[]` | `i[]` | familyのvalue型 multi | empty | 平均する入力値 |
+| `output` | `o` | 入力と同じ | zero | 算術平均 |
 
 `input[]` は sparse array を許可します。既存要素だけを logical index の昇順で
 合計し、既存要素数で割ります。logical index の最大値や未作成の隙間は要素数に

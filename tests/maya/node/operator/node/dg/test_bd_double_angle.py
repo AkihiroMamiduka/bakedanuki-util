@@ -31,6 +31,14 @@ NODE_TYPE_IDS = {
     "bdDblA_MinMulti": 0x0007F079,
     "bdDblA_Max": 0x0007F07A,
     "bdDblA_MaxMulti": 0x0007F07B,
+    "bdDblA_Average": 0x0007F07C,
+    "bdDblA_AverageMulti": 0x0007F07D,
+    "bdDblA_WeightedSumMulti": 0x0007F07E,
+    "bdDblA_WeightedAverageMulti": 0x0007F07F,
+    "bdDblA_Wrap": 0x0007F080,
+    "bdDblA_ShortestDelta": 0x0007F081,
+    "bdDblA_LerpShortest": 0x0007F082,
+    "bdDbl_RatioDblA": 0x0007F083,
 }
 
 ANGLE_ATTRIBUTES = {
@@ -59,6 +67,14 @@ ANGLE_ATTRIBUTES = {
     "bdDblA_MinMulti": ("input", "output"),
     "bdDblA_Max": ("input1", "input2", "output"),
     "bdDblA_MaxMulti": ("input", "output"),
+    "bdDblA_Average": ("input1", "input2", "output"),
+    "bdDblA_AverageMulti": ("input", "output"),
+    "bdDblA_WeightedSumMulti": ("input[0].value", "output"),
+    "bdDblA_WeightedAverageMulti": ("input[0].value", "output"),
+    "bdDblA_Wrap": ("input", "min", "max", "output"),
+    "bdDblA_ShortestDelta": ("input1", "input2", "output"),
+    "bdDblA_LerpShortest": ("input1", "input2", "output"),
+    "bdDbl_RatioDblA": ("input", "base"),
 }
 
 
@@ -100,6 +116,7 @@ def test_node_ids_and_attribute_types(maya_cmds, maya_om, node_type):
             "bdDblA_SubtractMulti",
             "bdDblA_MinMulti",
             "bdDblA_MaxMulti",
+            "bdDblA_AverageMulti",
         }:
             attribute = "input[0]"
         assert maya_cmds.getAttr(f"{node}.{attribute}", type=True) == (
@@ -109,10 +126,16 @@ def test_node_ids_and_attribute_types(maya_cmds, maya_om, node_type):
     if "Multiply" in node_type or "Divide" in node_type:
         factor = "factor[0]" if node_type.endswith("Multi") else "factor"
         assert maya_cmds.getAttr(f"{node}.{factor}", type=True) == "double"
-    if node_type == "bdDblA_Lerp":
+    if node_type in {"bdDblA_Lerp", "bdDblA_LerpShortest"}:
         assert maya_cmds.getAttr(f"{node}.weight", type=True) == "double"
+    if "Weighted" in node_type:
+        assert (
+            maya_cmds.getAttr(f"{node}.input[0].weight", type=True) == "double"
+        )
     if node_type == "bdDblA_MapRange":
         assert maya_cmds.getAttr(f"{node}.clamp", type=True) == "bool"
+    if node_type == "bdDbl_RatioDblA":
+        assert maya_cmds.getAttr(f"{node}.output", type=True) == "double"
 
 
 @pytest.mark.parametrize(
@@ -136,6 +159,22 @@ def test_angle_range_maximum_defaults_to_full_rotation(
         node = maya_cmds.createNode(node_type)
 
         assert maya_cmds.getAttr(f"{node}.{attribute}") == pytest.approx(360.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+def test_wrap_and_ratio_defaults_use_clear_degree_values(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        wrap = maya_cmds.createNode("bdDblA_Wrap")
+        ratio = maya_cmds.createNode("bdDbl_RatioDblA")
+
+        assert maya_cmds.getAttr(f"{wrap}.min") == pytest.approx(-180.0)
+        assert maya_cmds.getAttr(f"{wrap}.max") == pytest.approx(180.0)
+        assert maya_cmds.getAttr(f"{ratio}.base") == pytest.approx(360.0)
     finally:
         maya_cmds.currentUnit(angle=previous_unit)
 
@@ -197,6 +236,11 @@ def test_angle_range_maximum_defaults_to_full_rotation(
             {"input1": 370.0, "input2": 10.0},
             370.0,
         ),
+        (
+            "bdDblA_Average",
+            {"input1": 350.0, "input2": 10.0},
+            180.0,
+        ),
     ),
 )
 def test_fixed_nodes_use_continuous_angle_arithmetic(
@@ -251,6 +295,192 @@ def test_sparse_angle_multi_nodes(maya_cmds):
         maya_cmds.removeMultiInstance(f"{divide}.factor[9]", b=True)
         maya_cmds.removeMultiInstance(f"{divide}.factor[2]", b=True)
         assert maya_cmds.getAttr(f"{divide}.output") == pytest.approx(360.0)
+
+        average = maya_cmds.createNode("bdDblA_AverageMulti")
+        for index, value in ((20, 20.0), (2, 300.0), (9, 100.0)):
+            maya_cmds.setAttr(f"{average}.input[{index}]", value)
+        assert maya_cmds.getAttr(f"{average}.output") == pytest.approx(140.0)
+        for index in (20, 2, 9):
+            maya_cmds.removeMultiInstance(f"{average}.input[{index}]", b=True)
+        assert maya_cmds.getAttr(f"{average}.output") == pytest.approx(0.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize(
+    ("node_type", "expected"),
+    (
+        ("bdDblA_WeightedSumMulti", 380.0),
+        ("bdDblA_WeightedAverageMulti", 95.0),
+    ),
+)
+def test_weighted_angle_nodes_use_continuous_values_and_sparse_indices(
+    maya_cmds,
+    node_type,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode(node_type)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(0.0)
+
+        maya_cmds.setAttr(f"{node}.input[10].value", 10.0)
+        maya_cmds.setAttr(f"{node}.input[10].weight", 3.0)
+        maya_cmds.setAttr(f"{node}.input[2].value", 350.0)
+        maya_cmds.setAttr(f"{node}.input[2].weight", 1.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
+
+        maya_cmds.setAttr(f"{node}.input[10].weight", 0.0)
+        maya_cmds.setAttr(f"{node}.input[2].weight", 0.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(0.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize(
+    ("input_value", "expected"),
+    (
+        (180.0, -180.0),
+        (540.0, -180.0),
+        (-181.0, 179.0),
+        (725.0, 5.0),
+        (-540.0, -180.0),
+    ),
+)
+def test_wrap_uses_half_open_interval(maya_cmds, input_value, expected):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode("bdDblA_Wrap")
+        maya_cmds.setAttr(f"{node}.input", input_value)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+def test_wrap_supports_custom_zero_to_full_rotation_range(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode("bdDblA_Wrap")
+        maya_cmds.setAttr(f"{node}.min", 0.0)
+        maya_cmds.setAttr(f"{node}.max", 360.0)
+        maya_cmds.setAttr(f"{node}.input", -10.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(350.0)
+        maya_cmds.setAttr(f"{node}.input", 360.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(0.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+def test_wrap_invalid_and_non_finite_inputs_have_defined_results(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="rad")
+        node = maya_cmds.createNode("bdDblA_Wrap")
+
+        maya_cmds.setAttr(f"{node}.input", 2.0)
+        maya_cmds.setAttr(f"{node}.min", 1.0)
+        maya_cmds.setAttr(f"{node}.max", 1.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(1.0)
+        maya_cmds.setAttr(f"{node}.max", -1.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(1.0)
+
+        maya_cmds.setAttr(f"{node}.min", -math.pi)
+        maya_cmds.setAttr(f"{node}.max", math.pi)
+        maya_cmds.setAttr(f"{node}.input", float("inf"))
+        assert math.isnan(maya_cmds.getAttr(f"{node}.output"))
+        maya_cmds.setAttr(f"{node}.input", float("nan"))
+        assert math.isnan(maya_cmds.getAttr(f"{node}.output"))
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize(
+    ("input1", "input2", "expected"),
+    (
+        (350.0, 10.0, 20.0),
+        (10.0, 350.0, -20.0),
+        (0.0, 180.0, -180.0),
+        (180.0, 0.0, -180.0),
+        (10.0, 370.0, 0.0),
+    ),
+)
+def test_shortest_delta_uses_signed_half_open_range(
+    maya_cmds,
+    input1,
+    input2,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode("bdDblA_ShortestDelta")
+        maya_cmds.setAttr(f"{node}.input1", input1)
+        maya_cmds.setAttr(f"{node}.input2", input2)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize(
+    ("input1", "input2", "weight", "expected"),
+    (
+        (350.0, 10.0, 0.0, 350.0),
+        (350.0, 10.0, 0.5, 360.0),
+        (350.0, 10.0, 1.0, 370.0),
+        (10.0, 350.0, 0.5, 0.0),
+        (0.0, 180.0, 1.0, -180.0),
+    ),
+)
+def test_lerp_shortest_preserves_continuous_unwrapped_output(
+    maya_cmds,
+    input1,
+    input2,
+    weight,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode("bdDblA_LerpShortest")
+        maya_cmds.setAttr(f"{node}.input1", input1)
+        maya_cmds.setAttr(f"{node}.input2", input2)
+        maya_cmds.setAttr(f"{node}.weight", weight)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+def test_angle_ratio_uses_full_rotation_default_and_safe_division(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode("bdDbl_RatioDblA")
+        maya_cmds.setAttr(f"{node}.input", 720.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(2.0)
+
+        maya_cmds.setAttr(f"{node}.input", 180.0)
+        maya_cmds.setAttr(f"{node}.base", 90.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(2.0)
+
+        maya_cmds.setAttr(f"{node}.base", 0.0)
+        assert math.isfinite(maya_cmds.getAttr(f"{node}.output"))
     finally:
         maya_cmds.currentUnit(angle=previous_unit)
 
@@ -366,6 +596,35 @@ def test_node_operator_creation_and_existing_accessor(
     assert isinstance(nodes.existing.bdDblA_Min("angle_min"), BdDblAMin)
 
 
+def test_new_angle_node_operator_creation_and_existing_accessors(
+    modifier_manager,
+    maya_cmds,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    node_types = (
+        "bdDblA_Average",
+        "bdDblA_AverageMulti",
+        "bdDblA_WeightedSumMulti",
+        "bdDblA_WeightedAverageMulti",
+        "bdDblA_Wrap",
+        "bdDblA_ShortestDelta",
+        "bdDblA_LerpShortest",
+        "bdDbl_RatioDblA",
+    )
+    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    created = [
+        getattr(nodes.create, node_type)(name=f"angle_new_{index}")
+        for index, node_type in enumerate(node_types)
+    ]
+    modifier_manager.do_it_dg()
+
+    for node_type, node in zip(node_types, created):
+        assert node.NODE_TYPE == node_type
+        existing = getattr(nodes.existing, node_type)(node.name)
+        assert existing.NODE_TYPE == node_type
+
+
 @pytest.mark.parametrize("evaluation_mode", ("off", "serial", "parallel"))
 def test_dirty_updates_in_all_evaluation_modes(maya_cmds, evaluation_mode):
     _load_bd_util_nodes(maya_cmds)
@@ -381,6 +640,30 @@ def test_dirty_updates_in_all_evaluation_modes(maya_cmds, evaluation_mode):
         assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(320.0)
         maya_cmds.setAttr(f"{node}.input2", 100.0)
         assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(400.0)
+    finally:
+        maya_cmds.evaluationManager(mode=previous_mode)
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize("evaluation_mode", ("off", "serial", "parallel"))
+def test_periodic_angle_dirty_updates_in_all_evaluation_modes(
+    maya_cmds,
+    evaluation_mode,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        maya_cmds.evaluationManager(mode=evaluation_mode)
+        node = maya_cmds.createNode("bdDblA_LerpShortest")
+        maya_cmds.setAttr(f"{node}.input1", 350.0)
+        maya_cmds.setAttr(f"{node}.input2", 10.0)
+        maya_cmds.setAttr(f"{node}.weight", 0.5)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(360.0)
+        maya_cmds.setAttr(f"{node}.input2", 30.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(370.0)
     finally:
         maya_cmds.evaluationManager(mode=previous_mode)
         maya_cmds.currentUnit(angle=previous_unit)
@@ -409,3 +692,34 @@ def test_angle_node_survives_scene_round_trip(
     assert reloaded.existing.bdDblA_Subtract(
         "angle_subtract"
     ).output.get() == pytest.approx(-340.0)
+
+
+def test_periodic_angle_nodes_survive_scene_round_trip(
+    modifier_manager,
+    maya_cmds,
+    tmp_path,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    lerp = nodes.create.bdDblA_LerpShortest(name="angle_lerp_shortest")
+    wrap = nodes.create.bdDblA_Wrap(name="angle_wrap")
+    lerp.input1.set(350.0)
+    lerp.input2.set(10.0)
+    lerp.weight.set(1.0)
+    lerp.output.connect(wrap.input)
+    modifier_manager.do_it_dg()
+
+    scene_path = tmp_path / "bd_double_angle_periodic.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+
+    reloaded = bdu.Nodes(modifier_manager=bdu.ModifierManager())
+    assert reloaded.existing.bdDblA_LerpShortest(
+        "angle_lerp_shortest"
+    ).output.get() == pytest.approx(370.0)
+    assert reloaded.existing.bdDblA_Wrap(
+        "angle_wrap"
+    ).output.get() == pytest.approx(10.0)

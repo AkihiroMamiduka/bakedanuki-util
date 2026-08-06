@@ -342,11 +342,21 @@ from .operator.node.dg.axis_angle_to_quat import AxisAngleToQuat
 from .operator.node.dg.axis_from_matrix import AxisFromMatrix
 from .operator.node.dg.basic_selector import BasicSelector
 from .operator.node.dg.bd_any_condition_dbl import BdAnyConditionDbl
+from .operator.node.dg.bd_any_condition_dbl_a import BdAnyConditionDblA
+from .operator.node.dg.bd_any_condition_dbl_a_multi import (
+    BdAnyConditionDblAMulti,
+)
 from .operator.node.dg.bd_any_condition_dbl_l import BdAnyConditionDblL
 from .operator.node.dg.bd_any_condition_dbl_l_multi import (
     BdAnyConditionDblLMulti,
 )
 from .operator.node.dg.bd_any_condition_dbl_multi import BdAnyConditionDblMulti
+from .operator.node.dg.bd_condition_dbl_a_case_compose import (
+    BdConditionDblACaseCompose,
+)
+from .operator.node.dg.bd_condition_dbl_a_extra_compose import (
+    BdConditionDblAExtraCompose,
+)
 from .operator.node.dg.bd_condition_dbl_case_compose import (
     BdConditionDblCaseCompose,
 )
@@ -389,10 +399,13 @@ from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
 from .operator.node.dg.bd_dbl_a_abs import BdDblAAbs
 from .operator.node.dg.bd_dbl_a_add import BdDblAAdd
 from .operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from .operator.node.dg.bd_dbl_a_average import BdDblAAverage
+from .operator.node.dg.bd_dbl_a_average_multi import BdDblAAverageMulti
 from .operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
 from .operator.node.dg.bd_dbl_a_divide import BdDblADivide
 from .operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
 from .operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from .operator.node.dg.bd_dbl_a_lerp_shortest import BdDblALerpShortest
 from .operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
 from .operator.node.dg.bd_dbl_a_max import BdDblAMax
 from .operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
@@ -401,9 +414,17 @@ from .operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
 from .operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
 from .operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
 from .operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from .operator.node.dg.bd_dbl_a_shortest_delta import BdDblAShortestDelta
 from .operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
 from .operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
 from .operator.node.dg.bd_dbl_a_value import BdDblAValue
+from .operator.node.dg.bd_dbl_a_weighted_average_multi import (
+    BdDblAWeightedAverageMulti,
+)
+from .operator.node.dg.bd_dbl_a_weighted_sum_multi import (
+    BdDblAWeightedSumMulti,
+)
+from .operator.node.dg.bd_dbl_a_wrap import BdDblAWrap
 from .operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
 from .operator.node.dg.bd_dbl_l3_add import BdDblL3Add
 from .operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
@@ -476,6 +497,7 @@ from .operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
 from .operator.node.dg.bd_dbl_negate import BdDblNegate
 from .operator.node.dg.bd_dbl_power import BdDblPower
 from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from .operator.node.dg.bd_dbl_ratio_dbl_a import BdDblRatioDblA
 from .operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
 from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
@@ -2981,6 +3003,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdAnyConditionDbl: ...
     @staticmethod
+    def bdAny_ConditionDblA(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblA: ...
+    @staticmethod
+    def bdAny_ConditionDblAMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdAnyConditionDblAMulti: ...
+    @staticmethod
     def bdAny_ConditionDblL(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -2998,6 +3032,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdAnyConditionDblMulti: ...
+    @staticmethod
+    def bdConditionDblACase_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblACaseCompose: ...
+    @staticmethod
+    def bdConditionDblAExtra_Compose(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdConditionDblAExtraCompose: ...
     @staticmethod
     def bdConditionDblCase_Compose(
         node: str | om.MObject,
@@ -3191,6 +3237,18 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblAAddMulti: ...
     @staticmethod
+    def bdDblA_Average(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAverage: ...
+    @staticmethod
+    def bdDblA_AverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAverageMulti: ...
+    @staticmethod
     def bdDblA_Clamp(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3214,6 +3272,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblALerp: ...
+    @staticmethod
+    def bdDblA_LerpShortest(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblALerpShortest: ...
     @staticmethod
     def bdDblA_MapRange(
         node: str | om.MObject,
@@ -3263,6 +3327,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblANegate: ...
     @staticmethod
+    def bdDblA_ShortestDelta(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAShortestDelta: ...
+    @staticmethod
     def bdDblA_Subtract(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3280,6 +3350,24 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblAValue: ...
+    @staticmethod
+    def bdDblA_WeightedAverageMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWeightedAverageMulti: ...
+    @staticmethod
+    def bdDblA_WeightedSumMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWeightedSumMulti: ...
+    @staticmethod
+    def bdDblA_Wrap(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAWrap: ...
     @staticmethod
     def bdDblL3_Abs(
         node: str | om.MObject,
@@ -3664,6 +3752,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblPowerMulti: ...
+    @staticmethod
+    def bdDbl_RatioDblA(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblRatioDblA: ...
     @staticmethod
     def bdDbl_RatioDblL(
         node: str | om.MObject,

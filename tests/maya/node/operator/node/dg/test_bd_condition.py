@@ -26,6 +26,8 @@ NODE_TYPE_IDS = {
     "bdAny_ConditionDblMulti": 0x0007F02D,
     "bdAny_ConditionDblL": 0x0007F059,
     "bdAny_ConditionDblLMulti": 0x0007F05A,
+    "bdAny_ConditionDblA": 0x0007F084,
+    "bdAny_ConditionDblAMulti": 0x0007F085,
 }
 
 REMOVED_NODE_TYPES = {
@@ -88,6 +90,12 @@ def test_class_attributes_and_operation_enum(maya_cmds):
     from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_l import (
         BdAnyConditionDblL,
     )
+    from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_a import (
+        BdAnyConditionDblA,
+    )
+    from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_a_multi import (
+        BdAnyConditionDblAMulti,
+    )
     from bd_util.maya.node.operator.node.dg.bd_any_condition_dbl_l_multi import (
         BdAnyConditionDblLMulti,
     )
@@ -139,6 +147,19 @@ def test_class_attributes_and_operation_enum(maya_cmds):
     )
     assert isinstance(BdAnyConditionDblLMulti.case.value, TypedAttrOperator)
 
+    assert BdAnyConditionDblA.NODE_TYPE == "bdAny_ConditionDblA"
+    assert BdAnyConditionDblA.input.ATTR_TYPE == "doubleAngle"
+    assert BdAnyConditionDblA.compare.ATTR_TYPE == "doubleAngle"
+    assert BdAnyConditionDblA.extra.compareValue.ATTR_TYPE == "doubleAngle"
+
+    assert BdAnyConditionDblAMulti.NODE_TYPE == "bdAny_ConditionDblAMulti"
+    assert BdAnyConditionDblAMulti.case.compare.ATTR_TYPE == "doubleAngle"
+    assert (
+        BdAnyConditionDblAMulti.case.extra.compareValue.ATTR_TYPE
+        == "doubleAngle"
+    )
+    assert isinstance(BdAnyConditionDblAMulti.case.value, TypedAttrOperator)
+
 
 @pytest.mark.parametrize("node_type", sorted(NODE_TYPE_IDS))
 def test_type_ids_attribute_types_and_removed_nodes(
@@ -157,8 +178,17 @@ def test_type_ids_attribute_types_and_removed_nodes(
         == NODE_TYPE_IDS[node_type]
     )
 
-    comparison_type = (
-        "doubleLinear" if "ConditionDblL" in node_type else "double"
+    comparison_type = {
+        "ConditionDblL": "doubleLinear",
+        "ConditionDblA": "doubleAngle",
+    }
+    comparison_type = next(
+        (
+            attribute_type
+            for marker, attribute_type in comparison_type.items()
+            if marker in node_type
+        ),
+        "double",
     )
     assert maya_cmds.getAttr(f"{node}.input", type=True) == comparison_type
     compare_plug = (
@@ -201,7 +231,11 @@ def test_type_ids_attribute_types_and_removed_nodes(
 
 @pytest.mark.parametrize(
     "node_type",
-    ("bdAny_ConditionDbl", "bdAny_ConditionDblL"),
+    (
+        "bdAny_ConditionDbl",
+        "bdAny_ConditionDblL",
+        "bdAny_ConditionDblA",
+    ),
 )
 @pytest.mark.parametrize(
     ("operation", "input_value", "compare_value", "false_input"),
@@ -235,7 +269,11 @@ def test_single_supports_all_comparison_operations(
 
 @pytest.mark.parametrize(
     "node_type",
-    ("bdAny_ConditionDbl", "bdAny_ConditionDblL"),
+    (
+        "bdAny_ConditionDbl",
+        "bdAny_ConditionDblL",
+        "bdAny_ConditionDblA",
+    ),
 )
 def test_single_extra_folds_by_logical_index_and_preserves_empty_behavior(
     maya_cmds,
@@ -319,6 +357,30 @@ def test_linear_comparison_preserves_angle_payload(maya_cmds):
     assert maya_cmds.getAttr(output) == pytest.approx(30.0)
 
 
+def test_angle_condition_compares_raw_continuous_values(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        true_value = _create_numeric_plug(maya_cmds, 1.0)
+        false_value = _create_numeric_plug(maya_cmds, -1.0)
+        output = _create_numeric_plug(maya_cmds, 0.0)
+        node = maya_cmds.createNode("bdAny_ConditionDblA")
+        maya_cmds.connectAttr(true_value, f"{node}.trueValue")
+        maya_cmds.connectAttr(false_value, f"{node}.falseValue")
+        maya_cmds.connectAttr(f"{node}.output", output)
+        maya_cmds.setAttr(f"{node}.operation", 0)
+        maya_cmds.setAttr(f"{node}.compare", 10.0)
+
+        maya_cmds.setAttr(f"{node}.input", 370.0)
+        assert maya_cmds.getAttr(output) == pytest.approx(-1.0)
+        maya_cmds.setAttr(f"{node}.input", 10.0)
+        assert maya_cmds.getAttr(output) == pytest.approx(1.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
 def test_single_preserves_matrix_payload(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
 
@@ -347,7 +409,11 @@ def test_single_preserves_matrix_payload(maya_cmds):
 
 @pytest.mark.parametrize(
     "node_type",
-    ("bdAny_ConditionDblMulti", "bdAny_ConditionDblLMulti"),
+    (
+        "bdAny_ConditionDblMulti",
+        "bdAny_ConditionDblLMulti",
+        "bdAny_ConditionDblAMulti",
+    ),
 )
 def test_multi_uses_logical_index_order_and_else_value(maya_cmds, node_type):
     _load_bd_util_nodes(maya_cmds)
@@ -375,7 +441,11 @@ def test_multi_uses_logical_index_order_and_else_value(maya_cmds, node_type):
 
 @pytest.mark.parametrize(
     "node_type",
-    ("bdAny_ConditionDblMulti", "bdAny_ConditionDblLMulti"),
+    (
+        "bdAny_ConditionDblMulti",
+        "bdAny_ConditionDblLMulti",
+        "bdAny_ConditionDblAMulti",
+    ),
 )
 def test_multi_extra_is_evaluated_per_case_in_logical_index_order(
     maya_cmds,

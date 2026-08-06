@@ -1,8 +1,9 @@
 # Weighted Average Nodes
 
 `Weighted Average` familyは、valueごとのscalar weightを合計値で正規化し、
-`double` / `double3` の加重平均を出力します。任意個の入力を同じ構造で扱えるため、
-固定2入力版は設けず `Multi` 版だけを用意します。
+`double` / `double3` / `doubleLinear` / `doubleLinear3` / `doubleAngle` の加重平均を
+出力します。任意個の入力を同じ構造で扱えるため、固定2入力版は設けず `Multi` 版だけを
+用意します。
 
 ## Node Types
 
@@ -10,17 +11,21 @@
 | --- | --- | --- | --- |
 | `bdDbl_WeightedAverageMulti` | `double` | `double` | `double` |
 | `bdDbl3_WeightedAverageMulti` | `double3` | `double` | `double3` |
+| `bdDblL_WeightedAverageMulti` | `doubleLinear` | `double` | `doubleLinear` |
+| `bdDblL3_WeightedAverageMulti` | `doubleLinear3` | `double` | `doubleLinear3` |
+| `bdDblA_WeightedAverageMulti` | `doubleAngle` | `double` | `doubleAngle` |
 
 `double3`版では、1つのscalar weightをXYZの各成分へ適用します。
+`doubleAngle`版ではvalueを連続角度として扱い、暗黙にwrapしません。
 
 ## Attributes
 
 | Attribute | Short | 型 | Default | 用途 |
 | --- | --- | --- | --- | --- |
 | `input[]` | `i[]` | compound multi | empty | value / weightの入力配列 |
-| `input[].value` | `v` | `double` / `double3` | zero | 加重する値 |
+| `input[].value` | `v` | familyのvalue型 | zero | 加重する値 |
 | `input[].weight` | `w` | `double` | `0` | valueへ掛けるweight |
-| `output` | `o` | `double` / `double3` | zero | 正規化した加重平均 |
+| `output` | `o` | valueと同じ | zero | 正規化した加重平均 |
 
 weightのdefaultは`0`です。作成しただけの要素は平均へ影響せず、weightを明示した
 要素だけが有効になります。weightへmin / max制限は設けず、負のweightによる外挿も

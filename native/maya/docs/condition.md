@@ -13,6 +13,8 @@ typed-any attributeを使用します。基本条件へ`extra[]`を`And` / `Or`�
 | `bdAny_ConditionDblMulti` | 0以上 | scalar `double` | typed-any |
 | `bdAny_ConditionDblL` | 1 | scalar `doubleLinear` | typed-any |
 | `bdAny_ConditionDblLMulti` | 0以上 | scalar `doubleLinear` | typed-any |
+| `bdAny_ConditionDblA` | 1 | scalar `doubleAngle` | typed-any |
+| `bdAny_ConditionDblAMulti` | 0以上 | scalar `doubleAngle` | typed-any |
 
 node type名は次の要素で構成します。
 
@@ -24,8 +26,8 @@ bdAny_ConditionDblLMulti
   Multi     複数条件版
 ```
 
-比較型は`input`と`compare`の両方に適用します。将来`doubleAngle`版を追加する場合も、
-同じ方針で両方を`doubleAngle`にします。
+比較型は`input`と`compare`の両方に適用します。`doubleAngle`版では追加条件の
+`compareValue`も含め、すべて`doubleAngle`に統一します。
 
 ## Typed-any Payload
 
@@ -63,6 +65,10 @@ trueになり、それ以外はfalseになります。無限値は通常の大�
 `doubleLinear`比較はMaya内部のdistance値で行います。`input`と`compare`が同じ
 unit attributeなので、表示単位を変更しても比較する距離の意味は維持されます。
 
+`doubleAngle`比較はMaya内部のradian値で行いますが、両方が同じangle attributeなので
+表示単位を変更しても角度の意味は維持されます。値は連続角度として比較し、`370 deg`と
+`10 deg`を等価とはみなしません。周期比較が必要な場合は前段で明示的にwrapします。
+
 ## Extra Conditions
 
 追加条件は次のcompound arrayです。
@@ -72,7 +78,7 @@ unit attributeなので、表示単位を変更しても比較する距離の意
 | `extra[]` | `ex[]` | compound multi | empty | 追加条件 |
 | `extra[].logic` | `lgc` | enum | And | 直前までの結果との結合方法 |
 | `extra[].comparison` | `cpr` | enum | Equal | 追加の比較演算 |
-| `extra[].compareValue` | `cv` | `double` / `doubleLinear` | `0` | 追加の比較対象値 |
+| `extra[].compareValue` | `cv` | `double` / `doubleLinear` / `doubleAngle` | `0` | 追加の比較対象値 |
 
 `logic`は`And = 0`、`Or = 1`です。`comparison`は基本条件の`operation`と同じ
 6種類の比較演算を使用します。`compareValue`はnode typeで指定された比較型に従います。
@@ -98,15 +104,17 @@ for extra_condition in extras_in_logical_index_order:
 ## Compose Nodes
 
 Conditionのcompound elementを1つのnodeで設定し、親plugを1本接続するためのnodeです。
-役割はExtraとCaseの2種類で、比較値のunit attributeを維持するため`double`版と
-`doubleLinear`版を分けます。
+役割はExtraとCaseの2種類で、比較値のunit attributeを維持するため`double`版、
+`doubleLinear`版、`doubleAngle`版を分けます。
 
 | Node type | 出力するelement | 比較型 |
 | --- | --- | --- |
 | `bdConditionDblExtra_Compose` | `extra[index]` | `double` |
 | `bdConditionDblLExtra_Compose` | `extra[index]` | `doubleLinear` |
+| `bdConditionDblAExtra_Compose` | `extra[index]` | `doubleAngle` |
 | `bdConditionDblCase_Compose` | `case[index]` | `double` |
 | `bdConditionDblLCase_Compose` | `case[index]` | `doubleLinear` |
+| `bdConditionDblACase_Compose` | `case[index]` | `doubleAngle` |
 
 1つのCompose nodeは1つのarray elementを担当します。配列全体は保持せず、必要な数だけ
 nodeを作成して任意のlogical indexへ接続します。
@@ -123,7 +131,7 @@ Case Compose.output  -> Multi Condition.case[index]
 | --- | --- | --- | --- | --- |
 | `logic` | `lgc` | enum | And | 直前までの結果との結合方法 |
 | `comparison` | `cpr` | enum | Equal | 比較演算 |
-| `compareValue` | `cv` | `double` / `doubleLinear` | `0` | 比較対象値 |
+| `compareValue` | `cv` | `double` / `doubleLinear` / `doubleAngle` | `0` | 比較対象値 |
 | `output` | `o` | compound | - | `extra[index]`へ接続する読み取り専用出力 |
 
 `output`の子は`outputLogic`、`outputComparison`、`outputCompareValue`です。
@@ -135,7 +143,7 @@ Case Compose.output  -> Multi Condition.case[index]
 | Attribute | Short | 型 | Default | 用途 |
 | --- | --- | --- | --- | --- |
 | `operation` | `op` | enum | Equal | caseの基本比較演算 |
-| `compare` | `cmp` | `double` / `doubleLinear` | `0` | caseの基本比較対象値 |
+| `compare` | `cmp` | `double` / `doubleLinear` / `doubleAngle` | `0` | caseの基本比較対象値 |
 | `extra[]` | `ex[]` | compound multi | empty | Extra Composeの`output`を受け取る追加条件 |
 | `value` | `v` | typed-any | null | case成立時の接続値 |
 | `output` | `o` | compound | - | `case[index]`へ接続する読み取り専用出力 |
@@ -182,9 +190,9 @@ mod.do_it_dg()
 
 | Attribute | Short | 型 | Default | 用途 |
 | --- | --- | --- | --- | --- |
-| `input` | `i` | `double` / `doubleLinear` | `0` | 比較する入力値 |
+| `input` | `i` | `double` / `doubleLinear` / `doubleAngle` | `0` | 比較する入力値 |
 | `operation` | `op` | enum | Equal | 比較演算 |
-| `compare` | `cmp` | `double` / `doubleLinear` | `0` | 比較対象値 |
+| `compare` | `cmp` | `double` / `doubleLinear` / `doubleAngle` | `0` | 比較対象値 |
 | `extra[]` | `ex[]` | compound multi | empty | 基本条件へ結合する追加条件 |
 | `trueValue` | `tv` | typed-any | null | 条件成立時の接続値 |
 | `falseValue` | `fv` | typed-any | null | 条件不成立時の接続値 |

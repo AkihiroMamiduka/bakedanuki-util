@@ -6,8 +6,12 @@
 
 #include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
+#include "bdUtilNodes/nodes/BdAnyConditionDblANode.h"
+#include "bdUtilNodes/nodes/BdAnyConditionDblAMultiNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblMultiNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblACaseComposeNode.h"
+#include "bdUtilNodes/nodes/BdConditionDblAExtraComposeNode.h"
 #include "bdUtilNodes/nodes/BdConditionDblCaseComposeNode.h"
 #include "bdUtilNodes/nodes/BdConditionDblExtraComposeNode.h"
 #include "bdUtilNodes/nodes/BdConditionDblLCaseComposeNode.h"
@@ -111,6 +115,8 @@
 #include "bdUtilNodes/nodes/BdDblAValueNode.h"
 #include "bdUtilNodes/nodes/BdDblAAddNode.h"
 #include "bdUtilNodes/nodes/BdDblAAddMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAAverageNode.h"
+#include "bdUtilNodes/nodes/BdDblAAverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblASubtractNode.h"
 #include "bdUtilNodes/nodes/BdDblASubtractMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblANegateNode.h"
@@ -122,10 +128,16 @@
 #include "bdUtilNodes/nodes/BdDblAClampNode.h"
 #include "bdUtilNodes/nodes/BdDblAMapRangeNode.h"
 #include "bdUtilNodes/nodes/BdDblALerpNode.h"
+#include "bdUtilNodes/nodes/BdDblALerpShortestNode.h"
 #include "bdUtilNodes/nodes/BdDblAMinNode.h"
 #include "bdUtilNodes/nodes/BdDblAMinMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAMaxNode.h"
 #include "bdUtilNodes/nodes/BdDblAMaxMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAShortestDeltaNode.h"
+#include "bdUtilNodes/nodes/BdDblAWeightedAverageMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAWeightedSumMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAWrapNode.h"
+#include "bdUtilNodes/nodes/BdDblRatioDblANode.h"
 
 namespace {
 
@@ -136,8 +148,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 121>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 121> registrations = {{
+const std::array<NodeRegistration, 133>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 133> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -863,6 +875,78 @@ const std::array<NodeRegistration, 121>& nodeRegistrations() {
             BdDblAMaxMultiNode::typeId,
             BdDblAMaxMultiNode::creator,
             BdDblAMaxMultiNode::initialize,
+        },
+        {
+            BdDblAAverageNode::typeName,
+            BdDblAAverageNode::typeId,
+            BdDblAAverageNode::creator,
+            BdDblAAverageNode::initialize,
+        },
+        {
+            BdDblAAverageMultiNode::typeName,
+            BdDblAAverageMultiNode::typeId,
+            BdDblAAverageMultiNode::creator,
+            BdDblAAverageMultiNode::initialize,
+        },
+        {
+            BdDblAWeightedSumMultiNode::typeName,
+            BdDblAWeightedSumMultiNode::typeId,
+            BdDblAWeightedSumMultiNode::creator,
+            BdDblAWeightedSumMultiNode::initialize,
+        },
+        {
+            BdDblAWeightedAverageMultiNode::typeName,
+            BdDblAWeightedAverageMultiNode::typeId,
+            BdDblAWeightedAverageMultiNode::creator,
+            BdDblAWeightedAverageMultiNode::initialize,
+        },
+        {
+            BdDblAWrapNode::typeName,
+            BdDblAWrapNode::typeId,
+            BdDblAWrapNode::creator,
+            BdDblAWrapNode::initialize,
+        },
+        {
+            BdDblAShortestDeltaNode::typeName,
+            BdDblAShortestDeltaNode::typeId,
+            BdDblAShortestDeltaNode::creator,
+            BdDblAShortestDeltaNode::initialize,
+        },
+        {
+            BdDblALerpShortestNode::typeName,
+            BdDblALerpShortestNode::typeId,
+            BdDblALerpShortestNode::creator,
+            BdDblALerpShortestNode::initialize,
+        },
+        {
+            BdDblRatioDblANode::typeName,
+            BdDblRatioDblANode::typeId,
+            BdDblRatioDblANode::creator,
+            BdDblRatioDblANode::initialize,
+        },
+        {
+            BdAnyConditionDblANode::typeName,
+            BdAnyConditionDblANode::typeId,
+            BdAnyConditionDblANode::creator,
+            BdAnyConditionDblANode::initialize,
+        },
+        {
+            BdAnyConditionDblAMultiNode::typeName,
+            BdAnyConditionDblAMultiNode::typeId,
+            BdAnyConditionDblAMultiNode::creator,
+            BdAnyConditionDblAMultiNode::initialize,
+        },
+        {
+            BdConditionDblAExtraComposeNode::typeName,
+            BdConditionDblAExtraComposeNode::typeId,
+            BdConditionDblAExtraComposeNode::creator,
+            BdConditionDblAExtraComposeNode::initialize,
+        },
+        {
+            BdConditionDblACaseComposeNode::typeName,
+            BdConditionDblACaseComposeNode::typeId,
+            BdConditionDblACaseComposeNode::creator,
+            BdConditionDblACaseComposeNode::initialize,
         },
     }};
     return registrations;

@@ -12,7 +12,7 @@ Python 側の API・生成器に関する計画は、既存の
 `doubleLinear` / `doubleLinear3`への展開は
 [Double Linear Node Expansion](double-linear-nodes.md)で管理します。
 
-scalar `doubleAngle`の現行仕様は[Double Angle Nodes](double-angle-nodes.md)、次期実装計画は
+scalar `doubleAngle`の現行仕様は[Double Angle Nodes](double-angle-nodes.md)、完了済みの実装記録は
 [Double Angle Node Roadmap](double-angle-roadmap.md)で管理します。
 
 ## Implementation Order
@@ -56,13 +56,11 @@ scalar `doubleAngle`の現行仕様は[Double Angle Nodes](double-angle-nodes.md
 `doubleAngle`のtype codeは`DblA`とします。3軸orientationはQuaternionまたはrotate
 orderを持つEuler rotationとして扱うため、`DblA3` familyと`DblA3_Value`は作りません。
 
-初回scopeとして、Value、Add / Subtract、Negate / Abs、dimensionless factorによる
-Multiply / Divide、Clamp、Map Range、Lerp、Min / Maxのscalar 18 nodeを実装済みです。
-通常演算はangleを正規化せず、複数回転を保持する連続値として扱います。
+Value、通常のscalar演算、Average系、Wrap / ShortestDelta / LerpShortest、angle比率、
+Condition / Composeを合わせた30 nodeを実装済みです。通常演算はangleを正規化せず、
+複数回転を保持する連続値として扱います。周期演算だけをangle固有nodeとして明示します。
 
-次期scopeはAverage系4種、Wrap / ShortestDelta / LerpShortest、angle比率、Condition
-展開の順に実装します。周期演算は通常演算へ暗黙に混ぜず、angle固有nodeとして明示します。
-default、出力範囲、正規化方針、保留・対象外候補は
+実装済みdefault、出力範囲、正規化方針、保留・対象外候補は
 [Double Angle Node Roadmap](double-angle-roadmap.md)を参照してください。
 
 ## Family Policy
