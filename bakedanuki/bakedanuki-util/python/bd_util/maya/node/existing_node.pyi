@@ -429,6 +429,7 @@ from .operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
 from .operator.node.dg.bd_dbl_l_multiply import BdDblLMultiply
 from .operator.node.dg.bd_dbl_l_multiply_multi import BdDblLMultiplyMulti
 from .operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from .operator.node.dg.bd_dbl_l_right_triangle import BdDblLRightTriangle
 from .operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
 from .operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
 from .operator.node.dg.bd_dbl_l_value import BdDblLValue
@@ -3387,6 +3388,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblLNegate: ...
+    @staticmethod
+    def bdDblL_RightTriangle(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblLRightTriangle: ...
     @staticmethod
     def bdDblL_Subtract(
         node: str | om.MObject,

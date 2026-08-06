@@ -305,6 +305,9 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_ratio_dbl_l3 import (
 from bd_util.maya.node.operator.node.dg.bd_dbl_ratio_dbl_l import (
     BdDblRatioDblL,
 )
+from bd_util.maya.node.operator.node.dg.bd_dbl_l_right_triangle import (
+    BdDblLRightTriangle,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide import BdDblLDivide
 from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide_multi import (
     BdDblLDivideMulti,
@@ -409,6 +412,10 @@ from bd_util.maya.node.operator.node.dg._generated.bd_any_condition_dbl import (
 from bd_util.maya.node.operator.node.dg._generated.bd_any_condition_dbl_l import (
     OperationEnumAttrOperator as AnyConditionDblLOperationAttrOperator,
     OperationEnumPlugOperator as AnyConditionDblLOperationPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_dbl_l_right_triangle import (
+    SolveForEnumAttrOperator,
+    SolveForEnumPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_map_range import BdDblMapRange
 from bd_util.maya.node.operator.node.dg.bd_dbl_divide import (
@@ -1814,6 +1821,27 @@ def double_linear_ratio_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdDbl3_RatioDblL3("existing_vector_ratio"),
         BdDbl3RatioDblL3,
+    )
+
+
+def double_linear_right_triangle_contract(nodes: bdu.Nodes) -> None:
+    node = nodes.create.bdDblL_RightTriangle(name="right_triangle")
+    assert_type(node, BdDblLRightTriangle)
+    assert_type(
+        BdDblLRightTriangle.solveFor,
+        SolveForEnumAttrOperator,
+    )
+    assert_type(node.solveFor, SolveForEnumPlugOperator)
+    assert_type(node.legA, double_linear.DoubleLinearPlugOperator)
+    assert_type(node.legB, double_linear.DoubleLinearPlugOperator)
+    assert_type(node.hypotenuse, double_linear.DoubleLinearPlugOperator)
+    assert_type(node.output, double_linear.DoubleLinearPlugOperator)
+    assert_type(node.output.get(), float)
+    assert_type(node.isValid, BoolPlugOperator)
+    assert_type(node.isValid.get(), bool)
+    assert_type(
+        nodes.existing.bdDblL_RightTriangle("existing_right_triangle"),
+        BdDblLRightTriangle,
     )
 
 

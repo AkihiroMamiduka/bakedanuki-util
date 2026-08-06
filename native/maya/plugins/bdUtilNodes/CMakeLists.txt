@@ -97,6 +97,7 @@ add_library(
     src/nodes/BdDblL3DivideMultiNode.cpp
     src/nodes/BdDblRatioDblLNode.cpp
     src/nodes/BdDbl3RatioDblL3Node.cpp
+    src/nodes/BdDblLRightTriangleNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/nodes/BdConditionDblExtraComposeNode.cpp

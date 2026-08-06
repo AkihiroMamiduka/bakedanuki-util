@@ -107,6 +107,7 @@
 #include "bdUtilNodes/nodes/BdDblL3DivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblRatioDblLNode.h"
 #include "bdUtilNodes/nodes/BdDbl3RatioDblL3Node.h"
+#include "bdUtilNodes/nodes/BdDblLRightTriangleNode.h"
 
 namespace {
 
@@ -117,8 +118,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 102>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 102> registrations = {{
+const std::array<NodeRegistration, 103>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 103> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -730,6 +731,12 @@ const std::array<NodeRegistration, 102>& nodeRegistrations() {
             BdDbl3RatioDblL3Node::typeId,
             BdDbl3RatioDblL3Node::creator,
             BdDbl3RatioDblL3Node::initialize,
+        },
+        {
+            BdDblLRightTriangleNode::typeName,
+            BdDblLRightTriangleNode::typeId,
+            BdDblLRightTriangleNode::creator,
+            BdDblLRightTriangleNode::initialize,
         },
     }};
     return registrations;

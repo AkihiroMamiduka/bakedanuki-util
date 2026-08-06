@@ -1147,6 +1147,7 @@ from ..operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
 from ..operator.node.dg.bd_dbl_l_multiply import BdDblLMultiply
 from ..operator.node.dg.bd_dbl_l_multiply_multi import BdDblLMultiplyMulti
 from ..operator.node.dg.bd_dbl_l_negate import BdDblLNegate
+from ..operator.node.dg.bd_dbl_l_right_triangle import BdDblLRightTriangle
 from ..operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
 from ..operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
 from ..operator.node.dg.bd_dbl_l_value import BdDblLValue
@@ -2582,6 +2583,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblLNegate: ...
+    def bdDblL_RightTriangle(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLRightTriangle: ...
     def bdDblL_Subtract(
         self,
         name: str | None = None,

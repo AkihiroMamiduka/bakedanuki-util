@@ -1,12 +1,13 @@
 # Double Linear Node Expansion
 
 `bdUtilNodes`の`double` / `double3`数値演算node familyを、Mayaのlinear unit
-attributeへ展開するための設計方針です。
+attributeへ展開した設計・実装記録です。
 
 距離を保つ18種の`DblL` / `DblL3` node、scalar `doubleLinear`を比較する
 typed-any Condition 2種、linear valueとdimensionless factorを扱うMultiply / Divide
-8種、距離同士からdimensionless比率を求めるRatio 2種は実装済みです。Power familyは
-具体的用途が得られるまで保留します。
+8種、距離同士からdimensionless比率を求めるRatio 2種、Right Triangle 1種、
+Condition用Compose 2種を実装済みです。関連node typeは合計51種です。Power familyは
+距離を出力する演算として単位が成立しないため、完了対象から明示的に除外しています。
 
 ## Goals
 
@@ -42,6 +43,10 @@ C++では3つの子を`MFnUnitAttribute::kDistance`で作成し、それらを
 `MFnNumericAttribute::create()`へ渡して親compoundを作成します。
 
 Python側では、この組み合わせは既に`DoubleLinear3AttrOperator`へ解決されます。
+
+`doubleLinear`はMayaの距離単位を持つattribute型であり、非負値だけを許可する
+「長さ型」ではありません。Add、Subtract、Negateなどは符号をそのまま扱います。
+幾何学的な辺長を扱うRight Triangleだけが、入力を絶対値へ正規化します。
 
 ## Node Type Naming
 
@@ -89,21 +94,31 @@ bdAny_Condition<ComparisonType><Variant>
 
 例: `bdAny_ConditionDblL`、`bdAny_ConditionDblLMulti`
 
-## Existing Family Inventory
+出力型と入力型が異なるRatioは、出力型を先頭に置き、入力型をoperation名の後ろへ
+置きます。`bdDbl_RatioDblL`は`doubleLinear`同士から`double`を、
+`bdDbl3_RatioDblL3`は`doubleLinear3`同士から`double3`を出力します。
 
-Conditionを出力型ごとのfamilyから分離したため、`double` / `double3`から
-`DblL` / `DblL3`へ機械的に展開する候補は、各24種です。Conditionは比較型ごとに
-typed-any値を扱う独立familyとして数えます。
+Condition用ComposeはConditionとの対応を優先して
+`bdConditionDblLExtra_Compose` / `bdConditionDblLCase_Compose`とします。
+Right Triangleは入出力がscalar `doubleLinear`なので通常規則どおり
+`bdDblL_RightTriangle`とします。
 
-展開判断は次の3段階に分けます。
+## Final Implementation Inventory
 
-| Decision | Variants per type code | New node types | Status |
-| --- | ---: | ---: | --- |
-| 距離を保つため、そのまま展開する | 18 | 36 | 実装済み |
-| scalar `doubleLinear`比較のtyped-any Condition | - | 2 | 実装済み |
-| mixed-type Multiply / Divide | 4 | 8 | 実装済み |
-| distance Ratio | 1 | 2 | 実装済み |
-| Power / PowerMulti | 2 | 4 | 保留 |
+当初の機械的な展開候補を、単位を保つ演算、mixed-type演算、比較型を表すCondition、
+用途固有nodeへ分類した最終結果です。Conditionはtyped-any payloadの出力型ではなく、
+比較型ごとの独立familyとして数えます。
+
+| Category | Variants / node types | Node count | Status |
+| --- | --- | ---: | --- |
+| 距離を保つscalar / 3成分演算 | 18 variants x 2 type codes | 36 | 実装済み |
+| scalar `doubleLinear`比較のtyped-any Condition | Single / Multi | 2 | 実装済み |
+| Condition compound Compose | Extra / Case | 2 | 実装済み |
+| mixed-type Multiply / Divide | scalar / 3成分、固定 / Multi | 8 | 実装済み |
+| distance Ratio | scalar / 3成分 | 2 | 実装済み |
+| Right Triangle | scalar | 1 | 実装済み |
+| **実装済み合計** |  | **51** | **完了** |
+| Power / PowerMulti | scalar / 3成分、固定 / Multi | 4 | 完了対象外 |
 
 ## Directly Expandable Nodes
 
@@ -243,7 +258,32 @@ ratioは`currentUnit(linear=...)`の影響を受けません。
 Multi版は作りません。3つ以上の距離を連続除算すると、結果がdimensionlessな単純比率を
 保たないためです。複数の比率が必要な場合は、Ratio nodeを必要な数だけ使用します。
 
-## Remaining Node Requiring Redesign
+## Right Triangle Node
+
+`bdDblL_RightTriangle`は、直角三角形の既知の2辺から残りの1辺を求めます。
+すべての辺と`output`は`doubleLinear`、計算対象を指定する`solveFor`はenum、
+計算成立状態を返す`isValid`はbool outputです。
+
+| `solveFor` | 使用する入力 | 計算 |
+| --- | --- | --- |
+| `Hypotenuse` (default) | `legA`, `legB` | `sqrt(legA^2 + legB^2)` |
+| `LegA` | `hypotenuse`, `legB` | `sqrt(hypotenuse^2 - legB^2)` |
+| `LegB` | `hypotenuse`, `legA` | `sqrt(hypotenuse^2 - legA^2)` |
+
+`legA`、`legB`、`hypotenuse`、`output`のdefaultはzeroです。辺は方向を持たない長さとして
+扱うため、負の入力は絶対値へ正規化します。斜辺を求める計算には`std::hypot()`を使い、
+逆算には中間値の二乗と加算によるoverflowを避ける等価式を使用します。
+
+逆算で`abs(hypotenuse) < abs(knownLeg)`の場合は成立しません。また、いずれのmodeでも
+有限でない入力がある場合や有限な結果を表現できない場合は、後続DGへ`NaN`や無限値を
+流さないため`output = 0`、`isValid = false`とします。斜辺と既知の脚が等しい場合は、
+残る脚がzeroになる実数計算上の境界値として`output = 0`、`isValid = true`です。
+
+1 nodeが1つの明確な幾何学的関係を表すため、Multi版と3成分版は作りません。
+入力と出力はMaya内部のcentimeter値で一貫して計算され、表示距離単位を変更しても
+物理的な結果は変わりません。
+
+## Deliberately Deferred Node
 
 ### Power
 
@@ -254,18 +294,16 @@ Multi版は作りません。3つ以上の距離を連続除算すると、結�
 `Power` / `PowerMulti`は初回のlinear unit展開から外します。具体的なリグ用途と、
 内部centimeter基準の数値演算であることを正当化できた場合だけ再検討します。
 
-## C++ Attribute Implementation Direction
+## C++ Attribute Implementation
 
 既存の`NumericAttribute` / `Double3Attribute` helperは`MFnNumericData::kDouble`を
-作成します。linear unit版では、責務を混在させず専用helperを追加する方向とします。
+作成します。linear unit版は責務を混在させず、次の専用helperとして実装しています。
 
-想定する責務です。
-
-- scalar `doubleLinear`を`MFnUnitAttribute::kDistance`で作成する。
-- XYZのunit childとnumeric parentをまとめて作成する。
-- input / outputの標準flagをnumeric attributeとunit attributeの両方へ適用する。
-- default、min / max、soft min / soft maxを`MDistance`として指定できるようにする。
-- compoundの親と子の`MObject`をすべて保持し、dirty伝搬と子plug要求を明示する。
+- `UnitAttribute`はscalar `doubleLinear`を`MFnUnitAttribute::kDistance`で作成し、
+  input / outputの標準flagを設定する。
+- `DoubleLinear3Attribute`は3つのdistance childとnumeric parentをまとめて作成する。
+- min / maxなどnode固有の制約は、必要なattributeを作成したnode側で設定する。
+- compound nodeは親と子の`MObject`をすべて保持し、dirty伝搬と子plug要求を明示する。
 
 実装済みnodeは、scalarで`MDataHandle::asDouble()` / `setDouble()`、compoundで
 `asDouble3()` / `set3Double()`を使用し、Mayaのinternal centimeter値を既存math
@@ -299,8 +337,8 @@ UI表示値を直接計算値として使わず、内部centimeter値を基準�
 ## Python API And Generation
 
 NodeOperatorのattribute解決には、親`double3`、子`doubleLinear`、子数3の組み合わせを
-`DoubleLinear3AttrOperator`へ解決する既存処理があります。実装済みの8 nodeも既存
-generatorでclass / attribute定義を生成し、次を確認しています。
+`DoubleLinear3AttrOperator`へ解決する既存処理があります。実装済みnodeは既存generatorで
+class / attribute定義を生成し、次を確認しています。
 
 - `node.inputX` / `node.outputX`の子plugがlinear operatorとして生成される。
 - 親plugが`DoubleLinear3AttrOperator`として生成される。
@@ -319,16 +357,61 @@ generatorでclass / attribute定義を生成し、次を確認しています。
 4. scalar `doubleLinear`比較とtyped-any選択値を持つ`bdAny_ConditionDblL` /
    `bdAny_ConditionDblLMulti`を実装する。
    - 完了
-5. Multiply / Divideの固定入力版について、mixed-type attribute仕様とdefaultを確定する。
-   - 完了
-6. 実用性を確認してからMultiply / Divideの`Multi`版を判断する。
+5. Conditionの`extra[index]` / `case[index]`を1接続で設定するComposeを実装する。
+   - 完了。`doubleLinear`比較用のExtra / Case 2 nodeを実装
+6. Multiply / Divideのmixed-type attribute仕様とdefaultを確定し、固定版と
+   `Multi`版を実装する。
    - 完了。単一`input`と`factor[]`へ分けた8 nodeを実装
 7. `doubleLinear / doubleLinear -> double`のRatioと3成分版を実装する。
    - 完了。`input / base`の固定入力2 nodeを実装
-8. Power familyは具体的な用途が提示されるまで保留する。
+8. 直角三角形の既知の2辺から残りの1辺を求めるnodeを実装する。
+   - 完了。`bdDblL_RightTriangle`を実装
+9. Power familyは単位が成立しないため、完了対象外として判断理由を記録する。
 
 node typeは実装する単位だけ登録し、未実装分の`MTypeId`を先に消費しません。
 IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
+
+## Completion Boundary
+
+このfamilyは、上記51 node typeとNodeOperator、型情報、テスト、仕様文書の実装をもって
+完了とします。次は未実装ではなく、意図的な境界です。
+
+- Power / PowerMultiは、距離の累乗が通常は距離にならないため完了対象へ含めない。
+- Ratioは距離同士の単純比率だけを表し、連続除算になるMulti版を作らない。
+- Right Triangleは1つの幾何学的関係を表すscalar nodeとし、Multi版と3成分版を作らない。
+- 異なるunit型の間を変換するMap Rangeは、入力domainと出力rangeを名前で表す別familyとする。
+- Conditionのtyped-any plugは接続専用とし、NodeOperatorの値操作APIはこのfamilyで追加しない。
+
+主な自動検証の担当は次のとおりです。
+
+| Scope | Test |
+| --- | --- |
+| 距離を保つ36 node | [test_bd_double_linear.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear.py) |
+| Condition 2 node | [test_bd_condition.py](../../../tests/maya/node/operator/node/dg/test_bd_condition.py) |
+| Compose 2 node | [test_bd_condition_compose.py](../../../tests/maya/node/operator/node/dg/test_bd_condition_compose.py) |
+| Multiply / Divide 8 node | [test_bd_double_linear_factor.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear_factor.py) |
+| Ratio 2 node | [test_bd_ratio.py](../../../tests/maya/node/operator/node/dg/test_bd_ratio.py) |
+| Right Triangle 1 node | [test_bd_right_triangle.py](../../../tests/maya/node/operator/node/dg/test_bd_right_triangle.py) |
+
+## Handoff To Double Angle Development
+
+`doubleAngle` familyで再利用できる実装パターンは多いものの、単純な型置換として開始せず、
+少なくとも次を別途確認します。
+
+- scalarは`MFnUnitAttribute::kAngle`を使用し、内部値がradianであることをdefault、epsilon、
+  テスト期待値へ反映する。
+- 3成分版を作る場合は、親`double3`と3つの`doubleAngle` childという実体をAPIで確認し、
+  project内呼称とtype codeを決める。
+- 値をraw angleとして扱うのか、周期を持つ方向として扱うのかをfamily単位で決める。
+  これはEqual、Min / Max、Clamp、Average、Lerp、Map Rangeへ影響する。
+- `rotate`の3成分をcomponent-wiseに演算するnodeと、Euler rotation / orientationを扱う
+  nodeを混同しない。
+- angleとdimensionless factorのMultiply / Divideは単位を保てるが、angle同士のRatio、
+  wrap / normalize、shortest-path補間は用途を確認してから追加する。
+- Conditionはscalar比較型を`doubleAngle`へ置き換え、typed-any payloadと接続専用方針を
+  維持できる。対応するExtra / Case Composeも比較型ごとに分ける。
+- Right Triangleは距離幾何に固有なので、`doubleAngle`へは展開しない。
+- Powerは`doubleLinear`と同じ理由で機械的に展開しない。
 
 ## Verification Checklist
 
@@ -355,12 +438,16 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 | Scalar type code | `DblL` |
 | Three-component type code | `DblL3` |
 | `doubleLinear3`の意味 | 親`double3`、子`doubleLinear` x 3のcompound |
+| 値の符号 | unit型自体は負値を許可する。Right Triangleだけは辺長として絶対値へ正規化する |
 | 初回展開 | 距離を保つ18種を実装済み |
 | Condition比較型 | scalar `doubleLinear` |
 | Condition選択値 / 出力 | typed-any。同じnode内では接続型を統一する |
 | Condition展開 | `bdAny_ConditionDblL` / `bdAny_ConditionDblLMulti`を実装済み |
+| Condition Compose | Extra / Caseを1 node = 1 elementで構築。比較型ごとに分ける |
 | Multiply | `input: linear`と`factor: double / double3`のmixed-type。固定版 / Multi版を実装済み |
 | Divide | Multiplyと同じ`factor`名を使用し、安全除算する。固定版 / Multi版を実装済み |
 | Multiply / Divide Multi | 単一`input`と`factor[]`。空配列は`input`を返す |
 | Ratio | `input / base`。scalarは`double`、3成分版は`double3`を出力する。Multi版なし |
-| Power family | 具体的用途が得られるまで保留 |
+| Right Triangle | `solveFor`で求める辺を選択し、`isValid`で成立状態を出力。Multi / 3成分版なし |
+| Power family | 単位が成立しないため完了対象外。具体的用途が得られた場合だけ再検討する |
+| Family完了 | 実装済み51 node typeをもって完了 |

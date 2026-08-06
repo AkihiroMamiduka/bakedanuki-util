@@ -11,8 +11,8 @@
 2. [Native Node Roadmap](node-roadmap.md)
    - `double` / `double3` 演算ノードの優先実装候補、family構成、実装前の検討事項
 3. [Double Linear Node Expansion](double-linear-nodes.md)
-   - `doubleLinear` / `doubleLinear3` familyの命名、展開可否、mixed-type演算、
-     実装順と検証条件
+   - 完了した`doubleLinear` / `doubleLinear3`関連51 nodeの命名、演算仕様、
+     完了境界、検証条件、`doubleAngle`開発への引継ぎ事項
 4. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 5. [Average Nodes](average.md)
@@ -53,6 +53,8 @@
   - 単一のlinear `input`をsparse `factor[]`で畳み込む安全除算
 - [BdDblRatioDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblRatioDblLNode.cpp) / [BdDbl3RatioDblL3Node.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3RatioDblL3Node.cpp)
   - `input / base`で距離同士のdimensionless比率を出力するscalar / 3成分実装
+- [BdDblLRightTriangleNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLRightTriangleNode.cpp)
+  - `solveFor`で計算対象を選び、直角三角形の残りの1辺と成立状態を返す実装
 - [TypedAnyAttribute.cpp](../plugins/bdUtilNodes/src/attributes/TypedAnyAttribute.cpp)
   - Mayaの`choice` nodeと同じtyped-any payload / output attributeの作成
 - [BdAnyConditionDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLNode.cpp) / [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
@@ -63,6 +65,8 @@
   - mixed-type Multiply / Divide 8種の型、空factor、epsilon、単位、接続、dirtyのテスト
 - [test_bd_ratio.py](../../../tests/maya/node/operator/node/dg/test_bd_ratio.py)
   - Ratio 2種の型、安全除算、表示単位、translate-to-scale接続、dirtyのテスト
+- [test_bd_right_triangle.py](../../../tests/maya/node/operator/node/dg/test_bd_right_triangle.py)
+  - Right Triangleの3計算モード、無効入力、数値安定性、単位、dirtyのテスト
 - [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
   - 固定2入力の compound attribute と `compute()`
 - [BdDbl3MultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyMultiNode.cpp)

@@ -37,12 +37,16 @@ Python 側の API・生成器に関する計画は、既存の
 | ---: | --- | --- |
 | 1 | Value、Add、Subtract、Average、Min / Maxなど、距離を保つ18種 | 実装済み |
 | 2 | scalar `doubleLinear`で条件を評価し、typed-any値を選択するCondition 2種 | 実装済み |
-| 3 | linear valueとdimensionless factorを扱うMultiply / Divide 8種 | 実装済み |
-| 4 | 距離同士からdimensionless比率を求めるRatio 2種 | 実装済み |
-| 5 | Power / PowerMulti | 具体的用途が得られるまで保留 |
+| 3 | Conditionのcompound elementを構築するCompose 2種 | 実装済み |
+| 4 | linear valueとdimensionless factorを扱うMultiply / Divide 8種 | 実装済み |
+| 5 | 距離同士からdimensionless比率を求めるRatio 2種 | 実装済み |
+| 6 | 直角三角形の任意の1辺を求めるRight Triangle 1種 | 実装済み |
+| 7 | Power / PowerMulti | 単位が成立しないため完了対象外 |
 
 実装対象、attribute型、default、unit固有のテスト条件は
 [Double Linear Node Expansion](double-linear-nodes.md)を参照してください。
+`doubleLinear`関連の実装済みnode typeは合計51種で、このscopeをもってfamily開発を
+完了とします。Powerと用途固有の派生候補は未完了項目として扱いません。
 
 ## Family Policy
 
