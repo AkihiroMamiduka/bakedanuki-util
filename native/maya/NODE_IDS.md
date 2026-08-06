@@ -104,6 +104,8 @@
 | `bdDblL_DivideMulti` | `0x0007F064` | Internal development |
 | `bdDblL3_Divide` | `0x0007F065` | Internal development |
 | `bdDblL3_DivideMulti` | `0x0007F066` | Internal development |
+| `bdDbl_RatioDblL` | `0x0007F067` | Internal development |
+| `bdDbl3_RatioDblL3` | `0x0007F068` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

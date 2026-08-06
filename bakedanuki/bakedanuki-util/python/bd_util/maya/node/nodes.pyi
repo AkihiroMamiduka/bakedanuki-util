@@ -379,6 +379,7 @@ from .operator.node.dg.bd_dbl3_multiply_multi import BdDbl3MultiplyMulti
 from .operator.node.dg.bd_dbl3_negate import BdDbl3Negate
 from .operator.node.dg.bd_dbl3_power import BdDbl3Power
 from .operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
+from .operator.node.dg.bd_dbl3_ratio_dbl_l3 import BdDbl3RatioDblL3
 from .operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
 from .operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
 from .operator.node.dg.bd_dbl3_value import BdDbl3Value
@@ -457,6 +458,7 @@ from .operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
 from .operator.node.dg.bd_dbl_negate import BdDblNegate
 from .operator.node.dg.bd_dbl_power import BdDblPower
 from .operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from .operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
 from .operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from .operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from .operator.node.dg.bd_dbl_value import BdDblValue
@@ -2794,6 +2796,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3PowerMulti: ...
+    def bdDbl3_RatioDblL3(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDbl3RatioDblL3: ...
     def bdDbl3_Subtract(
         self,
         node: str | om.MObject,
@@ -3134,6 +3141,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblPowerMulti: ...
+    def bdDbl_RatioDblL(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblRatioDblL: ...
     def bdDbl_Subtract(
         self,
         node: str | om.MObject,

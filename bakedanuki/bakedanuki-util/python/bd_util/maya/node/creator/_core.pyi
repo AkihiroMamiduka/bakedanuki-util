@@ -305,6 +305,7 @@ from ..operator.node.dg.bd_dbl3_multiply import BdDbl3Multiply
 from ..operator.node.dg.bd_dbl3_multiply_multi import BdDbl3MultiplyMulti
 from ..operator.node.dg.bd_dbl3_power import BdDbl3Power
 from ..operator.node.dg.bd_dbl3_power_multi import BdDbl3PowerMulti
+from ..operator.node.dg.bd_dbl3_ratio_dbl_l3 import BdDbl3RatioDblL3
 from ..operator.node.dg.bd_dbl3_subtract import BdDbl3Subtract
 from ..operator.node.dg.bd_dbl3_subtract_multi import BdDbl3SubtractMulti
 from ..operator.node.dg.bd_dbl3_weighted_average_multi import (
@@ -333,6 +334,7 @@ from ..operator.node.dg.bd_dbl_multiply import BdDblMultiply
 from ..operator.node.dg.bd_dbl_multiply_multi import BdDblMultiplyMulti
 from ..operator.node.dg.bd_dbl_power import BdDblPower
 from ..operator.node.dg.bd_dbl_power_multi import BdDblPowerMulti
+from ..operator.node.dg.bd_dbl_ratio_dbl_l import BdDblRatioDblL
 from ..operator.node.dg.bd_dbl_subtract import BdDblSubtract
 from ..operator.node.dg.bd_dbl_subtract_multi import BdDblSubtractMulti
 from ..operator.node.dg.bd_dbl_weighted_average_multi import (
@@ -2470,6 +2472,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDbl3PowerMulti: ...
+    def bdDbl3_RatioDblL3(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDbl3RatioDblL3: ...
     def bdDbl3_Subtract(
         self,
         name: str | None = None,
@@ -2810,6 +2817,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblPowerMulti: ...
+    def bdDbl_RatioDblL(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblRatioDblL: ...
     def bdDbl_Subtract(
         self,
         name: str | None = None,

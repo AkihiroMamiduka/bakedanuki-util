@@ -51,6 +51,8 @@
   - linear `input`とdimensionless `factor`によるmixed-type乗算
 - [BdDblLDivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLDivideMultiNode.cpp) / [BdDblL3DivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3DivideMultiNode.cpp)
   - 単一のlinear `input`をsparse `factor[]`で畳み込む安全除算
+- [BdDblRatioDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblRatioDblLNode.cpp) / [BdDbl3RatioDblL3Node.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3RatioDblL3Node.cpp)
+  - `input / base`で距離同士のdimensionless比率を出力するscalar / 3成分実装
 - [TypedAnyAttribute.cpp](../plugins/bdUtilNodes/src/attributes/TypedAnyAttribute.cpp)
   - Mayaの`choice` nodeと同じtyped-any payload / output attributeの作成
 - [BdAnyConditionDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLNode.cpp) / [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
@@ -59,6 +61,8 @@
   - 36 node typeの登録、演算、単位切替、translate接続、scene round-tripのテスト
 - [test_bd_double_linear_factor.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear_factor.py)
   - mixed-type Multiply / Divide 8種の型、空factor、epsilon、単位、接続、dirtyのテスト
+- [test_bd_ratio.py](../../../tests/maya/node/operator/node/dg/test_bd_ratio.py)
+  - Ratio 2種の型、安全除算、表示単位、translate-to-scale接続、dirtyのテスト
 - [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
   - 固定2入力の compound attribute と `compute()`
 - [BdDbl3MultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyMultiNode.cpp)

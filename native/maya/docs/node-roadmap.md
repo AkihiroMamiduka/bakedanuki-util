@@ -38,7 +38,8 @@ Python 側の API・生成器に関する計画は、既存の
 | 1 | Value、Add、Subtract、Average、Min / Maxなど、距離を保つ18種 | 実装済み |
 | 2 | scalar `doubleLinear`で条件を評価し、typed-any値を選択するCondition 2種 | 実装済み |
 | 3 | linear valueとdimensionless factorを扱うMultiply / Divide 8種 | 実装済み |
-| 4 | Power / PowerMulti | 具体的用途が得られるまで保留 |
+| 4 | 距離同士からdimensionless比率を求めるRatio 2種 | 実装済み |
+| 5 | Power / PowerMulti | 具体的用途が得られるまで保留 |
 
 実装対象、attribute型、default、unit固有のテスト条件は
 [Double Linear Node Expansion](double-linear-nodes.md)を参照してください。

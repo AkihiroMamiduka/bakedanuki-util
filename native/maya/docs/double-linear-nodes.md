@@ -5,7 +5,8 @@ attributeへ展開するための設計方針です。
 
 距離を保つ18種の`DblL` / `DblL3` node、scalar `doubleLinear`を比較する
 typed-any Condition 2種、linear valueとdimensionless factorを扱うMultiply / Divide
-8種は実装済みです。Power familyは具体的用途が得られるまで保留します。
+8種、距離同士からdimensionless比率を求めるRatio 2種は実装済みです。Power familyは
+具体的用途が得られるまで保留します。
 
 ## Goals
 
@@ -101,6 +102,7 @@ typed-any値を扱う独立familyとして数えます。
 | 距離を保つため、そのまま展開する | 18 | 36 | 実装済み |
 | scalar `doubleLinear`比較のtyped-any Condition | - | 2 | 実装済み |
 | mixed-type Multiply / Divide | 4 | 8 | 実装済み |
+| distance Ratio | 1 | 2 | 実装済み |
 | Power / PowerMulti | 2 | 4 | 保留 |
 
 ## Directly Expandable Nodes
@@ -219,8 +221,27 @@ Multiply / Divideは、距離を表す`input`とdimensionlessな`factor`を分�
 したがって`currentUnit(linear=...)`を変更しても物理的な出力距離は変化しません。
 `translate` / `translateX`を`input`へ、`scale` / `scaleX`を`factor`へ直接接続できます。
 
-距離同士の除算`doubleLinear / doubleLinear -> double`はこのfamilyへ含めません。
-必要になった時点で、出力がratioであることを名前に表す別nodeとして設計します。
+## Ratio Nodes
+
+距離同士の除算は出力が距離ではなくdimensionlessな比率になるため、`DblL` familyの
+Divideではなく、出力型を先頭に表す独立したRatio 2種として実装しています。
+
+| Node type | `input` | `base` | `output` |
+| --- | --- | --- | --- |
+| `bdDbl_RatioDblL` | `doubleLinear` | `doubleLinear` | `double` |
+| `bdDbl3_RatioDblL3` | `doubleLinear3` | `doubleLinear3` | `double3` |
+
+計算は`output = input / base`です。`base`は基準距離を表し、MayaのファイルReferenceとの
+混同を避けるため`reference`は使用しません。3成分版はXYZごとのcomponent-wise比率で、
+ベクトル長同士の比率ではありません。
+
+`input`のdefaultはzero、`base`は`1 cm`、`output`はzeroです。zero付近の`base`には
+既存`SafeDivision.h`の`1.0e-9`を適用します。このepsilonはMaya内部距離単位の
+centimeter値です。入力と基準の物理距離が表示単位とともに同じ倍率で変換されるため、
+ratioは`currentUnit(linear=...)`の影響を受けません。
+
+Multi版は作りません。3つ以上の距離を連続除算すると、結果がdimensionlessな単純比率を
+保たないためです。複数の比率が必要な場合は、Ratio nodeを必要な数だけ使用します。
 
 ## Remaining Node Requiring Redesign
 
@@ -302,7 +323,9 @@ generatorでclass / attribute定義を生成し、次を確認しています。
    - 完了
 6. 実用性を確認してからMultiply / Divideの`Multi`版を判断する。
    - 完了。単一`input`と`factor[]`へ分けた8 nodeを実装
-7. Power familyは具体的な用途が提示されるまで保留する。
+7. `doubleLinear / doubleLinear -> double`のRatioと3成分版を実装する。
+   - 完了。`input / base`の固定入力2 nodeを実装
+8. Power familyは具体的な用途が提示されるまで保留する。
 
 node typeは実装する単位だけ登録し、未実装分の`MTypeId`を先に消費しません。
 IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
@@ -339,4 +362,5 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 | Multiply | `input: linear`と`factor: double / double3`のmixed-type。固定版 / Multi版を実装済み |
 | Divide | Multiplyと同じ`factor`名を使用し、安全除算する。固定版 / Multi版を実装済み |
 | Multiply / Divide Multi | 単一`input`と`factor[]`。空配列は`input`を返す |
+| Ratio | `input / base`。scalarは`double`、3成分版は`double3`を出力する。Multi版なし |
 | Power family | 具体的用途が得られるまで保留 |

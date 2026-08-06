@@ -105,6 +105,8 @@
 #include "bdUtilNodes/nodes/BdDblLDivideMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblL3DivideNode.h"
 #include "bdUtilNodes/nodes/BdDblL3DivideMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblRatioDblLNode.h"
+#include "bdUtilNodes/nodes/BdDbl3RatioDblL3Node.h"
 
 namespace {
 
@@ -115,8 +117,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 100>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 100> registrations = {{
+const std::array<NodeRegistration, 102>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 102> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -716,6 +718,18 @@ const std::array<NodeRegistration, 100>& nodeRegistrations() {
             BdDblL3DivideMultiNode::typeId,
             BdDblL3DivideMultiNode::creator,
             BdDblL3DivideMultiNode::initialize,
+        },
+        {
+            BdDblRatioDblLNode::typeName,
+            BdDblRatioDblLNode::typeId,
+            BdDblRatioDblLNode::creator,
+            BdDblRatioDblLNode::initialize,
+        },
+        {
+            BdDbl3RatioDblL3Node::typeName,
+            BdDbl3RatioDblL3Node::typeId,
+            BdDbl3RatioDblL3Node::creator,
+            BdDbl3RatioDblL3Node::initialize,
         },
     }};
     return registrations;

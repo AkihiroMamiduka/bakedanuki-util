@@ -162,6 +162,11 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_l3_multiply_multi i
     InputPlugOperator as DblL3MultiplyMultiInputPlugOperator,
     OutputPlugOperator as DblL3MultiplyMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_ratio_dbl_l3 import (
+    BasePlugOperator as RatioDblL3BasePlugOperator,
+    InputPlugOperator as RatioDblL3InputPlugOperator,
+    OutputPlugOperator as RatioDblL3OutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_max import (
     Input1PlugOperator as MaxInput1PlugOperator,
     Input2PlugOperator as MaxInput2PlugOperator,
@@ -293,6 +298,12 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_divide import (
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl3_divide_multi import (
     BdDbl3DivideMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl3_ratio_dbl_l3 import (
+    BdDbl3RatioDblL3,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_ratio_dbl_l import (
+    BdDblRatioDblL,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide import BdDblLDivide
 from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide_multi import (
@@ -1776,6 +1787,33 @@ def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdDblL3_DivideMulti("existing_vector_divide_multi"),
         BdDblL3DivideMulti,
+    )
+
+
+def double_linear_ratio_contract(nodes: bdu.Nodes) -> None:
+    scalar = nodes.create.bdDbl_RatioDblL(name="scalar_ratio")
+    assert_type(scalar, BdDblRatioDblL)
+    assert_type(scalar.input, double_linear.DoubleLinearPlugOperator)
+    assert_type(scalar.base, double_linear.DoubleLinearPlugOperator)
+    assert_type(scalar.output, DoublePlugOperator)
+    assert_type(scalar.output.get(), float)
+    assert_type(
+        nodes.existing.bdDbl_RatioDblL("existing_scalar_ratio"),
+        BdDblRatioDblL,
+    )
+
+    vector = nodes.create.bdDbl3_RatioDblL3(name="vector_ratio")
+    assert_type(vector, BdDbl3RatioDblL3)
+    assert_type(vector.input, RatioDblL3InputPlugOperator)
+    assert_type(vector.input.inputX, double_linear.DoubleLinearPlugOperator)
+    assert_type(vector.base, RatioDblL3BasePlugOperator)
+    assert_type(vector.base.baseY, double_linear.DoubleLinearPlugOperator)
+    assert_type(vector.output, RatioDblL3OutputPlugOperator)
+    assert_type(vector.output.outputZ, DoublePlugOperator)
+    assert_type(vector.output.get(), bdu.Double3)
+    assert_type(
+        nodes.existing.bdDbl3_RatioDblL3("existing_vector_ratio"),
+        BdDbl3RatioDblL3,
     )
 
 
