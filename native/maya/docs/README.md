@@ -14,7 +14,7 @@
    - 完了した`doubleLinear` / `doubleLinear3`関連51 nodeの命名、演算仕様、
      完了境界、検証条件、`doubleAngle`開発への引継ぎ事項
 4. [Double Angle Nodes](double-angle-nodes.md)
-   - 連続角度として扱うscalar `doubleAngle`演算14 node、単位、3軸orientationとの境界
+   - 連続角度として扱うscalar `doubleAngle`演算18 node、単位、3軸orientationとの境界
 5. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 6. [Average Nodes](average.md)
@@ -46,7 +46,7 @@
 - [UnitAttribute.cpp](../plugins/bdUtilNodes/src/attributes/UnitAttribute.cpp)
   - scalar `doubleLinear` / `doubleAngle` attributeの作成とinput / output flag
 - [Double Angle Nodes](double-angle-nodes.md)
-  - scalar `doubleAngle`を連続角度として扱う14 nodeの仕様とorientation境界
+  - scalar `doubleAngle`を連続角度として扱う18 nodeの仕様とorientation境界
 - [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)
   - angle型、連続値、表示単位、`rotateX`接続、評価mode、scene round-tripのテスト
 - [DoubleLinear3Attribute.cpp](../plugins/bdUtilNodes/src/attributes/DoubleLinear3Attribute.cpp)

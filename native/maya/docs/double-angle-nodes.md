@@ -40,6 +40,10 @@ lerp(350 deg, 10 deg, 0.5) = 180 deg
 | `bdDblA_Clamp` | `input`, `min`, `max` | none | raw angle rangeへclamp |
 | `bdDblA_MapRange` | input、Source / Target range | `clamp: bool` | angle rangeからangle rangeへ変換 |
 | `bdDblA_Lerp` | `input1`, `input2` | `weight: double` | raw angle値の線形補間 |
+| `bdDblA_Min` | `input1`, `input2` | none | 小さいraw angle値を選択 |
+| `bdDblA_MinMulti` | `input[]` | none | 既存要素の最小値。空配列はzero |
+| `bdDblA_Max` | `input1`, `input2` | none | 大きいraw angle値を選択 |
+| `bdDblA_MaxMulti` | `input[]` | none | 既存要素の最大値。空配列はzero |
 
 Multiply / Divideの`factor`はdimensionlessです。angle同士の乗除算ではありません。
 Divideは既存の`SafeDivision.h`を使用し、絶対値が`1.0e-9`未満のfactorを符号付きepsilonへ
@@ -75,5 +79,5 @@ component-wise angle演算で代用しません。
 ## Verification
 
 [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)で、
-14 node typeのIDとattribute型、連続角度演算、sparse multi、表示単位、`rotateX`接続、
+18 node typeのIDとattribute型、連続角度演算、sparse multi、表示単位、`rotateX`接続、
 DG / Serial / Parallel、NodeOperator API、scene round-tripを確認します。

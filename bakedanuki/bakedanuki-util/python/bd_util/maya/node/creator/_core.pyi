@@ -322,6 +322,10 @@ from ..operator.node.dg.bd_dbl_a_divide import BdDblADivide
 from ..operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
 from ..operator.node.dg.bd_dbl_a_lerp import BdDblALerp
 from ..operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from ..operator.node.dg.bd_dbl_a_max import BdDblAMax
+from ..operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
+from ..operator.node.dg.bd_dbl_a_min import BdDblAMin
+from ..operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
 from ..operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
 from ..operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
 from ..operator.node.dg.bd_dbl_a_negate import BdDblANegate
@@ -2777,6 +2781,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblAMapRange: ...
+    def bdDblA_Max(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMax: ...
+    def bdDblA_MaxMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMaxMulti: ...
+    def bdDblA_Min(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMin: ...
+    def bdDblA_MinMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblAMinMulti: ...
     def bdDblA_Multiply(
         self,
         name: str | None = None,

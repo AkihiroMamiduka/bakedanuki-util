@@ -27,6 +27,10 @@ NODE_TYPE_IDS = {
     "bdDblA_Clamp": 0x0007F075,
     "bdDblA_MapRange": 0x0007F076,
     "bdDblA_Lerp": 0x0007F077,
+    "bdDblA_Min": 0x0007F078,
+    "bdDblA_MinMulti": 0x0007F079,
+    "bdDblA_Max": 0x0007F07A,
+    "bdDblA_MaxMulti": 0x0007F07B,
 }
 
 ANGLE_ATTRIBUTES = {
@@ -51,6 +55,10 @@ ANGLE_ATTRIBUTES = {
         "output",
     ),
     "bdDblA_Lerp": ("input1", "input2", "output"),
+    "bdDblA_Min": ("input1", "input2", "output"),
+    "bdDblA_MinMulti": ("input", "output"),
+    "bdDblA_Max": ("input1", "input2", "output"),
+    "bdDblA_MaxMulti": ("input", "output"),
 }
 
 
@@ -90,6 +98,8 @@ def test_node_ids_and_attribute_types(maya_cmds, maya_om, node_type):
         if attribute == "input" and node_type in {
             "bdDblA_AddMulti",
             "bdDblA_SubtractMulti",
+            "bdDblA_MinMulti",
+            "bdDblA_MaxMulti",
         }:
             attribute = "input[0]"
         assert maya_cmds.getAttr(f"{node}.{attribute}", type=True) == (
@@ -177,6 +187,16 @@ def test_angle_range_maximum_defaults_to_full_rotation(
             {"input1": 350.0, "input2": 10.0, "weight": 0.5},
             180.0,
         ),
+        (
+            "bdDblA_Min",
+            {"input1": -10.0, "input2": 350.0},
+            -10.0,
+        ),
+        (
+            "bdDblA_Max",
+            {"input1": 370.0, "input2": 10.0},
+            370.0,
+        ),
     ),
 )
 def test_fixed_nodes_use_continuous_angle_arithmetic(
@@ -231,6 +251,42 @@ def test_sparse_angle_multi_nodes(maya_cmds):
         maya_cmds.removeMultiInstance(f"{divide}.factor[9]", b=True)
         maya_cmds.removeMultiInstance(f"{divide}.factor[2]", b=True)
         assert maya_cmds.getAttr(f"{divide}.output") == pytest.approx(360.0)
+    finally:
+        maya_cmds.currentUnit(angle=previous_unit)
+
+
+@pytest.mark.parametrize(
+    ("node_type", "values", "expected"),
+    (
+        ("bdDblA_MinMulti", ((20, 725.0), (2, -10.0), (9, 370.0)), -10.0),
+        ("bdDblA_MaxMulti", ((20, -450.0), (2, 10.0), (9, 370.0)), 370.0),
+    ),
+)
+def test_min_max_multi_handles_sparse_single_and_empty_inputs(
+    maya_cmds,
+    node_type,
+    values,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    previous_unit = maya_cmds.currentUnit(query=True, angle=True)
+    try:
+        maya_cmds.currentUnit(angle="deg")
+        node = maya_cmds.createNode(node_type)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(0.0)
+
+        for index, value in values:
+            maya_cmds.setAttr(f"{node}.input[{index}]", value)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(expected)
+
+        for index, _ in values:
+            maya_cmds.removeMultiInstance(f"{node}.input[{index}]", b=True)
+        maya_cmds.setAttr(f"{node}.input[100]", -725.0)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(-725.0)
+
+        maya_cmds.removeMultiInstance(f"{node}.input[100]", b=True)
+        assert maya_cmds.getAttr(f"{node}.output") == pytest.approx(0.0)
     finally:
         maya_cmds.currentUnit(angle=previous_unit)
 
@@ -291,16 +347,23 @@ def test_node_operator_creation_and_existing_accessor(
     _load_bd_util_nodes(maya_cmds)
 
     from bd_util.maya.node.operator.node.dg.bd_dbl_a_add import BdDblAAdd
+    from bd_util.maya.node.operator.node.dg.bd_dbl_a_min import BdDblAMin
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
-    node = nodes.create.bdDblA_Add(name="angle_add")
-    node.input1.set(350.0)
-    node.input2.set(20.0)
+    add_node = nodes.create.bdDblA_Add(name="angle_add")
+    add_node.input1.set(350.0)
+    add_node.input2.set(20.0)
+    min_node = nodes.create.bdDblA_Min(name="angle_min")
+    min_node.input1.set(-10.0)
+    min_node.input2.set(350.0)
     modifier_manager.do_it_dg()
 
-    assert isinstance(node, BdDblAAdd)
-    assert node.output.get() == pytest.approx(370.0)
+    assert isinstance(add_node, BdDblAAdd)
+    assert add_node.output.get() == pytest.approx(370.0)
     assert isinstance(nodes.existing.bdDblA_Add("angle_add"), BdDblAAdd)
+    assert isinstance(min_node, BdDblAMin)
+    assert min_node.output.get() == pytest.approx(-10.0)
+    assert isinstance(nodes.existing.bdDblA_Min("angle_min"), BdDblAMin)
 
 
 @pytest.mark.parametrize("evaluation_mode", ("off", "serial", "parallel"))

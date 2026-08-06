@@ -112,6 +112,10 @@ add_library(
     src/nodes/BdDblAClampNode.cpp
     src/nodes/BdDblAMapRangeNode.cpp
     src/nodes/BdDblALerpNode.cpp
+    src/nodes/BdDblAMinNode.cpp
+    src/nodes/BdDblAMinMultiNode.cpp
+    src/nodes/BdDblAMaxNode.cpp
+    src/nodes/BdDblAMaxMultiNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/nodes/BdConditionDblExtraComposeNode.cpp

@@ -395,6 +395,10 @@ from .operator.node.dg.bd_dbl_a_divide import BdDblADivide
 from .operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
 from .operator.node.dg.bd_dbl_a_lerp import BdDblALerp
 from .operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from .operator.node.dg.bd_dbl_a_max import BdDblAMax
+from .operator.node.dg.bd_dbl_a_max_multi import BdDblAMaxMulti
+from .operator.node.dg.bd_dbl_a_min import BdDblAMin
+from .operator.node.dg.bd_dbl_a_min_multi import BdDblAMinMulti
 from .operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
 from .operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
 from .operator.node.dg.bd_dbl_a_negate import BdDblANegate
@@ -2881,6 +2885,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblAMapRange: ...
+    def bdDblA_Max(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMax: ...
+    def bdDblA_MaxMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMaxMulti: ...
+    def bdDblA_Min(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMin: ...
+    def bdDblA_MinMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMinMulti: ...
     def bdDblA_Multiply(
         self,
         node: str | om.MObject,

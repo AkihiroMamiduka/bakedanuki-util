@@ -122,6 +122,10 @@
 #include "bdUtilNodes/nodes/BdDblAClampNode.h"
 #include "bdUtilNodes/nodes/BdDblAMapRangeNode.h"
 #include "bdUtilNodes/nodes/BdDblALerpNode.h"
+#include "bdUtilNodes/nodes/BdDblAMinNode.h"
+#include "bdUtilNodes/nodes/BdDblAMinMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAMaxNode.h"
+#include "bdUtilNodes/nodes/BdDblAMaxMultiNode.h"
 
 namespace {
 
@@ -132,8 +136,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 117>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 117> registrations = {{
+const std::array<NodeRegistration, 121>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 121> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -835,6 +839,30 @@ const std::array<NodeRegistration, 117>& nodeRegistrations() {
             BdDblALerpNode::typeId,
             BdDblALerpNode::creator,
             BdDblALerpNode::initialize,
+        },
+        {
+            BdDblAMinNode::typeName,
+            BdDblAMinNode::typeId,
+            BdDblAMinNode::creator,
+            BdDblAMinNode::initialize,
+        },
+        {
+            BdDblAMinMultiNode::typeName,
+            BdDblAMinMultiNode::typeId,
+            BdDblAMinMultiNode::creator,
+            BdDblAMinMultiNode::initialize,
+        },
+        {
+            BdDblAMaxNode::typeName,
+            BdDblAMaxNode::typeId,
+            BdDblAMaxNode::creator,
+            BdDblAMaxNode::initialize,
+        },
+        {
+            BdDblAMaxMultiNode::typeName,
+            BdDblAMaxMultiNode::typeId,
+            BdDblAMaxMultiNode::creator,
+            BdDblAMaxMultiNode::initialize,
         },
     }};
     return registrations;

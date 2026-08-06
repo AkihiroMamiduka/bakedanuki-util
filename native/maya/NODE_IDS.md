@@ -121,6 +121,10 @@
 | `bdDblA_Clamp` | `0x0007F075` | Internal development |
 | `bdDblA_MapRange` | `0x0007F076` | Internal development |
 | `bdDblA_Lerp` | `0x0007F077` | Internal development |
+| `bdDblA_Min` | `0x0007F078` | Internal development |
+| `bdDblA_MinMulti` | `0x0007F079` | Internal development |
+| `bdDblA_Max` | `0x0007F07A` | Internal development |
+| `bdDblA_MaxMulti` | `0x0007F07B` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。
