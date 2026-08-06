@@ -47,12 +47,18 @@
   - `doubleLinear` childを3つ持つnumeric compoundの作成
 - [BdDblLAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLAddNode.cpp) / [BdDblL3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3AddNode.cpp)
   - scalar / component-wise linear unit加算の基本実装
+- [BdDblLMultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLMultiplyNode.cpp) / [BdDblL3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3MultiplyNode.cpp)
+  - linear `input`とdimensionless `factor`によるmixed-type乗算
+- [BdDblLDivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLDivideMultiNode.cpp) / [BdDblL3DivideMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3DivideMultiNode.cpp)
+  - 単一のlinear `input`をsparse `factor[]`で畳み込む安全除算
 - [TypedAnyAttribute.cpp](../plugins/bdUtilNodes/src/attributes/TypedAnyAttribute.cpp)
   - Mayaの`choice` nodeと同じtyped-any payload / output attributeの作成
 - [BdAnyConditionDblLNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLNode.cpp) / [BdAnyConditionDblLMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdAnyConditionDblLMultiNode.cpp)
   - scalar `doubleLinear`比較とtyped-any値選択の実装
 - [test_bd_double_linear.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear.py)
   - 36 node typeの登録、演算、単位切替、translate接続、scene round-tripのテスト
+- [test_bd_double_linear_factor.py](../../../tests/maya/node/operator/node/dg/test_bd_double_linear_factor.py)
+  - mixed-type Multiply / Divide 8種の型、空factor、epsilon、単位、接続、dirtyのテスト
 - [BdDbl3MultiplyNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyNode.cpp)
   - 固定2入力の compound attribute と `compute()`
 - [BdDbl3MultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDbl3MultiplyMultiNode.cpp)

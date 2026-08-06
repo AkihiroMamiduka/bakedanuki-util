@@ -1134,12 +1134,16 @@ from ..operator.node.dg.bd_dbl_l_add_multi import BdDblLAddMulti
 from ..operator.node.dg.bd_dbl_l_average import BdDblLAverage
 from ..operator.node.dg.bd_dbl_l_average_multi import BdDblLAverageMulti
 from ..operator.node.dg.bd_dbl_l_clamp import BdDblLClamp
+from ..operator.node.dg.bd_dbl_l_divide import BdDblLDivide
+from ..operator.node.dg.bd_dbl_l_divide_multi import BdDblLDivideMulti
 from ..operator.node.dg.bd_dbl_l_lerp import BdDblLLerp
 from ..operator.node.dg.bd_dbl_l_map_range import BdDblLMapRange
 from ..operator.node.dg.bd_dbl_l_max import BdDblLMax
 from ..operator.node.dg.bd_dbl_l_max_multi import BdDblLMaxMulti
 from ..operator.node.dg.bd_dbl_l_min import BdDblLMin
 from ..operator.node.dg.bd_dbl_l_min_multi import BdDblLMinMulti
+from ..operator.node.dg.bd_dbl_l_multiply import BdDblLMultiply
+from ..operator.node.dg.bd_dbl_l_multiply_multi import BdDblLMultiplyMulti
 from ..operator.node.dg.bd_dbl_l_negate import BdDblLNegate
 from ..operator.node.dg.bd_dbl_l_subtract import BdDblLSubtract
 from ..operator.node.dg.bd_dbl_l_subtract_multi import BdDblLSubtractMulti
@@ -1156,12 +1160,18 @@ from ..operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
 from ..operator.node.dg.bd_dbl_l3_average import BdDblL3Average
 from ..operator.node.dg.bd_dbl_l3_average_multi import BdDblL3AverageMulti
 from ..operator.node.dg.bd_dbl_l3_clamp import BdDblL3Clamp
+from ..operator.node.dg.bd_dbl_l3_divide import BdDblL3Divide
+from ..operator.node.dg.bd_dbl_l3_divide_multi import BdDblL3DivideMulti
 from ..operator.node.dg.bd_dbl_l3_lerp import BdDblL3Lerp
 from ..operator.node.dg.bd_dbl_l3_map_range import BdDblL3MapRange
 from ..operator.node.dg.bd_dbl_l3_max import BdDblL3Max
 from ..operator.node.dg.bd_dbl_l3_max_multi import BdDblL3MaxMulti
 from ..operator.node.dg.bd_dbl_l3_min import BdDblL3Min
 from ..operator.node.dg.bd_dbl_l3_min_multi import BdDblL3MinMulti
+from ..operator.node.dg.bd_dbl_l3_multiply import BdDblL3Multiply
+from ..operator.node.dg.bd_dbl_l3_multiply_multi import (
+    BdDblL3MultiplyMulti,
+)
 from ..operator.node.dg.bd_dbl_l3_negate import BdDblL3Negate
 from ..operator.node.dg.bd_dbl_l3_subtract import BdDblL3Subtract
 from ..operator.node.dg.bd_dbl_l3_subtract_multi import BdDblL3SubtractMulti
@@ -2510,6 +2520,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblLClamp: ...
+    def bdDblL_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLDivide: ...
+    def bdDblL_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLDivideMulti: ...
     def bdDblL_Lerp(
         self,
         name: str | None = None,
@@ -2540,6 +2560,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblLMinMulti: ...
+    def bdDblL_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMultiply: ...
+    def bdDblL_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblLMultiplyMulti: ...
     def bdDblL_Negate(
         self,
         name: str | None = None,
@@ -2600,6 +2630,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblL3Clamp: ...
+    def bdDblL3_Divide(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Divide: ...
+    def bdDblL3_DivideMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3DivideMulti: ...
     def bdDblL3_Lerp(
         self,
         name: str | None = None,
@@ -2630,6 +2670,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblL3MinMulti: ...
+    def bdDblL3_Multiply(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3Multiply: ...
+    def bdDblL3_MultiplyMulti(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdDblL3MultiplyMulti: ...
     def bdDblL3_Negate(
         self,
         name: str | None = None,

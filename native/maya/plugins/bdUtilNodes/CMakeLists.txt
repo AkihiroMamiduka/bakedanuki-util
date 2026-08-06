@@ -87,6 +87,14 @@ add_library(
     src/nodes/BdDblL3WeightedSumMultiNode.cpp
     src/nodes/BdDblLWeightedAverageMultiNode.cpp
     src/nodes/BdDblL3WeightedAverageMultiNode.cpp
+    src/nodes/BdDblLMultiplyNode.cpp
+    src/nodes/BdDblLMultiplyMultiNode.cpp
+    src/nodes/BdDblL3MultiplyNode.cpp
+    src/nodes/BdDblL3MultiplyMultiNode.cpp
+    src/nodes/BdDblLDivideNode.cpp
+    src/nodes/BdDblLDivideMultiNode.cpp
+    src/nodes/BdDblL3DivideNode.cpp
+    src/nodes/BdDblL3DivideMultiNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/nodes/BdConditionDblExtraComposeNode.cpp

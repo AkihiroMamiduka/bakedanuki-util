@@ -97,6 +97,14 @@
 #include "bdUtilNodes/nodes/BdDblL3WeightedSumMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblLWeightedAverageMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblL3WeightedAverageMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblLMultiplyNode.h"
+#include "bdUtilNodes/nodes/BdDblLMultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblL3MultiplyNode.h"
+#include "bdUtilNodes/nodes/BdDblL3MultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblLDivideNode.h"
+#include "bdUtilNodes/nodes/BdDblLDivideMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblL3DivideNode.h"
+#include "bdUtilNodes/nodes/BdDblL3DivideMultiNode.h"
 
 namespace {
 
@@ -107,8 +115,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 92>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 92> registrations = {{
+const std::array<NodeRegistration, 100>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 100> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -660,6 +668,54 @@ const std::array<NodeRegistration, 92>& nodeRegistrations() {
             BdConditionDblLCaseComposeNode::typeId,
             BdConditionDblLCaseComposeNode::creator,
             BdConditionDblLCaseComposeNode::initialize,
+        },
+        {
+            BdDblLMultiplyNode::typeName,
+            BdDblLMultiplyNode::typeId,
+            BdDblLMultiplyNode::creator,
+            BdDblLMultiplyNode::initialize,
+        },
+        {
+            BdDblLMultiplyMultiNode::typeName,
+            BdDblLMultiplyMultiNode::typeId,
+            BdDblLMultiplyMultiNode::creator,
+            BdDblLMultiplyMultiNode::initialize,
+        },
+        {
+            BdDblL3MultiplyNode::typeName,
+            BdDblL3MultiplyNode::typeId,
+            BdDblL3MultiplyNode::creator,
+            BdDblL3MultiplyNode::initialize,
+        },
+        {
+            BdDblL3MultiplyMultiNode::typeName,
+            BdDblL3MultiplyMultiNode::typeId,
+            BdDblL3MultiplyMultiNode::creator,
+            BdDblL3MultiplyMultiNode::initialize,
+        },
+        {
+            BdDblLDivideNode::typeName,
+            BdDblLDivideNode::typeId,
+            BdDblLDivideNode::creator,
+            BdDblLDivideNode::initialize,
+        },
+        {
+            BdDblLDivideMultiNode::typeName,
+            BdDblLDivideMultiNode::typeId,
+            BdDblLDivideMultiNode::creator,
+            BdDblLDivideMultiNode::initialize,
+        },
+        {
+            BdDblL3DivideNode::typeName,
+            BdDblL3DivideNode::typeId,
+            BdDblL3DivideNode::creator,
+            BdDblL3DivideNode::initialize,
+        },
+        {
+            BdDblL3DivideMultiNode::typeName,
+            BdDblL3DivideMultiNode::typeId,
+            BdDblL3DivideMultiNode::creator,
+            BdDblL3DivideMultiNode::initialize,
         },
     }};
     return registrations;

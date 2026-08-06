@@ -96,6 +96,14 @@
 | `bdConditionDblLExtra_Compose` | `0x0007F05C` | Internal development |
 | `bdConditionDblCase_Compose` | `0x0007F05D` | Internal development |
 | `bdConditionDblLCase_Compose` | `0x0007F05E` | Internal development |
+| `bdDblL_Multiply` | `0x0007F05F` | Internal development |
+| `bdDblL_MultiplyMulti` | `0x0007F060` | Internal development |
+| `bdDblL3_Multiply` | `0x0007F061` | Internal development |
+| `bdDblL3_MultiplyMulti` | `0x0007F062` | Internal development |
+| `bdDblL_Divide` | `0x0007F063` | Internal development |
+| `bdDblL_DivideMulti` | `0x0007F064` | Internal development |
+| `bdDblL3_Divide` | `0x0007F065` | Internal development |
+| `bdDblL3_DivideMulti` | `0x0007F066` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

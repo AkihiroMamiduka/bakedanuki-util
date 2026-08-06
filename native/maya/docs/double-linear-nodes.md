@@ -3,9 +3,9 @@
 `bdUtilNodes`の`double` / `double3`数値演算node familyを、Mayaのlinear unit
 attributeへ展開するための設計方針です。
 
-距離を保つ18種の`DblL` / `DblL3` nodeと、scalar `doubleLinear`を比較する
-typed-any Condition 2種は実装済みです。Multiply、Divide、Power familyは、
-ここに記載した方針と未確定事項に従って今後実装します。
+距離を保つ18種の`DblL` / `DblL3` node、scalar `doubleLinear`を比較する
+typed-any Condition 2種、linear valueとdimensionless factorを扱うMultiply / Divide
+8種は実装済みです。Power familyは具体的用途が得られるまで保留します。
 
 ## Goals
 
@@ -100,7 +100,8 @@ typed-any値を扱う独立familyとして数えます。
 | --- | ---: | ---: | --- |
 | 距離を保つため、そのまま展開する | 18 | 36 | 実装済み |
 | scalar `doubleLinear`比較のtyped-any Condition | - | 2 | 実装済み |
-| 型構成または演算意味を再設計する | 6 | 12 | 未確定または保留 |
+| mixed-type Multiply / Divide | 4 | 8 | 実装済み |
+| Power / PowerMulti | 2 | 4 | 保留 |
 
 ## Directly Expandable Nodes
 
@@ -184,58 +185,44 @@ typed-any attributeです。
 Case Composeの`value`はtyped-anyの接続専用です。詳しいattribute構成と接続例は
 [Condition Nodes](condition.md#compose-nodes)を参照してください。
 
-## Nodes Requiring Redesign
+## Mixed-Type Factor Nodes
 
-### Multiply
+Multiply / Divideは、距離を表す`input`とdimensionlessな`factor`を分離した8種を
+実装済みです。MultiplyとDivideでattribute名を`factor`へ統一し、node typeを
+差し替えても同じplug名で接続できます。
 
-すべての入出力を`doubleLinear`にする実装は技術的に可能です。Maya標準の
-`multDoubleLinear`も、`input1`、`input2`、`output`のすべてが`doubleLinear`です。
+| Node type | `input` | `factor` | `output` |
+| --- | --- | --- | --- |
+| `bdDblL_Multiply` | `doubleLinear` | `double` | `doubleLinear` |
+| `bdDblL_MultiplyMulti` | `doubleLinear` | `double[]` | `doubleLinear` |
+| `bdDblL3_Multiply` | `doubleLinear3` | `double3` | `doubleLinear3` |
+| `bdDblL3_MultiplyMulti` | `doubleLinear3` | `double3[]` | `doubleLinear3` |
+| `bdDblL_Divide` | `doubleLinear` | `double` | `doubleLinear` |
+| `bdDblL_DivideMulti` | `doubleLinear` | `double[]` | `doubleLinear` |
+| `bdDblL3_Divide` | `doubleLinear3` | `double3` | `doubleLinear3` |
+| `bdDblL3_DivideMulti` | `doubleLinear3` | `double3[]` | `doubleLinear3` |
 
-ただし、その計算は距離の次元解析ではなく、内部のcentimeter値を使う数値演算です。
-例えば`2 cm * 3 cm`は`6 cm`となり、表示単位をmeterへ変更すると
-`0.02 * 0.03 -> 0.06`と表示されます。値はsceneの表示単位変更に対して安定しますが、
-表示数値同士の乗算にはなりません。
+共通仕様は次のとおりです。
 
-リグ用途では、固定入力版を次のmixed-type演算として再設計する方向を優先します。
+- `input`のdefaultは距離のzero、`factor`のelement defaultはdimensionless identityの`1`、
+  `output`のdefaultは距離のzeroとする。
+- `DblL3`版はXYZごとのcomponent-wise演算とする。scalar factor 1つを3軸へ
+  broadcastする仕様にはしない。
+- `Multi`版は単一の`input`から開始し、既存の`factor[]`をlogical index昇順で
+  畳み込む。`factor[]`が空なら`input`をそのまま返す。
+- Divideも除数のattribute名を`divisor`ではなく`factor`とする。
+- Divideの各factorには既存`SafeDivision.h`と同じ`1.0e-9`のepsilonを適用し、
+  zero付近では符号を維持する。epsilonはdimensionless値として扱う。
+- `NaN`と無限値は、epsilon対象を除き通常のIEEE演算へ委ねる。
 
-```text
-bdDblL_Multiply:  doubleLinear  * double  -> doubleLinear
-bdDblL3_Multiply: doubleLinear3 * double3 -> doubleLinear3
-```
+入力距離はMaya内部のcentimeter値で計算され、factorは表示単位の影響を受けません。
+したがって`currentUnit(linear=...)`を変更しても物理的な出力距離は変化しません。
+`translate` / `translateX`を`input`へ、`scale` / `scaleX`を`factor`へ直接接続できます。
 
-`input1`をvalue、`input2`をfactorとして扱う場合、defaultも現在の対称な`1` / `1`を
-そのまま移植せず、valueのzeroとfactorのidentity `1`を候補に再検討します。
+距離同士の除算`doubleLinear / doubleLinear -> double`はこのfamilyへ含めません。
+必要になった時点で、出力がratioであることを名前に表す別nodeとして設計します。
 
-`MultiplyMulti`は同型の`input[]`ではmixed-type演算を表現できません。実装前に、
-少なくとも次を比較します。
-
-- Maya標準と同様に、すべてのelementをlinearとして内部数値を乗算する。
-- `value: doubleLinear`と`factor[]: double`へattribute構造を変更する。
-- 明確な利用例が得られるまで`Multi`版を作らない。
-
-### Divide
-
-linear valueに対する除算には、異なる2つの自然な結果があります。
-
-```text
-doubleLinear / double       -> doubleLinear
-doubleLinear / doubleLinear -> double
-```
-
-`DblL` / `DblL3` familyとしては、距離をdimensionless factorで割り、距離を返す
-前者を優先します。
-
-```text
-bdDblL_Divide:  doubleLinear  / double  -> doubleLinear
-bdDblL3_Divide: doubleLinear3 / double3 -> doubleLinear3
-```
-
-距離同士の比率は出力が`double`になるため、`DblL` familyへ含めません。必要になった
-時点でratio nodeとして別に設計します。
-
-`DivideMulti`も同型配列を直接移植せず、`value`と`divisor[]`を分ける案、または
-実装を見送る案を比較します。安全除算のepsilonは、divisorを`double`にする場合は
-dimensionless値として定義します。
+## Remaining Node Requiring Redesign
 
 ### Power
 
@@ -277,8 +264,10 @@ sceneの表示単位がmeterでも、default `1.0`は`0.01 m`と表示されま�
 
 - additive nodeのzeroは、linear unitでも自然なdefaultとして維持できる。
 - Lerpとweight系のweightはdimensionlessなので、既存defaultを維持できる。
-- Multiply / Divide / Powerのidentity `1`は、linear attributeでは`1 cm`になるため、
-  attributeの役割を決めてからdefaultを確定する。
+- Multiply / Divideはlinear `input`をzero、dimensionless `factor`をidentity `1`とする。
+  `Multi`版の空factor配列は`input`をそのまま返す。
+- Powerのidentity `1`は、linear attributeでは`1 cm`になるため、attributeの役割を
+  決めるまで実装しない。
 - Map Rangeの`1`は`1 cm`のrange endpointとして有効だが、その意味をテストと
   node仕様に記載する。
 
@@ -289,10 +278,8 @@ UI表示値を直接計算値として使わず、内部centimeter値を基準�
 ## Python API And Generation
 
 NodeOperatorのattribute解決には、親`double3`、子`doubleLinear`、子数3の組み合わせを
-`DoubleLinear3AttrOperator`へ解決する既存処理があります。そのため、plugin nodeを
-登録した後のclass / attribute生成は、既存generatorを利用できる見込みです。
-
-実装時には見込みだけで完了とせず、次を確認します。
+`DoubleLinear3AttrOperator`へ解決する既存処理があります。実装済みの8 nodeも既存
+generatorでclass / attribute定義を生成し、次を確認しています。
 
 - `node.inputX` / `node.outputX`の子plugがlinear operatorとして生成される。
 - 親plugが`DoubleLinear3AttrOperator`として生成される。
@@ -312,7 +299,9 @@ NodeOperatorのattribute解決には、親`double3`、子`doubleLinear`、子数
    `bdAny_ConditionDblLMulti`を実装する。
    - 完了
 5. Multiply / Divideの固定入力版について、mixed-type attribute仕様とdefaultを確定する。
+   - 完了
 6. 実用性を確認してからMultiply / Divideの`Multi`版を判断する。
+   - 完了。単一`input`と`factor[]`へ分けた8 nodeを実装
 7. Power familyは具体的な用途が提示されるまで保留する。
 
 node typeは実装する単位だけ登録し、未実装分の`MTypeId`を先に消費しません。
@@ -347,7 +336,7 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 | Condition比較型 | scalar `doubleLinear` |
 | Condition選択値 / 出力 | typed-any。同じnode内では接続型を統一する |
 | Condition展開 | `bdAny_ConditionDblL` / `bdAny_ConditionDblLMulti`を実装済み |
-| Multiply固定版 | linear valueとdimensionless factorのmixed-typeを優先検討 |
-| Divide固定版 | linear valueをdimensionless divisorで割る仕様を優先検討 |
-| Multiply / Divide Multi | attribute構造を確定するまで未実装 |
+| Multiply | `input: linear`と`factor: double / double3`のmixed-type。固定版 / Multi版を実装済み |
+| Divide | Multiplyと同じ`factor`名を使用し、安全除算する。固定版 / Multi版を実装済み |
+| Multiply / Divide Multi | 単一`input`と`factor[]`。空配列は`input`を返す |
 | Power family | 具体的用途が得られるまで保留 |

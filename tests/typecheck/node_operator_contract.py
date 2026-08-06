@@ -142,6 +142,26 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_divide_multi impor
     OutputAttrOperator as DivMultiOutputAttrOperator,
     OutputPlugOperator as DivMultiOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_l3_divide import (
+    FactorPlugOperator as DblL3DivideFactorPlugOperator,
+    InputPlugOperator as DblL3DivideInputPlugOperator,
+    OutputPlugOperator as DblL3DivideOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_l3_divide_multi import (
+    FactorPlugOperator as DblL3DivideMultiFactorPlugOperator,
+    InputPlugOperator as DblL3DivideMultiInputPlugOperator,
+    OutputPlugOperator as DblL3DivideMultiOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_l3_multiply import (
+    FactorPlugOperator as DblL3MultiplyFactorPlugOperator,
+    InputPlugOperator as DblL3MultiplyInputPlugOperator,
+    OutputPlugOperator as DblL3MultiplyOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl_l3_multiply_multi import (
+    FactorPlugOperator as DblL3MultiplyMultiFactorPlugOperator,
+    InputPlugOperator as DblL3MultiplyMultiInputPlugOperator,
+    OutputPlugOperator as DblL3MultiplyMultiOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_max import (
     Input1PlugOperator as MaxInput1PlugOperator,
     Input2PlugOperator as MaxInput2PlugOperator,
@@ -273,6 +293,28 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_divide import (
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl3_divide_multi import (
     BdDbl3DivideMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide import BdDblLDivide
+from bd_util.maya.node.operator.node.dg.bd_dbl_l_divide_multi import (
+    BdDblLDivideMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l_multiply import (
+    BdDblLMultiply,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l_multiply_multi import (
+    BdDblLMultiplyMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l3_divide import (
+    BdDblL3Divide,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l3_divide_multi import (
+    BdDblL3DivideMulti,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l3_multiply import (
+    BdDblL3Multiply,
+)
+from bd_util.maya.node.operator.node.dg.bd_dbl_l3_multiply_multi import (
+    BdDblL3MultiplyMulti,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl3_max import BdDbl3Max
 from bd_util.maya.node.operator.node.dg.bd_dbl3_max_multi import BdDbl3MaxMulti
@@ -1598,6 +1640,142 @@ def weighted_average_contract(nodes: bdu.Nodes) -> None:
             "existing_vector_weighted_average"
         ),
         BdDbl3WeightedAverageMulti,
+    )
+
+
+def double_linear_factor_contract(nodes: bdu.Nodes) -> None:
+    scalar_multiply = nodes.create.bdDblL_Multiply(name="scalar_multiply")
+    assert_type(scalar_multiply, BdDblLMultiply)
+    assert_type(
+        scalar_multiply.input,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(scalar_multiply.factor, DoublePlugOperator)
+    assert_type(
+        scalar_multiply.output,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(scalar_multiply.output.get(), float)
+    assert_type(
+        nodes.existing.bdDblL_Multiply("existing_scalar_multiply"),
+        BdDblLMultiply,
+    )
+
+    scalar_multiply_multi = nodes.create.bdDblL_MultiplyMulti(
+        name="scalar_multiply_multi"
+    )
+    assert_type(scalar_multiply_multi, BdDblLMultiplyMulti)
+    assert_type(
+        scalar_multiply_multi.input,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(scalar_multiply_multi.factor, DoublePlugOperator)
+    assert_type(scalar_multiply_multi.factor[next], DoublePlugOperator)
+    assert_type(
+        scalar_multiply_multi.output,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdDblL_MultiplyMulti("existing_scalar_multiply_multi"),
+        BdDblLMultiplyMulti,
+    )
+
+    scalar_divide = nodes.create.bdDblL_Divide(name="scalar_divide")
+    assert_type(scalar_divide, BdDblLDivide)
+    assert_type(
+        scalar_divide.input,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(scalar_divide.factor, DoublePlugOperator)
+    assert_type(
+        scalar_divide.output,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdDblL_Divide("existing_scalar_divide"),
+        BdDblLDivide,
+    )
+
+    scalar_divide_multi = nodes.create.bdDblL_DivideMulti(
+        name="scalar_divide_multi"
+    )
+    assert_type(scalar_divide_multi, BdDblLDivideMulti)
+    assert_type(scalar_divide_multi.factor[next], DoublePlugOperator)
+    assert_type(
+        scalar_divide_multi.output,
+        double_linear.DoubleLinearPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdDblL_DivideMulti("existing_scalar_divide_multi"),
+        BdDblLDivideMulti,
+    )
+
+    vector_multiply = nodes.create.bdDblL3_Multiply(name="vector_multiply")
+    assert_type(vector_multiply, BdDblL3Multiply)
+    assert_type(vector_multiply.input, DblL3MultiplyInputPlugOperator)
+    assert_type(vector_multiply.factor, DblL3MultiplyFactorPlugOperator)
+    assert_type(vector_multiply.factor.factorX, DoublePlugOperator)
+    assert_type(vector_multiply.output, DblL3MultiplyOutputPlugOperator)
+    assert_type(vector_multiply.output.get(), bdu.DoubleLinear3)
+    assert_type(
+        nodes.existing.bdDblL3_Multiply("existing_vector_multiply"),
+        BdDblL3Multiply,
+    )
+
+    vector_multiply_multi = nodes.create.bdDblL3_MultiplyMulti(
+        name="vector_multiply_multi"
+    )
+    assert_type(vector_multiply_multi, BdDblL3MultiplyMulti)
+    assert_type(
+        vector_multiply_multi.input,
+        DblL3MultiplyMultiInputPlugOperator,
+    )
+    assert_type(
+        vector_multiply_multi.factor,
+        DblL3MultiplyMultiFactorPlugOperator,
+    )
+    assert_type(
+        vector_multiply_multi.factor[next],
+        DblL3MultiplyMultiFactorPlugOperator,
+    )
+    assert_type(
+        vector_multiply_multi.output,
+        DblL3MultiplyMultiOutputPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdDblL3_MultiplyMulti("existing_vector_multiply_multi"),
+        BdDblL3MultiplyMulti,
+    )
+
+    vector_divide = nodes.create.bdDblL3_Divide(name="vector_divide")
+    assert_type(vector_divide, BdDblL3Divide)
+    assert_type(vector_divide.input, DblL3DivideInputPlugOperator)
+    assert_type(vector_divide.factor, DblL3DivideFactorPlugOperator)
+    assert_type(vector_divide.output, DblL3DivideOutputPlugOperator)
+    assert_type(
+        nodes.existing.bdDblL3_Divide("existing_vector_divide"),
+        BdDblL3Divide,
+    )
+
+    vector_divide_multi = nodes.create.bdDblL3_DivideMulti(
+        name="vector_divide_multi"
+    )
+    assert_type(vector_divide_multi, BdDblL3DivideMulti)
+    assert_type(
+        vector_divide_multi.input,
+        DblL3DivideMultiInputPlugOperator,
+    )
+    assert_type(
+        vector_divide_multi.factor[next],
+        DblL3DivideMultiFactorPlugOperator,
+    )
+    assert_type(
+        vector_divide_multi.output,
+        DblL3DivideMultiOutputPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdDblL3_DivideMulti("existing_vector_divide_multi"),
+        BdDblL3DivideMulti,
     )
 
 
