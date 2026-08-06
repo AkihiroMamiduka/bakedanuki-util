@@ -76,6 +76,12 @@ component-wise angle演算で代用しません。
 これらはMayaの`eulerToQuat`、`quatToEuler`、`quatProd`、`quatInvert`、`quatSlerp`
 などを使用します。
 
+## Roadmap
+
+Average系によるscalar parityの完成、Wrap / ShortestDelta / LerpShortest、angle比率、
+Condition展開の実装順と確定仕様は[Double Angle Node Roadmap](double-angle-roadmap.md)で
+管理します。
+
 ## Verification
 
 [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)で、

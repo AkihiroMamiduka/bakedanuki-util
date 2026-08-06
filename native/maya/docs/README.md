@@ -15,26 +15,28 @@
      完了境界、検証条件、`doubleAngle`開発への引継ぎ事項
 4. [Double Angle Nodes](double-angle-nodes.md)
    - 連続角度として扱うscalar `doubleAngle`演算18 node、単位、3軸orientationとの境界
-5. [Condition Nodes](condition.md)
+5. [Double Angle Node Roadmap](double-angle-roadmap.md)
+   - Average系、周期角度演算、Ratio、Conditionの実装順と採用・保留・対象外判断
+6. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-6. [Average Nodes](average.md)
+7. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-7. [Weighted Average Nodes](weighted-average.md)
+8. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-8. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+9. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-9. [Evaluation And Parallelism](evaluation.md)
+10. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-10. [Testing And Debugging](testing-debugging.md)
+11. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-11. [Node ID Registry](../NODE_IDS.md)
+12. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-12. [Build Guide](../README.md)
+13. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-13. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+14. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
