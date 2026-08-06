@@ -395,23 +395,14 @@ IDは実装開始前に[Node ID Registry](../NODE_IDS.md)へ追加します。
 
 ## Handoff To Double Angle Development
 
-`doubleAngle` familyで再利用できる実装パターンは多いものの、単純な型置換として開始せず、
-少なくとも次を別途確認します。
+この引継ぎは[Double Angle Nodes](double-angle-nodes.md)で具体化しました。現在の決定では
+scalar `doubleAngle`だけを`DblA`として展開し、3軸orientationとの混同を避けるため
+`DblA3` familyと`DblA3_Value`は作りません。通常演算はwrapしない連続角度として扱います。
 
-- scalarは`MFnUnitAttribute::kAngle`を使用し、内部値がradianであることをdefault、epsilon、
-  テスト期待値へ反映する。
-- 3成分版を作る場合は、親`double3`と3つの`doubleAngle` childという実体をAPIで確認し、
-  project内呼称とtype codeを決める。
-- 値をraw angleとして扱うのか、周期を持つ方向として扱うのかをfamily単位で決める。
-  これはEqual、Min / Max、Clamp、Average、Lerp、Map Rangeへ影響する。
-- `rotate`の3成分をcomponent-wiseに演算するnodeと、Euler rotation / orientationを扱う
-  nodeを混同しない。
-- angleとdimensionless factorのMultiply / Divideは単位を保てるが、angle同士のRatio、
-  wrap / normalize、shortest-path補間は用途を確認してから追加する。
-- Conditionはscalar比較型を`doubleAngle`へ置き換え、typed-any payloadと接続専用方針を
-  維持できる。対応するExtra / Case Composeも比較型ごとに分ける。
-- Right Triangleは距離幾何に固有なので、`doubleAngle`へは展開しない。
-- Powerは`doubleLinear`と同じ理由で機械的に展開しない。
+初回実装では、scalar attributeを`MFnUnitAttribute::kAngle`で作成し、内部radian値を
+既存math helperへ渡します。Multiply / Divideはangleとdimensionless factorを分離します。
+Wrap / normalize / shortest-path補間、angle Ratio、Conditionは初回scopeへ含めません。
+Right TriangleとPowerはangleへ展開しません。
 
 ## Verification Checklist
 

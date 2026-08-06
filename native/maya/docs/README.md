@@ -13,26 +13,28 @@
 3. [Double Linear Node Expansion](double-linear-nodes.md)
    - 完了した`doubleLinear` / `doubleLinear3`関連51 nodeの命名、演算仕様、
      完了境界、検証条件、`doubleAngle`開発への引継ぎ事項
-4. [Condition Nodes](condition.md)
+4. [Double Angle Nodes](double-angle-nodes.md)
+   - 連続角度として扱うscalar `doubleAngle`演算14 node、単位、3軸orientationとの境界
+5. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-5. [Average Nodes](average.md)
+6. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-6. [Weighted Average Nodes](weighted-average.md)
+7. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-7. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+8. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-8. [Evaluation And Parallelism](evaluation.md)
+9. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-9. [Testing And Debugging](testing-debugging.md)
+10. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-10. [Node ID Registry](../NODE_IDS.md)
+11. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-11. [Build Guide](../README.md)
+12. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-12. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+13. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -42,7 +44,11 @@
 - [plugin.cpp](../plugins/bdUtilNodes/src/plugin.cpp)
   - node の登録、登録失敗時の rollback、逆順での登録解除
 - [UnitAttribute.cpp](../plugins/bdUtilNodes/src/attributes/UnitAttribute.cpp)
-  - scalar `doubleLinear` attributeの作成とinput / output flag
+  - scalar `doubleLinear` / `doubleAngle` attributeの作成とinput / output flag
+- [Double Angle Nodes](double-angle-nodes.md)
+  - scalar `doubleAngle`を連続角度として扱う14 nodeの仕様とorientation境界
+- [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)
+  - angle型、連続値、表示単位、`rotateX`接続、評価mode、scene round-tripのテスト
 - [DoubleLinear3Attribute.cpp](../plugins/bdUtilNodes/src/attributes/DoubleLinear3Attribute.cpp)
   - `doubleLinear` childを3つ持つnumeric compoundの作成
 - [BdDblLAddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblLAddNode.cpp) / [BdDblL3AddNode.cpp](../plugins/bdUtilNodes/src/nodes/BdDblL3AddNode.cpp)

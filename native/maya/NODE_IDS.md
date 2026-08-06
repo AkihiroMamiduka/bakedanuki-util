@@ -107,6 +107,20 @@
 | `bdDbl_RatioDblL` | `0x0007F067` | Internal development |
 | `bdDbl3_RatioDblL3` | `0x0007F068` | Internal development |
 | `bdDblL_RightTriangle` | `0x0007F069` | Internal development |
+| `bdDblA_Value` | `0x0007F06A` | Internal development |
+| `bdDblA_Add` | `0x0007F06B` | Internal development |
+| `bdDblA_AddMulti` | `0x0007F06C` | Internal development |
+| `bdDblA_Subtract` | `0x0007F06D` | Internal development |
+| `bdDblA_SubtractMulti` | `0x0007F06E` | Internal development |
+| `bdDblA_Negate` | `0x0007F06F` | Internal development |
+| `bdDblA_Abs` | `0x0007F070` | Internal development |
+| `bdDblA_Multiply` | `0x0007F071` | Internal development |
+| `bdDblA_MultiplyMulti` | `0x0007F072` | Internal development |
+| `bdDblA_Divide` | `0x0007F073` | Internal development |
+| `bdDblA_DivideMulti` | `0x0007F074` | Internal development |
+| `bdDblA_Clamp` | `0x0007F075` | Internal development |
+| `bdDblA_MapRange` | `0x0007F076` | Internal development |
+| `bdDblA_Lerp` | `0x0007F077` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

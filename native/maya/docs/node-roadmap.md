@@ -12,6 +12,8 @@ Python 側の API・生成器に関する計画は、既存の
 `doubleLinear` / `doubleLinear3`への展開は
 [Double Linear Node Expansion](double-linear-nodes.md)で管理します。
 
+scalar `doubleAngle`への展開は[Double Angle Nodes](double-angle-nodes.md)で管理します。
+
 ## Implementation Order
 
 | 順序 | 演算 | 予定 node type | 形式 | 主な用途 | 状態 |
@@ -47,6 +49,18 @@ Python 側の API・生成器に関する計画は、既存の
 [Double Linear Node Expansion](double-linear-nodes.md)を参照してください。
 `doubleLinear`関連の実装済みnode typeは合計51種で、このscopeをもってfamily開発を
 完了とします。Powerと用途固有の派生候補は未完了項目として扱いません。
+
+## Double Angle Expansion
+
+`doubleAngle`のtype codeは`DblA`とします。3軸orientationはQuaternionまたはrotate
+orderを持つEuler rotationとして扱うため、`DblA3` familyと`DblA3_Value`は作りません。
+
+初回scopeとして、Value、Add / Subtract、Negate / Abs、dimensionless factorによる
+Multiply / Divide、Clamp、Map Range、Lerpのscalar 14 nodeを実装済みです。通常演算は
+angleを正規化せず、複数回転を保持する連続値として扱います。
+
+Wrap、最短角度差、最短経路補間などの周期演算は、通常演算へ暗黙に混ぜず、angle固有の
+別nodeとして検討します。
 
 ## Family Policy
 

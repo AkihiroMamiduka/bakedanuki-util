@@ -98,6 +98,20 @@ add_library(
     src/nodes/BdDblRatioDblLNode.cpp
     src/nodes/BdDbl3RatioDblL3Node.cpp
     src/nodes/BdDblLRightTriangleNode.cpp
+    src/nodes/BdDblAValueNode.cpp
+    src/nodes/BdDblAAddNode.cpp
+    src/nodes/BdDblAAddMultiNode.cpp
+    src/nodes/BdDblASubtractNode.cpp
+    src/nodes/BdDblASubtractMultiNode.cpp
+    src/nodes/BdDblANegateNode.cpp
+    src/nodes/BdDblAAbsNode.cpp
+    src/nodes/BdDblAMultiplyNode.cpp
+    src/nodes/BdDblAMultiplyMultiNode.cpp
+    src/nodes/BdDblADivideNode.cpp
+    src/nodes/BdDblADivideMultiNode.cpp
+    src/nodes/BdDblAClampNode.cpp
+    src/nodes/BdDblAMapRangeNode.cpp
+    src/nodes/BdDblALerpNode.cpp
     src/nodes/BdAnyConditionDblLNode.cpp
     src/nodes/BdAnyConditionDblLMultiNode.cpp
     src/nodes/BdConditionDblExtraComposeNode.cpp

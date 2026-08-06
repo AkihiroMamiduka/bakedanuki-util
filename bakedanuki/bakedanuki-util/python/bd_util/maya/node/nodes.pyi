@@ -387,6 +387,20 @@ from .operator.node.dg.bd_dbl3_weighted_average_multi import (
     BdDbl3WeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
+from .operator.node.dg.bd_dbl_a_abs import BdDblAAbs
+from .operator.node.dg.bd_dbl_a_add import BdDblAAdd
+from .operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from .operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
+from .operator.node.dg.bd_dbl_a_divide import BdDblADivide
+from .operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
+from .operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from .operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from .operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
+from .operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
+from .operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from .operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
+from .operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
+from .operator.node.dg.bd_dbl_a_value import BdDblAValue
 from .operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
 from .operator.node.dg.bd_dbl_l3_add import BdDblL3Add
 from .operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
@@ -2827,6 +2841,76 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDbl3WeightedSumMulti: ...
+    def bdDblA_Abs(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAbs: ...
+    def bdDblA_Add(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAdd: ...
+    def bdDblA_AddMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAddMulti: ...
+    def bdDblA_Clamp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAClamp: ...
+    def bdDblA_Divide(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivide: ...
+    def bdDblA_DivideMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivideMulti: ...
+    def bdDblA_Lerp(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblALerp: ...
+    def bdDblA_MapRange(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMapRange: ...
+    def bdDblA_Multiply(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiply: ...
+    def bdDblA_MultiplyMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiplyMulti: ...
+    def bdDblA_Negate(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblANegate: ...
+    def bdDblA_Subtract(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtract: ...
+    def bdDblA_SubtractMulti(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtractMulti: ...
+    def bdDblA_Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdDblAValue: ...
     def bdDblL3_Abs(
         self,
         node: str | om.MObject,

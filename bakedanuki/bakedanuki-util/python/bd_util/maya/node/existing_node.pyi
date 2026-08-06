@@ -386,6 +386,20 @@ from .operator.node.dg.bd_dbl3_weighted_average_multi import (
     BdDbl3WeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl3_weighted_sum_multi import BdDbl3WeightedSumMulti
+from .operator.node.dg.bd_dbl_a_abs import BdDblAAbs
+from .operator.node.dg.bd_dbl_a_add import BdDblAAdd
+from .operator.node.dg.bd_dbl_a_add_multi import BdDblAAddMulti
+from .operator.node.dg.bd_dbl_a_clamp import BdDblAClamp
+from .operator.node.dg.bd_dbl_a_divide import BdDblADivide
+from .operator.node.dg.bd_dbl_a_divide_multi import BdDblADivideMulti
+from .operator.node.dg.bd_dbl_a_lerp import BdDblALerp
+from .operator.node.dg.bd_dbl_a_map_range import BdDblAMapRange
+from .operator.node.dg.bd_dbl_a_multiply import BdDblAMultiply
+from .operator.node.dg.bd_dbl_a_multiply_multi import BdDblAMultiplyMulti
+from .operator.node.dg.bd_dbl_a_negate import BdDblANegate
+from .operator.node.dg.bd_dbl_a_subtract import BdDblASubtract
+from .operator.node.dg.bd_dbl_a_subtract_multi import BdDblASubtractMulti
+from .operator.node.dg.bd_dbl_a_value import BdDblAValue
 from .operator.node.dg.bd_dbl_l3_abs import BdDblL3Abs
 from .operator.node.dg.bd_dbl_l3_add import BdDblL3Add
 from .operator.node.dg.bd_dbl_l3_add_multi import BdDblL3AddMulti
@@ -3154,6 +3168,90 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDbl3WeightedSumMulti: ...
+    @staticmethod
+    def bdDblA_Abs(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAbs: ...
+    @staticmethod
+    def bdDblA_Add(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAdd: ...
+    @staticmethod
+    def bdDblA_AddMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAAddMulti: ...
+    @staticmethod
+    def bdDblA_Clamp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAClamp: ...
+    @staticmethod
+    def bdDblA_Divide(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivide: ...
+    @staticmethod
+    def bdDblA_DivideMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblADivideMulti: ...
+    @staticmethod
+    def bdDblA_Lerp(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblALerp: ...
+    @staticmethod
+    def bdDblA_MapRange(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMapRange: ...
+    @staticmethod
+    def bdDblA_Multiply(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiply: ...
+    @staticmethod
+    def bdDblA_MultiplyMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAMultiplyMulti: ...
+    @staticmethod
+    def bdDblA_Negate(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblANegate: ...
+    @staticmethod
+    def bdDblA_Subtract(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtract: ...
+    @staticmethod
+    def bdDblA_SubtractMulti(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblASubtractMulti: ...
+    @staticmethod
+    def bdDblA_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdDblAValue: ...
     @staticmethod
     def bdDblL3_Abs(
         node: str | om.MObject,

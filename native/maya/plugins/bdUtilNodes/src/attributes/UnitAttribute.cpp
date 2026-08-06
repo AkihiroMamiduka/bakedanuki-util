@@ -6,6 +6,24 @@
 
 namespace bd_util_nodes {
 
+MStatus createDoubleAngleAttribute(
+    MFnUnitAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName,
+    double defaultValue
+) {
+    MStatus status;
+    attribute = attributeFn.create(
+        longName,
+        shortName,
+        MFnUnitAttribute::kAngle,
+        defaultValue,
+        &status
+    );
+    return status;
+}
+
 MStatus createDoubleLinearAttribute(
     MFnUnitAttribute& attributeFn,
     MObject& attribute,

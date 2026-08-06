@@ -108,6 +108,20 @@
 #include "bdUtilNodes/nodes/BdDblRatioDblLNode.h"
 #include "bdUtilNodes/nodes/BdDbl3RatioDblL3Node.h"
 #include "bdUtilNodes/nodes/BdDblLRightTriangleNode.h"
+#include "bdUtilNodes/nodes/BdDblAValueNode.h"
+#include "bdUtilNodes/nodes/BdDblAAddNode.h"
+#include "bdUtilNodes/nodes/BdDblAAddMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblASubtractNode.h"
+#include "bdUtilNodes/nodes/BdDblASubtractMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblANegateNode.h"
+#include "bdUtilNodes/nodes/BdDblAAbsNode.h"
+#include "bdUtilNodes/nodes/BdDblAMultiplyNode.h"
+#include "bdUtilNodes/nodes/BdDblAMultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblADivideNode.h"
+#include "bdUtilNodes/nodes/BdDblADivideMultiNode.h"
+#include "bdUtilNodes/nodes/BdDblAClampNode.h"
+#include "bdUtilNodes/nodes/BdDblAMapRangeNode.h"
+#include "bdUtilNodes/nodes/BdDblALerpNode.h"
 
 namespace {
 
@@ -118,8 +132,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 103>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 103> registrations = {{
+const std::array<NodeRegistration, 117>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 117> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -737,6 +751,90 @@ const std::array<NodeRegistration, 103>& nodeRegistrations() {
             BdDblLRightTriangleNode::typeId,
             BdDblLRightTriangleNode::creator,
             BdDblLRightTriangleNode::initialize,
+        },
+        {
+            BdDblAValueNode::typeName,
+            BdDblAValueNode::typeId,
+            BdDblAValueNode::creator,
+            BdDblAValueNode::initialize,
+        },
+        {
+            BdDblAAddNode::typeName,
+            BdDblAAddNode::typeId,
+            BdDblAAddNode::creator,
+            BdDblAAddNode::initialize,
+        },
+        {
+            BdDblAAddMultiNode::typeName,
+            BdDblAAddMultiNode::typeId,
+            BdDblAAddMultiNode::creator,
+            BdDblAAddMultiNode::initialize,
+        },
+        {
+            BdDblASubtractNode::typeName,
+            BdDblASubtractNode::typeId,
+            BdDblASubtractNode::creator,
+            BdDblASubtractNode::initialize,
+        },
+        {
+            BdDblASubtractMultiNode::typeName,
+            BdDblASubtractMultiNode::typeId,
+            BdDblASubtractMultiNode::creator,
+            BdDblASubtractMultiNode::initialize,
+        },
+        {
+            BdDblANegateNode::typeName,
+            BdDblANegateNode::typeId,
+            BdDblANegateNode::creator,
+            BdDblANegateNode::initialize,
+        },
+        {
+            BdDblAAbsNode::typeName,
+            BdDblAAbsNode::typeId,
+            BdDblAAbsNode::creator,
+            BdDblAAbsNode::initialize,
+        },
+        {
+            BdDblAMultiplyNode::typeName,
+            BdDblAMultiplyNode::typeId,
+            BdDblAMultiplyNode::creator,
+            BdDblAMultiplyNode::initialize,
+        },
+        {
+            BdDblAMultiplyMultiNode::typeName,
+            BdDblAMultiplyMultiNode::typeId,
+            BdDblAMultiplyMultiNode::creator,
+            BdDblAMultiplyMultiNode::initialize,
+        },
+        {
+            BdDblADivideNode::typeName,
+            BdDblADivideNode::typeId,
+            BdDblADivideNode::creator,
+            BdDblADivideNode::initialize,
+        },
+        {
+            BdDblADivideMultiNode::typeName,
+            BdDblADivideMultiNode::typeId,
+            BdDblADivideMultiNode::creator,
+            BdDblADivideMultiNode::initialize,
+        },
+        {
+            BdDblAClampNode::typeName,
+            BdDblAClampNode::typeId,
+            BdDblAClampNode::creator,
+            BdDblAClampNode::initialize,
+        },
+        {
+            BdDblAMapRangeNode::typeName,
+            BdDblAMapRangeNode::typeId,
+            BdDblAMapRangeNode::creator,
+            BdDblAMapRangeNode::initialize,
+        },
+        {
+            BdDblALerpNode::typeName,
+            BdDblALerpNode::typeId,
+            BdDblALerpNode::creator,
+            BdDblALerpNode::initialize,
         },
     }};
     return registrations;
