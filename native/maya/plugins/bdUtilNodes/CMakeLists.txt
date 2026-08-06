@@ -134,10 +134,12 @@ add_library(
     src/nodes/BdConditionDblLExtraComposeNode.cpp
     src/nodes/BdConditionDblCaseComposeNode.cpp
     src/nodes/BdConditionDblLCaseComposeNode.cpp
+    src/nodes/BdQuatMultiplyMultiNode.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
     src/attributes/DoubleLinear3Attribute.cpp
     src/attributes/NumericAttribute.cpp
+    src/attributes/QuaternionAttribute.cpp
     src/attributes/TypedAnyAttribute.cpp
     src/attributes/UnitAttribute.cpp
     src/plugin.cpp

@@ -63,6 +63,16 @@ Condition / Composeを合わせた30 nodeを実装済みです。通常演算は
 実装済みdefault、出力範囲、正規化方針、保留・対象外候補は
 [Double Angle Node Roadmap](double-angle-roadmap.md)を参照してください。
 
+## Quaternion Expansion
+
+3軸orientationはQuaternionを基本とし、Maya標準のQuaternion nodeを優先します。
+標準の`quatProd`が固定2入力だけである不足を補うため、可変長入力の
+`bdQuat_MultiplyMulti`を実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
+
+`bdQuat_MultiplyMulti`は既存のsparse入力をlogical index昇順に左から乗算し、空入力は
+identity Quaternionを返します。自動正規化や符号統一は行いません。詳細は
+[Quaternion Nodes](quaternion-nodes.md)を参照してください。
+
 ## Family Policy
 
 - `double3` の演算は、別途明記しない限り XYZ の成分ごとに行う。

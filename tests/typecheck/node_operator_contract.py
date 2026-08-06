@@ -16,6 +16,12 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_negate import (
     OutputAttrOperator as NegOutputAttrOperator,
     OutputPlugOperator as NegOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_multiply_multi import (
+    InputQuatAttrOperator,
+    InputQuatPlugOperator,
+    OutputQuatAttrOperator,
+    OutputQuatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add import (
     Input1AttrOperator as AddInput1AttrOperator,
     Input1PlugOperator as AddInput1PlugOperator,
@@ -342,6 +348,9 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_multiply import (
 from bd_util.maya.node.operator.node.dg.bd_dbl3_multiply_multi import (
     BdDbl3MultiplyMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_quat_multiply_multi import (
+    BdQuatMultiplyMulti,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl3_power import (
     BdDbl3Power,
 )
@@ -630,6 +639,19 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(existing_fixed, BdDbl3Multiply)
     existing_multi = nodes.existing.bdDbl3_MultiplyMulti("existing_multi")
     assert_type(existing_multi, BdDbl3MultiplyMulti)
+
+    quat_multi = nodes.create.bdQuat_MultiplyMulti(name="quat_multi")
+    assert_type(quat_multi, BdQuatMultiplyMulti)
+    assert_type(BdQuatMultiplyMulti.inputQuat, InputQuatAttrOperator)
+    assert_type(quat_multi.inputQuat, InputQuatPlugOperator)
+    assert_type(quat_multi.inputQuat[next], InputQuatPlugOperator)
+    assert_type(BdQuatMultiplyMulti.outputQuat, OutputQuatAttrOperator)
+    assert_type(quat_multi.outputQuat, OutputQuatPlugOperator)
+    assert_type(quat_multi.outputQuat.get(), bdu.Quat)
+    assert_type(
+        nodes.existing.bdQuat_MultiplyMulti("existing_quat_multi"),
+        BdQuatMultiplyMulti,
+    )
 
     double_absolute = nodes.create.bdDbl_Abs(name="double_absolute")
     assert_type(double_absolute, BdDblAbs)

@@ -259,6 +259,8 @@ bd<TypeCode>_<Operation><Variant>
 | `double3` | `Dbl3` | 実装済み |
 | `doubleLinear` | `DblL` | 距離を保つ18種を実装済み |
 | 親`double3`、子`doubleLinear` x 3 | `DblL3` | 距離を保つ18種を実装済み |
+| `doubleAngle` | `DblA` | scalar angle関連30種を実装済み |
+| Quaternion（XYZWのdouble4 compound） | `Quat` | 可変長乗算を実装済み |
 
 `doubleLinear3`はMayaの独立したatomic type名ではなく、最後の行のcompoundを指す
 プロジェクト内の呼称です。linear unit nodeの展開方針は
@@ -343,7 +345,8 @@ double乗算では `bdDbl_Multiply` と `bdDbl_MultiplyMulti`、double3乗算で
 | 平均 | 個別検討 | 自然な結果なし | 空入力と除数0の仕様が必要 |
 | 線形補間 | 固定版のみ | 該当なし | 2値間を補間し、weightを`0`から`1`へclamp |
 | 加重和 | Multiのみ | `0` | value/weightのcompound配列、正規化なし |
-| 行列・Quaternion乗算 | 個別検討 | identity | 入力順序を永続APIとして定義する |
+| 行列乗算 | 個別検討 | identity | 入力順序を永続APIとして定義する |
+| Quaternion乗算 | Maya標準固定版 + 独自Multi | `(0, 0, 0, 1)` | logical index昇順、詳細は[Quaternion Nodes](quaternion-nodes.md) |
 | normalize、clamp、lerp | 通常は固定仕様 | 該当なし | 多入力への拡張が自然ではない |
 
 API上で入力順を区別しない積や和では、既存elementのphysical iterationを利用できます。

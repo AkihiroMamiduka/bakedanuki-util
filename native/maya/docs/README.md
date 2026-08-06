@@ -17,26 +17,28 @@
    - 連続角度と明示的周期演算を扱う`doubleAngle`関連30 node、単位、3軸orientationとの境界
 5. [Double Angle Node Roadmap](double-angle-roadmap.md)
    - 完了したAverage系、周期角度演算、Ratio、Conditionと、保留・対象外判断
-6. [Condition Nodes](condition.md)
+6. [Quaternion Nodes](quaternion-nodes.md)
+   - Maya標準Quaternion nodeとの役割分担、可変長積、順序、identity、非正規化方針
+7. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
-7. [Average Nodes](average.md)
+8. [Average Nodes](average.md)
    - 固定2入力 / 配列の算術平均、空入力、sparse配列、非有限値の仕様
-8. [Weighted Average Nodes](weighted-average.md)
+9. [Weighted Average Nodes](weighted-average.md)
    - value / weight配列、weight合計0、負のweight、zero weightの仕様
-9. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+10. [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
    - DG の Pull 評価、Evaluation Graph / Scheduling Graph、Cached Playback、
      background evaluation context
-10. [Evaluation And Parallelism](evaluation.md)
+11. [Evaluation And Parallelism](evaluation.md)
    - `attributeAffects()`、dirty 伝搬、Evaluation Manager、
      `schedulingType()`、Parallel 対応
-11. [Testing And Debugging](testing-debugging.md)
+12. [Testing And Debugging](testing-debugging.md)
    - 自動テスト、DG / Serial / Parallel / Cached Playback の比較、
      Visual Studio デバッグ、性能計測
-12. [Node ID Registry](../NODE_IDS.md)
+13. [Node ID Registry](../NODE_IDS.md)
    - `MTypeId` の割り当てと運用
-13. [Build Guide](../README.md)
+14. [Build Guide](../README.md)
    - Maya 2025 向け build、stage、test の実行方法
-14. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
+15. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 
 ## Reference Implementation
@@ -49,6 +51,12 @@
   - scalar `doubleLinear` / `doubleAngle` attributeの作成とinput / output flag
 - [Double Angle Nodes](double-angle-nodes.md)
   - scalar `doubleAngle`を連続角度と明示的周期演算として扱う30 nodeの仕様とorientation境界
+- [Quaternion Nodes](quaternion-nodes.md)
+  - Maya標準nodeを補う可変長Quaternion積の命名、順序、identity、raw-value仕様
+- [BdQuatMultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatMultiplyMultiNode.cpp)
+  - sparse `inputQuat[]`をlogical index順に左畳み込みするQuaternion積
+- [test_bd_quat_multiply_multi.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_multiply_multi.py)
+  - `quatProd`互換の積、非可換順序、非正規化値、標準node接続、評価mode、scene round-tripのテスト
 - [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)
   - angle型、連続値、周期境界、表示単位、`rotateX`接続、評価mode、scene round-tripのテスト
 - [Angle.h](../plugins/bdUtilNodes/include/bdUtilNodes/math/Angle.h)
