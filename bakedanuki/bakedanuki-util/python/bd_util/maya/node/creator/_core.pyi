@@ -381,6 +381,12 @@ from ..operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from ..operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from ..operator.node.dg.bd_quat_compose_bend_twist import (
+    BdQuatComposeBendTwist,
+)
+from ..operator.node.dg.bd_quat_decompose_bend_twist import (
+    BdQuatDecomposeBendTwist,
+)
 from ..operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
@@ -3039,6 +3045,16 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblWeightedSumMulti: ...
+    def bdQuat_ComposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatComposeBendTwist: ...
+    def bdQuat_DecomposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatDecomposeBendTwist: ...
     def bdQuat_MultiplyMulti(
         self,
         name: str | None = None,

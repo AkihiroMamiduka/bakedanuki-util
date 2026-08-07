@@ -135,6 +135,10 @@ add_library(
     src/nodes/BdConditionDblCaseComposeNode.cpp
     src/nodes/BdConditionDblLCaseComposeNode.cpp
     src/nodes/BdQuatMultiplyMultiNode.cpp
+    src/nodes/BdQuatDecomposeBendTwistNode.cpp
+    src/nodes/BdQuatComposeBendTwistNode.cpp
+    src/math/BendTwist.cpp
+    src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
     src/attributes/DoubleLinear3Attribute.cpp

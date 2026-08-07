@@ -506,6 +506,10 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
+from .operator.node.dg.bd_quat_decompose_bend_twist import (
+    BdQuatDecomposeBendTwist,
+)
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
@@ -3795,6 +3799,18 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblWeightedSumMulti: ...
+    @staticmethod
+    def bdQuat_ComposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatComposeBendTwist: ...
+    @staticmethod
+    def bdQuat_DecomposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatDecomposeBendTwist: ...
     @staticmethod
     def bdQuat_MultiplyMulti(
         node: str | om.MObject,

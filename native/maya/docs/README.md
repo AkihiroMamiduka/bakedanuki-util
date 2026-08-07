@@ -18,7 +18,7 @@
 5. [Double Angle Node Roadmap](double-angle-roadmap.md)
    - 完了したAverage系、周期角度演算、Ratio、Conditionと、保留・対象外判断
 6. [Quaternion Nodes](quaternion-nodes.md)
-   - Maya標準Quaternion nodeとの役割分担、可変長積、順序、identity、非正規化方針
+   - Maya標準Quaternion nodeとの役割分担、可変長積、Bend / Twist分解・合成、特異点
 7. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 8. [Average Nodes](average.md)
@@ -52,9 +52,15 @@
 - [Double Angle Nodes](double-angle-nodes.md)
   - scalar `doubleAngle`を連続角度と明示的周期演算として扱う30 nodeの仕様とorientation境界
 - [Quaternion Nodes](quaternion-nodes.md)
-  - Maya標準nodeを補う可変長Quaternion積の命名、順序、identity、raw-value仕様
+  - Maya標準nodeを補う可変長Quaternion積とBend / Twist分解・合成の仕様
 - [BdQuatMultiplyMultiNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatMultiplyMultiNode.cpp)
   - sparse `inputQuat[]`をlogical index順に左畳み込みするQuaternion積
+- [BendTwist.cpp](../plugins/bdUtilNodes/src/math/BendTwist.cpp)
+  - swing–twist分解、2次元bend回転ベクトル、`bendRatio`、軸基準変換、特異点fallback
+- [BdQuatDecomposeBendTwistNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatDecomposeBendTwistNode.cpp) / [BdQuatComposeBendTwistNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatComposeBendTwistNode.cpp)
+  - Bend / Twistの意味成分をQuaternionと相互変換するDG node
+- [test_bd_quat_bend_twist.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_bend_twist.py)
+  - factor順、Quaternion符号同一性、軸基準、特異点、無効入力、評価mode、scene round-tripのテスト
 - [test_bd_quat_multiply_multi.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_multiply_multi.py)
   - `quatProd`互換の積、非可換順序、非正規化値、標準node接続、評価mode、scene round-tripのテスト
 - [test_bd_double_angle.py](../../../tests/maya/node/operator/node/dg/test_bd_double_angle.py)

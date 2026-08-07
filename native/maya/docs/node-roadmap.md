@@ -67,11 +67,19 @@ Condition / Composeを合わせた30 nodeを実装済みです。通常演算は
 
 3軸orientationはQuaternionを基本とし、Maya標準のQuaternion nodeを優先します。
 標準の`quatProd`が固定2入力だけである不足を補うため、可変長入力の
-`bdQuat_MultiplyMulti`を実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
+`bdQuat_MultiplyMulti`を実装済みです。さらに、orientationをtwist・horizontal bend・
+vertical bendへ意味分解する`bdQuat_DecomposeBendTwist`と、その逆変換を行う
+`bdQuat_ComposeBendTwist`を実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
 
 `bdQuat_MultiplyMulti`は既存のsparse入力をlogical index昇順に左から乗算し、空入力は
 identity Quaternionを返します。自動正規化や符号統一は行いません。詳細は
 [Quaternion Nodes](quaternion-nodes.md)を参照してください。
+
+Bend / Twist nodeはXをtwist軸、Y / Zをhorizontal / vertical bendの回転ベクトル軸とする
+swing–twist分解を使用します。`axisQuat`でこの意味座標を変更でき、factor順は
+`TwistBend`と`BendTwist`を明示的に選択できます。Quaternionの符号差を除いた正規出力、
+180° bendの特異点、無効入力fallbackをAPI仕様として扱います。Decomposeは総bend角度を
+0～180°で線形に正規化した`bendRatio`も出力します。
 
 ## Family Policy
 

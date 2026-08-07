@@ -138,6 +138,8 @@
 | `bdConditionDblAExtra_Compose` | `0x0007F086` | Internal development |
 | `bdConditionDblACase_Compose` | `0x0007F087` | Internal development |
 | `bdQuat_MultiplyMulti` | `0x0007F088` | Internal development |
+| `bdQuat_DecomposeBendTwist` | `0x0007F089` | Internal development |
+| `bdQuat_ComposeBendTwist` | `0x0007F08A` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

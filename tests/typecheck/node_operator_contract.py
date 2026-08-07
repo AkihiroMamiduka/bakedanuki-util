@@ -22,6 +22,18 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_multiply_multi imp
     OutputQuatAttrOperator,
     OutputQuatPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_compose_bend_twist import (
+    InputAttrOperator as BendTwistInputAttrOperator,
+    InputPlugOperator as BendTwistInputPlugOperator,
+    OutputQuatAttrOperator as BendTwistOutputQuatAttrOperator,
+    OutputQuatPlugOperator as BendTwistOutputQuatPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_decompose_bend_twist import (
+    InputQuatAttrOperator as BendTwistInputQuatAttrOperator,
+    InputQuatPlugOperator as BendTwistInputQuatPlugOperator,
+    OutputAttrOperator as BendTwistOutputAttrOperator,
+    OutputPlugOperator as BendTwistOutputPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add import (
     Input1AttrOperator as AddInput1AttrOperator,
     Input1PlugOperator as AddInput1PlugOperator,
@@ -351,6 +363,12 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_multiply_multi import (
 from bd_util.maya.node.operator.node.dg.bd_quat_multiply_multi import (
     BdQuatMultiplyMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_quat_compose_bend_twist import (
+    BdQuatComposeBendTwist,
+)
+from bd_util.maya.node.operator.node.dg.bd_quat_decompose_bend_twist import (
+    BdQuatDecomposeBendTwist,
+)
 from bd_util.maya.node.operator.node.dg.bd_dbl3_power import (
     BdDbl3Power,
 )
@@ -651,6 +669,57 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdQuat_MultiplyMulti("existing_quat_multi"),
         BdQuatMultiplyMulti,
+    )
+
+    compose_bend_twist = nodes.create.bdQuat_ComposeBendTwist(
+        name="compose_bend_twist"
+    )
+    assert_type(compose_bend_twist, BdQuatComposeBendTwist)
+    assert_type(BdQuatComposeBendTwist.input, BendTwistInputAttrOperator)
+    assert_type(compose_bend_twist.input, BendTwistInputPlugOperator)
+    assert_type(compose_bend_twist.input.get(), bdu.DoubleAngle3)
+    assert_type(
+        BdQuatComposeBendTwist.outputQuat,
+        BendTwistOutputQuatAttrOperator,
+    )
+    assert_type(
+        compose_bend_twist.outputQuat,
+        BendTwistOutputQuatPlugOperator,
+    )
+    assert_type(compose_bend_twist.outputQuat.get(), bdu.Quat)
+
+    decompose_bend_twist = nodes.create.bdQuat_DecomposeBendTwist(
+        name="decompose_bend_twist"
+    )
+    assert_type(decompose_bend_twist, BdQuatDecomposeBendTwist)
+    assert_type(
+        BdQuatDecomposeBendTwist.inputQuat,
+        BendTwistInputQuatAttrOperator,
+    )
+    assert_type(
+        decompose_bend_twist.inputQuat,
+        BendTwistInputQuatPlugOperator,
+    )
+    assert_type(
+        BdQuatDecomposeBendTwist.output,
+        BendTwistOutputAttrOperator,
+    )
+    assert_type(
+        decompose_bend_twist.output,
+        BendTwistOutputPlugOperator,
+    )
+    assert_type(decompose_bend_twist.output.get(), bdu.DoubleAngle3)
+    assert_type(decompose_bend_twist.bendRatio, DoublePlugOperator)
+    assert_type(decompose_bend_twist.bendRatio.get(), float)
+    assert_type(
+        nodes.existing.bdQuat_ComposeBendTwist("existing_compose_bend_twist"),
+        BdQuatComposeBendTwist,
+    )
+    assert_type(
+        nodes.existing.bdQuat_DecomposeBendTwist(
+            "existing_decompose_bend_twist"
+        ),
+        BdQuatDecomposeBendTwist,
     )
 
     double_absolute = nodes.create.bdDbl_Abs(name="double_absolute")

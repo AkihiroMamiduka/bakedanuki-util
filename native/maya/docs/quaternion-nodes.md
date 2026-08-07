@@ -9,10 +9,16 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | node type | 役割 | 状態 |
 | --- | --- | --- |
 | `bdQuat_MultiplyMulti` | 任意個のQuaternionを順序付きで乗算 | 実装済み |
+| `bdQuat_DecomposeBendTwist` | Quaternionを捻り・横曲げ・縦曲げへ分解 | 実装済み |
+| `bdQuat_ComposeBendTwist` | 捻り・横曲げ・縦曲げをQuaternionへ合成 | 実装済み |
 
 固定2入力版はMaya標準の`quatProd`を使用します。独自の`bdQuat_Multiply`は作りません。
 補間、正規化、共役、逆元、Euler変換についても、用途上の不足が確認されるまでは
 標準nodeを利用します。
+
+曲げ・捻り分解は3軸を独立したEuler角として扱う処理ではありません。Quaternionを
+swing–twist分解し、swingを2次元の回転ベクトルとして表します。この用途はMaya標準
+Quaternion nodeだけでは直接構成できないため、相互に対応する分解・合成nodeを提供します。
 
 node typeにはプロジェクト共通の演算名`Multiply`を使用します。Maya標準名の`Prod`は
 数学的には正確ですが、`bdDbl_MultiplyMulti`や`bdDbl3_MultiplyMulti`と同じ規則で
@@ -87,6 +93,143 @@ mod.do_it_dg()
 
 node type、attribute名、logical index昇順の積、空入力のidentity、自動正規化をしない方針は
 sceneの結果を左右する永続APIとして扱います。
+
+## Bend / Twist Convention
+
+`bdQuat_DecomposeBendTwist`と`bdQuat_ComposeBendTwist`は、意味上の基準座標で次の軸を
+使用します。
+
+- X軸: twist
+- Y軸: horizontal bendを生む回転軸
+- Z軸: vertical bendを生む回転軸
+
+`outputBendH = H`、`outputBendV = V`とすると、bendの総角度と回転軸は次の通りです。
+
+```text
+bendAngle = hypot(H, V)
+bendAxis  = (0, H / bendAngle, V / bendAngle)
+```
+
+したがって`hypot(H, V)`が実際の総曲げ角度です。HとVを同じ比率で縮小すると、bendを
+identityへ向かって球面上で同じ比率に縮小できます。H / VはEuler角ではなく、bend平面の
+回転ベクトル成分です。
+
+`order`はQuaternionの積順を明示します。
+
+| enum | value | 合成式 | default |
+| --- | ---: | --- | --- |
+| `TwistBend` | 0 | `Q = Q_twist * Q_bend` | Yes |
+| `BendTwist` | 1 | `Q = Q_bend * Q_twist` | No |
+
+積はMayaの`MQuaternion::operator*`および`quatProd`と同じ規約です。2つのnodeで同じ
+`order`を使用すると、正規範囲内では成分を往復できます。
+
+## Bend / Twist Attributes
+
+### `bdQuat_DecomposeBendTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputQuat` | `iq` | double4 compound | `(0, 0, 0, 1)` | 分解対象 |
+| `axisQuat` | `aq` | double4 compound | `(0, 0, 0, 1)` | 意味上のXYZ基準への変換 |
+| `order` | `ord` | enum | `TwistBend` | factorの積順 |
+| `output` | `o` | compound | `(0°, 0°, 0°)` | 3成分の親出力 |
+| `outputTwist` | `otw` | doubleAngle | `0°` | X軸twist |
+| `outputBendH` | `obh` | doubleAngle | `0°` | bend回転ベクトルのY成分 |
+| `outputBendV` | `obv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
+| `bendRatio` | `br` | double | `0.0` | 総bend角度を0～180°で正規化した値 |
+
+### `bdQuat_ComposeBendTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `input` | `i` | compound | `(0°, 0°, 0°)` | 3成分の親入力 |
+| `inputTwist` | `itw` | doubleAngle | `0°` | X軸twist |
+| `inputBendH` | `ibh` | doubleAngle | `0°` | bend回転ベクトルのY成分 |
+| `inputBendV` | `ibv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
+| `axisQuat` | `aq` | double4 compound | `(0, 0, 0, 1)` | 意味上のXYZ基準への変換 |
+| `order` | `ord` | enum | `TwistBend` | factorの積順 |
+| `outputQuat` | `oq` | double4 compound | `(0, 0, 0, 1)` | 合成結果 |
+
+`output`のchild順と`input`のchild順は、どちらもtwist、horizontal、verticalです。このため
+親compoundを直接接続できます。Quaternion compoundもMaya標準nodeと直接接続できます。
+
+## Axis Orientation
+
+`axisQuat = A`は、入力orientationそのものを追加回転する値ではなく、分解に使う
+意味上の座標基準です。identityでは上記のcanonical XYZをそのまま使います。
+
+```text
+decompose: Qcanonical = A * Qinput * inverse(A)
+compose:   Qoutput    = inverse(A) * Qcanonical * A
+```
+
+実際の意味座標を表すQuaternionをFとし、FのX / Y / Zが入力空間におけるtwist / H / V軸を
+向く場合は、`A = inverse(F)`を設定します。分解と合成のAは一致させてください。
+
+## Bend Ratio
+
+`bendRatio`はcanonical +Xのtwist基準方向が、回転後に反対方向へ向くまでの総bend角度を
+線形に正規化した値です。
+
+```text
+bendAngle = hypot(outputBendH, outputBendV)
+bendRatio = bendAngle / 180°
+```
+
+| twist軸の方向 | bend角度 | `bendRatio` |
+| --- | ---: | ---: |
+| 基準方向 | 0° | `0.0` |
+| 基準軸と直交 | 90° | `0.5` |
+| 基準方向の反対 | 180° | `1.0` |
+
+範囲は`[0, 1]`で、Quaternionのfactor order、`q` / `-q`の符号差には依存しません。
+180°特異点へ近づく度合いとして、`MapRange`や`remapValue`で任意のdriver curveへ変換できます。
+
+## Canonicalization And Singularity
+
+Quaternionは回転数の履歴を持たず、`q`と`-q`が同じorientationを表します。分解結果は
+orientationだけから一意に扱える正規表現へ統一します。
+
+- `outputTwist`は`[-180°, 180°)`。
+- bendの総角度`hypot(horizontal, vertical)`は`[0°, 180°]`。
+- `q`、`-q`、非zero scalar倍したQuaternionは同じ意味成分を返す。
+- 複数回転したtwistのturn数は復元しない。
+
+総bendが180°でtwist射影がzeroになる姿勢では、twistとbendの分け方が数学的に一意では
+ありません。この場合は`twist = 0°`とし、orientation全体をcanonical bendとして返します。
+このとき`bendRatio = 1.0`です。特異点近傍ではTwist / Bend成分が本質的に不安定になり得る
+ため、必要に応じて`bendRatio`をremapし、別driverへ連続的にブレンドします。
+
+両nodeは有限かつ十分な長さを持つQuaternionを内部で単位化します。zeroに近いQuaternion、
+`NaN`、無限値、無効な`axisQuat`では安全なfallbackを返します。
+
+- Decompose: 全角度`0°`、`bendRatio = 0.0`
+- Compose: identity Quaternion
+
+Composeの角度入力は連続値として受け取り、三角関数の周期でorientationへ写像します。正規範囲
+外の値をComposeして再度Decomposeすると、上記canonical rangeへ正規化されます。
+
+## Bend / Twist NodeOperator Example
+
+```python
+import bd_util as bdu
+
+mod = bdu.ModifierManager()
+nodes = bdu.Nodes(modifier_manager=mod)
+
+compose = nodes.create.bdQuat_ComposeBendTwist(name="compose_bend_twist")
+decompose = nodes.create.bdQuat_DecomposeBendTwist(name="decompose_bend_twist")
+recompose = nodes.create.bdQuat_ComposeBendTwist(name="recompose_bend_twist")
+
+compose.input.set((30.0, 45.0, -20.0))
+compose.outputQuat > decompose.inputQuat
+decompose.output > recompose.input
+mod.do_it_dg()
+```
+
+角度値のNodeOperator APIは、ほかの`doubleAngle` attributeと同じくdegree単位で扱います。
+内部のC++計算はMayaのinternal angle unitであるradianです。
 
 ## Autodesk Reference
 
