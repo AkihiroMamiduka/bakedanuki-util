@@ -95,14 +95,18 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
 
     decompose = maya_cmds.createNode("bdQuat_DecomposeBendTwist")
     compose = maya_cmds.createNode("bdQuat_ComposeBendTwist")
+    decompose_twist = maya_cmds.createNode("bdQuat_DecomposeTwist")
     selection = maya_om.MSelectionList()
     selection.add(decompose)
     selection.add(compose)
+    selection.add(decompose_twist)
     decompose_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
     compose_fn = maya_om.MFnDependencyNode(selection.getDependNode(1))
+    decompose_twist_fn = maya_om.MFnDependencyNode(selection.getDependNode(2))
 
     assert decompose_fn.typeId.id() == 0x0007F089
     assert compose_fn.typeId.id() == 0x0007F08A
+    assert decompose_twist_fn.typeId.id() == 0x0007F08B
     assert maya_cmds.attributeQuery(
         "output", node=decompose, listChildren=True
     ) == [
@@ -126,6 +130,12 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
     assert _get_quat(maya_cmds, f"{compose}.outputQuat") == pytest.approx(
         (0.0, 0.0, 0.0, 1.0)
     )
+    assert maya_cmds.getAttr(
+        f"{decompose_twist}.outputTwist"
+    ) == pytest.approx(0.0)
+    assert not maya_cmds.attributeQuery(
+        "order", node=decompose_twist, exists=True
+    )
     assert maya_cmds.getAttr(f"{decompose}.bendRatio") == pytest.approx(0.0)
     assert maya_cmds.attributeQuery(
         "bendRatio", node=decompose, minimum=True
@@ -137,6 +147,8 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
         "axisOrientationQuat",
         "outputBendHorizontal",
         "outputBendVertical",
+        "outputBendQuat",
+        "outputBendQuatInput",
         "isValid",
         "isSingular",
     ):
@@ -152,6 +164,54 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
         assert not maya_cmds.attributeQuery(
             removed_attribute, node=compose, exists=True
         )
+    for removed_attribute in (
+        "outputTwistQuat",
+        "outputTwistQuatInput",
+    ):
+        assert not maya_cmds.attributeQuery(
+            removed_attribute, node=decompose_twist, exists=True
+        )
+
+
+@pytest.mark.parametrize("order", [0, 1])
+def test_decompose_twist_matches_full_decompose_for_both_orders_and_axis(
+    maya_cmds,
+    maya_om,
+    order,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    axis_quat = _axis_quat("z", -90.0)
+    inverse_axis_quat = (
+        -axis_quat[0],
+        -axis_quat[1],
+        -axis_quat[2],
+        axis_quat[3],
+    )
+    canonical_twist = _axis_quat("x", 65.0)
+    canonical_bend = _bend_quat(-40.0, 25.0)
+    canonical_input = (
+        _product(maya_om, canonical_twist, canonical_bend)
+        if order == 0
+        else _product(maya_om, canonical_bend, canonical_twist)
+    )
+    input_quat = _product(
+        maya_om,
+        _product(maya_om, inverse_axis_quat, canonical_input),
+        axis_quat,
+    )
+
+    decompose = maya_cmds.createNode("bdQuat_DecomposeBendTwist")
+    decompose_twist = maya_cmds.createNode("bdQuat_DecomposeTwist")
+    for node in (decompose, decompose_twist):
+        _set_quat(maya_cmds, f"{node}.inputQuat", input_quat)
+        _set_quat(maya_cmds, f"{node}.axisQuat", axis_quat)
+    maya_cmds.setAttr(f"{decompose}.order", order)
+
+    assert maya_cmds.getAttr(
+        f"{decompose_twist}.outputTwist"
+    ) == pytest.approx(65.0)
+    assert maya_cmds.getAttr(f"{decompose}.outputTwist") == pytest.approx(65.0)
 
 
 @pytest.mark.parametrize("order", [0, 1])
@@ -334,6 +394,16 @@ def test_invalid_inputs_return_safe_fallbacks(maya_cmds):
     )
     assert maya_cmds.getAttr(f"{decompose}.bendRatio") == pytest.approx(0.0)
 
+    decompose_twist = maya_cmds.createNode("bdQuat_DecomposeTwist")
+    _set_quat(
+        maya_cmds,
+        f"{decompose_twist}.axisQuat",
+        (0.0, 0.0, 0.0, 0.0),
+    )
+    assert maya_cmds.getAttr(
+        f"{decompose_twist}.outputTwist"
+    ) == pytest.approx(0.0)
+
     compose = maya_cmds.createNode("bdQuat_ComposeBendTwist")
     maya_cmds.setAttr(f"{compose}.inputTwist", math.nan)
     assert _get_quat(maya_cmds, f"{compose}.outputQuat") == pytest.approx(
@@ -381,12 +451,16 @@ def test_standard_quaternion_nodes_connect_without_conversion(maya_cmds):
     to_quaternion = maya_cmds.createNode("eulerToQuat")
     decompose = maya_cmds.createNode("bdQuat_DecomposeBendTwist")
     compose = maya_cmds.createNode("bdQuat_ComposeBendTwist")
+    decompose_twist = maya_cmds.createNode("bdQuat_DecomposeTwist")
     to_euler = maya_cmds.createNode("quatToEuler")
     maya_cmds.connectAttr(
         f"{to_quaternion}.outputQuat", f"{decompose}.inputQuat"
     )
     maya_cmds.connectAttr(f"{decompose}.output", f"{compose}.input")
     maya_cmds.connectAttr(f"{compose}.outputQuat", f"{to_euler}.inputQuat")
+    maya_cmds.connectAttr(
+        f"{to_quaternion}.outputQuat", f"{decompose_twist}.inputQuat"
+    )
 
     assert not maya_cmds.ls(type="unitConversion")
 
@@ -403,17 +477,26 @@ def test_node_operator_types_and_direct_connection(
     from bd_util.maya.node.operator.node.dg.bd_quat_decompose_bend_twist import (
         BdQuatDecomposeBendTwist,
     )
+    from bd_util.maya.node.operator.node.dg.bd_quat_decompose_twist import (
+        BdQuatDecomposeTwist,
+    )
 
     nodes = bdu.Nodes(modifier_manager=modifier_manager)
     compose = nodes.create.bdQuat_ComposeBendTwist(name="compose")
     decompose = nodes.create.bdQuat_DecomposeBendTwist(name="decompose")
+    decompose_twist = nodes.create.bdQuat_DecomposeTwist(
+        name="decompose_twist"
+    )
     compose.input.set((35.0, 40.0, -20.0))
     compose.outputQuat > decompose.inputQuat
+    compose.outputQuat > decompose_twist.inputQuat
     modifier_manager.do_it_dg()
 
     assert isinstance(compose, BdQuatComposeBendTwist)
     assert isinstance(decompose, BdQuatDecomposeBendTwist)
+    assert isinstance(decompose_twist, BdQuatDecomposeTwist)
     assert isinstance(compose.outputQuat.get(), bdu.Quat)
+    assert decompose_twist.outputTwist.get() == pytest.approx(35.0)
     assert decompose.output.get().as_tuple() == pytest.approx(
         (35.0, 40.0, -20.0)
     )
@@ -427,6 +510,10 @@ def test_node_operator_types_and_direct_connection(
     assert isinstance(
         nodes.existing.bdQuat_DecomposeBendTwist(decompose.name),
         BdQuatDecomposeBendTwist,
+    )
+    assert isinstance(
+        nodes.existing.bdQuat_DecomposeTwist(decompose_twist.name),
+        BdQuatDecomposeTwist,
     )
 
 
@@ -460,8 +547,14 @@ def test_nodes_survive_scene_save_and_reload(maya_cmds, tmp_path):
     decompose = maya_cmds.createNode(
         "bdQuat_DecomposeBendTwist", name="decomposeBendTwist"
     )
+    decompose_twist = maya_cmds.createNode(
+        "bdQuat_DecomposeTwist", name="decomposeTwist"
+    )
     maya_cmds.setAttr(f"{compose}.input", 25.0, -55.0, 70.0, type="double3")
     maya_cmds.connectAttr(f"{compose}.outputQuat", f"{decompose}.inputQuat")
+    maya_cmds.connectAttr(
+        f"{compose}.outputQuat", f"{decompose_twist}.inputQuat"
+    )
 
     scene_path = tmp_path / "bd_quat_bend_twist.ma"
     maya_cmds.file(rename=str(scene_path))
@@ -474,4 +567,7 @@ def test_nodes_survive_scene_save_and_reload(maya_cmds, tmp_path):
     ) == pytest.approx((25.0, -55.0, 70.0))
     assert maya_cmds.getAttr("decomposeBendTwist.bendRatio") == pytest.approx(
         math.hypot(-55.0, 70.0) / 180.0
+    )
+    assert maya_cmds.getAttr("decomposeTwist.outputTwist") == pytest.approx(
+        25.0
     )

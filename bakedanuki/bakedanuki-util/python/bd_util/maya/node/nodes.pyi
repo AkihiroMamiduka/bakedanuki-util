@@ -511,6 +511,7 @@ from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
 from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
 )
+from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
@@ -3382,6 +3383,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdQuatDecomposeBendTwist: ...
+    def bdQuat_DecomposeTwist(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdQuatDecomposeTwist: ...
     def bdQuat_MultiplyMulti(
         self,
         node: str | om.MObject,

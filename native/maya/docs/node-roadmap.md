@@ -69,7 +69,8 @@ Condition / Composeを合わせた30 nodeを実装済みです。通常演算は
 標準の`quatProd`が固定2入力だけである不足を補うため、可変長入力の
 `bdQuat_MultiplyMulti`を実装済みです。さらに、orientationをtwist・horizontal bend・
 vertical bendへ意味分解する`bdQuat_DecomposeBendTwist`と、その逆変換を行う
-`bdQuat_ComposeBendTwist`を実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
+`bdQuat_ComposeBendTwist`、twistだけを低コストで取り出す`bdQuat_DecomposeTwist`を
+実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
 
 `bdQuat_MultiplyMulti`は既存のsparse入力をlogical index昇順に左から乗算し、空入力は
 identity Quaternionを返します。自動正規化や符号統一は行いません。詳細は

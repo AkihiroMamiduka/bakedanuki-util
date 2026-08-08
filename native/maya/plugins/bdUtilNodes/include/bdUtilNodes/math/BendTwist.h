@@ -10,11 +10,16 @@ enum class BendTwistOrder : short {
 };
 
 struct BendTwistComponents {
-    double twist;
-    double bendHorizontal;
-    double bendVertical;
-    double bendRatio;
+    double twist = 0.0;
+    double bendHorizontal = 0.0;
+    double bendVertical = 0.0;
+    double bendRatio = 0.0;
 };
+
+double decomposeTwist(
+    const MQuaternion& input,
+    const MQuaternion& axisOrientation
+);
 
 BendTwistComponents decomposeBendTwist(
     const MQuaternion& input,

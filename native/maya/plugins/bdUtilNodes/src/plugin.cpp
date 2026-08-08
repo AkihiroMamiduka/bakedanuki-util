@@ -140,6 +140,7 @@
 #include "bdUtilNodes/nodes/BdDblRatioDblANode.h"
 #include "bdUtilNodes/nodes/BdQuatComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
+#include "bdUtilNodes/nodes/BdQuatDecomposeTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 
 namespace {
@@ -151,8 +152,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 136>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 136> registrations = {{
+const std::array<NodeRegistration, 137>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 137> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -968,6 +969,12 @@ const std::array<NodeRegistration, 136>& nodeRegistrations() {
             BdQuatComposeBendTwistNode::typeId,
             BdQuatComposeBendTwistNode::creator,
             BdQuatComposeBendTwistNode::initialize,
+        },
+        {
+            BdQuatDecomposeTwistNode::typeName,
+            BdQuatDecomposeTwistNode::typeId,
+            BdQuatDecomposeTwistNode::creator,
+            BdQuatDecomposeTwistNode::initialize,
         },
     }};
     return registrations;

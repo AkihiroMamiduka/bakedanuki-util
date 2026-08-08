@@ -11,6 +11,7 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | `bdQuat_MultiplyMulti` | 任意個のQuaternionを順序付きで乗算 | 実装済み |
 | `bdQuat_DecomposeBendTwist` | Quaternionを捻り・横曲げ・縦曲げへ分解 | 実装済み |
 | `bdQuat_ComposeBendTwist` | 捻り・横曲げ・縦曲げをQuaternionへ合成 | 実装済み |
+| `bdQuat_DecomposeTwist` | Quaternionからtwist角度だけを抽出 | 実装済み |
 
 固定2入力版はMaya標準の`quatProd`を使用します。独自の`bdQuat_Multiply`は作りません。
 補間、正規化、共役、逆元、Euler変換についても、用途上の不足が確認されるまでは
@@ -19,6 +20,7 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 曲げ・捻り分解は3軸を独立したEuler角として扱う処理ではありません。Quaternionを
 swing–twist分解し、swingを2次元の回転ベクトルとして表します。この用途はMaya標準
 Quaternion nodeだけでは直接構成できないため、相互に対応する分解・合成nodeを提供します。
+twistだけが必要な場合は、bend成分を算出しない`bdQuat_DecomposeTwist`を使用できます。
 
 node typeにはプロジェクト共通の演算名`Multiply`を使用します。Maya標準名の`Prod`は
 数学的には正確ですが、`bdDbl_MultiplyMulti`や`bdDbl3_MultiplyMulti`と同じ規則で
@@ -139,6 +141,17 @@ identityへ向かって球面上で同じ比率に縮小できます。H / VはE
 | `outputBendV` | `obv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
 | `bendRatio` | `br` | double | `0.0` | 総bend角度を0～180°で正規化した値 |
 
+### `bdQuat_DecomposeTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputQuat` | `iq` | double4 compound | `(0, 0, 0, 1)` | 分解対象 |
+| `axisQuat` | `aq` | double4 compound | `(0, 0, 0, 1)` | 意味上のXYZ基準への変換 |
+| `outputTwist` | `otw` | doubleAngle | `0°` | canonical X軸まわりのtwist角度 |
+
+twist射影は`TwistBend`と`BendTwist`で共通なので、このnodeは`order`を持ちません。
+`bdQuat_DecomposeBendTwist.outputTwist`と同じ正規化済み角度を返します。
+
 ### `bdQuat_ComposeBendTwist`
 
 | long name | short name | 型 | default | 用途 |
@@ -153,6 +166,16 @@ identityへ向かって球面上で同じ比率に縮小できます。H / VはE
 
 `output`のchild順と`input`のchild順は、どちらもtwist、horizontal、verticalです。このため
 親compoundを直接接続できます。Quaternion compoundもMaya標準nodeと直接接続できます。
+
+分解nodeは角度成分だけを返し、Twist / Bend factor Quaternionは出力しません。factorが
+必要な場合は`bdQuat_ComposeBendTwist`で必要な成分だけを再構成します。
+
+- Twistのみ: `inputBendH = inputBendV = 0°`
+- Bendのみ: `inputTwist = 0°`
+- 入力側の意味座標で得る: 分解nodeと同じ`axisQuat`を設定
+- canonical座標で得る: `axisQuat`をidentityにする
+
+片方のfactorがidentityになるため、Twistのみ・Bendのみの再構成結果は`order`に依存しません。
 
 ## Axis Orientation
 
@@ -220,10 +243,12 @@ nodes = bdu.Nodes(modifier_manager=mod)
 
 compose = nodes.create.bdQuat_ComposeBendTwist(name="compose_bend_twist")
 decompose = nodes.create.bdQuat_DecomposeBendTwist(name="decompose_bend_twist")
+decompose_twist = nodes.create.bdQuat_DecomposeTwist(name="decompose_twist")
 recompose = nodes.create.bdQuat_ComposeBendTwist(name="recompose_bend_twist")
 
 compose.input.set((30.0, 45.0, -20.0))
 compose.outputQuat > decompose.inputQuat
+compose.outputQuat > decompose_twist.inputQuat
 decompose.output > recompose.input
 mod.do_it_dg()
 ```

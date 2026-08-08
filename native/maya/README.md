@@ -72,7 +72,7 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 ```
 
 テストは staged plug-in を Maya 2025 の `mayapy` へロードし、double3 / double版、
-doubleLinear / doubleLinear3版、scalar doubleAngle版、Quaternion可変長積とBend / Twist分解・合成の乗算・安全除算・距離比率・
+doubleLinear / doubleLinear3版、scalar doubleAngle版、Quaternion可変長積とBend / Twist分解・合成・Twist専用分解の乗算・安全除算・距離比率・
 角度比率・Wrap・最短角度差・最短経路補間・直角三角形計算、および加算・減算・
 最小値・最大値・Clamp・Map Range・Absolute・Negate・Condition・Average・Weighted Averageについて、固定入力ノード、
 可変長入力ノード、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、

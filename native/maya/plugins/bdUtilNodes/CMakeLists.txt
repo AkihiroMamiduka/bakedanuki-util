@@ -137,6 +137,7 @@ add_library(
     src/nodes/BdQuatMultiplyMultiNode.cpp
     src/nodes/BdQuatDecomposeBendTwistNode.cpp
     src/nodes/BdQuatComposeBendTwistNode.cpp
+    src/nodes/BdQuatDecomposeTwistNode.cpp
     src/math/BendTwist.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp

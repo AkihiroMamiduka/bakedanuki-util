@@ -94,7 +94,72 @@ bool isSupportedOrder(bd_util_nodes::BendTwistOrder order) {
 }
 
 bd_util_nodes::BendTwistComponents invalidComponents() {
-    return {0.0, 0.0, 0.0, 0.0};
+    return {};
+}
+
+struct DecompositionFrame {
+    MQuaternion canonical;
+};
+
+bool prepareDecompositionFrame(
+    const MQuaternion& input,
+    const MQuaternion& axisOrientation,
+    DecompositionFrame& frame
+) {
+    MQuaternion normalizedInput;
+    MQuaternion normalizedAxisOrientation;
+    if (
+        !normalizeQuaternion(input, normalizedInput)
+        || !normalizeQuaternion(
+            axisOrientation,
+            normalizedAxisOrientation
+        )
+    ) {
+        return false;
+    }
+
+    frame.canonical = normalizedAxisOrientation * normalizedInput
+        * conjugate(normalizedAxisOrientation);
+    return normalizeQuaternion(frame.canonical, frame.canonical);
+}
+
+struct TwistProjection {
+    double twist = 0.0;
+    MQuaternion quaternion;
+    bool singular = false;
+};
+
+bool projectTwist(
+    const DecompositionFrame& frame,
+    TwistProjection& projection
+) {
+    const double projectionLength = std::hypot(
+        frame.canonical.x,
+        frame.canonical.w
+    );
+    if (!std::isfinite(projectionLength)) {
+        return false;
+    }
+    if (projectionLength <= kBendTwistEpsilon) {
+        projection.singular = true;
+        return true;
+    }
+
+    projection.quaternion = canonicalizeTwist(MQuaternion(
+        frame.canonical.x / projectionLength,
+        0.0,
+        0.0,
+        frame.canonical.w / projectionLength
+    ));
+    projection.twist = bd_util_nodes::wrapAngle(
+        2.0 * std::atan2(
+            projection.quaternion.x,
+            projection.quaternion.w
+        ),
+        -bd_util_nodes::kPiRadians,
+        bd_util_nodes::kPiRadians
+    );
+    return true;
 }
 
 bd_util_nodes::BendTwistComponents bendToComponents(
@@ -114,25 +179,46 @@ bd_util_nodes::BendTwistComponents bendToComponents(
     if (!std::isfinite(transverseLength)) {
         return invalidComponents();
     }
+    bd_util_nodes::BendTwistComponents result;
+    result.twist = twist;
     if (transverseLength <= kBendTwistEpsilon) {
-        return {twist, 0.0, 0.0, 0.0};
+        return result;
     }
 
     const double bendAngle = 2.0 * std::atan2(
         transverseLength,
         std::max(0.0, normalizedBend.w)
     );
-    return {
-        twist,
-        bendAngle * normalizedBend.y / transverseLength,
-        bendAngle * normalizedBend.z / transverseLength,
-        std::clamp(bendAngle / bd_util_nodes::kPiRadians, 0.0, 1.0),
-    };
+    result.bendHorizontal =
+        bendAngle * normalizedBend.y / transverseLength;
+    result.bendVertical =
+        bendAngle * normalizedBend.z / transverseLength;
+    result.bendRatio = std::clamp(
+        bendAngle / bd_util_nodes::kPiRadians,
+        0.0,
+        1.0
+    );
+    return result;
 }
 
 }  // namespace
 
 namespace bd_util_nodes {
+
+double decomposeTwist(
+    const MQuaternion& input,
+    const MQuaternion& axisOrientation
+) {
+    DecompositionFrame frame;
+    TwistProjection projection;
+    if (
+        !prepareDecompositionFrame(input, axisOrientation, frame)
+        || !projectTwist(frame, projection)
+    ) {
+        return 0.0;
+    }
+    return projection.twist;
+}
 
 BendTwistComponents decomposeBendTwist(
     const MQuaternion& input,
@@ -143,55 +229,33 @@ BendTwistComponents decomposeBendTwist(
         return invalidComponents();
     }
 
-    MQuaternion normalizedInput;
-    MQuaternion normalizedAxisOrientation;
+    DecompositionFrame frame;
     if (
-        !normalizeQuaternion(input, normalizedInput)
-        || !normalizeQuaternion(
-            axisOrientation,
-            normalizedAxisOrientation
-        )
+        !prepareDecompositionFrame(input, axisOrientation, frame)
     ) {
         return invalidComponents();
     }
 
-    MQuaternion canonical = normalizedAxisOrientation * normalizedInput
-        * conjugate(normalizedAxisOrientation);
-    if (!normalizeQuaternion(canonical, canonical)) {
+    TwistProjection projection;
+    if (!projectTwist(frame, projection)) {
         return invalidComponents();
     }
-
-    const double twistProjectionLength = std::hypot(
-        canonical.x,
-        canonical.w
-    );
-    if (!std::isfinite(twistProjectionLength)) {
-        return invalidComponents();
-    }
-    if (twistProjectionLength <= kBendTwistEpsilon) {
-        return bendToComponents(canonicalizeBend(canonical), 0.0);
+    if (projection.singular) {
+        return bendToComponents(
+            canonicalizeBend(frame.canonical),
+            0.0
+        );
     }
 
-    MQuaternion twistQuaternion(
-        canonical.x / twistProjectionLength,
-        0.0,
-        0.0,
-        canonical.w / twistProjectionLength
-    );
-    twistQuaternion = canonicalizeTwist(twistQuaternion);
-
-    const MQuaternion inverseTwist = conjugate(twistQuaternion);
+    const MQuaternion inverseTwist = conjugate(projection.quaternion);
     const MQuaternion bendQuaternion =
         order == BendTwistOrder::kTwistBend
-        ? inverseTwist * canonical
-        : canonical * inverseTwist;
-
-    const double twist = wrapAngle(
-        2.0 * std::atan2(twistQuaternion.x, twistQuaternion.w),
-        -kPiRadians,
-        kPiRadians
+        ? inverseTwist * frame.canonical
+        : frame.canonical * inverseTwist;
+    return bendToComponents(
+        bendQuaternion,
+        projection.twist
     );
-    return bendToComponents(bendQuaternion, twist);
 }
 
 MQuaternion composeBendTwist(
