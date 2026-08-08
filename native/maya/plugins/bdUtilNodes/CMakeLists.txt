@@ -139,6 +139,10 @@ add_library(
     src/nodes/BdQuatComposeBendTwistNode.cpp
     src/nodes/BdQuatDecomposeTwistNode.cpp
     src/nodes/BdEulerDecomposeTwistNode.cpp
+    src/nodes/BdEulerDecomposeBendTwistNode.cpp
+    src/nodes/BdEulerComposeBendTwistNode.cpp
+    src/nodes/BdEulerValueNode.cpp
+    src/nodes/BdQuatValueNode.cpp
     src/math/BendTwist.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp

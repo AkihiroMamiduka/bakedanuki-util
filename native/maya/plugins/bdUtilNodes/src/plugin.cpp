@@ -138,11 +138,15 @@
 #include "bdUtilNodes/nodes/BdDblAWeightedSumMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAWrapNode.h"
 #include "bdUtilNodes/nodes/BdDblRatioDblANode.h"
+#include "bdUtilNodes/nodes/BdEulerComposeBendTwistNode.h"
+#include "bdUtilNodes/nodes/BdEulerDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerDecomposeTwistNode.h"
+#include "bdUtilNodes/nodes/BdEulerValueNode.h"
 #include "bdUtilNodes/nodes/BdQuatComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
+#include "bdUtilNodes/nodes/BdQuatValueNode.h"
 
 namespace {
 
@@ -153,8 +157,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 138>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 138> registrations = {{
+const std::array<NodeRegistration, 142>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 142> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -982,6 +986,30 @@ const std::array<NodeRegistration, 138>& nodeRegistrations() {
             BdEulerDecomposeTwistNode::typeId,
             BdEulerDecomposeTwistNode::creator,
             BdEulerDecomposeTwistNode::initialize,
+        },
+        {
+            BdEulerDecomposeBendTwistNode::typeName,
+            BdEulerDecomposeBendTwistNode::typeId,
+            BdEulerDecomposeBendTwistNode::creator,
+            BdEulerDecomposeBendTwistNode::initialize,
+        },
+        {
+            BdEulerComposeBendTwistNode::typeName,
+            BdEulerComposeBendTwistNode::typeId,
+            BdEulerComposeBendTwistNode::creator,
+            BdEulerComposeBendTwistNode::initialize,
+        },
+        {
+            BdEulerValueNode::typeName,
+            BdEulerValueNode::typeId,
+            BdEulerValueNode::creator,
+            BdEulerValueNode::initialize,
+        },
+        {
+            BdQuatValueNode::typeName,
+            BdQuatValueNode::typeId,
+            BdQuatValueNode::creator,
+            BdQuatValueNode::initialize,
         },
     }};
     return registrations;

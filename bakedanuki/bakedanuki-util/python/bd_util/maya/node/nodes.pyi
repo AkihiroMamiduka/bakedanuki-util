@@ -507,13 +507,21 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from .operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from .operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
 from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from .operator.node.dg.bd_euler_value import BdEulerValue
 from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
 from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
 )
 from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
+from .operator.node.dg.bd_quat_value import BdQuatValue
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -3374,11 +3382,26 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdDblWeightedSumMulti: ...
+    def bdEuler_ComposeBendTwist(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdEulerComposeBendTwist: ...
+    def bdEuler_DecomposeBendTwist(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdEulerDecomposeBendTwist: ...
     def bdEuler_DecomposeTwist(
         self,
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdEulerDecomposeTwist: ...
+    def bdEuler_Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdEulerValue: ...
     def bdQuat_ComposeBendTwist(
         self,
         node: str | om.MObject,
@@ -3399,6 +3422,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdQuatMultiplyMulti: ...
+    def bdQuat_Value(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdQuatValue: ...
     def bevel(
         self,
         node: str | om.MObject,

@@ -1037,11 +1037,19 @@ def _uniform_child_attr_type(children: list[AttrInfo]) -> str | None:
 def _is_quat_like_compound(
     parent_info: AttrInfo,
     children: list[AttrInfo],
+    *,
+    node_type: str | None = None,
 ) -> bool:
     """Return whether Maya reports a four-double compound as a quat."""
+    parent_long_name = _attr_long_name(parent_info)
+    has_quat_semantics = "quat" in parent_long_name.lower() or (
+        node_type is not None
+        and node_type.startswith("bdQuat_")
+        and parent_long_name == "value"
+    )
     return (
         parent_info.attribute_type in {"compound", "double4"}
-        and "quat" in _attr_long_name(parent_info).lower()
+        and has_quat_semantics
         and len(children) == 4
         and _uniform_child_attr_type(children) == "double"
     )
@@ -1050,9 +1058,15 @@ def _is_quat_like_compound(
 def _resolve_compound_base(
     parent_info: AttrInfo,
     children: list[AttrInfo],
+    *,
+    node_type: str | None = None,
 ) -> tuple[str, str, str, str] | None:
     """compound 親と子情報から現行の基底クラス群を返す。"""
-    if _is_quat_like_compound(parent_info, children):
+    if _is_quat_like_compound(
+        parent_info,
+        children,
+        node_type=node_type,
+    ):
         return _QUAT_COMPOUND_AT_BASE
 
     result = _GENERIC_COMPOUND_AT_BASE.get(parent_info.attribute_type)
@@ -1670,6 +1684,7 @@ def generate_node_attr_code(
             and _resolve_compound_base(
                 info,
                 compound_children_map.get(_attr_long_name(info), []),
+                node_type=node_type,
             )
         )
     ]
@@ -1710,7 +1725,11 @@ def generate_node_attr_code(
         if not children:
             continue
 
-        compound_base = _resolve_compound_base(parent_info, children)
+        compound_base = _resolve_compound_base(
+            parent_info,
+            children,
+            node_type=node_type,
+        )
         if compound_base is None:
             continue
 
@@ -1991,6 +2010,7 @@ def generate_node_class_code(
             and _resolve_compound_base(
                 info,
                 compound_children_map.get(_attr_long_name(info), []),
+                node_type=node_type,
             )
         ):
             _, _, field_cls_name = _long_name_to_compound_class_names(

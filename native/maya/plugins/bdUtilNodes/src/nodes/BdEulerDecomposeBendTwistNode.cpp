@@ -1,4 +1,4 @@
-#include "bdUtilNodes/nodes/BdEulerDecomposeTwistNode.h"
+#include "bdUtilNodes/nodes/BdEulerDecomposeBendTwistNode.h"
 
 #include <array>
 
@@ -10,35 +10,41 @@
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MPlug.h>
 
+#include "bdUtilNodes/attributes/BendTwistAttribute.h"
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 #include "bdUtilNodes/attributes/RotateAttribute.h"
-#include "bdUtilNodes/attributes/UnitAttribute.h"
 #include "bdUtilNodes/math/BendTwist.h"
 
-const MString BdEulerDecomposeTwistNode::typeName(
-    "bdEuler_DecomposeTwist"
+const MString BdEulerDecomposeBendTwistNode::typeName(
+    "bdEuler_DecomposeBendTwist"
 );
-const MTypeId BdEulerDecomposeTwistNode::typeId(0x0007F08C);
+const MTypeId BdEulerDecomposeBendTwistNode::typeId(0x0007F08D);
 
-MObject BdEulerDecomposeTwistNode::inputRotate;
-MObject BdEulerDecomposeTwistNode::inputRotateX;
-MObject BdEulerDecomposeTwistNode::inputRotateY;
-MObject BdEulerDecomposeTwistNode::inputRotateZ;
-MObject BdEulerDecomposeTwistNode::inputRotateOrder;
+MObject BdEulerDecomposeBendTwistNode::inputRotate;
+MObject BdEulerDecomposeBendTwistNode::inputRotateX;
+MObject BdEulerDecomposeBendTwistNode::inputRotateY;
+MObject BdEulerDecomposeBendTwistNode::inputRotateZ;
+MObject BdEulerDecomposeBendTwistNode::inputRotateOrder;
 
-MObject BdEulerDecomposeTwistNode::axisRotate;
-MObject BdEulerDecomposeTwistNode::axisRotateX;
-MObject BdEulerDecomposeTwistNode::axisRotateY;
-MObject BdEulerDecomposeTwistNode::axisRotateZ;
-MObject BdEulerDecomposeTwistNode::axisRotateOrder;
+MObject BdEulerDecomposeBendTwistNode::axisRotate;
+MObject BdEulerDecomposeBendTwistNode::axisRotateX;
+MObject BdEulerDecomposeBendTwistNode::axisRotateY;
+MObject BdEulerDecomposeBendTwistNode::axisRotateZ;
+MObject BdEulerDecomposeBendTwistNode::axisRotateOrder;
 
-MObject BdEulerDecomposeTwistNode::outputTwist;
+MObject BdEulerDecomposeBendTwistNode::order;
 
-void* BdEulerDecomposeTwistNode::creator() {
-    return new BdEulerDecomposeTwistNode();
+MObject BdEulerDecomposeBendTwistNode::output;
+MObject BdEulerDecomposeBendTwistNode::outputTwist;
+MObject BdEulerDecomposeBendTwistNode::outputBendH;
+MObject BdEulerDecomposeBendTwistNode::outputBendV;
+MObject BdEulerDecomposeBendTwistNode::bendRatio;
+
+void* BdEulerDecomposeBendTwistNode::creator() {
+    return new BdEulerDecomposeBendTwistNode();
 }
 
-MStatus BdEulerDecomposeTwistNode::initialize() {
+MStatus BdEulerDecomposeBendTwistNode::initialize() {
     MStatus status;
     MFnNumericAttribute numericAttributeFn;
     MFnUnitAttribute unitAttributeFn;
@@ -132,26 +138,80 @@ MStatus BdEulerDecomposeTwistNode::initialize() {
         return status;
     }
 
-    status = bd_util_nodes::createDoubleAngleAttribute(
+    status = bd_util_nodes::createBendTwistOrderAttribute(
+        enumAttributeFn,
+        order,
+        "order",
+        "ord"
+    );
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(order);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createBendTwistAttribute(
+        numericAttributeFn,
         unitAttributeFn,
+        output,
         outputTwist,
+        outputBendH,
+        outputBendV,
+        "output",
+        "o",
         "outputTwist",
         "otw",
+        "outputBendH",
+        "obh",
+        "outputBendV",
+        "obv"
+    );
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureOutputNumericAttribute(
+        numericAttributeFn
+    );
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(output);
+    if (!status) {
+        return status;
+    }
+
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn,
+        bendRatio,
+        "bendRatio",
+        "br",
         0.0
     );
     if (!status) {
         return status;
     }
-    status = bd_util_nodes::configureOutputUnitAttribute(unitAttributeFn);
+    status = numericAttributeFn.setMin(0.0);
     if (!status) {
         return status;
     }
-    status = addAttribute(outputTwist);
+    status = numericAttributeFn.setMax(1.0);
+    if (!status) {
+        return status;
+    }
+    status = bd_util_nodes::configureOutputNumericAttribute(
+        numericAttributeFn
+    );
+    if (!status) {
+        return status;
+    }
+    status = addAttribute(bendRatio);
     if (!status) {
         return status;
     }
 
-    const std::array<MObject, 10> inputs = {
+    const std::array<MObject, 11> inputs = {
         inputRotate,
         inputRotateX,
         inputRotateY,
@@ -162,21 +222,31 @@ MStatus BdEulerDecomposeTwistNode::initialize() {
         axisRotateY,
         axisRotateZ,
         axisRotateOrder,
+        order,
     };
     for (const MObject& inputAttribute : inputs) {
-        status = attributeAffects(inputAttribute, outputTwist);
-        if (!status) {
-            return status;
+        for (const MObject& outputAttribute : {output, bendRatio}) {
+            status = attributeAffects(inputAttribute, outputAttribute);
+            if (!status) {
+                return status;
+            }
         }
     }
     return MS::kSuccess;
 }
 
-MStatus BdEulerDecomposeTwistNode::compute(
+MStatus BdEulerDecomposeBendTwistNode::compute(
     const MPlug& plug,
     MDataBlock& dataBlock
 ) {
-    if (plug.attribute() != outputTwist) {
+    const MObject requestedAttribute = plug.attribute();
+    if (
+        requestedAttribute != output
+        && requestedAttribute != outputTwist
+        && requestedAttribute != outputBendH
+        && requestedAttribute != outputBendV
+        && requestedAttribute != bendRatio
+    ) {
         return MS::kUnknownParameter;
     }
 
@@ -213,45 +283,62 @@ MStatus BdEulerDecomposeTwistNode::compute(
     if (!status) {
         return status;
     }
+    const short orderValue = dataBlock.inputValue(order, &status).asShort();
+    if (!status) {
+        return status;
+    }
 
-    MEulerRotation::RotationOrder inputOrder;
-    MEulerRotation::RotationOrder axisOrder;
-    double result = 0.0;
+    MEulerRotation::RotationOrder inputRotateOrderValueMapped;
+    MEulerRotation::RotationOrder axisRotateOrderValueMapped;
+    bd_util_nodes::BendTwistComponents result;
     if (
         bd_util_nodes::toEulerRotationOrder(
             inputRotateOrderValue,
-            inputOrder
+            inputRotateOrderValueMapped
         )
         && bd_util_nodes::toEulerRotationOrder(
             axisRotateOrderValue,
-            axisOrder
+            axisRotateOrderValueMapped
         )
     ) {
-        result = bd_util_nodes::decomposeTwist(
+        result = bd_util_nodes::decomposeBendTwist(
             MEulerRotation(
                 inputRotateValue[0],
                 inputRotateValue[1],
                 inputRotateValue[2],
-                inputOrder
+                inputRotateOrderValueMapped
             ).asQuaternion(),
             MEulerRotation(
                 axisRotateValue[0],
                 axisRotateValue[1],
                 axisRotateValue[2],
-                axisOrder
-            ).asQuaternion()
+                axisRotateOrderValueMapped
+            ).asQuaternion(),
+            static_cast<bd_util_nodes::BendTwistOrder>(orderValue)
         );
     }
 
-    MDataHandle outputValue = dataBlock.outputValue(outputTwist, &status);
+    MDataHandle outputValue = dataBlock.outputValue(output, &status);
     if (!status) {
         return status;
     }
-    outputValue.setDouble(result);
+    outputValue.set3Double(
+        result.twist,
+        result.bendHorizontal,
+        result.bendVertical
+    );
     outputValue.setClean();
+
+    MDataHandle bendRatioValue = dataBlock.outputValue(bendRatio, &status);
+    if (!status) {
+        return status;
+    }
+    bendRatioValue.setDouble(result.bendRatio);
+    bendRatioValue.setClean();
     return dataBlock.setClean(plug);
 }
 
-MPxNode::SchedulingType BdEulerDecomposeTwistNode::schedulingType() const {
+MPxNode::SchedulingType
+BdEulerDecomposeBendTwistNode::schedulingType() const {
     return MPxNode::kParallel;
 }

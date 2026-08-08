@@ -13,6 +13,10 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | `bdQuat_ComposeBendTwist` | 捻り・横曲げ・縦曲げをQuaternionへ合成 | 実装済み |
 | `bdQuat_DecomposeTwist` | Quaternionからtwist角度だけを抽出 | 実装済み |
 | `bdEuler_DecomposeTwist` | Euler rotationからtwist角度だけを抽出 | 実装済み |
+| `bdEuler_DecomposeBendTwist` | Euler rotationを捻り・横曲げ・縦曲げへ分解 | 実装済み |
+| `bdEuler_ComposeBendTwist` | 捻り・横曲げ・縦曲げをEuler rotationへ合成 | 実装済み |
+| `bdEuler_Value` | Euler rotationとrotate orderを保存・中継 | 実装済み |
+| `bdQuat_Value` | Quaternionの生値を保存・中継 | 実装済み |
 
 固定2入力版はMaya標準の`quatProd`を使用します。独自の`bdQuat_Multiply`は作りません。
 補間、正規化、共役、逆元、Euler変換についても、用途上の不足が確認されるまでは
@@ -24,12 +28,51 @@ Quaternion nodeだけでは直接構成できないため、相互に対応す�
 twistだけが必要な場合は、bend成分を算出しない`bdQuat_DecomposeTwist`を使用できます。
 transformの`rotate`からtwistだけが必要な場合は、Euler→Quaternion変換を内包した
 `bdEuler_DecomposeTwist`を使用できます。
+分解・合成の前後をtransformの`rotate`へ直接つなぐ場合は、同じ変換を内包した
+`bdEuler_DecomposeBendTwist`と`bdEuler_ComposeBendTwist`を使用できます。
 
 node typeにはプロジェクト共通の演算名`Multiply`を使用します。Maya標準名の`Prod`は
 数学的には正確ですが、`bdDbl_MultiplyMulti`や`bdDbl3_MultiplyMulti`と同じ規則で
 検索・予測できることを優先しました。`Mult`は`Multi`と見分けにくいため使用しません。
 
-## Attributes
+## Stored Rotation Values
+
+`bdEuler_Value`と`bdQuat_Value`は計算nodeではなく、rotation値をsceneに保存しながら
+接続元・接続先の両方として使える中継nodeです。
+
+### `bdEuler_Value`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `value` | `v` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | Euler成分の保存・中継 |
+| `valueX/Y/Z` | `vx/vy/vz` | doubleAngle | `0°` | Euler各成分 |
+| `rotateOrder` | `ro` | enum | `xyz` | `value`の回転順序 |
+
+`value`は連続角度として扱います。360°を超えるturn数を保持し、正規化や別Euler表現への
+canonicalizeは行いません。Euler rotationの意味を失わないよう、利用時は`value`と
+`rotateOrder`を組として接続します。
+
+```text
+source.rotate      -> bdEuler_Value.value       -> target.rotate
+source.rotateOrder -> bdEuler_Value.rotateOrder -> target.rotateOrder
+```
+
+### `bdQuat_Value`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `value` | `v` | double4 compound | `(0, 0, 0, 1)` | Quaternion生値の保存・中継 |
+| `valueX/Y/Z/W` | `vx/vy/vz/vw` | double | `0/0/0/1` | Quaternion各成分 |
+
+自動正規化、`q`と`-q`の符号統一、zeroや非有限値の置換は行いません。NodeOperatorは
+名前が`value`であってもこのcompoundをQuaternionとして扱い、`value.get()`から
+`bdu.Quat`を返します。
+
+両nodeのattributeはreadable、writable、storable、keyableです。値を別outputへコピーする
+`compute()`や`attributeAffects()`は持たず、incoming connection、keyframe、scene保存、
+downstream dirty伝搬はMayaのplug機構へ任せます。
+
+## `bdQuat_MultiplyMulti` Attributes
 
 | long name | short name | 型 | default | 用途 |
 | --- | --- | --- | --- | --- |
@@ -144,6 +187,27 @@ identityへ向かって球面上で同じ比率に縮小できます。H / VはE
 | `outputBendV` | `obv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
 | `bendRatio` | `br` | double | `0.0` | 総bend角度を0～180°で正規化した値 |
 
+### `bdEuler_DecomposeBendTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputRotate` | `ir` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 分解対象のEuler rotation |
+| `inputRotateX/Y/Z` | `irx/iry/irz` | doubleAngle | `0°` | 入力回転成分 |
+| `inputRotateOrder` | `iro` | enum | `xyz` | `inputRotate`の回転順序 |
+| `axisRotate` | `ar` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 意味上のXYZ基準への変換をEulerで指定 |
+| `axisRotateX/Y/Z` | `arx/ary/arz` | doubleAngle | `0°` | 軸基準回転成分 |
+| `axisRotateOrder` | `aro` | enum | `xyz` | `axisRotate`の回転順序 |
+| `order` | `ord` | enum | `TwistBend` | factorの積順 |
+| `output` | `o` | compound | `(0°, 0°, 0°)` | 3成分の親出力 |
+| `outputTwist` | `otw` | doubleAngle | `0°` | X軸twist |
+| `outputBendH` | `obh` | doubleAngle | `0°` | bend回転ベクトルのY成分 |
+| `outputBendV` | `obv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
+| `bendRatio` | `br` | double | `0.0` | 総bend角度を0～180°で正規化した値 |
+
+`inputRotate`と`axisRotate`をそれぞれのrotate orderでQuaternionへ変換し、
+`bdQuat_DecomposeBendTwist`と同じ分解を行います。出力範囲、`bendRatio`、180° bendの
+特異点処理、無効入力fallbackもQuaternion版と同一です。
+
 ### `bdQuat_DecomposeTwist`
 
 | long name | short name | 型 | default | 用途 |
@@ -205,6 +269,30 @@ axis.rotateOrder   -> bdEuler_DecomposeTwist.axisRotateOrder
 | `order` | `ord` | enum | `TwistBend` | factorの積順 |
 | `outputQuat` | `oq` | double4 compound | `(0, 0, 0, 1)` | 合成結果 |
 
+### `bdEuler_ComposeBendTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `input` | `i` | compound | `(0°, 0°, 0°)` | 3成分の親入力 |
+| `inputTwist` | `itw` | doubleAngle | `0°` | X軸twist |
+| `inputBendH` | `ibh` | doubleAngle | `0°` | bend回転ベクトルのY成分 |
+| `inputBendV` | `ibv` | doubleAngle | `0°` | bend回転ベクトルのZ成分 |
+| `axisRotate` | `ar` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 意味上のXYZ基準への変換をEulerで指定 |
+| `axisRotateX/Y/Z` | `arx/ary/arz` | doubleAngle | `0°` | 軸基準回転成分 |
+| `axisRotateOrder` | `aro` | enum | `xyz` | `axisRotate`の回転順序 |
+| `order` | `ord` | enum | `TwistBend` | factorの積順 |
+| `outputRotateOrder` | `oro` | enum | `xyz` | `outputRotate`のEuler回転順序を指定する入力 |
+| `outputRotate` | `ort` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 合成したEuler rotation |
+| `outputRotateX/Y/Z` | `orx/ory/orz` | doubleAngle | `0°` | 出力回転成分 |
+
+内部では`bdQuat_ComposeBendTwist`と同じQuaternionを合成し、`outputRotateOrder`で指定した
+Euler表現へ変換します。`outputRotateOrder`は名前に`output`を含みますが、出力値ではなく
+出力表現を選ぶ入力パラメーターです。destination transformの`rotateOrder`から接続できます。
+
+Euler角は同じorientationに複数の表現があるため、入力したEuler成分やturn数を復元する
+nodeではありません。Compose→Decomposeの往復保証はorientationとcanonical Bend / Twist
+成分に対するもので、Euler XYZ値そのものの連続性は保証しません。
+
 `output`のchild順と`input`のchild順は、どちらもtwist、horizontal、verticalです。このため
 親compoundを直接接続できます。Quaternion compoundもMaya標準nodeと直接接続できます。
 
@@ -217,6 +305,18 @@ axis.rotateOrder   -> bdEuler_DecomposeTwist.axisRotateOrder
 - canonical座標で得る: `axisQuat`をidentityにする
 
 片方のfactorがidentityになるため、Twistのみ・Bendのみの再構成結果は`order`に依存しません。
+
+Euler版では上記の`axisQuat`を`axisRotate` + `axisRotateOrder`で指定します。分解nodeの
+`output`を合成nodeの`input`へ親compoundのまま接続でき、transformとは次のように
+変換nodeなしで接続できます。
+
+```text
+source.rotate      -> bdEuler_DecomposeBendTwist.inputRotate
+source.rotateOrder -> bdEuler_DecomposeBendTwist.inputRotateOrder
+decompose.output   -> bdEuler_ComposeBendTwist.input
+target.rotateOrder -> bdEuler_ComposeBendTwist.outputRotateOrder
+compose.outputRotate -> target.rotate
+```
 
 ## Axis Orientation
 
@@ -265,11 +365,16 @@ orientationだけから一意に扱える正規表現へ統一します。
 このとき`bendRatio = 1.0`です。特異点近傍ではTwist / Bend成分が本質的に不安定になり得る
 ため、必要に応じて`bendRatio`をremapし、別driverへ連続的にブレンドします。
 
-両nodeは有限かつ十分な長さを持つQuaternionを内部で単位化します。zeroに近いQuaternion、
+Quaternion版nodeは有限かつ十分な長さを持つQuaternionを内部で単位化します。zeroに近いQuaternion、
 `NaN`、無限値、無効な`axisQuat`では安全なfallbackを返します。
 
 - Decompose: 全角度`0°`、`bendRatio = 0.0`
 - Compose: identity Quaternion
+
+Euler版も非有限なrotate / angle入力では同じfallbackを使用します。
+
+- Decompose: 全角度`0°`、`bendRatio = 0.0`
+- Compose: `outputRotate = (0°, 0°, 0°)`
 
 Composeの角度入力は連続値として受け取り、三角関数の周期でorientationへ写像します。正規範囲
 外の値をComposeして再度Decomposeすると、上記canonical rangeへ正規化されます。

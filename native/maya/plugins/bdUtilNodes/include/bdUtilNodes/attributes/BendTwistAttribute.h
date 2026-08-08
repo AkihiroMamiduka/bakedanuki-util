@@ -2,6 +2,7 @@
 
 #include <maya/MStatus.h>
 
+class MFnEnumAttribute;
 class MFnNumericAttribute;
 class MFnUnitAttribute;
 class MObject;
@@ -23,6 +24,13 @@ MStatus createBendTwistAttribute(
     const char* bendHorizontalShortName,
     const char* bendVerticalLongName,
     const char* bendVerticalShortName
+);
+
+MStatus createBendTwistOrderAttribute(
+    MFnEnumAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName
 );
 
 }  // namespace bd_util_nodes

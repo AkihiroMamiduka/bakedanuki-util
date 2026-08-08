@@ -323,6 +323,16 @@ def _double4_quat_attr_infos() -> list[AttrInfo]:
     ]
 
 
+def _value_double4_attr_infos() -> list[AttrInfo]:
+    return [
+        _attr("value", "v", "double4", number_of_children=4),
+        _attr("value.valueX", "vx", "double", parent="value"),
+        _attr("value.valueY", "vy", "double", parent="value"),
+        _attr("value.valueZ", "vz", "double", parent="value"),
+        _attr("value.valueW", "vw", "double", parent="value"),
+    ]
+
+
 def _unsafe_identifier_attr_infos() -> list[AttrInfo]:
     return [
         _attr(".weight", ".w", "float", multi=True),
@@ -656,6 +666,39 @@ def test_generate_double4_quat_compound_node_attr_code():
     assert "QuatCompoundBaseAttrOperator" in code
     assert "QuatCompoundBaseField" in code
     assert "class InputQuatField(" in code
+
+
+def test_generate_bd_quat_value_compound_uses_quat_semantics():
+    code = generate_node_attr_code(
+        "bdQuat_Value",
+        attr_infos=_value_double4_attr_infos(),
+    )
+
+    assert code is not None
+    compile(code, "bd_quat_value_node_attr.py", "exec")
+
+    assert "QuatCompoundBasePlugOperator" in code
+    assert "QuatCompoundBaseAttrOperator" in code
+    assert "QuatCompoundBaseField" in code
+    assert "Double4CompoundBasePlugOperator" not in code
+
+    node_code = generate_node_class_code(
+        "bdQuat_Value",
+        attr_infos=_value_double4_attr_infos(),
+    )
+    compile(node_code, "bd_quat_value.py", "exec")
+    assert "value = ValueField()" in node_code
+
+
+def test_generate_untyped_value_double4_keeps_double4_semantics():
+    code = generate_node_attr_code(
+        "exampleNode",
+        attr_infos=_value_double4_attr_infos(),
+    )
+
+    assert code is not None
+    assert "Double4CompoundBasePlugOperator" in code
+    assert "QuatCompoundBasePlugOperator" not in code
 
 
 def test_generate_sanitizes_invalid_names_and_skips_dotted_short_aliases():

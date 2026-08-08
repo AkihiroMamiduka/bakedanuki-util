@@ -224,9 +224,13 @@ array output を構築・変更する node では `MArrayDataBuilder` を使い�
 
 ## Stored Value Nodes
 
-`bdDbl_Value`と`bdDbl3_Value`は計算結果ではなく、sceneに保存する値そのものを
-`value` plugとして公開します。double3版は`valueX`、`valueY`、`valueZ`の子plugを
-持ちます。defaultはdoubleが`0`、double3が`(0, 0, 0)`です。
+`bdDbl_Value`、`bdDbl3_Value`、`bdEuler_Value`、`bdQuat_Value`は計算結果ではなく、
+sceneに保存する値そのものを`value` plugとして公開します。compound版は型に応じた
+XYZまたはXYZWの子plugを持ちます。defaultはdoubleが`0`、double3 / Eulerが
+`(0, 0, 0)`、Quaternionがidentity `(0, 0, 0, 1)`です。
+
+`bdEuler_Value`は`rotateOrder`も保存し、角度のturn数を正規化しません。`bdQuat_Value`は
+単位化や`q` / `-q`の符号統一を行わず、入力された4成分をそのまま保持します。
 
 `value`は既存のinput attributeと同様にreadable、writable、storable、keyableです。
 そのため直接値を設定して接続元にできるだけでなく、別plugから接続を受けながら同じ
@@ -260,7 +264,8 @@ bd<TypeCode>_<Operation><Variant>
 | `doubleLinear` | `DblL` | 距離を保つ18種を実装済み |
 | 親`double3`、子`doubleLinear` x 3 | `DblL3` | 距離を保つ18種を実装済み |
 | `doubleAngle` | `DblA` | scalar angle関連30種を実装済み |
-| Quaternion（XYZWのdouble4 compound） | `Quat` | 可変長乗算を実装済み |
+| Euler rotation（doubleAngle x 3 + rotate order） | `Euler` | Value、Bend / Twist関連を実装済み |
+| Quaternion（XYZWのdouble4 compound） | `Quat` | Value、可変長乗算、Bend / Twist関連を実装済み |
 
 `doubleLinear3`はMayaの独立したatomic type名ではなく、最後の行のcompoundを指す
 プロジェクト内の呼称です。linear unit nodeの展開方針は

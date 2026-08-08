@@ -1,7 +1,6 @@
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
 
 #include <array>
-#include <utility>
 
 #include <maya/MDataBlock.h>
 #include <maya/MDataHandle.h>
@@ -114,46 +113,12 @@ MStatus BdQuatDecomposeBendTwistNode::initialize() {
     }
 
     MFnEnumAttribute enumAttributeFn;
-    order = enumAttributeFn.create(
+    status = bd_util_nodes::createBendTwistOrderAttribute(
+        enumAttributeFn,
+        order,
         "order",
-        "ord",
-        static_cast<short>(bd_util_nodes::BendTwistOrder::kTwistBend),
-        &status
+        "ord"
     );
-    if (!status) {
-        return status;
-    }
-    for (const auto& field : {
-             std::pair<const char*, bd_util_nodes::BendTwistOrder>{
-                 "TwistBend",
-                 bd_util_nodes::BendTwistOrder::kTwistBend,
-             },
-             std::pair<const char*, bd_util_nodes::BendTwistOrder>{
-                 "BendTwist",
-                 bd_util_nodes::BendTwistOrder::kBendTwist,
-             },
-         }) {
-        status = enumAttributeFn.addField(
-            field.first,
-            static_cast<short>(field.second)
-        );
-        if (!status) {
-            return status;
-        }
-    }
-    status = enumAttributeFn.setReadable(true);
-    if (!status) {
-        return status;
-    }
-    status = enumAttributeFn.setWritable(true);
-    if (!status) {
-        return status;
-    }
-    status = enumAttributeFn.setStorable(true);
-    if (!status) {
-        return status;
-    }
-    status = enumAttributeFn.setKeyable(true);
     if (!status) {
         return status;
     }

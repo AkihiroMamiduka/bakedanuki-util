@@ -381,7 +381,14 @@ from ..operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from ..operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from ..operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from ..operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
 from ..operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from ..operator.node.dg.bd_euler_value import BdEulerValue
 from ..operator.node.dg.bd_quat_compose_bend_twist import (
     BdQuatComposeBendTwist,
 )
@@ -390,6 +397,7 @@ from ..operator.node.dg.bd_quat_decompose_bend_twist import (
 )
 from ..operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from ..operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
+from ..operator.node.dg.bd_quat_value import BdQuatValue
 from ..operator.node.dg.bevel import Bevel
 from ..operator.node.dg.bevel_plus import BevelPlus
 from ..operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -3047,11 +3055,26 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdDblWeightedSumMulti: ...
+    def bdEuler_ComposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerComposeBendTwist: ...
+    def bdEuler_DecomposeBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerDecomposeBendTwist: ...
     def bdEuler_DecomposeTwist(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdEulerDecomposeTwist: ...
+    def bdEuler_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerValue: ...
     def bdQuat_ComposeBendTwist(
         self,
         name: str | None = None,
@@ -3072,6 +3095,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdQuatMultiplyMulti: ...
+    def bdQuat_Value(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatValue: ...
     def bevel(
         self,
         name: str | None = None,

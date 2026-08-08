@@ -1,9 +1,14 @@
 #include "bdUtilNodes/attributes/BendTwistAttribute.h"
 
+#include <utility>
+
+#include <maya/MFnEnumAttribute.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MObject.h>
 #include <maya/MString.h>
+
+#include "bdUtilNodes/math/BendTwist.h"
 
 namespace bd_util_nodes {
 
@@ -67,6 +72,55 @@ MStatus createBendTwistAttribute(
         &status
     );
     return status;
+}
+
+MStatus createBendTwistOrderAttribute(
+    MFnEnumAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName
+) {
+    MStatus status;
+    attribute = attributeFn.create(
+        longName,
+        shortName,
+        static_cast<short>(BendTwistOrder::kTwistBend),
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    for (const auto& field : {
+             std::pair<const char*, BendTwistOrder>{
+                 "TwistBend",
+                 BendTwistOrder::kTwistBend,
+             },
+             std::pair<const char*, BendTwistOrder>{
+                 "BendTwist",
+                 BendTwistOrder::kBendTwist,
+             },
+         }) {
+        status = attributeFn.addField(
+            field.first,
+            static_cast<short>(field.second)
+        );
+        if (!status) {
+            return status;
+        }
+    }
+    status = attributeFn.setReadable(true);
+    if (!status) {
+        return status;
+    }
+    status = attributeFn.setWritable(true);
+    if (!status) {
+        return status;
+    }
+    status = attributeFn.setStorable(true);
+    if (!status) {
+        return status;
+    }
+    return attributeFn.setKeyable(true);
 }
 
 }  // namespace bd_util_nodes

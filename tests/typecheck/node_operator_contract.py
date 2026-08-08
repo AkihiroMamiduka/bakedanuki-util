@@ -34,11 +34,35 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_decompose_bend_twi
     OutputAttrOperator as BendTwistOutputAttrOperator,
     OutputPlugOperator as BendTwistOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_value import (
+    ValueAttrOperator as QuatValueAttrOperator,
+    ValuePlugOperator as QuatValuePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_value import (
+    ValueAttrOperator as EulerValueAttrOperator,
+    ValuePlugOperator as EulerValuePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_decompose_twist import (
     AxisRotateAttrOperator,
     AxisRotatePlugOperator,
     InputRotateAttrOperator,
     InputRotatePlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_decompose_bend_twist import (
+    AxisRotateAttrOperator as EulerDecomposeAxisRotateAttrOperator,
+    AxisRotatePlugOperator as EulerDecomposeAxisRotatePlugOperator,
+    InputRotateAttrOperator as EulerDecomposeInputRotateAttrOperator,
+    InputRotatePlugOperator as EulerDecomposeInputRotatePlugOperator,
+    OutputAttrOperator as EulerDecomposeOutputAttrOperator,
+    OutputPlugOperator as EulerDecomposeOutputPlugOperator,
+)
+from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_compose_bend_twist import (
+    AxisRotateAttrOperator as EulerComposeAxisRotateAttrOperator,
+    AxisRotatePlugOperator as EulerComposeAxisRotatePlugOperator,
+    InputAttrOperator as EulerComposeInputAttrOperator,
+    InputPlugOperator as EulerComposeInputPlugOperator,
+    OutputRotateAttrOperator as EulerComposeOutputRotateAttrOperator,
+    OutputRotatePlugOperator as EulerComposeOutputRotatePlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.node_attr.bd_dbl3_add import (
     Input1AttrOperator as AddInput1AttrOperator,
@@ -369,6 +393,12 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_multiply_multi import (
 from bd_util.maya.node.operator.node.dg.bd_quat_multiply_multi import (
     BdQuatMultiplyMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_quat_value import BdQuatValue
+from bd_util.maya.node.operator.node.dg.bd_euler_value import BdEulerValue
+from bd_util.maya.node.operator.node.dg._generated.bd_euler_value import (
+    RotateOrderEnumAttrOperator as EulerValueRotateOrderAttrOperator,
+    RotateOrderEnumPlugOperator as EulerValueRotateOrderPlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_quat_compose_bend_twist import (
     BdQuatComposeBendTwist,
 )
@@ -386,6 +416,28 @@ from bd_util.maya.node.operator.node.dg._generated.bd_euler_decompose_twist impo
     AxisRotateOrderEnumPlugOperator as EulerAxisRotateOrderEnumPlugOperator,
     InputRotateOrderEnumAttrOperator as EulerInputRotateOrderEnumAttrOperator,
     InputRotateOrderEnumPlugOperator as EulerInputRotateOrderEnumPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_euler_decompose_bend_twist import (
+    AxisRotateOrderEnumAttrOperator as EulerDecomposeAxisOrderAttrOperator,
+    AxisRotateOrderEnumPlugOperator as EulerDecomposeAxisOrderPlugOperator,
+    InputRotateOrderEnumAttrOperator as EulerDecomposeInputOrderAttrOperator,
+    InputRotateOrderEnumPlugOperator as EulerDecomposeInputOrderPlugOperator,
+    OrderEnumAttrOperator as EulerDecomposeOrderAttrOperator,
+    OrderEnumPlugOperator as EulerDecomposeOrderPlugOperator,
+)
+from bd_util.maya.node.operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_euler_compose_bend_twist import (
+    AxisRotateOrderEnumAttrOperator as EulerComposeAxisOrderAttrOperator,
+    AxisRotateOrderEnumPlugOperator as EulerComposeAxisOrderPlugOperator,
+    OrderEnumAttrOperator as EulerComposeOrderAttrOperator,
+    OrderEnumPlugOperator as EulerComposeOrderPlugOperator,
+    OutputRotateOrderEnumAttrOperator as EulerComposeOutputOrderAttrOperator,
+    OutputRotateOrderEnumPlugOperator as EulerComposeOutputOrderPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_dbl3_power import (
     BdDbl3Power,
@@ -689,6 +741,34 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
         BdQuatMultiplyMulti,
     )
 
+    quat_value = nodes.create.bdQuat_Value(name="quat_value")
+    assert_type(quat_value, BdQuatValue)
+    assert_type(BdQuatValue.value, QuatValueAttrOperator)
+    assert_type(quat_value.value, QuatValuePlugOperator)
+    assert_type(quat_value.value.get(), bdu.Quat)
+    assert_type(
+        nodes.existing.bdQuat_Value("existing_quat_value"),
+        BdQuatValue,
+    )
+
+    euler_value = nodes.create.bdEuler_Value(name="euler_value")
+    assert_type(euler_value, BdEulerValue)
+    assert_type(BdEulerValue.value, EulerValueAttrOperator)
+    assert_type(euler_value.value, EulerValuePlugOperator)
+    assert_type(euler_value.value.get(), bdu.DoubleAngle3)
+    assert_type(
+        BdEulerValue.rotateOrder,
+        EulerValueRotateOrderAttrOperator,
+    )
+    assert_type(
+        euler_value.rotateOrder,
+        EulerValueRotateOrderPlugOperator,
+    )
+    assert_type(
+        nodes.existing.bdEuler_Value("existing_euler_value"),
+        BdEulerValue,
+    )
+
     compose_bend_twist = nodes.create.bdQuat_ComposeBendTwist(
         name="compose_bend_twist"
     )
@@ -781,6 +861,135 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
             "existing_euler_decompose_twist"
         ),
         BdEulerDecomposeTwist,
+    )
+
+    euler_decompose_bend_twist = nodes.create.bdEuler_DecomposeBendTwist(
+        name="euler_decompose_bend_twist"
+    )
+    assert_type(euler_decompose_bend_twist, BdEulerDecomposeBendTwist)
+    assert_type(
+        BdEulerDecomposeBendTwist.inputRotate,
+        EulerDecomposeInputRotateAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.inputRotate,
+        EulerDecomposeInputRotatePlugOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.inputRotate.get(),
+        bdu.DoubleAngle3,
+    )
+    assert_type(
+        BdEulerDecomposeBendTwist.inputRotateOrder,
+        EulerDecomposeInputOrderAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.inputRotateOrder,
+        EulerDecomposeInputOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerDecomposeBendTwist.axisRotate,
+        EulerDecomposeAxisRotateAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.axisRotate,
+        EulerDecomposeAxisRotatePlugOperator,
+    )
+    assert_type(
+        BdEulerDecomposeBendTwist.axisRotateOrder,
+        EulerDecomposeAxisOrderAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.axisRotateOrder,
+        EulerDecomposeAxisOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerDecomposeBendTwist.order,
+        EulerDecomposeOrderAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.order,
+        EulerDecomposeOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerDecomposeBendTwist.output,
+        EulerDecomposeOutputAttrOperator,
+    )
+    assert_type(
+        euler_decompose_bend_twist.output,
+        EulerDecomposeOutputPlugOperator,
+    )
+    assert_type(euler_decompose_bend_twist.output.get(), bdu.DoubleAngle3)
+    assert_type(euler_decompose_bend_twist.bendRatio.get(), float)
+    assert_type(
+        nodes.existing.bdEuler_DecomposeBendTwist(
+            "existing_euler_decompose_bend_twist"
+        ),
+        BdEulerDecomposeBendTwist,
+    )
+
+    euler_compose_bend_twist = nodes.create.bdEuler_ComposeBendTwist(
+        name="euler_compose_bend_twist"
+    )
+    assert_type(euler_compose_bend_twist, BdEulerComposeBendTwist)
+    assert_type(
+        BdEulerComposeBendTwist.input,
+        EulerComposeInputAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.input,
+        EulerComposeInputPlugOperator,
+    )
+    assert_type(euler_compose_bend_twist.input.get(), bdu.DoubleAngle3)
+    assert_type(
+        BdEulerComposeBendTwist.axisRotate,
+        EulerComposeAxisRotateAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.axisRotate,
+        EulerComposeAxisRotatePlugOperator,
+    )
+    assert_type(
+        BdEulerComposeBendTwist.axisRotateOrder,
+        EulerComposeAxisOrderAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.axisRotateOrder,
+        EulerComposeAxisOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerComposeBendTwist.order,
+        EulerComposeOrderAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.order,
+        EulerComposeOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerComposeBendTwist.outputRotateOrder,
+        EulerComposeOutputOrderAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.outputRotateOrder,
+        EulerComposeOutputOrderPlugOperator,
+    )
+    assert_type(
+        BdEulerComposeBendTwist.outputRotate,
+        EulerComposeOutputRotateAttrOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.outputRotate,
+        EulerComposeOutputRotatePlugOperator,
+    )
+    assert_type(
+        euler_compose_bend_twist.outputRotate.get(),
+        bdu.DoubleAngle3,
+    )
+    assert_type(
+        nodes.existing.bdEuler_ComposeBendTwist(
+            "existing_euler_compose_bend_twist"
+        ),
+        BdEulerComposeBendTwist,
     )
 
     double_absolute = nodes.create.bdDbl_Abs(name="double_absolute")

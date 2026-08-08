@@ -506,13 +506,21 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from .operator.node.dg.bd_euler_compose_bend_twist import (
+    BdEulerComposeBendTwist,
+)
+from .operator.node.dg.bd_euler_decompose_bend_twist import (
+    BdEulerDecomposeBendTwist,
+)
 from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from .operator.node.dg.bd_euler_value import BdEulerValue
 from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
 from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
 )
 from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
+from .operator.node.dg.bd_quat_value import BdQuatValue
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -3802,11 +3810,29 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdDblWeightedSumMulti: ...
     @staticmethod
+    def bdEuler_ComposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerComposeBendTwist: ...
+    @staticmethod
+    def bdEuler_DecomposeBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerDecomposeBendTwist: ...
+    @staticmethod
     def bdEuler_DecomposeTwist(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdEulerDecomposeTwist: ...
+    @staticmethod
+    def bdEuler_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerValue: ...
     @staticmethod
     def bdQuat_ComposeBendTwist(
         node: str | om.MObject,
@@ -3831,6 +3857,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdQuatMultiplyMulti: ...
+    @staticmethod
+    def bdQuat_Value(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatValue: ...
     @staticmethod
     def bevel(
         node: str | om.MObject,

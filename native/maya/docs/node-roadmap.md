@@ -71,8 +71,10 @@ Condition / Composeを合わせた30 nodeを実装済みです。通常演算は
 vertical bendへ意味分解する`bdQuat_DecomposeBendTwist`と、その逆変換を行う
 `bdQuat_ComposeBendTwist`、twistだけを低コストで取り出す`bdQuat_DecomposeTwist`を
 実装済みです。transformの`rotate`と`rotateOrder`からtwistだけを直接取り出せるよう、
-同じ処理のEuler入力版`bdEuler_DecomposeTwist`も実装済みです。独自の固定2入力版や
-`DblA3` familyは作りません。
+同じ処理のEuler入力版`bdEuler_DecomposeTwist`も実装済みです。さらに
+`bdEuler_DecomposeBendTwist` / `bdEuler_ComposeBendTwist`を、transformのrotateと直接
+接続する利便版として実装済みです。rotation値を保存・中継する`bdEuler_Value`と
+`bdQuat_Value`も実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
 
 `bdQuat_MultiplyMulti`は既存のsparse入力をlogical index昇順に左から乗算し、空入力は
 identity Quaternionを返します。自動正規化や符号統一は行いません。詳細は
@@ -87,6 +89,14 @@ swing–twist分解を使用します。`axisQuat`でこの意味座標を変更
 `bdEuler_DecomposeTwist`は`inputRotate` / `inputRotateOrder`と`axisRotate` /
 `axisRotateOrder`を内部でQuaternion化し、Quaternion版と同じcanonical twistを返します。
 出力Eulerと出力rotate orderは持ちません。
+
+Euler Bend / Twist版は`axisRotate` + `axisRotateOrder`で同じ軸基準を指定します。
+Composeは`outputRotateOrder`を入力として、合成Quaternionを指定順序の`outputRotate`へ
+変換します。Euler成分やturn数ではなくorientationの往復を保証対象とします。
+
+`bdEuler_Value`は連続したEuler角とrotate orderを組で保持します。`bdQuat_Value`は
+非単位値やQuaternion符号を含むXYZWを生のまま保持します。どちらも計算outputを持たない
+stored value nodeで、incoming / outgoing connectionの中継にも使用できます。
 
 ## Family Policy
 
