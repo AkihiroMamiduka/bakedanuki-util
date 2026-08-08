@@ -16,6 +16,8 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | `bdEuler_DecomposeTwist` | Euler rotationからtwist角度だけを抽出 | 実装済み |
 | `bdEuler_DecomposeBendTwist` | Euler rotationを捻り・横曲げ・縦曲げへ分解 | 実装済み |
 | `bdEuler_ComposeBendTwist` | 捻り・横曲げ・縦曲げをEuler rotationへ合成 | 実装済み |
+| `bdQuat_LimitBendTwist` | 分解した回転成分をBoxまたは楕円で制限しQuaternionへ再合成 | 実装済み |
+| `bdEuler_LimitBendTwist` | Euler rotationを回転成分ごとに制限してEulerへ再合成 | 実装済み |
 | `bdEuler_Value` | Euler rotationとrotate orderを保存・中継 | 実装済み |
 | `bdQuat_Value` | Quaternionの生値を保存・中継 | 実装済み |
 
@@ -358,6 +360,104 @@ source.rotateOrder -> bdEuler_DecomposeBendTwist.inputRotateOrder
 decompose.output   -> bdEuler_ComposeBendTwist.input
 target.rotateOrder -> bdEuler_ComposeBendTwist.outputRotateOrder
 compose.outputRotate -> target.rotate
+```
+
+## Bend / Twist Limit
+
+`bdQuat_LimitBendTwist`と`bdEuler_LimitBendTwist`は、入力orientationをTwist / BendH /
+BendVへ分解し、制限後の成分からorientationを再合成します。Euler XYZを直接clampしないため、
+回転順序による軸の混在を避けながら、意味上の曲げ・捻り範囲を設定できます。
+
+共通の制限attributeです。
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `bendLimitMode` | `blm` | enum | `Box` | BendH/Vの制限形状 |
+| `min` | `mn` | 3つのdoubleAngleを持つcompound | `(-180°, -180°, -180°)` | 最小制限の親入力 |
+| `minTwist` | `mntw` | doubleAngle | `-180°` | twist最小値 |
+| `minBendH` | `mnbh` | doubleAngle | `-180°` | H負方向の制限値 |
+| `minBendV` | `mnbv` | doubleAngle | `-180°` | V負方向の制限値 |
+| `max` | `mx` | 3つのdoubleAngleを持つcompound | `(180°, 180°, 180°)` | 最大制限の親入力 |
+| `maxTwist` | `mxtw` | doubleAngle | `180°` | twist最大値 |
+| `maxBendH` | `mxbh` | doubleAngle | `180°` | H正方向の制限値 |
+| `maxBendV` | `mxbv` | doubleAngle | `180°` | V正方向の制限値 |
+| `output` | `o` | compound | `(0°, 0°, 0°)` | 制限後のTwist / BendH / BendV |
+| `outputTwist` | `otw` | doubleAngle | `0°` | 制限後のtwist |
+| `outputBendH` | `obh` | doubleAngle | `0°` | 制限後のbend H成分 |
+| `outputBendV` | `obv` | doubleAngle | `0°` | 制限後のbend V成分 |
+
+`min`と`max`のchild順、および`output`のchild順はTwist、BendH、BendVです。初期値では
+canonical範囲全体を許可するため、入力orientationを変更しません。各成分で`min > max`の場合は、
+`bdDblA_Clamp`と同様に2値を並べ替えて使用します。Twistはどちらのmodeでも通常の区間clampです。
+
+### Bend Limit Mode
+
+| enum | value | 制限形状 | 特徴 |
+| --- | ---: | --- | --- |
+| `Box` | 0 | H/V平面上の長方形 | BendHとBendVを独立してclamp |
+| `Ellipse` | 1 | H/V平面上の楕円 | 方向を保ちながら境界へ放射投影 |
+
+`Ellipse`では入力成分の符号に応じて、H/Vそれぞれの負方向または正方向の半径を選びます。
+
+```text
+HRadius = H < 0 ? max(0, -minBendH) : max(0, maxBendH)
+VRadius = V < 0 ? max(0, -minBendV) : max(0, maxBendV)
+ratio   = sqrt((H / HRadius)^2 + (V / VRadius)^2)
+
+ratio > 1:
+    H = H / ratio
+    V = V / ratio
+```
+
+例えばHの正方向を90°、Vの正方向を45°とし、`H=80°`、`V=40°`を入力すると、
+`ratio ≈ 1.257`なので出力はおよそ`H=63.6°`、`V=31.8°`です。H:Vを維持するため、
+bend回転軸の方向を変えず、総bend量だけを縮小します。負方向には`minBendH/V`の絶対値を
+別半径として使用できるため、上下左右で非対称なconeを表現できます。
+
+楕円はneutralの0°を中心とする制限です。ある符号方向の範囲が0°をまたがない場合、その方向の
+有効半径は0°まで縮退します。実用上は`minBendH/V <= 0° <= maxBendH/V`として設定してください。
+選択方向の半径が0°で、対応する入力成分が0°でない場合、放射方向を維持できる許容点は原点だけに
+なるため、BendH/Vを両方0°へ戻します。
+
+Box制限後またはEllipse投影後の総bend角度が180°を超える場合は、H:Vを保ったまま180°へ
+縮小します。これはBend/Twistのcanonical範囲を守る安全処理です。180° bend自体はtwist分解の
+特異点なので、通常のjoint limitには180°未満を設定することを推奨します。
+
+### Quaternion / Euler Attributes
+
+`bdQuat_LimitBendTwist`は共通制限attributeに加えて、次を持ちます。
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputQuat` | `iq` | double4 compound | `(0, 0, 0, 1)` | 制限対象 |
+| `axisQuat` | `aq` | double4 compound | `(0, 0, 0, 1)` | 意味上のXYZ基準への変換 |
+| `order` | `ord` | enum | `TwistBend` | 分解・再合成のfactor順 |
+| `outputQuat` | `oq` | double4 compound | `(0, 0, 0, 1)` | 制限後のQuaternion |
+
+`bdEuler_LimitBendTwist`はtransformへ直接接続するため、次を持ちます。
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputRotate` | `ir` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 制限対象 |
+| `inputRotateOrder` | `iro` | enum | `xyz` | 入力Eulerの回転順序 |
+| `axisRotate` | `ar` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 意味上のXYZ基準への変換 |
+| `axisRotateOrder` | `aro` | enum | `xyz` | 軸基準Eulerの回転順序 |
+| `order` | `ord` | enum | `TwistBend` | 分解・再合成のfactor順 |
+| `outputRotateOrder` | `oro` | enum | `xyz` | 出力Eulerの回転順序を指定する入力 |
+| `outputRotate` | `ort` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 制限後のEuler rotation |
+
+Euler版も内部計算はQuaternion版と同じです。`outputRotate`は指定したrotate orderにおける同じ
+orientationを保証しますが、入力Euler channelやturn数の連続性は保証しません。Quaternionや
+軸基準がzeroに近い場合、非有限値、未対応enumでは、既存のBend/Twist nodeと同じくidentityと
+0°成分へfallbackします。
+
+```text
+source.rotate      -> bdEuler_LimitBendTwist.inputRotate
+source.rotateOrder -> bdEuler_LimitBendTwist.inputRotateOrder
+axis.rotate        -> bdEuler_LimitBendTwist.axisRotate
+axis.rotateOrder   -> bdEuler_LimitBendTwist.axisRotateOrder
+target.rotateOrder -> bdEuler_LimitBendTwist.outputRotateOrder
+bdEuler_LimitBendTwist.outputRotate -> target.rotate
 ```
 
 ## Axis Orientation

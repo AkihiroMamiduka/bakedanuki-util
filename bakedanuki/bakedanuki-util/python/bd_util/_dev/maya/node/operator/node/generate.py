@@ -1279,6 +1279,32 @@ def _normalize_metadata_value(attr_info: AttrInfo, arg_name: str, value):
     return value
 
 
+def _replace_compound_default_with_child_defaults(
+    attr_info: AttrInfo,
+    children: list[AttrInfo],
+) -> AttrInfo:
+    """Use child metadata units for a compound default value."""
+    if attr_info.default_value is None:
+        return attr_info
+
+    child_defaults = []
+    for child in children:
+        value = _normalize_metadata_value(
+            child,
+            "default_value",
+            child.default_value,
+        )
+        if value is None or isinstance(value, tuple):
+            return attr_info
+        child_defaults.append(value)
+    if not child_defaults:
+        return attr_info
+    return dataclasses.replace(
+        attr_info,
+        default_value=tuple(child_defaults),
+    )
+
+
 def _normalize_category_value(value) -> str | None:
     """Normalize Maya category query results to AttributeField's string API."""
     if value is None:
@@ -2038,11 +2064,13 @@ def generate_node_class_code(
         if long_name in short_to_long:
             continue
 
-        # コンストラクタ引数を組み立てる
-        args = _build_attr_init_args(attr_info)
-
         # compound 型で子が存在する場合はカスタムクラスを使用する
         if long_name in custom_compound_cls:
+            attr_info = _replace_compound_default_with_child_defaults(
+                attr_info,
+                compound_children_map.get(long_name, []),
+            )
+            args = _build_attr_init_args(attr_info)
             field_cls_name = custom_compound_cls[long_name]
             node_attr_imports.add(field_cls_name)
             safe_long_name = _safe_field_name(long_name)
@@ -2085,6 +2113,9 @@ def generate_node_class_code(
                             )
             attr_lines.append("")
             continue
+
+        # コンストラクタ引数を組み立てる
+        args = _build_attr_init_args(attr_info)
 
         # Field クラスを解決する
         resolved = _resolve_attr_class(attr_info)

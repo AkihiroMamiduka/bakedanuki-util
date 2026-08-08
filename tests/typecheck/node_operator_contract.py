@@ -42,6 +42,14 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_change_basis impor
     OutputQuatAttrOperator as ChangeBasisOutputQuatAttrOperator,
     OutputQuatPlugOperator as ChangeBasisOutputQuatPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_limit_bend_twist import (
+    MaxAttrOperator as LimitMaxAttrOperator,
+    MaxPlugOperator as LimitMaxPlugOperator,
+    MinAttrOperator as LimitMinAttrOperator,
+    MinPlugOperator as LimitMinPlugOperator,
+    OutputQuatAttrOperator as LimitOutputQuatAttrOperator,
+    OutputQuatPlugOperator as LimitOutputQuatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_value import (
     ValueAttrOperator as QuatValueAttrOperator,
     ValuePlugOperator as QuatValuePlugOperator,
@@ -423,6 +431,13 @@ from bd_util.maya.node.operator.node.dg.bd_quat_decompose_bend_twist import (
 from bd_util.maya.node.operator.node.dg.bd_quat_decompose_twist import (
     BdQuatDecomposeTwist,
 )
+from bd_util.maya.node.operator.node.dg.bd_quat_limit_bend_twist import (
+    BdQuatLimitBendTwist,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_quat_limit_bend_twist import (
+    BendLimitModeEnumAttrOperator as LimitModeAttrOperator,
+    BendLimitModeEnumPlugOperator as LimitModePlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_euler_decompose_twist import (
     BdEulerDecomposeTwist,
 )
@@ -434,6 +449,9 @@ from bd_util.maya.node.operator.node.dg._generated.bd_euler_decompose_twist impo
 )
 from bd_util.maya.node.operator.node.dg.bd_euler_decompose_bend_twist import (
     BdEulerDecomposeBendTwist,
+)
+from bd_util.maya.node.operator.node.dg.bd_euler_limit_bend_twist import (
+    BdEulerLimitBendTwist,
 )
 from bd_util.maya.node.operator.node.dg._generated.bd_euler_decompose_bend_twist import (
     AxisRotateOrderEnumAttrOperator as EulerDecomposeAxisOrderAttrOperator,
@@ -872,6 +890,35 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdQuat_DecomposeTwist("existing_decompose_twist"),
         BdQuatDecomposeTwist,
+    )
+
+    quat_limit = nodes.create.bdQuat_LimitBendTwist(name="quat_limit")
+    assert_type(quat_limit, BdQuatLimitBendTwist)
+    assert_type(BdQuatLimitBendTwist.min, LimitMinAttrOperator)
+    assert_type(quat_limit.min, LimitMinPlugOperator)
+    assert_type(quat_limit.min.get(), bdu.DoubleAngle3)
+    assert_type(BdQuatLimitBendTwist.max, LimitMaxAttrOperator)
+    assert_type(quat_limit.max, LimitMaxPlugOperator)
+    assert_type(BdQuatLimitBendTwist.bendLimitMode, LimitModeAttrOperator)
+    assert_type(quat_limit.bendLimitMode, LimitModePlugOperator)
+    assert_type(
+        BdQuatLimitBendTwist.outputQuat,
+        LimitOutputQuatAttrOperator,
+    )
+    assert_type(quat_limit.outputQuat, LimitOutputQuatPlugOperator)
+    assert_type(quat_limit.outputQuat.get(), bdu.Quat)
+    assert_type(
+        nodes.existing.bdQuat_LimitBendTwist("existing_quat_limit"),
+        BdQuatLimitBendTwist,
+    )
+
+    euler_limit = nodes.create.bdEuler_LimitBendTwist(name="euler_limit")
+    assert_type(euler_limit, BdEulerLimitBendTwist)
+    assert_type(euler_limit.output.get(), bdu.DoubleAngle3)
+    assert_type(euler_limit.outputRotate.get(), bdu.DoubleAngle3)
+    assert_type(
+        nodes.existing.bdEuler_LimitBendTwist("existing_euler_limit"),
+        BdEulerLimitBendTwist,
     )
 
     euler_decompose_twist = nodes.create.bdEuler_DecomposeTwist(

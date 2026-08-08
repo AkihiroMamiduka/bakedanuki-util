@@ -93,6 +93,108 @@ bool isSupportedOrder(bd_util_nodes::BendTwistOrder order) {
         || order == bd_util_nodes::BendTwistOrder::kBendTwist;
 }
 
+bool isSupportedLimitMode(bd_util_nodes::BendLimitMode mode) {
+    return mode == bd_util_nodes::BendLimitMode::kBox
+        || mode == bd_util_nodes::BendLimitMode::kEllipse;
+}
+
+bool areFinite(const bd_util_nodes::BendTwistLimits& limits) {
+    return std::isfinite(limits.minTwist)
+        && std::isfinite(limits.minBendHorizontal)
+        && std::isfinite(limits.minBendVertical)
+        && std::isfinite(limits.maxTwist)
+        && std::isfinite(limits.maxBendHorizontal)
+        && std::isfinite(limits.maxBendVertical);
+}
+
+double clampSorted(double value, double first, double second) {
+    return std::clamp(
+        value,
+        std::min(first, second),
+        std::max(first, second)
+    );
+}
+
+void limitBendToCanonicalRange(
+    double& bendHorizontal,
+    double& bendVertical
+) {
+    const double angle = std::hypot(bendHorizontal, bendVertical);
+    if (angle > bd_util_nodes::kPiRadians) {
+        const double scale = bd_util_nodes::kPiRadians / angle;
+        bendHorizontal *= scale;
+        bendVertical *= scale;
+    }
+}
+
+double directionalRadius(
+    double value,
+    double firstLimit,
+    double secondLimit
+) {
+    const double minimum = std::min(firstLimit, secondLimit);
+    const double maximum = std::max(firstLimit, secondLimit);
+    return value < 0.0
+        ? std::max(0.0, -minimum)
+        : std::max(0.0, maximum);
+}
+
+bool addEllipseContribution(
+    double value,
+    double radius,
+    double& ratioSquared
+) {
+    if (std::abs(value) <= kBendTwistEpsilon) {
+        return true;
+    }
+    if (radius <= kBendTwistEpsilon) {
+        return false;
+    }
+    const double ratio = value / radius;
+    ratioSquared += ratio * ratio;
+    return std::isfinite(ratioSquared);
+}
+
+void limitBendEllipse(
+    double& bendHorizontal,
+    double& bendVertical,
+    const bd_util_nodes::BendTwistLimits& limits
+) {
+    const double horizontalRadius = directionalRadius(
+        bendHorizontal,
+        limits.minBendHorizontal,
+        limits.maxBendHorizontal
+    );
+    const double verticalRadius = directionalRadius(
+        bendVertical,
+        limits.minBendVertical,
+        limits.maxBendVertical
+    );
+
+    double ratioSquared = 0.0;
+    if (
+        !addEllipseContribution(
+            bendHorizontal,
+            horizontalRadius,
+            ratioSquared
+        )
+        || !addEllipseContribution(
+            bendVertical,
+            verticalRadius,
+            ratioSquared
+        )
+    ) {
+        bendHorizontal = 0.0;
+        bendVertical = 0.0;
+        return;
+    }
+    if (ratioSquared > 1.0) {
+        const double scale = 1.0 / std::sqrt(ratioSquared);
+        bendHorizontal *= scale;
+        bendVertical *= scale;
+    }
+}
+
 bd_util_nodes::BendTwistComponents invalidComponents() {
     return {};
 }
@@ -316,6 +418,79 @@ MQuaternion composeBendTwist(
         return invalidQuaternion();
     }
     return output;
+}
+
+BendTwistLimitResult limitBendTwist(
+    const MQuaternion& input,
+    const MQuaternion& axisOrientation,
+    BendTwistOrder order,
+    BendLimitMode mode,
+    const BendTwistLimits& limits
+) {
+    BendTwistLimitResult result;
+    MQuaternion normalizedInput;
+    MQuaternion normalizedAxisOrientation;
+    if (
+        !isSupportedOrder(order) || !isSupportedLimitMode(mode)
+        || !areFinite(limits)
+        || !normalizeQuaternion(input, normalizedInput)
+        || !normalizeQuaternion(
+            axisOrientation,
+            normalizedAxisOrientation
+        )
+    ) {
+        return result;
+    }
+
+    result.components = decomposeBendTwist(
+        normalizedInput,
+        normalizedAxisOrientation,
+        order
+    );
+    result.components.twist = clampSorted(
+        result.components.twist,
+        limits.minTwist,
+        limits.maxTwist
+    );
+
+    if (mode == BendLimitMode::kBox) {
+        result.components.bendHorizontal = clampSorted(
+            result.components.bendHorizontal,
+            limits.minBendHorizontal,
+            limits.maxBendHorizontal
+        );
+        result.components.bendVertical = clampSorted(
+            result.components.bendVertical,
+            limits.minBendVertical,
+            limits.maxBendVertical
+        );
+    } else {
+        limitBendEllipse(
+            result.components.bendHorizontal,
+            result.components.bendVertical,
+            limits
+        );
+    }
+    limitBendToCanonicalRange(
+        result.components.bendHorizontal,
+        result.components.bendVertical
+    );
+    result.components.bendRatio = std::clamp(
+        std::hypot(
+            result.components.bendHorizontal,
+            result.components.bendVertical
+        ) / kPiRadians,
+        0.0,
+        1.0
+    );
+    result.quaternion = composeBendTwist(
+        result.components.twist,
+        result.components.bendHorizontal,
+        result.components.bendVertical,
+        normalizedAxisOrientation,
+        order
+    );
+    return result;
 }
 
 }  // namespace bd_util_nodes

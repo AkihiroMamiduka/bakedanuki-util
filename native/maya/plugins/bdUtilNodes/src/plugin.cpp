@@ -141,11 +141,13 @@
 #include "bdUtilNodes/nodes/BdEulerComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerDecomposeTwistNode.h"
+#include "bdUtilNodes/nodes/BdEulerLimitBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerValueNode.h"
 #include "bdUtilNodes/nodes/BdQuatChangeBasisNode.h"
 #include "bdUtilNodes/nodes/BdQuatComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeTwistNode.h"
+#include "bdUtilNodes/nodes/BdQuatLimitBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatMultiplyMultiNode.h"
 #include "bdUtilNodes/nodes/BdQuatValueNode.h"
 
@@ -158,8 +160,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 143>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 143> registrations = {{
+const std::array<NodeRegistration, 145>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 145> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -971,6 +973,12 @@ const std::array<NodeRegistration, 143>& nodeRegistrations() {
             BdQuatChangeBasisNode::initialize,
         },
         {
+            BdQuatLimitBendTwistNode::typeName,
+            BdQuatLimitBendTwistNode::typeId,
+            BdQuatLimitBendTwistNode::creator,
+            BdQuatLimitBendTwistNode::initialize,
+        },
+        {
             BdQuatDecomposeBendTwistNode::typeName,
             BdQuatDecomposeBendTwistNode::typeId,
             BdQuatDecomposeBendTwistNode::creator,
@@ -1005,6 +1013,12 @@ const std::array<NodeRegistration, 143>& nodeRegistrations() {
             BdEulerComposeBendTwistNode::typeId,
             BdEulerComposeBendTwistNode::creator,
             BdEulerComposeBendTwistNode::initialize,
+        },
+        {
+            BdEulerLimitBendTwistNode::typeName,
+            BdEulerLimitBendTwistNode::typeId,
+            BdEulerLimitBendTwistNode::creator,
+            BdEulerLimitBendTwistNode::initialize,
         },
         {
             BdEulerValueNode::typeName,

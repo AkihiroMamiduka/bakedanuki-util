@@ -26,7 +26,10 @@ MStatus createBendTwistAttribute(
     const char* bendHorizontalLongName,
     const char* bendHorizontalShortName,
     const char* bendVerticalLongName,
-    const char* bendVerticalShortName
+    const char* bendVerticalShortName,
+    double twistDefault,
+    double bendHorizontalDefault,
+    double bendVerticalDefault
 ) {
     MStatus status;
 
@@ -34,7 +37,7 @@ MStatus createBendTwistAttribute(
         twistLongName,
         twistShortName,
         MFnUnitAttribute::kAngle,
-        0.0,
+        twistDefault,
         &status
     );
     if (!status) {
@@ -45,7 +48,7 @@ MStatus createBendTwistAttribute(
         bendHorizontalLongName,
         bendHorizontalShortName,
         MFnUnitAttribute::kAngle,
-        0.0,
+        bendHorizontalDefault,
         &status
     );
     if (!status) {
@@ -56,7 +59,7 @@ MStatus createBendTwistAttribute(
         bendVerticalLongName,
         bendVerticalShortName,
         MFnUnitAttribute::kAngle,
-        0.0,
+        bendVerticalDefault,
         &status
     );
     if (!status) {
@@ -98,6 +101,55 @@ MStatus createBendTwistOrderAttribute(
              std::pair<const char*, BendTwistOrder>{
                  "BendTwist",
                  BendTwistOrder::kBendTwist,
+             },
+         }) {
+        status = attributeFn.addField(
+            field.first,
+            static_cast<short>(field.second)
+        );
+        if (!status) {
+            return status;
+        }
+    }
+    status = attributeFn.setReadable(true);
+    if (!status) {
+        return status;
+    }
+    status = attributeFn.setWritable(true);
+    if (!status) {
+        return status;
+    }
+    status = attributeFn.setStorable(true);
+    if (!status) {
+        return status;
+    }
+    return attributeFn.setKeyable(true);
+}
+
+MStatus createBendLimitModeAttribute(
+    MFnEnumAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName
+) {
+    MStatus status;
+    attribute = attributeFn.create(
+        longName,
+        shortName,
+        static_cast<short>(BendLimitMode::kBox),
+        &status
+    );
+    if (!status) {
+        return status;
+    }
+    for (const auto& field : {
+             std::pair<const char*, BendLimitMode>{
+                 "Box",
+                 BendLimitMode::kBox,
+             },
+             std::pair<const char*, BendLimitMode>{
+                 "Ellipse",
+                 BendLimitMode::kEllipse,
              },
          }) {
         status = attributeFn.addField(

@@ -513,6 +513,7 @@ from .operator.node.dg.bd_euler_decompose_bend_twist import (
     BdEulerDecomposeBendTwist,
 )
 from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from .operator.node.dg.bd_euler_limit_bend_twist import BdEulerLimitBendTwist
 from .operator.node.dg.bd_euler_value import BdEulerValue
 from .operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
 from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
@@ -520,6 +521,7 @@ from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
 )
 from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
+from .operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from .operator.node.dg.bd_quat_value import BdQuatValue
 from .operator.node.dg.bevel import Bevel
@@ -3829,6 +3831,12 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdEulerDecomposeTwist: ...
     @staticmethod
+    def bdEuler_LimitBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerLimitBendTwist: ...
+    @staticmethod
     def bdEuler_Value(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -3858,6 +3866,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdQuatDecomposeTwist: ...
+    @staticmethod
+    def bdQuat_LimitBendTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatLimitBendTwist: ...
     @staticmethod
     def bdQuat_MultiplyMulti(
         node: str | om.MObject,

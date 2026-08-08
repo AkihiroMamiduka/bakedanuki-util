@@ -388,6 +388,7 @@ from ..operator.node.dg.bd_euler_decompose_bend_twist import (
     BdEulerDecomposeBendTwist,
 )
 from ..operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
+from ..operator.node.dg.bd_euler_limit_bend_twist import BdEulerLimitBendTwist
 from ..operator.node.dg.bd_euler_value import BdEulerValue
 from ..operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
 from ..operator.node.dg.bd_quat_compose_bend_twist import (
@@ -397,6 +398,7 @@ from ..operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
 )
 from ..operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
+from ..operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
 from ..operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from ..operator.node.dg.bd_quat_value import BdQuatValue
 from ..operator.node.dg.bevel import Bevel
@@ -3071,6 +3073,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdEulerDecomposeTwist: ...
+    def bdEuler_LimitBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdEulerLimitBendTwist: ...
     def bdEuler_Value(
         self,
         name: str | None = None,
@@ -3096,6 +3103,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdQuatDecomposeTwist: ...
+    def bdQuat_LimitBendTwist(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatLimitBendTwist: ...
     def bdQuat_MultiplyMulti(
         self,
         name: str | None = None,

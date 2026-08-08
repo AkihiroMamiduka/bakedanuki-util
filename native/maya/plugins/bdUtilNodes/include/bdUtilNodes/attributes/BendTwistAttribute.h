@@ -23,10 +23,20 @@ MStatus createBendTwistAttribute(
     const char* bendHorizontalLongName,
     const char* bendHorizontalShortName,
     const char* bendVerticalLongName,
-    const char* bendVerticalShortName
+    const char* bendVerticalShortName,
+    double twistDefault = 0.0,
+    double bendHorizontalDefault = 0.0,
+    double bendVerticalDefault = 0.0
 );
 
 MStatus createBendTwistOrderAttribute(
+    MFnEnumAttribute& attributeFn,
+    MObject& attribute,
+    const char* longName,
+    const char* shortName
+);
+
+MStatus createBendLimitModeAttribute(
     MFnEnumAttribute& attributeFn,
     MObject& attribute,
     const char* longName,

@@ -1,4 +1,6 @@
 # coding: utf-8
+import math
+
 import pytest
 
 from bd_util._dev.maya.node.operator.node.generate import (
@@ -1012,6 +1014,45 @@ def test_generate_field_init_args_include_attribute_metadata():
     assert "writable=True" not in code
     assert "hidden = BoolField(default_value=0.0" not in code
     assert "mode = ModeEnumField(default_value=2, min_value=" not in code
+
+
+def test_generate_compound_default_uses_child_unit_values():
+    code = generate_node_class_code(
+        "angleLimitNode",
+        attr_infos=[
+            _attr(
+                "min",
+                "mn",
+                "double3",
+                default_value=[-math.pi, -math.pi, -math.pi],
+                number_of_children=3,
+            ),
+            _attr(
+                "min.minTwist",
+                "mntw",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+            _attr(
+                "min.minBendH",
+                "mnbh",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+            _attr(
+                "min.minBendV",
+                "mnbv",
+                "doubleAngle",
+                parent="min",
+                default_value=[-180.0],
+            ),
+        ],
+    )
+
+    compile(code, "angle_limit_node.py", "exec")
+    assert "min = MinField(default_value=(-180.0, -180.0, -180.0))" in code
 
 
 def test_generate_suffixes_duplicate_enum_member_names():
