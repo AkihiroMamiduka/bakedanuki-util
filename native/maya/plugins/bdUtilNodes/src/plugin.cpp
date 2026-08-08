@@ -138,6 +138,7 @@
 #include "bdUtilNodes/nodes/BdDblAWeightedSumMultiNode.h"
 #include "bdUtilNodes/nodes/BdDblAWrapNode.h"
 #include "bdUtilNodes/nodes/BdDblRatioDblANode.h"
+#include "bdUtilNodes/nodes/BdEulerDecomposeTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeTwistNode.h"
@@ -152,8 +153,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 137>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 137> registrations = {{
+const std::array<NodeRegistration, 138>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 138> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -975,6 +976,12 @@ const std::array<NodeRegistration, 137>& nodeRegistrations() {
             BdQuatDecomposeTwistNode::typeId,
             BdQuatDecomposeTwistNode::creator,
             BdQuatDecomposeTwistNode::initialize,
+        },
+        {
+            BdEulerDecomposeTwistNode::typeName,
+            BdEulerDecomposeTwistNode::typeId,
+            BdEulerDecomposeTwistNode::creator,
+            BdEulerDecomposeTwistNode::initialize,
         },
     }};
     return registrations;

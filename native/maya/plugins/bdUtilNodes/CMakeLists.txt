@@ -138,6 +138,7 @@ add_library(
     src/nodes/BdQuatDecomposeBendTwistNode.cpp
     src/nodes/BdQuatComposeBendTwistNode.cpp
     src/nodes/BdQuatDecomposeTwistNode.cpp
+    src/nodes/BdEulerDecomposeTwistNode.cpp
     src/math/BendTwist.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp
@@ -145,6 +146,7 @@ add_library(
     src/attributes/DoubleLinear3Attribute.cpp
     src/attributes/NumericAttribute.cpp
     src/attributes/QuaternionAttribute.cpp
+    src/attributes/RotateAttribute.cpp
     src/attributes/TypedAnyAttribute.cpp
     src/attributes/UnitAttribute.cpp
     src/plugin.cpp

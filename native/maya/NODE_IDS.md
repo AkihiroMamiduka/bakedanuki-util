@@ -141,6 +141,7 @@
 | `bdQuat_DecomposeBendTwist` | `0x0007F089` | Internal development |
 | `bdQuat_ComposeBendTwist` | `0x0007F08A` | Internal development |
 | `bdQuat_DecomposeTwist` | `0x0007F08B` | Internal development |
+| `bdEuler_DecomposeTwist` | `0x0007F08C` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

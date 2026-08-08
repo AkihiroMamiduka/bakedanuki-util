@@ -571,3 +571,183 @@ def test_nodes_survive_scene_save_and_reload(maya_cmds, tmp_path):
     assert maya_cmds.getAttr("decomposeTwist.outputTwist") == pytest.approx(
         25.0
     )
+
+
+def test_euler_decompose_twist_id_attributes_and_defaults(
+    maya_cmds,
+    maya_om,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    node = maya_cmds.createNode("bdEuler_DecomposeTwist")
+    selection = maya_om.MSelectionList()
+    selection.add(node)
+    node_fn = maya_om.MFnDependencyNode(selection.getDependNode(0))
+
+    assert node_fn.typeId.id() == 0x0007F08C
+    assert maya_cmds.attributeQuery(
+        "inputRotate", node=node, listChildren=True
+    ) == ["inputRotateX", "inputRotateY", "inputRotateZ"]
+    assert maya_cmds.attributeQuery(
+        "axisRotate", node=node, listChildren=True
+    ) == ["axisRotateX", "axisRotateY", "axisRotateZ"]
+    assert maya_cmds.attributeQuery(
+        "inputRotateOrder", node=node, listEnum=True
+    ) == ["xyz:yzx:zxy:xzy:yxz:zyx"]
+    assert maya_cmds.attributeQuery(
+        "axisRotateOrder", node=node, listEnum=True
+    ) == ["xyz:yzx:zxy:xzy:yxz:zyx"]
+    assert _get_angles(maya_cmds, f"{node}.inputRotate") == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )
+    assert _get_angles(maya_cmds, f"{node}.axisRotate") == pytest.approx(
+        (0.0, 0.0, 0.0)
+    )
+    assert maya_cmds.getAttr(f"{node}.outputTwist") == pytest.approx(0.0)
+    assert not maya_cmds.attributeQuery("outputRotate", node=node, exists=True)
+    assert not maya_cmds.attributeQuery(
+        "outputRotateOrder", node=node, exists=True
+    )
+
+
+@pytest.mark.parametrize(
+    (
+        "input_rotate",
+        "input_order",
+        "axis_rotate",
+        "axis_order",
+    ),
+    [
+        ((65.0, 0.0, 0.0), 0, (0.0, 0.0, 0.0), 0),
+        ((35.0, -48.0, 72.0), 0, (0.0, 0.0, 0.0), 0),
+        ((35.0, -48.0, 72.0), 5, (0.0, 0.0, 0.0), 0),
+        ((15.0, 30.0, -20.0), 2, (25.0, -40.0, 10.0), 4),
+        ((-110.0, 55.0, 80.0), 3, (-30.0, 15.0, 70.0), 1),
+    ],
+)
+def test_euler_decompose_twist_matches_standard_conversion_and_quat_node(
+    maya_cmds,
+    input_rotate,
+    input_order,
+    axis_rotate,
+    axis_order,
+):
+    _load_bd_util_nodes(maya_cmds)
+    maya_cmds.loadPlugin("quatNodes", quiet=True)
+
+    euler_node = maya_cmds.createNode("bdEuler_DecomposeTwist")
+    maya_cmds.setAttr(
+        f"{euler_node}.inputRotate", *input_rotate, type="double3"
+    )
+    maya_cmds.setAttr(f"{euler_node}.inputRotateOrder", input_order)
+    maya_cmds.setAttr(f"{euler_node}.axisRotate", *axis_rotate, type="double3")
+    maya_cmds.setAttr(f"{euler_node}.axisRotateOrder", axis_order)
+
+    input_to_quat = maya_cmds.createNode("eulerToQuat")
+    axis_to_quat = maya_cmds.createNode("eulerToQuat")
+    quat_node = maya_cmds.createNode("bdQuat_DecomposeTwist")
+    maya_cmds.setAttr(
+        f"{input_to_quat}.inputRotate", *input_rotate, type="double3"
+    )
+    maya_cmds.setAttr(f"{input_to_quat}.inputRotateOrder", input_order)
+    maya_cmds.setAttr(
+        f"{axis_to_quat}.inputRotate", *axis_rotate, type="double3"
+    )
+    maya_cmds.setAttr(f"{axis_to_quat}.inputRotateOrder", axis_order)
+    maya_cmds.connectAttr(
+        f"{input_to_quat}.outputQuat", f"{quat_node}.inputQuat"
+    )
+    maya_cmds.connectAttr(
+        f"{axis_to_quat}.outputQuat", f"{quat_node}.axisQuat"
+    )
+
+    assert maya_cmds.getAttr(f"{euler_node}.outputTwist") == pytest.approx(
+        maya_cmds.getAttr(f"{quat_node}.outputTwist"),
+        abs=1.0e-9,
+    )
+
+
+def test_euler_decompose_twist_accepts_transform_connections(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    source = maya_cmds.createNode("transform")
+    axis = maya_cmds.createNode("transform")
+    node = maya_cmds.createNode("bdEuler_DecomposeTwist")
+    maya_cmds.connectAttr(f"{source}.rotate", f"{node}.inputRotate")
+    maya_cmds.connectAttr(f"{source}.rotateOrder", f"{node}.inputRotateOrder")
+    maya_cmds.connectAttr(f"{axis}.rotate", f"{node}.axisRotate")
+    maya_cmds.connectAttr(f"{axis}.rotateOrder", f"{node}.axisRotateOrder")
+    maya_cmds.setAttr(f"{source}.rotateX", 47.0)
+
+    assert maya_cmds.getAttr(f"{node}.outputTwist") == pytest.approx(47.0)
+    assert not maya_cmds.ls(type="unitConversion")
+
+
+def test_euler_decompose_twist_rotate_order_updates_output(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    node = maya_cmds.createNode("bdEuler_DecomposeTwist")
+    maya_cmds.setAttr(f"{node}.inputRotate", 35.0, -48.0, 72.0, type="double3")
+    maya_cmds.setAttr(f"{node}.inputRotateOrder", 0)
+    first = maya_cmds.getAttr(f"{node}.outputTwist")
+    maya_cmds.setAttr(f"{node}.inputRotateOrder", 5)
+    second = maya_cmds.getAttr(f"{node}.outputTwist")
+
+    assert first != pytest.approx(second)
+
+
+def test_euler_decompose_twist_uses_orientation_not_turn_count(maya_cmds):
+    _load_bd_util_nodes(maya_cmds)
+
+    node = maya_cmds.createNode("bdEuler_DecomposeTwist")
+    maya_cmds.setAttr(f"{node}.inputRotateX", 450.0)
+    assert maya_cmds.getAttr(f"{node}.outputTwist") == pytest.approx(90.0)
+
+
+def test_euler_decompose_twist_node_operator(
+    modifier_manager,
+    maya_cmds,
+):
+    _load_bd_util_nodes(maya_cmds)
+
+    from bd_util.maya.node.operator.node.dg.bd_euler_decompose_twist import (
+        BdEulerDecomposeTwist,
+    )
+
+    nodes = bdu.Nodes(modifier_manager=modifier_manager)
+    node = nodes.create.bdEuler_DecomposeTwist(name="euler_twist")
+    node.inputRotate.set((40.0, -25.0, 15.0))
+    node.inputRotateOrder.set(4)
+    modifier_manager.do_it_dg()
+
+    assert isinstance(node, BdEulerDecomposeTwist)
+    assert isinstance(node.inputRotate.get(), bdu.DoubleAngle3)
+    assert isinstance(node.axisRotate.get(), bdu.DoubleAngle3)
+    assert isinstance(node.outputTwist.get(), float)
+    assert isinstance(
+        nodes.existing.bdEuler_DecomposeTwist(node.name),
+        BdEulerDecomposeTwist,
+    )
+
+
+def test_euler_decompose_twist_survives_scene_reload(maya_cmds, tmp_path):
+    _load_bd_util_nodes(maya_cmds)
+
+    node = maya_cmds.createNode(
+        "bdEuler_DecomposeTwist", name="eulerDecomposeTwist"
+    )
+    maya_cmds.setAttr(f"{node}.inputRotate", 25.0, -55.0, 70.0, type="double3")
+    maya_cmds.setAttr(f"{node}.inputRotateOrder", 4)
+    maya_cmds.setAttr(f"{node}.axisRotate", -15.0, 30.0, 20.0, type="double3")
+    maya_cmds.setAttr(f"{node}.axisRotateOrder", 2)
+    expected = maya_cmds.getAttr(f"{node}.outputTwist")
+
+    scene_path = tmp_path / "bd_euler_decompose_twist.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+
+    assert maya_cmds.getAttr(
+        "eulerDecomposeTwist.outputTwist"
+    ) == pytest.approx(expected)

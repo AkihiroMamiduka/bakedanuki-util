@@ -12,6 +12,7 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | `bdQuat_DecomposeBendTwist` | Quaternionを捻り・横曲げ・縦曲げへ分解 | 実装済み |
 | `bdQuat_ComposeBendTwist` | 捻り・横曲げ・縦曲げをQuaternionへ合成 | 実装済み |
 | `bdQuat_DecomposeTwist` | Quaternionからtwist角度だけを抽出 | 実装済み |
+| `bdEuler_DecomposeTwist` | Euler rotationからtwist角度だけを抽出 | 実装済み |
 
 固定2入力版はMaya標準の`quatProd`を使用します。独自の`bdQuat_Multiply`は作りません。
 補間、正規化、共役、逆元、Euler変換についても、用途上の不足が確認されるまでは
@@ -21,6 +22,8 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 swing–twist分解し、swingを2次元の回転ベクトルとして表します。この用途はMaya標準
 Quaternion nodeだけでは直接構成できないため、相互に対応する分解・合成nodeを提供します。
 twistだけが必要な場合は、bend成分を算出しない`bdQuat_DecomposeTwist`を使用できます。
+transformの`rotate`からtwistだけが必要な場合は、Euler→Quaternion変換を内包した
+`bdEuler_DecomposeTwist`を使用できます。
 
 node typeにはプロジェクト共通の演算名`Multiply`を使用します。Maya標準名の`Prod`は
 数学的には正確ですが、`bdDbl_MultiplyMulti`や`bdDbl3_MultiplyMulti`と同じ規則で
@@ -151,6 +154,44 @@ identityへ向かって球面上で同じ比率に縮小できます。H / VはE
 
 twist射影は`TwistBend`と`BendTwist`で共通なので、このnodeは`order`を持ちません。
 `bdQuat_DecomposeBendTwist.outputTwist`と同じ正規化済み角度を返します。
+
+### `bdEuler_DecomposeTwist`
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputRotate` | `ir` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 分解対象のEuler rotation |
+| `inputRotateX/Y/Z` | `irx/iry/irz` | doubleAngle | `0°` | 入力回転成分 |
+| `inputRotateOrder` | `iro` | enum | `xyz` | `inputRotate`の回転順序 |
+| `axisRotate` | `ar` | 3つのdoubleAngleを持つcompound | `(0°, 0°, 0°)` | 意味上のXYZ基準への変換をEulerで指定 |
+| `axisRotateX/Y/Z` | `arx/ary/arz` | doubleAngle | `0°` | 軸基準回転成分 |
+| `axisRotateOrder` | `aro` | enum | `xyz` | `axisRotate`の回転順序 |
+| `outputTwist` | `otw` | doubleAngle | `0°` | canonical X軸まわりのtwist角度 |
+
+両rotate orderはMayaのtransformと同じ`xyz / yzx / zxy / xzy / yxz / zyx`を使用します。
+node内で2つのEuler rotationをQuaternionへ変換し、`bdQuat_DecomposeTwist`と同じ処理へ
+渡します。
+
+```text
+Qinput = quaternion(inputRotate, inputRotateOrder)
+A      = quaternion(axisRotate, axisRotateOrder)
+outputTwist = decomposeTwist(Qinput, A)
+```
+
+`axisRotate`は`axisQuat = A`をEuler表現したものです。実際の意味座標`F`をそのままEuler化
+する入力ではなく、Quaternion版と同様に`A = inverse(F)`を指定します。Euler変換を内包する
+だけなので、出力範囲、特異点、無効入力fallbackはQuaternion版と一致します。
+
+transformからは変換nodeを挟まず、次の4本を直接接続できます。
+
+```text
+source.rotate      -> bdEuler_DecomposeTwist.inputRotate
+source.rotateOrder -> bdEuler_DecomposeTwist.inputRotateOrder
+axis.rotate        -> bdEuler_DecomposeTwist.axisRotate
+axis.rotateOrder   -> bdEuler_DecomposeTwist.axisRotateOrder
+```
+
+出力はtwist角度だけです。QuaternionとEuler orientationは回転数の履歴を持たないため、
+例えばX回転`450°`は`90°`として分解され、`outputTwist`は`[-180°, 180°)`へ正規化されます。
 
 ### `bdQuat_ComposeBendTwist`
 

@@ -506,6 +506,7 @@ from .operator.node.dg.bd_dbl_weighted_average_multi import (
     BdDblWeightedAverageMulti,
 )
 from .operator.node.dg.bd_dbl_weighted_sum_multi import BdDblWeightedSumMulti
+from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
 from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
 from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
@@ -3800,6 +3801,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdDblWeightedSumMulti: ...
+    @staticmethod
+    def bdEuler_DecomposeTwist(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdEulerDecomposeTwist: ...
     @staticmethod
     def bdQuat_ComposeBendTwist(
         node: str | om.MObject,

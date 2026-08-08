@@ -18,7 +18,7 @@
 5. [Double Angle Node Roadmap](double-angle-roadmap.md)
    - 完了したAverage系、周期角度演算、Ratio、Conditionと、保留・対象外判断
 6. [Quaternion Nodes](quaternion-nodes.md)
-   - Maya標準Quaternion nodeとの役割分担、可変長積、Bend / Twist分解・合成、Twist専用分解、特異点
+   - Maya標準Quaternion nodeとの役割分担、可変長積、Bend / Twist分解・合成、Quaternion / Euler入力のTwist専用分解、特異点
 7. [Condition Nodes](condition.md)
    - 単一条件、`case[]`、追加条件`extra[]`、論理結合、最初の一致の仕様
 8. [Average Nodes](average.md)
@@ -61,6 +61,8 @@
   - Bend / Twistの意味成分をQuaternionと相互変換するDG node
 - [BdQuatDecomposeTwistNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatDecomposeTwistNode.cpp)
   - Bend計算を省き、Twist角度だけを返すDG node
+- [BdEulerDecomposeTwistNode.cpp](../plugins/bdUtilNodes/src/nodes/BdEulerDecomposeTwistNode.cpp)
+  - transformのrotateとrotateOrderを直接受け、Twist角度だけを返すEuler入力版DG node
 - [test_bd_quat_bend_twist.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_bend_twist.py)
   - factor順、Quaternion符号同一性、軸基準、特異点、無効入力、評価mode、scene round-tripのテスト
 - [test_bd_quat_multiply_multi.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_multiply_multi.py)
