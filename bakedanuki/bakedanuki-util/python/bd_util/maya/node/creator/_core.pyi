@@ -389,6 +389,7 @@ from ..operator.node.dg.bd_euler_decompose_bend_twist import (
 )
 from ..operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
 from ..operator.node.dg.bd_euler_value import BdEulerValue
+from ..operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
 from ..operator.node.dg.bd_quat_compose_bend_twist import (
     BdQuatComposeBendTwist,
 )
@@ -3075,6 +3076,11 @@ class NodeCreator:
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
     ) -> BdEulerValue: ...
+    def bdQuat_ChangeBasis(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+    ) -> BdQuatChangeBasis: ...
     def bdQuat_ComposeBendTwist(
         self,
         name: str | None = None,

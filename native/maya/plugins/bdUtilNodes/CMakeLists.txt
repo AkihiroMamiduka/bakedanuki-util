@@ -135,6 +135,7 @@ add_library(
     src/nodes/BdConditionDblCaseComposeNode.cpp
     src/nodes/BdConditionDblLCaseComposeNode.cpp
     src/nodes/BdQuatMultiplyMultiNode.cpp
+    src/nodes/BdQuatChangeBasisNode.cpp
     src/nodes/BdQuatDecomposeBendTwistNode.cpp
     src/nodes/BdQuatComposeBendTwistNode.cpp
     src/nodes/BdQuatDecomposeTwistNode.cpp

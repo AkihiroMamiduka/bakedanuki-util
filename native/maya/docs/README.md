@@ -67,6 +67,10 @@
   - transformのrotateとrotateOrderを直接接続できるBend / Twist分解・合成DG node
 - [BdEulerValueNode.cpp](../plugins/bdUtilNodes/src/nodes/BdEulerValueNode.cpp) / [BdQuatValueNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatValueNode.cpp)
   - 連続Euler角 + rotate order、およびQuaternion生値を保存・中継するValue node
+- [BdQuatChangeBasisNode.cpp](../plugins/bdUtilNodes/src/nodes/BdQuatChangeBasisNode.cpp)
+  - Quaternionの回転軸を`ApplyAxis` / `RemoveAxis`の両方向へ基準変換するDG node
+- [test_bd_quat_change_basis.py](../../../tests/maya/node/operator/node/dg/test_bd_quat_change_basis.py)
+  - 標準node chain一致、非単位値、符号、往復、評価mode、scene round-tripのテスト
 - [test_bd_rotation_value.py](../../../tests/maya/node/operator/node/dg/test_bd_rotation_value.py)
   - 連続角度、非単位Quaternion、標準node直結、評価mode、scene round-tripのテスト
 - [test_bd_euler_bend_twist.py](../../../tests/maya/node/operator/node/dg/test_bd_euler_bend_twist.py)

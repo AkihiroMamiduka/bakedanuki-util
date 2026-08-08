@@ -142,6 +142,7 @@
 #include "bdUtilNodes/nodes/BdEulerDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerDecomposeTwistNode.h"
 #include "bdUtilNodes/nodes/BdEulerValueNode.h"
+#include "bdUtilNodes/nodes/BdQuatChangeBasisNode.h"
 #include "bdUtilNodes/nodes/BdQuatComposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeBendTwistNode.h"
 #include "bdUtilNodes/nodes/BdQuatDecomposeTwistNode.h"
@@ -157,8 +158,8 @@ struct NodeRegistration {
     MInitializeFunction initialize;
 };
 
-const std::array<NodeRegistration, 142>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 142> registrations = {{
+const std::array<NodeRegistration, 143>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 143> registrations = {{
         {
             BdDbl3MultiplyMultiNode::typeName,
             BdDbl3MultiplyMultiNode::typeId,
@@ -962,6 +963,12 @@ const std::array<NodeRegistration, 142>& nodeRegistrations() {
             BdQuatMultiplyMultiNode::typeId,
             BdQuatMultiplyMultiNode::creator,
             BdQuatMultiplyMultiNode::initialize,
+        },
+        {
+            BdQuatChangeBasisNode::typeName,
+            BdQuatChangeBasisNode::typeId,
+            BdQuatChangeBasisNode::creator,
+            BdQuatChangeBasisNode::initialize,
         },
         {
             BdQuatDecomposeBendTwistNode::typeName,

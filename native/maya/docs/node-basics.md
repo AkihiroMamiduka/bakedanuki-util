@@ -265,7 +265,7 @@ bd<TypeCode>_<Operation><Variant>
 | 親`double3`、子`doubleLinear` x 3 | `DblL3` | 距離を保つ18種を実装済み |
 | `doubleAngle` | `DblA` | scalar angle関連30種を実装済み |
 | Euler rotation（doubleAngle x 3 + rotate order） | `Euler` | Value、Bend / Twist関連を実装済み |
-| Quaternion（XYZWのdouble4 compound） | `Quat` | Value、可変長乗算、Bend / Twist関連を実装済み |
+| Quaternion（XYZWのdouble4 compound） | `Quat` | Value、可変長乗算、基準変換、Bend / Twist関連を実装済み |
 
 `doubleLinear3`はMayaの独立したatomic type名ではなく、最後の行のcompoundを指す
 プロジェクト内の呼称です。linear unit nodeの展開方針は

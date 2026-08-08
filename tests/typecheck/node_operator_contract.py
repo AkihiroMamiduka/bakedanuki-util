@@ -34,6 +34,14 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_decompose_bend_twi
     OutputAttrOperator as BendTwistOutputAttrOperator,
     OutputPlugOperator as BendTwistOutputPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_change_basis import (
+    AxisQuatAttrOperator as ChangeBasisAxisQuatAttrOperator,
+    AxisQuatPlugOperator as ChangeBasisAxisQuatPlugOperator,
+    InputQuatAttrOperator as ChangeBasisInputQuatAttrOperator,
+    InputQuatPlugOperator as ChangeBasisInputQuatPlugOperator,
+    OutputQuatAttrOperator as ChangeBasisOutputQuatAttrOperator,
+    OutputQuatPlugOperator as ChangeBasisOutputQuatPlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_value import (
     ValueAttrOperator as QuatValueAttrOperator,
     ValuePlugOperator as QuatValuePlugOperator,
@@ -393,6 +401,13 @@ from bd_util.maya.node.operator.node.dg.bd_dbl3_multiply_multi import (
 from bd_util.maya.node.operator.node.dg.bd_quat_multiply_multi import (
     BdQuatMultiplyMulti,
 )
+from bd_util.maya.node.operator.node.dg.bd_quat_change_basis import (
+    BdQuatChangeBasis,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_quat_change_basis import (
+    DirectionEnumAttrOperator as ChangeBasisDirectionAttrOperator,
+    DirectionEnumPlugOperator as ChangeBasisDirectionPlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_quat_value import BdQuatValue
 from bd_util.maya.node.operator.node.dg.bd_euler_value import BdEulerValue
 from bd_util.maya.node.operator.node.dg._generated.bd_euler_value import (
@@ -739,6 +754,36 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdQuat_MultiplyMulti("existing_quat_multi"),
         BdQuatMultiplyMulti,
+    )
+
+    change_basis = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+    assert_type(change_basis, BdQuatChangeBasis)
+    assert_type(
+        BdQuatChangeBasis.inputQuat,
+        ChangeBasisInputQuatAttrOperator,
+    )
+    assert_type(change_basis.inputQuat, ChangeBasisInputQuatPlugOperator)
+    assert_type(change_basis.inputQuat.get(), bdu.Quat)
+    assert_type(
+        BdQuatChangeBasis.axisQuat,
+        ChangeBasisAxisQuatAttrOperator,
+    )
+    assert_type(change_basis.axisQuat, ChangeBasisAxisQuatPlugOperator)
+    assert_type(change_basis.axisQuat.get(), bdu.Quat)
+    assert_type(
+        BdQuatChangeBasis.direction,
+        ChangeBasisDirectionAttrOperator,
+    )
+    assert_type(change_basis.direction, ChangeBasisDirectionPlugOperator)
+    assert_type(
+        BdQuatChangeBasis.outputQuat,
+        ChangeBasisOutputQuatAttrOperator,
+    )
+    assert_type(change_basis.outputQuat, ChangeBasisOutputQuatPlugOperator)
+    assert_type(change_basis.outputQuat.get(), bdu.Quat)
+    assert_type(
+        nodes.existing.bdQuat_ChangeBasis("existing_change_basis"),
+        BdQuatChangeBasis,
     )
 
     quat_value = nodes.create.bdQuat_Value(name="quat_value")

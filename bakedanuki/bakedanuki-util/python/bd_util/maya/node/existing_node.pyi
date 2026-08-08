@@ -514,6 +514,7 @@ from .operator.node.dg.bd_euler_decompose_bend_twist import (
 )
 from .operator.node.dg.bd_euler_decompose_twist import BdEulerDecomposeTwist
 from .operator.node.dg.bd_euler_value import BdEulerValue
+from .operator.node.dg.bd_quat_change_basis import BdQuatChangeBasis
 from .operator.node.dg.bd_quat_compose_bend_twist import BdQuatComposeBendTwist
 from .operator.node.dg.bd_quat_decompose_bend_twist import (
     BdQuatDecomposeBendTwist,
@@ -3833,6 +3834,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdEulerValue: ...
+    @staticmethod
+    def bdQuat_ChangeBasis(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdQuatChangeBasis: ...
     @staticmethod
     def bdQuat_ComposeBendTwist(
         node: str | om.MObject,

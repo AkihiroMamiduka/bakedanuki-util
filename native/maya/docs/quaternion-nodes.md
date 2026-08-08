@@ -9,6 +9,7 @@ Maya標準の`quatProd`、`quatSlerp`、`quatNormalize`、`eulerToQuat`、`quatT
 | node type | 役割 | 状態 |
 | --- | --- | --- |
 | `bdQuat_MultiplyMulti` | 任意個のQuaternionを順序付きで乗算 | 実装済み |
+| `bdQuat_ChangeBasis` | Quaternionの回転軸を別の基準へ変換 | 実装済み |
 | `bdQuat_DecomposeBendTwist` | Quaternionを捻り・横曲げ・縦曲げへ分解 | 実装済み |
 | `bdQuat_ComposeBendTwist` | 捻り・横曲げ・縦曲げをQuaternionへ合成 | 実装済み |
 | `bdQuat_DecomposeTwist` | Quaternionからtwist角度だけを抽出 | 実装済み |
@@ -71,6 +72,47 @@ source.rotateOrder -> bdEuler_Value.rotateOrder -> target.rotateOrder
 両nodeのattributeはreadable、writable、storable、keyableです。値を別outputへコピーする
 `compute()`や`attributeAffects()`は持たず、incoming connection、keyframe、scene保存、
 downstream dirty伝搬はMayaのplug機構へ任せます。
+
+## `bdQuat_ChangeBasis`
+
+Quaternionの回転角度とraw scaleを保ちながら、回転軸を`axisQuat`で指定した基準へ
+変換します。数学的にはgroup conjugation / similarity transformationに相当し、
+Maya標準nodeでは`quatInvert` 1個と`quatProd` 2個で構成する処理です。
+
+| long name | short name | 型 | default | 用途 |
+| --- | --- | --- | --- | --- |
+| `inputQuat` | `iq` | double4 compound | `(0, 0, 0, 1)` | 基準変換するQuaternion `B` |
+| `inputQuatX/Y/Z/W` | `iqx/iqy/iqz/iqw` | double | `0/0/0/1` | 入力成分 |
+| `axisQuat` | `aq` | double4 compound | `(0, 0, 0, 1)` | 基準を表すQuaternion `A` |
+| `axisQuatX/Y/Z/W` | `aqx/aqy/aqz/aqw` | double | `0/0/0/1` | 基準成分 |
+| `direction` | `dir` | enum | `ApplyAxis` | 基準変換の向き |
+| `outputQuat` | `oq` | double4 compound | `(0, 0, 0, 1)` | 変換結果 |
+| `outputQuatX/Y/Z/W` | `oqx/oqy/oqz/oqw` | double | `0/0/0/1` | 出力成分 |
+
+```text
+ApplyAxis:
+outputQuat = inverse(axisQuat) * inputQuat * axisQuat
+
+RemoveAxis:
+outputQuat = axisQuat * inputQuat * inverse(axisQuat)
+```
+
+MayaのQuaternion規約では、`ApplyAxis`は`inputQuat`の回転軸を`axisQuat`で回転し、
+`RemoveAxis`はその逆向きへ回転します。同じ`axisQuat`で`ApplyAxis`の結果を
+`RemoveAxis`へ渡すと、元の`inputQuat`へ戻ります。
+
+自動正規化、`q` / `-q`の符号統一、zero / 非有限値のfallbackは行いません。
+非単位Quaternionも`MQuaternion::inverse()`と積の結果をそのまま返し、zero
+`axisQuat`は無効な逆元として非有限値を伝搬します。正規化が必要な場合は
+Maya標準の`quatNormalize`を明示的に接続します。
+
+```python
+change_basis = nodes.create.bdQuat_ChangeBasis(name="change_basis")
+change_basis.inputQuat.set((0.0, 0.0, 0.0, 1.0))
+change_basis.axisQuat.set((0.0, 0.0, 0.0, 1.0))
+change_basis.direction.set(change_basis.direction.APPLYAXIS)
+mod.do_it_dg()
+```
 
 ## `bdQuat_MultiplyMulti` Attributes
 

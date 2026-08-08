@@ -74,7 +74,8 @@ vertical bendへ意味分解する`bdQuat_DecomposeBendTwist`と、その逆変�
 同じ処理のEuler入力版`bdEuler_DecomposeTwist`も実装済みです。さらに
 `bdEuler_DecomposeBendTwist` / `bdEuler_ComposeBendTwist`を、transformのrotateと直接
 接続する利便版として実装済みです。rotation値を保存・中継する`bdEuler_Value`と
-`bdQuat_Value`も実装済みです。独自の固定2入力版や`DblA3` familyは作りません。
+`bdQuat_Value`、Quaternionの回転軸を別基準へ移す`bdQuat_ChangeBasis`も実装済みです。
+独自の固定2入力版や`DblA3` familyは作りません。
 
 `bdQuat_MultiplyMulti`は既存のsparse入力をlogical index昇順に左から乗算し、空入力は
 identity Quaternionを返します。自動正規化や符号統一は行いません。詳細は
@@ -97,6 +98,10 @@ Composeは`outputRotateOrder`を入力として、合成Quaternionを指定順�
 `bdEuler_Value`は連続したEuler角とrotate orderを組で保持します。`bdQuat_Value`は
 非単位値やQuaternion符号を含むXYZWを生のまま保持します。どちらも計算outputを持たない
 stored value nodeで、incoming / outgoing connectionの中継にも使用できます。
+
+`bdQuat_ChangeBasis`は`ApplyAxis`で`inverse(A) * B * A`、`RemoveAxis`で
+`A * B * inverse(A)`を計算します。標準の`quatInvert` + `quatProd` 2個と同じraw-value
+結果を1 nodeで提供し、自動正規化や符号統一は行いません。
 
 ## Family Policy
 
