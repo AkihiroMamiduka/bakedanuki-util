@@ -136,7 +136,7 @@ MStatus createBendLimitModeAttribute(
     attribute = attributeFn.create(
         longName,
         shortName,
-        static_cast<short>(BendLimitMode::kBox),
+        static_cast<short>(BendLimitMode::kEllipse),
         &status
     );
     if (!status) {

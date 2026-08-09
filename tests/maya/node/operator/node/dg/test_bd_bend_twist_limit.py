@@ -110,7 +110,7 @@ def test_node_ids_attributes_and_defaults(maya_cmds, maya_om):
         assert _get_angles(maya_cmds, f"{node}.max") == pytest.approx(
             (180.0, 180.0, 180.0)
         )
-        assert maya_cmds.getAttr(f"{node}.bendLimitMode") == 0
+        assert maya_cmds.getAttr(f"{node}.bendLimitMode") == 1
 
     assert maya_cmds.attributeQuery(
         "outputQuat", node=quat_node, listChildren=True
@@ -147,6 +147,7 @@ def test_default_limits_preserve_quaternion_orientation(
 def test_box_mode_clamps_components_independently(maya_cmds):
     _load_bd_util_nodes(maya_cmds)
     _source, limiter = _create_quat_limit_network(maya_cmds)
+    maya_cmds.setAttr(f"{limiter}.bendLimitMode", 0)
     maya_cmds.setAttr(f"{limiter}.min", -30.0, -40.0, -20.0, type="double3")
     maya_cmds.setAttr(f"{limiter}.max", 45.0, 60.0, 10.0, type="double3")
 
@@ -161,6 +162,7 @@ def test_box_mode_sorts_reversed_limits(maya_cmds):
         maya_cmds,
         components=(30.0, -50.0, 40.0),
     )
+    maya_cmds.setAttr(f"{limiter}.bendLimitMode", 0)
     maya_cmds.setAttr(f"{limiter}.min", 10.0, 20.0, 15.0, type="double3")
     maya_cmds.setAttr(f"{limiter}.max", -10.0, -20.0, -15.0, type="double3")
 
@@ -255,6 +257,7 @@ def test_euler_node_limits_and_recomposes_in_selected_output_order(maya_cmds):
     maya_cmds.setAttr(f"{limiter}.axisRotate", *axis_rotate, type="double3")
     maya_cmds.setAttr(f"{limiter}.axisRotateOrder", 2)
     maya_cmds.setAttr(f"{limiter}.order", 1)
+    maya_cmds.setAttr(f"{limiter}.bendLimitMode", 0)
     maya_cmds.setAttr(f"{limiter}.outputRotateOrder", 5)
     maya_cmds.setAttr(f"{limiter}.min", -30.0, -40.0, -20.0, type="double3")
     maya_cmds.setAttr(f"{limiter}.max", 50.0, 55.0, 25.0, type="double3")

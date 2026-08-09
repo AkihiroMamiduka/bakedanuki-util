@@ -103,7 +103,7 @@ class GeneratedBdQuatLimitBendTwist(DG):
     order = OrderEnumField(default_value=0)
     ord = order
 
-    bendLimitMode = BendLimitModeEnumField(default_value=0)
+    bendLimitMode = BendLimitModeEnumField(default_value=1)
     blm = bendLimitMode
 
     min = MinField(default_value=(-180.0, -180.0, -180.0))

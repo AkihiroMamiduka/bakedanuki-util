@@ -372,7 +372,7 @@ BendVへ分解し、制限後の成分からorientationを再合成します。E
 
 | long name | short name | 型 | default | 用途 |
 | --- | --- | --- | --- | --- |
-| `bendLimitMode` | `blm` | enum | `Box` | BendH/Vの制限形状 |
+| `bendLimitMode` | `blm` | enum | `Ellipse` | BendH/Vの制限形状 |
 | `min` | `mn` | 3つのdoubleAngleを持つcompound | `(-180°, -180°, -180°)` | 最小制限の親入力 |
 | `minTwist` | `mntw` | doubleAngle | `-180°` | twist最小値 |
 | `minBendH` | `mnbh` | doubleAngle | `-180°` | H負方向の制限値 |
@@ -395,7 +395,7 @@ canonical範囲全体を許可するため、入力orientationを変更しませ
 | enum | value | 制限形状 | 特徴 |
 | --- | ---: | --- | --- |
 | `Box` | 0 | H/V平面上の長方形 | BendHとBendVを独立してclamp |
-| `Ellipse` | 1 | H/V平面上の楕円 | 方向を保ちながら境界へ放射投影 |
+| `Ellipse` | 1 | H/V平面上の楕円 | 方向を保ちながら境界へ放射投影（default） |
 
 `Ellipse`では入力成分の符号に応じて、H/Vそれぞれの負方向または正方向の半径を選びます。
 
