@@ -138,7 +138,9 @@ bakedanuki/
   bakedanuki-util/
     README.md
     LICENSE
+    THIRD_PARTY_NOTICES.md
     docs/
+    licenses/
     plug-ins/
       maya2025/
         bdUtilNodes.mll
@@ -151,3 +153,7 @@ bakedanuki/
 ## License
 
 MIT License
+
+`bdUtilNodes.mll` が使用する第三者ライブラリについては
+[THIRD_PARTY_NOTICES.md](bakedanuki/bakedanuki-util/THIRD_PARTY_NOTICES.md)
+を参照してください。

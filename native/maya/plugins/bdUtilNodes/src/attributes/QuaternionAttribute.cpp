@@ -22,7 +22,8 @@ MStatus createQuaternionAttribute(
     const char* childZLongName,
     const char* childZShortName,
     const char* childWLongName,
-    const char* childWShortName
+    const char* childWShortName,
+    double childWDefaultValue
 ) {
     MStatus status;
 
@@ -63,7 +64,7 @@ MStatus createQuaternionAttribute(
         childWLongName,
         childWShortName,
         MFnNumericData::kDouble,
-        1.0,
+        childWDefaultValue,
         &status
     );
     if (!status) {

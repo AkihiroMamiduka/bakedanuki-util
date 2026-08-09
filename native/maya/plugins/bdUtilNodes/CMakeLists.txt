@@ -146,7 +146,9 @@ add_library(
     src/nodes/BdEulerLimitBendTwistNode.cpp
     src/nodes/BdEulerValueNode.cpp
     src/nodes/BdQuatValueNode.cpp
+    src/nodes/BdRbfPoseWeightNode.cpp
     src/math/BendTwist.cpp
+    src/math/RbfInterpolator.cpp
     src/attributes/BendTwistAttribute.cpp
     src/attributes/ComparisonAttribute.cpp
     src/attributes/Double3Attribute.cpp
@@ -164,6 +166,12 @@ target_include_directories(
     PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     "${MAYA_LOCATION}/include"
+)
+
+target_include_directories(
+    bdUtilNodes
+    SYSTEM PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../third_party/eigen-5.0.1"
 )
 
 target_link_libraries(

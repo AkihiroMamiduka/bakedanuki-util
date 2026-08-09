@@ -23,7 +23,8 @@ MStatus createQuaternionAttribute(
     const char* childZLongName,
     const char* childZShortName,
     const char* childWLongName,
-    const char* childWShortName
+    const char* childWShortName,
+    double childWDefaultValue = 1.0
 );
 
 }  // namespace bd_util_nodes

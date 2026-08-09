@@ -149,6 +149,7 @@
 | `bdQuat_ChangeBasis` | `0x0007F091` | Internal development |
 | `bdQuat_LimitBendTwist` | `0x0007F092` | Internal development |
 | `bdEuler_LimitBendTwist` | `0x0007F093` | Internal development |
+| `bdRbf_PoseWeight` | `0x0007F094` | Internal development |
 
 現在の ID は `0x00000000` から `0x0007FFFF` までのローカルテスト用範囲です。
 この ID のまま永続的な production scene を作成しないでください。

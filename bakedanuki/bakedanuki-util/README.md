@@ -345,3 +345,6 @@ $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 ## License
 
 MIT License
+
+`bdUtilNodes.mll` が使用する第三者ライブラリについては
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) を参照してください。

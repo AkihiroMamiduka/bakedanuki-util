@@ -525,6 +525,7 @@ from .operator.node.dg.bd_quat_decompose_twist import BdQuatDecomposeTwist
 from .operator.node.dg.bd_quat_limit_bend_twist import BdQuatLimitBendTwist
 from .operator.node.dg.bd_quat_multiply_multi import BdQuatMultiplyMulti
 from .operator.node.dg.bd_quat_value import BdQuatValue
+from .operator.node.dg.bd_rbf_pose_weight import BdRbfPoseWeight
 from .operator.node.dg.bevel import Bevel
 from .operator.node.dg.bevel_plus import BevelPlus
 from .operator.node.dg.bezier_curve_to_nurbs import BezierCurveToNurbs
@@ -3445,6 +3446,11 @@ class _ExistingNodeAccessor:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> BdQuatValue: ...
+    def bdRbf_PoseWeight(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> BdRbfPoseWeight: ...
     def bevel(
         self,
         node: str | om.MObject,

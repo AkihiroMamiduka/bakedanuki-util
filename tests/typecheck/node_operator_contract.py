@@ -54,6 +54,13 @@ from bd_util.maya.node.operator.attr.define.node_attr.bd_quat_value import (
     ValueAttrOperator as QuatValueAttrOperator,
     ValuePlugOperator as QuatValuePlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.node_attr.bd_rbf_pose_weight import (
+    InputQuatAttrOperator as RbfInputQuatAttrOperator,
+    InputQuatPlugOperator as RbfInputQuatPlugOperator,
+    Pose_poseQuatPlugOperator as RbfPoseQuatPlugOperator,
+    PoseAttrOperator as RbfPoseAttrOperator,
+    PosePlugOperator as RbfPosePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.node_attr.bd_euler_value import (
     ValueAttrOperator as EulerValueAttrOperator,
     ValuePlugOperator as EulerValuePlugOperator,
@@ -323,6 +330,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.bool import (
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit import (
     double_linear,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAnglePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.at.typed import (
     TypedAttrOperator,
     TypedPlugOperator,
@@ -417,6 +427,13 @@ from bd_util.maya.node.operator.node.dg._generated.bd_quat_change_basis import (
     DirectionEnumPlugOperator as ChangeBasisDirectionPlugOperator,
 )
 from bd_util.maya.node.operator.node.dg.bd_quat_value import BdQuatValue
+from bd_util.maya.node.operator.node.dg.bd_rbf_pose_weight import (
+    BdRbfPoseWeight,
+)
+from bd_util.maya.node.operator.node.dg._generated.bd_rbf_pose_weight import (
+    KernelEnumPlugOperator as RbfKernelPlugOperator,
+    SolveStatusEnumPlugOperator as RbfSolveStatusPlugOperator,
+)
 from bd_util.maya.node.operator.node.dg.bd_euler_value import BdEulerValue
 from bd_util.maya.node.operator.node.dg._generated.bd_euler_value import (
     RotateOrderEnumAttrOperator as EulerValueRotateOrderAttrOperator,
@@ -812,6 +829,29 @@ def node_accessor_contract(nodes: bdu.Nodes) -> None:
     assert_type(
         nodes.existing.bdQuat_Value("existing_quat_value"),
         BdQuatValue,
+    )
+
+    rbf_pose_weight = nodes.create.bdRbf_PoseWeight(name="rbf_pose_weight")
+    assert_type(rbf_pose_weight, BdRbfPoseWeight)
+    assert_type(BdRbfPoseWeight.inputQuat, RbfInputQuatAttrOperator)
+    assert_type(rbf_pose_weight.inputQuat, RbfInputQuatPlugOperator)
+    assert_type(BdRbfPoseWeight.pose, RbfPoseAttrOperator)
+    assert_type(rbf_pose_weight.pose[next], RbfPosePlugOperator)
+    assert_type(
+        rbf_pose_weight.pose[next].poseQuat,
+        RbfPoseQuatPlugOperator,
+    )
+    assert_type(rbf_pose_weight.pose[next].enabled, BoolPlugOperator)
+    assert_type(rbf_pose_weight.kernel, RbfKernelPlugOperator)
+    assert_type(rbf_pose_weight.radius, DoubleAnglePlugOperator)
+    assert_type(rbf_pose_weight.regularization, DoublePlugOperator)
+    assert_type(rbf_pose_weight.allowNegativeWeights, BoolPlugOperator)
+    assert_type(rbf_pose_weight.outputWeight[next], DoublePlugOperator)
+    assert_type(rbf_pose_weight.isValid, BoolPlugOperator)
+    assert_type(rbf_pose_weight.solveStatus, RbfSolveStatusPlugOperator)
+    assert_type(
+        nodes.existing.bdRbf_PoseWeight("existing_rbf_pose_weight"),
+        BdRbfPoseWeight,
     )
 
     euler_value = nodes.create.bdEuler_Value(name="euler_value")

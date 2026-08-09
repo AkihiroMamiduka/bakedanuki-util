@@ -25,6 +25,10 @@ C++ node の設計・実装・検証については
 - Visual Studio 2022 17.8.3 以降（Desktop development with C++）
 - CMake 3.27.3 以降
 
+線形代数にはリポジトリ同梱の Eigen 5.0.1 を使用します。header-onlyのため、build
+machineやMaya実行環境へEigenを別途インストールする必要はありません。出典、hash、
+ライセンスは [native/third_party/README.md](../third_party/README.md) を参照してください。
+
 Maya 2025 の公式 devkit 要件に合わせ、通常の build script は Visual Studio
 2022 を検出できない場合に停止します。複数 Maya version の環境変数を恒久設定せず、
 build ごとに対象 Maya を指定します。
@@ -75,7 +79,7 @@ Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パ�
 doubleLinear / doubleLinear3版、scalar doubleAngle版、Euler / Quaternion Value、Quaternion可変長積・基準変換、Quaternion / EulerのBend / Twist分解・合成・Twist専用分解の乗算・安全除算・距離比率・
 角度比率・Wrap・最短角度差・最短経路補間・直角三角形計算、および加算・減算・
 最小値・最大値・Clamp・Map Range・Absolute・Negate・Condition・Average・Weighted Averageについて、固定入力ノード、
-可変長入力ノード、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、
+可変長入力ノード、Quaternion RBF pose weight、空入力、sparse 配列、logical index 順、除数epsilon、`NaN`、無限値、
 符号付きゼロ、逆転した上下限、方向付き範囲、Source幅0、外挿、絶対値、符号反転、条件分岐、最初の一致、算術平均、加重平均、weight合計0、合計値のオーバーフロー、element 削除、compound child の直接要求、compound dirty、DG / Serial /
 Parallel、ノード接続、scene の保存と再読込、NodeOperator API を確認します。
 
